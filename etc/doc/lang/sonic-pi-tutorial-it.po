@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-10 10:25+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2016-06-10 10:53+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -6986,7 +6986,7 @@ msgstr "8.2 Accordi"
 msgid ""
 "Sonic Pi has built-in support for chord names which will return lists. Try it "
 "for yourself:"
-msgstr ""
+msgstr "Sonic Pi supporta anche l'uso dei nomi di accordi. Prova tu stesso/a:"
 
 #: 08.2-Chords.md:8
 #, no-wrap
@@ -6999,30 +6999,37 @@ msgid ""
 " lists (and is easier to read for other people). So what other chords does Son"
 "ic Pi support? Well, a *lot*. Try some of these:"
 msgstr ""
+"Stiamo ottenendo davvero dei bei risultati, e il codice appare molto più "
+"ordinato e piacevole di una semplice lista di elementi (oltre che essere più "
+"facilmente leggibile dalle altre persone). Quindi, quali altri accordi "
+"supporta Sonic Pi? In realtà, ne supporta molti. Prova a digitare quello che "
+"segue:"
 
 #: 08.2-Chords.md:16
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "'chord(:E3, :m7)'"
 
 #: 08.2-Chords.md:17
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 msgid "Arpeggios"
-msgstr ""
+msgstr "Arpeggi"
 
 #: 08.2-Chords.md:23
 msgid "We can easily turn chords into arpeggios with the function `play_pattern`:"
 msgstr ""
+"Possiamo semplicemente suonare gli accordi in forma di arpeggio usando la "
+"funzione 'play_pattern':"
 
 #: 08.2-Chords.md:26
 #, no-wrap
@@ -7036,6 +7043,12 @@ msgid ""
 "play`. We can use another function `play_pattern_timed` to specify our own tim"
 "ings and speed things up:"
 msgstr ""
+"Sì, è vero, questo non è molto divertente. L'arpeggio è davvero molto lento. "
+"La funzione 'play_pattern' suona infatti ogni nota della serie separandola "
+"con una pausa di un secondo, ovvero quindi mettendo sempre uno 'sleep 1' "
+"dopo ogni nota. Possiamo però utilizzare un'altra funzione, chiamata "
+"'play_pattern_timed' dove si possono specificare le distanze temporali tra "
+"le note:"
 
 #: 08.2-Chords.md:35
 #, no-wrap
@@ -7045,6 +7058,8 @@ msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 #: 08.2-Chords.md:39
 msgid "We can even pass a list of times which it will treat as a circle of times:"
 msgstr ""
+"Possiamo anche inserire una lista di durate che verrà trattata come un "
+"circolo, ovvero ripetendola ad anello:"
 
 #: 08.2-Chords.md:42
 #, no-wrap
@@ -7053,7 +7068,7 @@ msgstr "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 
 #: 08.2-Chords.md:46
 msgid "This is the equivalent to:"
-msgstr ""
+msgstr "Quanto scritto è equivalente a:"
 
 #: 08.2-Chords.md:48
 #, no-wrap
@@ -7088,21 +7103,23 @@ msgstr ""
 
 #: 08.2-Chords.md:64
 msgid "Which would you prefer to write?"
-msgstr ""
+msgstr "Quale preferisci scrivere?"
 
 #: 08.3-Scales.md:1
 msgid "8.3 Scales"
-msgstr ""
+msgstr "8.3 Scale"
 
 #: 08.3-Scales.md:3
 msgid "Scales"
-msgstr ""
+msgstr "Scale"
 
 #: 08.3-Scales.md:5
 msgid ""
 "Sonic Pi has support for a wide range of scales. How about playing a C3 major "
 "scale?"
 msgstr ""
+"Sonic Pi supporta anche una larga tipologia di scale. Che ne pensi di "
+"provare a suonare una scala di Do3 maggiore (C3 nel sistema anglossassone)?"
 
 #: 08.3-Scales.md:8
 #, no-wrap
@@ -7111,7 +7128,7 @@ msgstr "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:12
 msgid "We can even ask for more octaves:"
-msgstr ""
+msgstr "Possiamo anche chiere di eseguire altre ottave:"
 
 #: 08.3-Scales.md:14
 #, no-wrap
@@ -7120,7 +7137,7 @@ msgstr "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0
 
 #: 08.3-Scales.md:18
 msgid "How about all the notes in a pentatonic scale?"
-msgstr ""
+msgstr "Proviamo invece a suonare tutte le note in una scala pentatonica?"
 
 #: 08.3-Scales.md:20
 #, no-wrap
@@ -7133,7 +7150,7 @@ msgstr ""
 
 #: 08.3-Scales.md:24
 msgid "Random notes"
-msgstr ""
+msgstr "Note casuali"
 
 #: 08.3-Scales.md:26
 msgid ""
@@ -7141,6 +7158,10 @@ msgid ""
 "meaningful. Have a play with this example which picks random notes from the ch"
 "ord E3 minor:"
 msgstr ""
+"Gli accordi e le scale sono degli utilissimi strumenti per limitare la "
+"scelta di elementi casuali all'interno di qualcosa di significativo. Prova a "
+"suonare questo esempio che seleziona note casuali all'interno di una scala "
+"di Mi3 maggiore (E3):"
 
 #: 08.3-Scales.md:30
 #, no-wrap
@@ -7160,10 +7181,12 @@ msgstr ""
 #: 08.3-Scales.md:38
 msgid "Try switching in different chord names and cutoff ranges."
 msgstr ""
+"Prova a cambiare il nome dell'accordo e i limiti all'interno di cui vengono "
+"selezionate le note."
 
 #: 08.3-Scales.md:40
 msgid "Discovering Chords and Scales"
-msgstr ""
+msgstr "Scopri gli accordi e le scale"
 
 #: 08.3-Scales.md:42
 msgid ""
@@ -7173,18 +7196,23 @@ msgid ""
 " you see a long list of chords or scales (depending on which you're looking at"
 ")."
 msgstr ""
+"Per scoprire quali scale e accordi sono supportati da Sonic Pi, clicca "
+"semplicemente sul bottone 'Lang' a sinistra di questa guida e quindi scegli "
+"gli accordi o le scale all'interno della lista. All'interno delle "
+"informazioni del pannello principale, scorri verso il basso il cursore "
+"finché non verdrai una lunga lista di accordi e di scale."
 
 #: 08.3-Scales.md:48
 msgid "Have fun and remember: there are no mistakes, only opportunities."
-msgstr ""
+msgstr "Divertiti! E ricorda sempre: non ci sono errori, soltanto opportunità."
 
 #: 08.4-Rings.md:1
 msgid "8.4 Rings"
-msgstr ""
+msgstr "8.4 Anelli"
 
 #: 08.4-Rings.md:3 A.11-beat-tracking.md:62
 msgid "Rings"
-msgstr ""
+msgstr "Anelli"
 
 #: 08.4-Rings.md:5
 msgid ""
