@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-10 13:58+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2016-06-10 17:50+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -8670,11 +8670,11 @@ msgstr ""
 
 #: 10.1-Using-Shortcuts.md:74
 msgid "Tidy Code"
-msgstr ""
+msgstr "Codice più pulito"
 
 #: 10.1-Using-Shortcuts.md:76
 msgid "To auto-align your code simply press `M-m`."
-msgstr ""
+msgstr "Per allineare automaticamente il codice, premi semplicemente 'M-m'."
 
 #: 10.1-Using-Shortcuts.md:78
 msgid "Help System"
