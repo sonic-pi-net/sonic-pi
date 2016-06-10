@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-10 10:53+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-06-10 13:58+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -7220,12 +7220,17 @@ msgid ""
 " you might have come across ring buffers or ring arrays. Here, we'll just go f"
 "or ring - it's short and simple."
 msgstr ""
+"Un'altra opzione interessante sulle liste standard sono gli anelli (ring). "
+"Se conosci un po' di programmazione, potresti aver incontrato anelli buffer "
+"o anelli array. Qui, per comodità e semplicità, utilizzeremo solo anelli."
 
 #: 08.4-Rings.md:9
 msgid ""
 "In the previous section on lists we saw how we could fetch elements out of the"
 "m by using the indexing mechanism:"
 msgstr ""
+"Nella sezione precedente abbiamo visto come accedere agli elementi di una "
+"lista utilizzando il sistema dell'indice:"
 
 #: 08.4-Rings.md:16
 msgid ""
@@ -7233,12 +7238,18 @@ msgid ""
 " index 100 as the list has only three elements in it. So Sonic Pi will return "
 "you `nil` which means nothing."
 msgstr ""
+"Ora, cosa succede se vogliamo l'indice `100`? Beh, ovviamente non c'è nessun "
+"elemento all'indice 100 perché la lista contiene solo 3 elementi. Sonic Pi "
+"restituirà `nil` che significa nulla."
 
 #: 08.4-Rings.md:20
 msgid ""
 "However, consider you have a counter such as the current beat which continuall"
 "y increases. Let's create our counter and our list:"
 msgstr ""
+"Tuttavia, consideriamo di avere un contatore come, ad esempio, la pulsazione "
+"corrente che viene incrementata di continuo. Creiamo il nostro contatore e "
+"la nostra lista:"
 
 #: 08.4-Rings.md:23
 #, no-wrap
@@ -7251,7 +7262,7 @@ msgstr ""
 
 #: 08.4-Rings.md:28
 msgid "We can now use our counter to access a note in our list:"
-msgstr ""
+msgstr "Possiamo usare il nostro contatore per accedere alle note nella lista:"
 
 #: 08.4-Rings.md:30
 #, no-wrap
@@ -7261,6 +7272,8 @@ msgstr "puts notes[counter]"
 #: 08.4-Rings.md:34
 msgid "Great, we got `52`. Now, let's increment our counter and get another note:"
 msgstr ""
+"Bene, abbiamo `52`. Ora, incrementiamo il nostro contatore per ottenere "
+"un'altra nota:"
 
 #: 08.4-Rings.md:37
 #, no-wrap
@@ -7278,16 +7291,22 @@ msgid ""
 "to just loop back round and start at the beginning of the list again? This is "
 "what rings are for."
 msgstr ""
+"Fantastico, ora abbiamo `55` e se lo facciamo di nuovo otteniamo `59`. Se, "
+"però, lo facciamo ancora, non avremo più numeri nella nostra lista e "
+"otterremo `nil`. E se volessimo tornare all'inizio della lista e "
+"ricominciare da capo? A questo servono gli anelli."
 
 #: 08.4-Rings.md:47
 msgid "Creating Rings"
-msgstr ""
+msgstr "Creare anelli"
 
 #: 08.4-Rings.md:49
 msgid ""
 "We can create rings one of two ways. Either we use the `ring` function with th"
 "e elements of the ring as parameters:"
 msgstr ""
+"Abbiamo due modi per creare un anello. Possiamo usare `ring` come funzione "
+"dell'elemento o ring come parametro:"
 
 #: 08.4-Rings.md:52
 #, no-wrap
@@ -7299,6 +7318,8 @@ msgid ""
 "Or we can take a normal list and convert it to a ring by sending it the `.ring"
 "` message:"
 msgstr ""
+"Oppure possiamo prendere una normale lista e convertirla in un anello "
+"inviando il messaggio `.ring`:"
 
 #: 08.4-Rings.md:59
 #, no-wrap
@@ -7307,7 +7328,7 @@ msgstr "[52, 55, 59].ring"
 
 #: 08.4-Rings.md:63
 msgid "Indexing Rings"
-msgstr ""
+msgstr "Indicizzare gli anelli"
 
 #: 08.4-Rings.md:65
 msgid ""
@@ -7316,6 +7337,10 @@ msgid ""
 "ger than the size of the ring and they'll wrap round to always point at one of"
 " the ring's elements:"
 msgstr ""
+"Quando abbiamo un anello, possiamo usarlo esattamente come abbiamo fatto con "
+"le normali liste con l'eccezione che possiamo usare indici che sono negativi "
+"oppure di grandezza maggiore rispetto all'anello perché ripartiranno da capo "
+"e punteranno sempre a un elemento dell'anello:"
 
 #: 08.4-Rings.md:70
 #, no-wrap
@@ -7334,7 +7359,7 @@ msgstr ""
 
 #: 08.4-Rings.md:78
 msgid "Using Rings"
-msgstr ""
+msgstr "Utilizzare gli anelli"
 
 #: 08.4-Rings.md:80
 msgid ""
@@ -7343,68 +7368,84 @@ msgid ""
 " anything useful we've stored in our ring regardless of the beat number we're "
 "currently on."
 msgstr ""
+"Diciamo che vogliamo utilizzare una variabile per rappresentare il battito "
+"corrente. Possiamo usarla come indice nel nostro anello per scegliere le "
+"note da suonare o i tempi di rilascio oppure qualsiasi altra cosa che "
+"abbiamo salvato nel nostro anello, indipendentemente dal numero di battiti "
+"in cui siamo."
 
 #: 08.4-Rings.md:85
 msgid "Scales and Chords are Rings"
-msgstr ""
+msgstr "Scale e accordi sono anelli"
 
 #: 08.4-Rings.md:87
 msgid ""
 "A useful thing to know is that the lists returned by `scale` and `chord` are a"
 "lso rings and allow you to access them with arbitrary indexes."
 msgstr ""
+"Una cosa interessante da sapere è che liste restituite da `scale` e `chord` "
+"sono anche anelli e ci possiamo accedere con indici arbitrari."
 
 #: 08.4-Rings.md:90
 msgid "Ring Constructors"
-msgstr ""
+msgstr "Costruzione di anelli"
 
 #: 08.4-Rings.md:92
 msgid ""
 "In addition to `ring` there are a number of other functions which will constru"
 "ct a ring for us."
 msgstr ""
+"Oltre a `ring` ci sono una serie di altre funzioni che costruiranno un "
+"anello per noi."
 
 #: 08.4-Rings.md:95
 msgid "`range` invites you specify a starting point, end point and step size."
 msgstr ""
+"`range` ci invita a specificare un punto di partenza, uno di fine e la "
+"grandezza dei passi."
 
 #: 08.4-Rings.md:96
 msgid "`bools` allows you to use `1`s and `0`s to succinctly represent booleans."
 msgstr ""
+"`bools` ci permette di usare `1` e `0` per rappresentare variabili booleane."
 
 #: 08.4-Rings.md:97
 msgid "`knit` allows you to knit a sequence of repeated values."
-msgstr ""
+msgstr "`knit` ci consente di unire una sequenza di valori ripetuti."
 
 #: 08.4-Rings.md:98
 msgid "`spread` creates a ring of bools with a Euclidean distribution."
-msgstr ""
+msgstr "`spread` crea un anello di booleani con una distribuzione euclidea."
 
 #: 08.4-Rings.md:100
 msgid "Take a look at their respective documentation for more information."
 msgstr ""
+"Dai un'occhiata alla relativa documentazione per maggiori informazioni a "
+"riguardo."
 
 #: 08.5-Ring-Chains.md:1
 msgid "8.5 Ring Chains"
-msgstr ""
+msgstr "8.5 Catene di anelli"
 
 #: 08.5-Ring-Chains.md:3
 msgid "Ring Chains"
-msgstr ""
+msgstr "Catene di anelli"
 
 #: 08.5-Ring-Chains.md:5
 msgid ""
 "In addition to the constructors such as `range` and `spread` another way of cr"
 "eating new rings is to manipulate existing rings."
 msgstr ""
+"In aggiunta ai costrutti tipo `range` e `spread`, un altro modo di creare "
+"nuovi anelli è manipolando anelli esistenti."
 
 #: 08.5-Ring-Chains.md:9
 msgid "Chain Commands"
-msgstr ""
+msgstr "Comandi di concatenazione"
 
 #: 08.5-Ring-Chains.md:11
 msgid "To explore this, take a simple ring:"
-msgstr ""
+msgstr "Per capirci di più, prendiamo un semplice anello:"
 
 #: 08.5-Ring-Chains.md:13
 #, no-wrap
@@ -7416,6 +7457,8 @@ msgid ""
 "What if we wanted it backwards? Well we'd use the chain command `.reverse` to "
 "take the ring and turn it around:"
 msgstr ""
+"Se volessimo riprodurlo al contrario? Beh, utilizzeremo il comando `.reverse`"
+" per girare quell'anello:"
 
 #: 08.5-Ring-Chains.md:20
 #, no-wrap
@@ -7424,7 +7467,7 @@ msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
 #: 08.5-Ring-Chains.md:24
 msgid "Now, what if we wanted the first three values from the ring?"
-msgstr ""
+msgstr "Ora, se volessimo solo i primi tre valori dell'anello?"
 
 #: 08.5-Ring-Chains.md:26
 #, no-wrap
@@ -7433,7 +7476,7 @@ msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
 #: 08.5-Ring-Chains.md:30
 msgid "Finally, what if we wanted to shuffle the ring?"
-msgstr ""
+msgstr "Infine, se volessimo dei valori casuali?"
 
 #: 08.5-Ring-Chains.md:32
 #, no-wrap
@@ -7442,39 +7485,49 @@ msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
 #: 08.5-Ring-Chains.md:36
 msgid "Multiple Chains"
-msgstr ""
+msgstr "Concatenazioni multiple"
 
 #: 08.5-Ring-Chains.md:38
 msgid ""
 "This is already a powerful way of creating new rings. However, the *real* powe"
 "r comes when you chain a few of these commands together."
 msgstr ""
+"Questo è già un modo per creare nuovi anelli. Tuttavia il *vero* potere "
+"arriva quando concateniamo assieme alcuni comandi."
 
 #: 08.5-Ring-Chains.md:41
 msgid "How about shuffling the ring, dropping 1 element and then taking the next 3?"
 msgstr ""
+"Se volessimo mescolare l'anello, rimuovere 1 elemento e poi prendere i "
+"successivi 3?"
 
 #: 08.5-Ring-Chains.md:43
 msgid "Let's take this in stages:"
-msgstr ""
+msgstr "Analizziamo passo dopo passo:"
 
 #: 08.5-Ring-Chains.md:45
 msgid "`(ring 10, 20, 30, 40, 50)` - our initial ring"
-msgstr ""
+msgstr "`(ring 10, 20, 30, 40, 50)` - il nostro anello inziale"
 
 #: 08.5-Ring-Chains.md:46
 msgid "`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle` - mescoliamo - `(ring 40, 30, 10, 50, "
+"20)`"
 
 #: 08.5-Ring-Chains.md:47
 msgid "`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - rimuoviamo il primo elemento - "
+"`(ring 30, 10, 50, 20)`"
 
 #: 08.5-Ring-Chains.md:48
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, 10, "
 "50)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - prendiamo gli ultimi "
+"tre - `(ring 30, 10, 50)`"
 
 #: 08.5-Ring-Chains.md:50
 msgid ""
@@ -7482,10 +7535,13 @@ msgid ""
 "king them together*. We can combine these in any order we want creating an ext"
 "remely rich and powerful way of generating new rings from existing ones."
 msgstr ""
+"Come puoi vedere, possiamo creare una lunga catena di questi metodi "
+"semplicemente *collegandoli insieme*. Possiamo farlo in qualsiasi ordine "
+"vogliamo per creare nuovi anelli partendo da anelli già esistenti."
 
 #: 08.5-Ring-Chains.md:55
 msgid "Immutability"
-msgstr ""
+msgstr "Immutabilità"
 
 #: 08.5-Ring-Chains.md:57
 msgid ""
@@ -7495,72 +7551,86 @@ msgid ""
 "ns you're free to share rings across threads and start chaining them within a "
 "thread knowing you won't be affecting any other thread using the same ring."
 msgstr ""
+"Questi anelli hanno una proprietà molto potente e importante. Sono "
+"immutabili, il che significa che non possono cambiare. Questo significa che "
+"i metodi di concatenazione descritti in questa sezione *non cambiano gli "
+"anelli* ma *ne creano di nuovi*. Puoi condividere anelli tra i vari thread e "
+"cominciare a concatenarli all'interno del thread sapendo che non andrai a "
+"modificare gli altri thread in cui viene usato lo stesso anello."
 
 #: 08.5-Ring-Chains.md:64
 msgid "Available Chain Methods"
-msgstr ""
+msgstr "Metodi di concatenazione disponibili"
 
 #: 08.5-Ring-Chains.md:66
 msgid "Here's a list of the available chain methods for you to play with:"
-msgstr ""
+msgstr "Questa è una lista dei metodi di concatenazione a tua disposizione:"
 
 #: 08.5-Ring-Chains.md:68
 msgid "`.reverse` - returns a reversed version of the ring"
-msgstr ""
+msgstr "`.reverse` - restituisce un anello invertito"
 
 #: 08.5-Ring-Chains.md:69
 msgid "`.sort` - creates a sorted version of the ring"
-msgstr ""
+msgstr "`.sort` - crea una versione ordinata dell'anello"
 
 #: 08.5-Ring-Chains.md:70
 msgid "`.shuffle` - creates a shuffled version of the ring"
-msgstr ""
+msgstr "`.shuffle` - crea una versione mescolata dell'anello"
 
 #: 08.5-Ring-Chains.md:71
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
 msgstr ""
+"`.pick(3)` - restituisce un anello con i risultati della chiamata di "
+"`.choose` 3 volte"
 
 #: 08.5-Ring-Chains.md:72
 msgid ""
 "`.pick` - similar to `.pick(3)` only the size defaults to the same as the orig"
 "inal ring"
 msgstr ""
+"`.pick` - simile a `.pick(3)` con la differenza che la dimensione di default "
+"è la stessa dell'anello originale"
 
 #: 08.5-Ring-Chains.md:73
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
-msgstr ""
+msgstr "`.take(5)` - restituisce un anello che contiene solo i primi 5 elementi"
 
 #: 08.5-Ring-Chains.md:74
 msgid "`.drop(3)` - returns a new ring with everything but the first 3 elements"
 msgstr ""
+"`.drop(3)` - restituisce un nuovo anello con tutti gli elementi eccetto i "
+"primi 3"
 
 #: 08.5-Ring-Chains.md:75
 msgid "`.butlast` - returns a new ring with the last element missing"
-msgstr ""
+msgstr "`.butlast` - restituisce un nuovo anello senza l'ultimo elemento"
 
 #: 08.5-Ring-Chains.md:76
 msgid "`.drop_last(3)` - returns a new ring with the last 3 elements missing"
-msgstr ""
+msgstr "`.drop_last(3)` - restituisce un anello senza gli ultimi 3 elementi"
 
 #: 08.5-Ring-Chains.md:77
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
 msgstr ""
+"`.take_last(6)`- restituisce un nuovo anello con soltanto gli ultimi 6 "
+"elementi"
 
 #: 08.5-Ring-Chains.md:78
 msgid "`.stretch(2)` - repeats each element in the ring twice"
-msgstr ""
+msgstr "`.stretch(2)` - ripete ogni elemento nell'anello due volte"
 
 #: 08.5-Ring-Chains.md:79
 msgid "`.repeat(3)` - repeats the entire ring 3 times"
-msgstr ""
+msgstr "`.repeat(3)` - ripete l'intero anello 3 volte"
 
 #: 08.5-Ring-Chains.md:80
 msgid "`.mirror` - adds the ring to a reversed version of itself"
-msgstr ""
+msgstr "`.mirror` - aggiunge all'anello una versione invertita di se stesso"
 
 #: 08.5-Ring-Chains.md:81
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
-msgstr ""
+msgstr "`.reflect` - come mirror ma non duplica il valore di mezzo"
 
 #: 08.5-Ring-Chains.md:83
 msgid ""
@@ -7568,10 +7638,13 @@ msgid ""
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
 "irst 5 elements."
 msgstr ""
+"Ovviamente, questi metodi di concatenazione accettano altri valori! Sentiti "
+"libero di chiamare `.drop(5)` invece che `.drop(3)` se vuoi rimuovere i "
+"primi 5 elementi."
 
 #: 09-Live-Coding.md:1
 msgid "9 Live Coding"
-msgstr ""
+msgstr "9 Programmare Live"
 
 #: 09-Live-Coding.md:5
 msgid ""
@@ -7582,20 +7655,28 @@ msgid ""
 "t). However, the main advantage is that you can take Sonic Pi on stage and gig"
 " with it."
 msgstr ""
+"Uno degli aspetti più interessanti di Sonic Pi è la possibilità di scrivere "
+"e modificare il codice live per creare musica, come se stessi suonando una "
+"chitarra. Un vantaggio di questo approccio è avere più feedback mentre "
+"componi (ad esempio riproducendo continuamente un loop e continuando a "
+"modificarlo finché non suona perfetto). Ovviamente il più grande vantaggio è "
+"poter usare Sonic Pi su un palco."
 
 #: 09-Live-Coding.md:12
 msgid ""
 "In this section we'll cover the fundamentals of turning your static code compo"
 "sitions into dynamic performances."
 msgstr ""
+"In questa sezione copriremo gli aspetti fondamentali per trasformare la "
+"composizione statica in una performance dinamica."
 
 #: 09-Live-Coding.md:15
 msgid "Hold on to your seats..."
-msgstr ""
+msgstr "Tieniti forte..."
 
 #: 09.1-Live-Coding-Fundamentals.md:1
 msgid "9.1 Live Coding Fundamentals"
-msgstr ""
+msgstr "9.1 Fondamenti di live coding"
 
 #: 09.1-Live-Coding-Fundamentals.md:5
 msgid ""
@@ -7604,18 +7685,22 @@ msgid ""
 "ur music compositions live and turning them into a performance. For that we'll"
 " need 3 main ingredients:"
 msgstr ""
+"Ora abbiamo imparato abbastanza per cominciare a divertirci. In questa "
+"sezione tireremo le somme delle cose viste fino ad ora e ti mostrerò come "
+"comporle live e trasformarle in una performance. Abbiamo bisogno di 3 "
+"ingredienti:"
 
 #: 09.1-Live-Coding-Fundamentals.md:10
 msgid "An ability to write code that makes sounds - CHECK!"
-msgstr ""
+msgstr "Essere capaci di scrivere codice che genera suoni."
 
 #: 09.1-Live-Coding-Fundamentals.md:11
 msgid "An ability to write functions - CHECK!"
-msgstr ""
+msgstr "Essere capaci di scrivere funzioni."
 
 #: 09.1-Live-Coding-Fundamentals.md:12
 msgid "An ability to use (named) threads - CHECK!"
-msgstr ""
+msgstr "Essere capaci di utilizzare thread (con nomi)."
 
 #: 09.1-Live-Coding-Fundamentals.md:14
 msgid ""
@@ -7623,6 +7708,10 @@ msgid ""
 " function containing the code we want to play. Let's start simple. We also wan"
 "t to loop calls to that function in a thread:"
 msgstr ""
+"Ok, cominciamo. Programmiamo live i nostri primi suoni. Per prima cosa "
+"abbiamo bisogno di una funzione che contenga il codice che vogliamo suonare. "
+"Cominciamo in modo semplice: vogliamo, ovviamente, richiamare di continuo "
+"quella funzione in un thread:"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
@@ -7653,6 +7742,9 @@ msgid ""
 "s on functions and threads. It's not too complicated if you've already wrapped"
 " your head around these things."
 msgstr ""
+"Se ti sembra troppo complicato, torna indietro per rileggere le sezioni "
+"relative alle funzioni e ai thread. Non è troppo complicato se hai capito "
+"come funzionano queste cose."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
 msgid ""
@@ -7660,14 +7752,17 @@ msgid ""
 " for a beat. We then define a named thread called `:looper` which just loops a"
 "round calling `my_loop` repeatedly."
 msgstr ""
+"Qui abbiamo la definizione di una funzione che suona la nota 50 e si ferma "
+"per un battito. Dopodiché definiamo un thread chiamato `:looper`che non fa "
+"altro che ripetersi chiamando `my_loop`."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
-msgstr ""
+msgstr "Se riproduci questo codice, sentirai la nota 50 ripetersi..."
 
 #: 09.1-Live-Coding-Fundamentals.md:41
 msgid "Changing it up"
-msgstr ""
+msgstr "Facciamo dei cambiamenti"
 
 #: 09.1-Live-Coding-Fundamentals.md:43
 msgid ""
@@ -7675,6 +7770,9 @@ msgid ""
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
+"Ora è dove cominciamo a divertirci. Mentre il codice sta *ancora funzionando*"
+" cambia 50 in un altro numero, per esempio 55, e premi il pulsante Run di "
+"nuovo. Visto? È cambiato! Live!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
 msgid ""
@@ -7683,12 +7781,19 @@ msgid ""
 "nction. We gave `:my_loop` a new definition. When the `:looper` thread looped "
 "around it simply called the new definition."
 msgstr ""
+"Non ha aggiunto un nuovo livello perché utilizziamo thread con un nome ed è "
+"possibile avere un solo thread per ciascun nome. Inoltre il suono cambia "
+"perché *ridefiniamo* la funzione. Abbiamo dato a `:my_loop` una nuova "
+"definizione. Quando il thread `:looper` si ripete, semplicemente chiama una "
+"nuova definizione."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
 msgid ""
 "Try changing it again, change the note, change the sleep time. How about addin"
 "g a `use_synth` statement? For example, change it to:"
 msgstr ""
+"Prova a cambiarlo ancora, cambia la nota, cambia il tempo di pausa. E se "
+"aggiungessimo `use_synth`? Per esempio cambiamolo in:"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -7710,6 +7815,8 @@ msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of p"
 "laying the same note again and again, try playing a chord:"
 msgstr ""
+"Ora comincia a diventare interessante, ma possiamo renderlo ancora meglio. "
+"Invece di suonare sempre la stessa nota, suoniamo un accordo:"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -7728,7 +7835,7 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:75
 msgid "How about playing random notes from the chord:"
-msgstr ""
+msgstr "Perché non suonare note casuali prese dall'accordo:"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
@@ -7747,7 +7854,7 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:85
 msgid "Or using a random cutoff value:"
-msgstr ""
+msgstr "O usando un valore casuale per il cutoff:"
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
@@ -7766,7 +7873,7 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:95
 msgid "Finally, add some drums:"
-msgstr ""
+msgstr "Infine, aggiungiamo un po' di batteria:"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
@@ -7787,7 +7894,7 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:106
 msgid "Now things are getting exciting!"
-msgstr ""
+msgstr "Ora si che sta diventando interessante!"
 
 #: 09.1-Live-Coding-Fundamentals.md:108
 msgid ""
@@ -7795,14 +7902,17 @@ msgid ""
 "stop what you're doing and read the next section on `live_loop` which will cha"
 "nge the way you code in Sonic Pi forever..."
 msgstr ""
+"Ora, prima di cominciare a programmare dal vivo con funzioni e thread, "
+"fermati un secondo e leggi la prossima sezione su `live_loop` che cambierà "
+"per sempre il modo in cui programmi in Sonic Pi..."
 
 #: 09.2-Live-Loops.md:1
 msgid "9.2 Live Loops"
-msgstr ""
+msgstr "9.2 Loop Live"
 
 #: 09.2-Live-Loops.md:3
 msgid "Live Loops"
-msgstr ""
+msgstr "Loop Live"
 
 #: 09.2-Live-Loops.md:5
 msgid ""
@@ -7811,16 +7921,22 @@ msgid ""
 "ndamentals, `live_loop` is a simple way of doing exactly that but without havi"
 "ng to write so much."
 msgstr ""
+"Ok, questa sezione del tutorial è la vera gemma. Se hai deciso di leggere "
+"una sola sezione, dovrebbe essere questa. Se hai letto la precedente, "
+"`live_loop` è un modo più semplice di fare esattamente la stessa cosa "
+"evitando troppe preoccupazioni."
 
 #: 09.2-Live-Loops.md:10
 msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam wi"
 "th Sonic Pi."
 msgstr ""
+"Se non hai letto la sezione precedente, `live_loop` è il modo migliore per "
+"improvvisare con Sonic Pi."
 
 #: 09.2-Live-Loops.md:13
 msgid "Let's play. Write the following in a new buffer:"
-msgstr ""
+msgstr "Ok, suoniamo. Prova a scrivere il seguente codice in un buffer:"
 
 #: 09.2-Live-Loops.md:15
 #, no-wrap
@@ -7841,16 +7957,23 @@ msgid ""
 " However, don't press Stop just yet. Change the `60` to `65` and press Run aga"
 "in."
 msgstr ""
+"Ora premi il pulsante Run, sentirai un beep di base ogni battito. Niente di "
+"divertente. Ora, però, non premere Stop. Cambia `60` in `65` e premi Run di "
+"nuovo."
 
 #: 09.2-Live-Loops.md:26
 msgid "Woah! It changed *automatically* without missing a beat. This is live coding."
 msgstr ""
+"Whoah! È cambiato *automaticamente* senza perdere un colpo. Questo è live "
+"coding."
 
 #: 09.2-Live-Loops.md:28
 msgid ""
 "Why not change it to be more bass like? Just update your code whilst it's play"
 "ing:"
 msgstr ""
+"Perché non cambiarlo per farlo suonare più basso? Aggiorna il tuo codice "
+"mentre sta suonando:"
 
 #: 09.2-Live-Loops.md:30
 #, no-wrap
@@ -7869,11 +7992,11 @@ msgstr ""
 
 #: 09.2-Live-Loops.md:38
 msgid "Then hit Run."
-msgstr ""
+msgstr "Poi premi Run."
 
 #: 09.2-Live-Loops.md:40
 msgid "Let's make the cutoff move around:"
-msgstr ""
+msgstr "Giochiamo un po' con il cutoff:"
 
 #: 09.2-Live-Loops.md:42
 #, no-wrap
@@ -7892,11 +8015,11 @@ msgstr ""
 
 #: 09.2-Live-Loops.md:50
 msgid "Hit Run again."
-msgstr ""
+msgstr "Premi run di nuovo."
 
 #: 09.2-Live-Loops.md:52
 msgid "Add some drums:"
-msgstr ""
+msgstr "Aggiungiamo un po' di batteria:"
 
 #: 09.2-Live-Loops.md:54
 #, no-wrap
@@ -7917,7 +8040,7 @@ msgstr ""
 
 #: 09.2-Live-Loops.md:63
 msgid "Change the note from `e1` to `c1`:"
-msgstr ""
+msgstr "Cambia la nota da `e1` a `c1`:"
 
 #: 09.2-Live-Loops.md:65
 #, no-wrap
@@ -7938,19 +8061,19 @@ msgstr ""
 
 #: 09.2-Live-Loops.md:74
 msgid "Now stop listening to me and play around yourself! Have fun!"
-msgstr ""
+msgstr "Ora smettila di ascoltarmi e prova a fare da solo! Divertiti!"
 
 #: 09.3-Multiple-Live-Loops.md:1
 msgid "9.3 Multiple Live Loops"
-msgstr ""
+msgstr "9.3 Live loop multipli"
 
 #: 09.3-Multiple-Live-Loops.md:3
 msgid "Multiple Live Loops"
-msgstr ""
+msgstr "Live loop multipli"
 
 #: 09.3-Multiple-Live-Loops.md:5
 msgid "Consider the following live loop:"
-msgstr ""
+msgstr "Guarda questo live loop:"
 
 #: 09.3-Multiple-Live-Loops.md:7
 #, no-wrap
@@ -7970,16 +8093,21 @@ msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
+"Forse ti stai chiedendo perché c'è il nome `:foo`. L'aggiunta del nome è "
+"importante perché significa che questo live loop è diverso da tutti gli "
+"altri."
 
 #: 09.3-Multiple-Live-Loops.md:18
 msgid "*There can never be two live loops running with the same name*."
-msgstr ""
+msgstr "*Non possono esistere due live loop con lo stesso nome*."
 
 #: 09.3-Multiple-Live-Loops.md:20
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just n"
 "eed to give them different names:"
 msgstr ""
+"Questo significa che se vogliamo avere più live loop, dobbiamo assegnare "
+"loro nomi differenti:"
 
 #: 09.3-Multiple-Live-Loops.md:23
 #, no-wrap
@@ -8009,10 +8137,12 @@ msgid ""
 "You can now update and change each live loop independently and it all just wor"
 "ks."
 msgstr ""
+"Ora puoi aggiornare e cambiare ciascun live loop indipendentemente e tutto "
+"funziona."
 
 #: 09.3-Multiple-Live-Loops.md:39
 msgid "Syncing Live Loops"
-msgstr ""
+msgstr "Sincronizzare i live loop"
 
 #: 09.3-Multiple-Live-Loops.md:41
 msgid ""
@@ -8022,10 +8152,16 @@ msgid ""
 " therefore `sync` on these cues to ensure our loops are in sync without having"
 " to stop anything."
 msgstr ""
+"Una cosa che potresti aver notate è che i live loop lavora automaticamente "
+"con il sistema dei cue (segnali di sincronizzazione) che abbiamo visto in "
+"precedenza. Ogni volta che il live loop parte, genera un nuovo evento `cue` "
+"con il nome del live loop. Possiamo, di conseguenza, usare `sync` con uno di "
+"questi cue per essere sicuri che i loop siano sincronizzati tra loro senza "
+"fermare nulla."
 
 #: 09.3-Multiple-Live-Loops.md:47
 msgid "Consider this badly synced code:"
-msgstr ""
+msgstr "Prendiamo in esame questo codice mal sincronizzato:"
 
 #: 09.3-Multiple-Live-Loops.md:49
 #, no-wrap
@@ -8054,6 +8190,9 @@ msgid ""
 "fix the `:foo` loop to make the sleep a factor of 1 - something like `0.5` wil"
 "l do:"
 msgstr ""
+"Vediamo se riusciamo a sistemare il timing e la sincronizzazione senza "
+"stoppare. Per prima cosa, sistemiamo il loop `:foo` cambiamo il fatto di "
+"sleep 1 a qualcosa tipo `0.5`:"
 
 #: 09.3-Multiple-Live-Loops.md:65
 #, no-wrap
@@ -8082,6 +8221,9 @@ msgid ""
 " line up correctly. This is because the loops are *out of phase*. Let's fix th"
 "at by syncing one to the other:"
 msgstr ""
+"Non abbiamo ancora finito del tutto, avrai notato come i battiti non siano "
+"perfettamente allineati. Questo perché i loop sono *fuori fase*. Sistemiamo "
+"il problema sincronizzandoli tra loro:"
 
 #: 09.3-Multiple-Live-Loops.md:81
 #, no-wrap
@@ -8108,19 +8250,19 @@ msgstr ""
 
 #: 09.3-Multiple-Live-Loops.md:94
 msgid "Wow, everything is now perfectly in time - all without stopping."
-msgstr ""
+msgstr "Wow, ora è tutto a tempo, senza aver fermato nulla."
 
 #: 09.3-Multiple-Live-Loops.md:96
 msgid "Now, go forth and live code with live loops!"
-msgstr ""
+msgstr "Ora, andiamo avanti e programmiamo live con live loop!"
 
 #: 09.4-Ticking.md:1
 msgid "9.4 Ticking"
-msgstr ""
+msgstr "9.4 Ticchettio"
 
 #: 09.4-Ticking.md:3
 msgid "Ticking"
-msgstr ""
+msgstr "Ticchettio"
 
 #: 09.4-Ticking.md:5
 msgid ""
@@ -8128,10 +8270,13 @@ msgid ""
 "through rings. You'll be putting notes into rings for melodies, sleeps for rhy"
 "thms, chord progressions, timbral variations, etc. etc."
 msgstr ""
+"Una cosa che ti troverai a fare spesso programmando live è utilizzare gli "
+"anelli. Inserirai note dentro anelli per le melodie, sleep per il ritmo, "
+"progressioni armoniche, variazioni di timbro, ecc..."
 
 #: 09.4-Ticking.md:9
 msgid "Ticking Rings"
-msgstr ""
+msgstr "Ticchettio con anelli"
 
 #: 09.4-Ticking.md:11
 msgid ""
@@ -8141,6 +8286,12 @@ msgid ""
 " Tick just implements this idea. It provides you with the ability to *tick thr"
 "ough rings*. Let's look at an example:"
 msgstr ""
+"Sonic Pi ha uno strumento *veramente* utile per lavorare con gli anelli "
+"all'interno dei `live_loop`. È chiamato sistema di ticchettio (tick system "
+"NdT). Nella sezione relativa agli anelli, abbiamo parlato del contatore che "
+"cresce costantemente, come, ad esempio, il numero di battiti. Il ticchettio "
+"implementa questa idea. Ci permette di usare il *ticchettio con gli anelli*. "
+"Vediamo un esempio:"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
@@ -8161,7 +8312,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:26
 msgid "This is equivalent to:"
-msgstr ""
+msgstr "Questo equivale a:"
 
 #: 09.4-Ticking.md:28
 #, no-wrap
@@ -8183,6 +8334,10 @@ msgid ""
 ". This tick is local to the live loop, so each live loop can have its own inde"
 "pendent tick:"
 msgstr ""
+"Qui stiamo utilizzando la scala minore pentatonica di E3 ticchettando con "
+"ogni elemento. Possiamo farlo utilizzando `.tick` alla fine della "
+"dichiarazione della scala. Questo tick è locale in relazione al live loop "
+"per cui ogni loop può avere il suo tick indipendente:"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -8209,11 +8364,13 @@ msgstr ""
 
 #: 09.4-Ticking.md:53
 msgid "Tick"
-msgstr ""
+msgstr "Tick"
 
 #: 09.4-Ticking.md:55
 msgid "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr ""
+"You anche usare `tick` come una funzione standard e usare il suo valore come "
+"un indice:"
 
 #: 09.4-Ticking.md:57
 #, no-wrap
@@ -8236,10 +8393,13 @@ msgid ""
 "n you want to do fancy things with the tick value and for when you want to use"
 " ticks for other things than indexing into rings."
 msgstr ""
+"Tuttavia, è meglio chiamare `.tick` alla fine. La funzione `tick` viene "
+"usata quando vuoi fare cose particolari con il valore di tick e quando vuoi "
+"usare il valore dei tick per altre cose rispetto all'indice negli anelli."
 
 #: 09.4-Ticking.md:70
 msgid "Look"
-msgstr ""
+msgstr "Look (Guarda)"
 
 #: 09.4-Ticking.md:72
 msgid ""
@@ -8251,16 +8411,26 @@ msgid ""
 "t increase* it. This is available via the `look` fn. You can call `look` as a "
 "standard fn or by adding `.look` to the end of a ring."
 msgstr ""
+"La cosa magica riguardo tick è che non solo restituisce un nuovo indice (o "
+"il valore dell'anello a quell'indice) ma fa in modo che quando viene "
+"chiamato successivamente, restituirà il valore successivo. Dai un'occhiata "
+"agli esempi nella documentazione relativa a `tick` per capire come "
+"lavorarci. A volte può capitare di voler vedere il valore di tick in quel "
+"momento senza *incrementarlo*. Questo è possibile grazie alla funzione `look`"
+". Puoi chiamare `look` come una funzione standard oppure aggiungendo `.look` "
+"alla fine di un anello."
 
 #: 09.4-Ticking.md:81
 msgid "Naming Ticks"
-msgstr ""
+msgstr "Nominare i tick"
 
 #: 09.4-Ticking.md:83
 msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is achie"
 "ved by giving your tick a name:"
 msgstr ""
+"Infine, a volte hai bisogno di avere più di un tick per live loop. Questo "
+"può essere fatto assegnando un nome ai tick:"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
@@ -8284,10 +8454,16 @@ msgid ""
 "alled one tick `:foo` and the other `:bar`. If we want to `look` at these we a"
 "lso need to pass the name of the tick to `look`."
 msgstr ""
+"Qui usiamo due tick: uno per le note da suonare e un altro per il tempo di "
+"sleep. Siccome sono entrambi all'interno dello stesso live loop, per tenerli "
+"separati dobbiamo assegnargli nomi unici. È lo stesso identico procedimento "
+"che abbiamo visto nel nominare i `live_loop`: usiamo un simbolo anticipato "
+"da `:`. Nell'esempio qui sopra, abbiamo chiamato un tick `:foo` e l'altro "
+"`:bar`. Se vogliamo usare `look` dobbiamo chiamarli col nome corretto."
 
 #: 09.4-Ticking.md:101
 msgid "Don't make it too complicated"
-msgstr ""
+msgstr "Non renderlo troppo complicato"
 
 #: 09.4-Ticking.md:103
 msgid ""
@@ -8296,40 +8472,51 @@ msgid ""
 "le ring. That'll give you most of the joy and simplicity of ticking through ri"
 "ngs in your `live_loop`s."
 msgstr ""
+"Gran parte della potenza di questo sistema di tick non è utile quando stai "
+"cominciando. Non provare a imparare tutto quello di cui abbiamo parlato in "
+"questa sezione. Per il momento concentrati sul ticchettio all'interno di uno "
+"stesso anello. Questo sarà sufficiente per darti la gioia di usare i tick "
+"all'interno dei tuoi `live_loop`."
 
 #: 09.4-Ticking.md:108
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful exampl"
 "es and happy ticking!"
 msgstr ""
+"Dai un'occhiata alla documentazione alla voce `tick`, troverai molti esempi "
+"a riguardo!"
 
 #: 10-Essential-Knowledge.md:1
 msgid "10 Essential Knowledge"
-msgstr ""
+msgstr "10 Informazioni essenziali"
 
 #: 10-Essential-Knowledge.md:3
 msgid "Essential Knowledge"
-msgstr ""
+msgstr "Informazioni essenziali"
 
 #: 10-Essential-Knowledge.md:5
 msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge for"
 " getting the most out of your Sonic Pi experience."
 msgstr ""
+"Questa sezione copre alcune informazioni *essenziali* per ottenere il "
+"massimo da Sonic Pi."
 
 #: 10-Essential-Knowledge.md:8
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
+"Vedremo insieme le scorciatoie da tastiera che puoi utilizzare, come "
+"condividere il tuo lavoro e qualche consiglio su come esibirti con Sonic Pi."
 
 #: 10.1-Using-Shortcuts.md:1
 msgid "10.1 Using Shortcuts"
-msgstr ""
+msgstr "10.1 Utilizzare le scorciatoie"
 
 #: 10.1-Using-Shortcuts.md:3
 msgid "Using Shortcuts"
-msgstr ""
+msgstr "Utilizzare le scorciatoie"
 
 #: 10.1-Using-Shortcuts.md:5
 msgid ""
@@ -8337,6 +8524,9 @@ msgid ""
 "fore make playing Sonic Pi much more *efficient and natural* - especially when"
 " you're playing live in front of an audience."
 msgstr ""
+"Sonic Pi è uno strumento così come è un ambiente di sviluppo. Le scorciatoie "
+"possono rendere l'esperienza di Sonic Pi più *efficace e naturale*, "
+"soprattutto se suoni live di fronte a un pubblico."
 
 #: 10.1-Using-Shortcuts.md:9
 msgid ""
@@ -8347,22 +8537,32 @@ msgid ""
 "s it slows me down. I therefore use all of these shortcuts on a very regular b"
 "asis!"
 msgstr ""
+"Sonic Pi può essere controllato in larga parte grazie alla tastiera. "
+"Familiarizzando con Sonic Pi, comincerai a utilizzare sempre di più le "
+"scorciatoie. Io *suono con la tastiera* (e vi consiglio di imparare a farlo) "
+"e mi ritrovo ad essere frustrato ogni volta che devo usare il mouse perché "
+"mi rallenta. Per questo uso queste scorciatoie regolarmente!"
 
 #: 10.1-Using-Shortcuts.md:16
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
 "tively and you'll be live coding like a pro in no time."
 msgstr ""
+"Se impari a utilizzare le scorciatoie, programmerai live come un "
+"professionista in men che non si dica."
 
 #: 10.1-Using-Shortcuts.md:19
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the one"
 "s you use most and then keep adding more to your practice."
 msgstr ""
+"Mi raccomando: *non provare a impararli tutti in una volta*, cerca di "
+"ricordare quelli che usi più spesso e di aggiungerne qualcuno a mano a mano "
+"che ti eserciti."
 
 #: 10.1-Using-Shortcuts.md:22
 msgid "Consistency across Platforms"
-msgstr ""
+msgstr "Coerenza tra le piattaforme"
 
 #: 10.1-Using-Shortcuts.md:24
 msgid ""
@@ -8371,6 +8571,10 @@ msgid ""
 "me switching between different clarinets and you'd be stuck to using just one "
 "make."
 msgstr ""
+"Immagina se stessi imparando a suonare il clarinetto. Ti aspetteresti che "
+"ogni clarinetto abbia gli stessi controlli e la stessa ditteggiatura. Se "
+"così non fosse, faresti fatica a suonare clarinetti diversi e saresti "
+"costretto a usarne soltanto uno."
 
 #: 10.1-Using-Shortcuts.md:29
 msgid ""
@@ -8382,10 +8586,17 @@ msgid ""
 "whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
 "PC and feel right at home."
 msgstr ""
+"Sfortunatamente ci sono tre sistemi operativi principalmente: Linux, Max OSX "
+"e Windows che hanno le loro funzioni standard per azioni come taglia e "
+"incolla, ecc... Sonic Pi cerca di rispettare questi standard. Tuttavia *la "
+"priorità è mantenere una coerenza tra le piattaforme* all'interno di Sonic "
+"Pi invece che adattarsi agli standard di ciascuna piattaforma. Questo "
+"significa che quando impari le scorciatoie usando Sonic Pi sul tuo Raspberry "
+"Pi, puoi spostarti su Mac o PC e sentirti a casa."
 
 #: 10.1-Using-Shortcuts.md:37
 msgid "Control and Meta"
-msgstr ""
+msgstr "Controllo e Meta"
 
 #: 10.1-Using-Shortcuts.md:39
 msgid ""
@@ -8396,10 +8607,17 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
+"La prima parte relativa alla coerenza è relativa ai nomi delle "
+"abbreviazioni. In Sonic Pi usiamo i nome *Controllo* e *Meta* per fare "
+"riferimento a due combinazioni di tasti. Su tutte le piattaforme *Controllo* "
+"è lo stesso invece su Linux e Windows *Meta* è il tasto *Alt* mentre su Mac "
+"*Meta* è il tasto *Command*. Per coerenza useremo il termina *Meta*, "
+"ricordati solo di mapparlo nel modo corretto con la tastiera del tuo sistema "
+"operativo."
 
 #: 10.1-Using-Shortcuts.md:46
 msgid "Abbreviations"
-msgstr ""
+msgstr "Abbreviazioni"
 
 #: 10.1-Using-Shortcuts.md:48
 msgid ""
@@ -8408,24 +8626,30 @@ msgid ""
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
+"Per semplicità utilizzeremo delle abbreviazioni *C-* per *Controllo* e *M-* "
+"per *Meta*. Per esempio se per una scorciatoia devi tenere premuti "
+"contemporaneamente *Meta* e *r* noi scriveremo *M-r*. Il *-* indica \"premi "
+"insieme.\""
 
 #: 10.1-Using-Shortcuts.md:53
 msgid "The following are some of the shortcuts I find most useful."
-msgstr ""
+msgstr "Questi sono alcune delle scorciatoie più utili."
 
 #: 10.1-Using-Shortcuts.md:55
 msgid "Stopping and starting"
-msgstr ""
+msgstr "Fermarsi e ripartire"
 
 #: 10.1-Using-Shortcuts.md:57
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
+"Invece che andare alla ricerca del mouse per far funzionare il tuo codice, "
+"puoi premere `M-r`. Allo stesso modo, per fermare premi `M-s`."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:51
 msgid "Navigation"
-msgstr ""
+msgstr "Navigazione"
 
 #: 10.1-Using-Shortcuts.md:62
 msgid ""
