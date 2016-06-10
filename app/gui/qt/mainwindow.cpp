@@ -1154,18 +1154,18 @@ void MainWindow::initPrefsWindow() {
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
   for( auto name : scopeInterface->getScopeNames() )
   {
-    QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) ); 
+    QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) );
     cb->setChecked( scopeInterface->enableScope( name, settings.value("prefs/scope/show-"+name.toLower(), true).toBool() ) );
     scopeSignalMap->setMapping( cb, cb );
     scope_box_layout->addWidget(cb);
-    connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map())); 
+    connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
   }
   connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
   show_scope_axes = new QCheckBox(tr("Show Axes"));
   show_scope_axes->setChecked(true);
   scope_box_layout->addWidget(show_scope_axes);
   connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
-  
+
   scope_box->setLayout(scope_box_layout);
   prefTabs->addTab(scope_box, tr("Scope"));
 
@@ -1801,7 +1801,7 @@ void MainWindow::toggleScope( QWidget* qw )
   scopeInterface->enableScope( cb->text(), cb->isChecked() );
 }
 
-void MainWindow::toggleLeftScope() 
+void MainWindow::toggleLeftScope()
 {
   //scopeInterface->enableScope("Left",show_left_scope->isChecked());
 }

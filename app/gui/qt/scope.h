@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md 
+// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 //
 // Copyright (C) 2016 by Adrian Cheater
 // All rights reserved.
@@ -47,7 +47,7 @@ private:
   bool defaultShowX, defaultShowY;
 };
 
-class Scope : public QWidget 
+class Scope : public QWidget
 {
   Q_OBJECT
 
