@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-09 11:44+0000\n"
+"PO-Revision-Date: 2016-06-10 10:25+0000\n"
 "Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -5810,11 +5810,11 @@ msgstr ""
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr ""
+msgstr "6 Effetti"
 
 #: 06-FX.md:3
 msgid "Studio FX"
-msgstr ""
+msgstr "Effetti"
 
 #: 06-FX.md:5
 msgid ""
@@ -5823,6 +5823,11 @@ msgid ""
 "rb to parts of your piece, or some echo or perhaps even distort or wobble your"
 " basslines."
 msgstr ""
+"Uno degli aspetti più gratificante e divertente di Sonic Pi è la possibilità "
+"di aggiungere effetti ai tuoi suoni in modo semplice. Per fare un esempio, "
+"può succedere che tu voglia aggiungere un po' di riverbero ad alcune parti "
+"del tuo brano, oppure un po' di echo oppure distorsione e tremolo alle tue "
+"linee di basso."
 
 #: 06-FX.md:10
 msgid ""
@@ -5833,10 +5838,17 @@ msgid ""
 "f the FX whilst it's still running. So, for example, you could increase the re"
 "verb on your bass throughout the track..."
 msgstr ""
+"Sonic Pi ti permette di aggiungere potenti effetti in modo semplice. Ti "
+"consente di collegarli in catena tra loro (così puoi passare il tuo suono "
+"prima dal distorsore, poi dall'echo e, infine, dal riverbero) e di "
+"controllare i parametri di ciascuno individualmente (in modo simile a come "
+"abbiamo fatto con synth e campioni). È possibile modificare i parametri "
+"dell'effetto mentre sta funzionando per cui, ad esempio, puoi aumentare il "
+"riverbero sul basso mentre riproduci la traccia..."
 
 #: 06-FX.md:18
 msgid "Guitar Pedals"
-msgstr ""
+msgstr "Pedali da chitarra"
 
 #: 06-FX.md:20
 msgid ""
@@ -5848,6 +5860,14 @@ msgid ""
 "t (chain) a reverb pedal. The output of the reverb pedal can then be plugged i"
 "nto the amplifier:"
 msgstr ""
+"Se tutto questo ti sembra complicato, non preoccuparti. Quando comincerai a "
+"giocare con gli effetti, diventerà tutto più chiaro. Prima di cominciare è "
+"giusto fare un'analogica con gli effetti per chitarra. Ci sono una miriade "
+"di pedali che puoi comprare: alcuni aggiungono riverbero, altri distorsione "
+"ecc... Un chitarrista connetterà la sua chitarra in un pedale (per esempio "
+"il distorsore), poi prenderà un altro cavo e collegherà in catena un pedale "
+"di riverbero. L'output del riverberò può, infine, essere collegato dentro "
+"l'amplificatore:"
 
 #: 06-FX.md:29
 #, no-wrap
@@ -5864,40 +5884,55 @@ msgid ""
 "ding someone else to control things for you, that's where the computer steps i"
 "n."
 msgstr ""
+"Questo processo è chiamato catena di effetti. Sonic Pi si comporta "
+"esattamente in questo modo. Spesso i pedali hanno manopole che permettono di "
+"controllare quanta distorsione, riverbero, echo, ecc... applicare al suono. "
+"Sonic Pi supporta anche questo tipo di controlli. Infine, puoi immaginare un "
+"chitarrista che suona mentre qualcun altro gioca con gli effetti. Sonic Pi "
+"ti permette di fare anche questo ma invece di avere qualcun altro a "
+"controllare le cose al posto tuo, ci pensa il computer."
 
 #: 06-FX.md:42
 msgid "Let's explore FX!"
-msgstr ""
+msgstr "Esploriamo gli effetti!"
 
 #: 06.1-Adding-FX.md:1
 msgid "6.1 Adding FX"
-msgstr ""
+msgstr "6.1 Aggiungere un effetto"
 
 #: 06.1-Adding-FX.md:3
 msgid "Adding FX"
-msgstr ""
+msgstr "Aggiungere un effetto"
 
 #: 06.1-Adding-FX.md:5
 msgid ""
 "In this section we'll look at a couple of FX: reverb and echo. We'll see how t"
 "o use them, how to control their opts and how to chain them."
 msgstr ""
+"In questa sezione, analizzeremo un paio di effetti: riverbero e echo. "
+"Vedremo insieme come usarli, come controllare i loro parametri e come "
+"collegarli in sequenza."
 
 #: 06.1-Adding-FX.md:9
 msgid ""
 "Sonic Pi's FX system uses blocks. So if you haven't read section 5.1 you might"
 " want to take a quick look and then head back."
 msgstr ""
+"Il sistema di effetti di Sonic Pi utilizza dei blocchi. Se non hai ancora "
+"letto la sezione 5.1, ti consiglio di dargli un'occhiata veloce prima di "
+"andare avanti."
 
 #: 06.1-Adding-FX.md:12
 msgid "Reverb"
-msgstr ""
+msgstr "Riverbero"
 
 #: 06.1-Adding-FX.md:14
 msgid ""
 "If we want to use reverb we write `with_fx :reverb` as the special code to our"
 " block like this:"
 msgstr ""
+"Se vogliamo usare un riverbero, scriviamo `with_fx :reverb` nel nostro "
+"blocco di codice, così:"
 
 #: 06.1-Adding-FX.md:17
 #, no-wrap
@@ -5923,10 +5958,14 @@ msgid ""
 "Now play this code and you'll hear it played with reverb. It sounds good, does"
 "n't it! Everything sounds pretty nice with reverb."
 msgstr ""
+"Prova a suonare questo codice e sentirai che c'è del riverbero. Suona bene, "
+"vero? Tutto suona bene con un po' di riverbero."
 
 #: 06.1-Adding-FX.md:30
 msgid "Now let's look what happens if we have code outside the do/end block:"
 msgstr ""
+"Ora vediamo cosa succedete se abbiamo del codice al di fuori del blocco "
+"do/end:"
 
 #: 06.1-Adding-FX.md:32
 #, no-wrap
@@ -5956,12 +5995,16 @@ msgid ""
 "Notice how the final `play 55` isn't played with reverb. This is because it is"
 " *outside* the do/end block, so it isn't captured by the reverb FX."
 msgstr ""
+"Nota come la nota finale `play 55` viene riprodotta senza riverbero. Questo "
+"perché è *fuori* dal blocco do/end, quindi non viene catturata dal riverbero."
 
 #: 06.1-Adding-FX.md:48
 msgid ""
 "Similarly, if you make sounds before the do/end block, they also won't be capt"
 "ured:"
 msgstr ""
+"Allo stesso modo, se riproduci un suono prima del blocco do/end, anche "
+"questi non verranno catturati dall'effetto:"
 
 #: 06.1-Adding-FX.md:51
 #, no-wrap
@@ -5992,11 +6035,13 @@ msgstr ""
 
 #: 06.1-Adding-FX.md:67
 msgid "Echo"
-msgstr ""
+msgstr "Echo"
 
 #: 06.1-Adding-FX.md:69
 msgid "There are many FX to choose from. How about some echo?"
 msgstr ""
+"Ci sono molti effetti da cui scegliere. Perché non provare con un po' di "
+"echo?"
 
 #: 06.1-Adding-FX.md:71
 #, no-wrap
@@ -6024,6 +6069,10 @@ msgid ""
 " a fun echo opt to play with is `phase:` which represents the duration of a gi"
 "ven echo in beats. Let's make the echo slower:"
 msgstr ""
+"Uno delle caratteristiche più importanti dei blocchi di codice degli effetti "
+"è che possiamo passargli dei parametri come abbiamo già visto con `play` e "
+"`sample`. Per esempio, un parametro dell'echo con cui giocare è `phase:` che "
+"rappresenta la durata dell'echo in battiti. Rendiamo l'effetto più lento:"
 
 #: 06.1-Adding-FX.md:87
 #, no-wrap
@@ -6046,7 +6095,7 @@ msgstr ""
 
 #: 06.1-Adding-FX.md:97
 msgid "Let's also make the echo faster:"
-msgstr ""
+msgstr "Ora rendiamolo più veloce:"
 
 #: 06.1-Adding-FX.md:99
 #, no-wrap
@@ -6072,6 +6121,8 @@ msgid ""
 "Let's make the echo take longer to fade away by setting the `decay:` time to 8"
 " beats:"
 msgstr ""
+"Facciamo in modo che l'echo abbia un fade out più lungo impostando il valore "
+"di `decay:` a 8 battiti:"
 
 #: 06.1-Adding-FX.md:112
 #, no-wrap
@@ -6094,7 +6145,7 @@ msgstr ""
 
 #: 06.1-Adding-FX.md:122
 msgid "Nesting FX"
-msgstr ""
+msgstr "Nidificazione degli effetti"
 
 #: 06.1-Adding-FX.md:124
 msgid ""
@@ -6103,6 +6154,10 @@ msgid ""
 "ed to play some code with echo and then with reverb? Easy, just put one inside"
 " the other:"
 msgstr ""
+"Un'altra caratteristica molto importante è la possibilità di nidificare gli "
+"effetti. Questo ci permette di collegare in modo semplice un effetto "
+"all'altro. Se volessimo, ad esempio, suonare un po' di codice con l'eco e il "
+"riverbero? Facile! Inseriamo un effetto dentro l'altro:"
 
 #: 06.1-Adding-FX.md:129
 #, no-wrap
@@ -6133,6 +6188,9 @@ msgid ""
 "ithin the inner do/end block such as `play 50` is first sent to the echo FX an"
 "d the sound of the echo FX is in turn sent out to the reverb FX."
 msgstr ""
+"Pensa all'audio che passa dall'uno all'altro. Il suono del codice "
+"all'interno del blocco do/end (ad esempio `play 50`) è inviato prima "
+"all'echo e poi, il suono effettato, è inviato al riverbero."
 
 #: 06.1-Adding-FX.md:146
 msgid ""
@@ -6141,10 +6199,15 @@ msgid ""
 "tiple FX simultaneously. So be sparing with your use of FX especially on low p"
 "owered platforms such as the Raspberry Pi."
 msgstr ""
+"Possiamo andare a fondo con la nidificazione per generare risultati assurdi. "
+"Attenzione, però, gli effetti potrebbero richiedere molte risorse: quando "
+"nidifichi un'effetto dentro un altro, stai, di fatto, utilizzando più "
+"effetti contemporaneamente. Sii parco con gli effetti, specialmente se "
+"utilizzi piattaforme con poca potenza di calcolo come il Raspberry Pi."
 
 #: 06.1-Adding-FX.md:151
 msgid "Discovering FX"
-msgstr ""
+msgstr "Scoprire gli effetti"
 
 #: 06.1-Adding-FX.md:153
 msgid ""
@@ -6152,38 +6215,43 @@ msgid ""
 "ch ones are available, click on FX in the far left of this help system and you"
 "'ll see a list of available options. Here's a list of some of my favourites:"
 msgstr ""
+"Sonic Pi ha al suo interno un gran numero di effetti con cui puoi giocare. "
+"Per scoprire quelli che puoi usare, clicca su FX nella parte più a sinistra "
+"di questo help. Questi sono i miei preferiti:"
 
 #: 06.1-Adding-FX.md:158
 msgid "wobble,"
-msgstr ""
+msgstr "wobble,"
 
 #: 06.1-Adding-FX.md:159
 msgid "reverb,"
-msgstr ""
+msgstr "reverb,"
 
 #: 06.1-Adding-FX.md:160
 msgid "echo,"
-msgstr ""
+msgstr "echo,"
 
 #: 06.1-Adding-FX.md:161
 msgid "distortion,"
-msgstr ""
+msgstr "distortion,"
 
 #: 06.1-Adding-FX.md:162
 msgid "slicer"
-msgstr ""
+msgstr "slicer"
 
 #: 06.1-Adding-FX.md:164
 msgid "Now go crazy and add FX everywhere for some amazing new sounds!"
 msgstr ""
+"Ora sbizzarrisciti con gli effetti e inseriscili ovunque per ottenere nuove "
+"sonorità!"
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
-msgstr ""
+msgstr "6.2 Effetti in pratica"
 
 #: 06.2-FX-in-Practice.md:3
 msgid "FX in Practice"
-msgstr ""
+msgstr "Effetti in pratica"
 
 #: 06.2-FX-in-Practice.md:5
 msgid ""
@@ -6193,10 +6261,16 @@ msgid ""
 "ke me - you use a Raspberry Pi to jam with, you need to be careful about how m"
 "uch work you ask it to do if you want to ensure the beats keep flowing."
 msgstr ""
+"Anche se dall'esterno possono sembrare semplici, gli effetti sono, in "
+"realtà, molto complessi al loro interno. Data la loro semplicità di "
+"utilizzo, spesso le persone ne abusano. Questo potrebbe non essere un "
+"problema se hai una macchina potente ma se, come me, usi un Rasberry Pi, "
+"devi fare attenzione a quante risorse chiedi alla macchina se vuoi essere "
+"sicuro che non ci siano interruzioni."
 
 #: 06.2-FX-in-Practice.md:12
 msgid "Consider this code:"
-msgstr ""
+msgstr "Guarda questo esempio:"
 
 #: 06.2-FX-in-Practice.md:14
 #, no-wrap
@@ -6221,6 +6295,9 @@ msgid ""
 "hort note. We also want reverb so we've wrapped it in a reverb block. All good"
 " so far. Except..."
 msgstr ""
+"Con questo codice suoniamo la nota 60 con un tempo di rilascio molto breve. "
+"Siccome vogliamo del riverbero, abbiamo aggiunto un blocco di codice. Fin "
+"qui tutto bene, anche se..."
 
 #: 06.2-FX-in-Practice.md:27
 msgid ""
@@ -6233,12 +6310,24 @@ msgid ""
 "e reverb and then waiting until it needs to be stopped and removed is all hand"
 "led by `with_fx` for you, but this takes CPU power which may be precious."
 msgstr ""
+"Proviamo a vedere cosa fa esattamente il codice. Per prima cosa abbiamo un "
+"`loop` che significa che tutto quello che c'è al suo interno viene ripetuto "
+"all'infinito. Poi abbiamo un blocco `with_fx`. Questo significa che verrà "
+"creato un nuovo riverbero *ogni ripetizione del loop*. È come, sulla "
+"chitarra, avere un pedale del riverbero diverso per ogni corda. È figo "
+"poterlo fare ma non sempre è quello che vogliamo. Per esempio questo codice "
+"fa fatica a girare su un Raspberry Pi. La creazione del riverbero, "
+"l'utilizzo e il suo spegnimento sono gestiti da `with_fx` e questo potrebbe "
+"consumare preziosa potenza di calcolo."
 
 #: 06.2-FX-in-Practice.md:37
 msgid ""
 "How do we make it more similar to a traditional setup where our guitarist has "
 "just *one* reverb pedal which all sounds pass through? Simple:"
 msgstr ""
+"Come possiamo fare per rendere il setup simile a quello dei chitarristi che "
+"hanno *un pedale* di riverbero dentro cui passa tutto il segnale? Molto "
+"semplice:"
 
 #: 06.2-FX-in-Practice.md:41
 #, no-wrap
@@ -6263,10 +6352,15 @@ msgid ""
 " reverb for all notes played in our loop. This code is a lot more efficient an"
 "d would work fine on a Raspberry Pi."
 msgstr ""
+"Dobbiamo spostare il loop *dentro* il blocco `with_fx`. In questo modo "
+"creiamo un solo riverbero per tutte le note suonate nel nostro loop. Questo "
+"codice è molto più efficiente e funziona a meraviglia su un Rasberry Pi."
 
 #: 06.2-FX-in-Practice.md:54
 msgid "A compromise is to use `with_fx` over an iteration within a loop:"
 msgstr ""
+"Un compromesso potrebbe essere usare `with_fx` in un'iterazione dentro a un "
+"loop:"
 
 #: 06.2-FX-in-Practice.md:56
 #, no-wrap
@@ -6294,12 +6388,16 @@ msgid ""
 "This way we've lifted the `with_fx` out of the inner part of the `loop` and we"
 "'re now creating a new reverb every 16 notes."
 msgstr ""
+"In questo modo abbiamo tolto `with_fx` dalla parte interna del `loop` e "
+"creiamo un riverbero ogni 16 note."
 
 #: 06.2-FX-in-Practice.md:70
 msgid ""
 "This is such a common pattern that `with_fx` supports an opt to do exactly thi"
 "s but without having to write the `16.times` block:"
 msgstr ""
+"Questo è un modo di fare talmente comune che `with_fx` lo supporta come "
+"opzione senza la necessità di scrivere un blocco di ripetizione `16.times`:"
 
 #: 06.2-FX-in-Practice.md:73
 #, no-wrap
@@ -6324,6 +6422,10 @@ msgid ""
 "eps: 16` essentially repeats the code in the `do/end` block 16 times so you ca"
 "n use them both interchangeably and choose the one that feels best for you."
 msgstr ""
+"I blocchi di codice con `reps: 16` e `16.times do` funzionano allo stesso "
+"modo. Quello con `reps: 16` in pratica ripete il codice nel blocco `do/end` "
+"16 volte per cui puoi usare entrambi i sistemi in modo intercambiabile "
+"scegliendo quello che preferisci."
 
 #: 06.2-FX-in-Practice.md:87
 msgid ""
@@ -6332,14 +6434,18 @@ msgid ""
 "stics. So play around and use the approach that sounds best to you whilst also"
 " working within the performance constraints of your platform."
 msgstr ""
+"Ricorda: non ci sono errori, solo possibilità. Tuttavia alcuni di questi "
+"approcci genereranno suoni e performance differenti. Fai un po' di prove e "
+"trova l'approccio che, secondo te, suona meglio tenendo sempre in "
+"considerazione la questione delle performance della tua piattaforma."
 
 #: 07-Control.md:1
 msgid "7 Control"
-msgstr ""
+msgstr "7 Controlli"
 
 #: 07-Control.md:3
 msgid "Controlling running sounds"
-msgstr ""
+msgstr "Controllare i suoni durante la riproduzione"
 
 #: 07-Control.md:5
 msgid ""
@@ -6348,6 +6454,10 @@ msgid ""
 " Each sound triggered is essentially its own sound with its own list of option"
 "s set for the duration of the sound."
 msgstr ""
+"Finora abbiamo visto come lanciare synth e campioni e come cambiare i loro "
+"parametri di default come il volume, il pan, l'inviluppo ecc... Ogni suono "
+"lanciato è, essenzialmente, un singolo suono con la sua lista di opzioni di "
+"durata."
 
 #: 07-Control.md:11
 msgid ""
@@ -6355,18 +6465,21 @@ msgid ""
 "playing, just like you might bend a string of a guitar whilst it's still vibra"
 "ting?"
 msgstr ""
+"Non sarebbe bello poter cambiare i parametri di un suono mentre viene "
+"riprodotto, proprio come se stessimo facendo un bending sulla corda di una "
+"chitarra?"
 
 #: 07-Control.md:15
 msgid "You're in luck - this section will show you how to do exactly this."
-msgstr ""
+msgstr "Siete fortunati, questa sezione vi spiegherà esattamente come farlo."
 
 #: 07.1-Controlling-Running-Synths.md:1
 msgid "7.1 Controlling Running Synths"
-msgstr ""
+msgstr "7.1 Controllare i sintetizzatori in riproduzione"
 
 #: 07.1-Controlling-Running-Synths.md:3
 msgid "Controlling Running Synths"
-msgstr ""
+msgstr "Controllare i sintetizzatori in riproduzione"
 
 #: 07.1-Controlling-Running-Synths.md:5
 msgid ""
@@ -6374,6 +6487,9 @@ msgid ""
 "er, Sonic Pi gives us the ability to manipulate and control currently running "
 "sounds. We do this by using a variable to capture a reference to a synth:"
 msgstr ""
+"Finora ci siamo preoccupati solo di lanciare nuovi suoni ed effetti. "
+"Ciononostante Sonic Pi ci dà la possibilità di manipolare e controllare "
+"tutti i suoni in riproduzione. Lo possiamo fare utilizzando una variabile:"
 
 #: 07.1-Controlling-Running-Synths.md:10
 #, no-wrap
@@ -6386,10 +6502,15 @@ msgid ""
 " 60. Note that this is *run-local* - you can't access it from other runs like "
 "functions."
 msgstr ""
+"Qui abbiamo una variabile locale `s` che rappresenta il sintetizzatore che "
+"suona la nota 60. Nota bene: si tratta di una variabile *locale* che non può "
+"essere richiamata da altre funzioni."
 
 #: 07.1-Controlling-Running-Synths.md:18
 msgid "Once we have `s`, we can start controlling it via the `control` function:"
 msgstr ""
+"Ora che abbiamo `s`, possiamo cominciare a controllarlo utilizzando la "
+"funzione `control`:"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
 #, no-wrap
@@ -6416,16 +6537,21 @@ msgid ""
 "re just triggering one synth and then change the pitch 3 times afterwards, whi"
 "le it's playing."
 msgstr ""
+"Notiamo come non stiamo utilizzando 4 synth differenti, stiamo utilizzando "
+"un solo sintetizzatore cambiando il pitch della nota 3 volte mentre sta "
+"suonando."
 
 #: 07.1-Controlling-Running-Synths.md:35
 msgid ""
 "We can pass any of the standard opts to `control`, so you can control things l"
 "ike `amp:`, `cutoff:` or `pan:`."
 msgstr ""
+"Possiamo passare tutti i parametri standard attraverso `control`, per cui "
+"possiamo controllare cose come `amp:`, `cutoff:` oppure `pan:`."
 
 #: 07.1-Controlling-Running-Synths.md:38
 msgid "Non-controllable Options"
-msgstr ""
+msgstr "Parametri non controllabili"
 
 #: 07.1-Controlling-Running-Synths.md:40
 msgid ""
@@ -6435,20 +6561,27 @@ msgid ""
 "ation says *Can not be changed once set*, you know it's not possible to contro"
 "l the opt after the synth has started."
 msgstr ""
+"Alcuni parametri non possono essere modificati una volta che il synth è "
+"partito, per esempio l'inviluppo ADSR. Puoi scoprire quali parametri puoi "
+"modificare guardando nella documentazione. Se trovi scritto *non può essere "
+"modificato una volta impostato*, saprai che non puoi modificarlo una volta "
+"avviato il synth."
 
 #: 07.2-Controlling-FX.md:1
 msgid "7.2 Controlling FX"
-msgstr ""
+msgstr "7.2 Controllare gli effetti"
 
 #: 07.2-Controlling-FX.md:3
 msgid "Controlling FX"
-msgstr ""
+msgstr "Controllare gli effetti"
 
 #: 07.2-Controlling-FX.md:5
 msgid ""
 "It is also possible to control FX, although this is achieved in a slightly dif"
 "ferent way:"
 msgstr ""
+"È possibile controllare anche gli effetti, anche se bisogna farlo in modo "
+"leggermente differente:"
 
 #: 07.2-Controlling-FX.md:8
 #, no-wrap
@@ -6482,18 +6615,22 @@ msgid ""
 "ich we then reference from the containing do/end block. This behaviour is iden"
 "tical to using parameterised functions."
 msgstr ""
+"Invece di utilizzare una variabile, utilizziamo un parametro di riferimento "
+"nel blocco do/end. Dentro le barre `|`, dobbiamo specificare un nome univoco "
+"per ogni effetto che poi richiamiamo all'interno del blocco do/end. Questo "
+"comportamento è identico all'utilizzare funzioni parametrizzate."
 
 #: 07.2-Controlling-FX.md:26
 msgid "Now go and control some synths and FX!"
-msgstr ""
+msgstr "Ora prova a controllare qualche synth ed effetto!"
 
 #: 07.3-Sliding-Parameters.md:1
 msgid "7.3 Sliding Options"
-msgstr ""
+msgstr "7.3 Parametri scorrevoli"
 
 #: 07.3-Sliding-Parameters.md:3
 msgid "Sliding Opts"
-msgstr ""
+msgstr "Parametri scorrevoli"
 
 #: 07.3-Sliding-Parameters.md:5
 msgid ""
@@ -6503,10 +6640,15 @@ msgid ""
 "pecial opts that only work when you control synths as introduced in the previo"
 "us section."
 msgstr ""
+"Esplorando i parametri dei synth e degli effetti avrai notato come alcuni di "
+"essi terminano con `_slide`. Magari hai anche provato a richiamarli ma senza "
+"alcun risultato. Questo succede perché, a differenza dei normali parametri, "
+"funzionano solo quando controlli il synth come discusso nella sezione "
+"precedente."
 
 #: 07.3-Sliding-Parameters.md:11
 msgid "Consider the following example:"
-msgstr ""
+msgstr "Considera il seguente esempio:"
 
 #: 07.3-Sliding-Parameters.md:23
 msgid ""
@@ -6515,6 +6657,10 @@ msgid ""
 "ing the `note:` parameter, to add slide, we need to set the `note_slide` param"
 "eter of the synth:"
 msgstr ""
+"Puoi sentire il pitch del sintetizzatore cambiare a ogni chiamata di "
+"`control`. Può capire, però, che ci sia uno slide tra i vari cambiamenti. "
+"Siccome stiamo controllando il parametro `note:`, per aggiungere lo "
+"scorrimento, dobbiamo impostare il parametro `note_slide`:"
 
 #: 07.3-Sliding-Parameters.md:28
 #, no-wrap
@@ -6541,16 +6687,22 @@ msgid ""
 "doesn't it? You can speed up the slide by using a shorter time such as `note_s"
 "lide: 0.2` or slow it down by using a longer slide time."
 msgstr ""
+"Ora sentiamo che la nota viene \"piegata\" ogni volta che `control` viene "
+"richiamato. Suona bene, vero? Possiamo velocizzare lo slide utilizzando un "
+"tempo inferiore come `note_slide: 0.2` o rallentarlo usando valori più "
+"lunghi."
 
 #: 07.3-Sliding-Parameters.md:43
 msgid ""
 "Every parameter that can be controlled has a corresponding `_slide` parameter "
 "for you to play with."
 msgstr ""
+"Ogni parametro che puoi controllare, ha un parametro corrispettivo `_slide` "
+"con cui puoi giocare."
 
 #: 07.3-Sliding-Parameters.md:46
 msgid "Sliding is sticky"
-msgstr ""
+msgstr "Lo scorrimento è delicato"
 
 #: 07.3-Sliding-Parameters.md:48
 msgid ""
@@ -6558,14 +6710,18 @@ msgid ""
 " and used every time you slide the corresponding parameter. To stop sliding yo"
 "u must set the `_slide` value to 0 before the next `control` call."
 msgstr ""
+"Ogni volta che imposti un parametro `_slide` su un synth in riproduzione, "
+"verrà ricordato e usato ogni volta che scorri il parametro corrispondente. "
+"Per fermare lo slide, devi impostare il valore di `_slide`a 0 prima del "
+"successivo `control`."
 
 #: 07.3-Sliding-Parameters.md:53
 msgid "Sliding FX Opts"
-msgstr ""
+msgstr "Parametri di scorrimento degli effetti"
 
 #: 07.3-Sliding-Parameters.md:55
 msgid "It is also possible to slide FX opts:"
-msgstr ""
+msgstr "È possibile controllare lo scorrimento degli effetti:"
 
 #: 07.3-Sliding-Parameters.md:57
 #, no-wrap
@@ -6587,18 +6743,22 @@ msgid ""
 "Now have fun sliding things around for smooth transitions and flowing control."
 ".."
 msgstr ""
+"Ora possiamo divertirci utilizzando lo scorrimento per creare transizioni "
+"più fluide..."
 
 #: 08-Data-Structures.md:1
 msgid "8 Data Structures"
-msgstr ""
+msgstr "8 Strutture di dati"
 
 #: 08-Data-Structures.md:3
 msgid "Data Structures"
-msgstr ""
+msgstr "Strutture di dati"
 
 #: 08-Data-Structures.md:5
 msgid "A very useful tool in a programmer's toolkit is a data structure."
 msgstr ""
+"Uno strumento molto utile nella cassetta degli attrezzi di un programmatore "
+"sono le strutture di dati."
 
 #: 08-Data-Structures.md:7
 msgid ""
@@ -6606,6 +6766,10 @@ msgid ""
 "you may find it useful to have a series of notes to play one after another. Pr"
 "ogramming languages have data structures to allow you do exactly this."
 msgstr ""
+"Può capitare che tu voglia rappresentare o usare più di una cosa. Per "
+"esempio, può essere utile avere una serie di note che suonano una dopo "
+"l'altra. I linguaggi di programmazione utilizzano le strutture di dati "
+"proprio per questo."
 
 #: 08-Data-Structures.md:12
 msgid ""
@@ -6613,20 +6777,25 @@ msgid ""
 "and people are always inventing new ones. However, for now we only really need"
 " to consider a very simple data structure - the list."
 msgstr ""
+"Ci sono moltissime strutture di dati a disposizione dei programmatori e le "
+"persone continuano a inventarsene di nuove. Tuttavia, per il momento, "
+"prendiamo in considerazione una struttura semplice: la lista."
 
 #: 08-Data-Structures.md:16
 msgid ""
 "Let's look at it in more detail. We'll cover its basic form and then also how "
 "lists can be used to represent scales and chords."
 msgstr ""
+"Andiamo nel dettaglio: capiremo la sua forma base e come utilizzare le liste "
+"per scale e accordi."
 
 #: 08.1-Lists.md:1
 msgid "8.1 Lists"
-msgstr ""
+msgstr "8.1 Liste"
 
 #: 08.1-Lists.md:3
 msgid "Lists"
-msgstr ""
+msgstr "Liste"
 
 #: 08.1-Lists.md:5
 msgid ""
@@ -6634,6 +6803,10 @@ msgid ""
 "he list. We met it very briefly before in the section on randomisation when we"
 " randomly chose from a list of notes to play:"
 msgstr ""
+"In questa sezione analizzeremo come funziona una lista come struttura di "
+"dati. Ne abbiamo accennato in precedenza nella sezione relativa alla "
+"casualità quando abbiamo scelto di suonare una nota in modo casuale da una "
+"lista:"
 
 #: 08.1-Lists.md:9
 #, no-wrap
@@ -6646,6 +6819,9 @@ msgid ""
 " First let's recap how we might play a chord. Remember that if we don't use `s"
 "leep`, sounds all happen at the same time:"
 msgstr ""
+"In questa sezione esploreremo come utilizzare le liste per accordi e scale. "
+"Prima ripassiamo come possiamo suonare un accordo: ricordi che se non usiamo "
+"sleep, tutti i suoni vengono riprodotti in contemporanea:"
 
 #: 08.1-Lists.md:17
 #, no-wrap
@@ -6660,17 +6836,20 @@ msgstr ""
 
 #: 08.1-Lists.md:23
 msgid "Let's look at other ways to represent this code."
-msgstr ""
+msgstr "Proviamo a trovare altri modi di rappresentare questo codice."
 
 #: 08.1-Lists.md:25
 msgid "Playing a List"
-msgstr ""
+msgstr "Suonare una lista"
 
 #: 08.1-Lists.md:27
 msgid ""
 "One option is to place all the notes in a list: `[52, 55, 59]`. Our friendly `"
 "play` function is smart enough to know how to play a list of notes. Try it:"
 msgstr ""
+"Un'opzione è di inserire tutte le note in una lista: `[52, 55, 59]`. La "
+"nostra amata funzione `play` è così furba da sapere come suonare una lista "
+"di note. Provala:"
 
 #: 08.1-Lists.md:31
 #, no-wrap
@@ -6682,6 +6861,8 @@ msgid ""
 "Ooh, that's already nicer to read. Playing a list of notes doesn't stop you fr"
 "om using any of the parameters as normal:"
 msgstr ""
+"Ooh, si legge molto più facilmente. Suonare una lista di note non ti deve "
+"fermare dall'usare i parametri:"
 
 #: 08.1-Lists.md:38
 #, no-wrap
@@ -6693,6 +6874,8 @@ msgid ""
 "Of course, you can also use the traditional note names instead of the MIDI num"
 "bers:"
 msgstr ""
+"Ovviamente puoi usare anche i nomi delle note tradizionali invece che numeri "
+"MIDI:"
 
 #: 08.1-Lists.md:45
 #, no-wrap
@@ -6704,10 +6887,13 @@ msgid ""
 "Now those of you lucky enough to have studied some music theory might recognis"
 "e that chord as *E Minor* played in the 3rd octave."
 msgstr ""
+"Ora, quelli di voi che hanno avuto la fortuna di studiare un po' di teoria "
+"musicale, riconosceranno quell'accordo come *Mi minore* (E Minor NdT), "
+"suonato nella terza ottava."
 
 #: 08.1-Lists.md:52
 msgid "Accessing a List"
-msgstr ""
+msgstr "Accedere a una lista"
 
 #: 08.1-Lists.md:54
 msgid ""
@@ -6717,14 +6903,19 @@ msgid ""
 "t at index 23? The only strange thing is that in programming indexes usually s"
 "tart at 0 not 1."
 msgstr ""
+"Un'altra caratteristica utile delle liste è la possibilità di ottenere "
+"informazioni da essa. Può sembrare un po' strano ma non è molto più "
+"complicato che chiedere a qualcuno di aprire un libro a pagina 23. Con una "
+"lista, chiederai: qual è l'elemento all'indice 23? L'unica cosa strana è che "
+"nei linguaggi di programmazioni gli indici iniziano da 0 e non da 1."
 
 #: 08.1-Lists.md:60
 msgid "With list indexes we don't count 1, 2, 3... Instead we count 0, 1, 2..."
-msgstr ""
+msgstr "Con gli indici nelle liste non contiamo 1, 2, 3... ma 0, 1, 2..."
 
 #: 08.1-Lists.md:62
 msgid "Let's look at this in a little more detail. Take a look at this list:"
-msgstr ""
+msgstr "Proviamo a capirci di più, guarda questo esempio di lista:"
 
 #: 08.1-Lists.md:64
 #, no-wrap
@@ -6737,6 +6928,9 @@ msgid ""
 " that list? Yes, of course, it's `55`. That was easy. Let's see if we can get "
 "the computer to answer it for us too:"
 msgstr ""
+"Non c'è niente di spaventoso. Qual è il secondo elemento in quella lista? "
+"Ovviamente è `55`. Facile. Vediamo se riusciamo a far rispondere il computer "
+"al posto nostro:"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
 #, no-wrap
@@ -6753,6 +6947,14 @@ msgid ""
 "ent. We need to surround our index with square brackets and because counting s"
 "tarts at `0`, the index for the second element is `1`. Look:"
 msgstr ""
+"Ok, sembra qualcosa di strano che non abbiamo mai visto prima. Credimi, non "
+"c'è nulla di difficile. Ci sono tre sezioni nella linea qui sopra: la parola "
+"`puts`, la nostra lista `52, 55, 59`, e il nostro indice `[1]`. Per prima "
+"cosa, usiamo `puts` perché vogliamo che Sonic Pi stampi nel log una "
+"risposta. Poi, gli diamo la nostra lista e, infine, l'indice richiede il "
+"secondo elemento in essa. Dobbiamo inserire il nostro indice tra parentesi "
+"quadre perché il conteggio inizia a 0, l'indice per il secondo elemento sarà "
+"`1`. Guarda:"
 
 #: 08.1-Lists.md:85
 #, no-wrap
@@ -6770,10 +6972,15 @@ msgid ""
 "ow you might use a list in your next code jam. For example, what musical struc"
 "tures might be represented as a series of numbers..."
 msgstr ""
+"Prova a far girare il codice `puts [52, 55, 59][1]` e vedrai `55` comparire "
+"nel log. Prova a cambiare l'indica `1` con altri valori, prova ad allungare "
+"la lista e pensa a come usare una lista nei tuoi prossimi esperimenti. Per "
+"esempio, quale struttura musicale può essere rappresentata da una serie di "
+"numeri..."
 
 #: 08.2-Chords.md:1
 msgid "8.2 Chords"
-msgstr ""
+msgstr "8.2 Accordi"
 
 #: 08.2-Chords.md:5
 msgid ""
