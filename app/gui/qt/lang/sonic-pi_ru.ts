@@ -352,7 +352,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>Тёмный режим идеально подходит для лайв-кодинга в ночных клубах.</translation>
+        <translation>
+Тёмный режим идеально подходит для лайв-кодинга в ночных клубах.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1107"></location>
