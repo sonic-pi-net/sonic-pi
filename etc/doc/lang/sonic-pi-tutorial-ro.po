@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-09 14:12+0000\n"
+"PO-Revision-Date: 2016-06-10 14:03+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -7258,15 +7258,17 @@ msgid ""
 "Or we can take a normal list and convert it to a ring by sending it the `."
 "ring` message:"
 msgstr ""
+"Sau putem lua o lista normala si sa o transformam intr-una circulara "
+"trimitandu-i mesajul '.ring':"
 
 #: 08.4-Rings.md:59
 #, no-wrap
 msgid "[52, 55, 59].ring"
-msgstr ""
+msgstr "[52, 55, 59].ring"
 
 #: 08.4-Rings.md:63
 msgid "Indexing Rings"
-msgstr ""
+msgstr "Indexarea listelor circulare"
 
 #: 08.4-Rings.md:65
 msgid ""
@@ -7275,6 +7277,9 @@ msgid ""
 "larger than the size of the ring and they'll wrap round to always point at "
 "one of the ring's elements:"
 msgstr ""
+"Putem folosi o lista circulara la fel ca pe una normala cu diferenta ca "
+"putem folosi indecsi negativi sau mai mari decat lungimea listei si vom "
+"obtine intotdeauna un element din lista:"
 
 #: 08.4-Rings.md:70
 #, no-wrap
@@ -7285,10 +7290,15 @@ msgid ""
 "(ring 52, 55, 59)[3] #=> 52\n"
 "(ring 52, 55, 59)[-1] #=> 59"
 msgstr ""
+"(ring 52, 55, 59)[0] #=> 52\n"
+"(ring 52, 55, 59)[1] #=> 55\n"
+"(ring 52, 55, 59)[2] #=> 59\n"
+"(ring 52, 55, 59)[3] #=> 52\n"
+"(ring 52, 55, 59)[-1] #=> 59"
 
 #: 08.4-Rings.md:78
 msgid "Using Rings"
-msgstr ""
+msgstr "Folosirea listelor circulare"
 
 #: 08.4-Rings.md:80
 msgid ""
@@ -7297,143 +7307,171 @@ msgid ""
 "times or anything useful we've stored in our ring regardless of the beat "
 "number we're currently on."
 msgstr ""
+"Sa presupunem ca folosim o variabila care reprezinta numarul bataii curente. "
+"Putem folosi acest numar ca index in lista circulare pentru a aduce nota "
+"care urmeaza sa fie redata, sau timpul de release sau orice altceva ce am "
+"memorat in lista respectiva, indiferent de bataia la care s-a ajuns."
 
 #: 08.4-Rings.md:85
 msgid "Scales and Chords are Rings"
-msgstr ""
+msgstr "Gamele si acordurile sunt liste circulare"
 
 #: 08.4-Rings.md:87
 msgid ""
 "A useful thing to know is that the lists returned by `scale` and `chord` are "
 "also rings and allow you to access them with arbitrary indexes."
 msgstr ""
+"E util de stiut ca listele returnate de 'scale' si 'chord' sunt liste "
+"circulare si pot fi citite folosind orice valori pentru indecsi."
 
 #: 08.4-Rings.md:90
 msgid "Ring Constructors"
-msgstr ""
+msgstr "Constructori pentru listele circulare"
 
 #: 08.4-Rings.md:92
 msgid ""
 "In addition to `ring` there are a number of other functions which will "
 "construct a ring for us."
 msgstr ""
+"Pe langa 'ring' exista si alte functii care pot construi o lista circulara "
+"pentru noi."
 
 #: 08.4-Rings.md:95
 msgid "`range` invites you specify a starting point, end point and step size."
 msgstr ""
+"'range' iti cere sa specifici un punct de inceput, unul de sfarsit si "
+"dimensiunea pasului."
 
 #: 08.4-Rings.md:96
 msgid ""
 "`bools` allows you to use `1`s and `0`s to succinctly represent booleans."
 msgstr ""
+"'bools' iti permite sa folosesti '0' si '1' pentru a reprezenta valori "
+"booleene."
 
 #: 08.4-Rings.md:97
 msgid "`knit` allows you to knit a sequence of repeated values."
-msgstr ""
+msgstr "'knit' iti permite sa tesi o secventa de valori care se repeta."
 
 #: 08.4-Rings.md:98
 msgid "`spread` creates a ring of bools with a Euclidean distribution."
-msgstr ""
+msgstr "'spread' creeaza o lista circulara cu distributie euclidiana."
 
 #: 08.4-Rings.md:100
 msgid "Take a look at their respective documentation for more information."
 msgstr ""
+"Poti cauta mai multe informatii in documentatia pentru functiile respective."
 
 #: 08.5-Ring-Chains.md:1
 msgid "8.5 Ring Chains"
-msgstr ""
+msgstr "8.5 Definirea listelor circulare folosind comenzi inlantuite"
 
 #: 08.5-Ring-Chains.md:3
 msgid "Ring Chains"
-msgstr ""
+msgstr "Definirea listelor circulare folosind comenzi inlantuite"
 
 #: 08.5-Ring-Chains.md:5
 msgid ""
 "In addition to the constructors such as `range` and `spread` another way of "
 "creating new rings is to manipulate existing rings."
 msgstr ""
+"Pe langa utilizarea constructorilor gen 'range' sau 'spread', o alta metoda "
+"de a crea noi liste circulare se bazeaza pe folosirea unora deja existente."
 
 #: 08.5-Ring-Chains.md:9
 msgid "Chain Commands"
-msgstr ""
+msgstr "Comenzi inlantuite"
 
 #: 08.5-Ring-Chains.md:11
 msgid "To explore this, take a simple ring:"
-msgstr ""
+msgstr "Pentru explorarea lor, luam ca exemplu o lista circulara simpla:"
 
 #: 08.5-Ring-Chains.md:13
 #, no-wrap
 msgid "(ring 10, 20, 30, 40, 50)"
-msgstr ""
+msgstr "(ring 10, 20, 30, 40, 50)"
 
 #: 08.5-Ring-Chains.md:17
 msgid ""
 "What if we wanted it backwards? Well we'd use the chain command `.reverse` "
 "to take the ring and turn it around:"
 msgstr ""
+"Daca dorim sa obtinem o lista circulara intoarsa pe dos, putem folosi "
+"comanda '.reverse' pentru a obtine elementele in ordine inversa,:"
 
 #: 08.5-Ring-Chains.md:20
 #, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
-msgstr ""
+msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
 #: 08.5-Ring-Chains.md:24
 msgid "Now, what if we wanted the first three values from the ring?"
-msgstr ""
+msgstr "Dar daca dorim primele trei valori din lista?"
 
 #: 08.5-Ring-Chains.md:26
 #, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
-msgstr ""
+msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
 #: 08.5-Ring-Chains.md:30
 msgid "Finally, what if we wanted to shuffle the ring?"
-msgstr ""
+msgstr "In fine, ce facem daca dorim sa amestecam valorile din lista?"
 
 #: 08.5-Ring-Chains.md:32
 #, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
-msgstr ""
+msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
 #: 08.5-Ring-Chains.md:36
 msgid "Multiple Chains"
-msgstr ""
+msgstr "Inlantuiri multiple"
 
 #: 08.5-Ring-Chains.md:38
 msgid ""
 "This is already a powerful way of creating new rings. However, the *real* "
 "power comes when you chain a few of these commands together."
 msgstr ""
+"Deja avem o metoda foarte buna pentru a crea noi liste circulare. Totusi, "
+"lucrurile devin cu *adevarat* interesante cand inlantuim mai multe comenzi "
+"de acest fel."
 
 #: 08.5-Ring-Chains.md:41
 msgid ""
 "How about shuffling the ring, dropping 1 element and then taking the next 3?"
 msgstr ""
+"Cum facem sa amestecam lista, sa eliminam primul element si apoi sa le oprim "
+"pe primele 3?"
 
 #: 08.5-Ring-Chains.md:43
 msgid "Let's take this in stages:"
-msgstr ""
+msgstr "Vom face asta in etape:"
 
 #: 08.5-Ring-Chains.md:45
 msgid "`(ring 10, 20, 30, 40, 50)` - our initial ring"
-msgstr ""
+msgstr "`(ring 10, 20, 30, 40, 50)` - lista circulara initiala"
 
 #: 08.5-Ring-Chains.md:46
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle` - o amestecam - `(ring 40, 30, 10, 50, "
+"20)`"
 
 #: 08.5-Ring-Chains.md:47
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, "
 "20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - eliminam 1 - `(ring 30, 10, "
+"50, 20)`"
 
 #: 08.5-Ring-Chains.md:48
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, "
 "10, 50)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - oprim 3 - `(ring 30, "
+"10, 50)`"
 
 #: 08.5-Ring-Chains.md:50
 msgid ""
@@ -7442,10 +7480,13 @@ msgid ""
 "an extremely rich and powerful way of generating new rings from existing "
 "ones."
 msgstr ""
+"Am creat un lant cu aceste metode doar *punandu-le una dupa alta*. Putem "
+"combina aceste metode in orice ordine dorim obtinand astfel o metoda foarte "
+"puternica de a genera noi liste circulare pe baza unora deja existente."
 
 #: 08.5-Ring-Chains.md:55
 msgid "Immutability"
-msgstr ""
+msgstr "Imutabilitatea"
 
 #: 08.5-Ring-Chains.md:57
 msgid ""
@@ -7456,74 +7497,88 @@ msgid ""
 "chaining them within a thread knowing you won't be affecting any other "
 "thread using the same ring."
 msgstr ""
+"Aceste liste circulare au o proprietate importanta. Ele sunt imutabile, ceea "
+"ce inseamna ca nu pot fi schimbate. Metodele inlantuite descrise in aceasta "
+"sectiune *nu schimba listele* ci *creeaza noi liste*. Astfel, poti folosi "
+"acelease liste in diferite thread-uri si poti adauga comenzi inlantuite in "
+"cadrul unui thread stiind ca nu va exista un impact asupra altui thread care "
+"foloseste aceeasi lista inlantuita."
 
 #: 08.5-Ring-Chains.md:64
 msgid "Available Chain Methods"
-msgstr ""
+msgstr "Metode disponibile pentru transformari inlantuite"
 
 #: 08.5-Ring-Chains.md:66
 msgid "Here's a list of the available chain methods for you to play with:"
 msgstr ""
+"Iata o lista a metodelor disponibile pentru aceste transformari inlantuite:"
 
 #: 08.5-Ring-Chains.md:68
 msgid "`.reverse` - returns a reversed version of the ring"
 msgstr ""
+"`.reverse` - intoarce o versiune a listei cu elementele in ordine inversa"
 
 #: 08.5-Ring-Chains.md:69
 msgid "`.sort` - creates a sorted version of the ring"
-msgstr ""
+msgstr "`.sort` - creeaza o versiune sortata a listei"
 
 #: 08.5-Ring-Chains.md:70
 msgid "`.shuffle` - creates a shuffled version of the ring"
-msgstr ""
+msgstr "`.shuffle` - creeaza o versiune amestecata a listei"
 
 #: 08.5-Ring-Chains.md:71
 msgid ""
 "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
 msgstr ""
+"`.pick(3)` - intoarce o lista cu rezultatul apelarii metodei `.choose` de 3 "
+"ori"
 
 #: 08.5-Ring-Chains.md:72
 msgid ""
 "`.pick` - similar to `.pick(3)` only the size defaults to the same as the "
 "original ring"
 msgstr ""
+"`.pick` - similara cu `.pick(3)` doar ca dimensiunea va fi aceeasi cu a "
+"listei initiale"
 
 #: 08.5-Ring-Chains.md:73
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
-msgstr ""
+msgstr "`.take(5)` - returneaza o lista noua continand doar primele 5 elemente"
 
 #: 08.5-Ring-Chains.md:74
 msgid ""
 "`.drop(3)` - returns a new ring with everything but the first 3 elements"
 msgstr ""
+"`.drop(3)` - returneaza o lista noua cu toate elementele in afara de primele "
+"3"
 
 #: 08.5-Ring-Chains.md:75
 msgid "`.butlast` - returns a new ring with the last element missing"
-msgstr ""
+msgstr "`.butlast` - returneaza o lista noua fara ultimul element"
 
 #: 08.5-Ring-Chains.md:76
 msgid "`.drop_last(3)` - returns a new ring with the last 3 elements missing"
-msgstr ""
+msgstr "`.drop_last(3)` - returneaza o lista noua fara ultimele 3 elemente"
 
 #: 08.5-Ring-Chains.md:77
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
-msgstr ""
+msgstr "`.take_last(6)`- returneaza o lista doar cu ultimele 6 elemente"
 
 #: 08.5-Ring-Chains.md:78
 msgid "`.stretch(2)` - repeats each element in the ring twice"
-msgstr ""
+msgstr "`.stretch(2)` - repeta fiecare element din lista de 2 ori"
 
 #: 08.5-Ring-Chains.md:79
 msgid "`.repeat(3)` - repeats the entire ring 3 times"
-msgstr ""
+msgstr "`.repeat(3)` - repeta toata lista de 3 ori"
 
 #: 08.5-Ring-Chains.md:80
 msgid "`.mirror` - adds the ring to a reversed version of itself"
-msgstr ""
+msgstr "`.mirror` - adauga la lista o versiune inversata a acesteia"
 
 #: 08.5-Ring-Chains.md:81
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
-msgstr ""
+msgstr "`.reflect` - la fel ca mirror, dar valoarea din mijoc nu este duplicata"
 
 #: 08.5-Ring-Chains.md:83
 msgid ""
@@ -7531,10 +7586,13 @@ msgid ""
 "So feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop "
 "the first 5 elements."
 msgstr ""
+"Desigur, acele metode care accepta parametri, pot primi si alte numere decat "
+"cele din exemplu! Deci poti incerca de exemplu sa apelezi .'drop(5)' in loc "
+"de '.drop(3)' daca vrei sa elimini primele 5 elemente."
 
 #: 09-Live-Coding.md:1
 msgid "9 Live Coding"
-msgstr ""
+msgstr "9 Programarea live"
 
 #: 09-Live-Coding.md:5
 msgid ""
@@ -7545,20 +7603,28 @@ msgid ""
 "just perfect). However, the main advantage is that you can take Sonic Pi on "
 "stage and gig with it."
 msgstr ""
+"Una dintre cele mai interesante caracteristici ale Sonic Pi este ca iti "
+"prmite sa scrii si sa modifici codul live pentru a crea muzica, asa cum ai "
+"interpreta live la chitara. Un avantaj al acestei abordari este ca poti avea "
+"feedback pe masura ce compui (porneste o bucla simpla si fa reglajele pana "
+"cand suna perfect). Cel mai mare avantaj este insa ca poti sa iei Sonic Pi "
+"pe scena si sa improvizezi cu ajutorul lui."
 
 #: 09-Live-Coding.md:12
 msgid ""
 "In this section we'll cover the fundamentals of turning your static code "
 "compositions into dynamic performances."
 msgstr ""
+"In aceasta sectiune vom studia bazele transformarii codului static in "
+"interpretari dinamice."
 
 #: 09-Live-Coding.md:15
 msgid "Hold on to your seats..."
-msgstr ""
+msgstr "Tineti-va bine..."
 
 #: 09.1-Live-Coding-Fundamentals.md:1
 msgid "9.1 Live Coding Fundamentals"
-msgstr ""
+msgstr "9.1 Bazele programarii live"
 
 #: 09.1-Live-Coding-Fundamentals.md:5
 msgid ""
@@ -7567,18 +7633,23 @@ msgid ""
 "making your music compositions live and turning them into a performance. For "
 "that we'll need 3 main ingredients:"
 msgstr ""
+"Acum stim deja suficient pentru a incepe cu adevarat sa facem ceva "
+"interesant. In aceasta sectiune vom construi pe baza a ceea ce am invatat in "
+"sectiunile precedente si iti voi arata cum poti incepe sa compui muzica live "
+"si sa o transformi in interpretare pe scena. Pentru asta avem nevoie de 3 "
+"lucruri:"
 
 #: 09.1-Live-Coding-Fundamentals.md:10
 msgid "An ability to write code that makes sounds - CHECK!"
-msgstr ""
+msgstr "Priceperea de a scrie cod care produce sunete - PREZENTA!"
 
 #: 09.1-Live-Coding-Fundamentals.md:11
 msgid "An ability to write functions - CHECK!"
-msgstr ""
+msgstr "Priceperea de a scrie functii - PREZENTA!"
 
 #: 09.1-Live-Coding-Fundamentals.md:12
 msgid "An ability to use (named) threads - CHECK!"
-msgstr ""
+msgstr "Priceperea de a folosi thread-uri (cu nume) - PREZENTA!"
 
 #: 09.1-Live-Coding-Fundamentals.md:14
 msgid ""
@@ -7586,6 +7657,10 @@ msgid ""
 "a function containing the code we want to play. Let's start simple. We also "
 "want to loop calls to that function in a thread:"
 msgstr ""
+"In regula, sa-i dam bataie! Sa programam live primele noastre sunete. Mai "
+"intai avem nevoie de o functie care contine codul pe care vrem sa-l "
+"executam. Sa incepem cu ceva simplu. Vrem de asemenea sa reluam in bucla "
+"apelurile catre aceasta functie intr-un thread:"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
@@ -7600,6 +7675,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  play 50\n"
+"  sleep 1\n"
+"end\n"
+"in_thread(name: :looper) do\n"
+"  loop do\n"
+"    my_loop\n"
+"  end\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:31
 msgid ""
@@ -7607,6 +7691,9 @@ msgid ""
 "sections on functions and threads. It's not too complicated if you've "
 "already wrapped your head around these things."
 msgstr ""
+"Daca ti se pare putin complicat, te poti intoarce sa recitesti sectiunile "
+"despre functii si thread-uri. Nu este prea complicat daca deja ai studiat "
+"aceste lucruri."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
 msgid ""
@@ -7614,14 +7701,17 @@ msgid ""
 "sleeps for a beat. We then define a named thread called `:looper` which just "
 "loops around calling `my_loop` repeatedly."
 msgstr ""
+"Avem aici definitia unei functii care doar reda nota 50 si face pauza pe "
+"durata unei batai. Apoi definim un thread denumit ':looper' care doar reia "
+"in bucla apelul 'my_loop'."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
-msgstr ""
+msgstr "Daca rulezi acest cod, vei auzi nota 50 repetata iar si iar..."
 
 #: 09.1-Live-Coding-Fundamentals.md:41
 msgid "Changing it up"
-msgstr ""
+msgstr "Sa schimbam putin"
 
 #: 09.1-Live-Coding-Fundamentals.md:43
 msgid ""
@@ -7629,6 +7719,9 @@ msgid ""
 "50 to another number, say 55, then press the Run button again. Woah! It "
 "changed! Live!"
 msgstr ""
+"Acum incepe partea distractiva. In timp ce codul *inca ruleaza* schimba 50 "
+"cu alt numar, sa zicem 55, apoi apasa pe butonul Run din nou. S-a schimbat! "
+"In direct!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
 msgid ""
@@ -7637,12 +7730,19 @@ msgid ""
 "function. We gave `:my_loop` a new definition. When the `:looper` thread "
 "looped around it simply called the new definition."
 msgstr ""
+"Nu s-a adaugat un nou strat deoarece folosim un thread-uri cu denumire, ceea "
+"ce permite sa se execute un singur thread pentru fiecare nume. De asemenea, "
+"sunetul s-a schimbat pentru ca am *redefinit* functia. Am dat o noua "
+"definitie pentru ':my_loop'. Cand thread-ul ':looper' a reluat bucla, a "
+"apelat noua definitie."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
 msgid ""
 "Try changing it again, change the note, change the sleep time. How about "
 "adding a `use_synth` statement? For example, change it to:"
 msgstr ""
+"Incearca sa-l schimbi din nou, schimba nota, schimba timpul pentru pauza. Ce-"
+"ar fi sa adaugi o instructiune 'use_synth'? De exemplu, schimba cu:"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -7664,6 +7764,8 @@ msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of "
 "playing the same note again and again, try playing a chord:"
 msgstr ""
+"Acum suna destul de interesant, dar putem sa-l facem si mai colorat. In loc "
+"sa redam aceeasi nota iar si iar, incerca sa redai un acord:"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -7682,7 +7784,7 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:75
 msgid "How about playing random notes from the chord:"
-msgstr ""
+msgstr "Ce-ar fi sa redam aleator notele dintr-un acord:"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
@@ -7701,7 +7803,7 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:85
 msgid "Or using a random cutoff value:"
-msgstr ""
+msgstr "Sau sa alegem o valoare aleatoare pentru cutoff:"
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
@@ -7720,7 +7822,7 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:95
 msgid "Finally, add some drums:"
-msgstr ""
+msgstr "La final, sa adaugam niste tobe:"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
@@ -7732,10 +7834,16 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  sample :drum_bass_hard, rate: rrand(0.5, 2)\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:106
 msgid "Now things are getting exciting!"
-msgstr ""
+msgstr "Acum lucrurile devin incitante!"
 
 #: 09.1-Live-Coding-Fundamentals.md:108
 msgid ""
@@ -7743,14 +7851,17 @@ msgid ""
 "threads, stop what you're doing and read the next section on `live_loop` "
 "which will change the way you code in Sonic Pi forever..."
 msgstr ""
+"Totusi, inainte sa incepi sa programezi live folosind functii si thread-uri, "
+"opreste-te putin si citeste sectiunea urmatoare despre 'live_loop' care va "
+"schimba pentru totdeauna modul in care programezi cu Sonic Pi..."
 
 #: 09.2-Live-Loops.md:1
 msgid "9.2 Live Loops"
-msgstr ""
+msgstr "9.2 Bucle live"
 
 #: 09.2-Live-Loops.md:3
 msgid "Live Loops"
-msgstr ""
+msgstr "Bucle live"
 
 #: 09.2-Live-Loops.md:5
 msgid ""
@@ -7759,16 +7870,22 @@ msgid ""
 "Coding Fundamentals, `live_loop` is a simple way of doing exactly that but "
 "without having to write so much."
 msgstr ""
+"Ok, deci aceasta sectiune a tutorialului este adevarata nestemata. Daca ai "
+"citi o singura sectiune, aceasta ar trebui sa fie. Daca ai cititi sectiunea "
+"precedenta, despre Bazele programarii live, 'live_loop' reprezinta o cale "
+"simpla de a face exact acelasi lucru, fara insa a scrie le fel de mult."
 
 #: 09.2-Live-Loops.md:10
 msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam "
 "with Sonic Pi."
 msgstr ""
+"Daca nu ai citit sectiunea precedenta, 'live_loop' este cel mai bun mode de "
+"a improviza folosind Sonic Pi."
 
 #: 09.2-Live-Loops.md:13
 msgid "Let's play. Write the following in a new buffer:"
-msgstr ""
+msgstr "Sa ne jucam acum. Scrie codul acesta intr-un buffer nou:"
 
 #: 09.2-Live-Loops.md:15
 #, no-wrap
@@ -7789,17 +7906,23 @@ msgid ""
 "there. However, don't press Stop just yet. Change the `60` to `65` and press "
 "Run again."
 msgstr ""
+"Acum apasa butonul Run. Vei auzi un beep obisnuit la fiecare bataie. Nimic "
+"interesant deocamdata. Totusi, nu apasa pe Stop inca. Schimba '60' cu '65' "
+"si apasa pe Run din nou."
 
 #: 09.2-Live-Loops.md:26
 msgid ""
 "Woah! It changed *automatically* without missing a beat. This is live coding."
 msgstr ""
+"Hei, s-a schimbat *automat* fara sa piarda nicio bataie. Aceasta este "
+"programarea live."
 
 #: 09.2-Live-Loops.md:28
 msgid ""
 "Why not change it to be more bass like? Just update your code whilst it's "
 "playing:"
 msgstr ""
+"Hai sa schimbam sa fie mai spre bas. Schimba codul in timp ce se executa:"
 
 #: 09.2-Live-Loops.md:30
 #, no-wrap
@@ -7818,11 +7941,11 @@ msgstr ""
 
 #: 09.2-Live-Loops.md:38
 msgid "Then hit Run."
-msgstr ""
+msgstr "Apoi apasa Run."
 
 #: 09.2-Live-Loops.md:40
 msgid "Let's make the cutoff move around:"
-msgstr ""
+msgstr "Sa facem valoarea pentru cutoff sa se schimbe:"
 
 #: 09.2-Live-Loops.md:42
 #, no-wrap
@@ -7841,11 +7964,11 @@ msgstr ""
 
 #: 09.2-Live-Loops.md:50
 msgid "Hit Run again."
-msgstr ""
+msgstr "Apasa Run din nou."
 
 #: 09.2-Live-Loops.md:52
 msgid "Add some drums:"
-msgstr ""
+msgstr "Adauga niste tobe:"
 
 #: 09.2-Live-Loops.md:54
 #, no-wrap
@@ -7866,7 +7989,7 @@ msgstr ""
 
 #: 09.2-Live-Loops.md:63
 msgid "Change the note from `e1` to `c1`:"
-msgstr ""
+msgstr "Schimba nota din 'e1' in 'c1':"
 
 #: 09.2-Live-Loops.md:65
 #, no-wrap
@@ -7888,18 +8011,19 @@ msgstr ""
 #: 09.2-Live-Loops.md:74
 msgid "Now stop listening to me and play around yourself! Have fun!"
 msgstr ""
+"Acum nu mai tine cont de sfaturile mele si joaca-te cum vrei! Distreaza-te!"
 
 #: 09.3-Multiple-Live-Loops.md:1
 msgid "9.3 Multiple Live Loops"
-msgstr ""
+msgstr "9.3 Bucle live multiple"
 
 #: 09.3-Multiple-Live-Loops.md:3
 msgid "Multiple Live Loops"
-msgstr ""
+msgstr "Bucle live multiple"
 
 #: 09.3-Multiple-Live-Loops.md:5
 msgid "Consider the following live loop:"
-msgstr ""
+msgstr "Sa privim bucla live de mai jos:"
 
 #: 09.3-Multiple-Live-Loops.md:7
 #, no-wrap
@@ -7920,16 +8044,22 @@ msgid ""
 "because it signifies that this live loop is different from all other live "
 "loops."
 msgstr ""
+"Te-ai putea intreba de ce trebuie sa se numeasca ':foo'. Acest nume este "
+"important deoarece ne spune ca aceasta bucla live este diferita de toate "
+"celelalte."
 
 #: 09.3-Multiple-Live-Loops.md:18
 msgid "*There can never be two live loops running with the same name*."
 msgstr ""
+"*Nu pot exista doua bucle live cu acelasi nume care ruleaza in acelasi timp*."
 
 #: 09.3-Multiple-Live-Loops.md:20
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just "
 "need to give them different names:"
 msgstr ""
+"Asta inseamna ca daca vrem sa avem mai multe bucle live care ruleaza in "
+"acelasi timp, trebuie sa le dam nume diferite:"
 
 #: 09.3-Multiple-Live-Loops.md:23
 #, no-wrap
@@ -7959,10 +8089,12 @@ msgid ""
 "You can now update and change each live loop independently and it all just "
 "works."
 msgstr ""
+"Acum poti modifica fiecare bucla live in mod independent si totul va "
+"continua sa functioneze."
 
 #: 09.3-Multiple-Live-Loops.md:39
 msgid "Syncing Live Loops"
-msgstr ""
+msgstr "Sincronizarea buclelor live"
 
 #: 09.3-Multiple-Live-Loops.md:41
 msgid ""
@@ -7972,10 +8104,15 @@ msgid ""
 "the live loop. We can therefore `sync` on these cues to ensure our loops are "
 "in sync without having to stop anything."
 msgstr ""
+"Un lucru pe care poate l-ai remarcat este ca buclele live folosesc automat "
+"mecanismul de marcaje pentru thread-uri pe care l-am vazut anterior. De "
+"fiecare data cand bucla live se reia, genereaza un nou eveniment 'cue' cu "
+"numele buclei. Putem deci sa ne sincronizam ('sync') cu aceste marcaje "
+"pentru a ne asigura ca buclele noastre sunt in faza fara sa oprim ceva."
 
 #: 09.3-Multiple-Live-Loops.md:47
 msgid "Consider this badly synced code:"
-msgstr ""
+msgstr "Sa analizam acest cod sincronizat gresit:"
 
 #: 09.3-Multiple-Live-Loops.md:49
 #, no-wrap
@@ -8004,6 +8141,10 @@ msgid ""
 "let's fix the `:foo` loop to make the sleep a factor of 1 - something like "
 "`0.5` will do:"
 msgstr ""
+"Sa vedem cum putem repara timing-ul si sa facem sincronizarea fara sa il "
+"oprim. Mai intai sa corectam bucla ':foo' astfel incat pentru pauza sa avem "
+"o valoare care intra de un numar intreg de ori in 1 - ceva gen '0.5' ar "
+"merge:"
 
 #: 09.3-Multiple-Live-Loops.md:65
 #, no-wrap
@@ -8032,6 +8173,9 @@ msgid ""
 "quite line up correctly. This is because the loops are *out of phase*. Let's "
 "fix that by syncing one to the other:"
 msgstr ""
+"Nu am terminat, totusi. Vei observa ca bataile nu se aliniaza corect. Asta "
+"se intampla deoarece buclele *sunt defazate*. Sa corectam aceasta problema "
+"sincronizandu-le una cu alta:"
 
 #: 09.3-Multiple-Live-Loops.md:81
 #, no-wrap
@@ -8058,19 +8202,19 @@ msgstr ""
 
 #: 09.3-Multiple-Live-Loops.md:94
 msgid "Wow, everything is now perfectly in time - all without stopping."
-msgstr ""
+msgstr "Totul este acum perfect sincronizat - fara sa fim nevoiti sa ne oprim."
 
 #: 09.3-Multiple-Live-Loops.md:96
 msgid "Now, go forth and live code with live loops!"
-msgstr ""
+msgstr "Acum, mergi mai departe si programeaza live cu bucle live!"
 
 #: 09.4-Ticking.md:1
 msgid "9.4 Ticking"
-msgstr ""
+msgstr "Tactul"
 
 #: 09.4-Ticking.md:3
 msgid "Ticking"
-msgstr ""
+msgstr "Tactul"
 
 #: 09.4-Ticking.md:5
 msgid ""
@@ -8078,10 +8222,13 @@ msgid ""
 "looping through rings. You'll be putting notes into rings for melodies, "
 "sleeps for rhythms, chord progressions, timbral variations, etc. etc."
 msgstr ""
+"Un lucru pe care il vei face adesea cand vei programa live va fi sa parcurgi "
+"in bucla liste circulare. Vei pune in aceste liste note pentru melodii, "
+"pauze pentru ritm, progresii ale acordurilor, variatii de timbru, etc."
 
 #: 09.4-Ticking.md:9
 msgid "Ticking Rings"
-msgstr ""
+msgstr "Tactul pentru liste circulare"
 
 #: 09.4-Ticking.md:11
 msgid ""
@@ -8091,6 +8238,12 @@ msgid ""
 "beat number. Tick just implements this idea. It provides you with the "
 "ability to *tick through rings*. Let's look at an example:"
 msgstr ""
+"Sonic Pi ofera o unealta *foarte* la indemana pentru folosirea listelor "
+"circulare in bucle live. Este sistemul de tact. In sectiunea despre listele "
+"circulare am discutat despre contorul care creste constant, la fel ca "
+"numarul bataii curente. Tactul implementeaza aceasta idee. El iti ofera "
+"posibilitatea de a *parcurge listele circulare in ritm*. Sa privim un "
+"exemplu:"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
@@ -8111,7 +8264,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:26
 msgid "This is equivalent to:"
-msgstr ""
+msgstr "Acesta este echivalent cu:"
 
 #: 09.4-Ticking.md:28
 #, no-wrap
@@ -8133,6 +8286,10 @@ msgid ""
 "declaration. This tick is local to the live loop, so each live loop can have "
 "its own independent tick:"
 msgstr ""
+"Aici am ales gama pentatonica E3 minor si redam fiecare element. Acest lucru "
+"este realizat adaugand '.tick' la sfarsitul declaratiei gamei. Acest tact "
+"este local pentru bucla live, deci fiecare bucla poate avea tactul sau "
+"independent:"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -8147,15 +8304,26 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"live_loop :arp do\n"
+"  play (scale :e3, :minor_pentatonic).tick, release: 0.1\n"
+"  sleep 0.125\n"
+"end\n"
+"live_loop :arp2 do\n"
+"  use_synth :dsaw\n"
+"  play (scale :e2, :minor_pentatonic, num_octaves: 3).tick, release: 0.25\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.4-Ticking.md:53
 msgid "Tick"
-msgstr ""
+msgstr "Tactul (tick)"
 
 #: 09.4-Ticking.md:55
 msgid ""
 "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr ""
+"Poti apela 'tick' la fel ca o functie standard si sa folosesti valoare ca "
+"index:"
 
 #: 09.4-Ticking.md:57
 #, no-wrap
@@ -8178,10 +8346,14 @@ msgid ""
 "when you want to do fancy things with the tick value and for when you want "
 "to use ticks for other things than indexing into rings."
 msgstr ""
+"Totusi, e mai dragut sa apelezi '.tick' la sfarsit. Functia 'tick' poate fi "
+"folosita cand vrei sa faci chestii exotice cu valoarea pentru tick si pentru "
+"cand vrei sa folosesti aceasta valoare pentru altceva decat pentru indexul "
+"dintr-o lista circulara."
 
 #: 09.4-Ticking.md:70
 msgid "Look"
-msgstr ""
+msgstr "Look (priveste)"
 
 #: 09.4-Ticking.md:72
 msgid ""
@@ -8193,16 +8365,26 @@ msgid ""
 "value and *not increase* it. This is available via the `look` fn. You can "
 "call `look` as a standard fn or by adding `.look` to the end of a ring."
 msgstr ""
+"Partea magica legata de tick este ca nu reda doar un index nou (sau valoarea "
+"din lista de la indexul respectiv) ci are grija ca data viitoare cand "
+"apelezi functia sa intoarca valoarea urmatoare. Citeste exemplele din "
+"documentatia pentru 'tick' pentru mai multe moduri de a-l folosi. Totusi, "
+"pentru moment este important sa remarcam ca uneori ai putea dori sa vezi "
+"care este valoarea curenta *fara sa o incrementezi*. Acest lucru se poate "
+"face folosind functia 'look'. Poti apela 'look' ca pe o functie standard sau "
+"adaugand '.look' la sfarsitul listei circulare."
 
 #: 09.4-Ticking.md:81
 msgid "Naming Ticks"
-msgstr ""
+msgstr "Nume pentru tact"
 
 #: 09.4-Ticking.md:83
 msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is "
 "achieved by giving your tick a name:"
 msgstr ""
+"Uneori vei avea nevoie de mai mult de un tact intr-o bucla live. Acest lucru "
+"se poate realiza dandu-i un nume tactului:"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
@@ -8226,10 +8408,16 @@ msgid ""
 "example above we called one tick `:foo` and the other `:bar`. If we want to "
 "`look` at these we also need to pass the name of the tick to `look`."
 msgstr ""
+"Aici folosim doua tacturi, unul pentru nota care va fi redata si un altul "
+"pentru durata pauzei. Cum ambele sunt in aceeasi bucla live, pentru a le "
+"delimita trebuie sa le dam nume unice. Este la fel cu numele pentru buclele "
+"live - scriem un nume cu ':' la inceput. In exemplul de mai sus am denumit "
+"un tact ':foo' iar pe celalalt ':bar'. Daca vrem sa vedem valorile acestora "
+"trebuie sa transmitem numele tactului catre functia 'look'."
 
 #: 09.4-Ticking.md:101
 msgid "Don't make it too complicated"
-msgstr ""
+msgstr "Nu complica lucrurile"
 
 #: 09.4-Ticking.md:103
 msgid ""
@@ -8238,40 +8426,52 @@ msgid ""
 "through a single ring. That'll give you most of the joy and simplicity of "
 "ticking through rings in your `live_loop`s."
 msgstr ""
+"Multe dintre avantajele sistemului de tacturi nu sunt evidente de la "
+"inceput. Nu incerca sa inveti totul din aceasta sectiune. Concentreaza-te pe "
+"tactul pentru o singura lista circulara. Asta iti va permite sa beneficiezi "
+"de cea mai mare parte din placerea de a folosi un tact pentru parcurgerea "
+"listelor circulare in buclele live."
 
 #: 09.4-Ticking.md:108
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful "
 "examples and happy ticking!"
 msgstr ""
+"Studiaza documentatia pentru 'tick' unde vei gasi multe exemple folositoare. "
+"Spor la ticait!"
 
 #: 10-Essential-Knowledge.md:1
 msgid "10 Essential Knowledge"
-msgstr ""
+msgstr "10 Cunostinte esentiale"
 
 #: 10-Essential-Knowledge.md:3
 msgid "Essential Knowledge"
-msgstr ""
+msgstr "Cunostinte esentiale"
 
 #: 10-Essential-Knowledge.md:5
 msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge "
 "for getting the most out of your Sonic Pi experience."
 msgstr ""
+"Aceasta sectiune se va ocupa de cateva cunostinte foarte utile, *esentiale* "
+"de fapt pentru a beneficia din plin de experienta Sonic Pi."
 
 #: 10-Essential-Knowledge.md:8
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available "
 "to you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
+"Vom vedea cum poti sa folosesti multe dintre combinatiile de taste "
+"disponibile, cum sa impartasesti creatiile tale si cateva trucuri pentru "
+"interpretarea folosind Sonic Pi."
 
 #: 10.1-Using-Shortcuts.md:1
 msgid "10.1 Using Shortcuts"
-msgstr ""
+msgstr "10.1 Folosirea combinatiilor de taste"
 
 #: 10.1-Using-Shortcuts.md:3
 msgid "Using Shortcuts"
-msgstr ""
+msgstr "Folosirea combinatiilor de taste"
 
 #: 10.1-Using-Shortcuts.md:5
 msgid ""
@@ -8279,6 +8479,10 @@ msgid ""
 "therefore make playing Sonic Pi much more *efficient and natural* - "
 "especially when you're playing live in front of an audience."
 msgstr ""
+"Sonic Pi este un instrument in aceeasi masura in care este si un mediu de "
+"programare. Combinatiile de taste pot face interpretarea folosind Sonic Pi *"
+"mai eficienta si mai naturala*, mai ales cand canti live in fata unei "
+"audiente."
 
 #: 10.1-Using-Shortcuts.md:9
 msgid ""
@@ -8289,22 +8493,34 @@ msgid ""
 "for the mouse as it slows me down. I therefore use all of these shortcuts on "
 "a very regular basis!"
 msgstr ""
+"Sonic Pi poate fi controlat aproape complet folosind tastatura. Pe masura ce "
+"devii mai familiar cu interpretarea folosind Sonic Pi, probabil vei incepe "
+"sa folosesti din ce in ce mai mult combinatiile de taste. *Eu personal "
+"tastez fara sa privesc tastatura* (iti recomand sa incerci si tu sa inveti) "
+"si ma simt frustrat cand trebuie sa intind mana dupa mouse, deoarece ma "
+"incetineste. Ca urmare, eu folosesc aceste combinatii de taste in mod "
+"regulat!"
 
 #: 10.1-Using-Shortcuts.md:16
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard "
 "effectively and you'll be live coding like a pro in no time."
 msgstr ""
+"Ca urmare, daca inveti combinatiile de taste, vei invata sa folosesti "
+"eficient tastatura si vei programa live ca un profesionist cat de curand."
 
 #: 10.1-Using-Shortcuts.md:19
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the "
 "ones you use most and then keep adding more to your practice."
 msgstr ""
+"Totusi, *nu incerca sa le inveti pe toate odata*, incearca doar sa le "
+"memorezi pe cele pe care le utilizezi cel mai des si continua sa adaugi si "
+"altele pe parcurs."
 
 #: 10.1-Using-Shortcuts.md:22
 msgid "Consistency across Platforms"
-msgstr ""
+msgstr "Coerenta intre diferite platforme"
 
 #: 10.1-Using-Shortcuts.md:24
 msgid ""
@@ -8313,6 +8529,10 @@ msgid ""
 "tough time switching between different clarinets and you'd be stuck to using "
 "just one make."
 msgstr ""
+"Imagineaza-ti ca ai invatat sa canti la clarinet. Te-ai astepta ca toate "
+"clarinetele sa aiba clape si inele asemanatoare. Daca nu ar avea, ti-ar fi "
+"greu sa treci de la un clarinet la altul si ai fi foratat sa folosesti mereu "
+"aceeasi marca."
 
 #: 10.1-Using-Shortcuts.md:29
 msgid ""
@@ -8324,10 +8544,17 @@ msgid ""
 "you learn the shortcuts whilst playing with Sonic Pi on your Raspberry Pi, "
 "you can move to the Mac or PC and feel right at home."
 msgstr ""
+"Din pacate, cele trei sisteme de operare cele mai raspandite (Linux, Mac OS "
+"X si Windows) vin cu propriile combinatii implicite pentru diferite actiuni "
+"cum ar fi pentru copy/paste, etc. Sonic Pi va incerca sa respecte aceste "
+"standarde. Totusi, *prioritate are coerenta intre platforme* in cadrul Sonic "
+"Pi, nu respectarea standardelor unei anumite platforme. Asta inseamna ca "
+"daca ai invatat combinatiile folosind Sonic Pi pe Raspberry Pi, poti trece "
+"la versiunea de Mac sau PC si sa te simti ca acasa."
 
 #: 10.1-Using-Shortcuts.md:37
 msgid "Control and Meta"
-msgstr ""
+msgstr "Control si Meta"
 
 #: 10.1-Using-Shortcuts.md:39
 msgid ""
@@ -8338,10 +8565,17 @@ msgid ""
 "For consistency we'll use the term *Meta* - just remember to map that to the "
 "appropriate key on your operating system."
 msgstr ""
+"Notiunea de coerenta acopera si numele folosite pentru combinatiile de "
+"taste. In Sonic Pi folosim *Control* si *Meta* pentru a ne referi la 2 taste "
+"importante care fac parte din aceste combinatii. Pe toate platformele "
+"*Control* este la fel. In schimb, in Linux si Windows *Meta* este "
+"reprezentat de tasta *Alt*, iar pe Mac de tasta *Command*. Pentru coerenta "
+"vom folosi termenul *Meta* - tine minte sa il inlocuiesti cu tasta "
+"corespunzatoare pe sistemul tau de operare."
 
 #: 10.1-Using-Shortcuts.md:46
 msgid "Abbreviations"
-msgstr ""
+msgstr "Abrevieri"
 
 #: 10.1-Using-Shortcuts.md:48
 msgid ""
@@ -8350,24 +8584,32 @@ msgid ""
 "example, if a shortcut requires you to hold down both *Meta* and *r* we'll "
 "write that as `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
+"Pentru a pastra lucrurile simple si usor de citit, vom folosi abrevierile "
+"*C-* pentru *Control* plus alta tasta si *M-* pentru *Meta* plus alta tasta. "
+"De exemplu, daca o combinatie cere sa apesi *Meta* si *r*, o vom nota 'M-r'. "
+"*-* inseamna in acest caz \"in acelasi timp cu\"."
 
 #: 10.1-Using-Shortcuts.md:53
 msgid "The following are some of the shortcuts I find most useful."
 msgstr ""
+"In continuare sunt cateva dintre combinatiile pe care le consider cele mai "
+"utile."
 
 #: 10.1-Using-Shortcuts.md:55
 msgid "Stopping and starting"
-msgstr ""
+msgstr "Oprirea si pornirea"
 
 #: 10.1-Using-Shortcuts.md:57
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply "
 "press `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
+"In loc sa iei de fiecare data mouse-ul ca sa apesi pe butonul Run, poti "
+"apasa 'M-r'. La fel, pentru a opri executia codului poti apasa 'M-s'."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:51
 msgid "Navigation"
-msgstr ""
+msgstr "Navigarea"
 
 #: 10.1-Using-Shortcuts.md:62
 msgid ""
@@ -8377,6 +8619,11 @@ msgid ""
 "letters rather than requiring you to move your hand to the mouse or the "
 "arrow keys on your keyboard."
 msgstr ""
+"Personal sunt pierdut fara aceste combinatii de taste. De aceea iti recomand "
+"cu caldura sa te apleci putin asupra lor. Aceste scurtaturi functioneaza "
+"foarte bine si cand inveti sa tastezi fara sa privesti tastatura deoarece "
+"folosesc litere obisnuite si nu e nevoie sa-ti misti mana dupa mouse sau "
+"dupa tastele sageti."
 
 #: 10.1-Using-Shortcuts.md:68
 msgid ""
@@ -8385,18 +8632,22 @@ msgid ""
 "character with `C-f`, and back a character with `C-b`. You can even delete "
 "all the characters from the cursor to the end of the line with `C-k`."
 msgstr ""
+"Poti merge la inceputul liniei cu 'C-a', la sfarsit cu 'C-e', mai sus cu o "
+"linie cu 'C-p', mai jos cu o linie cu 'C-n', inainte cu un caracter cu 'C-f' "
+"si inapoi cu un caracter cu 'C-b'. Poti sterge toate caracterele de la "
+"cursor pana la sfarsitul liniei cu 'C-k'."
 
 #: 10.1-Using-Shortcuts.md:74
 msgid "Tidy Code"
-msgstr ""
+msgstr "Cod mai ordonat"
 
 #: 10.1-Using-Shortcuts.md:76
 msgid "To auto-align your code simply press `M-m`."
-msgstr ""
+msgstr "Pentru auto-alinierea codului apasa 'M-m'."
 
 #: 10.1-Using-Shortcuts.md:78
 msgid "Help System"
-msgstr ""
+msgstr "Sistem de ajutor (help)"
 
 #: 10.1-Using-Shortcuts.md:80
 msgid ""
@@ -8404,284 +8655,309 @@ msgid ""
 "shortcut to know is `C-i` which will look up the word underneath the cursor "
 "and display the docs if it finds anything. Instant help!"
 msgstr ""
+"Pentru a activa/dezactiva sistemul de ajutor poti apasa 'M-i'. O scurtatura "
+"mai utila este 'C-i' care va cauta cuvantul din spatele cursorului si va "
+"afisa documentatia aferenta daca il gaseste. Ajutor instantaneu!"
 
 #: 10.1-Using-Shortcuts.md:84
 msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
 msgstr ""
+"Pentru lista completa arunca o privire la sectiunea 10.2 Tabel de combinatii "
+"de taste."
 
 #: 10.2-Shortcut-Cheatsheet.md:1
 msgid "10.2 Shortcut Cheatsheet"
-msgstr ""
+msgstr "10.2 Tabel de combinatii de taste"
 
 #: 10.2-Shortcut-Cheatsheet.md:3
 msgid "Shortcut Cheatsheet"
-msgstr ""
+msgstr "Tabel de combinatii de taste"
 
 #: 10.2-Shortcut-Cheatsheet.md:5
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. "
 "Please see Section 10.1 for motivation and background."
 msgstr ""
+"Ceea ce urmeaza este un rezumat al principalelor combinatii de taste "
+"disponibile in Sonic Pi. Vezi sectiunea 10.1 pentru explicatii."
 
 #: 10.2-Shortcut-Cheatsheet.md:8
 msgid "Conventions"
-msgstr ""
+msgstr "Conventii"
 
 #: 10.2-Shortcut-Cheatsheet.md:10
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* "
 "on Windows/Linux or *Cmd* on Mac):"
 msgstr ""
+"In aceasta lista folosim urmatoarele conventii (unde *Meta* este *Alt* "
+"pentru Windows/Linux sau *Cmd* pentru Mac):"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding "
 "them both at the same time, then releasing."
 msgstr ""
+"'C-a' inseamna sa tii apasata tasta *Control* apoi sa apesi tasta *a* astfel "
+"incat sa fie ambele apasate simultan, apoi sa le eliberezi."
 
 #: 10.2-Shortcut-Cheatsheet.md:14
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding "
 "them both at the same time, then releasing."
 msgstr ""
+"'M-r' inseamna sa tii apasata tasta *Meta* apoi sa apesi tasta *r* astfel "
+"incat sa fie ambele apasate simultan, apoi sa le eliberezi."
 
 #: 10.2-Shortcut-Cheatsheet.md:15
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the "
 "*z* key all at the same time, then releasing."
 msgstr ""
+"'S-M-z' inseamna sa tii apasata tasta *Shift*, apoi tasta *Meta*, apoi sa "
+"apesi tasta *z* astfel incat sa fie toate apasate simultan, apoi sa le "
+"eliberezi."
 
 #: 10.2-Shortcut-Cheatsheet.md:16
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* "
 "key all at the same time, then releasing."
 msgstr ""
+"'C-M-f' inseamna sa tii apasata tasta *Control*, apoi tasta *Meta*, apoi sa "
+"apesi tasta *f* astfel incat sa fie toate apasate simultan, apoi sa le "
+"eliberezi."
 
 #: 10.2-Shortcut-Cheatsheet.md:18
 msgid "Main Application Manipulation"
-msgstr ""
+msgstr "Controlul aplicatiei principale"
 
 #: 10.2-Shortcut-Cheatsheet.md:20
 msgid "`M-r` - Run code"
-msgstr ""
+msgstr "`M-r` - Executa codul (Run)"
 
 #: 10.2-Shortcut-Cheatsheet.md:21
 msgid "`M-s` - Stop code"
-msgstr ""
+msgstr "`M-s` - Opreste codul (Stop)"
 
 #: 10.2-Shortcut-Cheatsheet.md:22
 msgid "`M-i` - Toggle Help System"
-msgstr ""
+msgstr "'M-i' - Activeaza/dezactiveaza sistemul de ajutor (help)"
 
 #: 10.2-Shortcut-Cheatsheet.md:23
 msgid "`M-p` - Toggle Preferences"
-msgstr ""
+msgstr "`M-p` - Activeaza/dezactiveaza optiunile"
 
 #: 10.2-Shortcut-Cheatsheet.md:24
 msgid "`M-{` - Switch buffer to the left"
-msgstr ""
+msgstr "`M-{` - Comuta la buffer-ul din stanga"
 
 #: 10.2-Shortcut-Cheatsheet.md:25
 msgid "`M-}` - Switch buffer to the right"
-msgstr ""
+msgstr "`M-}` - Comuta la buffer-ul din dreapta"
 
 #: 10.2-Shortcut-Cheatsheet.md:26
 msgid "`M-+` - Increase text size of current buffer"
-msgstr ""
+msgstr "`M-+` - Creste dimensiunea textului in buffer-ul curent"
 
 #: 10.2-Shortcut-Cheatsheet.md:27
 msgid "`M--` - Decrease text size of current buffer"
-msgstr ""
+msgstr "`M--` - Micsoreaza dimensiunea textului in buffer-ul curent"
 
 #: 10.2-Shortcut-Cheatsheet.md:29
 msgid "Selection/Copy/Paste"
-msgstr ""
+msgstr "Selectie/Copy/Paste"
 
 #: 10.2-Shortcut-Cheatsheet.md:31
 msgid "`M-a` - Select all"
-msgstr ""
+msgstr "'M-a' - Selecteaza tot"
 
 #: 10.2-Shortcut-Cheatsheet.md:32
 msgid "`M-c` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-c` - Copiaza selectia in memorie"
 
 #: 10.2-Shortcut-Cheatsheet.md:33
 msgid "`M-]` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-]` - Copiaza selectia in memorie"
 
 #: 10.2-Shortcut-Cheatsheet.md:34
 msgid "`M-x` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`M-x` - Muta selectia in memorie (cut)"
 
 #: 10.2-Shortcut-Cheatsheet.md:35
 msgid "`C-]` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`C-]` - Muta selectia in memorie (cut)"
 
 #: 10.2-Shortcut-Cheatsheet.md:36
 msgid "`C-k` - Cut to the end of the line"
-msgstr ""
+msgstr "`C-k` - Muta in memorie (cut) totul pana la sfarsitul liniei"
 
 #: 10.2-Shortcut-Cheatsheet.md:37
 msgid "`M-v` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`M-v` - Aduce din memorie (paste) in editor"
 
 #: 10.2-Shortcut-Cheatsheet.md:38
 msgid "`C-y` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`C-y` - Aduce din memorie (paste) in editor"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use "
 "`C-g` to escape."
 msgstr ""
+"'C-SPATIU' - Trece in mod evidentiere. Comenzile de navigare vor actiona in "
+"zona evidentiata. Foloseste 'C-g' ca sa revii in modul normal."
 
 #: 10.2-Shortcut-Cheatsheet.md:41
 msgid "Text Manipulation"
-msgstr ""
+msgstr "Manipularea textului"
 
 #: 10.2-Shortcut-Cheatsheet.md:43
 msgid "`M-m` - Align all text"
-msgstr ""
+msgstr "'M-m' - Aliniaza tot textul"
 
 #: 10.2-Shortcut-Cheatsheet.md:44
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr ""
+"`Tab` - Aliniaza linia sau selectia curenta (sau trece in modul auto-"
+"completare)"
 
 #: 10.2-Shortcut-Cheatsheet.md:45
 msgid "`C-l` - Centre editor"
-msgstr ""
+msgstr "`C-l` - Centreaza editorul"
 
 #: 10.2-Shortcut-Cheatsheet.md:46
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr ""
+"`M-/` - Transforma linia sau selectia curenta in comentariu/revine la text "
+"normal"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
 msgid "`C-t` - Transpose/swap characters"
-msgstr ""
+msgstr "`C-t` - Inverseaza ordinea caracterelor"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
 msgid "`M-u` - Convert next word (or selection) to upper case."
-msgstr ""
+msgstr "`M-u` - Converteste urmatorul cuvant (sau selectie) la majuscule."
 
 #: 10.2-Shortcut-Cheatsheet.md:49
 msgid "`M-l` - Convert next word (or selection) to lower case."
-msgstr ""
+msgstr "`M-l` - Converteste urmatorul cuvant (sau selectie) la litere mici."
 
 #: 10.2-Shortcut-Cheatsheet.md:53
 msgid "`C-a` - Move to beginning of line"
-msgstr ""
+msgstr "`C-a` - Merge la inceputul liniei"
 
 #: 10.2-Shortcut-Cheatsheet.md:54
 msgid "`C-e` - Move to end of line"
-msgstr ""
+msgstr "`C-e` - Merge la sfarsitul liniei"
 
 #: 10.2-Shortcut-Cheatsheet.md:55
 msgid "`C-p` - Move to previous line"
-msgstr ""
+msgstr "`C-p` - Merge la linia precedenta"
 
 #: 10.2-Shortcut-Cheatsheet.md:56
 msgid "`C-n` - Move to next line"
-msgstr ""
+msgstr "`C-n` - Merge la linia urmatoare"
 
 #: 10.2-Shortcut-Cheatsheet.md:57
 msgid "`C-f` - Move forward one character"
-msgstr ""
+msgstr "`C-f` - Merge inainte un caracter"
 
 #: 10.2-Shortcut-Cheatsheet.md:58
 msgid "`C-b` - Move backward one character"
-msgstr ""
+msgstr "`C-b` - Merge inapoi un caracter"
 
 #: 10.2-Shortcut-Cheatsheet.md:59
 msgid "`M-f` - Move forward one word"
-msgstr ""
+msgstr "`M-f` - Merge inainte un cuvant"
 
 #: 10.2-Shortcut-Cheatsheet.md:60
 msgid "`M-b` - Move backward one word"
-msgstr ""
+msgstr "`M-b` - Merge inapoi un cuvant"
 
 #: 10.2-Shortcut-Cheatsheet.md:61
 msgid "`C-M-n` - Move line or selection down"
-msgstr ""
+msgstr "`C-M-n` - Muta linia sau selectia in jos"
 
 #: 10.2-Shortcut-Cheatsheet.md:62
 msgid "`C-M-p` - Move line or selection up"
-msgstr ""
+msgstr "`C-M-p` -  Muta linia sau selectia in sus"
 
 #: 10.2-Shortcut-Cheatsheet.md:63
 msgid "`S-M-u` - Move up 10 lines"
-msgstr ""
+msgstr "`S-M-u` - Merge in sus 10 linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:64
 msgid "`S-M-d` - Move down 10 lines"
-msgstr ""
+msgstr "`S-M-d` - Merge in jos 10 linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
 msgid "`M-<` - Move to beginning of buffer"
-msgstr ""
+msgstr "`M-<` - Merge la inceputul buffer-ului"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
 msgid "`M->` - Move to end of buffer"
-msgstr ""
+msgstr "`M->` - Merge la sfarsitul buffer-ului"
 
 #: 10.2-Shortcut-Cheatsheet.md:68
 msgid "Deletion"
-msgstr ""
+msgstr "Stergerea"
 
 #: 10.2-Shortcut-Cheatsheet.md:70
 msgid "`C-h` - Delete previous character"
-msgstr ""
+msgstr "`C-h` - Sterge caracterul precedent"
 
 #: 10.2-Shortcut-Cheatsheet.md:71
 msgid "`C-d` - Delete next character"
-msgstr ""
+msgstr "`C-d` - Sterge caracterul urmator"
 
 #: 10.2-Shortcut-Cheatsheet.md:73
 msgid "Advanced Editor Features"
-msgstr ""
+msgstr "Functii avansate ale editorului"
 
 #: 10.2-Shortcut-Cheatsheet.md:75
 msgid "`C-i` - Show docs for word under cursor"
-msgstr ""
+msgstr "`C-i` - Arata documentatia pentru cuvantul de la pozitia cursorului"
 
 #: 10.2-Shortcut-Cheatsheet.md:76
 msgid "`M-z` - Undo"
-msgstr ""
+msgstr "`M-z` - Undo (anuleaza ultima modificare)"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
 msgid "`S-M-z` - Redo"
-msgstr ""
+msgstr "`S-M-z` - Redo (reface ultima modificare)"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
 msgid "`C-g` - Escape"
-msgstr ""
+msgstr "`C-g` - Escape (Revine la modul anterior)"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
 msgid "`S-M-f` - Toggle fullscreen mode"
-msgstr ""
+msgstr "`S-M-f` - Activeaza/dezactiveaza modul ecran complet"
 
 #: 10.2-Shortcut-Cheatsheet.md:80
 msgid "`S-M-b` - Toggle visibility of buttons"
-msgstr ""
+msgstr "`S-M-b` - Afiseaza/ascunde butoanele"
 
 #: 10.2-Shortcut-Cheatsheet.md:81
 msgid "`S-M-l` - Toggle visibility of log"
-msgstr ""
+msgstr "`S-M-l` - Afiseaza/ascunde jurnalul (log)"
 
 #: 10.2-Shortcut-Cheatsheet.md:82
 msgid "`S-M-m` - Toggle between light/dark modes"
-msgstr ""
+msgstr "`S-M-m` - Comuta intre modurile luminos/intunecat"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
-msgstr ""
+msgstr "10.3 Impartasirea creatiilor"
 
 #: 10.3-Sharing.md:3
 msgid "Sharing"
-msgstr ""
+msgstr "Impartasirea creatiilor"
 
 #: 10.3-Sharing.md:5
 msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr ""
+msgstr "Sonic Pi inseamna si impartasirea creatiilor sau sa inveti de la altii."
 
 #: 10.3-Sharing.md:7
 msgid ""
@@ -8690,6 +8966,10 @@ msgid ""
 "with others so they can *learn* from your work and even use parts in a new "
 "*mash-up*."
 msgstr ""
+"Dupa ce vei invata cum sa programezi muzica, vei putea trasmite altora "
+"creatiile tale printr-un simplu email care contine codul. Te rog sa "
+"*impartasesti* si altora creatiile tale astfel incat ei sa poata *invata* de "
+"la tine si chiar sa foloseasca anumite parti intr-un aranjament nou."
 
 #: 10.3-Sharing.md:12
 msgid ""
@@ -8698,10 +8978,14 @@ msgid ""
 "[SoundCloud](https://soundcloud.com). That way you'll be able to easily "
 "reach a large audience."
 msgstr ""
+"Daca nu te-au decis inca in ce fel sa partajezi creatiile tale, iti recomand "
+"sa incarci codul pe [GitHub](https://github.com), iar muzica pe  "
+"[SoundCloud](https://soundcloud.com). In felul acesta te vei adresa unei "
+"audiente foarte largi."
 
 #: 10.3-Sharing.md:17
 msgid "Code -> GitHub"
-msgstr ""
+msgstr "Cod -> GitHub"
 
 #: 10.3-Sharing.md:19
 msgid ""
@@ -8712,10 +8996,17 @@ msgid ""
 "[Gist](https://gist.github.com) is a simple way of uploading your code in a "
 "simple way that others can see, copy and share."
 msgstr ""
+"[GitHub](https://github.com) este un site pentru partajarea codui si pentru "
+"lucrul in comun. Este folosit atat de programatori profesionisti cat si de "
+"artisiti pentru a-si face cunoscuta munca sau pentru proiecte in comun. Cel "
+"mai simplu mode de a partaja o bucata de cod (chiar si o piesa neterminata) "
+"este sa creezi un [Gist](https://gist.github.com). Un "
+"[Gist](https://gist.github.com) reprezinta o cale facile de a-ti incarca "
+"codul astfel incat altii sa-l poata vedea, copia si partaja."
 
 #: 10.3-Sharing.md:27
 msgid "Audio -> SoundCloud"
-msgstr ""
+msgstr "Audio -> SoundCloud"
 
 #: 10.3-Sharing.md:29
 msgid ""
@@ -8725,6 +9016,11 @@ msgid ""
 "link to a [Gist](https://gist.github.com) of your code in the track "
 "description."
 msgstr ""
+"O alta cale de a impartasi cu altii creatiile tale este sa inregistrezi "
+"sunetul si sa il incarci pe [SoundCloud](https://soundcloud.com). Odata ce "
+"ai incarcat o piesa, alti utilizatori vor putea sa o asculte si sa discute "
+"pe marginea ei. Iti recomand sa treci in descrierea piesei si un link catre "
+"un [Gist](https://gist.github.com) care contine codul."
 
 #: 10.3-Sharing.md:35
 msgid ""
@@ -8735,10 +9031,16 @@ msgid ""
 "WAV file, which can be edited and converted to MP3 by any number of free "
 "programs (try Audacity for instance)."
 msgstr ""
+"Pentru a inregistra o piesa, apasa pe butonul 'Rec. Apasa 'Run' in cazul in "
+"care codul nu ruleaza deja. Cand ai terminat de inregistrat, apasa din nou "
+"butonul 'Rec' (care clipeste acum) si ti se va cere un nume pentru fisier. "
+"Inregistrarea va fi salvata ca fisier WAV, care poate fi modificat sau "
+"convertit in MP3 folosind unul dintre programele disponibile, multe "
+"gratuite. Poti incearca Audacity, de exemplu."
 
 #: 10.3-Sharing.md:43
 msgid "Hope"
-msgstr ""
+msgstr "Speranta"
 
 #: 10.3-Sharing.md:45
 msgid ""
@@ -8746,14 +9048,17 @@ msgid ""
 "other new tricks and moves with Sonic Pi. I'm really excited by what you'll "
 "have to show me."
 msgstr ""
+"Te incurajez sa-ti impartasesti creatiile si sper ca vom invata unii de la "
+"altii noi trucuri cu Sonic Pi. Sunt foarte curios sa vad ce vei avea sa ne "
+"arati."
 
 #: 10.4-Performing.md:1
 msgid "10.4 Performing"
-msgstr ""
+msgstr "10.4 Interpretarea"
 
 #: 10.4-Performing.md:3
 msgid "Performing"
-msgstr ""
+msgstr "Interpretarea"
 
 #: 10.4-Performing.md:5
 msgid ""
@@ -8761,14 +9066,18 @@ msgid ""
 "code as a *musical instrument*. This means that writing code live can now be "
 "seen as a new way of performing music."
 msgstr ""
+"Unul dintre cele mai mari avantaje ale Sonic Pi este ca iti permite sa "
+"folosesti programarea ca pe un *instrument muzical*. Asta inseamna ca "
+"scrierea de cod live poate fi vazuta ca o noua metoda de a interpreta muzica "
+"in fata audientei."
 
 #: 10.4-Performing.md:9
 msgid "We call this *Live Coding*."
-msgstr ""
+msgstr "Numim asta *Programare live*."
 
 #: 10.4-Performing.md:11
 msgid "Show Your Screen"
-msgstr ""
+msgstr "Arata imaginea de pe ecran"
 
 #: 10.4-Performing.md:13
 msgid ""
@@ -8778,10 +9087,16 @@ msgid ""
 "projector on my living room wall. You could use your TV or one of your "
 "school/work projectors to give a show. Try it, it's a lot of fun."
 msgstr ""
+"Iti recomand sa *arati imaginea de pe ecran* atunci cand programezi live. "
+"Altfel ar fi ca si cand ai canta la chitara ascunzandu-ti degetele si "
+"coardele. Cand exersez acasa folosesc un Raspberry Pi si un mini proiector "
+"ca sa vad imaginea pe peretele din living. Poti sa folosesti televizorul sau "
+"un proiector de la scoala sau de la birou ca sa arati imaginea. Incearca "
+"asta, e foarte distractiv."
 
 #: 10.4-Performing.md:20
 msgid "Form a Band"
-msgstr ""
+msgstr "Creeaza o formatie"
 
 #: 10.4-Performing.md:22
 msgid ""
@@ -8789,10 +9104,14 @@ msgid ""
 "jamming with others. One person could do beats, another ambient background, "
 "etc. See what interesting combinations of sounds you can have together."
 msgstr ""
+"Nu canta de unul singur, creeaza o formatie de programare live. E mai "
+"interesant sa improvizezi alaturi de altii. O persoana s-ar putea ocupa de "
+"ritm, alta de background, etc. Incercati sa vedeti ce combinatii de sunete "
+"puteti crea impreuna."
 
 #: 10.4-Performing.md:27
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
 msgid ""
@@ -8801,10 +9120,14 @@ msgid ""
 "themselves. A great place to go and find out more about other live coders "
 "and systems is [TOPLAP](http://toplap.org)."
 msgstr ""
+"Programarea live nu este ceva complet nou, cateva persoane fac deja aste de "
+"cativa ani folosind de regula sisteme personalizate pe care si le-au "
+"construit singuri. Poti descoperi mai multe despre altii care practica "
+"programarea live si sistemele lor la [TOPLAP](http://toplap.org)."
 
 #: 10.4-Performing.md:34
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: 10.4-Performing.md:36
 msgid ""
@@ -8812,14 +9135,18 @@ msgid ""
 "(http://algorave.com). Here you can find all about a specific strand of live "
 "coding for making music in nightclubs."
 msgstr ""
+"Un alt loc in care poti afla mai multe despre lumea programarii live este "
+"[Algorave](http://algorave.com). Aici poti afla totul despre o ramura a "
+"programarii live specializata pe crearea de muzica in cluburi."
 
 #: 11-Minecraft-Pi.md:1
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
+#, fuzzy
 msgid "Minecraft Pi"
-msgstr ""
+msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
 msgid ""
@@ -8827,10 +9154,13 @@ msgid ""
 "special edition of Minecraft which is installed by default on the Raspberry "
 "Pi's Raspbian Linux-based operating system."
 msgstr ""
+"Sonic Pi suporta acum un API simplu pentru a interactiona cu Minecraft Pi - "
+"versiunea speciala a Minecraft care este instalata implicita pe sistemul de "
+"operare Raspbian (bazat pe Linux) pentru Raspberry Pi."
 
 #: 11-Minecraft-Pi.md:9
 msgid "No need to import libraries"
-msgstr ""
+msgstr "Nu este nevoie sa importi biblioteci"
 
 #: 11-Minecraft-Pi.md:11
 msgid ""
@@ -8840,10 +9170,15 @@ msgid ""
 "There's no need to import anything or install any libraries - it's all ready "
 "to go and works out of the box."
 msgstr ""
+"Integrarea cu Minecraft Pi a fost gandita sa fie extrem de simplu de "
+"utilizat. Tot ce trebuie sa faci este sa pornesti Minecraft Pi si sa creezi "
+"o lume. Apoi poti folosi functiile 'mc_*' la fel cum folosesti 'play' sau "
+"'synth'. Nu e nevoie sa importi nimic sau sa instalezi vreo bibilioteca de "
+"functii - totul este inclus si poate fi pornit imediat."
 
 #: 11-Minecraft-Pi.md:17
 msgid "Automatic Connection"
-msgstr ""
+msgstr "Conectarea automata"
 
 #: 11-Minecraft-Pi.md:19
 msgid ""
@@ -8856,10 +9191,18 @@ msgid ""
 "Pi again and Sonic Pi will automatically detect and re-create the connection "
 "for you."
 msgstr ""
+"Interfata de programare (API) pentru Minecraft Pi se ocupa de conectarea la "
+"aplicatia Minecraft Pi. Asta inseamna ca nu trebuie sa-ti mai bati tu capul "
+"cu asta. Daca incerci sa folosesti API-ul cand Minecraft Pi nu este pornit, "
+"Sonic Pi te va informa politicos despre acest lucru. La fel, daca inchizi "
+"Minecraft Pi in timp ce inca ruleaza un 'live_loop' care foloseste API-ul, "
+"bucla se va opri si iti va spune frumos ca nu poate sa se conecteze. Pentru "
+"a te reconecta, trebuie doar sa pornesti Minecraft Pi si Sonic Pi va detecta "
+"acest lucru automat si va reface conexiunea."
 
 #: 11-Minecraft-Pi.md:28
 msgid "Designed to be Live Coded"
-msgstr ""
+msgstr "Facut pentru programarea live"
 
 #: 11-Minecraft-Pi.md:30
 msgid ""
@@ -8871,10 +9214,18 @@ msgid ""
 "simply restart Minecraft Pi and carry on as before. Sonic Pi's automatic "
 "connection functionality will take care of things for you."
 msgstr ""
+"API-ul pentru Minecraft Pi este facut sa mearga de la sine cu buclele live. "
+"Asta inseamna ca este posibil sa sincronizezi modificarile din lumea "
+"Minecraft Pi cu modificarile sunetelor din Sonic Pi. Poti obtine instantaneu "
+"videoclipuri muzicale bazate pe Minecraft! Tine cont totusi ca Minecraft Pi "
+"este un program inca in versiune alfa si este cunoscut pentru faptul ca mai "
+"are buguri. Daca intampini probleme, reporneste Minecraft Pi si continua de "
+"unde ai ramas. Functia de reconectare automata din Sonic Pi se va ocupa de "
+"restul."
 
 #: 11-Minecraft-Pi.md:39
 msgid "Requires a Raspberry Pi 2.0"
-msgstr ""
+msgstr "Este nevoie de un Raspberry Pi cel putin versiunea 2.0"
 
 #: 11-Minecraft-Pi.md:41
 msgid ""
@@ -8882,10 +9233,13 @@ msgid ""
 "both Sonic Pi and Minecraft at the same time - especially if you want to use "
 "Sonic Pi's sound capabilities."
 msgstr ""
+"Este recomandat sa folosesti macar un Raspberry Pi 2 daca vrei sa rulezi "
+"atat Sonic Pi cat si Minecraft in acelasi timp, mai ales daca vrei sa "
+"folosesti partea de sunet din Sonic Pi."
 
 #: 11-Minecraft-Pi.md:45
 msgid "API Support"
-msgstr ""
+msgstr "Suportul pentru API"
 
 #: 11-Minecraft-Pi.md:47
 msgid ""
@@ -8893,44 +9247,50 @@ msgid ""
 "are detailed in Section 11.1. Support for event callbacks triggered by "
 "player interactions in the world is planned for a future release."
 msgstr ""
+"In aceasta faza Sonic Pi ofera suport pentru modificari de baza legate de "
+"blocuri sau de jucator, asa cum sunt descrise in sectiunea 11.1. Suportul "
+"pentru functii care se executa cand actiunile jucatorului genereaza anumite "
+"evenimente este planificat pentru o versiune urmatoare."
 
 #: 11.1-Basic-API.md:1
 msgid "11.1 Basic API"
-msgstr ""
+msgstr "11.1 Functii de baza din API"
 
 #: 11.1-Basic-API.md:3
 msgid "Basic Minecraft Pi API"
-msgstr ""
+msgstr "Functii de baza din API-ul pentru Minecraft Pi"
 
 #: 11.1-Basic-API.md:5
 msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft "
 "Pi:"
 msgstr ""
+"In acest moment Sonic Pi ofera suport pentru urmatoarele interactiuni cu "
+"Minecraft Pi:"
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
 msgid "Displaying chat messages"
-msgstr ""
+msgstr "Afisarea de mesaje in fereastra de chat"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
 msgid "Setting the position of the user"
-msgstr ""
+msgstr "Modificarea pozitiei jucatorului"
 
 #: 11.1-Basic-API.md:9
 msgid "Getting the position of the user"
-msgstr ""
+msgstr "Aflarea pozitiei jucatorului"
 
 #: 11.1-Basic-API.md:10
 msgid "Setting the block type at a given coordinate"
-msgstr ""
+msgstr "Modificarea blocului aflat la anumite coordonate"
 
 #: 11.1-Basic-API.md:11
 msgid "Getting the block type at a given coordinate"
-msgstr ""
+msgstr "Aflarea tipului blocului aflat la anumite coordonate"
 
 #: 11.1-Basic-API.md:14
 msgid "Let's look at each of these in turn."
-msgstr ""
+msgstr "Sa le analizam pe rand."
 
 #: 11.1-Basic-API.md:18
 msgid ""
@@ -8938,15 +9298,18 @@ msgid ""
 "make sure you have both Minecraft Pi and Sonic Pi open at the same time and "
 "also make sure you've entered a Minecraft world and can walk around."
 msgstr ""
+"Sa vedem cat de usor este sa controlezi Minecraft Pi folosind Sonic Pi. Mai "
+"intai asigura-te ca atat Minecraft Pi cat si Sonic Pi sunt pornite si ca ai "
+"intrat intr-o lume Minecraft si poti sa te deplasezi in interiorul ei."
 
 #: 11.1-Basic-API.md:23
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr ""
+msgstr "Intr-un buffer gol din Sonic Pi introdu urmatorul cod:"
 
 #: 11.1-Basic-API.md:25
 #, no-wrap
 msgid "mc_message \"Hello from Sonic Pi\""
-msgstr ""
+msgstr "mc_message \"Hello from Sonic Pi\""
 
 #: 11.1-Basic-API.md:29
 msgid ""
@@ -8954,17 +9317,19 @@ msgid ""
 "Minecraft window. Congratulations, you've written your first Minecraft code! "
 "That was easy wasn't it."
 msgstr ""
+"Cand apesi pe *Run* vei vedea mesajul tau aparand in fereastra Minecraft. "
+"Felicitari, ai scris prima linie de cod pentru Minecraft! A fost simplu, nu?"
 
 #: 11.1-Basic-API.md:35
 msgid ""
 "Now, let's try a little magic. Let's teleport ourselves somewhere! Try the "
 "following:"
-msgstr ""
+msgstr "Acum sa incercam o mica magie. Sa ne teleportam undeva. Incearca asta:"
 
 #: 11.1-Basic-API.md:38
 #, no-wrap
 msgid "mc_teleport 50, 50, 50"
-msgstr ""
+msgstr "mc_teleport 50, 50, 50"
 
 #: 11.1-Basic-API.md:42
 msgid ""
@@ -8975,10 +9340,16 @@ msgid ""
 "moment to explore what coordinates are and how they work because they're "
 "really, really important for programming Minecraft."
 msgstr ""
+"Apasa pe *Run* si ... minune! Ai fost teleportat instantaneu intr-un nou "
+"loc. Cel mai probabul era undeva in vazduh si ai cazut intre timp pe sol sau "
+"in apa. Acum sa vedem ce reprezinta numerele astea: `50, 50, 50`. Sunt "
+"coordonatele locului in care incerci sa te teleportezi. Sa discutam putin "
+"despre ce inseamna coordonatele si cum functioneaza, deoarece sunt foarte "
+"importante pentru programarea in Minecraft."
 
 #: 11.1-Basic-API.md:50
 msgid "Coordinates"
-msgstr ""
+msgstr "Coordonate"
 
 #: 11.1-Basic-API.md:52
 msgid ""
@@ -8990,45 +9361,58 @@ msgid ""
 "stashes of treasure with other pairs of numbers. Perhaps there's a big chest "
 "of gold at `2` across and `9` up..."
 msgstr ""
+"Sa ne imaginam o harta a piratilor cu un 'X' care marcheaza locul in care se "
+"afla o comoara. Pozitia exacta a 'X'-ului poate fi descrisa cu doua numere - "
+"cat de departe este de marginea din stanga si cat de departe de marginea de "
+"jos. De exemplu: '10 cm' la dreapta si '8 cm' in sus. Aceste doua numere, "
+"'10' si '8' sunt coordonatele. Poti sa-ti imaginezi usor cum ai descrie "
+"pozitiile altor cufere folosind alte perechi de numere. Poate un cufar cu "
+"mult aur se afla la '2' la dreapta si '9' in sus..."
 
 #: 11.1-Basic-API.md:61
 msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how "
 "high we are. We therefore need three numbers:"
 msgstr ""
+"In Minecraft doua numere nu sunt suficiente. Trebuie sa stim si inaltimea la "
+"care ne aflam, deci avem nevoie de trei numere:"
 
 #: 11.1-Basic-API.md:64
 msgid "How far from right to left in the world - `x`"
-msgstr ""
+msgstr "Cat de departe pe directia stanga-dreapta: 'x'"
 
 #: 11.1-Basic-API.md:65
 msgid "How far from front to back in the world - `z`"
-msgstr ""
+msgstr "Cat de departe pe directia inainte-inapoi: 'z'"
 
 #: 11.1-Basic-API.md:66
 msgid "How high up we are in the world - `y`"
-msgstr ""
+msgstr "Cat de sus ne aflam in lume: 'y'"
 
 #: 11.1-Basic-API.md:68
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, "
 "`y`, `z`."
 msgstr ""
+"Inca un lucru: de obicei trecem aceste coordonate in ordinea asta - 'x', "
+"'y', 'z'."
 
 #: 11.1-Basic-API.md:71
 msgid "Finding your current coordinates"
-msgstr ""
+msgstr "Aflarea coordonatelor curente"
 
 #: 11.1-Basic-API.md:73
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the "
 "Minecraft map and then switch over to Sonic Pi. Now enter the following:"
 msgstr ""
+"Sa ne jucam putin cu coordonatele. Mergi intr-un loc dragut in lumea "
+"Minecraft si apoi revino la fereastra Sonic Pi. Introdu textul asta:"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
 msgid "puts mc_location"
-msgstr ""
+msgstr "puts mc_location"
 
 #: 11.1-Basic-API.md:80
 msgid ""
@@ -9041,10 +9425,18 @@ msgid ""
 "understood how coordinates work, programming with the Minecraft API will be "
 "a complete breeze."
 msgstr ""
+"Cand vei apasa pe butonul *Run* vei vedea coordonatele pozitiei curente "
+"afisate in fereastra jurnal. Priveste-le, apoi deplaseaza-te in lumea "
+"Minecraft si incearca din nou. Vei observa cum coordonatele s-au schimbat. "
+"Iti recomand sa repeti de cateva ori testul asta - te deplasezi putin in "
+"lumea Minecraft, vezi care sunt coordonatele, apoi reiei. Fa asta pana cand "
+"incepi sa simti in ce fel se schimba coordonatele atunci cand te deplasezi. "
+"Odata ce ai inteles cum functioneaza coordonatele, programarea cu API-ul "
+"Minecraft va fi floare la ureche."
 
 #: 11.1-Basic-API.md:89
 msgid "Let's Build!"
-msgstr ""
+msgstr "Sa construim!"
 
 #: 11.1-Basic-API.md:91
 msgid ""
@@ -9053,43 +9445,53 @@ msgid ""
 "Minecraft with code. Let's say you want to make the block with coordinates "
 "`40`, `50`, `60` to be glass. That's super easy:"
 msgstr ""
+"Acum ca stii sa afli pozitia curenta si sa te teleportezi folosind "
+"coordonatele, ai toate uneltele necesare pentru a incepe sa construiesti "
+"diferite lucruri in Minecraft prin programare. Sa spunem ca vrei ca blocul "
+"de la coordonatele `40`, `50`, `60` sa fie din sticla. E foarte usor:"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
 msgid "mc_set_block :glass, 40, 50, 60"
-msgstr ""
+msgstr "mc_set_block :glass, 40, 50, 60"
 
 #: 11.1-Basic-API.md:100
 msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby "
 "and take a look:"
 msgstr ""
+"Ha, ha, a fost chiar usor. Ca sa vezi ce-ai mesterit teleporteaza-te in "
+"apropiere si arunca o privire:"
 
 #: 11.1-Basic-API.md:103
 #, no-wrap
 msgid "mc_teleport 35, 50, 60"
-msgstr ""
+msgstr "mc_teleport 35, 50, 60"
 
 #: 11.1-Basic-API.md:107
 msgid ""
 "Now turn around and you should see your glass block! Try changing it to "
 "diamond:"
 msgstr ""
+"Acum intoarce-te si ar trebui sa vezi blocul de sticla! Incearca sa-l "
+"transformi in diamant:"
 
 #: 11.1-Basic-API.md:110
 #, no-wrap
 msgid "mc_set_block :diamond, 40, 50, 60"
-msgstr ""
+msgstr "mc_set_block :diamond, 40, 50, 60"
 
 #: 11.1-Basic-API.md:114
 msgid ""
 "If you were looking in the right direction you might have even seen it "
 "change in front of your eyes! This is the start of something exciting..."
 msgstr ""
+"Daca te uitai in directia potrivita ai vazut chiar cum se schimba in fata "
+"ochilor tai! Acesta este inceputul unei aventuri incitante..."
 
 #: 11.1-Basic-API.md:117
 msgid "Looking at blocks"
-msgstr ""
+msgstr "Sa aruncam o privire asupra blocurilor"
 
 #: 11.1-Basic-API.md:119
 msgid ""
@@ -9097,27 +9499,34 @@ msgid ""
 "involved. Given a set of coordinates we can ask Minecraft what the type of a "
 "specific block is. Let's try it with the diamond block you just created:"
 msgstr ""
+"Sa mai vedem un singur lucru inainte de a trece la ceva mai complicat. Avand "
+"un set de coordonate putem cere Minecraft sa ne spuna ce tip de bloc se afla "
+"acolo. Sa incercam cu blocul de diamant pe care tocmai l-ai creat:"
 
 #: 11.1-Basic-API.md:124
 #, no-wrap
 msgid "puts mc_get_block 40, 50, 60"
-msgstr ""
+msgstr "puts mc_get_block 40, 50, 60"
 
 #: 11.1-Basic-API.md:128
 msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does "
 "it now say `:glass`? I'm sure it does :-)"
 msgstr ""
+"Da! Este ':diamond' (diamant). Incearca sa-l transformi iar in sticla si "
+"intreaba din nou. A raspuns ':glass' (sticla)? Sunt sigur ca da :)"
 
 #: 11.1-Basic-API.md:131
 msgid "Available block types"
-msgstr ""
+msgstr "Tipurile de blocuri disponibile"
 
 #: 11.1-Basic-API.md:133
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of "
 "available block types useful:"
 msgstr ""
+"Inainte sa te dezlantui programand in Minecraft Pi, ai putea considera utila "
+"lista aceasta cu tipurile de blocuri disponibile:"
 
 #: 11.1-Basic-API.md:136
 #, no-wrap
@@ -9198,14 +9607,89 @@ msgid ""
 "    :glowing_obsidian\n"
 "    :nether_reactor_core"
 msgstr ""
+"    :air\n"
+"    :stone\n"
+"    :grass\n"
+"    :dirt\n"
+"    :cobblestone\n"
+"    :wood_plank\n"
+"    :sapling\n"
+"    :bedrock\n"
+"    :water_flowing\n"
+"    :water\n"
+"    :water_stationary\n"
+"    :lava_flowing\n"
+"    :lava\n"
+"    :lava_stationary\n"
+"    :sand\n"
+"    :gravel\n"
+"    :gold_ore\n"
+"    :iron_ore\n"
+"    :coal_ore\n"
+"    :wood\n"
+"    :leaves\n"
+"    :glass\n"
+"    :lapis\n"
+"    :lapis_lazuli_block\n"
+"    :sandstone\n"
+"    :bed\n"
+"    :cobweb\n"
+"    :grass_tall\n"
+"    :flower_yellow\n"
+"    :flower_cyan\n"
+"    :mushroom_brown\n"
+"    :mushroom_red\n"
+"    :gold_block\n"
+"    :gold\n"
+"    :iron_block\n"
+"    :iron\n"
+"    :stone_slab_double\n"
+"    :stone_slab\n"
+"    :brick\n"
+"    :brick_block\n"
+"    :tnt\n"
+"    :bookshelf\n"
+"    :moss_stone\n"
+"    :obsidian\n"
+"    :torch\n"
+"    :fire\n"
+"    :stairs_wood\n"
+"    :chest\n"
+"    :diamond_ore\n"
+"    :diamond_block\n"
+"    :diamond\n"
+"    :crafting_table\n"
+"    :farmland\n"
+"    :furnace_inactive\n"
+"    :furnace_active\n"
+"    :door_wood\n"
+"    :ladder\n"
+"    :stairs_cobblestone\n"
+"    :door_iron\n"
+"    :redstone_ore\n"
+"    :snow\n"
+"    :ice\n"
+"    :snow_block\n"
+"    :cactus\n"
+"    :clay\n"
+"    :sugar_cane\n"
+"    :fence\n"
+"    :glowstone_block\n"
+"    :bedrock_invisible\n"
+"    :stone_brick\n"
+"    :glass_pane\n"
+"    :melon\n"
+"    :fence_gate\n"
+"    :glowing_obsidian\n"
+"    :nether_reactor_core"
 
 #: 12-Conclusions.md:1
 msgid "12 Conclusions"
-msgstr ""
+msgstr "12 Concluzii"
 
 #: 12-Conclusions.md:3
 msgid "Conclusions"
-msgstr ""
+msgstr "Concluzii"
 
 #: 12-Conclusions.md:5
 msgid ""
@@ -9215,6 +9699,11 @@ msgid ""
 "time. Feel free to dive back in when you have a question that might be "
 "covered in one of the sections."
 msgstr ""
+"Aici se incheie tutorialul introductiv pentru Sonic Pi. Sper ca ai invatat "
+"ceva pe parcursul lui. Nu fi ingrijorat daca este ceva ce nu ai inteles - "
+"foloseste programul, distreaza-te si sigur vei ajunge sa il stapanesti in "
+"timp. Te poti intoarce oricand ai o nelamurire legata de ceva ce este "
+"descris intr-una dintre aceste sectiuni."
 
 #: 12-Conclusions.md:11
 msgid ""
@@ -9223,6 +9712,9 @@ msgid ""
 "pi/) and ask your question there. You'll find someone friendly and willing "
 "to lend a hand."
 msgstr ""
+"Daca ai nelamuriri legate de ceva ce nu este descris aici, te rog sa intri "
+"pe [Forumul Sonic Pi](http://groups.google.com/group/sonic-pi/) si intreaba "
+"acolo. Sigur vei da peste cineva dispus sa-ti intinda o mana de ajutor."
 
 #: 12-Conclusions.md:16
 msgid ""
@@ -9230,37 +9722,45 @@ msgid ""
 "documentation in this help system. There are a number of features that "
 "haven't been covered in this tutorial that are waiting for your discovery."
 msgstr ""
+"Te invit de asemenea sa zabovesti asupra restului documentatiei din sistemul "
+"de ajutor. Exista mai multe functionalitati care nu au fost descrise in "
+"acest tutorial si care asteapta sa le descoperi."
 
 #: 12-Conclusions.md:21
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your "
 "screens and remember:"
 msgstr ""
+"Deci joaca-te, distreaza-te, impartaseste si altora creatiile tale, canta "
+"impreuna cu prietenii tai, arata imaginea de pe ecran si, mai ales, tine "
+"minte:"
 
 #: 12-Conclusions.md:24
 msgid "*There are no mistakes, only opportunities.*"
-msgstr ""
+msgstr "*Nu exista erori, doar oportunitati*"
 
 #: 12-Conclusions.md:26
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
 msgid "A Appendix A - MagPi Articles"
-msgstr ""
+msgstr "A Anexa A - articole din MagPi"
 
 #: A-Articles.md:3
 msgid "MagPi Articles"
-msgstr ""
+msgstr "Articole din MagPi"
 
 #: A-Articles.md:5
 msgid ""
 "Appendix A collects all the Sonic Pi articles written for the MagPi magazine."
 msgstr ""
+"Anexa A regrupeaza toate articolele despre Sonic Pi scrise pentru revista "
+"MagPi."
 
 #: A-Articles.md:8
 msgid "Dive into Topics"
-msgstr ""
+msgstr "Concentreaza-te pe subiect"
 
 #: A-Articles.md:10
 msgid ""
@@ -9269,20 +9769,27 @@ msgid ""
 "you all of Sonic Pi, they instead each focus on a specific aspect of Sonic "
 "Pi and cover it in a fun and accessible way."
 msgstr ""
+"Aceste articole nu sunt gandite sa fie citite intr-o ordine stricta si "
+"contin informatii care se refera la subiecte inrudite extrase chiar din "
+"acest tutorial. Ele nu-si propun sa te invete totul despre Sonic Pi, ci se "
+"concentreaza fiecare pe un domeniu specific pe care incearca sa-l prezinte "
+"intr-un mod amuzant si accesibil."
 
 #: A-Articles.md:15
 msgid "Read the MagPi"
-msgstr ""
+msgstr "Citeste MagPi"
 
 #: A-Articles.md:17
 msgid ""
 "You can see them in their glorious professionally typeset form in the free "
 "PDF downloads of The MagPi here: https://www.raspberrypi.org/magpi/"
 msgstr ""
+"Le poti vedea intr-o forma spectaculoasa pregatite pentru tipar in PDF-uri "
+"care pot fi descarcate gratuit de aici: https://www.raspberrypi.org/magpi/"
 
 #: A-Articles.md:20
 msgid "Suggest a Topic"
-msgstr ""
+msgstr "Sugereaza un subiect"
 
 #: A-Articles.md:22
 msgid ""
@@ -9291,18 +9798,22 @@ msgid ""
 "[@Sonic_Pi](http://twitter.com/sonic_pi). You never know - your suggestion "
 "might be the subject of the next article!"
 msgstr ""
+"Daca nu vezi nimic interesant in aceste articole, poti sugera tu un subiect. "
+"Cel mai simplu este sa trasnmiti sugestia ta prin twitter la  "
+"[@Sonic_Pi](http://twitter.com/sonic_pi). Nu se stie niciodata, poate "
+"sugestia ta va fi la baza urmatorului articol!"
 
 #: A.01-tips.md:1
 msgid "A.1 Tips for Sonic Pi"
-msgstr ""
+msgstr "A.1 Trucuri pentru Sonic Pi"
 
 #: A.01-tips.md:3
 msgid "Five Top Tips"
-msgstr ""
+msgstr "Cele mai bune 5 trucuri"
 
 #: A.01-tips.md:5
 msgid "1. There are no mistakes"
-msgstr ""
+msgstr "1. Nu exista greseli"
 
 #: A.01-tips.md:7
 msgid ""
@@ -9316,10 +9827,19 @@ msgid ""
 "you allow yourself to make the quicker you'll learn and discover your "
 "personal coding sound."
 msgstr ""
+"Cea mai importanta lectie pe care trebuie sa o inveti despre Sonic Pi este "
+"ca nu exista greseli. Cea mai buna metoda de a invata este sa incerci iar si "
+"iar. Incerca diferite variante, nu te concentra pe cum arata codul si "
+"experimenteaza cu cat mai multe sintetizatoare, note, efecte si parametri "
+"pentru acestea. Vei descoperi o gramada de combinatii care te vor face sa "
+"razi pentru ca suna caraghios dar si adevarate nestemate care suna "
+"incredibil. Arunca la cos ce nu-ti place si pastreaza ce e reusit. Cu cat "
+"indraznesti sa faci mai multe 'greseli' cu atat mai repede vei invata si-ti "
+"vei descoperi stilul personal."
 
 #: A.01-tips.md:18
 msgid "2. Use the FX"
-msgstr ""
+msgstr "2 Foloseste efectele"
 
 #: A.01-tips.md:20
 msgid ""
@@ -9334,6 +9854,16 @@ msgid ""
 "which section of your code you'd like the FX added to and wrap it with the "
 "FX code. Let's look at an example. Say you had the following code:"
 msgstr ""
+"Stapanesti deja bazele Sonic Pi pentru a crea sunete cu 'sample' si 'play'? "
+"Ce urmeaza? Stiai ca Sonic Pi ofera suport pentru mai mult de 27 de efecte "
+"de studio pentru a schimba felul in care suna programul tau? Efectele sunt "
+"ca niste filtre de imagine fanteziste, doar ca in loc sa incetosezi imaginea "
+"sau sa o faci alb/negru poti adauga sunetului reverberatii, distorsiuni sau "
+"ecou. E ca si cum ai conecta iesirea de la chitara la pedala de efecte "
+"preferata si apoi la amplificator. Din fericire, Sonic Pi face aplicarea "
+"efectelor si mai simpla, fara cabluri! Tot ce trebuie sa faci este sa decizi "
+"la ce bucata de cod vrei sa aplici efectul si sa o incadrezi cu codul "
+"speficic pentru acesta. Sa vedem un exemplu. Sa spunem ca ai urmatorul cod:"
 
 #: A.01-tips.md:32
 #, no-wrap
@@ -9355,6 +9885,8 @@ msgid ""
 "If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it "
 "inside a `with_fx` block like this:"
 msgstr ""
+"Daca vrei sa adaugi un efect la esantionul  `:loop_garzul`, trebuie doar sa-"
+"l introduci in interiorul unui bloc 'with_fx' ca mai jos:"
 
 #: A.01-tips.md:44
 #, no-wrap
@@ -9380,6 +9912,8 @@ msgid ""
 "Now, if you wanted to add FX to the bass drum, go and wrap that with "
 "`with_fx` too:"
 msgstr ""
+"Acum, daca vrei sa adaugi un efect la toba bas, introdu-o si pe aceasta intr-"
+"un 'with_fx':"
 
 #: A.01-tips.md:58
 #, no-wrap
@@ -9409,10 +9943,12 @@ msgid ""
 "Remember, you can wrap *any* code within `with_fx` and any sounds created "
 "will pass through that FX."
 msgstr ""
+"Retine, poti impacheta *orice* cod intr-un bloc 'with_fx' si toate sunetele "
+"create vor fi transformate de acel efect."
 
 #: A.01-tips.md:75
 msgid "3. Parameterise your synths"
-msgstr ""
+msgstr "3. Modifica parametrii sintetizatoarelor"
 
 #: A.01-tips.md:77
 msgid ""
@@ -9423,22 +9959,31 @@ msgid ""
 "with special things called optional parameters or opts for short. Let's take "
 "a quick look. Copy this code into a workspace and hit run:"
 msgstr ""
+"Pentru a-ti descoperi stilul personal vei dori desigur sa afli cum sa "
+"modifici si sa controlezi sintetizatoarele si efectele. De exemplu, ai putea "
+"dori sa modifici durata unei note, sa adaugi mai mult reverb sau sa schimbi "
+"duratele dintre ecouri. Din fericire, Sonic Pi iti ofera un nivel de control "
+"incredibil pentru a realiza exact aceste lucruri folosind parametrii "
+"optionali (opts). Sa aruncam o privire rapida. Copiaza acest cod intr-un "
+"buffer si apasa Run:"
 
 #: A.01-tips.md:85
 #, no-wrap
 msgid "sample :guit_em9"
-msgstr ""
+msgstr "sample :guit_em9"
 
 #: A.01-tips.md:89
 msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about "
 "changing its rate?"
 msgstr ""
+"O, un minunat sunet de chitara. Acum, sa ne jucam cu el. Ce-ar fi sa-i "
+"schimbam viteza de redare?"
 
 #: A.01-tips.md:92
 #, no-wrap
 msgid "sample :guit_em9, rate: 0.5"
-msgstr ""
+msgstr "sample :guit_em9, rate: 0.5"
 
 #: A.01-tips.md:96
 msgid ""
@@ -9446,6 +9991,10 @@ msgid ""
 "opt. All of Sonic Pi's synths and FX support them and there's loads to play "
 "around with. They're also available for FX too. Try this:"
 msgstr ""
+"Hei, ce e chestia aia de la sfarsit - 'rate: 0.5'? Acesta este un parametru "
+"optional. Toate sintetizatoarele si efectele suporta astfel de parametri si "
+"exista o multime din care poti alege. Iata cum ii poti folosi pentru un "
+"efect:"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -9454,16 +10003,22 @@ msgid ""
 "  sample :guit_em9\n"
 "end"
 msgstr ""
+"with_fx :flanger, feedback: 0.6 do\n"
+"  sample :guit_em9\n"
+"end"
 
 #: A.01-tips.md:106
 msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the "
 "docs for full details on all the many opts available to you."
 msgstr ""
+"Acum incearca sa modifici in 1 valoarea pentru feedback, ca sa auzi niste "
+"sunete traznite! Citeste documentatia pentru mai multe detalii despre "
+"multimea de parametri disponibili."
 
 #: A.01-tips.md:110
 msgid "5. Live Code"
-msgstr "5. Programare live"
+msgstr "5. Programeaza live"
 
 #: A.01-tips.md:112
 msgid ""
@@ -9473,6 +10028,11 @@ msgid ""
 "parameter does to a sample, just play around. Let's have a try! Copy this "
 "code into one of your Sonic Pi workspaces:"
 msgstr ""
+"Cea mai buna metoda de a exersa este sa programezi live. Asta iti permite sa "
+"incepi de la o bucata oarecare de cod si sa o modifici si sa o reglezi in "
+"timp ce ruleaza. De exemple, daca nu stii ce face parametrul cutoff pentru "
+"un esantion, joaca-te cu el. Sa incercam! Copiaza acest cod intrun buffer "
+"din Sonic Pi:"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -9493,6 +10053,9 @@ msgid ""
 "`cutoff:` value to `80` and hit run again. Can you hear the difference? Try "
 "`90`, `100`, `110`..."
 msgstr ""
+"Acum apasa pe Run si vei auzi o bataie de toba infundata. Acum, schimba "
+"valoarea pentru 'cutoff:' la '80' si apasa din nou pe Run. Auzi diferenta? "
+"Incearca `90`, `100`, `110`..."
 
 #: A.01-tips.md:129
 msgid ""
@@ -9501,10 +10064,14 @@ msgid ""
 "their sticks. For more information about live coding check out Section 9 of "
 "the built-in tutorial."
 msgstr ""
+"Odata ce ai prins miscarea cu 'live_loop' nu vei mai renunta la el. De cate "
+"ori improvizez live ma bazez pe 'live_loop' la fel cum un tobosar se bazeaza "
+"pe betele lui. Pentru mai multe informatii despre programarea live vezi "
+"sectiunea 9 din tutorial."
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
-msgstr ""
+msgstr "5. Lasa-te purtat de curenti la intamplare"
 
 #: A.01-tips.md:136
 msgid ""
@@ -9513,6 +10080,10 @@ msgid ""
 "might sound complicated but it really isn't. Let's take a look. Copy this "
 "into a spare workspace:"
 msgstr ""
+"Un alt lucru pe care imi place sa-l fac este sa trisez putin lasand Sonic Pi "
+"sa compuna pentru mine. Un mod foarte interesant de a face asta este sa "
+"folosesti randomizarea. Poate suna complicat, dar chiar nu este. Sa aruncam "
+"o privire. Copiaza asta intr-un buffer:"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -9545,6 +10116,14 @@ msgid ""
 "back in time in the TARDIS with the Doctor to a particular point in time and "
 "space. Let's try it - add the line `use_random_seed 1` to the `live_loop`:"
 msgstr ""
+"Acum, cand vei reda asta, vei auzi un sir constant de note din gama `:e2 "
+":minor_pentatonic`redate de sintetizatorul `:dsaw`. \"Stai, stai! Asta nu "
+"este o melodie\", parca te aud strigand! Ei bine, asta este prima parte a "
+"unui truc magic. De fiecare data cand reluam bucla 'live_loop' putem cere "
+"Sonic Pi sa readuca sirul aleator la un punct prestabilit. E ca si cum te-ai "
+"intoarce in timp folosind TARDIS - masina timpului din Doctor Who - la un "
+"anumit punct in timp si spatiu. Sa incercam: adauga linia `use_random_seed 1`"
+" la `live_loop`:"
 
 #: A.01-tips.md:161
 #, no-wrap
@@ -9559,6 +10138,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :rand_surfer do\n"
+"  use_random_seed 1\n"
+"  use_synth :dsaw\n"
+"  notes = (scale :e2, :minor_pentatonic, num_octaves: 2)\n"
+"  16.times do\n"
+"    play notes.choose, release: 0.1, cutoff: rrand(70, 120)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:173
 msgid ""
@@ -9569,10 +10157,17 @@ msgid ""
 "number (the random seed), you can explore as many melodic combinations as "
 "you can imagine! Now, that's the magic of code."
 msgstr ""
+"Acum, de fiecare data cand se reia bucla 'live_loop', sirul aleator este "
+"resetat. Asta inseamna ca va alege aceleasi 16 note de fiecare data. A fost "
+"rapid! Am obtinut instantaneu o melodie. Acum urmeaza partea si mai "
+"incitanta. Schimba valoarea pentru seed din '1' in alt numar. Sa zicem "
+"'4923'. Uau! Alta melodie! Deci schimband un singur numar (cel care "
+"initializeaza secventa aleatoare) poti explora atatea combinatii melodice "
+"cate iti poti imagina! Aceasta este magia programarii."
 
 #: A.02-live-coding.md:1
 msgid "A.2 Live Coding"
-msgstr ""
+msgstr "A.2 Programarea live"
 
 #: A.02-live-coding.md:5
 msgid ""
@@ -9585,12 +10180,22 @@ msgid ""
 "booth wasn't spinning disks, he was writing, editing and evaluating code. "
 "Live. This is Live Coding."
 msgstr ""
+"Fasciculele laser taiau norii grosi de fum in timp ce subwooferul pompa "
+"injecta un bas puternic in multime. Atmosfera era incalzita de un mix de "
+"sintetizatoare si de dansatori. Totusi ceva nu era chiar in regula in club. "
+"Proiectat in culori stralucitoare deasupra cabinei DJ-ului era un text care "
+"se schimba, clipea si dansa. Nu erau niste efecte vizuale traznite, ci "
+"proiectia ecranului Sonic Pi ruland pe un Raspberry Pi. Ocupantul cabinei DJ-"
+"ului nu invartea discuri ci scria, modifica si evalua codul. In direct. Asta "
+"e Programarea Live."
 
 #: A.02-live-coding.md:14
 msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-"
 "aaron-live-coding.png)"
 msgstr ""
+"![Sam Aaron Programand live](../images/tutorial/articles/A.02-live-coding"
+"/sam-aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -9605,6 +10210,17 @@ msgid ""
 "own beats and modifying them live. Where you go afterwards will only be "
 "constrained by your imagination."
 msgstr ""
+"Poate parea o poveste trasa de par dintr-un club din viitor, dar crearea "
+"muzicii prin cod ca mai sus este pe un trend crescator si este adesea "
+"descrisa ca Programare Live (http://toplap.org). Una dintre directiile spre "
+"care se indreapta in prezent acest mode de a face muzica este Algorave "
+"(http://algorave.com) - spectacole in care artisti ca mine programeaza "
+"muzica pe care lumea danseaza. Totusi, nu trebuie sa fii neaparat intr-un "
+"club ca sa programezi live - cu Sonic Pi poti sa faci asta oriunde poti sa "
+"iei cu tine un Raspberry Pi si o pereche de casti sau niste difuzoare. Cand "
+"vei fi ajuns la sfarsitul acestui articol, vei fi in stare sa programezi "
+"propriile ritmuri si sa le modifici pe viu. Ce vei face dupa aceea depinde "
+"doar de imaginatia ta."
 
 #: A.02-live-coding.md:27
 msgid "Live Loop"
@@ -12515,6 +13131,23 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :sliced_amen do\n"
+"  n = 8\n"
+"  s =  line(0, 1, steps: n).choose\n"
+"  f = s + (1.0 / n)\n"
+"  sample :loop_amen, beat_stretch: 2, start: s, finish: f\n"
+"  sleep 2.0  / n\n"
+"end\n"
+"live_loop :acid_bass do\n"
+"  with_fx :reverb, room: 1, reps: 32, amp: 0.6 do\n"
+"    tick\n"
+"    n = (octs :e0, 3).look - (knit 0, 3 * 8, -4, 3 * 8).look\n"
+"    co = rrand(70, 110)\n"
+"    synth :beep, note: n + 36, release: 0.1, wave: 0, cutoff: co\n"
+"    synth :tb303, note: n, release: 0.2, wave: 0, cutoff: co\n"
+"    sleep (ring 0.125, 0.25).look\n"
+"  end\n"
+"end"
 
 #, fuzzy
 #~| msgid ""
