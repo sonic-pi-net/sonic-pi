@@ -6,31 +6,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштування</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Журнал</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
         <location filename="../mainwindow.cpp" line="2609"></location>
         <location filename="../mainwindow.cpp" line="2629"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Пі</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Системна гучність Paspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити інверсію стерео.
+Якщо відмічена ця опція, аудіо, надіслане до лівого динаміка, буде спрямоване до правого і навпаки.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"></location>
@@ -39,129 +40,139 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути або вимкнути режим моно.
+Якщо ввімкнуто, то аудіо зліва і справа змішується
+і той же сигнал надходить до обох динаміків.
+Корисним під час роботи з зовнішніми системами,
+який може обробляти тільки моно.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудіовихід Paspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; За замовчуванням</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; Навушники</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="938"></location>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="959"></location>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштувати поведінку дебагу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="965"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити лог-повідомлення.
+Якщо вимкнено, системи,
+ як синтезатор і семпл не буде надруковано
+ до логу за замовчанням..</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Безпечний режим</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистити журнал під час роботи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"></location>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити очищення журналу при запуску.
+Якщо відмічена ця опція, журнал очищається
+ під час кожного натискання кнопки запустити.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити видимість номер рядка.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Темні режим</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1449"></location>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Запуск коду...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1512"></location>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Прикраси...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"></location>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Перевантаження...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1563"></location>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнення мікшера ВЧФ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1572"></location>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Вимкнення мікшера ВЧФ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Буфер %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Ласкаво просимо до Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="709"></location>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Відступ виділення...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"></location>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Відступ рядка...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="913"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Використовувати цей повзунок для зміни рівня гучності системного звуку Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Додаткові аудіо параметри для роботи з
+ зовнішніх систем ПА при роботіз Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"></location>
@@ -174,38 +185,42 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ваш Raspberry Pi має дві форми аудіовиходу.
+Перший - роз'єм для навушників.
+Другий - відтворення аудіо через порт HDMI
+Використовувати ці кнопки, щоб відтворити аудіо на той інтерфейс,
+на який захочете.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"></location>
         <location filename="../mainwindow.cpp" line="1145"></location>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Оновлення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1015"></location>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевірити наявність оновлень</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"></location>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактор</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1054"></location>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати номери рядків</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="277"></location>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Інформація про оновлення Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Розширене аудіо</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="978"></location>
@@ -217,58 +232,58 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Ведення журналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2362"></location>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Осцилограф</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Перемикач коментарів виділеного коду...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="746"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>(Роз)коментування рядків коду...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Сервер Sonic Pi не може бути запущений!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Інвертувати стерео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Примусовий моно режим</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Синтезатори і FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="962"></location>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Змінити поведінку синтезаторів і FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Журнал синтезаторів</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"></location>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Журнал сигналів</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="971"></location>
@@ -280,7 +295,7 @@ However, they will not be visible in the logs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Журнал auto прокручування</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"></location>
@@ -291,7 +306,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнення зовнішніх синтезаторів і FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"></location>
@@ -307,7 +322,7 @@ which isn't recognised.</source>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Забезпечення дотримання термінів гарантії</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"></location>
@@ -323,7 +338,7 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1002"></location>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Прозорість</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1017"></location>
@@ -334,7 +349,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1018"></location>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевірте зараз</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1019"></location>
@@ -345,82 +360,82 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1020"></location>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation>Отримати оновлення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1021"></location>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>Відвідайте http://sonic-pi.net щоб завантажити нову версію</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1026"></location>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Інформація про оновлення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1045"></location>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати/Сховати</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1046"></location>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Настроїти параметри відображення редактора.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"></location>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>Зовнішній вигляд</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"></location>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштувати зовнішній вигляд редактора.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1049"></location>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматизація</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1050"></location>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Настроювання функцій автоматизації.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1051"></location>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>Автовирівнювання</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1052"></location>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматично вирівняти код при виконанні</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1056"></location>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати журнал</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1057"></location>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити видимість логу.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1059"></location>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Відображати кнопки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"></location>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити видимість кнопки управління.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1062"></location>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати вкладки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1064"></location>
@@ -430,33 +445,34 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1065"></location>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Повноекранний режим</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1066"></location>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути або вимкнути повноекранний режим.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути або вимкнути темний режим.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Темні режим ідеально підходить для live-кодування в нічних клубах.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1107"></location>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудіо</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1120"></location>
         <source>Studio</source>
-        <translation type="unfinished"></translation>
+        <translation>Студія</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
@@ -471,40 +487,40 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Файли буфера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Завантажити буфер Sonic PI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Текстові файли</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruby файли</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Всі файли</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1754"></location>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Логування автопрокрутки увімкнути...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1756"></location>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Логування автопрокрутки вимкнути...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2340"></location>
@@ -514,7 +530,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2353"></location>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Завантаження</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2354"></location>
@@ -524,47 +540,47 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2363"></location>
         <source>View audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>Перегляд аудіовиходу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"></location>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл формату (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2910"></location>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>З поверненням. Тепер створіть live-код...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти поточний буфер</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1498"></location>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштабування...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"></location>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштабування (зменшення)...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1539"></location>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевірити наявність оновлень...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1547"></location>
         <source>Enabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнення перевірки оновлення...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"></location>
         <source>Disabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Відключення перевірки оновлення...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1580"></location>
@@ -594,18 +610,18 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1613"></location>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Моно режим...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1621"></location>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Режим стерео...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1630"></location>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>Зупинка...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1738"></location>
@@ -620,7 +636,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2173"></location>
         <source>Switching To HDMI Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехід на аудіовихід HDMI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"></location>
@@ -640,22 +656,22 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2381"></location>
         <source>Improve readability of code</source>
-        <translation type="unfinished"></translation>
+        <translation>Підвищення зручності читання коду</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"></location>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>Готові...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2621"></location>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл завантажено...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2648"></location>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл збережений...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2875"></location>
