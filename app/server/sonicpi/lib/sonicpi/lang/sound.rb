@@ -2499,17 +2499,15 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
       def load_sample(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
-        paths = sample_find_candidates(filts_and_sources)
-        paths.map do |p|
-          load_sample_at_path p
-        end
+        path = sample_find_candidates(filts_and_sources)[0]
+        load_sample_at_path path
       end
       doc name:          :load_sample,
           introduced:    Version.new(2,0,0),
-          summary:       "Pre-load sample(s)",
+          summary:       "Pre-load first matching sample",
           doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, pre-loads the sample into memory.
 
-You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load all matching samples. See `sample`'s docs for more information." ,
+You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will load the first matching sample (the sample `sample` would play given the same opts) - see `sample`'s docs for more information." ,
 
           args:          [[:path, :string]],
           opts:          nil,
@@ -2520,25 +2518,46 @@ sample :elec_blip # No delay takes place when attempting to trigger it",
 
 "# Using source and filter pre-args
 dir = \"/path/to/sample/dir\"
-load_sample dir # loads any samples in \"/path/to/sample/dir\"
+load_sample dir # loads first matching sample in \"/path/to/sample/dir\"
 load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
 load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
-load_sample dir, /[Bb]ar/ # loads sample which matches regex /[Bb]ar/ in \"/path/to/sample/dir\"
+load_sample dir, \"quux\" # loads first sample with file name containing \"foo\" in \"/path/to/sample/dir\"
+load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \"/path/to/sample/dir\"
 
 "      ]
 
 
+
+
       def load_samples(*args)
-        load_sample(*args)
+        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        paths = sample_find_candidates(filts_and_sources)
+        paths.map do |p|
+          load_sample_at_path p
+        end
       end
       doc name:          :load_samples,
           introduced:    Version.new(2,0,0),
-          summary:       "Pre-load samples",
-          doc:           "Synonym for load_sample",
+          summary:       "Pre-load all matching samples",
+          doc:           "Given a directory containing multiple `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` files, pre-loads all the samples into memory.
+
+You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will load all matching samples (not just the sample `sample` would play given the same opts) - see `sample`'s docs for more information." ,
           args:          [[:paths, :list]],
           opts:          nil,
           accepts_block: false,
-          examples:      ["# See load_sample for examples"]
+          examples:      ["
+load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
+sample :elec_blip # No delay takes place when attempting to trigger it",
+
+"# Using source and filter pre-args
+dir = \"/path/to/sample/dir\"
+load_sample dir # loads all samples in \"/path/to/sample/dir\"
+load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
+load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
+load_sample dir, \"quux\" # loads all samples with file names containing \"foo\" in \"/path/to/sample/dir\"
+load_sample dir, /[Bb]ar/ # loads all samples which match regex /[Bb]ar/ in \"/path/to/sample/dir\"
+
+"]
 
 
 
