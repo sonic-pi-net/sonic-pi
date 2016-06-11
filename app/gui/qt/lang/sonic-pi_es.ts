@@ -89,7 +89,7 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Cambia el modo mono.  
+        <translation>Modo Mono
 Si se encuentra activado, éste mezclará el audio del altavoz izquierdo y derecho,
 y enviará la misma señal a ambos altavoces. Esto es útil cuando se trabaja con
 sistemas externos que solo soportan sonido mono.</translation>
@@ -241,7 +241,7 @@ pero no se verán en el registro.</translation>
         <location filename="../mainwindow.cpp" line="974"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Cambiar el desplazamiento automático del registro
+        <translation>Cambiar el desplazamiento automático del registro
 Si se activa el registro se desplaza al último mensaje mostrado.</translation>
     </message>
     <message>
@@ -861,7 +861,7 @@ cada 2 semanas.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2910"></location>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Bienvenido de vuelta. Ahora empieza a codificar música...</translation>
+        <translation>Bienvenido de vuelta. Ahora empieza a programar música...</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="81"></location>
@@ -892,7 +892,7 @@ cada 2 semanas.</translation>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
         <source>Samples</source>
-        <translation>Muestras</translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="779"></location>
