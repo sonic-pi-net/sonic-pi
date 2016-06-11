@@ -657,7 +657,8 @@ end"
               res << cur
               cur -= step_size
             end
-          end      end
+          end
+        end
         res.ring
       end
       doc name:           :range,
