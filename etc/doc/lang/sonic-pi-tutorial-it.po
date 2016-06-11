@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-11 08:56+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2016-06-11 09:53+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -8936,59 +8936,62 @@ msgstr "Cancellazione"
 
 #: 10.2-Shortcut-Cheatsheet.md:70
 msgid "`C-h` - Delete previous character"
-msgstr ""
+msgstr "`C-h` - Cancella il carattere precedente"
 
 #: 10.2-Shortcut-Cheatsheet.md:71
 msgid "`C-d` - Delete next character"
-msgstr ""
+msgstr "`C-d` - Cancella il carattere successivo"
 
 #: 10.2-Shortcut-Cheatsheet.md:73
 msgid "Advanced Editor Features"
-msgstr ""
+msgstr "Caratteristiche avanzate dell'Editor"
 
 #: 10.2-Shortcut-Cheatsheet.md:75
 msgid "`C-i` - Show docs for word under cursor"
 msgstr ""
+"'C-i' - Mostra i documenti collegati alla parola dove si trova il cursore"
 
 #: 10.2-Shortcut-Cheatsheet.md:76
 msgid "`M-z` - Undo"
-msgstr ""
+msgstr "'M-z' - Annulla"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
 msgid "`S-M-z` - Redo"
-msgstr ""
+msgstr "'S-M-z' - Torna indietro dopo l'annullamento"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
 msgid "`C-g` - Escape"
-msgstr ""
+msgstr "'C-g' - Esci"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
 msgid "`S-M-f` - Toggle fullscreen mode"
-msgstr ""
+msgstr "'S-M-f - Avvia la modalità a schermo intero"
 
 #: 10.2-Shortcut-Cheatsheet.md:80
 msgid "`S-M-b` - Toggle visibility of buttons"
-msgstr ""
+msgstr "'S-M-b' - Attiva la visibilità dei bottoni"
 
 #: 10.2-Shortcut-Cheatsheet.md:81
 msgid "`S-M-l` - Toggle visibility of log"
-msgstr ""
+msgstr "'S-M-l' - Rende visibile la finestra di log"
 
 #: 10.2-Shortcut-Cheatsheet.md:82
 msgid "`S-M-m` - Toggle between light/dark modes"
-msgstr ""
+msgstr "'S-M-m' - Passa dall'interfaccia scura a quella chiara e viceversa"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
-msgstr ""
+msgstr "10.3 Condivisione"
 
 #: 10.3-Sharing.md:3
 msgid "Sharing"
-msgstr ""
+msgstr "Condivisione"
 
 #: 10.3-Sharing.md:5
 msgid "Sonic Pi is all about sharing and learning with each other."
 msgstr ""
+"Sonic Pi è molto incentrato sulla condivisione e sull'apprendimento in "
+"compagnia."
 
 #: 10.3-Sharing.md:7
 msgid ""
@@ -8996,6 +8999,11 @@ msgid ""
 "as sending an email containing your code. Please do *share* your code with oth"
 "ers so they can *learn* from your work and even use parts in a new *mash-up*."
 msgstr ""
+"Una volta che avrai imparato a codificare la musica, condividere le tue "
+"composizioni sarà semplice come mandare delle email contenenti il tuo "
+"programma. Per favore, condividi il tuo codice con gli altri in modo tale da "
+"fagli imparare dal tuo lavoro e anche riutilizzarne delle parti all'interno "
+"di nuovi brani."
 
 #: 10.3-Sharing.md:12
 msgid ""
@@ -9004,10 +9012,14 @@ msgid ""
 "(https://soundcloud.com). That way you'll be able to easily reach a large audi"
 "ence."
 msgstr ""
+"Se non sai quale sia il modo migliore per condividere il tuo lavoro con gli/"
+"le altri/e, ti consiglio di metterlo su [GitHub](https://github.com). La tua "
+"musica invece può essere messa su [SoundCloud](https://soundcloud.com). In "
+"questo modo potrai raggiungere facilmente un pubblico molto vasto."
 
 #: 10.3-Sharing.md:17
 msgid "Code -> GitHub"
-msgstr ""
+msgstr "Codice -> GitHub"
 
 #: 10.3-Sharing.md:19
 msgid ""
@@ -9018,10 +9030,17 @@ msgid ""
 "gist.github.com) is a simple way of uploading your code in a simple way that o"
 "thers can see, copy and share."
 msgstr ""
+"[GitHub](https://github.com) è un sito per condividere e lavorare sul "
+"codice. E' utilizzato da sviluppatori professionisti ma anche da artisti per "
+"condividere e collaborare. Il modo più semplice per condividere un nuovo "
+"programma (anche un brano non completo) è quello di creare una [Gist](https"
+"://gist-github.com). [Gist](https://gist.github.com) è un modo facile di "
+"caricare il tuo codice in un modo che gli altri possano vederlo, copiarlo e "
+"condividerlo a loro volta."
 
 #: 10.3-Sharing.md:27
 msgid "Audio -> SoundCloud"
-msgstr ""
+msgstr "Musica -> SoundCloud"
 
 #: 10.3-Sharing.md:29
 msgid ""
@@ -9030,6 +9049,11 @@ msgid ""
 "her users can comment and discuss your work. I also recommend placing a link t"
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
+"Un altro modo in cui puoi condividere il tuo lavoro è di registrare l'audio "
+"e di caricarlo su [SoundCloud](https://soundcloud.com). Una volta che avrai "
+"caricato il tuo brano, gli altri utenti possono commentarlo. Ti raccomando "
+"di mettere un collegamento al tuo [Gist](https://gist.github.com) nella "
+"descrizione del brano."
 
 #: 10.3-Sharing.md:35
 msgid ""
@@ -9040,10 +9064,18 @@ msgid ""
 "h can be edited and converted to MP3 by any number of free programs (try Audac"
 "ity for instance)."
 msgstr ""
+"Per registrare il tuo lavoro, premi il tasto 'Rec' in alto e la "
+"registrazione comincerà immediatamente. Premi anche 'Run' per iniziare a "
+"suonare, se non l'hai già fatto. Quando hai finito di registrare, basta "
+"semplicemente premere nuovamente il bottone lampeggiante 'Rec' e ti apparirà "
+"una piccola finestra per inserire il nome desiderato. Il brano sarà salvato "
+"in formato WAV, che poi può essere modificato e convertito in MP3. Ci sono "
+"molti programmi validi e gratuiti per far questo (prova Audacity per "
+"esempio)."
 
 #: 10.3-Sharing.md:43
 msgid "Hope"
-msgstr ""
+msgstr "Speranza"
 
 #: 10.3-Sharing.md:45
 msgid ""
@@ -9051,14 +9083,17 @@ msgid ""
 "ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
 "e to show me."
 msgstr ""
+"Ti incoraggio a condividere il tuo lavoro e spero veramente che riusciremo a "
+"insegnarci l'un l'altro nuove scorciatoie e tecniche per utilizzare Sonic "
+"Pi. Sono molto ansioso di vedere cosa mi vorrai mostrare."
 
 #: 10.4-Performing.md:1
 msgid "10.4 Performing"
-msgstr ""
+msgstr "10.4 Suonare dal vivo"
 
 #: 10.4-Performing.md:3
 msgid "Performing"
-msgstr ""
+msgstr "Suonare dal vivo"
 
 #: 10.4-Performing.md:5
 msgid ""
