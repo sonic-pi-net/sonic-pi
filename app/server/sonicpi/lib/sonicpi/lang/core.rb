@@ -1237,7 +1237,7 @@ end
 
 
       def spark_graph(*values)
-        if (values.first.is_a?(Array) || values.first.is_a?(SonicPi::Core::RingVector)) && values.length == 1
+        if is_list_like?(values.first) && values.length == 1
           values = values.first
         end
 
