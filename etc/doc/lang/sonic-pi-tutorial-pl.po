@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-09 20:45+0000\n"
+"PO-Revision-Date: 2016-06-11 23:29+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -883,18 +883,17 @@ msgid "Traditional Note Names"
 msgstr "Tradycyjne Nazwy Nut"
 
 #: 02.1-Your-First-Beeps.md:99
-#, fuzzy
 msgid ""
 "For those of you that already know some musical notation (don't worry if you d"
 "on't - you don't need it to have fun) you might want to write a melody using n"
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
-"Osoby, które aktualnie znają już trochę notację muzyczną (nie przejmuj się jeś"
-"li Ty nie znasz - nie musisz, żeby móc się dobrze bawić) być może będą prefero"
-"wać pisanie melodii przy wykorzystaniu standardowych nazw nut,   np. C lub F# "
-"(Fis) zamiast używania liczb. Sonic Pi pozwala na to. Nic nie stoi na przeszko"
-"dzie abyś napisał i uruchomił taki kod:"
+"Osoby, które aktualnie znają już trochę notację muzyczną (nie przejmuj się "
+"jeśli jej nie znasz - nie potrzebujesz tego, żeby móc się dobrze bawić) być "
+"może będą preferować pisanie melodii przy wykorzystaniu standardowych nazw "
+"nut, np. C lub F# (Fis) zamiast liczb. Sonic Pi na to pozwala. Nic nie stoi "
+"na przeszkodzie abyś napisał i uruchomił taki kod:"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -912,14 +911,13 @@ msgstr ""
 "play :E"
 
 #: 02.1-Your-First-Beeps.md:112
-#, fuzzy
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
 msgstr ""
-"Pamiętaj tylko, że by umieścić dwukropek `:` tuż przed nazwą twojej nuty. Spow"
-"oduje to, że zmieni ona kolor na różowy. Możesz również zdefiniować oktawę umi"
-"eszczająć odpowiednią liczbę tuż po nazwie nuty:"
+"Pamiętaj tylko, że by umieścić dwukropek `:` tuż przed nazwą twojej nuty, "
+"tak że zmieni ona kolor na różowy. Możesz również zdefiniować oktawę "
+"umieszczając odpowiednią liczbę tuż po nazwie nuty:"
 
 #: 02.1-Your-First-Beeps.md:116
 #, no-wrap
@@ -937,32 +935,26 @@ msgstr ""
 "play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
-#, fuzzy
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
-"Jeśli chcesz sprawić aby nuta brzmiała o pół tonu wyżej (uzyskanie dźwięku fis"
-"), dodaj `s` tuż za twoją nutą, np. `play :Fs3`. Analogicznie - jeśli chcesz o"
-"bniżyć dźwięk nuty o połowę (uzyskanie dźwięku mol), dodaj na końcu twojej nut"
-"y `b`, np. `play :Eb3`"
+"Jeśli chcesz sprawić aby nuta brzmiała o pół tonu wyżej (uzyskanie dźwięku "
+"fis), dodaj `s` tuż za twoją nutą, np. `play :Fs3`. Analogicznie - jeśli "
+"chcesz obniżyć dźwięk nuty o połowę (uzyskanie dźwięku mol), dodaj na końcu "
+"twojej nuty `b`, np. `play :Eb3`."
 
 #: 02.1-Your-First-Beeps.md:127
-#, fuzzy
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr ""
-"A teraz *czas poszaleć*. Możesz zacząć bawić się w tworzenie twoich własnych m"
-"elodii."
+msgstr "A teraz *zaszalej* i spróbuj stworzyć swoje własne melodie."
 
 #: 02.2-Synth-Params.md:1
-#, fuzzy
 msgid "2.2 Synth Options"
-msgstr "2.2 Parametry Syntezatorów"
+msgstr "2.2 Opcje Syntezatorów"
 
 #: 02.2-Synth-Params.md:3
-#, fuzzy
 msgid "Synth Options: Amp and Pan"
-msgstr "Parametry Syntezatorów: Amplituda i Balans"
+msgstr "Opcje Syntezatorów: Amplituda i Balans"
 
 #: 02.2-Synth-Params.md:5
 #, fuzzy
