@@ -117,7 +117,7 @@ fuertes o incómodos.</translation>
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2362"></location>
         <source>Scope</source>
-        <translation>Ámbito</translation>
+        <translation>Osciloscopio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
