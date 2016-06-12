@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-12 13:09+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-06-12 16:45+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -10950,7 +10950,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:16
 msgid "Timbral Possibilities"
-msgstr ""
+msgstr "Possibilità trimbriche"
 
 #: A.04-synth-riffs.md:18
 msgid ""
@@ -10963,6 +10963,8 @@ msgstr ""
 #: A.04-synth-riffs.md:24
 msgid "Let's create a simple live loop where we continually change the current synth:"
 msgstr ""
+"Creiamo un semplice live loop dove continuiamo a cambiare il sintetizzatore "
+"usato:"
 
 #: A.04-synth-riffs.md:27
 #, no-wrap
@@ -11005,7 +11007,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:55
 msgid "Timbre"
-msgstr ""
+msgstr "Timbro"
 
 #: A.04-synth-riffs.md:57
 msgid ""
@@ -11018,7 +11020,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:65
 msgid "Melodic Composition"
-msgstr ""
+msgstr "Composizioni melodiche"
 
 #: A.04-synth-riffs.md:67
 msgid ""
@@ -11053,7 +11055,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
-msgstr ""
+msgstr "Melodia automatica"
 
 #: A.04-synth-riffs.md:86
 msgid ""
@@ -11107,7 +11109,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
-msgstr ""
+msgstr "Pseudo casualità"
 
 #: A.04-synth-riffs.md:123
 msgid ""
@@ -11121,7 +11123,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
-msgstr ""
+msgstr "Trovando il tuo ritmo"
 
 #: A.04-synth-riffs.md:133
 msgid ""
