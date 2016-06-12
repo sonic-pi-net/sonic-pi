@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-12 09:33+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2016-06-12 13:09+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -10719,6 +10719,10 @@ msgid ""
 "the tempo. This is super easy in Sonic Pi - just throw in a `use_bpm` into you"
 "r live loop:"
 msgstr ""
+"Bene, quindi che dobbiamo fare se vogliamo cambiare stile e passare all'hip "
+"hop old school o al breakcore? Un modo semplice è di giocare con il tempo, o "
+"meglio incasinare il tempo. Con Sonic Pi è facilissimo, basta infilare un "
+"'use_bpm' dentro il tuo live loop:"
 
 #: A.03-coded-beats.md:85
 #, no-wrap
@@ -10741,6 +10745,10 @@ msgid ""
 "for 2 and our BPM is 30, yet everything is in time. The `beat_stretch` opt wor"
 "ks with the current BPM to make sure everything just works."
 msgstr ""
+"Mentre stai rappando sopra questi ritmi lenti, fai caso a come il programma "
+"rimanga fermo per 2 battiti (sleep 2) e i nostri bpm sono a 30. Quindi tutto "
+"è a tempo. L'opzione 'beat_stretch' funziona con i bpm di riferimento per "
+"fare in modo che tutto torni."
 
 #: A.03-coded-beats.md:97
 msgid ""
@@ -10748,10 +10756,14 @@ msgid ""
 "e `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in tim"
 "e*! Try going faster - up to 80, to 120, now go crazy and punch in 200!"
 msgstr ""
+"Quindi, qui sta la parte divertente. Mentre il loop è ancora in azione, "
+"cambia il numero '30' con '50' dentro 'use_bpm 30'. Wow, tutto va più veloce "
+"e comunque rimane *a tempo*! Prova ad andare ancora più veloce, inserendo 80 "
+"o 120 e ora fai impazzire il computer e spacca a 200!"
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
-msgstr ""
+msgstr "Filtraggio"
 
 #: A.03-coded-beats.md:105
 msgid ""
@@ -10759,6 +10771,10 @@ msgid ""
 " by the `sample` synth. First up is `cutoff:` which controls the cutoff filter"
 " of the sampler. By default this is disabled but you can easily turn it on:"
 msgstr ""
+"Adesso che abbiamo imparato a mettere i campioni nel live loop, diamo "
+"un'occhiata ad alcune delle opzioni più divertenti del synth 'sample'. Il "
+"primo è 'cutoff:', che controlla il filtro di taglio del campionatore. Di "
+"norma è disabilitato ma puoi facilmente attivarlo:"
 
 #: A.03-coded-beats.md:110
 #, no-wrap
@@ -10785,16 +10801,26 @@ msgid ""
 "f the top of the grass. The `cutoff:` opt is like the length setting - determi"
 "ning how much grass is left over."
 msgstr ""
+"Vai avanti e cambia il 'cutoff:'. Per esempio, aumentalo a 100, premi *Run* "
+"e aspetta che il loop torni all'inizio per ascoltare il risultato sonoro. I "
+"valori più bassi, tipo 50, suonano più bassi e caldi mentre valori alti tipo "
+"100 o 120 sono più secchi. Ciò accade perché l'opzione 'cutoff:' taglia le "
+"frequenze alte nello stesso modo in cui una falciatrice taglia l'erba. Il "
+"valore di 'cutoff:' è come regolare l'altezza della falciatrice e determina "
+"quanto l'erba deve essere tagliata."
 
 #: A.03-coded-beats.md:128
 msgid "Slicing"
-msgstr ""
+msgstr "Affettare"
 
 #: A.03-coded-beats.md:130
 msgid ""
 "Another great tool to play with is the slicer FX. This will chop (slice) the s"
 "ound up. Wrap the `sample` line with the FX code like this:"
 msgstr ""
+"Un altro strumento divertente è l'effetto slicer. Questo affetterà (slice in "
+"inglese) il suono. Avvolgi la linea di 'sample' dentro il codice di effetto, "
+"così:"
 
 #: A.03-coded-beats.md:133
 #, no-wrap
@@ -10827,6 +10853,16 @@ msgid ""
 "e shapes. 0 is a saw wave, (hard in, fade out) 1 is a square wave (hard in, ha"
 "rd out) and 2 is a triangle wave (fade in, fade out)."
 msgstr ""
+"Fai caso a come il suono salta sù e giù (se vuoi sentire il suono originale, "
+"senza effetti, cambia il valore di 'mix:' a 0). Adesso, proviamo a giocare "
+"con i valori di 'phase:'. Questa è la frequenza (in battiti) dell'effetto di "
+"affettamento. Un valore piccolo, tipo '0.125', affetterà più velocemente e "
+"uno più grande, tipo '0.5', più lentamente. Senti come il dimezzamento o il "
+"raddoppiamento dei valori di 'phase:' tendono sempre a suonare piacevoli. "
+"Infine, cambia il valore di 'wave:' a 0, 1 o 2 e ascolta la differenza. I "
+"diversi numeri rappresentato le differenti forme d'onda. 0 è un'onda a dente "
+"di sega (attacco veloce e rilascio lento), 1 è un'onda quadrata ( attacco e "
+"rilascio veloce), 2 infine è un'onda triangolare (attacco e rilascio lento)."
 
 #: A.03-coded-beats.md:157
 msgid ""
@@ -10836,6 +10872,11 @@ msgid ""
 "d see where you can take it. Please do share what you create! See you next tim"
 "e..."
 msgstr ""
+"Infine, andiamo indietro nel tempo al primo periodo drum and bass di Bristol "
+"con questo esempio. Non ti preoccupare troppo di cosa significa questa "
+"frase. Digita il codice, premi Run e comincia a fare live coding cambiando i "
+"valori delle opzioni e osserva i risultati. Mi raccomando, condividi quello "
+"che hai ottenuto. Ci vediamo la prossima volta..."
 
 #: A.03-coded-beats.md:163
 #, no-wrap
@@ -10886,11 +10927,11 @@ msgstr ""
 
 #: A.04-synth-riffs.md:1
 msgid "A.4 Synth Riffs"
-msgstr ""
+msgstr "A.4 Riff di synth"
 
 #: A.04-synth-riffs.md:3
 msgid "Synth Riffs"
-msgstr ""
+msgstr "Riff di synth"
 
 #: A.04-synth-riffs.md:5
 msgid ""
