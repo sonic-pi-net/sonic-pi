@@ -153,6 +153,7 @@ module SonicPi
     end
 
     def sample_loaded?(path)
+      path = File.expand_path(path)
       return @samples.has_key?(path)
     end
 
@@ -165,6 +166,7 @@ module SonicPi
       check_for_server_rebooting!(:free_sample)
       @sample_sem.synchronize do
         paths.each do |p|
+          p = File.expand_path(p)
           info = @samples[p]
           @samples.delete(p)
           server.buffer_free(info) if info
@@ -390,6 +392,7 @@ module SonicPi
     end
 
     def internal_load_sample(path, server=@server)
+      path = File.expand_path(path)
       return [@samples[path], true] if @samples[path]
       #message "Loading full sample path: #{path}"
       sample_info = nil
