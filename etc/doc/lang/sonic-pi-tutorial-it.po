@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-11 20:22+0000\n"
-"Last-Translator: Daniele P. <daniele.paradiso3@gmail.com>\n"
+"PO-Revision-Date: 2016-06-12 09:33+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -10676,7 +10676,6 @@ msgstr ""
 "durare uno specifico numero di battute."
 
 #: A.03-coded-beats.md:63
-#, fuzzy
 msgid ""
 "Sonic Pi's `sample` and `synth` fns give you a lot of control via optional par"
 "ameters such as `amp:`, `cutoff:` and `release:`. However, the term optional p"
@@ -10711,7 +10710,7 @@ msgstr ""
 
 #: A.03-coded-beats.md:78
 msgid "Playing with Time"
-msgstr ""
+msgstr "Giocare con il tempo"
 
 #: A.03-coded-beats.md:80
 msgid ""
