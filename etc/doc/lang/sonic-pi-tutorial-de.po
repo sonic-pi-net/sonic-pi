@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-09 07:44+0000\n"
+"PO-Revision-Date: 2016-06-12 09:41+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -2729,16 +2729,15 @@ msgid "Choosing a starting point"
 msgstr "Einen Startpunkt bestimmen"
 
 #: 03.5-Partial-Samples.md:41
-#, fuzzy
 msgid ""
 "It is possible to choose an arbitrary starting point in the sample as a value "
 "between 0 and 1 where 0 is the start of the sample, 1 is the end and 0.5 is ha"
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
 msgstr ""
-"Es ist möglich, einen beliebigen Startpunkt eines Sample als Wert zwischen 0 u"
-"nd auszuwählen, wobei 0 der Anfang, 1 das Ende und 0.5 die Mitte des Samples d"
-"arstellt. Spielen wir die zweite Hälfte des Amen Break:"
+"Man kann auch einen beliebigen Startpunkt eines Sample als Wert zwischen 0 "
+"und 1 auswählen. Dabei ist 0 der Anfang, 1 das Ende und 0.5 die Mitte des "
+"Samples. Spielen wir also jetzt die zweite Hälfte des Amen Break:"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
@@ -2746,7 +2745,6 @@ msgid "sample :loop_amen, start: 0.5"
 msgstr "sample :loop_amen, start: 0.5"
 
 #: 03.5-Partial-Samples.md:50
-#, fuzzy
 msgid "How about the last quarter of the sample:"
 msgstr "Oder vielleicht das letzte Viertel des Sample:"
 
@@ -2756,18 +2754,16 @@ msgid "sample :loop_amen, start: 0.75"
 msgstr "sample :loop_amen, start: 0.75"
 
 #: 03.5-Partial-Samples.md:56
-#, fuzzy
 msgid "Choosing a finish point"
 msgstr "Einen Endpunkt bestimmen"
 
 #: 03.5-Partial-Samples.md:58
-#, fuzzy
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample as"
 " a value between 0 and 1. Let's finish the amen break half way through:"
 msgstr ""
-"Gleichermaßen können wir über einen Wert zwischen 0 und 1 einen beliebigen End"
-"punkt im Sample festlegen. Beenden wir den Amen-Break nach der ersten Hälfte:"
+"Ebenso können wir mit einem Wert zwischen 0 und 1 einen beliebigen Endpunkt "
+"im Sample festlegen. Beenden wir den Amen-Break nach der ersten Hälfte:"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
@@ -2775,18 +2771,16 @@ msgid "sample :loop_amen, finish: 0.5"
 msgstr "sample :loop_amen, finish: 0.5"
 
 #: 03.5-Partial-Samples.md:66
-#, fuzzy
 msgid "Specifying start and finish"
 msgstr "Start- und Endpunkt bestimmen"
 
 #: 03.5-Partial-Samples.md:68
-#, fuzzy
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
 msgstr ""
-"Natürlich können das auch kombinieren und einen beliebigen Abschnitt des Sampl"
-"e abspielen. Wie wäre es mit einem kurzen Abschnitt aus der Mitte:"
+"Natürlich können das auch kombinieren und so einen beliebigen Abschnitt des "
+"Sample abspielen. Wie wäre es mit einem kurzen Abschnitt aus der Mitte:"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
@@ -2794,9 +2788,9 @@ msgid "sample :loop_amen, start: 0.4, finish: 0.6"
 msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
 #: 03.5-Partial-Samples.md:75
-#, fuzzy
 msgid "What happens if we choose a start position after the finish position?"
-msgstr "Was passiert, wenn wir eine Startposition nach der Endposition auswählen?"
+msgstr ""
+"Was passiert, wenn wir eine Startposition nach der Endposition auswählen?"
 
 #: 03.5-Partial-Samples.md:78
 #, no-wrap
@@ -2804,25 +2798,22 @@ msgid "sample :loop_amen, start: 0.6, finish: 0.4"
 msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
 #: 03.5-Partial-Samples.md:82
-#, fuzzy
 msgid "Cool! It plays it backwards!"
 msgstr "Cool! Dann spielt es rückwärts!"
 
 #: 03.5-Partial-Samples.md:84
-#, fuzzy
 msgid "Combining with rate"
 msgstr "In Kombination mit der Samplerate"
 
 #: 03.5-Partial-Samples.md:86
-#, fuzzy
 msgid ""
 "We can combine this new ability to play arbitrary segments of audio with our f"
 "riend `rate:`. For example, we can play a very small section of the middle of "
 "the amen break very slowly:"
 msgstr ""
-"Diese neue Fähigkeit, beliebige Abschnitte eines Klangs zu spielen, lässt sich"
-" mit unserem Freund `rate:` kombinieren. Zum Beispiel können wir einen sehr ku"
-"rzen Abschnitt des Amen-Breaks sehr langsam spielen:"
+"Diese neue Fähigkeit, beliebige Abschnitte eines Klangs zu spielen, lässt "
+"sich mit unserem Freund `rate:` kombinieren. Zum Beispiel können wir einen "
+"sehr kurzen Abschnitt des Amen-Breaks sehr langsam spielen:"
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
@@ -2830,7 +2821,6 @@ msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
 #: 03.5-Partial-Samples.md:94
-#, fuzzy
 msgid "Combining with envelopes"
 msgstr "In Kombination mit Hüllkurven"
 
