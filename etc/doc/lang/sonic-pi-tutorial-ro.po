@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-10 21:17+0000\n"
+"PO-Revision-Date: 2016-06-13 09:03+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -7486,7 +7486,7 @@ msgstr ""
 
 #: 08.5-Ring-Chains.md:55
 msgid "Immutability"
-msgstr "Imutabilitatea"
+msgstr "Invariabilitatea"
 
 #: 08.5-Ring-Chains.md:57
 msgid ""
@@ -7497,12 +7497,12 @@ msgid ""
 "chaining them within a thread knowing you won't be affecting any other "
 "thread using the same ring."
 msgstr ""
-"Aceste liste circulare au o proprietate importanta. Ele sunt imutabile, ceea "
-"ce inseamna ca nu pot fi schimbate. Metodele inlantuite descrise in aceasta "
-"sectiune *nu schimba listele* ci *creeaza noi liste*. Astfel, poti folosi "
-"acelease liste in diferite thread-uri si poti adauga comenzi inlantuite in "
-"cadrul unui thread stiind ca nu va exista un impact asupra altui thread care "
-"foloseste aceeasi lista inlantuita."
+"Aceste liste circulare au o proprietate importanta. Ele sunt invariante, "
+"ceea ce inseamna ca nu pot fi schimbate. Metodele inlantuite descrise in "
+"aceasta sectiune *nu schimba listele* ci *creeaza noi liste*. Astfel, poti "
+"folosi acelease liste in diferite thread-uri si poti adauga comenzi "
+"inlantuite in cadrul unui thread stiind ca nu va exista un impact asupra "
+"altui thread care foloseste aceeasi lista inlantuita."
 
 #: 08.5-Ring-Chains.md:64
 msgid "Available Chain Methods"
@@ -9144,7 +9144,6 @@ msgid "11 Minecraft Pi"
 msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
-#, fuzzy
 msgid "Minecraft Pi"
 msgstr "Minecraft Pi"
 
@@ -10659,6 +10658,9 @@ msgid ""
 "To fix this issue we can use the `beat_stretch:` opt to ask Sonic Pi to "
 "stretch (or shrink) the sample to match the specified number of beats."
 msgstr ""
+"Pentru a rezolva aceasta problema putem folosi parametrul 'beat_strecth: "
+"pentru a cere Sonic Pi sa intinda (sau sa comprime) esantionul astfel incat "
+"sa aiba numarul specificat de batai."
 
 #: A.03-coded-beats.md:63
 msgid ""
@@ -10667,6 +10669,10 @@ msgid ""
 "optional parameter is a real mouthful so we just call them *opts* to keep "
 "things nice and simple."
 msgstr ""
+"Functiile 'sample' si 'synth' din Sonic Pi iti ofera un control puternic "
+"prin intermediul parametrilor optionali ca `amp:`, `cutoff:` si `release:`. "
+"Totusi, numele de parametru optional este destul de lung si il putem "
+"prescurta folosind *opt* pentru simplitate."
 
 #: A.03-coded-beats.md:68
 #, no-wrap
@@ -10686,10 +10692,12 @@ msgid ""
 "Now we're dancing! Although, perhaps we want to speed it up or slow it down "
 "to suit the mood."
 msgstr ""
+"Acum dansam! S-ar putea totusi sa dorim sa marim sau sa scadem viteza pentru "
+"a se potrivi cu atmosfera."
 
 #: A.03-coded-beats.md:78
 msgid "Playing with Time"
-msgstr ""
+msgstr "Sa ne jucam cu timpul"
 
 #: A.03-coded-beats.md:80
 msgid ""
@@ -10698,6 +10706,10 @@ msgid ""
 "with the tempo. This is super easy in Sonic Pi - just throw in a `use_bpm` "
 "into your live loop:"
 msgstr ""
+"Ce facem daca vrem sa schimbam stilul in hip hop clasic sau breakcore? O "
+"metoda simpla este sa ne jucam cu timpul - cu alte cuvinte sa umblam la "
+"tempo. E foarte usor sa faci asta in Sonic Pi - doar adaugi o comanda "
+"'use_bpm' in bucla live:"
 
 #: A.03-coded-beats.md:85
 #, no-wrap
@@ -10721,6 +10733,10 @@ msgid ""
 "`beat_stretch` opt works with the current BPM to make sure everything just "
 "works."
 msgstr ""
+"Cat timp asculti ritmul asta lent, ai timp sa remarci ca pauza este tot de "
+"2, dar acum avem 30 BPM si totusi totul este sincronizat. Parametrul "
+"'beat_stretch' tine cont de noul ritm pentru a se asigura ca totul "
+"functioneaza."
 
 #: A.03-coded-beats.md:97
 msgid ""
@@ -10728,10 +10744,14 @@ msgid ""
 "the `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in "
 "time*! Try going faster - up to 80, to 120, now go crazy and punch in 200!"
 msgstr ""
+"Acum urmeaza partea cu adevarat interesanta. In timp ce bucla este inca "
+"live, schimba '30' din linia 'use_bpm 30' in '50'. Uau, totul a devenit mai "
+"rapdi dar *a ramas sincronizat*. Incearca ceva mai rapid - urca la 80, la "
+"120, fa o nebunie si pune 200!"
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
-msgstr ""
+msgstr "Filtrarea"
 
 #: A.03-coded-beats.md:105
 msgid ""
@@ -10740,6 +10760,11 @@ msgid ""
 "cutoff filter of the sampler. By default this is disabled but you can easily "
 "turn it on:"
 msgstr ""
+"Acum putem reda esantioane in bucle live, sa vedem care sunt cei mai "
+"interesanti parametri pentru 'sample'. Primul este 'cutoff:' care "
+"controleaza filtrul de cutoff al sampler-ului (care taie frecventele mai "
+"inalte decat limita stabilita). Implicit este dezactiva, dar il poti porni "
+"cu usurinta:"
 
 #: A.03-coded-beats.md:110
 #, no-wrap
@@ -10766,16 +10791,27 @@ msgid ""
 "mower chops off the top of the grass. The `cutoff:` opt is like the length "
 "setting - determining how much grass is left over."
 msgstr ""
+"Modifica parametrul 'cutoff'. De exemplu, mareste-l la 100, apasa *Run* si "
+"asteapta ca bucla sa se reia ca sa auzi care este efectul modificarii. Vei "
+"observa ca valori mici, ca 50, suna infundat si mai spre bas, iar valorile "
+"gen 100 sau 120 au un sunet mai complet si mai clar. Asta deoarece "
+"parametrul 'cutoff:' va duce la tairea partilor de frecventa inalta din "
+"sunet, asa cum masina de tuns taie varful firelor de iarba. Parametrul "
+"'cutoff:' este asemanator cu lungimea la care este setata masina de tuns - "
+"spune cat sa ramana din firele de iarba."
 
 #: A.03-coded-beats.md:128
 msgid "Slicing"
-msgstr ""
+msgstr "Slicing"
 
 #: A.03-coded-beats.md:130
 msgid ""
 "Another great tool to play with is the slicer FX. This will chop (slice) the "
 "sound up. Wrap the `sample` line with the FX code like this:"
 msgstr ""
+"O alta unealta cu care ne putem juca este efectul slicer. Acest taie (slice) "
+"sunetul in bucatele. Incadreaza linia 'sample' cu codul pentru efect ca mai "
+"jos:"
 
 #: A.03-coded-beats.md:133
 #, no-wrap
@@ -10809,6 +10845,17 @@ msgid ""
 "out) 1 is a square wave (hard in, hard out) and 2 is a triangle wave (fade "
 "in, fade out)."
 msgstr ""
+"Observi ca sunetul variaza in sus si in jos ceva mai mult. (Poti asculta "
+"sunetul original, fara efect, schimband valoarea pentru 'mix:' cu '0'). "
+"Acum, incearca sa te joci cu parametrul 'phase:'. Acesta reprezinta "
+"frecventa (in batai) cu care se aplica efectul slicing. O valoare mai mica, "
+"gen '0.125', va taia sunetul mai rapid, iar valori mai mari, gen '0.5' vor "
+"face taierea mai lenta. Observi ca injumatatind sau dubland de mai multe ori "
+"valoarea pentru 'phase:' sunetul va suna mereu bine. La final, schimba "
+"valoarea 'wave:' in 0, 1 sau 2 pentru a auzi cum schimba sunetul. Acestea "
+"sunt diferite forme pentru semnal. 0 inseamna forma de fierastrau (crestere "
+"brusca, scadere lenta), 1 inseamna patrat (crestere brusca, scadere brusca), "
+"iar 2 inseamna triunghi (crester lenta, scadere lenta)."
 
 #: A.03-coded-beats.md:157
 msgid ""
@@ -10818,6 +10865,11 @@ msgid ""
 "numbers and see where you can take it. Please do share what you create! See "
 "you next time..."
 msgstr ""
+"Acum sa facem o calatorie in timp si sa ne intoarcem in Bristol la "
+"inceputurile curentului drum and bass cu exemplul de luna aceasta. Nu-ti "
+"bate capul cu ce inseamna asta, doar introdu codul, apasa Run si incepe sa-l "
+"modifici live jucandu-te cu valorile pentru parametri ca sa vezi ce iese. Te "
+"rog sa arati si altora ce ai reusit sa creezi. Pe data viitoare..."
 
 #: A.03-coded-beats.md:163
 #, no-wrap
@@ -10844,14 +10896,35 @@ msgid ""
 "  sleep 4\n"
 "end"
 msgstr ""
+"use_bpm 100\n"
+"live_loop :amen_break do\n"
+"  p = [0.125, 0.25, 0.5].choose\n"
+"  with_fx :slicer, phase: p, wave: 0, mix: rrand(0.7, 1) do\n"
+"    r = [1, 1, 1, -1].choose\n"
+"    sample :loop_amen, beat_stretch: 2, rate: r, amp: 2\n"
+"  end\n"
+"  sleep 2\n"
+"end\n"
+"live_loop :bass_drum do\n"
+"  sample :bd_haus, cutoff: 70, amp: 1.5\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :landing do\n"
+"  bass_line = (knit :e1, 3, [:c1, :c2].choose, 1)\n"
+"  with_fx :slicer, phase: [0.25, 0.5].choose, invert_wave: 1, wave: 0 do\n"
+"    s = synth :square, note: bass_line.tick, sustain: 4, cutoff: 60\n"
+"    control s, cutoff_slide: 4, cutoff: 120\n"
+"  end\n"
+"  sleep 4\n"
+"end"
 
 #: A.04-synth-riffs.md:1
 msgid "A.4 Synth Riffs"
-msgstr ""
+msgstr "A.4 Riff-uri (fraze melodice) pentru sintetizatoare"
 
 #: A.04-synth-riffs.md:3
 msgid "Synth Riffs"
-msgstr ""
+msgstr "Riff-uri (fraze melodice) pentru sintetizatoare"
 
 #: A.04-synth-riffs.md:5
 msgid ""
@@ -10862,16 +10935,23 @@ msgid ""
 "code up the three core components of a synth riff - the timbre, melody and "
 "rhythm."
 msgstr ""
+"Fie ca este vorba de sunetul obsedant al unui oscilator sau de punch-ul unei "
+"unde in dinti de fierastrau care razbate din mix, sintetizatorul principal "
+"are un rol esential in orice piesa electronica. Luna trecuta am vorbit in "
+"acest tutorial despre cum putem coda un beat. Acum vom vorbi despre cum "
+"putem coda cele trei componente de baza ale riff-ului pentru sintetizator: "
+"timbrul, melodia si ritmul."
 
 #: A.04-synth-riffs.md:12
 msgid ""
 "OK, so power up your Raspberry Pi, crack open Sonic Pi v2.6+ and let's make "
 "some noise!"
 msgstr ""
+"Asadar, porneste Raspberry Pi, deschide Sonic Pi v2.6+ si sa facem galagie!"
 
 #: A.04-synth-riffs.md:16
 msgid "Timbral Possibilities"
-msgstr ""
+msgstr "Controlul timbrului"
 
 #: A.04-synth-riffs.md:18
 msgid ""
@@ -10881,12 +10961,19 @@ msgid ""
 "for more subtle modifications. We can also use FX, but that's for another "
 "tutorial..."
 msgstr ""
+"O parte esentiala a unui riff pentru sintetizator este modificarea timbrului "
+"sunetelor. Putem controla timbrul in Sonic Pi in doua feluri - alegand "
+"sintetizatoare diferite pentru o schimbare masiva sau modificand diferiti "
+"parametri ai sintetizatorului pentru schimbari mai subtile. Putem folosi si "
+"efectele, dar acesta este subiectul altui tutorial..."
 
 #: A.04-synth-riffs.md:24
 msgid ""
 "Let's create a simple live loop where we continually change the current "
 "synth:"
 msgstr ""
+"Sa cream o bucla live simple in care schimbam in continuu sintetizatorul "
+"curent:"
 
 #: A.04-synth-riffs.md:27
 #, no-wrap
@@ -10897,6 +10984,11 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :timbre do\n"
+"  use_synth (ring :tb303, :blade, :prophet, :saw, :beep, :tri).tick\n"
+"  play :e2, attack: 0, release: 0.5, cutoff: 100\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.04-synth-riffs.md:35
 msgid ""
@@ -10907,6 +10999,13 @@ msgid ""
 "second octave), with a release time of 0.5 beats (half a second at the "
 "default BPM of 60) and with the `cutoff:` opt set to 100."
 msgstr ""
+"Arunca o privire asupra codului. Pur si simplu parcurgem ritmic o lista "
+"circulara de nume de sintetizatoare (fiecare dintre acestea va fi selectat "
+"pe rand, reluand lista de la inceput cand se termina).  Acest nume de "
+"sintetizator este transmis functiei 'use_synth' care schimba sintetizatorul "
+"curent din bucla live. De asemenea, redam nota ':e2' (E din a doua octava), "
+"cu un timp de release de 0.5 batai (jumatate de secunda la viteza implicita "
+"de 60 BPM) si cu un 'cutoff:' setat la 100."
 
 #: A.04-synth-riffs.md:42
 msgid ""
@@ -10922,10 +11021,22 @@ msgid ""
 "each individual synth supports to see just how much power you have under "
 "your coding fingertips."
 msgstr ""
+"Poti auzi cum diferite sintetizatoare au sunete foarte diferite chiar daca "
+"redau toate aceeasi nota. Acum experimenteaza si distreaza-te. Schimba "
+"timpul de release cu valori mai mici sau mai mari. Schimba parametrii "
+"'attack:' si 'release:' pentru a vedea cum timpi diferiti de fade in/fade "
+"out pot avea un impact foarte mare asupra sunetului. Apoi schimba valoarea "
+"pentru 'cutoff:' si vei vede ca are o influenta foarte importanta asupra "
+"timbrului (iti recomand valori intre 60 si 130). Vei vedea cat de multe "
+"sunete diferite poti crea schimband doar cateva valori. Odata ce stapanesti "
+"aceste schimbari mergi la panoul Sintetizatoare (Synths) din sistemul de "
+"ajutor pentru o lista completa a sintetizatoarelor si a tuturor parametrilor "
+"pe care ii suporta fiecare dintre acestea pentru a vedea ce puteri magice "
+"poti controla cu degetele tale de programator."
 
 #: A.04-synth-riffs.md:55
 msgid "Timbre"
-msgstr ""
+msgstr "Timbrul"
 
 #: A.04-synth-riffs.md:57
 msgid ""
@@ -10935,10 +11046,15 @@ msgid ""
 "would be different. That sound quality - the thing which allows you to tell "
 "the difference between a piano and a guitar is the timbre."
 msgstr ""
+"Timbru este un nume pompos pentru un cuvant care descrie sunetul unui sunet. "
+"Daca redai aceeasi nota cu instrumente diferite, cum ar fi o vioara, o "
+"chitara sau un pian, inaltimea sunetului va fi aceeasi, dar calitatea "
+"sunetului va fi diferita. Aceasta calitate a sunetului - lucrul care iti "
+"permite sa sesizezi diferenta dintre un pian si o chitara este timbrul."
 
 #: A.04-synth-riffs.md:65
 msgid "Melodic Composition"
-msgstr ""
+msgstr "Compozitia melodica"
 
 #: A.04-synth-riffs.md:67
 msgid ""
@@ -10946,6 +11062,9 @@ msgid ""
 "play. If you already have a good idea, then you can simply create a ring "
 "with your notes in and tick through them:"
 msgstr ""
+"Un alt element important pentru sintetizatorul principal este alegerea "
+"notelor pe care vrem sa le redea. Daca ai deja o idee, poti sa creezi pur si "
+"simplu o lista circulare cu notele si sa o parcurgi pas cu pas:"
 
 #: A.04-synth-riffs.md:71
 #, no-wrap
@@ -10957,6 +11076,12 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"live_loop :riff do\n"
+"  use_synth :prophet\n"
+"  riff = (ring :e3, :e3, :r, :g3, :r, :r, :r, :a3)\n"
+"  play riff.tick, release: 0.5, cutoff: 80\n"
+"  sleep 0.25\n"
+"end"
 
 #: A.04-synth-riffs.md:80
 msgid ""
@@ -10964,10 +11089,13 @@ msgid ""
 "`:e3` and rests represented by `:r`. We're then using `.tick` to cycle "
 "through each note to give us a repeating riff."
 msgstr ""
+"Aici am definit melodia printr-o lista care contine atat note, cum ar fi ':"
+"e3', cat si pauze, cum ar fi ':r'. Apoi folosim '.tick' pentru a parcurge "
+"toate notele ciclic, obtinand un riff care se repeta."
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
-msgstr ""
+msgstr "Generarea automata a melodiei"
 
 #: A.04-synth-riffs.md:86
 msgid ""
@@ -10976,6 +11104,11 @@ msgid ""
 "the one you like the best. To do that we need to combine three things: "
 "rings, randomisation and random seeds. Let's look at an example:"
 msgstr ""
+"Nu e mereu simplu sa produci un riff interesant pornind de la zero. E mai "
+"usor uneori sa ceri Sonic Pi o selectie de riff-uri aleatoare dintre care sa-"
+"l alegi pe cel care iti place cel mai mult. Pentru asta vom combina 3 "
+"lucruri: liste circulare, randomizarea si initializarea unui sir aleator "
+"folosind un seed. Sa vedem un exemplu:"
 
 #: A.04-synth-riffs.md:91
 #, no-wrap
@@ -11009,6 +11142,16 @@ msgid ""
 "before the shuffle. Finally we're just ticking through our shuffled notes to "
 "play the riff."
 msgstr ""
+"Aici se petrec mai multe lucruri. Sa le luam pe rand. In primul rand am ales "
+"pentru initializarea sirului valoarea 3. Ce inseamna asta? Cand alegem "
+"valoarea de initializare (seed = samanta) putem prezice care va fi "
+"urmatoarea valoare aleatoare dintr-un sir - va fi la fel ca si ultima data "
+"cand am folosit numarul 3 pentru seed! Alt lucru de retinut este ca "
+"amestecarea notelor dintr-o lista functioneaza la fel. In exemplul de mai "
+"sus cerem de fapt 'a treia varianta de amestecare' in lista predefinita de "
+"variante - care va fi de asemenea la fel de fiecare data cand vom alege "
+"acelasi seed. La final, parcurgem ciclic notele amestecate pentru a canta "
+"riff-ul."
 
 #: A.04-synth-riffs.md:112
 msgid ""
@@ -11020,10 +11163,17 @@ msgid ""
 "just change one of those two things and try again. Repeat until you like "
 "what you hear!"
 msgstr ""
+"Acum incepe partea distractiva. Daca schimbam valoare pentru seed cu alta "
+"valoare, sa zicem 3000, obtinem o varianta complet diferita de amestecare a "
+"notelor. Deci este extrem de usor sa incercam noi melodii. Pur si simplu "
+"alegem lista de note pe care vrem sa le amestecam (gamele sunt un bun punct "
+"de pornire)  si apoi alegem seed-ul pentre amestecare. Daca nu ne place "
+"melodia, doar schimbam unul dintre aceste lucruri si incercam din nou. "
+"Repetam pana ne place ce auzim!"
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
-msgstr ""
+msgstr "Pseudo-randomizarea"
 
 #: A.04-synth-riffs.md:123
 msgid ""
@@ -11034,10 +11184,16 @@ msgid ""
 "of rolling an actual dice, it just picks the next value from the list. "
 "Setting the random seed is just jumping to a specific point in that list."
 msgstr ""
+"Randomizarea in Sonic Pi nu da rezultate cu adevarat aleatoare, ci pseudo-"
+"aleatoare. Imagineaza-ti ca dai cu zarul de 100 de ori si scrii rezultatul "
+"de fiecare data pe o foaie de hartie. Sonic Pi foloseste ceva echivalent cu "
+"aceste liste de rezultate atunci cand ceri o valoare aleatoare. In loc sa "
+"dea cu zarul, doar alege urmatoarea valoare din lista. Alegerea seed-ului "
+"pentru sirul aleator inseamna deplasarea la o anumita pozitie din lista."
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
-msgstr ""
+msgstr "Gaseste-ti ritmul"
 
 #: A.04-synth-riffs.md:133
 msgid ""
@@ -11048,6 +11204,13 @@ msgid ""
 "of playing every note we can use a conditional to play a note with a given "
 "probability. Let's take a look:"
 msgstr ""
+"Alt element important al riff-ului este ritmul - cand a redai si cand sa nu "
+"redai o nota. Dupa cum am vazut mai sus, putem folosi ':r' in listele de "
+"note pentru a insera pauze. Alta metoda foarte versatila este folosirea "
+"spread-urilor pe care o vom prezenta intr-un tutorial viitor. Astazi vom "
+"folosi randomizarea care ne va ajuta sa ne gasim ritmul dorit. In loc sa "
+"redam fiecare nota, putem folosi o instructiune conditionala pentru a reda o "
+"nota cu probabilitatea aleasa. Sa aruncam o privire:"
 
 #: A.04-synth-riffs.md:140
 #, no-wrap
@@ -11062,6 +11225,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :random_riff do\n"
+"  use_synth :dsaw\n"
+"  use_random_seed 30\n"
+"  notes = (scale :e3, :minor_pentatonic).shuffle\n"
+"  16.times do\n"
+"    play notes.tick, release: 0.2, cutoff: 90 if one_in(2)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.04-synth-riffs.md:152
 msgid ""
@@ -11071,6 +11243,12 @@ msgid ""
 "other words, 50% of the time it will return `true`. Using higher values will "
 "make it return `false` more often introducing more space into the riff."
 msgstr ""
+"O functie pe care este foarte util sa o stii este 'one_in' care va returna o "
+"valoare de adevar ('true' sau 'false') cu probabilitatea ceruta de noi. Aici "
+"folosim valoarea 2, deci in medie functia 'one_in' va returna 'true' o data "
+"la fiecare doua apeluri. Cu alte cuvinte, in 50% dintre cazuri va returna "
+"'true'. Folosind valori mai mari, vom obtine rezultatul 'false' mai des, "
+"introducand mai multe pauza in riff."
 
 #: A.04-synth-riffs.md:159
 msgid ""
@@ -11081,12 +11259,21 @@ msgid ""
 "to alter the length of the riff. Try changing the 16 to 8 or even 4 or 3 and "
 "see how it affects the rhythm of the riff."
 msgstr ""
+"Ai observat ca am adaugat o iteratie folosind '16.times'. Asta deoarece vrem "
+"sa resetam sirul pseudoaleator doar o data la fiecare 16 note, astfel incat "
+"ritmul nostru sa se repete de 16 ori. Aceasta nu influenteaza amestecarea "
+"notelor deoarecea aceasta este realizata imediat dupa ce valoarea de "
+"initializare pentru sirul plseudoaleator este stabilita. Putem folosi "
+"dimensiunea iteratiei pentru a modifica lungimea riff-ului. Schimba din 16 "
+"in 8 sau chiar 4 sau 3 pentru a vedea cum afecteaza ritmul riff-ului."
 
 #: A.04-synth-riffs.md:168
 msgid ""
 "OK, so let's combine everything we've learned together into one final "
 "example. See you next time!"
 msgstr ""
+"OK, sa punem cap la cap ce am invatat intr-un exemplu final. Ne vedem data "
+"viitoare!"
 
 #: A.04-synth-riffs.md:171
 #, no-wrap
@@ -11116,14 +11303,39 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :random_riff do\n"
+"  #  uncomment to bring in:\n"
+"  #  synth :blade, note: :e4, release: 4, cutoff: 100, amp: 1.5\n"
+"  use_synth :dsaw\n"
+"  use_random_seed 43\n"
+"  notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle.take(8)\n"
+"  8.times do\n"
+"    play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)"
+"\n"
+"    sleep 0.125\n"
+"  end\n"
+"end\n"
+" \n"
+"live_loop :drums do\n"
+"  use_random_seed 500\n"
+"  16.times do\n"
+"    sample :bd_haus, rate: 2, cutoff: 110 if rand < 0.35\n"
+"    sleep 0.125\n"
+"  end\n"
+"end\n"
+" \n"
+"live_loop :bd do\n"
+"  sample :bd_haus, cutoff: 100, amp: 3\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.05-acid-bass.md:1
 msgid "A.5 Acid Bass"
-msgstr ""
+msgstr "A. Basul acid"
 
 #: A.05-acid-bass.md:3
 msgid "Acid Bass"
-msgstr ""
+msgstr "Basul acid"
 
 #: A.05-acid-bass.md:5
 msgid ""
@@ -11134,6 +11346,12 @@ msgid ""
 "Chicago House scene through to more recent electronic artists such as "
 "Plastikman, Squarepusher and Aphex Twin."
 msgstr ""
+"Este imposibil sa treci in revista istoria muzicii dance electronice fara sa "
+"remarci impactul major al micutului sintetizator Roland TB-303. Este "
+"ingredientul secret din sunetul acid bass original. Acele clasice riff-uri "
+"de bas scartaite produse de TB-303 pot fi intalnite de la inceputurile "
+"Chicago House pana mai aproape de zilele noastre la artisti ca Plastikman, "
+"Squarepusher si Aphex Twin."
 
 #: A.05-acid-bass.md:12
 msgid ""
@@ -11149,6 +11367,18 @@ msgid ""
 "a new generation of experimenters who started using them in ways that Roland "
 "didn't imagine to create new crazy sounds. Acid House was born."
 msgstr ""
+"Este interesant de stiut ca Roland nu a a gandit TB-303 pentru a fi utilizat "
+"in muzica dance. A fost creat initial ca un ajutor pentru chitaristii care "
+"exerseaza. Ei si-au imaginat ca utilizatorii vor programa sintetizatorul sa "
+"redea linia de bas si vor improviza alaturi de el. Din nefericie, au existat "
+"o serie de probleme: erau cam complicat de programat, nu sunau foarte bine "
+"ca inlocuitor de chitara bas si erau destul de scumpe. Ca sa-si limiteze "
+"pierderile, Roland a decis sa opreasca productia duoa ce a vandut 10000 de "
+"bucati si dupa ce au zacut cativa ani nefolosite prin dulapurile "
+"chitaristilor au inceput sa apara in vitrinele magazinelor second hand. "
+"Aceste TB-303 abandonat asteptau sa fie descoperite de o noua generatie de "
+"inovatori care au inceput sa le foloseasca in moduri la care Roland nu se "
+"gandise si sa creeze sunete noi incitante. Asa s-a nascut Acid House."
 
 #: A.05-acid-bass.md:25
 msgid ""
@@ -11157,6 +11387,10 @@ msgid ""
 "of Sonic Pi. Behold, fire up Sonic Pi and throw this code into an empty "
 "buffer and hit Run:"
 msgstr ""
+"Daca sa pui mana pe un TB-303 nu e prea usor, te vei bucura sa afil ca poti "
+"sa iti transformi Raspberry Pi intr-un astfel de sintetizatori folosind "
+"puterea Sonic Pi. Pornest Sonic Pi si copiaza codul asta intr-un buffer gol, "
+"apoi apasa Run:"
 
 #: A.05-acid-bass.md:30
 #, no-wrap
@@ -11164,14 +11398,16 @@ msgid ""
 "use_synth :tb303\n"
 "play :e1"
 msgstr ""
+"use_synth :tb303\n"
+"play :e1"
 
 #: A.05-acid-bass.md:35
 msgid "Instant acid bass! Let's play around..."
-msgstr ""
+msgstr "Am obtinut pe loc acid bass. Sa ne jucam putin..."
 
 #: A.05-acid-bass.md:37
 msgid "Squelch that Bass"
-msgstr ""
+msgstr "Sa scartaie basul"
 
 #: A.05-acid-bass.md:39
 msgid ""
@@ -11180,6 +11416,10 @@ msgid ""
 "through one after another, repeating when we get to the end. Let's create a "
 "live loop that does exactly that:"
 msgstr ""
+"Mai intai, sa construim un generator live de arpegii pentru a face lucrurile "
+"mai distractive. In tutorialul precedent am vazut cum riff-urile pot fi doar "
+"liste de note care se repeta una cate una, luand-o de la capat cand ajungem "
+"la sfarsit. Sa cream o bucla live care face exact acest lucru:"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
@@ -11191,22 +11431,32 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"live_loop :squelch do\n"
+"  n = (ring :e1, :e2, :e3).tick\n"
+"  play n, release: 0.125, cutoff: 100, res: 0.8, wave: 0\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.05-acid-bass.md:53
 msgid "Take a look at each line."
-msgstr ""
+msgstr "Sa privim fiecare linie."
 
 #: A.05-acid-bass.md:55
 msgid ""
 "On the first line we set the default synth to be `tb303` with the "
 "`use_synth` fn."
 msgstr ""
+"Pe prima linie alegem ca sintetizatorul implicit sa fie 'tb303', folosind "
+"functia 'use_synth'."
 
 #: A.05-acid-bass.md:58
 msgid ""
 "On line two we create a live loop called `:squelch` which will just loop "
 "round and round."
 msgstr ""
+"Pe linia a doua cream o bucla live numita ':squelch' care se va relua iar si "
+"iar."
 
 #: A.05-acid-bass.md:61
 msgid ""
@@ -11218,6 +11468,12 @@ msgid ""
 "time round it will be `:e2`, followed by `:e3`, and then back to `:e1`, "
 "cycling round forever."
 msgstr ""
+"Linia a treia este locul unde cream riff-ul - o lista de note (E in octavele "
+"1, 2 si 3) pe care o parcurgem ciclic folosind '.tick'. Definim 'n' pentru a "
+"reprezenta nota curent din riff. Semnul egal inseamna ca atribuim valoarea "
+"din drepata numelui din stanga sa. Aceasta va fi diferita la fiecare "
+"trecere. Prima data, 'n' va avea valoarea ':e1'. A doua oara va fi ':e2;, "
+"urmata de ':e3' si apoi iar ':e1', reluandu-se la infinit."
 
 #: A.05-acid-bass.md:70
 msgid ""
@@ -11225,18 +11481,25 @@ msgid ""
 "few interesting opts here: `release:`, `cutoff:`, `res:` and `wave:` which "
 "we'll discuss below."
 msgstr ""
+"Linia patru este locul in care pornim cu adevarat ':tb303' Sunt folositi "
+"cativa parametri interesanti aici: 'release:', 'cutoff:, 'res:' si 'wave:', "
+"pe care ii discutam in continuare."
 
 #: A.05-acid-bass.md:74
 msgid ""
 "Line five is our `sleep` - we're asking the live loop to loop round every "
 "`0.125`s or 8 times a second at the default BPM of 60."
 msgstr ""
+"Linia 5 este cea in care cerem pauza ('sleep') - cerem buclei sa se reia la "
+"fiecare '0.125'secunde sau de 8 ori pe secunda la viteza implicita de 60 BPM."
 
 #: A.05-acid-bass.md:77
 msgid ""
 "Line six is the `end` to the live loop. This just tells Sonic Pi where the "
 "end of the live loop is."
 msgstr ""
+"Linia 6 este sfarsitul ('end') buclei live. Ea spune Sonic Pi unde se "
+"termina partea care se repeta in bucla."
 
 #: A.05-acid-bass.md:80
 msgid ""
@@ -11244,6 +11507,9 @@ msgid ""
 "hit the Run button. You should hear the `:tb303` kick into action. Now, this "
 "is where the action is: let's start live coding."
 msgstr ""
+"Cat timp incerci sa intelegi ce se intampla, scrie codul de mai sus si apasa "
+"butonul Run. Ar trebui sa auzi cum ':tb303' intra in actiune. Aici este "
+"toata distractia, sa incepem sa programam live!"
 
 #: A.05-acid-bass.md:84
 msgid ""
@@ -11254,6 +11520,12 @@ msgid ""
 "to `80` when you feel like a rest. Then repeat as many times as you want. "
 "Don't worry, I'll still be here..."
 msgstr ""
+"In timp ce se executa bucla, schimba valoarea pentru 'cutoff:' la '110'. "
+"Acum apasa pe Run din nou. Ar trebui sa auzi cum sunetul devine putin mai "
+"dur si mai scartait. Scrie '120' si apasa pe Run. Apoi '130'. Asculta cum o "
+"valoare mai mare pentru cutoff face sunetul mai intens si mai patrunzator. "
+"Coboara valoarea la '80' cand simti ca e nevoie de o pauza. Apoi repeta de "
+"cate ori doresti. Nu te teme, voi fi tot aici..."
 
 #: A.05-acid-bass.md:91
 msgid ""
@@ -11266,6 +11538,15 @@ msgid ""
 "hearing the cutoff filter resonate so much it starts to make sounds of its "
 "own!"
 msgstr ""
+"Un alt parametru cu care te poti juca este'res:'. Acesta controleaza nivelul "
+"de rezonanta al filtrului. O rezonanta inalta este o caracteristica a "
+"sunetelor acid bass. Acum avem valoarea pentru 'res:' setata la '0.8'. "
+"Incearca sa o maresti putin la '0.85', apoi la '0.9' si in final la 0.95'. "
+"Vei constata ca o valoare pentru cutoff gen '110' sau mai ridicata va face "
+"diferentele mai usor de auzit. Fa o nebunie si introdu '0.999' pentru niste "
+"sunete traznite. La o valoare atat de ridicata pentru 'res' vei auzi cum "
+"filtrul cutoff rezoneaza atata de mult incat incepe sa scoata propriile "
+"sunete!"
 
 #: A.05-acid-bass.md:100
 msgid ""
@@ -11273,6 +11554,10 @@ msgid ""
 "This is the choice of source oscillator. The default is `0` which is a "
 "sawtooth wave. `1` is a pulse wave and `2` is a triangle wave."
 msgstr ""
+"In fine, un impact puternic asupra timbtului il are schimbarea valorii "
+"pentru 'wave:' in '1'. Aceasta este alegerea oscilatorului sursa. Valoarea "
+"'0' este pentru unda dinte de fierastrau, '1' este pentru impulsuri "
+"rectangulare, iar '2' pentru o forma de unda triunghiulara."
 
 #: A.05-acid-bass.md:104
 msgid ""
@@ -11280,21 +11565,28 @@ msgid ""
 "picking notes from scales or chords. Have fun with your first acid bass "
 "synth."
 msgstr ""
+"Desigur, poti incerca diferite riff-uri schimband notele din lista sau chiar "
+"alegand notele din game sau acorduri. Distreaza-te cu primul tau "
+"sintetizator acid bass."
 
 #: A.05-acid-bass.md:108
 msgid "Deconstructing the TB-303"
-msgstr ""
+msgstr "Disectia TB-303"
 
 #: A.05-acid-bass.md:110
 msgid ""
 "The design of the original TB-303 is actually pretty simple. As you can see "
 "from the following diagram there's only 4 core parts."
 msgstr ""
+"Designul TB-303 original este de fapt destul de simplu. Dupa cum vezi in "
+"diagrama urmatoare sunt doar 4 componente de baza."
 
 #: A.05-acid-bass.md:113
 msgid ""
 "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 msgstr ""
+"![Designul TB-303](../images/tutorial/articles/A.05-acid-"
+"bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -11310,6 +11602,18 @@ msgid ""
 "its own envelope! This means we have amazing control over the timbre of the "
 "sound by playing with both of these envelopes. Let's take a look:"
 msgstr ""
+"Prima este unda produsa de oscilator - materia prima pentru sunet. In cazul "
+"acesta avem o unda rectangulara. Apoi este anvelopa de amplitudine a "
+"oscilatorului care controleaza amplitudineea undei rectangulare in timp. "
+"Acestea sunt accesibile in Sonic Pi folosind 'attack:', 'decay:', 'sustain:' "
+"si 'release:' impreuna cu nivelele lor. Pentru mai multe informatii citeste "
+"sectiunea 2.4 'Anvelopa de timp' din tutorialul inclus in program. Trecem "
+"apoi unda rectangulara careia i-a fost aplicata anvelopa printr-un filtru "
+"rezonant 'trece jos' (low pass). Acesta taie frecventele inalte si are si un "
+"efect placut de rezonanta. Aici incepe partea interesanta. Valoarea de "
+"cutoff pentru acest filtrul are propria sa anvelopa. Aste ne ofera un "
+"control incredibil asupra timbrului sunetului prin modificarea ambelor "
+"anvelope. Sa aruncam o privire:"
 
 #: A.05-acid-bass.md:128
 #, no-wrap
@@ -11322,6 +11626,14 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"with_fx :reverb, room: 1 do\n"
+"  live_loop :space_scanner do\n"
+"    play :e1, cutoff: 100, release: 7, attack: 1, cutoff_attack: 4, "
+"cutoff_release: 4\n"
+"    sleep 8\n"
+"  end\n"
+"end"
 
 #: A.05-acid-bass.md:138
 msgid ""
@@ -11331,12 +11643,20 @@ msgid ""
 "You'll hear a crazy sound warble in and out. Now start to play. Try changing "
 "the `cutoff_attack:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
+"Pentru fiecare parametru al anvelopei standard exista un echivalent pentru "
+"'cutoff_' in cazul sintetizatorului ':tb303'. Deci, pentru a shimba timpul "
+"de atac pentru cuttof putem folosi parametrul 'cutoff_attack'. Copiaza codul "
+"de mai sus intr-un buffer gol si apasa Run. Vei auzi un sunet ca un ciripit. "
+"Incearca sa schimbi timpul pentru 'cutoff_attack' in '1' si apoi in '0.5'. "
+"Acum incearca '8'."
 
 #: A.05-acid-bass.md:144
 msgid ""
 "Notice that I've passed everything through a `:reverb` FX for extra "
 "atmosphere - try other FX to see what works!"
 msgstr ""
+"Observi ca am trecut totul printr-un efect ':reverb' pentru atmosfera. "
+"Incearca alte efecte pentru a vedea ce se intampla!"
 
 #: A.05-acid-bass.md:149
 msgid ""
@@ -11344,6 +11664,10 @@ msgid ""
 "into an empty buffer, listen for a while and then start live coding your own "
 "changes. See what crazy sounds you can make with it! See you next time..."
 msgstr ""
+"La final iata o piesa pe care am compus-o folosind ideile prezentate in "
+"acest tutorial. Copiaz-o intr-un buffer gol, asculta pentru un timp apoi "
+"incepe sa programezi live aducand propriile modificari. Vezi ce sunete "
+"interesante poti produce din ea! Ne vedem data viitoare..."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
@@ -11370,14 +11694,37 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"use_debug false\n"
+" \n"
+"with_fx :reverb, room: 0.8 do\n"
+"  live_loop :space_scanner do\n"
+"    with_fx :slicer, phase: 0.25, amp: 1.5 do\n"
+"      co = (line 70, 130, steps: 8).tick\n"
+"      play :e1, cutoff: co, release: 7, attack: 1, cutoff_attack: 4, "
+"cutoff_release: 4\n"
+"      sleep 8\n"
+"    end\n"
+"  end\n"
+" \n"
+"  live_loop :squelch do\n"
+"    use_random_seed 3000\n"
+"    16.times do\n"
+"      n = (ring :e1, :e2, :e3).tick\n"
+"      play n, release: 0.125, cutoff: rrand(70, 130), res: 0.9, wave: 1, amp:"
+" 0.8\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.06-minecraft.md:1
 msgid "A.6 Musical Minecraft"
-msgstr ""
+msgstr "A.6 Minecraft muzical"
 
 #: A.06-minecraft.md:3
 msgid "Musical Minecraft"
-msgstr ""
+msgstr "Minecraft muzical"
 
 #: A.06-minecraft.md:7
 msgid ""
@@ -11385,22 +11732,25 @@ msgid ""
 "the music possibilities of Sonic Pi - (turning your Raspberry Pi into a "
 "performance ready musical instrument). So far we've learned how to:"
 msgstr ""
+"Salut, bine ati revenit! In precedentele tutoriale ne-am concentrat doar pe "
+"functionalitatile muzicale ale Sonic Pi (transformarea Raspberry Pi intr-un "
+"instrument muzical gata pentru interpretare). Pana acum am invatat cum sa:"
 
 #: A.06-minecraft.md:11
 msgid "Live Code - changing the sounds on-the-fly,"
-msgstr ""
+msgstr "Programam live - schimband sunetele din mers,"
 
 #: A.06-minecraft.md:12
 msgid "Code some huge beats,"
-msgstr ""
+msgstr "Programam niste beat-uri geniale,"
 
 #: A.06-minecraft.md:13
 msgid "Generate powerful synth leads,"
-msgstr ""
+msgstr "Generam melodii cool folosind sintetizatoarele,"
 
 #: A.06-minecraft.md:14
 msgid "Re-create the famous TB-303 acid-bass sound."
-msgstr ""
+msgstr "Re-cream vestitul sunet acid-bass al sintetizatorului TB-303."
 
 #: A.06-minecraft.md:16
 msgid ""
@@ -11408,10 +11758,13 @@ msgid ""
 "However, this month, let's look at something Sonic Pi can do that you "
 "probably didn't realise: control Minecraft."
 msgstr ""
+"Am insa mult mai multe sa va arat (si voi continua sa fac asta in numerele "
+"viitoare). Luna asta, insa, am sa va arat ceva ce Sonic Pi stie sa faca dar "
+"probabil nici nu va ganditi: sa controleze Minecraft."
 
 #: A.06-minecraft.md:20
 msgid "Hello Minecraft World"
-msgstr ""
+msgstr "Salut lume Minecraft!"
 
 #: A.06-minecraft.md:22
 msgid ""
@@ -11419,15 +11772,18 @@ msgid ""
 "create a new world. Now start up Sonic Pi and re-size and move your windows "
 "so you can see both Sonic Pi and Minecraft Pi at the same time."
 msgstr ""
+"OK, sa incepem. Porneste Rasberry Pi, lanseaza Minecraft Pi si creeaza o "
+"lume noua. Acum porneste Sonic Pi si redimensioneaza si aseaza ferestrele "
+"astfel incat sa vezi atat Sonic Pi cat si Minecraft Pi in acelasi timp."
 
 #: A.06-minecraft.md:26
 msgid "In a fresh buffer type the following:"
-msgstr ""
+msgstr "Intr-un buffer nou scrie asta:"
 
 #: A.06-minecraft.md:28
 #, no-wrap
 msgid "mc_message \"Hello Minecraft from Sonic Pi!\""
-msgstr ""
+msgstr "mc_message \"Hello Minecraft from Sonic Pi!\""
 
 #: A.06-minecraft.md:32
 msgid ""
@@ -11435,16 +11791,21 @@ msgid ""
 "Now, stop reading this for a moment and play about with your own messages. "
 "Have fun!"
 msgstr ""
+"Acum, apasa Run. Boom! Mesajul tau a aparut in Minecraft! Cat de greu a "
+"fost? Acum, opreste-te putin din citit acest tutorial si joaca-te putin cu "
+"propriile mesaje. Distreaza-te!"
 
 #: A.06-minecraft.md:36
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-"
 "small.png)"
 msgstr ""
+"![Imaginea 0](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
-msgstr ""
+msgstr "Teleportare sonica"
 
 #: A.06-minecraft.md:40
 msgid ""
@@ -11453,11 +11814,15 @@ msgid ""
 "boring. It would be far better if we had some sort of teleport machine. "
 "Well, thanks to Sonic Pi, we have one. Try this:"
 msgstr ""
+"Acum sa exploram putin. Varianta obisnuita este sa iei mouse-ul si tastatura "
+"si sa incepi sa te plimbi in jur. Merge, dar este incet si plictisittor. Ar "
+"fi mult mai bine daca ai avea o masina care ar putea sa te teleporteze. Ei "
+"bine, Sonic Pi are una. Incearca asta:"
 
 #: A.06-minecraft.md:45
 #, no-wrap
 msgid "mc_teleport 80, 40, 100"
-msgstr ""
+msgstr "mc_teleport 80, 40, 100"
 
 #: A.06-minecraft.md:49
 msgid ""
@@ -11466,6 +11831,10 @@ msgid ""
 "enter flying-mode and teleport again, you'll stay hovering at the location "
 "you zap to."
 msgstr ""
+"Genial! Ai ajuns sus, departe. Daca nu aveai activat modul de zbor ai cazut "
+"inapoi pana pe pamant. Daca apeste de doua ori rapid pe spatiu ca asa comuti "
+"in modul de zbor si te teleportezi din nou, vei incepe sa plutesti din "
+"pozitia in care ai aparut."
 
 #: A.06-minecraft.md:54
 msgid ""
@@ -11473,18 +11842,21 @@ msgid ""
 "coordinates of where in the world we want to go. We give each number a name "
 "- x, y and z:"
 msgstr ""
+"Acum sa vedem ce inseamna acele numere. Avem trei numere care descriu "
+"coordonatele locului din lume in care ne aflam. Fiecare numar are un nume - "
+"x, y si z:"
 
 #: A.06-minecraft.md:58
 msgid "x - how far left and right (80 in our example)"
-msgstr ""
+msgstr "x - cat de departe la stanga sau la dreapta (80 in exemplul nostru)"
 
 #: A.06-minecraft.md:59
 msgid "y - how high we want to be (40 in our example)"
-msgstr ""
+msgstr "y - cat de sus vrem sa ajungem (40 in exemplul nostru)"
 
 #: A.06-minecraft.md:60
 msgid "z - how far forward and back (100 in our example)"
-msgstr ""
+msgstr "z - cat de departe inainte sau inapoi (100 in exemplul nostru)"
 
 #: A.06-minecraft.md:62
 msgid ""
@@ -11494,12 +11866,19 @@ msgid ""
 "ground or into a mountain. Just choose a higher y value to get back out "
 "above land. Keep on exploring until you find somewhere you like..."
 msgstr ""
+"Alegand diferite valori pentru x, y sau z, putem sa ne teleportam *oriunde* "
+"in lumea noastra. Incearca! Alege numere diferite si vezi unde ajungi. Daca "
+"ecranul devine negru inseamna ca te-ai teleportat sub pamant sau intr-un "
+"munte. Alege o valoare mai mare pentru y si vei iesi din nou deasupra "
+"solului. Continua sa explorezi pana gasesti un loc care iti place..."
 
 #: A.06-minecraft.md:69
 msgid ""
 "Using the ideas so far, let's build a Sonic Teleporter which makes a fun "
 "teleport sound whilst it whizzes us across the Minecraft world:"
 msgstr ""
+"Folosind ideile de pana acum, sa construim o masina de teleportat care "
+"scoate un sunet haios cand te deplaseaza in lumea Minecraft:"
 
 #: A.06-minecraft.md:72
 #, no-wrap
@@ -11516,16 +11895,29 @@ msgid ""
 "mc_teleport 90, 20, 10\n"
 "mc_message \"Whoooosh!\""
 msgstr ""
+"mc_message \"Preparing to teleport....\"\n"
+"sample :ambi_lunar_land, rate: -1\n"
+"sleep 1\n"
+"mc_message \"3\"\n"
+"sleep 1\n"
+"mc_message \"2\"\n"
+"sleep 1\n"
+"mc_message \"1\"\n"
+"sleep 1\n"
+"mc_teleport 90, 20, 10\n"
+"mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
 msgid ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-"
 "small.png)"
 msgstr ""
+"![Imaginea 1](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
-msgstr ""
+msgstr "Blocuri magice"
 
 #: A.06-minecraft.md:90
 msgid ""
@@ -11533,6 +11925,10 @@ msgid ""
 "used to and start clicking the mouse furiously to place blocks under the "
 "cursor. Or you could use the magic of Sonic Pi. Try this:"
 msgstr ""
+"Ai gasit un loc interesant, acum sa incepem sa construim. Ai putea face ca "
+"pana acum sa incepi sa faci click in disperare cu mouse-ul pentru a plasa "
+"blocuri la pozitia cursorului. Sau ai putea sa folosesti puterile magice ale "
+"Sonic Pi. Incearca asta:"
 
 #: A.06-minecraft.md:94
 #, no-wrap
@@ -11540,6 +11936,8 @@ msgid ""
 "x, y, z = mc_location\n"
 "mc_set_block :melon, x, y + 5, z"
 msgstr ""
+"x, y, z = mc_location\n"
+"mc_set_block :melon, x, y + 5, z"
 
 #: A.06-minecraft.md:99
 msgid ""
@@ -11551,6 +11949,13 @@ msgid ""
 "higher up in the sky we just need to increase the y value which is why we "
 "add 5 to it. Let's make a long trail of them:"
 msgstr ""
+"Acum priveste in sus! E un pepene pe cer! Priveste o clipa la cod. Ce am "
+"facut? Pe prima linia am aflat pozitia curenta a lui Steve in variabilele x, "
+"y si z. Acestea corespund coordonatelor descrise anterior. Folosim aceste "
+"coordonate in functia 'mc_set_block' care plaseaza blocul pe care l-ai ales "
+"la coordonatele specificate. Pentru a construi ceva mai sus in cer trebuie "
+"sa marim valoarea pentru y, motiv pentru care am adaugat 5 la ea. Sa "
+"construim o poteca:"
 
 #: A.06-minecraft.md:107
 #, no-wrap
@@ -11561,6 +11966,11 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"live_loop :melon_trail do\n"
+"  x, y, z = mc_location\n"
+"  mc_set_block :melon, x, y-1, z\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.06-minecraft.md:115
 msgid ""
@@ -11569,6 +11979,10 @@ msgid ""
 "trail of melon blocks! See what kind of twisty patterns you can make in the "
 "sky."
 msgstr ""
+"Acum, mergi in fereastra Minecraft, asigura-te ca esti in modul de zbor ("
+"apasa de doua ori pe bara de spatiu in caz contrar) si zboara la intamplare. "
+"Priveste in urma ta si vei vedea o poteca formata din pepeni. Incearca sa "
+"creezi modele cat mai introtocheate pe cer."
 
 #: A.06-minecraft.md:120
 msgid "Live Coding Minecraft"
@@ -11587,6 +12001,15 @@ msgid ""
 "and I use `live_loop`s :-) However, today we're going to live code both "
 "music and Minecraft."
 msgstr ""
+"Cei care au urmarit acest tutorial pe parcursul ultimelor lui sunt probabil "
+"dati pe spate. Poteca din pepeni este interesanta, dar cel mai surprinzator "
+"este ca poti folosi 'live_loop' cu Minecraft! Pentru cei care nu stiu, "
+"'live_loop' este o putere magica a Sonic Pi pe care niciun alt limbaj de "
+"programare nu o are. Iti permite sa rulezi mai multe bucle in acelasi timp "
+"si te lasa sa le schimbi in timp ce ruleaza. Sunt incredibil de puternice si "
+"foarte distractive. Eu folosesc 'live_loop' pentru a canta in cluburi cu "
+"Sonic Pi. DJ-ii folosesc discuri, eu folosesc bucle live :) Dar astazi vom "
+"programa live si muzica si Minecraft."
 
 #: A.06-minecraft.md:133
 msgid ""
@@ -11595,6 +12018,11 @@ msgid ""
 "brick` and hit run. Hey presto, you're now making a brick trail. How simple "
 "was that! Fancy some music to go with it? Easy. Try this:"
 msgstr ""
+"Sa incepem. Ruleaza codul de mai sus si incepe sa construiesti poteca din "
+"pepeni din nou. Acum, fara sa opresti codul, schimba ':melon' cu ':brick' si "
+"apasa pe Run. Acum lasi in urma ta o poteca din caramizi. Cat de simplu a "
+"fost! Ti-ar placea sa ai si niste muzica in timp ce faci asta? E usor. "
+"Incearca:"
 
 #: A.06-minecraft.md:138
 #, no-wrap
@@ -11610,6 +12038,16 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"live_loop :bass_trail do\n"
+"  tick\n"
+"  x, y, z = mc_location\n"
+"  b = (ring :melon, :brick, :glass).look\n"
+"  mc_set_block b, x, y -1, z\n"
+"  note = (ring :e1, :e2, :e3).look\n"
+"  use_synth :tb303\n"
+"  play note, release: 0.1, cutoff: 70\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.06-minecraft.md:151
 msgid ""
@@ -11617,12 +12055,18 @@ msgid ""
 "try `:water`, `:grass` or your favourite block type. Also, try changing the "
 "cutoff value from `70` to `80` and then up to `100`. Isn't this fun?"
 msgstr ""
+"Acum, in timp ce ruleaza, incepe sa schimbi codul. Schimba tipul de blocuri -"
+" incearca ':water', ':grass' sau blocul tau favorit. In acelasi timp "
+"incearca sa schimbi valoarea pentru cutoff din '70' in '80 si apoi in '100' "
+"Nu-i asa ca este distractiv?"
 
 #: A.06-minecraft.md:158
 msgid ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-"
 "small.png)"
 msgstr ""
+"![Imaginea 2](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 msgid ""
@@ -11632,6 +12076,11 @@ msgid ""
 "it in and have a play by changing some of the values whilst it's running "
 "live. Have fun and see you next time..."
 msgstr ""
+"Sa punem cap la cap ce am vazut pana acum si sa mai adaugam putina magie. Sa "
+"combinam abilitatea de a ne teleporta cu plasarea de blocuri si cu muzica "
+"pentru a realiza un videoclip Minecraft. Nu te ingrijora daca nu intelegi "
+"totul, doar scrie codul asta si joaca-te cu el schimband niste valori in "
+"timp ce este redat. Distreaza-te! Ne vedem data viitoare..."
 
 #: A.06-minecraft.md:166
 #, no-wrap
@@ -11661,14 +12110,38 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :note_blocks do\n"
+"  mc_message \"This is Sonic Minecraft\"\n"
+"  with_fx :reverb do\n"
+"    with_fx :echo, phase: 0.125, reps: 32 do\n"
+"      tick\n"
+"      x = (range 30, 90, step: 0.1).look\n"
+"      y = 20\n"
+"      z = -10\n"
+"      mc_teleport x, y, z\n"
+"      ns = (scale :e3, :minor_pentatonic)\n"
+"      n = ns.shuffle.choose\n"
+"      bs = (knit :glass, 3, :sand, 1)\n"
+"      b = bs.look\n"
+"      synth :beep, note: n, release: 0.1\n"
+"      mc_set_block b, x+20, n-60+y, z+10\n"
+"      mc_set_block b, x+20, n-60+y, z-10\n"
+"      sleep 0.25\n"
+"    end\n"
+"  end\n"
+"end\n"
+"live_loop :beats do\n"
+"  sample :bd_haus, cutoff: 100\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.07-bizet.md:1
 msgid "A.7 Bizet Beats"
-msgstr ""
+msgstr "A.7 Beat-uri Bizet"
 
 #: A.07-bizet.md:3
 msgid "Bizet Beats"
-msgstr ""
+msgstr "Beat-uri Bizet"
 
 #: A.07-bizet.md:5
 msgid ""
@@ -11677,10 +12150,14 @@ msgid ""
 "classical operatic dance piece straight into the 21st century using the "
 "awesome power of code."
 msgstr ""
+"Dupa scurta noastr incursiune in fantastica lumea a programarii Minecraft "
+"folosind Sonic Pi de luna trecuta, sa revenim la muzica. Astazi vom aduce o "
+"bucata de dans dintr-o opera clasica direct in secolul 21 folosind puterea "
+"codului."
 
 #: A.07-bizet.md:10
 msgid "Outrageous and Disruptive"
-msgstr ""
+msgstr "Scandalos si tulburator"
 
 #: A.07-bizet.md:12
 msgid ""
@@ -11694,10 +12171,20 @@ msgid ""
 "it to a modern format of music that is also too outrageous and different for "
 "most people in our time - live coded music!"
 msgstr ""
+"Sa calatorim inapoi in timp in anul 1875. Un compozitor pe nume Bizet tocmai "
+"a terminat ultima sa opera, Carmen. Din pacate, la fel ca in cazul multor "
+"altor piese incitante si neobisnuite, lumea nu a apreciat-o la inceput "
+"deoarece era scandalos de diferita. In mod tragic, Bizeta a murit cu zece "
+"ani inainte ca opera sa obtine un succes international imens si sa devina "
+"una dintre cele mai faimoase si cele mai frecvent interpretate opere din "
+"toate timpurile. Ca un semn de compasiune sa luam una dintre temele "
+"principale din Carmen si sa o convertim intr-un format modern care este de "
+"asemenea scandalos si diferit pentru majoritatea oamenilor din vremea nostra "
+"- muzica programata live!"
 
 #: A.07-bizet.md:23
 msgid "Decoding the Habanera"
-msgstr ""
+msgstr "Decodarea Habanerei"
 
 #: A.07-bizet.md:25
 msgid ""
@@ -11705,10 +12192,13 @@ msgid ""
 "tutorial, so let's focus on one of the most famous parts - the bass line to "
 "the Habanera:"
 msgstr ""
+"Sa incercam sa scriem cod pentru intreaga opera ar fi o provocare serioasa "
+"pentru acest tutorial, mai bine sa ne concentram asupra uneia dintre cele "
+"mai faimoase parti  - linia de bas din Habanera:"
 
 #: A.07-bizet.md:29
 msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
-msgstr ""
+msgstr "![Riff Habanera](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -11717,10 +12207,14 @@ msgid ""
 "of code - only it represents instructions to a musician instead of a "
 "computer. We therefore need to figure out a way of decoding it."
 msgstr ""
+"S-ar putea sa ti se para ca e in pasareasca daca nu ai studiat notatia "
+"muzicala inca. Totusi, ca programatori vedem notatia muzicala ca pe o alta "
+"forma de cod - doar ca reprezinta instructiuni pentru un muzician, nu pentru "
+"un computer. Trebuie deci sa gasim o cale sa o decodam."
 
 #: A.07-bizet.md:36
 msgid "Notes"
-msgstr ""
+msgstr "Notele"
 
 #: A.07-bizet.md:38
 msgid ""
@@ -11729,6 +12223,10 @@ msgid ""
 "pitch of the note.* The higher the note on the score, the higher the pitch "
 "of the note."
 msgstr ""
+"Notele sunt aranjate de la stanga la dreapta, la fel cu cuvintele din "
+"aceasta revista, dar au inaltimi diferite. *Inaltimea pe portativ reprezinta "
+"tonalitatea notei*. Cu cat e mai sus nota pe portativ, cu atat tonalitatea "
+"notei va fi mai sus."
 
 #: A.07-bizet.md:43
 msgid ""
@@ -11738,14 +12236,19 @@ msgid ""
 "the musical score represents a specific note name. Take a look at this handy "
 "look up table:"
 msgstr ""
+"In Sonic Pi stim deja sa modificam tonalitatea notei - fie folosim numere "
+"mai mari sau mai mici, cum ar fi 'play 75' si 'play 80', fie folosim numele "
+"notelor: 'play: E' si 'play:F'. Din fericire, fiecare dintre pozitiile "
+"verticale de pe portativ reprezinta o anumita nota. Priveste acest tabel "
+"util pentru cautare rapida:"
 
 #: A.07-bizet.md:49
 msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr ""
+msgstr "![Notele](../images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
-msgstr ""
+msgstr "Pauzele"
 
 #: A.07-bizet.md:53
 msgid ""
@@ -11756,6 +12259,12 @@ msgid ""
 "idea of `nil` or `null` - the absence of a value. In other words not playing "
 "a note is like the absence of a note."
 msgstr ""
+"Partiturile muzicale reprezinta un tip de cod foarte bogat si expresiv "
+"capabil sa comunice multe lucruri. Nu ar trebui deci sa fie o surpriza ca "
+"partiturile pot sa-ti spuna nu doar ce note sa canti, ci si cand *nu* "
+"trebuie sa canti nicio nota. In programare acest lucru este echivalent cu "
+"folosirea 'nil' sau 'null' - absenta unei valori. Cu alte cuvinte, a nu "
+"canta nicio nota inseamna absenta unei note."
 
 #: A.07-bizet.md:60
 msgid ""
@@ -11766,10 +12275,17 @@ msgid ""
 "could also write `play :rest`, `play nil` or `play false` which are all "
 "equivalent ways of representing rests."
 msgstr ""
+"Daca privesti cu atentie partitura vei observa ca este de fapt o combinatie "
+"de puncte negre cu linii care reprezinta notele ce vor fi redate si niste "
+"chesti serpuite care reprezinta pauzele. Din fericire Sonic Pi are o "
+"reprezentare foarte comoda pentru pauze: ':r', deci daca dam comanda: 'play :"
+"r' va reda de fapt liniste... Putem de asemenea sa scriem 'play :rest', "
+"'play nil' sau 'play false' care sunt toate moduri echivalente de a "
+"reprezenta pauzele."
 
 #: A.07-bizet.md:67
 msgid "Rhythm"
-msgstr ""
+msgstr "Ritmul"
 
 #: A.07-bizet.md:69
 msgid ""
@@ -11780,6 +12296,12 @@ msgid ""
 "single beam which means they last for an 8th of a beat. The rest has two "
 "squiggly beams which means it also represents a 16th of the beat."
 msgstr ""
+"Mai este un ultim lucru pe care trebuie sa inveti sa-l decodezi in notatie - "
+"tempoul pentru note. In imaginea initiala vei vedea ca notele sunt conectate "
+"cu niste linii groase. A doua nota are doua astfel de linii, ceea ce "
+"inseamna ca tine o saisprezecime de masura. Celelalte note au o singura "
+"linie, ceea ce inseamna ca dureaza o optime. Pauza are si ea doua linii "
+"serpuite care inseamna ca dureaza tot o saisprezecime de masura."
 
 #: A.07-bizet.md:77
 msgid ""
@@ -11788,31 +12310,40 @@ msgid ""
 "patterns. For example, when we re-write our notation purely in 16ths you can "
 "see that our notation just turns into a nice sequence of notes and rests."
 msgstr ""
+"Cand incercam sa decodam si sa exploram efectul unor modificari cel mai bine "
+"ar fi sa incercam sa facem totul cat mai asemanator si sa incercam sa vedem "
+"ce legaturi putem face. De exemplu, cand rescriem partitura noastra in "
+"saisprezecimi poti vede cum se transforma intr-o secventa draguta de note si "
+"pauze."
 
 #: A.07-bizet.md:83
 msgid ""
 "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 msgstr ""
+"![Riff-ul Habanera 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
-msgstr ""
+msgstr "Rescrierea bucatii Habanera"
 
 #: A.07-bizet.md:87
 msgid ""
 "We're now in a position to start translating this bass line to Sonic Pi. "
 "Let's encode these notes and rests in a ring:"
 msgstr ""
+"Suntem acum in masura sa transpunem aceasta line de bas in Sonic Pi. Sa "
+"codam aceste note si pauze intr-o lista circulara:"
 
 #: A.07-bizet.md:90
 #, no-wrap
 msgid "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
-msgstr ""
+msgstr "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 
 #: A.07-bizet.md:94
 msgid ""
 "Let's see what this sounds like. Throw it in a live loop and tick through it:"
 msgstr ""
+"Sa vedem cum suna. Pune asta intr-o bucla live si fa o parcurgere ciclica:"
 
 #: A.07-bizet.md:97
 #, no-wrap
@@ -11833,10 +12364,12 @@ msgid ""
 "speakers. It took a lot of effort to get here, but it was worth it - high "
 "five!"
 msgstr ""
+"Excelent, acest riff inconfundabil capata viata in difuzoarele tale. A fost "
+"foarte greu sa ajungem aici, dar a meritat - bate palma!"
 
 #: A.07-bizet.md:108
 msgid "Moody Synths"
-msgstr ""
+msgstr "Sintetizatoare de atmosfera"
 
 #: A.07-bizet.md:110
 msgid ""
@@ -11845,6 +12378,10 @@ msgid ""
 "synth lead. Let's try it with the starting note `:d` passed through a slicer "
 "and reverb:"
 msgstr ""
+"Avem linia de bas, sa recream o parte din atmosfera scenei de opera. Un "
+"sintetizatot care merita incercat este ':blade' care este un sintetizator in "
+"genul anilor 80. Sa-l incercam trecand nota ':d' de la inceput printr-un "
+"slicer si un efect reverb:"
 
 #: A.07-bizet.md:115
 #, no-wrap
@@ -11864,6 +12401,20 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :habanera do\n"
+"  use_synth :fm\n"
+"  use_transpose -12\n"
+"  play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick\n"
+"  sleep 0.25\n"
+"end\n"
+"with_fx :reverb do\n"
+"  live_loop :space_light do\n"
+"    with_fx :slicer, phase: 0.25 do\n"
+"      synth :blade, note: :d, release: 8, cutoff: 100, amp: 2\n"
+"    end\n"
+"    sleep 8\n"
+"  end\n"
+"end"
 
 #: A.07-bizet.md:133
 msgid ""
@@ -11872,6 +12423,10 @@ msgid ""
 "hit run again. Also, try different values for the slicer's `phase:` opt such "
 "as `0.5`, `0.75` and `1`."
 msgstr ""
+"Acum, incearca alte note in linia de bas: ':a' si ':f5'. Tine minte, nu e "
+"nevoie sa apesi pe Stop, doar modifici codul in timp ce se aude muzica si "
+"apesi pe Run din nou. De asemenea, incearca diferite valori pentru parametru "
+"'phase:' al slicer-ului, cum ar fi `0.5`, `0.75` si `1`."
 
 #: A.07-bizet.md:140
 msgid ""
@@ -11882,6 +12437,12 @@ msgid ""
 "removing the `#` and hit run again - how marvellous is that! Now, start "
 "mashing it around yourself and have fun."
 msgstr ""
+"La final, sa combinam toate aceste idei intr-un nou remix dupa Habanera. "
+"Poate ai observat ca am inclus o alta parte din linia de bas sub forma de "
+"comentariu. Dupa ce ai copiat totul intr-un buffer nou apasa Run si asculta "
+"compozitia. Acum, fara sa apesi pe stop, sterge simbolul de comentariu '#' "
+"din fata celei de a doua linii si apasa Run din nou - nu e minunat? Acum "
+"poti sa-l modifici cum vrei si sa te distrezi."
 
 #: A.07-bizet.md:147
 #, no-wrap
@@ -11918,20 +12479,53 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"use_debug false\n"
+"bizet_bass = (ring :d, :r, :r, :a, :f5, :r, :a, :r)\n"
+"#bizet_bass = (ring :d, :r, :r, :Bb, :g5, :r, :Bb, :r)\n"
+" \n"
+"with_fx :reverb, room: 1, mix: 0.3 do\n"
+"  live_loop :bizet do\n"
+"    with_fx :slicer, phase: 0.125 do\n"
+"      synth :blade, note: :d4, release: 8,\n"
+"        cutoff: 100, amp: 1.5\n"
+"    end\n"
+"    16.times do\n"
+"      tick\n"
+"      play bizet_bass.look, release: 0.1\n"
+"      play bizet_bass.look - 12, release: 0.3\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end\n"
+" \n"
+"live_loop :ind do\n"
+"  sample :loop_industrial, beat_stretch: 1,\n"
+"    cutoff: 100, rate: 1\n"
+"  sleep 1\n"
+"end\n"
+" \n"
+"live_loop :drums do\n"
+"  sample :bd_haus, cutoff: 110\n"
+"  synth :beep, note: 49, attack: 0,\n"
+"    release: 0.1\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.08-minecraft-vj.md:1
 msgid "A.8 Become a Minecraft VJ"
-msgstr ""
+msgstr "A.8 Cum sa devii un VJ Minecraft"
 
 #: A.08-minecraft-vj.md:3
 msgid "Become a Minecraft VJ"
-msgstr ""
+msgstr "Cum sa devii un VJ Minecraft"
 
 #: A.08-minecraft-vj.md:5
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-"
 "small.png)"
 msgstr ""
+"![Imaginea 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-0-small.png)"
 
 #: A.08-minecraft-vj.md:7
 msgid ""
@@ -11941,6 +12535,12 @@ msgid ""
 "didn't know that you could use Minecraft to create amazing visuals just like "
 "a professional VJ."
 msgstr ""
+"Toata lumea a jucat Minecraft. Toti ati construit structuri impresionante, "
+"ati gandit capcane iscusite si probabil ati creat trasee pentru minecart "
+"controlate de comutatoare si circuite din redstone. Cati dintre voi ati "
+"interpretat muzica in Minecraft. Pariez ca nu stiati ca puteti folosi "
+"Minecraft ca sa creati efecte vizuale impresionante, la fel ca un VJ "
+"profesionist."
 
 #: A.08-minecraft-vj.md:13
 msgid ""
@@ -11950,6 +12550,13 @@ msgid ""
 "comes with an app called Sonic Pi which makes coding Minecraft not only easy "
 "but also incredibly fun."
 msgstr ""
+"Daca singurul mod in care ai schimbat ceva in Minecraft a fost cu ajutorul "
+"mouse-ului, probabil te-ai chinuit destul de mult sa schimbi lucrurile "
+"suficient de rapid. Din fericire pentru tine Raspberry Pi iti vine in ajutor "
+"cu o versiune de Minecraft care poate fi controlata prin intermediul "
+"programarii. Vine de asemenea cu o aplicatie numita Sonic Pi care face "
+"programarea in Minecraft nu doar foarte facila ci si incredibil de "
+"distractiva."
 
 #: A.08-minecraft-vj.md:19
 msgid ""
@@ -11957,6 +12564,9 @@ msgid ""
 "we've used to create performances in night clubs and music venues around the "
 "world."
 msgstr ""
+"In articolul de azi iti voi arata cateva trucuri pe care le-am folosit "
+"pentru interpretarile din cluburile de noapte sau scene muzicale din toata "
+"lumea."
 
 #: A.08-minecraft-vj.md:23
 msgid "Let's get started..."
@@ -11973,6 +12583,10 @@ msgid ""
 "Minecraft and Sonic Pi. In Minecraft, create a new world, and in Sonic Pi "
 "choose a fresh buffer and write in this code:"
 msgstr ""
+"Sa incepem cu un exercitiu usor de incalzire pentru a ne reaminti lucrurile "
+"de baza. Pentru inceput, porneste Raspberry Pi si apoi lanseaza atat "
+"Minecraft cat si Sonic Pi. In Minecraft, creeaza o lume noua, iar in Sonic "
+"Pi alege un buffer gol si scrie codul de mai jos:"
 
 #: A.08-minecraft-vj.md:32
 #, no-wrap
@@ -11984,10 +12598,12 @@ msgid ""
 "Hit the Run button and you'll see the message over in the Minecraft window. "
 "OK, we're ready to start, let's have some fun......"
 msgstr ""
+"Apasa butonul Run si vei vedea un mesaj in fereastra Minecraft. OK, suntem "
+"gata sa incepem, hai sa ne distram..."
 
 #: A.08-minecraft-vj.md:39
 msgid "Sand Storms"
-msgstr ""
+msgstr "Furtuna de nisip"
 
 #: A.08-minecraft-vj.md:41
 msgid ""
@@ -11996,26 +12612,30 @@ msgid ""
 "trick is to create a sand storm by dropping sand blocks from the sky. For "
 "that all we need are a few basic fns:"
 msgstr ""
+"Cand folosim Minecraft pentru a crea efecte vizuale incercam sa ne gandim ce "
+"va arata interesant si va fi si usor de generat prin cod. Un truc haios este "
+"sa creezi o furtuna de nisip lasand sa cada blocuri de nisip din cer. Pentru "
+"asta avem nevoie doar de cateva functii de baza:"
 
 #: A.08-minecraft-vj.md:46
 msgid "`sleep` - for inserting a delay between actions"
-msgstr ""
+msgstr "'sleep' - pentru a insera o pauza intre actiuni"
 
 #: A.08-minecraft-vj.md:47
 msgid "`mc_location` - to find our current location"
-msgstr ""
+msgstr "'mc_location' - pentru a afla pozitia noastra curenta"
 
 #: A.08-minecraft-vj.md:48
 msgid "`mc_set_block`- to place sand blocks at a specific location"
-msgstr ""
+msgstr "'mc_set_block' - pentru a plasa blocuri de nisip la o anumita pozitie"
 
 #: A.08-minecraft-vj.md:49
 msgid "`rrand` - to allow us to generate random values within a range"
-msgstr ""
+msgstr "'rrand' - pentru a genera valori aleatoare intr-un anumit interval"
 
 #: A.08-minecraft-vj.md:50
 msgid "`live_loop` - to allow us to continually make it rain sand"
-msgstr ""
+msgstr "'live_loop' - pentru a face ca ploaia de nisip sa cada in continuu"
 
 #: A.08-minecraft-vj.md:52
 msgid ""
@@ -12025,6 +12645,12 @@ msgid ""
 "navigate to the *lang* tab in the Help system and then look up the fns "
 "directly along with all the other exciting things you can do."
 msgstr ""
+"Daca nu esti familiarizat cu vreuna dintre functiile de mai sus, cum ar fi "
+"'rrand', scrie numele ei intr-un buffer, fa click pe el si apoi apasa "
+"combinatia de taste 'Control-i' pentru a afisa informatiile despre functie "
+"din documentatia interna. O alta varianta ar fi sa mergi la panoul *lang* "
+"din sistemul de ajutor si sa cauti direct functia alaturi de alte chestii "
+"incitante pe care le poti face."
 
 #: A.08-minecraft-vj.md:58
 msgid ""
@@ -12032,6 +12658,9 @@ msgid ""
 "storm. Grab your current location and use it to create a few sand blocks up "
 "in the sky nearby:"
 msgstr ""
+"Sa facem sa ploua putin inainte sa se dezlantuie furtuna cu toata forta. "
+"Vezi care este pozitia curenta si folosteste-o ca sa creezi cateva blocuri "
+"de nisip sus pe cer, in apropiere:"
 
 #: A.08-minecraft-vj.md:62
 #, no-wrap
@@ -12045,6 +12674,14 @@ msgid ""
 "sleep 2\n"
 "mc_set_block :sand, x, y + 20, z + 8"
 msgstr ""
+"x, y, z = mc_location\n"
+"mc_set_block :sand, x, y + 20, z + 5\n"
+"sleep 2\n"
+"mc_set_block :sand, x, y + 20, z + 6\n"
+"sleep 2\n"
+"mc_set_block :sand, x, y + 20, z + 7\n"
+"sleep 2\n"
+"mc_set_block :sand, x, y + 20, z + 8"
 
 #: A.08-minecraft-vj.md:73
 msgid ""
@@ -12053,6 +12690,10 @@ msgid ""
 "facing. Don't worry, if you missed them just hit Run again for another batch "
 "of sand rain - just make sure you're looking the right way!"
 msgstr ""
+"Cand apesi pe Run va trebui sa te uiti putin in jurul tau deoarece blocurile "
+"ar putea incepe sa cada in spatele tau, in functie de directia in care te "
+"uitai. Nu te ingrijora daca le-ai ratat, apasa Run din nou pentru inca un "
+"lot de ploaie de nisip - doar asigura-te ca te uiti in directia potrivita!"
 
 #: A.08-minecraft-vj.md:79
 msgid ""
@@ -12064,6 +12705,14 @@ msgid ""
 "blocks higher and then successively larger z coordinates so the sand dropped "
 "in a line away from Steve."
 msgstr ""
+"Sa trecem rapid in revista ce se intampla aici. Pe prima linia am citit "
+"pozitia lui Steve sub forma de coordonate, folosind functia 'mc_location', "
+"si le-am pus in variabilele 'x', 'y' si 'z'. Apoi, pe liniile urmatoare am "
+"folosit 'mc_set_block' pentru a crea niste blocuri de nisip la aceleasi "
+"coordonate cu ale lui Steve, dar cu niste modificari. Alegem aceeasi valoare "
+"pentru x, o valoare pentru y mai mare cu 20 (adica mai sus) si apoi valori "
+"care cresc succesiv pentru z astfel incat nisipul sa cada pe o linie care se "
+"indeparteaza de Steve."
 
 #: A.08-minecraft-vj.md:87
 msgid ""
@@ -12071,10 +12720,13 @@ msgid ""
 "adding more lines, changing the sleep times, try mixing `:sand` with `:"
 "gravel` and choose different coordinates. Just experiment and have fun!"
 msgstr ""
+"Ce-ar fi sa te joci putin modificand codul? Incearca sa adaugi mai multe "
+"linii, sa schimbi valoarea pentru 'sleep', sa amesteci ':sand' cu ':gravel' "
+"si sa alegi coordonate diferite. Experimenteaza si distreaza-te!"
 
 #: A.08-minecraft-vj.md:91
 msgid "Live Loops Unleashed"
-msgstr ""
+msgstr "Puterea buclelor live"
 
 #: A.08-minecraft-vj.md:93
 msgid ""
@@ -12082,6 +12734,9 @@ msgid ""
 "`live_loop` - Sonic Pi's magical ability which unleashes the full power of "
 "live coding - changing code on-the-fly whilst it's running!"
 msgstr ""
+"OK, e timpul sa pornim furtuna folosind forta 'live_loop' - bagheta magica a "
+"Sonic Pi care permite folosirea la maxim a puterii programarii live prin "
+"modificarea codului in timp ce ruleaza!"
 
 #: A.08-minecraft-vj.md:97
 #, no-wrap
@@ -12096,6 +12751,15 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"live_loop :sand_storm do\n"
+"  x, y, z = mc_location\n"
+"  xd = rrand(-10, 10)\n"
+"  zd = rrand(-10, 10)\n"
+"  co = rrand(70, 130)\n"
+"  synth :cnoise, attack: 0, release: 0.125, cutoff: co\n"
+"  mc_set_block :sand, x + xd, y+20, z+zd\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.08-minecraft-vj.md:109
 msgid ""
@@ -12103,18 +12767,21 @@ msgid ""
 "each loop we're finding Steve's location like before but then generating 3 "
 "random values:"
 msgstr ""
+"Ce distractiv! Parcurgem bucla rapid (de 8 ori pe secunda) si la fiecare "
+"trecere citim pozitia lui Steve la fel ca mai inainte, iar apoi generam 3 "
+"valori aleatoare:"
 
 #: A.08-minecraft-vj.md:113
 msgid "`xd` - the difference for x which will be between -10 and 10"
-msgstr ""
+msgstr "'xd' - diferenta pe axa x care va fi intre -10 si 10"
 
 #: A.08-minecraft-vj.md:114
 msgid "`zd` - the difference for z also between -10 and 10"
-msgstr ""
+msgstr "'zd' - diferenta pe axa z, de asemenea intre -10 si 10"
 
 #: A.08-minecraft-vj.md:115
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
-msgstr ""
+msgstr "'co' - valoarea de cutoff pentru filtrul trece jos, intre 70 si 130"
 
 #: A.08-minecraft-vj.md:117
 msgid ""
@@ -12122,6 +12789,9 @@ msgid ""
 "us sand falling in random locations around Steve along with a percussive "
 "rain-like sound from the `:cnoise` synth."
 msgstr ""
+"Folosim apoi aceste valori in functiile 'synth' si 'mc_set_block' obtinand "
+"nisipul care cade in pozitii aleatoare in jurul lui Steve impreuna cu un "
+"sunet asemanator cu cel al ploii generat de sintetizatorul ':cnoise'."
 
 #: A.08-minecraft-vj.md:121
 msgid ""
@@ -12133,16 +12803,26 @@ msgid ""
 "VJ. Keep practising and changing things around. How different can you make "
 "the visuals without stopping the code?"
 msgstr ""
+"Daca nu stii inca ce sunt buclele live - ele sunt cele care dau tot farmecul "
+"cand folosim Sonic Pi. In timp ce codul ruleaza si nisipul cade, incearca sa "
+"schimbi una dintre valori, de exemplu valoare pentru pauza la '0.25' sau "
+"tipul blocurilor din ':sand' in ':gravel'. Acum apasa run *din nou*. Super! "
+"Lucrurile s-au schimbat fara a opri programul. Asta este modalitatea prin "
+"care poti sa te manifesti ca un VJ adevarat. Continua sa exersezi si sa "
+"schimbi parametrii. Cat de mult poti schimba efectele vizuale fara a opri "
+"executia?"
 
 #: A.08-minecraft-vj.md:129
 msgid "Epic Block Patterns"
-msgstr ""
+msgstr "Modele de blocuri spectaculoase"
 
 #: A.08-minecraft-vj.md:131
 msgid ""
 "![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-"
 "small.png)"
 msgstr ""
+"![Imaginea 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:133
 msgid ""
@@ -12157,6 +12837,16 @@ msgid ""
 "generate all the coordinates for a square. We can then randomly choose block "
 "types from a ring of blocks for an interesting effect:"
 msgstr ""
+"O alta metoda de a genera imagini interesante este sa generezi pereti imensi "
+"cu model care se deplaseaza. Pentru acest efect trebuie sa trecem de la "
+"plasarea de blocuri aleator la plasarea lor intr-o ordine prestabilita. "
+"Putem face asta creand o iteratie in iteratie (apasa pe butonul Help si "
+"mergi la sectiunea 5.2 a tutorialului, \"Iteratii si bucle\" pentru mai "
+"multe informatii despre iteratii). Simpaticul '|xd|' de dupa do inseamna ca "
+"'xd' va fi setat pentru fiecare valoare a iteratiei. Deci prima fata va fi "
+"0, apoi 1, apoi 2 ... etc. Introducand o iteratie intr-o alta ca aici putem "
+"genera toate coordonatele dintr-un patrat. Putem apoi alege aleator tipurile "
+"de blocuri dintr-o lista circulara pentru un efect interesant:"
 
 #: A.08-minecraft-vj.md:145
 #, no-wrap
@@ -12169,6 +12859,13 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"x, y, z = mc_location\n"
+"bs = (ring :gold, :diamond, :glass)\n"
+"10.times do |xd|\n"
+"  10.times do |yd|\n"
+"    mc_set_block bs.choose, x + xd, y + yd, z\n"
+"  end\n"
+"end"
 
 #: A.08-minecraft-vj.md:155
 msgid ""
@@ -12177,6 +12874,10 @@ msgid ""
 "block types and the more adventurous of you might want to try sticking this "
 "within a `live_loop` so that the patterns keep changing automatically."
 msgstr ""
+"Simplu dar elegant. Cat ne distram aici, incearca sa schimbi  `bs.choose` in "
+"`bs.tick` pentru a trece de la un model aleator la unul mai regulat. "
+"Incearca sa schimbi tipurile blocurilor si daca esti mai indraznet ai putea "
+"pune asta intr-un 'live_loop' astfel incat modelul sa se schimbe automat."
 
 #: A.08-minecraft-vj.md:161
 msgid ""
@@ -12188,14 +12889,22 @@ msgid ""
 "and then use the coding power of Sonic Pi to make it real. When you've "
 "practised enough dim the lights and put on a VJ show for your friends!"
 msgstr ""
+"Acum, pentru trucul tau special de VJ, schimba cele 2 `10.times` in "
+"`100.times` si apasa Run. Kaboom! Un perete gigant de caramizi plasate "
+"aleator. Imagineaza-ti cat timp ti-ar lua sa il construiesti manual cu mouse-"
+"ul! Apasa de doua ori rapid pe spatiu pentru a activa modul de zbor si "
+"incepe sa te plimbi pentru ca efectul vizual sa fie si mai interesant. Nu te "
+"opri aici, foloseste-ti imaginatia si incearca sa iti aplici ideile folosind "
+"puterea programarii in Sonic Pi. Cand consideri ca ai exersat suficient, "
+"redu lumina si pune in scena un show pentru prietenii tai!"
 
 #: A.09-randomisation.md:1
 msgid "A.9 Randomisation"
-msgstr ""
+msgstr "A.9 Randomizarea"
 
 #: A.09-randomisation.md:3
 msgid "Surfing Random Streams"
-msgstr ""
+msgstr "Navigand pe curenti aleatori"
 
 #: A.09-randomisation.md:5
 msgid ""
@@ -12205,10 +12914,15 @@ msgid ""
 "it would be useful to cover the fundamentals in much greater detail. So, get "
 "your lucky hat on and let's surf some random streams!"
 msgstr ""
+"In episodul 4 al acestui serial de tutoriale am aruncat o privire asupra "
+"randomizarii in timp ce am programat cateva riff-uri incitante. Tinand cont "
+"ca randomizarea este o parte atat de importanta a interpretarilor mele live, "
+"m-am gandit ca ar fi util sa vorbim mai in detaliu despre elementele ei de "
+"baza. Deci, ia-ti amuleta norocoasa si sa navigam pe curenti aleatori!"
 
 #: A.09-randomisation.md:11
 msgid "There is no random"
-msgstr ""
+msgstr "Nu exista aleator"
 
 #: A.09-randomisation.md:13
 msgid ""
@@ -12221,11 +12935,19 @@ msgid ""
 "number this time. Fire up Sonic Pi v2.7+ and ask it for a random number but "
 "again don't tell me:"
 msgstr ""
+"Primul lucru pe care trebuie sa-l inveti si care s-ar putea sa ti se para "
+"surprinzator cand te joci cu functiile de randomizare este ca de fapt nu "
+"sunt chiar aleatoare. Ce inseamna asta? Ei bine, sa facem niste teste. Mai "
+"intai, gandeste-te la un numar intre 0 si 1. Tine-l minte fara sa mi-l spui. "
+"Acum, sa incerc sa-l ghicesc... era '0.321567'? Nu? Bleah, e evident ca nu-s "
+"bun la jocul asta. Hai sa mai incerc o data, dar sa lasam Sonic Pi sa aleaga "
+"numarul de data asta. Porneste Sonic Pi v2.7+ si cere-i un numar aleator, "
+"din nou fara sa mi-l spui mie:"
 
 #: A.09-randomisation.md:22
 #, no-wrap
 msgid "print rand"
-msgstr ""
+msgstr "print rand"
 
 #: A.09-randomisation.md:26
 msgid ""
@@ -12234,6 +12956,10 @@ msgid ""
 "the Run button again and see what we get... What? `0.75006103515625` again? "
 "This clearly can't be random! You're right, it's not."
 msgstr ""
+"Acum sa vedem... era `0.75006103515625`? Da! Ha, ha, vad ca esti putin "
+"neincrezator. Poate a fost doar chestie de noroc. Hai sa incercam din nou. "
+"Apasa butonul Run si vezi ce primesti... Ce? Din nou `0.75006103515625`? E "
+"clar ca nu este aleator! Ai dreptate, nu este."
 
 #: A.09-randomisation.md:32
 msgid ""
@@ -12246,10 +12972,18 @@ msgid ""
 "randomisation as a fundamental building block for your compositions and live "
 "coded DJ sets."
 msgstr ""
+"Ce se intampla aici? Cuvantul elevat folosit in lumea calculatoarelor pentru "
+"asta este determinism. Asta inseamna ca nimic nu este la intamplare ci totul "
+"este bazat pe predestinare. Versiunea ta de Sonic Pi este predestinata sa "
+"returneze mereu `0.75006103515625` in programul de mai sus. Asta pare sa fie "
+"o chestie inutila, dar crede-ma ca este una dintre partile cele mai tari din "
+"Sonic Pi. Daca te tii de ea vei invata cum sa te bazezi pe natura "
+"determinista a randomizarii in Sonic Pi ca bloc de baza pentru constructia "
+"compozitiilor tale sau a interpretarii live ca DJ."
 
 #: A.09-randomisation.md:41
 msgid "A Random Melody"
-msgstr ""
+msgstr "O melodie aleatoare"
 
 #: A.09-randomisation.md:43
 msgid ""
@@ -12264,10 +12998,22 @@ msgid ""
 "stream which is very important when we start sharing our pieces with each "
 "other."
 msgstr ""
+"Cand Sonic Pi porneste, incarca in memorie o secventa de 441 000 valori "
+"aleatoare pre-calculate. Cand apelezi o functie pentru numere aleatoare, cum "
+"ar fi 'rand' sau 'rrand', acest sir aleator este folosit pentru a genera "
+"rezultatul asteptat. Fiecare apel al unei functii pentru numere aleatoare "
+"consuma o valoare din sir. Deci al zecelea apel al unei functii pentru "
+"numere aleatoare va folosi a zecea valoare din sir. De asemenea, de fiecare "
+"data cand apesi pe butonul Run, sirul este resteat pentru acea executie. "
+"Acesta este motivul pentru care am reusit sa prezic rezultatul functiei "
+"'rand', iar melodia 'random' a sunat mereu la fel. Versiunea Sonic Pi a "
+"fiecaruia dintre voi foloseste exact acelasi sir de valori aleatoare, ceea "
+"ce este foarte important cand impartasesti creatiile tale cu altii."
 
 #: A.09-randomisation.md:54
 msgid "Let's use this knowledge to generate a repeatable random melody:"
 msgstr ""
+"Sa ne folosim de ce am aflat ca sa generam o melodie aleatoare repetabila:"
 
 #: A.09-randomisation.md:56
 #, no-wrap
@@ -12288,50 +13034,57 @@ msgid ""
 "of 'random' notes between 50 and 95. When it's finished, hit Run again to "
 "hear exactly the same melody again."
 msgstr ""
+"Copiaza codul asta intr-un buffer gol si apasa Run. Vei auzi o melodie "
+"constand in note 'aleatoare' intre 50 si 95. Cand se termina, apasa din nou "
+"pe Run ca sa auzi exact aceeasi melodie din nou."
 
 #: A.09-randomisation.md:67
 msgid "Handy Randomisation Functions"
-msgstr ""
+msgstr "Functii utile pentru randomizare"
 
 #: A.09-randomisation.md:69
 msgid ""
 "Sonic Pi comes with a number of useful functions for working with the random "
 "stream. Here's a list of some of the most useful:"
 msgstr ""
+"Sonic Pi contine o serie de functii utile pentru a lucra cu sirul aleator. "
+"Iata o lista cu cateva dintre cele mai folositoare:"
 
 #: A.09-randomisation.md:72
 msgid "`rand` - Simply returns the next value in the random stream"
-msgstr ""
+msgstr "'rand' - returneaza urmatoarea valoare din sirul aleator"
 
 #: A.09-randomisation.md:73
 msgid "`rrand` - Returns a random value within a range"
-msgstr ""
+msgstr "'rrand' - returneaza o valoare aleatoare intr-un interval"
 
 #: A.09-randomisation.md:74
 msgid "`rrand_i` - Returns a random whole number within a range"
-msgstr ""
+msgstr "'rrand_i' - returneaza un numar intreg intr-un interval"
 
 #: A.09-randomisation.md:75
 msgid "`one_in` - Returns true or false with the given probability"
-msgstr ""
+msgstr "'one_in' - returneaza 'true' sau 'false' cu o probabilitate specificata"
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
-msgstr ""
+msgstr "'dice' - imita datul cu zarul si returneaza o valoare intre 1 si 6"
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr ""
+msgstr "'choose' - alege o valoare aleatoare dintr-o lista"
 
 #: A.09-randomisation.md:79
 msgid ""
 "Check out their documentation in the Help system for detailed information "
 "and examples."
 msgstr ""
+"Verifica documentatia pentru aceste functii in sistemul de ajutor pentru "
+"informatii detaliate si exemple."
 
 #: A.09-randomisation.md:82
 msgid "Resetting the Stream"
-msgstr ""
+msgstr "Resetarea sirului aleator"
 
 #: A.09-randomisation.md:84
 msgid ""
@@ -12340,6 +13093,11 @@ msgid ""
 "riff you want. Wouldn't it be great if we could try a number of different "
 "riffs and choose the one we liked best? This is where the real magic starts."
 msgstr ""
+"Chiar daca abilitatea de a repeta o secventa de note este esentiala pentru a-"
+"ti permite sa redai din nou un riff pe ringul de dans, s-ar putea sa nu fie "
+"exact riff-ul pe care ti l-ai dorit. N-ar fi interesant daca am putea "
+"incerca mai multe riff-uri si sa-l alegem pe cel care a sunat cel mai bine? "
+"Aici incepe magia."
 
 #: A.09-randomisation.md:90
 msgid ""
@@ -12347,6 +13105,10 @@ msgid ""
 "Science, a random seed is the starting point from which a new stream of "
 "random values can sprout out and blossom. Let's try it:"
 msgstr ""
+"Putem seta manual sirul folosind functia 'use_random_seed'. In lumea "
+"computerelor, seed este valoarea de initializare a sirului aleator sau "
+"punctul de pornire din care poate porni un nou sir de valori aleatoare. Sa "
+"incercam:"
 
 #: A.09-randomisation.md:94
 #, no-wrap
@@ -12369,6 +13131,9 @@ msgid ""
 "and `71`. However, we can now change the seed to something else. How about "
 "this:"
 msgstr ""
+"Super, avem primele trei note ale melodiei noastre aleatoare de mai sus: "
+"'84', '83' si '71'. Am putea insa schimba seed-ul cu altceva. Sa incercam "
+"asta:"
 
 #: A.09-randomisation.md:106
 #, no-wrap
@@ -12391,6 +13156,9 @@ msgid ""
 "two numbers here are the same as the last two numbers before - this isn't a "
 "coincidence."
 msgstr ""
+"Interesant, am obtinut '83', '71' si '61'. Probabil ai observat ca primele "
+"doua numere sunt aceleasi ca ultimele doua numere de data trecuta - nu este "
+"o coincidenta."
 
 #: A.09-randomisation.md:118
 msgid ""
@@ -12401,6 +13169,13 @@ msgid ""
 "this is that it's precisely this ability to jump around the random stream "
 "which gives us huge power when making music."
 msgstr ""
+"Iti aduci aminte ca sirul aleator este doar o lista gigantica de valori 'pre-"
+"generate'. Folosirea unui seed inseamna pur si simplu pozitionarea in "
+"aceasta lista. Un alt mod de a vedea acest lucru este sa iti imaginezi un "
+"pachet enorm de carti amestecate. Folosirea unui seed este la fel cu a taia "
+"pachetul de carti intr-o anumita pozitie. Partea cea mai frumoasa este ca "
+"tocmai aceasta abilitate de a te pozitiona precis in sirul aletor ne da o "
+"mare putere cand cream muzica."
 
 #: A.09-randomisation.md:126
 msgid ""
@@ -12408,6 +13183,9 @@ msgid ""
 "power, but let's also throw in a live loop so we can experiment live whilst "
 "it's playing:"
 msgstr ""
+"Sa revenim la melodia noastra aleatoare din 8 note inarmati cu aceasta "
+"abilitate de a reseta sirul aleator, dar hai sa adaugam si o bucla live ca "
+"sa putem experimenta in timp ce canta muzica:"
 
 #: A.09-randomisation.md:130
 #, no-wrap
@@ -12434,6 +13212,9 @@ msgid ""
 "else. Try `100`, what about `999`. Try your own values, experiment and play "
 "around - see which seed generates the riff you like best."
 msgstr ""
+"Acum, in timp ce canta, schimba valoarea pentru seed din '0' in altceva. "
+"Incearca '100', sau '999'. Incearca propriile valori, experimenteaza si "
+"joaca-te. Vezi ce seed genereaza riff-ul care iti place cel mai mult."
 
 #: A.09-randomisation.md:147
 msgid ""
@@ -12447,6 +13228,15 @@ msgid ""
 "future we'll take a close look at some of these applications, but for now "
 "let me leave you with a short example."
 msgstr ""
+"Tutorialul de luna asta a fost o incursiune tehnica in modul de functionare "
+"a randomizarii in Sonic Pi. Sper ca ti-ai putut crea o idee despre cum "
+"functioneaza si cum te poti folosi de randomizare intr-un mod fiabil pentru "
+"a crea secvente repetabile in muzica ta. E important sa evidentiem ca poti "
+"folosi randomizarea repetabile *oriunde* doresti. De exemplu, poti randomiza "
+"amplitudinea notelor, tempoul pentru ritm, valoarea pentru reverb, "
+"sintetizatorul curent, mixul pentru un efect, etc etc. Intr-un episod viitor "
+"vom privi mai indeaproape cateva dintre aceste utilizari, dar deocamdata iti "
+"voi prezenta un scurt exemplu."
 
 #: A.09-randomisation.md:157
 msgid ""
@@ -12458,6 +13248,13 @@ msgid ""
 "friends by simply switching between your favourite seeds to create a full "
 "piece."
 msgstr ""
+"Scrie codul de mai jos intr-un buffer gol, apasa Run, apoi incepe si schimba "
+"seed-ul, apasa din nou Run (cat timp inca ruleaza) si incearca diferitele "
+"sunete, ritmuri si melodii pe care le poti obtine. Cand gasesti ceva dragut, "
+"tine minte seed-ul pentru a putea reveni la el. Dupa ce ai gasit mai multe "
+"seed-uri care iti plac, poti sa realizezi o interpretare live pentru "
+"prietenii tai schimband intre diferitele valori pentru a crea o piesa "
+"completa."
 
 #: A.09-randomisation.md:165
 #, no-wrap
@@ -12483,14 +13280,34 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :random_riff do\n"
+"  use_random_seed 10300\n"
+"  use_synth :prophet\n"
+"  s = [0.125, 0.25, 0.5].choose\n"
+"  8.times do\n"
+"    r = [0.125, 0.25, 1, 2].choose\n"
+"    n = (scale :e3, :minor).choose\n"
+"    co = rrand(30, 100)\n"
+"    play n, release: r, cutoff: co\n"
+"    sleep s\n"
+"  end\n"
+"end\n"
+"live_loop :drums do\n"
+"  use_random_seed 2001\n"
+"  16.times do\n"
+"    r = rrand(0.5, 10)\n"
+"    sample :drum_bass_hard, rate: r, amp: rand\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.10-controlling-your-sound.md:1
 msgid "A.10 Control"
-msgstr ""
+msgstr "A.10 Controlul"
 
 #: A.10-controlling-your-sound.md:3
 msgid "Controlling Your Sound"
-msgstr ""
+msgstr "Controlul sunetului"
 
 #: A.10-controlling-your-sound.md:5
 msgid ""
@@ -12505,21 +13322,34 @@ msgid ""
 "it whilst it's playing right? Wrong! Today you're going to learn something "
 "very powerful - how to control running synths."
 msgstr ""
+"Pana acum in aceasta serie de tutoriale ne-am concentrat pe pornirea "
+"sunetelor. Am descoperit ca putem porni un sintetizator din multele incluse "
+"in Sonic Pi folosind 'play' sau 'synth' sau un esantion pre-inregistrat "
+"folosind 'smple'. De asemenea am vazut cum putem trece aceste sunete prin "
+"efecte de studio ca reverb sau distorsion folosind comanda 'with_fx'. "
+"Combina toate aceste cu sistemul foarte precis de pozitionare in timp al "
+"Sonic Pi si poti produce o gama vasta de sunete, beat-uri si riff-uri. Dar "
+"dupa ce ai selectat cu grija optiunile pentru un anumit sunet si l-ai "
+"pornit, nu mai exista nicio posibilitate sa il modifici, nu? Gresit! Astazi "
+"vei descoperi o functionalitate foarte puternica - controlul "
+"sintetizatorului in timpul redarii."
 
 #: A.10-controlling-your-sound.md:17
 msgid "A Basic Sound"
-msgstr ""
+msgstr "A Sunetul de baza"
 
 #: A.10-controlling-your-sound.md:19
 msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer "
 "type the following:"
 msgstr ""
+"Sa cream un sunet simplu si dragut. Porneste Sonic Pi si scrie asta intr-un "
+"buffer gol:"
 
 #: A.10-controlling-your-sound.md:22
 #, no-wrap
 msgid "synth :prophet, note: :e1, release: 8, cutoff: 100"
-msgstr ""
+msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
 #: A.10-controlling-your-sound.md:26
 msgid ""
@@ -12527,10 +13357,13 @@ msgid ""
 "sound. Go ahead, press it again a few times to get a feel for it. OK, done? "
 "Let's start controlling it!"
 msgstr ""
+"Acum apasa butonul Run din stanga sus ca sa auzi un sunet dragut de "
+"sintetizator. Continua, mai apasa de cateva ori butonul ca sa incepi sa il "
+"simti. Gata? Sa incepem sa-l controlam!"
 
 #: A.10-controlling-your-sound.md:30
 msgid "Synth Nodes"
-msgstr ""
+msgstr "SynthNode"
 
 #: A.10-controlling-your-sound.md:32
 msgid ""
@@ -12540,6 +13373,11 @@ msgid ""
 "and then **control** it at a later point in time. For example, let's change "
 "the value of the `cutoff:` opt after 1 beat:"
 msgstr ""
+"O caracteristica putin cunoscuta a Sonic Pi este aceea ca functiile 'play', "
+"'synth' si 'sample' returneaza ceea ce se numeste un 'SynthNode' care "
+"reprezinta un sunet in curs de redare. Poti memora un astfel de 'SynthNode' "
+"intr-o variabila si apoi sa il **controlezi** mai tarziu. De exemplu, sa "
+"schimbam valoarea pentru parametrul 'cutoff:' dupa o masura:"
 
 #: A.10-controlling-your-sound.md:38
 #, no-wrap
@@ -12548,10 +13386,13 @@ msgid ""
 "sleep 1\n"
 "control sn, cutoff: 130"
 msgstr ""
+"sn = synth :prophet, note: :e1, release: 8, cutoff: 100\n"
+"sleep 1\n"
+"control sn, cutoff: 130"
 
 #: A.10-controlling-your-sound.md:44
 msgid "Let's look at each line in turn:"
-msgstr ""
+msgstr "Sa privim fiecare linie pe rand:"
 
 #: A.10-controlling-your-sound.md:46
 msgid ""
@@ -12562,12 +13403,22 @@ msgid ""
 "that's meaningful to you for your performances and for people reading your "
 "code. I chose `sn` as it's a nice short mnemonic for synth node."
 msgstr ""
+"Mai intai lansam sintetizatorul ':propher' folosind functia 'synth' ca de "
+"obicei. Dar in acelasi timp memoram si rezultatul intr-o variabila numita "
+"'sn'. Puteam sa-i dam orice alt nume variabilie, cum ar fi 'synth_node' sau "
+"'jane' - numele nu conteaza. Totusi, este important sa alegi un nume care "
+"iti spune ceva pentru cand interpretezi live se pentru alte persoane care ar "
+"putea citi codul tau. E am ales 'sn' pentru ca este o prescurtare draguta "
+"pentru SynthNode."
 
 #: A.10-controlling-your-sound.md:54
 msgid ""
 "On line 2 we have a standard `sleep` command. This does nothing special - it "
 "just asks the computer to wait for 1 beat before moving onto the next line."
 msgstr ""
+"Pe linia a doua avem o comanda 'sleep' obisnuita. Nu face nimic special, "
+"doar ii cere computerului sa astepte o masura inainte sa treaca la linia "
+"urmatoare."
 
 #: A.10-controlling-your-sound.md:58
 msgid ""
@@ -12576,10 +13427,15 @@ msgid ""
 "the **Run** button, you'll hear the `:prophet` synth start playing as "
 "before, but after 1 beat it will shift to sound a lot brighter."
 msgstr ""
+"Linia 3 este cea in care se intampla totul. Aici am folosit functia "
+"'control' pentru a spune sintetizatorului sa schimbe valoarea de cutoff in "
+"'130' in timp ce ruleaza. Daca apesi butonul **Run**, vei auzi cum "
+"sintetizatorul ':prophet' incepe sa cante ca mai inainte, dar dupa o masura "
+"va incepe sa sune mult mai clar."
 
 #: A.10-controlling-your-sound.md:63
 msgid "Modulatable Options"
-msgstr ""
+msgstr "Parametri modulabili"
 
 #: A.10-controlling-your-sound.md:65
 msgid ""
@@ -12593,26 +13449,36 @@ msgid ""
 "example, the documentation for the `:beep` synth's `attack:` opt makes it "
 "clear that it's not possible to change it:"
 msgstr ""
+"Multi dintre parametrii pentru sintetizatoarele si efectele din Sonic Pi pot "
+"fi schimbati dupa ce au fost pornite. Nu este insa cazul pentru toate. De "
+"exemplu, parametrii anvelopei `attack:`, `decay:`, `sustain:` si `release:` "
+"pot fi specificati doar cand se porneste sintetizatorul. E destul de usor sa "
+"afli care parametri pot si care nu pot fi schimbati - mergi la documentatia "
+"unui anumit sintetizator sau efect si deruleaza in jos pana la informatiile "
+"despre parametrii individuali si cauta fraza \"Poate fi schimbat in timpul "
+"rularii\", respectiv \"Nu mai poate fi schimbat odata setat\". De exemplu, "
+"documentatia pentru parametrul 'attack:' al sintetizatorului ':beep' spune "
+"clar ca nu este posibil sa il schimbi:"
 
 #: A.10-controlling-your-sound.md:76
 msgid "Default: 0"
-msgstr ""
+msgstr "Implicit: 0"
 
 #: A.10-controlling-your-sound.md:77
 msgid "Must be zero or greater"
-msgstr ""
+msgstr "Trebuie sa fie zero sau mai mare"
 
 #: A.10-controlling-your-sound.md:78
 msgid "Can not be changed once set"
-msgstr ""
+msgstr "Nu poate fi schimbat odata setat"
 
 #: A.10-controlling-your-sound.md:79
 msgid "Scaled with current BPM value"
-msgstr ""
+msgstr "Modificat proportional cu viteza BPM"
 
 #: A.10-controlling-your-sound.md:81
 msgid "Multiple Changes"
-msgstr ""
+msgstr "Schimbari multiple"
 
 #: A.10-controlling-your-sound.md:83
 msgid ""
@@ -12620,6 +13486,9 @@ msgid ""
 "you're free to change it as many times as you like. For example, we can turn "
 "our `:prophet` into a mini arpeggiator with the following:"
 msgstr ""
+"In timp ce un sintetizator ruleaza poti sa il schimbi de cate ori vrei. De "
+"exemplu, putem transforma sintetizatorul ':prophet' intr-un generator de "
+"arpegii folosind:"
 
 #: A.10-controlling-your-sound.md:87
 #, no-wrap
@@ -12632,6 +13501,13 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"notes = (scale :e3, :minor_pentatonic)\n"
+"sn = synth :prophet, note: :e1, release: 8, cutoff: 100\n"
+"sleep 1\n"
+"16.times do\n"
+"  control sn, note: notes.tick\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.10-controlling-your-sound.md:97
 msgid ""
@@ -12645,21 +13521,33 @@ msgid ""
 "bit of variety try replacing `.tick` with `.choose` and see if you can hear "
 "the difference."
 msgstr ""
+"In aceasta bucata de cod am adaugat cateva chestii in plus. Am definit o "
+"noua variabila, numita 'notes', care contine notele pe care vrem sa le reda "
+"in mod repetat (un generator de arpegii chiar asta inseamna - ceva ce reda "
+"notele dintr-o lista circulara in ordine). Apoi am inlocuit apelul "
+"individual al functiei 'control' cu o iteratie care o apeleaza de 16 ori. La "
+"fiecare apel al functiei folosim '.tick' pentru a parcurge lista 'notes' "
+"care se va repeta automat cand ajungem la sfarsit (gratie minunatelor liste "
+"circulare din Sonic Pi). Pentru putina varietate incearca sa inlocuiesti "
+"'.tick' cu '.choos' si vezi daca remarci diferenta."
 
 #: A.10-controlling-your-sound.md:107
 msgid ""
 "Note that we can change multiple opts simultaneously. Try changing the "
 "control line to the following and listen for the difference:"
 msgstr ""
+"Ai observat ca putem schimba mai multi parametri simultan. Incearca sa "
+"schimbi linia in care apare functia control cu aceasta si asculta "
+"diferentele:"
 
 #: A.10-controlling-your-sound.md:110
 #, no-wrap
 msgid "control sn, note: notes.tick, cutoff: rrand(70, 130)"
-msgstr ""
+msgstr "control sn, note: notes.tick, cutoff: rrand(70, 130)"
 
 #: A.10-controlling-your-sound.md:114
 msgid "Sliding"
-msgstr ""
+msgstr "Sliding"
 
 #: A.10-controlling-your-sound.md:116
 msgid ""
@@ -12672,6 +13560,14 @@ msgid ""
 "value to the new one as if you'd moved a slider or dial. Of course, Sonic Pi "
 "can also do this too using the `_slide:` opts."
 msgstr ""
+"Cand controlam un 'SynthNode', el raspunde imediat si schimba instantaneu "
+"valoarea parametrului cu cea noua ca si cand ai fi apasat un buton sau ai fi "
+"intors de un comutator pentru a cere modificarea. Asta genereaza un sunet "
+"ritmic si percutant - mai ales daca parametrul controleaza ceva legat de "
+"timbru, cum ar fi 'cutoff:'. Totusi, uneoi nu vrei ca schimbarea sa se "
+"produca instantaneu. In schimb, ti-ai dori o trecere lina de la valoarea "
+"curenta la noua valoare ca si cand ai fi miscat un cursor. Desigur, Sonic Pi "
+"poate face si acest lucru, folosind parametrii '_slide'."
 
 #: A.10-controlling-your-sound.md:125
 msgid ""
@@ -12681,6 +13577,12 @@ msgid ""
 "differently than all the other opts in that they tell the synth note how to "
 "behave **next time they are controlled**. Let's take a look:"
 msgstr ""
+"Fiecare parametru care poate fi modificat are asociat si un parametru "
+"'_slide:' care permite specificarea timpului in care se face modificarea "
+"graduala. De exemplu, pentru 'amp:' avem `amp_slide:`, iar pentru `cutoff:` "
+"avem `cutoff_slide:`. Acesti parametri functioneaza putin diferit de "
+"ceilalti prin aceea ca spun sintetizatorului cum sa actioneze **data "
+"viitoare cand primesc o comanda de control**. Sa aruncam o privire:"
 
 #: A.10-controlling-your-sound.md:131
 #, no-wrap
@@ -12689,6 +13591,9 @@ msgid ""
 "sleep 1\n"
 "control sn, cutoff: 130"
 msgstr ""
+"sn = synth :prophet, note: :e1, release: 8, cutoff: 70, cutoff_slide: 2\n"
+"sleep 1\n"
+"control sn, cutoff: 130"
 
 #: A.10-controlling-your-sound.md:137
 msgid ""
@@ -12704,6 +13609,18 @@ msgid ""
 "slowly, the amp sliding fast and the pan sliding somewhere in between if "
 "that's what you're looking to create..."
 msgstr ""
+"Observi ca exemplul este la fel cu cel dinainte cu exceptia faptului ca am "
+"adaugat `cutoff_slide:`. Aceasta face ca data viitoare cand i se cere "
+"sintetizatorului sa schimbe valoarea de cutoff, el sa faca trecea de la "
+"valoarea veche la cea noua gradual, pe durata a 2 masuri. Ca urmare, cand "
+"vei folosi 'control' vei auzi cum 'cutoff' trece lin de la 70 la 130, ceea "
+"ce da sunetului un aer dinamic. Acum incearca sa schimbi valoarea pentru "
+"'cutoff_slide' cu una mai mica, cum ar fi 0.5 sau o valoare mai mare, cum ar "
+"fi 4, pentru a observa cum se modifica sunetul. Tine minte, in acelasi mod "
+"poti face sa varieze treptat orice parametru modificabil, iar fiecare "
+"valoare '_slide:' poate fi complet diferita astfel. De exemplu cutoff poate "
+"sa se schimbe lent, amplitudinea mai rapid, iar pozitionarea cu o viteza "
+"intre cele doua, daca asta iti doresti..."
 
 #: A.10-controlling-your-sound.md:151
 msgid ""
@@ -12712,6 +13629,11 @@ msgid ""
 "like synths although with a slightly different syntax. Check out section 7.2 "
 "of the built-in tutorial for more information on controlling FX."
 msgstr ""
+"Sa analizam putin un scurt exemplu care ne arata puterea controlarii "
+"sintetizatoarelor dupa ce au fost pornite. Observi ca pot fi modificate "
+"treptat si efectele la fel ca sintetizatoarele, dar cu o sintaxa putin "
+"diferita. Citeste sectiunea 7.2 a tutorialului pentru mai multe informatii "
+"despre controlul efectelor."
 
 #: A.10-controlling-your-sound.md:157
 msgid ""
@@ -12720,6 +13642,10 @@ msgid ""
 "synth, the FX and the sleep times and see if you can turn it into something "
 "completely different!"
 msgstr ""
+"Copiaza codul intr-un buffer gol si asculta. Nu te opri aici, joca-te putin "
+"cu codul. Schimba valorile pentru '_slide:', schimba notele, sintetizatorul, "
+"efectele si duratele pentru pauze si vezi cum poti sa schimbi sunetul in "
+"ceva cu totul diferit!"
 
 #: A.10-controlling-your-sound.md:162
 #, no-wrap
@@ -12738,14 +13664,28 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :moon_rise do\n"
+"  with_fx :echo, mix: 0, mix_slide: 8 do |fx|\n"
+"    control fx, mix: 1\n"
+"    notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle\n"
+"    sn = synth :prophet , sustain: 8, note: :e1, cutoff: 70, cutoff_slide: "
+"8\n"
+"    control sn, cutoff: 130\n"
+"    sleep 2\n"
+"    32.times do\n"
+"      control sn, note: notes.tick, pan: rrand(-1, 1)\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.11-beat-tracking.md:1
 msgid "A.11 Tick Tock"
-msgstr ""
+msgstr "A.11 Tic Tac"
 
 #: A.11-beat-tracking.md:3
 msgid "Tracking the Beat"
-msgstr ""
+msgstr "Urmarirea ritmului"
 
 #: A.11-beat-tracking.md:5
 msgid ""
@@ -12756,10 +13696,17 @@ msgid ""
 "Sonic Pi's unique tick system. By the end of this article you'll be ticking "
 "your way through rhythms and riffs on your way to being a live coding DJ."
 msgstr ""
+"In episodul de luna trecuta am facut o incursiune tehnica in sistemul de "
+"randomizare din Sonic Pi. Am explorat cum il putem folosi pentru a adauga un "
+"nou nivel de control dinamic in codul nostru intr-un mod determinist. Luna "
+"asta vom continua sa studiem detaliile tehnice si ne vom indrepta atentia "
+"asupra sistemului de tact unic in Sonic Pi. La sfarsitul acestui articol vei "
+"putea sa urmaresti comanzi ritmurile si riff-urile si vei fi cu un pas mai "
+"aproape sa devii un DJ care programeaza live."
 
 #: A.11-beat-tracking.md:13
 msgid "Beat Counting"
-msgstr ""
+msgstr "Numararea masurilor"
 
 #: A.11-beat-tracking.md:15
 msgid ""
@@ -12768,17 +13715,24 @@ msgid ""
 "give you precise control over when a beat actually occurs and even supports "
 "multiple beats with their own tempos."
 msgstr ""
+"Cand facem muzica ne dorim adesea sa facem lucruri diferite in functie de "
+"masura la care am ajuns. Sonic Pi are un sistem special de contorizare a "
+"masurilor, numit 'tick', care iti ofera un control precis asupra momentului "
+"in care incepe masura si suporta chiar mai multe tempo-uri in paralel."
 
 #: A.11-beat-tracking.md:20
 msgid ""
 "Let's have a play - to advance the beat we just need to call `tick`. Open up "
 "a fresh buffer, type in the following and hit Run:"
 msgstr ""
+"Sa ne jucam putin, pentru a trece la masura urmatoare trebuie doar sa "
+"apelezi '.tick'. Deschide un buffer nou si scrie codul de mai jos apoi apasa "
+"Run:"
 
 #: A.11-beat-tracking.md:23
 #, no-wrap
 msgid "puts tick #=> 0"
-msgstr ""
+msgstr "puts tick #=> 0"
 
 #: A.11-beat-tracking.md:27
 msgid ""
@@ -12787,6 +13741,10 @@ msgid ""
 "starts a fresh beat counting from 0. However, whilst the run is still "
 "active, we can advance the beat as many times as we want:"
 msgstr ""
+"Va fi afisata masura curenta: '0'. Poti observa ca daca apesi pe Run de mai "
+"multe ori, de fiecare data va returna '0'. Asta se intampla deoarece la "
+"fiecare Run numaratoarea masurilor incepe de la 0. In timpul rularii insa, "
+"putem avansa la urmatoarea masura de cate ori vrem:"
 
 #: A.11-beat-tracking.md:32
 #, no-wrap
@@ -12795,6 +13753,9 @@ msgid ""
 "puts tick #=> 1\n"
 "puts tick #=> 2"
 msgstr ""
+"puts tick #=> 0\n"
+"puts tick #=> 1\n"
+"puts tick #=> 2"
 
 #: A.11-beat-tracking.md:38
 msgid ""
@@ -12803,10 +13764,14 @@ msgid ""
 "#=> 0` means the code `puts foo` prints `0` to the log at that point in the "
 "program."
 msgstr ""
+"De cate ori observi simbolul '#=>' la sfarsitul unei linii de cod, inseamna "
+"ca linia va determina scrierea in jurnal a partii care urmeaza. De exemplu, "
+"'puts foo#=> 0' inseamna ca instructiunea 'puts foo' scrie '0' in jurnal la "
+"acel punct din program."
 
 #: A.11-beat-tracking.md:43
 msgid "Checking the Beat"
-msgstr ""
+msgstr "Schimbarea masurii"
 
 #: A.11-beat-tracking.md:45
 msgid ""
@@ -12814,6 +13779,10 @@ msgid ""
 "the current beat. Sometimes we just want to look at the current beat without "
 "having to increment it which we can do via `look`:"
 msgstr ""
+"Am vazut ca 'tick' face doua lucruri. Incrementeaza (creste cu 1) valoarea "
+"masurii curente si returneaza noua valoare. Uneori vrem doar sa vedem "
+"valoarea curenta, fara sa trecem la masura urmatoare, ceea ce poate fi "
+"realizat cu ajutorul 'look':"
 
 #: A.11-beat-tracking.md:49
 #, no-wrap
@@ -12823,6 +13792,10 @@ msgid ""
 "puts look #=> 1\n"
 "puts look #=> 1"
 msgstr ""
+"puts tick #=> 0\n"
+"puts tick #=> 1\n"
+"puts look #=> 1\n"
+"puts look #=> 1"
 
 #: A.11-beat-tracking.md:56
 msgid ""
@@ -12831,6 +13804,11 @@ msgid ""
 "returned `0`, then `1` as expected, then the two `look`s just returned the "
 "last beat value twice which was `1`."
 msgstr ""
+"In acest cod generam un tact de 2 ori si afisam valoarea cu '.tick', apoi "
+"doar analizam valoarea de 2 ori cu '.look'. Vom vedea urmatoarele valori: `0`"
+", `1`, `1`, `1`. Primele 2 utilizari ale functiei 'tick' returneaza '0' si "
+"apoi '1', cum era de astepta, apoi cele 2 functii 'look' returneaza ultima "
+"valoare care este '1'."
 
 #: A.11-beat-tracking.md:64
 msgid ""
@@ -12842,11 +13820,20 @@ msgid ""
 "a regular tick and increments the beat. Secondly it looks up the ring value "
 "using the beat as the index. Let's take a look:"
 msgstr ""
+"Deci acum putem trece la masura urmatoare folosind 'tick' si sa vedem unde "
+"am ajuns folosind 'look'. Ce urmeaza? Trebuie sa avem ceva ce poate fi "
+"parcurs pas cu pas. Sonic Pi foloseste liste circulare pentru a reprezenta "
+"riff-uri, melodii si ritmuri, iar sistemul de tact a fost gandit special "
+"pentru a lucra strans cu acestea. De fapt, listele circulare au propriile "
+"versiuni de tip sufix pentru functia 'tick', care realizeaza doua lucruri. "
+"In primul rand actioneaza ca un tick obisnuit si trec la masura urmatoare, "
+"iar in al doilea rand parcurg listele circulare folosind numarul masurii ca "
+"index. Sa aruncam o privire:"
 
 #: A.11-beat-tracking.md:72
 #, no-wrap
 msgid "puts (ring :a, :b, :c).tick #=> :a"
-msgstr ""
+msgstr "puts (ring :a, :b, :c).tick #=> :a"
 
 #: A.11-beat-tracking.md:76
 msgid ""
@@ -12854,6 +13841,9 @@ msgid ""
 "of the ring `:a`. We can grab each of the values in the ring by calling `."
 "tick` multiple times:"
 msgstr ""
+"'.tick' este o versiune speciala de tip sufix a functiei '.tick', care va "
+"returna prima valoare din lista ':a'. Putem obtine fiecare dintre valorile "
+"din lista apeland '.tick' de mai multe ori:"
 
 #: A.11-beat-tracking.md:80
 #, no-wrap
@@ -12864,6 +13854,11 @@ msgid ""
 "puts (ring :a, :b, :c).tick #=> :a\n"
 "puts look                   #=> 3"
 msgstr ""
+"puts (ring :a, :b, :c).tick #=> :a\n"
+"puts (ring :a, :b, :c).tick #=> :b\n"
+"puts (ring :a, :b, :c).tick #=> :c\n"
+"puts (ring :a, :b, :c).tick #=> :a\n"
+"puts look                   #=> 3"
 
 #: A.11-beat-tracking.md:88
 msgid ""
@@ -12871,10 +13866,13 @@ msgid ""
 "Notice that `look` returns `3`. Calls to `.tick` act just like they are "
 "regular calls to `tick` - they increment the local beat."
 msgstr ""
+"Urmareste jurnalul si vei vedea `:a`, `:b`, `:c` si iarasi `:a`. Observi ca "
+"'look' returneaza valoarea '3'. Apelurile '.tick' functioneaza la fel ca "
+"cele ale functiei 'tick' obisnuite' - incrementeaza numarul masurii curente."
 
 #: A.11-beat-tracking.md:93
 msgid "A Live Loop Arpeggiator"
-msgstr ""
+msgstr "Creator de arpegii intr-o bucla live"
 
 #: A.11-beat-tracking.md:95
 msgid ""
@@ -12882,26 +13880,30 @@ msgid ""
 "combined we have all the tools we need to both build and understand a simple "
 "arpegiator. We need just four things:"
 msgstr ""
+"Adevarata distractie incepe cand combinam 'tick' cu listele circulare si cu "
+"buclele live. Cand punem aceste lucruri impreuna avem tot ce ne trebuie "
+"pentru a construi si a intelege un generatori simplu de arpegii. Avem nevoie "
+"de doar patru lucruri:"
 
 #: A.11-beat-tracking.md:99
 msgid "A ring containing the notes we want to loop over."
-msgstr ""
+msgstr "O lista circulara care contine notele pe care vrem sa le repetam."
 
 #: A.11-beat-tracking.md:100
 msgid "A means of incrementing and obtaining the beat."
-msgstr ""
+msgstr "O modalitate de a incrementa si de a obtine numarul masurii curente."
 
 #: A.11-beat-tracking.md:101
 msgid "The ability to play a note based on the current beat."
-msgstr ""
+msgstr "Capacitatea de a reda o nota care depinde de masura curenta."
 
 #: A.11-beat-tracking.md:102
 msgid "A loop structure to keep the arpegiator repeating."
-msgstr ""
+msgstr "O structura de tip bucla care face ca generatorul sa repete arpegiile."
 
 #: A.11-beat-tracking.md:104
 msgid "These concepts can all be found in the following code:"
-msgstr ""
+msgstr "Toate aceste concepte pot fi intalnite in codul urmator:"
 
 #: A.11-beat-tracking.md:106
 #, no-wrap
@@ -12930,10 +13932,18 @@ msgid ""
 "index into our notes ring. Finally, we wait for an eighth of a beat before "
 "looping round again."
 msgstr ""
+"Sa privim fiecare dintre aceste linii. Mai intai definim lista de note pe "
+"care le vom reda in continuu. Apoi cream o bucla live numita ':arp' care se "
+"ocupa de repetarea instructiunilor pentru noi. De fiecare data cand intram "
+"in bucla algem sintetizatorul ':dpulse' si apoi redam urmatoarea nota din "
+"lista cu ajutorul '.tick'. Tine minte ca acest lucru va duce la "
+"incrementarea numarului masurii curente si va folosi aceasta valoare ca "
+"index in lista cu notele. La final asteptam o optime de masura inainte de a "
+"relua bucla."
 
 #: A.11-beat-tracking.md:124
 msgid "Multiple Simultaneous Beats"
-msgstr ""
+msgstr "Ritmuri multiple"
 
 #: A.11-beat-tracking.md:126
 msgid ""
@@ -12942,6 +13952,10 @@ msgid ""
 "counter. This is much more powerful than having a global metronome and beat. "
 "Let's take a look at this in action:"
 msgstr ""
+"Un lucru important de stiut este ca tactul este local pentru o bucla live. "
+"Asta inseamna ca fiecare 'live_loop' are propriul contor pentru masura. "
+"Acest lucru ne ofera mai multa flexibilitate decat un metronom global si un "
+"tempo global. Sa vedem cum functioneaza:"
 
 #: A.11-beat-tracking.md:131
 #, no-wrap
@@ -12960,16 +13974,31 @@ msgid ""
 "  sleep 0.75\n"
 "end"
 msgstr ""
+"notes = (ring 57, 62, 55, 59, 64)\n"
+"with_fx :reverb do\n"
+"  live_loop :arp do\n"
+"    use_synth :dpulse\n"
+"    play notes.tick + 12, release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end\n"
+"live_loop :arp2 do\n"
+"  use_synth :dsaw\n"
+"  play notes.tick - 12, release: 0.2\n"
+"  sleep 0.75\n"
+"end"
 
 #: A.11-beat-tracking.md:149
 msgid "Clashing Beats"
-msgstr ""
+msgstr "Conflicte de numarare"
 
 #: A.11-beat-tracking.md:151
 msgid ""
 "A big cause of confusion with Sonic Pi's tick system is when people want to "
 "tick over multiple rings in the same `live_loop`:"
 msgstr ""
+"O sursa de confuzii si erori in utilizarea sistemului de tact din Sonic Pi "
+"este folosirea unui tick pentru mai multe liste in acelasi 'live_loop':"
 
 #: A.11-beat-tracking.md:154
 #, no-wrap
@@ -13004,6 +14033,18 @@ msgid ""
 "with as many beats as you need! See the section on named ticks in 9.4 of the "
 "built-in tutorial for more information."
 msgstr ""
+"Fiecare 'live_loop' are propriul contor pentru masura, dar noi apelam "
+"'.tick' de doua ori in cadrul aceleiasi bucle. Asta inseamna ca numarul "
+"masurii curente va fi incrementat de doua ori la fiecare trecere. Uneori pot "
+"aparea sunete poliritmice interesante, dar nu asta ne dorim in general. "
+"Exista doua solutii pentru aceasta problema. O varianta ar fi sa apelam "
+"'tick' la inceputul buclei live si apoi sa folosim 'look' pentru a vedea "
+"care este valoarea curenta. A doua ar fi sa transmitem un nume unic la "
+"fiecare dintre cele 2 apeluri ale functiei '.tick', cum ar fi '.tick(:foo)'. "
+"Sonic Pi va crea si va urmari un contor separat pentru fiecare nume pe care "
+"il folosesti. In felul asta poti lucra cu oricate tacturi ai nevoie. Vezi "
+"sectiunea 9.4 din tutorial pentru mai multe informatii despre folosirea de "
+"nume pentru tacturi."
 
 #: A.11-beat-tracking.md:178
 msgid ""
@@ -13012,6 +14053,10 @@ msgid ""
 "Start changing things and play around with it and see what you can turn it "
 "into. See you next time..."
 msgstr ""
+"Sa punem cap la cap cunostintele noastre despre tact, liste circulare si "
+"bucle live pentru un exemplu final. Ca de obicei, nu trebuie sa tratezi asta "
+"ca pe o bucata finisata. Poti schimba ce doresti ca sa vezi in ce o poti "
+"transforma. Ne vedem data viitoare..."
 
 #: A.11-beat-tracking.md:183
 #, no-wrap
@@ -13038,14 +14083,35 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"use_bpm 240\n"
+"notes = (scale :e3, :minor_pentatonic).shuffle\n"
+"live_loop :foo do\n"
+"  use_synth :blade\n"
+"  with_fx :reverb, reps: 8, room: 1 do\n"
+"    tick\n"
+"    co = (line 70, 130, steps: 32).tick(:cutoff)\n"
+"    play (octs :e3, 3).look, cutoff: co, amp: 2\n"
+"    play notes.look, amp: 4\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"live_loop :bar do\n"
+"  tick\n"
+"  sample :bd_ada if (spread 1, 4).look\n"
+"  use_synth :tb303\n"
+"  co = (line 70, 130, steps: 16).look\n"
+"  r = (line 0.1, 0.5, steps: 64).mirror.look\n"
+"  play notes.look, release: r, cutoff: co\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.12-sample-slicing.md:1
 msgid "A.12 Sample Slicing"
-msgstr ""
+msgstr "A.12 Slicing cu esantioane"
 
 #: A.12-sample-slicing.md:3
 msgid "Sample Slicing"
-msgstr ""
+msgstr "Slicing cu esantioane"
 
 #: A.12-sample-slicing.md:5
 msgid ""
@@ -13057,10 +14123,18 @@ msgid ""
 "will all become clear and you'll soon master a powerful new tool for your "
 "live coded sets."
 msgstr ""
+"In episodul 3 al acestei serii despre Sonic Pi am vazut cum putem reda in "
+"bucla, intinde sau comprima si filtra unul dintre cele mai faimoase solo-uri "
+"de toba din toate timpurile - Amen Break. In acest tutorial o sa mergem cu "
+"un pas mai departe si o sa vedem cum putem sa il maruntim (slice), sa "
+"amestecam bucatile si sa le combinam la loc in alta ordine. Daca ti se pare "
+"o chestie putin traznita, nu te ingrijora, lucrurile vor deveni mai clare in "
+"curand si vei stapani o noua unealta puternica pentru interpretarile live "
+"folosind Sonic Pi."
 
 #: A.12-sample-slicing.md:13
 msgid "Sound as Data"
-msgstr ""
+msgstr "Sunetul ca date"
 
 #: A.12-sample-slicing.md:15
 msgid ""
@@ -13071,6 +14145,11 @@ msgid ""
 "into a fresh buffer and then hit the Run button to hear a pre-recorded drum "
 "beat:"
 msgstr ""
+"Inainte sa incepem, sa explicam putin cum functioneaza esantioanele. Pana "
+"acum sper ca te-ai jucat deja cu sampler-ul din Sonic Pi. Daca nu, nu exista "
+"un moment mai potrivit decat acesta! Porneste Raspberry Pi, lanseaza Sonic "
+"Pi din meniul Programming, scrie codul urmator intr-un buffer gol si apasa "
+"butonul Run pentru a auzi un beat de toba pre-inregistrat:"
 
 #: A.12-sample-slicing.md:26
 msgid ""
@@ -13080,6 +14159,10 @@ msgid ""
 "what's to stop us from playing them back in a different order and creating a "
 "new sound?"
 msgstr ""
+"O inregistrare a unui sunet este reprezentata sub forma de date - o multime "
+"de numere intre -1 si 1 care reprezinta limitele undei sonore. Daca redam "
+"aceste numere in ordine, obtinem sunetul original. Dar ce ne opreste sa le "
+"redam intr-o alta ordine, pentru a crea alte sunete?"
 
 #: A.12-sample-slicing.md:32
 msgid ""
@@ -13096,6 +14179,18 @@ msgid ""
 "measured many times a second. These measurements are then represented as a "
 "series of numbers between -1 and 1."
 msgstr ""
+"Cum sunt inregistrate de fapt esantioanele? O sa ti se para simplu dupa ce "
+"intelegi bazale fizicii sunetului. Cand produci un sunet, de exemplu lovind "
+"in toba, acesta se propaga prin aer la fel cum se increteste suprafata apei "
+"cand arunci o piatra in ea. Cand aceste unduiri ajung la urechea noastra, "
+"timpanul se misca in ritm cu ele si converteste aceste miscari in sunetul pe "
+"care il auzim. Daca dorim sa inregistram si sa redam sunetul, trebuie deci "
+"sa capturam, sa stocam si sa reproducem aceste unduiri. O metoda este sa "
+"folosim un microfon care actioneaza ca un timpan si se misca inainte si "
+"inapoi cand unda ajunge la el. Microfonul converteste apoi pozitia "
+"respectiva intr-un semnal electric care este masurat de multe ori intr-o "
+"secunda. Aceste masuratori sunt reprezentate sub forma unei serii de numere "
+"intre -1 si 1."
 
 #: A.12-sample-slicing.md:46
 msgid ""
@@ -13104,10 +14199,14 @@ msgid ""
 "between -1 and 1 on the y axis. You can see an example of such a graph at "
 "the top of the diagram."
 msgstr ""
+"Daca am incerca sa gasim o reprezentare vizuala a sunetului ar fi un grafic "
+"simplu cu timpul pe axa x si pozitia microfonului/difuzorului pe axa y, "
+"avand valori intre -1 si 1. Poti vede un exemplu de astfel de grafic in "
+"partea de sus a diagramei."
 
 #: A.12-sample-slicing.md:51
 msgid "Playing Part of a Sample"
-msgstr ""
+msgstr "Redarea unei parti dintr-un esantion"
 
 #: A.12-sample-slicing.md:53
 msgid ""
@@ -13119,31 +14218,43 @@ msgid ""
 "represents the start of the sample and `1` is the end. So, to play the first "
 "half of the Amen Break, we just need to specify a `finish:` of `0.5`:"
 msgstr ""
+"Cum procedam deci pentru a cere Sonic Pi sa redea un esantion intr-o ordine "
+"diferita. Pentru a raspunde la aceasta intrebare trebuie sa analizam "
+"parametrii 'start:' si 'finish:' pentru 'sample'. Acestia ne permit sa "
+"controlam pozitia de inceput si de final pentru numerele reprezentand "
+"esantionul care vor fi redate. Valorile pentru ambii parametri sunt "
+"reprezentate de numere intre '0' (inceputul esantionului) si '1' (sfarsitul "
+"sau). Deci, pentru a reda prima jumatate din Amen Break, trebuie sa setam "
+"valoarea '0.5' pentru 'finish:':"
 
 #: A.12-sample-slicing.md:66
 msgid ""
 "We can add in a `start:` value to play an even smaller section of the sample:"
 msgstr ""
+"Putem adauga si o valoare pentru 'start:' ca sa redam o sectiune si mai mica "
+"din esantion:"
 
 #: A.12-sample-slicing.md:68
 #, no-wrap
 msgid "sample :loop_amen, start: 0.25, finish: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.25, finish: 0.5"
 
 #: A.12-sample-slicing.md:72
 msgid ""
 "For fun, you can even have the `finish:` opt's value be *before* `start:` "
 "and it will play the section backwards:"
 msgstr ""
+"Ca sa te distrezi, poti alege o valoare *mai mica* pentru 'finish:' decat "
+"pentru 'start:' si respectiva sectiune va fi redata invers:"
 
 #: A.12-sample-slicing.md:75
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.25"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.5, finish: 0.25"
 
 #: A.12-sample-slicing.md:79
 msgid "Re-ordering Sample Playback"
-msgstr ""
+msgstr "Schimabarea ordinii de redare a esantionului"
 
 #: A.12-sample-slicing.md:81
 msgid ""
@@ -13151,12 +14262,17 @@ msgid ""
 "played back in any order and also how to play a specific part of a sample we "
 "can now start having fun playing a sample back in the 'wrong' order."
 msgstr ""
+"Acum ca stim ca un esantion este doar o lista de numere care pot fi redate "
+"in orice ordine si stim si cum sa redam doar o anumita parte din esantion, "
+"putem incepe sa ne distram redand un esantion in ordine 'gresita'."
 
 #: A.12-sample-slicing.md:86
 msgid ""
 "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice."
 "png)"
 msgstr ""
+"![Slicing Amen](../images/tutorial/articles/A.12-sample-"
+"slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
@@ -13168,6 +14284,14 @@ msgid ""
 "top. Finally C) is one possible re-ordering of the slices. We can then play "
 "this back to create a new beat. Take a look at the code to do this:"
 msgstr ""
+"Sa ne uitam putin la Amen Break si sa il taiem in 8 felii egale apoi sa le "
+"amestecam. Priveste diagrama: sus A) reprezinta graficul datelor din "
+"esantionul initial. Taierea lui in 8 bucati ne da B) - observi ca am colorat "
+"diferit fiecare dintre cele 8 felii pentru a le distinge mai usor. Deasupra "
+"poti vedea valorile de inceput si de sfarsit pentru fiecare felie. In fine, "
+"C) reprezinta una dintre re-aranjarile posibile pentru cele 8 felii. Putem "
+"reda aceste numere pentru a crea un nou beat. Sa privim codul care face "
+"acest lucru:"
 
 #: A.12-sample-slicing.md:97
 #, no-wrap
@@ -13181,6 +14305,14 @@ msgid ""
 "  sleep sample_duration :loop_amen, start: s, finish: f\n"
 "end"
 msgstr ""
+"live_loop :beat_slicer do\n"
+"  slice_idx = rand_i(8)\n"
+"  slice_size = 0.125\n"
+"  s = slice_idx * slice_size\n"
+"  f = s + slice_size\n"
+"  sample :loop_amen, start: s, finish: f\n"
+"  sleep sample_duration :loop_amen, start: s, finish: f\n"
+"end"
 
 #: A.12-sample-slicing.md:108
 msgid ""
@@ -13189,6 +14321,10 @@ msgid ""
 "for exactly this: `rand_i(8)`. We then store this random slice index in the "
 "variable `slice_idx`."
 msgstr ""
+"Alegem aleator o felie pentru redare folosind un numar aleator intre 0 si 7 "
+"(adu-ti aminte ca incepem numerotarea de la 0). Sonic Pi are o functie "
+"foarte utila pentru acest lucru: 'rand_i(8)'. Memoram apoi acest index "
+"aleator in variabila 'slice_idx'."
 
 #: A.12-sample-slicing.md:113
 msgid ""
@@ -13196,24 +14332,31 @@ msgid ""
 "necessary for us to convert our `slice_idx` into a value between 0 and 1 so "
 "we can use it as our `start:` opt."
 msgstr ""
+"Definim marimea feliei - 'slice_size' ca fiind 1/8 sau 0.125. Variabila "
+"'slice_size' ne este utila pentru a converti 'slice_idx' intr-o valoare "
+"intre 0 si 1, ca sa o putem folosi pentru parametrul 'start:'."
 
 #: A.12-sample-slicing.md:117
 msgid ""
 "We calculate the start position `s` by multiplying the `slice_idx` by the "
 "`slice_size`."
-msgstr ""
+msgstr "Calculam pozitia de start 's' inmultind 'slice_idx' cu 'slice_size'."
 
 #: A.12-sample-slicing.md:120
 msgid ""
 "We calculate the finish position `f` by adding the `slice_size` to the start "
 "position `s`."
 msgstr ""
+"Calculam pozitia de final 'f' adaugand 'slice_size' la valoarea pozitiei de "
+"start 's'."
 
 #: A.12-sample-slicing.md:123
 msgid ""
 "We can now play the sample slice by plugging in the `s` and `f` values into "
 "the `start:` and `finish:` opts for `sample`."
 msgstr ""
+"Acum putem reda felia din esantion transmitand 's' si 'f' ca valori pentru "
+"parametrii 'start:' si 'finish:' cand apelam 'sample'."
 
 #: A.12-sample-slicing.md:126
 msgid ""
@@ -13223,12 +14366,20 @@ msgid ""
 "simply returns the duration. Therefore, by passing `sample_duration` our "
 "`start:` and `finish:` opts, we can find out the duration of a single slice."
 msgstr ""
+"Inainte sa redam urmatoarea felie trebuie sa stim cat de mult trebuie sa "
+"dureze pauza, care trebuie sa fie la fel de lunga ca durata unei felii din "
+"esantion. Din fericire, Sonic Pi ne ofera functia 'sample_duration' care "
+"accepta aceiasi parametri ca 'sample' si returneaza durata. Apeland deci "
+"'sample_duration' cu parametri 'start:' si 'finish:', putem afla durata unei "
+"felii de esantion."
 
 #: A.12-sample-slicing.md:133
 msgid ""
 "We wrap all of this code in a `live_loop` so that we continue to pick new "
 "random slices to play."
 msgstr ""
+"Introducem toate acestea intr-o bucla live ca sa putem alege in continuu noi "
+"felii aleatoare pentru redare."
 
 #: A.12-sample-slicing.md:139
 msgid ""
@@ -13238,6 +14389,11 @@ msgid ""
 "your turn - take the code below as a starting point and see if you can take "
 "it in your own direction and create something new..."
 msgstr ""
+"Sa punem cap la cap tot ce am vazut pana acum intr-un exemplu final care "
+"arata cum putem folosi o abordare asemanatoare pentru a combina beat-uri "
+"sectionate aleator (sliced) cu niste bas pentru a obtine punctul de pornire "
+"pentru o pista interesanta. Acum este randul tau - ia codul de mai jos si "
+"modifica-l cum iti place tie pentru a crea ceva nou..."
 
 #: A.12-sample-slicing.md:145
 #, no-wrap
