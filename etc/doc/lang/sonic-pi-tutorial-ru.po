@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-11 23:06+0000\n"
-"Last-Translator: Kurushina Margarita <kurushinam@gmail.com>\n"
+"PO-Revision-Date: 2016-06-13 21:58+0000\n"
+"Last-Translator: Ivan Krylov <astra77@outlook.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -22,7 +22,7 @@ msgstr "1 Добро пожаловать в Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr "Добро пожаловать друг :-)"
+msgstr "Добро пожаловать, друг :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
