@@ -49,7 +49,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="713"></location>
         <source>Indenting line...</source>
-        <translation>Rykke inn linje...</translation>
+        <translation>Rykker inn linje...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
