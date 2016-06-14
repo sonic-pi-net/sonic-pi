@@ -77,7 +77,7 @@ This section of the Sonic Pi install.md file should be completed next BEFORE att
 
 Copy ```c:\ruby23\*``` into ```c:\sonic-pi\app\server\native\windows\ruby```
 
-You will need to create the last two folders windows\ruby before doing this, which is best done from a File Explorer window. The copying is also best done using **two** File Explorer windows, one set to ```c:\Ruby22``` and the other to ```c:\sonic-pi\app\server\native\windows\ruby```
+You will need to create the last two folders windows\ruby before doing this, which is best done from a File Explorer window. The copying is also best done using **two** File Explorer windows, one set to ```c:\Ruby23``` and the other to ```c:\sonic-pi\app\server\native\windows\ruby```
 You can leave out the **Doc** folder and the two **unins000** files.
 Now open a cmd window and navigate to c:\sonic-pi\app\server\native\windows\ruby
 From there we will install gem files required by Sonic Pi
