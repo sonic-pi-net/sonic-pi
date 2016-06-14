@@ -229,9 +229,9 @@ gang kjør-knappen trykkes.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Aktivere eller deaktiviere cues.
-Hvis deaktivert, så vil cues fortsatt utløses.
-De vil derimot ikke være synlige i loggene.</translation>
+        <translation>Styr logging av vink.
+Hvis utkoblet, så vil vink fortsatt utløses.
+De vil bare ikke dukke opp i loggen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
