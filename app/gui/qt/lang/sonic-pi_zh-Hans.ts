@@ -18,7 +18,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="277"></location>
         <source>Sonic Pi update info</source>
-        <translation>Sonic Pi更新</translation>
+        <translation>Sonic Pi更新信息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
@@ -44,22 +44,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="709"></location>
         <source>Indenting selection...</source>
-        <translation>缩进选中区域</translation>
+        <translation>缩进选中区域……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"></location>
         <source>Indenting line...</source>
-        <translation>缩进当前行</translation>
+        <translation>缩进当前行……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
         <source>Toggle selection comment...</source>
-        <translation>注释/取消注释选中区域</translation>
+        <translation>注释/取消注释选中区域……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="746"></location>
         <source>Toggle line comment...</source>
-        <translation>注释/取消注释当前行</translation>
+        <translation>注释/取消注释当前行……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
@@ -69,7 +69,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="913"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
-        <translation>请用这个滑块调整Raspberry Pi的系统音量</translation>
+        <translation>使用滑块调整Raspberry Pi的系统音量。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
@@ -80,14 +80,15 @@
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>外接PA系统的高级音量选项</translation>
+        <translation>高级音量设置用于使用Sonic Pi通过外部扩声系统进行表演时进行音频设置。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>打开/关闭立体声声道反转</translation>
+        <translation>切换立体声声道。
+选中该选项时，左右声道信号交换，左声道信号将发送到右声道输出扬声器，右声道信号发送到左声道输出扬声器。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"></location>
@@ -96,7 +97,8 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>打开/关闭强制单声道</translation>
+        <translation>切换单声道模式。
+选中该选项时，左右声道将混合为单声道信号，并同时发送到左右声道输出扬声器。该选项对于外部音频系统只能处理单声道信号的情况非常有用。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
@@ -120,7 +122,8 @@ If enabled the log is scrolled to the bottom after every new message is displaye
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>打开/关闭合成器参数检查</translation>
+        <translation>切换合成器参数检查功能。
+取消该选项时，某些合成器在应用不合理的参数值时将可能产生不可预知的大信号或不舒服的声音信号。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
@@ -154,8 +157,10 @@ create unexpectedly loud or uncomfortable sounds.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation>你的Raspberry Pi有两种音频输出模式。第一种是通过系统的耳机接口输出；
-            第二种是通过HDMI接口。你可以通过以下按钮来选择你希望使用的音频输出方式</translation>
+        <translation>Raspberry Pi提供两种音频输出模式。
+第一种是通过Raspberry Pi自身的系统耳机接口输出；
+第二种是通过支持HDMI音频输出的监视器或电视进行输出。
+用户可以通过这些按钮来选择希望使用的音频输出方式。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
@@ -165,7 +170,7 @@ Use these buttons to force the output to the one you want.</source>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;Headphones</source>
-        <translation>&amp;耳机接口</translation>
+        <translation>&amp;耳机</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="938"></location>
@@ -202,7 +207,8 @@ Use these buttons to force the output to the one you want.</source>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>是否记录日志</translation>
+        <translation>切换日志消息记录。
+取消该选项时，合成器和采样事件触发的信息默认将不在日志窗口中显示。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
@@ -214,7 +220,8 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>是否在运行时自动清空日志</translation>
+        <translation>切换运行时清空日志窗口。
+选中该选项时，每次运行按钮被按下时，log日志窗口将自动清空所有消息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"></location>
@@ -226,7 +233,8 @@ time the run button is pressed.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>是否记录提示到日志</translation>
+        <translation>是否允许在日志中记录cue信息。
+取消该选项时，cue消息仍能够被触发。但cue消息将不在出现在日志中。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"></location>
@@ -248,7 +256,8 @@ However, they will not be visible in the logs.</source>
         <location filename="../mainwindow.cpp" line="1017"></location>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>打开/关闭自动更新（以及上传匿名版本信息）</translation>
+        <translation>切换自动更新检查。
+该选项将向开发者匿名发送当前用户操作系统类型和Sonic Pi版本信息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"></location>
@@ -259,7 +268,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1019"></location>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>立即检查更新（并上传匿名版本信息）</translation>
+        <translation>强制立即检查更新。
+该选项将匿名向开发者发送当前用户操作系统类型和Sonic Pi版本信息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"></location>
@@ -284,7 +294,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1046"></location>
         <source>Configure editor display options.</source>
-        <translation>代码编辑器选项</translation>
+        <translation>配置编辑器显示选项。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"></location>
@@ -294,7 +304,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1048"></location>
         <source>Configure editor look and feel.</source>
-        <translation>设置代码编辑器外观</translation>
+        <translation>设置代码编辑器外观。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1049"></location>
@@ -304,7 +314,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1050"></location>
         <source>Configure automation features.</source>
-        <translation>设置自动化选项</translation>
+        <translation>设置自动化选项。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1051"></location>
@@ -324,7 +334,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
         <source>Toggle line number visibility.</source>
-        <translation>是否显示行号</translation>
+        <translation>切换是否显示行号。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1056"></location>
@@ -334,7 +344,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1057"></location>
         <source>Toggle visibility of the log.</source>
-        <translation>是否显示日志</translation>
+        <translation>切换是否显示日志。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1059"></location>
@@ -344,7 +354,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1060"></location>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>是否显示控制按钮</translation>
+        <translation>切换是否显示控制按钮。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1062"></location>
@@ -354,7 +364,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1064"></location>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>是否显示编辑器窗口选择栏</translation>
+        <translation>切换是否显示编辑器窗口Buffer选择标签。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"></location>
@@ -364,7 +374,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1066"></location>
         <source>Toggle full screen mode.</source>
-        <translation>打开/关闭全屏模式</translation>
+        <translation>打开/关闭全屏模式。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
@@ -374,13 +384,14 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>Toggle dark mode.</source>
-        <translation>打开/关闭夜灯模式</translation>
+        <translation>打开/关闭深色模式。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>夜灯模式适用于在灯光教案的场所使用</translation>
+        <translation>
+深色模式适用于在灯光较暗的场所进行Sonic Pi编程。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1107"></location>
@@ -419,8 +430,7 @@ Dark mode is perfect for live coding in night clubs.</source>
 Apologies, a critical error occurred during startup</source>
         <translation>Sonic Pi启动错误
 
-很抱歉，Sonic Pi启动过程中发生错误
-        </translation>
+抱歉，Sonic Pi启动过程中发生严重错误</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
@@ -500,7 +510,7 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1449"></location>
         <source>Running Code...</source>
-        <translation>运行代码</translation>
+        <translation>代码运行中……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1498"></location>
@@ -742,7 +752,7 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2454"></location>
         <source>License</source>
-        <translation>License</translation>
+        <translation>许可证</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2455"></location>
@@ -808,7 +818,7 @@ even when a little late.</source>
         <location filename="../mainwindow.cpp" line="2877"></location>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi每两周检查一次更新</translation>
+        <translation>Sonic Pi每两周检查一次更新。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2879"></location>
@@ -818,7 +828,7 @@ every two weeks.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2880"></location>
         <source>Version %2 is now available!</source>
-        <translation>新版本 %2 已经就绪，可供下载。</translation>
+        <translation>新版本 %2 已经就绪，可供下载！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"></location>
