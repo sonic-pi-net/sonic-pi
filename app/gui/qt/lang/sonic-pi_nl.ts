@@ -331,7 +331,7 @@ dat niet wordt herkend.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="983"></location>
         <source>Enforce timing guarantees</source>
-        <translation>"In maat te blijven" afdwingen</translation>
+        <translation>"In maat blijven" afdwingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
@@ -343,12 +343,12 @@ When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
         <translation>Wanneer ingeschakeld,zal Sonic Pi weigeren
-om Synths en Effecten te triggeren als
+om Synths en Effecten te triggeren wanneer
 het te laat is om dit te doen.
 
 Wanneer deze is uitgeschakeld,zal Sonic Pi altijd
-trachten Synths en Effecten te triggeren,
-zelfs wanneer een beetje te laat .</translation>
+proberen Synths en Effecten te triggeren,
+zelfs wanneer dit een beetje te laat is.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"></location>
@@ -371,7 +371,7 @@ Deze controle omvat het verzenden van anonieme gegevens over het platform en de 
         <location filename="../mainwindow.cpp" line="1018"></location>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>De Update controle,nu afdwingen .
+        <translation>De controle op een Update ,nu afdwingen .
 Deze controle omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
     </message>
     <message>
@@ -479,7 +479,7 @@ Deze controle omvat het verzenden van anonieme gegevens over het platform en de 
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
         <translation>
-Donkere modus is ideaal voor "Live coding" in nachtclubs.</translation>
+Donkere modus is ideaal voor het Live coderen in nachtclubs.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1106"></location>
