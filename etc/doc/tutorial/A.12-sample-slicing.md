@@ -1,5 +1,3 @@
-A.12 Sample Slicing
-
 # Sample Slicing
 
 Way back in episode 3 of this Sonic Pi series we looked at how to loop,

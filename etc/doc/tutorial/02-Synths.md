@@ -1,5 +1,3 @@
-2 Synths
-
 # Synths
 
 OK, enough of the intros - let's get into some sound.

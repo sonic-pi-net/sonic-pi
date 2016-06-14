@@ -1,4 +1,4 @@
-A.1 Tips for Sonic Pi
+<!-- Tips for Sonic Pi -->
 
 # Five Top Tips
 

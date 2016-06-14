@@ -1,5 +1,3 @@
-11 Minecraft Pi
-
 # Minecraft Pi
 
 Sonic Pi now supports a simple API for interacting with Minecraft Pi -

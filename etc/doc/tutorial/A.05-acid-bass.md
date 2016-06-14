@@ -1,5 +1,3 @@
-A.5 Acid Bass
-
 # Acid Bass
 
 It's impossible to look through the history of electronic dance music

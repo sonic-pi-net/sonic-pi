@@ -1,5 +1,3 @@
-A.3 Coded Beats
-
 # Coded Beats
 
 One of the most exciting and disrupting technical developments in modern

@@ -1,4 +1,4 @@
-A.10 Control
+<!-- Control -->
 
 # Controlling Your Sound
 
