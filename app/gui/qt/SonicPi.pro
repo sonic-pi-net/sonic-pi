@@ -123,8 +123,11 @@ OTHER_FILES += \
 
 RESOURCES += \
     SonicPi.qrc \
-    help_files.qrc \
-    info_files.qrc
+    resources/info_files.qrc \
+    resources/i18n_files.qrc \
+    resources/reference_files.qrc \
+    resources/image_files.qrc \
+    resources/tutorial_files.qrc \
 
 RC_FILE = SonicPi.rc
 

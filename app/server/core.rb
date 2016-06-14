@@ -36,8 +36,11 @@ $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"
 require 'win32/process' if os == :windows
 
 ## Ensure all libs in vendor directory are available
-Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
-  $:.unshift vendor_lib
+## with an additional check for did_you_mean,
+## as it comes pre-installed with ruby 2.3.0+,
+## so we don't use our copy of the gem and its dep from the vendor/ dir
+Dir["#{File.expand_path("../vendor", __FILE__)}/*"].each do |vendor_gem|
+  $:.unshift "#{vendor_gem}/lib" unless (Gem::Version.new(ruby_api) >= Gem::Version.new("2.3.0") && (File.basename(vendor_gem) =~ /^did_you_mean|^interception/))
 end
 
 begin
