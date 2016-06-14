@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-12 11:04+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2016-06-14 10:42+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
 "Language: nb\n"
@@ -633,23 +633,26 @@ msgid ""
 "get very deep into very sophisticated sound manipulation if that's your "
 "thing. Hold on to your hats..."
 msgstr ""
+"Ikke bli lurt av den umiddelbare enkelheten i grensesnittet til Sonic Pi.  "
+"Du kan dykke veldig dypt inn i sofistikert lydmanipulering, hvis det er noe "
+"for deg.  Hold på hatten..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 Dine første pipelyder"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr ""
+msgstr "Dine første pipelyder"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr ""
+msgstr "Ta en titt på denne koden:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -657,14 +660,17 @@ msgid ""
 "window at the top of the app (the big white space under the Run button). "
 "Now, press Run..."
 msgstr ""
+"Det er her alt starter.  Sett igang, klipp og lim det inn i kodevinduet på "
+"toppen av programmet (det store hvite feltet under \"Kjør\"-knappen).  "
+"Deretter, trykk Kjør..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "Pip!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr ""
+msgstr "Intenst.  Trykk den på nytt.  Og på nytt.  *Og på nytt...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
@@ -7192,9 +7198,9 @@ msgid ""
 msgstr ""
 
 #: 11.1-Basic-API.md:96
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "mc_set_block :glass, 40, 50, 60"
-msgstr ""
+msgstr "mc_set_block :glass, 40, 50, 60"
 
 #: 11.1-Basic-API.md:100
 msgid ""
@@ -7214,9 +7220,9 @@ msgid ""
 msgstr ""
 
 #: 11.1-Basic-API.md:110
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "mc_set_block :diamond, 40, 50, 60"
-msgstr ""
+msgstr "mc_set_block :diamond, 40, 50, 60"
 
 #: 11.1-Basic-API.md:114
 msgid ""
@@ -7236,9 +7242,9 @@ msgid ""
 msgstr ""
 
 #: 11.1-Basic-API.md:124
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "puts mc_get_block 40, 50, 60"
-msgstr ""
+msgstr "puts mc_get_block 40, 50, 60"
 
 #: 11.1-Basic-API.md:128
 msgid ""
@@ -7247,7 +7253,6 @@ msgid ""
 msgstr ""
 
 #: 11.1-Basic-API.md:131
-#, fuzzy
 msgid "Available block types"
 msgstr "Tilgjengelige blokktyper"
 
@@ -7258,7 +7263,7 @@ msgid ""
 msgstr ""
 
 #: 11.1-Basic-API.md:136
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "    :air\n"
 "    :stone\n"
@@ -7336,88 +7341,87 @@ msgid ""
 "    :glowing_obsidian\n"
 "    :nether_reactor_core"
 msgstr ""
-"        :air\n"
-"        :stone\n"
-"        :grass\n"
-"        :dirt\n"
-"        :cobblestone\n"
-"        :wood_plank\n"
-"        :sapling\n"
-"        :bedrock\n"
-"        :water_flowing\n"
-"        :water\n"
-"        :water_stationary\n"
-"        :lava_flowing\n"
-"        :lava\n"
-"        :lava_stationary\n"
-"        :sand\n"
-"        :gravel\n"
-"        :gold_ore\n"
-"        :iron_ore\n"
-"        :coal_ore\n"
-"        :wood\n"
-"        :leaves\n"
-"        :glass\n"
-"        :lapis\n"
-"        :lapis_lazuli_block\n"
-"        :sandstone\n"
-"        :bed\n"
-"        :cobweb\n"
-"        :grass_tall\n"
-"        :flower_yellow\n"
-"        :flower_cyan\n"
-"        :mushroom_brown\n"
-"        :mushroom_red\n"
-"        :gold_block\n"
-"        :gold\n"
-"        :iron_block\n"
-"        :iron\n"
-"        :stone_slab_double\n"
-"        :stone_slab\n"
-"        :brick\n"
-"        :brick_block\n"
-"        :tnt\n"
-"        :bookshelf\n"
-"        :moss_stone\n"
-"        :obsidian\n"
-"        :torch\n"
-"        :fire\n"
-"        :stairs_wood\n"
-"        :chest\n"
-"        :diamond_ore\n"
-"        :diamond_block\n"
-"        :diamond\n"
-"        :crafting_table\n"
-"        :farmland\n"
-"        :furnace_inactive\n"
-"        :furnace_active\n"
-"        :door_wood\n"
-"        :ladder\n"
-"        :stairs_cobblestone\n"
-"        :door_iron\n"
-"        :redstone_ore\n"
-"        :snow\n"
-"        :ice\n"
-"        :snow_block\n"
-"        :cactus\n"
-"        :clay\n"
-"        :sugar_cane\n"
-"        :fence\n"
-"        :glowstone_block\n"
-"        :bedrock_invisible\n"
-"        :stone_brick\n"
-"        :glass_pane\n"
-"        :melon\n"
-"        :fence_gate\n"
-"        :glowing_obsidian\n"
-"        :nether_reactor_core\n"
+"    :air\n"
+"    :stone\n"
+"    :grass\n"
+"    :dirt\n"
+"    :cobblestone\n"
+"    :wood_plank\n"
+"    :sapling\n"
+"    :bedrock\n"
+"    :water_flowing\n"
+"    :water\n"
+"    :water_stationary\n"
+"    :lava_flowing\n"
+"    :lava\n"
+"    :lava_stationary\n"
+"    :sand\n"
+"    :gravel\n"
+"    :gold_ore\n"
+"    :iron_ore\n"
+"    :coal_ore\n"
+"    :wood\n"
+"    :leaves\n"
+"    :glass\n"
+"    :lapis\n"
+"    :lapis_lazuli_block\n"
+"    :sandstone\n"
+"    :bed\n"
+"    :cobweb\n"
+"    :grass_tall\n"
+"    :flower_yellow\n"
+"    :flower_cyan\n"
+"    :mushroom_brown\n"
+"    :mushroom_red\n"
+"    :gold_block\n"
+"    :gold\n"
+"    :iron_block\n"
+"    :iron\n"
+"    :stone_slab_double\n"
+"    :stone_slab\n"
+"    :brick\n"
+"    :brick_block\n"
+"    :tnt\n"
+"    :bookshelf\n"
+"    :moss_stone\n"
+"    :obsidian\n"
+"    :torch\n"
+"    :fire\n"
+"    :stairs_wood\n"
+"    :chest\n"
+"    :diamond_ore\n"
+"    :diamond_block\n"
+"    :diamond\n"
+"    :crafting_table\n"
+"    :farmland\n"
+"    :furnace_inactive\n"
+"    :furnace_active\n"
+"    :door_wood\n"
+"    :ladder\n"
+"    :stairs_cobblestone\n"
+"    :door_iron\n"
+"    :redstone_ore\n"
+"    :snow\n"
+"    :ice\n"
+"    :snow_block\n"
+"    :cactus\n"
+"    :clay\n"
+"    :sugar_cane\n"
+"    :fence\n"
+"    :glowstone_block\n"
+"    :bedrock_invisible\n"
+"    :stone_brick\n"
+"    :glass_pane\n"
+"    :melon\n"
+"    :fence_gate\n"
+"    :glowing_obsidian\n"
+"    :nether_reactor_core"
 
 #: 12-Conclusions.md:1
 msgid "12 Conclusions"
 msgstr "12 Konklusjoner"
 
 #: 12-Conclusions.md:3
-#, fuzzy
 msgid "Conclusions"
 msgstr "Konklusjoner"
 
@@ -7435,7 +7439,6 @@ msgstr ""
 "gjerne tilbake hit når du har spørsmål som kanskje er dekket i en av delene."
 
 #: 12-Conclusions.md:11
-#, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then "
 "please jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-"
@@ -7443,8 +7446,8 @@ msgid ""
 "to lend a hand."
 msgstr ""
 "Hvis du har spørsmål som ikke ble dekket i denne innføringen, så setter vi "
-"pris på om du kommer til [Sonic Pi-forumene](http://groups.google.com/group/"
-"sonic-pi/) og stiller spørsmålene dine der.  Der er det hyggelige mennesker "
+"pris på om du kommer til [Sonic Pi-forumene](http://groups.google.com/group"
+"/sonic-pi/) og stiller spørsmålene dine der.  Der er det hyggelige mennesker "
 "som gjerne vil bidra."
 
 #: 12-Conclusions.md:16
@@ -7466,9 +7469,8 @@ msgstr ""
 "skjermbildene dine og husk:"
 
 #: 12-Conclusions.md:24
-#, fuzzy
 msgid "*There are no mistakes, only opportunities.*"
-msgstr "*Det finnes ikke feil, bare muligheter.*"
+msgstr "*Det finnes ingen feil, kun muligheter.*"
 
 #: 12-Conclusions.md:26
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
@@ -7522,18 +7524,16 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:1
-#, fuzzy
 msgid "A.1 Tips for Sonic Pi"
-msgstr "1 Velkommen til Sonic Pi"
+msgstr "A.1 Tips om Sonic Pi"
 
 #: A.01-tips.md:3
 msgid "Five Top Tips"
 msgstr ""
 
 #: A.01-tips.md:5
-#, fuzzy
 msgid "1. There are no mistakes"
-msgstr "1. Det finnes ikke feil, bare muligheter"
+msgstr "1. Det finnes ingen feil"
 
 #: A.01-tips.md:7
 msgid ""
@@ -9365,9 +9365,8 @@ msgid ""
 msgstr ""
 
 #: A.08-minecraft-vj.md:23
-#, fuzzy
 msgid "Let's get started..."
-msgstr "OK, så oss komme igang..."
+msgstr "La oss komme igang..."
 
 #: A.08-minecraft-vj.md:25
 msgid "Getting Started"
@@ -9382,9 +9381,9 @@ msgid ""
 msgstr ""
 
 #: A.08-minecraft-vj.md:32
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "mc_message \"Let's get started...\""
-msgstr "OK, så oss komme igang..."
+msgstr "mc_message \"La oss komme igang...\""
 
 #: A.08-minecraft-vj.md:36
 msgid ""
