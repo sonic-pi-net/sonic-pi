@@ -59,7 +59,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="913"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
-        <translation type="unfinished">Usa este "slider" para cambiar el volumen del sistema de tu Raspberry Pi.</translation>
+        <translation>Usa este deslizador para cambiar el volumen del sistema de tu Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
@@ -70,8 +70,8 @@
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Configuraciones de audio avanzadas para trabajar con 
-sistemas externos PA cuando actúas con Sonic Pi.</translation>
+        <translation>Configuraciones de audio avanzadas para trabajar con
+sistemas PA externos cuando interactúas con Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
