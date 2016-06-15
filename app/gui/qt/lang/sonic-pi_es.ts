@@ -92,7 +92,7 @@ can only handle mono.</source>
         <translation>Modo Mono
 Si se encuentra activado, éste mezclará el audio del altavoz izquierdo y derecho,
 y enviará la misma señal a ambos altavoces. Esto es útil cuando se trabaja con
-sistemas externos que solo soportan sonido mono.</translation>
+sistemas externos que soportan únicamente salida mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
@@ -887,7 +887,7 @@ cada 2 semanas.</translation>
     <message>
         <location filename="../ruby_help.h" line="564"></location>
         <source>Fx</source>
-        <translation>Fx</translation>
+        <translation>Efectos</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
