@@ -227,7 +227,9 @@ For example, if you have headphones connected to your Raspberry Pi, choose 'Head
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Включити / виключити функції перевірки аргументів синтезатора.
+Якщо вимкнено, деякі значення опцій синтезаторів зможуть
+викликати несподівано гучний або неприємний звук.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
@@ -290,7 +292,9 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Включити / виключити ведення журналу сигналів.
+Якщо відключити, сигнали і надалі будуть відтворюватися.
+Однак вони не будуть видні в журналі.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
@@ -301,7 +305,8 @@ However, they will not be visible in the logs.</source>
         <location filename="../mainwindow.cpp" line="974"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити ведення журналу автопрокрутки.
+Якщо включено - журнал прокручений до кінця, після кожного нового повідомлення.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
@@ -317,7 +322,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли включений, Sonic Pi дозволить
+синтезаторам і FX завантажуватися через load_synthdefs
+щоб мати можливість перемикати.
+
+Якщо вимкнено, Sonic Pi поскаржиться,
+коли ви спробуєте використовувати синтезатор або FX,
+які не розпізнано.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
@@ -333,7 +344,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли включений, Sonic Pi відмовляється
+викликати синтезатори і FX,
+ якщо це занадто пізно, 
+щоб зробити це.
+Коли вимкнуто, Sonic Pi завжди намагається
+ викликати синтезаторів і FX, 
+навіть з невеликим запізненням.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"></location>
@@ -344,7 +361,8 @@ even when a little late.</source>
         <location filename="../mainwindow.cpp" line="1017"></location>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути або вимкнути автоматичне оновлення перевірки.
+Ця перевірка включає надсилання анонімна інформація про вашу платформу і версії.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"></location>
@@ -355,7 +373,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1019"></location>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примусово перевірити оновлення зараз.
+Ця перевірка передбачає відправку анонімної інформації про вашу платформі і версії.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"></location>
@@ -440,7 +459,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1064"></location>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати / приховати вкладки вибору буфера.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"></location>
@@ -479,7 +498,9 @@ Dark mode is perfect for live coding in night clubs.</source>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Помилка Завантаження Sonic Pi
+
+Вибачте, сталася критична помилка під час запуску</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
@@ -525,7 +546,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2340"></location>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск коду в поточному буфері</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2353"></location>
@@ -535,7 +556,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2354"></location>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Завантажити зовнішній файл у поточному буфері</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2363"></location>
@@ -586,25 +607,25 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1580"></location>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Активація мікшера НЧФ ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"></location>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Відключення мікшера НЧФ ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1597"></location>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Активація інвертованого Стерео ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1605"></location>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнення стандартного стерео...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1613"></location>
@@ -626,12 +647,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1738"></location>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>Оновлення системної гучності...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2157"></location>
         <source>Switching To Headphone Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехід на аудіо вихід для навушників...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2173"></location>
@@ -641,17 +662,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2188"></location>
         <source>Switching To Default Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехід на аудіо вихід за промовчанням...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2350"></location>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти поточний буфер як зовнішній файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2376"></location>
         <source>Start recording to WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Почати записування на аудіо-файл WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2381"></location>
@@ -676,186 +697,190 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2875"></location>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Остання перевірка %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2877"></location>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi  перевіряє наявність оновлень
+ кожні два тижні.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2879"></location>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Це Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2880"></location>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Версія %2 тепер доступна!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"></location>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Нова версія доступна!
+Отримати Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2339"></location>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Запустити</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2345"></location>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Зупинити</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2346"></location>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>Зупинити весь запущений код</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2349"></location>
         <source>Save As...</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти як...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2357"></location>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Інформація</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2358"></location>
         <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Переглянути відомості про Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="514"></location>
         <location filename="../mainwindow.cpp" line="2366"></location>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Допомога</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"></location>
         <source>Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Продуктивність</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1123"></location>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметри корисні для виконання на Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Помилка завантаження сервера...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>Прохання розглянути подання звіту про помилку на</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2367"></location>
         <source>Toggle help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати / приховати панель допомоги</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2370"></location>
         <source>Prefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметри</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2371"></location>
         <source>Toggle preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати / приховати панель налаштувань</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2375"></location>
         <location filename="../mainwindow.cpp" line="2504"></location>
         <location filename="../mainwindow.cpp" line="2505"></location>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Почати запис</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2380"></location>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Автоматичне вирівнювання тексту</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2387"></location>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Збільшити розмір тексту</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2394"></location>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Зменшити розмір тексту</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2399"></location>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Інструменти</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2450"></location>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Про програму</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2451"></location>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>Основна команда</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2452"></location>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>Автори та перекладачі</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2453"></location>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>Спільноти</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2454"></location>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Ліцензія</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2455"></location>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Історія</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2476"></location>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Інформація про Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2496"></location>
         <location filename="../mainwindow.cpp" line="2497"></location>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Зупинити запис</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"></location>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти запис</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2610"></location>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося прочитати файл %1:
+ %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"></location>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося записати файл %1: 
+%2.</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="81"></location>
@@ -866,32 +891,32 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="367"></location>
         <location filename="../ruby_help.h" line="442"></location>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Підручник</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="476"></location>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Приклади</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="522"></location>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Синтезатори</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="564"></location>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>FX</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Зразки</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="779"></location>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Мова</translation>
     </message>
 </context>
 <context>
@@ -899,7 +924,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="43"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Сонік Пай</translation>
     </message>
 </context>
 <context>
@@ -907,7 +932,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"></location>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi вже запущено?  Не вдалося відкрити порт UDP 4558.</translation>
     </message>
 </context>
 </TS>
