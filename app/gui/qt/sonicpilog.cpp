@@ -13,15 +13,73 @@
 
 
 #include "sonicpilog.h"
+#include "mainwindow.h"
+#include "oscpkt.hh"
 
 // Standard stuff
 #include <vector>
 #include "sonicpitheme.h"
 #include <QScrollBar>
 
-SonicPiLog::SonicPiLog(QWidget *parent) : QPlainTextEdit(parent)
+SonicPiLog::SonicPiLog(MainWindow *window, QWidget *parent) : QPlainTextEdit(parent)
 {
   forceScroll = true;
+  setFocusPolicy(Qt::StrongFocus);
+  this->window = window;
+}
+
+void SonicPiLog::keyPressEvent(QKeyEvent *event)
+{
+  keyEvent(event);
+}
+
+void SonicPiLog::keyReleaseEvent(QKeyEvent *event)
+{
+  keyEvent(event);
+}
+
+void SonicPiLog::keyEvent(QKeyEvent *event) {
+  event->ignore();
+  if (
+    (event->modifiers() == Qt::NoModifier) ||
+    (event->modifiers() == Qt::ShiftModifier) ||
+    (event->modifiers() == Qt::KeypadModifier) ||
+    (event->modifiers() == Qt::ShiftModifier + Qt::KeypadModifier)
+    // ...but ignore any other keypad modifier combination
+    ) {
+    QString s = "";
+    switch (event->key()) {
+      // Special keys
+      case Qt::Key_Escape:    s = "[escape]";    break;
+      case Qt::Key_Up:        s = "[up]";        break;
+      case Qt::Key_Left:      s = "[left]";      break;
+      case Qt::Key_Right:     s = "[right]";     break;
+      case Qt::Key_Down:      s = "[down]";      break;
+      case Qt::Key_Home:      s = "[home]";      break;
+      case Qt::Key_End:       s = "[end]";       break;
+      case Qt::Key_PageUp:    s = "[pageup]";    break;
+      case Qt::Key_PageDown:  s = "[pagedown]";  break;
+      case Qt::Key_Insert:    s = "[insert]";    break;
+      case Qt::Key_Delete:    s = "[delete]";    break;
+      case Qt::Key_Backspace: s = "[backspace]"; break;
+      case Qt::Key_Return:    s = "[return]";    break;
+      case Qt::Key_Enter:     s = "[enter]";     break;
+      default: break;
+    }
+    if (s != "") {
+      // Handle shift key
+      if (event->modifiers() == Qt::ShiftModifier) s = s.toUpper();
+    } else {
+      // Normal key on keyboard, let system handle shift modifier
+      s = event->text();
+    }
+    if (s != "") {
+      oscpkt::Message msg(event->type() == QEvent::KeyPress ? "/keyboard/press" : "/keyboard/release");
+      msg.pushStr(s.toStdString());
+      window->sendOSC(msg);
+      event->accept();
+    }
+  }
 }
 
 void SonicPiLog::forceScrollDown(bool force)

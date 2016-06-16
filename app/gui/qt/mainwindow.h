@@ -81,6 +81,7 @@ public:
     enum {UDP=0, TCP=1};
     QCheckBox *dark_mode;
     bool loaded_workspaces;
+    void sendOSC(oscpkt::Message m);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -210,7 +211,6 @@ private:
     std::string number_name(int);
     std::string workspaceFilename(SonicPiScintilla* text);
     SonicPiScintilla* filenameToWorkspace(std::string filename);
-    void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
     void refreshDocContent();

@@ -317,6 +317,18 @@ osc_server.add_method("/gui-heartbeat") do |args|
   sp.__gui_heartbeat gui_id
 end
 
+osc_server.add_method("/keyboard/press") do |args|
+  key = args[0]
+  log("Received event keyboard press '#{key}'")
+  # do something here
+end
+
+osc_server.add_method("/keyboard/release") do |args|
+  key = args[0]
+  log("Received event keyboard release '#{key}'")
+  # do something here
+end
+
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
   continue = true

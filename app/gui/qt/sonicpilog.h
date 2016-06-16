@@ -14,6 +14,7 @@
 #ifndef SONICPILOG_H
 #define SONICPILOG_H
 
+#include "mainwindow.h"
 #include <QPlainTextEdit>
 
 class SonicPiTheme;
@@ -22,7 +23,7 @@ class SonicPiLog : public QPlainTextEdit
 {
     Q_OBJECT
 public:
-    explicit SonicPiLog(QWidget *parent = 0);
+    explicit SonicPiLog(MainWindow *window = 0, QWidget *parent = 0);
     bool forceScroll;
 
     struct Message
@@ -44,11 +45,17 @@ public:
 signals:
 
 public slots:
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void setTextColor(QColor c);
     void setTextBackgroundColor(QColor c);
     void setFontFamily(QString font_name);
     void handleMultiMessage(SonicPiLog::MultiMessage mm);
     void forceScrollDown(bool force);
+
+private:
+    void keyEvent(QKeyEvent *event);
+    MainWindow *window;
 
 protected:
 };

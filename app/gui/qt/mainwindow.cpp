@@ -276,7 +276,7 @@ void MainWindow::setupWindowStructure() {
 
   // Setup output and error panes
 
-  outputPane = new SonicPiLog;
+  outputPane = new SonicPiLog(this);
   errorPane = new QTextBrowser;
   errorPane->setOpenExternalLinks(true);
   update_info = new QLabel(tr("Sonic Pi update info"));
