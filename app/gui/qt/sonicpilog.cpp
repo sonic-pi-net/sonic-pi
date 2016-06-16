@@ -68,7 +68,7 @@ void SonicPiLog::keyEvent(QKeyEvent *event) {
     }
     if (s != "") {
       // Handle shift key
-      if (event->modifiers() == Qt::ShiftModifier) s = s.toUpper();
+      if (event->modifiers() & Qt::ShiftModifier) s = s.toUpper();
     } else {
       // Normal key on keyboard, let system handle shift modifier
       s = event->text();
