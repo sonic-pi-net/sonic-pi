@@ -77,5 +77,5 @@ script:
      # Travis installs a rvm ruby version locally and overrides the rake path.
      # The following makes sure that we're using the installed ruby version that comes with Ubuntu Trusty.
      cd $TRAVIS_BUILD_DIR
-     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.first { |v, b| system(b + " /usr/bin/rake compile_qt_gui") or raise ("test failed for " + v) }'
+     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.first(1).each { |v, b| system(b + " /usr/bin/rake compile_qt_gui") or raise ("test failed for " + v) }'
    fi
