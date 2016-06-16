@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-12 09:41+0000\n"
+"PO-Revision-Date: 2016-06-16 13:39+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -2825,13 +2825,12 @@ msgid "Combining with envelopes"
 msgstr "In Kombination mit Hüllkurven"
 
 #: 03.5-Partial-Samples.md:96
-#, fuzzy
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce interes"
 "ting results:"
 msgstr ""
-"Schließlich können wir all dies mit unseren ADSR-Hüllkurven kombinieren und in"
-"teressante Ergebnisse damit erzielen:"
+"Wenn wir all dies mit unseren ADSR-Hüllkurven kombinieren, kriegen wir "
+"interessante Ergebnisse:"
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
@@ -2843,40 +2842,34 @@ msgstr ""
 "1"
 
 #: 03.5-Partial-Samples.md:103
-#, fuzzy
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
 msgstr "Jetzt leg los und hab Spaß, Samples mit diesem Zeug aufzumischen..."
 
 #: 03.6-External-Samples.md:1
-#, fuzzy
 msgid "3.6 External Samples"
 msgstr "3.6 Samples aus externen Quellen"
 
 #: 03.6-External-Samples.md:3
-#, fuzzy
 msgid "External Samples"
 msgstr "Samples aus externen Quellen"
 
 #: 03.6-External-Samples.md:5
-#, fuzzy
 msgid ""
 "Whilst the built-in samples can get you up and started quickly, you might wish"
 " to experiment with other recorded sounds in your music. Sonic Pi totally supp"
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
-"Mit den mitgelieferten Samples kannst Du schnell einsteigen, aber vielleicht m"
-"öchtest Du mit neuen aufgenommenen Klängen in Deiner Musik experimentieren. So"
-"nic Pi unterstützt das ausdrücklich. Lass uns aber zunächst über die Übertragb"
-"arkeit Deines Stücks sprechen."
+"Mit den mitgelieferten Samples kannst Du schnell einsteigen, aber vielleicht "
+"möchtest Du mit anderen aufgenommenen Klängen in Deiner Musik "
+"experimentieren. Sonic Pi unterstützt das ausdrücklich. Lass uns aber "
+"zunächst über die Übertragbarkeit Deines Stücks sprechen."
 
 #: 03.6-External-Samples.md:10
-#, fuzzy
 msgid "Portability"
 msgstr "Übertragbarkeit"
 
 #: 03.6-External-Samples.md:12
-#, fuzzy
 msgid ""
 "When you compose your piece purely with built-in synths and samples, the code "
 "is all you need to faithfully reproduce your music. Think about that for a mom"
@@ -2885,16 +2878,16 @@ msgid ""
 "your sounds. That makes it *really easy to share* with your friends as they ju"
 "st need to get hold of the code."
 msgstr ""
-"Wenn Du Dein Stück nur mit Hilfe der eingebauten Synths und Samples komponiers"
-"t, braucht man nur den Code, um Deine Musik so abzuspielen, wie Du sie geschri"
-"eben hast. Denk darüber einen Augenblick nach - das ist erstaunlich! Ein bissc"
-"hen Text, den Du per Email verschicken oder auf [Gist](https://gist.github.com"
-") ablegen kannst, reicht vollkommen aus, um Deine Klänge wieder abzuspielen. S"
-"o wird es sehr einfach, Deine Kompositionen mit Deinen Freunden zu teilen. Sie"
-" brauchen nur ein wenig Code von Dir."
+"Wenn Du Dein Stück nur mit Hilfe der eingebauten Synths und Samples "
+"komponierst, braucht man nur den Code, um Deine Musik so abzuspielen, wie Du "
+"sie geschrieben hast. Denk darüber einen Augenblick nach - das ist "
+"erstaunlich! Ein bisschen Text, den Du per Email verschicken oder auf "
+"[Gist](https://gist.github.com) ablegen kannst, reicht vollkommen aus, um "
+"Deine Klänge wieder abzuspielen. So wird es sehr einfach, Deine "
+"Kompositionen mit Deinen Freunden zu teilen. Sie brauchen nur ein wenig Code "
+"von Dir."
 
 #: 03.6-External-Samples.md:19
-#, fuzzy
 msgid ""
 "However, if you start using your own pre-recorded samples, you lose this porta"
 "bility. This is because to reproduce your music other people not only need you"
@@ -2902,24 +2895,22 @@ msgid ""
 "pulate, mash-up and experiment with your work. Of course this shouldn't stop y"
 "ou from using your own samples, it's just something to consider."
 msgstr ""
-"Wenn Du nun selbst aufgenommene Samples verwendest, verlierst Du diese Übertra"
-"gbarkeit. Und zwar deshalb, weil man zum Abspielen auf einem anderen Rechner n"
-"icht nur den Code braucht, sondern auch Deine Samples."
+"Wenn Du nun selbst aufgenommene Samples verwendest, verlierst Du diese "
+"Übertragbarkeit. Denn jetzt braucht man zum Abspielen auf einem anderen "
+"Rechner nicht nur den Code, sondern auch Deine Samples."
 
 #: 03.6-External-Samples.md:26
-#, fuzzy
 msgid "Local Samples"
 msgstr "Lokale Samples"
 
 #: 03.6-External-Samples.md:28
-#, fuzzy
 msgid ""
 "So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? All "
 "you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"Wie geht das nun, eine beliebige WAV-, AIFF- oder FLAC-Datei auf Deinem Comput"
-"er zu spielen? Dafür musst Du dem Ausdruck `sample` nur den Pfad der Datei übe"
-"rgeben:"
+"Wie geht das nun, eine beliebige WAV-, AIFF- oder FLAC-Datei auf Deinem "
+"Computer zu spielen? Dafür musst Du `sample` nur den Pfad der Datei "
+"übergeben:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -2935,14 +2926,13 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
-#, fuzzy
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all th"
 "e standard params you're used to passing `sample`:"
 msgstr ""
-"Sonic Pi wird das Sample nun automatisch laden und spielen. Alle anderen Stand"
-"ard-Parameter, die Du schon kennengelernt hast, kannst Du jetzt auch für Dein "
-"eigenes Sample einsetzen:"
+"Sonic Pi wird das Sample nun automatisch laden und spielen. Alle anderen "
+"Standard-Parameter, die Du schon kennengelernt hast, kannst Du jetzt auch "
+"für Dein eigenes Sample einsetzen:"
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
@@ -2958,157 +2948,133 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 
 #: 03.7-Sample-Packs.md:1
-#, fuzzy
 msgid "3.7 Sample Packs"
 msgstr "3.7 Sample-Pakete"
 
 #: 03.7-Sample-Packs.md:3
-#, fuzzy
 msgid "Sample Packs"
 msgstr "Sample-Pakete"
 
 #: 03.7-Sample-Packs.md:5
-#, fuzzy
 msgid ""
 "**Note: this section of the tutorial covers the advanced topic of working with"
 " large directories of your own samples. This will be the case if you've downlo"
 "aded or bought your own sample packs and wish to use them within Sonic Pi.**"
 msgstr ""
-"**Hinweis: Dieser Abschnitt des Tutorials behandelt den fortgeschrittenen Umga"
-"ng mit großen Verzeichnissen deiner eigenen Samples. Das wird nützlich, wenn d"
-"u eigene Sample Packs heruntergeladen oder gekauft hast und diese in Sonic Pi "
-"nutzen möchtest.**"
+"**Hinweis: Dieser Abschnitt des Tutorials behandelt den fortgeschrittenen "
+"Umgang mit großen Verzeichnissen Deiner eigenen Samples. Das wird nützlich, "
+"wenn Du eigene Sample Packs heruntergeladen oder gekauft hast und diese in "
+"Sonic Pi nutzen möchtest.**"
 
 #: 03.7-Sample-Packs.md:10
-#, fuzzy
 msgid "**Feel free to skip this if you're happy working with the built-in samples.**"
 msgstr ""
-"**Du kannst diesen Abschnitt überspringen, wenn du mit den mitgelieferten Samp"
-"les zufrieden arbeiten kannst.**"
+"**Du kannst diesen Abschnitt überspringen, wenn Dir die mitgelieferten "
+"Samples ausreichen und Du keine eigenen brauchst.**"
 
 #: 03.7-Sample-Packs.md:13
-#, fuzzy
 msgid ""
 "When working with large folders of external samples it can be cumbersome to ha"
 "ve to type the whole path every time to trigger an individual sample."
 msgstr ""
-"Wenn du mit großen Ordnern externer Samples arbeitest, kann es mühselig sein, "
-"jedes Mal den vollständigen Pfad eingeben zu müssen, um ein individuelles Samp"
-"le abzuspielen."
+"Wenn du mit großen Ordnern externer Samples arbeitest, kann es mühselig "
+"sein, jedes Mal den vollständigen Pfad eingeben zu müssen, um ein bestimmtes "
+"Sample abzuspielen."
 
 #: 03.7-Sample-Packs.md:17
-#, fuzzy
 msgid "For example, say you have the following folder on your machine:"
-msgstr "Sagen wir, du hast zum Beispiel folgenden Ordner auf deinem Computer:"
+msgstr "Sagen wir, Du hast zum Beispiel folgenden Ordner auf Deinem Computer:"
 
 #: 03.7-Sample-Packs.md:19
 #, no-wrap
-#, fuzzy
 msgid "/path/to/my/samples/"
 msgstr "/pfad/zu/meinen/samples/"
 
 #: 03.7-Sample-Packs.md:23
-#, fuzzy
 msgid "When we look inside that folder we find the following samples:"
 msgstr "Wenn wir in den Ordner schauen, finden wir folgende Samples:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
-#, fuzzy
 msgid "`100_A#_melody1.wav`"
 msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
-#, fuzzy
 msgid "`100_A#_melody2.wav`"
 msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
-#, fuzzy
 msgid "`100_A#_melody3.wav`"
 msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
-#, fuzzy
 msgid "`120_A#_melody4.wav`"
 msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
-#, fuzzy
 msgid "`120_Bb_guit1.wav`"
 msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
-#, fuzzy
 msgid "`120_Bb_piano1.wav`"
 msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
-#, fuzzy
 msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr ""
-"Üblicherweise können wir den vollständigen Pfad nutzen um das Piano-Sample abz"
-"uspielen:"
+"Üblicherweise können wir den vollständigen Pfad nutzen um das Piano-Sample "
+"abzuspielen:"
 
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
-#, fuzzy
 msgid "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 msgstr "sample \"/pfad/zu/meinen/samples/120_Bb_piano1.wav\""
 
 #: 03.7-Sample-Packs.md:38
-#, fuzzy
 msgid "If we want to then play the guitar sample we can use its full path too:"
 msgstr ""
-"Wenn wir das Gitarren-Sample abspielen wollen können wir ebenfalls den vollstä"
-"ndigen Pfad nutzen:"
+"Wenn wir das Gitarren-Sample abspielen wollen können wir ebenfalls den "
+"vollständigen Pfad nutzen:"
 
 #: 03.7-Sample-Packs.md:40
 #, no-wrap
-#, fuzzy
 msgid "sample \"/path/to/my/samples/120_Bb_guit.wav\""
 msgstr "sample \"/pfad/zu/meinen/samples/120_Bb_guit.wav\""
 
 #: 03.7-Sample-Packs.md:44
-#, fuzzy
 msgid ""
 "However, both of these calls to sample requires us to *know* the names of the "
 "samples within our directory. What if we just want to listen to each sample in"
 " turn quickly?"
 msgstr ""
-"Wie auch immer, beide Aufrufe verlangen von uns, dass wir die Namen der Sample"
-"s innerhalb des Verzeichnisses kennen. Was, wenn wir nur schnell die einzelnen"
-" Samples nacheinander hören wollen?"
+"Wie auch immer, beide Aufrufe verlangen von uns, dass wir die Namen der "
+"Samples innerhalb des Verzeichnisses kennen. Was, wenn wir nur schnell die "
+"einzelnen Samples nacheinander hören wollen?"
 
 #: 03.7-Sample-Packs.md:48
-#, fuzzy
 msgid "Indexing Sample Packs"
-msgstr "Sample Packs indizieren"
+msgstr "Sample-Packs indizieren"
 
 #: 03.7-Sample-Packs.md:50
-#, fuzzy
 msgid ""
 "If we want to play the first sample in a directory we just need to pass the di"
 "rectory's name to `sample` and the index `0` as follows:"
 msgstr ""
-"Wenn wir das erste Sample in einem Verzeichnis abspielen wollen, müssen wir nu"
-"r, wie folgt, den Verzeichnisnamen zum Sample und den Index 0 eingeben:"
+"Wenn wir das erste Sample in einem Verzeichnis abspielen wollen, müssen wir "
+"nur den Verzeichnisnamen zum Sample und den Index 0 eingeben. Das geht so:"
 
 #: 03.7-Sample-Packs.md:53
 #, no-wrap
-#, fuzzy
 msgid "sample \"/path/to/my/samples/\", 0"
-msgstr "sample \"/pfad/zu/meinen/samples/ , 0\""
+msgstr "sample \"/pfad/zu/meinen/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
-#, fuzzy
 msgid "We can even make a shortcut to our directory path using a variable:"
 msgstr ""
-"Wir können sogar eine Verküpfung zu unserem Verzeichnis anlegen, indem wir ein"
-"e Variable nutzen."
+"Wir können sogar eine Vernküpfung zu unserem Verzeichnis anlegen, indem wir "
+"eine Variable nutzen:"
 
 #: 03.7-Sample-Packs.md:59
 #, no-wrap
-#, fuzzy
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 0"
@@ -3117,17 +3083,15 @@ msgstr ""
 "sample samps, 0"
 
 #: 03.7-Sample-Packs.md:64
-#, fuzzy
 msgid ""
 "Now, if we want to play the second sample in our directory, we just need to ad"
 "d 1 to our index:"
 msgstr ""
-"Wenn wir nun das zweite Sample in unsrem Verzeichnis abspielen wollen, müssen "
-"lediglich den Index 1 anfügen."
+"Wenn wir nun das zweite Sample in unserem Verzeichnis abspielen wollen, "
+"müssen wir lediglich den Index 1 anfügen:"
 
 #: 03.7-Sample-Packs.md:67
 #, no-wrap
-#, fuzzy
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 1"
@@ -3136,7 +3100,6 @@ msgstr ""
 "sample samps, 1"
 
 #: 03.7-Sample-Packs.md:72
-#, fuzzy
 msgid ""
 "Notice that we no longer need to know the names of the samples in the director"
 "y - we just need to know the directory itself (or have a shortcut to it). If w"
@@ -3144,31 +3107,29 @@ msgid ""
 " round just like Rings. Therefore, whatever number we use we're guaranteed to "
 "get one of the samples in that directory."
 msgstr ""
-"Bachte, dass wir nicht mehr die Namen der Samples im Verzeichnis kennen müssen"
-", wir benötigen nur das Verzeichnis (oder haben eine Verknüpfung zu diesem). W"
-"enn wir nach einem Index fragen, der größer, als die Anzahl der Samples ist, f"
-"ängt es einfach von vorne an, wie bei Ringen. Es ist deshalb garantiert, dass "
-"egal welche Nummer wir nutzen, wir ein Sample aus dem Verzeichnis bekommen."
+"Beachte, dass wir nicht mehr die Namen der Samples im Verzeichnis kennen "
+"müssen, wir benötigen nur das Verzeichnis (oder haben eine Verknüpfung zu "
+"diesem). Wenn wir nach einem Index fragen, der größer als die Anzahl der "
+"Samples ist, fängt die Liste einfach von vorne an - wie bei Ringen. Also "
+"egal welche Nummer wir nutzen, es ist garantiert, dass  wir ein Sample aus "
+"dem Verzeichnis bekommen."
 
 #: 03.7-Sample-Packs.md:79
-#, fuzzy
 msgid "Filtering Sample Packs"
-msgstr "Sample Packs filtern"
+msgstr "Sample-Packs filtern"
 
 #: 03.7-Sample-Packs.md:81
-#, fuzzy
 msgid ""
 "Usually indexing is enough, but sometimes we need more power to sort and organ"
 "ise our samples. Luckily many sample packs add useful information in the filen"
 "ames. Let's take another look at the sample file names in our directory:"
 msgstr ""
-"Gewöhnlich reicht das Indizieren aus, aber manchmal benötigen wir mehr Kraft u"
-"m unsere Samples zu sortieren und zu organisieren. Glücklicherweise ergänzen v"
-"iele Sample-Packs nützliche Informationen in ihre Dateinamen. Lass uns noch ei"
-"nmal einen Blick auf die Dateinamen in unserem Verzeichnis werfen:"
+"Gewöhnlich reicht das Indizieren aus, aber manchmal benötigen wir mehr "
+"Möglichkeiten beim Organisieren unserer Samples. Glücklicherweise ergänzen "
+"viele Sample-Packs nützliche Informationen in ihre Dateinamen. Lass uns noch "
+"einmal einen Blick auf die Dateinamen in unserem Verzeichnis werfen:"
 
 #: 03.7-Sample-Packs.md:93
-#, fuzzy
 msgid ""
 "Notice that in these filenames we have quite a bit of information. Firstly, we"
 " have the BPM of the sample (beats per minute) at the start. So, the piano sam"
@@ -3178,30 +3139,28 @@ msgid ""
 "r code. For example, we know we can only play the piano sample with code that'"
 "s in 120 BPM and in the key of Bb."
 msgstr ""
-"Beachte, dass wir in diesen Dateinamen einiges an Informationen haben. Zuerst "
-"haben wir die BPM (beats per minutes) des Samples. D.h. das Piano Sample hat 1"
-"20 BPM und unsere ersten drei Melodien haben 100 BPM. Außerdem, beinhalten uns"
-"ere Samplenamen die Tonart. Das Gitarren-Sample ist in Bb und die Melodien sin"
-"d in A#. Diese Information ist für das Mixen der Samples in unserem Code sehr "
-"wichtig. Zum Beispiel wissen wir, dass wir das Piano-Sample nur mit Code verwe"
-"nden können, der 120 BPM und die Tonart Bb hat."
+"In diesen Dateinamen sind einige Informationen enthalten. Zuerst haben wir "
+"die BPM (\"beats per minute\") des Samples. D.h. das Piano Sample hat 120 "
+"BPM und unsere ersten drei Melodien haben 100 BPM. Außerdem steht in den "
+"Samplenamen die Tonart. Das Gitarren-Sample ist in Bb und die Melodien sind "
+"in A#. Diese Information ist für das Mixen der Samples in unserem Code sehr "
+"wichtig. Zum Beispiel wissen wir, dass wir das Piano-Sample nur mit Code "
+"verwenden können, der 120 BPM und die Tonart Bb hat."
 
 #: 03.7-Sample-Packs.md:102
-#, fuzzy
 msgid ""
 "It turns out that we can use this particular naming convention of our sample s"
 "ets in the code to help us filter out the ones we want. For example, if we're "
 "working at 120 BPM, we can filter down to all the samples that contain the str"
 "ing `\"120\"` with the following:"
 msgstr ""
-"Es stellt sich heraus, dass wir dies spezielle Namensgebung unserer Sample-Set"
-"s im Code nutzen können, um uns dabei zu helfen, das herauszufiltern, was wir "
-"wollen. Wenn wir zum Beispiel mit 120 BPM arbeiten, können wir mit folgendem, "
-"alle Samples filtern die den String \"120\" haben:"
+"Es stellt sich heraus, dass wir dies spezielle Namensgebung unserer Sample-"
+"Sets im Code nutzen können, um herauszufiltern, was wir wollen. Wenn wir zum "
+"Beispiel mit 120 BPM arbeiten, können wir mit folgendem Code alle Samples "
+"filtern, deren Name den String \"120\" enthält:"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
-#, fuzzy
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\""
@@ -3210,17 +3169,15 @@ msgstr ""
 "sample samps, \"120\""
 
 #: 03.7-Sample-Packs.md:112
-#, fuzzy
 msgid ""
 "This will play us the first match. If we want the second match we just need to"
 " use the index:"
 msgstr ""
-"Dieser Code wird das erste passende Sample abspielen. Wenn wir das zweite pass"
-"ene Sample abspielen wollen, müssen wir nur einen Index nutzen:"
+"Dieser Code wird das erste passende Sample abspielen. Wenn wir das zweite "
+"passende Sample abspielen wollen, müssen wir nur einen Index nutzen:"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
-#, fuzzy
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", 1"
@@ -3229,19 +3186,17 @@ msgstr ""
 "sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120
-#, fuzzy
 msgid ""
 "We can even use multiple filters at the same time. For example, if we want a s"
 "ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
 "t easily with the following code:"
 msgstr ""
-"Wir können sogar mehrere Filter zur selben Zeit nutzen. Wenn wir zum Beispiel "
-"ein Sample dessen Name sowohl den String \"120\" und \"A#\" enthält haben wollen, "
-"können wir dieses einfach mit folgendem Code finden:"
+"Wir können sogar mehrere Filter gleichzeitig nutzen. Der folgende Code "
+"findet für uns ein Sample, dessen Name sowohl den String \"120\" als auch "
+"den String \"A#\" enthält:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
-#, fuzzy
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"A#\""
@@ -3250,15 +3205,13 @@ msgstr ""
 "sample samps, \"120\", \"A#\""
 
 #: 03.7-Sample-Packs.md:129
-#, fuzzy
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
 msgstr ""
-"Letztendlich steht es uns frei, unsere üblichen Optionen beim Aufruf des Sampl"
-"es anzuhängen."
+"Schließlich können wir auch noch unsere üblichen Optionen beim Abspielen des "
+"Samples anhängen:"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
-#, fuzzy
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
@@ -3267,7 +3220,6 @@ msgstr ""
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 
 #: 03.7-Sample-Packs.md:136
-#, fuzzy
 msgid "Sources"
 msgstr "Quellen"
 
