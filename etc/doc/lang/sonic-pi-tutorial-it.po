@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-13 10:43+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-06-16 11:52+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -11050,6 +11050,12 @@ msgid ""
 " be different. That sound quality - the thing which allows you to tell the dif"
 "ference between a piano and a guitar is the timbre."
 msgstr ""
+"Timbro è solo un bella parola per descrivere il suono di un suono. Se, "
+"infatti, provi a suonare la stessa nota con strumenti differenti come, ad "
+"esempio, il violino, la chitarra, il pianoforte, il pitch (l'altezza della "
+"nota) sarà lo stesso ma la qualità sonora sarà diversa. Questa qualità "
+"sonora, quella che ti permette di distinguere un pianoforte da una chitarra "
+"è il timbro."
 
 #: A.04-synth-riffs.md:65
 msgid "Melodic Composition"
@@ -11061,6 +11067,10 @@ msgid ""
 "lay. If you already have a good idea, then you can simply create a ring with y"
 "our notes in and tick through them:"
 msgstr ""
+"Un'altro aspetto importante per il nostro synth lead è la scelta delle note "
+"che vogliamo suonare. Se hai già un'idea a riguardo, puoi creare "
+"semplicemente un ring con le note e utilizzare il tick per scorrere da una "
+"all'altra:"
 
 #: A.04-synth-riffs.md:71
 #, no-wrap
@@ -11085,6 +11095,9 @@ msgid ""
 ":e3` and rests represented by `:r`. We're then using `.tick` to cycle through "
 "each note to give us a repeating riff."
 msgstr ""
+"In questo esempio abbiamo definito la nostra melodia con un anello che "
+"include sia note come, ad esempio `:e3` che pause rappresentate da `:r`. "
+"Usiamo `.tick` per scorrere tra le note e avere un riff che si ripete."
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
@@ -11097,6 +11110,10 @@ msgid ""
 "ne you like the best. To do that we need to combine three things: rings, rando"
 "misation and random seeds. Let's look at an example:"
 msgstr ""
+"Spesso non è semplice trovare un buon riff partendo da zero. Spesso è più "
+"semplice chiedere a Sonic Pi una selezione di riff casuale per scegliere il "
+"migliore. Per fare una cosa del genere, abbiamo bisogno di tre cose: anelli, "
+"casualità e seme di casualità. Proviamo a vedere un esempio:"
 
 #: A.04-synth-riffs.md:91
 #, no-wrap
@@ -11129,6 +11146,15 @@ msgid ""
 "g the random seed to the same value right before the shuffle. Finally we're ju"
 "st ticking through our shuffled notes to play the riff."
 msgstr ""
+"Qui succedono un po' di cose... cerchiamo di andare con ordine. Per prima "
+"cosa specifichiamo che stiamo usando 3 come seme di casualità. Cosa "
+"significa? La cosa importante è sapere che quando utilizziamo un seme, "
+"possiamo fare una predizione su quello che sarà il prossimo numero casuale. "
+"Un'altro punto importante è che mescolare un anello di note funziona nello "
+"stesso modo. Nell'esempio qui sopra stiamo semplicemente chiedendo la il "
+"terzo mescolamento nella lista standard dei mescolamenti (che sarà sempre la "
+"stessa quando impostiamo lo stesso seme prima di mescolare). Infine "
+"utilizziamo il tick per scorrere tra le note per suonare il riff."
 
 #: A.04-synth-riffs.md:112
 msgid ""
@@ -11139,6 +11165,13 @@ msgid ""
 "ed we want to shuffle with. If we don't like the melody, just change one of th"
 "ose two things and try again. Repeat until you like what you hear!"
 msgstr ""
+"Qui comincia il bello. Se cambiamo il seme a, per esempio, 3000, otterremo "
+"un mescolamento completamente differente. Così diventa semplice esplorare "
+"nuove melodie:è sufficiente scegliere una lista di note che vogliamo "
+"mescolare (le scale sono un ottimo punto di partenza) e poi scegliere il "
+"seme con cui le vogliamo mescolare. Se non ci piace la melodia, basta "
+"cambiare una delle due cose e riprovare finché non sentiamo qualcosa che ci "
+"piace."
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
@@ -11153,6 +11186,12 @@ msgid ""
 "tual dice, it just picks the next value from the list. Setting the random seed"
 " is just jumping to a specific point in that list."
 msgstr ""
+"La casualità in Sonic Pi non è realmente casuale ma è quello che si chiama "
+"pseudo-random. Immagina di lanciare un dado 100 volte e scrivere il "
+"risultato di ogni lancio su un foglio di carta. Sonic Pi ha lo stesso numero "
+"di possibili risultati quando gli chiediamo un numero casuale ma, invece che "
+"lanciare un dado, prendere il valore successivo in lista. Impostando un seme "
+"stabiliamo un punto specifico di inizio da quella lista."
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
@@ -11167,6 +11206,13 @@ msgid ""
 " every note we can use a conditional to play a note with a given probability. "
 "Let's take a look:"
 msgstr ""
+"Un altro aspetto importante del riff è il ritmo ovvero quando suonare una "
+"nota e quando no. Come abbiamo visto in precedenza, possiamo usare `:r` nel "
+"nostro anello per aggiungere le pause. Un'altra possibilità è l'utilizzo "
+"degli spread che vedremo in futuro. Oggi continueremo a usare la casualità "
+"per trovare il nostro ritmo. Invece che suonare ogni nota, possiamo usare "
+"una condizione per far sì che suoni con una certa probabilità. Diamo "
+"un'occhiata:"
 
 #: A.04-synth-riffs.md:140
 #, no-wrap
@@ -11199,6 +11245,11 @@ msgid ""
 "s, 50% of the time it will return `true`. Using higher values will make it ret"
 "urn `false` more often introducing more space into the riff."
 msgstr ""
+"Una funzione molto utile da conoscere è `one_in` che restituisce il valore "
+"`true` o `false` con la probabilità specificata. Qui stiamo usando un valore "
+"2 quindi `one_in` restituirà `true` una volta su due. In altre parole, il 50%"
+" delle volte avremo `true`. Utilizzando valori più alti, alzeremo le "
+"probabilità che ritorni `false` aumentando gli spazi nel riff."
 
 #: A.04-synth-riffs.md:159
 msgid ""
@@ -11209,12 +11260,21 @@ msgid ""
 "ength of the riff. Try changing the 16 to 8 or even 4 or 3 and see how it affe"
 "cts the rhythm of the riff."
 msgstr ""
+"Da notare che abbiamo usato l'iterazione `16.times`. Questo perché vogliamo "
+"resettare il nostro valore di seme ogni 16 così per cui il nostro ritmo si "
+"ripeterà per 16 volte. Questo non ha effetti sul mescolamento perché viene "
+"eseguito immediatamente appena è impostato il seme. Possiamo modificare le "
+"quantità di ripetizioni nell'iterazione per allungare il riff. Prova a "
+"cambiare il valore da 16 a 8 oppure 4 o 3 per vedere come cambia il ritmo "
+"del riff."
 
 #: A.04-synth-riffs.md:168
 msgid ""
 "OK, so let's combine everything we've learned together into one final example."
 " See you next time!"
 msgstr ""
+"Ok, mettiamo insieme tutto quello che abbiamo imparato oggi in un ultimo "
+"esempio. Alla prossima!"
 
 #: A.04-synth-riffs.md:171
 #, no-wrap
@@ -11273,11 +11333,11 @@ msgstr ""
 
 #: A.05-acid-bass.md:1
 msgid "A.5 Acid Bass"
-msgstr ""
+msgstr "A.5 Acid Bass"
 
 #: A.05-acid-bass.md:3
 msgid "Acid Bass"
-msgstr ""
+msgstr "Acid Bass"
 
 #: A.05-acid-bass.md:5
 msgid ""
@@ -11288,6 +11348,11 @@ msgid ""
 "ugh to more recent electronic artists such as Plastikman, Squarepusher and Aph"
 "ex Twin."
 msgstr ""
+"È impossibile ripercorrere la storia della musica elettronica senza "
+"riscontrare l'impatto del piccolo sintetizzatore Roland TB-303. È "
+"l'ingrediente segreto alle spalle del suono acid bass. I riff creati con il "
+"TB-303 si sentono dai primi brani della scena House di Chicago fino ad "
+"artisti più recenti come Plastikman, Squarepusher e Aphex Twin."
 
 #: A.05-acid-bass.md:12
 msgid ""
@@ -11303,6 +11368,17 @@ msgid ""
 "rs who started using them in ways that Roland didn't imagine to create new cra"
 "zy sounds. Acid House was born."
 msgstr ""
+"La cosa interessante è che la Roland non aveva creato la TB-303 per la dance "
+"music. Originariamente era pensata come strumento di aiuto per i chitarristi:"
+" potevano programmare delle linee di basso per improvvisarci sopra. "
+"Purtroppo c'erano una serie di problemi: era difficile da programmare, non "
+"aveva dei suoni di basso convincenti e costava parecchio. Decisi a limitare "
+"le perdite, Roland ha chiuso la produzione a 10.000 unità vendute dopo aver "
+"passato molti anni sugli scaffali dei chitarristi. Presto, però, avrebbero "
+"avuto vita nuova nei negozi dell'usato. Quelle TB-303 aspettavano solo di "
+"essere riscoperte da una nuova generazione di sperimentatori che hanno "
+"cominciato a utilizzarle in modi diversi da quelli pensati da Roland per "
+"creare nuovi suoni. E così è nata l'Acid House."
 
 #: A.05-acid-bass.md:25
 msgid ""
@@ -11311,6 +11387,9 @@ msgid ""
 " Sonic Pi. Behold, fire up Sonic Pi and throw this code into an empty buffer a"
 "nd hit Run:"
 msgstr ""
+"Anche se non è così semplice mettere le mani su una TB-303 originale, puoi "
+"far si che il tuo Raspberry Pi ne diventi una grazie alla potenza di Sonic "
+"Pi. Apri il programma e scrivi questo codice e premi Run:"
 
 #: A.05-acid-bass.md:30
 #, no-wrap
@@ -11323,11 +11402,11 @@ msgstr ""
 
 #: A.05-acid-bass.md:35
 msgid "Instant acid bass! Let's play around..."
-msgstr ""
+msgstr "Acid bass istantaneo! Proviamo a smanettare un po'..."
 
 #: A.05-acid-bass.md:37
 msgid "Squelch that Bass"
-msgstr ""
+msgstr "Modifichiamo quel basso"
 
 #: A.05-acid-bass.md:39
 msgid ""
@@ -11336,6 +11415,9 @@ msgid ""
 "fter another, repeating when we get to the end. Let's create a live loop that "
 "does exactly that:"
 msgstr ""
+"Per prima cosa, costruiamo un arpeggiatore. Nell'ultimo tutorial abbiamo "
+"visto come i riff possano essere semplicemente degli anelli di note suonate "
+"in sequenza e ripetute. Creiamo un live loop che faccia esattamente questo:"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
@@ -11356,19 +11438,23 @@ msgstr ""
 
 #: A.05-acid-bass.md:53
 msgid "Take a look at each line."
-msgstr ""
+msgstr "Guarda ogni linea di codice."
 
 #: A.05-acid-bass.md:55
 msgid ""
 "On the first line we set the default synth to be `tb303` with the `use_synth` "
 "fn."
 msgstr ""
+"Nella prima riga, impostiamo il sintetizzatore di default `tb303` con la "
+"funzione `use_synth`."
 
 #: A.05-acid-bass.md:58
 msgid ""
 "On line two we create a live loop called `:squelch` which will just loop round"
 " and round."
 msgstr ""
+"Nella seconda riga, creiamo un live loop chiamato `:squelch` che continua a "
+"ripetersi."
 
 #: A.05-acid-bass.md:61
 msgid ""
@@ -11380,6 +11466,12 @@ msgid ""
 "t will be `:e2`, followed by `:e3`, and then back to `:e1`, cycling round fore"
 "ver."
 msgstr ""
+"La terza riga è dove creiamo il nostro riff: un anello di note (E dalla "
+"prima alla terza ottava) che suoniamo in ordine con `.tick`. Definiamo `n` "
+"affinché rappresenti la nota corrente del riff. Il simbolo di uguale "
+"significa: assegna il valore a destra al nome sulla sinistra. Questa sarà "
+"diversa ogni volta che il loop si ripete. La prima volta `n` sarà `:e1`, la "
+"seconda `:e2` seguita da `:e3` e poi dall'inizio."
 
 #: A.05-acid-bass.md:70
 msgid ""
@@ -11387,18 +11479,25 @@ msgid ""
 " interesting opts here: `release:`, `cutoff:`, `res:` and `wave:` which we'll "
 "discuss below."
 msgstr ""
+"La quarta linea è dove effettivamente facciamo suonare il synth `:tb303`. "
+"Passiamo una serie di parametri interessanti: `release:`, `cutoff:`, `res:`, "
+"e `wave:` che discuteremo più avanti."
 
 #: A.05-acid-bass.md:74
 msgid ""
 "Line five is our `sleep` - we're asking the live loop to loop round every `0.1"
 "25`s or 8 times a second at the default BPM of 60."
 msgstr ""
+"La quinta linea è per la pausa `sleep` (stiamo chiedendo al nostro loop di "
+"ripetersi ogni `0.125` secondi o 8 volte al secondo a 60BPM)."
 
 #: A.05-acid-bass.md:77
 msgid ""
 "Line six is the `end` to the live loop. This just tells Sonic Pi where the end"
 " of the live loop is."
 msgstr ""
+"La sesta linea è la fine `end` del live loop. Questo dice a Sonic Pi dove "
+"finisce il live loop."
 
 #: A.05-acid-bass.md:80
 msgid ""
