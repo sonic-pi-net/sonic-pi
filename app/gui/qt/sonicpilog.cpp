@@ -39,14 +39,15 @@ void SonicPiLog::keyReleaseEvent(QKeyEvent *event)
 }
 
 void SonicPiLog::keyEvent(QKeyEvent *event) {
-  event->ignore();
-  if (
-    (event->modifiers() == Qt::NoModifier) ||
-    (event->modifiers() == Qt::ShiftModifier) ||
-    (event->modifiers() == Qt::KeypadModifier) ||
-    (event->modifiers() == Qt::ShiftModifier + Qt::KeypadModifier)
-    // ...but ignore any other keypad modifier combination
-    ) {
+  if ( (event->modifiers() &
+    // we only want to handle
+    // Qt::NoModifier / Qt::ShiftModifier / Qt::KeypadModifier
+    // key events, so this excludes all others:
+      (Qt::ControlModifier |
+      Qt::AltModifier |
+      Qt::MetaModifier |
+      Qt::GroupSwitchModifier)
+    ) == 0) {
     QString s = "";
     switch (event->key()) {
       // Special keys
@@ -78,8 +79,10 @@ void SonicPiLog::keyEvent(QKeyEvent *event) {
       msg.pushStr(s.toStdString());
       window->sendOSC(msg);
       event->accept();
+      return;
     }
   }
+  event->ignore();
 }
 
 void SonicPiLog::forceScrollDown(bool force)
