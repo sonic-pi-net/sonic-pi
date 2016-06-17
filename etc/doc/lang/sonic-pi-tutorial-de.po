@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-16 13:39+0000\n"
+"PO-Revision-Date: 2016-06-17 12:03+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -3224,7 +3224,6 @@ msgid "Sources"
 msgstr "Quellen"
 
 #: 03.7-Sample-Packs.md:138
-#, fuzzy
 msgid ""
 "The sample filter pre-arg system understands two types of information: sources"
 " and filters. Sources are information used to create the list of potential can"
@@ -3235,34 +3234,30 @@ msgstr ""
 "zu versammeln. Eine Quelle kann in zwei Formen angegeben werden:"
 
 #: 03.7-Sample-Packs.md:142
-#, fuzzy
 msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
 msgstr ""
-"\"/path/to/samples\" - eine Zeichenkette, die einen gültigen Pfad zu einem "
+"\"/pfad/zu/samples\" - eine Zeichenkette, die einen gültigen Pfad zu einem "
 "Verzeichnis angibt"
 
 #: 03.7-Sample-Packs.md:143
-#, fuzzy
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
-"\"/path/to/samples/foo.wav\" - eine Zeichenkette, die einen gültigen Pfad zu "
+"\"/pfad/zu/samples/foo.wav\" - eine Zeichenkette, die einen gültigen Pfad zu "
 "einem Sample angibt"
 
 #: 03.7-Sample-Packs.md:145
-#, fuzzy
 msgid ""
 "The `sample` fn will first gather all sources and use them to create a large l"
 "ist of candidates. This list is constructed by first adding all valid paths an"
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
-"Die `sample` fn sammelt alle Quellen und erzeugt daraus eine lange Liste von "
-"Kandidaten. Diese Liste wird konstruiert, indem zunächst alle gültigen "
-"Verzeichnispfade und dann alle darin enthaltenen Dateien in den Formaten "
-"`.flac`, `.aif`, `.aiff`, `.wav`, `.wave` hinzugefügt werden."
+"Der `sample`-Befehl sammelt alle Quellen und erzeugt daraus eine lange Liste "
+"von Kandidaten. Für diese Liste durchsucht er zunächst alle gültigen "
+"Verzeichnispfade und fügt dann alle darin enthaltenen Dateien in den "
+"Formaten `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` hinzu."
 
 #: 03.7-Sample-Packs.md:150
-#, fuzzy
 msgid "For example, take a look at the following code:"
 msgstr "Schau Dir z. B. den folgenden Code an:"
 
@@ -3274,26 +3269,24 @@ msgid ""
 "path = \"/path/to/my/samples3/foo.wav\"\n"
 "sample samps, samps2, path, 0"
 msgstr ""
-"samps = \"/path/to/my/samples/\"\n"
-"samps2 = \"/path/to/my/samples2/\"\n"
-"path = \"/path/to/my/samples3/foo.wav\"\n"
+"samps = \"/pfad/zu/meinen/samples/\"\n"
+"samps2 = \"/pfad/zu/meinen/samples2/\"\n"
+"path = \"/pfad/zu/meinen/samples3/foo.wav\"\n"
 "sample samps, samps2, path, 0"
 
 #: 03.7-Sample-Packs.md:160
-#, fuzzy
 msgid ""
 "Here, we're combining the contents of the samples within two directories and a"
 "dding a specific sample. If `\"/path/to/my/samples/\"` contained 3 samples and `"
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
-"Hier kombinieren wir alle Samples aus zwei Verzeichnissen und fügen noch "
-"einen einzelnen Sample hinzu. Wenn `\"/path/to/my/samples/\"` 3 Samples und `"
-"\"/path/to/my/samples2/\"` 12 Samples enthielte, hätten wir insgesamt 16 "
-"mögliche Samples, die wir indexieren und filtern könnten (3 + 12 + 1)."
+"Hier sammeln wir alle Samples aus zwei Verzeichnissen und fügen noch einen "
+"einzelnen Sample hinzu. Wenn `\"/pfad/zu/meinen/samples/\"` 3 Samples und `\""
+"/path/to/my/samples2/\"` 12 Samples enthielte, hätten wir insgesamt 16 "
+"mögliche Samples, die wir indexieren und filtern können (3 + 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
-#, fuzzy
 msgid ""
 "By default, only the sample files within a directory are gathered into the can"
 "didate list. Sometimes you might have a number of nested folders of samples yo"
@@ -3301,11 +3294,11 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
-"Standardmäßig werden nur die Sample-Dateien des angegebenen Verzeichnisses "
-"in der Kandidatenliste versammelt. Manchmal möchtest du vielleicht eine "
+"Normalerweise werden nur die Sample-Dateien des angegebenen Verzeichnisses "
+"in der Kandidatenliste versammelt. Manchmal möchtest Du vielleicht eine "
 "ganze Reihe ineinander verschachtelter Ordner mit Samples durchsuchen und "
 "filtern. Das kannst Du mit einer rekursiven Suche nach allen Samples in "
-"allen Unterordnern erreichen, indem Du `**` an das Ende des Pfads stellst."
+"allen Unterordnern erreichen, indem Du `**` an das Ende des Pfads stellst:"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -3317,7 +3310,6 @@ msgstr ""
 "sample samps, 0"
 
 #: 03.7-Sample-Packs.md:176
-#, fuzzy
 msgid ""
 "Take care though as searching through a very large set of folders may take a l"
 "ong time. However, the contents of all folder sources are cached, so the delay"
@@ -3326,10 +3318,9 @@ msgstr ""
 "Sei aber vorsichtig, weil eine Suche über viele Verzeichnisse hinweg lange "
 "dauern kann. Allerdings wird der Inhalt aller Ordner, die Du als Quellen "
 "angegeben hast, zwischengespeichert; die Suche wird also nur beim ersten Mal "
-"verzögert sein."
+"langsam sein."
 
 #: 03.7-Sample-Packs.md:180
-#, fuzzy
 msgid ""
 "Finally, note that the sources *must go first*. If no source is given, then th"
 "e set of built-in samples will be selected as the default list of candidates t"
@@ -3337,24 +3328,21 @@ msgid ""
 msgstr ""
 "Ein wichtiger Punkt zum Abschluss: Die Quelle *muss als erstes* angegeben "
 "werden. Wenn Du keine Quelle angibst, werden die mitgelieferten Samples für "
-"die Standardliste ausgewählt, mit der dann weiter arbeitest."
+"die Standardliste ausgewählt, mit der Du dann weiter arbeitest."
 
 #: 03.7-Sample-Packs.md:184
-#, fuzzy
 msgid "Filters"
 msgstr "Filter"
 
 #: 03.7-Sample-Packs.md:186
-#, fuzzy
 msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
 msgstr ""
 "Wenn Du einmal die Kandidatenliste hast, kannst du die folgenden Filtertypen "
-"benutzen, um diese Auswahl weiter zu verkleinern."
+"zur weiteren Auswahl benutzen:"
 
 #: 03.7-Sample-Packs.md:189
-#, fuzzy
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name (minus di"
 "rectory path and extension)."
@@ -3363,7 +3351,6 @@ msgstr ""
 "ohne den Verzeichnispfad und die Dateiendung)."
 
 #: 03.7-Sample-Packs.md:190
-#, fuzzy
 msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name (m"
 "inus directory path and extension)."
@@ -3372,16 +3359,14 @@ msgstr ""
 "entsprechen (ohne den Verzeichnispfad und die Dateiendung)."
 
 #: 03.7-Sample-Packs.md:191
-#, fuzzy
 msgid ""
 "`:foo` - Keywords will filter candidates on whether the keyword is a direct ma"
 "tch of the filename (minus directory path and extension)."
 msgstr ""
 "`:foo` - Filtert alle Kandidaten, wo dieses Kennwort genau dem Dateinamen "
-"entspricht  (ohne den Verzeichnispfad und die Dateiendung)."
+"entspricht (ohne den Verzeichnispfad und die Dateiendung)."
 
 #: 03.7-Sample-Packs.md:192
-#, fuzzy
 msgid ""
 "`lambda{|a| ... }` - Procs with one argument will be treated as a candidate fi"
 "lter or generator function. It will be passed the list of current candidates a"
@@ -3394,23 +3379,21 @@ msgstr ""
 "zurück (eine Liste gültiger Pfade zu Sample-Dateien)."
 
 #: 03.7-Sample-Packs.md:193
-#, fuzzy
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
 msgstr ""
-"`1` - Filtert den Kandidaten, deren Index dieser Zahl entspricht (wenn nötig "
-"wird wie bei einem ring von vorne begonnen)."
+"`1` - Zahlen wählen direkt den Kandidaten aus, dessen Index dieser Zahl "
+"entspricht (wenn nötig wird wie bei einem Ring von vorne begonnen)."
 
 #: 03.7-Sample-Packs.md:195
-#, fuzzy
 msgid ""
 "For example, we can filter over all the samples in a directory containing the "
 "string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
-"Wir können z. B. alle Samples in einem Verzeichnis herausfiltern, die die "
-"Zeichenkette `\"foo\"` enthalten und das erste passende Sample mit halber "
-"Geschwindigkeit spielen:"
+"Wir können z. B. alle Samples in einem Verzeichnis herausfiltern, deren "
+"Dateinamen die Zeichenkette `\"foo\"` enthalten, und davon das erste "
+"passende Sample mit halber Geschwindigkeit spielen:"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
@@ -3418,7 +3401,6 @@ msgid "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 msgstr "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 
 #: 03.7-Sample-Packs.md:203
-#, fuzzy
 msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
@@ -3427,7 +3409,6 @@ msgstr ""
 "an. Achte darauf, dass die Sortierung der Filter eine Rolle spielt."
 
 #: 03.7-Sample-Packs.md:206
-#, fuzzy
 msgid "Composites"
 msgstr "Zusammengesetzte Ausdrücke"
 
