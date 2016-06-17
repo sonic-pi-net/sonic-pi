@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2609"></location>
         <location filename="../mainwindow.cpp" line="2629"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
@@ -54,7 +54,7 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kõrvaklapid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="938"></location>
@@ -133,7 +133,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Puhver %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
@@ -687,12 +687,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2339"></location>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Esita</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2345"></location>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Peata</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2346"></location>
