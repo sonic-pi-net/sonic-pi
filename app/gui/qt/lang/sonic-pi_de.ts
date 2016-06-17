@@ -240,7 +240,7 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2362"></location>
         <source>Scope</source>
-        <translation>Geltungsbereich</translation>
+        <translation>Oszilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
