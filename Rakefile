@@ -19,7 +19,7 @@
 # but with this guide you should easily navigate this file:
 #
 # - The Qt GUI app needs a number of resource files, which will be
-#   generated at build time in put in RESOURCES_PATH.
+#   generated at build time and put in RESOURCES_PATH.
 #
 # - The images in IMAGES_PATH will be copied to RESOURCES_PATH.
 #
@@ -34,7 +34,7 @@
 #
 # - The HTML documentation for the Sonic Pi reference manual
 #   sections Synths, FX, Samples, Lang will be retrieved from the
-#   server's ruby libraries and put in  RESOURCES_PATH.
+#   server's ruby libraries and put in RESOURCES_PATH.
 #
 # - The HELP_HEADER_FILE will be created. It is a generated C++
 #   file that is used to setup the Sonic Pi GUI's help system.
@@ -67,14 +67,14 @@ task :compile_gems
 desc "Remove temporary compiled object files after compile_gems"
 task :clean_gems
 
-desc "Update language files with current English strings from Qt GUI sources and tutorial Markdown (read TRANSLATION-WORKFLOW.md for info)" 
+desc "Update language files with current English strings from Qt GUI sources and tutorial Markdown (read TRANSLATION-WORKFLOW.md for info)"
 task :update_language_files
 
-desc "Compile Qt GUI application (*default task*)" 
+desc "Compile Qt GUI application (*default task*)"
 task :compile_qt_gui
 task :default => [:compile_qt_gui]
 
-desc "Remove temporary compiled object files after compile_qt_gui" 
+desc "Remove temporary compiled object files after compile_qt_gui"
 task :clean_qt_gui
 
 desc "Run the ruby test suite of the Sonic Pi server component"
@@ -172,15 +172,15 @@ def make_clean(dir)
 end
 
 
-def gem_native_dependency(source_dir, target_dir, *lib_files)  
+def gem_native_dependency(source_dir, target_dir, *lib_files)
   directory target_dir
   CLOBBER << target_dir
-  
+
   lib_files.map{ |l| "#{l}.#{LIB_EXT}" }.each do |l|
-  
+
     task :compile_gems => ["#{target_dir}/#{l}"]
     CLOBBER << "#{target_dir}/#{l}"
-    
+
     # Run extconf.rb to prepare the gem's native lib build.
     file "#{source_dir}/Makefile" => ["#{source_dir}/extconf.rb"] do |t|
       puts "### Preparing #{t.name} from #{t.prerequisites.first}"
@@ -226,7 +226,7 @@ end
 
 if Gem::Version.new(RUBY_API) < Gem::Version.new("2.0.0") then
   # The did_you_mean gem depends on the interception gem,
-  # which needs a native lib when used with ruby < 2.0.0. 
+  # which needs a native lib when used with ruby < 2.0.0.
   gem_native_dependency("#{VENDOR_GEM_PATH}/interception/ext", NATIVE_GEM_PATH, 'interception')
 end
 
@@ -245,7 +245,7 @@ gems_installed = false
 unless (Rake.application.top_level_tasks.include?("compile_gems") || Rake.application.top_level_tasks.include?("clean_gems") ) then
 
   begin
-  
+
     # Let's see if the gems we depend on are installed on this systems.
     require 'kramdown'
     require 'gettext'
@@ -257,24 +257,24 @@ unless (Rake.application.top_level_tasks.include?("compile_gems") || Rake.applic
     require_relative "#{SERVER_PATH}/sonicpi/lib/sonicpi/runtime"
     require_relative "#{SERVER_PATH}/sonicpi/lib/sonicpi/lang/sound"
     require_relative "#{SERVER_PATH}/sonicpi/lib/sonicpi/lang/minecraftpi"
-    
+
     gems_installed = true
-  
+
   rescue LoadError
-  
+
     # If the vendor gems didn't load properly,
     # we'll tell the user to run "rake :compile_gems" first.
-    
+
     task :needs_gems do
       puts "rake aborted, you need to compile the vendor gems first."
       puts "Please run 'rake compile_gems' now."
       abort
     end
-  
+
     task :compile_qt_gui => [:needs_gems]
     task :test_server => [:needs_gems]
     task :update_language_files => [:needs_gems]
-  
+
   end
 
 end
@@ -284,7 +284,7 @@ end
 
 
 if gems_installed then
-    
+
   ## ----------- HELPER FUNCTIONS -----------
 
 
@@ -298,13 +298,13 @@ if gems_installed then
   def read_file(filename)
     return File.open(filename, 'r:utf-8') { |f| f.read }
   end
-  
-  
+
+
   def write_file(filename, content)
     File.open(filename, 'w:utf-8') { |f| f.write(content) }
   end
-  
-  
+
+
   def convert_file_task(t)
     write_file(t.name, yield(read_file(t.prerequisites.first)))
   end
@@ -314,12 +314,12 @@ if gems_installed then
   # but Kramdown uses ~~~~.
   # Therefore, let's fix-point on GitHub syntax, and fudge it
   # into Kramdown syntax where necessary.
-  
+
   def massage_markdown(md)
     return md.gsub(/\`\`\`\`*/, '~~~~')
   end
-  
-  
+
+
   def massage_html(html)
     # Add Unicode and body tags & remove unneded newlines before </pre>
     html.gsub!(/\n+(<\/code>)?<\/pre>/, '\1</pre>')
@@ -330,15 +330,15 @@ if gems_installed then
       "#{html}\n" +
       "</body>\n"
   end
-  
-  
+
+
   def markdown_to_html(md)
     require 'kramdown'
     html = Kramdown::Document.new(massage_markdown(md)).to_html
     return massage_html(html)
   end
-  
-  
+
+
   def qrc_url(fn)
     return "qrc:///#{relative_path(fn, RESOURCES_PATH)}"
   end
@@ -349,9 +349,9 @@ if gems_installed then
 
   # Slightly alters the behaviour of ruby kramdown gem's converter.
   # TODO: send these as config options to upstream devs.
-  
+
   class KramdownToOurMarkdown < Kramdown::Converter::Kramdown
-  
+
     def convert_a(el, opts)
       # ruby kramdown wants to use document-wide link list footnotes,
       # but we prefer inline links instead
@@ -364,7 +364,7 @@ if gems_installed then
         "[#{inner(el, opts)}](#{el.attr['href']}#{title})"
       end
     end
-  
+
   end
 
 
@@ -373,7 +373,7 @@ if gems_installed then
   # each translateable element.
 
   class MarkdownPOHelper
-  
+
     def initialize(po_filename = nil)
       @po = GetText::PO.new
       if (!po_filename.nil?) then
@@ -383,37 +383,37 @@ if gems_installed then
         parser.parse_file(po_filename, @po)
       end
     end
-    
+
     def is_number? string
       true if Float(string) rescue false
     end
-  
+
     def handle_entry(msgid, filename, line, flags = [])
       reference = "#{filename}" + (line ? ":#{line}" : "")
       msgid.gsub!(/\\([.:_])/, '\1')
-    
+
       if is_number?msgid then
         return msgid
       end
-    
+
       if @po.has_key?msgid then
         entry = @po[msgid]
       else
         entry = GetText::POEntry.new(:normal)
         entry.msgid = msgid
       end
-    
+
       entry.flags |= flags
       entry.references << reference
-    
+
       @po[msgid] = entry
-    
+
       return @po[msgid].msgstr || msgid
     end
-    
+
     def convert_element(filename, el, bullet = nil)
       case el.type
-    
+
       when :root, :li, :ul, :ol
         t = ""
         i = 0
@@ -430,10 +430,10 @@ if gems_installed then
           i += 1
         end
         return t
-    
+
       when :blank
         return el.value.gsub(/' '/, '')
-    
+
       when :p
         root = Kramdown::Element.new(
           :root, nil, nil,
@@ -445,34 +445,34 @@ if gems_installed then
         root.children = [el]
         output, warnings = KramdownToOurMarkdown.convert(root)
         output.gsub!(/\n/, ' ').strip!
-    
+
         t = handle_entry(output, filename, el.options[:location])
         return (bullet ? bullet + " " : "") + t + "\n"
-    
+
       when :codeblock
         t = handle_entry(el.value.gsub(/\n+$/, ""), filename, el.options[:location], ["no-wrap"])
         return "```\n" + t + "\n" + "```\n"
-    
+
       when :header
         t = handle_entry(el.options[:raw_text].strip, filename, el.options[:location])
         return ("#" * el.options[:level]) + " " + t + "\n"
-      
+
       when :xml_comment
-        # TODO: add :location for kramdown parser and send patch upstream  
+        # TODO: add :location for kramdown parser and send patch upstream
         t = handle_entry(el.value.gsub(/<!--(.*)-->/m, '\1').strip, filename, el.options[:location])
         return "<!-- " + t + " -->\n"
-  
+
       else
         raise "Error #{filename}: Please implement conversion for unknown Kramdown element type :#{el.type} in line #{el.options[:location]}"
       end
     end
-  
+
     def translate(markdown_filename)
       content = read_file(markdown_filename)
       k = Kramdown::Document.new(massage_markdown(content))
       return convert_element(File.basename(markdown_filename), k.root)
     end
-    
+
     def write_po(po_filename)
       s = "" +
         "# This file is distributed under the same license as the Sonic Pi package.\n" +
@@ -494,21 +494,21 @@ if gems_installed then
 
 
   ## ----------- RESOURCE FILE DEPENDENCIES -----------
-  
-  
+
+
   # The resources/ directory contains generated files that are
   # copied or converted from other files, then a .qrc list of
   # all files is created for Qt.
-  
-  directory RESOURCES_PATH  
+
+  directory RESOURCES_PATH
   CLEAN << RESOURCES_PATH
-  
-  
+
+
   # The tutorial's PNG images are copied to the resource dir for the GUI build.
-  
-  generated_dir = "#{RESOURCES_PATH}/images" 
+
+  generated_dir = "#{RESOURCES_PATH}/images"
   directory generated_dir
-  
+
   FileList["#{IMAGES_PATH}/**/*.png"].sort.each do |fn|
     generated_file = "#{generated_dir}/#{relative_path(fn, IMAGES_PATH)}"
     directory File.dirname(generated_file)
@@ -518,14 +518,14 @@ if gems_installed then
     end
     file IMAGES_QRC => generated_file
   end
-  
-  
+
+
   # The project root contains some Markdown and HTML files which
   # are converted to HTML and later used in the GUI's info window.
-  
+
   generated_dir = "#{RESOURCES_PATH}/info"
   directory generated_dir
-  
+
   ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "LICENSE.md"].each do |fn|
     generated_file = "#{generated_dir}/#{File.basename(fn, '.md')}.html"
     file generated_file => [fn, generated_dir] do |t|
@@ -534,7 +534,7 @@ if gems_installed then
     end
     file INFO_QRC => generated_file
   end
-  
+
   ["CORETEAM.html"].each do |fn|
     generated_file = "#{generated_dir}/#{File.basename(fn)}"
     file generated_file => [fn, generated_dir] do |t|
@@ -543,15 +543,15 @@ if gems_installed then
     end
     file INFO_QRC => generated_file
   end
-  
-  
+
+
   # Now, we convert the English tutorial files to HTML.
-  
+
   TUTORIAL_FILES = FileList["#{TUTORIAL_PATH}/*.md"]
 
   generated_dir = "#{RESOURCES_PATH}/tutorial-en"
   directory generated_dir
-  
+
   TUTORIAL_FILES.each do |fn|
     generated_file = "#{generated_dir}/#{File.basename(fn, '.md')}.html"
     file generated_file => [fn, generated_dir] do |t|
@@ -560,19 +560,19 @@ if gems_installed then
     end
     file TUTORIAL_QRC => generated_file
   end
-  
-  
+
+
   # Then, we translate the English tutorial to all languages
   # that we have gettext .po files for.
-  
+
   TUTORIAL_LANGUAGES =
     FileList["#{TUTORIAL_LANG_PATH}/sonic-pi-tutorial-*.po"].
     map { |n| File.basename(n).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }
-  
+
   # To avoid reloading the PO file for each Markdown page,
   # this keeps a global cache in memory.
   mdpo = {}
-  
+
   TUTORIAL_LANGUAGES.sort.each do |l|
     generated_dir = "#{RESOURCES_PATH}/tutorial-#{l}"
     directory generated_dir
@@ -588,16 +588,16 @@ if gems_installed then
       file TUTORIAL_QRC => generated_file
     end
   end
-  
-  
+
+
   TAB_LIST = {}
 
   # The examples are small ruby scripts showcasing the
   # Sonic Pi features. For the GUI, we need HTML versions of them.
-  
+
   def example_to_html(name, ruby_code)
     html = CGI.escapeHTML(ruby_code)
-    return "" + 
+    return "" +
       "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n" +
       "\n" +
       "<body class=\"example\">\n" +
@@ -607,7 +607,7 @@ if gems_installed then
       "</code></pre></p>\n" +
       "</body>"
   end
-  
+
   TAB_LIST["examples"] = []
   generated_dir = "#{RESOURCES_PATH}/examples"
   directory generated_dir
@@ -625,12 +625,12 @@ if gems_installed then
       file REFERENCE_QRC => generated_file
     end
   end
-  
-  
+
+
   # The Sonic Pi help systems contains reference sections describing
   # the Synths, FX, Samples and the Language items. These are documented
   # in the Sonic Pi server ruby code and will be extracted here.
-  
+
   TAB_LIST["synths"] = []
   generated_dir = "#{RESOURCES_PATH}/synths"
   directory generated_dir
@@ -643,7 +643,7 @@ if gems_installed then
     TAB_LIST["synths"].push([ActiveSupport::Inflector.titleize(n), n, qrc_url(generated_file)])
     file REFERENCE_QRC => generated_file
   end
-  
+
   TAB_LIST["fx"] = []
   generated_dir = "#{RESOURCES_PATH}/fx"
   directory generated_dir
@@ -690,11 +690,11 @@ if gems_installed then
   # The resource qrc file is a list of resources that is needed for
   # the Qt build. All these files will be linked with the Sonic Pi binary
   # and later used within the GUI.
-  
+
   [INFO_QRC, IMAGES_QRC, I18N_QRC, REFERENCE_QRC, TUTORIAL_QRC].each do |qrc|
     file qrc => [RESOURCES_PATH] do |t|
       puts "### Generating #{t.name}"
-            
+
       File.open(t.name, 'w:utf-8') do |f|
         f << "<RCC>\n"
         f << "<qresource prefix=\"/\">\n"
@@ -706,8 +706,8 @@ if gems_installed then
       end
     end
   end
-  
-  
+
+
   ## ----------- GENERATED C++ FILE FOR BUILD -----------
 
 
@@ -716,7 +716,7 @@ if gems_installed then
   #   nil         -> NULL
   #   Yay, "fun". -> "Yay, \"fun\""
   #   Och nö      -> QString::fromUtf8("Och nö")
-  
+
   def ruby_to_cpp_string(s)
     return (s.nil?) ? "NULL" : (
       # Escape quotes in strings, add UTF8 handling if necessairy.
@@ -725,12 +725,12 @@ if gems_installed then
       (s.ascii_only? ? "" : ")")
     )
   end
-  
-  
+
+
   # The generated .h file lists the resources needed for the
   # Sonic Pi help system. This creates a C++ snippet with an array
   # that contains the resource items.
-  
+
   def make_help_tab(tab_name, list)
     tab_title = ActiveSupport::Inflector.titleize(tab_name)
 
@@ -739,39 +739,39 @@ if gems_installed then
     }.
     map{ |s| "{ #{s} }" }.
     join(",\n    ")
-    
-    return "" + 
+
+    return "" +
       "  // #{tab_name} help info\n" +
       "  struct help_page #{tab_name}HelpPages[] = {\n" +
       "    #{cpp_struct}\n" +
       "  };\n" +
       "  addHelpPage(createHelpTab(tr(\"#{tab_title}\")), #{tab_name}HelpPages, #{list.length});\n"
   end
-  
-  
+
+
   # The title of a tutorial page is the <h1>first headline</h1>
   # found in the HTML. It can be overridden by the
   # <!-- first comment -->.
-  
+
   def read_tutorial_title(filename)
     # Extract chapter.subchapter.
     (chapter, subchapter) = File.basename(filename).split('-')[0].split('.').map{ |s| s.gsub(/^0*/, '') }
     # Indent index with three spaces for subchapters.
     index = (subchapter.nil?) ? "#{chapter} " : "   #{chapter}.#{subchapter} "
-    
+
     content = read_file(filename)
     comment_start = (content =~ /<!-- (.*?) -->/m)
     comment_title = $1
     headline_start = (content =~ /<h1( .*)?>(.*?)<\/h1>/m)
     headline_title = $2
-    
+
     if (!comment_start.nil?) && (comment_start < headline_start) then
       return index + comment_title
     else
       return index + headline_title
     end
   end
-  
+
   def prepare_tutorial_tab_list(lang)
     list = []
     FileList["#{RESOURCES_PATH}/tutorial-#{lang}/*.html"].sort.each do |fn|
@@ -779,17 +779,17 @@ if gems_installed then
     end
     return list
   end
-  
-  
+
+
   # The .h header file contains generated C++ code which sets up
   # the Sonic Pi GUI's help system and the keyboard shortcuts.
-  
+
   file HELP_HEADER_FILE => [TUTORIAL_QRC, REFERENCE_QRC] do |t|
-  
+
     puts "### Generating #{t.name}"
-  
+
     File.open(t.name, 'w:utf-8') do |f|
-  
+
       f << "// AUTO-GENERATED FILE.\n"
       f << "// It was generated from the Rakefile.\n"
       f << "// Do not edit this file.\n"
@@ -798,7 +798,7 @@ if gems_installed then
       f << "\n"
       f << "  QString systemLocale = QLocale::system().name();\n"
       f << "\n"
-      
+
       # This will sort locale code names by reverse length
       # to make sure that a more specific locale is handled
       # before the generic language code.
@@ -810,29 +810,29 @@ if gems_installed then
         f << "\n"
         f << "  } else "
       end
-      
+
       f << "  {\n\n" unless TUTORIAL_LANGUAGES.empty?
       f << make_help_tab("tutorial", prepare_tutorial_tab_list('en'))
       f << "\n  }\n\n" unless TUTORIAL_LANGUAGES.empty?
-    
+
       TAB_LIST.each do |section, tab_list|
         f << "\n"
         f << make_help_tab(section, tab_list)
       end
-      
+
       f << "  // arguments for autocompletion\n"
       f << "\n"
-  
+
       SonicPi::Synths::SynthInfo.get_all.
       select { |k, v| v.is_a?(SonicPi::Synths::FXInfo) }.
-      select { |k, v| !k.to_s.include? 'replace_' }.    
+      select { |k, v| !k.to_s.include? 'replace_' }.
       each do |k, v|
         safe_k = k.to_s[3..-1]
         f << "  // fx :#{safe_k}\n"
         l = v.arg_info.keys.map { |k| "\"#{k}:\"" }.join(", ")
         f << "  autocomplete->addFXArgs(\":#{safe_k}\", {#{l}});\n\n"
       end
-  
+
       SonicPi::Synths::SynthInfo.get_all.
       select { |k, v| v.is_a?(SonicPi::Synths::SynthInfo) }.
       each do |k, v|
@@ -840,7 +840,7 @@ if gems_installed then
         l = v.arg_info.keys.map { |k| "\"#{k}:\"" }.join(", ")
         f << "  autocomplete->addSynthArgs(\":#{k}\", {#{l}});\n\n"
       end
-  
+
       f << "}\n"
     end
   end
@@ -848,11 +848,11 @@ if gems_installed then
 
 
   ## ----------- TRANSLATION RESOURCES -----------
-  
+
 
   # QT .ts files are converted to a compressed .qm format, which are
   # loaded by the Sonic Pi GUI at runtime.
-  
+
   generated_dir = "#{RESOURCES_PATH}/i18n"
   directory generated_dir
   FileList["#{QT_LANG_PATH}/*.ts"].each do |fn|
@@ -863,11 +863,11 @@ if gems_installed then
     end
     file I18N_QRC => generated_file
   end
-  
-  
+
+
   # We will need a gettext translation template
   # .pot file of the tutorial for a language file update.
-  
+
   file "#{TUTORIAL_LANG_PATH}/sonic-pi-tutorial.pot" => TUTORIAL_FILES do |t|
     mdpot = MarkdownPOHelper.new()
     t.prerequisites.sort.each do |fn|
@@ -877,12 +877,12 @@ if gems_installed then
     mdpot.write_po(t.name)
   end
   CLEAN << "#{TUTORIAL_LANG_PATH}/sonic-pi-tutorial.pot"
-  
-  
+
+
   # A translation file update merges the updated message strings
   # from the Qt GUI sources and from the tutorial Markdown with the
   # existing translations.
-  
+
   task :update_language_files => ["#{TUTORIAL_LANG_PATH}/sonic-pi-tutorial.pot", HELP_HEADER_FILE] do
     require 'gettext/tools/msgmerge'
     FileList["#{TUTORIAL_LANG_PATH}/*.po"].sort.each do |n|
@@ -892,13 +892,13 @@ if gems_installed then
     end
     sh "lupdate -no-obsolete -pro #{QT_PRO_FILE} -ts #{QT_LANG_PATH}/*.ts"
   end
-  
+
 
   ## ----------- QT GUI BINARY BUILD RULES -----------
 
 
   # The Qt build system creates a Makefile from its .pro file
-  
+
   file QT_MAKEFILE => [QT_PRO_FILE, HELP_HEADER_FILE, I18N_QRC, IMAGES_QRC, INFO_QRC] do |t|
     puts "### Generating #{t.name}"
     Dir.chdir(File.dirname(t.name)) do
@@ -906,10 +906,10 @@ if gems_installed then
     end
   end
   CLEAN << QT_MAKEFILE
-  
-  
+
+
   # When all things come together, we can finally build it all into one Qt binary.
-  
+
   file QT_GUI_BINARY => FileList["#{QT_GUI_PATH}/**/*.cpp"]
   file QT_GUI_BINARY => FileList["#{QT_GUI_PATH}/**/*.h"]
   file QT_GUI_BINARY => [QT_MAKEFILE]
@@ -920,23 +920,23 @@ if gems_installed then
     end
   end
   CLOBBER << QT_GUI_BINARY
-  
+
 
   task :compile_qt_gui => [QT_GUI_BINARY]
 
 
   ## ----------- RUBY SERVER TEST SUITE -----------
- 
- 
+
+
   # The Sonic Pi ruby server code comes with a Rakefile for
   # its test suite. This calls another rake with it.
-  
+
   task :test_server do
     Dir.chdir(SERVER_TEST_PATH) do
       sh "rake test"
     end
   end
-  
+
 
 end
 
