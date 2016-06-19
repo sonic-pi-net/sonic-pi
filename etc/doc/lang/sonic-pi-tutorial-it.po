@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-16 13:06+0000\n"
+"PO-Revision-Date: 2016-06-19 13:52+0000\n"
 "Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -11598,6 +11598,18 @@ msgid ""
 "have amazing control over the timbre of the sound by playing with both of thes"
 "e envelopes. Let's take a look:"
 msgstr ""
+"Il primo è l'oscillatore d'onda, ovvero l'ingrediente base del suono. In "
+"questo caso noi abbiamo un oscillatore di onda quadra. Sussessivamente, "
+"abbiamo ampiezza dell'inviluppo dell'oscillatore, che controlla l'ampiezza "
+"dell'onda quadra nel tempo. Questa dimensione è accessibile da Sonic Pi "
+"mediante i parametri 'attack:', 'decay:', 'sustain:' e 'release:'. Per "
+"maggiori informazioni, leggi la sezione 2.4 'Durata degli inviluppi' "
+"all'interno della guida. Poi facciamo passare la nostra onda attraverso un "
+"filtro passa-basso. Questo taglia le frequenze più acute e dà al suono "
+"quella risonanza particolare. E qui comincia il bello. Infatti il valore di "
+"taglio (cutoff) del filtro è anche determinato dal suo stesso inviluppo! "
+"Questo significa che abbiamo un controllo straodinario sul timbro del suono "
+"se giochiamo con entrambi gli inviluppi. Dai un'occhiata sotto:"
 
 #: A.05-acid-bass.md:128
 #, no-wrap
@@ -11628,12 +11640,22 @@ msgid ""
 "azy sound warble in and out. Now start to play. Try changing the `cutoff_attac"
 "k:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
+"Per ogni opzione di inviluppo abbiamo un valore di taglio (cutoff) "
+"equivalente che possiamo impostare all'interno del synth ':tb303'. Quindi, "
+"per cambiare il tempo di attacco del valore di taglio possiamo usare il "
+"parametro 'cutoff_attack:'. Copia il codice sopra e incollalo in una "
+"finestra vuota. Poi premi Run. Sentirai un suono impazzito che ribolle. "
+"Quindi, cominciamo adesso a suonare. Prova a cambiare il valore di "
+"'cutoff_attack:' a '1' e poi a '0.5'. Adesso prova '8'."
 
 #: A.05-acid-bass.md:144
 msgid ""
 "Notice that I've passed everything through a `:reverb` FX for extra atmosphere"
 " - try other FX to see what works!"
 msgstr ""
+"Come avrai visto, abbiamo fatto passare tutto il segnale attraverso un "
+"effetto di reverbero con ':reverb', ottenendo una bella ambientazione "
+"sonora. Provane altri per vedere che succede!"
 
 #: A.05-acid-bass.md:149
 msgid ""
@@ -11641,6 +11663,11 @@ msgid ""
 "nto an empty buffer, listen for a while and then start live coding your own ch"
 "anges. See what crazy sounds you can make with it! See you next time..."
 msgstr ""
+"Infine, ecco qui un brano che ho composto usando le idee di questa guida. "
+"Copialo e incollalo dentro una finestra vuota, prova ad ascoltarlo per un "
+"po' e poi comincia a fare i tuoi cambiamenti senza fermare il processo, "
+"facendo live coding. Ascolta i magnifici suoni che puoi produrre in questo "
+"modo! Ci vediamo la prossima volta..."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
@@ -11695,11 +11722,11 @@ msgstr ""
 
 #: A.06-minecraft.md:1
 msgid "A.6 Musical Minecraft"
-msgstr ""
+msgstr "A.6 Minecraft Musicale"
 
 #: A.06-minecraft.md:3
 msgid "Musical Minecraft"
-msgstr ""
+msgstr "Minecraft Musicale"
 
 #: A.06-minecraft.md:7
 msgid ""
@@ -11707,22 +11734,26 @@ msgid ""
 " music possibilities of Sonic Pi - (turning your Raspberry Pi into a performan"
 "ce ready musical instrument). So far we've learned how to:"
 msgstr ""
+"Ciao, bentornato/a! Nella guida precedente ci siamo concentrati maggiormente "
+"sulle possibilità musicali di Sonic Pi, ovvero far diventare il tuo "
+"Raspberry Pi uno strumento musicale pronto all'uso. Fino ad ora, abbiamo "
+"imparato a:"
 
 #: A.06-minecraft.md:11
 msgid "Live Code - changing the sounds on-the-fly,"
-msgstr ""
+msgstr "Fare live coding: cambiare i suoni in tempo reale,"
 
 #: A.06-minecraft.md:12
 msgid "Code some huge beats,"
-msgstr ""
+msgstr "Scrivere codice per produrre dei bei bassi che pompano,"
 
 #: A.06-minecraft.md:13
 msgid "Generate powerful synth leads,"
-msgstr ""
+msgstr "Generare delle potenti linee melodiche con i synth,"
 
 #: A.06-minecraft.md:14
 msgid "Re-create the famous TB-303 acid-bass sound."
-msgstr ""
+msgstr "Ricreare il suono acido e basso del TB-303."
 
 #: A.06-minecraft.md:16
 msgid ""
@@ -11730,10 +11761,14 @@ msgid ""
 "owever, this month, let's look at something Sonic Pi can do that you probably "
 "didn't realise: control Minecraft."
 msgstr ""
+"C'è anche molto altro che vorrei mostrarti e che tratteremo in edizioni "
+"future di questa guida. Comunque, questo mese, diamo un'occhiata a qualcosa "
+"che Sonic Pi può fare e della quale probabilmente non sei a conoscenza: "
+"controllare Minecraft."
 
 #: A.06-minecraft.md:20
 msgid "Hello Minecraft World"
-msgstr ""
+msgstr "Ciao mondo di Minecraft"
 
 #: A.06-minecraft.md:22
 msgid ""
@@ -11741,10 +11776,14 @@ msgid ""
 "ate a new world. Now start up Sonic Pi and re-size and move your windows so yo"
 "u can see both Sonic Pi and Minecraft Pi at the same time."
 msgstr ""
+"Bene, cominciamo allora. Accendi il tuo Raspberry Pi e avvia il tuo "
+"Minecraft Pi creando un nuovo mondo. Quando hai fatto, avvia Sonic Pi, "
+"ridimensiona e sposta la finestra in modo tale da riuscire a vedere le due "
+"finestre contemporaneamente."
 
 #: A.06-minecraft.md:26
 msgid "In a fresh buffer type the following:"
-msgstr ""
+msgstr "In una finestra vuota di Sonic Pi inserisci il codice seguente:"
 
 #: A.06-minecraft.md:28
 #, no-wrap
@@ -11757,16 +11796,21 @@ msgid ""
 ", stop reading this for a moment and play about with your own messages. Have f"
 "un!"
 msgstr ""
+"Adesso premi Run. Booom! Il tuo messaggio è apparso dentro Minecraft! E' "
+"stato facile, vero? Adesso, smetti per un momento di leggere e mettiti a "
+"giocare scrivendo alcuni messaggi a tuo piacimento. Goditela!"
 
 #: A.06-minecraft.md:36
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 msgstr ""
+"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
-msgstr ""
+msgstr "Teletrasporto sonico"
 
 #: A.06-minecraft.md:40
 msgid ""
@@ -11775,6 +11819,10 @@ msgid ""
 "g. It would be far better if we had some sort of teleport machine. Well, thank"
 "s to Sonic Pi, we have one. Try this:"
 msgstr ""
+"Adesso, mettiamoci un attimo a esplorare. Solitamente utilizziamo il mouse e "
+"la tastiera per camminare in giro. Funziona, è vero, ma è piuttosto lento e "
+"noioso. Sarebbe molto meglio avere una sorta di macchina del teletrasporto. "
+"Beh, grazie a Sonic Pi, ce l'abbiamo. Prova il codice seguente:"
 
 #: A.06-minecraft.md:45
 #, no-wrap
@@ -11788,6 +11836,10 @@ msgid ""
 "er flying-mode and teleport again, you'll stay hovering at the location you za"
 "p to."
 msgstr ""
+"Perbacco! Era una strada lunga. Se non fossi stato in modalità volante "
+"saresti ricaduto giù a terra. Se tocchi due volte lo spazio per entrare in "
+"modalità volo e teletrasportarti di nuovo, rimarrai a fluttuare nel posto "
+"che hai toccato."
 
 #: A.06-minecraft.md:54
 msgid ""
@@ -11795,18 +11847,23 @@ msgid ""
 "dinates of where in the world we want to go. We give each number a name - x, y"
 " and z:"
 msgstr ""
+"Allora, cosa significano quei numeri? Abbiamo tre numeri che descrivono le "
+"coordinate del posto nel mondo in cui vogliamo andare. Diamo a ogni numero "
+"un nome: x, y e z:"
 
 #: A.06-minecraft.md:58
 msgid "x - how far left and right (80 in our example)"
 msgstr ""
+"x indica quanto ci spostiamo a destra o sinistra (80 nel nostro esempio)"
 
 #: A.06-minecraft.md:59
 msgid "y - how high we want to be (40 in our example)"
-msgstr ""
+msgstr "y indica quando in alto vogliamo rimanere (40 nel nostro esempio)"
 
 #: A.06-minecraft.md:60
 msgid "z - how far forward and back (100 in our example)"
 msgstr ""
+"z indica quanto vogliamo andare avanti o indietro (100 nel nostro esempio)"
 
 #: A.06-minecraft.md:62
 msgid ""
@@ -11816,12 +11873,21 @@ msgid ""
 "nto a mountain. Just choose a higher y value to get back out above land. Keep "
 "on exploring until you find somewhere you like..."
 msgstr ""
+"Scegliendo differenti valori per x, y e z possiamo teletrasportarci ovunque "
+"nel nostro mondo. Prova! Scegli dei numeri diversi e guarda dove vai a "
+"finire. Se lo schermo diventa nero è perché ti sei teletrasportato/a sotto "
+"terra o in una montagna. Scegli un numero di y più alto e vedrai che "
+"tornerai in superficie. Continua a esplorare finché non trovi un posto che "
+"ti piace..."
 
 #: A.06-minecraft.md:69
 msgid ""
 "Using the ideas so far, let's build a Sonic Teleporter which makes a fun telep"
 "ort sound whilst it whizzes us across the Minecraft world:"
 msgstr ""
+"Usa le idee spiegate fino a ora e costruisci un Teletrasporto Sonico che "
+"rende divertente spostare dei suoni mentre ci spara in giro nel mondo di "
+"Minecraft:"
 
 #: A.06-minecraft.md:72
 #, no-wrap
@@ -11855,10 +11921,12 @@ msgid ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
 msgstr ""
+"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
-msgstr ""
+msgstr "Blocchi magici"
 
 #: A.06-minecraft.md:90
 msgid ""
@@ -11866,6 +11934,10 @@ msgid ""
 "sed to and start clicking the mouse furiously to place blocks under the cursor"
 ". Or you could use the magic of Sonic Pi. Try this:"
 msgstr ""
+"Adesso che hai finalmente trovato un posto bello, comincia a costruire. Puoi "
+"fare quello che fai di solito e cominciare a cliccare il mouse furiosamente "
+"per mettere i blocchi sotto il cursore. Oppure, puoi utilizzare la magia di "
+"Sonic Pi. Prova questo codice:"
 
 #: A.06-minecraft.md:94
 #, no-wrap
@@ -11886,6 +11958,14 @@ msgid ""
 " the sky we just need to increase the y value which is why we add 5 to it. Let"
 "'s make a long trail of them:"
 msgstr ""
+"Guarda in alto! C'è un melone nel cielo! Guarda un attimo il codice. Che "
+"cosa abbiamo fatto? Nella prima riga abbiamo preso la posizione attuale di "
+"Steve e codificata come variable di x, y e z. Queste lettere corrispondono "
+"alle coordinate descritte in precedenza. Abbiamo usato queste coordianate "
+"nella funzione 'mc_set_block' che pone il blocco scelto nel luogo indicato "
+"dalle coordinate. Per porre qualcosa nel cielo, dobbiamo soltanto "
+"incrementare il valore di y. E' per questo che abbiamo aggiunto 5. Proviamo "
+"a fare una lunga striscia di meloni:"
 
 #: A.06-minecraft.md:107
 #, no-wrap
@@ -11908,10 +11988,14 @@ msgid ""
 " if not) and fly all around the world. Look behind you to see a pretty trail o"
 "f melon blocks! See what kind of twisty patterns you can make in the sky."
 msgstr ""
+"Quindi, torniamo a Minecraft, assicurati di essere in modalità volo (tocca "
+"due volte spazio se non lo sei) e vola intorno al mondo. Guarda in giù e "
+"vedrai una bellissima scia di meloni. Guarda che belle figure intrecciate "
+"che puoi fare nel cielo."
 
 #: A.06-minecraft.md:120
 msgid "Live Coding Minecraft"
-msgstr ""
+msgstr "Fare live coding con Minecraft"
 
 #: A.06-minecraft.md:122
 msgid ""
@@ -11925,6 +12009,16 @@ msgid ""
 "rm music in nightclubs with Sonic Pi - DJs use discs and I use `live_loop`s :-"
 ") However, today we're going to live code both music and Minecraft."
 msgstr ""
+"Coloro che hanno seguito questa guida durante gli ultimi mesi avranno "
+"probabilmente la mente già aperta. La scia di meloni è molto bella, ma la "
+"parte più interessante dell'esempio precedente è il poter fare un "
+"'live_loop' con Minecraft! Per chi non lo sapesse, 'live_loop' è un'abilità "
+"magica di Sonic Pi che nessun altro linguaggio di programmazione ha. Ti "
+"permette di far girare numerosi loop contemporaneamente e di cambiarli "
+"mentre sono in esecuzione. Sono incredibilmente potenti e fonte di estremo "
+"divertimento. Io uso i 'live_loop' per suonare musica nei locali con Sonic "
+"Pi; i DJ usano i dischi e io uso i 'live_loop' :-). Comunque, oggi andremo a "
+"programmare dal vivo sia la musica sia Minecraft."
 
 #: A.06-minecraft.md:133
 msgid ""
@@ -11933,6 +12027,10 @@ msgid ""
 "it run. Hey presto, you're now making a brick trail. How simple was that! Fanc"
 "y some music to go with it? Easy. Try this:"
 msgstr ""
+"Iniziamo. Esegui il codice sopra e inizia nuovamente a costruire la tua scia "
+"di meloni. Adesso, senza fermare l'esecuzione, cambia ':melon' con ':brick' "
+"(mattone) e premi Run. Bravo! Adesso stai facendo una scia di mattoni. "
+"Semplice no?! Vuoi aggiungere anche un po' di musica? Facile, prova questo:"
 
 #: A.06-minecraft.md:138
 #, no-wrap
@@ -11965,12 +12063,18 @@ msgid ""
 "ry `:water`, `:grass` or your favourite block type. Also, try changing the cut"
 "off value from `70` to `80` and then up to `100`. Isn't this fun?"
 msgstr ""
+"Ora, mentre la musica sta suonando, tu comincia a cambiare il codice. Cambia "
+"i tipi di blocco: prova ':water', ':grass' o la tua categoria di blocchi "
+"preferita. Cambia anche il valore 'cutoff:' da '70' a '80' e successivamente "
+"anche a '100'. Non è divertente?"
 
 #: A.06-minecraft.md:158
 msgid ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
 msgstr ""
+"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 msgid ""
@@ -11980,6 +12084,12 @@ msgid ""
 "d have a play by changing some of the values whilst it's running live. Have fu"
 "n and see you next time..."
 msgstr ""
+"Combiniamo tutto quello che abbiamo visto finora aggiungendo un tocco di "
+"ulteriore magia. Associamo la nostra abilità di teletrasportarci, il "
+"posizionamento dei blocchi e la musica per fare una sorta di video musicale "
+"di Minecraft. Non ti preoccupare se non riesci a capire tutto. Digita "
+"soltanto il testo e divertiti cambiando alcuni valori mentre il codice è in "
+"esecuzione. Divertiti e ci vediamo la prossima volta..."
 
 #: A.06-minecraft.md:166
 #, no-wrap
@@ -12036,11 +12146,11 @@ msgstr ""
 
 #: A.07-bizet.md:1
 msgid "A.7 Bizet Beats"
-msgstr ""
+msgstr "A.7 Battiti di Bizet"
 
 #: A.07-bizet.md:3
 msgid "Bizet Beats"
-msgstr ""
+msgstr "Battiti di Bizet"
 
 #: A.07-bizet.md:5
 msgid ""
@@ -12049,10 +12159,14 @@ msgid ""
 "al operatic dance piece straight into the 21st century using the awesome power"
 " of code."
 msgstr ""
+"Dopo la nostra breve trattazione del fantastico mondo del controllo di "
+"Minecraft attraverso Sonic Pi dello scorso mese, ricominciamo a fare musica. "
+"Oggi, ci occuperemo di creare un fantastico pezzo dance del 21° secolo "
+"usando le meravigliose proprietà del codice."
 
 #: A.07-bizet.md:10
 msgid "Outrageous and Disruptive"
-msgstr ""
+msgstr "Oltraggioso e distruttivo"
 
 #: A.07-bizet.md:12
 msgid ""
@@ -12066,10 +12180,20 @@ msgid ""
 "ic that is also too outrageous and different for most people in our time - liv"
 "e coded music!"
 msgstr ""
+"Torniamo indetro al 1875. Un compositore chiamato Bizet aveva appena "
+"terminato la sua ultima opera, Carmen. Sfortunatamente, come molti pezzi che "
+"rompevano gli schemi preesistenti, le persone non apprezzarono questa opera "
+"perché fu considerata oltraggiosa e troppo fuori dai canoni. Purtroppo, "
+"Bizet morì dieci anni prima di vedere il suo lavoro salire al successo "
+"internazionale, diventando una delle opere più famose ed eseguite della "
+"storia della musica. Per onorare questa tragedia, prendiamo una delle "
+"melodie più famose della Carmen e rivisitiamola in chiave moderna rendendola "
+"anche noi oltraggiosa e differente dai canoni prestabiliti a noi "
+"contemporanei. La suoneremo attraverso il live coding!"
 
 #: A.07-bizet.md:23
 msgid "Decoding the Habanera"
-msgstr ""
+msgstr "Decodificare la Habanera"
 
 #: A.07-bizet.md:25
 msgid ""
@@ -12077,10 +12201,13 @@ msgid ""
 "orial, so let's focus on one of the most famous parts - the bass line to the H"
 "abanera:"
 msgstr ""
+"Suonare con il live coding l'intera opera sarebbe una cosa un po' difficile "
+"da far entrare in questa guida, quindi focalizziamoci soltanto sulle parti "
+"più famose. In questo caso, prendiamo la linea di basso dell'Habanera:"
 
 #: A.07-bizet.md:29
 msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
-msgstr ""
+msgstr "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -12089,10 +12216,15 @@ msgid ""
 "ode - only it represents instructions to a musician instead of a computer. We "
 "therefore need to figure out a way of decoding it."
 msgstr ""
+"Questa cosa potrebbe sembrare particolarmente difficile da leggere se non "
+"hai studiato la notazione musicale. Tuttavia, noi programmatori consideriamo "
+"la notazione musicale come una forma diversa di codice. Infatti essa "
+"rappresenta delle istruzioni destinate a un musicista invece che a un "
+"computer. Quindi, dobbiamo solo capire come riuscire a decodificarla."
 
 #: A.07-bizet.md:36
 msgid "Notes"
-msgstr ""
+msgstr "Note"
 
 #: A.07-bizet.md:38
 msgid ""
@@ -12100,6 +12232,10 @@ msgid ""
 "also have different heights. *The height on the score represents the pitch of "
 "the note.* The higher the note on the score, the higher the pitch of the note."
 msgstr ""
+"Le note sono organizzate da destra a sinistra, in modo simile alle parole di "
+"questa rivista. Però, esse hanno anche differenti altezze. *La posizione "
+"verticale della nota rappresenta anche quanto essa è acuta o grave.* Più è "
+"posta in alto nel pentagramma, più la nota sarà acuta."
 
 #: A.07-bizet.md:43
 msgid ""
@@ -12109,14 +12245,20 @@ msgid ""
 " score represents a specific note name. Take a look at this handy look up tabl"
 "e:"
 msgstr ""
+"Abbiamo già visto come cambiare l'altezza di una nota in Sonic Pi. Possiamo "
+"usare sia numeri più o meno alti come 'play 75' o 'play 80', sia i nomi "
+"delle note in notazione alfabetica come 'play :E' e 'play :F' (ovvero suona "
+"Mi e suona Fa in notazione italiana). Fortunatamente, ogni posizione della "
+"nota nella partitura rappresenta il nome di una specifica nota. Dai "
+"un'occhiata a questa tabella:"
 
 #: A.07-bizet.md:49
 msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr ""
+msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
-msgstr ""
+msgstr "Pause"
 
 #: A.07-bizet.md:53
 msgid ""
@@ -12127,6 +12269,12 @@ msgid ""
 "` or `null` - the absence of a value. In other words not playing a note is lik"
 "e the absence of a note."
 msgstr ""
+"La partitura musicale è un tipo di codice molto ricco ed espressivo, capace "
+"di comunicare molte cose. Non dovrebbe essere troppo soprendente quindi "
+"scoprire che essa non solo ti dice quale nota suonare ma anche quando non "
+"devi suonarne. Nei linguaggi di programmazione, questo aspetto somiglia "
+"all'idea di 'nil' o 'null', ovvero l'assenza di un valore. In altre parole, "
+"non suonare una nota significa l'assenza di una nota."
 
 #: A.07-bizet.md:60
 msgid ""
@@ -12137,10 +12285,17 @@ msgid ""
 "rite `play :rest`, `play nil` or `play false` which are all equivalent ways of"
 " representing rests."
 msgstr ""
+"Se guardi attentamente la partitura, ti accorgerai che è formata da una "
+"combinazione di punti neri dotati di linee che rappresentano la nota da "
+"suonare e delle cose strambe che rappresentano le pause. Fortunatamente, "
+"Sonic Pi ha una rappresentazione molto pratica delle pause: ':r'. Quindi se "
+"eseguiamo l'istruzione 'plat :r', Sonic Pi suonerà il silenzio! Possiamo "
+"anche scrivere 'play :rest', 'play nil' o 'play false', che sono tutti "
+"equivalenti alla prima."
 
 #: A.07-bizet.md:67
 msgid "Rhythm"
-msgstr ""
+msgstr "Ritmo"
 
 #: A.07-bizet.md:69
 msgid ""
@@ -12163,6 +12318,7 @@ msgstr ""
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 msgstr ""
+"![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
@@ -12345,6 +12501,8 @@ msgid ""
 "![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
 ".png)"
 msgstr ""
+"![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-0-small.png)"
 
 #: A.08-minecraft-vj.md:7
 msgid ""
@@ -12571,6 +12729,8 @@ msgid ""
 "![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
 ".png)"
 msgstr ""
+"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:133
 msgid ""
