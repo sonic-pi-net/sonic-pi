@@ -66,13 +66,15 @@ module SonicPi
     end
 
     def shutdown
-      puts "Sending /quit command to server"
+      puts "Sending /quit command to scsynth"
       begin
         @osc_server.send(@hostname, @port, "/quit")
       rescue Exception => e
         puts "Error during scsynth shutdown when attempting to send /quit OSC message to server #{@hostname} on port #{@port}"
       end
+      puts "Stopping OSC server..."
       @osc_server.stop
+      puts "Stopped OSC server..."
       t1, t2 = nil, nil
       if @jack_pid
         puts "killing jack process #{@jack_pid}"
