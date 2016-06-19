@@ -37,7 +37,7 @@ module SonicPi
     def send(*all_args)
       address, *args = *all_args
       log "OSC             ~ #{address} #{args.inspect}" if osc_debug_mode
-      @server.send(@hostname, @port, address, *args)
+      @osc_server.send(@hostname, @port, address, *args)
     end
 
     def send_at(ts, *all_args)
@@ -53,7 +53,7 @@ module SonicPi
         log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_f}] #{address} #{args.inspect}"
       end
 
-      @server.send_ts(ts, @hostname, @port, address, *args)
+      @osc_server.send_ts(ts, @hostname, @port, address, *args)
     end
 
     def reboot
@@ -68,11 +68,11 @@ module SonicPi
     def shutdown
       puts "Sending /quit command to server"
       begin
-        @server.send(@hostname, @port, "/quit")
+        @osc_server.send(@hostname, @port, "/quit")
       rescue Exception => e
         puts "Error during scsynth shutdown when attempting to send /quit OSC message to server #{@hostname} on port #{@port}"
       end
-      @server.stop
+      @osc_server.stop
       t1, t2 = nil, nil
       if @jack_pid
         puts "killing jack process #{@jack_pid}"
@@ -152,9 +152,9 @@ module SonicPi
       end
       puts "booting server..."
 
-      @server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
+      @osc_server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
 
-      @server.add_global_method do |address, args|
+      @osc_server.add_global_method do |address, args|
         case address
         when "/n_end"
           id = args[0].to_i
