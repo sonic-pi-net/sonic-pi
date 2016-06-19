@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-19 13:52+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-06-19 16:32+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -12306,6 +12306,12 @@ msgid ""
 "which means they last for an 8th of a beat. The rest has two squiggly beams wh"
 "ich means it also represents a 16th of the beat."
 msgstr ""
+"Infine c'è un'ultima cosa da imparare: come decodificare la notazione ovvero "
+"il timing delle note. Nella notazione originale, puoi vedere che le note "
+"sono connesse da linee spesse chiamate codette (o stanghette). La seconda "
+"nota ha due stanghette quindi dura 1/16. Le altre note hanno una singola "
+"stanghetta che indica una durata di 1/8. La pausa ha anch'essa due "
+"stanghette infatti ha una durata di 1/16."
 
 #: A.07-bizet.md:77
 msgid ""
@@ -12314,6 +12320,10 @@ msgid ""
 "s. For example, when we re-write our notation purely in 16ths you can see that"
 " our notation just turns into a nice sequence of notes and rests."
 msgstr ""
+"Quando proviamo a decodificare o esplorare nuove cose, un trucco è rendere "
+"tutto il più simile possibile per vedere eventuali relazioni o pattern. Per "
+"esempio, quando riscriviamo tutto con note da 1/16 puoi notare come la "
+"notazione diventi una bella sequenza di note e pause."
 
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
@@ -12322,13 +12332,15 @@ msgstr ""
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
-msgstr ""
+msgstr "Programmare l'Habanera"
 
 #: A.07-bizet.md:87
 msgid ""
 "We're now in a position to start translating this bass line to Sonic Pi. Let's"
 " encode these notes and rests in a ring:"
 msgstr ""
+"Stiamo per tradurre questa linea di basso in Sonic Pi. Codifichiamo queste "
+"note e pause in un anello:"
 
 #: A.07-bizet.md:90
 #, no-wrap
@@ -12338,6 +12350,8 @@ msgstr "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 #: A.07-bizet.md:94
 msgid "Let's see what this sounds like. Throw it in a live loop and tick through it:"
 msgstr ""
+"Proviamo a sentire come suona. Inseriamo tutto in un live loop con un tick "
+"per scorrere:"
 
 #: A.07-bizet.md:97
 #, no-wrap
@@ -12357,10 +12371,13 @@ msgid ""
 "Fabulous, that instantly recognisable riff springs to life through your speake"
 "rs. It took a lot of effort to get here, but it was worth it - high five!"
 msgstr ""
+"Fantastico, il riff che suona dalle casse è istantaneamente riconoscibile. È "
+"stato molto faticoso arrivare fino a qui ma ne valeva la pena. Batti un "
+"cinque!"
 
 #: A.07-bizet.md:108
 msgid "Moody Synths"
-msgstr ""
+msgstr "Synth malinconico"
 
 #: A.07-bizet.md:110
 msgid ""
@@ -12369,6 +12386,10 @@ msgid ""
 "d. Let's try it with the starting note `:d` passed through a slicer and reverb"
 ":"
 msgstr ""
+"Ora che abbiamo la linea di basso, ricreiamo l'ambientazione della scene "
+"lirica. Un synth da provare è `:blade` che è un sintetizzatore malinconico "
+"degli anni '80. Proviamolo facendo passare la nota iniziale `:d` attraverso "
+"uno slicer e un riverbero:"
 
 #: A.07-bizet.md:115
 #, no-wrap
@@ -12410,6 +12431,10 @@ msgid ""
 "n again. Also, try different values for the slicer's `phase:` opt such as `0.5"
 "`, `0.75` and `1`."
 msgstr ""
+"Ora, proviamo con le altre note nella linea di basso: `:a` e `:f5`. Ricorda: "
+"non devi premere stop, puoi modificare il codice mentre la musica sta "
+"suonando e premere Run di nuovo. Prova anche a cambiare i valori (ad esempio "
+"`0.5`, `0.75` e `1`) del parametro `phase:` dello slicer."
 
 #: A.07-bizet.md:140
 msgid ""
@@ -12420,6 +12445,12 @@ msgid ""
 "nd hit run again - how marvellous is that! Now, start mashing it around yourse"
 "lf and have fun."
 msgstr ""
+"Infine, combiniamo tutte le idee che abbiamo avuto fino ad ora per un remix "
+"dell'Habanera. Come puoi notare, ho aggiunto un'altra linea di basso come un "
+"commento. Una volta scritto tutto in un buffer vuoto, premi Run e senti come "
+"suona la composizione. Ora, senza premere stop *togli il commento* dalla "
+"seconda linea rimuovendo il `#` e poi premi di nuovo Run. Quando è figo? Ora "
+"prova a fare un po' di cambiamenti e divertiti."
 
 #: A.07-bizet.md:147
 #, no-wrap
@@ -12490,11 +12521,11 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:1
 msgid "A.8 Become a Minecraft VJ"
-msgstr ""
+msgstr "A.8 Diventa un VJ di Minecraft"
 
 #: A.08-minecraft-vj.md:3
 msgid "Become a Minecraft VJ"
-msgstr ""
+msgstr "Diventa un DJ di Minecraft"
 
 #: A.08-minecraft-vj.md:5
 msgid ""
@@ -12512,6 +12543,11 @@ msgid ""
 "know that you could use Minecraft to create amazing visuals just like a profes"
 "sional VJ."
 msgstr ""
+"Tutti abbiamo giocato a Minecraft. Probabilmente avrai costruito strutture "
+"grandiose, disegnato trappole e creato linee di carrelli elaborate "
+"attraverso gli switch. Ma quanti di voi si sono esibiti con Minecraft? "
+"Scommetto che non sapevate di poter usare Minecraft per creare visual "
+"incredibili come un VJ professionista."
 
 #: A.08-minecraft-vj.md:13
 msgid ""
@@ -12521,20 +12557,26 @@ msgid ""
 "an app called Sonic Pi which makes coding Minecraft not only easy but also inc"
 "redibly fun."
 msgstr ""
+"Se l'unico modo di modificare Minecraft fosse il mouse, faresti molta fatica "
+"a cambiare le cose velocemente. Per fortuna, il tuo Raspberry Pi ha una "
+"versione di Minecraft che può essere controllare con il codice. E c'è anche "
+"un'app chiamata Sonic Pi che rende programmare Minecraft facile e divertente."
 
 #: A.08-minecraft-vj.md:19
 msgid ""
 "In today's article we'll be showing you some of the tips and tricks that we've"
 " used to create performances in night clubs and music venues around the world."
 msgstr ""
+"Nell'articolo di oggi, ti mostrerò qualche trucchetto che abbiamo usato per "
+"esibirci in night club e locali in giro per il mondo."
 
 #: A.08-minecraft-vj.md:23
 msgid "Let's get started..."
-msgstr ""
+msgstr "Cominciamo..."
 
 #: A.08-minecraft-vj.md:25
 msgid "Getting Started"
-msgstr ""
+msgstr "Cominciamo"
 
 #: A.08-minecraft-vj.md:27
 msgid ""
@@ -12543,6 +12585,10 @@ msgid ""
 "Sonic Pi. In Minecraft, create a new world, and in Sonic Pi choose a fresh buf"
 "fer and write in this code:"
 msgstr ""
+"Partiamo da un semplice esercizio di riscaldamento per ricordarci le basi. "
+"Per prima cosa, apri sul tuo Raspberry Pi sia Minecraft che Sonic Pi. In "
+"Minecraft crea un nuovo mondo e in Sonic Pi scegli un buffer vuoto e incolla "
+"questo codice:"
 
 #: A.08-minecraft-vj.md:32
 #, no-wrap
@@ -12554,10 +12600,12 @@ msgid ""
 "Hit the Run button and you'll see the message over in the Minecraft window. OK"
 ", we're ready to start, let's have some fun......"
 msgstr ""
+"Premi Run e vedrai un messaggio nella finestra di Minecraft. Ok, siamo "
+"pronti per partire e divertici..."
 
 #: A.08-minecraft-vj.md:39
 msgid "Sand Storms"
-msgstr ""
+msgstr "Tempesta di sabbia"
 
 #: A.08-minecraft-vj.md:41
 msgid ""
@@ -12566,26 +12614,31 @@ msgid ""
 "s to create a sand storm by dropping sand blocks from the sky. For that all we"
 " need are a few basic fns:"
 msgstr ""
+"Quando usiamo Minecraft per creare visual, dobbiamo pensare a qualcosa che "
+"sia interessante da vedere e semplice da generare. Un semplice trucco è "
+"creare una tempesta di sabbia facendo cadere blocchi di sabbia dal cielo. "
+"Per farlo, abbiamo bisogno di semplici funzioni:"
 
 #: A.08-minecraft-vj.md:46
 msgid "`sleep` - for inserting a delay between actions"
-msgstr ""
+msgstr "`sleep` - per inserire una pausa tra le azioni"
 
 #: A.08-minecraft-vj.md:47
 msgid "`mc_location` - to find our current location"
-msgstr ""
+msgstr "`mc_location` - per trovare la nostra posizione attuale"
 
 #: A.08-minecraft-vj.md:48
 msgid "`mc_set_block`- to place sand blocks at a specific location"
 msgstr ""
+"`mc_set_block`- per piazzare blocchi di sabbia in una posizione specifica"
 
 #: A.08-minecraft-vj.md:49
 msgid "`rrand` - to allow us to generate random values within a range"
-msgstr ""
+msgstr "`rrand` - per generare valori casuali all'interno di un range"
 
 #: A.08-minecraft-vj.md:50
 msgid "`live_loop` - to allow us to continually make it rain sand"
-msgstr ""
+msgstr "`live_loop` - per avere una continua pioggia di sabbia"
 
 #: A.08-minecraft-vj.md:52
 msgid ""
@@ -12595,6 +12648,10 @@ msgid ""
 "the *lang* tab in the Help system and then look up the fns directly along with"
 " all the other exciting things you can do."
 msgstr ""
+"Se non sei a conoscenza di qualcuna di queste funzioni come, ad esempio, "
+"`rrand`, scrivi la parola nel buffer, fai click su di essa e poi premi "
+"`Control-i` per aprire la documentazione relativa. In alternativa puoi "
+"accedere alla tab *lang* nell'aiuto e cercare direttamente la funzione."
 
 #: A.08-minecraft-vj.md:58
 msgid ""
@@ -12602,6 +12659,8 @@ msgid ""
 "m. Grab your current location and use it to create a few sand blocks up in the"
 " sky nearby:"
 msgstr ""
+"Proviamo con un po' di pioggia prima di fare una vera tempesta. Otteniamo la "
+"posizione correte per creare qualche blocco di sabbia nel cielo:"
 
 #: A.08-minecraft-vj.md:62
 #, no-wrap
@@ -12631,6 +12690,10 @@ msgid ""
 "g. Don't worry, if you missed them just hit Run again for another batch of san"
 "d rain - just make sure you're looking the right way!"
 msgstr ""
+"Quando premi Run prova a guardarti intorno perché i blocchi potrebbero "
+"scendere dietro di te in base a dove stai guardando. Non ti preoccupare, se "
+"te li sei persi, premi Run di nuovo... basta essere sicuri di guardare nella "
+"giusta direzione!"
 
 #: A.08-minecraft-vj.md:79
 msgid ""
@@ -12641,6 +12704,13 @@ msgid ""
 " We chose the same x coordinate, a y coordinate 20 blocks higher and then succ"
 "essively larger z coordinates so the sand dropped in a line away from Steve."
 msgstr ""
+"Analizziamo velocemente cosa sta succedendo. Nella prima linea abbiamo preso "
+"la posizione di Steve come coordinate per la funzione `mc_location` e le "
+"abbiamo inserite nelle variabili `x`, `y`, e `z`. Poi, nella riga "
+"successiva, abbiamo usato `mc_set_block` per piazzare un po' di sabbia nelle "
+"stesse coordinate con una leggera modifica: abbiamo scelto la stessa x "
+"mentre y e z con valori di 20 blocchi maggiori per far si che i blocchi di "
+"sabbia cadessero in linea lontano da Steve."
 
 #: A.08-minecraft-vj.md:87
 msgid ""
@@ -12648,10 +12718,13 @@ msgid ""
 "ding more lines, changing the sleep times, try mixing `:sand` with `:gravel` a"
 "nd choose different coordinates. Just experiment and have fun!"
 msgstr ""
+"Perché non provi a modificare un po' questo codice? Aggiungi un po' di "
+"righe, cambia i tempi di pausa, prova a modificare `:sand` con `:gravel` e "
+"scegli coordinate different. Sperimenta e divertiti!"
 
 #: A.08-minecraft-vj.md:91
 msgid "Live Loops Unleashed"
-msgstr ""
+msgstr "Liberiamo il Live Loop"
 
 #: A.08-minecraft-vj.md:93
 msgid ""
@@ -12659,6 +12732,10 @@ msgid ""
 "e_loop` - Sonic Pi's magical ability which unleashes the full power of live co"
 "ding - changing code on-the-fly whilst it's running!"
 msgstr ""
+"Ok, è tempo di fare un vera e propria tempesta utilizzando la potenza di "
+"`live_loop`, una delle funzioni magiche di Sonic Pi che ci permette di "
+"esplorare tutta la potenza del live coding: modificare il codice mentre sta "
+"funzionando!"
 
 #: A.08-minecraft-vj.md:97
 #, no-wrap
@@ -12689,6 +12766,9 @@ msgid ""
 "h loop we're finding Steve's location like before but then generating 3 random"
 " values:"
 msgstr ""
+"Che divertimento! Stiamo ripetendo tutto abbastanza velocemente (8 volte al "
+"secondo) e ad ogni loop cerchiamo la posizione di Steve ma stavolta "
+"generiamo 3 valori casuali:"
 
 #: A.08-minecraft-vj.md:113
 msgid "`xd` - the difference for x which will be between -10 and 10"
