@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-19 15:05+0000\n"
+"PO-Revision-Date: 2016-06-21 16:44+0000\n"
 "Last-Translator: Ole-Erik <oeyrvin@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
@@ -686,9 +686,9 @@ msgstr ""
 "vent, før du går vill i en uendelig strøm av piping, prøv å endre nummeret:"
 
 #: 02.1-Your-First-Beeps.md:23
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 75"
-msgstr "spille 75"
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
@@ -905,7 +905,6 @@ msgid "Now go *crazy* and have fun making your own tunes."
 msgstr "Nå \"slipp deg løs\" og ha det gøy med å lage dine egne låter."
 
 #: 02.2-Synth-Params.md:1
-#, fuzzy
 msgid "2.2 Synth Options"
 msgstr "2.2 Synth Options"
 
@@ -1127,9 +1126,8 @@ msgstr ""
 "play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
-#, fuzzy
 msgid "Panning"
-msgstr "Panning"
+msgstr "Stereo"
 
 #: 02.2-Synth-Params.md:118
 msgid ""
@@ -1275,7 +1273,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:47
 msgid "How about combining two sounds. First one after another:"
-msgstr ""
+msgstr "Hvordan kombinere to lyder. Første en etter en:"
 
 #: 02.3-Switching-Synths.md:49
 #, no-wrap
@@ -1289,10 +1287,18 @@ msgid ""
 "play 57\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
 msgid "Now at the same time:"
-msgstr ""
+msgstr "Nå samtidig:"
 
 #: 02.3-Switching-Synths.md:62
 #, no-wrap
@@ -1307,6 +1313,15 @@ msgid ""
 "play 57\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :tb303\n"
+"play 38\n"
+"sleep 0.25\n"
+"use_synth :dsaw\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
 msgid ""
@@ -1315,10 +1330,14 @@ msgid ""
 "whatever synth it's currently pointing to. You can move the switch to a new "
 "synth with `use_synth`."
 msgstr ""
+"Legg merke til at kommandoen \"use_synth\" bare påvirker den følgende bruken "
+"av \"play\". Tenk på det som en \"stor bryter\" - ny bruk av \"play\" vil "
+"spille hvilken som helst synt det pekes til. Med bryteren kan du skifte til "
+"en ny synt med 'use_synth'."
 
 #: 02.3-Switching-Synths.md:80
 msgid "Discovering Synths"
-msgstr ""
+msgstr "Å oppdage synter"
 
 #: 02.3-Switching-Synths.md:82
 msgid ""
@@ -1326,26 +1345,29 @@ msgid ""
 "Synths option in the far left vertical menu (above Fx). There are over 20 to "
 "choose from. Here are a few of my favourites:"
 msgstr ""
+"Se hvilke synter Sonic Pi har til å spille med, ta en titt på alternativet "
+"synter i Synth-valgene i den vertikale menyen lengst til venstre (ovenfor Fx)"
+". Det finnes over 20 å velge mellom. Her er noen av mine favoritter:"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
 msgid ""
@@ -1353,14 +1375,17 @@ msgid ""
 "combining synths to make new sounds as well as using different synths for "
 "different sections of your music."
 msgstr ""
+"Nå, kos deg med \"å bytte synter for din musikk\". Ha det gøy med å "
+"kombinere synter for å lage nye lyder som vel som å bruke ulike synter for "
+"forskjellige deler av musikken."
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr ""
+msgstr "2.4 Varighet med Envelopes"
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
-msgstr ""
+msgstr "Varighet med Envelopes"
 
 #: 02.4-Durations-with-Envelopes.md:5
 msgid ""
@@ -1368,6 +1393,9 @@ msgid ""
 "control when to trigger our sounds. However, we haven't yet been able to "
 "control the duration of our sounds."
 msgstr ""
+"I et tidligere avsnitt så vi hvordan vi bruker kommandoen \"sleep\" for å "
+"utløse lydene våre. Men har vi ennå ikke klart å styre varigheten av lydene "
+"våre."
 
 #: 02.4-Durations-with-Envelopes.md:9
 msgid ""
@@ -1376,18 +1404,22 @@ msgid ""
 "envelope* (we'll cover what ADSR means later in this section). An amplitude "
 "envelope offers two useful aspects of control:"
 msgstr ""
+"For å gi oss et enkelt, men kraftig grep til å \"kontrollere varigheten\" "
+"til lydene våre, har Sonic Pi innebygd \"ADSR amplitude envelope\" (vil "
+"dekker hva ADSR betyr senere i denne delen). En amplitude envelope tilbyr to "
+"nyttige kontrollmuligheter:"
 
 #: 02.4-Durations-with-Envelopes.md:14
 msgid "control over the duration of a sound"
-msgstr ""
+msgstr "kontrollere varigheten av en lyd"
 
 #: 02.4-Durations-with-Envelopes.md:15
 msgid "control over the amplitude of a sound"
-msgstr ""
+msgstr "kontroll over en lyds amplitude"
 
 #: 02.4-Durations-with-Envelopes.md:17
 msgid "Duration"
-msgstr ""
+msgstr "Varighet"
 
 #: 02.4-Durations-with-Envelopes.md:19
 msgid ""
@@ -1397,6 +1429,10 @@ msgid ""
 "of the sound. Therefore, by controlling the envelope you control the "
 "duration."
 msgstr ""
+"Varigheten er hvor lenge lyden varer. En lengre varighet betyr at du hører "
+"lyden lenger. Sonic Pis lyder har alle en kontrollerbar amplitude envelope, "
+"og den totale varigheten av denne envelopen varigheten av lyden. Derfor, ved "
+"å kontrollere envelopen styrer du varigheten."
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1410,20 +1446,31 @@ msgid ""
 "silence.\" Sonic Pi allows you to program exactly this behaviour with "
 "envelopes."
 msgstr ""
+"ADSR envelopen kontrollerer ikke bare varighet, det gir deg også \"god "
+"kontroll\" over lydens amplitude\". Alle hørbare lyder starter og avslutter "
+"stille og inneholder noen ikke-stille deler i mellom. Med enveloper kan du "
+"skyve og holde amplituden til lydens ikke-stille deler imellom. Det er som å "
+"gi noen instruksjoner om hvordan å skru opp og ned volumet på en "
+"gitarforsterker. For eksempel kan du be noen \"å starte i stillhet, sakte "
+"flytte opp til full volum, holder den litt, så raskt gå tilbake til stillhet."
+"\" Med Sonic Pi kan du programmere akkurat dette med enveloper."
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an "
 "amplitude of 1 is normal volume."
 msgstr ""
+"Bare for å oppsummere, som vi har sett før, amplituden 0 er stillhet og  "
+"amplituden 1 er normalt volum."
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr ""
+msgstr "Nå, la oss se på hver av delene av envelope igjen."
 
 #: 02.4-Durations-with-Envelopes.md:42
+#, fuzzy
 msgid "Release Phase"
-msgstr ""
+msgstr "Release Phase"
 
 #: 02.4-Durations-with-Envelopes.md:44
 msgid ""
@@ -1432,17 +1479,23 @@ msgid ""
 "a release time of 1 which means that by default they have a duration of 1 "
 "beat (which at the default BPM of 60 is 1 second):"
 msgstr ""
+"Den eneste delen av envelope som brukes som standard, er "
+"utfasingstidspunktet. Det er tiden det tar for syntens lyd til å dø ut. Alle "
+"synter som har utfasingstid 1 som betyr at de har en standard varighet på 1 "
+"slag (som standard er en BPM på 60 1 sekund):"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is "
 "short hand for the longer more explicit version:"
 msgstr ""
+"Noten vil være hørbar i 1 sekund. Gå i gang med å sette tiden :-) Dette er "
+"kortversjonen av en lengre og mer eksplisitt versjon:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr ""
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
@@ -1450,22 +1503,25 @@ msgid ""
 "However, it's now very easy to change the duration by modifying the value of "
 "the `release:` opt:"
 msgstr ""
+"Legg merke til hvordan dette høres akkurat som det samme (lyden varer ett "
+"sekund). Men det er nå svært enkelt å endre varigheten ved å endre verdien "
+"av \"release:\" opt:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
 msgid "play 60, release: 2"
-msgstr ""
+msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very "
 "small release time:"
-msgstr ""
+msgstr "Vi kan lage en svært kort syntlyd ved hjelp av en liten løslate tid:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
 msgid "play 60, release: 0.2"
-msgstr ""
+msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
 msgid ""
@@ -1473,10 +1529,13 @@ msgid ""
 "by default is a linear transition (i.e. a straight line). The following "
 "diagram illustrates this transition:"
 msgstr ""
+"Varigheten av tiden lyden sendes kalles \"release phase\"-en og som standard "
+"er den lineær dvs. en rett linje. Diagrammet nedenfor illustrerer denne "
+"overgangen:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 msgid ""
@@ -1486,16 +1545,23 @@ msgid ""
 "in a straight line down to zero taking the amount of time specified by "
 "`release:`. *Longer release times produce longer synth fade outs.*"
 msgstr ""
+"Den vertikale linjen helt til venstre i diagrammet viser at lyden starter "
+"på  amplitude 0, men går til full amplitude umiddelbart (dette er "
+"angrepsfasen som beskrives straks). På full amplitude beveger den seg i en "
+"rett linje ned til null, og bruker den tiden som er angitt i `release:`. \""
+"Lengre innkoblingstid lager lengre utfasing av synten.\""
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
 "You can therefore change the duration of your sound by changing the release "
 "time. Have a play adding release times to your music."
 msgstr ""
+"Du kan derfor endre varigheten til lyden ved å endre innkoblingstiden. Ha en "
+"tillagt spillevarighet til din musikk."
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
-msgstr ""
+msgstr "Angrepsfasen"
 
 #: 02.4-Durations-with-Envelopes.md:93
 msgid ""
@@ -1504,6 +1570,10 @@ msgid ""
 "percussive sound. However, you may wish to fade your sound in. This can be "
 "achieved with the `attack:` opt. Try fading in some sounds:"
 msgstr ""
+"Standard er *attack phase* er 0 for alle synter som betyr de flytter fra  "
+"amplitude 0 til 1 umiddelbart. Dette gir synt en første perkusjonslyd. Men "
+"kanskje du ønsker å fade ut lyden. Dette kan oppnås med \"attack:\" opt-et. "
+"Prøv utfading med noen lyder:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1512,65 +1582,82 @@ msgid ""
 "sleep 3\n"
 "play 65, attack: 0.5"
 msgstr ""
+"play 60, attack: 2\n"
+"sleep 3\n"
+"play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack "
 "and a long release try:"
 msgstr ""
+"Du kan bruke flere opt-er samtidig. For eksempel i et kort angrep og med "
+"lang versjon:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
 msgid "play 60, attack: 0.7, release: 4"
-msgstr ""
+msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
 msgid ""
 "This short attack and long release envelope is illustrated in the following "
 "diagram:"
 msgstr ""
+"Dette korte angrep og lange versjonsomslaget er illustrert i følgende "
+"diagram:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr ""
+msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short "
 "release:"
 msgstr ""
+"Selvfølgelig kan du flytte ting rundt. Prøv et lengre angrep og en kort "
+"versjon:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr ""
+msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
+#, fuzzy
 msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-"
 "short-release.png)"
 msgstr ""
+"![long attack short release envelope](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
 "Finally, you can also have both short attack and release times for shorter "
 "sounds."
 msgstr ""
+"Til slutt, du kan også ha både korte angrep og versjontider for kortere "
+"lyder."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
 msgid "play 60, attack: 0.5, release: 0.5"
-msgstr ""
+msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
 msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-"
 "short-release.png)"
 msgstr ""
+"![short attack short release envelope](../images/tutorial/env-short-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
+#, fuzzy
 msgid "Sustain Phase"
-msgstr ""
+msgstr "Sustain Phase"
 
 #: 02.4-Durations-with-Envelopes.md:136
 msgid ""
@@ -1578,15 +1665,18 @@ msgid ""
 "sustain time to control the *sustain phase*. This is the time for which the "
 "sound is maintained at full amplitude between the attack and release phases."
 msgstr ""
+"I tillegg til å angi angrep og versjonstid, kan du også angi en beholdefase "
+"for  kontroll av \"sustain phase\"-en. Dette er tiden når lyden "
+"opprettholdes med full amplitude mellom angrep og versjonsfasene."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
 msgid "play 60, attack: 0.3, sustain: 1, release: 1"
-msgstr ""
+msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1597,10 +1687,17 @@ msgid ""
 "However, be warned, a release of 0 can produce clicks in the audio and it's "
 "often better to use a very small value such as 0.2."
 msgstr ""
+"\"Sustain time\" er nyttig for viktige lyder du ønsker å gi fullt nærvær i "
+"miksen før du skriver inn en valgfri versjon av fasen. Selvfølgelig, det er "
+"helt lovlig å angi både \"attack:\"  og \"release:\" opts  til 0 og bare "
+"bruke sustain for å ha absolutt ingen inn- eller utfasing for lyden. Men vær "
+"advart, en release på 0 kan produsere klikk i lyden og det er ofte bedre å "
+"bruke en veldig liten verdi som 0,2."
 
 #: 02.4-Durations-with-Envelopes.md:154
+#, fuzzy
 msgid "Decay Phase"
-msgstr ""
+msgstr "Decay Phase"
 
 #: 02.4-Durations-with-Envelopes.md:156
 msgid ""
@@ -1612,20 +1709,29 @@ msgid ""
 "sustain levels are 1 so you'll need to specify them for the decay time to "
 "have any effect:"
 msgstr ""
+"For et ekstra kontrollnivå, kan du også angi sluttid (decay). Dette er en "
+"fase i omslaget som som passer mellom angrepet og opprettholdesesfasen og "
+"angir et tidspunkt der amplituden vil synke fra \"attack_level:\" til \""
+"decay_level:\" (som, med mindre du eksplisitt har satt den, blir satt til \""
+"sustain_level:\"). Som standard \"decay:\" opt er 0 og både angrepet og "
+"sluttiden er 1 så de må spesifiseres for at sluttiden skal ha noen effekt:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
 msgid "play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain: 1, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, "
+"sustain: 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
 msgid ""
 "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 msgstr ""
+"![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr ""
+msgstr "Decay nivå"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
@@ -1634,55 +1740,66 @@ msgid ""
 "values for full control over the envelope. This allows you to to create "
 "envelopes such as the following:"
 msgstr ""
+"En siste triks er at selv om \"decay_level:\" opt-et som standard har den "
+"samme verdien som \"sustain_level:\" kan du angi dem med ulike verdier for å "
+"ha full kontroll over omslaget. Dette lar deg lage omslag som som følgende:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
 msgid "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: 1, sustain_level: 0.4, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than "
 "`sustain_level:`:"
 msgstr ""
+"Det er også mulig å sette \"decay_level:\" høyere enn \"sustain_level:\":"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
 msgid "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: 0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain:"
+" 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr ""
+msgstr "ADSR Envelopes"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr ""
+msgstr "For å oppsummere, har Sonic Pi ADSR-omslagene følgende følgende faser:"
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr ""
+msgstr "*attack*-tid fra 0-amplitude til `attack_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
+"*decay*-tid for å flytte amplituden fra `attack_level` til `decay_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:197
 msgid ""
 "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr ""
+"\"sustain\"-tid for å flytte amplitude-nivået fra 'decay_level' til "
+"'sustain_level',"
 
 #: 02.4-Durations-with-Envelopes.md:198
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
-msgstr ""
+msgstr "*Release*-tid for å flytte amplituden fra \"sustain_level\" til 0"
 
 #: 02.4-Durations-with-Envelopes.md:200
 msgid ""
@@ -1690,23 +1807,28 @@ msgid ""
 "times of each of these phases. Therefore the following sound will have a "
 "duration of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
+"-Det er viktig å merke seg at varigheten av en lyd er summen for hver av "
+"disse fasene. Derfor har følgende lyd har en varighet på 0,5 + 1 + 2 + 0,5 = "
+"4 rytmer:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
 msgid "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: 2, release: 0.5"
 msgstr ""
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr ""
+msgstr "Nå sett i gang å leg med å legge omslag til dine lyder..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3 Sampler"
 
 #: 03-Samples.md:3
 msgid "Samples"
-msgstr ""
+msgstr "Sampler"
 
 #: 03-Samples.md:5
 msgid ""
@@ -1715,6 +1837,10 @@ msgid ""
 "you take a microphone outside, go and record the gentle sound of rain "
 "hitting canvas, you've just created a sample."
 msgstr ""
+"En flott måte å utvikle musikken den på er å bruke forhåndsinnspilte lyder. "
+"I den store hip-hop tradisjonen, kaller vi disse pre-innspilte lydene \""
+"samples\". Så, hvis du tar med en mikrofon utenfor, ta opp milde lyden av "
+"regn som treffer et lerret, du har nettopp opprettet et sampel."
 
 #: 03-Samples.md:10
 msgid ""
@@ -1722,25 +1848,30 @@ msgid ""
 "with over 90 public domain samples ready for you to jam with, it lets you "
 "play and manipulate your own. Let's get to it..."
 msgstr ""
+"Sonic Pi lar deg gjøre masse morsomme ting med sampler. Ikke bare leveres de "
+"med over 90 offentlige sampler klar for deg til å jamme med, de lar deg "
+"spille og styre dine egne. La oss komme til det..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
-msgstr ""
+msgstr "3.1 Trigge sampler"
 
 #: 03.1-Triggering-Samples.md:3
 msgid "Triggering Samples"
-msgstr ""
+msgstr "Trigge sampler"
 
 #: 03.1-Triggering-Samples.md:5
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is "
 "triggering pre-recorded samples. Try it:"
 msgstr ""
+"Spille pipelyder er bare begynnelsen. Noe som er moro er å trigge "
+"forhåndsinnspilte sampler. Prøv:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
 msgid "sample :ambi_lunar_land"
-msgstr ""
+msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
 msgid ""
@@ -1748,6 +1879,9 @@ msgid ""
 "like you use the `play` command. To play multiple samples and notes just "
 "write them one after another:"
 msgstr ""
+"Sonic Pi inneholder mange eksempler til å spille med. Du kan bruke dem "
+"akkurat som du bruker kommandoen \"play\". For å spille flere prøver og "
+"noter er det bare å skrive dem inn, den ene etter hverandre:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1757,10 +1891,14 @@ msgid ""
 "sample :ambi_lunar_land\n"
 "sample :ambi_drone"
 msgstr ""
+"play 36\n"
+"play 48\n"
+"sample :ambi_lunar_land\n"
+"sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
 msgid "If you want to space them out in time, use the `sleep` command:"
-msgstr ""
+msgstr "Hvis du vil fordele dem ut over tid, bruk kommandoen \"sleep\":"
 
 #: 03.1-Triggering-Samples.md:25
 #, no-wrap
@@ -1774,6 +1912,14 @@ msgid ""
 "sleep 1\n"
 "play 36"
 msgstr ""
+"sample :ambi_lunar_land\n"
+"sleep 1\n"
+"play 48\n"
+"sleep 0.5\n"
+"play 36\n"
+"sample :ambi_drone\n"
+"sleep 1\n"
+"play 36"
 
 #: 03.1-Triggering-Samples.md:36
 msgid ""
@@ -1783,10 +1929,15 @@ msgid ""
 "creating interesting overlap effects. Later in this tutorial we'll take a "
 "look at controlling the *duration* of sounds with envelopes."
 msgstr ""
+"Legg merke til hvordan Sonic Pi ikke venter til en lyd til slutt før du "
+"starter neste lyden. Kommandoen 'sleep' beskriver bare separasjon av \""
+"utløsingen\" av lydene. Dette lar deg enkelt legge lydlag sammen for å skape "
+"interessante overlappingseffekter. Senere i denne opplæringen, vil vi ta en "
+"titt på å kontrollere varighet/\"duration\" av lyder med omsalg."
 
 #: 03.1-Triggering-Samples.md:44
 msgid "Discovering Samples"
-msgstr ""
+msgstr "Å oppdage sampler"
 
 #: 03.1-Triggering-Samples.md:46
 msgid ""
@@ -1795,6 +1946,9 @@ msgid ""
 "vertical menu, choose your category and then you'll see a list of available "
 "sounds."
 msgstr ""
+"Det er to måter å oppdage omfanget av sampler i Sonic Pi. Først, du kan "
+"bruke Hjelp-systemet. Klikk på Samples i den venstre loddrette menyen, velg "
+"din kategori og du vil du se en liste over tilgjengelige lyder."
 
 #: 03.1-Triggering-Samples.md:51
 msgid ""
@@ -1803,50 +1957,54 @@ msgid ""
 "of sample names appear for you to select. Try the following category "
 "prefixes:"
 msgstr ""
+"Alternativt kan du bruke den \"autofullføring-systemet\". Skriv starten av "
+"en sampelgruppe som: \"sampel: ambi_\" og du vil se en nedtrekksliste du kan "
+"velge fra. Prøv følgende kategori-forstavelser:"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
+#, fuzzy
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
 msgid "Now start mixing samples into your compositions!"
-msgstr ""
+msgstr "Nå start med å bruke miksing av sampler i dine komposisjoner!"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr ""
+msgstr "3.2 Sampel-parametre"
 
 #: 03.2-Sample-Params.md:3
 msgid "Sample Parameters: Amp and Pan"
-msgstr ""
+msgstr "Sampel-parametre: Apm og Pan"
 
 #: 03.2-Sample-Params.md:5
 msgid ""
@@ -1854,25 +2012,30 @@ msgid ""
 "Samples support exactly the same parameterisation mechanism. Let's revisit "
 "our friends `amp:` and `pan:`."
 msgstr ""
+"Som vi så med synter, kan vi enkelt styre vår lyder med parametere. Sampler "
+"støtter nøyaktig samme parameter-mekanisme. La oss gå tilbake til våre "
+"venner \"amp:\" og \"pan:\"."
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
-msgstr ""
+msgstr "Ampe samples"
 
 #: 03.2-Sample-Params.md:11
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you "
 "used for synths:"
 msgstr ""
+"Du kan endre amplituden i sampler med nøyaktig samme tilnærming du brukte "
+"for synter:"
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
 msgid "sample :ambi_lunar_land, amp: 0.5"
-msgstr ""
+msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr ""
+msgstr "Panning samples"
 
 #: 03.2-Sample-Params.md:20
 msgid ""
@@ -1880,6 +2043,9 @@ msgid ""
 "how we'd play the amen break in the left ear and then half way through play "
 "it again through the right ear:"
 msgstr ""
+"Vi kan også bruke \"pan:\"-parametre på sampler. For eksempel, her er "
+"hvordan vi ville spille \"Amen Break\" i det venstre øret og deretter "
+"halvveis igjennom spille det igjen gjennom høyre øre:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -1888,25 +2054,32 @@ msgid ""
 "sleep 0.877\n"
 "sample :loop_amen, pan: 1"
 msgstr ""
+"sample :loop_amen, pan: -1\n"
+"sleep 0.877\n"
+"sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
 msgid ""
 "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
+"Merk at 0.877 i sekunder er halvparten så lenge som \":loop_amen\" samplet."
 
 #: 03.2-Sample-Params.md:33
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` "
 "(which we will discuss later), these will be ignored by `sample`."
 msgstr ""
+"Til slutt, vær oppmerksom på at hvis du setter en synt standard med "
+"'use_synth_defaults' (som vi vil diskutere senere), vil dette bli ignorert "
+"av \"sample\"."
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
-msgstr ""
+msgstr "3.3 Stretching Samples"
 
 #: 03.3-Stretching-Samples.md:3
 msgid "Stretching Samples"
-msgstr ""
+msgstr "Stretching Samples"
 
 #: 03.3-Stretching-Samples.md:5
 msgid ""
@@ -1915,10 +2088,14 @@ msgid ""
 "music even more unique and interesting. First, let's explore the ability to "
 "*stretch* and *squash* samples."
 msgstr ""
+"Nå som vi kan spille en rekke synter og samler til å lage litt musikk, er "
+"det tiden for å lære å endre både synter og sampler for å gjøre musikken "
+"enda mer unik og interessant. Først, la oss utforske bruken av \"stretch\" "
+"og \"squash\" på sampler."
 
 #: 03.3-Stretching-Samples.md:10
 msgid "Sample Representation"
-msgstr ""
+msgstr "Sampel Representation"
 
 #: 03.3-Stretching-Samples.md:12
 msgid ""
@@ -1932,32 +2109,45 @@ msgid ""
 "way to reproduce the sound. However, it's also fun to change the speed with "
 "which the numbers are fed to the speaker to change the sound."
 msgstr ""
+"Samples er pre-innspilte lyder som lagres som tall som representerer hvordan "
+"du beveger høyttalermembranen til å gjenskape lyden. Høyttalermembranen kan "
+"bevege seg inn og ut, så tallene bare trenger å representere hvor langt inn "
+"og ut membran hvert øyeblikk må være. For å kunne gjengi en innspilt lyd må "
+"samplet vanligvis lagre tusenvis av tall per sekund! Sonic Pi tar denne "
+"listen med tall og gir dem på rett hastighet for å bevege datamaskinens "
+"høyttaler inn og ut akkurat den rette måten for å gjenskape lyden. Men det "
+"også morsomt å endre hastigheten som tallene sendes til høyttaleren med for "
+"å endre lyden."
 
 #: 03.3-Stretching-Samples.md:23
 msgid "Changing Rate"
-msgstr ""
+msgstr "Endre raten"
 
 #: 03.3-Stretching-Samples.md:25
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with "
 "the default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
+"La oss spille med en de omkringliggende lydene: ': ambi_choir'. For å spille "
+"det med standard hastighet, kan du sende en \"rate:\" opt til \"sample\":"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
 msgid "sample :ambi_choir, rate: 1"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're "
 "free to change that number to something else. How about `0.5`:"
 msgstr ""
+"Dette spiller den med normal hastighet (1), så ikke noe er spesielt ennå. "
+"Men vi kan fritt endre det nummeret til noe annet. Hva med \"0,5\":"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
 msgid "sample :ambi_choir, rate: 0.5"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
 msgid ""
@@ -1965,6 +2155,9 @@ msgid ""
 "twice as long to play, secondly the sound is an octave lower. Let's explore "
 "these things in a little more detail."
 msgstr ""
+"Oj! Hva skjer her? Vel, to ting. For det første tar samplet dobbelt så lang "
+"tid å spille, dernest er lyden en oktav lavere. La oss utforske disse "
+"tingene litt nærmere."
 
 #: 03.3-Stretching-Samples.md:43
 #, fuzzy
@@ -1976,43 +2169,49 @@ msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal "
 "rate, we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
+"Et eksempel som er morsomt er å strekke og komprimere Amen Break. Med normal "
+"hastighet, kan vi tenke oss å legge det i et \"tromme og bass\"-spor:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
 #, no-wrap
 msgid "sample :loop_amen"
-msgstr ""
+msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for "
 "*old school hip-hop*:"
 msgstr ""
+"Ved å endre hastigheten kan vi imidlertid bytte sjangere. Prøv halv fart for "
+"\"old school hip-hop\":"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
 msgid "If we speed it up, we enter *jungle* territory:"
-msgstr ""
+msgstr "Hvis vi øker farten går vi inn i \"jungel\"-territoriet:"
 
 #: 03.3-Stretching-Samples.md:61
 #, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative "
 "rate:"
 msgstr ""
+"Nå vårt siste festknep - la oss se hva som skjer hvis vi bruker en negativ "
+"rate:"
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
 msgid "sample :loop_amen, rate: -1"
-msgstr ""
+msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
 msgid ""
@@ -2020,10 +2219,13 @@ msgid ""
 "samples at different rates. Try very fast rates. Try crazy slow rates. See "
 "what interesting sounds you can produce."
 msgstr ""
+"Oj! Det spiller det \"baklengs\"! Nå prøv å spille med mange forskjellige "
+"sampler med forskjellige hastigheter. Prøv snålt sakte rater. Se hvilke "
+"interessante lyder du kan lage."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
-msgstr ""
+msgstr "En enkel forklaring på sampleraten."
 
 #: 03.3-Stretching-Samples.md:78
 msgid ""
@@ -2036,6 +2238,14 @@ msgid ""
 "longer. The more you squash (higher rate), the shorter it gets, the more you "
 "stretch (lower rate), the longer it gets."
 msgstr ""
+"En nyttig måte å tenke på prøvene er som fjærer. Avspillingshastighet er som "
+"å klemme sammen å trekke ut fjæren. Hvis du spiller samplet på rate 2, \""
+"klemmes fjæren sammen\" til det halve av sin vanlige lengde. Samplet tar "
+"derfor halvparten av tiden til avspillingen fordi de det er kortere. Når du "
+"spiller samplet i halv fart strekker du fjæren til dobbelt lengde. Samplet "
+"tar da  dobbelt så lang tid å spille fordi det lengre. Jo mer du klemmer ("
+"høyere hastighet), jo kortere blir den, jo mer du strekke (lavere rate), jo "
+"lengre det blir det."
 
 #: 03.3-Stretching-Samples.md:87
 msgid ""
@@ -10787,3 +10997,20 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :sliced_amen do\n"
+"  n = 8\n"
+"  s =  line(0, 1, steps: n).choose\n"
+"  f = s + (1.0 / n)\n"
+"  sample :loop_amen, beat_stretch: 2, start: s, finish: f\n"
+"  sleep 2.0  / n\n"
+"end\n"
+"live_loop :acid_bass do\n"
+"  with_fx :reverb, room: 1, reps: 32, amp: 0.6 do\n"
+"    tick\n"
+"    n = (octs :e0, 3).look - (knit 0, 3 * 8, -4, 3 * 8).look\n"
+"    co = rrand(70, 110)\n"
+"    synth :beep, note: n + 36, release: 0.1, wave: 0, cutoff: co\n"
+"    synth :tb303, note: n, release: 0.2, wave: 0, cutoff: co\n"
+"    sleep (ring 0.125, 0.25).look\n"
+"  end\n"
+"end"
