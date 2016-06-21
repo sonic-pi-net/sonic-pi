@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-17 12:03+0000\n"
+"PO-Revision-Date: 2016-06-21 15:53+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -3413,14 +3413,13 @@ msgid "Composites"
 msgstr "Zusammengesetzte Ausdrücke"
 
 #: 03.7-Sample-Packs.md:208
-#, fuzzy
 msgid ""
 "Finally, you may use lists wherever you may place a source or filter. The list"
 " will be automatically flattened and the contents will be treated as regular s"
 "ources and filters. Therefore the following calls to `sample` are semantically"
 " equivalent:"
 msgstr ""
-"Schließlich: Du kannst eine Liste verwenden, wo immer du eine Quelle oder "
+"Schließlich: Du kannst eine Liste verwenden, wo immer Du eine Quelle oder "
 "einen Filter anwendest. Die Liste wird automatisch aufgelöst und ihr Inhalt "
 "so behandelt, als wäre er eine normale Quellen- oder Filterangabe. Deshalb "
 "bedeuten die folgenden Aufrufe von `sample` alle dasselbe:"
@@ -3439,12 +3438,10 @@ msgstr ""
 "sample [\"/path/to/dir\", [\"100\", [\"C#\"]]]"
 
 #: 03.7-Sample-Packs.md:220
-#, fuzzy
 msgid "Wrapping Up"
 msgstr "Zum Abschluss"
 
 #: 03.7-Sample-Packs.md:222
-#, fuzzy
 msgid ""
 "This was an advanced section for people that need real power to manipulate and"
 " use sample packs. If most of this section didn't make too much sense, don't w"
@@ -3452,54 +3449,50 @@ msgid ""
 "you'll know when you do need it and you can come back and re-read this when yo"
 "u start working with large directories of samples."
 msgstr ""
-"Das war ein komplizierter Abschnitt für alle, die mit Sample-Paketen "
-"weitergehend arbeiten möchten. Mach' Dir keine Sorgen, wenn vieles von dem, "
-"was hier steht, für Dich im Moment noch wenig Sinn macht. Es ist gut "
-"möglich, dass Du davon vieles noch nicht brauchst. Dennoch, Du wirst schon "
-"merken, wenn Du es brauchst, und dann kannst Du zurückkommen und den "
-"Abschnitt noch einmal lesen, um mit umfangreichen Sample-Sammlungen zu "
-"arbeiten."
+"Das war ein komplizierter Abschnitt für alle, die tiefer in Sample-Pakete "
+"einsteigen möchten. Mach' Dir keine Sorgen, wenn vieles von dem, was hier "
+"steht, für Dich im Moment noch wenig Sinn macht. Es ist gut möglich, dass Du "
+"davon vieles noch nicht brauchst. Dennoch, Du wirst schon merken, wenn Du es "
+"brauchst, und dann kannst Du zurückkommen und den Abschnitt noch einmal "
+"lesen, wenn Du einmal mit umfangreichen Sample-Sammlungen hantieren möchtest."
 
 #: 04-Randomisation.md:1
-#, fuzzy
 msgid "4 Randomisation"
 msgstr "4 Randomisierung"
 
 #: 04-Randomisation.md:3
-#, fuzzy
 msgid "Randomisation"
 msgstr "Randomisierung"
 
 #: 04-Randomisation.md:5
-#, fuzzy
 msgid ""
 "A great way to add some interest into your music is using some random numbers."
 " Sonic Pi has some great functionality for adding randomness to your music, bu"
 "t before we start we need to learn a shocking truth: in Sonic Pi *random is no"
 "t truly random*. What on earth does this mean? Well, let's see."
 msgstr ""
-"Zufallszahlen sind eine tolle Möglichkeit, Deine Musik interessant zu gestalte"
-"n. Sonic Pi bietet einige Funktionen, um Zufallsfaktoren in Deine Musik einzub"
-"auen. Aber bevor wir starten, müssen wir noch einer schockierenden Wahrheit in"
-"s Gesicht sehen: In Sonic Pi bedeutet *zufällig nicht wirklich zufällig*. Was "
-"zum Teufel soll das bedeuten? Nun, das verrate ich Dir jetzt."
+"Zufallszahlen sind eine tolle Möglichkeit, Deine Musik interessant zu "
+"gestalten. In Sonic Pi sind einige Funktionen enthalten, um Zufallsfaktoren "
+"in Deine Musik einzubauen. Aber bevor wir starten, müssen wir noch einer "
+"schockierenden Wahrheit ins Gesicht sehen: In Sonic Pi bedeutet *zufällig "
+"nicht wirklich zufällig*. Was zum Teufel soll das bedeuten? Nun, das verrate "
+"ich Dir jetzt."
 
 #: 04-Randomisation.md:11
-#, fuzzy
 msgid "Repeatability"
 msgstr "Wiederholbarkeit"
 
 #: 04-Randomisation.md:13
-#, fuzzy
 msgid ""
 "A really useful random function is `rrand` which will give you a random value "
 "between two numbers - a *min* and a *max*. (`rrand` is short for ranged random"
 "). Let's try playing a random note:"
 msgstr ""
-"Eine wirklich nützliche Zufallsfunktion ist `rrand`. Sie liefert Dir einen zuf"
-"älligen Wert zwischen zwei Zahlen - einem *Minimal-* und einem *Maximalwert*. "
-"(`rrand` ist ein Kürzel für das englische *ranged random*, also eine Zufallsza"
-"hl innerhalb eines bestimmten Wertebereichs)."
+"Eine wirklich nützliche Zufallsfunktion ist `rrand`. Sie liefert Dir einen "
+"zufälligen Wert zwischen zwei Zahlen - einem *Minimal-* und einem "
+"*Maximalwert*. (`rrand` ist ein Kürzel für das englische *ranged random*, "
+"also eine Zufallszahl in einem bestimmten Wertebereich.) Hier eine zufällig "
+"ausgewählte Note:"
 
 #: 04-Randomisation.md:17
 #, no-wrap
@@ -3507,42 +3500,40 @@ msgid "play rrand(50, 95)"
 msgstr "play rrand(50, 95)"
 
 #: 04-Randomisation.md:21
-#, fuzzy
 msgid ""
 "Ooh, it played a random note. It played note `83.7527`. A nice random note bet"
 "ween 50 and 95. Woah, wait, did I just predict the exact random note you got t"
 "oo? Something fishy is going on here. Try running the code again. What? It cho"
 "se `83.7527` again? That can't be random!"
 msgstr ""
-"Oh, eine zufällige Note wird gespielt. Es war die Note `83.7527`. Eine nette N"
-"ote zwischen 50 und 100. Aber hallo, habe ich gerade diese angeblich zufällige"
-" Note exakt vorhergesagt? Da ist doch etwas nicht ganz astrein. Lasse den Code"
-" noch einmal ablaufen. Wieder `83.7527`, oder? Das kann doch kein Zufall sein!"
+"Oh, eine zufällige Note wird gespielt. Es war die Note `83.7527`. Eine nette "
+"Note zwischen 50 und 100. Aber hallo, habe ich gerade diese angeblich "
+"zufällige Note exakt vorhergesagt? Da ist doch etwas nicht ganz astrein. "
+"Lasse den Code noch einmal ablaufen. Wieder `83.7527`, oder? Das kann doch "
+"kein Zufall sein!"
 
 #: 04-Randomisation.md:26
-#, fuzzy
 msgid ""
 "The answer is that it is not truly random, it's pseudo-random. Sonic Pi will g"
 "ive you random-like numbers in a repeatable manner. This is very useful for en"
 "suring that the music you create on your machine sounds identical on everybody"
 " else's machine - even if you use some randomness in your composition."
 msgstr ""
-"Die Antwort ist, es ist nicht wirklich zufällig, sondern pseudo-zufällig. Soni"
-"c Pi liefert Dir Reihenfolgen von Zufallszahlen, die wiederholbar sind. Das is"
-"t sehr nützlich, denn so ist sichergestellt, dass die Musik von Deinem Rechner"
-" auf anderen Rechnern identisch klingt - sogar dann, wenn Du einen Zufallsfakt"
-"or einbaust."
+"Die Antwort ist, es ist nicht wirklich zufällig, sondern pseudo-zufällig. "
+"Sonic Pi liefert Dir Reihenfolgen von Zufallszahlen, die wiederholbar sind. "
+"Das ist sehr nützlich, denn so ist sichergestellt, dass die Musik von Deinem "
+"Rechner auf anderen Rechnern identisch klingt - sogar dann, wenn Du den "
+"Zufallsgenerator einbaust."
 
 #: 04-Randomisation.md:32
-#, fuzzy
 msgid ""
 "Of course, in a given piece of music, if it 'randomly' chose `83.7527` every t"
 "ime, then it wouldn't be very interesting. However, it doesn't. Try the follow"
 "ing:"
 msgstr ""
-"Klar, wenn in einem bestimmten Musikstück jedesmal die `83.7527` als 'zufällig"
-"e' Zahl gewählt würde, dann wäre das nicht besonders interessant. Aber so ist "
-"es auch nicht. Versuch folgendes:"
+"Klar, wenn in einem bestimmten Musikstück jedesmal die `83.7527` als "
+"'zufällige' Zahl gewählt würde, dann wäre das nicht besonders interessant. "
+"Aber so ist es auch nicht. Versuch folgendes:"
 
 #: 04-Randomisation.md:36
 #, no-wrap
@@ -3558,7 +3549,6 @@ msgstr ""
 "end "
 
 #: 04-Randomisation.md:43
-#, fuzzy
 msgid ""
 "Yes! It finally sounds random. Within a given *run* subsequent calls to random"
 " functions will return random values. However, the next run will produce exact"
@@ -3566,28 +3556,26 @@ msgid ""
 "ll Sonic Pi code went back in time to exactly the same point every time the Ru"
 "n button was pressed. It's the Groundhog Day of music synthesis!"
 msgstr ""
-"Jawohl! Nun klingt es zufällig. Innerhalb eines bestimmten Code-Durchgangs lie"
-"fern Aufrufe von Zufallsfunktionen auch zufällige Werte. Der nächste Durchgang"
-" wird jedoch genau die selbe Folge von Zufallswerten liefern und also auch gen"
-"au gleich klingen. Es ist, als ob der Code immer zu demselben Zeitpunkt zurück"
-"springt, wenn der Ausführen-Button geklickt wird. Es ist der Murmeltier-Tag de"
-"r musikalischen Synthese."
+"Jawohl! Nun klingt es zufällig. Innerhalb eines bestimmten Code-Durchgangs "
+"liefern Aufrufe von Zufallsfunktionen auch zufällige Werte. Der nächste "
+"Durchgang wird jedoch genau die selbe Folge von Zufallswerten liefern und "
+"also auch genau gleich klingen. Es ist, als ob der Code immer zu demselben "
+"Zeitpunkt zurückspringt, wenn der Ausführen-Button geklickt wird. Es ist der "
+"Murmeltier-Tag der musikalischen Synthese!"
 
 #: 04-Randomisation.md:50
-#, fuzzy
 msgid "Haunted Bells"
 msgstr "Ruhelose Glocken"
 
 #: 04-Randomisation.md:52
-#, fuzzy
 msgid ""
 "A lovely illustration of randomisation in action is the haunted bells example "
 "which loops the `:perc_bell` sample with a random rate and sleep time between "
 "bell sounds:"
 msgstr ""
-"Ein großartiges Beispiel von Zufall in Aktion bietet der \"Haunted Bells\"-Code."
-" Die \"ruhelosen Glocken\" spielen das Sample `:perc_bell` mit einer zufälligen "
-"Samplerate und Pausenzeit in einer Endlosschleife ab:"
+"Ein großartiges Beispiel von Zufall in Aktion bietet der \"Haunted Bells\"-"
+"Code. Die \"ruhelosen Glocken\" spielen das Sample `:perc_bell` mit einer "
+"zufälligen Samplerate und Pausenzeit in einer Endlosschleife ab:"
 
 #: 04-Randomisation.md:56
 #, no-wrap
@@ -3603,19 +3591,17 @@ msgstr ""
 "end"
 
 #: 04-Randomisation.md:63
-#, fuzzy
 msgid "Random cutoff"
 msgstr "Zufällig abschneiden (random cutoff)"
 
 #: 04-Randomisation.md:65
-#, fuzzy
 msgid ""
 "Another fun example of randomisation is to modify the cutoff of a synth random"
 "ly. A great synth to try this out on is the `:tb303` emulator:"
 msgstr ""
-"Ein anderes spannendes Beispiel für die Randomisierung ist das zufällige Ausfi"
-"ltern bzw. Abschneiden hoher Töne eines Synth-Klangs. Der `:tb303`-Emulator is"
-"t ein guter Synth, um das auszuprobieren:"
+"Ein anderes spannendes Beispiel für die Randomisierung ist das zufällige "
+"Ausfiltern bzw. Abschneiden hoher Töne eines Synth-Klangs. Der `:tb303`-"
+"Emulator ist ein guter Synth, um das auszuprobieren:"
 
 #: 04-Randomisation.md:69
 #, no-wrap
@@ -3633,25 +3619,23 @@ msgstr ""
 "end"
 
 #: 04-Randomisation.md:78
-#, fuzzy
 msgid "Random seeds"
 msgstr "Startpunkt der Zufallsfolge (random seed)"
 
 #: 04-Randomisation.md:80
-#, fuzzy
 msgid ""
 "So, what if you don't like this particular sequence of random numbers Sonic Pi"
 " provides? Well it's totally possible to choose a different starting point via"
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
-"Was aber, wenn Du die Abfolge von Zufallszahlen, die Sonic Pi Dir liefert, nic"
-"ht magst? Nun, mit `use_random_seed` kannst Du unterschiedliche Startpunkte fü"
-"r diese Folge angeben. Der Standard-Startpunkt ist die 0. Wähle also einfach e"
-"inen anderen Startpunkt und mache eine andere Zufallserfahrung!"
+"Was aber, wenn Du die Abfolge von Zufallszahlen, die Sonic Pi Dir liefert, "
+"nicht magst? Nun, mit `use_random_seed` kannst Du unterschiedliche "
+"Startpunkte für diese Folge angeben. Der Standard-Startpunkt ist die 0. "
+"Wähle also einfach einen anderen Startpunkt und mache eine andere "
+"Zufallserfahrung!"
 
 #: 04-Randomisation.md:85
-#, fuzzy
 msgid "Consider the following:"
 msgstr "Sieh Dir den folgenden Code an:"
 
@@ -3669,13 +3653,13 @@ msgstr ""
 "end"
 
 #: 04-Randomisation.md:94
-#, fuzzy
 msgid ""
 "Every time you run this code, you'll hear the same sequence of 5 notes. To get"
 " a different sequence simply change the seed:"
 msgstr ""
-"Jedes Mal, wenn Du den Code ablaufen läßt, hörst Du dieselbe Folge von 5 Tönen"
-". Um eine andere Folge zu bekommen, setze einfach einen anderen Startpunkt:"
+"Jedes Mal, wenn Du den Code ablaufen lässt, hörst Du dieselbe Folge von 5 "
+"Tönen. Um eine andere Folge zu bekommen, setze einfach einen anderen "
+"Startpunkt:"
 
 #: 04-Randomisation.md:97
 #, no-wrap
@@ -3693,29 +3677,25 @@ msgstr ""
 "end"
 
 #: 04-Randomisation.md:105
-#, fuzzy
 msgid ""
 "This will produce a different sequence of 5 notes. By changing the seed and li"
 "stening to the results you can find something that you like - and when you sha"
 "re it with others, they will hear exactly what you heard too."
 msgstr ""
-"Nun produziert Sonic Pi eine andere Folge von 5 Tönen. Indem Du den Startpunkt"
-" wechselst und Dir die Ergebnisse anhörst, kannst Du eine Folge finden, die Di"
-"r gefällt - und wenn Du den Code dann an andere weitergibst, werden sie genau "
-"das hören, was auch Du gehört hast."
+"Nun produziert Sonic Pi eine andere Folge von 5 Tönen. Indem Du den "
+"Startpunkt wechselst und Dir die Ergebnisse anhörst, kannst Du eine Folge "
+"finden, die Dir gefällt - und wenn Du den Code dann an andere weitergibst, "
+"werden sie genau das hören, was auch Du gehört hast."
 
 #: 04-Randomisation.md:110
-#, fuzzy
 msgid "Let's have a look at some other useful random functions."
 msgstr "Schauen wir uns noch eine andere nützliche Zufallsfunktion an."
 
 #: 04-Randomisation.md:113
-#, fuzzy
 msgid "choose"
 msgstr "Auswählen (choose)"
 
 #: 04-Randomisation.md:115
-#, fuzzy
 msgid ""
 "A very common thing to do is to choose an item randomly from a list of known i"
 "tems. For example, I may want to play one note from the following: 60, 65 or 7"
@@ -3724,11 +3704,12 @@ msgid ""
 "uare brackets and separating them with commas: `[60, 65, 72]`. Next I just nee"
 "d to pass them to `choose`:"
 msgstr ""
-"Häufig kommt es vor, dass man aus einer Liste von Dingen eines zufällig auswäh"
-"len möchte. Zum Beispiel möchte ich einen Ton aus der folgenden Liste auswähle"
-"n: 60, 65 oder 72. Dafür ist `choose` da. Zuerst musst Du Deine Zahlen in eine"
-" Liste packen. Dafür schreibst Du sie jeweils durch Kommata getrennt in eckige"
-" Klammern. Dann übergibst Du diese Liste dem Kommando `choose`:"
+"Häufig kommt es vor, dass man aus einer Liste von Dingen eines zufällig "
+"auswählen möchte. Zum Beispiel möchte ich einen Ton aus der folgenden Liste "
+"auswählen: 60, 65 oder 72. Dafür ist `choose` da. Zuerst musst Du Deine "
+"Zahlen in eine Liste packen. Dafür schreibst Du sie jeweils durch Kommata "
+"getrennt in eckige Klammern. Dann übergibst Du diese Liste dem Kommando "
+"`choose`:"
 
 #: 04-Randomisation.md:122
 #, no-wrap
@@ -3736,7 +3717,6 @@ msgid "choose([60, 65, 72])"
 msgstr "choose([60, 65, 72])"
 
 #: 04-Randomisation.md:126
-#, fuzzy
 msgid "Let's hear what that sounds like:"
 msgstr "Hören wir uns das an:"
 
@@ -3755,10 +3735,9 @@ msgstr ""
 
 #: 04-Randomisation.md:135
 msgid "rrand"
-msgstr ""
+msgstr "rrand"
 
 #: 04-Randomisation.md:137
-#, fuzzy
 msgid ""
 "We've already seen `rrand`, but let's run over it again. It returns a random n"
 "umber between two values exclusively. That means it will never return either t"
@@ -3766,23 +3745,22 @@ msgid ""
 " always be a float - meaning it's not a whole number but a fraction of a numbe"
 "r. Examples of floats returned by `rrand(20, 110)`:"
 msgstr ""
-"`rrand` haben wir schon kennengelernt, aber sehen wir uns das noch einmal gena"
-"uer an. Es liefert eine zufällige Zahl zwischen zwei Werten, aber ohne diese W"
-"erte selbst; man sagt auch *exklusiv* dieser beiden Werte. Das bedeutet, dass "
-"sowohl der minimale als auch der maximale Wert niemals ausgegeben werden, imme"
-"r nur eine Zahl *zwischen* diesen beiden Werten. Die Zahl wird immer eine Glei"
-"tkommazahl sein, also keine ganze Zahl, sondern eine mit einem Komma. Ok, wir "
-"schreiben sie mit einem Komma, aber im englischen Sprachraum heißen sie *Float"
-"ing Point* (oder kurz: *Float*) und man schreibt sie mit einem Punkt. Einige B"
-"eispiele für Gleitkommazahlen, die der wiederholte Aufruf von `rrand(20, 110)`"
-" ausgeben könnte:"
+"`rrand` haben wir schon kennengelernt, aber sehen wir uns das noch einmal "
+"genauer an. Es liefert eine zufällige Zahl zwischen zwei Werten, aber ohne "
+"diese Werte selbst; man sagt auch *exklusiv* dieser beiden Werte. Das "
+"bedeutet, dass sowohl der minimale als auch der maximale Wert niemals "
+"ausgegeben werden, immer nur eine Zahl *zwischen* diesen beiden Werten. Die "
+"Zahl wird immer eine Gleitkommazahl sein, also keine ganze Zahl, sondern "
+"eine mit einem Komma. (Ok, wir schreiben sie mit einem Komma, aber im "
+"englischen Sprachraum heißen sie *Floating Point* - oder kurz: *Float* - und "
+"man schreibt sie mit einem Punkt.) Einige Beispiele für Gleitkommazahlen, "
+"die der wiederholte Aufruf von `rrand(20, 110)` ausgeben könnte:"
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
-msgstr ""
+msgstr "rrand_i"
 
 #: 04-Randomisation.md:150
-#, fuzzy
 msgid ""
 "Occasionally you'll want a whole random number, not a float. This is where `rr"
 "and_i` comes to the rescue. It works similarly to `rrand` except it may return"
@@ -3790,30 +3768,30 @@ msgid ""
 " rather than exclusive of the range). Examples of numbers returned by `rrand_i"
 "(20, 110)` are:"
 msgstr ""
-"Manchmal braucht man eine zufällige, aber ganze Zahl, eben keine Gleitkommazah"
-"l. Hier rettet einen `rrand_i`. (Das \"i\" steht hier für das englische Wort *In"
-"teger*, also ganze Zahl.) Es funktioniert ähnlich `rrand`, kann jedoch auch de"
-"n minimalen oder maximalen Wert, den man übergeben hat, als mögliche Zufallsza"
-"hl auswählen (man kann auch sagen: es ist *inklusiv*, also nicht exklusive der"
-" Werte, mit denen man den Bereich für die Auswahl festgelegt hat). `rrand_i(20"
-",  110)` könnte zum Beispiel die folgenden Werte ausgeben:"
+"Manchmal braucht man eine zufällige, aber ganze Zahl, eben keine "
+"Gleitkommazahl. Hier rettet einen `rrand_i`. (Das \"i\" steht hier für das "
+"englische Wort *Integer*, also ganze Zahl.) Es funktioniert ähnlich `rrand`, "
+"kann jedoch auch den minimalen oder maximalen Wert, den man übergeben hat, "
+"als mögliche Zufallszahl auswählen (man kann auch sagen: es ist *inklusiv*, "
+"also nicht exklusive der Werte, mit denen man den Bereich für die Auswahl "
+"festgelegt hat). `rrand_i(20,  110)` könnte zum Beispiel die folgenden Werte "
+"ausgeben:"
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
-#, fuzzy
 msgid ""
 "This will return a random float between 0 (inclusive) and the max value you sp"
 "ecify (exclusive). By default it will return a value between 0 and one. It's t"
 "herefore useful for choosing random `amp:` values:"
 msgstr ""
-"`rand` gibt eine zufällige Gleitkommazahl zwischen 0 (inklusiv) und einem über"
-"gebenen Maximalwert (exklusiv) zurück. Standardmäßig - wenn also kein Maximalw"
-"ert angegeben wird - wird ein Wert zwischen 0 und 1 geliefert. Deshalb kann ma"
-"n `rand` gut dafür gebrauchen, zufällige Werte für `amp:` (also die Lautstärke"
-") auszuwählen."
+"`rand` gibt eine zufällige Gleitkommazahl zwischen 0 (inklusiv) und einem "
+"übergebenen Maximalwert (exklusiv) zurück. Standardmäßig - wenn also kein "
+"Maximalwert angegeben wird - wird ein Wert zwischen 0 und 1 geliefert. "
+"Deshalb kann man `rand` gut dafür gebrauchen, zufällige Werte für `amp:` ("
+"also die Lautstärke) auszuwählen:"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -3830,23 +3808,21 @@ msgstr ""
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
-#, fuzzy
 msgid ""
 "Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will retur"
 "n a random whole number between 0 and the max value you specify."
 msgstr ""
-"Ähnlich wie bei `rrand_i` und `rrand`, wählt `rand_i` eine zufällige ganze Zah"
-"l zwischen 0 und einem angegebenen Maximalwert aus."
+"Ähnlich wie bei `rrand_i` und `rrand`, wählt `rand_i` eine zufällige ganze "
+"Zahl zwischen 0 und dem angegebenen Maximalwert aus."
 
 #: 04-Randomisation.md:179
 msgid "dice"
-msgstr ""
+msgstr "dice"
 
 #: 04-Randomisation.md:181
-#, fuzzy
 msgid ""
 "Sometimes you want to emulate a dice throw - this is a special case of `rrand_"
 "i` where the lower value is always 1. A call to `dice` requires you to specify"
@@ -3855,20 +3831,19 @@ msgid ""
 "r, just like fantasy role-play games, you might find value in a 4 sided dice, "
 "or a 12 sided dice, or a 20 sided dice - perhaps even a 120 sided dice!"
 msgstr ""
-"Manchmal möchte man so tun, als würde man würfeln (engl. *to dice*) - das ist "
-"ein Sonderfall von `rrand_i`, wobei der kleinste Wert immer die 1 ist. Wenn ma"
-"n `dice` verwendet, muss man dabei immer bestimmen, wie viele Seiten der Würfe"
-"l hat. Ein normaler Würfel hat 6 Seiten, also wird `dice(6)` entsprechend funk"
-"tionieren und den Wert 1, 2, 3, 4, 5 oder 6 zurückgeben. Aber - angenommen wir"
-" befänden uns in einen Fantasy-Rollenspiel - ist es Dir vielleicht lieber, wen"
-"n der Würfel 4 oder 12, 20 oder sogar 120 Seiten hat!?"
+"Manchmal möchte man so tun, als würde man würfeln (engl. *to dice*) - das "
+"ist ein Sonderfall von `rrand_i`, wobei der kleinste Wert immer die 1 ist. "
+"Wenn man `dice` verwendet, muss man dabei immer bestimmen, wie viele Seiten "
+"der Würfel hat. Ein normaler Würfel hat 6 Seiten, also wird `dice(6)` "
+"entsprechend funktionieren und den Wert 1, 2, 3, 4, 5 oder 6 zurückgeben. "
+"Aber - angenommen wir befänden uns in einen Fantasy-Rollenspiel - ist es Dir "
+"vielleicht lieber, wenn der Würfel 4 oder 12, 20 oder sogar 120 Seiten hat!?"
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
-#, fuzzy
 msgid ""
 "Finally you may wish to emulate throwing the top score of a dice such as a 6 i"
 "n a standard dice. `one_in` therefore returns true with a probability of one i"
@@ -3877,68 +3852,62 @@ msgid ""
 "eful for `if` statements which we will cover in a subsequent section of this t"
 "utorial."
 msgstr ""
-"Schließlich könnte es sein, das Du so tun willst, als ob Du beim Würfeln eine "
-"6 hast - also den höchten Wert erreichst. `one_in` gibt - mit einer Wahrschein"
-"lichkeit 1 im Verhältnis zur Menge der Würfelseiten - den Wert *wahr* (engl. *"
-"true*) zurück, falls die höchste Zahl gewürfelt wurde. `one_in(6)` wird also m"
-"it einer Wahrscheinlichkeit von 1 zu 6 wahr, ansonsten *falsch* (engl. *false*"
-"). Wahr- und Falsch-Werte sind sehr nützlich, wenn es um `if`-Anweisungen geht"
-", die wir in einem folgenden Kapitel dieses Tutorials besprechen."
+"Schließlich könnte es sein, dass Du so tun willst, als ob Du beim Würfeln "
+"eine 6 hast - also den höchten Wert erreichst. `one_in` gibt - mit einer "
+"Wahrscheinlichkeit 1 im Verhältnis zur Menge der Würfelseiten - den Wert "
+"*wahr* (engl. *true*) zurück, falls die höchste Zahl gewürfelt wurde. "
+"`one_in(6)` wird also mit einer Wahrscheinlichkeit von 1 zu 6 wahr, "
+"ansonsten *falsch* (engl. *false*). Wahr- und Falsch-Werte sind sehr "
+"nützlich, wenn es um `if`-Anweisungen geht, die wir in einem späteren "
+"Kapitel dieses Tutorials besprechen."
 
 #: 04-Randomisation.md:198
-#, fuzzy
 msgid "Now, go and jumble up your code with some randomness!"
 msgstr "Jetzt los, bring Deinen Code mit ein paar Zufälligkeiten durcheinander!"
 
 #: 05-Programming-Structures.md:1
-#, fuzzy
 msgid "5 Programming Structures"
 msgstr "5 Programmstrukturen"
 
 #: 05-Programming-Structures.md:3
-#, fuzzy
 msgid "Programming Structures"
 msgstr "Programmstrukturen"
 
 #: 05-Programming-Structures.md:5
-#, fuzzy
 msgid ""
 "Now that you've learned the basics of creating sounds with `play` and `sample`"
 " and creating simple melodies and rhythms by `sleep`ing between sounds, you mi"
 "ght be wondering what else the world of code can offer you..."
 msgstr ""
-"Jetzt kennst Du schon die wichtigsten Grundlagen. Du weißt, wie man Klänge mit"
-" `play` und `sample` erzeugt, und kannst einfache Melodien und Rhythmen bauen,"
-" indem Du `sleep` zwischen die Klänge setzt. Du fragst Dich nun vielleicht, wa"
-"s Dir die Welt des Codes noch alles zu bieten hat..."
+"Jetzt kennst Du schon die wichtigsten Grundlagen. Du weißt, wie man Klänge "
+"mit `play` und `sample` erzeugt, und kannst einfache Melodien und Rhythmen "
+"bauen, indem Du `sleep` zwischen die Klänge setzt. Du fragst Dich nun "
+"vielleicht, was Dir die Welt des Codes noch alles zu bieten hat..."
 
 #: 05-Programming-Structures.md:10
-#, fuzzy
 msgid ""
 "Well, you're in for an exciting treat! It turns out that basic programming str"
 "uctures such as looping, conditionals, functions and threads give you amazingl"
 "y powerful tools to express your musical ideas."
 msgstr ""
-"Ich denke, da kommen noch einige tolle Sachen auf Dich zu! Du wirst sehen, das"
-"s grundlegende Programmstrukturen wie Schleifen, Bedingungen, Funktionen und T"
-"hreads großartige Werkzeuge sind, wenn Du Deine musikalischen Ideen ausdrücken"
-" willst."
+"Ich denke, da kommen noch einige tolle Sachen auf Dich zu! Du wirst sehen, "
+"dass grundlegende Programmstrukturen wie Schleifen, Bedingungen, Funktionen "
+"und Threads großartige Werkzeuge sind, wenn Du Deine musikalischen Ideen "
+"ausdrücken willst."
 
 #: 05-Programming-Structures.md:14
-#, fuzzy
 msgid "Let's get stuck in with the basics..."
 msgstr "Sehen wir uns also die Grundlagen an..."
 
 #: 05.1-Blocks.md:1
 msgid "5.1 Blocks"
-msgstr ""
+msgstr "5.1 Blocks"
 
 #: 05.1-Blocks.md:3
 msgid "Blocks"
-msgstr ""
+msgstr "Blocks"
 
 #: 05.1-Blocks.md:5
-#, fuzzy
 msgid ""
 "A structure you'll see a lot in Sonic Pi is the block. Blocks allow us to do u"
 "seful things with large chunks of code. For example, with synth and sample par"
@@ -3947,13 +3916,13 @@ msgid ""
 " For example, we may wish to loop it, to add reverb to it, to only run it 1 ti"
 "me out of 5, etc. Consider the following code:"
 msgstr ""
-"Eine Struktur, die man häufig in Sonic Pi sieht, ist der Block. Blocks erlaube"
-"n uns, nützliche Dinge mit größeren Codeabschnitten zu tun. Mit Synth- oder Sa"
-"mple-Parametern konnten wir etwas ändern, was in einer Codezeile geschah. Manc"
-"hmal aber möchten wir etwas mit einer ganzen Reihe von Codezeilen anstellen. Z"
-"um Beispiel möchten wir diese in einer Schleife ablaufen lassen, Hall hinzufüg"
-"en, bei vorgegebenen Wiederholungen nur eine von fünf ablaufen lassen etc. Sch"
-"au Dir den folgenden Code an:"
+"Eine Struktur, die man häufig in Sonic Pi sieht, ist der Block. Blocks "
+"erlauben uns, nützliche Dinge mit größeren Codeabschnitten zu tun. Mit Synth-"
+" oder Sample-Parametern konnten wir etwas ändern, was in einer Codezeile "
+"geschah. Manchmal aber möchten wir etwas mit einer ganzen Reihe von "
+"Codezeilen anstellen. Zum Beispiel möchten wir diese in einer Schleife "
+"ablaufen lassen, Hall hinzufügen, bei vorgegebenen Wiederholungen nur eine "
+"von fünf ablaufen lassen etc. Schau Dir den folgenden Code an:"
 
 #: 05.1-Blocks.md:13
 #, no-wrap
@@ -3971,15 +3940,14 @@ msgstr ""
 "play 62"
 
 #: 05.1-Blocks.md:21
-#, fuzzy
 msgid ""
 "To do something with a chunk of code, we need to tell Sonic Pi where the code "
 "block *starts* and where it *ends*. We use `do` for start and `end` for end. F"
 "or example:"
 msgstr ""
-"Um etwas mit einem mehrzeiligen Codestück zu tun, müssen wir Sonic Pi sagen, w"
-"o der Code-Block *anfängt*, und wo er *aufhört*. Dazu verwenden wir `do` für d"
-"en Anfang und `end` für das Ende. So zum Beispiel:"
+"Um etwas mit einem mehrzeiligen Codestück zu tun, müssen wir Sonic Pi sagen, "
+"wo der Code-Block *anfängt*, und wo er *aufhört*. Dazu verwenden wir `do` "
+"für den Anfang und `end` für das Ende. So zum Beispiel:"
 
 #: 05.1-Blocks.md:25
 #, no-wrap
@@ -4001,7 +3969,6 @@ msgstr ""
 "end"
 
 #: 05.1-Blocks.md:35
-#, fuzzy
 msgid ""
 "However, this isn't yet complete and won't work (try it and you'll get an erro"
 "r) as we haven't told Sonic Pi what we want to do with this *do/end block*. We"
@@ -4010,37 +3977,33 @@ msgid ""
 "s important to know that wrapping your code within `do` and `end` tells Sonic "
 "Pi you wish to do something special with that chunk of code."
 msgstr ""
-"Das ist aber noch nicht alles und wird so nicht funktionieren (versuche es und"
-" Du wirst einen Fehler erhalten), weil wir Sonic Pi noch nicht gesagt haben, w"
-"as wir mit diesem *do/end-Block* machen wollen. Dafür setzen wir noch einen sp"
-"eziellen Ausdruck vor das `do`. Solche Ausdrücke werden wir in diesem Tutorial"
-" gleich kennenlernen. Zunächst einmal ist wichtig, dass wir mehrere Codezeilen"
-" mit `do` und `end` zusammenfassen und Sonic Pi sagen können, dass wir mit die"
-"sem Codestück etwas Bestimmtes machen wollen."
+"Das ist aber noch nicht alles und wird so nicht funktionieren (versuche es "
+"und Du wirst einen Fehler erhalten), weil wir Sonic Pi noch nicht gesagt "
+"haben, was wir mit diesem *do/end-Block* machen wollen. Dafür setzen wir "
+"noch einen speziellen Ausdruck vor das `do`. Solche Ausdrücke werden wir in "
+"diesem Tutorial gleich kennenlernen. Zunächst einmal ist wichtig, dass wir "
+"mehrere Codezeilen mit `do` und `end` zusammenfassen und Sonic Pi sagen "
+"können, dass wir mit diesem Codestück etwas Bestimmtes machen wollen."
 
 #: 05.2-Iteration-and-Loops.md:1
-#, fuzzy
 msgid "5.2 Iteration and Loops"
 msgstr "5.2 Iteration und Schleifen"
 
 #: 05.2-Iteration-and-Loops.md:3
-#, fuzzy
 msgid "Iteration and Loops"
 msgstr "Iteration und Schleifen"
 
 #: 05.2-Iteration-and-Loops.md:5
-#, fuzzy
 msgid ""
 "So far we've spent a lot of time looking at the different sounds you can make "
 "with `play` and `sample` blocks. We've also learned how to trigger these sound"
 "s through time using `sleep`."
 msgstr ""
-"Bislang haben wir einige Zeit damit verbracht, uns unterschiedliche Klänge anz"
-"usehen, die Du mit `play` und `sample` erzeugen kannst. Wir haben auch gelernt"
-", wie Du den Ablauf dieser Klänge mit `sleep` steuern kannst."
+"Bislang haben wir einige Zeit damit verbracht, uns unterschiedliche Klänge "
+"anzusehen, die Du mit `play` und `sample` erzeugen kannst. Wir haben auch "
+"gelernt, wie Du den Ablauf dieser Klänge mit `sleep` steuern kannst."
 
 #: 05.2-Iteration-and-Loops.md:9
-#, fuzzy
 msgid ""
 "As you've probably found out, there's a *lot* of fun you can have with these b"
 "asic building blocks. However, a whole new dimension of fun opens up when you "
@@ -4048,26 +4011,24 @@ msgid ""
 " next few sections we'll explore some of these powerful new tools. First up is"
 " iteration and loops."
 msgstr ""
-"Wahrscheinlich hast Du entdeckt, dass man mit diesen Grundbausteinen schon *vi"
-"eles* bauen kann. Eine ganz neue Dimension eröffnet sich jedoch, wenn wir begi"
-"nnen, die Musik und die Kompositionen über den Code weitergehend zu strukturie"
-"ren. In den nächsten Abschnitten schauen wir einige wirkungsvolle neue Werkzeu"
-"ge dafür an. Als erstes kommen die Iteration und die Schleife (engl. *Loop*) d"
-"ran."
+"Du hast ja schon entdeckt, dass man mit diesen Grundbausteinen schon *vieles*"
+" bauen kann. Eine ganz neue Dimension eröffnet sich jedoch, wenn wir "
+"beginnen, die Musik und die Kompositionen über den Code weitergehend zu "
+"strukturieren. In den nächsten Abschnitten schauen wir einige wirkungsvolle "
+"neue Werkzeuge dafür an. Als erstes kommen die Iteration und die Schleife ("
+"engl. *Loop*) dran."
 
 #: 05.2-Iteration-and-Loops.md:15
-#, fuzzy
 msgid "Repetition"
 msgstr "Wiederholung"
 
 #: 05.2-Iteration-and-Loops.md:17
-#, fuzzy
 msgid ""
 "Have you written some code you'd like to repeat a few times? For example, you "
 "might have something like this:"
 msgstr ""
-"Möchtest Du Code, den Du geschrieben hast, einige Male wiederholen? Zum Beispi"
-"el hast Du vielleicht ungefähr so etwas:"
+"Möchtest Du Code, den Du geschrieben hast, einige Male wiederholen? "
+"Vielleicht hast Du z.B. ungefähr so etwas:"
 
 #: 05.2-Iteration-and-Loops.md:20
 #, no-wrap
@@ -4087,13 +4048,12 @@ msgstr ""
 "sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:29
-#, fuzzy
 msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple a"
 "nd just copy and paste it three times:"
 msgstr ""
-"Was, wenn Du das drei Mal wiederholen wolltest? Naja, die Lösung ist einfach! "
-"Du kannst den Code kopieren und drei Mal hintereinander einfügen:"
+"Was, wenn Du das drei Mal wiederholen wolltest? Naja, die Lösung ist "
+"einfach! Du kannst den Code kopieren und drei Mal hintereinander einfügen:"
 
 #: 05.2-Iteration-and-Loops.md:32
 #, no-wrap
@@ -4137,7 +4097,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:55
-#, fuzzy
 msgid ""
 "Now that's a lot of code! What happens if you want to change the sample to `:e"
 "lec_plip`? You're going to have to find all the places with the original `:ele"
@@ -4145,18 +4104,17 @@ msgid ""
 "he original piece of code 50 times or 1000? Now that would be a lot of code, a"
 "nd a lot of lines of code to alter if you wanted to make a change."
 msgstr ""
-"Das ist natürlich eine Menge Code! Was wäre, wenn Du das Sample in `:elec_plip"
-"` umändern wolltest? Du müsstest alle Stellen mit `:elec_blub` finden und ände"
-"rn. Und weiter: Was, wenn Du das ursprüngliche Codestück 50 oder 1000 Mal wied"
-"erholen wolltest? Das wäre noch mehr Code, und Du müsstest eine Menge Zeilen b"
-"earbeiten, wenn Du etwas ändern wolltest."
+"Das ist natürlich eine Menge Code! Was wäre, wenn Du das Sample in "
+"`:elec_plip` umändern wolltest? Du müsstest alle Stellen mit `:elec_blub` "
+"finden und ändern. Und weiter: Was, wenn Du das ursprüngliche Codestück 50 "
+"oder 1000 Mal wiederholen wolltest? Das wäre noch mehr Code, und Du müsstest "
+"eine Menge Zeilen bearbeiten, wenn Du etwas ändern wolltest."
 
 #: 05.2-Iteration-and-Loops.md:62
 msgid "Iteration"
-msgstr ""
+msgstr "Iteration"
 
 #: 05.2-Iteration-and-Loops.md:64
-#, fuzzy
 msgid ""
 "In fact, repeating the code should be as easy as saying *do this three times*."
 " Well, it pretty much is. Remember our old friend the code block? We can use i"
@@ -4165,13 +4123,13 @@ msgid ""
 "*, we write `3.times do` - that's not too hard. Just remember to write `end` a"
 "t the end of the code you'd like to repeat:"
 msgstr ""
-"Wenn man Code wiederholt ablaufen lassen wollte, müsste man eigentlich nur sag"
-"en: *Mach das drei Mal*. Und so ist es auch in etwa. Erinnerst Du Dich an unse"
-"ren Freund, den Code-Block? Wir können damit den Anfang und das Ende des Codes"
-" markieren, den wir drei Mal wiederholen wollen. Dann benutzen wir den speziel"
-"len Ausdruck `3.times`. Wir schreiben zwar nicht *mach das drei Mal*, wir schr"
-"eiben `3.times do` - also nicht besonders schwierig. Denk aber daran, ans Ende"
-" des zu wiederholenden Code-Blocks gehört ein `end`."
+"Wenn man Code wiederholt ablaufen lassen wollte, müsste man eigentlich nur "
+"sagen: *Mach das drei Mal*. Und so ist es auch in etwa. Erinnerst Du Dich an "
+"unseren Freund, den Code-Block? Wir können damit den Anfang und das Ende des "
+"Codes markieren, den wir drei Mal wiederholen wollen. Dann benutzen wir den "
+"speziellen Ausdruck `3.times`. Wir schreiben zwar nicht *mach das drei Mal*, "
+"wir schreiben `3.times do` - also nicht besonders schwierig. Denk aber "
+"daran, ans Ende des zu wiederholenden Code-Blocks gehört ein `end`:"
 
 #: 05.2-Iteration-and-Loops.md:72
 #, no-wrap
@@ -4195,13 +4153,12 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:83
-#, fuzzy
 msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to create"
 " lots of nice repeating structures:"
 msgstr ""
-"Na, ist das nicht viel eleganter als kopieren und einfügen? Wir können das gut"
-" gebrauchen, um eine Menge sich wiederholender Strukturen zu erzeugen."
+"Na, ist das nicht viel eleganter als kopieren und einfügen? Wir können bei "
+"vielen sich wiederholenden Strukturen gut gebrauchen:"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -4233,18 +4190,16 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:103
-#, fuzzy
 msgid "Nesting Iterations"
 msgstr "Verschachtelte Iterationen"
 
 #: 05.2-Iteration-and-Loops.md:105
-#, fuzzy
 msgid ""
 "We can put iterations inside other iterations to create interesting patterns. "
 "For example:"
 msgstr ""
-"Wir können Iterationen in andere Iterationen hinein packen, um damit interessa"
-"nte Muster zu erzeugen. Zum Beispiel:"
+"Wenn wir Iterationen in andere Iterationen hinein packen, entstehen "
+"interessante Muster. Zum Beispiel:"
 
 #: 05.2-Iteration-and-Loops.md:108
 #, no-wrap
@@ -4276,23 +4231,21 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:123
-#, fuzzy
 msgid "Looping"
 msgstr "Schleifen"
 
 #: 05.2-Iteration-and-Loops.md:125
-#, fuzzy
 msgid ""
 "If you want something to repeat a lot of times, you might find yourself using "
 "really large numbers such as `1000.times do`. In this case, you're probably be"
 "tter off asking Sonic Pi to repeat forever (at least until you press the stop "
 "button!). Let's loop the amen break forever:"
 msgstr ""
-"Wenn Du etwas sehr oft wiederholen möchtest, könnte es sein, dass Du mit sehr "
-"hohen Zahlen arbeiten musst, wie zum Beispiel `1000.times do`. In einem solche"
-"n Fall macht es mehr Sinn, Sonic Pi dazu zu bringen, den Code in einer Endlos-"
-"Schleife zu wiederholen (zumindest, bis Du den Stopp-Button klickst!). Wiederh"
-"olen wir den Amen Break unendlich oft:"
+"Wenn Du etwas sehr oft wiederholen möchtest, könnte es sein, dass Du mit "
+"sehr hohen Zahlen arbeiten musst, wie zum Beispiel `1000.times do`. In einem "
+"solchen Fall macht es mehr Sinn, Sonic Pi dazu zu bringen, den Code in einer "
+"Endlos-Schleife zu wiederholen (zumindest, bis Du den Stopp-Button klickst!)"
+". Wiederholen wir den Amen-Break unendlich oft:"
 
 #: 05.2-Iteration-and-Loops.md:130
 #, no-wrap
@@ -4308,7 +4261,6 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:137
-#, fuzzy
 msgid ""
 "The important thing to know about loops is that they act like black holes for "
 "code. Once the code enters a loop it can never leave until you press stop - it"
@@ -4316,12 +4268,12 @@ msgid ""
 "ter the loop you will *never* hear it. For example, the cymbal after this loop"
 " will never play:"
 msgstr ""
-"Eine wichtige Sache bei Endlos-Schleifen ist, dass sie für den Code wie schwar"
-"ze Löcher sind. Wenn der Code einmal in einer Endlos-Schleife läuft, kann er d"
-"iese nicht mehr verlassen, bis Du auf Stopp klickst - ansonsten wird er für im"
-"mer weiterlaufen. Das bedeutet, wenn hinter Deiner Endlos-Schleife noch weiter"
-"er Code steht, wirst Du diesen *nie* hören. Zum Beispiel wird das Becken hinte"
-"r dieser Schleife nie spielen:"
+"Eine wichtige Sache bei Endlos-Schleifen ist, dass sie für den Code wie "
+"schwarze Löcher sind. Wenn der Code einmal in einer Endlos-Schleife läuft, "
+"kann er sie nicht mehr verlassen, bis Du auf Stopp klickst - ansonsten wird "
+"er für immer weiterlaufen. Das bedeutet, wenn hinter Deiner Endlos-Schleife "
+"noch weiterer Code steht, wirst Du diesen *nie* hören. Zum Beispiel wird das "
+"Becken hinter dieser Schleife nie spielen:"
 
 #: 05.2-Iteration-and-Loops.md:143
 #, no-wrap
@@ -4339,22 +4291,19 @@ msgstr ""
 "sample :drum_cymbal_open"
 
 #: 05.2-Iteration-and-Loops.md:152
-#, fuzzy
 msgid "Now, get structuring your code with iteration and loops!"
-msgstr "Jetzt fang an und strukturiere Deinen Code mit Wiederholungen und Schleifen!"
+msgstr ""
+"Jetzt fang an und strukturiere Deinen Code mit Wiederholungen und Schleifen!"
 
 #: 05.3-Conditionals.md:1
-#, fuzzy
 msgid "5.3 Conditionals"
 msgstr "5.3 Bedingungen"
 
 #: 05.3-Conditionals.md:3
-#, fuzzy
 msgid "Conditionals"
 msgstr "Bedingungen"
 
 #: 05.3-Conditionals.md:5
-#, fuzzy
 msgid ""
 "A common thing you'll likely find yourself wanting to do is to not only play a"
 " random note (see the previous section on randomness) but also make a random d"
@@ -4362,20 +4311,18 @@ msgid ""
 ", you might want to randomly play a drum or a cymbal. We can achieve this with"
 " an `if` statement."
 msgstr ""
-"Wahrscheinlich willst Du häufig nicht nur einen einen zufälligen Ton abspielen"
-" (siehe das Kapitel über Zufallszahlen), sondern auch eine zufällige Entscheid"
-"ung treffen: je nachdem wie diese ausfällt, möchtest Du dann den einen oder an"
-"deren Code ausführen. Zum Beispiel könnte es sein, dass Du zufällig entweder e"
-"ine Trommel oder ein Becken anschlagen möchtest. Das können wir mit einem `if`"
-"-Ausdruck erreichen."
+"Wahrscheinlich willst Du häufig nicht nur einen einen zufälligen Ton "
+"abspielen (siehe das Kapitel über Zufallszahlen), sondern auch eine "
+"zufällige Entscheidung treffen: je nachdem wie diese ausfällt, möchtest Du "
+"dann den einen oder anderen Code ausführen. Zum Beispiel könnte es sein, "
+"dass Du zufällig entweder eine Trommel oder ein Becken anschlagen möchtest. "
+"Das können wir mit einem `if`-Ausdruck erreichen."
 
 #: 05.3-Conditionals.md:11
-#, fuzzy
 msgid "Flipping a Coin"
 msgstr "Wirf eine Münze"
 
 #: 05.3-Conditionals.md:13
-#, fuzzy
 msgid ""
 "So, let's flip a coin: if it's heads, play a drum, if it's tails, play a cymba"
 "l. Easy. We can emulate a coin flip with our `one_in` function (introduced in "
@@ -4383,12 +4330,12 @@ msgid ""
 " can then use the result of this to decide between two pieces of code, the cod"
 "e to play the drum and the code to play the cymbal:"
 msgstr ""
-"Werfen wir also ein Münze: bei Kopf, spiele eine Trommel, bei Zahl, ein Becken"
-". Das ist leicht. Wir können den Münzwurf mit unserer `one_in`-Funktion nachbi"
-"lden (eingeführt im Kapitel über Randomisierung), indem wir eine Wahrscheinlic"
-"hkeit von 1 aus 2 angeben: `one_in(2)`. Das Ergebnis dieser Berechnung benutze"
-"n wir, um zwischen zwei Codestücken auszuwählen, entweder den Code für die Tro"
-"mmel oder für das Becken:"
+"Werfen wir also ein Münze: bei Kopf, spiele eine Trommel, bei Zahl, ein "
+"Becken. Das ist leicht. Wir können den Münzwurf mit der `one_in`-Funktion "
+"nachbilden (eingeführt im Kapitel über Randomisierung), indem wir eine "
+"Wahrscheinlichkeit von 1 aus 2 angeben: `one_in(2)`. Das Ergebnis dieser "
+"Berechnung benutzen wir, um zwischen zwei Codestücken auszuwählen, entweder "
+"den Code für die Trommel oder den für das Becken:"
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
@@ -4416,52 +4363,46 @@ msgstr ""
 "end"
 
 #: 05.3-Conditionals.md:34
-#, fuzzy
 msgid "Notice that `if` statements have three parts:"
 msgstr "Denke daran, dass `if`-Anweisungen drei Teile haben:"
 
 #: 05.3-Conditionals.md:36
-#, fuzzy
 msgid "The question to ask"
-msgstr "die Frage, die gestellt wird,"
+msgstr "Die Frage, die gestellt wird,"
 
 #: 05.3-Conditionals.md:37
-#, fuzzy
 msgid "The first choice of code to run (if the answer to the question is yes)"
 msgstr ""
-"die erste Wahl des Codes, der ablaufen soll (wenn die Antwort auf die Frage ei"
-"n Ja ist),"
+"die erste Wahl des Codes, der ablaufen soll (wenn die Antwort auf die Frage "
+"ein Ja ist),"
 
 #: 05.3-Conditionals.md:38
-#, fuzzy
 msgid "The second choice of code to run (if the answer to the question is no)"
 msgstr ""
-"die zweite Wahl des Codes, der ablaufen soll (wenn die Antwort auf die Frage e"
-"in Nein ist)."
+"die zweite Wahl des Codes, der ablaufen soll (wenn die Antwort auf die Frage "
+"ein Nein ist)."
 
 #: 05.3-Conditionals.md:40
-#, fuzzy
 msgid ""
 "Typically in programming languages, the notion of yes is represented by the te"
 "rm `true` and the notion of no is represented by the term `false`. So we need "
 "to find a question that will give us a `true` or `false` answer which is exact"
 "ly what `one_in` does."
 msgstr ""
-"Für Programmiersprachen typisch steht für das Ja der Ausdruck `true` (wahr) un"
-"d für das Nein der Ausdruck `false` (falsch). Also müssen wir eine Frage finde"
-"n, die uns eine Antwort gibt, die entweder wahr oder falsch ist; genau das erl"
-"edigt im Beispiel `one_in`."
+"Für Programmiersprachen typisch steht für das Ja der Ausdruck `true` (wahr) "
+"und für das Nein der Ausdruck `false` (falsch). Also müssen wir eine Frage "
+"finden, die uns eine Antwort gibt, die entweder wahr oder falsch ist; genau "
+"das erledigt hier im Beispiel `one_in`."
 
 #: 05.3-Conditionals.md:45
-#, fuzzy
 msgid ""
 "Notice how the first choice is wrapped between the `if` and the `else` and the"
 " second choice is wrapped between the `else` and the `end`. Just like do/end b"
 "locks you can put multiple lines of code in either place. For example:"
 msgstr ""
-"Beachte, dass die erste Wahl zwischen `if` und `else` und die zweite Wahl zwis"
-"chen `else` und `end` eingeschlossen wird. So wie bei den do/end-Blöcken kanns"
-"t Du beliebig viele Codezeilen an beide Stellen schreiben. Zum Beispiel:"
+"Beachte, dass die erste Wahl zwischen `if` und `else` und die zweite Wahl "
+"zwischen `else` und `end` eingeschlossen wird. So wie bei den do/end-Blöcken "
+"kannst Du beliebig viele Codezeilen an beide Stellen schreiben. Zum Beispiel:"
 
 #: 05.3-Conditionals.md:50
 #, no-wrap
@@ -4489,27 +4430,24 @@ msgstr ""
 "end"
 
 #: 05.3-Conditionals.md:64
-#, fuzzy
 msgid ""
 "This time we're sleeping for a different amount of time depending on which cho"
 "ice we make."
 msgstr ""
-"Dieses Mal schläft der Klang unterschiedlich lange, je nachdem, welche Auswahl"
-" getroffen wird."
+"Dieses Mal schläft der Code unterschiedlich lange, je nachdem, welche "
+"Auswahl getroffen wird."
 
 #: 05.3-Conditionals.md:68
-#, fuzzy
 msgid "Simple if"
 msgstr "Einfaches if"
 
 #: 05.3-Conditionals.md:70
-#, fuzzy
 msgid ""
 "Sometimes you want to optionally execute just one line of code. This is possib"
 "le by placing `if` and then the question at the end. For example:"
 msgstr ""
-"Manchmal möchtest Du wahlweise nur eine Codezeile ausführen. Dafür hängst Du e"
-"in `if` und die Frage an das Ende der Codezeile, zum Beispiel:"
+"Manchmal möchtest Du wahlweise nur eine Codezeile ausführen. Dafür hängst Du "
+"ein `if` und die Frage an das Ende der Codezeile, zum Beispiel:"
 
 #: 05.3-Conditionals.md:73
 #, no-wrap
@@ -4533,61 +4471,54 @@ msgstr ""
 "end"
 
 #: 05.3-Conditionals.md:85
-#, fuzzy
 msgid ""
 "This will play chords of different numbers with the chance of each note playin"
 "g having a different probability."
 msgstr ""
-"Dieses Beispiel setzt einen Akkord aus verschiedenen Noten zusammen, wobei die"
-" Chance, dass bestimmte Noten gespielt werden, eine unterschiedliche Wahrschei"
-"nlichkeit hat."
+"Dieses Beispiel setzt einen Akkord aus verschiedenen Noten zusammen, wobei "
+"die einzelnen Noten jeweils eine unterschiedliche Wahrscheinlichkeit haben."
 
 #: 05.4-Threads.md:1
 msgid "5.4 Threads"
-msgstr ""
+msgstr "5.4 Threads"
 
 #: 05.4-Threads.md:3
-#, fuzzy
 msgid "Threads"
-msgstr "Threads[^16]"
+msgstr "Threads"
 
 #: 05.4-Threads.md:5
-#, fuzzy
 msgid ""
 "So you've made your killer bassline and a phat beat. How do you play them at t"
 "he same time? One solution is to weave them together manually - play some bass"
 ", then a bit of drums, then more bass... However, the timing soon gets hard to"
 " think about, especially when you start weaving in more elements."
 msgstr ""
-"Mal angenommen, Du hast eine Killer-Basslinie und einen krassen Beat gebaut. W"
-"ie kannst Du beides zur selben Zeit spielen lassen? Eine Möglichkeit ist es, b"
-"eide Sounds per Hand ineinander zu weben - erst spielt der Bass ein bisschen, "
-"dann das Schlagzeug, dann der Bass etwas mehr... Beides aufeinander zeitlich a"
-"bzustimmen wird jedoch immer schwieriger, vor allem, wenn noch mehr Sounds daz"
-"ukommen sollen."
+"Mal angenommen, Du hast eine Killer-Basslinie und einen krassen Beat gebaut. "
+"Wie kannst Du beides zur selben Zeit spielen lassen? Eine Möglichkeit ist "
+"es, beide Sounds per Hand ineinander zu weben - erst spielt der Bass ein "
+"bisschen, dann das Schlagzeug, dann der Bass etwas mehr... Beides "
+"aufeinander zeitlich abzustimmen wird jedoch immer schwieriger, vor allem, "
+"wenn noch mehr Sounds dazukommen sollen."
 
 #: 05.4-Threads.md:11
-#, fuzzy
 msgid ""
 "What if Sonic Pi could weave things for you automatically? Well, it can, and y"
 "ou do it with a special thing called a *thread*."
 msgstr ""
-"Was, wenn Sonic Pi Sounds automatisch für Dich ineinanderflechten könnte? Kann"
-" es auch, und zwar mit einem besonderen Ding, welches *Thread* heisst."
+"Was, wenn Sonic Pi Sounds automatisch für Dich ineinander flechten könnte? "
+"Kann es auch, und zwar mit einem besonderen Ding, welches *Thread* heißt."
 
 #: 05.4-Threads.md:14
-#, fuzzy
 msgid "Infinite Loops"
 msgstr "Unendliche Schleifen"
 
 #: 05.4-Threads.md:16
-#, fuzzy
 msgid ""
 "To keep this example simple, you'll have to imagine that this is a phat beat a"
 "nd a killer bassline:"
 msgstr ""
-"Damit das nächste Beispiel nicht zu kompliziert wird, musst Du Dir einfach vor"
-"stellen, dass dies Deine Killer-Basslinie und Dein krasser Beat sind."
+"Damit das nächste Beispiel nicht zu kompliziert wird, musst Du Dir einfach "
+"vorstellen, dass dies Deine Killer-Basslinie und Dein krasser Beat sind:"
 
 #: 05.4-Threads.md:19
 #, no-wrap
@@ -4613,7 +4544,6 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:32
-#, fuzzy
 msgid ""
 "As we've discussed previously, loops are like *black holes* for the program. O"
 "nce you enter a loop you can never exit from it until you hit stop. How do we "
@@ -4621,15 +4551,14 @@ msgid ""
 "rt something at the same time as the rest of the code. This is where threads c"
 "ome to the rescue."
 msgstr ""
-"Wir haben das früher schon besprochen, Endlos-Schleifen sind wie *schwarze Löc"
-"her* für ein Programm; läuft es einmal in die Schleife kommt es da nicht mehr "
-"raus, bis Du den `Stopp`-Button klickst. Wie also können wir beide Schleifen z"
-"ur selben Zeit abspielen? Wir müssen Sonic Pi sagen, dass wir einen bestimmten"
-" Abschnitt gleichzeitig mit dem Rest des Codes starten möchten. Hierbei helfen"
-" uns Threads."
+"Wir haben das früher schon besprochen, Endlos-Schleifen sind wie *schwarze "
+"Löcher* für ein Programm; läuft es einmal in die Schleife kommt es da nicht "
+"mehr raus, bis Du den `Stopp`-Button klickst. Wie also können wir beide "
+"Schleifen zur selben Zeit abspielen? Wir müssen Sonic Pi sagen, dass wir "
+"einen bestimmten Abschnitt gleichzeitig mit dem Rest des Codes starten "
+"möchten. Hierbei helfen uns Threads."
 
 #: 05.4-Threads.md:38
-#, fuzzy
 msgid "Threads to the Rescue"
 msgstr "Threads kommen zur Hilfe"
 
@@ -4661,23 +4590,22 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:55
-#, fuzzy
 msgid ""
 "By wrapping the first loop in an `in_thread` do/end block we tell Sonic Pi to "
 "run the contents of the do/end block at *exactly* the same time as the next st"
 "atement after the do/end block (which happens to be the second loop). Try it a"
 "nd you'll hear both the drums and the bassline weaved together!"
 msgstr ""
-"Wenn wir die erste Schleife in einen `in_thread`-do/end-Block hineinpacken, sa"
-"gen wir Sonic Pi, es soll den Inhalt dieses do/end-Blocks *genau zur selben Ze"
-"it* wie die nachfolgende Anweisung ausführen. Und das ist in diesem Fall die z"
-"weite Schleife. Probier es aus, und Du wirst den Beat zusammen mit der Basslin"
-"ie hören!"
+"Wenn wir die erste Schleife in einen `in_thread`-do/end-Block hinein packen, "
+"sagen wir Sonic Pi, es soll den Inhalt dieses do/end-Blocks *genau zur "
+"selben Zeit* wie die nachfolgende Anweisung ausführen. Und das ist in diesem "
+"Fall die zweite Schleife. Probier es aus, und Du wirst den Beat zusammen mit "
+"der Basslinie hören!"
 
 #: 05.4-Threads.md:61
-#, fuzzy
 msgid "Now, what if we wanted to add a synth on top. Something like:"
-msgstr "Angenommen, dass wir obendrauf noch einen Synth legen wollten. Ungefähr so:"
+msgstr ""
+"Angenommen, dass wir obendrauf noch einen Synth legen wollten. Ungefähr so:"
 
 #: 05.4-Threads.md:63
 #, no-wrap
@@ -4717,15 +4645,14 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:84
-#, fuzzy
 msgid ""
 "Now we have the same problem as before. The first loop is played at the same t"
 "ime as the second loop due to the `in_thread`. However, *the third loop is nev"
 "er reached*. We therefore need another thread:"
 msgstr ""
-"Jetzt haben wir das gleiche Problem wir vorhin. Die erste Schleife wird durch "
-"das `in_thread` zur selben Zeit wie die zweite gespielt. Aber *die dritte Schl"
-"eife wird nie erreicht*. Also brauchen wir einen weiteren Thread:"
+"Jetzt haben wir das gleiche Problem wie vorhin. Die erste Schleife wird "
+"durch das `in_thread` zur selben Zeit wie die zweite gespielt. Aber *die "
+"dritte Schleife wird nie erreicht*. Also brauchen wir einen weiteren Thread:"
 
 #: 05.4-Threads.md:88
 #, no-wrap
@@ -4769,31 +4696,27 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:111
-#, fuzzy
 msgid "Runs as threads"
 msgstr "Ablauf in Threads"
 
 #: 05.4-Threads.md:113
-#, fuzzy
 msgid ""
 "What may surprise you is that when you press the Run button, you're actually c"
 "reating a new thread for the code to run. This is why pressing it multiple tim"
 "es will layer sounds over each other. As the runs themselves are threads, they"
 " will automatically weave the sounds together for you."
 msgstr ""
-"Was Dich vielleicht erstaunt: Wenn Du den Ausführen-Button klickst, erzeugst D"
-"u tatsächlich einen neuen Thread, innerhalb dessen der Code abläuft. Deshalb e"
-"ntstehen immer neue Soundschichten, wenn Du den Ausführen-Button wiederholt kl"
-"ickst. Weil die Abläufe Threads sind, werden sie automatisch die Sounds verfle"
-"chten."
+"Was Dich vielleicht erstaunt: Wenn Du den Ausführen-Button klickst, erzeugst "
+"Du tatsächlich einen neuen Thread, innerhalb dessen der Code abläuft. "
+"Deshalb entstehen immer neue Soundschichten, wenn Du den Ausführen-Button "
+"wiederholt klickst. Weil die Abläufe Threads sind, werden sie automatisch "
+"die Sounds verflechten."
 
 #: 05.4-Threads.md:119
-#, fuzzy
 msgid "Scope"
 msgstr "Geltungsbereich (Scope)"
 
 #: 05.4-Threads.md:121
-#, fuzzy
 msgid ""
 "As you learn how to master Sonic Pi, you'll learn that threads are the most im"
 "portant building blocks for your music. One of the important jobs they have is"
@@ -4802,13 +4725,13 @@ msgid ""
 "itching the synth in the *current thread* - no other thread will have their sy"
 "nth switched. Let's see this in action:"
 msgstr ""
-"Wenn Du Dich besser mit Sonic Pi auskennst, wirst Du herausfinden, dass Thread"
-"s die wichtigsten Bausteine für Deine Musik sind. Eine wesentliche Funktion, d"
-"ie Threads haben, ist es, *aktuelle Einstellungen*, die für einen Thread gelte"
-"n, von anderen Threads zu isolieren. Was genau bedeutet das? Wenn Du etwa eine"
-"n Synths mit `use_synth` durch einen anderen austauschst, dann veränderst Du d"
-"en Synth lediglich für den *aktuellen Thread* - kein anderer der laufenden Thr"
-"eads bekommt den neuen Synth. Sehen wir uns das mal in der Praxis an:"
+"Wenn Du Dich besser mit Sonic Pi auskennst, wirst Du herausfinden, dass "
+"Threads die wichtigsten Bausteine für Deine Musik sind. Threads können die *"
+"aktuellen Einstellungen*, die für einen Thread gelten, von anderen Threads "
+"isolieren. Was genau bedeutet das? Wenn Du etwa einen Synths mit `use_synth` "
+"durch einen anderen austauschst, dann veränderst Du den Synth lediglich für "
+"den *aktuellen Thread* - kein anderer der laufenden Threads bekommt den "
+"neuen Synth. Sehen wir uns das mal in Aktion an:"
 
 #: 05.4-Threads.md:129
 #, no-wrap
@@ -4832,29 +4755,26 @@ msgstr ""
 "play 50"
 
 #: 05.4-Threads.md:142
-#, fuzzy
 msgid ""
 "Notice how the middle sound was different to the others? The `use_synth` state"
 "ment only affected the thread it was in and not the outer main run thread."
 msgstr ""
-"Hast Du gehört, dass sich der mittlere Klang von den anderen beiden unterschie"
-"den hat? Die `use_synth`-Anweisung hat sich nur auf den Thread ausgewirkt, in "
-"dem sie auch stand und nicht auf den äußeren Haupt-Thread."
+"Hast Du gehört, dass sich der mittlere Klang von den anderen beiden "
+"unterschieden hat? Die `use_synth`-Anweisung hat sich nur auf den Thread "
+"ausgewirkt, in dem sie auch stand, aber nicht auf den äußeren Haupt-Thread."
 
 #: 05.4-Threads.md:146
-#, fuzzy
 msgid "Inheritance"
 msgstr "Vererbung"
 
 #: 05.4-Threads.md:148
-#, fuzzy
 msgid ""
 "When you create a new thread with `in_thread`, the new thread will automatical"
 "ly inherit all of the current settings from the current thread. Let's see that"
 ":"
 msgstr ""
-"Wenn Du einen neuen Thread mit `in_thread` erzeugst, wird dieser vom vorherige"
-"n alle Einstellungen automatisch erben. Sehen wir uns das an:"
+"Wenn Du einen neuen Thread mit `in_thread` erzeugst, wird dieser vom "
+"vorherigen alle Einstellungen automatisch erben. Sehen wir uns das an:"
 
 #: 05.4-Threads.md:152
 #, no-wrap
@@ -4874,35 +4794,31 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:162
-#, fuzzy
 msgid ""
 "Notice how the second note is played with the `:tb303` synth even though it wa"
 "s played from a separate thread? Any of the settings modified with the various"
 " `use_*` functions will behave in the same way."
 msgstr ""
-"Hast Du bemerkt, dass der zweite Ton mit dem `:tb303`-Synth gespielt wird, obw"
-"ohl er in einem anderen Thread läuft? Jede der Einstellungen, die mit den unte"
-"rschiedlichen `use_*`-Ausdrücken vorgenommen wird, verhält sich genauso."
+"Hast Du bemerkt, dass der zweite Ton mit dem `:tb303`-Synth gespielt wird, "
+"obwohl er in einem anderen Thread läuft? Jede der Einstellungen, die mit den "
+"unterschiedlichen `use_*`-Ausdrücken vorgenommen wird, verhält sich genauso."
 
 #: 05.4-Threads.md:166
-#, fuzzy
 msgid ""
 "When threads are created, they inherit all the settings from their parent but "
 "they don't share any changes back."
 msgstr ""
-"Wenn neue Threads starten, erben sie alle Einstellungen von ihren Eltern. Wenn"
-" Du aber Einstellungen innerhalb dieser neuen Threads änderst, haben diese kei"
-"ne Einfluss auf die Eltern-Threads."
+"Wenn neue Threads starten, erben sie alle Einstellungen von ihren Eltern. "
+"Wenn Du aber Einstellungen innerhalb dieser neuen Threads änderst, haben "
+"diese keine Einfluss auf die Eltern-Threads."
 
 #: 05.4-Threads.md:169
-#, fuzzy
 msgid "Naming Threads"
 msgstr "Threads benennen"
 
 #: 05.4-Threads.md:171
-#, fuzzy
 msgid "Finally, we can give our threads names:"
-msgstr "Schließlich kannst Du Deinen Treads Namen geben."
+msgstr "Schließlich kannst Du Deinen Threads Namen geben:"
 
 #: 05.4-Threads.md:173
 #, no-wrap
@@ -4936,13 +4852,12 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:190
-#, fuzzy
 msgid ""
 "Look at the log pane when you run this code. See how the log reports the name "
 "of the thread with the message?"
 msgstr ""
-"Sieh Dir das Protokoll-Fenster an, wenn Du diesen Code laufen lässt. Siehst Du"
-", wie die Namen der Threads ausgeben werden?"
+"Sieh Dir das Protokoll-Fenster an, wenn Du diesen Code laufen lässt. Siehst "
+"Du, wie die Namen der Threads ausgeben werden?"
 
 #: 05.4-Threads.md:193
 #, no-wrap
@@ -4954,20 +4869,18 @@ msgstr ""
 " |- synth :prophet, {release: 0.6, note: 47}"
 
 #: 05.4-Threads.md:198
-#, fuzzy
 msgid "Only One Thread per Name Allowed"
 msgstr "Nur ein Name pro Thread erlaubt"
 
 #: 05.4-Threads.md:200
-#, fuzzy
 msgid ""
 "One last thing to know about named threads is that only one thread of a given "
 "name may be running at the same time. Let's explore this. Consider the followi"
 "ng code:"
 msgstr ""
-"Eine letzte Anmerkungen zu Threads mit Namen: Ein mit einem bestimmten Namen b"
-"enannter Thread kann zur Zeit nur einmal laufen. Probieren wir das aus. Sieh D"
-"ir den folgenden Code an:"
+"Eine letzte Anmerkungen zu Threads mit Namen: Es können nicht zwei "
+"gleichzeitig laufende Threads den gleichen Namen haben. Probieren wir das "
+"aus. Sieh Dir den folgenden Code an:"
 
 #: 05.4-Threads.md:204
 #, no-wrap
@@ -4987,32 +4900,29 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:213
-#, fuzzy
 msgid ""
 "Go ahead and paste that into a buffer and press the Run button. Press it again"
 " a couple of times. Listen to the cacophony of multiple amen breaks looping ou"
 "t of time with each other. Ok, you can press Stop now."
 msgstr ""
-"Kopiere das einmal in einen Buffer und klicke den `Ausführen`-Button. Klick in"
-" noch ein paarmal. Hör Dir diese Kakophonie mehrerer Amen Breaks an, die ryhtm"
-"isch nicht unbedingt passend zueinander ablaufen. Ok, jetzt kannst Du auf `Sto"
-"pp` klicken."
+"Kopiere das einmal in einen Buffer und klicke den `Ausführen`-Button. Klick "
+"in noch ein paar mal. Hör Dir diese Kakophonie mehrerer Amen-Breaks an, die "
+"ryhtmisch nicht unbedingt passend zueinander ablaufen. Ok, jetzt kannst Du "
+"auf `Stopp` klicken."
 
 #: 05.4-Threads.md:217
-#, fuzzy
 msgid ""
 "This is the behaviour we've seen again and again - if you press the Run button"
 ", sound layers on top of any existing sound. Therefore if you have a loop and "
 "press the Run button three times, you'll have three layers of loops playing si"
 "multaneously."
 msgstr ""
-"Dieses Verhalten konnten wir schon woanders sehen - wenn Du den `Ausführen`-Bu"
-"tton klickst, legen sich die neuen Klänge über die schon laufenden. Wenn eine "
-"Schleife abläuft, und Du den `Ausführen`-Button dreimal klickst, bekommst Du d"
-"rei Ebenen mit Schleifen, die gleichzeitig ablaufen."
+"Dieses Verhalten konnten wir schon woanders sehen - wenn Du den `Ausführen`-"
+"Button klickst, legen sich die neuen Klänge über die schon laufenden. Wenn "
+"eine Schleife abläuft, und Du den `Ausführen`-Button dreimal klickst, "
+"bekommst Du drei Ebenen mit Schleifen, die gleichzeitig ablaufen."
 
 #: 05.4-Threads.md:222
-#, fuzzy
 msgid "However, with named threads it is different:"
 msgstr "Mit benannten Threads ist das jedoch anders:"
 
@@ -5034,14 +4944,13 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:233
-#, fuzzy
 msgid ""
 "Try pressing the Run button multiple times with this code. You'll only ever he"
 "ar one amen break loop. You'll also see this in the log:"
 msgstr ""
-"Versuche mit diesem Code den `Ausführen`-Button mehrmals zu klicken. Du wirst "
-"immer nur eine Amen-Break-Schleife hören. Das kannst Du auch im Protokoll sehe"
-"n:"
+"Versuche mit diesem Code den `Ausführen`-Button mehrmals zu klicken. Du "
+"wirst immer nur eine Amen-Break-Schleife hören. Das kannst Du auch im "
+"Protokoll sehen:"
 
 #: 05.4-Threads.md:236
 #, no-wrap
@@ -5049,49 +4958,43 @@ msgid "==> Skipping thread creation: thread with name :amen already exists."
 msgstr "==> Skipping thread creation: thread with name :amen already exists."
 
 #: 05.4-Threads.md:240
-#, fuzzy
 msgid ""
 "Sonic Pi is telling you that a thread with the name `:amen` is already playing"
 ", so it's not creating another."
 msgstr ""
-"Sonic Pi sagt Dir, dass ein Thread mit dem Namen `:amen` bereits läuft und es "
-"deshalb keinen neuen startet."
+"Sonic Pi sagt Dir, dass ein Thread mit dem Namen `:amen` bereits läuft und "
+"es deshalb keinen weiteren startet."
 
 #: 05.4-Threads.md:243
-#, fuzzy
 msgid ""
 "This behaviour may not seem immediately useful to you now - but it will be ver"
 "y handy when we start to live code..."
 msgstr ""
-"Vielleicht erscheint Dir dieses Verhalten im Moment noch nicht sinnvoll - aber"
-" es wird sehr nützlich sein, wenn wir ins Live-Coding einsteigen..."
+"Vielleicht erscheint Dir dieses Verhalten im Moment noch nicht sinnvoll - "
+"aber es wird sehr nützlich sein, wenn wir ins Live-Coding einsteigen..."
 
 #: 05.5-Functions.md:1
-#, fuzzy
 msgid "5.5 Functions"
 msgstr "5.5 Funktionen"
 
 #: 05.5-Functions.md:3
-#, fuzzy
 msgid "Functions"
 msgstr "Funktionen"
 
 #: 05.5-Functions.md:5
-#, fuzzy
 msgid ""
 "Once you start writing lots of code, you may wish to find a way to organise an"
 "d structure things to make them tidier and easier to understand. Functions are"
 " a very powerful way to do this. They give us the ability to give a name to a "
 "bunch of code. Let's take a look."
 msgstr ""
-"Wenn Du einmal damit angefangen hast, mehr Code zu schreiben, dann wirst Du na"
-"ch Wegen suchen, wie Du die Dinge organisieren und strukturieren kannst. Damit"
-" wird alles ordentlicher und einfacher zu verstehen. Funktionen sind sehr prak"
-"tisch, um das zu erreichen. Sie geben uns die Möglichkeit, einem Bündel von Co"
-"dezeilen einen Namen zu geben. Sehen wir uns das an."
+"Wenn Du einmal damit angefangen hast, mehr Code zu schreiben, dann wirst Du "
+"nach Wegen suchen, wie Du die Dinge organisieren und strukturieren kannst. "
+"Damit wird alles ordentlicher und einfacher zu verstehen. Funktionen sind "
+"dafür sehr praktisch. Sie geben uns die Möglichkeit, einem Bündel von "
+"Codezeilen einen Namen zu geben. Sehen wir uns das an."
 
 #: 05.5-Functions.md:10
-#, fuzzy
 msgid "Defining functions"
 msgstr "Funktionen definieren"
 
@@ -5113,7 +5016,6 @@ msgstr ""
 "end"
 
 #: 05.5-Functions.md:21
-#, fuzzy
 msgid ""
 "Here, we've defined a new function called `foo`. We do this with our old frien"
 "d the do/end block and the magic word `define` followed by the name we wish to"
@@ -5121,33 +5023,30 @@ msgid ""
 "t anything we want such as `bar`, `baz` or ideally something meaningful to you"
 " like `main_section` or `lead_riff`."
 msgstr ""
-"Hier haben wir eine neue Funktion mit dem Namen `foo` definiert. Wir machen da"
-"s mit unserem alten Freund, dem do/end-Block und dem Zauberwort `define` gefol"
-"gt von dem Namen, den wir unserer Funktion geben möchten. Wir müssen die Funkt"
-"ion nicht unbedingt `foo` nennen, wir können sie auch irgendwie anders nennen;"
-" zum Beispiel `bar`, `baz` oder idealerweise einen für Dich bedeutsamen Namen "
-"wie `main_section` (etwa: *Hauptteil*) oder `lead_riff` (etwa: *Leitfigur*)."
+"Hier haben wir eine neue Funktion mit dem Namen `foo` definiert. Wir machen "
+"das mit unserem alten Freund, dem do/end-Block, und dem Zauberwort `define` "
+"gefolgt von dem Namen, den wir unserer Funktion geben möchten. Wir müssen "
+"die Funktion nicht unbedingt `foo` nennen, wir können sie auch irgendwie "
+"anders nennen; zum Beispiel `bar`, `baz` oder idealerweise einen für Dich "
+"bedeutsamen Namen wie `erste_strophe` oder `hintergrund_akkorde`."
 
 #: 05.5-Functions.md:27
-#, fuzzy
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
 "t."
 msgstr ""
-"Denk daran, bei der Definition einer Funktion einen Doppelpunkt `:` vor ihren "
-"Namen zu stellen."
+"Denk daran, bei der Definition einer Funktion einen Doppelpunkt `:` vor "
+"ihren Namen zu stellen."
 
 #: 05.5-Functions.md:30
-#, fuzzy
 msgid "Calling functions"
 msgstr "Funktionen aufrufen"
 
 #: 05.5-Functions.md:32
-#, fuzzy
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr ""
-"Wenn wir unsere Funktion definiert haben, können wir sie einfach über ihren Na"
-"men aufrufen:"
+"Wenn wir unsere Funktion definiert haben, können wir sie einfach über ihren "
+"Namen aufrufen:"
 
 #: 05.5-Functions.md:35
 #, no-wrap
@@ -5177,24 +5076,21 @@ msgstr ""
 "end"
 
 #: 05.5-Functions.md:52
-#, fuzzy
 msgid ""
 "We can even use `foo` inside iteration blocks or anywhere we may have written "
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
 "te new meaningful words for use in our compositions."
 msgstr ""
-"Wir können `foo` sogar in Iterations-Blocks aufrufen und überall da, wo wir au"
-"ch `play` oder `sample` hätten benutzen können. Das gibt uns eine große Ausdru"
-"cksfreiheit und wir können sinnvolle Worte bilden, die wir in unseren Komposit"
-"ionen verwenden."
+"Wir können `foo` sogar in Iterations-Blocks aufrufen und überall da, wo wir "
+"auch `play` oder `sample` hätten benutzen können. Das gibt uns eine große "
+"Ausdrucksfreiheit und wir können sinnvolle Worte bilden, die wir in unseren "
+"Kompositionen verwenden."
 
 #: 05.5-Functions.md:56
-#, fuzzy
 msgid "Functions are remembered across runs"
 msgstr "Funktionen bleiben in Erinnerung"
 
 #: 05.5-Functions.md:58
-#, fuzzy
 msgid ""
 "So far, every time you've pressed the Run button, Sonic Pi has started from a "
 "completely blank slate. It knows nothing except for what is in the buffer. You"
@@ -5202,13 +5098,13 @@ msgid ""
 "change that. When you define a function, Sonic Pi *remembers* it. Let's try it"
 ". Delete all the code in your buffer and replace it with:"
 msgstr ""
-"Wenn Du bislang den `Ausführen`-Button geklickt hast, startete Sonic Pi jedesm"
-"al aufs Neue ohne irgendwelche Vorgaben. Es berücksichtigt nichts, außer dem, "
-"was im jeweiligen Buffer steht. Du kannst Dich nicht auf irgendwelchen Code be"
-"ziehen, der in einem anderen Buffer oder einem anderen Thread steht. Funktione"
-"n ändern das jedoch. Wenn Du eine Funktion definierst, dann erinnert sich Soni"
-"c Pi daran. Probieren wir das aus. Ersetze den den gesamten Code in Deinem Buf"
-"fer durch:"
+"Wenn Du bislang den `Ausführen`-Button geklickt hast, startete Sonic Pi "
+"jedes mal aufs Neue ohne irgendwelche Vorgaben. Es berücksichtigt nichts, "
+"außer dem, was im jeweiligen Buffer steht. Du kannst Dich nicht auf "
+"irgendwelchen Code beziehen, der in einem anderen Buffer oder einem anderen "
+"Thread steht. Funktionen ändern das jedoch. Wenn Du eine Funktion "
+"definierst, dann erinnert sich Sonic Pi daran. Probieren wir das aus. "
+"Ersetze den den gesamten Code in Deinem Buffer durch:"
 
 #: 05.5-Functions.md:65
 #, no-wrap
@@ -5216,35 +5112,32 @@ msgid "foo"
 msgstr "foo"
 
 #: 05.5-Functions.md:69
-#, fuzzy
 msgid ""
 "Press the Run button - and hear your function play. Where did the code go? How"
 " did Sonic Pi know what to play? Sonic Pi just remembered your function - so e"
 "ven after you deleted it from the buffer, it remembered what you had typed. Th"
 "is behaviour only works with functions created using `define` (and `defonce`)."
 msgstr ""
-"Klick den `Ausführen`-Button und höre, wie Deine Funktion spielt. Wo wurde die"
-"ser Code gespeichert? Woher weiss Sonic Pi, was es zu spielen hat? Sonic Pi ha"
-"t sich Deine Funktion einfach gemerkt. Also sogar, nachdem Du den Code aus dem"
-" Buffer gelöscht hast, wusste Sonic Pi noch, was Du geschrieben hattest. Dies "
-"funktioniert nur mit Funktionen, die Du mit `define` (und `defonce`) definiert"
-" hast."
+"Klick den `Ausführen`-Button und höre, wie Deine Funktion spielt. Wo wurde "
+"dieser Code gespeichert? Woher weiss Sonic Pi, was es zu spielen hat? Sonic "
+"Pi hat sich Deine Funktion einfach gemerkt. Also sogar, nachdem Du den Code "
+"aus dem Buffer gelöscht hast, wusste Sonic Pi noch, was Du geschrieben "
+"hattest. Dies funktioniert nur mit Funktionen, die Du mit `define` (und "
+"`defonce`) definiert hast."
 
 #: 05.5-Functions.md:75
-#, fuzzy
 msgid "Parameterised functions"
 msgstr "Funktionen parametrisieren"
 
 #: 05.5-Functions.md:77
-#, fuzzy
 msgid ""
 "You might be interested in knowing that just like you can pass min and max val"
 "ues to `rrand`, you can teach your functions to accept arguments. Let's take a"
 " look:"
 msgstr ""
-"Du kannst Deinen Funktionen beibringen, Argumente zu übernehmen, genau so, wie"
-" Du z.B. `rrand` einen Minimal- und einen Maximalwert übergeben kannst. Sehen "
-"wir uns das an:"
+"Du kannst Deinen Funktionen beibringen, Argumente zu übernehmen, genau so, "
+"wie Du z.B. `rrand` einen Minimal- und einen Maximalwert übergeben kannst. "
+"Sehen wir uns das an:"
 
 #: 05.5-Functions.md:81
 #, no-wrap
@@ -5264,29 +5157,25 @@ msgstr ""
 "my_player 90"
 
 #: 05.5-Functions.md:91
-#, fuzzy
 msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our own "
 "version of `play` called `my_player` which is parameterised."
 msgstr ""
-"Das ist jetzt nicht besonders aufregend, zeigt aber, worum es hier geht. Wir h"
-"aben unsere eigene Version von `play` mit dem Namen `my_player` erschaffen. Di"
-"ese ist parametrisiert - sie akzeptiert also Argumente."
+"Das ist jetzt nicht besonders aufregend, zeigt aber, worum es hier geht. Wir "
+"haben unsere eigene Version von `play` mit dem Namen `my_player` erschaffen. "
+"Diese ist parametrisiert - sie akzeptiert also Argumente."
 
 #: 05.5-Functions.md:94
-#, fuzzy
 msgid ""
 "The parameters need to go after the `do` of the `define` do/end block, surroun"
 "ded by vertical goalposts `|` and separated by commas `,`. You may use any wor"
 "ds you want for the parameter names."
 msgstr ""
-"Die Parameter müssen nach dem `do` stehen, welches zum `define` des do/end-Blo"
-"cks gehört; sie werden von senkrechten Strichen (auch: Verkettungszeichen) umg"
-"eben und durch Kommata getrennt. Du kannst beliebige Worte als Parameternamen "
-"verwenden."
+"Die Parameter müssen nach dem `do` stehen, welches zum `define` des do/end-"
+"Blocks gehört; sie werden von senkrechten Strichen umgeben und durch Kommata "
+"getrennt. Du kannst beliebige Worte als Parameternamen verwenden."
 
 #: 05.5-Functions.md:98
-#, fuzzy
 msgid ""
 "The magic happens inside the `define` do/end block. You may use the parameter "
 "names as if they were real values. In this example I'm playing note `n`. You c"
@@ -5297,18 +5186,18 @@ msgid ""
 "to `play 80`. When I call it again with `my_player 90`, `n` is now replaced wi"
 "th 90, so `play n` turns into `play 90`."
 msgstr ""
-"Die Zauberei findet innerhalb des `define`-do/end-Blocks statt. Du kannst die "
-"Parameternamen so benutzen, als wären sie wirkliche Werte. In diesem Beispiel "
-"spiele ich den Ton `n`. Du kannst die Parameter als eine Art Versprechen anseh"
-"en, dass sie durch wirkliche Werte ersetzt werden, wenn der Code läuft. Das ma"
-"chst Du, indem Du der Funktion beim Aufruf einen Parameter mitgibst. Ich tue d"
-"as hier mit `my_player 80`, um den Ton 80 zu spielen. Innerhalb der Funktionsd"
-"efinition wird `n` nun durch 80 ersetzt, sodass `play n` sich in `play 80` ver"
-"wandelt. Wenn ich die Funktion erneut mit `my_player  90` aufrufe, wird `n` du"
-"rch 90 ersetzt, sodass sich `play n` in `play  90` verwandelt."
+"Die Zauberei findet innerhalb des `define`-do/end-Blocks statt. Du kannst "
+"die Parameternamen so benutzen, als wären sie wirkliche Werte. In diesem "
+"Beispiel spiele ich den Ton `n`. Du kannst die Parameter als eine Art "
+"Versprechen ansehen, dass sie durch wirkliche Werte ersetzt werden, wenn der "
+"Code läuft. Das machst Du, indem Du der Funktion beim Aufruf einen Parameter "
+"mitgibst. Ich tue das hier mit `my_player 80`, um den Ton 80 zu spielen. "
+"Innerhalb der Funktionsdefinition wird `n` nun durch 80 ersetzt, sodass `"
+"play n` sich in `play 80` verwandelt. Wenn ich die Funktion erneut mit `"
+"my_player  90` aufrufe, wird `n` durch 90 ersetzt, sodass sich `play n` in `"
+"play  90` verwandelt."
 
 #: 05.5-Functions.md:108
-#, fuzzy
 msgid "Let's see a more interesting example:"
 msgstr "Sehen wir uns interessantere Beispiele an:"
 
@@ -5342,45 +5231,40 @@ msgstr ""
 "chord_player :e3, 3"
 
 #: 05.5-Functions.md:126
-#, fuzzy
 msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
 "also used `root` as if it was a note name in my call to `play`."
 msgstr ""
-"Hier habe ich `repeats` so benutzt, als ob es eine Zahl in der Zeile `repeats."
-"times do` wäre. Zusätzlich habe ich `roots` so verwendet, als ob es ein Notenn"
-"ame im Aufruf `play` wäre."
+"Hier habe ich `repeats` so benutzt, als ob es eine Zahl in der Zeile `"
+"repeats.times do` wäre. Zusätzlich habe ich `roots` so verwendet, als ob es "
+"ein Notenname im Aufruf `play` wäre."
 
 #: 05.5-Functions.md:129
-#, fuzzy
 msgid ""
 "See how we're able to write something very expressive and easy to read by movi"
 "ng a lot of our logic into a function!"
 msgstr ""
-"Siehst Du? Unser Code wird sehr aussagekräftig und leichter lesbar, wenn wir e"
-"ine Menge der Programmlogik in Funktionen verschieben."
+"Siehst Du? Unser Code wird sehr aussagekräftig und leichter lesbar, wenn wir "
+"eine Menge der Programmlogik in Funktionen verschieben!"
 
 #: 05.6-Variables.md:1
-#, fuzzy
 msgid "5.6 Variables"
 msgstr "5.6 Variablen"
 
 #: 05.6-Variables.md:3
-#, fuzzy
 msgid "Variables"
 msgstr "Variablen"
 
 #: 05.6-Variables.md:5
-#, fuzzy
 msgid ""
 "A useful thing to do in your code is to create names for things. Sonic Pi make"
 "s this very easy, you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Es ist sehr nützlich beim Coden, Namen für Dinge zu vergeben. Sonic Pi macht e"
-"s Dir hier sehr leicht: Schreib einfach den Namen, den Du gerne verwenden möch"
-"test, dann ein Gleichheitszeichen (`=`) und dann das Ding, welches Du Dir merk"
-"en möchtest."
+"Es ist sehr nützlich beim Coden, Namen für Dinge zu vergeben. Sonic Pi macht "
+"es Dir hier sehr leicht: Schreib einfach den Namen, den Du gerne verwenden "
+"möchtest, dann ein Gleichheitszeichen (`=`) und dann das Ding, welches Du "
+"Dir merken möchtest:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5388,15 +5272,14 @@ msgid "sample_name = :loop_amen"
 msgstr "sample_name = :loop_amen"
 
 #: 05.6-Variables.md:13
-#, fuzzy
 msgid ""
 "Here, we've 'remembered' the symbol `:loop_amen` in the variable `sample_name`"
 ". We can now use `sample_name` everywhere we might have used `:loop_amen`. For"
 " example:"
 msgstr ""
-"Hier haben wir uns das Symbol `:loop_amen` mit der Variable `sample_name` *gem"
-"erkt*. Wir können nun `sample_name` überall da benutzen, wo wir auch `loop_ame"
-"n` benutzen könnten. Zum Beispiel:"
+"Hier haben wir uns das Symbol `:loop_amen` mit der Variable `sample_name` "
+"*gemerkt*. Wir können nun `sample_name` überall da benutzen, wo wir auch "
+"`loop_amen` benutzen könnten. Zum Beispiel:"
 
 #: 05.6-Variables.md:17
 #, no-wrap
@@ -5408,16 +5291,14 @@ msgstr ""
 "sample sample_name"
 
 #: 05.6-Variables.md:22
-#, fuzzy
 msgid ""
 "There are three main reasons for using variables in Sonic Pi: communicating me"
 "aning, managing repetition and capturing the results of things."
 msgstr ""
-"Es gibt drei Hauptgründe, Variablen in Sonic Pi zu nutzen: Bedeutung vermittel"
-"n, Wiederholung steuern und Ergebnisse von Dingen speichern."
+"Es gibt drei Hauptgründe, Variablen in Sonic Pi zu nutzen: Bedeutung "
+"vermitteln, Wiederholung steuern und Ergebnisse speichern."
 
 #: 05.6-Variables.md:26
-#, fuzzy
 msgid "Communicating Meaning"
 msgstr "Bedeutung vermitteln"
 
