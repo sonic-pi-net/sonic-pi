@@ -188,17 +188,17 @@ For example, if you have headphones connected to your Raspberry Pi, choose 'Head
         <location filename="../mainwindow.cpp" line="1013"></location>
         <location filename="../mainwindow.cpp" line="1145"></location>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1015"></location>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트 확인</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"></location>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>에디터</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1054"></location>
@@ -608,7 +608,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1621"></location>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>스테레오 모드...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1630"></location>
@@ -618,7 +618,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1738"></location>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템 볼륨 업데이트 중...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2157"></location>
@@ -648,12 +648,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2381"></location>
         <source>Improve readability of code</source>
-        <translation type="unfinished"></translation>
+        <translation>코드의 가독성을 개선 시켜 보세요</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"></location>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>준비...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2621"></location>
@@ -663,7 +663,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2648"></location>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>파일이 저장 되었습니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2875"></location>
@@ -695,27 +695,27 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2339"></location>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>실행</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2345"></location>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>정지</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2346"></location>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 코드 실행 중지</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2349"></location>
         <source>Save As...</source>
-        <translation type="unfinished"></translation>
+        <translation>다른 이름으로 저장</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2357"></location>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>정보</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2358"></location>
@@ -768,7 +768,7 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="2504"></location>
         <location filename="../mainwindow.cpp" line="2505"></location>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>녹음 시작</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2380"></location>
@@ -809,45 +809,47 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2453"></location>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>커뮤니티</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2454"></location>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>라이센스</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2455"></location>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>역사</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2476"></location>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>소닉 파이 - 정보</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2496"></location>
         <location filename="../mainwindow.cpp" line="2497"></location>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>녹음 중지</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"></location>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>녹음 저장</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2610"></location>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 불러올 수 없습니다 %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"></location>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 쓸 수 없습니다 %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="81"></location>
@@ -858,12 +860,12 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="367"></location>
         <location filename="../ruby_help.h" line="442"></location>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>튜토리얼</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="476"></location>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>예시</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="522"></location>
@@ -878,7 +880,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>샘플</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="779"></location>
@@ -891,7 +893,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="43"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>소닉 파이</translation>
     </message>
 </context>
 <context>
