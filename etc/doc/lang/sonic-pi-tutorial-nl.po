@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-15 10:19+0000\n"
+"PO-Revision-Date: 2016-06-22 09:25+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -3924,7 +3924,7 @@ msgstr ""
 
 #: 05-Programming-Structures.md:14
 msgid "Let's get stuck in with the basics..."
-msgstr "Laat ons daarom in de basisbeginselen duiken..."
+msgstr "We bijten ons vast in de basisbeginselen hiervan..."
 
 #: 05.1-Blocks.md:1
 msgid "5.1 Blocks"
@@ -3943,6 +3943,14 @@ msgid ""
 "of code. For example, we may wish to loop it, to add reverb to it, to only "
 "run it 1 time out of 5, etc. Consider the following code:"
 msgstr ""
+"Een structuur die je vaak zal terugvinden in Sonic Pi is de blok-structuur. "
+"Deze \"Blocks\" kunnen ervoor zorgen dat we heel handig met grote happen "
+"code gaan kunnen omspringen. Met de Synth en sample parameters konden we "
+"deze al op een enkele lijn gaan veranderen. Soms willen we echter op een "
+"slimme manier verschillende lijnen kunnen aanspreken om hun parameters te "
+"gaan veranderen. Bijvoorbeeld, als we die willen loop-en, een reverb toe "
+"willen voegen, deze 1 van de vijf keer willen laten afspelen etc... Kijk dan "
+"even naar deze code:"
 
 #: 05.1-Blocks.md:13
 #, no-wrap
@@ -3953,6 +3961,11 @@ msgid ""
 "sleep 0.5\n"
 "play 62"
 msgstr ""
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_plip\n"
+"sleep 0.5\n"
+"play 62"
 
 #: 05.1-Blocks.md:21
 msgid ""
@@ -3960,6 +3973,10 @@ msgid ""
 "code block *starts* and where it *ends*. We use `do` for start and `end` for "
 "end. For example:"
 msgstr ""
+"Om iets met een stuk code-reeksen te laten gebeuren, moeten we Sonic Pi "
+"vertellen waar die blok van code moet *starten* en waar deze *eindigt*. "
+"Hiervoor gebruiken we `do` om te starten en `end` om te eindigen. "
+"Bijvoorbeeld:"
 
 #: 05.1-Blocks.md:25
 #, no-wrap
@@ -3972,6 +3989,13 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 05.1-Blocks.md:35
 msgid ""
@@ -3983,14 +4007,21 @@ msgid ""
 "`do` and `end` tells Sonic Pi you wish to do something special with that "
 "chunk of code."
 msgstr ""
+"Maar... we zijn er nog niet helemaal (als je dit zou uitproberen krijg je "
+"een foutmelding) want we hebben Sonic Pi nog niet verteld wat we willen doen "
+"met deze *do/end block*. Door een speciale code vóór de `do` te zetten "
+"kunnen we dit duidelijk maken aan Sonic Pi. We zullen deze speciale stukjes "
+"code later in deze handleiding bekijken. Het belangrijkste om weten nu, is "
+"dat als je je code inpakt met deze `do` en `end` je hiermee iets speciaal "
+"kan aanvangen."
 
 #: 05.2-Iteration-and-Loops.md:1
 msgid "5.2 Iteration and Loops"
-msgstr ""
+msgstr "5.2 Herhaling en Loops"
 
 #: 05.2-Iteration-and-Loops.md:3
 msgid "Iteration and Loops"
-msgstr ""
+msgstr "Herhaling en Loops"
 
 #: 05.2-Iteration-and-Loops.md:5
 msgid ""
@@ -3998,6 +4029,9 @@ msgid ""
 "make with `play` and `sample` blocks. We've also learned how to trigger "
 "these sounds through time using `sleep`."
 msgstr ""
+"Tot nu toe hebben we al een heleboel tijd besteed aan de verschillende "
+"klanken die we kunnen maken met de `play` en `sample` lijnen. We hebben ook "
+"geleerd deze met een zekere regelmaat te triggeren met behulp van `sleep`."
 
 #: 05.2-Iteration-and-Loops.md:9
 msgid ""
@@ -4007,16 +4041,23 @@ msgid ""
 "In the next few sections we'll explore some of these powerful new tools. "
 "First up is iteration and loops."
 msgstr ""
+"Zoals je waarschijnlijk hebt ontdekt, je kan *veel* plezier beleven met deze "
+"basis bouwstenen. Er zal echter een nieuwe wereld voor je opengaan wanneer "
+"je de kracht van code gaat gebruiken om structuur te geven aan jouw muziek "
+"en composities. In de volgende secties gaan we enkele van deze krachtige "
+"hulpmiddelen verkennen. Vooraleerst zijn herhaling en loop aan de beurt."
 
 #: 05.2-Iteration-and-Loops.md:15
 msgid "Repetition"
-msgstr ""
+msgstr "Repetitieve herhaling"
 
 #: 05.2-Iteration-and-Loops.md:17
 msgid ""
 "Have you written some code you'd like to repeat a few times? For example, "
 "you might have something like this:"
 msgstr ""
+"Heb je wat code geschreven dat je graag een paar keer wil herhalen? "
+"Bijvoorbeeld, zoiets als deze::"
 
 #: 05.2-Iteration-and-Loops.md:20
 #, no-wrap
@@ -4028,12 +4069,20 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_blup\n"
+"sleep 0.5\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:29
 msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple "
 "and just copy and paste it three times:"
 msgstr ""
+"Wat als wij deze 3 keer willen herhalen? Nou simpel, we kunnen deze drie "
+"keer kopiëren en plakken:"
 
 #: 05.2-Iteration-and-Loops.md:32
 #, no-wrap
@@ -4057,6 +4106,24 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_blup\n"
+"sleep 0.5\n"
+"play 62\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_blup\n"
+"sleep 0.5\n"
+"play 62\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_blup\n"
+"sleep 0.5\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:55
 msgid ""
@@ -4066,10 +4133,15 @@ msgid ""
 "repeat the original piece of code 50 times or 1000? Now that would be a lot "
 "of code, and a lot of lines of code to alter if you wanted to make a change."
 msgstr ""
+"Dat is wel een heleboel code! Wat als je nu de sample `:elec_plip` wil "
+"veranderen? Dan moet je de code helemaal afgaan en overal waar deze voorkomt "
+"vervangen door de nieuwe sample. En, nog belangrijker, wat als ik de code 50 "
+"of 1000 keer wil herhalen? Dat zou een heleboel code zijn, en heel wat "
+"regels wijzigen om een verandering te maken."
 
 #: 05.2-Iteration-and-Loops.md:62
 msgid "Iteration"
-msgstr ""
+msgstr "Herhaling"
 
 #: 05.2-Iteration-and-Loops.md:64
 msgid ""
