@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-22 12:04+0000\n"
-"Last-Translator: Andreas Linz <klingt.net@gmail.com>\n"
+"PO-Revision-Date: 2016-06-22 12:06+0000\n"
+"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -6363,7 +6363,7 @@ msgstr ""
 "Hier spielen wir die Note 60 mit sehr kurzem Ausklang (\"release\"), und "
 "erzeugen somit einen kurzen Ton. Wir wollen außerdem einen Hall-Effekt, also "
 "haben wir den nötigen \"reverb\"-Block darum herum geschrieben. Bisher ist "
-"alles gut, abgesehen von ..."
+"alles gut, abgesehen von..."
 
 #: 06.2-FX-in-Practice.md:27
 #, fuzzy
