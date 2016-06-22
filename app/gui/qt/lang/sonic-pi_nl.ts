@@ -59,7 +59,7 @@ die enkel met mono geluid overweg kunnen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Headphones</source>
-        <translation>&amp;Koptelefoon</translation>
+        <translation>&amp;Koptelefoons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
@@ -69,7 +69,7 @@ die enkel met mono geluid overweg kunnen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Configure debug behaviour</source>
-        <translation>Configureer foutopsporingsmodus</translation>
+        <translation>Configureer gedrag foutopsporing</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
@@ -77,7 +77,7 @@ die enkel met mono geluid overweg kunnen.</translation>
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Schakel log-weergave in/uit.
-Indien uitgeschakeld, zullen activiteiten zoals triggers bij synths en samples,
+Indien uitgeschakeld, zullen  triggers van synths en samples,
 niet meer standaard naar het logbestand geschreven worden.</translation>
     </message>
     <message>
@@ -88,7 +88,7 @@ niet meer standaard naar het logbestand geschreven worden.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="966"></location>
         <source>Clear log on run</source>
-        <translation>Logbestand wissen tijdens afspelen</translation>
+        <translation>Logbestand wissen bij afspelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
