@@ -119,7 +119,7 @@ leeggemaakt telkens op afspelen wordt gedrukt.</translation>
         <location filename="../mainwindow.cpp" line="1510"></location>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation>Opleuken...</translation>
+        <translation>Verfraaien...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1530"></location>
@@ -163,7 +163,7 @@ leeggemaakt telkens op afspelen wordt gedrukt.</translation>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation>Gebruik deze regelaar om het systeemvolume van je Raspberry Pi aan te passen .</translation>
+        <translation>Gebruik deze regelaar om het systeemvolume van je Raspberry Pi aan te passen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
