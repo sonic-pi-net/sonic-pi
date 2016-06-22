@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-21 15:53+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2016-06-22 12:04+0000\n"
+"Last-Translator: Andreas Linz <klingt.net@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -6305,18 +6305,16 @@ msgstr ""
 #, fuzzy
 msgid "Now go crazy and add FX everywhere for some amazing new sounds!"
 msgstr ""
-"Jetzt aber los, mach was Verrücktes und baue überall in Deinem Code FX ein. Du"
-" wirst unglaubliche neue Klänge erzeugen!"
+"Nun drehe so richtig auf und füge überall in deinem Code Audioeffekte hinzu "
+"um fantastische Sounds zu erzeugen!"
 
 #: 06.2-FX-in-Practice.md:1
-#, fuzzy
 msgid "6.2 FX in Practice"
-msgstr "6.2 FX in der Praxis"
+msgstr "6.2 Anwenden von Soundeffekten"
 
 #: 06.2-FX-in-Practice.md:3
-#, fuzzy
 msgid "FX in Practice"
-msgstr "FX Praxis"
+msgstr "Anwenden von Soundeffekten"
 
 #: 06.2-FX-in-Practice.md:5
 #, fuzzy
@@ -6336,9 +6334,8 @@ msgstr ""
 "en, dass Sonic Pi ordentlich funktioniert und im Takt bleibt."
 
 #: 06.2-FX-in-Practice.md:12
-#, fuzzy
 msgid "Consider this code:"
-msgstr "Sie Dir den folgenden Code an:"
+msgstr "Betrachte den folgenden Code:"
 
 #: 06.2-FX-in-Practice.md:14
 #, no-wrap
@@ -6358,16 +6355,15 @@ msgstr ""
 "end"
 
 #: 06.2-FX-in-Practice.md:23
-#, fuzzy
 msgid ""
 "In this code we're playing note 60 with a very short release time, so it's a s"
 "hort note. We also want reverb so we've wrapped it in a reverb block. All good"
 " so far. Except..."
 msgstr ""
-"Hier spielen wir die Note 60 mit sehr kurzem `release:`-Wert, und erzeugen so "
-"einen sehr kurzen Ton. Wir wollen außerdem einen Hall-Effekt, und haben deshal"
-"b den notwendigen Code-Block außen herum geschrieben. Soweit sieht alles gut a"
-"us. Oder doch nicht?"
+"Hier spielen wir die Note 60 mit sehr kurzem Ausklang (\"release\"), und "
+"erzeugen somit einen kurzen Ton. Wir wollen außerdem einen Hall-Effekt, also "
+"haben wir den nötigen \"reverb\"-Block darum herum geschrieben. Bisher ist "
+"alles gut, abgesehen von ..."
 
 #: 06.2-FX-in-Practice.md:27
 #, fuzzy
