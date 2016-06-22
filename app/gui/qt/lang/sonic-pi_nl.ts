@@ -198,7 +198,7 @@ Gebruik deze knoppen om de output door de uitgang die je verkiest te sturen.</tr
     <message>
         <location filename="../mainwindow.cpp" line="1014"></location>
         <source>Check for updates</source>
-        <translation>Check of er nieuwe updates zijn</translation>
+        <translation>Naar updates zoeken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1118"></location>
@@ -371,8 +371,8 @@ Deze controle omvat het verzenden van anonieme gegevens over het platform en de 
         <location filename="../mainwindow.cpp" line="1018"></location>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>De controle op een Update ,nu afdwingen .
-Deze controle omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
+        <translation>Nu naar update zoeken.
+Dit omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1019"></location>
