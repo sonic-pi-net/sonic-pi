@@ -2949,6 +2949,8 @@ By combining commands which add to the candidates and then filtering those candi
                           :release       => "Time (from the end of the sample) to go from full amplitude to 0. Default is 0.",
                           :start         => "Position in sample as a fraction between 0 and 1 to start playback. Default is 0.",
                           :finish        => "Position in sample as a fraction between 0 and 1 to end playback. Default is 1.",
+                          :slice         => "Specific slice index to play. This will override the start: and finish: opts directly to create values for the given slice. The number of available slices can be specified with num_slices: (defaults to 16).",
+                          :num_slices    => "Number of potential slices to index into with the slice: opt. Defaults to 16",
                           :pan           => "Stereo position of audio. -1 is left ear only, 1 is right ear only, and values in between position the sound accordingly. Default is 0.",
                           :amp           => "Amplitude of playback.",
                           :pre_amp           => "Amplitude multiplier which takes place immediately before any internal FX such as the low pass filter, compressor or pitch modification. Use this opt if you want to overload the compressor.",
@@ -3089,25 +3091,29 @@ sleep 0.5
 synth :dsaw, note: :e3 # This is triggered 0.5s from start",
 
         "
+# Play with slices
+
+sample :loop_garzul, slice 0      # => play the first 16th of the sample
+sleep 0.5
+4.times do
+  sample :loop_garzul, slice 1    # => play the second 16th of the sample 4 times
+  sleep 0.125
+end
+sample :loop_garzul, slice 4, num_slices: 4, rate: -1      # => play the final quarter backwards
+",
+        "
 # Build a simple beat slicer
 
 use_sample_bpm :loop_amen                    # Set the BPM to match the amen break sample
 
 live_loop :beat_slicer do
-  n = 8                                      # Set number of slices. Try changing this
-                                             # to 2, 4, 6, 16 or 32
+  n = 8                                      # Specify number of slices
+                                             # (try changing to 2, 4, 6, 16 or 32)
 
-  d = 1.0 / n                                # Calculate the duration of a slice as a
-                                             # fraction of the sample
+  s = rand_i n                               # Choose a random slice within range
 
-  s = (line 0, 1, steps: n).choose           # Create a ring of starting points and
-                                             # randomly choose one
-
-  f = s + d                                  # Calculate the finish point
-
-  sample :loop_amen, start: s, finish: f     # Play the specific part of the sample
-
-  sleep d                                    # Sleep for the duration of the slice
+  sample :loop_amen, slice: s, num_slices: n # Play the specific part of the sample
+  sleep 1.0/n                                # Sleep for the duration of the slice
 end",
         "
 # Play with the built-in low pass filter, high pass filter and compressor
@@ -4345,6 +4351,18 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         if rate_pitch
           new_rate = pitch_to_ratio(rate_pitch.to_f)
           args_h[:rate] = new_rate * (args_h[:rate] || 1)
+        end
+
+        slice_idx = args_h[:slice]
+        if slice_idx
+          num_slices = args_h[:num_slices] || 16
+          num_slices = num_slices.to_f
+          slice_idx = slice_idx.to_f
+          raise "Sample opt num_slices: needs to be greater than 0. Got: #{num_slices}" unless num_slices > 0
+          slice_idx = slice_idx % num_slices
+          start = slice_idx  / num_slices
+          args_h[:start] = start
+          args_h[:finish] = start + (1.0 / num_slices)
         end
 
         args_h = info.munge_opts(args_h) if info
