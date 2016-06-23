@@ -2147,7 +2147,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           :sonic_pi_mod_sound_tuning,
           :sonic_pi_mod_sound_current_synth_name,
           :sonic_pi_mod_sound_synth_defaults,
-          :sonic_pi_mod_sound_sample_path
+          :sonic_pi_mod_sound_sample_path,
+          :sonic_pi_osc_client
 
         ].each do |tl|
           Thread.current.thread_variable_set(tl, fx_execute_t.thread_variable_get(tl))

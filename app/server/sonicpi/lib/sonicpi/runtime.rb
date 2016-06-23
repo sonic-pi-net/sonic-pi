@@ -950,6 +950,19 @@ module SonicPi
       @global_start_time = 0
       @session_id = SecureRandom.uuid
       @snippets = {}
+      @osc_server = SonicPi::OSC::UDPServer.new(4559) do |address, args|
+        payload = {
+          :time => Time.now,
+          :sleep_mul => 1,
+          :beat => 0,
+          :run => 0,
+          :cue_map => {:args => args},
+          :cue => address
+        }
+
+        @events.async_event("/spider_thread_sync/" + address.to_s, payload)
+      end
+
 
       @gui_heartbeats = {}
       @gui_last_heartbeat = nil

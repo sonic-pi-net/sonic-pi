@@ -29,6 +29,29 @@ module SonicPi
 
       THREAD_RAND_SEED_MAX = 10e20
 
+      def use_osc(host_or_port, port=nil)
+        if port
+          host = host_or_port.to_s
+        else
+          host = "localhost"
+          port = Integer(host_or_port)
+        end
+
+        Thread.current.thread_variable_set :sonic_pi_osc_client, [host, port]
+
+      end
+
+      def osc(path, *args)
+        host, port = Thread.current.thread_variable_get :sonic_pi_osc_client
+        raise "Set outgoing hostname and port for OSC messages with use_osc or with_osc" unless host && port
+        begin
+          @osc_server.send(host, port, path, *args)
+          puts "OSC -> #{host}, #{port}, #{path}, #{args}"
+        rescue Exception => e
+          puts "Error sending OSC to #{host}, #{port}, #{path}, #{args.inspect}\n#{e.message}\n#{e.backtrace}"
+        end
+      end
+
       def time_shift(delta, &blk)
         raise "Timeshift requires a do/end block" unless blk
         sat = @mod_sound_studio.sched_ahead_time
