@@ -110,12 +110,13 @@ module SonicPi
 
     def slices(num=16, start=0, finish=1)
       return @slices[[num, start, finish]] if @slices[[num, start, finish]]
+      res = []
       @slices_sem.synchronize do
         return @slices[[num, start, finish]] if @slices[[num, start, finish]]
 
         raise "start arg must be a number, got: #{start.inspect}" unless start.is_a?(Numeric)
         raise "finish arg must be a number, got: #{finish.inspect}" unless finish.is_a?(Numeric)
-        res = []
+
         slice_size = (finish - start) / num.to_f
         prev = start
         val = start + slice_size
