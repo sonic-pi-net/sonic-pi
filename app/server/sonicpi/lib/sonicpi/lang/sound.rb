@@ -4355,14 +4355,50 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         slice_idx = args_h[:slice]
         if slice_idx
+
           num_slices = args_h[:num_slices] || 16
+          raise "Sample opt num_slices: needs to be greater than 0. Got: #{num_slices}" unless num_slices.is_a?(Numeric) && num_slices > 0
           num_slices = num_slices.to_f
-          slice_idx = slice_idx.to_f
-          raise "Sample opt num_slices: needs to be greater than 0. Got: #{num_slices}" unless num_slices > 0
-          slice_idx = slice_idx % num_slices
-          start = slice_idx  / num_slices
-          args_h[:start] = start
-          args_h[:finish] = start + (1.0 / num_slices)
+          slices = sample_buffer(path).slices(num_slices)
+          if slice_idx.is_a? Numeric
+            slice_idx = slice_idx.to_i
+            slice = slices[slice_idx]
+          elsif slice_idx == :rand
+            slice_idx = rand_i(num_slices)
+            slice = slices[slice_idx]
+          elsif slice_idx.is_a? Proc
+            slice = slice_idx.call(slices)
+            raise "Result of slice: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{slice.inspect}" unless slice.respond_to?(:has_key?) && slice[:start].is_a?(Numeric) && slice[:finish].is_a?(Numeric)
+          else
+            raise "Unknown sample slice: value. Expected a number, :rand or a proc. Got #{slice_idex.inspect}"
+          end
+          args_h[:start] = slice[:start]
+          args_h[:finish] = slice[:finish]
+          args_h.delete :slice
+        end
+
+        onset_idx = args_h[:onset]
+        if onset_idx
+          begin
+            onsets = sample_buffer(path).onset_slices
+          rescue Exception => e
+            raise "Unable to find onset for sample with path #{path}:\n#{e.message}\n#{e.backtrace}"
+          end
+
+          if onset_idx.is_a? Numeric
+            args_h.merge!(onsets[onset_idx.to_i])
+          elsif onset_idx == :rand
+            args_h.merge!(onsets.choose)
+          elsif onset_idx.is_a? Proc
+            res = onset_idx.call(onsets)
+            raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{res.inspect}" unless res.respond_to?(:has_key?) && res[:start].is_a?(Numeric) && res[:finish].is_a?(Numeric)
+            args_h[:start] = res[:start]
+            args_h[:finish] = res[:finish]
+            args_h.delete :onset
+          else
+            raise "Unknown sample onset: value. Expected a number, :rand or a proc. Got #{onset_idex.inspect}"
+          end
+
         end
 
         args_h = info.munge_opts(args_h) if info

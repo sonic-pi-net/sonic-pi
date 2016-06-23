@@ -31,9 +31,13 @@ os = case RUBY_PLATFORM
      else
        RUBY_PLATFORM
      end
-$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/" 
+$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"
 
 require 'win32/process' if os == :windows
+
+## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
+native_lib_path = "#{File.expand_path("../native/#{os}/", __FILE__)}"
+ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/libaubio*.{*.dylib,so.*}"].first
 
 ## Ensure all libs in vendor directory are available
 Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|

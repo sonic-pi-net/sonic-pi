@@ -12,12 +12,18 @@
 #++
 
 require_relative "buffer"
+require_relative "util"
+require 'aubio'
 
 module SonicPi
   class SampleBuffer < Buffer
+    include Util
     def initialize(buffer, path)
       @buffer = buffer
       @path = path
+      @aubio_sem = Mutex.new
+      @slices = {}
+      @slices_sem = Mutex.new
     end
 
     def num_frames
@@ -58,6 +64,71 @@ module SonicPi
 
     def to_i
       @buffer.to_i
+    end
+
+    def onset_data
+      return @aubio_onset_data if @aubio_onset_data
+      @aubio_sem.synchronize do
+        return @aubio_onset_data if @aubio_onset_data
+        __no_kill_block do
+          aubio_file = Aubio.open @path
+          native_onsets = aubio_file.onsets.to_a.ring
+          aubio_file.close
+          @aubio_onset_data = native_onsets
+        end
+      end
+      return @aubio_onset_data
+    end
+
+    def onsets(stretch=1)
+      return @aubio_onsets if @aubio_onsets
+      data = onset_data
+      @aubio_sem.synchronize do
+        return @aubio_onsets if @aubio_onsets
+        onset_times = data.map do |el|
+          (el[:s].to_f / duration) * stretch
+        end
+        @aubio_onsets = onset_times
+      end
+      return @aubio_onsets
+    end
+
+    def onset_slices
+      return @aubio_slices if @aubio_slices
+      ons = onsets
+      @aubio_sem.synchronize do
+        return @aubio_slices if @aubio_slices
+        res = []
+        prev = ons[0]
+        ons[0...-1].each_with_index do |onset, idx|
+          res << {:start => onset, :finish => ons[idx + 1]}
+        end
+        @aubio_slices = res.ring
+      end
+      return @aubio_slices
+    end
+
+    def slices(num=16, start=0, finish=1)
+      return @slices[[num, start, finish]] if @slices[[num, start, finish]]
+      @slices_sem.synchronize do
+        return @slices[[num, start, finish]] if @slices[[num, start, finish]]
+
+        raise "start arg must be a number, got: #{start.inspect}" unless start.is_a?(Numeric)
+        raise "finish arg must be a number, got: #{finish.inspect}" unless finish.is_a?(Numeric)
+        res = []
+        slice_size = (finish - start) / num.to_f
+        prev = start
+        val = start + slice_size
+
+        num.times do
+          res << {:start => prev, :finish => val}
+          prev = val
+          val += slice_size
+        end
+        res = res.ring
+        @slices[[num, start, finish]] = res
+      end
+      return res
     end
 
     def inspect
