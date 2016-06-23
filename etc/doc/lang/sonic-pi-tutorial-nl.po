@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-22 09:25+0000\n"
+"PO-Revision-Date: 2016-06-23 14:22+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -4141,7 +4141,7 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:62
 msgid "Iteration"
-msgstr "Herhaling"
+msgstr "Iteratie"
 
 #: 05.2-Iteration-and-Loops.md:64
 msgid ""
@@ -4152,6 +4152,13 @@ msgid ""
 "this three times*, we write `3.times do` - that's not too hard. Just "
 "remember to write `end` at the end of the code you'd like to repeat:"
 msgstr ""
+"In feite zou het herhalen van code zo eenvoudig moeten zijn als zeggen *doe "
+"dit drie keer*. Zo is het ook wel een beetje. Herinner je je onze oude "
+"vriend de code block nog? We kunnen hem gebruiken om het start- en eindpunt, "
+"van de code die we willen herhalen, aan te duiden. We gebruiken dan onze "
+"speciale code `3.times`. In plaats van *doe dit drie keer*, schrijven we `"
+"3.times do`, eenvoudig niet? Vergeet ook niet `end`op het einde van het te "
+"herhalen block te schrijven:"
 
 #: 05.2-Iteration-and-Loops.md:72
 #, no-wrap
@@ -4165,12 +4172,22 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"3.times do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_blup\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"  sleep 0.25\n"
+"end"
 
 #: 05.2-Iteration-and-Loops.md:83
 msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to "
 "create lots of nice repeating structures:"
 msgstr ""
+"Nu is dat niet veel netter dan knippen en plakken! We kunnen dit gebruiken "
+"om allerlei leuke herhalende structuren te maken:"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -4188,16 +4205,30 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"4.times do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"end\n"
+"8.times do\n"
+"  play 55, release: 0.2\n"
+"  sleep 0.25\n"
+"end\n"
+"4.times do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.2-Iteration-and-Loops.md:103
 msgid "Nesting Iterations"
-msgstr ""
+msgstr "Geneste Iteraties"
 
 #: 05.2-Iteration-and-Loops.md:105
 msgid ""
 "We can put iterations inside other iterations to create interesting "
 "patterns. For example:"
 msgstr ""
+"We kunnen iteraties binnen andere iteraties plaatsen om interessante "
+"patronen te creëren. Bijvoorbeeld:"
 
 #: 05.2-Iteration-and-Loops.md:108
 #, no-wrap
@@ -4215,10 +4246,22 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"4.times do\n"
+"  sample :drum_heavy_kick\n"
+"  2.times do\n"
+"    sample :elec_blip2, rate: 2\n"
+"    sleep 0.25\n"
+"  end\n"
+"  sample :elec_snare\n"
+"  4.times do\n"
+"    sample :drum_tom_mid_soft\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: 05.2-Iteration-and-Loops.md:123
 msgid "Looping"
-msgstr ""
+msgstr "Loop-en"
 
 #: 05.2-Iteration-and-Loops.md:125
 msgid ""
@@ -4227,6 +4270,11 @@ msgid ""
 "probably better off asking Sonic Pi to repeat forever (at least until you "
 "press the stop button!). Let's loop the amen break forever:"
 msgstr ""
+"Als je iets lang wil laten herhalen, ga je je misschien op betrappen van "
+"grote getallen te gebruiken zoals bv. `1000.times do`. In dat geval kan je "
+"Sonic Pi misschien beter opdragen van deze oneindig veel keer te herhalen ( "
+"als je tenminste niet op de stop-knop drukt,natuurlijk!) Laat ons de Amen "
+"Break eindeloos herhalen:"
 
 #: 05.2-Iteration-and-Loops.md:130
 #, no-wrap
@@ -4236,6 +4284,10 @@ msgid ""
 "  sleep sample_duration :loop_amen\n"
 "end"
 msgstr ""
+"loop do\n"
+"  sample :loop_amen\n"
+"  sleep sample_duration :loop_amen\n"
+"end"
 
 #: 05.2-Iteration-and-Loops.md:137
 msgid ""
