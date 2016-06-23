@@ -387,5 +387,18 @@ module SonicPi
     def register_process(pid)
       `'#{ruby_path}' '#{server_path}/bin/task-register.rb' '#{pid}'`
     end
+
+    def __no_kill_block(t = Thread.current, &block)
+      mut = t.thread_variable_get(:sonic_pi_spider_no_kill_mutex)
+      return block.call unless mut # just call block when in a non-sonic-pi-thread
+      return block.call if t.thread_variable_get(:sonic_pi__not_inherited__spider_in_no_kill_block)
+
+      mut.synchronize do
+        t.thread_variable_set(:sonic_pi__not_inherited__spider_in_no_kill_block, true)
+        r = block.call
+        t.thread_variable_set(:sonic_pi__not_inherited__spider_in_no_kill_block, false)
+        r
+      end
+    end
   end
 end

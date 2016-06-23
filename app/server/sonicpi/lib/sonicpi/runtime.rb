@@ -179,17 +179,6 @@ module SonicPi
       __info "--- IMPORTANT NOTICE ---\n\n   Your version of Sonic Pi is outdated\n   The latest is #{v}\n   Please consider updating:\n\n   http://sonic-pi.net\n\n", 1
     end
 
-
-    def __no_kill_block(t = Thread.current, &block)
-      return block.call if t.thread_variable_get(:sonic_pi__not_inherited__spider_in_no_kill_block)
-      t.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
-        t.thread_variable_set(:sonic_pi__not_inherited__spider_in_no_kill_block, true)
-        r = block.call
-        t.thread_variable_set(:sonic_pi__not_inherited__spider_in_no_kill_block, false)
-        r
-      end
-    end
-
     def __info(s, style=0)
       @msg_queue.push({:type => :info, :style => style, :val => s.to_s})
     end
