@@ -359,6 +359,7 @@ sample :loop_amen        # re-loads and plays amen"]
           returns:        :ring,
           opts:           nil,
           accepts_block:  false,
+          memoize: true,
           doc:            "Create a new immutable ring buffer of notes from args. Indexes wrap around positively and negatively. Final ring consists only of MIDI numbers and nil.",
           examples:       [
         "(midi_notes :d3, :d4, :d5) #=> (ring 50, 62, 74)",
@@ -3462,6 +3463,7 @@ play degree(2, :C3, :minor)
           opts:          {:num_octaves => "The number of octaves you'd like the scale to consist of. More octaves means a larger scale. Default is 1."},
           accepts_block: false,
           intro_fn:       true,
+          memoize: true,
           examples:      ["
 puts (scale :C, :major) # returns the following ring of MIDI note numbers: (ring 60, 62, 64, 65, 67, 69, 71, 72)",
         "# anywhere you can use a list or ring of notes, you can also use scale
@@ -3579,6 +3581,7 @@ end",
           returns:       :ring,
           opts:          nil,
           accepts_block: false,
+          memoize: true,
           examples:      ["puts (chord_degree :i, :A3, :major) # returns a ring of midi notes - (ring 57, 61, 64, 68) - an A major 7 chord",
         "play (chord_degree :i, :A3, :major, 3)",
         "play (chord_degree :ii, :A3, :major, 3) # Chord ii in A major is a B minor chord",
@@ -3625,6 +3628,7 @@ end",
           num_octaves:   "Create an arpeggio of the chord over n octaves"},
           accepts_block: false,
           intro_fn:      true,
+          memoize: true,
           examples:      ["
 puts (chord :e, :minor) # returns a ring of midi notes - (ring 64, 67, 71)
 ",
@@ -3959,6 +3963,7 @@ kill bar"]
           returns:        :ring,
           opts:          nil,
           accepts_block: false,
+          memoize: true,
           examples:      []
 
 
@@ -3974,6 +3979,7 @@ kill bar"]
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize: true,
           examples:      []
 
 
@@ -3989,6 +3995,7 @@ kill bar"]
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize: true,
           examples:      []
 
 
@@ -4004,6 +4011,7 @@ kill bar"]
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize: true,
           examples:      []
 
 
@@ -4017,6 +4025,7 @@ kill bar"]
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize: true,
           examples:      []
 
 
@@ -4068,6 +4077,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize: true,
           examples:      ["puts scale_names #=>  prints a list of all the scales"]
 
 
@@ -4081,6 +4091,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize: true,
           examples:      ["puts chord_names #=>  prints a list of all the chords"]
 
       private

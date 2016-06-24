@@ -692,6 +692,7 @@ end"
           opts:           {:step      => "Size of increment between steps; step size.",
                            :inclusive => "If set to true, range is inclusive of finish value"},
           accepts_block:  false,
+          memoize: true,
           doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to `1`. Indexes wrap around positively and negatively",
           examples:       [
         "(range 1, 5)    #=> (ring 1, 2, 3, 4)",
@@ -728,6 +729,7 @@ end"
           opts:           {:steps     => "number of slices or segments along the line",
                            :inclusive => "boolean value representing whether or not to include finish value in line"},
           accepts_block:  false,
+          memoize: true,
           doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to `8`. Indexes wrap around positively and negatively. Similar to `range`.",
           examples:       [
         "(line 0, 4, steps: 4)    #=> (ring 0.0, 1.0, 2.0, 3.0)",
@@ -757,6 +759,7 @@ end"
           returns:        :ring,
           opts:           nil,
           accepts_block:  false,
+          memoize: true,
           doc:            "Create a ring containing the results of successive halving of the `start` value. If `num_halves` is negative, will return a ring of `doubles`.",
           examples:       [
         "(halves 60, 2)  #=> (ring 60, 30)",
@@ -787,6 +790,7 @@ end"
           returns:        :ring,
           opts:           nil,
           accepts_block:  false,
+          memoize: true,
           doc:            "Create a ring containing the results of successive doubling of the `start` value. If `num_doubles` is negative, will return a ring of `halves`.",
           examples:       [
         "(doubles 60, 2)  #=> (ring 60, 120)",

@@ -32,6 +32,14 @@ module SonicPi
               @@docs
             end
 
+            def memoizable_fns
+              res = []
+              @@docs.each do |k, v|
+                res << k if v[:memoize]
+              end
+              res
+            end
+
             # Generates HTML for Lang part of help system
             def docs_html_map
               res = {}

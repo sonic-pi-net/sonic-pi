@@ -15,6 +15,7 @@
 require 'cgi'
 require 'rbconfig'
 
+
 require_relative "../core.rb"
 require_relative "../sonicpi/lib/sonicpi/studio"
 
@@ -28,6 +29,7 @@ require_relative "../sonicpi/lib/sonicpi/lang/sound"
 require_relative "../sonicpi/lib/sonicpi/runtime"
 
 require 'multi_json'
+require 'memoist'
 
 puts "Sonic Pi server booting..."
 
@@ -90,6 +92,17 @@ klass.send(:include, user_methods)
 klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:include, SonicPi::Lang::Minecraft)
+klass.send(:extend, Memoist)
+SonicPi::Lang::Core.memoizable_fns.each do |f|
+  klass.send(:memoize, f)
+end
+SonicPi::Lang::Sound.memoizable_fns.each do |f|
+  klass.send(:memoize, f)
+end
+SonicPi::Lang::Minecraft.memoizable_fns.each do |f|
+  klass.send(:memoize, f)
+end
+
 klass.send(:define_method, :inspect) { "Runtime" }
 #klass.send(:include, SonicPi::Lang::Pattern)
 
