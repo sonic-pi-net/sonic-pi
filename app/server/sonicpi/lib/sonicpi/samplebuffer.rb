@@ -86,7 +86,7 @@ module SonicPi
       @aubio_sem.synchronize do
         return @aubio_onsets if @aubio_onsets
         onset_times = data.map do |el|
-          (el[:s].to_f / duration) * stretch
+          [1, (el[:s].to_f / duration)].min * stretch
         end
         @aubio_onsets = onset_times
       end
