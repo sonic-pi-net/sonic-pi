@@ -4371,7 +4371,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             slice = slice_idx.call(slices)
             raise "Result of slice: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{slice.inspect}" unless slice.respond_to?(:has_key?) && slice[:start].is_a?(Numeric) && slice[:finish].is_a?(Numeric)
           else
-            raise "Unknown sample slice: value. Expected a number, :rand or a proc. Got #{slice_idex.inspect}"
+            raise "Unknown sample slice: value. Expected a number, :rand or a proc. Got #{slice_idx.inspect}"
           end
           args_h[:start] = slice[:start]
           args_h[:finish] = slice[:finish]
@@ -4397,7 +4397,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             args_h[:finish] = res[:finish]
             args_h.delete :onset
           else
-            raise "Unknown sample onset: value. Expected a number, :rand or a proc. Got #{onset_idex.inspect}"
+            raise "Unknown sample onset: value. Expected a number, :rand or a proc. Got #{onset_idx.inspect}"
           end
 
         end
