@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-11 23:29+0000\n"
+"PO-Revision-Date: 2016-06-24 23:34+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -957,7 +957,6 @@ msgid "Synth Options: Amp and Pan"
 msgstr "Opcje Syntezatorów: Amplituda i Balans"
 
 #: 02.2-Synth-Params.md:5
-#, fuzzy
 msgid ""
 "As well as allowing you to control which note to play or which sample to trigg"
 "er, Sonic Pi provides a whole range of options to craft and control the sounds"
@@ -966,21 +965,19 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
-"Tak samo jak masz kontrolę nad tym, którą nutę zagrać lub który sampel uruchom"
-"ić, Sonic Pi udostępnia cały asortyment parametrów umożliwiających kształtowan"
-"ie i kontrolowanie dźwięków. Wiele z tych parametrów zostanie omówionych w tej"
-" części samouczka. Ponadto w systemie pomocy jest obszerna dokumentacja, która"
-" szczegółowo opisuje każdy z nich. Tymczasem, przedstawimy dwa najbardziej prz"
-"ydatne: *aplituda* (amp) i *balans* (pan). Na początek, zobaczmy czym są te pa"
-"rametry w rzeczywistości."
+"Tak samo jak masz kontrolę nad tym, którą nutę zagrać lub który sampel "
+"uruchomić, Sonic Pi udostępnia cały asortyment parametrów umożliwiających "
+"kształtowanie i kontrolowanie dźwięków. Wiele z tych parametrów zostanie "
+"omówionych w tym samouczku. Ponadto w systemie pomocy jest obszerna "
+"dokumentacja, która szczegółowo opisuje każdy z nich. Tymczasem, "
+"przedstawimy dwa najbardziej przydatne: *aplituda* (amp) i *balans* (pan). "
+"Na początek, zobaczmy czym są te parametry w rzeczywistości."
 
 #: 02.2-Synth-Params.md:13
-#, fuzzy
 msgid "Options"
-msgstr "Parametry"
+msgstr "Opcje"
 
 #: 02.2-Synth-Params.md:15
-#, fuzzy
 msgid ""
 "Sonic Pi supports the notion of options (or opts for short) for its synths. Op"
 "ts are controls you pass to `play` which modify and control aspects of the sou"
@@ -988,13 +985,13 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
-"Syntezatory obecne w Sonic Pi wspierają pojęcie parametrów. Parametry to stero"
-"wniki, które po przekazaniu do syntezatora `play` modyfikują i kontrolują różn"
-"e aspekty odtwarzanego dźwięku. Każdy z syntezatorów posiada własny zestaw par"
-"ametrów pozwalających na subtelny tuning produkowanego dźwięku. Jednakże, istn"
-"ieje zestaw parametrów, które są wspólne dla wielu dźwięków. Przykładami takic"
-"h parametrów są np. `amp:` czy parametry kopertowe (zostaną omówione w dalszej"
-" części samouczka)."
+"Syntezatory obecne w Sonic Pi wspierają pojęcie opcji. Opcje to sterowniki, "
+"które po przekazaniu do polecenia `play` modyfikują i kontrolują różne "
+"aspekty odtwarzanego dźwięku, który słyszysz. Każdy z syntezatorów posiada "
+"własny zestaw opcji, które pozwalają na subtelny tuning danego dźwięku. "
+"Jednakże, istnieje zestaw parametrów, które są wspólne dla wielu dźwięków. "
+"Przykładami takich parametrów są np. `amp:` czy opcje obwiedni dźwięku ("
+"zostaną omówione w dalszej części samouczka)."
 
 #: 02.2-Synth-Params.md:22
 #, fuzzy
