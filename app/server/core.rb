@@ -226,6 +226,15 @@ module SonicPi
         super
       end
 
+      def immutable?
+        if @immutable.nil?
+          res = self.all? {|el| el.immutable?}
+          @immutable = !!res
+        end
+
+        return @immutable
+      end
+
       def ___sp_vector_name
         "vector"
       end
@@ -425,6 +434,10 @@ end
 
 
 class String
+  def immutable?
+    frozen?
+  end
+
   def shuffle
     self.chars.to_a.shuffle.join
   end
@@ -457,6 +470,10 @@ class Numeric
 end
 
 class Symbol
+  def immutable?
+    true
+  end
+
   def shuffle
     self.to_s.shuffle.to_sym
   end
@@ -467,6 +484,11 @@ class Symbol
 end
 
 class Float
+
+  def immutable?
+    true
+  end
+
   def times(&block)
     self.to_i.times do |idx|
       yield idx.to_f
@@ -532,6 +554,10 @@ end
 
 class Array
   include SonicPi::Core::TLMixin
+
+  def immutable?
+    false
+  end
 
   def ring
     SonicPi::Core::RingVector.new(self)
@@ -608,7 +634,7 @@ class Object
       self.is_a?(TrueClass) ||
       self.is_a?(FalseClass) ||
       self.is_a?(NilClass) ||
-      (self.is_a?(SonicPi::Core::SPVector) && self.all? {|el| immutable?(el)})
+      (self.is_a?(SonicPi::Core::SPVector) && self.all? {|el| el.immutable?})
   end
 
 
