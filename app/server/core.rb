@@ -16,6 +16,8 @@ raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RU
 
 ## This core file sets up the load path and applies any necessary monkeypatches.
 
+
+
 ## Ensure native lib dir is available
 require 'rbconfig'
 ruby_api = RbConfig::CONFIG['ruby_version']
@@ -599,6 +601,16 @@ end
 # Meta-glasses from our hero Why to help us
 # see more clearly..
 class Object
+
+  def immutable?
+    return self.is_a?(Numeric) ||
+      self.is_a?(Symbol) ||
+      self.is_a?(TrueClass) ||
+      self.is_a?(FalseClass) ||
+      self.is_a?(NilClass) ||
+      (self.is_a?(SonicPi::Core::SPVector) && self.all? {|el| immutable?(el)})
+  end
+
 
   def ring
     self.to_a.ring
