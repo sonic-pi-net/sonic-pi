@@ -6,19 +6,19 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Προτιμήσεις</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχείο δεδομένων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
         <location filename="../mainwindow.cpp" line="2609"></location>
         <location filename="../mainwindow.cpp" line="2629"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
