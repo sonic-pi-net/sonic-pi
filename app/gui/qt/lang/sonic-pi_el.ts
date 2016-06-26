@@ -18,19 +18,20 @@
         <location filename="../mainwindow.cpp" line="2609"></location>
         <location filename="../mainwindow.cpp" line="2629"></location>
         <source>Sonic Pi</source>
-        <translation>Sonic Pi</translation>
+        <translation>Ηχητικό Π</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένταση ήχου συστήματος Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιστροφή στερεοφωνίας
+Εάν ενεργοποιηθεί, ο ήχος που στέλνεται στο αριστερό ηχείο θα μεταφερθεί στο δεξί και αντίστροφα.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"></location>
@@ -39,49 +40,55 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Μονοφωνική κατάσταση.
+Εάν ενεργοποιηθεί το αριστερό και το δεξί ηχητικό σήμερα θα μιξαριστεί και
+το ίδιο σήμα θα στέλλεται και στα δύο ηχεία.
+Χρήσιμο όταν εργάζεσθε σε εξωτερικά συστήματα
+που μπορούν να διαχειριστούν μόνο μονοφωνικό σήμα.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Έξοδος ήχου του Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Προεπιλεγμένη κατάσταση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ακουστικά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="938"></location>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="959"></location>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρύθμιση κατάστασης απασφαλμάτωσης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="965"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση/ Απενεργοποίηση αρχείου μηνυμάτων.
+Εάν απενεργοποιηθεί, οι ενέργειες ενεργοποίησης των synths και των samples
+δεν θα εμφανίζονται στο αρχείο.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Ασφαλής λειτουργία</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθαρισμός ιστορικού μηνυμάτων κατά την εκτέλεση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"></location>
