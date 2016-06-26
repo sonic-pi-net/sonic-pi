@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-21 16:44+0000\n"
+"PO-Revision-Date: 2016-06-26 23:54+0000\n"
 "Last-Translator: Ole-Erik <oeyrvin@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
@@ -181,7 +181,7 @@ msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded "
 "with Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"Til slutt, *husk dette øyeblikket*, dette er første gang du har kodet i "
+"Til slutt, \"husk dette øyeblikket\", dette er første gang du har kodet i "
 "sanntid med Sonic Pi og det er usannsynlig at det den siste…"
 
 #: 01.1-Live-Coding.md:39
@@ -283,7 +283,7 @@ msgid ""
 "different rates."
 msgstr ""
 "Prøv å endre \"sove\"-tiden og høre at begge maskene kan spinne rundt med "
-"forskjellige rater."
+"forskjellige hastigheter."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
@@ -452,9 +452,9 @@ msgid ""
 msgstr ""
 "De blå knappene gir tilgang til informasjon, hjelp og innstillinger. \"Info\""
 "-knappen åpner vinduet med informasjon om Sonic Pi-kjerneteamet, historien, "
-"bidragsytere og arbeidsmiljøet/gemenskapen. \"Innstillinger\"-knappen "
-"veksler til hjelpesystemet (\"G\") - og \"Innstillinger\"-knappen veksler "
-"til innstillingsvinduet som lar deg kontrollere noen grunnleggende "
+"bidragsytere og arbeidsmiljøet/fellesskapet (community). \"Innstillinger\"-"
+"knappen veksler til hjelpesystemet (\"G\") - og \"Innstillinger\"-knappen "
+"veksler til innstillingsvinduet som lar deg kontrollere noen grunnleggende "
 "systemparametre."
 
 #: 01.2-Exploring-the-Interface.md:44
@@ -724,7 +724,7 @@ msgid ""
 "started. All that matters right now is that you know that *low numbers make "
 "lower beeps* and *high numbers make higher beeps*."
 msgstr ""
-"Ingen grunn til bekymring mo dette ikke betyr noe for deg - det gjorde ikke "
+"Ingen grunn til bekymring om dette ikke betyr noe for deg - det gjorde ikke "
 "det for meg da jeg startet. Alt som teller nå, er at du vet at \"lave tall "
 "lager lavere lyder\" og \"høyere tall lager høyere lyder\"."
 
@@ -737,7 +737,7 @@ msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even "
 "better. Try it:"
 msgstr ""
-"Spille e n note er ganske morsomt, men å spille flere samtidig kan være "
+"Å spille e n note er ganske morsomt, men å spille flere samtidig kan være "
 "bedre. Prøv:"
 
 #: 02.1-Your-First-Beeps.md:51
@@ -921,7 +921,7 @@ msgid ""
 "introduce two of the most useful: *amplitude* and *pan*. First, let's look "
 "at what options actually are."
 msgstr ""
-"Så vell som å styre hvilke note som skal spilles eller hvilket utvalg som "
+"Så vell som å styre hvilken note som skal spilles eller hvilket utvalg som "
 "skal startes, tilbyr Sonic Pi en rekke alternativer for å lage og "
 "kontrollere lydene. Vi vil dekke mange av disse mulighetene i denne "
 "opplæringen, og det er omfattende dokumentasjon for hver av dem i "
@@ -1405,9 +1405,9 @@ msgid ""
 "envelope offers two useful aspects of control:"
 msgstr ""
 "For å gi oss et enkelt, men kraftig grep til å \"kontrollere varigheten\" "
-"til lydene våre, har Sonic Pi innebygd \"ADSR amplitude envelope\" (vil "
-"dekker hva ADSR betyr senere i denne delen). En amplitude envelope tilbyr to "
-"nyttige kontrollmuligheter:"
+"til lydene våre, har Sonic Pi innebygd \"ADSR amplitude omslag\" (vil dekker "
+"hva ADSR betyr senere i denne delen). En amplitude-omslag tilbyr to nyttige "
+"kontrollmuligheter:"
 
 #: 02.4-Durations-with-Envelopes.md:14
 msgid "control over the duration of a sound"
@@ -1430,9 +1430,9 @@ msgid ""
 "duration."
 msgstr ""
 "Varigheten er hvor lenge lyden varer. En lengre varighet betyr at du hører "
-"lyden lenger. Sonic Pis lyder har alle en kontrollerbar amplitude envelope, "
-"og den totale varigheten av denne envelopen varigheten av lyden. Derfor, ved "
-"å kontrollere envelopen styrer du varigheten."
+"lyden lenger. Sonic Pis lyder har alle en kontrollerbar amplitude-omslag, og "
+"den totale varigheten av dette omslaget er varigheten av lyden. Derfor, ved "
+"å kontrollere omslaget styrer du varigheten."
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1446,14 +1446,14 @@ msgid ""
 "silence.\" Sonic Pi allows you to program exactly this behaviour with "
 "envelopes."
 msgstr ""
-"ADSR envelopen kontrollerer ikke bare varighet, det gir deg også \"god "
+"ADSR-omslaget kontrollerer ikke bare varighet, det gir deg også \"god "
 "kontroll\" over lydens amplitude\". Alle hørbare lyder starter og avslutter "
-"stille og inneholder noen ikke-stille deler i mellom. Med enveloper kan du "
+"stille og inneholder noen ikke-stille deler i mellom. Med omslag kan du "
 "skyve og holde amplituden til lydens ikke-stille deler imellom. Det er som å "
 "gi noen instruksjoner om hvordan å skru opp og ned volumet på en "
 "gitarforsterker. For eksempel kan du be noen \"å starte i stillhet, sakte "
 "flytte opp til full volum, holder den litt, så raskt gå tilbake til stillhet."
-"\" Med Sonic Pi kan du programmere akkurat dette med enveloper."
+"\" Med Sonic Pi kan du programmere akkurat dette med omslag."
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
@@ -1465,7 +1465,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr "Nå, la oss se på hver av delene av envelope igjen."
+msgstr "Nå, la oss se på hver av delene av omslagene igjen."
 
 #: 02.4-Durations-with-Envelopes.md:42
 #, fuzzy
@@ -1710,8 +1710,8 @@ msgid ""
 "have any effect:"
 msgstr ""
 "For et ekstra kontrollnivå, kan du også angi sluttid (decay). Dette er en "
-"fase i omslaget som som passer mellom angrepet og opprettholdesesfasen og "
-"angir et tidspunkt der amplituden vil synke fra \"attack_level:\" til \""
+"fase i omslaget som passer mellom angrepet og opprettholdesesfasen og angir "
+"et tidspunkt der amplituden vil synke fra \"attack_level:\" til \""
 "decay_level:\" (som, med mindre du eksplisitt har satt den, blir satt til \""
 "sustain_level:\"). Som standard \"decay:\" opt er 0 og både angrepet og "
 "sluttiden er 1 så de må spesifiseres for at sluttiden skal ha noen effekt:"
@@ -1775,7 +1775,7 @@ msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr "ADSR Envelopes"
+msgstr "ADSR omslag"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
@@ -1820,7 +1820,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr "Nå sett i gang å leg med å legge omslag til dine lyder..."
+msgstr "Nå sett i gang å leke med å legge omslag på dine lyder..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
@@ -2254,16 +2254,21 @@ msgid ""
 "spring decreases its density and is similar to the sound having a *lower "
 "pitch*."
 msgstr ""
+"Å presse sammen en fjær øker tettheten (antall viklinger per cm). Dette "
+"tilsvarer at samlet lyder med \"en høyere tone\". Strekkes fjæren ut "
+"reduseres tettheten og tilsvarer en lyd som har en \"lavere tone\"."
 
 #: 03.3-Stretching-Samples.md:93
 msgid "The Maths Behind Sample Rate"
-msgstr ""
+msgstr "Matematikken bak sampelraten"
 
 #: 03.3-Stretching-Samples.md:95
 msgid ""
 "(This section is provided for those that are interested in the details. "
 "Please feel free to skip it...)"
 msgstr ""
+"(Denne delen gis for de som er interessert i detaljene. Du må gjerne hoppe "
+"over den...)"
 
 #: 03.3-Stretching-Samples.md:98
 msgid ""
@@ -2271,10 +2276,13 @@ msgid ""
 "representing where the speaker should be through time. We can take this list "
 "of numbers and use it to draw a graph which would look similar to this:"
 msgstr ""
+"Som vi så ovenfor, er et sampel representert av en stor, lang liste med tall "
+"som sier hva høyttaleren skal gjøre over tid. Vi kan ta denne listen med "
+"tall og bruke den til å tegne et diagram som vil se slik ut:"
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -2288,35 +2296,46 @@ msgid ""
 "play back. We could also play it back at half rate which would be 22050 "
 "points per second taking 4 seconds to play back."
 msgstr ""
+"Du kanskje har sett bilder som dette før. Det kalles  samplets \"bølgeform\""
+". Det er bare en graf med tall. En bølgeform som dette har vanligvis 44100 "
+"datapunkter per sekund (dette ut fra Nyquist-Shannons samplingsteorem). Så, "
+"hvis samlet varer i 2 sekunder, vil bølgeformen være representert ved 88200 "
+"punkter som vi ville mate høyttaleren med en hastighet på 44100 punkter per "
+"sekund. Selvfølgelig vi kan mate den med dobbel hastighet, som ville være "
+"88200 punkter per sekund. Dette ville det derfor bare ta et sekund å spille. "
+"Vi kan også spille det med halv fart, som ville være 22050 punkter per "
+"sekund, som tar 4 sekunder å spille."
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr ""
+msgstr "Samlets varigheten påvirkes av avspillingshastigheten:"
 
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
-msgstr ""
+msgstr "Doblet avspillingshastighet halverer spilletiden,"
 
 #: 03.3-Stretching-Samples.md:119
 msgid "Halving the playback rate doubles the playback time,"
-msgstr ""
+msgstr "Halvering av avspillingshastigheten dobler spilletiden,"
 
 #: 03.3-Stretching-Samples.md:120
 msgid "Using a playback rate of one fourth quadruples the playback time,"
 msgstr ""
+"Settes avspillingshastigheten til en fjerdedel, firedoble avspillingstiden,"
 
 #: 03.3-Stretching-Samples.md:121
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
 msgstr ""
+"Å bruke en avspillingshastighet på 1/10 gjør avspillingen 10 ganger lengre."
 
 #: 03.3-Stretching-Samples.md:123
 msgid "We can represent this with the formula:"
-msgstr ""
+msgstr "Vi kan representere dette med formelen:"
 
 #: 03.3-Stretching-Samples.md:125
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr ""
+msgstr "new_sample_duration = (1 / rate) * sample_duration "
 
 #: 03.3-Stretching-Samples.md:129
 msgid ""
@@ -2327,6 +2346,13 @@ msgid ""
 "see a big bass speaker move as it pumps out super low bass - it's actually "
 "moving a lot slower in and out than a speaker producing higher notes."
 msgstr ""
+"Endret avspillingshastighet påvirker også samplets tonehøyde. Frekvensen "
+"eller tonen til en bølgeform avgjøres av hvor raskt den beveger seg opp og "
+"ned. Hjernen vår oppfatter raske bevegelser i høyttalerne som høye toner og "
+"langsomme bevegelser i høyttalere som lave toner. Det er derfor du noen "
+"ganger du til og med kan se en stor basshøyttaler flytter seg når den pumper "
+"ut superlav bass - den flytter seg faktisk mye langsommere inn og ut enn en "
+"høyttaler som lager høyere notater."
 
 #: 03.3-Stretching-Samples.md:137
 msgid ""
@@ -2337,14 +2363,20 @@ msgid ""
 "it*. Also, *halving the rate will halve the frequency*. Other rates will "
 "affect the frequency accordingly."
 msgstr ""
+"Hvis du tar en bølge og klemmer den sammen vil den flytte opp og ned flere "
+"ganger per sekund. Dette vil gjøre at den høres høyere ut. Det viser seg at "
+"dobbel mengde opp og ned bevegelser (svingninger) dobler frekvensen. Så \"å "
+"spille ditt sampel med dobbel hastighet vil doble frekvensen du høre det på\""
+". Altså vil \"halv hastighet halvere frekvensen\". Andre hastigheter "
+"påvirker frekvensen tilsvarende."
 
 #: 03.4-Enveloped-Samples.md:1
 msgid "3.4 Enveloped Samples"
-msgstr ""
+msgstr "3.4 Omslag for sampler"
 
 #: 03.4-Enveloped-Samples.md:3
 msgid "Enveloped Samples"
-msgstr ""
+msgstr "Sampler med omslag"
 
 #: 03.4-Enveloped-Samples.md:5
 msgid ""
@@ -2356,38 +2388,47 @@ msgid ""
 "completed - whichever is first. So, if you use a very long `release:`, it "
 "won't extend the duration of the sample."
 msgstr ""
+"Det er også mulig å endre samplets \"varighet\" og \"amplitude\" ved å bruke "
+"et ADSR-omslag. Men dette virker litt annerledes for ADSR-omslaget som er "
+"tilgjengelig for synter. Sampelomsalgene tillater deg bare å redusere "
+"amplituden og varigheten for et sampel - men aldri å øke dem. Samplet vil "
+"stoppe når sampler er ferdig med å spille eller omslaget er fullført - "
+"uavhengig av hvilket som kommer først. Så hvis du bruker en svært lang \""
+"versjon\", vil det ikke forlenge samplets varighet."
 
 #: 03.4-Enveloped-Samples.md:13
 msgid "Amen Envelopes"
-msgstr ""
+msgstr "Amen omslag"
 
 #: 03.4-Enveloped-Samples.md:15
 msgid "Let's return to our trusty friend the Amen Break:"
-msgstr ""
+msgstr "La oss gå tilbake til vår gode venn Amen Break:"
 
 #: 03.4-Enveloped-Samples.md:21
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade "
 "this in over 1 second we can use the `attack:` param:"
 msgstr ""
+"Uten ops, hører vi hele samlet med full amplitude. Hvis vi vil fade dette ut "
+"i mer enn ett sekund, kan vi  bruke  'attack:' param:"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
 msgid "sample :loop_amen, attack: 1"
-msgstr ""
+msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
 msgid "For a shorter fade in, choose a shorter attack value:"
-msgstr ""
+msgstr "For en kortere utfasing velger du en kortere angrepsverdi:"
 
 #: 03.4-Enveloped-Samples.md:30
 #, no-wrap
 msgid "sample :loop_amen, attack: 0.3"
-msgstr ""
+msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
 msgid "Auto Sustain"
-msgstr ""
+msgstr "Auto Sustain"
 
 #: 03.4-Enveloped-Samples.md:36
 msgid ""
@@ -2402,21 +2443,33 @@ msgid ""
 "attack, decay and release values add up to more than the duration of the "
 "sample, the sustain is simply set to 0."
 msgstr ""
+"ADSR-omslag avviker fra standard synt-omslag i \"sustain\"-verdien. I synth-"
+"omslaget, er varigheten (sustain) som standard satt til 0, om du ikke angir "
+"verdien manuelt. I sampler, er sustain-verdien som standard en \"automagisk\""
+" verdi - tiden som er igjen for å spille resten av samplet. Det er derfor vi "
+"hører det hele samplet når vi ikke gir noen forhåndsinnstillinger. Hvis "
+"attac, decay-, sustain- og release-verdiene alle er 0 vil vil aldri høre et "
+"pip. Sonic Pi beregner derfor hvor langt samplet er, trekker fra eventuelle "
+"attack-, decay- and release-tider og bruker resultatet som varigheten. Hvis "
+"attac-, decay- og release verdiene tilsammen blir mer enn varigheten av "
+"samplet, blir varigheten helt enkelt satt til 0."
 
 #: 03.4-Enveloped-Samples.md:48
 msgid "Fade Outs"
-msgstr ""
+msgstr "Utfasing"
 
 #: 03.4-Enveloped-Samples.md:50
 msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask "
 "Sonic Pi how long the sample is:"
 msgstr ""
+"For å utforske dette, la oss se på vår Amen Break mer i detalj. Hvis vi spør "
+"Sonic Pi hvor langt samplet er:"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
 msgid "print sample_duration :loop_amen"
-msgstr ""
+msgstr "print sample_duration :loop_amen"
 
 #: 03.4-Enveloped-Samples.md:57
 msgid ""
@@ -2424,11 +2477,14 @@ msgid ""
 "seconds. Let's just round that to `1.75` for convenience here. Now, if we "
 "set the release to `0.75`, something surprising will happen:"
 msgstr ""
+"Det vil skrive ut \"1.753310657596372\" som er lengden på samplet i "
+"sekunder. La oss her bare avrunde det til '1.75' for enkelhets skyld. Nå, "
+"hvis vi setter versjonen til '0,75', vil det skje noe overraskende:"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
 msgid "sample :loop_amen, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:65
 msgid ""
