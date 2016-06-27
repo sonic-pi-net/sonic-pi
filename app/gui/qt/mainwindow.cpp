@@ -1410,8 +1410,12 @@ QString MainWindow::currentTabLabel()
 bool MainWindow::loadFile()
 {
   QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), QDir::homePath() + "/Desktop", QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter) ;
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter) ;
   if(!fileName.isEmpty()){
+    QFileInfo fi=fileName;
+    settings.setValue("lastDir", fi.dir().absolutePath());
     SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
     loadFile(fileName, p);
     return true;
@@ -1423,9 +1427,13 @@ bool MainWindow::loadFile()
 bool MainWindow::saveAs()
 {
   QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop", QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter) ;
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter) ;
 
   if(!fileName.isEmpty()){
+    QFileInfo fi=fileName;
+    settings.setValue("lastDir", fi.dir().absolutePath());
     if (!fileName.contains(QRegExp("\\.[a-z]+$"))) {
         fileName = fileName + ".txt";
       }
@@ -2581,8 +2589,12 @@ void MainWindow::toggleRecording() {
     Message msg("/stop-recording");
     msg.pushStr(guiID.toStdString());
     sendOSC(msg);
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), QDir::homePath() + "/Desktop", tr("Wavefile (*.wav)"));
+    QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+    QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
     if (!fileName.isEmpty()) {
+      QFileInfo fi=fileName;
+      settings.setValue("lastDir", fi.dir().absolutePath());
       Message msg("/save-recording");
       msg.pushStr(guiID.toStdString());
       msg.pushStr(fileName.toStdString());
