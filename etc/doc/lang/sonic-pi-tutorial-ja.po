@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-26 13:50+0000\n"
+"PO-Revision-Date: 2016-06-27 09:51+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -34,7 +34,6 @@ msgstr ""
 "、演奏など、これから学ぶことは、本当に刺激的なものになるでしょう。"
 
 #: 01-Welcome-to-Sonic-Pi.md:10
-#, fuzzy
 msgid ""
 "But wait, how rude of me! Let me introduce myself - I'm [Sam Aaron](http://twi"
 "tter.com/samaaron) - the chap that created Sonic Pi. You can find me at [@sama"
@@ -43,11 +42,10 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"でも、ちょっと待ってください。まずは自己紹介が必要でしたね。失礼いたしました！私は、Sonic Piを作成した[Sam Aaron](http://twit"
-"ter.com/samaaron)といいます。 Twitter上の[@samaaron](http://twitter.com/samaaron)で見つける"
-"ことができますので、連絡くれるとうれしいです。もしかすると、 僕が観客の前で演奏しているライブコーディングのバンド[Meta-eX](http://meta"
-"-ex.com)にも興味を持ってもらえるかもしれません。[Meta-eX](http://meta-ex.com)の演奏の中で使っているトラックの一つを、S"
-"onic Piの例の中で見つけることができます。"
+"でも、ちょっと待ってください。まずは自己紹介が必要でしたね。失礼いたしました！私は、Sonic Piを作成した[Sam "
+"Aaron](http://twitter.com/samaaron)といいます。 Twitter上の[@samaaron](http://twitter"
+".com/samaaron)で見つけることができますので、連絡くれるとうれしいです。もしかすると、 僕がSonic Piを使って観客の前で演奏している[ラ"
+"イブコーディングのパフォーマンス](http://facebook.com/livecodersamaaron)にも興味を持ってもらえるかもしれません。"
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -322,98 +320,85 @@ msgid "So what are you waiting for..."
 msgstr "次にあなたを待っているものは・・・"
 
 #: 01.2-Exploring-the-Interface.md:1
-#, fuzzy
 msgid "1.2 Exploring the Interface"
 msgstr "1.2 インターフェースの探索"
 
 #: 01.2-Exploring-the-Interface.md:3
-#, fuzzy
 msgid "The Sonic Pi Interface"
 msgstr "Sonic Pi のインターフェース"
 
 #: 01.2-Exploring-the-Interface.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
-msgstr "Sonic Piは、音楽をコーディング(記述)するための とてもシンプルなインターフェース(操作画面)を持っています。 ちょっと見てみましょう。"
+msgstr ""
+"Sonic Piは、音楽をコーディング(記述)するための とてもシンプルなインターフェース(操作画面)を持っています。 ちょっと見てみましょう。"
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:11
-#, fuzzy
 msgid "*A* - Play Controls"
 msgstr "*A* - 演奏の操作"
 
 #: 01.2-Exploring-the-Interface.md:12
-#, fuzzy
 msgid "*B* - Editor Controls"
 msgstr "*B* - 編集の操作"
 
 #: 01.2-Exploring-the-Interface.md:13
-#, fuzzy
 msgid "*C* - Info and Help"
 msgstr "*C* - 情報とヘルプ"
 
 #: 01.2-Exploring-the-Interface.md:14
-#, fuzzy
 msgid "*D* - Code Editor"
 msgstr "*D* - コードエディタ"
 
 #: 01.2-Exploring-the-Interface.md:15
-#, fuzzy
 msgid "*E* - Prefs Panel"
-msgstr "*E* - ログ画面"
+msgstr "*E* - 設定画面"
 
 #: 01.2-Exploring-the-Interface.md:16
-#, fuzzy
 msgid "*F* - Log Viewer"
-msgstr "*F* - ヘルプシステム"
+msgstr "*F* - ログビューア"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
 msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:20
-#, fuzzy
 msgid "A. Play Controls"
 msgstr "A. 演奏の操作"
 
 #: 01.2-Exploring-the-Interface.md:22
-#, fuzzy
 msgid ""
 "These pink buttons are the main controls for starting and stopping sounds. The"
 "re's the *Run* button for running the code in the editor, *Stop* for stopping "
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"ここにあるグリーンのボタンで、音を再生したり停止するための主要な操作ができます。 *Run*ボタンは編集画面内のコードを実行します。*Stop*ボタンですべ"
-"てのコードの動作を停止します。 *Save*ボタンは外部ファイルにコードを保存し、*Record*ボタンは演奏中の音を (WAV ファイルに)録音します。"
+"ここにあるピンクのボタンで、音を再生したり停止するための主要な操作ができます。 "
+"*Run*ボタンは編集画面内のコードを実行します。*Stop*ボタンですべてのコードの動作を停止します。 "
+"*Save*ボタンは外部ファイルにコードを保存し、*Record*ボタンは演奏中の音を (WAV ファイルに)録音します。"
 
 #: 01.2-Exploring-the-Interface.md:28
-#, fuzzy
 msgid "B. Editor Controls"
 msgstr "B. 編集の操作"
 
 #: 01.2-Exploring-the-Interface.md:30
-#, fuzzy
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
-"これらのオレンジ色のボタンで編集画面を操作します。 *Size +*と*Size -*ボタンは文字サイズを大きくしたり小さくします。 *Align* ボタン"
-"はより専門的で見やすいコードに整えてくれます。"
+"これらのオレンジ色のボタンで編集画面を操作します。 *Size +*と*Size -*ボタンは文字サイズを大きくしたり小さくします。 *Align* "
+"ボタンはより見やすいコードに整えてくれます。"
 
 #: 01.2-Exploring-the-Interface.md:35
-#, fuzzy
 msgid "C. Info and Help"
 msgstr "C. 情報とヘルプ"
 
 #: 01.2-Exploring-the-Interface.md:37
-#, fuzzy
 msgid ""
 "These blue buttons give you access to information, help and preferences. The *"
 "Info* button will open up the information window which contains information ab"
@@ -421,17 +406,15 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
-"これらの青いボタンで、情報、ヘルプや設定にアクセスします。*Info* ボタンは、 概要、コア、協力者、コミュニティ、ライセンス、ヒストリーといったSoni"
-"c Pi自体についての情報を画面に表示します。 *Help*ボタンは*F*のヘルプシステム表示を切り替えます。 また*Prefs*ボタンは基本的なシステムを"
-"操作するための設定画面の表示を切り替えます。"
+"これらの青いボタンで、情報、ヘルプや設定にアクセスします。*Info* ボタンは、 概要、コア、協力者、コミュニティ、ライセンス、"
+"ヒストリーといったSonic Pi自体についての情報を画面に表示します。 *Help*ボタンは*G*のヘルプシステム表示を切り替えます。 "
+"また*Prefs*ボタンは基本的なシステムを操作するための設定画面の表示を切り替えます。"
 
 #: 01.2-Exploring-the-Interface.md:44
-#, fuzzy
 msgid "D. Code Editor"
 msgstr "D. コードエディタ"
 
 #: 01.2-Exploring-the-Interface.md:46
-#, fuzzy
 msgid ""
 "This is the area where you'll write your code and compose/perform music. It's "
 "a simple text editor where you can write code, delete it, cut and paste, etc. "
@@ -440,14 +423,14 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"ここでは音楽を作曲/演奏したりするためのコードを書く領域です。コードを書いたり、消したり、 切り取り、貼り付けなどを行うためのシンプルな編集画面です。Goo"
-"gle Docsやワードの基礎版だと思ってください。 編集画面ではコードの意味合いに応じて自動で色つけします。はじめは変わっていると思うかもしれませんが、 "
+"ここでは音楽を作曲/演奏したりするためのコードを書く領域です。コードを書いたり、消したり、 切り取り、貼り付けなどを行うためのシンプルな編集画面です。"
+"Google Docsやワードの基本版だと思ってください。 "
+"編集画面ではコードの意味合いに応じて自動で色つけします。はじめは変わっていると思うかもしれませんが、 "
 "とても使いやすくなるはずです。例えば、数値は青色で示されます。"
 
 #: 01.2-Exploring-the-Interface.md:54
-#, fuzzy
 msgid "E. Prefs Panel"
-msgstr "E. ログ画面"
+msgstr "E. 設定画面"
 
 #: 01.2-Exploring-the-Interface.md:56
 #, fuzzy
@@ -462,21 +445,19 @@ msgstr ""
 "きます。 コードのデバッグ（欠陥を取り除く作業）に利用でき、コードが何をしているかを理解することにも役立ちます。"
 
 #: 01.2-Exploring-the-Interface.md:63
-#, fuzzy
 msgid "F. Log Viewer"
-msgstr "F. ヘルプシステム"
+msgstr "F. ログビューア"
 
 #: 01.2-Exploring-the-Interface.md:65
-#, fuzzy
 msgid ""
 "When you run your code, information about what the program is doing will be di"
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"最後は、SonicPiインターフェースのもっとも重要な部分の一つである、画面の下にあるヘルプシステムです。 青い*Help*ボタンによって表示/非表示を切り"
-"替えることができます。 ヘルプシステムは、ヘルプと情報を含んでいます。このチュートリアル、入手できるシンセのリスト、 サンプルや実例、効果のリスト、そして音"
-"楽をコーディングするために備えているSonic Piの 全機能のリストといった、Sonic Piの全てについてのヘルプと情報があります。"
+"コードを走らせた時、ログ画面にはプログラムがどうなっているかについての情報が表示されます。 "
+"既定では、正確な再生時間を毎音ごとにメッセージとして見ることができます。 "
+"コードのデバッグ（欠陥を取り除く作業）に利用でき、コードが何をしているかを理解することにも役立ちます。"
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
