@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-23 15:14+0000\n"
+"PO-Revision-Date: 2016-06-27 10:51+0000\n"
 "Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -12789,6 +12789,9 @@ msgid ""
 "s sand falling in random locations around Steve along with a percussive rain-l"
 "ike sound from the `:cnoise` synth."
 msgstr ""
+"Quindi usiamo quei valori casuali nelle funzioni 'synth' e 'mc_set_block' "
+"per creare della sabbia che cade in luoghi casuali intorno a Steve insieme a "
+"un suono percussivo di pioggia prodotto dal synth ':cnoise'."
 
 #: A.08-minecraft-vj.md:121
 msgid ""
@@ -12800,10 +12803,18 @@ msgid ""
 "g and changing things around. How different can you make the visuals without s"
 "topping the code?"
 msgstr ""
+"Per quelli e quelle che ancora non conoscono i live loop, posso dirvi che è "
+"proprio qui che ci si comincia a divertire con Sonic Pi. Mentre il codice è "
+"in esecuzione e la sabbia sta cadendo, prova a cambiare uno dei valori, "
+"magari il tempo di sleep a '0.25' oppure la tipologia di blocco da ':sand' a "
+"':gravel'. Premi di nuovo Run. Hey, facile! Le cose sono cambiate senza "
+"arrestare l'esecuzione. Questo è il tuo primo passo nella carriera di VJ! "
+"Continua a fare pratica e a cambiare le cose. Quanto puoi cambiare le "
+"immagini senza arrestare l'esecuzione del codice?"
 
 #: A.08-minecraft-vj.md:129
 msgid "Epic Block Patterns"
-msgstr ""
+msgstr "Combinazioni di blocchi epiche"
 
 #: A.08-minecraft-vj.md:131
 msgid ""
@@ -12826,6 +12837,18 @@ msgid ""
 "coordinates for a square. We can then randomly choose block types from a ring "
 "of blocks for an interesting effect:"
 msgstr ""
+"Infine, un altro modo molto divertente di generare delle immagini "
+"interessanti è di creare enormi muri con diverse combinazioni di blocchi "
+"sopra cui volare e avvicinarsi. Per creare questo effetto, dobbiamo smettere "
+"di posizionare i blocchi casualmente, mettendoli invece in maniera ordinata. "
+"Possiamo farlo intrecciando due gruppi di iterazioni diverse (premi il tasto "
+"Help e vai alla sezione 5.2, \"Iterazione e loop\" per maggiori informazioni "
+"sull'iterazione). Il valore '|xd|' posizionato dopo il 'do' significa che "
+"'xd' sarà il valore stabilito per ogni iterazione. Quindi, la prima volta "
+"sarà 0, poi 1, 2 e così via. Intrecciando due iterazioni tra loro in questo "
+"modo possiamo generare tutte le coordinate di un quadrato. Così, poi "
+"possiamo scegliere casualmente i tipi di blocco per creare degli effetti "
+"interessanti:"
 
 #: A.08-minecraft-vj.md:145
 #, no-wrap
@@ -12853,6 +12876,11 @@ msgid ""
 " types and the more adventurous of you might want to try sticking this within "
 "a `live_loop` so that the patterns keep changing automatically."
 msgstr ""
+"Abbastanza chiaro. Mentre ci divertiamo qui, proviamo a cambiare 'bs.choose' "
+"con 'bs.tick' per spostarci da uno schema casuale a uno più regolare. Prova "
+"a cambiare anche il tipo di blocco e i più coraggiosi possono anche provare "
+"a includere tutto in un 'live_loop' così che la struttura continuerà a "
+"cambiare automaticamente."
 
 #: A.08-minecraft-vj.md:161
 msgid ""
@@ -12864,14 +12892,23 @@ msgid ""
 " coding power of Sonic Pi to make it real. When you've practised enough dim th"
 "e lights and put on a VJ show for your friends!"
 msgstr ""
+"Quindi, per un gran finale da VJ, cambia i due '10.times' con '100.times' e "
+"premi Run. Booom! Un muro gigantesco di blocchi posti casualmente! "
+"Immaginati quando tempo potresti impiegare a costruire una cosa del genere "
+"usando solo il mouse! Premi due volte lo spazio per entrare in modalità "
+"volante e comincia a sorvolare tutto per creare un fantastico effetto "
+"visivo. Non fermarti qui, usa la tua immaginazione per dar forma alle tue "
+"idee e poi utilizza il potere del codice di Sonic Pi per realizzarle. Quando "
+"avrai fatto pratica a sufficienza, abbassa le luci e organizza uno "
+"spettacolo visuale per i tuoi amici!"
 
 #: A.09-randomisation.md:1
 msgid "A.9 Randomisation"
-msgstr ""
+msgstr "A.9 Randomizzazione"
 
 #: A.09-randomisation.md:3
 msgid "Surfing Random Streams"
-msgstr ""
+msgstr "Scivolare su correnti casuali"
 
 #: A.09-randomisation.md:5
 msgid ""
@@ -12881,10 +12918,16 @@ msgid ""
 "over the fundamentals in much greater detail. So, get your lucky hat on and le"
 "t's surf some random streams!"
 msgstr ""
+"Tornando indietro all'episodio 4 di questo tutorial, avevamo dato un breve "
+"sguardo alla randomizzazione mentre programmavamo alcuni riff di synth. "
+"Considerando che la randomizzazione è una parte importante della mia pratica "
+"musicale live code DJ, ho pensato che fosse utile di trattare i fondamentali "
+"di questo aspetto più nel dettaglio. Quindi, mettiti comodo e partiamo sulle "
+"strade della randomizzazione!"
 
 #: A.09-randomisation.md:11
 msgid "There is no random"
-msgstr ""
+msgstr "Il caso non esiste"
 
 #: A.09-randomisation.md:13
 msgid ""
@@ -12896,6 +12939,14 @@ msgid ""
 "have another go, but let's ask Sonic Pi to choose a number this time. Fire up "
 "Sonic Pi v2.7+ and ask it for a random number but again don't tell me:"
 msgstr ""
+"La prima cosa da imparare, e che potrebbe sorprenderti quando suoni le "
+"funzioni random di Sonic PI, è che in realtà esse non sono davvero casuali. "
+"Che significa questo? Proviamo a fare un paio di prove. Primo: prova a "
+"pensare un numero tra 0 e 1. Tienitelo in mente e non dirmelo. Provo a "
+"indovinare...Era '0.321567'? No? Bah, non sono molto bravo allora. Fammi "
+"fare un altro tentativo, ma stavolta fai scegliere il numero a Sonic Pi. "
+"Avvia il programma e chiedigli un numero casuale; ma anche stavolta non "
+"dirmelo:"
 
 #: A.09-randomisation.md:22
 #, no-wrap
@@ -12909,6 +12960,10 @@ msgid ""
 " Run button again and see what we get... What? `0.75006103515625` again? This "
 "clearly can't be random! You're right, it's not."
 msgstr ""
+"Quindi riproviamoci...era `0.75006103515625`? Sì! Riesco a vedere il tuo "
+"scetticismo. Forse era solo fortuna. Riproviamo. Premi di nuovo Run e "
+"vediamo che cosa esce...Cosa, `0.75006103515625` di nuovo? Questo non può "
+"essere sicuramente casuale! Sì, hai ragione, non lo è."
 
 #: A.09-randomisation.md:32
 msgid ""
@@ -12920,10 +12975,18 @@ msgid ""
 " to rely on the deterministic nature of Sonic Pi's randomisation as a fundamen"
 "tal building block for your compositions and live coded DJ sets."
 msgstr ""
+"Che sta succedendo? La parola usata in informatica è determinismo. Questo "
+"significa che niente è casuale e tutto è destinato a esserlo. La tua "
+"versione di Sonic Pi è destinata sempre a restituire il numero "
+"`0.75006103515625` se esegui il programma scritto sopra. Questo potrebbe "
+"sembrarti piuttosto inutile, ma ti assicuro che invece è uno degli aspetti "
+"più utili di Sonic Pi. Se ti applichi un po' imparerai come rapportarti alla "
+"natura deterministica della randomizzazione di Sonic Pi e capirai che questo "
+"aspetto è fondamentale per le tue composizioni e le tue performance da DJ."
 
 #: A.09-randomisation.md:41
 msgid "A Random Melody"
-msgstr ""
+msgstr "Una melodia casuale"
 
 #: A.09-randomisation.md:43
 msgid ""
@@ -12937,10 +13000,22 @@ msgid ""
 "rybody's version of Sonic Pi uses the exact same random stream which is very i"
 "mportant when we start sharing our pieces with each other."
 msgstr ""
+"Quando Sonic Pi si avvia, in realtà carica nella memoria una sequenza di "
+"441000 valori casuali già generati. Quando richiami una funzione che genera "
+"casualità, come 'rand' o 'rrand', questo flusso casuale è usato per generare "
+"il tuo risultato. Ogni richiamo di una funzione di questo tipo prende i "
+"valori da questo flusso. Quindi la decima chiamata di una funzione random "
+"userà il decimo valore di quel flusso. Inoltre, ogni volta che premi Run, il "
+"flusso riparte da zero. Questo è il motivo per cui sono riuscito a predire "
+"il risultato prima ed è anche il motivo per cui una melodia 'casuale' è "
+"sempre uguale ogni volta. Ogni versione di Sonic Pi usa lo stesso flusso di "
+"valori casuali. Questo è molto importante quando cominciamo a condividere i "
+"nostri brani musicali tra noi."
 
 #: A.09-randomisation.md:54
 msgid "Let's use this knowledge to generate a repeatable random melody:"
 msgstr ""
+"Usiamo quanto appena imparato per generare una melodia casuale ripetibile:"
 
 #: A.09-randomisation.md:56
 #, no-wrap
@@ -12961,50 +13036,65 @@ msgid ""
 "'random' notes between 50 and 95. When it's finished, hit Run again to hear ex"
 "actly the same melody again."
 msgstr ""
+"Digita il codice sopra in una finestra vuota e premi Run. Ascolterai una "
+"melodia di note 'casuali' incluse tra 50 e 95. Quando è terminata, premi di "
+"nuovo Run e sentirai esattamente la stessa melodia."
 
 #: A.09-randomisation.md:67
 msgid "Handy Randomisation Functions"
-msgstr ""
+msgstr "Funzioni utili di randomizzazione"
 
 #: A.09-randomisation.md:69
 msgid ""
 "Sonic Pi comes with a number of useful functions for working with the random s"
 "tream. Here's a list of some of the most useful:"
 msgstr ""
+"Sonic Pi viene fornito con una serie di funzioni utili per lavorare con il "
+"flusso di dati casuali. Eccoti una lista di alcune delle migliori:"
 
 #: A.09-randomisation.md:72
 msgid "`rand` - Simply returns the next value in the random stream"
 msgstr ""
+"'rand' - Semplicemente restituisce il prossimo valore del flusso di numeri "
+"casuali"
 
 #: A.09-randomisation.md:73
 msgid "`rrand` - Returns a random value within a range"
 msgstr ""
+"'rrand' - Restituisce un valore casuale all'interno di due valori "
+"predeterminati"
 
 #: A.09-randomisation.md:74
 msgid "`rrand_i` - Returns a random whole number within a range"
 msgstr ""
+"'rrand_i' - Restituisce un numero intero casuale all'interno di un "
+"intervallo predeterminato"
 
 #: A.09-randomisation.md:75
 msgid "`one_in` - Returns true or false with the given probability"
-msgstr ""
+msgstr "'one_in' - è vero o falso secondo una casualità predeterminata"
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
 msgstr ""
+"'dice' - imita il comportamento di un dado e quindi restituisce valori "
+"casuali tra 1 e 6"
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr ""
+msgstr "'choose' - sceglie valori casuali da una lista"
 
 #: A.09-randomisation.md:79
 msgid ""
 "Check out their documentation in the Help system for detailed information and "
 "examples."
 msgstr ""
+"Dai un'occhiata alla loro documentazione nella sezione Help se vuoi maggiori "
+"informazioni o degli esempi."
 
 #: A.09-randomisation.md:82
 msgid "Resetting the Stream"
-msgstr ""
+msgstr "Azzerare il flusso"
 
 #: A.09-randomisation.md:84
 msgid ""
