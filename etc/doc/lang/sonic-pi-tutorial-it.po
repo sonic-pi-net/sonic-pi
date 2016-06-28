@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-27 10:51+0000\n"
+"PO-Revision-Date: 2016-06-28 16:02+0000\n"
 "Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -13103,6 +13103,11 @@ msgid ""
 "want. Wouldn't it be great if we could try a number of different riffs and cho"
 "ose the one we liked best? This is where the real magic starts."
 msgstr ""
+"L'abilità di ripetere una sequenza di note predeterminate è essenziale per "
+"riprodurre un riff mentre suoni. Tuttavia, quello che senti potrebbe non "
+"essere esattamente il riff a cui avevi pensato. Non sarebbe bello poter "
+"provare alcuni differenti riff e scegliere quello preferito? Qui è dove la "
+"magia ha inizio."
 
 #: A.09-randomisation.md:90
 msgid ""
@@ -13110,6 +13115,10 @@ msgid ""
 "nce, a random seed is the starting point from which a new stream of random val"
 "ues can sprout out and blossom. Let's try it:"
 msgstr ""
+"Possiamo regolare il flusso usando la funzione 'use_random_seed'. In "
+"informatica, un random seed, ovvero un generatore di numeri casuali, ha un "
+"punto di inizio dal quale il flusso di valori causali parte. Prova quanto "
+"segue:"
 
 #: A.09-randomisation.md:94
 #, no-wrap
@@ -13131,6 +13140,9 @@ msgid ""
 "Great, we get the first three notes of our random melody above: `84`, `83` and"
 " `71`. However, we can now change the seed to something else. How about this:"
 msgstr ""
+"Bene! Abbiamo ottenuto le prime tre note della nostra melodia casuale: '84', "
+"'83' e '71. Tuttavia, se vogliamo possiamo cambiare questa serie. Prova a "
+"eseguire questo:"
 
 #: A.09-randomisation.md:106
 #, no-wrap
@@ -13153,6 +13165,9 @@ msgid ""
 "numbers here are the same as the last two numbers before - this isn't a coinci"
 "dence."
 msgstr ""
+"Interessante, abbiamo ottenuto '83', '71' e '61'. Forse noterai che le prime "
+"due cifre di questa serie sono le stesse delle ultime due appartenenti alla "
+"serie precedente. E non è una coincidenza."
 
 #: A.09-randomisation.md:118
 msgid ""
@@ -13163,6 +13178,13 @@ msgid ""
 "that it's precisely this ability to jump around the random stream which gives "
 "us huge power when making music."
 msgstr ""
+"Ricordati che il flusso di dati casuali è semplicemente una lista gigante di "
+"valori già predeterminati. Eseguendo 'use_random_seed' scegliamo da dove "
+"partire. Un'altra immagine che può renderti l'idea è un enorme mazzo di "
+"carte già mischiato. Usando questa funzione, noi scegliamo dove tagliare il "
+"mazzo. La cosa eccitante di questa funzione è proprio la sua abilità di "
+"saltare al punto del flusso che vogliamo, dandoci infinite possibilità "
+"musicali."
 
 #: A.09-randomisation.md:126
 msgid ""
@@ -13170,6 +13192,9 @@ msgid ""
 "r, but let's also throw in a live loop so we can experiment live whilst it's p"
 "laying:"
 msgstr ""
+"Riguardiamo brevemente la nostra melodia casuale di 8 note implementando "
+"questa funzione. Prima però inserisci il codice all'interno di un live loop, "
+"così possiamo effettuare modifiche mentre la melodia continua a suonare:"
 
 #: A.09-randomisation.md:130
 #, no-wrap
@@ -13196,6 +13221,9 @@ msgid ""
 "se. Try `100`, what about `999`. Try your own values, experiment and play arou"
 "nd - see which seed generates the riff you like best."
 msgstr ""
+"Adesso, mentre sta ancora suonando, cambia il valore della funzione da '0' a "
+"qualcos'altro. Prova '100' oppire '999'. Prova anche valori a tua scelta, "
+"sperimenta e divertiti. Valuta qual'è il riff che ti piace di più."
 
 #: A.09-randomisation.md:147
 msgid ""
