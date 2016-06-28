@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-04-29 17:05+0000\n"
-"Last-Translator: \"Anderson Freitas B. da Silva\" <professor_imf@hotmail.com>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/tutori"
-"al/pt/>\n"
+"PO-Revision-Date: 2024-10-20 19:19+0000\n"
+"Last-Translator: André Sá <siikyatgith@openaliasbox.org>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.5.2\n"
+"X-Generator: Weblate 5.8-rc\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -120,10 +120,10 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
-"Antes de entrarmos nos detalhes de como o Sonic Pi funciona no resto deste tut"
-"orial, queria dar-te uma ideia de como é programar em tempo real. Não te preoc"
-"upes se não perceberes muito (ou nada) disto. Tenta só segurar-te à cadeira e "
-"aproveita..."
+"Antes de entrarmos nos detalhes de como o Sonic Pi funciona no resto deste "
+"tutorial, queria dar-te uma ideia de como é programar em tempo real. Não te "
+"preocupes se não perceberes muito (ou nada) disto. Tenta só segurar-te à "
+"cadeira e aproveita..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -186,9 +186,9 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ok, isso foi simples. Vamos adicionar algo mais à mistura. Acima de `sample :b"
-"d_haus` adiciona a linha `sample :ambi_choir, rate: 0.3`. O teu código deve es"
-"tar algo parecido com o seguinte:"
+"Ok, isso foi simples. Vamos adicionar algo mais à mistura. Acima de `sample "
+":bd_haus` adiciona a linha `sample :ambi_choir, rate: 0.3`. O teu código "
+"deve estar algo parecido com o seguinte:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -225,7 +225,8 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr "Experimenta comentar uma das linhas `sample` adicionando um `#` no início:"
+msgstr ""
+"Experimenta comentar uma das linhas `sample` adicionando um `#` no início:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -274,24 +275,24 @@ msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Experimenta mudar o valor de `sleep` e nota que os loops tocam a velocidades d"
-"iferentes."
+"Experimenta mudar o valor de `sleep` e nota que os loops tocam a velocidades "
+"diferentes."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Experimenta remover o comentário da linha `sample` (remover o `#`) e desfruta "
-"do som da guitarra tocado ao contrário."
+"Experimenta remover o comentário da linha `sample` (remover o `#`) e "
+"desfruta do som da guitarra tocado ao contrário."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
-"Experimenta mudar um dos valores de `mix:` para números entre `0` (não entra n"
-"a música) e `1` (entra na música com efeito completo)."
+"Experimenta mudar um dos valores de `mix:` para números entre `0` (não entra "
+"na música) e `1` (entra na música com efeito completo)."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -417,10 +418,10 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"Estes botões rosa são os controlos principais para reproduzir e parar sons. O "
-"botão *Run* serve para reproduzir o código no editor, *Stop* para parar todas "
-"as reproduções, *Save* para guardar o código num ficheiro externo e *Record* p"
-"ara gravar (num ficheiro WAV) o som que estiver a tocar."
+"Estes botões rosa são os controlos principais para reproduzir e parar sons. "
+"O botão *Run* serve para reproduzir o código no editor, *Stop* para parar "
+"todas as reproduções, *Save* para guardar o código num ficheiro externo e "
+"*Record* para gravar (num ficheiro WAV) o som que estiver a tocar."
 
 #: 01.2-Exploring-the-Interface.md:29
 msgid "B. Editor Controls"
@@ -923,9 +924,10 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
-"Para aqueles que já sabem de notação musical (não te preocupes se não souberes"
-" -- não precias para te divertires) podem querer escrever uma melodia usando o"
-"s nomes das notas tal como Mi e La em vez de números. podem fazer o seguinte:"
+"Para aqueles que já sabem de notação musical (não te preocupes se não "
+"souberes -- não precias para te divertires) podem querer escrever uma "
+"melodia usando os nomes das notas tal como Mi e La em vez de números. podem "
+"fazer o seguinte:"
 
 #: 02.1-Your-First-Beeps.md:102
 #, no-wrap
