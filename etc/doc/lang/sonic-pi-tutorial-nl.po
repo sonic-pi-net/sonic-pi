@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-23 14:22+0000\n"
+"PO-Revision-Date: 2016-06-28 17:40+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -4297,6 +4297,11 @@ msgid ""
 "have code after the loop you will *never* hear it. For example, the cymbal "
 "after this loop will never play:"
 msgstr ""
+"Belangrijk om weten is dat loops zich kunnen gedragen als zwarte gaten in je "
+"code. Eens de code in loop gaat, geraakt hij er niet meer uit tenzij je op "
+"stop drukt - de code blijft in deze loop doordraaien. Dit betekent dan, als "
+"je code hebt geschreven na de loop, je deze code *nooit* zal horen. In dit "
+"voorbeeld, zal de cymbaal na de loop nooit spelen:"
 
 #: 05.2-Iteration-and-Loops.md:143
 #, no-wrap
@@ -4307,18 +4312,23 @@ msgid ""
 "end\n"
 "sample :drum_cymbal_open"
 msgstr ""
+"loop do\n"
+"  play 50\n"
+"  sleep 1\n"
+"end\n"
+"sample :drum_cymbal_open"
 
 #: 05.2-Iteration-and-Loops.md:152
 msgid "Now, get structuring your code with iteration and loops!"
-msgstr ""
+msgstr "Nu gaan we de code structureren met iteratie en loops!"
 
 #: 05.3-Conditionals.md:1
 msgid "5.3 Conditionals"
-msgstr ""
+msgstr "5.3 Conditionelen"
 
 #: 05.3-Conditionals.md:3
 msgid "Conditionals"
-msgstr ""
+msgstr "Conditionelen"
 
 #: 05.3-Conditionals.md:5
 msgid ""
@@ -4328,10 +4338,16 @@ msgid ""
 "For example, you might want to randomly play a drum or a cymbal. We can "
 "achieve this with an `if` statement."
 msgstr ""
+"Eén van de dingen die je op een zeker moment zeker wil gaan doen is,dat je "
+"niet alleen willekeurige noten wil spelen (zie de voorgaande sectie hierover)"
+"  maar ook een willekeurige (random) beslissing kunnen maken en gebaseerd op "
+"de uitkomst van andere uitgevoerde code of andere code. Zo wil je "
+"bijvoorbeeld een drum of cimbaal willekeurig bespelen.  Dit kunnen we "
+"bereiken met de instructie 'als'."
 
 #: 05.3-Conditionals.md:11
 msgid "Flipping a Coin"
-msgstr ""
+msgstr "Een muntje opgooien"
 
 #: 05.3-Conditionals.md:13
 msgid ""
@@ -4341,6 +4357,13 @@ msgid ""
 "2: `one_in(2)`. We can then use the result of this to decide between two "
 "pieces of code, the code to play the drum and the code to play the cymbal:"
 msgstr ""
+"Laten we een muntje opgooien: Als het kop is, speel je een trommel, als het "
+"munt is, speel je een cimbaal. Makkelijk. We kunnen kop of munt nabootsen "
+"met onze  `one_in` functie (voorgesteld in onze sectie over willekeurigheid) "
+"door een waarschijnlijkheid in te bouwen van 1 op 2: 'one_in(2)'.  We kunnen "
+"het resultaat,vervolgens gebruiken om te kunnen kiezen tussen twee stukken "
+"van de code, de code om de trommel te spelen en de code om de cimbaal  te "
+"spelen :"
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
@@ -4356,22 +4379,36 @@ msgid ""
 "  \n"
 "end"
 msgstr ""
+"loop do\n"
+"  if one_in(2)\n"
+"    sample :drum_heavy_kick\n"
+"  else\n"
+"    sample :drum_cymbal_closed\n"
+"  end\n"
+"  \n"
+"  sleep 0.5\n"
+"  \n"
+"end"
 
 #: 05.3-Conditionals.md:34
 msgid "Notice that `if` statements have three parts:"
-msgstr ""
+msgstr "Merk op dat 'if' verklaringen drie delen hebben:"
 
 #: 05.3-Conditionals.md:36
 msgid "The question to ask"
-msgstr ""
+msgstr "De vraagstelling"
 
 #: 05.3-Conditionals.md:37
 msgid "The first choice of code to run (if the answer to the question is yes)"
 msgstr ""
+"De eerste keuze van de uit te voeren code (als het antwoord op de vraag ja "
+"is)"
 
 #: 05.3-Conditionals.md:38
 msgid "The second choice of code to run (if the answer to the question is no)"
 msgstr ""
+"De tweede keuze van de uit te voeren code (als het antwoord op de vraag neen "
+"is)"
 
 #: 05.3-Conditionals.md:40
 msgid ""
@@ -4380,6 +4417,9 @@ msgid ""
 "need to find a question that will give us a `true` or `false` answer which "
 "is exactly what `one_in` does."
 msgstr ""
+"Typisch in programmeertalen, wordt ja aangeduid door de term 'true' en neen "
+"door de term 'false'. Dus moeten we een vraag vinden die ons een `true` of "
+"`false` antwoord geeft, dat is precies wat `one_in´ doet."
 
 #: 05.3-Conditionals.md:45
 msgid ""
@@ -4387,6 +4427,9 @@ msgid ""
 "the second choice is wrapped between the `else` and the `end`. Just like do/"
 "end blocks you can put multiple lines of code in either place. For example:"
 msgstr ""
+"Merk op hoe de eerste keuze verpakt  is tussen `if` en `else` en de tweede "
+"keus verpakt tussen `else` en `end`. Net zoals bij een do/end blok kun je "
+"meerdere coderegels in beide plaatsen zetten. Bijvoorbeeld:"
 
 #: 05.3-Conditionals.md:50
 #, no-wrap
@@ -4402,22 +4445,37 @@ msgid ""
 "  \n"
 "end"
 msgstr ""
+"loop do\n"
+"  if one_in(2)\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 0.5\n"
+"  else\n"
+"    sample :drum_cymbal_closed\n"
+"    sleep 0.25\n"
+"  end\n"
+"  \n"
+"end"
 
 #: 05.3-Conditionals.md:64
 msgid ""
 "This time we're sleeping for a different amount of time depending on which "
 "choice we make."
 msgstr ""
+"Dit keer hebben we verschillende rustijden afhankelijk van de keuze die "
+"wordt gemaakt."
 
 #: 05.3-Conditionals.md:68
 msgid "Simple if"
-msgstr ""
+msgstr "Gewoon if"
 
 #: 05.3-Conditionals.md:70
 msgid ""
 "Sometimes you want to optionally execute just one line of code. This is "
 "possible by placing `if` and then the question at the end. For example:"
 msgstr ""
+"Soms wilt je optioneel slechts één regel code uitvoeren. Dit is mogelijk "
+"door het plaatsen van `if` en vervolgens de vraag aan het einde. "
+"Bijvoorbeeld:"
 
 #: 05.3-Conditionals.md:73
 #, no-wrap
@@ -4431,20 +4489,30 @@ msgid ""
 "  sleep 1.5\n"
 "end"
 msgstr ""
+"use_synth :dsaw\n"
+"loop do\n"
+"  play 50, amp: 0.3, release: 2\n"
+"  play 53, amp: 0.3, release: 2 if one_in(2)\n"
+"  play 57, amp: 0.3, release: 2 if one_in(3)\n"
+"  play 60, amp: 0.3, release: 2 if one_in(4)\n"
+"  sleep 1.5\n"
+"end"
 
 #: 05.3-Conditionals.md:85
 msgid ""
 "This will play chords of different numbers with the chance of each note "
 "playing having a different probability."
 msgstr ""
+"Dit zal akoorden met andere getallen, bij iedere gespeelde noot, de kans op "
+"een verschillende mogelijkheid spelen."
 
 #: 05.4-Threads.md:1
 msgid "5.4 Threads"
-msgstr ""
+msgstr "5.4 Threads"
 
 #: 05.4-Threads.md:3
 msgid "Threads"
-msgstr ""
+msgstr "Threads"
 
 #: 05.4-Threads.md:5
 msgid ""
@@ -4453,22 +4521,31 @@ msgid ""
 "bass, then a bit of drums, then more bass... However, the timing soon gets "
 "hard to think about, especially when you start weaving in more elements."
 msgstr ""
+"Dus je hebt je fatale baslijn en een vette beat. Hoe speel je ze op "
+"hetzelfde moment? Een oplossing is deze handmatig verweven- een beetje bas , "
+"dan wat drums, wat meer bas... Lang gaat het niet duren eer je je de timing "
+"moeilijk kan voorstellen, zeker als je nog meer elementen hierin wil "
+"verweven."
 
 #: 05.4-Threads.md:11
 msgid ""
 "What if Sonic Pi could weave things for you automatically? Well, it can, and "
 "you do it with a special thing called a *thread*."
 msgstr ""
+"Wat als Sonic Pi deze automatisch kan verweven voor jou? Nou, het kan, en je "
+"het doet dat met wat heet een *thread*."
 
 #: 05.4-Threads.md:14
 msgid "Infinite Loops"
-msgstr ""
+msgstr "Oneindige Loops"
 
 #: 05.4-Threads.md:16
 msgid ""
 "To keep this example simple, you'll have to imagine that this is a phat beat "
 "and a killer bassline:"
 msgstr ""
+"Om het voorbeeld eenvoudig te houden, moet je je voorstellen dat dit een "
+"waanzinnige baslijn is en een vette beat:"
 
 #: 05.4-Threads.md:19
 #, no-wrap
@@ -4483,6 +4560,15 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"loop do\n"
+"  sample :drum_heavy_kick\n"
+"  sleep 1\n"
+"end\n"
+"loop do\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.4-Threads.md:32
 msgid ""
@@ -4492,10 +4578,15 @@ msgid ""
 "to start something at the same time as the rest of the code. This is where "
 "threads come to the rescue."
 msgstr ""
+"Zoals we reeds eerder bespraken, zijn loops zoals *zwarte gaten* voor het "
+"programma. Zodra je in loop bent geraakt, kan je deze niet verlaten totdat u "
+"op stop hebt gedrukt. Hoe spelen we dan deze beide loops op hetzelfde "
+"moment? We moeten Sonic Pi vertellen dat we iets op hetzelfde moment als de "
+"rest van de code willen beginnen. Dit is waar de threads ons redding brengen."
 
 #: 05.4-Threads.md:38
 msgid "Threads to the Rescue"
-msgstr ""
+msgstr "Threads bieden redding"
 
 #: 05.4-Threads.md:40
 #, no-wrap
@@ -4512,6 +4603,17 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"loop do\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.4-Threads.md:55
 msgid ""
@@ -4520,10 +4622,14 @@ msgid ""
 "next statement after the do/end block (which happens to be the second loop). "
 "Try it and you'll hear both the drums and the bassline weaved together!"
 msgstr ""
+"Door de eerste loop in een `in_thread` do/end block te plaatsen, vertellen "
+"we Sonic Pi de inhoud van de do/end block uit te voeren op *exact* hetzelfde "
+"moment als de volgende instructie na de do/end block (toevallig ook onze "
+"tweede lus). Probeer het en je zal de baslijn en de drums samen horen spelen!"
 
 #: 05.4-Threads.md:61
 msgid "Now, what if we wanted to add a synth on top. Something like:"
-msgstr ""
+msgstr "Wat als we hieraan nog een synth willen toevoegen? Zoiets als:"
 
 #: 05.4-Threads.md:63
 #, no-wrap
@@ -4545,6 +4651,22 @@ msgid ""
 "  sleep 2\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"loop do\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
+"end\n"
+"loop do\n"
+"  use_synth :zawa\n"
+"  play 52, release: 2.5, phase: 2, amp: 0.5\n"
+"  sleep 2\n"
+"end"
 
 #: 05.4-Threads.md:84
 msgid ""
@@ -4552,6 +4674,9 @@ msgid ""
 "time as the second loop due to the `in_thread`. However, *the third loop is "
 "never reached*. We therefore need another thread:"
 msgstr ""
+"Nu hebben we hetzelfde probleem als hiervoor. De eerste loop wordt gespeeld "
+"op hetzelfde moment als de tweede loop, door onze 'in_thread'. *De derde "
+"loop wordt weer nooit bereikt*. Daarom hebben we een andere thread nodig:"
 
 #: 05.4-Threads.md:88
 #, no-wrap
@@ -4575,10 +4700,28 @@ msgid ""
 "  sleep 2\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do\n"
+"    use_synth :fm\n"
+"    play 40, release: 0.2\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"loop do\n"
+"  use_synth :zawa\n"
+"  play 52, release: 2.5, phase: 2, amp: 0.5\n"
+"  sleep 2\n"
+"end"
 
 #: 05.4-Threads.md:111
 msgid "Runs as threads"
-msgstr ""
+msgstr "Voert uit als threads"
 
 #: 05.4-Threads.md:113
 msgid ""
@@ -4587,10 +4730,15 @@ msgid ""
 "times will layer sounds over each other. As the runs themselves are threads, "
 "they will automatically weave the sounds together for you."
 msgstr ""
+"Wat je mischien zal verbazen is dat iedere keer je op de afspeel-knop drukt "
+"je eigenlijk een nieuwe thread aanmaakt voor de uitvoerende code. Vandaar "
+"dat, wanneer je meerdere keren op afspelen drukt, de klanken op elkaar hoort "
+"opstapelen. Vermits deze een thread op zich is, verweeft hij deze code voor "
+"jou automatisch."
 
 #: 05.4-Threads.md:119
 msgid "Scope"
-msgstr ""
+msgstr "Toepassingsgebied"
 
 #: 05.4-Threads.md:121
 msgid ""
@@ -4601,6 +4749,12 @@ msgid ""
 "actually just switching the synth in the *current thread* - no other thread "
 "will have their synth switched. Let's see this in action:"
 msgstr ""
+"Als je Sonic Pi leert beheersen, ga je zien dat threads de belangrijkste "
+"bouwstenen voor jouw muziek zullen zijn. Eén van de belangrijkste taak die "
+"zij hebben is het isoleren van *de huidige staat* van andere threads. Wat "
+"betekend dit? Wel, wanneer je van synth overschakeld door het gebruik van "
+"`use_synth` schakel je van synth in *de huidige thread* - geen enkele andere "
+"thread zal van synth veranderen. Laten we dit in actie zien:"
 
 #: 05.4-Threads.md:129
 #, no-wrap
@@ -4614,6 +4768,14 @@ msgid ""
 "sleep 1\n"
 "play 50"
 msgstr ""
+"play 50\n"
+"sleep 1\n"
+"in_thread do\n"
+"  use_synth :tb303\n"
+"  play 50\n"
+"end\n"
+"sleep 1\n"
+"play 50"
 
 #: 05.4-Threads.md:142
 msgid ""
@@ -4621,10 +4783,13 @@ msgid ""
 "statement only affected the thread it was in and not the outer main run "
 "thread."
 msgstr ""
+"Merk je op dat de middelste klank anders is dan de andere? De `use_synth` "
+"declaratie zal enkel invloed hebben op de thread waarin deze zich bevind en "
+"niet op de threads daarbuiten."
 
 #: 05.4-Threads.md:146
 msgid "Inheritance"
-msgstr ""
+msgstr "Erfenis"
 
 #: 05.4-Threads.md:148
 msgid ""
@@ -4632,6 +4797,8 @@ msgid ""
 "automatically inherit all of the current settings from the current thread. "
 "Let's see that:"
 msgstr ""
+"Wanneer je een nieuwe thread met `in_thread` creëert, zal de nieuwe thread "
+"de instellingen van de huidige thread overnemen. Laten we dit even bekijken :"
 
 #: 05.4-Threads.md:152
 #, no-wrap
@@ -4643,6 +4810,12 @@ msgid ""
 "  play 55\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"play 50\n"
+"sleep 1\n"
+"in_thread do\n"
+"  play 55\n"
+"end"
 
 #: 05.4-Threads.md:162
 msgid ""
@@ -4650,20 +4823,26 @@ msgid ""
 "was played from a separate thread? Any of the settings modified with the "
 "various `use_*` functions will behave in the same way."
 msgstr ""
+"Merk je op hoe de tweede noot met de ': tb303' synth wordt gespeeld, hoewel "
+"het door een aparte thread werd aangestuurd? Elk van de met verschillende "
+"`use_*`  functies gewijzigde instellingen, zullen zich op dezelfde manier "
+"gaan gedragen."
 
 #: 05.4-Threads.md:166
 msgid ""
 "When threads are created, they inherit all the settings from their parent "
 "but they don't share any changes back."
 msgstr ""
+"Wannneer threads worden gecreëerd, erven zij alle instellingen over van "
+"bovenliggende (parent) maar zij delen geen veranderingen aan hen terug."
 
 #: 05.4-Threads.md:169
 msgid "Naming Threads"
-msgstr ""
+msgstr "Naamgeving aan Threads"
 
 #: 05.4-Threads.md:171
 msgid "Finally, we can give our threads names:"
-msgstr ""
+msgstr "Ook nog kunnen wij namen geven aan threads:"
 
 #: 05.4-Threads.md:173
 #, no-wrap
@@ -4682,12 +4861,27 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread(name: :bass) do\n"
+"  loop do\n"
+"    use_synth :prophet\n"
+"    play chord(:e2, :m7).choose, release: 0.6\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"in_thread(name: :drums) do\n"
+"  loop do\n"
+"    sample :elec_snare\n"
+"    sleep 1\n"
+"  end\n"
+"end"
 
 #: 05.4-Threads.md:190
 msgid ""
 "Look at the log pane when you run this code. See how the log reports the "
 "name of the thread with the message?"
 msgstr ""
+"Kijk naar het log venster wanneer u deze code uitvoert. Zie je hoe het "
+"logboek de naam rapporteert van de thread met een bericht?"
 
 #: 05.4-Threads.md:193
 #, no-wrap
@@ -4695,10 +4889,12 @@ msgid ""
 "[Run 36, Time 4.0, Thread :bass]\n"
 " |- synth :prophet, {release: 0.6, note: 47}"
 msgstr ""
+"[Run 36, Time 4.0, Thread :bass]\n"
+" |- synth :prophet, {release: 0.6, note: 47}"
 
 #: 05.4-Threads.md:198
 msgid "Only One Thread per Name Allowed"
-msgstr ""
+msgstr "Slechts één thread per naam toegestaan"
 
 #: 05.4-Threads.md:200
 msgid ""
@@ -4706,6 +4902,9 @@ msgid ""
 "given name may be running at the same time. Let's explore this. Consider the "
 "following code:"
 msgstr ""
+"Wat je nog moet weten over benoemde threads is dat slechts één thread met "
+"een bepaalde naam tegelijkertijd kan worden uitgevoerd. Laten we dit "
+"onderzoeken met de volgende code:"
 
 #: 05.4-Threads.md:204
 #, no-wrap
@@ -4717,6 +4916,12 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    sample :loop_amen\n"
+"    sleep sample_duration :loop_amen\n"
+"  end\n"
+"end"
 
 #: 05.4-Threads.md:213
 msgid ""
@@ -4724,6 +4929,9 @@ msgid ""
 "again a couple of times. Listen to the cacophony of multiple amen breaks "
 "looping out of time with each other. Ok, you can press Stop now."
 msgstr ""
+"Ga je gang en plak deze in een buffer en druk op de knop afspelen. Druk er "
+"opnieuw een paar keer. Luister naar de kakofonie van meerdere amen breaks in "
+"loop, uit de maat afspelen . OK, je mag nu op Stop drukken."
 
 #: 05.4-Threads.md:217
 msgid ""
@@ -4732,10 +4940,14 @@ msgid ""
 "loop and press the Run button three times, you'll have three layers of loops "
 "playing simultaneously."
 msgstr ""
+"Dit soort gedrag hebben we al keer op keer gezien - dat als je de "
+"afspeelknop aanklikt, geluidslagen op bestaande klanken gaan stapelen. Dus "
+"als je een loop hebt en je klikt drie keer op afspelen zal je drie lagen "
+"loops tegelijkertijd horen afspelen."
 
 #: 05.4-Threads.md:222
 msgid "However, with named threads it is different:"
-msgstr ""
+msgstr "Met benoemde threads is dat echter anders:"
 
 #: 05.4-Threads.md:224
 #, no-wrap
@@ -4747,37 +4959,49 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread(name: :amen) do\n"
+"  loop do\n"
+"    sample :loop_amen\n"
+"    sleep sample_duration :loop_amen\n"
+"  end\n"
+"end"
 
 #: 05.4-Threads.md:233
 msgid ""
 "Try pressing the Run button multiple times with this code. You'll only ever "
 "hear one amen break loop. You'll also see this in the log:"
 msgstr ""
+"Probeer de afspeel-knop meerdere malen met deze code. Je zal nu één enkele "
+"amen break loop horen. Ook zie je dit in het logboek:"
 
 #: 05.4-Threads.md:236
 #, no-wrap
 msgid "==> Skipping thread creation: thread with name :amen already exists."
-msgstr ""
+msgstr "==> Skipping thread creation: thread with name :amen already exists."
 
 #: 05.4-Threads.md:240
 msgid ""
 "Sonic Pi is telling you that a thread with the name `:amen` is already "
 "playing, so it's not creating another."
 msgstr ""
+"Sonic Pi vertelt je hier dat een thread met de naam `:amen` al aan het "
+"spelen is , en gaat geen andere creëren."
 
 #: 05.4-Threads.md:243
 msgid ""
 "This behaviour may not seem immediately useful to you now - but it will be "
 "very handy when we start to live code..."
 msgstr ""
+"Dit gedrag lijkt misschien niet onmiddellijk bruikbaar voor je nu - maar het "
+"zal erg handig worden wanneer we beginnen met het spelen van code live..."
 
 #: 05.5-Functions.md:1
 msgid "5.5 Functions"
-msgstr ""
+msgstr "5.5 functies"
 
 #: 05.5-Functions.md:3
 msgid "Functions"
-msgstr ""
+msgstr "Functies"
 
 #: 05.5-Functions.md:5
 msgid ""
@@ -4786,10 +5010,15 @@ msgid ""
 "are a very powerful way to do this. They give us the ability to give a name "
 "to a bunch of code. Let's take a look."
 msgstr ""
+"Zodra u veel code begint te schrijven, kan je als je wil, een manier vinden "
+"om dingen te gaan organiseren en structureren, om deze netter te maken en "
+"gemakkelijker te begrijpen. Functies zijn een zeer krachtige manier om dit "
+"te doen. Ze brengen ons de mogelijkheid om een naam te geven aan een bundel "
+"code. Laten we een kijkje nemen."
 
 #: 05.5-Functions.md:10
 msgid "Defining functions"
-msgstr ""
+msgstr "Functies definiëren"
 
 #: 05.5-Functions.md:12
 #, no-wrap
@@ -4801,6 +5030,12 @@ msgid ""
 "  sleep 2\n"
 "end"
 msgstr ""
+"define :foo do\n"
+"  play 50\n"
+"  sleep 1\n"
+"  play 55\n"
+"  sleep 2\n"
+"end"
 
 #: 05.5-Functions.md:21
 msgid ""
@@ -4810,21 +5045,30 @@ msgid ""
 "called it anything we want such as `bar`, `baz` or ideally something "
 "meaningful to you like `main_section` or `lead_riff`."
 msgstr ""
+"Hier hebben we een nieuwe functie genaamd `foo` gedefinieerd. We doen dit "
+"met onze oude vriend het do/end blok en het magische woord `define`  gevolgd "
+"door de naam die wij willen geven aan onze functie. We hoefde deze niet `foo`"
+" te noemen, we konden deze om het even wat noemen zoals `fiets`, `bal`  of "
+"een ideale beschrijving  zoals `refrein_stuk` of `lead_riff`."
 
 #: 05.5-Functions.md:27
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define "
 "it."
 msgstr ""
+"Vergeet niet van een dubbele punt `:` bij de naam van je functie te voegen "
+"wanneer je deze definieert."
 
 #: 05.5-Functions.md:30
 msgid "Calling functions"
-msgstr ""
+msgstr "Functies aanroepen"
 
 #: 05.5-Functions.md:32
 msgid ""
 "Once we have defined our function we can call it by just writing its name:"
 msgstr ""
+"Eens we een functie hebben gedefinieerd kunnen we deze oproepen door gewoon "
+"zijn naam te schrijven:"
 
 #: 05.5-Functions.md:35
 #, no-wrap
@@ -4841,6 +5085,17 @@ msgid ""
 "  foo\n"
 "end"
 msgstr ""
+"define :foo do\n"
+"  play 50\n"
+"  sleep 1\n"
+"  play 55\n"
+"  sleep 0.5\n"
+"end\n"
+"foo\n"
+"sleep 1\n"
+"2.times do\n"
+"  foo\n"
+"end"
 
 #: 05.5-Functions.md:52
 msgid ""
@@ -4848,10 +5103,14 @@ msgid ""
 "written `play` or `sample`. This gives us a great way to express ourselves "
 "and to create new meaningful words for use in our compositions."
 msgstr ""
+"We kunnen zelfs gebruik maken van 'foo' binnen iteratie blokken of overal "
+"waar we `spelen` of `samplen` hebben geschreven. Dit schenkt ons een "
+"geweldige manier om onszelf te uiten en nieuwe zinvolle woorden te gebruiken "
+"in onze composities."
 
 #: 05.5-Functions.md:56
 msgid "Functions are remembered across runs"
-msgstr ""
+msgstr "Functies worden onthouden gedurende het uitvoeren"
 
 #: 05.5-Functions.md:58
 msgid ""
@@ -4861,11 +5120,17 @@ msgid ""
 "functions change that. When you define a function, Sonic Pi *remembers* it. "
 "Let's try it. Delete all the code in your buffer and replace it with:"
 msgstr ""
+"Tot nu toe was het zo dat telkens als u de Afspeel-knop ingedrukte, Sonic Pi "
+"met een schone lei startte. Het weet weet van niets tenzij van wat er in de "
+"buffer zit. Je kan niet verwijzen naar code die in een andere buffer of een "
+"andere thread zit. Functies veranderen dat. Wanneer je een functie "
+"definieert zal Sonic Pi zich deze *herinneren*. Laten we dit proberen. "
+"Verwijder alle code in uw buffer en vervang het met:"
 
 #: 05.5-Functions.md:65
 #, no-wrap
 msgid "foo"
-msgstr ""
+msgstr "foo"
 
 #: 05.5-Functions.md:69
 msgid ""
@@ -4875,10 +5140,15 @@ msgid ""
 "typed. This behaviour only works with functions created using `define` (and "
 "`defonce`)."
 msgstr ""
+"Druk op de Afspeel-knop - en je hoort je functie spelen. Waar ging de code "
+"heen? Hoe wist Sonic Pi wat het moest spelen? Sonic Pi herinnerde zich jouw "
+"functie - dus zelfs nadat je deze hebt verwijderd uit de buffer, het "
+"herinnerde zich watjij had getypt. Dit gedrag werkt alleen met de functies "
+"die zijn gemaakt met behulp van `define` (and `defonce`)."
 
 #: 05.5-Functions.md:75
 msgid "Parameterised functions"
-msgstr ""
+msgstr "geparametreerde functies"
 
 #: 05.5-Functions.md:77
 msgid ""
@@ -4897,6 +5167,12 @@ msgid ""
 "sleep 0.5\n"
 "my_player 90"
 msgstr ""
+"define :my_player do |n|\n"
+"  play n\n"
+"end\n"
+"my_player 80\n"
+"sleep 0.5\n"
+"my_player 90"
 
 #: 05.5-Functions.md:91
 msgid ""
