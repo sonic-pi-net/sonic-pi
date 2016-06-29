@@ -45,7 +45,7 @@ module SonicPi
       reset_server
 
       @server_rebooter = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, "server checker")
+        __thread_locals.set_local(:sonic_pi_local_thread_group, "server checker")
         Thread.current.priority = 300
         Kernel.sleep 10
         loop do
@@ -120,7 +120,7 @@ module SonicPi
       @samples = {}
 
       Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, "Studio sample loader")
+        __thread_locals.set_local(:sonic_pi_local_thread_group, "Studio sample loader")
         Thread.current.priority = -10
         (old_samples || {}).each do |k, v|
           message "Reloading sample - #{unify_tilde_dir(k)}"

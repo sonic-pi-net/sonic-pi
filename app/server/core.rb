@@ -226,13 +226,13 @@ module SonicPi
         super
       end
 
-      def immutable?
-        if @immutable.nil?
-          res = self.all? {|el| el.immutable?}
-          @immutable = !!res
+      def sp_thread_safe?
+        if @thread_safe.nil?
+          res = self.all? {|el| el.sp_thread_safe?}
+          @thread_safe = !!res
         end
 
-        return @immutable
+        return @thread_safe
       end
 
       def ___sp_vector_name
@@ -434,7 +434,7 @@ end
 
 
 class String
-  def immutable?
+  def sp_thread_safe?
     frozen?
   end
 
@@ -470,7 +470,7 @@ class Numeric
 end
 
 class Symbol
-  def immutable?
+  def sp_thread_safe?
     true
   end
 
@@ -485,7 +485,7 @@ end
 
 class Float
 
-  def immutable?
+  def sp_thread_safe?
     true
   end
 
@@ -555,8 +555,8 @@ end
 class Array
   include SonicPi::Core::TLMixin
 
-  def immutable?
-    false
+  def sp_thread_safe?
+    frozen? && self.all? {|el| el.sp_thread_safe?}
   end
 
   def ring
@@ -585,7 +585,7 @@ class Array
   alias_method :__orig_sample__, :sample
   def sample(*args, &blk)
 
-    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+    if Thread.current.thread_variable_get(:sonic_pi_thread_locals)
       self[SonicPi::Core::SPRand.rand!(self.size)]
     else
       __orig_sample__ *args, &blk
@@ -594,7 +594,7 @@ class Array
 
   alias_method :__orig_shuffle__, :shuffle
   def shuffle(*args, &blk)
-    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+    if Thread.current.thread_variable_get(:sonic_pi_thread_locals)
       orig_seed, orig_idx = SonicPi::Core::SPRand.get_seed_and_idx
       SonicPi::Core::SPRand.set_seed!(SonicPi::Core::SPRand.rand_i!(441000))
       new_a = self.dup
@@ -613,7 +613,7 @@ class Array
 
   alias_method :__orig_shuffle_bang__, :shuffle!
   def shuffle!(*args, &blk)
-    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+    if Thread.current.thread_variable_get(:sonic_pi_thread_locals)
       new_a = self.shuffle
       self.replace(new_a)
     else
@@ -622,19 +622,29 @@ class Array
   end
 end
 
+class Time
+  def sp_thread_safe?
+    frozen?
+  end
+end
 
+class Hash
+  def sp_thread_safe?
+    frozen? && all? {|k, v| k.sp_thread_safe? && v.sp_thread_safe?}
+  end
+end
 
 # Meta-glasses from our hero Why to help us
 # see more clearly..
 class Object
 
-  def immutable?
-    return self.is_a?(Numeric) ||
+  def sp_thread_safe?
+      self.is_a?(Numeric) ||
       self.is_a?(Symbol) ||
       self.is_a?(TrueClass) ||
       self.is_a?(FalseClass) ||
       self.is_a?(NilClass) ||
-      (self.is_a?(SonicPi::Core::SPVector) && self.all? {|el| el.immutable?})
+      (self.is_a?(SonicPi::Core::SPVector) && self.all? {|el| el.sp_thread_safe?})
   end
 
 

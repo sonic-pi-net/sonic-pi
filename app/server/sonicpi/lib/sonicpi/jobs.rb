@@ -42,7 +42,7 @@ module SonicPi
 
       job = old[id]
       if job
-        job[:job].thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+        __thread_locals(job[:job]).get(:sonic_pi_local_spider_no_kill_mutex).synchronize do
           job[:job].kill
         end
       end

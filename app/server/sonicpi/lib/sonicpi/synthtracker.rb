@@ -47,5 +47,15 @@ module SonicPi
       end
       @prom.get
     end
+
+    # To be treated like a promise
+    def get
+      block_until_finished
+    end
+
+    def to_s
+      synths = @synths.map{|s| s.to_i}
+      "<SynthTracker prom:#{@prom}, synths:#{synths.inspect}>"
+    end
   end
 end

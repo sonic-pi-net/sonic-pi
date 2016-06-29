@@ -43,9 +43,10 @@ module SonicPi
     def send_at(ts, *all_args)
       address, *args = *all_args
       if osc_debug_mode
-        if (a = Thread.current.thread_variable_get(:sonic_pi_spider_time)) && (b = Thread.current.thread_variable_get(:sonic_pi_spider_start_time))
+
+        if (a = __thread_locals.get(:sonic_pi_spider_time)) && (b = __thread_locals.get(:sonic_pi_spider_start_time))
           vt = a - b
-        elsif st = Thread.current.thread_variable_get(:sonic_pi_spider_start_time)
+        elsif st = __thread_locals.get(:sonic_pi_spider_start_time)
           vt = ts - st
         else
           vt = -1
@@ -243,7 +244,7 @@ module SonicPi
       register_process(@scsynth_pid)
 
       t1 = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_log_tracker)
+        __thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_log_tracker)
         scsynth_pipe.each_line do |l|
           @scsynth_log_file.puts l if @scsynth_log_file
           @scsynth_log_file.flush if @scsynth_log_file
@@ -272,7 +273,7 @@ module SonicPi
       end
 
       t2 = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_boot_ack)
+        __thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
         loop do
           begin
             puts "Boot - Sending /status to server: #{@hostname}:#{@port}"

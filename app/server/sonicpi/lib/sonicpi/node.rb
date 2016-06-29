@@ -147,6 +147,11 @@ module SonicPi
       false
     end
 
+    def sp_thread_safe?
+      true
+    end
+
+
     private
 
     def call_on_destroyed_callbacks

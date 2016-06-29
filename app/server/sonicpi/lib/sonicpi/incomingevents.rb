@@ -24,7 +24,7 @@ module SonicPi
       @handlers = {}
       @continue = true
       @handler_thread = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, name)
+        __thread_locals.set_local(:sonic_pi_local_thread_group, name)
         Thread.current.priority = priority
         while @continue do
           consume_event

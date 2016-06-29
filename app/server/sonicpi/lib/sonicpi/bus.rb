@@ -48,6 +48,10 @@ module SonicPi
       @id.to_f
     end
 
+    def sp_thread_safe?
+      true
+    end
+
     def to_s
       "#<SonicPi::Bus @id=#{@id}>"
     end
