@@ -17,6 +17,6 @@
      ___/ / /_/ / / / / / /__   / ____/ /
     /____/\____/_/ /_/_/\___/  /_/   /_/
 
-     The Live Coding Synth for Everyone
+   The Live Coding Music Synth for Everyone
 
             http://sonic-pi.net

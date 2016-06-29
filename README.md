@@ -18,7 +18,7 @@
               /____/\____/_/ /_/_/\___/  /_/   /_/
 
 
-## The Live Coding Synth for Everyone.
+## The Live Coding Music Synth for Everyone.
 
 Sonic Pi is a *new kind of musical instrument*. Instead of strumming
 strings or whacking things with sticks - you write code - **live**.
