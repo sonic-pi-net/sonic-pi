@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-29 10:39+0000\n"
+"PO-Revision-Date: 2016-06-29 10:41+0000\n"
 "Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -14363,6 +14363,11 @@ msgid ""
 "ke the code below as a starting point and see if you can take it in your own d"
 "irection and create something new..."
 msgstr ""
+"Combiniamo tutto quello che abbiamo visto fino ad ora in un ultimo esempio "
+"che rappresenti come usare un approccio simile per combinare pezzi di "
+"campione con una nuova linea di basso per creare l'inizio di una traccia. "
+"Ora è il tuo turno, prendi il codice qui sotto come punto di partenza e vedi "
+"se puoi trovare la tua strada per creare qualcosa di nuovo..."
 
 #: A.12-sample-slicing.md:145
 #, no-wrap
