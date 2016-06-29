@@ -44,7 +44,7 @@ can only handle mono.</source>
 Indien ingeschakeld,worden het rechtse en het linkse kanaal samengevoegd en
 wordt hetzelfde signaal naar beide luidsprekers gestuurd.
 Dit kan nuttig zijn wanneer men werkt met externe systemen
-die enkel met mono geluid overweg kunnen.</translation>
+die enkel met een mono signaal overweg kunnen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
@@ -69,15 +69,15 @@ die enkel met mono geluid overweg kunnen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Configure debug behaviour</source>
-        <translation>Configureer gedrag foutopsporing</translation>
+        <translation>Foutopsporing configureren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Schakel log-weergave in/uit.
-Indien uitgeschakeld, zullen  triggers van synths en samples,
+        <translation>Schakel log-berichten in/uit.
+Indien uitgeschakeld, zullen synths en samples triggers,
 niet meer standaard naar het logbestand geschreven worden.</translation>
     </message>
     <message>
@@ -88,7 +88,7 @@ niet meer standaard naar het logbestand geschreven worden.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="966"></location>
         <source>Clear log on run</source>
-        <translation>Logbestand wissen bij afspelen</translation>
+        <translation>Logbestand wissen bij afspelen uitvoeren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
@@ -198,7 +198,7 @@ Gebruik deze knoppen om de output door de uitgang die je verkiest te sturen.</tr
     <message>
         <location filename="../mainwindow.cpp" line="1014"></location>
         <source>Check for updates</source>
-        <translation>Naar updates zoeken</translation>
+        <translation>Controleren op updates</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1118"></location>
