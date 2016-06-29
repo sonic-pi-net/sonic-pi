@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-28 16:02+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-06-29 10:39+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -13237,6 +13237,15 @@ msgid ""
 " close look at some of these applications, but for now let me leave you with a"
 " short example."
 msgstr ""
+"Il tutorial di questo mese è stato un bel tuffo nelle funzioni di casualità "
+"utilizzabili in Sonic Pi. Spero di essere riuscito a darvi un'idea di come "
+"funziona e di aver suggerito un punto di partenza per usare la casualità in "
+"modo affidabile per creare pattern ripetitivi nella tua musica. È importante "
+"ribadire che puoi usare questa casualità ripetute *dovunque* tu voglia. Per "
+"esempio lo puoi fare per il volume delle note, il tempo di un ritmo, la "
+"quantità di riverbero, il synth corrente, il mix di un effetto ecc... In "
+"futuro vedremo alcune di queste applicazioni in dettaglio ma, per oggi, vi "
+"lascio con un piccolo esempio."
 
 #: A.09-randomisation.md:157
 msgid ""
@@ -13247,6 +13256,13 @@ msgid ""
 " seeds you like, put on a live coded performance for your friends by simply sw"
 "itching between your favourite seeds to create a full piece."
 msgstr ""
+"Scrivi il seguente codice in un buffer vuoto, premi Run e prova a cambiare "
+"il valore di seed. Premi Run di nuovo (mentre sta andando) e esplora le "
+"differenze sonore, di ritmo e di melodia che riesci a fare. Quando ne trovi "
+"una bella, ricordati del numero di seed per poterla risuonare. Infine, "
+"quando hai trovato un secondo valore di seed che produce risultati "
+"interessanti, fai una performance per i tuoi amici cambiando semplicemente "
+"tra un valore di seed e l'altro."
 
 #: A.09-randomisation.md:165
 #, no-wrap
@@ -13295,11 +13311,11 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:1
 msgid "A.10 Control"
-msgstr ""
+msgstr "A.10 Controlli"
 
 #: A.10-controlling-your-sound.md:3
 msgid "Controlling Your Sound"
-msgstr ""
+msgstr "Controllare il tuo suono"
 
 #: A.10-controlling-your-sound.md:5
 msgid ""
@@ -13314,16 +13330,25 @@ msgid ""
 "rong! Today you're going to learn something very powerful - how to control run"
 "ning synths."
 msgstr ""
+"Fino ad ora ci siamo concentrati su come far partire suoni. Abbiamo scoperto "
+"che possiamo usare i synth inclusi in Sonic Pi utilizzando `play` o `synth` "
+"e come far suonare suoni pre-registrati con `sample`. Abbiamo anche imparato "
+"come aggiungere degli effetti a questi suoni come, ad esempio, il riverbero, "
+"utilizzando il comando `with_fx`. Combinando tutte queste cose con la "
+"gestione del tempo di Sonic Pi, puoi produrre una grande quantità di suoni, "
+"beat e riff. Però, una volta lanciata un'opzione di un suono, non c'è modo "
+"di controllarla, giusto? Sbagliato! Oggi impareremo qualcosa di molto "
+"importante: come controllare i synth mentre suonano."
 
 #: A.10-controlling-your-sound.md:17
 msgid "A Basic Sound"
-msgstr ""
+msgstr "Un suono semplice"
 
 #: A.10-controlling-your-sound.md:19
 msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer type "
 "the following:"
-msgstr ""
+msgstr "Creiamo un suono semplice. Apri Sonic Pi e scrivi questo codice:"
 
 #: A.10-controlling-your-sound.md:22
 #, no-wrap
@@ -13336,10 +13361,13 @@ msgid ""
 ". Go ahead, press it again a few times to get a feel for it. OK, done? Let's s"
 "tart controlling it!"
 msgstr ""
+"Ora premi il pulsante Run in alto a sinistra per ascoltare il suono. Ok, "
+"premilo un altro paio di volte per sentire come suona. Fatto? Bene, ora "
+"cominciamo a controllarlo!"
 
 #: A.10-controlling-your-sound.md:30
 msgid "Synth Nodes"
-msgstr ""
+msgstr "Nodi dei synth"
 
 #: A.10-controlling-your-sound.md:32
 msgid ""
@@ -13349,6 +13377,11 @@ msgid ""
 "ntrol** it at a later point in time. For example, let's change the value of th"
 "e `cutoff:` opt after 1 beat:"
 msgstr ""
+"Una cosa di Sonic Pi che conoscono in pochi è che le funzioni `play`, `synth`"
+" e `sample` restituiscono una cosa chiamata `SynthNode` che rappresenta un "
+"suono riprodotto. È possibile controllare questi `SynthNode` usando una "
+"variabile e poi **controllarla** successivamente. Proviamo a cambiare il "
+"valore di `cutoff:` dopo 1 beat:"
 
 #: A.10-controlling-your-sound.md:38
 #, no-wrap
@@ -13363,7 +13396,7 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:44
 msgid "Let's look at each line in turn:"
-msgstr ""
+msgstr "Guardiamo ogni linea di codice:"
 
 #: A.10-controlling-your-sound.md:46
 msgid ""
@@ -13374,12 +13407,21 @@ msgid ""
 "gful to you for your performances and for people reading your code. I chose `s"
 "n` as it's a nice short mnemonic for synth node."
 msgstr ""
+"Per prima cosa abbiamo suonato il synth `:prophet` utilizzando la normale "
+"funzione `synth`. Abbiamo, però, catturato il risultato in una variable "
+"chiamata `sn`. Avremmo potuto usare qualsiasi nome come, ad esempio, "
+"`synth_note`, o `jane`. Non avrebbe fatto differenza. È importante, però, "
+"scegliere nomi che abbiano un senso per la performance e per le persone che "
+"leggono il tuo codice. Io ho scelto `sn` perché è diminutivo facile da "
+"ricordare per synth node."
 
 #: A.10-controlling-your-sound.md:54
 msgid ""
 "On line 2 we have a standard `sleep` command. This does nothing special - it j"
 "ust asks the computer to wait for 1 beat before moving onto the next line."
 msgstr ""
+"Nella seconda linea abbiamo un comando `sleep` normalissimo; non fa nulla di "
+"speciale se non dire al computer di aspettare 1 beat prima di andare avanti."
 
 #: A.10-controlling-your-sound.md:58
 msgid ""
@@ -13388,10 +13430,14 @@ msgid ""
 "Run** button, you'll hear the `:prophet` synth start playing as before, but af"
 "ter 1 beat it will shift to sound a lot brighter."
 msgstr ""
+"La linea 3 è dove comincia il divertimento. Ora usiamo la funzione `control` "
+"per dire al nostro `SynthNode` di cambiare il valore di cutoff a `130`. Se "
+"premi **Run** sentirai il `:prophet` suonare come prima ma, dopo 1 beat, il "
+"suono diventerà molto più chiaro."
 
 #: A.10-controlling-your-sound.md:63
 msgid "Modulatable Options"
-msgstr ""
+msgstr "Opzioni modulabili"
 
 #: A.10-controlling-your-sound.md:65
 msgid ""
@@ -13405,26 +13451,35 @@ msgid ""
 "he `:beep` synth's `attack:` opt makes it clear that it's not possible to chan"
 "ge it:"
 msgstr ""
+"La maggior parte dei valori dei synth e degli effetti di Sonic Pi possono "
+"essere cambiati. Non è così per tutto, però. Per esempio i valori di "
+"inviluppo: `attack:`, `decay:`, `sustain:` e `release:` possono essere "
+"impostati prima dell'avvio del synth. Capire quali opzioni è possibile "
+"cambiare in corso d'opera è semplice, controlla nella documentazione per "
+"cercare la frase: \"Può cambiare mentre sta suonando\" oppure \"Non può "
+"essere cambiato una volta impostato\". Per esempio guardando la "
+"documentazione relativa al parametro `attack:` del synth `:beep` dice "
+"chiaramente che non può essere modificato:"
 
 #: A.10-controlling-your-sound.md:76
 msgid "Default: 0"
-msgstr ""
+msgstr "Default: 0"
 
 #: A.10-controlling-your-sound.md:77
 msgid "Must be zero or greater"
-msgstr ""
+msgstr "Deve essere più grande di 0"
 
 #: A.10-controlling-your-sound.md:78
 msgid "Can not be changed once set"
-msgstr ""
+msgstr "Non può essere modificato una volta impostato"
 
 #: A.10-controlling-your-sound.md:79
 msgid "Scaled with current BPM value"
-msgstr ""
+msgstr "Scalato con il valore BPM corrente"
 
 #: A.10-controlling-your-sound.md:81
 msgid "Multiple Changes"
-msgstr ""
+msgstr "Cambi multipli"
 
 #: A.10-controlling-your-sound.md:83
 msgid ""
@@ -13432,6 +13487,9 @@ msgid ""
 " free to change it as many times as you like. For example, we can turn our `:p"
 "rophet` into a mini arpeggiator with the following:"
 msgstr ""
+"Finché un synth sta suonando, non sei limitato al cambiarlo una volta sola; "
+"puoi farlo quante volte vuoi. Per esempio possiamo trasformare il nostro "
+"`:prophet` in un piccolo arpeggiatore così:"
 
 #: A.10-controlling-your-sound.md:87
 #, no-wrap
@@ -13463,12 +13521,22 @@ msgid ""
 "d (thanks to the fabulous power of Sonic Pi's rings). For a bit of variety try"
 " replacing `.tick` with `.choose` and see if you can hear the difference."
 msgstr ""
+"In questo codice, abbiamo aggiunto un paio di cose in più. Per prima cosa "
+"abbiamo una variabile chiamata `notes` che contiene le note che vogliamo "
+"riprodurre (arpeggiatore è il nome carino che viene dato a qualcosa che "
+"suona delle note in ciclo). Seconda cosa: rimpiazziamo la nostra chiamata a "
+"`control` con un'interazione di 16 volte. In ogni chiamata a `control` "
+"usiamo `.tick`per il nostro anello di `notes` che si ripeterà "
+"automaticamente. Per un po' di varietà, prova a sostituire `.tick` con "
+"`.choose` e vedi se senti la differenza."
 
 #: A.10-controlling-your-sound.md:107
 msgid ""
 "Note that we can change multiple opts simultaneously. Try changing the control"
 " line to the following and listen for the difference:"
 msgstr ""
+"Ora che puoi controllare più parametri simultaneamente, prova a cambiare la "
+"linea di controllo con questo codice:"
 
 #: A.10-controlling-your-sound.md:110
 #, no-wrap
@@ -13477,7 +13545,7 @@ msgstr "control sn, note: notes.tick, cutoff: rrand(70, 130)"
 
 #: A.10-controlling-your-sound.md:114
 msgid "Sliding"
-msgstr ""
+msgstr "Sliding"
 
 #: A.10-controlling-your-sound.md:116
 msgid ""
@@ -13490,6 +13558,13 @@ msgid ""
 " moved a slider or dial. Of course, Sonic Pi can also do this too using the `_"
 "slide:` opts."
 msgstr ""
+"Quando controlliamo un `SynthNode`, risponde esattamente a tempo cambiando "
+"immediatamente il valore di un parametro come se avessi premuto un bottone. "
+"Questo può dare un suono percussivo, specialmente se il parametro controlla "
+"un aspetto del timbro come il `cutoff:`. Tuttavia a volte non vuoi che il "
+"cambiamento sia istantaneo; a volte vorresti che fosse graduale, come "
+"utilizzando uno slider. Ovviamente Sonic Pi ti permette di farlo usando il "
+"parametro `_slide:`."
 
 #: A.10-controlling-your-sound.md:125
 msgid ""
@@ -13499,6 +13574,11 @@ msgid ""
 "han all the other opts in that they tell the synth note how to behave **next t"
 "ime they are controlled**. Let's take a look:"
 msgstr ""
+"Ogni parametro che può essere modificato ha un corrispondente con `_slide:` "
+"che permette di impostare un tempo. Per esempio `amp:` ha `amp_slide:` e "
+"`cutoff:` ha `cutoff_slide:`. Questi parametri funzionano in modo "
+"leggermente diverso dagli altri perché dicono al synth come comportarsi **la "
+"volta successiva che vengono controllati**. Diamo un'occhiata:"
 
 #: A.10-controlling-your-sound.md:131
 #, no-wrap
@@ -13524,6 +13604,16 @@ msgid ""
 "ferent so you can have the cutoff sliding slowly, the amp sliding fast and the"
 " pan sliding somewhere in between if that's what you're looking to create..."
 msgstr ""
+"Nota come questo esempio sia esattamente come lo stesso di prima con la sola "
+"aggiunta di `cutoff_slide:`. Questo significa che quando modificheremo il "
+"parametro `cutoff:` impiegherà 2 secondi per andare dal valore attuale al "
+"successivo. Possiamo usare `control` per sentire lo slide tra 70 e 130. "
+"Questo crea una dinamica interessante del suono. Ora prova a cambiare il "
+"valore `cutoff_slide:` su un intervallo di tempo più breve come 0.5 oppure "
+"più lungo come 4 e vedi come cambia il suono. Ricorda che puoi usare slide "
+"per ogni parametro modificabile e ciascuno `_slide:` può avere parametri "
+"differenti per cui puoi avere un cutoff lento e un amp veloce e un pan che "
+"sta tra i due."
 
 #: A.10-controlling-your-sound.md:151
 msgid ""
@@ -13532,6 +13622,10 @@ msgid ""
 "ynths although with a slightly different syntax. Check out section 7.2 of the "
 "built-in tutorial for more information on controlling FX."
 msgstr ""
+"Proviamo a guardare a un breve esempio che dimostra la potenza del controllo "
+"dei synth. Nota come puoi controllare anche gli effetti cambiando "
+"leggermente la sintassi. Rileggiti la sezione 7.2 dei tutorial per maggiori "
+"informazioni sugli effetti."
 
 #: A.10-controlling-your-sound.md:157
 msgid ""
@@ -13540,6 +13634,9 @@ msgid ""
 "h, the FX and the sleep times and see if you can turn it into something comple"
 "tely different!"
 msgstr ""
+"Copia il codice su un buffer vuoto e ascoltalo. Non fermarlo, metti mano al "
+"codice. Cambia i tempi di slide, cambia le note, i synth, gli effetti e i "
+"tempi di sleep. Vedi se riesci a creare qualcosa di totalmente differente!"
 
 #: A.10-controlling-your-sound.md:162
 #, no-wrap
@@ -13574,11 +13671,11 @@ msgstr ""
 
 #: A.11-beat-tracking.md:1
 msgid "A.11 Tick Tock"
-msgstr ""
+msgstr "A.11 Tick Tock"
 
 #: A.11-beat-tracking.md:3
 msgid "Tracking the Beat"
-msgstr ""
+msgstr "Tenere traccia del beat"
 
 #: A.11-beat-tracking.md:5
 msgid ""
@@ -13589,10 +13686,16 @@ msgid ""
 "system. By the end of this article you'll be ticking your way through rhythms "
 "and riffs on your way to being a live coding DJ."
 msgstr ""
+"Il mese scorso in questa serie abbiamo parlato in modo approfondito della "
+"casualità alla base di Sonic pi. Abbiamo capito come poterla sfruttare in "
+"modo deterministico per aggiungere nuovi livelli di controllo del nostro "
+"codice. Questo mese continueremo questa analisi approfondendo il sistema di "
+"tick di Sonic Pi. Alla fine di questo articolo utilizzerai i tick per i tuoi "
+"ritmi e nei tuoi riff per diventare un DJ live coder."
 
 #: A.11-beat-tracking.md:13
 msgid "Beat Counting"
-msgstr ""
+msgstr "Contrare i battiti"
 
 #: A.11-beat-tracking.md:15
 msgid ""
@@ -13601,12 +13704,18 @@ msgid ""
 " precise control over when a beat actually occurs and even supports multiple b"
 "eats with their own tempos."
 msgstr ""
+"Quando facciamo musica spesso vogliamo che accada qualcosa in base al beat "
+"in cui ci troviamo. Sonic Pi ha un sistema di conteggio chiamato `tick` per "
+"avere totale controllo di dove ci troviamo nella battuta e, ovviamente, "
+"supporta beat multipli ciascuno col suo tempo."
 
 #: A.11-beat-tracking.md:20
 msgid ""
 "Let's have a play - to advance the beat we just need to call `tick`. Open up a"
 " fresh buffer, type in the following and hit Run:"
 msgstr ""
+"Diamoci da fare, per avanzare nel beat dobbiamo solo chiamare `tick`. "
+"Apriamo un buffer vuoto, scriviamo il seguente codice e premiamo su Run:"
 
 #: A.11-beat-tracking.md:23
 #, no-wrap
@@ -13620,6 +13729,10 @@ msgid ""
 "a fresh beat counting from 0. However, whilst the run is still active, we can "
 "advance the beat as many times as we want:"
 msgstr ""
+"Ci verrà restituito il beat corrente, quindi `0`. Nota come anche premendo "
+"Run più volte il risultato sarà sempre `0`. Questo perché ad ogni avvio, il "
+"beat riparte da 0. Tuttavia, mentre Run è ancora attivo, possiamo avanzare "
+"nel beat tutte le volte che vogliamo:"
 
 #: A.11-beat-tracking.md:32
 #, no-wrap
@@ -13639,10 +13752,13 @@ msgid ""
 "0` means the code `puts foo` prints `0` to the log at that point in the progra"
 "m."
 msgstr ""
+"Quando vedi il simbolo `#=>` alla fine di una riga vuol dire che quella "
+"linea di codice restituirà del testo nel log nella parte destra. Per esempio "
+"`puts foo #=> 0` significa che il codice `puts foo` scriverà `0` nel log."
 
 #: A.11-beat-tracking.md:43
 msgid "Checking the Beat"
-msgstr ""
+msgstr "Controllare il beat"
 
 #: A.11-beat-tracking.md:45
 msgid ""
@@ -13650,6 +13766,9 @@ msgid ""
 "he current beat. Sometimes we just want to look at the current beat without ha"
 "ving to increment it which we can do via `look`:"
 msgstr ""
+"Abbiamo visto che `tick` fa due cose: incrementa di uno il beat e "
+"restituisce il valore corrente. A volte vogliamo solo vedere il valore "
+"corrente senza incrementalo. Possiamo farlo usando `look`:"
 
 #: A.11-beat-tracking.md:49
 #, no-wrap
@@ -13671,6 +13790,10 @@ msgid ""
 "rned `0`, then `1` as expected, then the two `look`s just returned the last be"
 "at value twice which was `1`."
 msgstr ""
+"In questo codice usiamo il tick per aumentare la pulsazione due volte e poi "
+"usiamo `look`, anch'esso due volte. Nel log vedremo questi valori:  `0`, `1`"
+", `1`, `1`. I primi due tick restituiscono `0` e `1` come ci aspettiamo i "
+"due `look` restituiscono l'ultimo valore due volte, ovvero `1`."
 
 #: A.11-beat-tracking.md:64
 msgid ""
@@ -13682,6 +13805,14 @@ msgid ""
 "ts the beat. Secondly it looks up the ring value using the beat as the index. "
 "Let's take a look:"
 msgstr ""
+"Quindi ora possiamo avanzare nel tempo con `tick` e controllare il beat con "
+"`look`. Cosa possiamo fare ancora? Dobbiamo avere qualcosa con cui usare "
+"tick. Sonic Pi utilizza gli anelli (ring) per rappresentare i riff, melodie "
+"e ritmi e il sistema dei tick è stato pensato per lavorare con essi. Di "
+"fatto gli anelli hanno la loro versione di `tick` che fa due cose. "
+"Innanzitutto funziona come un tick normale e incrementa il beat. In secondo "
+"luogo guarda il valore del ring utilizzano il valore del beat come indice. "
+"Diamo un'occhiata:"
 
 #: A.11-beat-tracking.md:72
 #, no-wrap
@@ -13694,6 +13825,9 @@ msgid ""
 "f the ring `:a`. We can grab each of the values in the ring by calling `.tick`"
 " multiple times:"
 msgstr ""
+"`.tick` è una versione speciale di `tick` che ritornerà il primo valore del "
+"ring `:a`. Possiamo prendere ciascun valore del ring chiamando `.tick` più "
+"volte:"
 
 #: A.11-beat-tracking.md:80
 #, no-wrap
@@ -13716,10 +13850,13 @@ msgid ""
 "tice that `look` returns `3`. Calls to `.tick` act just like they are regular "
 "calls to `tick` - they increment the local beat."
 msgstr ""
+"Prova a guarda il log e vedrai `:a`, `:b`, `:c` e poi di nuovo `:a`. Nota "
+"come `look` restituisce `3`. Le chiamate a `.tick` funzionano come normali "
+"chiamate di `tick`, incrementano il beat locale."
 
 #: A.11-beat-tracking.md:93
 msgid "A Live Loop Arpeggiator"
-msgstr ""
+msgstr "Un arpeggiatore con Live Loop"
 
 #: A.11-beat-tracking.md:95
 msgid ""
@@ -13727,26 +13864,29 @@ msgid ""
 "bined we have all the tools we need to both build and understand a simple arpe"
 "giator. We need just four things:"
 msgstr ""
+"La vera potenza viene fuori quando utilizziamo `tick` con ring e `live_loop`"
+". Quando combiniamo queste cose abbiamo tutti gli strumenti per costruite un "
+"semplice arpeggiatore. Abbiamo bisogno di quattro cose:"
 
 #: A.11-beat-tracking.md:99
 msgid "A ring containing the notes we want to loop over."
-msgstr ""
+msgstr "Un anello (ring) che contenga le note che vogliamo ripetere."
 
 #: A.11-beat-tracking.md:100
 msgid "A means of incrementing and obtaining the beat."
-msgstr ""
+msgstr "Un mezzo per incrementare e ottenere il valore del beat."
 
 #: A.11-beat-tracking.md:101
 msgid "The ability to play a note based on the current beat."
-msgstr ""
+msgstr "La possibilità di suonare una nota basata sul beat corrente."
 
 #: A.11-beat-tracking.md:102
 msgid "A loop structure to keep the arpegiator repeating."
-msgstr ""
+msgstr "Una struttura di loop per continuare a ripetere l'arpeggiatore."
 
 #: A.11-beat-tracking.md:104
 msgid "These concepts can all be found in the following code:"
-msgstr ""
+msgstr "Tutti questi concetti possono essere ritrovati in questo codice:"
 
 #: A.11-beat-tracking.md:106
 #, no-wrap
@@ -13774,10 +13914,17 @@ msgid ""
 "rement our beat counter and use the latest beat value as an index into our not"
 "es ring. Finally, we wait for an eighth of a beat before looping round again."
 msgstr ""
+"Guardiamo ciascuna linea di codice. Per prima cosa definiamo un ring di note "
+"che continuerà a suonare. Dopodiché creiamo un `live_loop` chiamato `:arp` "
+"che continuerà a ripetersi. Ogni volta che si ripete il `live_loop`, "
+"impostiamo il synth per essere `:dpulse` e poi suonando la nota successiva "
+"usando `.tick`. Ricorda che questo incrementerà il nostro contatore di beat "
+"e userà l'ultimo valore di beat come indice nel nostro anello. Alla fine, "
+"aspettiamo per 1/8 di beat prima di ricominciare da capo."
 
 #: A.11-beat-tracking.md:124
 msgid "Multiple Simultaneous Beats"
-msgstr ""
+msgstr "Beat multipli simultanei"
 
 #: A.11-beat-tracking.md:126
 msgid ""
@@ -13786,6 +13933,10 @@ msgid ""
 "s much more powerful than having a global metronome and beat. Let's take a loo"
 "k at this in action:"
 msgstr ""
+"Una cosa importante da sapere è che i `tick` valgono localmente nel "
+"`live_loop`. Questo significa che ciascun `live_loop` ha il suo contatore "
+"beat indipendente. Questa cosa è molto più potente che avere un metronomo "
+"globale e un beat. Proviamo a vederlo in azione:"
 
 #: A.11-beat-tracking.md:131
 #, no-wrap
@@ -13820,13 +13971,15 @@ msgstr ""
 
 #: A.11-beat-tracking.md:149
 msgid "Clashing Beats"
-msgstr ""
+msgstr "Scontri tra beat"
 
 #: A.11-beat-tracking.md:151
 msgid ""
 "A big cause of confusion with Sonic Pi's tick system is when people want to ti"
 "ck over multiple rings in the same `live_loop`:"
 msgstr ""
+"Una cosa che causa confusione con il sistema di tick di Sonic Pi è che le "
+"persone vogliono utilizzare il tick in più ring nello stesso `live_loop`:"
 
 #: A.11-beat-tracking.md:154
 #, no-wrap
@@ -13860,6 +14013,16 @@ msgid ""
 "you use. That way you can work with as many beats as you need! See the section"
 " on named ticks in 9.4 of the built-in tutorial for more information."
 msgstr ""
+"Anche se ciascun `live_loop` ha il suo beat counter indipendente, stiamo "
+"chiamando `.tick` due volte all'interno dello stesso `live_loop`. Questo "
+"significa che il beat verrà incrementato due volte ogni loop. Questo può "
+"generare dei poliritmi interessanti ma spesso non è quello che vogliamo. Ci "
+"sono due soluzioni per questo problema. Una è chiamare `tick`all'inizio del "
+"`live_loop` per poi usare `.look` per controllare il valore; la seconda è "
+"dare un nome a ogni chiamata `.tick` come, ad esempio `.tick(:foo)`. Sonic "
+"Pi creerà e terrà traccia di un contatore di beat per ciascun nome che "
+"utilizzerai. In questo modo puoi lavorare con quanti beat tu voglia! Prova a "
+"vedere la sezione 9.4 dei tutorial per maggiori informazioni."
 
 #: A.11-beat-tracking.md:178
 msgid ""
@@ -13868,6 +14031,10 @@ msgid ""
 "changing things and play around with it and see what you can turn it into. See"
 " you next time..."
 msgstr ""
+"Mettiamo insieme tutto quello che abbiamo imparato su `tick`, `ring` e "
+"`live_loop` per un ultimo esempio. Come al solito, non trattarlo come un "
+"pezzo finito. Prova a cambiare le cose e a giocare con questo codice per "
+"vedere cosa riesci a combinare. Alla prossima..."
 
 #: A.11-beat-tracking.md:183
 #, no-wrap
@@ -13918,11 +14085,11 @@ msgstr ""
 
 #: A.12-sample-slicing.md:1
 msgid "A.12 Sample Slicing"
-msgstr ""
+msgstr "A.12 Tagliare i campioni"
 
 #: A.12-sample-slicing.md:3
 msgid "Sample Slicing"
-msgstr ""
+msgstr "Tagliare i campioni"
 
 #: A.12-sample-slicing.md:5
 msgid ""
@@ -13933,10 +14100,17 @@ msgid ""
 "der. If that sounds a bit crazy to you, don't worry, it will all become clear "
 "and you'll soon master a powerful new tool for your live coded sets."
 msgstr ""
+"Nel terzo episodio di questa serie su Sonic Pi, abbiamo visto come loopare, "
+"allungare e filtrare uno dei più famosi break di batteria di tutti i tempi. "
+"L'Amen Break. In questo tutorial faremo un passo in avanti per vedere come "
+"tagliuzzarlo, riordinare i pezzi e incollare di nuovo tutto insieme in un "
+"ordine completamente nuovo. Se ti sembra un po' pazzo, non ti preoccupare; "
+"diventerà tutto chiaro non appena capirei come usare un nuovo strumento per "
+"i tuoi set di live coding."
 
 #: A.12-sample-slicing.md:13
 msgid "Sound as Data"
-msgstr ""
+msgstr "Il suono come dati"
 
 #: A.12-sample-slicing.md:15
 msgid ""
@@ -13946,6 +14120,11 @@ msgid ""
 "unch Sonic Pi from the Programming menu, type the following into a fresh buffe"
 "r and then hit the Run button to hear a pre-recorded drum beat:"
 msgstr ""
+"Prima di cominciare, prendiamo un momento per analizzare come lavorare con i "
+"campioni. Fino ad ora, avrai utilizzato il campionatore di Sonic Pi. Se non "
+"l'hai fatto, è il momento di cominciare! Accendi il tuo Rasberry Pi, apri "
+"Sonic Pi dal menu Programming e scrivi il seguente codice in un buffer vuoto "
+"e poi premi il pulsante Run per sentire un beat di batteria pre-registrato:"
 
 #: A.12-sample-slicing.md:26
 msgid ""
@@ -13954,6 +14133,11 @@ msgid ""
 "those numbers back in order, we get the original sound. However, what's to sto"
 "p us from playing them back in a different order and creating a new sound?"
 msgstr ""
+"Una registrazione di un suono può essere rappresentato come un flusso di "
+"dati: un sacco di numeri compresi tra -1 e 1 che rappresentano i picchi e, "
+"più in generale, l'onda sonora. Se suoniamo questi numeri in ordine, "
+"otteniamo il suono originale. Ma se decidessimo di suonarli in un ordine "
+"diverso per creare un nuovo suono?"
 
 #: A.12-sample-slicing.md:32
 msgid ""
@@ -13969,6 +14153,18 @@ msgid ""
 "ny electric signal which is then measured many times a second. These measureme"
 "nts are then represented as a series of numbers between -1 and 1."
 msgstr ""
+"Come sono registrati i campioni? È una cosa abbastanza semplice una volta "
+"capita la fisica del suono. Quando produci un suono, per esempio colpendo "
+"una batteria, il rumore viaggia attraverso l'aria in modo simile al "
+"comportamento delle increspature della superficie del lago quando lanci un "
+"sasso. Quando queste increspature raggiungono le tue orecchie, il timpano si "
+"muove per simpatia e converte questi movimento nel suono che tu ascolti. Se "
+"vogliamo registrare e riprodurre un suono, dobbiamo catturare, salvare e "
+"riprodurre quelle increspature. Possiamo usare un microfono che agisce come "
+"un timpano e si muove avanti e indietro quando il suono lo colpisce. Il "
+"microfono converte la sua posizione in un un segnale elettrico che viene "
+"misurato molte volte al secondo. Queste misurazioni sono poi rappresentate "
+"da una serie di valori compresi tra -1 e 1."
 
 #: A.12-sample-slicing.md:46
 msgid ""
@@ -13977,10 +14173,14 @@ msgid ""
 "n -1 and 1 on the y axis. You can see an example of such a graph at the top of"
 " the diagram."
 msgstr ""
+"Se dovessimo rappresentare graficamente il suono, risulterebbe un grafico di "
+"dati con il tempo sull'asse x e la posizione del microfono/speaker come un "
+"valore tra -1 e 1 sull'asse y. Puoi vedere un esempio di questo grafico in "
+"cima al diagramma."
 
 #: A.12-sample-slicing.md:51
 msgid "Playing Part of a Sample"
-msgstr ""
+msgstr "Suonare una parte di un campione"
 
 #: A.12-sample-slicing.md:53
 msgid ""
@@ -13992,10 +14192,19 @@ msgid ""
 " of the sample and `1` is the end. So, to play the first half of the Amen Brea"
 "k, we just need to specify a `finish:` of `0.5`:"
 msgstr ""
+"Quindi, come programmiamo Sonic Pi per suonare un campione in ordine "
+"differente? Per rispondere a questa domanda, dobbiamo dare un'occhiata ai "
+"parametri `start:` e `finish:` di `sample`. Questi valori ci permettono di "
+"controllare la posizione iniziale della riproduzione dei numeri che "
+"rappresentano i suoni. I valori di questi parametri possono essere "
+"rappresentati da numeri compresi tra `0` e `1` dove `0` rappresenta l'inizio "
+"del campione e `1` la fine. Per cui, per suonare la prima metà dell'Amen "
+"Break, è sufficiente specificare un valore di `finish:` pari a `0.5`:"
 
 #: A.12-sample-slicing.md:66
 msgid "We can add in a `start:` value to play an even smaller section of the sample:"
 msgstr ""
+"Possiamo aggiungere un valore `start:` per suonare una porzione del campione:"
 
 #: A.12-sample-slicing.md:68
 #, no-wrap
@@ -14007,6 +14216,8 @@ msgid ""
 "For fun, you can even have the `finish:` opt's value be *before* `start:` and "
 "it will play the section backwards:"
 msgstr ""
+"Per puro divertimento, puoi avere il parametro `finish:` che sia *prima* di "
+"`start:` e il campione suonerà al contrario:"
 
 #: A.12-sample-slicing.md:75
 #, no-wrap
@@ -14015,7 +14226,7 @@ msgstr "sample :loop_amen, start: 0.5, finish: 0.25"
 
 #: A.12-sample-slicing.md:79
 msgid "Re-ordering Sample Playback"
-msgstr ""
+msgstr "Riordinare la riproduzione del campione"
 
 #: A.12-sample-slicing.md:81
 msgid ""
@@ -14023,10 +14234,16 @@ msgid ""
 "back in any order and also how to play a specific part of a sample we can now "
 "start having fun playing a sample back in the 'wrong' order."
 msgstr ""
+"Ora che abbiamo capito che i campioni sono un semplice elenco di numeri che "
+"possono essere riprodotti in qualsiasi ordine e abbiamo capito come "
+"riprodurre una parte specifica; ora possiamo divertirci suonando un campione "
+"in un ordine 'sbagliato'."
 
 #: A.12-sample-slicing.md:86
 msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 msgstr ""
+"![Amen Slices](../images/tutorial/articles/A.12-sample-"
+"slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
@@ -14038,6 +14255,14 @@ msgid ""
 "s one possible re-ordering of the slices. We can then play this back to create"
 " a new beat. Take a look at the code to do this:"
 msgstr ""
+"Prendiamo il nostro Amen Break e tagliamolo in 8 parti uguali e poi "
+"riordiniamo i vari pezzi. Dai un'occhiata all'immagine; all'inizio A) "
+"rappresenta il grafico dei nostri dati originali. Tagliarlo in 8 parti "
+"diventa B) - nota come abbiamo assegnato un colore differente a ciascun "
+"pezzo per aiutarci a distinguerli. Puoi vedere i valori di inizio e di fine "
+"di ciascun pezzo all'inizio. Infine C) è una possibilità di riordinare i "
+"pezzi. Poi possiamo suonarlo per creare un nuovo beat. Dai un'occhiata a "
+"questo codice:"
 
 #: A.12-sample-slicing.md:97
 #, no-wrap
@@ -14067,6 +14292,10 @@ msgid ""
 "xactly this: `rand_i(8)`. We then store this random slice index in the variabl"
 "e `slice_idx`."
 msgstr ""
+"Abbiamo scelto un pezzo in modo casuale prendendo un numero compreso tra 0 e "
+"7 (ricordati che iniziamo a contare da 0). Sonic Pi ha una funzione che ci "
+"viene in aiuto: `rand_i(8)`. Dopodiché salviamo il valore di indice nella "
+"variabile `slice_idx`."
 
 #: A.12-sample-slicing.md:113
 msgid ""
@@ -14074,6 +14303,9 @@ msgid ""
 "y for us to convert our `slice_idx` into a value between 0 and 1 so we can use"
 " it as our `start:` opt."
 msgstr ""
+"Definiamo la nostra `slice_size` che è 1/8 o 0.125. Il parametro `slice_size`"
+" è necessario per noi per convertire `slice_idx` in un valore compreso tra 0 "
+"e 1 per poterlo usare come parametro di `start:`."
 
 #: A.12-sample-slicing.md:117
 msgid ""
@@ -14096,6 +14328,8 @@ msgid ""
 "We can now play the sample slice by plugging in the `s` and `f` values into th"
 "e `start:` and `finish:` opts for `sample`."
 msgstr ""
+"Ora possiamo riprodurre i pezzi del campione agganciando i valori `s` e `f` "
+"dentro i parametri `start:` e `finish:` di `sample`."
 
 #: A.12-sample-slicing.md:126
 msgid ""
@@ -14105,12 +14339,21 @@ msgid ""
 " the duration. Therefore, by passing `sample_duration` our `start:` and `finis"
 "h:` opts, we can find out the duration of a single slice."
 msgstr ""
+"Prima di iniziare a suonare il pezzo successivo, dobbiamo sapere quanto "
+"lungo deve essere il valore di `sleep` che dovrebbe essere uguale alla "
+"durata del pezzo del campione. Per fortuna Sonic Pi ha la funzione "
+"`sample_duration` che accetta gli stessi parametri di `sample` e restituisce "
+"il valore della durata. Per cui, passando il valore `sample_duration` ai "
+"parametri `start:` e `finish:`, possiamo conoscere la durata di un singolo "
+"pezzo."
 
 #: A.12-sample-slicing.md:133
 msgid ""
 "We wrap all of this code in a `live_loop` so that we continue to pick new rand"
 "om slices to play."
 msgstr ""
+"Inseriamo tutto questo codice in un `live_loop` per poter continuare a "
+"scegliere di suonare un pezzo casualmente."
 
 #: A.12-sample-slicing.md:139
 msgid ""
