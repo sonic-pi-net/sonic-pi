@@ -95,80 +95,83 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκκαθάριση ιστορικού κατά την εκτέλεση.
+Εάν ενεργοποιηθεί, το αρχείο ιστορικού καθαρίζεται κάθε
+φορά που πατιέται το κουμπί εκτέλεση.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση αριθμών γραμμών.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Σκοτεινή εμφάνιση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1449"></location>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση Κώδικα...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1512"></location>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Μορφοποίηση...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"></location>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Επαναφόρτωση...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1563"></location>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση Μίκτη HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1572"></location>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Απενεργοποίηση Μίκτη HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Καλώς ορίσατε στο Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="709"></location>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία εσοχών σε επιλεγμένη περιοχή...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"></location>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία εσοχών σε γραμμή...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="913"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Χρησιμοποιήστε αυτόν τον ολισθητή για να αλλάξετε την ένταση του ήχου στο Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις ήχου για προχωρημένους για
+χρήση με εξωτερικά συστήματα PA κατά τη χρήση του Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"></location>
@@ -181,18 +184,21 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Το Raspberry Pi σας έχει δύο τύπους εξόδου ήχου.
+Πρώτον, υπάρχει η έξοδος για ακουστικά στο ίδιο το Raspberry Pi.
+Δεύτερον, μερικές οθόνες/τηλεοράσεις HDMI υποστηρίζουν ήχο μέσω της θύρας HDMI.
+Χρησιμοποιήστε αυτά τα κουμπία για να ορίσετε την έξοδο που θέλετε.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"></location>
         <location filename="../mainwindow.cpp" line="1145"></location>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενημερώσεις</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1015"></location>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Έλεγχος για ενημερώσεις</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"></location>
