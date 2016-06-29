@@ -331,7 +331,7 @@ dat niet wordt herkend.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="983"></location>
         <source>Enforce timing guarantees</source>
-        <translation>"In maat blijven" afdwingen</translation>
+        <translation>Het "In maat blijven" afdwingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
@@ -371,7 +371,7 @@ Deze controle omvat het verzenden van anonieme gegevens over het platform en de 
         <location filename="../mainwindow.cpp" line="1018"></location>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Nu naar update zoeken.
+        <translation>Nu naar updates zoeken.
 Dit omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
     </message>
     <message>
