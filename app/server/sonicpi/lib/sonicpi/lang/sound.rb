@@ -1869,10 +1869,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         end
       end
 
-      def with_synth_tracking
-
-      end
-
 
 
 
@@ -2095,14 +2091,14 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         block_res
       end
       doc name:           :with_fx,
-      introduced:     Version.new(2,0,0),
-      summary:        "Use Studio FX",
-      doc:            "This applies the named effect (FX) to everything within a given `do`/`end` block. Effects may take extra parameters to modify their behaviour. See FX help for parameter details.
+          introduced:     Version.new(2,0,0),
+          summary:        "Use Studio FX",
+          doc:            "This applies the named effect (FX) to everything within a given `do`/`end` block. Effects may take extra parameters to modify their behaviour. See FX help for parameter details.
 
 For advanced control, it is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
-      args:           [[:fx_name, :symbol]],
-      opts:           {reps: "Number of times to repeat the block in an iteration.",
-        kill_delay: "Amount of time to wait after all synths triggered by the block have completed before stopping and freeing the effect synthesiser." },
+          args:           [[:fx_name, :symbol]],
+          opts:           {reps: "Number of times to repeat the block in an iteration.",
+          kill_delay:     "Amount of time to wait after all synths triggered by the block have completed before stopping and freeing the effect synthesiser." },
           accepts_block:  true,
           requires_block: true,
           intro_fn:       true,
@@ -2422,18 +2418,15 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
       def load_sample(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
-        paths = sample_find_candidates(filts_and_sources)
-        paths.map do |p|
-          load_sample_at_path p
-        end
+        path = sample_find_candidates(filts_and_sources)[0]
+        load_sample_at_path path
       end
       doc name:          :load_sample,
           introduced:    Version.new(2,0,0),
-          summary:       "Pre-load sample(s)",
+          summary:       "Pre-load first matching sample",
           doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, pre-loads the sample into memory.
 
-You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load all matching samples. See `sample`'s docs for more information." ,
-
++You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load all matching samples. See `sample`'s docs for more information." ,
           args:          [[:path, :string]],
           opts:          nil,
           accepts_block: false,
@@ -2443,25 +2436,45 @@ sample :elec_blip # No delay takes place when attempting to trigger it",
 
 "# Using source and filter pre-args
 dir = \"/path/to/sample/dir\"
-load_sample dir # loads any samples in \"/path/to/sample/dir\"
+load_sample dir # loads first matching sample in \"/path/to/sample/dir\"
 load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
 load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
-load_sample dir, /[Bb]ar/ # loads sample which matches regex /[Bb]ar/ in \"/path/to/sample/dir\"
-
+load_sample dir, \"quux\" # loads first sample with file name containing \"foo\" in \"/path/to/sample/dir\"
+load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \"/path/to/sample/dir\"
 "      ]
 
 
       def load_samples(*args)
-        load_sample(*args)
+        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        paths = sample_find_candidates(filts_and_sources)
+        paths.map do |p|
+          load_sample_at_path p
+        end
       end
       doc name:          :load_samples,
           introduced:    Version.new(2,0,0),
-          summary:       "Pre-load samples",
-          doc:           "Synonym for load_sample",
+          summary:       "Pre-load all matching samples",
+          doc:           "Given a directory containing multiple `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` files, pre-loads all the samples into memory.
+
+ You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will load all matching samples (not just the sample `sample` would play given the same opts) - see `sample`'s docs for more information." ,
           args:          [[:paths, :list]],
           opts:          nil,
           accepts_block: false,
-          examples:      ["# See load_sample for examples"]
+          examples:      ["
+ load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
+ sample :elec_blip # No delay takes place when attempting to trigger it",
+
+ "# Using source and filter pre-args
+ dir = \"/path/to/sample/dir\"
+ load_sample dir # loads all samples in \"/path/to/sample/dir\"
+ load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
+ load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
+ load_sample dir, \"quux\" # loads all samples with file names containing \"foo\" in \"/path/to/sample/dir\"
+ load_sample dir, /[Bb]ar/ # loads all samples which match regex /[Bb]ar/ in \"/path/to/sample/dir\"
+
+ "]
+
+
 
 
 
@@ -2903,75 +2916,59 @@ By combining commands which add to the candidates and then filtering those candi
                           :path       => "Path of the sample to play. Typically this opt is rarely used instead of the more powerful source/filter system. However it can be useful when working with pre-made opt maps."},
           accepts_block:  true,
           intro_fn:       true,
-
-
           examples:      ["
 # Play a built-in sample
-
 sample :loop_amen # Plays the Amen break",
         "
 # Play two samples at the same time
 # with incredible timing accuracy
-
 sample :loop_amen
 sample :ambi_lunar_land # Note, for timing guarantees select the pref:
                         #   Studio -> Synths and FX -> Enforce timing guarantees",
         "
 # Create a simple repeating bass drum
-
 live_loop :bass do
   sample :bd_haus
   sleep 0.5
 end",
         "
 # Create a more complex rhythm with multiple live loops:
-
 live_loop :rhythm do
   sample :tabla_ghe3 if (spread 5, 7).tick
   sleep 0.125
 end
-
 live_loop :bd, sync: :rhythm do
   sample :bd_haus, lpf: 90, amp: 2
   sleep 0.5
 end",
         "
 # Change the playback speed of the sample using rate:
-
 sample :loop_amen, rate: 0.5 # Play the Amen break at half speed
                              # for old school hip-hop",
         "
 # Speed things up
-
 sample :loop_amen, rate: 1.5 # Play the Amen break at 1.5x speed
                              # for a jungle/gabba sound",
         "
 # Go backwards
-
 sample :loop_amen, rate: -1 # Negative rates play the sample backwards",
         "
 # Fast rewind
-
 sample :loop_amen, rate: -3 # Play backwards at 3x speed for a fast rewind effect",
         "
 # Start mid sample
-
 sample :loop_amen, start: 0.5 # Start playback half way through",
         "
 # Finish mid sample
-
 sample :loop_amen, finish: 0.5 # Finish playback half way through",
         "
 # Play part of a sample
-
 sample :loop_amen, start: 0.125, finish: 0.25 # Play the second eighth of the sample",
         "
 # Finishing before the start plays backwards
-
 sample :loop_amen, start: 0.25, finish: 0.125 # Play the second eighth of the sample backwards",
         "
 # Play a section of a sample at quarter speed backwards
-
 sample :loop_amen, start: 0.125, finish: 0.25, rate: -0.25 # Play the second eighth of the
                                                            # amen break backwards at a
                                                            # quarter speed",
@@ -2992,42 +2989,37 @@ sleep 0.5
 synth :dsaw, note: :e3 # This is triggered 0.5s from start",
 
         "
+# Play with slices
+sample :loop_garzul, slice 0      # => play the first 16th of the sample
+sleep 0.5
+4.times do
+  sample :loop_garzul, slice 1    # => play the second 16th of the sample 4 times
+  sleep 0.125
+end
+sample :loop_garzul, slice 4, num_slices: 4, rate: -1      # => play the final quarter backwards
+",
+        "
 # Build a simple beat slicer
-
 use_sample_bpm :loop_amen                    # Set the BPM to match the amen break sample
-
 live_loop :beat_slicer do
-  n = 8                                      # Set number of slices. Try changing this
-                                             # to 2, 4, 6, 16 or 32
-
-  d = 1.0 / n                                # Calculate the duration of a slice as a
-                                             # fraction of the sample
-
-  s = (line 0, 1, steps: n).choose           # Create a ring of starting points and
-                                             # randomly choose one
-
-  f = s + d                                  # Calculate the finish point
-
-  sample :loop_amen, start: s, finish: f     # Play the specific part of the sample
-
-  sleep d                                    # Sleep for the duration of the slice
+  n = 8                                      # Specify number of slices
+                                             # (try changing to 2, 4, 6, 16 or 32)
+  s = rand_i n                               # Choose a random slice within range
+  sample :loop_amen, slice: s, num_slices: n # Play the specific part of the sample
+  sleep 1.0/n                                # Sleep for the duration of the slice
 end",
         "
 # Play with the built-in low pass filter, high pass filter and compressor
-
 sample :loop_amen, lpf: 80, hpf: 70, compress: 1, pre_amp: 10 # Make the amen break sound punchy.",
         "
 # Use the cutoff filter envelopes
-
 sample :loop_garzul, lpf_attack: 8 # Sweep the low pass filter up over 8 beats
 sleep 8
 sample :loop_garzul, hpf_attack: 8 # Sweep the high pass filter down over 8 beats",
         "
 # Sample stretching
-
 puts sample_duration :loop_industrial                   # => 0.88347
 puts sample_duration :loop_industrial, beat_stretch: 1  # => 1
-
 live_loop :industrial do
   sample :loop_industrial, beat_stretch: 1              # Stretch the sample to make it 1 beat long
   sleep 1                                               # This now loops perfectly.
@@ -3036,99 +3028,77 @@ live_loop :industrial do
 end",
         "
 # Sample shrinking
-
 puts sample_duration :loop_garzul                       # => 8
 puts sample_duration :loop_garzul, beat_stretch: 6      # => 6
-
 live_loop :garzul do
   sample :loop_garzul, beat_stretch: 6                  # As :loop_garzul is longer than 6 beats
                                                         # it is shrunk to fit. This increases the
                                                         # pitch.
-
   sleep 6
 end",
         "
 # Sample stretching matches the BPM
-
 use_bpm 30                                              # Set the BPM to 30
-
 puts sample_duration :loop_garzul                       # => 4.0 (at 30 BPM the sample lasts for 4 beats)
 puts sample_duration :loop_garzul, beat_stretch: 6      # => 6.0
-
 live_loop :garzul do
   sample :loop_garzul, beat_stretch: 6                  # The sample is stretched to match 6 beats at 30 BPM
   sleep 6
 end",
         "
 # External samples
-
 sample \"/path/to/sample.wav\"                          # Play any Wav, Aif or FLAC sample on your computer
                                                         # by simply passing a string representing the full
                                                         # path",
         "
 # Sample pack filtering
-
 dir = \"/path/to/dir/of/samples\"                       # You can easily work with a directory of samples
-
 sample dir                                              # Play the first sample in the directory
                                                         # (it is sorted alphabetically)
-
 sample dir, 1                                           # Play the second sample in the directory
-
 sample dir, 99                                          # Play the 100th sample in the directory, or if there
                                                         # are fewer, treat the directory like a ring and keep
                                                         # wrapping the index round until a sample is found.
                                                         # For example, if there are 90 samples, the 10th sample
                                                         # is played (index 9).
-
 sample dir, \"120\"                                     # Play the first sample in the directory that contains
                                                         # the substring \"120\".
                                                         # For example, this may be \"beat1_120_rave.wav\"
-
 sample dir, \"120\", 1                                  # Play the second sample in the directory that contains
                                                         # the substring \"100\".
                                                         # For example, this may be \"beat2_120_rave.wav\"
-
 sample dir, /beat[0-9]/                                 # Play the first sample in the directory that matches
                                                         # the regular expression /beat[0-9]/.
                                                         # For example, this may be \"beat0_100_trance.wav\"
                                                         # You may use the full power of Ruby's regular expression
                                                         # system here: http://ruby-doc.org/core-2.1.1/Regexp.html
-
 sample dir, /beat[0-9]0/, \"100\"                       # Play the first sample in the directory that both matches
                                                         # the regular expression /beat[0-9]0/ and contains the
                                                         # the substring \"100\".
                                                         # For example, this may be \"beat10_100_rave.wav\"",
         "
 # Filtering built-in samples
-
                                                         # If you don't pass a directory source, you can filter over
                                                         # the built-in samples.
 sample \"tabla_\"                                       # Play the first built-in sample that contains the substring
                                                         # \"tabla\"
-
 sample \"tabla_\", 2                                    # Play the third built-in sample that contains the substring
                                                         # \"tabla\"",
         "
 # Play with whole directories of samples
-
 load_samples \"tabla_\"                                 # You may pass any of the source/filter options to load_samples
                                                         # to load all matching samples. This will load all the built-in
                                                         # samples containing the substring \"tabla_\"
-
 live_loop :tabla do
   sample \"tabla_\", tick                               # Treat the matching samples as a ring and tick through them
   sleep 0.125
 end",
         "
 # Specify multiple sources
-
 dir1 = \"/path/to/sample/directory\"
 dir2 = \"/path/to/other/sample/directory\"
-
 sample dir1, dir2, \"foo\"                              # Match the first sample that contains the string \"foo\" out of
                                                         # all the samples in dir1 and dir2 combined.
-
                                                         # Note that the sources must be listed before any filters.",
         "
 # List contents recursively
@@ -3137,9 +3107,7 @@ dir = \"/path/to/sample/directory\"                     # By default the list of
 dir_recursive = \"/path/to/sample/directory/**\"        # However, if you finish your directory string with ** then if that
                                                         # directory contains other directories then the samples within the
                                                         # subdirectories and their subsubdirectories in turn are considered.
-
 sample dir, 0                                           # Play the first top-level sample in the directory
-
 sample dir_recursive, 0                                 # Play the first sample found after combining all samples found in
                                                         # the directory and all directories within it recursively.
                                                         # Note that if there are many sub directories this may take some time
@@ -3147,8 +3115,6 @@ sample dir_recursive, 0                                 # Play the first sample 
                                                         # be fast.",
         "
 # Bespoke filters
-
-
 filter = lambda do |candidates|                         # If the built-in String, Regexp and index filters are not sufficient
   [candidates.choose]                                   # you may write your own. They need to be a function which takes a list
 end                                                     # of paths to samples and return a list of samples. This one returns a
@@ -3158,13 +3124,6 @@ end                                                     # of paths to samples an
   sleep 0.25                                            # contain the substring \"drum_\"
 end"
 ]
-
-
-
-
-
-
-
 
 
 
@@ -3358,6 +3317,7 @@ play degree(2, :C3, :minor)
           opts:          {:num_octaves => "The number of octaves you'd like the scale to consist of. More octaves means a larger scale. Default is 1."},
           accepts_block: false,
           intro_fn:       true,
+          memoize:        true,
           examples:      ["
 puts (scale :C, :major) # returns the following ring of MIDI note numbers: (ring 60, 62, 64, 65, 67, 69, 71, 72)",
         "# anywhere you can use a list or ring of notes, you can also use scale
@@ -3475,6 +3435,7 @@ end",
           returns:       :ring,
           opts:          nil,
           accepts_block: false,
+          memoize:       true,
           examples:      ["puts (chord_degree :i, :A3, :major) # returns a ring of midi notes - (ring 57, 61, 64, 68) - an A major 7 chord",
         "play (chord_degree :i, :A3, :major, 3)",
         "play (chord_degree :ii, :A3, :major, 3) # Chord ii in A major is a B minor chord",
@@ -3502,7 +3463,7 @@ end",
         return [] unless tonic
         opts = resolve_synth_opts_hash_or_array(opts)
         c = []
-        if tonic.is_a? Array
+        if is_list_like?(tonic)
           raise "List passed as parameter to chord needs two elements i.e. (chord [:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
           c = Chord.new(tonic[0], tonic[1], opts[:num_octaves])
         else
@@ -3521,6 +3482,7 @@ end",
           num_octaves:   "Create an arpeggio of the chord over n octaves"},
           accepts_block: false,
           intro_fn:      true,
+          memoize:       true,
           examples:      ["
 puts (chord :e, :minor) # returns a ring of midi notes - (ring 64, 67, 71)
 ",
@@ -3613,7 +3575,7 @@ end",
 
       def chord_invert(notes, shift)
         raise "Inversion shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
-        raise "Notes must be a list of notes, got #{notes.inspect}" unless (notes.is_a?(SonicPi::Core::SPVector) || notes.is_a?(Array))
+        raise "Notes must be a list of notes, got #{notes.inspect}" unless is_list_like?(notes)
         if(shift > 0)
           chord_invert(notes.to_a[1..-1] + [notes.to_a[0]+12], shift-1)
         elsif(shift < 0)
@@ -3675,7 +3637,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
           note = args_h.delete(:note)
           notes = args_h.delete(:notes)
           notes = note if note && !notes
-          notes = [notes] unless notes.is_a?(Array) || notes.is_a?(SonicPi::Core::SPVector)
+          notes = [notes] unless is_list_like?(notes)
           normalise_args! args_h
           # don't normalise notes key as it is special
           # when controlling ChordGroups.
@@ -3855,6 +3817,7 @@ kill bar"]
           returns:        :ring,
           opts:          nil,
           accepts_block: false,
+          memoize:       true,
           examples:      []
 
 
@@ -3870,6 +3833,7 @@ kill bar"]
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize:       true,
           examples:      []
 
 
@@ -3885,6 +3849,7 @@ kill bar"]
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize:       true,
           examples:      []
 
 
@@ -3900,6 +3865,7 @@ kill bar"]
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize:       true,
           examples:      []
 
 
@@ -3913,6 +3879,7 @@ kill bar"]
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize:       true,
           examples:      []
 
 
@@ -3964,6 +3931,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize:       true,
           examples:      ["puts scale_names #=>  prints a list of all the scales"]
 
 
@@ -3977,6 +3945,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           args:          [],
           opts:          nil,
           accepts_block: false,
+          memoize:       true,
           examples:      ["puts chord_names #=>  prints a list of all the chords"]
 
       private
