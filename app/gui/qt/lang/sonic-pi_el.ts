@@ -11,14 +11,14 @@
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
         <source>Log</source>
-        <translation>Αρχείο δεδομένων</translation>
+        <translation>Καταγραφή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
         <location filename="../mainwindow.cpp" line="2609"></location>
         <location filename="../mainwindow.cpp" line="2629"></location>
         <source>Sonic Pi</source>
-        <translation>Ηχητικό Π</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
@@ -76,8 +76,8 @@ can only handle mono.</source>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Ενεργοποίηση/ Απενεργοποίηση αρχείου μηνυμάτων.
-Εάν απενεργοποιηθεί, οι ενέργειες ενεργοποίησης των synths και των samples
+        <translation>Ενεργοποίηση/ Απενεργοποίηση αρχείου καταγραφής.
+Εάν απενεργοποιηθεί, ενέργειες όπως αναπαραγωγή των synths και των samples
 δεν θα εμφανίζονται στο αρχείο.</translation>
     </message>
     <message>
@@ -88,21 +88,21 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Clear log on run</source>
-        <translation>Καθαρισμός ιστορικού μηνυμάτων κατά την εκτέλεση</translation>
+        <translation>Καθαρισμός ιστορικού καταγραφής κατά την εκτέλεση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"></location>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Εκκαθάριση ιστορικού κατά την εκτέλεση.
-Εάν ενεργοποιηθεί, το αρχείο ιστορικού καθαρίζεται κάθε
+        <translation>Εκκαθάριση αρχείου καταγραφής κατά την εκτέλεση.
+Εάν ενεργοποιηθεί, το αρχείο καταγραφής καθαρίζεται κάθε
 φορά που πατιέται το κουμπί εκτέλεση.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
         <source>Toggle line number visibility.</source>
-        <translation>Εμφάνιση αριθμών γραμμών.</translation>
+        <translation>Ορισμός εμφάνισης αριθμών γραμμών.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
@@ -203,108 +203,113 @@ For example, if you have headphones connected to your Raspberry Pi, choose 'Head
     <message>
         <location filename="../mainwindow.cpp" line="1119"></location>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργαστής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1054"></location>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση αριθμών γραμμών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="277"></location>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες ενημέρωσης Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Ήχος για Προχωρημένους</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="978"></location>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός λειτουργιών ελέγχου παραμέτρων synth.
+Εάν απενεργοποιηθεί, μερικές παράμετροι ίσως
+δημιουργήσουν πολύ δυνατούς ή άβολους ήχους.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Καταγραφή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2362"></location>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκταση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός σχολίου επιλεγμένων...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="746"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός σχολίου γραμμής...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο εξυπηρετητής Sonic Pi δεν μπόρεσε να ξεκινήσει!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιστροφή στέρεο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Μονοφωνικό</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths και Εφέ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="962"></location>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή συμπεριφοράς synths και Εφέ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Καταγραφή synths</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"></location>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Καταγραφή cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="971"></location>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση ή απενεργοποίηση καταγραφής των cues.
+Εάν απενεργοποιηθεί, τα cues θα συνεχίσουν να παίζουν.
+Ωστόσο, δεν θα φαίνονται στα αρχεία καταγραφής.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτόματη ολίσθηση αρχείου καταγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός αυτόματης ολίσθησης αρχείου καταγραφής.
+Εάν ενεργοποιηθεί το αρχείο καταγραφής μετακινείται στο κάτω μέρος όταν ένα νέο μήνυμα εμφανίζεται.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση εξωτερικών synths και Εφέ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"></location>
@@ -896,7 +901,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="43"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
