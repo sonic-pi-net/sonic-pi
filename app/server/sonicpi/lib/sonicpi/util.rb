@@ -335,9 +335,9 @@ module SonicPi
 
     def resolve_synth_opts_hash_or_array(opts)
       case opts
-      when Hash
+      when Hash, SonicPi::Core::SPMap
         return opts
-      when Array
+      when Array, SonicPi::Core::SPVector
         merge_synth_arg_maps_array(opts)
       when NilClass
         return {}

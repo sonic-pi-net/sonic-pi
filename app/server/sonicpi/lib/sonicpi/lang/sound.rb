@@ -1304,7 +1304,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
         args_h = resolve_synth_opts_hash_or_array(args)
         tls = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults) || {}
 
-        args_h = tls.merge(args_h)
+        args_h = tls.merge(args_h).to_h
 
         return @blank_node unless should_trigger?(args_h)
 
@@ -1675,7 +1675,7 @@ end"]
       def use_synth_defaults(*args, &block)
         raise "use_synth_defaults does not work with a block. Perhaps you meant with_synth_defaults" if block
         args_h = resolve_synth_opts_hash_or_array(args)
-        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, args_h
+        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, SonicPi::Core::SPMap.new(args_h)
       end
       doc name:          :use_synth_defaults,
           introduced:    Version.new(2,0,0),
@@ -1702,7 +1702,7 @@ play 50 # plays note 50 with a cutoff of 90 and defaults for rest of args - note
       def use_sample_defaults(*args, &block)
         raise "use_sample_defaults does not work with a block. Perhaps you meant with_sample_defaults" if block
         args_h = resolve_synth_opts_hash_or_array(args)
-        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, args_h
+        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, SonicPi::Core::SPMap.new(args_h)
       end
       doc name:          :use_sample_defaults,
           introduced:    Version.new(2,5,0),
@@ -1729,7 +1729,7 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest 
         current_defs = __thread_locals.get(:sonic_pi_mod_sound_sample_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
         merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, merged_defs
+        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, SonicPi::Core::SPMap.new(merged_defs)
       end
       doc name:          :use_merged_sample_defaults,
           introduced:    Version.new(2,9,0),
@@ -1758,7 +1758,7 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and and an amp of 0.5 
         raise "with_sample_defaults must be called with a do/end block. Perhaps you meant use_sample_defaults" unless block
         current_defs = __thread_locals.get(:sonic_pi_mod_sound_sample_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
-        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, args_h
+        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, SonicPi::Core::SPMap.new(args_h)
         res = block.call
         __thread_locals.set :sonic_pi_mod_sound_sample_defaults, current_defs
         res
@@ -1792,7 +1792,7 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
         current_defs = __thread_locals.get(:sonic_pi_mod_sound_sample_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
         merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, merged_defs
+        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, SonicPi::Core::SPMap.new(merged_defs)
         res = block.call
         __thread_locals.set :sonic_pi_mod_sound_sample_defaults, current_defs
         res
@@ -1826,7 +1826,7 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
         current_defs = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults)
 
         args_h = resolve_synth_opts_hash_or_array(args)
-        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, args_h
+        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, SonicPi::Core::SPMap.new(args_h)
         res = block.call
         __thread_locals.set :sonic_pi_mod_sound_synth_defaults, current_defs
         res
@@ -3617,7 +3617,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         return nil if node.nil?
         raise "You may only control a SynthNode. You tried to control a #{node.class}: #{node.inspect}" unless node.is_a?(Node)
         args_h = resolve_synth_opts_hash_or_array(args)
-
+        args_h = args_h.to_h
         return nil unless should_trigger?(args_h)
         # set default slide times
         default_slide_time = args_h[:slide]
@@ -4025,6 +4025,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       end
 
       def trigger_sampler(path, args_h, group=current_job_synth_group)
+       args_h = args_h.to_h
         case path
         when Buffer
           buf_info = path
@@ -4533,6 +4534,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         # some of the args in args_h need to be scaled to match the
         # current bpm. Check in info to see if that's necessary and if
         # so, scale them.
+        args_h = args_h.to_h
         new_args = {}
         if force_add
           defaults = info.arg_defaults
