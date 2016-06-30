@@ -220,18 +220,52 @@ module SonicPi
     class EmptyVectorError < StandardError ; end
     class InvalidIndexError < StandardError ; end
 
+
+
+    class SPMap < Hamster::Hash
+      def initialize(*args)
+        super
+        res = self.all? {|k, v| k.sp_thread_safe? && v.sp_thread_safe?}
+        @sp_thread_safe = !!res
+      end
+
+      def sp_thread_safe?
+        @sp_thread_safe
+      end
+
+      def inspect
+        if self.empty?
+          "(map)"
+        else
+          s = "(map "
+          self.to_h.each do |k, v|
+            if k.is_a? Symbol
+              s << "#{k}: #{v.inspect}, "
+            else
+              s << "#{k.inspect} => #{v.inspect}, "
+            end
+          end
+          s.chomp!(", ")
+          s << ")"
+          return s
+        end
+      end
+
+      def to_s
+        inspect
+      end
+
+    end
+
     class SPVector < Hamster::Vector
       include TLMixin
       def initialize(list)
         super
+        res = self.all? {|el| el.sp_thread_safe?}
+        @thread_safe = !!res
       end
 
       def sp_thread_safe?
-        if @thread_safe.nil?
-          res = self.all? {|el| el.sp_thread_safe?}
-          @thread_safe = !!res
-        end
-
         return @thread_safe
       end
 
