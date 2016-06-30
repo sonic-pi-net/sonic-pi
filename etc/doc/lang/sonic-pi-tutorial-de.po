@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-24 22:09+0000\n"
+"PO-Revision-Date: 2016-06-30 09:56+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -6115,13 +6115,12 @@ msgstr ""
 "end"
 
 #: 06.1-Adding-FX.md:109
-#, fuzzy
 msgid ""
 "Let's make the echo take longer to fade away by setting the `decay:` time to 8"
 " beats:"
 msgstr ""
-"Wie wäre es nun mit einem langsam ausschwingenden Echo? Wir können dafür einfa"
-"ch den `decay:`-Wert auf 8 Schläge verlängern:"
+"Wie wäre es nun mit einem langsam ausschwingenden Echo? Wir können dafür "
+"einfach den `decay:`-Wert auf 8 Schläge verlängern:"
 
 #: 06.1-Adding-FX.md:112
 #, no-wrap
@@ -6143,23 +6142,21 @@ msgstr ""
 "end"
 
 #: 06.1-Adding-FX.md:122
-#, fuzzy
 msgid "Nesting FX"
 msgstr "FX verschachteln"
 
 #: 06.1-Adding-FX.md:124
-#, fuzzy
 msgid ""
 "One of the most powerful aspects of the FX blocks is that you can nest them. T"
 "his allows you to very easily chain FX together. For example, what if you want"
 "ed to play some code with echo and then with reverb? Easy, just put one inside"
 " the other:"
 msgstr ""
-"Interessant wird es, wenn wir die FX-Blocks ineinander verschachteln. So könne"
-"n eine Vielzahl verschiedener FX leicht verkettet werden. Wie wäre es zum Beis"
-"piel damit, einen Code-Block zuerst mit Echo und dann mit Hall zu versehen? Da"
-"s geht ganz einfach, Du musst nur die beiden Code-Blocks ineinander verschacht"
-"eln:"
+"Interessant wird es, wenn wir die FX-Blocks ineinander verschachteln. So "
+"kannst Du ganz unterschiedliche FX leicht verketten. Wie wäre es zum "
+"Beispiel damit, einen Code-Block zuerst mit Echo und dann mit Hall zu "
+"versehen? Das geht ganz einfach, Du musst nur die beiden Code-Blocks "
+"ineinander verschachteln:"
 
 #: 06.1-Adding-FX.md:129
 #, no-wrap
@@ -6185,77 +6182,68 @@ msgstr ""
 "end"
 
 #: 06.1-Adding-FX.md:141
-#, fuzzy
 msgid ""
 "Think about the audio flowing from the inside out. The sound of all the code w"
 "ithin the inner do/end block such as `play 50` is first sent to the echo FX an"
 "d the sound of the echo FX is in turn sent out to the reverb FX."
 msgstr ""
-"Stell Dir das so vor, als ob die erzeugten Klänge von innen nach außen fließen"
-" würden. Der erzeugte Klang des innersten do/end-Code-Blocks (zum Beispiel 'pl"
-"ay 50') wird zuerst durch den Echo-FX-Block gesendet, und danach noch durch de"
-"n Hall-FX-Block."
+"Stell Dir das so vor, als ob die erzeugten Klänge von innen nach außen "
+"fließen würden. Der erzeugte Klang des innersten do/end-Code-Blocks (zum "
+"Beispiel `play 50`) wird zuerst durch den Echo-FX-Block gesendet, und danach "
+"noch durch den Hall-FX-Block."
 
 #: 06.1-Adding-FX.md:146
-#, fuzzy
 msgid ""
 "We may use very deep nestings for crazy results. However, be warned, the FX ca"
 "n use a lot of resources and when you nest them you're effectively running mul"
 "tiple FX simultaneously. So be sparing with your use of FX especially on low p"
 "owered platforms such as the Raspberry Pi."
 msgstr ""
-"Es ist ganz einfach, mit vielschichtigen Verschachtelungen verrückte Ergebniss"
-"e zu erzielen. Aber sei vorsichtig, weil FX viel Rechenkraft des Computers ver"
-"braucht, besonders dann, wenn Du mehrere FX zugleich benutzt. Sei also etwas s"
-"parsam mit Deinen FX, wenn Du mit eher rechenschwachen Geräten wie dem Raspber"
-"ry Pi arbeitest."
+"Mit vielschichtigen Verschachtelungen kannst Du verrückte Ergebnisse ganz "
+"einfach erzielen. Aber sei vorsichtig, weil FX viel Rechenkraft des "
+"Computers verbraucht, besonders dann, wenn Du mehrere FX zugleich benutzt. "
+"Sei also etwas sparsam mit Deinen FX, wenn Du mit eher rechenschwachen "
+"Geräten wie dem Raspberry Pi arbeitest."
 
 #: 06.1-Adding-FX.md:151
-#, fuzzy
 msgid "Discovering FX"
 msgstr "Weitere FX entdecken"
 
 #: 06.1-Adding-FX.md:153
-#, fuzzy
 msgid ""
 "Sonic Pi ships with a large number of FX for you to play with. To find out whi"
 "ch ones are available, click on FX in the far left of this help system and you"
 "'ll see a list of available options. Here's a list of some of my favourites:"
 msgstr ""
-"Sonic Pi bringt eine Vielzahl von FX mit, die Du ausprobieren kannst. Eine kom"
-"plette Liste findest Du im Hilfe-Fenster, wenn Du dort links auf 'FX' klickst."
-" Hier sind einige meiner Favoriten:"
+"Sonic Pi bringt eine Vielzahl von FX mit, die Du ausprobieren kannst. Eine "
+"komplette Liste findest Du im Hilfe-Fenster, wenn Du dort links auf 'FX' "
+"klickst. Hier sind einige meiner Favoriten:"
 
 #: 06.1-Adding-FX.md:158
-#, fuzzy
 msgid "wobble,"
-msgstr "wobble"
+msgstr "wobble,"
 
 #: 06.1-Adding-FX.md:159
-#, fuzzy
 msgid "reverb,"
-msgstr "reverb"
+msgstr "reverb,"
 
 #: 06.1-Adding-FX.md:160
-#, fuzzy
 msgid "echo,"
-msgstr "echo"
+msgstr "echo,"
 
 #: 06.1-Adding-FX.md:161
-#, fuzzy
 msgid "distortion,"
-msgstr "distortion"
+msgstr "distortion,"
 
 #: 06.1-Adding-FX.md:162
 msgid "slicer"
-msgstr ""
+msgstr "slicer"
 
 #: 06.1-Adding-FX.md:164
-#, fuzzy
 msgid "Now go crazy and add FX everywhere for some amazing new sounds!"
 msgstr ""
-"Nun drehe so richtig auf und füge überall in deinem Code Audioeffekte hinzu "
-"um fantastische Sounds zu erzeugen!"
+"Nun drehe so richtig auf und füge überall in deinem Code Audioeffekte hinzu. "
+"Du wirst fantastische Sounds erschaffen!"
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
@@ -6266,7 +6254,6 @@ msgid "FX in Practice"
 msgstr "Anwenden von Soundeffekten"
 
 #: 06.2-FX-in-Practice.md:5
-#, fuzzy
 msgid ""
 "Although they look deceptively simple on the outside, FX are actually quite co"
 "mplex beasts internally. Their simplicity often entices people to overuse them"
@@ -6274,13 +6261,14 @@ msgid ""
 "ke me - you use a Raspberry Pi to jam with, you need to be careful about how m"
 "uch work you ask it to do if you want to ensure the beats keep flowing."
 msgstr ""
-"Auf den ersten Blick mögen die Effekte von Sonic Pi sehr einfach aussehen, abe"
-"r in Wirklichkeit sind sie höchst komplexe Gebilde. Ihre scheinbare Einfachhei"
-"t verleitet manche dazu, zu viele FX in ihre Projekte einzubauen. Das kann dur"
-"chaus Spaß machen, wenn Du über einen sehr starken Computer hast. Aber falls D"
-"u - so wie ich - einen einfachen Raspberry Pi zum Musikmachen benutzt, musst D"
-"u darauf achten, die Maschine nicht zu überlasten. Nur so kannst Du sicher geh"
-"en, dass Sonic Pi ordentlich funktioniert und im Takt bleibt."
+"Auf den ersten Blick mögen die Effekte von Sonic Pi sehr einfach aussehen, "
+"aber in Wirklichkeit sind sie höchst komplexe Gebilde. Ihre scheinbare "
+"Einfachheit verleitet manche dazu, zu viele FX in ihre Projekte einzubauen. "
+"Das kann durchaus Spaß machen, wenn Du über einen sehr starken Computer "
+"hast. Aber falls Du - so wie ich - einen einfachen Raspberry Pi zum "
+"Musikmachen benutzt, musst Du darauf achten, die Maschine nicht zu "
+"überlasten. Nur so kannst Du sicher gehen, dass Sonic Pi ordentlich "
+"funktioniert und im Takt bleibt."
 
 #: 06.2-FX-in-Practice.md:12
 msgid "Consider this code:"
@@ -6315,7 +6303,6 @@ msgstr ""
 "alles gut, abgesehen von..."
 
 #: 06.2-FX-in-Practice.md:27
-#, fuzzy
 msgid ""
 "Let's look at what the code does. First we have a `loop` which means everythin"
 "g inside of it is repeated forever. Next we have a `with_fx` block. This means"
@@ -6326,27 +6313,26 @@ msgid ""
 "e reverb and then waiting until it needs to be stopped and removed is all hand"
 "led by `with_fx` for you, but this takes CPU power which may be precious."
 msgstr ""
-"Sehen wir uns genauer an, was der Code hier macht. Zuerst einmal haben wir ein"
-"en Loop, und wie wir ja schon wissen wird alles, was innerhalb der Endlosschle"
-"ife geschrieben ist, für immer und ewig wiederholt. Außerdem haben wir einen `"
-"with_fx:`-do/end-Block. Das bedeutet, dass bei jeder Wiederholung des Loops ei"
-"n neuer Hall-Effekt erzeugt wird. Das ist so, als ob wir jedes Mal, wenn wir e"
-"ine Gitarrenseite zupfen, ein neues Pedal an die Effektkette hängen würden. Es"
-" ist ja ganz nett, das wir das machen können, aber es ist möglicherweise nicht"
-" das, was wir eigentlich wollen. Ein kleiner Raspberry Pi wird an diesem Code "
-"schwer zu arbeiten haben. Die `with_fx:`-Funktion erledigt die ganze Arbeit, b"
-"ei jeder Wiederholung des Loops den Hall-Effekt zu erzeugen, dann zu warten, u"
-"nd dann den Effekt wieder zu entfernen, aber insgesamt werden dabei wertvolle "
-"CPU Ressourcen verbraucht."
+"Sehen wir uns genauer an, was der Code hier macht. Zuerst einmal haben wir "
+"einen Loop, und wie wir ja schon wissen wird alles, was innerhalb der "
+"Endlosschleife geschrieben ist, für immer und ewig wiederholt. Außerdem "
+"haben wir einen `with_fx:`-do/end-Block. Das bedeutet, dass bei jeder "
+"Wiederholung des Loops ein neuer Hall-Effekt erzeugt wird. Das ist so, als "
+"ob wir jedes Mal, wenn wir eine Gitarrenseite zupfen, ein neues Pedal an die "
+"Effektkette hängen würden. Es ist ja ganz nett, das wir das machen können, "
+"aber es ist möglicherweise nicht das, was wir eigentlich wollen. Ein kleiner "
+"Raspberry Pi wird an diesem Code schwer zu arbeiten haben. Die `with_fx:`-"
+"Funktion erledigt die ganze Arbeit, bei jeder Wiederholung des Loops den "
+"Hall-Effekt zu erzeugen, dann zu warten, und dann den Effekt wieder zu "
+"entfernen, aber insgesamt werden dabei wertvolle CPU Ressourcen verbraucht."
 
 #: 06.2-FX-in-Practice.md:37
-#, fuzzy
 msgid ""
 "How do we make it more similar to a traditional setup where our guitarist has "
 "just *one* reverb pedal which all sounds pass through? Simple:"
 msgstr ""
-"Wie können wir einen ähnlichen Code-Block schreiben, bei dem unser Gitarrist n"
-"ur ein einzelnes Hall-Effektpedal zur Klangerzeugung benutzt? Ganz einfach:"
+"Wie können wir einen ähnlichen Code-Block schreiben, bei dem unser Gitarrist "
+"nur ein einzelnes Hall-Effektpedal zur Klangerzeugung benutzt? Ganz einfach:"
 
 #: 06.2-FX-in-Practice.md:41
 #, no-wrap
