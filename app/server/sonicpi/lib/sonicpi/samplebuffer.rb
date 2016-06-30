@@ -19,6 +19,7 @@ module SonicPi
   class SampleBuffer < Buffer
     include Util
     def initialize(buffer, path)
+      @aubio_onsets = {}
       @buffer = buffer
       @path = path
       @aubio_sem = Mutex.new
@@ -81,16 +82,16 @@ module SonicPi
     end
 
     def onsets(stretch=1)
-      return @aubio_onsets if @aubio_onsets
+      return @aubio_onsets[stretch] if @aubio_onsets[stretch]
       data = onset_data
       @aubio_sem.synchronize do
-        return @aubio_onsets if @aubio_onsets
+        return @aubio_onsets[stretch] if @aubio_onsets[stretch]
         onset_times = data.map do |el|
           [1, (el[:s].to_f / duration)].min * stretch
         end
-        @aubio_onsets = onset_times
+        @aubio_onsets[stretch] = onset_times
       end
-      return @aubio_onsets
+      return @aubio_onsets[stretch]
     end
 
     def onset_slices
