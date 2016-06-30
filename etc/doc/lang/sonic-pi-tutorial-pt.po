@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-28 19:59+0000\n"
+"PO-Revision-Date: 2016-06-30 20:25+0000\n"
 "Last-Translator: André Sá <siikyatgith@openaliasbox.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -338,98 +338,85 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:111
-#, fuzzy
 msgid ""
 "Now, keep playing and experimenting until your curiosity about how this all ac"
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"Agora, continua a tocar e experimentar até a tua curiosidade sobre como tudo i"
-"sto funciona entrar em cena e começares a questionar que mais podes fazer no S"
-"onic Pi. Estás pronto para ler o resto do tutorial."
+"Agora, continua a tocar e a experimentar até a tua curiosidade sobre como "
+"tudo isto funciona entrar em cena e começares a questionar que mais podes "
+"fazer no Sonic Pi. Agora estás pronto para ler o resto do tutorial."
 
 #: 01.1-Live-Coding.md:115
-#, fuzzy
 msgid "So what are you waiting for..."
-msgstr "Então de que estás a espera..."
+msgstr "Então de que estás à espera..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 Exploring the Interface"
 
 #: 01.2-Exploring-the-Interface.md:3
-#, fuzzy
 msgid "The Sonic Pi Interface"
 msgstr "A Interface do Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
-"O Sonic Pi tem um interface muito simples para escrever música. Vamos passar u"
-"m bocado de tempo a explorá-la."
+"O Sonic Pi tem um interface muito simples para programar música. Vamos "
+"passar algum tempo a explorá-la."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Interface do Sonic Pi](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
-#, fuzzy
 msgid "*A* - Play Controls"
 msgstr "*A* - Controlos de Reprodução"
 
 #: 01.2-Exploring-the-Interface.md:12
-#, fuzzy
 msgid "*B* - Editor Controls"
 msgstr "*B* - Controlos do Editor"
 
 #: 01.2-Exploring-the-Interface.md:13
-#, fuzzy
 msgid "*C* - Info and Help"
 msgstr "*C* - Informação e Ajuda"
 
 #: 01.2-Exploring-the-Interface.md:14
-#, fuzzy
 msgid "*D* - Code Editor"
-msgstr "*D* - Editor"
+msgstr "*D* - Editor (de código)"
 
 #: 01.2-Exploring-the-Interface.md:15
-#, fuzzy
 msgid "*E* - Prefs Panel"
-msgstr "*E* - Painel das Opções"
+msgstr "*E* - Painel de Opções"
 
 #: 01.2-Exploring-the-Interface.md:16
 #, fuzzy
 msgid "*F* - Log Viewer"
-msgstr "*F* - Vizualizador do *Log*"
+msgstr "*F* - Vizualizador de logs"
 
 #: 01.2-Exploring-the-Interface.md:17
-#, fuzzy
 msgid "*G* - Help System"
 msgstr "*G* - Sistema de Ajuda"
 
 #: 01.2-Exploring-the-Interface.md:20
-#, fuzzy
 msgid "A. Play Controls"
 msgstr "A. Controlos de Reprodução"
 
 #: 01.2-Exploring-the-Interface.md:22
-#, fuzzy
 msgid ""
 "These pink buttons are the main controls for starting and stopping sounds. The"
 "re's the *Run* button for running the code in the editor, *Stop* for stopping "
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"Estes botões rosa são os controlos principais para reproduzir e parar a música"
-". O botão *Run* serve para reproduzir o código, *Stop* para parar todas as rep"
-"roduções, *Save* para guardar o código num ficheiro externo e *Record* para cr"
-"iar uma gravação (num ficheiro WAV) do som que estiver a tocar."
+"Estes botões rosa são os controlos principais para reproduzir e parar sons. "
+"O botão *Run* serve para reproduzir o código no editor, *Stop* para parar "
+"todas as reproduções, *Save* para guardar o código num ficheiro externo e "
+"*Record* para gravar (num ficheiro WAV) o som que estiver a tocar."
 
 #: 01.2-Exploring-the-Interface.md:28
-#, fuzzy
 msgid "B. Editor Controls"
 msgstr "B. Controlos do Editor"
 
@@ -445,7 +432,6 @@ msgstr ""
 " para que pareça mais profissional."
 
 #: 01.2-Exploring-the-Interface.md:35
-#, fuzzy
 msgid "C. Info and Help"
 msgstr "C. Informação e Ajuda"
 
@@ -466,9 +452,8 @@ msgstr ""
 "os do sistema."
 
 #: 01.2-Exploring-the-Interface.md:44
-#, fuzzy
 msgid "D. Code Editor"
-msgstr "D. Editor"
+msgstr "D. Editor (de código)"
 
 #: 01.2-Exploring-the-Interface.md:46
 #, fuzzy
@@ -488,9 +473,8 @@ msgstr ""
 "aberás que algo é um número por ser azul."
 
 #: 01.2-Exploring-the-Interface.md:54
-#, fuzzy
 msgid "E. Prefs Panel"
-msgstr "E. Painel das Opções"
+msgstr "E. Painel de Opções"
 
 #: 01.2-Exploring-the-Interface.md:56
 #, fuzzy
@@ -508,9 +492,8 @@ msgstr ""
 "spberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
-#, fuzzy
 msgid "F. Log Viewer"
-msgstr "F. Vizualizador do *Log*"
+msgstr "F. Vizualizador de logs"
 
 #: 01.2-Exploring-the-Interface.md:65
 #, fuzzy
@@ -526,7 +509,6 @@ msgstr ""
 "bugging* e perceber o que o teu código está a fazer."
 
 #: 01.2-Exploring-the-Interface.md:71
-#, fuzzy
 msgid "G. Help System"
 msgstr "G. Sistema de Ajuda"
 
