@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-29 14:17+0000\n"
+"PO-Revision-Date: 2016-06-30 14:47+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -5110,7 +5110,7 @@ msgstr ""
 
 #: 05.5-Functions.md:56
 msgid "Functions are remembered across runs"
-msgstr "Functies worden onthouden gedurende het uitvoeren"
+msgstr "Functies worden onthouden langsheen het uitvoer commando"
 
 #: 05.5-Functions.md:58
 msgid ""
@@ -5120,12 +5120,12 @@ msgid ""
 "functions change that. When you define a function, Sonic Pi *remembers* it. "
 "Let's try it. Delete all the code in your buffer and replace it with:"
 msgstr ""
-"Tot nu toe was het zo dat telkens als u de Afspeel-knop ingedrukte, Sonic Pi "
-"met een schone lei startte. Het weet weet van niets tenzij van wat er in de "
-"buffer zit. Je kan niet verwijzen naar code die in een andere buffer of een "
-"andere thread zit. Functies veranderen dat. Wanneer je een functie "
-"definieert zal Sonic Pi zich deze *herinneren*. Laten we dit proberen. "
-"Verwijder alle code in uw buffer en vervang het met:"
+"Tot nu toe was het zo, dat telkens als u de Afspeel-knop ingedrukte, Sonic "
+"Pi met een schone lei startte. Het weet weet van niets tenzij van wat er in "
+"de buffer zit. Je kan niet verwijzen naar code die in een andere buffer of "
+"een andere thread zit. Met functies veranderd dat. Wanneer je een functie "
+"definieert zal Sonic Pi zich deze *herinneren*. Laten we dit eens proberen. "
+"Verwijder alle code uit uw buffer en vervang het met:"
 
 #: 05.5-Functions.md:65
 #, no-wrap
@@ -5158,7 +5158,7 @@ msgid ""
 msgstr ""
 "Interessant om weten ook is dat je net zoals je min als max waarden kan "
 "geven aan `rrand`, kan je ook jouw functies argumenten laten accepteren. "
-"Laat ons hier een kijkje naar nemen:"
+"Laat ons dat even bekijken:"
 
 #: 05.5-Functions.md:81
 #, no-wrap
@@ -5191,6 +5191,9 @@ msgid ""
 "surrounded by vertical goalposts `|` and separated by commas `,`. You may "
 "use any words you want for the parameter names."
 msgstr ""
+"De parameters moeten na de `do` van het `define` do/end blok komen te staan, "
+"omringd door een sluisteken `|`en gescheiden door komma's `,`. Om deze "
+"parameters te benoemen mag je elk woord gebruiken dat je maar wil."
 
 #: 05.5-Functions.md:98
 msgid ""
@@ -5206,7 +5209,7 @@ msgstr ""
 
 #: 05.5-Functions.md:108
 msgid "Let's see a more interesting example:"
-msgstr ""
+msgstr "Laten we eens kijken naar een interessanter voorbeeld:"
 
 #: 05.5-Functions.md:110
 #, no-wrap
@@ -5224,6 +5227,18 @@ msgid ""
 "sleep 0.5\n"
 "chord_player :e3, 3"
 msgstr ""
+"define :chord_player do |root, repeats| \n"
+"  repeats.times do\n"
+"    play chord(root, :minor), release: 0.3\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"chord_player :e3, 2\n"
+"sleep 0.5\n"
+"chord_player :a3, 3\n"
+"chord_player :g3, 4\n"
+"sleep 0.5\n"
+"chord_player :e3, 3"
 
 #: 05.5-Functions.md:126
 msgid ""
