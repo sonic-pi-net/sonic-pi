@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-29 09:56+0000\n"
+"PO-Revision-Date: 2016-06-30 09:57+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -934,12 +934,10 @@ msgstr ""
 "それでは最初のオプション`amp:`で演奏してみましょう。"
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
-#, fuzzy
 msgid "Amplitude"
 msgstr "アンプ（増幅）"
 
 #: 02.2-Synth-Params.md:66
-#, fuzzy
 msgid ""
 "Amplitude is a computer representation of the loudness of a sound. A *high amp"
 "litude produces a loud sound* and a *low amplitude produces a quiet sound*. Ju"
@@ -952,19 +950,17 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
-"アンプは音の大きさをコンピュータで表したものです。高アンプは大きな音を生成し、 低アンプは静かな音を生み出します。Sonic Piは時間と音符を数字を使って"
-"表現するので、 アンプにも数字を使用します。1 の値が通常の音量であるのに対して、0はサイレントです（何もきこえませんよ）。 2、10、100 というふうに"
-"、アンプを上げることができます。ただし、全体の音を増幅しすぎると、 大きな音になりすぎないように、Sonic Piはコンプレッサー(圧縮)と呼ばれる 効果を"
-"使用して確実な音量に抑えることを覚えておいてください。これは多くの場合、音がこもって 奇妙に聞こえます。ですから、圧縮を防ぐために0から0.5のような値で使"
-"用してみてください。"
+"アンプは音の大きさをコンピュータで表したものです。高アンプは大きな音を生成し、 低アンプは静かな音を生み出します。Sonic "
+"Piは時間と音符を数字を使って表現するので、 アンプにも数字を使用します。1 の値が通常の音量であるのに対して、0はサイレントです（何もきこえませんよ）。"
+" 2、10、100 というふうに、アンプを上げることができます。ただし、全体の音を増幅しすぎると、 大きな音になりすぎないように、Sonic "
+"Piはコンプレッサー(圧縮)と呼ばれる 効果を使用して確実な音量に抑えることを覚えておいてください。これは多くの場合、音がこもって "
+"奇妙に聞こえます。ですから、圧縮を防ぐために0から0.5のような値で使用してみてください。"
 
 #: 02.2-Synth-Params.md:79
-#, fuzzy
 msgid "Amp it up"
 msgstr "音量を上げる"
 
 #: 02.2-Synth-Params.md:81
-#, fuzzy
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
@@ -976,7 +972,6 @@ msgid "play 60, amp: 0.5"
 msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
-#, fuzzy
 msgid "To play at double amplitude pass 2:"
 msgstr "倍の音量で演奏するために、2 にしてみます。"
 
@@ -986,14 +981,13 @@ msgid "play 60, amp: 2"
 msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
-#, fuzzy
 msgid ""
 "The `amp:` opt only modifies the call to `play` it's associated with. So, in t"
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
 msgstr ""
-"`amp:`オプションは、関連付けられている`play`への命令だけを変更します。 ですから、この例では、最初の命令は半分の音量になり、次にはデフォルト（1"
-"の値）に戻ります。"
+"`amp:`オプションは、関連付けられている`play`への命令だけを変更します。 "
+"ですから、この例では、最初の命令は半分の音量になり、次にはデフォルト（1の値）に戻ります。"
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -1007,7 +1001,6 @@ msgstr ""
 "play 65"
 
 #: 02.2-Synth-Params.md:104
-#, fuzzy
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr "もちろん、それぞれの命令で異なった`amp:`の値を設定して演奏することもできます。"
 
@@ -1031,12 +1024,10 @@ msgstr ""
 "play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
-#, fuzzy
 msgid "Panning"
 msgstr "パンニング"
 
 #: 02.2-Synth-Params.md:118
-#, fuzzy
 msgid ""
 "Another fun opt to use is `pan:` which controls the panning of a sound in ster"
 "eo. Panning a sound to the left means that you hear it out of the left speaker"
@@ -1045,12 +1036,11 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
-"もうひとつの面白いオプションは`pan:`です。ステレオで音の位置を制御します。 左に音をパンすることは左のスピーカーから音が聞こえることを意味し、 右にパ"
-"ンすれば右のスピーカーから聞こえます。値としては、-1 は最も左、 0 は中心、1 は最も右、というようにステレオの領域で表現することができます。 もちろん"
-"、音の正確な位置をコントロールするために、-1 から 1 の間のどの値でも使用することができます。"
+"もうひとつの面白いオプションは`pan:`です。ステレオで音の位置を制御します。 左に音をパンすることは左のスピーカーから音が聞こえることを意味し、 "
+"右にパンすれば右のスピーカーから聞こえます。値としては、-1 は最も左、 0 は中心、1 は最も右、というようにステレオの領域で表現することができます。 "
+"もちろん、音の正確な位置をコントロールするために、-1 から 1 の間のどの値でも使用することができます。"
 
 #: 02.2-Synth-Params.md:126
-#, fuzzy
 msgid "Let's play a beep out of the left speaker:"
 msgstr "左のスピーカーから音を鳴らしてみましょう。"
 
@@ -1060,7 +1050,6 @@ msgid "play 60, pan: -1"
 msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
-#, fuzzy
 msgid "Now, let's play it out of the right speaker:"
 msgstr "では、右のスピーカーから鳴らします。"
 
@@ -1070,7 +1059,6 @@ msgid "play 60, pan: 1"
 msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
-#, fuzzy
 msgid "Finally let's play it back out of the center of both (the default position):"
 msgstr "最後に元の通り、中心から鳴らしてみます（通常の位置です）。"
 
@@ -1080,22 +1068,18 @@ msgid "play 60, pan: 0"
 msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
-#, fuzzy
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
 msgstr "では、続けてあなたの音のアンプやパンを変えて楽しんでみましょう！"
 
 #: 02.3-Switching-Synths.md:1
-#, fuzzy
 msgid "2.3 Switching Synths"
 msgstr "2.3 シンセの切り替え"
 
 #: 02.3-Switching-Synths.md:3
-#, fuzzy
 msgid "Switching Synths"
 msgstr "シンセの切り替え"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1103,12 +1087,12 @@ msgid ""
 " in this section we'll explore the exciting range of sounds that Sonic Pi has "
 "to offer."
 msgstr ""
-"これまで、ビープ音を鳴らして楽しんできました。けれども、 もしかするとあなたはこのベーシックなビープ音に退屈し始めているかも知れません。 これがSonic "
-"piが提供してくれるサウンドの全てなのでしょうか？もちろん、ビープ音だけではなくて、 もっと他にもたくさんのライブコーディングがありますよね？はい、あります"
-"。 この章ではSonic Piが作り出すエキサイティングな音の領域へと探検していきましょう。"
+"これまで、ビープ音を鳴らして楽しんできました。けれども、 もしかするとあなたはこのベーシックなビープ音に退屈し始めているかも知れません。 "
+"これがSonic piが提供してくれるサウンドの全てなのでしょうか？もちろん、ビープ音だけではなくて、 "
+"もっと他にもたくさんのライブコーディングがありますよね？はい、あります。 この章ではSonic "
+"Piが作り出すエキサイティングな音の領域へと探検していきましょう。"
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a range of instruments it calls synths which is *short for synthe"
 "sisers*. Whereas samples represent pre-recorded sounds, synths are capable of "
@@ -1117,17 +1101,16 @@ msgid ""
 " you'll have a lot of fun exploring and playing with them. First, let's learn "
 "how to select the current synth to use."
 msgstr ""
-"Sonic Piは、シンセサイザーの略であるシンセと呼ばれる楽器の機能を持っています。 サンプルがすでに録音された音であるのに対して、シンセはあなたがそれを"
-"コントロールすることに応じて 新しいサウンドを生み出すことができます（このチュートリアルの後半でみていきます）。Sonic Piのシンセは、 パワフルで表現"
-"力に富んでいて、探索しながら演奏したり、楽しめるはずです。 最初に、ひとまずここでシンセを使うために、選び方を学んでみましょう。"
+"Sonic Piは、シンセサイザーの略であるシンセと呼ばれる楽器の機能を持っています。 サンプルがすでに録音された音であるのに対して、"
+"シンセはあなたがそれをコントロールすることに応じて 新しいサウンドを生み出すことができます（このチュートリアルの後半でみていきます）。Sonic "
+"Piのシンセは、 パワフルで表現力に富んでいて、探索しながら演奏したり、楽しめるはずです。 "
+"最初に、ひとまずここでシンセを使うために、選び方を学んでみましょう。"
 
 #: 02.3-Switching-Synths.md:21
-#, fuzzy
 msgid "Buzzy saws and prophets"
 msgstr "酔っ払いのsawとprophet"
 
 #: 02.3-Switching-Synths.md:23
-#, fuzzy
 msgid "A fun sound is the *saw wave* - let's give it a try:"
 msgstr "面白い音は、*ノコギリ（saw）波*です。試してみましょう。"
 
@@ -1151,7 +1134,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
-#, fuzzy
 msgid "Let's try another sound - the *prophet*:"
 msgstr "他の音*prophet*を試してみましょう。"
 
@@ -1175,7 +1157,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
-#, fuzzy
 msgid "How about combining two sounds. First one after another:"
 msgstr "2つを一緒にしたらどうでしょう。一方のあとに、もう一方を。"
 
@@ -1201,7 +1182,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
-#, fuzzy
 msgid "Now at the same time:"
 msgstr "では同時に。"
 
@@ -1229,119 +1209,109 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
-#, fuzzy
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
-"`use_synth`コマンドは、 下の`play`にだけ影響していることに注意してください。 大きなスイッチのようなものだと考えてください。指定したどんな"
-"シンセでも、 新しい`play`へ命令として演奏されます。`use_synth`で新しいシンセにスイッチすることができます。"
+"`use_synth`コマンドは、 下の`play`にだけ影響していることに注意してください。 "
+"大きなスイッチのようなものだと考えてください。指定したどんなシンセでも、 "
+"新しい`play`へ命令として演奏されます。`use_synth`で新しいシンセにスイッチすることができます。"
 
 #: 02.3-Switching-Synths.md:80
-#, fuzzy
 msgid "Discovering Synths"
 msgstr "シンセを見つける"
 
 #: 02.3-Switching-Synths.md:82
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"演奏するために Sonic Piがどんなシンセを備えているかを見るには、左端のメニュー（効果 の上）にあるシンセオプションを見てください。20以上が用意され"
-"ています。これらは、わたしのお気に入りの数種類です。"
+"演奏するために Sonic Piがどんなシンセを備えているかを見るには、左端のメニュー（効果 "
+"の上）にあるシンセオプションを見てください。20以上が用意されています。これらは、わたしのお気に入りの数種類です。"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
-#, fuzzy
 msgid ""
 "Now play around with *switching synths during your music*. Have fun combining "
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
-msgstr "*音楽の中でシンセを切り替えて*遊んでみてください。音楽の異なるセクションに違うシンセを使うように、 シンセを組み合わせて新しい音を作って楽しんでください。"
+msgstr ""
+"では、*音楽の中でシンセを切り替えて*遊んでみてください。音楽の異なるセクションに違うシンセを使うように、 "
+"シンセを組み合わせて新しい音を作って楽しんでください。"
 
 #: 02.4-Durations-with-Envelopes.md:1
-#, fuzzy
 msgid "2.4 Duration with Envelopes"
 msgstr "2.4 エンベロープでのデュレーション"
 
 #: 02.4-Durations-with-Envelopes.md:3
-#, fuzzy
 msgid "Duration with Envelopes"
 msgstr "エンベロープでのデュレーション"
 
 #: 02.4-Durations-with-Envelopes.md:5
-#, fuzzy
 msgid ""
 "In an earlier section, we looked at how we can use the `sleep` command to cont"
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
 msgstr ""
-"前半のセクションでは、音を演奏したい時にどのように`sleep`コマンドを 使用するかを見てきました。ですが、わたしたちはまだ音のデュレーション（長さ）につ"
-"いて 制御できていませんね。"
+"前半のセクションでは、音を演奏したい時にどのように`sleep`コマンドを 使用するかを見てきました。ですが、わたしたちはまだ音のデュレーション（長さ）"
+"について 制御できていませんね。"
 
 #: 02.4-Durations-with-Envelopes.md:9
-#, fuzzy
 msgid ""
 "In order to give us a simple, yet powerful means of *controlling the duration*"
 " of our sounds, Sonic Pi provides the notion of an *ADSR amplitude envelope* ("
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
-"音のデュレーションを制御するための、パワフルでシンプルな手段として、 Sonic Piには*ADSR amplitude envelope*（ADSR・アン"
-"プ・エンベロープ）という 概念があります（ADSRが何を意味するかはこのセクションの後半で紹介します）。 アンプ・エンベロープは制御のための便利な2つの側面"
-"を持っています。"
+"音のデュレーションを制御するための、パワフルでシンプルな手段として、 Sonic Piには*ADSR amplitude "
+"envelope*（ADSR・アンプ・エンベロープ）という 概念があります（ADSRが何を意味するかはこのセクションの後半で紹介します）。 "
+"アンプ・エンベロープは制御のための便利な2つの側面を持っています。"
 
 #: 02.4-Durations-with-Envelopes.md:14
-#, fuzzy
 msgid "control over the duration of a sound"
 msgstr "音のデュレーション（長さ）を制御する"
 
 #: 02.4-Durations-with-Envelopes.md:15
-#, fuzzy
 msgid "control over the amplitude of a sound"
 msgstr "音のアンプ（音量）を制御する"
 
 #: 02.4-Durations-with-Envelopes.md:17
-#, fuzzy
 msgid "Duration"
 msgstr "デュレーション"
 
 #: 02.4-Durations-with-Envelopes.md:19
-#, fuzzy
 msgid ""
 "The duration is the length the sound lasts for. A longer duration means that y"
 "ou hear the sound for longer. Sonic Pi's sounds all have a controllable amplit"
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
-"デュレーションは音の持続する長さのことです。長いデュレーションは、より長く音が 鳴ることを意味します。Sonic Piの全てのサウンドは、アンプ・エンベロー"
-"プで制御でき、 ひとつのエンベロープ(音量や音色の時間的な変化)の長さは、音の長さでもあります。"
+"デュレーションは音の持続する長さのことです。長いデュレーションは、より長く音が 鳴ることを意味します。Sonic "
+"Piの全てのサウンドは、アンプ・エンベロープで制御でき、 ひとつのエンベロープ(音量や音色の時間的な変化)の長さは、音の長さでもあります。"
 
 #: 02.4-Durations-with-Envelopes.md:27
-#, fuzzy
 msgid ""
 "The ADSR envelope not only controls duration, it also gives you *fine control "
 "over the amplitude of the sound*. All audible sounds start and end silent and "
@@ -1352,41 +1322,38 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
-"ADSRエンベロープは、デュレーションの制御だけでなく、*アンプ（音量）の緻密な 制御*も可能にします。全てのサウンドは、サイレント（無音）で始まり、間に音"
-"があり、 またサイレントで終了します。エンベロープを使用すると、サウンドの音がある部分の音量を スライドさせたり、保持したりすることができます。これは、音楽"
-"の音量を上げたり下げたり するのを、誰かに指示するような感じです。例えば、あなたは誰かに「無音で始めて、 ゆっくりとフル・ボリュームにして、少しそのままで、"
-"そして一気に無音に戻る。」と頼むとします。 Sonic Piはエンベロープでこれをプログラムできるようにしてくれます。"
+"ADSRエンベロープは、デュレーションの制御だけでなく、*アンプ（音量）の緻密な "
+"制御*も可能にします。全てのサウンドは、サイレント（無音）で始まり、間に音があり、 またサイレントで終了します。エンベロープを使用すると、"
+"サウンドの音がある部分の音量を スライドさせたり、保持したりすることができます。これは、音楽の音量を上げたり下げたり "
+"するのを、誰かに指示するような感じです。例えば、あなたは誰かに「無音で始めて、 "
+"ゆっくりとフル・ボリュームにして、少しそのままで、そして一気に無音に戻る。」と頼むとします。 Sonic "
+"Piはエンベロープでこれをプログラムできるようにしてくれます。"
 
 #: 02.4-Durations-with-Envelopes.md:37
-#, fuzzy
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
 msgstr "前のセクションで見てきたように、アンプの`0`は無音、`1`は通常の音量です。"
 
 #: 02.4-Durations-with-Envelopes.md:40
-#, fuzzy
 msgid "Now, let us look at each of the parts of the envelopes in turn."
 msgstr "では、エンベロープのそれぞれの部分を順番に見ていきましょう。"
 
 #: 02.4-Durations-with-Envelopes.md:42
-#, fuzzy
 msgid "Release Phase"
 msgstr "リリース・フェーズ（終わるまでの時間）"
 
 #: 02.4-Durations-with-Envelopes.md:44
-#, fuzzy
 msgid ""
 "The only part of the envelope that's used by default is the release time. This"
 " is the time it takes for the synth's sound to fade out. All synths have a rel"
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
-"エンベロープのうちデフォルトで使われている唯一の部分はリリース・フェーズです。 通常、全てのシンセのリリース・フェーズ（終わるまでの時間）は1で、 これは終"
-"了するまでに1ビート（デフォルトBPMの60の場合には1秒）のデュレーションを持っているということです。"
+"エンベロープのうちデフォルトで使われている唯一の部分はリリース・フェーズです。 通常、全てのシンセのリリース・フェーズ（終わるまでの時間）は1で、 "
+"これは終了するまでに1ビート（デフォルトBPMの60の場合には1秒）のデュレーションを持っているということです。"
 
 #: 02.4-Durations-with-Envelopes.md:53
-#, fuzzy
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
@@ -1398,14 +1365,13 @@ msgid "play 70, release: 1"
 msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
-#, fuzzy
 msgid ""
 "Notice how this sounds exactly the same (the sound lasts for one second). Howe"
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
-"これも全く同じように（1秒間持続する）音が出たと思います。 しかし、`release:`のオプションを変更することでとても簡単に 持続時間を変更することがで"
-"きるようになりました。"
+"これも全く同じように（1秒間持続する）音が出たと思います。 しかし、`release:`のオプションを変更することでとても簡単に "
+"持続時間を変更することができるようになりました。"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1413,7 +1379,6 @@ msgid "play 60, release: 2"
 msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
-#, fuzzy
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
@@ -1425,21 +1390,19 @@ msgid "play 60, release: 0.2"
 msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
-#, fuzzy
 msgid ""
 "The duration of the release of the sound is called the *release phase* and by "
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
-"音がリリースされるまでの持続時間はリリース・フェーズと呼ばれていて、 デフォルトではリニア・トランジション（直線的な移行、つまり真っ直ぐ）です。以下の図は、"
-"この移行を表したものです。"
+"音がリリースされるまでの持続時間はリリース・フェーズと呼ばれていて、 "
+"デフォルトではリニア・トランジション（直線的な移行、つまり真っ直ぐ）です。以下の図は、この移行を表したものです。"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1447,35 +1410,33 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"図の左端の縦の線は、サウンドが`0`の音量(ゼロ・アンプ)からスタートしていることを示しています。 しかし、すぐにフル・アンプに上がります（これは私たちが後"
-"で学ぶ、アタック・フェーズというものです）。 いったんフル・アンプになり、それから`release:`で指定した値を取りながら、直線的にゼロに下がります。 "
+"図の左端の縦の線は、サウンドが`0`の音量(ゼロ・アンプ)からスタートしていることを示しています。 "
+"しかし、すぐにフル・アンプに上がります（これは私たちが後で学ぶ、アタック・フェーズというものです）。 "
+"いったんフル・アンプになり、それから`release:`で指定した値を取りながら、直線的にゼロに下がります。 "
 "*長いリリース・タイムは長いシンセ・フェード・アウト（徐々に消えること）を生成します*。"
 
 #: 02.4-Durations-with-Envelopes.md:88
-#, fuzzy
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
-"これにより、リリース・フェーズを変更して、あなたのサウンドのデュレーションを 変えることができます。自分の音楽にリリース・タイムを追加して演奏してみましょう"
-"。"
+"これにより、リリース・フェーズを変更して、あなたのサウンドのデュレーションを "
+"変えることができます。自分の音楽にリリース・タイムを追加して演奏してみましょう。"
 
 #: 02.4-Durations-with-Envelopes.md:91
-#, fuzzy
 msgid "Attack Phase"
 msgstr "アタック・フェーズ"
 
 #: 02.4-Durations-with-Envelopes.md:93
-#, fuzzy
 msgid ""
 "By default, the *attack phase* is 0 for all synths which means they move from "
 "0 amplitude to 1 immediately. This gives the synth an initial percussive sound"
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
-"通常、アタック・フェーズは全てのシンセにおいて`0`です。つまり、`0`アンプから `1`にただちに移動することを意味します。シンセは最初から音が打たれます"
-"。 けれども、あなたは音をフェード・イン（徐々に大きく）したいかも知れません。 これは、`attack:`のオプションで実現することができます。いくつかの音"
-"をフェード・インしてみましょう。"
+"通常、アタック・フェーズは全てのシンセにおいて`0`です。つまり、`0`アンプから "
+"`1`にただちに移動することを意味します。シンセは最初から音が打たれます。 けれども、あなたは音をフェード・イン（徐々に大きく）したいかも知れません。 "
+"これは、`attack:`のオプションで実現することができます。いくつかの音をフェード・インしてみましょう。"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1489,7 +1450,6 @@ msgstr ""
 "play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
-#, fuzzy
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
@@ -1501,7 +1461,6 @@ msgid "play 60, attack: 0.7, release: 4"
 msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
-#, fuzzy
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
@@ -1509,10 +1468,9 @@ msgstr "この、短いアタックに長いリリースのエンベロープは
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr ""
+msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
-#, fuzzy
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
@@ -1528,9 +1486,10 @@ msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![long attack short release envelope](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
-#, fuzzy
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
@@ -1546,6 +1505,8 @@ msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 msgstr ""
+"![short attack short release envelope](../images/tutorial/env-short-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 #, fuzzy
