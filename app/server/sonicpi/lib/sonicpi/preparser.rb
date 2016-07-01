@@ -23,7 +23,7 @@ module SonicPi
     def self.preparse(rb)
       SonicPi::Lang::Core.vec_fns.each do |fn|
         fn = fn[:name].to_s
-        rb.gsub!(/\((\s*)#{fn}([, ]+)/) {|s| ' ' + $1 + fn + '(' + (' ' * ($2.size - 1))}
+        rb.gsub!(/\((\s*)#{fn}([,[:space:]]+)/) {|s| ' ' + $1 + fn + '(' + (' ' * ($2.size - 1))}
 
         rb.gsub!(/:([a-zA-Z0-9\!\?=_]+(:[a-zA-Z0-9\!\?=_]+[a-zA-Z0-9\!\?=_])+)/){|s| "::SonicPi::SPSym.new(#{$1.split(':').map(&:to_sym)})"}
 
