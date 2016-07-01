@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-30 09:57+0000\n"
+"PO-Revision-Date: 2016-07-01 09:48+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -1509,19 +1509,17 @@ msgstr ""
 "short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
-#, fuzzy
 msgid "Sustain Phase"
 msgstr "サステイン・フェーズ（持続時間）"
 
 #: 02.4-Durations-with-Envelopes.md:136
-#, fuzzy
 msgid ""
 "In addition to specifying attack and release times, you may also specify a sus"
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
 msgstr ""
-"アタック・フェーズとリリース・フェーズの設定に付け加えて、サステイン・フェーズ（持続時間）を 指定することができます。サステイン・フェーズとは、アタックとリ"
-"リースの間でフル・アンプの 音が鳴り続ける時間のことです。"
+"アタック・フェーズとリリース・フェーズの設定に付け加えて、サステイン・フェーズ（持続時間）を "
+"指定することができます。サステイン・フェーズとは、アタックとリリースの間でフル・アンプの 音が鳴り続ける時間のことです。"
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
@@ -1530,10 +1528,9 @@ msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
-#, fuzzy
 msgid ""
 "The sustain time is useful for important sounds you wish to give full presence"
 " in the mix before entering an optional release phase. Of course, it's totally"
@@ -1542,18 +1539,17 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
-"サステイン・フェーズは、オプションのリリース・フェーズに入る前に、ミックスの中で主となる 存在感を与えたい重要なサウンドにとって有効です。もちろん、`att"
-"ack:`と`release:`両方のオプションを 0に設定することもとても有効ですし、サウンドに対して、完全にフェード・インなし、 フェード・アウトなしに"
-"するためにサステインを使えば良いのです。けれど、注意してください、 0 のリリースはオーディオの中にクリック音を生成します。たいていの場合、0.2のような "
-"ごく小さい値を使う方が良いです。"
+"サステイン・フェーズは、オプションのリリース・フェーズに入る前に、ミックスの中で主となる "
+"存在感を与えたい重要なサウンドにとって有効です。もちろん、`attack:`と`release:`両方のオプションを "
+"0に設定することもとても有効ですし、サウンドに対して、完全にフェード・インなし、 "
+"フェード・アウトなしにするためにサステインを使えば良いのです。けれど、注意してください、 0 "
+"のリリースはオーディオの中にクリック音を生成します。たいていの場合、0.2のような ごく小さい値を使う方が良いです。"
 
 #: 02.4-Durations-with-Envelopes.md:154
-#, fuzzy
 msgid "Decay Phase"
 msgstr "ディケイ・フェーズ（減衰時間）"
 
 #: 02.4-Durations-with-Envelopes.md:156
-#, fuzzy
 msgid ""
 "For an extra level of control, you can also specify a decay time. This is a ph"
 "ase of the envelope that fits between the attack and sustain phases and specif"
@@ -1562,10 +1558,11 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
-"そして、今あなたがさらなる制御のレベルを必要としているならば、ディケイ・タイムというものを 設定することもできます。これは、アタックとサステインの間にくるエ"
-"ンベロープのフェーズで、 音量が`attack_level:`から`decay_level:`(もしこれを明示的に指定しなければ、この値は `sustain"
-"_level:`と同じ値に設定されます)に落ちる時間を指定します。 通常では、`decay:`のオプションは 0 で、アタックとサステインのレベルは両方とも"
-" 1 です。ですから、ディケイ・フェーズで効果を得るには、アタック、サステインのレベルも指定しなくてはなりません。"
+"そして、今あなたがさらなる制御のレベルを必要としているならば、ディケイ・タイムというものを "
+"設定することもできます。これは、アタックとサステインの間にくるエンベロープのフェーズで、 "
+"音量が`attack_level:`から`decay_level:`(もしこれを明示的に指定しなければ、この値は "
+"`sustain_level:`と同じ値に設定されます)に落ちる時間を指定します。 通常では、`decay:`のオプションは 0 で、"
+"アタックとサステインのレベルは両方とも 1 です。ですから、ディケイ・フェーズで効果を得るには、アタック、サステインのレベルも指定しなくてはなりません。"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1579,9 +1576,9 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:168
 msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 msgstr ""
+"![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
-#, fuzzy
 msgid "Decay Level"
 msgstr "ディケイレベル"
 
@@ -1607,10 +1604,9 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
-#, fuzzy
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
@@ -1627,47 +1623,40 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
-#, fuzzy
 msgid "ADSR Envelopes"
 msgstr "ADSR エンベロープ"
 
 #: 02.4-Durations-with-Envelopes.md:193
-#, fuzzy
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
 msgstr "つまり要約すると、Sonic PiのADSRエンベロープには、以下のフェーズがあります。"
 
 #: 02.4-Durations-with-Envelopes.md:195
-#, fuzzy
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
 msgstr "*attack*（アタック）- 0 アンプから`attack_level`までの時間"
 
 #: 02.4-Durations-with-Envelopes.md:196
-#, fuzzy
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr "*decay*（ディケイ）- 音量を`attack_level`から`decay_level`まで移行させる時間"
 
 #: 02.4-Durations-with-Envelopes.md:197
-#, fuzzy
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr "*sustain*（サステイン）- 音量を`decay_level`から`sustain_level`まで移行させる時間"
 
 #: 02.4-Durations-with-Envelopes.md:198
-#, fuzzy
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
 msgstr "*release*（リリース） - 音量を`sustain_level`から 0 に移行させる時間"
 
 #: 02.4-Durations-with-Envelopes.md:200
-#, fuzzy
 msgid ""
 "It's important to note that the duration of a sound is the summation of the ti"
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
-"サウンドのデュレーションは、これらのフェーズの合計であることに注意することが大切です。 したがって、以下のサウンドは 0.5 + 1 + 2 + 0.5 ="
-" 4 で、4秒のデュレーションになります。"
+"サウンドのデュレーションは、これらのフェーズの合計であることに注意することが大切です。 したがって、以下のサウンドは 0.5 + 1 + 2 + 0.5 "
+"= 4 で、4秒のデュレーションになります。"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
@@ -1679,52 +1668,45 @@ msgstr ""
 "2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
-#, fuzzy
 msgid "Now go and have a play adding envelopes to your sounds..."
 msgstr "ではあなたのサウンドにエンベロープを追加して演奏してみましょう。"
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3 サンプル"
 
 #: 03-Samples.md:3
-#, fuzzy
 msgid "Samples"
 msgstr "サンプル"
 
 #: 03-Samples.md:5
-#, fuzzy
 msgid ""
 "Another great way to develop your music is to use pre-recorded sounds. In grea"
 "t hip-hop tradition, we call these pre-recorded sounds *samples*. So, if you t"
 "ake a microphone outside, go and record the gentle sound of rain hitting canva"
 "s, you've just created a sample."
 msgstr ""
-"あなたの音楽を発展させる方法は他にもあります。すでに録音された音を使うことです。偉大なヒップホップの伝統では、これらのあらかじめ録音された音のことを、*サン"
-"プル*と呼びます。つまり、マイクを持って外に出て、雨が優しくキャンバスを打つ音を録音しに行けば、それだけでサンプルを作ることができます。"
+"あなたの音楽を発展させる方法は他にもあります。すでに録音された音を使うことです。偉大なヒップホップの伝統では、これらのあらかじめ録音された音のことを、*サ"
+"ンプル*と呼びます。つまり、マイクを持って外に出て、雨が優しくキャンバスを打つ音を録音しに行けば、それだけでサンプルを作ることができます。"
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th over 90 public domain samples ready for you to jam with, it lets you play a"
 "nd manipulate your own. Let's get to it..."
 msgstr ""
-"Sonic Piは、サンプルで楽しいことがたくさんできるようになっています。90以上のパブリック・ドメイン（著作権がない）サンプルが、ジャム（即興演奏）する"
-"ために同梱されているだけでなく、自分で操作して演奏することも可能にしてくれるのです。さっそくみていきましょう。"
+"Sonic Piは、サンプルで楽しいことがたくさんできるようになっています。90以上のパブリック・ドメイン（著作権がない）サンプルが、ジャム（即興演奏）す"
+"るために同梱されているだけでなく、自分で操作して演奏することも可能にしてくれるのです。さっそくみていきましょう。"
 
 #: 03.1-Triggering-Samples.md:1
-#, fuzzy
 msgid "3.1 Triggering Samples"
 msgstr "3.1 サンプルを使う"
 
 #: 03.1-Triggering-Samples.md:3
-#, fuzzy
 msgid "Triggering Samples"
 msgstr "サンプルを使う"
 
 #: 03.1-Triggering-Samples.md:5
-#, fuzzy
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is triggeri"
 "ng pre-recorded samples. Try it:"
@@ -1736,14 +1718,13 @@ msgid "sample :ambi_lunar_land"
 msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
-#, fuzzy
 msgid ""
 "Sonic Pi includes many samples for you to play with. You can use them just lik"
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
 msgstr ""
-"Sonic Jam は演奏のためにたくさんのサンプルを持っています。`play`コマンドを使うようにサンプルを使えばよいのです。複数のサンプルで演奏するには"
-"、ひとつひとつ、順番に書いていきます。"
+"Sonic Pi は演奏のためにたくさんのサンプルを持っています。`play`コマンドを使うようにサンプルを使えばよいのです。複数のサンプルや音符を演奏す"
+"るには、それらをひとつひとつ順番に書いていきます。"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1759,7 +1740,6 @@ msgstr ""
 "sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
-#, fuzzy
 msgid "If you want to space them out in time, use the `sleep` command:"
 msgstr "もし間を空けたいなら、 sleep を使います。"
 
@@ -1785,7 +1765,6 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
@@ -1793,69 +1772,65 @@ msgid ""
 "esting overlap effects. Later in this tutorial we'll take a look at controllin"
 "g the *duration* of sounds with envelopes."
 msgstr ""
-"最初のサウンドが終わる前に、次のサウンドが始まることに注意してください。`sleep`コマンドは、サウンドの開始の間隔だけを記述しています。これによって、簡"
-"単にサウンドを重ね合わせて、おもしろいオーバー・ラップ（重複）のエフェクト（効果）を生み出すことができるのです。 このチュートリアルの後半で、エンベロープで"
-"サウンドの`duration`(長さ)を制御する方法についてみていきます。"
+"最初のサウンドが終わる前に、次のサウンドが始まることに注意してください。`sleep`コマンドは、サウンドの開始の間隔だけを記述しています。これによって、"
+"簡単にサウンドを重ね合わせて、おもしろいオーバー・ラップ（重複）のエフェクト（効果）を生み出すことができるのです。 "
+"このチュートリアルの後半で、エンベロープでサウンドの`duration`(長さ)を制御する方法についてみていきます。"
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid "Discovering Samples"
 msgstr "サンプルを探す"
 
 #: 03.1-Triggering-Samples.md:46
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the far left vertical men"
 "u, choose your category and then you'll see a list of available sounds."
 msgstr ""
-"Sonic Piが収録しているサンプルの種類を知るには、2つの方法があります。一つ目は、このヘルプシステムを使うことです。下のメニューの中の、`サンプル`を"
-"クリックし、カテゴリを選ぶと、使用できるなサウンドのリストが表示されます。"
+"Sonic Piが収録しているサンプルの種類を知るには、2つの方法があります。一つ目は、このヘルプシステムを使うことです。下のメニューの中の、`サンプル`"
+"をクリックし、カテゴリを選ぶと、使用できるなサウンドのリストが表示されます。"
 
 #: 03.1-Triggering-Samples.md:51
-#, fuzzy
 msgid ""
 "Alternatively you can use the *auto-completion system*. Simply type the start "
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
-"あるいは、オート・コンプリーション（自動補完）システムを使うこともできます。 `sample :ambi_`のような複数のサンプルを束ねるグループ名をタイプ"
-"し始めると、同じグループ内から選択できるサンプルの名前がドロップ・ダウンして表れます。以下のサンプル・グループの接頭語を入力してみましょう。"
+"あるいは、オート・コンプリーション（自動補完）システムを使うこともできます。 `sample :ambi_`のような複数のサンプルを束ねるグループ名をタイ"
+"プし始めると、同じグループ内から選択できるサンプルの名前がドロップ・ダウンして表れます。以下のサンプル・グループの接頭語を入力してみましょう。"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
-#, fuzzy
 msgid "Now start mixing samples into your compositions!"
 msgstr "さあ、あなたの曲でサンプルのミックスを始めてみましょう！"
 
