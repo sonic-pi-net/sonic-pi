@@ -38,62 +38,9 @@ module SonicPi
       @reboot_mutex = Mutex.new
       @rebooting = false
       @cent_tuning = 0
-      @reboot_queue = Queue.new
-      @reboot_queue << :check
 
       init_studio
       reset_server
-
-      @server_rebooter = Thread.new do
-        __thread_locals.set_local(:sonic_pi_local_thread_group, "server checker")
-        Thread.current.priority = 300
-        Kernel.sleep 10
-        loop do
-          vs = []
-          vs << @reboot_queue.pop
-          # drain any other messages
-          @reboot_queue.size.times {vs << @reboot_queue.pop}
-          begin
-            if vs.include? :reboot
-              begin
-                server_reboot
-                Kernel.sleep 10
-                @reboot_queue << :check
-              rescue Exception => e
-                message "Error rebooting server:  #{e}, #{e.backtrace}"
-                message "Attempting to reboot again in 10s"
-                begin
-                  message "Forcing shutdown of any running server"
-                  @server.shutdown
-                rescue Exception => e
-                  message "Error shutting down server:  #{e}, #{e.backtrace}"
-                end
-                Kernel.sleep 10
-                @reboot_queue << :reboot
-              end
-            else
-              begin
-                if @server.status(5)
-                  # server is alive
-                  # check again in 5 seconds...
-                  Thread.new do
-                    Kernel.sleep 5
-                    @reboot_queue << :check
-                  end
-                else
-                  message "Sound server is down. Rebooting..."
-                  @reboot_queue << :reboot
-                end
-              rescue Exception => e
-                message "Error communicating with sound server. Rebooting...  #{e}, #{e.backtrace}"
-                @reboot_queue <<  :reboot
-              end
-            end
-          rescue Exception => e
-            message "Error in reboot thread: #{e}, #{e.backtrace}"
-          end
-        end
-      end
     end
 
     def init_studio
@@ -326,26 +273,23 @@ module SonicPi
       end
     end
 
-
     def reboot
-      @reboot_queue.push :reboot
-    end
-
-    private
-
-    def server_reboot
       # Important:
       # This method should only be called from the @server_rebooter
       # thread.
-      @rebooting = true
-      message "Rebooting server. Please wait..."
-      @server.shutdown
-      init_studio
-      reset_server
-      message "Server ready."
-      @rebooting = false
-      true
+      @reboot_mutex.synchronize do
+        @rebooting = true
+        message "Rebooting server. Please wait..."
+        @server.shutdown
+        init_studio
+        reset_server
+        message "Server ready."
+        @rebooting = false
+        true
+      end
     end
+
+    private
 
     def check_for_server_rebooting!(msg=nil)
       if @rebooting
