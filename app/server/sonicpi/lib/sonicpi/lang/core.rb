@@ -2933,6 +2933,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
             # thread:
             __schedule_delayed_blocks_and_messages!
           rescue Stop => e
+            __schedule_delayed_blocks_and_messages!
             if name
               __info("Stopping thread #{name.inspect}")
             else
@@ -2940,6 +2941,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
               __schedule_delayed_blocks_and_messages!
             end
           rescue Exception => e
+            __schedule_delayed_blocks_and_messages!
             if name
               __error e, "Thread death +--> #{name.inspect}"
             else
