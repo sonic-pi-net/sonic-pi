@@ -74,6 +74,8 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
       int msg_type = mm.messages[i].msg_type;
       std::string s = mm.messages[i].s;
 
+      QStringList lines = QString::fromUtf8(s.c_str()).split(QRegExp("\\n"));
+
       if (s.empty()) {
           ss.append(QString::fromUtf8(" │"));
         }
@@ -85,42 +87,50 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
 
       appendPlainText(ss);
 
-      ss = "";
-      switch(msg_type)
-      {
-      case 0:
-        tf.setForeground(QColor("deeppink"));
-        break;
-      case 1:
-        tf.setForeground(QColor("dodgerblue"));
-        break;
-      case 2:
-        tf.setForeground(QColor("darkorange"));
-        break;
-      case 3:
-        tf.setForeground(QColor("red"));
-        break;
-      case 4:
-        tf.setForeground(QColor("white"));
-        tf.setBackground(QColor("deeppink"));
-        break;
-      case 5:
-        tf.setForeground(QColor("white"));
-        tf.setBackground(QColor("dodgerblue"));
-        break;
-      case 6:
-        tf.setForeground(QColor("white"));
-        tf.setBackground(QColor("darkorange"));
-        break;
-      default:
-        tf.setForeground(QColor("green"));
+      for (int j = 0; j < lines.size(); ++j) {
+        switch(msg_type)
+          {
+          case 0:
+            tf.setForeground(QColor("deeppink"));
+            break;
+          case 1:
+            tf.setForeground(QColor("dodgerblue"));
+            break;
+          case 2:
+            tf.setForeground(QColor("darkorange"));
+            break;
+          case 3:
+            tf.setForeground(QColor("red"));
+            break;
+          case 4:
+            tf.setForeground(QColor("white"));
+            tf.setBackground(QColor("deeppink"));
+            break;
+          case 5:
+            tf.setForeground(QColor("white"));
+            tf.setBackground(QColor("dodgerblue"));
+            break;
+          case 6:
+            tf.setForeground(QColor("white"));
+            tf.setBackground(QColor("darkorange"));
+            break;
+          default:
+            tf.setForeground(QColor("green"));
+          }
+        setCurrentCharFormat(tf);
+        insertPlainText(lines.at(j));
+        if ((j + 1) < lines.size()) {
+          tf.setForeground(QColor("white"));
+          setCurrentCharFormat(tf);
+          if (i == (msg_count - 1)) {
+            // we are the last message
+            // so don't print joining lines
+            insertPlainText("\n  ");
+          } else {
+            insertPlainText("\n │");
+          }
+        }
       }
-
-      setCurrentCharFormat(tf);
-
-      ss.append(QString::fromUtf8(s.c_str()));
-
-      insertPlainText(ss);
 
       tf.setForeground(theme->color("LogDefaultForeground"));
       tf.setBackground(theme->color("LogBackground"));
