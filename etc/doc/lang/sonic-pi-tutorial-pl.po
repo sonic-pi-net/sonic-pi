@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-24 23:34+0000\n"
+"PO-Revision-Date: 2016-07-02 15:48+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -994,107 +994,94 @@ msgstr ""
 "zostaną omówione w dalszej części samouczka)."
 
 #: 02.2-Synth-Params.md:22
-#, fuzzy
 msgid ""
 "Opts have two major parts, their name (the name of the control) and their valu"
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
-"Parametry składają się z dwóch podstawowych części: nazwy (kontrolowanego para"
-"metru) oraz wartości (na jaką chcemy ustawić dany parametr). Na przykład możes"
-"z mieć parametr, który nazywa się `ser:` i chciałbyś ustawić jego wartość na `"
-"1`."
+"Opcje składają się z dwóch części: nazwę (kontrolowanej opcji) oraz wartość ("
+"jaką chcemy ustawić dla podanej opcji). Na przykład możesz mieć opcję, która "
+"nazywa się `ser:` i chciałbyś ustawić jej wartość na `1`."
 
 #: 02.2-Synth-Params.md:27
-#, fuzzy
 msgid ""
 "Opts are passed to calls to `play` by using a comma `,` and then the name of t"
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
-"Parametry są przekazywane do polecenia `play` w następujący sposób: najpierw d"
-"odajemy tuż za poleceniem przecinek `,` po nim wpisujemy nazwę parametru, np. "
-"`amp:` (nie zapomnij o dwukropku `:`) i na końcu po spacji podajemy wartość pa"
-"rametru. Oto przykład:"
+"Opcje są przekazywane do polecenia `play` w następujący sposób: najpierw "
+"dodajemy tuż za poleceniem przecinek `,` po nim wpisujemy nazwę opcji, np. "
+"`amp:` (nie zapomnij o dwukropku `:`) i na końcu po spacji podajemy wartość "
+"tej opcji. Oto przykład:"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
-#, fuzzy
 msgid "play 50, cheese: 1"
 msgstr "play 50, ser: 1"
 
 #: 02.2-Synth-Params.md:35
-#, fuzzy
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr ""
-"(Zauważ, że `ser:` nie jest poprawnym parametrem, używamy go tutaj tylko jako "
+"(Zauważ, że `ser:` nie jest poprawną opcją, używamy go tutaj tylko jako "
 "przykład)."
 
 #: 02.2-Synth-Params.md:37
-#, fuzzy
 msgid "You can pass multiple opts by separating them with a comma:"
-msgstr "Możesz przekazać wiele parametrów oddzielając je przecinkami:"
+msgstr "Możesz przekazać wiele opcji oddzielając je przecinkami:"
 
 #: 02.2-Synth-Params.md:39
 #, no-wrap
-#, fuzzy
 msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, ser: 1, fasolki: 0.5"
 
 #: 02.2-Synth-Params.md:43
-#, fuzzy
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr "Kolejnośc parametrów nie ma znaczenia, poniższy kod też zadziała:"
+msgstr ""
+"Kolejność opcji nie ma znaczenia, poniższy kod też zadziała i da taki sam "
+"wynik:"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
-#, fuzzy
 msgid "play 50, beans: 0.5, cheese: 1"
 msgstr "play 50, fasolki: 0.5, ser: 1"
 
 #: 02.2-Synth-Params.md:49
-#, fuzzy
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
-"Parametry, które nie są rozpoznawane przez dany syntezator są po prostu ignoro"
-"wane (tak jak `ser` i `fasolki` jak w powyższym przypadku, które są po prostu "
-"śmiesznymi nazwami parametrów!)."
+"Opcje, które nie są rozpoznawane przez dany syntezator są po prostu "
+"ignorowane (tak jak `ser` i `fasolki` jak w powyższym przypadku, które są po "
+"prostu śmiesznymi nazwami dla opcji!)"
 
 #: 02.2-Synth-Params.md:52
-#, fuzzy
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
-"Jeśli niechcący zdarzy Ci się dwa razy użyć parametru o tej samej nazwie to wy"
-"grywa ostani. Na przykład - ostateczna wartość dla parametru `fasolki:` wynies"
-"ie 2 (a nie 0.5):"
+"Jeśli niechcący zdarzy Ci się dwa razy użyć opcji o tej samej nazwie to "
+"wygrywa ostatnia. Na przykład - ostateczna wartość dla opcji`fasolki:` w "
+"poniższym przykładzie wyniesie 2 (a nie 0.5):"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
-#, fuzzy
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 msgstr "play 50, fasolki: 0.5, ser: 3, jajka: 0.1, fasolki: 2"
 
 #: 02.2-Synth-Params.md:60
-#, fuzzy
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
-"Wiele rzeczy w Sonic Pi akceptuje parametry, warto więc poświęcić parę chwil a"
-"by nauczyć się jak ich używać, dzięki temu będziesz ustawiony! Spróbujmy pobaw"
-"ić się trochę z naszym pierwszym parametrem: `amp:`."
+"Wiele poleceń w Sonic Pi akceptuje opcje, warto więc żebyś poświęcił parę "
+"chwil aby nauczyć się jak ich używać, dzięki temu będziesz ustawiony! "
+"Spróbujmy pobawić się trochę z naszą pierwszą opcją: `amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
-#, fuzzy
 msgid "Amplitude"
 msgstr "Amplituda"
 
 #: 02.2-Synth-Params.md:66
-#, fuzzy
 msgid ""
 "Amplitude is a computer representation of the loudness of a sound. A *high amp"
 "litude produces a loud sound* and a *low amplitude produces a quiet sound*. Ju"
@@ -1107,31 +1094,32 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
-"Amplituda jest w komputerową miarą reprezentującą głośność dźwięku. *Wysoka ap"
-"lituda powoduję głośny dźwięk* a *niska aplituda powoduje cichyy dźwięk*. Tak "
-"samo jak Sonic Pi używa liczb do reprezentacji czasu i nut, tak samo używa ich"
-" do reprezentacji wielkości amplitudy. Amplituda o wartości 0 to cisza (nie sł"
-"yszysz nic). Natomiast amplituda o wartości 1 ustawienie głośności na normalny"
-" poziom. Możesz nawet podkręcić na 2, 10, 100. Musisz jednak mieć na uwadze to"
-", że gdy całkowita amplituda wszystkich dźwięków stanie się zbyt wysoka, Sonic"
-" Pi wykorzysta narzędzie zwane kompresorem, żeby zdusić je tak, żeby mieć pewn"
-"ość, że dźwięk nie jest zbyt głośny dla twoich uszu. Może to spowodować, że dź"
-"więk stanie się nieczysty i dziwny. Staraj się więc używać niskch aplitud, np."
-" w zakresie od 0 do 0.5, żeby uniknąć kompresji."
+"Amplituda jest wielkością, która w świecie komputerów oznaczać głośność "
+"dźwięku. *Wysoka amplituda powoduję głośny dźwięk* a *niska amplituda "
+"powoduje cichy dźwięk*. Jak już wcześniej widziałeś Sonic Pi używa liczb do "
+"reprezentacji czasu oraz nut. W taki sam sposób liczby są używane do "
+"reprezentacji wielkości amplitudy (głośności). Amplituda o wartości 0 to "
+"cisza (nie słyszysz nic). Natomiast amplituda o wartości 1 oznacza "
+"ustawienie głośności na standardowy poziom. Możesz podkręcić głośność wyżej, "
+"na 2, 10, 100. Musisz jednak wiedzieć, że gdy całkowita amplituda wszystkich "
+"dźwięków stanie się zbyt wysoka, Sonic Pi wykorzysta narzędzie zwane "
+"kompresorem, żeby zdusić dźwięk tak, że będzie mieć pewność, że dźwięk nie "
+"jest zbyt głośny dla twoich uszu. Takie działanie może spowodować, że dźwięk "
+"stanie się nieczysty i dziwny. Staraj się więc używać niskich wartości dla "
+"amplitudy, np. wartości w zakresie pomiędzy 0 a 0.5. Dzięki temu unikniesz "
+"mechanizmu kompresji."
 
 #: 02.2-Synth-Params.md:79
-#, fuzzy
 msgid "Amp it up"
 msgstr "Amplituda w górę"
 
 #: 02.2-Synth-Params.md:81
-#, fuzzy
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
-"Aby zmienić amplitudę dźwięku użyj parametru `amp:`. Na przykład, aby zagrać z"
-" głośnością na poziomie 0.5 użyj takiego kawałka kodu:"
+"Aby zmienić amplitudę dźwięku możesz użyć opcji `amp:`. Na przykład, aby "
+"zagrać z głośnością na poziomie 0.5 napisz taki kawałek kodu i uruchom go:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
@@ -1139,9 +1127,8 @@ msgid "play 60, amp: 0.5"
 msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
-#, fuzzy
 msgid "To play at double amplitude pass 2:"
-msgstr "Aby zagrać z podwójną głośnością (amplitudą) przekaż parametr 2:"
+msgstr "Aby zagrać z podwójną głośnością przekaż liczbę 2:"
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
@@ -1149,16 +1136,16 @@ msgid "play 60, amp: 2"
 msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
-#, fuzzy
 msgid ""
 "The `amp:` opt only modifies the call to `play` it's associated with. So, in t"
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
 msgstr ""
-"Parametr `amp:` modyfikuje tylko wywołanie tego polecenia `play`, z którym jes"
-"t powiązany. Tak więc w poniższym przykładzie pierwsze wywołanie polecenia pla"
-"y zostanie zagrane z głośnością na poziomie równym połowie normalnej głośności"
-", natomiast drugie polecenie zostanie zagrane z głośnością domyślną (1):"
+"Opcja `amp:` modyfikuje tylko pojedyncze polecenie `play`, do którego "
+"została przekazana. Zauważ, że w poniższym przykładzie pierwsze wywołanie "
+"polecenia play zostanie zagrane z głośnością na poziomie równym połowie "
+"standardowej głośności, natomiast drugie polecenie zostanie zagrane z "
+"głośnością standardową (1):"
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -1172,11 +1159,10 @@ msgstr ""
 "play 65"
 
 #: 02.2-Synth-Params.md:104
-#, fuzzy
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr ""
-"Nic nie stoi na przeszkodzie, abyś użył różnych wartości parametru `amp:` dla "
-"różnych wywołań polecenia play:"
+"Nic nie stoi na przeszkodzie, żebyś użył różnych wartości opcji `amp:` dla "
+"każdego polecenia play:"
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -1198,12 +1184,10 @@ msgstr ""
 "play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
-#, fuzzy
 msgid "Panning"
 msgstr "Balansowanie"
 
 #: 02.2-Synth-Params.md:118
-#, fuzzy
 msgid ""
 "Another fun opt to use is `pan:` which controls the panning of a sound in ster"
 "eo. Panning a sound to the left means that you hear it out of the left speaker"
@@ -1212,20 +1196,20 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
-"Kolejnym fajnym parametrem z którego można korzystać jest `pan:`. Kontroluje o"
-"n balans dźwięku w stereo. Balansowanie dźwiękiem w lewą stronę oznacza, że bę"
-"dziesz go słyszał tylko w lewym głośniku (słuchawce). Z kolei balansowanie dźw"
-"iękiem na lewą strone oznacza, że będziesz go słyszał tylko w prawym głośniku."
-" W naszym przypadku używamy wartości -1 do reprezentacji dźwięku, którego bala"
-"ns został w pełni przesunięty na lewą stronę, 0 aby dla balansu po środku oraz"
-" 1 dla dźwięku po prawej stronie w polu stereo. Naturalnie nic nie stoi na prz"
-"eszkodzie abyśmy używali dowolnej wartości znajdującej się pomiędzy -1 i 1 w c"
-"elu dokładnej kontroli \"pozycji\" naszego dźwięku."
+"Kolejną fajną opcją z której można korzystać jest `pan:`. Kontroluje ona "
+"balans dźwięku w stereo. Balansowanie dźwiękiem w lewą stronę oznacza, że "
+"będziesz go słyszał tylko w lewym głośniku (słuchawce). Z kolei balansowanie "
+"dźwiękiem na prawą stronę oznacza, że będziesz go słyszał tylko w prawym "
+"głośniku (słuchawce). W naszym przypadku używamy wartości -1 do "
+"reprezentacji dźwięku, którego balans został w pełni ustawiony na lewą "
+"stronę, 0 dla ustawienia balansu po środku (wartość domyślna) oraz 1 dla "
+"dźwięku ustawionego na prawą stronę w polu stereo. Naturalnie nic nie stoi "
+"na przeszkodzie abyśmy używali dowolnej wartości znajdującej się pomiędzy -1 "
+"i 1 w celu dokładnej kontroli \"pozycji\" naszego dźwięku."
 
 #: 02.2-Synth-Params.md:126
-#, fuzzy
 msgid "Let's play a beep out of the left speaker:"
-msgstr "Zagrajmy bip z lewego głośnika:"
+msgstr "Zagrajmy dźwięk bip z lewego głośnika:"
 
 #: 02.2-Synth-Params.md:128
 #, no-wrap
@@ -1233,7 +1217,6 @@ msgid "play 60, pan: -1"
 msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
-#, fuzzy
 msgid "Now, let's play it out of the right speaker:"
 msgstr "A teraz zagrajmy go z prawego głośnika:"
 
@@ -1243,9 +1226,10 @@ msgid "play 60, pan: 1"
 msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
-#, fuzzy
 msgid "Finally let's play it back out of the center of both (the default position):"
-msgstr "I na końcu zagrajmy z powrotem z obu głośników (domyślna pozycja):"
+msgstr ""
+"Na koniec zagrajmy go z powrotem z obu głośników po środku (domyślna "
+"pozycja):"
 
 #: 02.2-Synth-Params.md:141
 #, no-wrap
@@ -1253,11 +1237,10 @@ msgid "play 60, pan: 0"
 msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
-#, fuzzy
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
 msgstr ""
-"Teraz kolej na Ciebie. Spróbuj samodzielnie pobawić się zmieniając amplitudę ("
-"amp:) i balans (pan:) twoich dźwięków!"
+"Teraz kolej na Ciebie. Spróbuj samodzielnie pobawić się zmieniając twoje "
+"dźwięki za pomocą opcji amplituda (amp:) i balans (pan:)!"
 
 #: 02.3-Switching-Synths.md:1
 #, fuzzy
