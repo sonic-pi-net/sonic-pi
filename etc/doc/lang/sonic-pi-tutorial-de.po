@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-30 09:56+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2016-07-03 18:22+0000\n"
+"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -6401,10 +6401,13 @@ msgstr ""
 "ode erzeugt jetzt nur noch einen Hall-Effekt alle 16 Noten."
 
 #: 06.2-FX-in-Practice.md:70
+#, fuzzy
 msgid ""
 "This is such a common pattern that `with_fx` supports an opt to do exactly thi"
 "s but without having to write the `16.times` block:"
 msgstr ""
+"Dieser Ausdruck taucht so häufig auf, dass `with_fx` dafür eine Option "
+"bereitstellt; Du musst also nicht den Block `16.times` hinschreiben:"
 
 #: 06.2-FX-in-Practice.md:73
 #, no-wrap
@@ -6424,11 +6427,16 @@ msgstr ""
 "end"
 
 #: 06.2-FX-in-Practice.md:82
+#, fuzzy
 msgid ""
 "Both the `reps: 16` and `16.times do` examples will behave identically. The `r"
 "eps: 16` essentially repeats the code in the `do/end` block 16 times so you ca"
 "n use them both interchangeably and choose the one that feels best for you."
 msgstr ""
+"Beide, `reps: 16` und `16.times do` verhalten sich indentisch. `reps: 16` "
+"wiederholt den Code im `do/end`-Block 16-mal, sodass Du beide Ausdrücke "
+"untereinander austauschen kannst; nimm' einfach den, der Dir am besten "
+"gefällt."
 
 #: 06.2-FX-in-Practice.md:87
 #, fuzzy
@@ -7069,24 +7077,29 @@ msgstr ""
 "? Naja, *viele*. Probier mal ein paar von diesen aus:"
 
 #: 08.2-Chords.md:16
+#, fuzzy
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
+#, fuzzy
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
+#, fuzzy
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
+#, fuzzy
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
+#, fuzzy
 msgid "Arpeggios"
-msgstr ""
+msgstr "Arpeggios"
 
 #: 08.2-Chords.md:23
 #, fuzzy
@@ -7527,26 +7540,33 @@ msgstr ""
 "entation."
 
 #: 08.5-Ring-Chains.md:1
+#, fuzzy
 msgid "8.5 Ring Chains"
-msgstr ""
+msgstr "8.5 Ring-Ketten"
 
 #: 08.5-Ring-Chains.md:3
+#, fuzzy
 msgid "Ring Chains"
-msgstr ""
+msgstr "Ringe mit verketteten Kommandos"
 
 #: 08.5-Ring-Chains.md:5
+#, fuzzy
 msgid ""
 "In addition to the constructors such as `range` and `spread` another way of cr"
 "eating new rings is to manipulate existing rings."
 msgstr ""
+"Zusätzlich zu den Konstruktoren wie `range` und `spread` können neue Ringe "
+"auch erzeugt werden, indem schon existierende manipuliert werden."
 
 #: 08.5-Ring-Chains.md:9
+#, fuzzy
 msgid "Chain Commands"
-msgstr ""
+msgstr "Verkettete Kommandos"
 
 #: 08.5-Ring-Chains.md:11
+#, fuzzy
 msgid "To explore this, take a simple ring:"
-msgstr ""
+msgstr "Nimm' einen einfachen Ring, um das auszuprobieren:"
 
 #: 08.5-Ring-Chains.md:13
 #, no-wrap
@@ -7554,10 +7574,13 @@ msgid "(ring 10, 20, 30, 40, 50)"
 msgstr "(ring 10, 20, 30, 40, 50)"
 
 #: 08.5-Ring-Chains.md:17
+#, fuzzy
 msgid ""
 "What if we wanted it backwards? Well we'd use the chain command `.reverse` to "
 "take the ring and turn it around:"
 msgstr ""
+"Was, wenn wir die Reihenfolge umkehren wollen? Dann verwenden wir das "
+"verkettete Kommando `.reverse`, um den Ring umzudrehen:"
 
 #: 08.5-Ring-Chains.md:20
 #, no-wrap
@@ -7565,8 +7588,9 @@ msgid "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
 #: 08.5-Ring-Chains.md:24
+#, fuzzy
 msgid "Now, what if we wanted the first three values from the ring?"
-msgstr ""
+msgstr "Was nun, wenn wir die ersten 3 Werte aus dem Ring haben möchten?"
 
 #: 08.5-Ring-Chains.md:26
 #, no-wrap
@@ -7574,8 +7598,9 @@ msgid "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
 #: 08.5-Ring-Chains.md:30
+#, fuzzy
 msgid "Finally, what if we wanted to shuffle the ring?"
-msgstr ""
+msgstr "Und was, wenn wir schließlich den Ring mischen wollten?"
 
 #: 08.5-Ring-Chains.md:32
 #, no-wrap
@@ -7583,53 +7608,77 @@ msgid "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
 #: 08.5-Ring-Chains.md:36
+#, fuzzy
 msgid "Multiple Chains"
-msgstr ""
+msgstr "Mehrteilige Ketten"
 
 #: 08.5-Ring-Chains.md:38
+#, fuzzy
 msgid ""
 "This is already a powerful way of creating new rings. However, the *real* powe"
 "r comes when you chain a few of these commands together."
 msgstr ""
+"So haben wir schon viele Möglichkeiten neue Ringe zu erzeugen. Noch besser "
+"wird es, wenn Du diese Kommandos miteinander verkettest."
 
 #: 08.5-Ring-Chains.md:41
+#, fuzzy
 msgid "How about shuffling the ring, dropping 1 element and then taking the next 3?"
 msgstr ""
+"Wie wäre es z. B. wenn Du den Ring mischst, das erste Element weglässt, und "
+"dann die nächsten 3 Elemente nimmst?"
 
 #: 08.5-Ring-Chains.md:43
+#, fuzzy
 msgid "Let's take this in stages:"
-msgstr ""
+msgstr "Gehen wir das Schritt für Schritt durch:"
 
 #: 08.5-Ring-Chains.md:45
+#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50)` - our initial ring"
-msgstr ""
+msgstr "`(ring 10, 20, 30, 40, 50)` - dein Ring am Anfang"
 
 #: 08.5-Ring-Chains.md:46
+#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle` - mischt - `(ring 40, 30, 10, 50, 20)`"
 
 #: 08.5-Ring-Chains.md:47
+#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - das erste Element weglassen - "
+"`(ring 30, 10, 50, 20)`"
 
 #: 08.5-Ring-Chains.md:48
+#, fuzzy
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, 10, "
 "50)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - 3 Elemente nehmen - `("
+"ring 30, 10, 50)`"
 
 #: 08.5-Ring-Chains.md:50
+#, fuzzy
 msgid ""
 "Can you see how we can just create a long chain of these methods by just *stic"
 "king them together*. We can combine these in any order we want creating an ext"
 "remely rich and powerful way of generating new rings from existing ones."
 msgstr ""
+"Siehst Du, wie wir eine lange Kette dieser Methoden einfach dadurch erzeugen "
+"können, dass wir sie *aneinander hängen*? Wir können das in jeder beliebigen "
+"Reihenfolge tun; damit haben wir viele unterschiedliche Möglichkeiten, neue "
+"Ringe aus schon bestehenden zu erzeugen."
 
 #: 08.5-Ring-Chains.md:55
+#, fuzzy
 msgid "Immutability"
-msgstr ""
+msgstr "Unveränderlichkeit"
 
 #: 08.5-Ring-Chains.md:57
+#, fuzzy
 msgid ""
 "These rings have a powerful and important property. They are immutable which m"
 "eans that they can not change. This means that the chaining methods described "
@@ -7637,79 +7686,115 @@ msgid ""
 "ns you're free to share rings across threads and start chaining them within a "
 "thread knowing you won't be affecting any other thread using the same ring."
 msgstr ""
+"Diese Ringe haben eine leistungsstarke und wichtige Eigenschaft. Sie sind "
+"unveränderlich (engl. immutable). Das heisst, dass die Verkettung von "
+"Methoden, von der wir hier sprechen, *die Ringe nicht verändert* sondern *"
+"neue Ringe erzeugt*. Du kannst also Ringe in verschiedenen Threads verwenden "
+"und sie mit verketteten Komandos verändern, ohne dass derselbe Ring in einem "
+"anderen Thread verändert wird."
 
 #: 08.5-Ring-Chains.md:64
+#, fuzzy
 msgid "Available Chain Methods"
-msgstr ""
+msgstr "Methoden, die verkettet werden können"
 
 #: 08.5-Ring-Chains.md:66
+#, fuzzy
 msgid "Here's a list of the available chain methods for you to play with:"
 msgstr ""
+"Hier kommt eine Liste der Methoden, die miteinander verkettet werden können:"
 
 #: 08.5-Ring-Chains.md:68
+#, fuzzy
 msgid "`.reverse` - returns a reversed version of the ring"
-msgstr ""
+msgstr "`.reverse` - gibt eine umgedrehte Version des Rings zurück"
 
 #: 08.5-Ring-Chains.md:69
+#, fuzzy
 msgid "`.sort` - creates a sorted version of the ring"
-msgstr ""
+msgstr "`.sort` - stellt eine sortierte Version des Rings her"
 
 #: 08.5-Ring-Chains.md:70
+#, fuzzy
 msgid "`.shuffle` - creates a shuffled version of the ring"
-msgstr ""
+msgstr "`.shuffle` - liefert eine neu gemischte Version des Rings"
 
 #: 08.5-Ring-Chains.md:71
+#, fuzzy
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
 msgstr ""
+"`.pick(3)` - liefert einen Ring nachdem 3-mal `.choose` angewendet wurde"
 
 #: 08.5-Ring-Chains.md:72
+#, fuzzy
 msgid ""
 "`.pick` - similar to `.pick(3)` only the size defaults to the same as the orig"
 "inal ring"
 msgstr ""
+"`.pick` - ähnlich wie `.pick(3)`, nur dass die Anzahl der des ursprünglichen "
+"Rings entspricht"
 
 #: 08.5-Ring-Chains.md:73
+#, fuzzy
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
 msgstr ""
+"`.take(5)` - liefert einen neuen Ring, der nur die ersten 5 Elementen enthält"
 
 #: 08.5-Ring-Chains.md:74
+#, fuzzy
 msgid "`.drop(3)` - returns a new ring with everything but the first 3 elements"
 msgstr ""
+"`.drop(3)` - liefert einen neuen Ring, der alles außer den ersten 3 "
+"Elementen enthält"
 
 #: 08.5-Ring-Chains.md:75
+#, fuzzy
 msgid "`.butlast` - returns a new ring with the last element missing"
-msgstr ""
+msgstr "`.butlast` - liefert einen neuen Ring ohne das letzte Element"
 
 #: 08.5-Ring-Chains.md:76
+#, fuzzy
 msgid "`.drop_last(3)` - returns a new ring with the last 3 elements missing"
-msgstr ""
+msgstr "`.drop_last(3)` - liefert einen neuen Ring ohne die letzten 3 Elemente"
 
 #: 08.5-Ring-Chains.md:77
+#, fuzzy
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
 msgstr ""
+"`.take_last(6)`- liefert einen neuen Ring, der nur die letzten 6 Elemente "
+"enthält"
 
 #: 08.5-Ring-Chains.md:78
+#, fuzzy
 msgid "`.stretch(2)` - repeats each element in the ring twice"
-msgstr ""
+msgstr "`.stretch(2)` - wiederholt jedes Element im Ring 2-mal"
 
 #: 08.5-Ring-Chains.md:79
+#, fuzzy
 msgid "`.repeat(3)` - repeats the entire ring 3 times"
-msgstr ""
+msgstr "`.repeat(3)` - wiederholt den ganzen Ring 3-mal"
 
 #: 08.5-Ring-Chains.md:80
+#, fuzzy
 msgid "`.mirror` - adds the ring to a reversed version of itself"
 msgstr ""
+"`.mirror` - hängt eine umgekehrte Version des Rings an die ursprüngliche an"
 
 #: 08.5-Ring-Chains.md:81
+#, fuzzy
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
-msgstr ""
+msgstr "`.reflect` - wie `.mirror`, verdoppelt aber nicht die mittleren Werte"
 
 #: 08.5-Ring-Chains.md:83
+#, fuzzy
 msgid ""
 "Of course, those chain methods that take numbers can take other numbers too! S"
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
 "irst 5 elements."
 msgstr ""
+"Natürlich können die Verkettungsmethoden mit Zahlen auch andere Zahlwerte "
+"entgegennehmen. Du schreibst also `.drop(5)` anstelle von `.drop(3)`, wenn "
+"Du die ersten 5 Elemente weglassen willst."
 
 #: 09-Live-Coding.md:1
 #, fuzzy
@@ -8441,8 +8526,9 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:26
+#, fuzzy
 msgid "This is equivalent to:"
-msgstr ""
+msgstr "Das ist gleichbedeutend mit:"
 
 #: 09.4-Ticking.md:28
 #, no-wrap
@@ -8494,8 +8580,9 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:53
+#, fuzzy
 msgid "Tick"
-msgstr ""
+msgstr "Tick"
 
 #: 09.4-Ticking.md:55
 #, fuzzy
@@ -8532,8 +8619,9 @@ msgstr ""
 "g anzusteuern."
 
 #: 09.4-Ticking.md:70
+#, fuzzy
 msgid "Look"
-msgstr ""
+msgstr "Look"
 
 #: 09.4-Ticking.md:72
 #, fuzzy
@@ -8811,8 +8899,9 @@ msgstr ""
 "tdessen einfach `M-r` zum Abspielen. Mit `M-s` stoppst Du die Musik."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:51
+#, fuzzy
 msgid "Navigation"
-msgstr ""
+msgstr "Navigation"
 
 #: 10.1-Using-Shortcuts.md:62
 #, fuzzy
@@ -9071,8 +9160,9 @@ msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr "`M-/` - Aktuelle Codezeile auskommentieren"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
+#, fuzzy
 msgid "`C-t` - Transpose/swap characters"
-msgstr ""
+msgstr "`C-t` - Zeichen vertauschen"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
 #, fuzzy
@@ -9145,12 +9235,14 @@ msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - 10 Zeilen nach unten springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
+#, fuzzy
 msgid "`M-<` - Move to beginning of buffer"
-msgstr ""
+msgstr "`M-<` - Zum Anfang des Buffers gehen"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
+#, fuzzy
 msgid "`M->` - Move to end of buffer"
-msgstr ""
+msgstr "`M->` - Zum Ende des Buffers gehen"
 
 #: 10.2-Shortcut-Cheatsheet.md:68
 #, fuzzy
@@ -9188,8 +9280,9 @@ msgid "`S-M-z` - Redo"
 msgstr "`S-M-z` - Wiederholen (\"Redo\")"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
+#, fuzzy
 msgid "`C-g` - Escape"
-msgstr ""
+msgstr "`C-g` - Escape"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
 #, fuzzy
@@ -9253,8 +9346,9 @@ msgstr ""
 "blikum."
 
 #: 10.3-Sharing.md:17
+#, fuzzy
 msgid "Code -> GitHub"
-msgstr ""
+msgstr "Code -> GitHub"
 
 #: 10.3-Sharing.md:19
 #, fuzzy
@@ -9274,8 +9368,9 @@ msgstr ""
 " Code übernehmen, kommentieren und verbessern."
 
 #: 10.3-Sharing.md:27
+#, fuzzy
 msgid "Audio -> SoundCloud"
-msgstr ""
+msgstr "Audio -> SoundCloud"
 
 #: 10.3-Sharing.md:29
 #, fuzzy
@@ -9391,8 +9486,9 @@ msgstr ""
 "inationen Ihr finden könnt."
 
 #: 10.4-Performing.md:27
+#, fuzzy
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
 #, fuzzy
@@ -9408,8 +9504,9 @@ msgstr ""
 "Coder und ihre Geräte."
 
 #: 10.4-Performing.md:34
+#, fuzzy
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: 10.4-Performing.md:36
 #, fuzzy
@@ -9422,12 +9519,14 @@ msgstr ""
 " erfährst Du auf [Algorave](http://algorave.com)."
 
 #: 11-Minecraft-Pi.md:1
+#, fuzzy
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
+#, fuzzy
 msgid "Minecraft Pi"
-msgstr ""
+msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
 #, fuzzy
@@ -9544,8 +9643,9 @@ msgstr ""
 "n, die der Spieler in Minecraft Pi ausgelöst hat."
 
 #: 11.1-Basic-API.md:1
+#, fuzzy
 msgid "11.1 Basic API"
-msgstr ""
+msgstr "11.1 Grundfunktionen der Minecraft-PI-API"
 
 #: 11.1-Basic-API.md:3
 #, fuzzy
@@ -10078,68 +10178,94 @@ msgstr ""
 "hkeiten.)"
 
 #: 12-Conclusions.md:26
+#, fuzzy
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
+#, fuzzy
 msgid "A Appendix A - MagPi Articles"
-msgstr ""
+msgstr "A Appendix A - MagPi-Artikel"
 
 #: A-Articles.md:3
+#, fuzzy
 msgid "MagPi Articles"
-msgstr ""
+msgstr "MagPi-Artikel"
 
 #: A-Articles.md:5
+#, fuzzy
 msgid "Appendix A collects all the Sonic Pi articles written for the MagPi magazine."
 msgstr ""
+"Appendix A sammelt all Sonic Pi-Artikel, die für das MagPi-Magazin "
+"geschrieben wurden."
 
 #: A-Articles.md:8
+#, fuzzy
 msgid "Dive into Topics"
-msgstr ""
+msgstr "Steig' in die Themen ein"
 
 #: A-Articles.md:10
+#, fuzzy
 msgid ""
 "These articles aren't meant to be read in any strict order and contain a lot o"
 "f cross-over material from the tutorial itself. Rather than try and teach you "
 "all of Sonic Pi, they instead each focus on a specific aspect of Sonic Pi and "
 "cover it in a fun and accessible way."
 msgstr ""
+"Diese Artikel müssen nicht in bestimmter Reihenfolge gelesen werden und "
+"enthalten eine Menge Material aus dem Tutorial. Es geht weniger um einen "
+"Gesamtüberblick von Sonic Pi, sondern eher darum, einen Aspekt genauer "
+"anzusehen und diesen abwechslungsreich und leicht verständlich darzustellen."
 
 #: A-Articles.md:15
+#, fuzzy
 msgid "Read the MagPi"
-msgstr ""
+msgstr "MagPi lesen"
 
 #: A-Articles.md:17
+#, fuzzy
 msgid ""
 "You can see them in their glorious professionally typeset form in the free PDF"
 " downloads of The MagPi here: https://www.raspberrypi.org/magpi/"
 msgstr ""
+"Du kannst sie in wunderbar gesetzter Form in der Rubrik freie PDF-Downloads "
+"des MagPi sehen: https://www.raspberrypi.org/magpi/"
 
 #: A-Articles.md:20
+#, fuzzy
 msgid "Suggest a Topic"
-msgstr ""
+msgstr "Schlage ein Thema vor"
 
 #: A-Articles.md:22
+#, fuzzy
 msgid ""
 "If you don't see a topic that interests you covered in these articles - why no"
 "t suggest one? The easiest way to do that is to tweet your suggestion to [@Son"
 "ic_Pi](http://twitter.com/sonic_pi). You never know - your suggestion might be"
 " the subject of the next article!"
 msgstr ""
+"Wenn Dich ein Thema interessiert, welches noch nicht behandelt wurde - warum "
+"nicht eines vorschlagen? Der einfachste Weg ist ein Tweet mit deinem "
+"Vorschlag an [@Sonic_Pi](http://twitter.com/sonic_pi). Man kann nie wissen - "
+"dein Vorschlag könnte das Thema des nächsten Artikels sein!"
 
 #: A.01-tips.md:1
+#, fuzzy
 msgid "A.1 Tips for Sonic Pi"
-msgstr ""
+msgstr "A.1 Tipps zu Sonic Pi"
 
 #: A.01-tips.md:3
+#, fuzzy
 msgid "Five Top Tips"
-msgstr ""
+msgstr "Fünf Top-Tipps"
 
 #: A.01-tips.md:5
+#, fuzzy
 msgid "1. There are no mistakes"
-msgstr ""
+msgstr "1. Es gibt keine Fehler"
 
 #: A.01-tips.md:7
+#, fuzzy
 msgid ""
 "The most important lesson to learn with Sonic Pi is that there really are no m"
 "istakes. The best way to learn is to just try and try and try. Try lots of dif"
@@ -10150,12 +10276,24 @@ msgid ""
 "on't like and keep the things you do. The more 'mistakes' you allow yourself t"
 "o make the quicker you'll learn and discover your personal coding sound."
 msgstr ""
+"Das Wichtigste, das Du mit Sonic Pi lernen kannst, ist, dass es wirklich "
+"keine Fehler gibt. Der beste Weg zu lernen, ist einfach zu versuchen und zu "
+"versuchen und zu versuchen. Probiere viele verschiedene Dinge aus, kümmere "
+"Dich nicht darum, ob dein Code gut oder schlecht klingt und fange an mit so "
+"vielen unterschiedlichen Synths, FXs und Optionen wie möglich zu "
+"experimentieren. Du wirst viele Dinge entdecken, die Dich zum Lachen "
+"bringen, weil sie einfach furchtbar klingen und auch richtige Edelsteine, "
+"die einfach toll klingen. Was Dir nicht gefällt, lässt Du einfach beiseite, "
+"und was Dir gefällt, das behälst Du. Je mehr 'Fehler' Du Dir erlaubst, desto "
+"schneller lernst Du und entdeckst dabei Deinen persönlichen Coding Sound."
 
 #: A.01-tips.md:18
+#, fuzzy
 msgid "2. Use the FX"
-msgstr ""
+msgstr "2. Gebrauche die FXs"
 
 #: A.01-tips.md:20
+#, fuzzy
 msgid ""
 "Say you've already mastered the Sonic Pi basics of making sounds with `sample`"
 ", `play`? What's next? Did you know that Sonic Pi supports over 27 studio FX t"
@@ -10168,6 +10306,18 @@ msgid ""
 "u'd like the FX added to and wrap it with the FX code. Let's look at an exampl"
 "e. Say you had the following code:"
 msgstr ""
+"Sagen wir mal, Du beherrscht die Grundlagen, wie man in Sonic Pi Sounds mit "
+"`sample`und `play` macht. Was jetzt? Hast Du gewusst, dass Sonic Pi über 27 "
+"Studio-FX unterstützt, mit denen Du den Sound deines Codes verändern kannst? "
+"FX sind so ähnlich wie raffinierte Bildeffekte in Bildbearbeitungsprogrammen;"
+" nur das sie nicht unscharf oder schwarz und weiss machen, sondern dem Sound "
+"Hall, Verzerrung oder Echo hinzufügen. Stell' Dir vor, wie Du das Kabel von "
+"Deiner Gitarre ins Effekt-Pedal steckst und dann in den Verstärker. "
+"Glücklicherweise braucht man keine Kabel, und Sonic Pi macht es sehr "
+"einfach, FX einzusetzen. Du musst nur auswählen, auf welchen Teil Deines "
+"Codes Du einen FX anwenden willst und diesen Teil mit dem FX-Code "
+"umschließen. Sehen wir uns ein Beispiel an. Nehmen wir an, Du hast den "
+"folgenden Code:"
 
 #: A.01-tips.md:32
 #, no-wrap
@@ -10185,10 +10335,13 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:41
+#, fuzzy
 msgid ""
 "If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it insid"
 "e a `with_fx` block like this:"
 msgstr ""
+"Wenn Du einen FX auf das `:loop_gazul`-Sample anwenden möchtest, steckst du "
+"dieses einfach in einen `with_fx`-Block wie hier:"
 
 #: A.01-tips.md:44
 #, no-wrap
@@ -10210,10 +10363,13 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:55
+#, fuzzy
 msgid ""
 "Now, if you wanted to add FX to the bass drum, go and wrap that with `with_fx`"
 " too:"
 msgstr ""
+"Wenn Du jetzt einen FX zur Bassdrum hinzufügen möchtest, dann packe diese "
+"auch in ein `with_fx` ein:"
 
 #: A.01-tips.md:58
 #, no-wrap
@@ -10239,14 +10395,18 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:71
+#, fuzzy
 msgid ""
 "Remember, you can wrap *any* code within `with_fx` and any sounds created will"
 " pass through that FX."
 msgstr ""
+"Denk' dran, Du kannst *jeden* Code mit einem `with_fx`umgeben und jeder "
+"Sound, der ausgegeben wird, geht durch diesen FX."
 
 #: A.01-tips.md:75
+#, fuzzy
 msgid "3. Parameterise your synths"
-msgstr ""
+msgstr "3. Parametrisiere deine Synths"
 
 #: A.01-tips.md:77
 msgid ""
