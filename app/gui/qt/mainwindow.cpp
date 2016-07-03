@@ -2435,24 +2435,6 @@ void MainWindow::createToolBar()
   QAction *loadFileAct = new QAction(QIcon(":/images/load.png"), tr("Load"), this);
   setupAction(loadFileAct, 0, tr("Load an external file in the current buffer"), SLOT(loadFile()));
 
-  // Info
-  QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
-  setupAction(infoAct, 0, tr("See information about Sonic Pi"),
-	      SLOT(about()));
-
-  // Scope
-  QAction *scopeAct = new QAction(QIcon(":/images/info.png"), tr("Scope"), this);
-  setupAction(scopeAct, 0, tr("View audio output"), SLOT(scope()));
-
-  // Help
-  QAction *helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
-  setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
-
-  // Preferences
-  QAction *prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
-  setupAction(prefsAct, 'P', tr("Toggle preferences pane"),
-	      SLOT(showPrefsPane()));
-
   // Record
   recAct = new QAction(QIcon(":/images/rec.png"), tr("Start Recording"), this);
   setupAction(recAct, 0, tr("Start recording to WAV audio file"), SLOT(toggleRecording()));
@@ -2472,6 +2454,26 @@ void MainWindow::createToolBar()
   QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
 			    tr(""), this);
 
+  // Scope
+  QAction *scopeAct = new QAction(QIcon(":/images/scope.png"), tr("Scope"), this);
+  setupAction(scopeAct, 0, tr("View audio output"), SLOT(scope()));
+
+    // Info
+  QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
+  setupAction(infoAct, 0, tr("See information about Sonic Pi"),
+	      SLOT(about()));
+
+
+  // Help
+  QAction *helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
+  setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
+
+  // Preferences
+  QAction *prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
+  setupAction(prefsAct, 'P', tr("Toggle preferences pane"),
+	      SLOT(showPrefsPane()));
+
+
   setupAction(textDecAct, 0, tr(""), SLOT(zoomCurrentWorkspaceOut()));
   textDecAct->setToolTip(tooltipStrMeta('-', tr("Decrease Text Size")));
 
@@ -2487,8 +2489,7 @@ void MainWindow::createToolBar()
 
   toolBar->addAction(saveAsAct);
   toolBar->addAction(loadFileAct);
-  toolBar->addAction(recAct);
-  toolBar->addAction(scopeAct);
+
   toolBar->addWidget(spacer);
 
   toolBar->addAction(textDecAct);
@@ -2497,8 +2498,8 @@ void MainWindow::createToolBar()
   dynamic_cast<QToolButton*>(toolBar->widgetForAction(textDecAct))->setAutoRepeat(true);
   dynamic_cast<QToolButton*>(toolBar->widgetForAction(textIncAct))->setAutoRepeat(true);
 
-  toolBar->addAction(textAlignAct);
-
+  //  toolBar->addAction(textAlignAct);
+  toolBar->addAction(scopeAct);
   toolBar->addAction(infoAct);
   toolBar->addAction(helpAct);
   toolBar->addAction(prefsAct);
