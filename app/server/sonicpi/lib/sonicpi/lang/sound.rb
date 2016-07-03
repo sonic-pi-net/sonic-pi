@@ -2173,29 +2173,6 @@ puts current_synth # Print out the current synth name"]
 
 
 
-      def current_sample_pack
-        __thread_locals.get(:sonic_pi_mod_sound_sample_path)
-      end
-      doc name:          :current_sample_pack,
-          introduced:    Version.new(2,0,0),
-          summary:       "Get current sample pack",
-          doc:           "Returns the current sample pack.
-
-This can be set via the fns `use_sample_pack` and `with_sample_pack`.",
-          args:          [],
-          opts:          nil,
-          accepts_block: false,
-          examples:      ["
-puts current_sample_pack # Print out the current sample pack"]
-
-
-
-
-
-
-
-
-
       def current_synth_defaults
         __thread_locals.get(:sonic_pi_mod_sound_synth_defaults)
       end
