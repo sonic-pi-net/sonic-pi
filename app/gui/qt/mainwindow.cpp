@@ -2456,7 +2456,7 @@ void MainWindow::createToolBar()
 
   // Scope
   QAction *scopeAct = new QAction(QIcon(":/images/scope.png"), tr("Scope"), this);
-  setupAction(scopeAct, 0, tr("View audio output"), SLOT(scope()));
+  setupAction(scopeAct, 0, tr("Toggle the visibilty of the audio oscilloscope. "), SLOT(scope()));
 
     // Info
   QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
@@ -2466,11 +2466,11 @@ void MainWindow::createToolBar()
 
   // Help
   QAction *helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
-  setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
+  setupAction(helpAct, 'I', tr("Toggle the visibility of the help pane"), SLOT(help()));
 
   // Preferences
   QAction *prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
-  setupAction(prefsAct, 'P', tr("Toggle preferences pane"),
+  setupAction(prefsAct, 'P', tr("Toggle the visibility of the preferences pane"),
 	      SLOT(showPrefsPane()));
 
 
