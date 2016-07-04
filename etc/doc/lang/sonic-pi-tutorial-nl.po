@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-30 14:47+0000\n"
+"PO-Revision-Date: 2016-07-04 14:19+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -5206,6 +5206,14 @@ msgid ""
 "80, so `play n` turns into `play 80`. When I call it again with `my_player "
 "90`, `n` is now replaced with 90, so `play n` turns into `play 90`."
 msgstr ""
+"Het zit 'h allemaal in de `define` do/end blok. Je kan de parameternamen "
+"gebruiken zoals echte waarden. In dit voorbeeld speel ik de noot `n. Je kan "
+"deze beschouwen als een soort toezegging, dat wanneer de code loopt, deze "
+"door de werkelijke waarden vervangen wordt wanneer je deze benoemd. Ik doe "
+"dit met `my_player 80`. om noot 80 te spelen. Binnen de definitie van deze "
+"functie, is `n`nu vervangen door 80, dus `play n` verandert in `play 80`. "
+"Wanneer ik deze vernoem met `my_player 90´, is `n` nu vervangen met 90, play "
+"`n`is veranderd in play `90`."
 
 #: 05.5-Functions.md:108
 msgid "Let's see a more interesting example:"
@@ -5245,20 +5253,24 @@ msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. "
 "I also used `root` as if it was a note name in my call to `play`."
 msgstr ""
+"Hier gebruikte ik `repeats` als een cijfer in de regel `repeats.times do`.Ik "
+"gebruikte `root` ook als naam van een noot in mijn `play` oproep."
 
 #: 05.5-Functions.md:129
 msgid ""
 "See how we're able to write something very expressive and easy to read by "
 "moving a lot of our logic into a function!"
 msgstr ""
+"Hierbij zien we dat we in staat zijn om iets zeer expressief, maar makkelijk "
+"leesbaar te schrijven door onze logica in een functie te steken!"
 
 #: 05.6-Variables.md:1
 msgid "5.6 Variables"
-msgstr ""
+msgstr "5.6 Variabelen"
 
 #: 05.6-Variables.md:3
 msgid "Variables"
-msgstr ""
+msgstr "Variabelen"
 
 #: 05.6-Variables.md:5
 msgid ""
@@ -5266,11 +5278,14 @@ msgid ""
 "makes this very easy, you write the name you wish to use, an equal sign "
 "(`=`), then the thing you want to remember:"
 msgstr ""
+"Het is handig om in jouw code is namen voor dingen te creëren. Sonic Pi "
+"maakt jou dit zeer eenvoudig, je schrijft de naam die je wenst te gebruiken, "
+"een gelijkteken ('='), en dan wat je wilt onthouden:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
 msgid "sample_name = :loop_amen"
-msgstr ""
+msgstr "sample_name = :loop_amen"
 
 #: 05.6-Variables.md:13
 msgid ""
@@ -5278,6 +5293,9 @@ msgid ""
 "`sample_name`. We can now use `sample_name` everywhere we might have used `:"
 "loop_amen`. For example:"
 msgstr ""
+"Hier, we hebben  het symbool `:loop_amen` 'onthouden' in de variabele "
+"`sample_name` . Nu kunnen we `sample_name` gebruiken, overal waar we "
+"`:loop_amen` hebben gebruikt. Bijvoorbeeld:"
 
 #: 05.6-Variables.md:17
 #, no-wrap
@@ -5285,16 +5303,21 @@ msgid ""
 "sample_name = :loop_amen\n"
 "sample sample_name"
 msgstr ""
+"sample_name = :loop_amen\n"
+"sample sample_name"
 
 #: 05.6-Variables.md:22
 msgid ""
 "There are three main reasons for using variables in Sonic Pi: communicating "
 "meaning, managing repetition and capturing the results of things."
 msgstr ""
+"Er zijn drie belangrijke redenen voor het gebruik van variabelen in Sonic Pi:"
+" in het communiceren, het beheer van herhaling en het vastleggen van de "
+"resultaten van zaken."
 
 #: 05.6-Variables.md:26
 msgid "Communicating Meaning"
-msgstr ""
+msgstr "In de zin van Communicatie"
 
 #: 05.6-Variables.md:28
 msgid ""
@@ -5305,7 +5328,7 @@ msgid ""
 "you're likely to read your own code in the future and try to understand "
 "what's going on. Although it might seem obvious to you now - it might not be "
 "so obvious to others or even your future self!"
-msgstr ""
+msgstr "Als je code schrijft"
 
 #: 05.6-Variables.md:36
 msgid ""
