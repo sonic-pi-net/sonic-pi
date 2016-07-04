@@ -14,6 +14,7 @@
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/lang/core"
 require_relative "../../../lib/sonicpi/runtime"
+require_relative "../../../lib/sonicpi/util"
 require 'mocha/setup'
 
 module SonicPi
@@ -21,6 +22,7 @@ module SonicPi
   class SleepTester < Minitest::Test
     include SonicPi::Lang::Core
     include SonicPi::RuntimeMethods
+    include SonicPi::Util
 
     def setup
       Kernel.stubs(:sleep)
@@ -28,9 +30,10 @@ module SonicPi
       @mod_sound_studio = mock()
       @mod_sound_studio.expects(:sched_ahead_time).at_least_once.returns(0.5)
 
-      @start_time = Time.now
-      Thread.current.thread_variable_set(:sonic_pi_spider_time, @start_time)
-      Thread.current.thread_variable_set(:sonic_pi_spider_start_time, @start_time)
+      @start_time = Time.now.freeze
+
+      __thread_locals.set(:sonic_pi_spider_time, @start_time)
+      __thread_locals.set(:sonic_pi_spider_start_time, @start_time)
 
       SleepTester.any_instance.stubs(:__schedule_delayed_blocks_and_messages!).returns(true)
 
