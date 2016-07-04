@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-02 16:20+0000\n"
-"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
+"PO-Revision-Date: 2016-07-04 18:09+0000\n"
+"Last-Translator: RadW2020 <eclarieurnoir@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -31,9 +31,9 @@ msgid ""
 "e."
 msgstr ""
 "Bienvenido a Sonic Pi. Ojalá estés tan emocionado por comenzar a hacer "
-"sonidos de locura, como yo de mostrarte cómo. Va a ser realmente divertido, "
-"aprenderás sobre música, síntesis, programación, composición, ejecución y "
-"más."
+"sonidos sorprendentes, como yo de mostrarte cómo. Va a ser realmente "
+"divertido, aprenderás sobre música, síntesis, programación, composición, "
+"ejecución y más."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -44,15 +44,14 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Pero espera, ¡qué rudeza la mía! Deja que me presente - soy [Sam "
+"Pero espera, ¡qué maleducado soy! Deja que me presente - soy [Sam "
 "Aaron](http://twitter.com/samaaron) - el creador de Sonic Pi. Puedes "
 "encontrarme en Twitter [@samaaron](http://twitter.com/samaaron) y estaré "
 "encantado de saludarte. Quizás te interese saber más de mis [Live Coding "
-"Performances](http://facebook.com/livecodersamaaron) donde programo en "
-"directo con Sonic Pi frente a audiencias."
+"Performances](http://facebook.com/livecodersamaaron) donde programo en vivo "
+"y en directo con Sonic Pi."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
-#, fuzzy
 msgid ""
 "If you have any thoughts, or ideas for improving Sonic Pi - please pass them o"
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
@@ -60,7 +59,7 @@ msgid ""
 msgstr ""
 "Si tienes ideas para mejorar Sonic Pi - por favor pásamelas - los "
 "comentarios son bienvenidos. ¡Nunca se sabe, tu idea podría ser la próxima "
-"característica de la aplicación!"
+"característica importante de la aplicación!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -70,9 +69,9 @@ msgid ""
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
 "Este tutorial está dividido en secciones, agrupadas por categoría. Lo he "
-"escrito para tener una fácil progresión desde principio a fin, siéntete "
-"libre de saltar de una sección a otra, cuanto te apetezca. Si sientes que "
-"hay algo que falta, dímelo y consideraré añadirlo en el futuro."
+"escrito para tener una fácil progresión de principio a fin, siéntete libre "
+"de saltar de una sección a otra cuanto te apetezca. Si piensas que hay algo "
+"que falta, dímelo y veré si añadirlo en el futuro."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -80,9 +79,9 @@ msgid ""
 " stream live on [livecoding.tv/samaaron](http://livecoding.tv/samaaron) so ple"
 "ase do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Finalmente, observar a otros programar en directo es una gran manera de "
-"aprender. Yo lo programo en directo semanalmente en "
-"[livecoding.tv/samaaron](http://livecoding.tv/samaaron) así que pasate por "
+"Por último, observar a otros mientras programan es una gran manera de "
+"aprender. Yo programo en directo semanalmente en "
+"[livecoding.tv/samaaron](http://livecoding.tv/samaaron) así que pásate por "
 "allí, saluda y pregunta todo lo que quieras :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
@@ -90,54 +89,48 @@ msgid "OK, let's get started..."
 msgstr "OK, comencemos..."
 
 #: 01.1-Live-Coding.md:1
-#, fuzzy
 msgid "1.1 Live Coding"
-msgstr "1.1 Live Coding"
+msgstr "1.1 Programación en Directo"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
-#, fuzzy
 msgid "Live Coding"
-msgstr "Live Coding"
+msgstr "Programación en Directo"
 
 #: 01.1-Live-Coding.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to write a"
 "nd *modify code live* to make music, just like you might perform live with a g"
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Uno de los aspectos más excitantes de Sonic Pi es la posibilidad de escribir y"
-" modificar código en vivo para hacer música, así como lo harías al tocar una g"
-"uitarra. Esto significa que con algo de práctica podrás usar Sonic Pi en escen"
-"a y tocar con él."
+"Uno de los aspectos más estimulantes de Sonic Pi es la posibilidad de "
+"escribir y modificar código en vivo para hacer música, igual que con una "
+"guitarra. Esto significa que con algo de práctica podrás usar Sonic Pi en el "
+"escenario y tocar con él."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
 msgstr "Libera tu mente"
 
 #: 01.1-Live-Coding.md:12
-#, fuzzy
 msgid ""
 "Before we get into the real details of how Sonic Pi works in the rest of this "
 "tutorial, I'd like to give you an experience of what it's like to live code. D"
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
-"Antes de entrar en los detalles de cómo funciona Sonic Pi en el resto de este "
-"tutorial, me gustaría darte una experiencia de lo que es codificar en vivo. No"
-" te preocupes si no entiendes mucho (o nada) de esto. Sólo intenta permanecer "
-"sentado y disfrutar..."
+"Antes de entrar al detalle de cómo funciona Sonic Pi en el resto de este "
+"tutorial, me gustaría mostrarte lo que es programar en vivo. No te preocupes "
+"si no entiendes mucho (o nada) de esto. Sólo relájate y disfruta..."
 
 #: 01.1-Live-Coding.md:17
-#, fuzzy
 msgid "A live loop"
-msgstr "Un Bucle Vivo"
+msgstr "Un Bucle en Vivo"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "Comencemos copiando el siguiente código en un buffer vacío:"
+msgstr "Comencemos copiando el siguiente código en un buffer de aquí arriba:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -158,10 +151,10 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Ahora presiona el botón \"Ejecutar\" y escucharás una batería tocada "
-"rápidamente. Si en cualquier momento deseas parar el sonido, sólo debes "
-"presionar el botón \"Parar\". Pero no lo pares, aún... En vez de ello sigue "
-"los siguientes pasos:"
+"Ahora, presiona el botón \"Ejecutar\" y escucharás una batería con un ritmo "
+"rápido. Si en cualquier momento deseas parar el sonido, sólo debes presionar "
+"el botón \"Parar\". Pero no lo pares, aún... antes sigue los siguientes "
+"pasos:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
@@ -170,12 +163,11 @@ msgstr "Asegúrate que el sonido de batería sigue sonando"
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
 msgstr ""
-"Cambia el valor \"sleep\" de \"0.5\" a algo más alto como, por ejemplo \"1\"."
+"Cambia el valor \"sleep\" de \"0.5\" a algo más alto, por ejemplo \"1\"."
 
 #: 01.1-Live-Coding.md:34
-#, fuzzy
 msgid "Press the `Run` button again"
-msgstr "Presiona de nuevo el botón \"Ejecutar\"."
+msgstr "Presiona de nuevo el botón \"Ejecutar\""
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
@@ -186,9 +178,8 @@ msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"Finalmente, *recuerda este momento*, esta es la primera vez que has "
-"codificado en tiempo real con Sonic Pi y muy probablemente no será la "
-"última..."
+"Por último, *recuerda este momento*, esta es la primera vez que has "
+"programado en tiempo real con Sonic Pi y seguro que no será la última..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -196,9 +187,8 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ok, eso fue lo suficientemente sencillo. Añadamos algo a la mezcla. Encima "
-"de `sample :bd_haus` añade la línea `sample :ambi_choir, rate: 0.3`. Tu "
-"código debería ser así:"
+"Ok, eso fue fácil. Añadamos algo a la mezcla. Encima de `sample :bd_haus` "
+"añade la línea `sample :ambi_choir, rate: 0.3`. Tu código debería ser así:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -224,17 +214,17 @@ msgid ""
 "your computer will stop with an error because it can't keep up (if that happen"
 "s, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Ahora juega, cambia valores. ¿qué pasa cuando usas valores altos, bajos o "
-"negativos? Mira lo que pasa cuando cambias el valor `rate:` por `:ambi_choir`"
-" ajústalo mínimamente (digamos a 0.29). ¿Qué pasa si pones un valor muy bajo "
-"para `sleep` ? Mira si puedes hacerlo sonar tan ràpido que tu computadora se "
-"paraliza con un error (si eso sucede, simplemente elige un valor más alto "
-"para `sleep` y presiona `Ejecutar` de nuevo)."
+"Ahora vamos a jugar. Cambia valores, ¿qué pasa cuando usas valores altos, "
+"bajos o negativos? Mira lo que pasa cuando cambias el valor `rate:` por "
+"`:ambi_choir` ajústalo mínimamente (digamos a 0.29). ¿Qué pasa si pones un "
+"valor muy bajo para `sleep` ? prueba a hacerlo sonar tan rápido que tu "
+"computadora se cuelgue con un error (si eso sucede, simplemente elige un "
+"valor más alto para `sleep` y presiona `Ejecutar` de nuevo)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
-"Prueba a comentar una de las líneas del 'sample', añadiendo un `#` al "
+"Intenta comentar una de las líneas del `sample`, añadiendo un `#` al "
 "comienzo:"
 
 #: 01.1-Live-Coding.md:62
@@ -258,9 +248,9 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"¿Nota cómo le indica al ordenador que lo ignore, así que no lo oímos? Esto "
-"se llama 'comentar'. En Sonic Pi podemos usar comentarios para quitar y "
-"añadir cosas a la mezcla."
+"¿Te das cuenta como le dice al ordenador que lo ignore, y así no lo oímos? "
+"Esto se llama \"comentar\". En Sonic Pi podemos usar comentarios para quitar "
+"y añadir cosas a la mezcla."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -270,57 +260,56 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"Finalmente, te dejo con algo divertido con lo que jugar. Toma el siguiente "
+"Por último, te dejo con algo divertido con lo que jugar. Toma el siguiente "
 "código y cópialo en un buffer vacío. Por el momento no intentes comprender "
-"demasiado más que notar que hay dos bucles - lo que significa que hay dos "
-"eventos al mismo tiempo - experimenta y juega. Te dejo algunas sugerencias:"
+"demasiado más que darte cuenta que hay dos bucles - lo que significa que hay "
+"dos eventos al mismo tiempo - experimenta y juega. Te dejo algunas "
+"sugerencias:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Prueba cambiando el valor azul de `rate:` para escuchar cambios en el sample."
+"Prueba cambiando el valor en azul de `rate:` para escuchar cambios en el "
+"sample."
 
 #: 01.1-Live-Coding.md:81
-#, fuzzy
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Prueba cambiando los tiempos de `sleep` y presta atención a cómo ambos bucles "
-"dan vueltas a diferentes valores."
+"Prueba cambiando los tiempos de `sleep` y presta atención a cómo ambos "
+"bucles dan vueltas a diferentes valores."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Prueba quitando el comentario de la línea de ejemplo (quita '#') y disfruta "
-"del sonido de la guitarra tocada al revés."
+"Oberva que pasa quitando el comentario de la línea de ejemplo (quita `#`) y "
+"disfruta del sonido de la guitarra tocada al revés."
 
 #: 01.1-Live-Coding.md:85
-#, fuzzy
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
-"Prueba cambiando cualquiera de los valores azules `mix:` a números entre `0` ("
+"Prueba cambiar cualquiera de los valores azules `mix:` a números entre `0` ("
 "no en la mezcla) y `1` (totalmente en la mezcla)."
 
 #: 01.1-Live-Coding.md:88
-#, fuzzy
 msgid ""
 "Remember to press `Run` and you'll hear the change next time the loop goes rou"
 "nd. If you end up in a pickle, don't worry - hit `Stop`, delete the code in th"
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"Recuerda que debes presionar 'Ejecutar' para escuchar el cambio en el próximo "
-"bucle. Si termina siendo un relajo, no te preocupes - dale a 'Parar', borra el"
-" código del buffer y pega una copia fresca para volver a comenzar. Cometiendo "
-"errores es como aprenderás más rápidamente."
+"Recuerda que debes presionar 'Ejecutar' para escuchar el cambio en el "
+"próximo bucle. Si termina siendo un lío, no te preocupes - dale a 'Parar', "
+"borra el código del buffer y pega una nueva copia del ejemplo para volver a "
+"empezar. Cometiendo errores es como aprenderás más rápidamente."
 
 #: 01.1-Live-Coding.md:94
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :guit do\n"
 "  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
@@ -351,62 +340,52 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:111
-#, fuzzy
 msgid ""
 "Now, keep playing and experimenting until your curiosity about how this all ac"
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"Ahora, sigue tocando y experimentando hasta que tu curiosidad acerca de todo e"
-"sto se dispare y comiences a preguntarte ¿qué más puedes hacer? Ya estás listo"
-" para leer el resto del tutorial."
+"Ahora, sigue tocando y experimentando hasta despertar tu curiosidad y te "
+"preguntes qué más puedes hacer. Ya estás listo para leer el resto del "
+"tutorial."
 
 #: 01.1-Live-Coding.md:115
-#, fuzzy
 msgid "So what are you waiting for..."
-msgstr "Así que: ¿qué estás esperando?"
+msgstr "¿A qué estás esperando?"
 
 #: 01.2-Exploring-the-Interface.md:1
-#, fuzzy
 msgid "1.2 Exploring the Interface"
-msgstr "1.2 Explorando el interfaz"
+msgstr "1.2 Explorando la interfaz"
 
 #: 01.2-Exploring-the-Interface.md:3
-#, fuzzy
 msgid "The Sonic Pi Interface"
-msgstr "El interfaz de Sonic Pi"
+msgstr "La interfaz de Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
-"Sonic Pi tiene un sencillo interfaz para codificar música. Explorémoslo por un"
-" momento."
+"Sonic Pi tiene una interfaz sencilla para programar música. Echemos un "
+"vistazo a esto."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+msgstr "![Interfaz de Sonic Pi](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
-#, fuzzy
 msgid "*A* - Play Controls"
 msgstr "*A* - Controles de Ejecución"
 
 #: 01.2-Exploring-the-Interface.md:12
-#, fuzzy
 msgid "*B* - Editor Controls"
 msgstr "*B* - Controles de edición"
 
 #: 01.2-Exploring-the-Interface.md:13
-#, fuzzy
 msgid "*C* - Info and Help"
-msgstr "*C* - Info y ayuda"
+msgstr "*C* - Información y Ayuda"
 
 #: 01.2-Exploring-the-Interface.md:14
-#, fuzzy
 msgid "*D* - Code Editor"
 msgstr "*D* - Editor de código"
 
@@ -415,22 +394,18 @@ msgid "*E* - Prefs Panel"
 msgstr "*E* - Panel de Preferencias"
 
 #: 01.2-Exploring-the-Interface.md:16
-#, fuzzy
 msgid "*F* - Log Viewer"
-msgstr "*F* - Visor de bitácora"
+msgstr "*F* - Visor de Registros"
 
 #: 01.2-Exploring-the-Interface.md:17
-#, fuzzy
 msgid "*G* - Help System"
-msgstr "*G* - Sistema de ayuda"
+msgstr "*G* - Sistema de Ayuda"
 
 #: 01.2-Exploring-the-Interface.md:20
-#, fuzzy
 msgid "A. Play Controls"
 msgstr "A. Controles de Ejecución"
 
 #: 01.2-Exploring-the-Interface.md:22
-#, fuzzy
 msgid ""
 "These pink buttons are the main controls for starting and stopping sounds. The"
 "re's the *Run* button for running the code in the editor, *Stop* for stopping "
@@ -438,13 +413,12 @@ msgid ""
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
 "Estos botones rosados son los principales controles para comenzar y parar "
-"sonidos. El botón de 'Ejecutar' sirve para iniciar el código y 'Parar' para "
-"parar todo código en Ejecución, 'Guardar' para guardar el código a un "
-"archivo externo y 'Grabar' para crear una grabación (archivo WAV) de los "
-"sonidos ejecutándose."
+"sonidos. El botón de *Ejecutar* sirve para iniciar la ejecución del código y "
+"*Parar* para parar todo código en Ejecución, *Guardar* para guardar el "
+"código a un archivo externo y *Grabar* para crear una grabación (archivo WAV)"
+" de los sonidos ejecutándose."
 
 #: 01.2-Exploring-the-Interface.md:28
-#, fuzzy
 msgid "B. Editor Controls"
 msgstr "B. Controles de edición"
 
