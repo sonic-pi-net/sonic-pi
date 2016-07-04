@@ -1079,7 +1079,7 @@ play 64 # Plays note 64"]
         raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
         curr_tuning_info = __thread_locals.get(:sonic_pi_mod_sound_tuning)
         curr_tuning, curr_fundamental = curr_tuning_info
-        __thread_locals.set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note])
+        __thread_locals.set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note].freeze)
         res = block.call
         __thread_locals.set(:sonic_pi_mod_sound_tuning, curr_tuning_info)
         res
