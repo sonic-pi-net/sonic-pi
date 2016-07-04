@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-04 18:09+0000\n"
-"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
+"PO-Revision-Date: 2016-07-04 18:11+0000\n"
+"Last-Translator: RadW2020 <eclarieurnoir@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -437,7 +437,6 @@ msgid "C. Info and Help"
 msgstr "C. Información y Ayuda"
 
 #: 01.2-Exploring-the-Interface.md:37
-#, fuzzy
 msgid ""
 "These blue buttons give you access to information, help and preferences. The *"
 "Info* button will open up the information window which contains information ab"
@@ -445,15 +444,14 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
-"Estos botones azules te dan acceso a información, ayuda y preferencias. El bot"
-"ón *Info* abre la ventana informativa, la cual contiene información del propio"
-" programa Sonic Pi - el equipo base, historia, contribuyentes y la comunidad. "
-"El botón de *Ayuda* cambia entre el sistema de ayuda y el botón *Preferencias*"
-" activa la ventana de preferencias, la cual te permite controlar algunos param"
-"etros básicos del sistema."
+"Estos botones azules te dan acceso a información, ayuda y preferencias. El "
+"botón *Info* abre la ventana informativa, la cual contiene información del "
+"propio programa Sonic Pi - el equipo base, historia, contribuyentes y la "
+"comunidad. El botón de *Ayuda* muestra u oculta el sistema de ayuda y el "
+"botón *Preferencias* activa la ventana de preferencias, que te permite "
+"controlar algunos parámetros básicos del sistema."
 
 #: 01.2-Exploring-the-Interface.md:44
-#, fuzzy
 msgid "D. Code Editor"
 msgstr "D. Editor de código"
 
