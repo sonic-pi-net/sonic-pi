@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2016-07-04 18:09+0000\n"
-"Last-Translator: RadW2020 <eclarieurnoir@gmail.com>\n"
+"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -433,9 +433,8 @@ msgstr ""
 "*Alinear* hará que tu código este más claro y profesional."
 
 #: 01.2-Exploring-the-Interface.md:35
-#, fuzzy
 msgid "C. Info and Help"
-msgstr "C. Info y ayuda"
+msgstr "C. Información y Ayuda"
 
 #: 01.2-Exploring-the-Interface.md:37
 #, fuzzy
