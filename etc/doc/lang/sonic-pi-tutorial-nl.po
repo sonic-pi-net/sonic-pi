@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-04 14:19+0000\n"
+"PO-Revision-Date: 2016-07-05 14:38+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -5328,7 +5328,15 @@ msgid ""
 "you're likely to read your own code in the future and try to understand "
 "what's going on. Although it might seem obvious to you now - it might not be "
 "so obvious to others or even your future self!"
-msgstr "Als je code schrijft"
+msgstr ""
+"Als je code schrijft, denk ,je snel dat je je computer verteld wat hij moet "
+"doen, en zolang de computer deze kan verstaan, alles OK is. \n"
+"Maar het is ook belangrijk om er op te letten dat niet alleen de computer "
+"jouw code leest. Andere mensen kunnen deze ook lezen en proberen te "
+"begrijpen wat er gaande is. Ook, wil je waarschijnlijk jouw eigen code in de "
+"toekomst lezen en proberen te begrijpen hoe die werkt. Hoewel deze code voor "
+"jou nu vanzelfsprekend lijkt - is het misschien niet zo duidelijk voor "
+"anderen of zelfs je toekomstige zelf!"
 
 #: 05.6-Variables.md:36
 msgid ""
@@ -5336,17 +5344,22 @@ msgid ""
 "comments (as we saw in a previous section). Another is to use meaningful "
 "variable names. Look at this code:"
 msgstr ""
+"Een manier om andere jouw code te laten begrijpen is deze van een commentaar-"
+"lijn voorzien (zoals we in een voorgaande sectie hebben gezien). Een ander "
+"is zinvolle variabele namen gebruiken. Kijk naar deze code:"
 
 #: 05.6-Variables.md:40
 #, no-wrap
 msgid "sleep 1.7533"
-msgstr ""
+msgstr "sleep 1.7533"
 
 #: 05.6-Variables.md:44
 msgid ""
 "Why does it use the number `1.7533`? Where did this number come from? What "
 "does it mean? However, look at this code:"
 msgstr ""
+"Waarom maakt men hier gebruik van het cijfer `1.7533`? Waar komt dit getal "
+"vandaan? Wat betekent het? En kijk nu eens naar deze code:"
 
 #: 05.6-Variables.md:47
 #, no-wrap
@@ -5354,32 +5367,42 @@ msgid ""
 "loop_amen_duration = 1.7533\n"
 "sleep loop_amen_duration"
 msgstr ""
+"loop_amen_duration = 1.7533\n"
+"sleep loop_amen_duration"
 
 #: 05.6-Variables.md:52
 msgid ""
 "Now, it's much clearer what `1.7533` means: it's the duration of the sample "
 "`:loop_amen`! Of course, you might say why not simply write:"
 msgstr ""
+"Het is nu veel duidelijker wat '1.7533' betekent: het is de duur van de "
+"sample `:loop_amen`! Natuurlijk, zou je kunnen zeggen, waarom schrijf je "
+"gewoon niet:"
 
 #: 05.6-Variables.md:55
 #, no-wrap
 msgid "sleep sample_duration(:loop_amen)"
-msgstr ""
+msgstr "sleep sample_duration(:loop_amen)"
 
 #: 05.6-Variables.md:59
 msgid ""
 "Which, of course, is a very nice way of communicating the intent of the code."
 msgstr ""
+"Wat natuurlijk een zeer mooie manier is om de intentie van de code te "
+"communiceren ."
 
 #: 05.6-Variables.md:62
 msgid "Managing Repetition"
-msgstr ""
+msgstr "Herhaling Beheren"
 
 #: 05.6-Variables.md:64
 msgid ""
 "Often you see a lot of repetition in your code and when you want to change "
 "things, you have to change it in a lot of places. Take a look at this code:"
 msgstr ""
+"Vaak zie je een heleboel herhaling in je code en als je dingen wil "
+"veranderen, moet je deze op een heleboel plaatsen veranderen. Kijk even naar "
+"deze code:"
 
 #: 05.6-Variables.md:68
 #, no-wrap
@@ -5391,6 +5414,12 @@ msgid ""
 "sample :loop_amen\n"
 "sleep sample_duration(:loop_amen)"
 msgstr ""
+"sample :loop_amen\n"
+"sleep sample_duration(:loop_amen)\n"
+"sample :loop_amen, rate: 0.5\n"
+"sleep sample_duration(:loop_amen, rate: 0.5)\n"
+"sample :loop_amen\n"
+"sleep sample_duration(:loop_amen)"
 
 #: 05.6-Variables.md:77
 msgid ""
@@ -5401,10 +5430,16 @@ msgid ""
 "Sometimes you don't have the luxury of time - especially if you want to keep "
 "people dancing."
 msgstr ""
+"We doen hier heel wat met ': loop_amen'! Maar als we nu willen horen hoe dit "
+"klinkt met een andere sample loop, zoals `:loop_garzul`? Dan zouden we deze "
+"moeten gaan zoeken en alle `:loop_amen`s met `:loop_garzul` vervangen'. Dat "
+"zou fijn zijn als je veel tijd hebt- maar wat als je dit uitvoert op het "
+"podium? Soms heb je de luxe van de tijd niet - vooral niet als je de mensen "
+"aan het dansen wil houden."
 
 #: 05.6-Variables.md:84
 msgid "What if you'd written your code like this:"
-msgstr ""
+msgstr "Wat als je je code als het volgt zou schrijven:"
 
 #: 05.6-Variables.md:86
 #, no-wrap
@@ -5417,6 +5452,13 @@ msgid ""
 "sample sample_name\n"
 "sleep sample_duration(sample_name)"
 msgstr ""
+"sample_name = :loop_amen\n"
+"sample sample_name\n"
+"sleep sample_duration(sample_name)\n"
+"sample sample_name, rate: 0.5\n"
+"sleep sample_duration(sample_name, rate: 0.5)\n"
+"sample sample_name\n"
+"sleep sample_duration(sample_name)"
 
 #: 05.6-Variables.md:96
 msgid ""
@@ -5425,43 +5467,56 @@ msgid ""
 "= :loop_garzul` and we change it in many places through the magic of "
 "variables."
 msgstr ""
+"Nu dat doet net het zelfde als deze hierboven (probeer maar). Het geeft ons "
+"ook de mogelijkheid om één enkele lijn te moeten gaan veranderen: `"
+"sample_naam = :loop_amen` naar `sample_naam = :loop_garzul, en we veranderen "
+"deze op vele plaatsen binnen onze code door de magie van variabelen."
 
 #: 05.6-Variables.md:101
 msgid "Capturing Results"
-msgstr ""
+msgstr "Vastleggen van de resultaten"
 
 #: 05.6-Variables.md:103
 msgid ""
 "Finally, a good motivation for using variables is to capture the results of "
 "things. For example, you may wish to do things with the duration of a sample:"
 msgstr ""
+"Tot slot, een goede motivatie om variabelen te gaan gebruiken is om "
+"resultaten van zaken vast te leggen. Misschien wilt u bijvoorbeeld iets doen "
+"met de duur van een sample:"
 
 #: 05.6-Variables.md:107
 #, no-wrap
 msgid "sd = sample_duration(:loop_amen)"
-msgstr ""
+msgstr "sd = sample_duration(:loop_amen)"
 
 #: 05.6-Variables.md:111
 msgid ""
 "We can now use `sd` anywhere we need the duration of the `:loop_amen` sample."
 msgstr ""
+"We kunnen nu  'sd' overal gebruiken waar we de duur van de sample "
+"`:loop_amen` nodig hebben."
 
 #: 05.6-Variables.md:114
 msgid ""
 "Perhaps more importantly, a variable allows us to capture the result of a "
 "call to `play` or `sample`:"
 msgstr ""
+"Wat misschien nog belangrijker is, een variabele stelt ons in staat het "
+"resultaat te capteren van een oproep naar `play` of `sample`:"
 
 #: 05.6-Variables.md:117
 #, no-wrap
 msgid "s = play 50, release: 8"
-msgstr ""
+msgstr "s = play 50, release: 8"
 
 #: 05.6-Variables.md:121
 msgid ""
 "Now we have caught and remembered `s` as a variable, which allows us to "
 "control the synth as it is running:"
 msgstr ""
+"Nu hebben we  `s` gevangen en onthouden als een variabele, hetgeen ons "
+"toelaat de synth te controleren wanneer deze speelt:"
 
 #: 05.6-Variables.md:124
 #, no-wrap
@@ -5470,18 +5525,23 @@ msgid ""
 "sleep 2\n"
 "control s, note: 62"
 msgstr ""
+"s = play 50, release: 8\n"
+"sleep 2\n"
+"control s, note: 62"
 
 #: 05.6-Variables.md:130
 msgid "We'll look into controlling synths in more detail in a later section."
 msgstr ""
+"We zullen het manipuleren van synth's in een later sectie meer in detail "
+"bekijken."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
-msgstr ""
+msgstr "5.7 Het Synchroniseren van Threads"
 
 #: 05.7-Thread-Synchronisation.md:3
 msgid "Thread Synchronisation"
-msgstr ""
+msgstr "Het Synchroniseren van Threads"
 
 #: 05.7-Thread-Synchronisation.md:5
 msgid ""
@@ -5492,10 +5552,16 @@ msgid ""
 "However, when you restart the thread it is now *out of time* with the "
 "original threads."
 msgstr ""
+"Eens je het live coderen voldoende onder de knie hebt met een aantal "
+"functies en threads tezelfdertijd, dan heb je misschien opgemerkt dat het "
+"niet moeilijk is om een fout te maken in één van de threads die dodelijk kan "
+"zijn. Niet heel erg, want je kan makkelijk de thread terug herstarten door "
+"op afspelen te klikken. Maar als je de thread herstart is deze *uit de maat* "
+"met de originele threads."
 
 #: 05.7-Thread-Synchronisation.md:12
 msgid "Inherited Time"
-msgstr ""
+msgstr "Overgenomen Tijd"
 
 #: 05.7-Thread-Synchronisation.md:14
 msgid ""
@@ -5504,6 +5570,10 @@ msgid ""
 "means that threads are always in time with each other when started "
 "simultaneously."
 msgstr ""
+"Zoals we eerder hebben besproken, erven nieuwe threads gemaakt met "
+"`in_thread` alle instellingen van de bovenliggende thread. Dus ook de "
+"huidige tijd. Dit betekent dat de threads altijd synchroon met elkaar zijn "
+"als zij tegelijkertijd zijn gestart."
 
 #: 05.7-Thread-Synchronisation.md:19
 msgid ""
@@ -5511,16 +5581,20 @@ msgid ""
 "which is unlikely to be in sync with any of the other currently running "
 "threads."
 msgstr ""
+"Wanneer je een thread op zich start, begint het met zijn eigen klok die "
+"waarschijnlijk niet in sync is met een van de andere actieve threads."
 
 #: 05.7-Thread-Synchronisation.md:23
 msgid "Cue and Sync"
-msgstr ""
+msgstr "Cue en Sync"
 
 #: 05.7-Thread-Synchronisation.md:25
 msgid ""
 "Sonic Pi provides a solution to this problem with the functions `cue` and "
 "`sync`."
 msgstr ""
+"Sonic Pi biedt een oplossing voor dit probleem met de functies 'cue' en "
+"'sync'."
 
 #: 05.7-Thread-Synchronisation.md:28
 msgid ""
@@ -5528,6 +5602,10 @@ msgid ""
 "default the other threads aren't interested and ignore these heartbeat "
 "messages. However, you can easily register interest with the `sync` function."
 msgstr ""
+"'cue' laat ons toe, hartslag-berichten te sturen aan alle andere threads. "
+"Standaard zijn de andere threads niet geïnteresseerd in deze, en negeren "
+"deze hartslag-berichten. Je kan hun aandacht wel vragen met de functie "
+"'sync'."
 
 #: 05.7-Thread-Synchronisation.md:33
 msgid ""
@@ -5537,10 +5615,15 @@ msgid ""
 "`sync` you don't know how long you will wait - as `sync` waits for the next "
 "`cue` from another thread which may be soon or a long time away."
 msgstr ""
+"Het belangrijkst om weten is dat 'sync' vergelijkbaar is met `sleep` in die "
+"zin dat het de huidige thread stopt  voor een periode van tijd om om actief "
+"te zijn. Met `sleep` geef je echter aan hoe lang je wilt wachten terwijl je "
+"met 'sync' niet weet hoe lang je zal wachten -  als 'sync' op de volgende "
+"'cue' van een andere thread wacht die lang of kort kan wegblijven."
 
 #: 05.7-Thread-Synchronisation.md:40
 msgid "Let's explore this in a little more detail:"
-msgstr ""
+msgstr "Laten we dit in detail bekijken:"
 
 #: 05.7-Thread-Synchronisation.md:42
 #, no-wrap
@@ -5558,6 +5641,18 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    cue :tick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do\n"
+"    sync :tick\n"
+"    sample :drum_heavy_kick\n"
+"  end\n"
+"end"
 
 #: 05.7-Thread-Synchronisation.md:58
 msgid ""
@@ -5566,6 +5661,10 @@ msgid ""
 "thread is synchronising on `tick` messages and when it receives one it "
 "inherits the time of the `cue` thread and continues running."
 msgstr ""
+"Hier hebben we twee threads - één gedraagt zich als metronoom, zonder geluid "
+"te maken en zend elke maat enkel `:tick` hartslag-berichten uit. De tweede "
+"thread synchroniseerd op `tick` berichten en wanneer deze er één ontvangt, "
+"erft hij de `cue` tijd thread en blijft lopen."
 
 #: 05.7-Thread-Synchronisation.md:63
 msgid ""
@@ -5573,6 +5672,9 @@ msgid ""
 "other thread sends the `:tick` message, even if the two threads didn't start "
 "their execution at the same time:"
 msgstr ""
+"Als gevolg zullen wij de ': drum_heavy_kick' sample horen, precies op het "
+"moment dat de andere thread het `:tick` bericht uitzend, zelfs als de twee "
+"threads niet met de uitvoering ervan op hetzelfde moment beginnen:"
 
 #: 05.7-Thread-Synchronisation.md:67
 #, no-wrap
@@ -5591,6 +5693,19 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    cue :tick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"sleep(0.3)\n"
+"in_thread do\n"
+"  loop do\n"
+"    sync :tick\n"
+"    sample :drum_heavy_kick\n"
+"  end\n"
+"end"
 
 #: 05.7-Thread-Synchronisation.md:85
 msgid ""
@@ -5598,10 +5713,14 @@ msgid ""
 "phase with the first. However, as we're using `cue` and `sync`, we "
 "automatically sync the threads bypassing any accidental timing offsets."
 msgstr ""
+"Die ondeugende `sleep` aanroep zou doorgaans de tweede thread uit fase laten "
+"lopen met de éérste. Als we echter `cue` en `sync` gebruiken, synchroniseren "
+"we automatisch alle lopende threads die toevallige verschuivingen in timing "
+"omzeilen."
 
 #: 05.7-Thread-Synchronisation.md:90
 msgid "Cue Names"
-msgstr ""
+msgstr "Cue Namen"
 
 #: 05.7-Thread-Synchronisation.md:92
 msgid ""
@@ -5610,10 +5729,14 @@ msgid ""
 "on the correct name - otherwise they'll be waiting for ever (or at least "
 "until you press the Stop button)."
 msgstr ""
+"Je mag eender welke naam gebruiken voor jouw `cue` berichten, niet enkel "
+"`:tick`. Je hoeft er alleen voor de zorgen dat alle threads op de correcte "
+"naam `sync`-en, anders gaan ze voor eeuwig wachten (of tot je op de "
+"stopknopstop klikt tenminste)."
 
 #: 05.7-Thread-Synchronisation.md:97
 msgid "Let's play with a few `cue` names:"
-msgstr ""
+msgstr "Laten we met en paar `cue` namen spelen:"
 
 #: 05.7-Thread-Synchronisation.md:99
 #, no-wrap
@@ -5643,6 +5766,30 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do \n"
+"    cue [:foo, :bar, :baz].choose\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do \n"
+"    sync :foo \n"
+"    sample :elec_beep\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do\n"
+"    sync :bar\n"
+"    sample :elec_flip\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do\n"
+"    sync :baz\n"
+"    sample :elec_blup\n"
+"  end\n"
+"end"
 
 #: 05.7-Thread-Synchronisation.md:129
 msgid ""
@@ -5653,20 +5800,28 @@ msgid ""
 "each of the `sync` threads is randomly synced with the `cue` thread and "
 "plays its sample."
 msgstr ""
+"Hier hebben we een hoofd  `cue` loop die random de heartbeat namen `:foo`, "
+"`:bar` or `:baz`uitzend. We hebben ook drie loop threads die elk "
+"onafhankelijk op één van die namen synct en daarbij een verschillende sample "
+"afspeeld. Het netto effect is dat we elke 0.5 beat een klank horen als wordt "
+"elk van deze 0.5 `sync` threads random ge-synct wordt met de `cue` thread en "
+"zijn sample speelt."
 
 #: 05.7-Thread-Synchronisation.md:136
 msgid ""
 "This of course also works if you order the threads in reverse as the `sync` "
 "threads will simply sit and wait for the next `cue`."
 msgstr ""
+"Dit werkt natuurlijk ook als jen de threads omgekeerd ordend omdat de`sync` "
+"threads gewoon op de volgende `cue` zitten wachten."
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr ""
+msgstr "6 FX"
 
 #: 06-FX.md:3
 msgid "Studio FX"
-msgstr ""
+msgstr "Studio FX"
 
 #: 06-FX.md:5
 msgid ""
@@ -5675,6 +5830,10 @@ msgid ""
 "some reverb to parts of your piece, or some echo or perhaps even distort or "
 "wobble your basslines."
 msgstr ""
+"Een van de meest lonende en leuke aspecten van Sonic Pi is de mogelijkheid "
+"om gemakkelijk  studio-effecten aan uw geluiden toe te voegen . "
+"Bijvoorbeeld, op sommige delen van je muziekstuk een reverb toevoegen, of "
+"wat echo of misschien zelfs distortion op je  wobbelende basslijnen."
 
 #: 06-FX.md:10
 msgid ""
@@ -5685,10 +5844,17 @@ msgid ""
 "modify the opts of the FX whilst it's still running. So, for example, you "
 "could increase the reverb on your bass throughout the track..."
 msgstr ""
+"Sonic Pi biedt een erg simpele, doch krachtige manier om effecten toe te "
+"voegen. Je kan deze zelfs in een ketting aan elkaar schakelen (dus kan je je "
+"klanken doogeven via distortion, dan echo-delay en dan reverb) en de effect-"
+"modules apart besturen (op een vergelijkbare manier dat je dat met de "
+"parameters van een synth of sampler zou doen). Je kan zelfs de opties "
+"modifiëren terwijl deze nog steeds loopt. Dus, bijvoorbeeld, je zou de "
+"reverb op je bas kunnen verhogen terwijl de track loopt..."
 
 #: 06-FX.md:18
 msgid "Guitar Pedals"
-msgstr ""
+msgstr "Gitaar Pedalen"
 
 #: 06-FX.md:20
 msgid ""
@@ -5700,11 +5866,20 @@ msgid ""
 "another cable and connect (chain) a reverb pedal. The output of the reverb "
 "pedal can then be plugged into the amplifier:"
 msgstr ""
+"Als dit allemaal een beetje ingewikkeld klinkt, maak je geen zorgen. Eens je "
+"hiermee een beetje speelt, zal het allemaal duidelijk worden. Maar voor je "
+"eraan begint, moet je weten dat het een werkt zoals bij gitaar effecten "
+"pedalen. Er zijn verschillende effect-pedalen te koop. Sommigen voegen een "
+"reverb-klank toe, andere distortion enz. Een gitarist zal zij of haar gitaar "
+"in één van de effect-pedalen pluggen, bv. distortion, en zal dan bvb een "
+"reverb effect in de uitgang van de eerste pedaal pluggen om het geluid door "
+"te schakelen (chain=ketting). De uitgang van de reverb-pedaal kan dan in de "
+"versterker geplugt worden:"
 
 #: 06-FX.md:29
 #, no-wrap
 msgid "Guitar -> Distortion -> Reverb -> Amplifier"
-msgstr ""
+msgstr "Gitaar -> Distortion -> Reverb -> Amplifier (Versterker)"
 
 #: 06-FX.md:33
 msgid ""
@@ -5716,40 +5891,55 @@ msgid ""
 "but instead of needing someone else to control things for you, that's where "
 "the computer steps in."
 msgstr ""
+"Dit heet FX chaining. Sonic Pi ondersteunt precies dit. Bovendien heeft elke "
+"pedaal vaak wijzerplaten en schuifregelaars zodat je kan bepalen hoeveel "
+"distortion, reverb, echo enz je kan toepassen. Sonic Pi ondersteunt ook dit "
+"soort controle. Tot slot kan je je bvb gitaristen voorstellen en dat iemand "
+"anders  met de FX-besturingselementen speelt, terwijl zij aan het spelen "
+"zijn. Sonic Pi ondersteunt dit ook- maar in plaats van dat iemand anders  "
+"dingen voor jou controleert, doet de computer dit."
 
 #: 06-FX.md:42
 msgid "Let's explore FX!"
-msgstr ""
+msgstr "Laten we FX verkennen!"
 
 #: 06.1-Adding-FX.md:1
 msgid "6.1 Adding FX"
-msgstr ""
+msgstr "6.1 FX  Toevoegen"
 
 #: 06.1-Adding-FX.md:3
 msgid "Adding FX"
-msgstr ""
+msgstr "FX  Toevoegen"
 
 #: 06.1-Adding-FX.md:5
 msgid ""
 "In this section we'll look at a couple of FX: reverb and echo. We'll see how "
 "to use them, how to control their opts and how to chain them."
 msgstr ""
+"In deze sectie zullen we naar een paar Effecten kijken : reverb en echo. We "
+"zullen zien hoe ze te gebruiken, hoe hun opts te besturen en hoe ze te "
+"chainen."
 
 #: 06.1-Adding-FX.md:9
 msgid ""
 "Sonic Pi's FX system uses blocks. So if you haven't read section 5.1 you "
 "might want to take a quick look and then head back."
 msgstr ""
+"Sonic Pi's FX systeem maakt gebruik van blokken. Dus als je die niet hebt "
+"gelezen in sectie 5.1 Kan je hier snel naar kijken en kom dan naar hier "
+"terug."
 
 #: 06.1-Adding-FX.md:12
 msgid "Reverb"
-msgstr ""
+msgstr "Reverb"
 
 #: 06.1-Adding-FX.md:14
 msgid ""
 "If we want to use reverb we write `with_fx :reverb` as the special code to "
 "our block like this:"
 msgstr ""
+"Als we reverb willen gebruiken schrijven we `with_fx :reverb` als speciale "
+"code naar ons blok als volgt:"
 
 #: 06.1-Adding-FX.md:17
 #, no-wrap
@@ -5762,16 +5952,26 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:27
 msgid ""
 "Now play this code and you'll hear it played with reverb. It sounds good, "
 "doesn't it! Everything sounds pretty nice with reverb."
 msgstr ""
+"Speel deze code nu en hoor dat deze met reverb wordt gespeeld. Dat klinkt "
+"goed, niet?Alles klinkt vrij aardig met een reverb."
 
 #: 06.1-Adding-FX.md:30
 msgid "Now let's look what happens if we have code outside the do/end block:"
 msgstr ""
+"Laten we nu kijken wat er gebeurt als we buiten het do/end blok code hebben:"
 
 #: 06.1-Adding-FX.md:32
 #, no-wrap
@@ -5786,18 +5986,30 @@ msgid ""
 "sleep 1\n"
 "play 55"
 msgstr ""
+"with_fx :reverb do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end\n"
+"sleep 1\n"
+"play 55"
 
 #: 06.1-Adding-FX.md:45
 msgid ""
 "Notice how the final `play 55` isn't played with reverb. This is because it "
 "is *outside* the do/end block, so it isn't captured by the reverb FX."
 msgstr ""
+"Merk op hoe de laatste 'play 55' niet met reverb gespeeld wordt. Dit is "
+"omdat het *buiten* het do/end blok staat, en dus niet door de reverb FX "
+"gecapteerd wordt."
 
 #: 06.1-Adding-FX.md:48
 msgid ""
 "Similarly, if you make sounds before the do/end block, they also won't be "
 "captured:"
-msgstr ""
+msgstr "Zo zullen klanken vòòr het do/end blok ook niet gecapteerd worden:"
 
 #: 06.1-Adding-FX.md:51
 #, no-wrap
@@ -5814,14 +6026,25 @@ msgid ""
 "sleep 1\n"
 "play 55"
 msgstr ""
+"play 55\n"
+"sleep 1\n"
+"with_fx :reverb do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end\n"
+"sleep 1\n"
+"play 55"
 
 #: 06.1-Adding-FX.md:67
 msgid "Echo"
-msgstr ""
+msgstr "Echo"
 
 #: 06.1-Adding-FX.md:69
 msgid "There are many FX to choose from. How about some echo?"
-msgstr ""
+msgstr "Er zijn effecten om uit te kiezen. Wat dacht je van wat echo?"
 
 #: 06.1-Adding-FX.md:71
 #, no-wrap
@@ -5834,6 +6057,13 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :echo do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:81
 msgid ""
@@ -5857,7 +6087,7 @@ msgstr ""
 
 #: 06.1-Adding-FX.md:97
 msgid "Let's also make the echo faster:"
-msgstr ""
+msgstr "Laten we de echo sneller maken:"
 
 #: 06.1-Adding-FX.md:99
 #, no-wrap
@@ -5870,12 +6100,21 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :echo, phase: 0.125 do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:109
 msgid ""
 "Let's make the echo take longer to fade away by setting the `decay:` time to "
 "8 beats:"
 msgstr ""
+"Laat ons de echo langer uit faden door de `decay:` tijd in te stellen naar 8 "
+"beats:"
 
 #: 06.1-Adding-FX.md:112
 #, no-wrap
@@ -5888,10 +6127,17 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :echo, phase: 0.5, decay: 8 do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:122
 msgid "Nesting FX"
-msgstr ""
+msgstr "Effecten nesten"
 
 #: 06.1-Adding-FX.md:124
 msgid ""
@@ -5900,6 +6146,10 @@ msgid ""
 "wanted to play some code with echo and then with reverb? Easy, just put one "
 "inside the other:"
 msgstr ""
+"Een van de krachtigste aspecten van de FX-blokken is dat u hen kunt nesten. "
+"Hierdoor kan je heel gemakkelijk een FX keten samenstellen. Bijvoorbeeld, "
+"wat als je wat code met echo  wilde spelen en vervolgens met een reverb? "
+"Gemakkelijk, zet de één gewoon in de andere:"
 
 #: 06.1-Adding-FX.md:129
 #, no-wrap
@@ -5914,6 +6164,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :echo, phase: 0.5, decay: 8 do\n"
+"    play 50\n"
+"    sleep 0.5\n"
+"    sample :elec_blup\n"
+"    sleep 0.5\n"
+"    play 62\n"
+"  end\n"
+"end"
 
 #: 06.1-Adding-FX.md:141
 msgid ""
@@ -5921,6 +6180,10 @@ msgid ""
 "within the inner do/end block such as `play 50` is first sent to the echo FX "
 "and the sound of the echo FX is in turn sent out to the reverb FX."
 msgstr ""
+"Denk aan de audio als zou deze van binnenuit stromen. Het geluid van alle "
+"code binnen het binnenste do/end blok zoals 'play 50' wordt eerst verzonden "
+"naar de echo FX en het geluid van de echo FX wordt op zijn beurt verstuurd "
+"naar de reverb FX."
 
 #: 06.1-Adding-FX.md:146
 msgid ""
@@ -5929,10 +6192,14 @@ msgid ""
 "multiple FX simultaneously. So be sparing with your use of FX especially on "
 "low powered platforms such as the Raspberry Pi."
 msgstr ""
+"We kunnen heel diep nestings gebruiken voor een gek resultaten. Maar wees "
+"gewaarschuwd, de FX kunnen veel cpu gebruiken wanneer u effectief meerdere "
+"effecten nest die gelijktijdig worden uitgevoerd. Wees dus spaarzaam op uw "
+"gebruik van effecten zeker op laag aangedreven platforms zoals  Raspberry Pi."
 
 #: 06.1-Adding-FX.md:151
 msgid "Discovering FX"
-msgstr ""
+msgstr "Effecten ontdekken"
 
 #: 06.1-Adding-FX.md:153
 msgid ""
@@ -5941,38 +6208,44 @@ msgid ""
 "and you'll see a list of available options. Here's a list of some of my "
 "favourites:"
 msgstr ""
+"Sonic Pi wordt  met een groot aantal effecten geleverd om mee te spelen. Als "
+"j wil weten welke er beschikbaar zijn, klik op FX in het linkeruiteinde van "
+"het help-systeem en je zal een lijst van beschikbare opties zien. Hier is "
+"een lijst van enkele van mijn favorieten:"
 
 #: 06.1-Adding-FX.md:158
 msgid "wobble,"
-msgstr ""
+msgstr "wobble,"
 
 #: 06.1-Adding-FX.md:159
 msgid "reverb,"
-msgstr ""
+msgstr "reverb,"
 
 #: 06.1-Adding-FX.md:160
 msgid "echo,"
-msgstr ""
+msgstr "echo,"
 
 #: 06.1-Adding-FX.md:161
 msgid "distortion,"
-msgstr ""
+msgstr "distortion,"
 
 #: 06.1-Adding-FX.md:162
 msgid "slicer"
-msgstr ""
+msgstr "slicer"
 
 #: 06.1-Adding-FX.md:164
 msgid "Now go crazy and add FX everywhere for some amazing new sounds!"
 msgstr ""
+"Doe nu maar eens goed gek en zet overal effecten op voor wat "
+"verbazingwekkende nieuwe geluiden!"
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
-msgstr ""
+msgstr "6.2 FX in de praktijk"
 
 #: 06.2-FX-in-Practice.md:3
 msgid "FX in Practice"
-msgstr ""
+msgstr "FX in de praktijk"
 
 #: 06.2-FX-in-Practice.md:5
 msgid ""
@@ -5983,10 +6256,15 @@ msgid ""
 "about how much work you ask it to do if you want to ensure the beats keep "
 "flowing."
 msgstr ""
+"Hoewel ze eenvoudig aan de buitenkant lijken, zijn effecten best complexe "
+"beesten intern. Hun eenvoud verleid mensen ertoe ze te gaan overgebruiken. "
+"Dit kan goed gaan op een krachtige machine, maar als je zoals ik een "
+"Raspberry Pi gebruikt om mee te jammen, met je voorzichtig zijn met de "
+"gevraagde werkkracht als je zeker wil zijn van een goede flow van jouw beats."
 
 #: 06.2-FX-in-Practice.md:12
 msgid "Consider this code:"
-msgstr ""
+msgstr "Bekijk even deze code:"
 
 #: 06.2-FX-in-Practice.md:14
 #, no-wrap
@@ -5998,6 +6276,12 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"loop do\n"
+"  with_fx :reverb do\n"
+"    play 60, release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: 06.2-FX-in-Practice.md:23
 msgid ""
