@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-01 09:48+0000\n"
+"PO-Revision-Date: 2016-07-05 09:53+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -1583,15 +1583,14 @@ msgid "Decay Level"
 msgstr "ディケイレベル"
 
 #: 02.4-Durations-with-Envelopes.md:172
-#, fuzzy
 msgid ""
 "One last trick is that although the `decay_level:` opt defaults to be the same"
 " value as `sustain_level:` you can explicitly set them to different values for"
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"最後の仕掛けは、`decay_level:`オプションがデフォルトでは`sustain_level:`と同じ値に設定されていて、エンベロープを完全に制御した"
-"い場合に明示的に別な値に設定できることです。 これにより次のようなエンベロープを作ることができるでしょう。"
+"最後の仕掛けは、`decay_level:`オプションがデフォルトでは`sustain_level:`と同じ値に設定されていて、エンベロープを完全に制御し"
+"たい場合に明示的に別な値に設定できることです。 これにより次のようなエンベロープを作ることができるでしょう。"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1835,32 +1834,27 @@ msgid "Now start mixing samples into your compositions!"
 msgstr "さあ、あなたの曲でサンプルのミックスを始めてみましょう！"
 
 #: 03.2-Sample-Params.md:1
-#, fuzzy
 msgid "3.2 Sample Parameters"
 msgstr "3.2 サンプル・パラメータ"
 
 #: 03.2-Sample-Params.md:3
-#, fuzzy
 msgid "Sample Parameters: Amp and Pan"
 msgstr "サンプル・パラメータ：アンプとパン"
 
 #: 03.2-Sample-Params.md:5
-#, fuzzy
 msgid ""
 "As we saw with synths, we can easily control our sounds with parameters. Sampl"
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
-"シンセの項目で見てきたように、パラメータで簡単にサウンドを制御することができます。 サンプルは全く同じパラメータの仕組みを備えています。何度も登場する、`a"
-"mp:`と `pan:`をもう一度見てみましょう。"
+"シンセの項目で見てきたように、パラメータで簡単にサウンドを制御することができます。 "
+"サンプルは全く同じパラメータの仕組みを備えています。何度も登場する、`amp:`と `pan:`をもう一度見てみましょう。"
 
 #: 03.2-Sample-Params.md:9
-#, fuzzy
 msgid "Amping samples"
 msgstr "サンプルをアンピングする"
 
 #: 03.2-Sample-Params.md:11
-#, fuzzy
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
@@ -1872,19 +1866,17 @@ msgid "sample :ambi_lunar_land, amp: 0.5"
 msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
-#, fuzzy
 msgid "Panning samples"
 msgstr "サンプルをパンする"
 
 #: 03.2-Sample-Params.md:20
-#, fuzzy
 msgid ""
 "We're also able to use the `pan:` parameter on samples. For example, here's ho"
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
-"サンプルで`pan:`のパラメータを使うこともできます。例えば、定番のドラムフレーズの アーメン・ブレイクを左耳で聞いた後に、半分は通過して再度右耳で聞く方"
-"法です。"
+"サンプルで`pan:`のパラメータを使うこともできます。例えば、定番のドラムフレーズの "
+"アーメン・ブレイクを左耳で聞いた後に、半分は通過して再度右耳で聞く方法です。"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -1898,45 +1890,38 @@ msgstr ""
 "sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
-#, fuzzy
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr "0.877 は、`:loop_amen`サンプルの半分の再生時間であることに注意してください。"
 
 #: 03.2-Sample-Params.md:33
-#, fuzzy
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr "そして、`use_synth_defaults`（あとで説明します）をシンセに設定している場合、 サンプルはこれを無視して再生します。"
 
 #: 03.3-Stretching-Samples.md:1
-#, fuzzy
 msgid "3.3 Stretching Samples"
 msgstr "3.3 サンプルを引き延ばす"
 
 #: 03.3-Stretching-Samples.md:3
-#, fuzzy
 msgid "Stretching Samples"
 msgstr "サンプルを引き延ばす"
 
 #: 03.3-Stretching-Samples.md:5
-#, fuzzy
 msgid ""
 "Now that we can play a variety of synths and samples to create some music, it'"
 "s time to learn how to modify both the synths and samples to make the music ev"
 "en more unique and interesting. First, let's explore the ability to *stretch* "
 "and *squash* samples."
 msgstr ""
-"すでに私たちは、音楽を作るために様々なシンセやサンプルを演奏することができます。そろそろ、音楽をもっとユニークで面白くするために、シンセとサンプルを編集する"
-"方法を学ぶ時間です。まずは、サンプルを引き延ばしたり圧縮する方法をみてみましょう。"
+"すでに私たちは、音楽を作るために様々なシンセやサンプルを演奏することができます。そろそろ、音楽をもっとユニークで面白くするために、シンセとサンプルを編集す"
+"る方法を学ぶ時間です。まずは、サンプルを引き延ばしたり圧縮する方法をみてみましょう。"
 
 #: 03.3-Stretching-Samples.md:10
-#, fuzzy
 msgid "Sample Representation"
 msgstr "サンプルで表現する"
 
 #: 03.3-Stretching-Samples.md:12
-#, fuzzy
 msgid ""
 "Samples are pre-recorded sounds stored as numbers which represent how to move "
 "the speaker cone to reproduce the sound. The speaker cone can move in and out,"
@@ -1948,25 +1933,23 @@ msgid ""
 "d. However, it's also fun to change the speed with which the numbers are fed t"
 "o the speaker to change the sound."
 msgstr ""
-"サンプルとは、あらかじめ録音されたサウンドで、サウンドを再生するためにスピーカーのコーン（振動板）をどう動かすかを表す数値が格納されています。スピーカーのコ"
-"ーンは行ったり来たり（振動）するため、数値は、その時々でコーンがどれくらいの距離を行ったり来たりすべきかをその時々で表す必要があります。録音された音を忠実に"
-"再生するために、サンプルは概して1秒間に何千もの数値を格納しておく必要があるのです！Sonic Piはこの数値のリストを使って、適切なスピードでサウンドを再"
-"生するための正しい方法をあなたのコンピューターのスピーカーに伝え、振動させるのです。けれども、サウンドを変えるためにスピーカーに与えられる数値のスピードを変"
-"えるのも楽しいですよ。"
+"サンプルとは、あらかじめ録音されたサウンドで、サウンドを再生するためにスピーカーのコーン（振動板）をどう動かすかを表す数値が格納されています。スピーカーの"
+"コーンは行ったり来たり（振動）するため、数値は、その時々でコーンがどれくらいの距離を行ったり来たりすべきかをその時々で表す必要があります。録音された音を忠"
+"実に再生するために、サンプルは概して1秒間に何千もの数値を格納しておく必要があるのです！Sonic Piはこの数値のリストを使って、適切なスピードでサウン"
+"ドを再生するための正しい方法をあなたのコンピューターのスピーカーに伝え、振動させるのです。けれども、サウンドを変えるためにスピーカーに与えられる数値のスピ"
+"ードを変えるのも楽しいですよ。"
 
 #: 03.3-Stretching-Samples.md:23
-#, fuzzy
 msgid "Changing Rate"
 msgstr "レートを変える"
 
 #: 03.3-Stretching-Samples.md:25
-#, fuzzy
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
-"アンビエント・サウンドのひとつ、`:ambi_choir`で演奏してみましょう。デフォルト（既定値）で演奏するには、`sample`に`rate:` のオプ"
-"ションを渡します。"
+"アンビエント・サウンドのひとつ、`:ambi_choir`で演奏してみましょう。デフォルト（既定値）のレートで演奏するには、`sample`に`rate:"
+"` のオプションを渡します。"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
@@ -1974,13 +1957,12 @@ msgid "sample :ambi_choir, rate: 1"
 msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
-#, fuzzy
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
-"これはデフォルト（既定値）のレート（速度）1で演奏するので、まだ何も変わったところはありません。ですが、数値を何か他の値に変えてもよいのです。`0.5`はど"
-"うでしょう。"
+"これはデフォルト（既定値）のレート（速度）1で演奏するので、まだ何も変わったところはありません。ですが、数値を何か他の値に変えてもよいのです。`0.5`は"
+"どうでしょう。"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
@@ -1988,28 +1970,25 @@ msgid "sample :ambi_choir, rate: 0.5"
 msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
-#, fuzzy
 msgid ""
 "Woah! What's going on here? Well, two things. Firstly, the sample takes twice "
 "as long to play, secondly the sound is an octave lower. Let's explore these th"
 "ings in a little more detail."
 msgstr ""
-"ワオ！何が起きたのでしょう？そう、2つのことが起こりました。一つ目は、サンプルは再生に2倍の時間をかけていました。二つ目は、サウンドは1オクターブ低くなって"
-"いました。もう少し詳しく、これらのことを探ってみましょう。"
+"ワオ！何が起きたのでしょう？そう、2つのことが起こりました。一つ目は、サンプルは再生に2倍の時間をかけていました。二つ目は、サウンドは1オクターブ低くなっ"
+"ていました。もう少し詳しく、これらのことを探ってみましょう。"
 
 #: 03.3-Stretching-Samples.md:43
-#, fuzzy
 msgid "Let's stretch"
 msgstr "引き延ばしてみる"
 
 #: 03.3-Stretching-Samples.md:45
-#, fuzzy
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
-"引き延ばしたり圧縮したりして楽しいサンプルは、定番のアーメン・ブレイクです。 通常のレートでは、*ドラムン・ベース（音楽ジャンルのひとつ）*のトラックを思わ"
-"せます。"
+"引き延ばしたり圧縮したりして楽しいサンプルは、定番のアーメン・ブレイクです。 "
+"通常のレートでは、*ドラムン・ベース（音楽ジャンルのひとつ）*のトラックを思わせます。"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
@@ -2018,13 +1997,12 @@ msgid "sample :loop_amen"
 msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
-#, fuzzy
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
 msgstr ""
-":loop_amenですが、レート（速度）を変えると、音楽のジャンルが切り替わったように聞こえます。 半分のスピードにすると、*オールドスクールのヒップホッ"
-"プ*に。"
+":loop_amenですが、レート（速度）を変えると、音楽のジャンルが切り替わったように聞こえます。 "
+"半分のスピードにすると、*オールドスクールのヒップホップ*に。"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
@@ -2032,7 +2010,6 @@ msgid "sample :loop_amen, rate: 0.5"
 msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
-#, fuzzy
 msgid "If we speed it up, we enter *jungle* territory:"
 msgstr "スピードを上げると、*ジャングル*のジャンルになりますね。"
 
@@ -2042,7 +2019,6 @@ msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
-#, fuzzy
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative ra"
 "te:"
@@ -2054,22 +2030,19 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
-#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
 msgstr ""
-"ワオ！逆再生！いろいろな異なったサンプルで、異なったレートで演奏してみましょう。ものすごく速い数値や、おかしなくらいゆっくりになる数値を使って、どんなおもし"
-"ろいサウンドを作れるか、試してみましょう。"
+"ワオ！逆再生！いろいろな異なったサンプルで、異なったレートで演奏してみましょう。ものすごく速い数値や、おかしなくらいゆっくりになる数値を使って、どんなおも"
+"しろいサウンドを作れるか、試してみましょう。"
 
 #: 03.3-Stretching-Samples.md:76
-#, fuzzy
 msgid "A Simple Explanation of Sample Rate"
 msgstr "サンプル・レートの解説"
 
 #: 03.3-Stretching-Samples.md:78
-#, fuzzy
 msgid ""
 "A useful way to think of samples is as springs. Playback rate is like squashin"
 "g and stretching the spring. If you play the sample at rate 2, you're *squashi"
@@ -2080,49 +2053,44 @@ msgid ""
 "rate), the shorter it gets, the more you stretch (lower rate), the longer it g"
 "ets."
 msgstr ""
-"サンプルは、バネのように考えると便利です。再生速度（プレイバック）は、バネを縮めたり伸ばしたりするようなものです。もしサンプルをレート 2 で再生した場合、"
-"通常の長さの半分に、*バネを縮める*ことになります。ですので、サンプルは半分の時間で演奏するので、より短くなります。もしサンプルを半分のレートで再生した場合"
-"、2倍の長さに*バネを伸ばす*ことになります。そのため、サンプルは再生に2倍の時間をかけるため、より長くなるのです。もっと縮める（レートを上げる）と、短く再"
-"生され、さらに伸ばす（レートを下げる）と、さらに長く再生されます。"
+"サンプルは、バネのように考えると便利です。再生速度（プレイバック）は、バネを縮めたり伸ばしたりするようなものです。もしサンプルをレート 2 で再生した場合"
+"、通常の長さの半分に、*バネを縮める*ことになります。ですので、サンプルは半分の時間で演奏するので、より短くなります。もしサンプルを半分のレートで再生した"
+"場合、2倍の長さに*バネを伸ばす*ことになります。そのため、サンプルは再生に2倍の時間をかけるため、より長くなるのです。もっと縮める（レートを上げる）と、"
+"短く再生され、さらに伸ばす（レートを下げる）と、さらに長く再生されます。"
 
 #: 03.3-Stretching-Samples.md:87
-#, fuzzy
 msgid ""
 "Compressing a spring increases its density (the number of coils per cm) - this"
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
 msgstr ""
-"バネを縮めることは、その密度（1cm あたりのコイルの数）を増やすことです。これは*高いピッチ（音程）*のサンプルに近づくことになります。バネを伸ばすことは"
-"、密度を減らすことで、*低いピッチ（音程）*のサウンドに近づいていきます。"
+"バネを縮めることは、その密度（1cm あたりのコイルの数）を増やすことです。これは*高いピッチ（音程）*のサンプルに近づくことになります。バネを伸ばすこと"
+"は、密度を減らすことで、*低いピッチ（音程）*のサウンドに近づいていきます。"
 
 #: 03.3-Stretching-Samples.md:93
-#, fuzzy
 msgid "The Maths Behind Sample Rate"
 msgstr "サンプル・レートの背後にある計算"
 
 #: 03.3-Stretching-Samples.md:95
-#, fuzzy
 msgid ""
 "(This section is provided for those that are interested in the details. Please"
 " feel free to skip it...)"
 msgstr "（このセクションはさらに細かい部分に興味がある人向けです。飛ばしても構いませんよ・・・。）"
 
 #: 03.3-Stretching-Samples.md:98
-#, fuzzy
 msgid ""
 "As we saw above, a sample is represented by a big long list of numbers represe"
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
 msgstr ""
-"上記で見てきたように、サンプルは、スピーカーが一定の時間でどのように振動すべきかを表現した長大な 数値のリストによって表されています。この数値のリストで、こ"
-"れと同じようなグラフを描いてみます。"
+"上記で見てきたように、サンプルは、スピーカーが一定の時間でどのように振動すべきかを表現した長大な "
+"数値のリストによって表されています。この数値のリストで、これと同じようなグラフを描いてみます。"
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
-#, fuzzy
 msgid ""
 "You might have seen pictures like this before. It's called the *waveform* of a"
 " sample. It's just a graph of numbers. Typically a waveform like this will hav"
@@ -2134,38 +2102,32 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
-"あなたはこれと同じような図を、以前に見たことがあるかも知れません。これはサンプルの*波形*と呼ばれるものです。これは数値のグラフです。このような波形はだいた"
-"い、1秒間に44100ポイントのデータを有しています（これはナイキスト・シャノンのサンプリング定理によるものです）。サンプルが2秒間続くなら、スピーカーに1"
-"秒間に44100ポイントのレート（長さ）を与えることで88200の数値で表現されます。もちろん、1秒間に88200ポイントで、2倍のレートとすることもできま"
-"す。ですので、これは1秒間で再生されます。1秒間に22050ポイントで、半分のレートで再生することも可能です。この場合、4秒で再生されます。"
+"あなたはこれと同じような図を、以前に見たことがあるかも知れません。これはサンプルの*波形*と呼ばれるものです。これは数値のグラフです。このような波形はだい"
+"たい、1秒間に44100ポイントのデータを有しています（これはナイキスト・シャノンのサンプリング定理によるものです）。サンプルが2秒間続くなら、スピーカー"
+"に1秒間に44100ポイントのレート（長さ）を与えることで88200の数値で表現されます。もちろん、1秒間に88200ポイントで、2倍のレートとすることも"
+"できます。ですので、これは1秒間で再生されます。1秒間に22050ポイントで、半分のレートで再生することも可能です。この場合、4秒で再生されます。"
 
 #: 03.3-Stretching-Samples.md:116
-#, fuzzy
 msgid "The duration of the sample is affected by the playback rate:"
 msgstr "サンプルのデュレーションは、再生するレートに影響を与えます。"
 
 #: 03.3-Stretching-Samples.md:118
-#, fuzzy
 msgid "Doubling the playback rate halves the playback time,"
 msgstr "2倍の再生レートは、再生時間を半分にする"
 
 #: 03.3-Stretching-Samples.md:119
-#, fuzzy
 msgid "Halving the playback rate doubles the playback time,"
 msgstr "半分の再生レートは、再生時間を2倍にする"
 
 #: 03.3-Stretching-Samples.md:120
-#, fuzzy
 msgid "Using a playback rate of one fourth quadruples the playback time,"
 msgstr "4分の1の再生レートは、再生時間を4倍にする"
 
 #: 03.3-Stretching-Samples.md:121
-#, fuzzy
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
 msgstr "10分の1の再生レートは、10倍長く再生させる"
 
 #: 03.3-Stretching-Samples.md:123
-#, fuzzy
 msgid "We can represent this with the formula:"
 msgstr "これを以下の数式で表します。"
 
@@ -2175,7 +2137,6 @@ msgid "new_sample_duration = (1 / rate) * sample_duration "
 msgstr "new_sample_duration = (1 / rate) * sample_duration "
 
 #: 03.3-Stretching-Samples.md:129
-#, fuzzy
 msgid ""
 "Changing the playback rate also affects the pitch of the sample. The frequency"
 " or pitch of a waveform is determined by how fast it moves up and down. Our br"
@@ -2184,12 +2145,11 @@ msgid ""
 "speaker move as it pumps out super low bass - it's actually moving a lot slowe"
 "r in and out than a speaker producing higher notes."
 msgstr ""
-"再生レートを変えることは、サンプルのピッチ（音程）にも影響します。周波数や波形のピッチがどれくらい速く上下に動くかで決定されます。我々の脳は、どういうわけか"
-"、スピーカーの速い動きを高い音階に、遅い動きを低い音階に捉えます。だからあなたは時々、大きなベース・スピーカーが超低音を吐き出すのを見ることができるのです。"
-"実際に高い音を出しているときのスピーカーよりも、ゆっくりと振動しているのです。"
+"再生レートを変えることは、サンプルのピッチ（音程）にも影響します。周波数や波形のピッチがどれくらい速く上下に動くかで決定されます。我々の脳は、どういうわけ"
+"か、スピーカーの速い動きを高い音階に、遅い動きを低い音階に捉えます。だからあなたは時々、大きなベース・スピーカーが超低音を吐き出すのを見ることができるので"
+"す。実際に高い音を出しているときのスピーカーよりも、ゆっくりと振動しているのです。"
 
 #: 03.3-Stretching-Samples.md:137
-#, fuzzy
 msgid ""
 "If you take a waveform and squash it it will move up and down more times per s"
 "econd. This will make it sound higher pitched. It turns out that doubling the "
@@ -2198,9 +2158,10 @@ msgid ""
 "*halving the rate will halve the frequency*. Other rates will affect the frequ"
 "ency accordingly."
 msgstr ""
-"もし波形を取り出して圧縮したら、1秒間でさらに頻繁に上下します。これがサウンドをより高い音にするのです。 上下の運動を2倍にすると、周波数が2倍になるという"
-"ことになります。 そのため、*サンプルを2倍のレートで再生すると、聞こえる周波数が2倍になる*ということです。 また、*レートを半分にすると、周波数が半分に"
-"なる*ということでもあります。他のレートはそれに応じて周波数に影響します。"
+"もし波形を取り出して圧縮したら、1秒間でさらに頻繁に上下します。これがサウンドをより高い音にするのです。 "
+"上下の運動を2倍にすると、周波数が2倍になるということになります。 "
+"そのため、*サンプルを2倍のレートで再生すると、聞こえる周波数が2倍になる*ということです。 "
+"また、*レートを半分にすると、周波数が半分になる*ということでもあります。他のレートはそれに応じて周波数に影響します。"
 
 #: 03.4-Enveloped-Samples.md:1
 #, fuzzy
