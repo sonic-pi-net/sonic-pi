@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-06 01:29+0000\n"
-"Last-Translator: Cristian Cabrera <surrealcristian@gmail.com>\n"
+"PO-Revision-Date: 2016-07-06 22:30+0000\n"
+"Last-Translator: RadW2020 <eclarieurnoir@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -456,7 +456,6 @@ msgid "D. Code Editor"
 msgstr "D. Editor de código"
 
 #: 01.2-Exploring-the-Interface.md:46
-#, fuzzy
 msgid ""
 "This is the area where you'll write your code and compose/perform music. It's "
 "a simple text editor where you can write code, delete it, cut and paste, etc. "
@@ -465,20 +464,18 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"Esta es el área donde escribirás tu código y compndrás/ejecutarás música. Es u"
-"n sencillo editor de texto donde puedes escribir, borrar, cortar, pegar, etc. "
-"Piensa que es una versión simplificada de Word o Google Docs. El editor colore"
-"a las palabras utomáticamente, basado en su significado para el código.Al prin"
-"cipio, esto puede parecer extraño, pero pronto lo encontrarás muy útil. Por ej"
-"emplo, sabrás que algo es un número, porque es de color azul."
+"Esta es el área donde escribirás tu código y compondrás/ejecutarás música. "
+"Es un sencillo editor de texto donde puedes escribir, borrar, cortar, pegar, "
+"etc. Piensa que es una versión simplificada de Word o Google Docs. El editor "
+"colorea las palabras automáticamente, basado en su significado para el "
+"código. Al principio, esto puede parecer extraño, pero pronto lo encontrarás "
+"muy útil. Por ejemplo, sabrás que algo es un número, porque es de color azul."
 
 #: 01.2-Exploring-the-Interface.md:54
-#, fuzzy
 msgid "E. Prefs Panel"
 msgstr "E. Panel de Preferencias"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -486,37 +483,34 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, Toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Pi permite cambiar ciertos parámetros, accesibles a través del botón *pr"
-"eferencias* . Este botón cambia la visibilidad del panel de preferencias, el c"
-"ual incluye un número de opciones a ser cambiadas. Ejemplo de ellas son el for"
-"zar el modo mono, invertir el estéreo, cambiar a vista/no vista de la bitácora"
-", mando de volumen y un selector de audio para la Raspberry Pi"
+"Sonic Pi permite cambiar ciertos parámetros accesibles a través del botón "
+"*preferencias* . Este botón cambia la visibilidad del panel de preferencias, "
+"el cual incluye un número de opciones a ser cambiadas. Por ejemplo forzar el "
+"modo mono, invertir el estéreo, cambiar a vista/no vista de la bitácora, "
+"mando de volumen y un selector de audio para la Raspberry Pi"
 
 #: 01.2-Exploring-the-Interface.md:63
-#, fuzzy
 msgid "F. Log Viewer"
-msgstr "F. Visor de la bitácora"
+msgstr "F. Visor de Log"
 
 #: 01.2-Exploring-the-Interface.md:65
-#, fuzzy
 msgid ""
 "When you run your code, information about what the program is doing will be di"
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"Cuando ejecutas un código, la bitácora muestra información de lo que está haci"
-"endo el programa. Predeterminado está el que veas un mensaje por cada sonido q"
-"ue crees con el tiempo exacto al que fue disparado el sonido. Esto es muy útil"
-" para depurar código y entender qué es lo que está haciendo."
+"Cuando ejecutas un código, el visualizador del log muestra información de lo "
+"que está haciendo el programa. Predeterminado está el que veas un mensaje "
+"por cada sonido que crees con el tiempo exacto al que fue disparado el "
+"sonido. Esto es muy útil para depurar código y entender qué es lo que está "
+"haciendo."
 
 #: 01.2-Exploring-the-Interface.md:71
-#, fuzzy
 msgid "G. Help System"
 msgstr "G. Sistema de ayuda"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "Finally, one of the most important parts of the Sonic Pi interface is the help"
 " system which appears at the bottom of the window. This can be toggled on and "
@@ -525,39 +519,36 @@ msgid ""
 "ailable synths, samples, examples, FX and a full list of all the functions Son"
 "ic Pi provides for coding music."
 msgstr ""
-"Finalmente, una de las partes más importantes del interface de Sonic Pi es el "
-"sistema de ayuda que aparece en la parte baja de la ventana. Esta puede ser ac"
-"tivada o desactivada al apretar el botón azul «ayuda». El sistema de ayuda con"
-"tiene información de todos los aspectos de Sonic Pi incluídos en este tutorial"
-", listado de sintetizadores disponibles, sampleos, ejemplos, FX y una lista de"
-" todas las funciones que Sonic Pi provee para codificar música."
+"Finalmente, una de las partes más importantes de la interfaz de Sonic Pi es "
+"el sistema de ayuda que aparece en la parte baja de la ventana. Esta puede "
+"ser activada o desactivada al apretar el botón azul «ayuda». El sistema de "
+"ayuda contiene información de todos los aspectos de Sonic Pi incluídos en "
+"este tutorial, listado de sintetizadores disponibles, samples, ejemplos, "
+"efectos y una lista de todas las funciones que Sonic Pi provee para "
+"codificar música."
 
 #: 01.3-Learning-through-Play.md:1
-#, fuzzy
 msgid "1.3 Learning through Play"
 msgstr "1.3 Aprender jugando"
 
 #: 01.3-Learning-through-Play.md:3
-#, fuzzy
 msgid "Learning through Play"
 msgstr "Aprender jugando"
 
 #: 01.3-Learning-through-Play.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi encourages you to learn about both computing and music through play a"
 "nd experimentation. The most important thing is that you're having fun, and be"
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
-"Sonic Pi te incita a aprender computación y música a través de jugar y experim"
-"entar. Lo más importante es que te diviertas y sin darte cuenta, estarás apren"
-"diendo a codificar, componer y ejecutar."
+"Sonic Pi te incita a aprender computación y música a través de jugar y "
+"experimentar. Lo más importante es que te diviertas y sin darte cuenta, "
+"estarás aprendiendo a codificar, componer y ejecutar."
 
 #: 01.3-Learning-through-Play.md:10
-#, fuzzy
 msgid "There are no mistakes"
-msgstr "Los errores no existen"
+msgstr "No hay errores"
 
 #: 01.3-Learning-through-Play.md:12
 #, fuzzy
