@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-02 15:48+0000\n"
+"PO-Revision-Date: 2016-07-06 23:09+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -1243,14 +1243,12 @@ msgstr ""
 "dźwięki za pomocą opcji amplituda (amp:) i balans (pan:)!"
 
 #: 02.3-Switching-Synths.md:1
-#, fuzzy
 msgid "2.3 Switching Synths"
-msgstr "2.3 Przełączanie Syntezatorów"
+msgstr "2.3 Zmienianie Syntezatorów"
 
 #: 02.3-Switching-Synths.md:3
-#, fuzzy
 msgid "Switching Synths"
-msgstr "Przełączanie Syntezatorów"
+msgstr "Zmienianie Syntezatorów"
 
 #: 02.3-Switching-Synths.md:5
 #, fuzzy
