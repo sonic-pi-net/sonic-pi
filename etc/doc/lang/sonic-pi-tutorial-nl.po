@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-05 14:38+0000\n"
+"PO-Revision-Date: 2016-07-06 15:14+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -6001,15 +6001,17 @@ msgid ""
 "Notice how the final `play 55` isn't played with reverb. This is because it "
 "is *outside* the do/end block, so it isn't captured by the reverb FX."
 msgstr ""
-"Merk op hoe de laatste 'play 55' niet met reverb gespeeld wordt. Dit is "
+"Merk op hoe de laatste `play 55` niet met reverb gespeeld wordt. Dit is "
 "omdat het *buiten* het do/end blok staat, en dus niet door de reverb FX "
-"gecapteerd wordt."
+"gecapteerd kan worden."
 
 #: 06.1-Adding-FX.md:48
 msgid ""
 "Similarly, if you make sounds before the do/end block, they also won't be "
 "captured:"
-msgstr "Zo zullen klanken vòòr het do/end blok ook niet gecapteerd worden:"
+msgstr ""
+"Op dezelfde manier zullen klanken vòòr het do/end blok ook niet gecapteerd "
+"worden:"
 
 #: 06.1-Adding-FX.md:51
 #, no-wrap
@@ -6044,7 +6046,7 @@ msgstr "Echo"
 
 #: 06.1-Adding-FX.md:69
 msgid "There are many FX to choose from. How about some echo?"
-msgstr "Er zijn effecten om uit te kiezen. Wat dacht je van wat echo?"
+msgstr "Er zijn veel effecten te kiezen. Wat dacht je van wat echo?"
 
 #: 06.1-Adding-FX.md:71
 #, no-wrap
@@ -6072,6 +6074,11 @@ msgid ""
 "example a fun echo opt to play with is `phase:` which represents the "
 "duration of a given echo in beats. Let's make the echo slower:"
 msgstr ""
+"Één van de sterke punten van Sonic Pi's FX blokken is dat je er opties aan "
+"kunt meegeven, vergelijkbaar met de opts die we al met `play` en `sample` "
+"hebben gezien. Een plezante echo opt om mee te spelen is `phase:` die de "
+"duurtijd van een echo in tellen (Beats) weergeeft. Laat ons even de echo "
+"vertragen:"
 
 #: 06.1-Adding-FX.md:87
 #, no-wrap
@@ -6084,6 +6091,13 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :echo, phase: 0.5 do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:97
 msgid "Let's also make the echo faster:"
@@ -6113,8 +6127,8 @@ msgid ""
 "Let's make the echo take longer to fade away by setting the `decay:` time to "
 "8 beats:"
 msgstr ""
-"Laat ons de echo langer uit faden door de `decay:` tijd in te stellen naar 8 "
-"beats:"
+"Laat ons de echo over een langere tijd uitfaden door de `decay:` tijd in te "
+"stellen naar 8 beats:"
 
 #: 06.1-Adding-FX.md:112
 #, no-wrap
@@ -6192,10 +6206,11 @@ msgid ""
 "multiple FX simultaneously. So be sparing with your use of FX especially on "
 "low powered platforms such as the Raspberry Pi."
 msgstr ""
-"We kunnen heel diep nestings gebruiken voor een gek resultaten. Maar wees "
-"gewaarschuwd, de FX kunnen veel cpu gebruiken wanneer u effectief meerdere "
-"effecten nest die gelijktijdig worden uitgevoerd. Wees dus spaarzaam op uw "
-"gebruik van effecten zeker op laag aangedreven platforms zoals  Raspberry Pi."
+"We kunnen heel diep nesten en deze gebruiken voor maffe resultaten. Maar "
+"wees hierbij gewaarschuwd, want de FX kunnen veel cpu gebruiken wanneer u "
+"effectief meerdere effecten nest die gelijktijdig worden uitgevoerd. Wees "
+"dus spaarzaam op uw gebruik van effecten zeker op laag aangedreven platforms "
+"zoals  Raspberry Pi."
 
 #: 06.1-Adding-FX.md:151
 msgid "Discovering FX"
@@ -6289,6 +6304,9 @@ msgid ""
 "short note. We also want reverb so we've wrapped it in a reverb block. All "
 "good so far. Except..."
 msgstr ""
+"In deze code spelen we noot 60 met een zeer korte release tijd, dus een "
+"korte noot. We willen ook reverb, dus hebben we die in een reverb blok "
+"gewikkeld. Dat gaat goed. Behalve..."
 
 #: 06.2-FX-in-Practice.md:27
 msgid ""
@@ -6302,12 +6320,26 @@ msgid ""
 "stopped and removed is all handled by `with_fx` for you, but this takes CPU "
 "power which may be precious."
 msgstr ""
+"Laten we eens kijken wat de code doet. Vooraleerst hebben we een `loop` wat "
+"betekent dat al wat hierin zit voor eeuwig wordt herhaald. Vervolgens hebben "
+"we een `with_fx` blok. Dit betekent dat we een nieuwe reverb FX zullen "
+"creëren *elke keer de loop opnieuw aan zijn beginpositie komt *. Dit is "
+"alsof we een extra FX reverb pedaal zouden bijkrijgen, elke keer dat je aan "
+"een snaar van een gitaar plukt. Het is wel cool dat je dit kunt doen, maar "
+"het is niet altijd wat je wilt. Deze code zal bijvoorbeeld moeite hebben "
+"mooi te draaien op een Raspberry Pi. Want al het werk om de reverb te "
+"vormen, en het wachten naar het moment dat deze moet stoppen en weer "
+"weggedaan moet worden wordt allemaal voor jou gedaan door de `with_fx`, maar "
+"dat vraagt CPU kracht die kostbaar kan zijn."
 
 #: 06.2-FX-in-Practice.md:37
 msgid ""
 "How do we make it more similar to a traditional setup where our guitarist "
 "has just *one* reverb pedal which all sounds pass through? Simple:"
 msgstr ""
+"Hoe maken we deze meer vergelijkbaar met een traditionele opstelling waar "
+"onze gitarist slechts *één* reverb-pedaal heeft waardoor alle klanken "
+"passeren? Eenvoudig:"
 
 #: 06.2-FX-in-Practice.md:41
 #, no-wrap
@@ -6319,6 +6351,12 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  loop do\n"
+"    play 60, release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: 06.2-FX-in-Practice.md:50
 msgid ""
@@ -6326,10 +6364,15 @@ msgid ""
 "single reverb for all notes played in our loop. This code is a lot more "
 "efficient and would work fine on a Raspberry Pi."
 msgstr ""
+"We zetten onze loop *binnen* het blok 'with_fx'. Op deze manier maken wij "
+"slechts een enkele reverb voor alle noten die gespeeld worden in onze loop. "
+"Deze code is een stuk efficiënter en zou prima werken op een Raspberry Pi."
 
 #: 06.2-FX-in-Practice.md:54
 msgid "A compromise is to use `with_fx` over an iteration within a loop:"
 msgstr ""
+"Een compromis is het gebruik van 'with_fx' buiten van de herhaling binnen "
+"een loop:"
 
 #: 06.2-FX-in-Practice.md:56
 #, no-wrap
@@ -6343,18 +6386,31 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"loop do\n"
+"  with_fx :reverb do\n"
+"    16.times do\n"
+"      play 60, release: 0.1\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: 06.2-FX-in-Practice.md:67
 msgid ""
 "This way we've lifted the `with_fx` out of the inner part of the `loop` and "
 "we're now creating a new reverb every 16 notes."
 msgstr ""
+"Op deze manier hebben we de 'with_fx'  uit het binnenste deel van de `loop` "
+"gehaald en nu creëren we  een nieuwe reverb elke 16 noten."
 
 #: 06.2-FX-in-Practice.md:70
 msgid ""
 "This is such a common pattern that `with_fx` supports an opt to do exactly "
 "this but without having to write the `16.times` block:"
 msgstr ""
+"Deze situatie gaat in ons werk zo dikwijls terugkeren dat `with_fx` deze met "
+"een opt ondersteunt die dat zelf doet zonder de `16.times` blok te hoeven "
+"schrijven:"
 
 #: 06.2-FX-in-Practice.md:73
 #, no-wrap
@@ -6366,6 +6422,12 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"loop do\n"
+"  with_fx :reverb, reps: 16 do\n"
+"    play 60, release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: 06.2-FX-in-Practice.md:82
 msgid ""
@@ -6374,6 +6436,10 @@ msgid ""
 "you can use them both interchangeably and choose the one that feels best for "
 "you."
 msgstr ""
+"In de voorbeelden van `reps 16` en `16.times do` zullen zich beiden identiek "
+"gedragen. De `reps: 16` herhalen in wezen de code in het `do/end` blok 16 "
+"keer zodat u hen beide door elkaar kunt gebruiken en je kies gewoon de "
+"manier die voor jou het beste voelt."
 
 #: 06.2-FX-in-Practice.md:87
 msgid ""
@@ -6382,14 +6448,19 @@ msgid ""
 "characteristics. So play around and use the approach that sounds best to you "
 "whilst also working within the performance constraints of your platform."
 msgstr ""
+"Onthou, er zijn geen misstappen, enkel mogelijkheden. Echter, sommige "
+"benaderingen zullen een andere klank of een ander performant karakter "
+"hebben. Dus speel een beetje met deze verschillende benaderingen en gebruik "
+"diegene het best bij jou past en die het best samengaan met de beperkingen "
+"van de prestaties van het platform dat je gebruikt."
 
 #: 07-Control.md:1
 msgid "7 Control"
-msgstr ""
+msgstr "7 Controle"
 
 #: 07-Control.md:3
 msgid "Controlling running sounds"
-msgstr ""
+msgstr "De controle over lopende klank"
 
 #: 07-Control.md:5
 msgid ""
@@ -6398,6 +6469,10 @@ msgid ""
 "more. Each sound triggered is essentially its own sound with its own list of "
 "options set for the duration of the sound."
 msgstr ""
+"Tot nu toe hebben we gekeken hoe je synths en samples kunt activeren, en ook "
+"hun standaard opties zoals amplitude, pan, envelop-instellingen en meer te "
+"wijzigen. Elk geactiveerd geluid is wezenlijk haar eigen geluid, met een "
+"eigen lijst van opties ingesteld voor de duur van de klank."
 
 #: 07-Control.md:11
 msgid ""
@@ -6405,18 +6480,21 @@ msgid ""
 "still playing, just like you might bend a string of a guitar whilst it's "
 "still vibrating?"
 msgstr ""
+"Zou het ook niet gaaf zijn dat als je dit geluid zou kunnen veranderen "
+"terwijl het nog steeds speelt, zoals je misschien een snaar van een gitaar "
+"zou buigen terwijl deze nog trilt?"
 
 #: 07-Control.md:15
 msgid "You're in luck - this section will show you how to do exactly this."
-msgstr ""
+msgstr "Je hebt geluk- deze sectie gaat precies daarover."
 
 #: 07.1-Controlling-Running-Synths.md:1
 msgid "7.1 Controlling Running Synths"
-msgstr ""
+msgstr "7.1 De controle over lopende Synths"
 
 #: 07.1-Controlling-Running-Synths.md:3
 msgid "Controlling Running Synths"
-msgstr ""
+msgstr "Lopende Synths Contoleren"
 
 #: 07.1-Controlling-Running-Synths.md:5
 msgid ""
@@ -6425,11 +6503,16 @@ msgid ""
 "running sounds. We do this by using a variable to capture a reference to a "
 "synth:"
 msgstr ""
+"Tot nu toe hebben we onszelf alleen bezig gehouden met de triggering van "
+"nieuwe drumklanken en FX. Sonic Pi geeft ons echter de mogelijkheid op het "
+"manipuleren en controleren van de momenteel lopende klanken. We doen dit "
+"door middel van een variabele die een verwijzing naar een synthesizer "
+"opvangt:"
 
 #: 07.1-Controlling-Running-Synths.md:10
 #, no-wrap
 msgid "s = play 60, release: 5"
-msgstr ""
+msgstr "s = play 60, release: 5"
 
 #: 07.1-Controlling-Running-Synths.md:14
 msgid ""
@@ -6437,11 +6520,16 @@ msgid ""
 "note 60. Note that this is *run-local* - you can't access it from other runs "
 "like functions."
 msgstr ""
+"Hier hebben we de variabele van een run-local waarmee de synth noot 60 "
+"speelt. Merk op dat dit een *run-local* is - je kan geen toegang   hebben "
+"tot deze vanaf een andere uitvoering zoals bij functies."
 
 #: 07.1-Controlling-Running-Synths.md:18
 msgid ""
 "Once we have `s`, we can start controlling it via the `control` function:"
 msgstr ""
+"Eens we  `s` hebben, kunnen we deze beginnen tweaken via de `control` "
+"functie:"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
 #, no-wrap
@@ -6454,6 +6542,13 @@ msgid ""
 "sleep 3\n"
 "control s, note: 72"
 msgstr ""
+"s = play 60, release: 5\n"
+"sleep 0.5\n"
+"control s, note: 65\n"
+"sleep 0.5\n"
+"control s, note: 67\n"
+"sleep 3\n"
+"control s, note: 72"
 
 #: 07.1-Controlling-Running-Synths.md:31
 msgid ""
@@ -6461,16 +6556,21 @@ msgid ""
 "we're just triggering one synth and then change the pitch 3 times "
 "afterwards, while it's playing."
 msgstr ""
+"Wat je bij deze moet opmerken is dat wij hier geen 4 verschillende synths "
+"triggeren - maar slechts één synth triggeren om dan de toonhoogte 3 keer te "
+"wijzigen achteraf, terwijl deze wordt afgespeeld."
 
 #: 07.1-Controlling-Running-Synths.md:35
 msgid ""
 "We can pass any of the standard opts to `control`, so you can control things "
 "like `amp:`, `cutoff:` or `pan:`."
 msgstr ""
+"We kunnen iedere standaard opt doorgeven om `controle` over te hebben, zodat "
+"je `amp:`, `cutoff:` or `pan:´ kan controllen."
 
 #: 07.1-Controlling-Running-Synths.md:38
 msgid "Non-controllable Options"
-msgstr ""
+msgstr "Niet-Control-bare Opties"
 
 #: 07.1-Controlling-Running-Synths.md:40
 msgid ""
@@ -6480,20 +6580,27 @@ msgid ""
 "documentation says *Can not be changed once set*, you know it's not possible "
 "to control the opt after the synth has started."
 msgstr ""
+"Sommige opts kunnen niet gecontrold worden eens de synth gestart is. Dis is "
+"het geval voor alle ADSR envelop parameters. Je kan uitzoeken welke opts "
+"gecontrold kunnen worden door naar hun documentie te kijken in het hulp "
+"systeem. Als de de documentatie zegt *Can not be changed once set*, dan weet "
+"je dat het niet mogelijk is om de opt te controllen als de synth al loopt."
 
 #: 07.2-Controlling-FX.md:1
 msgid "7.2 Controlling FX"
-msgstr ""
+msgstr "7.2 FX Controllen"
 
 #: 07.2-Controlling-FX.md:3
 msgid "Controlling FX"
-msgstr ""
+msgstr "FX Controllen"
 
 #: 07.2-Controlling-FX.md:5
 msgid ""
 "It is also possible to control FX, although this is achieved in a slightly "
 "different way:"
 msgstr ""
+"Het is ook mogelijk om FX te controllen, hoewel dit op een iets andere "
+"manier wordt bereikt:"
 
 #: 07.2-Controlling-FX.md:8
 #, no-wrap
@@ -6509,6 +6616,16 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :reverb do |r|\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  control r, mix: 0.7\n"
+"  play 55\n"
+"  sleep 1\n"
+"  control r, mix: 0.9\n"
+"  sleep 1\n"
+"  play 62\n"
+"end"
 
 #: 07.2-Controlling-FX.md:21
 msgid ""
@@ -6517,18 +6634,22 @@ msgid ""
 "FX which we then reference from the containing do/end block. This behaviour "
 "is identical to using parameterised functions."
 msgstr ""
+"In plaats van een variabele, gebruiken we de sluisteken parameters van het "
+"do/end blok. Binnen de  `|` staafjes , moeten we een unieke naam voor onze "
+"lopende FX opgeven die we vervolgens verwijzen vanuit het  do/end blok. Dit "
+"gedrag is identiek aan het gebruik van geparametriseerde functies."
 
 #: 07.2-Controlling-FX.md:26
 msgid "Now go and control some synths and FX!"
-msgstr ""
+msgstr "Ga nu enkele synths en FX Controllen !"
 
 #: 07.3-Sliding-Parameters.md:1
 msgid "7.3 Sliding Options"
-msgstr ""
+msgstr "7.3 Glijdende Opties"
 
 #: 07.3-Sliding-Parameters.md:3
 msgid "Sliding Opts"
-msgstr ""
+msgstr "Glijdende Opties"
 
 #: 07.3-Sliding-Parameters.md:5
 msgid ""
@@ -6538,10 +6659,16 @@ msgid ""
 "they're special opts that only work when you control synths as introduced in "
 "the previous section."
 msgstr ""
+"Tijdens het verkennen van de synth en FX opties is het je misschien "
+"opgevallen dat er een aantal opts zijn die eindigen op `_slide`. Je hebt "
+"deze misschien ook proberen oproepen en daarmee opgemerkt dat zij geen "
+"effect hebben. Dat is omdat zij geen normale parameters zijn, het zijn "
+"speciale opts die enkel werken wanneer je synths controlt zoals beschreven "
+"in de voorgaande sectie."
 
 #: 07.3-Sliding-Parameters.md:11
 msgid "Consider the following example:"
-msgstr ""
+msgstr "Beschouw het volgende voorbeeld:"
 
 #: 07.3-Sliding-Parameters.md:23
 msgid ""
@@ -6550,6 +6677,10 @@ msgid ""
 "controlling the `note:` parameter, to add slide, we need to set the "
 "`note_slide` parameter of the synth:"
 msgstr ""
+"Hier hoor je de toonhoogte van de synth onmiddellijk wijzigen op elke "
+"`control` appèl  . Wij willen echter dat de toonhoogte slide (glijdt) tussen "
+"de veranderingen. Vermits we de `note:` parameter controllen, om slide toe "
+"te voegen, moeten we de parameter 'note_slide' van de synth instellen:"
 
 #: 07.3-Sliding-Parameters.md:28
 #, no-wrap
@@ -6562,6 +6693,13 @@ msgid ""
 "sleep 3\n"
 "control s, note: 72"
 msgstr ""
+"s = play 60, release: 5, note_slide: 1\n"
+"sleep 0.5\n"
+"control s, note: 65\n"
+"sleep 0.5\n"
+"control s, note: 67\n"
+"sleep 3\n"
+"control s, note: 72"
 
 #: 07.3-Sliding-Parameters.md:38
 msgid ""
@@ -6569,16 +6707,22 @@ msgid ""
 "nice, doesn't it? You can speed up the slide by using a shorter time such as "
 "`note_slide: 0.2` or slow it down by using a longer slide time."
 msgstr ""
+"Nu horen we de de noten buigen tussen de `control`aanroep. Dat klinkt "
+"lekker, niet? Je kan de slide versnellen door een kortere tijd te gebruiken "
+"zoals `note_slide: 0.2` of vertragen door een langere slide time in te "
+"stellen."
 
 #: 07.3-Sliding-Parameters.md:43
 msgid ""
 "Every parameter that can be controlled has a corresponding `_slide` "
 "parameter for you to play with."
 msgstr ""
+"Elke parameter die controlt kan worden heeft een identieke parameter "
+"'_slide' voor jou om mee te spelen."
 
 #: 07.3-Sliding-Parameters.md:46
 msgid "Sliding is sticky"
-msgstr ""
+msgstr "Slide-en blijft plakken"
 
 #: 07.3-Sliding-Parameters.md:48
 msgid ""
@@ -6587,14 +6731,18 @@ msgid ""
 "stop sliding you must set the `_slide` value to 0 before the next `control` "
 "call."
 msgstr ""
+"Zodra u hebt een parameter '_slide' ingesteld op een lopende synth, zal het "
+"worden onthoudenen telkens wanneer u de bijbehorende parameter slide "
+"gebruikt . Als je de slide wilt stoppen moet je de waarde '_slide' op 0 "
+"instellen voor de volgende oproep van `control`."
 
 #: 07.3-Sliding-Parameters.md:53
 msgid "Sliding FX Opts"
-msgstr ""
+msgstr "Sliding FX Opts"
 
 #: 07.3-Sliding-Parameters.md:55
 msgid "It is also possible to slide FX opts:"
-msgstr ""
+msgstr "Het is ook mogelijk FX opts te slide-en:"
 
 #: 07.3-Sliding-Parameters.md:57
 #, no-wrap
@@ -6605,24 +6753,33 @@ msgid ""
 "  control e, phase: 0.025\n"
 "end"
 msgstr ""
+"with_fx :wobble, phase: 1, phase_slide: 5 do |e|\n"
+"  use_synth :dsaw\n"
+"  play 50, release: 5\n"
+"  control e, phase: 0.025\n"
+"end"
 
 #: 07.3-Sliding-Parameters.md:65
 msgid ""
 "Now have fun sliding things around for smooth transitions and flowing "
 "control..."
 msgstr ""
+"Veel plezier met het rond slide-en van zaken voor een vloeiende overgang en "
+"een vlotte control..."
 
 #: 08-Data-Structures.md:1
 msgid "8 Data Structures"
-msgstr ""
+msgstr "8 Datastructuren"
 
 #: 08-Data-Structures.md:3
 msgid "Data Structures"
-msgstr ""
+msgstr "Datastructuren"
 
 #: 08-Data-Structures.md:5
 msgid "A very useful tool in a programmer's toolkit is a data structure."
 msgstr ""
+"Een zeer nuttig hulpmiddel in de gereedschapskist van een programmeur is een "
+"datastructuur."
 
 #: 08-Data-Structures.md:7
 msgid ""
@@ -6631,6 +6788,9 @@ msgid ""
 "another. Programming languages have data structures to allow you do exactly "
 "this."
 msgstr ""
+"Soms wil je meer dan één ding kunnen representeren. Zo kan je het "
+"bijvoorbeeld zeer nuttig vinden om een serie noten achter elkaar te spelen. "
+"Programmeertalen hebben datastructuren die jou toelaten"
 
 #: 08-Data-Structures.md:12
 msgid ""
