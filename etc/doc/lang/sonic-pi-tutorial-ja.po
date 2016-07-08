@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-05 09:53+0000\n"
+"PO-Revision-Date: 2016-07-08 09:58+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -164,8 +164,7 @@ msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"-この瞬間を忘れないでください。これが、あなたが初めてSonic "
-"Piでライブコーディングをした瞬間です。*この瞬間を忘れないでください。*そしてこれが最後にはならないはず・・・"
+"-この瞬間を忘れないでください。これが、あなたが初めてSonic Piでライブコーディングをした瞬間です。そしてこれが最後にはならないはず・・・"
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -876,7 +875,7 @@ msgid ""
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
-"オプションは、play`の後にカンマ`,`を入れて、その後、`amp:`(コロン : を忘れずに)のような "
+"オプションは、`play`の後にカンマ`,`を入れて、その後、`amp:`(コロン : を忘れずに)のような "
 "オプションの名前、スペース、そしてオプションの値、というように渡していきます。例えば、"
 
 #: 02.2-Synth-Params.md:31
@@ -2164,17 +2163,14 @@ msgstr ""
 "また、*レートを半分にすると、周波数が半分になる*ということでもあります。他のレートはそれに応じて周波数に影響します。"
 
 #: 03.4-Enveloped-Samples.md:1
-#, fuzzy
 msgid "3.4 Enveloped Samples"
 msgstr "3.4 エンベロープ・サンプル"
 
 #: 03.4-Enveloped-Samples.md:3
-#, fuzzy
 msgid "Enveloped Samples"
 msgstr "エンベロープ・サンプル"
 
 #: 03.4-Enveloped-Samples.md:5
-#, fuzzy
 msgid ""
 "It is also possible to modify the *duration* and *amplitude* of a sample using"
 " an ADSR envelope. However, this works slightly differently to the ADSR envelo"
@@ -2184,29 +2180,26 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
-"ADSRエンベロープを用いて、サンプルのデュレーション（再生時間）とアンプ（音量）を編集することもできます。しかしながら、シンセのADSRエンベロープとは少"
-"しだけ異なったように作用します。サンプルに使用するエンベロープは、サンプルのアンプとデュレーションを減らすことしかできません。決して増やすことはできないので"
-"す。サンプルは、それが再生され終わったときか、エンベロープが完了したときのいずれかで停止します。どちらが先でも停止します。非常に長い`release:`を使"
-"ったとしても、サンプルのデュレーションは延長されません。"
+"ADSRエンベロープを用いて、サンプルのデュレーション（再生時間）とアンプ（音量）を編集することもできます。しかしながら、シンセのADSRエンベロープとは"
+"少しだけ異なったように作用します。サンプルに使用するエンベロープは、サンプルのアンプとデュレーションを減らすことしかできません。決して増やすことはできない"
+"のです。サンプルは、それが再生され終わったときか、エンベロープが完了したときのいずれかで停止します。どちらが先でも停止します。非常に長い`release:"
+"`を使ったとしても、サンプルのデュレーションは延長されません。"
 
 #: 03.4-Enveloped-Samples.md:13
-#, fuzzy
 msgid "Amen Envelopes"
 msgstr "アーメン・エンベロープ"
 
 #: 03.4-Enveloped-Samples.md:15
-#, fuzzy
 msgid "Let's return to our trusty friend the Amen Break:"
 msgstr "わたしたちのお気に入りのフレーズ、アーメン・ブレイクに戻ります。"
 
 #: 03.4-Enveloped-Samples.md:21
-#, fuzzy
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade th"
 "is in over 1 second we can use the `attack:` param:"
 msgstr ""
-"オプションが設定されていない場合、全サンプルがフル・アンプ（最大音量）で聞こえます。 もし1秒間のフェード・インを使いたい場合、`attack:`パラメータ"
-"を使います。 （フェード・インとは徐々に音が大きくなることです。）"
+"オプションが設定されていない場合、全サンプルがフル・アンプ（最大音量）で聞こえます。 "
+"もし1秒間のフェード・インを使いたい場合、`attack:`パラメータを使います。 （フェード・インとは徐々に音が大きくなることです。）"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
@@ -2214,7 +2207,6 @@ msgid "sample :loop_amen, attack: 1"
 msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
-#, fuzzy
 msgid "For a shorter fade in, choose a shorter attack value:"
 msgstr "もっと短いフェード・インの場合は、`attack:`の値を小さくします。"
 
@@ -2224,12 +2216,10 @@ msgid "sample :loop_amen, attack: 0.3"
 msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
-#, fuzzy
 msgid "Auto Sustain"
 msgstr "オート・サステイン"
 
 #: 03.4-Enveloped-Samples.md:36
-#, fuzzy
 msgid ""
 "Where the ADSR envelope's behaviour differs from the standard synth envelope i"
 "s in the *sustain* value. In the standard synth envelope, the sustain defaulte"
@@ -2242,24 +2232,25 @@ msgid ""
 " values add up to more than the duration of the sample, the sustain is simply "
 "set to 0."
 msgstr ""
-"ADSR エンベロープの特徴が標準的なシンセ・エンベロープと異なる点は、*サステイン（持続時間）*の値です。 標準的なシンセのエンベロープでは、もし手動で変"
-"更しなければ、 0 に設定されています。ですが、 サンプルでは、サステインの値は通常、*魔法のように全自動*にセットされます。サステインの時間は、サンプルの"
-"残りを 演奏するように調整されます。デフォルトの値を渡さないときに、サンプルがフルで流れるのはこのためです。 アタック、ディケイ、サステイン、リリース(この"
-"４つの頭文字がADSR)の値が全て 0 のときは、何の音も聞こえません。 Sonic Piはサンプルの長さがどれくらいなのか計算し、アタック、ディケイ、リリ"
-"ース・タイムを差し引いて、 あなたのサステイン・タイムの結果を使用します。もし、アタック、ディケイ、リリースの値が サンプルのデュレーションより長く追加され"
-"た場合、サステインは 0 にセットされます。"
+"ADSR エンベロープの特徴が標準的なシンセ・エンベロープと異なる点は、*サステイン（持続時間）*の値です。 "
+"標準的なシンセのエンベロープでは、もし手動で変更しなければ、 0 に設定されています。ですが、 "
+"サンプルでは、サステインの値は通常、*魔法のように全自動*にセットされます。サステインの時間は、サンプルの残りを "
+"演奏するように調整されます。デフォルトの値を渡さないときに、サンプルがフルで流れるのはこのためです。 "
+"アタック、ディケイ、サステイン、リリース(この４つの頭文字がADSR)の値が全て 0 のときは、何の音も聞こえません。 Sonic "
+"Piはサンプルの長さがどれくらいなのか計算し、アタック、ディケイ、リリース・タイムを差し引いて、 "
+"あなたのサステイン・タイムの結果を使用します。もし、アタック、ディケイ、リリースの値が サンプルのデュレーションより長く追加された場合、サステインは 0 "
+"にセットされます。"
 
 #: 03.4-Enveloped-Samples.md:48
-#, fuzzy
 msgid "Fade Outs"
 msgstr "フェード・アウト"
 
 #: 03.4-Enveloped-Samples.md:50
-#, fuzzy
 msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask Sonic"
 " Pi how long the sample is:"
-msgstr "これまでのことをを求するために、我らがアーメン・ブレイクをさらに詳細にみてみます。Sonic Piにサンプルがどれくらいの長さなのか尋ねてみます。"
+msgstr ""
+"これまでのことをを求するために、我らがアーメン・ブレイクをさらに詳細にみてみます。Sonic Piにサンプルがどれくらいの長さなのか尋ねてみます。"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
@@ -2267,14 +2258,13 @@ msgid "print sample_duration :loop_amen"
 msgstr "print sample_duration :loop_amen"
 
 #: 03.4-Enveloped-Samples.md:57
-#, fuzzy
 msgid ""
 "It will print out `1.753310657596372` which is the length of the sample in sec"
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
-"1秒間のサンプルの長さは 1.753310657596372 と答えるでしょう。ここでは、便宜的に1.75 としますリリース・タイムを 0.75 にすると、"
-"驚くべきことが起こります。"
+"1秒間のサンプルの長さは 1.753310657596372 と答えるでしょう。ここでは、便宜的に1.75 としますリリース・タイムを 0.75 "
+"にすると、驚くべきことが起こります。"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
@@ -2282,7 +2272,6 @@ msgid "sample :loop_amen, release: 0.75"
 msgstr "sample :loop_amen, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:65
-#, fuzzy
 msgid ""
 "It will play the first second of the sample at full amplitude before then fadi"
 "ng out over a period of 0.75 seconds. This is the *auto sustain* in action. By"
@@ -2290,28 +2279,25 @@ msgid ""
 "as 10.75 seconds long, it would play the first 10 seconds at full amplitude be"
 "fore fading out over 0.75s."
 msgstr ""
-"サンプルの最初の1秒をフル・アンプで再生し、最後の 0.75 秒はフェード・アウトします。これが *オート・サステイン*の動きです。標準では、`releas"
-"e:`はいつもサンプルの最後から動作します。 もしサンプルの長さが10.75 秒なら、最初の10秒はフル・アンプで再生し、最後の0.75秒はフェード・アウト"
-"します。"
+"サンプルの最初の1秒をフル・アンプで再生し、最後の 0.75 秒はフェード・アウトします。これが "
+"*オート・サステイン*の動きです。標準では、`release:`はいつもサンプルの最後から動作します。 もしサンプルの長さが10.75 "
+"秒なら、最初の10秒はフル・アンプで再生し、最後の0.75秒はフェード・アウトします。"
 
 #: 03.4-Enveloped-Samples.md:71
-#, fuzzy
 msgid "Remember: by default, `release:` fades out at the end of a sample."
 msgstr "通常、`release:`はサンプルの最後でフェード・アウトするということを覚えておいてください。"
 
 #: 03.4-Enveloped-Samples.md:73
-#, fuzzy
 msgid "Fade In and Out"
 msgstr "フェード・インとフェード・アウト"
 
 #: 03.4-Enveloped-Samples.md:75
-#, fuzzy
 msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
 msgstr ""
-"サンプルのデュレーションの間にフェード・アウトとインを行うには `attack:`と`release:`の両方を使うことができます。オート・サステインの仕組"
-"みと一緒に、 使用できます。"
+"サンプルのデュレーションの間にフェード・アウトとインを行うには "
+"`attack:`と`release:`の両方を使うことができます。オート・サステインの仕組みと一緒に、 使用できます。"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
@@ -2319,22 +2305,19 @@ msgid "sample :loop_amen, attack: 0.75, release: 0.75"
 msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
-#, fuzzy
 msgid ""
 "As the full duration of the sample is 1.75s and our attack and release phases "
 "add up to 1.5s, the sustain is automatically set to 0.25s. This allows us to e"
 "asily fade the sample in and out."
 msgstr ""
-"サンプルのアーメンブレイク全体のデュレーションは1.75秒なので、 アタックとリリースの時間が1.5秒まで追加されると、 サステインは自動的に0.25秒にセ"
-"ットされます。 これで簡単にサンプルをフェード・イン、アウトすることができます。"
+"サンプルのアーメンブレイク全体のデュレーションは1.75秒なので、 アタックとリリースの時間が1.5秒まで追加されると、 "
+"サステインは自動的に0.25秒にセットされます。 これで簡単にサンプルをフェード・イン、アウトすることができます。"
 
 #: 03.4-Enveloped-Samples.md:86
-#, fuzzy
 msgid "Explicit sustain"
 msgstr "明白なサステイン"
 
 #: 03.4-Enveloped-Samples.md:88
-#, fuzzy
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually setting "
 "`sustain:` to a value such as 0:"
@@ -2346,23 +2329,20 @@ msgid "sample :loop_amen, sustain: 0, release: 0.75"
 msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:95
-#, fuzzy
 msgid ""
 "Now, our sample only plays for 0.75 seconds in total. With the default for `at"
 "tack:` and `decay:` at 0, the sample jumps straight to full amplitude, sustain"
 "s there for 0s then releases back down to 0 amplitude over the release period "
 "- 0.75s."
 msgstr ""
-"いま、サンプルはトータルで0.75秒間だけ再生されました。`attack:`と`decay:`の通常値0ですので、 サンプルはフル・アンプ（最大音量）に直接"
-"変わり、0秒間サスティン(持続)し、リリースの0.75秒間で0アンプに戻ります。"
+"いま、サンプルはトータルで0.75秒間だけ再生されました。`attack:`と`decay:`の通常値0ですので、 "
+"サンプルはフル・アンプ（最大音量）に直接変わり、0秒間サスティン(持続)し、リリースの0.75秒間で0アンプに戻ります。"
 
 #: 03.4-Enveloped-Samples.md:100
-#, fuzzy
 msgid "Percussive cymbals"
 msgstr "打楽器のシンバル"
 
 #: 03.4-Enveloped-Samples.md:102
-#, fuzzy
 msgid ""
 "We can use this behaviour to good effect to turn longer sounding samples into "
 "shorter, more percussive versions. Consider the sample `:drum_cymbal_open`:"
@@ -2374,7 +2354,6 @@ msgid "sample :drum_cymbal_open"
 msgstr "sample :drum_cymbal_open"
 
 #: 03.4-Enveloped-Samples.md:110
-#, fuzzy
 msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we c"
 "an use our envelope to make it more percussive:"
@@ -2386,7 +2365,6 @@ msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
-#, fuzzy
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
@@ -2398,40 +2376,34 @@ msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:124
-#, fuzzy
 msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the rate "
 "too for really interesting results."
 msgstr "今すぐ、サンプルを楽しくさせるエンベロープをいじってみましょう。 面白い結果を得るために数値を思いきり変更してみましょう。"
 
 #: 03.5-Partial-Samples.md:1
-#, fuzzy
 msgid "3.5 Partial Samples"
 msgstr "3.5 部分的なサンプル"
 
 #: 03.5-Partial-Samples.md:3
-#, fuzzy
 msgid "Partial Samples"
 msgstr "部分的なサンプル"
 
 #: 03.5-Partial-Samples.md:5
-#, fuzzy
 msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
-"このセクションでは、Sonic Piのサンプルの再生について私たちが探求してきたことをまとめます。 簡単にまとめてみましょう。 これまで、サンプルを再生する"
-"方法をみてきました。"
+"このセクションでは、Sonic Piのサンプルの再生について私たちが探求してきたことをまとめます。 簡単にまとめてみましょう。 "
+"これまで、サンプルを再生する方法をみてきました。"
 
 #: 03.5-Partial-Samples.md:13
-#, fuzzy
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
 msgstr "まず、サンプルのレート（速さ）を変更する方法を見つけて、このように半分の速度で再生してみました。"
 
 #: 03.5-Partial-Samples.md:20
-#, fuzzy
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr "次に、サンプルを徐々に大きくするフェードインを知りました。 （半分の速度でやってみましょう）"
 
@@ -2441,7 +2413,6 @@ msgid "sample :loop_amen, rate: 0.5, attack: 1"
 msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
-#, fuzzy
 msgid ""
 "We also looked at how we could use the start of a sample percussively by givin"
 "g `sustain:` an explicit value and setting both the attack and release to be s"
@@ -2454,7 +2425,6 @@ msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
 #: 03.5-Partial-Samples.md:35
-#, fuzzy
 msgid ""
 "However, wouldn't it be nice if we didn't have to always start at the beginnin"
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
@@ -2462,20 +2432,18 @@ msgid ""
 msgstr "では、いつもサンプルの先頭から開始する必要はあるのでしょうか？ そして、いつもサンプルの最後まで終了する必要はあるのでしょうか？"
 
 #: 03.5-Partial-Samples.md:39
-#, fuzzy
 msgid "Choosing a starting point"
 msgstr "開始点の選択"
 
 #: 03.5-Partial-Samples.md:41
-#, fuzzy
 msgid ""
 "It is possible to choose an arbitrary starting point in the sample as a value "
 "between 0 and 1 where 0 is the start of the sample, 1 is the end and 0.5 is ha"
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
 msgstr ""
-"サンプルのどこからでも、好きな場所を選んで音を再生することが可能です。 0はサンプルの開始で、1は終了です。0.5はサンプルの途中です。 アーメンブレイクの"
-"最後の半分を再生してみましょう。"
+"サンプルのどこからでも、好きな場所を選んで音を再生することが可能です。 0はサンプルの開始で、1は終了です。0.5はサンプルの途中です。 "
+"アーメンブレイクの最後の半分を再生してみましょう。"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
@@ -2483,7 +2451,6 @@ msgid "sample :loop_amen, start: 0.5"
 msgstr "sample :loop_amen, start: 0.5"
 
 #: 03.5-Partial-Samples.md:50
-#, fuzzy
 msgid "How about the last quarter of the sample:"
 msgstr "どのようにすればサンプルの最後の1/4を再生できますか？"
 
@@ -2493,12 +2460,10 @@ msgid "sample :loop_amen, start: 0.75"
 msgstr "sample :loop_amen, start: 0.75"
 
 #: 03.5-Partial-Samples.md:56
-#, fuzzy
 msgid "Choosing a finish point"
 msgstr "終了点を選択する"
 
 #: 03.5-Partial-Samples.md:58
-#, fuzzy
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample as"
 " a value between 0 and 1. Let's finish the amen break half way through:"
@@ -2510,18 +2475,16 @@ msgid "sample :loop_amen, finish: 0.5"
 msgstr "sample :loop_amen, finish: 0.5"
 
 #: 03.5-Partial-Samples.md:66
-#, fuzzy
 msgid "Specifying start and finish"
 msgstr "開始と終了の指定"
 
 #: 03.5-Partial-Samples.md:68
-#, fuzzy
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
 msgstr ""
-"もちろん、私たちは好きな部分を再生するために、これまでの開始と終了の２つを組み合わせることができます。 どのようにすれば真ん中あたりの短い場所だけを選べるの"
-"でしょうか？"
+"もちろん、私たちは好きな部分を再生するために、これまでの開始と終了の２つを組み合わせることができます。 "
+"どのようにすれば真ん中あたりの短い場所だけを選べるのでしょうか？"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
@@ -2529,7 +2492,6 @@ msgid "sample :loop_amen, start: 0.4, finish: 0.6"
 msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
 #: 03.5-Partial-Samples.md:75
-#, fuzzy
 msgid "What happens if we choose a start position after the finish position?"
 msgstr "もし、終了位置のあとを、開始位置として選ぶとどうなるでしょう？"
 
@@ -2539,22 +2501,20 @@ msgid "sample :loop_amen, start: 0.6, finish: 0.4"
 msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
 #: 03.5-Partial-Samples.md:82
-#, fuzzy
 msgid "Cool! It plays it backwards!"
 msgstr "かっこいい！！！逆再生になりますね！"
 
 #: 03.5-Partial-Samples.md:84
-#, fuzzy
 msgid "Combining with rate"
 msgstr "レートと組み合わせ"
 
 #: 03.5-Partial-Samples.md:86
-#, fuzzy
 msgid ""
 "We can combine this new ability to play arbitrary segments of audio with our f"
 "riend `rate:`. For example, we can play a very small section of the middle of "
 "the amen break very slowly:"
-msgstr "そして新しい機能として、すでに学んだ`rate:`と`start:`(開始)と`finish:`(終了)を使った部分再生を組み合わせることができます。"
+msgstr ""
+"そして新しい機能として、すでに学んだ`rate:`と`start:`(開始)と`finish:`(終了)を使った部分再生を組み合わせることができます。"
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
@@ -2562,12 +2522,10 @@ msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
 #: 03.5-Partial-Samples.md:94
-#, fuzzy
 msgid "Combining with envelopes"
 msgstr "エンベロープとの組み合わせ"
 
 #: 03.5-Partial-Samples.md:96
-#, fuzzy
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce interes"
 "ting results:"
@@ -2583,37 +2541,32 @@ msgstr ""
 "1"
 
 #: 03.5-Partial-Samples.md:103
-#, fuzzy
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
 msgstr "今すぐ、サンプルとこれまでに紹介した楽しい内容を組み合わせて演奏してみましょう！"
 
 #: 03.6-External-Samples.md:1
-#, fuzzy
 msgid "3.6 External Samples"
 msgstr "3.6 外部サンプル"
 
 #: 03.6-External-Samples.md:3
-#, fuzzy
 msgid "External Samples"
 msgstr "外部サンプル"
 
 #: 03.6-External-Samples.md:5
-#, fuzzy
 msgid ""
 "Whilst the built-in samples can get you up and started quickly, you might wish"
 " to experiment with other recorded sounds in your music. Sonic Pi totally supp"
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
-"内蔵のサンプルは、すぐに使用でき、再生することができる一方で、 あなたは別に録音された音を試してみたいと願うかもしれません。 Sonic Piは完全にこの願"
-"いを叶えます。 まずは、あなたの部品（録音した音）の携帯性について、確認してみましょう。"
+"内蔵のサンプルは、すぐに使用でき、再生することができる一方で、 あなたは別に録音された音を試してみたいと願うかもしれません。 Sonic "
+"Piは完全にこの願いを叶えます。 まずは、あなたの部品（録音した音）の携帯性について、確認してみましょう。"
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
-msgstr ""
+msgstr "携帯性"
 
 #: 03.6-External-Samples.md:12
-#, fuzzy
 msgid ""
 "When you compose your piece purely with built-in synths and samples, the code "
 "is all you need to faithfully reproduce your music. Think about that for a mom"
@@ -2622,12 +2575,13 @@ msgid ""
 "your sounds. That makes it *really easy to share* with your friends as they ju"
 "st need to get hold of the code."
 msgstr ""
-"あなたが、内臓のシンセやサンプルだけを使って作曲した場合、 コードだけがは、あなたが音楽を忠実に再生ために必要なものになります。でもちょっと 考えてみてくだ"
-"さい。それは、実はとても凄いことなのですよね！あなたの音楽を忠実に再現する作品は、 テキストによるシンプルなものなので、電子メールで周りに送ったり、 [Gi"
-"st](https://gist.github.com)に埋め込んで公開することができます。コードを持っていれば 友人と本当に簡単に共有することができます。"
+"あなたが、内蔵のシンセやサンプルだけを使って作曲した場合、 コードだけが音楽を忠実に再生ために必要なものになります。でもちょっと "
+"考えてみてください。それは、実はとても凄いことなのですよね！あなたの音楽を忠実に再現する作品は、 "
+"テキストによるシンプルなものなので、電子メールで周りに送ったり、 "
+"[Gist](https://gist.github.com)に埋め込んで公開することができます。コードを持っていれば "
+"友人と本当に簡単に共有することができます。"
 
 #: 03.6-External-Samples.md:19
-#, fuzzy
 msgid ""
 "However, if you start using your own pre-recorded samples, you lose this porta"
 "bility. This is because to reproduce your music other people not only need you"
@@ -2635,24 +2589,22 @@ msgid ""
 "pulate, mash-up and experiment with your work. Of course this shouldn't stop y"
 "ou from using your own samples, it's just something to consider."
 msgstr ""
-"しかし、もしあなたが、自身で記録したサンプルを使ってしまうと、この携帯性が 失われてしまいます。なぜならば、あなたの音楽を他の人達が再現しようとしても、 あ"
-"なたのコードだけでは再生することができず、記録したサンプルが必要になってしまうからです。 この事は、あなたの音楽を他の人が操作したり編集したり、試してみるこ"
-"とを制限してしまう ことがあるということです。もちろん、あなた自身が録音したサンプルを使うことを 止めるということではなく、方法（データを送って、正しく共有"
-"するなど）に配慮していけばよいという事です。"
+"しかし、もしあなたが、自身で記録したサンプルを使ってしまうと、この携帯性が 失われてしまいます。なぜならば、あなたの音楽を他の人達が再現しようとしても、 "
+"あなたのコードだけでは再生することができず、記録したサンプルが必要になってしまうからです。 この事は、あなたの音楽を他の人が操作したり編集したり、"
+"試してみることを制限してしまう ことがあるということです。もちろん、あなた自身が録音したサンプルを使うことを "
+"止めるということではなく、方法（データを送って、正しく共有するなど）に配慮していけばよいという事です。"
 
 #: 03.6-External-Samples.md:26
-#, fuzzy
 msgid "Local Samples"
 msgstr "自分で録音した（ローカルな）サンプル"
 
 #: 03.6-External-Samples.md:28
-#, fuzzy
 msgid ""
 "So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? All "
 "you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"では、どうやって、あなたが録音したWAVファイルやAIFFファイルをコンピュータで再生するのでしょうか？ `sample`のファイルを置く場所を指定（パスを"
-"通す）するだけで、再生できるようになります。"
+"では、どうやって、あなたが録音したWAVファイルやAIFFファイルをコンピュータで再生するのでしょうか？ "
+"`sample`のファイルを置く場所を指定（パスを通す）するだけで、再生できるようになります。"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -2668,17 +2620,15 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
-#, fuzzy
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all th"
 "e standard params you're used to passing `sample`:"
 msgstr ""
-"Sonic Piは自動的にサンプルを読み込んで再生します。あなたは、`sample`に今まで使ってきた全てのパラメータを、あなたが録音した音に使うことができ"
-"ます。"
+"Sonic "
+"Piは自動的にサンプルを読み込んで再生します。あなたは、`sample`に今まで使ってきた全てのパラメータを、あなたが録音した音に使うことができます。"
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
-#, fuzzy
 msgid ""
 "# Raspberry Pi, Mac, Linux\n"
 "sample \"/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3\n"
@@ -2686,17 +2636,17 @@ msgid ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 msgstr ""
 "# Raspberry Pi, Mac, Linux\n"
-"sample \"/Users/sam/Desktop/my-sound.wav\"\n"
+"sample \"/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3\n"
 "# Windows\n"
-"sample \"C:/Users/sam/Desktop/my-sound.wav\""
+"sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 
 #: 03.7-Sample-Packs.md:1
 msgid "3.7 Sample Packs"
-msgstr ""
+msgstr "3.7 サンプルパック"
 
 #: 03.7-Sample-Packs.md:3
 msgid "Sample Packs"
-msgstr ""
+msgstr "サンプルパック"
 
 #: 03.7-Sample-Packs.md:5
 msgid ""
@@ -2704,20 +2654,23 @@ msgid ""
 " large directories of your own samples. This will be the case if you've downlo"
 "aded or bought your own sample packs and wish to use them within Sonic Pi.**"
 msgstr ""
+"**注: "
+"このセクションは独自サンプルのある大きなディレクトリを扱う際の高度なトピックを扱っています。あなたがサンプルパックをダウンロードしたり購入したりして、"
+"それをSonic Piから使いたい場合が当てはまるでしょう。**"
 
 #: 03.7-Sample-Packs.md:10
 msgid "**Feel free to skip this if you're happy working with the built-in samples.**"
-msgstr ""
+msgstr "**内蔵サンプルで問題なければ、このセクションは飛ばしても構いませんよ。**"
 
 #: 03.7-Sample-Packs.md:13
 msgid ""
 "When working with large folders of external samples it can be cumbersome to ha"
 "ve to type the whole path every time to trigger an individual sample."
-msgstr ""
+msgstr "外部サンプルのある大きなフォルダを扱う際に、個々のサンプルを再生する度にパス全体をタイプするのは、面倒かもしれません。"
 
 #: 03.7-Sample-Packs.md:17
 msgid "For example, say you have the following folder on your machine:"
-msgstr ""
+msgstr "例えば、次のようなフォルダがあなたのマシンにあるとします。"
 
 #: 03.7-Sample-Packs.md:19
 #, no-wrap
@@ -2726,35 +2679,35 @@ msgstr "/path/to/my/samples/"
 
 #: 03.7-Sample-Packs.md:23
 msgid "When we look inside that folder we find the following samples:"
-msgstr ""
+msgstr "そしてそのフォルダの中の次のようなサンプルがあるとします。"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
-msgstr ""
+msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
 msgid "`100_A#_melody2.wav`"
-msgstr ""
+msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
 msgid "`100_A#_melody3.wav`"
-msgstr ""
+msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
 msgid "`120_A#_melody4.wav`"
-msgstr ""
+msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
 msgid "`120_Bb_guit1.wav`"
-msgstr ""
+msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
 msgid "`120_Bb_piano1.wav`"
-msgstr ""
+msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
 msgid "Typically in order to play the piano sample we can use the full path:"
-msgstr ""
+msgstr "例えばピアノのサンプルを再生したい場合、次のようなフルパスでの指定が可能です。"
 
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
@@ -2763,7 +2716,7 @@ msgstr "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 
 #: 03.7-Sample-Packs.md:38
 msgid "If we want to then play the guitar sample we can use its full path too:"
-msgstr ""
+msgstr "次にギターのサンプルを再生したい場合、また同じようにフルパスでの指定が可能です。"
 
 #: 03.7-Sample-Packs.md:40
 #, no-wrap
@@ -2776,16 +2729,19 @@ msgid ""
 "samples within our directory. What if we just want to listen to each sample in"
 " turn quickly?"
 msgstr ""
+"しかしながら、これらのどちらのサンプルの呼び出しでも、ディレクトリ内のファイル名を知っている必要があります。もしサンプルを順番に聴いて行きたい場合どうした"
+"ら良いでしょう？"
 
 #: 03.7-Sample-Packs.md:48
 msgid "Indexing Sample Packs"
-msgstr ""
+msgstr "サンプルパックのインデックス"
 
 #: 03.7-Sample-Packs.md:50
 msgid ""
 "If we want to play the first sample in a directory we just need to pass the di"
 "rectory's name to `sample` and the index `0` as follows:"
 msgstr ""
+"もしディレクトリの1番目のサンプルを再生したい場合、必要なことは次のように`sample`にディレクトリ名と'0'のインデックスを渡すだけです。"
 
 #: 03.7-Sample-Packs.md:53
 #, no-wrap
@@ -2794,7 +2750,7 @@ msgstr "sample \"/path/to/my/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
-msgstr ""
+msgstr "さらにディレクトリ名は変数を使ってショートカットを作ることさえ可能です。"
 
 #: 03.7-Sample-Packs.md:59
 #, no-wrap
@@ -2809,7 +2765,7 @@ msgstr ""
 msgid ""
 "Now, if we want to play the second sample in our directory, we just need to ad"
 "d 1 to our index:"
-msgstr ""
+msgstr "次に、ディレクトリの2番目のサンプルを再生したい場合、先ほどのインデックスに1を追加すれば出来ます。"
 
 #: 03.7-Sample-Packs.md:67
 #, no-wrap
@@ -2828,10 +2784,13 @@ msgid ""
 " round just like Rings. Therefore, whatever number we use we're guaranteed to "
 "get one of the samples in that directory."
 msgstr ""
+"もはやディレクトリ内のサンプルの名前を知る必要がないことに注意してください。必要なのはディレクトリそのもの（もしくはそのショートカット）を知っていることで"
+"す。もしディレクトリ内のサンプルの数より大きい値をインデックスに指定した場合、リングのように単純に先頭に戻ります。したがって、どのような数字もディレクトリ"
+"内のどれかのサンプルを取得することが保証されているのです。"
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
-msgstr ""
+msgstr "サンプルパックのフィルター"
 
 #: 03.7-Sample-Packs.md:81
 msgid ""
