@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-13 21:58+0000\n"
-"Last-Translator: Ivan Krylov <astra77@outlook.com>\n"
+"PO-Revision-Date: 2016-07-10 08:47+0000\n"
+"Last-Translator: Vladimir Knyazev <zombie.knt@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -118,7 +118,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr "Освободите Свой Разум"
+msgstr "Расширьте Своё Сознание"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -130,15 +130,13 @@ msgstr ""
 "Прежде, чем мы перейдем к деталям того, как Sonic Pi работает, я бы хотел "
 "поделиться с вами личным опытом того, что значит \"Лайв Кодинг\". Не "
 "переживайте, если вы пока чего-то из этого (или ничего) не понимаете. Просто "
-"держитесь крепче и получайте удовольствие..."
+"держитесь крепче за стул и получайте удовольствие..."
 
 #: 01.1-Live-Coding.md:17
-#, fuzzy
 msgid "A live loop"
 msgstr "Живой Цикл"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer above:"
 msgstr "Для начала скопируйте следующий код в пустой буфер:"
 
@@ -156,55 +154,48 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:28
-#, fuzzy
 msgid ""
 "Now, press the `Run` button and you'll hear a nice fast bass drum beating away"
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Теперь нажмите кнопку `Выполнить`, и вы услышите приятный быстрый барабанный б"
-"ой. В любой момент нажмите кнопку `Остановить`, чтобы остановить звук. Но не н"
-"ажимайте её пока что... Вместо этого сделайте вот что:"
+"Теперь нажмите кнопку `Выполнить`, и вы услышите приятный быстрый барабанный "
+"бой. В любой момент нажмите кнопку `Остановить`, чтобы остановить звук. Но "
+"не нажимайте её пока что... Вместо этого сделайте вот что:"
 
 #: 01.1-Live-Coding.md:32
-#, fuzzy
 msgid "Make sure the bass drum sound is still running"
 msgstr "Убедись, что барабаны по-прежнему звучат"
 
 #: 01.1-Live-Coding.md:33
-#, fuzzy
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Измените значение `sleep` с `0.5` на что-нибудь побольше, например `1`"
+msgstr "Измените значение `sleep` с `0.5` на что-нибудь побольше, например `1`."
 
 #: 01.1-Live-Coding.md:34
-#, fuzzy
 msgid "Press the `Run` button again"
 msgstr "Снова нажмите кнопку `Выполнить`"
 
 #: 01.1-Live-Coding.md:35
-#, fuzzy
 msgid "Notice how the drum speed has changed."
-msgstr "Видите, теперь темп барабанов изменился"
+msgstr "Видите, теперь темп барабанов изменился."
 
 #: 01.1-Live-Coding.md:36
-#, fuzzy
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"И, наконец, *запомните этот момент* - это первый, но вряд ли последний раз, ко"
-"гда вы кодировали вживую на Sonic Pi..."
+"И, наконец, *запомните этот момент* - это первый, но вряд ли последний раз, "
+"когда вы кодировали вживую на Sonic Pi..."
 
 #: 01.1-Live-Coding.md:39
-#, fuzzy
 msgid ""
 "Ok, that was simple enough. Let's add something else into the mix. Above `samp"
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ладно, это было довольно просто. Давайте что-нибудь добавим в наш рецепт. Свер"
-"ху от `sample :bd_haus` добавьте строку `sample :ambi_choir, rate: 0.3`. Ваш к"
-"од должен выглядеть так:"
+"Ладно, это было довольно просто. Давайте что-нибудь добавим в наш микс. "
+"Сверху от `sample :bd_haus` добавьте строку `sample :ambi_choir, rate: 0.3`. "
+"Ваш код должен выглядеть так:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
