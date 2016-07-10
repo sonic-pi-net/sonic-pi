@@ -1810,6 +1810,58 @@ end
   print rand_i(5) #=> will print either 0, 1, 2, 3, or 4 to the output pane"]
 
 
+      def rand_look(*args)
+        rand(*args)
+        rand_back
+      end
+      doc name:           :rand_look,
+          introduced:     Version.new(2,11,0),
+          summary:        "Generate a random number without consuming a rand",
+          args:           [[:max, :number_or_range]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Given a max number, produces a number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args returns a value between `0` and `1`.
+
+Does not consume a random value from the stream. Therefore, multiple sequential calls to `rand_look` will all return the same value.",
+          examples:       ["
+  print rand_look(0.5) #=> will print a number like 0.375030517578125 to the output pane",
+
+        "
+  print rand_look(0.5) #=> will print a number like 0.375030517578125 to the output pane
+  print rand_look(0.5) #=> will print the same number again
+  print rand_look(0.5) #=> will print the same number again
+  print rand_(0.5) #=> will print a different random number
+  print rand_look(0.5) #=> will print the same number as the prevoius line again."
+      ]
+
+
+
+
+      def rand_i_look(*args)
+        rand_i(*args)
+        rand_back
+      end
+      doc name:           :rand_i_look,
+          introduced:     Version.new(2,11,0),
+          summary:        "Generate a random whole number without consuming a rand",
+          args:           [[:max, :number_or_range]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args returns either `0` or `1`.
+
+Does not consume a random value from the stream. Therefore, multiple sequential calls to `rand_i_look` will all return the same value.",
+          examples:       ["
+print rand_i_look(5) #=> will print either 0, 1, 2, 3, or 4 to the output pane",
+
+        "
+print rand_i_look(5) #=> will print either 0, 1, 2, 3, or 4 to the output pane
+print rand_i_look(5) #=> will print the same number again
+print rand_i_look(5) #=> will print the same number again
+print rand_i(5) #=> will print either 0, 1, 2, 3, or 4 to the output pane
+print rand_i_look(5) #=> will print the same number as the previous statement"
+      ]
+
+
 
 
       def rand_back(amount=1)
