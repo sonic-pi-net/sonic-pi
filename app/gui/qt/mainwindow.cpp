@@ -2403,8 +2403,18 @@ void MainWindow::createShortcuts()
 {
   new QShortcut(metaKey('{'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('}'), this, SLOT(tabNext()));
-  new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
+  connect(new QShortcut(metaKey('1'), this), &QShortcut::activated, [this](){ tabGoto(1); });
+  connect(new QShortcut(metaKey('2'), this), &QShortcut::activated, [this](){ tabGoto(2); });
+  connect(new QShortcut(metaKey('3'), this), &QShortcut::activated, [this](){ tabGoto(3); });
+  connect(new QShortcut(metaKey('4'), this), &QShortcut::activated, [this](){ tabGoto(4); });
+  connect(new QShortcut(metaKey('5'), this), &QShortcut::activated, [this](){ tabGoto(5); });
+  connect(new QShortcut(metaKey('6'), this), &QShortcut::activated, [this](){ tabGoto(6); });
+  connect(new QShortcut(metaKey('7'), this), &QShortcut::activated, [this](){ tabGoto(7); });
+  connect(new QShortcut(metaKey('8'), this), &QShortcut::activated, [this](){ tabGoto(8); });
+  connect(new QShortcut(metaKey('9'), this), &QShortcut::activated, [this](){ tabGoto(9); });
+  connect(new QShortcut(metaKey('0'), this), &QShortcut::activated, [this](){ tabGoto(0); });
 
+  new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
   new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
   new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
   new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
@@ -2916,6 +2926,11 @@ void MainWindow::tabPrev() {
   else
     index--;
   QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+}
+
+void MainWindow::tabGoto(int index) {
+  if (index < tabs->count()) 
+    QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
 }
 
 void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
