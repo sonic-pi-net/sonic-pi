@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
         <source>Log</source>
-        <translation type="unfinished">Protokol</translation>
+        <translation>Protokol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
@@ -30,7 +30,7 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished">Přepnout stereo inverzi.
+        <translation>Přepnout stereo inverzi.
 Pokud aktivováno, zvuk levého reproduktoru bude přesměrován do pravého a naopak.</translation>
     </message>
     <message>
