@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-06 15:14+0000\n"
+"PO-Revision-Date: 2016-07-11 14:56+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -6788,9 +6788,10 @@ msgid ""
 "another. Programming languages have data structures to allow you do exactly "
 "this."
 msgstr ""
-"Soms wil je meer dan één ding kunnen representeren. Zo kan je het "
-"bijvoorbeeld zeer nuttig vinden om een serie noten achter elkaar te spelen. "
-"Programmeertalen hebben datastructuren die jou toelaten"
+"Soms wil je meer dan één ding kunnen representeren en gebruiken. Zo kan je "
+"het bijvoorbeeld op en moment nodig vinden om een serie noten achter elkaar "
+"te spelen,de één na de andere. Programmeertalen hebben datastructuren die "
+"jou dit toelaten."
 
 #: 08-Data-Structures.md:12
 msgid ""
@@ -6798,20 +6799,26 @@ msgid ""
 "- and people are always inventing new ones. However, for now we only really "
 "need to consider a very simple data structure - the list."
 msgstr ""
+"Er zijn vele spannende en exotische gegevensstructuren beschikbaar voor "
+"programmeurs - en veel mensen zijn nog altijd bezig met het uitvinden van "
+"nieuwe. Maar momenteel gaan we enkel een zeer eenvoudige gegevensstructuur "
+"beschouwen- de lijst."
 
 #: 08-Data-Structures.md:16
 msgid ""
 "Let's look at it in more detail. We'll cover its basic form and then also "
 "how lists can be used to represent scales and chords."
 msgstr ""
+"Laten we dit eens in detail bekijken. We zullen zijn basisvorm behandelen en "
+"ook hoe lijsten kunnen worden gebruikt voor toonladders en akkoorden."
 
 #: 08.1-Lists.md:1
 msgid "8.1 Lists"
-msgstr ""
+msgstr "8.1 Lijsten"
 
 #: 08.1-Lists.md:3
 msgid "Lists"
-msgstr ""
+msgstr "Lijsten"
 
 #: 08.1-Lists.md:5
 msgid ""
@@ -6819,11 +6826,15 @@ msgid ""
 "the list. We met it very briefly before in the section on randomisation when "
 "we randomly chose from a list of notes to play:"
 msgstr ""
+"In deze sectie zullen we een kijkje nemen naar een datastructuur die zeer "
+"nuttig kan zijn - de lijst. We hebben dit al kort gezien in het gedeelte "
+"over randomiseren, wanneer we willekeurig uit een lijst van noten kiezen om "
+"te spelen:"
 
 #: 08.1-Lists.md:9
 #, no-wrap
 msgid "play choose([50, 55, 62])"
-msgstr ""
+msgstr "play choose([50, 55, 62])"
 
 #: 08.1-Lists.md:13
 msgid ""
@@ -6831,6 +6842,10 @@ msgid ""
 "scales. First let's recap how we might play a chord. Remember that if we "
 "don't use `sleep`, sounds all happen at the same time:"
 msgstr ""
+"In deze sectie verkennen we om ook akkoorden en toonladders door lijsten te "
+"laten vertegenwoordigen. Eerste recapituleren we even hoe we een snaar "
+"kunnen bespelen. Denk eraan dat als we geen gebruik maken van `sleep` we "
+"alle klanken tezelfdertijd horen :"
 
 #: 08.1-Lists.md:17
 #, no-wrap
@@ -6839,57 +6854,69 @@ msgid ""
 "play 55\n"
 "play 59"
 msgstr ""
+"play 52\n"
+"play 55\n"
+"play 59"
 
 #: 08.1-Lists.md:23
 msgid "Let's look at other ways to represent this code."
-msgstr ""
+msgstr "Laten we eens kijken naar andere manieren om deze code weer te geven."
 
 #: 08.1-Lists.md:25
 msgid "Playing a List"
-msgstr ""
+msgstr "Afspelen van een lijst"
 
 #: 08.1-Lists.md:27
 msgid ""
 "One option is to place all the notes in a list: `[52, 55, 59]`. Our friendly "
 "`play` function is smart enough to know how to play a list of notes. Try it:"
 msgstr ""
+"Een optie zou kunnen zijn om alle noten in een lijst te zeten `[52, 55, 59]`"
+". Onze vriendschappelijke `play` functie is slim genoeg om een lijst van "
+"noten te kunnen spelen. Probeer maar:"
 
 #: 08.1-Lists.md:31
 #, no-wrap
 msgid "play [52, 55, 59]"
-msgstr ""
+msgstr "play [52, 55, 59]"
 
 #: 08.1-Lists.md:35
 msgid ""
 "Ooh, that's already nicer to read. Playing a list of notes doesn't stop you "
 "from using any of the parameters as normal:"
 msgstr ""
+"Ooh, dat is al aangenamer om lezen. Een lijst met noten afspelen weerhoud je "
+"niet om de gewoonlijke parameters te gaan gebruiken:"
 
 #: 08.1-Lists.md:38
 #, no-wrap
 msgid "play [52, 55, 59], amp: 0.3"
-msgstr ""
+msgstr "play [52, 55, 59], amp: 0.3"
 
 #: 08.1-Lists.md:42
 msgid ""
 "Of course, you can also use the traditional note names instead of the MIDI "
 "numbers:"
 msgstr ""
+"Natuurlijk kan je ook de traditionele benaming van de noten gebruiken ipv. "
+"de MIDI nummers:"
 
 #: 08.1-Lists.md:45
 #, no-wrap
 msgid "play [:E3, :G3, :B3]"
-msgstr ""
+msgstr "play [:E3, :G3, :B3]"
 
 #: 08.1-Lists.md:49
 msgid ""
 "Now those of you lucky enough to have studied some music theory might "
 "recognise that chord as *E Minor* played in the 3rd octave."
 msgstr ""
+"De gelukkigen onder jullie die wat muziektheorie hebben geleerd, hebben het "
+"akkoord *E Mineur* in het 3de octaaf herkend."
 
 #: 08.1-Lists.md:52
 msgid "Accessing a List"
-msgstr ""
+msgstr "Toegang tot een lijst"
 
 #: 08.1-Lists.md:54
 msgid ""
@@ -6899,19 +6926,27 @@ msgid ""
 "the element at index 23? The only strange thing is that in programming "
 "indexes usually start at 0 not 1."
 msgstr ""
+"Een andere zeer nuttige functie van een lijst is de mogelijkheid om er "
+"informatie uit te krijgen. Dit klinkt misschien een beetje vreemd, maar het "
+"is niet ingewikkelder dan iemand die jou vraagt een boek op pagina 23 open "
+"te slaan. Bij een lijst, zou je kunnen zeggen: wat is het element op index "
+"23? Het vreemde alleen is dat programmeer indexen meestal bij 0 beginnen en "
+"niet 1."
 
 #: 08.1-Lists.md:60
 msgid "With list indexes we don't count 1, 2, 3... Instead we count 0, 1, 2..."
-msgstr ""
+msgstr "Met lijst indexen tellen we niet 1,2,3... maar 0,1,2..."
 
 #: 08.1-Lists.md:62
 msgid "Let's look at this in a little more detail. Take a look at this list:"
 msgstr ""
+"Laten we dit een beetje meer in detail bekijken. Neem een kijkje naar deze "
+"lijst:"
 
 #: 08.1-Lists.md:64
 #, no-wrap
 msgid "[52, 55, 59]"
-msgstr ""
+msgstr "[52, 55, 59]"
 
 #: 08.1-Lists.md:68
 msgid ""
@@ -6919,11 +6954,14 @@ msgid ""
 "in that list? Yes, of course, it's `55`. That was easy. Let's see if we can "
 "get the computer to answer it for us too:"
 msgstr ""
+"Dit is niet onoverkomelijk. Wat is nu het tweede element in de lijst? Dat is "
+"`55` natuurlijk ja. Dat was makkelijk. Laten we eens kijken of de computer "
+"zover kunnen krijgen om dit voor ons te doen:"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
 #, no-wrap
 msgid "puts [52, 55, 59][1]"
-msgstr ""
+msgstr "puts [52, 55, 59][1]"
 
 #: 08.1-Lists.md:76
 msgid ""
@@ -6936,6 +6974,14 @@ msgid ""
 "because counting starts at `0`, the index for the second element is `1`. "
 "Look:"
 msgstr ""
+"OK, dat ziet er misschien een beetje raar als je nog nooit zoiets gezien "
+"hebt. Geloof me maar, het is niet te moeilijk. Er zijn drie onderdelen naar "
+"de regel erboven: het woord `puts`, onze lijst ' 52, 55, 59' en onze index "
+"'[1]'. Ten eerste: we zeggen `puts` omdat we willen dat Sonic Pi het "
+"antwoord voor ons in het logboek afdrukt . Vervolgens geven we het onze "
+"lijst, en tenslotte vraagt onze index naarr het tweede element. We moeten "
+"onze index omringen met vierkante haken en omdat tellen bij '0' begint, is "
+"de index voor het tweede element `1`. Kijk:"
 
 #: 08.1-Lists.md:85
 #, no-wrap
@@ -6943,6 +6989,8 @@ msgid ""
 "# indexes:  0   1   2\n"
 "           [52, 55, 59]"
 msgstr ""
+"# indexes:  0   1   2\n"
+"           [52, 55, 59]"
 
 #: 08.1-Lists.md:90
 msgid ""
@@ -6951,21 +6999,28 @@ msgid ""
 "about how you might use a list in your next code jam. For example, what "
 "musical structures might be represented as a series of numbers..."
 msgstr ""
+"Probeer de code uit te voeren ´puts [52, 55, 59] [1]` en je ziet `55´ in het "
+"logboek opduiken. Zet de index ´1´ om in andere indexen, probeer langere "
+"lijsten en denk na over hoe u een lijst in uw volgende code jam kunt "
+"gebruiken. Welke muzikale structuren kunnen bijvoorbeeld worden weergegeven "
+"als een reeks getallen..."
 
 #: 08.2-Chords.md:1
 msgid "8.2 Chords"
-msgstr ""
+msgstr "8.2 Akkoorden"
 
 #: 08.2-Chords.md:5
 msgid ""
 "Sonic Pi has built-in support for chord names which will return lists. Try "
 "it for yourself:"
 msgstr ""
+"Sonic Pi heeft ingebouwde ondersteuning voor akkoordnamen die lijsten zullen "
+"weergeven. Probeer dit voor jezelf:"
 
 #: 08.2-Chords.md:8
 #, no-wrap
 msgid "play chord(:E3, :minor)"
-msgstr ""
+msgstr "play chord(:E3, :minor)"
 
 #: 08.2-Chords.md:12
 msgid ""
@@ -6973,36 +7028,41 @@ msgid ""
 "raw lists (and is easier to read for other people). So what other chords "
 "does Sonic Pi support? Well, a *lot*. Try some of these:"
 msgstr ""
+"Nu komen we er. Dit ziet er veel beter uit dan de rauwe lijst (en is "
+"makkelijker te lezen voor andere mensen). Welke andere akkoorden ondersteund "
+"Sonic Pi nog? Wel, een *hoop*. Probeer wat van deze:"
 
 #: 08.2-Chords.md:16
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 msgid "Arpeggios"
-msgstr ""
+msgstr "Arpeggio 's"
 
 #: 08.2-Chords.md:23
 msgid ""
 "We can easily turn chords into arpeggios with the function `play_pattern`:"
 msgstr ""
+"We kunnen gemakkelijk akkoorden in arpeggio's omzetten met de functie "
+"'play_pattern':"
 
 #: 08.2-Chords.md:26
 #, no-wrap
 msgid "play_pattern chord(:E3, :m7)"
-msgstr ""
+msgstr "play_pattern chord(:E3, :m7)"
 
 #: 08.2-Chords.md:30
 msgid ""
@@ -7011,25 +7071,31 @@ msgid ""
 "to `play`. We can use another function `play_pattern_timed` to specify our "
 "own timings and speed things up:"
 msgstr ""
+"Ok, dit is niet zo fijn- het speelde het echt te traag. `play_pattern` zal "
+"elke noot van de lijst apart afspelen met een rust van `sleep 1` tussen elke "
+"oproep naar `play`. We kunnen de functie  `play_pattern_timed` gebruiken om "
+"een eigen timing aan te geven en het wat sneller te laten gaan:"
 
 #: 08.2-Chords.md:35
 #, no-wrap
 msgid "play_pattern_timed chord(:E3, :m7), 0.25"
-msgstr ""
+msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 
 #: 08.2-Chords.md:39
 msgid ""
 "We can even pass a list of times which it will treat as a circle of times:"
 msgstr ""
+"We kunnen zelfs een lijst met tijden doorgeven, welke als een tijdscirkel "
+"zullen worden behandeld:"
 
 #: 08.2-Chords.md:42
 #, no-wrap
 msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
-msgstr ""
+msgstr "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 
 #: 08.2-Chords.md:46
 msgid "This is the equivalent to:"
-msgstr ""
+msgstr "Dit is gelijk aan:"
 
 #: 08.2-Chords.md:48
 #, no-wrap
@@ -7048,51 +7114,69 @@ msgid ""
 "sleep 0.5\n"
 "play 73"
 msgstr ""
+"play 52\n"
+"sleep 0.25\n"
+"play 55\n"
+"sleep 0.5\n"
+"play 59\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.5\n"
+"play 66\n"
+"sleep 0.25\n"
+"play 69\n"
+"sleep 0.5\n"
+"play 73"
 
 #: 08.2-Chords.md:64
 msgid "Which would you prefer to write?"
-msgstr ""
+msgstr "Welke wil je liever schrijven?"
 
 #: 08.3-Scales.md:1
 msgid "8.3 Scales"
-msgstr ""
+msgstr "8.3 Toonladders"
 
 #: 08.3-Scales.md:3
 msgid "Scales"
-msgstr ""
+msgstr "Toonladders"
 
 #: 08.3-Scales.md:5
 msgid ""
 "Sonic Pi has support for a wide range of scales. How about playing a C3 "
 "major scale?"
 msgstr ""
+"Sonic Pi geeft ondersteuning aan een breed scala van toonladders. Wat dacht "
+"je van de toonladder C3 majeur?"
 
 #: 08.3-Scales.md:8
 #, no-wrap
 msgid "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
-msgstr ""
+msgstr "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:12
 msgid "We can even ask for more octaves:"
-msgstr ""
+msgstr "We kunnen zelfs meer octaven vragen:"
 
 #: 08.3-Scales.md:14
 #, no-wrap
 msgid "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 msgstr ""
+"play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:18
 msgid "How about all the notes in a pentatonic scale?"
-msgstr ""
+msgstr "Wat dacht je van deze noten  in een pentatonische toonladder?"
 
 #: 08.3-Scales.md:20
 #, no-wrap
 msgid "play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, release: 0.1"
 msgstr ""
+"play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, "
+"release: 0.1"
 
 #: 08.3-Scales.md:24
 msgid "Random notes"
-msgstr ""
+msgstr "Random noten"
 
 #: 08.3-Scales.md:26
 msgid ""
@@ -7100,6 +7184,9 @@ msgid ""
 "something meaningful. Have a play with this example which picks random notes "
 "from the chord E3 minor:"
 msgstr ""
+"Akkoorden en toonladders zijn een goede manieren om een willekeurige keuze "
+"tot iets zinvols te beperken. Speel met dit voorbeeld dat willekeurige noten "
+"uitkiest van het akkoord E3 mineur:"
 
 #: 08.3-Scales.md:30
 #, no-wrap
@@ -7110,14 +7197,19 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"loop do\n"
+"  play choose(chord(:E3, :minor)), release: 0.3, cutoff: rrand(60, 120)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 08.3-Scales.md:38
 msgid "Try switching in different chord names and cutoff ranges."
-msgstr ""
+msgstr "Probeer verschillende akkoordnamen en cutoff in te geven."
 
 #: 08.3-Scales.md:40
 msgid "Discovering Chords and Scales"
-msgstr ""
+msgstr "Akkoorden en toonladders ontdekken"
 
 #: 08.3-Scales.md:42
 msgid ""
@@ -7127,18 +7219,23 @@ msgid ""
 "down until you see a long list of chords or scales (depending on which "
 "you're looking at)."
 msgstr ""
+"Om erachter te komen welke toonladders en akkoorden worden ondersteund door "
+"Sonic Pi klikt u de knop Lang op het linkeruiteinde van deze tutorial en "
+"kies vervolgens chord of scale in de lijst van de API. Scroll In de "
+"informatie van het hoofdpaneel naar beneden totdat u een lange lijst van "
+"akkoorden of schalen ziet (afhankelijk van welke u zoekt)."
 
 #: 08.3-Scales.md:48
 msgid "Have fun and remember: there are no mistakes, only opportunities."
-msgstr ""
+msgstr "Veel plezier en vergeet niet: er zijn geen fouten, alleen kansen."
 
 #: 08.4-Rings.md:1
 msgid "8.4 Rings"
-msgstr ""
+msgstr "8.4 Ringen"
 
 #: 08.4-Rings.md:3 A.11-beat-tracking.md:62
 msgid "Rings"
-msgstr ""
+msgstr "Ringen"
 
 #: 08.4-Rings.md:5
 msgid ""
@@ -7146,12 +7243,17 @@ msgid ""
 "programming, you might have come across ring buffers or ring arrays. Here, "
 "we'll just go for ring - it's short and simple."
 msgstr ""
+"Een interessante draai aan standaard lijsten zijn ringen. Als u wat "
+"programmeren weet, ben je misschien al ring buffers of ring array's "
+"tegengekomen. Hier gaan we gewoon voor ring - het is kort en simpel."
 
 #: 08.4-Rings.md:9
 msgid ""
 "In the previous section on lists we saw how we could fetch elements out of "
 "them by using the indexing mechanism:"
 msgstr ""
+"In de vorige sectie over lijsten zagen we al hoe we elementen door het "
+"indexeer mechanisme uit hen konden halen:"
 
 #: 08.4-Rings.md:16
 msgid ""
@@ -7159,12 +7261,17 @@ msgid ""
 "at index 100 as the list has only three elements in it. So Sonic Pi will "
 "return you `nil` which means nothing."
 msgstr ""
+"War gebeurd er nu als je `100` wil indexeren? Wel er is duidelijk geen "
+"element bij index 100 daar de lijst enkel drie elementen bevat. Dus Sonic Pi "
+"zal `nil` weergeven, wat niets betekent."
 
 #: 08.4-Rings.md:20
 msgid ""
 "However, consider you have a counter such as the current beat which "
 "continually increases. Let's create our counter and our list:"
 msgstr ""
+"Stel nu even dat je een teller hebt en dat deze jouw huidige beat is die in "
+"snelheid toeneemt. Lat ons deze teller en lijst aanmaken:"
 
 #: 08.4-Rings.md:23
 #, no-wrap
@@ -7172,20 +7279,26 @@ msgid ""
 "counter = 0\n"
 "notes = [52, 55, 59]"
 msgstr ""
+"counter = 0\n"
+"notes = [52, 55, 59]"
 
 #: 08.4-Rings.md:28
 msgid "We can now use our counter to access a note in our list:"
 msgstr ""
+"We kunnen nu onze teller gebruiken om toegang te krijgen tot een noot in "
+"onze lijst:"
 
 #: 08.4-Rings.md:30
 #, no-wrap
 msgid "puts notes[counter]"
-msgstr ""
+msgstr "puts notes[counter]"
 
 #: 08.4-Rings.md:34
 msgid ""
 "Great, we got `52`. Now, let's increment our counter and get another note:"
 msgstr ""
+"Geweldig, we hebben `52`. Nu, laten we onze teller verhogen en krijg een "
+"andere noot:"
 
 #: 08.4-Rings.md:37
 #, no-wrap
@@ -7193,6 +7306,8 @@ msgid ""
 "counter = (inc counter)\n"
 "puts notes[counter]"
 msgstr ""
+"counter = (inc counter)\n"
+"puts notes[counter]"
 
 #: 08.4-Rings.md:42
 msgid ""
@@ -7201,36 +7316,44 @@ msgid ""
 "wanted to just loop back round and start at the beginning of the list again? "
 "This is what rings are for."
 msgstr ""
+"Super, we krijgen nu `55` en als wij het opnieuw doen krijgen we `59`. Als "
+"wij het nogmaals doen, raken onze cijfer op in onze lijst en krijgen we `nil`"
+". Wat als we bij het begin van de lijst weer willen beginnen? Dit is wat "
+"waar ringen voor zijn."
 
 #: 08.4-Rings.md:47
 msgid "Creating Rings"
-msgstr ""
+msgstr "Ringen maken"
 
 #: 08.4-Rings.md:49
 msgid ""
 "We can create rings one of two ways. Either we use the `ring` function with "
 "the elements of the ring as parameters:"
 msgstr ""
+"We kunnen ringen op twee manieren maken. We kunnen de `ring` functie "
+"gebruiken met de elementen van de ring als parameters:"
 
 #: 08.4-Rings.md:52
 #, no-wrap
 msgid "(ring 52, 55, 59)"
-msgstr ""
+msgstr "(ring 52, 55, 59)"
 
 #: 08.4-Rings.md:56
 msgid ""
 "Or we can take a normal list and convert it to a ring by sending it the `."
 "ring` message:"
 msgstr ""
+"Of we kunnen een normale lijst nemen en deze naar een ring omzetten door "
+"naar deze een `.ring` bericht te zenden :"
 
 #: 08.4-Rings.md:59
 #, no-wrap
 msgid "[52, 55, 59].ring"
-msgstr ""
+msgstr "[52, 55, 59].ring"
 
 #: 08.4-Rings.md:63
 msgid "Indexing Rings"
-msgstr ""
+msgstr "Ringen Indexeren"
 
 #: 08.4-Rings.md:65
 msgid ""
@@ -7239,6 +7362,10 @@ msgid ""
 "larger than the size of the ring and they'll wrap round to always point at "
 "one of the ring's elements:"
 msgstr ""
+"Eens we een ring hebben, kan je deze op exact de zelfde manier als gewone "
+"lijsten gebruiken met uitzondering dat je indexen kunt gebruiken die "
+"negatief zijn of groter dan de grootte van de ring, en altijd naar één van "
+"de elementen van de ring zullen omslaan:"
 
 #: 08.4-Rings.md:70
 #, no-wrap
@@ -7249,10 +7376,15 @@ msgid ""
 "(ring 52, 55, 59)[3] #=> 52\n"
 "(ring 52, 55, 59)[-1] #=> 59"
 msgstr ""
+"(ring 52, 55, 59)[0] #=> 52\n"
+"(ring 52, 55, 59)[1] #=> 55\n"
+"(ring 52, 55, 59)[2] #=> 59\n"
+"(ring 52, 55, 59)[3] #=> 52\n"
+"(ring 52, 55, 59)[-1] #=> 59"
 
 #: 08.4-Rings.md:78
 msgid "Using Rings"
-msgstr ""
+msgstr "Ringen Gebruiken"
 
 #: 08.4-Rings.md:80
 msgid ""
@@ -7261,143 +7393,172 @@ msgid ""
 "times or anything useful we've stored in our ring regardless of the beat "
 "number we're currently on."
 msgstr ""
+"Laten we zeggen dat we een variabele gebruiken om het nummer van de huidige "
+"beat te vertegenwoordigen. We kunnen dit als een index in onze ring  "
+"gebruiken om noten te halen om te spelen of release tijden of alles wat "
+"nuttig zou kunnen zijn en we hebben opgeslagen in onze ring ongeacht het "
+"beat nummer dat we momenteel hebben."
 
 #: 08.4-Rings.md:85
 msgid "Scales and Chords are Rings"
-msgstr ""
+msgstr "Toonladders en Akkoorden zijn ringen"
 
 #: 08.4-Rings.md:87
 msgid ""
 "A useful thing to know is that the lists returned by `scale` and `chord` are "
 "also rings and allow you to access them with arbitrary indexes."
 msgstr ""
+"Handig om weten is dat de lijsten door `scale` en de `chord` opgeroepen, ook "
+"ringen zijn en jou toelaten willekeurige indexen te openen."
 
 #: 08.4-Rings.md:90
 msgid "Ring Constructors"
-msgstr ""
+msgstr "Ring Bouwers"
 
 #: 08.4-Rings.md:92
 msgid ""
 "In addition to `ring` there are a number of other functions which will "
 "construct a ring for us."
 msgstr ""
+"Naast de `ring` zijn er een aantal andere functies die een ring voor ons "
+"zullen bouwen."
 
 #: 08.4-Rings.md:95
 msgid "`range` invites you specify a starting point, end point and step size."
 msgstr ""
+"`range`nodigt je uit om een start en een eindpositie op te geven en de "
+"grootte van de stappen."
 
 #: 08.4-Rings.md:96
 msgid ""
 "`bools` allows you to use `1`s and `0`s to succinctly represent booleans."
 msgstr ""
+"`bools` laten het gebruik van `1`s en `0`s om beknopte booleaans te "
+"vertegenwoordigen."
 
 #: 08.4-Rings.md:97
 msgid "`knit` allows you to knit a sequence of repeated values."
-msgstr ""
+msgstr "`knit` laat jou een sequentie met repeterende waarden breien."
 
 #: 08.4-Rings.md:98
 msgid "`spread` creates a ring of bools with a Euclidean distribution."
 msgstr ""
+"`spread` creëert een ring van een boleaanse met een Euclidische distributie."
 
 #: 08.4-Rings.md:100
 msgid "Take a look at their respective documentation for more information."
 msgstr ""
+"Neem een kijkje naar hun respectievelijke documentatie voor meer informatie "
+"hierover."
 
 #: 08.5-Ring-Chains.md:1
 msgid "8.5 Ring Chains"
-msgstr ""
+msgstr "8.5 Ring Kettingen"
 
 #: 08.5-Ring-Chains.md:3
 msgid "Ring Chains"
-msgstr ""
+msgstr "Ring Kettingen"
 
 #: 08.5-Ring-Chains.md:5
 msgid ""
 "In addition to the constructors such as `range` and `spread` another way of "
 "creating new rings is to manipulate existing rings."
 msgstr ""
+"Als toevoeging tot de bouwers zoals `range`en `spread`is het manipuleren van "
+"bestaande ringen, een andere manier om nieuwe ringen te maken."
 
 #: 08.5-Ring-Chains.md:9
 msgid "Chain Commands"
-msgstr ""
+msgstr "Ketting Commando's"
 
 #: 08.5-Ring-Chains.md:11
 msgid "To explore this, take a simple ring:"
-msgstr ""
+msgstr "Neem deze eenvoudige ring om dit te verkennen:"
 
 #: 08.5-Ring-Chains.md:13
 #, no-wrap
 msgid "(ring 10, 20, 30, 40, 50)"
-msgstr ""
+msgstr "(ring 10, 20, 30, 40, 50)"
 
 #: 08.5-Ring-Chains.md:17
 msgid ""
 "What if we wanted it backwards? Well we'd use the chain command `.reverse` "
 "to take the ring and turn it around:"
 msgstr ""
+"Wat als we deze andersom willen? Dan kunnen we het chain commando `.reverse "
+"nemen om de ring om te draaien:"
 
 #: 08.5-Ring-Chains.md:20
 #, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
-msgstr ""
+msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
 #: 08.5-Ring-Chains.md:24
 msgid "Now, what if we wanted the first three values from the ring?"
-msgstr ""
+msgstr "En wat als we de eerste drie waarden van de ring willen nemen?"
 
 #: 08.5-Ring-Chains.md:26
 #, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
-msgstr ""
+msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
 #: 08.5-Ring-Chains.md:30
 msgid "Finally, what if we wanted to shuffle the ring?"
-msgstr ""
+msgstr "En wat als we de ring willen verschuiven?"
 
 #: 08.5-Ring-Chains.md:32
 #, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
-msgstr ""
+msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
 #: 08.5-Ring-Chains.md:36
 msgid "Multiple Chains"
-msgstr ""
+msgstr "Meerdere Kettingen"
 
 #: 08.5-Ring-Chains.md:38
 msgid ""
 "This is already a powerful way of creating new rings. However, the *real* "
 "power comes when you chain a few of these commands together."
 msgstr ""
+"Dit is al een krachtige manier om nieuwe ringen te creëren. De *echte* "
+"kracht komt wanneer je een paar van deze opdrachten samen chaint."
 
 #: 08.5-Ring-Chains.md:41
 msgid ""
 "How about shuffling the ring, dropping 1 element and then taking the next 3?"
 msgstr ""
+"Wat denk je ervan de ring te shuffelen, 1 element te laten vallen en "
+"vervolgens de volgende 3 te nemen?"
 
 #: 08.5-Ring-Chains.md:43
 msgid "Let's take this in stages:"
-msgstr ""
+msgstr "Laten we dit in fasen doen:"
 
 #: 08.5-Ring-Chains.md:45
 msgid "`(ring 10, 20, 30, 40, 50)` - our initial ring"
-msgstr ""
+msgstr "`(ring 10, 20, 30, 40, 50)` - our initial ring"
 
 #: 08.5-Ring-Chains.md:46
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
 
 #: 08.5-Ring-Chains.md:47
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, "
 "20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, "
+"20)`"
 
 #: 08.5-Ring-Chains.md:48
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, "
 "10, 50)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, "
+"10, 50)`"
 
 #: 08.5-Ring-Chains.md:50
 msgid ""
@@ -7406,10 +7567,14 @@ msgid ""
 "an extremely rich and powerful way of generating new rings from existing "
 "ones."
 msgstr ""
+"Kan je nu zien dat we een lange ketting van deze methoden kunnen gebruiken "
+"door deze *bij elkaar te plakken*. We kunnen deze in eender welke volgorde "
+"combineren en ontwikkellen hierbij een uiterst rijke en krachtige manier om "
+"nieuwe ringen van bestaande ringen te creëren."
 
 #: 08.5-Ring-Chains.md:55
 msgid "Immutability"
-msgstr ""
+msgstr "Onveranderbaarheid"
 
 #: 08.5-Ring-Chains.md:57
 msgid ""
@@ -7420,74 +7585,98 @@ msgid ""
 "chaining them within a thread knowing you won't be affecting any other "
 "thread using the same ring."
 msgstr ""
+"Deze ringen hebben een krachtige en belangrijke eigenschap. Ze zijn "
+"onveranderlijk wat betekent dat je ze niet kunt veranderen. Dit betekent dat "
+"de chaining methode die in deze sectie beschreven word *ringen niet "
+"veranderd* maar eerder *nieuwe ringen maakt*. Dit betekent dat u vrij bent "
+"om te ringen te delen met threads en je hen kan beginnen chainen binnen een "
+"thread met de wetenschap dat je geen andere thread zal beïnvloeden die "
+"gebruik maakt van dezelfde ring."
 
 #: 08.5-Ring-Chains.md:64
 msgid "Available Chain Methods"
-msgstr ""
+msgstr "Beschikbare Chain Methoden"
 
 #: 08.5-Ring-Chains.md:66
 msgid "Here's a list of the available chain methods for you to play with:"
 msgstr ""
+"Hier is een lijst van de beschikbare chain methoden voor jou om mee te "
+"spelen:"
 
 #: 08.5-Ring-Chains.md:68
 msgid "`.reverse` - returns a reversed version of the ring"
-msgstr ""
+msgstr "'.reverse' - geeft een omgekeerde versie van de ring"
 
 #: 08.5-Ring-Chains.md:69
 msgid "`.sort` - creates a sorted version of the ring"
-msgstr ""
+msgstr "'.sort' - creëert een gesorteerde versie van de ring"
 
 #: 08.5-Ring-Chains.md:70
 msgid "`.shuffle` - creates a shuffled version of the ring"
-msgstr ""
+msgstr "'.shuffle' - creëert een geshuffelde versie van de ring"
 
 #: 08.5-Ring-Chains.md:71
 msgid ""
 "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
 msgstr ""
+"'.pick(3)' - geeft een ring met de resultaten van de aanroep `.choose` 3 keer"
 
 #: 08.5-Ring-Chains.md:72
 msgid ""
 "`.pick` - similar to `.pick(3)` only the size defaults to the same as the "
 "original ring"
 msgstr ""
+"'.pick' - vergelijkbaar met '.pick(3)' maar de grootte is standaard "
+"hetzelfde als de oorspronkelijke ring"
 
 #: 08.5-Ring-Chains.md:73
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
 msgstr ""
+"'.take(5)' - geeft als resultaat een nieuwe ring die alleen eerste 5 "
+"elementen bevat"
 
 #: 08.5-Ring-Chains.md:74
 msgid ""
 "`.drop(3)` - returns a new ring with everything but the first 3 elements"
 msgstr ""
+"'.drop(3)' - geeft als resultaat een nieuwe ring met alles behalve de eerste "
+"3 elementen"
 
 #: 08.5-Ring-Chains.md:75
 msgid "`.butlast` - returns a new ring with the last element missing"
 msgstr ""
+"'.butlast' - geeft als resultaat een nieuwe ring maar ontbreekt het laatste "
+"element"
 
 #: 08.5-Ring-Chains.md:76
 msgid "`.drop_last(3)` - returns a new ring with the last 3 elements missing"
 msgstr ""
+"'.drop_last(3)' - geeft als resultaat een nieuwe ring maar de laatste 3 "
+"elementen ontbreken"
 
 #: 08.5-Ring-Chains.md:77
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
 msgstr ""
+"'.take_last(6)'-geeft als resultaat een nieuwe ring met alleen de laatste 6 "
+"elementen"
 
 #: 08.5-Ring-Chains.md:78
 msgid "`.stretch(2)` - repeats each element in the ring twice"
-msgstr ""
+msgstr "'.stretch(2)' - herhaald tweemaal elk element in de ring"
 
 #: 08.5-Ring-Chains.md:79
 msgid "`.repeat(3)` - repeats the entire ring 3 times"
-msgstr ""
+msgstr "'.repeat(3)' - herhaalt de hele ring 3 keer"
 
 #: 08.5-Ring-Chains.md:80
 msgid "`.mirror` - adds the ring to a reversed version of itself"
-msgstr ""
+msgstr "'.mirror' - voegt de ring naar een omgekeerde versie van zichzelf toe"
 
 #: 08.5-Ring-Chains.md:81
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
 msgstr ""
+"'.reflect' - hetzelfde als spiegel maar middelste waarde wordt niet "
+"gedupliceerd"
 
 #: 08.5-Ring-Chains.md:83
 msgid ""
@@ -7495,10 +7684,13 @@ msgid ""
 "So feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop "
 "the first 5 elements."
 msgstr ""
+"Natuurlijk, kan je in deze chain methoden ook andere cijfers gebruiken! Dus "
+"voel je vrij om `.drop(5)` in plaats van `.drop(3)` als je de eerste 5 "
+"elementen wilt laten vallen."
 
 #: 09-Live-Coding.md:1
 msgid "9 Live Coding"
-msgstr ""
+msgstr "9 Live Codering"
 
 #: 09-Live-Coding.md:5
 msgid ""
@@ -7509,20 +7701,28 @@ msgid ""
 "just perfect). However, the main advantage is that you can take Sonic Pi on "
 "stage and gig with it."
 msgstr ""
+"Éen van de meest opwindende aspecten van Sonic Pi is dat je live code kan "
+"schrijven en deze veranderd om muziek te spelen, net zoals je zou optreden "
+"met je gitaar. Een voordeel van deze aanpak is dat je meer feedback krijgt "
+"terwijl je componeert (je kaan een simpele code loop laten lopen en deze "
+"tweaken tot deze perfect klinkt).  Het belangrijkste voordeel is echter dat "
+"u Sonic Pi op het podium mee kunt nemen en kan optreden."
 
 #: 09-Live-Coding.md:12
 msgid ""
 "In this section we'll cover the fundamentals of turning your static code "
 "compositions into dynamic performances."
 msgstr ""
+"In deze sectie zullen we de fundamenten bespreken hoe je je statische code "
+"kan omvormen tot een dynamische voorstelling."
 
 #: 09-Live-Coding.md:15
 msgid "Hold on to your seats..."
-msgstr ""
+msgstr "Zit je goed? ..."
 
 #: 09.1-Live-Coding-Fundamentals.md:1
 msgid "9.1 Live Coding Fundamentals"
-msgstr ""
+msgstr "9.1 De Grondslagen van Live Codering"
 
 #: 09.1-Live-Coding-Fundamentals.md:5
 msgid ""
@@ -7531,18 +7731,22 @@ msgid ""
 "making your music compositions live and turning them into a performance. For "
 "that we'll need 3 main ingredients:"
 msgstr ""
+"Nu hebben we genoeg geleerd en kan het echte plezier beginnen. In deze "
+"sectie trekken we uit alle vorige secties zaken die jou laten zien hoe je je "
+"composities tot live muziek kan maken en ze in een voorstelling kan "
+"omtoveren. Daarvoor hebben we 3 hoofd ingrediënten nodig:"
 
 #: 09.1-Live-Coding-Fundamentals.md:10
 msgid "An ability to write code that makes sounds - CHECK!"
-msgstr ""
+msgstr "Code kunnen schrijven dat geluiden kan voortbrengen - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:11
 msgid "An ability to write functions - CHECK!"
-msgstr ""
+msgstr "Functies kunnen schrijven - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:12
 msgid "An ability to use (named) threads - CHECK!"
-msgstr ""
+msgstr "(benoemde) Threads kunnen gebruiken - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:14
 msgid ""
@@ -7550,6 +7754,9 @@ msgid ""
 "a function containing the code we want to play. Let's start simple. We also "
 "want to loop calls to that function in a thread:"
 msgstr ""
+"We gaan aan de slag. We coderen onze eerste geluiden. We moeten eerst een "
+"functie hebben met de code die we willen spelen. Laten we eenvoudig "
+"beginnen. Wij willen ook loops oproepen die in een thread functioneren:"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
@@ -7564,6 +7771,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  play 50\n"
+"  sleep 1\n"
+"end\n"
+"in_thread(name: :looper) do\n"
+"  loop do\n"
+"    my_loop\n"
+"  end\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:31
 msgid ""
@@ -7571,6 +7787,9 @@ msgid ""
 "sections on functions and threads. It's not too complicated if you've "
 "already wrapped your head around these things."
 msgstr ""
+"Als dat een beetje te ingewikkeld voor je lijkt, ga dan even terug en "
+"herlees de passages over functies en threads. Het is niet al te ingewikkeld "
+"nu je je al in deze zaken verdiept hebt."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
 msgid ""
@@ -7578,14 +7797,19 @@ msgid ""
 "sleeps for a beat. We then define a named thread called `:looper` which just "
 "loops around calling `my_loop` repeatedly."
 msgstr ""
+"Wat we hier hebben is een functiedefinitie dat gewoon noot 50 speelt en een "
+"beat slaapt. Vervolgens definiëren we een benoemde thread genaamd `:looper` "
+"die herhaaldelijk rond `my_loop` loopt."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
 msgstr ""
+"Als u deze code uitvoert, zult je noot 50 altijd opnieuw en opnieuw horen "
+"spelen..."
 
 #: 09.1-Live-Coding-Fundamentals.md:41
 msgid "Changing it up"
-msgstr ""
+msgstr "Veranderingen aanbrengen"
 
 #: 09.1-Live-Coding-Fundamentals.md:43
 msgid ""
@@ -7593,6 +7817,9 @@ msgid ""
 "50 to another number, say 55, then press the Run button again. Woah! It "
 "changed! Live!"
 msgstr ""
+"Nu, hier is waar de pret begint. Terwijl de code *nog loopt* wijzigen 50 "
+"naar een ander nummer, zeg 55, druk nogmaals op de knop afspelen. Woah! Het "
+"veranderd! Live!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
 msgid ""
@@ -7601,12 +7828,19 @@ msgid ""
 "function. We gave `:my_loop` a new definition. When the `:looper` thread "
 "looped around it simply called the new definition."
 msgstr ""
+"Het heeft geen nieuwe laag toegevoegd omdat we benoemde threads gebruiken, "
+"die voor elke naam één thread toestaat. De klank veranderde ook omdat we de "
+"functie hebben *geherdefinieerd*. We gaven `:my_loop` een nieuwe definitie. "
+"Wanneer de `:looper` thread rond Loopt riep deze de nieuwe definitie op."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
 msgid ""
 "Try changing it again, change the note, change the sleep time. How about "
 "adding a `use_synth` statement? For example, change it to:"
 msgstr ""
+"Probeer het opnieuw te wijzigen, verander de noot, de rusttijd. Hoe zit het "
+"met het toevoegen van het `use_synth` statement? Verander het bijvoorbeeld "
+"naar:"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -7617,12 +7851,19 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play 50, release: 0.3\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:63
 msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of "
 "playing the same note again and again, try playing a chord:"
 msgstr ""
+"Nu het klinkt erg interessant, maar we kunnen het verder verlevendigen. In "
+"plaats van dezelfde noot opnieuw en opnieuw te spelen, speel een akkoord:"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -7633,10 +7874,15 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play chord(:e3, :minor), release: 0.3\n"
+"  sleep 0.5\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:75
 msgid "How about playing random notes from the chord:"
-msgstr ""
+msgstr "Wat denk je van random noten van het akkoord te spelen:"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
@@ -7647,10 +7893,15 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play choose(chord(:e3, :minor)), release: 0.3\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:85
 msgid "Or using a random cutoff value:"
-msgstr ""
+msgstr "Of met behulp van een willekeurige cutoff waarde:"
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
@@ -7661,10 +7912,15 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:95
 msgid "Finally, add some drums:"
-msgstr ""
+msgstr "Ten slotte, voeg enkele drums toe:"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
@@ -7676,10 +7932,16 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  sample :drum_bass_hard, rate: rrand(0.5, 2)\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:106
 msgid "Now things are getting exciting!"
-msgstr ""
+msgstr "Nu word het steeds spannender!"
 
 #: 09.1-Live-Coding-Fundamentals.md:108
 msgid ""
@@ -7687,14 +7949,17 @@ msgid ""
 "threads, stop what you're doing and read the next section on `live_loop` "
 "which will change the way you code in Sonic Pi forever..."
 msgstr ""
+"Maar voor je recht springt en je begint te live coden met functies en "
+"threads, stop met wat je doet en lees de volgende sectie over `live_loop` "
+"wat de manier van coderen in Sonic Pi voor eeuwig zal veranderen..."
 
 #: 09.2-Live-Loops.md:1
 msgid "9.2 Live Loops"
-msgstr ""
+msgstr "9.2 Live Loops"
 
 #: 09.2-Live-Loops.md:3
 msgid "Live Loops"
-msgstr ""
+msgstr "Live Loops"
 
 #: 09.2-Live-Loops.md:5
 msgid ""
@@ -7703,16 +7968,24 @@ msgid ""
 "Coding Fundamentals, `live_loop` is a simple way of doing exactly that but "
 "without having to write so much."
 msgstr ""
+"OK, dus dit gedeelte van de handleiding is de echte parel. Als je maar één "
+"gedeelte zou kunnen lezen, zou het deze moeten zijn. Als je de vorige sectie "
+"van Live codering grondbeginselen leest, is 'live_loop' een eenvoudige "
+"manier om precies dat te bereiken, maar zonder zo veel code te hoeven "
+"schrijven."
 
 #: 09.2-Live-Loops.md:10
 msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam "
 "with Sonic Pi."
 msgstr ""
+"Als je de vorige sectie niet gelezen hebt,  `live_loop` is de beste manier "
+"om  met Sonic Pi te jammen."
 
 #: 09.2-Live-Loops.md:13
 msgid "Let's play. Write the following in a new buffer:"
 msgstr ""
+"Laten we hiermee even spelen. Schrijf het volgende in een nieuwe buffer:"
 
 #: 09.2-Live-Loops.md:15
 #, no-wrap
@@ -7722,6 +7995,10 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play 60\n"
+"  sleep 1\n"
+"end"
 
 #: 09.2-Live-Loops.md:22
 msgid ""
@@ -7729,17 +8006,24 @@ msgid ""
 "there. However, don't press Stop just yet. Change the `60` to `65` and press "
 "Run again."
 msgstr ""
+"Druk op de afspeel knop. Je hoort elke tel een zelfde basis bliep. Niks "
+"opwindend aan. Maar druk nog niet op Stop. Verander de `60` naar `65` en "
+"druk terug op Afspelen."
 
 #: 09.2-Live-Loops.md:26
 msgid ""
 "Woah! It changed *automatically* without missing a beat. This is live coding."
 msgstr ""
+"Woeha! Het veranderde *automatisch* zonder een tel te missen. Dit is Live "
+"Coding."
 
 #: 09.2-Live-Loops.md:28
 msgid ""
 "Why not change it to be more bass like? Just update your code whilst it's "
 "playing:"
 msgstr ""
+"Waarom deze niet veranderen aar iets meer Bass-achtig? Gewoon je code "
+"updaten terwijl het speelt:"
 
 #: 09.2-Live-Loops.md:30
 #, no-wrap
@@ -7750,14 +8034,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:38
 msgid "Then hit Run."
-msgstr ""
+msgstr "Sla Afspelen aan."
 
 #: 09.2-Live-Loops.md:40
 msgid "Let's make the cutoff move around:"
-msgstr ""
+msgstr "Laten we de cutoff wat rond-bewegen:"
 
 #: 09.2-Live-Loops.md:42
 #, no-wrap
@@ -7768,14 +8057,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:50
 msgid "Hit Run again."
-msgstr ""
+msgstr "Sla Afspelen opnieuw aan."
 
 #: 09.2-Live-Loops.md:52
 msgid "Add some drums:"
-msgstr ""
+msgstr "Voeg wat drums toe:"
 
 #: 09.2-Live-Loops.md:54
 #, no-wrap
@@ -7787,10 +8081,16 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  sample :loop_garzul\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:63
 msgid "Change the note from `e1` to `c1`:"
-msgstr ""
+msgstr "Verander de noot van `e1` naar `c1`:"
 
 #: 09.2-Live-Loops.md:65
 #, no-wrap
@@ -7802,22 +8102,28 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  sample :loop_garzul\n"
+"  use_synth :prophet\n"
+"  play :c1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:74
 msgid "Now stop listening to me and play around yourself! Have fun!"
-msgstr ""
+msgstr "Stop nu met naar mij te luisteren en ga zelf aan de slag! Veel plezier!"
 
 #: 09.3-Multiple-Live-Loops.md:1
 msgid "9.3 Multiple Live Loops"
-msgstr ""
+msgstr "9.3 Meerdere Live Loops"
 
 #: 09.3-Multiple-Live-Loops.md:3
 msgid "Multiple Live Loops"
-msgstr ""
+msgstr "Meerdere Live Loops"
 
 #: 09.3-Multiple-Live-Loops.md:5
 msgid "Consider the following live loop:"
-msgstr ""
+msgstr "Beschouw even de volgende code:"
 
 #: 09.3-Multiple-Live-Loops.md:7
 #, no-wrap
@@ -7827,6 +8133,10 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play 50\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:14
 msgid ""
@@ -7834,16 +8144,21 @@ msgid ""
 "because it signifies that this live loop is different from all other live "
 "loops."
 msgstr ""
+"Je kan je al afgevraagd hebben waarom het de naam `: foo` moet zijn. Deze "
+"naam is belangrijk, omdat het betekent dat deze live loop van de andere live "
+"loops verschilt."
 
 #: 09.3-Multiple-Live-Loops.md:18
 msgid "*There can never be two live loops running with the same name*."
-msgstr ""
+msgstr "*Er kunnen nooit twee live loops met de zelfde naam afspelen*."
 
 #: 09.3-Multiple-Live-Loops.md:20
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just "
 "need to give them different names:"
 msgstr ""
+"Dit betekent dat als we willen dat meerdere live loops gelijktijdig willen "
+"uit voeren, moeten we ze gewoon een andere naam geven:"
 
 #: 09.3-Multiple-Live-Loops.md:23
 #, no-wrap
@@ -7858,16 +8173,27 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :c1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 0.5\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:36
 msgid ""
 "You can now update and change each live loop independently and it all just "
 "works."
 msgstr ""
+"Je kan nu  elke live loop onafhankelijk van elkaar wijzigen en updaten en "
+"het werkt gewoon allemaal."
 
 #: 09.3-Multiple-Live-Loops.md:39
 msgid "Syncing Live Loops"
-msgstr ""
+msgstr "Synchroniseren van Live Loops"
 
 #: 09.3-Multiple-Live-Loops.md:41
 msgid ""
@@ -7877,10 +8203,15 @@ msgid ""
 "the live loop. We can therefore `sync` on these cues to ensure our loops are "
 "in sync without having to stop anything."
 msgstr ""
+"Wat je misschien al opgevallen is is dat live loops automatisch met het "
+"thread cue mechanisme werkt dat we al verkend hebben. Elke keer een live "
+"loop afspeelt genereert deze een nieuw cue gebeuren met de live loop's naam. "
+"We kunnen daarom op deze cue's sync-en om ons ervan te verzekeren dat onze "
+"loops in sync lopen zonder we daarvoor iets moeten gaan stoppen."
 
 #: 09.3-Multiple-Live-Loops.md:47
 msgid "Consider this badly synced code:"
-msgstr ""
+msgstr "Beschouw even deze slecht gesyncte code:"
 
 #: 09.3-Multiple-Live-Loops.md:49
 #, no-wrap
@@ -7894,6 +8225,14 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
+"  sleep 0.4\n"
+"end\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:61
 msgid ""
@@ -7901,6 +8240,9 @@ msgid ""
 "let's fix the `:foo` loop to make the sleep a factor of 1 - something like "
 "`0.5` will do:"
 msgstr ""
+"Laten we eens kijken als we de timing en synchronisatie kunnen verhelpen "
+"zonder deze te stoppen. Laten we eerst de `:foo` loop fixen en de sleep "
+"factor 1 veranderen naar `0.5` :"
 
 #: 09.3-Multiple-Live-Loops.md:65
 #, no-wrap
@@ -7914,6 +8256,14 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:77
 msgid ""
@@ -7921,6 +8271,9 @@ msgid ""
 "quite line up correctly. This is because the loops are *out of phase*. Let's "
 "fix that by syncing one to the other:"
 msgstr ""
+"We zijn nog niet helemaal klaar -je zult merken dat de beats niet helemaal "
+"correct samenlopen. Dit komt omdat de loops *uit fase* spelen. Laten we dat "
+"verhelpen door de ene aan de andere te synchroniseren:"
 
 #: 09.3-Multiple-Live-Loops.md:81
 #, no-wrap
@@ -7935,22 +8288,31 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :bar do\n"
+"  sync :foo\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:94
 msgid "Wow, everything is now perfectly in time - all without stopping."
-msgstr ""
+msgstr "Wow,  nu is alles perfect in tijd - allemaal zonder te stoppen."
 
 #: 09.3-Multiple-Live-Loops.md:96
 msgid "Now, go forth and live code with live loops!"
-msgstr ""
+msgstr "Ga nu door met je live code en live loops!"
 
 #: 09.4-Ticking.md:1
 msgid "9.4 Ticking"
-msgstr ""
+msgstr "9.4 Ticking"
 
 #: 09.4-Ticking.md:3
 msgid "Ticking"
-msgstr ""
+msgstr "Ticking"
 
 #: 09.4-Ticking.md:5
 msgid ""
@@ -7961,7 +8323,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:9
 msgid "Ticking Rings"
-msgstr ""
+msgstr "Tikkende Ringen"
 
 #: 09.4-Ticking.md:11
 msgid ""
@@ -7982,10 +8344,16 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"counter = 0\n"
+"live_loop :arp do\n"
+"  play (scale :e3, :minor_pentatonic)[counter], release: 0.1\n"
+"  counter += 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 09.4-Ticking.md:26
 msgid "This is equivalent to:"
-msgstr ""
+msgstr "Dit is gelijk aan:"
 
 #: 09.4-Ticking.md:28
 #, no-wrap
@@ -7995,6 +8363,10 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"live_loop :arp do\n"
+"  play (scale :e3, :minor_pentatonic).tick, release: 0.1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 09.4-Ticking.md:35
 msgid ""
@@ -8003,6 +8375,10 @@ msgid ""
 "declaration. This tick is local to the live loop, so each live loop can have "
 "its own independent tick:"
 msgstr ""
+"Hier nemen we de pentatonische toonladder E3 mineur en ticking doorheen elk "
+"element. Dit wordt gedaan door `.tick` toe te voegen aan het einde van de "
+"verklaring van de toonladder. De tick is lokaal voor de live loop, dus elke "
+"live loop kan zijn eigen onafhankelijke tick hebben:"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -8017,15 +8393,26 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"live_loop :arp do\n"
+"  play (scale :e3, :minor_pentatonic).tick, release: 0.1\n"
+"  sleep 0.125\n"
+"end\n"
+"live_loop :arp2 do\n"
+"  use_synth :dsaw\n"
+"  play (scale :e2, :minor_pentatonic, num_octaves: 3).tick, release: 0.25\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.4-Ticking.md:53
 msgid "Tick"
-msgstr ""
+msgstr "Tick"
 
 #: 09.4-Ticking.md:55
 msgid ""
 "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr ""
+"U kunt ook `tick` als een standaard fn aanroepen en de waarde gebruiken als "
+"een index:"
 
 #: 09.4-Ticking.md:57
 #, no-wrap
@@ -8036,6 +8423,11 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"live_loop :arp do\n"
+"  idx = tick\n"
+"  play (scale :e3, :minor_pentatonic)[idx], release: 0.1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 09.4-Ticking.md:65
 msgid ""
@@ -8043,10 +8435,13 @@ msgid ""
 "when you want to do fancy things with the tick value and for when you want "
 "to use ticks for other things than indexing into rings."
 msgstr ""
+"Het is veel leuker om `.tick` op het einde aan te roepen. de `.tick` fn is "
+"als je je dingen wil verbeelden met de tick waarde en voor wanneer je ticks "
+"wil gebruiken voor andere dingen dan in ringen te indexeren."
 
 #: 09.4-Ticking.md:70
 msgid "Look"
-msgstr ""
+msgstr "Kijk"
 
 #: 09.4-Ticking.md:72
 msgid ""
@@ -8058,10 +8453,19 @@ msgid ""
 "value and *not increase* it. This is available via the `look` fn. You can "
 "call `look` as a standard fn or by adding `.look` to the end of a ring."
 msgstr ""
+"De magische van tick is dat niet alleen het resultaat geeft van een nieuwe "
+"index (of de waarde van de ring op die index) ook zorgt het ervoor dat de "
+"volgende keer dat u tick aanroept, dit de volgende waarde zal zijn. Neem een "
+"kijkje naar de voorbeelden in de docs `tick` voor de vele manieren om "
+"hiermee te werken. Nu is het echter belangrijk erop te wijzen dat je soms "
+"gewoon wil kijken naar de huidige waarde van de `tick` maar deze *niet te "
+"verhogen*. Deze optie is beschikbaar via de `look` fn. U kunt `look` "
+"oproepen zoals een standaard fn of door toevoeging van `look`  aan het einde "
+"van een ring."
 
 #: 09.4-Ticking.md:81
 msgid "Naming Ticks"
-msgstr ""
+msgstr "Ticks Benoemen"
 
 #: 09.4-Ticking.md:83
 msgid ""
