@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-30 20:25+0000\n"
-"Last-Translator: André Sá <siikyatgith@openaliasbox.org>\n"
+"PO-Revision-Date: 2016-07-11 22:04+0000\n"
+"Last-Translator: Duarte Botelho <duartebotelho@ist.utl.pt>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
 "Language: pt\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -392,7 +392,6 @@ msgid "*E* - Prefs Panel"
 msgstr "*E* - Painel de Opções"
 
 #: 01.2-Exploring-the-Interface.md:16
-#, fuzzy
 msgid "*F* - Log Viewer"
 msgstr "*F* - Vizualizador de logs"
 
@@ -421,15 +420,14 @@ msgid "B. Editor Controls"
 msgstr "B. Controlos do Editor"
 
 #: 01.2-Exploring-the-Interface.md:30
-#, fuzzy
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
-"Estes botões laranja permitem manipular o editor. Os botões *Size +* e *Size -"
-"* tornam o texto maior ou menor. O botão *Align* vai embelezar o código por ti"
-" para que pareça mais profissional."
+"Estes botões laranja permitem manipular o editor. Os botões *Size +* e *Size "
+"-* tornam o texto maior ou menor. O botão *Align* vai embelezar o código por "
+"ti para que pareça mais profissional."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
