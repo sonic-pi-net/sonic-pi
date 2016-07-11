@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preferências</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
@@ -30,7 +30,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inverter stereo.
+Se estiver activo, o audio da coluna esquerda
+será ouvido na coluna do lado direito e vice versa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"></location>
