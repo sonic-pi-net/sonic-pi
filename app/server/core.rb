@@ -584,6 +584,12 @@ if RUBY_VERSION < "2"
       self.keys
     end
   end
+
+  class Hash
+    def to_h
+      self
+    end
+  end
 end
 
 class Array
