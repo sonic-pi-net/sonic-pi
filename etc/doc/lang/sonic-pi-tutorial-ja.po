@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-08 09:58+0000\n"
+"PO-Revision-Date: 2016-07-11 09:56+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2798,6 +2798,8 @@ msgid ""
 "ise our samples. Luckily many sample packs add useful information in the filen"
 "ames. Let's take another look at the sample file names in our directory:"
 msgstr ""
+"インデックスは機能的には十分かもしれませんが、サンプルを分類するもっと強力な方法が必要になるかもしれません。幸いにして、いくつかのサンプルパックではファイ"
+"ル名に意味のある情報を付加してくれています。ディレクトリ内のファイル名を別な観点から見てみましょう。"
 
 #: 03.7-Sample-Packs.md:93
 msgid ""
@@ -2809,6 +2811,10 @@ msgid ""
 "r code. For example, we know we can only play the piano sample with code that'"
 "s in 120 BPM and in the key of Bb."
 msgstr ""
+"これらのファイル名はかなりの情報を持っていることに注目してください。最初にサンプルのBPM（beats per minute）があります。ピアノのサンプル"
+"はBPMが120で最初の3つのメロディーはBPMが100であることが分かると思います。また、サンプルのファイル名はキーを含んでいます。ギターのサンプルはキ"
+"ーがBbでメロディーのキーはA#です。この情報は我々の他のコードと組み合わせるのにとても役立ちます。例えば、ピアノのサンプルをBPM120でBbのキーのソ"
+"ースコードとしか使えないことが分かると思います。"
 
 #: 03.7-Sample-Packs.md:102
 msgid ""
@@ -2817,6 +2823,8 @@ msgid ""
 "working at 120 BPM, we can filter down to all the samples that contain the str"
 "ing `\"120\"` with the following:"
 msgstr ""
+"サンプルの特定の命名規則を使って、我々が必要とするファイルをフィルターできることが分かりました。例えば、BPM120で演奏している場合に、`\"120\""
+"`という文字列を含む全てのサンプルを次のようにフィルターできます。"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
