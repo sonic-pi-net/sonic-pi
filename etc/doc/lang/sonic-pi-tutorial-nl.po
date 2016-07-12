@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-11 14:56+0000\n"
+"PO-Revision-Date: 2016-07-12 14:59+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -8320,10 +8320,13 @@ msgid ""
 "looping through rings. You'll be putting notes into rings for melodies, "
 "sleeps for rhythms, chord progressions, timbral variations, etc. etc."
 msgstr ""
+"Soms heb je best veel werk, zo lijkt het, wanneer er veel code door een ring "
+"loopt. Je zal noten in rings steken voor melodieën, rusttijden (sleep) bij "
+"ritmes, akkoordenschema's, variaties op het timbre, enz. enz."
 
 #: 09.4-Ticking.md:9
 msgid "Ticking Rings"
-msgstr "Tikkende Ringen"
+msgstr "Tick Ringen"
 
 #: 09.4-Ticking.md:11
 msgid ""
@@ -8333,6 +8336,11 @@ msgid ""
 "beat number. Tick just implements this idea. It provides you with the "
 "ability to *tick through rings*. Let's look at an example:"
 msgstr ""
+"Sonic Pi biedt een *zeer* handig hulpmiddel voor het werken met ringen "
+"binnen `live_loop`s. Het heet het tick systeem. In de sectie over de ringen "
+"spraken we over de teller die constant verhoogt, zoals een weergave van de "
+"huidige tel . Tick voert het zelfde idee uit. Het biedt u de mogelijkheid om "
+"te *doorheen ringen te tikken*. Laten we eens kijken naar een voorbeeld:"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
@@ -8472,6 +8480,8 @@ msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is "
 "achieved by giving your tick a name:"
 msgstr ""
+"En nog dit, soms heb je meer dan één tick per live loop nodig. Dat kan je "
+"door je tick een naam te geven:"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
@@ -8481,6 +8491,10 @@ msgid ""
 "  sleep (ring 0.125, 0.25).tick(:bar)\n"
 "end"
 msgstr ""
+"live_loop :arp do\n"
+"  play (scale :e3, :minor_pentatonic).tick(:foo), release: 0.1\n"
+"  sleep (ring 0.125, 0.25).tick(:bar)\n"
+"end"
 
 #: 09.4-Ticking.md:93
 msgid ""
@@ -8491,10 +8505,17 @@ msgid ""
 "example above we called one tick `:foo` and the other `:bar`. If we want to "
 "`look` at these we also need to pass the name of the tick to `look`."
 msgstr ""
+"Hier gebruiken we twee ticks: één voor de te spelen noten en een andere voor "
+"de rusttijd (sleep). Vermits deze alle twee in dezelfde live loop zitten, "
+"moeten we ze een unieke naam geven om hen te kunnen onderscheiden. Hier gaat "
+"het net zoals een `live_loop` benoemen, we geven een symbool door, "
+"voorafgegaan door een `:`. In het voorgaande voorbeeld noemden we één tick "
+"`:foo`en een andere `:bar`. Als we naar dezen willen kijken ( `look`), "
+"moeten we ook de naam van de tick doorgeven aan `look`."
 
 #: 09.4-Ticking.md:101
 msgid "Don't make it too complicated"
-msgstr ""
+msgstr "Maak het niet te ingewikkeld"
 
 #: 09.4-Ticking.md:103
 msgid ""
@@ -8503,40 +8524,51 @@ msgid ""
 "through a single ring. That'll give you most of the joy and simplicity of "
 "ticking through rings in your `live_loop`s."
 msgstr ""
+"De grote kracht van het tick systeem is niet behulpzaam als beginner. "
+"Probeer niet alles uit deze sectie. Focus op een tick in één enkele ring. "
+"Dit geeft de grootste voldoening en is het minst gekunsteld tick-en door "
+"ringen in jouw `live_loop`s."
 
 #: 09.4-Ticking.md:108
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful "
 "examples and happy ticking!"
 msgstr ""
+"Neem een kijkje naar de documentatie 'Tick' waar nuttige voorbeelden te "
+"vinden zijn. Nog een leuke tick verder!"
 
 #: 10-Essential-Knowledge.md:1
 msgid "10 Essential Knowledge"
-msgstr ""
+msgstr "10 Essentiële Kennis"
 
 #: 10-Essential-Knowledge.md:3
 msgid "Essential Knowledge"
-msgstr ""
+msgstr "Essentiële Kennis"
 
 #: 10-Essential-Knowledge.md:5
 msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge "
 "for getting the most out of your Sonic Pi experience."
 msgstr ""
+"Deze sectie gaat over nuttige - in feite *essentiële* - kennis om het meeste "
+"uit Sonic Pi te halen."
 
 #: 10-Essential-Knowledge.md:8
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available "
 "to you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
+"We gaan het hebben over, hoe profijt te halen uit de vele beschikbare "
+"sneltoetsen, hoe jouw werk te delen en wat tips hoe met Sonic Pi op te "
+"treden."
 
 #: 10.1-Using-Shortcuts.md:1
 msgid "10.1 Using Shortcuts"
-msgstr ""
+msgstr "10.1 Sneltoetsen gebruiken"
 
 #: 10.1-Using-Shortcuts.md:3
 msgid "Using Shortcuts"
-msgstr ""
+msgstr "Sneltoetsen gebruiken"
 
 #: 10.1-Using-Shortcuts.md:5
 msgid ""
@@ -8544,6 +8576,9 @@ msgid ""
 "therefore make playing Sonic Pi much more *efficient and natural* - "
 "especially when you're playing live in front of an audience."
 msgstr ""
+"Sonic Pi is evengoed een instrument als een coderingsomgeving. Sneltoetsen "
+"kunen daarom het bespelen van Sonic Pi *efficienter en natuurijker* maken- "
+"zeker als je live voor publijk speelt."
 
 #: 10.1-Using-Shortcuts.md:9
 msgid ""
@@ -8554,22 +8589,32 @@ msgid ""
 "for the mouse as it slows me down. I therefore use all of these shortcuts on "
 "a very regular basis!"
 msgstr ""
+"Veel van Sonic Pi kan worden bestuurd via het toetsenbord. Als je meer "
+"vertrouwd raakt met Sonic Pi, zult je de sneltoetsen waarschijnlijk meer en "
+"meer beginnen gebruiken. *Ik persoonlijk touch-type* (ik adviseer je te "
+"overwegen om dit te leren) ik vind het frustrerend wanneer ik het nodig vind "
+"de muis te gebruiken. Ik gebruik deze shortcuts dus zeer regelmatig!"
 
 #: 10.1-Using-Shortcuts.md:16
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard "
 "effectively and you'll be live coding like a pro in no time."
 msgstr ""
+"Daarom, als je de shortcuts leert, leer je je toetsenbord efficienter te "
+"gebruiken en je zal in geen tijd live coderen als een pro."
 
 #: 10.1-Using-Shortcuts.md:19
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the "
 "ones you use most and then keep adding more to your practice."
 msgstr ""
+"Maar probeer ze niet allemaal tegelijkertijd uit te proberen te leren, enkel "
+"die je het meest gebruikt en ze langzaam meer en meer in de praktijk toe te "
+"voegen."
 
 #: 10.1-Using-Shortcuts.md:22
 msgid "Consistency across Platforms"
-msgstr ""
+msgstr "Samenhang tussen Platforms"
 
 #: 10.1-Using-Shortcuts.md:24
 msgid ""
@@ -8578,6 +8623,11 @@ msgid ""
 "tough time switching between different clarinets and you'd be stuck to using "
 "just one make."
 msgstr ""
+"Stel dat je een klarinet leert bespelen. Je verwachten dan toch dat alle "
+"klarinetten van de verschillende merken vergelijkbare controles en "
+"vingergrepen  zouden hebben. Als dat niet zo was, zou je een moeilijke tijd "
+"hebben om tussen de verschillende klarinetten te kunnen schakelen en je zou "
+"vasthangen aan het gebruik van slechts één merk."
 
 #: 10.1-Using-Shortcuts.md:29
 msgid ""
@@ -8589,10 +8639,18 @@ msgid ""
 "you learn the shortcuts whilst playing with Sonic Pi on your Raspberry Pi, "
 "you can move to the Mac or PC and feel right at home."
 msgstr ""
+"Helaas zijn de drie belangrijkste besturingssystemen (Linux, Mac OS X en "
+"Windows) zijn voorzien van hun eigen standaardwaarden voor acties zoals het "
+"knippen en plakken enz. Sonic Pi zal proberen deze normen te respecteren. "
+"Deze is echter *de prioriteit is geplaatst op de consistentie tussen de "
+"platformen* binnen Sonic Pi, in plaats te proberen om te voldoen aan de norm "
+"van een bepaald platform. Dit betekent dat als je Sonic pi's shortcuts leert "
+"spelen op je Raspberry Pi, je naar Mac of PC kan overschakelen en je thuis "
+"voelen."
 
 #: 10.1-Using-Shortcuts.md:37
 msgid "Control and Meta"
-msgstr ""
+msgstr "Controle en Meta"
 
 #: 10.1-Using-Shortcuts.md:39
 msgid ""
@@ -8603,10 +8661,17 @@ msgid ""
 "For consistency we'll use the term *Meta* - just remember to map that to the "
 "appropriate key on your operating system."
 msgstr ""
+"Het concept van consistentie zit ook in de benaming van de shortcuts. In "
+"Sonic Pi gebruiken we de namen *Control* en *Meta*  om te verwijzen naar de "
+"twee belangrijkste combinatie toetsen. Bij alle platformen is *Control* "
+"hetzelfde.Maar op Linux en Windows is *Meta* eigenlijk de *Alt* toets is, "
+"terwijl *Meta* op Mac de *Command* toets is. Voor de samenhang zullen we de "
+"term *Meta* gebruiken - vergeet dit niet naar je besturingsysteem over te "
+"zetten."
 
 #: 10.1-Using-Shortcuts.md:46
 msgid "Abbreviations"
-msgstr ""
+msgstr "Afkortingen"
 
 #: 10.1-Using-Shortcuts.md:48
 msgid ""
@@ -8615,24 +8680,31 @@ msgid ""
 "example, if a shortcut requires you to hold down both *Meta* and *r* we'll "
 "write that as `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
+"Om de zaken eenvoudig en leesbaar te houden, gebruiken we de afkorting *C-* "
+"voor *Control* plus andere toets en *M-* voor *Meta* plus andere toets.\n"
+"Een voorbeeld: als je bij een shortcut zowel *Meta* als *r* moet indrukken "
+"schrijven we dit als `M-r`. En de *-* betekent dan \"tegelijk.\""
 
 #: 10.1-Using-Shortcuts.md:53
 msgid "The following are some of the shortcuts I find most useful."
-msgstr ""
+msgstr "Enkele van de sneltoetsen die ik het meest nuttig vind."
 
 #: 10.1-Using-Shortcuts.md:55
 msgid "Stopping and starting"
-msgstr ""
+msgstr "Stoppen en starten"
 
 #: 10.1-Using-Shortcuts.md:57
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply "
 "press `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
+"In plaats van altijd de muis te gebruiken je code te gaan uit voeren, kan je "
+"simpelweg op `M-r` drukken. Om het uitvoeren van je code te stoppen kan je "
+"`M-s` gebruiken."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:51
 msgid "Navigation"
-msgstr ""
+msgstr "Navigatie"
 
 #: 10.1-Using-Shortcuts.md:62
 msgid ""
@@ -8642,6 +8714,11 @@ msgid ""
 "letters rather than requiring you to move your hand to the mouse or the "
 "arrow keys on your keyboard."
 msgstr ""
+"Zonder de navigatie sneltoetsen ben ik echt verloren. Daarom adviseer ik je "
+"hieraan wat tijd te besteden. Deze sneltoetsen werken ook extreem goed "
+"wanneer je blind hebt leren typen vermits zij ook gebruik maken van de "
+"standaard letters in plaats van waarvoor u uw hand naar de muis of naar de "
+"pijltoetsen op uw toetsenbord moet gaan bewegen."
 
 #: 10.1-Using-Shortcuts.md:68
 msgid ""
@@ -8650,18 +8727,22 @@ msgid ""
 "character with `C-f`, and back a character with `C-b`. You can even delete "
 "all the characters from the cursor to the end of the line with `C-k`."
 msgstr ""
+"Je kan naar het begin van een lijn gaan met`C-a`, naar het einde van de lijn "
+"met `C-e`, een lijn omhoog met `C-p`, een lijn naar beneden met `C-n`, een "
+"karakter naar voor met `C-f, een karakter teruggaan is `C-b`. Je kan zelfs "
+"alle karakters wissen vanaf de cursor tot het einde van de zin met `C-k`."
 
 #: 10.1-Using-Shortcuts.md:74
 msgid "Tidy Code"
-msgstr ""
+msgstr "Nette Code"
 
 #: 10.1-Using-Shortcuts.md:76
 msgid "To auto-align your code simply press `M-m`."
-msgstr ""
+msgstr "Voor het automatisch uitlijnen van jouw code druk `M-m`."
 
 #: 10.1-Using-Shortcuts.md:78
 msgid "Help System"
-msgstr ""
+msgstr "Help-systeem"
 
 #: 10.1-Using-Shortcuts.md:80
 msgid ""
@@ -8669,248 +8750,268 @@ msgid ""
 "shortcut to know is `C-i` which will look up the word underneath the cursor "
 "and display the docs if it finds anything. Instant help!"
 msgstr ""
+"Om het help-systeem in te schakelen kan je `M-i` indrukken. Een nog veel "
+"nuttiger sneltoets om te kennen is `C-i`die het woor dat zich onder de "
+"cursor bevindt opzoekt en alle docs die hierover gevonden wordt zal tonen. "
+"Instant hulp!"
 
 #: 10.1-Using-Shortcuts.md:84
 msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
-msgstr ""
+msgstr "Voor een volledige lijst kijk je naar punt 10.2 Shortcut Cheatsheet."
 
 #: 10.2-Shortcut-Cheatsheet.md:1
 msgid "10.2 Shortcut Cheatsheet"
-msgstr ""
+msgstr "10.2 Shortcut Cheatsheet"
 
 #: 10.2-Shortcut-Cheatsheet.md:3
 msgid "Shortcut Cheatsheet"
-msgstr ""
+msgstr "Shortcut Cheatsheet"
 
 #: 10.2-Shortcut-Cheatsheet.md:5
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. "
 "Please see Section 10.1 for motivation and background."
 msgstr ""
+"Het volgende is een samenvatting van de belangrijkste sneltoetsen die "
+"beschikbaar zijn in Sonic Pi. Zie sectie 10.1 voor motivatie en achtergrond."
 
 #: 10.2-Shortcut-Cheatsheet.md:8
 msgid "Conventions"
-msgstr ""
+msgstr "Conventies"
 
 #: 10.2-Shortcut-Cheatsheet.md:10
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* "
 "on Windows/Linux or *Cmd* on Mac):"
 msgstr ""
+"In deze lijst, gebruiken we de volgende conventies (waar *Meta* staat is "
+"dit  *Alt* op Windows/Linux en *Cmd* op Mac):"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding "
 "them both at the same time, then releasing."
 msgstr ""
+"`C-a` betekend hou de *Control* toets en de *a* toets tegelijkertijd in, "
+"laat dan los."
 
 #: 10.2-Shortcut-Cheatsheet.md:14
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding "
 "them both at the same time, then releasing."
 msgstr ""
+"`M-r`betekent hou de *Meta* toets en druk dan de *r* toets tegelijkertijd "
+"in, laat dan los."
 
 #: 10.2-Shortcut-Cheatsheet.md:15
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the "
 "*z* key all at the same time, then releasing."
 msgstr ""
+"`S-M-z` betekent hou de *Shift* toets, dan de *Meta* toets, en tenslotte de "
+"*z* toets tegelijkertijd allemaal in en laat dan los."
 
 #: 10.2-Shortcut-Cheatsheet.md:16
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* "
 "key all at the same time, then releasing."
 msgstr ""
+"`C-M-f` betekent hou de *Control* toets, dan de *Meta* en tenslotte de *f* "
+"toets allemaal tegelijkertijd in, en dan los deze dan."
 
 #: 10.2-Shortcut-Cheatsheet.md:18
 msgid "Main Application Manipulation"
-msgstr ""
+msgstr "Belangrijkste Applicatie Manipulatie"
 
 #: 10.2-Shortcut-Cheatsheet.md:20
 msgid "`M-r` - Run code"
-msgstr ""
+msgstr "`M-r` - code afspelen"
 
 #: 10.2-Shortcut-Cheatsheet.md:21
 msgid "`M-s` - Stop code"
-msgstr ""
+msgstr "`M-s` - Stop code"
 
 #: 10.2-Shortcut-Cheatsheet.md:22
 msgid "`M-i` - Toggle Help System"
-msgstr ""
+msgstr "`M-i` - Help Systeem Schakelaar"
 
 #: 10.2-Shortcut-Cheatsheet.md:23
 msgid "`M-p` - Toggle Preferences"
-msgstr ""
+msgstr "`M-p` - Voorkeursinstellingen Aan/Uit"
 
 #: 10.2-Shortcut-Cheatsheet.md:24
 msgid "`M-{` - Switch buffer to the left"
-msgstr ""
+msgstr "`M-{` - Buffer naar links omwisselen"
 
 #: 10.2-Shortcut-Cheatsheet.md:25
 msgid "`M-}` - Switch buffer to the right"
-msgstr ""
+msgstr "`M-}` - Buffer naar links omwisselen"
 
 #: 10.2-Shortcut-Cheatsheet.md:26
 msgid "`M-+` - Increase text size of current buffer"
-msgstr ""
+msgstr "`M-+` - Vergroot de tekstgrootte van de huidige buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:27
 msgid "`M--` - Decrease text size of current buffer"
-msgstr ""
+msgstr "`M--` - Verkleint de tekstgrootte van de huidige buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:29
 msgid "Selection/Copy/Paste"
-msgstr ""
+msgstr "Selectie/Kopiëren/Plakken"
 
 #: 10.2-Shortcut-Cheatsheet.md:31
 msgid "`M-a` - Select all"
-msgstr ""
+msgstr "`M-a` - Selecteer alles"
 
 #: 10.2-Shortcut-Cheatsheet.md:32
 msgid "`M-c` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-c` - kopieer selectie om buffer te plakken"
 
 #: 10.2-Shortcut-Cheatsheet.md:33
 msgid "`M-]` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-]` - Kopieer selectie om buffer te plakken"
 
 #: 10.2-Shortcut-Cheatsheet.md:34
 msgid "`M-x` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`M-x` - Knip selectie om buffer te plakken"
 
 #: 10.2-Shortcut-Cheatsheet.md:35
 msgid "`C-]` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`C-]` - Knip selectie om buffer te plakken"
 
 #: 10.2-Shortcut-Cheatsheet.md:36
 msgid "`C-k` - Cut to the end of the line"
-msgstr ""
+msgstr "`C-k` - Knip tot het einde van de lijn"
 
 #: 10.2-Shortcut-Cheatsheet.md:37
 msgid "`M-v` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`M-v` - Plak naar editor vanaf plak buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:38
 msgid "`C-y` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`C-y` - Plak naar editor vanaf plak buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use "
 "`C-g` to escape."
 msgstr ""
+"`C-SPACE` - Zet markering. Navigatie zal nu gemarkeerd gebied manipuleren. "
+"Gebruik `C-g` om te verlaten."
 
 #: 10.2-Shortcut-Cheatsheet.md:41
 msgid "Text Manipulation"
-msgstr ""
+msgstr "Bewerken van tekst"
 
 #: 10.2-Shortcut-Cheatsheet.md:43
 msgid "`M-m` - Align all text"
-msgstr ""
+msgstr "`M-m` - Alle tekst uitlijnen"
 
 #: 10.2-Shortcut-Cheatsheet.md:44
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr ""
+"`Tab` - Huidige lijn uitlijnen of selectie (of selecteer automatisch "
+"aanvullen)"
 
 #: 10.2-Shortcut-Cheatsheet.md:45
 msgid "`C-l` - Centre editor"
-msgstr ""
+msgstr "`C-l` - Editor Centreren"
 
 #: 10.2-Shortcut-Cheatsheet.md:46
 msgid "`M-/` - Comment/Uncomment current line or selection"
-msgstr ""
+msgstr "`M-/` - Comment/Uncomment huidige lijn of selectie"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
 msgid "`C-t` - Transpose/swap characters"
-msgstr ""
+msgstr "`C-t` - Karakters omzetten/ruilen"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
 msgid "`M-u` - Convert next word (or selection) to upper case."
-msgstr ""
+msgstr "`M-u` - Volgende woord (of selectie) omzetten in hoofdletters."
 
 #: 10.2-Shortcut-Cheatsheet.md:49
 msgid "`M-l` - Convert next word (or selection) to lower case."
-msgstr ""
+msgstr "`M-l` - -Volgende woord (of selectie) omzetten in kleine letters."
 
 #: 10.2-Shortcut-Cheatsheet.md:53
 msgid "`C-a` - Move to beginning of line"
-msgstr ""
+msgstr "`C-a` - Naar het begin van de lijn"
 
 #: 10.2-Shortcut-Cheatsheet.md:54
 msgid "`C-e` - Move to end of line"
-msgstr ""
+msgstr "`C-e` -Verplaats naar einde van regel"
 
 #: 10.2-Shortcut-Cheatsheet.md:55
 msgid "`C-p` - Move to previous line"
-msgstr ""
+msgstr "`C-p` -Verplaatsen naar vorige regel"
 
 #: 10.2-Shortcut-Cheatsheet.md:56
 msgid "`C-n` - Move to next line"
-msgstr ""
+msgstr "`C-n` - Verplaatsen naar volgende regel"
 
 #: 10.2-Shortcut-Cheatsheet.md:57
 msgid "`C-f` - Move forward one character"
-msgstr ""
+msgstr "`C-f` -Eén teken naar rechts verplaatsen"
 
 #: 10.2-Shortcut-Cheatsheet.md:58
 msgid "`C-b` - Move backward one character"
-msgstr ""
+msgstr "`C-b` - Eén teken naar achter verplaatsen"
 
 #: 10.2-Shortcut-Cheatsheet.md:59
 msgid "`M-f` - Move forward one word"
-msgstr ""
+msgstr "`M-f` - Eén woord naar voor springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:60
 msgid "`M-b` - Move backward one word"
-msgstr ""
+msgstr "`M-b` -  Eén woord naar achter springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:61
 msgid "`C-M-n` - Move line or selection down"
-msgstr ""
+msgstr "`C-M-n` -Zet lijn of selectie naar beneden"
 
 #: 10.2-Shortcut-Cheatsheet.md:62
 msgid "`C-M-p` - Move line or selection up"
-msgstr ""
+msgstr "`C-M-p` - Zet lijn of selectie naar boven"
 
 #: 10.2-Shortcut-Cheatsheet.md:63
 msgid "`S-M-u` - Move up 10 lines"
-msgstr ""
+msgstr "`S-M-u` - 10 lijnen naar boven gaan"
 
 #: 10.2-Shortcut-Cheatsheet.md:64
 msgid "`S-M-d` - Move down 10 lines"
-msgstr ""
+msgstr "`S-M-d` - 10 lijnen naar beneden gaan"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
 msgid "`M-<` - Move to beginning of buffer"
-msgstr ""
+msgstr "`M-<` - Naar het begin van de buffer gaan"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
 msgid "`M->` - Move to end of buffer"
-msgstr ""
+msgstr "`M->` - Naar het eind van de buffer gaan"
 
 #: 10.2-Shortcut-Cheatsheet.md:68
 msgid "Deletion"
-msgstr ""
+msgstr "Verwijdering"
 
 #: 10.2-Shortcut-Cheatsheet.md:70
 msgid "`C-h` - Delete previous character"
-msgstr ""
+msgstr "`C-h` - Vorige teken verwijderen"
 
 #: 10.2-Shortcut-Cheatsheet.md:71
 msgid "`C-d` - Delete next character"
-msgstr ""
+msgstr "`C-d` - Volgend teken verwijderen"
 
 #: 10.2-Shortcut-Cheatsheet.md:73
 msgid "Advanced Editor Features"
-msgstr ""
+msgstr "Geavanceerde Editor Functies"
 
 #: 10.2-Shortcut-Cheatsheet.md:75
 msgid "`C-i` - Show docs for word under cursor"
-msgstr ""
+msgstr "`C-i` - Toon docs voor het woord onder de cursor"
 
 #: 10.2-Shortcut-Cheatsheet.md:76
 msgid "`M-z` - Undo"
-msgstr ""
+msgstr "`M-z` - Ongedaan maken"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
 msgid "`S-M-z` - Redo"
