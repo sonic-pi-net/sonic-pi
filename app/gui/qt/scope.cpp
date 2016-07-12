@@ -23,8 +23,24 @@
 #include <qwt_text_label.h>
 #include <cmath>
 
+
+#if (QT_VERSION >= 0x050400) || !defined(Q_OS_LINUX)
+// enable OpenGL rendering on all platforms except Raspberry Pi
+// which is assumed to be Linux + Qt 4
+#include <qwt_plot_glcanvas.h>
+#endif
+
 ScopePanel::ScopePanel( const QString& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name),this)
+
 {
+
+
+#if (QT_VERSION >= 0x050400) || !defined(Q_OS_LINUX)
+  // enable OpenGL rendering on all platforms except Raspberry Pi
+  // which is assumed to be Linux + Qt 4
+  plot.setCanvas( new QwtPlotGLCanvas() );
+#endif
+
 #if QWT_VERSION >= 0x60100
   plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
 #endif
