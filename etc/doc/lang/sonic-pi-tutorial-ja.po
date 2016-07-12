@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-11 09:56+0000\n"
+"PO-Revision-Date: 2016-07-12 09:40+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -2839,7 +2839,7 @@ msgstr ""
 msgid ""
 "This will play us the first match. If we want the second match we just need to"
 " use the index:"
-msgstr ""
+msgstr "これは最初にマッチしたものを再生します。もし2番目にマッチしたものを再生したい場合には、インデックスを使用します。"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -2856,6 +2856,8 @@ msgid ""
 "ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
 "t easily with the following code:"
 msgstr ""
+"さらに複数のフィルターを使うこともできます。例えば、\"120\"と\"A#\""
+"をファイル名に含むサンプルが必要な場合、次のような簡単なコードで実現できます。"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -2868,7 +2870,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:129
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
-msgstr ""
+msgstr "最後に、フィルターを使用した場合にも`sample`で通常使用されるオプションをそのまま自由に追加できます。"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
