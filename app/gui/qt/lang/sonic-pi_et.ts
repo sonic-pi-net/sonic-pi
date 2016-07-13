@@ -6,12 +6,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Eelistused</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
@@ -23,14 +23,16 @@
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi süsteemi volüüm</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaheta stereo.
+Sisselülitatuna mängitakse parempoolne
+heli vasakust kõlarist ja vastupidi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"></location>
@@ -39,17 +41,21 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono
+Sisselülitatuna ühendatakse parempoolne ja 
+vasakpoolne heli üheks ning mõlemast kõlarist
+kuuled sama heli.
+Kasulik kui kõlar suudab ainult monoheli mängida.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi audioväljund</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vaikimisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
@@ -59,29 +65,31 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="938"></location>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="959"></location>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Seadista silumise käitumist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="965"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Logisõnumid
+Keelatuna ei trüki logiväljundisse
+sünti ja sämplite mängimist vaikimisi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Ohutu režiim</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Tühjenda logi mängimisel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"></location>
