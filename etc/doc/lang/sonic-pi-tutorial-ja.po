@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-12 09:40+0000\n"
+"PO-Revision-Date: 2016-07-15 09:43+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -2883,7 +2883,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:136
 msgid "Sources"
-msgstr ""
+msgstr "ソース"
 
 #: 03.7-Sample-Packs.md:138
 msgid ""
@@ -2891,14 +2891,16 @@ msgid ""
 " and filters. Sources are information used to create the list of potential can"
 "didates. A source can take two forms:"
 msgstr ""
+"サンプルフィルターの引数前の処理システムは、ソースとフィルターという2つタイプの情報を認識します。ソースは、候補となる可能性のあるサンプルのリストを作成す"
+"るのに使われる情報です。ソースは次の2つの形式を取ることができます。"
 
 #: 03.7-Sample-Packs.md:142
 msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
-msgstr ""
+msgstr "\"/path/to/samples\" - 有効なディレクトリを表す文字列"
 
 #: 03.7-Sample-Packs.md:143
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
-msgstr ""
+msgstr "\"/path/to/samples/foo.wav\" - サンプルへの有効なパスを表す文字列"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -2907,10 +2909,12 @@ msgid ""
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
+"`sample`関数は、最初に全てのソースを集めてサンプルの候補の巨大なリストを作成します。このリストは最初に全ての有効なパスを追加した後、"
+"次にディレクトリ内にある全ての有効な `.flac`, `.aif`, `.aiff`, `.wav`, `.wave`ファイルを追加します。"
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "例として、次のコードを見てください。"
 
 #: 03.7-Sample-Packs.md:152
 #, no-wrap
@@ -2932,6 +2936,9 @@ msgid ""
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
+"ここでは、2つのディレクトリの内容と1つの特定のサンプルを組み合わせています。もし`\"/path/to/my/samples/\""
+"`に3つのサンプルがあり、`\"/path/to/my/samples2/\""
+"`に12個のサンプルがあるとすると、インデックスやフィルター可能となるサンプルは16(3 + 12 + 1)になります。"
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -2941,6 +2948,9 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
+"デフォルトでは、ディレクトリ内のサンプルファイルのみが候補リストに集められますが、ときにはネストした数多くのフォルダ内のサンプルを検索したりフィルターした"
+"りしたいことがあるかもしれません。その場合には、次のように`**`をパスの最後に付けることで、全てのサブディレクトリー内のサンプルを再帰的に検索することが"
+"できます。"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -2957,6 +2967,8 @@ msgid ""
 "ong time. However, the contents of all folder sources are cached, so the delay"
 " will only happen the first time."
 msgstr ""
+"とても大きなフォルダのセットを検索するのは、長い時間が掛かるかもしれないことに気をつけてください。しかし、フォルダーのソースの内容は全てキャッシュされるの"
+"で、この遅延は一度目しか発生しません。"
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
@@ -2964,28 +2976,29 @@ msgid ""
 "e set of built-in samples will be selected as the default list of candidates t"
 "o work with."
 msgstr ""
+"最後に、ソースの指定は「必ず先頭に」付けるようにしてください。もし何もソースが指定されない場合、内蔵サンプルのセットが候補リストして選択されます。"
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
-msgstr ""
+msgstr "フィルター"
 
 #: 03.7-Sample-Packs.md:186
 msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
-msgstr ""
+msgstr "候補リストを取得した後、選択肢を減らすために次のようなフィルターのタイプを使うことができます。"
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name (minus di"
 "rectory path and extension)."
-msgstr ""
+msgstr "`\"foo\"`という文字列は、（ディレクトリパスと拡張子を除いた）ファイル名の部分一致を抽出します。"
 
 #: 03.7-Sample-Packs.md:190
 msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name (m"
 "inus directory path and extension)."
-msgstr ""
+msgstr "`/fo[oO]/`という正規表現は、（ディレクトリパスと拡張子を除いた）ファイル名のパターンマッチを抽出します。"
 
 #: 03.7-Sample-Packs.md:191
 msgid ""
@@ -3005,13 +3018,14 @@ msgstr ""
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
-msgstr ""
+msgstr "`1`のような数値は、インデックス（必要があればリングのように先頭に戻る）で、候補から選択します。"
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
 "For example, we can filter over all the samples in a directory containing the "
 "string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
+"例として、あるディレクトリから`\"foo\"`の文字列を含むサンプルを抽出し、そのうちの最初のものを半分のレートで再生するには、次のように書きます。"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
