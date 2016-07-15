@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-03 18:22+0000\n"
-"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
+"PO-Revision-Date: 2016-07-15 22:28+0000\n"
+"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -6352,26 +6352,24 @@ msgstr ""
 "end"
 
 #: 06.2-FX-in-Practice.md:50
-#, fuzzy
 msgid ""
 "We put our loop *inside* the `with_fx` block. This way we only create a single"
 " reverb for all notes played in our loop. This code is a lot more efficient an"
 "d would work fine on a Raspberry Pi."
 msgstr ""
-"Nun haben wir unseren Loop ins Innere des `with_fx:`-Blocks verpackt. So wird "
-"nur noch ein einziger Hall-Effekt erzeugt und auf alle Noten im Loop angewandt"
-". Dieser Code-Block ist viel effizienter und wird auf jedem Raspberry Pi gut f"
-"unktionieren."
+"Nun haben wir unseren Loop ins Innere des `with_fx:`-Blocks gesetzt. So wird "
+"nur noch ein einziger Hall-Effekt erzeugt und auf alle Noten im Loop "
+"angewandt. Dieser Code-Block ist viel effizienter und wird auf jedem "
+"Raspberry Pi gut funktionieren."
 
 #: 06.2-FX-in-Practice.md:54
-#, fuzzy
 msgid "A compromise is to use `with_fx` over an iteration within a loop:"
 msgstr ""
-"Als Kompromiss könnten wir `with_fx:` auch als 'iteration' innerhalb eines Loo"
-"ps schreiben:"
+"Als Kompromiss könnten wir `with_fx:` auch als Iteration innerhalb eines "
+"Loops schreiben:"
 
 #: 06.2-FX-in-Practice.md:56
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  with_fx :reverb do\n"
@@ -6392,16 +6390,14 @@ msgstr ""
 "end"
 
 #: 06.2-FX-in-Practice.md:67
-#, fuzzy
 msgid ""
 "This way we've lifted the `with_fx` out of the inner part of the `loop` and we"
 "'re now creating a new reverb every 16 notes."
 msgstr ""
-"Somit wird die `with_fx:`-Funktion aus dem Inneren des Loops geholt, und der C"
-"ode erzeugt jetzt nur noch einen Hall-Effekt alle 16 Noten."
+"Somit wird die `with_fx:`-Funktion aus dem Inneren des Loops geholt, und der "
+"Code erzeugt jetzt nur noch einen Hall-Effekt alle 16 Noten."
 
 #: 06.2-FX-in-Practice.md:70
-#, fuzzy
 msgid ""
 "This is such a common pattern that `with_fx` supports an opt to do exactly thi"
 "s but without having to write the `16.times` block:"
@@ -6427,7 +6423,6 @@ msgstr ""
 "end"
 
 #: 06.2-FX-in-Practice.md:82
-#, fuzzy
 msgid ""
 "Both the `reps: 16` and `16.times do` examples will behave identically. The `r"
 "eps: 16` essentially repeats the code in the `do/end` block 16 times so you ca"
