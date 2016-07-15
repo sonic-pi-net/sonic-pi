@@ -881,7 +881,7 @@ module SonicPi
     def job_subthread_rm_unmutexed(job_id, t)
       threads = @job_subthreads[job_id]
       threads.delete(t) if threads
-      subthread_name = __thread_locals(t).get(:sonic_pi__spider_subthread_name)
+      subthread_name = __thread_locals(t).get(:sonic_pi_local_spider_subthread_name)
       @named_subthreads.delete(subthread_name) if subthread_name
     end
 
