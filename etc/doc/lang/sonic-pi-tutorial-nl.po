@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-12 14:59+0000\n"
+"PO-Revision-Date: 2016-07-15 09:32+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -9015,39 +9015,39 @@ msgstr "`M-z` - Ongedaan maken"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
 msgid "`S-M-z` - Redo"
-msgstr ""
+msgstr "`S-M-z` - Opnieuw maken"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
 msgid "`C-g` - Escape"
-msgstr ""
+msgstr "`C-g` - Verlaten"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
 msgid "`S-M-f` - Toggle fullscreen mode"
-msgstr ""
+msgstr "`S-M-f` - Tussen Fullscreen modus schakelen"
 
 #: 10.2-Shortcut-Cheatsheet.md:80
 msgid "`S-M-b` - Toggle visibility of buttons"
-msgstr ""
+msgstr "`S-M-b`- Zichtbaarheid van knoppen in-/uitschakelen"
 
 #: 10.2-Shortcut-Cheatsheet.md:81
 msgid "`S-M-l` - Toggle visibility of log"
-msgstr ""
+msgstr "`S-M-l` - Zichtbaarheid van log in-/uitschakelen"
 
 #: 10.2-Shortcut-Cheatsheet.md:82
 msgid "`S-M-m` - Toggle between light/dark modes"
-msgstr ""
+msgstr "`S-M-m` - Tussen licht/donker modus schakelen"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
-msgstr ""
+msgstr "10.3 Delen"
 
 #: 10.3-Sharing.md:3
 msgid "Sharing"
-msgstr ""
+msgstr "Delen"
 
 #: 10.3-Sharing.md:5
 msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr ""
+msgstr "Sonic Pi gaat helemaal over het delen en leren met elkaar."
 
 #: 10.3-Sharing.md:7
 msgid ""
@@ -9056,6 +9056,10 @@ msgid ""
 "with others so they can *learn* from your work and even use parts in a new "
 "*mash-up*."
 msgstr ""
+"Zodra je geleerd hebt hoe je muziek codeert, is het delen van uw composities "
+"zo eenvoudig als het verzenden van een e-mail met jouw code.Deel alsjeblief "
+"je code met anderen zodat zij kunnen *leren* van jouw werk en misschien "
+"onderdelen te gebruiken in een nieuwe *mash-up*."
 
 #: 10.3-Sharing.md:12
 msgid ""
@@ -9064,10 +9068,14 @@ msgid ""
 "[SoundCloud](https://soundcloud.com). That way you'll be able to easily "
 "reach a large audience."
 msgstr ""
+"Als u niet zeker bent van de manier om je werk met anderen te delen, "
+"adviseer ik om je code op [GitHub] (https://github.com) en uw muziek op "
+"[SoundCloud] (https://soundcloud.com) te zetten. Op die manier kun je "
+"gemakkelijk een groot publiek bereiken ."
 
 #: 10.3-Sharing.md:17
 msgid "Code -> GitHub"
-msgstr ""
+msgstr "Code -> GitHub"
 
 #: 10.3-Sharing.md:19
 msgid ""
@@ -9078,10 +9086,17 @@ msgid ""
 "[Gist](https://gist.github.com) is a simple way of uploading your code in a "
 "simple way that others can see, copy and share."
 msgstr ""
+"[GitHub] (https://github.com) is een site om met codete werken en deze te "
+"delen. Het wordt gebruikt door professionele ontwikkelaars, maar ook "
+"artiesten delen en werken samen aan code. De eenvoudigste manier om een "
+"nieuw stuk code te delen (zelfs een onvoltooide stukje) is het creëren van "
+"een [Gist] (https://gist.github.com). Een [Gist] (https://gist.github.com) "
+"is een eenvoudige manier om  uw code te uploaden van op een zodat anderen "
+"deze kunnen zien, kopiëren en delen."
 
 #: 10.3-Sharing.md:27
 msgid "Audio -> SoundCloud"
-msgstr ""
+msgstr "Audio -> SoundCloud"
 
 #: 10.3-Sharing.md:29
 msgid ""
@@ -9091,6 +9106,12 @@ msgid ""
 "link to a [Gist](https://gist.github.com) of your code in the track "
 "description."
 msgstr ""
+"Een andere belangrijke manier om je werk te delen is de audio opnemen en te "
+"uploaden naar [SoundCloud] (https://soundcloud.com). Zodra je je stuk "
+"geüpload hebt, kunnen andere gebruikers commentaar geven en je werk "
+"bespreken . Ik adviseer ook een link te plaatsen van naar een [Gist] "
+"(https://gist.github.com) met uw code en daarbij de beschrijving van deze "
+"track."
 
 #: 10.3-Sharing.md:35
 msgid ""
@@ -9101,10 +9122,17 @@ msgid ""
 "WAV file, which can be edited and converted to MP3 by any number of free "
 "programs (try Audacity for instance)."
 msgstr ""
+"Om je werk op te nemen, sla de`Opname` toets aan in de gereedschapsbalk, en "
+"de opname start onmiddellijk. Klik `Afspelen` om de code te starten als deze "
+"nog niet bezig mocht zijn. Als je klaar bent, druk opnieuw op de knipperende "
+"`Opname` knop, en je zal gevraagd worden om een bestandsnaam te kiezen. De "
+"opname wordt opgeslagen als een WAV-bestand, dat kan worden bewerkt en "
+"geconverteerd naar MP3. Dit kan zelfs door een gratis programma (je kan "
+"bijvoorbeeld Audacity proberen)."
 
 #: 10.3-Sharing.md:43
 msgid "Hope"
-msgstr ""
+msgstr "Hoop"
 
 #: 10.3-Sharing.md:45
 msgid ""
@@ -9112,14 +9140,17 @@ msgid ""
 "other new tricks and moves with Sonic Pi. I'm really excited by what you'll "
 "have to show me."
 msgstr ""
+"Ik moedig je aan om je werk te delen en ik hoop echt dat we van elkaar "
+"nieuwe trukjes kunnen leren en met Sonic Pi  verder kunnen evolueren. Ik ben "
+"er echt enthousiast om wat jij mij gaat laten zien."
 
 #: 10.4-Performing.md:1
 msgid "10.4 Performing"
-msgstr ""
+msgstr "10.4 Optreden"
 
 #: 10.4-Performing.md:3
 msgid "Performing"
-msgstr ""
+msgstr "Optreden"
 
 #: 10.4-Performing.md:5
 msgid ""
@@ -9127,14 +9158,17 @@ msgid ""
 "code as a *musical instrument*. This means that writing code live can now be "
 "seen as a new way of performing music."
 msgstr ""
+"Een van de meest boeiende aspecten van Sonic Pi is dat je code kunt "
+"gebruiken als een *muzikaal instrument*. Dit betekent dat het schrijven van "
+"live code kan worden gezien als een nieuwe manier om muziek uit te voeren."
 
 #: 10.4-Performing.md:9
 msgid "We call this *Live Coding*."
-msgstr ""
+msgstr "We noemen dit *Live coderen*."
 
 #: 10.4-Performing.md:11
 msgid "Show Your Screen"
-msgstr ""
+msgstr "Laat je scherm zien"
 
 #: 10.4-Performing.md:13
 msgid ""
@@ -9144,10 +9178,16 @@ msgid ""
 "projector on my living room wall. You could use your TV or one of your "
 "school/work projectors to give a show. Try it, it's a lot of fun."
 msgstr ""
+"Wanneer je live codeert rad ik je aan om *je scherm te tonen* aan je "
+"publiek. Anders ben je je als een gitarist die zijn handen niet laat zien. "
+"Wanneer ik thuis oefen gebruik ik een Raspberry Pi en een kleine mini "
+"projector gericht op de muur van mijn living. Je zou je TV kunnen gebruiken "
+"of een projector van het werk of jouw school om een show te geven. Probeer "
+"dit, het is erg leuk."
 
 #: 10.4-Performing.md:20
 msgid "Form a Band"
-msgstr ""
+msgstr "Vorm een Band"
 
 #: 10.4-Performing.md:22
 msgid ""
@@ -9155,10 +9195,14 @@ msgid ""
 "jamming with others. One person could do beats, another ambient background, "
 "etc. See what interesting combinations of sounds you can have together."
 msgstr ""
+"Speel niet op je eentje - richt een live coding bandje op. Het is fijn om "
+"met anderen te jammen. Eén persoon kan dan bijvoorbeeld de beats doen, een "
+"andere de  ambient achtergrond, enz. Zie wat voor interessante combinaties "
+"van geluiden je samen kunt hebben."
 
 #: 10.4-Performing.md:27
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
 msgid ""
@@ -9167,10 +9211,14 @@ msgid ""
 "themselves. A great place to go and find out more about other live coders "
 "and systems is [TOPLAP](http://toplap.org)."
 msgstr ""
+"Live coderen is niet nieuw - een kleine groep mensen doen dit al gedurende "
+"enkele jaren meestal met behulp van op maat gemaakte systemen die ze voor "
+"zichzelf hebben gebouwd. Een goeie plek om meer over deze live coders en hun "
+"systemen te weten te komen is  [TOPLAP](http://toplap.org)."
 
 #: 10.4-Performing.md:34
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: 10.4-Performing.md:36
 msgid ""
@@ -9178,14 +9226,17 @@ msgid ""
 "(http://algorave.com). Here you can find all about a specific strand of live "
 "coding for making music in nightclubs."
 msgstr ""
+"Een andere interessante bron om de wereld van live coding te leren kennen is "
+"[Algorave](http://algorave.com). Hier kan je alles vinden over de "
+"verschillende onderdelen om live te spelen in een nachtclub."
 
 #: 11-Minecraft-Pi.md:1
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
 msgid "Minecraft Pi"
-msgstr ""
+msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
 msgid ""
@@ -9193,10 +9244,13 @@ msgid ""
 "special edition of Minecraft which is installed by default on the Raspberry "
 "Pi's Raspbian Linux-based operating system."
 msgstr ""
+"Sonic Pi ondersteunt nu een eenvoudige API voor interactie met Minecraft Pi -"
+" de speciale editie van Minecraft is standaard op de Raspberry Pi's ("
+"Raspbian's Linux-gebaseerd OS) geïnstalleerd."
 
 #: 11-Minecraft-Pi.md:9
 msgid "No need to import libraries"
-msgstr ""
+msgstr "Libraries importeren onnodig"
 
 #: 11-Minecraft-Pi.md:11
 msgid ""
@@ -9206,10 +9260,15 @@ msgid ""
 "There's no need to import anything or install any libraries - it's all ready "
 "to go and works out of the box."
 msgstr ""
+"De Minecraft Pi-integratie is ontwikkeld om makkelijk te gebruiken. Al wat "
+"je moet te doen is te Minecraft Pi lanceren en een wereld creëren. Dan bent "
+"je vrij om `mc_*` fns te gebruiken, net zoals `play` and `synth` . Er is "
+"geen behoefte om te bibliotheken te gaan importeren -alles is klaar om te "
+"gaan gebruiken."
 
 #: 11-Minecraft-Pi.md:17
 msgid "Automatic Connection"
-msgstr ""
+msgstr "Automatische Verbinding"
 
 #: 11-Minecraft-Pi.md:19
 msgid ""
@@ -9222,10 +9281,18 @@ msgid ""
 "Pi again and Sonic Pi will automatically detect and re-create the connection "
 "for you."
 msgstr ""
+"De Minecraft Pi API zorgt voor het beheren van uw verbinding met de "
+"Minecraft Pi-toepassing.Geen zorgen dus. Als u probeert  Minecraft Pi API "
+"te  gebruiken wanneer Minecraft Pi niet geopend is, zal Sonic Pi je dat "
+"vriendelijk vertellen.Ook als u Minecraft Pi sluit terwij ler nog steeds een "
+"'live_loop' speelt, die gebruik maakt van de API, zal de live loop stoppen "
+"en je vertellen dat deze geen verbinding kan maken. Als je wil verbinden, "
+"lanceer gewoon opnieuw de Minecraft Pi en Sonic Pi zal dan automatisch "
+"detecteren en de verbinding voor u opnieuw  maken."
 
 #: 11-Minecraft-Pi.md:28
 msgid "Designed to be Live Coded"
-msgstr ""
+msgstr "Ontworpen om Live gecodeerd te worden"
 
 #: 11-Minecraft-Pi.md:30
 msgid ""
@@ -9237,10 +9304,17 @@ msgid ""
 "simply restart Minecraft Pi and carry on as before. Sonic Pi's automatic "
 "connection functionality will take care of things for you."
 msgstr ""
+"De Minecraft Pi API is ontworpen om naadloos te werken binnen ' live_loop. "
+"Hierdoor is het mogelijk om wijzigingen in uw Minecraft Pi werelden te "
+"synchroniseren met wijzigingen in uw Sonic Pi klanken. Instant Minecraft "
+"gebaseerde muziek video's! Merk wel op dat het gaat om Minecraft Pi Alfa "
+"software is endus enigszins buggy. Als u problemen hebt, start Minecraft Pi "
+"gewoon terug op. Sonic Pi's automatische verbinding functionaliteit zal voor "
+"de rest zorgen."
 
 #: 11-Minecraft-Pi.md:39
 msgid "Requires a Raspberry Pi 2.0"
-msgstr ""
+msgstr "Een Raspberry Pi 2.0 vereist"
 
 #: 11-Minecraft-Pi.md:41
 msgid ""
@@ -9248,10 +9322,13 @@ msgid ""
 "both Sonic Pi and Minecraft at the same time - especially if you want to use "
 "Sonic Pi's sound capabilities."
 msgstr ""
+"Het is sterk aanbevolen een Raspberry Pi 2 te gebruiken als u Sonic Pi en "
+"Minecraft samen gebruikt - vooral als je gebruik wilt maken van Sonic Pi's "
+"geluids mogelijkheden."
 
 #: 11-Minecraft-Pi.md:45
 msgid "API Support"
-msgstr ""
+msgstr "API-ondersteuning"
 
 #: 11-Minecraft-Pi.md:47
 msgid ""
@@ -9259,44 +9336,50 @@ msgid ""
 "are detailed in Section 11.1. Support for event callbacks triggered by "
 "player interactions in the world is planned for a future release."
 msgstr ""
+"In dit stadium ondersteunt Sonic Pi fundamentele blok en manipulaties van de "
+"speler die zijn beschreven in de sectie 11.1. Ondersteuning voor event "
+"callbacks getriggerd door interacties met de speler en de rest van de wereld "
+"is gepland voor een toekomstige versie."
 
 #: 11.1-Basic-API.md:1
 msgid "11.1 Basic API"
-msgstr ""
+msgstr "11.1 Basis API"
 
 #: 11.1-Basic-API.md:3
 msgid "Basic Minecraft Pi API"
-msgstr ""
+msgstr "Basis Minecraft Pi API"
 
 #: 11.1-Basic-API.md:5
 msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft "
 "Pi:"
 msgstr ""
+"Sonic Pi ondersteunt momenteel de volgende fundamentele interacties met "
+"Minecraft Pi:"
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
 msgid "Displaying chat messages"
-msgstr ""
+msgstr "Chatberichten weergeven"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
 msgid "Setting the position of the user"
-msgstr ""
+msgstr "De plaats van de gebruiker instellen"
 
 #: 11.1-Basic-API.md:9
 msgid "Getting the position of the user"
-msgstr ""
+msgstr "De positie van de gebruiker verkrijgen"
 
 #: 11.1-Basic-API.md:10
 msgid "Setting the block type at a given coordinate"
-msgstr ""
+msgstr "Het bloktype instellen op een bepaalde coördinaat"
 
 #: 11.1-Basic-API.md:11
 msgid "Getting the block type at a given coordinate"
-msgstr ""
+msgstr "Het krijgen van het bloktype bij een bepaalde coördinaat"
 
 #: 11.1-Basic-API.md:14
 msgid "Let's look at each of these in turn."
-msgstr ""
+msgstr "Laten we deze op hun beurt eens bekijken ."
 
 #: 11.1-Basic-API.md:18
 msgid ""
@@ -9304,15 +9387,19 @@ msgid ""
 "make sure you have both Minecraft Pi and Sonic Pi open at the same time and "
 "also make sure you've entered a Minecraft world and can walk around."
 msgstr ""
+"Laten we eens kijken hoe makkelijk het is om Minecraft Pi vanuit  Sonic Pi "
+"te controllen. Controleer eerst of u zowel Minecraft Pi en Sonic Pi open "
+"hebt staan en ook zorg ervoor dat u een Minecraft wereld hebt ingevoerd en "
+"je hier kan in rondlopen."
 
 #: 11.1-Basic-API.md:23
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr ""
+msgstr "Voer de volgende code in een verse Sonic Pi-buffer:"
 
 #: 11.1-Basic-API.md:25
 #, no-wrap
 msgid "mc_message \"Hello from Sonic Pi\""
-msgstr ""
+msgstr "mc_message \"Hello from Sonic Pi\""
 
 #: 11.1-Basic-API.md:29
 msgid ""
@@ -9320,17 +9407,22 @@ msgid ""
 "Minecraft window. Congratulations, you've written your first Minecraft code! "
 "That was easy wasn't it."
 msgstr ""
+"Wanneer je de *Afspeel* knop indrukt zal je je berichtje openspringen op het "
+"Minecraft-scherm. Gefeliciteerd, hebt u uw eerste Minecraft code geschreven! "
+"Dat was niet moeilijk."
 
 #: 11.1-Basic-API.md:35
 msgid ""
 "Now, let's try a little magic. Let's teleport ourselves somewhere! Try the "
 "following:"
 msgstr ""
+"Nu gaan we  wat magie gebruiken. Laten we onszelf naar ergens anders "
+"teleporteren. Probeer het volgende:"
 
 #: 11.1-Basic-API.md:38
 #, no-wrap
 msgid "mc_teleport 50, 50, 50"
-msgstr ""
+msgstr "mc_teleport 50, 50, 50"
 
 #: 11.1-Basic-API.md:42
 msgid ""
@@ -9341,10 +9433,16 @@ msgid ""
 "moment to explore what coordinates are and how they work because they're "
 "really, really important for programming Minecraft."
 msgstr ""
+"Wanneer je de * afspeel* knop indrukt - bam! Je bent inmiddelijk op een "
+"nieuwe plek. Waarschijnlijk ergens in de lucht en dat je op de grond of in "
+"het water viel. Nu, wat zijn die nummers : '50, 50, 50'? Dat zijn de "
+"coördinaten van de plaats waarnaartoe je probeerde te teleporteren. Neem de "
+"tijd om  coördinaten te verkennen en wat deze  zijn en hoe ze werken.Dit is "
+"echt belangrijk om Minecraft te kunnen programmeren."
 
 #: 11.1-Basic-API.md:50
 msgid "Coordinates"
-msgstr ""
+msgstr "Coördinaten"
 
 #: 11.1-Basic-API.md:52
 msgid ""
@@ -9365,36 +9463,40 @@ msgstr ""
 
 #: 11.1-Basic-API.md:64
 msgid "How far from right to left in the world - `x`"
-msgstr ""
+msgstr "Hoe ver van rechts naar links in de wereld - 'x'"
 
 #: 11.1-Basic-API.md:65
 msgid "How far from front to back in the world - `z`"
-msgstr ""
+msgstr "Hoe ver van voren naar achteren in de wereld - 'z'"
 
 #: 11.1-Basic-API.md:66
 msgid "How high up we are in the world - `y`"
-msgstr ""
+msgstr "Hoe hoog, we in de wereld zijn - 'y'"
 
 #: 11.1-Basic-API.md:68
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, "
 "`y`, `z`."
 msgstr ""
+"Één ding nog - we schrijven meestal deze coördinaten in deze volgorde`x`, `y`"
+", `z`."
 
 #: 11.1-Basic-API.md:71
 msgid "Finding your current coordinates"
-msgstr ""
+msgstr "Uw huidige coördinaten vinden"
 
 #: 11.1-Basic-API.md:73
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the "
 "Minecraft map and then switch over to Sonic Pi. Now enter the following:"
 msgstr ""
+"Laten we eens spelen met de coördinaten. Navigeer naar een mooie plek in de "
+"Minecraft kaart en schakel naar de Sonic Pi. Voer nu de volgende gegevens in:"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
 msgid "puts mc_location"
-msgstr ""
+msgstr "puts mc_location"
 
 #: 11.1-Basic-API.md:80
 msgid ""
@@ -9407,10 +9509,18 @@ msgid ""
 "understood how coordinates work, programming with the Minecraft API will be "
 "a complete breeze."
 msgstr ""
+"Wanneer je de*Afspeel* knop drukt zie je de coördinaten van uw huidige "
+"positie weergegeven in het logboekvenster. Neem hier nota van, ga vooruit in "
+"de wereld en probeer het opnieuw. Merk op hoe de coördinaten veranderen! Nu, "
+"adviseer ik om dit enige tijd te herhalen - beweeg een beetje in de wereld, "
+"neem een kijkje naar de coördinaten en herhaal. Doe dit tot je er gevoel "
+"voor begint te krijgen hoe de coördinaten veranderen wanneer u zich "
+"verplaatst. Zodra u hebt begrepen hoe coördinaten werken, zal programmeren "
+"met de Minecraft-API peanuts zijn."
 
 #: 11.1-Basic-API.md:89
 msgid "Let's Build!"
-msgstr ""
+msgstr "Laten we bouwen!"
 
 #: 11.1-Basic-API.md:91
 msgid ""
@@ -9423,7 +9533,7 @@ msgstr ""
 #: 11.1-Basic-API.md:96
 #, no-wrap
 msgid "mc_set_block :glass, 40, 50, 60"
-msgstr ""
+msgstr "mc_set_block :glass, 40, 50, 60"
 
 #: 11.1-Basic-API.md:100
 msgid ""
@@ -9434,7 +9544,7 @@ msgstr ""
 #: 11.1-Basic-API.md:103
 #, no-wrap
 msgid "mc_teleport 35, 50, 60"
-msgstr ""
+msgstr "mc_teleport 35, 50, 60"
 
 #: 11.1-Basic-API.md:107
 msgid ""
@@ -9445,7 +9555,7 @@ msgstr ""
 #: 11.1-Basic-API.md:110
 #, no-wrap
 msgid "mc_set_block :diamond, 40, 50, 60"
-msgstr ""
+msgstr "mc_set_block :diamond, 40, 50, 60"
 
 #: 11.1-Basic-API.md:114
 msgid ""
@@ -9455,7 +9565,7 @@ msgstr ""
 
 #: 11.1-Basic-API.md:117
 msgid "Looking at blocks"
-msgstr ""
+msgstr "Blokken bekijken"
 
 #: 11.1-Basic-API.md:119
 msgid ""
@@ -9467,7 +9577,7 @@ msgstr ""
 #: 11.1-Basic-API.md:124
 #, no-wrap
 msgid "puts mc_get_block 40, 50, 60"
-msgstr ""
+msgstr "puts mc_get_block 40, 50, 60"
 
 #: 11.1-Basic-API.md:128
 msgid ""
@@ -9564,14 +9674,89 @@ msgid ""
 "    :glowing_obsidian\n"
 "    :nether_reactor_core"
 msgstr ""
+"    :air\n"
+"    :stone\n"
+"    :grass\n"
+"    :dirt\n"
+"    :cobblestone\n"
+"    :wood_plank\n"
+"    :sapling\n"
+"    :bedrock\n"
+"    :water_flowing\n"
+"    :water\n"
+"    :water_stationary\n"
+"    :lava_flowing\n"
+"    :lava\n"
+"    :lava_stationary\n"
+"    :sand\n"
+"    :gravel\n"
+"    :gold_ore\n"
+"    :iron_ore\n"
+"    :coal_ore\n"
+"    :wood\n"
+"    :leaves\n"
+"    :glass\n"
+"    :lapis\n"
+"    :lapis_lazuli_block\n"
+"    :sandstone\n"
+"    :bed\n"
+"    :cobweb\n"
+"    :grass_tall\n"
+"    :flower_yellow\n"
+"    :flower_cyan\n"
+"    :mushroom_brown\n"
+"    :mushroom_red\n"
+"    :gold_block\n"
+"    :gold\n"
+"    :iron_block\n"
+"    :iron\n"
+"    :stone_slab_double\n"
+"    :stone_slab\n"
+"    :brick\n"
+"    :brick_block\n"
+"    :tnt\n"
+"    :bookshelf\n"
+"    :moss_stone\n"
+"    :obsidian\n"
+"    :torch\n"
+"    :fire\n"
+"    :stairs_wood\n"
+"    :chest\n"
+"    :diamond_ore\n"
+"    :diamond_block\n"
+"    :diamond\n"
+"    :crafting_table\n"
+"    :farmland\n"
+"    :furnace_inactive\n"
+"    :furnace_active\n"
+"    :door_wood\n"
+"    :ladder\n"
+"    :stairs_cobblestone\n"
+"    :door_iron\n"
+"    :redstone_ore\n"
+"    :snow\n"
+"    :ice\n"
+"    :snow_block\n"
+"    :cactus\n"
+"    :clay\n"
+"    :sugar_cane\n"
+"    :fence\n"
+"    :glowstone_block\n"
+"    :bedrock_invisible\n"
+"    :stone_brick\n"
+"    :glass_pane\n"
+"    :melon\n"
+"    :fence_gate\n"
+"    :glowing_obsidian\n"
+"    :nether_reactor_core"
 
 #: 12-Conclusions.md:1
 msgid "12 Conclusions"
-msgstr ""
+msgstr "12 conclusies"
 
 #: 12-Conclusions.md:3
 msgid "Conclusions"
-msgstr ""
+msgstr "Conclusies"
 
 #: 12-Conclusions.md:5
 msgid ""
