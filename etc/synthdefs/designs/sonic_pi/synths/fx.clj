@@ -15,7 +15,19 @@
   (:use [overtone.live])
   (:require [sonic-pi.synths.core :as core]))
 
-(defmacro def-fx [fx-name args partial-let]
+(defmacro def-fx
+  "Shorthand mechanism for defining FX synths. Allows just the specification of the FX logic that will be inserted within default logic for handling amp, mix, pre_mix, and bus reading and writing.
+
+This macro expects a name and two lists.
+
+The name should be the same as you would use with a standard defsynth.
+
+The first list is a list of arg names and defaults - these should be the additional args for the FX. It is important that you don't use any of the default FX arg names defined within the macro body such as amp, mix_slide, in_bus etc.
+
+The second list is a partial let form. This will be sandwiched within the FX defsynth let statement after logic for reading the dry signal and handling pre_mix and before the logic for writing the wet signal and handling mixing. There are 2 'magic' symbols that will be bound - dry-l and dry-r which represent the left and right dry signals. These should be used to feed signals into any FX ugen trees. The partial let form should then bind output signals to wet-l and wet-r which will then be used in the post FX logic."
+
+  [fx-name args partial-let]
+
   `(defsynth ~fx-name
      [~@args
       ~'amp 1
