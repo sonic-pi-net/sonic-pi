@@ -268,20 +268,6 @@ module SonicPi
 
       def default_arg_info
         {
-          :mix =>
-          {
-            :doc => "The amount (percentage) of FX present in the resulting sound represented as a value between 0 and 1. For example, a mix of 0 means that only the original sound is heard, a mix of 1 means that only the FX is heard (typically the default) and a mix of 0.5 means that half the original and half of the FX is heard.",
-            :validations => [v_between_inclusive(:mix, 0, 1)],
-            :modulatable => true
-          },
-
-          :mix_slide =>
-          {
-            :doc => "Amount of time (in beats) for the mix value to change. A long slide value means that the mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the mix instantly changes to the new value.",
-            :validations => [v_positive(:mix_slide)],
-            :modulatable => true
-          },
-
           :note =>
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
@@ -3817,8 +3803,56 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
         "sonic-pi-"
       end
 
+      def arg_defaults
+        { :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :mix => 1,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+          :pre_mix => 1,
+          :pre_mix_slide => 0,
+          :pre_mix_slide_shape => 1,
+          :pre_mix_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+        }
+      end
+
       def default_arg_info
         super.merge({
+                      :mix =>
+                      {
+                        :doc => "The amount (percentage) of FX present in the resulting sound represented as a value between 0 and 1. For example, a mix of 0 means that only the original sound is heard, a mix of 1 means that only the FX is heard (typically the default) and a mix of 0.5 means that half the original and half of the FX is heard.",
+                        :validations => [v_between_inclusive(:mix, 0, 1)],
+                        :modulatable => true
+                      },
+
+                      :mix_slide =>
+                      {
+                        :doc => "Amount of time (in beats) for the mix value to change. A long slide value means that the mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the mix instantly changes to the new value.",
+                        :validations => [v_positive(:mix_slide)],
+                        :modulatable => true
+                      },
+
+                      :pre_mix =>
+                      {
+                        :doc => "The amount (percentage) of the original signal that is fed into the internal FX system as a value between 0 and 1. With a pre_mix: of 0 the FX is completely bypassed unlike a mix: of 0 where the internal FX is still being fed the original signal but the output of the FX is ignored. The difference between the two is subtle but important and is evident when the FX has a residual component such as echo or reverb. When switching mix: from 0 to 1, the residual component of the FX's output from previous audio is present in the output signal. With pre_mix: there is no residual component of the previous audio in the output signal.",
+                        :validations => [v_positive(:pre_mix)],
+                        :modulatable => true
+                      },
+
+                      :pre_mix_slide =>
+                      {
+                        :doc => "Amount of time (in beats) for the pre_mix value to change. A long slide value means that the pre_mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the pre_mix instantly changes to the new value.",
+                        :validations => [v_positive(:pre_mix_slide)],
+                        :modulatable => true
+                      },
+
                       :pre_amp =>
                       {
                         :doc => "Amplification applied to the input signal immediately before it is passed to the FX.",
@@ -3849,8 +3883,6 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
         "GVerb"
       end
 
-
-
       def introduced
         Version.new(2,9,0)
       end
@@ -3868,20 +3900,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 0.4,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
-
+        super.merge({
           :spread => 0.5,
           :spread_slide => 0,
           :spread_slide_shape => 1,
@@ -3902,8 +3921,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :release => 3,
           :ref_level => 0.7,
           :tail_level => 0.5
-
-        }
+        })
       end
 
       def kill_delay(args_h)
@@ -4000,20 +4018,8 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
+        super.merge({
           :mix => 0.4,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
-
           :room => 0.6,
           :room_slide => 0,
           :room_slide_shape => 1,
@@ -4022,7 +4028,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :damp_slide => 0,
           :damp_slide_shape => 1,
           :damp_slide_curve => 0,
-        }
+        })
       end
 
 
@@ -4087,19 +4093,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :gain => 5,
           :gain_slide => 0,
           :gain_slide_shape => 1,
@@ -4112,7 +4106,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :res_slide => 0,
           :res_slide_shape => 1,
           :res_slide_curve => 0
-        }
+        })
       end
 
       def specific_arg_info
@@ -4154,19 +4148,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :sample_rate => 10000,
           :sample_rate_slide => 0,
           :sample_rate_slide_shape => 1,
@@ -4179,7 +4161,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :cutoff_slide => 0,
           :cutoff_slide_shape => 1,
           :cutoff_slide_curve => 0
-        }
+        })
       end
 
       def specific_arg_info
@@ -4263,20 +4245,12 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
+        super.merge({
           :pan => 0,
           :pan_slide => 0,
           :pan_slide_shape => 1,
-          :pan_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-        }
+          :pan_slide_curve => 0
+        })
       end
     end
 
@@ -4298,19 +4272,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :phase => 0.25,
           :phase_slide => 0,
           :phase_slide_shape => 1,
@@ -4320,7 +4282,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :decay_slide_shape => 1,
           :decay_slide_curve => 0,
           :max_phase => 2
-        }
+        })
       end
 
       def specific_arg_info
@@ -4391,19 +4353,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :phase => 0.25,
           :phase_slide => 0,
           :phase_slide_shape => 1,
@@ -4444,7 +4394,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :smooth_down_slide => 0,
           :smooth_down_slide_shape => 1,
           :smooth_down_slide_curve => 0
-        }
+        })
       end
 
       def specific_arg_info
@@ -4524,10 +4474,6 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
             :modulatable => true,
             :bpm_scale => true
           },
-
-
-
-
 
           :seed =>
           {
@@ -4655,19 +4601,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :phase => 0.5,
           :phase_slide => 0,
           :phase_slide_shape => 1,
@@ -4713,7 +4647,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :smooth_down_slide => 0,
           :smooth_down_slide_shape => 1,
           :smooth_down_slide_curve => 0
-        }
+        })
       end
 
       def specific_arg_info
@@ -4908,20 +4842,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :phase => 0.25,
           :phase_slide => 0,
           :phase_slide_shape => 1,
@@ -4962,7 +4883,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :smooth_down_slide => 0,
           :smooth_down_slide_shape => 1,
           :smooth_down_slide_curve => 0
-        }
+        })
       end
 
       def specific_arg_info
@@ -5170,19 +5091,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :phase => 4,
           :phase_slide => 0,
           :phase_slide_shape => 1,
@@ -5200,7 +5109,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :res_slide => 0,
           :res_slide_shape => 1,
           :res_slide_curve => 0,
-        }
+        })
       end
 
       def specific_arg_info
@@ -5289,16 +5198,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :transpose => 12,
           :transpose_slide => 0,
           :transpose_slide_shape => 1,
@@ -5306,7 +5206,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :max_delay_time => 1,
           :deltime => 0.05,
           :grainsize => 0.075
-        }
+        })
       end
 
       def specific_arg_info
@@ -5364,16 +5264,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :threshold => 0.2,
           :threshold_slide => 0,
           :threshold_slide_shape => 1,
@@ -5394,7 +5285,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :relax_time_slide => 0,
           :relax_time_slide_shape => 1,
           :relax_time_slide_curve => 0,
-        }
+        })
       end
 
       def specific_arg_info
@@ -5493,18 +5384,10 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :vowel_sound => 1,
           :voice => 0
-        }
+        })
       end
 
       def specific_arg_info
@@ -5543,19 +5426,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :super_amp => 1,
           :super_amp_slide => 0,
           :super_amp_slide_shape => 1,
@@ -5568,7 +5439,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :subsub_amp_slide => 0,
           :subsub_amp_slide_shape => 1,
           :subsub_amp_slide_curve => 0
-        }
+        })
       end
 
       def specific_arg_info
@@ -5615,19 +5486,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :phase => 0.25,
           :phase_slide => 0,
           :phase_slide_shape => 1,
@@ -5637,7 +5496,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :decay_slide_shape => 1,
           :decay_slide_curve => 0,
           :max_phase => 1
-        }
+        })
       end
 
       def specific_arg_info
@@ -5707,28 +5566,16 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
+        super.merge({
           :freq => 30,
           :freq_slide => 0,
           :freq_slide_shape => 1,
           :freq_slide_curve => 0,
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
           :mod_amp => 1,
           :mod_amp_slide => 0,
           :mod_amp_slide_shape => 1,
           :mod_amp_slide_curve => 0,
-        }
+        })
       end
 
       def specific_arg_info
@@ -5786,19 +5633,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :centre => 100,
           :centre_slide => 0,
           :centre_slide_shape => 1,
@@ -5807,8 +5642,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :res_slide => 0,
           :res_slide_shape => 1,
           :res_slide_curve => 0
-
-        }
+        })
       end
 
       def specific_arg_info
@@ -5930,24 +5764,12 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :cutoff => 100,
           :cutoff_slide => 0,
           :cutoff_slide_shape => 1,
           :cutoff_slide_curve => 0,
-        }
+        })
       end
 
       def specific_arg_info
@@ -5972,19 +5794,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :cutoff => 100,
           :cutoff_slide => 0,
           :cutoff_slide_shape => 1,
@@ -5993,7 +5803,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :res_slide => 0,
           :res_slide_shape => 1,
           :res_slide_curve => 0,
-        }
+        })
       end
 
       def specific_arg_info
@@ -6042,24 +5852,12 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :cutoff => 100,
           :cutoff_slide => 0,
           :cutoff_slide_shape => 1,
-          :cutoff_slide_curve => 0,
-        }
+          :cutoff_slide_curve => 0
+        })
       end
     end
 
@@ -6083,19 +5881,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :cutoff => 100,
           :cutoff_slide => 0,
           :cutoff_slide_shape => 1,
@@ -6103,8 +5889,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :res => 0.5,
           :res_slide => 0,
           :res_slide_shape => 1,
-          :res_slide_curve => 0,
-        }
+          :res_slide_curve => 0
+        })
       end
 
       def specific_arg_info
@@ -6149,19 +5935,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :freq => 100,
           :freq_slide => 0,
           :freq_slide_shape => 1,
@@ -6174,7 +5948,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :db_slide => 0,
           :db_slide_shape => 1,
           :db_slide_curve => 0,
-        }
+        })
       end
 
       def specific_arg_info
@@ -6284,24 +6058,12 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :level => 1,
           :level_slide => 0,
           :level_slide_shape => 1,
           :level_slide_curve => 0
-        }
+        })
       end
 
       def specific_arg_info
@@ -6344,25 +6106,12 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
+        super.merge({
           :krunch => 5,
           :krunch_slide => 0,
           :krunch_slide_shape => 1,
           :krunch_slide_curve => 0,
-
-        }
+        })
       end
       def specific_arg_info
         {
@@ -6401,19 +6150,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
+        super.merge({
           :window_size => 0.2,
           :window_size_slide => 0,
           :window_size_slide_shape => 1,
@@ -6430,7 +6167,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :time_dis_slide => 0,
           :time_dis_slide_shape => 1,
           :time_dis_slide_curve => 0,
-        }
+        })
       end
 
       def specific_arg_info
@@ -6526,24 +6263,12 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :distort => 0.5,
           :distort_slide => 0,
           :distort_slide_shape => 1,
-          :distort_slide_curve => 0,
-        }
+          :distort_slide_curve => 0
+        })
       end
 
       def specific_arg_info
@@ -6586,24 +6311,12 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :pan => 0,
           :pan_slide => 0,
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
-        }
+        })
       end
     end
 
@@ -6625,19 +6338,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
+        super.merge({
           :phase => 4,
           :phase_slide => 0,
           :phase_slide_shape => 1,
@@ -6664,7 +6365,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :feedback_slide_shape => 1,
           :feedback_slide_curve => 0,
           :invert_flange => 0
-        }
+        })
       end
 
       def specific_arg_info
