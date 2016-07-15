@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-15 09:32+0000\n"
+"PO-Revision-Date: 2016-07-15 11:10+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -9454,12 +9454,22 @@ msgid ""
 "stashes of treasure with other pairs of numbers. Perhaps there's a big chest "
 "of gold at `2` across and `9` up..."
 msgstr ""
+"Stel je een piraten kaart voor met een grote `X` om de locatie van één of "
+"andere schat te markeren. De exacte locatie van de  `X`  kan beschreven "
+"worden met twee cijfers- hoe ver van links naar rechts op de kaart en hoe "
+"ver op de kaart van beneden naar boven in de kaart. Bijvoorbeeld  `10cm` "
+"over en `8cm`  naar omhoog. Deze twee nummers `10` en `8` zijn coördinaten. "
+"U kan zich goed voorstellen hoe een beschrijving van andere locaties van "
+"schatten met andere cijfercombinaties. Misschien is er een grote kist met "
+"goud aan `2` langs en `9` omhoog..."
 
 #: 11.1-Basic-API.md:61
 msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how "
 "high we are. We therefore need three numbers:"
 msgstr ""
+"In Minecraft zijn twee getallen niet genoeg. We willen ook weten hoe hoog we "
+"zijn. Daarvoor hebben we drie getallen nodig:"
 
 #: 11.1-Basic-API.md:64
 msgid "How far from right to left in the world - `x`"
@@ -9529,6 +9539,10 @@ msgid ""
 "Minecraft with code. Let's say you want to make the block with coordinates "
 "`40`, `50`, `60` to be glass. That's super easy:"
 msgstr ""
+"Nu je de huidige positie weet te vinden en hoe te teleporteren met behulp "
+"van coördinaten, heb je alle hulpmiddelen die die je nodig hebt om  met code "
+"te beginnen bouwen  in Minecraft. Stel dat je het blok met coördinaten `40`, "
+"`50`, `60` van glas wordt. Dat is dan super eenvoudig:"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
@@ -9540,6 +9554,8 @@ msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby "
 "and take a look:"
 msgstr ""
+"Haha, het was echt zo makkelijk. Om je werkstuk te zien teleporteer je je in "
+"de buurt:"
 
 #: 11.1-Basic-API.md:103
 #, no-wrap
@@ -9551,6 +9567,8 @@ msgid ""
 "Now turn around and you should see your glass block! Try changing it to "
 "diamond:"
 msgstr ""
+"Draai nu even rond en je zou je glazen blok moeten zien staan! Probeer deze "
+"nu te veranderen in diamant:"
 
 #: 11.1-Basic-API.md:110
 #, no-wrap
@@ -9562,6 +9580,8 @@ msgid ""
 "If you were looking in the right direction you might have even seen it "
 "change in front of your eyes! This is the start of something exciting..."
 msgstr ""
+"Als je in de juiste richting gekeken hebt heb je het misschien zién "
+"veranderen! Dit is het begin van iets spannends..."
 
 #: 11.1-Basic-API.md:117
 msgid "Looking at blocks"
@@ -9573,6 +9593,9 @@ msgid ""
 "involved. Given a set of coordinates we can ask Minecraft what the type of a "
 "specific block is. Let's try it with the diamond block you just created:"
 msgstr ""
+"Laat we naar een laatste ding kijken, voor we ons engageren in iets anders. "
+"Met een set aan coördinaten kunnen we Minecraft vragen van welk type een "
+"bepaalde blok is. Laat ons dit proberen met onze net aangemaakte blok:"
 
 #: 11.1-Basic-API.md:124
 #, no-wrap
@@ -9584,16 +9607,20 @@ msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does "
 "it now say `:glass`? I'm sure it does :-)"
 msgstr ""
+"Jeuj! Het is `:diamond`.Probeer deze terug te veranderen naar glas en vraag "
+"dan opnieuw- zegt het nu `:glass`? Ik ben zeker van wel :-)"
 
 #: 11.1-Basic-API.md:131
 msgid "Available block types"
-msgstr ""
+msgstr "Beschikbare bloktypes"
 
 #: 11.1-Basic-API.md:133
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of "
 "available block types useful:"
 msgstr ""
+"Voordat je op op ramkoers gaat met Minecraft Pi codering , misschien vindt u "
+"deze lijst van beschikbare bloktypes dan nuttig:"
 
 #: 11.1-Basic-API.md:136
 #, no-wrap
@@ -9766,6 +9793,11 @@ msgid ""
 "time. Feel free to dive back in when you have a question that might be "
 "covered in one of the sections."
 msgstr ""
+"Dit rond Sonic Pi's handleiding af. Hopelijk heb je terloops iets "
+"bijgeleerd. Maak je geen zorgen als het voelt alsof je niet alles begrepen "
+"hebt - speel er gewoon mee en heb plezier in wat je doet, zo zal je op je "
+"eigen tempo nieuwe leerstof tot je opnemen. Duik gerust terug in een sectie "
+"waarover je nog vragen hebt."
 
 #: 12-Conclusions.md:11
 msgid ""
@@ -9774,6 +9806,10 @@ msgid ""
 "pi/) and ask your question there. You'll find someone friendly and willing "
 "to lend a hand."
 msgstr ""
+"Hebt je vragen die nog niet behandeld zijn in de tutorial, ga even naar ["
+"Sonic Pi forums] (http://groups.google.com/group/sonic-pi/) en stel je vraag "
+"daar. Dan vind je wel iemand die vriendelijk en bereid is om een handje te "
+"helpen."
 
 #: 12-Conclusions.md:16
 msgid ""
@@ -9781,37 +9817,44 @@ msgid ""
 "documentation in this help system. There are a number of features that "
 "haven't been covered in this tutorial that are waiting for your discovery."
 msgstr ""
+"Ten slotte, nodigen ik je ook uit om je wat nader tot de rest van de "
+"documentatie in dit help-systeem te wenden. Er zijn een heleboel functies "
+"die nog niet behandeld zijn in deze handleiding en die jij nog kan ontdekken."
 
 #: 12-Conclusions.md:21
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your "
 "screens and remember:"
 msgstr ""
+"Dus speel, heb veel plezier, deel jouw code, treed op voor vrienden, toon "
+"jouw scherm en vergeet niet:"
 
 #: 12-Conclusions.md:24
 msgid "*There are no mistakes, only opportunities.*"
-msgstr ""
+msgstr "*Er zijn geen fouten, alleen maar kansen*"
 
 #: 12-Conclusions.md:26
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
 msgid "A Appendix A - MagPi Articles"
-msgstr ""
+msgstr "A Appendix A - MagPi artikelen"
 
 #: A-Articles.md:3
 msgid "MagPi Articles"
-msgstr ""
+msgstr "MagPi artikelen"
 
 #: A-Articles.md:5
 msgid ""
 "Appendix A collects all the Sonic Pi articles written for the MagPi magazine."
 msgstr ""
+"Bijlage A verzamelt alle de Sonic Pi artikelen geschreven voor het "
+"tijdschrift MagPi."
 
 #: A-Articles.md:8
 msgid "Dive into Topics"
-msgstr ""
+msgstr "Duik in Onderwerpen"
 
 #: A-Articles.md:10
 msgid ""
@@ -9820,20 +9863,27 @@ msgid ""
 "you all of Sonic Pi, they instead each focus on a specific aspect of Sonic "
 "Pi and cover it in a fun and accessible way."
 msgstr ""
+"Deze artikelen zijn niet bedoeld om in een strikte volgorde  te worden "
+"gelezen en bevatten veel cross-over materiaal uit de tutorial zelf. In "
+"plaats van te proberen je alles van Sonic Pi te leren, zijn ze elk gericht "
+"op een specifiek aspect van Sonic Pi en dit op een leuke en toegankelijke "
+"manier."
 
 #: A-Articles.md:15
 msgid "Read the MagPi"
-msgstr ""
+msgstr "Lees de MagPi"
 
 #: A-Articles.md:17
 msgid ""
 "You can see them in their glorious professionally typeset form in the free "
 "PDF downloads of The MagPi here: https://www.raspberrypi.org/magpi/"
 msgstr ""
+"Je kan ze in hun glorieuze professioneel ✓ vorm zien in de gratis PDF-"
+"downloads van de MagPi : https://www.raspberrypi.org/magpi/"
 
 #: A-Articles.md:20
 msgid "Suggest a Topic"
-msgstr ""
+msgstr "Een onderwerp suggereren"
 
 #: A-Articles.md:22
 msgid ""
@@ -9842,18 +9892,23 @@ msgid ""
 "[@Sonic_Pi](http://twitter.com/sonic_pi). You never know - your suggestion "
 "might be the subject of the next article!"
 msgstr ""
+"Mocht het zijn dart er een onderwerp ontbreekt dat jou interesseert - waarom "
+"zou je daar dan geen suggestie over kunnen maken? De makkelijkste manier om "
+"dit te doen is jouw suggestie tweeten naar "
+"[@Sonic_Pi](http://twitter.com/sonic_pi). Jouw suggestie kan wel eens het "
+"onderwerp van het volgende artikel zijn!"
 
 #: A.01-tips.md:1
 msgid "A.1 Tips for Sonic Pi"
-msgstr ""
+msgstr "A.1 Tips voor Sonic Pi"
 
 #: A.01-tips.md:3
 msgid "Five Top Tips"
-msgstr ""
+msgstr "Vijf Top Tips"
 
 #: A.01-tips.md:5
 msgid "1. There are no mistakes"
-msgstr ""
+msgstr "1. Er bestaan geen fouten"
 
 #: A.01-tips.md:7
 msgid ""
@@ -9870,7 +9925,7 @@ msgstr ""
 
 #: A.01-tips.md:18
 msgid "2. Use the FX"
-msgstr ""
+msgstr "2. FX gebruiken"
 
 #: A.01-tips.md:20
 msgid ""
@@ -9895,6 +9950,11 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"sample :loop_garzul\n"
+"16.times do\n"
+"  sample :bd_haus\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.01-tips.md:41
 msgid ""
@@ -9913,6 +9973,13 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"with_fx :flanger do\n"
+"  sample :loop_garzul\n"
+"end\n"
+"16.times do\n"
+"  sample :bd_haus\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.01-tips.md:55
 msgid ""
@@ -9933,6 +10000,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :flanger do\n"
+"  sample :loop_garzul\n"
+"end\n"
+"with_fx :echo do\n"
+"  16.times do\n"
+"    sample :bd_haus\n"
+"    sleep 0.5\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:71
 msgid ""
@@ -9942,7 +10018,7 @@ msgstr ""
 
 #: A.01-tips.md:75
 msgid "3. Parameterise your synths"
-msgstr ""
+msgstr "3. Het parametreren van jouw synths"
 
 #: A.01-tips.md:77
 msgid ""
@@ -9957,7 +10033,7 @@ msgstr ""
 #: A.01-tips.md:85
 #, no-wrap
 msgid "sample :guit_em9"
-msgstr ""
+msgstr "sample :guit_em9"
 
 #: A.01-tips.md:89
 msgid ""
@@ -9968,7 +10044,7 @@ msgstr ""
 #: A.01-tips.md:92
 #, no-wrap
 msgid "sample :guit_em9, rate: 0.5"
-msgstr ""
+msgstr "sample :guit_em9, rate: 0.5"
 
 #: A.01-tips.md:96
 msgid ""
@@ -9984,6 +10060,9 @@ msgid ""
 "  sample :guit_em9\n"
 "end"
 msgstr ""
+"with_fx :flanger, feedback: 0.6 do\n"
+"  sample :guit_em9\n"
+"end"
 
 #: A.01-tips.md:106
 msgid ""
@@ -9993,7 +10072,7 @@ msgstr ""
 
 #: A.01-tips.md:110
 msgid "5. Live Code"
-msgstr ""
+msgstr "5. Live Code"
 
 #: A.01-tips.md:112
 msgid ""
@@ -10012,6 +10091,10 @@ msgid ""
 "  sleep 1.75\n"
 "end"
 msgstr ""
+"live_loop :experiment do\n"
+"  sample :loop_amen, cutoff: 70\n"
+"  sleep 1.75\n"
+"end"
 
 #: A.01-tips.md:125
 msgid ""
@@ -10052,6 +10135,14 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :rand_surfer do\n"
+"  use_synth :dsaw\n"
+"  notes = (scale :e2, :minor_pentatonic, num_octaves: 2)\n"
+"  16.times do\n"
+"    play notes.choose, release: 0.1, cutoff: rrand(70, 120)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:152
 msgid ""
@@ -10077,6 +10168,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :rand_surfer do\n"
+"  use_random_seed 1\n"
+"  use_synth :dsaw\n"
+"  notes = (scale :e2, :minor_pentatonic, num_octaves: 2)\n"
+"  16.times do\n"
+"    play notes.choose, release: 0.1, cutoff: rrand(70, 120)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:173
 msgid ""
@@ -10109,6 +10209,8 @@ msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-"
 "aaron-live-coding.png)"
 msgstr ""
+"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-"
+"aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -10126,7 +10228,7 @@ msgstr ""
 
 #: A.02-live-coding.md:27
 msgid "Live Loop"
-msgstr ""
+msgstr "Live Loop"
 
 #: A.02-live-coding.md:29
 msgid ""
@@ -10142,6 +10244,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :beats do\n"
+"  sample :bd_haus\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.02-live-coding.md:39
 msgid ""
@@ -10179,6 +10285,10 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :choral_drone do\n"
+"  sample :ambi_choir, rate: 0.4\n"
+"  sleep 1\n"
+"end"
 
 #: A.02-live-coding.md:67
 msgid ""
@@ -10209,6 +10319,9 @@ msgid ""
 "  sample :ambi_choir\n"
 "end"
 msgstr ""
+"live_loop :infinite_impossibilities do\n"
+"  sample :ambi_choir\n"
+"end"
 
 #: A.02-live-coding.md:88
 msgid ""
@@ -10250,6 +10363,18 @@ msgid ""
 "  sleep 4\n"
 "end"
 msgstr ""
+"live_loop :beats do\n"
+"  sample :bd_tek\n"
+"  with_fx :echo, phase: 0.125, mix: 0.4 do\n"
+"    sample  :drum_cymbal_soft, sustain: 0, release: 0.1\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"live_loop :bass do\n"
+"  use_synth :tb303\n"
+"  synth :tb303, note: :e1, release: 4, cutoff: 120, cutoff_attack: 1\n"
+"  sleep 4\n"
+"end"
 
 #: A.02-live-coding.md:121
 msgid ""
