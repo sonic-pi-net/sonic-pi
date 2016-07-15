@@ -355,7 +355,8 @@
 
 
  (def-fx sonic-pi-fx_reverb
-   [
+
+   [mix  0.4 ;; override default mix of 1
     room 0.6
     room_slide 0
     room_slide_shape 1
