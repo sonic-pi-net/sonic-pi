@@ -136,12 +136,14 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
   gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
   scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
-  task_clear_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/task-clear.rb");
+
+  init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/init-script.rb");
 
   // Clear out old tasks from previous sessions if they still exist
-  QProcess *clearProcess = new QProcess();
-  clearProcess->start(ruby_path, QStringList(task_clear_path));
-  clearProcess->waitForFinished();
+  std::cout << "[GUI] - running init script" << std::endl;
+  QProcess *initProcess = new QProcess();
+  initProcess->start(ruby_path, QStringList(init_script_path));
+  initProcess->waitForFinished();
 
   QFile tmpFile(sp_user_tmp_path);
   if (!tmpFile.open(QIODevice::WriteOnly)) {
@@ -2781,10 +2783,10 @@ void MainWindow::onExitCleanup()
   sleep(2);
 
   // ensure all child processes are nuked if they didn't die gracefully
-  std::cout << "[GUI] - clearing out all child processes" << std::endl;
-  QProcess* clearProcess = new QProcess();
-  clearProcess->start(ruby_path, QStringList(task_clear_path));
-  clearProcess->waitForFinished();
+  std::cout << "[GUI] - executing exit script" << std::endl;
+  QProcess* exitProcess = new QProcess();
+  exitProcess->start(ruby_path, QStringList(exit_script_path));
+  exitProcess->waitForFinished();
 
   std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
   std::cout.rdbuf(coutbuf); // reset to stdout before exiting

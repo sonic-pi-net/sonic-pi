@@ -253,6 +253,10 @@ module SonicPi
       File.absolute_path("#{app_path}/server")
     end
 
+    def server_bin_path
+      File.absolute_path("#{server_path}/bin")
+    end
+
     def native_path
       File.absolute_path("#{server_path}/native/#{os}")
     end
