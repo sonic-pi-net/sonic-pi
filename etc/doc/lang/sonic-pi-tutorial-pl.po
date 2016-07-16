@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-06 23:09+0000\n"
+"PO-Revision-Date: 2016-07-16 10:58+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1285,12 +1285,10 @@ msgstr ""
 "y syntezator."
 
 #: 02.3-Switching-Synths.md:21
-#, fuzzy
 msgid "Buzzy saws and prophets"
-msgstr "Brzęczące piły i prophety"
+msgstr "Brzęczące syntezatory saw i prophet"
 
 #: 02.3-Switching-Synths.md:23
-#, fuzzy
 msgid "A fun sound is the *saw wave* - let's give it a try:"
 msgstr "Fajnym dźwiękiem jest *sawdźwięk piły* - spróbujmy:"
 
@@ -1314,7 +1312,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
-#, fuzzy
 msgid "Let's try another sound - the *prophet*:"
 msgstr "A teraz spróbujmy innego dźwięku - syntezatora *prophet*:"
 
@@ -1338,7 +1335,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
-#, fuzzy
 msgid "How about combining two sounds. First one after another:"
 msgstr "Co powiesz na połączenie dwóch dźwięków. Jeden po drugim:"
 
@@ -1364,7 +1360,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
-#, fuzzy
 msgid "Now at the same time:"
 msgstr "A teraz w tym samym czasie:"
 
@@ -1392,34 +1387,31 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
-#, fuzzy
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
-"Zauważ, że polecenie `use_synth` wywiera wpływ tylko na kolejne wywołania pole"
-"ceń `play`. Pomyśl o tym poleceniu jako o *dużym przełączniku* - kolejne wywoł"
-"ania polecenia `play` będą odtwarzać dowolny syntezator, który jest w danym mo"
-"mencie wskazany. Możesz zmienić aktualny syntezator na inny używając przełączn"
-"ika `use_synth`."
+"Zauważ, że polecenie `use_synth` wywiera wpływ tylko kolejne polecenia `play`"
+". Pomyśl o tym poleceniu jako o *dużym przełączniku* - kolejne wywołania "
+"polecenia `play` będą używać syntezatora, który jest w danym momencie "
+"wskazany. Możesz zmienić aktualny syntezator na inny używając przełącznika "
+"`use_synth`."
 
 #: 02.3-Switching-Synths.md:80
-#, fuzzy
 msgid "Discovering Synths"
-msgstr "Odkrywanie Syntezatorów (Synths)"
+msgstr "Odkrywanie Syntezatorów"
 
 #: 02.3-Switching-Synths.md:82
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"Aby zobaczyć jakie syntezatory Sonic Pi ma dla Ciebie do zabawy zerknij na opc"
-"ję Synth w lewym dolnym rogu (obok Fx). Znajdziesz tam ponad 20 do wyboru. Oto"
-" kilka moich ulubionych:"
+"Aby zobaczyć jakie syntezatory Sonic Pi ma dla Ciebie do zabawy zerknij na "
+"opcję Synths w lewym dolnym rogu (obok Fx). Znajdziesz tam ponad 20 do "
+"wyboru. Oto kilka moich ulubionych:"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
@@ -1452,12 +1444,10 @@ msgstr ""
 "również używając różnych syntezatorów w różnych sekcjach twojego utworu."
 
 #: 02.4-Durations-with-Envelopes.md:1
-#, fuzzy
 msgid "2.4 Duration with Envelopes"
 msgstr "2.4 Czas trwania obwiedni dźwięku"
 
 #: 02.4-Durations-with-Envelopes.md:3
-#, fuzzy
 msgid "Duration with Envelopes"
 msgstr "Czas trwania obwiedni dźwięku"
 
@@ -1486,17 +1476,14 @@ msgstr ""
 "nia amplitudy udostępnia dwa przydatne aspekty kontroli:"
 
 #: 02.4-Durations-with-Envelopes.md:14
-#, fuzzy
 msgid "control over the duration of a sound"
-msgstr "kontrolę długości trwania dźwięku"
+msgstr "kontrolę nad długością trwania dźwięku"
 
 #: 02.4-Durations-with-Envelopes.md:15
-#, fuzzy
 msgid "control over the amplitude of a sound"
-msgstr "kontrolę amplitudy dźwięku"
+msgstr "kontrolę poziomu głośności (amplitudy) dźwięku"
 
 #: 02.4-Durations-with-Envelopes.md:17
-#, fuzzy
 msgid "Duration"
 msgstr "Długość trwania dźwięku (ang. Duration)"
 
@@ -1537,22 +1524,20 @@ msgstr ""
 "cisz\". Sonic Pi pozwala Ci na zaprogramowanie tego za pomocą obwiedni."
 
 #: 02.4-Durations-with-Envelopes.md:37
-#, fuzzy
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
 msgstr ""
-"Jak widzieliśmy w poprzedniej sekcji samouczka, amplituda o wartości 0 to cisz"
-"a, natomiast amplituda o wartości 1 to głośność normalna."
+"Jak widzieliśmy już w poprzedniej sekcji samouczka, amplituda o wartości 0 "
+"to cisza, natomiast amplituda o wartości 1 to głośność normalna."
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr ""
+msgstr "A teraz, przyjrzyjmy się kolejno każdej ze składowych obwiedni."
 
 #: 02.4-Durations-with-Envelopes.md:42
-#, fuzzy
 msgid "Release Phase"
-msgstr "Release Time - czas zanikania amplitudy"
+msgstr "Faza zanikania (z ang. Release Phase)"
 
 #: 02.4-Durations-with-Envelopes.md:44
 #, fuzzy
@@ -1573,12 +1558,13 @@ msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
+"Nuta będzie odtwarzana przez 1 sekundę. Weź do ręki stoper i sprawdź :-) "
+"Jest to skrót dla dłuższej bardziej dokładnej wersji:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
-#, fuzzy
 msgid "play 70, release: 1"
-msgstr "  play 70, release: 1"
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
@@ -1586,6 +1572,9 @@ msgid ""
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
+"Zauważ, że brzmienie jest dokładnie takie samo (dźwięk trwa przez jedną "
+"sekundę). Jednakże, teraz bardzo łatwo możemy zmienić czas trwania przez "
+"zmianę wartości opcji `release`:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1593,13 +1582,12 @@ msgid "play 60, release: 2"
 msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
-#, fuzzy
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
 msgstr ""
-"Możemy też sprawić aby syntezator brzmiał przez bardzo krótką chwilę. Wystarcz"
-"y użyć bardzo małej wartości dla czasu zanikania amplitudy:"
+"Możemy też sprawić aby syntezator brzmiał przez bardzo krótką chwilę. "
+"Wystarczy użyć bardzo małej wartości dla czasu zanikania amplitudy:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
@@ -1621,7 +1609,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
