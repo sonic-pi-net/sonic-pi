@@ -31,7 +31,8 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Přepnout stereo inverzi.
-Pokud aktivováno, zvuk levého reproduktoru bude přesměrován do pravého a naopak.</translation>
+Pokud aktivováno, zvuk levého reproduktoru
+bude přesměrován do pravého a naopak.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"></location>
@@ -40,9 +41,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Přepnout mono mód.
-Pokud aktivován, zvuk pravého i levého reproduktoru bude smísen a stejný signál bude poslán do obou reproduktorů.
-Užitečné při práci s externími systémy, které zvládají pouze mono signál.</translation>
+        <translation>Přepnout mono mód.
+Pokud aktivován, zvuk pravého i levého reproduktoru
+bude smísen a stejný signál bude poslán do obou reproduktorů.
+Užitečné při práci s externími systémy,
+které zvládají pouze mono signál.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
