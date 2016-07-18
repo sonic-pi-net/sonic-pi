@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-18 04:12+0000\n"
+"PO-Revision-Date: 2016-07-18 16:22+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -3519,6 +3519,9 @@ msgid ""
 "`:foo` - Keywords will filter candidates on whether the keyword is a direct ma"
 "tch of the filename (minus directory path and extension)."
 msgstr ""
+"`:foo` - słowa kluczowe odfiltrują kandydatów dla których słowo kluczowe  "
+"jest dokładnym dopasowaniem do nazwy pliku (bez ścieżki do katalogu i "
+"rozszerzenia tego pliku)."
 
 #: 03.7-Sample-Packs.md:192
 msgid ""
@@ -3527,18 +3530,27 @@ msgid ""
 "nd must return a new list of candidates (a list of valid paths to sample files"
 ")."
 msgstr ""
+"`lambda{|a| ... }` - prócz z jednym argumentem będą traktowane jako kandydat "
+"do odfiltrowania lub jako funkcja generującą. Zostanie do niej przekazana "
+"lustra aktualnych kandydatów i musi sycić nową listę kandydatów (listę "
+"poprawnych ścieżek do plików z samplami)."
 
 #: 03.7-Sample-Packs.md:193
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
 msgstr ""
+"`1` - Liczby spowodują wybranie kandydata pod podanym indeksem (zataczając "
+"rundę tak jak pierścień jeśli będzie to konieczne)."
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
 "For example, we can filter over all the samples in a directory containing the "
 "string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
+"Na przykład, możemy odfiltrować wszystkie sample z danego katalogu, które "
+"zawierają ciąg znaków `\"foo\"` i zagrać pierwszy pasujący sampel z "
+"prędkością równej połowie normalnego tempa:"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
@@ -3550,10 +3562,13 @@ msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
 msgstr ""
+"Zajrzyj do pomocy gdzie opisane jest polecenie `sample` żeby zobaczyć wiele "
+"szczegółowych przykładów użycia. Zwróć uwagę na to, że kolejność nakładania "
+"filtrów ma znaczenie."
 
 #: 03.7-Sample-Packs.md:206
 msgid "Composites"
-msgstr ""
+msgstr "Kompozyty (obiekty złożone)"
 
 #: 03.7-Sample-Packs.md:208
 msgid ""
@@ -3562,6 +3577,11 @@ msgid ""
 "ources and filters. Therefore the following calls to `sample` are semantically"
 " equivalent:"
 msgstr ""
+"I na koniec , chciałbym żebyś wiedział, że wszędzie tam gdzie wykorzystujesz "
+"źródła i filtry możesz użyć list. Lista zostanie automatycznie spłaszczona a "
+"jej zawartość zostanie użyta w taki sam sposób jak regularne źródła i "
+"filtry. Dlatego też poniższe użycia polecenia `sample` są semantycznie "
+"tożsame:"
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -3578,7 +3598,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:220
 msgid "Wrapping Up"
-msgstr ""
+msgstr "Pakowanie"
 
 #: 03.7-Sample-Packs.md:222
 msgid ""
@@ -3588,6 +3608,13 @@ msgid ""
 "you'll know when you do need it and you can come back and re-read this when yo"
 "u start working with large directories of samples."
 msgstr ""
+"To była zaawansowana sekcja dla osób, które potrzebują potężnego narzędzia "
+"do  manipulacji paczkami sampli. Nie przejmuj się jeśli znaczna część tej "
+"sekcji jest dla Ciebie niezrozumiała. Bardzo prawdopodobne jest to, że na "
+"razie nie będzie Ci to do niczego potrzebne. Jednak będziesz wiedział, że "
+"jest Ci to potrzebne kiedy nadejdzie odpowiednia pora. Możesz wtedy wrócić "
+"do tej sekcji i ponownie przeczytać w jaki sposób można radzić sobie z "
+"dużymi katalogami sampli."
 
 #: 04-Randomisation.md:1
 #, fuzzy
@@ -3895,7 +3922,7 @@ msgstr ""
 
 #: 04-Randomisation.md:135
 msgid "rrand"
-msgstr ""
+msgstr "rrand"
 
 #: 04-Randomisation.md:137
 #, fuzzy
@@ -3916,7 +3943,7 @@ msgstr ""
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
-msgstr ""
+msgstr "rrand_i"
 
 #: 04-Randomisation.md:150
 #, fuzzy
@@ -3937,7 +3964,7 @@ msgstr ""
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
 #, fuzzy
@@ -3967,7 +3994,7 @@ msgstr ""
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
 #, fuzzy
@@ -3981,7 +4008,7 @@ msgstr ""
 
 #: 04-Randomisation.md:179
 msgid "dice"
-msgstr ""
+msgstr "dice (kostka do gry)"
 
 #: 04-Randomisation.md:181
 #, fuzzy
@@ -4004,7 +4031,7 @@ msgstr ""
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
 #, fuzzy
@@ -6108,11 +6135,11 @@ msgstr ""
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr ""
+msgstr "6 FX (efekty)"
 
 #: 06-FX.md:3
 msgid "Studio FX"
-msgstr ""
+msgstr "Studio FX"
 
 #: 06-FX.md:5
 #, fuzzy
@@ -6550,23 +6577,23 @@ msgstr ""
 
 #: 06.1-Adding-FX.md:158
 msgid "wobble,"
-msgstr ""
+msgstr "wobble,"
 
 #: 06.1-Adding-FX.md:159
 msgid "reverb,"
-msgstr ""
+msgstr "reverb,"
 
 #: 06.1-Adding-FX.md:160
 msgid "echo,"
-msgstr ""
+msgstr "echo,"
 
 #: 06.1-Adding-FX.md:161
 msgid "distortion,"
-msgstr ""
+msgstr "distortion,"
 
 #: 06.1-Adding-FX.md:162
 msgid "slicer"
-msgstr ""
+msgstr "slicer"
 
 #: 06.1-Adding-FX.md:164
 #, fuzzy
@@ -6740,6 +6767,9 @@ msgid ""
 "This is such a common pattern that `with_fx` supports an opt to do exactly thi"
 "s but without having to write the `16.times` block:"
 msgstr ""
+"To jest tak często używany wzorzec, że funkcja `with_fx` posiada dodatkową "
+"opcję, która umożliwia nam to samo, ale bez konieczności pisania bloku "
+"`16.times`:"
 
 #: 06.2-FX-in-Practice.md:73
 #, no-wrap
