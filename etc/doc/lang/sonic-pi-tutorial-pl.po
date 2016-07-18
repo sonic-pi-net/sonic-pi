@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-16 20:40+0000\n"
+"PO-Revision-Date: 2016-07-18 04:12+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -3382,14 +3382,22 @@ msgid ""
 " and filters. Sources are information used to create the list of potential can"
 "didates. A source can take two forms:"
 msgstr ""
+"System wstępnego przetwarzania parametrów dla funkcji filtrującej sample "
+"rozumie dwa typy informacji: źródła oraz filtry. Źródła są informacją "
+"wykorzystywaną do stworzenia listy potencjalnych kandydatów. Źródło może "
+"przyjmować 2 formy:"
 
 #: 03.7-Sample-Packs.md:142
 msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
 msgstr ""
+"\"/ścieżka/do/sampli\" - ciąg znaków reprezentujący poprawną ścieżkę do "
+"katalogu"
 
 #: 03.7-Sample-Packs.md:143
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
+"\"/ścieżka/do/sampli/foo.wav\" - ciąg znaków reprezentujący poprawną ścieżkę "
+"do sampla"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -3398,10 +3406,15 @@ msgid ""
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
+"Funkcja `sample` najpierw zbierze wszystkie źródła, następnie użyje ich do "
+"stworzenia dużej listy kandydatów. Lista ta jest konstruowana najpierw "
+"poprzez dodanie wszystkich poprawnych ścieżek, następnie zostają dodane "
+"wszystkie poprawne pliki o rozszerzeniach `.flac`, `.aif`, `.aiff`, `.wav`, "
+"`.wave`, które znajdują się w podanych katalogach."
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "Dla przykładu, przyjrzyjmy się następującemu kawałkowi kodu:"
 
 #: 03.7-Sample-Packs.md:152
 #, no-wrap
@@ -3423,6 +3436,11 @@ msgid ""
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
+"W powyższym przykładzie łączymy wykorzystanie sampli znajdujących się w "
+"dwóch katalogach oraz dodaniu jednego konkretnego sampla. Jeśli `\""
+"/path/to/my/samples/\"` zawiera 3 sample a `\"/path/to/my/samples2/\"` "
+"zawiera 12, to mamy w sumie 16 potencjalnych sampli do dodania do naszego "
+"indesku i filtrów (3 + 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -3432,6 +3450,12 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
+"Domyślnie, tylko do listy kandydatów zostają dołączone tylko sample "
+"znajdujące się w danym katalogu. Czasami może się zdarzyć, że będziesz "
+"posiadał wiele zagnieżdżonych katalogów z samplami, które chciałbyś móc "
+"przeszukiwać i filtrować. Możesz wykonać wyszukiwanie rekurencyjne "
+"wszystkich sampli we wszystkich podfolderach danego katalogu poprzez dodanie "
+"na końcu ścieżki `**`:"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -3448,6 +3472,9 @@ msgid ""
 "ong time. However, the contents of all folder sources are cached, so the delay"
 " will only happen the first time."
 msgstr ""
+"Przeglądanie i wyszukiwanie sampli wśród wielu katalogów może zająć sporo "
+"czasu. Jednakże, zawartość wszystkich katalogów jest buforowana, opóźnienie "
+"wystąpi więc tylko za pierwszym razem."
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
@@ -3455,28 +3482,37 @@ msgid ""
 "e set of built-in samples will be selected as the default list of candidates t"
 "o work with."
 msgstr ""
+"Na koniec zauważ, że źródła *muszą iść jako pierwsze*. Jeśli żadne źródła "
+"nie zostaną podane, wtedy zestaw wbudowanych sampli będzie wybrany jako "
+"domyślna lista kandydatów, z którymi będziesz pracować."
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
-msgstr ""
+msgstr "Filtry"
 
 #: 03.7-Sample-Packs.md:186
 msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
 msgstr ""
+"Gdy już masz listę kandydatów, możesz wtedy użyć następującego filtrowania "
+"typów aby ograniczyć wybór:"
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name (minus di"
 "rectory path and extension)."
 msgstr ""
+"`\"foo\"` ciągi znaków filtrują podzbiór znaków występujących w danej nazwie "
+"pliku (z pominięciem ścieżki katalogu oraz rozszerzenia)."
 
 #: 03.7-Sample-Packs.md:190
 msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name (m"
 "inus directory path and extension)."
 msgstr ""
+"`/fo[oO]/` Wyrażenie Regularne odfiltruje wszystkie nazwy plików pasujące do "
+"podanego wzorca (pomijając ścieżkę do pliku i rozszerzenie)."
 
 #: 03.7-Sample-Packs.md:191
 msgid ""
