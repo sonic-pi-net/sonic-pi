@@ -138,6 +138,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
 
   init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/init-script.rb");
+  exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/exit-script.rb");
 
   // Clear out old tasks from previous sessions if they still exist
   std::cout << "[GUI] - running init script" << std::endl;
