@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-15 11:10+0000\n"
+"PO-Revision-Date: 2016-07-18 14:34+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -9961,6 +9961,8 @@ msgid ""
 "If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it "
 "inside a `with_fx` block like this:"
 msgstr ""
+"Als je een FX aan de  `:loop_garzul` sample wil toevoegen, moet je deze "
+"gewoon in een `with_fx` blok steken zoals hier:"
 
 #: A.01-tips.md:44
 #, no-wrap
@@ -9986,6 +9988,8 @@ msgid ""
 "Now, if you wanted to add FX to the bass drum, go and wrap that with "
 "`with_fx` too:"
 msgstr ""
+"Als je nu ook een FX aan de bass drum wil voegen, omhul deze dan ook met "
+"een  `with_fx`:"
 
 #: A.01-tips.md:58
 #, no-wrap
@@ -10015,6 +10019,8 @@ msgid ""
 "Remember, you can wrap *any* code within `with_fx` and any sounds created "
 "will pass through that FX."
 msgstr ""
+"Denk eraan , je kan *elke* code omhullen met  `with_fx` en elke klank hierin "
+"gecreëerd zal door deze FX passeren."
 
 #: A.01-tips.md:75
 msgid "3. Parameterise your synths"
@@ -10102,6 +10108,9 @@ msgid ""
 "`cutoff:` value to `80` and hit run again. Can you hear the difference? Try "
 "`90`, `100`, `110`..."
 msgstr ""
+"Klik nu op afspelen en hoor hierbij een licht gedempte drum break. Verander "
+"de cutoff waarde nu naar `80` en klik opnieuw op afspelen. Hoor je het "
+"verschil? Probeer  `90`, `100`, `110`..."
 
 #: A.01-tips.md:129
 msgid ""
@@ -10110,10 +10119,14 @@ msgid ""
 "their sticks. For more information about live coding check out Section 9 of "
 "the built-in tutorial."
 msgstr ""
+"Eens je het gewoon bent  `live_loop`s te gebruiken zal je nooit meer zonder "
+"deze kunnen. Wanneer ik een live coding doe reken ik hier zwaar op, zoals "
+"een drummer zijn drumsticks nodig heeft. Voor meer informatie over live "
+"coding, kijk naar Sectie 9 van de ingebouwde handleiding."
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
-msgstr ""
+msgstr "5. Surfen op random golven"
 
 #: A.01-tips.md:136
 msgid ""
@@ -10122,6 +10135,11 @@ msgid ""
 "might sound complicated but it really isn't. Let's take a look. Copy this "
 "into a spare workspace:"
 msgstr ""
+"Tot slot nog deze, ik hou ervan om een beetje vals te spelen door Sonic Pi "
+"in mijn plaats te laten componeren. Een goede manier om dit te "
+"verwezenlijken is gebruik te maken van het randomiseren. Misschien lijkt dit "
+"een beetje ingewikkeld maar dat is het helemaal niet. Laat ons hiernaar naar "
+"kijken. Kopieer deze in een lege buffer:"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -10190,7 +10208,7 @@ msgstr ""
 
 #: A.02-live-coding.md:1
 msgid "A.2 Live Coding"
-msgstr ""
+msgstr "A.2 Live codering"
 
 #: A.02-live-coding.md:5
 msgid ""
@@ -10235,6 +10253,8 @@ msgid ""
 "The key to live coding with Sonic Pi is mastering the `live_loop`. Let's "
 "look at one:"
 msgstr ""
+"De hoofdzaak bij het live coderen ligt bij het beheersen van de  `live_loop`"
+". Hier kijken we naar zo ééntje:"
 
 #: A.02-live-coding.md:32
 #, no-wrap
@@ -10263,10 +10283,21 @@ msgid ""
 "This produces a nice regular bass beat. Go ahead, copy it into an empty "
 "Sonic Pi buffer and hit run. Boom, Boom, Boom!."
 msgstr ""
+"Er zitten 4 basisingrediënten in een  `live_loop`. De eerst is de naam. Onze "
+"`live_loop`heet `:beats`. Je kan jouw `live_loop`benoemen zoals jij dat wil. "
+"Doe dwaas. Wees creatief. Ikzelf gebruik benamingen die een uitleg geven "
+"over welke klank zij naar het publiek brengen. Het volgende ingrediënt is "
+"het `do` woord die markeert waar de `live_loop` start. het derde is het `end`"
+"woord dat het einde van onze`live_loop markeert, en tenslotte heb je de "
+"inhoud van de `live_loop` waarin beschreven wordt wat de loop gat herhalen- "
+"dat is het stukje tussen `do` en `end`. In dit geval gaan we de bass drum "
+"sample met een halve tel rusttijd spelen . Dit produceert een aangenaam "
+"regelmatige bass beat. Ga je gang, kopieer deze in een lege buffer en klik "
+"op afspelen. Boem, boem, boem!."
 
 #: A.02-live-coding.md:52
 msgid "Redefining On-the-fly"
-msgstr ""
+msgstr "Ter plekke herdefiniëren"
 
 #: A.02-live-coding.md:54
 msgid ""
@@ -10276,6 +10307,11 @@ msgid ""
 "change what they do. This is the secret to live coding with Sonic Pi. Let's "
 "have a play:"
 msgstr ""
+"OK, dus wat is er nu zo speciaal aan de 'live_loop'? Tot nu toe lijkt het "
+"gewoon een veredelde 'loop'! Nou, de schoonheid van ' de live_loop is dat u "
+"hen ter plekke kan herdefiniëren. Dit betekent dat terwijl deze nog steeds "
+"speelt, kan je veranderen wat ze doen. Dit is het geheim van het live "
+"coderen met Sonic Pi. Laten we eens spelen:"
 
 #: A.02-live-coding.md:60
 #, no-wrap
@@ -10304,13 +10340,15 @@ msgstr ""
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
-msgstr ""
+msgstr "Slapen is belangrijk"
 
 #: A.02-live-coding.md:79
 msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. "
 "Consider the following `live_loop`:"
 msgstr ""
+"Een van de belangrijkste lessen over `live_loop`s is dat ze rust nodig "
+"hebben. Beschouw deze volgende 'live_loop':"
 
 #: A.02-live-coding.md:82
 #, no-wrap
@@ -10336,7 +10374,7 @@ msgstr ""
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
-msgstr ""
+msgstr "Geluiden combineren"
 
 #: A.02-live-coding.md:99
 msgid ""
@@ -10346,6 +10384,11 @@ msgid ""
 "amazingly simple way of playing things at the same time. Simply use more "
 "than one `live_loop`!"
 msgstr ""
+"In muziek gebeuren veel dingen tezelfdertijd. Drums spelen op het zelfde "
+"moment als de bass en op het zelfde moment als zang en gitaar... In "
+"Computing noemen we dit samenwerking en Sonic Pi biedt ons een ongelofelijk "
+"eenvoudige manier om zaken samen te laten spelen. Gewoon gebruik maken van "
+"verschillende `live_loop`s!"
 
 #: A.02-live-coding.md:105
 #, no-wrap
