@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-18 16:22+0000\n"
+"PO-Revision-Date: 2016-07-22 17:16+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -6795,6 +6795,10 @@ msgid ""
 "eps: 16` essentially repeats the code in the `do/end` block 16 times so you ca"
 "n use them both interchangeably and choose the one that feels best for you."
 msgstr ""
+"Oba przykłady `reps: 16` i `16.times do` zachowają się tak samo. Zasadniczo, "
+"kawałek ` reps: 16` spowoduje powtórzenie kodu znajdującego się w bloku "
+"`do/end`. Możesz więc używać obu konstrukcji zamiennie i wybrać tę, która Ci "
+"bardziej."
 
 #: 06.2-FX-in-Practice.md:87
 #, fuzzy
@@ -7448,19 +7452,19 @@ msgstr ""
 
 #: 08.2-Chords.md:16
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 #, fuzzy
@@ -8909,7 +8913,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:26
 msgid "This is equivalent to:"
-msgstr ""
+msgstr "Jest to odpowiednik dla:"
 
 #: 09.4-Ticking.md:28
 #, no-wrap
@@ -9001,7 +9005,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:70
 msgid "Look"
-msgstr ""
+msgstr "Look (z ang. podejrzeć)"
 
 #: 09.4-Ticking.md:72
 #, fuzzy
@@ -9554,6 +9558,8 @@ msgstr "`C-l` - Wyśrodkuj edytor"
 #: 10.2-Shortcut-Cheatsheet.md:46
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr ""
+"`M-/` - Dodaj lub usuń znak komentarza (#) na początku aktualnie wybranej ("
+"lub wybranych) linii kodu"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
 #, fuzzy
@@ -9887,7 +9893,7 @@ msgstr ""
 
 #: 10.4-Performing.md:27
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
 #, fuzzy
@@ -9905,7 +9911,7 @@ msgstr ""
 
 #: 10.4-Performing.md:34
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: 10.4-Performing.md:36
 #, fuzzy
@@ -9920,11 +9926,11 @@ msgstr ""
 
 #: 11-Minecraft-Pi.md:1
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
 msgid "Minecraft Pi"
-msgstr ""
+msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
 #, fuzzy
@@ -10574,23 +10580,25 @@ msgstr "*Błędów nie ma, są tylko nowe możliwości.*"
 
 #: 12-Conclusions.md:26
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
 msgid "A Appendix A - MagPi Articles"
-msgstr ""
+msgstr "A Dodatek A - Artykuły z magazynu  MagPi"
 
 #: A-Articles.md:3
 msgid "MagPi Articles"
-msgstr ""
+msgstr "Artykuły z magazynu MagPi"
 
 #: A-Articles.md:5
 msgid "Appendix A collects all the Sonic Pi articles written for the MagPi magazine."
 msgstr ""
+"Dodatek A to zbiór wszystkich artykułów o Sonic Pi, które zostały napisane "
+"dla magazynu MagPi."
 
 #: A-Articles.md:8
 msgid "Dive into Topics"
-msgstr ""
+msgstr "Jak czytać poszczególne tematy"
 
 #: A-Articles.md:10
 msgid ""
@@ -10599,20 +10607,28 @@ msgid ""
 "all of Sonic Pi, they instead each focus on a specific aspect of Sonic Pi and "
 "cover it in a fun and accessible way."
 msgstr ""
+"Artykuły te nie zostały napisane aby czytać je w określonej kolejności czy "
+"porządku. Materiał w nich zawarty często pokrywa się z materiałem zawartym w "
+"samouczku. Zamiast próbować nauczyć Cię wszystkiego o Sonic Pi, skupia się "
+"raczej na specyficznych aspektach Sonic Pi i stara się opisać je w sposób "
+"zabawny i przystępny."
 
 #: A-Articles.md:15
 msgid "Read the MagPi"
-msgstr ""
+msgstr "Czytaj magazyn MagPi"
 
 #: A-Articles.md:17
 msgid ""
 "You can see them in their glorious professionally typeset form in the free PDF"
 " downloads of The MagPi here: https://www.raspberrypi.org/magpi/"
 msgstr ""
+"Artykuły te możesz przeczytać i obejrzeć w pełnej krasie, w darmowej wersji "
+"PDF magazynu MagPi, który możesz pobrać tutaj: "
+"https://www.raspberrypi.org/magpi/"
 
 #: A-Articles.md:20
 msgid "Suggest a Topic"
-msgstr ""
+msgstr "Zaproponuj temat"
 
 #: A-Articles.md:22
 msgid ""
@@ -10621,18 +10637,23 @@ msgid ""
 "ic_Pi](http://twitter.com/sonic_pi). You never know - your suggestion might be"
 " the subject of the next article!"
 msgstr ""
+"Jeśli okaże się, że pośród tych artykułów nie znalazłeś tematu, który Cię "
+"interesuje - to czemu nie miałbyś go zaproponować? Najlepszy sposób to "
+"napisanie o tym pomyśle do [@Sonic Pi](http://twitter.com/sonic_pi). Nigdy "
+"nie wiadomo - być może temat który zaproponujesz będzie głównym tematem "
+"kolejnego artykułu!"
 
 #: A.01-tips.md:1
 msgid "A.1 Tips for Sonic Pi"
-msgstr ""
+msgstr "A.1 Wskazówki dla Sonic Pi"
 
 #: A.01-tips.md:3
 msgid "Five Top Tips"
-msgstr ""
+msgstr "Pięć najważniejszych wskazówek"
 
 #: A.01-tips.md:5
 msgid "1. There are no mistakes"
-msgstr ""
+msgstr "1. Błędów nie ma"
 
 #: A.01-tips.md:7
 msgid ""
@@ -10645,10 +10666,21 @@ msgid ""
 "on't like and keep the things you do. The more 'mistakes' you allow yourself t"
 "o make the quicker you'll learn and discover your personal coding sound."
 msgstr ""
+"Najważniejszą lekcją jaką powinieneś wynieść z Sonic Pi jest taka, że tak "
+"naprawdę błędów nie ma. Najlepsza metoda nauki to ciągłe próbowanie, "
+"próbowanie i próbowanie. Próbuj wielu różnych rzeczy, nie przejmuj się tym, "
+"czy twój kod brzmi dobrze czy źle i zacznij eksperymenty z możliwie "
+"największą liczbą różnych syntezatorów, nut, efektów (FX) i opcji. Odkryjesz "
+"ogrom rzeczy, które spowodują, że będziesz się śmiać. Niektóre będą brzmieć "
+"strasznie a inne będą prawdziwymi perełkami i będą brzmieć niesamowicie "
+"dobrze. Wystarczy, że pominiesz rzeczy, które Ci się nie podobają i "
+"zostawisz tylko te, które wpadną Ci w ucho. Im więcej 'błędów' pozwolisz "
+"sobie popełnić tym szybciej się będziesz uczyć i odkryjesz kod, który oddaje "
+"twoje indywidualne brzmienie."
 
 #: A.01-tips.md:18
 msgid "2. Use the FX"
-msgstr ""
+msgstr "2. Używaj efektów (FX)"
 
 #: A.01-tips.md:20
 msgid ""
@@ -10663,6 +10695,19 @@ msgid ""
 "u'd like the FX added to and wrap it with the FX code. Let's look at an exampl"
 "e. Say you had the following code:"
 msgstr ""
+"Więc mówisz, że właśnie opanowałeś podstawy Sonic Pi polegające na tworzeniu "
+"dźwięków z wykorzystaniem poleceń `sample` i `play`? Co dalej? Czy "
+"wiedziałeś, że Sonic Pi wspiera ponad 27 efektów studyjnych (FX), które "
+"pozwalają na zmianę brzmienia twojego kodu? Efekty są niczym ekstrawaganckie "
+"filtry obrazów jakie możesz znaleźć w programach graficznych, z tym że "
+"zamiast rozmazywania lub sprawiania, że coś staje się czarno białe, możesz "
+"dodać rzeczy takie jak pogłos (ang. reverb), zniekształcenie (ang. "
+"distortion) lub echo do twoich dźwięków. Pomyśl o tym jak o kablu, który "
+"łączy twoją gitarę z pedałami do efektów, które sam wybrałeś a następnie "
+"prowadzi do wzmacniacza. Na szczęście Sonic Pi sprawia, że używanie efektów "
+"jest naprawdę proste i nie wymaga żadnych kabli! Jedyne co musisz zrobić to "
+"wybrać, która sekcja twojego kodu powinna być objęta efektem i otoczyć ją "
+"kodem FX. Spójrzmy na przykład. Powiedzmy, że masz następujący kawałek kodu:"
 
 #: A.01-tips.md:32
 #, no-wrap
@@ -10684,6 +10729,8 @@ msgid ""
 "If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it insid"
 "e a `with_fx` block like this:"
 msgstr ""
+"Jeśli chcesz nałożyć efekt na sampel `:loop_garzul`, wystarczy że wsadzisz "
+"go w blok `with_fx` w taki sposób:"
 
 #: A.01-tips.md:44
 #, no-wrap
@@ -10709,6 +10756,8 @@ msgid ""
 "Now, if you wanted to add FX to the bass drum, go and wrap that with `with_fx`"
 " too:"
 msgstr ""
+"A teraz, jeśli chcesz dodać efekt do bębna, to jego też po prostu otocz "
+"poleceniem `with_fx`:"
 
 #: A.01-tips.md:58
 #, no-wrap
@@ -10738,10 +10787,12 @@ msgid ""
 "Remember, you can wrap *any* code within `with_fx` and any sounds created will"
 " pass through that FX."
 msgstr ""
+"Zapamiętaj, możesz otoczyć *dowolny* kawałek kodu poleceniem `with_fx` i "
+"każdy z tworzonych dźwięków będzie przepuszczony przez ten efekt (FX)."
 
 #: A.01-tips.md:75
 msgid "3. Parameterise your synths"
-msgstr ""
+msgstr "3. Używaj parametrów w twoich syntezatorach"
 
 #: A.01-tips.md:77
 msgid ""
@@ -10752,6 +10803,14 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
+"Jeśli naprawdę chcesz odkryć twoje własne brzmienie w kodzie to dość szybko "
+"będziesz chciał dowiedzieć się w jaki sposób zmieniać i kontrolować "
+"syntezatory oraz efekty. Na przykład, możesz chcieć zmienić czas trwania "
+"jakiejś nuty, dodać więcej pogłosu (reverb) lub zmienić odstęp pomiędzy "
+"echo. Na szczęście, Sonic Pi daje Ci niesamowity poziom kontroli nad tymi "
+"aspektami za pomocą rzeczy, które nazywają się parametrami opcjonalnymi, w "
+"skrócie opcjami. Rzućmy okiem. Skopiuj poniższy kawałek kodu do buforu i "
+"naciśnij przycisk \"Run\":"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -10763,6 +10822,8 @@ msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about changi"
 "ng its rate?"
 msgstr ""
+"Ooo, przyjemny dźwięk gitary! A teraz, spróbujmy się tym pobawić. Co powiesz "
+"na zmianę tempa?"
 
 #: A.01-tips.md:92
 #, no-wrap
@@ -10775,6 +10836,10 @@ msgid ""
 ". All of Sonic Pi's synths and FX support them and there's loads to play aroun"
 "d with. They're also available for FX too. Try this:"
 msgstr ""
+"Hej, czym jest ten kawałek `rate: 0.5`, który przed chwilą dodałem na końcu? "
+"Nazywamy to opcją. Wszystkie syntezatory i efekty w Sonic Pi je wspierają i "
+"jest ich bardzo dużo do zabawy. Są również dostępne dla efektów. Spróbuj "
+"tego:"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -10792,10 +10857,14 @@ msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
+"A teraz spróbuj zwiększyć wartość opcji feedback do 1 aby usłyszeć trochę "
+"zwariowanych dźwięków! Zajrzyj do dokumentacji, znajdziesz tam wiele "
+"dokładnie opisanych szczegółów, które dotyczą wszystkich opcji, z których "
+"możesz korzystać."
 
 #: A.01-tips.md:110
 msgid "5. Live Code"
-msgstr ""
+msgstr "5. Koduj na żywo"
 
 #: A.01-tips.md:112
 msgid ""
@@ -10805,6 +10874,12 @@ msgid ""
 "es to a sample, just play around. Let's have a try! Copy this code into one of"
 " your Sonic Pi workspaces:"
 msgstr ""
+"Najlepszym metodą na szybkie eksperymenty i naukę Sonic Pi jest kodowanie na "
+"żywo. Pozwala Ci to na uruchomienie jakiegoś kawałka kodu a następnie na "
+"sukcesywne zmienianie i ulepszanie go gdy ten cały czas gra.  Przypuśćmy, że "
+"nie wiesz jak działa opcja `cutoff` na wybrany przez Ciebie sampel, "
+"wystarczy że zaczniesz się nim bawić. Spróbujmy tego! Skopiuj poniższy "
+"kawałek kodu do jednego z twoich buforów:"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -10825,6 +10900,10 @@ msgid ""
 "utoff:` value to `80` and hit run again. Can you hear the difference? Try `90`"
 ", `100`, `110`..."
 msgstr ""
+"A teraz naciśnij przycisk \"Run\" a usłyszysz lekko przytłumiony breakbit. "
+"Teraz zmień wartość opcji `cutoff:` na 80 i ponownie naciśnij \"Run\". "
+"Słyszysz różnicę? Spróbuj tego samego dla kolejnych wartości: `90`, `100`, "
+"`110`..."
 
 #: A.01-tips.md:129
 msgid ""
@@ -10833,10 +10912,15 @@ msgid ""
 " sticks. For more information about live coding check out Section 9 of the bui"
 "lt-in tutorial."
 msgstr ""
+"Gdy już raz spróbujesz polecenia `live_loop` to już nigdy nie będziesz "
+"chciał wrócić. Zawsze kiedy koduję na żywo na jakiejś imprezie to polegam na "
+"poleceniu `live_loop` tak samo jak perkusista polega na swoich pałeczkach. "
+"Jeśli chcesz dowiedzieć się więcej o kodowaniu na żywo zajrzyj do rozdziału "
+"nr 9 samouczka, który jest wbudowany w Sonic Pi."
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
-msgstr ""
+msgstr "5. Surfuj po losowych strumieniach"
 
 #: A.01-tips.md:136
 msgid ""
@@ -10845,6 +10929,11 @@ msgid ""
 "nd complicated but it really isn't. Let's take a look. Copy this into a spare "
 "workspace:"
 msgstr ""
+"Jedna z rzeczy, którą uwielbiam robić to oszukiwanie poprzez wykorzystywanie "
+"Sonic Pi aby komponował melodie za mnie. Bardzo dobrym sposobem jest "
+"wykorzystanie do tego celu randomizacji. Może to brzmieć odrobinę "
+"skomplikowanie, ale tak naprawdę nie jest. Przyjrzyjmy się temu bliżej. "
+"Skopiuj poniższy kod do jakiegoś pustego buforu:"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -10877,6 +10966,14 @@ msgid ""
 "e TARDIS with the Doctor to a particular point in time and space. Let's try it"
 " - add the line `use_random_seed 1` to the `live_loop`:"
 msgstr ""
+"Teraz, kiedy włączysz ten kawałek, usłyszysz stały strumień losowych nut z "
+"gamy (skali) pentatonicznej e-moll zagranej przez syntezator `:dsaw`. \""
+"Czekaj, czekaj! Przecież to nie jest melodia\" Usłyszałem jak krzyczysz! "
+"Spokojnie, pro pierwsza część magicznej ścieżki. Możemy powiedzieć Sonic Pi, "
+"aby zmieniał losowy strumień dźwięków po każdym przebiegu pętli. To jest "
+"trochę podobne do sytuacji w której przenieślibyśmy się w czasie i "
+"przestrzeni za pomocą TARDIS'a razem z Doktorem Who. Spróbuj dodać linijkę `"
+"use_random_seed 1` w pętli `live_loop`:"
 
 #: A.01-tips.md:161
 #, no-wrap
@@ -10910,10 +11007,16 @@ msgid ""
 "e random seed), you can explore as many melodic combinations as you can imagin"
 "e! Now, that's the magic of code."
 msgstr ""
+"Teraz , przy każdej kolejnej iteracji pętli losowy strumień jest resetowany. "
+"Oznacza to, że za każdym razem kiedy losowane te same 16 nut. Bułka z "
+"masłem! Melodia błyskawiczna. A teraz czas na coś naprawdę ekstra. Zmień "
+"wartość przy poleceniu `seed` na inną liczbę. Powiedzmy `4923`. Łał! Kolejną "
+"melodia! Wystarczy więc zmienić jedną liczbę aby móc poznawać tyle "
+"kombinacji melodii ile tylko sobie wyobrazisz. I to jest właśnie magia kodu."
 
 #: A.02-live-coding.md:1
 msgid "A.2 Live Coding"
-msgstr ""
+msgstr "A.2 Kodowanie na żywo"
 
 #: A.02-live-coding.md:5
 msgid ""
