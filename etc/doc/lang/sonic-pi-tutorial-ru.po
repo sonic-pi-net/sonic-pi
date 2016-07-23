@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-04-29 17:05+0000\n"
-"Last-Translator: Deca <decard@xakep.ru>\n"
+"Last-Translator: Feodor Aleksandrov <angolier@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -230,8 +230,8 @@ msgstr ""
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
-"Попробуйте закомментировать одну из строк `sample`. Для этого добавьте `#` в е"
-"е начало:"
+"Попробуйте закомментировать одну из строк `sample`. Для этого добавьте `#` в "
+"ее начало:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
