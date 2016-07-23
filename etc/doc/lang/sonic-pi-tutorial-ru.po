@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-10 08:47+0000\n"
-"Last-Translator: Vladimir Knyazev <zombie.knt@gmail.com>\n"
+"PO-Revision-Date: 2016-07-23 23:14+0000\n"
+"Last-Translator: Feodor Aleksandrov <Angolier@pisem.net>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -232,11 +232,10 @@ msgstr ""
 "."
 
 #: 01.1-Live-Coding.md:59
-#, fuzzy
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
-"Попробуйте закомментировать одну из строк с `sample`. Для этого добавьте `#` в"
-" ее начало:"
+"Попробуйте закомментировать одну из строк `sample`. Для этого добавьте `#` в "
+"ее начало:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -375,7 +374,7 @@ msgstr "Так чего же вы ждёте..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 Обзор интерфейса"
 
 #: 01.2-Exploring-the-Interface.md:3
 #, fuzzy
@@ -570,7 +569,7 @@ msgstr ""
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 Обучение через игру"
 
 #: 01.3-Learning-through-Play.md:3
 #, fuzzy
@@ -651,7 +650,7 @@ msgstr "Но не забывайте делиться своими достиж�
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr ""
+msgstr "2 Синт - Синтезатор"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 #, fuzzy
@@ -691,7 +690,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 Ваш первый звук"
 
 #: 02.1-Your-First-Beeps.md:3
 #, fuzzy
