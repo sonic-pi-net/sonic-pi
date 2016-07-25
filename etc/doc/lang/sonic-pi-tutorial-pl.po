@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-22 17:16+0000\n"
+"PO-Revision-Date: 2016-07-25 15:39+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -11028,12 +11028,22 @@ msgid ""
 "c Pi running on a Raspberry Pi. The occupant of the DJ booth wasn't spinning d"
 "isks, he was writing, editing and evaluating code. Live. This is Live Coding."
 msgstr ""
+"Promienie lasera przecinały smugi dymu a  bas pulsujący z subwoofera "
+"przeszywał ciała tłumu na parkiecie.  Atmosfera była gorąca, \n"
+" tworzyły ją syntezatory i taniec. W klubie tym było jednak coś dziwnego. Na "
+"ścianie tuż nad głową DJ'a był wyświetlany jasny futurystyczny tekst, który "
+"bez przerwy się poruszał, zmieniał, tańczył i świecił... Nie były to żadne "
+"fantazyjne wizualizacje, tylko Sonic Pi uruchomiony na Raspberry Pi. Osoba "
+"okupująca stanowisko DJ'a nie kręciła płytami winylowymi lecz pisała, "
+"edytowała i uruchamiała kod. Na żywo. To jest właśnie kodowanie na żywo."
 
 #: A.02-live-coding.md:14
 msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
 msgstr ""
+"![Sam Aaron kodujący na żywo](../images/tutorial/articles/A.02-live-coding"
+"/sam-aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -11047,16 +11057,28 @@ msgid ""
 " end of this article, you'll be programming your own beats and modifying them "
 "live. Where you go afterwards will only be constrained by your imagination."
 msgstr ""
+"Być może brzmi to jak historia z przyszłości opisująca futurystyczny klub, "
+"ale kodowanie muzyki w ten sposób to rosnący trend i często jest opisywany "
+"jako kodowanie na żywo (http://toplap.org). Jednym z obecnych kierunków jaki "
+"obrał ruch tworzący muzykę w taki sposób jest Algorave (http://algorave.com) "
+"- wydarzenia podczas których osoby takie jak ja kodują muzykę do tańca dla "
+"ludzi. Jednakże, wcale nie musisz być w klubie żeby Kodować Na Żywo - z "
+"Sonic Pi v2.6+ możesz to robić gdziekolwiek tylko uda Ci zabrać ze sobą swój "
+"komputer, parę słuchawek lub głośniki. Kiedy skończysz czytać ten artykuł "
+"będziesz programował swoje własne bity i zmieniał je na żywo. Gdzie "
+"pójdziesz dalej będzie ograniczone tylko twoją wyobraźnią."
 
 #: A.02-live-coding.md:27
 msgid "Live Loop"
-msgstr ""
+msgstr "Live Loop (Żywa Pętla)"
 
 #: A.02-live-coding.md:29
 msgid ""
 "The key to live coding with Sonic Pi is mastering the `live_loop`. Let's look "
 "at one:"
 msgstr ""
+"Kluczem do kodowania na żywo jest okiełznanie polecenia `live_loop`. "
+"Przyjrzyjmy się jednej:"
 
 #: A.02-live-coding.md:32
 #, no-wrap
