@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-26 14:38+0000\n"
-"Last-Translator: Francisco Llaryora <fllaryora@gmail.com>\n"
+"PO-Revision-Date: 2016-07-26 14:46+0000\n"
+"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -89,12 +89,12 @@ msgstr "OK, comencemos..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr "1.1 Programación sobre la marcha (Live Coding)"
+msgstr "1.1 Programación en directo (Live Coding)"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Programación en Directo"
+msgstr "Programación en directo (Live Coding)"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -103,10 +103,10 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Uno de los aspectos más estimulantes de Sonic Pi es la posibilidad de "
-"escribir y modificar código en vivo para hacer música, igual que con una "
-"guitarra. Esto significa que con algo de práctica podrás usar Sonic Pi en el "
-"escenario y tocar con él."
+"Uno de los aspectos más excitantes de Sonic Pi es la posibilidad de escribir "
+"y modificar código para hacer música en directo, como lo harías al tocar una "
+"guitarra. Esto significa que con algo de práctica podrás usar Sonic Pi en "
+"directo."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -120,8 +120,8 @@ msgid ""
 "o your seats and enjoy..."
 msgstr ""
 "Antes de entrar al detalle de cómo funciona Sonic Pi en el resto de este "
-"tutorial, me gustaría mostrarte lo que es programar en vivo. No te preocupes "
-"si no entiendes mucho (o nada) de esto. Sólo relájate y disfruta..."
+"tutorial, me gustaría mostrarte lo que es programar en directo. No te "
+"preocupes si no entiendes mucho (o nada) de esto. Sólo relájate y disfruta..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -129,7 +129,7 @@ msgstr "Un Bucle en Vivo"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "Comencemos copiando el siguiente código en un buffer de aquí arriba:"
+msgstr "Comencemos, copia el siguiente código en un buffer vacío:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -550,7 +550,6 @@ msgid "There are no mistakes"
 msgstr "No hay errores"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -563,14 +562,15 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
-"Hablando de eso, déjame darte un consejo, aprendido a través de mis años de es"
-"cribir código musical en vivo: «no hay errores, sólo oportunidades». Esto es a"
-"lgo que he escuchado a menudo en relación al jazz, pero funciona igualmente bi"
-"en en el live-coding. No importa lo experimentado que seas -de completo princi"
-"piante a un algoraver, alguna vez ejecutarás código que salga de maneras inesp"
-"eradas - Podría sonar increíblemente o no, pero no importa, lo que sí importa "
-"es lo que hagas la próxima vez con él. Toma sonido, manipulalo y conviértelo e"
-"n algo alucinante. El público se volverá « loco»."
+"Hablando de eso, déjame darte un consejo, aprendido a través de mis años de "
+"escribir código musical en vivo: «no hay errores, sólo oportunidades». Esto "
+"es algo que he escuchado a menudo en relación al jazz, pero funciona "
+"igualmente bien en el live-coding. No importa lo experimentado que seas -de "
+"completo principiante a un Algoraver, alguna vez ejecutarás código que salga "
+"de manera inesperada. Puede que suene increíblemente bien, en cuyo caso "
+"continúa con él. O puede que suene mal o fuera de lugar. Pero no importa. "
+"Toma el sonido, manipúlalo y conviértelo en algo alucinante. El público se "
+"volverá ”loco”."
 
 #: 01.3-Learning-through-Play.md:24
 #, fuzzy
