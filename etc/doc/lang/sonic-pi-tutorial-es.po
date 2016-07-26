@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2016-07-26 14:46+0000\n"
-"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
+"Last-Translator: Francisco Llaryora <fllaryora@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -1606,9 +1606,10 @@ msgstr ""
 "n:"
 
 #: 02.4-Durations-with-Envelopes.md:79
-#, fuzzy
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr "![release envelope](../images/tutorial/env-release.png)"
+msgstr ""
+"![Fase de liberación de la curva de sonido (release "
+"envelope)](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
