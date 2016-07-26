@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-26 14:46+0000\n"
-"Last-Translator: Francisco Llaryora <fllaryora@gmail.com>\n"
+"PO-Revision-Date: 2016-07-26 14:53+0000\n"
+"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -1707,10 +1707,13 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
+#, fuzzy
 msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![long attack short release envelope](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -13707,10 +13710,10 @@ msgid ""
 "xactly this: `rand_i(8)`. We then store this random slice index in the variabl"
 "e `slice_idx`."
 msgstr ""
-"Elegimos un trozo aleatorio para tocar que tiene que ser un numero aleatorio "
-"entre 0 y 7 (recuerda que tenemos que empezar a contar desde 0). Sonic Pi "
-"tiene una función adecuada para esto: `rand_i(8)`. Entonces guardamos el "
-"índice aleatorio del trozo en la variable `slice_idx`."
+"Elegimos un trozo al azar para tocar, que debe ser un numero aleatorio entre "
+"0 y 7 (recuerda que tenemos que empezar a contar desde 0). Sonic Pi tiene "
+"una función adecuada para esto: `rand_i(8)`. Entonces guardamos el índice "
+"aleatorio del trozo en la variable `slice_idx`."
 
 #: A.12-sample-slicing.md:113
 msgid ""
@@ -13779,10 +13782,10 @@ msgid ""
 msgstr ""
 "Combinemos ahora todo lo que hemos visto hasta ahora en un ejemplo final "
 "donde demostraremos cómo podemos tomar una estrategia similar para combinar "
-"ritmos cortado aleatoriamente con algo de bajo para crear el inicio de un "
-"tema interesante. Ahora es tu turno - usa el código que hay aquí abajo como "
-"punto de inicio e intenta ver si puedes llevarlo en tu propia dirección para "
-"crear algo nuevo..."
+"aleatoriamente ritmos cortados con un ritmo de bajo para crear el inicio de "
+"un tema interesante. Ahora es tu turno - usa el código que hay aquí abajo "
+"como punto de inicio e intenta ver si puedes llevarlo en tu propia dirección "
+"para crear algo nuevo..."
 
 #: A.12-sample-slicing.md:145
 #, no-wrap
