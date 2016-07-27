@@ -323,7 +323,8 @@
 
    [room          (varlag room room_slide room_slide_curve room_slide_shape)
     damp          (varlag damp damp_slide damp_slide_curve damp_slide_shape)
-    [wet-l wet-r] (free-verb2 dry-l dry-r fx-arg-mix room damp)])
+    rev-mix       (lin-lin fx-arg-mix -1 1 0 1)
+    [wet-l wet-r] (free-verb2 dry-l dry-r rev-mix room damp)])
 
 
 
