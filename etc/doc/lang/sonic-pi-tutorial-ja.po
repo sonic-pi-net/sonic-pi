@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-22 09:49+0000\n"
+"PO-Revision-Date: 2016-07-27 09:52+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -3844,7 +3844,6 @@ msgid "Conditionals"
 msgstr "条件文"
 
 #: 05.3-Conditionals.md:5
-#, fuzzy
 msgid ""
 "A common thing you'll likely find yourself wanting to do is to not only play a"
 " random note (see the previous section on randomness) but also make a random d"
@@ -3852,16 +3851,14 @@ msgid ""
 ", you might want to randomly play a drum or a cymbal. We can achieve this with"
 " an `if` statement."
 msgstr ""
-"やってみたいと思うことのひとつに、ランダムに音を出すこと（前章参照）だけでなく、いくつかのコードをランダムに決め、それを選択していくというアイデアも出てくる"
-"と思います。例えば、ドラムとシンバルをランダムに鳴らしたい場合、`if`という言葉を使うとこれを実現できるようになります。"
+"ランダムな音符を再生する（前章参照）だけでなく、あるコードとそれとは別なコードの実行をランダムに決めたくなるかもしれません。例えば、ドラムとシンバルをラン"
+"ダムに再生したいような場合です。このような場合、`if`文を使うことで実現できます。"
 
 #: 05.3-Conditionals.md:11
-#, fuzzy
 msgid "Flipping a Coin"
 msgstr "コイントス"
 
 #: 05.3-Conditionals.md:13
-#, fuzzy
 msgid ""
 "So, let's flip a coin: if it's heads, play a drum, if it's tails, play a cymba"
 "l. Easy. We can emulate a coin flip with our `one_in` function (introduced in "
@@ -3869,13 +3866,12 @@ msgid ""
 " can then use the result of this to decide between two pieces of code, the cod"
 "e to play the drum and the code to play the cymbal:"
 msgstr ""
-"それではコインをトス（投げる）してみましょう。もしもコインが表であればドラムを鳴らし、裏であればシンバルを鳴らします。簡単ですね。コイントスの機能は `on"
-"e_in` という機能（ランダムのセクションで紹介しています）によって実現されます。2つのうちの1つというように条件を細かく指定するときには `one_in"
-"(2)`と記述すると、ドラムを鳴らすコードとシンバルを鳴らす2つのコードどちらかを決められるようになります。"
+"それではコインをトス（投げる）してみましょう。もしもコインが表であればドラムを鳴らし、裏であればシンバルを鳴らします。簡単ですね。コイントスの機能は "
+"`one_in` という機能（ランダムのセクションで紹介しています）によって実現されます。2つのうちの1つというように条件を細かく指定するときには "
+"`one_in(2)`と記述すると、ドラムを鳴らすコードとシンバルを鳴らす2つのコードどちらかを決められるようになります。"
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  if one_in(2)\n"
@@ -3889,58 +3885,53 @@ msgid ""
 "end"
 msgstr ""
 "loop do\n"
-" if one_in(2)\n"
-"   sample :drum_heavy_kick\n"
-" else\n"
-"   sample :drum_cymbal_closed\n"
-" end\n"
+"  if one_in(2)\n"
+"    sample :drum_heavy_kick\n"
+"  else\n"
+"    sample :drum_cymbal_closed\n"
+"  end\n"
+"  \n"
 "  sleep 0.5\n"
-" end"
+"  \n"
+"end"
 
 #: 05.3-Conditionals.md:34
-#, fuzzy
 msgid "Notice that `if` statements have three parts:"
 msgstr "if文は3つのパートを持っていることに注目してみましょう。"
 
 #: 05.3-Conditionals.md:36
-#, fuzzy
 msgid "The question to ask"
-msgstr "条件付け"
+msgstr "条件"
 
 #: 05.3-Conditionals.md:37
-#, fuzzy
 msgid "The first choice of code to run (if the answer to the question is yes)"
 msgstr "はじめの選択によって実行されるコード（条件が正しかった場合）"
 
 #: 05.3-Conditionals.md:38
-#, fuzzy
 msgid "The second choice of code to run (if the answer to the question is no)"
 msgstr "次の選択によって実行されるコード（条件が間違っていた場合）"
 
 #: 05.3-Conditionals.md:40
-#, fuzzy
 msgid ""
 "Typically in programming languages, the notion of yes is represented by the te"
 "rm `true` and the notion of no is represented by the term `false`. So we need "
 "to find a question that will give us a `true` or `false` answer which is exact"
 "ly what `one_in` does."
 msgstr ""
-"典型的なプログラム言語では、概ね、真（正しいという意味）を`true`で表現し、偽（正しくない場合）は`false`と表記します。そのため、 `one_in"
-"` 対する明確な回答として、`true`か`false`かを選択できる質問が必要となります。"
+"典型的なプログラム言語では、概ね、真（正しいという意味）を`true`で表現し、偽（正しくない場合）は`false`と表記します。そのため、 "
+"先の例で`one_in` が行っているような、`true`か`false`か答えることができる質問が必要となります。"
 
 #: 05.3-Conditionals.md:45
-#, fuzzy
 msgid ""
 "Notice how the first choice is wrapped between the `if` and the `else` and the"
 " second choice is wrapped between the `else` and the `end`. Just like do/end b"
 "locks you can put multiple lines of code in either place. For example:"
 msgstr ""
-"はじめの選択では `if` と `else` の間に挟まれたプログラムが実行され、そして2番目の選択では`else` と `end`の間が実行されるというこ"
-"とに注目しましょう。それは複数行のコードをまとめる*do/end*ブロックにとても似ていますね。例えば、"
+"はじめの選択では `if` と `else` の間に挟まれたプログラムが実行され、そして2番目の選択では`else` と "
+"`end`の間が実行されるということに注目しましょう。それは複数行のコードをまとめる*do/end*ブロックにとても似ていますね。例えば、"
 
 #: 05.3-Conditionals.md:50
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  if one_in(2)\n"
@@ -3954,17 +3945,17 @@ msgid ""
 "end"
 msgstr ""
 "loop do\n"
-" if one_in(2)\n"
-"   sample :drum_heavy_kick\n"
-"   sleep 0.5\n"
-" else\n"
-"   sample :drum_cymbal_closed\n"
-"   sleep 0.25\n"
-" end\n"
+"  if one_in(2)\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 0.5\n"
+"  else\n"
+"    sample :drum_cymbal_closed\n"
+"    sleep 0.25\n"
+"  end\n"
+"  \n"
 "end"
 
 #: 05.3-Conditionals.md:64
-#, fuzzy
 msgid ""
 "This time we're sleeping for a different amount of time depending on which cho"
 "ice we make."
@@ -3972,18 +3963,16 @@ msgstr "`sleep 0.5`や`sleep 0.25`など、異なる休符時間を持つ場合�
 
 #: 05.3-Conditionals.md:68
 msgid "Simple if"
-msgstr ""
+msgstr "シンプルなif（if修飾子）"
 
 #: 05.3-Conditionals.md:70
-#, fuzzy
 msgid ""
 "Sometimes you want to optionally execute just one line of code. This is possib"
 "le by placing `if` and then the question at the end. For example:"
-msgstr "時には、任意のコードを1行だけ実行したいときがあるでしょう。これもifとその後ろに条件を記述することで可能です。例えば、"
+msgstr "時には、任意のコードを1行だけ実行したいときがあるでしょう。これは`if`と条件を後ろに記述することで可能です。例えば、"
 
 #: 05.3-Conditionals.md:73
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :dsaw\n"
 "loop do\n"
@@ -3996,64 +3985,57 @@ msgid ""
 msgstr ""
 "use_synth :dsaw\n"
 "loop do\n"
-" play 50, amp: 0.3, release: 2\n"
-" play 53, amp: 0.3, release: 2 if one_in(2)\n"
-" play 57, amp: 0.3, release: 2 if one_in(3)\n"
-" play 60, amp: 0.3, release: 2 if one_in(4)\n"
-" sleep 1.5\n"
+"  play 50, amp: 0.3, release: 2\n"
+"  play 53, amp: 0.3, release: 2 if one_in(2)\n"
+"  play 57, amp: 0.3, release: 2 if one_in(3)\n"
+"  play 60, amp: 0.3, release: 2 if one_in(4)\n"
+"  sleep 1.5\n"
 "end"
 
 #: 05.3-Conditionals.md:85
-#, fuzzy
 msgid ""
 "This will play chords of different numbers with the chance of each note playin"
 "g having a different probability."
 msgstr "上のコードでは、それぞれの音符が持つ別の確率によって、異なる数のコード(和音)を奏でるでしょう。"
 
 #: 05.4-Threads.md:1
-#, fuzzy
 msgid "5.4 Threads"
 msgstr "5.4 スレッド"
 
 #: 05.4-Threads.md:3
-#, fuzzy
 msgid "Threads"
 msgstr "スレッド"
 
 #: 05.4-Threads.md:5
-#, fuzzy
 msgid ""
 "So you've made your killer bassline and a phat beat. How do you play them at t"
 "he same time? One solution is to weave them together manually - play some bass"
 ", then a bit of drums, then more bass... However, the timing soon gets hard to"
 " think about, especially when you start weaving in more elements."
 msgstr ""
-"それでは、強烈なベースラインとかっこいいビートを作った場合、どのようにしてそれらを同時に鳴らしたらいいでしょう？一つの回答としては、手動でそれらを同時に鳴ら"
-"す事です―まず、いくつかのベースを演奏し、その後にいくつかのドラム、またその後にベースというように…しかしながら、すぐに沢山の楽器を処理することが難しいこと"
-"に気づくでしょう。"
+"それでは、強烈なベースラインとかっこいいビートを作った場合、どのようにしてそれらを同時に鳴らしたらいいでしょう？一つの回答としては、"
+"手動でそれらを同時に鳴らす事です ― まず、いくつかのベースを演奏し、その後にいくつかのドラム、またその後にベースというように…しかしながら、すぐに沢山の"
+"楽器を処理することが難しいことに気づくでしょう。"
 
 #: 05.4-Threads.md:11
-#, fuzzy
 msgid ""
 "What if Sonic Pi could weave things for you automatically? Well, it can, and y"
 "ou do it with a special thing called a *thread*."
-msgstr "もし、Sonic Piが自動的にそれらを作り出せるとしたら？*thread*(スレッド)と呼ばれる特別な命令によってそれが可能になります。"
+msgstr ""
+"もし、Sonic Piが自動的にそれらを作り出せるとしたらどうでしょう？*thread*(スレッド)と呼ばれる特別な命令によってそれが可能になります。"
 
 #: 05.4-Threads.md:14
-#, fuzzy
 msgid "Infinite Loops"
 msgstr "無限の繰り返し"
 
 #: 05.4-Threads.md:16
-#, fuzzy
 msgid ""
 "To keep this example simple, you'll have to imagine that this is a phat beat a"
 "nd a killer bassline:"
-msgstr "このシンプルな例で、強烈なベースラインとかっこいいビートが期待できてしまうのです。"
+msgstr "例を単純にするために、以下のコードを強烈なベースラインとかっこいいビートだと思ってください。"
 
 #: 05.4-Threads.md:19
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  sample :drum_heavy_kick\n"
@@ -4066,17 +4048,16 @@ msgid ""
 "end"
 msgstr ""
 "loop do\n"
-" sample :drum_heavy_kick\n"
-" sleep 1\n"
+"  sample :drum_heavy_kick\n"
+"  sleep 1\n"
 "end\n"
 "loop do\n"
-" use_synth :fm\n"
-" play 40, release: 0.2\n"
-" sleep 0.5\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
 "end"
 
 #: 05.4-Threads.md:32
-#, fuzzy
 msgid ""
 "As we've discussed previously, loops are like *black holes* for the program. O"
 "nce you enter a loop you can never exit from it until you hit stop. How do we "
@@ -4084,18 +4065,16 @@ msgid ""
 "rt something at the same time as the rest of the code. This is where threads c"
 "ome to the rescue."
 msgstr ""
-"ループはプログラムの*ブラックホール*のようだと以前にお話しました。 一度ループを入れると、stopボタンを押さない限り、そこから抜け出せなくなります。 で"
-"は、どうしたら同時にふたつの繰り返しを演奏することが出来るでしょう？ 私たちは、同時にそれらのコードをタイミングを合わせスタートさせるようにSonic Pi"
-"に伝えなくてはいけません。これがスレッドを使った解決方法なのです。"
+"ループはプログラムの*ブラックホール*のようだと以前にお話しました。 一度ループを入れると、stopボタンを押さない限り、そこから抜け出せなくなります。 "
+"では、どうしたら同時にふたつの繰り返しを演奏することが出来るでしょう？ 私たちは、同時にそれらのコードをタイミングを合わせスタートさせるようにSonic "
+"Piに伝えなくてはいけません。これがスレッドを使った解決方法なのです。"
 
 #: 05.4-Threads.md:38
-#, fuzzy
 msgid "Threads to the Rescue"
 msgstr "スレッドを使った解決方法"
 
 #: 05.4-Threads.md:40
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -4110,36 +4089,33 @@ msgid ""
 "end"
 msgstr ""
 "in_thread do\n"
-" loop do\n"
-"   sample :drum_heavy_kick\n"
-"   sleep 1\n"
-" end\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
 "end\n"
 "loop do\n"
-" use_synth :fm\n"
-" play 40, release: 0.2\n"
-" sleep 0.5\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
 "end"
 
 #: 05.4-Threads.md:55
-#, fuzzy
 msgid ""
 "By wrapping the first loop in an `in_thread` do/end block we tell Sonic Pi to "
 "run the contents of the do/end block at *exactly* the same time as the next st"
 "atement after the do/end block (which happens to be the second loop). Try it a"
 "nd you'll hear both the drums and the bassline weaved together!"
 msgstr ""
-"はじめの*do/end*ブロックを`in_thread`で囲むことで、次にくる*do/end*ブロックを*ぴったりと*同時にループさせるようにSonic P"
-"iに命令することができます。 それではドラムとベースラインを同時に鳴らすことに挑戦してみましょう！"
+"はじめの*do/end*ブロックを`in_thread`で囲むことで、次にくる*do/end*ブロックを*ぴったりと*同時にループさせるようにSonic "
+"Piに命令することができます。 それではドラムとベースラインを同時に鳴らすことに挑戦してみましょう！"
 
 #: 05.4-Threads.md:61
-#, fuzzy
 msgid "Now, what if we wanted to add a synth on top. Something like:"
 msgstr "そして、もう一つの音を追加したいので、先ほどのように繰り返しを入れてみましょう。"
 
 #: 05.4-Threads.md:63
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -4159,35 +4135,33 @@ msgid ""
 "end"
 msgstr ""
 "in_thread do\n"
-" loop do\n"
-"   sample :drum_heavy_kick\n"
-"   sleep 1\n"
-" end\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
 "end\n"
 "loop do\n"
-" use_synth :fm\n"
-" play 40, release: 0.2\n"
-" sleep 0.5\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
 "end\n"
 "loop do\n"
-" use_synth :zawa\n"
-" play 52, release: 2.5, phase: 2, amp: 0.5\n"
-" sleep 2\n"
+"  use_synth :zawa\n"
+"  play 52, release: 2.5, phase: 2, amp: 0.5\n"
+"  sleep 2\n"
 "end"
 
 #: 05.4-Threads.md:84
-#, fuzzy
 msgid ""
 "Now we have the same problem as before. The first loop is played at the same t"
 "ime as the second loop due to the `in_thread`. However, *the third loop is nev"
 "er reached*. We therefore need another thread:"
 msgstr ""
-"前と同じ問題が出てきましたね。`in_thread`によって最初の繰り返しと2つ目の繰り返しが同時に演奏されています。しかし3番目の繰り返しが演奏されません"
-"。ですので以下のように、もう一つのスレッドが必要となります。"
+"前と同じ問題が出てきましたね。`in_thread`によって最初の繰り返しと2つ目の繰り返しが同時に演奏されています。しかし3番目の繰り返しが演奏されませ"
+"ん。ですので以下のように、もう一つのスレッドが必要となります。"
 
 #: 05.4-Threads.md:88
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -4209,47 +4183,43 @@ msgid ""
 "end"
 msgstr ""
 "in_thread do\n"
-" loop do\n"
-"   sample :drum_heavy_kick\n"
-"   sleep 1\n"
-" end\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
 "end\n"
 "in_thread do\n"
-" loop do\n"
-"   use_synth :fm\n"
-"   play 40, release: 0.2\n"
-"   sleep 0.5\n"
-" end\n"
+"  loop do\n"
+"    use_synth :fm\n"
+"    play 40, release: 0.2\n"
+"    sleep 0.5\n"
+"  end\n"
 "end\n"
 "loop do\n"
-" use_synth :zawa\n"
-" play 52, release: 2.5, phase: 2, amp: 0.5\n"
-" sleep 2\n"
+"  use_synth :zawa\n"
+"  play 52, release: 2.5, phase: 2, amp: 0.5\n"
+"  sleep 2\n"
 "end"
 
 #: 05.4-Threads.md:111
-#, fuzzy
 msgid "Runs as threads"
-msgstr "スレッッドとして実行する"
+msgstr "スレッドとして実行する"
 
 #: 05.4-Threads.md:113
-#, fuzzy
 msgid ""
 "What may surprise you is that when you press the Run button, you're actually c"
 "reating a new thread for the code to run. This is why pressing it multiple tim"
 "es will layer sounds over each other. As the runs themselves are threads, they"
 " will automatically weave the sounds together for you."
 msgstr ""
-"驚くべきことに`Run`ボタンを押すということは、実際にはコードを実行するための新しいスレッドを作っていることになります。 そのために複数回`Run`ボタン"
+"驚くべきことに`Run`ボタンを押すということは、実際にはコードを実行するための新しいスレッドを作っていることになります。そのために複数回`Run`ボタン"
 "を押すことは、互いの上に音を階層化することになります。`Run`それ自体がスレッドであるために、音を自動的に紡ぎ合わせることになるのです。"
 
 #: 05.4-Threads.md:119
-#, fuzzy
 msgid "Scope"
 msgstr "スコープ"
 
 #: 05.4-Threads.md:121
-#, fuzzy
 msgid ""
 "As you learn how to master Sonic Pi, you'll learn that threads are the most im"
 "portant building blocks for your music. One of the important jobs they have is"
@@ -4258,13 +4228,12 @@ msgid ""
 "itching the synth in the *current thread* - no other thread will have their sy"
 "nth switched. Let's see this in action:"
 msgstr ""
-"Sonic Piをマスターしようとするとき、スレッドが、音楽のために最も重要な構成要素であることに 気がつくでしょう。重要な役割の一つとして、他のスレッドか"
-"ら現在の設定セッティングを 分離することがあります。どういうことかというと、例えば`use_synth`を使ってシンセの種類を変更する時、 現在のスレッド中"
-"にあるシンセだけを変更します。他のどのスレッドも変更しません。 そのことを確認してみましょう。"
+"Sonic Piをマスターしようとするとき、スレッドが、音楽のために最も重要な構成要素であることに気がつくでしょう。スレッドの重要な役割の一つとして、他の"
+"スレッドから*現在の設定*を分離することがあります。どういうことかというと、例えば`use_synth`を使ってシンセの種類を変更する時、*現在のスレッド"
+"*中にあるシンセだけを変更します。他のどのスレッドも変更しません。そのことを確認してみましょう。"
 
 #: 05.4-Threads.md:129
 #, no-wrap
-#, fuzzy
 msgid ""
 "play 50\n"
 "sleep 1\n"
@@ -4278,35 +4247,33 @@ msgstr ""
 "play 50\n"
 "sleep 1\n"
 "in_thread do\n"
-" use_synth :tb303\n"
-" play 50\n"
+"  use_synth :tb303\n"
+"  play 50\n"
 "end\n"
 "sleep 1\n"
 "play 50"
 
 #: 05.4-Threads.md:142
-#, fuzzy
 msgid ""
 "Notice how the middle sound was different to the others? The `use_synth` state"
 "ment only affected the thread it was in and not the outer main run thread."
-msgstr "真ん中の音だけがほかのものと違うことに注目してみましょう。`use_synth`の宣言はスレッドの中だけに影響し、スレッドの外にあるものには影響しません。"
+msgstr ""
+"真ん中の音だけがほかのものと違うことに注目してみましょう。`use_synth`の宣言はスレッドの中だけに影響し、スレッドの外にあるものには影響しません。"
 
 #: 05.4-Threads.md:146
-#, fuzzy
 msgid "Inheritance"
-msgstr "インヘリタンス(継承機能)"
+msgstr "インヘリタンス（継承機能）"
 
 #: 05.4-Threads.md:148
-#, fuzzy
 msgid ""
 "When you create a new thread with `in_thread`, the new thread will automatical"
 "ly inherit all of the current settings from the current thread. Let's see that"
 ":"
-msgstr "`in_thread`を使って新しいスレッドを作ると、そのスレッドには現在の スレッドの全ての設定が自動的に継承されます。ではその機能を見てみましょう。"
+msgstr ""
+"`in_thread`を使って新しいスレッドを作ると、新しいスレッドには現在のスレッドの全ての設定が自動的に継承されます。ではその機能を見てみましょう。"
 
 #: 05.4-Threads.md:152
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :tb303\n"
 "play 50\n"
@@ -4319,39 +4286,34 @@ msgstr ""
 "play 50\n"
 "sleep 1\n"
 "in_thread do\n"
-" play 55\n"
+"  play 55\n"
 "end"
 
 #: 05.4-Threads.md:162
-#, fuzzy
 msgid ""
 "Notice how the second note is played with the `:tb303` synth even though it wa"
 "s played from a separate thread? Any of the settings modified with the various"
 " `use_*` functions will behave in the same way."
 msgstr ""
-"2番目の音符は、それが別のスレッドから再生されたにもかかわらず `:tb303` シンセで演奏されることに注目してください。 `use_*` 関数を使ったい"
-"かなる設定も同様に作用するでしょう。"
+"2番目の音符は、それが別のスレッドから再生されたにもかかわらず `:tb303` シンセで演奏されることに注目してください。 `use_*` "
+"関数を使ったいかなる設定も同様に作用するでしょう。"
 
 #: 05.4-Threads.md:166
-#, fuzzy
 msgid ""
 "When threads are created, they inherit all the settings from their parent but "
 "they don't share any changes back."
-msgstr "スレッドが作成されると、彼らの親から（前述の）すべての設定を継承しますが、スレッド以降の変更を共有することはありません。"
+msgstr "スレッドが新規に作成されると、元のスレッドからすべての設定を継承しますが、スレッド作成以降の変更を共有することはありません。"
 
 #: 05.4-Threads.md:169
-#, fuzzy
 msgid "Naming Threads"
 msgstr "スレッドの命名"
 
 #: 05.4-Threads.md:171
-#, fuzzy
 msgid "Finally, we can give our threads names:"
 msgstr "最後に、スレッドに名前つける機能を覚えましょう。"
 
 #: 05.4-Threads.md:173
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread(name: :bass) do\n"
 "  loop do\n"
@@ -4368,54 +4330,49 @@ msgid ""
 "end"
 msgstr ""
 "in_thread(name: :bass) do\n"
-" loop do\n"
-"   use_synth :prophet\n"
-"   play chord(:e2, :m7).choose, release: 0.6\n"
-"   sleep 0.5\n"
-" end\n"
+"  loop do\n"
+"    use_synth :prophet\n"
+"    play chord(:e2, :m7).choose, release: 0.6\n"
+"    sleep 0.5\n"
+"  end\n"
 "end\n"
 "in_thread(name: :drums) do\n"
-" loop do\n"
-"   sample :elec_snare\n"
-"   sleep 1\n"
-" end\n"
+"  loop do\n"
+"    sample :elec_snare\n"
+"    sleep 1\n"
+"  end\n"
 "end"
 
 #: 05.4-Threads.md:190
-#, fuzzy
 msgid ""
 "Look at the log pane when you run this code. See how the log reports the name "
 "of the thread with the message?"
-msgstr "このコードが動作した時、ログ画面を見てみましょう。レポートの中にスレッドの名前が表示されることがわかります。"
+msgstr "このコードを実行した際、ログ画面を見てみましょう。ログの中にスレッドの名前が表示されることを確認できましたか？"
 
 #: 05.4-Threads.md:193
 #, no-wrap
-#, fuzzy
 msgid ""
 "[Run 36, Time 4.0, Thread :bass]\n"
 " |- synth :prophet, {release: 0.6, note: 47}"
 msgstr ""
 "[Run 36, Time 4.0, Thread :bass]\n"
-"|- synth :prophet, {release: 0.6, note: 47}"
+" |- synth :prophet, {release: 0.6, note: 47}"
 
 #: 05.4-Threads.md:198
-#, fuzzy
 msgid "Only One Thread per Name Allowed"
-msgstr "名前を許された一つだけのスレッド"
+msgstr "一つの名前につき一つのスレッド"
 
 #: 05.4-Threads.md:200
-#, fuzzy
 msgid ""
 "One last thing to know about named threads is that only one thread of a given "
 "name may be running at the same time. Let's explore this. Consider the followi"
 "ng code:"
 msgstr ""
-"名前付きのスレッドについて知っておくべき最後のひとつは、名前の付いた１つのスレッドだけが同時に実行されることです。 では以下を見てみましょう。次のコードを考"
-"えてみてください。"
+"名前付きのスレッドについて知っておくべき最後のひとつは、ある名前の付いたスレッドは同時に１つだけ実行されることです。では以下を見てみましょう。次のコードを"
+"考えてみてください。"
 
 #: 05.4-Threads.md:204
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -4425,41 +4382,37 @@ msgid ""
 "end"
 msgstr ""
 "in_thread do\n"
-" loop do\n"
-"   sample :loop_amen\n"
-"   sleep sample_duration :loop_amen\n"
-" end\n"
+"  loop do\n"
+"    sample :loop_amen\n"
+"    sleep sample_duration :loop_amen\n"
+"  end\n"
 "end"
 
 #: 05.4-Threads.md:213
-#, fuzzy
 msgid ""
 "Go ahead and paste that into a buffer and press the Run button. Press it again"
 " a couple of times. Listen to the cacophony of multiple amen breaks looping ou"
 "t of time with each other. Ok, you can press Stop now."
 msgstr ""
-"ワークスペースに上記のスレッドを貼り付けて、`Run`ボタンを押します。 数回押してみましょう。複数のアーメン・ブレイクが不協和音として反復されるでしょう。"
-" もういいですよね。`stop`ボタンを押しましょう。"
+"Bufferに上のコードを貼り付けて、`Run`ボタンを押します。 "
+"数回押してみましょう。複数のアーメン・ブレイクが不協和音として反復されるでしょう。もういいですよね。`Stop`ボタンを押しましょう。"
 
 #: 05.4-Threads.md:217
-#, fuzzy
 msgid ""
 "This is the behaviour we've seen again and again - if you press the Run button"
 ", sound layers on top of any existing sound. Therefore if you have a loop and "
 "press the Run button three times, you'll have three layers of loops playing si"
 "multaneously."
 msgstr ""
-"この動作はこれまで何度も見てきました。`Runボタンを押すと、一番上のレイヤーにあるサウンドが鳴ります。 このためループが含まれている場合、`Run\\`ボタ"
-"ンを押すことを3回続けると、3つのレイヤーが一斉に実行されます。"
+"この動作はこれまで何度も見てきました。Runボタンを押すと、既に鳴っているサウンドのレイヤーの一番上にサウンドを追加します。このためループが含まれている場"
+"合、Runボタンを3回押すと、3つのレイヤーが一斉に再生されます。"
 
 #: 05.4-Threads.md:222
-#, fuzzy
 msgid "However, with named threads it is different:"
 msgstr "ただし、名前付きのスレッドでそれは異なります。"
 
 #: 05.4-Threads.md:224
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread(name: :amen) do\n"
 "  loop do\n"
@@ -4469,20 +4422,19 @@ msgid ""
 "end"
 msgstr ""
 "in_thread(name: :amen) do\n"
-" loop do\n"
-"   sample :loop_amen\n"
-"   sleep sample_duration :loop_amen\n"
-" end\n"
+"  loop do\n"
+"    sample :loop_amen\n"
+"    sleep sample_duration :loop_amen\n"
+"  end\n"
 "end"
 
 #: 05.4-Threads.md:233
-#, fuzzy
 msgid ""
 "Try pressing the Run button multiple times with this code. You'll only ever he"
 "ar one amen break loop. You'll also see this in the log:"
 msgstr ""
-"このコードで`Run`ボタン複数回、押してみてください。ひとつのアーメン・ブレークのループのみが聞こえるでしょう。 そして下記のテキストがログ画面に表示され"
-"ます。"
+"このコードでRunボタン複数回、押してみてください。ひとつのアーメン・ブレークのループのみが聞こえるでしょう。そして下記のテキストがログ画面に表示されます"
+"。"
 
 #: 05.4-Threads.md:236
 #, no-wrap
@@ -4490,48 +4442,42 @@ msgid "==> Skipping thread creation: thread with name :amen already exists."
 msgstr "==> Skipping thread creation: thread with name :amen already exists."
 
 #: 05.4-Threads.md:240
-#, fuzzy
 msgid ""
 "Sonic Pi is telling you that a thread with the name `:amen` is already playing"
 ", so it's not creating another."
 msgstr "Sonic Pi は、`:amen`という名前があるスレッドが既に存在するため、別のものを作成しませんと伝えています。"
 
 #: 05.4-Threads.md:243
-#, fuzzy
 msgid ""
 "This behaviour may not seem immediately useful to you now - but it will be ver"
 "y handy when we start to live code..."
 msgstr "この動作はすぐに使う必要性はないように思えますが、ライブコーディングを始めると、非常に便利なものになるでしょう。"
 
 #: 05.5-Functions.md:1
-#, fuzzy
 msgid "5.5 Functions"
-msgstr "5.5 関数"
+msgstr "5.5 ファンクション（関数）"
 
 #: 05.5-Functions.md:3
-#, fuzzy
 msgid "Functions"
 msgstr "ファンクション（関数）"
 
 #: 05.5-Functions.md:5
-#, fuzzy
 msgid ""
 "Once you start writing lots of code, you may wish to find a way to organise an"
 "d structure things to make them tidier and easier to understand. Functions are"
 " a very powerful way to do this. They give us the ability to give a name to a "
 "bunch of code. Let's take a look."
 msgstr ""
-"一度、膨大なコードを書き始めると、それらの構造をより簡単かつ整理された状態で把握できるように、構築しまとめたいと感じることになるでしょう。`ファンクション`"
-"（関数）はそんなことをとても効果的に成し遂げる方法です。この関数を使うとコードのまとまりに対して名前をつけることも可能になります。早速、見ていきましょう。"
+"一度、膨大なコードを書き始めると、それらの構造をより簡単かつ整理された状態で把握できるように、構築しまとめたいと感じることになるでしょう。`ファンクション"
+"`（関数）はそんなことをとても効果的に成し遂げる方法です。この関数を使うとコードのまとまりに対して名前をつけることも可能になります。早速、見ていきましょう"
+"。"
 
 #: 05.5-Functions.md:10
-#, fuzzy
 msgid "Defining functions"
 msgstr "関数の定義"
 
 #: 05.5-Functions.md:12
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :foo do\n"
 "  play 50\n"
@@ -4541,14 +4487,13 @@ msgid ""
 "end"
 msgstr ""
 "define :foo do\n"
-" play 50\n"
-" sleep 1\n"
-" play 55\n"
-" sleep 2\n"
+"  play 50\n"
+"  sleep 1\n"
+"  play 55\n"
+"  sleep 2\n"
 "end"
 
 #: 05.5-Functions.md:21
-#, fuzzy
 msgid ""
 "Here, we've defined a new function called `foo`. We do this with our old frien"
 "d the do/end block and the magic word `define` followed by the name we wish to"
@@ -4556,30 +4501,26 @@ msgid ""
 "t anything we want such as `bar`, `baz` or ideally something meaningful to you"
 " like `main_section` or `lead_riff`."
 msgstr ""
-"ここでは`foo`と呼ばれている新しい関数を見ていきます。これは以前から出てきている*do/end*ブロックと、`define`という魔法の言葉とともに働き"
-"ます。しかし`bar`や`baz`や、`main_section`や`lead_riff`のようなある程度の意味を持った関数が呼び出せれば、`foo`を呼び"
-"出す必要はありませんでした。"
+"ここでは`foo`という名前を付けた新しい関数を定義しています。この章ではすっかりお馴染みの*do/end*ブロックと、`define`という魔法の言葉の"
+"後ろに、この関数に付けたい名前を続けています。関数の名前は`foo`である必要はなく、`bar`や`baz`といったどんなものでも構いませんが、理想的には"
+"`main_section`や`lead_riff`といった何か意味のあるものがよいでしょう。"
 
 #: 05.5-Functions.md:27
-#, fuzzy
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
 "t."
-msgstr "それを定義するとき、関数の名前に`:`(コロン)を付加することを忘れないでください。"
+msgstr "関数を定義するとき、その名前に`:`(コロン)を付加することを忘れないでください。"
 
 #: 05.5-Functions.md:30
-#, fuzzy
 msgid "Calling functions"
 msgstr "関数の呼び出し"
 
 #: 05.5-Functions.md:32
-#, fuzzy
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr "いったん一つの関数を定義すると、ただ名前を書くことでそれを呼びだすことができます。"
 
 #: 05.5-Functions.md:35
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :foo do\n"
 "  play 50\n"
@@ -4594,15 +4535,15 @@ msgid ""
 "end"
 msgstr ""
 "define :foo do\n"
-" play 50\n"
-" sleep 1\n"
-" play 55\n"
-" sleep 0.5\n"
+"  play 50\n"
+"  sleep 1\n"
+"  play 55\n"
+"  sleep 0.5\n"
 "end\n"
 "foo\n"
 "sleep 1\n"
 "2.times do\n"
-" foo\n"
+"  foo\n"
 "end"
 
 #: 05.5-Functions.md:52
