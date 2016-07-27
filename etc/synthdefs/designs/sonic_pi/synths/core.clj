@@ -89,6 +89,7 @@
    sustain_level sustain env_curve 0
    release_level release env_curve 0] ))
 
+
 (defmacro def-fx
   "Shorthand mechanism for defining FX synths. Allows just the specification of the FX logic that will be inserted within default logic for handling amp, mix, pre_mix, and bus reading and writing.
 
@@ -129,9 +130,9 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
            ~'fx-arg-amp                ~'(varlag amp amp_slide amp_slide_curve amp_slide_shape)
            ~'fx-arg-mix                ~'(varlag mix mix_slide mix_slide_curve mix_slide_shape)
-           ~'fx-arg-mix                ~'(clip mix 0 1)
+           ~'fx-arg-mix                ~'(lin-lin (clip fx-arg-mix 0 1) 0 1 -1 1)
            ~'fx-arg-pre_mix            ~'(varlag pre_mix pre_mix_slide pre_mix_slide_curve pre_mix_slide_shape)
-           ~'fx-arg-pre_mix            ~'(clip pre_mix 0 1)
+           ~'fx-arg-pre_mix            ~'(lin-lin (clip fx-arg-pre_mix 0 1) 0 1 -1 1)
            ~'fx-arg-pre_amp            ~'(varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
            ~'[fx-arg-in-l fx-arg-in-r] ~'(* fx-arg-pre_amp (in fx-arg-in_bus 2))
            ~'fx-arg-pre-mix-dry-m      ~'(- 2 fx-arg-pre_mix)
