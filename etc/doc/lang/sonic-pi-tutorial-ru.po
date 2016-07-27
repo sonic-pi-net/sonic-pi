@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-23 23:14+0000\n"
-"Last-Translator: Feodor Aleksandrov <Angolier@pisem.net>\n"
+"PO-Revision-Date: 2016-07-27 21:56+0000\n"
+"Last-Translator: Иван Лавриков <lavrikovivan@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -213,7 +213,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -222,14 +221,15 @@ msgid ""
 "your computer will stop with an error because it can't keep up (if that happen"
 "s, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Теперь попробуйте сами. Меняйте темп (значения `rate:`) - что происходит, когд"
-"а вы ставите маленькие или большие числа, или отрицательные? Проверьте, что по"
-"лучится, когда изменяешь `rate:` для `:ambi_choir` сэмпла совсем чуть-чуть (на"
-"пример до 0.29)? Что произойдет, если выбрать крохотное значение для `sleep`? "
-"Проверьте, получится ли заставить его играть так быстро, что компьютер выдаст "
-"ошибку из-за того, что он не сможет поспеть за ним (если это всё же произошло,"
-" то просто выберите значение побольше для `sleep` и снова нажмите `Выполнить`)"
-"."
+"Теперь поиграйтесь. Поменяйте частоту - что происходит, когда вы используете "
+"высокие, малые, или отрицательные значения? Посмотрите, что произойдет, "
+"когда вы поменяете значение `rate:` для семпла `:ambi_choir` в "
+"незначительном количестве (например до 0.29). Что произойдет, если вы "
+"выберите очень маленькое значение для `sleep`? Проверьте, получится ли "
+"заставить его играть так быстро, что ваш компьютер прекратит свою работу и "
+"выдаст ошибку из-за того, что он не справится с этим (если это всё же "
+"произошло, то просто выберите значение побольше для `sleep` и снова нажмите "
+"`Выполнить`)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -253,18 +253,16 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:70
-#, fuzzy
 msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Обратите внимание, как это заставляет компьютер пропустить ее, и мы не слышим "
-"звука. Это называется комментарием. В Sonic Pi мы можем использовать комментар"
-"ии, чтобы убирать или добавлять что-либо из композиции."
+"Обратите внимание на то, как это говорит компьютеру проигнорировать его, так "
+"что мы не слышим его. Это называется комментарием. В Sonic Pi мы можем "
+"использовать комментарии, чтобы убирать или добавлять штуки в микс."
 
 #: 01.1-Live-Coding.md:74
-#, fuzzy
 msgid ""
 "Finally, let me leave you something fun to play with. Take the code below, and"
 " copy it into a spare buffer. Now, don't try to understand it too much other t"
@@ -272,17 +270,18 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"Напоследок, позвольте мне оставить кое-что забавное, с чем можно поиграть. Воз"
-"ьмите код, приведенный ниже, и скопируйте его в свободный буфер. Не пытайтесь "
-"пока полностью разобраться в нем. Просто обратите внимание, что в нём два цикл"
-"а - то есть две вещи играют по кругу одновременно. Теперь ваш черёд делать то,"
-" что получается у вас лучше всего - экспериментировать и развлекаться. Вот пар"
-"а советов:"
+"Напоследок, позвольте мне оставить вам кое-что забавное, с чем можно "
+"поиграть. Возьмите код, приведенный ниже, и скопируйте его в свободный "
+"буфер. Не пытайтесь пока полностью разобраться в нем. Просто обратите "
+"внимание, что в нём два цикла - то есть две вещи играют по кругу "
+"одновременно. Теперь ваш черёд делать то, что получается у вас лучше всего - "
+"экспериментировать и развлекаться. Вот пара советов:"
 
 #: 01.1-Live-Coding.md:80
-#, fuzzy
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
-msgstr "Попробуйте изменять синее значение `rate:`, чтобы услышать,как имзенится звук"
+msgstr ""
+"Попробуйте изменить синее значение `rate:`, чтобы услышать, как изменится "
+"звук."
 
 #: 01.1-Live-Coding.md:81
 #, fuzzy
