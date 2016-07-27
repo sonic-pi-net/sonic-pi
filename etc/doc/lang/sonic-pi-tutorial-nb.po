@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-27 17:52+0000\n"
-"Last-Translator: Ole-Erik <oeyrvin@gmail.com>\n"
+"PO-Revision-Date: 2016-07-27 15:50+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
 "Language: nb\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -904,11 +904,11 @@ msgstr "Nå *slipp deg løs* og ha det gøy med å lage dine egne låter."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
-msgstr "2.2 Synth Options"
+msgstr "2.2 Synth-valg"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr "Synth Options: Amp and Pan"
+msgstr ""
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -1026,7 +1026,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
-msgstr "Amplitude"
+msgstr "Utslag"
 
 #: 02.2-Synth-Params.md:66
 msgid ""
@@ -2031,7 +2031,7 @@ msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr "Panning samples"
+msgstr ""
 
 #: 03.2-Sample-Params.md:20
 msgid ""
@@ -2221,7 +2221,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
-msgstr "En enkel forklaring på sampleraten."
+msgstr "En enkel forklaring på sampleraten"
 
 #: 03.3-Stretching-Samples.md:78
 msgid ""
