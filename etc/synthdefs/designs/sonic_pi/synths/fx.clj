@@ -15,67 +15,10 @@
   (:use [overtone.live])
   (:require [sonic-pi.synths.core :as core]))
 
-(defmacro def-fx
-  "Shorthand mechanism for defining FX synths. Allows just the specification of the FX logic that will be inserted within default logic for handling amp, mix, pre_mix, and bus reading and writing.
-
-This macro expects a name and two lists.
-
-The name should be the same as you would use with a standard defsynth.
-
-The first list is a list of arg names and defaults - these should be the additional args for the FX. It is important that you don't use any of the default FX arg names defined within the macro body such as amp, mix_slide, in_bus etc.
-
-The second list is a partial let form. This will be sandwiched within the FX defsynth let statement after logic for reading the dry signal and handling pre_mix and before the logic for writing the wet signal and handling mixing. There are 2 'magic' symbols that will be bound - dry-l and dry-r which represent the left and right dry signals. These should be used to feed signals into any FX ugen trees. The partial let form should then bind output signals to wet-l and wet-r which will then be used in the post FX logic."
-
-  [fx-name args partial-let]
-
-  `(defsynth ~fx-name
-     [~@args
-      ~'amp 1
-      ~'amp_slide 0
-      ~'amp_slide_shape 1
-      ~'amp_slide_curve 0
-      ~'mix 1
-      ~'mix_slide 0
-      ~'mix_slide_shape 1
-      ~'mix_slide_curve 0
-      ~'pre_mix 1
-      ~'pre_mix_slide 0
-      ~'pre_mix_slide_shape 1
-      ~'pre_mix_slide_curve 0
-      ~'pre_amp 1
-      ~'pre_amp_slide 0
-      ~'pre_amp_slide_shape 1
-      ~'pre_amp_slide_curve 0
-      ~'in_bus 0
-      ~'out_bus 0
-
-      ]
-     (let [~'fx-arg-in_bus             ~'in_bus
-           ~'fx-arg-out_bus            ~'out_bus
-
-           ~'fx-arg-amp                ~'(varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           ~'fx-arg-mix                ~'(varlag mix mix_slide mix_slide_curve mix_slide_shape)
-           ~'fx-arg-mix                ~'(clip mix 0 1)
-           ~'fx-arg-pre_mix            ~'(varlag pre_mix pre_mix_slide pre_mix_slide_curve pre_mix_slide_shape)
-           ~'fx-arg-pre_mix            ~'(clip pre_mix 0 1)
-           ~'fx-arg-pre_amp            ~'(varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
-           ~'[fx-arg-in-l fx-arg-in-r] ~'(* fx-arg-pre_amp (in fx-arg-in_bus 2))
-           ~'fx-arg-pre-mix-dry-m      ~'(- 2 fx-arg-pre_mix)
-           ~'fx-arg-pre-dry-l          ~'(* fx-arg-pre-mix-dry-m fx-arg-in-l)
-           ~'fx-arg-pre-dry-r          ~'(* fx-arg-pre-mix-dry-m fx-arg-in-r)
-           ~'dry-l                     ~'(* fx-arg-pre_mix fx-arg-in-l)
-           ~'dry-r                     ~'(* fx-arg-pre_mix fx-arg-in-r)
-
-           ~@partial-let
-
-           ~'post-fx-l                 ~'(x-fade2 fx-arg-pre-dry-l wet-l fx-arg-pre_mix)
-           ~'post-fx-r                 ~'(x-fade2 fx-arg-pre-dry-r wet-r fx-arg-pre_mix)
-           ~'fin-l                     ~'(x-fade2 fx-arg-in-l post-fx-l fx-arg-mix fx-arg-amp)
-           ~'fin-r                     ~'(x-fade2 fx-arg-in-r post-fx-r fx-arg-mix fx-arg-amp)]
-       ~'(out fx-arg-out_bus [fin-l fin-r]))))
 
 (without-namespace-in-synthdef
- (def-fx sonic-pi-fx_mono
+
+ (core/def-fx sonic-pi-fx_mono
    [pan 0
     pan_slide 0
     pan_slide_shape 1
@@ -88,7 +31,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (pan2 mono pan amp)])
 
 
- (def-fx sonic-pi-fx_vowel
+ (core/def-fx sonic-pi-fx_vowel
    [voice 0
     vowel_sound 1]
    [freqs            [800, 1150, 2900, 3900, 4950
@@ -200,7 +143,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
                            (b-band-pass pre-r vowel_freq_five (* vowel_bw_five vowel_amp_five))))
     ])
 
- (def-fx sonic-pi-fx_krush
+ (core/def-fx sonic-pi-fx_krush
    [gain 5
     gain_slide 0
     gain_slide_shape 1
@@ -233,7 +176,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
 
 
- (def-fx sonic-pi-fx_whammy
+ (core/def-fx sonic-pi-fx_whammy
      [transpose 12
       transpose_slide 0
       transpose_slide_shape 1
@@ -261,7 +204,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
                                                   (/ Math/PI 2))
                                          -1 1 0 1 )))])
 
- (def-fx sonic-pi-fx_tanh
+ (core/def-fx sonic-pi-fx_tanh
    [
     krunch 5
     krunch_slide 0
@@ -275,7 +218,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
 
 
- (def-fx sonic-pi-fx_bitcrusher
+ (core/def-fx sonic-pi-fx_bitcrusher
    [sample_rate 10000
     sample_rate_slide 0
     sample_rate_slide_shape 1
@@ -299,7 +242,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
 
 
- (def-fx sonic-pi-fx_pitch_shift
+ (core/def-fx sonic-pi-fx_pitch_shift
    [pitch 0
     pitch_slide 0
     pitch_slide_shape 1
@@ -327,7 +270,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (pitch-shift [dry-l dry-r] window_size pitch_ratio pitch_dis time_dis)])
 
 
- (def-fx sonic-pi-fx_gverb
+ (core/def-fx sonic-pi-fx_gverb
    [
     spread 0.5
     spread_slide 0
@@ -366,7 +309,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
    )
 
 
- (def-fx sonic-pi-fx_reverb
+ (core/def-fx sonic-pi-fx_reverb
 
    [mix  0.4 ;; override default mix of 1
     room 0.6
@@ -385,13 +328,13 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
 
 
- (def-fx sonic-pi-fx_level
+ (core/def-fx sonic-pi-fx_level
    []
    [wet-l dry-l
     wet-r dry-l])
 
 
- (def-fx sonic-pi-fx_echo
+ (core/def-fx sonic-pi-fx_echo
    [phase 0.25
     phase_slide 0
     phase_slide_shape 1
@@ -410,7 +353,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
 
 
- (def-fx sonic-pi-fx_slicer
+ (core/def-fx sonic-pi-fx_slicer
    [phase 0.25
     phase_slide 0
     phase_slide_shape 1
@@ -493,7 +436,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r]       (* slice-amp [dry-l dry-r]) ])
 
 
- (def-fx sonic-pi-fx_wobble
+ (core/def-fx sonic-pi-fx_wobble
    [phase 0.5
     phase_slide 0
     phase_slide_shape 1
@@ -589,7 +532,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     wet-r               (select:ar filter [(rlpf dry-r cutoff-freq res)
                                            (rhpf dry-r cutoff-freq res)])])
 
- (def-fx sonic-pi-fx_panslicer
+ (core/def-fx sonic-pi-fx_panslicer
    [phase 0.25
     phase_slide 0
     phase_slide_shape 1
@@ -671,7 +614,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r]       (balance2 dry-l dry-r pan-val amp)])
 
 
- (def-fx sonic-pi-fx_ixi_techno
+ (core/def-fx sonic-pi-fx_ixi_techno
    [phase 4
     phase_slide 0
     phase_slide_shape 1
@@ -702,7 +645,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (rlpf [dry-l dry-r] freq res)])
 
 
- (def-fx sonic-pi-fx_compressor
+ (core/def-fx sonic-pi-fx_compressor
    [threshold 0.2
     threshold_slide 0
     threshold_slide_shape 1
@@ -737,7 +680,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
                                          clamp_time relax_time)
     ])
 
- (def-fx sonic-pi-fx_band_eq
+ (core/def-fx sonic-pi-fx_band_eq
    [freq 100
     freq_slide 0
     freq_slide_shape 1
@@ -760,7 +703,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     ])
 
 
- (def-fx sonic-pi-fx_rlpf
+ (core/def-fx sonic-pi-fx_rlpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -781,7 +724,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
 ;; need to break these up due to Clojure's method size limitation
 (without-namespace-in-synthdef
-  (def-fx sonic-pi-fx_nrlpf
+  (core/def-fx sonic-pi-fx_nrlpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -799,7 +742,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     ])
 
 
- (def-fx sonic-pi-fx_rhpf
+ (core/def-fx sonic-pi-fx_rhpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -816,7 +759,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
 
 
- (def-fx sonic-pi-fx_nrhpf
+ (core/def-fx sonic-pi-fx_nrhpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -831,7 +774,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (normalizer (rhpf [dry-l dry-r] cutoff res))])
 
 
- (def-fx sonic-pi-fx_hpf
+ (core/def-fx sonic-pi-fx_hpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -842,7 +785,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (hpf [dry-l dry-r] cutoff)])
 
 
- (def-fx sonic-pi-fx_nhpf
+ (core/def-fx sonic-pi-fx_nhpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -853,7 +796,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (normalizer (hpf [dry-l dry-r] cutoff))])
 
 
- (def-fx sonic-pi-fx_lpf
+ (core/def-fx sonic-pi-fx_lpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -864,7 +807,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (lpf [dry-l dry-r] cutoff)])
 
 
- (def-fx sonic-pi-fx_nlpf
+ (core/def-fx sonic-pi-fx_nlpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -875,7 +818,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (normalizer (lpf [dry-l dry-r] cutoff))])
 
 
- (def-fx sonic-pi-fx_normaliser
+ (core/def-fx sonic-pi-fx_normaliser
    [level 1
     level_slide 0
     level_slide_shape 1
@@ -885,7 +828,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (normalizer [dry-l dry-r] level)])
 
 
- (def-fx sonic-pi-fx_distortion
+ (core/def-fx sonic-pi-fx_distortion
    [distort 0.5
     distort_slide 0
     distort_slide_shape 1
@@ -896,7 +839,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (/ (* [dry-l dry-r] (+ 1 k)) (+ 1 (* k (abs [dry-l dry-r]))))])
 
 
- (def-fx sonic-pi-fx_pan
+ (core/def-fx sonic-pi-fx_pan
    [pan 0
     pan_slide 0
     pan_slide_shape 1
@@ -905,7 +848,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
     [wet-l wet-r] (balance2 dry-l dry-r pan amp)])
 
 
- (def-fx sonic-pi-fx_bpf
+ (core/def-fx sonic-pi-fx_bpf
    [centre 100
     centre_slide 0
     centre_slide_shape 1
@@ -923,7 +866,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
 
 
- (def-fx sonic-pi-fx_rbpf
+ (core/def-fx sonic-pi-fx_rbpf
    [centre 100
     centre_slide 0
     centre_slide_shape 1
@@ -939,7 +882,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
     [wet-l wet-r] (resonz [dry-l dry-r] freq res)])
 
- (def-fx sonic-pi-fx_nrbpf
+ (core/def-fx sonic-pi-fx_nrbpf
    [centre 100
     centre_slide 0
     centre_slide_shape 1
@@ -955,7 +898,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
     [wet-l wet-r] (normalizer (resonz [dry-l dry-r] freq res))])
 
- (def-fx sonic-pi-fx_octaver
+ (core/def-fx sonic-pi-fx_octaver
    [super_amp 1
     super_amp_slide 0
     super_amp_slide_shape 1
@@ -978,7 +921,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
     [wet-l wet-r] (+ (* super-oct super_amp) (* direct-lpf sub-oct sub_amp) (* direct-lpf sub-sub-oct subsub_amp))])
 
- (def-fx sonic-pi-fx_ring_mod
+ (core/def-fx sonic-pi-fx_ring_mod
    [freq 30
     freq_slide 0
     freq_slide_shape 1
@@ -993,7 +936,7 @@ The second list is a partial let form. This will be sandwiched within the FX def
 
     [wet-l wet-r] (limiter (ring1 [dry-l dry-r] (* mod_amp (sin-osc freq))))])
 
- (def-fx sonic-pi-fx_flanger
+ (core/def-fx sonic-pi-fx_flanger
    [phase 4
     phase_slide 0
     phase_slide_shape 1
