@@ -32,7 +32,6 @@ unix:!macx {
   lessThan(QT_MAJOR_VERSION, 5) {
     LIBS += -lqscintilla2
   } else {
-    QT += opengl
     LIBS += -lqt5scintilla2
   }
   QMAKE_CXXFLAGS += -std=gnu++11
@@ -48,14 +47,12 @@ macx {
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   CONFIG += warn_off
   TARGET = 'Sonic Pi'
-  QT += opengl
 }
 
 # Windows only
 win32 {
   include ( c:/qwt-6.1.2/features/qwt.prf )
   LIBS += -lqscintilla2
-  QT += opengl
   QMAKE_CXXFLAGS += -Ic:/boost_1_61_0
 #  QMAKE_CXXFLAGS += /WX
   QMAKE_LFLAGS += /LIBPATH:C:\boost_1_61_0\bin.v2\libs\date_time\build\msvc-12.0\release\link-static\threading-multi
