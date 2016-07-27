@@ -15,7 +15,6 @@ require 'fileutils'
 tmp_dir = Dir.tmpdir
 
 #f = File.open("log_path/spawn.log", 'a')
-
 pids_store = tmp_dir + "/sonic-pi-pids"
 
 
@@ -33,9 +32,8 @@ os = case RUBY_PLATFORM
      end
 
 pids = Dir.entries(pids_store) - [".", ".."]
-# f.puts "clearning"
+# f.puts "cleaning"
 # f.puts "Found pids: #{pids}"
-
 pids.each do |pid|
   # We're on Windows, so go straight for the jugular
   # f.puts "clearing pid: #{pid}"
@@ -48,10 +46,9 @@ pids.each do |pid|
     end
   else
 
-    # puts "going to kill #{pid}"
     pid = Integer(pid)
     begin
-      Process.kill(15, pid)
+      Process.kill(15, pid) unless pid == 0
       15.to_i.times do
         # f.puts 'trying to kill pid'
         begin
@@ -67,8 +64,7 @@ pids.each do |pid|
         end
         sleep 1
       end
-
-      Process.kill(9, pid)
+      Process.kill(9, pid) unless pid == 0
       # f.puts "Forcibly killed #{pid}"
     rescue Errno::ECHILD => e
       # f.puts "Unable to wait for #{pid} - child process does not exist"
@@ -76,6 +72,7 @@ pids.each do |pid|
       # f.puts "Unable to kill #{pid} - process does not exist"
     end
   end
+
   pid_path = "#{pids_store}/#{pid}"
   FileUtils.rm pid_path if File.exists? pid_path
 end
