@@ -2724,6 +2724,8 @@ sample :loop_amen                    # starting it again
           end
         end
 
+        # remove any nils
+        filts_and_sources.compact!
 
         return filts_and_sources, opts
       end
