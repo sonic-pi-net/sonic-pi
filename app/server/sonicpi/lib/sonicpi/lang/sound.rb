@@ -4435,7 +4435,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           # Block this thread for a longer amount of time
           # to make sure it doesn't overtake the first thread
           # and kill the group if called from a hook call..
-          sleep fade_out_time + 0.5
+          Kernel.sleep fade_out_time + 0.5
         end
 
       end

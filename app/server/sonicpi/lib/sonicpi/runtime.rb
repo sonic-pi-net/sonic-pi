@@ -225,49 +225,51 @@ module SonicPi
     def __schedule_delayed_blocks_and_messages!
       delayed_messages = __thread_locals.get :sonic_pi_local_spider_delayed_messages
       delayed_blocks = __thread_locals.get(:sonic_pi_local_spider_delayed_blocks) || []
-      unless(delayed_messages.empty?)
-        last_vt = __thread_locals.get :sonic_pi_spider_time
-        parent_t = Thread.current
-        job_id = __thread_locals(parent_t).get(:sonic_pi_spider_job_id)
+      if delayed_messages
+          unless(delayed_messages.empty?)
+            last_vt = __thread_locals.get :sonic_pi_spider_time
+            parent_t = Thread.current
+            job_id = __thread_locals(parent_t).get(:sonic_pi_spider_job_id)
 
-        t = Thread.new do
+            t = Thread.new do
 
-          __thread_locals.set_local(:sonic_pi_local_thread_group, :send_delayed_messages)
-          Thread.current.priority = -10
-          #only copy the necessary thread locals from parent
-          __thread_locals.set_local(:sonic_pi_local_spider_users_thread_name, __thread_locals(parent_t).get(:sonic_pi_local_spider_users_thread_name))
+              __thread_locals.set_local(:sonic_pi_local_thread_group, :send_delayed_messages)
+              Thread.current.priority = -10
+              #only copy the necessary thread locals from parent
+              __thread_locals.set_local(:sonic_pi_local_spider_users_thread_name, __thread_locals(parent_t).get(:sonic_pi_local_spider_users_thread_name))
 
-          __thread_locals.set(:sonic_pi_spider_job_id, job_id)
-          __thread_locals.set(:sonic_pi_spider_job_info, __thread_locals(parent_t).get(:sonic_pi_spider_job_info))
-          __thread_locals.set(:sonic_pi_spider_time, last_vt.freeze)
-          __thread_locals.set(:sonic_pi_spider_start_time, __thread_locals(parent_t).get(:sonic_pi_spider_start_time))
+              __thread_locals.set(:sonic_pi_spider_job_id, job_id)
+              __thread_locals.set(:sonic_pi_spider_job_info, __thread_locals(parent_t).get(:sonic_pi_spider_job_info))
+              __thread_locals.set(:sonic_pi_spider_time, last_vt.freeze)
+              __thread_locals.set(:sonic_pi_spider_start_time, __thread_locals(parent_t).get(:sonic_pi_spider_start_time))
 
-          __thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-          __thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+              __thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
+              __thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
-          # Calculate the amount of time to sleep to sync us up with the
-          # sched_ahead_time
-          sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
-          sleep_time = sched_ahead_sync_t - Time.now
-          Kernel.sleep(sleep_time) if sleep_time > 0
-          #We're now in sync with the sched_ahead time
+              # Calculate the amount of time to sleep to sync us up with the
+              # sched_ahead_time
+              sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
+              sleep_time = sched_ahead_sync_t - Time.now
+              Kernel.sleep(sleep_time) if sleep_time > 0
+              #We're now in sync with the sched_ahead time
 
-          delayed_blocks.each do |b|
-            begin
-              b.call
-            rescue => e
-              log e.backtrace
+              delayed_blocks.each do |b|
+                begin
+                  b.call
+                rescue => e
+                  log e.backtrace
+                end
+              end
+
+              __multi_message(delayed_messages)
+              job_subthread_rm(job_id, Thread.current)
             end
+
+            job_subthread_add(job_id, t)
+
+            __thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
           end
-
-          __multi_message(delayed_messages)
-          job_subthread_rm(job_id, Thread.current)
         end
-
-        job_subthread_add(job_id, t)
-
-        __thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
-      end
     end
 
     def __enqueue_multi_message(m_type, m)
@@ -764,6 +766,7 @@ module SonicPi
           end
         rescue Exception => e
           __no_kill_block do
+            __info("Aborted Run #{id}")
             __error(e)
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
           end
