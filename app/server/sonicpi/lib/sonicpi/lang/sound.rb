@@ -147,14 +147,14 @@ module SonicPi
             end
 
             @life_hooks.on_exit do |job_id, payload|
-                __thread_locals.set(:sonic_pi_spider_start_time, payload[:start_t])
-                __thread_locals.set_local(:sonic_pi_local_thread_group, "job_remover-#{job_id}".freeze)
-                Thread.current.priority = -10
-                shutdown_job_mixer(job_id)
-                kill_job_group(job_id)
-                kill_fx_job_group(job_id)
-                free_job_bus(job_id)
-              end
+              __thread_locals.set(:sonic_pi_spider_start_time, payload[:start_t])
+              __thread_locals.set_local(:sonic_pi_local_thread_group, "job_remover-#{job_id}".freeze)
+              Thread.current.priority = -10
+              shutdown_job_mixer(job_id)
+              kill_job_group(job_id)
+              kill_fx_job_group(job_id)
+              free_job_bus(job_id)
+            end
 
             @events.add_handler("/exit", @events.gensym("/mods-sound-exit")) do |payload|
               @mod_sound_studio.shutdown
