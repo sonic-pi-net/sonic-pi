@@ -458,7 +458,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1064"></location>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>buffer選択タブの表示を切り替えます。</translation>
+        <translation>Buffer選択タブの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"></location>
@@ -507,12 +507,12 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Buffer files</source>
-        <translation>bufferファイル</translation>
+        <translation>Bufferファイル</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <source>Load Sonic Pi Buffer</source>
-        <translation>bufferにロード</translation>
+        <translation>Bufferにロード</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
@@ -545,7 +545,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2340"></location>
         <source>Run the code in the current buffer</source>
-        <translation>現在のbufferのコードを実行</translation>
+        <translation>現在のBufferのコードを実行</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2353"></location>
@@ -555,7 +555,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2354"></location>
         <source>Load an external file in the current buffer</source>
-        <translation>外部ファイルを現在のbufferにロード</translation>
+        <translation>外部ファイルを現在のBufferにロード</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2363"></location>
@@ -575,7 +575,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Save Current Buffer</source>
-        <translation>現在のbufferを保存</translation>
+        <translation>現在のBufferを保存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1498"></location>
@@ -666,7 +666,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2350"></location>
         <source>Save current buffer as an external file</source>
-        <translation>現在のbufferをファイルに保存</translation>
+        <translation>現在のBufferをファイルに保存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2376"></location>
@@ -676,7 +676,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2381"></location>
         <source>Improve readability of code</source>
-        <translation>コードの可読性を向上</translation>
+        <translation>コードを整形して可読性を向上</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"></location>
