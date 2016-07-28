@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-27 09:52+0000\n"
+"PO-Revision-Date: 2016-07-28 09:58+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -119,7 +119,7 @@ msgstr "ライブループ"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "さぁ、はじめましょう！下のコードを上の空欄のbuffer（バッファ）にコピーしてみましょう。"
+msgstr "さぁ、はじめましょう！下のコードを上の空欄のBuffer（バッファ）にコピーしてみましょう。"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -240,7 +240,7 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"最後に、楽しむための技をお伝えしましょう。以下のコードを、上の空欄のbuffer(バッファ)にコピーします。 "
+"最後に、楽しむための技をお伝えしましょう。以下のコードを、上の空欄のBuffer（バッファ）にコピーします。 "
 "そして、2つは同時にループ（繰り返し）します。まずは精一杯、体験して楽しみましょう！いくつかを試してみましょう。"
 
 #: 01.1-Live-Coding.md:80
@@ -273,7 +273,7 @@ msgid ""
 "kes is how you'll learn the quickest..."
 msgstr ""
 "`Run` ボタンを押し、次に繰り返しがどう変化したかに耳を傾けることを忘れないでください。 "
-"うまくいかなくても気にしないでください。`Stop`ボタンを押して、buffer内のコードを削除して、 "
+"うまくいかなくても気にしないでください。`Stop`ボタンを押して、Buffer内のコードを削除して、 "
 "新しいコードをコピーアンドペーストして、再び演奏の準備をすれば良いです。 失敗することがどんなことよりも学習の近道になるのですから。"
 
 #: 01.1-Live-Coding.md:94
@@ -4557,12 +4557,10 @@ msgstr ""
 "の中で自分自身を新しい意味ある言葉として定義し、それ自身を表現する際に非常に優れた方法です。"
 
 #: 05.5-Functions.md:56
-#, fuzzy
 msgid "Functions are remembered across runs"
-msgstr "領域を超えた関数の利用"
+msgstr "複数の`Run`を超えた関数の利用"
 
 #: 05.5-Functions.md:58
-#, fuzzy
 msgid ""
 "So far, every time you've pressed the Run button, Sonic Pi has started from a "
 "completely blank slate. It knows nothing except for what is in the buffer. You"
@@ -4570,10 +4568,10 @@ msgid ""
 "change that. When you define a function, Sonic Pi *remembers* it. Let's try it"
 ". Delete all the code in your buffer and replace it with:"
 msgstr ""
-"これまでのところ、`Run`ボタンを押すたびに、Sonic Piを完全に白紙の状態からはじめました。 これまでワークスペースをなぜとり除いているかについては"
-"触れてきませんでした。 これは１つのワークスペースのみで再生されていたからで、別のワークスペース または別のスレッド内のコードを参照することはできなかったか"
-"らです。 しかし、関数はそれを変えることができます。あなたが関数を定義すると、 Sonic Piはそれを覚えることができます。では、ちょっとやってみましょう"
-"。 まずワークスペースにあるすべてのコードを消して、`foo`と名づけたものに変更します。"
+"これまでのところ、`Run`ボタンを押すたびに、Sonic Piを完全に白紙の状態から始めたことにして、表示されているBuffer以外のコードは無いものと"
+"していました。これは、別のBufferまたは別のスレッド内のコードを参照できなかったからです。しかし、関数はそれを変えることができます。あなたが関数を定義"
+"すると、Sonic Piはそれを*覚える*ことができます。では、ちょっとやってみましょう。 "
+"まずBufferにあるすべてのコードを消して、次のものに変更します。"
 
 #: 05.5-Functions.md:65
 #, no-wrap
@@ -4581,16 +4579,15 @@ msgid "foo"
 msgstr "foo"
 
 #: 05.5-Functions.md:69
-#, fuzzy
 msgid ""
 "Press the Run button - and hear your function play. Where did the code go? How"
 " did Sonic Pi know what to play? Sonic Pi just remembered your function - so e"
 "ven after you deleted it from the buffer, it remembered what you had typed. Th"
 "is behaviour only works with functions created using `define` (and `defonce`)."
 msgstr ""
-"`Run`ボタンを押して、関数の`foo`が再生されることを確認してください。 コードはどこにいったのでしょう？また、Sonic Piは、実行の仕方を どの"
-"ように知っていたのでしょうか？Sonic Piはワークスペースを消したあとでも、 あなたが打ち込んだ関数を覚えていて、定義した関数ををしっかりと再生してみせ"
-"たのです。 この動作は`define`もしくは`defonce`を使用した時にだけ働く機能です。"
+"`Run`ボタンを押して、関数の`foo`が再生されることを確認してください。コードはどこにいったのでしょう？また、Sonic "
+"Piは、実行の仕方をどのように知っていたのでしょうか？Sonic PiはBufferを消したあとでも、あなたが打ち込んだ関数を覚えていて、定義した関数をを"
+"しっかりと再生してみせたのです。この動作は`define`もしくは`defonce`を使用した時にだけ働く機能です。"
 
 #: 05.5-Functions.md:75
 #, fuzzy
@@ -4598,16 +4595,14 @@ msgid "Parameterised functions"
 msgstr "変数化された関数"
 
 #: 05.5-Functions.md:77
-#, fuzzy
 msgid ""
 "You might be interested in knowing that just like you can pass min and max val"
 "ues to `rrand`, you can teach your functions to accept arguments. Let's take a"
 " look:"
-msgstr "最小値と最大値の情報をrrandへ渡すように、変動する引数を受け取る面白い関数をご紹介しましょう。 それでは見てみましょう。"
+msgstr "最小値と最大値の情報を`rrand`へ渡すように、引数を受け取る関数についても興味を持つかもしれません。ちょっと見てみましょう。"
 
 #: 05.5-Functions.md:81
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_player do |n|\n"
 "  play n\n"
@@ -4617,7 +4612,7 @@ msgid ""
 "my_player 90"
 msgstr ""
 "define :my_player do |n|\n"
-" play n\n"
+"  play n\n"
 "end\n"
 "my_player 80\n"
 "sleep 0.5\n"
@@ -7373,7 +7368,7 @@ msgstr "前の章を読んでいない場合、`live_loop`はSonic Piでジャ�
 #: 09.2-Live-Loops.md:13
 #, fuzzy
 msgid "Let's play. Write the following in a new buffer:"
-msgstr "演奏してみましょう。新しいワークスペースに次のように書いてください。"
+msgstr "演奏してみましょう。新しいBufferに次のように書いてください。"
 
 #: 09.2-Live-Loops.md:15
 #, no-wrap
@@ -8804,7 +8799,7 @@ msgstr ""
 #: 11.1-Basic-API.md:23
 #, fuzzy
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr "新しいSonicPi のワークスペースで、次のコードを入力してください。"
+msgstr "新しいSonicPi のBufferで、次のコードを入力してください。"
 
 #: 11.1-Basic-API.md:25
 #, no-wrap
