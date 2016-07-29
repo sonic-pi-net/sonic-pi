@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-28 14:42+0000\n"
+"PO-Revision-Date: 2016-07-29 14:37+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -11163,16 +11163,28 @@ msgid ""
 "- choose your own values. Try negative numbers, really small numbers and large"
 " numbers. Have fun!"
 msgstr ""
+"A teraz naciśnij przycisk \"Run\" lub wciśnij klawisze `alt-r`. Słyszysz "
+"teraz parę wspaniałych dźwięków chóralnych. A teraz, kiedy pętla wciąż gra "
+"zmień wartości opcji rate z `0.4` na `0.38`. Naciśnij Run ponownie. Łał! "
+"Zauważyłeś, że chór wybrzmiewa teraz inną nutą? Zmień ją ponownie na wartość "
+"`0.4` aby przywrócić wcześniejsze brzmienie. Teraz obniż wartość na `0.2`, "
+"potem ma `0.19` i wróć do `0.4`. Widzisz jak zmiana tylko jednego parametru "
+"w locie fajkę Ci realną kontrolę nad muzyką? Spróbuj teraz pobawić się "
+"parametrem rate samodzielnie - wybierz swoje własne wartości. Spróbuj użyć "
+"liczb ujemnych, naprawdę bardzo małych wartości oraz dużych liczb. "
+"Przyjemnej zabawy!"
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
-msgstr ""
+msgstr "Spanie (ang. sleep) jest ważne"
 
 #: A.02-live-coding.md:79
 msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. C"
 "onsider the following `live_loop`:"
 msgstr ""
+"Jedną z najważniejszych lekcji dotyczących pętli `live_loop` jest to, że "
+"potrzebują one odpoczynku. Przyjrzyjmy się następującej pętli `live_loop`:"
 
 #: A.02-live-coding.md:82
 #, no-wrap
@@ -11195,10 +11207,18 @@ msgid ""
 "h and burn in the process. So remember, your `live_loop`s must contain a `slee"
 "p`."
 msgstr ""
+"Jeśli spróbujesz uruchomić powyższy kawałek kodu, szybko zauważysz, że pętla "
+"`live_loop` zacznie narzekać, że nie spała. To jest miejsce, w którym do "
+"akcji wkracza system bezpieczeństwa! Zatrzymaj się na chwilę i zastanów się "
+"czego ten kawałek kodu oczekuje od komputera. Tak jest, prosi komputer, żeby "
+"zagrał sampel ambi_hoir nieskończoną ilość razy od razu. Gdyby nie system "
+"bezpieczeństwa, to nasz biedny komputer spróbowałby zrobić to o co go "
+"prosimy w wyniku czego popsułby się i spalił. Pamiętaj więc, twoje żywe "
+"pętle muszą posiadać polecenie `sleep`."
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
-msgstr ""
+msgstr "Łączenie Dźwięków"
 
 #: A.02-live-coding.md:99
 msgid ""
