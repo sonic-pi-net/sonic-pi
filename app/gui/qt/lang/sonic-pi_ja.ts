@@ -269,12 +269,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
         <source>Synths and FX</source>
-        <translation>シンセと効果</translation>
+        <translation>シンセとエフェクト</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="962"></location>
         <source>Modify behaviour of synths and FX</source>
-        <translation>シンセと効果の動作を変更</translation>
+        <translation>シンセとエフェクトの動作を変更</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
@@ -310,7 +310,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
         <source>Enable external synths and FX</source>
-        <translation>外部シンセ・効果を有効にする</translation>
+        <translation>外部シンセ・エフェクトを有効にする</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"></location>
@@ -322,11 +322,11 @@ When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
         <translation>有効にすると、Sonic Piはload_synthdefs
-の呼び出しによるシンセ・効果のロードを
+の呼び出しによるシンセ・エフェクトのロードを
 許可します。
 
 無効にすると、Sonic Piが認識していない
-シンセ・効果を使おうとするとエラーを
+シンセ・エフェクトを使おうとするとエラーを
 出します。</translation>
     </message>
     <message>
@@ -343,12 +343,12 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation>有効にすると、シンセや効果の
+        <translation>有効にすると、シンセやエフェクトの
 タイミングが遅れる場合にSonic Pi
 はそれらを起動しないようにします。
 
-無効にすると、シンセや効果の
-タイミングが遅れる場合でさえも
+無効にすると、シンセやエフェクトの
+タイミングが遅れる場合でも
 常にそれらを起動しようとします。</translation>
     </message>
     <message>
@@ -570,7 +570,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2910"></location>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>おかえりなさい。ライブコーディングを始めよう…</translation>
+        <translation>Welcome back. Now get your live code on...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1376"></location>
@@ -776,7 +776,7 @@ Sonic Pi %1 を入手</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
         <source>Please consider reporting a bug at</source>
-        <translation>バグの報告をご検討ください。報告先: </translation>
+        <translation>バグの報告をご検討ください。報告先:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2367"></location>
@@ -905,7 +905,7 @@ Sonic Pi %1 を入手</translation>
     <message>
         <location filename="../ruby_help.h" line="564"></location>
         <source>Fx</source>
-        <translation>効果</translation>
+        <translation>エフェクト</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
