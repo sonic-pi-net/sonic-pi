@@ -1048,7 +1048,7 @@ play 80 # Plays note 83
       def use_tuning(tuning, fundamental_note = :c, &block)
         raise "use_tuning does not work with a do/end block. Perhaps you meant with_tuning" if block
         raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
-        __thread_locals.set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note])
+        __thread_locals.set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note].freeze)
       end
       doc name:          :use_tuning,
           introduced:    Version.new(2,6,0),
