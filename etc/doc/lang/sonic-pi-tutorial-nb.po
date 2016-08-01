@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-27 15:50+0000\n"
+"PO-Revision-Date: 2016-08-01 11:30+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
@@ -1978,7 +1978,6 @@ msgid "`:guit_`"
 msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
-#, fuzzy
 msgid "`:drum_`"
 msgstr "`:drum_`"
 
@@ -2329,7 +2328,7 @@ msgid "We can represent this with the formula:"
 msgstr "Vi kan representere dette med formelen:"
 
 #: 03.3-Stretching-Samples.md:125
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "new_sample_duration = (1 / rate) * sample_duration "
 msgstr "new_sample_duration = (1 / rate) * sample_duration "
 
@@ -2423,6 +2422,7 @@ msgid "sample :loop_amen, attack: 0.3"
 msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
+#, fuzzy
 msgid "Auto Sustain"
 msgstr "Auto Sustain"
 
@@ -2508,7 +2508,7 @@ msgstr ""
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, attack: 0.75, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
 msgid ""
@@ -2530,7 +2530,7 @@ msgstr ""
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
 msgid "sample :loop_amen, sustain: 0, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:95
 msgid ""
@@ -2542,7 +2542,7 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
-msgstr ""
+msgstr "Trommesettsymbaler"
 
 #: 03.4-Enveloped-Samples.md:102
 msgid ""
@@ -2554,7 +2554,7 @@ msgstr ""
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
 msgid "sample :drum_cymbal_open"
-msgstr ""
+msgstr "sample :drum_cymbal_open"
 
 #: 03.4-Enveloped-Samples.md:110
 msgid ""
@@ -2565,7 +2565,7 @@ msgstr ""
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
-msgstr ""
+msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
 msgid ""
@@ -2576,7 +2576,7 @@ msgstr ""
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
-msgstr ""
+msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:124
 msgid ""
@@ -2612,7 +2612,7 @@ msgstr ""
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5, attack: 1"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
 msgid ""
@@ -2624,7 +2624,7 @@ msgstr ""
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
 msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
-msgstr ""
+msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
 #: 03.5-Partial-Samples.md:35
 msgid ""
@@ -2635,7 +2635,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:39
 msgid "Choosing a starting point"
-msgstr ""
+msgstr "Valg av startpunkt"
 
 #: 03.5-Partial-Samples.md:41
 msgid ""
@@ -2648,7 +2648,7 @@ msgstr ""
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.5"
 
 #: 03.5-Partial-Samples.md:50
 msgid "How about the last quarter of the sample:"
@@ -7055,49 +7055,51 @@ msgstr ""
 
 #: 10.2-Shortcut-Cheatsheet.md:29
 msgid "Selection/Copy/Paste"
-msgstr ""
+msgstr "Merket område/Kopier/Lim inn"
 
 #: 10.2-Shortcut-Cheatsheet.md:31
 msgid "`M-a` - Select all"
-msgstr ""
+msgstr "`M-a` - Merk alt"
 
 #: 10.2-Shortcut-Cheatsheet.md:32
 msgid "`M-c` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-c` - Kopier merket omrade til innlimingsmellomlager"
 
 #: 10.2-Shortcut-Cheatsheet.md:33
 msgid "`M-]` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-]` - Kopier merket omrade til innlimingsmellomlager"
 
 #: 10.2-Shortcut-Cheatsheet.md:34
 msgid "`M-x` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`M-x` - Klipp ut merket område til innlimingsmellomlager"
 
 #: 10.2-Shortcut-Cheatsheet.md:35
 msgid "`C-]` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`C-]` - Klipp ut merket område til innlimingsmellomlager"
 
 #: 10.2-Shortcut-Cheatsheet.md:36
 msgid "`C-k` - Cut to the end of the line"
-msgstr ""
+msgstr "`C-k` - Klipp ut til slutten av linjen"
 
 #: 10.2-Shortcut-Cheatsheet.md:37
 msgid "`M-v` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`M-v` - Lim in fra innlimingsmellomlageret til tekstredigeringsfeltet"
 
 #: 10.2-Shortcut-Cheatsheet.md:38
 msgid "`C-y` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`C-y` - Lim in fra innlimingsmellomlageret til tekstredigeringsfeltet"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use "
 "`C-g` to escape."
 msgstr ""
+"`C-SPACE` - Sett merke.  Navigering vil nå manipulere uthevet område.  Bruk "
+"`C-g` for å komme ut."
 
 #: 10.2-Shortcut-Cheatsheet.md:41
 msgid "Text Manipulation"
-msgstr ""
+msgstr "Tekstmanipulering"
 
 #: 10.2-Shortcut-Cheatsheet.md:43
 msgid "`M-m` - Align all text"
@@ -7113,7 +7115,7 @@ msgstr ""
 
 #: 10.2-Shortcut-Cheatsheet.md:46
 msgid "`M-/` - Comment/Uncomment current line or selection"
-msgstr ""
+msgstr "`M-/` - Kommenter/avkommenter gjeldende linje eller merket område"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
 msgid "`C-t` - Transpose/swap characters"
@@ -7121,59 +7123,59 @@ msgstr ""
 
 #: 10.2-Shortcut-Cheatsheet.md:48
 msgid "`M-u` - Convert next word (or selection) to upper case."
-msgstr ""
+msgstr "`M-u` - Gjør om neste ord (eller utvalg) til store bokstaver."
 
 #: 10.2-Shortcut-Cheatsheet.md:49
 msgid "`M-l` - Convert next word (or selection) to lower case."
-msgstr ""
+msgstr "`M-l` - Gjør om neste ord (eller utvalg) til små bokstaver."
 
 #: 10.2-Shortcut-Cheatsheet.md:53
 msgid "`C-a` - Move to beginning of line"
-msgstr ""
+msgstr "`C-a` - Flytt til starten av linjen"
 
 #: 10.2-Shortcut-Cheatsheet.md:54
 msgid "`C-e` - Move to end of line"
-msgstr ""
+msgstr "`C-e` - Flytt til slutten av linjen"
 
 #: 10.2-Shortcut-Cheatsheet.md:55
 msgid "`C-p` - Move to previous line"
-msgstr ""
+msgstr "`C-p` - Flytt til forrige linje"
 
 #: 10.2-Shortcut-Cheatsheet.md:56
 msgid "`C-n` - Move to next line"
-msgstr ""
+msgstr "`C-n` - Flytt til neste linje"
 
 #: 10.2-Shortcut-Cheatsheet.md:57
 msgid "`C-f` - Move forward one character"
-msgstr ""
+msgstr "`C-f` - Flytt forover ett tegn"
 
 #: 10.2-Shortcut-Cheatsheet.md:58
 msgid "`C-b` - Move backward one character"
-msgstr ""
+msgstr "`C-b` - Flytt bakover ett tegn"
 
 #: 10.2-Shortcut-Cheatsheet.md:59
 msgid "`M-f` - Move forward one word"
-msgstr ""
+msgstr "`M-f` - Flytt forover ett ord"
 
 #: 10.2-Shortcut-Cheatsheet.md:60
 msgid "`M-b` - Move backward one word"
-msgstr ""
+msgstr "`M-b` - Flytt bakover ett ord"
 
 #: 10.2-Shortcut-Cheatsheet.md:61
 msgid "`C-M-n` - Move line or selection down"
-msgstr ""
+msgstr "`C-M-n` - Flytt linje eller utvalg ned"
 
 #: 10.2-Shortcut-Cheatsheet.md:62
 msgid "`C-M-p` - Move line or selection up"
-msgstr ""
+msgstr "`C-M-p` - Flytt linje eller utvalg opp"
 
 #: 10.2-Shortcut-Cheatsheet.md:63
 msgid "`S-M-u` - Move up 10 lines"
-msgstr ""
+msgstr "`S-M-u` - Flytt opp 10 linjer"
 
 #: 10.2-Shortcut-Cheatsheet.md:64
 msgid "`S-M-d` - Move down 10 lines"
-msgstr ""
+msgstr "`S-M-d` - Flytt ned 10 linjer"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
 msgid "`M-<` - Move to beginning of buffer"
@@ -7185,7 +7187,7 @@ msgstr ""
 
 #: 10.2-Shortcut-Cheatsheet.md:68
 msgid "Deletion"
-msgstr ""
+msgstr "Sletting"
 
 #: 10.2-Shortcut-Cheatsheet.md:70
 msgid "`C-h` - Delete previous character"
@@ -7538,7 +7540,7 @@ msgstr ""
 
 #: 11.1-Basic-API.md:50
 msgid "Coordinates"
-msgstr ""
+msgstr "Koordinater"
 
 #: 11.1-Basic-API.md:52
 msgid ""
@@ -7556,39 +7558,45 @@ msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how "
 "high we are. We therefore need three numbers:"
 msgstr ""
+"Mens i Minecraft er to tall ikke helt nok.  Vi trenger også å vite hvor høyt "
+"vi er.  Vi trenger derfor tre tall:"
 
 #: 11.1-Basic-API.md:64
 msgid "How far from right to left in the world - `x`"
-msgstr ""
+msgstr "Hvor langt fra høyre til venstre i verden - `x`"
 
 #: 11.1-Basic-API.md:65
 msgid "How far from front to back in the world - `z`"
-msgstr ""
+msgstr "Hvor langt fra forran til bak i verden - `z`"
 
 #: 11.1-Basic-API.md:66
 msgid "How high up we are in the world - `y`"
-msgstr ""
+msgstr "Hvor høyt oppe i er i verden - `y`"
 
 #: 11.1-Basic-API.md:68
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, "
 "`y`, `z`."
 msgstr ""
+"Og forresten - vi beskriver typisk disse koordinatene i denne rekkefølgen `x`"
+", `y`, `z`."
 
 #: 11.1-Basic-API.md:71
 msgid "Finding your current coordinates"
-msgstr ""
+msgstr "Finne dine nåværende koordinater"
 
 #: 11.1-Basic-API.md:73
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the "
 "Minecraft map and then switch over to Sonic Pi. Now enter the following:"
 msgstr ""
+"La oss leke med koordinater.  Naviger til en fin plass i Minecraft-kartet og "
+"bytt så over til Sonic Pi.  Skriv deretter inn det følgende:"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
 msgid "puts mc_location"
-msgstr ""
+msgstr "puts mc_location"
 
 #: 11.1-Basic-API.md:80
 msgid ""
@@ -7601,10 +7609,18 @@ msgid ""
 "understood how coordinates work, programming with the Minecraft API will be "
 "a complete breeze."
 msgstr ""
+"Når du trygger på *Kjør*-knappen vil du se koordinatene til din gjeldende "
+"posisjon vist frem i loggvinduet.  Merk deg dem og beveg deg fremover i "
+"verden og forsøk igjen.  Merk hvordan koordinatene endret seg!  Nå anbefaler "
+"jeg at du bruker litt tid til å gjenta akkurat dette - flytt litt i verden, "
+"titt på koordinatene og gjenta.  Gjør dette helt til du har en følelse om "
+"hvordan koordinatene endrer seg når du beveger deg.  Når du har forstått "
+"hvordan koordinater virker vil programmering med Minecraft-API-et være "
+"enkelt."
 
 #: 11.1-Basic-API.md:89
 msgid "Let's Build!"
-msgstr ""
+msgstr "La oss bygge!"
 
 #: 11.1-Basic-API.md:91
 msgid ""
@@ -7613,6 +7629,10 @@ msgid ""
 "Minecraft with code. Let's say you want to make the block with coordinates "
 "`40`, `50`, `60` to be glass. That's super easy:"
 msgstr ""
+"Nå når du vet hvordan du finner gjeldende posisjon og kan teleporte ved "
+"hjelp av koordinater, har du alle verktøyene du trenger for å gå i gang med "
+"å bygge ting i Minecraft med programmering.  Lå oss si at du vil få blokken "
+"med koordinater `40`, `50`, `60` til å bli glass.  Det er superenkelt:"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
@@ -7624,17 +7644,21 @@ msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby "
 "and take a look:"
 msgstr ""
+"Haha, det er virkelig så enkelt.  For å se håndverket ditt trenger du bare "
+"teleportere til et sted i nærheten og ta en titt:"
 
 #: 11.1-Basic-API.md:103
 #, no-wrap
 msgid "mc_teleport 35, 50, 60"
-msgstr ""
+msgstr "mc_teleport 35, 50, 60"
 
 #: 11.1-Basic-API.md:107
 msgid ""
 "Now turn around and you should see your glass block! Try changing it to "
 "diamond:"
 msgstr ""
+"Nå kan du snu deg rundt og der bør du se glassblokken din.  Forsøk å endre "
+"den til diamant:"
 
 #: 11.1-Basic-API.md:110
 #, no-wrap
@@ -7646,6 +7670,8 @@ msgid ""
 "If you were looking in the right direction you might have even seen it "
 "change in front of your eyes! This is the start of something exciting..."
 msgstr ""
+"Hvis du tittet i riktig retning kan du til og me ha sett at den endret deg "
+"foran øynene på deg.  Dette er starten på noe fantastisk..."
 
 #: 11.1-Basic-API.md:117
 msgid "Looking at blocks"
@@ -8030,6 +8056,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :flanger do\n"
+"  sample :loop_garzul\n"
+"end\n"
+"with_fx :echo do\n"
+"  16.times do\n"
+"    sample :bd_haus\n"
+"    sleep 0.5\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:71
 msgid ""
@@ -8039,7 +8074,7 @@ msgstr ""
 
 #: A.01-tips.md:75
 msgid "3. Parameterise your synths"
-msgstr ""
+msgstr "3. Parameteriser dine synther"
 
 #: A.01-tips.md:77
 msgid ""
@@ -8054,18 +8089,21 @@ msgstr ""
 #: A.01-tips.md:85
 #, no-wrap
 msgid "sample :guit_em9"
-msgstr ""
+msgstr "sample :guit_em9"
 
 #: A.01-tips.md:89
+#, fuzzy
 msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about "
 "changing its rate?"
 msgstr ""
+"Ah, en nydelig gitarlyd!  Nå kan vi gå igang med å leke med den.  Hva med å "
+"endre raten dens?"
 
 #: A.01-tips.md:92
 #, no-wrap
 msgid "sample :guit_em9, rate: 0.5"
-msgstr ""
+msgstr "sample :guit_em9, rate: 0.5"
 
 #: A.01-tips.md:96
 msgid ""
@@ -8081,6 +8119,9 @@ msgid ""
 "  sample :guit_em9\n"
 "end"
 msgstr ""
+"with_fx :flanger, feedback: 0.6 do\n"
+"  sample :guit_em9\n"
+"end"
 
 #: A.01-tips.md:106
 msgid ""
@@ -8109,6 +8150,10 @@ msgid ""
 "  sleep 1.75\n"
 "end"
 msgstr ""
+"live_loop :experiment do\n"
+"  sample :loop_amen, cutoff: 70\n"
+"  sleep 1.75\n"
+"end"
 
 #: A.01-tips.md:125
 msgid ""
@@ -8127,7 +8172,7 @@ msgstr ""
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
-msgstr ""
+msgstr "5. Surf på de tilfeldige strømmene"
 
 #: A.01-tips.md:136
 msgid ""
@@ -8136,6 +8181,10 @@ msgid ""
 "might sound complicated but it really isn't. Let's take a look. Copy this "
 "into a spare workspace:"
 msgstr ""
+"Til slutt, en ting jeg virkelig elsker å gjøre er å jukse ved å la Sonic Pi "
+"komponere ting for meg.  En virkelig flott måte å gjøre dette er ved å bruke "
+"tilfeldighet.  Det høres kanskje kompliset ut, men det er virkelig enkelt.  "
+"La oss ta en titt.  Kopier dette inn i et ledig arbeidsområde:"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -8149,6 +8198,14 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :rand_surfer do\n"
+"  use_synth :dsaw\n"
+"  notes = (scale :e2, :minor_pentatonic, num_octaves: 2)\n"
+"  16.times do\n"
+"    play notes.choose, release: 0.1, cutoff: rrand(70, 120)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:152
 msgid ""
@@ -8174,6 +8231,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :rand_surfer do\n"
+"  use_random_seed 1\n"
+"  use_synth :dsaw\n"
+"  notes = (scale :e2, :minor_pentatonic, num_octaves: 2)\n"
+"  16.times do\n"
+"    play notes.choose, release: 0.1, cutoff: rrand(70, 120)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:173
 msgid ""
