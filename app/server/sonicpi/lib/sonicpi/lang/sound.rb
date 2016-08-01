@@ -1306,8 +1306,6 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
         args_h = tls.merge(args_h).to_h
 
-        return @blank_node unless should_trigger?(args_h)
-
         if rest? args_h
           unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
             __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
@@ -1561,7 +1559,6 @@ play 44"]
       def play_chord(notes, *args)
         raise "play_chord expects a list of notes such as [70, 75, 82], got #{notes.inspect}" unless is_list_like?(notes)
         args_h = resolve_synth_opts_hash_or_array(args)
-        return @blank_node unless should_trigger?(args_h)
         shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
 
         synth_name = current_synth_name
@@ -2770,8 +2767,6 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
         tls = __thread_locals.get(:sonic_pi_mod_sound_sample_defaults) || {}
 
         args_h = tls.merge(args_h)
-
-        return @blank_node unless should_trigger?(args_h, true)
 
         if filts_and_sources.size == 0
           if args_h.has_key?(:path)
@@ -4127,6 +4122,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         synth_name = info ? info.scsynth_name : synth_name
 
         validate_if_necessary! info, args_h
+        return @blank_node unless should_trigger?(args_h)
 
         ensure_good_timing!
 
