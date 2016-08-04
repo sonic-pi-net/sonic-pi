@@ -29,17 +29,17 @@ app/gui/qt/sonic-pi
 app/gui/qt/moc_mainwindow.cpp
 app/gui/qt/moc_sonicpiudpserver.cpp
 app/gui/qt/qrc_SonicPi.cpp
-app/gui/qt/ruby_help.h
-app/gui/qt/help/*.html
-app/gui/qt/help_files.qrc
 app/gui/qt/lang/*.qm
-app/gui/qt/qrc_help_files.cpp
 app/gui/qt/Sonic-Pi.app
 app/gui/qt/Sonic Pi.app
 app/gui/qt/build
-
-app/gui/qt/info
+app/gui/qt/resources/
+app/gui/qt/qrc_i18n_files.cpp
+app/gui/qt/qrc_image_files.cpp
 app/gui/qt/qrc_info_files.cpp
+app/gui/qt/qrc_reference_files.cpp
+app/gui/qt/qrc_tutorial_files.cpp
+app/gui/qt/ruby_help.h
 
 # HTML GUI
 # --------

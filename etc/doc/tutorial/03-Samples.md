@@ -1,5 +1,3 @@
-3 Samples
-
 # Samples
 
 Another great way to develop your music is to use pre-recorded

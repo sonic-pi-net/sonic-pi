@@ -1,5 +1,3 @@
-A.4 Synth Riffs
-
 # Synth Riffs
 
 Whether it's the haunting drift of rumbling oscillators or the detuned

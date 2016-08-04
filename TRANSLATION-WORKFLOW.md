@@ -92,12 +92,10 @@ To initiate a translation update:
    ```
      git pull
 
-     lupdate -pro app/gui/qt/SonicPi.pro -no-obsolete
+     # the following will complain about every fuzzy entry     
+     rake update_language_files
+     
      git commit lang/sonic-pi_*.ts
-
-     app/server/bin/i18n-tool.rb -x
-     # the following will complain about every fuzzy entry
-     app/server/bin/i18n-tool.rb -u
      git commit etc/doc/lang/*.po
      
      git push

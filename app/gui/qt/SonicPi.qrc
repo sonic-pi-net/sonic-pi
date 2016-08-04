@@ -25,28 +25,6 @@
         <file>images/logo-smaller.png</file>
         <file>images/logo-smaller-dark.png</file>
         <file>images/logo.txt</file>
-        <file>images/tutorial/sample.png</file>
-        <file>images/tutorial/env-attack-release.png</file>
-        <file>images/tutorial/env-attack-decay-sustain-release.png</file>
-        <file>images/tutorial/env-attack-sustain-release.png</file>
-        <file>images/tutorial/env-long-attack-short-release.png</file>
-        <file>images/tutorial/env-release.png</file>
-        <file>images/tutorial/env-short-attack-short-release.png</file>
-        <file>images/tutorial/env-decay-level.png</file>
-        <file>images/tutorial/env-decay-level-2.png</file>
-        <file>images/tutorial/GUI.png</file>
-
-        <file>images/tutorial/articles/A.05-acid-bass/tb303-design.png</file>
-        <file>images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-small.png</file>
-        <file>images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png</file>
-        <file>images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-small.png</file>
-        <file>images/tutorial/articles/A.07-bizet/habanera.png</file>
-        <file>images/tutorial/articles/A.07-bizet/notes.png</file>
-        <file>images/tutorial/articles/A.07-bizet/habanera2.png</file>
-        <file>images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small.png</file>
-        <file>images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small.png</file>
-        <file>images/tutorial/articles/A.02-live-coding/sam-aaron-live-coding.png</file>
-        <file>images/tutorial/articles/A.12-sample-slicing/amen_slice.png</file>
 
         <file>images/coreteam/samaaron.png</file>
         <file>images/coreteam/josephwilk.png</file>
@@ -60,18 +38,5 @@
 
         <file>theme/light/doc-styles.css</file>
         <file>theme/dark/doc-styles.css</file>
-
-        <file>lang/sonic-pi_de.qm</file>
-        <file>lang/sonic-pi_is.qm</file>
-        <file>lang/sonic-pi_ja.qm</file>
-        <file>lang/sonic-pi_nb.qm</file>
-        <file>lang/sonic-pi_pl.qm</file>
-        <file>lang/sonic-pi_fr.qm</file>
-        <file>lang/sonic-pi_es.qm</file>
-        <file>lang/sonic-pi_hu.qm</file>
-<!--
-        <file>lang/sonic-pi_zh-Hans.qm</file>
-        <file>lang/sonic-pi_zh-Hant.qm</file>
--->
     </qresource>
 </RCC>

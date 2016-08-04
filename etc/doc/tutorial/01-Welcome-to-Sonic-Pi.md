@@ -1,4 +1,4 @@
-1 Welcome to Sonic Pi
+<!-- Welcome to Sonic Pi -->
 
 # Welcome friend :-)
 

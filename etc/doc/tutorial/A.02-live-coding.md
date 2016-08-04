@@ -1,5 +1,3 @@
-A.2 Live Coding
-
 # Live Coding
 
 The laser beams sliced through the wafts of smoke as the subwoofer

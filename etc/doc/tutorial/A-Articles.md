@@ -1,4 +1,4 @@
-A Appendix A - MagPi Articles
+<!-- Appendix A - MagPi Articles --> 
 
 # MagPi Articles
 

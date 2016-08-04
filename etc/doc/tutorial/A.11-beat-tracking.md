@@ -1,4 +1,4 @@
-A.11 Tick Tock
+<!-- Tick Tock -->
 
 # Tracking the Beat
 

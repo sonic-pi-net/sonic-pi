@@ -1,5 +1,3 @@
-5 Programming Structures
-
 # Programming Structures
 
 Now that you've learned the basics of creating sounds with `play` and

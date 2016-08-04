@@ -8,8 +8,7 @@ cache:
  - apt
  - ccache
 
-# in addition to the default settings (above),
-# add test runs using the Travis rvm ruby binaries.
+# In addition to the default settings (above), add test runs using the Travis rvm ruby binaries.
 matrix:
   include:
     - env: USE_QT4=1
@@ -40,38 +39,37 @@ before_install:
 
 script:
  - set -e
-# the | starts a multiline YAML entry
+# The | starts a multiline YAML entry
  - |
    if [[ $USE_RVM ]]
    then
-     # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
+     # This compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
      echo ""
      echo "***********************************"
      echo "* Compiling the vendor/ ruby gems *"
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/bin
-     ruby ./compile-extensions.rb
+     cd $TRAVIS_BUILD_DIR
+     rake compile_gems
      echo ""
      echo "***********************************"
      echo "* Running the Sonic Pi test suite *"
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/sonicpi/test
+     cd $TRAVIS_BUILD_DIR/app/server/sonicpi
      rake test
    else
-     # this compiles the gems and runs the Sonic Pi test suite for all ruby versions in Ubuntu Trusty (1.9.1 and 2.0.0)
+     # This compiles the gems and runs the Sonic Pi test suite for all ruby versions in Ubuntu Trusty (1.9.1 and 2.0.0)
      echo ""
      echo "***********************************"
      echo "* Compiling the vendor/ ruby gems *"
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/bin
-     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " ./compile-extensions.rb") or raise ("ruby gem compile failed for " + v) }'
+     cd $TRAVIS_BUILD_DIR
+     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " /usr/bin/rake compile_gems") or raise ("ruby gem compile failed for " + v) ; system(b + " /usr/bin/rake clean_gems") }'
      echo ""
      echo "***********************************"
      echo "* Running the Sonic Pi test suite *"
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/sonicpi/test
+     cd $TRAVIS_BUILD_DIR/app/server/sonicpi
      /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " /usr/bin/rake test") or raise ("test failed for " + v) }'
-     # the following are the same steps as in ./app/gui/qt/rp-build-app
      echo ""
      echo "***********************************"
      if [[ $USE_QT4 ]]
@@ -81,9 +79,8 @@ script:
        echo "* Compiling Sonic Pi GUI with Qt5 *"
      fi
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/gui/qt
-     cp -f ruby_help.tmpl ruby_help.h ; /usr/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
-     lrelease SonicPi.pro
-     qmake -o Makefile SonicPi.pro
-     make
+     # Travis installs a rvm ruby version locally and overrides the rake path.
+     # The following makes sure that we're using the installed ruby version that comes with Ubuntu Trusty.
+     cd $TRAVIS_BUILD_DIR
+     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.first(1).each { |v, b| system(b + " /usr/bin/rake compile_qt_gui") or raise ("test failed for " + v) }'
    fi

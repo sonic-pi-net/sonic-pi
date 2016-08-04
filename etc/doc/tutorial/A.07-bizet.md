@@ -1,5 +1,3 @@
-A.7 Bizet Beats
-
 # Bizet Beats
 
 After our brief excursion to the fantastic world of coding Minecraft

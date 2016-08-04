@@ -1,4 +1,4 @@
-7 Control
+<!-- Control -->
 
 # Controlling running sounds
 
