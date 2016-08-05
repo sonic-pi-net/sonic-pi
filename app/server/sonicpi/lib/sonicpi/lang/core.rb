@@ -50,6 +50,115 @@ module SonicPi
         end
       end
 
+      def reset
+
+        __thread_locals.reset!
+      end
+      doc name:           :reset,
+          introduced:     Version.new(2,11,0),
+          summary:        "Reset all thread locals",
+          args:           [[]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "All settings such as the current synth, BPM, random stream and tick values will be reset to the values inherited from the parent thread. Consider using `clear` to reset all these values to their defaults.",
+         examples: ["
+# Basic Reset
+use_synth :blade
+use_octave 3
+
+puts \"before\"         #=> \"before\"
+puts current_synth      #=> :blade
+puts current_octave     #=> 3
+puts rand               #=> 0.75006103515625
+puts tick               #=> 0
+
+reset
+
+puts \"after\"          #=> \"after\"
+puts current_synth      #=> :beep
+puts current_octave     #=> 0
+puts rand               #=> 0.75006103515625
+puts tick               #=> 0",
+
+"Reset remembers defaults from when the thread was created:
+use_synth :blade
+use_octave 3
+
+puts \"before\"         #=> \"before\"
+puts current_synth      #=> :blade
+puts current_octave     #=> 3
+puts rand               #=> 0.75006103515625
+puts tick               #=> 0
+
+at do
+  use_synth :tb303
+  puts rand               #=> 0.9287109375
+  reset
+  puts \"thread\"          #=> \"thread\"
+
+
+                          # The call to reset ensured that the current
+                          # synth was returned to the the state at the
+                          # time this thread was started. Thus any calls
+                          # to use_synth between this line and the start
+                          # of the thread are ignored
+  puts current_synth      #=> :blade
+  puts current_octave     #=> 3
+
+                          # The call to reset ensured
+                          # that the random stream was reset
+                          # to the same state as it was when
+                          # the current thread was started
+  puts rand               #=> 0.9287109375
+  puts tick               #=> 0
+end"]
+
+      def clear
+        __thread_locals.clear!
+      end
+      doc name:           :clear,
+          introduced:     Version.new(2,11,0),
+          summary:        "Clear all thread locals to defaults",
+          args:           [[]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+      doc:            "All settings such as the current synth, BPM, random stream and tick values will be reset to their defaults. Consider using `reset` to reset all these values to those inherited from the parent thread.",
+      examples: [
+"Clear wipes out the threads locals
+use_synth :blade
+use_octave 3
+
+puts \"before\"         #=> \"before\"
+puts current_synth      #=> :blade
+puts current_octave     #=> 3
+puts rand               #=> 0.75006103515625
+puts tick               #=> 0
+
+at do
+  use_synth :tb303
+  puts rand               #=> 0.9287109375
+  clear
+  puts \"thread\"         #=> \"thread\"
+
+
+                          # The clear reset the current synth to the default
+                          # of :beep. We are therefore ignoring any inherited
+                          # synth settings. It is as if the thread was a completely
+                          # new Run.
+  puts current_synth      #=> :beep
+
+                          # The current octave defaults back to 0
+  puts current_octave     #=> 0
+
+                          # The random stream defaults back to the standard
+                          # stream used by every new Run.
+  puts rand               #=> 0.75006103515625
+  puts tick               #=> 0
+end"
+]
+
       def time_shift(delta, &blk)
         raise "Timeshift requires a do/end block" unless blk
         sat = @mod_sound_studio.sched_ahead_time
@@ -3000,9 +3109,6 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         # Get copy of thread locals whilst we're sure they're not being modified
         # as we're in the thread parent_t
 
-        new_tls = SonicPi::Core::ThreadLocal.new(__thread_locals)
-        new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
-
         job_id = __current_job_id
         reg_with_parent_completed = Promise.new
 
@@ -3013,6 +3119,11 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           new_rand_seed = SonicPi::Core::SPRand.rand!(441000, new_thread_gen_idx)
           __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, new_thread_gen_idx + 1
         end
+
+        new_tls = SonicPi::Core::ThreadLocal.new(__thread_locals, SonicPi::Core::SPRand.tl_seed_map(new_rand_seed + SonicPi::Core::SPRand.get_seed, 0))
+
+        new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
+
         # Create the new thread
         t = Thread.new do
           # Copy thread locals across from parent thread to this new thread
@@ -3060,7 +3171,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           # every sub-in_thread before killing them.
           __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
-          SonicPi::Core::SPRand.set_seed!(new_rand_seed + SonicPi::Core::SPRand.get_seed)
+
 
 
           # Wait for parent to deliver promise. Throws an exception if
