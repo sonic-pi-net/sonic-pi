@@ -141,6 +141,7 @@ module SonicPi
           return @parent_vars[name] if @parent_visible
         end
       end
+
     end
   end
 end
@@ -153,6 +154,10 @@ module SonicPi
       # Read in same random numbers as server for random stream sync
       @@random_numbers = ::WaveFile::Reader.new(File.expand_path("../../../etc/buffers/rand-stream.wav", __FILE__), ::WaveFile::Format.new(:mono, :float, 44100)).read(441000).samples.freeze
 
+      def self.tl_seed_map(seed, idx=0)
+        {:sonic_pi_spider_random_gen_seed => seed,
+          :sonic_pi_spider_random_gen_idx => idx}
+      end
 
       def self.__thread_locals(t = Thread.current)
         tls = t.thread_variable_get(:sonic_pi_thread_locals)
@@ -246,10 +251,10 @@ module SonicPi
           end
 
       def self.get_or_create_counters
-        counters = __thread_locals.get(:sonic_pi_core_thread_local_counters)
+        counters = __thread_locals.get(:sonic_pi_local_core_thread_local_counters)
         return counters if counters
         counters = {}
-        __thread_locals.set_local(:sonic_pi_core_thread_local_counters, counters)
+        __thread_locals.set_local(:sonic_pi_local_core_thread_local_counters, counters)
         counters
       end
 
