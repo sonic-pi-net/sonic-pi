@@ -717,8 +717,6 @@ module SonicPi
           __system_thread_locals.set :sonic_pi_spider_thread, true
           __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
           __thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
-          __thread_locals.set :sonic_pi_spider_random_gen_seed, 0
-          __thread_locals.set :sonic_pi_spider_random_gen_idx, 0
           __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
