@@ -189,7 +189,7 @@ module SonicPi
 
     def __delayed(&block)
       raise "Can only use __delayed in a job thread" unless __current_job_id
-      delayed_blocks = __thread_locals.get :sonic_pi_local_spider_delayed_blocks
+      delayed_blocks = __system_thread_locals.get :sonic_pi_local_spider_delayed_blocks
       delayed_blocks << block
     end
 
@@ -223,28 +223,28 @@ module SonicPi
     end
 
     def __schedule_delayed_blocks_and_messages!
-      delayed_messages = __thread_locals.get :sonic_pi_local_spider_delayed_messages
-      delayed_blocks = __thread_locals.get(:sonic_pi_local_spider_delayed_blocks) || []
+      delayed_messages = __system_thread_locals.get :sonic_pi_local_spider_delayed_messages
+      delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks) || []
       if delayed_messages
           unless(delayed_messages.empty?)
-            last_vt = __thread_locals.get :sonic_pi_spider_time
+            last_vt = __system_thread_locals.get :sonic_pi_spider_time
             parent_t = Thread.current
-            job_id = __thread_locals(parent_t).get(:sonic_pi_spider_job_id)
+            job_id = __system_thread_locals(parent_t).get(:sonic_pi_spider_job_id)
 
             t = Thread.new do
 
-              __thread_locals.set_local(:sonic_pi_local_thread_group, :send_delayed_messages)
+              __system_thread_locals.set_local(:sonic_pi_local_thread_group, :send_delayed_messages)
               Thread.current.priority = -10
               #only copy the necessary thread locals from parent
-              __thread_locals.set_local(:sonic_pi_local_spider_users_thread_name, __thread_locals(parent_t).get(:sonic_pi_local_spider_users_thread_name))
+              __system_thread_locals.set_local(:sonic_pi_local_spider_users_thread_name, __system_thread_locals(parent_t).get(:sonic_pi_local_spider_users_thread_name))
 
-              __thread_locals.set(:sonic_pi_spider_job_id, job_id)
-              __thread_locals.set(:sonic_pi_spider_job_info, __thread_locals(parent_t).get(:sonic_pi_spider_job_info))
-              __thread_locals.set(:sonic_pi_spider_time, last_vt.freeze)
-              __thread_locals.set(:sonic_pi_spider_start_time, __thread_locals(parent_t).get(:sonic_pi_spider_start_time))
+              __system_thread_locals.set(:sonic_pi_spider_job_id, job_id)
+              __system_thread_locals.set(:sonic_pi_spider_job_info, __system_thread_locals(parent_t).get(:sonic_pi_spider_job_info))
+              __system_thread_locals.set(:sonic_pi_spider_time, last_vt.freeze)
+              __system_thread_locals.set(:sonic_pi_spider_start_time, __system_thread_locals(parent_t).get(:sonic_pi_spider_start_time))
 
-              __thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-              __thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+              __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
+              __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
               # Calculate the amount of time to sleep to sync us up with the
               # sched_ahead_time
@@ -267,14 +267,14 @@ module SonicPi
 
             job_subthread_add(job_id, t)
 
-            __thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
+            __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
           end
         end
     end
 
     def __enqueue_multi_message(m_type, m)
       raise "Can only use __enqueue_multi_message in a job thread" unless __current_job_id
-      delayed_messages = __thread_locals.get :sonic_pi_local_spider_delayed_messages
+      delayed_messages = __system_thread_locals.get :sonic_pi_local_spider_delayed_messages
       delayed_messages << [m_type, m]
     end
 
@@ -319,23 +319,23 @@ module SonicPi
     end
 
     def __current_run_time
-      __thread_locals.get(:sonic_pi_spider_time) - @global_start_time
+      __system_thread_locals.get(:sonic_pi_spider_time) - @global_start_time
     end
 
     def __current_local_run_time
-      __thread_locals.get(:sonic_pi_spider_time) - __thread_locals.get(:sonic_pi_spider_start_time)
+      __system_thread_locals.get(:sonic_pi_spider_time) - __system_thread_locals.get(:sonic_pi_spider_start_time)
     end
 
     def __current_thread_name
-      __thread_locals.get(:sonic_pi_local_spider_users_thread_name) || ""
+      __system_thread_locals.get(:sonic_pi_local_spider_users_thread_name) || ""
     end
 
     def __current_job_id
-      __thread_locals.get :sonic_pi_spider_job_id
+      __system_thread_locals.get :sonic_pi_spider_job_id
     end
 
     def __current_job_info
-      __thread_locals.get(:sonic_pi_spider_job_info) || {}
+      __system_thread_locals.get(:sonic_pi_spider_job_info) || {}
     end
 
     def __sync_msg_command(msg)
@@ -397,7 +397,7 @@ module SonicPi
     end
 
     def __join_subthreads(t)
-      subthreads = __thread_locals(t).get :sonic_pi_local_spider_subthreads
+      subthreads = __system_thread_locals(t).get :sonic_pi_local_spider_subthreads
 
 
       subthreads.each do |st|
@@ -704,19 +704,19 @@ module SonicPi
         begin
 
           num_running_jobs = reg_job(id, Thread.current)
-          __thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
+          __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
 
-          __thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-          __thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
-          __thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
-          __thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
-          __thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
+          __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
+          __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+          __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
+          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
+          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
+          __system_thread_locals.set :sonic_pi_spider_job_id, id
 
-          __thread_locals.set :sonic_pi_spider_job_info, info
-          __thread_locals.set :sonic_pi_spider_thread, true
+          __system_thread_locals.set :sonic_pi_spider_job_info, info
+          __system_thread_locals.set :sonic_pi_spider_thread, true
           __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
           __thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
-          __thread_locals.set :sonic_pi_spider_job_id, id
           __thread_locals.set :sonic_pi_spider_random_gen_seed, 0
           __thread_locals.set :sonic_pi_spider_random_gen_idx, 0
           __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
@@ -724,9 +724,9 @@ module SonicPi
           @life_hooks.init(id, {:thread => Thread.current})
           now = Time.now.freeze
           start_t_prom.deliver! now
-          __thread_locals.set :sonic_pi_spider_time, now
-          __thread_locals.set :sonic_pi_spider_start_time, now
-          __thread_locals.set :sonic_pi_spider_beat, 0
+          __system_thread_locals.set :sonic_pi_spider_time, now
+          __system_thread_locals.set :sonic_pi_spider_start_time, now
+          __system_thread_locals.set :sonic_pi_spider_beat, 0
           if num_running_jobs == 1
             @global_start_time = now
             # Force a GC collection before we start making music!
@@ -776,7 +776,7 @@ module SonicPi
 
       Thread.new do
         Thread.current.priority = -10
-        __thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
+        __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
         job.join
         __join_subthreads(job)
 
@@ -808,28 +808,28 @@ module SonicPi
     end
 
     def __describe_threads
-      names = Thread.list.map{|t| __thread_locals(t).get(:sonic_pi_local_thread_group)}
+      names = Thread.list.map{|t| __system_thread_locals(t).get(:sonic_pi_local_thread_group)}
       __info "n-threads: #{Thread.list.size}, names: #{names}, s: #{names.size}"
     end
 
     def __current_tracker
-      tracker = __thread_locals.get(:sonic_pi_local_tracker)
+      tracker = __system_thread_locals.get(:sonic_pi_local_tracker)
       if tracker
         return tracker
       else
         tracker = SynthTracker.new
-        __thread_locals.set_local(:sonic_pi_local_tracker, tracker)
+        __system_thread_locals.set_local(:sonic_pi_local_tracker, tracker)
         return tracker
       end
     end
 
     def __current_subthreads(t = Thread.current)
-      subthreads = __thread_locals(t).get(:sonic_pi_local_spider_subthreads)
+      subthreads = __system_thread_locals(t).get(:sonic_pi_local_spider_subthreads)
       if subthreads
         return subthreads
       else
         subthreads = Set.new
-        subthreads = __thread_locals(t).set_local(:sonic_pi_local_spider_subthreads, subthreads)
+        subthreads = __system_thread_locals(t).set_local(:sonic_pi_local_spider_subthreads, subthreads)
       end
     end
 
@@ -865,7 +865,7 @@ module SonicPi
           # register this name with the corresponding job id and also
           # store it in a thread local
           @named_subthreads[name] = SThread.new(name, job_id, t)
-          __thread_locals(t).set_local :sonic_pi_local_spider_subthread_name, name
+          __system_thread_locals(t).set_local :sonic_pi_local_spider_subthread_name, name
         end
       end
 
@@ -884,7 +884,7 @@ module SonicPi
     def job_subthread_rm_unmutexed(job_id, t)
       threads = @job_subthreads[job_id]
       threads.delete(t) if threads
-      subthread_name = __thread_locals(t).get(:sonic_pi_local_spider_subthread_name)
+      subthread_name = __system_thread_locals(t).get(:sonic_pi_local_spider_subthread_name)
       @named_subthreads.delete(subthread_name) if subthread_name
     end
 
@@ -1005,7 +1005,7 @@ module SonicPi
       @save_queue = SizedQueue.new(20)
 
       @event_t = Thread.new do
-        __thread_locals.set_local(:sonic_pi_local_thread_group, :event_loop)
+        __system_thread_locals.set_local(:sonic_pi_local_thread_group, :event_loop)
         loop do
           event = @event_queue.pop
           __handle_event event
@@ -1013,7 +1013,7 @@ module SonicPi
       end
 
       @save_t = Thread.new do
-        __thread_locals.set_local(:sonic_pi_local_thread_group, :save_loop)
+        __system_thread_locals.set_local(:sonic_pi_local_thread_group, :save_loop)
         loop do
           event = @save_queue.pop
           id, content = *event

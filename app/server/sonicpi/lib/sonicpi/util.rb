@@ -400,23 +400,33 @@ module SonicPi
       return tls
     end
 
+    def __system_thread_locals(t = Thread.current)
+      tls = t.thread_variable_get(:sonic_pi_system_thread_locals)
+      tls = t.thread_variable_set(:sonic_pi_system_thread_locals, ThreadLocal.new) unless tls
+      return tls
+    end
+
     def __thread_locals_reset!(tls, t = Thread.current)
       t.thread_variable_set(:sonic_pi_thread_locals, tls)
     end
 
+    def __system_thread_locals_reset!(tls, t = Thread.current)
+      t.thread_variable_set(:sonic_pi_system_thread_locals, tls)
+    end
+
     def __no_kill_block(t = Thread.current, &block)
-      mut = __thread_locals(t).get(:sonic_pi_local_spider_no_kill_mutex)
+      mut = __system_thread_locals(t).get(:sonic_pi_local_spider_no_kill_mutex)
 
       # just call block when in a non-sonic-pi-thread
       return block.call unless mut
 
       # if we're already in a no_kill_block, run code anyway
-      return block.call if __thread_locals(t).get(:sonic_pi_local_spider_in_no_kill_block)
+      return block.call if __system_thread_locals(t).get(:sonic_pi_local_spider_in_no_kill_block)
 
       mut.synchronize do
-        __thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, true)
+        __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, true)
         r = block.call
-        __thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, false)
+        __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, false)
         r
       end
     end

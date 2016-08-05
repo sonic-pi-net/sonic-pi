@@ -67,7 +67,7 @@ module SonicPi
       @samples = {}
 
       Thread.new do
-        __thread_locals.set_local(:sonic_pi_local_thread_group, "Studio sample loader")
+        __system_thread_locals.set_local(:sonic_pi_local_thread_group, "Studio sample loader")
         Thread.current.priority = -10
         (old_samples || {}).each do |k, v|
           message "Reloading sample - #{unify_tilde_dir(k)}"

@@ -44,9 +44,9 @@ module SonicPi
       address, *args = *all_args
       if osc_debug_mode
 
-        if (a = __thread_locals.get(:sonic_pi_spider_time)) && (b = __thread_locals.get(:sonic_pi_spider_start_time))
+        if (a = __system_thread_locals.get(:sonic_pi_spider_time)) && (b = __system_thread_locals.get(:sonic_pi_spider_start_time))
           vt = a - b
-        elsif st = __thread_locals.get(:sonic_pi_spider_start_time)
+        elsif st = __system_thread_locals.get(:sonic_pi_spider_start_time)
           vt = ts - st
         else
           vt = -1
@@ -229,22 +229,19 @@ module SonicPi
 
       booted = false
       connected = false
-
       begin
         FileUtils.rm scsynth_log_path if File.exists?(scsynth_log_path)
         @scsynth_log_file = File.open(scsynth_log_path, 'w')
       rescue
         @scsynth_log_file = nil
       end
-
       @scsynth_log_file.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}" if @scsynth_log_file
       at_exit { @scsynth_log_file.close if @scsynth_log_file}
       scsynth_pipe = IO.popen(args)
       @scsynth_pid = scsynth_pipe.pid
       register_process(@scsynth_pid)
-
       t1 = Thread.new do
-        __thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_log_tracker)
+        __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_log_tracker)
         scsynth_pipe.each_line do |l|
           @scsynth_log_file.puts l if @scsynth_log_file
           @scsynth_log_file.flush if @scsynth_log_file
@@ -273,7 +270,7 @@ module SonicPi
       end
 
       t2 = Thread.new do
-        __thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
+        __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
         loop do
           begin
             puts "Boot - Sending /status to server: #{@hostname}:#{@port}"

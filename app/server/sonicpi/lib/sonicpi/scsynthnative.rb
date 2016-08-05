@@ -286,7 +286,7 @@ module SonicPi
       end
 
       @wait_thread = Thread.new do
-        __thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_native_server)
+        __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_native_server)
         SCSynthFFI.World_WaitForQuit(@world_p)
       end
 

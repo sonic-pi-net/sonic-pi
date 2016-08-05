@@ -257,7 +257,7 @@ module SonicPi
       if now
         osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *args_h.flatten
       else
-        t = __thread_locals.get(:sonic_pi_spider_time) || Time.now
+        t = __system_thread_locals.get(:sonic_pi_spider_time) || Time.now
         ts =  t + @sched_ahead_time
         ts = ts - @control_delta if t_minus_delta
         osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *args_h.flatten
@@ -266,10 +266,10 @@ module SonicPi
     end
 
     def sched_ahead_time_for_node_mod(node_id)
-      thread_local_time = __thread_locals.get(:sonic_pi_spider_time)
+      thread_local_time = __system_thread_locals.get(:sonic_pi_spider_time)
 
       if thread_local_time
-        thread_local_deltas = __thread_locals.get(:sonic_pi_local_control_deltas)
+        thread_local_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
         d = thread_local_deltas[node_id] ||= @control_delta
         thread_local_deltas[node_id] += @control_delta
         thread_local_time + d + @sched_ahead_time

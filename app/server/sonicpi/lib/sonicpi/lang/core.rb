@@ -55,16 +55,16 @@ module SonicPi
         sat = @mod_sound_studio.sched_ahead_time
         sleep_time = delta * __thread_locals.get(:sonic_pi_spider_sleep_mul)
         raise "Timeshift delta is too large.\nYou specified #{delta} yet the sched ahead time is #{sat}" if sleep_time.abs >= sat
-        vt = __thread_locals.get :sonic_pi_spider_time
-        __thread_locals.set :sonic_pi_spider_time, (vt + sleep_time).freeze
-        curr_beat = __thread_locals.get(:sonic_pi_spider_beat)
-        __thread_locals.set(:sonic_pi_spider_beat, curr_beat + delta)
+        vt = __system_thread_locals.get :sonic_pi_spider_time
+        __system_thread_locals.set :sonic_pi_spider_time, (vt + sleep_time).freeze
+        curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
+        __system_thread_locals.set(:sonic_pi_spider_beat, curr_beat + delta)
         blk.call
         __schedule_delayed_blocks_and_messages!
-        vt = __thread_locals.get :sonic_pi_spider_time
-        __thread_locals.set :sonic_pi_spider_time, (vt - sleep_time).freeze
-        curr_beat = __thread_locals.get(:sonic_pi_spider_beat)
-        __thread_locals.set(:sonic_pi_spider_beat, curr_beat - delta)
+        vt = __system_thread_locals.get :sonic_pi_spider_time
+        __system_thread_locals.set :sonic_pi_spider_time, (vt - sleep_time).freeze
+        curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
+        __system_thread_locals.set(:sonic_pi_spider_beat, curr_beat - delta)
       end
       doc name:           :time_shift,
           introduced:     Version.new(2,11,0),
@@ -986,7 +986,7 @@ puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)"
         end
 
         in_thread(name: ll_name, delay: delay, sync: sync_sym, sync_bpm: sync_bpm_sym) do
-          __thread_locals.set_local :sonic_pi_local_live_loop_auto_cue, auto_cue
+          __system_thread_locals.set_local :sonic_pi_local_live_loop_auto_cue, auto_cue
           if args_h.has_key?(:init)
             res = args_h[:init]
           else
@@ -995,17 +995,17 @@ puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)"
           use_random_seed args_h[:seed] if args_h[:seed]
           loop do
             slept = block_slept? do
-              __thread_locals.set(:sonic_pi_spider_synced, false)
-              cue name if __thread_locals.get :sonic_pi_local_live_loop_auto_cue
+              __system_thread_locals.set(:sonic_pi_spider_synced, false)
+              cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
               res = send(ll_name, res)
             end
 
-            raise "Live loop #{name.to_sym.inspect} did not sleep!" unless slept or __thread_locals.get(:sonic_pi_spider_synced)
+            raise "Live loop #{name.to_sym.inspect} did not sleep!" unless slept or __system_thread_locals.get(:sonic_pi_spider_synced)
           end
         end
 
         st = sthread(ll_name)
-        __thread_locals(st).set_local :sonic_pi_local_live_loop_auto_cue, auto_cue if st
+        __system_thread_locals(st).set_local :sonic_pi_local_live_loop_auto_cue, auto_cue if st
         st
       end
       doc name:           :live_loop,
@@ -1140,9 +1140,9 @@ end                           # logical time of live loop :bar.
 
 
       def block_duration(&block)
-        t1 = __thread_locals.get(:sonic_pi_spider_time)
+        t1 = __system_thread_locals.get(:sonic_pi_spider_time)
         block.call
-        t2 = __thread_locals.get(:sonic_pi_spider_time)
+        t2 = __system_thread_locals.get(:sonic_pi_spider_time)
         t2 - t1
       end
       doc name:           :block_duration,
@@ -2557,7 +2557,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def beat
-        __thread_locals.get(:sonic_pi_spider_beat)
+        __system_thread_locals.get(:sonic_pi_spider_beat)
       end
       doc name:          :beat,
           introduced:    Version.new(2,10,0),
@@ -2624,12 +2624,12 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       def sleep(beats)
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
-        curr_beat = __thread_locals.get(:sonic_pi_spider_beat)
-        __thread_locals.set(:sonic_pi_spider_beat, curr_beat + beats)
+        curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
+        __system_thread_locals.set(:sonic_pi_spider_beat, curr_beat + beats)
 
         return if beats == 0
         # Grab the current virtual time
-        last_vt = __thread_locals.get :sonic_pi_spider_time
+        last_vt = __system_thread_locals.get :sonic_pi_spider_time
 
         # Now get on with syncing the rest of the sleep time...
 
@@ -2670,9 +2670,9 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           Kernel.sleep new_vt - now
         end
 
-        __thread_locals.set :sonic_pi_spider_time, new_vt.freeze
+        __system_thread_locals.set :sonic_pi_spider_time, new_vt.freeze
         ## reset control deltas now that time has advanced
-        __thread_locals.set_local :sonic_pi_local_control_deltas, {}
+        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
       end
       doc name:           :sleep,
           introduced:     Version.new(2,0,0),
@@ -2749,9 +2749,9 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
         payload = {
-          :time => __thread_locals.get(:sonic_pi_spider_time),
+          :time => __system_thread_locals.get(:sonic_pi_spider_time),
           :sleep_mul => __thread_locals.get(:sonic_pi_spider_sleep_mul),
-          :beat => __thread_locals.get(:sonic_pi_spider_beat),
+          :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
           :run => current_job_id,
           :cue_map => args_h,
           :cue => cue_id
@@ -2766,7 +2766,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         end
 
         Thread.new do
-          __thread_locals.set_local(:sonic_pi_local_thread_group, :cue)
+          __system_thread_locals.set_local(:sonic_pi_local_thread_group, :cue)
           # sleep for a tiny amount of wall-clock time to give other temporally
           # synced threads real time to register syncs at similar virtual
           # times.
@@ -2872,7 +2872,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       def sync(cue_ids, opts={})
         cue_ids = [cue_ids] if cue_ids.is_a?(Symbol) || cue_ids.is_a?(String) || cue_ids.is_a?(SPSym)
         raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
-        __thread_locals.set(:sonic_pi_spider_synced, true)
+        __system_thread_locals.set(:sonic_pi_spider_synced, true)
         p = Promise.new
         handles = cue_ids.map {|id| "/spider_thread_sync/" + id.to_s}
         @events.async_multi_oneshot_handler(handles) do |payload|
@@ -2901,8 +2901,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         cue_map = cue_map || {}
         cue_id = payload[:cue]
         cue_map[:cue] = cue_id
-        __thread_locals.set :sonic_pi_spider_beat, beat
-        __thread_locals.set :sonic_pi_spider_time, time.freeze
+        __system_thread_locals.set :sonic_pi_spider_beat, beat
+        __system_thread_locals.set :sonic_pi_spider_time, time.freeze
         __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
 
 
@@ -3001,6 +3001,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         # as we're in the thread parent_t
 
         new_tls = ThreadLocal.new(__thread_locals)
+        new_system_tls = ThreadLocal.new(__system_thread_locals)
 
         job_id = __current_job_id
         reg_with_parent_completed = Promise.new
@@ -3016,16 +3017,17 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         t = Thread.new do
           # Copy thread locals across from parent thread to this new thread
           __thread_locals_reset!(new_tls)
-          __thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
+          __system_thread_locals_reset!(new_system_tls)
+          __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
 
           main_t = Thread.current
           main_t.priority = 10
 
           Thread.new do
             if name
-              __thread_locals.set_local(:sonic_pi_local_thread_group, "in_thread_join_#{name}".freeze)
+              __system_thread_locals.set_local(:sonic_pi_local_thread_group, "in_thread_join_#{name}".freeze)
             else
-              __thread_locals.set_local(:sonic_pi_local_thread_group, :in_thread_join)
+              __system_thread_locals.set_local(:sonic_pi_local_thread_group, :in_thread_join)
             end
             Thread.current.priority = -10
             # wait for all subthreads to finish before removing self from
@@ -3033,30 +3035,30 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
             main_t.join
             __join_subthreads(main_t)
 
-            __thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
+            __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
               __current_subthreads.delete(main_t)
             end
           end
 
-          __thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
+          __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
 
-          __thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
-          __thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
-          __thread_locals.set_local :sonic_pi_local_control_deltas, {}
+          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
+          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
+          __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
 
 
           # Reset subthreads thread local to the empty set. This shouldn't
           # be inherited from the parent thread.
-          __thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
+          __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
 
           # Give new thread a new subthread mutex
-          __thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
+          __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
 
           # Give new thread a new no_kill mutex This reduces contention
           # over the alternative of a global no_kill mutex.  Killing a Run
           # then essentially turns into waiting for each no_kill mutext for
           # every sub-in_thread before killing them.
-          __thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+          __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
           SonicPi::Core::SPRand.set_seed!(new_rand_seed + SonicPi::Core::SPRand.get_seed)
 
@@ -3113,8 +3115,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         # thread will only continue exiting after it has been sucessfully
         # registered.
 
-        __thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-          subthreads = __thread_locals(parent_t).get :sonic_pi_local_spider_subthreads
+        __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
+          subthreads = __system_thread_locals(parent_t).get :sonic_pi_local_spider_subthreads
           subthreads.add(t)
         end
 
@@ -3338,9 +3340,9 @@ load_buffer \"~/sonic-pi-tracks/phat-beats.rb\" # will replace content of curren
 load_example :rerezzed # will replace content of current buffer with the rerezzed example"]
 
       def __on_thread_death(&block)
-        gc_jobs = __thread_locals.get(:sonic_pi_local_spider_in_thread_gc_jobs) || []
+        gc_jobs = __system_thread_locals.get(:sonic_pi_local_spider_in_thread_gc_jobs) || []
         gc_jobs << block
-        __thread_locals.set_local(:sonic_pi_local_spider_in_thread_gc_jobs, gc_jobs)
+        __system_thread_locals.set_local(:sonic_pi_local_spider_in_thread_gc_jobs, gc_jobs)
       end
     end
   end

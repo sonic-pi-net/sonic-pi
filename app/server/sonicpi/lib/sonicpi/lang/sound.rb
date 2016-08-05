@@ -118,7 +118,7 @@ module SonicPi
 
             @mod_sound_studio_checker = Thread.new do
               # kill all jobs if an error occured in the studio
-              __thread_locals.set_local(:sonic_pi_local_thread_group, :studio_checker)
+              __system_thread_locals.set_local(:sonic_pi_local_thread_group, :studio_checker)
               Thread.current.priority = 200
               loop do
                 Kernel.sleep 5
@@ -147,8 +147,8 @@ module SonicPi
             end
 
             @life_hooks.on_exit do |job_id, payload|
-              __thread_locals.set(:sonic_pi_spider_start_time, payload[:start_t])
-              __thread_locals.set_local(:sonic_pi_local_thread_group, "job_remover-#{job_id}".freeze)
+              __system_thread_locals.set(:sonic_pi_spider_start_time, payload[:start_t])
+              __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job_remover-#{job_id}".freeze)
               Thread.current.priority = -10
               shutdown_job_mixer(job_id)
               kill_job_group(job_id)
@@ -1898,8 +1898,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         end
 
         new_tracker = SynthTracker.new
-        orig_tracker = __thread_locals.get(:sonic_pi_local_mod_fx_tracker)
-        orig_fx_group = __thread_locals.get(:sonic_pi_mod_sound_fx_group)
+        orig_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
+        orig_fx_group = __system_thread_locals.get(:sonic_pi_mod_sound_fx_group)
 
         external_fx_t = Thread.current
         fx_t_ = Promise.new
@@ -1947,7 +1947,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
             ## everything appropriately (i.e. ensure the FX synth has
             ## been killed).
             gc = Thread.new do
-              __thread_locals.set(:sonic_pi_local_thread_group, :gc)
+              __system_thread_locals.set(:sonic_pi_local_thread_group, :gc)
               Thread.current.priority = -10
               ## Need to block until either the thread died (which will be
               ## if the job was stopped whilst this fx block was being
@@ -1955,18 +1955,18 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
               fx_completed = Promise.new
               subthreads = nil
               t1 = Thread.new do
-                __thread_locals.set(:sonic_pi_local_thread_group, :gc_parent_join)
+                __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_parent_join)
                 Thread.current.priority = -10
                 external_fx_t.join
 
                 # just grab all the subthreads - they're likely to be nuked anyway
-                subthreads = __thread_locals(external_fx_t).get(:sonic_pi_local_spider_subthreads)
+                subthreads = __system_thread_locals(external_fx_t).get(:sonic_pi_local_spider_subthreads)
                 ## Parent thread died - user must have stopped
                 fx_completed.deliver! :thread_joined, false
               end
 
               t2 = Thread.new do
-                __thread_locals.set(:sonic_pi_local_thread_group, :gc_fx_block_join)
+                __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_fx_block_join)
                 Thread.current.priority = -10
                 subthreads = fx_t_completed.get
                 ## FX block completed
@@ -1981,7 +1981,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
               t2.kill
 
               Thread.new do
-                __thread_locals.set(:sonic_pi_local_thread_group, :gc_kill_fx_synth)
+                __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_kill_fx_synth)
                 Thread.current.priority = -10
                 if info
                   kill_delay = args_h[:kill_delay] || info.kill_delay(args_h) || 1
@@ -2037,13 +2037,13 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         ## Now actually execute the fx block. Pass the fx synth in as a
         ## parameter if the block was defined with a param.
 
-        orig_subthreads = __thread_locals.get(:sonic_pi_local_spider_subthreads).to_a.clone
+        orig_subthreads = __system_thread_locals.get(:sonic_pi_local_spider_subthreads).to_a.clone
         orig_out_bus = current_out_bus
-        orig_fx_group = __thread_locals.get :sonic_pi_mod_sound_fx_group
+        orig_fx_group = __system_thread_locals.get :sonic_pi_mod_sound_fx_group
 
-        __thread_locals.set(:sonic_pi_mod_sound_fx_group, fx_group)
-        __thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
-        __thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, new_tracker)
+        __system_thread_locals.set(:sonic_pi_mod_sound_fx_group, fx_group)
+        __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
+        __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, new_tracker)
 
         begin
           if block.arity == 0
@@ -2058,12 +2058,12 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         rescue => e
           block_exception = e
         ensure
-          subthreads = __thread_locals.get(:sonic_pi_local_spider_subthreads).to_a - orig_subthreads
+          subthreads = __system_thread_locals.get(:sonic_pi_local_spider_subthreads).to_a - orig_subthreads
           fx_t_completed.deliver! subthreads
           ## Reset out bus to value prior to this with_fx block
-          __thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, orig_out_bus)
-          __thread_locals.set(:sonic_pi_mod_sound_fx_group, orig_fx_group)
-          __thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, orig_tracker)
+          __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, orig_out_bus)
+          __system_thread_locals.set(:sonic_pi_mod_sound_fx_group, orig_fx_group)
+          __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, orig_tracker)
         end
 
 
@@ -4126,7 +4126,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           p = Promise.new
           s = @mod_sound_studio.trigger_synth synth_name, group, args_h, info, now, t_minus_delta
 
-          fx_tracker = __thread_locals.get(:sonic_pi_local_mod_fx_tracker)
+          fx_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
           tl_tracker = __current_tracker
           fx_tracker.synth_started(s) if fx_tracker
 
@@ -4262,7 +4262,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       end
 
       def current_job_id
-        __thread_locals.get :sonic_pi_spider_job_id
+        __system_thread_locals.get :sonic_pi_spider_job_id
       end
 
       def current_job_mixer
@@ -4270,31 +4270,31 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       end
 
       def current_fx_main_group
-        if g = __thread_locals.get(:sonic_pi_mod_sound_fx_main_group)
+        if g = __system_thread_locals.get(:sonic_pi_mod_sound_fx_main_group)
           return g
         else
           g = job_fx_group(current_job_id)
-          __thread_locals.set :sonic_pi_mod_sound_fx_main_group, g
+          __system_thread_locals.set :sonic_pi_mod_sound_fx_main_group, g
           return g
         end
       end
 
       def current_fx_group
-        __thread_locals.get(:sonic_pi_mod_sound_fx_group) || current_fx_main_group
+        __system_thread_locals.get(:sonic_pi_mod_sound_fx_group) || current_fx_main_group
       end
 
       def current_job_synth_group
-        if g = __thread_locals.get(:sonic_pi_mod_sound_job_group)
+        if g = __system_thread_locals.get(:sonic_pi_mod_sound_job_group)
           return g
         else
           g = job_synth_group(current_job_id)
-          __thread_locals.set :sonic_pi_mod_sound_job_group, g
+          __system_thread_locals.set :sonic_pi_mod_sound_job_group, g
           return g
         end
       end
 
       def current_out_bus
-        current_bus = __thread_locals.get(:sonic_pi_mod_sound_synth_out_bus)
+        current_bus = __system_thread_locals.get(:sonic_pi_mod_sound_synth_out_bus)
         current_bus || current_job_bus
       end
 
@@ -4449,7 +4449,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
       def join_thread_and_subthreads(t)
         t.join
-        subthreads = __thread_locals(t).get :sonic_pi_local_spider_subthreads
+        subthreads = __system_thread_locals(t).get :sonic_pi_local_spider_subthreads
         subthreads.each do |st|
           join_thread_and_subthreads(st)
         end
@@ -4470,7 +4470,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def time_diff
         # negative values mean we're ahead of time
         # positive values mean we're behind time
-        vt  = __thread_locals.get :sonic_pi_spider_time
+        vt  = __system_thread_locals.get :sonic_pi_spider_time
         sat = @mod_sound_studio.sched_ahead_time
         compensated = (Time.now - sat)
         compensated - vt

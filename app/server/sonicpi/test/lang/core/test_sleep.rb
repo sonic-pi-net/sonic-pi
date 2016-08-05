@@ -32,8 +32,8 @@ module SonicPi
 
       @start_time = Time.now.freeze
 
-      __thread_locals.set(:sonic_pi_spider_time, @start_time)
-      __thread_locals.set(:sonic_pi_spider_start_time, @start_time)
+      __system_thread_locals.set(:sonic_pi_spider_time, @start_time)
+      __system_thread_locals.set(:sonic_pi_spider_start_time, @start_time)
 
       SleepTester.any_instance.stubs(:__schedule_delayed_blocks_and_messages!).returns(true)
 

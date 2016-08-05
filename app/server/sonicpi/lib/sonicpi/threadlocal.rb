@@ -16,9 +16,14 @@ module SonicPi
   class ThreadLocal
     attr_reader :vars, :local_vars
     def initialize(parent=nil)
+      raise "ThreadLocal can only be initialized with nil or a parent ThreadLocal" unless parent.nil? || parent.is_a?(ThreadLocal)
+
       if parent
+        @parent_vars = parent.vars.clone
         @vars = parent.vars.clone
+
       else
+        @parent_vars = nil
         @vars = {}
       end
 
@@ -45,7 +50,7 @@ module SonicPi
       elsif @vars.has_key? name
         return @vars[name]
       else
-        return @parent.get(name) if @parent
+        return @parent_vars[name] if @parent_vars
       end
     end
   end
