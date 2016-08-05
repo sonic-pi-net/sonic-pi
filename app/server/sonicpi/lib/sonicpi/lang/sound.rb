@@ -466,7 +466,7 @@ end"]
 
 
       def with_timing_warnings(v, &block)
-        raise "with_debug requires a do/end block. Perhaps you meant use_debug" unless block
+        raise "with_timing_warnings requires a do/end block. Perhaps you meant use_timing_warnings" unless block
         current = __thread_locals.get(:sonic_pi_mod_sound_disable_timing_warnings)
         __thread_locals.set(:sonic_pi_mod_sound_disable_timing_warnings, !v)
         res = block.call
