@@ -149,12 +149,12 @@ module SonicPi
       # Read in same random numbers as server for random stream sync
       @@random_numbers = ::WaveFile::Reader.new(File.expand_path("../../../etc/buffers/rand-stream.wav", __FILE__), ::WaveFile::Format.new(:mono, :float, 44100)).read(441000).samples.freeze
 
-    def self.__thread_locals(t = Thread.current)
-      tls = t.thread_variable_get(:sonic_pi_thread_locals)
-      tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::ThreadLocal.new) unless tls
-      return tls
-    end
 
+      def self.__thread_locals(t = Thread.current)
+        tls = t.thread_variable_get(:sonic_pi_thread_locals)
+        tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::ThreadLocal.new) unless tls
+        return tls
+      end
 
       def self.to_a
         @@random_numbers
