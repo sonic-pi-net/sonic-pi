@@ -102,6 +102,10 @@ module SonicPi
         @local_vars = {}
       end
 
+      def to_s
+        "<ThreadLocal @vars: #{@vars}, @local_vars: #{@local_vars}"
+      end
+
       def set(name, val)
         raise "Error setting Thread Local - value must be immutable. Got: #{val.inspect} for #{name.inspect}" unless val.sp_thread_safe?
         @vars[name] = val
