@@ -391,17 +391,10 @@ sample :loop_amen        # re-loads and plays amen"]
         end
       end
 
-
-
-      def should_trigger?(args_h, sample=false)
-        # grab synth or sample thread locals
-
-        if args_h.has_key?(:on)
-          on = args_h.delete(:on)
-          return truthy?(on)
-        else
-          return true
-        end
+      def should_trigger?(args_h)
+        return true unless args_h.key?(:on)
+        on = args_h.delete(:on)
+        truthy?(on)
       end
 
       def use_timing_guarantees(v, &block)
