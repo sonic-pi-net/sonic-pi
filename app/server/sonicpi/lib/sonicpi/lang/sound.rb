@@ -391,17 +391,10 @@ sample :loop_amen        # re-loads and plays amen"]
         end
       end
 
-
-
-      def should_trigger?(args_h, sample=false)
-        # grab synth or sample thread locals
-
-        if args_h.has_key?(:on)
-          on = args_h.delete(:on)
-          return truthy?(on)
-        else
-          return true
-        end
+      def should_trigger?(args_h)
+        return true unless args_h.key?(:on)
+        on = args_h.delete(:on)
+        truthy?(on)
       end
 
       def use_timing_guarantees(v, &block)
@@ -466,7 +459,7 @@ end"]
 
 
       def with_timing_warnings(v, &block)
-        raise "with_debug requires a do/end block. Perhaps you meant use_debug" unless block
+        raise "with_timing_warnings requires a do/end block. Perhaps you meant use_timing_warnings" unless block
         current = __thread_locals.get(:sonic_pi_mod_sound_disable_timing_warnings)
         __thread_locals.set(:sonic_pi_mod_sound_disable_timing_warnings, !v)
         res = block.call
