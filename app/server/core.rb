@@ -12,34 +12,12 @@
 # notice is included.
 #++
 
-raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "1.9.3"
-
 ## This core file sets up the load path and applies any necessary monkeypatches.
-
-
 
 ## Ensure native lib dir is available
 require 'rbconfig'
 ruby_api = RbConfig::CONFIG['ruby_version']
-os = case RUBY_PLATFORM
-     when /.*arm.*-linux.*/
-       :raspberry
-     when /.*linux.*/
-       :linux
-     when /.*darwin.*/
-       :osx
-     when /.*mingw.*/
-       :windows
-     else
-       RUBY_PLATFORM
-     end
-$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"
 
-require 'win32/process' if os == :windows
-
-## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
-native_lib_path = "#{File.expand_path("../native/#{os}/", __FILE__)}"
-ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/libaubio*.{*.dylib,so.*}"].first
 
 ## Ensure all libs in vendor directory are available
 Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
@@ -55,53 +33,168 @@ end
 require 'hamster/vector'
 require 'wavefile'
 
+os = case RUBY_PLATFORM
+     when /.*arm.*-linux.*/
+       :raspberry
+     when /.*linux.*/
+       :linux
+     when /.*darwin.*/
+       :osx
+     when /.*mingw.*/
+       :windows
+     else
+       RUBY_PLATFORM
+     end
+
+$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"
+require 'win32/process' if os == :windows
+
+## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
+native_lib_path = "#{File.expand_path("../native/#{os}/", __FILE__)}"
+ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*.dylib,so.*}"].first
+
+
+
+# Backport Ruby 2+ thread local variable syntax
+if RUBY_VERSION < "2"
+  class Thread
+    def thread_variable_get(n)
+      self[n]
+    end
+
+    def thread_variable_set(n, v)
+      self[n] = v
+    end
+
+    def thread_variables
+      self.keys
+    end
+  end
+
+  class Hash
+    def to_h
+      self
+    end
+  end
+end
+
+
+raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "1.9.3"
+
+
+module SonicPi
+  module Core
+    class ThreadLocal
+      attr_reader :vars, :local_vars
+
+      def initialize(parent=nil)
+        raise "ThreadLocal can only be initialized with nil or a parent ThreadLocal" unless parent.nil? || parent.is_a?(ThreadLocal)
+
+        if parent
+          @parent_vars = parent.vars.clone
+          @vars = parent.vars.clone
+
+        else
+          @parent_vars = nil
+          @vars = {}
+        end
+
+        @local_vars = {}
+      end
+
+      def set(name, val)
+        raise "Error setting Thread Local - value must be immutable. Got: #{val.inspect} for #{name.inspect}" unless val.sp_thread_safe?
+        @vars[name] = val
+        @local_vars.delete name
+        val
+      end
+
+      def reset!
+        @vars = @parent_vars.clone
+        @local_vars = {}
+      end
+
+      def clear!
+        @vars = {}
+        @local_vars = {}
+      end
+
+      # These values will not be inherited
+      def set_local(name, val)
+        @local_vars[name] = val
+        @vars.delete name
+        val
+      end
+
+      def get(name)
+        if @local_vars.has_key? name
+          return @local_vars[name]
+        elsif @vars.has_key? name
+          return @vars[name]
+        else
+          return @parent_vars[name] if @parent_vars
+        end
+      end
+    end
+  end
+end
+
+
+
 module SonicPi
   module Core
     module SPRand
       # Read in same random numbers as server for random stream sync
       @@random_numbers = ::WaveFile::Reader.new(File.expand_path("../../../etc/buffers/rand-stream.wav", __FILE__), ::WaveFile::Format.new(:mono, :float, 44100)).read(441000).samples.freeze
 
+    def self.__thread_locals(t = Thread.current)
+      tls = t.thread_variable_get(:sonic_pi_thread_locals)
+      tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::ThreadLocal.new) unless tls
+      return tls
+    end
+
+
       def self.to_a
         @@random_numbers
       end
 
       def self.inc_idx!(increment=1, init=0)
-        ridx = Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || init
-        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx + increment
+        ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx) || init
+        __thread_locals.set :sonic_pi_spider_random_gen_idx, ridx + increment
         ridx
       end
 
       def self.dec_idx!(decrement=1, init=0)
-        ridx = Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || init
-        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx - decrement
+        ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx) || init
+        __thread_locals.set :sonic_pi_spider_random_gen_idx, ridx - decrement
         ridx
       end
 
       def self.set_seed!(seed, idx=0)
-        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_seed, seed
-        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, idx
+        __thread_locals.set :sonic_pi_spider_random_gen_seed, seed
+        __thread_locals.set :sonic_pi_spider_random_gen_idx, idx
       end
 
       def self.set_idx!(idx)
-        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, idx
+        __thread_locals.set :sonic_pi_spider_random_gen_idx, idx
       end
 
       def self.get_seed_and_idx
-        [Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed),
-          Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx)]
+        [__thread_locals.get(:sonic_pi_spider_random_gen_seed),
+          __thread_locals.get(:sonic_pi_spider_random_gen_idx)]
       end
 
       def self.get_seed
-        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed) || 0
+        __thread_locals.get(:sonic_pi_spider_random_gen_seed) || 0
       end
 
       def self.get_idx
-        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || 0
+        __thread_locals.get(:sonic_pi_spider_random_gen_idx) || 0
       end
 
       def self.get_seed_plus_idx
-        (Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || 0) +
-          Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed) || 0
+        (__thread_locals.get(:sonic_pi_spider_random_gen_idx) || 0) +
+          __thread_locals.get(:sonic_pi_spider_random_gen_seed) || 0
       end
 
       def self.rand!(max=1, idx=nil)
@@ -139,11 +232,18 @@ module SonicPi
     end
 
     module ThreadLocalCounter
+
+      def self.__thread_locals(t = Thread.current)
+      tls = t.thread_variable_get(:sonic_pi_thread_locals)
+      tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::ThreadLocal.new) unless tls
+      return tls
+          end
+
       def self.get_or_create_counters
-        counters = Thread.current.thread_variable_get(:sonic_pi_core_thread_local_counters)
+        counters = __thread_locals.get(:sonic_pi_core_thread_local_counters)
         return counters if counters
         counters = {}
-        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, counters)
+        __thread_locals.set_local(:sonic_pi_core_thread_local_counters, counters)
         counters
       end
 
@@ -207,7 +307,7 @@ module SonicPi
       end
 
       def self.reset_all
-        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, {})
+        __thread_locals.set_local(:sonic_pi_local_core_thread_local_counters, {})
         nil
       end
     end
@@ -569,28 +669,6 @@ module Rubame
 end
 
 
-# Backport Ruby 2+ thread local variable syntax
-if RUBY_VERSION < "2"
-  class Thread
-    def thread_variable_get(n)
-      self[n]
-    end
-
-    def thread_variable_set(n, v)
-      self[n] = v
-    end
-
-    def thread_variables
-      self.keys
-    end
-  end
-
-  class Hash
-    def to_h
-      self
-    end
-  end
-end
 
 class Array
   include SonicPi::Core::TLMixin

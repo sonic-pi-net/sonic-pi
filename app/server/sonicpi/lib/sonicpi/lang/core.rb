@@ -3000,8 +3000,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         # Get copy of thread locals whilst we're sure they're not being modified
         # as we're in the thread parent_t
 
-        new_tls = ThreadLocal.new(__thread_locals)
-        new_system_tls = ThreadLocal.new(__system_thread_locals)
+        new_tls = SonicPi::Core::ThreadLocal.new(__thread_locals)
+        new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
 
         job_id = __current_job_id
         reg_with_parent_completed = Promise.new

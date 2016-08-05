@@ -12,7 +12,6 @@
 #++
 
 require_relative "./setup_test"
-require_relative "../lib/sonicpi/threadlocal"
 
 module SonicPi
   class VersionTester < Minitest::Test

@@ -13,7 +13,6 @@
 require 'cgi'
 require 'fileutils'
 require 'securerandom'
-require_relative 'threadlocal'
 
 module SonicPi
   module Util
@@ -396,13 +395,13 @@ module SonicPi
 
     def __thread_locals(t = Thread.current)
       tls = t.thread_variable_get(:sonic_pi_thread_locals)
-      tls = t.thread_variable_set(:sonic_pi_thread_locals, ThreadLocal.new) unless tls
+      tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls
       return tls
     end
 
     def __system_thread_locals(t = Thread.current)
       tls = t.thread_variable_get(:sonic_pi_system_thread_locals)
-      tls = t.thread_variable_set(:sonic_pi_system_thread_locals, ThreadLocal.new) unless tls
+      tls = t.thread_variable_set(:sonic_pi_system_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls
       return tls
     end
 
