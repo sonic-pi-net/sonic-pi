@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-31 13:41+0000\n"
+"PO-Revision-Date: 2016-08-05 10:10+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -758,7 +758,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
-msgstr "伝統的な音の名前"
+msgstr "伝統的な音符の名前"
 
 #: 02.1-Your-First-Beeps.md:99
 msgid ""
@@ -5760,28 +5760,24 @@ msgstr ""
 "たらします。あなたのプラットフォームの性能の制約の中で、最も良いと思うアプローチを使いながら演奏するようにしましょう。"
 
 #: 07-Control.md:1
-#, fuzzy
 msgid "7 Control"
 msgstr "7 コントロール"
 
 #: 07-Control.md:3
-#, fuzzy
 msgid "Controlling running sounds"
 msgstr "演奏中のサウンド制御"
 
 #: 07-Control.md:5
-#, fuzzy
 msgid ""
 "So far we've looked at how you can trigger synths and samples, and also how to"
 " change their default opts such as amplitude, pan, envelope settings and more."
 " Each sound triggered is essentially its own sound with its own list of option"
 "s set for the duration of the sound."
 msgstr ""
-"これまでの章では、どのようにシンセやサンプルを扱い、アンプ（増幅）、パン、エンベロープなどのオプションを変更するのかを見てきました。呼び出された個々の音には"
-"、元来、音の継続時間を設定するデュレーションオプションが備わっています。"
+"これまでの章では、どのようにシンセやサンプルを扱い、アンプ（増幅）、パン、エンベロープなどのオプションを変更するのかを見てきました。呼び出された個々の音に"
+"は、元来、音の継続時間を設定するデュレーションオプションが備わっています。"
 
 #: 07-Control.md:11
-#, fuzzy
 msgid ""
 "Wouldn't it also be cool if you could change a sound's opts whilst it's still "
 "playing, just like you might bend a string of a guitar whilst it's still vibra"
@@ -5789,29 +5785,25 @@ msgid ""
 msgstr "もしも演奏中にギターの弦を歪めビブラートさせるように、オプションを変更できたなら、それってクールではないでしょうか？"
 
 #: 07-Control.md:15
-#, fuzzy
 msgid "You're in luck - this section will show you how to do exactly this."
-msgstr "あなたは幸運です-このセクションでは、まさしくそれをどのように行うのかを紹介します。"
+msgstr "あなたは幸運です - このセクションでは、まさしくそれをどのように行うのかを紹介します。"
 
 #: 07.1-Controlling-Running-Synths.md:1
-#, fuzzy
 msgid "7.1 Controlling Running Synths"
 msgstr "7.1 演奏中のシンセ制御"
 
 #: 07.1-Controlling-Running-Synths.md:3
-#, fuzzy
 msgid "Controlling Running Synths"
 msgstr "演奏中のシンセ制御"
 
 #: 07.1-Controlling-Running-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've only concerned ourselves with triggering new sounds and FX. Howev"
 "er, Sonic Pi gives us the ability to manipulate and control currently running "
 "sounds. We do this by using a variable to capture a reference to a synth:"
 msgstr ""
-"これまでは、新しいサウンドとエフェクトを引き起こす方法について触れてきたただけ見てきましたが、Sonic Piは、演奏中の音を操り、処理する機能を備えていま"
-"す。シンセ扱うためには、変数を用います。"
+"これまでは、新しいサウンドとエフェクトを引き起こす方法についてだけ見てきましたが、Sonic "
+"Piは、演奏中の音を操り、処理する機能を備えています。次のコードのように、シンセの参照を取得するために変数を使用してこれを実現します。"
 
 #: 07.1-Controlling-Running-Synths.md:10
 #, no-wrap
@@ -5819,17 +5811,17 @@ msgid "s = play 60, release: 5"
 msgstr "s = play 60, release: 5"
 
 #: 07.1-Controlling-Running-Synths.md:14
-#, fuzzy
 msgid ""
 "Here, we have a run-local variable `s` which represents the synth playing note"
 " 60. Note that this is *run-local* - you can't access it from other runs like "
 "functions."
-msgstr "これはローカル変数`s`が音符60の演奏を処理することを表しています。 このローカル変数は、例えば別の関数といった他の機能からアクセスすることはできません。"
+msgstr ""
+"ここで、ローカル変数`s`が音符60を演奏するシンセを表しています。この変数は、*実行毎にローカル*である点に注意してください。ある実行のdefineで定"
+"義された関数のように他の実行からアクセスすることはできません。"
 
 #: 07.1-Controlling-Running-Synths.md:18
-#, fuzzy
 msgid "Once we have `s`, we can start controlling it via the `control` function:"
-msgstr "一度`s`を用意すれば`control`関数を介して制御することができます。"
+msgstr "一度`s`を用意すれば、`control`関数を介して制御することができます。"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
 #, no-wrap
@@ -5851,29 +5843,25 @@ msgstr ""
 "control s, note: 72"
 
 #: 07.1-Controlling-Running-Synths.md:31
-#, fuzzy
 msgid ""
 "The thing to notice is that we're not triggering 4 different synths here - we'"
 "re just triggering one synth and then change the pitch 3 times afterwards, whi"
 "le it's playing."
-msgstr "演奏している間に、1つのシンセのみを呼び出し、3回ピッチを変更します。ここで注目すべき点は、4つの異なるシンセを呼び出していないということです。"
+msgstr ""
+"演奏している間に、1つのシンセのみを呼び出し、3回ピッチを変更しています。ここで注目すべき点は、4つの異なるシンセを呼び出していないということです。"
 
 #: 07.1-Controlling-Running-Synths.md:35
-#, fuzzy
 msgid ""
 "We can pass any of the standard opts to `control`, so you can control things l"
 "ike `amp:`, `cutoff:` or `pan:`."
 msgstr ""
-"標準的なオプション（関数）は`control`へ渡すことができます。そして`amp:`, `cutoff:`あるいは`pan:`のようなオプションを制御する"
-"ことができます。"
+"標準的なオプションは`control`へ渡すことができるので、`amp:`, `cutoff:`あるいは`pan:`などを制御することができます。"
 
 #: 07.1-Controlling-Running-Synths.md:38
-#, fuzzy
 msgid "Non-controllable Options"
 msgstr "制御不可能なオプション"
 
 #: 07.1-Controlling-Running-Synths.md:40
-#, fuzzy
 msgid ""
 "Some of the opts can't be controlled once the synth has started. This is the c"
 "ase for all the ADSR envelope parameters. You can find out which opts are cont"
@@ -5881,22 +5869,19 @@ msgid ""
 "ation says *Can not be changed once set*, you know it's not possible to contro"
 "l the opt after the synth has started."
 msgstr ""
-"一度シンセが開始されると、一部のオプションは制御することができなくなります。ADSRエンベロープ·パラメータがこれに該当します。そのオプションが制御可能かは"
-"、ヘルプシステムのドキュメントを参照してください。ドキュメントに「設定を変更することは出来ません」というコメントがある場合、シンセが開始した後にオプションを"
-"制御することはできません。"
+"一度シンセが開始されると、一部のオプションは制御することができなくなります。ADSRエンベロープ·パラメータがこれに該当します。そのオプションが制御可能か"
+"は、ヘルプシステムのドキュメントを参照してください。ドキュメントに「一度設定されると変更することは出来ません」と書かれている場合、シンセが開始された後にオ"
+"プションを制御することはできません。"
 
 #: 07.2-Controlling-FX.md:1
-#, fuzzy
 msgid "7.2 Controlling FX"
 msgstr "7.2 エフェクトの制御"
 
 #: 07.2-Controlling-FX.md:3
-#, fuzzy
 msgid "Controlling FX"
 msgstr "エフェクトの制御"
 
 #: 07.2-Controlling-FX.md:5
-#, fuzzy
 msgid ""
 "It is also possible to control FX, although this is achieved in a slightly dif"
 "ferent way:"
@@ -5904,7 +5889,6 @@ msgstr "エフェクトも、少々異なる方法をとりますが、制御す
 
 #: 07.2-Controlling-FX.md:8
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do |r|\n"
 "  play 50\n"
@@ -5918,44 +5902,39 @@ msgid ""
 "end"
 msgstr ""
 "with_fx :reverb do |r|\n"
-" play 50\n"
-" sleep 0.5\n"
-" control r, mix: 0.7\n"
-" play 55\n"
-" sleep 1\n"
-" control r, mix: 0.9\n"
-" sleep 1\n"
-" play 62\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  control r, mix: 0.7\n"
+"  play 55\n"
+"  sleep 1\n"
+"  control r, mix: 0.9\n"
+"  sleep 1\n"
+"  play 62\n"
 "end"
 
 #: 07.2-Controlling-FX.md:21
-#, fuzzy
 msgid ""
 "Instead of using a variable, we use the goalpost parameters of the do/end bloc"
 "k. Inside the `|` bars, we need to specify a unique name for our running FX wh"
 "ich we then reference from the containing do/end block. This behaviour is iden"
 "tical to using parameterised functions."
 msgstr ""
-"変数を使用する代わりに、*do/end*プロックのゴールポストパラメータを使用します。”`|`”と”`|`”の間に、エフェクターを実行するためのユニークな名"
-"前を指定する必要があります。この動作は、パラメーター化された関数を使用する場合と同じです。"
+"変数を使用する代わりに、*do/end*プロックのブロックパラメータを使用します。これは、実行中のエフェクトとして*do/end*プロックの中から参照する"
+"パラメータとして、`|`と`|`の間にユニークな名前を指定する必要があります。このパラメータの振る舞いは、引数の付いた関数を使用する場合と同じです。"
 
 #: 07.2-Controlling-FX.md:26
-#, fuzzy
 msgid "Now go and control some synths and FX!"
 msgstr "さあ、シンセやエフェクトをコントロールしてみよう！"
 
 #: 07.3-Sliding-Parameters.md:1
-#, fuzzy
 msgid "7.3 Sliding Options"
 msgstr "7.3 オプションのスライド"
 
 #: 07.3-Sliding-Parameters.md:3
-#, fuzzy
 msgid "Sliding Opts"
 msgstr "オプションのスライド"
 
 #: 07.3-Sliding-Parameters.md:5
-#, fuzzy
 msgid ""
 "Whilst exploring the synth and FX opts, you might have noticed that there are "
 "a number of opts ending with `_slide`. You might have even tried calling them "
@@ -5963,24 +5942,22 @@ msgid ""
 "pecial opts that only work when you control synths as introduced in the previo"
 "us section."
 msgstr ""
-"シンセやエフェクトの引数を探索しながら、`_slide`で終わるオプションがあることに気づいたかもしれません。それらを呼び出しても、何の効果を示さなかった可"
-"能性があります。これは正常のオプションではなく、前回のセクションで紹介したように、シンセを制御するときのみ動作をする特別なオプションです。"
+"シンセやエフェクトのオプションを見ていくと、`_slide`で終わるオプションがあることに気づいたかもしれません。それらを呼び出しても、何の効果を示さなか"
+"った可能性があります。これは通常のオプションではなく、前回のセクションで紹介したように、シンセを制御するときのみ動作をする特別なオプションです。"
 
 #: 07.3-Sliding-Parameters.md:11
-#, fuzzy
 msgid "Consider the following example:"
 msgstr "次の例を考えてみましょう。"
 
 #: 07.3-Sliding-Parameters.md:23
-#, fuzzy
 msgid ""
 "Here, you can hear the synth pitch changing immediately on each `control` call"
 ". However, we might want the pitch to slide between changes. As we're controll"
 "ing the `note:` parameter, to add slide, we need to set the `note_slide` param"
 "eter of the synth:"
 msgstr ""
-"ここでは、各`control`の呼び出し後、すぐにシンセのピッチの変更を聞くことができますが、ピッチが変化する間にスライドさせたくなるかもしれません。その場"
-"合、スライドを追加するために、`note:`オプションを制御するように、シンセの`note_slide`オプションを追加する必要があります。"
+"ここでは、各`control`の呼び出し後、すぐにシンセのピッチの変更を聞くことができますが、ピッチが変化する間にスライドさせたくなるかもしれません。ここ"
+"では`note:`オプションを制御しているので、スライドを追加するためには、シンセの`note_slide`オプションを追加する必要があります。"
 
 #: 07.3-Sliding-Parameters.md:28
 #, no-wrap
@@ -6002,20 +5979,19 @@ msgstr ""
 "control s, note: 72"
 
 #: 07.3-Sliding-Parameters.md:38
-#, fuzzy
 msgid ""
 "Now we hear the notes being bent between the `control` calls. It sounds nice, "
 "doesn't it? You can speed up the slide by using a shorter time such as `note_s"
 "lide: 0.2` or slow it down by using a longer slide time."
 msgstr ""
-"`control`の呼び出しの間の音程が滑らかに繋がっていることがわかるはずです。いい感じではないでしょうか。`note_slide: 0.2` よりも短い"
-"スライド時間を使うことで、スライドをスピードアップすることができますし、もっと長い時間を使ってテンポを遅くすることができます。"
+"`control`の呼び出しの間の音程が滑らかに繋がっていることがわかるはずです。いい感じではないでしょうか。`note_slide: 0.2` "
+"よりも短いスライド時間を使うことで、スライドをスピードアップすることができますし、もっと長い時間を使ってテンポを遅くすることができます。"
 
 #: 07.3-Sliding-Parameters.md:43
 msgid ""
 "Every parameter that can be controlled has a corresponding `_slide` parameter "
 "for you to play with."
-msgstr ""
+msgstr "制御することのできるオプションは、対応する`_slide`オプションを持っています。"
 
 #: 07.3-Sliding-Parameters.md:46
 #, fuzzy
@@ -6023,28 +5999,24 @@ msgid "Sliding is sticky"
 msgstr "ネバネバするスライド"
 
 #: 07.3-Sliding-Parameters.md:48
-#, fuzzy
 msgid ""
 "Once you've set a `_slide` parameter on a running synth, it will be remembered"
 " and used every time you slide the corresponding parameter. To stop sliding yo"
 "u must set the `_slide` value to 0 before the next `control` call."
 msgstr ""
-"一度、実行しているシンセの `_slide`オプションを設定したら、それは記憶され、 対応するオプションがスライドする度に使用されます。 スライドを停止する"
-"ためには、次の`control`を呼び出す前に`0`に`_slide`値を設定する必要があります。"
+"一度、実行しているシンセの `_slide`オプションを設定したら、それは記憶され、 対応するオプションがスライドする度に使用されます。 "
+"スライドを停止するためには、次の`control`を呼び出す前に`0`に`_slide`値を設定する必要があります。"
 
 #: 07.3-Sliding-Parameters.md:53
-#, fuzzy
 msgid "Sliding FX Opts"
 msgstr "エフェクト・オプションのスライド"
 
 #: 07.3-Sliding-Parameters.md:55
-#, fuzzy
 msgid "It is also possible to slide FX opts:"
 msgstr "また、エフェクトオプションをスライドさせることも可能です。"
 
 #: 07.3-Sliding-Parameters.md:57
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :wobble, phase: 1, phase_slide: 5 do |e|\n"
 "  use_synth :dsaw\n"
@@ -6053,81 +6025,71 @@ msgid ""
 "end"
 msgstr ""
 "with_fx :wobble, phase: 1, phase_slide: 5 do |e|\n"
-" use_synth :dsaw\n"
-" play 50, release: 5\n"
-" control e, phase: 0.025\n"
+"  use_synth :dsaw\n"
+"  play 50, release: 5\n"
+"  control e, phase: 0.025\n"
 "end"
 
 #: 07.3-Sliding-Parameters.md:65
-#, fuzzy
 msgid ""
 "Now have fun sliding things around for smooth transitions and flowing control."
 ".."
-msgstr "さあ、操作に従って、滑らかな変調を楽しみましょう。"
+msgstr "さあ、滑らかな変化と流れるような制御のために、色々スライドして楽しんでみましょう。"
 
 #: 08-Data-Structures.md:1
-#, fuzzy
 msgid "8 Data Structures"
 msgstr "8 データ構造"
 
 #: 08-Data-Structures.md:3
-#, fuzzy
 msgid "Data Structures"
 msgstr "データ構造"
 
 #: 08-Data-Structures.md:5
-#, fuzzy
 msgid "A very useful tool in a programmer's toolkit is a data structure."
-msgstr "プログラマーのツールキットで非常に有益なツールはデータ構造です。"
+msgstr "プログラマーのツールキットで非常に有用なツールはデータ構造です。"
 
 #: 08-Data-Structures.md:7
-#, fuzzy
 msgid ""
 "Sometimes you may wish to represent and use more than one thing. For example, "
 "you may find it useful to have a series of notes to play one after another. Pr"
 "ogramming languages have data structures to allow you do exactly this."
 msgstr ""
-"時には、複数の要素を使用して表現したい場合があるでしょう。たとえば、それが次々に演奏される連続した音符が便利だと気づくこともあるでしょう。プログラミング言語"
-"は、こういったことを正確に行うためのデータ構造を持っています。"
+"時には、複数の要素を表したものを使いたいかもしれません。例えば、次々に演奏される一連の音符を保持すると便利だと気づくことがあるかもしれません。プログラミン"
+"グ言語は、正にこういったことを行うためにデータ構造を持っています。"
 
 #: 08-Data-Structures.md:12
-#, fuzzy
 msgid ""
 "There are many exciting and exotic data structures available to programmers - "
 "and people are always inventing new ones. However, for now we only really need"
 " to consider a very simple data structure - the list."
 msgstr ""
-"プログラマが利用できるデータ構造はとてもエキサイティングで魅力的なもので、人々は常に新しい発明をしています。しかし、今の私たちは実際には非常に単純なデータ構"
-"造リストを考慮する必要があります。"
+"プログラマが利用できるエキサイティングで奇抜なデータ構造は沢山あり、また常に新しいものが発明されています。しかし、今の我々が本当に検討するべきものは、"
+"とてもシンプルなデータ構造 - リストです。"
 
 #: 08-Data-Structures.md:16
-#, fuzzy
 msgid ""
 "Let's look at it in more detail. We'll cover its basic form and then also how "
 "lists can be used to represent scales and chords."
 msgstr ""
-"より詳細にそれを見てみましょう。まずは、その基本的な形式を学習し、続いて、リストはどのようにスケール(音階)やコード（和音）を表現するために使用されるのかを"
-"学習していきましょう。"
+"では、より詳細に見てみましょう。まずは、リストの基本的な形式を学習し、続いて、リストがスケール（音階）やコード（和音）を表現するためにどのように使用される"
+"のかを学習していきましょう。"
 
 #: 08.1-Lists.md:1
-#, fuzzy
 msgid "8.1 Lists"
 msgstr "8.1 リスト"
 
 #: 08.1-Lists.md:3
-#, fuzzy
 msgid "Lists"
 msgstr "リスト"
 
 #: 08.1-Lists.md:5
-#, fuzzy
 msgid ""
 "In this section we'll take a look at a data structure which is very useful - t"
 "he list. We met it very briefly before in the section on randomisation when we"
 " randomly chose from a list of notes to play:"
 msgstr ""
-"このセクションでは、非常に有益なデータ構造であるリストについてみていきます。すでに大まかな方法で、音符をリストから無作為に選ぶことをランダムの章で触れました"
-"。"
+"このセクションでは、非常に有用なデータ構造であるリストについて見ていきます。以前に我々はランダム化の章でリストについて簡単に触れました。音符のリストから無"
+"作為に選んで再生する次のようなコードです。"
 
 #: 08.1-Lists.md:9
 #, no-wrap
@@ -6135,14 +6097,13 @@ msgid "play choose([50, 55, 62])"
 msgstr "play choose([50, 55, 62])"
 
 #: 08.1-Lists.md:13
-#, fuzzy
 msgid ""
 "In this section we'll explore using lists to also represent chords and scales."
 " First let's recap how we might play a chord. Remember that if we don't use `s"
 "leep`, sounds all happen at the same time:"
 msgstr ""
-"ここでは、コードやスケールを表現するためにリストの使い方についてみていきます。最初に、コードを演奏する方法をおさらいしてみましょう。sleepを使用しない場"
-"合、すべての音が同時に演奏されることを思い出してください。"
+"ここでは、コードやスケールを表現するためのリストの使い方についても見ていきます。最初に、コードを演奏する方法をおさらいしてみましょう。`sleep`を使用"
+"しない場合、すべての音が同時に演奏されることを思い出してください。"
 
 #: 08.1-Lists.md:17
 #, no-wrap
@@ -6156,23 +6117,20 @@ msgstr ""
 "play 59"
 
 #: 08.1-Lists.md:23
-#, fuzzy
 msgid "Let's look at other ways to represent this code."
 msgstr "このコードの別の表現方法を見てみましょう。"
 
 #: 08.1-Lists.md:25
-#, fuzzy
 msgid "Playing a List"
-msgstr "リストの実行"
+msgstr "リストの演奏"
 
 #: 08.1-Lists.md:27
-#, fuzzy
 msgid ""
 "One option is to place all the notes in a list: `[52, 55, 59]`. Our friendly `"
 "play` function is smart enough to know how to play a list of notes. Try it:"
 msgstr ""
-"1つの方法として、\\[52, 55, 59\\]のように、すべての音符をリストに配置することがです。使いやすいplay機能は、リストになった音符をどのように演"
-"奏するかをすぐに理解します。試してください。"
+"1つの方法は、\\[52, 55, 59\\]のように、すべての音符をリストに配置することです。使いやすいplay関数は、リストになった音符をどのように演"
+"奏するかをすぐに理解します。次のコードを試してみてください。"
 
 #: 08.1-Lists.md:31
 #, no-wrap
@@ -6180,11 +6138,10 @@ msgid "play [52, 55, 59]"
 msgstr "play [52, 55, 59]"
 
 #: 08.1-Lists.md:35
-#, fuzzy
 msgid ""
 "Ooh, that's already nicer to read. Playing a list of notes doesn't stop you fr"
 "om using any of the parameters as normal:"
-msgstr "おー、これは読みやすいですね。音符リストの演奏は、通常のパラメータのいずれも妨げになりません。"
+msgstr "おー、これは読みやすいですね。音符リストの演奏は、通常のオプションのいずれも妨げになりません。"
 
 #: 08.1-Lists.md:38
 #, no-wrap
@@ -6192,11 +6149,10 @@ msgid "play [52, 55, 59], amp: 0.3"
 msgstr "play [52, 55, 59], amp: 0.3"
 
 #: 08.1-Lists.md:42
-#, fuzzy
 msgid ""
 "Of course, you can also use the traditional note names instead of the MIDI num"
 "bers:"
-msgstr "もちろん、MIDIの代わりに元来の音符の名前を使うこともできます。"
+msgstr "もちろん、MIDIの代わりに伝統的な音符の名前を使うこともできます。"
 
 #: 08.1-Lists.md:45
 #, no-wrap
@@ -6204,19 +6160,16 @@ msgid "play [:E3, :G3, :B3]"
 msgstr "play [:E3, :G3, :B3]"
 
 #: 08.1-Lists.md:49
-#, fuzzy
 msgid ""
 "Now those of you lucky enough to have studied some music theory might recognis"
 "e that chord as *E Minor* played in the 3rd octave."
-msgstr "多少の音楽理論の知識を持っている方なら、幸運なことに3オクターブで*Eマイナー*のコードが演奏されたことがわかるでしょう。"
+msgstr "多少の音楽理論の知識を持っている方なら、3オクターブで*Eマイナー*のコードが演奏されたことがわかるでしょう。"
 
 #: 08.1-Lists.md:52
-#, fuzzy
 msgid "Accessing a List"
 msgstr "リストへのアクセス"
 
 #: 08.1-Lists.md:54
-#, fuzzy
 msgid ""
 "Another very useful feature of a list is the ability to get information out of"
 " it. This may sound a bit strange, but it's no more complicated than someone a"
@@ -6224,19 +6177,17 @@ msgid ""
 "t at index 23? The only strange thing is that in programming indexes usually s"
 "tart at 0 not 1."
 msgstr ""
-"もう一つの非常に便利なリストの機能として、リストから情報を取得する機能です。これは少し奇妙に聞こえるかもしれなませんが、本の23ページを開いてくださいと誰か"
-"に頼まれることよりも簡単なことです。リストの場合は、インデックス23の要素は何ですか？と尋ねればいいのです。唯一、奇妙なことは、プログラミングのインデックス"
+"もう一つの非常に便利なリストの機能は、リストから情報を取得する機能です。これは少し奇妙に聞こえるかもしれなませんが、本の23ページを開いてくださいと誰かに"
+"頼まれることよりも簡単なことです。リストの場合は、インデックス23の要素は何ですか？と尋ねればいいのです。唯一、奇妙なことは、プログラミングのインデックス"
 "は通常、1ではなく0から開始されることです。"
 
 #: 08.1-Lists.md:60
-#, fuzzy
 msgid "With list indexes we don't count 1, 2, 3... Instead we count 0, 1, 2..."
 msgstr "リストのインデックスは1,2,3と数える代わりに、0,1,2と数えていきます。"
 
 #: 08.1-Lists.md:62
-#, fuzzy
 msgid "Let's look at this in a little more detail. Take a look at this list:"
-msgstr "それではもう少し詳細にみてみましょう。"
+msgstr "それではもう少し詳細にみてみましょう。次のリストを見てください。"
 
 #: 08.1-Lists.md:64
 #, no-wrap
@@ -6244,14 +6195,13 @@ msgid "[52, 55, 59]"
 msgstr "[52, 55, 59]"
 
 #: 08.1-Lists.md:68
-#, fuzzy
 msgid ""
 "There's nothing especially scary about this. Now, what's the second element in"
 " that list? Yes, of course, it's `55`. That was easy. Let's see if we can get "
 "the computer to answer it for us too:"
 msgstr ""
-"これは特に難しいことは何もありません。リストの2番目の要素は何でしょうか？そう、もちろん`55`です。簡単ですね。それでは、同様にコンピュータが答えることが"
-"できるかどうかを見てみましょう。"
+"これは特に難しいことは何もありません。リストの2番目の要素は何でしょうか？そう、もちろん`55`です。簡単ですね。それでは、同様にコンピュータが答えること"
+"ができるかどうかを見てみましょう。"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
 #, no-wrap
@@ -6259,7 +6209,6 @@ msgid "puts [52, 55, 59][1]"
 msgstr "puts [52, 55, 59][1]"
 
 #: 08.1-Lists.md:76
-#, fuzzy
 msgid ""
 "OK, that looks a bit weird if you've never seen anything like it before. Trust"
 " me though, it's not too hard. There are three parts to the line above: the wo"
@@ -6269,44 +6218,40 @@ msgid ""
 "ent. We need to surround our index with square brackets and because counting s"
 "tarts at `0`, the index for the second element is `1`. Look:"
 msgstr ""
-"以前にこのようなものを見たことがない場合、少し奇妙に見えるかもしれませんが、大丈夫。私を信頼してください。難しいことはありません。上記の行には、`puts`"
-"という命令、リストの`52, 55, 59` 、インデックスが`[1 ]`の3つの部分があります。まずはじめに、Sonic Piへログの中から答えを出力させ"
-"るためputsを命令します。次にリストを与えています。そして最後に第２の要素を問い合わせています。角括弧でインデックスを囲む必要があり、カウントは0で始まる"
-"ので、2番目の要素のインデックスは1となります。下記、みてみましょう。"
+"以前にこのようなものを見たことがない場合、少し奇妙に見えるかもしれませんが、大丈夫。私を信頼してください。難しいことはありません。上記の行には、`puts"
+"`という命令、リストの`52, 55, 59` 、インデックスが`[1]`の3つの部分があります。まずはじめに、Sonic Piへログの中から答えを出力さ"
+"せるためputsを命令します。次にリストを与えています。そして最後に第２の要素を問い合わせています。角括弧でインデックスを囲む必要があり、カウントは`0`"
+"で始まるので、2番目の要素のインデックスは`1`となります。下記、みてみましょう。"
 
 #: 08.1-Lists.md:85
 #, no-wrap
-#, fuzzy
 msgid ""
 "# indexes:  0   1   2\n"
 "           [52, 55, 59]"
 msgstr ""
 "# indexes:  0   1   2\n"
-"          [52, 55, 59]"
+"           [52, 55, 59]"
 
 #: 08.1-Lists.md:90
-#, fuzzy
 msgid ""
 "Try running the code `puts [52, 55, 59][1]` and you'll see `55` pop up in the "
 "log. Change the index `1` to other indexes, try longer lists and think about h"
 "ow you might use a list in your next code jam. For example, what musical struc"
 "tures might be represented as a series of numbers..."
 msgstr ""
-"コード`puts [52, 55, 59][1]` を実行してみてください。ログに55とポップアップされるでしょう。インデックス `1` を別のインデックス"
-"に変えてみてください。さらに長い`list`を与えて、どのように次のコードで使うのかを考えてみてください。なんらかの音楽の構造として音符の連続を表現すること"
-"ができるのではないでしょうか。"
+"コード`puts [52, 55, 59][1]`を実行してみてください。ログに`55`と表示されるでしょう。インデックス`1`を別のインデックスに変えて"
+"みてください。さらに長い`list`を与えて、どのように演奏で使えるのか考えてみてください。例えば、どのような音楽の構造が音符の連続として表現されるか？な"
+"どです。"
 
 #: 08.2-Chords.md:1
-#, fuzzy
 msgid "8.2 Chords"
-msgstr "8.2 コード(和音)"
+msgstr "8.2 コード（和音）"
 
 #: 08.2-Chords.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has built-in support for chord names which will return lists. Try it "
 "for yourself:"
-msgstr "Sonic Piは和音名のリストを返す機能を内蔵しています。実際に試してみましょう。"
+msgstr "Sonic Piは和音名でリストを返す機能を内蔵しています。実際に試してみましょう。"
 
 #: 08.2-Chords.md:8
 #, no-wrap
@@ -6314,40 +6259,38 @@ msgid "play chord(:E3, :minor)"
 msgstr "play chord(:E3, :minor)"
 
 #: 08.2-Chords.md:12
-#, fuzzy
 msgid ""
 "Now, we're really getting somewhere. That looks a lot more pretty than the raw"
 " lists (and is easier to read for other people). So what other chords does Son"
 "ic Pi support? Well, a *lot*. Try some of these:"
 msgstr ""
-"さあ、本当に動きましたね。そのままのリストよりも美しく見えますねそして人間にとっても読みやすいでしょう。では、どんな和音をSonic Pi はサポートをして"
-"いるのでしょうか。沢山あります。下記のように、いくつかのコードを試してみましょう。"
+"さあ、本当に動きましたね。そのままのリストよりも美しく見えるし、そして他の人にとっても読みやすいでしょう。では、どんな和音をSonic Pi "
+"はサポートをしているのでしょうか。沢山あります。次のように、いくつかのコードを試してみましょう。"
 
 #: 08.2-Chords.md:16
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
-#, fuzzy
 msgid "Arpeggios"
 msgstr "アルペジオ"
 
 #: 08.2-Chords.md:23
-#, fuzzy
 msgid "We can easily turn chords into arpeggios with the function `play_pattern`:"
-msgstr "`play_pattern`関数で簡単にコード（和音）からアルベジオ(和音を構成する音を一音ずつ順番に弾いていく奏法)に変更して演奏を行うことができます。"
+msgstr ""
+"`play_pattern`関数で簡単にコード（和音）からアルベジオ（和音を構成する音を一音ずつ順番に弾いていく奏法）に変更して演奏を行うことができます。"
 
 #: 08.2-Chords.md:26
 #, no-wrap
@@ -6355,15 +6298,14 @@ msgid "play_pattern chord(:E3, :m7)"
 msgstr "play_pattern chord(:E3, :m7)"
 
 #: 08.2-Chords.md:30
-#, fuzzy
 msgid ""
 "Ok, that's not so fun - it played it really slowly. `play_pattern` will play e"
 "ach note in the list separated with a call to `sleep 1` between each call to `"
 "play`. We can use another function `play_pattern_timed` to specify our own tim"
 "ings and speed things up:"
 msgstr ""
-"でも、それはとてもゆっくりと演奏をしているので、あまり楽しくないかもしれません。`play_pattern`は、区切られたリスト内の各音符を再生する度に`s"
-"leep 1` を呼び出して演奏します。`play_pattern_timed`関数を使用することで独自のタイミングと速度を指定することがきます。"
+"このコードでは、とてもゆっくりと演奏をしていて、あまり楽しくないかもしれません。`play_pattern`は、リスト内の各音符の`play`を呼び出す度"
+"に`sleep 1` を呼び出して演奏します。`play_pattern_timed`関数を使用することで、独自のタイミングと速度を指定することがきます。"
 
 #: 08.2-Chords.md:35
 #, no-wrap
@@ -6371,9 +6313,8 @@ msgid "play_pattern_timed chord(:E3, :m7), 0.25"
 msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 
 #: 08.2-Chords.md:39
-#, fuzzy
 msgid "We can even pass a list of times which it will treat as a circle of times:"
-msgstr "時間のリスト化は、時間周期として取り扱うことができるでしょう。"
+msgstr "`play_pattern`には時間のリストを渡すこともでき、それは循環する時間として扱われます。"
 
 #: 08.2-Chords.md:42
 #, no-wrap
@@ -6381,9 +6322,8 @@ msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 msgstr "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 
 #: 08.2-Chords.md:46
-#, fuzzy
 msgid "This is the equivalent to:"
-msgstr "これは下記と同等です。"
+msgstr "これは次のコードと同じです。"
 
 #: 08.2-Chords.md:48
 #, no-wrap
@@ -6417,22 +6357,18 @@ msgstr ""
 "play 73"
 
 #: 08.2-Chords.md:64
-#, fuzzy
 msgid "Which would you prefer to write?"
 msgstr "どちらの書き方を好みますか？"
 
 #: 08.3-Scales.md:1
-#, fuzzy
 msgid "8.3 Scales"
-msgstr "8.3 スケール(音階)"
+msgstr "8.3 スケール（音階）"
 
 #: 08.3-Scales.md:3
-#, fuzzy
 msgid "Scales"
-msgstr "スケール(音階)"
+msgstr "スケール（音階）"
 
 #: 08.3-Scales.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has support for a wide range of scales. How about playing a C3 major "
 "scale?"
@@ -6444,7 +6380,6 @@ msgid "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 msgstr "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:12
-#, fuzzy
 msgid "We can even ask for more octaves:"
 msgstr "さらに多くのオクターブを実行することができます。"
 
@@ -6454,9 +6389,8 @@ msgid "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.
 msgstr "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:18
-#, fuzzy
 msgid "How about all the notes in a pentatonic scale?"
-msgstr "ペンタトニックスケール(オクターブに5つの音が含まれる音階のこと)のすべての音符はどうでしょう?"
+msgstr "ペンタトニックスケール（オクターブに5つの音が含まれる音階のこと）のすべての音符はどうでしょう?"
 
 #: 08.3-Scales.md:20
 #, no-wrap
@@ -6468,21 +6402,18 @@ msgstr ""
 "se: 0.1"
 
 #: 08.3-Scales.md:24
-#, fuzzy
 msgid "Random notes"
-msgstr "ランダム音階"
+msgstr "ランダムな音符"
 
 #: 08.3-Scales.md:26
-#, fuzzy
 msgid ""
 "Chords and scales are great ways of constraining a random choice to something "
 "meaningful. Have a play with this example which picks random notes from the ch"
 "ord E3 minor:"
-msgstr "コードとスケールは、ランダムな選択を強いるには素晴らしい制約です。コードE3マイナーからランダムに音符を取り出すにはこの例を実行してください。"
+msgstr "コードとスケールは、ランダムな選択を強いるには素晴らしい制約です。コードE3マイナーからランダムに音符を取り出すには次の例を実行してください。"
 
 #: 08.3-Scales.md:30
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :tb303\n"
 "loop do\n"
@@ -6492,22 +6423,19 @@ msgid ""
 msgstr ""
 "use_synth :tb303\n"
 "loop do\n"
-" play choose(chord(:E3, :minor)), release: 0.3, cutoff: rrand(60, 120)\n"
-" sleep 0.25\n"
+"  play choose(chord(:E3, :minor)), release: 0.3, cutoff: rrand(60, 120)\n"
+"  sleep 0.25\n"
 "end"
 
 #: 08.3-Scales.md:38
-#, fuzzy
 msgid "Try switching in different chord names and cutoff ranges."
 msgstr "異なる和音名やカットオフする範囲を試してみましょう。"
 
 #: 08.3-Scales.md:40
-#, fuzzy
 msgid "Discovering Chords and Scales"
-msgstr "コードとスケールの発見"
+msgstr "コードとスケールの検索"
 
 #: 08.3-Scales.md:42
-#, fuzzy
 msgid ""
 "To find out which scales and chords are supported by Sonic Pi simply click the"
 " Lang button on the far left of this tutorial and then choose either chord or "
@@ -6515,53 +6443,46 @@ msgid ""
 " you see a long list of chords or scales (depending on which you're looking at"
 ")."
 msgstr ""
-"Sonic Piによってサポートされているスケールやコードを検索するには、チュートリアルの左にある命令ボタンをクリックし、APIリストのスケールまたはコード"
-"を選びますメインパネルの情報に、スケールやコードの長いリストが現れるまで下にスクロールしてください（あなたがどれを見るかに依拠します）。"
+"Sonic Piによってサポートされているスケールやコードを検索するには、このチュートリアルの左にある`命令`ボタンをクリックし、APIリストから`cho"
+"rd`か`scale`を選びます。メインパネルの情報に、コードやスケールの長いリストが現れるまで下にスクロールしてください。"
 
 #: 08.3-Scales.md:48
-#, fuzzy
 msgid "Have fun and remember: there are no mistakes, only opportunities."
-msgstr "間違いではなく可能性でるということを思い出して、楽しんでください。"
+msgstr "「間違いはない、あるのはただ可能性だけ。」ということを思い出して、楽しんでください。"
 
 #: 08.4-Rings.md:1
-#, fuzzy
 msgid "8.4 Rings"
 msgstr "8.4 リング"
 
 #: 08.4-Rings.md:3 A.11-beat-tracking.md:62
-#, fuzzy
 msgid "Rings"
 msgstr "リング"
 
 #: 08.4-Rings.md:5
-#, fuzzy
 msgid ""
 "An interesting spin on standard lists are rings. If you know some programming,"
 " you might have come across ring buffers or ring arrays. Here, we'll just go f"
 "or ring - it's short and simple."
 msgstr ""
-"標準のリストで面白いスピンオンにリングがあります。いくつかのプログラミングを理解していれば、リングバッファやリングアレイなどをみたことがあるかもしれません。"
-"ここでは、まさに`ring`(環状リスト)についてみていきます。 - それは短く、簡単です。"
+"標準のリストを一捻りした面白いものにリングがあります。いくつかのプログラミングを理解していれば、リングバッファやリングアレイなどを見たことがあるかもしれま"
+"せん。ここでは、まさに`ring`（環状リスト）について見ていきます - それは短く、簡単です。"
 
 #: 08.4-Rings.md:9
-#, fuzzy
 msgid ""
 "In the previous section on lists we saw how we could fetch elements out of the"
 "m by using the indexing mechanism:"
-msgstr "リストの前章では、インデックスの機構を使用してリストから要素を取り出す方法を説明しました。"
+msgstr "リストに関する前のセクションでは、インデックスの機構を使用してリストから要素を取り出す方法を説明しました。"
 
 #: 08.4-Rings.md:16
-#, fuzzy
 msgid ""
 "Now, what happens if you want index `100`? Well, there's clearly no element at"
 " index 100 as the list has only three elements in it. So Sonic Pi will return "
 "you `nil` which means nothing."
 msgstr ""
-"もしインデックス100を取り出そうとしら、何が起こるでしょう？まあ、3つの要素しか持たないリストの中でインデックス100の要素は、明らかにありません。だから"
-"Sonic Piは空を意味する `nil` を返すでしょう。"
+"もしインデックス100を取り出そうとしら、何が起こるでしょう？まあ、3つの要素しか持たないリストの中でインデックス100の要素は、明らかにありません。"
+"だからSonic Piは空を意味する `nil` を返すでしょう。"
 
 #: 08.4-Rings.md:20
-#, fuzzy
 msgid ""
 "However, consider you have a counter such as the current beat which continuall"
 "y increases. Let's create our counter and our list:"
@@ -6577,7 +6498,6 @@ msgstr ""
 "notes = [52, 55, 59]"
 
 #: 08.4-Rings.md:28
-#, fuzzy
 msgid "We can now use our counter to access a note in our list:"
 msgstr "これで、リストの音符にアクセスするためのカウンタを使用することができます。"
 
@@ -6587,7 +6507,6 @@ msgid "puts notes[counter]"
 msgstr "puts notes[counter]"
 
 #: 08.4-Rings.md:34
-#, fuzzy
 msgid "Great, we got `52`. Now, let's increment our counter and get another note:"
 msgstr "素晴らしい、`52`を取得しました。カウンターを増やして別の音符を取得してみましょう。"
 
@@ -6601,29 +6520,24 @@ msgstr ""
 "puts notes[counter]"
 
 #: 08.4-Rings.md:42
-#, fuzzy
 msgid ""
 "Super, we now get `55` and if we do it again we get `59`. However, if we do it"
 " again, we'll run out of numbers in our list and get `nil`. What if we wanted "
 "to just loop back round and start at the beginning of the list again? This is "
 "what rings are for."
 msgstr ""
-"すごいでしょう、 `55`を取得し、それを再び繰り返すならば`59を得ます。さらに繰り返す場合は、リスト内の数が不足し`nil\\`になるでしょう。では、ちょ"
-"うどループのはじめに戻り、再びリストの先頭から開始したい場合はどうしたらようでしょうか？そのためにリングを使います。"
+"すごいでしょう、 `55`を取得し、それを再び繰り返すならば`59を得ます。さらに繰り返す場合は、リスト内の数が不足し`nil\\"
+"`になるでしょう。では、ちょうどループのはじめに戻り、再びリストの先頭から開始したい場合はどうしたらようでしょうか？そのためにリングを使います。"
 
 #: 08.4-Rings.md:47
-#, fuzzy
 msgid "Creating Rings"
 msgstr "リングの作成"
 
 #: 08.4-Rings.md:49
-#, fuzzy
 msgid ""
 "We can create rings one of two ways. Either we use the `ring` function with th"
 "e elements of the ring as parameters:"
-msgstr ""
-"2つの方法の内、どちらか1つの方法でリングを作成することができます。どちらもパラメータとしての環(円環構造を持つリスト)要素である`ring`関数を利用しま"
-"す。"
+msgstr "リングは、2つの方法のどちらか1つで作成することができます。どちらの方法もリングの要素を引数とする`ring`関数を利用します。"
 
 #: 08.4-Rings.md:52
 #, no-wrap
@@ -6631,11 +6545,10 @@ msgid "(ring 52, 55, 59)"
 msgstr "(ring 52, 55, 59)"
 
 #: 08.4-Rings.md:56
-#, fuzzy
 msgid ""
 "Or we can take a normal list and convert it to a ring by sending it the `.ring"
 "` message:"
-msgstr "また、正常のリストを取得し、`.ring`メッセージをそれを送りリングに変換することができます。"
+msgstr "また、通常のリストを取得し、それに`.ring`メッセージを送ることで、リングに変換することができます。"
 
 #: 08.4-Rings.md:59
 #, no-wrap
@@ -6643,20 +6556,18 @@ msgid "[52, 55, 59].ring"
 msgstr "[52, 55, 59].ring"
 
 #: 08.4-Rings.md:63
-#, fuzzy
 msgid "Indexing Rings"
 msgstr "リングのインデックス化"
 
 #: 08.4-Rings.md:65
-#, fuzzy
 msgid ""
 "Once we have a ring, you can use it in exactly the same way you would use a no"
 "rmal list with the exception that you can use indexes that are negative or lar"
 "ger than the size of the ring and they'll wrap round to always point at one of"
 " the ring's elements:"
 msgstr ""
-"いったんリングを取得したら、インデックスがマイナスもしくはリングの数値より大きい場合を除いて、通常のリストを使用する場合とまったく同じ方法で使用することがで"
-"きます。、そしてリングの１つの要素として括弧でくくられて表示されます。"
+"いったんリングを取得したら、通常のリストを使用する場合とまったく同じ方法で使用することができます。ただし、インデックスがマイナスもしくはリングの数値より大"
+"きい場合は、通常のリストと動作が異なり、先頭あるいは末尾に巻き戻ってリングの要素のどれか一つを必ず指します。"
 
 #: 08.4-Rings.md:70
 #, no-wrap
@@ -6674,98 +6585,83 @@ msgstr ""
 "(ring 52, 55, 59)[-1] #=> 59"
 
 #: 08.4-Rings.md:78
-#, fuzzy
 msgid "Using Rings"
 msgstr "リングを使用する"
 
 #: 08.4-Rings.md:80
-#, fuzzy
 msgid ""
 "Let's say we're using a variable to represent the current beat number. We can "
 "use this as an index into our ring to fetch notes to play, or release times or"
 " anything useful we've stored in our ring regardless of the beat number we're "
 "currently on."
 msgstr ""
-"現在のビート（拍子）の値を表すために変数を使用しているとしましょう​​。 その変数は、現在表しているビート値に関わらず、インデックスとして音符を演奏するため"
-"や、 リリースタイム（放出時間）、リングに格納されている有用な値として使うことができます。"
+"ここで、現在のビート（拍子）の値を表すために変数を使用しているとしましょう。 その変数は、現在表しているビート値に関わらず、演奏に使用する音符やリリース・"
+"タイム、その他リングに格納された何か有用な値を取得するのに、インデックスとして使用できます。"
 
 #: 08.4-Rings.md:85
-#, fuzzy
 msgid "Scales and Chords are Rings"
 msgstr "スケールとコードはリング"
 
 #: 08.4-Rings.md:87
-#, fuzzy
 msgid ""
 "A useful thing to know is that the lists returned by `scale` and `chord` are a"
 "lso rings and allow you to access them with arbitrary indexes."
 msgstr ""
-"知っておくと役立つこととして、`scale`（音階）と`chord` (和音)によって返されたリストもリングであり、任意のインデックスでそれらにアクセスする"
+"知っておくと役立つこととして、`scale`（音階）と`chord`（和音）によって返されたリストもリングであり、任意のインデックスでそれらにアクセスする"
 "ことを可能にします。"
 
 #: 08.4-Rings.md:90
-#, fuzzy
 msgid "Ring Constructors"
-msgstr "リングのコンストラクタ(構成子)"
+msgstr "リングのコンストラクタ（作成関数）"
 
 #: 08.4-Rings.md:92
-#, fuzzy
 msgid ""
 "In addition to `ring` there are a number of other functions which will constru"
 "ct a ring for us."
-msgstr "加えて、リングを構成する多くの機能があります。"
+msgstr "`ring`関数の他にも、リングを作成する沢山の関数があります。"
 
 #: 08.4-Rings.md:95
-#, fuzzy
 msgid "`range` invites you specify a starting point, end point and step size."
 msgstr "`range`は始点、終点とステップサイズを指定します。"
 
 #: 08.4-Rings.md:96
-#, fuzzy
 msgid "`bools` allows you to use `1`s and `0`s to succinctly represent booleans."
-msgstr "`bools`は簡単に1と0を使用するためのブール値を扱うことができます。"
+msgstr "`bools`は、`1`と`0`を使用して簡単にブール値を表すリングを作成できます。"
 
 #: 08.4-Rings.md:97
-#, fuzzy
 msgid "`knit` allows you to knit a sequence of repeated values."
-msgstr "`knit`は一連の繰り返される値のために構成することを可能にします。"
+msgstr "`knit`は一連の繰り返される値のリングを作成できます。"
 
 #: 08.4-Rings.md:98
-#, fuzzy
 msgid "`spread` creates a ring of bools with a Euclidean distribution."
 msgstr "`spread`はユークリッド分布に従ったブール値のリングを作成します。"
 
 #: 08.4-Rings.md:100
-#, fuzzy
 msgid "Take a look at their respective documentation for more information."
-msgstr "詳細については、それら個々のドキュメンテーションを見てください。"
+msgstr "詳細については、個々のドキュメントを見てください。"
 
 #: 08.5-Ring-Chains.md:1
-#, fuzzy
 msgid "8.5 Ring Chains"
 msgstr "8.5 リングのチェーン"
 
 #: 08.5-Ring-Chains.md:3
-#, fuzzy
 msgid "Ring Chains"
 msgstr "リングのチェーン"
 
 #: 08.5-Ring-Chains.md:5
-#, fuzzy
 msgid ""
 "In addition to the constructors such as `range` and `spread` another way of cr"
 "eating new rings is to manipulate existing rings."
-msgstr "`range`や`spread`のようなコンストラクタに加えて、別なリングの作成方法としては、作成済みのリングを操作する方法があります。"
+msgstr ""
+"`range`や`spread`のようなコンストラクタ（作成関数）に加えて、別なリングの作成方法としては、作成したリングを操作する方法があります。"
 
 #: 08.5-Ring-Chains.md:9
-#, fuzzy
 msgid "Chain Commands"
 msgstr "チェーンコマンド"
 
 #: 08.5-Ring-Chains.md:11
-#, fuzzy
 msgid "To explore this, take a simple ring:"
-msgstr "次のような単純なリングを作成します:"
+msgstr "次のような単純なリングを作成します。"
 
 #: 08.5-Ring-Chains.md:13
 #, no-wrap
@@ -6773,11 +6669,10 @@ msgid "(ring 10, 20, 30, 40, 50)"
 msgstr "(ring 10, 20, 30, 40, 50)"
 
 #: 08.5-Ring-Chains.md:17
-#, fuzzy
 msgid ""
 "What if we wanted it backwards? Well we'd use the chain command `.reverse` to "
 "take the ring and turn it around:"
-msgstr "リングを逆にしたいときにはどうしたらよいでしょう？リングを反転させるには、チェーンコマンドの`.reverse`を使います:"
+msgstr "リングを逆にしたいときにはどうしたらよいでしょう？リングを反転させるには、チェーンコマンドの`.reverse`を使います。"
 
 #: 08.5-Ring-Chains.md:20
 #, no-wrap
@@ -6785,7 +6680,6 @@ msgid "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
 #: 08.5-Ring-Chains.md:24
-#, fuzzy
 msgid "Now, what if we wanted the first three values from the ring?"
 msgstr "では次に、リングから最初の3つの値を取得するにはどうしたらよいでしょう？"
 
@@ -6795,7 +6689,6 @@ msgid "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
 #: 08.5-Ring-Chains.md:30
-#, fuzzy
 msgid "Finally, what if we wanted to shuffle the ring?"
 msgstr "最後に、リングをシャッフルするにはどうしたらよいでしょう？"
 
@@ -6805,70 +6698,60 @@ msgid "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
 #: 08.5-Ring-Chains.md:36
-#, fuzzy
 msgid "Multiple Chains"
 msgstr "多重チェーン"
 
 #: 08.5-Ring-Chains.md:38
-#, fuzzy
 msgid ""
 "This is already a powerful way of creating new rings. However, the *real* powe"
 "r comes when you chain a few of these commands together."
-msgstr "ここまでで既に強力なリングの作成方法を見てきましたが、 これらのコマンドを一緒に用いることで本当の力を発揮します。"
+msgstr "ここまでで既にリングを作成する強力な方法を見てきましたが、 これらのチェーンコマンドを一緒に用いることで*本当の*力を発揮します。"
 
 #: 08.5-Ring-Chains.md:41
-#, fuzzy
 msgid "How about shuffling the ring, dropping 1 element and then taking the next 3?"
-msgstr "リングをシャッフルし、最初の要素を削除し、次の3つの要素を得る場合にはどうでしょう？"
+msgstr "リングをシャッフルし、最初の要素を削除し、それに続く3つの要素を得る場合にはどうすればよいでしょう？"
 
 #: 08.5-Ring-Chains.md:43
-#, fuzzy
 msgid "Let's take this in stages:"
-msgstr "段階的に見ていきましょう:"
+msgstr "段階的に見ていきましょう。"
 
 #: 08.5-Ring-Chains.md:45
-#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50)` - our initial ring"
 msgstr "`(ring 10, 20, 30, 40, 50)` - リングの最初の状態"
 
 #: 08.5-Ring-Chains.md:46
-#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
-msgstr "`(ring 10, 20, 30, 40, 50).shuffle` - シャッフルし - `(ring 40, 30, 10, 50, 20)`"
+msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle` - シャッフルし - `(ring 40, 30, 10, 50, 20)`"
 
 #: 08.5-Ring-Chains.md:47
-#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, 20)`"
 msgstr ""
-"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - 最初の要素を削除し - `(ring 30, 10, 50, 2"
-"0)`"
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - 最初の要素を削除し - `(ring 30, 10, 50, "
+"20)`"
 
 #: 08.5-Ring-Chains.md:48
-#, fuzzy
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, 10, "
 "50)`"
 msgstr ""
-"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - 3つの要素を得る - `(ring 30, 10"
-", 50)`"
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - 3つの要素を得る - `(ring 30, "
+"10, 50)`"
 
 #: 08.5-Ring-Chains.md:50
-#, fuzzy
 msgid ""
 "Can you see how we can just create a long chain of these methods by just *stic"
 "king them together*. We can combine these in any order we want creating an ext"
 "remely rich and powerful way of generating new rings from existing ones."
 msgstr ""
-"*コマンドを一緒にくっつける*だけでこれらのコマンドの長いチェーンを作ることが分かったと思います。 チェーンコマンドを好きな順序で組み合わせることができ、そ"
-"れにより既に存在するリングから新しいリングを 生成するとても豊かで強力な方法を作り出しています。"
+"*コマンドを一緒にくっつける*だけで、これらのコマンドの長いチェーンを作れることが分かったと思います。 チェーンコマンドは好きな順序で組み合わせることがで"
+"きます。またそれにより、既に存在するリングから新しいリングを生成する、とても豊かで強力な方法を作り出すことができます。"
 
 #: 08.5-Ring-Chains.md:55
-#, fuzzy
 msgid "Immutability"
 msgstr "不変性"
 
 #: 08.5-Ring-Chains.md:57
-#, fuzzy
 msgid ""
 "These rings have a powerful and important property. They are immutable which m"
 "eans that they can not change. This means that the chaining methods described "
@@ -6876,99 +6759,84 @@ msgid ""
 "ns you're free to share rings across threads and start chaining them within a "
 "thread knowing you won't be affecting any other thread using the same ring."
 msgstr ""
-"リングは強力で重要な特徴を持っています。それは不変性と言って、リングを変更できないということを 意味しています。このセクションで紹介しているチェインコマンド"
-"が*リングを変更するのではなく*、 *新しいリングを作成*していることを意味しています。これにより、スレッドを跨いでリングを共有して、 同じリングを使ってい"
-"る他のスレッドに影響を与えないで、チェインを開始できることを意味しています。"
+"リングは強力で重要な特徴を持っています。それは不変性と言って、リングを変更できないということを意味しています。このセクションで紹介しているチェーンコマンド"
+"が、*リングを変更するのではなく*、 *新しいリングを作成*していることを意味しています。これにより、スレッドを跨いでリングを共有して、 "
+"同じリングを使っている他のスレッドに影響を与えないで、チェーンを開始できることを意味しています。"
 
 #: 08.5-Ring-Chains.md:64
-#, fuzzy
 msgid "Available Chain Methods"
 msgstr "利用可能なチェーンコマンド"
 
 #: 08.5-Ring-Chains.md:66
-#, fuzzy
 msgid "Here's a list of the available chain methods for you to play with:"
 msgstr "ここに利用可能なチェーンコマンドを記載しておきます。"
 
 #: 08.5-Ring-Chains.md:68
-#, fuzzy
 msgid "`.reverse` - returns a reversed version of the ring"
 msgstr "`.reverse` - 逆順のリングを返却します"
 
 #: 08.5-Ring-Chains.md:69
-#, fuzzy
 msgid "`.sort` - creates a sorted version of the ring"
 msgstr "`.sort` - ソートされたリングを作成します"
 
 #: 08.5-Ring-Chains.md:70
-#, fuzzy
 msgid "`.shuffle` - creates a shuffled version of the ring"
 msgstr "`.shuffle` - シャッフルされたリングを作成します"
 
 #: 08.5-Ring-Chains.md:71
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
-msgstr ""
+msgstr "`.pick(3)` - `.choose`を3回呼び出した結果のリングを返却します"
 
 #: 08.5-Ring-Chains.md:72
 msgid ""
 "`.pick` - similar to `.pick(3)` only the size defaults to the same as the orig"
 "inal ring"
-msgstr ""
+msgstr "`.pick` - `.pick(3)`と似ていますが、 返却されるリングの長さが、元のリングの長さと同じになります"
 
 #: 08.5-Ring-Chains.md:73
-#, fuzzy
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
 msgstr "`.take(5)` - 最初の5つの要素をのみからなる新しいリングを返却します"
 
 #: 08.5-Ring-Chains.md:74
-#, fuzzy
 msgid "`.drop(3)` - returns a new ring with everything but the first 3 elements"
 msgstr "`.drop(3)` - 最初の3つの要素以外の要素からなる新しいリングを返却します"
 
 #: 08.5-Ring-Chains.md:75
-#, fuzzy
 msgid "`.butlast` - returns a new ring with the last element missing"
-msgstr "`.butlast` - 最後の要素が欠けた状態の新しいリングをを返却します"
+msgstr "`.butlast` - 最後の要素が欠けた新しいリングをを返却します"
 
 #: 08.5-Ring-Chains.md:76
-#, fuzzy
 msgid "`.drop_last(3)` - returns a new ring with the last 3 elements missing"
-msgstr "`.drop_last(3)` - 最後の3つの要素が欠けた状態の新しいリングをを返却します"
+msgstr "`.drop_last(3)` - 最後の3つの要素が欠けた新しいリングをを返却します"
 
 #: 08.5-Ring-Chains.md:77
-#, fuzzy
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
 msgstr "`.take_last(6)`- 最後の6つの要素をのみからなる新しいリングを返却します"
 
 #: 08.5-Ring-Chains.md:78
-#, fuzzy
 msgid "`.stretch(2)` - repeats each element in the ring twice"
 msgstr "`.stretch(2)` - リングの個々の要素を2回ずつ繰り返します"
 
 #: 08.5-Ring-Chains.md:79
-#, fuzzy
 msgid "`.repeat(3)` - repeats the entire ring 3 times"
 msgstr "`.repeat(3)` - リング全体を3回繰り返します"
 
 #: 08.5-Ring-Chains.md:80
-#, fuzzy
 msgid "`.mirror` - adds the ring to a reversed version of itself"
 msgstr "`.mirror` - 逆順のリングを自分自身に追加します"
 
 #: 08.5-Ring-Chains.md:81
-#, fuzzy
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
 msgstr "`.reflect` - mirrorと同様ですが、真ん中の要素を重複させないようにします"
 
 #: 08.5-Ring-Chains.md:83
-#, fuzzy
 msgid ""
 "Of course, those chain methods that take numbers can take other numbers too! S"
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
 "irst 5 elements."
 msgstr ""
-"数字を引数に取っているチェーンコマンドは、他の数字を取ることももちろん可能です。 最初の5個の要素を削除したい場合には、`.drop(3)`の代わりに遠慮無"
-"く`.drop(5)`を呼んでください。"
+"数字を引数に取っているチェーンコマンドは、他の数字を取ることももちろん可能です。 "
+"最初の5個の要素を削除したい場合には、`.drop(3)`の代わりに、気軽に`.drop(5)`を呼んでください。"
 
 #: 09-Live-Coding.md:1
 #, fuzzy
