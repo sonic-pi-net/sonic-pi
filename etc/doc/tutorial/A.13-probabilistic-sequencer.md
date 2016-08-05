@@ -1,6 +1,6 @@
-A.13 Code a Probablistic Sequencer
+A.13 Code a Probabilistic Sequencer
 
-# Code a Probablistic Sequencer
+# Code a Probabilistic Sequencer
 
 In a previous episode of this Sonic Pi series we explored the power of
 randomisation to introduce variety, surprise and change into our live
@@ -20,7 +20,7 @@ what's actually happening? Well, firstly you'll roll either a 1, 2, 3,
 fact, given that it's a 6 sided dice, on average (if you roll lots and
 lots of times) you'll throw a 1 every 6 throws. This means you have a 1
 in 6 chance of throwing a 1. We can emulate dice rolls in Sonic Pi with
-the fn `dice` let's roll one 8 times:
+the fn `dice`. Let's roll one 8 times:
 
 ```
 8.times do
@@ -36,7 +36,7 @@ a real dice ourselves.
 
 Now imagine you had a drum and every time you were about to hit it you
 rolled a dice. If you rolled a 1, you hit the drum and if you rolled any
-other number you didn't. You now have a probabilstic drum machine
+other number you didn't. You now have a probabilistic drum machine
 working with a probability of 1/6! Let's hear what that sounds like:
 
 ```
@@ -84,8 +84,8 @@ end
 Start the live loop above and you'll hear the familiar random
 rhythm. However, don't stop the code running. Instead, change the `6` to
 a different value such as `2` or `20` and hit the `Run` button
-again. Notice that lower numbers means the snare drum sounds more
-frequently and higher numbers means the snare triggers fewer
+again. Notice that lower numbers mean the snare drum sounds more
+frequently and higher numbers mean the snare triggers fewer
 times. You're making music with probabilities!
 
 # Combining Probabilities
