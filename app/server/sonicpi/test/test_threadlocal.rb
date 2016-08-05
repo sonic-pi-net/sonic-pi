@@ -17,7 +17,7 @@ module SonicPi
   class VersionTester < Minitest::Test
 
     def test_basic_setting_and_getting
-      t = ThreadLocal.new
+      t = SonicPi::Core::ThreadLocal.new
       assert_equal(t.get(:foo), nil)
       t.set(:foo, 1)
       assert_equal(t.get(:foo), 1)
@@ -26,7 +26,7 @@ module SonicPi
     end
 
     def test_local_setting
-      t = ThreadLocal.new
+      t = SonicPi::Core::ThreadLocal.new
       assert_equal(t.get(:foo), nil)
       t.set_local(:foo, 1)
       assert_equal(t.get(:foo), 1)
@@ -35,10 +35,10 @@ module SonicPi
     end
 
     def test_inheritance
-      t = ThreadLocal.new
+      t = SonicPi::Core::ThreadLocal.new
       t.set(:foo, 1)
       assert_equal(t.get(:foo), 1)
-      t2 = ThreadLocal.new(t)
+      t2 = SonicPi::Core::ThreadLocal.new(t)
       assert_equal(t2.get(:foo), 1)
       t.set_local(:foo, 10)
       assert_equal(t.get(:foo), 10)
@@ -46,10 +46,10 @@ module SonicPi
     end
 
     def test_local_setting_is_not_inherited
-      t = ThreadLocal.new
+      t = SonicPi::Core::ThreadLocal.new
       t.set_local(:foo, 1)
       assert_equal(t.get(:foo), 1)
-      t2 = ThreadLocal.new(t)
+      t2 = SonicPi::Core::ThreadLocal.new(t)
       t2.set(:bar, 3)
       assert_equal(t2.get(:bar), 3)
       assert_equal(t2.get(:foo), nil)
