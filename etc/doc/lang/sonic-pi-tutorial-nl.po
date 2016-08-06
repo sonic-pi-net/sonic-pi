@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-21 09:13+0000\n"
-"Last-Translator: filip faste <fasteonline@gmail.com>\n"
+"PO-Revision-Date: 2016-08-06 12:29+0000\n"
+"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -30,10 +30,10 @@ msgid ""
 "you'll learn all about music, synthesis, programming, composition, "
 "performance and more."
 msgstr ""
-"Welkom bij Sonic Pi. Hopelijk ben je zo enthousiast als ik, om te gekke "
-"klanken te gaan maken. Het zal een *prettige* belevenis worden, waarin je "
-"alles over muziek, synthese, programmeren, compositie en optreden gaat leren "
-"en nog veel meer..."
+"Welkom bij Sonic Pi. Hopelijk ben je net zo enthousiast als ik ben, om te "
+"gekke klanken te gaan maken. Het zal een *plezierige* belevenis worden, "
+"waarin je alles over muziek, synthese, programmeren, compositie en optreden "
+"gaat leren en nog veel meer..."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -11261,7 +11261,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
-msgstr ""
+msgstr "Jouw Ritme Vinden"
 
 #: A.04-synth-riffs.md:133
 msgid ""
