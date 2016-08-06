@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-26 14:53+0000\n"
-"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
+"PO-Revision-Date: 2016-08-06 23:10+0000\n"
+"Last-Translator: Paulo <paulo.chiliguano@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -578,7 +578,6 @@ msgid "Start Simple"
 msgstr "Comienza sencillo"
 
 #: 01.3-Learning-through-Play.md:26
-#, fuzzy
 msgid ""
 "When you're learning, it's tempting to want to do amazing things *now*. Howeve"
 "r, just hold that thought and see it as a distant goal to reach *later*. For n"
@@ -588,13 +587,13 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
-"Cuando estás aprendiendo es tentador querer hacer cosas «ya». Sin embargo, man"
-"tén ese deseo como un objetivo para «después». Por ahora, piensa en lo más sim"
-"ple que puedas escribir que pueda ser divertido y satisfactorio, que sea un si"
-"mple paso para ese increíble objetivo que tienes en la mente. Una vez tengas u"
-"na idea de ese simple paso, intenta y constrúyelo, juega y mira qué nuevas ide"
-"as te trae. En poco tiempo estarás demasiado ocupado y haciendo progresos enor"
-"mes."
+"Cuando estás aprendiendo es tentador querer hacer cosas *ya*. Sin embargo, "
+"mantén ese deseo como un objetivo para *después*. Por ahora, piensa en *lo "
+"más simple* que puedas escribir sea divertido y satisfactorio, que sea un "
+"simple paso para ese increíble objetivo que tienes en mente. Una vez tengas "
+"una idea de ese simple paso, intenta y constrúyelo, juega y mira qué nuevas "
+"ideas te trae. En poco tiempo estarás demasiado ocupado divirtiéndote y "
+"teniendo un progreso real."
 
 #: 01.3-Learning-through-Play.md:35
 #, fuzzy
@@ -602,12 +601,10 @@ msgid "Just make sure to share your work with others!"
 msgstr "Sólo asegúrate de compartir tu trabajo con los demás!"
 
 #: 02-Synths.md:1
-#, fuzzy
 msgid "2 Synths"
 msgstr "2 Sintetizadores"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
-#, fuzzy
 msgid "Synths"
 msgstr "Sintetizadores"
 
@@ -1733,6 +1730,8 @@ msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 msgstr ""
+"![short attack short release envelope](../images/tutorial/env-short-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 #, fuzzy
@@ -1758,7 +1757,7 @@ msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 #, fuzzy
@@ -2670,8 +2669,9 @@ msgstr ""
 "litud antes de comenzar a desvanecerse por los 0.75 segundos finales."
 
 #: 03.4-Enveloped-Samples.md:71
+#, fuzzy
 msgid "Remember: by default, `release:` fades out at the end of a sample."
-msgstr ""
+msgstr "Recuerda: por defecto, `release:` se desvanece al final de un sample."
 
 #: 03.4-Enveloped-Samples.md:73
 #, fuzzy
@@ -2705,7 +2705,7 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
-msgstr ""
+msgstr "Sostenido explícito"
 
 #: 03.4-Enveloped-Samples.md:88
 #, fuzzy
@@ -2736,7 +2736,7 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
-msgstr ""
+msgstr "Címbalos"
 
 #: 03.4-Enveloped-Samples.md:102
 #, fuzzy
@@ -2993,26 +2993,34 @@ msgid "Now go and have a play mashing up samples with all of this fun stuff..."
 msgstr "Ahora vete y juega con sampleos y todas estas divertidas herramientas..."
 
 #: 03.6-External-Samples.md:1
+#, fuzzy
 msgid "3.6 External Samples"
-msgstr ""
+msgstr "Samples externos"
 
 #: 03.6-External-Samples.md:3
+#, fuzzy
 msgid "External Samples"
-msgstr ""
+msgstr "Samples externos"
 
 #: 03.6-External-Samples.md:5
+#, fuzzy
 msgid ""
 "Whilst the built-in samples can get you up and started quickly, you might wish"
 " to experiment with other recorded sounds in your music. Sonic Pi totally supp"
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
+"Mientras los samples incluidos te ayudan a iniciar rápido, quizá quieras "
+"experimentar con otros sonidos grabados en tu música. Sonic Pi lo soporta "
+"completamente. Primero, revisemos brevemente la portabilidad de tu pieza "
+"musical."
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
-msgstr ""
+msgstr "Portabilidad"
 
 #: 03.6-External-Samples.md:12
+#, fuzzy
 msgid ""
 "When you compose your piece purely with built-in synths and samples, the code "
 "is all you need to faithfully reproduce your music. Think about that for a mom"
@@ -3021,8 +3029,15 @@ msgid ""
 "your sounds. That makes it *really easy to share* with your friends as they ju"
 "st need to get hold of the code."
 msgstr ""
+"Cuando compones una pieza solamente con sintetizadores y samples incluidos, "
+"el código es todo lo que necesitas para reproducir tu música. Piensa en esto "
+"por un momento - es maravilloso! Un texto sencillo que puedes enviar por "
+"email o pegar en un [Gist](https://gist.github.com) representa todo lo que "
+"necesitas para reproducir tus sonidos. Eso hace que sea *realmente fácil de "
+"compartir* con tus amigos que sólo necesitan tu código."
 
 #: 03.6-External-Samples.md:19
+#, fuzzy
 msgid ""
 "However, if you start using your own pre-recorded samples, you lose this porta"
 "bility. This is because to reproduce your music other people not only need you"
@@ -3030,16 +3045,25 @@ msgid ""
 "pulate, mash-up and experiment with your work. Of course this shouldn't stop y"
 "ou from using your own samples, it's just something to consider."
 msgstr ""
+"Por otra parte, si usas tus samples pregrabados, pierdes esta portabilidad. "
+"Esto es debido a que reproducir tu música, otras personas no solo necesitan "
+"tu código, necesitan tus samples también. Esto limita la habilidad para "
+"otros de manipular, combinar y experimentar con tu trabajo. Por supuesto, "
+"esto no debe detenerte para usar tus propios samples, es solamente algo a "
+"considerar."
 
 #: 03.6-External-Samples.md:26
+#, fuzzy
 msgid "Local Samples"
-msgstr ""
+msgstr "Samples locales"
 
 #: 03.6-External-Samples.md:28
 msgid ""
 "So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? All "
 "you need to do is pass the path of that file to `sample`:"
 msgstr ""
+"¿Cómo reproduces cualquier archivo WAV, AIFF o FLAC en tu computadora? Todo "
+"lo que necesitas es indicar la ubicación del archivo en `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, fuzzy, no-wrap
@@ -3055,10 +3079,13 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
+#, fuzzy
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all th"
 "e standard params you're used to passing `sample`:"
 msgstr ""
+"Sonic Pi cargará y reproducirá el sample. También puedes indicar todos los "
+"parámetros estándar que acostumbras, indicando a `sample`:"
 
 #: 03.6-External-Samples.md:41
 #, fuzzy, no-wrap
@@ -3074,33 +3101,43 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 
 #: 03.7-Sample-Packs.md:1
+#, fuzzy
 msgid "3.7 Sample Packs"
-msgstr ""
+msgstr "3.7 Paquete de samples"
 
 #: 03.7-Sample-Packs.md:3
 msgid "Sample Packs"
-msgstr ""
+msgstr "Paquete de samples"
 
 #: 03.7-Sample-Packs.md:5
+#, fuzzy
 msgid ""
 "**Note: this section of the tutorial covers the advanced topic of working with"
 " large directories of your own samples. This will be the case if you've downlo"
 "aded or bought your own sample packs and wish to use them within Sonic Pi.**"
 msgstr ""
+"**Nota: esta sección del tutorial cubre un tema avanzado con directorios "
+"grandes de tus propios samples. Este puede ser el caso si has descargado o "
+"comprado tus paquetes de samples y deseas usarlos en Sonic Pi.**"
 
 #: 03.7-Sample-Packs.md:10
+#, fuzzy
 msgid "**Feel free to skip this if you're happy working with the built-in samples.**"
 msgstr ""
+"**Siéntete libre de leer esto si estás feliz usando los samples incluídos.**"
 
 #: 03.7-Sample-Packs.md:13
+#, fuzzy
 msgid ""
 "When working with large folders of external samples it can be cumbersome to ha"
 "ve to type the whole path every time to trigger an individual sample."
 msgstr ""
+"Cuando trabajas con carpetas grandes de samples externos puede ser difícil "
+"tener que escribir toda la ruta cada vez que quieras usar un sample."
 
 #: 03.7-Sample-Packs.md:17
 msgid "For example, say you have the following folder on your machine:"
-msgstr ""
+msgstr "Por ejemplo, si tienes la siguiente carpeta en tu máquina:"
 
 #: 03.7-Sample-Packs.md:19
 #, no-wrap
@@ -3108,48 +3145,55 @@ msgid "/path/to/my/samples/"
 msgstr "/path/to/my/samples/"
 
 #: 03.7-Sample-Packs.md:23
+#, fuzzy
 msgid "When we look inside that folder we find the following samples:"
-msgstr ""
+msgstr "Cuando vemos dentro de la carpeta, encontramos los siguientes samples:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
-msgstr ""
+msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
 msgid "`100_A#_melody2.wav`"
-msgstr ""
+msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
 msgid "`100_A#_melody3.wav`"
-msgstr ""
+msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
 msgid "`120_A#_melody4.wav`"
-msgstr ""
+msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
 msgid "`120_Bb_guit1.wav`"
-msgstr ""
+msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
 msgid "`120_Bb_piano1.wav`"
-msgstr ""
+msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
+#, fuzzy
 msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr ""
+"Típicamente, para reproducir un sample de piano, podemos usar la ruta "
+"completa:"
 
 #: 03.7-Sample-Packs.md:34
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 msgstr "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 
 #: 03.7-Sample-Packs.md:38
+#, fuzzy
 msgid "If we want to then play the guitar sample we can use its full path too:"
 msgstr ""
+"Si queremos reproducir un sample de guitarra podemos usar su ruta completa "
+"también:"
 
 #: 03.7-Sample-Packs.md:40
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_guit.wav\""
 msgstr "sample \"/path/to/my/samples/120_Bb_guit.wav\""
 
@@ -3161,26 +3205,33 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:48
+#, fuzzy
 msgid "Indexing Sample Packs"
-msgstr ""
+msgstr "Indexando los paquetes de samples"
 
 #: 03.7-Sample-Packs.md:50
+#, fuzzy
 msgid ""
 "If we want to play the first sample in a directory we just need to pass the di"
 "rectory's name to `sample` and the index `0` as follows:"
 msgstr ""
+"Si queremos reproducir el primer sample en un directorio, necesitamos "
+"indicar el nombre del directorio en `sample` y el índice `0` de la siguiente "
+"manera:"
 
 #: 03.7-Sample-Packs.md:53
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample \"/path/to/my/samples/\", 0"
 msgstr "sample \"/path/to/my/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
 msgstr ""
+"Podemos incluso hacer un acceso directo a la ruta de nuestro directorio "
+"usando una variable:"
 
 #: 03.7-Sample-Packs.md:59
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 0"
@@ -3189,13 +3240,16 @@ msgstr ""
 "sample samps, 0"
 
 #: 03.7-Sample-Packs.md:64
+#, fuzzy
 msgid ""
 "Now, if we want to play the second sample in our directory, we just need to ad"
 "d 1 to our index:"
 msgstr ""
+"Ahora, si queremos reproducir un segundo sample en nuestro directorio, sólo "
+"necesitamos añadir 1 a nuestro índice:"
 
 #: 03.7-Sample-Packs.md:67
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 1"
@@ -3243,7 +3297,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:107
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\""
