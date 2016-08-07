@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-06 23:10+0000\n"
+"PO-Revision-Date: 2016-08-07 00:09+0000\n"
 "Last-Translator: Paulo <paulo.chiliguano@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -1812,6 +1812,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:168
 msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 msgstr ""
+"![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 #, fuzzy
@@ -1842,7 +1843,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 #, fuzzy
@@ -1864,7 +1865,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 #, fuzzy
@@ -2080,35 +2081,35 @@ msgstr ""
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
 #, fuzzy
@@ -2424,7 +2425,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 #, fuzzy
@@ -2575,7 +2576,7 @@ msgstr ""
 "mos aparecerlo dentro de 1 segundo, podemos utilizar el parámetro `attack:`:"
 
 #: 03.4-Enveloped-Samples.md:24
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, attack: 1"
 msgstr "sample :loop_amen, attack: 1"
 
@@ -2585,7 +2586,7 @@ msgid "For a shorter fade in, choose a shorter attack value:"
 msgstr "Para un desaparecimiento más corto, elegiríamos un valor de ataque menor:"
 
 #: 03.4-Enveloped-Samples.md:30
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, attack: 0.3"
 msgstr "sample :loop_amen, attack: 0.3"
 
@@ -2633,7 +2634,7 @@ msgstr ""
 "eguntamos a Sonic Pi cuán largo es el sampleo:"
 
 #: 03.4-Enveloped-Samples.md:53
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "print sample_duration :loop_amen"
 msgstr "print sample_duration :loop_amen"
 
@@ -2649,7 +2650,7 @@ msgstr ""
 "`0.75`, algo sorpresivo pasará:"
 
 #: 03.4-Enveloped-Samples.md:61
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, release: 0.75"
 msgstr "sample :loop_amen, release: 0.75"
 
@@ -2688,7 +2689,7 @@ msgstr ""
 "ain para aparecer y desvanecer en la duración del sampleo:"
 
 #: 03.4-Enveloped-Samples.md:78
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, attack: 0.75, release: 0.75"
 msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
@@ -2717,7 +2718,7 @@ msgstr ""
 "zador al setear manualmente el `sustain:` a un valor como 0:"
 
 #: 03.4-Enveloped-Samples.md:91
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, sustain: 0, release: 0.75"
 msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
@@ -2749,7 +2750,7 @@ msgstr ""
 "l_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :drum_cymbal_open"
 msgstr "sample :drum_cymbal_open"
 
@@ -2763,7 +2764,7 @@ msgstr ""
 "podemos usar el sobre para hacerlo más percusivo:"
 
 #: 03.4-Enveloped-Samples.md:113
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
@@ -2777,7 +2778,7 @@ msgstr ""
 "iodo de sustain:"
 
 #: 03.4-Enveloped-Samples.md:120
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 
@@ -2827,7 +2828,7 @@ msgstr ""
 "locidad):"
 
 #: 03.5-Partial-Samples.md:23
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, rate: 0.5, attack: 1"
 msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
@@ -2843,7 +2844,7 @@ msgstr ""
 "on valores cortos:"
 
 #: 03.5-Partial-Samples.md:31
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
@@ -2876,7 +2877,7 @@ msgstr ""
 "de amen break:"
 
 #: 03.5-Partial-Samples.md:46
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, start: 0.5"
 msgstr "sample :loop_amen, start: 0.5"
 
@@ -2886,7 +2887,7 @@ msgid "How about the last quarter of the sample:"
 msgstr "¿Qué tal escuchar el último cuarto del sample?:"
 
 #: 03.5-Partial-Samples.md:52
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, start: 0.75"
 msgstr "sample :loop_amen, start: 0.75"
 
@@ -2905,7 +2906,7 @@ msgstr ""
 "n un valor entre 0 y 1. Vamos a terminar el amen break a la mitad:"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, finish: 0.5"
 msgstr "sample :loop_amen, finish: 0.5"
 
@@ -2924,7 +2925,7 @@ msgstr ""
 "o arbitrariamente. ¿Qué tal una pequeña sección en el medio?"
 
 #: 03.5-Partial-Samples.md:71
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, start: 0.4, finish: 0.6"
 msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
@@ -2934,7 +2935,7 @@ msgid "What happens if we choose a start position after the finish position?"
 msgstr "¿Qué pasa si elegimos comenzar en una posición después del final?"
 
 #: 03.5-Partial-Samples.md:78
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, start: 0.6, finish: 0.4"
 msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
@@ -2960,7 +2961,7 @@ msgstr ""
 "al medio de amen break muy lentamente:"
 
 #: 03.5-Partial-Samples.md:90
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
@@ -2979,7 +2980,7 @@ msgstr ""
 "os interesantes:"
 
 #: 03.5-Partial-Samples.md:99
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release: "
 "1"
@@ -3066,7 +3067,7 @@ msgstr ""
 "lo que necesitas es indicar la ubicación del archivo en `sample`:"
 
 #: 03.6-External-Samples.md:31
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "# Raspberry Pi, Mac, Linux\n"
 "sample \"/Users/sam/Desktop/my-sound.wav\"\n"
@@ -3088,7 +3089,7 @@ msgstr ""
 "parámetros estándar que acostumbras, indicando a `sample`:"
 
 #: 03.6-External-Samples.md:41
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "# Raspberry Pi, Mac, Linux\n"
 "sample \"/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3\n"
@@ -3312,7 +3313,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:115
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", 1"
@@ -3328,7 +3329,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:124
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"A#\""
@@ -3341,7 +3342,7 @@ msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
 msgstr ""
 
 #: 03.7-Sample-Packs.md:131
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
@@ -3378,10 +3379,10 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "Por ejemplo, echemos un vistazo al siguiente código:"
 
 #: 03.7-Sample-Packs.md:152
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "samps2 = \"/path/to/my/samples2/\"\n"
@@ -3411,7 +3412,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:171
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/nested/samples/**\"\n"
 "sample samps, 0"
@@ -3482,7 +3483,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:199
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 msgstr "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 
@@ -3505,7 +3506,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:213
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "sample \"/path/to/dir\", \"100\", \"C#\"\n"
 "sample [\"/path/to/dir\", \"100\", \"C#\"]\n"
@@ -3570,7 +3571,7 @@ msgstr ""
 "m). Intentemos tocar una nota al azar:"
 
 #: 04-Randomisation.md:17
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play rrand(50, 95)"
 msgstr "play rrand(50, 95)"
 
@@ -3611,7 +3612,7 @@ msgstr ""
 " Intenta lo siguiente:"
 
 #: 04-Randomisation.md:36
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  play rrand(50, 95)\n"
@@ -3655,7 +3656,7 @@ msgstr ""
 "pausa entre los sonidos:"
 
 #: 04-Randomisation.md:56
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  sample :perc_bell, rate: (rrand 0.125, 1.5)\n"
@@ -3683,7 +3684,7 @@ msgstr ""
 "tb303`"
 
 #: 04-Randomisation.md:69
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "loop do\n"
@@ -3716,12 +3717,11 @@ msgstr ""
 "para una aleatoriedad diferente!"
 
 #: 04-Randomisation.md:85
-#, fuzzy
 msgid "Consider the following:"
-msgstr "Considera el siguiente:"
+msgstr "Considera lo siguiente:"
 
 #: 04-Randomisation.md:87
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "5.times do\n"
 "  play rrand(50, 100)\n"
@@ -3743,7 +3743,7 @@ msgstr ""
 "cambiar la secuencia, simplemente cambia el valor de seed_:"
 
 #: 04-Randomisation.md:97
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_random_seed 40\n"
 "5.times do\n"
@@ -3795,17 +3795,16 @@ msgstr ""
 "`[60, 65, 72]`. Después sólo necesito pasarlos por `choose`:"
 
 #: 04-Randomisation.md:122
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "choose([60, 65, 72])"
 msgstr "choose([60, 65, 72])"
 
 #: 04-Randomisation.md:126
-#, fuzzy
 msgid "Let's hear what that sounds like:"
-msgstr "Escuchemos a lo que suena:"
+msgstr "Escuchemos como suena:"
 
 #: 04-Randomisation.md:128
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  play choose([60, 65, 72])\n"
