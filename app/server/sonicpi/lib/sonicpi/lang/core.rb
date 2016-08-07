@@ -29,6 +29,40 @@ module SonicPi
 
       THREAD_RAND_SEED_MAX = 10e20
 
+      def run_file(path)
+        path = File.expand_path(path.to_s)
+        raise "Unable to run file - no file found with path: #{path}" unless File.exists?(path)
+        __spider_eval(File.read(path))
+      end
+      doc name:           :run_file,
+          introduced:     Version.new(2,11,0),
+          summary:        "Evaluate the contents of the file as a new Run",
+          args:           [[:filename, :path]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Reads the full contents of the file with `path` and executes it in a new Run. This works as if the code in the file was in a buffer and Run button was pressed.",
+          examples: ["
+run_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"]
+
+      def run_code(code)
+        __spider_eval(code.to_s)
+      end
+      doc name:           :run_code,
+          introduced:     Version.new(2,11,0),
+          summary:        "Evaluate the code passed as a String as a new Run",
+          args:           [[:code, :string]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Executes the code passed as a string in a new Run. This works as if the code was in a buffer and Run button was pressed.",
+          examples: ["
+run_code \"sample :ambi_lunar_land\" #=> will play the :ambi_lunar_land sample",
+
+        "# Works with any amount of code:
+run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
+
+
       def use_osc(host_or_port, port=nil)
         if port
           host = host_or_port.to_s
