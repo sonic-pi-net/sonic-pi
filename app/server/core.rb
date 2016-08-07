@@ -161,7 +161,7 @@ module SonicPi
 
       def self.__thread_locals(t = Thread.current)
         tls = t.thread_variable_get(:sonic_pi_thread_locals)
-        tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::ThreadLocal.new) unless tls
+        tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls
         return tls
       end
 
@@ -246,7 +246,7 @@ module SonicPi
 
       def self.__thread_locals(t = Thread.current)
       tls = t.thread_variable_get(:sonic_pi_thread_locals)
-      tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::ThreadLocal.new) unless tls
+      tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls
       return tls
           end
 
