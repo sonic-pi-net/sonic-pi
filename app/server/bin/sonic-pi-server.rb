@@ -139,6 +139,16 @@ osc_server.add_method("/run-code") do |args|
   sp.__spider_eval code
 end
 
+osc_server.add_method("/save-and-run-buffer-via-local-file") do |args|
+  gui_id = args[0]
+  buffer_id = args[1]
+  path = args[2].force_encoding("utf-8")
+  code = File.read(File.expand_path(path.to_s))
+  workspace = args[3]
+  sp.__save_buffer(buffer_id, code)
+  sp.__spider_eval code, {workspace: workspace}
+end
+
 osc_server.add_method("/save-and-run-buffer") do |args|
   gui_id = args[0]
   buffer_id = args[1]

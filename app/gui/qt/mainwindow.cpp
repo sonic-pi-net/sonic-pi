@@ -140,6 +140,14 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/init-script.rb");
   exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/exit-script.rb");
 
+
+  tmp_file_store = QDir::toNativeSeparators(QDir::tempPath() + "/" + "SonicPiTmpBufferStore");
+  std::cout << "[GUI] - Making tmp dir: " << tmp_file_store.toStdString() << std::endl;
+  tmpFileStoreAvailable = QDir().mkdir(tmp_file_store);
+  if(!tmpFileStoreAvailable) {
+    std::cout << "[GUI] - Unable to create tmp dir: " << tmp_file_store.toStdString() << std::endl;
+  }
+
   // Clear out old tasks from previous sessions if they still exist
   std::cout << "[GUI] - running init script" << std::endl;
   QProcess *initProcess = new QProcess();
@@ -1495,6 +1503,83 @@ void MainWindow::resetErrorPane() {
   errorPane->hide();
 }
 
+void MainWindow::runCodeWithFile()
+{
+
+
+  // revert back to using pure OSC
+  // if we don't have access to the
+  // temporary file store
+  if(!tmpFileStoreAvailable) {
+    return runCode();
+  }
+
+  std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
+  QString tmppath = QDir::toNativeSeparators(tmp_file_store + "/" + QString::fromStdString(filename));
+
+  QFile outFile(tmppath);
+  outFile.open(QIODevice::WriteOnly | QIODevice::Text);
+
+  // revert back to using pure OSC
+  // if we can't open the temporary file
+  if(!outFile.isOpen()){
+    qDebug() << "- Error, unable to open" << tmppath << "for output";
+    return runCode();
+  }
+
+  scopeInterface->resume();
+  update();
+  if(auto_indent_on_run->isChecked()) {
+    beautifyCode();
+  }
+  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
+  ws->highlightAll();
+  lexer->highlightAll();
+  ws->clearLineMarkers();
+  resetErrorPane();
+  statusBar()->showMessage(tr("Running Code..."), 1000);
+  QString code = ws->text();
+  Message msg("/save-and-run-buffer-via-local-file");
+  msg.pushStr(guiID.toStdString());
+
+  msg.pushStr(filename);
+
+  if(!print_output->isChecked()) {
+    code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+
+  if(!log_cues->isChecked()) {
+    code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+
+  if(check_args->isChecked()) {
+    code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+
+  if(enable_external_synths_cb->isChecked()) {
+     code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+
+  if(synth_trigger_timing_guarantees_cb->isChecked()) {
+     code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+
+  if(clear_output_on_run->isChecked()){
+    outputPane->clear();
+  }
+
+
+  QTextStream outStream(&outFile);
+  outStream << code;
+  outFile.close();
+
+  msg.pushStr(tmppath.toStdString());
+  msg.pushStr(filename);
+  sendOSC(msg);
+
+  QTimer::singleShot(500, this, SLOT(unhighlightCode()));
+}
+
 
 void MainWindow::runCode()
 {
@@ -2423,8 +2508,8 @@ void MainWindow::createToolBar()
   // Run
   QAction *runAct = new QAction(QIcon(":/images/run.png"), tr("Run"), this);
   setupAction(runAct, 'R', tr("Run the code in the current buffer"),
-	      SLOT(runCode()));
-  new QShortcut(QKeySequence(metaKeyModifier() + Qt::Key_Return), this, SLOT(runCode()));
+	      SLOT(runCodeWithFile()));
+  new QShortcut(QKeySequence(metaKeyModifier() + Qt::Key_Return), this, SLOT(runCodeWithFile()));
 
   // Stop
   QAction *stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);

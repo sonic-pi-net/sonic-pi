@@ -99,6 +99,7 @@ private slots:
     void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();
+    void runCodeWithFile();
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
     void update_check_updates();
@@ -322,7 +323,7 @@ private:
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
-    QString sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path;
+    QString sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store;;
     QString defaultTextBrowserStyle;
 
     QString version;
@@ -335,7 +336,7 @@ private:
     QLabel *versionLabel;
     Scope* scopeInterface;
     QString guiID;
-    bool homeDirWritable;
+    bool homeDirWritable, tmpFileStoreAvailable;
 };
 
 #endif
