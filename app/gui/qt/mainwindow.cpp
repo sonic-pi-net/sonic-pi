@@ -141,13 +141,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/exit-script.rb");
 
 
-  tmp_file_store = QDir::toNativeSeparators(QDir::tempPath() + "/" + "SonicPiTmpBufferStore");
-  std::cout << "[GUI] - Making tmp dir: " << tmp_file_store.toStdString() << std::endl;
-  tmpFileStoreAvailable = QDir().mkdir(tmp_file_store);
-  if(!tmpFileStoreAvailable) {
-    std::cout << "[GUI] - Unable to create tmp dir: " << tmp_file_store.toStdString() << std::endl;
-  }
-
   // Clear out old tasks from previous sessions if they still exist
   std::cout << "[GUI] - running init script" << std::endl;
   QProcess *initProcess = new QProcess();
@@ -226,6 +219,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...
 
+    //Create temporary file store (if possible) for sharing buffers locally with server.
+    tmp_file_store = QDir::toNativeSeparators(QDir::tempPath() + "/" + "SonicPiGUIBufferStore-" + guiID.mid(1, 13));
+    std::cout << "[GUI] - Making tmp dir for sending buffers locally: " << tmp_file_store.toStdString() << std::endl;
+    tmpFileStoreAvailable = QDir().mkdir(tmp_file_store);
+    if(!tmpFileStoreAvailable) {
+      std::cout << "[GUI] - Unable to create tmp dir: " << tmp_file_store.toStdString() << std::endl;
+    }
 
     loadWorkspaces();
     requestVersion();
@@ -1523,7 +1523,7 @@ void MainWindow::runCodeWithFile()
   // revert back to using pure OSC
   // if we can't open the temporary file
   if(!outFile.isOpen()){
-    qDebug() << "- Error, unable to open" << tmppath << "for output";
+    std::cout << "[GUI] - unable to open " << tmppath.toStdString() << " to transmit buffer code. Falling back to UDP OSC..." << std::endl;
     return runCode();
   }
 
