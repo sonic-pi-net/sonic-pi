@@ -190,6 +190,7 @@ private slots:
 
 private:
 
+    void createTmpBufferDir();
     QString osDescription();
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;

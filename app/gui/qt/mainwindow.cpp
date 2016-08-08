@@ -219,13 +219,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...
 
-    //Create temporary file store (if possible) for sharing buffers locally with server.
-    tmp_file_store = QDir::toNativeSeparators(QDir::tempPath() + "/" + "SonicPiGUIBufferStore-" + guiID.mid(1, 13));
-    std::cout << "[GUI] - Making tmp dir for sending buffers locally: " << tmp_file_store.toStdString() << std::endl;
-    tmpFileStoreAvailable = QDir().mkdir(tmp_file_store);
-    if(!tmpFileStoreAvailable) {
-      std::cout << "[GUI] - Unable to create tmp dir: " << tmp_file_store.toStdString() << std::endl;
-    }
+    createTmpBufferDir();
 
     loadWorkspaces();
     requestVersion();
@@ -240,6 +234,24 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
+  }
+}
+
+void MainWindow::createTmpBufferDir() {
+  //Create temporary file store (if possible) for sharing buffers locally with server.
+  //Attempt to use a standard dir SonicPiGUIBufferStore - but if that cant' be
+  //created, then attempt to use a unique dir name.
+  tmp_file_store = QDir::toNativeSeparators(QDir::tempPath() + "/" + "sonic-pi-gui-buffer-store");
+  std::cout << "[GUI] - Making tmp dir for sending buffers locally: " << tmp_file_store.toStdString() << std::endl;
+  tmpFileStoreAvailable = QDir().mkdir(tmp_file_store);
+  if(!tmpFileStoreAvailable) {
+    std::cout << "[GUI] - Unable to create tmp dir: " << tmp_file_store.toStdString() << std::endl;
+    tmp_file_store = QDir::toNativeSeparators(QDir::tempPath() + "/" + "sonic-pi-gui-buffer-store-" + guiID.mid(1, 13));
+    std::cout << "[GUI] - Making unique tmp dir for sending buffers locally: " << tmp_file_store.toStdString() << std::endl;
+    tmpFileStoreAvailable = QDir().mkdir(tmp_file_store);
+    if(!tmpFileStoreAvailable) {
+      std::cout << "[GUI] - Still unable to create tmp dir: " << tmp_file_store.toStdString() << std::endl;
+    }
   }
 }
 
