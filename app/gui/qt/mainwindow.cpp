@@ -2520,8 +2520,8 @@ void MainWindow::createToolBar()
   // Run
   QAction *runAct = new QAction(QIcon(":/images/run.png"), tr("Run"), this);
   setupAction(runAct, 'R', tr("Run the code in the current buffer"),
-	      SLOT(runCodeWithFile()));
-  new QShortcut(QKeySequence(metaKeyModifier() + Qt::Key_Return), this, SLOT(runCodeWithFile()));
+	      SLOT(runCode()));
+  new QShortcut(QKeySequence(metaKeyModifier() + Qt::Key_Return), this, SLOT(runCode()));
 
   // Stop
   QAction *stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);
