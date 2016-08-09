@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 13:39+0000\n"
-"Last-Translator: Serge Stinckwich <Serge.Stinckwich@gmail.com>\n"
+"PO-Revision-Date: 2016-08-09 12:15+0000\n"
+"Last-Translator: sebastien van der Kwast <svdkwast@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -13,17 +13,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
-#, fuzzy
 msgid "1 Welcome to Sonic Pi"
-msgstr "1 Bienvenue à Sonic Pi"
+msgstr "1 Bienvenue dans Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
-#, fuzzy
 msgid "Welcome friend :-)"
-msgstr "Bienvenue Ami :-)"
+msgstr "Bienvenue cher ami :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -32,11 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Bienvenue à Sonic Pi. J'espère que vous êtes aussi excité à l'idée de "
-"commencer à faire des sons délirants que comme je le suis pour vous le "
-"montrer. Ça va être réellement un parcours amusant où vous allez tout "
-"apprendre de la musique, de la synthèse, de la programmation, de "
-"l'interprétation et plus encore."
+"Bienvenue dans Sonic Pi. J'espère que vous êtes aussi enthousiasmé à l'idée "
+"de commencer à faire des sons délirants que je le suis. Ça va être "
+"réellement un parcours amusant où vous allez tout apprendre de la musique, "
+"de la synthèse, de la programmation, de l'interprétation et plus encore."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 #, fuzzy
@@ -87,6 +84,10 @@ msgid ""
 " stream live on [livecoding.tv/samaaron](http://livecoding.tv/samaaron) so ple"
 "ase do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"Regarder d'autres faire du live-coding est une excellente façon d'apprendre, "
+"je stream régulièrement sur [livecoding.tv/samaaron] "
+"(http://livecoding.tv/samaaron), n'hésitez pas à y passer, à dire bonjour et "
+"à me poser beaucoup de questions :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -307,13 +308,12 @@ msgstr ""
 "t tourner à différentes cadences."
 
 #: 01.1-Live-Coding.md:83
-#, fuzzy
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Essayez de décommenter la ligne \"sample\" (enlevez le `#`) et apprécier le son "
-"de la guitare joué en fond."
+"Essayez de décommenter la ligne \"sample\" (enlevez le `#`) et apprécier le "
+"son de la guitare joué à l'envers."
 
 #: 01.1-Live-Coding.md:85
 #, fuzzy
@@ -370,26 +370,22 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:111
-#, fuzzy
 msgid ""
 "Now, keep playing and experimenting until your curiosity about how this all ac"
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"Maintenant, continuez à jouer et à expérimenter jusqu'à ce que votre curiosité"
-" sur comment ça fonctionne s'avive réellement et vous commencerez à vous deman"
-"der quoi d'autre puis-je faire avec ceci. Vous êtes maintenant prêt à lire le "
-"reste du tutoriel."
+"Maintenant, continuez à jouer et à expérimenter jusqu'à ce que votre "
+"curiosité s'avive réellement et vous commencerez à vous demander ce que vous "
+"pouvez faire d'autre. Vous êtes maintenant prêt à lire le reste du tutoriel."
 
 #: 01.1-Live-Coding.md:115
-#, fuzzy
 msgid "So what are you waiting for..."
-msgstr "Aussi, qu'attendez-vous..."
+msgstr "Alors, qu'attendez-vous..."
 
 #: 01.2-Exploring-the-Interface.md:1
-#, fuzzy
 msgid "1.2 Exploring the Interface"
-msgstr "1.2 Exploration de l'interface"
+msgstr "1.2 Découverte de l'interface"
 
 #: 01.2-Exploring-the-Interface.md:3
 #, fuzzy
@@ -408,6 +404,8 @@ msgstr ""
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 msgstr ""
+"![Sonic Pi Interface](../images/tutorial/GUI.png)\n"
+" Copy →↵…«»‹›-–—"
 
 #: 01.2-Exploring-the-Interface.md:11
 #, fuzzy
@@ -420,9 +418,8 @@ msgid "*B* - Editor Controls"
 msgstr "*B* - Contrôles d'édition"
 
 #: 01.2-Exploring-the-Interface.md:13
-#, fuzzy
 msgid "*C* - Info and Help"
-msgstr "*C* - Info, Help et Prefs"
+msgstr "*C* - Info et aide"
 
 #: 01.2-Exploring-the-Interface.md:14
 #, fuzzy
@@ -481,12 +478,10 @@ msgstr ""
 "rofessionnelle."
 
 #: 01.2-Exploring-the-Interface.md:35
-#, fuzzy
 msgid "C. Info and Help"
-msgstr "C. Info, Help et Prefs"
+msgstr "C. Info et Aide"
 
 #: 01.2-Exploring-the-Interface.md:37
-#, fuzzy
 msgid ""
 "These blue buttons give you access to information, help and preferences. The *"
 "Info* button will open up the information window which contains information ab"
@@ -494,12 +489,12 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
-"Ces boutons bleus vous donnent accès à l'information, à l'aide et aux préféren"
-"ces. Le bouton *Info* ouvre la fenêtre d'information qui contient de l'informa"
-"tion sur Sonic Pi lui-même - le noyau de l'équipe, l'historique, les contribut"
-"eurs, et la communauté. Le bouton *Help* active le système d'aide (*G*) et le "
-"bouton *Prefs* active la fenêtre des préférences qui vous permet de contrôler "
-"quelques paramètres systèmes basiques."
+"Ces boutons bleus vous donnent accès à l'information, à l'aide et aux "
+"préférences. Le bouton *Info* ouvre la fenêtre d'information qui contient de "
+"l'information sur Sonic Pi lui-même - le noyau de l'équipe, l'historique, "
+"les contributeurs, et la communauté. Le bouton *Aide* active le système "
+"d'aide (*G*) et le bouton *Prefs* active la fenêtre des préférences qui vous "
+"permet de contrôler quelques paramètres systèmes basiques."
 
 #: 01.2-Exploring-the-Interface.md:44
 #, fuzzy
@@ -552,18 +547,17 @@ msgid "F. Log Viewer"
 msgstr "F. Visualisateur de la trace"
 
 #: 01.2-Exploring-the-Interface.md:65
-#, fuzzy
 msgid ""
 "When you run your code, information about what the program is doing will be di"
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"Quand vous exécutez votre code, l'information sur ce que le programme est en t"
-"rain de faire est affichée dans le visualisateur de la trace. Par défaut, vous"
-" verrez un message pour chaque son que vous créez avec l'heure exacte à laquel"
-"le le son a été déclenché. C'est très utile pour déboguer votre code et compre"
-"ndre ce qu'il fait."
+"Quand vous exécutez votre code, l'information sur ce que le programme est en "
+"train de faire est affichée dans le visualiseur de la trace. Par défaut, "
+"vous verrez un message pour chaque son que vous créez avec l'heure exacte à "
+"laquelle le son a été déclenché. C'est très utile pour déboguer votre code "
+"et comprendre ce qu'il fait."
 
 #: 01.2-Exploring-the-Interface.md:71
 #, fuzzy
@@ -748,12 +742,11 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "Beep !"
 
 #: 02.1-Your-First-Beeps.md:17
-#, fuzzy
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "Intense. Pressez-le une nouvelle fois. Et encore. *Et encore...*"
+msgstr "Intense. Appuyez encore une fois. Et encore. *Et encore...*"
 
 #: 02.1-Your-First-Beeps.md:19
 #, fuzzy
@@ -935,9 +928,8 @@ msgstr ""
 "uez et faites-vous plaisir."
 
 #: 02.1-Your-First-Beeps.md:97
-#, fuzzy
 msgid "Traditional Note Names"
-msgstr "Les noms traditionnels des notes"
+msgstr "Les noms classiques des notes"
 
 #: 02.1-Your-First-Beeps.md:99
 #, fuzzy
@@ -1150,7 +1142,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
-msgstr ""
+msgstr "Amplitude"
 
 #: 02.2-Synth-Params.md:66
 #, fuzzy
@@ -1199,9 +1191,8 @@ msgid "play 60, amp: 0.5"
 msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
-#, fuzzy
 msgid "To play at double amplitude pass 2:"
-msgstr "Pour jouer à double amplitude, passez 2 :"
+msgstr "Pour doubler l'amplitude, passez 2 :"
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
@@ -1624,7 +1615,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr ""
+msgstr "Maintenant, regardons chaque partie de l'enveloppe tour à tour."
 
 #: 02.4-Durations-with-Envelopes.md:42
 #, fuzzy
@@ -1650,6 +1641,8 @@ msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
+"Cette note va être audible pendant 1 seconde. Vous pouvez chronométrer :-) "
+"C'est la version abrégée de la version longue plus explicite :"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
@@ -1662,6 +1655,9 @@ msgid ""
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
+"Observez comme cela sonne exactement pareil (le son dure pendant une seconde)"
+". Néanmoins, c'est désormais très simple de changer la durée en modifiant la "
+"valeur du 'release': opt:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1900,7 +1896,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr ""
+msgstr "Niveau de chute"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
@@ -15479,6 +15475,8 @@ msgid ""
 "We calculate the finish position `f` by adding the `slice_size` to the start p"
 "osition `s`."
 msgstr ""
+"Nous pouvons calculer la position finale de 'f' en ajoutant la 'slice_size' "
+"à la position de départ 's'."
 
 #: A.12-sample-slicing.md:123
 msgid ""
