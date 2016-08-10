@@ -140,12 +140,12 @@
                                 sustain_level 1
                                 env_curve 1
 
-                                input 0
+                                input 1
                                 out_bus 0]
      (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           snd         (sound-in input)
+           snd         (sound-in (- input 1))
            env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
@@ -166,13 +166,13 @@
                                        sustain_level 1
                                        env_curve 1
 
-                                       input 0
+                                       input 1
                                        out_bus 0]
      (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            snd-l       (sound-in input)
-           snd-r       (sound-in (+ input 1))
+           snd-r       (sound-in (- input 1))
            env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
            snd-l       (* env snd-l)
            snd-r       (* env snd-r)
