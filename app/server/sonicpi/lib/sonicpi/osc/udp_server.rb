@@ -11,10 +11,13 @@
 # notice is included.
 #++
 require 'socket'
+require_relative "../util"
 
 module SonicPi
   module OSC
     class UDPServer
+      include Util
+
       def initialize(port, opts={}, &global_method)
         open = opts[:open]
         @port = port
@@ -81,6 +84,7 @@ module SonicPi
 
           begin
             address, args = @decoder.decode_single_message(osc_data)
+            log "OSC <-----        #{address} #{args.inspect}" if incoming_osc_debug_mode
             if @global_matcher
               @global_matcher.call(address, args)
             else
