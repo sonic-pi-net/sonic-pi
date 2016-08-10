@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-08 09:49+0000\n"
+"PO-Revision-Date: 2016-08-10 15:10+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -3128,8 +3128,8 @@ msgid ""
 "se `83.7527` again? That can't be random!"
 msgstr ""
 "おぉー、ランダムな音符を演奏しましたね。これは、``83.7527`の音符を演奏しました。50と95との間のランダムな音符でしたね。でも、ちょっと待ってく"
-"ださい、 上記で、私はあなたが再生したランダムな音符を正確に予測していませんか？何か怪しくないですか？ "
-"再度コードを実行してみてください。ランダムのはずが、再び`83.7527`が選ばれましたよね？ 実は、ランダムにすることができないのです！"
+"ださい、上記で、私はあなたが再生したランダムな音符を正確に予測していませんか？何か怪しくないですか？ "
+"再度コードを実行してみてください。ランダムのはずが、再び`83.7527`が選ばれましたよね？実は、ランダムにすることができないのです！"
 
 #: 04-Randomisation.md:26
 msgid ""
@@ -6951,34 +6951,30 @@ msgid "Changing it up"
 msgstr "チェンジアップ（変化）させる"
 
 #: 09.1-Live-Coding-Fundamentals.md:43
-#, fuzzy
 msgid ""
 "Now, this is where the fun starts. Whilst the code is *still running* change 5"
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
-"これから楽しみが始まります。コードを*実行しながら*、50を別の数値55に変更し、もう一度*Run*ボタンを押してみましょう。すごい迫力!変化しましたね!ラ"
-"イブ!"
+"これから楽しみが始まります。コードを*実行したままで*、50を別の数値55に変更し、もう一度`Run`ボタンを押してみましょう。わお！音が変化しましたね！"
+"ライブ！"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
-#, fuzzy
 msgid ""
 "It didn't add a new layer because we're using named threads which only allow o"
 "ne thread for each name. Also, the sound changed because we *redefined* the fu"
 "nction. We gave `:my_loop` a new definition. When the `:looper` thread looped "
 "around it simply called the new definition."
 msgstr ""
-"スレッドそれぞれに別の名前を使うことによって、新しいレイヤは追加されせんでした。 そのうえ、そのファンクション（関数）が再定義されることより、音が変化しまし"
-"た。 `:my_loop`に新しい定義を与えると、`:looper`スレッドが新しい定義付けを繰り返します。"
+"一つの名前に一つのスレッドしか実行されないので、新しいレイヤは追加されませんでした。また、ファンクション（関数）が*再定義*されることより、音が変化しまし"
+"た。`:my_loop`は新しく定義され、`:looper`スレッドが新しい定義を繰り返し呼び出します。"
 
 #: 09.1-Live-Coding-Fundamentals.md:52
-#, fuzzy
 msgid ""
 "Try changing it again, change the note, change the sleep time. How about addin"
 "g a `use_synth` statement? For example, change it to:"
 msgstr ""
-"スリープ時間をや音符を変更し、再び試してみてください。どのように\\`use_synthを追加するには どうすればよいのでしょうか。たとえば、次のように変更し"
-"ます。"
+"スリープ時間をや音符を変更し、再び試してみてください。`use_synth`を追加してみるのはどうでしょう？たとえば、次のように変更してみてください。"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -6996,11 +6992,10 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:63
-#, fuzzy
 msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of p"
 "laying the same note again and again, try playing a chord:"
-msgstr "かなり面白くなってきましたが、それをさらに盛り上げることができます。 代わりに、何度も何度も同じ音を再生する、和音を弾いてみましょう："
+msgstr "かなり面白くなってきましたが、それをさらに盛り上げることができます。何度も何度も同じ音符を演奏する代わりに、和音を弾いてみましょう。"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -7018,9 +7013,8 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:75
-#, fuzzy
 msgid "How about playing random notes from the chord:"
-msgstr "コードからランダムな音階を演奏するにはどうでしょう。"
+msgstr "和音からランダムな音符を演奏するのはどうでしょう。"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
@@ -7038,7 +7032,6 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:85
-#, fuzzy
 msgid "Or using a random cutoff value:"
 msgstr "またはランダムなカットオフ値を使用してみましょう。"
 
@@ -7058,9 +7051,8 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:95
-#, fuzzy
 msgid "Finally, add some drums:"
-msgstr "最後に、いくつかのドラムを追加しましょう。"
+msgstr "最後に、ドラムを追加しましょう。"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
@@ -7080,27 +7072,23 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:106
-#, fuzzy
 msgid "Now things are getting exciting!"
-msgstr "どんどんおもしろくなってきましたね!"
+msgstr "どんどんおもしろくなってきましたね！"
 
 #: 09.1-Live-Coding-Fundamentals.md:108
-#, fuzzy
 msgid ""
 "However, before you jump up and start live coding with functions and threads, "
 "stop what you're doing and read the next section on `live_loop` which will cha"
 "nge the way you code in Sonic Pi forever..."
 msgstr ""
-"しかしながら、ファンクション（関数）とスレッドを使ったライブコーディングにステップアップする前に、 一息ついて、Sonic Piで永遠にコードを変える方法`"
-"live_loop`について次の章を読んでいきましょう。"
+"しかしながら、ファンクション（関数）とスレッドを使ったライブコーディングにステップアップする前に、一息ついて、Sonic "
+"Piでのコーディングを劇的に変えてしまうかもしれない`live_loop`について次の章を読んでいきましょう。"
 
 #: 09.2-Live-Loops.md:1
-#, fuzzy
 msgid "9.2 Live Loops"
 msgstr "9.2 ライブループ"
 
 #: 09.2-Live-Loops.md:3
-#, fuzzy
 msgid "Live Loops"
 msgstr "ライブループ"
 
@@ -7112,18 +7100,16 @@ msgid ""
 "ndamentals, `live_loop` is a simple way of doing exactly that but without havi"
 "ng to write so much."
 msgstr ""
-"このチュートリアルの中でもこの章は、最も重要です。もし1つの章だけを読むのであれば、この章でしょう。 もし、前の章でライブコーディングの基礎を読んでいるので"
-"あれば、live_loopは、演奏するための簡単な方法で、 あまり多くを記述することはありません。"
+"このチュートリアルの中でもこの章は、最も重要です。もし1つの章だけを読むのであれば、この章でしょう。もし、前の章でライブコーディングの基礎を読んでいるので"
+"あれば、`live_loop`は、それと同じことを少ないコード量で簡単に実現できる方法と言えます。"
 
 #: 09.2-Live-Loops.md:10
-#, fuzzy
 msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam wi"
 "th Sonic Pi."
-msgstr "前の章を読んでいない場合、`live_loop`はSonic Piでジャム(即興演奏)するための最良の方法でしょう。"
+msgstr "前の章を読んでいない場合、`live_loop`はSonic Piでジャム（即興演奏）するための最良の方法でしょう。"
 
 #: 09.2-Live-Loops.md:13
-#, fuzzy
 msgid "Let's play. Write the following in a new buffer:"
 msgstr "演奏してみましょう。新しいBufferに次のように書いてください。"
 
@@ -7141,26 +7127,23 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:22
-#, fuzzy
 msgid ""
 "Now press the Run button. You hear a basic beep every beat. Nothing fun there."
 " However, don't press Stop just yet. Change the `60` to `65` and press Run aga"
 "in."
 msgstr ""
-"*Rnn*ボタンを押してください。基本的なビープ音が数秒なります。 これでは楽しくないのですが、まだ*Stop*を押さないでください。 もう一度 `60`を"
-"`65`へ変更し実行してください。"
+"`Run`ボタンを押してください。一拍毎に基本的なビープ音が鳴ります。これでは楽しくないのですが、まだ`Stop`を押さないでください。`60`を`65`"
+"へ変更して、`Run`ボタンを押してください。"
 
 #: 09.2-Live-Loops.md:26
-#, fuzzy
 msgid "Woah! It changed *automatically* without missing a beat. This is live coding."
-msgstr "わー! 調子を崩さずに*自動的に*変化しました。 これがライブコーディングです。"
+msgstr "わお！リズムを崩さずに*自動的に*変化しました。これがライブコーディングです。"
 
 #: 09.2-Live-Loops.md:28
-#, fuzzy
 msgid ""
 "Why not change it to be more bass like? Just update your code whilst it's play"
 "ing:"
-msgstr "いっそうベースのように変えてみましょう？演奏したままコードを更新しましょう。"
+msgstr "もっとベースのように変えてみてはどうでしょう？演奏したままコードを更新しましょう。"
 
 #: 09.2-Live-Loops.md:30
 #, no-wrap
@@ -7178,12 +7161,10 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:38
-#, fuzzy
 msgid "Then hit Run."
-msgstr "ここで*Run*ボタンを押してください"
+msgstr "ここで*Run*ボタンを押してください。"
 
 #: 09.2-Live-Loops.md:40
-#, fuzzy
 msgid "Let's make the cutoff move around:"
 msgstr "カットオフを動かしてみましょう。"
 
@@ -7203,14 +7184,12 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:50
-#, fuzzy
 msgid "Hit Run again."
-msgstr "*Run*ボタンをもう一度押しましょう"
+msgstr "`Run`ボタンをもう一度押しましょう。"
 
 #: 09.2-Live-Loops.md:52
-#, fuzzy
 msgid "Add some drums:"
-msgstr "いくつかのドラムを追加してみましょう。"
+msgstr "ドラムを追加してみましょう。"
 
 #: 09.2-Live-Loops.md:54
 #, no-wrap
@@ -7230,7 +7209,6 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:63
-#, fuzzy
 msgid "Change the note from `e1` to `c1`:"
 msgstr "`e1`から`c1`に音符を変更してみましょう。"
 
@@ -7252,22 +7230,18 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:74
-#, fuzzy
 msgid "Now stop listening to me and play around yourself! Have fun!"
-msgstr "このあとは私の言うことを聞くのを止めて、自由に演奏してみましょう! 楽しんでください!"
+msgstr "このあとは私の言うことを聞くのを止めて、自由に演奏してみましょう！楽しんでください！"
 
 #: 09.3-Multiple-Live-Loops.md:1
-#, fuzzy
 msgid "9.3 Multiple Live Loops"
 msgstr "9.3 マルチ・ライブループ"
 
 #: 09.3-Multiple-Live-Loops.md:3
-#, fuzzy
 msgid "Multiple Live Loops"
 msgstr "マルチ・ライブループ"
 
 #: 09.3-Multiple-Live-Loops.md:5
-#, fuzzy
 msgid "Consider the following live loop:"
 msgstr "次のライブループを考えていきましょう。"
 
@@ -7285,21 +7259,18 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:14
-#, fuzzy
 msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
-"なぜ': foo’という名前をつける必要があるか疑問をもつかもしれません。この名前は、 このライブループが他のすべてのライブループと異なっていることを示すた"
+"なぜ': foo’という名前をつける必要があるか疑問をもつかもしれません。この名前は、このライブループが他のすべてのライブループと異なっていることを示すた"
 "めに重要です。"
 
 #: 09.3-Multiple-Live-Loops.md:18
-#, fuzzy
 msgid "*There can never be two live loops running with the same name*."
 msgstr "*同じ名前で実行中の2つのライブループが存在することはできません*。"
 
 #: 09.3-Multiple-Live-Loops.md:20
-#, fuzzy
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just n"
 "eed to give them different names:"
@@ -7329,19 +7300,16 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:36
-#, fuzzy
 msgid ""
 "You can now update and change each live loop independently and it all just wor"
 "ks."
 msgstr "各ライブループを個別に変更し更新できます。そしてすべてちゃんと動作します。"
 
 #: 09.3-Multiple-Live-Loops.md:39
-#, fuzzy
 msgid "Syncing Live Loops"
 msgstr "ライブループの同期"
 
 #: 09.3-Multiple-Live-Loops.md:41
-#, fuzzy
 msgid ""
 "One thing you might have already noticed is that live loops work automatically"
 " with the thread cue mechanism we explored previously. Every time the live loo"
@@ -7349,14 +7317,12 @@ msgid ""
 " therefore `sync` on these cues to ensure our loops are in sync without having"
 " to stop anything."
 msgstr ""
-"既に気づいているかもしれませんが、ライブループは、以前にみてきたスレッドのcueの メカニズムを使用して自動的に動作します。 ライブループがループするたびに"
-"、それが新しい名前を持つライブループの`cue`eventを生成します。 従って、`cue`をきっかけに何も停止せずにサウンドのループを同期させることができ"
-"ます。"
+"既に気づいているかもしれませんが、ライブループは、以前に見てきたスレッドのcueのメカニズムを使用して自動的に動作します。ライブループがループするたびに、"
+"それが新しい名前を持つライブループの`cue`を生成します。これにより、`cue`をきっかけに何も停止せずにサウンドのループを同期させることができます。"
 
 #: 09.3-Multiple-Live-Loops.md:47
-#, fuzzy
 msgid "Consider this badly synced code:"
-msgstr "この同期のとれたコードを考えてみましょう。"
+msgstr "次のような同期されていないコードを考えてみましょう。"
 
 #: 09.3-Multiple-Live-Loops.md:49
 #, no-wrap
@@ -7380,13 +7346,12 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:61
-#, fuzzy
 msgid ""
 "Let's see if we can fix the timing and sync without stopping it. First, let's "
 "fix the `:foo` loop to make the sleep a factor of 1 - something like `0.5` wil"
 "l do:"
 msgstr ""
-"それを停止することなくタイミングと同期を修正することができるかを見てみましょう。 まずは、`foo`ループ内の`sleep`の要素を0.5に変えてみましょう"
+"それを停止することなくタイミングと同期を修正することができるかを見てみましょう。まずは、`foo`ループ内の`sleep`の引数を0.5に変えてみましょう"
 "。"
 
 #: 09.3-Multiple-Live-Loops.md:65
@@ -7411,13 +7376,12 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:77
-#, fuzzy
 msgid ""
 "We're not quite finished yet though - you'll notice that the beats don't quite"
 " line up correctly. This is because the loops are *out of phase*. Let's fix th"
 "at by syncing one to the other:"
 msgstr ""
-"まだ終了することはできません。あなたは調子がまったく合っていないことに気付くでしょう。 これはループがずれているからです。 他と同期するように、それを修理し"
+"まだ終わりではないですね。あなたはビートがまったく合っていないことに気付くでしょう。これはループが*ずれて*いるからです。他と同期するように、それを修正し"
 "ていきましょう。"
 
 #: 09.3-Multiple-Live-Loops.md:81
@@ -7444,42 +7408,35 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:94
-#, fuzzy
 msgid "Wow, everything is now perfectly in time - all without stopping."
-msgstr "うわー、すべてを停止することなくすべてが完璧に同期しました。"
+msgstr "おおー、すべてを停止することなく完璧に同期しましたね。"
 
 #: 09.3-Multiple-Live-Loops.md:96
-#, fuzzy
 msgid "Now, go forth and live code with live loops!"
-msgstr "いまから、ライブループを使用したライブコーディングを始めましょう！"
+msgstr "さあ、ライブループを使ってライブコーディングを始めましょう！"
 
 #: 09.4-Ticking.md:1
-#, fuzzy
 msgid "9.4 Ticking"
 msgstr "9.4 チック"
 
 #: 09.4-Ticking.md:3
-#, fuzzy
 msgid "Ticking"
 msgstr "チック"
 
 #: 09.4-Ticking.md:5
-#, fuzzy
 msgid ""
 "Something you'll likely find yourself doing a lot when live coding is looping "
 "through rings. You'll be putting notes into rings for melodies, sleeps for rhy"
 "thms, chord progressions, timbral variations, etc. etc."
 msgstr ""
-"ライブコーディングでリングをループしていて、気が付くとたくさんのことをしていたことはないでしょうか。 例えば、リングにメロディーの音符を入れたり、リズムのス"
-"リープ、 コード進行や音色のバリエーションを入れたり等々。"
+"ライブコーディングでリングをループしていて、気が付くとたくさんのことをしていたことはないでしょうか。例えば、メロディーの音符、リズムのためのスリープ時間、"
+" コード進行や音色のバリエーションなどをリングに入れたり。"
 
 #: 09.4-Ticking.md:9
-#, fuzzy
 msgid "Ticking Rings"
 msgstr "リングのチック"
 
 #: 09.4-Ticking.md:11
-#, fuzzy
 msgid ""
 "Sonic Pi provides a *very* handy tool for working with rings within `live_loop"
 "`s. It's called the tick system. In the section about the rings we were talkin"
@@ -7487,8 +7444,8 @@ msgid ""
 " Tick just implements this idea. It provides you with the ability to *tick thr"
 "ough rings*. Let's look at an example:"
 msgstr ""
-"Sonic Piは`live_loop`内でリングと共に使える*とても*手軽なツールを提供しています。 それはチックシステムと呼ばれ、*tick throu"
-"gh rings（リングをチックタックと進める）* 機能を提供しています。次の例を見てください。"
+"Sonic Piは`live_loop`の中でリングと一緒に使える*とても*手軽なツールを提供しています。それはチックシステムと呼ばれ、*tick "
+"through rings（リングをチックタックと進める）* 機能を提供しています。次の例を見てください。"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
@@ -7509,7 +7466,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:26
 msgid "This is equivalent to:"
-msgstr ""
+msgstr "上のコードは次のコードと同じです。"
 
 #: 09.4-Ticking.md:28
 #, no-wrap
@@ -7525,15 +7482,14 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:35
-#, fuzzy
 msgid ""
 "Here, we're just grabbing the scale E3 minor pentatonic and ticking through ea"
 "ch element. This is done by adding `.tick` to the end of the scale declaration"
 ". This tick is local to the live loop, so each live loop can have its own inde"
 "pendent tick:"
 msgstr ""
-"ここでは、E3マイナーペンタトニックのスケールを作成し、各要素をチックしています。これは`.tick`を スケール宣言の末尾に追加することによって実現されて"
-"います。このチックはライブループ内で局所的であるため、 個々のライブループは独立したチックを持つことができます。"
+"ここでは、E3マイナーペンタトニックのスケールを作成し、各要素をチックしています。これは、`.tick`を`scale`の呼び出しの末尾に追加することによ"
+"って実現されています。チックはライブループの中でローカルであるため、 個々のライブループは別々のチックを持つことができます。"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -7559,12 +7515,10 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:53
-#, fuzzy
 msgid "Tick"
 msgstr "標準関数としてのチック"
 
 #: 09.4-Ticking.md:55
-#, fuzzy
 msgid "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr "`tick`はまた標準関数としても呼ぶことができ、その値はインデックスとして使うことができます。"
 
@@ -7584,22 +7538,19 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:65
-#, fuzzy
 msgid ""
 "However, it is much nicer to call `.tick` at the end. The `tick` fn is for whe"
 "n you want to do fancy things with the tick value and for when you want to use"
 " ticks for other things than indexing into rings."
 msgstr ""
-"しかし、この場合は`.tick`を呼ぶほうが良いでしょう。`tick`関数の用途は、 チックの値で手の込んだことをしたかったり、リングのインデックス以外のこ"
-"とにチックの値を使いたかったりする場合です。"
+"しかし、この場合は`.tick`を呼ぶほうが良いでしょう。`tick`関数の用途は、チックの値で手の込んだことをしたかったり、リングのインデックス以外にチ"
+"ックの値を使いたかったりする場合ではないでしょうか。"
 
 #: 09.4-Ticking.md:70
-#, fuzzy
 msgid "Look"
 msgstr "ルック"
 
 #: 09.4-Ticking.md:72
-#, fuzzy
 msgid ""
 "The magical thing about tick is that not only does it return a new index (or t"
 "he value of the ring at that index) it also makes sure that next time you call"
@@ -7609,22 +7560,20 @@ msgid ""
 "t increase* it. This is available via the `look` fn. You can call `look` as a "
 "standard fn or by adding `.look` to the end of a ring."
 msgstr ""
-"チックの魅力的なところはそれが新しいインデックス（もしくはそのインデックスにあるリングの値） を返すだけでなく、次にチックを呼んだときに必ず次の値を返すこと"
-"を保証していることでしょう。 `tick`が色んな形でこのような動作をしていることをこのドキュメントの例で見てみてください。 しかし、ここでチックの現在の値"
-"を見たいだけで値を*増加させたくない*の場合もあることを指摘することは重要でしょう。 これは`look`関数により実現可能です。`look`を標準関数として"
-"呼んだり、リングの後ろに`.look`を付けたりできます。"
+"チックの魅力的なところは、それが新しいインデックス（もしくはそのインデックスにあるリングの値） "
+"を返すだけでなく、次にチックを呼んだときに必ず次の値を返すことを保証していることでしょう。 このようなチックの動作は、様々な形で`tick`のドキュメント"
+"の例で見ることができるでしょう。しかし、ここで、チックの現在の値を見たいだけで、値を*増加させたくない*の場合もあることを指摘することは重要でしょう。これ"
+"は`look`関数により実現可能です。`look`は、標準関数として呼んだり、リングの後ろに`.look`を付けたりできます。"
 
 #: 09.4-Ticking.md:81
-#, fuzzy
 msgid "Naming Ticks"
 msgstr "チックの名前付け"
 
 #: 09.4-Ticking.md:83
-#, fuzzy
 msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is achie"
 "ved by giving your tick a name:"
-msgstr "最後に、1つのライブループに複数のチックが必要になることがあるかも しれません。これはチックに名前を付けることで実現できます。"
+msgstr "最後に、1つのライブループに複数のチックが必要になることがあるかもしれません。これはチックに名前を付けることで実現できます。"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
@@ -7640,7 +7589,6 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:93
-#, fuzzy
 msgid ""
 "Here we're using two ticks one for the note to play and another for the sleep "
 "time. As they're both in the same live loop, to keep them separate we need to "
@@ -7649,29 +7597,26 @@ msgid ""
 "alled one tick `:foo` and the other `:bar`. If we want to `look` at these we a"
 "lso need to pass the name of the tick to `look`."
 msgstr ""
-"ここでは2つのチックを使っていて、1つは音符用に、1つはスリープ時間用にしています。 これらのチックは同じライブループにあるので、別々にしておくためにユニー"
-"クな名前を与えています。 これはちょうど`live_loop`に名前を付ける（`:`から始まるシンボル名を渡すだけ）のと同じことです。 上の例では1つは`:"
-"foo`でチックを呼び出し、もう1つは`:bar`で呼び出しています。 また、これらの値を`look`したい場合には、チックの名前を`look`に渡す必要が"
-"あります。"
+"ここでは2つのチックを使っていて、1つは音符用に、もう1つはスリープ時間用にしています。 これらのチックは同じライブループにあるので、別々にしておくために"
+"ユニークな名前を与えています。これはちょうど`live_loop`に名前を付ける（`:`から始まるシンボル名を渡すだけ）のと同じことです。上の例では1つは"
+"`:foo`でチックを呼び出し、もう1つは`:bar`で呼び出しています。また、これらの値を`look`したい場合には、チックの名前を`look`に渡す必"
+"要があります。"
 
 #: 09.4-Ticking.md:101
-#, fuzzy
 msgid "Don't make it too complicated"
 msgstr "複雑にしすぎないように"
 
 #: 09.4-Ticking.md:103
-#, fuzzy
 msgid ""
 "Most of the power in the tick system isn't useful when you get started. Don't "
 "try and learn everything in this section. Just focus on ticking through a sing"
 "le ring. That'll give you most of the joy and simplicity of ticking through ri"
 "ngs in your `live_loop`s."
 msgstr ""
-"チックシステムの能力のほどんどは、最初のうちは役に立たないでしょう。 このセクションの全ての内容を学習しようとしないでください。 一つのリングでチックするこ"
-"とだけに集中するとよいでしょう。 そうすることで、`live_loop`でリングをチックする簡単さや楽しみを得ることができるでしょう。"
+"チックシステムの能力のほどんどは、最初のうちは役に立たないでしょう。このセクションの全ての内容を学習しようとしないでください。一つのリングでチックすること"
+"だけに集中するとよいでしょう。そうすることで、`live_loop`でリングをチックする簡単さや楽しみを得ることができるでしょう。"
 
 #: 09.4-Ticking.md:108
-#, fuzzy
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful exampl"
 "es and happy ticking!"
