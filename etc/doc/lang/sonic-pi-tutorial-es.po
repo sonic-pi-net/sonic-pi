@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-07 00:09+0000\n"
+"PO-Revision-Date: 2016-08-10 22:02+0000\n"
 "Last-Translator: Paulo <paulo.chiliguano@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -3436,13 +3436,15 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
-msgstr ""
+msgstr "Filtros"
 
 #: 03.7-Sample-Packs.md:186
 msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
 msgstr ""
+"Una vez que tienes una lista de candidatos deberías usar los siguientes "
+"tipos de filtros para reducir aún más la selección:"
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
@@ -3858,7 +3860,7 @@ msgstr ""
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
 #, fuzzy
@@ -3886,7 +3888,7 @@ msgstr ""
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
 #, fuzzy
@@ -3921,7 +3923,7 @@ msgstr ""
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
 #, fuzzy
@@ -5384,11 +5386,11 @@ msgstr ""
 
 #: 05.6-Variables.md:1
 msgid "5.6 Variables"
-msgstr ""
+msgstr "5.6 Variables"
 
 #: 05.6-Variables.md:3
 msgid "Variables"
-msgstr ""
+msgstr "Variables"
 
 #: 05.6-Variables.md:5
 #, fuzzy
@@ -5951,7 +5953,7 @@ msgstr ""
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr ""
+msgstr "6 FX"
 
 #: 06-FX.md:3
 #, fuzzy
@@ -6183,7 +6185,7 @@ msgstr ""
 
 #: 06.1-Adding-FX.md:67
 msgid "Echo"
-msgstr ""
+msgstr "Eco"
 
 #: 06.1-Adding-FX.md:69
 #, fuzzy
@@ -13723,6 +13725,8 @@ msgstr ""
 #: A.12-sample-slicing.md:86
 msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 msgstr ""
+"![Amen Slices](../images/tutorial/articles/A.12-sample-"
+"slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
