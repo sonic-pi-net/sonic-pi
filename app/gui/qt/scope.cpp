@@ -93,6 +93,9 @@ void ScopePanel::refresh( )
 
 Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0)
 {
+  std::fill_n(sample[0],4096,0);
+  std::fill_n(sample[1],4096,0);
+  std::fill_n(sample_mono,4096,0);
   panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
   panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Left",sample_x,sample[0],4096,this) ) );
   panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Right",sample_x,sample[1],4096, this) ) );
