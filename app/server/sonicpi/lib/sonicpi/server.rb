@@ -322,14 +322,20 @@ module SonicPi
 
     def buffer_alloc_read(path, start=0, n_frames=0)
       buffer_id = @BUFFER_ALLOCATOR.allocate
-      osc @osc_path_b_allocread, buffer_id, path, start, n_frames
-      buffer_info(buffer_id)
+      buffer_info(buffer_id) do
+        with_done_sync do
+          osc @osc_path_b_allocread, buffer_id, path, start, n_frames
+        end
+      end
     end
 
     def buffer_alloc(size, n_chans=2)
       buffer_id = @BUFFER_ALLOCATOR.allocate
-      osc @osc_path_b_alloc, buffer_id, size, n_chans
-      buffer_info(buffer_id)
+      buffer_info(buffer_id) do
+        with_done_sync do
+          osc @osc_path_b_alloc, buffer_id, size, n_chans
+        end
+      end
     end
 
     def buffer_free(buf)
@@ -354,7 +360,7 @@ module SonicPi
       buffer_free buf_stream
     end
 
-    def buffer_info(id)
+    def buffer_info(id, &blk)
       prom = Promise.new
       @osc_events.add_handler(@osc_path_b_info, @osc_events.gensym("/sonicpi/server")) do |payload|
         p = payload.to_a
@@ -364,9 +370,17 @@ module SonicPi
           :remove_handler
         end
       end
-      osc @osc_path_b_query, id
+      if blk
+        Thread.new do
+          blk.call
+          osc @osc_path_b_query, id
+        end
+      else
+        osc @osc_path_b_query, id
+      end
       LazyBuffer.new(self, id, prom)
     end
+
 
     def with_done_sync(&block)
       with_server_sync do
