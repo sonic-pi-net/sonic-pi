@@ -93,10 +93,10 @@ void ScopePanel::refresh( )
 
 Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0)
 {
-  //lissajous("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ), left("Left",sample_x,sample[0],4096,this), right("Right",sample_x,sample[1],4096, this)
   panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
   panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Left",sample_x,sample[0],4096,this) ) );
   panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Right",sample_x,sample[1],4096, this) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Mono",sample_x,sample_mono,4096, this) ) );
   panels[0]->setPen(QPen(QColor("deeppink"), 1));
   panels[0]->setXRange( -1, 1, true );
 
@@ -108,9 +108,10 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setSpacing(0);
   layout->setContentsMargins(0,0,0,0);
-  layout->addWidget(panels[0].get());
-  layout->addWidget(panels[1].get());
-  layout->addWidget(panels[2].get());
+  for( auto p : panels )
+  {
+    layout->addWidget(p.get());
+  }
   setLayout(layout);
 }
 
@@ -188,13 +189,28 @@ void Scope::refreshScope() {
       for( unsigned int i = 0; i < 4096 - frames; ++i )
       {
         sample[j][i] = sample[j][i+frames];
+        if( j == 0 )
+        {
+          sample_mono[i] = sample_mono[i+frames]; 
+        }
       }
 
       for( unsigned int i = 0; i < frames; ++i )
       {
         sample[j][4096-frames+i] = data[i+offset];
+        auto d = data[i+offset] + 1.0;
+        if(j == 0)
+        {
+          sample_mono[4096-frames+i] = d*d;
+        } else
+        {
+          sample_mono[4096-frames+i] += d*d;
+          sample_mono[4096-frames+i] /= 2.0f;
+          sample_mono[4096-frames+i] = sqrt(sample_mono[4096-frames+i]) - 1.0;
+        }
       }
     }
+    
     for( auto scope : panels )
     {
       scope->refresh();

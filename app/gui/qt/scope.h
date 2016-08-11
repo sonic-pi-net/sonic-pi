@@ -70,9 +70,9 @@ private:
   std::unique_ptr<server_shared_memory_client> shmClient;
   double sample_x[4096];
   double sample[2][4096];
+  double sample_mono[4096];
   scope_buffer_reader shmReader;
   std::vector<std::shared_ptr<ScopePanel>> panels;
-  //ScopePanel lissajous, left,right;
   bool paused;
   unsigned int emptyFrames;
 };
