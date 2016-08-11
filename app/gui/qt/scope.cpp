@@ -198,13 +198,15 @@ void Scope::refreshScope() {
       for( unsigned int i = 0; i < frames; ++i )
       {
         sample[j][4096-frames+i] = data[i+offset];
+        auto d = data[i+offset] + 1.0;
         if(j == 0)
         {
-          sample_mono[4096-frames+i] = data[i+offset];
+          sample_mono[4096-frames+i] = d*d;
         } else
         {
-          sample_mono[4096-frames+i] += data[i+offset];
+          sample_mono[4096-frames+i] += d*d;
           sample_mono[4096-frames+i] /= 2.0f;
+          sample_mono[4096-frames+i] = sqrt(sample_mono[4096-frames+i]) - 1.0;
         }
       }
     }
