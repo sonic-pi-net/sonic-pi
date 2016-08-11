@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-11 14:41+0000\n"
+"PO-Revision-Date: 2016-08-11 15:03+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -7689,9 +7689,8 @@ msgstr ""
 "う。"
 
 #: 10.1-Using-Shortcuts.md:22
-#, fuzzy
 msgid "Consistency across Platforms"
-msgstr "一貫したクロスプラットフォーム"
+msgstr "プラットフォーム間での一貫性"
 
 #: 10.1-Using-Shortcuts.md:24
 msgid ""
@@ -7716,8 +7715,8 @@ msgid ""
 msgstr ""
 "残念なことに3つの主要なオペレーティングシステム（Linux、 Mac OS "
 "XおよびWindows）では、カット＆ペーストなどの操作のために独自の基準が用意されています。 Sonic "
-"Piは、これらの基準を尊重します。しかしながら、プラットフォームの基準に対応することよりも、Sonic "
-"Pi内では*クロスプラットフォームとして一貫することを優先しています*。 これはRaspberry PiでSonic "
+"Piは、これらの基準を尊重します。しかしながら、Sonic "
+"Piでは、プラットフォームの基準に対応することよりも、*プラットフォーム間での一貫性を優先しています*。 これはRaspberry PiでSonic "
 "Piを演奏してショートカットを学んだら、 MacやPCに乗り換えても違和感無く同じように操作できることを意味しています。"
 
 #: 10.1-Using-Shortcuts.md:37
@@ -7739,20 +7738,19 @@ msgstr ""
 "あなたのオペレーティングシステムにおける適切なキーに置き換えるようにしてください。"
 
 #: 10.1-Using-Shortcuts.md:46
-#, fuzzy
 msgid "Abbreviations"
-msgstr "短縮"
+msgstr "略語"
 
 #: 10.1-Using-Shortcuts.md:48
-#, fuzzy
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
 "*Control* plus another key and *M-* for *Meta* plus another key. For example, "
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
-"シンプルで読みやすくするために、*Ctrlキー*＋その他のキーは「*C-*」、*Metaキー*＋その他のキーは「*M-*」の略語を使います。例えば、もし*M"
-"etaキー*と' r 'を同時に押さえるショートカットを要求する場合、「*M-r*」と表記します。"
+"シンプルで読みやすくするために、*Ctrlキー*＋その他のキーは「*C-*」、*Metaキー*＋その他のキーは「*M-*」の略語を使います。例えば、あるシ"
+"ョートカットが*Metaキー*と' r 'を同時に押さえる必要がある場合、「*M-r*」と表記します。そして、*-*は、\"同時に押さえる\""
+"を意味しています。"
 
 #: 10.1-Using-Shortcuts.md:53
 #, fuzzy
