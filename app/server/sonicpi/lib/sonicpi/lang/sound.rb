@@ -1294,6 +1294,11 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
       def synth(synth_name, *args, &blk)
         synth_name = current_synth unless synth_name
+        sn_sym = synth_name.to_sym
+        info = Synths::SynthInfo.get_info(sn_sym)
+        raise "Unknown synth #{sn.inspect}" unless info || __thread_locals.get(:sonic_pi_mod_sound_use_external_synths)
+
+
         args_h = resolve_synth_opts_hash_or_array(args)
         tls = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults) || {}
 
@@ -1306,19 +1311,24 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           return @blank_node
         end
 
+        if info
+          # only munge around with :note and notes if
+          # this is a built-in synth.
+          notes = args_h[:notes] || args_h[:note]
+          if is_list_like?(notes)
+            args_h.delete(:notes)
+            args_h.delete(:note)
+            shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
+            return trigger_chord(synth_name, shifted_notes, args_h)
+          end
 
-        notes = args_h[:notes] || args_h[:note]
-        if is_list_like?(notes)
-          args_h.delete(:notes)
-          args_h.delete(:note)
-          shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
-          return trigger_chord(synth_name, shifted_notes, args_h)
+          n = args_h[:note] || 52
+          n = normalise_transpose_and_tune_note_from_args(n, args_h)
+
+
+          args_h[:note] = n
         end
-
-        n = args_h[:note] || 52
-        n = normalise_transpose_and_tune_note_from_args(n, args_h)
-        args_h[:note] = n
-        res_node = trigger_inst synth_name, args_h
+        res_node = trigger_inst synth_name, args_h, info
         if block_given?
           in_thread do
             blk.call(res_node)
@@ -4037,10 +4047,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       end
 
 
-      def trigger_inst(synth_name, args_h, group=current_job_synth_group)
-        sn = synth_name.to_sym
-        info = Synths::SynthInfo.get_info(sn)
-        raise "Unknown synth #{sn.inspect}" unless info || __thread_locals.get(:sonic_pi_mod_sound_use_external_synths)
+      def trigger_inst(synth_name, args_h, info=nil, group=current_job_synth_group)
         processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
         if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
@@ -4055,7 +4062,8 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
         end
-        add_arg_slide_times!(processed_args, info)
+
+        add_arg_slide_times!(processed_args, info) if info
         out_bus = current_out_bus
         trigger_synth(synth_name, processed_args, group, info, false, out_bus)
       end
@@ -4107,9 +4115,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       # Function that actually triggers synths now that all args are resolved
       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false)
 
-
-
-        add_out_bus_and_rand_buf!(args_h, out_bus)
+        add_out_bus_and_rand_buf!(args_h, out_bus, info)
         orig_synth_name = synth_name
 
         synth_name = info ? info.scsynth_name : synth_name
@@ -4142,10 +4148,10 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         end
       end
 
-      def add_out_bus_and_rand_buf!(args_h, out_bus=nil)
+      def add_out_bus_and_rand_buf!(args_h, out_bus=nil, info=nil)
         out_bus = current_out_bus unless out_bus
         args_h["out_bus"] = out_bus.to_i
-        args_h[:rand_buf] = @mod_sound_studio.rand_buf_id if args_h[:seed]
+        args_h[:rand_buf] = @mod_sound_studio.rand_buf_id if args_h[:seed] && info
       end
 
 
