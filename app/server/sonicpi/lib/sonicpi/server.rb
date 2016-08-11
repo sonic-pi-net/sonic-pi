@@ -322,26 +322,18 @@ module SonicPi
 
     def buffer_alloc_read(path, start=0, n_frames=0)
       buffer_id = @BUFFER_ALLOCATOR.allocate
-      # TODO do we need to sync these?
-      with_done_sync do
-        osc @osc_path_b_allocread, buffer_id, path, start, n_frames
-      end
+      osc @osc_path_b_allocread, buffer_id, path, start, n_frames
       buffer_info(buffer_id)
     end
 
     def buffer_alloc(size, n_chans=2)
       buffer_id = @BUFFER_ALLOCATOR.allocate
-      with_done_sync do
-        osc @osc_path_b_alloc, buffer_id, size, n_chans
-      end
+      osc @osc_path_b_alloc, buffer_id, size, n_chans
       buffer_info(buffer_id)
     end
 
     def buffer_free(buf)
-      with_done_sync do
-        osc @osc_path_b_free, buf.to_i
-      end
-
+      osc @osc_path_b_free, buf.to_i
       @BUFFER_ALLOCATOR.release! buf.to_i
     end
 
