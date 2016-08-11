@@ -17,29 +17,43 @@ module SonicPi
     attr_reader :max_id
     def initialize(max_id)
       @max_id = max_id
+      @mut = Mutex.new
+      @last_used_idx = 0
       reset!
     end
 
     def allocate
-      @available.pop
+      @mut.synchronize do
+        attempts = 0
+        while attempts < @max_id
+          @last_used_idx = (@last_used_idx + 1) % @max_id
+          if @allocations[@last_used_idx] == false
+            @allocations[@last_used_idx] = true
+            return @last_used_idx
+          end
+          attempts += 1
+        end
+      end
+      raise AllocationError
     end
 
     def release! idx
-      #This implementation doesn't catch multiple similar
-      #releases polluting the queue with duplications
-      @available << idx
+      @mut.synchronize do
+        @allocations[idx] = false
+      end
     end
 
     def reset!
-      new_queue = Queue.new
-      (0..@max_id).each do |el|
-        new_queue << el
+      @mut.synchronize do
+        @allocations = [false] * @max_id
       end
-      @available = new_queue
     end
 
     def num_allocations
-      (@max_id - @available.size) + 1
+      @allocations.reduce(0) do |s, v|
+        s += 1 if v
+        s
+      end
     end
 
     def to_s
