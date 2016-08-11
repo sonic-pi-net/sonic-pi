@@ -118,5 +118,9 @@ module SonicPi
       assert_equal(ring(3, 2, 1, 3, 2), ring(1, 2, 3).take(-5))
       assert_equal(ring(), ring(1, 2, 3).take(0))
     end
+
+    def test_reverse
+      assert_equal(ring(1, 2, 3), ring(3, 2, 1).reverse)
+    end
   end
 end
