@@ -311,6 +311,12 @@ osc_server.add_method("/mixer-lpf-disable") do |args|
   sp.set_mixer_lpf_disable!
 end
 
+osc_server.add_method("/mixer-amp") do |args|
+  gui_id = args[0]
+  amp = args[1]
+  sp.set_volume!(amp)
+end
+
 osc_server.add_method("/enable-update-checking") do |args|
   gui_id = args[0]
   sp.__enable_update_checker
