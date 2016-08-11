@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-11 13:36+0000\n"
+"PO-Revision-Date: 2016-08-11 14:41+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -7637,36 +7637,31 @@ msgid ""
 msgstr "この章ではSonic Piを最大限に活用するために、 いくつかの非常に便利で、実際のところ*不可欠な*知識を紹介します。"
 
 #: 10-Essential-Knowledge.md:8
-#, fuzzy
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
-"用意した多くのキーボードのショートカットを活用する利点と、作品を共有する方法、そして Sonic Piでパフォーマンスするためのいくつかのヒントを見ていきま"
-"す。"
+"利用可能な多くのキーボードのショートカットを活用する方法と、作品を共有する方法、そして Sonic "
+"Piでパフォーマンスする際のいくつかのヒントを見ていきます。"
 
 #: 10.1-Using-Shortcuts.md:1
-#, fuzzy
 msgid "10.1 Using Shortcuts"
 msgstr "10.1 ショートカットの使用"
 
 #: 10.1-Using-Shortcuts.md:3
-#, fuzzy
 msgid "Using Shortcuts"
 msgstr "ショートカットの使用"
 
 #: 10.1-Using-Shortcuts.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi is as much an instrument as a coding environment. Shortcuts can there"
 "fore make playing Sonic Pi much more *efficient and natural* - especially when"
 " you're playing live in front of an audience."
 msgstr ""
-"Sonic Piはコーディング環境としての楽器です。したがって、あなたが観客の前でライブ演奏している場合は特に、 ショートカットは、はるかに*効率的で自然*"
-"にSonicPiの演奏を行うことができます。"
+"Sonic Piは、コーディング環境であると同時に楽器でもあります。したがって、あなたが観客の前でライブ演奏している場合は特に、 "
+"ショートカットを使うことで、はるかに*効率的で自然に*SonicPiの演奏を行うことができます。"
 
 #: 10.1-Using-Shortcuts.md:9
-#, fuzzy
 msgid ""
 "Much of Sonic Pi can be controlled through the keyboard. As you gain more fami"
 "liarity working and performing with Sonic Pi, you'll likely start using the sh"
@@ -7675,23 +7670,23 @@ msgid ""
 "s it slows me down. I therefore use all of these shortcuts on a very regular b"
 "asis!"
 msgstr ""
-"Sonic Piの多くの機能は、キーボードを介して制御することができます。 Sonic Piの演奏や作業により慣れるために、ショートカットをもっと使いこなし"
-"ましょう。 個人的にはブラインドタッチの学習の検討をお勧めします。マウスを使う必要があるときに、動作が遅れ、私はいつもイライラしてしまいます。だから、普段か"
-"らこれらのショートカットのすべてを使っています！"
+"Sonic Piの多くの機能は、キーボードを介して制御することができます。Sonic Piの演奏や作業により慣れるために、ショートカットをもっと使いこなし"
+"ましょう。私個人はブラインドタッチができ（あなたにも習得をお勧めします）、マウスを使う必要があるときにはいつも、動作が遅れるのでイライラしてしまいます。こ"
+"のため、私は普段からこれらのショートカットのすべてを使っています！"
 
 #: 10.1-Using-Shortcuts.md:16
-#, fuzzy
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
 "tively and you'll be live coding like a pro in no time."
-msgstr "ショートカットを学べば、効果的にキーボードを使用でき、あなたは、間もなく、プロのようなライブコーディングができるようになるでしょう。"
+msgstr "ショートカットを学べば、効果的にキーボードを使用でき、すぐにプロのようなライブコーディングができるようになるでしょう。"
 
 #: 10.1-Using-Shortcuts.md:19
-#, fuzzy
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the one"
 "s you use most and then keep adding more to your practice."
-msgstr "しかし、*一度にすべてを憶えようとしない*で、 まずはあなたが最も使うものを試しながら、実践の中で、さらに追加しながら憶えていくとよいでしょう。"
+msgstr ""
+"しかし、*一度にすべてを憶えようとしない*で、最初はあなたが最も使うものを試しながら憶えていき、その後継続して他のショートカットを追加していくと良いでしょ"
+"う。"
 
 #: 10.1-Using-Shortcuts.md:22
 #, fuzzy
@@ -7699,18 +7694,17 @@ msgid "Consistency across Platforms"
 msgstr "一貫したクロスプラットフォーム"
 
 #: 10.1-Using-Shortcuts.md:24
-#, fuzzy
 msgid ""
 "Imagine you're learning the clarinet. You'd expect all clarinets of all makes "
 "to have similar controls and fingerings. If they didn't, you'd have a tough ti"
 "me switching between different clarinets and you'd be stuck to using just one "
 "make."
 msgstr ""
-"クラリネットを習っているところを想像してみてください。すべてのクラリネットは、指使いや操作の全てが一貫してしていることを前提として作られていますが、もしそう"
-"でなかったら、別のクラリネットに乗り換えるには大変な時間を費やしてしまうだろうし、一回だけの制作のためにそれを使用することについて戸惑ってしまうでしょう。"
+"クラリネットを習っているところを想像してみてください。すべてのクラリネットは、指使いや操作の全てが一貫してしていることを前提として作られていますが、もしそ"
+"うでなかったら、別のクラリネットに乗り換えるには大変な時間を費やしてしまうだろうし、一回だけの制作のためにそれを使用することについて戸惑ってしまうでしょう"
+"。"
 
 #: 10.1-Using-Shortcuts.md:29
-#, fuzzy
 msgid ""
 "Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
 "come with their own standard defaults for actions such as cut and paste etc. S"
@@ -7720,18 +7714,17 @@ msgid ""
 "whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
 "PC and feel right at home."
 msgstr ""
-"残念なことに3つの主要なオペレーティングシステム（ Linux、 Mac OS XおよびWindowsの場合）では、カット＆ペーストなどの操作のために独自の"
-"基準が用意されています。 Sonic Piは、これらの基準に準拠します。しかしながらプラットフォームの基準に対応することよりも、 *優先事項として、Soni"
-"c Pi内はクロスプラットフォームとして一貫した配置がなされています*。 これは Raspberry Piで演奏したり、ショートカットを学ぶ時、 MacやP"
-"Cに乗り換えても、違和感無く同じように操作できることを意味しています。"
+"残念なことに3つの主要なオペレーティングシステム（Linux、 Mac OS "
+"XおよびWindows）では、カット＆ペーストなどの操作のために独自の基準が用意されています。 Sonic "
+"Piは、これらの基準を尊重します。しかしながら、プラットフォームの基準に対応することよりも、Sonic "
+"Pi内では*クロスプラットフォームとして一貫することを優先しています*。 これはRaspberry PiでSonic "
+"Piを演奏してショートカットを学んだら、 MacやPCに乗り換えても違和感無く同じように操作できることを意味しています。"
 
 #: 10.1-Using-Shortcuts.md:37
-#, fuzzy
 msgid "Control and Meta"
 msgstr "Control と Meta"
 
 #: 10.1-Using-Shortcuts.md:39
-#, fuzzy
 msgid ""
 "Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
 "se the names *Control* and *Meta* to refer to the two main combination keys. O"
@@ -7740,10 +7733,10 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
-"一貫性への考え方のひとつにショートカットの命名があります。SonicPiにおいて、主要な2つの組み合わせキーを当てはめるために、*Control キー*と*"
-"Metaキー*を用います。すべてのプラットフォームでは、*Control キー*は同じです。しかし、LinuxとWindowsでは、実際の*Metaキー*は"
-"Altキーで、Macの*Metaキー*は*コマンド⌘キー*です。一貫性のために、*Metaキー*を使いますが、 あなたのオペレーティングシステムにおける適切"
-"なキー配置であることを憶えておいてください。"
+"一貫性への考え方のひとつにショートカットの命名があります。SonicPiにおいて、主要な2つの組み合わせキーを当てはめるために、*Controlキー*と*"
+"Metaキー*を用います。すべてのプラットフォームでは、*Controlキー*は同じです。しかし、LinuxとWindowsでは、実際の*Metaキー*は"
+"Altキーで、Macの*Metaキー*は*コマンド⌘キー*です。一貫性のために、*Metaキー*という言葉を使いますが、 "
+"あなたのオペレーティングシステムにおける適切なキーに置き換えるようにしてください。"
 
 #: 10.1-Using-Shortcuts.md:46
 #, fuzzy
