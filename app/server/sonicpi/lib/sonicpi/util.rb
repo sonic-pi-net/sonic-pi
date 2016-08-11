@@ -89,6 +89,10 @@ module SonicPi
       path.gsub(/\A#{@@tilde_dir}/, "~")
     end
 
+    def num_buffers_for_current_os
+      4096
+    end
+
     def num_audio_busses_for_current_os
       if os == :raspberry
         64

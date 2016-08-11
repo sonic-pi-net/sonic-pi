@@ -94,7 +94,7 @@ module SonicPi
 
       @CURRENT_NODE_ID = Counter.new(1)
       @CURRENT_SYNC_ID = Counter.new(0)
-      @BUFFER_ALLOCATOR = Allocator.new(1024) # TODO: Another magic num to remove
+      @BUFFER_ALLOCATOR = Allocator.new(num_buffers_for_current_os)
 
       info_prom = Promise.new
 
