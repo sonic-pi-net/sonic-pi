@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-11 15:03+0000\n"
+"PO-Revision-Date: 2016-08-12 13:46+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -7093,15 +7093,14 @@ msgid "Live Loops"
 msgstr "ライブループ"
 
 #: 09.2-Live-Loops.md:5
-#, fuzzy
 msgid ""
 "Ok, so this section of the tutorial is the real gem. If you only read one sect"
 "ion, it should be this one. If you read the previous section on Live Coding Fu"
 "ndamentals, `live_loop` is a simple way of doing exactly that but without havi"
 "ng to write so much."
 msgstr ""
-"このチュートリアルの中でもこの章は、最も重要です。もし1つの章だけを読むのであれば、この章でしょう。もし、前の章でライブコーディングの基礎を読んでいるので"
-"あれば、`live_loop`は、それと同じことを少ないコード量で簡単に実現できる方法と言えます。"
+"このチュートリアルの中でもこの章は、最も重要です。もし1つの章だけを読むのであれば、この章でしょう。もし前の章でライブコーディングの基礎を読んでいるのであ"
+"れば、`live_loop`は、それと同じことを少ないコード量で簡単に実現できる方法と言えます。"
 
 #: 09.2-Live-Loops.md:10
 msgid ""
@@ -7753,29 +7752,24 @@ msgstr ""
 "を意味しています。"
 
 #: 10.1-Using-Shortcuts.md:53
-#, fuzzy
 msgid "The following are some of the shortcuts I find most useful."
 msgstr "以下は、僕が見つけたとっても有用なショートカットのいくつかです。"
 
 #: 10.1-Using-Shortcuts.md:55
-#, fuzzy
 msgid "Stopping and starting"
 msgstr "停止と開始"
 
 #: 10.1-Using-Shortcuts.md:57
-#, fuzzy
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr "マウスを使う代わりに、`M-r`でコードを実行することができます。同様に、`M-s`でコードを停止することができます。"
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:51
-#, fuzzy
 msgid "Navigation"
 msgstr "ナビゲーション"
 
 #: 10.1-Using-Shortcuts.md:62
-#, fuzzy
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
 " you spend the time to learn them. These shortcuts also work extremely well wh"
@@ -7783,270 +7777,231 @@ msgid ""
 "equiring you to move your hand to the mouse or the arrow keys on your keyboard"
 "."
 msgstr ""
-"ナビゲーションのショートカットを使わない操作は実にもどかしいです。そのため、ショートカットを学ぶことに時間を費やすことを強くお勧めします。マウスやキーボード"
-"の矢印キーを手で移動させるより、ブラインドタッチを学ぶことで、これらのショートカットをさらに有効に活用することができます。"
+"ナビゲーションのショートカットを使わない操作は実にもどかしいです。そのため、ショートカットを学ぶことに時間を費やすことを強くお勧めします。ブラインドタッチ"
+"を習得すれば、マウスやキーボードの矢印キーに手を移動させる必要が無くなるので、これらのショートカットをさらに有効に活用することができます。"
 
 #: 10.1-Using-Shortcuts.md:68
-#, fuzzy
 msgid ""
 "You can move to the beginning of the line with `C-a`, the end of the line with"
 " `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
 " `C-f`, and back a character with `C-b`. You can even delete all the character"
 "s from the cursor to the end of the line with `C-k`."
 msgstr ""
-"文章の先頭に移動するにはC-a、文章の末尾に移動するにはC-e、１行上はC-p、１行下がるにはC-n、一文字進むにはC-f、そして、一文字戻るにはC-b。C"
-"-kでカーソルからラインの末尾まで全ての文字を消去する事ができます。"
+"行の先頭に移動するには`C-a`、行の末尾に移動するには`C-e`、１行上は`C-p`、１行下がるには`C-n`、一文字進むには`C-f`、そして、一文字"
+"戻るには`C-b`。`C-k`でカーソルから行の末尾まで全ての文字を消去する事ができます。"
 
 #: 10.1-Using-Shortcuts.md:74
-#, fuzzy
 msgid "Tidy Code"
 msgstr "コードの整形"
 
 #: 10.1-Using-Shortcuts.md:76
-#, fuzzy
 msgid "To auto-align your code simply press `M-m`."
 msgstr "コードを自動整形するには `M-m`を押します。"
 
 #: 10.1-Using-Shortcuts.md:78
-#, fuzzy
 msgid "Help System"
 msgstr "ヘルプシステム"
 
 #: 10.1-Using-Shortcuts.md:80
-#, fuzzy
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
 "isplay the docs if it finds anything. Instant help!"
 msgstr ""
-"ヘルプシステムを切り替えるには、`M-i`を押します。しかし、何かを見つける場合、もっとはるかに便利なショートカットは、カーソル下の単語検索し、ドキュメント"
-"を表示する`C-i`です。簡単でしょう！"
+"ヘルプシステムを切り替えるには、`M-i`を押します。しかし、何かを見つける場合、もっとはるかに便利なショートカットは、カーソル下の単語検索し、ドキュメン"
+"トを表示する`C-i`です。簡単でしょう！"
 
 #: 10.1-Using-Shortcuts.md:84
-#, fuzzy
 msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
 msgstr "完全なリストについては、セクション10.2ショートカット一覧表を見てみましょう。"
 
 #: 10.2-Shortcut-Cheatsheet.md:1
-#, fuzzy
 msgid "10.2 Shortcut Cheatsheet"
 msgstr "10.2 ショートカット一覧表"
 
 #: 10.2-Shortcut-Cheatsheet.md:3
-#, fuzzy
 msgid "Shortcut Cheatsheet"
 msgstr "ショートカット一覧表"
 
 #: 10.2-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
 "ease see Section 10.1 for motivation and background."
 msgstr "以下は、Sonic Piで利用可能な主なショートカットをまとめたものです。動機と背景については、セクション10.1を参照してください。"
 
 #: 10.2-Shortcut-Cheatsheet.md:8
-#, fuzzy
 msgid "Conventions"
 msgstr "規定"
 
 #: 10.2-Shortcut-Cheatsheet.md:10
-#, fuzzy
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
-msgstr "このリストでは下記の規定に準拠します。 (WindowsとLinuxの*Meta*キー は*Alt*キー 、そしてMacは *Cmd*キー):"
+msgstr "このリストでは下記の規定に準拠します。 (WindowsとLinuxの*Meta*キーは*Alt*キー 、そしてMacは *Cmd*キー):"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
-#, fuzzy
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
-msgstr "`C-a` は*Control* キーを押さえながらaキー、両方を同時にを押した後に離す事を意味しています。"
+msgstr "`C-a` は*Control*キーを押さえながら*a*キー、両方を同時にを押した後に離す事を意味しています。"
 
 #: 10.2-Shortcut-Cheatsheet.md:14
-#, fuzzy
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
-msgstr "`M-r` は*Meta* キーを押さえながらrキー、両方を同時にした後に離す事を意味しています。"
+msgstr "`M-r` は*Meta*キーを押さえながら*r*キー、両方を同時にした後に離す事を意味しています。"
 
 #: 10.2-Shortcut-Cheatsheet.md:15
-#, fuzzy
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
-msgstr "`M-Z` は*Meta* キーを押さえながらShiftキー、そして最後にzキー全てを同時に押した後に離す事を意味しています。"
+msgstr "`S-M-z` は*Shift*キーを押さえながら*Meta*キー、そして最後に*z*キー全てを同時に押した後に離す事を意味しています。"
 
 #: 10.2-Shortcut-Cheatsheet.md:16
-#, fuzzy
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
-msgstr "`C-M-f` は*Control* キーを押さえながらMetaキー、そして最後にfキー全てを同時に押した後に離す事を意味しています。"
+msgstr "`C-M-f`は*Control* キーを押さえながら*Meta*キー、そして最後に*f*キー全てを同時に押した後に離す事を意味しています。"
 
 #: 10.2-Shortcut-Cheatsheet.md:18
-#, fuzzy
 msgid "Main Application Manipulation"
 msgstr "主なアプリケーションの操作"
 
 #: 10.2-Shortcut-Cheatsheet.md:20
-#, fuzzy
 msgid "`M-r` - Run code"
 msgstr "`M-r` - コードを実行"
 
 #: 10.2-Shortcut-Cheatsheet.md:21
-#, fuzzy
 msgid "`M-s` - Stop code"
 msgstr "`M-s` - コードを停止"
 
 #: 10.2-Shortcut-Cheatsheet.md:22
-#, fuzzy
 msgid "`M-i` - Toggle Help System"
 msgstr "`M-i` - ヘルプシステムを表示"
 
 #: 10.2-Shortcut-Cheatsheet.md:23
-#, fuzzy
 msgid "`M-p` - Toggle Preferences"
 msgstr "`M-p` - 設定を表示"
 
 #: 10.2-Shortcut-Cheatsheet.md:24
 msgid "`M-{` - Switch buffer to the left"
-msgstr ""
+msgstr "`M-{` - 左のBufferに切り替え"
 
 #: 10.2-Shortcut-Cheatsheet.md:25
 msgid "`M-}` - Switch buffer to the right"
-msgstr ""
+msgstr "`M-}` - 右のBufferに切り替え"
 
 #: 10.2-Shortcut-Cheatsheet.md:26
-#, fuzzy
 msgid "`M-+` - Increase text size of current buffer"
 msgstr "`M-+` - 文字サイズを大きく"
 
 #: 10.2-Shortcut-Cheatsheet.md:27
-#, fuzzy
 msgid "`M--` - Decrease text size of current buffer"
 msgstr "`M--` - 文字サイズを小さく"
 
 #: 10.2-Shortcut-Cheatsheet.md:29
-#, fuzzy
 msgid "Selection/Copy/Paste"
 msgstr "選択/コピー/張り付け"
 
 #: 10.2-Shortcut-Cheatsheet.md:31
-#, fuzzy
 msgid "`M-a` - Select all"
 msgstr "`M-a` - 全てを選択"
 
 #: 10.2-Shortcut-Cheatsheet.md:32
-#, fuzzy
 msgid "`M-c` - Copy selection to paste buffer"
-msgstr "`M-c` - 選択個箇所をコピー"
+msgstr "`M-c` - 選択箇所をコピー"
 
 #: 10.2-Shortcut-Cheatsheet.md:33
 msgid "`M-]` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-]` - 選択箇所をコピー"
 
 #: 10.2-Shortcut-Cheatsheet.md:34
-#, fuzzy
 msgid "`M-x` - Cut selection to paste buffer"
-msgstr "`M-x` - 選択個箇所をカット"
+msgstr "`M-x` - 選択箇所をカット"
 
 #: 10.2-Shortcut-Cheatsheet.md:35
 msgid "`C-]` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`C-]` - 選択箇所をカット"
 
 #: 10.2-Shortcut-Cheatsheet.md:36
-#, fuzzy
 msgid "`C-k` - Cut to the end of the line"
 msgstr "`C-k` - カーソルから行の末尾まで全ての文字を消去する"
 
 #: 10.2-Shortcut-Cheatsheet.md:37
-#, fuzzy
 msgid "`M-v` - Paste from paste buffer to editor"
 msgstr "`M-v` - エディターへ張り付け"
 
 #: 10.2-Shortcut-Cheatsheet.md:38
 msgid "`C-y` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`C-y` - エディターへ張り付け"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
-msgstr ""
+msgstr "`C-SPACE` - マークを設定します。以降のナビゲーション操作で選択箇所を変更できます。`C-g`でマークを解除します。"
 
 #: 10.2-Shortcut-Cheatsheet.md:41
-#, fuzzy
 msgid "Text Manipulation"
 msgstr "文字の操作"
 
 #: 10.2-Shortcut-Cheatsheet.md:43
-#, fuzzy
 msgid "`M-m` - Align all text"
 msgstr "`M-m` - テキストを整形"
 
 #: 10.2-Shortcut-Cheatsheet.md:44
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
-msgstr ""
+msgstr "`Tab` - 現在の行または選択箇所のテキストを整形（または、自動補完を選択）"
 
 #: 10.2-Shortcut-Cheatsheet.md:45
-#, fuzzy
 msgid "`C-l` - Centre editor"
 msgstr "`C-l` - 真ん中へ移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:46
 msgid "`M-/` - Comment/Uncomment current line or selection"
-msgstr ""
+msgstr "`M-/` - 現在の行または選択箇所をコメント／コメント解除"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
 msgid "`C-t` - Transpose/swap characters"
-msgstr ""
+msgstr "`C-t` - カーソルの前後の文字を入れ替え"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
 msgid "`M-u` - Convert next word (or selection) to upper case."
-msgstr ""
+msgstr "`M-u` - カーソルの後ろの単語（または選択箇所）を大文字に変換"
 
 #: 10.2-Shortcut-Cheatsheet.md:49
 msgid "`M-l` - Convert next word (or selection) to lower case."
-msgstr ""
+msgstr "`M-l` - カーソルの後ろの単語（または選択箇所）を小文字に変換"
 
 #: 10.2-Shortcut-Cheatsheet.md:53
-#, fuzzy
 msgid "`C-a` - Move to beginning of line"
 msgstr "`C-a` - 行の冒頭に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:54
-#, fuzzy
 msgid "`C-e` - Move to end of line"
 msgstr "`C-e` - 行の末尾に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:55
-#, fuzzy
 msgid "`C-p` - Move to previous line"
 msgstr "`C-p` - ひとつ前の行に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:56
-#, fuzzy
 msgid "`C-n` - Move to next line"
 msgstr "`C-n` - 次の行に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:57
-#, fuzzy
 msgid "`C-f` - Move forward one character"
 msgstr "`C-f` - 一文字進む"
 
 #: 10.2-Shortcut-Cheatsheet.md:58
-#, fuzzy
 msgid "`C-b` - Move backward one character"
 msgstr "`C-b` - 一文字戻る"
 
 #: 10.2-Shortcut-Cheatsheet.md:59
-#, fuzzy
 msgid "`M-f` - Move forward one word"
 msgstr "`M-f` - 一単語進む"
 
 #: 10.2-Shortcut-Cheatsheet.md:60
-#, fuzzy
 msgid "`M-b` - Move backward one word"
 msgstr "`M-b` - 一単語戻る"
 
