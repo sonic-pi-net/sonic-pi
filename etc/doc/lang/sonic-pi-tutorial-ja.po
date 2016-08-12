@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-12 13:46+0000\n"
+"PO-Revision-Date: 2016-08-12 14:07+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -7975,7 +7975,7 @@ msgstr "`M-l` - カーソルの後ろの単語（または選択箇所）を小�
 
 #: 10.2-Shortcut-Cheatsheet.md:53
 msgid "`C-a` - Move to beginning of line"
-msgstr "`C-a` - 行の冒頭に移動"
+msgstr "`C-a` - 行の先頭に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:54
 msgid "`C-e` - Move to end of line"
@@ -8007,83 +8007,75 @@ msgstr "`M-b` - 一単語戻る"
 
 #: 10.2-Shortcut-Cheatsheet.md:61
 msgid "`C-M-n` - Move line or selection down"
-msgstr ""
+msgstr "`C-M-n` - 現在の行または選択箇所を下に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:62
 msgid "`C-M-p` - Move line or selection up"
-msgstr ""
+msgstr "`C-M-p` - 現在の行または選択箇所を上に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:63
 msgid "`S-M-u` - Move up 10 lines"
-msgstr ""
+msgstr "`S-M-u` - 10行上に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:64
 msgid "`S-M-d` - Move down 10 lines"
-msgstr ""
+msgstr "`S-M-d` - 10行下に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
 msgid "`M-<` - Move to beginning of buffer"
-msgstr ""
+msgstr "`M-<` - Bufferの先頭に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
 msgid "`M->` - Move to end of buffer"
-msgstr ""
+msgstr "`M->` - Bufferの末尾に移動"
 
 #: 10.2-Shortcut-Cheatsheet.md:68
-#, fuzzy
 msgid "Deletion"
 msgstr "削除"
 
 #: 10.2-Shortcut-Cheatsheet.md:70
-#, fuzzy
 msgid "`C-h` - Delete previous character"
 msgstr "`C-h` - 前の文字を削除"
 
 #: 10.2-Shortcut-Cheatsheet.md:71
-#, fuzzy
 msgid "`C-d` - Delete next character"
 msgstr "`C-d` - 次の文字を削除"
 
 #: 10.2-Shortcut-Cheatsheet.md:73
-#, fuzzy
 msgid "Advanced Editor Features"
-msgstr "エディタの機能"
+msgstr "高度なエディタの機能"
 
 #: 10.2-Shortcut-Cheatsheet.md:75
-#, fuzzy
 msgid "`C-i` - Show docs for word under cursor"
-msgstr "`C-i` - カーソル以下の文字を表示"
+msgstr "`C-i` - カーソルの下の単語のドキュメントを表示"
 
 #: 10.2-Shortcut-Cheatsheet.md:76
-#, fuzzy
 msgid "`M-z` - Undo"
 msgstr "`M-z` - アンドゥ（行った操作を取り消し、元の状態に戻る）"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
-#, fuzzy
 msgid "`S-M-z` - Redo"
-msgstr "\\`S-M-z - リドゥ（一旦取り消した操作をやり直す）"
+msgstr "`S-M-z` - リドゥ（一旦取り消した操作をやり直す）"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
-#, fuzzy
 msgid "`C-g` - Escape"
 msgstr "`C-g` - エスケープ"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
 msgid "`S-M-f` - Toggle fullscreen mode"
-msgstr ""
+msgstr "`S-M-f` - フルスクリーンモードを切り替え"
 
 #: 10.2-Shortcut-Cheatsheet.md:80
 msgid "`S-M-b` - Toggle visibility of buttons"
-msgstr ""
+msgstr "`S-M-b` - ボタンの表示を切り替え"
 
 #: 10.2-Shortcut-Cheatsheet.md:81
 msgid "`S-M-l` - Toggle visibility of log"
-msgstr ""
+msgstr "`S-M-l` - ログの表示を切り替え"
 
 #: 10.2-Shortcut-Cheatsheet.md:82
 msgid "`S-M-m` - Toggle between light/dark modes"
-msgstr ""
+msgstr "`S-M-m` - ライト／ダークモードを切り替え"
 
 #: 10.3-Sharing.md:1
 #, fuzzy
