@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-29 14:37+0000\n"
+"PO-Revision-Date: 2016-08-13 22:15+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -11227,6 +11227,11 @@ msgid ""
 " call this concurrency and Sonic Pi provides us with an amazingly simple way o"
 "f playing things at the same time. Simply use more than one `live_loop`!"
 msgstr ""
+"Muzyka jest pełna rzeczy, które się dzieją w tym samym czasie. Bębny grają, "
+"a w tym samym czasie słychać bas, wokal i gitarę... W komputerach nazywamy "
+"to współbieżnością a Sonic Pi pozwala nam na granie różnych dźwięków w tym "
+"samym czasie w niesamowicie prosty sposób. Wystarczy, że użyjemy więcej niż "
+"jednej pętli `live_loop`!"
 
 #: A.02-live-coding.md:105
 #, no-wrap
@@ -11262,6 +11267,8 @@ msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a crazy bass sound."
 msgstr ""
+"Mamy tu dwie pętle `live_loop`, jedna kręci się szybko wygrywając rytm "
+"natomiast druga kręci się powoli tworząc zwariowaną sekcję basową."
 
 #: A.02-live-coding.md:124
 msgid ""
@@ -11270,6 +11277,10 @@ msgid ""
 "olyrhythmical structures and even play with phasing Steve Reich style. Check t"
 "his out:"
 msgstr ""
+"Jedną z interesujących rzeczy w używaniu wielu pętli `live_loop` jest to, że "
+"każda z nich zarządza swoim czasem. Oznacza to, że bardzo łatwo można "
+"stworzyć interesujące struktury polirytmiczne a nawet grać fazami w stylu "
+"Stevena Reicha. Spróbuj tego:"
 
 #: A.02-live-coding.md:129
 #, no-wrap
@@ -11303,7 +11314,7 @@ msgstr ""
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 msgid "Bringing it all together"
-msgstr ""
+msgstr "Połączenie tego wszystkiego w jedną całość"
 
 #: A.02-live-coding.md:147
 msgid ""
