@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-12 14:07+0000\n"
+"PO-Revision-Date: 2016-08-15 10:02+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -8083,44 +8083,38 @@ msgid "10.3 Sharing"
 msgstr "10.3 共有"
 
 #: 10.3-Sharing.md:3
-#, fuzzy
 msgid "Sharing"
 msgstr "共有"
 
 #: 10.3-Sharing.md:5
-#, fuzzy
 msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr "SonicPiは、お互いに共有し学習するものです。"
+msgstr "SonicPiで最も大事なことは、お互いに共有し学習することです。"
 
 #: 10.3-Sharing.md:7
-#, fuzzy
 msgid ""
 "Once you've learned how to code music, sharing your compositions is as simple "
 "as sending an email containing your code. Please do *share* your code with oth"
 "ers so they can *learn* from your work and even use parts in a new *mash-up*."
 msgstr ""
-"いったん、どのように音楽をコード化するかを学んだら、作曲したコードを共有することは電子メールを送信するのと同じくらい簡単なことです。あなたの作品から*学び*"
-"、さらに新しい*マッシュアップ*で部品を使えるように他の人とコードを共有しましょう。"
+"いったん、どのように音楽をコード化するかを学んだら、作曲したコードを共有することは電子メールを送信するのと同じくらい簡単なことです。あなたの作品から*学び"
+"*、さらに新しい*マッシュアップ*で部品を使えるように、他の人とコードを*共有*しましょう。"
 
 #: 10.3-Sharing.md:12
-#, fuzzy
 msgid ""
 "If you're unsure of the best way to share your work with others I recommend pu"
 "tting your code on [GitHub](https://github.com) and your music on [SoundCloud]"
 "(https://soundcloud.com). That way you'll be able to easily reach a large audi"
 "ence."
 msgstr ""
-"もしあなたの作品を他者と共有するためのよい方法が見当たらなければ、あなたの音楽を[SoundCloud](https://soundcloud.com)へ、"
-"そしてコードを[GitHub](https://github.com)に置くことをお勧めします。その方法で、あなたの作品は、容易にたくさんの人に届けることが"
-"できるのです。"
+"もしあなたの作品を他者と共有するためのよい方法が見当たらなければ、あなたの音楽を[SoundCloud](https://soundcloud.com)へ"
+"、そしてコードを[GitHub](https://github.com)に置くことをお勧めします。それらの方法で、あなたの作品は、容易にたくさんの人に届け"
+"ることができるでしょう。"
 
 #: 10.3-Sharing.md:17
-#, fuzzy
 msgid "Code -> GitHub"
 msgstr "コードをGitHubへ"
 
 #: 10.3-Sharing.md:19
-#, fuzzy
 msgid ""
 "[GitHub](https://github.com) is a site for sharing and working with code. It's"
 " used by professional developers as well as artists for sharing and collaborat"
@@ -8129,30 +8123,27 @@ msgid ""
 "gist.github.com) is a simple way of uploading your code in a simple way that o"
 "thers can see, copy and share."
 msgstr ""
-"[GitHub](https://github.com)は、コードを共有し作業するためのサイトです。コードの共有や共同作業のためにプロの開発者と同じくアーテ"
-"ィストも使用しています。新しい作品のコード（あるいは未完の作品）を共有する最も簡単な方法は、この[GitHub](https://github.com)で["
-"Gist](https://gist.github.com)を作成することです。[Gist](https://gist.github.com)機能はあなたの"
-"コードをアップロードすることで、簡単に他の人が参照、コピーし共有することができます。"
+"[GitHub](https://github.com)は、コードを共有し作業するためのサイトです。コードの共有や共同作業のためにプロの開発者と同じくアー"
+"ティストも使用しています。新しい作品のコード（あるいは未完の作品）を共有する最も簡単な方法は、この[GitHub](https://github.com)"
+"で[Gist](https://gist.github.com)を作成することです。[Gist](https://gist.github.com)は、コー"
+"ドを簡単にアップロードする方法で、これにより他の人が簡単に参照、コピーし共有することができます。"
 
 #: 10.3-Sharing.md:27
-#, fuzzy
 msgid "Audio -> SoundCloud"
 msgstr "音をSoundCloudへ"
 
 #: 10.3-Sharing.md:29
-#, fuzzy
 msgid ""
 "Another important way of sharing your work is to record the audio and upload i"
 "t to [SoundCloud](https://soundcloud.com). Once you've uploaded your piece, ot"
 "her users can comment and discuss your work. I also recommend placing a link t"
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
-"作品を共有するもう一つの重要な方法は、音を録音し[SoundCloud](https://soundcloud.com)にアップロードすることです。作品をア"
-"ップロードしたら、他のユーザーがコメントしあなたの作品について話し合うことができます。また、トラックの詳細にあなたのコードの[Gist](https://g"
-"ist.github.com) へリンクを貼ることをお勧めします。"
+"作品を共有するもう一つの重要な方法は、音を録音し[SoundCloud](https://soundcloud.com)にアップロードすることです。作品を"
+"アップロードしたら、他のユーザーがコメントしあなたの作品について話し合うことができます。また、トラックの詳細にあなたのコードの[Gist](https:/"
+"/gist.github.com) へリンクを貼ることをお勧めします。"
 
 #: 10.3-Sharing.md:35
-#, fuzzy
 msgid ""
 "To record your work, hit the `Rec` button in the toolbar, and recording starts"
 " immediately. Hit `Run` to start your code if it isn't already in progress. Wh"
@@ -8161,57 +8152,49 @@ msgid ""
 "h can be edited and converted to MP3 by any number of free programs (try Audac"
 "ity for instance)."
 msgstr ""
-"作品を記録するには、ツールバーの`Rec`ボタンを押すと、すぐに録音を開始します。 もしコードがすでに進行中でなければ、開始するために`Run`を押してくだ"
-"さい。録音が完了したら、 再び点滅している`Rec`ボタンを押すと、ファイル名を入力するよう求められます。 WAVファイルとして保存された録音は、無料のソフ"
-"トウエア（例えば、 Audacityを試してみてください）の任意の設定によって編集したりMP3に変換することができます。"
+"作品を記録するには、ツールバーの`Rec`ボタンを押すと、すぐに録音を開始します。もしコードがすでに実行中でなければ、開始するために`Run`を押してくだ"
+"さい。録音が完了したら、再び点滅している`Rec`ボタンを押すと、ファイル名を入力するよう求められます。 "
+"WAVファイルとして保存された録音は、無料のソフトウエア（例えば、 Audacityを試してみてください）で編集したりMP3に変換することができます。"
 
 #: 10.3-Sharing.md:43
-#, fuzzy
 msgid "Hope"
 msgstr "希望"
 
 #: 10.3-Sharing.md:45
-#, fuzzy
 msgid ""
 "I encourage you to share your work and really hope that we'll all teach each o"
 "ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
 "e to show me."
 msgstr ""
-"私はみなさんが作った作品を共有し、Sonic Piで実際に新しいトリックや動きをお互いに教えあってもらえることを願っています。あなたが何を魅せてくれるか本当"
-"に楽しみにしています。"
+"私はみなさんが作った作品を共有し、我々がお互いにSonic "
+"Piの新しいトリックや動作を教えあえることを願っています。あなたが何を見せてくれるか本当に楽しみにしています。"
 
 #: 10.4-Performing.md:1
-#, fuzzy
 msgid "10.4 Performing"
 msgstr "10.4 パフォーマンス"
 
 #: 10.4-Performing.md:3
-#, fuzzy
 msgid "Performing"
 msgstr "パフォーマンス"
 
 #: 10.4-Performing.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to use cod"
 "e as a *musical instrument*. This means that writing code live can now be seen"
 " as a new way of performing music."
 msgstr ""
-"Sonic Piの中で最もエキサイティングな側面の一つは、*楽器としてコードを使うこと*ができるということです。これは、コードをライブで書き込むことが、音楽"
-"を演奏する新しい方法とみなすことができることを意味します。"
+"Sonic Piの中で最もエキサイティングな側面の一つは、*楽器*としてコードを使うことができるということです。これは、コードをライブで書くことが、音楽を"
+"演奏する新しい方法とみなすことができることを意味します。"
 
 #: 10.4-Performing.md:9
-#, fuzzy
 msgid "We call this *Live Coding*."
 msgstr "我々は、これを*ライブコーディング*と呼んでいます。"
 
 #: 10.4-Performing.md:11
-#, fuzzy
 msgid "Show Your Screen"
 msgstr "画面を表示しよう"
 
 #: 10.4-Performing.md:13
-#, fuzzy
 msgid ""
 "When you live code I recommend you *show your screen* to your audience. Otherw"
 "ise it's like playing a guitar but hiding your fingers and the strings. When I"
@@ -8219,60 +8202,55 @@ msgid ""
 "g room wall. You could use your TV or one of your school/work projectors to gi"
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
-"コードをライブするとき、観客に*あなたの画面を表示する*ことをお勧めします。そうでなければ、ギターを指や弦を隠しながら演奏するようなものです。私は家で練習す"
-"るときは、ラズベリーパイと小型プロジェクターでリビングルームの壁に投影します。自分のテレビや学校/職場のプロジェクターのいずれかを使ってみましょう。挑戦して"
-"みてください、とても楽しいです。"
+"ライブコーディングするとき、観客に*あなたの画面を表示する*ことをお勧めします。そうでなければ、ギターを指や弦を隠しながら演奏するようなものです。私は家で"
+"練習するときは、ラズベリーパイと小型プロジェクターでリビングルームの壁に投影しています。テレビや学校/職場のプロジェクターを使ってみましょう。挑戦してみて"
+"ください。とても楽しいですよ。"
 
 #: 10.4-Performing.md:20
-#, fuzzy
 msgid "Form a Band"
 msgstr "バンドを結成しよう"
 
 #: 10.4-Performing.md:22
-#, fuzzy
 msgid ""
 "Don't just play on your own - form a live coding band! It's a lot of fun jammi"
 "ng with others. One person could do beats, another ambient background, etc. Se"
 "e what interesting combinations of sounds you can have together."
 msgstr ""
-"絶対に1人で遊ばないでください - ライブコーディングバンドを結成しましょう！他の人とのセッションはとても楽しいものです。一人はビートを担当し、他のBGMや"
-"環境音など、どんな面白い音の組み合わせがつくれるか一緒に試しましょう。"
+"絶対に1人で遊ばないでください - ライブコーディングバンドを結成しましょう！他の人とのセッションはとても楽しいものです。一人はビートを担当し、もう一人は"
+"環境音を担当したりなどできるでしょう。どんな面白い音の組み合わせがつくれるか一緒に試しましょう。"
 
 #: 10.4-Performing.md:27
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
-#, fuzzy
 msgid ""
 "Live coding isn't completely new - a small number of people have been doing it"
 " for a few years now, typically using bespoke systems they've built for themse"
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
-"ライブコーディングは新しいものではありません 一部の人々は、自ら構築した特注システムを使用して、ここ数年でライヴコーディングに取り組んできました。他のライブ"
-"コーダーやシステムについての詳細を知るには[TOPLAP](http://toplap.org)絶好の場所があります。"
+"ライブコーディングは新しいものではありません。一部の人々は、自ら構築した特注システムを使用して、ここ数年ライヴコーディングに取り組んできました。他のライブ"
+"コーダーやシステムについての詳細を知るには、[TOPLAP](http://toplap.org)は絶好の場所でしょう。"
 
 #: 10.4-Performing.md:34
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: 10.4-Performing.md:36
-#, fuzzy
 msgid ""
 "Another great resource for exploring the live coding world is [Algorave](http:"
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
 msgstr ""
-"ライブコーディングの世界を探索するためのもう一つの偉大なリソースは[Algorave](http://algorave.com)です。ここで、クラブシーンで"
-"のライブコーディングに特化した情報を見つけることができます。"
+"ライブコーディングの世界を探索するためのもう一つの偉大なリソースは、[Algorave](http://algorave.com)です。ここで、クラブシー"
+"ンでのライブコーディングに特化した情報を見つけることができます。"
 
 #: 11-Minecraft-Pi.md:1
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
-#, fuzzy
 msgid "Minecraft Pi"
 msgstr "Minecraft Pi（マインクラフトパイ）"
 
