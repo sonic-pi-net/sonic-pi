@@ -39,7 +39,8 @@ app/gui/qt/Sonic Pi.app
 app/gui/qt/build
 
 app/gui/qt/info
-app/gui/qt/qrc_info_files.cpp
+app/gui/qt/qrc*.cpp
+app/gui/qt/resources
 
 # HTML GUI
 # --------
