@@ -2416,7 +2416,7 @@ dir = \"/path/to/sample/dir\"
 load_sample dir # loads first matching sample in \"/path/to/sample/dir\"
 load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
 load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
-load_sample dir, \"quux\" # loads first sample with file name containing \"foo\" in \"/path/to/sample/dir\"
+load_sample dir, \"quux\" # loads first sample with file name containing \"quux\" in \"/path/to/sample/dir\"
 load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \"/path/to/sample/dir\"
 "      ]
 
@@ -2446,7 +2446,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
  load_sample dir # loads all samples in \"/path/to/sample/dir\"
  load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
  load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
- load_sample dir, \"quux\" # loads all samples with file names containing \"foo\" in \"/path/to/sample/dir\"
+ load_sample dir, \"quux\" # loads all samples with file names containing \"quux\" in \"/path/to/sample/dir\"
  load_sample dir, /[Bb]ar/ # loads all samples which match regex /[Bb]ar/ in \"/path/to/sample/dir\"
 
  "]
@@ -2967,13 +2967,13 @@ synth :dsaw, note: :e3 # This is triggered 0.5s from start",
 
         "
 # Play with slices
-sample :loop_garzul, slice 0      # => play the first 16th of the sample
+sample :loop_garzul, slice: 0      # => play the first 16th of the sample
 sleep 0.5
 4.times do
-  sample :loop_garzul, slice 1    # => play the second 16th of the sample 4 times
+  sample :loop_garzul, slice: 1    # => play the second 16th of the sample 4 times
   sleep 0.125
 end
-sample :loop_garzul, slice 4, num_slices: 4, rate: -1      # => play the final quarter backwards
+sample :loop_garzul, slice: 4, num_slices: 4, rate: -1      # => play the final quarter backwards
 ",
         "
 # Build a simple beat slicer
@@ -3042,7 +3042,7 @@ sample dir, \"120\"                                     # Play the first sample 
                                                         # the substring \"120\".
                                                         # For example, this may be \"beat1_120_rave.wav\"
 sample dir, \"120\", 1                                  # Play the second sample in the directory that contains
-                                                        # the substring \"100\".
+                                                        # the substring \"120\".
                                                         # For example, this may be \"beat2_120_rave.wav\"
 sample dir, /beat[0-9]/                                 # Play the first sample in the directory that matches
                                                         # the regular expression /beat[0-9]/.
