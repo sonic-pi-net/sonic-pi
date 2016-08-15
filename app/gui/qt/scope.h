@@ -25,26 +25,49 @@
 class QPaintEvent;
 class QResizeEvent;
 
-class ScopePanel : public QWidget
+class ScopeBase : public QWidget
 {
   Q_OBJECT
-
 public:
-  ScopePanel( const QString& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent = 0 );
-  virtual ~ScopePanel();
+  ScopeBase( const QString& name, QWidget* parent = 0 );
+  virtual ~ScopeBase();
 
   const QString& getName();
+  virtual void setPen( QPen pen ) = 0;
+
   void refresh();
-  void setPen( QPen pen );
   void setXRange( float min, float max, bool showLabel = true );
   void setYRange( float min, float max, bool showLabel = true );
   bool setAxesVisible( bool on );
 
 private:
   QString name;
-  QwtPlot plot;
-  QwtPlotCurve plot_curve;
   bool defaultShowX, defaultShowY;
+
+protected:
+  QwtPlot plot;
+};
+
+class ScopePanel : public ScopeBase
+{
+public:
+  ScopePanel( const QString& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent = 0 );
+
+  void setPen( QPen pen );
+
+private:
+  QwtPlotCurve plot_curve;
+};
+
+class MultiScopePanel : public ScopeBase
+{
+public:
+  MultiScopePanel( const QString& name, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent );
+  
+  void setPen( QPen pen );
+
+private:
+  std::vector<std::shared_ptr<QwtPlotCurve>> curves;
 };
 
 class Scope : public QWidget
@@ -72,7 +95,7 @@ private:
   double sample[2][4096];
   double sample_mono[4096];
   scope_buffer_reader shmReader;
-  std::vector<std::shared_ptr<ScopePanel>> panels;
+  std::vector<std::shared_ptr<ScopeBase>> panels;
   bool paused;
   unsigned int emptyFrames;
 };
