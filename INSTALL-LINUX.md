@@ -112,6 +112,11 @@ git submodule init
 git submodule update
 git checkout efba3baaea873f4e4d44aec3bb7468dd0938b4a6
 cp -r external_libraries/nova-simd/* source/VBAPUGens
+rm -rf source/NCAnalysisUGens # these plugins don't work with Jessie's supercollider
+sed -i "/# NCAnalysisUGens/,/^#/d" source/CMakeLists.txt
+sed -i s/JoshUGens// source/CMakeLists.txt
+sed -i s/TagSystemUGens// source/CMakeLists.txt
+sed -i s/NCAnalysisUGens// source/CMakeLists.txt
 mkdir build
 cd build
 ```
