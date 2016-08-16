@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-10 22:02+0000\n"
+"PO-Revision-Date: 2016-08-16 23:22+0000\n"
 "Last-Translator: Paulo <paulo.chiliguano@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -12558,6 +12558,8 @@ msgid ""
 "![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
 ".png)"
 msgstr ""
+"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:133
 msgid ""
@@ -12574,7 +12576,7 @@ msgid ""
 msgstr ""
 
 #: A.08-minecraft-vj.md:145
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "x, y, z = mc_location\n"
 "bs = (ring :gold, :diamond, :glass)\n"
@@ -12644,7 +12646,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:22
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "print rand"
 msgstr "print rand"
 
@@ -12669,7 +12671,7 @@ msgstr ""
 
 #: A.09-randomisation.md:41
 msgid "A Random Melody"
-msgstr ""
+msgstr "Una melodía aleatoria"
 
 #: A.09-randomisation.md:43
 msgid ""
@@ -12689,7 +12691,7 @@ msgid "Let's use this knowledge to generate a repeatable random melody:"
 msgstr ""
 
 #: A.09-randomisation.md:56
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "8.times do\n"
 " play rrand_i(50, 95)\n"
@@ -12740,7 +12742,7 @@ msgstr ""
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr ""
+msgstr "`choose` - Elige un valor aleatorio de una lista"
 
 #: A.09-randomisation.md:79
 msgid ""
@@ -12768,7 +12770,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:94
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_random_seed 0\n"
 "3.times do\n"
@@ -12789,7 +12791,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:106
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_random_seed 1\n"
 "3.times do\n"
@@ -12828,7 +12830,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:130
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :random_riff do    \n"
 "  use_random_seed 0\n"
@@ -12877,7 +12879,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:165
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :random_riff do\n"
 "  use_random_seed 10300\n"
@@ -12923,11 +12925,11 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:1
 msgid "A.10 Control"
-msgstr ""
+msgstr "A.10 Control"
 
 #: A.10-controlling-your-sound.md:3
 msgid "Controlling Your Sound"
-msgstr ""
+msgstr "Controlando tu sonido"
 
 #: A.10-controlling-your-sound.md:5
 msgid ""
@@ -12945,16 +12947,18 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:17
 msgid "A Basic Sound"
-msgstr ""
+msgstr "Un sonido básico"
 
 #: A.10-controlling-your-sound.md:19
 msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer type "
 "the following:"
 msgstr ""
+"Hagamos un sonido simple. Arranca Sonic Pi y en un buffer libre escribe lo "
+"siguiente:"
 
 #: A.10-controlling-your-sound.md:22
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "synth :prophet, note: :e1, release: 8, cutoff: 100"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
@@ -12979,7 +12983,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:38
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "sn = synth :prophet, note: :e1, release: 8, cutoff: 100\n"
 "sleep 1\n"
@@ -13035,12 +13039,13 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:76
+#, fuzzy
 msgid "Default: 0"
-msgstr ""
+msgstr "Default: 0"
 
 #: A.10-controlling-your-sound.md:77
 msgid "Must be zero or greater"
-msgstr ""
+msgstr "Debe ser cero o mayor"
 
 #: A.10-controlling-your-sound.md:78
 msgid "Can not be changed once set"
@@ -13052,7 +13057,7 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:81
 msgid "Multiple Changes"
-msgstr ""
+msgstr "Cambios múltiples"
 
 #: A.10-controlling-your-sound.md:83
 msgid ""
@@ -13062,7 +13067,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:87
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "notes = (scale :e3, :minor_pentatonic)\n"
 "sn = synth :prophet, note: :e1, release: 8, cutoff: 100\n"
@@ -13099,7 +13104,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:110
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "control sn, note: notes.tick, cutoff: rrand(70, 130)"
 msgstr "control sn, note: notes.tick, cutoff: rrand(70, 130)"
 
@@ -13129,7 +13134,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:131
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "sn = synth :prophet, note: :e1, release: 8, cutoff: 70, cutoff_slide: 2\n"
 "sleep 1\n"
@@ -13170,7 +13175,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:162
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :moon_rise do\n"
 "  with_fx :echo, mix: 0, mix_slide: 8 do |fx|\n"
@@ -13238,7 +13243,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:23
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "puts tick #=> 0"
 msgstr "puts tick #=> 0"
 
@@ -13251,7 +13256,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:32
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "puts tick #=> 0\n"
 "puts tick #=> 1\n"
@@ -13281,7 +13286,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:49
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "puts tick #=> 0\n"
 "puts tick #=> 1\n"
@@ -13318,7 +13323,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:72
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "puts (ring :a, :b, :c).tick #=> :a"
 msgstr "puts (ring :a, :b, :c).tick #=> :a"
 
@@ -13330,7 +13335,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:80
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "puts (ring :a, :b, :c).tick #=> :a\n"
 "puts (ring :a, :b, :c).tick #=> :b\n"
@@ -13385,14 +13390,14 @@ msgstr "La capacidad de tocar una nota en función del beat actual."
 #: A.11-beat-tracking.md:102
 #, fuzzy
 msgid "A loop structure to keep the arpegiator repeating."
-msgstr "Una estructura de loop para mantener el arpegiador repitiéndose."
+msgstr "Una bucle para mantener al arpegiador repitiéndose."
 
 #: A.11-beat-tracking.md:104
 msgid "These concepts can all be found in the following code:"
 msgstr "Estos conceptos pueden ser comprobados en el siguiente código:"
 
 #: A.11-beat-tracking.md:106
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "notes = (ring 57, 62, 55, 59, 64)\n"
 "live_loop :arp do\n"
@@ -13443,7 +13448,7 @@ msgstr ""
 "global . Veamos como funciona esto:"
 
 #: A.11-beat-tracking.md:131
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "notes = (ring 57, 62, 55, 59, 64)\n"
 "with_fx :reverb do\n"
@@ -13489,7 +13494,7 @@ msgstr ""
 "`live_loop`:"
 
 #: A.11-beat-tracking.md:154
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_bpm 300\n"
 "use_synth :blade\n"
@@ -13534,7 +13539,7 @@ msgstr ""
 "transformarlo. Nos vemos..."
 
 #: A.11-beat-tracking.md:183
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_bpm 240\n"
 "notes = (scale :e3, :minor_pentatonic).shuffle\n"
@@ -13581,7 +13586,6 @@ msgstr ""
 "end"
 
 #: A.12-sample-slicing.md:1
-#, fuzzy
 msgid "A.12 Sample Slicing"
 msgstr "A.12 Cortando Samples"
 
@@ -13690,7 +13694,7 @@ msgstr ""
 "pequeña del sample"
 
 #: A.12-sample-slicing.md:68
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, start: 0.25, finish: 0.5"
 msgstr "sample :loop_amen, start: 0.25, finish: 0.5"
 
@@ -13703,7 +13707,7 @@ msgstr ""
 "del  `start:` y así tocará la sección macha atrás:"
 
 #: A.12-sample-slicing.md:75
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.25"
 msgstr "sample :loop_amen, start: 0.5, finish: 0.25"
 
@@ -13740,7 +13744,7 @@ msgid ""
 msgstr ""
 
 #: A.12-sample-slicing.md:97
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :beat_slicer do\n"
 "  slice_idx = rand_i(8)\n"
