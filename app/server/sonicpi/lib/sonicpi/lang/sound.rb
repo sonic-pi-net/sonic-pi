@@ -2351,7 +2351,6 @@ puts current_arg_checks # Print out the current arg check setting"]
           new_vol = vol
         end
         @mod_sound_studio.volume = new_vol
-        __info "Volume set to: #{new_vol}"
       end
       doc name:          :set_volume!,
           introduced:    Version.new(2,0,0),
