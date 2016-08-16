@@ -243,12 +243,12 @@ uventede høje eller ubehagelige lyde.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="741"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå kommentarer til valgt tekst til/fra...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="745"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå linjekommentarer til/fra...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="803"/>
@@ -258,32 +258,32 @@ uventede høje eller ubehagelige lyde.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Vend stereo modsat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Gennemtving mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="960"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths og effekter</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Ændring af synth- og effektindstillinger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="963"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Log synthbeskeder</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="969"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Log tidskoder</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
@@ -322,7 +322,7 @@ which isn't recognised.</source>
     <message>
         <location filename="../mainwindow.cpp" line="983"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Håndhæv sikring af timing</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
@@ -333,18 +333,23 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Når den er aktiveret, Sonic Pi vil ikke 
+udløse synth- og effekttriggere hvis det er for sent at gøre det.
+ 
+Når den er deaktiveret vil Sonic Pi altid forsøge at udløse
+ synth- og effekttriggere selv når et lidt for sent.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Gennemsigtighed</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1016"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå check af om der findes nye opdateringer til/fra.
+Dette opdateringscheck sender anonymiserede informationer om din platform og version.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1017"/>
@@ -355,7 +360,7 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Kontroller, om der er opdateringer nu.
+        <translation>Undersøg om der er opdateringer nu.
 Der sendes anonym information om din platform og version.</translation>
     </message>
     <message>
