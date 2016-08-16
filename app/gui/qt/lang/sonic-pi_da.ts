@@ -77,7 +77,8 @@ håndtere mono.</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå logbeskeder til eller fra.
+Hvis logbeskeder er slået fra (deaktiveret) vil aktiviteter såsom synth- og sampletriggere ikke blive skrevet i loggen som standard.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
@@ -87,19 +88,21 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="966"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Slet log ved kørsel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå rydning af log til eller fra.
+Hvis rydning af log er aktiveret, vil loggen 
+blive ryddet hver hver gang der trykkes på kør-knappen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1054"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synlighed af linienummer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1066"/>
@@ -116,7 +119,7 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1510"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Smukkificerer...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1530"/>
@@ -128,13 +131,13 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1561"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Slår mixer HPF til (højpasfilter)...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1570"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Slår mixer HPF fra (højpasfilter)...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
@@ -167,7 +170,8 @@ time the run button is pressed.</source>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Avancerede lydindstillinger til eksterne PA-systemer
+til live-performance med Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
@@ -180,7 +184,10 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Din Raspberry Pi har to typer lydudgange.
+Først er der hovedtelefonstikket på selve Raspberry Pi.
+Dernæst understøtter nogle HDMI skærme/TVer lyd via HDMI-porten.
+Brug disse knapper til at vælge lydudgang.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1012"/>
@@ -196,7 +203,7 @@ For example, if you have headphones connected to your Raspberry Pi, choose 'Head
     <message>
         <location filename="../mainwindow.cpp" line="1118"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekstbehandler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1053"/>
@@ -218,12 +225,14 @@ For example, if you have headphones connected to your Raspberry Pi, choose 'Head
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå kontrol af synth-parametre til eller fra.
+Hvis kontrollen er inaktiv, vil bestemte værdier kunne lave
+uventede høje eller ubehagelige lyde.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="957"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Logning</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"/>
