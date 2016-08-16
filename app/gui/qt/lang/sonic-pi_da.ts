@@ -290,23 +290,27 @@ uventede høje eller ubehagelige lyde.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivér eller deaktivér logning af tidskoder.
+Hvis denne er slået fra, vil tidskoder stadig blive trigget,
+men de vil ikke være synlige i loggen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="972"/>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Log automatisk rulning</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå log af auto rulning til/fra.
+Hvis den er aktiveret, vil loggen rulle ned til bunden 
+efter at hver ny besked er blevet vist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå eksterne synths og effekter til</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"/>
@@ -317,7 +321,12 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Når den er slået til vil Sonic Pi tillade
+at trigge synths og effekter, der er hentet vis load_synthdefs.
+
+Når den er slået fra vil Sonic Pi brokke sig
+hvis du forsøger at bruge en synth der ikke
+kan genkendes.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="983"/>
@@ -386,7 +395,7 @@ Der sendes anonym information om din platform og version.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1045"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurér editorens visningsindstillinger.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1046"/>
@@ -401,62 +410,62 @@ Der sendes anonym information om din platform og version.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1048"/>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>Automation</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1049"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurér automationsfunktioner.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1050"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto-justering</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1051"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Justér kode automatisk ved kørsel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1056"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synlighed af log.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1058"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis knapper</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1059"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synlighed af kontrolknapperne.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1061"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis faner</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1063"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synlighed af buffervalgsfaner.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1064"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Fuldskærm</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift fuldskærmstilstand.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"/>
