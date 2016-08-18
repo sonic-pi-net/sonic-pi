@@ -477,7 +477,7 @@ void MainWindow::setupWindowStructure() {
   // hudWidget->setWidget(hudPane);
   // hudWidget->setObjectName("hud");
 
-  scopeWidget = new QDockWidget(tr("Scope"),this);
+  scopeWidget = new QDockWidget("",this);
   scopeWidget->setFocusPolicy(Qt::NoFocus);
   scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
   scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
