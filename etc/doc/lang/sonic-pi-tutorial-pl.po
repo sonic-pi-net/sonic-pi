@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-13 22:15+0000\n"
+"PO-Revision-Date: 2016-08-18 04:26+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -11326,6 +11326,15 @@ msgid ""
 "as a starting point for a new performance, and most of all have fun! See you n"
 "ext time..."
 msgstr ""
+"Każdy z tutoriali ma swoje zwieńczenie, którym jest przykład końcowy. Jest "
+"to kawałek muzyki, która prezentuje wszystkie idee zaprezentowane w danym "
+"tutorialu. Przeczytaj ten kod i zobacz czy jesteś w stanie wyobrazić sobie "
+"co ten kod robi. Następnie skopiuj go do czystego buforu w Sonic Pi i "
+"naciśnij przycisk Run aby usłyszeć jak brzmi naprawdę. Na koniec, zmień "
+"wybraną przez siebie liczbę albo wykomentuj lub odkomentuj wybrane przez "
+"siebie linijki kodu. Pomyśl, czy możesz użyć tego kawałka jako punkt "
+"wyjściowy dla nowego występu a także najważniejsze - spróbuj się dobrze "
+"bawić. Do zobaczenia następnym razem..."
 
 #: A.02-live-coding.md:156
 #, no-wrap
@@ -11383,12 +11392,14 @@ msgstr ""
 "end"
 
 #: A.03-coded-beats.md:1
+#, fuzzy
 msgid "A.3 Coded Beats"
-msgstr ""
+msgstr "A.3 Zakodowane Bity"
 
 #: A.03-coded-beats.md:3
+#, fuzzy
 msgid "Coded Beats"
-msgstr ""
+msgstr "Zakodowane bity"
 
 #: A.03-coded-beats.md:5
 msgid ""
@@ -11403,6 +11414,18 @@ msgid ""
 "of easily introducing new and interesting elements into your live coded perfor"
 "mances."
 msgstr ""
+"Jednym z najbardziej ekscytujących i zawrotnych rozwoju technicznego "
+"nowoczesnej muzyki było wynalezienie samplerów. Były to pudełka, które "
+"pozwalały na nagrywanie i wrzucenie do nich dowolnego dźwięku, który można "
+"były potem zmieniać i odtwarzać te dźwięki na wiele ciekawych sposobów. Na "
+"przykład, mogłeś wziąć jakieś stare nagranie, znaleźć sekcję z solówką na "
+"perkusji, nagrać ją na twoim samplerze, a następnie odtwarzać ją w kółko "
+"zwalniając przy tym tempo tego fragmentu o połowę, aby stworzyć bazę dla "
+"twoich najnowszych bitów. W taki właśnie sposób narodził się wczesny hip-hop "
+"i w dzisiejszych czasach prawie niemożliwym jest znalezienie muzyki "
+"elektronicznej, która by nie korzystała z sampli w jakimś stopniu. Używanie "
+"sampli jest naprawdę świetnym sposobem na wprowadzanie nowych i ciekawych "
+"elementów do twoich występów polegających na kodowaniu muzyki na żywo."
 
 #: A.03-coded-beats.md:17
 msgid ""
@@ -11410,6 +11433,10 @@ msgid ""
 "y Pi! The built-in live coding app Sonic Pi has an extremely powerful sampler "
 "built into its core. Let's play with it!"
 msgstr ""
+"Skąd w takim razie możesz wziąć sampler? Właściwie, to aktualnie już jeden "
+"posiadasz - jest nim twój komputer Raspberry Pi (albo Mac lub PC)! Aplikacja "
+"Sonic Pi posiada wbudowany sampler, który jest bardzo potężny. Spróbujmy się "
+"nim pobawić!"
 
 #: A.03-coded-beats.md:21
 msgid "The Amen Break"
