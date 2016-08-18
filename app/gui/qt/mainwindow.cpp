@@ -1321,7 +1321,7 @@ QString MainWindow::osDescription() {
 #else
   // prettyProductName requires QT 5.4
   //
-  return QString("Assuming Linux");
+  return QString("Unknown OS");
 #endif
 }
 
