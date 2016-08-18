@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-15 10:02+0000\n"
+"PO-Revision-Date: 2016-08-18 11:13+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -8078,7 +8078,6 @@ msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - ライト／ダークモードを切り替え"
 
 #: 10.3-Sharing.md:1
-#, fuzzy
 msgid "10.3 Sharing"
 msgstr "10.3 共有"
 
@@ -8230,7 +8229,7 @@ msgid ""
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
-"ライブコーディングは新しいものではありません。一部の人々は、自ら構築した特注システムを使用して、ここ数年ライヴコーディングに取り組んできました。他のライブ"
+"ライブコーディングは新しいものではありません。一部の人々は、自ら構築した特注システムを使用して、ここ数年ライブコーディングに取り組んできました。他のライブ"
 "コーダーやシステムについての詳細を知るには、[TOPLAP](http://toplap.org)は絶好の場所でしょう。"
 
 #: 10.4-Performing.md:34
@@ -8255,22 +8254,19 @@ msgid "Minecraft Pi"
 msgstr "Minecraft Pi（マインクラフトパイ）"
 
 #: 11-Minecraft-Pi.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi now supports a simple API for interacting with Minecraft Pi - the spe"
 "cial edition of Minecraft which is installed by default on the Raspberry Pi's "
 "Raspbian Linux-based operating system."
 msgstr ""
-"Sonic Piは現在、 Minecraft Piと対話するためのシンプルなAPIをサポートしています。Minecraftの特別版は、Raspberry P"
-"iのLinuxベースのオペレーティングシステムRaspbianにデフォルトでインストールされています。"
+"Sonic Piは現在、 Minecraft Piと対話するためのシンプルなAPIをサポートしています。Minecraftの特別版は、Raspberry "
+"PiのLinuxベースのオペレーティングシステムRaspbianにデフォルトでインストールされています。"
 
 #: 11-Minecraft-Pi.md:9
-#, fuzzy
 msgid "No need to import libraries"
 msgstr "ライブラリは不必要"
 
 #: 11-Minecraft-Pi.md:11
-#, fuzzy
 msgid ""
 "The Minecraft Pi integration has been designed to be insanely easy to use. All"
 " you need to do is to launch Minecraft Pi and create a world. You're then free"
@@ -8278,17 +8274,15 @@ msgid ""
 "need to import anything or install any libraries - it's all ready to go and wo"
 "rks out of the box."
 msgstr ""
-"Minecraft Piは、とっても簡単に扱えるよう設計されています。必要なことは、Minecraft Piを起動して世界を創造するだけです。その後、`pl"
-"ay` や `synth` を扱うように `mc_*`関数を自由に使います。何かのライブラリをインストールしたり、インポートする必要はありません。箱から出し"
-"て動かしてみましょう。"
+"Minecraft Piは、とっても簡単に扱えるよう設計されています。必要なことは、Minecraft "
+"Piを起動してワールドを作成するだけです。その後、`play` や `synth` を扱うように "
+"`mc_*`関数を自由に使えます。何かのライブラリをインストールしたり、インポートする必要はなく、そのまま使えます。"
 
 #: 11-Minecraft-Pi.md:17
-#, fuzzy
 msgid "Automatic Connection"
 msgstr "自動接続"
 
 #: 11-Minecraft-Pi.md:19
-#, fuzzy
 msgid ""
 "The Minecraft Pi API takes care of managing your connection to the Minecraft P"
 "i application. This means you don't need to worry about a thing. If you try an"
@@ -8298,18 +8292,17 @@ msgid ""
 "that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
 "Pi will automatically detect and re-create the connection for you."
 msgstr ""
-"The Minecraft Pi API はMinecraft Piアプリケーションへの接続を可能にします。あなたは何も心配をしなくてもよいということです。"
-" Minecraft Piを起動せずに、Minecraft Pi APIを使おうとした場合には、Sonic Piはこれを丁寧に教えてくれます。同様に、`li"
-"ve_loop`を実行する一方で、もしも、MinecraftPiを閉じてしまっても、live_loopの接続を停止し、接続できてないことを丁寧に伝えてくれま"
-"す。再接続するために、再びMinecraft Piを起動して、Sonic Piが自動検出して、再接続を試みます。"
+"Minecraft Pi APIはMinecraft Piアプリケーションへの接続を可能にします。あなたは何も心配をしなくてもよいということです。 "
+"Minecraft Piを起動せずに、Minecraft Pi APIを使おうとした場合には、Sonic Piはこれを丁寧に教えてくれます。同様に、"
+"Minecraft Pi APIを使っている`live_loop`が実行されている最中にMinecraft "
+"Piを閉じてしまった場合には、そのライブループを停止し、接続できてないことを丁寧に伝えてくれます。再接続するには、Minecraft "
+"Piを再び起動するだけで、Sonic Piが自動検出して、再接続を試みます。"
 
 #: 11-Minecraft-Pi.md:28
-#, fuzzy
 msgid "Designed to be Live Coded"
-msgstr "ライブコーディングのデザイン"
+msgstr "ライブコーディングに対応した設計"
 
 #: 11-Minecraft-Pi.md:30
-#, fuzzy
 msgid ""
 "The Minecraft Pi API has been designed to work seamlessly within `live_loop`s."
 " This means it's possible to synchronise modifications in your Minecraft Pi wo"
@@ -8319,125 +8312,107 @@ msgid ""
 "arry on as before. Sonic Pi's automatic connection functionality will take car"
 "e of things for you."
 msgstr ""
-"Minecraft Pi APIは`live_loop`内でシームレスに動作するように設計されています。 これは、SonicPiの音に変更を加え、Minec"
-"raft Piの世界の変更と同期させることが可能であることを意味します。 インスタントなMinecraftベースのミュージックビデオです！ Minecraf"
-"t Piはアルファ版のソフトウェアであり、 わずかに不安定であることに注意してください。何か問題が発生した場合は、単純にMinecraft Piを再起動し、"
-"以前と同様に続けましょう。Sonic Piの自動接続機能が対応します。"
+"Minecraft Pi APIは`live_loop`内でシームレスに動作するように設計されています。これは、SonicPiの音に変更を加え、"
+"Minecraft Piのワールドの変更と同期させることが可能であることを意味します。 インスタントなMinecraftベースのミュージックビデオです！ "
+"Minecraft Piはアルファ版のソフトウェアであり、わずかに不安定であることに注意してください。何か問題が発生した場合は、単純にMinecraft "
+"Piを再起動し、以前と同様に続けましょう。Sonic Piの自動接続機能が対応します。"
 
 #: 11-Minecraft-Pi.md:39
-#, fuzzy
 msgid "Requires a Raspberry Pi 2.0"
 msgstr "Raspberry Pi 2.0が必要"
 
 #: 11-Minecraft-Pi.md:41
-#, fuzzy
 msgid ""
 "It is highly recommended that you use a Raspberry Pi 2 if you wish to run both"
 " Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
 " Pi's sound capabilities."
 msgstr ""
-"Sonic　PiとMinecraftの両方を実行したい場合は、特にSonic　Piのサウンド機能を使用したい場合は Raspberry Pi 2.0を使用す"
-"ることをお勧めします。"
+"Sonic PiとMinecraftの両方を同時に実行したい場合、特にSonic Piのサウンド機能を使用したい場合は、Raspberry Pi "
+"2を使用することをお勧めします。"
 
 #: 11-Minecraft-Pi.md:45
-#, fuzzy
 msgid "API Support"
 msgstr "APIサポート"
 
 #: 11-Minecraft-Pi.md:47
-#, fuzzy
 msgid ""
 "At this stage, Sonic Pi supports basic block and player manipulations which ar"
 "e detailed in Section 11.1. Support for event callbacks triggered by player in"
 "teractions in the world is planned for a future release."
 msgstr ""
-"現段階では、Sonic　Piは、次のセクション11.1に詳述されている基本ブロックとプレイヤーの操作をサポートしています。 世界の中のプレイヤーの相互作用に"
-"よるトリガーされるイベントのコールバックのサポートは、 将来のリリースバージョンで予定されています。"
+"現段階では、Sonic Piは、次のセクション11.1に詳述されている基本ブロックとプレイヤーの操作をサポートしています。ワールド内のプレイヤーの相互作用"
+"によってトリガーされるイベントのコールバックのサポートは、 将来のリリースバージョンで予定されています。"
 
 #: 11.1-Basic-API.md:1
-#, fuzzy
 msgid "11.1 Basic API"
-msgstr "11.1 APIの基礎"
+msgstr "11.1 ベーシックなAPI"
 
 #: 11.1-Basic-API.md:3
-#, fuzzy
 msgid "Basic Minecraft Pi API"
-msgstr "Minecraft Pi APIの基礎"
+msgstr "ベーシックなMinecraft Pi API"
 
 #: 11.1-Basic-API.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft Pi"
 ":"
-msgstr "Sonic Pi は現在、下記のMinecraft Piの基本インタラクションをサポートしています:"
+msgstr "Sonic Piは現在、下記のMinecraft Piの基本インタラクションをサポートしています:"
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
-#, fuzzy
 msgid "Displaying chat messages"
 msgstr "チャットメッセージの表示"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
-#, fuzzy
 msgid "Setting the position of the user"
 msgstr "ユーザーの位置設定"
 
 #: 11.1-Basic-API.md:9
-#, fuzzy
 msgid "Getting the position of the user"
 msgstr "ユーザーの位置情報の取得"
 
 #: 11.1-Basic-API.md:10
-#, fuzzy
 msgid "Setting the block type at a given coordinate"
-msgstr "指定した座標にブロックタイプを設定"
+msgstr "指定した座標のブロックタイプを設定"
 
 #: 11.1-Basic-API.md:11
-#, fuzzy
 msgid "Getting the block type at a given coordinate"
-msgstr "指定した座標のブロック タイプを取得"
+msgstr "指定した座標のブロックタイプを取得"
 
 #: 11.1-Basic-API.md:14
-#, fuzzy
 msgid "Let's look at each of these in turn."
-msgstr "これら、それぞれを順番に見てみましょう。"
+msgstr "これらをそれぞれ順番に見てみましょう。"
 
 #: 11.1-Basic-API.md:18
-#, fuzzy
 msgid ""
 "Let's see just how easy it is to control Minecraft Pi from Sonic Pi. First, ma"
 "ke sure you have both Minecraft Pi and Sonic Pi open at the same time and also"
 " make sure you've entered a Minecraft world and can walk around."
 msgstr ""
-"それではSonic Pi からの Minecraft Piの制御が、どれだけ簡単か見てみましょう。まずはじめに Minecraft Pi とSonic Pi"
-" が同時に起動しているかを確認し、 Minecraft の世界に入って歩くことができることを確認してください。"
+"それではSonic PiからのMinecraft Piの制御が、どれだけ簡単か見てみましょう。まずはじめにMinecraft PiとSonic "
+"Piが同時に起動していることを確認し、Minecraftのワールドに入って歩くことができることを確認してください。"
 
 #: 11.1-Basic-API.md:23
-#, fuzzy
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr "新しいSonicPi のBufferで、次のコードを入力してください。"
+msgstr "新しいSonicPiのBufferで、次のコードを入力してください。"
 
 #: 11.1-Basic-API.md:25
 #, no-wrap
-#, fuzzy
 msgid "mc_message \"Hello from Sonic Pi\""
-msgstr "mc_message \"Hello from Sonic Jam Pi\""
+msgstr "mc_message \"Hello from Sonic Pi\""
 
 #: 11.1-Basic-API.md:29
-#, fuzzy
 msgid ""
 "When you hit the *Run* button, you'll see your message flash up on the Minecra"
 "ft window. Congratulations, you've written your first Minecraft code! That was"
 " easy wasn't it."
 msgstr ""
-"*Run*ボタンを押すと、Minecraft ウィンドウにあなたのメッセージが表示されます。おめでとう、あなたは最初の Minecraft コードを書きまし"
-"た!簡単でしたね。"
+"*Run*ボタンを押すと、Minecraftウィンドウにメッセージが表示されます。おめでとう、あなたは初めてのMinecraftコードを書きました！簡単で"
+"したよね。"
 
 #: 11.1-Basic-API.md:35
-#, fuzzy
 msgid ""
 "Now, let's try a little magic. Let's teleport ourselves somewhere! Try the fol"
 "lowing:"
-msgstr "これから、小さな魔法を試してみましょう。どこかに瞬間移動してみましょう！以下を試してください。"
+msgstr "では、ちょっとした魔法を試してみましょう。どこかに瞬間移動してみましょう！以下を試してください。"
 
 #: 11.1-Basic-API.md:38
 #, no-wrap
@@ -8445,7 +8420,6 @@ msgid "mc_teleport 50, 50, 50"
 msgstr "mc_teleport 50, 50, 50"
 
 #: 11.1-Basic-API.md:42
-#, fuzzy
 msgid ""
 "When you hit *Run* - boom! You're instantantly transported to a new place. Mos"
 "t likely it was somewhere in the sky and you fell down either to dry land or i"
@@ -8454,17 +8428,15 @@ msgid ""
 "lore what coordinates are and how they work because they're really, really imp"
 "ortant for programming Minecraft."
 msgstr ""
-"Runを押すとボーン！新しい場所へあなたの座標が移動しました。たいていは、乾燥した土地、または水に落ちたか、空中のどこかでしょう。`50, 50, 50`、"
-"これらの数字は何でしょう?これらは瞬間移動しようとしている場所の座標です。Minecraftをプログラムするにあたり、座標がどのように動作するのか、本当に重"
-"要であるので、短い時間でみていきましょう。"
+"`Run`を押すと、ボーン！新しい場所へあなたの座標が移動しました。たいていは、乾燥した土地、または水に落ちたか、空中のどこかでしょう。`50, 50, "
+"50`、これらの数字は何でしょう？これらは瞬間移動しようとしている場所の座標です。座標とは何なのか、そして座標がどのように動作するのかは、Minecraf"
+"tをプログラムするにあたって本当に重要なので、少し時間を取って見ていきましょう。"
 
 #: 11.1-Basic-API.md:50
-#, fuzzy
 msgid "Coordinates"
 msgstr "座標"
 
 #: 11.1-Basic-API.md:52
-#, fuzzy
 msgid ""
 "Imagine a pirate's map with a big `X` marking the location of some treasure. T"
 "he exact location of the `X` can be described with two numbers - how far along"
@@ -8474,53 +8446,46 @@ msgid ""
 "easure with other pairs of numbers. Perhaps there's a big chest of gold at `2`"
 " across and `9` up..."
 msgstr ""
-"いくつかの宝の場所が大きな`X`でマーキングされた海賊の地図を想像してみてください。`X`の正確な位置は、左から右へ向かってどれくらい離れているか、下から上"
-"へ向かってどのくらい離れているか、この二つの数字で場所を記述することができます。例えば、横へ`10cm`、上に`8cm`。これら２つの数字`10`と`8`が"
-"座標です。他に隠された宝物の在処も別の２つの数字で容易に記述できることが想像できますね。おそらく、`2`つ横切り、`9`つ上には大きな金脈がありそうです.."
-"."
+"いくつかの宝の場所が大きな`X`でマーキングされた海賊の地図を想像してみてください。`X`の正確な位置は、左から右へ向かってどれくらい離れているか、下から"
+"上へ向かってどのくらい離れているか、この二つの数字で場所を記述することができます。例えば、横へ`10cm`、上に`8cm`。これら２つの数字`10`と`8"
+"`が座標です。他に隠された宝物の在処も別の２つの数字で容易に記述できることが想像できますね。おそらく、`2`つ横切り、`9`つ上には大きな金脈がありそうで"
+"す..."
 
 #: 11.1-Basic-API.md:61
-#, fuzzy
 msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
 "h we are. We therefore need three numbers:"
 msgstr ""
-"さて、 Minecraftの中では2つの数字では十分ではありません。また、私たちがどれだけ高い所にいるのかを知る必要があります。したがって、3つの数字が必要"
-"になります。"
+"さて、Minecraftの中では2つの数字では十分ではありません。それに加えて、私たちがどれだけ高い所にいるのかを知る必要があります。したがって、3つの数"
+"字が必要になります。"
 
 #: 11.1-Basic-API.md:64
-#, fuzzy
 msgid "How far from right to left in the world - `x`"
-msgstr "どのくらい右端から、左へ - `x`"
+msgstr "どのくらい右端から左に離れてるか - `x`"
 
 #: 11.1-Basic-API.md:65
-#, fuzzy
 msgid "How far from front to back in the world - `z`"
-msgstr "どのくらい手前から世界の奥へ - `z`"
+msgstr "どのくらい手前から奥へ離れてるか - `z`"
 
 #: 11.1-Basic-API.md:66
-#, fuzzy
 msgid "How high up we are in the world - `y`"
 msgstr "どのくらい高くあがったか - `y`"
 
 #: 11.1-Basic-API.md:68
-#, fuzzy
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, `y"
 "`, `z`."
 msgstr "通常、 `x`, `y`, `z`でこれらの座標を記述します。"
 
 #: 11.1-Basic-API.md:71
-#, fuzzy
 msgid "Finding your current coordinates"
 msgstr "現在の座標を知る"
 
 #: 11.1-Basic-API.md:73
-#, fuzzy
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
 "map and then switch over to Sonic Pi. Now enter the following:"
-msgstr "座標を使って遊んでみましょう。Minecraftのマップで素敵な場所に移動した後、 SonicPiに切り替え次を入力してください。"
+msgstr "座標を使って遊んでみましょう。Minecraftのマップで素敵な場所に移動した後、SonicPiに切り替え、次を入力してください。"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
@@ -8528,7 +8493,6 @@ msgid "puts mc_location"
 msgstr "puts mc_location"
 
 #: 11.1-Basic-API.md:80
-#, fuzzy
 msgid ""
 "When you hit the *Run* button you'll see the coordinates of your current posit"
 "ion displayed in the log window. Take a note of them, then move forward in the"
@@ -8538,26 +8502,24 @@ msgid ""
 "the coordinates change when you move. Once you've understood how coordinates w"
 "ork, programming with the Minecraft API will be a complete breeze."
 msgstr ""
-"*Run*ボタンを押すと、ログ画面に、現在位置の座標が表示されます。それらを書き留め、その後で、世界で前方に移動し、再び挑戦してください。これを正確に繰り返"
-"すことに時間を使うことをお勧めします。座標がどのように変化するかに注目しましょう！座標移動を繰り返して、世界のビットを移動しましょう。あなたが移動すると座標"
-"がどのように変化するか感触を得られるまで、これを行いましょう。これを調整する方法が理解できれば、MinecraftのAPIを使用したプログラミングがほぼ完了"
-"します。"
+"`Run`ボタンを押すと、ログ画面に、現在位置の座標が表示されます。座標の値を書き留め、続いてワールド内で前方に移動し、再び試してみてください。座標がどの"
+"ように変化するかに注目しましょう！これを繰り返すのに時間を使うことをお勧めします。すなわち、ワールド内で少し動いては座標を見てみるということです。あなたが"
+"移動すると座標がどのように変化するか感触を得られるまで、これを行いましょう。これを調整する方法が理解できれば、MinecraftのAPIを使用したプログラ"
+"ミングがほぼ完了します。"
 
 #: 11.1-Basic-API.md:89
-#, fuzzy
 msgid "Let's Build!"
 msgstr "さぁ、構築しましょう!"
 
 #: 11.1-Basic-API.md:91
-#, fuzzy
 msgid ""
 "Now that you know how to find the current position and to teleport using coord"
 "inates, you have all the tools you need to start building things in Minecraft "
 "with code. Let's say you want to make the block with coordinates `40`, `50`, `"
 "60` to be glass. That's super easy:"
 msgstr ""
-"現在位置をどのように知り、座標を利用して瞬間移動する方法を知っているあなたは、 Mincraft内に、コードで何かを構築し始めるための必要な道具をすべて持っ"
-"ています。 座標`40`, `50`, `60`にガラスのブロックを作りたかったら、それはとっても簡単ですね。"
+"現在位置を取得する方法と、座標を利用して瞬間移動する方法を覚えたので、あなたはコードでMincraft内に何かを構築し始めるために必要な道具をすべて持って"
+"います。たとえば、座標`40`, `50`, `60`にガラスのブロックを作りたかったら、それはとっても簡単ですね。"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
@@ -8565,11 +8527,10 @@ msgid "mc_set_block :glass, 40, 50, 60"
 msgstr "mc_set_block :glass, 40, 50, 60"
 
 #: 11.1-Basic-API.md:100
-#, fuzzy
 msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby and "
 "take a look:"
-msgstr "ハハ、それは本当に簡単でした。あなたhandyworkを表示するには ちょっと近くに瞬間移動してみましょう。"
+msgstr "ハハ、本当に簡単だったでしょう。作ったものを見るには、近くに瞬間移動してみましょう。"
 
 #: 11.1-Basic-API.md:103
 #, no-wrap
@@ -8577,11 +8538,10 @@ msgid "mc_teleport 35, 50, 60"
 msgstr "mc_teleport 35, 50, 60"
 
 #: 11.1-Basic-API.md:107
-#, fuzzy
 msgid ""
 "Now turn around and you should see your glass block! Try changing it to diamon"
 "d:"
-msgstr "振り向くと、あなたのガラスのブロックが表示されるはずです！それをダイヤモンドに変更してみましょう。"
+msgstr "振り向くと、あなたの作ったガラスのブロックが表示されるはずです！それをダイヤモンドに変更してみましょう。"
 
 #: 11.1-Basic-API.md:110
 #, no-wrap
@@ -8589,26 +8549,23 @@ msgid "mc_set_block :diamond, 40, 50, 60"
 msgstr "mc_set_block :diamond, 40, 50, 60"
 
 #: 11.1-Basic-API.md:114
-#, fuzzy
 msgid ""
 "If you were looking in the right direction you might have even seen it change "
 "in front of your eyes! This is the start of something exciting..."
-msgstr "もし正しい方角で見れば、それがあなたの目の前で変更される可能性があります！ これはエキサイティングな何かの始まりです..."
+msgstr "見る角度が合えば、それがあなたの目の前で変更されることだってあるのです！これはエキサイティングな何かの始まりです..."
 
 #: 11.1-Basic-API.md:117
-#, fuzzy
 msgid "Looking at blocks"
 msgstr "ブロックを調べる"
 
 #: 11.1-Basic-API.md:119
-#, fuzzy
 msgid ""
 "Let's look at one last thing before we move onto something a bit more involved"
 ". Given a set of coordinates we can ask Minecraft what the type of a specific "
 "block is. Let's try it with the diamond block you just created:"
 msgstr ""
-"少し複雑なことに移る前に、最後の一つを見てみましょう。座標の集合を与え、 特定のブロックの種類が何であるかをMinecraftに訪ねることができます。 では"
-"、先ほど作成したダイヤモンドブロックでそれを試してみましょう。"
+"少し複雑なことに移る前に、最後の一つを見てみましょう。座標を与え、特定のブロックの種類が何であるかをMinecraftに尋ねることができます。では、先ほど"
+"作成したダイヤモンドブロックで試してみましょう。"
 
 #: 11.1-Basic-API.md:124
 #, no-wrap
@@ -8616,29 +8573,25 @@ msgid "puts mc_get_block 40, 50, 60"
 msgstr "puts mc_get_block 40, 50, 60"
 
 #: 11.1-Basic-API.md:128
-#, fuzzy
 msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
 " now say `:glass`? I'm sure it does :-)"
 msgstr ""
-"イェイ! それは`:diamond`(ダイヤモンド）ですね。ガラスに戻して、 もう一度尋ねてみましょう。`:glass`を示しましたか？信じています(^o^"
-")"
+"イェイ！それは`:diamond`（ダイヤモンド）ですね。ガラスに戻して、もう一度尋ねてみましょう。`:glass`を示しましたか？きっとそうなったでしょ"
+"う(^o^)"
 
 #: 11.1-Basic-API.md:131
-#, fuzzy
 msgid "Available block types"
 msgstr "使用可能なブロックタイプ"
 
 #: 11.1-Basic-API.md:133
-#, fuzzy
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of av"
 "ailable block types useful:"
-msgstr "Minecraft Pi コーディングへ暴れに行く前に、利用可能な ブロックタイプの便利なリストを示します:"
+msgstr "Minecraft Piでコーディングで暴れに行く前に、利用可能なブロックタイプのリストがあると便利でしょう。以下に示します。"
 
 #: 11.1-Basic-API.md:136
 #, no-wrap
-#, fuzzy
 msgid ""
 "    :air\n"
 "    :stone\n"
@@ -8756,7 +8709,7 @@ msgstr ""
 "    :stone_slab\t\t石板\n"
 "    :brick\t\t\tレンガ\n"
 "    :brick_block\t\tレンガブロック\n"
-"    :tnt\n"
+"    :tnt\t\t\tTNT\n"
 "    :bookshelf\t\t本棚\n"
 "    :moss_stone\t\t苔石\n"
 "    :obsidian\t\t黒曜石\n"
@@ -8793,17 +8746,14 @@ msgstr ""
 "    :nether_reactor_core\t原子炉コア"
 
 #: 12-Conclusions.md:1
-#, fuzzy
 msgid "12 Conclusions"
 msgstr "12 おわりに"
 
 #: 12-Conclusions.md:3
-#, fuzzy
 msgid "Conclusions"
 msgstr "おわりに"
 
 #: 12-Conclusions.md:5
-#, fuzzy
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
 "mething along the way. Don't worry if you feel you didn't understand everythin"
@@ -8811,61 +8761,58 @@ msgid ""
 "ee to dive back in when you have a question that might be covered in one of th"
 "e sections."
 msgstr ""
-"これでSonic Pi入門のチュートリアルを終了します。方法に沿って何かを学べたのではないでしょうか。すべてを理解していなくても心配しないでください。とにか"
-"く時間を使って演奏し楽しんでください。質問があれば、気軽に戻ってチュートリアルを読み直してみてください。"
+"これでSonic Pi入門のチュートリアルを終了します。皆さんがここに至るまでに何かを学べたと願っています。すべてを理解していなくても心配せずに、演奏を楽"
+"しんでください。そうすれば、あなたのペースで習得できるはずです。何か疑問点があれば、チュートリアルのどこかに書いてあるかもしれないので、気軽に戻って読み直"
+"してみてください。"
 
 #: 12-Conclusions.md:11
-#, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
 "se jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/) a"
 "nd ask your question there. You'll find someone friendly and willing to lend a"
 " hand."
 msgstr ""
-"もし、チュートリアルでカバーされていない疑問がある場合は、[Sonic Pi forums](http://groups.google.com/group/"
-"sonic-pi/)を開き、質問をしてください。そこでは、誰かが親身に手を貸してくれるでしょう。"
+"もし、チュートリアルでカバーしていない疑問がある場合は、[Sonic Pi forums](http://groups.google.com/group"
+"/sonic-pi/)を開いて、質問してみてください。誰かが親身に手を貸してくれるでしょう。"
 
 #: 12-Conclusions.md:16
-#, fuzzy
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
 "ion in this help system. There are a number of features that haven't been cove"
 "red in this tutorial that are waiting for your discovery."
 msgstr ""
-"最後に、このヘルプシステムのマニュアルの他の部分をより深くチェックすることをお勧めします。このチュートリアルではカバーしていない機能がいくつかあるので、新た"
-"な発見が待っているでしょう。"
+"最後に、ヘルプシステムのドキュメントをより深くチェックすることをお勧めします。このチュートリアルでは紹介していない機能がいくつかあるので、新たな発見が待っ"
+"ているでしょう。"
 
 #: 12-Conclusions.md:21
-#, fuzzy
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
-msgstr "遊んで、楽しんで、コードを共有して、そしてスクリーンをみせながら、友人のために演奏してください。 そして思い出してください。"
+msgstr "遊んで、楽しんで、コードを共有して、そしてスクリーンを見せながら、友人のために演奏してください。そして思い出してください。"
 
 #: 12-Conclusions.md:24
-#, fuzzy
 msgid "*There are no mistakes, only opportunities.*"
 msgstr "*間違いはない、あるのはただ可能性だけ*"
 
 #: 12-Conclusions.md:26
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
 msgid "A Appendix A - MagPi Articles"
-msgstr ""
+msgstr "A 付録A - MagPi掲載記事"
 
 #: A-Articles.md:3
 msgid "MagPi Articles"
-msgstr ""
+msgstr "MagPi掲載記事"
 
 #: A-Articles.md:5
 msgid "Appendix A collects all the Sonic Pi articles written for the MagPi magazine."
-msgstr ""
+msgstr "付録Aは、雑誌MagPiのために書かれたSonic Piの記事を集録しています。"
 
 #: A-Articles.md:8
 msgid "Dive into Topics"
-msgstr ""
+msgstr "トピックに進む"
 
 #: A-Articles.md:10
 msgid ""
@@ -8874,20 +8821,24 @@ msgid ""
 "all of Sonic Pi, they instead each focus on a specific aspect of Sonic Pi and "
 "cover it in a fun and accessible way."
 msgstr ""
+"付録に集録されている記事は、決まった順序で読むように意図されたものではなく、またチュートリアルとの重複した内容も数多く含まれています。これらの記事は、"
+"Sonic Piの全てを紹介するというよりは、Sonic Piの特定の面にフォーカスし、分かりやすく、また楽しく紹介しています。"
 
 #: A-Articles.md:15
 msgid "Read the MagPi"
-msgstr ""
+msgstr "MagPiを読む"
 
 #: A-Articles.md:17
 msgid ""
 "You can see them in their glorious professionally typeset form in the free PDF"
 " downloads of The MagPi here: https://www.raspberrypi.org/magpi/"
 msgstr ""
+"MagPiは、美しく活字化されたPDFファイルを以下のサイトから無料でダウンロードできます。https://www.raspberrypi.org/mag"
+"pi/"
 
 #: A-Articles.md:20
 msgid "Suggest a Topic"
-msgstr ""
+msgstr "トピックを提案する"
 
 #: A-Articles.md:22
 msgid ""
@@ -8896,6 +8847,9 @@ msgid ""
 "ic_Pi](http://twitter.com/sonic_pi). You never know - your suggestion might be"
 " the subject of the next article!"
 msgstr ""
+"もしあなたが関心があってこれらのMagPiの記事で紹介されていないトピックがあったら、提案してみてはどうでしょう？最も簡単な方法は、提案を[@Sonic_"
+"Pi](http://twitter.com/sonic_pi)宛にツイートすることです。あなたの提案が次のMagPiの記事のテーマになるかもしれないので"
+"す！"
 
 #: A.01-tips.md:1
 msgid "A.1 Tips for Sonic Pi"
