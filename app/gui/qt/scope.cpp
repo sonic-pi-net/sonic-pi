@@ -133,7 +133,7 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(
 
   for( unsigned int i = 0; i < 4096; ++i ) sample_x[i] = i;
   QTimer *scopeTimer = new QTimer(this);
-  connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
+  connect(scopeTimer, SIGNAL(timeout()), this, SLOT(drawLoop()));
   scopeTimer->start(20);
 
   QVBoxLayout* layout = new QVBoxLayout();
@@ -200,10 +200,7 @@ void Scope::resetScope()
   shmReader = shmClient->get_scope_buffer_reader(0);
 }
 
-void Scope::refreshScope() {
-  if( paused ) return;
-  if( !isVisible() ) return;
-
+void Scope::refresh() {
   if( !shmReader.valid() )
   {
     resetScope();
@@ -255,4 +252,13 @@ void Scope::refreshScope() {
       emptyFrames = 0;
     }
   }
+}
+
+
+void Scope::drawLoop() {
+  // short circuit if possible
+  if( paused ) return;
+  if( !isVisible() ) return;
+
+  refresh();
 }

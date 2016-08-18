@@ -85,9 +85,10 @@ public:
   void pause();
   void resume();
   void resetScope();
+  void refresh();
 
 private slots:
-  void refreshScope();
+  void drawLoop();
 
 private:
   std::unique_ptr<server_shared_memory_client> shmClient;
