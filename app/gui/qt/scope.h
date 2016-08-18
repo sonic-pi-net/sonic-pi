@@ -63,7 +63,7 @@ class MultiScopePanel : public ScopeBase
 {
 public:
   MultiScopePanel( const QString& name, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent );
-  
+
   void setPen( QPen pen );
 
 private:

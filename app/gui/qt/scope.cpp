@@ -23,11 +23,11 @@
 #include <qwt_text_label.h>
 #include <cmath>
 
-ScopeBase::ScopeBase( const QString& name, QWidget* parent ) : QWidget(parent), name(name), defaultShowX(true), defaultShowY(true), plot(QwtText(name),this) 
+ScopeBase::ScopeBase( const QString& name, QWidget* parent ) : QWidget(parent), name(name), defaultShowX(true), defaultShowY(true), plot(QwtText(name),this)
 {
   QSizePolicy sp(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
   plot.setSizePolicy(sp);
-  
+
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(&plot);
   layout->setContentsMargins(0,0,0,0);
@@ -115,7 +115,7 @@ void MultiScopePanel::setPen( QPen pen )
   for( auto c : curves )
   {
     c.get()->setPen(pen);
-  } 
+  }
 }
 
 Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0)
@@ -222,7 +222,7 @@ void Scope::refreshScope() {
         sample[j][i] = sample[j][i+frames];
         if( j == 0 )
         {
-          sample_mono[i] = sample_mono[i+frames]; 
+          sample_mono[i] = sample_mono[i+frames];
         }
       }
 
@@ -241,7 +241,7 @@ void Scope::refreshScope() {
         }
       }
     }
-    
+
     for( auto scope : panels )
     {
       scope->refresh();
