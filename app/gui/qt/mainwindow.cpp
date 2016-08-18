@@ -2236,8 +2236,8 @@ void MainWindow::updateDarkMode(){
     "}").arg(paneColor, errorBackgroundColor));
 
   scopeWidget->setStyleSheet( QString(frameStyling + qwtplotStyling));
-
-
+  scopeInterface->refresh();
+  scopeWidget->update();
 
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
