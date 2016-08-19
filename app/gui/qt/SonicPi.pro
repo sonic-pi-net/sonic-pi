@@ -20,7 +20,7 @@
 TARGET = 'sonic-pi'
 CONFIG += qscintilla2 qwt c++11
 
-QT += core gui concurrent network 
+QT += core gui concurrent network multimedia 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
 }
