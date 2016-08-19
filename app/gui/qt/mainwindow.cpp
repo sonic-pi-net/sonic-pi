@@ -2709,8 +2709,6 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/dark-mode", dark_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
-  settings.setValue("prefs/", mixer_invert_stereo->isChecked());
-
   settings.setValue("prefs/system-vol", system_vol_slider->value());
 
   settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
