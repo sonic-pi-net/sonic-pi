@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-18 11:13+0000\n"
+"PO-Revision-Date: 2016-08-19 10:05+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -8853,15 +8853,15 @@ msgstr ""
 
 #: A.01-tips.md:1
 msgid "A.1 Tips for Sonic Pi"
-msgstr ""
+msgstr "A.1 Sonic Piのためのヒント"
 
 #: A.01-tips.md:3
 msgid "Five Top Tips"
-msgstr ""
+msgstr "トップ5のヒント"
 
 #: A.01-tips.md:5
 msgid "1. There are no mistakes"
-msgstr ""
+msgstr "1. 間違いはない"
 
 #: A.01-tips.md:7
 msgid ""
@@ -8874,12 +8874,17 @@ msgid ""
 "on't like and keep the things you do. The more 'mistakes' you allow yourself t"
 "o make the quicker you'll learn and discover your personal coding sound."
 msgstr ""
+"Sonic Piで学ぶ最も重要な教訓は、*間違いはない*ということです。Sonic Piの一番の習得方法は、繰り返し試してみることです。いろんなことを試し"
+"、コードから出る音が良いか悪いか気にするのをやめ、できるだけ異なるシンセ、異なる音符、異なるエフェクト、異なるオプションを実験してみましょう。とてもひどく"
+"て笑ってしまうものも数多くある一方で、宝石のような本当に素晴らしい音もあるでしょう。そして、単純にあなたの好みの音は取っておき、そうでないものは捨ててしま"
+"えばよいのです。より多くの`間違い`をすればするほど、あなたにしか出来ないコーディング音楽をより早く発見し、習得できるに違いありません。"
 
 #: A.01-tips.md:18
 msgid "2. Use the FX"
-msgstr ""
+msgstr "2. エフェクトを使う"
 
 #: A.01-tips.md:20
+#, fuzzy
 msgid ""
 "Say you've already mastered the Sonic Pi basics of making sounds with `sample`"
 ", `play`? What's next? Did you know that Sonic Pi supports over 27 studio FX t"
@@ -8892,6 +8897,8 @@ msgid ""
 "u'd like the FX added to and wrap it with the FX code. Let's look at an exampl"
 "e. Say you had the following code:"
 msgstr ""
+"`sample`や`play`といったSonic Piの音作りの基本をマスターしたとして、次はどうしよう？Sonic "
+"Piには、あなたのコードの音を変えることができる27を超えるスタジオ・エフェクトがあるのを知っていますか？"
 
 #: A.01-tips.md:32
 #, no-wrap
