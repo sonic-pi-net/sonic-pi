@@ -542,6 +542,127 @@ module SonicPi
       end
     end
 
+    class SoundIn < SonicPiSynth
+      def name
+        "Sound In"
+      end
+
+      def introduced
+        Version.new(2,10,0)
+      end
+
+      def synth_name
+        "sound_in"
+      end
+
+      def doc
+        "Treat sound card input as a synth. If your audio card has inputs, you may use this synth to feed the incoming audio into Sonic Pi. This synth will read in a single mono audio stream - for example from a standard microphone or guitar. See `:sound_in_stereo` for a similar synth capable of reading in a stereo signal.
+
+As with all Sonic Pi synths, there is a default envelope which determines the duration of the lifetime of the synth. Therefore, to get a continuous stream of audio, you need to place consecutive calls to this synth in iteration or a `live_loop`. For example:
+
+```
+live_loop :playback do
+```
+
+```
+   synth :sound_in, sustain: 8
+```
+
+```
+   sleep 8
+```
+
+```
+end
+```
+
+Note that if the microphone and speaker are close together (on a laptop or in a small room) you will potentially get a harsh feedback sound."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 1,
+          :release => 0,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :env_curve => 0,
+
+          :input => 1
+        }
+      end
+
+      def specific_arg_info
+        {
+          :input =>
+          {
+            :doc => "Sound card input channel to obtain audio from. Indexing starts at 1 so input 1 represents the first channel, and channel 2 can be represented by `input: 2`",
+            :validations => [v_greater_than_oet(:input, 1)],
+            :modulatable => true,
+          }
+        }
+      end
+
+    end
+
+    class SoundInStereo < SoundIn
+      def name
+        "Sound In Stereo"
+      end
+
+      def synth_name
+        "sound_in_stereo"
+      end
+
+      def specific_arg_info
+        {
+          :input =>
+          {
+            :doc => "First of two consecutive sound card input channels to obtain audio from. Indexing starts at 1 so input 1 represents the first channel, and channel 2 can be represented by `input: 2`",
+            :validations => [v_greater_than_oet(:input, 1)],
+            :modulatable => true,
+          }
+        }
+      end
+
+      def doc
+        "Treat sound card input as a synth. If your audio card has inputs, you may use this synth to feed the incoming audio into Sonic Pi. This synth will read in a stereo audio stream - for example from a stereo microphone or external stereo keyboard. See `:sound_in` for a similar synth capable of reading in a mono signal. The stereo input is expected to be on consecutive sound card channels.
+
+As with all Sonic Pi synths, there is a default envelope which determines the duration of the lifetime of the synth. Therefore, to get a continuous stream of audio, you need to place consecutive calls to this synth in iteration or a `live_loop`. For example:
+
+```
+live_loop :playback do
+```
+
+```
+   synth :sound_in_stereo, sustain: 8
+```
+
+```
+   sleep 8
+```
+
+```
+end
+```
+
+Note that if the microphone and speaker are close together (on a laptop or in a small room) you will potentially get a harsh feedback sound."
+      end
+    end
+
+
+
     class DullBell < SonicPiSynth
       def name
         "Dull Bell"
@@ -2943,124 +3064,6 @@ module SonicPi
     class StudioInfo < SonicPiSynth
       def user_facing?
         false
-      end
-    end
-
-    class SoundIn < StudioInfo
-      def name
-        "Sound In"
-      end
-
-      def introduced
-        Version.new(2,10,0)
-      end
-
-      def synth_name
-        "sound_in"
-      end
-
-      def doc
-        "Treat sound card input as a synth. If your audio card has inputs, you may use this synth to feed the incoming audio into Sonic Pi. This synth will read in a single mono audio stream - for example from a standard microphone or guitar. See `:sound_in_stereo` for a similar synth capable of reading in a stereo signal.
-
-As with all Sonic Pi synths, there is a default envelope which determines the duration of the lifetime of the synth. Therefore, to get a continuous stream of audio, you need to place consecutive calls to this synth in iteration or a `live_loop`. For example:
-
-```
-live_loop :playback do
-```
-
-```
-   synth :sound_in, sustain: 8
-```
-
-```
-   sleep 8
-```
-
-```
-end
-```
-Note that if the microphone and speaker are close together (on a laptop or in a small room) you will potentially get a harsh feedback sound."
-      end
-
-      def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :pan => 0,
-          :pan_slide => 0,
-          :pan_slide_shape => 1,
-          :pan_slide_curve => 0,
-
-          :attack => 0,
-          :decay => 0,
-          :sustain => 1,
-          :release => 0,
-          :attack_level => 1,
-          :decay_level => :sustain_level,
-          :sustain_level => 1,
-          :env_curve => 0,
-
-          :input => 1
-        }
-      end
-
-      def specific_arg_info
-        {
-          :input =>
-          {
-            :doc => "Sound card input channel to obtain audio from. Indexing starts at 1 so input 1 represents the first channel, and channel 2 can be represented by `input: 2`",
-            :validations => [v_greater_than_oet(:input, 1)],
-            :modulatable => true,
-          }
-        }
-      end
-
-    end
-
-    class SoundInStereo < SoundIn
-      def name
-        "Sound In Stereo"
-      end
-
-      def synth_name
-        "sound_in_stereo"
-      end
-
-      def specific_arg_info
-        {
-          :input =>
-          {
-            :doc => "First of two consecutive sound card input channels to obtain audio from. Indexing starts at 1 so input 1 represents the first channel, and channel 2 can be represented by `input: 2`",
-            :validations => [v_greater_than_oet(:input, 1)],
-            :modulatable => true,
-          }
-        }
-      end
-
-      def doc
-        "Treat sound card input as a synth. If your audio card has inputs, you may use this synth to feed the incoming audio into Sonic Pi. This synth will read in a stereo audio stream - for example from a stereo microphone or external stereo keyboard. See `:sound_in` for a similar synth capable of reading in a mono signal. The stereo input is expected to be on consecutive sound card channels.
-
-As with all Sonic Pi synths, there is a default envelope which determines the duration of the lifetime of the synth. Therefore, to get a continuous stream of audio, you need to place consecutive calls to this synth in iteration or a `live_loop`. For example:
-
-```
-live_loop :playback do
-```
-
-```
-   synth :sound_in_stereo, sustain: 8
-```
-
-```
-   sleep 8
-```
-
-```
-end
-```
-
-Note that if the microphone and speaker are close together (on a laptop or in a small room) you will potentially get a harsh feedback sound."
       end
     end
 
