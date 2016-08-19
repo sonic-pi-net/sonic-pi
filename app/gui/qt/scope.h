@@ -29,7 +29,7 @@ class ScopeBase : public QWidget
 {
   Q_OBJECT
 public:
-  ScopeBase( const QString& name, QWidget* parent = 0 );
+  ScopeBase( const QString& name, const QString& title, QWidget* parent = 0 );
   virtual ~ScopeBase();
 
   const QString& getName();
@@ -41,7 +41,7 @@ public:
   bool setAxesVisible( bool on );
 
 private:
-  QString name;
+  QString name,title;
   bool defaultShowX, defaultShowY;
 
 protected:
@@ -51,7 +51,7 @@ protected:
 class ScopePanel : public ScopeBase
 {
 public:
-  ScopePanel( const QString& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent = 0 );
+  ScopePanel( const QString& name, const QString& title, double* sample_x, double* sample_y, int num_samples, QWidget* parent = 0 );
 
   void setPen( QPen pen );
 
@@ -62,7 +62,7 @@ private:
 class MultiScopePanel : public ScopeBase
 {
 public:
-  MultiScopePanel( const QString& name, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent );
+  MultiScopePanel( const QString& name, const QString& title, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent );
 
   void setPen( QPen pen );
 

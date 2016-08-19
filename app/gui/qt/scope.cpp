@@ -22,8 +22,9 @@
 #include <QDebug>
 #include <qwt_text_label.h>
 #include <cmath>
+#include <set>
 
-ScopeBase::ScopeBase( const QString& name, QWidget* parent ) : QWidget(parent), name(name), defaultShowX(true), defaultShowY(true), plot(QwtText(name),this)
+ScopeBase::ScopeBase( const QString& name, const QString& title, QWidget* parent ) : QWidget(parent), name(name), title(title), defaultShowX(true), defaultShowY(true), plot(QwtText(name),this)
 {
   QSizePolicy sp(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
   plot.setSizePolicy(sp);
@@ -61,7 +62,7 @@ bool ScopeBase::setAxesVisible(bool b)
   plot.enableAxis(QwtPlot::Axis::xBottom,b && defaultShowX );
   if( b )
   {
-    plot.setTitle(QwtText(name));
+    plot.setTitle(QwtText(title));
   } else
   {
     plot.setTitle(QwtText(""));
@@ -75,7 +76,7 @@ void ScopeBase::refresh( )
   plot.replot();
 }
 
-ScopePanel::ScopePanel( const QString& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : ScopeBase(name,parent)
+ScopePanel::ScopePanel( const QString& name, const QString& title, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : ScopeBase(name,title,parent)
 {
 #if QWT_VERSION >= 0x60100
   plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
@@ -94,7 +95,7 @@ void ScopePanel::setPen( QPen pen )
   plot_curve.setPen( pen );
 }
 
-MultiScopePanel::MultiScopePanel( const QString& name, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent ) : ScopeBase(name,parent)
+MultiScopePanel::MultiScopePanel( const QString& name, const QString& title, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent ) : ScopeBase(name,title,parent)
 {
   for( unsigned int i = 0; i < num_lines; ++i )
   {
@@ -123,11 +124,11 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(
   std::fill_n(sample[0],4096,0);
   std::fill_n(sample[1],4096,0);
   std::fill_n(sample_mono,4096,0);
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
-//  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Left",sample_x,sample[0],4096,this) ) );
-//  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Right",sample_x,sample[1],4096, this) ) );
-  panels.push_back( std::shared_ptr<MultiScopePanel>(new MultiScopePanel("Stereo",sample_x,sample,2,4096,this) ) );
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Mono",sample_x,sample_mono,4096, this) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", "Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Stereo", "Left", sample_x,sample[0],4096,this) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Stereo", "Right", sample_x,sample[1],4096, this) ) );
+//  panels.push_back( std::shared_ptr<MultiScopePanel>(new MultiScopePanel("Stereo",sample_x,sample,2,4096,this) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Mono", "Mono", sample_x,sample_mono,4096, this) ) );
   panels[0]->setPen(QPen(QColor("deeppink"), 1));
   panels[0]->setXRange( -1, 1, true );
 
@@ -152,25 +153,26 @@ Scope::~Scope()
 
 std::vector<QString> Scope::getScopeNames() const
 {
-  std::vector<QString> names;
+  std::set<QString> names;
   for( auto scope : panels )
   {
-    names.push_back(scope->getName());
+    names.insert(scope->getName());
   }
-  return names;
+  return std::vector<QString>(names.begin(),names.end());
 }
 
 bool Scope::enableScope( const QString& name, bool on )
 {
+  bool any = false;
   for( auto scope : panels )
   {
     if( scope->getName() == name )
     {
       scope->setVisible(on);
-      return on;
+      any = true;
     }
   }
-  return true;
+  return any ? on : true;
 }
 
 bool Scope::setScopeAxes(bool on)
