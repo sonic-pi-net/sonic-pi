@@ -27,7 +27,7 @@
 #include <QDesktopServices>
 #include <QDesktopWidget>
 
-
+#include <QAudioDeviceInfo>
 #include <QDir>
 #include <QAction>
 #include <QApplication>
@@ -215,6 +215,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
 
   // Wait to hear back from the server before continuing
+  QAudioDeviceInfo in_info(QAudioDeviceInfo::defaultInputDevice());
+  QAudioDeviceInfo out_info(QAudioDeviceInfo::defaultOutputDevice());
+
+  std::cout << "[GUI] - detected audio input: "  << in_info.deviceName().toStdString() << std::endl;
+  std::cout << "[GUI] - detected audio output: "  << out_info.deviceName().toStdString() << std::endl;
+
   startRubyServer();
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...
