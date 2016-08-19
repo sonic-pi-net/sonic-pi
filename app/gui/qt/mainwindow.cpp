@@ -1840,7 +1840,7 @@ void MainWindow::changeGUITransparency(int)
 void MainWindow::changeRPSystemVol(int val)
 {
   float v = (float) val;
-  v = (v / 100.0) * 3.0;
+  v = (v / 100.0) * 2.0;
   Message msg("/mixer-amp");
   msg.pushStr(guiID.toStdString());
   msg.pushFloat(v);
