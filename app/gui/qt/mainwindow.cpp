@@ -1987,17 +1987,17 @@ void MainWindow::updateDarkMode(){
 
   QString buttonStyling = QString(
     "QPushButton{"
-    "  padding: 5px;"
     "  background-color: %1;"
+    "  color: %5;"
+    "  padding: 5px;"
     "  border-radius: 3px;"
     "  border-color: %2;"
     "  border-width: 2px;"
     "}"
-    ""
     "QPushButton::pressed{"
     "  background-color: %3;"
     "  color: %4;"
-    "}").arg( buttonColor, buttonBorderColor, pressedButtonColor, pressedButtonTextColor );
+    "}").arg( buttonColor, buttonBorderColor, pressedButtonColor, pressedButtonTextColor, buttonTextColor );
 
 
   QString splitterStyling = QString(
@@ -2182,10 +2182,6 @@ void MainWindow::updateDarkMode(){
     "  background-color: %2;"
     "  border: 1px solid %3;"
     "  color: %1;"
-    "}"
-    ""
-    "QWidget{"
-    "  background-color: %2;"
     "}").arg(windowForegroundColor, windowColor, windowInternalBorderColor)));
 
   tabs->setStyleSheet(tabStyling);
