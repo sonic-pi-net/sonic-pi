@@ -310,7 +310,7 @@ private:
     QRadioButton *rp_force_audio_hdmi;
     QRadioButton *rp_force_audio_default;
     QRadioButton *rp_force_audio_headphones;
-    QSlider *rp_system_vol;
+    QSlider *system_vol_slider;
     QSlider *gui_transparency_slider;
 
     QWidget *infoWidg;

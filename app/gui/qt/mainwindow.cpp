@@ -978,9 +978,9 @@ void MainWindow::initPrefsWindow() {
   advancedAudioBox->setLayout(advanced_audio_box_layout);
 
   QHBoxLayout *vol_box = new QHBoxLayout;
-  rp_system_vol = new QSlider(this);
-  connect(rp_system_vol, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
-  vol_box->addWidget(rp_system_vol);
+  system_vol_slider = new QSlider(this);
+  connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
+  vol_box->addWidget(system_vol_slider);
   volBox->setLayout(vol_box);
 
   QGroupBox *debug_box = new QGroupBox(tr("Logging"));
@@ -1221,8 +1221,8 @@ void MainWindow::initPrefsWindow() {
 
   gui_transparency_slider->setValue(settings.value("prefs/gui_transparency", 0).toInt());
 
-  int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
-  rp_system_vol->setValue(stored_vol);
+  int stored_vol = settings.value("prefs/system-vol", 50).toInt();
+  system_vol_slider->setValue(stored_vol);
 
   //show_left_scope->setChecked( scopeInterface->enableScope( "Left", settings.value("prefs/scope/show-left", true).toBool() ) );
   //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
@@ -2711,7 +2711,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
   settings.setValue("prefs/", mixer_invert_stereo->isChecked());
 
-  settings.setValue("prefs/rp/system-vol", rp_system_vol->value());
+  settings.setValue("prefs/system-vol", system_vol_slider->value());
 
   settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
   settings.setValue("prefs/auto-indent-on-run", auto_indent_on_run->isChecked());
