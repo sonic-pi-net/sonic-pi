@@ -114,7 +114,7 @@ module SonicPi
             @JOB_MIXERS_MUTEX = Mutex.new
             @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
             @JOB_BUSSES_MUTEX = Mutex.new
-            @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
+            @mod_sound_studio = Studio.new(hostname, port, msg_queue)
 
             @mod_sound_studio_checker = Thread.new do
               # kill all jobs if an error occured in the studio

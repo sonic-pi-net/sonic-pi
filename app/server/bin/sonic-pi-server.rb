@@ -109,7 +109,7 @@ klass.send(:define_method, :inspect) { "Runtime" }
 ws_out = Queue.new
 
 begin
-  sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
+  sp =  klass.new "localhost", 4556, ws_out, user_methods
 
   # read in init.rb if exists
   if File.exists?(init_path)

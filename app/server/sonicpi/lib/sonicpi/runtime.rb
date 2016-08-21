@@ -955,7 +955,7 @@ module SonicPi
     include ActiveSupport
     include RuntimeMethods
 
-    def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
+    def initialize(hostname, port, msg_queue, user_methods)
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
