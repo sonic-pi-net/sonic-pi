@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-22 13:05+0000\n"
+"PO-Revision-Date: 2016-08-22 19:36+0000\n"
 "Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -22,7 +22,7 @@ msgstr "1 Witaj w Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr "Witaj Kolego :-)"
+msgstr "Witaj, Kolego :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -46,13 +46,13 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Ale zaraz, zaraz, gdzie moje maniery! Pozwól, że się przedstawię - jestem ["
+"Ale zaraz zaraz, gdzie moje maniery! Pozwól, że się przedstawię - jestem ["
 "Sam Aaron](http://twitter.com/samaaron) - facet, który stworzył Sonic Pi. "
 "Możesz znaleźć mnie na Twitterze pod nikiem "
-"[@samaaron](http://twitter.com/samaaron) i będzie mi bardzo miło jeśli będę "
+"[@samaaron](http://twitter.com/samaaron) i będzie mi bardzo miło, jeśli będę "
 "mógł powiedzieć Ci cześć. Być może zainteresuje Cię również moja strona ["
 "Live Coding Performances](http://facebook.com/livecodersamaaron), gdzie "
-"koduję przed publicznością na żywo używając Sonic Pi."
+"koduję przed publicznością na żywo, używając Sonic Pi."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -60,7 +60,7 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Jeśli masz jakiekolwiek spostrzeżenia lub pomysły jak można ulepszyć Sonic "
+"Jeśli masz jakiekolwiek spostrzeżenia lub pomysły, jak można ulepszyć Sonic "
 "Pi - będę wdzięczny za ich przekazanie - każda informacja zwrotna jest "
 "bardzo cenna. Nigdy nie wiadomo, być może twój pomysł stanie się kolejną "
 "niesamowitą funkcją, która wzbogaci Sonic Pi!"
@@ -73,10 +73,10 @@ msgid ""
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
 "Samouczek został podzielony na sekcje, które są pogrupowane według "
-"kategorii. Pomimo, że napisałem go w taki sposób, aby umożliwiał łatwą naukę "
-"od początku do końca, to nic nie szkodzi na przeszkodzie abyś po prostu "
-"zaczął czytać dowolną z sekcji - taką która wydaje Ci się odpowiednia dla "
-"Ciebie. Jeśli uważasz, że czegoś tutaj brakuje daj mi o tym znać, rozważę "
+"kategorii. Pomimo że napisałem go w taki sposób, aby umożliwiał łatwą naukę "
+"od początku do końca, to nic nie szkodzi na przeszkodzie, abyś po prostu "
+"zaczął czytać dowolną z sekcji - taką, która wydaje Ci się odpowiednia dla "
+"Ciebie. Jeśli uważasz, że czegoś tutaj brakuje, daj mi o tym znać, rozważę "
 "dołożenie tego do kolejnej wersji."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
@@ -111,7 +111,7 @@ msgid ""
 "gig with it."
 msgstr ""
 "Jednym z najbardziej ekscytujących aspektów Sonic Pi jest to, że pozwala Ci "
-"na pisanie i *modyfikację kodu na żywo* aby móc tworzyć muzykę w czasie "
+"na pisanie i *modyfikację kodu na żywo*, aby móc tworzyć muzykę w czasie "
 "rzeczywistym, tak samo jak podczas gry na gitarze na żywo. Oznacza to, że "
 "dzięki odpowiednim ćwiczeniom i praktyce możesz wykorzystać Sonic Pi do "
 "koncertów przed publicznością na żywo."
@@ -128,10 +128,10 @@ msgid ""
 "o your seats and enjoy..."
 msgstr ""
 "Zanim przejdziemy do dalszej części samouczka i zaczniemy zgłębiać szczegóły "
-"tego w jaki sposób działa Sonic Pi, chciałbym abyś mógł przez chwilę poczuć "
-"czym jest Live kodowanie na żywo (Live Coding). Nie przejmuj się, jeśli nic "
-"nie zrozumiesz z tego co zobaczysz i zrobisz za chwilę. Po prostu usiądź "
-"wygodnie, zapnij pasy i poczuj radość..."
+"tego, w jaki sposób działa Sonic Pi, chciałbym, abyś mógł przez chwilę "
+"poczuć, czym jest Kodowanie na żywo (Live Coding). Nie przejmuj się, jeśli "
+"nic nie zrozumiesz z tego, co zobaczysz i zrobisz za chwilę. Po prostu "
+"usiądź wygodnie, zapnij pasy i poczuj radość..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -163,8 +163,8 @@ msgid ""
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
 "A teraz naciśnij przycisk `Run`, usłyszysz fajne i rytmiczne uderzenia "
-"bębna. W każdym momencie możesz zatrzymać dźwięk naciskając przycisk `Stop`. "
-"Na razie wstrzymaj się i jeszcze tego nie rób... Zamiast tego wykonaj "
+"bębna. W każdym momencie możesz zatrzymać dźwięk, naciskając przycisk `Stop`"
+". Na razie wstrzymaj się i jeszcze tego nie rób... Zamiast tego wykonaj "
 "następujące kroki:"
 
 #: 01.1-Live-Coding.md:32
@@ -182,7 +182,7 @@ msgstr "A teraz ponownie naciśnij przycisk `Run`"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr "Zauważ jak zmieniła się szybkość uderzeń bębna."
+msgstr "Zauważ, jak zmieniła się szybkość uderzeń bębna."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
@@ -228,19 +228,19 @@ msgid ""
 "your computer will stop with an error because it can't keep up (if that happen"
 "s, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"A teraz czas na zabawę. Zacznij zmieniać liczby - co się stanie gdy użyjesz "
-"dużych, małych lub ujemnych liczb? Zobacz co się stanie gdy zmienisz "
+"A teraz czas na zabawę. Zacznij zmieniać liczby - co się stanie, gdy użyjesz "
+"dużych, małych lub ujemnych liczb? Zobacz, co się stanie, gdy zmienisz "
 "odrobinę wartość parametru `rate:` dla sampla `:ambi_choir` (np. na 0.29). "
-"Co się stanie jeśli wybierzesz naprawdę małą wartość dla parametru `sleep`? "
+"Co się stanie, jeśli wybierzesz naprawdę małą wartość dla parametru `sleep`? "
 "Zobacz, czy uda Ci się uruchomić powyższą pętlę w tak szybkim tempie, że "
-"twój komputer zatrzyma się z powodu błędu, gdyż nie będzie w stanie nadążyć ("
-"jeśli to się zdarzy, po prostu wybierz większa wartość dla parametru `sleep` "
+"Twój komputer zatrzyma się z powodu błędu, gdyż nie będzie w stanie nadążyć ("
+"jeśli to się zdarzy, po prostu wybierz większą wartość dla parametru `sleep` "
 "i ponownie naciśnij przycisk `Run`)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
-"Spróbuj zrobić komentarz w jednej z linii zawierających polecenie `sample` "
+"Spróbuj zrobić komentarz w jednej z linii zawierających polecenie `sample`, "
 "dodając na początku linii znak `#`, np.:"
 
 #: 01.1-Live-Coding.md:62
@@ -264,7 +264,7 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Zauważ, że dodanie znaku `#` na początku linii nakazuje komputerowi aby "
+"Zauważ, że dodanie znaku `#` na początku linii nakazuje komputerowi, aby "
 "zignorował daną linię, dzięki temu jej nie słyszymy. Taką linijkę nazywamy "
 "komentarzem. W Sonic Pi możemy używać komentarzy do usuwania i dodawania "
 "różnych rzeczy do naszej muzyki."
@@ -278,16 +278,16 @@ msgid ""
 "ons:"
 msgstr ""
 "Na koniec pozwól, że pozostawię Ci do zabawy coś fajnego. Spójrz na kod "
-"poniżej i skopiuj go do wolnego i pustego bufora. Teraz, nie próbuj "
-"zrozumieć nic więcej ponadto, że w tym kodzie są dwie pętle (`live_loop`). "
-"Oznacza to, że w tym samym czasie dzieją się dwie rzeczy. A teraz, rób to co "
-"umiesz najlepiej - eksperymentuj i baw się próbując zmieniać ten kod. Oto "
-"kilka sugestii co możesz zrobić:"
+"poniżej i skopiuj go do wolnego i pustego bufora. Teraz nie próbuj zrozumieć "
+"nic więcej ponadto, że w tym kodzie są dwie pętle (`live_loop`). Oznacza to, "
+"że w tym samym czasie dzieją się dwie rzeczy. A teraz rób to, co umiesz "
+"najlepiej - eksperymentuj i baw się, próbując zmieniać ten kod. Oto kilka "
+"sugestii, co możesz zrobić:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Spróbuj zmienić wartość niebieskich wskaźników `rate:` aby usłyszeć jak "
+"Spróbuj zmienić wartość niebieskich wskaźników `rate:`, aby usłyszeć, jak "
 "zmienia się brzmienie sampli."
 
 #: 01.1-Live-Coding.md:81
@@ -295,15 +295,15 @@ msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Spróbuj zmieniać wartości parametrów `sleep` dzięki czemu usłyszysz, że obie "
-"pętle mogą kręcić się z różną szybkością."
+"Spróbuj zmieniać wartości parametrów `sleep`, dzięki czemu usłyszysz, że "
+"obie pętle mogą kręcić się z różną szybkością."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Spróbuj odkomentować linijkę z samplem (usuń znak `#`) a usłyszysz dźwięk "
+"Spróbuj odkomentować linijkę z samplem (usuń znak `#`), a usłyszysz dźwięk "
 "gitary granej od tyłu."
 
 #: 01.1-Live-Coding.md:85
@@ -324,7 +324,7 @@ msgid ""
 msgstr ""
 "Pamiętaj tylko, żeby wcisnąć przycisk `Run`. Dzięki temu usłyszysz zmianę "
 "przy kolejnym przebiegu pętli. Jeśli coś pójdzie nie tak i zacznie się "
-"kakofonia nie przejmuj się tym. Wystarczy, że naciśniesz przycisk `Stop`, "
+"kakofonia, nie przejmuj się tym. Wystarczy, że naciśniesz przycisk `Stop`, "
 "usuniesz cały kod w buforze, wkleisz świeżą kopię poniższego kodu i będziesz "
 "znowu gotowy do zabawy od nowa. Pamiętaj, człowiek najszybciej uczy się na "
 "błędach..."
@@ -366,10 +366,11 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"Baw się i eksperymentuj tym kawałkiem kodu do momentu, w którym twoja "
-"ciekawość sprawi, że zaczniesz zastanawiać się jak to wszystko właściwie "
+"Baw się i eksperymentuj tym kawałkiem kodu do momentu, w którym Twoja "
+"ciekawość sprawi, że zaczniesz zastanawiać się, jak to wszystko właściwie "
 "działa oraz co innego można jeszcze wyczarować za pomocą Sonic Pi. Jeśli ten "
-"moment już nastąpił to jesteś gotów aby przejść do dalszej części samouczka."
+"moment już nastąpił, to jesteś gotów, aby przejść do dalszej części "
+"samouczka."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
@@ -8515,17 +8516,16 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:35
-#, fuzzy
 msgid ""
 "Here, we're just grabbing the scale E3 minor pentatonic and ticking through ea"
 "ch element. This is done by adding `.tick` to the end of the scale declaration"
 ". This tick is local to the live loop, so each live loop can have its own inde"
 "pendent tick:"
 msgstr ""
-"Wzięliśmy tu pentatoniczną skalę E3 moll i cykamy przez każdy jej element. Dok"
-"onaliśmy tego przez dodanie polecenia `.tick` na końcu deklaracji skali. Każde"
-" cyknięcie jest lokalne dla danej żywej pętli, więc każda żywa pętla może posi"
-"adać swojego własnego niezależnego cykacza:"
+"Wzięliśmy tu pentatoniczną skalę E3 moll i cykamy przez każdy jej element. "
+"Dokonaliśmy tego przez dodanie polecenia `.tick` na końcu deklaracji skali. "
+"Każde cyknięcie jest lokalne dla danej żywej pętli, więc każda żywa pętla "
+"może posiadać swojego własnego niezależnego cykacza:"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -8551,16 +8551,14 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:53
-#, fuzzy
 msgid "Tick"
 msgstr "Cyknięcie"
 
 #: 09.4-Ticking.md:55
-#, fuzzy
 msgid "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr ""
-"Możesz również uruchomić polecenie cyknięcia `tick` jako standardową funkcje i"
-" używać zwracanej wartości jako indeksu:"
+"Możesz również uruchomić polecenie cyknięcia `tick` jako standardową funkcję "
+"i używać zwracanej wartości jako indeksu:"
 
 #: 09.4-Ticking.md:57
 #, no-wrap
@@ -8578,23 +8576,21 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:65
-#, fuzzy
 msgid ""
 "However, it is much nicer to call `.tick` at the end. The `tick` fn is for whe"
 "n you want to do fancy things with the tick value and for when you want to use"
 " ticks for other things than indexing into rings."
 msgstr ""
-"Jednakże, dużo ładniej jest korzystać z polecenia `.tick` dodanego na końcu. F"
-"unkcja `tick` jest stworzona dla sytuacji gdy chesz zrobić coś fantazyjnego z "
-"wartością zwracaną przy cyknięciu oraz gdy chcesz używać cyknięć do innych rze"
-"czy niż indeksowania elementów pierścieni."
+"Jednakże dużo ładniej jest korzystać z polecenia `.tick` dodanego na końcu. "
+"Funkcja `tick` jest stworzona dla sytuacji gdy chcesz zrobić coś "
+"fantazyjnego z wartością zwracaną przy cyknięciu oraz wtedy, gdy chcesz "
+"używać cyknięć do innych rzeczy, niż indeksowania elementów pierścieni."
 
 #: 09.4-Ticking.md:70
 msgid "Look"
 msgstr "Look (z ang. podejrzeć)"
 
 #: 09.4-Ticking.md:72
-#, fuzzy
 msgid ""
 "The magical thing about tick is that not only does it return a new index (or t"
 "he value of the ring at that index) it also makes sure that next time you call"
@@ -8604,29 +8600,28 @@ msgid ""
 "t increase* it. This is available via the `look` fn. You can call `look` as a "
 "standard fn or by adding `.look` to the end of a ring."
 msgstr ""
-"Magiczną rzeczą w cykaniu jest to, że możliwe jest nie tylko zwrócenie   noweg"
-"o indeksu (albo wartości znajdującej się w pierścieniu pod tym indeksem). Mech"
-"anizm ten pilnuje też aby przy każdym twoim kolejnym cyknięciu była to kolejna"
-" wartość. Zerknij na przykłady znajdujące się w dokumentacji dla polecenia `ti"
-"ck` aby zobaczyć wiele różnych sposobów na pracę z nim. Jednakże, na tą chwilę"
-", ważne jest aby zaznaczyć, że czasami będziesz chciał po prostu podejrzeć akt"
-"ualną wartość cyknięcia *bez zwiększania* jego wartości. Możesz tego dokonać z"
-"a pomocą funkcji `look`. Możesz uruchamiać polecenie `look` jako standardową f"
-"unkcję lub poprzez dodanie `.look` na końcu pierścienia."
+"Magiczną rzeczą w cykaniu jest to, że możliwe jest nie tylko zwrócenie "
+"nowego indeksu (albo wartości znajdującej się w pierścieniu pod tym indeksem)"
+". Mechanizm ten pilnuje też, aby przy każdym Twoim kolejnym cyknięciu była "
+"to kolejna wartość. Zerknij na przykłady znajdujące się w dokumentacji dla "
+"polecenia `tick`, aby zobaczyć wiele różnych sposobów na pracę z nim. "
+"Jednakże na tę chwilę ważne jest, aby zaznaczyć, że czasami będziesz chciał "
+"po prostu podejrzeć aktualną wartość cyknięcia *bez zwiększania* jego "
+"wartości. Możesz tego dokonać za pomocą funkcji `look`. Możesz uruchamiać "
+"polecenie `look` jako standardową funkcję lub poprzez dodanie `.look` na "
+"końcu pierścienia."
 
 #: 09.4-Ticking.md:81
-#, fuzzy
 msgid "Naming Ticks"
 msgstr "Nazwane Cyknięcia"
 
 #: 09.4-Ticking.md:83
-#, fuzzy
 msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is achie"
 "ved by giving your tick a name:"
 msgstr ""
-"Na koniec, czasami będziesz potrzebował więcej niż jednego cykacza dla danej ż"
-"ywej pętli. Można tego dokonać poprzez nadanie twojemu cyknięciu nazwę:"
+"Finalnie czasami będziesz potrzebował więcej niż jednego cykacza dla danej "
+"żywej pętli. Można tego dokonać poprzez nadanie Twojemu cyknięciu nazwę:"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
@@ -8642,7 +8637,6 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:93
-#, fuzzy
 msgid ""
 "Here we're using two ticks one for the note to play and another for the sleep "
 "time. As they're both in the same live loop, to keep them separate we need to "
@@ -8651,96 +8645,86 @@ msgid ""
 "alled one tick `:foo` and the other `:bar`. If we want to `look` at these we a"
 "lso need to pass the name of the tick to `look`."
 msgstr ""
-"Powyżej używamy dwóch cykaczy, jeden dla zagrania nuty i drugi dla   odliczani"
-"a czasu uśpienia. Jako, że oba znajdują się w tej samej żywej pętli, potrzebow"
-"aliśmy nadać im unikalne nazwy aby sprawić by były oddzielne. To jest dokładni"
-"e taki sam mechanizm jak w przypadku nadawania nazw żywym pętlom (`live_loop`)"
-" - po prostu przekazujemy symbol poprzedzony dwukropkiem `:`. W powyższym przy"
-"kładzie nazwaliśmy pierwszego cykacza `:foo` a drugiego `:bar`. Jeśli chcemy p"
-"odejrzeć aktualną wartość, któregoś z nich za pomocą polecenia `look`, to musi"
-"my do polecenia `look` również przekazać nazwę konkretnego cykacza."
+"Powyżej używamy dwóch cykaczy, jeden dla zagrania nuty i drugi dla "
+"odliczania czasu uśpienia. Jako że oba znajdują się w tej samej żywej pętli, "
+"potrzebowaliśmy nadać im unikalne nazwy, aby sprawić, by były oddzielne. To "
+"jest dokładnie taki sam mechanizm, jak w przypadku nadawania nazw żywym "
+"pętlom (`live_loop`) - po prostu przekazujemy symbol poprzedzony dwukropkiem "
+"`:`. W powyższym przykładzie nazwaliśmy pierwszego cykacza `:foo`, a "
+"drugiego `:bar`. Jeśli chcemy podejrzeć aktualną wartość któregoś z nich za "
+"pomocą polecenia `look`, to musimy do polecenia `look` również przekazać "
+"nazwę konkretnego cykacza."
 
 #: 09.4-Ticking.md:101
-#, fuzzy
 msgid "Don't make it too complicated"
 msgstr "Nie twórz zbyt skomplikowanych rzeczy"
 
 #: 09.4-Ticking.md:103
-#, fuzzy
 msgid ""
 "Most of the power in the tick system isn't useful when you get started. Don't "
 "try and learn everything in this section. Just focus on ticking through a sing"
 "le ring. That'll give you most of the joy and simplicity of ticking through ri"
 "ngs in your `live_loop`s."
 msgstr ""
-"Większość mocy zawartej w systemie cykania nie jest przydatna gdy dopiero zacz"
-"ynasz. Nie próbój i nie ucz się wszystkiego z tego rozdziału. Postaraj skupić "
-"się na cykaniu przez pojedynczy pierścień. To powinno dać Ci największą satysf"
-"akcję oraz prostotę związaną z cykaniem przez pierścienie w twoich żywych pętl"
-"ach."
+"Większość mocy zawartej w systemie cykania nie jest przydatna, gdy dopiero "
+"zaczynasz. Nie próbuj i nie ucz się wszystkiego z tego rozdziału. Postaraj "
+"skupić się na cykaniu przez pojedynczy pierścień. To powinno dać Ci "
+"największą satysfakcję oraz prostotę związaną z cykaniem przez pierścienie w "
+"Twoich żywych pętlach."
 
 #: 09.4-Ticking.md:108
-#, fuzzy
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful exampl"
 "es and happy ticking!"
 msgstr ""
-"Zerknij do dokumentacji na polecenie `tick` gdzie znajdziesz wiele przydatnych"
-" przykładów. Wesołego cykania!"
+"Zerknij do dokumentacji na polecenie `tick`, gdzie znajdziesz wiele "
+"przydatnych przykładów. Wesołego cykania!"
 
 #: 10-Essential-Knowledge.md:1
-#, fuzzy
 msgid "10 Essential Knowledge"
 msgstr "10 Niezbędna Wiedza"
 
 #: 10-Essential-Knowledge.md:3
-#, fuzzy
 msgid "Essential Knowledge"
 msgstr "Niezbędna Wiedza"
 
 #: 10-Essential-Knowledge.md:5
-#, fuzzy
 msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge for"
 " getting the most out of your Sonic Pi experience."
 msgstr ""
-"Ten rozdział obejmie trochę bardzo przydatnej - w zasadzie *niezbędnej* - wied"
-"zy, która pozwoli Ci na wyciągnięcie maksimum możliwości z Sonic Pi."
+"Ten rozdział obejmie trochę bardzo przydatnej - w zasadzie *niezbędnej* - "
+"wiedzy, która pozwoli Ci na wyciągnięcie maksimum możliwości z Sonic Pi."
 
 #: 10-Essential-Knowledge.md:8
-#, fuzzy
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
-"Pokażemy tutaj jak wykorzystać wiele skrótów klawiszowych, które są dostępne, "
-"w jaki sposób możesz dzielić się swoją pracą a także parę przydatnych sztuczek"
-" dotyczących występów z Sonic Pi."
+"Pokażemy tutaj, jak wykorzystać wiele skrótów klawiszowych, które są "
+"dostępne, w jaki sposób możesz dzielić się swoją pracą, a także parę "
+"przydatnych sztuczek dotyczących występów z Sonic Pi."
 
 #: 10.1-Using-Shortcuts.md:1
-#, fuzzy
 msgid "10.1 Using Shortcuts"
 msgstr "10.1 Korzystanie ze Skrótów Klawiszowych"
 
 #: 10.1-Using-Shortcuts.md:3
-#, fuzzy
 msgid "Using Shortcuts"
 msgstr "Korzystanie ze Skrótów Klawiszowych"
 
 #: 10.1-Using-Shortcuts.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi is as much an instrument as a coding environment. Shortcuts can there"
 "fore make playing Sonic Pi much more *efficient and natural* - especially when"
 " you're playing live in front of an audience."
 msgstr ""
-"Sonic Pi zarówno instrumentem muzycznym jak i środowiskiem programistycznym. S"
-"króty klawiszowe mogą więc sprawić, że granie z Sonic Pi będzie dużo bardziej "
-"*wydajne i naturalne* - zwłaszcza gdy gdy będziesz grać na żywo przed publiczn"
-"ością."
+"Sonic Pi jest zarówno instrumentem muzycznym, jak i środowiskiem "
+"programistycznym. Skróty klawiszowe mogą więc sprawić, że granie z Sonic Pi "
+"będzie dużo bardziej *wydajne i naturalne* - zwłaszcza wtedy, gdy będziesz "
+"grać na żywo przed publicznością."
 
 #: 10.1-Using-Shortcuts.md:9
-#, fuzzy
 msgid ""
 "Much of Sonic Pi can be controlled through the keyboard. As you gain more fami"
 "liarity working and performing with Sonic Pi, you'll likely start using the sh"
@@ -8749,54 +8733,49 @@ msgid ""
 "s it slows me down. I therefore use all of these shortcuts on a very regular b"
 "asis!"
 msgstr ""
-"Wiele funkcji Sonic Pi może być kontrolowanych za pomocą klawiatury. Gdy posią"
-"dziesz już więcej wprawy w pracy i występach z Sonic Pi, na pewno zaczniesz uż"
-"ywać skrótów coraz częściej i częściej. *Potrafie pisać na klawiaturze bezwzro"
-"kowo* (I tobie też polecam sie tego nauczyć) i czuję frustrację za każdym raze"
-"m kiedy tylko muszę sięgnąć po myszkę ponieważ to mnie spowalnia. W związku z "
-"powyższym używam wszystkich tych skrótów w kółko!"
+"Wiele funkcji Sonic Pi może być kontrolowanych za pomocą klawiatury. Gdy "
+"posiądziesz już więcej wprawy w pracy i występach z Sonic Pi, na pewno "
+"zaczniesz używać skrótów coraz częściej i częściej. *Potrafię pisać na "
+"klawiaturze bezwzrokowo* (I Tobie też polecam się tego nauczyć) i czuję "
+"frustrację za każdym razem, kiedy tylko muszę sięgnąć po myszkę, ponieważ to "
+"mnie spowalnia. W związku z powyższym używam wszystkich tych skrótów w kółko!"
 
 #: 10.1-Using-Shortcuts.md:16
-#, fuzzy
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
 "tively and you'll be live coding like a pro in no time."
 msgstr ""
-"Ponadto, jeśli nauczysz się skrótów, nauczysz się korzystać z twojej klawiatur"
-"y dużo bardziej efektywnie i zaczniesz kodować na żywo niczym profesjonalista "
-"w bardzo krótkim czasie."
+"Ponadto, jeśli nauczysz się skrótów, nauczysz się korzystać z Twojej "
+"klawiatury dużo bardziej efektywnie i zaczniesz kodować na żywo niczym "
+"profesjonalista w bardzo krótkim czasie."
 
 #: 10.1-Using-Shortcuts.md:19
-#, fuzzy
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the one"
 "s you use most and then keep adding more to your practice."
 msgstr ""
-"Jednakże, *nie próbuj i nie ucz się ich wszystkich na raz*, postaraj się spraw"
-"dzić i zapamiętać tylko te, których używasz najczęśniej. Dopiero potem postara"
-"j się regularnie dodawać i ćwiczyć kolejne."
+"Jednakże *nie próbuj i nie ucz się ich wszystkich na raz*, postaraj się "
+"sprawdzić i zapamiętać tylko te, których używasz najczęściej. Dopiero potem "
+"postaraj się regularnie dodawać i ćwiczyć kolejne."
 
 #: 10.1-Using-Shortcuts.md:22
-#, fuzzy
 msgid "Consistency across Platforms"
 msgstr "Spójność pomiędzy Platformami"
 
 #: 10.1-Using-Shortcuts.md:24
-#, fuzzy
 msgid ""
 "Imagine you're learning the clarinet. You'd expect all clarinets of all makes "
 "to have similar controls and fingerings. If they didn't, you'd have a tough ti"
 "me switching between different clarinets and you'd be stuck to using just one "
 "make."
 msgstr ""
-"Wyobraź sobie, że uczysz się gry na klarnecie. Zapewne oczekiwałbyś, że wszyst"
-"kie klarnety będą zapewniały podobną kontrole i palcowanie. Jeśli nie, to potr"
-"zebowałbyś sporo czasu za każdym razem gdy przesiadałbyś się pomiędzy różnymi "
-"klarnetami i tak naprawdę byłbyś wtedy ograniczony do korzystania tylko z jedn"
-"ego wybranego modelu."
+"Wyobraź sobie, że uczysz się gry na klarnecie. Zapewne oczekiwałbyś, że "
+"wszystkie klarnety będą zapewniały podobną kontrole i palcowanie. Jeśli nie, "
+"to potrzebowałbyś sporo czasu za każdym razem, gdy przesiadałbyś się "
+"pomiędzy różnymi klarnetami i tak naprawdę byłbyś wtedy ograniczony do "
+"korzystania tylko z jednego wybranego modelu."
 
 #: 10.1-Using-Shortcuts.md:29
-#, fuzzy
 msgid ""
 "Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
 "come with their own standard defaults for actions such as cut and paste etc. S"
@@ -8806,23 +8785,21 @@ msgid ""
 "whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
 "PC and feel right at home."
 msgstr ""
-"Na nieszczęście 3 podstawowe systemy operacyjne (Linux, Mac OS X i Windows) po"
-"siadają swoje własne standardy dla domyślnych akcji takich jak np. kopiuj wkle"
-"j. Sonic Pi postara się honorować wszystkie te standardy. Jednakże, *priorytet"
-" został położony na spójność pomiędzy różnymi platformami*, na których działa "
-"Sonic Pi i jest on ważniejszy niż próby zapewnienia zgodności z poszczególnymi"
-" platformami. Oznacza to, że jeśli nauczysz się skrótów klawiszowych gdy będzi"
-"esz grał na Sonic Pi na Raspberry Pi, to będziesz mógł przenieść się na komput"
-"er marki Apple z systemem Mac OS lub peceta z zainstalowanym Windows'em i dale"
-"j czuć się jak w domu."
+"Na nieszczęście 3 podstawowe systemy operacyjne (Linux, Mac OS X i Windows) "
+"posiadają swoje własne standardy dla domyślnych akcji takich jak np. kopiuj-"
+"wklej. Sonic Pi postara się honorować wszystkie te standardy. Jednakże *"
+"priorytet został położony na spójność pomiędzy różnymi platformami*, na "
+"których działa Sonic Pi i jest on ważniejszy, niż próby zapewnienia "
+"zgodności z poszczególnymi platformami. Oznacza to, że jeśli nauczysz się "
+"skrótów klawiszowych, gdy będziesz grał na Sonic Pi na Raspberry Pi, to "
+"będziesz mógł przenieść się na komputer marki Apple z systemem Mac OS lub "
+"peceta z zainstalowanym Windowsem i dalej czuć się jak w domu."
 
 #: 10.1-Using-Shortcuts.md:37
-#, fuzzy
 msgid "Control and Meta"
 msgstr "Klawisze Control i Meta"
 
 #: 10.1-Using-Shortcuts.md:39
-#, fuzzy
 msgid ""
 "Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
 "se the names *Control* and *Meta* to refer to the two main combination keys. O"
@@ -8831,63 +8808,57 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
-"Częścią dotyczącą pojęcia spójności jest nazewnictwo skrótów. W Sonic Pi używa"
-"my nazw *Control* i *Meta* dla odniesienia się do dwóch podstawowych klawiszy "
-"używanych w kombinacjach skrótów. Na wszystkich platformach klawisz *Control* "
-"odnosi się do tego samego przycisku na klawiaturze. Jednakże, w systemach Linu"
-"x i Window, klawisz *Meta* oznacza klawisz *Alt*, podczas gdy w systemie Mac O"
-"S klawisz *Meta* oznacza klawisz *Command*. Dla zachowania spójności będziemy "
-"używali terminu *Meta* - jedyne co musisz zapamiętać to to, w jaki sposób zmap"
-"ować ten termin na odpowiedni klawisz dla twojego systemu operacyjnego."
+"Częścią dotyczącą pojęcia spójności jest nazewnictwo skrótów. W Sonic Pi "
+"używamy nazw *Control* i *Meta* dla odniesienia się do dwóch podstawowych "
+"klawiszy używanych w kombinacjach skrótów. Na wszystkich platformach klawisz "
+"*Control* odnosi się do tego samego przycisku na klawiaturze. Jednakże w "
+"systemach Linux i Windows, klawisz *Meta* oznacza klawisz *Alt*, podczas gdy "
+"w systemie Mac OS klawisz *Meta* oznacza klawisz *Command*. Dla zachowania "
+"spójności będziemy używali terminu *Meta* - jedyne, co musisz zapamiętać, to "
+"to, w jaki sposób zmapować ten termin na odpowiedni klawisz dla Twojego "
+"systemu operacyjnego."
 
 #: 10.1-Using-Shortcuts.md:46
-#, fuzzy
 msgid "Abbreviations"
 msgstr "Skróty"
 
 #: 10.1-Using-Shortcuts.md:48
-#, fuzzy
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
 "*Control* plus another key and *M-* for *Meta* plus another key. For example, "
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
-"Aby dalsze instrukcje były proste i czytelne, będziemy używać skrótu *C-* dla "
-"klawisza *Control* plus innego klawisza oraz *M-* dla *Meta* plus inny klawisz"
-". Na przykład, jeśli skrót klawiszowy wymaga abyś nacisnął razem klawisze *Met"
-"a* i *r* zapiszemy to jako `M-r`. Symbol *-* oznacza po prostu \"w tym samym cz"
-"asie co\"."
+"Aby dalsze instrukcje były proste i czytelne, będziemy używać skrótu *C-* "
+"dla klawisza *Control* plus innego klawisza oraz *M-* dla *Meta* plus inny "
+"klawisz. Na przykład, jeśli skrót klawiszowy wymaga, abyś nacisnął razem "
+"klawisze *Meta* i *r*, zapiszemy to jako `M-r`. Symbol *-* oznacza po prostu "
+"\"w tym samym czasie co.\""
 
 #: 10.1-Using-Shortcuts.md:53
-#, fuzzy
 msgid "The following are some of the shortcuts I find most useful."
 msgstr ""
-"Przedstawię Ci kilka skrótów klawiszowych, które są dla mnie najbardziej przyd"
-"atne."
+"Przedstawię Ci kilka skrótów klawiszowych, które są dla mnie najbardziej "
+"przydatne."
 
 #: 10.1-Using-Shortcuts.md:55
-#, fuzzy
 msgid "Stopping and starting"
 msgstr "Zatrzymywanie i uruchamianie"
 
 #: 10.1-Using-Shortcuts.md:57
-#, fuzzy
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
-"Zamiast za każdym razem sięgać po myszkę, aby uruchomić twój kod, możesz po pr"
-"ostu nacisnąć skrót `M-r`. Podobnie, aby zatrzymać uruchomiony kod możesz naci"
-"snąć `M-s`."
+"Zamiast za każdym razem sięgać po myszkę, aby uruchomić Twój kod, możesz po "
+"prostu nacisnąć skrót `M-r`. Podobnie, aby zatrzymać uruchomiony kod, możesz "
+"nacisnąć `M-s`."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:51
-#, fuzzy
 msgid "Navigation"
 msgstr "Nawigacja"
 
 #: 10.1-Using-Shortcuts.md:62
-#, fuzzy
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
 " you spend the time to learn them. These shortcuts also work extremely well wh"
@@ -8895,249 +8866,219 @@ msgid ""
 "equiring you to move your hand to the mouse or the arrow keys on your keyboard"
 "."
 msgstr ""
-"Bez skrótów umożliwiających nawigację czuję się naprawdę zagubiony. W związku "
-"z tym bardzo zalecam ci spędzić tyle czasu ile potrzeba aby się ich nauczyć. S"
-"króty te działają również bardzo dobrze kiedy już nauczysz się pisać na klawia"
-"turze bezwzrokowo jako, że używają one standardowych liter i nie wymagają od c"
-"iebie abyś sięgał ręka do myszki lub klawiszy ze strzałkami na twojej klawiatu"
-"rze."
+"Bez skrótów umożliwiających nawigację czuję się naprawdę zagubiony. W "
+"związku z tym bardzo zalecam Ci spędzić tyle czasu, ile potrzeba, aby się "
+"ich nauczyć. Skróty te działają również bardzo dobrze, kiedy już nauczysz "
+"się pisać na klawiaturze bezwzrokowo, jako że używają one standardowych "
+"liter i nie wymagają od Ciebie, abyś sięgał ręką do myszki lub klawiszy ze "
+"strzałkami na Twojej klawiaturze."
 
 #: 10.1-Using-Shortcuts.md:68
-#, fuzzy
 msgid ""
 "You can move to the beginning of the line with `C-a`, the end of the line with"
 " `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
 " `C-f`, and back a character with `C-b`. You can even delete all the character"
 "s from the cursor to the end of the line with `C-k`."
 msgstr ""
-"Możesz przenieść się do początku linii naciśniskając skrót `C-a`, aby przenieś"
-"ć się na koniec linii naciśnij `C-e`, aby przenieść się o 1 linię w górę naciś"
-"nij `C-p`, jedną linię w dół `C-n`, aby przesunąć sie o jeden znak do przodu u"
-"żyj `C-f`, jeden znak do tyłu `C-b`. Możesz nawet usunąć wszystkie znaki od mi"
-"ejsca, w którym aktualinie znajduje się kursor, aż do końca linii używając skr"
-"ótu `C-k`."
+"Możesz przenieść się do początku linii naciskając skrót `C-a`, aby przenieść "
+"się na koniec linii naciśnij `C-e`, aby przenieść się o 1 linię w górę "
+"naciśnij `C-p`, jedną linię w dół `C-n`, aby przesunąć się o jeden znak do "
+"przodu użyj `C-f`, jeden znak do tyłu `C-b`. Możesz nawet usunąć wszystkie "
+"znaki od miejsca, w którym aktualnie znajduje się kursor, aż do końca linii, "
+"używając skrótu `C-k`."
 
 #: 10.1-Using-Shortcuts.md:74
-#, fuzzy
 msgid "Tidy Code"
-msgstr "Elegacki Kod"
+msgstr "Elegancki Kod"
 
 #: 10.1-Using-Shortcuts.md:76
-#, fuzzy
 msgid "To auto-align your code simply press `M-m`."
-msgstr "Aby automatycznie wyrównać twój kod wystarczy, że naciśniesz `M-m`."
+msgstr "Aby automatycznie wyrównać Twój kod, wystarczy że naciśniesz `M-m`."
 
 #: 10.1-Using-Shortcuts.md:78
-#, fuzzy
 msgid "Help System"
 msgstr "System Pomocy"
 
 #: 10.1-Using-Shortcuts.md:80
-#, fuzzy
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
 "isplay the docs if it finds anything. Instant help!"
 msgstr ""
-"Aby pokazać i ukryć system pomocy możesz nacisnąć przycisk `M-i`. Jednakże, du"
-"żo bardziej przydatnym skrótem, który warto znać jest `C-i` - pozwala on na wy"
-"szukanie w systemie pomocy słowa, na którym aktualnie znajduje się kursor i wy"
-"świetlenie tego jeśli uda mu się znaleźć cokolwiek. Pomoc błyskawiczna!"
+"Aby pokazać i ukryć system pomocy, możesz nacisnąć przycisk `M-i`. Jednakże "
+"dużo bardziej przydatnym skrótem, który warto znać jest `C-i` - pozwala on "
+"na wyszukanie w systemie pomocy słowa, na którym aktualnie znajduje się "
+"kursor i wyświetlenie tego, jeśli uda mu się znaleźć cokolwiek. Pomoc "
+"błyskawiczna!"
 
 #: 10.1-Using-Shortcuts.md:84
-#, fuzzy
 msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
 msgstr ""
-"Aby zobaczyć pełną listę dostępnych skrótów klawiszowych zajrzyj do rozdziału "
-"10.2 Ściągawka Skrótów Klawiszowych."
+"Aby zobaczyć pełną listę dostępnych skrótów klawiszowych, zajrzyj do "
+"rozdziału 10.2 Ściągawka Skrótów Klawiszowych."
 
 #: 10.2-Shortcut-Cheatsheet.md:1
-#, fuzzy
 msgid "10.2 Shortcut Cheatsheet"
 msgstr "10.2 Ściągawka Skrótów Klawiszowych"
 
 #: 10.2-Shortcut-Cheatsheet.md:3
-#, fuzzy
 msgid "Shortcut Cheatsheet"
 msgstr "Ściągawka Skrótów Klawiszowych"
 
 #: 10.2-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
 "ease see Section 10.1 for motivation and background."
 msgstr ""
-"Poniżej dostępne jest podsumowanie najważniejszych skrótów dostępnych w Sonic "
-"Pi. Przejrzyj proszę rozdzial 10.1 dla uzyskania motywacji i tła."
+"Poniżej dostępne jest podsumowanie najważniejszych skrótów dostępnych w "
+"Sonic Pi. Przejrzyj proszę rozdział 10.1 dla uzyskania motywacji i tła."
 
 #: 10.2-Shortcut-Cheatsheet.md:8
-#, fuzzy
 msgid "Conventions"
 msgstr "Konwencje"
 
 #: 10.2-Shortcut-Cheatsheet.md:10
-#, fuzzy
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
 msgstr ""
-"W poniższej liście używamy następujących konwencji (gdzie *Meta* oznacza klawi"
-"sz *Alt* w systemach Windows/Linux oraz *Cmd* w systemie Mac OS):"
+"W poniższej liście używamy następujących konwencji (gdzie *Meta* oznacza "
+"klawisz *Alt* w systemach Windows/Linux oraz *Cmd* w systemie Mac OS):"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
-#, fuzzy
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
 msgstr ""
-"`C-a` oznacza przytrzymaj klawisz *Control* następnie naciśnij klawisz *a* tak"
-", żeby przez chwilę oba były jednocześnie naciśnięte po czym je puść."
+"`C-a` oznacza: przytrzymaj klawisz *Control*, następnie naciśnij klawisz *a* "
+"tak, żeby przez chwilę oba były jednocześnie naciśnięte, po czym je puść."
 
 #: 10.2-Shortcut-Cheatsheet.md:14
-#, fuzzy
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
 msgstr ""
-"`M-r` oznacza przytrzymaj klawisz *Meta* i następnie naciśnij klawisz *r* tak,"
-" żeby przez chwilę oba były naciśnięte jednocześnie po czym je puść."
+"`M-r` oznacza: przytrzymaj klawisz *Meta* i następnie naciśnij klawisz *r* "
+"tak, żeby przez chwilę oba były naciśnięte jednocześnie, po czym je puść."
 
 #: 10.2-Shortcut-Cheatsheet.md:15
-#, fuzzy
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
 msgstr ""
-"`S-M-z` oznacza naciśnij i przytrzymaj klawisz *Shift*, następnie naciśnij i p"
-"rzytrzymaj klawisz *Meta* i na końcu dołóż do tej kombinacji w tym samym czasi"
-"e klawisz *z*, następnie puść wszystkie klawisze."
+"`S-M-z` oznacza: naciśnij i przytrzymaj klawisz *Shift*, następnie naciśnij "
+"i przytrzymaj klawisz *Meta* i na końcu dołóż do tej kombinacji, w tym samym "
+"czasie, klawisz *z*, następnie puść wszystkie klawisze."
 
 #: 10.2-Shortcut-Cheatsheet.md:16
-#, fuzzy
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
 msgstr ""
-"`C-M-f` oznacza naciśnij i przytrzymaj klawisz *Control*, potem naciśnij i prz"
-"ytrzymaj klawisz *Meta*, po czym na końcu naciśnij do tego jeszcze klawisz *f*"
-" i puść wszystkie klawisze."
+"`C-M-f` oznacza: naciśnij i przytrzymaj klawisz *Control*, potem naciśnij i "
+"przytrzymaj klawisz *Meta*, po czym na końcu naciśnij do tego jeszcze "
+"klawisz *f* i puść wszystkie klawisze."
 
 #: 10.2-Shortcut-Cheatsheet.md:18
-#, fuzzy
 msgid "Main Application Manipulation"
 msgstr "Podstawowe Manipulowanie Aplikacją"
 
 #: 10.2-Shortcut-Cheatsheet.md:20
-#, fuzzy
 msgid "`M-r` - Run code"
 msgstr "`M-r` - Uruchom kod (przycisk Run)"
 
 #: 10.2-Shortcut-Cheatsheet.md:21
-#, fuzzy
 msgid "`M-s` - Stop code"
 msgstr "`M-s` - Zatrzymaj kod (przycisk Stop)"
 
 #: 10.2-Shortcut-Cheatsheet.md:22
-#, fuzzy
 msgid "`M-i` - Toggle Help System"
 msgstr "`M-i` - Otwórz/Zamknij System Pomocy"
 
 #: 10.2-Shortcut-Cheatsheet.md:23
-#, fuzzy
 msgid "`M-p` - Toggle Preferences"
 msgstr "`M-p` - Otwórz/Zamknij Ustawienia"
 
 #: 10.2-Shortcut-Cheatsheet.md:24
-#, fuzzy
 msgid "`M-{` - Switch buffer to the left"
 msgstr "`M-{` - Przejdź do buforu po lewej stronie"
 
 #: 10.2-Shortcut-Cheatsheet.md:25
-#, fuzzy
 msgid "`M-}` - Switch buffer to the right"
 msgstr "`M-}` - Przejdź do buforu po prawej stronie"
 
 #: 10.2-Shortcut-Cheatsheet.md:26
-#, fuzzy
 msgid "`M-+` - Increase text size of current buffer"
 msgstr "`M-+` - Zwiększ rozmiar czcionki w aktualnym buforze"
 
 #: 10.2-Shortcut-Cheatsheet.md:27
-#, fuzzy
 msgid "`M--` - Decrease text size of current buffer"
 msgstr "`M--` - Zmniejsz rozmiar czczionki w aktualnym buforze"
 
 #: 10.2-Shortcut-Cheatsheet.md:29
-#, fuzzy
 msgid "Selection/Copy/Paste"
 msgstr "Zaznaczanie/Kopiowanie/Wklejanie"
 
 #: 10.2-Shortcut-Cheatsheet.md:31
-#, fuzzy
 msgid "`M-a` - Select all"
 msgstr "`M-a` - Zaznacz wszystko"
 
 #: 10.2-Shortcut-Cheatsheet.md:32
-#, fuzzy
 msgid "`M-c` - Copy selection to paste buffer"
-msgstr "`M-c` - Skopiuj zaznaczony obszar aby móc go wkleić do bufora w innym miejscu"
+msgstr ""
+"`M-c` - Skopiuj zaznaczony obszar, aby móc go wkleić do bufora w innym "
+"miejscu"
 
 #: 10.2-Shortcut-Cheatsheet.md:33
-#, fuzzy
 msgid "`M-]` - Copy selection to paste buffer"
-msgstr "`M-]` - Skopiuj zaznaczony obszar aby móc go wkleić do bufora w innym miejscu"
+msgstr ""
+"`M-]` - Skopiuj zaznaczony obszar, aby móc go wkleić do bufora w innym "
+"miejscu"
 
 #: 10.2-Shortcut-Cheatsheet.md:34
-#, fuzzy
 msgid "`M-x` - Cut selection to paste buffer"
-msgstr "`M-x` - Wytnij zaznaczony obszar aby móc wkleić go do bufora w innym miejscu"
+msgstr ""
+"`M-x` - Wytnij zaznaczony obszar, aby móc wkleić go do bufora w innym miejscu"
 
 #: 10.2-Shortcut-Cheatsheet.md:35
-#, fuzzy
 msgid "`C-]` - Cut selection to paste buffer"
-msgstr "`C-]` - Wytnij zaznaczony obszar aby móc wkleić go do bufora w innym miejscu"
+msgstr ""
+"`C-]` - Wytnij zaznaczony obszar, aby móc wkleić go do bufora w innym miejscu"
 
 #: 10.2-Shortcut-Cheatsheet.md:36
-#, fuzzy
 msgid "`C-k` - Cut to the end of the line"
 msgstr "`C-k` - Wytnij tekst od aktualnej pozycji kursora do końca linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:37
-#, fuzzy
 msgid "`M-v` - Paste from paste buffer to editor"
 msgstr "`M-v` - Wklej zawartość schowka do aktualnego bufora"
 
 #: 10.2-Shortcut-Cheatsheet.md:38
-#, fuzzy
 msgid "`C-y` - Paste from paste buffer to editor"
 msgstr "`C-y` - Wklej zawartość schowka do aktualnego bufora"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
-#, fuzzy
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr ""
-"`C-SPACE` - Ustaw punkt zaznaczenia. Następnie nawiguj po tekście aby podświet"
-"lić tekst do zaznaczenia. Użyj `C-g` aby wyłączyć/usunąć zaznaczenie."
+"`C-SPACE` - Ustaw punkt zaznaczenia. Następnie nawiguj po tekście, aby "
+"podświetlić tekst do zaznaczenia. Użyj `C-g` aby wyłączyć/usunąć zaznaczenie."
 
 #: 10.2-Shortcut-Cheatsheet.md:41
-#, fuzzy
 msgid "Text Manipulation"
 msgstr "Manipulacja Tekstu"
 
 #: 10.2-Shortcut-Cheatsheet.md:43
-#, fuzzy
 msgid "`M-m` - Align all text"
 msgstr "`M-m` - Wyrównaj cały tekst w buforze"
 
 #: 10.2-Shortcut-Cheatsheet.md:44
-#, fuzzy
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
-msgstr "`Tab` - Popraw wyrównianie/zaznaczenie aktualnej liczby lub pokaż podpowiedzi"
+msgstr ""
+"`Tab` - Popraw wyrównianie/zaznaczenie aktualnej liczby lub pokaż podpowiedzi"
 
 #: 10.2-Shortcut-Cheatsheet.md:45
-#, fuzzy
 msgid "`C-l` - Centre editor"
 msgstr "`C-l` - Wyśrodkuj edytor"
 
@@ -9148,201 +9089,166 @@ msgstr ""
 "lub wybranych) linii kodu"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
-#, fuzzy
 msgid "`C-t` - Transpose/swap characters"
 msgstr "`C-t` - Transponuj/zamień znaki"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
-#, fuzzy
 msgid "`M-u` - Convert next word (or selection) to upper case."
-msgstr "`M-u` - Konwertuj następne słowo (lub zaznaczenie) do wielkich liter"
+msgstr "`M-u` - Konwertuj następne słowo (lub zaznaczenie) do wielkich liter."
 
 #: 10.2-Shortcut-Cheatsheet.md:49
-#, fuzzy
 msgid "`M-l` - Convert next word (or selection) to lower case."
-msgstr "`M-l` - Konwertuj następne słowo (lub zaznaczenie) do małych liter"
+msgstr "`M-l` - Konwertuj następne słowo (lub zaznaczenie) do małych liter."
 
 #: 10.2-Shortcut-Cheatsheet.md:53
-#, fuzzy
 msgid "`C-a` - Move to beginning of line"
 msgstr "`C-a` - Przenieś kursor do początku linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:54
-#, fuzzy
 msgid "`C-e` - Move to end of line"
 msgstr "`C-e` - Przenieś kursor na koniec linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:55
-#, fuzzy
 msgid "`C-p` - Move to previous line"
 msgstr "`C-p` - Przenieś kursor do poprzedniej linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:56
-#, fuzzy
 msgid "`C-n` - Move to next line"
 msgstr "`C-n` - Przenieś kursor do następnej linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:57
-#, fuzzy
 msgid "`C-f` - Move forward one character"
 msgstr "`C-f` - Przenieś kursor o jeden znak do przodu (w prawo)"
 
 #: 10.2-Shortcut-Cheatsheet.md:58
-#, fuzzy
 msgid "`C-b` - Move backward one character"
 msgstr "`C-b` - Przenieś kursor o jeden znak do tyłu (w lewo)"
 
 #: 10.2-Shortcut-Cheatsheet.md:59
-#, fuzzy
 msgid "`M-f` - Move forward one word"
 msgstr "`M-f` - Przenieś kursor do przodu (w prawo) o jedno słowo"
 
 #: 10.2-Shortcut-Cheatsheet.md:60
-#, fuzzy
 msgid "`M-b` - Move backward one word"
 msgstr "`M-b` - Przenieś kursor do tyłu (w lewo) o jedno słowo"
 
 #: 10.2-Shortcut-Cheatsheet.md:61
-#, fuzzy
 msgid "`C-M-n` - Move line or selection down"
 msgstr "`C-M-n` - Przenieś aktualną linie lub zaznaczenie w dół"
 
 #: 10.2-Shortcut-Cheatsheet.md:62
-#, fuzzy
 msgid "`C-M-p` - Move line or selection up"
 msgstr "`C-M-p` - Przenieś aktualną linię lub zaznaczenie do góry"
 
 #: 10.2-Shortcut-Cheatsheet.md:63
-#, fuzzy
 msgid "`S-M-u` - Move up 10 lines"
 msgstr "`S-M-u` - Przenieś się do góry o 10 linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:64
-#, fuzzy
 msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - Przenieś się w dół o 10 linii"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
-#, fuzzy
 msgid "`M-<` - Move to beginning of buffer"
 msgstr "`M-<` - Przenieś się na początek bufora"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
-#, fuzzy
 msgid "`M->` - Move to end of buffer"
 msgstr "`M->` - Przenieś się na koniec bufora"
 
 #: 10.2-Shortcut-Cheatsheet.md:68
-#, fuzzy
 msgid "Deletion"
 msgstr "Usuwanie"
 
 #: 10.2-Shortcut-Cheatsheet.md:70
-#, fuzzy
 msgid "`C-h` - Delete previous character"
 msgstr "`C-h` - Usuń poprzedni znak"
 
 #: 10.2-Shortcut-Cheatsheet.md:71
-#, fuzzy
 msgid "`C-d` - Delete next character"
 msgstr "`C-d` - Usuń kolejny znak"
 
 #: 10.2-Shortcut-Cheatsheet.md:73
-#, fuzzy
 msgid "Advanced Editor Features"
 msgstr "Zaawansowane Funkcje Edytora"
 
 #: 10.2-Shortcut-Cheatsheet.md:75
-#, fuzzy
 msgid "`C-i` - Show docs for word under cursor"
-msgstr "`C-i` - Pokaż dokumentację dla słowa, na którym znajduje się aktualnie kursor"
+msgstr ""
+"`C-i` - Pokaż dokumentację dla słowa, na którym znajduje się aktualnie kursor"
 
 #: 10.2-Shortcut-Cheatsheet.md:76
-#, fuzzy
 msgid "`M-z` - Undo"
 msgstr "`M-z` - Wstecz (cofnij zmianę)"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
-#, fuzzy
 msgid "`S-M-z` - Redo"
 msgstr "`S-M-z` - Redo (powtórz zmianę)"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
-#, fuzzy
 msgid "`C-g` - Escape"
 msgstr "`C-g` - Ucieczka (anulowanie)"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
-#, fuzzy
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr "`S-M-f` - Otwórz/Zamknij tryb pełnoekranowy"
 
 #: 10.2-Shortcut-Cheatsheet.md:80
-#, fuzzy
 msgid "`S-M-b` - Toggle visibility of buttons"
-msgstr "`S-M-b` - Pokaż/Showaj przyciski"
+msgstr "`S-M-b` - Pokaż/Schowaj przyciski"
 
 #: 10.2-Shortcut-Cheatsheet.md:81
-#, fuzzy
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr "`S-M-l` - Pokaż/Schowaj panel logowania"
 
 #: 10.2-Shortcut-Cheatsheet.md:82
-#, fuzzy
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Przełączanie pomiędzy trybem jasnym i ciemnym"
 
 #: 10.3-Sharing.md:1
-#, fuzzy
 msgid "10.3 Sharing"
 msgstr "10.3 Udostępnianie"
 
 #: 10.3-Sharing.md:3
-#, fuzzy
 msgid "Sharing"
 msgstr "Udostępnianie"
 
 #: 10.3-Sharing.md:5
-#, fuzzy
 msgid "Sonic Pi is all about sharing and learning with each other."
 msgstr ""
-"W Sonic Pi chodzi przede wszystkim o udostępnianie i uczenie się od siebie naw"
-"zajem."
+"W Sonic Pi chodzi przede wszystkim o udostępnianie i uczenie się od siebie "
+"nawzajem."
 
 #: 10.3-Sharing.md:7
-#, fuzzy
 msgid ""
 "Once you've learned how to code music, sharing your compositions is as simple "
 "as sending an email containing your code. Please do *share* your code with oth"
 "ers so they can *learn* from your work and even use parts in a new *mash-up*."
 msgstr ""
-"Gdy już nauczyłeś się w jaki sposób kodować muzykę, udostępnienie twojej kompo"
-"zycji jest tak łatwe jak wysłanie wiadomości email, która będzie zawierać twój"
-" kod. Proszę abyś *dzielił* się swoim kodem z innymi, dzięki temu będą oni mog"
-"li *uczyć* się z twojej pracy a nawet używac kawałków twojej muzyki do tworzen"
-"ia nowych *mash-up'ów*."
+"Gdy już nauczyłeś się, w jaki sposób kodować muzykę, udostępnienie Twojej "
+"kompozycji jest tak łatwe, jak wysłanie wiadomości email, która będzie "
+"zawierać Twój kod. Proszę, abyś *dzielił* się swoim kodem z innymi, dzięki "
+"temu będą oni mogli *uczyć* się z Twojej pracy, a nawet używać kawałków "
+"Twojej muzyki do tworzenia nowych *mash-up'ów*."
 
 #: 10.3-Sharing.md:12
-#, fuzzy
 msgid ""
 "If you're unsure of the best way to share your work with others I recommend pu"
 "tting your code on [GitHub](https://github.com) and your music on [SoundCloud]"
 "(https://soundcloud.com). That way you'll be able to easily reach a large audi"
 "ence."
 msgstr ""
-"Jeśli nie jesteś pewien tego w jaki sposób możesz najlepiej dzielić się twoimi"
-" dokonaniami z innymi, to polecam Ci wrzucanie twojego kodu na stronę [GitHub]"
-"(https://github.com) natomiast gotową muzykę na stronę [SoundCloud](https://so"
-"undcloud.com). W ten sposób bardzo łatwo uda Ci się zyskać znaczną publiczność"
-"."
+"Jeśli nie jesteś pewien tego, w jaki sposób możesz najlepiej dzielić się "
+"Twoimi dokonaniami z innymi, to polecam Ci wrzucanie Twojego kodu na stronę "
+"[GitHub](https://github.com), natomiast gotową muzykę na stronę "
+"[SoundCloud](https://soundcloud.com). W ten sposób bardzo łatwo uda Ci się "
+"zyskać znaczną publiczność."
 
 #: 10.3-Sharing.md:17
-#, fuzzy
 msgid "Code -> GitHub"
 msgstr "Kod -> GitHub"
 
 #: 10.3-Sharing.md:19
-#, fuzzy
 msgid ""
 "[GitHub](https://github.com) is a site for sharing and working with code. It's"
 " used by professional developers as well as artists for sharing and collaborat"
@@ -9351,35 +9257,33 @@ msgid ""
 "gist.github.com) is a simple way of uploading your code in a simple way that o"
 "thers can see, copy and share."
 msgstr ""
-"[GitHub](https://github.com) to strona umożliwiająca dzielenie się i pracę nad"
-" kodem. Jest ona używana zarówno przez profesjonalnych programistów jak ich ar"
-"tystów w celu udostępniania i współpracy z kodem. Najprostszą metodą aby podzi"
-"elić się nowym kawałkiem kodu (nawet tym niedokończonym) jest stworzenie [Gist"
-"'a](https://gist.github.com) [Gist](https://gist.github.com) to bardzo prosty "
-"sposób na przesłanie twojego kodu w bardzo prosty sposób, tak żeby inni mogli "
-"go zobaczyć, skopiować i dzielić się nim."
+"[GitHub](https://github.com) to strona umożliwiająca dzielenie się i pracę "
+"nad kodem. Jest ona używana zarówno przez profesjonalnych programistów, jak "
+"ich artystów w celu udostępniania i współpracy z kodem. Najprostszą metodą, "
+"aby podzielić się nowym kawałkiem kodu (nawet tym niedokończonym) jest "
+"stworzenie [Gist'a](https://gist.github.com) [Gist](https://gist.github.com) "
+"to bardzo prosty sposób na przesłanie Twojego kodu w bardzo prosty sposób "
+"tak, żeby inni mogli go zobaczyć, skopiować i dzielić się nim."
 
 #: 10.3-Sharing.md:27
-#, fuzzy
 msgid "Audio -> SoundCloud"
 msgstr "Dźwięki -> SoundCloud"
 
 #: 10.3-Sharing.md:29
-#, fuzzy
 msgid ""
 "Another important way of sharing your work is to record the audio and upload i"
 "t to [SoundCloud](https://soundcloud.com). Once you've uploaded your piece, ot"
 "her users can comment and discuss your work. I also recommend placing a link t"
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
-"Innym bardzo ważnym sposobem na dzielenie się twoją pracą jest nagranie pliku "
-"audio i przesłanie go na stronę [SoundCloud](https://soundcloud.com). Gdy już "
-"wrzucisz tam swój kawałek, inni użytkownicy tej strony będą mogli komentować i"
-" rozmawiać o twoim dziele. Zalecam również zamieszczenie w opisie linku do [Gi"
-"st'a](https://gist.github.com) zawierającego kod źródłowy tego utworu."
+"Innym bardzo ważnym sposobem na dzielenie się Twoją pracą, jest nagranie "
+"pliku audio i przesłanie go na stronę [SoundCloud](https://soundcloud.com). "
+"Gdy już wrzucisz tam swój kawałek, inni użytkownicy tej strony będą mogli "
+"komentować i rozmawiać o Twoim dziele. Zalecam również zamieszczenie w "
+"opisie linku do [Gist'a](https://gist.github.com) zawierającego kod źródłowy "
+"tego utworu."
 
 #: 10.3-Sharing.md:35
-#, fuzzy
 msgid ""
 "To record your work, hit the `Rec` button in the toolbar, and recording starts"
 " immediately. Hit `Run` to start your code if it isn't already in progress. Wh"
@@ -9388,64 +9292,57 @@ msgid ""
 "h can be edited and converted to MP3 by any number of free programs (try Audac"
 "ity for instance)."
 msgstr ""
-"Aby nagrać twoją pracę wystarczy, że naciśniesz przycisk `Rec` znajdujący się "
-"w panelu z przyciskami a nagrywanie rozpocznie się natychmiast. Naciśnij więc "
-"przycisk `Run` aby uruchomić twój kod jeśli przypadkiem jeszcze tego nie zrobi"
-"łeś. Kiedy skończysz nagranie, naciśnij ponownie migający przycisk `Rec` a zos"
-"taniesz poproszony o podanie nazwy pliku pod jaką ma zostać zapisane twoje nag"
-"ranie. Zostanie ono zapisane jako plik WAV, który może być bardzo łatwo przeed"
-"ytowany i skonwertowany do formatu MP3 przez jeden z wielu darmowych programów"
-" (spróbuj na przykład programu Audacity)."
+"Aby nagrać twoją pracę, wystarczy że naciśniesz przycisk `Rec` znajdujący "
+"się w panelu z przyciskami, a nagrywanie rozpocznie się natychmiast. "
+"Naciśnij więc przycisk `Run`, aby uruchomić Twój kod, jeśli przypadkiem "
+"jeszcze tego nie zrobiłeś. Kiedy skończysz nagranie, naciśnij ponownie "
+"migający przycisk `Rec`, a zostaniesz poproszony o podanie nazwy pliku, pod "
+"jaką ma zostać zapisane Twoje nagranie. Zostanie ono zapisane jako plik WAV, "
+"który może być bardzo łatwo zedytowany i skonwertowany do formatu MP3 przez "
+"jeden z wielu darmowych programów (spróbuj na przykład programu Audacity)."
 
 #: 10.3-Sharing.md:43
-#, fuzzy
 msgid "Hope"
 msgstr "Nadzieja"
 
 #: 10.3-Sharing.md:45
-#, fuzzy
 msgid ""
 "I encourage you to share your work and really hope that we'll all teach each o"
 "ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
 "e to show me."
 msgstr ""
-"Zachęcam Cię abyś dzielił się swoją pracą i naprawdę wierzę w to, że wszyscy r"
-"azem będziemy się uczyć od siebie nowych sztuczek i trików w Sonic Pi. Jestem "
-"bardzo podekscytowany tym co będziesz chciał mi pokazać."
+"Zachęcam Cię, abyś dzielił się swoją pracą i naprawdę wierzę w to, że "
+"wszyscy razem będziemy się uczyć od siebie nowych sztuczek i trików w Sonic "
+"Pi. Jestem bardzo podekscytowany tym, co będziesz chciał mi pokazać."
 
 #: 10.4-Performing.md:1
-#, fuzzy
 msgid "10.4 Performing"
 msgstr "10.4 Występy Na Scenie"
 
 #: 10.4-Performing.md:3
-#, fuzzy
 msgid "Performing"
 msgstr "Występy Na Scenie"
 
 #: 10.4-Performing.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to use cod"
 "e as a *musical instrument*. This means that writing code live can now be seen"
 " as a new way of performing music."
 msgstr ""
-"Jednym z najbardziej ekscytujących aspektów Sonic Pi jest fakt, że pozwala Ci "
-"na używanie kodu jako *instrumentu muzycznego*. Oznacza to, że pisanie kodu na"
-" żywo może być teraz uznawane jako nowa metoda prezentowania muzyki na scenie."
+"Jednym z najbardziej ekscytujących aspektów Sonic Pi jest fakt, że pozwala "
+"Ci na używanie kodu jako *instrumentu muzycznego*. Oznacza to, że pisanie "
+"kodu na żywo może być teraz uznawane jako nowa metoda prezentowania muzyki "
+"na scenie."
 
 #: 10.4-Performing.md:9
-#, fuzzy
 msgid "We call this *Live Coding*."
 msgstr "Nazywamy to *Kodowaniem Na Żywo*."
 
 #: 10.4-Performing.md:11
-#, fuzzy
 msgid "Show Your Screen"
 msgstr "Pokaż Swój Ekran"
 
 #: 10.4-Performing.md:13
-#, fuzzy
 msgid ""
 "When you live code I recommend you *show your screen* to your audience. Otherw"
 "ise it's like playing a guitar but hiding your fingers and the strings. When I"
@@ -9453,62 +9350,59 @@ msgid ""
 "g room wall. You could use your TV or one of your school/work projectors to gi"
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
-"Kiedy kodujesz na żywo polecam Ci abyś *pokazał* swojej publiczności *twój ekr"
-"an*. W przeciwnym przypadku będzie to tak jak granie na gitarze ale chowając s"
-"woje palce i struny. Kiedy ćwiczę w domu używam Raspberry Pi i małego mini pro"
-"jektora na ścianie w moim salonie. Możesz użyć twojego TV albo jednego z proje"
-"ktorów, które są dostępne w twojej szkole lub pracy aby dać występ. Spróbuj, t"
-"o świetna zabawa."
+"Kiedy kodujesz na żywo, polecam Ci, abyś *pokazał* swojej publiczności *Twój "
+"ekran*. W przeciwnym przypadku będzie to tak, jak granie na gitarze, ale "
+"chowając swoje palce i struny. Kiedy ćwiczę w domu używam Raspberry Pi i "
+"małego mini projektora na ścianie w moim salonie. Możesz użyć Twojego TV "
+"albo jednego z projektorów, które są dostępne w twojej szkole lub pracy, aby "
+"dać występ. Spróbuj, to świetna zabawa."
 
 #: 10.4-Performing.md:20
-#, fuzzy
 msgid "Form a Band"
 msgstr "Stwórz Zespół"
 
 #: 10.4-Performing.md:22
-#, fuzzy
 msgid ""
 "Don't just play on your own - form a live coding band! It's a lot of fun jammi"
 "ng with others. One person could do beats, another ambient background, etc. Se"
 "e what interesting combinations of sounds you can have together."
 msgstr ""
-"Nie graj tylko sam - spróbuj stworzyć zespół kodujący na żywo! Granie z innymi"
-" daje wiele radości i satysfakcji. Jedna osoba może robić bity, inna podkład w"
-" stylu ambient, itd. Spróbuj zobaczyć jakie ciekawe kombinacje dźwięków możeci"
-"e razem stworzyć."
+"Nie graj tylko sam - spróbuj stworzyć zespół kodujący na żywo! Granie z "
+"innymi daje wiele radości i satysfakcji. Jedna osoba może robić bity, inna "
+"podkład w stylu ambient, itd. Spróbuj zobaczyć, jakie ciekawe kombinacje "
+"dźwięków możecie razem stworzyć."
 
 #: 10.4-Performing.md:27
 msgid "TOPLAP"
 msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
-#, fuzzy
 msgid ""
 "Live coding isn't completely new - a small number of people have been doing it"
 " for a few years now, typically using bespoke systems they've built for themse"
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
-"Kodowanie na żywo nie jest całkowicie nowe - mała grupa ludzi robi to już od k"
-"ilku lat, zazwyczaj korzystając z systemów na zamówienie, które zbudowali dla "
-"siebie sami. Świetnym miejscem do którego możesz się udać i dowiedzieć się wię"
-"cej na temat innych osób kodujących na żywo oraz ich systemów jest [TOPLAP](ht"
-"tp://toplap.org)."
+"Kodowanie na żywo nie jest całkowicie nowe - mała grupa ludzi robi to już od "
+"kilku lat, zazwyczaj korzystając z systemów na zamówienie, które zbudowali "
+"dla siebie sami. Świetnym miejscem, do którego możesz się udać i dowiedzieć "
+"się więcej na temat innych osób kodujących na żywo oraz ich systemów, jest "
+"[TOPLAP](http://toplap.org)."
 
 #: 10.4-Performing.md:34
 msgid "Algorave"
 msgstr "Algorave"
 
 #: 10.4-Performing.md:36
-#, fuzzy
 msgid ""
 "Another great resource for exploring the live coding world is [Algorave](http:"
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
 msgstr ""
-"Innym świetnym źrodłem dla odkrywania świata kodowania na żywo jest [Algorave]"
-"(http://algorave.com). Możesz tutaj znaleźć wszystko co dotyczy wszystkich asp"
-"ektów kodowania na żywo, które są związane z tworzeniem muzyki w klubach."
+"Innym świetnym źródłem dla odkrywania świata kodowania na żywo jest "
+"[Algorave](http://algorave.com). Możesz tutaj znaleźć wszystko, co dotyczy "
+"wszystkich aspektów kodowania na żywo, które są związane z tworzeniem muzyki "
+"w klubach."
 
 #: 11-Minecraft-Pi.md:1
 msgid "11 Minecraft Pi"
@@ -9519,23 +9413,20 @@ msgid "Minecraft Pi"
 msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi now supports a simple API for interacting with Minecraft Pi - the spe"
 "cial edition of Minecraft which is installed by default on the Raspberry Pi's "
 "Raspbian Linux-based operating system."
 msgstr ""
-"Sonic Pi wspiera proste API umożliwia interakcję z Minecraft Pi - specjalną ed"
-"ycją gry Minecraft, która jest domyślnie preinstalowana w systemie Raspbian na"
-" Raspberry Pi (system operacyjny bazujący na Linuksie)."
+"Sonic Pi wspiera proste API umożliwia interakcję z Minecraft Pi - specjalną "
+"edycją gry Minecraft, która jest domyślnie preinstalowana w systemie "
+"Raspbian na Raspberry Pi (system operacyjny bazujący na Linuksie)."
 
 #: 11-Minecraft-Pi.md:9
-#, fuzzy
 msgid "No need to import libraries"
 msgstr "Brak konieczności importowania bibliotek"
 
 #: 11-Minecraft-Pi.md:11
-#, fuzzy
 msgid ""
 "The Minecraft Pi integration has been designed to be insanely easy to use. All"
 " you need to do is to launch Minecraft Pi and create a world. You're then free"
@@ -9543,20 +9434,18 @@ msgid ""
 "need to import anything or install any libraries - it's all ready to go and wo"
 "rks out of the box."
 msgstr ""
-"Integracja z Minecraft Pi została zaprojektowana aby być szalenie łatwa w użyc"
-"iu. Wszystko co potrzebujesz zrobić to włączyć Minecraft Pi i stworzyć nowy św"
-"iat. Gdy już to zrobić możesz dowolnie używać funkcji `mc_*` tak samo jak używ"
-"ałeś do tej pory poleceń `play` i `synth`. Nie ma konieczności importowania cz"
-"egokolwiek lub instalacji dodatkowych bibliotek - wszystko jest gotowe i dział"
-"a po wyjęciu z pudełka."
+"Integracja z Minecraft Pi została zaprojektowana, aby być szalenie łatwa w "
+"użyciu. Wszystko, co potrzebujesz zrobić, to włączyć Minecraft Pi i stworzyć "
+"nowy świat. Gdy już to zrobić, możesz dowolnie używać funkcji `mc_*` tak "
+"samo, jak używałeś do tej pory poleceń `play` i `synth`. Nie ma konieczności "
+"importowania czegokolwiek lub instalacji dodatkowych bibliotek - wszystko "
+"jest gotowe i działa po wyjęciu z pudełka."
 
 #: 11-Minecraft-Pi.md:17
-#, fuzzy
 msgid "Automatic Connection"
 msgstr "Automatyczne Połączenie"
 
 #: 11-Minecraft-Pi.md:19
-#, fuzzy
 msgid ""
 "The Minecraft Pi API takes care of managing your connection to the Minecraft P"
 "i application. This means you don't need to worry about a thing. If you try an"
@@ -9566,23 +9455,21 @@ msgid ""
 "that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
 "Pi will automatically detect and re-create the connection for you."
 msgstr ""
-"API serwowane przez Minecraft Pi zajmuje się zarządzaniem twoim połączeniem z "
-"aplikacją Minecraft Pi. Oznacza to, że nie musisz się przejmować o nic. Jeśli "
-"spróbujesz skorzystać z API oferowanego przez Minecraft Pi kiedy gra nie jest "
-"włączona, Sonic Pi uprzejmie Cię o tym poinformuje. Podobnie, jeśli zamkniesz "
-"Minecraft Pi w momencie kiedy wciąż masz uruchomioną żywą pętlę `live_loop`, k"
-"tóra korzysta z API, żywa pętla zatrzyma sie i uprzejmie poinformuje Cię, że n"
-"ie może się połączyć. Aby wznowić połączenie wystarczy, że ponownie włączysz M"
-"inecraft Pi a Sonic Pi automatycznie wykryje i ponownie utworzy połączenie za "
-"Ciebie."
+"API serwowane przez Minecraft Pi zajmuje się zarządzaniem Twoim połączeniem "
+"z aplikacją Minecraft Pi. Oznacza to, że nie musisz się przejmować o nic. "
+"Jeśli spróbujesz skorzystać z API oferowanego przez Minecraft Pi, kiedy gra "
+"nie jest włączona, Sonic Pi uprzejmie Cię o tym poinformuje. Podobnie, jeśli "
+"zamkniesz Minecraft Pi w momencie, kiedy wciąż masz uruchomioną żywą pętlę "
+"`live_loop`, która korzysta z API, żywa pętla zatrzyma się i uprzejmie "
+"poinformuje Cię, że nie może się połączyć. Aby wznowić połączenie, wystarczy "
+"że ponownie włączysz Minecraft Pi, a Sonic Pi automatycznie wykryje i "
+"ponownie utworzy połączenie za Ciebie."
 
 #: 11-Minecraft-Pi.md:28
-#, fuzzy
 msgid "Designed to be Live Coded"
 msgstr "Zaprojektowanie do Kodowania Na Żywo"
 
 #: 11-Minecraft-Pi.md:30
-#, fuzzy
 msgid ""
 "The Minecraft Pi API has been designed to work seamlessly within `live_loop`s."
 " This means it's possible to synchronise modifications in your Minecraft Pi wo"
@@ -9592,107 +9479,96 @@ msgid ""
 "arry on as before. Sonic Pi's automatic connection functionality will take car"
 "e of things for you."
 msgstr ""
-"API oferowane przez Minecraft Pi zostało zaprojektowane w taki sposób, aby pra"
-"cować bez żadnych problemów o obrębie żywych pętli tworzonych z wykorzystaniem"
-" polecenia `live_loop`. Oznacza to, że jest możliw a synchronizacja zmian w tw"
-"oim świecie Minecraft Pi ze zmianami dokonywanymi w dźwiękach brzmiących w two"
-"im Sonic Pi. Błyskawiczne nagrania wideo z muzyką bazujące na grze Minecraft! "
-"Jeśli jednak zdarzy się, że natrafisz na jakieś problemy, po prostu uruchom po"
-"nownie Minecraft Pi i kontynuuj wcześniejszą zabawę. Funkcjonalność automatycz"
-"nego połączenia Sonic Pi zajmie się wszystkim za Ciebie."
+"API oferowane przez Minecraft Pi zostało zaprojektowane w taki sposób, aby "
+"pracować bez żadnych problemów o obrębie żywych pętli tworzonych z "
+"wykorzystaniem polecenia `live_loop`. Oznacza to, że jest możliwe, a "
+"synchronizacja zmian w Twoim świecie Minecraft Pi ze zmianami dokonywanymi w "
+"dźwiękach brzmiących w Twoim Sonic Pi. Błyskawiczne nagrania wideo z muzyką "
+"bazujące na grze Minecraft! Jeśli jednak zdarzy się, że natrafisz na jakieś "
+"problemy, po prostu uruchom ponownie Minecraft Pi i kontynuuj wcześniejszą "
+"zabawę. Funkcjonalność automatycznego połączenia Sonic Pi zajmie się "
+"wszystkim za Ciebie."
 
 #: 11-Minecraft-Pi.md:39
-#, fuzzy
 msgid "Requires a Raspberry Pi 2.0"
 msgstr "Wymaga Raspberry Pi 2.0"
 
 #: 11-Minecraft-Pi.md:41
-#, fuzzy
 msgid ""
 "It is highly recommended that you use a Raspberry Pi 2 if you wish to run both"
 " Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
 " Pi's sound capabilities."
 msgstr ""
-"Zalecane jest abyś używał Raspberry Pi 2 jeśli chcesz jednocześnie uruchomić S"
-"onic Pi i Minecraft - zwłaszcza jeśli chcesz wykorzystać możliwości dźwiękowe "
-"Sonic Pi."
+"Zalecane jest, abyś używał Raspberry Pi 2, jeśli chcesz jednocześnie "
+"uruchomić Sonic Pi i Minecraft - zwłaszcza wtedy, gdy chcesz wykorzystać "
+"możliwości dźwiękowe Sonic Pi."
 
 #: 11-Minecraft-Pi.md:45
-#, fuzzy
 msgid "API Support"
 msgstr "Wspierane API"
 
 #: 11-Minecraft-Pi.md:47
-#, fuzzy
 msgid ""
 "At this stage, Sonic Pi supports basic block and player manipulations which ar"
 "e detailed in Section 11.1. Support for event callbacks triggered by player in"
 "teractions in the world is planned for a future release."
 msgstr ""
-"Na ten moment, Sonic Pi wspiera podstawowe bloki oraz manipulacje graczy, któr"
-"e sa opisane w rozdziale 11.1. Wsparcie dla zdarzeń zwrotnych wywoływanych prz"
-"ez interakcje gracza w świecie jest planowane na przyszłe wydanie."
+"Na ten moment Sonic Pi wspiera podstawowe bloki oraz manipulacje graczy, "
+"które są opisane w rozdziale 11.1. Wsparcie dla zdarzeń zwrotnych "
+"wywoływanych przez interakcje gracza w świecie jest planowane na przyszłe "
+"wydanie."
 
 #: 11.1-Basic-API.md:1
-#, fuzzy
 msgid "11.1 Basic API"
 msgstr "11.1 Podstawowe API"
 
 #: 11.1-Basic-API.md:3
-#, fuzzy
 msgid "Basic Minecraft Pi API"
 msgstr "Podstawowe API oferowane przez Minecraft Pi"
 
 #: 11.1-Basic-API.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft Pi"
 ":"
-msgstr "Sonic Pi aktualnie wspiera następujące podstawowe interakcje z Minecraft Pi:"
+msgstr ""
+"Sonic Pi aktualnie wspiera następujące podstawowe interakcje z Minecraft Pi:"
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
-#, fuzzy
 msgid "Displaying chat messages"
-msgstr "Wyświetlanie wiadomości czat"
+msgstr "Wyświetlanie wiadomości czatowych"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
-#, fuzzy
 msgid "Setting the position of the user"
 msgstr "Ustawianie pozycji gracza"
 
 #: 11.1-Basic-API.md:9
-#, fuzzy
 msgid "Getting the position of the user"
 msgstr "Odczyt pozycji gracza"
 
 #: 11.1-Basic-API.md:10
-#, fuzzy
 msgid "Setting the block type at a given coordinate"
 msgstr "Ustawianie typu bloku na podanych współrzędnych"
 
 #: 11.1-Basic-API.md:11
-#, fuzzy
 msgid "Getting the block type at a given coordinate"
 msgstr "Zabieranie typu bloku na podanych współrzędnych"
 
 #: 11.1-Basic-API.md:14
-#, fuzzy
 msgid "Let's look at each of these in turn."
 msgstr "Spróbujmy przyjrzeć się każemu z nich po kolei."
 
 #: 11.1-Basic-API.md:18
-#, fuzzy
 msgid ""
 "Let's see just how easy it is to control Minecraft Pi from Sonic Pi. First, ma"
 "ke sure you have both Minecraft Pi and Sonic Pi open at the same time and also"
 " make sure you've entered a Minecraft world and can walk around."
 msgstr ""
-"Zobaczmy jak łatwo jest kontrolować Minecraft Pi z Sonic Pi. Najpierw, upewnij"
-" się, że zarówno Minecraft Pi jak i Sonic Pi są jednocześnie otwarte a także, "
-"upewnij się, że udało Ci się wejść do świata Minecraft i możesz się poruszać."
+"Zobaczmy, jak łatwo jest kontrolować Minecraft Pi z Sonic Pi. Najpierw "
+"upewnij się, że zarówno Minecraft Pi, jak i Sonic Pi są jednocześnie "
+"otwarte, a także upewnij się, że udało Ci się wejść do świata Minecraft i "
+"możesz się poruszać."
 
 #: 11.1-Basic-API.md:23
-#, fuzzy
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
 msgstr "W czystym buforze Sonic Pi po prostu wprowadź poniższy kod:"
 
@@ -9702,24 +9578,22 @@ msgid "mc_message \"Hello from Sonic Pi\""
 msgstr "mc_message \"Hello from Sonic Pi\""
 
 #: 11.1-Basic-API.md:29
-#, fuzzy
 msgid ""
 "When you hit the *Run* button, you'll see your message flash up on the Minecra"
 "ft window. Congratulations, you've written your first Minecraft code! That was"
 " easy wasn't it."
 msgstr ""
-"Kiedy naciśniesz przycisk *Run*, zobaczysz migającą wiadomość w ekranie Minecr"
-"aft. Gratulacje, właśnie napisałeś swój pierwszy kod w Minecraft! To było pros"
-"te, prawda?"
+"Kiedy naciśniesz przycisk *Run*, zobaczysz migającą wiadomość w oknie "
+"Minecraft. Gratulacje, właśnie napisałeś swój pierwszy kod w Minecraft! To "
+"było proste, prawda?"
 
 #: 11.1-Basic-API.md:35
-#, fuzzy
 msgid ""
 "Now, let's try a little magic. Let's teleport ourselves somewhere! Try the fol"
 "lowing:"
 msgstr ""
-"Teraz, spróbujmy odrobine magii. Spróbujmy przeteleportować nas w inne miejsce"
-". Spróbuj następującego kodu:"
+"Teraz spróbujmy odrobiny magii. Spróbujmy przeteleportować nas w inne "
+"miejsce. Sprawdź następujący kod:"
 
 #: 11.1-Basic-API.md:38
 #, no-wrap
@@ -9727,7 +9601,6 @@ msgid "mc_teleport 50, 50, 50"
 msgstr "mc_teleport 50, 50, 50"
 
 #: 11.1-Basic-API.md:42
-#, fuzzy
 msgid ""
 "When you hit *Run* - boom! You're instantantly transported to a new place. Mos"
 "t likely it was somewhere in the sky and you fell down either to dry land or i"
@@ -9736,20 +9609,18 @@ msgid ""
 "lore what coordinates are and how they work because they're really, really imp"
 "ortant for programming Minecraft."
 msgstr ""
-"Kiedy naciśniesz *Run* - bum! Zostajesz błyskawicznie przetransportowany w now"
-"e miejsce. Bardzo prawdopodobne jest to, że to gdzieś w powietrzu i spadniesz "
-"w dół na suchy ląd lub do wody. Teraz, co to za liczby: `50, 50, 50`? Są to ws"
-"półrzędne miejsca do którego starasz się przetleportować. Poświęćmy krótką chw"
-"ilę żeby dowiedzieć się czym są współrzędne i jak działają, ponieważ są one na"
-"prawdę ważne w programowaniu Minecraft."
+"Kiedy naciśniesz *Run* - bum! Zostajesz błyskawicznie przetransportowany w "
+"nowe miejsce. Bardzo prawdopodobne jest to, że to gdzieś w powietrzu i "
+"spadniesz w dół, na suchy ląd, lub do wody. Teraz, co to za liczby: `50, 50, "
+"50`? Są to współrzędne miejsca, do którego starasz się przeteleportować. "
+"Poświęćmy krótką chwilę, żeby dowiedzieć się, czym są współrzędne i jak "
+"działają, ponieważ są one naprawdę ważne w programowaniu Minecraft."
 
 #: 11.1-Basic-API.md:50
-#, fuzzy
 msgid "Coordinates"
 msgstr "Współrzędne"
 
 #: 11.1-Basic-API.md:52
-#, fuzzy
 msgid ""
 "Imagine a pirate's map with a big `X` marking the location of some treasure. T"
 "he exact location of the `X` can be described with two numbers - how far along"
@@ -9759,61 +9630,54 @@ msgid ""
 "easure with other pairs of numbers. Perhaps there's a big chest of gold at `2`"
 " across and `9` up..."
 msgstr ""
-"Wyobraź sobie mapę piratów z wielkim `X` oznacającym miejsce jakiegoś skarbu. "
-"Dokładna lokalizacja `X` może być opisana przez podanie dwóch liczb - jak dale"
-"ko na mapie od lewej do prawej oraz jak daleko od dołu mapy w górę. Na przykła"
-"d `10cm` wszerz i `8cm` w górę. Te dwie liczby `10` i `8` to współrzędne. Może"
-"sz bardzo łatwo wyobrazić sobie opisywanie sekretnych miejsc ze skarbami za po"
-"mocą innej pary liczb. Być może bardzo duża skrzynia złota znajduje się na `2`"
-" w poprzek `9` w górę."
+"Wyobraź sobie mapę piratów z wielkim `X` oznaczającym miejsce jakiegoś "
+"skarbu. Dokładna lokalizacja `X` może być opisana przez podanie dwóch liczb -"
+" jak daleko na mapie od lewej do prawej oraz jak daleko od dołu mapy w górę. "
+"Na przykład `10cm` wszerz i `8cm` w górę. Te dwie liczby `10` i `8` to "
+"współrzędne. Możesz bardzo łatwo wyobrazić sobie opisywanie sekretnych "
+"miejsc ze skarbami za pomocą innej pary liczb. Być może bardzo duża skrzynia "
+"złota znajduje się na `2` w poprzek, `9` w górę."
 
 #: 11.1-Basic-API.md:61
-#, fuzzy
 msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
 "h we are. We therefore need three numbers:"
 msgstr ""
-"Teraz, w Minecraft dwie liczby to za mało. Potrzebujemy także wiedzieć o tym, "
-"jak wysoko się znajdujemy. Dlatego też potrzebujemy 3 liczb:"
+"Teraz w Minecraft dwie liczby to za mało. Potrzebujemy także wiedzieć o tym, "
+"jak wysoko się znajdujemy. Dlatego też potrzebujemy trzech liczb:"
 
 #: 11.1-Basic-API.md:64
-#, fuzzy
 msgid "How far from right to left in the world - `x`"
 msgstr "Jak daleko od prawej do lewej w naszym świecie - `x`"
 
 #: 11.1-Basic-API.md:65
-#, fuzzy
 msgid "How far from front to back in the world - `z`"
-msgstr "jak daleko od przodu do tyłu w naszym świecie - `z`"
+msgstr "Jak daleko od przodu do tyłu w naszym świecie - `z`"
 
 #: 11.1-Basic-API.md:66
-#, fuzzy
 msgid "How high up we are in the world - `y`"
 msgstr "Jak wysoko znajdujemy się w naszym świecie - `y`"
 
 #: 11.1-Basic-API.md:68
-#, fuzzy
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, `y"
 "`, `z`."
 msgstr ""
-"Jeszcze jedna rzecz - zazwyczaj opisujemy te współrzędne w następującej kolejn"
-"ości `x`, `y`, `z`."
+"Jeszcze jedna rzecz - zazwyczaj opisujemy te współrzędne w następującej "
+"kolejności `x`, `y`, `z`."
 
 #: 11.1-Basic-API.md:71
-#, fuzzy
 msgid "Finding your current coordinates"
-msgstr "Odczytywanie twojej aktualnej lokalizacji"
+msgstr "Odczytywanie Twojej aktualnej lokalizacji"
 
 #: 11.1-Basic-API.md:73
-#, fuzzy
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
 "map and then switch over to Sonic Pi. Now enter the following:"
 msgstr ""
-"Spróbujmy pobawić się współrzędnymi. Przenieść się do jakiegoś ładnego miejsca"
-" na mapie Minecraft następnie przełącz się do Sonic Pi. Teraz wpisz następując"
-"ą linijkę:"
+"Spróbujmy pobawić się współrzędnymi. Przenieś się do jakiegoś ładnego "
+"miejsca na mapie Minecraft, a następnie przełącz się do Sonic Pi. Teraz "
+"wpisz następującą linijkę:"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
@@ -9821,7 +9685,6 @@ msgid "puts mc_location"
 msgstr "puts mc_location"
 
 #: 11.1-Basic-API.md:80
-#, fuzzy
 msgid ""
 "When you hit the *Run* button you'll see the coordinates of your current posit"
 "ion displayed in the log window. Take a note of them, then move forward in the"
@@ -9831,33 +9694,32 @@ msgid ""
 "the coordinates change when you move. Once you've understood how coordinates w"
 "ork, programming with the Minecraft API will be a complete breeze."
 msgstr ""
-"Kiedy uruchomisz przycis *Run* zobaczysz współrzędne twojego aktualnego położe"
-"nia wyświetlone w panelu z logami. Zapisz je, następnie spróbuj przemieścić si"
-"ę do przodu w świecie i spróbuj jeszcze raz. Zauważ, że współrzędne się zmieni"
-"ły! Teraz, zalecam Ci poświęcić Ci trochę czasu na powtórzenie tego kilka razy"
-" - przenieś się gdzieś kawałek w twoim świecie, zerknij na współrzędne i powtó"
-"rz. Próbuj tego do momentu, w którym poczujesz jak zmieniają się współrzędne g"
-"dy się poruszasz. Gdy już zrozumiesz jak działają współrzędne, programowanie z"
-" API oferowanym przez Minecraft będzie dla Ciebie bułką z masłem."
+"Kiedy uruchomisz przycisk *Run*, zobaczysz współrzędne Twojego aktualnego "
+"położenia wyświetlone w panelu z logami. Zapisz je, a następnie spróbuj "
+"przemieścić się do przodu w świecie i spróbuj jeszcze raz. Zauważ, że "
+"współrzędne się zmieniły! Teraz zalecam Ci poświęcić trochę czasu na "
+"powtórzenie tego kilka razy - przenieś się gdzieś kawałek w Twoim świecie, "
+"zerknij na współrzędne i powtórz. Próbuj tego do momentu, w którym "
+"poczujesz, jak zmieniają się współrzędne, gdy się poruszasz. Gdy już "
+"zrozumiesz, jak działają współrzędne, programowanie z API oferowanym przez "
+"Minecraft będzie dla Ciebie bułką z masłem."
 
 #: 11.1-Basic-API.md:89
-#, fuzzy
 msgid "Let's Build!"
 msgstr "Zbudujmy Coś!"
 
 #: 11.1-Basic-API.md:91
-#, fuzzy
 msgid ""
 "Now that you know how to find the current position and to teleport using coord"
 "inates, you have all the tools you need to start building things in Minecraft "
 "with code. Let's say you want to make the block with coordinates `40`, `50`, `"
 "60` to be glass. That's super easy:"
 msgstr ""
-"Teraz gdy już wiesz w jaki sposob znaleźć aktualną pozycje oraz w jaki sposob "
-"możesz się teleportować korzystając z współrzędnych, posiadasz już wszystkie n"
-"arzędzia, których potrzebujesz aby zacząć budować rzeczy w Minecraft za pomocą"
-" kodu. Powiedzmy, że chciałbyś stworzyć blok ze szkła o współrzędnych `40`, `5"
-"0`, `60`. Proste:"
+"Teraz gdy już wiesz, w jaki sposob znaleźć aktualną pozycję oraz w jaki "
+"sposob możesz się teleportować, korzystając z współrzędnych, posiadasz już "
+"wszystkie narzędzia, których potrzebujesz, aby zacząć budować rzeczy w "
+"Minecraft za pomocą kodu. Powiedzmy, że chciałbyś stworzyć blok ze szkła o "
+"współrzędnych `40`, `50`, `60`. Proste:"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
@@ -9865,13 +9727,12 @@ msgid "mc_set_block :glass, 40, 50, 60"
 msgstr "mc_set_block :glass, 40, 50, 60"
 
 #: 11.1-Basic-API.md:100
-#, fuzzy
 msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby and "
 "take a look:"
 msgstr ""
-"Tak, tak, to naprawde jest takie proste. Aby obejrzeć swoje dzieło po prostu p"
-"rzeteleportuj się niedaleko i zerknij na nie:"
+"Haha, to naprawdę było takie proste. Aby obejrzeć swoje dzieło, po prostu "
+"przeteleportuj się niedaleko i zerknij na nie:"
 
 #: 11.1-Basic-API.md:103
 #, no-wrap
@@ -9879,13 +9740,12 @@ msgid "mc_teleport 35, 50, 60"
 msgstr "mc_teleport 35, 50, 60"
 
 #: 11.1-Basic-API.md:107
-#, fuzzy
 msgid ""
 "Now turn around and you should see your glass block! Try changing it to diamon"
 "d:"
 msgstr ""
-"Teraz obróć się i powinieneś zobaczyć twój blok ze szkła. Spróbuj zmienić go w"
-" diament:"
+"Teraz obróć się dookoła, a Twoim oczom ukaże się Twój blok ze szkła! Spróbuj "
+"zmienić go w diament:"
 
 #: 11.1-Basic-API.md:110
 #, no-wrap
@@ -9893,30 +9753,27 @@ msgid "mc_set_block :diamond, 40, 50, 60"
 msgstr "mc_set_block :diamond, 40, 50, 60"
 
 #: 11.1-Basic-API.md:114
-#, fuzzy
 msgid ""
 "If you were looking in the right direction you might have even seen it change "
 "in front of your eyes! This is the start of something exciting..."
 msgstr ""
-"Jeśli patrzyłeś w odpowiednim kierunku to być może nawet zauważyłeś jak zmieni"
-"ł się na twoich oczach! To początek czegoś ekscytującego..."
+"Jeśli patrzyłeś w odpowiednim kierunku, to być może nawet zauważyłeś, jak "
+"zmienił się na twoich oczach! To początek czegoś ekscytującego..."
 
 #: 11.1-Basic-API.md:117
-#, fuzzy
 msgid "Looking at blocks"
 msgstr "Patrzenie na Bloki"
 
 #: 11.1-Basic-API.md:119
-#, fuzzy
 msgid ""
 "Let's look at one last thing before we move onto something a bit more involved"
 ". Given a set of coordinates we can ask Minecraft what the type of a specific "
 "block is. Let's try it with the diamond block you just created:"
 msgstr ""
-"Spróbujmy spojrzeć na ostatnią rzecz zanim zaczniemy coś bardziej angażującego"
-". Podająć zestaw współrzędnych możemy zapytać Minecraft o to jakiego typu jest"
-" specyficzny blok. Spróbujmy tego z naszym blokiem diamentu, który stworzyłeś "
-"przed chwilą:"
+"Spróbujmy spojrzeć na ostatnią rzecz, zanim zaczniemy coś bardziej "
+"angażującego. Podając zestaw współrzędnych, możemy zapytać Minecraft o to, "
+"jakiego typu jest specyficzny blok. Spróbujmy tego z naszym blokiem "
+"diamentu, który stworzyłeś przed chwilą:"
 
 #: 11.1-Basic-API.md:124
 #, no-wrap
@@ -9924,28 +9781,25 @@ msgid "puts mc_get_block 40, 50, 60"
 msgstr "puts mc_get_block 40, 50, 60"
 
 #: 11.1-Basic-API.md:128
-#, fuzzy
 msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
 " now say `:glass`? I'm sure it does :-)"
 msgstr ""
-"Łał! To diament (`:diamond`)!. Spróbuj ponownie zmienić go w szkło i jeszcze r"
-"az zapytać o typ - czy teraz pokazał szkło (`:glass`). Jestem pewien, że tak :"
-"-)"
+"Łał! To diament (`:diamond`)! Spróbuj ponownie zmienić go w szkło i jeszcze "
+"raz zapytać o typ - czy teraz pokazał szkło (`:glass`)? Jestem pewien, że "
+"tak :-)"
 
 #: 11.1-Basic-API.md:131
-#, fuzzy
 msgid "Available block types"
 msgstr "Dostępne typy bloków"
 
 #: 11.1-Basic-API.md:133
-#, fuzzy
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of av"
 "ailable block types useful:"
 msgstr ""
-"Zanim udasz oddasz się szaleństwu programowania z Minecraft Pi, być może zaint"
-"eresuje Cie poniższa lista dostępnych typów bloków:"
+"Zanim oddasz się szaleństwu programowania z Minecraft Pi, być może "
+"zainteresuje Cię poniższa lista dostępnych typów bloków:"
 
 #: 11.1-Basic-API.md:136
 #, no-wrap
@@ -10103,17 +9957,14 @@ msgstr ""
 "    :nether_reactor_core"
 
 #: 12-Conclusions.md:1
-#, fuzzy
 msgid "12 Conclusions"
 msgstr "12 Wnioski"
 
 #: 12-Conclusions.md:3
-#, fuzzy
 msgid "Conclusions"
 msgstr "Wnioski"
 
 #: 12-Conclusions.md:5
-#, fuzzy
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
 "mething along the way. Don't worry if you feel you didn't understand everythin"
@@ -10121,36 +9972,36 @@ msgid ""
 "ee to dive back in when you have a question that might be covered in one of th"
 "e sections."
 msgstr ""
-"Czas na podsumowanie samouczka wprowadzającego do Sonic Pi. Mam nadziję, że na"
-"uczyłeś się czegoś w trakcie jego czytania. Nie przejmuj się jeśli czujesz, że"
-" nie wszystko zrozumiałeś - po prostu graj i baw się a na pewno załapiesz kole"
-"jne rzeczy w odpowiednim dla siebie czasie. Nie krępuj się i zajrzyj tutaj pon"
-"ownie jeśli będziesz miał jakieś pytanie, na które odpowiedź znajduje się w je"
-"dnym z rozdziałów."
+"Czas na podsumowanie samouczka wprowadzającego do Sonic Pi. Mam nadzieję, że "
+"nauczyłeś się czegoś w trakcie jego czytania. Nie przejmuj się, jeśli "
+"czujesz, że nie wszystko zrozumiałeś - po prostu graj i baw się, a na pewno "
+"załapiesz kolejne rzeczy w odpowiednim dla siebie czasie. Nie krępuj się i "
+"zajrzyj tutaj ponownie, jeśli będziesz miał jakieś pytanie, na które "
+"odpowiedź znajduje się w jednym z rozdziałów."
 
 #: 12-Conclusions.md:11
-#, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
 "se jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/) a"
 "nd ask your question there. You'll find someone friendly and willing to lend a"
 " hand."
 msgstr ""
-"Jeśli masz jakiekolwiek pytania, na które nie znalazłeś odpowiedzi w tym samou"
-"czku, polecam Ci zajrzeć na [forum Sonic Pi](http://groups.google.com/group/so"
-"nic-pi/) i zadać swoje pytanie właśnie tam. Na pewno znajdziesz tam kogoś kto "
-"bez problemu i z chęcią poda Ci pomocną dłoń."
+"Jeśli masz jakiekolwiek pytania, na które nie znalazłeś odpowiedzi w tym "
+"samouczku, polecam Ci zajrzeć na [forum Sonic "
+"Pi](http://groups.google.com/group/sonic-pi/) i zadać swoje pytanie właśnie "
+"tam. Na pewno znajdziesz tam kogoś, kto bez problemu i z chęcią poda Ci "
+"pomocną dłoń."
 
 #: 12-Conclusions.md:16
-#, fuzzy
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
 "ion in this help system. There are a number of features that haven't been cove"
 "red in this tutorial that are waiting for your discovery."
 msgstr ""
-"I na koniec, zachęcam Cię również abyś przyjrzał się głebiej pozostałej części"
-" dokumentacji dostępnej w systemie pomocy. Znajdziesz tam wiele funkcjonalnośc"
-"i, które nie zostały omówione w tym samouczku i czekają tam abyś je odkrył."
+"I na koniec zachęcam Cię również, abyś przyjrzał się głębiej pozostałej "
+"części dokumentacji dostępnej w systemie pomocy. Znajdziesz tam wiele "
+"funkcjonalności, które nie zostały omówione w tym samouczku i czekają tam, "
+"abyś je odkrył."
 
 #: 12-Conclusions.md:21
 msgid ""
@@ -10978,12 +10829,10 @@ msgstr ""
 "end"
 
 #: A.03-coded-beats.md:1
-#, fuzzy
 msgid "A.3 Coded Beats"
 msgstr "A.3 Zakodowane Bity"
 
 #: A.03-coded-beats.md:3
-#, fuzzy
 msgid "Coded Beats"
 msgstr "Zakodowane bity"
 
@@ -11052,7 +10901,6 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:42
-#, fuzzy
 msgid "Beat Stretching"
 msgstr "Sięgnięcie Po Beat"
 
