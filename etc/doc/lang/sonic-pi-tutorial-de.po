@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-15 22:28+0000\n"
+"PO-Revision-Date: 2016-08-22 10:01+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -6369,7 +6369,7 @@ msgstr ""
 "Loops schreiben:"
 
 #: 06.2-FX-in-Practice.md:56
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  with_fx :reverb do\n"
