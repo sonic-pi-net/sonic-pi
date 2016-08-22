@@ -93,15 +93,16 @@ klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:include, SonicPi::Lang::Minecraft)
 klass.send(:extend, Memoist)
+
+# This will pick up all memoizable fns in all modules as they share the
+# same docsystem.
+# TODO think of a better way to modularise this stuff when we move to
+# using namespaces...
+
 SonicPi::Lang::Core.memoizable_fns.each do |f|
   klass.send(:memoize, f)
 end
-SonicPi::Lang::Sound.memoizable_fns.each do |f|
-  klass.send(:memoize, f)
-end
-SonicPi::Lang::Minecraft.memoizable_fns.each do |f|
-  klass.send(:memoize, f)
-end
+
 
 klass.send(:define_method, :inspect) { "Runtime" }
 #klass.send(:include, SonicPi::Lang::Pattern)
