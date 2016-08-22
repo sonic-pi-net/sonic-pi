@@ -49,7 +49,7 @@ Användbart när den externa utrustningen bara kan hantera mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation>Raspberry Pi Audioutgång</translation>
+        <translation>Raspberry Pi ljudutgång</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"/>
