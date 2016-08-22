@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-22 13:00+0000\n"
+"PO-Revision-Date: 2016-08-22 13:05+0000\n"
 "Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -8256,9 +8256,8 @@ msgid "Multiple Live Loops"
 msgstr "Wiele Żywych Pętli"
 
 #: 09.3-Multiple-Live-Loops.md:5
-#, fuzzy
 msgid "Consider the following live loop:"
-msgstr "Przyjrzyjmy się natępującej żywej pętli:"
+msgstr "Przyjrzyjmy się następującej żywej pętli:"
 
 #: 09.3-Multiple-Live-Loops.md:7
 #, no-wrap
@@ -8274,30 +8273,27 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:14
-#, fuzzy
 msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
-"Być może zastanawiałeś się dlaczego konieczna jest nazwa `:foo`. Nazwa ta jest"
-" ważna ponieważ oznacza, że ta konkrenta żywa pętla jest inna od wszystkich in"
-"nych żywych pętli."
+"Być może zastanawiałeś się, dlaczego konieczna jest nazwa `:foo`. Nazwa ta "
+"jest ważna, ponieważ oznacza, że ta konkretna żywa pętla jest inna od "
+"wszystkich innych żywych pętli."
 
 #: 09.3-Multiple-Live-Loops.md:18
-#, fuzzy
 msgid "*There can never be two live loops running with the same name*."
 msgstr ""
-"*W tym samym czasie nie mogą być uruchomione dwie żywe pętle o tej samej nazwi"
-"e.*"
+"*W tym samym czasie nie mogą być uruchomione dwie żywe pętle o tej samej "
+"nazwie*."
 
 #: 09.3-Multiple-Live-Loops.md:20
-#, fuzzy
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just n"
 "eed to give them different names:"
 msgstr ""
-"Oznacza to, że jeśli potrzebujemy kilku jednocześnie kręcących się żywych pętl"
-"i, to po prostu musimy nadać im inne nazwy:"
+"Oznacza to, że jeśli potrzebujemy kilku jednocześnie kręcących się żywych "
+"pętli, to po prostu musimy nadać im inne nazwy:"
 
 #: 09.3-Multiple-Live-Loops.md:23
 #, no-wrap
@@ -8323,21 +8319,18 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:36
-#, fuzzy
 msgid ""
 "You can now update and change each live loop independently and it all just wor"
 "ks."
 msgstr ""
-"Możesz teraz aktualizować i zmieniać każdą z żywych pętli niezależnie i wszyst"
-"io będzie po prostu działać."
+"Możesz teraz aktualizować i zmieniać każdą z żywych pętli niezależnie, i "
+"wszystko będzie po prostu działać."
 
 #: 09.3-Multiple-Live-Loops.md:39
-#, fuzzy
 msgid "Syncing Live Loops"
 msgstr "Synchronizacja Żywych Pętli"
 
 #: 09.3-Multiple-Live-Loops.md:41
-#, fuzzy
 msgid ""
 "One thing you might have already noticed is that live loops work automatically"
 " with the thread cue mechanism we explored previously. Every time the live loo"
@@ -8345,16 +8338,15 @@ msgid ""
 " therefore `sync` on these cues to ensure our loops are in sync without having"
 " to stop anything."
 msgstr ""
-"Jedną z rzeczy, które być może już zauważyłeś to to, że żywe pętle działają au"
-"tomatycznie z mechanizmem punktów cue dla wątków, które poznaliśmy już wcześni"
-"ej. Za każdym razem, gdy żywa pętla wykona pętlę, generuje nowe zdarzenie `cue"
-"` nadając mu nazwę taką samą jaką nadaliśmy żywej pętli. Możemy więc sychrozni"
-"zować się z wykorzystaniem funkcji `sync` na każdym zdarzeniu `cue` aby upewni"
-"ć się, że nasze pętle są zsynchronizowane bez konieczności zatrzymywania czego"
-"kolwiek."
+"Jedną z rzeczy, które być może już zauważyłeś, to to, że żywe pętle działają "
+"automatycznie z mechanizmem punktów cue dla wątków, które poznaliśmy już "
+"wcześniej. Za każdym razem, gdy żywa pętla wykona pętlę, generuje nowe "
+"zdarzenie `cue`, nadając mu nazwę taką samą, jaką nadaliśmy żywej pętli. "
+"Możemy więc synchronizować się z wykorzystaniem funkcji `sync` na każdym "
+"zdarzeniu `cue`, aby upewnić się, że nasze pętle są zsynchronizowane, bez "
+"konieczności zatrzymywania czegokolwiek."
 
 #: 09.3-Multiple-Live-Loops.md:47
-#, fuzzy
 msgid "Consider this badly synced code:"
 msgstr "Spójrzmy na poniższy kod, który został źle zsynchronizowany:"
 
@@ -8380,15 +8372,14 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:61
-#, fuzzy
 msgid ""
 "Let's see if we can fix the timing and sync without stopping it. First, let's "
 "fix the `:foo` loop to make the sleep a factor of 1 - something like `0.5` wil"
 "l do:"
 msgstr ""
-"Zobaczmy czy możemy naprawić chronometraż (timing) bez zatrzymywania. Najpierw"
-", naprawmy pętlę `:foo` tak, aby sprawić, że wartość parametru sleep będzie ws"
-"półczynnikiem liczby 1 - coś jak `0.5` powinno być ok:"
+"Zobaczmy, czy możemy naprawić chronometraż (timing) bez zatrzymywania. "
+"Najpierw naprawmy pętlę `:foo` tak, aby sprawić, że wartość parametru sleep "
+"będzie współczynnikiem liczby 1 - coś jak `0.5` powinno być okej:"
 
 #: 09.3-Multiple-Live-Loops.md:65
 #, no-wrap
@@ -8412,15 +8403,14 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:77
-#, fuzzy
 msgid ""
 "We're not quite finished yet though - you'll notice that the beats don't quite"
 " line up correctly. This is because the loops are *out of phase*. Let's fix th"
 "at by syncing one to the other:"
 msgstr ""
-"To jeszcze nie koniec - powinieneś zauważyć, że uderzenia nie do końca ustawia"
-"ją się odpowiednio. Dzieje się tak, ponieważ pętle *nie są synchronizowane*. S"
-"próbujmy to naprawić przez ich synchronizację:"
+"To jeszcze nie koniec - powinieneś zauważyć, że uderzenia nie do końca "
+"ustawiają się odpowiednio. Dzieje się tak, ponieważ pętle *nie są "
+"synchronizowane*. Spróbujmy to naprawić przez ich synchronizację:"
 
 #: 09.3-Multiple-Live-Loops.md:81
 #, no-wrap
@@ -8446,44 +8436,39 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:94
-#, fuzzy
 msgid "Wow, everything is now perfectly in time - all without stopping."
-msgstr "Łał, teraz wszystko perfekcyjnie w czas - i to wszystko bez zatrzymywania."
+msgstr ""
+"Łał, teraz wszystko perfekcyjnie w czasie - i to wszystko bez zatrzymywania."
 
 #: 09.3-Multiple-Live-Loops.md:96
-#, fuzzy
 msgid "Now, go forth and live code with live loops!"
-msgstr "A teraz, nie zatrzymuj się i koduj na żywo z wykorzystaniem żywych pętli!"
+msgstr ""
+"A teraz nie zatrzymuj się i koduj na żywo z wykorzystaniem żywych pętli!"
 
 #: 09.4-Ticking.md:1
-#, fuzzy
 msgid "9.4 Ticking"
 msgstr "9.4 Cykanie"
 
 #: 09.4-Ticking.md:3
-#, fuzzy
 msgid "Ticking"
 msgstr "Cykanie"
 
 #: 09.4-Ticking.md:5
-#, fuzzy
 msgid ""
 "Something you'll likely find yourself doing a lot when live coding is looping "
 "through rings. You'll be putting notes into rings for melodies, sleeps for rhy"
 "thms, chord progressions, timbral variations, etc. etc."
 msgstr ""
-"Coś na co na pewno będziesz robił dość często podczas kodowania na żywo to ite"
-"rowanie przez pierścienie. Będziesz wrzucał nuty do pierścieni dla tworzenia m"
-"elodii, czasów uśpienia dla rytmów, progresji akordów, różne wariacje barw dźw"
-"ięku, itd."
+"Coś, na co na pewno będziesz robił dość często podczas kodowania na żywo, to "
+"iterowanie przez pierścienie. Będziesz wrzucał nuty do pierścieni dla "
+"tworzenia melodii, czasów uśpienia dla rytmów, progresji akordów, różnych "
+"wariacji barw dźwięku itd."
 
 #: 09.4-Ticking.md:9
-#, fuzzy
 msgid "Ticking Rings"
 msgstr "Cykające Pierścienie"
 
 #: 09.4-Ticking.md:11
-#, fuzzy
 msgid ""
 "Sonic Pi provides a *very* handy tool for working with rings within `live_loop"
 "`s. It's called the tick system. In the section about the rings we were talkin"
@@ -8491,9 +8476,9 @@ msgid ""
 " Tick just implements this idea. It provides you with the ability to *tick thr"
 "ough rings*. Let's look at an example:"
 msgstr ""
-"Sonic Pi udostępnia *bardzo* przydatne narzędzie do pracy z pierścieniami w ży"
-"wych pętlach `live_loop`. Nazywa się to systemem cykania. Udostępnia Ci możliw"
-"ość *cykania przez pierścienie*. Spójrzmy na następujący przykład:"
+"Sonic Pi udostępnia *bardzo* przydatne narzędzie do pracy z pierścieniami w "
+"żywych pętlach `live_loop`. Nazywa się to systemem cykania. Udostępnia Ci "
+"możliwość *cykania przez pierścienie*. Spójrzmy na następujący przykład:"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
