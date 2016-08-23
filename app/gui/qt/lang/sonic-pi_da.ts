@@ -70,7 +70,7 @@ håndtere mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="958"/>
         <source>Configure debug behaviour</source>
-        <translation>Konfigurer standardindstilling</translation>
+        <translation>Konfigurer fejlfindingsindstilling</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"/>
