@@ -470,30 +470,33 @@ Der sendes anonym information om din platform og version.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1067"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift til mørkt design.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Mørkt design er perfekt når du live-koder på natklubber.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1106"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Lyd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"/>
         <source>Studio</source>
-        <translation type="unfinished"></translation>
+        <translation>Studie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi opstartsfejl
+
+Undskyld, men en kritisk fejl opstod under opstart</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -501,65 +504,65 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1374"/>
         <location filename="../mainwindow.cpp" line="1375"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Bufferfiler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Hent Sonic Pi buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
         <location filename="../mainwindow.cpp" line="1375"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekstfiler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
         <location filename="../mainwindow.cpp" line="1375"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Rubyfiler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
         <location filename="../mainwindow.cpp" line="1375"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle filer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1752"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Logning af Auto Scroll  til...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1754"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Logning af Auto Scroll fra...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2338"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Kør koden i nuværende buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2351"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Hent</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2352"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Hent en ekstern fil til den nuværende buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2361"/>
         <source>View audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis lydudgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2508"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wavefil (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
