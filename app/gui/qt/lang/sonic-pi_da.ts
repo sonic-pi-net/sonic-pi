@@ -577,303 +577,307 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1496"/>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoomer ind...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1503"/>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoomer ud...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Checker om der er opdateringer...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1545"/>
         <source>Enabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Slår check af opdatering til...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1553"/>
         <source>Disabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Slår check af opdateringer fra...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1578"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Slår mixer LPF (Lavpasfilter) til...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1587"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Slår mixer LPF (Lavpasfilter) fra...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1595"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Slår omvendt stereo til...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1603"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Slår standard stereo til..</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1611"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mono mode...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1619"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Stereo Mode...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1628"/>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopper...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1736"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdaterer systemlydstyrke...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2155"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skifter til hovedtelefonudgang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2171"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skifter til HDMI-lydudgang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Switching To Default Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skifter til standard lydudgang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2348"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem nuværende buffer til en ekstern fil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2374"/>
         <source>Start recording to WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Optag til WAV lydfil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2379"/>
         <source>Improve readability of code</source>
-        <translation type="unfinished"></translation>
+        <translation>Forbedr kodens læsbarhed</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2527"/>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>Klar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fil hentet...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fil gemt...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sidst kontrolleret %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2875"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi checker om der er kommet nye opdateringer
+hver anden uge.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2877"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette er Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2878"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Version%2 er tilgængelig nu!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2882"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny version er tilgængelig!
+Hent Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Kør</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2343"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2344"/>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop alt kørende kode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2347"/>
         <source>Save As...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem som...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2355"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Information</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2356"/>
         <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Se information om Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="513"/>
         <location filename="../mainwindow.cpp" line="2364"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Hjælp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1121"/>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Ydeevne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1122"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyttige indstillinger til live-performance med Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"/>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Server opstartsfejl...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>Overvej venligst at rapportere fejl til</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2365"/>
         <source>Toggle help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå hjælpepanel til/fra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2368"/>
         <source>Prefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Indstillinger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2369"/>
         <source>Toggle preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå indstillingspanelet til/fra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2373"/>
         <location filename="../mainwindow.cpp" line="2502"/>
         <location filename="../mainwindow.cpp" line="2503"/>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Start optagelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2378"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Tilpas tekst automatisk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2385"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Forøg tekststørrelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2392"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Formindsk tekststørrelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2397"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Værktøjer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2448"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Om</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2449"/>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>Kerneteam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2450"/>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>Bidragsydere</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2451"/>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>Fællesskab</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2452"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Licens</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2453"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Historie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2474"/>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Information</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2494"/>
         <location filename="../mainwindow.cpp" line="2495"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop optagelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2508"/>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem optagelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2608"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke læse filen %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke gemme filen %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="93"/>
@@ -884,32 +888,32 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="367"/>
         <location filename="../ruby_help.h" line="442"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutorial</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="476"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksempler</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="522"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synthesizere</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="564"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Effekter</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="583"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="779"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprog</translation>
     </message>
 </context>
 <context>
@@ -925,7 +929,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kører Sonic Pi allerede?...kan ikke åbne UDP port 4558.</translation>
     </message>
 </context>
 </TS>
