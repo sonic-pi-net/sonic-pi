@@ -567,12 +567,12 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Velkommen tilbage. Få din live code igang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1375"/>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem nuværende buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1496"/>
