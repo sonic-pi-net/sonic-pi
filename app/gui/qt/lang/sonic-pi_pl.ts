@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="277"/>
         <source>Sonic Pi update info</source>
-        <translation>Sonic PI informacje o aktualizacjach</translation>
+        <translation>Sonic Pi informacje o aktualizacjach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="913"/>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
-        <translation>Użyj tego suwaka aby zmienić poziom głośności w Twoim Raspberry Pi.</translation>
+        <translation>Użyj tego suwaka, aby zmienić poziom głośności w Twoim Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
@@ -71,7 +71,7 @@
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <translation>Zaawansowane ustawienia audio pozwalające na pracę 
-z zewnętrznymi profesjonalnymi systemami audio 
+z zewnętrznymi profesjonalnymi systemami audio, 
 używanymi podczas występów na scenie z Sonic Pi.</translation>
     </message>
     <message>
@@ -80,7 +80,7 @@ używanymi podczas występów na scenie z Sonic Pi.</translation>
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Włącz lub wyłącz odwrócone stereo.
-Jeśli jest włączone, dźwięĸ wysyłany do lewego głośnika 
+Jeśli jest włączone, dźwięk wysyłany do lewego głośnika 
 zostanie wysłany do prawego i vice versa.</translation>
     </message>
     <message>
@@ -91,7 +91,7 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Włącza i wyłącza tryb mono.
-Jeśłi jest włączony to oba kanały (lewy i prawy) są wymieszane i 
+Jeśli jest włączony, to oba kanały (lewy i prawy) są wymieszane i 
 na oba głośniki zostaje wysłany taki sam sygnał.
 Bardzo przydatne podczas pracy z zewnętrznymi systemami 
 audio, które potrafią obsługiwać tylko dźwięk mono.</translation>
@@ -153,10 +153,10 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
         <translation>Twoje Raspberry Pi posiada dwa typy wyjść audio.
-Po pierwsze na Raspberry Pi jest dostępne gniazdo słuchawkowe jack.
-Po drugie, pewne monitory/telewizory z wejśćiem HDMI wspierają obsługę 
-dźwięĸu przez port HDMI.
-Użyj tych przycisków aby wymusić wyjście na takie urządzenie, które chesz.</translation>
+Po pierwsze, na Raspberry Pi jest dostępne gniazdo słuchawkowe jack.
+Po drugie, pewne monitory/telewizory z wejściem HDMI wspierają obsługę 
+dźwięku przez port HDMI.
+Użyj tych przycisków, aby wymusić wyjście na takie urządzenie, które chcesz.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"/>
@@ -204,7 +204,7 @@ Użyj tych przycisków aby wymusić wyjście na takie urządzenie, które chesz.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Włącz lub wyłącz informacje w oknie logowania.
-Jeśłi jest wyłączone, aktywności takie jak uruchomiania syntezatorów 
+Jeśli jest wyłączone, aktywności takie jak uruchomiania syntezatorów 
 i samplerów nie będą domyślnie powodowały prezentowania informacji 
 w oknie logowania.</translation>
     </message>
@@ -235,8 +235,8 @@ przycisku Run.</translation>
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
         <translation>Włącza lub wyłącza logowanie punktów cue. 
-Jeśłi jest wyłączone, punkty cue wciąż będą uruchamiane.
-Jednakżę, nie będą one widoczne panelu logowania.</translation>
+Jeśli jest wyłączone, punkty cue wciąż będą uruchamiane.
+Jednakże nie będą one widoczne panelu logowania.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"/>
@@ -248,7 +248,7 @@ Jednakżę, nie będą one widoczne panelu logowania.</translation>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
         <translation>Włącz lub wyłącz automatycznie przewijanie logów.
-Jeśli włączymy tę opcję to logi będą się automatycznie przewijać przy pojawieniu 
+Jeśli włączymy tę opcję, to logi będą się automatycznie przewijać przy pojawieniu 
 się każdego kolejnego komunikatu.</translation>
     </message>
     <message>
@@ -265,13 +265,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation>Gdy jest włączone, Sonic Pi pozwoli 
-aby syntezatory i efekty ładowane za pomocą 
-polecenia load_synthdefs mogły 
+        <translation>Gdy jest włączone, Sonic Pi pozwoli, 
+aby syntezatory i efekty, ładowane za pomocą 
+polecenia load_synthdefs, mogły 
 być uruchamiane.
 
 Gdy opcja jest wyłączona, Sonic Pi będzie 
-wyświetlał komunikat o błędzie gdy spróbujesz 
+wyświetlał komunikat o błędzie, gdy spróbujesz 
 użyć syntezatora lub efektu, którego nie 
 potrafi rozpoznać.</translation>
     </message>
@@ -291,7 +291,7 @@ attempt to trigger synths and FX
 even when a little late.</source>
         <translation>Kiedy jest włączone, Sonic Pi nie będzie 
 pozwalał na uruchamianie syntezatorów 
-i efektów, jeśli jest już zbyt późno aby 
+i efektów, jeśli jest już zbyt późno, aby 
 móc wykonać dane polecenie.
 
 Kiedy opcja jest wyłączona, Sonic Pi 
@@ -320,8 +320,8 @@ uda mu się to zrobić z lekkim opóźnieniem.</translation>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Włącza lub wyłącza automatyczne sprawdzanie aktualizacji.
-Włączenie spowoduje wysyłanie anonimowych informacji o plaftormie 
-i wersji z której korzystasz.</translation>
+Włączenie spowoduje wysyłanie anonimowych informacji o platformie 
+i wersji, z której korzystasz.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"/>
@@ -333,7 +333,7 @@ i wersji z której korzystasz.</translation>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Wymusza sprawdzenie aktualizacji w tej chwili.
-Zaznaczenie powoduje wysłanie anonimowych informacji o twojej platformie i wersji.</translation>
+Zaznaczenie powoduje wysłanie anonimowych informacji o Twojej platformie i wersji.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"/>
@@ -343,12 +343,12 @@ Zaznaczenie powoduje wysłanie anonimowych informacji o twojej platformie i wers
     <message>
         <location filename="../mainwindow.cpp" line="1021"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Wejdź na stronę http://sonic-pi.net aby pobrać nową wersję</translation>
+        <translation>Wejdź na stronę http://sonic-pi.net, aby pobrać nową wersję</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1026"/>
         <source>Update Info</source>
-        <translation>Informacje dot. Aktualizacji</translation>
+        <translation>Informacje dot. aktualizacji</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1045"/>
@@ -383,7 +383,7 @@ Zaznaczenie powoduje wysłanie anonimowych informacji o twojej platformie i wers
     <message>
         <location filename="../mainwindow.cpp" line="1051"/>
         <source>Auto-align</source>
-        <translation>Auto wyrównanie</translation>
+        <translation>Autowyrównanie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1052"/>
@@ -480,7 +480,7 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1123"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Ustawienia przydatne gdy korzystasz z Sonic Pi na koncertach/podczas występów</translation>
+        <translation>Ustawienia przydatne, gdy korzystasz z Sonic Pi na koncertach/podczas występów</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
@@ -646,12 +646,12 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2157"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation>Zmieniam Wyjśćie Na Słuchawkowe...</translation>
+        <translation>Zmieniam Wyjście Na Słuchawkowe...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2173"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation>Zmieniam Wyjśćie na HDMI...</translation>
+        <translation>Zmieniam Wyjście na HDMI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
@@ -692,7 +692,7 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
         <location filename="../mainwindow.cpp" line="2354"/>
         <source>Load an external file in the current buffer</source>
         <translation>Załaduj do aktualnego buforu plik, który 
-znajduje się na dysku twojego komputera</translation>
+znajduje się na dysku Twojego komputera</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2357"/>
@@ -821,7 +821,8 @@ znajduje się na dysku twojego komputera</translation>
         <location filename="../mainwindow.cpp" line="2610"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>NIe można odczytać pliku %1: %2.</translation>
+        <translation>Nie można odczytać pliku %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2621"/>
@@ -832,7 +833,8 @@ znajduje się na dysku twojego komputera</translation>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Nie można zapisać pliku %1: %2.</translation>
+        <translation>Nie można zapisać pliku %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2648"/>
@@ -865,12 +867,13 @@ co dwa tygodnie.</translation>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation>Nowa wersja jest już dostępna! Pobierz Sonic Pi %1</translation>
+        <translation>Nowa wersja jest już dostępna!
+Pobierz Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2910"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Witaj ponownie. A teraz spraw aby twój kod ożył...</translation>
+        <translation>Witaj ponownie. A teraz spraw, aby Twój kod ożył...</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="81"/>
