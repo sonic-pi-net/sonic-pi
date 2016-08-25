@@ -3601,14 +3601,13 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         args_h.delete :slide
 
         info = node.info
+        defaults = info ? info.arg_defaults : {}
         if node.info
           args_h = info.munge_opts(args_h)
+          resolve_midi_args!(args_h, info)
           add_arg_slide_times!(args_h, info)
           scale_time_args_to_bpm!(args_h, info, false)
-          resolve_midi_args!(args_h, info)
         end
-
-
 
         if node.is_a?(ChordGroup)
 
@@ -3616,7 +3615,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
           notes = args_h.delete(:notes)
           notes = note if note && !notes
           notes = [notes] unless is_list_like?(notes)
-          normalise_args! args_h
+          normalise_args! args_h, defaults
           # don't normalise notes key as it is special
           # when controlling ChordGroups.
           # TODO: remove this hard coded behaviour
@@ -3627,7 +3626,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
             note = normalise_transpose_and_tune_note_from_args(note, args_h)
             args_h[:note] = note
           end
-          normalise_args! args_h
+          normalise_args! args_h, defaults
         end
 
         if __thread_locals.get(:sonic_pi_mod_sound_check_synth_args)
