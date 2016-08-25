@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-19 10:05+0000\n"
+"PO-Revision-Date: 2016-08-25 09:55+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -8884,7 +8884,6 @@ msgid "2. Use the FX"
 msgstr "2. エフェクトを使う"
 
 #: A.01-tips.md:20
-#, fuzzy
 msgid ""
 "Say you've already mastered the Sonic Pi basics of making sounds with `sample`"
 ", `play`? What's next? Did you know that Sonic Pi supports over 27 studio FX t"
@@ -8897,8 +8896,12 @@ msgid ""
 "u'd like the FX added to and wrap it with the FX code. Let's look at an exampl"
 "e. Say you had the following code:"
 msgstr ""
-"`sample`や`play`といったSonic Piの音作りの基本をマスターしたとして、次はどうしよう？Sonic "
-"Piには、あなたのコードの音を変えることができる27を超えるスタジオ・エフェクトがあるのを知っていますか？"
+"`sample`や`play`といったSonic Piの音作りの基本をマスターしたとして、次はどうしよう？Sonic Piには、あなたのコードの音を変える"
+"ことができる27を超えるスタジオ・エフェクトがあるのを知っていますか？エフェクトは、ドローソフトの派手なイメージフィルターと同じようなものです。ただし、イ"
+"メージフィルターがぼかしを入れたり、白黒にしたりするのに対し、エフェクトは音にリバーブやディストーション、エコーなどを追加します。それはちょうどギターから"
+"エフェクトペダルにケーブルを差して、さらにアンプに差すようなものと考えるとよいでしょう。幸いにも、Sonic Piではエフェクトが本当に簡単になっていて、"
+"ケーブルも必要としないのです！あなたのやることは、エフェクトを追加したいコード領域を選択し、エフェクトのコードで包むだけです。たとえば、次のようなコードが"
+"あったとしましょう。"
 
 #: A.01-tips.md:32
 #, no-wrap
@@ -8919,7 +8922,7 @@ msgstr ""
 msgid ""
 "If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it insid"
 "e a `with_fx` block like this:"
-msgstr ""
+msgstr "`:loop_garzul`のサンプルにエフェクトを追加したい場合には、次のように`with_fx`に押し込むだけでよいのです。"
 
 #: A.01-tips.md:44
 #, no-wrap
@@ -8944,7 +8947,7 @@ msgstr ""
 msgid ""
 "Now, if you wanted to add FX to the bass drum, go and wrap that with `with_fx`"
 " too:"
-msgstr ""
+msgstr "では次にバスドラムにエフェクトを追加したい場合には、同じように`with_fx`で包んでみましょう。"
 
 #: A.01-tips.md:58
 #, no-wrap
@@ -8973,11 +8976,12 @@ msgstr ""
 msgid ""
 "Remember, you can wrap *any* code within `with_fx` and any sounds created will"
 " pass through that FX."
-msgstr ""
+msgstr "*どんな*コードでも`with_fx`で包めば、どんな音もそのままエフェクトに送られることを覚えておくとよいでしょう。"
 
 #: A.01-tips.md:75
+#, fuzzy
 msgid "3. Parameterise your synths"
-msgstr ""
+msgstr "3. オプションを使う"
 
 #: A.01-tips.md:77
 msgid ""
@@ -8988,6 +8992,10 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
+"もしあなた自身のコーディング音楽を本当に発見したい場合に、あなたはすぐにシンセや効果を変更したり制御する方法を知りたくなるに違いありません。たとえば、音符"
+"の長さを変更したり、リバーブをもっと追加したり、エコーの間隔を変更したりしたいかもしれません。幸いにも、Sonic Piでは驚くべきレベルの制御の方法が提"
+"供されていて、オプション・パラメータ、略してオプションと呼ばれる特別な仕組みによって、まさしくこれと同じことが可能です。ちょっと見てみましょう。以下のコー"
+"ドをBufferにコピーして実行してみましょう。"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -8998,7 +9006,7 @@ msgstr "sample :guit_em9"
 msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about changi"
 "ng its rate?"
-msgstr ""
+msgstr "おお、すてきなギターサウンドですね！では、これで遊んでみましょう。レートを変えてみるのはどうでしょう？"
 
 #: A.01-tips.md:92
 #, no-wrap
@@ -9011,6 +9019,8 @@ msgid ""
 ". All of Sonic Pi's synths and FX support them and there's loads to play aroun"
 "d with. They're also available for FX too. Try this:"
 msgstr ""
+"行の最後にちょっと付けた`rate: 0.5`は何だろう？これはオプションと呼ばれています。Sonic Piの全てのシンセとエフェクトはオプションをサポー"
+"トしていて、たくさんのオプションで遊べます。エフェクトでもオプションは利用可能です。次を試してみましょう。"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -9028,10 +9038,11 @@ msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
+"では、`feedback`を1に変更して、クレイジーな音を聞いてみましょう！利用可能な多くのオプションの詳細について、ドキュメントを読んでみましょう。"
 
 #: A.01-tips.md:110
 msgid "5. Live Code"
-msgstr ""
+msgstr "4. ライブコーディング"
 
 #: A.01-tips.md:112
 msgid ""
@@ -9041,6 +9052,9 @@ msgid ""
 "es to a sample, just play around. Let's have a try! Copy this code into one of"
 " your Sonic Pi workspaces:"
 msgstr ""
+"Sonic Piについて素早く調べてみたり実験したりする一番の方法は、ライブコーディングすることです。ライブコーディングにより、あるコードから演奏を開始し"
+"て、演奏を止めずに継続してコードをいじったり、変更したりできます。たとえば、`sample`でcutoffのオプションがどのように動作するか分からない場合"
+"には、ただ実行してみればよいのです。では試し見てみましょう！以下のコードをSonic PiのBufferにコピーしてみましょう。"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -9061,6 +9075,8 @@ msgid ""
 "utoff:` value to `80` and hit run again. Can you hear the difference? Try `90`"
 ", `100`, `110`..."
 msgstr ""
+"実行すると、こもった音のドラムブレイクを聞くことができるでしょう。では、`cutoff:`の値を`80`に変更して再度実行してみましょう。違いが分かります"
+"か？`90`, `100`, `110`も試してみましょう。"
 
 #: A.01-tips.md:129
 msgid ""
@@ -9069,10 +9085,13 @@ msgid ""
 " sticks. For more information about live coding check out Section 9 of the bui"
 "lt-in tutorial."
 msgstr ""
+"`live_loop`を一度使い始めると、`live_loop`を使わないコードに戻れなくなるでしょう。ドラマーがスティックを頼りにするのと同じように、私"
+"もライブコーディングするときはいつも`live_loop`を頼りにしています。ライブコーディングについての詳細は、チュートリアルの9章をチェックしてみてく"
+"ださい。"
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
-msgstr ""
+msgstr "5. ランダムの流れに乗る"
 
 #: A.01-tips.md:136
 msgid ""
@@ -9081,6 +9100,8 @@ msgid ""
 "nd complicated but it really isn't. Let's take a look. Copy this into a spare "
 "workspace:"
 msgstr ""
+"最後に、私が好きでよくやるのは、Sonic Piに作曲してもらうズルい方法です。これを実現する本当に卓越した方法は、ランダム化を使用することです。ランダム"
+"化と言うと複雑そうに聞こえるかもしれませんが、実際にはそうでもありません。少し見てみましょう。以下のコードをBufferにコピーしてください。"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -9113,6 +9134,12 @@ msgid ""
 "e TARDIS with the Doctor to a particular point in time and space. Let's try it"
 " - add the line `use_random_seed 1` to the `live_loop`:"
 msgstr ""
+"ここで、上記のコードを実行すると、`:e2 :minor_pentatonic`のスケールから選ばれた音符の絶え間ないランダムな流れが、`:dsaw`のシ"
+"ンセで再生されるのを聞くことができるでしょう。「待って、待って！これはメロディーじゃない」とあなたが叫んでいるのが想像できます。落ち着いてください。これは"
+"マジックのトリックの前半部分です。Sonic "
+"Piでは、`live_loop`を繰り返す度に、特定の位置にランダムの流れをリセットするように指示することができます。それは、「Dr. "
+"Who」に登場するタイムマシンのTARDISが、特定の時間と場所に辿り着くのとちょっと似ています。ではやってみましょう。`live_loop`に`"
+"use_random_seed 1`の行を追加してみてください。"
 
 #: A.01-tips.md:161
 #, no-wrap
@@ -9146,10 +9173,14 @@ msgid ""
 "e random seed), you can explore as many melodic combinations as you can imagin"
 "e! Now, that's the magic of code."
 msgstr ""
+"これで、`live_loop`がループする度に、ランダムの流れがリセットされるようになりました。これは、ループの度に同じ16の音符が選択されていることを意"
+"味しています。あら不思議！手軽なメロディーでしょう。ここからが本当に面白くなるところです。シードの値を`1`から別な数値、たとえば`4923`に変更してみ"
+"ましょう。ワオ！別なメロディーになったでしょう！一つの数字（ここではシード）を変更するだけで、あなたの想像する限り多くのメロディーの組合せを試すことができ"
+"るのです！これがコードのマジックなのです。"
 
 #: A.02-live-coding.md:1
 msgid "A.2 Live Coding"
-msgstr ""
+msgstr "A.2 ライブコーディング"
 
 #: A.02-live-coding.md:5
 msgid ""
@@ -9161,14 +9192,21 @@ msgid ""
 "c Pi running on a Raspberry Pi. The occupant of the DJ booth wasn't spinning d"
 "isks, he was writing, editing and evaluating code. Live. This is Live Coding."
 msgstr ""
+"漂うスモークをレーザー光線がスライスし、サブウーファーは観衆の体の奥深くまで低音を震わせている。その雰囲気は、眩暈のするようなシンセのミックスとダンスで満"
+"たされている。しかし、このクラブでは何かがおかしい。DJブースの上に映し出された明るい色は、小刻みに動き、舞い、きらめく未来的なテキストである。それは、手"
+"の込んだビジュアルではなく、Raspberry Pi上で動いているSonic Piを単に映し出したものである。DJブースでは、レコードを回しているのではな"
+"く、コードを書き、編集し、実行しているのである。ライブである。これがライブコーディングである。"
 
 #: A.02-live-coding.md:14
 msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
 msgstr ""
+"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-"
+"aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
+#, fuzzy
 msgid ""
 "This may sound like a far fetched story from a futuristic night club but codin"
 "g music like this is a growing trend and is often described as Live Coding (ht"
@@ -9180,6 +9218,12 @@ msgid ""
 " end of this article, you'll be programming your own beats and modifying them "
 "live. Where you go afterwards will only be constrained by your imagination."
 msgstr ""
+"これは未来のクラブの現実的でない話のように聞こえるかもしれませんが、音楽をコーディングすることは盛り上がりつつあるトレンドであり、しばしばライブコーディン"
+"グ(http://toplap.org)と呼ばれています。この音楽制作アプローチの最近の流れの一つは、Algorave(http://algorave.c"
+"om)です。私のようなアーティストが、人々をダンスさせるために音楽をコーディングするイベントです。しかし、ライブコーディングするのにクラブに居る必要はあり"
+"ません。Sonic Pi v2.6以上では、ヘッドホンやスピーカーとRaspberry Piを持っていける場所であればどこでも、ライブコーディングができま"
+"す。一度この記事を最後まで読めば、あなた自身のビートをプログラミングでき、それをライブで変更できるでしょう。その後どこに進むかは、あなたのイマジネーション"
+"にだけ制約されるでしょう。"
 
 #: A.02-live-coding.md:27
 msgid "Live Loop"
