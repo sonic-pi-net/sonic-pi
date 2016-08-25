@@ -3602,6 +3602,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 
         info = node.info
         if node.info
+          args_h = info.munge_opts(args_h)
           add_arg_slide_times!(args_h, info)
           scale_time_args_to_bpm!(args_h, info, false)
           resolve_midi_args!(args_h, info)
