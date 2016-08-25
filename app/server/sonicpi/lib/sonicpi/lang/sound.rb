@@ -1196,6 +1196,7 @@ play 50 # Plays with supersaw synth
 
 
       def recording_save(filename)
+        __info "Stop recording" if @mod_sound_studio.recording_stop
         if @tmp_path && File.exists?(@tmp_path)
           FileUtils.mv(@tmp_path, filename)
           @tmp_path = nil
