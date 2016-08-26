@@ -27,7 +27,7 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(hostname, port, msg_queue, max_concurrent_synths)
+    def initialize(hostname, port, msg_queue)
       @hostname = hostname
       @port = port
       @msg_queue = msg_queue
