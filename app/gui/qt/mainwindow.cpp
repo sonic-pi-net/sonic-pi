@@ -1131,9 +1131,10 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *audio_prefs_box = new QGroupBox();
   QGridLayout *audio_prefs_box_layout = new QGridLayout;
-  audio_prefs_box_layout->addWidget(synths_box, 0, 0);
-  audio_prefs_box_layout->addWidget(volBox, 0, 1, 0, 2);
-  audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 0);
+
+  audio_prefs_box_layout->addWidget(volBox, 0, 0, 0, 1);
+  audio_prefs_box_layout->addWidget(synths_box, 0, 1);
+  audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
 
 
   prefTabs->addTab(audio_prefs_box, tr("Audio"));
