@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-29 13:20+0000\n"
+"PO-Revision-Date: 2016-08-29 13:22+0000\n"
 "Last-Translator: ArtyomIsFlash <artyomisflash@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -25,6 +25,7 @@ msgid "Welcome friend :-)"
 msgstr "Добро пожаловать, друг :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
+#, fuzzy
 msgid ""
 "Welcome to Sonic Pi. Hopefully you're as excited to get started making crazy s"
 "ounds as I am to show you. It's going to be a really *fun* ride where you'll l"
@@ -34,7 +35,7 @@ msgstr ""
 "Добро пожаловать в мир Sonic Pi. Надеюсь, что вам настолько же не терпится "
 "начать создавать безумные звуки, насколько мне не терпится показать вам, как "
 "это делается. О, да, это будет действительно веселое путешествие, в котором "
-"вы будете изучать музыку, синтез, программирование, композицию, исполнение и "
+"вы будете изучать музыку, синтез, программирование, композицию, перформанс и "
 "много всего прочего."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
