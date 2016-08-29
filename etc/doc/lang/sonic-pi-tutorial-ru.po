@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-29 13:25+0000\n"
+"PO-Revision-Date: 2016-08-29 13:31+0000\n"
 "Last-Translator: ArtyomIsFlash <artyomisflash@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -94,16 +94,16 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr "Что ж, давайте начнём..."
+msgstr "Что ж, давайте начнём…"
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr "1.1 Живое кодирование"
+msgstr "1.1 Лайв-кодинг"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Лайв Кодинг"
+msgstr "Лайв-кодинг"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -112,14 +112,14 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Одним из самых захвавывающих аспектов Sonic Pi является то, что для создания "
+"Одним из самых захватывающих аспектов Sonic Pi является то, что для создания "
 "музыки, вы можете писать и *изменять код вживую*. Это похоже на настоящее "
 "выступление с гитарой. Значит, при достаточной тренировке, вы сможете взять "
 "Sonic Pi с собой на сцену и выступать с ней."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr "Расширьте Своё Сознание"
+msgstr "Расширьте своё сознание"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -129,13 +129,13 @@ msgid ""
 "o your seats and enjoy..."
 msgstr ""
 "Прежде, чем мы перейдем к деталям того, как Sonic Pi работает, я бы хотел "
-"поделиться с вами личным опытом того, что значит \"Лайв Кодинг\". Не "
+"поделиться с вами личным опытом того, что значит \"лайв-кодинг\". Не "
 "переживайте, если вы пока чего-то из этого (или ничего) не понимаете. Просто "
-"держитесь крепче за стул и получайте удовольствие..."
+"держитесь крепче за стул и получайте удовольствие…"
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr "Живой Цикл"
+msgstr "Живой цикл"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
@@ -162,7 +162,7 @@ msgid ""
 msgstr ""
 "Теперь нажмите кнопку `Выполнить`, и вы услышите приятный быстрый барабанный "
 "бой. В любой момент нажмите кнопку `Остановить`, чтобы остановить звук. Но "
-"не нажимайте её пока что... Вместо этого сделайте вот что:"
+"не нажимайте её пока что… Вместо этого сделайте вот что:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
@@ -186,7 +186,7 @@ msgid ""
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
 "И, наконец, *запомните этот момент* - это первый, но вряд ли последний раз, "
-"когда вы кодировали вживую на Sonic Pi..."
+"когда вы кодировали вживую на Sonic Pi…"
 
 #: 01.1-Live-Coding.md:39
 msgid ""
