@@ -1788,7 +1788,7 @@ void MainWindow::help()
     hidingDocPane = true;
     docWidget->hide();
   } else {
-    docWidget->show();
+    helpContext();
   }
 }
 
