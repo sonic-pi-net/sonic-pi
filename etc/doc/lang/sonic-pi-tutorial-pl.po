@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-25 10:32+0000\n"
-"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
+"PO-Revision-Date: 2016-09-01 04:35+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"X-Generator: Weblate 2.8\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -10887,6 +10887,13 @@ msgid ""
 " used in a wide variety of other styles such as drum and bass, breakbeat, hard"
 "core techno and breakcore."
 msgstr ""
+"Jeden z najbardziej klasycznych i rozpoznawalnych samplem zawierającym "
+"perkusję nazywa się Amen Break. Po raz pierwszy został użyty w roku 1969 w "
+"piosence \"Amen Brother\" (Amen Bracie) przez zespół Winstons jako część "
+"solówki na perkusji. Jednakże, od chwili kiedy została odkryta przez "
+"wczesnych muzyków tworzących hip-hop w latach 80-tych i użyta w samplerach "
+"zaczęła być bardzo często używana w wielu innych stylach muzycznych np. drum "
+"and bass, breakbeat, hardcore techno i breakcore."
 
 #: A.03-coded-beats.md:30
 #, fuzzy
@@ -10953,6 +10960,9 @@ msgid ""
 "To fix this issue we can use the `beat_stretch:` opt to ask Sonic Pi to stretc"
 "h (or shrink) the sample to match the specified number of beats."
 msgstr ""
+"Żeby naprawić ten problem możemy użyć opcji `beat_stretch:`aby poprosić "
+"Sonic Pi by rozciągnęło (lub skurczyło) sampla tak aby wpasował się w "
+"określoną liczbę uderzeń (bitów)."
 
 #: A.03-coded-beats.md:63
 msgid ""
