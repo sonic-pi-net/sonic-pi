@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-25 09:55+0000\n"
+"PO-Revision-Date: 2016-09-01 09:59+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"X-Generator: Weblate 2.8\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -9227,13 +9227,13 @@ msgstr ""
 
 #: A.02-live-coding.md:27
 msgid "Live Loop"
-msgstr ""
+msgstr "ライブループ"
 
 #: A.02-live-coding.md:29
 msgid ""
 "The key to live coding with Sonic Pi is mastering the `live_loop`. Let's look "
 "at one:"
-msgstr ""
+msgstr "Sonic Piでライブコーディングする鍵は、`live_loop`をマスターすることです。次のコードを見てみましょう。"
 
 #: A.02-live-coding.md:32
 #, no-wrap
@@ -9249,6 +9249,7 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:39
+#, fuzzy
 msgid ""
 "There are 4 core ingredients to a `live_loop`. The first is its name. Our `liv"
 "e_loop` above is called `:beats`. You're free to call your `live_loop` anythin"
@@ -9262,10 +9263,16 @@ msgid ""
 "at. Go ahead, copy it into an empty Sonic Pi buffer and hit run. Boom, Boom, B"
 "oom!."
 msgstr ""
+"`live_loop`には、4つのコアな構成要素があります。1つめは、その名前です。上の`live_loop`の名前は`:beats`です。`live_l"
+"oop`はどんな名前でも自由に付けることができます。創造的に、またクレイジーになりましょう。私は、作っている音楽に関して何か観衆と意思疎通するような名前を"
+"しばしば付けます。2つめの構成要素は`do`という単語で、`live_loop`の開始する位置を示しています。3つめは`end`で`live_loop`を"
+"終了する位置を示しています。そして最後は、`live_loop`のボディ部分です。これは`do`と`end`に囲まれたコードで、ループで何を繰り返すかが記"
+"述されている箇所です。上のコードでは、定期的にバスドラムのサンプルを再生と半拍分の待機を繰り返しています。これにより、心地良い規則的なビートが作られていま"
+"す。さあ、Sonic PiのBufferに上のコードをコピーして実行してみましょう。Boom, Boom, Boom!"
 
 #: A.02-live-coding.md:52
 msgid "Redefining On-the-fly"
-msgstr ""
+msgstr "その場で再定義する"
 
 #: A.02-live-coding.md:54
 msgid ""
@@ -9274,6 +9281,9 @@ msgid ""
 " on-the-fly. This means that whilst they're still running, you can change what"
 " they do. This is the secret to live coding with Sonic Pi. Let's have a play:"
 msgstr ""
+"では、`live_loop`の何が特別なのでしょう？見たところ`loop`にそっくりですね！ええと、`live_loop`の利点は、その場で再定義できるこ"
+"とです。これは、ライブループが実行されている間にも、その中でやっていることが変更できるということです。これがSonic "
+"Piのライブコーディングの秘訣です。試してみましょう。"
 
 #: A.02-live-coding.md:60
 #, no-wrap
@@ -9289,6 +9299,7 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:67
+#, fuzzy
 msgid ""
 "Now press the Run button or hit `alt-r`. You're now listening to some gorgeous"
 " choir sounds. Now, whilst it's still playing, change the rate from `0.4` to `"
@@ -9299,16 +9310,23 @@ msgid ""
 "- choose your own values. Try negative numbers, really small numbers and large"
 " numbers. Have fun!"
 msgstr ""
+"では、`Run`ボタンをクリックするか、キーボードから`alt-r`を叩いてみてください。美しいコーラスのサウンドが聞こえると思います。次に、それが演奏さ"
+"れている間に、rateを`0.4`から`0.38`に変更して、`Run`を叩いてみてください。ワオ！コーラスの音程が変わったのが聞こえましたか？rateを"
+"`0.4`に上げて、値を戻すとどうなるか聞いてみましょう。では、rateを`0.2`に下げ、さらに`0.19`に下げ、再び`0.4`にあげてみましょう。た"
+"った一つのオプションをその場で変更するだけで、音楽をコントロールできるのを実感できるでしょう。では、rateを自分自身で選んで遊んでみましょう。マイナスの"
+"数、とても小さい数や大きい数を試してみましょう。楽しんでみてください！"
 
 #: A.02-live-coding.md:77
+#, fuzzy
 msgid "Sleeping is important"
-msgstr ""
+msgstr "睡眠が大切"
 
 #: A.02-live-coding.md:79
 msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. C"
 "onsider the following `live_loop`:"
 msgstr ""
+"`live_loop`に関する最も重要な教訓の一つは、それを*休ませる*ことが必要だということです。次の`live_loop`を考えてみましょう。"
 
 #: A.02-live-coding.md:82
 #, no-wrap
@@ -9331,6 +9349,10 @@ msgid ""
 "h and burn in the process. So remember, your `live_loop`s must contain a `slee"
 "p`."
 msgstr ""
+"このコードを実行しようとすると、`live_loop`が`sleep`していないとSonic Piがエラーを出すでしょう。これはセーフティシステムが実行さ"
+"れたことを示しています。このコードがコンピューターに何を実行させようとしているか、少し考えてみてください。そうです。無限の数のコーラスのサンプルを0秒の間"
+"に再生するように指示してるのですね。もしセーフティシステムが無ければ、コンピューターはこれを実行しようして壊れてしまうでしょう。そんな訳で、`live_l"
+"oop`には必ず`sleep`を含めることを覚えておいてください。"
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
