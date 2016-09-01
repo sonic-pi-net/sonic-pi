@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-07-11 22:04+0000\n"
-"Last-Translator: Duarte Botelho <duartebotelho@ist.utl.pt>\n"
+"PO-Revision-Date: 2016-09-01 04:30+0000\n"
+"Last-Translator: Rafael Capaci Pereira <rafaelcp123@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
 "Language: pt\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"X-Generator: Weblate 2.8\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -7361,7 +7361,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:26
 msgid "This is equivalent to:"
-msgstr ""
+msgstr "Isso é equivalente a:"
 
 #: 09.4-Ticking.md:28
 #, no-wrap
