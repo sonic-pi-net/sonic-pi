@@ -3589,9 +3589,16 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 
 
 
-      def control(node, *args)
+      def control(*args)
 
+        if (!args.first.is_a?(SonicPi::SynthNode || !args.first.nil?))
+          # we haven't specified a node to control - take it from the TL
+            node = __thread_locals.get(:sonic_pi_local_last_triggered_node)
+        else
+            node = args.shift
+        end
         return nil if node.nil?
+
         raise "You may only control a SynthNode. You tried to control a #{node.class}: #{node.inspect}" unless node.is_a?(Node)
         args_h = resolve_synth_opts_hash_or_array(args)
         args_h = args_h.to_h
@@ -3650,7 +3657,9 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
       doc name:          :control,
           introduced:    Version.new(2,0,0),
           summary:       "Control running synth",
-          doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for opt details. If the synth to control is a chord, then control will change all the notes of that chord group at once to a new target set of notes - see example. Also, you may use the on: opt to conditionally trigger the control - see the docs for the `synth` and `sample` fns for more information.",
+          doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for opt details. If the synth to control is a chord, then control will change all the notes of that chord group at once to a new target set of notes - see example. Also, you may use the on: opt to conditionally trigger the control - see the docs for the `synth` and `sample` fns for more information.
+
+If no synth to control is specified, then the last synth triggered by the current (or parent) thread will be controlled - see example below.",
           args:          [[:node, :synth_node]],
           opts:          {},
           accepts_block: false,
@@ -3741,7 +3750,30 @@ control s, cutoff: 130                                                 # change 
 sleep 3                                                                # wait for 3 beats
 control s, cutoff_slide: 1                                             # Change the cutoff_slide - the cutoff now slides more quickly to 130
                                                                        # it will now take 1 beat to slide from its *current* value
-                                                                       # (somewhere between 70 and 130) to 130"
+                                                                       # (somewhere between 70 and 130) to 130
+",
+
+        "
+## Controlling the last triggered synth
+
+synth :prophet, note: :e1, release: 8                                  # Every time a synth is triggered, Sonic Pi automatically remembers the node
+sleep 1
+16.times do
+  control note: (octs :e1, 3).tick                                     # This means we don't need to use an explicit variable to control the synth
+  sleep 0.125                                                          # we last triggered.
+end",
+        "
+## Controlling multiple synths without variables
+
+synth :beep, release: 4                  # Trigger a beep synth
+sleep 0.1
+control note: :e5                        # Control last triggered synth (:beep)
+sleep 0.5
+synth :dsaw, release: 4                  # Next, trigger a dsaw synth
+sleep 0.1
+control note: :e4                        # Control last triggered synth (:dsaw)
+
+"
 
       ]
 
@@ -4101,6 +4133,9 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           end
         end
         cg.sub_nodes = nodes
+
+        # TODO: ensure this behaviour gets moved to the group functionality once built
+        __thread_locals.set(:sonic_pi_local_last_triggered_node, cg)
         cg
       end
 
@@ -4143,7 +4178,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             tl_tracker.synth_finished(s)
             p.deliver! true
           end
-
+          __thread_locals.set(:sonic_pi_local_last_triggered_node, s)
           s
         end
       end
