@@ -339,6 +339,12 @@ void MainWindow::setupWindowStructure() {
     connect (newLineAndIndent, SIGNAL(activated()), retSignalMapper, SLOT(map())) ;
     retSignalMapper -> setMapping (newLineAndIndent, (QObject*)workspace);
 
+    // save and load buffers
+    QShortcut *saveBufferShortcut = new QShortcut(shiftMetaKey('s'), workspace);
+    connect (saveBufferShortcut, SIGNAL(activated()), this, SLOT(saveAs())) ;
+    QShortcut *loadBufferShortcut = new QShortcut(shiftMetaKey('o'), workspace);
+    connect (loadBufferShortcut, SIGNAL(activated()), this, SLOT(loadFile())) ;
+
 
     //transpose chars
     QShortcut *transposeChars = new QShortcut(ctrlKey('t'), workspace);
@@ -2502,11 +2508,13 @@ void MainWindow::createToolBar()
 
   // Save
   QAction *saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
-  setupAction(saveAsAct, 0, tr("Save current buffer as an external file"), SLOT(saveAs()));
+  setupAction(saveAsAct, 0, tr(""), SLOT(saveAs()));
+  saveAsAct->setToolTip(tooltipStrShiftMeta('S', tr("Save current buffer as an external file")));
 
   // Load
   QAction *loadFileAct = new QAction(QIcon(":/images/load.png"), tr("Load"), this);
-  setupAction(loadFileAct, 0, tr("Load an external file in the current buffer"), SLOT(loadFile()));
+  setupAction(loadFileAct, 0, tr(""), SLOT(loadFile()));
+  loadFileAct->setToolTip(tooltipStrShiftMeta('O', tr("Load an external file in the current buffer")));
 
   // Record
   recAct = new QAction(QIcon(":/images/rec.png"), tr("Start Recording"), this);
