@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-01 09:59+0000\n"
+"PO-Revision-Date: 2016-09-05 09:59+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9312,9 +9312,9 @@ msgid ""
 msgstr ""
 "では、`Run`ボタンをクリックするか、キーボードから`alt-r`を叩いてみてください。美しいコーラスのサウンドが聞こえると思います。次に、それが演奏さ"
 "れている間に、rateを`0.4`から`0.38`に変更して、`Run`を叩いてみてください。ワオ！コーラスの音程が変わったのが聞こえましたか？rateを"
-"`0.4`に上げて、値を戻すとどうなるか聞いてみましょう。では、rateを`0.2`に下げ、さらに`0.19`に下げ、再び`0.4`にあげてみましょう。た"
-"った一つのオプションをその場で変更するだけで、音楽をコントロールできるのを実感できるでしょう。では、rateを自分自身で選んで遊んでみましょう。マイナスの"
-"数、とても小さい数や大きい数を試してみましょう。楽しんでみてください！"
+"`0.4`に上げて、値を戻すとどうなるか聞いてみましょう。続いて、rateを`0.2`に下げ、さらに`0.19`に下げ、再び`0.4`にあげてみましょう。"
+"たった一つのオプションをその場で変更するだけで、音楽をコントロールできるのを実感できるでしょう。では、rateを自分自身で選んで遊んでみましょう。マイナス"
+"の数、とても小さい数や大きい数を試してみましょう。楽しんでみてください！"
 
 #: A.02-live-coding.md:77
 #, fuzzy
@@ -9356,7 +9356,7 @@ msgstr ""
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
-msgstr ""
+msgstr "音を混ぜ合わせる"
 
 #: A.02-live-coding.md:99
 msgid ""
@@ -9365,6 +9365,9 @@ msgid ""
 " call this concurrency and Sonic Pi provides us with an amazingly simple way o"
 "f playing things at the same time. Simply use more than one `live_loop`!"
 msgstr ""
+"音楽は同時に発生する事象で溢れています。ギターとボーカルが同時に鳴っているところにベースが同時に鳴り、それらと同時にドラムが鳴るといったように...計算機"
+"の世界ではこれを*並行性*と呼び、Sonic "
+"Piも驚異的にシンプルな方法で同時に演奏することができます。単純に一つより多い`live_loop`を使えばよいのです。"
 
 #: A.02-live-coding.md:105
 #, no-wrap
@@ -9399,7 +9402,7 @@ msgstr ""
 msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a crazy bass sound."
-msgstr ""
+msgstr "ここでは、2つの`live_loop`を使っています。一つ目はせわしなくビートを刻み、もう一つはゆっくりとクレイジーなベース音を奏でています。"
 
 #: A.02-live-coding.md:124
 msgid ""
@@ -9408,6 +9411,8 @@ msgid ""
 "olyrhythmical structures and even play with phasing Steve Reich style. Check t"
 "his out:"
 msgstr ""
+"複数の`live_loop`を使った場合に興味深いのは、それぞれのループがそれぞれの時間を管理しているということです。これは、とても簡単にポリリズム的な構"
+"造を作ることを意味していて、スティーヴ・ライヒのような位相のずれを演奏することも簡単にできます。以下を見てください。"
 
 #: A.02-live-coding.md:129
 #, no-wrap
@@ -9441,7 +9446,7 @@ msgstr ""
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 msgid "Bringing it all together"
-msgstr ""
+msgstr "全てを一つにまとめる"
 
 #: A.02-live-coding.md:147
 msgid ""
@@ -9453,6 +9458,10 @@ msgid ""
 "as a starting point for a new performance, and most of all have fun! See you n"
 "ext time..."
 msgstr ""
+"これらの個々のチュートリアルで紹介したアイデアの全てから引き出された新しい楽曲の例で終わりにしたいと思います。以下のコードを読んで、何をしているか想像して"
+"みてください。次に、それをSonic Piの新しいBufferにコピーし、`Run`を叩いて実際にどんな音がするか聞いてみましょう。最後に、どれかの数値を"
+"変更したり、コードをコメントアウトしたりコメントインしたりしてみましょう。そして、このコードが新しいパフォーマンスの開始点として使えるか見てみましょう。こ"
+"れらはとても楽しいと思います！ではまた会いましょう。"
 
 #: A.02-live-coding.md:156
 #, no-wrap
