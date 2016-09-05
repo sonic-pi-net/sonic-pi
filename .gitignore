@@ -60,6 +60,7 @@ app/gui/html/js/cljs-main.js
 app/gui/qt/Makefile
 
 app/gui/qt/moc_*
+app/gui/qt/qrc__*
 
 
 # Detritus
