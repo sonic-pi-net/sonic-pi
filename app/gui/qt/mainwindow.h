@@ -129,6 +129,7 @@ private slots:
     bool saveAs();
     void about();
     void scope();
+    void toggleScope();
     void help();
     void onExitCleanup();
     void toggleRecording();
@@ -302,6 +303,7 @@ private:
 //    QCheckBox *show_left_scope;
 //    QCheckBox *show_right_scope;
     QCheckBox *show_scope_axes;
+    QCheckBox *show_scopes;
 
     QPushButton *check_updates_now;
     QPushButton *visit_sonic_pi_net;

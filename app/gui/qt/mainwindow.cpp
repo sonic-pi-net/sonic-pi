@@ -1148,7 +1148,10 @@ void MainWindow::initPrefsWindow() {
 
   QGridLayout* viz_tab_layout = new QGridLayout();
 
-  QGroupBox *scope_box = new QGroupBox(tr("Scope"));
+  QGroupBox *scope_box = new QGroupBox(tr("Show and Hide Scope"));
+  QGroupBox *scope_box_kinds = new QGroupBox(tr("Scope Kinds"));
+
+  QVBoxLayout *scope_box_kinds_layout = new QVBoxLayout;
   QVBoxLayout *scope_box_layout = new QVBoxLayout;
 
   scopeSignalMap = new QSignalMapper(this);
@@ -1158,19 +1161,27 @@ void MainWindow::initPrefsWindow() {
     QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) );
     cb->setChecked( scopeInterface->enableScope( name, settings.value("prefs/scope/show-"+name.toLower(), true).toBool() ) );
     scopeSignalMap->setMapping( cb, cb );
-    scope_box_layout->addWidget(cb);
+    scope_box_kinds_layout->addWidget(cb);
     connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
   }
   connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
+  show_scopes = new QCheckBox(tr("Show Scopes"));
+  show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
   show_scope_axes = new QCheckBox(tr("Show Axes"));
+  show_scope_axes->setToolTip(tr("Toggle the visibility of the axes for the audio oscilloscpes"));
   show_scope_axes->setChecked(true);
-  scope_box->setLayout(scope_box_layout);
+  scope_box_kinds->setLayout(scope_box_kinds_layout);
+  scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in three flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMono - shows a combined view of the left and right channels (using RMS)\nStereo - shows two independent scopes for left and right channels"));
+  scope_box_layout->addWidget(show_scopes);
   scope_box_layout->addWidget(show_scope_axes);
+  scope_box->setLayout(scope_box_layout);
   viz_tab_layout->addWidget(scope_box, 0, 0);
+  viz_tab_layout->addWidget(scope_box_kinds, 1, 0);
 #if defined(Q_OS_MAC)
-  viz_tab_layout->addWidget(transparency_box, 0, 1);
+  viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
 #endif
   connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+  connect(show_scopes, SIGNAL(clicked()), this, SLOT(scope()));
   viz_box->setLayout(viz_tab_layout);
   prefTabs->addTab(viz_box, tr("Visuals"));
 
@@ -1235,6 +1246,7 @@ void MainWindow::initPrefsWindow() {
   //show_left_scope->setChecked( scopeInterface->enableScope( "Left", settings.value("prefs/scope/show-left", true).toBool() ) );
   //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
   show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", true).toBool() ) );
+  show_scopes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-scopes", true).toBool() ) );
 
   // Ensure prefs are honoured on boot
   update_mixer_invert_stereo();
@@ -1759,13 +1771,23 @@ void MainWindow::stopCode()
   statusBar()->showMessage(tr("Stopping..."), 2000);
 }
 
+void MainWindow::toggleScope()
+{
+  if(show_scopes->isChecked()) {
+
+    show_scopes->setChecked(false);
+  } else {
+    show_scopes->setChecked(true);
+  }
+  scope();
+}
+
 void MainWindow::scope()
 {
-  if(scopeWidget->isVisible())
-  {
-    scopeWidget->hide();
-  } else {
+  if(show_scopes->isChecked()) {
     scopeWidget->show();
+  } else {
+    scopeWidget->hide();
   }
 }
 
@@ -2507,7 +2529,7 @@ void MainWindow::createToolBar()
 
   // Scope
   QAction *scopeAct = new QAction(QIcon(":/images/scope.png"), tr("Scope"), this);
-  setupAction(scopeAct, 0, tr("Toggle the visibilty of the audio oscilloscope. "), SLOT(scope()));
+  setupAction(scopeAct, 0, tr("Toggle the visibilty of the audio oscilloscopes. "), SLOT(toggleScope()));
 
     // Info
   QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
@@ -2736,6 +2758,7 @@ void MainWindow::writeSettings()
   //settings.setValue("prefs/scope/show-left", show_left_scope->isChecked() );
   //settings.setValue("prefs/scope/show-right", show_right_scope->isChecked() );
   settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
+  settings.setValue("prefs/scope/show-scopes", show_scopes->isChecked() );
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
