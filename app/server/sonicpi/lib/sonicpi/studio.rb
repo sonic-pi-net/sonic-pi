@@ -77,7 +77,6 @@ module SonicPi
       end
 
 
-
       @recorders = {}
       @recording_mutex = Mutex.new
       @server = server
@@ -260,8 +259,16 @@ module SonicPi
       @recording_mutex.synchronize do
         return false unless @recorders[bus]
         bs, s = @recorders[bus]
-        bs.free
+        p = Promise.new
+        s.on_destroyed do
+          p.deliver! :completed
+        end
         s.kill
+
+        # Ensure we wait for the recording synth to have completed
+        # before continuing
+        p.get(5)
+        bs.free
         @recorders.delete bus
         true
       end
