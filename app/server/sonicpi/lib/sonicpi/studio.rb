@@ -149,7 +149,7 @@ module SonicPi
 
     def volume=(vol)
       check_for_server_rebooting!(:invert)
-      message "Setting main volume to #{vol}"
+      message "Setting master volume to #{vol}"
       @server.node_ctl @mixer, {"pre_amp" => vol}
     end
 
