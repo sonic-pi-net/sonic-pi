@@ -14,16 +14,20 @@ require_relative "buffer"
 
 module SonicPi
   class BufferStream < Buffer
-    attr_reader :buffer, :path, :size, :n_chans, :extension, :sample_format, :n_frames, :start_frame, :leave_open
-    def initialize(server, buffer, path, size, n_chans, extension, sample_format, n_frames, start_frame, leave_open)
+    attr_reader :buffer, :path, :size, :extension, :sample_format, :start_frame, :leave_open
+    def initialize(server, buffer, path, size, num_chans, extension, sample_format, num_frames, start_frame, leave_open)
+
+      @num_frames = num_frames
+      @num_chans = num_chans
+
       @server = server
       @buffer = buffer
       @path = path
       @size = size
-      @n_chans = n_chans
+
       @extension = extension
       @sample_format = sample_format
-      @n_frames = n_frames
+
       @start_frame = start_frame
       @leave_open = leave_open
       @state = :live
@@ -47,8 +51,17 @@ module SonicPi
       @buffer.id
     end
 
+    def duration
+      raise "Open BufferStream - duration is unknown" if @leave_open
+      @buffer.duration
+    end
+
+    def sample_rate
+      @buffer.sample_rate
+    end
+
     def to_s
-      "#<BufferStream @buffer=#{@buffer.id}, @path=#{@path}, @size=#{@size}, @extension=#{@extension}, @sample_format=#{@sample_format}, @n_chans=#{@n_chans}>"
+      "#<BufferStream @buffer=#{@buffer.id}, @path=#{@path}, @size=#{@size}, @extension=#{@extension}, @sample_format=#{@sample_format}, @num_chans=#{@num_chans}>"
     end
   end
 end
