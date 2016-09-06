@@ -62,7 +62,8 @@ module SonicPi
       end
 
       # load rand stream directly - ensuring it doesn't get considered as a 'sample'
-      rand_buf_id = server.buffer_alloc_read(buffers_path + "/rand-stream.wav").to_i
+      rand_buf = server.buffer_alloc_read(buffers_path + "/rand-stream.wav")
+
       old_samples = @samples
       @samples = {}
 
@@ -80,7 +81,8 @@ module SonicPi
       @recorders = {}
       @recording_mutex = Mutex.new
       @server = server
-      @rand_buf_id = rand_buf_id
+      rand_buf.wait_for_allocation
+      @rand_buf_id = rand_buf.to_i
     end
 
     def error_occurred?

@@ -51,6 +51,10 @@ module SonicPi
       end
     end
 
+    def wait_for_allocation
+      wait_for_prom
+    end
+
 
     private
 

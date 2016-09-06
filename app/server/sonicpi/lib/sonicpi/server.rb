@@ -145,7 +145,7 @@ module SonicPi
 
     def load_synthdefs(path)
       info "Loading synthdefs from path: #{path}" if @debug_mode
-      with_server_sync do
+      with_done_sync [@osc_path_d_loaddir] do
         osc @osc_path_d_loaddir, path.to_s
       end
     end
@@ -323,7 +323,7 @@ module SonicPi
     def buffer_alloc_read(path, start=0, n_frames=0)
       buffer_id = @BUFFER_ALLOCATOR.allocate
       buffer_info(buffer_id) do
-        with_done_sync do
+        with_done_sync [@osc_path_b_allocread, buffer_id] do
           osc @osc_path_b_allocread, buffer_id, path, start, n_frames
         end
       end
@@ -332,7 +332,7 @@ module SonicPi
     def buffer_alloc(size, n_chans=2)
       buffer_id = @BUFFER_ALLOCATOR.allocate
       buffer_info(buffer_id) do
-        with_done_sync do
+        with_done_sync [@osc_path_b_alloc, buffer_id] do
           osc @osc_path_b_alloc, buffer_id, size, n_chans
         end
       end
@@ -345,8 +345,9 @@ module SonicPi
 
     def buffer_stream_open(path, size=65536, n_chans=2, extension="wav", sample_format="int16", n_frames=-1, start_frame=0, leave_open=1)
       buf = buffer_alloc(size, n_chans)
+      buf.wait_for_allocation
       path = File.expand_path(path)
-      with_done_sync do
+      with_done_sync [@osc_path_b_write, buf.to_i] do
         osc @osc_path_b_write, buf.to_i, path, extension, sample_format, n_frames, start_frame, leave_open
       end
 
@@ -354,8 +355,9 @@ module SonicPi
     end
 
     def buffer_stream_close(buf_stream)
-      with_done_sync do
-        osc @osc_path_b_close, buf_stream.to_i
+      id = buf_stream.to_i
+      with_done_sync [@osc_path_b_close, id] do
+        osc @osc_path_b_close, id
       end
       buffer_free buf_stream
     end
@@ -381,18 +383,31 @@ module SonicPi
       LazyBuffer.new(self, id, prom)
     end
 
+    def with_done_sync(matchers, &block)
+      prom = Promise.new
+      @osc_events.add_handler(@osc_path_done, @osc_events.gensym("/sonicpi/server")) do |pl|
+        matched = true
 
-    def with_done_sync(&block)
-      with_server_sync do
-        prom = Promise.new
-        @osc_events.add_handler(@osc_path_done, @osc_events.gensym("/sonicpi/server")) do |pl|
+        begin
+          pla = pl.to_a
+          matchers.each_with_index do |m, idx|
+            if m != pla[idx]
+              matched = false
+              break
+            end
+          end
+        rescue Exception => e
+          matched = false
+          info "with_done_sync exception:\n#{e.message}\n#{e.backtrace.inspect}\n\n"
+        end
+        if matched
           prom.deliver! true
           :remove_handler
         end
-        res = block.yield
-        prom.get
-        res
       end
+      res = block.yield
+      prom.get
+      res
     end
 
     def with_server_sync(&block)
