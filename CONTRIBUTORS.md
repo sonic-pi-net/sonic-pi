@@ -118,7 +118,7 @@ Several volunteers have translated Sonic Pi to their language:
 * [Roman Milovskiy](https://github.com/dcromster) (ru)
 * [Noon van der Silk](https://github.com/SiIky) (pt)
 * [Rodrigo Iglesias](https://github.com/Areidz) (es)
-* [Brujo Rojas](https://github.com/brujo696) (es)
+* [Brujo Rojas](https://github.com/brujo-rojas) (es)
 * [Paulo Esteban](https://github.com/pauloesteban) (es)
 * [Jose Añasco](https://github.com/merongivian) (es)
 * [Ricardo Pozo](https://github.com/thraex41) (es)
