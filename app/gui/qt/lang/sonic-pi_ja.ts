@@ -207,17 +207,17 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>マスターボリューム</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="988"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>システムボリュームを変更するにはこのスライダーを使用してください。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="990"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ出力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
@@ -283,7 +283,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>有効にすると、Sonic Piはload_synthdefs
 の呼び出しによるシンセ・エフェクトのロードを
 許可します。
@@ -533,32 +533,32 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1168"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>スコープの表示と非表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1169"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>スコープの種類</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>スコープを表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1186"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ・オシロスコープの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1187"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>軸を表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1188"/>
         <source>Toggle the visibility of the axes for the audio oscilloscpes</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ・オシロスコープの軸の表示を切り替えます</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1191"/>
@@ -568,12 +568,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ・オシロスコープは、個別にもしくは全て一緒に表示するか
+三通りのオプションがあります。
+
+Lissajous - 左右のチャネルの位相の関係を描画します
+Mono - 左右のチャネルを混ぜあわせたスコープを表示します
+Stereo - 左右のチャネルを二つのスコープで表示します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>ビジュアル</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1656"/>
@@ -679,17 +684,17 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2549"/>
         <source>Toggle the visibilty of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ・オシロスコープの表示を切り替えます。 </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2559"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>ヘルプ・ペインの表示を切り替えます</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>環境設定ペインの表示を切り替えます</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
@@ -933,7 +938,7 @@ Sonic Pi %1 を入手</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Sonic Piが既に実行されていませんか？ UDPポート4558を開くことができませんでした。</translation>
     </message>
 </context>
