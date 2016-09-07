@@ -2820,6 +2820,8 @@ The sampler synth has three separate envelopes - one for amplitude, one for a lo
 
 Samples are loaded on-the-fly when first requested (and subsequently remembered). If the sample loading process takes longer than the schedule ahead time, the sample trigger will be skipped rather than be played late and out of time. To avoid this you may preload any samples you wish to work with using `load_sample` or `load_samples`.
 
+It is possible to set the `start:` and `finish:` positions within the sample to play only a sub-section of it. These values can be automatically chosen based on an onset detection algorithm which will essentially isolate each individual drum or synth hit in the sample and let you access each one by an integer index. See the `onset:` docstring and examples for more information.
+
 Finally, the sampler supports a powerful filtering system to make it easier to work with large folders of samples. The filter commands must be used before the first standard opt. There are six kinds of filter parameters you may use:
 
 1. Folder strings - `\"/foo/bar\"` - which will add all samples within the folder to the set of candidates.
@@ -2834,7 +2836,8 @@ By combining commands which add to the candidates and then filtering those candi
 ",
 
           args:          [[:name_or_path, :symbol_or_string]],
-          opts:          {:rate          => "Rate with which to play back the sample. Higher rates mean an increase in pitch and a decrease in duration. Default is 1.",
+          opts:          {:onset         => "Analyse the sample with an onset detection algorithm and set the `start:` and `finish:` opts to play the nth onset only. Allows you to treat a rhythm sample as a palette of individual drum/synth hits",
+                          :rate          => "Rate with which to play back the sample. Higher rates mean an increase in pitch and a decrease in duration. Default is 1.",
                           :beat_stretch  => "Stretch (or shrink) the sample to last for exactly the specified number of beats. Please note - this does *not* keep the pitch constant and is essentially the same as modifying the rate directly.",
                           :pitch_stretch => "Stretch (or shrink) the sample to last for exactly the specified number of beats. This attempts to keep the pitch constant using the `pitch:` opt. Note, it's very likely you'll need to experiment with the `window_size:`, `pitch_dis:` and `time_dis:` opts depending on the sample and the amount you'd like to stretch/shrink from original size.",
                           :attack        => "Time to reach full volume. Default is 0.",
@@ -3099,7 +3102,101 @@ end                                                     # of paths to samples an
 8.times do
   sample \"drum_\", filter                              # Play 8 randomly selected samples from the built-in sample set that also
   sleep 0.25                                            # contain the substring \"drum_\"
-end"
+end",
+        "
+# Basic Onset Detection
+
+sample :loop_tabla, start: 0, finish: 0.00763           # If you know the right start: and finish: values, you can extract a
+                                                        # single drum hit from a longer sample. However, finding these values
+                                                        # can be very time consuming.
+sleep 1
+                                                        # Instead of specifying the start: and finish: values manually you can
+                                                        # use the onset: option to find them for you using an integer index.
+sample :loop_tabla, onset: 0                            # onset: 0 will set the start: and finish: values so that the first
+                                                        # percussive sound (something that shifts from quiet to loud quickly)
+                                                        # is picked out.
+sleep 1
+
+sample :loop_tabla, onset: 1                            # We can easily find the second percussive sound in the sample with
+                                                        # onset: 1",
+
+        "
+
+# Ticking through onsets
+
+                                                        # The onsets are actually a ring so the index will wrap around. This
+                                                        # means that if there are only 8 onsets in a sample, specifying an
+                                                        # onset of 100 wil still return one of the 8 onsets. This means we
+                                                        # can use tick to work through each onset in sequence. This allows us
+                                                        # to redifine the rhythm and tempo of a sample
+
+
+live_loop :tabla do
+  use_bpm 50                                            # We can choose our own BPM here - it doesn't need to match the sample
+  sample :loop_tabla, onset: tick                       # tick through each onset in sequence
+  sleep [0.125, 0.25].choose                            # randomly choose a delay between onset triggers
+end
+",
+        "
+# Random Onset Triggering
+                                                        # We can easily pick a random onset using the pick fn
+use_bpm 50
+live_loop :tabla do
+  sample :loop_tabla, onset: pick                       # Each time round the live loop we now trigger a random onset
+  sleep [0.125, 0.25].choose                            # creating an infinite stream of randomly selected drums
+end
+
+
+        ",
+        "
+# Repeatable Random Onsets
+                                                        # Instead of an infinite stream of choices, we can combine iteration
+                                                        # and use_random_seed to create repeatable riffs:
+live_loop :tabla do
+  use_random_seed 30000                                 # every 8 times, reset the random seed, this resets the riff
+  8.times do
+    sample :loop_tabla, onset: pick
+    sleep [0.125, 0.25].choose
+  end
+end
+
+",
+        "
+#  Random Onset Duration
+                                                            # Each onset has a variable length (determined by the sample contents).
+                                                            # Therefore, if you wish to ensure each onset has a specific length it
+                                                            # is necessary to use the sample's amplitude envelope.
+                                                            # As the sample's envelope automatically changes the sustain: value to
+                                                            # match the duration - you also need to override this with a value of 0.
+live_loop :tabla do
+  sample :loop_tabla, onset: pick, sustain: 0, release: 0.1 # Each drum onset will now be no longer than 0.1. Note that the envelope
+                                                            # for a sample only determines the maximum duration of a sample trigger.
+                                                            # If the actual audible duration of the onset is smaller than 0.1 then
+                                                            # it will *not* be extended.
+  sleep [0.125, 0.25].choose
+end
+
+",
+        "
+# Onset lambdas
+
+                                                        # The onset index can a lambda as well as an integer. If a lambda is
+                                                        # given, it will be passed a ring of all of the onsets as an argument.
+                                                        # This will be a ring of maps:
+
+l = lambda {|c| puts c ; c[0]}                          # define a lambda which accepts a single argument, prints it and
+                                                        # returns the first value. This particular example  is essentially
+                                                        # the same as using  onset: 0 with the side effect of also printing out
+                                                        # the full ring of onsets:
+
+sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :finish=>0.0076}, {:start=>0.0076, :finish 0.015}...)
+
+                                                        # We are therefore free to define this lambda to do anything we want.
+                                                        # This gives us very powerful control over the choice of onset. It is
+                                                        # unlikely you will use this frequently, but it is a powerful tool
+                                                        # that's there when you need it.
+
+"
 ]
 
 
