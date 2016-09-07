@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-07 10:45+0000\n"
+"PO-Revision-Date: 2016-09-07 13:59+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -11397,6 +11397,13 @@ msgid ""
 "t will be `:e2`, followed by `:e3`, and then back to `:e1`, cycling round fore"
 "ver."
 msgstr ""
+"In regel drie creëren we onze riff, een ring van noten (E in de octaven 1, 2 "
+"en 3) die we simpelweg met `.tick` gaan \"tikken\". We definiëren `n` om de "
+"huidige noot in de riff te vertegenwoordigen. Het gelijkheidsteken betekent "
+"dat de waarde rechts, aan de naam links wordt verwezen. Deze zal in elke "
+"loop cyclus anders zijn. In de eerste loop zal `n` naar `:e1` gezet worden. "
+"In de tweede loop cyclus zal dit `:e3`zijn gevolgd door `:e3`, en dan terug "
+"naar `:e1`, om zo voor altijd zijn cyclus te herhalen."
 
 #: A.05-acid-bass.md:70
 msgid ""
@@ -11404,18 +11411,25 @@ msgid ""
 " interesting opts here: `release:`, `cutoff:`, `res:` and `wave:` which we'll "
 "discuss below."
 msgstr ""
+"Regel vier is waar we onze `:tb303` synth activeren. En we passeren aan deze "
+"een aantal interessante opts:  `release:`, `cutoff:`, `res:` and `wave:` "
+"dewelke we hieronder gaan bespreken."
 
 #: A.05-acid-bass.md:74
 msgid ""
 "Line five is our `sleep` - we're asking the live loop to loop round every `0.1"
 "25`s or 8 times a second at the default BPM of 60."
 msgstr ""
+"Regel vijf is onze ´sleep´' - we vragen de live loop elke ' 0,125` of 8 keer "
+"per seconde op de standaard BPM van 60 te gaan loop-en."
 
 #: A.05-acid-bass.md:77
 msgid ""
 "Line six is the `end` to the live loop. This just tells Sonic Pi where the end"
 " of the live loop is."
 msgstr ""
+"Regel 6 is het einde van de live loop. Deze vertelt aan Sonic Pi waar het "
+"einde van de live loop is."
 
 #: A.05-acid-bass.md:80
 msgid ""
@@ -11423,6 +11437,9 @@ msgid ""
 "it the Run button. You should hear the `:tb303` kick into action. Now, this is"
 " where the action is: let's start live coding."
 msgstr ""
+"Terwijl je nog steeds uitzoekt wat er gaande is, typt u de bovenstaande code "
+"in en druk op de knop afspelen. Je zou nu de `:tb303` in actie moeten horen "
+"schieten. Nu, hier begint de pret: laten we beginnen live-coderen."
 
 #: A.05-acid-bass.md:84
 msgid ""
@@ -11433,6 +11450,12 @@ msgid ""
 "ou feel like a rest. Then repeat as many times as you want. Don't worry, I'll "
 "still be here..."
 msgstr ""
+"Terwijl de loop afspeelt, verander je de `cutoff:` opt naar `110`. Klik nu "
+"opnieuw op de Afspeel knop. Je zou het geluid nu harder en rauwer moeten "
+"horen afspelen. Verander deze nu op `120` en klik op Afspelen. Nu `130`en "
+"hoor het geluid intenser en meer snijdend worden. Ga tenslotte terug naar "
+"`80` wanneer het jou  ter druk wordt. Herhaal dit zoveel je wil. Geen nood, "
+"ik zal hier nog wel zijn :) ..."
 
 #: A.05-acid-bass.md:91
 msgid ""
@@ -11444,6 +11467,14 @@ msgid ""
 " some insane sounds. At a `res` this high, you're hearing the cutoff filter re"
 "sonate so much it starts to make sounds of its own!"
 msgstr ""
+"Een andere opt die de moeite waard is, is `res`. Deze bedient het niveau van "
+"de resonantie van de filter. Een hoge resonantie is een typisch kenmerk van "
+"de Acid Bass geluiden. Ons huidig niveau is `0.8`. Draai deze omhoog naar "
+"`0.85`, dan `0.9` en tenslotte naar `0.95`. Je zult hierdoor merken dat met "
+"een cutoff van `110`, de verschillen makkelijker hoorbaar zullen zijn. Doe "
+"tenslotte maar eens goed gek, door ´0999´ te gebruiken, voor een krankzinnig "
+"geluid. Aan zo een hoge `res` zal de cutoff filter zo hard resoneren dat "
+"deze zelf gaat oscilleren, en zo zelf een geluidsbron wordt!"
 
 #: A.05-acid-bass.md:100
 msgid ""
@@ -11451,26 +11482,36 @@ msgid ""
 "his is the choice of source oscillator. The default is `0` which is a sawtooth"
 " wave. `1` is a pulse wave and `2` is a triangle wave."
 msgstr ""
+"Tenslotte veranderen we de golfvorm met de ´wave:´ opt naar `1`. Dit is de "
+"keuzeschakelaar van de oscillator. Standaard is deze `0`, deze is de "
+"zaagtand geluidsgolf (sawtooth wave).`1`is de pulsgolf (pulse wave) en `2`is "
+"de triangelgolf (triangle wave)."
 
 #: A.05-acid-bass.md:104
 msgid ""
 "Of course, try different riffs by changing the notes in the ring or even picki"
 "ng notes from scales or chords. Have fun with your first acid bass synth."
 msgstr ""
+"Je kan natuurlijk ook andere riffs gebruiken door de noten te veranderen in "
+"de ringen of zelfs noten te plukken uit toonladders en akkoorden. Veel "
+"plezier met je eerste Acid Bass synth."
 
 #: A.05-acid-bass.md:108
 msgid "Deconstructing the TB-303"
-msgstr ""
+msgstr "De TB-303 deconstrueren"
 
 #: A.05-acid-bass.md:110
 msgid ""
 "The design of the original TB-303 is actually pretty simple. As you can see fr"
 "om the following diagram there's only 4 core parts."
 msgstr ""
+"Het ontwerp van de oorspronkelijke TB-303 is eigenlijk vrij eenvoudig. Zoals "
+"je in het volgende diagram ziet, zijn er maar 4 belangrijke kerndelen."
 
 #: A.05-acid-bass.md:113
 msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 msgstr ""
+"![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -11486,6 +11527,18 @@ msgid ""
 "have amazing control over the timbre of the sound by playing with both of thes"
 "e envelopes. Let's take a look:"
 msgstr ""
+"Ten eerste is de wave oscillator - de grondstoffen van het geluid. In dit "
+"geval hebben we een blokgolf. Vervolgens is er de amplitude envelop van de "
+"oscillator, die de amplitude van de blokgolf door de tijd bedient. Deze zijn "
+"toegankelijk in Sonic Pi door de `attack:`, `decay:`, `sustain:` and "
+"`release:` opts  vergezeld door het niveau hiervan. Lees voor meer "
+"informatie de sectie 2.4 'Duurtijd met enveloppen' in de ingebouwde "
+"handleiding. Vervolgens sturen we deze blokgolf met zijn envelop door een "
+"resonant low-pass filter. Dit dit snijdt in de hogere frequenties en heeft "
+"dat mooi resonantie-effect. Hier begint de pret. De grenswaarde van deze "
+"filter wordt ook gecontroleerd door eigen envelop! Dit betekent dat we een "
+"geweldige controle hebben over de klankkleur van het geluid door te spelen "
+"met beide van deze enveloppen. Laten we dit eens bekijken:"
 
 #: A.05-acid-bass.md:128
 #, no-wrap
@@ -11499,6 +11552,14 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"with_fx :reverb, room: 1 do\n"
+"  live_loop :space_scanner do\n"
+"    play :e1, cutoff: 100, release: 7, attack: 1, cutoff_attack: 4, "
+"cutoff_release: 4\n"
+"    sleep 8\n"
+"  end\n"
+"end"
 
 #: A.05-acid-bass.md:138
 msgid ""
@@ -11508,12 +11569,20 @@ msgid ""
 "azy sound warble in and out. Now start to play. Try changing the `cutoff_attac"
 "k:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
+"Voor elke standaard envelop opt, is er een 'cutoff_' gelijkwaardige opt-in "
+"de ': tb303' synth. Dus, om het tijdsverloop van de attack van de cutoff "
+"kunnen we de ' cutoff_attack:' opt gebruiken . Kopieer de code hierboven in "
+"een lege buffer en druk op Afspelen. Je hoort een gek geluidje  in en uit "
+"kwelen. Begin hiermee te spelen te spelen. Probeer de ' cutoff_attack:' tijd "
+"naar te `1` te brengen en vervolgens naar `0.5`.  Probeer daarna `8`."
 
 #: A.05-acid-bass.md:144
 msgid ""
 "Notice that I've passed everything through a `:reverb` FX for extra atmosphere"
 " - try other FX to see what works!"
 msgstr ""
+"Merk ook op dat ik alles door een   `:reverb` FX heb gestuurd voor een extra "
+"sfeer, probeer zeker een ander FX uit en zie of dit werkt!"
 
 #: A.05-acid-bass.md:149
 msgid ""
@@ -11521,6 +11590,10 @@ msgid ""
 "nto an empty buffer, listen for a while and then start live coding your own ch"
 "anges. See what crazy sounds you can make with it! See you next time..."
 msgstr ""
+"Tenslotte nog een stuk dat ik gecomponeerd heb met de ideeën van deze "
+"tutorial. kopieer deze in een lege buffer, luister er even naar en   "
+"verander de parameters in een live coding. Kijk welke krankzinnige geluiden "
+"je ermee kan maken! Tot volgende keer..."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
@@ -11549,14 +11622,37 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"use_debug false\n"
+" \n"
+"with_fx :reverb, room: 0.8 do\n"
+"  live_loop :space_scanner do\n"
+"    with_fx :slicer, phase: 0.25, amp: 1.5 do\n"
+"      co = (line 70, 130, steps: 8).tick\n"
+"      play :e1, cutoff: co, release: 7, attack: 1, cutoff_attack: 4, "
+"cutoff_release: 4\n"
+"      sleep 8\n"
+"    end\n"
+"  end\n"
+" \n"
+"  live_loop :squelch do\n"
+"    use_random_seed 3000\n"
+"    16.times do\n"
+"      n = (ring :e1, :e2, :e3).tick\n"
+"      play n, release: 0.125, cutoff: rrand(70, 130), res: 0.9, wave: 1, amp:"
+" 0.8\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.06-minecraft.md:1
 msgid "A.6 Musical Minecraft"
-msgstr ""
+msgstr "A.6 Muzikale Minecraft"
 
 #: A.06-minecraft.md:3
 msgid "Musical Minecraft"
-msgstr ""
+msgstr "Muzikale Minecraft"
 
 #: A.06-minecraft.md:7
 msgid ""
@@ -11564,22 +11660,25 @@ msgid ""
 " music possibilities of Sonic Pi - (turning your Raspberry Pi into a performan"
 "ce ready musical instrument). So far we've learned how to:"
 msgstr ""
+"Hallo en welkom terug! In de vorige tutorials heb we gericht puur op de "
+"mogelijkheden rond muziek in Sonic Pi - ( Je  Raspberry Pi in een  "
+"muziekinstrument veranderen). Tot nu toe hebben we geleerd geleerd hoe te:"
 
 #: A.06-minecraft.md:11
 msgid "Live Code - changing the sounds on-the-fly,"
-msgstr ""
+msgstr "Live Code - ter plekke wijzigen van het geluid,"
 
 #: A.06-minecraft.md:12
 msgid "Code some huge beats,"
-msgstr ""
+msgstr "Geweldige Beats coderen,"
 
 #: A.06-minecraft.md:13
 msgid "Generate powerful synth leads,"
-msgstr ""
+msgstr "Krachtige synth leads, genereren"
 
 #: A.06-minecraft.md:14
 msgid "Re-create the famous TB-303 acid-bass sound."
-msgstr ""
+msgstr "De bekende TB-303 recreëren."
 
 #: A.06-minecraft.md:16
 msgid ""
@@ -11590,7 +11689,7 @@ msgstr ""
 
 #: A.06-minecraft.md:20
 msgid "Hello Minecraft World"
-msgstr ""
+msgstr "Hello Minecraft World"
 
 #: A.06-minecraft.md:22
 msgid ""
@@ -11606,7 +11705,7 @@ msgstr ""
 #: A.06-minecraft.md:28
 #, no-wrap
 msgid "mc_message \"Hello Minecraft from Sonic Pi!\""
-msgstr ""
+msgstr "mc_message \"Hello Minecraft from Sonic Pi!\""
 
 #: A.06-minecraft.md:32
 msgid ""
@@ -11620,6 +11719,8 @@ msgid ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 msgstr ""
+"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
@@ -11636,7 +11737,7 @@ msgstr ""
 #: A.06-minecraft.md:45
 #, no-wrap
 msgid "mc_teleport 80, 40, 100"
-msgstr ""
+msgstr "mc_teleport 80, 40, 100"
 
 #: A.06-minecraft.md:49
 msgid ""
@@ -11655,15 +11756,15 @@ msgstr ""
 
 #: A.06-minecraft.md:58
 msgid "x - how far left and right (80 in our example)"
-msgstr ""
+msgstr "x - hoe ver links en rechts (80 in ons voorbeeld)"
 
 #: A.06-minecraft.md:59
 msgid "y - how high we want to be (40 in our example)"
-msgstr ""
+msgstr "y - hoe hoog we willen zijn (40 in ons voorbeeld)"
 
 #: A.06-minecraft.md:60
 msgid "z - how far forward and back (100 in our example)"
-msgstr ""
+msgstr "z - hoe ver voorwaarts of achterwaarts (100 in ons voorbeeld)"
 
 #: A.06-minecraft.md:62
 msgid ""
@@ -11695,12 +11796,25 @@ msgid ""
 "mc_teleport 90, 20, 10\n"
 "mc_message \"Whoooosh!\""
 msgstr ""
+"mc_message \"Preparing to teleport....\"\n"
+"sample :ambi_lunar_land, rate: -1\n"
+"sleep 1\n"
+"mc_message \"3\"\n"
+"sleep 1\n"
+"mc_message \"2\"\n"
+"sleep 1\n"
+"mc_message \"1\"\n"
+"sleep 1\n"
+"mc_teleport 90, 20, 10\n"
+"mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
 msgid ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
 msgstr ""
+"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
@@ -11719,6 +11833,8 @@ msgid ""
 "x, y, z = mc_location\n"
 "mc_set_block :melon, x, y + 5, z"
 msgstr ""
+"x, y, z = mc_location\n"
+"mc_set_block :melon, x, y + 5, z"
 
 #: A.06-minecraft.md:99
 msgid ""
@@ -11755,7 +11871,7 @@ msgstr ""
 
 #: A.06-minecraft.md:120
 msgid "Live Coding Minecraft"
-msgstr ""
+msgstr "Minecraft Live Coderen"
 
 #: A.06-minecraft.md:122
 msgid ""
@@ -11815,6 +11931,8 @@ msgid ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
 msgstr ""
+"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 msgid ""
@@ -11880,7 +11998,7 @@ msgstr ""
 
 #: A.07-bizet.md:1
 msgid "A.7 Bizet Beats"
-msgstr ""
+msgstr "A.7 Bizet Beats"
 
 #: A.07-bizet.md:3
 msgid "Bizet Beats"
@@ -11924,7 +12042,7 @@ msgstr ""
 
 #: A.07-bizet.md:29
 msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
-msgstr ""
+msgstr "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -11956,7 +12074,7 @@ msgstr ""
 
 #: A.07-bizet.md:49
 msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr ""
+msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
@@ -12007,6 +12125,7 @@ msgstr ""
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 msgstr ""
+"![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
@@ -13419,11 +13538,11 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:1
 msgid "A.13 Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "A.13 Codeer een probabilistische Sequencer"
 
 #: A.13-probabilistic-sequencer.md:3
 msgid "Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "Codeer een probabilistische Sequencer"
 
 #: A.13-probabilistic-sequencer.md:5
 msgid ""
@@ -13535,23 +13654,25 @@ msgstr "one_in"
 
 #: A.13-probabilistic-sequencer.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :different_probabilities do\n"
 "  sample :drum_snare_hard if one_in(6)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :different_probabilities do\n"
+"  sample :drum_snare_hard if one_in(6)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:84
-#, fuzzy
 msgid ""
 "Start the live loop above and you'll hear the familiar random rhythm. However,"
 " don't stop the code running. Instead, change the `6` to a different value suc"
 "h as `2` or `20` and hit the `Run` button again. Notice that lower numbers mea"
 "n the snare drum sounds more frequently and higher numbers mean the snare trig"
 "gers fewer times. You're making music with probabilities!"
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
@@ -13565,7 +13686,6 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  sample :elec_hi_snare if one_in(6)\n"
@@ -13574,7 +13694,14 @@ msgid ""
 "  sample :bd_haus if one_in(4)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  sample :elec_hi_snare if one_in(6)\n"
+"  sample :drum_cymbal_closed if one_in(2)\n"
+"  sample :drum_cymbal_pedal if one_in(3)\n"
+"  sample :bd_haus if one_in(4)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:106
 msgid ""
@@ -13599,7 +13726,6 @@ msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 1000\n"
@@ -13611,7 +13737,17 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 1000\n"
+"  8.times do\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:133
 msgid ""
@@ -13631,7 +13767,6 @@ msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 2000\n"
@@ -13646,7 +13781,20 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "choose"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 2000\n"
+"  8.times do\n"
+"    c = rrand(70, 130)\n"
+"    n = (scale :e1, :minor_pentatonic).take(3).choose\n"
+"    synth :tb303, note: n, release: 0.1, cutoff: c if rand < 0.9\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus, amp: 1.5 if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.14-amplitude-modulation.md:1
 #, fuzzy
