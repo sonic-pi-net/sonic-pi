@@ -509,17 +509,16 @@ module SonicPi
         raise "pick requires n to be a number, got: #{n.inspect}" unless n.is_a? Numeric
 
         res = []
+
         if s
           raise "skip: opt needs to be a number, got: #{s.inspect}" unless s.is_a? Numeric
-          n.times do
-            SonicPi::Core::SPRand.inc_idx!(s)
-            res << self.choose
-          end
-        else
-          n.times do
-            res << self.choose
+          s.times do
+            self.choose
           end
         end
+
+        n.times { res << self.choose }
+
         res.ring
       end
 
@@ -700,16 +699,37 @@ class Array
     self[SonicPi::Core::SPRand.rand_i!(self.size)]
   end
 
-  def pick(n=nil)
+  def pick(n=nil, *opts)
+    # mangle args to extract nice behaviour
+    if !n.is_a?(Numeric) && opts.empty?
+      opts = n
+      n = nil
+    else
+      opts = opts[0]
+    end
+
+    if opts.is_a?(Hash)
+      s = opts[:skip]
+    else
+      s = nil
+    end
+
     n = @size unless n
     raise "pick requires n to be a number, got: #{n.inspect}" unless n.is_a? Numeric
 
     res = []
-    n.times do
-      res << self.choose
+    if s
+      raise "skip: opt needs to be a number, got: #{s.inspect}" unless s.is_a? Numeric
+      s.times do
+        self.choose
+      end
     end
+
+    n.times { res << self.choose }
+
     res
   end
+
 
   alias_method :__orig_sample__, :sample
   def sample(*args, &blk)

@@ -1033,7 +1033,29 @@ end"
 
 
 
-      def pick(items, n=nil, *args)
+      def pick(*args)
+        if is_list_like?(args[0])
+          items = args[0]
+          if args[1].is_a? Numeric
+            n = args[1]
+            args.shift(2)
+          else
+            n = 1
+            args.shift(1)
+          end
+        else
+          items = nil
+          if args[0].is_a? Numeric
+            n = args[0]
+            args.shift(1)
+          else
+            n = 1
+          end
+        end
+
+        unless items
+          return lambda {|col| col.pick(n, *args)}
+        end
         items.pick(n, *args)
       end
       doc name:           :pick,
@@ -1044,7 +1066,9 @@ end"
           accepts_block:  false,
           doc:            "Pick n elements from list or ring. Unlike shuffle, after each element has been picked, it is 'returned' to the list so it may be picked again. This means there may be duplicates in the result. If n is greater than the size of the ring/list then duplicates are guaranteed to be in the result.
 
-If `n` isn't supplied it defaults to the size of the list/ring.",
+If `n` isn't supplied it defaults to the size of the list/ring.
+
+If no arguments are given, will return a lambda function which when called takes an argument which will be a list to be picked from. This is useful for choosing random `onset:` vals for samples.",
          examples:       ["
 puts [1, 2, 3, 4, 5].pick(3) #=> [4, 4, 3]",
 "
