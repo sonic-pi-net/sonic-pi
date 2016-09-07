@@ -206,17 +206,17 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Master Volume</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="988"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik deze schuifregelaar om het systeemvolume te wijzigen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="990"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-uitgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
@@ -282,7 +282,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Indien ingeschakeld zal Sonic Pi toestaan om
 synths en effecten die geladen zijn via load_synthdefs 
 te triggeren.
@@ -294,7 +294,7 @@ dat niet wordt herkend.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1036"/>
         <source>Enforce timing guarantees</source>
-        <translation>Het &quot;In maat blijven&quot; afdwingen</translation>
+        <translation>Het "In maat blijven" afdwingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1037"/>
@@ -930,7 +930,7 @@ Krijg Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Is Sonic Pi al opgestart? Kan UDP-port 4558 niet openen.</translation>
     </message>
 </context>
