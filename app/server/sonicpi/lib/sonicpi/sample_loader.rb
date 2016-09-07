@@ -74,7 +74,7 @@ module SonicPi
           raise "Sample Pack Proc needs to accept 1 argument only. Found #{block.arity}" unless f.arity == 1
           found_proc = true
           candidates = f.call(candidates)
-          raise "Sample Pack Filter Proc needs to return an array or ring. Got #{candidates.class}: #{candidates.inspect}" unless candidates.is_a?(Array) || candidates.is_a?(SonicPi::Core::RingVector)
+          candidates = [candidates] unless is_list_like?(candidates)
         else
           raise "Unknown sample filter type: #{f.class} - got: #{f.inspect}"
         end
