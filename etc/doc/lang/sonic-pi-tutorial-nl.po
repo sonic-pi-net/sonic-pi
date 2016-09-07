@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-30 14:49+0000\n"
+"PO-Revision-Date: 2016-09-07 10:45+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/nl"
-"/>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"X-Generator: Weblate 2.8\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1871,16 +1871,15 @@ msgstr ""
 " gemaakt."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"Sonic Pi laat je allerlei prettige dingen doen door gebruik te maken van sampl"
-"es. En niet alleen omdat deze over de 90 samples aan boord heeft waar je mee a"
-"an de slag kan gaan, ook laat het je toe om jouw eigen samples te gebruiken en"
-" deze te manipuleren. We vertrekken…"
+"Sonic Pi laat je allerlei prettige dingen doen door gebruik te maken van "
+"samples. En niet alleen omdat deze over de 90 samples aan boord heeft waar "
+"je mee aan de slag kan gaan, ook laat het je toe om jouw eigen samples te "
+"gebruiken en deze te manipuleren. We vertrekken..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
@@ -11296,6 +11295,18 @@ msgid ""
 "rs who started using them in ways that Roland didn't imagine to create new cra"
 "zy sounds. Acid House was born."
 msgstr ""
+"Interessant om weten is ook dat Roland de TB-303 niet voor dancemuziek heeft "
+"ontwikkeld. Het werd oorspronkelijk gemaakt als ondersteuning voor "
+"gitaristen bij het oefenen. Ze stelden zich voor dat men bas-lijnen ging "
+"programmeren om dan samen met de gitaar te gaan jammen.  Helaas waren er een "
+"aantal problemen: ze waren een beetje onhandig om te programmeren, niet "
+"bijzonder goed als vervanging van een bas-gitaar geluid en vrij duur om te "
+"kopen. Het sloeg niet aan en om verlies te vermijden werd er beslist met de "
+"productie te stoppen na 10.000 exemplaren. Al snel vonden ze hun weg naar de "
+"etalage van de tweedehands winkels. De afgedankte TB-303's lagen nu te "
+"wachten om ontdekt  te worden door een nieuwe generatie die hen op een "
+"manier zou gaan gebruiken die Roland niet voor ogen had. Acid house was "
+"geboren."
 
 #: A.05-acid-bass.md:25
 msgid ""
@@ -11304,6 +11315,10 @@ msgid ""
 " Sonic Pi. Behold, fire up Sonic Pi and throw this code into an empty buffer a"
 "nd hit Run:"
 msgstr ""
+"Vermits het in handen krijgen van een originele TB-303 niet eenvoudig is, "
+"zal u blij zijn te horen dat je jouw Raspberry Pi makkelijk kan omtoveren "
+"tot een TB-303 met de kracht van Sonic Pi. Ziehier, start Sonic Pi,  gooi de "
+"code in een lege buffer, en druk op afspelen:"
 
 #: A.05-acid-bass.md:30
 #, no-wrap
@@ -11316,11 +11331,11 @@ msgstr ""
 
 #: A.05-acid-bass.md:35
 msgid "Instant acid bass! Let's play around..."
-msgstr ""
+msgstr "Acid Bass in een oogwenk! We gaan hier mee spelen..."
 
 #: A.05-acid-bass.md:37
 msgid "Squelch that Bass"
-msgstr ""
+msgstr "Smak die Bas"
 
 #: A.05-acid-bass.md:39
 msgid ""
@@ -11329,6 +11344,11 @@ msgid ""
 "fter another, repeating when we get to the end. Let's create a live loop that "
 "does exactly that:"
 msgstr ""
+"Laten we eerst een arpeggiator maken om de zaken leuk te houden. In de "
+"laatste tutorial hebben gezien hoe riffs gewoonweg een ring van noten kunnen "
+"zijn waar we, de ene na de andere doorheen \"tikken\", en zich gaan herhalen "
+"eens ze aan het einde van de cyclus zijn gekomen. Laten we een live loop "
+"maken die dat doet:"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
@@ -11340,22 +11360,32 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"live_loop :squelch do\n"
+"  n = (ring :e1, :e2, :e3).tick\n"
+"  play n, release: 0.125, cutoff: 100, res: 0.8, wave: 0\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.05-acid-bass.md:53
 msgid "Take a look at each line."
-msgstr ""
+msgstr "Laten we naar elke regel een kijkje nemen."
 
 #: A.05-acid-bass.md:55
 msgid ""
 "On the first line we set the default synth to be `tb303` with the `use_synth` "
 "fn."
 msgstr ""
+"Op de eerste regel zetten we de standaard synth als 'tb303' met de "
+"'use_synth' fn."
 
 #: A.05-acid-bass.md:58
 msgid ""
 "On line two we create a live loop called `:squelch` which will just loop round"
 " and round."
 msgstr ""
+"Op regel twee creëren we een live loop genaamd ': squelch' die in een lus "
+"loopt."
 
 #: A.05-acid-bass.md:61
 msgid ""
@@ -13396,22 +13426,19 @@ msgid "Code a Probabilistic Sequencer"
 msgstr ""
 
 #: A.13-probabilistic-sequencer.md:5
-#, fuzzy
 msgid ""
 "In a previous episode of this Sonic Pi series we explored the power of randomi"
 "sation to introduce variety, surprise and change into our live coded tracks an"
 "d performances. For example, we randomly picked notes from a scale to create n"
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:12
-#, fuzzy
 msgid "Probability"
-msgstr "Portabiliteit"
+msgstr "Waarschijnlijkheid"
 
 #: A.13-probabilistic-sequencer.md:14
-#, fuzzy
 msgid ""
 "Before we can start making new beats and synth rhythms we need to take a quick"
 " dive into the basics of probability. This might sound daunting and complicate"
@@ -13422,29 +13449,32 @@ msgid ""
 "rage (if you roll lots and lots of times) you'll throw a 1 every 6 throws. Thi"
 "s means you have a 1 in 6 chance of throwing a 1. We can emulate dice rolls in"
 " Sonic Pi with the fn `dice`. Let's roll one 8 times:"
-msgstr "dice (teerling)"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "8.times do\n"
 "  puts dice\n"
 "  sleep 1\n"
 "end"
-msgstr "dice (teerling)"
+msgstr ""
+"8.times do\n"
+"  puts dice\n"
+"  sleep 1\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:32
-#, fuzzy
 msgid ""
 "Notice how the log prints values between 1 and 6 just as if we'd rolled a real"
 " dice ourselves."
-msgstr "dice (teerling)"
+msgstr ""
+"Kijk hoe in het logboek waarden tussen 1 en 6 wordt afgedrukt, alsof we een "
+"echte dobbelsteen geworpen zouden hebben."
 
 #: A.13-probabilistic-sequencer.md:35
-#, fuzzy
 msgid "Random Beats"
-msgstr "Random \"seeds\""
+msgstr "Random Beats"
 
 #: A.13-probabilistic-sequencer.md:37
 #, fuzzy
@@ -13457,16 +13487,18 @@ msgstr "Laten we eens horen hoe dat klinkt:"
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :random_beat do\n"
 "  sample :drum_snare_hard if dice == 1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "rand"
+msgstr ""
+"live_loop :random_beat do\n"
+"  sample :drum_snare_hard if dice == 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:50
-#, fuzzy
 msgid ""
 "Let's quickly go over each line to make sure everything is very clear. First w"
 "e create a new `live_loop` called `:random_beat` which will continually repeat"
@@ -13481,7 +13513,7 @@ msgid ""
 "f it isn't `1` then the statement resolves to `false` and the snare is skipped"
 ". The second line simply waits for `0.125` seconds before rolling the dice aga"
 "in."
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
