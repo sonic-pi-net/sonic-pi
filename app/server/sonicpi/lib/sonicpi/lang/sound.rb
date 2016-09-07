@@ -4236,9 +4236,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           if slice_idx.is_a? Numeric
             slice_idx = slice_idx.to_i
             slice = slices[slice_idx]
-          elsif slice_idx == :rand
-            slice_idx = rand_i(num_slices)
-            slice = slices[slice_idx]
           elsif slice_idx.is_a? Proc
             slice = slice_idx.call(slices)
             raise "Result of slice: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{slice.inspect}" unless slice.respond_to?(:has_key?) && slice[:start].is_a?(Numeric) && slice[:finish].is_a?(Numeric)
@@ -4264,6 +4261,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             args_h.merge!(onsets.choose)
           elsif onset_idx.is_a? Proc
             res = onset_idx.call(onsets)
+            res = res[0] if is_list_like?(res)
             raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{res.inspect}" unless res.respond_to?(:has_key?) && res[:start].is_a?(Numeric) && res[:finish].is_a?(Numeric)
             args_h[:start] = res[:start]
             args_h[:finish] = res[:finish]
