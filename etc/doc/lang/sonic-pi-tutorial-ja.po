@@ -4,10 +4,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-05 09:59+0000\n"
+"PO-Revision-Date: 2016-09-07 09:54+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/tutorial"
-"/ja/>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9459,6 +9459,7 @@ msgid "Coded Beats"
 msgstr ""
 
 #: A.03-coded-beats.md:5
+#, fuzzy
 msgid ""
 "One of the most exciting and disrupting technical developments in modern music"
 " was the invention of samplers. These were boxes that allowed you to record an"
@@ -9471,6 +9472,11 @@ msgid ""
 "of easily introducing new and interesting elements into your live coded perfor"
 "mances."
 msgstr ""
+"現代の音楽における技術的な発展で最も刺激的かつ飛躍的なものの一つは、サンプラーの発明だったと言えます。サンプラーは、任意の音を記録し、操作し、さまざまな方"
+"法でこれらのサウンドを再生することができる箱です。たとえば、もしあなたが古いレコードを持っていたとして、そこからドラムソロ（もしくはブレイク）を探しだし、"
+"サンプラーに記録して半分の速度で再生すれば、あなたの作品のビートの下地として利用可能です。これはどのように初期のヒップホップが生まれたかを示すものですが、"
+"今日において、電子音楽でこのようなサンプルを含まないものを探すことは、ほぼ不可能でしょう。サンプルを使用することは、あなたのライブコーディングのパフォーマ"
+"ンスに、新しく面白い要素を簡単に追加する本当に素晴らしい方法です。"
 
 #: A.03-coded-beats.md:17
 msgid ""
