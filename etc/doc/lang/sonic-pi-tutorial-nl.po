@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-07 13:59+0000\n"
+"PO-Revision-Date: 2016-09-08 09:58+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -11686,6 +11686,9 @@ msgid ""
 "owever, this month, let's look at something Sonic Pi can do that you probably "
 "didn't realise: control Minecraft."
 msgstr ""
+"Er is zoveel meer om te laten zien (die we in toekomstige versies zullen "
+"onderzoeken). Echter, deze maand, gaan we eens kijken wat je met Sonic Pi "
+"kunt doen en je waarschijnlijk niet weet: controle hebben  over Minecraft."
 
 #: A.06-minecraft.md:20
 msgid "Hello Minecraft World"
@@ -11697,10 +11700,13 @@ msgid ""
 "ate a new world. Now start up Sonic Pi and re-size and move your windows so yo"
 "u can see both Sonic Pi and Minecraft Pi at the same time."
 msgstr ""
+"We gaan aan de slag. Start je  Raspberry Pi, alsook Minecraft Pi en creëer "
+"een nieuwe wereld. Start Sonic Pi nu op en schik de vensters van deze "
+"programma's, zodat je zowel Sonic Pi als Minecraft Pi gelijkertijd kan zien."
 
 #: A.06-minecraft.md:26
 msgid "In a fresh buffer type the following:"
-msgstr ""
+msgstr "In een nieuwe buffer typ je dan het volgende:"
 
 #: A.06-minecraft.md:28
 #, no-wrap
@@ -11713,6 +11719,9 @@ msgid ""
 ", stop reading this for a moment and play about with your own messages. Have f"
 "un!"
 msgstr ""
+"Klik nu op afspelen. En Bam! Jouw bericht verschijnt nu in Minecraft! Was "
+"dat niet makkelijk? Speel hier nu mee met je eigen berichten. Veel plezier "
+"ermee!"
 
 #: A.06-minecraft.md:36
 msgid ""
@@ -11724,7 +11733,7 @@ msgstr ""
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
-msgstr ""
+msgstr "Sonic Teleporter"
 
 #: A.06-minecraft.md:40
 msgid ""
@@ -11733,6 +11742,10 @@ msgid ""
 "g. It would be far better if we had some sort of teleport machine. Well, thank"
 "s to Sonic Pi, we have one. Try this:"
 msgstr ""
+"Nu gaan we op verkenning. De standaard optie is werken met de muis en het "
+"klavier en beginnen rondlopen. Dat werkt wel, maar het is behoorlijk traag "
+"en saai. Het zou veel beter zijn moesten we een soort teleportatie machine "
+"hebben. Wel, dankzij Sonic Pi, hebben we  dat ook. Probeer deze:"
 
 #: A.06-minecraft.md:45
 #, no-wrap
@@ -11746,6 +11759,10 @@ msgid ""
 "er flying-mode and teleport again, you'll stay hovering at the location you za"
 "p to."
 msgstr ""
+"Jeetje! Dat duurde even.  Als je niet in de vliegende-modus zou zijn, was je "
+"die afstand helemaal naar beneden gevallen. Als je space twee keer aanslaat "
+"om in vliegmodus te gaan en opnieuw te teleporteren, blijf je zweven op de "
+"plaats waar je naartoe zapte."
 
 #: A.06-minecraft.md:54
 msgid ""
@@ -11753,6 +11770,9 @@ msgid ""
 "dinates of where in the world we want to go. We give each number a name - x, y"
 " and z:"
 msgstr ""
+"Nu, wat betekenen deze cijfers ? We hebben drie getallen die de coördinaten "
+"beschrijven, waar in de wereld we willen naartoe gaan . We geven elk nummer "
+"een naam - x-, y- en z:"
 
 #: A.06-minecraft.md:58
 msgid "x - how far left and right (80 in our example)"
