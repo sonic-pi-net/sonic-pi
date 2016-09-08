@@ -13,6 +13,9 @@
 
 module SonicPi
   class SampleLoader
+
+    include SonicPi::Util
+
     def initialize(samples_paths)
       @cached_candidates = {}
       @cached_extracted_candidates = {}
