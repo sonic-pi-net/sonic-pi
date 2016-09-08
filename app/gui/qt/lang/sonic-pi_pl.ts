@@ -216,7 +216,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Gdy jest włączone, Sonic Pi pozwoli, 
 aby syntezatory i efekty, ładowane za pomocą 
 polecenia load_synthdefs, mogły 
@@ -230,7 +230,7 @@ potrafi rozpoznać.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1036"/>
         <source>Enforce timing guarantees</source>
-        <translation>Wymuszenie gwarancji wykonania &quot;o czasie&quot;</translation>
+        <translation>Wymuszenie gwarancji wykonania "o czasie"</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1037"/>
@@ -442,47 +442,47 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Głośność Master</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="988"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj suwaka aby zmienić poziom głośności w systemie.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="990"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjście Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1168"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż lub Schowaj Skalę</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1169"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rodzaje Skali</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokaż Skale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1186"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz widoczność oscyloskopów audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1187"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż Osie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1188"/>
         <source>Toggle the visibility of the axes for the audio oscilloscpes</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz widoczność osi dla oscyloskopów audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1191"/>
@@ -492,12 +492,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscyloskop audio posiada trzy rodzaje, które mogą
+być podglądane niezależnie lub wszystkie razem.
+
+Krzywa Lissajous - ilustruje zależność fazową pomiędzy lewym i prawym kanałem 
+Mono - pokazuje połączony widok lewego i prawego kanału (wykorzystując RMS)
+Stereo - pokazuje dwie niezależne skale dla lewego i prawego kanału</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Wizualizacje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1332"/>
@@ -700,7 +705,7 @@ znajduje się na dysku Twojego komputera</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2549"/>
         <source>Toggle the visibilty of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz widoczność oscyloskopów audio. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2552"/>
@@ -747,12 +752,12 @@ znajduje się na dysku Twojego komputera</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2559"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz widoczność panelu pomocy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz widoczność panelu preferencji</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2568"/>
@@ -932,7 +937,7 @@ Pobierz Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Czy Sonic Pi nie jest już uruchomiony? Nie można otworzyć portu UDP o numerze 4558.</translation>
     </message>
 </context>
