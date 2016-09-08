@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-07 09:54+0000\n"
+"PO-Revision-Date: 2016-09-08 09:53+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9472,10 +9472,10 @@ msgid ""
 "of easily introducing new and interesting elements into your live coded perfor"
 "mances."
 msgstr ""
-"現代の音楽における技術的な発展で最も刺激的かつ飛躍的なものの一つは、サンプラーの発明だったと言えます。サンプラーは、任意の音を記録し、操作し、さまざまな方"
-"法でこれらのサウンドを再生することができる箱です。たとえば、もしあなたが古いレコードを持っていたとして、そこからドラムソロ（もしくはブレイク）を探しだし、"
-"サンプラーに記録して半分の速度で再生すれば、あなたの作品のビートの下地として利用可能です。これはどのように初期のヒップホップが生まれたかを示すものですが、"
-"今日において、電子音楽でこのようなサンプルを含まないものを探すことは、ほぼ不可能でしょう。サンプルを使用することは、あなたのライブコーディングのパフォーマ"
+"現代の音楽における技術的な発展で最も刺激的かつ飛躍的なものの一つは、サンプラーの発明だったと言えます。サンプラーは、あらゆる音を記録し、操作し、そしてさま"
+"ざまな方法でこれらのサウンドを再生することができる箱です。たとえば、もしあなたが古いレコードを持っていたとして、そこからドラムソロ（もしくはブレイク）を探"
+"しだし、サンプラーに記録して半分の速度で再生すれば、あなたの作品のビートの下地として利用可能です。これはどのように初期のヒップホップが生まれたかを示すもの"
+"ですが、今日の電子音楽でこのようなサンプルを含まないものを探すことは、ほぼ不可能でしょう。サンプルを使用することは、あなたのライブコーディングのパフォーマ"
 "ンスに、新しく面白い要素を簡単に追加する本当に素晴らしい方法です。"
 
 #: A.03-coded-beats.md:17
@@ -9484,10 +9484,12 @@ msgid ""
 "y Pi! The built-in live coding app Sonic Pi has an extremely powerful sampler "
 "built into its core. Let's play with it!"
 msgstr ""
+"ではサンプラーはどこにあるのでしょう？サンプラーは既にRaspberry Piの中にあります！Raspberry Piに同梱されたSonic "
+"Piはとてもパワフルなサンプラーを内蔵しています。これで遊んでみましょう！"
 
 #: A.03-coded-beats.md:21
 msgid "The Amen Break"
-msgstr ""
+msgstr "アーメン・ブレイク"
 
 #: A.03-coded-beats.md:23
 msgid ""
@@ -9498,29 +9500,37 @@ msgid ""
 " used in a wide variety of other styles such as drum and bass, breakbeat, hard"
 "core techno and breakcore."
 msgstr ""
+"古典的でよく知られたドラムブレイクはアーメン・ブレイクと呼ばれるものです。アーメン・ブレイクは、Winstonsによって1969年に\"Amen "
+"Brother\"という曲で、ドラムブレイクの一部として演奏されました。しかし、それは初期のヒップホップミュージシャンによって80年代に発見されてサンプラ"
+"ーで使用された後、ドラムンベース、ブレイクビート、ハードコア・テクノ、ブレイクコアといった他の幅広いジャンルでも頻繁に使用されるようになりました。"
 
 #: A.03-coded-beats.md:30
 msgid ""
 "I'm sure you're excited to hear that it's also built right into Sonic Pi. Clea"
 "r up a buffer and throw in the following code:"
 msgstr ""
+"アーメン・ブレイクがSonic "
+"Piにも内蔵していると聞いて、あなたがワクワクしてくれると思っています。Bufferをきれいにして、次のコードを入力してみてください。"
 
 #: A.03-coded-beats.md:37
+#, fuzzy
 msgid ""
 "Hit *Run* and boom! You're listening to one of the most influential drum break"
 "s in the history of dance music. However, this sample wasn't famous for being "
 "played as a one-shot, it was built for being looped."
 msgstr ""
+"*Run*を叩いて、ブーンとやってみてください！ダンスミュージックの歴史で最も影響力のあったドラムブレイクの一つを聞くことができるでしょう。しかし、これは"
+"1回限りで演奏されることよりも、ループとして演奏されることで有名です。"
 
 #: A.03-coded-beats.md:42
 msgid "Beat Stretching"
-msgstr ""
+msgstr "ビートを引き延ばす"
 
 #: A.03-coded-beats.md:44
 msgid ""
 "Let's loop the Amen Break by using our old friend the `live_loop` introduced i"
 "n this tutorial last month:"
-msgstr ""
+msgstr "先月のチュートリアルで紹介した、我々にはもうお馴染みの`live_loop`を使って、アーメン・ブレイクをループしてみましょう。"
 
 #: A.03-coded-beats.md:47
 #, no-wrap
@@ -9542,6 +9552,9 @@ msgid ""
 "`:loop_amen` sample only lasts for `1.753` beats. We therefore have a silence "
 "of `2 - 1.753 = 0.247` beats. Even though it's short, it's still noticeable."
 msgstr ""
+"ループはしていますね。でもループする度に不快な無音部分がありますね。これは、`2`拍sleepするように指示しているのに、`:loop_amen`のサンプ"
+"ルは、デフォルトのBPM60で`1.753`拍しか持続しないからです。したがって、`2 - 1.753 = "
+"0.247`拍の無音が発生していしまいます。その時間は短くはありますが、容易に気づくことができます。"
 
 #: A.03-coded-beats.md:60
 msgid ""
