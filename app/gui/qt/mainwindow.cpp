@@ -1260,6 +1260,7 @@ void MainWindow::initPrefsWindow() {
   changeRPSystemVol(stored_vol);
   update_check_updates();
   updateLogAutoScroll();
+  toggleScopeAxes();
 
   if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
     setRPSystemAudioAuto();
