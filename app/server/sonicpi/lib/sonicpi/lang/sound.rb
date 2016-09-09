@@ -3127,9 +3127,9 @@ sample :loop_tabla, onset: 1                            # We can easily find the
 
                                                         # The onsets are actually a ring so the index will wrap around. This
                                                         # means that if there are only 8 onsets in a sample, specifying an
-                                                        # onset of 100 wil still return one of the 8 onsets. This means we
+                                                        # onset of 100 will still return one of the 8 onsets. This means we
                                                         # can use tick to work through each onset in sequence. This allows us
-                                                        # to redifine the rhythm and tempo of a sample
+                                                        # to redefine the rhythm and tempo of a sample
 
 
 live_loop :tabla do
@@ -3181,13 +3181,13 @@ end
         "
 # Onset lambdas
 
-                                                        # The onset index can a lambda as well as an integer. If a lambda is
+                                                        # The onset index can be a lambda as well as an integer. If a lambda is
                                                         # given, it will be passed a ring of all of the onsets as an argument.
                                                         # This will be a ring of maps:
 
 l = lambda {|c| puts c ; c[0]}                          # define a lambda which accepts a single argument, prints it and
-                                                        # returns the first value. This particular example  is essentially
-                                                        # the same as using  onset: 0 with the side effect of also printing out
+                                                        # returns the first value. This particular example is essentially
+                                                        # the same as using onset: 0 with the side effect of also printing out
                                                         # the full ring of onsets:
 
 sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :finish=>0.0076}, {:start=>0.0076, :finish 0.015}...)
