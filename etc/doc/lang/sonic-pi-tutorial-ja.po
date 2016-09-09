@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-09 09:42+0000\n"
+"PO-Revision-Date: 2016-09-09 09:55+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9629,6 +9629,8 @@ msgid ""
 "for 2 and our BPM is 30, yet everything is in time. The `beat_stretch` opt wor"
 "ks with the current BPM to make sure everything just works."
 msgstr ""
+"この遅いビートでラップしている間に、BPM30であっても2拍sleepして全てが時間通りであることに気がつくと思います。全てがただ時間通りに動くように、`"
+"beat_stretch`オプションが現行のBPMと協調して動作しているのです。"
 
 #: A.03-coded-beats.md:97
 msgid ""
