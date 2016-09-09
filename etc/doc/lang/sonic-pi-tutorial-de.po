@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-09 14:24+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2016-09-09 16:56+0000\n"
+"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10334,6 +10334,7 @@ msgid "3. Parameterise your synths"
 msgstr "3. Parametrisiere deine Synths"
 
 #: A.01-tips.md:77
+#, fuzzy
 msgid ""
 "In order to really discover your coding sound you'll soon want to know how to "
 "modify and control synths and FX. For example, you might want to change the du"
@@ -10342,6 +10343,12 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
+"Um Deine programmierten Klänge weiter zu entdecken, möchtest Du sicher "
+"wissen, wie Du Synthesizer und Effekte steuern kannst. Vielleicht möchtest "
+"du die Dauer eines Tons verändern, mehr Hall hinzufügen oder die Zeit "
+"zwischen zwei Echos verändern. Mit Parametern oder kurz Opts bietet Dir "
+"Sonic Pi viele Möglichkeiten, genau das zu tun. Schauen wir uns das mal kurz "
+"an. Kopiere diesen Code in einen Buffer und klicke auf Ausführen."
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -10349,10 +10356,13 @@ msgid "sample :guit_em9"
 msgstr "sample :guit_em9"
 
 #: A.01-tips.md:89
+#, fuzzy
 msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about changi"
 "ng its rate?"
 msgstr ""
+"Oh, was für ein wunderbarer Gitarren-Sound! Spielen wir ein bisschen damit. "
+"Wie wäre es damit, die Abspielgeschwindigkeit (rate) zu ändern?"
 
 #: A.01-tips.md:92
 #, no-wrap
@@ -10360,11 +10370,15 @@ msgid "sample :guit_em9, rate: 0.5"
 msgstr "sample :guit_em9, rate: 0.5"
 
 #: A.01-tips.md:96
+#, fuzzy
 msgid ""
 "Hey, what's that `rate: 0.5` bit I just added at the end? That's called an opt"
 ". All of Sonic Pi's synths and FX support them and there's loads to play aroun"
 "d with. They're also available for FX too. Try this:"
 msgstr ""
+"Was bedeutet der Schnippsel  `rate: 0.5`, den ich hier am Ende hinzugefügt "
+"habe? Das ist ein Parameter. Alle Synths und FX in Sonic Pi unterstützen "
+"diese und man kann viel damit anstellen. Versuche mal das hier:"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -10378,16 +10392,22 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:106
+#, fuzzy
 msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
+"Jetzt setze das feedback auf 1 und hör' Dir die verrückten Sounds an! "
+"Einzelheiten zu den vielen Parametern, die Dir zur Verfügung stehen, findest "
+"Du in der Dokumentation."
 
 #: A.01-tips.md:110
+#, fuzzy
 msgid "5. Live Code"
-msgstr ""
+msgstr "5. Live Code"
 
 #: A.01-tips.md:112
+#, fuzzy
 msgid ""
 "The best way to quickly experiment and explore Sonic Pi is to live code. This "
 "allows you to start off some code and continually change and tweak it whilst i"
@@ -10395,6 +10415,11 @@ msgid ""
 "es to a sample, just play around. Let's have a try! Copy this code into one of"
 " your Sonic Pi workspaces:"
 msgstr ""
+"Die beste Art Sonic Pi schnell kennenzulernen, ist, live zu coden. Du fängst "
+"mit irgendeinem Codeschnippsel an und veränderst und verbesserst, während "
+"der Code abgespielt wird. Wenn Du zum Beispiel nicht weisst, was der Cutoff-"
+"Parameter mit einem Sample macht, probiere es einfach aus. Fangen wir mal "
+"an! Kopiere diesen Code in einen Buffer von Sonic Pi:"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -10410,31 +10435,46 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:125
+#, fuzzy
 msgid ""
 "Now, hit run and you'll hear a slightly muffled drum break. Now, change the `c"
 "utoff:` value to `80` and hit run again. Can you hear the difference? Try `90`"
 ", `100`, `110`..."
 msgstr ""
+"Jetzt klicke auf ausführen und Du wirst einen leicht muffigen Drum-Break "
+"hören. Ändere den `cutoff:`-Wert auf `80` und klicke wieder ausführen. Hörst "
+"Du den Unterschied? Versuche es mit `90`, `100`, `110`..."
 
 #: A.01-tips.md:129
+#, fuzzy
 msgid ""
 "Once you get the hang of using `live_loop`s you'll not turn back. Whenever I d"
 "o a live coding gig I rely on `live_loop` as much as a drummer relies on their"
 " sticks. For more information about live coding check out Section 9 of the bui"
 "lt-in tutorial."
 msgstr ""
+"Wenn Du die `live_loop`s einmal im Griff hast, willst du nichts mehr anders "
+"verwenden. Wann immer ich einen Live-Coding-Gig habe, brauche ich die "
+"`live_loop` wie ein Schlagzeuger seine Sticks. Um mehr über Live-Coding zu "
+"erfahren, sieh Dir den Abschnitt 9 im Tutorial an."
 
 #: A.01-tips.md:134
+#, fuzzy
 msgid "5. Surf the random streams"
-msgstr ""
+msgstr "5. Mit dem Zufall surfen gehen"
 
 #: A.01-tips.md:136
+#, fuzzy
 msgid ""
 "Finally, one thing I love doing is cheating by getting Sonic Pi to compose thi"
 "ngs for me. A really great way to do this is using randomisation. It might sou"
 "nd complicated but it really isn't. Let's take a look. Copy this into a spare "
 "workspace:"
 msgstr ""
+"Gerne mogeln ich ein bisschen, indem ich Sonic Pi für mich komponieren "
+"lasse. Das geht besonders gut mit Randomisierung; das klingt vielleicht ein "
+"wenig kompliziert, ist es aber gar nicht. Sehen wir uns das an. Kopiere "
+"diesen Code in einen Buffer:"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -10458,6 +10498,7 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:152
+#, fuzzy
 msgid ""
 "Now, when you play this, you'll hear a constant stream of random notes from th"
 "e scale `:e2 :minor_pentatonic` played with the `:dsaw` synth. \"Wait, wait! Th"
@@ -10467,6 +10508,15 @@ msgid ""
 "e TARDIS with the Doctor to a particular point in time and space. Let's try it"
 " - add the line `use_random_seed 1` to the `live_loop`:"
 msgstr ""
+"Wenn Du das laufen lässt, wirst Du einen regelmäßigen Reihenfolge von "
+"zufälligen Tönen der Skala `:e2 :minor_pentatonic` gespielt vom `:dsaw`-"
+"Synth hören. \"Halt mal, das ist doch keine Melodie\", höre ich Dich schon "
+"sagen. Ok, dies ist der erste Teil des Zaubertricks. Jedes Mal, wenn die "
+"`live_loop` durchgelaufen ist, können wir Sonic Pi sagen, es soll die "
+"Zufallsfolge an einen bestimmten Punkt zurücksetzen. Das ist ein bisschen "
+"so, als würden wir wie Dr. Who in seiner Zeitmaschine TARDIS an einen "
+"bestimmten Ort und zu einer bestimmten Zeit zurückkehren. Versuch's mal und "
+"schreibe die Zeile `use_random_seed 1` in die `live_loop`:"
 
 #: A.01-tips.md:161
 #, no-wrap
