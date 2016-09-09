@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-08 09:58+0000\n"
+"PO-Revision-Date: 2016-09-09 09:35+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -11794,12 +11794,21 @@ msgid ""
 "nto a mountain. Just choose a higher y value to get back out above land. Keep "
 "on exploring until you find somewhere you like..."
 msgstr ""
+"Door verschillende waarden te kiezen voor x, y en z kunnen we \"overal\" in "
+"de onze wereld teleporteren. Probeer maar! Kies hierbij verschillende "
+"getallen en kijk waar je terechtkomt. Wanneer je scherm zwart wordt betekent "
+"dit dat je jezelf onder de grond of in een berg hebt geteleporteerd. Kies "
+"dan gewoon een een hoger getal voor y om terug op land te komen. Ga door tot "
+"je op een leuke plek terecht gekomen bent..."
 
 #: A.06-minecraft.md:69
 msgid ""
 "Using the ideas so far, let's build a Sonic Teleporter which makes a fun telep"
 "ort sound whilst it whizzes us across the Minecraft world:"
 msgstr ""
+"Met behulp van de tot nu toe aangereikte ideeën, gaan we nu een Sonic "
+"Teleporter die een leuk teleportatie geluid maakt als door de Minecraft "
+"wereld zoeven:"
 
 #: A.06-minecraft.md:72
 #, no-wrap
@@ -11838,7 +11847,7 @@ msgstr ""
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
-msgstr ""
+msgstr "Magische blokken"
 
 #: A.06-minecraft.md:90
 msgid ""
@@ -11846,6 +11855,9 @@ msgid ""
 "sed to and start clicking the mouse furiously to place blocks under the cursor"
 ". Or you could use the magic of Sonic Pi. Try this:"
 msgstr ""
+"Nu je een leuke plek gevonden hebt, gaan we beginnen bouwen. Je kan nu zoals "
+"je gewoonlijk doet verwoed gaan klikken om blokken onder de cursor te "
+"plaatsen. Of je kan de magie van Sonic Pi gebruiken. Probeer dit:"
 
 #: A.06-minecraft.md:94
 #, no-wrap
