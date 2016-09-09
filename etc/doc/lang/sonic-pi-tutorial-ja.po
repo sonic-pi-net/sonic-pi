@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-08 09:53+0000\n"
+"PO-Revision-Date: 2016-09-09 09:42+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9561,6 +9561,8 @@ msgid ""
 "To fix this issue we can use the `beat_stretch:` opt to ask Sonic Pi to stretc"
 "h (or shrink) the sample to match the specified number of beats."
 msgstr ""
+"この問題を解決するのに、`beat_stretch:`オプションを使うことができます。このオプションは、指定した数値の拍に合うようにサンプルを引き延ばす（"
+"あるいは縮める）ことを、Sonic Piに指示します。"
 
 #: A.03-coded-beats.md:63
 msgid ""
@@ -9569,6 +9571,8 @@ msgid ""
 "arameter is a real mouthful so we just call them *opts* to keep things nice an"
 "d simple."
 msgstr ""
+"Sonic Piの`sample`と`synth`関数は、`amp:`や`cutoff:`、`release:`といったオプション引数によって、数多くの操"
+"作を提供しています。しかし、オプション引数という言葉は言いにくいので、単純にするために*オプション*と呼ぶようにします。"
 
 #: A.03-coded-beats.md:68
 #, no-wrap
@@ -9587,11 +9591,11 @@ msgstr ""
 msgid ""
 "Now we're dancing! Although, perhaps we want to speed it up or slow it down to"
 " suit the mood."
-msgstr ""
+msgstr "これでダンスできますね！だけど、おそらく雰囲気に合わせてこのサンプルを速くしたり遅くしたりしたいと思うのではないでしょうか。"
 
 #: A.03-coded-beats.md:78
 msgid "Playing with Time"
-msgstr ""
+msgstr "時間に合わせて演奏する"
 
 #: A.03-coded-beats.md:80
 msgid ""
@@ -9600,6 +9604,9 @@ msgid ""
 "the tempo. This is super easy in Sonic Pi - just throw in a `use_bpm` into you"
 "r live loop:"
 msgstr ""
+"では、オールドスクールのヒップホップやブレイクコアのスタイルに変更したい場合にはどうしたら良いでしょう。それを実現する簡単な方法は、時間に合わせて演奏する"
+"ことです。言い換えると、テンポを操作するということです。これは、Sonic "
+"Piではとても簡単です。`use_bpm`をライブループに入れるだけでよいのです。"
 
 #: A.03-coded-beats.md:85
 #, no-wrap
