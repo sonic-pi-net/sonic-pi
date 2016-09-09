@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-09 09:21+0000\n"
+"PO-Revision-Date: 2016-09-09 14:24+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -6402,54 +6402,48 @@ msgid "Controlling running sounds"
 msgstr "Laufende Sounds steuern"
 
 #: 07-Control.md:5
-#, fuzzy
 msgid ""
 "So far we've looked at how you can trigger synths and samples, and also how to"
 " change their default opts such as amplitude, pan, envelope settings and more."
 " Each sound triggered is essentially its own sound with its own list of option"
 "s set for the duration of the sound."
 msgstr ""
-"Bisher haben wir uns angeschaut, wie man Synths und Samples starten und ihre S"
-"tandard-Einstellungen wie Lautstärke, Position im Stereofeld, Hüllkurven und s"
-"o weiter anpassen kann. Jeder abgespielte Ton ist im Grunde genommen ein eigen"
-"er Klang mit seinen eigenen Parametern für seine Abspieldauer."
+"Bisher haben wir uns angeschaut, wie man Synths und Samples starten und ihre "
+"Standard-Einstellungen wie Lautstärke, Position im Stereofeld, Hüllkurven "
+"und so weiter anpassen kann. Jeder abgespielte Ton ist im Grunde genommen "
+"ein eigener Klang mit seinen eigenen Optionen für seine Abspieldauer."
 
 #: 07-Control.md:11
-#, fuzzy
 msgid ""
 "Wouldn't it also be cool if you could change a sound's opts whilst it's still "
 "playing, just like you might bend a string of a guitar whilst it's still vibra"
 "ting?"
 msgstr ""
-"Wäre es nicht cool, wenn man diese Parameter verändern könnte - während der To"
-"n noch abgespielt wird? Etwa so, wie Du eine noch schwingende Saite beim Gitar"
-"respielen ziehen kannst?"
+"Wäre es nicht cool, wenn man diese Opts verändern könnte - während der Ton "
+"noch abgespielt wird? Etwa so, wie Du beim Gitarrespielen an einer noch "
+"schwingende Saite ziehen kannst?"
 
 #: 07-Control.md:15
-#, fuzzy
 msgid "You're in luck - this section will show you how to do exactly this."
 msgstr "Glück gehabt - dieses Kapitel wird Dir genau das zeigen."
 
 #: 07.1-Controlling-Running-Synths.md:1
-#, fuzzy
 msgid "7.1 Controlling Running Synths"
 msgstr "7.1 Laufende Synths steuern"
 
 #: 07.1-Controlling-Running-Synths.md:3
-#, fuzzy
 msgid "Controlling Running Synths"
 msgstr "Laufende Synths steuern"
 
 #: 07.1-Controlling-Running-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've only concerned ourselves with triggering new sounds and FX. Howev"
 "er, Sonic Pi gives us the ability to manipulate and control currently running "
 "sounds. We do this by using a variable to capture a reference to a synth:"
 msgstr ""
-"Bisher haben wir uns nur damit befasst, neue Sounds und Effekte zu starten. Mi"
-"t Sonic Pi kannst Du aber auch laufende Klänge steuern und verändern. Um das z"
-"u tun, speichern wir die Referenz zu einem Synth in einer Variable:"
+"Bisher haben wir uns nur damit befasst, neue Sounds und Effekte zu starten. "
+"Mit Sonic Pi kannst Du aber auch laufende Klänge steuern und verändern. Um "
+"das zu tun, speichern wir die Referenz zu einem Synth in einer Variable:"
 
 #: 07.1-Controlling-Running-Synths.md:10
 #, no-wrap
@@ -6457,22 +6451,21 @@ msgid "s = play 60, release: 5"
 msgstr "s = play 60, release: 5"
 
 #: 07.1-Controlling-Running-Synths.md:14
-#, fuzzy
 msgid ""
 "Here, we have a run-local variable `s` which represents the synth playing note"
 " 60. Note that this is *run-local* - you can't access it from other runs like "
 "functions."
 msgstr ""
-"Jetzt haben wir eine run-local Variable `s`. Sie repräsentiert einen Synth, de"
-"r die Note 60 spielt. Beachte, dass diese Variable eine *lokale* ist - Du kann"
-"st nicht von anderen Runs, wie beispielsweise Funktionen, auf sie zugreifen."
+"Jetzt haben wir eine run-local Variable `s`. Sie repräsentiert einen Synth, "
+"der die Note 60 spielt. Beachte, dass diese Variable eine *lokale* ist - Du "
+"kannst nicht von anderen Runs, wie beispielsweise Funktionen, auf sie "
+"zugreifen."
 
 #: 07.1-Controlling-Running-Synths.md:18
-#, fuzzy
 msgid "Once we have `s`, we can start controlling it via the `control` function:"
 msgstr ""
-"Sobald wir die Referenz in der Variable `s` haben, können wir den Synth mit Hi"
-"lfe der `control`-Funktion steuern:"
+"Sobald wir die Referenz in der Variable `s` haben, können wir den Synth mit "
+"Hilfe der `control`-Funktion steuern:"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
 #, no-wrap
