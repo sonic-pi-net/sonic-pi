@@ -1174,7 +1174,7 @@ void MainWindow::initPrefsWindow() {
   show_scopes = new QCheckBox(tr("Show Scopes"));
   show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
   show_scope_axes = new QCheckBox(tr("Show Axes"));
-  show_scope_axes->setToolTip(tr("Toggle the visibility of the axes for the audio oscilloscpes"));
+  show_scope_axes->setToolTip(tr("Toggle the visibility of the axes for the audio oscilloscopes"));
   show_scope_axes->setChecked(true);
   scope_box_kinds->setLayout(scope_box_kinds_layout);
   scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in three flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMono - shows a combined view of the left and right channels (using RMS)\nStereo - shows two independent scopes for left and right channels"));
@@ -2537,7 +2537,7 @@ void MainWindow::createToolBar()
 
   // Scope
   QAction *scopeAct = new QAction(QIcon(":/images/scope.png"), tr("Scope"), this);
-  setupAction(scopeAct, 0, tr("Toggle the visibilty of the audio oscilloscopes. "), SLOT(toggleScope()));
+  setupAction(scopeAct, 0, tr("Toggle the visibility of the audio oscilloscopes. "), SLOT(toggleScope()));
 
     // Info
   QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
