@@ -1640,7 +1640,7 @@ play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
 
         args_h = resolve_synth_opts_hash_or_array(args)
         merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, merged_defs
+        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, SonicPi::Core::SPMap.new(merged_defs)
         res = block.call
         __thread_locals.set :sonic_pi_mod_sound_synth_defaults, current_defs
         res
