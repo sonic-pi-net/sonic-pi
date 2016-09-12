@@ -2474,7 +2474,7 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
   }
 
   action->setToolTip(tooltipKey);
-  action->setStatusTip(tooltip);
+  action->setStatusTip(tooltipKey);
   connect(action, SIGNAL(triggered()), this, slot);
 
   if (key != 0) {
@@ -2514,13 +2514,15 @@ void MainWindow::createToolBar()
 
   // Save
   QAction *saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
-  setupAction(saveAsAct, 0, tr(""), SLOT(saveAs()));
-  saveAsAct->setToolTip(tooltipStrShiftMeta('S', tr("Save current buffer as an external file")));
+  QString saveFileDesc = tooltipStrShiftMeta('S', tr("Save current buffer as an external file"));
+  setupAction(saveAsAct, 0, saveFileDesc, SLOT(saveAs()));
+  saveAsAct->setToolTip(saveFileDesc);
 
   // Load
   QAction *loadFileAct = new QAction(QIcon(":/images/load.png"), tr("Load"), this);
-  setupAction(loadFileAct, 0, tr(""), SLOT(loadFile()));
-  loadFileAct->setToolTip(tooltipStrShiftMeta('O', tr("Load an external file in the current buffer")));
+  QString loadFileDesc = tooltipStrShiftMeta('O', tr("Load an external file in the current buffer"));
+  setupAction(loadFileAct, 0, loadFileDesc, SLOT(loadFile()));
+  loadFileAct->setToolTip(loadFileDesc);
 
   // Record
   recAct = new QAction(QIcon(":/images/rec.png"), tr("Start Recording"), this);
@@ -2532,14 +2534,18 @@ void MainWindow::createToolBar()
   setupAction(textAlignAct, 'M', tr("Improve readability of code"), SLOT(beautifyCode()));
 
   // Font Size Increase
+  QString sizeUpDesc = tooltipStrMeta('+', tr("Increase Text Size"));
   QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
-			    tr(""), this);
-  setupAction(textIncAct, 0, tr(""), SLOT(zoomCurrentWorkspaceIn()));
-  textIncAct->setToolTip(tooltipStrMeta('+', tr("Increase Text Size")));
+                                    tr("Size Up"), this);
+  setupAction(textIncAct, 0, sizeUpDesc, SLOT(zoomCurrentWorkspaceIn()));
+  textIncAct->setToolTip(sizeUpDesc);
 
   // Font Size Decrease
+  QString sizeDownDesc = tooltipStrMeta('-', tr("Decrease Text Size"));
   QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
-			    tr(""), this);
+                                    tr("Size Down"), this);
+  setupAction(textDecAct, 0, sizeDownDesc, SLOT(zoomCurrentWorkspaceOut()));
+  textDecAct->setToolTip(sizeDownDesc);
 
   // Scope
   QAction *scopeAct = new QAction(QIcon(":/images/scope.png"), tr("Scope"), this);
@@ -2561,8 +2567,7 @@ void MainWindow::createToolBar()
 	      SLOT(showPrefsPane()));
 
 
-  setupAction(textDecAct, 0, tr(""), SLOT(zoomCurrentWorkspaceOut()));
-  textDecAct->setToolTip(tooltipStrMeta('-', tr("Decrease Text Size")));
+
 
   QWidget *spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
