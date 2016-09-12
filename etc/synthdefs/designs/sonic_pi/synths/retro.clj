@@ -312,7 +312,9 @@
 
 
  (defsynth sonic-pi-prophet
-   "The Prophet Speaks (page 2)
+   "Synth design adapted from:
+    The Prophet Speaks (page 2)
+    Steal This Sound,  Mitchell Sigman
 
    Dark and swirly, this synth uses Pulse Width Modulation (PWM) to
    create a timbre which continually moves around. This effect is
