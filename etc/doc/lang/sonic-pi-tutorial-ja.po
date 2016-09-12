@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-09 09:55+0000\n"
+"PO-Revision-Date: 2016-09-12 09:38+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9638,10 +9638,12 @@ msgid ""
 "e `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in tim"
 "e*! Try going faster - up to 80, to 120, now go crazy and punch in 200!"
 msgstr ""
+"ここからが面白くなるところです。ループが動作している状態のまま、`use_bpm 30`の`30`を`50`に変更してみましょう。ワオ、全てが、*時間通り"
+"のまま*速くなりました！もっと速く、80や、120、そしてもっとクレイジーになって200を打ち込んでみましょう！"
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
-msgstr ""
+msgstr "フィルタリング"
 
 #: A.03-coded-beats.md:105
 msgid ""
@@ -9649,6 +9651,8 @@ msgid ""
 " by the `sample` synth. First up is `cutoff:` which controls the cutoff filter"
 " of the sampler. By default this is disabled but you can easily turn it on:"
 msgstr ""
+"サンプルをライブループできるようになったので、`sample`で提供されている楽しいオプションを見ていきましょう。最初は、`cutoff:`です。これはサ"
+"ンプラーのカットオフ・フィルターを操作します。このオプションはデフォルトでは無効になっていますが、簡単に有効にできます。"
 
 #: A.03-coded-beats.md:110
 #, no-wrap
@@ -9675,6 +9679,10 @@ msgid ""
 "f the top of the grass. The `cutoff:` opt is like the length setting - determi"
 "ning how much grass is left over."
 msgstr ""
+"続いて`cutoff:`オプションを変更してみましょう。たとえば100に変更後*Run*を叩いて、どう音が変化するかループの終わりまで聞いてみてください。"
+"50のような小さい値はメロウで低音が強調され、100や120といった大きい値は、より幅広い音が聞こえ、ザラザラとしていることに気付くでしょう。これは`cu"
+"toff:`オプションが、ちょうど草刈機が芝生を刈るように、高い周波数の部分を削り取るからです。`cutoff:`オプションは長さの設定（どれだけ芝生を残"
+"すか）のようなものです。"
 
 #: A.03-coded-beats.md:128
 msgid "Slicing"
