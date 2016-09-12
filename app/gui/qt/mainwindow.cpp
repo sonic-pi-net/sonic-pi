@@ -603,7 +603,6 @@ void MainWindow::updateFullScreenMode(){
     outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
     int currentScreen = QApplication::desktop()->screenNumber(this);
-    this->show();
 
 #if QT_VERSION >= 0x050400
     //requires Qt5
@@ -611,6 +610,7 @@ void MainWindow::updateFullScreenMode(){
 #endif
 
     this->setWindowState(Qt::WindowFullScreen);
+    this->show();
   }
   else {
     mainWidgetLayout->setMargin(9);
@@ -2168,6 +2168,9 @@ void MainWindow::updateDarkMode(){
 
   QString qwtplotStyling = QString(
     "QwtPlot{"
+    "  background-color: %1;"
+    "}"
+    "QwtPlotGLCanvas{"
     "  background-color: %1;"
     "}").arg(paneColor);
 
