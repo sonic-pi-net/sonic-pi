@@ -603,6 +603,7 @@ void MainWindow::updateFullScreenMode(){
     outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
     int currentScreen = QApplication::desktop()->screenNumber(this);
+    statusBar()->showMessage(tr("Full screen mode on."), 2000);
 
 #if QT_VERSION >= 0x050400
     //requires Qt5
@@ -624,6 +625,7 @@ void MainWindow::updateFullScreenMode(){
 #else
     this->setWindowFlags(Qt::WindowTitleHint);
 #endif
+    statusBar()->showMessage(tr("Full screen mode off."), 2000);
     this->show();
   }
 }
