@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-09 16:56+0000\n"
-"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
+"PO-Revision-Date: 2016-09-13 20:57+0000\n"
+"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -6487,32 +6487,28 @@ msgstr ""
 "control s, note: 72"
 
 #: 07.1-Controlling-Running-Synths.md:31
-#, fuzzy
 msgid ""
 "The thing to notice is that we're not triggering 4 different synths here - we'"
 "re just triggering one synth and then change the pitch 3 times afterwards, whi"
 "le it's playing."
 msgstr ""
-"Wichtig ist hier, dass wir nicht vier verschiedene Synths starten - wir starte"
-"n einen einzigen und ändern danach dreimal die Tonhöhe, während er noch spielt"
-"."
+"Wichtig ist hier, dass wir nicht vier verschiedene Synths starten - wir "
+"starten einen einzigen und ändern danach dreimal die Tonhöhe, während er "
+"noch spielt."
 
 #: 07.1-Controlling-Running-Synths.md:35
-#, fuzzy
 msgid ""
 "We can pass any of the standard opts to `control`, so you can control things l"
 "ike `amp:`, `cutoff:` or `pan:`."
 msgstr ""
-"Wir können jeden der Standard-Parameter an die `control`-Funktion übergeben. D"
-"as erlaubt Dir, Dinge wie `amp:`, `cutoff:` oder `pan:` zu kontrollieren."
+"Wir können jeden der Standard-Parameter an die `control`-Funktion übergeben. "
+"Das erlaubt Dir, Dinge wie `amp:`, `cutoff:` oder `pan:` zu kontrollieren."
 
 #: 07.1-Controlling-Running-Synths.md:38
-#, fuzzy
 msgid "Non-controllable Options"
 msgstr "Nicht-kontrollierbare Parameter"
 
 #: 07.1-Controlling-Running-Synths.md:40
-#, fuzzy
 msgid ""
 "Some of the opts can't be controlled once the synth has started. This is the c"
 "ase for all the ADSR envelope parameters. You can find out which opts are cont"
@@ -6520,14 +6516,13 @@ msgid ""
 "ation says *Can not be changed once set*, you know it's not possible to contro"
 "l the opt after the synth has started."
 msgstr ""
-"Manche Parameter lassen sich nach dem Start des Synths nicht mehr verändern. D"
-"as trifft auf alle ADSR-Hüllkurven-Parameter zu. Welche Parameter kontrollierb"
-"ar sind, kannst Du in der Dokumentation im Hilfe-System herausfinden. Paramete"
-"r, die mit *Can not be changed once set* markiert sind, lassen sich nach dem S"
-"ynth-Start nicht mehr verändern."
+"Manche Opts lassen sich nach dem Start des Synths nicht mehr verändern. Das "
+"trifft auf alle ADSR-Hüllkurven-Parameter zu. Welche Opts kontrollierbar "
+"sind, kannst Du in der Dokumentation im Hilfe-System herausfinden. "
+"Parameter, die mit *Can not be changed once set* markiert sind, lassen sich "
+"nach dem Synth-Start nicht mehr verändern."
 
 #: 07.2-Controlling-FX.md:1
-#, fuzzy
 msgid "7.2 Controlling FX"
 msgstr "7.2 Effekte steuern"
 
