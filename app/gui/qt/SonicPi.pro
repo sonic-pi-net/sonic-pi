@@ -52,7 +52,7 @@ macx {
 
 # Windows only
 win32 {
-LIBS += -lws2_32
+  LIBS += -lws2_32
 }
 
 CODECFORSRC = UTF-8
