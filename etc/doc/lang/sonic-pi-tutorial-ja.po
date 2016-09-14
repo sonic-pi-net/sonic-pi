@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-12 09:38+0000\n"
+"PO-Revision-Date: 2016-09-14 09:40+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9689,10 +9689,13 @@ msgid "Slicing"
 msgstr ""
 
 #: A.03-coded-beats.md:130
+#, fuzzy
 msgid ""
 "Another great tool to play with is the slicer FX. This will chop (slice) the s"
 "ound up. Wrap the `sample` line with the FX code like this:"
 msgstr ""
+"もう一つの遊んでみるべき凄いツールは、スライサー・エフェクトです。これは音をブツ切り（スライス）にします。`sample`の行を次のようにスライサー・エフ"
+"ェクトで包んでみましょう。"
 
 #: A.03-coded-beats.md:133
 #, no-wrap
@@ -9714,6 +9717,7 @@ msgstr ""
 "end"
 
 #: A.03-coded-beats.md:143
+#, fuzzy
 msgid ""
 "Notice how the sound bounces up and down a little more. (You can hear the orig"
 "inal sound without the FX by changing the `mix:` opt to `0`.) Now, try playing"
@@ -9725,6 +9729,11 @@ msgid ""
 "e shapes. 0 is a saw wave, (hard in, fade out) 1 is a square wave (hard in, ha"
 "rd out) and 2 is a triangle wave (fade in, fade out)."
 msgstr ""
+"音が弾むように聞こえるようになったのに気付くでしょう（`mix`オプションを`0`に変更することで、エフェクトの掛かっていない元の音を聞くこともできます）"
+"。では、`phase:`オプションで遊んでみましょう。これは、スライサー・エフェクトの（ビートに対する）レートです。`0.125`といった小さい値は速くス"
+"ライスし、より大きな` "
+"0.5`といった値はより遅くスライスします。`phase:`を半分にしたり倍にしたりすると、良い感じに聞こえるでしょう。最後に、`wave:`"
+"オプションを0, 1, 2のいずれかにして、音の変化を聞いてみましょう。これらは波形の形で、0はノコギリ波、1は矩形波、2は三角波です。"
 
 #: A.03-coded-beats.md:157
 msgid ""
@@ -9734,6 +9743,9 @@ msgid ""
 "d see where you can take it. Please do share what you create! See you next tim"
 "e..."
 msgstr ""
+"最後に、今月の例として、時代を遡って初期のブリストルのドラムンベースシーンを再訪してみましょう。あまり上記の意味するところは気にせずに、ただコードをタイプ"
+"して実行し、オプションの値を変更してライブコーディングを開始して、どのような音になるか聞いてみましょう。そして、あなたの作ったものを是非共有してください！"
+"ではまた。"
 
 #: A.03-coded-beats.md:163
 #, no-wrap
@@ -9784,11 +9796,11 @@ msgstr ""
 
 #: A.04-synth-riffs.md:1
 msgid "A.4 Synth Riffs"
-msgstr ""
+msgstr "A.4 シンセ・リフ"
 
 #: A.04-synth-riffs.md:3
 msgid "Synth Riffs"
-msgstr ""
+msgstr "シンセ・リフ"
 
 #: A.04-synth-riffs.md:5
 msgid ""
