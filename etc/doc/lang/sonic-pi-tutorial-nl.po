@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-14 10:04+0000\n"
+"PO-Revision-Date: 2016-09-14 14:22+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -12766,6 +12766,18 @@ msgid ""
 "coordinates for a square. We can then randomly choose block types from a ring "
 "of blocks for an interesting effect:"
 msgstr ""
+"Wat tenslotte ook een fantastische manier is om interessante visuals te "
+"maken is van een grote muur van een patroon te genereren om naartoe en "
+"langsheen te vliegen. Om dit effect te bereiken moeten moeten we ons van het "
+"idee van het willekeurig plaatsen van blokken verplaatsen naar deze geordend "
+"te plaatsen. We kunnen dit doen door twee sets van iteratie (druk op de hulp-"
+"knop om naar sectie 5.2 van de zelfstudie \"Iteratie en loops\" te navigeren "
+"voor meer achtergrondinformatie over iteraties). De gekke `|xd|` achter do "
+"betekend dat `xd` achter elke waarde van de iteratie zal worden gezet. De "
+"eerste keer zal deze 0 zijn, dan1, dan 2.....enz. Door twee delen iteratie "
+"te gaan nesten, kunnen we op deze manier de coördinaten voor een vierkant "
+"genereren. We kunnen dan willekeurig blok-types kiezen van een ring van "
+"blokken om een interessant effect te bekomen:"
 
 #: A.08-minecraft-vj.md:145
 #, no-wrap
@@ -12793,6 +12805,11 @@ msgid ""
 " types and the more adventurous of you might want to try sticking this within "
 "a `live_loop` so that the patterns keep changing automatically."
 msgstr ""
+"Behoorlijk gaaf. Terwijl we hiermee plezier beleven, probeer je `bs.choose` "
+"te veranderen naar `bs.tick om van een willekeurig patroon een meer "
+"regelmatig patroon te bekomen. Probeer ook de blok-type's te veranderen en "
+"de waaghalzen onder ons willen deze misschien ook in een `live_loop` plakken "
+"om de patronen automatisch te laten veranderen."
 
 #: A.08-minecraft-vj.md:161
 msgid ""
@@ -12804,14 +12821,23 @@ msgid ""
 " coding power of Sonic Pi to make it real. When you've practised enough dim th"
 "e lights and put on a VJ show for your friends!"
 msgstr ""
+"Nu, voor de VJ finale: verander de twee `10.times` naar `100.times` en klik "
+"op Afspelen. Kaboom! Een reusachtig en gigantische muur van willekeurig "
+"geplaatste bakstenen. Beeld je in hoe lang je daarmee bezig zou zijn geweest "
+"indien je dit met de muis zou gedaan hebben! Sla twee keer de spacebar om "
+"naar vlieg-modus over te gaan en begin aan een duikvlucht voor geweldige "
+"visuele effecten. Maar stop op dit punt nog niet, gebruik je "
+"verbeeldingsvermogen voor coole ideeën en gebruik in Sonic Pi de kracht van "
+"het coderen om deze werkelijk te maken. Wanneer je voldoende geoefend hebt, "
+"dim je de lichten en zet een VJ show voor je vrienden op!"
 
 #: A.09-randomisation.md:1
 msgid "A.9 Randomisation"
-msgstr ""
+msgstr "A.9 Randomiseren"
 
 #: A.09-randomisation.md:3
 msgid "Surfing Random Streams"
-msgstr ""
+msgstr "Surfen op  Random Streams"
 
 #: A.09-randomisation.md:5
 msgid ""
@@ -12821,10 +12847,15 @@ msgid ""
 "over the fundamentals in much greater detail. So, get your lucky hat on and le"
 "t's surf some random streams!"
 msgstr ""
+"In deel 4 van deze zelfstudie serie keken we even naar randomiseren terwijl "
+"we een aantal broeierige synth-riffs codeerden. Daar randomiseren zo'n "
+"belangrijk onderdeel van mijn live-coding DJ-sets is, dacht ik dat het "
+"zinvol was om de grondbeginselen ervan in detail te gaan bekijken. Laat ons "
+"beginnen surfen op Random Streams!"
 
 #: A.09-randomisation.md:11
 msgid "There is no random"
-msgstr ""
+msgstr "Er is geen random"
 
 #: A.09-randomisation.md:13
 msgid ""
@@ -12836,11 +12867,19 @@ msgid ""
 "have another go, but let's ask Sonic Pi to choose a number this time. Fire up "
 "Sonic Pi v2.7+ and ask it for a random number but again don't tell me:"
 msgstr ""
+"Het eerste wat je moet weten, en wat jou misschien ook verrast, wanneer je "
+"met de randomisering functies van Sonic Pi speelt, is dat deze niet écht "
+"random zijn. Wat betekent dit? Wel laat ons een paar tests doen. Verbeeld je "
+"eerst een getal tussen 0 en1. Onthou deze en verklap deze niet aan mij. Nu "
+"laat me raden... was het `0.321567`? Nee? Goh ik ben er blijkbaar toch niet "
+"zo goed in. Geef me nog een kans maar vraag deze keer Sonic Pi een nummer te "
+"kiezen. Start Sonic Pi v2.7+ en vraag deze een random nummer te genereren, "
+"maar ook nu verklap je deze niet aan mij:"
 
 #: A.09-randomisation.md:22
 #, no-wrap
 msgid "print rand"
-msgstr ""
+msgstr "print rand"
 
 #: A.09-randomisation.md:26
 msgid ""
@@ -12849,6 +12888,11 @@ msgid ""
 " Run button again and see what we get... What? `0.75006103515625` again? This "
 "clearly can't be random! You're right, it's not."
 msgstr ""
+"En dan nu de onthulling... was het `0.75006103515625`? Yes! Ha maar ik merk "
+"dat je hier een beetje sceptisch tegenover staat. Misschien was het wel een "
+"gelukstreffer. We proberen nog een keer. Druk opnieuw op Afspelen en we zien "
+"wel wat we krijgen... Wat? Opnieuw  `0.75006103515625`? Dit kan duidelijk "
+"geen random zijn! Je hebt gelijk, het is ook geen random."
 
 #: A.09-randomisation.md:32
 msgid ""
@@ -12860,10 +12904,18 @@ msgid ""
 " to rely on the deterministic nature of Sonic Pi's randomisation as a fundamen"
 "tal building block for your compositions and live coded DJ sets."
 msgstr ""
+"Wat gebeurt hier? Determinisme is de dure computerwetenschappelijke term die "
+"hier kan  opgaan.Het betekent gewoon dat het toeval niet bestaat en alles "
+"voorbestemd is om te worden. Uw versie van Sonic Pi is voorbestemd om "
+"altijd  `0.75006103515625` terug te geven. Dit klink misschien helemaal niet "
+"nuttig, maar ik verzeker je dat dit één van de meest krachtige delen van "
+"Sonic Pi is. Als je hier aan vasthoud zal je leren vertrouwen te schenken "
+"aan de deterministische manier van randomisering in Sonic Pi als "
+"fundamentele bouwsteen voor jouw composities en live gecodeerde DJ sets."
 
 #: A.09-randomisation.md:41
 msgid "A Random Melody"
-msgstr ""
+msgstr "Een Random Melodie"
 
 #: A.09-randomisation.md:43
 msgid ""
@@ -12877,10 +12929,23 @@ msgid ""
 "rybody's version of Sonic Pi uses the exact same random stream which is very i"
 "mportant when we start sharing our pieces with each other."
 msgstr ""
+"Wanneer Sonic Pi opstart, laad het eigenlijk een opeenvolging van 441.000 "
+"pre-geregenereerde waarden in het geheugen op. Wanneer je een random functie "
+"zoals `rand` of `rrand` oproept, wordt deze stroom van random waarden "
+"gebruikt om jouw resultaat te regenereren. Elke oproep naar een random "
+"functie verbruikt een waarde van deze stroom. Daarom zal de 10-de oproep "
+"naar zo'n random functie, de 10-de waarde van de stroom gebruiken. Iedere "
+"keer je op de Afspelen toets drukt zal de stroom voor die doorloop gereset "
+"worden. Daarom ook kon ik het resultaat van `rand` voorspellen en was de "
+"'random' melodie ook elke keer dezelfde. Ieders versie van Sonic Pi gebruikt "
+"dezelfde random stream, wat ook belangrijk is als we elkaars code onderling "
+"gaan delen."
 
 #: A.09-randomisation.md:54
 msgid "Let's use this knowledge to generate a repeatable random melody:"
 msgstr ""
+"Laten we deze kennis te gebruiken om een herhalende willekeurige melodie te "
+"genereren:"
 
 #: A.09-randomisation.md:56
 #, no-wrap
@@ -12901,50 +12966,60 @@ msgid ""
 "'random' notes between 50 and 95. When it's finished, hit Run again to hear ex"
 "actly the same melody again."
 msgstr ""
+"Typ deze in een lege buffer en klik Afspelen? Je hoort een melodie die "
+"bestaat uit 'random' noten tussen 50 en 95. Wanneer deze uitgespeeld is, "
+"klik je opnieuw op Afspelen opnieuw om exact dezelfde melodie te hoeren "
+"spelen."
 
 #: A.09-randomisation.md:67
 msgid "Handy Randomisation Functions"
-msgstr ""
+msgstr "Handige randomisering Functies"
 
 #: A.09-randomisation.md:69
 msgid ""
 "Sonic Pi comes with a number of useful functions for working with the random s"
 "tream. Here's a list of some of the most useful:"
 msgstr ""
+"Sonic Pi wordt geleverd met een aantal handige functies voor het werken met "
+"de random stream. Hier is een lijst met enkele van de meest nuttige:"
 
 #: A.09-randomisation.md:72
 msgid "`rand` - Simply returns the next value in the random stream"
-msgstr ""
+msgstr "`rand` - geeft gewoon de volgende waarde van de stream weer"
 
 #: A.09-randomisation.md:73
 msgid "`rrand` - Returns a random value within a range"
-msgstr ""
+msgstr "`rrand` - geeft een random waarde binnen een bereik weer"
 
 #: A.09-randomisation.md:74
 msgid "`rrand_i` - Returns a random whole number within a range"
-msgstr ""
+msgstr "`rrand_i` - Geeft een random geheel getal binnen een bereik weer"
 
 #: A.09-randomisation.md:75
 msgid "`one_in` - Returns true or false with the given probability"
-msgstr ""
+msgstr "`one_in` - Geeft true of false weer met de gegeven probabiliteit"
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
 msgstr ""
+"`dice` - Immiteerd het rollen van een dobbelsteen en geeft waarden tussen 1 "
+"en 6 weer"
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr ""
+msgstr "`choose` - Kiest een willekeurige waarde uit een lijst"
 
 #: A.09-randomisation.md:79
 msgid ""
 "Check out their documentation in the Help system for detailed information and "
 "examples."
 msgstr ""
+"Bekijk hun documentatie in het Help-systeem voor meer informatie en "
+"voorbeelden."
 
 #: A.09-randomisation.md:82
 msgid "Resetting the Stream"
-msgstr ""
+msgstr "Resetten van de Stream"
 
 #: A.09-randomisation.md:84
 msgid ""
@@ -12953,6 +13028,11 @@ msgid ""
 "want. Wouldn't it be great if we could try a number of different riffs and cho"
 "ose the one we liked best? This is where the real magic starts."
 msgstr ""
+"Terwijl de mogelijkheid om het  herhalen van een fragment met gekozen noten "
+"essentieel is om jouw riff te kunnen spelen op de dansvloer, is het "
+"misschien niet de riff die je wou. Zou het niet geweldig zijn moesten we een "
+"aantal verschillende riffs kunnen uitproberen om dan de beste ervan te "
+"kunnen uitkiezen? Hier gaat de toverdoos open."
 
 #: A.09-randomisation.md:90
 msgid ""
@@ -12960,6 +13040,9 @@ msgid ""
 "nce, a random seed is the starting point from which a new stream of random val"
 "ues can sprout out and blossom. Let's try it:"
 msgstr ""
+"We kunnen de stream met de fn 'use_random_seed' handmatig instellen. In "
+"Computerwetenschap, is random seed een startpunt waaruit een nieuwe stream "
+"van random waarden kunnen beginnen kiemen en bloeien. We proberen dit:"
 
 #: A.09-randomisation.md:94
 #, no-wrap
@@ -12981,6 +13064,9 @@ msgid ""
 "Great, we get the first three notes of our random melody above: `84`, `83` and"
 " `71`. However, we can now change the seed to something else. How about this:"
 msgstr ""
+"Geweldig, we krijgen de eerste drie noten van onze random melodie hierboven: "
+"'84', '83' en ' 71'. We kunnen de seed naar ierts anders veranderen. Laat "
+"ons zeggen deze:"
 
 #: A.09-randomisation.md:106
 #, no-wrap
@@ -13003,6 +13089,9 @@ msgid ""
 "numbers here are the same as the last two numbers before - this isn't a coinci"
 "dence."
 msgstr ""
+"Interessant, we  krijgen '83', '71' en ' 61'. Je merkt hierbij misschien ook "
+"op dat de eerste twee cijfers hier, dezelfde zijn als de laatste twee in het "
+"vorige voorbeeld - dit is geen toeval."
 
 #: A.09-randomisation.md:118
 msgid ""
@@ -13013,6 +13102,14 @@ msgid ""
 "that it's precisely this ability to jump around the random stream which gives "
 "us huge power when making music."
 msgstr ""
+"Vergeer niet dat de random stream gewoon een gigantisch lijst is van vooraf "
+"op een rol gezette waarden is. Random seed gebruiken is gewoon een "
+"verspringen naar een plaats in de lijst. Een andere manier om ons dit voor "
+"te stellen is te denken aan een gigantische deck van door elkaar geschudde "
+"speelkaarten. Gebruik maken van random seed is als het openklappen van deze "
+"deck op een nauwkeurig punt. Het fabuleuze gedeelte hier is dat precies de "
+"mogelijkheid om rond te springen in de random stream, dit ons een krachtig "
+"instrument geeft wanneer we muziek maken."
 
 #: A.09-randomisation.md:126
 msgid ""
@@ -13020,6 +13117,9 @@ msgid ""
 "r, but let's also throw in a live loop so we can experiment live whilst it's p"
 "laying:"
 msgstr ""
+"Laten we onze random melodie van 8 noten nog eens opzoeken met de kracht van "
+"die nieuwe stream resetting, maar laten we er ook een live loop in gooien "
+"zodat we ermee kunnen experimenteren terwijl de code loopt:"
 
 #: A.09-randomisation.md:130
 #, no-wrap
@@ -13046,6 +13146,10 @@ msgid ""
 "se. Try `100`, what about `999`. Try your own values, experiment and play arou"
 "nd - see which seed generates the riff you like best."
 msgstr ""
+"Nu, terwijl deze nog speelt, verander je de seed waarde van `0`naar iets "
+"anders. Probeer `100`, en wat dacht je van `999`. Probeer ook je eigen "
+"waarden, experimenteer en speel er wat mee - en kijk welke seed  de riff "
+"regenereerde die jij het leukst vindt."
 
 #: A.09-randomisation.md:147
 msgid ""
