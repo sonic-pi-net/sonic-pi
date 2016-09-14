@@ -50,7 +50,7 @@ contributions which have supported the Sonic Pi Community:
 Much of the development, distribution and support work for Sonic Pi is
 carried out by the Core Team. This is a group of dedicated volunteers
 (with the exception of Sam Aaron who works full time on the project) who
-continue to kindly donate their time to continue to improve Sonic Pi.
+kindly donate their time to continue to improve Sonic Pi.
 
 Current members: 
 * [Sam Aaron](https://github.com/samaaron)
