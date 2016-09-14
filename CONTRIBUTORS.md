@@ -1,9 +1,19 @@
 # Contributors
 
-## Support and Advice
+We would like to express our sincerest thanks and gratitude to everyone
+that has helped with either the development of Sonic Pi or supported its
+use in any capacity. On its own Sonic Pi is just a piece of
+software. Only when combined with our kind and generous community does
+it become a powerful tool for sharing and celebrating the creativity of
+code. Thank-you everyone.
 
-Thanks to the following people for their generous support (both
-technical and otherwise) with time, advice, and wisdom:
+
+## A humble beginning 
+
+The start of any project is a fragile period which relies heavily on the
+generous support of others. We would like to offer our considered
+gratitude to the following people who provided support in the early days
+of Sonic Pi with their time, advice, and wisdom:
 
 * [Carrie Anne Philbin](https://twitter.com/missphilbin)
 * [Robert Mullins](http://www.cl.cam.ac.uk/~rdm34/)
@@ -12,8 +22,7 @@ technical and otherwise) with time, advice, and wisdom:
 * [Rachel Drury](https://twitter.com/Rachel_Drury)
 * [Juneau Projects](http://www.juneauprojects.co.uk)
 * Stephan Lachowsky
-* [Paul Winstanley](https://twitter.com/SCCMentor)
-* [Robin Newman](https://twitter.com/rbnman)
+
 
 ## Organisations
 
@@ -22,13 +31,44 @@ The following organisations have kindly contributed to Sonic Pi:
 * [The Raspberry Pi Foundation](http://www.raspberrypi.org)
 * [The Broadcom Foundation](http://www.broadcomfoundation.org)
 * [The University of Cambridge Computer Laboratory](http://www.cl.cam.ac.uk)
+* [Arts Council England](http://www.artscouncil.org.uk)
 * [Nesta](http://www.nesta.org.uk)
+* [pi-top](https://pi-top.com)
+
+
+## Outstanding Community Contributions
+
+We would like to recognise the following individuals for their important
+contributions which have supported the Sonic Pi Community:
+
+* [Paul Winstanley](https://twitter.com/SCCMentor)
+* [Robin Newman](https://twitter.com/rbnman)
+
+
+## Core Team
+
+Much of the development, distribution and support work for Sonic Pi is
+carried out by the Core Team. This is a group of dedicated volunteers
+(with the exception of Sam Aaron who works full time on the project) who
+continue to kindly donate their time to continue to improve Sonic Pi.
+
+Current members: 
+* [Sam Aaron](https://github.com/samaaron)
+* [Xavier Riley](https://github.com/xavriley)
+* [Joseph Wilk](https://github.com/josephwilk)
+* [Hanno Zulla](https://github.com/hzulla)
+* [Adrian Cheater](https://github.com/factoid)
+* [Luis Lloret](https://github.com/llloret/)
+
+Previous members: 
+* [Jeremy Weatherford](https://github.com/jweather)
+
 
 ## Developer Contributions
 
-In addition to the Sonic Pi Core Team, I'd like to give my thanks to the
-following developers who have donated their time and effort to help grow
-and improve the Sonic Pi code base:
+In addition to the Sonic Pi Core Team, we would like to extend our
+thanks to the following developers who have donated their time and
+effort to help grow and improve the Sonic Pi code base:
 
 * [Ethan Crawford](https://github.com/ethancrawford)
 * [Łukasz Siwiński](https://github.com/hopbit)
@@ -80,6 +120,7 @@ and improve the Sonic Pi code base:
 * [Nigel Michki](https://github.com/nigeil)
 * [Scott Kitterman](https://github.com/kitterma)
 * András Németh
+
 
 ## Translation
 
@@ -134,3 +175,25 @@ Several volunteers have translated Sonic Pi to their language:
 * [Eugene Kovalev](https://github.com/wl8dr3) (ru)
 * [Björn Ekström](https://github.com/bjornekstrom) (se)
 * Haowen You (zh-Hans)
+
+
+## Inspiration
+
+The following is a far from complete list of some of the individuals who
+have provided inspiration for the creation of Sonic Pi through their own
+projects:
+
+* _why (why the lucky stiff) - [Shoes](https://en.wikipedia.org/wiki/Shoes_(GUI_toolkit))
+* Andrew Sorensen  - [Extempore](http://extempore.moso.com.au)
+* James McCartney - [SuperCollider](http://supercollider.github.io)
+* Jeff Rose - [Overtone](http://overtone.github.com)
+* Linda Liukas - [Hello Ruby](http://www.helloruby.com/)
+* Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](ruby-lang.org)
+* Rich Hickey - [Clojure](http://clojure.org)
+* Seymour Papert - [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language))
+* The Scratch Team - [Scratch](https://scratch.mit.edu)
+* Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html) 
+
+
+
+
