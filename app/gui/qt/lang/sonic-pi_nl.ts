@@ -221,7 +221,7 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Invert stereo</source>
-        <translation>Stereo omdraaien</translation>
+        <translation>Stereo omkeren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="995"/>
@@ -231,7 +231,7 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
         <source>Synths and FX</source>
-        <translation>Synths en Effecten</translation>
+        <translation>Synths en FX (effecten)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1014"/>
@@ -246,21 +246,21 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1022"/>
         <source>Log cues</source>
-        <translation>Log startseinen</translation>
+        <translation>Log startteken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1023"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Schakel het loggen van startseinen in/uit.
-Indien uitgeschakeld zullen startseinen nog altijd triggeren,
-maar zij zullen niet zichtbaar zijn in het logvenster.</translation>
+        <translation>Schakel het loggen van cues (starttekens) in/uit.
+Indien uitgeschakeld zullen cues nog altijd triggeren,
+maar zullen niet zichtbaar zijn in het logvenster.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1025"/>
         <source>Log auto scroll</source>
-        <translation>Log automatisch scrollen</translation>
+        <translation>Logberichten automatisch scrollen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1026"/>
@@ -435,14 +435,14 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1117"/>
         <source>Toggle dark mode.</source>
-        <translation>In-/uitschakelen van de donkere modus.</translation>
+        <translation>Donkere modus In-/uitschakelen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1117"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
         <translation>
-Donkere modus is ideaal voor het Live coderen in nachtclubs.</translation>
+Donkere modus is ideaal voor het live coderen in nachtclubs.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1157"/>
