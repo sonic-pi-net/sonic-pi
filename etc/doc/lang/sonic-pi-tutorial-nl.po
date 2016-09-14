@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-12 09:54+0000\n"
+"PO-Revision-Date: 2016-09-14 10:04+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -11929,6 +11929,16 @@ msgid ""
 "rm music in nightclubs with Sonic Pi - DJs use discs and I use `live_loop`s :-"
 ") However, today we're going to live code both music and Minecraft."
 msgstr ""
+"Wie in de laatste maanden de zelfstudie (tutorials) heeft gevolgd zal nu wel "
+"behoorlijk onder de indruk zijn. Het spoor van meloenen is dan ook cool, "
+"maar het strafste deel van het voorgaande voorbeeld is dat je `live_loop` "
+"kan gebruiken met Minecraft! Als je `live_loop` niet kent, het is Sonic Pi's "
+"magische eigenschap die geen enkele andere programmeertaal heeft. Het staat "
+"je toe verschillende \"loops\" tezelfdertijd af te spelen, en deze "
+"tezelfdertijd ook aan te passen terwijl zij afspelen. Ze zijn heel krachtig "
+"en leuk. Ik gebruik `live_loop` om live muziek te spelen in nachtclubs met "
+"Sonic Pi. Dj's gebruiken disc's en ik gebruik  `live_loop`s :-) Maar vandaag "
+"gaan we zowel muziek als Minecraft live coderen."
 
 #: A.06-minecraft.md:133
 msgid ""
@@ -11937,6 +11947,11 @@ msgid ""
 "it run. Hey presto, you're now making a brick trail. How simple was that! Fanc"
 "y some music to go with it? Easy. Try this:"
 msgstr ""
+"Laten we beginnen. Voer de bovenstaande code in en begin weer met het maken "
+"van uw meloen parcours . Nu, zonderde code  te stoppen , wijzigen `:melon` "
+"naar `:brick en klik afspelen. En hupsaké, je maakt nu een parcours van "
+"baksteen. Hoe eenvoudig was dat! Zetten we er wat muziek bij? Ook "
+"gemakkelijk. Probeer dit:"
 
 #: A.06-minecraft.md:138
 #, no-wrap
@@ -11969,6 +11984,9 @@ msgid ""
 "ry `:water`, `:grass` or your favourite block type. Also, try changing the cut"
 "off value from `70` to `80` and then up to `100`. Isn't this fun?"
 msgstr ""
+"Nu, verander de code terwijl dit afspeelt. Verander de blok type's - probeer "
+"`:water`, `:grass` of jouw favoriete blok type uit. Probeer ook de waarde "
+"van de cutoff te wijzigen van `70`naar `80`en nog hoger tot `100`. Leuk niet?"
 
 #: A.06-minecraft.md:158
 msgid ""
@@ -11986,6 +12004,12 @@ msgid ""
 "d have a play by changing some of the values whilst it's running live. Have fu"
 "n and see you next time..."
 msgstr ""
+"Laten ons nu alles wat we tot hiertoe hebben gezien combineren, met nog een "
+"extra vleugje magie. En we combineren onze teleportatie met het blok "
+"plaatsen en met de muziek om tot een Minecraft Muziek Videoclip te komen. "
+"Wees niet bezorgd dat je niet alles begrijpt, typ het in en speel ermee door "
+"sommige waarden te veranderen terwijl het live afspeelt. Veel plezier en tot "
+"een volgende keer..."
 
 #: A.06-minecraft.md:166
 #, no-wrap
@@ -12055,10 +12079,14 @@ msgid ""
 "al operatic dance piece straight into the 21st century using the awesome power"
 " of code."
 msgstr ""
+"Na onze korte excursie vorige maand, naar de fantastische wereld van het "
+"coderen van Minecraft met Sonic Pi , gaan we opnieuw de muzikale toer op. "
+"Vandaag gaan we een klassieke opera dansstuk rechtstreeks naar de 21ste eeuw "
+"katapulteren met behulp van de ongelofelijke krachtt van code."
 
 #: A.07-bizet.md:10
 msgid "Outrageous and Disruptive"
-msgstr ""
+msgstr "Schandalig en Disruptief"
 
 #: A.07-bizet.md:12
 msgid ""
@@ -12072,6 +12100,15 @@ msgid ""
 "ic that is also too outrageous and different for most people in our time - liv"
 "e coded music!"
 msgstr ""
+"Laten we door de teletijdmachine terugkeren naar het jaar 1875. Een "
+"componist Bizet genaamd heeft net zijn laatste opera Carmen afgewerkt. Zoals "
+"het helaas dikwijls gaat met vernieuwende muziek ,sloeg het bij het publiek "
+"niet aan wegens te verschillend en te uitbundig. Helaas stierf Bizet 10 jaar "
+"voordat deze opera een internationaal succes werd en één van de meest "
+"beroemde en gespeelde opera's aller tijden werd. Uit sympathie voor deze "
+"tragedie gaan we één van de hoofdthema's van Carmen in een moderne "
+"muziekstijl gieten die voor de meeste mensen in deze tijd ook te \"anders\" "
+"is: live gecodeerde muziek!"
 
 #: A.07-bizet.md:23
 msgid "Decoding the Habanera"
@@ -12083,6 +12120,9 @@ msgid ""
 "orial, so let's focus on one of the most famous parts - the bass line to the H"
 "abanera:"
 msgstr ""
+"Om deze volledige opera zou in deze oefening een te grote uitdaging zijn, "
+"laten we daarom ons op één van de meest beroemde delen focussen- de baslijn "
+"van de Habanera:"
 
 #: A.07-bizet.md:29
 msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
@@ -12095,10 +12135,14 @@ msgid ""
 "ode - only it represents instructions to a musician instead of a computer. We "
 "therefore need to figure out a way of decoding it."
 msgstr ""
+"Dit kan uiterst onleesbaar lijken als je geen muziek hebt gestudeerd .Als "
+"programmeurs kunnen wij muzieknotatie zien als gewoon een andere vorm van "
+"code.Hiermee geeft u instructies aan een musicus in plaats van een computer. "
+"Daarom moeten wij een manier bedenken om het te decoderen."
 
 #: A.07-bizet.md:36
 msgid "Notes"
-msgstr ""
+msgstr "Noten"
 
 #: A.07-bizet.md:38
 msgid ""
@@ -12106,6 +12150,10 @@ msgid ""
 "also have different heights. *The height on the score represents the pitch of "
 "the note.* The higher the note on the score, the higher the pitch of the note."
 msgstr ""
+"De noten zijn van links naar rechts gerangschikt zoals de woorden op uw "
+"scherm,maar hebben ook verschillende plaatsing  in hoogte.* De hoogte in de "
+"partituur geeft de toonhoogte weer.* Hoe hoger de noot in de partituur "
+"staat, hoe hoger de noot klinkt."
 
 #: A.07-bizet.md:43
 msgid ""
@@ -12115,6 +12163,11 @@ msgid ""
 " score represents a specific note name. Take a look at this handy look up tabl"
 "e:"
 msgstr ""
+"Hoe we in Sonic Pi de toonhoogte van noten moeten veranderen, weten we al - "
+"ofwel gebruiken we getallen zoals `play 75` en `play 80` of we gebruiken de "
+"naam van de noot: `play :E` en`play :F`. Gelukkig vertegenwoordigt elk van "
+"de verticale posities van de partituur de naam van een specifieke noot. Neem "
+"een kijkje naar deze handige opzoek tabel:"
 
 #: A.07-bizet.md:49
 msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
@@ -12133,6 +12186,13 @@ msgid ""
 "` or `null` - the absence of a value. In other words not playing a note is lik"
 "e the absence of a note."
 msgstr ""
+"Partituren zijn een zeer rijke en expressieve soort code waarmee je "
+"verschillende uiteenlopende zaken kan communiceren.Het zal dan ook niet "
+"verbazen dat partituren jou niet alleen vertellen welke noten je moet "
+"spelen, maar ook waar je *geen* noten mag spelen. In het programmeren is dat "
+"te vertalen naar het idee van `nil` of `null` - de afwezigheid van een "
+"waarde. Met andere woorden, een noot niet spelen is zoals een noot die "
+"afwezig is."
 
 #: A.07-bizet.md:60
 msgid ""
@@ -12143,6 +12203,13 @@ msgid ""
 "rite `play :rest`, `play nil` or `play false` which are all equivalent ways of"
 " representing rests."
 msgstr ""
+"Als je de partituur aandachtig bekijkt zal je zien dat  deze een combinatie "
+"van zwarte punten met lijnen bevat de de te spelen noten vertegenwoordigen, "
+"en kronkelende dingen die de rusttijden vertegenwoordigen. Gelukkig heeft "
+"Sonic Pi een handige manier om een rusttijd aan te geven: `:r`, dus als we `"
+"play :r` afspelen, speelt deze eigenlijk stilte af! We kunnen ook `play "
+":rest` schrijven, `play nil` of `play false` die allemaal evengoed een "
+"rusttijd vertegenwoordigen."
 
 #: A.07-bizet.md:67
 msgid "Rhythm"
@@ -12157,6 +12224,13 @@ msgid ""
 "which means they last for an 8th of a beat. The rest has two squiggly beams wh"
 "ich means it also represents a 16th of the beat."
 msgstr ""
+"Tenslotte nog een laatste manier om de noten te ontcijferen: de timing van "
+"de noten. In de originele partituur zal je zien dat de noten verbonden zijn "
+"met dikke lijnen die men waardestrepen noemt. De tweede noot heeft twee "
+"lijnen in deze waardestreep wat betekent dat deze noot een zestiende van een "
+"tel aanhoudt.De andere noten hebben een enkel waardestreepje, wat wil zeggen "
+"dat deze een 8-ste van een tel aanhouden. De rest heeft twee krullige "
+"lijnen, vlagjes, die willen zeggen dat deze ook een 16-de van een tel zijn."
 
 #: A.07-bizet.md:77
 msgid ""
@@ -12165,6 +12239,11 @@ msgid ""
 "s. For example, when we re-write our notation purely in 16ths you can see that"
 " our notation just turns into a nice sequence of notes and rests."
 msgstr ""
+"Als we trachten nieuwe zaken te ontcijferen, is het handig om alles "
+"eenvormig te maken om zo patronen en verbanden te kunnen zien. Bijvoorbeeld, "
+"als we onze notenschrift in louter zestiende noten zouden herschrijven, kan "
+"je zien dat ons notenschrift verandert in een opeenvolging van noten en "
+"rusttijden."
 
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
@@ -12173,13 +12252,15 @@ msgstr ""
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
-msgstr ""
+msgstr "De Habanera Hercoderen"
 
 #: A.07-bizet.md:87
 msgid ""
 "We're now in a position to start translating this bass line to Sonic Pi. Let's"
 " encode these notes and rests in a ring:"
 msgstr ""
+"We staan nu op het punt om te beginnen met het vertalen van deze baslijn "
+"naar Sonic Pi. Laten we deze noten en rusttijden in een ring coderen:"
 
 #: A.07-bizet.md:90
 #, no-wrap
@@ -12210,10 +12291,13 @@ msgid ""
 "Fabulous, that instantly recognisable riff springs to life through your speake"
 "rs. It took a lot of effort to get here, but it was worth it - high five!"
 msgstr ""
+"Fantastisch, die herkenbare riff komt door jouw luidsprekers meteen  tot "
+"leven. Het kostte veel moeite om hier te komen, maar het was het waard - "
+"high five!"
 
 #: A.07-bizet.md:108
 msgid "Moody Synths"
-msgstr ""
+msgstr "Moody Synths"
 
 #: A.07-bizet.md:110
 msgid ""
@@ -12222,6 +12306,10 @@ msgid ""
 "d. Let's try it with the starting note `:d` passed through a slicer and reverb"
 ":"
 msgstr ""
+"Nu we de baslijn hebben, gaan we de sfeer van de opera recreëren. Een synth "
+"om uit te proberen is `:blade` welke een stemmige, jaren 80 stijl, synth "
+"lead is. We proberen deze met de beginnoot `:d`en laten deze door een slicer "
+"en een reverb passeren:"
 
 #: A.07-bizet.md:115
 #, no-wrap
@@ -12263,6 +12351,10 @@ msgid ""
 "n again. Also, try different values for the slicer's `phase:` opt such as `0.5"
 "`, `0.75` and `1`."
 msgstr ""
+"Probeer nu de andere noten in de baslijn: `:a`en `:f5`. Denk eraan, je hoeft "
+"niet op stop te drukken, je hoeft enkel de code te veranderen terwijl de "
+"muziek afspeelt en op afspelen de drukken. Probeer ook verschillende waarden "
+"uit voor de  `phase:` opt van de slicer uit zoals `0.5`, `0.75`en  `1`."
 
 #: A.07-bizet.md:140
 msgid ""
@@ -12273,6 +12365,13 @@ msgid ""
 "nd hit run again - how marvellous is that! Now, start mashing it around yourse"
 "lf and have fun."
 msgstr ""
+"Ten slotte combineren we alle ideeën die we tot dusver hebben gezien in een "
+"nieuwe remix van De Habanera. Je zal opmerken dat ik een ander deel van de "
+"baslijn in een commentaarlijn heb gestoken. Eens je alles in een nieuwe "
+"buffer hebt getypt, druk je op afspelen om de compositie te horen. Nu, "
+"zonder op stop te drukken ga je de tweede regel *uitcommentariëren*  door de "
+"# te verwijderen en opnieuw op afspelen te drukken, - hoe prachtig is dat!. "
+"Probeer zelf nog het een en ander en veel plezier ermee."
 
 #: A.07-bizet.md:147
 #, no-wrap
@@ -12365,6 +12464,12 @@ msgid ""
 "know that you could use Minecraft to create amazing visuals just like a profes"
 "sional VJ."
 msgstr ""
+"Iedereen heeft ooit Minecraft gespeeld. Je zal allemaal verbazingwekkende "
+"structuren gebouwd hebben, sluwe vallen ontworpen hebben en zelfs cart lines "
+"hebben uitgewerkt met hun bijbehorende redstone schakelaars. Hoeveel van "
+"jullie hebben al een optreden gedaan met Minecraft? Wedden dat je niet wist "
+"dat je Minecraft kunt gebruiken om ongelofelijke beelden af te spelen net "
+"zoals een professionele VJ dat doet."
 
 #: A.08-minecraft-vj.md:13
 msgid ""
@@ -12374,12 +12479,20 @@ msgid ""
 "an app called Sonic Pi which makes coding Minecraft not only easy but also inc"
 "redibly fun."
 msgstr ""
+"Als de muis de enige manier was om Minecraft te modificeren, had je het "
+"waarschijnlijk moeilijk om de dingen vlug genoeg veranderd te krijgen. "
+"Gelukkig komt jouw Raspberry Pi met een versie van Minecraft dat met behulp "
+"van code kan gecontrolt worden. Er is ook een app bij die Sonic Pi heet, die "
+"Het coderen van Minecraft niet alleen makkelijk, maar ook plezierig maakt."
 
 #: A.08-minecraft-vj.md:19
 msgid ""
 "In today's article we'll be showing you some of the tips and tricks that we've"
 " used to create performances in night clubs and music venues around the world."
 msgstr ""
+"In het artikel van vandaag gaan we jou enkele van de tips en trucjes tonen, "
+"die we hebben gebruikt bij optredens in nachtclubs en podia over de hele "
+"wereld."
 
 #: A.08-minecraft-vj.md:23
 msgid "Let's get started..."
@@ -12396,6 +12509,10 @@ msgid ""
 "Sonic Pi. In Minecraft, create a new world, and in Sonic Pi choose a fresh buf"
 "fer and write in this code:"
 msgstr ""
+"Laten we eerst een opwarmertje doen, en even terug keren naar de basis. "
+"Vooraleerst, doe je Raspberry Pi open en start zowel Minecraft als Sonic Pi "
+"op, creëer een nieuwe wereld, en kies in Sonic Pi een verse buffer en "
+"schrijf deze code:"
 
 #: A.08-minecraft-vj.md:32
 #, no-wrap
@@ -12407,10 +12524,12 @@ msgid ""
 "Hit the Run button and you'll see the message over in the Minecraft window. OK"
 ", we're ready to start, let's have some fun......"
 msgstr ""
+"Sla de afspelen toets aan om het bericht te zien in het Minecraft-venster.  "
+"Ok, we zijn klaar om te starten. We gaan wat pret maken..."
 
 #: A.08-minecraft-vj.md:39
 msgid "Sand Storms"
-msgstr ""
+msgstr "Zandstormen"
 
 #: A.08-minecraft-vj.md:41
 msgid ""
@@ -12419,26 +12538,34 @@ msgid ""
 "s to create a sand storm by dropping sand blocks from the sky. For that all we"
 " need are a few basic fns:"
 msgstr ""
+"Wanneer we Minecraft gebruiken om visuals mee te maken, houden we in "
+"gedachte dat we iets leuk om naar te kijken maken als zowel makkelijk uit "
+"code kunnen genereren. Een leuke truc is een zandstorm creëren door "
+"zandblokken uit de lucht te laten vallen. Daarvoor hebben we een aantal "
+"basis fns nodig:"
 
 #: A.08-minecraft-vj.md:46
 msgid "`sleep` - for inserting a delay between actions"
-msgstr ""
+msgstr "`sleep` - voor het invoegen van een vertraging tussen acties"
 
 #: A.08-minecraft-vj.md:47
 msgid "`mc_location` - to find our current location"
-msgstr ""
+msgstr "`mc_location` - om onze huidige lokatie te vinden"
 
 #: A.08-minecraft-vj.md:48
 msgid "`mc_set_block`- to place sand blocks at a specific location"
-msgstr ""
+msgstr "`mc_set_block`- om de zandblokken op een bepaalde plaats te zetten"
 
 #: A.08-minecraft-vj.md:49
 msgid "`rrand` - to allow us to generate random values within a range"
 msgstr ""
+"`rrand` - om ons toe te laten random waarden binnen een bepaald bereik te "
+"genereren"
 
 #: A.08-minecraft-vj.md:50
 msgid "`live_loop` - to allow us to continually make it rain sand"
 msgstr ""
+"`live_loop` - om ons toe te laten een constante stroom aan regen te maken"
 
 #: A.08-minecraft-vj.md:52
 msgid ""
@@ -12448,6 +12575,11 @@ msgid ""
 "the *lang* tab in the Help system and then look up the fns directly along with"
 " all the other exciting things you can do."
 msgstr ""
+"Als je niet vertrouwd bent met een van de ingebouwde fns zoals `rrand`, typ "
+"het woord in je buffer, klik erin en gebruik de combinatie `control-i` op je "
+"toetsenbord om de ingebouwde documentatie op te roepen. Alternatief kan je "
+"ook navigeren naar de *lang* tab in het hulpsysteem en zoek fns op, tussen "
+"al de andere leuke dingen die je kan doen."
 
 #: A.08-minecraft-vj.md:58
 msgid ""
@@ -12455,6 +12587,9 @@ msgid ""
 "m. Grab your current location and use it to create a few sand blocks up in the"
 " sky nearby:"
 msgstr ""
+"Laat het een beetje regenen vooraleer je de zandstorm op volle kracht zet. "
+"Pluk je huidige locatie en gebruik deze om in de buurt een paar zandblokken "
+"in de lucht te plaatsen:"
 
 #: A.08-minecraft-vj.md:62
 #, no-wrap
@@ -12484,6 +12619,11 @@ msgid ""
 "g. Don't worry, if you missed them just hit Run again for another batch of san"
 "d rain - just make sure you're looking the right way!"
 msgstr ""
+"Wanneer je Afspelen aanslaat, moet je misschien een beetje rondkijken om "
+"zicht te hebben op de vallende blokken vermits hun zichtbaarheid afhangt van "
+"jouw kijkrichting. Geen nood als je hun val net gemist hebt, klik gewoon "
+"terug op Afspelen voor een nieuwe partij zandregen- zorg er gewoon voor dat "
+"je in de juiste richting kijkt!"
 
 #: A.08-minecraft-vj.md:79
 msgid ""
@@ -12494,6 +12634,13 @@ msgid ""
 " We chose the same x coordinate, a y coordinate 20 blocks higher and then succ"
 "essively larger z coordinates so the sand dropped in a line away from Steve."
 msgstr ""
+"Laten we even kijken wat hier gaan de is. In de eerste regel bemachtigde we "
+"de coördinaten van de huidige locatie van Steve via de  `mc_location` en "
+"plaatsten we deze in de variabelen `x`, `y`, en `z`. Op de volgende regels "
+"gebruikten we  `mc_set_block` fn om wat zand te plaatsen op de zelfde "
+"coördinaten als die van Steve, met wat aanpassingen. We kozen dezelfde x "
+"coördinaat , een y coördinaat 20 blokken hoger en achtereenvolgens een "
+"groter z coördinaat zodat het zand niet ver van Steve naar beneden valt."
 
 #: A.08-minecraft-vj.md:87
 msgid ""
@@ -12501,10 +12648,14 @@ msgid ""
 "ding more lines, changing the sleep times, try mixing `:sand` with `:gravel` a"
 "nd choose different coordinates. Just experiment and have fun!"
 msgstr ""
+"Waarom nemen we deze code niet over om hier wat mee te gaan spelen? Probeer "
+"meer lijnregels, verander de rusttijden (sleep), probeer `:sand` met "
+"`:gravel` te mengen en gebruik verschillende coördinaten? Experimenteer maar "
+"en veel plezier ermee!"
 
 #: A.08-minecraft-vj.md:91
 msgid "Live Loops Unleashed"
-msgstr ""
+msgstr "Live Loops ontketend"
 
 #: A.08-minecraft-vj.md:93
 msgid ""
@@ -12512,6 +12663,9 @@ msgid ""
 "e_loop` - Sonic Pi's magical ability which unleashes the full power of live co"
 "ding - changing code on-the-fly whilst it's running!"
 msgstr ""
+"Ok, tijd om een storm te laten woeden door de kracht van de `live_loop` te "
+"laten ontketenen - Sonic Pi's wonderlijke eigenschap die de kracht van het "
+"live code-en laat zien- namelijk de code wijzigen terwijl deze loopt!"
 
 #: A.08-minecraft-vj.md:97
 #, no-wrap
@@ -12542,18 +12696,21 @@ msgid ""
 "h loop we're finding Steve's location like before but then generating 3 random"
 " values:"
 msgstr ""
+"Hoe leuk! We gaan behoorlijk snel door deze Loop (8 keer per seconde) en bij "
+"elke doorloop vinden we opnieuw de locatie van Steve om er dan 3 random "
+"waarden bij te genereren:"
 
 #: A.08-minecraft-vj.md:113
 msgid "`xd` - the difference for x which will be between -10 and 10"
-msgstr ""
+msgstr "`xd` - het verschil bij x welke tussen -10 en 10 liggen"
 
 #: A.08-minecraft-vj.md:114
 msgid "`zd` - the difference for z also between -10 and 10"
-msgstr ""
+msgstr "`zd` - het verschil bij z ook tussen -10 en 10"
 
 #: A.08-minecraft-vj.md:115
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
-msgstr ""
+msgstr "`co` - een cutoff waarde voor de low pass filter tussen 70 en 130"
 
 #: A.08-minecraft-vj.md:117
 msgid ""
@@ -12561,6 +12718,9 @@ msgid ""
 "s sand falling in random locations around Steve along with a percussive rain-l"
 "ike sound from the `:cnoise` synth."
 msgstr ""
+"We gebruiken dan deze random waarden in de fns `synth` en `mc_set_block` die "
+"ons vallend zand geven op willekeurige plaatsen rond Steve samen met een "
+"regen-achtig geluid van de `:cnoise` synth."
 
 #: A.08-minecraft-vj.md:121
 msgid ""
@@ -12572,10 +12732,18 @@ msgid ""
 "g and changing things around. How different can you make the visuals without s"
 "topping the code?"
 msgstr ""
+"Voor diegene voor wie  live loops nieuw zijn - hier begint de pret pas met "
+"Sonic Pi. Terwijl de code loopt en het zand naar beneden wordt uitgestrooid, "
+"tracht je één van de waarden te veranderen, misschien de rusttijd (sleep) "
+"naar `0.25` of de `:sand` block type naar `:gravel. Druk nu *opnieuw* "
+"Afspelen in. En presto veranderde de zaken die je had aangepast zonder de "
+"code te hoeven stoppen. Dit is jouw toegangspoort om als een echte VJ aan de "
+"slag te gaan. Blijf oefenen en verander hier en daar wat. Hoe verschillend "
+"kan jij de visuals maken zonder de code te stoppen?"
 
 #: A.08-minecraft-vj.md:129
 msgid "Epic Block Patterns"
-msgstr ""
+msgstr "Epische blok patronen"
 
 #: A.08-minecraft-vj.md:131
 msgid ""
@@ -14557,9 +14725,8 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:80
-#, fuzzy
 msgid "3. Master Live Loops"
-msgstr "Live Loops"
+msgstr "3.Live Loops Masteren"
 
 #: A.15-performance.md:82
 msgid ""
@@ -14583,7 +14750,7 @@ msgstr ""
 
 #: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
-msgstr ""
+msgstr "4. De Master Mixerr Gebruiken"
 
 #: A.15-performance.md:99
 msgid ""
