@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-14 09:40+0000\n"
+"PO-Revision-Date: 2016-09-15 10:02+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9810,16 +9810,19 @@ msgid ""
 "ered how to code our beats. In this tutorial we'll cover how to code up the th"
 "ree core components of a synth riff - the timbre, melody and rhythm."
 msgstr ""
+"リードシンセは、たとえそれがゴロゴロ鳴るオシレーターの浮遊であったり、ミックスを通して耳をつんざくようなデチューンされたノコギリ波であったしても、あらゆる"
+"電子音楽において不可欠な役割を果たしています。先月の記事では、ビートをどのようにコーディングするかについて紹介しました。今月の記事では、シンセ・リフの3つ"
+"のコアな要素、すなわち、その音色、メロディー、リズムをどのようにコーディングするかについて紹介したいと思います。"
 
 #: A.04-synth-riffs.md:12
 msgid ""
 "OK, so power up your Raspberry Pi, crack open Sonic Pi v2.6+ and let's make so"
 "me noise!"
-msgstr ""
+msgstr "では、Raspberry Piを起動し、v2.6以降のSonic Piを開いて、音を出してみましょう！"
 
 #: A.04-synth-riffs.md:16
 msgid "Timbral Possibilities"
-msgstr ""
+msgstr "音色の可能性"
 
 #: A.04-synth-riffs.md:18
 msgid ""
@@ -9828,6 +9831,9 @@ msgid ""
 "erent synths for a dramatic change and setting the various synth opts for more"
 " subtle modifications. We can also use FX, but that's for another tutorial..."
 msgstr ""
+"シンセ・リフに不可欠な要素は、音色で遊んだり変更したりすることです。Sonic Piでは、2つの方法で音色を操作することができます。劇的な変化として異なる"
+"シンセを選択することと、より微かな調整としてシンセのオプションの設定を変更することです。またエフェクトも使用できますが、これについては別なチュートリアルが"
+"必要そうです..."
 
 #: A.04-synth-riffs.md:24
 msgid "Let's create a simple live loop where we continually change the current synth:"
