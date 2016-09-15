@@ -2825,10 +2825,11 @@ It is possible to set the `start:` and `finish:` positions within the sample to 
 Finally, the sampler supports a powerful filtering system to make it easier to work with large folders of samples. The filter commands must be used before the first standard opt. There are six kinds of filter parameters you may use:
 
 1. Folder strings - `\"/foo/bar\"` - which will add all samples within the folder to the set of candidates.
-2. Sample strings - `\"/path/to/sample.wav\"` - which will add the specific sample to the set of candidates.
-3. Other strings - `\"foobar\"` - which will filter the candidates based on whether the filename contains the string.
-4. Regular expressions - `/b[aA]z.*/` - which will filter the candidates based on whether the regular expression matches the filename.
-5. Keywords - `:quux` - will filter the candidates based on whether the keyword is a direct match of the filename (without extension).
+2. Recursive folder strings - `\"/foo/bar/**\"` - Folder strings ending with `**` will add all samples containined within all subfolders (searched recursively).
+3. Sample strings - `\"/path/to/sample.wav\"` - which will add the specific sample to the set of candidates.
+4. Other strings - `\"foobar\"` - which will filter the candidates based on whether the filename contains the string.
+5. Regular expressions - `/b[aA]z.*/` - which will filter the candidates based on whether the regular expression matches the filename.
+6. Keywords - `:quux` - will filter the candidates based on whether the keyword is a direct match of the filename (without extension).
 7. Numbers - `0` - will select the candidate with that index (wrapping round like a ring if necessary).
 8. Lists of the above - `[\"/foo/bar\", \"baz\", /0-9.*/]` - will recurse down and work through the internal filter parameters as if they were in the top level.
 9. Lambdas - `lambda {|s| [s.choose] } - the ultimate power tool for filters. Allows you to create a custom fn which receives a list of candidates as an arg and which should return a new list of candidates (this may be smaller, larger, re-ordered it's up to you).
