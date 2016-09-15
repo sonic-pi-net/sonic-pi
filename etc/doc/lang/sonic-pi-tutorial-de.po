@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-13 20:57+0000\n"
+"PO-Revision-Date: 2016-09-15 12:35+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -6527,12 +6527,10 @@ msgid "7.2 Controlling FX"
 msgstr "7.2 Effekte steuern"
 
 #: 07.2-Controlling-FX.md:3
-#, fuzzy
 msgid "Controlling FX"
 msgstr "Effekte steuern"
 
 #: 07.2-Controlling-FX.md:5
-#, fuzzy
 msgid ""
 "It is also possible to control FX, although this is achieved in a slightly dif"
 "ferent way:"
@@ -6564,35 +6562,31 @@ msgstr ""
 "end"
 
 #: 07.2-Controlling-FX.md:21
-#, fuzzy
 msgid ""
 "Instead of using a variable, we use the goalpost parameters of the do/end bloc"
 "k. Inside the `|` bars, we need to specify a unique name for our running FX wh"
 "ich we then reference from the containing do/end block. This behaviour is iden"
 "tical to using parameterised functions."
 msgstr ""
-"Statt eine Variable zu verwenden, nutzen wir die senkrechten Striche des do/en"
-"d-Blocks. Innerhalb der Striche `|`, müssen wir einen eindeutigen Namen für un"
-"seren laufenden Effekt vergeben, den wir dann innerhalb des do/end-Blocks verw"
-"enden. Dieses Verhalten ist das gleiche wie bei parametrisierten Funktionen."
+"Statt eine Variable zu verwenden, nutzen wir die senkrechten Striche des do"
+"/end-Blocks. Innerhalb der Striche `|`, müssen wir einen eindeutigen Namen "
+"für unseren laufenden Effekt vergeben, den wir dann innerhalb des do/end-"
+"Blocks verwenden. Dieses Verhalten ist das gleiche wie bei parametrisierten "
+"Funktionen."
 
 #: 07.2-Controlling-FX.md:26
-#, fuzzy
 msgid "Now go and control some synths and FX!"
 msgstr "Jetzt los - steuere ein paar Synths und Effekte!"
 
 #: 07.3-Sliding-Parameters.md:1
-#, fuzzy
 msgid "7.3 Sliding Options"
 msgstr "7.3 Gleitende Parameter"
 
 #: 07.3-Sliding-Parameters.md:3
-#, fuzzy
 msgid "Sliding Opts"
-msgstr "Gleitende Parameter"
+msgstr "Gleitende Optionen"
 
 #: 07.3-Sliding-Parameters.md:5
-#, fuzzy
 msgid ""
 "Whilst exploring the synth and FX opts, you might have noticed that there are "
 "a number of opts ending with `_slide`. You might have even tried calling them "
@@ -6600,30 +6594,28 @@ msgid ""
 "pecial opts that only work when you control synths as introduced in the previo"
 "us section."
 msgstr ""
-"Vielleicht ist Dir beim Erforschen der Synth- und FX-Argumente aufgefallen, da"
-"ss manche Parameter mit `_slide` enden. Vielleicht hast Du sie sogar ausprobie"
-"rt und keine Auswirkung bemerkt. Das liegt daran, dass dies keine normalen Par"
-"ameter sind. Diese besonderen Parameter funktionieren nur dann, wenn Du Synths"
-" wie im letzten Kapitel beschrieben steuerst."
+"Vielleicht ist Dir beim Erforschen der Synth- und FX-Opts aufgefallen, dass "
+"manche davon mit `_slide` enden. Vielleicht hast Du sie sogar ausprobiert "
+"und keine Auswirkung bemerkt. Das liegt daran, dass dies keine normalen Opts "
+"sind. Diese besonderen Opts funktionieren nur dann, wenn Du Synths wie im "
+"letzten Kapitel beschrieben steuerst."
 
 #: 07.3-Sliding-Parameters.md:11
-#, fuzzy
 msgid "Consider the following example:"
 msgstr "Schau Dir das folgende Beispiel an:"
 
 #: 07.3-Sliding-Parameters.md:23
-#, fuzzy
 msgid ""
 "Here, you can hear the synth pitch changing immediately on each `control` call"
 ". However, we might want the pitch to slide between changes. As we're controll"
 "ing the `note:` parameter, to add slide, we need to set the `note_slide` param"
 "eter of the synth:"
 msgstr ""
-"Hier kannst Du hören, wie sich die Tonhöhe unmittelbar bei jedem Aufruf von `c"
-"ontrol` ändert. Vielleicht möchtest Du aber, dass die Tonhöhe sich gleitend zw"
-"ischen den Aufrufen verändert. Um dort, wo wir den Parameter `note:` verwenden"
-", gleitende Übergänge hinzuzufügen, nutzen wir den `note_slide:`-Parameter des"
-" Synth:"
+"Hier kannst Du hören, wie sich die Tonhöhe unmittelbar bei jedem Aufruf von "
+"`control` ändert. Vielleicht möchtest Du aber, dass die Tonhöhe sich "
+"gleitend zwischen den Aufrufen verändert. Um dort, wo wir die Opt `note:` "
+"verwenden, gleitende Übergänge hinzuzufügen, nutzen wir die `note_slide:`-"
+"Opt des Synths:"
 
 #: 07.3-Sliding-Parameters.md:28
 #, no-wrap
