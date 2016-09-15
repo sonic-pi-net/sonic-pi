@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-14 14:22+0000\n"
+"PO-Revision-Date: 2016-09-15 10:35+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -13163,6 +13163,16 @@ msgid ""
 " close look at some of these applications, but for now let me leave you with a"
 " short example."
 msgstr ""
+"De tutorial van deze maand was een behoorlijk technische duik in hoe de "
+"functionaliteit van de randomisatie in Sonic Pi werkt.Hopelijk gaf het jou "
+"wat inzicht hoe dit in z'n werk  gaat en hoe je deze op een vertrouwde "
+"manier kan gaan gebruiken om repeteerbare patronen in jouw muziekstukken te "
+"creëren. Het is belangrijk je erop te wijzen dat je repeteerbare "
+"randomisatie *overal* je maar wil kan gebruiken. Je kan bijvoorbeeld de "
+"amplitude van noten randomiseren, de maat van het ritme, de hoeveelheid galm "
+"(reverb), de synth die je gebruikt, de mix van de FX, enz. enz. In de "
+"toekomst gaan we uitgebreid kijken naar sommige van die toepassingen, maar "
+"momenteel geef jou nog even dit voorbeeld."
 
 #: A.09-randomisation.md:157
 msgid ""
@@ -13173,6 +13183,14 @@ msgid ""
 " seeds you like, put on a live coded performance for your friends by simply sw"
 "itching between your favourite seeds to create a full piece."
 msgstr ""
+"Typ het volgende in een lege buffer, toets Afspelen, en begin dan links en "
+"rechts de seeds te veranderen, duw opnieuw op Afspelen (terwijl het nog "
+"speelt) en onderzoek welke verschillende geluiden, ritmes en melodieën die "
+"je kan maken. Wanneer je iets lekkers gevonden hebt, probeer dan het seed "
+"getal te onthouden, zodat je die later opnieuw kan gebruiken. Als je "
+"tenslotte een aantal leuke seeds gevonden hebt, nu kan je voor je vrienden "
+"een live coded optreden geven door gewoon te switchen tussen jouw favoriete "
+"seeds om een compleet muziekstuk te creëren."
 
 #: A.09-randomisation.md:165
 #, no-wrap
@@ -13225,7 +13243,7 @@ msgstr "A.10 Control"
 
 #: A.10-controlling-your-sound.md:3
 msgid "Controlling Your Sound"
-msgstr ""
+msgstr "Jouw Geluid Controllen"
 
 #: A.10-controlling-your-sound.md:5
 msgid ""
@@ -13240,6 +13258,8 @@ msgid ""
 "rong! Today you're going to learn something very powerful - how to control run"
 "ning synths."
 msgstr ""
+"Tot zover hebben we in deze serie de focus gelegd op het triggeren van "
+"geluiden. We hebben geleerd"
 
 #: A.10-controlling-your-sound.md:17
 msgid "A Basic Sound"
