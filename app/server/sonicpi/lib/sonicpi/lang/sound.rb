@@ -2825,7 +2825,7 @@ It is possible to set the `start:` and `finish:` positions within the sample to 
 Finally, the sampler supports a powerful filtering system to make it easier to work with large folders of samples. The filter commands must be used before the first standard opt. There are six kinds of filter parameters you may use:
 
 1. Folder strings - `\"/foo/bar\"` - which will add all samples within the folder to the set of candidates.
-2. Recursive folder strings - `\"/foo/bar/**\"` - Folder strings ending with `**` will add all samples containined within all subfolders (searched recursively).
+2. Recursive folder strings - `\"/foo/bar/**\"` - Folder strings ending with `**` will add all samples contained within all subfolders (searched recursively).
 3. Sample strings - `\"/path/to/sample.wav\"` - which will add the specific sample to the set of candidates.
 4. Other strings - `\"foobar\"` - which will filter the candidates based on whether the filename contains the string.
 5. Regular expressions - `/b[aA]z.*/` - which will filter the candidates based on whether the regular expression matches the filename.
