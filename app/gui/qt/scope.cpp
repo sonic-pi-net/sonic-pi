@@ -112,7 +112,10 @@ MultiScopePanel::MultiScopePanel( const QString& name, const QString& title, dou
   for( unsigned int i = 0; i < num_lines; ++i )
   {
     auto curve = new QwtPlotCurve();
-    curve->setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
+#if QWT_VERSION >= 0x60100
+  plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
+#endif
+
     curve->setRawSamples( sample_x, samples_y[i], 4096 );
     curve->attach(&plot);
     curves.push_back( std::shared_ptr<QwtPlotCurve>(curve) );
