@@ -27,7 +27,7 @@
 #include <QDesktopServices>
 #include <QDesktopWidget>
 
-#include <QAudioDeviceInfo>
+
 #include <QDir>
 #include <QAction>
 #include <QApplication>
@@ -87,19 +87,24 @@
 #include "oscpkt.hh"
 #include "udp.hh"
 using namespace oscpkt;// OS specific stuff
+
+// Operating System Specific includes
 #if defined(Q_OS_WIN)
   #include <QtConcurrent/QtConcurrentRun>
   void sleep(int x) { Sleep((x)*1000); }
 #elif defined(Q_OS_MAC)
   #include <QtConcurrent/QtConcurrentRun>
 #else
-//assuming Raspberry Pi
+  //assuming Raspberry Pi
   #include <cmath>
   #include <QtConcurrentRun>
 #endif
 
+
 #if QT_VERSION >= 0x050400
+// Requires Qt5
   #include <QWindow>
+  #include <QAudioDeviceInfo>
 #endif
 
 #include "mainwindow.h"
@@ -215,12 +220,15 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
 
   // Wait to hear back from the server before continuing
+  // Requires Qt5
+#if QT_VERSION >= 0x050400
+
   QAudioDeviceInfo in_info(QAudioDeviceInfo::defaultInputDevice());
   QAudioDeviceInfo out_info(QAudioDeviceInfo::defaultOutputDevice());
 
   std::cout << "[GUI] - detected audio input: "  << in_info.deviceName().toStdString() << std::endl;
   std::cout << "[GUI] - detected audio output: "  << out_info.deviceName().toStdString() << std::endl;
-
+#endif
   startRubyServer();
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...
