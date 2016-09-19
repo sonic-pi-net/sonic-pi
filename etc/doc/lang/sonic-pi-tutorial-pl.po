@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-14 04:54+0000\n"
-"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"PO-Revision-Date: 2016-09-19 10:39+0000\n"
+"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.8\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1917,16 +1917,15 @@ msgstr ""
 "tworzyłeś swój pierwszy sampel."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"Sonic Pi pozwala Ci robić wiele fajnych rzeczy z samplami. Poza tym, że na pok"
-"ładzie jest ponad 90 sampli, które tylko czekają na to, abyś zaczął się nimi b"
-"awić, to masz też możliwość manipulowania nimi oraz korzystania z Twoich własn"
-"ych. Bierzmy się do zabawy..."
+"Sonic Pi pozwala Ci robić wiele fajnych rzeczy z samplami. Poza tym, że na "
+"pokładzie jest ponad 90 sampli, które tylko czekają na to, abyś zaczął się "
+"nimi bawić, to masz też możliwość manipulowania nimi oraz korzystania z "
+"Twoich własnych. Bierzmy się do zabawy..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
@@ -10797,8 +10796,8 @@ msgid ""
 "I'm sure you're excited to hear that it's also built right into Sonic Pi. Clea"
 "r up a buffer and throw in the following code:"
 msgstr ""
-"Jestem pewien, iż jesteś podekscytowany usłyszeniem, iż także jest wbudowany w"
-" Sonic Pi. Wyczyść bufor i wklej następujący kod:"
+"Jestem pewien, iż jesteś podekscytowany usłyszeniem, iż także są wbudowane w "
+"Sonic Pi. Wyczyść bufor i wklej następujący kod:"
 
 #: A.03-coded-beats.md:37
 #, fuzzy
@@ -14010,12 +14009,11 @@ msgstr "choose (wybierz)"
 #: A.14-amplitude-modulation.md:1
 #, fuzzy
 msgid "A.14 Amplitude Modulation"
-msgstr "Amplituda"
+msgstr "A.14 Modulacja Amplitudy"
 
 #: A.14-amplitude-modulation.md:3
-#, fuzzy
 msgid "Amplitude Modulation"
-msgstr "Amplituda"
+msgstr "Modulacja Amplitudy"
 
 #: A.14-amplitude-modulation.md:5
 #, fuzzy
@@ -14539,7 +14537,7 @@ msgstr ""
 #: A.15-performance.md:136
 #, fuzzy
 msgid "5. Practice"
-msgstr "Efekty w praktyce"
+msgstr "5. Efekty w praktyce"
 
 #: A.15-performance.md:138
 msgid ""
@@ -14577,7 +14575,6 @@ msgid "Live Coding Education"
 msgstr "Kodowanie na żywo"
 
 #: B.01-live-coding.md:3
-#, fuzzy
 msgid ""
 "The lights sliced through the mist as the rhythms moved the crowd; the atmosph"
 "ere ripe with a heady mix of synths. However something wasn't quite right. Pro"
@@ -14586,14 +14583,14 @@ msgid ""
 "Pi running on a Raspberry Pi. The musician wasn't spinning disks, she was writ"
 "ing, editing and evaluating code. Live. This is Live Coding."
 msgstr ""
-"Promienie lasera przecinały smugi dymu a  bas pulsujący z subwoofera przeszywa"
-"ł ciała tłumu na parkiecie.  Atmosfera była gorąca, \n"
-" tworzyły ją syntezatory i taniec. W klubie tym było jednak coś dziwnego. Na ś"
-"cianie tuż nad głową DJ'a był wyświetlany jasny futurystyczny tekst, który bez"
-" przerwy się poruszał, zmieniał, tańczył i świecił... Nie były to żadne fantaz"
-"yjne wizualizacje, tylko Sonic Pi uruchomiony na Raspberry Pi. Osoba okupująca"
-" stanowisko DJ'a nie kręciła płytami winylowymi lecz pisała, edytowała i uruch"
-"amiała kod. Na żywo. To jest właśnie kodowanie na żywo."
+"Promienie lasera przecinały smugi dymu, a bas pulsujący z subwoofera "
+"przeszywał ciała tłumu na parkiecie.  Atmosfera była gorąca, tworzyły ją "
+"syntezatory i taniec. W klubie tym było jednak coś dziwnego. Na ścianie tuż "
+"nad głową DJ'a był wyświetlany jasny futurystyczny tekst, który bez przerwy "
+"się poruszał, zmieniał, tańczył i świecił... Nie były to żadne fantazyjne "
+"wizualizacje, tylko Sonic Pi uruchomiony na Raspberry Pi. Osoba okupująca "
+"stanowisko DJ'a nie kręciła płytami winylowymi, lecz pisała, edytowała i "
+"uruchamiała kod. Na żywo. To jest właśnie kodowanie na żywo."
 
 #: B.01-live-coding.md:11
 #, fuzzy
@@ -14859,7 +14856,6 @@ msgid ""
 msgstr ""
 
 #: B.01-live-coding.md:196
-#, fuzzy
 msgid "The Live Loop"
 msgstr "Live Loop (Żywa Pętla)"
 
@@ -14923,13 +14919,12 @@ msgstr ""
 " małych wartości oraz dużych liczb. Przyjemnej zabawy!"
 
 #: B.01-live-coding.md:253
-#, fuzzy
 msgid ""
 "One of the core lessons about `live_loop`s is that they need rest. Consider th"
 "e following `live_loop`:"
 msgstr ""
-"Jedną z najważniejszych lekcji dotyczących pętli `live_loop` jest to, że potrz"
-"ebują one odpoczynku. Przyjrzyjmy się następującej pętli `live_loop`:"
+"Jedną z najważniejszych lekcji dotyczących pętli `live_loop` jest to, że "
+"potrzebują one odpoczynku. Przyjrzyjmy się następującej pętli `live_loop`:"
 
 #: B.01-live-coding.md:271
 #, fuzzy
@@ -14937,31 +14932,29 @@ msgid "Combining Sounds with Concurrency"
 msgstr "Łączenie Dźwięków"
 
 #: B.01-live-coding.md:273
-#, fuzzy
 msgid ""
 "Music is full of things happening at the same time. Drums at the same time as "
 "bass at the same time as vocals at the same time as guitars... In computing we"
 " call this concurrency and Sonic Pi provides us with an amazingly simple way o"
 "f writing concurrent code. Just use more than one `live_loop`!"
 msgstr ""
-"Muzyka jest pełna rzeczy, które się dzieją w tym samym czasie. Bębny grają, a "
-"w tym samym czasie słychać bas, wokal i gitarę... W komputerach nazywamy to ws"
-"półbieżnością a Sonic Pi pozwala nam na granie różnych dźwięków w tym samym cz"
-"asie w niesamowicie prosty sposób. Wystarczy, że użyjemy więcej niż jednej pęt"
-"li `live_loop`!"
+"Muzyka jest pełna rzeczy, które się dzieją w tym samym czasie. Bębny grają, "
+"a w tym samym czasie słychać bas, wokal i gitarę... W komputerach nazywamy "
+"to współbieżnością, a Sonic Pi pozwala nam na granie różnych dźwięków w tym "
+"samym czasie w niesamowicie prosty sposób. Wystarczy, że użyjemy więcej niż "
+"jednej pętli `live_loop`!"
 
 #: B.01-live-coding.md:298
-#, fuzzy
 msgid ""
 "One of the interesting things about using multiple `live_loop`s is that they e"
 "ach manage their own time. This means it's really easy to create interesting p"
 "olyrhythmical structures and create very interesting musical structures with o"
 "nly a few lines of code."
 msgstr ""
-"Jedną z interesujących rzeczy w używaniu wielu pętli `live_loop` jest to, że k"
-"ażda z nich zarządza swoim czasem. Oznacza to, że bardzo łatwo można stworzyć "
-"interesujące struktury polirytmiczne a nawet grać fazami w stylu Stevena Reich"
-"a. Spróbuj tego:"
+"Jedną z interesujących rzeczy w używaniu wielu pętli `live_loop` jest to, że "
+"każda z nich zarządza swoim czasem. Oznacza to, iż bardzo łatwo można "
+"stworzyć interesujące struktury polirytmiczne, a nawet grać fazami w stylu "
+"Stevena Reicha z paroma liniami kodu."
 
 #: B.01-live-coding.md:304
 msgid "Use Sonic Pi in your Classroom Today"
