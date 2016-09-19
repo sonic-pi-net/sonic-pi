@@ -442,7 +442,7 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Master Volume</source>
-        <translation type="unfinished">Głośność Master</translation>
+        <translation>Głośność Master</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="988"/>
@@ -462,12 +462,12 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1169"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Rodzaje Skali</translation>
+        <translation>Rodzaje Skali</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Pokaż Skale</translation>
+        <translation>Pokaż Skale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1186"/>
