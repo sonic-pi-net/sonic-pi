@@ -133,7 +133,7 @@ leeggemaakt telkens op afspelen wordt gedrukt.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="775"/>
         <source>Indenting line...</source>
-        <translation>Lijn inspringen...</translation>
+        <translation>Regel inspringen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="991"/>
@@ -162,7 +162,7 @@ externe PA systemen te werken wanneer je optreedt met Sonic Pi.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1103"/>
         <source>Show line numbers</source>
-        <translation>Toon lijnnummers</translation>
+        <translation>Toon nummering regels</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="327"/>
@@ -196,7 +196,7 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="808"/>
         <source>Toggle line comment...</source>
-        <translation>Schakel commentaar per lijn aan/uit...</translation>
+        <translation>Schakel commentaar voor regel aan/uit...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="879"/>
