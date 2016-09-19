@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-19 14:13+0000\n"
-"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
+"PO-Revision-Date: 2016-09-19 15:24+0000\n"
+"Last-Translator: Sander Kesting <kesting.s@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -13394,23 +13394,23 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:76
 msgid "Default: 0"
-msgstr ""
+msgstr "standaard instelling: 0"
 
 #: A.10-controlling-your-sound.md:77
 msgid "Must be zero or greater"
-msgstr ""
+msgstr "Moet nul of groter dan nul zijn"
 
 #: A.10-controlling-your-sound.md:78
 msgid "Can not be changed once set"
-msgstr ""
+msgstr "Kan niet worden aangepast als het eenmaal is ingesteld"
 
 #: A.10-controlling-your-sound.md:79
 msgid "Scaled with current BPM value"
-msgstr ""
+msgstr "Geschaald met de huidige metronoom stand (beats per minuut)"
 
 #: A.10-controlling-your-sound.md:81
 msgid "Multiple Changes"
-msgstr ""
+msgstr "Verscheidene veranderingen"
 
 #: A.10-controlling-your-sound.md:83
 msgid ""
@@ -13418,6 +13418,10 @@ msgid ""
 " free to change it as many times as you like. For example, we can turn our `:p"
 "rophet` into a mini arpeggiator with the following:"
 msgstr ""
+"Als een synth eenmaal loopt ben je niet beperkt tot slechts 1 verandering - "
+"je kunt veranderingen blijven doen zoveel je wilt. bijvoorbeeld, we kunnen "
+"onze ':prophet' veranderen in een generator van een reeks accoordtonen (dat "
+"is een arpeggio, arpeggio generator =arpeggiator) door het volgende te doen:"
 
 #: A.10-controlling-your-sound.md:87
 #, no-wrap
