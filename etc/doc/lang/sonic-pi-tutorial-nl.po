@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-15 10:35+0000\n"
+"PO-Revision-Date: 2016-09-19 14:13+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.8\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -13259,17 +13259,28 @@ msgid ""
 "ning synths."
 msgstr ""
 "Tot zover hebben we in deze serie de focus gelegd op het triggeren van "
-"geluiden. We hebben geleerd"
+"geluiden. We hebben geleerd dat we de, in Sonic Pi, ingebouwde synth's met "
+"`play` of `synth` kunnen triggeren en vooraf opgenomen samples triggeren met "
+"`sample`. We hebben ook geleerd hoe we deze getriggerde klanken in een "
+"studio FX kunnen steken door middel van het `with_fx` commando. Combineer "
+"deze met het ongelofelijk nauwkeurige timing systeem van Sonic Pi en je kan "
+"een breed scala klanken,beats en riff's produceren. Maar zodra je een "
+"zorgvuldig geselecteerde klank opties hebt uitgekozen en deze hebt "
+"getriggerd, is er geen mogelijkheid om deze klank te veranderen terwijl deze "
+"speelt, juist? Neen hoor! Vandaag gaan we iets machtig leren, hoe een "
+"lopende synth controllen."
 
 #: A.10-controlling-your-sound.md:17
 msgid "A Basic Sound"
-msgstr ""
+msgstr "Een Basis Klank"
 
 #: A.10-controlling-your-sound.md:19
 msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer type "
 "the following:"
 msgstr ""
+"Laat ons even een leuke eenvoudige klank maken. Start Sonic Pi en typ in een "
+"nieuwe buffer het volgende:"
 
 #: A.10-controlling-your-sound.md:22
 #, no-wrap
@@ -13282,10 +13293,14 @@ msgid ""
 ". Go ahead, press it again a few times to get a feel for it. OK, done? Let's s"
 "tart controlling it!"
 msgstr ""
+"Druk nu op de Afspeel-knop bovenaan links om dan een een mooie rommelend "
+"synth-geluid te mogen horen. Doe dit nog maar een paar keer om het in de "
+"vingers te krijgen en druk op Afspelen. Ok, klaar? Nu beginnen we het te "
+"controllen!"
 
 #: A.10-controlling-your-sound.md:30
 msgid "Synth Nodes"
-msgstr ""
+msgstr "Synth Nodes"
 
 #: A.10-controlling-your-sound.md:32
 msgid ""
@@ -13295,6 +13310,11 @@ msgid ""
 "ntrol** it at a later point in time. For example, let's change the value of th"
 "e `cutoff:` opt after 1 beat:"
 msgstr ""
+"Een weinig bekende functie in Sonic Pi is dat de fns `play`, `synth` en "
+"`sample`, een zogenaamde `SynthNode` opgeven, die een lopende klank "
+"vertegenwoordigd. Je kan zo'n `SynthNode` vastleggen door een standaard "
+"variabele te gebruiken en deze later te gaan **controllen**. We kunnen "
+"bijvoorbeeld de waarde van de `cutoff:` opt na 1 tel veranderen:"
 
 #: A.10-controlling-your-sound.md:38
 #, no-wrap
@@ -13309,7 +13329,7 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:44
 msgid "Let's look at each line in turn:"
-msgstr ""
+msgstr "Laten we de verschillende regels op zijn beurt even bekijken:"
 
 #: A.10-controlling-your-sound.md:46
 msgid ""
@@ -13320,12 +13340,22 @@ msgid ""
 "gful to you for your performances and for people reading your code. I chose `s"
 "n` as it's a nice short mnemonic for synth node."
 msgstr ""
+"Ten eerste triggeren we de `:prophet` synth door de `synth` fn zoals "
+"gewoonlijk te gebruiken. We spelen een variabele genaamd 'sn' deze waarde "
+"door. We zouden deze variabele ook een totaal andere naam hebben kunnen "
+"geven zoals `synth_node` of `kevin` , de naam speelt geen rol. Het is wel "
+"belangrijk dat deze voor jou een betekenis heeft als je een performance "
+"geeft en voor de mensen die jouw code lezen. Ik koos nu voor `sn` omdat dit "
+"een mooi ezelsbruggetje is naar synth node."
 
 #: A.10-controlling-your-sound.md:54
 msgid ""
 "On line 2 we have a standard `sleep` command. This does nothing special - it j"
 "ust asks the computer to wait for 1 beat before moving onto the next line."
 msgstr ""
+"Op regel 2 hebben we het standaard `sleep` commando. Het doet niks "
+"bijzonders, het vraagt de computer enkel om één tel te wachten vooraleer "
+"verder te gaan naar de volgende regel."
 
 #: A.10-controlling-your-sound.md:58
 msgid ""
@@ -13334,10 +13364,15 @@ msgid ""
 "Run** button, you'll hear the `:prophet` synth start playing as before, but af"
 "ter 1 beat it will shift to sound a lot brighter."
 msgstr ""
+"a Op regel 3 begint het control plezier. Hier gebruiken we de `control` fn, "
+"om onze lopende `synth_node` te vertellen, de waarde van de cutoff naar `130`"
+" te veranderen. Als je **Afspelen** klikt, zal je horen dat de `:prophet` "
+"synth zoals daarvoor speelt, maar na 1 tel zal deze naar een meer heldere "
+"klank verschuiven."
 
 #: A.10-controlling-your-sound.md:63
 msgid "Modulatable Options"
-msgstr ""
+msgstr "Moduleerbare Opties"
 
 #: A.10-controlling-your-sound.md:65
 msgid ""
@@ -13351,6 +13386,11 @@ msgid ""
 "he `:beep` synth's `attack:` opt makes it clear that it's not possible to chan"
 "ge it:"
 msgstr ""
+"De meeste van Sonic Pi's synths en FX opts kunnen veranderd worden nadat ze "
+"getriggerd zijn. Dit is echter niet voor allen het geval. Bijvoorbeeld, de "
+"envelop opts  `attack:`, `decay:`, `sustain:` and `release:` kunnen alleen "
+"ingestelt worden bij bij het triggeren van de synth. Uitzoeken welke opts "
+"wel en welke niet kunnen veranderd worden is heel makkelijk"
 
 #: A.10-controlling-your-sound.md:76
 msgid "Default: 0"
