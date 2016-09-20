@@ -205,7 +205,7 @@ module SonicPi
       log "\n\n\n"
     end
 
-    def scsynth_path
+    def 
       case os
       when :raspberry
         "scsynth"
@@ -349,7 +349,7 @@ module SonicPi
       log_boot_msg
       puts "Booting on Windows"
 
-      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-i", "16", "-o", "16", "-b", num_buffers_for_current_os.to_s)
+      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-i", "16", "-o", "16", "-b", num_buffers_for_current_os.to_s, "-B", "127.0.0.1")
     end
 
     def boot_server_raspberry_pi
