@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-19 16:24+0000\n"
-"Last-Translator: Sander Kesting <kesting.s@gmail.com>\n"
+"PO-Revision-Date: 2016-09-20 12:14+0000\n"
+"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -58,9 +58,10 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Mocht je bedenkingen hebben, of ideeën, om Sonic Pi te verbeteren, aarzel dan "
-"niet om deze te laten weten, daar feedback zo nuttig is . En, je weet nooit, …"
-" jouw idee kan wel eens de volgende, voornaamste nieuwe functie zijn!"
+"Mocht je bedenkingen hebben, of ideeën, om Sonic Pi te verbeteren, aarzel "
+"dan niet om deze te laten weten, daar feedback zo nuttig is . En, je weet "
+"nooit, … jouw idee kan dan wel eens de volgende, voornaamste nieuwe functie "
+"zijn!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -13341,10 +13342,10 @@ msgid ""
 "n` as it's a nice short mnemonic for synth node."
 msgstr ""
 "Ten eerste triggeren we de `:prophet` synth door de `synth` fn zoals "
-"gewoonlijk te gebruiken. We spelen een variabele genaamd 'sn' deze waarde "
-"door. We zouden deze variabele ook een totaal andere naam hebben kunnen "
-"geven zoals `synth_node` of `kevin` , de naam speelt geen rol. Het is wel "
-"belangrijk dat deze voor jou een betekenis heeft als je een performance "
+"gewoonlijk te gebruiken. We spelen het resultaat aan een variabele door "
+"genaamd `sn`. We zouden deze variabele ook een totaal andere naam hebben "
+"kunnen geven zoals `synth_node` of `kevin` , de naam speelt geen rol. Het is "
+"wel belangrijk dat deze voor jou een betekenis heeft als je een performance "
 "geeft en voor de mensen die jouw code lezen. Ik koos nu voor `sn` omdat dit "
 "een mooi geheugensteuntje is naar synth node."
 
@@ -13364,11 +13365,10 @@ msgid ""
 "Run** button, you'll hear the `:prophet` synth start playing as before, but af"
 "ter 1 beat it will shift to sound a lot brighter."
 msgstr ""
-"a Op regel 3 begint het control plezier. Hier gebruiken we de `control` fn, "
-"om onze lopende `synth_node` te vertellen, de waarde van de cutoff naar `130`"
-" te veranderen. Als je **Afspelen** klikt, zal je horen dat de `:prophet` "
-"synth zoals daarvoor speelt, maar na 1 tel zal deze naar een meer heldere "
-"klank verschuiven."
+"Op regel 3 begint het control plezier. Hier gebruiken we de `control` fn, om "
+"onze lopende `synth_node` te vertellen, de waarde van de cutoff naar `130` "
+"te veranderen. Als je **Afspelen** klikt, hoor je de`:prophet` synth zoals "
+"daarvoor, maar na 1 tel zal deze naar een meer heldere klank veranderen."
 
 #: A.10-controlling-your-sound.md:63
 msgid "Modulatable Options"
@@ -13390,11 +13390,16 @@ msgstr ""
 "getriggerd zijn. Dit is echter niet voor allen het geval. Bijvoorbeeld, de "
 "envelop opts  `attack:`, `decay:`, `sustain:` and `release:` kunnen alleen "
 "ingestelt worden bij bij het triggeren van de synth. Uitzoeken welke opts "
-"wel en welke niet kunnen veranderd worden is heel makkelijk"
+"wel en welke niet kunnen veranderd worden is heel makkelijk, ga gewoon naar "
+"de documentatie voor de gegeven synth of FX en scroll naar beneden naar de "
+"afzonderlijke beschrijving van de opties.In de onderste regel vind je dan “"
+"Kan veranderd worden tijdens het afspelen” of “Kan niet veranderd worden "
+"eens ingesteld”. De documentatie voor de `:beep` synth maakt duidelijk dat "
+"het niet mogelijk is de `attack:` opt te veranderen eens ingesteld:"
 
 #: A.10-controlling-your-sound.md:76
 msgid "Default: 0"
-msgstr "standaard instelling: 0"
+msgstr "Standaard instelling: 0"
 
 #: A.10-controlling-your-sound.md:77
 msgid "Must be zero or greater"
@@ -13402,7 +13407,7 @@ msgstr "Moet nul of groter dan nul zijn"
 
 #: A.10-controlling-your-sound.md:78
 msgid "Can not be changed once set"
-msgstr "Kan niet worden aangepast als het eenmaal is ingesteld"
+msgstr "Kan niet worden aangepast als deze eenmaal is ingesteld"
 
 #: A.10-controlling-your-sound.md:79
 msgid "Scaled with current BPM value"
@@ -13453,12 +13458,24 @@ msgid ""
 "d (thanks to the fabulous power of Sonic Pi's rings). For a bit of variety try"
 " replacing `.tick` with `.choose` and see if you can hear the difference."
 msgstr ""
+"In dit stukje code kunnen we een aantal extra zaken toevoegen. Ten eerste "
+"hebben we een nieuwe variabele, genaamd `notes`, gedefinieerd, die de noten "
+"bevat die we graag willen doorlopen (een arpeggiator is gewoon een chique "
+"naam voor datgene waarin een lijst van noten in een volgorde wordt doorlopen)"
+" Ten tweede hebben we onze éénmalige oproep naar `control`, vervangen door "
+"een iteratie om deze 16 keer aan te roepen. In elke oproep naar `control`, "
+"hebben we een `:tick` -en we door onze ring van `notes`, die automatisch "
+"herhaald worden eens we aan het einde ervan gekomen zijn (dankzij de "
+"sublieme kracht van Sonic Pi's rings) Voor wat variatie probeer je `.tick` "
+"door `.choose` te vervangen, en bekijk of je hier een verschil kan horen."
 
 #: A.10-controlling-your-sound.md:107
 msgid ""
 "Note that we can change multiple opts simultaneously. Try changing the control"
 " line to the following and listen for the difference:"
 msgstr ""
+"Merk op dat we meerdere opts tegelijk kunnen veranderen. Probeer de control "
+"regel naar het volgende te wijzigen en hoor nu het verschil:"
 
 #: A.10-controlling-your-sound.md:110
 #, no-wrap
@@ -13480,6 +13497,14 @@ msgid ""
 " moved a slider or dial. Of course, Sonic Pi can also do this too using the `_"
 "slide:` opts."
 msgstr ""
+"Wanneer we een `SynthNode` controllen, reageert die precies op tijd vanuit "
+"de waarde van de opt naar de nieuwe waarde, alsof je een knop indrukte, of "
+"een schakelaar aanzette om de verandering aan te brengen. Dit kan ritmisch "
+"en percussief klinken, zeker als de opt een aspect van de klankkleur bepaalt "
+"zoals de `cutoff:`. Maar soms wil je helemaal niet dat de verandering in een "
+"knip gebeurd, maar dat deze langzaam aan overgaat van de huidige waarde naar "
+"de nieuwe waarde, alsof je langzaam een schuifregelaar bewoog. Natuurlijk "
+"kan Sonic Pi dit ook, door gebruik te maken van de  `_slide:` opts."
 
 #: A.10-controlling-your-sound.md:125
 msgid ""
@@ -13489,6 +13514,12 @@ msgid ""
 "han all the other opts in that they tell the synth note how to behave **next t"
 "ime they are controlled**. Let's take a look:"
 msgstr ""
+"Elke opt die gewijzigd kan worden heeft een overeenkomstige `_slide:` opt  "
+"waarmee je de slide tijd mee kan instellen. Bijvoorbeeld, `amp:` heeft "
+"`amp_slide:` en `cutoff:` heeft `cutoff_slide:`. Deze slide opts werken een "
+"beetje anders dan de andere opts, doordat zij de synth noot opdraagt, hoe "
+"deze zich moeten gaan gedragen **de volgende keer dat ze gecontrold wordt**. "
+"Laten we hier even naar kijken:"
 
 #: A.10-controlling-your-sound.md:131
 #, no-wrap
@@ -13514,6 +13545,17 @@ msgid ""
 "ferent so you can have the cutoff sliding slowly, the amp sliding fast and the"
 " pan sliding somewhere in between if that's what you're looking to create..."
 msgstr ""
+"Merk hierbij op dat we hetzelfde voorbeeld genomen hebben, maar hier hebben "
+"we `cutoff_slide:` toegevoegd. Dit betekent dat de volgende keer; de "
+"`cutoff:` opt wordt gecontrolt. Het neemt 2 beats (tellen) in beslag om te "
+"sliden vanuit de huidige waarde naar de nieuwe waarde. Daardoor hoor je, "
+"wanneer we `control` gebruiken, de cutoff sliden van 70 naar 130. Het "
+"creëert een interessante dynamiek in het geluid. Probeer nu de "
+"`cutoff_slide:` tiid  te veranderen naar een kortere waarde zoals 0.5 en "
+"door een langere waarde zoals 4 om te zien hoe dit de klank verandert. Denk "
+"eraan, je kan elke modificeerbare opt op deze manier sliden, en elke "
+"`_slide:` waarde mag helemaal anders zijn. Zo kan de cutoff langzaam sliden, "
+"de amp snel sliden en de pan daar ergens tussenin sliden, zoals jij dit wil …"
 
 #: A.10-controlling-your-sound.md:151
 msgid ""
@@ -13522,6 +13564,11 @@ msgid ""
 "ynths although with a slightly different syntax. Check out section 7.2 of the "
 "built-in tutorial for more information on controlling FX."
 msgstr ""
+"Laat ons naar een korter voorbeeld kijken dat ons de kracht toont van het "
+"controllen van synths nadat ze getriggerd zijn. Merk hierbij op dat ook FX "
+"zoals synths kan sliden maar met een iets andere syntax. Bekijk hoofdstuk "
+"7.2 van de ingebouwde handleiding voor meer informatie omtrent het "
+"controllen van FX ."
 
 #: A.10-controlling-your-sound.md:157
 msgid ""
@@ -13530,6 +13577,10 @@ msgid ""
 "h, the FX and the sleep times and see if you can turn it into something comple"
 "tely different!"
 msgstr ""
+"Kopieer de code naar een overgebleven buffer en luister hier naar. Stop niet "
+"en speel een beetje met de code. Verander de slide tijd, verander de noten, "
+"de synth, de rusttijd (sleep) en zorg dat je deze kan veranderen tot iets "
+"compleet anders!"
 
 #: A.10-controlling-your-sound.md:162
 #, no-wrap
@@ -13569,7 +13620,7 @@ msgstr "A.11 Tik Tok"
 
 #: A.11-beat-tracking.md:3
 msgid "Tracking the Beat"
-msgstr ""
+msgstr "De maat houden"
 
 #: A.11-beat-tracking.md:5
 msgid ""
@@ -13580,10 +13631,14 @@ msgid ""
 "system. By the end of this article you'll be ticking your way through rhythms "
 "and riffs on your way to being a live coding DJ."
 msgstr ""
+"Vorige maand hebben we in deze serie een diepe duik genomen in het "
+"randomiseer systeem dat Sonic Pi ondersteund. We gingen na hoe we dit kunnen "
+"gebruiken om op deterministische wijze, nieuwe lagen van dynamische controle "
+"op onze code, uit te oefenen."
 
 #: A.11-beat-tracking.md:13
 msgid "Beat Counting"
-msgstr ""
+msgstr "De beat tellen"
 
 #: A.11-beat-tracking.md:15
 msgid ""
@@ -13592,12 +13647,20 @@ msgid ""
 " precise control over when a beat actually occurs and even supports multiple b"
 "eats with their own tempos."
 msgstr ""
+"Wanneer we muziek maken willen we soms dingen gaan doen die afhangen van het "
+"tempo en de beat. Sonic Pi heeft een speciaal systeem dat de beat telt, "
+"genaamd  `tick`, om je de precieze controle te geven  over wanneer een beat "
+"daadwerkelijk optreedt en zelfs meerdere beats met hun eigen tempo "
+"ondersteunt."
 
 #: A.11-beat-tracking.md:20
 msgid ""
 "Let's have a play - to advance the beat we just need to call `tick`. Open up a"
 " fresh buffer, type in the following and hit Run:"
 msgstr ""
+"We spelen hier nu even mee, om de beats te laten toenemen hoeven we gewoon "
+"`tick` aan te roepen. Open een lege buffer, typ het volgende en druk op "
+"Afspelen:"
 
 #: A.11-beat-tracking.md:23
 #, no-wrap
@@ -13611,6 +13674,11 @@ msgid ""
 "a fresh beat counting from 0. However, whilst the run is still active, we can "
 "advance the beat as many times as we want:"
 msgstr ""
+"Dit geeft je de huidige beat: `0`. Merk op dat zelfs wanneer je de Afspeel-"
+"knop herhaaldelijk indrukt, altijd `0` zal weergegeven worden. Dat komt "
+"omdat bij elke afspeel-commando het tellen van de beat van 0 start. We "
+"kunnen echter wanneer het afspelen nog actief is, de beat omhoog laten gaan, "
+"zoveel maal we zelf willen:"
 
 #: A.11-beat-tracking.md:32
 #, no-wrap
