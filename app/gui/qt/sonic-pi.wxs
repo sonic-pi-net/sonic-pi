@@ -2,9 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:firewall="http://schemas.microsoft.com/wix/FirewallExtension">
 <!-- so you want to be a WiXard?
 
-heat dir etc -gg -g1 -sfrag -dir SonicPi -cg ETC -out etc.wxs 
-heat dir app\gui -gg -g1 -sfrag -dir AppDir -cg GUI -out gui.wxs 
-heat dir app\server -gg -g1 -sfrag -dir AppDir -cg SERVER -out server.wxs 
+heat dir etc -gg -g1 -sfrag -dr SonicPi -cg ETC -out etc.wxs 
+heat dir app\gui -gg -g1 -sfrag -dr AppDir -cg GUI -out gui.wxs 
+heat dir app\server -gg -g1 -sfrag -dr AppDir -cg SERVER -out server.wxs 
 edit sonic-pi.wxs
     change version number
 edit gui.wxs
