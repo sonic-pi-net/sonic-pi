@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-20 12:14+0000\n"
+"PO-Revision-Date: 2016-09-20 14:27+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -13698,10 +13698,14 @@ msgid ""
 "0` means the code `puts foo` prints `0` to the log at that point in the progra"
 "m."
 msgstr ""
+"Telkens je het symbool `l#=>`  aan het einde van een regel code ziet, "
+"betekend dit dat deze regel de tekst logt in het logvenster rechts. "
+"Bijvoorbeeld `puts eenderwat #=> 0 betekent dat de code `puts eenderwat `0`"
+"zal uitprinten naar het log op het moment dat dit in het programma voorkomt."
 
 #: A.11-beat-tracking.md:43
 msgid "Checking the Beat"
-msgstr ""
+msgstr "De beat nagaan"
 
 #: A.11-beat-tracking.md:45
 msgid ""
@@ -13709,6 +13713,9 @@ msgid ""
 "he current beat. Sometimes we just want to look at the current beat without ha"
 "ving to increment it which we can do via `look`:"
 msgstr ""
+"We hebben gezien dat `tick` twee dingen doet. Het verhoogt (voegt toe) en "
+"geeft als resultaat de huidige beat. Soms willen we gewoon kijken naar de "
+"huidige beat zonder deze te verhogen. Dat kunnen we doen met `look`:"
 
 #: A.11-beat-tracking.md:49
 #, no-wrap
@@ -13730,6 +13737,10 @@ msgid ""
 "rned `0`, then `1` as expected, then the two `look`s just returned the last be"
 "at value twice which was `1`."
 msgstr ""
+"In deze code tick-en we de beat twee keer en roepen we `look` twee maal op. "
+"We zien de volgende waarden het log verschijnen: `0`, `1`, `1`, `1`. De "
+"eerste twee `tick`s gaven `0`en `1` zoals verwacht weer. daarna gaven de "
+"twee `look`s de laatste waarde van de beat weer, die `1`was."
 
 #: A.11-beat-tracking.md:64
 msgid ""
@@ -13741,11 +13752,19 @@ msgid ""
 "ts the beat. Secondly it looks up the ring value using the beat as the index. "
 "Let's take a look:"
 msgstr ""
+"Nu kunnen we dus de beat verhogen door middel van `tick`en deze nagaan door "
+"`look`. Maar wat nu? We hebben nog iets nodig om te laten tick-en. Sonic Pi "
+"gebruikt ringen om riffs, melodieën en ritmes te vertegenwoordigen, en het "
+"tick systeem is speciaal ontwikkeld om nauw met hen samen te werken. In "
+"feite hebben ringen hun eigen dot versie van `tick`,die  twee dingen doet. "
+"Ten eerste functioneert deze als een gewone tick en verhoogt ook de beat.Ten "
+"tweede zoekt die de waarde van de ring op waarbij de beat als index wordt "
+"gebruikt. Laten we hier even naar kijken:"
 
 #: A.11-beat-tracking.md:72
 #, no-wrap
 msgid "puts (ring :a, :b, :c).tick #=> :a"
-msgstr ""
+msgstr "puts (ring :a, :b, :c).tick #=> :a"
 
 #: A.11-beat-tracking.md:76
 msgid ""
@@ -13753,6 +13772,9 @@ msgid ""
 "f the ring `:a`. We can grab each of the values in the ring by calling `.tick`"
 " multiple times:"
 msgstr ""
+"`.tick` 'is een speciale dot versie van 'tik', die de eerste waarde van de "
+"ring geeft `:a`. We kunnen elke waarden in de ring oppikken door `.tick` "
+"meerdere keren op te roepen:"
 
 #: A.11-beat-tracking.md:80
 #, no-wrap
@@ -13775,10 +13797,13 @@ msgid ""
 "tice that `look` returns `3`. Calls to `.tick` act just like they are regular "
 "calls to `tick` - they increment the local beat."
 msgstr ""
+"Neem nu een kijkje in het log en je zal `:a`, `:b`, `:c` zien en dan `:a` "
+"opnieuw. Merk op dat `look` `3` weergeeft. Een oproep naar `.tick` zal "
+"handelen als een gewone oproep naar `tick`, zij verhogen de beat hier."
 
 #: A.11-beat-tracking.md:93
 msgid "A Live Loop Arpeggiator"
-msgstr ""
+msgstr "Een Live Loop Arpeggiator"
 
 #: A.11-beat-tracking.md:95
 msgid ""
@@ -13786,26 +13811,30 @@ msgid ""
 "bined we have all the tools we need to both build and understand a simple arpe"
 "giator. We need just four things:"
 msgstr ""
+"De sterke kant hiervan komt naar boven als je `tick` mixt met `ring` en "
+"`live_loops`s. Wanneer zij gecombineerd worden, hebben we ons gereedschap om "
+"een eenvoudige arpegiator te bouwen,en om deze te begrijpen. We hebben maar "
+"vier dingen nodig:"
 
 #: A.11-beat-tracking.md:99
 msgid "A ring containing the notes we want to loop over."
-msgstr ""
+msgstr "Een ring die de te doorlopen noten bevat."
 
 #: A.11-beat-tracking.md:100
 msgid "A means of incrementing and obtaining the beat."
-msgstr ""
+msgstr "Een middel om de beat te verkrijgen en te verhogen."
 
 #: A.11-beat-tracking.md:101
 msgid "The ability to play a note based on the current beat."
-msgstr ""
+msgstr "De mogelijkheid om een noot te spelen volgens de huidige beat."
 
 #: A.11-beat-tracking.md:102
 msgid "A loop structure to keep the arpegiator repeating."
-msgstr ""
+msgstr "Een loop structuur waarin de arpegiator zich herhaalt."
 
 #: A.11-beat-tracking.md:104
 msgid "These concepts can all be found in the following code:"
-msgstr ""
+msgstr "Deze concepten vind je in de volgende code terug:"
 
 #: A.11-beat-tracking.md:106
 #, no-wrap
@@ -13833,10 +13862,18 @@ msgid ""
 "rement our beat counter and use the latest beat value as an index into our not"
 "es ring. Finally, we wait for an eighth of a beat before looping round again."
 msgstr ""
+"Laten we een kijkje nemen naar elke regels. Ten eerste definiëren we onze "
+"ring noten, die we continue laten afspelen. Dan maken we onze `live_loop` "
+"die `arp` heet, en die voor ons de loop doet. Elke cyclus van de `live_loop` "
+"stellen we onze synth in op `:dpulse´, om vervolgens de volgende noot in "
+"onze ring te spelen met behulp van `;tick`. Denk eraan dat dit onze beat-"
+"teller zal verhogen en onze laatste beat waarde zal gaan gebruiken als index "
+"in onze noten ring. Tenslotte, wachten we één achtste van een tel alvorens "
+"opnieuw te gaan  loop-en."
 
 #: A.11-beat-tracking.md:124
 msgid "Multiple Simultaneous Beats"
-msgstr ""
+msgstr "Meerdere simultane beats"
 
 #: A.11-beat-tracking.md:126
 msgid ""
@@ -13845,6 +13882,10 @@ msgid ""
 "s much more powerful than having a global metronome and beat. Let's take a loo"
 "k at this in action:"
 msgstr ""
+"Belangrijk om weten is, is dat `tick` lokaal werkt tegenover `live_loop`. "
+"Dit betekent dat elke `live_loop` z'n eigen individuele beat-teller heeft. "
+"Dit is krachtiger dan het hebben van een globale metronoom en beat. Laten we "
+"dit in actie zien:"
 
 #: A.11-beat-tracking.md:131
 #, no-wrap
@@ -13879,13 +13920,15 @@ msgstr ""
 
 #: A.11-beat-tracking.md:149
 msgid "Clashing Beats"
-msgstr ""
+msgstr "Botsende Beats"
 
 #: A.11-beat-tracking.md:151
 msgid ""
 "A big cause of confusion with Sonic Pi's tick system is when people want to ti"
 "ck over multiple rings in the same `live_loop`:"
 msgstr ""
+"Een grote oorzaak van verwarring met het tick systeem van Sonic Pi is "
+"wanneer men meerdere ringen willen tick-en in de zelfde `live_loop`:"
 
 #: A.11-beat-tracking.md:154
 #, no-wrap
