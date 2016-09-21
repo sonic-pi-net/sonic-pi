@@ -1678,6 +1678,12 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
     - May be changed whilst playing
     - Scaled with current BPM value
     - Has slide parameters for shaping changes
+* pulse_width:
+    - doc: The width of the pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.
+    - default: 0.5
+    - constraints: must be a value between 0 and 1 exclusively
+    - May be changed whilst playing
+    - Has slide parameters for shaping changes
   * phase_offset:
     - doc: Initial modulation phase offset (a value between 0 and 1).
     - default: 0
