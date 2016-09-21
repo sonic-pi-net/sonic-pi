@@ -5,7 +5,7 @@ A.15 Five Live Coding Techniques
 In this month's Sonic Pi tutorial we're going to take a look at how you
 can start treating Sonic Pi like a real instrument. We therefore need to
 start thinking of code in a completely different way. Live coders think
-of code in a smilar way to how violinist thinks of their bow. In fact,
+of code in a similar way to how violinists think of their bow. In fact,
 just like a violinist can apply various bowing techniques to create
 different sounds (long slow motions vs short fast hits) we will explore
 five of the basic live coding techniques that Sonic Pi enables. By the
@@ -24,7 +24,7 @@ over. See section 10.2 of the built-in tutorial for the full list of
 shortcuts.
 
 When performing, one fun thing to do is to add a bit of flair with your
-arm motion when hitting shortcuts. For example, its often good to
+arm motion when hitting shortcuts. For example, it's often good to
 communicate to the audience when you're about to make a change - so
 embellish your movement when hitting `alt-r`just like a guitarist would
 do when hitting a big power chord.

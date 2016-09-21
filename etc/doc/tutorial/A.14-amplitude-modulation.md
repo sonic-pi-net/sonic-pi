@@ -34,7 +34,7 @@ end
 
 Hear how the slicer acts like it's muting and unmuting the audio with a
 regular beat. Also, notice how the `:slicer` affects all the audio
-generated between the `do`/`end` blocks. You can control the speed which
+generated between the `do`/`end` blocks. You can control the speed at which
 it turns the audio on and off with the `phase:` opt which is short for
 phase duration. Its default value is `0.25` which means 4 times a second
 at the default BPM of 60. Let's make it faster:
@@ -50,7 +50,7 @@ Now, play with different `phase:` durations yourself. Try longer and
 shorter values. See what happens when you choose a really short
 value. Also, try different synths such as `:beep` or `:dsaw` and
 different notes. Take a look at the following diagram to see how
-different `phase:` values changes the number of amplitude changes per
+different `phase:` values change the number of amplitude changes per
 beat.
 
 ![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slicer_phase_durations.png)
@@ -102,7 +102,7 @@ the amplitude is modified through time.
 By default, `:slicer` switches between amplitude values `1` (fully loud)
 and `0` (silent). This can be changed with the `amp_min:` and `amp_max:`
 opts. You can use this alongside the sine wave setting to create a
-simple tremelo effect:
+simple tremolo effect:
 
 ```
 with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do
