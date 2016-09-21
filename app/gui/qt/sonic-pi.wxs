@@ -2,9 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:firewall="http://schemas.microsoft.com/wix/FirewallExtension">
 <!-- so you want to be a WiXard?
 
-heat dir etc -gg -g1 -sfrag -dir SonicPi -cg ETC -out etc.wxs 
-heat dir etc -gg -g1 -sfrag -dir AppDir -cg GUI -out gui.wxs 
-heat dir etc -gg -g1 -sfrag -dir AppDir -cg SERVER -out server.wxs 
+heat dir etc -gg -g1 -sfrag -dr SonicPi -cg ETC -out etc.wxs 
+heat dir app\gui -gg -g1 -sfrag -dr AppDir -cg GUI -out gui.wxs 
+heat dir app\server -gg -g1 -sfrag -dr AppDir -cg SERVER -out server.wxs 
 edit sonic-pi.wxs
     change version number
 edit gui.wxs
@@ -15,7 +15,7 @@ candle sonic-pi.wxs etc.wxs gui.wxs server.wxs -ext WixUtilExtension
 light sonic-pi.wixobj etc.wixobj gui.wixobj server.wixobj -ext WixUtilExtension -ext WixUIExtension -o Sonic-Pi.msi -b etc -b app\gui -b app\server
 
 -->
-    <Product Id="*" Name="Sonic Pi" Language="1033" Version="2.4" Manufacturer="Sonic Pi" UpgradeCode="ECA5D03B-CEBD-4672-A0A2-176CBCBA4429">
+    <Product Id="*" Name="Sonic Pi" Language="1033" Version="2.11" Manufacturer="Sonic Pi" UpgradeCode="ECA5D03B-CEBD-4672-A0A2-176CBCBA4429">
         <Package Description="Sonic Pi Installer" Comments="Sonic Pi Installer" InstallScope="perMachine" InstallerVersion="200" Compressed="yes" />
 		<Property Id="REINSTALLMODE" Value="amus"/>
 		<MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallInitialize"/>		
@@ -29,8 +29,7 @@ light sonic-pi.wixobj etc.wixobj gui.wixobj server.wixobj -ext WixUtilExtension 
                                 <Directory Id="RELEASE" Name="release">
                                     <Component Id="SONIC_PI.EXE" DiskId="1" Guid="BA4C72F9-C198-436A-B1E2-B2DF8EC65960">
                                         <File Id="SONIC_PI.EXE" Name="sonic-pi.exe" Source="SourceDir\app\gui\qt\release\sonic-pi.exe" />
-											<firewall:FirewallException Id="SonicPiFirewall" Name="SonicPiFirewall" Scope="any" IgnoreFailure="yes" Program="[#SONIC_PI.EXE]" />
-											<firewall:FirewallException Id="SonicPiSynthFirewall" Name="SonicPiSynthFirewall" IgnoreFailure="yes" Program="[#SCSYNTH.EXE]" Scope="any" />
+											
                                     </Component>
 								</Directory>
 							</Directory>
@@ -87,6 +86,6 @@ light sonic-pi.wixobj etc.wixobj gui.wixobj server.wixobj -ext WixUtilExtension 
 
 		</UI>
 		<UIRef Id="WixUI_Common" />
-        <Icon Id="StartMenuIcon.exe" SourceFile="\Users\JWeatherford\Desktop\sonic-pi-2.3\app\gui\qt\release\sonic-pi.exe" />
+        <Icon Id="StartMenuIcon.exe" SourceFile="C:\sonic-pi\app\gui\qt\release\sonic-pi.exe" />
     </Product>
 </Wix>
