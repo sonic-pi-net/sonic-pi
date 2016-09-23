@@ -12,11 +12,14 @@
 #++
 require 'tmpdir'
 require 'fileutils'
+require_relative "../sonicpi/lib/sonicpi/util"
+
+include SonicPi::Util
+
 tmp_dir = Dir.tmpdir
 
 #f = File.open("log_path/spawn.log", 'a')
 pids_store = tmp_dir + "/sonic-pi-pids"
-
 
 os = case RUBY_PLATFORM
      when /.*arm.*-linux.*/
@@ -32,50 +35,61 @@ os = case RUBY_PLATFORM
      end
 
 pids = Dir.entries(pids_store) - [".", ".."]
-# f.puts "cleaning"
-# f.puts "Found pids: #{pids}"
+
+
+
+log_process_info "\n\nClearing pids: #{pids.inspect}\n"
+
+if pids.empty?
+  log_process_info "No pids to clear :-)\n"
+  exit
+end
+
 pids.each do |pid|
-  # We're on Windows, so go straight for the jugular
-  # f.puts "clearing pid: #{pid}"
+
+  log_process_info "\nClearing [#{pid}]"
+
   if os == :windows
+    # We're on Windows, so go straight for the jugular
+    log_process_info "  -- force killing #{pid}"
     begin
       Process.kill(9, pid)
-      # puts "Killed #{pid}"
+      log_process_info "  -- killed #{pid}"
     rescue Exception => e
-      # puts "Could not kill #{pid} - perhaps already killed?"
+      log_process_info "  -- Could not kill #{pid} - perhaps already killed?"
     end
   else
 
     pid = Integer(pid)
+    next if pid == 0
+    cnt = 0
     begin
-      Process.kill(15, pid) unless pid == 0
-      15.to_i.times do
-        # f.puts 'trying to kill pid'
-        begin
-          alive = Process.waitpid(pid, Process::WNOHANG)
-          unless alive
-            # f.puts "Successfully killed #{pid}"
-            break
-          end
-        rescue Exception => e
-          # process is definitely dead!
-          # puts "Error waiting for process #{pid} - assumed already killed"
-          break
+      8.times do
+        if cnt < 3
+          Process.kill(15, pid)
+          log_process_info "  -- politely killing #{pid}"
+        else
+          Process.kill(9, pid)
+          log_process_info "  -- force killing #{pid} - #{i}"
         end
-        sleep 1
+        sleep 0.5
+        cnt += 1
       end
-      Process.kill(9, pid) unless pid == 0
-      # f.puts "Forcibly killed #{pid}"
-    rescue Errno::ECHILD => e
-      # f.puts "Unable to wait for #{pid} - child process does not exist"
-    rescue Errno::ESRCH
-      # f.puts "Unable to kill #{pid} - process does not exist"
-    end
-  end
 
-  pid_path = "#{pids_store}/#{pid}"
-  FileUtils.rm pid_path if File.exists? pid_path
+      log_process_info "  -- unable to kill #{pid}"
+    rescue Errno::ESRCH => e
+      if cnt == 0
+        log_process_info "  -- process #{pid} already stopped"
+      else
+        log_process_info "  -- killed #{pid}"
+      end
+    rescue Exception => e
+      log_process_info "  -- error killing process #{pid} - #{e.class}, #{e.message}\n#{e.backtrace.inspect}"
+    end
+
+    pid_path = "#{pids_store}/#{pid}"
+    FileUtils.rm pid_path if File.exists? pid_path
+  end
 end
 
-# f.puts "Finished clearing pids"
-# f.close
+log_process_info "\nFinished clearing pids\n\n"

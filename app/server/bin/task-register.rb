@@ -14,6 +14,9 @@
 require 'tmpdir'
 require 'fileutils'
 require_relative "../sonicpi/lib/sonicpi/util"
+
+include SonicPi::Util
+
 tmp_dir = Dir.tmpdir
 
 pids_store = tmp_dir + "/sonic-pi-pids"
@@ -21,5 +24,7 @@ Dir.mkdir(pids_store) unless File.exists? pids_store
 
 pid = ARGV[0]
 pid_path = "#{pids_store}/#{pid}"
+
+log_process_info "Started [#{pid}]"
 
 FileUtils.touch pid_path

@@ -49,9 +49,17 @@ module SonicPi
       @@log_file = nil
     end
 
+    begin
+      @@process_log_file = File.open("#{@@log_path}/processes.log", 'a')
+    rescue
+      @@safe_mode = true
+      STDERR.puts "Unable to open process log file #{@@log_path}/processes.log"
+      @@process_log_file = nil
+    end
 
     at_exit do
       @@log_file.close if @@log_file
+      @@process_log_file.close if @@process_log_file
     end
 
     def os
@@ -325,6 +333,13 @@ module SonicPi
           end
         end
         log_raw res
+      end
+    end
+
+    def log_process_info(s)
+      if @@process_log_file
+        @@process_log_file.puts s
+        @@process_log_file.flush
       end
     end
 
