@@ -53,6 +53,7 @@ carried out by the Core Team. This is a group of dedicated volunteers
 kindly donate their time to continue to improve Sonic Pi.
 
 Current members: 
+
 * [Sam Aaron](https://github.com/samaaron)
 * [Xavier Riley](https://github.com/xavriley)
 * [Joseph Wilk](https://github.com/josephwilk)
@@ -61,6 +62,7 @@ Current members:
 * [Luis Lloret](https://github.com/llloret/)
 
 Previous members: 
+
 * [Jeremy Weatherford](https://github.com/jweather)
 
 
