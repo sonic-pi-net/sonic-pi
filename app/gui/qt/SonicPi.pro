@@ -51,7 +51,7 @@ macx {
 
 # Windows only
 win32 {
-  include ( c:/qwt-6.1.2/features/qwt.prf )
+  include ( c:/qwt-6.1.3/features/qwt.prf )
   LIBS += -lqscintilla2
   QMAKE_CXXFLAGS += -Ic:/boost_1_61_0
 #  QMAKE_CXXFLAGS += /WX
