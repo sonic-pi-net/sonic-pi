@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-19 13:33+0000\n"
+"PO-Revision-Date: 2016-09-23 16:00+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -6922,32 +6922,29 @@ msgstr ""
 "           [52, 55, 59]"
 
 #: 08.1-Lists.md:90
-#, fuzzy
 msgid ""
 "Try running the code `puts [52, 55, 59][1]` and you'll see `55` pop up in the "
 "log. Change the index `1` to other indexes, try longer lists and think about h"
 "ow you might use a list in your next code jam. For example, what musical struc"
 "tures might be represented as a series of numbers..."
 msgstr ""
-"Versuche mal, den Code `puts [52, 55, 59][1]` auszuführen, dann wirst Du sehen"
-", dass `55` im Protokoll erscheint. Ändere mal den Index `1` in einen anderen,"
-" probiere längere Listen aus und denke darüber nach, wie Du Listen in Deinem n"
-"ächsten Code-Jam verwenden könntest. Welche Strukturen aus der Musik könnte ma"
-"n denn als eine Reihe von Zahlen interpretieren?"
+"Versuche mal, den Code `puts [52, 55, 59][1]` auszuführen, dann wirst Du "
+"sehen, dass `55` im Protokoll erscheint. Ändere den Index `1` in einen "
+"anderen, probiere längere Listen aus und denke darüber nach, wie Du Listen "
+"in Deinem nächsten Code-Jam verwenden könntest. Welche Strukturen aus der "
+"Musik könnte man denn als eine Reihe von Zahlen interpretieren?"
 
 #: 08.2-Chords.md:1
-#, fuzzy
 msgid "8.2 Chords"
 msgstr "8.2 Akkorde"
 
 #: 08.2-Chords.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has built-in support for chord names which will return lists. Try it "
 "for yourself:"
 msgstr ""
-"Sonic Pi kann Dir den Namen eines Akkords in eine Liste seiner Töne übersetzen"
-". Versuche es selbst:"
+"Sonic Pi kann Dir den Namen eines Akkords in eine Liste seiner Töne "
+"übersetzen. Versuche es selbst:"
 
 #: 08.2-Chords.md:8
 #, no-wrap
@@ -6955,47 +6952,40 @@ msgid "play chord(:E3, :minor)"
 msgstr "play chord(:E3, :minor)"
 
 #: 08.2-Chords.md:12
-#, fuzzy
 msgid ""
 "Now, we're really getting somewhere. That looks a lot more pretty than the raw"
 " lists (and is easier to read for other people). So what other chords does Son"
 "ic Pi support? Well, a *lot*. Try some of these:"
 msgstr ""
-"Jetzt tut sich was. Das sieht doch schon viel schöner aus als einfache Listen "
-"(und ist für andere viel einfacher lesbar). Welche Akkorde kennt Sonic Pi noch"
-"? Naja, *viele*. Probier mal ein paar von diesen aus:"
+"Jetzt tut sich was. Das sieht doch schon viel schöner aus als einfache "
+"Listen (und ist für andere viel einfacher lesbar). Welche Akkorde kennt "
+"Sonic Pi noch? Naja, *viele*. Probier mal ein paar von diesen aus:"
 
 #: 08.2-Chords.md:16
-#, fuzzy
 msgid "`chord(:E3, :m7)`"
 msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
-#, fuzzy
 msgid "`chord(:E3, :minor)`"
 msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
-#, fuzzy
 msgid "`chord(:E3, :dim7)`"
 msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
-#, fuzzy
 msgid "`chord(:E3, :dom7)`"
 msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
-#, fuzzy
 msgid "Arpeggios"
 msgstr "Arpeggios"
 
 #: 08.2-Chords.md:23
-#, fuzzy
 msgid "We can easily turn chords into arpeggios with the function `play_pattern`:"
 msgstr ""
-"Um Akkorde einfach in Arpeggios umzuwandeln, können wir die Funktion `play_pat"
-"tern` verwenden:"
+"Um Akkorde einfach in Arpeggios umzuwandeln, können wir die Funktion "
+"`play_pattern` verwenden:"
 
 #: 08.2-Chords.md:26
 #, no-wrap
@@ -7003,17 +6993,16 @@ msgid "play_pattern chord(:E3, :m7)"
 msgstr "play_pattern chord(:E3, :m7)"
 
 #: 08.2-Chords.md:30
-#, fuzzy
 msgid ""
 "Ok, that's not so fun - it played it really slowly. `play_pattern` will play e"
 "ach note in the list separated with a call to `sleep 1` between each call to `"
 "play`. We can use another function `play_pattern_timed` to specify our own tim"
 "ings and speed things up:"
 msgstr ""
-"Ok, das war nichts besonderes - das ging wirklich langsam. `play_pattern` spie"
-"lt jede Note in der Liste hintereinander, getrennt durch Aufrufe von `sleep 1`"
-" ab. Wir können die Funktion `play_pattern_timed` verwenden, um unsere eigenen"
-" Zeitdauern zu verwenden und das Ganze zu beschleunigen:"
+"Ok, das war nichts besonderes - das ging wirklich langsam. `play_pattern` "
+"spielt jede Note in der Liste hintereinander, getrennt durch Aufrufe von `"
+"sleep 1` ab. Wir können die Funktion `play_pattern_timed` verwenden, um "
+"unsere eigenen Zeitdauern zu verwenden und das Ganze zu beschleunigen:"
 
 #: 08.2-Chords.md:35
 #, no-wrap
@@ -7021,11 +7010,10 @@ msgid "play_pattern_timed chord(:E3, :m7), 0.25"
 msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 
 #: 08.2-Chords.md:39
-#, fuzzy
 msgid "We can even pass a list of times which it will treat as a circle of times:"
 msgstr ""
-"Wir können sogar eine Liste von Dauern übergeben; Sonic Pi verwendet diese nac"
-"heinander und wiederholt sie solange wie notwendig:"
+"Wir können sogar eine Liste von Dauern übergeben; Sonic Pi verwendet diese "
+"nacheinander und wiederholt sie solange wie notwendig:"
 
 #: 08.2-Chords.md:42
 #, no-wrap
@@ -7033,7 +7021,6 @@ msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 msgstr "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 
 #: 08.2-Chords.md:46
-#, fuzzy
 msgid "This is the equivalent to:"
 msgstr "Das bedeutet das gleiche wie:"
 
@@ -7069,28 +7056,23 @@ msgstr ""
 "play 73"
 
 #: 08.2-Chords.md:64
-#, fuzzy
 msgid "Which would you prefer to write?"
 msgstr "Was würdest Du lieber schreiben?"
 
 #: 08.3-Scales.md:1
-#, fuzzy
 msgid "8.3 Scales"
 msgstr "8.3 Skalen"
 
 #: 08.3-Scales.md:3
-#, fuzzy
 msgid "Scales"
 msgstr "Skalen"
 
 #: 08.3-Scales.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has support for a wide range of scales. How about playing a C3 major "
 "scale?"
 msgstr ""
-"Sonic Pi kennt eine große Anzahl von Skalen. Wie wäre es, eine C3-Dur-Skala zu"
-" spielen?"
+"Sonic Pi kennt alle möglichen Tonleitern. Wie wäre es mit einer C3-Dur-Skala?"
 
 #: 08.3-Scales.md:8
 #, no-wrap
@@ -7098,7 +7080,6 @@ msgid "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 msgstr "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:12
-#, fuzzy
 msgid "We can even ask for more octaves:"
 msgstr "Wir können die Skala auch über mehrere Oktaven spielen lassen:"
 
@@ -7108,7 +7089,6 @@ msgid "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.
 msgstr "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:18
-#, fuzzy
 msgid "How about all the notes in a pentatonic scale?"
 msgstr "Und wie wär's mit allen Noten einer pentatonischen Tonleiter?"
 
@@ -7122,20 +7102,18 @@ msgstr ""
 "se: 0.1"
 
 #: 08.3-Scales.md:24
-#, fuzzy
 msgid "Random notes"
 msgstr "Zufällige Noten"
 
 #: 08.3-Scales.md:26
-#, fuzzy
 msgid ""
 "Chords and scales are great ways of constraining a random choice to something "
 "meaningful. Have a play with this example which picks random notes from the ch"
 "ord E3 minor:"
 msgstr ""
-"Akkorde und Skalen sind gute Methoden, eine zufällige Auswahl auf etwas von Be"
-"deutung einzugrenzen. Spiele einmal mit diesem Beispiel, das zufällige Noten a"
-"us dem E-Moll-Akkord in der 3. Oktave auswählt:"
+"Akkorde und Skalen sind gute Methoden, eine zufällige Auswahl auf etwas von "
+"Bedeutung einzugrenzen. Spiele einmal mit diesem Beispiel, das zufällige "
+"Noten aus dem E-Moll-Akkord in der 3. Oktave auswählt:"
 
 #: 08.3-Scales.md:30
 #, no-wrap
@@ -7153,17 +7131,14 @@ msgstr ""
 "end"
 
 #: 08.3-Scales.md:38
-#, fuzzy
 msgid "Try switching in different chord names and cutoff ranges."
 msgstr "Probiere auch verschiedene Akkord-Namen und Cut-Off-Bereiche aus."
 
 #: 08.3-Scales.md:40
-#, fuzzy
 msgid "Discovering Chords and Scales"
 msgstr "Akkorde und Skalen entdecken"
 
 #: 08.3-Scales.md:42
-#, fuzzy
 msgid ""
 "To find out which scales and chords are supported by Sonic Pi simply click the"
 " Lang button on the far left of this tutorial and then choose either chord or "
@@ -7171,66 +7146,60 @@ msgid ""
 " you see a long list of chords or scales (depending on which you're looking at"
 ")."
 msgstr ""
-"Um herauszufinden, welche Skalen und Akkorde Sonic Pi unterstützt, klicke einf"
-"ach auf den `Lang`-Button ganz auf der linke Seite dieses Tutorials und wähle "
-"entweder `chord` oder `scale` aus der API-Liste. Scrolle im Hauptfenster herun"
-"ter, bist Du eine lange Liste von Akkorden oder Skalen findest."
+"Um herauszufinden, welche Skalen und Akkorde Sonic Pi unterstützt, klicke "
+"einfach auf den `Lang`-Button ganz auf der linke Seite dieses Tutorials und "
+"wähle entweder `chord` oder `scale` aus der API-Liste. Scrolle im "
+"Hauptfenster herunter, bist Du eine lange Liste von Akkorden oder Skalen "
+"findest."
 
 #: 08.3-Scales.md:48
-#, fuzzy
 msgid "Have fun and remember: there are no mistakes, only opportunities."
 msgstr "Viel Spaß und nicht vergessen: Es gibt keine Fehler, nur Möglichkeiten."
 
 #: 08.4-Rings.md:1
-#, fuzzy
 msgid "8.4 Rings"
 msgstr "8.4 Ringe"
 
 #: 08.4-Rings.md:3 A.11-beat-tracking.md:62
-#, fuzzy
 msgid "Rings"
 msgstr "Ringe"
 
 #: 08.4-Rings.md:5
-#, fuzzy
 msgid ""
 "An interesting spin on standard lists are rings. If you know some programming,"
 " you might have come across ring buffers or ring arrays. Here, we'll just go f"
 "or ring - it's short and simple."
 msgstr ""
-"Eine interessante Spielart von normalen Listen sind Ringe. Wenn Du ein bissche"
-"n Programmiererfahrung hast, könntest Du Ringspeicher (engl. 'Ring Buffer') od"
-"er Ring-Arrays kennen. Wir nennen die hier nur Ring - das ist kurz und einfach"
-"."
+"Eine interessante Spielart von normalen Listen sind Ringe. Wenn Du ein "
+"bisschen Programmiererfahrung hast, könntest Du Ringspeicher (engl. 'Ring "
+"Buffer') oder Ring-Arrays kennen. Wir nennen die hier nur Ring - das ist "
+"kurz und einfach."
 
 #: 08.4-Rings.md:9
-#, fuzzy
 msgid ""
 "In the previous section on lists we saw how we could fetch elements out of the"
 "m by using the indexing mechanism:"
 msgstr ""
-"Im vorherigen Abschnitt über Listen haben wir gesehen, dass wir Elemente aus e"
-"iner Liste über den Index holen können:"
+"Im vorherigen Abschnitt über Listen haben wir gesehen, dass wir Elemente aus "
+"einer Liste über den Index holen können:"
 
 #: 08.4-Rings.md:16
-#, fuzzy
 msgid ""
 "Now, what happens if you want index `100`? Well, there's clearly no element at"
 " index 100 as the list has only three elements in it. So Sonic Pi will return "
 "you `nil` which means nothing."
 msgstr ""
-"Was passiert jetzt wohl, wenn Du den Index `100` abfragen willst? Offensichtli"
-"ch gibt es kein Element mit dem Index 100, da die Liste nur drei Elemente enth"
-"ält. Also gibt Sonic Pi `nil` zurück, was \"nichts\" bedeutet."
+"Was passiert jetzt wohl, wenn Du den Index `100` abfragen willst? "
+"Offensichtlich gibt es kein Element mit dem Index 100, da die Liste nur drei "
+"Elemente enthält. Also gibt Sonic Pi `nil` zurück, was \"nichts\" bedeutet."
 
 #: 08.4-Rings.md:20
-#, fuzzy
 msgid ""
 "However, consider you have a counter such as the current beat which continuall"
 "y increases. Let's create our counter and our list:"
 msgstr ""
-"Stell Dir vor, einen Zähler wie den aktuellen Takt zu haben, der kontinuierlic"
-"h wächst. Lass uns so einen Zähler und unsere Liste anlegen:"
+"Stell Dir vor, einen Zähler wie den aktuellen Takt zu haben, der "
+"kontinuierlich wächst. Lass uns so einen Zähler und unsere Liste anlegen:"
 
 #: 08.4-Rings.md:23
 #, no-wrap
@@ -7242,9 +7211,9 @@ msgstr ""
 "notes = [52, 55, 59]"
 
 #: 08.4-Rings.md:28
-#, fuzzy
 msgid "We can now use our counter to access a note in our list:"
-msgstr "Jetzt können wir mit unserem Zähler auf eine Note in unserer Liste zugreifen:"
+msgstr ""
+"Jetzt können wir mit unserem Zähler auf eine Note in unserer Liste zugreifen:"
 
 #: 08.4-Rings.md:30
 #, no-wrap
@@ -7252,11 +7221,11 @@ msgid "puts notes[counter]"
 msgstr "puts notes[counter]"
 
 #: 08.4-Rings.md:34
-#, fuzzy
 msgid "Great, we got `52`. Now, let's increment our counter and get another note:"
 msgstr ""
-"Super, da kam `52` heraus. Jetzt erhöhen wir den Zähler (`inc`, die Abkürzung "
-"für englisch \"to increment\" = erhöhen) und bekommen damit eine neue Note:"
+"Super, da kam `52` heraus. Jetzt erhöhen wir den Zähler (`inc`, die "
+"Abkürzung für englisch \"to increment\" = erhöhen) und bekommen damit eine "
+"neue Note:"
 
 #: 08.4-Rings.md:37
 #, no-wrap
@@ -7268,32 +7237,29 @@ msgstr ""
 "puts notes[counter]"
 
 #: 08.4-Rings.md:42
-#, fuzzy
 msgid ""
 "Super, we now get `55` and if we do it again we get `59`. However, if we do it"
 " again, we'll run out of numbers in our list and get `nil`. What if we wanted "
 "to just loop back round and start at the beginning of the list again? This is "
 "what rings are for."
 msgstr ""
-"Ok, jetzt kommen `55` und beim nächsten Mal `59` heraus. Wenn wir das jedoch j"
-"etzt noch einmal machen, werden wir aber nicht mehr genug Zahlen in unserer Li"
-"ste haben und werden stattdessen `nil` zurück bekommen. Was wäre, wenn wir dan"
-"n einfach wieder vom Anfang der Liste anfangen wollten? Genau dafür gibt es Ri"
-"nge."
+"Ok, jetzt kommen `55` und beim nächsten Mal `59` heraus. Wenn wir das jedoch "
+"jetzt noch einmal machen, werden wir aber nicht mehr genug Zahlen in unserer "
+"Liste haben und werden stattdessen `nil` zurück bekommen. Was wäre, wenn wir "
+"dann einfach wieder vom Anfang der Liste anfangen wollten? Genau dafür gibt "
+"es Ringe."
 
 #: 08.4-Rings.md:47
-#, fuzzy
 msgid "Creating Rings"
 msgstr "Ringe erzeugen"
 
 #: 08.4-Rings.md:49
-#, fuzzy
 msgid ""
 "We can create rings one of two ways. Either we use the `ring` function with th"
 "e elements of the ring as parameters:"
 msgstr ""
-"Es gibt zwei Möglichkeiten, Ringe zu erzeugen. Die erste ist, die `ring` Funkt"
-"ion mit den gewünschten Elementen des Rings als Parameter zu verwenden:"
+"Es gibt zwei Möglichkeiten, Ringe zu erzeugen. Die erste ist, die `ring` "
+"Funktion mit den gewünschten Elementen des Rings als Parameter zu verwenden:"
 
 #: 08.4-Rings.md:52
 #, no-wrap
@@ -7301,13 +7267,12 @@ msgid "(ring 52, 55, 59)"
 msgstr "(ring 52, 55, 59)"
 
 #: 08.4-Rings.md:56
-#, fuzzy
 msgid ""
 "Or we can take a normal list and convert it to a ring by sending it the `.ring"
 "` message:"
 msgstr ""
-"Die zweite Möglichkeit ist es, eine normale Liste mit der Nachricht `.ring` zu"
-" einem Ring umzuwandeln:"
+"Die zweite Möglichkeit ist es, eine normale Liste mit der Nachricht `.ring` "
+"zu einem Ring umzuwandeln:"
 
 #: 08.4-Rings.md:59
 #, no-wrap
@@ -7315,7 +7280,6 @@ msgid "[52, 55, 59].ring"
 msgstr "[52, 55, 59].ring"
 
 #: 08.4-Rings.md:63
-#, fuzzy
 msgid "Indexing Rings"
 msgstr "Auf Ringelemente zugreifen"
 
