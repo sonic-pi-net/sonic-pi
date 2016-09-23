@@ -51,12 +51,14 @@ macx {
 
 # Windows only
 win32 {
-  include ( c:/qwt-6.1.2/features/qwt.prf )
-  LIBS += -lqscintilla2
-  QMAKE_CXXFLAGS += -Ic:/boost_1_61_0
+#  QMAKE_CXXFLAGS += -I/c/boost_1_61_0
+  LIBS += -lws2_32
+#  include ( c:/qwt-6.1.2/features/qwt.prf )
+#  LIBS += -lqscintilla2
+#  QMAKE_CXXFLAGS += -Ic:/boost_1_61_0
 #  QMAKE_CXXFLAGS += /WX
-  QMAKE_LFLAGS += /LIBPATH:C:\boost_1_61_0\bin.v2\libs\date_time\build\msvc-12.0\release\link-static\threading-multi
-  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS
+ #QMAKE_LFLAGS += /LIBPATH:C:\boost_1_61_0\bin.v2\libs\date_time\build\msvc-12.0\release\link-static\threading-multi
+#  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS
 }
 
 CODECFORSRC = UTF-8
@@ -78,8 +80,8 @@ SOURCES += main.cpp \
            scope.cpp
 win32 {
 # have to link these explicitly for some reason
-  SOURCES += platform/win/moc_qsciscintilla.cpp \
-             platform/win/moc_qsciscintillabase.cpp
+#  SOURCES += platform/win/moc_qsciscintilla.cpp \
+#             platform/win/moc_qsciscintillabase.cpp
 }
 
 HEADERS  += mainwindow.h \
