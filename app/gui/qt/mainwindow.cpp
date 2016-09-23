@@ -1375,6 +1375,12 @@ void MainWindow::replaceBuffer(QString id, QString content, int line, int index,
   ws->replaceBuffer(content, line, index, first_line);
 }
 
+void MainWindow::replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line) {
+  //  statusBar()->showMessage(tr("Replacing Buffer..."), 1000);
+  SonicPiScintilla* ws = workspaces[buf_idx];
+  ws->replaceBuffer(content, line, index, first_line);
+}
+
 void MainWindow::replaceLines(QString id, QString content, int start_line, int finish_line, int point_line, int point_index) {
   SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
   ws->replaceLines(start_line, finish_line, content);

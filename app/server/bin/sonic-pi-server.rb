@@ -381,6 +381,14 @@ out_t = Thread.new do
           first_line = message[:first_line] || 0
           #          puts "replacing buffer #{buf_id}, #{content}"
           gui.send("/replace-buffer", buf_id, content, line, index, first_line)
+        when "replace-buffer-idx"
+          buf_idx = message[:buffer_idx] || 0
+          content = message[:val] || "Internal error within a fn calling replace-buffer without a :val payload"
+          line = message[:line] || 0
+          index = message[:index] || 0
+          first_line = message[:first_line] || 0
+          #          puts "replacing buffer #{buf_id}, #{content}"
+          gui.send("/replace-buffer-idx", buf_idx, content, line, index, first_line)
         when "replace-lines"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-line without a :val payload"
