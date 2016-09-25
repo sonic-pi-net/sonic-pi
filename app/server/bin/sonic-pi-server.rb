@@ -355,9 +355,9 @@ out_t = Thread.new do
       else
         case message[:type]
         when :multi_message
-          gui.send("/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
+          gui.send("/log/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
         when :info
-          gui.send("/info", message[:style] || 0, message[:val] || "")
+          gui.send("/log/info", message[:style] || 0, message[:val] || "")
         when :syntax_error
           desc = message[:val] || ""
           line = message[:line] || -1
@@ -380,7 +380,7 @@ out_t = Thread.new do
           index = message[:index] || 0
           first_line = message[:first_line] || 0
           #          puts "replacing buffer #{buf_id}, #{content}"
-          gui.send("/replace-buffer", buf_id, content, line, index, first_line)
+          gui.send("/buffer/replace", buf_id, content, line, index, first_line)
         when "replace-buffer-idx"
           buf_idx = message[:buffer_idx] || 0
           content = message[:val] || "Internal error within a fn calling replace-buffer without a :val payload"
@@ -388,7 +388,7 @@ out_t = Thread.new do
           index = message[:index] || 0
           first_line = message[:first_line] || 0
           #          puts "replacing buffer #{buf_id}, #{content}"
-          gui.send("/replace-buffer-idx", buf_idx, content, line, index, first_line)
+          gui.send("/buffer/replace-idx", buf_idx, content, line, index, first_line)
         when "replace-lines"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-line without a :val payload"
@@ -397,7 +397,7 @@ out_t = Thread.new do
           start_line = message[:start_line] || point_line
           finish_line = message[:finish_line] || start_line
           #          puts "replacing line #{buf_id}, #{content}"
-          gui.send("/replace-lines", buf_id, content, start_line, finish_line, point_line, point_index)
+          gui.send("/buffer/replace-lines", buf_id, content, start_line, finish_line, point_line, point_index)
         when :version
           v = message[:version]
           v_num = message[:version_num]
@@ -407,7 +407,7 @@ out_t = Thread.new do
           plat = host_platform_desc
           gui.send("/version", v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year, plat.to_s)
         when :all_jobs_completed
-          gui.send("/all-jobs-completed")
+          gui.send("/runs/all-completed")
         when :job
           id = message[:job_id]
           action = message[:action]

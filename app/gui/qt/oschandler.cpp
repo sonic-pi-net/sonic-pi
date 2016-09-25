@@ -35,7 +35,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
 
     oscpkt::Message *msg;
     while (pr.isOk() && (msg = pr.popMessage()) != 0) {
-      if (msg->match("/multi_message")){
+      if (msg->match("/log/multi_message")){
         int msg_count;
         SonicPiLog::MultiMessage mm;
         mm.theme = theme;
@@ -56,7 +56,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         QMetaObject::invokeMethod( out, "handleMultiMessage", Qt::QueuedConnection,
                                    Q_ARG(SonicPiLog::MultiMessage, mm ) );
       }
-      else if (msg->match("/info")) {
+      else if (msg->match("/log/info")) {
         std::string s;
         int style;
         if (msg->arg().popInt32(style).popStr(s).isOkNoMoreArgs()) {
@@ -130,7 +130,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
         }
       }
-      else if (msg->match("/replace-buffer")) {
+      else if (msg->match("/buffer/replace")) {
         std::string id;
         std::string content;
         int line;
@@ -144,7 +144,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - error: unhandled OSC msg /replace-buffer: "<< std::endl;
         }
       }
-      else if (msg->match("/replace-buffer-idx")) {
+      else if (msg->match("/buffer/replace-idx")) {
         int buf_idx;
         std::string content;
         int line;
@@ -165,7 +165,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - error: unhandled OSC msg /update_info_text: "<< std::endl;
         }
       }
-      else if (msg->match("/replace-lines")) {
+      else if (msg->match("/buffer/replace-lines")) {
         std::string id;
         std::string content;
         int start_line;
@@ -221,11 +221,11 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         } else
           std::cout << "[GUI] - error: unhandled OSC msg /version " << std::endl;
       }
-      else if (msg->match("/all-jobs-completed")) {
+      else if (msg->match("/runs/all-completed")) {
         if (msg->arg().isOkNoMoreArgs()) {
           QMetaObject::invokeMethod( window, "allJobsCompleted", Qt::QueuedConnection);
         } else
-          std::cout << "[GUI] - error: unhandled OSC msg /all-jobs-completed " << std::endl;
+          std::cout << "[GUI] - error: unhandled OSC msg /runs/all-completed " << std::endl;
       }
       else {
         std::cout << "[GUI] - error: unhandled OSC message" << std::endl;
