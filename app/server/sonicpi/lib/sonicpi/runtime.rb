@@ -429,6 +429,12 @@ module SonicPi
       @msg_queue.push({type: "replace-buffer-idx", buffer_idx: idx, val: content, line: 0, index: 0, first_line: 0})
     end
 
+    def __run_buffer_idx(idx)
+      idx = idx.to_i
+      content = content.to_s
+      @msg_queue.push({type: "run-buffer-idx", buffer_idx: idx})
+    end
+
     def __add_completion(k, text, point_line_offset=0, point=0)
       @snippets[k] = [text, point_line_offset, point]
     end

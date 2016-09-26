@@ -1549,6 +1549,12 @@ void MainWindow::resetErrorPane() {
   errorPane->hide();
 }
 
+void MainWindow::runBufferIdx(int idx)
+{
+  QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, idx));
+  runCode();
+}
+
 void MainWindow::runCodeWithFile()
 {
 
@@ -2105,6 +2111,33 @@ void MainWindow::updateDarkMode(){
     "  min-width: 30px;"
     "}"
     ""
+"    QScrollBar::add-line:horizontal {"
+"background: blue;"
+"width: 20px;"
+"subcontrol-position: right;"
+"subcontrol-origin: margin;"
+"}"
+"QScrollBar::sub-line:horizontal {"
+"background: white;"
+"width: 20px;"
+"subcontrol-position: left;"
+"subcontrol-origin: margin;"
+"}"
+"QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {"
+"width: 3px;"
+"height: 3px;"
+"background: pink;"
+"}"
+
+    "QScrollBar::sub-line:horizontal {"
+"background: magenta;"
+"width: 16px;"
+"subcontrol-position: top right;"
+"subcontrol-origin: margin;"
+"border: 2px solid black;"
+"position: absolute;"
+"right: 20px;"
+"}"
     "QScrollBar::handle:vertical {"
     "  background: %2;"
     "  border: 2px solid %3;"
