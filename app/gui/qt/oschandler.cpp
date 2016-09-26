@@ -179,6 +179,14 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - error: unhandled OSC msg /replace-lines: "<< std::endl;
         }
       }
+      else if (msg->match("/buffer/run-idx")) {
+        int buf_idx;
+        if (msg->arg().popInt32(buf_idx).isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( window, "runBufferIdx", Qt::QueuedConnection, Q_ARG(int, buf_idx));
+        } else {
+         std::cout << "[GUI] - error: unhandled OSC msg /buffer/run-idx: "<< std::endl;
+        }
+      }
       else if (msg->match("/exited")) {
         if (msg->arg().isOkNoMoreArgs()) {
           std::cout << "[GUI] - server asked us to exit" << std::endl;
