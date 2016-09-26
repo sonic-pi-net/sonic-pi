@@ -118,7 +118,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QString root_path = rootPath();
 
 #if defined(Q_OS_WIN)
-  ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/windows/ruby/bin/ruby.exe");
+  ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/win/ruby/bin/ruby.exe");
 #elif defined(Q_OS_MAC)
   ruby_path = root_path + "/app/server/native/osx/ruby/bin/ruby";
 #else
