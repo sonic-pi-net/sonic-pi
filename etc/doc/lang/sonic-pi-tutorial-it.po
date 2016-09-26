@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-29 10:41+0000\n"
+"PO-Revision-Date: 2016-09-26 12:17+0000\n"
 "Last-Translator: Federico P. <federico@federicopepe.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1850,16 +1850,15 @@ msgstr ""
 "mpione."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"Con Sonic Pi puoi fare un sacco di cose divertenti coi campioni: non solo sono"
-" presenti più di 90 campioni di pubblico dominio, pronti per i tuoi mix, ma ti"
-" permette anche di suonare e trasformare quelli creati da te. Vediamo subito c"
-"ome..."
+"Con Sonic Pi puoi fare un sacco di cose divertenti coi campioni: ci sono più "
+"di 90 campioni di pubblico dominio, pronti per i tuoi mix, ma il programma "
+"ti permette anche di suonare e trasformare quelli creati da te. Vediamo "
+"subito come..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
