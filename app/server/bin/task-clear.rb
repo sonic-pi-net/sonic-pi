@@ -21,6 +21,12 @@ tmp_dir = Dir.tmpdir
 #f = File.open("log_path/spawn.log", 'a')
 pids_store = tmp_dir + "/sonic-pi-pids"
 
+unless File.exists? pid_store
+  log_process_info "No pids store found here: #{pid_store}\n"
+  log_process_info "Exiting\n"
+  exit
+end
+
 os = case RUBY_PLATFORM
      when /.*arm.*-linux.*/
        :raspberry
@@ -48,6 +54,7 @@ end
 pids.each do |pid|
 
   log_process_info "\nClearing [#{pid}]"
+  pid = Integer(pid)
 
   if os == :windows
     # We're on Windows, so go straight for the jugular
@@ -60,7 +67,7 @@ pids.each do |pid|
     end
   else
 
-    pid = Integer(pid)
+
     next if pid == 0
     cnt = 0
     begin
@@ -86,9 +93,12 @@ pids.each do |pid|
     rescue Exception => e
       log_process_info "  -- error killing process #{pid} - #{e.class}, #{e.message}\n#{e.backtrace.inspect}"
     end
+  end
 
-    pid_path = "#{pids_store}/#{pid}"
-    FileUtils.rm pid_path if File.exists? pid_path
+  pid_path = "#{pids_store}/#{pid}"
+  if File.exists? pid_path
+    log_process_info "  -- removing #{pid_path}"
+    FileUtils.rm pid_path
   end
 end
 

@@ -23,6 +23,6 @@ scripts = ["clear-logs.rb", "task-clear.rb"]
 
 scripts.each do |s|
   full_path = File.absolute_path("#{server_bin_path}/#{s}")
-  `#{ruby_path} #{full_path}`
+  `'#{ruby_path}' '#{full_path}'`
   puts "Executed #{full_path}"
 end

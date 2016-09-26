@@ -20,11 +20,15 @@ include SonicPi::Util
 tmp_dir = Dir.tmpdir
 
 pids_store = tmp_dir + "/sonic-pi-pids"
-Dir.mkdir(pids_store) unless File.exists? pids_store
+
+unless File.exists? pids_store
+  log_process_info "Creating pids store: #{pids_store}"
+  Dir.mkdir(pids_store)
+end
 
 pid = ARGV[0]
 pid_path = "#{pids_store}/#{pid}"
 
-log_process_info "Started [#{pid}]"
+log_process_info "Started [#{pid}] - #{pid_path}"
 
 FileUtils.touch pid_path
