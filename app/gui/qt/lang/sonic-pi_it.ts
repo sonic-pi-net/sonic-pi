@@ -26,7 +26,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Attiva inversione stereo.
-Se abilitata, l&apos;audio della cassa sinistra
+Se abilitata, l'audio della cassa sinistra
 verrà inviato alla cassa destra e viceversa.</translation>
     </message>
     <message>
@@ -64,14 +64,14 @@ non saranno, di default, mostrati nel registro.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1019"/>
         <source>Clear log on run</source>
-        <translation>Cancella registro all&apos;avvio</translation>
+        <translation>Cancella registro all'avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Abilità cancella registro all&apos;avvio.
+        <translation>Abilità cancella registro all'avvio.
 Se abilitato, i contenuti del registro saranno cancellati
 ogni volta che il pulsante avvio verrà premuto.</translation>
     </message>
@@ -207,17 +207,17 @@ creare suoni spiacevoli e rumori forti e inaspettati.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume generale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="988"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa questo slider per cambiare il volume di sistema.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="990"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Output Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
@@ -283,7 +283,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Se abilitato, Sonic Pi permetterà di
 avviare synth e FX caricati attraverso
 il comando load_synthdefs.
@@ -324,7 +324,7 @@ anche se lanciati in ritardo.</translation>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Abilità controllo automatico aggiornamenti.
-Questo controllo include l&apos;invio di informazione in modo anonimo relative alla tua versione e piattaforma.</translation>
+Questo controllo include l'invio di informazione in modo anonimo relative alla tua versione e piattaforma.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"/>
@@ -336,7 +336,7 @@ Questo controllo include l&apos;invio di informazione in modo anonimo relative a
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Forza subito un controllo aggiornamenti.
-Questo controllo include l&apos;invio in modo anonimo di informazioni relative alla tua piattaforma e versione.</translation>
+Questo controllo include l'invio in modo anonimo di informazioni relative alla tua piattaforma e versione.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1069"/>
@@ -361,7 +361,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1095"/>
         <source>Configure editor display options.</source>
-        <translation>Configura opzioni di vista nell&apos;editor.</translation>
+        <translation>Configura opzioni di vista nell'editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1096"/>
@@ -371,7 +371,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1097"/>
         <source>Configure editor look and feel.</source>
-        <translation>Configura aspetto dell&apos;editor.</translation>
+        <translation>Configura aspetto dell'editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1098"/>
@@ -391,7 +391,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1101"/>
         <source>Automatically align code on Run</source>
-        <translation>Allinea automaticamente il codice all&apos;Avvio</translation>
+        <translation>Allinea automaticamente il codice all'Avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1105"/>
@@ -455,9 +455,9 @@ La modalità scura è perfetta per performance nei night club.</translation>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation>Errore all&apos;avvio di Sonic Pi
+        <translation>Errore all'avvio di Sonic Pi
 
-Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
+Siamo spiacenti, si è verificato un errore durante l'avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1434"/>
@@ -533,32 +533,32 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1168"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra e nascondi oscilloscopio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1169"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipi di oscilloscopio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra oscilloscopi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1186"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilità la vista degli oscilloscopi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1187"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra Assi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1188"/>
         <source>Toggle the visibility of the axes for the audio oscilloscpes</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilità la vista degli assi per gli oscilloscopi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1191"/>
@@ -568,12 +568,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Ci sono tre tipi di oscilloscopi
+che possono essere visti indipendentemente o insieme:
+
+Lissajous - mostra la correlazione di farse tra i canali sinistro e destro
+Mono - mostra una vista combinata del canale sinistro e destro (valore RMS)
+Stereo - mostra due oscilloscopi per il canale sinistro e destro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Effetti visivi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1656"/>
@@ -649,17 +654,17 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2329"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio cuffie...</translation>
+        <translation>Cambiando all'uscita audio cuffie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2345"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio HDMI...</translation>
+        <translation>Cambiando all'uscita audio HDMI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2360"/>
         <source>Switching To Default Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio predefinita...</translation>
+        <translation>Cambiando all'uscita audio predefinita...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2522"/>
@@ -669,7 +674,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2530"/>
         <source>Start recording to WAV audio file</source>
-        <translation>Inizia a registrare l&apos;audio in un file WAV</translation>
+        <translation>Inizia a registrare l'audio in un file WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2535"/>
@@ -679,17 +684,17 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2549"/>
         <source>Toggle the visibilty of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Abilità la vista degli oscilloscopi </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2559"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilità la vista del pannello di aiuto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilità la vista del pannello delle preferenze</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
@@ -784,7 +789,7 @@ Scarica subito Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1332"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Segnala l&apos;errore a</translation>
+        <translation>Segnala l'errore a</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2562"/>
@@ -933,7 +938,7 @@ Scarica subito Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Verifica che Sonic Pi non sia già avviato. Non riesco ad aprire la porta UDP 4558.</translation>
     </message>
 </context>
