@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-26 13:12+0000\n"
+"PO-Revision-Date: 2016-09-26 15:29+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -7315,107 +7315,92 @@ msgid "Using Rings"
 msgstr "Ringe verwenden"
 
 #: 08.4-Rings.md:80
-#, fuzzy
 msgid ""
 "Let's say we're using a variable to represent the current beat number. We can "
 "use this as an index into our ring to fetch notes to play, or release times or"
 " anything useful we've stored in our ring regardless of the beat number we're "
 "currently on."
 msgstr ""
-"Angenommen, wir bilden die Nummer des aktuellen Takts in einer Variable ab. Di"
-"ese Nummer können wir als Zugriffsindex für unseren Ring verwenden, um abzuspi"
-"elende Note, Release-Zeiten oder andere sinnvolle Dinge, die wir in unserem Ri"
-"ng abgelegt haben, abzurufen."
+"Angenommen, wir bilden die Nummer des aktuellen Takts in einer Variable ab. "
+"Diese Nummer können wir als Zugriffsindex für unseren Ring verwenden, um "
+"abzuspielende Note, Release-Zeiten oder andere sinnvolle Dinge, die wir in "
+"unserem Ring abgelegt haben, abzurufen."
 
 #: 08.4-Rings.md:85
-#, fuzzy
 msgid "Scales and Chords are Rings"
 msgstr "Skalen und Akkorde sind Ringe"
 
 #: 08.4-Rings.md:87
-#, fuzzy
 msgid ""
 "A useful thing to know is that the lists returned by `scale` and `chord` are a"
 "lso rings and allow you to access them with arbitrary indexes."
 msgstr ""
-"Gut zu wissen: Die Listen, die von `scale` und `chord` zurückgegeben werden, s"
-"ind Ringe. Du kannst also mit beliebigen Indizes auf sie zuzugreifen."
+"Gut zu wissen: Die Listen, die von `scale` und `chord` zurückgegeben werden, "
+"sind Ringe. Du kannst also mit beliebigen Indizes auf sie zuzugreifen."
 
 #: 08.4-Rings.md:90
-#, fuzzy
 msgid "Ring Constructors"
 msgstr "Ring-Konstruktoren"
 
 #: 08.4-Rings.md:92
-#, fuzzy
 msgid ""
 "In addition to `ring` there are a number of other functions which will constru"
 "ct a ring for us."
 msgstr ""
-"Zusätzlich zu `ring` gibt es noch eine Anzahl weiterer Funktionen, die Ringe f"
-"ür uns erzeugen:"
+"Zusätzlich zu `ring` gibt es noch eine Anzahl weiterer Funktionen, die Ringe "
+"für uns erzeugen:"
 
 #: 08.4-Rings.md:95
-#, fuzzy
 msgid "`range` invites you specify a starting point, end point and step size."
 msgstr ""
-"`range` lädt ein, einen Startpunkt, einen Endpunkt und eine Schrittgröße zu de"
-"finieren."
+"`range` lädt ein, einen Startpunkt, einen Endpunkt und eine Schrittgröße zu "
+"definieren."
 
 #: 08.4-Rings.md:96
-#, fuzzy
 msgid "`bools` allows you to use `1`s and `0`s to succinctly represent booleans."
 msgstr ""
-"`bools` erlaubt Dir `1`er und `0`er als prägnante Darstellung boolscher Werte "
-"zu nutzen."
+"`bools` erlaubt Dir `1`er und `0`er als prägnante Darstellung boolscher "
+"Werte zu nutzen."
 
 #: 08.4-Rings.md:97
-#, fuzzy
 msgid "`knit` allows you to knit a sequence of repeated values."
 msgstr ""
-"`knit` erlaubt Dir, eine Abfolge wiederholter Werte zu \"stricken\" (engl. \"to k"
-"nit\")."
+"`knit` erlaubt Dir, eine Abfolge wiederholter Werte zu \"stricken\" (engl. \""
+"to knit\")."
 
 #: 08.4-Rings.md:98
-#, fuzzy
 msgid "`spread` creates a ring of bools with a Euclidean distribution."
 msgstr ""
-"`spread` verteilt boolschen Werte mit dem Euklidischen Algorithmus in einem Ri"
-"ng."
+"`spread` verteilt boolschen Werte mit dem Euklidischen Algorithmus in einem "
+"Ring."
 
 #: 08.4-Rings.md:100
-#, fuzzy
 msgid "Take a look at their respective documentation for more information."
 msgstr ""
-"Mehr Informationen zu diesen Funktionen findest Du in der entsprechenden Dokum"
-"entation."
+"Mehr Informationen zu diesen Funktionen findest Du in der entsprechenden "
+"Dokumentation."
 
 #: 08.5-Ring-Chains.md:1
-#, fuzzy
 msgid "8.5 Ring Chains"
 msgstr "8.5 Ring-Ketten"
 
 #: 08.5-Ring-Chains.md:3
-#, fuzzy
 msgid "Ring Chains"
 msgstr "Ringe mit verketteten Kommandos"
 
 #: 08.5-Ring-Chains.md:5
-#, fuzzy
 msgid ""
 "In addition to the constructors such as `range` and `spread` another way of cr"
 "eating new rings is to manipulate existing rings."
 msgstr ""
-"Zusätzlich zu den Konstruktoren wie `range` und `spread` können neue Ringe auc"
-"h erzeugt werden, indem schon existierende manipuliert werden."
+"Zusätzlich zu den Konstruktoren wie `range` und `spread` können neue Ringe "
+"auch erzeugt werden, indem schon existierende manipuliert werden."
 
 #: 08.5-Ring-Chains.md:9
-#, fuzzy
 msgid "Chain Commands"
 msgstr "Verkettete Kommandos"
 
 #: 08.5-Ring-Chains.md:11
-#, fuzzy
 msgid "To explore this, take a simple ring:"
 msgstr "Nimm' einen einfachen Ring, um das auszuprobieren:"
 
@@ -7425,13 +7410,12 @@ msgid "(ring 10, 20, 30, 40, 50)"
 msgstr "(ring 10, 20, 30, 40, 50)"
 
 #: 08.5-Ring-Chains.md:17
-#, fuzzy
 msgid ""
 "What if we wanted it backwards? Well we'd use the chain command `.reverse` to "
 "take the ring and turn it around:"
 msgstr ""
-"Was, wenn wir die Reihenfolge umkehren wollen? Dann verwenden wir das verkette"
-"te Kommando `.reverse`, um den Ring umzudrehen:"
+"Was, wenn wir die Reihenfolge umkehren wollen? Dann verwenden wir das "
+"verkettete Kommando `.reverse`, um den Ring umzudrehen:"
 
 #: 08.5-Ring-Chains.md:20
 #, no-wrap
@@ -7439,7 +7423,6 @@ msgid "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
 #: 08.5-Ring-Chains.md:24
-#, fuzzy
 msgid "Now, what if we wanted the first three values from the ring?"
 msgstr "Was nun, wenn wir die ersten 3 Werte aus dem Ring haben möchten?"
 
@@ -7449,7 +7432,6 @@ msgid "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
 #: 08.5-Ring-Chains.md:30
-#, fuzzy
 msgid "Finally, what if we wanted to shuffle the ring?"
 msgstr "Und was, wenn wir schließlich den Ring mischen wollten?"
 
@@ -7459,76 +7441,66 @@ msgid "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
 #: 08.5-Ring-Chains.md:36
-#, fuzzy
 msgid "Multiple Chains"
 msgstr "Mehrteilige Ketten"
 
 #: 08.5-Ring-Chains.md:38
-#, fuzzy
 msgid ""
 "This is already a powerful way of creating new rings. However, the *real* powe"
 "r comes when you chain a few of these commands together."
 msgstr ""
-"So haben wir schon viele Möglichkeiten neue Ringe zu erzeugen. Noch besser wir"
-"d es, wenn Du diese Kommandos miteinander verkettest."
+"So haben wir schon viele Möglichkeiten neue Ringe zu erzeugen. Noch besser "
+"wird es, wenn Du diese Kommandos miteinander verkettest."
 
 #: 08.5-Ring-Chains.md:41
-#, fuzzy
 msgid "How about shuffling the ring, dropping 1 element and then taking the next 3?"
 msgstr ""
-"Wie wäre es z. B. wenn Du den Ring mischst, das erste Element weglässt, und da"
-"nn die nächsten 3 Elemente nimmst?"
+"Wie wäre es z. B. wenn Du den Ring mischst, das erste Element weglässt, und "
+"dann die nächsten 3 Elemente nimmst?"
 
 #: 08.5-Ring-Chains.md:43
-#, fuzzy
 msgid "Let's take this in stages:"
 msgstr "Gehen wir das Schritt für Schritt durch:"
 
 #: 08.5-Ring-Chains.md:45
-#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50)` - our initial ring"
-msgstr "`(ring 10, 20, 30, 40, 50)` - dein Ring am Anfang"
+msgstr "`(ring 10, 20, 30, 40, 50)` - Dein Ring am Anfang"
 
 #: 08.5-Ring-Chains.md:46
-#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
-msgstr "`(ring 10, 20, 30, 40, 50).shuffle` - mischt - `(ring 40, 30, 10, 50, 20)`"
+msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle` - mischt - `(ring 40, 30, 10, 50, 20)`"
 
 #: 08.5-Ring-Chains.md:47
-#, fuzzy
 msgid "`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, 20)`"
 msgstr ""
-"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - das erste Element weglassen - `("
-"ring 30, 10, 50, 20)`"
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - das erste Element weglassen - "
+"`(ring 30, 10, 50, 20)`"
 
 #: 08.5-Ring-Chains.md:48
-#, fuzzy
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, 10, "
 "50)`"
 msgstr ""
-"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - 3 Elemente nehmen - `(ri"
-"ng 30, 10, 50)`"
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - 3 Elemente nehmen - `("
+"ring 30, 10, 50)`"
 
 #: 08.5-Ring-Chains.md:50
-#, fuzzy
 msgid ""
 "Can you see how we can just create a long chain of these methods by just *stic"
 "king them together*. We can combine these in any order we want creating an ext"
 "remely rich and powerful way of generating new rings from existing ones."
 msgstr ""
-"Siehst Du, wie wir eine lange Kette dieser Methoden einfach dadurch erzeugen k"
-"önnen, dass wir sie *aneinander hängen*? Wir können das in jeder beliebigen Re"
-"ihenfolge tun; damit haben wir viele unterschiedliche Möglichkeiten, neue Ring"
-"e aus schon bestehenden zu erzeugen."
+"Siehst Du, wie wir eine lange Kette dieser Methoden einfach dadurch erzeugen "
+"können, dass wir sie *aneinander hängen*? Wir können das in jeder beliebigen "
+"Reihenfolge tun; damit haben wir viele unterschiedliche Möglichkeiten, neue "
+"Ringe aus schon bestehenden zu erzeugen."
 
 #: 08.5-Ring-Chains.md:55
-#, fuzzy
 msgid "Immutability"
 msgstr "Unveränderlichkeit"
 
 #: 08.5-Ring-Chains.md:57
-#, fuzzy
 msgid ""
 "These rings have a powerful and important property. They are immutable which m"
 "eans that they can not change. This means that the chaining methods described "
@@ -7536,51 +7508,46 @@ msgid ""
 "ns you're free to share rings across threads and start chaining them within a "
 "thread knowing you won't be affecting any other thread using the same ring."
 msgstr ""
-"Diese Ringe haben eine leistungsstarke und wichtige Eigenschaft. Sie sind unve"
-"ränderlich (engl. immutable). Das heisst, dass die Verkettung von Methoden, vo"
-"n der wir hier sprechen, *die Ringe nicht verändert* sondern *neue Ringe erzeu"
-"gt*. Du kannst also Ringe in verschiedenen Threads verwenden und sie mit verke"
-"tteten Komandos verändern, ohne dass derselbe Ring in einem anderen Thread ver"
-"ändert wird."
+"Diese Ringe haben eine leistungsstarke und wichtige Eigenschaft. Sie sind "
+"unveränderlich (engl. immutable). Das heisst, dass die Verkettung von "
+"Methoden, von der wir hier sprechen, *die Ringe nicht verändert* sondern *"
+"neue Ringe erzeugt*. Du kannst also Ringe in verschiedenen Threads verwenden "
+"und sie mit verketteten Kommandos verändern, ohne dass derselbe Ring in "
+"einem anderen Thread verändert wird."
 
 #: 08.5-Ring-Chains.md:64
-#, fuzzy
 msgid "Available Chain Methods"
 msgstr "Methoden, die verkettet werden können"
 
 #: 08.5-Ring-Chains.md:66
-#, fuzzy
 msgid "Here's a list of the available chain methods for you to play with:"
-msgstr "Hier kommt eine Liste der Methoden, die miteinander verkettet werden können:"
+msgstr ""
+"Hier kommt eine Liste der Methoden, die miteinander verkettet werden können:"
 
 #: 08.5-Ring-Chains.md:68
-#, fuzzy
 msgid "`.reverse` - returns a reversed version of the ring"
 msgstr "`.reverse` - gibt eine umgedrehte Version des Rings zurück"
 
 #: 08.5-Ring-Chains.md:69
-#, fuzzy
 msgid "`.sort` - creates a sorted version of the ring"
 msgstr "`.sort` - stellt eine sortierte Version des Rings her"
 
 #: 08.5-Ring-Chains.md:70
-#, fuzzy
 msgid "`.shuffle` - creates a shuffled version of the ring"
 msgstr "`.shuffle` - liefert eine neu gemischte Version des Rings"
 
 #: 08.5-Ring-Chains.md:71
-#, fuzzy
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
-msgstr "`.pick(3)` - liefert einen Ring nachdem 3-mal `.choose` angewendet wurde"
+msgstr ""
+"`.pick(3)` - liefert einen Ring nachdem 3-mal `.choose` angewendet wurde"
 
 #: 08.5-Ring-Chains.md:72
-#, fuzzy
 msgid ""
 "`.pick` - similar to `.pick(3)` only the size defaults to the same as the orig"
 "inal ring"
 msgstr ""
-"`.pick` - ähnlich wie `.pick(3)`, nur dass die Anzahl der des ursprünglichen R"
-"ings entspricht"
+"`.pick` - ähnlich wie `.pick(3)`, nur dass die Anzahl der des ursprünglichen "
+"Rings entspricht"
 
 #: 08.5-Ring-Chains.md:73
 #, fuzzy
