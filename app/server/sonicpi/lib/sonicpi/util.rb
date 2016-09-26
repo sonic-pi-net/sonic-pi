@@ -269,7 +269,10 @@ module SonicPi
     end
 
     def native_path
-      File.absolute_path("#{server_path}/native/#{os}")
+      if os == :windows
+        File.absolute_path("#{server_path}/native/win")
+      else
+        File.absolute_path("#{server_path}/native/#{os}")
     end
 
     def scsynth_log_path
@@ -280,7 +283,7 @@ module SonicPi
       # For running tests
       case os
       when :windows
-        File.join(native_path, "bin", "ruby.exe")
+        File.join(native_path, "ruby", "bin", "ruby.exe")
       when :osx, :raspberry, :linux
         File.join(native_path, "ruby", "bin", "ruby")
       end

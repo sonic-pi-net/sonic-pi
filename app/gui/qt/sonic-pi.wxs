@@ -36,7 +36,7 @@ light sonic-pi.wixobj etc.wixobj gui.wixobj server.wixobj -ext WixUtilExtension 
 						</Directory>
 						<Directory Id="SERVER" Name="server">
 							<Directory Id="NATIVE" Name="native">
-								<Directory Id="WINDOWS" Name="windows">
+								<Directory Id="WINDOWS" Name="win">
                                     <Component Id="SCSYNTH.EXE" DiskId="1" Guid="AE2F1766-69A6-4EFB-9DAE-E11A2BD717F5">
                                         <File Id="SCSYNTH.EXE" Name="scsynth.exe" Source="SourceDir\app\server\native\win\scsynth.exe" />
                                     </Component>
