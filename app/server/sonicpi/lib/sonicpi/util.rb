@@ -273,6 +273,7 @@ module SonicPi
         File.absolute_path("#{server_path}/native/win")
       else
         File.absolute_path("#{server_path}/native/#{os}")
+      end
     end
 
     def scsynth_log_path
