@@ -5,7 +5,7 @@ A.15 Five Live Coding Techniques
 In this month's Sonic Pi tutorial we're going to take a look at how you
 can start treating Sonic Pi like a real instrument. We therefore need to
 start thinking of code in a completely different way. Live coders think
-of code in a smilar way to how violinist thinks of their bow. In fact,
+of code in a similar way to how violinists think of their bow. In fact,
 just like a violinist can apply various bowing techniques to create
 different sounds (long slow motions vs short fast hits) we will explore
 five of the basic live coding techniques that Sonic Pi enables. By the
@@ -20,13 +20,13 @@ the mouse, moving it over to the Run button and clicking, you can simply
 press `alt` and `r` at the same time which is much faster and keeps your
 fingers at the keyboard ready for the next edit. You can find out the
 shortcuts for the main buttons at the top by hovering the mouse
-over. See section 10.2 of the built-in tutorial for the full list of
+over them. See section 10.2 of the built-in tutorial for the full list of
 shortcuts.
 
 When performing, one fun thing to do is to add a bit of flair with your
-arm motion when hitting shortcuts. For example, its often good to
+arm motion when hitting shortcuts. For example, it's often good to
 communicate to the audience when you're about to make a change - so
-embellish your movement when hitting `alt-r`just like a guitarist would
+embellish your movement when hitting `alt-r` just like a guitarist would
 do when hitting a big power chord.
 
 ## 2. Manually Layer your Sounds
@@ -57,7 +57,7 @@ is because Sonic Pi's `Run` button doesn't wait for any previous code to
 finish, but instead starts the code running at the same time. This means
 you can easily layer lots of sounds manually with minor or major
 modifications between each trigger. For example, try changing both the
-`note:` and the `cutoff:` opts and then re-trigger. 
+`note:` and the `cutoff:` opts and then re-trigger.
 
 
 You can also try this technique with long abstract samples. For example:
@@ -69,7 +69,7 @@ sample :ambi_lunar_land, rate: 1
 Try starting the sample off, and then progressively halving the `rate:`
 opt between hitting `Run` from `1` to `0.5` to `0.25` to `0.125` and then
 even try some negative values such as `-0.5`. Layer the sounds together
-and see where you can take it. Finally, try adding some FX. 
+and see where you can take it. Finally, try adding some FX.
 
 When performing, working with simple lines of code in this way means
 that an audience new to Sonic Pi has a good chance to follow what you're
