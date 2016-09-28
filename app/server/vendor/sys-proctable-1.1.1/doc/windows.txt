@@ -1,0 +1,104 @@
+= Description
+   A Ruby interface for gathering process information.  For MS Windows,
+   the process information is gathered via OLE + WMI, using pure Ruby.
+   
+= Synopsis
+   require 'sys/proctable'
+   include Sys
+
+   # Everything
+   ProcTable.ps{ |p|
+      puts p.pid.to_s
+      puts p.comm
+      ...
+   }
+
+   or
+
+   # A single pid
+   p = ProcTable.ps(1234)
+   puts p.pid.to_s
+   puts p.comm
+   ...
+
+   or
+
+   # Return the results as an array of ProcTableStructs
+   a = ProcTable.ps
+   a.each do |p|
+      puts a.pid
+      ...
+   end
+   
+= Constants
+VERSION
+   Returns the current version number for this library (as a string).
+    
+= Class Methods
+ProcTable.fields
+   Returns an Array of fields available on the current OS in the
+   ProcTableStruct.
+    
+ProcTable.ps(pid=nil, host='localhost')
+ProcTable.ps{ |s| ... }
+   Returns a struct of type ProcTableStruct for every process in the proc
+   table in block form.  Otherwise it returns an array of ProcTableStruct's.
+
+   If 'pid' is provided, then only a struct for that pid is returned, or
+   nil if it is not found.
+ 
+   If 'host' is provided, then processes from that host are gathered.  By
+   default, process information is gathered on the local host.
+	 	
+= Supported fields
+    You can also view the supported fields with the Sys::ProcTable.fields
+    method.
+    
+= Notes
+   For the sake of attempting to provide a somewhat common API, the 'comm'
+   and 'cmdline' fields have been included as part of the structure.  The
+   'comm' member corresponds to the Name attribute of Win32_Process.  The
+   'cmdline' attribute corresponds to either the Executable_Path attribute
+   (on Windows 2000 or earlier) or the CommandLine attribute (on Windows XP
+   and later).
+	 
+   Also note that the ProcessId and ParentProcessId attributes have been
+   abbreviated as 'pid' and 'ppid' in the struct members, again to keep the
+   members more consistent between platforms.
+	 
+   The "Mem Usage" and "VM Size" that you may be used to seeing in your Task
+   Manager window (probably) correspond to the 'working_set_size' and
+   'page_file_usage' struct members, respectively, keeping in mind that
+   those values are in bytes, not kilobytes.  I say 'probably' because
+   comments that I've read online indicate that it may not always line up
+   with what you see in the Task Manager, based on the current version (or
+   even Service Pack) of Windows that you are using.
+	 
+= Future Plans
+   Possibly use the Win32_PerfFormattedData_PerfProc_Process class to get
+   additional process information.
+    
+= Known Bugs
+   Versions of Ruby earlier than 1.8.2 resulted in segfaults when trying to
+   run this code.  You will likely encounter the same behavior.
+
+   Please log any additional bug reports on the project page at
+   http://www.rubyforge.org/projects/sysutils
+	
+= License
+   Artistic 2.0
+    
+= Copyright
+   (C) 2003-2009 Daniel J. Berger
+   All Rights Reserved
+    
+= Warranty
+   This package is provided "as is" and without any express or
+   implied warranties, including, without limitation, the implied
+   warranties of merchantability and fitness for a particular purpose.
+	
+= Author
+   Daniel J. Berger
+    
+= See Also
+   OLE + WMI

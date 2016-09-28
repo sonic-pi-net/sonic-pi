@@ -110,4 +110,5 @@ relevant licenses:
 * [AST](https://github.com/whitequark/ast) - [MIT License](http://opensource.org/licenses/MIT)
 * [Parser](https://github.com/whitequark/parser) - [MIT License](http://opensource.org/licenses/MIT)
 * [Metaclass](https://github.com/floehopper/metaclass) - [MIT License](http://opensource.org/licenses/MIT)
+* [Sys Proctable](https://github.com/djberg96/sys-proctable) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 

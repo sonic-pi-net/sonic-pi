@@ -12,7 +12,9 @@
 #++
 require 'tmpdir'
 require 'fileutils'
+require_relative "../core"
 require_relative "../sonicpi/lib/sonicpi/util"
+require 'sys-proctable'
 
 include SonicPi::Util
 
@@ -21,8 +23,8 @@ tmp_dir = Dir.tmpdir
 #f = File.open("log_path/spawn.log", 'a')
 pids_store = tmp_dir + "/sonic-pi-pids"
 
-unless File.exists? pid_store
-  log_process_info "No pids store found here: #{pid_store}\n"
+unless File.exists? pids_store
+  log_process_info "No pids store found here: #{pids_store}\n"
   log_process_info "Exiting\n"
   exit
 end
@@ -42,8 +44,6 @@ os = case RUBY_PLATFORM
 
 pids = Dir.entries(pids_store) - [".", ".."]
 
-
-
 log_process_info "\n\nClearing pids: #{pids.inspect}\n"
 
 if pids.empty?
@@ -52,9 +52,35 @@ if pids.empty?
 end
 
 pids.each do |pid|
-
   log_process_info "\nClearing [#{pid}]"
   pid = Integer(pid)
+  pid_path = "#{pids_store}/#{pid}"
+  begin
+    orig_cmdline = File.readlines(pid_path)[0]
+  rescue
+    log_process_info "  -- unable to read original cmdline for pid: #{pid}"
+    if File.exists? pid_path
+      FileUtils.rm pid_path
+    end
+    next
+  end
+
+  if File.exists? pid_path
+    log_process_info "  -- removing #{pid_path}"
+    FileUtils.rm pid_path
+  end
+
+  begin
+    info = Sys::ProcTable.ps(pid)
+    raise unless info
+  rescue
+    log_process_info "  -- unable to get ProcTable info for: #{pid}"
+    log_process_info "  -- process: #{pid} not running"
+    next
+  end
+
+  # Don't kill process unless the command line arguments match
+  next unless info.cmdline.strip == orig_cmdline.strip
 
   if os == :windows
     # We're on Windows, so go straight for the jugular
@@ -95,11 +121,7 @@ pids.each do |pid|
     end
   end
 
-  pid_path = "#{pids_store}/#{pid}"
-  if File.exists? pid_path
-    log_process_info "  -- removing #{pid_path}"
-    FileUtils.rm pid_path
-  end
+
 end
 
 log_process_info "\nFinished clearing pids\n\n"

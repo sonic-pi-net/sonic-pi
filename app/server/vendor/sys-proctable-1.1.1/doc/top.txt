@@ -1,0 +1,47 @@
+= Description
+   A simple 'top' interface for Ruby
+
+= Prerequisites
+   Requires the "sys/proctable" package (which should be installed along
+   with this package).
+
+= Synopsis
+   require "sys/top"
+
+   Sys::Top.top(5).each{ |ps|
+      p ps
+   }
+	
+= Constants
+VERSION
+   Returns the version number of this package as a String.
+	
+= Class Methods
+Sys::Top.top(number=10, field="pctcpu")
+   Returns an array of ProcTableStruct's.  The size of the array (i.e. the
+   number of processes) that it returns is based on +number+, and sorted by
+   +pctcpu+.  By default, the size and field values are 10 and "pctcpu",
+   respectively.
+
+= Notes
+   Not all fields are available on all platforms.  Please check your
+   platform specific documentation for which fields are available.
+	
+= Bugs
+   None that I'm aware of.  Please log bug reports on the project page at
+   http://www.rubyforge.org/projects/sysutils
+	
+= License
+   Artistic 2.0
+	
+= Copyright
+   (C) 2004-2009 Daniel J. Berger
+   All Rights Reserved.
+    
+= Warranty
+   This package is provided "as is" and without any express or
+   implied warranties, including, without limitation, the implied
+   warranties of merchantability and fitness for a particular purpose.
+
+= Author
+   Daniel J. Berger

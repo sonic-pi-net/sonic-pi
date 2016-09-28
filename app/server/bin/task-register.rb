@@ -13,7 +13,9 @@
 
 require 'tmpdir'
 require 'fileutils'
+require_relative "../core"
 require_relative "../sonicpi/lib/sonicpi/util"
+require 'sys-proctable'
 
 include SonicPi::Util
 
@@ -26,9 +28,19 @@ unless File.exists? pids_store
   Dir.mkdir(pids_store)
 end
 
-pid = ARGV[0]
+pid = ARGV[0].to_i
 pid_path = "#{pids_store}/#{pid}"
 
 log_process_info "Started [#{pid}] - #{pid_path}"
 
-FileUtils.touch pid_path
+f = nil
+
+begin
+  if s = Sys::ProcTable.ps(pid)
+    f = File.open(pid_path, 'w')
+    f.puts s.cmdline
+  end
+rescue Exception => e
+end
+
+f.close if f

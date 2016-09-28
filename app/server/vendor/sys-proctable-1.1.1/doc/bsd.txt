@@ -1,0 +1,87 @@
+= Description
+   sys-proctable
+
+   A Ruby interface to the 'ps' command. This is a C extension, not parsed
+   output. For BSD flavors the kvm interface is used.
+
+= Synopsis
+   require 'sys/proctable'
+   include Sys
+
+   # Everything
+   ProcTable.ps{ |p|
+      puts p.pid.to_s
+      puts p.comm
+      ...
+   }
+
+   or
+
+   # Just one process
+   p = ProcTable.ps(2123)
+   puts p.pid.to_s
+   puts p.comm
+   ...
+
+   or
+
+   # Return the results as an array of ProcTableStructs
+   a = ProcTable.ps()
+   a.each do |p|
+      puts a.pid
+      ...
+   end
+
+= Constants
+VERSION
+   Returns the current version number for this library (as a string).
+
+= Class Methods
+ProcTable.fields
+   Returns an array of fields available on the current OS.
+
+ProcTable.ps(pid = nil)
+ProcTable.ps{ |s| ... }
+   If no pid's or processes are included as arguments, in block form it
+   returns a struct of type ProcTableStruct for every process in the proc
+   table.  Otherwise it returns an array of ProcTableStruct's.
+
+   If a pid argument is provided, a single ProcTable struct is returned, or
+   nil if the pid is not found.
+
+= Exception Classes
+ProcTable::Error < StandardError
+   Raised if any of the ProcTable methods fail.
+
+= Supported fields
+   You can view the supported fields with the "fields()" class method.
+    
+= Future Plans
+   Add a pure-ruby version as an alternative
+   Add ttydev info
+   Add a sysctl version
+
+= Known Bugs
+   The kvm version for FreeBSD 5.x does not support all of the fields that
+   the 4.x version supports.
+    
+   If you find any other bugs please log them on the project
+   page at http://www.rubyforge.org/projects/sysutils
+
+= License
+   Artistic 2.0
+
+= Copyright
+   (C) 2003-2009 Daniel J. Berger
+   All Rights Reserved
+    
+= Warranty
+   This package is provided "as is" and without any express or
+   implied warranties, including, without limitation, the implied
+   warranties of merchantability and fitness for a particular purpose
+
+= Author
+   Daniel J. Berger
+
+= See Also
+   ps, proc

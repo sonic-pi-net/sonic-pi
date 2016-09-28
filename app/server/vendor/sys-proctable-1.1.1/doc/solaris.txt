@@ -1,0 +1,81 @@
+= Description
+   A Ruby interface for gathering process table information. This is a pure
+   Ruby implementation that unpacks data out of your /proc filesystem.
+   
+= Synopsis
+   require 'sys/proctable'
+   include Sys
+
+   # Everything
+   ProcTable.ps{ |p|
+      puts p.pid.to_s
+      puts p.comm
+      ...
+   }
+
+   or
+
+   # Just one process
+   s = ProcTable.ps(2123)
+   puts s.pid.to_s
+   puts s.comm
+   ...
+
+   # Return the results as an array of ProcTableStructs
+   a = ProcTable.ps
+   a.each do |p|
+      puts a.pid
+      ...
+   end
+   
+= Constants
+VERSION
+   Returns the current version number for this package (as a string).
+    
+= Class Methods
+ProcTable.fields
+   Returns an array of fields available on the current OS.
+    
+ProcTable.ps(pid=nil)
+ProcTable.ps{ |s| ... }
+   If no pid is included as an argument, in block form it
+   returns a struct of type ProcTableStruct for every process in the proc
+   table.  Otherwise it returns an array of ProcTable struct's.  If a pid
+   is provided it will return a single ProcTable struct for that pid, or
+   nil if it is not found.
+    
+= Exception Classes
+ProcTable::Error < StandardError
+   Raised if the /proc directory is unreadable and/or unmounted.
+    
+= Supported fields
+   You can view the supported fields with the "fields()" class method.
+
+= Future Plans
+   Support for 2.6 and 2.7 if requested.
+    
+= Notes
+   The cmdline string is limited to 80 characters, except for those processes
+   which you (or your program) own.
+    
+= Known Bugs
+   None that I am aware of.  Please log any bugs on the RubyForge project page at
+   http://www.rubyforge.org/projects/sysutils
+
+= License
+   Artistic 2.0
+    
+= Copyright
+   (C) 2003-2009 Daniel J. Berger
+   All Rights Reserved.
+    
+= Warranty
+   This package is provided "as is" and without any express or
+   implied warranties, including, without limitation, the implied
+   warranties of merchantability and fitness for a particular purpose.
+	
+= Author
+   Daniel J. Berger
+    
+= See Also
+   ps, proc
