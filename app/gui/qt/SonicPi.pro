@@ -76,11 +76,6 @@ SOURCES += main.cpp \
            sonic_pi_tcp_osc_server.cpp \
            sonicpitheme.cpp \
            scope.cpp
-win32 {
-# have to link these explicitly for some reason
-  SOURCES += platform/win/moc_qsciscintilla.cpp \
-             platform/win/moc_qsciscintillabase.cpp
-}
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
