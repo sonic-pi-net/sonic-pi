@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-09 12:15+0000\n"
-"Last-Translator: sebastien van der Kwast <svdkwast@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/f"
-"r/>\n"
+"PO-Revision-Date: 2016-09-28 20:09+0000\n"
+"Last-Translator: Vincent R. <renard.vin3@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -36,7 +36,6 @@ msgstr ""
 "de la programmation, de l'interprétation et plus encore."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
-#, fuzzy
 msgid ""
 "But wait, how rude of me! Let me introduce myself - I'm [Sam Aaron](http://twi"
 "tter.com/samaaron) - the chap that created Sonic Pi. You can find me at [@sama"
@@ -45,13 +44,13 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Mais attendez, comme je suis impoli ! Je me présente. Je suis [Sam Aaron](http"
-"://twitter.com/samaaron) - le gars qui a créé Sonic Pi. Vous pouvez me joindre"
-" à [@samaaron](http://twitter.com/samaaron) sur Twitter et je serai plus qu'he"
-"ureux de vous saluer. Vous pourriez aussi être intéressé par mon orchestre \"Li"
-"ve Coding\" [Meta-eX](http://meta-ex.com) où j'interprète de la musique avec du"
-" code devant un public. Vous pouvez trouver un de mes morceaux [Meta-eX](http:"
-"//meta-ex.com) dans les exemples."
+"Mais attendez, comme je suis impoli ! Je me présente. Je suis [Sam "
+"Aaron](http://twitter.com/samaaron) - le gars qui a créé Sonic Pi. Vous "
+"pouvez me joindre à [@samaaron](http://twitter.com/samaaron) sur Twitter et "
+"je serai plus qu'heureux de vous saluer. Vous pourriez aussi être intéressé "
+"par mon orchestre \"Live Coding\" [Meta-eX](http://meta-ex.com) où "
+"j'interprète de la musique avec du code devant un public. Vous pouvez "
+"trouver un de mes morceaux [Meta-eX](http://meta-ex.com) dans les exemples."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -65,18 +64,18 @@ msgstr ""
 "portante !"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
-#, fuzzy
 msgid ""
 "This tutorial is divided up into sections grouped by category. Whilst I've wri"
 "tten it to have an easy learning progression from start to finish, feel very f"
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
-"Ce tutoriel est divisé en sections groupées par catégories. Même si je l'ai éc"
-"rit pour avoir une progression d'apprentissage facile du début jusqu'à la fin,"
-" sentez-vous vraiment libre de plonger dans l'une ou l'autre section comme cel"
-"a vous convient. Si vous pensez qu'il manque quelque chose, n'hésitez pas à me"
-" le faire savoir et je le prendrai en compte dans une prochaine version."
+"Ce tutoriel est divisé en sections groupées par catégories. Même si je l'ai "
+"écrit pour avoir une progression d'apprentissage facile du début jusqu'à la "
+"fin, sentez-vous vraiment libre de plonger dans l'une ou l'autre section "
+"comme cela vous convient. Si vous pensez qu'il manque quelque chose, "
+"n'hésitez pas à me le faire savoir et je le prendrai en compte dans une "
+"prochaine version."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -94,57 +93,50 @@ msgid "OK, let's get started..."
 msgstr "OK, démarrons ..."
 
 #: 01.1-Live-Coding.md:1
-#, fuzzy
 msgid "1.1 Live Coding"
 msgstr "1.1 Codage en 'live'"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
-#, fuzzy
 msgid "Live Coding"
 msgstr "Codage en \"Live\""
 
 #: 01.1-Live-Coding.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to write a"
 "nd *modify code live* to make music, just like you might perform live with a g"
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Un des aspects les plus passionnants de Sonic Pi est qu'il vous permet d'écrir"
-"e et de *modifier du code en \"live\"* pour faire de la musique, juste comme si "
-"vous jouiez de la guitare. Cela veut dire qu'au moyen de quelque expérience, v"
-"ous pouvez prendre Sonic PI sur scène et jouez avec."
+"Un des aspects les plus passionnants de Sonic Pi est qu'il vous permet "
+"d'écrire et de *modifier du code en \"live\"* pour faire de la musique, "
+"comme si vous jouiez de la guitare. Cela veut dire qu'avec un peu de "
+"pratique, vous pourrez jouer avec Sonic PI sur scène et vous amuser avec."
 
 #: 01.1-Live-Coding.md:10
-#, fuzzy
 msgid "Free your mind"
-msgstr "Libérez vos méninges"
+msgstr "Libérez votre créativité"
 
 #: 01.1-Live-Coding.md:12
-#, fuzzy
 msgid ""
 "Before we get into the real details of how Sonic Pi works in the rest of this "
 "tutorial, I'd like to give you an experience of what it's like to live code. D"
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
-"Avant que vous ne plongiez dans les détails réels du fonctionnement de Sonic P"
-"i dans la suite de ce tutoriel, j'aimerais vous faire part d'une expérience mo"
-"ntrant à quoi ressemble le code en \"live\". Ne vous inquiétez pas si vous ne co"
-"mprenez pas beaucoup ou rien de ceci. Essayez juste de rester assis sur votre "
-"siège et de profiter..."
+"Avant que vous ne plongiez dans les détails réels du fonctionnement de Sonic "
+"Pi dans la suite de ce tutoriel, j'aimerais vous faire part d'une expérience "
+"montrant à quoi ressemble le code en \"live\". Ne vous inquiétez pas si vous "
+"ne comprenez pas beaucoup ou rien de ceci. Essayez juste de rester assis sur "
+"votre siège et de profiter..."
 
 #: 01.1-Live-Coding.md:17
-#, fuzzy
 msgid "A live loop"
-msgstr "Une boucle en \"live\""
+msgstr "Une boucle live"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "Démarrons, copiez le code suivant dans un \"buffer\" libre :"
+msgstr "Commençons, copiez le code suivant dans un \"buffer\" libre :"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -172,7 +164,6 @@ msgstr ""
 "ivez les étapes suivantes :"
 
 #: 01.1-Live-Coding.md:32
-#, fuzzy
 msgid "Make sure the bass drum sound is still running"
 msgstr "Assurez-vous que le son de la grosse caisse est encore présent"
 
@@ -1491,23 +1482,23 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
 #, fuzzy
@@ -1655,9 +1646,9 @@ msgid ""
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
-"Observez comme cela sonne exactement pareil (le son dure pendant une seconde)."
-" Néanmoins, c'est désormais très simple de changer la durée en modifiant la va"
-"leur du 'release': opt:"
+"Observez comme cela sonne exactement pareil (le son dure pendant une seconde)"
+". Néanmoins, c'est désormais très simple de changer la durée en modifiant la "
+"valeur du `release:` opt:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1692,7 +1683,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1773,7 +1764,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr ""
+msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 #, fuzzy
@@ -1790,10 +1781,13 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
+#, fuzzy
 msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![long attack short release envelope](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 #, fuzzy
@@ -1810,10 +1804,13 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
+#, fuzzy
 msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 msgstr ""
+"![short attack short release envelope](../images/tutorial/env-short-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 #, fuzzy
@@ -1837,8 +1834,9 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
+#, fuzzy
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 #, fuzzy
@@ -1891,8 +1889,10 @@ msgstr ""
 ": 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
+#, fuzzy
 msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 msgstr ""
+"![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1917,7 +1917,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
