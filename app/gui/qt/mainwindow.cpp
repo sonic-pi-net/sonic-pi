@@ -140,10 +140,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   server_error_log_path  = QDir::toNativeSeparators(log_path + "/server-errors.log");
   server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
   gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
+  process_log_path       = QDir::toNativeSeparators(log_path + "/processes.log");
   scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
 
   init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/init-script.rb");
   exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/exit-script.rb");
+
 
 
   // Clear out old tasks from previous sessions if they still exist
@@ -1342,11 +1344,13 @@ void MainWindow::startupError(QString msg) {
   setMessageBoxStyle();
   QString gui_log;
   QString scsynth_log;
+  QString processes_log;
   QString server_output_log;
   QString server_error_log;
   if(homeDirWritable) {
     gui_log = readFile(gui_log_path);
     scsynth_log = readFile(scsynth_log_path);
+    processes_log = readFile(process_log_path);
     server_output_log = readFile(server_output_log_path);
     server_error_log = readFile(server_error_log_path);
   }
@@ -1355,11 +1359,12 @@ void MainWindow::startupError(QString msg) {
     scsynth_log = "Permissions error: unable to access log";
     server_output_log = "Permissions error: unable to access log";
     server_error_log = "Permissions error: unable to access log";
+    processes_log = "Permissions error: unable to access log";
   }
 
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     tr("Server boot error..."), tr("Sonic Pi Boot Error\n\nApologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
-  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nSystem Information\n----------------\n\n* Sonic Pi version: " + version + "\n* OS: " + osDescription() + "\n\n\nGUI Log\n-------\n\n**`" + gui_log_path + "`**\n```\n" + gui_log + "\n```\n\n\nServer Errors\n-------------\n\n**`" + server_error_log_path + "`**\n```\n" + server_error_log + "\n```\n\n\nServer Output\n-------------\n\n**`" + server_output_log_path + "`**\n```\n" + server_output_log + "\n```\n\n\nScsynth Output\n--------------\n\n**`" + scsynth_log_path + "`**\n```\n" + scsynth_log + "\n```\n";
+  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nSystem Information\n----------------\n\n* Sonic Pi version: " + version + "\n* OS: " + osDescription() + "\n\n\nGUI Log\n-------\n\n**`" + gui_log_path + "`**\n```\n" + gui_log + "\n```\n\n\nServer Errors\n-------------\n\n**`" + server_error_log_path + "`**\n```\n" + server_error_log + "\n```\n\n\nServer Output\n-------------\n\n**`" + server_output_log_path + "`**\n```\n" + server_output_log + "\n```\n\n\nScsynth Output\n--------------\n\n**`" + scsynth_log_path + "`**\n```\n" + scsynth_log + "\n\n\Process Log\n--------------\n\n**`" + process_log_path + "`**\n```\n" + processes_log + "\n\n\n```\n";
   box->setDetailedText(error_report);
 
   QGridLayout* layout = (QGridLayout*)box->layout();
