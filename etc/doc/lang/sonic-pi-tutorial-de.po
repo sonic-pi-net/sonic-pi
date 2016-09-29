@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-29 16:19+0000\n"
-"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
+"PO-Revision-Date: 2016-09-29 16:27+0000\n"
+"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -7568,38 +7568,33 @@ msgid "`.stretch(2)` - repeats each element in the ring twice"
 msgstr "`.stretch(2)` - wiederholt jedes Element im Ring zweimal"
 
 #: 08.5-Ring-Chains.md:79
-#, fuzzy
 msgid "`.repeat(3)` - repeats the entire ring 3 times"
 msgstr "`.repeat(3)` - wiederholt den ganzen Ring 3-mal"
 
 #: 08.5-Ring-Chains.md:80
-#, fuzzy
 msgid "`.mirror` - adds the ring to a reversed version of itself"
-msgstr "`.mirror` - hängt eine umgekehrte Version des Rings an die ursprüngliche an"
+msgstr ""
+"`.mirror` - hängt eine umgekehrte Version des Rings an die ursprüngliche an"
 
 #: 08.5-Ring-Chains.md:81
-#, fuzzy
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
 msgstr "`.reflect` - wie `.mirror`, verdoppelt aber nicht die mittleren Werte"
 
 #: 08.5-Ring-Chains.md:83
-#, fuzzy
 msgid ""
 "Of course, those chain methods that take numbers can take other numbers too! S"
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
 "irst 5 elements."
 msgstr ""
-"Natürlich können die Verkettungsmethoden mit Zahlen auch andere Zahlwerte entg"
-"egennehmen. Du schreibst also `.drop(5)` anstelle von `.drop(3)`, wenn Du die "
-"ersten 5 Elemente weglassen willst."
+"Natürlich können die Verkettungsmethoden mit Zahlen auch andere Zahlwerte "
+"entgegennehmen. Du schreibst also `.drop(5)` anstelle von `.drop(3)`, wenn "
+"Du die ersten 5 Elemente weglassen willst."
 
 #: 09-Live-Coding.md:1
-#, fuzzy
 msgid "9 Live Coding"
 msgstr "9 Live-Coding"
 
 #: 09-Live-Coding.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to write a"
 "nd modify code live to make music, just like you might perform live with a gui"
@@ -7608,30 +7603,27 @@ msgid ""
 "t). However, the main advantage is that you can take Sonic Pi on stage and gig"
 " with it."
 msgstr ""
-"So, und jetzt wird es aufregend! Mit Sonic Pi kannst Du den Code für Deine Mus"
-"ik live schreiben und verändern. Du kannst also während eines Auftritts mit So"
-"nic Pi live Musik machen - wie mit einer Gitarre. Das Großartige daran ist, da"
-"ss Du noch während des Komponierens sofort die Rückmeldung vom Publikum erhält"
-"st. Starte einen einfachen Loop und spiele daran herum, bis er genau richtig k"
-"lingt. Der größte Vorteil ist aber, dass Du Sonic Pi bei einem Gig mit auf die"
-" Bühne nehmen kannst."
+"So, und jetzt wird es aufregend! Mit Sonic Pi kannst Du den Code für Deine "
+"Musik live schreiben und verändern. Du kannst also während eines Auftritts "
+"mit Sonic Pi live Musik machen - wie mit einer Gitarre. Das Großartige daran "
+"ist, dass Du noch während des Komponierens sofort die Rückmeldung vom "
+"Publikum erhältst. Starte einen einfachen Loop und spiele daran herum, bis "
+"er genau richtig klingt. Der größte Vorteil ist aber, dass Du Sonic Pi bei "
+"einem Gig mit auf die Bühne nehmen kannst."
 
 #: 09-Live-Coding.md:12
-#, fuzzy
 msgid ""
 "In this section we'll cover the fundamentals of turning your static code compo"
 "sitions into dynamic performances."
 msgstr ""
-"In diesem Abschnitt behandeln wir die Grundlagen, mit denen Du Deine Kompositi"
-"onen von statischem Code in rasante Performances verwandeln kannst."
+"In diesem Abschnitt behandeln wir die Grundlagen, mit denen Du Deine "
+"Kompositionen von statischem Code in rasante Performances verwandeln kannst."
 
 #: 09-Live-Coding.md:15
-#, fuzzy
 msgid "Hold on to your seats..."
 msgstr "Halt Dich fest..."
 
 #: 09.1-Live-Coding-Fundamentals.md:1
-#, fuzzy
 msgid "9.1 Live Coding Fundamentals"
 msgstr "9.1 Live-Coding: Grundlagen"
 
