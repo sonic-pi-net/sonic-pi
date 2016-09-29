@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-29 16:18+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2016-09-29 16:19+0000\n"
+"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -7565,7 +7565,7 @@ msgstr ""
 
 #: 08.5-Ring-Chains.md:78
 msgid "`.stretch(2)` - repeats each element in the ring twice"
-msgstr "`.stretch(2)` - wiederholt jedes Element im Ring 2-mal"
+msgstr "`.stretch(2)` - wiederholt jedes Element im Ring zweimal"
 
 #: 08.5-Ring-Chains.md:79
 #, fuzzy
