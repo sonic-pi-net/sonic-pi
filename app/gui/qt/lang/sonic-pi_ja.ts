@@ -197,12 +197,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>フルスクリーンON</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>フルスクリーンOFF</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -242,7 +242,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Piオーディオ出力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -250,22 +250,25 @@ create unexpectedly loud or uncomfortable sounds.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Piは、2つの形式のオーディオ出力を持っています。
+1つめは、Raspberry Pi自体のヘッドフォンジャック、
+もう1つは、HDMIポートで接続されたモニター/テレビです。
+これらのボタンを使用して、オーディオ出力を設定してください。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;デフォルト</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ヘッドフォン</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1003"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1031"/>
@@ -321,7 +324,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>有効にすると、Sonic Piはload_synthdefs
 の呼び出しによるシンセ・エフェクトのロードを
 許可します。
@@ -491,7 +494,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ・オシロスコープの軸の表示を切り替えます</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -561,17 +564,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>文字を大きく</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>文字を小さく</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ・オシロスコープの表示を切り替えます。 </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
@@ -986,7 +989,7 @@ Sonic Pi %1 を入手</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Sonic Piが既に実行されていませんか？ UDPポート4558を開くことができませんでした。</translation>
     </message>
 </context>
