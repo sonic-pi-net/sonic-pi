@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-15 10:02+0000\n"
-"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/tutorial"
-"/ja/>\n"
+"PO-Revision-Date: 2016-09-29 14:50+0000\n"
+"Last-Translator: Sugahara Masayuki <brindflontia@gmail.com>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.8\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1664,14 +1664,13 @@ msgstr ""
 "プル*と呼びます。つまり、マイクを持って外に出て、雨が優しくキャンバスを打つ音を録音しに行けば、それだけでサンプルを作ることができます。"
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"Sonic Piは、サンプルで楽しいことがたくさんできるようになっています。90以上のパブリック・ドメイン（著作権がない）サンプルが、ジャム（即興演奏）する"
-"ために同梱されているだけでなく、自分で操作して演奏することも可能にしてくれるのです。さっそくみていきましょう。"
+"Sonic Piは、サンプルで楽しいことがたくさんできるようになっています。130以上のパブリック・ドメイン（著作権がない）サンプルが、ジャム（即興演奏）"
+"するために同梱されているだけでなく、自分で操作して演奏することも可能にしてくれるのです。さっそくみていきましょう…"
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
@@ -5938,9 +5937,8 @@ msgid ""
 msgstr "制御することのできるオプションは、対応する`_slide`オプションを持っています。"
 
 #: 07.3-Sliding-Parameters.md:46
-#, fuzzy
 msgid "Sliding is sticky"
-msgstr "ネバネバするスライド"
+msgstr "スライドはメモ書きのようなもの"
 
 #: 07.3-Sliding-Parameters.md:48
 msgid ""
@@ -6887,9 +6885,8 @@ msgid "If you run this code, you'll hear note 50 repeating again and again..."
 msgstr "このコードを実行すると、音符50を何度も何度も繰り返します。"
 
 #: 09.1-Live-Coding-Fundamentals.md:41
-#, fuzzy
 msgid "Changing it up"
-msgstr "チェンジアップ（変化）させる"
+msgstr "変えてみる"
 
 #: 09.1-Live-Coding-Fundamentals.md:43
 msgid ""
@@ -8014,11 +8011,11 @@ msgstr "`S-M-m` - ライト／ダークモードを切り替え"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "`S-M-s` - コンテンツバッファをファイルに保存"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "`S-M-o` - ファイルの内容をコンテンツバッファに読み込み"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
