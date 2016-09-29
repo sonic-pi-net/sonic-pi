@@ -4,10 +4,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-26 15:29+0000\n"
+"PO-Revision-Date: 2016-09-29 16:18+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/d"
-"e/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7539,36 +7539,31 @@ msgstr ""
 "ings entspricht"
 
 #: 08.5-Ring-Chains.md:73
-#, fuzzy
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
-msgstr "`.take(5)` - liefert einen neuen Ring, der nur die ersten 5 Elementen enthält"
+msgstr ""
+"`.take(5)` - liefert einen neuen Ring, der nur die ersten 5 Elementen enthält"
 
 #: 08.5-Ring-Chains.md:74
-#, fuzzy
 msgid "`.drop(3)` - returns a new ring with everything but the first 3 elements"
 msgstr ""
-"`.drop(3)` - liefert einen neuen Ring, der alles außer den ersten 3 Elementen "
-"enthält"
+"`.drop(3)` - liefert einen neuen Ring, der alles außer den ersten 3 "
+"Elementen enthält"
 
 #: 08.5-Ring-Chains.md:75
-#, fuzzy
 msgid "`.butlast` - returns a new ring with the last element missing"
 msgstr "`.butlast` - liefert einen neuen Ring ohne das letzte Element"
 
 #: 08.5-Ring-Chains.md:76
-#, fuzzy
 msgid "`.drop_last(3)` - returns a new ring with the last 3 elements missing"
 msgstr "`.drop_last(3)` - liefert einen neuen Ring ohne die letzten 3 Elemente"
 
 #: 08.5-Ring-Chains.md:77
-#, fuzzy
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
 msgstr ""
-"`.take_last(6)`- liefert einen neuen Ring, der nur die letzten 6 Elemente enth"
-"ält"
+"`.take_last(6)`- liefert einen neuen Ring, der nur die letzten 6 Elemente "
+"enthält"
 
 #: 08.5-Ring-Chains.md:78
-#, fuzzy
 msgid "`.stretch(2)` - repeats each element in the ring twice"
 msgstr "`.stretch(2)` - wiederholt jedes Element im Ring 2-mal"
 
