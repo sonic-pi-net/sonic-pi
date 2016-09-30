@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-29 14:50+0000\n"
-"Last-Translator: Sugahara Masayuki <brindflontia@gmail.com>\n"
+"PO-Revision-Date: 2016-09-30 12:18+0000\n"
+"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -5937,6 +5937,7 @@ msgid ""
 msgstr "制御することのできるオプションは、対応する`_slide`オプションを持っています。"
 
 #: 07.3-Sliding-Parameters.md:46
+#, fuzzy
 msgid "Sliding is sticky"
 msgstr "スライドはメモ書きのようなもの"
 
@@ -6885,6 +6886,7 @@ msgid "If you run this code, you'll hear note 50 repeating again and again..."
 msgstr "このコードを実行すると、音符50を何度も何度も繰り返します。"
 
 #: 09.1-Live-Coding-Fundamentals.md:41
+#, fuzzy
 msgid "Changing it up"
 msgstr "変えてみる"
 
@@ -8011,11 +8013,11 @@ msgstr "`S-M-m` - ライト／ダークモードを切り替え"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr "`S-M-s` - コンテンツバッファをファイルに保存"
+msgstr "`S-M-s` - Bufferの内容をファイルに保存"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr "`S-M-o` - ファイルの内容をコンテンツバッファに読み込み"
+msgstr "`S-M-o` - Bufferの内容をファイルから読み込む"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
