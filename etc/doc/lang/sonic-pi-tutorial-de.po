@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-29 16:27+0000\n"
+"PO-Revision-Date: 2016-09-30 14:02+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -7628,30 +7628,26 @@ msgid "9.1 Live Coding Fundamentals"
 msgstr "9.1 Live-Coding: Grundlagen"
 
 #: 09.1-Live-Coding-Fundamentals.md:5
-#, fuzzy
 msgid ""
 "Now we've learned enough to really start having some fun. In this section we'l"
 "l draw from all the previous sections and show you how you can start making yo"
 "ur music compositions live and turning them into a performance. For that we'll"
 " need 3 main ingredients:"
 msgstr ""
-"Inzwischen haben wir genug gelernt, nun können wir wirklich Spaß haben. In die"
-"sem Abschnitt nutzen wir alles, was wir bisher in diesem Tutorial gelernt habe"
-"n und zeigen Dir, wie Du Deine Kompositionen live aufführen und in Performance"
-"s verwandeln kannst. Dazu benötigen wir vor allem drei Zutaten:"
+"Inzwischen haben wir genug gelernt, nun können wir wirklich Spaß haben. In "
+"diesem Abschnitt nutzen wir alles, was wir bisher in diesem Tutorial gelernt "
+"haben und zeigen Dir, wie Du Deine Kompositionen live aufführen und in "
+"Performances verwandeln kannst. Dazu benötigen wir vor allem drei Zutaten:"
 
 #: 09.1-Live-Coding-Fundamentals.md:10
-#, fuzzy
 msgid "An ability to write code that makes sounds - CHECK!"
 msgstr "Die Fähigkeit, Code zu schreiben, der Töne erzeugt - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:11
-#, fuzzy
 msgid "An ability to write functions - CHECK!"
 msgstr "Die Fähigkeit, Funktionen zu schreiben - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:12
-#, fuzzy
 msgid "An ability to use (named) threads - CHECK!"
 msgstr "Die Fähigkeit, (named) Threads zu verwenden - CHECK!"
 
