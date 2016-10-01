@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-21 06:28+0000\n"
+"PO-Revision-Date: 2016-10-01 14:35+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/p"
-"l/>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 ||"
-" n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
@@ -9120,11 +9120,11 @@ msgstr "`S-M-m` - Przełączanie pomiędzy trybem jasnym i ciemnym"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "`S-M-s` - Zapisz zawartość bufora do pliku"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "`S-M-o` - Wczytaj zawartość z wybranego pliku do bufora"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
@@ -11069,6 +11069,14 @@ msgid ""
 "d see where you can take it. Please do share what you create! See you next tim"
 "e..."
 msgstr ""
+"Na koniec cofnijmy się w czasie i zanurzmy się ponownie we wczesnej scenie "
+"drum and bass miasta Bristol  wykorzystując do tego celu przykład z "
+"bieżącego miesiąca. Nie przejmuj się zbytnio tym, że nie rozumiesz "
+"wszystkiego z tego kawałka kodu, po prostu przepisz go lub przekopiuj i "
+"naciśnij przycisk Run, następnie zacznij kodować na żywo zmieniając liczby "
+"znajdujące się przy opcjach i zobacz dokąd Cię to zaprowadzi. Pamiętaj "
+"tylko, żeby podzielić się tym co uda Ci się stworzyć! Do zobaczenia "
+"następnym razem..."
 
 #: A.03-coded-beats.md:163
 #, no-wrap
@@ -11119,11 +11127,11 @@ msgstr ""
 
 #: A.04-synth-riffs.md:1
 msgid "A.4 Synth Riffs"
-msgstr ""
+msgstr "A.4 Riffy Syntezatorów"
 
 #: A.04-synth-riffs.md:3
 msgid "Synth Riffs"
-msgstr ""
+msgstr "Riffy Syntezatorów"
 
 #: A.04-synth-riffs.md:5
 msgid ""
@@ -11133,6 +11141,13 @@ msgid ""
 "ered how to code our beats. In this tutorial we'll cover how to code up the th"
 "ree core components of a synth riff - the timbre, melody and rhythm."
 msgstr ""
+"Niezależnie od tego czy mamy do czynienia z niepokojącym dryftem dudniących "
+"oscylatorów czy rozstrojonymi uderzeniami dźwięków piły przeszywającej miks, "
+"syntezator wiodący odgrywa kluczową rolę w każdym utworze muzyki "
+"elektronicznej. W ostatniej edycji tego samouczka z poprzedniego miesiąca "
+"omówiliśmy w jaki sposób możemy kodować nasze bity. W bieżącym numerze "
+"omówimy w jaki sposób zakodować trzy podstawowe części riffu syntezatorem - "
+"tembr (barwa dźwięku), melodię i rytm."
 
 #: A.04-synth-riffs.md:12
 msgid ""
