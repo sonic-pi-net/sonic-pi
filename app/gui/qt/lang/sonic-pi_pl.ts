@@ -108,12 +108,12 @@ spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu.
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz tryb pełnoekranowy.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz tryb pełnoekranowy.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -138,7 +138,7 @@ spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu.
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjście audio Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -146,22 +146,26 @@ spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu.
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Twoje Raspberry Pi posiada dwa typy wyjść audio.
+Po pierwsze Raspberrry Pi posiada wyjście słuchawkowe jack. 
+Po drugie, niektóre monitory HDMI oraz telewizory wspierają 
+dźwięk audio przez port HDMI. Użyj tych przycisków aby wymusić 
+wykorzystanie wyjścia, z którego chcesz skorzystać..</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Domyślnie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Słuchawki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1003"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
@@ -254,7 +258,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Gdy jest włączone, Sonic Pi pozwoli, 
 aby syntezatory i efekty, ładowane za pomocą 
 polecenia load_synthdefs, mogły 
@@ -268,7 +272,7 @@ potrafi rozpoznać.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1054"/>
         <source>Enforce timing guarantees</source>
-        <translation>Wymuszenie gwarancji wykonania &quot;o czasie&quot;</translation>
+        <translation>Wymuszenie gwarancji wykonania "o czasie"</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
@@ -465,7 +469,7 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz widoczność osi dla oscyloskopów audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -800,17 +804,17 @@ znajduje się na dysku Twojego komputera</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Powiększ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmniejsz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz widoczność oscyloskopów audio. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
@@ -985,7 +989,7 @@ Pobierz Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Czy Sonic Pi nie jest już uruchomiony? Nie można otworzyć portu UDP o numerze 4558.</translation>
     </message>
 </context>
