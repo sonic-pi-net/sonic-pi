@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-01 14:35+0000\n"
+"PO-Revision-Date: 2016-10-03 20:52+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -10800,13 +10800,12 @@ msgstr ""
 "techno i breakcore."
 
 #: A.03-coded-beats.md:30
-#, fuzzy
 msgid ""
 "I'm sure you're excited to hear that it's also built right into Sonic Pi. Clea"
 "r up a buffer and throw in the following code:"
 msgstr ""
-"Jestem pewien, iż jesteś podekscytowany usłyszeniem, iż także są wbudowane w S"
-"onic Pi. Wyczyść bufor i wklej następujący kod:"
+"Jestem pewien, że będziesz podekscytowany gdy powiem Ci, że one też są "
+"wbudowane w Sonic Pi. Wyczyść bufor i wklej następujący kod:"
 
 #: A.03-coded-beats.md:37
 #, fuzzy
@@ -11154,10 +11153,12 @@ msgid ""
 "OK, so power up your Raspberry Pi, crack open Sonic Pi v2.6+ and let's make so"
 "me noise!"
 msgstr ""
+"OK, czas żebyś włączył twojego Raspberry Pi, odpal Sonic Pi w wersji 2.6+ i "
+"zróbmy jakiś hałas!"
 
 #: A.04-synth-riffs.md:16
 msgid "Timbral Possibilities"
-msgstr ""
+msgstr "Możliwości związane z Barwą Dźwięku"
 
 #: A.04-synth-riffs.md:18
 msgid ""
@@ -11166,10 +11167,18 @@ msgid ""
 "erent synths for a dramatic change and setting the various synth opts for more"
 " subtle modifications. We can also use FX, but that's for another tutorial..."
 msgstr ""
+"Esencją dowolnego riffu opartego o syntezatory jest zmienianie i granie z "
+"różnymi barwami dźwięku. W Sonic Pi możemy kontrolować barwę dźwięku na dwa "
+"sposoby - wybierając różne syntezatory dla uzyskania diametralnej zmiany "
+"oraz poprzez ustawianie różnych wartości opcji danego syntezatora dla "
+"otrzymania bardziej subtelnych zmian. Możemy również używać efektów (FX), "
+"ale to temat na osobny artykuł..."
 
 #: A.04-synth-riffs.md:24
 msgid "Let's create a simple live loop where we continually change the current synth:"
 msgstr ""
+"Spróbujmy stworzyć prostą żywą pętlę, w której będziemy zmieniać aktualny "
+"syntezator w trakcie gry:"
 
 #: A.04-synth-riffs.md:27
 #, no-wrap
@@ -11195,6 +11204,13 @@ msgid ""
 "e), with a release time of 0.5 beats (half a second at the default BPM of 60) "
 "and with the `cutoff:` opt set to 100."
 msgstr ""
+"Spójrzmy na powyższy kawałek kodu. Cykamy tu przez pierścień z nazwami "
+"syntezatorów (iterując w kółko po wszystkich syntezatorach z listy). "
+"Przekazujemy nazwy kolejno wybieranych syntezatorów do funkcji `use_synth` "
+"co powoduje zmianę aktualnego syntezatora przy każdym kolejnym przebiegu "
+"żywej pętli. Ponadto gramy nutę `:e2` (dźwięk E w drugiej oktawie) z czasem "
+"zanikania amplitudy ustawionym na 0.5 uderzenia (przy domyślnym BPM równym "
+"60 jest to pół sekundy) oraz z opcją `cutoff:` ustawioną na 100."
 
 #: A.04-synth-riffs.md:42
 msgid ""
@@ -11209,10 +11225,23 @@ msgid ""
 "of all the synths and all the available opts each individual synth supports to"
 " see just how much power you have under your coding fingertips."
 msgstr ""
+"Zauważ, że każdy z syntezatorów ma zupełnie inne brzmienie pomimo, że "
+"wszystkie grają tę samą nutę. Spróbuj teraz poeksperymentować i pobaw się. "
+"Zmień czas zanikania amplitudy (opcja release) na wyższe i mniejsze "
+"wartości. Na przykład, zmień wartości dla opcji `attack:` i `release:` aby "
+"zobaczyć jak wielki wpływ na dźwięk mają różne czasy wejścia/wyjścia. Na "
+"koniec zmień opcję `cutoff:` aby usłyszeć jak znaczące na barwę dźwięku ma "
+"ustawianie różnych wartości odcięcia (najlepsze są wartości pomiędzy 60 a "
+"130). Widzisz jak wiele różnych dźwięków możesz stworzyć zmieniając tylko te "
+"kilka wartości? Gdy już uda Ci się to opanować udaj się na zakładkę "
+"Syntezatory znajdującą się w systemie pomocy. Zobaczysz tam pełną listę "
+"syntezatorów oraz wszystkie indywidualne opcje jakie są dostępne dla każdego "
+"z nich. Powinno dać Ci to wyobrażenie jak wiele możliwości jest w zasięgu "
+"twoich palców."
 
 #: A.04-synth-riffs.md:55
 msgid "Timbre"
-msgstr ""
+msgstr "Barwa dźwięku"
 
 #: A.04-synth-riffs.md:57
 msgid ""
