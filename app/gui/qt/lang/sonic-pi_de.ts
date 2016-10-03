@@ -198,12 +198,12 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vollbildmodus aktivieren.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vollbildmodus deaktivieren.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -243,7 +243,7 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi Audioausgabe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -251,7 +251,8 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dein Raspberry Pi hat zwei Audioausgänge, erstens der analoge Klinkenausgang und zweitens die Ausgabe über den HMDI Ausgang.
+Mit diesen Buttons kannst du festlegen welcher Ausgang benutzt werden soll.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
@@ -322,7 +323,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Hiermit kannst Du in Sonic Pi
 externe Synths und FX via load_synthdefs
 nachladen.
@@ -493,7 +494,7 @@ Die dunkle Oberfläche eignet sich hervorragend zum Live-Coden in Nachtklubs.</t
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte die Sichtbarkeit der Achsen im Audio-Oszilloskop um</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -573,7 +574,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte die Sichtbarkeit des Audio-Oszilloskops um. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
@@ -987,7 +988,7 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Läuft Sonic Pi bereits?  Konnte UDP-Port 4558 nicht öffnen.</translation>
     </message>
 </context>
