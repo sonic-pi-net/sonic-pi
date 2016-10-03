@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-03 20:52+0000\n"
+"PO-Revision-Date: 2016-10-03 20:55+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -10808,15 +10808,15 @@ msgstr ""
 "wbudowane w Sonic Pi. Wyczyść bufor i wklej następujący kod:"
 
 #: A.03-coded-beats.md:37
-#, fuzzy
 msgid ""
 "Hit *Run* and boom! You're listening to one of the most influential drum break"
 "s in the history of dance music. However, this sample wasn't famous for being "
 "played as a one-shot, it was built for being looped."
 msgstr ""
-"Kliknij *Run* i bum! Słuchasz jednego z najbardziej wpływowych drum breaków w "
-"historii muzyki tanecznej. Jednakże jest to sampel, który nie został sławny po"
-"przez jednorazowe odtworzenie, a stworzony jest właśnie dla zapętlenia."
+"Naciśnij *Run* i bum! Słuchasz jednej z najbardziej wpływowych połamanych "
+"pętli w historii muzyki tanecznej. Jednakże sampel ten nie zawdzięcza swej "
+"sławy jednorazowemu odtworzeniu, został stworzony po to aby się kręcić w "
+"kółko."
 
 #: A.03-coded-beats.md:42
 msgid "Beat Stretching"
