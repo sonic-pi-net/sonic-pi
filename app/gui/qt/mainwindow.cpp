@@ -1221,8 +1221,10 @@ void MainWindow::initPrefsWindow() {
   scope_box->setLayout(scope_box_layout);
   viz_tab_layout->addWidget(scope_box, 0, 0);
   viz_tab_layout->addWidget(scope_box_kinds, 1, 0);
-#if defined(Q_OS_MAC)
-  viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
+#if defined(Q_OS_LINUX)
+  // do nothing
+#else
+    viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
 #endif
   connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
   connect(show_scopes, SIGNAL(clicked()), this, SLOT(scope()));
@@ -1914,20 +1916,18 @@ void MainWindow::helpContext()
 
 
 
-#if defined(Q_OS_MAC)
-void MainWindow::changeGUITransparency(int val)
-#else
+#if defined(Q_OS_LINUX)
 void MainWindow::changeGUITransparency(int)
+#else
+void MainWindow::changeGUITransparency(int val)
 #endif
 {
-#if defined(Q_OS_MAC)
+#if defined(Q_OS_LINUX)
+  // do nothing
+#else
   // scale it linearly from 0 -> 100 to 0.3 -> 1
   setWindowOpacity((0.7 * ((100 - (float)val) / 100.0))  + 0.3);
-#else
-    // do nothing
 #endif
-
-
 }
 
 void MainWindow::changeRPSystemVol(int val)
