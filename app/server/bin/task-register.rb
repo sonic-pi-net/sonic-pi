@@ -31,14 +31,13 @@ end
 pid = ARGV[0].to_i
 pid_path = "#{pids_store}/#{pid}"
 
-log_process_info "Started [#{pid}] - #{pid_path}"
-
 f = nil
 
 begin
   if s = Sys::ProcTable.ps(pid)
     f = File.open(pid_path, 'w')
     f.puts s.cmdline
+    log_process_info "Started [#{pid}] [-] #{s.cmdline} [-] #{pid_path}"
   end
 rescue Exception => e
 end
