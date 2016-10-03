@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-30 12:18+0000\n"
+"PO-Revision-Date: 2016-10-03 09:52+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9843,7 +9843,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:24
 msgid "Let's create a simple live loop where we continually change the current synth:"
-msgstr ""
+msgstr "シンセを継続的に変更するシンプルなライブループを作ってみましょう。"
 
 #: A.04-synth-riffs.md:27
 #, no-wrap
@@ -9869,6 +9869,9 @@ msgid ""
 "e), with a release time of 0.5 beats (half a second at the default BPM of 60) "
 "and with the `cutoff:` opt set to 100."
 msgstr ""
+"コードを見てみてください。ここでは、シンセの名前のリングを単純にチックしています（リングはリストを何度も繰り返すことで、シンセの名前を循環します）。そして"
+"、シンセの名前を`use_synth`関数に渡すことで、`live_loop`で使用するシンセを変更しています。また、`:e2`（2番目のオクターブのE）"
+"の音符を、リリースタイムを0.5拍（デフォルトBPMの60では0.5秒）、`cutoff:`オプションを100で演奏しています。"
 
 #: A.04-synth-riffs.md:42
 msgid ""
