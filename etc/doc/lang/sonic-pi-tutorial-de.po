@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-30 14:02+0000\n"
+"PO-Revision-Date: 2016-10-04 13:33+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -7652,16 +7652,15 @@ msgid "An ability to use (named) threads - CHECK!"
 msgstr "Die Fähigkeit, (named) Threads zu verwenden - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:14
-#, fuzzy
 msgid ""
 "Alrighty, let's get started. Let's live code our first sounds. We first need a"
 " function containing the code we want to play. Let's start simple. We also wan"
 "t to loop calls to that function in a thread:"
 msgstr ""
-"Ok, es kann also los gehen. Lass uns unsere ersten Sounds live coden. Zuerst b"
-"rauchen wir eine Funktion, die den abzuspielenden Code enthält. Wir fangen gan"
-"z einfach an. Außerdem wollen wir diese Funktion in einer Schleife in einem Th"
-"read aufrufen:"
+"Ok, es kann also los gehen. Lass uns unsere ersten Sounds live coden. Zuerst "
+"brauchen wir eine Funktion, die den abzuspielenden Code enthält. Wir fangen "
+"ganz einfach an. Außerdem wollen wir diese Funktion in einer Schleife in "
+"einem Thread aufrufen:"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
@@ -7687,73 +7686,66 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:31
-#, fuzzy
 msgid ""
 "If that looks a little too complicated to you, go back and re-read the section"
 "s on functions and threads. It's not too complicated if you've already wrapped"
 " your head around these things."
 msgstr ""
-"Wenn Dir das ein bisschen zu kompliziert aussieht, lies bitte noch einmal die "
-"Abschnitte über Funktionen und Threads durch. Wenn Du diese Dinge verstanden h"
-"ast, wird es Dir nicht mehr sehr kompliziert vorkommen."
+"Wenn Dir das ein bisschen zu kompliziert aussieht, lies bitte noch einmal "
+"die Abschnitte über Funktionen und Threads durch. Wenn Du diese Dinge "
+"verstanden hast, wird es Dir nicht mehr sehr kompliziert vorkommen."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
-#, fuzzy
 msgid ""
 "What we have here is a function definition which just plays note 50 and sleeps"
 " for a beat. We then define a named thread called `:looper` which just loops a"
 "round calling `my_loop` repeatedly."
 msgstr ""
-"Wir haben hier eine Funktion, welche die Note 50 spielt und danach eine Schlag"
-"zeit lang schläft. Dann definieren wir einen benamten Thread, den wir `:looper"
-"` nennen. Dieser ruft in einer Endlosschleife `my_loop` auf."
+"Wir haben hier eine Funktion, welche die Note 50 spielt und danach eine "
+"Schlagzeit lang schläft. Dann definieren wir einen benamten Thread, den wir "
+"`:looper` nennen. Dieser ruft in einer Endlosschleife `my_loop` auf."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
-#, fuzzy
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
 msgstr ""
-"Wenn Du diesen Code ausführst, wirst Du immer und immer wieder die Note 50 hör"
-"en..."
+"Wenn Du diesen Code ausführst, wirst Du immer und immer wieder die Note 50 "
+"hören..."
 
 #: 09.1-Live-Coding-Fundamentals.md:41
-#, fuzzy
 msgid "Changing it up"
 msgstr "Hochschalten"
 
 #: 09.1-Live-Coding-Fundamentals.md:43
-#, fuzzy
 msgid ""
 "Now, this is where the fun starts. Whilst the code is *still running* change 5"
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
-"Jetzt geht es richtig los. Während der Code *noch läuft*, ändere die 50 in ein"
-"e andere Zahl, zum Beispiel 55, und drücke den `Ausführen`-Button erneut. Woah"
-"! Es hat sich verändert! Live!"
+"Jetzt geht es richtig los. Während der Code *noch läuft*, ändere die 50 in "
+"eine andere Zahl, zum Beispiel 55, und drücke den `Ausführen`-Button erneut. "
+"Woah! Es hat sich verändert! Live!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
-#, fuzzy
 msgid ""
 "It didn't add a new layer because we're using named threads which only allow o"
 "ne thread for each name. Also, the sound changed because we *redefined* the fu"
 "nction. We gave `:my_loop` a new definition. When the `:looper` thread looped "
 "around it simply called the new definition."
 msgstr ""
-"Wir haben keine neue Ebene bekommen, da wir einen benannten Thread verwendet h"
-"aben und es nur einen Thread pro Name geben kann. Der Ton hat sich geändert, w"
-"eil wir die Funktion *umgeschrieben* haben. Wir haben also `:my_loop` eine ver"
-"änderte Funktion verpasst. Der `:looper`-Thread hat einfach diese veränderte F"
-"unktion aufgerufen."
+"Wir haben keine neue Ebene bekommen, da wir einen benannten Thread verwendet "
+"haben und es nur einen Thread mit diesem Namen geben kann. Der Ton hat sich "
+"geändert, weil wir die Funktion *umgeschrieben* haben. Wir haben also "
+"`:my_loop` eine veränderte Funktion verpasst. Der `:looper`-Thread hat "
+"einfach diese veränderte Funktion aufgerufen."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
-#, fuzzy
 msgid ""
 "Try changing it again, change the note, change the sleep time. How about addin"
 "g a `use_synth` statement? For example, change it to:"
 msgstr ""
-"Verändere die Funktion noch einmal, ändere die Note und die Pausenzeit. Wie wä"
-"re es damit, ein `use_synth`-Statement einzufügen? Ändere die Funktion zum Bei"
-"spiel in folgenden Code:"
+"Verändere die Funktion noch einmal, ändere die Note und die Pausenzeit. Wie "
+"wäre es damit, ein `use_synth`-Statement einzufügen? Ändere die Funktion zum "
+"Beispiel in folgenden Code:"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -7771,14 +7763,13 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:63
-#, fuzzy
 msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of p"
 "laying the same note again and again, try playing a chord:"
 msgstr ""
-"Jetzt klingt es schon ganz interessant, wir können es aber noch ein bisschen a"
-"ufpeppen. Anstatt immer wieder die gleiche Note zu spielen, versuche es einmal"
-" mit einem Akkord."
+"Jetzt klingt es schon ganz interessant, wir können es aber noch ein bisschen "
+"aufpeppen. Anstatt immer wieder die gleiche Note zu spielen, versuche es "
+"einmal mit einem Akkord:"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -7796,7 +7787,6 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:75
-#, fuzzy
 msgid "How about playing random notes from the chord:"
 msgstr "Und wie wäre es damit, zufällige Töne des Akkords zu spielen:"
 
@@ -7816,7 +7806,6 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:85
-#, fuzzy
 msgid "Or using a random cutoff value:"
 msgstr "Oder einen zufälligen Cut-Off-Wert:"
 
@@ -7836,7 +7825,6 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:95
-#, fuzzy
 msgid "Finally, add some drums:"
 msgstr "Und zum Schluss noch ein Schlagzeug dazu:"
 
@@ -7858,55 +7846,49 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:106
-#, fuzzy
 msgid "Now things are getting exciting!"
 msgstr "So langsam wird das hier alles viel spannender!"
 
 #: 09.1-Live-Coding-Fundamentals.md:108
-#, fuzzy
 msgid ""
 "However, before you jump up and start live coding with functions and threads, "
 "stop what you're doing and read the next section on `live_loop` which will cha"
 "nge the way you code in Sonic Pi forever..."
 msgstr ""
-"Bevor Du jetzt aufspringst und mit Funktionen und Threads live codest, solltes"
-"t Du lieber erst einmal eine Pause machen und das nächste Kapitel über den `li"
-"ve_loop` lesen. Denn dieser wird für immer verändern, wie Du in Sonic Pi progr"
-"ammierst..."
+"Bevor Du jetzt aufspringst und mit Funktionen und Threads live codest, "
+"solltest Du lieber erst einmal eine Pause machen und das nächste Kapitel "
+"über den `live_loop` lesen. Denn dieser wird für immer verändern, wie Du in "
+"Sonic Pi programmierst..."
 
 #: 09.2-Live-Loops.md:1
-#, fuzzy
 msgid "9.2 Live Loops"
 msgstr "9.2 Live-Loops"
 
 #: 09.2-Live-Loops.md:3
-#, fuzzy
 msgid "Live Loops"
 msgstr "Live-Loops"
 
 #: 09.2-Live-Loops.md:5
-#, fuzzy
 msgid ""
 "Ok, so this section of the tutorial is the real gem. If you only read one sect"
 "ion, it should be this one. If you read the previous section on Live Coding Fu"
 "ndamentals, `live_loop` is a simple way of doing exactly that but without havi"
 "ng to write so much."
 msgstr ""
-"Ok, dieses Kapitel des Tutorials ist ein Juwel. Wenn Du nur einen Abschnitt le"
-"sen würdest, sollte es dieser sein. Mit `live_loop` kannst Du genau das, was D"
-"u im letzten Abschnitt gelernt hast, viel einfacher und mit weniger Code tun."
+"Ok, dieses Kapitel des Tutorials ist ein Juwel. Wenn Du nur einen Abschnitt "
+"lesen würdest, sollte es dieser sein. Mit `live_loop` kannst Du genau das, "
+"was Du im letzten Abschnitt gelernt hast, viel einfacher und mit weniger "
+"Code tun."
 
 #: 09.2-Live-Loops.md:10
-#, fuzzy
 msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam wi"
 "th Sonic Pi."
 msgstr ""
-"Falls Du den letzten Abschnitt nicht gelesen hast: `live_loop` ist der beste W"
-"eg, mit Sonic Pi zu jammen."
+"Falls Du den letzten Abschnitt nicht gelesen hast: `live_loop` ist der beste "
+"Weg, mit Sonic Pi zu jammen."
 
 #: 09.2-Live-Loops.md:13
-#, fuzzy
 msgid "Let's play. Write the following in a new buffer:"
 msgstr "Also los. Schreibe folgendes in einen neuen Buffer:"
 
@@ -7924,31 +7906,28 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:22
-#, fuzzy
 msgid ""
 "Now press the Run button. You hear a basic beep every beat. Nothing fun there."
 " However, don't press Stop just yet. Change the `60` to `65` and press Run aga"
 "in."
 msgstr ""
-"Jetzt klicke den `Ausführen`-Button. Du hörst zu jeder Schlagzeit ein einfache"
-"s Piepen. Kein besonderer Spaß. Drücke aber noch nicht den `Stopp`-Button. Änd"
-"ere die `60` in `65` und drücke wieder `Ausführen`."
+"Jetzt klicke den `Ausführen`-Button. Du hörst zu jeder Schlagzeit ein "
+"einfaches Piepen. Kein besonderer Spaß. Drücke aber noch nicht den `Stopp`-"
+"Button. Ändere die `60` in `65` und drücke wieder `Ausführen`."
 
 #: 09.2-Live-Loops.md:26
-#, fuzzy
 msgid "Woah! It changed *automatically* without missing a beat. This is live coding."
 msgstr ""
-"Whoa! Es hat sich *automatisch* verändert, ohne einen Takt auszulassen. Das is"
-"t Live-Coding."
+"Whoa! Es hat sich *automatisch* verändert, ohne einen Takt auszulassen. Das "
+"ist Live-Coding."
 
 #: 09.2-Live-Loops.md:28
-#, fuzzy
 msgid ""
 "Why not change it to be more bass like? Just update your code whilst it's play"
 "ing:"
 msgstr ""
-"Warum es jetzt nicht ein wenig bassiger machen? Verändere Deinen Code, während"
-" er abläuft:"
+"Warum es jetzt nicht ein wenig bassiger machen? Verändere Deinen Code, "
+"während er abläuft:"
 
 #: 09.2-Live-Loops.md:30
 #, no-wrap
@@ -7966,12 +7945,10 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:38
-#, fuzzy
 msgid "Then hit Run."
 msgstr "Dann drücke `Ausführen`."
 
 #: 09.2-Live-Loops.md:40
-#, fuzzy
 msgid "Let's make the cutoff move around:"
 msgstr "Lass uns den Cut-Off ein wenig bewegen:"
 
@@ -7991,12 +7968,10 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:50
-#, fuzzy
 msgid "Hit Run again."
 msgstr "Drücke wieder `Ausführen`."
 
 #: 09.2-Live-Loops.md:52
-#, fuzzy
 msgid "Add some drums:"
 msgstr "Füge ein Schlagzeug hinzu:"
 
@@ -8018,7 +7993,6 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:63
-#, fuzzy
 msgid "Change the note from `e1` to `c1`:"
 msgstr "Ändere den Ton von `e1` nach `c1`:"
 
@@ -8040,22 +8014,18 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:74
-#, fuzzy
 msgid "Now stop listening to me and play around yourself! Have fun!"
-msgstr "Und jetzt hör auf, mir zuzuhören. Spiele selbst herum, viel Spaß!"
+msgstr "Und jetzt höre auf, mir zuzuhören. Spiele selbst herum, viel Spaß!"
 
 #: 09.3-Multiple-Live-Loops.md:1
-#, fuzzy
 msgid "9.3 Multiple Live Loops"
 msgstr "9.3 Mehrere Live-Loops"
 
 #: 09.3-Multiple-Live-Loops.md:3
-#, fuzzy
 msgid "Multiple Live Loops"
 msgstr "Mehrere Live-Loops"
 
 #: 09.3-Multiple-Live-Loops.md:5
-#, fuzzy
 msgid "Consider the following live loop:"
 msgstr "Schau Dir den folgenden Live-Loop an:"
 
@@ -8073,28 +8043,26 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:14
-#, fuzzy
 msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
-"Vielleicht fragst Du Dich, warum er den Namen `:foo` braucht. Dieser Name ist "
-"wichtig, weil er sicherstellt, dass sich dieser Live-Loop von allen anderen Li"
-"ve-Loops unterscheidet."
+"Vielleicht fragst Du Dich, warum er den Namen `:foo` braucht. Dieser Name "
+"ist wichtig, weil er sicherstellt, dass sich dieser Live-Loop von allen "
+"anderen Live-Loops unterscheidet."
 
 #: 09.3-Multiple-Live-Loops.md:18
-#, fuzzy
 msgid "*There can never be two live loops running with the same name*."
-msgstr "*Es können nie zwei Live-Loops mit dem selben Namen gleichzeitig laufen*."
+msgstr ""
+"*Es können nie zwei Live-Loops mit dem selben Namen gleichzeitig laufen*."
 
 #: 09.3-Multiple-Live-Loops.md:20
-#, fuzzy
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just n"
 "eed to give them different names:"
 msgstr ""
-"Wir müssen also unterschiedliche Namen vergeben, damit wir mehrere gleichzeiti"
-"g laufende Live-Loops spielen können."
+"Wir müssen also unterschiedliche Namen vergeben, damit wir mehrere "
+"gleichzeitig laufende Live-Loops spielen können:"
 
 #: 09.3-Multiple-Live-Loops.md:23
 #, no-wrap
@@ -8120,21 +8088,18 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:36
-#, fuzzy
 msgid ""
 "You can now update and change each live loop independently and it all just wor"
 "ks."
 msgstr ""
-"Jetzt kannst Du beide Live-Loops unabhängig voneinander verändern und alles fu"
-"nktioniert - einfach so."
+"Jetzt kannst Du beide Live-Loops unabhängig voneinander verändern und alles "
+"funktioniert - einfach so."
 
 #: 09.3-Multiple-Live-Loops.md:39
-#, fuzzy
 msgid "Syncing Live Loops"
 msgstr "Live-Loops synchronisieren"
 
 #: 09.3-Multiple-Live-Loops.md:41
-#, fuzzy
 msgid ""
 "One thing you might have already noticed is that live loops work automatically"
 " with the thread cue mechanism we explored previously. Every time the live loo"
@@ -8142,15 +8107,15 @@ msgid ""
 " therefore `sync` on these cues to ensure our loops are in sync without having"
 " to stop anything."
 msgstr ""
-"Du hast vielleicht schon bemerkt, dass Live-Loops automatisch mit dem Thread-C"
-"ue-Mechanismus arbeiten, den wir uns im Abschnitt über Thread-Synchronisation "
-"bereits angeschaut haben. In jedem Durchlauf des Live-Loops generiert er ein n"
-"eues `cue`-Event mit dem Namen des Loops. Anhand dieser Cues können wir für un"
-"sere Loops mit `sync` sicherstellen, dass sie zueinander synchron laufen, ohne"
-" dass wir das Abspielen zwischendurch stoppen müssen."
+"Du hast vielleicht schon bemerkt, dass Live-Loops automatisch mit dem Thread-"
+"Cue-Mechanismus arbeiten, den wir uns im Abschnitt über Thread-"
+"Synchronisation bereits angeschaut haben. In jedem Durchlauf des Live-Loops "
+"generiert er ein neues `cue`-Event mit dem Namen des Loops. Anhand dieser "
+"Cues können wir für unsere Loops mit `sync` sicherstellen, dass sie "
+"zueinander synchron laufen, ohne dass wir das Abspielen zwischendurch "
+"stoppen müssen."
 
 #: 09.3-Multiple-Live-Loops.md:47
-#, fuzzy
 msgid "Consider this badly synced code:"
 msgstr "Schau Dir diesen schlecht synchronisierten Code an:"
 
@@ -8176,15 +8141,14 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:61
-#, fuzzy
 msgid ""
 "Let's see if we can fix the timing and sync without stopping it. First, let's "
 "fix the `:foo` loop to make the sleep a factor of 1 - something like `0.5` wil"
 "l do:"
 msgstr ""
-"Jetzt versuchen wir, das Timing zu korrigieren ohne den Loop zu stoppen. Zuers"
-"t reparieren wir den Loop `:foo`, indem wir die Sleep-Dauer zu einem Faktor vo"
-"n 1 machen - dafür funktioniert zum Beispiel `0.5`."
+"Jetzt versuchen wir, das Timing zu korrigieren ohne den Loop zu stoppen. "
+"Zuerst reparieren wir den Loop `:foo`, indem wir die Sleep-Dauer zu einem "
+"Faktor von 1 machen - dafür funktioniert zum Beispiel `0.5`:"
 
 #: 09.3-Multiple-Live-Loops.md:65
 #, no-wrap
@@ -8208,16 +8172,15 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:77
-#, fuzzy
 msgid ""
 "We're not quite finished yet though - you'll notice that the beats don't quite"
 " line up correctly. This is because the loops are *out of phase*. Let's fix th"
 "at by syncing one to the other:"
 msgstr ""
-"Damit sind wir aber noch nicht ganz fertig. Du hörst schon, dass die Beats nic"
-"ht so recht zusammenpassen. Der Grund dafür ist, dass diese Loops *out of phas"
-"e* sind. Das können wir reparieren, indem wir einen Loop mit dem anderen synch"
-"ronisieren:"
+"Damit sind wir aber noch nicht ganz fertig. Du hörst schon, dass die Beats "
+"nicht so recht zusammenpassen. Der Grund dafür ist, dass diese Loops *out of "
+"phase* sind. Das können wir reparieren, indem wir einen Loop mit dem anderen "
+"synchronisieren:"
 
 #: 09.3-Multiple-Live-Loops.md:81
 #, no-wrap
@@ -8243,45 +8206,38 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:94
-#, fuzzy
 msgid "Wow, everything is now perfectly in time - all without stopping."
 msgstr ""
-"Wow, jetzt passt alles genau zusammen - und das, ohne dass wir die Loops anhal"
-"ten mussten."
+"Wow, jetzt passt alles genau zusammen - und das, ohne dass wir die Loops "
+"anhalten mussten."
 
 #: 09.3-Multiple-Live-Loops.md:96
-#, fuzzy
 msgid "Now, go forth and live code with live loops!"
 msgstr "Jetzt fangt an und coded live in Live-Loops!"
 
 #: 09.4-Ticking.md:1
-#, fuzzy
 msgid "9.4 Ticking"
 msgstr "9.4 Ticks"
 
 #: 09.4-Ticking.md:3
-#, fuzzy
 msgid "Ticking"
 msgstr "Ticks verwenden"
 
 #: 09.4-Ticking.md:5
-#, fuzzy
 msgid ""
 "Something you'll likely find yourself doing a lot when live coding is looping "
 "through rings. You'll be putting notes into rings for melodies, sleeps for rhy"
 "thms, chord progressions, timbral variations, etc. etc."
 msgstr ""
-"Beim Live-Coding wirst Du in Deinen Loops sehr oft Ringe verwenden. Aus einem "
-"Ring wirst Du Noten für Melodien, Pausen für Rhythmen, Akkordfolgen, Klangvari"
-"atonen und ähnliches entnehmen."
+"Beim Live-Coding wirst Du in Deinen Loops sehr oft Ringe verwenden. Aus "
+"einem Ring wirst Du Noten für Melodien, Pausen für Rhythmen, Akkordfolgen, "
+"Klangvariatonen und ähnliches entnehmen."
 
 #: 09.4-Ticking.md:9
-#, fuzzy
 msgid "Ticking Rings"
 msgstr "Ticks und Ringe"
 
 #: 09.4-Ticking.md:11
-#, fuzzy
 msgid ""
 "Sonic Pi provides a *very* handy tool for working with rings within `live_loop"
 "`s. It's called the tick system. In the section about the rings we were talkin"
@@ -8289,9 +8245,9 @@ msgid ""
 " Tick just implements this idea. It provides you with the ability to *tick thr"
 "ough rings*. Let's look at an example:"
 msgstr ""
-"Das Tick-System ist ein *sehr* praktisches Werkzeug, um in einem `live_loop` m"
-"it Ringen zu hantieren. Du kannst damit einen *Ring durchticken*. Hier ein Bei"
-"spiel:"
+"Das Tick-System ist ein *sehr* praktisches Werkzeug, um in einem `live_loop` "
+"mit Ringen zu hantieren. Du kannst damit einen *Ring durchticken*. Hier ein "
+"Beispiel:"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
@@ -8311,7 +8267,6 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:26
-#, fuzzy
 msgid "This is equivalent to:"
 msgstr "Das ist gleichbedeutend mit:"
 
@@ -8329,17 +8284,16 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:35
-#, fuzzy
 msgid ""
 "Here, we're just grabbing the scale E3 minor pentatonic and ticking through ea"
 "ch element. This is done by adding `.tick` to the end of the scale declaration"
 ". This tick is local to the live loop, so each live loop can have its own inde"
 "pendent tick:"
 msgstr ""
-"In diesem Beispiel tickt der Code einmal jede Note der pentatonischen E3-Moll-"
-"Tonleiter durch. Dafür fügst Du einfach ein `.tick` hinter der Tonleiter-Dekla"
-"ration an. Dieser Tick gilt nur für diese Live-Loop und jede Live-Loop kann se"
-"inen eigenen, unabhängigen Tick haben:"
+"In diesem Beispiel tickt der Code einmal jede Note der pentatonischen E3"
+"-Moll-Tonleiter durch. Dafür fügst Du einfach ein `.tick` hinter der "
+"Tonleiter-Deklaration an. Dieser Tick gilt nur für diese Live-Loop und jede "
+"Live-Loop kann seinen eigenen, unabhängigen Tick haben:"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -8365,7 +8319,6 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:53
-#, fuzzy
 msgid "Tick"
 msgstr "Tick"
 
