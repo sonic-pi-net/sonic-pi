@@ -4327,7 +4327,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         slice_idx = args_h[:slice]
         if slice_idx
-
           num_slices = args_h[:num_slices] || 16
           raise "Sample opt num_slices: needs to be greater than 0. Got: #{num_slices}" unless num_slices.is_a?(Numeric) && num_slices > 0
           num_slices = num_slices.to_f
@@ -4337,9 +4336,10 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             slice = slices[slice_idx]
           elsif slice_idx.is_a? Proc
             slice = slice_idx.call(slices)
+            slice = slice[0] if is_list_like?(slice)
             raise "Result of slice: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{slice.inspect}" unless slice.respond_to?(:has_key?) && slice[:start].is_a?(Numeric) && slice[:finish].is_a?(Numeric)
           else
-            raise "Unknown sample slice: value. Expected a number, :rand or a proc. Got #{slice_idx.inspect}"
+            raise "Unknown sample slice: value. Expected a number or a proc. Got #{slice_idx.inspect}"
           end
           args_h[:start] = slice[:start]
           args_h[:finish] = slice[:finish]
@@ -4356,8 +4356,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           if onset_idx.is_a? Numeric
             args_h.merge!(onsets[onset_idx.to_i])
-          elsif onset_idx == :rand
-            args_h.merge!(onsets.choose)
           elsif onset_idx.is_a? Proc
             res = onset_idx.call(onsets)
             res = res[0] if is_list_like?(res)
@@ -4366,7 +4364,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             args_h[:finish] = res[:finish]
             args_h.delete :onset
           else
-            raise "Unknown sample onset: value. Expected a number, :rand or a proc. Got #{onset_idx.inspect}"
+            raise "Unknown sample onset: value. Expected a number or a proc. Got #{onset_idx.inspect}"
           end
 
         end
