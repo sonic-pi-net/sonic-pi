@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-03 09:52+0000\n"
+"PO-Revision-Date: 2016-10-04 09:53+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9886,10 +9886,15 @@ msgid ""
 "of all the synths and all the available opts each individual synth supports to"
 " see just how much power you have under your coding fingertips."
 msgstr ""
+"異なるシンセが、全く同じ音符を鳴らしているにもかかわらず、とても異なった音に聞こえるでしょう。では、実験して遊んでみましょう。リリースタイムを大きい値や小"
+"さい値に変更してみましょう。たとえば、`attack:`や`release:`オプションを変更して、フェードイン・フェードアウトの時間が音にとても大きなイ"
+"ンパクトを与えるのを見てみましょう。最後に`cutoff:`オプションを変更して（60と130の間の値が良いでしょう）、カットオフの値もまた音色にとても大"
+"きな影響を与えるのを見てみましょう。いくつかの値を変更するだけで、多くの音を作り出せたのではないでしょうか。このことを一度修得してしまえば、ヘルプシステム"
+"の`シンセ`タブには全てのシンセの一覧と個々のシンセが利用可能な全てのオプションがあり、コーディングの際にすぐ利用できるでしょう。"
 
 #: A.04-synth-riffs.md:55
 msgid "Timbre"
-msgstr ""
+msgstr "音色"
 
 #: A.04-synth-riffs.md:57
 msgid ""
