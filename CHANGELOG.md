@@ -1,4 +1,5 @@
 # History
+* [v2.10 'Threadsafe'](#v2.11), To be released
 * [v2.10 'Cowbell'](#v2.10), 15th April, 2016
 * [v2.9 'Venster'](#v2.9), 31st Dec, 2015
 * [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
@@ -10,6 +11,184 @@
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v2.11"></a>
+
+## Version 2.11 - 'Threadsafe'
+*To be released*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.0)
+
+This release is the biggest and most adventurous release yet. There are
+as many (invisible) modifications and improvements to the internal
+systems as there are new external features that you can see and play
+with. The aim was to create a solid foundation for new and exciting
+features both in this release and in preparation for future releases.
+
+We also open our arms to welcome two new Core Team members - Luis Lloret
+and Adrian Cheater. Both have made generous and substantial
+contributions to this release. Thank-you. Sadly we also say farewell to
+Jeremy Weatherford. Please extend your kind thoughts and gratitude to
+Jeremy for all of his contributions - in particular for turning the
+Windows release from a possibility into a reality. Luckily Luis has
+kindly stepped in to maintain the Windows installer.
+
+The main visible feature is the new new scope visualisers. The overall
+audio output can now be visually monitored by one of three wave form
+visualisers. Firstly there is the indivdiual left and right channels,
+next is a single mono scope which is mixed down from the stereo channels
+using RMS and finally there is a Lissajous scope which displays phase
+differences between the left and right channels. Typically the mono
+output will be most useful. Use the preferences pane to hide and show
+each of these scopes. All of them may be viewed at the same time if
+necessary. Thanks to Adrian Cheater for the core work behind this
+feature.
+
+We now have support for multi-channel input (up to 16 channels) via the
+new `sound_in*` synths for systems that have audio in. This opens up the
+possibility to use Sonic Pi as an FX unit for vocals, guitars and any
+other audio source.
+
+Another exciting feature is the new new sample opt `onset:` - which
+let's you play a specific percussive part of a sample. This uses an
+automatic onset detection algorithm to determine all the the points in
+the sample that go from quiet to loud quickly. For example, this allows
+you to take a complex drum sample and to trigger each of the individual
+drums in your own order and to your own timing.
+
+Finally, translations are now crowd-sourced and small or large
+contributions for any language can be made here:
+`https://hosted.weblate.org/projects/sonic-pi/`If your language isn't
+yet available or you would like to improve things, please join in the
+effort. Thanks to Hanno Zulla for making this possible.
+
+
+### Breaking Changes
+
+* `sample` now supports the opt `path:` which enables the sample's path
+  to be overridden.
+* `use_sample_pack` is now deprecated and no longer available. Consider
+  using the new filter system. See documentation for `sample` for more
+  details.
+* `current_sample_pack` is now deprecated and no longer available.
+* `inspect` has been removed. (Standard printing now calls
+  `Object#inspect` by default)
+* `load_sample` now only loads the first matched sample. `load_samples`
+  now loads all matched samples.
+* Remove SupeCollider server auto-boot system.
+* Calls to `play`, `synth` and `sample` now consume all their arguments
+  before testing to see if the synth should be triggered. This ensures
+  all declared rands are consumed. This change might therefore
+  potentially modify your random stream consumption. Consider using
+  `rand_back` or `rand_skip` to re-align the stream if necessary.
+* New threads now start with a fresh set tick counters and a new random
+  stream
+
+
+### New Fns
+* `reset` - resets the user's thread locals (such as ticks and rand
+  stream index) to the snapshot of the state as recorded at the start of
+  the current thread.
+* `clear` - clears all user's thread locals to a blank state.
+* `time_shift`- allows whole blocks of code to be shifted forward or
+  backwards in time up to the value of `current_sched_ahead_time`.
+* `rand_look` - generate a random number without consuming a rand by
+  looking ahead in the random stream.
+* `rand_i_look` - generate a random integer without consuming a rand by
+  looking ahead in the random stream.
+* `run_file` - Runs the contents of file at path as if it was in the
+  current buffer.
+* `run_code` - Runs the contents of the specified string as if it was in
+  the current buffer.
+* Numeric#clamp - max and minimum bound (will clamp self to a value <= other and >= -1*other
+
+
+### Synths & FX
+* New synth `:tech_saws` - an implementation of a slightly modified
+  supersaw.
+* New synth `:sound_in` - reads audio from the sound card.
+* New synth `:sound_in_stereo` - reads audio from the sound card.
+* All FX now all have a `pre_mix:` opt. This allows the audio flow to
+  completely bypass a given FX (unlike `mix:` which passes the audio
+  through the FX but modifies the amplitude afterwards.
+* Teach `control` to manipulate the last triggered synth by default. For
+  example, `control amp: 3` will set the `amp:` opt of the last
+  triggered synth to 3. However, `control foo, amp: 3` will still
+  specifically control synth `foo`.
+
+
+### Samples
+
+* New opt `slice:` - let's you play a specific slice of a sample. The
+  default number of slices is 16 which may be changed with the
+  `num_slices:` opt. Sample is divided equally into the number of slices
+  without regard for audio content and onset points.  The `slice:` opt
+  also works with `pick` for triggering random sample slices: `sample
+  :loop_amen, slice: pick`.
+* New opt `onset:` - let's you play a specific percussive part of a
+  sample. Uses automatic onset detection to determine the points in the
+  sample that go from quiet to loud quickly. Unlike `slice:`, `onset:`
+  does not necessarily divide a sample into equal onsets - some onsets
+  will be smaller or bigger than others and the number of onsets is
+  determined by the algorithm and isn't known in advance.
+
+
+### GUI
+
+* New scope visualisers.
+* Allow files to be dragged from the OS into the text area. This inserts
+  the file/folder name as a string.
+* GUI now remembers the last directory you saved or opened a file
+  to/from as the default location for next time.
+* Swap align button for a scope button. Given that alignment now happens
+  automatically, a specific button seems somewhat redundant. Instead we
+  now have a button for toggling the visibility of the scope(s).
+* Loading multiple samples simultaneously is now much faster.
+* Preferences have been slightly re-organised.
+* Preferences now has a Master volume slider which control's Sonic Pi's
+  audio amplitude independently from the system volume.
+* All buttons now display status message + shortcut where available.
+* Enable app transparency slider for Windows.
+* Dark and light theme colours have been slightly polished and unified
+  to use the same logic.
+* On multi-screen systems, fullscreen mode now defaults to the app's
+  current screen.
+  
+
+### Documentation
+
+* Translations are now crowd-sourced. See:
+  `https://hosted.weblate.org/projects/sonic-pi/`
+* Improve docstring for `live_loop`.
+* Add 3 new MagPi articles on amplitude modulation, performance and practice techniques.
+* Add missing `pulse_width:` opt to flanger FX doc.
+
+
+### Improvements
+
+* Improve log messages written to `~/.sonic-pi/log`
+* Improve booting on Mac in the case that the audio card's rate can't be
+  determined.
+* Massively improve boot stability on Windows. 
+* Improve error message for `play_chord` when notes isn't list like.
+* The number of samples that may be loaded at any one time has been
+  increased from 1000 to 4000. However, memory limitations still apply
+  (4000 1MB samples will require 4000MB of free system memory)
+* `pick` now returns a lambda if no list is given as the first argument
+  (which makes it useful for using with sample's `onset:` and `slice:`
+  opts.
+
+
+### Bugfixes
+
+* Decrease duration of `:loop_tabla` so that it correctly loops. (Length
+  reduced to 10.674 seconds).
+* Enforce UTF-8 encoding of all incoming text.
+* Fix `:reverb` FX's `mix:` opt to ensure it's in the range 0 to 1.
+* `sample nil`` now no longer plays a sample - it was incorrectly
+  defaulting to the first built-in sample (`:ambi_choir`)
+  * `pick`'s `skip:` opt now works as expected: `pick(5).drop(1) == pick(5, skip: 1)`
+
+
 
 <a name="v2.10"></a>
 
