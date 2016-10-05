@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-04 09:53+0000\n"
+"PO-Revision-Date: 2016-10-05 09:47+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9904,10 +9904,12 @@ msgid ""
 " be different. That sound quality - the thing which allows you to tell the dif"
 "ference between a piano and a guitar is the timbre."
 msgstr ""
+"音色とは、ある音がどう鳴っているかを表現する、ただの聞こえの良い言葉です。もしあなたがバイオリン、ギター、ピアノといった異なる楽器で同じ音符を演奏すると、"
+"音程（音が高いか低いか）は同じでも、音の質は違うでしょう。その音の質、つまりピアノとギターとの違いを指摘できるような内容、が音色です。"
 
 #: A.04-synth-riffs.md:65
 msgid "Melodic Composition"
-msgstr ""
+msgstr "メロディーの作曲"
 
 #: A.04-synth-riffs.md:67
 msgid ""
@@ -9915,6 +9917,8 @@ msgid ""
 "lay. If you already have a good idea, then you can simply create a ring with y"
 "our notes in and tick through them:"
 msgstr ""
+"リード・シンセで重要なもう一つの側面は、演奏する音符の選択です。もしあなたが良いメロディーのアイデアを既に持っていたら、単純にそれをリングに入れてチックし"
+"ていくことができます。"
 
 #: A.04-synth-riffs.md:71
 #, no-wrap
@@ -9939,10 +9943,12 @@ msgid ""
 ":e3` and rests represented by `:r`. We're then using `.tick` to cycle through "
 "each note to give us a repeating riff."
 msgstr ""
+"ここでは、`:e3`といった音符と`:r`で表現される休符を含むリングでメロディーを定義しています。そして、リフが繰り返し演奏されるように、`.tick`"
+"を使ってリングを循環しています。"
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
-msgstr ""
+msgstr "自動メロディー"
 
 #: A.04-synth-riffs.md:86
 msgid ""
@@ -9951,6 +9957,8 @@ msgid ""
 "ne you like the best. To do that we need to combine three things: rings, rando"
 "misation and random seeds. Let's look at an example:"
 msgstr ""
+"良いリフを一から思いつくのは、いつも簡単であるとは限りません。ランダムなリフの生成をSonic Piにお願いして、出来たリフから一番良いと思うものを選ぶほ"
+"うが、より簡単なケースが多いでしょう。これを実現するのに、次の3つのものが必要です。リングとランダム化とランダムの種（シード）です。例を見てみましょう。"
 
 #: A.04-synth-riffs.md:91
 #, no-wrap
