@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-04 13:33+0000\n"
+"PO-Revision-Date: 2016-10-05 10:09+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -8323,11 +8323,10 @@ msgid "Tick"
 msgstr "Tick"
 
 #: 09.4-Ticking.md:55
-#, fuzzy
 msgid "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr ""
-"Du kannst auch den aktuellen Tick mit der Standard-Funktion `tick` abfragen un"
-"d den Wert als Index verwenden:"
+"Du kannst auch den aktuellen Tick mit der Standard-Funktion `tick` abfragen "
+"und den Wert als Index verwenden:"
 
 #: 09.4-Ticking.md:57
 #, no-wrap
@@ -8345,24 +8344,21 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:65
-#, fuzzy
 msgid ""
 "However, it is much nicer to call `.tick` at the end. The `tick` fn is for whe"
 "n you want to do fancy things with the tick value and for when you want to use"
 " ticks for other things than indexing into rings."
 msgstr ""
-"Aber eigentlich ist es viel einfacher, wenn Du `.tick` am Ende anfügst. Die `t"
-"ick`-Funktion kannst Du benutzen, wenn Du aufwändigere Dinge machen möchtest; "
-"oder wenn du Ticks für andere Dinge verwenden möchtest als Werte aus einem Rin"
-"g anzusteuern."
+"Aber eigentlich ist es viel einfacher, wenn Du `.tick` am Ende anfügst. Die "
+"`tick`-Funktion kannst Du benutzen, wenn Du aufwändigere Dinge machen "
+"möchtest; oder wenn du Ticks für andere Dinge verwenden möchtest als Werte "
+"aus einem Ring anzusteuern."
 
 #: 09.4-Ticking.md:70
-#, fuzzy
 msgid "Look"
 msgstr "Look"
 
 #: 09.4-Ticking.md:72
-#, fuzzy
 msgid ""
 "The magical thing about tick is that not only does it return a new index (or t"
 "he value of the ring at that index) it also makes sure that next time you call"
@@ -8372,27 +8368,25 @@ msgid ""
 "t increase* it. This is available via the `look` fn. You can call `look` as a "
 "standard fn or by adding `.look` to the end of a ring."
 msgstr ""
-"Die Magie des Ticks ist, dass er sich nach jedem Aufruf erhöht, so dass Du bei"
-" der nächsten Verwendung auch den nächsten Tick bekommst. In den Beispielen fi"
-"ndest Du einige Sonic-Pi-Codes, die `.tick` verwenden, schau sie Dir mal näher"
-" an. Manchmal willst Du aber den aktuellen Tick benutzen, *ohne dass er gleich"
-" um einen Wert weiter tickt*. Dafür gibt es die `look`-Funktion. Du kannst sie"
-" wie zuvor mit `look` als Funktion aufrufen oder mit `.look` an einen Ring anf"
-"ügen."
+"Die Magie des Ticks ist, dass er sich nach jedem Aufruf erhöht, so dass Du "
+"bei der nächsten Verwendung auch den nächsten Tick bekommst. In den "
+"Beispielen findest Du einige Sonic-Pi-Codes, die `.tick` verwenden, schau "
+"sie Dir mal näher an. Manchmal willst Du aber den aktuellen Tick benutzen, *"
+"ohne dass er gleich um einen Wert weiter tickt*. Dafür gibt es die `look`-"
+"Funktion. Du kannst sie wie zuvor mit `look` als Funktion aufrufen oder mit "
+"`.look` an einen Ring anfügen."
 
 #: 09.4-Ticking.md:81
-#, fuzzy
 msgid "Naming Ticks"
 msgstr "Namen für Ticks"
 
 #: 09.4-Ticking.md:83
-#, fuzzy
 msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is achie"
 "ved by giving your tick a name:"
 msgstr ""
-"Gelegentlich wirst Du auch mal mehr als einen Tick pro Live-Loop brauchen. Gib"
-" den Ticks dafür Namen:"
+"Gelegentlich wirst Du auch mal mehr als einen Tick pro Live-Loop brauchen. "
+"Gib den Ticks dafür Namen:"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
