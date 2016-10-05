@@ -26,9 +26,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ## GUI
-As the Sonic Pi GUI links with the GPLv3-licensed QScintilla2,
-distributors of Sonic Pi GUI binaries must comply with the terms of the
-GPL
+As the Sonic Pi GUI links with GPLv3-licensed software distributors of
+Sonic Pi GUI binaries must comply with the terms of the GPL
+
 
 ## Docs, Tutorial and Examples 
 (contents of [etc/doc/](https://github.com/samaaron/sonic-pi/tree/master/etc/doc) and [etc/examples](https://github.com/samaaron/sonic-pi/tree/master/etc/examples) directories)
@@ -65,26 +65,27 @@ have been obtained from the
 [Adventure Kid](http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/)
 site.
 
-## Bundled Software
 
+## Bundled Software
 The following is a list of the software included in Sonic Pi with their
 relevant licenses:
 
-### Unlinked software
 
+### Unlinked software
 * [Ruby](http://ruby-lang.org) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
 * [SuperCollider](http://supercollider.sourceforge.net) - [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html)
 
-### Dynamically Linked Libraries for GUI
 
+### Dynamically Linked Libraries for GUI
 * [Qt](http://qt-project.org) - [LGPL v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 * [QScintilla2](http://www.riverbankcomputing.com/software/qscintilla/intro) - [GPL v2](https://tldrlegal.com/license/gnu-general-public-license-v2)
+
 
 ### Included Ruby Libraries for Server
 (contents of [app/server/vendor/](https://github.com/samaaron/sonic-pi/tree/master/app/server/vendor))
 
 * [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport) - [MIT License](http://opensource.org/licenses/MIT)
-* [Atomic](http://github.com/headius/ruby-atomic) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+* [Atomic](http://githuo.com/headius/ruby-atomic) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [Blankslate](https://github.com/masover/blankslate) - [MIT License](http://opensource.org/licenses/MIT)
 * [Did You Mean](https://github.com/yuki24/did_you_mean) - [MIT License](http://opensource.org/licenses/MIT)
 * [FFI](https://github.com/ffi/ffi) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
@@ -111,4 +112,9 @@ relevant licenses:
 * [Parser](https://github.com/whitequark/parser) - [MIT License](http://opensource.org/licenses/MIT)
 * [Metaclass](https://github.com/floehopper/metaclass) - [MIT License](http://opensource.org/licenses/MIT)
 * [Sys Proctable](https://github.com/djberg96/sys-proctable) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+* [fast_osc](http://github.com/xavriley/fast_osc) - [MIT License](http://opensource.org/licenses/MIT)
 
+
+### Dynamically Linked Libraries for Server
+* [Aubio](http://aubio.org) - [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html)
+* [rtosc](https://github.com/fundamental/rtosc) - [MIT License](http://opensource.org/licenses/MIT)
