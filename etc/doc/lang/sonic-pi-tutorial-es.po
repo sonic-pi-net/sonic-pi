@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-16 23:22+0000\n"
-"Last-Translator: Paulo <paulo.chiliguano@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"es/>\n"
+"PO-Revision-Date: 2016-10-06 09:42+0000\n"
+"Last-Translator: Matthieu Ottaviani <matthieuottaviani@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -585,7 +585,6 @@ msgstr ""
 " real."
 
 #: 01.3-Learning-through-Play.md:35
-#, fuzzy
 msgid "Just make sure to share your work with others!"
 msgstr "Sólo asegúrate de compartir tu trabajo con los demás!"
 
