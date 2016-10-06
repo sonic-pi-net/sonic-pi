@@ -99,7 +99,6 @@ private slots:
     void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();
-    void runCodeWithFile();
     void runBufferIdx(int idx);
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
@@ -193,7 +192,6 @@ private slots:
 
 private:
 
-    void createTmpBufferDir();
     QString osDescription();
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;
