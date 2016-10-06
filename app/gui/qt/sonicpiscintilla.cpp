@@ -29,7 +29,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
   QString skey;
-  QSettings settings("sonic-pi.net", "Default Key bindings");
+  QSettings settings("sonic-pi.net", "gui-key-bindings");
 
 #if defined(Q_OS_MAC)
   int SPi_CTRL = Qt::META;

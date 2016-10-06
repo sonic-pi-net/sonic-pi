@@ -1179,7 +1179,7 @@ void MainWindow::initPrefsWindow() {
   QVBoxLayout *scope_box_layout = new QVBoxLayout;
 
   scopeSignalMap = new QSignalMapper(this);
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
   for( auto name : scopeInterface->getScopeNames() )
   {
     QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) );
