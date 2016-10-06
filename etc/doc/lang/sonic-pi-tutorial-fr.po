@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-28 20:09+0000\n"
-"Last-Translator: Vincent R. <renard.vin3@gmail.com>\n"
+"PO-Revision-Date: 2016-10-06 09:28+0000\n"
+"Last-Translator: Matthieu Ottaviani <matthieuottaviani@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -168,39 +168,36 @@ msgid "Make sure the bass drum sound is still running"
 msgstr "Assurez-vous que le son de la grosse caisse est encore présent"
 
 #: 01.1-Live-Coding.md:33
-#, fuzzy
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Changez la valeur de `sleep` de `0.5` à quelque chose plus élevé comme `1`"
+msgstr ""
+"Changez la valeur de `sleep` de `0.5` à quelque chose plus élevé comme `1`."
 
 #: 01.1-Live-Coding.md:34
-#, fuzzy
 msgid "Press the `Run` button again"
 msgstr "Pressez à nouveau le bouton `Run`"
 
 #: 01.1-Live-Coding.md:35
-#, fuzzy
 msgid "Notice how the drum speed has changed."
-msgstr "Remarquez le changement de vitesse de la batterie"
+msgstr "Remarquez le changement de vitesse de la batterie."
 
 #: 01.1-Live-Coding.md:36
-#, fuzzy
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"Finalement, *rappelez-vous de cet instant*, c'est la première fois que vous av"
-"ez codé en \"live\" avec Sonic Pi et ce n'est certainement pas la dernière..."
+"Finalement, *rappelez-vous de cet instant*, c'est la première fois que vous "
+"avez codé en \"live\" avec Sonic Pi et ce n'est certainement pas la "
+"dernière..."
 
 #: 01.1-Live-Coding.md:39
-#, fuzzy
 msgid ""
 "Ok, that was simple enough. Let's add something else into the mix. Above `samp"
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ok, c'était assez simple. Ajoutons quelque chose au mixage. Au dessus de `samp"
-"le :bd_haus` ajoutez la ligne `sample :ambi_choir, rate: 0.3`. Votre code devr"
-"ait ressembler à ceci :"
+"Ok, c'était assez simple. Ajoutons quelque chose au mixage. Au dessus de `"
+"sample :bd_haus` ajoutez la ligne `sample :ambi_choir, rate: 0.3`. Votre "
+"code devrait ressembler à ceci :"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -237,9 +234,9 @@ msgstr ""
 "eep` plus grande et pressez `Run` à nouveau)."
 
 #: 01.1-Live-Coding.md:59
-#, fuzzy
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr "Essayez de commenter une des lignes `sample` en ajoutant un `#` au début :"
+msgstr ""
+"Essayez de commenter une des lignes `sample` en ajoutant un `#` au début :"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -257,15 +254,14 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:70
-#, fuzzy
 msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Remarquez comment cela indique à l'ordinateur de l'ignorer, ainsi nous ne l'en"
-"tendons pas. On l'appelle commentaire. Dans Sonic Pi, nous pouvons utilisez de"
-"s commentaires pour enlever ou additionner des choses au mixage."
+"Remarquez comment cela indique à l'ordinateur de l'ignorer, ainsi nous ne "
+"l'entendons pas. On l'appelle commentaire. Dans Sonic Pi, nous pouvons "
+"utilisez des commentaires pour enlever ou additionner des choses au mixage."
 
 #: 01.1-Live-Coding.md:74
 #, fuzzy
@@ -283,20 +279,18 @@ msgstr ""
 "r et jouez. Voici quelques suggestions :"
 
 #: 01.1-Live-Coding.md:80
-#, fuzzy
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Essayez de modifier les valeurs en bleu du `rate:` pour entendre changer le so"
-"n de l'échantillon."
+"Essayez de modifier les valeurs en bleu du `rate:` pour entendre changer le "
+"son de l'échantillon."
 
 #: 01.1-Live-Coding.md:81
-#, fuzzy
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Essayez de changer les durées de `sleep` et découvrez que les 2 boucles peuven"
-"t tourner à différentes cadences."
+"Essayez de changer les durées de `sleep` et découvrez que les 2 boucles "
+"peuvent tourner à différentes cadences."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
