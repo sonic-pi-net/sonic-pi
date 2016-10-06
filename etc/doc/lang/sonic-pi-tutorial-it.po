@@ -4,10 +4,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-09-26 12:17+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"it/>\n"
+"PO-Revision-Date: 2016-10-06 14:21+0000\n"
+"Last-Translator: Matthieu Ottaviani <matthieuottaviani@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8886,11 +8886,12 @@ msgstr "'S-M-m' - Passa dall'interfaccia scura a quella chiara e viceversa"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "`S-M-s` - Salva il contenuto del buffer in un file"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
+#, fuzzy
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "`S-M-o` - Carica il contenuto del buffer da un file"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
@@ -14267,12 +14268,14 @@ msgstr ""
 "end"
 
 #: A.13-probabilistic-sequencer.md:1
+#, fuzzy
 msgid "A.13 Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "A.13 Programma un Sequencer Probabilistico"
 
 #: A.13-probabilistic-sequencer.md:3
+#, fuzzy
 msgid "Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "Programma un Sequencer Probabilistico"
 
 #: A.13-probabilistic-sequencer.md:5
 #, fuzzy
@@ -14285,9 +14288,8 @@ msgid ""
 msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:12
-#, fuzzy
 msgid "Probability"
-msgstr "Portabilità"
+msgstr "Probabilità"
 
 #: A.13-probabilistic-sequencer.md:14
 #, fuzzy
@@ -14405,10 +14407,13 @@ msgid "Combining Probabilities"
 msgstr ""
 
 #: A.13-probabilistic-sequencer.md:93
+#, fuzzy
 msgid ""
 "Things get really exciting when you combine multiple samples being triggered w"
 "ith different probabilities. For example:"
 msgstr ""
+"Le cose si fanno davvero interessanti quando si combinano più campioni "
+"innescati con diverse probabilità. Per esempio:"
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
@@ -14497,14 +14502,12 @@ msgid ""
 msgstr "choose (scegli)"
 
 #: A.14-amplitude-modulation.md:1
-#, fuzzy
 msgid "A.14 Amplitude Modulation"
-msgstr "Ampiezza"
+msgstr "A.14 Modulazione d'ampiezza"
 
 #: A.14-amplitude-modulation.md:3
-#, fuzzy
 msgid "Amplitude Modulation"
-msgstr "Ampiezza"
+msgstr "Modulazione d'ampiezza"
 
 #: A.14-amplitude-modulation.md:5
 #, fuzzy
@@ -14535,6 +14538,8 @@ msgid ""
 "synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 msgstr ""
+"synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
 #, fuzzy
@@ -14565,13 +14570,16 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:49
 #, fuzzy
@@ -14616,13 +14624,16 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.5, wave: 3 do\n"
 "  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
 "  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.5, wave: 3 do\n"
+"  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
+"  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
+"end"
 
 #: A.14-amplitude-modulation.md:83
 msgid ""
@@ -14665,12 +14676,14 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
 "  synth :saw, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
+"  synth :saw, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:113
 msgid ""
@@ -14680,7 +14693,7 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
-msgstr ""
+msgstr "Probabilità"
 
 #: A.14-amplitude-modulation.md:119
 #, fuzzy
@@ -14693,14 +14706,18 @@ msgstr "choose (scegli)"
 
 #: A.14-amplitude-modulation.md:125
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:133
 msgid ""
@@ -14730,14 +14747,18 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:158
 #, fuzzy
@@ -14751,12 +14772,14 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_mika\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_mika\n"
+"end"
 
 #: A.14-amplitude-modulation.md:169
 msgid ""
@@ -14784,13 +14807,16 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_sample_bpm :loop_amen\n"
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_amen\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"use_sample_bpm :loop_amen\n"
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_amen\n"
+"end"
 
 #: A.14-amplitude-modulation.md:194
 #, fuzzy
@@ -14802,7 +14828,6 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :dark_mist do\n"
 "  co = (line 70, 130, steps: 8).tick\n"
@@ -14821,7 +14846,24 @@ msgid ""
 "  end\n"
 "  sleep 16\n"
 "end"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr ""
+"live_loop :dark_mist do\n"
+"  co = (line 70, 130, steps: 8).tick\n"
+"  with_fx :slicer, probability: 0.7, prob_pos: 1 do\n"
+"    synth :prophet, note: :e1, release: 8, cutoff: co\n"
+"  end\n"
+"  \n"
+"  with_fx :slicer, phase: [0.125, 0.25].choose do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :crashing_waves do\n"
+"  with_fx :slicer, wave: 0, phase: 0.25 do\n"
+"    sample :loop_mika, rate: 0.5\n"
+"  end\n"
+"  sleep 16\n"
+"end"
 
 #: A.15-five-live-coding-techniques.md:1 A.15-performance.md:1
 #, fuzzy
@@ -14847,7 +14889,7 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:15 A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
-msgstr ""
+msgstr "1. Memorizza i tasti di scelta rapida"
 
 #: A.15-five-live-coding-techniques.md:17 A.15-performance.md:17
 msgid ""
@@ -14884,9 +14926,8 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:41 A.15-performance.md:41
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 
 #: A.15-five-live-coding-techniques.md:46 A.15-performance.md:46
 msgid ""
@@ -14896,9 +14937,8 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:50 A.15-performance.md:50
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 
 #: A.15-five-live-coding-techniques.md:55 A.15-performance.md:55
 msgid ""
@@ -14916,9 +14956,8 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:65 A.15-performance.md:65
 #, no-wrap
-#, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
-msgstr "sample :ambi_lunar_land"
+msgstr "sample :ambi_lunar_land, rate: 1"
 
 #: A.15-five-live-coding-techniques.md:69 A.15-performance.md:69
 msgid ""
@@ -14977,7 +15016,7 @@ msgstr ""
 #: A.15-five-live-coding-techniques.md:107
 #, no-wrap
 msgid "set_mixer_control! lpf: 50"
-msgstr ""
+msgstr "set_mixer_control! lpf: 50"
 
 #: A.15-five-live-coding-techniques.md:111 A.15-performance.md:111
 msgid ""
@@ -14999,7 +15038,7 @@ msgstr ""
 #: A.15-five-live-coding-techniques.md:123 A.15-performance.md:123
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 16, lpf: 30"
 
 #: A.15-five-live-coding-techniques.md:127 A.15-performance.md:127
 msgid "You can then slide quickly back to a high value with:"
@@ -15008,7 +15047,7 @@ msgstr ""
 #: A.15-five-live-coding-techniques.md:129 A.15-performance.md:129
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 1, lpf: 130"
 
 #: A.15-five-live-coding-techniques.md:133 A.15-performance.md:133
 msgid ""
@@ -15073,7 +15112,7 @@ msgstr ""
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
-msgstr ""
+msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.16-practice.md:1
 #, fuzzy
@@ -15141,7 +15180,7 @@ msgstr ""
 
 #: A.16-practice.md:46
 msgid "Code whilst standing"
-msgstr ""
+msgstr "Programma stando in piedi"
 
 #: A.16-practice.md:48
 msgid ""
@@ -15194,7 +15233,7 @@ msgstr ""
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
-msgstr ""
+msgstr "Sperimenta musicalmente"
 
 #: A.16-practice.md:89
 msgid ""
