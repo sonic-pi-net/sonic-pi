@@ -175,7 +175,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   this->splash = splash;
   this->i18n = i18n;
   guiID = QUuid::createUuid().toString();
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
   defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
@@ -253,7 +253,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 }
 
 void MainWindow::showWelcomeScreen() {
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
 if(settings.value("first_time", 1).toInt() == 1) {
     QTextBrowser* startupPane = new QTextBrowser;
     startupPane->setFixedSize(600, 615);
@@ -280,7 +280,7 @@ void MainWindow::setupTheme() {
   else{
 
     std::cout << "[GUI] - using default editor colours" << std::endl;
-    QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+    QSettings settings("sonic-pi.net", "gui-settings");
     theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
 
   }
@@ -922,7 +922,7 @@ void MainWindow::splashClose() {
 }
 
 void MainWindow::showWindow() {
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
   if(settings.value("first_time", 1).toInt() == 1) {
     showMaximized();
   } else {
@@ -1454,7 +1454,7 @@ QString MainWindow::currentTabLabel()
 bool MainWindow::loadFile()
 {
   QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
   QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
   QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter) ;
   if(!fileName.isEmpty()){
@@ -1471,7 +1471,7 @@ bool MainWindow::loadFile()
 bool MainWindow::saveAs()
 {
   QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
   QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter) ;
 
@@ -1846,7 +1846,7 @@ void MainWindow::changeRPSystemVol(int val)
 void MainWindow::toggleScope( QWidget* qw )
 {
   QCheckBox* cb = static_cast<QCheckBox*>(qw);
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
   settings.setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );
   scopeInterface->enableScope( cb->text(), cb->isChecked() );
 }
@@ -2091,6 +2091,7 @@ void MainWindow::updateDarkMode(){
     ""
     "QTabWidget::pane{"
     "  border: 0px;"
+    "  background: green;"
     "}").arg(tabColor, tabTextColor, tabSelectedColor, tabSelectedTextColor);
 
 
@@ -2688,7 +2689,7 @@ void MainWindow::toggleRecording() {
     Message msg("/stop-recording");
     msg.pushStr(guiID.toStdString());
     sendOSC(msg);
-    QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+    QSettings settings("sonic-pi.net", "gui-settings");
     QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
     if (!fileName.isEmpty()) {
@@ -2717,7 +2718,7 @@ void MainWindow::createStatusBar()
 
 void MainWindow::readSettings() {
   // Pref settings are read in MainWindow::initPrefsWindow()
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
   QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
   QSize size = settings.value("size", QSize(400, 400)).toSize();
   resize(size);
@@ -2747,7 +2748,7 @@ void MainWindow::readSettings() {
 
 void MainWindow::writeSettings()
 {
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QSettings settings("sonic-pi.net", "gui-settings");
   settings.setValue("pos", pos());
   settings.setValue("size", size());
   settings.setValue("first_time", 0);
