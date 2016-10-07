@@ -162,7 +162,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     homeDirWritable = true;
     tmpFile.close();
   }
-
+  updated_dark_mode_for_help = false;
+  updated_dark_mode_for_prefs = false;
   loaded_workspaces = false;
   is_recording = false;
   show_rec_icon_a = false;
@@ -1778,6 +1779,10 @@ void MainWindow::help()
     docWidget->hide();
   } else {
     docWidget->show();
+    if(!updated_dark_mode_for_help) {
+      updateDarkMode();
+      updated_dark_mode_for_help = true;
+    }
   }
 }
 
@@ -2372,6 +2377,10 @@ void MainWindow::showPrefsPane()
     prefsWidget->hide();
   } else {
     prefsWidget->show();
+    if(!updated_dark_mode_for_prefs) {
+      updateDarkMode();
+      updated_dark_mode_for_prefs = true;
+    }
   }
 }
 

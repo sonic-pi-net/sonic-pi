@@ -340,6 +340,7 @@ private:
     Scope* scopeInterface;
     QString guiID;
     bool homeDirWritable, tmpFileStoreAvailable;
+    bool updated_dark_mode_for_help, updated_dark_mode_for_prefs;
 };
 
 #endif
