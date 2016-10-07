@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-05 09:47+0000\n"
+"PO-Revision-Date: 2016-10-07 09:40+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -6896,8 +6896,8 @@ msgid ""
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
-"これから楽しみが始まります。コードを*実行したままで*、50を別の数値55に変更し、もう一度`Run`ボタンを押してみましょう。わお！音が変化しましたね！ラ"
-"イブ！"
+"ここからが面白くなるところです。コードを*実行したままで*、50を別の数値55に変更し、もう一度`Run`ボタンを押してみましょう。わお！音が変化しました"
+"ね！ライブ！"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
 msgid ""
@@ -9991,6 +9991,11 @@ msgid ""
 "g the random seed to the same value right before the shuffle. Finally we're ju"
 "st ticking through our shuffled notes to play the riff."
 msgstr ""
+"ここではいくつかのことが実行されています。順番に見ていきましょう。最初に、ランダムシードとしてここでは3を使っています。これは何を意味するのでしょうか？そ"
+"うですね、シードを設定することで便利な点は、次のランダム値が何になるか正確に予測できることです。つまり、最後にシードを3に設定したときと同じになります。も"
+"う一つ便利な点は、音符のリングのシャッフルでも同じように動作することです。上記の例では、標準的なシャッフルのリストの内の`3番目のシャッフル`を必然的に要"
+"求していることになります。これもシャッフルする直前に設定したランダムシードの値が同じであれば常に同じになります。最後に、シャッフルされた音符を単純にチック"
+"して、リフを演奏しています。"
 
 #: A.04-synth-riffs.md:112
 msgid ""
@@ -10001,10 +10006,14 @@ msgid ""
 "ed we want to shuffle with. If we don't like the melody, just change one of th"
 "ose two things and try again. Repeat until you like what you hear!"
 msgstr ""
+"ここからが面白くなるところです。ランダムシードを別な値、たとえば3000に変更すると、全く異なったシャッフルの音符が得られるでしょう。これは、新しいメロデ"
+"ィーを探索する方法としては、極めて簡単でしょう。シャッフルしたい音符のリスト（スケールはとても良い出発点でしょう）を選択し、続いてシードを選択してみましょ"
+"う。もし生成されたメロディーが気に入らなかったら、音符のリストかシードのいずれかを変更して、もう一度やってみましょう。気にいったものが生成されるまで、続け"
+"てみましょう！"
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
-msgstr ""
+msgstr "疑似ランダム化"
 
 #: A.04-synth-riffs.md:123
 msgid ""
@@ -10015,10 +10024,13 @@ msgid ""
 "tual dice, it just picks the next value from the list. Setting the random seed"
 " is just jumping to a specific point in that list."
 msgstr ""
+"Sonic Piのランダム化は、実際には真のランダムではなく擬似ランダムと呼ばれるものです。サイコロを100回振ってその結果を紙切れに書いておくのを想像し"
+"てみてください。Sonic Piは、その結果のリストと同等のものを持っていて、ランダムな値を要求されるとそれを使っています。実際のサイコロを振る代わりに、"
+"リストから次の値を単純に取得しているのです。そして、ランダムシードの設定は、リストの特定の場所に移動しているに過ぎません。"
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
-msgstr ""
+msgstr "リズムを発見する"
 
 #: A.04-synth-riffs.md:133
 msgid ""
@@ -10029,6 +10041,9 @@ msgid ""
 " every note we can use a conditional to play a note with a given probability. "
 "Let's take a look:"
 msgstr ""
+"リフで重要なもう一つの側面は、リズム（いつ音符を演奏していつ演奏しないのか）です。以前に、休符として`:r`をリングに使用できることを見たと思います。 他"
+"の非常に強力な方法としては、`spread`関数を使う方法がありますが、これはいずれチュートリアルで扱いたいと思います。今回はリズムの発見にランダム化を使"
+"ってみたいと思います。全ての音符を演奏する代わりに、確率によってある特定の条件でのみ演奏することが可能です。次のコードを見てみましょう。"
 
 #: A.04-synth-riffs.md:140
 #, no-wrap
@@ -10061,6 +10076,9 @@ msgid ""
 "s, 50% of the time it will return `true`. Using higher values will make it ret"
 "urn `false` more often introducing more space into the riff."
 msgstr ""
+"知ってると本当に便利な関数は、`one_in`でしょう。この関数は指定した確率に依存して`true`か`false`を返します。ここでは、引数として2を使"
+"用しているので、`one_in`を2回呼ぶ度に1回`true`を返します。言い換えると、50%の確率で`true`を返します。2よりも大きな値を使用すると"
+"`false`をより多く返し、リフにより多くの休符を与えるでしょう。"
 
 #: A.04-synth-riffs.md:159
 msgid ""
@@ -10071,12 +10089,16 @@ msgid ""
 "ength of the riff. Try changing the 16 to 8 or even 4 or 3 and see how it affe"
 "cts the rhythm of the riff."
 msgstr ""
+"また、ここで`16.times`という繰り返しが追加されていることに気づいたかもしれません。これは、16個の音符の度にランダムシードをリセットしたいためで"
+"す。これにより、16回の繰り返しの度に、リフのリズムが繰り返されます。これはシャッフルには影響しません。なぜなら、それはシードを設定した直後に実行されてい"
+"るからです。リフの長さを変更するために、繰り返しのサイズを変更することができます。16という値を、8, 4, "
+"3といった値に変更して、それがどのようにリフのリズムに影響するか見てみてください。"
 
 #: A.04-synth-riffs.md:168
 msgid ""
 "OK, so let's combine everything we've learned together into one final example."
 " See you next time!"
-msgstr ""
+msgstr "今回学習したことをまとめて最後の例としましょう。ではまた！"
 
 #: A.04-synth-riffs.md:171
 #, no-wrap
@@ -10133,11 +10155,11 @@ msgstr ""
 
 #: A.05-acid-bass.md:1
 msgid "A.5 Acid Bass"
-msgstr ""
+msgstr "A.5 アシッドベース"
 
 #: A.05-acid-bass.md:3
 msgid "Acid Bass"
-msgstr ""
+msgstr "アシッドベース"
 
 #: A.05-acid-bass.md:5
 msgid ""
@@ -10148,6 +10170,9 @@ msgid ""
 "ugh to more recent electronic artists such as Plastikman, Squarepusher and Aph"
 "ex Twin."
 msgstr ""
+"エレクトロニック・ダンス音楽の歴史を俯瞰する上で、ローランドTB-303の多大な影響を無視することは出来ないでしょう。それはアシッドベースサウンドの秘伝の"
+"タレであると言えます。古典的なTB-303のベースリフは、初期のシカゴハウスのシーンからPlastikman, SquarepusherやAphex "
+"Twinといったより最近のエレクトロニックアーティストで聞くことができるでしょう。"
 
 #: A.05-acid-bass.md:12
 msgid ""
