@@ -2096,7 +2096,6 @@ void MainWindow::updateDarkMode(){
     ""
     "QTabWidget::pane{"
     "  border: 0px;"
-    "  background: green;"
     "}").arg(tabColor, tabTextColor, tabSelectedColor, tabSelectedTextColor);
 
 
@@ -2219,9 +2218,14 @@ void MainWindow::updateDarkMode(){
     "  background-color: %2;"
     "}"
     ""
+    "QCheckBox:hover{"
+    "  color: %1;"
+    "  background: %2;"
+    "}"
+    ""
     "QCheckBox{"
     "  color: %1;"
-    "  background-color: %2;"
+    "  background: %2;"
     "}"
     ""
     "QGroupBox QFrame {"
