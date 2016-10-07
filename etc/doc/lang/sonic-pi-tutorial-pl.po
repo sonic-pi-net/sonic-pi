@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-03 20:55+0000\n"
+"PO-Revision-Date: 2016-10-07 20:24+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -11251,10 +11251,15 @@ msgid ""
 " be different. That sound quality - the thing which allows you to tell the dif"
 "ference between a piano and a guitar is the timbre."
 msgstr ""
+"Tembr to nic innego jak wyszukane słowo dla opisania jakie jest brzmienie "
+"dźwięku. Jeśli zagrasz tę samą nutę z innym instrumentem takim jak  "
+"skrzypce, gitara czy fortepian wysokość dźwięku (jak wysoki lub niski jest "
+"dźwięk) będzie taka sama, za to barwa będzie inna. Ta właściwość dźwięku - "
+"ta cecha, która pozwala ci rozróżnić pianino od gitary to tembr."
 
 #: A.04-synth-riffs.md:65
 msgid "Melodic Composition"
-msgstr ""
+msgstr "Kompozycja Malodyczna"
 
 #: A.04-synth-riffs.md:67
 msgid ""
@@ -11262,6 +11267,9 @@ msgid ""
 "lay. If you already have a good idea, then you can simply create a ring with y"
 "our notes in and tick through them:"
 msgstr ""
+"Kolejnym aspektem ważnym dla naszego syntezatora wiodącego jest wybór nut, "
+"które chcemy zagrać. Jeśli posiadasz aktualnie fajny pomysł, wtedy możesz po "
+"prostu stworzyć pierścień (ring) z twoich nut i cykać przez nie w kółko:"
 
 #: A.04-synth-riffs.md:71
 #, no-wrap
@@ -11286,10 +11294,14 @@ msgid ""
 ":e3` and rests represented by `:r`. We're then using `.tick` to cycle through "
 "each note to give us a repeating riff."
 msgstr ""
+"Zdefiniowaliśmy tutaj naszą melodię za pomocą pierścienia, który zawiera w "
+"sobie zarówno nuty takie jak `:e3` jak i przerwy reprezentowane za pomocą "
+"symbolu `:r`. Następnie wykorzystujemy polecenie `.tick` żeby przechodzić "
+"kolejno przez każdą z nut co daje nam powtarzalny riff."
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
-msgstr ""
+msgstr "Melodia Automatyczna"
 
 #: A.04-synth-riffs.md:86
 msgid ""
@@ -11298,6 +11310,11 @@ msgid ""
 "ne you like the best. To do that we need to combine three things: rings, rando"
 "misation and random seeds. Let's look at an example:"
 msgstr ""
+"Nie zawsze łatwo jest wymyślić ciekawy riff od zera. Zamiast tego, często "
+"dużo łatwiej jest poprosić Sonic Pi  aby wybrał dla nas losowy riff i wybrać "
+"ten, który spodoba się nam najbardziej. Aby to osiągnąć potrzebujemy "
+"połączyć trzy rzeczy: pierścienie, losowość, oraz losowe ziarna. Spójrzmy na "
+"poniższy przykład:"
 
 #: A.04-synth-riffs.md:91
 #, no-wrap
