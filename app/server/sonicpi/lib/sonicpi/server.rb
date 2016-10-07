@@ -21,6 +21,7 @@ require_relative "counter"
 require_relative "lazybuffer"
 require_relative "bufferstream"
 require_relative "scsynthexternal"
+
 #require_relative "scsynthnative"
 
 
@@ -28,7 +29,7 @@ module SonicPi
   class Server
     include Util
 
-    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta, :info
+    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta, :scsynth_info
 
     def initialize(hostname, port, msg_queue)
       # Cache common OSC path strings as frozen instance
@@ -104,7 +105,7 @@ module SonicPi
       load_synthdefs(synthdef_path)
       osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0, []
       info = info_prom.get
-      @info = {
+      @scsynth_info = SonicPi::Core::SPMap.new({
         :sample_rate => info[2],
         :sample_dur => info[3],
         :radians_per_sample => info[4],
@@ -116,14 +117,14 @@ module SonicPi
         :num_audio_busses => info[10],
         :num_control_busses => info[11],
         :num_buffers => info[12]
-      }
+      })
 
-      info "num input busses: #{@info[:num_input_busses]}"
-      info "num output busses: #{@info[:num_output_busses]}"
-      info "num control busses: #{@info[:num_control_busses]}"
-      info "num audio busses: #{@info[:num_audio_busses]}"
-      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new @info[:num_audio_busses], @info[:num_output_busses] + @info[:num_input_busses]
-      @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new @info[:num_control_busses]
+      info "num input busses: #{@scsynth_info[:num_input_busses]}"
+      info "num output busses: #{@scsynth_info[:num_output_busses]}"
+      info "num control busses: #{@scsynth_info[:num_control_busses]}"
+      info "num audio busses: #{@scsynth_info[:num_audio_busses]}"
+      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new @scsynth_info[:num_audio_busses], @scsynth_info[:num_output_busses] + @scsynth_info[:num_input_busses]
+      @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new @scsynth_info[:num_control_busses]
 
       message "info        - Initialising comms... #{msg_queue}" if @debug_mode
 

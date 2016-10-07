@@ -95,6 +95,10 @@ module SonicPi
       end
     end
 
+    def scsynth_info
+      @server.scsynth_info
+    end
+
     def load_synthdefs(path, server=@server)
       check_for_server_rebooting!(:load_synthdefs)
       internal_load_synthdefs(path, server)

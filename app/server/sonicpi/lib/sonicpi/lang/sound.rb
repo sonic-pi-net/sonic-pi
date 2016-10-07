@@ -187,8 +187,6 @@ module SonicPi
       end
 
 
-
-
       def reboot
         @sample_loader.reset!
         return nil if @mod_sound_studio.rebooting
@@ -207,7 +205,30 @@ module SonicPi
       end
 
 
-
+      def scsynth_info
+        @mod_sound_studio.scsynth_info
+      end
+      doc name:           :scsynth_info,
+          introduced:     Version.new(2,11,0),
+          summary:        "Return information about the internal SuperCollider sound server",
+          args:           [[]],
+          returns:        :SPMap,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Create a map of information about the running audio synthesiser SuperCollider. ",
+          examples:       [
+        "puts scsynth_info  #=>  (map sample_rate: 44100.0,
+                            #         sample_dur: 2.2675736545352265e-05,
+                            #         radians_per_sample: 0.00014247585204429924,
+                            #         control_rate: 689.0625,
+                            #         control_dur: 0.001451247138902545,
+                            #         subsample_offset: 0.0,
+                            #         num_output_busses: 16.0,
+                            #         num_input_busses: 16.0,
+                            #         num_audio_busses: 1024.0,
+                            #         num_control_busses: 4096.0,
+                            #         num_buffers: 4096.0)",
+]
 
       def octs(start, num_octs=1)
         a = []
