@@ -4,7 +4,7 @@ A.16 How to Practice Live Coding
 
 Last month we took a look at five important techniques for mastering
 live coding - in other words, we explored how we could use Sonic Pi to
-approach code in the same we we would approach a musical instrument. One
+approach code in the same way we would approach a musical instrument. One
 of the important concepts that we discussed was practice. This month
 we're going to take a deeper dive into understanding why live coding
 practice is important and how you might start.
@@ -20,7 +20,7 @@ start.
 
 Practice tip #1 - start to develop a practice routine. Find a nice time
 in the day that works for you and try and practice at that time as many
-days of the week you can. Before long you'll be looking forward to your
+days of the week as you can. Before long you'll be looking forward to your
 regular session.
 
 
@@ -71,11 +71,11 @@ Most instruments require some assembly and tuning before they can be
 played. Unless you're a rockstar with a bus full of roadies, you'll have
 to set up your own instrument before your gig. This is often a stressful
 time and it is easy for problems to occur. One way to help with this is
-to encorporate the setup process into your practice sessions.
+to incorporate the setup process into your practice sessions.
 
 Practice tip #4 - treat setting up as an important part of your
 practice. For example, have a box or bag that you can keep your
-Raspberry Pi and keyboard etc. Before each practice session, take out
+Raspberry Pi and keyboard in etc. Before each practice session, take out
 all the parts, connect everything, and work through the boot process
 until you have Sonic Pi running and can make sounds. Once you've
 finished practicing, take the time to carefully pack everything away
@@ -98,7 +98,7 @@ sounds at all.
 
 Practice tip #5 - spend time making sounds and music you don't like. Try
 to make time to explore new sounds and ideas. Don't worry that it might
-sound terrible if it's not style you're looking for. When you're
+sound terrible if it's not the style you're looking for. When you're
 experimenting like this you increase the chance of stumbling over a
 sound or combination of sounds which you love! Even if 99% of the sounds
 you make are bad, that 1% might be the riff or intro to your new
@@ -136,10 +136,10 @@ in new ways.
 A common problem when practicing is to become distracted with other
 things. Practicing is hard and requires real discipline regardless of
 the kind of music you're making - from jazz to classical to EDM. If
-your're struggling to get started or make progress, it's often too easy
+you're struggling to get started or make progress, it's often too easy
 to hop on social media, or look something up on the internet etc. If
 you've set yourself a target of 20 minutes of practice, it's important
-to try and spend all that time being as productive as possible. 
+to try and spend all that time being as productive as possible.
 
 Practice tip #7 - before you start practicing remove as many
 distractions as possible. For example, disconnect from the internet, put
@@ -157,7 +157,7 @@ might stop what you're doing and start working on the idea. This is
 another form of distraction!
 
 Practice tip #8 - keep a practice diary by your keyboard. When you get
-an exciting new idea, tmporarily pause your practice session, quickly
+an exciting new idea, temporarily pause your practice session, quickly
 jot the idea down, then forget about it and carry on practicing. You can
 then spend some quality time thinking about and working on your ideas
 after you've finished practicing.
@@ -165,7 +165,7 @@ after you've finished practicing.
 
 ## Bringing it all together
 
-Try to establish a practice routine which incorporates as much of these
+Try to establish a practice routine which incorporates as many of these
 ideas as possible. Try to keep the sessions as fun as possible but be
 aware that some practice sessions will be hard and feel a little like
 work. However, it will all be worth it once you've created your first
