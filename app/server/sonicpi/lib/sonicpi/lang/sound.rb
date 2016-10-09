@@ -708,8 +708,23 @@ end"
           opts:          nil,
           accepts_block: false,
           examples:      ["hz_to_midi(261.63) #=> 60.0003"]
-!
 
+
+      def set_recording_bit_depth!(d)
+        @mod_sound_studio.bit_depth = d
+        __info "Recording bit depth set to #{d}"
+      end
+      doc name:          :set_recording_bit_depth!,
+          introduced:    Version.new(2,11,0),
+          summary:       "Set the bit depth for recording wav files",
+          doc:           "When you hit the record button, Sonic Pi saves all the audio you can hear into a wav file. By default, this file uses a resolution of 16 bits which is the same as CD audio and good enough for most use cases. However, when working with professional equipment, it is common to want to work with even higher quality files such as 24 bits and even 32 bits. This function allows you to switch the default from 16 to one of 8, 16, 24 or 32.",
+          args:          [[:bit_depth, :number]],
+          opts:          nil,
+          modifies_env: true,
+          accepts_block: false,
+          examples:      [
+        "
+set_recording_bit_depth! 24                 # Set recording bit depth to 24"]
 
 
       def set_control_delta!(t)

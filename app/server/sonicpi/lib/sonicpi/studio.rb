@@ -38,7 +38,7 @@ module SonicPi
       @reboot_mutex = Mutex.new
       @rebooting = false
       @cent_tuning = 0
-
+      @sample_format = "int16"
       init_studio
       reset_server
     end
@@ -245,12 +245,27 @@ module SonicPi
       @recorders[bus]
     end
 
+    def bit_depth=(depth)
+      @sample_format = case depth
+                       when 8
+                         "int8"
+                       when 16
+                         "int16"
+                       when 24
+                         "int24"
+                       when 32
+                         "int32"
+                       else
+                         raise "Unknown recording bit depth: #{depth}.\nExpected one of 8, 16, 24 or 32."
+                       end
+    end
+
     def recording_start(path, bus=0)
       check_for_server_rebooting!(:recording_start)
       return false if @recorders[bus]
       @recording_mutex.synchronize do
         return false if @recorders[bus]
-        bs = @server.buffer_stream_open(path)
+        bs = @server.buffer_stream_open(path, 65536, 2, "wav", @sample_format)
         s = @server.trigger_synth :head, @monitor_group, "sonic-pi-recorder", {"out-buf" => bs.to_i, "in_bus" => bus.to_i}, true
         @recorders[bus] = [bs, s]
         true
