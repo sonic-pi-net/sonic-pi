@@ -48,6 +48,7 @@ protected:
   QwtPlot plot;
 };
 
+
 class ScopePanel : public ScopeBase
 {
 public:
@@ -59,6 +60,7 @@ private:
   QwtPlotCurve plot_curve;
 };
 
+
 class MultiScopePanel : public ScopeBase
 {
 public:
@@ -69,6 +71,7 @@ public:
 private:
   std::vector<std::shared_ptr<QwtPlotCurve>> curves;
 };
+
 
 class Scope : public QWidget
 {
