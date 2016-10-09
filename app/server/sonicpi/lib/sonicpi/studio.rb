@@ -39,6 +39,7 @@ module SonicPi
       @rebooting = false
       @cent_tuning = 0
       @sample_format = "int16"
+      @paused = false
       init_studio
       reset_server
     end
@@ -241,8 +242,8 @@ module SonicPi
       @server.control_delta = t
     end
 
-    def recording?(bus=0)
-      @recorders[bus]
+    def recording?
+      ! @recorders.empty?
     end
 
     def bit_depth=(depth)
@@ -289,6 +290,10 @@ module SonicPi
         p.get(5)
         bs.free
         @recorders.delete bus
+
+        # ensure nodes are all paused if we are in a paused state
+        @server.node_pause(0, true) if @paused
+
         true
       end
     end
@@ -307,13 +312,33 @@ module SonicPi
       # thread.
       @reboot_mutex.synchronize do
         @rebooting = true
-        message "Rebooting server. Please wait..."
+        message "Rebooting audio server. Please wait..."
         @server.shutdown
         init_studio
         reset_server
-        message "Server ready."
+        message "Audio server ready."
         @rebooting = false
         true
+      end
+    end
+
+    def pause
+      @recording_mutex.synchronize do
+        unless recording? || @paused
+          @server.node_pause(0, true)
+          message "Pausing audio server"
+        end
+        @paused = true
+      end
+    end
+
+    def start
+      @recording_mutex.synchronize do
+        if @paused
+          @server.node_run(0, true)
+          message "Resuming audio server"
+        end
+        @paused = false
       end
     end
 

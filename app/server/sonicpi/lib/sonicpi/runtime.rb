@@ -801,6 +801,7 @@ module SonicPi
         unless @user_jobs.any_jobs_running?
           __info "All runs completed"
           @msg_queue.push({type: :all_jobs_completed})
+          @life_hooks.all_completed
         end
 
         @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})

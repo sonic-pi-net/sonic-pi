@@ -21,6 +21,7 @@ module SonicPi
       @completed_blocks = []
       @killed_blocks = []
       @exited_blocks = []
+      @all_completed_blocks = []
       @mut = Mutex.new
     end
 
@@ -48,6 +49,12 @@ module SonicPi
       end
     end
 
+    def on_all_completed(&blck)
+      @mut.synchronize do
+        @all_completed_blocks << blck
+      end
+    end
+
     def init(job_id, arg={})
       @started_blocks.each do |b|
         b.call(job_id, arg)
@@ -57,6 +64,12 @@ module SonicPi
     def completed(job_id, arg={})
       @completed_blocks.each do |b|
         b.call(job_id, arg)
+      end
+    end
+
+    def all_completed
+      @all_completed_blocks.each do |b|
+        b.call
       end
     end
 
