@@ -4347,6 +4347,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           sustain = duration - (attack + decay + release)
           args[:sustain] = [0, sustain].max
+          args.delete :duration
         end
       end
 
