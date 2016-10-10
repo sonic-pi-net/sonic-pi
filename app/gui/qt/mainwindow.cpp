@@ -104,7 +104,6 @@ using namespace oscpkt;// OS specific stuff
 #if QT_VERSION >= 0x050400
 // Requires Qt5
   #include <QWindow>
-  #include <QAudioDeviceInfo>
 #endif
 
 #include "mainwindow.h"
@@ -223,15 +222,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
 
   // Wait to hear back from the server before continuing
-  // Requires Qt5
-#if QT_VERSION >= 0x050400
-
-  QAudioDeviceInfo in_info(QAudioDeviceInfo::defaultInputDevice());
-  QAudioDeviceInfo out_info(QAudioDeviceInfo::defaultOutputDevice());
-
-  std::cout << "[GUI] - detected audio input: "  << in_info.deviceName().toStdString() << std::endl;
-  std::cout << "[GUI] - detected audio output: "  << out_info.deviceName().toStdString() << std::endl;
-#endif
   startRubyServer();
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...

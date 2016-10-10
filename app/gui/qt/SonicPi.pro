@@ -22,7 +22,7 @@ CONFIG += qscintilla2 qwt c++11
 
 QT += core gui concurrent network
 greaterThan(QT_MAJOR_VERSION, 4) {
-  QT += widgets multimedia opengl
+  QT += widgets opengl
 }
 
 
