@@ -39,6 +39,7 @@ module SonicPi
       @mock_sound.stubs(:__delayed_user_message).returns(true)
       @mock_sound.stubs(:sample_find_candidates).returns(["/foo/bar.wav"])
       @mock_sound.stubs(:load_sample_at_path).returns(OpenStruct.new({id: 42, num_chans: 2}))
+      @mock_sound.stubs(:__delayed_message).returns(true)
       @info = Synths::SynthInfo.get_info(:stereo_player)
     end
 

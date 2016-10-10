@@ -2813,6 +2813,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
         args_h = tls.merge(args_h)
 
         if filts_and_sources.size == 0
+          __delayed_message "sample #{filts_and_sources.inspect}\n           - no match found, skipping."
           if args_h.has_key?(:path)
             # handle case where sample receives only opts
             path = resolve_sample_path([args_h.delete(:path)])

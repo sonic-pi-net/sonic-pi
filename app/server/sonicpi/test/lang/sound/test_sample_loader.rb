@@ -113,6 +113,11 @@ module SonicPi
       assert_equal([], filts)
     end
 
+    def test_nil
+      res = @loader.find_candidates([nil])
+      assert_equal([], res)
+    end
+
     def test_single_builtin_symbol
       res = @loader.find_candidates([:beans])
       assert_equal(res, ["#{@fake_built_in_sample_dir}/beans.flac"])

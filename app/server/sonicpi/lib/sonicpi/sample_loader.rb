@@ -30,8 +30,10 @@ module SonicPi
     end
 
     def find_candidates(filts_and_sources)
-      return [] if filts_and_sources.empty?
       filts_and_sources.flatten!
+      filts_and_sources.compact!
+
+      return [] if filts_and_sources.empty?
 
       res = @cached_candidates[filts_and_sources]
       return res if res
