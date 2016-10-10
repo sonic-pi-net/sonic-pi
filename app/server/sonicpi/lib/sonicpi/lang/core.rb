@@ -1032,8 +1032,12 @@ end"
 
 
 
-      def choose(args)
-        args.to_a.choose
+      def choose(args=nil)
+        if args
+          args.to_a.choose
+        else
+          return lambda{|col| col.choose}
+        end
       end
       doc name:           :choose,
           introduced:     Version.new(2,0,0),
@@ -1041,14 +1045,24 @@ end"
           args:           [[:list, :array]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Choose an element at random from a list (array).",
+          doc:            "Choose an element at random from a list (array).
+
+If no arguments are given, will return a lambda function which wnen called takes an argument which will be a list to be chosn from. This is useful for choosing random `onset:` vals for samples
+
+Always returns a single element (or nil)" ,
          examples:       ["
   loop do
     play choose([60, 64, 67]) #=> plays one of 60, 64 or 67 at random
     sleep 1
     play chord(:c, :major).choose #=> You can also call .choose on the list
     sleep 1
-  end"]
+  end",
+"
+# Using choose for random sample onsets
+live_loop :foo do
+  sample :loop_amen, onset: choose   # choose a random onset value each time
+  sleep 0.125
+end"]
 
 
 
