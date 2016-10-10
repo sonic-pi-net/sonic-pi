@@ -1,5 +1,5 @@
 # History
-* [v2.10 'Threadsafe'](#v2.11), To be released
+* [v2.11 'Threadsafe'](#v2.11), To be released
 * [v2.10 'Cowbell'](#v2.10), 15th April, 2016
 * [v2.9 'Venster'](#v2.9), 31st Dec, 2015
 * [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
@@ -48,12 +48,12 @@ new `sound_in*` synths for systems that have audio in. This opens up the
 possibility to use Sonic Pi as an FX unit for vocals, guitars and any
 other audio source.
 
-Another exciting feature is the new new sample opt `onset:` - which
-let's you play a specific percussive part of a sample. This uses an
-automatic onset detection algorithm to determine all the the points in
-the sample that go from quiet to loud quickly. For example, this allows
-you to take a complex drum sample and to trigger each of the individual
-drums in your own order and to your own timing.
+Another exciting new feature is the sample opt `onset:` - which lets you
+play a specific percussive part of a sample. This uses an automatic
+onset detection algorithm to determine all the the points in the sample
+that go from quiet to loud quickly. For example, this allows you to take
+a complex drum sample and to trigger each of the individual drums in
+your own order and to your own timing.
 
 Finally, translations are now crowd-sourced and small or large
 contributions for any language can be made here:
@@ -63,7 +63,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 
 
 ### Breaking Changes
-
+ 
 * `sample` now supports the opt `path:` which enables the sample's path
   to be overridden.
 * `use_sample_pack` is now deprecated and no longer available. Consider
@@ -74,7 +74,10 @@ effort. Thanks to Hanno Zulla for making this possible.
   `Object#inspect` by default)
 * `load_sample` now only loads the first matched sample. `load_samples`
   now loads all matched samples.
-* Remove SupeCollider server auto-boot system.
+* Remove SuperCollider server automatic reboot system as it was badly
+  conflicting with machines that went into a 'sleep state' (for example,
+  when a laptop is closed). The fn `reboot` is still supported and may
+  still be triggered manually if required.
 * Calls to `play`, `synth` and `sample` now consume all their arguments
   before testing to see if the synth should be triggered. This ensures
   all declared rands are consumed. This change might therefore
@@ -85,6 +88,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 
 
 ### New Fns
+
 * `reset` - resets the user's thread locals (such as ticks and rand
   stream index) to the snapshot of the state as recorded at the start of
   the current thread.
@@ -99,7 +103,15 @@ effort. Thanks to Hanno Zulla for making this possible.
   current buffer.
 * `run_code` - Runs the contents of the specified string as if it was in
   the current buffer.
-* Numeric#clamp - max and minimum bound (will clamp self to a value <= other and >= -1*other
+* `Numeric#clamp` - max and minimum bound (will clamp self to a value <=
+  other and >= -1*other
+* `set_recording_bit_depth!` - set the bit depth for WAV files generated
+  by recording the audio. Default is 16 bits, and can now be set to one
+  of 8, 16, 24 and 32. Larger bit depths will result in better quality
+  audio files but also much larger file sizes for the same duration.
+* `scsynth_info` - obtain information about the running audio synthesis
+  server SuperCollider such as the number of available busses and
+  buffers.
 
 
 ### Synths & FX
@@ -176,6 +188,8 @@ effort. Thanks to Hanno Zulla for making this possible.
 * `pick` now returns a lambda if no list is given as the first argument
   (which makes it useful for using with sample's `onset:` and `slice:`
   opts.
+* Audio server is now paused when app is not in use - reducing CPU load
+  and battery consumption.
 
 
 ### Bugfixes
@@ -184,10 +198,10 @@ effort. Thanks to Hanno Zulla for making this possible.
   reduced to 10.674 seconds).
 * Enforce UTF-8 encoding of all incoming text.
 * Fix `:reverb` FX's `mix:` opt to ensure it's in the range 0 to 1.
-* `sample nil`` now no longer plays a sample - it was incorrectly
+* `sample nil` now no longer plays a sample - it was incorrectly
   defaulting to the first built-in sample (`:ambi_choir`)
-  * `pick`'s `skip:` opt now works as expected: `pick(5).drop(1) == pick(5, skip: 1)`
-
+* `pick`'s `skip:` opt now works as expected: `pick(5).drop(1) == pick(5, skip: 1)`
+* `sample` now prints a 'no sample found' message with both `sample nil` and `sample []` ratehr than incorrectly playing the first built-in wav file.  
 
 
 <a name="v2.10"></a>
