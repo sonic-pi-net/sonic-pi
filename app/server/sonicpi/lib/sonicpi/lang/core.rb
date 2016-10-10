@@ -1102,7 +1102,9 @@ end"]
 
 If `n` isn't supplied it defaults to the size of the list/ring.
 
-If no arguments are given, will return a lambda function which when called takes an argument which will be a list to be picked from. This is useful for choosing random `onset:` vals for samples.",
+If no arguments are given, will return a lambda function which when called takes an argument which will be a list to be picked from. This is useful for choosing random `onset:` vals for samples.
+
+Always returns a list-like thing (either an array or ring)",
          examples:       ["
 puts [1, 2, 3, 4, 5].pick(3) #=> [4, 4, 3]",
 "
@@ -1111,7 +1113,14 @@ puts (ring 1, 2, 3, 4, 5).pick(3) #=> (ring 4, 4, 3)",
 "
 puts (ring 1, 2).pick(5) #=> (ring 2, 2, 1, 1, 1)",
 "
-puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)"
+puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)",
+"
+# Using pick for random sample onsets
+live_loop :foo do
+  sample :loop_amen, onset: pick   # pick a random onset value each time
+  sleep 0.125
+end"
+
       ]
 
 
