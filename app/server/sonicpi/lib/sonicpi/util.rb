@@ -341,6 +341,7 @@ module SonicPi
     end
 
     def log_process_info(s)
+      puts s
       if @@process_log_file
         @@process_log_file.puts s
         @@process_log_file.flush

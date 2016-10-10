@@ -326,6 +326,10 @@ module SonicPi
       __system_thread_locals.get(:sonic_pi_spider_time) - __system_thread_locals.get(:sonic_pi_spider_start_time)
     end
 
+    def __current_sched_at_time
+      __system_thread_locals.get(:sonic_pi_spider_time) + @mod_sound_studio.sched_ahead_time
+    end
+
     def __current_thread_name
       __system_thread_locals.get(:sonic_pi_local_spider_users_thread_name) || ""
     end

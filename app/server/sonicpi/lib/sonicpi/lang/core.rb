@@ -987,6 +987,26 @@ end"
 
 
 
+      def map(*args)
+        SonicPi::Core::SPMap.new(*args)
+      end
+      doc name:           :map,
+          introduced:     Version.new(2,11,0),
+          summary:        "Create an immutable map",
+          args:           [[:list, :array]],
+          returns:        :map,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Create a new immutable key/value map from args. ",
+          examples:       [
+        "(map foo: 1, bar: 2)[:foo] #=> 1",
+        "(map foo: 1, bar: 2)[:bar] #=> 2",
+        "(map foo: 1, bar: 2)[:quux] #=> nil",
+      ]
+
+
+
+
 
       def ramp(*args)
         SonicPi::Core::RampVector.new(args)

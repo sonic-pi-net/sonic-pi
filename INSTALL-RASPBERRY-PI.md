@@ -10,14 +10,26 @@ First grab the dependencies, compile the server extensions, then the GUI then st
 
 The dependencies for building and running this are:
 
-* `supercollider`
-* `ruby1.9.3`
+Building:
+
+* qtbase5-dev-tools
+* qttools5-dev-tools
+* qt5-default
+* libqt5svg5
+
+
+Running:
+
+* `supercollider-server`
+* `ruby2.1`
 * `libqscintilla2-8`
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
 * `cmake`
 * `ruby-dev`
 * `libffi-dev`
+
+* 
 
 Use `sudo apt-get install` to ensure each of these are on your system.
 
