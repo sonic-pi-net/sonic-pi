@@ -4453,7 +4453,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         normalise_args!(args_h, defaults)
         calculate_sustain!(args_h)
         scale_time_args_to_bpm!(args_h, info, true) if info && __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
->>>>>>> 87d9e32d15686503d300785d1fa3192892526811
 
         args_h
       end
