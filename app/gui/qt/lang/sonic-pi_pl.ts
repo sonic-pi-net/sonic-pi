@@ -65,8 +65,9 @@ używanymi podczas występów na scenie z Sonic Pi.</translation>
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Włącz lub wyłącz odwrócone stereo.
-Jeśli jest włączone, dźwięk wysyłany do lewego głośnika 
-zostanie wysłany do prawego i vice versa.</translation>
+Włączenie spowoduje, że dźwięk wysyłany 
+do lewego głośnika zostanie wysłany 
+do prawego i na odwrót.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="995"/>
@@ -76,10 +77,11 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Włącza i wyłącza tryb mono.
-Jeśli jest włączony, to oba kanały (lewy i prawy) są wymieszane i 
-na oba głośniki zostaje wysłany taki sam sygnał.
-Bardzo przydatne podczas pracy z zewnętrznymi systemami 
-audio, które potrafią obsługiwać tylko dźwięk mono.</translation>
+Włączenie spowoduje, że oba kanały (lewy i prawy) 
+zostaną połączone i na oba głośniki zostanie wysłany 
+taki sam sygnał. Bardzo przydatne podczas pracy 
+z zewnętrznymi systemami audio, które potrafią 
+obsługiwać tylko dźwięk mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
@@ -92,8 +94,8 @@ audio, które potrafią obsługiwać tylko dźwięk mono.</translation>
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
         <translation>Włącza lub wyłącza funkcje sprawdzające argumenty syntezatorów.
-Jeśli nie jest włączona, pewne opcje syntezatorów mogą
-spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu.</translation>
+Wyłączenie spowoduje, że pewne opcje syntezatorów mogą
+wywołać dźwięki o niespodziewanej głośności lub nieprzyjemnym brzmieniu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2635"/>
@@ -264,8 +266,8 @@ aby syntezatory i efekty, ładowane za pomocą
 polecenia load_synthdefs, mogły 
 być uruchamiane.
 
-Gdy opcja jest wyłączona, Sonic Pi będzie 
-wyświetlał komunikat o błędzie, gdy spróbujesz 
+Gdy opcja jest wyłączona, Sonic Pi wyświetli
+komunikat o błędzie, jeśli spróbujesz 
 użyć syntezatora lub efektu, którego nie 
 potrafi rozpoznać.</translation>
     </message>
@@ -469,7 +471,7 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation>Włącz lub wyłącz widoczność osi dla oscyloskopów audio</translation>
+        <translation>Pokaż/schowaj osie oscyloskopów audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -479,7 +481,7 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
         <source>Run the code in the current buffer</source>
-        <translation>Uruchom kod w aktualnym buforze</translation>
+        <translation>Uruchom kod znajdujący się w aktualnym buforze</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -504,7 +506,7 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Show and Hide Scope</source>
-        <translation>Pokaż lub Schowaj Skalę</translation>
+        <translation>Pokaż/ukryj Oscyloskopy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1194"/>
@@ -514,12 +516,12 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Show Scopes</source>
-        <translation>Pokaż Skale</translation>
+        <translation>Pokaż Oscyloskopy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>Włącz lub wyłącz widoczność oscyloskopów audio.</translation>
+        <translation>Pokaż/schowaj oscyloskopy audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1212"/>
@@ -721,7 +723,7 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2597"/>
         <source>Stop all running code</source>
-        <translation>Zatrzymuje jakikolwiek kod, który jest aktualnie uruchomiony</translation>
+        <translation>Zatrzymaj uruchomiony aktualnie kod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2600"/>
@@ -731,7 +733,8 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2601"/>
         <source>Save current buffer as an external file</source>
-        <translation>Zapisz aktualny bufor jako zewnętrzny plik</translation>
+        <translation>Zapisz zawartość aktualnego buforu 
+do zewnętrznego pliku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
@@ -741,8 +744,8 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Załaduj do aktualnego buforu plik, który 
-znajduje się na dysku Twojego komputera</translation>
+        <translation>Wczytaj zawartość pliku znajdującego się 
+na twoim komputerze do aktualnego buforu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
@@ -752,7 +755,7 @@ znajduje się na dysku Twojego komputera</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2640"/>
         <source>See information about Sonic Pi</source>
-        <translation>Zobacz informacje o Sonic Pi</translation>
+        <translation>Pokaż informacje dotyczące Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
@@ -769,7 +772,7 @@ znajduje się na dysku Twojego komputera</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2613"/>
         <source>Start recording to WAV audio file</source>
-        <translation>Uruchamiana nagrywanie dźwięku do pliku WAV</translation>
+        <translation>Rozpocznij nagrywanie dźwięku do pliku WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2617"/>
@@ -784,22 +787,22 @@ znajduje się na dysku Twojego komputera</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2621"/>
         <source>Increase Text Size</source>
-        <translation>Zwiększa Wielkość Tekstu</translation>
+        <translation>Zwiększ rozmiar tekstu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation>Włącz lub wyłącz widoczność panelu pomocy</translation>
+        <translation>Pokaż/schowaj panel pomocy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2650"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation>Włącz lub wyłącz widoczność panelu preferencji</translation>
+        <translation>Pokaż/schowaj ustawienia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
         <source>Decrease Text Size</source>
-        <translation>Zmniejsza Wielkość Tekstu</translation>
+        <translation>Zmniejsz rozmiar tekstu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
@@ -814,7 +817,7 @@ znajduje się na dysku Twojego komputera</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation>Włącz lub wyłącz widoczność oscyloskopów audio. </translation>
+        <translation>Pokaż/schowaj oscyloskopy audio. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
