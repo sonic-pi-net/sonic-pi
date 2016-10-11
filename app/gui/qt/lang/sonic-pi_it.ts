@@ -250,7 +250,9 @@ creare suoni spiacevoli e rumori forti e inaspettati.</translation>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il tuo Raspberry Pi ha due tipi di uscite audio.
+La prima, un suo jack integrato per le cuffie.
+La seconda, una porta HDMI a cui collegare monitor, tv o supporti audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
@@ -260,7 +262,7 @@ Use these buttons to force the output to the one you want.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuffie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1003"/>
@@ -571,7 +573,7 @@ Siamo spiacenti, si è verificato un errore durante l'avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta visibilità oscilloscopi audio. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
