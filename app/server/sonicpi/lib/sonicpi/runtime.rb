@@ -305,8 +305,8 @@ module SonicPi
 
         # TODO: Remove this hack when we have projects
         w = info[:workspace]
-
-        w = "buffer " + w[0..10]
+        w = normalise_buffer_name(w)
+        w = "buffer " + w
         # TODO: end of hack
 
         res = res + "[#{w}, line #{line}]"
@@ -765,7 +765,8 @@ module SonicPi
 
               # TODO: Remove this hack when we have projects
               w = info[:workspace]
-              w = "buffer " + w[10..-1]
+              w = normalise_buffer_name(w)
+              w = "buffer #{w}"
               # TODO: end of hack
 
               err_msg = "[#{w}, line #{line}] \n #{message}"
@@ -961,6 +962,35 @@ module SonicPi
       source = source << "\n" unless source.end_with? "\n"
       RBeautify.beautify_string :ruby, source
     end
+
+    def normalise_buffer_name(name)
+      norm = case name
+             when "workspace_zero"
+               "3"
+             when "workspace_one"
+               "1"
+             when "workspace_two"
+               "2"
+             when "workspace_three"
+               "3"
+             when "workspace_four"
+               "4"
+             when "workspace_five"
+               "5"
+             when "workspace_six"
+               "6"
+             when "workspace_seven"
+               "7"
+             when "workspace_eight"
+               "8"
+             when "workspace_nine"
+               "9"
+             else
+               name
+             end
+      return norm
+    end
+
 
 
   end
