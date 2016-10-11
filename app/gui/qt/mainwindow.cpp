@@ -552,6 +552,7 @@ void MainWindow::setupWindowStructure() {
   mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
   mainWidgetLayout->addWidget(errorPane);
+  mainWidgetLayout->setMargin(0);
   mainWidget = new QWidget;
   mainWidget->setFocusPolicy(Qt::NoFocus);
   errorPane->hide();
@@ -580,7 +581,6 @@ void MainWindow::toggleFullScreenMode() {
 
 void MainWindow::updateFullScreenMode(){
   if (full_screen->isChecked()) {
-    mainWidgetLayout->setMargin(0);
     outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
     int currentScreen = QApplication::desktop()->screenNumber(this);
@@ -595,7 +595,6 @@ void MainWindow::updateFullScreenMode(){
     this->show();
   }
   else {
-    mainWidgetLayout->setMargin(9);
     outputWidget->setTitleBarWidget(outputWidgetTitle);
     this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
 #ifdef Q_OS_WIN
@@ -2214,6 +2213,11 @@ void MainWindow::updateDarkMode(){
     "}"
     ""
     "QCheckBox{"
+    "  color: %1;"
+    "  background: %2;"
+    "}"
+    ""
+    "QRadioButton{"
     "  color: %1;"
     "  background: %2;"
     "}"
