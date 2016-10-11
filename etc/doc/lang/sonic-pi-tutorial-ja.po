@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-07 09:40+0000\n"
+"PO-Revision-Date: 2016-10-11 09:55+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -10170,9 +10170,9 @@ msgid ""
 "ugh to more recent electronic artists such as Plastikman, Squarepusher and Aph"
 "ex Twin."
 msgstr ""
-"エレクトロニック・ダンス音楽の歴史を俯瞰する上で、ローランドTB-303の多大な影響を無視することは出来ないでしょう。それはアシッドベースサウンドの秘伝の"
-"タレであると言えます。古典的なTB-303のベースリフは、初期のシカゴハウスのシーンからPlastikman, SquarepusherやAphex "
-"Twinといったより最近のエレクトロニックアーティストで聞くことができるでしょう。"
+"エレクトロニック・ダンス・ミュージックの歴史を俯瞰する上で、ローランドTB-303の多大な影響を無視することは出来ないでしょう。それはアシッドベースサウン"
+"ドの秘伝のタレであると言えます。古典的なTB-303のベースリフは、初期のシカゴハウスのシーンからPlastikman, "
+"SquarepusherやAphex Twinといったより最近の電子音楽のアーティストで聞くことができるでしょう。"
 
 #: A.05-acid-bass.md:12
 msgid ""
@@ -10188,6 +10188,12 @@ msgid ""
 "rs who started using them in ways that Roland didn't imagine to create new cra"
 "zy sounds. Acid House was born."
 msgstr ""
+"興味深いことに、ローランドはTB-303をダンスミュージックで使うことを全く意図していませんでした。それは元々ギタリストの練習の補助として作られ、一緒にジ"
+"ャムセッションする際のベースラインを演奏するのにプログラムされるだろうと思われていました。しかし残念なことに、TB-303には多くの問題がありました。プロ"
+"グラムするのが少し厄介であったり、ベースの代わりとしてはそれ程良い音がしなかったこと、そして購入するのにかなり高かったことがあります。ローランドは利益の損"
+"失を削減するために、TB-303が10,000個売れた後で、製造を中止することにしました。そして、ギタリストの棚に数年置かれていた後に、中古ショップのウィ"
+"ンドウで見かけることになりました。これらの寂しく捨てられたTB-303は、ローランドが想像もしなかった方法でクレイジーなサウンドを作り出す新しい時代の実験"
+"的なアーティストによって発見されるのを待つことになったのです。そしてアシッドハウスは生まれたのです。"
 
 #: A.05-acid-bass.md:25
 msgid ""
@@ -10196,6 +10202,9 @@ msgid ""
 " Sonic Pi. Behold, fire up Sonic Pi and throw this code into an empty buffer a"
 "nd hit Run:"
 msgstr ""
+"オリジナルのTB-303を入手するのはとても困難ですが、Sonic Piの力でRaspberry "
+"PiをTB-303にすることが出来るのです。よく見ていてください。Sonic "
+"Piを起動して、空のBufferに以下のコードを打ち込んで、`Run`を打ってください。"
 
 #: A.05-acid-bass.md:30
 #, no-wrap
@@ -10208,11 +10217,12 @@ msgstr ""
 
 #: A.05-acid-bass.md:35
 msgid "Instant acid bass! Let's play around..."
-msgstr ""
+msgstr "とても簡単なアシッドベースですね！これで遊んでみましょう..."
 
 #: A.05-acid-bass.md:37
+#, fuzzy
 msgid "Squelch that Bass"
-msgstr ""
+msgstr "ベースをスケルチさせる"
 
 #: A.05-acid-bass.md:39
 msgid ""
@@ -10221,6 +10231,8 @@ msgid ""
 "fter another, repeating when we get to the end. Let's create a live loop that "
 "does exactly that:"
 msgstr ""
+"最初に、音が面白くなるようにライブ・アルペジエーターを作ってみましょう。前回のチュートリアルで、リフが音符のリングで実現できるのを見ました。リングは、要素"
+"を次々と進めて行って（チックして）、末尾に達すると先頭に戻って繰り返します。それと同じことを実行するライブループを作ってみましょう。"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
@@ -10241,19 +10253,19 @@ msgstr ""
 
 #: A.05-acid-bass.md:53
 msgid "Take a look at each line."
-msgstr ""
+msgstr "一行ごとに見て行きましょう。"
 
 #: A.05-acid-bass.md:55
 msgid ""
 "On the first line we set the default synth to be `tb303` with the `use_synth` "
 "fn."
-msgstr ""
+msgstr "最初の行では、`use_synth`関数でデフォルトのシンセを`tb303`に設定しています。"
 
 #: A.05-acid-bass.md:58
 msgid ""
 "On line two we create a live loop called `:squelch` which will just loop round"
 " and round."
-msgstr ""
+msgstr "2行目では、`:squelch`という名前のライブループを作って、単純にループを繰り返しています。"
 
 #: A.05-acid-bass.md:61
 msgid ""
