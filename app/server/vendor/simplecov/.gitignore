@@ -1,0 +1,31 @@
+.bundle
+Gemfile.lock
+gemfiles/*.lock
+
+## MAC OS
+.DS_Store
+.document
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+
+## PROJECT::GENERAL
+coverage
+rdoc
+pkg
+tmp
+capybara*.html
+.rvmrc
+
+## PROJECT::SPECIFIC
+
+.yardoc

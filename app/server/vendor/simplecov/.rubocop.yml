@@ -1,0 +1,77 @@
+AllCops:
+  Exclude:
+    - 'spec/fixtures/iso-8859.rb'
+    - 'tmp/**/*'
+    - 'vendor/bundle/**/*'
+
+Lint/AmbiguousRegexpLiteral:
+  Exclude:
+    - 'features/**/*_steps.rb'
+    - 'spec/**/*_steps.rb'
+    - 'tmp/**/*_steps.rb'
+
+Metrics/AbcSize:
+  Max: 25 # TODO: Lower to 15
+
+Metrics/BlockNesting:
+  Max: 2
+
+Metrics/LineLength:
+  AllowURI: true
+  Enabled: false
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 12 # TODO: Lower to 10
+
+Metrics/ParameterLists:
+  Max: 4
+  CountKeywordArgs: true
+
+Style/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Style/CollectionMethods:
+  PreferredMethods:
+    map:      'collect'
+    reduce:   'inject'
+    find:     'detect'
+    find_all: 'select'
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Style/SpecialGlobalVars:
+  Exclude:
+    - 'spec/deleted_source_spec.rb'
+    - 'spec/return_codes_spec.rb'
+    - 'lib/simplecov/defaults.rb'
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/FileName:
+  Exclude:
+    - 'spec/fixtures/utf-8.rb'
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/GuardClause:
+  Enabled: false
+
+Style/MutableConstant:
+  Exclude:
+    - 'lib/simplecov/version.rb' # required for older versions of rubygems

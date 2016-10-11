@@ -1,0 +1,13 @@
+<%
+rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
+rerun_opts = rerun.to_s.strip.empty? ? "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} features" : "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} #{rerun}"
+std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} --strict --tags ~@wip"
+interp_opts = if defined?(RUBY_ENGINE)
+  " --tags ~@exclude-#{RUBY_ENGINE}"
+else
+  ''
+end
+%>
+default: <%= std_opts %><%= interp_opts %> features
+wip: --tags @wip:30 --wip features<%= interp_opts %>
+rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags ~@wip<%= interp_opts %>

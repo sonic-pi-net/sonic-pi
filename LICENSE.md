@@ -1,6 +1,6 @@
 # License
 
-## Main Source 
+## Main Source
 (contents of [app/](https://github.com/samaaron/sonic-pi/tree/master/app) and [etc/synthdefs/](https://github.com/samaaron/sonic-pi/tree/master/etc/synthdefs) directories)
 
 The MIT License (MIT)
@@ -30,7 +30,7 @@ As the Sonic Pi GUI links with GPLv3-licensed software distributors of
 Sonic Pi GUI binaries must comply with the terms of the GPL
 
 
-## Docs, Tutorial and Examples 
+## Docs, Tutorial and Examples
 (contents of [etc/doc/](https://github.com/samaaron/sonic-pi/tree/master/etc/doc) and [etc/examples](https://github.com/samaaron/sonic-pi/tree/master/etc/examples) directories)
 
 All the examples (in
@@ -113,7 +113,7 @@ relevant licenses:
 * [Metaclass](https://github.com/floehopper/metaclass) - [MIT License](http://opensource.org/licenses/MIT)
 * [Sys Proctable](https://github.com/djberg96/sys-proctable) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [fast_osc](http://github.com/xavriley/fast_osc) - [MIT License](http://opensource.org/licenses/MIT)
-
+* [SimpleCov](https://github.com/colszowka/simplecov) - [MIT License](http://opensource.org/licenses/MIT)
 
 ### Dynamically Linked Libraries for Server
 * [Aubio](http://aubio.org) - [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html)

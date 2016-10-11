@@ -1,5 +1,6 @@
 # encoding: utf-8
 require_relative './test/setup_test.rb'
+require_relative "../core"
 require 'rake'
 
 require 'rake/testtask'
@@ -9,4 +10,9 @@ Rake::TestTask.new do |t|
   t.libs << 'test'
   t.pattern = 'test/**/test_*.rb'
   t.verbose = true
+end
+
+task :coverage do
+  ENV['COVERAGE'] = 'true'
+  Rake::Task['test'].execute
 end

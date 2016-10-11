@@ -111,3 +111,7 @@ book/
 
 etc/doc/lang/sonic-pi-tutorial.pot
 etc/doc/generated/
+
+## Coverage report files
+
+app/server/sonicpi/coverage/
