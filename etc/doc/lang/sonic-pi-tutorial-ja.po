@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-11 09:55+0000\n"
+"PO-Revision-Date: 2016-10-12 10:00+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -10277,6 +10277,10 @@ msgid ""
 "t will be `:e2`, followed by `:e3`, and then back to `:e1`, cycling round fore"
 "ver."
 msgstr ""
+"3行目ではリフを作っています。1, 2, 3番目のオクターブのEからなる音符のリングを`.tick`で単純に進めて行っています。リフの現在の音符を示すのに"
+"`n`を定義しています。等号は、単に右の値を左の名前に割り当てることを意味しています。この値はループが繰り返される度に異なります。最初の繰り返しでは、`n"
+"`は`:e1`に設定されています。二回目の繰り返しでは`:e2`になり、その次は`:e3`です。そして、その次には`:e1`に戻って、永遠に繰り返し循環し"
+"ています。"
 
 #: A.05-acid-bass.md:70
 msgid ""
@@ -10284,18 +10288,20 @@ msgid ""
 " interesting opts here: `release:`, `cutoff:`, `res:` and `wave:` which we'll "
 "discuss below."
 msgstr ""
+"4行目では、実際に`:tb303`シンセをトリガーしています。ここで、いくつか興味深いオプションを渡しています。`release:`, `cutoff:`"
+", `res:`と`wave:`です。これらについては、この後議論します。"
 
 #: A.05-acid-bass.md:74
 msgid ""
 "Line five is our `sleep` - we're asking the live loop to loop round every `0.1"
 "25`s or 8 times a second at the default BPM of 60."
-msgstr ""
+msgstr "5行目は`sleep`です。デフォルトBPMの60で、`0.125`秒毎または1秒間に8回ライブループを繰り返すよう指示しています。"
 
 #: A.05-acid-bass.md:77
 msgid ""
 "Line six is the `end` to the live loop. This just tells Sonic Pi where the end"
 " of the live loop is."
-msgstr ""
+msgstr "6行目はライブループの`end`です。これは単にSonic Piにライブループの終わりの箇所を示しています。"
 
 #: A.05-acid-bass.md:80
 msgid ""
@@ -10303,6 +10309,8 @@ msgid ""
 "it the Run button. You should hear the `:tb303` kick into action. Now, this is"
 " where the action is: let's start live coding."
 msgstr ""
+"このコードで何が起きているか思い描いている途中かもしれませんが、上記のコードをタイプして`Run`ボタンを叩いてみてください。`:tb303`が動作し始め"
+"るのを聞くことができるでしょう。では、ライブコーディングを始めましょう。"
 
 #: A.05-acid-bass.md:84
 msgid ""
@@ -10313,6 +10321,10 @@ msgid ""
 "ou feel like a rest. Then repeat as many times as you want. Don't worry, I'll "
 "still be here..."
 msgstr ""
+"ライブループが動作している最中に、`cutoff:`オプションを`110`に変更して、`Run`ボタンを再度叩いてみてください。音がざらついて押しつぶされ"
+"たように聞こえると思います。次に`120`に変更して`Run`を叩いてみてください。更に`130`はどうでしょう。より大きなカットオフの値が、よりけたたま"
+"しく激しい音にしているのを聞くことができるでしょう。最後に、休みたくなったら`80`にしてみましょう。これらを好きなだけ繰り返してみてください。心配しない"
+"で。私はずっとここに居ますよ…"
 
 #: A.05-acid-bass.md:91
 msgid ""
