@@ -2391,7 +2391,7 @@ puts current_arg_checks # Print out the current arg check setting"]
 
 
 
-      def set_volume!(vol)
+      def set_volume!(vol, now=false)
         max_vol = 5
         if (vol > max_vol)
           new_vol = max_vol
@@ -2400,7 +2400,7 @@ puts current_arg_checks # Print out the current arg check setting"]
         else
           new_vol = vol
         end
-        @mod_sound_studio.volume = new_vol
+        @mod_sound_studio.set_volume new_vol, now
       end
       doc name:          :set_volume!,
           introduced:    Version.new(2,0,0),
