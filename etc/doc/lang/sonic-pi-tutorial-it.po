@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-06 14:21+0000\n"
-"Last-Translator: Matthieu Ottaviani <matthieuottaviani@gmail.com>\n"
+"PO-Revision-Date: 2016-10-12 09:10+0000\n"
+"Last-Translator: Diego Gurnari <gurnari.dev@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -14365,8 +14365,9 @@ msgid ""
 msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:65
+#, fuzzy
 msgid "Changing Probabilities"
-msgstr ""
+msgstr "Cambiare Probabilità"
 
 #: A.13-probabilistic-sequencer.md:67
 #, fuzzy
@@ -14403,8 +14404,9 @@ msgid ""
 msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:91
+#, fuzzy
 msgid "Combining Probabilities"
-msgstr ""
+msgstr "Combinazione Probabilità"
 
 #: A.13-probabilistic-sequencer.md:93
 #, fuzzy
@@ -14467,11 +14469,15 @@ msgid ""
 msgstr "one_in"
 
 #: A.13-probabilistic-sequencer.md:133
+#, fuzzy
 msgid ""
 "One thing I tend to do with this kind of structure is to remember which seeds "
 "sound good and make a note of them. That way I can easily re-create my rhythms"
 " in future practice sessions or performances."
 msgstr ""
+"Una cosa che tendo a fare con questo tipo di struttura è ricordare quali "
+"semi suonano bene per farne delle note. Questo per poter ricreare facilmente "
+"le mie sequenze nelle sessioni future."
 
 #: A.13-probabilistic-sequencer.md:139
 #, fuzzy
@@ -14599,11 +14605,16 @@ msgid ""
 msgstr "Durata"
 
 #: A.14-amplitude-modulation.md:58
+#, fuzzy
 msgid ""
 "Phase duration is the length of time for one on/off cycle. Therefore smaller v"
 "alues will make the FX switch on and off much faster than larger values. Good "
 "values to start playing with are `0.125`, `0.25`, `0.5` and `1`."
 msgstr ""
+"La durata di una fase corrisponde alla durata del tempo per un ciclo on/off. "
+"Pertanto valori più piccoli porteranno ad un passaggio molto più veloce da "
+"on a off rispetto a valori più grandi. Dei buoni valori di partenza sono "
+"`0.125`, `0.25`, `0.5` e `1`."
 
 #: A.14-amplitude-modulation.md:64
 msgid "Control Waves"
@@ -14663,7 +14674,7 @@ msgstr "Durata"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
-msgstr ""
+msgstr "Imposta i tuoi livelli"
 
 #: A.14-amplitude-modulation.md:102
 #, fuzzy
