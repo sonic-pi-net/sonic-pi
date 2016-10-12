@@ -1,0 +1,34 @@
+# Create Debian Sonic PI Image
+FROM debian:testing
+
+# Duplicate deb line as deb-src
+RUN cat /etc/apt/sources.list | sed "s/deb/deb-src/" >> /etc/apt/sources.list
+RUN apt update
+RUN apt dist-upgrade -y
+# install basic handy tools
+RUN apt install -y sudo apt-utils debconf-utils procps psmisc lsof
+# install jackd1 first, we can run it without realtime extensions
+RUN DEBIAN_FRONTEND=noninteractive apt install -y jackd1
+# finally install sonic-pi (and a helpful test program)
+RUN DEBIAN_FRONTEND=noninteractive apt install -y sonic-pi ecasound
+
+# Setup the user
+
+# Allow the docker run to use your user-id for the sonic user
+# Replace 1000 with your user id
+RUN export uid=1000 && useradd -u ${uid} -m sonic -G audio
+
+# User permissions
+RUN echo "sonic ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/sonic && \
+    chmod 0440 /etc/sudoers.d/sonic
+
+#
+# # Replace 18 with whatever group ID can see you audio HW
+RUN export gid=18 && addgroup --system --gid ${gid} host-audio
+RUN usermod -a -G host-audio sonic
+
+# Add the run script
+ADD start-sonic.sh /home/sonic
+
+USER sonic
+WORKDIR /home/sonic
