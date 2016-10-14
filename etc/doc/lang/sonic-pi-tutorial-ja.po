@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-14 09:42+0000\n"
+"PO-Revision-Date: 2016-10-14 10:03+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -10374,6 +10374,7 @@ msgstr ""
 "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
+#, fuzzy
 msgid ""
 "First is the oscillator wave - the raw ingredients of the sound. In this case "
 "we have a square wave. Next there's the oscillator's amplitude envelope which "
@@ -10387,6 +10388,12 @@ msgid ""
 "have amazing control over the timbre of the sound by playing with both of thes"
 "e envelopes. Let's take a look:"
 msgstr ""
+"最初はオシレーターです。これは音の原材料となるものです。この図では、矩形波を使っています。次にオシレーターのエンベロープがあります。これは矩形波の音量を時"
+"間に沿って制御しています。Sonic Piでは、`attack:`, `decay:`, `sustain:`, "
+"`release:`オプションで対応する音量レベルにアクセスできます。より詳細な情報は、チュートリアルの'2.4 エンベロープでのデュレーション'を参照し"
+"てください。エンベロープされた矩形波は、ローパスフィルターに渡しています。これは、高い周波数をカットするとともに、レゾナンスエフェクトを追加します。ここか"
+"らが面白くなるところです。このローパスフィルターのカットオフの値もまた、独自のエンベロープで制御されているのです！これは、2つのエンベロープを弄ることで、"
+"サウンドの音色を驚異的に変化できることを意味しているのです。次のコードを見てみましょう。"
 
 #: A.05-acid-bass.md:128
 #, no-wrap
