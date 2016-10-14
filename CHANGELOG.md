@@ -93,7 +93,7 @@ effort. Thanks to Hanno Zulla for making this possible.
   stream index) to the snapshot of the state as recorded at the start of
   the current thread.
 * `clear` - clears all user's thread locals to a blank state.
-* `time_shift`- allows whole blocks of code to be shifted forward or
+* `time_warp`- allows whole blocks of code to be shifted forward or
   backwards in time up to the value of `current_sched_ahead_time`.
 * `rand_look` - generate a random number without consuming a rand by
   looking ahead in the random stream.

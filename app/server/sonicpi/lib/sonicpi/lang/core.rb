@@ -193,11 +193,11 @@ at do
 end"
 ]
 
-      def time_shift(delta, &blk)
+      def time_warp(delta, &blk)
         __schedule_delayed_blocks_and_messages!
-        raise "time_shift requires a do/end block" unless blk
-        prev_ts_val = __system_thread_locals.get :sonic_pi_spider_in_time_shift
-        __system_thread_locals.set_local :sonic_pi_spider_in_time_shift, true
+        raise "time_warp requires a do/end block" unless blk
+        prev_ts_val = __system_thread_locals.get :sonic_pi_spider_in_time_warp
+        __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
         sat = @mod_sound_studio.sched_ahead_time
         sleep_time = delta * __thread_locals.get(:sonic_pi_spider_sleep_mul)
         raise "Time travel error - a jump back of #{delta} is too far.\nYou can't go back in time beyond the sched ahead time #{sat}" if sleep_time < (-1 * sat)
@@ -212,9 +212,9 @@ end"
         curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
         __system_thread_locals.set(:sonic_pi_spider_beat, curr_beat - delta)
         __system_thread_locals.set :sonic_pi_spider_time, vt_orig
-        __system_thread_locals.set_local :sonic_pi_spider_in_time_shift, prev_ts_val
+        __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, prev_ts_val
       end
-      doc name:           :time_shift,
+      doc name:           :time_warp,
           introduced:     Version.new(2,11,0),
           summary:        "Shift time forwards or backwards for the given block",
           args:           [[:delta_time, :number]],
@@ -223,7 +223,7 @@ end"
           accepts_block:  true,
           doc:            "The code within the given block is executed with the specified delta time shift specified in beats. For example, if the delta value is 0.1 then all code within the block is executed with a 0.1 beat delay. Negative values are allowed which means you can move a block of code *backwards in time*. For example a delta value of -0.1 will execute the code in the block 0.1 beats ahead of time. The time before the block started is restored after the execution of the block.
 
-Note that the code within the block is executed synchronously with the code before and afterso all thread locals will be modified inline as is the same for `with_fx`. However, as time is always restored to the value before `time_shift` started can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
+Note that the code within the block is executed synchronously with the code before and afterso all thread locals will be modified inline as is the same for `with_fx`. However, as time is always restored to the value before `time_warp` started can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
 
 Also, note that you cannot travel backwards in time beyond the `current_sched_ahead_time`.",
           examples:       ["# shift forwards in time
@@ -231,7 +231,7 @@ play 70            #=> plays at time 0
 sleep 1
 play 75            #=> plays at time 1
 
-time_shift 0.1 do
+time_warp 0.1 do
                    # time shifts forward by 0.1 beats
   play 80          #=> plays at 1.1
   sleep 0.5
@@ -240,7 +240,7 @@ time_shift 0.1 do
                    # however, the sleep 0.5 is still accounted for
 end
                    # we now honour the original sleep 1 and the
-                   # sleep 0.5 within the time_shift block, but
+                   # sleep 0.5 within the time_warp block, but
                    # any time shift delta has been removed
 play 70            #=> plays at 1.5",
 
@@ -250,7 +250,7 @@ play 70            #=> plays at time 0
 sleep 1
 play 75            #=> plays at time 1
 
-time_shift -0.1 do
+time_warp -0.1 do
                    # time shifts backwards by 0.1 beats
   play 80          #=> plays at 0.9
   sleep 0.5
@@ -259,17 +259,17 @@ time_shift -0.1 do
                    # however, the sleep 0.5 is still accounted for
 end
                    # we now honour the original sleep 1 and the
-                   # sleep 0.5 within the time_shift block, but
+                   # sleep 0.5 within the time_warp block, but
                    # any time shift delta has been removed
 play 70            #=> plays at 1.5",
 
-        "# Ticks count linearly through time_shift
+        "# Ticks count linearly through time_warp
 
 puts tick          #=> prints 0 (at time 0)
 
 sleep 1
 
-time_shift 2 do
+time_warp 2 do
   puts tick        #=> prints 1 (at time 3)
 end
 
@@ -277,13 +277,13 @@ sleep 0.5
 
 puts tick          #=> prints 2 (at time 1.5)",
 
-                "# Comparing time_shift with at
+                "# Comparing time_warp with at
 
 puts tick          #=> prints 0 (at time 0)
 sleep 0.5
 puts tick          #=> prints 1 (at time 0.5)
 
-time_shift 2 do
+time_warp 2 do
   puts tick        #=> prints 2 (at time 2.5)
   sleep 0.5
   puts tick        #=> prints 3 (at time 3)
@@ -2883,7 +2883,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         # Grab the current virtual time
         last_vt = __system_thread_locals.get :sonic_pi_spider_time
 
-        in_time_shift = __system_thread_locals.get(:sonic_pi_spider_in_time_shift)
+        in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
         # Now get on with syncing the rest of the sleep time...
 
@@ -2917,11 +2917,11 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           Thread.current.priority = p
           ## TODO: Remove this and replace with a much better silencing system which
           ## is implemented within the __delayed_* fns
-          unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_shift
+          unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
             __delayed_warning "Timing warning: running slightly behind..."
           end
         else
-          if in_time_shift
+          if in_time_warp
             # Don't sleep if within a time shift
             # However, do make sure the vt hasn't got too far ahead of the real time
              raise "Timing Exception: thread got too far ahead of time" if  (new_vt - 17) > now
@@ -3130,7 +3130,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def sync(cue_ids, opts={})
-        raise "Timing Exception - you may not sync within a time_shift" if __system_thread_locals.get :sonic_pi_spider_in_time_shift
+        raise "Timing Exception - you may not sync within a time_warp" if __system_thread_locals.get :sonic_pi_spider_in_time_warp
         cue_ids = [cue_ids] if cue_ids.is_a?(Symbol) || cue_ids.is_a?(String) || cue_ids.is_a?(SPSym)
         raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
