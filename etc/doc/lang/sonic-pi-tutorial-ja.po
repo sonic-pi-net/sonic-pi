@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-12 10:00+0000\n"
+"PO-Revision-Date: 2016-10-14 09:42+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -9460,11 +9460,11 @@ msgstr ""
 
 #: A.03-coded-beats.md:1
 msgid "A.3 Coded Beats"
-msgstr ""
+msgstr "A.3 コード化されたビート"
 
 #: A.03-coded-beats.md:3
 msgid "Coded Beats"
-msgstr ""
+msgstr "コード化されたビート"
 
 #: A.03-coded-beats.md:5
 #, fuzzy
@@ -9693,7 +9693,7 @@ msgstr ""
 
 #: A.03-coded-beats.md:128
 msgid "Slicing"
-msgstr ""
+msgstr "スライスする"
 
 #: A.03-coded-beats.md:130
 #, fuzzy
@@ -10336,6 +10336,10 @@ msgid ""
 " some insane sounds. At a `res` this high, you're hearing the cutoff filter re"
 "sonate so much it starts to make sounds of its own!"
 msgstr ""
+"他に遊んでみる価値のあるオプションは、`res:`でしょう。これはフィルターのレゾナンスのレベルを制御しています。高いレゾナンスはアシッドベースサウンドの"
+"特徴です。上のコードで`res:`は`0.8`に設定されています。これを`0.85`に上げ、次に`0.9`に上げ、最後に`0.95`に上げてみましょう。`"
+"110`やそれより大きいカットオフで、より違いを聞き分けることができるかもしれません。最後に、狂ったサウンドを出すのに、思い切って`0.999`にしてみま"
+"しょう。`res`が高いと、カットオフフィルターがより共振し、独特のサウンドを出し始めるのを聞くことができるでしょう。"
 
 #: A.05-acid-bass.md:100
 msgid ""
@@ -10343,26 +10347,31 @@ msgid ""
 "his is the choice of source oscillator. The default is `0` which is a sawtooth"
 " wave. `1` is a pulse wave and `2` is a triangle wave."
 msgstr ""
+"最後に、音色に大きなインパクトを与えるのに、`wave:`オプションを`1`に変更してみてください。これはオシレーターの選択です。デフォルトは`0`で、ノ"
+"コギリ波です。`1`はパルス波で、`2`は三角波です。"
 
 #: A.05-acid-bass.md:104
 msgid ""
 "Of course, try different riffs by changing the notes in the ring or even picki"
 "ng notes from scales or chords. Have fun with your first acid bass synth."
 msgstr ""
+"もちろん、リングの中の音符を変更したり、スケールやコードから音符を選択して、異なるリフを試してみるのも良いでしょう。はじめてのアシッドベースシンセを楽しん"
+"でください。"
 
 #: A.05-acid-bass.md:108
 msgid "Deconstructing the TB-303"
-msgstr ""
+msgstr "TB-303の分解"
 
 #: A.05-acid-bass.md:110
 msgid ""
 "The design of the original TB-303 is actually pretty simple. As you can see fr"
 "om the following diagram there's only 4 core parts."
-msgstr ""
+msgstr "オリジナルのTB-303の設計は、実際のところとてもシンプルです。以下の略図から分かるように、4つのコアな部分しかありません。"
 
 #: A.05-acid-bass.md:113
 msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 msgstr ""
+"![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
