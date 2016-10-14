@@ -2918,7 +2918,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           ## TODO: Remove this and replace with a much better silencing system which
           ## is implemented within the __delayed_* fns
           unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_shift
-            __delayed_warning "Timing warning: running slightly behind... #{now.to_f} #{new_vt.to_f} #{now.to_f - new_vt.to_f}"
+            __delayed_warning "Timing warning: running slightly behind..."
           end
         else
           if in_time_shift
