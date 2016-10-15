@@ -105,12 +105,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить полноэкранный режим.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выключить полноэкранный режим.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
@@ -455,7 +455,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Когда включен, Sonic Pi разрешит
 синтезаторам и FX загружаться через load_synthdefs
 чтобы иметь возможность переключать.
@@ -964,7 +964,7 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Sonic Pi уже запущен? Не могу открыть UDP порт 4558.</translation>
     </message>
 </context>
