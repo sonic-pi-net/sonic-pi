@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-13 09:03+0000\n"
+"PO-Revision-Date: 2016-10-15 08:44+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
-"Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-pi/tutorial"
-"/ro/>\n"
+"Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)"
-") ? 1 : 2;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1850,16 +1850,15 @@ msgstr ""
 "nd o copertina, tocmai ai creat un esantion."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"Sonic Pi iti permite sa faci o gramada de chestii interesante cu esantioanele."
-" Nu doar ca vine cu peste 90 de esantioane din domeniul public (cu utilizare g"
-"ratuita), dar iti permite si sa creezi si sa modifici propriile esantioane. Sa"
-" trecem la treaba..."
+"Sonic Pi iti permite sa faci o gramada de chestii interesante cu "
+"esantioanele. Nu doar ca vine cu peste 90 de esantioane din domeniul public ("
+"cu utilizare gratuita), dar iti permite si sa creezi si sa modifici "
+"propriile esantioane. Sa trecem la treaba..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
@@ -14232,7 +14231,7 @@ msgid ""
 "d performances. For example, we randomly picked notes from a scale to create n"
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
-msgstr "rand"
+msgstr "Intr-un episod precedent am"
 
 #: A.13-probabilistic-sequencer.md:12
 #, fuzzy
