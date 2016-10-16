@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-06 11:26+0000\n"
-"Last-Translator: Matthieu Ottaviani <matthieuottaviani@gmail.com>\n"
+"PO-Revision-Date: 2016-10-16 14:52+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -48,9 +48,9 @@ msgstr ""
 "Aaron](http://twitter.com/samaaron) - le gars qui a créé Sonic Pi. Vous "
 "pouvez me joindre à [@samaaron](http://twitter.com/samaaron) sur Twitter et "
 "je serai plus qu'heureux de vous saluer. Vous pourriez aussi être intéressé "
-"par mon orchestre \"Live Coding\" [Meta-eX](http://meta-ex.com) où "
-"j'interprète de la musique avec du code devant un public. Vous pouvez "
-"trouver un de mes morceaux [Meta-eX](http://meta-ex.com) dans les exemples."
+"par mes [performances de \"Live Coding\""
+"](http://facebook.com/livecodersamaaron) où je programme avec Sonic Pi en "
+"direct devant un public."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -58,10 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Si vous avez des observations ou des idées pour améliorer Sonic Pi - Faites m'"
-"en part s'il vous plait - les retours sont tellement utiles. Vous ne le savez "
-"probablement pas, mais votre idée pourrait être la prochaine fonctionnalité im"
-"portante !"
+"Si vous avez des observations ou des idées pour améliorer Sonic Pi, faites "
+"m'en part s'il vous plait, les retours sont tellement utiles. On ne sait "
+"jamais, votre idée pourrait être la prochaine fonctionnalité importante !"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -110,8 +109,9 @@ msgid ""
 msgstr ""
 "Un des aspects les plus passionnants de Sonic Pi est qu'il vous permet "
 "d'écrire et de *modifier du code en \"live\"* pour faire de la musique, "
-"comme si vous jouiez de la guitare. Cela veut dire qu'avec un peu de "
-"pratique, vous pourrez jouer avec Sonic PI sur scène et vous amuser avec."
+"comme on peut le faire avec une guitare par exemple. Cela veut dire qu'avec "
+"un peu de pratique, vous pourrez jouer avec Sonic Pi sur scène et vous "
+"amuser avec."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -125,9 +125,9 @@ msgid ""
 "o your seats and enjoy..."
 msgstr ""
 "Avant que vous ne plongiez dans les détails réels du fonctionnement de Sonic "
-"Pi dans la suite de ce tutoriel, j'aimerais vous faire part d'une expérience "
-"montrant à quoi ressemble le code en \"live\". Ne vous inquiétez pas si vous "
-"ne comprenez pas beaucoup ou rien de ceci. Essayez juste de rester assis sur "
+"Pi dans la suite de ce tutoriel, j'aimerais vous faire vivre l'expérience de "
+"à quoi ça ressemble de coder en \"live\". Ne vous inquiétez pas si vous ne "
+"comprenez pas beaucoup ou rien de ceci. Essayez juste de rester assis sur "
 "votre siège et de profiter..."
 
 #: 01.1-Live-Coding.md:17
@@ -169,7 +169,8 @@ msgstr "Assurez-vous que le son de la grosse caisse est encore présent"
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
 msgstr ""
-"Changez la valeur de `sleep` de `0.5` à quelque chose plus élevé comme `1`."
+"Changez la valeur de `sleep` de `0.5` à quelque chose de plus élevé comme "
+"`1`."
 
 #: 01.1-Live-Coding.md:34
 #, fuzzy
@@ -215,7 +216,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -224,14 +224,15 @@ msgid ""
 "your computer will stop with an error because it can't keep up (if that happen"
 "s, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Maintenant, exécutez-le. Changez les \"rates\" - Que se passe-t-il lorsque vous "
-"utilisez des valeurs élevées ou des valeurs négatives ? Regardez ce qui se pas"
-"se quand vous changez légèrement la valeur de `rate:` pour l'échantillon `:amb"
-"i_choir` (disons 0.29). Que se passe-t-il lorsque vous choisissez une valeur v"
-"éritablement petite de `sleep` ? Regardez si vous arrivez à le faire aller si "
-"vite au point que votre ordinateur s'arrêtera avec une erreur parce que ne pou"
-"vant plus continuer comme cela (si cela arrive, choisissez juste une durée `sl"
-"eep` plus grande et pressez `Run` à nouveau)."
+"Maintenant, amusez-vous à modifier le code. Changez les \"rates\" - Que se "
+"passe-t-il lorsque vous utilisez des valeurs élevées ou des valeurs "
+"négatives ? Regardez ce qui se passe quand vous changez légèrement la valeur "
+"de `rate:` pour l'échantillon `:ambi_choir` (disons 0.29). Que se passe-t-il "
+"lorsque vous choisissez une valeur vraiment petite de `sleep` ? Regardez si "
+"vous arrivez à le faire aller tellement vite que votre ordinateur s'arrêtera "
+"avec une erreur parce qu'il ne peut plus continuer comme cela (si cela "
+"arrive, choisissez juste une durée `sleep` plus grande et pressez `Run` à "
+"nouveau)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -260,11 +261,10 @@ msgid ""
 "the mix."
 msgstr ""
 "Remarquez comment cela indique à l'ordinateur de l'ignorer, ainsi nous ne "
-"l'entendons pas. On l'appelle commentaire. Dans Sonic Pi, nous pouvons "
-"utilisez des commentaires pour enlever ou additionner des choses au mixage."
+"l'entendons pas. On appelle ça un commentaire. Dans Sonic Pi, nous pouvons "
+"utilisez des commentaires pour enlever ou ajouter des choses au mixage."
 
 #: 01.1-Live-Coding.md:74
-#, fuzzy
 msgid ""
 "Finally, let me leave you something fun to play with. Take the code below, and"
 " copy it into a spare buffer. Now, don't try to understand it too much other t"
@@ -272,24 +272,24 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"Finalement, je vous laisse avec quelque chose de sympa à jouer. Prenez le code"
-" ci-dessous et copiez-le dans un autre \"buffer\". Maintenant essayez de le comp"
-"rendre bien plus que de voir qu'il y a deux boucles - ainsi deux choses marche"
-"nt en même temps. Maintenant, faites ce que vous faites le mieux - expérimente"
-"r et jouez. Voici quelques suggestions :"
+"Finalement, je vous laisse avec quelque chose de sympa à jouer. Prenez le "
+"code ci-dessous et copiez-le dans un autre \"buffer\". Maintenant n'essayez "
+"pas trop de le comprendre, remarquez juste qu'il y a deux boucles - ainsi "
+"deux choses marchent en même temps. Maintenant, faites ce que vous faites le "
+"mieux : expérimentez et jouez. Voici quelques suggestions :"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Essayez de modifier les valeurs en bleu du `rate:` pour entendre changer le "
-"son de l'échantillon."
+"Essayez de modifier les valeurs en bleu du `rate:` pour entendre comme le "
+"son de l'échantillon change."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Essayez de changer les durées de `sleep` et découvrez que les 2 boucles "
+"Essayez de changer les durées de `sleep` et découvrez que les deux boucles "
 "peuvent tourner à différentes cadences."
 
 #: 01.1-Live-Coding.md:83
@@ -297,31 +297,29 @@ msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Essayez de décommenter la ligne \"sample\" (enlevez le `#`) et apprécier le son "
-"de la guitare joué à l'envers."
+"Essayez de décommenter la ligne \"sample\" (enlevez le `#`) et appréciez le "
+"son de la guitare joué à l'envers."
 
 #: 01.1-Live-Coding.md:85
-#, fuzzy
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
-"Essayez de changer une des valeurs en bleu de `mix:` avec des nombres entre `0"
-"` (pas dans le mixage) et `1` (entièrement dans le mixage)."
+"Essayez de changer une des valeurs en bleu de `mix:` avec des nombres entre "
+"`0` (pas dans le mixage) et `1` (entièrement dans le mixage)."
 
 #: 01.1-Live-Coding.md:88
-#, fuzzy
 msgid ""
 "Remember to press `Run` and you'll hear the change next time the loop goes rou"
 "nd. If you end up in a pickle, don't worry - hit `Stop`, delete the code in th"
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"Rappelez-vous de presser `Run` et vous entendrez le changement la fois suivant"
-"e où la boucle tournera. Si vous êtes dans le pétrin, ne vous inquiétez pas - "
-"pressez `Stop`, effacez le code dans le \"buffer\", collez une copie originale e"
-"t vous serez prêt à improviser à nouveau. En faisant des fautes, c'est ainsi q"
-"ue vous apprendrez le plus vite..."
+"Rappelez-vous de presser `Run` et vous entendrez le changement la fois "
+"suivante où la boucle tournera. Si vous êtes dans le pétrin, ne vous "
+"inquiétez pas : pressez `Stop`, effacez le code dans le \"buffer\", collez "
+"une copie originale et vous serez prêt à improviser à nouveau. C'est en "
+"faisant des fautes que vous apprendrez le plus vite..."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -373,32 +371,26 @@ msgid "1.2 Exploring the Interface"
 msgstr "1.2 Découverte de l'interface"
 
 #: 01.2-Exploring-the-Interface.md:3
-#, fuzzy
 msgid "The Sonic Pi Interface"
 msgstr "L'Interface de Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
-"Sonic Pi a une interface très simple pour coder de la musique. Passons un peu "
-"de temps à l'explorer."
+"Sonic Pi a une interface très simple pour coder de la musique. Passons un "
+"peu de temps à l'explorer."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
-"![Sonic Pi Interface](../images/tutorial/GUI.png)\n"
-" Copy →↵…«»‹›-–—"
+msgstr "![Interface de Sonic Pi](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
-#, fuzzy
 msgid "*A* - Play Controls"
 msgstr "*A* - Contrôles de jeu"
 
 #: 01.2-Exploring-the-Interface.md:12
-#, fuzzy
 msgid "*B* - Editor Controls"
 msgstr "*B* - Contrôles d'édition"
 
@@ -407,60 +399,52 @@ msgid "*C* - Info and Help"
 msgstr "*C* - Info et aide"
 
 #: 01.2-Exploring-the-Interface.md:14
-#, fuzzy
 msgid "*D* - Code Editor"
 msgstr "*D* - Éditeur de code"
 
 #: 01.2-Exploring-the-Interface.md:15
-#, fuzzy
 msgid "*E* - Prefs Panel"
 msgstr "*E* - Panneau des préférences"
 
 #: 01.2-Exploring-the-Interface.md:16
-#, fuzzy
 msgid "*F* - Log Viewer"
 msgstr "*F* - Visualisateur de la trace"
 
 #: 01.2-Exploring-the-Interface.md:17
-#, fuzzy
 msgid "*G* - Help System"
 msgstr "*G* - Système d'aide"
 
 #: 01.2-Exploring-the-Interface.md:20
-#, fuzzy
 msgid "A. Play Controls"
 msgstr "A. Contrôles de jeu"
 
 #: 01.2-Exploring-the-Interface.md:22
-#, fuzzy
 msgid ""
 "These pink buttons are the main controls for starting and stopping sounds. The"
 "re's the *Run* button for running the code in the editor, *Stop* for stopping "
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"Ces boutons roses sont les principaux contrôles pour démarrer et arrêter les s"
-"ons. Il y a le bouton *Run* pour exécuter le code présent dans l'éditeur, *Sto"
-"p* pour arrêter tous les codes en cours d'exécution, *Save* pour sauvegarder l"
-"e code dans un fichier externe et *Record* pour créer un enregistrement du son"
-" (un fichier WAV) en cours de jeu."
+"Ces boutons roses sont les principaux contrôles pour démarrer et arrêter les "
+"sons. Il y a le bouton *Run* pour exécuter le code présent dans l'éditeur, "
+"*Stop* pour arrêter tous les codes en cours d'exécution, *Save* pour "
+"sauvegarder le code dans un fichier externe et *Record* pour créer un "
+"enregistrement du son (un fichier WAV) en cours de jeu."
 
 #: 01.2-Exploring-the-Interface.md:28
-#, fuzzy
 msgid "B. Editor Controls"
 msgstr "B. Contrôles d'édition"
 
 #: 01.2-Exploring-the-Interface.md:30
-#, fuzzy
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
-"Ces boutons oranges vous permettent de piloter l'éditeur de code. Les boutons "
-"*Size +* et *Size -* vous permettent d'agrandir ou de rétrécir le texte. Le bo"
-"uton *Align* vous arrangera votre code pour lui donner une présentation plus p"
-"rofessionnelle."
+"Ces boutons oranges vous permettent de piloter l'éditeur de code. Les "
+"boutons *Size +* et *Size -* vous permettent d'agrandir ou de rétrécir le "
+"texte. Le bouton *Align* vous arrangera votre code pour lui donner une "
+"présentation plus professionnelle."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
@@ -482,7 +466,6 @@ msgstr ""
 "quelques paramètres systèmes basiques."
 
 #: 01.2-Exploring-the-Interface.md:44
-#, fuzzy
 msgid "D. Code Editor"
 msgstr "D. Éditeur de code"
 
@@ -505,12 +488,10 @@ msgstr ""
 "ue chose est un nombre parce qu'elle sera bleue."
 
 #: 01.2-Exploring-the-Interface.md:54
-#, fuzzy
 msgid "E. Prefs Panel"
 msgstr "E. Panneau des préférences"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -518,16 +499,14 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, Toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Pi supporte quelques préférences ajustables qui peuvent être accédées en"
-" pressant le bouton *Prefs* à droite des boutons Info et Help. Cela activera l"
-"'affichage du panneau des préférences qui inclut un nombre d'options modifiabl"
-"es. Par exemple pour forcer le mode mono, inverser la stéréo, activer le mode "
-"verbeux de la trace et aussi régler un curseur de volume et le sélecteur audio"
-" du Raspberry Pi (par défaut, il est sur \"auto\". Si vous n'entendez plus le so"
-"n de votre Pi en étant branchés sur la prise jack, modifiez ce paramètre)."
+"Sonic Pi supporte quelques préférences ajustables auxquelles on peut accéder "
+"en pressant le bouton *Prefs* à droite des boutons Info et Help. Cela "
+"activera l'affichage du panneau des préférences qui inclut un nombre "
+"d'options modifiables. Par exemple pour forcer le mode mono, inverser la "
+"stéréo, activer le mode verbeux de la trace et aussi régler un curseur de "
+"volume et le sélecteur audio du Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
-#, fuzzy
 msgid "F. Log Viewer"
 msgstr "F. Visualisateur de la trace"
 
@@ -545,12 +524,10 @@ msgstr ""
 "re ce qu'il fait."
 
 #: 01.2-Exploring-the-Interface.md:71
-#, fuzzy
 msgid "G. Help System"
 msgstr "G. Système d'aide"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "Finally, one of the most important parts of the Sonic Pi interface is the help"
 " system which appears at the bottom of the window. This can be toggled on and "
@@ -559,44 +536,39 @@ msgid ""
 "ailable synths, samples, examples, FX and a full list of all the functions Son"
 "ic Pi provides for coding music."
 msgstr ""
-"Finalement, un des aspects les plus importants de l'interface de Sonic Pi est "
-"le système d'aide qui apparaît au bas de la fenêtre. Il peut être activé ou dé"
-"sactivé en cliquant sur le bouton *Help* bleu. Le système d'aide contient de l"
-"'aide et de l'information sur tous les aspects de Sonic Pi, y compris ce tutor"
-"iel, une liste des synthétiseurs, des échantillons (\"samples\"), des exemples, "
-"et des effets (\"FX\") disponibles, et une liste complète de toutes les fonction"
-"s que Sonic Pi fournit pour coder de la musique."
+"Enfin, un des aspects les plus importants de l'interface de Sonic Pi est le "
+"système d'aide qui apparaît au bas de la fenêtre. Il peut être activé ou "
+"désactivé en cliquant sur le bouton *Help* bleu. Le système d'aide contient "
+"de l'aide et de l'information sur tous les aspects de Sonic Pi, y compris ce "
+"tutoriel, une liste des synthétiseurs, des échantillons (\"samples\"), des "
+"exemples, des effets (\"FX\") disponibles, et une liste complète de toutes "
+"les fonctions que Sonic Pi fournit pour coder de la musique."
 
 #: 01.3-Learning-through-Play.md:1
-#, fuzzy
 msgid "1.3 Learning through Play"
 msgstr "1.3 Apprendre en jouant"
 
 #: 01.3-Learning-through-Play.md:3
-#, fuzzy
 msgid "Learning through Play"
 msgstr "Apprendre en jouant"
 
 #: 01.3-Learning-through-Play.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi encourages you to learn about both computing and music through play a"
 "nd experimentation. The most important thing is that you're having fun, and be"
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
-"Sonic Pi vous encourage à apprendre à la fois sur la programmation et sur la m"
-"usique au travers du jeu et de l'expérimentation. La plus importante chose est"
-" que vous vous amusiez, et avant que vous vous en rendiez compte, vous aurez a"
-"ppris comment coder, composer et interpréter sans le faire exprès."
+"Sonic Pi vous encourage à apprendre à la fois sur la programmation et sur la "
+"musique au travers du jeu et de l'expérimentation. La plus importante chose "
+"est que vous vous amusiez, et avant que vous vous en rendiez compte, vous "
+"aurez appris comment coder, composer et interpréter sans le faire exprès."
 
 #: 01.3-Learning-through-Play.md:10
-#, fuzzy
 msgid "There are no mistakes"
 msgstr "Il n'y a pas de fautes"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -609,25 +581,24 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
-"Alors que nous abordons ce sujet, laissez-moi vous donner un petit conseil. J'"
-"ai appris pendant des années à coder de la musique en \"live\" - *il n'y a pas d"
-"e fautes, seulement des opportunités*. C'est ce que j'ai souvent entendu à pro"
-"pos du jazz mais cela fonctionne aussi avec le codage en \"live\". Peu importe v"
-"otre niveau d'expérience - du débutant complet jusqu'à \"l'algoraver\" (codeur d"
-"e musique) chevronné, vous exécuterez un jour un code qui aura une sortie tota"
-"lement inattendue. Cela pourrait sonner extrêmement \"cool\" - auquel cas contin"
-"uez avec. Toutefois, cela pourrait aussi sonner discordant et à côté de la pla"
-"que. Peu importe ce qui se passe - ce qui importe est ce que vous allez faire "
-"avec ensuite. Prenez le son, manipulez-le et transformez-le en quelque chose d"
-"e génial. Le public deviendra *déchaîné*."
+"Alors que nous abordons ce sujet, laissez-moi vous donner un petit conseil "
+"que j'ai appris pendant des années à coder de la musique en \"live\" : *il "
+"n'y a pas de fautes, seulement des opportunités*. C'est ce que j'ai souvent "
+"entendu à propos du jazz mais cela fonctionne aussi avec le codage en \""
+"live\". Peu importe votre niveau d'expérience - du débutant complet jusqu'à "
+"\"l'algoraver\" (codeur de musique) chevronné, vous exécuterez un jour un "
+"code qui aura un résultat totalement inattendu. Cela pourrait sonner "
+"extrêmement \"cool\" : auquel cas continuez avec. Toutefois, cela pourrait "
+"aussi sonner discordant et à côté de la plaque. Peu importe ce qui se passe -"
+" ce qui importe est ce que vous allez faire avec ensuite. Prenez le son, "
+"manipulez-le et transformez-le en quelque chose de génial. Le public "
+"deviendra *déchaîné*."
 
 #: 01.3-Learning-through-Play.md:24
-#, fuzzy
 msgid "Start Simple"
 msgstr "Commencez simple"
 
 #: 01.3-Learning-through-Play.md:26
-#, fuzzy
 msgid ""
 "When you're learning, it's tempting to want to do amazing things *now*. Howeve"
 "r, just hold that thought and see it as a distant goal to reach *later*. For n"
@@ -637,37 +608,32 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
-"Quand vous apprenez, il est tentant de vouloir faire des choses étonnantes *im"
-"médiatement*. Cependant, conservez l'idée et voyez-la comme un but distant à a"
-"tteindre *plus tard*. Pour l'instant, pensez à la chose la plus simple que vou"
-"s pourriez écrire qui serait amusante et gratifiante, c'est un petit pas vers "
-"la chose étonnante que vous avez en tête. Une fois que vous avez l'éclairage s"
-"ur cette simple étape, essayez de la construire, jouez avec et pensez aux nouv"
-"elles idées que cela vous donne. Sous peu, vous serez trop occupé à vous amuse"
-"r et à faire de réels progrès."
+"Quand vous apprenez, il est tentant de vouloir faire des choses géniales "
+"*immédiatement*. Cependant, conservez cette idée et voyez-la comme un but "
+"distant à atteindre *plus tard*. Pour l'instant, pensez à la chose la plus "
+"simple que vous pourriez écrire qui serait amusante et gratifiante, c'est un "
+"petit pas vers la chose géniale que vous avez en tête. Une fois que vous "
+"avez une idée pour cette étape simple, essayez de la construire, jouez avec "
+"et voyez quelles nouvelles idées cela vous donne. Sous peu, vous serez trop "
+"occupé à vous amuser et à faire de réels progrès."
 
 #: 01.3-Learning-through-Play.md:35
-#, fuzzy
 msgid "Just make sure to share your work with others!"
 msgstr "Assurez-vous simplement de partager votre travail avec les autres !"
 
 #: 02-Synths.md:1
-#, fuzzy
 msgid "2 Synths"
 msgstr "2 Synthés"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
-#, fuzzy
 msgid "Synths"
 msgstr "Synthétiseurs"
 
 #: 02-Synths.md:5
-#, fuzzy
 msgid "OK, enough of the intros - let's get into some sound."
 msgstr "OK, assez d'introduction, plongeons dans les sons."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -675,37 +641,33 @@ msgid ""
 "ynths with many patch wires and modules. However, Sonic Pi gives you much of t"
 "hat power in a very simple and approachable manner."
 msgstr ""
-"Dans cette section, nous allons couvrir les bases du déclenchement et de la ma"
-"nipulation des \"synths\". \"Synth\" ou \"synthé\" sont les abréviations de synthéti"
-"seur, lequel est un mot fantaisiste pour quelque chose qui crée des sons. Typi"
-"quement, les synthétiseurs sont assez compliqués à utiliser - particulièrement"
-" les synthés analogiques avec beaucoup de \"patches\" et de modules à connecter."
-" Toutefois, Sonic Pi vous offre beaucoup de cette puissance d'une manière très"
-" simple et abordable."
+"Dans cette section, nous allons couvrir les bases du déclenchement et de la "
+"manipulation des synthés. \"Synthé\" est l'abréviation de synthétiseur, qui "
+"est un mot savant pour quelque chose qui crée des sons. Typiquement, les "
+"synthétiseurs sont assez compliqués à utiliser - particulièrement les "
+"synthés analogiques avec beaucoup de \"patches\" et de modules à connecter. "
+"Toutefois, Sonic Pi vous offre beaucoup de cette puissance d'une manière "
+"très simple et abordable."
 
 #: 02-Synths.md:14
-#, fuzzy
 msgid ""
 "Don't be fooled by the immediate simplicity of Sonic Pi's interface. You can g"
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
-"Ne soyez pas dupe de l'immédiate simplicité de l'interface de Sonic Pi. Vous p"
-"ouvez aller très en profondeur dans une manipulation très sophistiquée des son"
-"s si c'est votre dada. Tenez bien vos chapeaux..."
+"Ne soyez pas dupe de la simplicité apparente de l'interface de Sonic Pi. "
+"Vous pouvez aller très en profondeur dans une manipulation très sophistiquée "
+"des sons si c'est votre dada. Tenez bien vos chapeaux..."
 
 #: 02.1-Your-First-Beeps.md:1
-#, fuzzy
 msgid "2.1 Your First Beeps"
 msgstr "2.1 Vos premiers Beeps"
 
 #: 02.1-Your-First-Beeps.md:3
-#, fuzzy
 msgid "Your First Beeps"
 msgstr "Vos premiers Beeps"
 
 #: 02.1-Your-First-Beeps.md:5
-#, fuzzy
 msgid "Take a look at the following code:"
 msgstr "Jetez un œil sur le code suivant :"
 
@@ -715,15 +677,14 @@ msgid "play 70"
 msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
-#, fuzzy
 msgid ""
 "This is where it all starts. Go ahead, copy and paste it into the code window "
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
-"C'est là que tout commence. Allez de l'avant, copiez et collez-le dans la fenê"
-"tre de code en haut de l'application (le grand espace blanc en dessous du bout"
-"on Run). Maintenant, pressez Run..."
+"C'est là que tout commence. Allez de l'avant, copiez et collez-le dans la "
+"fenêtre de code en haut de l'application (le grand espace blanc en dessous "
+"du bouton Run). Maintenant, pressez Run..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
@@ -734,14 +695,13 @@ msgid "Intense. Press it again. And again. *And again...*"
 msgstr "Intense. Appuyez encore une fois. Et encore. *Et encore...*"
 
 #: 02.1-Your-First-Beeps.md:19
-#, fuzzy
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Woah, fou, je suis sûr que vous pourrez continuer à faire cela toute la journé"
-"e. Mais attendez, avant que vous ne vous perdiez dans un flot infini de beeps,"
-" essayez de changer le nombre :"
+"Woah, c'est fou, je suis sûr que vous pourriez continuer à faire cela toute "
+"la journée. Mais attendez, avant que vous ne vous perdiez dans un flot "
+"infini de beeps, essayez de changer le nombre :"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -749,7 +709,6 @@ msgid "play 75"
 msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
-#, fuzzy
 msgid "Can you hear the difference? Try a lower number:"
 msgstr "Entendez-vous la différence ? Essayez un nombre plus petit :"
 
@@ -759,7 +718,6 @@ msgid "play 60"
 msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
-#, fuzzy
 msgid ""
 "So, lower numbers make lower pitched beeps and higher numbers make higher pitc"
 "hed beeps. Just like on a piano, the keys at the lower part of the piano (the "
@@ -770,41 +728,38 @@ msgid ""
 "just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
 "y 60`."
 msgstr ""
-"Ainsi, des nombres plus petits font des beeps plus grave et des nombres plus g"
-"rands font des beeps plus aigus. Juste comme sur un piano, les touches de la p"
-"artie basse (côté main gauche) font des notes plus graves et celles de la part"
-"ie haute (côté main droite) font des notes plus aiguës. En fait, les nombres r"
-"eprésentent réellement l'ordre des notes sur le piano. `play 47` signifie réel"
-"lement \"joue la 47ème note\" sur le piano. Ce qui signifie que `play 48` désign"
-"e la note supérieure (la note suivante vers la droite). Il faut juste noter qu"
-"e le 4ème octave du Do (C en notation anglaise) est identifié par le nombre 60"
-". Poursuivez et jouez-le : `play 60`"
+"Ainsi, des nombres plus petits font des beeps plus grave et des nombres plus "
+"grands font des beeps plus aigus. Juste comme sur un piano, les touches de "
+"la partie basse (côté main gauche) font des notes plus graves et celles de "
+"la partie haute (côté main droite) font des notes plus aiguës. En fait, les "
+"nombres représentent réellement l'ordre des notes sur le piano. `play 47` "
+"signifie réellement \"joue la 47ème note\" sur le piano. Ce qui signifie que "
+"`play 48` désigne la note supérieure (la note suivante vers la droite). Il "
+"se trouve que le Do de la 4ème octave (C en notation anglaise) est identifié "
+"par le nombre 60. Poursuivez et jouez-le : `play 60`."
 
 #: 02.1-Your-First-Beeps.md:42
-#, fuzzy
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"*Ne vous inquiétez pas* si cela ne signifie rien pour vous - c'est ce qu'il m'"
-"est arrivé au début quand j'ai commencé. Tout ce qui importe maintenant est qu"
-"e vous sachiez que *les petits nombres font des beeps graves* et que *les gran"
-"ds nombres font des beeps aigus*."
+"*Ne vous inquiétez pas* si cela ne signifie rien pour vous - c'était le cas "
+"pour moi au début quand j'ai commencé. Tout ce qui importe pour le moment "
+"est que vous sachiez que *les petits nombres font des beeps graves* et que *"
+"les grands nombres font des beeps aigus*."
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
-#, fuzzy
 msgid "Chords"
 msgstr "Accords"
 
 #: 02.1-Your-First-Beeps.md:48
-#, fuzzy
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
 msgstr ""
-"Jouez une note est vraiment plaisant, mais en jouer plusieurs en même temps es"
-"t encore mieux. Essayez-le :"
+"Jouer une note est vraiment plaisant, mais en jouer plusieurs en même temps "
+"est encore mieux. Essayez-le :"
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
@@ -818,33 +773,30 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:57
-#, fuzzy
 msgid ""
 "Jazzy! So, when you write multiple `play`s, they all play at the same time. Tr"
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
-"Jazzy ! Ainsi quand vous écrivez plusieurs `play`s, ils sont tous joués en mêm"
-"e temps. Essayez-le vous-même - quels sont les nombres qui sonnent bien ensemb"
-"le ? Lesquels sonnent terrible ? Expérimentez, explorez et trouvez ce qui est "
-"bien pour vous."
+"Jazzy ! Ainsi quand vous écrivez plusieurs `play`s, ils sont tous joués en "
+"même temps. Essayez-le vous-même : quels sont les nombres qui sonnent bien "
+"ensemble ? Lesquels sonnent terrible ? Expérimentez, explorez et trouvez ce "
+"qui sonne bien pour vous."
 
 #: 02.1-Your-First-Beeps.md:61
-#, fuzzy
 msgid "Melody"
 msgstr "Mélodie"
 
 #: 02.1-Your-First-Beeps.md:63
-#, fuzzy
 msgid ""
 "So, playing notes and chords is fun - but how about a melody? What if you want"
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
-"Ainsi, jouer des notes et des accords est plaisant - mais comment jouer une mé"
-"lodie ? Que faire si vous voulez jouer une note après une autre et pas en même"
-" temps ? Eh bien, c'est facile, vous avez juste besoin de `sleep` entre les no"
-"tes :"
+"Ainsi, jouer des notes et des accords est plaisant - mais comment jouer une "
+"mélodie ? Que faire si vous voulez jouer une note après une autre et pas en "
+"même temps ? Eh bien, c'est facile, vous avez juste besoin de `sleep` entre "
+"les notes :"
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -862,7 +814,6 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:75
-#, fuzzy
 msgid ""
 "How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it"
 " means the *duration of the sleep*. It actually means sleep for one beat, but "
@@ -870,12 +821,12 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
-"Comme c'est charmant, un petit arpège. Alors que signifie le `1` dans `sleep 1"
-"` ? Eh bien, cela représente la *durée du sleep*. Ça signifie réellement \"dors"
-" pendant un temps musical\", mais pour l'instant nous pouvons penser qu'il s'ag"
-"it de dormir pendant 1 seconde. Alors que faire si nous voulons que notre arpè"
-"ge soit un peu plus rapide ? Eh bien, nous devons utiliser des valeurs de slee"
-"p plus petites. Quel résultat pour la moitié, c'est-à-dire `0.5`:"
+"Comme c'est charmant, un petit arpège. Alors que signifie le `1` dans `sleep "
+"1` ? Eh bien, cela représente la *durée du sleep*. Ça signifie réellement \""
+"dors pendant un temps musical\", mais pour l'instant nous pouvons penser "
+"qu'il s'agit de dormir pendant 1 seconde. Alors que faire si nous voulons "
+"que notre arpège soit un peu plus rapide ? Eh bien, nous devons utiliser des "
+"valeurs de sleep plus petites. Pourquoi pas la moitié, c'est-à-dire `0.5` :"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -893,43 +844,41 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:89
-#, fuzzy
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
 msgstr ""
-"Remarquez comment ça joue plus rapidement. Maintenant, essayez vous-même, chan"
-"gez les durées - utilisez différentes durées et différentes notes."
+"Remarquez comment ça joue plus rapidement. Maintenant, essayez vous-même, "
+"changez les durées - utilisez différentes durées et différentes notes."
 
 #: 02.1-Your-First-Beeps.md:92
-#, fuzzy
 msgid ""
 "One thing to try is in-between notes such as `play 52.3` and `play 52.63`. The"
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
-"Une chose à essayer est les notes intermédiaires comme `play 52.3` et `play 52"
-".63`. Il n'est absolument pas nécessaire de coller aux notes standardisées. Jo"
-"uez et faites-vous plaisir."
+"Une chose à essayer est les notes intermédiaires comme `play 52.3` et `play "
+"52.63`. Il n'est absolument pas nécessaire de coller aux notes "
+"standardisées. Jouez et faites-vous plaisir."
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
 msgstr "Les noms classiques des notes"
 
 #: 02.1-Your-First-Beeps.md:99
-#, fuzzy
 msgid ""
 "For those of you that already know some musical notation (don't worry if you d"
 "on't - you don't need it to have fun) you might want to write a melody using n"
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
-"Ceux qui connaissent déjà la notation musicale (ne vous inquiétez pas si ce n'"
-"est pas votre cas - vous n'en n'avez pas besoin pour vous amuser) pourraient a"
-"imer écrire une mélodie en utilisant les noms des notes comme \"Do\" ou \"Fa#\" pl"
-"utôt que des nombres. Sonic Pi a ce qu'il faut, mais en notation anglaise (`A`"
-" pour \"La\", `B` pour \"Si\", `C` pour \"Do\", `D` pour \"Ré\", `E` pour \"Mi\", `F` po"
-"ur \"Fa\", `G` pour \"Sol\"). Vous pouvez faire la chose suivante :"
+"Ceux qui connaissent déjà la notation musicale (ne vous inquiétez pas si ce "
+"n'est pas votre cas : vous n'en n'avez pas besoin pour vous amuser) "
+"pourraient aimer écrire une mélodie en utilisant les noms des notes comme \""
+"Do\" ou \"Fa#\" plutôt que des nombres. Sonic Pi a ce qu'il faut, mais en "
+"notation anglaise (`A` pour \"La\", `B` pour \"Si\", `C` pour \"Do\", `D` "
+"pour \"Ré\", `E` pour \"Mi\", `F` pour \"Fa\", `G` pour \"Sol\"). Vous "
+"pouvez faire la chose suivante :"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
