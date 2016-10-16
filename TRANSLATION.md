@@ -81,7 +81,7 @@ that you will be informed of new or changed strings.
 The original English text was written in a fun, friendly, open and
 informal style designed to be accessible to children and adults
 alike. We would invite you to attempt to adopt this style when working
-on translatiions to another language. For example, try to use simple
+on translations to another language. For example, try to use simple
 language where possible - and where not, try and explain what the
 complicated/technical words mean.
 
