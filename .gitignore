@@ -15,6 +15,12 @@
 *.la
 *.a
 
+# MSVC stuff
+*.Debug
+*.Release
+debug/
+release/
+
 # QT GUI
 # --------
 
