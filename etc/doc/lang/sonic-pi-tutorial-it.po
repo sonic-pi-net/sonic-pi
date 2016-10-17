@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-17 17:51+0000\n"
-"Last-Translator: Diego Gurnari <gurnari.dev@gmail.com>\n"
+"PO-Revision-Date: 2016-10-17 17:52+0000\n"
+"Last-Translator: Matthieu Ottaviani <matthieuottaviani@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -14912,7 +14912,7 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:1 A.15-performance.md:1
 msgid "A.15 Five Live Coding Techniques"
-msgstr "A.15 Cinque tecniche di live coding"
+msgstr "A.15 Cinque tecniche per programmare dal vivo"
 
 #: A.15-five-live-coding-techniques.md:3 A.15-performance.md:3
 msgid "Five Live Coding Techniques"
