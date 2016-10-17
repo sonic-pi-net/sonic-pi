@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-16 14:52+0000\n"
+"PO-Revision-Date: 2016-10-17 18:10+0000\n"
 "Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -896,14 +896,13 @@ msgstr ""
 "play :E"
 
 #: 02.1-Your-First-Beeps.md:112
-#, fuzzy
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
 msgstr ""
-"Notez de mettre des deux-points `:` devant votre nom de note de manière qu'ell"
-"e apparaisse en rose. Vous pouvez également spécifier l'octave en ajoutant un "
-"nombre derrière le nom de la note :"
+"Notez de mettre des deux-points `:` devant votre nom de note de manière "
+"qu'elle apparaisse en rose. Vous pouvez également spécifier l'octave en "
+"ajoutant un nombre derrière le nom de la note :"
 
 #: 02.1-Your-First-Beeps.md:116
 #, no-wrap
@@ -921,32 +920,28 @@ msgstr ""
 "play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
-#, fuzzy
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
-"Si vous voulez faire un dièse, ajoutez un `s` (pour \"sharp\") derrière le nom d"
-"e la note, comme `play :Fs3` et si vous vouler faire un bémol, ajoutez un `b` "
-"comme `play :Eb3`."
+"Si vous voulez jouer un dièse, ajoutez un `s` (pour \"sharp\") derrière le "
+"nom de la note, comme `play :Fs3` et si vous voulez jouer un bémol, ajoutez "
+"un `b` comme `play :Eb3`."
 
 #: 02.1-Your-First-Beeps.md:127
-#, fuzzy
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr "Maintenant *défoulez-vous* et faites-vous plaisir en faisant vos morceaux."
+msgstr ""
+"Maintenant *défoulez-vous* et faites-vous plaisir en faisant vos morceaux."
 
 #: 02.2-Synth-Params.md:1
-#, fuzzy
 msgid "2.2 Synth Options"
 msgstr "2.2 Paramètres des synthés"
 
 #: 02.2-Synth-Params.md:3
-#, fuzzy
 msgid "Synth Options: Amp and Pan"
-msgstr "Paramètres des synthés : Amp and Pan"
+msgstr "Paramètres des synthés : Amp et Pan"
 
 #: 02.2-Synth-Params.md:5
-#, fuzzy
 msgid ""
 "As well as allowing you to control which note to play or which sample to trigg"
 "er, Sonic Pi provides a whole range of options to craft and control the sounds"
@@ -955,21 +950,19 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
-"De la même manière qu'il vous permet de contrôler chaque note ou chaque échant"
-"illon à jouer, Sonic Pi fournit un large éventail de paramètres pour confectio"
-"nner ou contrôler les sons. Nous couvrirons beaucoup d'entre eux dans ce tutor"
-"iel et il y a une documentation exhaustive pour chacun d'eux dans le système d"
-"'aide. Toutefois pour l'instant, nous allons introduire deux des plus utiles :"
-" *amplitude* et *pan*. Regardons en premier ce que les paramètres sont réellem"
-"ent."
+"De la même manière qu'il vous permet de contrôler chaque note ou chaque "
+"échantillon à jouer, Sonic Pi fournit un large éventail d'options pour "
+"confectionner ou contrôler les sons. Nous couvrirons beaucoup d'entre eux "
+"dans ce tutoriel et il y a une documentation exhaustive pour chacun d'eux "
+"dans le système d'aide. Toutefois pour l'instant, nous allons introduire "
+"deux des plus utiles : *amplitude* et *pan*. Regardons en premier ce que les "
+"options sont réellement."
 
 #: 02.2-Synth-Params.md:13
-#, fuzzy
 msgid "Options"
-msgstr "Paramètres"
+msgstr "Options"
 
 #: 02.2-Synth-Params.md:15
-#, fuzzy
 msgid ""
 "Sonic Pi supports the notion of options (or opts for short) for its synths. Op"
 "ts are controls you pass to `play` which modify and control aspects of the sou"
@@ -977,35 +970,33 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
-"Sonic Pi supporte la notion de paramètres pour ses synthés. Les paramètres son"
-"t des informations de contrôle que vous passez à `play` et qui modifient et co"
-"ntrôlent les aspects du son que vous entendez. Chaque synthé a son propre jeu "
-"de paramètres pour ajuster finement ses sons. Cependant, il y a un ensemble co"
-"mmun de paramètres partagés par beaucoup de sons comme `amp:` et les paramètre"
-"s d'enveloppe (couverts dans une autre section)."
+"Sonic Pi supporte la notion d'options pour ses synthés. Les options sont des "
+"informations de contrôle que vous passez à `play` et qui modifient et "
+"contrôlent les aspects du son que vous entendez. Chaque synthé a son propre "
+"jeu d'options pour ajuster finement ses sons. Cependant, il y a un ensemble "
+"commun d'options partagé par beaucoup de sons comme `amp:` et les options "
+"d'enveloppe (couvertes dans une autre section)."
 
 #: 02.2-Synth-Params.md:22
-#, fuzzy
 msgid ""
 "Opts have two major parts, their name (the name of the control) and their valu"
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
-"Les paramètres ont deux parties principales, leur nom (le nom du contrôle) et "
-"leur valeur (la valeur que vous voulez affecter au contrôle). Par exemple, vou"
-"s pourriez avoir un paramètre appelé `cheese:` et vouloir lui affecter la vale"
-"ur `1`."
+"Les options ont deux parties principales, leur nom (le nom du contrôle) et "
+"leur valeur (la valeur que vous voulez affecter au contrôle). Par exemple, "
+"vous pourriez avoir une option appelée `cheese:` et vouloir lui affecter la "
+"valeur `1`."
 
 #: 02.2-Synth-Params.md:27
-#, fuzzy
 msgid ""
 "Opts are passed to calls to `play` by using a comma `,` and then the name of t"
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
-"Les paramètres sont passés aux appels à `play` en utilisant une virgule `,` et"
-" ensuite le nom du paramètre comme `amp:` (n'oubliez pas les deux-points `:`) "
-"et ensuite un espace et la valeur du paramètre. Par exemple :"
+"Les options sont passées aux appels à `play` en utilisant une virgule `,` et "
+"ensuite le nom de l'option comme `amp:` (n'oubliez pas les deux-points `:`) "
+"et ensuite un espace et la valeur de l'option. Par exemple :"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
@@ -1013,16 +1004,14 @@ msgid "play 50, cheese: 1"
 msgstr "play 50, cheese: 1"
 
 #: 02.2-Synth-Params.md:35
-#, fuzzy
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr ""
-"(Notez que `cheese:` n'est pas un paramètre valide, il est juste utilisé pour "
-"l'exemple)."
+"(Notez que `cheese:` n'est pas une option valide, elle est juste utilisée "
+"pour l'exemple)."
 
 #: 02.2-Synth-Params.md:37
-#, fuzzy
 msgid "You can pass multiple opts by separating them with a comma:"
-msgstr "Vous pouvez passer plusieurs paramètres en les séparant par une virgule :"
+msgstr "Vous pouvez passer plusieurs options en les séparant par une virgule :"
 
 #: 02.2-Synth-Params.md:39
 #, no-wrap
@@ -1030,9 +1019,9 @@ msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
-#, fuzzy
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr "L'ordre des paramètres n'est pas imposé, ainsi, ce qui suit est identique :"
+msgstr ""
+"L'ordre des options n'est pas imposé, ainsi, ce qui suit est identique :"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
@@ -1040,24 +1029,22 @@ msgid "play 50, beans: 0.5, cheese: 1"
 msgstr "play 50, beans: 0.5, cheese: 1"
 
 #: 02.2-Synth-Params.md:49
-#, fuzzy
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
-"Les paramètres qui ne sont pas reconnus par le synthé sont simplement ignorés "
-"(comme `cheese` et `beans` qui sont clairement des noms de paramètres ridicule"
-"s !)"
+"Les options qui ne sont pas reconnues par le synthé sont simplement ignorées "
+"(comme `cheese` et `beans` qui sont clairement des noms de paramètres "
+"ridicules !)"
 
 #: 02.2-Synth-Params.md:52
-#, fuzzy
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
-"Si vous utilisez accidentellement 2 fois le même paramètre avec des valeurs di"
-"fférentes, la dernière gagne. Par exemple, `beans:` aura ici la valeur 2 plutô"
-"t que 0.5 :"
+"Si vous utilisez accidentellement 2 fois la même option avec des valeurs "
+"différentes, la dernière gagne. Par exemple, `beans:` aura ici la valeur 2 "
+"plutôt que 0.5 :"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
@@ -1065,21 +1052,19 @@ msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
 #: 02.2-Synth-Params.md:60
-#, fuzzy
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
-"Beaucoup de choses dans Sonic Pi acceptent des paramètres, aussi passez un peu"
-" de temps à apprendre comment les utiliser et vous serez au point ! Jouons ave"
-"c notre premier paramètre : `amp:`."
+"Beaucoup de choses dans Sonic Pi acceptent des options, aussi passez un peu "
+"de temps à apprendre comment les utiliser et vous serez au point ! Jouons "
+"avec notre première option : `amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
 msgstr "Amplitude"
 
 #: 02.2-Synth-Params.md:66
-#, fuzzy
 msgid ""
 "Amplitude is a computer representation of the loudness of a sound. A *high amp"
 "litude produces a loud sound* and a *low amplitude produces a quiet sound*. Ju"
@@ -1092,18 +1077,18 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
-"L'amplitude est la représentation informatique du volume d'un son. Une *amplit"
-"ude élevée produit un son fort* et une *amplitude basse produit un son faible*"
-". A la manière dont Sonic Pi utilise des nombres pour représenter les durées e"
-"t les notes, des nombres sont aussi utilisés pour représenter l'amplitude. Une"
-" amplitude 0 est le silence (vous n'entendez rien) tandis qu'une amplitude de "
-"1 désigne le volume normal. Vous pouvez monter l'amplitude à 2, 10, 100. Toute"
-"fois, vous devez noter que lorsque l'amplitude globale de tous les sons devien"
-"t trop élevée, Sonic Pi utilise ce qui est appelé un compresseur pour l'aplati"
-"r, de manière à s'assurer que le volume ne soit pas trop fort pour vos oreille"
-"s. Cela peut fréquemment rendre le son distordu et étrange. Aussi essayez d'ut"
-"iliser des amplitudes basses, c'est-à-dire dans l'intervalle 0 à 0.5 pour évit"
-"er la compression."
+"L'amplitude est la représentation informatique du volume d'un son. Une *"
+"amplitude élevée produit un son fort* et une *amplitude basse produit un son "
+"faible*. A la manière dont Sonic Pi utilise des nombres pour représenter les "
+"durées et les notes, des nombres sont aussi utilisés pour représenter "
+"l'amplitude. Une amplitude 0 est le silence (vous n'entendez rien) tandis "
+"qu'une amplitude de 1 désigne le volume normal. Vous pouvez même monter "
+"l'amplitude à 2, 10, 100. Toutefois, vous devez noter que lorsque "
+"l'amplitude globale de tous les sons devient trop élevée, Sonic Pi utilise "
+"ce qui est appelé un compresseur pour l'aplatir, de manière à s'assurer que "
+"le volume ne soit pas trop fort pour vos oreilles. Cela peut fréquemment "
+"rendre le son distordu et étrange. Aussi essayez d'utiliser des amplitudes "
+"basses, c'est-à-dire dans l'intervalle 0 à 0.5 pour éviter la compression."
 
 #: 02.2-Synth-Params.md:79
 #, fuzzy
@@ -1111,13 +1096,12 @@ msgid "Amp it up"
 msgstr "Amp-ez le"
 
 #: 02.2-Synth-Params.md:81
-#, fuzzy
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
-"Pour changer l'amplitude d'un son, vous pouvez utiliser le paramètre `amp:`. P"
-"ar exemple, pour jouer à moitié amplitude, passez 0.5 :"
+"Pour changer l'amplitude d'un son, vous pouvez utiliser l'option `amp:`. Par "
+"exemple, pour jouer à amplitude moitié, passez 0.5 :"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
@@ -1134,15 +1118,14 @@ msgid "play 60, amp: 2"
 msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
-#, fuzzy
 msgid ""
 "The `amp:` opt only modifies the call to `play` it's associated with. So, in t"
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
 msgstr ""
-"Le paramètre `amp:` ne modifie que l'appel au `play` auquel il est associé. Au"
-"ssi, dans l'exemple suivant, le premier appel à play est à moitié volume et le"
-" second revient à la valeur par défaut (1) :"
+"L'option `amp:` ne modifie que l'appel au `play` auquel il est associé. "
+"Aussi, dans l'exemple suivant, le premier appel à play est à moitié volume "
+"et le second revient à la valeur par défaut (1) :"
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -1156,11 +1139,10 @@ msgstr ""
 "play 65"
 
 #: 02.2-Synth-Params.md:104
-#, fuzzy
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr ""
-"Bien entendu, vous pouvez utiliser différentes valeurs de `amp:` pour chaque a"
-"ppel à play :"
+"Bien entendu, vous pouvez utiliser différentes valeurs de `amp:` pour chaque "
+"appel à play :"
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -1182,12 +1164,10 @@ msgstr ""
 "play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
-#, fuzzy
 msgid "Panning"
 msgstr "Balance stéréo"
 
 #: 02.2-Synth-Params.md:118
-#, fuzzy
 msgid ""
 "Another fun opt to use is `pan:` which controls the panning of a sound in ster"
 "eo. Panning a sound to the left means that you hear it out of the left speaker"
@@ -1196,17 +1176,16 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
-"Un autre paramètre agréable à utiliser est `pan:` qui contrôle la balance du s"
-"on en stéréo. Balancer un son vers la gauche signifie que votre oreille va l'e"
-"ntendre sortir du haut-parleur de gauche, et le balancer vers la droite que vo"
-"us l'entendrez sortir par le haut-parleur de droite. Pour nos valeurs, nous ut"
-"ilisons -1 pour représenter complètement à gauche, 0 pour représenter le centr"
-"e et 1 pour représenter complètement à droite dans le champ stéréo. Bien enten"
-"du, vous êtes libre d'utiliser toute valeur entre -1 et 1 pour contrôler le po"
-"sitionnement précis de votre son."
+"Une autre option agréable à utiliser est `pan:` qui contrôle la balance du "
+"son en stéréo. Balancer un son vers la gauche signifie que votre oreille va "
+"l'entendre sortir du haut-parleur de gauche, et le balancer vers la droite "
+"que vous l'entendrez sortir par le haut-parleur de droite. Pour nos valeurs, "
+"nous utilisons -1 pour représenter complètement à gauche, 0 pour représenter "
+"le centre et 1 pour représenter complètement à droite dans le champ stéréo. "
+"Bien entendu, vous êtes libre d'utiliser toute valeur entre -1 et 1 pour "
+"contrôler le positionnement précis de votre son."
 
 #: 02.2-Synth-Params.md:126
-#, fuzzy
 msgid "Let's play a beep out of the left speaker:"
 msgstr "Jouons un beep à destination du haut-parleur de gauche :"
 
@@ -1216,7 +1195,6 @@ msgid "play 60, pan: -1"
 msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
-#, fuzzy
 msgid "Now, let's play it out of the right speaker:"
 msgstr "Maintenant, jouons-le à destination du haut-parleur de droite :"
 
@@ -1226,11 +1204,10 @@ msgid "play 60, pan: 1"
 msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
-#, fuzzy
 msgid "Finally let's play it back out of the center of both (the default position):"
 msgstr ""
-"Finalement, jouons-le à destination du centre des deux (la position par défaut"
-") :"
+"Finalement, jouons-le à destination du centre des deux (la position par "
+"défaut) :"
 
 #: 02.2-Synth-Params.md:141
 #, no-wrap
@@ -1238,24 +1215,20 @@ msgid "play 60, pan: 0"
 msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
-#, fuzzy
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
 msgstr ""
-"Maintenant, allez et prenez plaisir à changer l'amplitude et la balance de vos"
-" sons !"
+"Maintenant, allez et prenez plaisir à changer l'amplitude et la balance de "
+"vos sons !"
 
 #: 02.3-Switching-Synths.md:1
-#, fuzzy
 msgid "2.3 Switching Synths"
 msgstr "2.3 Changement de synthés"
 
 #: 02.3-Switching-Synths.md:3
-#, fuzzy
 msgid "Switching Synths"
 msgstr "Changement de synthés"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1263,14 +1236,14 @@ msgid ""
 " in this section we'll explore the exciting range of sounds that Sonic Pi has "
 "to offer."
 msgstr ""
-"Jusqu'à maintenant, nous nous sommes bien amusés à faire des beeps. Cependant,"
-" vous commencez probablement à être ennuyé par le bruit basique du beep. Sonic"
-" Pi n'a-t-il que cela à offir en tout et pour tout ? Il y a certainement plus "
-"dans le codage en \"live\" que de jouer seulement des beeps. Oui, et dans cette "
-"section nous allons explorer l'étendue des sons que Sonic Pi a à offrir."
+"Jusqu'à maintenant, nous nous sommes bien amusés à faire des beeps. "
+"Cependant, vous commencez probablement à être lassé par le bruit basique du "
+"beep. Sonic Pi n'a-t-il que cela à offrir en tout et pour tout ? Il y a "
+"certainement plus dans le codage en \"live\" que de jouer seulement des "
+"beeps ? Oui, et dans cette section nous allons explorer l'étendue des sons "
+"que Sonic Pi a à offrir."
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a range of instruments it calls synths which is *short for synthe"
 "sisers*. Whereas samples represent pre-recorded sounds, synths are capable of "
@@ -1279,23 +1252,22 @@ msgid ""
 " you'll have a lot of fun exploring and playing with them. First, let's learn "
 "how to select the current synth to use."
 msgstr ""
-"Sonic Pi dispose d'un lot d'instruments qu'il appelle synths *raccourci pour s"
-"ynthétiseurs*. Tandis que les échantillons (samples) représentent des sons pré"
-"-enregistrés, les synthés (synths) sont capables de générer des nouveaux sons "
-"en fonction de la façon dont vous les contrôlez (ce que nous explorerons plus "
-"tard dans ce tutoriel). Les synthés de Sonic Pi sont très puissants et express"
-"ifs, et vous aurez grand plaisir à les explorer et à jouer avec. En premier li"
-"eu, apprenons à sélectionner le synthé en cours à utiliser."
+"Sonic Pi dispose d'un lot d'instruments qu'il appelle synthés *raccourci "
+"pour synthétiseurs*. Tandis que les échantillons (samples) représentent des "
+"sons pré-enregistrés, les synthés (synths) sont capables de générer des "
+"nouveaux sons en fonction de la façon dont vous les contrôlez (ce que nous "
+"explorerons plus tard dans ce tutoriel). Les synthés de Sonic Pi sont très "
+"puissants et expressifs, et vous aurez grand plaisir à les explorer et à "
+"jouer avec. En premier lieu, apprenons à sélectionner le synthé en cours à "
+"utiliser."
 
 #: 02.3-Switching-Synths.md:21
-#, fuzzy
 msgid "Buzzy saws and prophets"
-msgstr "Dents de scie vibrantes et prophets"
+msgstr "Dents de scie vibrantes et prophètes"
 
 #: 02.3-Switching-Synths.md:23
-#, fuzzy
 msgid "A fun sound is the *saw wave* - let's give it a try:"
-msgstr "Un son sympathique est l'*onde en dent de scie (saw)* - essayons-le :"
+msgstr "Un son sympathique est l'*onde en dent de scie (saw)*. Essayons-le :"
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
@@ -1317,9 +1289,8 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
-#, fuzzy
 msgid "Let's try another sound - the *prophet*:"
-msgstr "Essayons un autre son - le *prophet*:"
+msgstr "Essayons un autre son, le *prophet* :"
 
 #: 02.3-Switching-Synths.md:37
 #, no-wrap
@@ -1341,9 +1312,8 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
-#, fuzzy
 msgid "How about combining two sounds. First one after another:"
-msgstr "Comment combiner deux sons. D'abord l'un après l'autre :"
+msgstr "Et si on combinait deux sons ? D'abord l'un après l'autre :"
 
 #: 02.3-Switching-Synths.md:49
 #, no-wrap
@@ -1367,7 +1337,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
-#, fuzzy
 msgid "Now at the same time:"
 msgstr "Maintenant en même temps :"
 
@@ -1395,33 +1364,30 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
-#, fuzzy
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
-"Notez que la commande `use_synth` n'agit que sur les appels suivants à `play`."
-" Pensez à elle comme un *gros commutateur* - les nouveaux appels à `play` vont"
-" jouer tout synthé qui est désigné \"en cours\". Vous pouvez enclencher le commu"
-"tateur sur un nouveau synthé avec `use_synth`."
+"Notez que la commande `use_synth` n'agit que sur les appels suivants à `play`"
+". Pensez à elle comme un *gros commutateur* : les nouveaux appels à `play` "
+"vont jouer tout synthé qui est désigné \"en cours\". Vous pouvez enclencher "
+"le commutateur sur un nouveau synthé avec `use_synth`."
 
 #: 02.3-Switching-Synths.md:80
-#, fuzzy
 msgid "Discovering Synths"
 msgstr "Découverte des synthés"
 
 #: 02.3-Switching-Synths.md:82
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"Pour voir quels synthés Sonic Pi met à votre disposition pour jouer, jetez un "
-"œil sur les options de Synths dans le menu horizontal tout à fait en bas (à ga"
-"uche de Fx). Il y en a 33 au choix. Voici mes préférés :"
+"Pour voir quels synthés Sonic Pi met à votre disposition pour jouer, jetez "
+"un œil sur les options de Synths dans le menu horizontal tout à fait en bas ("
+"à gauche de Fx). Il y en a plus de 20 au choix. Voici mes préférés :"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
@@ -1444,80 +1410,71 @@ msgid "`:pulse`"
 msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
-#, fuzzy
 msgid ""
 "Now play around with *switching synths during your music*. Have fun combining "
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
 msgstr ""
-"Maintenant jouez en *commutant les synthés au cours de votre jeu*. Prenez plai"
-"sir à combiner des synthés pour faire de nouveaux sons et aussi en untilisant "
-"différents synthés selon les sections de votre musique."
+"Maintenant jouez en *commutant les synthés au cours de votre jeu*. Prenez "
+"plaisir à combiner des synthés pour faire de nouveaux sons et aussi en "
+"utilisant différents synthés selon les sections de votre musique."
 
 #: 02.4-Durations-with-Envelopes.md:1
-#, fuzzy
 msgid "2.4 Duration with Envelopes"
 msgstr "2.4 Durées avec enveloppes"
 
 #: 02.4-Durations-with-Envelopes.md:3
-#, fuzzy
 msgid "Duration with Envelopes"
 msgstr "Durées avec enveloppes"
 
 #: 02.4-Durations-with-Envelopes.md:5
-#, fuzzy
 msgid ""
 "In an earlier section, we looked at how we can use the `sleep` command to cont"
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
 msgstr ""
-"Dans une section précédente, nous avons vu comment nous pouvions utiliser la c"
-"ommande sleep pour contrôler le moment du déclenchement de nos sons. Toutefois"
-", nous n'avons pas encore été capables de contrôler la durée des sons."
+"Dans une section précédente, nous avons vu comment nous pouvions utiliser la "
+"commande sleep pour contrôler le moment du déclenchement de nos sons. "
+"Toutefois, nous n'avons pas encore été capables de contrôler la durée des "
+"sons."
 
 #: 02.4-Durations-with-Envelopes.md:9
-#, fuzzy
 msgid ""
 "In order to give us a simple, yet powerful means of *controlling the duration*"
 " of our sounds, Sonic Pi provides the notion of an *ADSR amplitude envelope* ("
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
-"Dans le but de nous offrir des moyens simples mais puissants de *contrôle de d"
-"urée* de nos sons, Sonic Pi fournit la technique d'*enveloppe d'amplitude ADSR"
-"* (nous expliquerons ce que ADSR signifie plus loin dans cette section). Une e"
-"nveloppe d'amplitude offre deux moyens utiles de contrôle :"
+"Dans le but de nous offrir des moyens simples mais puissants de *contrôle de "
+"durée* de nos sons, Sonic Pi fournit la technique d'*enveloppe d'amplitude "
+"ADSR* (nous expliquerons ce que ADSR signifie plus loin dans cette section). "
+"Une enveloppe d'amplitude offre deux moyens utiles de contrôle :"
 
 #: 02.4-Durations-with-Envelopes.md:14
-#, fuzzy
 msgid "control over the duration of a sound"
 msgstr "contrôle sur la durée d'un son"
 
 #: 02.4-Durations-with-Envelopes.md:15
-#, fuzzy
 msgid "control over the amplitude of a sound"
 msgstr "contrôle sur l'amplitude d'un son"
 
 #: 02.4-Durations-with-Envelopes.md:17
-#, fuzzy
 msgid "Duration"
 msgstr "Durée"
 
 #: 02.4-Durations-with-Envelopes.md:19
-#, fuzzy
 msgid ""
 "The duration is the length the sound lasts for. A longer duration means that y"
 "ou hear the sound for longer. Sonic Pi's sounds all have a controllable amplit"
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
-"La durée est le temps pendant lequel le son se maintient. Une longue durée sig"
-"nifie que vous entendez le son plus longtemps. Les sons de Sonic Pi ont tous u"
-"ne enveloppe d'amplitude, et la durée totale de cette enveloppe est la durée d"
-"u son. Ainsi, en contrôlant l'enveloppe, vous contrôlez la durée."
+"La durée est le temps pendant lequel le son se maintient. Une longue durée "
+"signifie que vous entendez le son plus longtemps. Les sons de Sonic Pi ont "
+"tous une enveloppe d'amplitude, et la durée totale de cette enveloppe est la "
+"durée du son. Ainsi, en contrôlant l'enveloppe, vous contrôlez la durée."
 
 #: 02.4-Durations-with-Envelopes.md:27
-#, fuzzy
 msgid ""
 "The ADSR envelope not only controls duration, it also gives you *fine control "
 "over the amplitude of the sound*. All audible sounds start and end silent and "
@@ -1528,47 +1485,45 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
-"L'enveloppe ADSR non seulement contrôle la durée, mais vous donne aussi *un co"
-"ntrôle fin sur l'amplitude du son*. Tous les sons commencent et finissent par "
-"le silence, avec une part non silencieuse entre. Les enveloppes vous permetten"
-"t de faire évoluer ou de maintenir l'amplitude des parties non-silencieuses du"
-" son. C'est comme si vous donniez à quelqu'un des instructions sur comment aug"
-"menter ou diminuer le volume d'une musique. Par exemple, vous pourriez demande"
-"r à quelqu'un de commencer en silence, d'augmenter lentement le volume jusqu'a"
-"u maximum, le maintenir un moment, puis revenir rapidement au silence. Sonic P"
-"i vous permet de programmer ceci avec les enveloppes."
+"L'enveloppe ADSR non seulement contrôle la durée, mais vous donne aussi *un "
+"contrôle fin sur l'amplitude du son*. Tous les sons commencent et finissent "
+"par le silence, avec une part non silencieuse entre. Les enveloppes vous "
+"permettent de faire évoluer ou de maintenir l'amplitude des parties non-"
+"silencieuses du son. C'est comme si vous donniez à quelqu'un des "
+"instructions sur comment augmenter ou diminuer le volume d'un ampli de "
+"guitare. Par exemple, vous pourriez demander à quelqu'un de \"commencer en "
+"silence, d'augmenter lentement le volume jusqu'au maximum, le maintenir un "
+"moment, puis revenir rapidement au silence\". Sonic Pi vous permet de "
+"programmer ceci avec les enveloppes."
 
 #: 02.4-Durations-with-Envelopes.md:37
-#, fuzzy
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
 msgstr ""
-"Comme nous l'avions vu dans une section précédente, une amplitude de 0 est le "
-"silence et une amplitude de 1 est le volume normal."
+"Juste pour se remémorer, une amplitude de 0 est le silence et une amplitude "
+"de 1 est le volume normal."
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
 msgstr "Maintenant, regardons chaque partie de l'enveloppe tour à tour."
 
 #: 02.4-Durations-with-Envelopes.md:42
-#, fuzzy
 msgid "Release Phase"
 msgstr "Durée d'extinction (Release)"
 
 #: 02.4-Durations-with-Envelopes.md:44
-#, fuzzy
 msgid ""
 "The only part of the envelope that's used by default is the release time. This"
 " is the time it takes for the synth's sound to fade out. All synths have a rel"
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
-"Par défaut, tous les synthés ont une durée de \"release\" de 1. Ce qui signifie "
-"qu'ils ont une durée d'un temps musical (qui par défaut est 1 seconde) avant e"
-"xtinction. Nous pouvons changer cette durée en passant l'argument `release:` à"
-" nos appels à `play`. Par exemple, pour faire jouer un synthé pendant 2 temps,"
-" nous spécifions un `release:` de `2`:"
+"La seul partie de l'enveloppe qui est utilisée par défaut est la durée "
+"d'extinction. C'est la durée qu'il faut pour que le son du synthé se "
+"termine. Tous les synthés ont une durée de \"release\" de 1, ce qui signifie "
+"qu'ils ont une durée d'un temps musical (qui par défaut est 1 seconde) avant "
+"extinction :"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
@@ -1591,7 +1546,7 @@ msgid ""
 msgstr ""
 "Observez comme cela sonne exactement pareil (le son dure pendant une seconde)"
 ". Néanmoins, c'est désormais très simple de changer la durée en modifiant la "
-"valeur du `release:` opt:"
+"valeur de l'option `release:` :"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1599,13 +1554,12 @@ msgid "play 60, release: 2"
 msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
-#, fuzzy
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
 msgstr ""
-"Nous pouvons faire jouer un synthé pendant une très courte durée en utilisant "
-"une durée de \"release\" très petite :"
+"Nous pouvons faire jouer un synthé pendant une très courte durée en "
+"utilisant une durée de \"release\" très petite :"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
@@ -1613,23 +1567,20 @@ msgid "play 60, release: 0.2"
 msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
-#, fuzzy
 msgid ""
 "The duration of the release of the sound is called the *release phase* and by "
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
-"Ainsi, qu'est-ce que la durée de \"release\" ? C'est la durée que prend le son p"
-"our passer de l'amplitude totale (typiquement une valeur de 1) à l'amplitude 0"
-". C'est appelé la *phase d'extinction* et c'est une transition linéaire (une c"
-"ourbe en ligne droite). Le schéma suivant illustre cette transition :"
+"La durée d'extinction du son est appelée \"phase d'extinction\" et est par "
+"défaut une transition linéaire (c'est-à-dire une ligne droite). Le schéma "
+"suivant illustre cette transition :"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr "![release envelope](../images/tutorial/env-release.png)"
+msgstr "![envelope d'extinction](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1637,39 +1588,38 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"La ligne verticale à gauche du schéma montre que le son part de l'amplitude 0,"
-" mais monte jusqu'à l'amplitude totale immédiatement (c'est la phase d'attaque"
-" que nous couvrirons en suivant). Une fois à l'amplitude totale, il évolue en "
-"ligne droite jusqu'à zéro en prenant le temps spécifié par `release:`. *Des du"
-"rées de \"release\" longues produisent des fondus d'extinction de synthé longs*."
+"La ligne verticale à gauche du schéma montre que le son part de l'amplitude "
+"0, mais monte jusqu'à l'amplitude totale immédiatement (c'est la phase "
+"d'attaque que nous couvrirons ensuite). Une fois à l'amplitude totale, il "
+"évolue en ligne droite jusqu'à zéro en prenant le temps spécifié par "
+"`release:`. *Des durées de \"release\" longues produisent des fondus "
+"d'extinction de synthé longs.*"
 
 #: 02.4-Durations-with-Envelopes.md:88
-#, fuzzy
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
-"Vous pouvez ainsi changer la durée de vos sons en changeant la durée d'extinct"
-"ion. Jouez un moment en ajoutant des durées de \"release\" à votre musique."
+"Vous pouvez ainsi changer la durée de vos sons en changeant la durée "
+"d'extinction. Jouez un moment en ajoutant des durées de \"release\" à votre "
+"musique."
 
 #: 02.4-Durations-with-Envelopes.md:91
-#, fuzzy
 msgid "Attack Phase"
-msgstr "Durée d'Attaque"
+msgstr "Phase d'attaque"
 
 #: 02.4-Durations-with-Envelopes.md:93
-#, fuzzy
 msgid ""
 "By default, the *attack phase* is 0 for all synths which means they move from "
 "0 amplitude to 1 immediately. This gives the synth an initial percussive sound"
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
-"Par défaut, la phase d'attaque est fixée à 0 pour tous les synthés, ce qui sig"
-"nifie qu'ils évoluent de l'amplitude 0 à l'amplitude 1 immédiatement. Cela don"
-"ne initialement au synthé un son percussif. Toutefois, vous pouvez souhaiter u"
-"ne montée progressive de votre son. Ceci peut être obtenu avec l'argument `att"
-"ack:`. Essayez des montées progressives de quelques sons :"
+"Par défaut, la phase d'attaque est fixée à 0 pour tous les synthés, ce qui "
+"signifie qu'ils évoluent de l'amplitude 0 à l'amplitude 1 immédiatement. "
+"Cela donne initialement au synthé un son percussif. Toutefois, vous pouvez "
+"souhaiter une montée progressive de votre son. Ceci peut être obtenu avec "
+"l'option `attack:`. Essayez des montées progressives de quelques sons :"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1683,13 +1633,12 @@ msgstr ""
 "play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
-#, fuzzy
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
-"Vous pouvez utiliser des arguments multiples en même temps. Par exemple, pour "
-"une attaque courte et une lente extinction, essayez :"
+"Vous pouvez utiliser des options multiples en même temps. Par exemple, pour "
+"une attaque courte et une extinction lente, essayez :"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
@@ -1697,26 +1646,26 @@ msgid "play 60, attack: 0.7, release: 4"
 msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
-#, fuzzy
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
 msgstr ""
-"Cette courte attaque et cette lente extinction sont illustrées dans le schéma "
-"suivant :"
+"Cette attaque courte et cette extinction lente sont illustrées dans le "
+"schéma suivant :"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
+msgstr ""
+"![envelope avec attaque et extinction](../images/tutorial/env-attack-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
-#, fuzzy
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
 msgstr ""
-"Bien entendu, vous pouvez inverser les choses. Essayez une attaque longue et u"
-"ne exctinction rapide :"
+"Bien entendu, vous pouvez inverser les choses. Essayez une attaque longue et "
+"une extinction rapide :"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
@@ -1724,22 +1673,20 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
-#, fuzzy
 msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-"
-"short-release.png)"
+"![envelope avec attaque longue et extinction courte](../images/tutorial/env-"
+"long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
-#, fuzzy
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
 msgstr ""
-"Finalement, vous pouvez aussi avoir à la fois une attaque et une exctinction r"
-"apides pour des sons plus courts :"
+"Finalement, vous pouvez aussi avoir à la fois une attaque et une extinction "
+"rapides pour des sons plus courts."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
@@ -1747,13 +1694,12 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
-#, fuzzy
 msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 msgstr ""
-"![short attack short release envelope](../images/tutorial/env-short-attack-"
-"short-release.png)"
+"![envelope avec attaque courte et extinction courte](../images/tutorial/env-"
+"short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 #, fuzzy
