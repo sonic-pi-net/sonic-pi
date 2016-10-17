@@ -11,7 +11,33 @@ echo "We're working to make this script a one shot solution for all OSX platform
 echo "Please direct rage and suggestions to Factoid in (https://gitter.im/samaaron/sonic-pi)"
 
 #Install homebrew prerequisites
-brew install qt5 boost
+brew install qt55 boost
+
+#Build supercollider 3.8 from source
+cd ../../../../
+SP_ROOT=`pwd`
+git clone https://github.com/supercollider/supercollider.git
+cd supercollider
+git submodule init && git submodule update
+mkdir build
+cd build
+cmake -DSC_EL=no -DCMAKE_PREFIX_PATH=/usr/local/opt/qt55/lib/cmake ..
+make
+sudo make install
+#This should install to /usr/local/
+
+#Build sc3 plugins and install to /usr/local/ so supercollider 3.8 can find them
+cd $SP_ROOT
+git clone https://github.com/supercollider/sc3-plugins.git
+cd sc3-plugins
+git submodule init && git submodule update
+cp -r external_libraries/nova-simd/* source/VBAPUGens
+mkdir build
+cd build
+cmake -DSC_PATH=../../supercollider/ -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+make
+sudo make install
+rsync -arv SC3plugins ../../supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/plugins/
 
 #Download and extract source packages
 cd ../../../../
@@ -22,17 +48,17 @@ tar -xf qwt-6.1.2.tar.bz2
 
 #Build qscintilla libraries for Qt5
 cd QScintilla_gpl-2.9.2/Qt4Qt5/
-/usr/local/opt/qt5/bin/qmake qscintilla.pro
+/usr/local/opt/qt55/bin/qmake qscintilla.pro
 make
 sudo make install
 
 #Build qwt libraries for Qt5
 cd ../../
 cd qwt-6.1.2
-/usr/local/opt/qt5/bin/qmake qwt.pro
+/usr/local/opt/qt55/bin/qmake qwt.pro
 make
 sudo make install
-sudo cp /usr/local/qwt-6.1.2/features/* /usr/local/opt/qt5/mkspecs/features/
+sudo cp /usr/local/qwt-6.1.2/features/* /usr/local/opt/qt55/mkspecs/features/
 
 #Build Sonic-Pi server extensions, documentation, and gui
 cd $SP_APP_SRC
@@ -40,18 +66,18 @@ cd $SP_APP_SRC
 ../../server/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/bin/qt-doc.rb -o ruby_help.h
-/usr/local/opt/qt5/bin/lrelease SonicPi.pro 
-/usr/local/opt/qt5/bin/qmake SonicPi.pro 
+/usr/local/opt/qt55/bin/lrelease SonicPi.pro 
+/usr/local/opt/qt55/bin/qmake SonicPi.pro 
 make
 
 ### FOR FINAL RELEASE ONLY MOVE THIS INTO package-osx-app ###
-#/usr/local/opt/qt5/bin/macdeployqt 'Sonic Pi.app'
+#/usr/local/opt/qt55/bin/macdeployqt 'Sonic Pi.app'
 
 #Soft Link extra stuff that the app will need at runtime
 cd 'Sonic Pi.app'
-ln -s ../../../../app/ ./
-ln -s ../../../../etc/ ./
-ln -s /Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth ../../../../app/server/native/osx/scsynth
+ln -f -s ../../../../app/ ./
+ln -f -s ../../../../etc/ ./
+ln -f -s ../../../../../supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/scsynth ../../../../app/server/native/osx/scsynth
 
 ### FOR FINAL RELEASE ONLY MOVE THIS INTO package-osx-app ###
 #rsync -arv ../../../../app ./
