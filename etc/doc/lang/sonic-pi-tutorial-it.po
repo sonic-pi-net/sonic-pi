@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-12 09:10+0000\n"
-"Last-Translator: Diego Gurnari <gurnari.dev@gmail.com>\n"
+"PO-Revision-Date: 2016-10-17 17:50+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -14268,24 +14268,21 @@ msgstr ""
 "end"
 
 #: A.13-probabilistic-sequencer.md:1
-#, fuzzy
 msgid "A.13 Code a Probabilistic Sequencer"
 msgstr "A.13 Programma un Sequencer Probabilistico"
 
 #: A.13-probabilistic-sequencer.md:3
-#, fuzzy
 msgid "Code a Probabilistic Sequencer"
 msgstr "Programma un Sequencer Probabilistico"
 
 #: A.13-probabilistic-sequencer.md:5
-#, fuzzy
 msgid ""
 "In a previous episode of this Sonic Pi series we explored the power of randomi"
 "sation to introduce variety, surprise and change into our live coded tracks an"
 "d performances. For example, we randomly picked notes from a scale to create n"
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:12
 msgid "Probability"
@@ -14307,13 +14304,16 @@ msgstr "dice (ndT: dado)"
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "8.times do\n"
 "  puts dice\n"
 "  sleep 1\n"
 "end"
-msgstr "dice (ndT: dado)"
+msgstr ""
+"8.times do\n"
+"  puts dice\n"
+"  sleep 1\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:32
 #, fuzzy
@@ -14323,9 +14323,8 @@ msgid ""
 msgstr "dice (ndT: dado)"
 
 #: A.13-probabilistic-sequencer.md:35
-#, fuzzy
 msgid "Random Beats"
-msgstr "Semi casuali"
+msgstr "Beat casuali"
 
 #: A.13-probabilistic-sequencer.md:37
 #, fuzzy
@@ -14338,13 +14337,16 @@ msgstr "Ascoltiamo che cosa ne è venuto fuori:"
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :random_beat do\n"
 "  sample :drum_snare_hard if dice == 1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "rand"
+msgstr ""
+"live_loop :random_beat do\n"
+"  sample :drum_snare_hard if dice == 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:50
 #, fuzzy
@@ -14365,9 +14367,8 @@ msgid ""
 msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:65
-#, fuzzy
 msgid "Changing Probabilities"
-msgstr "Cambiare Probabilità"
+msgstr "Cambiare le probabilità"
 
 #: A.13-probabilistic-sequencer.md:67
 #, fuzzy
@@ -14385,13 +14386,16 @@ msgstr "one_in"
 
 #: A.13-probabilistic-sequencer.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :different_probabilities do\n"
 "  sample :drum_snare_hard if one_in(6)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :different_probabilities do\n"
+"  sample :drum_snare_hard if one_in(6)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:84
 #, fuzzy
@@ -14404,22 +14408,19 @@ msgid ""
 msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:91
-#, fuzzy
 msgid "Combining Probabilities"
-msgstr "Combinazione Probabilità"
+msgstr "Combinare le probabilità"
 
 #: A.13-probabilistic-sequencer.md:93
-#, fuzzy
 msgid ""
 "Things get really exciting when you combine multiple samples being triggered w"
 "ith different probabilities. For example:"
 msgstr ""
-"Le cose si fanno davvero interessanti quando si combinano più campioni "
-"innescati con diverse probabilità. Per esempio:"
+"Le cose si fanno davvero interessanti quando diversi campioni vengono "
+"avviati con diverse probabilità. Per esempio:"
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  sample :elec_hi_snare if one_in(6)\n"
@@ -14428,7 +14429,14 @@ msgid ""
 "  sample :bd_haus if one_in(4)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  sample :elec_hi_snare if one_in(6)\n"
+"  sample :drum_cymbal_closed if one_in(2)\n"
+"  sample :drum_cymbal_pedal if one_in(3)\n"
+"  sample :bd_haus if one_in(4)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:106
 msgid ""
@@ -14438,9 +14446,8 @@ msgid ""
 msgstr ""
 
 #: A.13-probabilistic-sequencer.md:112
-#, fuzzy
 msgid "Repeatable Rhythms"
-msgstr "Ritmo"
+msgstr "Ritmi ripetibili"
 
 #: A.13-probabilistic-sequencer.md:114
 #, fuzzy
@@ -14454,7 +14461,6 @@ msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 1000\n"
@@ -14466,18 +14472,27 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 1000\n"
+"  8.times do\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:133
-#, fuzzy
 msgid ""
 "One thing I tend to do with this kind of structure is to remember which seeds "
 "sound good and make a note of them. That way I can easily re-create my rhythms"
 " in future practice sessions or performances."
 msgstr ""
-"Una cosa che tendo a fare con questo tipo di struttura è ricordare quali "
-"semi suonano bene per farne delle note. Questo per poter ricreare facilmente "
-"le mie sequenze nelle sessioni future."
+"Solitamente, con questo tipo struttura bisogna ricordarsi quali semi suonano "
+"bene e prenderne nota. In questo modo, posso facilmente riproporre dei ritmi "
+"che ho già creato in concerti futuri."
 
 #: A.13-probabilistic-sequencer.md:139
 #, fuzzy
@@ -14490,7 +14505,6 @@ msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 2000\n"
@@ -14505,7 +14519,20 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "choose (scegli)"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 2000\n"
+"  8.times do\n"
+"    c = rrand(70, 130)\n"
+"    n = (scale :e1, :minor_pentatonic).take(3).choose\n"
+"    synth :tb303, note: n, release: 0.1, cutoff: c if rand < 0.9\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus, amp: 1.5 if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.14-amplitude-modulation.md:1
 msgid "A.14 Amplitude Modulation"
@@ -14554,14 +14581,18 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:27
 #, no-wrap
-#, fuzzy
 msgid ""
 "\n"
 "with_fx :slicer do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
 #, fuzzy
@@ -14772,9 +14803,8 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:158
-#, fuzzy
 msgid "Slicing Beats"
-msgstr "Affettare"
+msgstr "Affettare i beat"
 
 #: A.14-amplitude-modulation.md:160
 #, fuzzy
@@ -14802,9 +14832,8 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:176
-#, fuzzy
 msgid "Changing tempo"
-msgstr "Facciamo dei cambiamenti"
+msgstr "Cambiamenti di tempo"
 
 #: A.14-amplitude-modulation.md:178
 #, fuzzy
@@ -14877,14 +14906,12 @@ msgstr ""
 "end"
 
 #: A.15-five-live-coding-techniques.md:1 A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "Programmare dal vivo"
+msgstr "A.15 Cinque tecniche di live coding"
 
 #: A.15-five-live-coding-techniques.md:3 A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "Programmare dal vivo"
+msgstr "Cinque tecniche di live coding"
 
 #: A.15-five-live-coding-techniques.md:5
 msgid ""
@@ -14986,9 +15013,8 @@ msgid ""
 msgstr ""
 
 #: A.15-five-live-coding-techniques.md:80 A.15-performance.md:80
-#, fuzzy
 msgid "3. Master Live Loops"
-msgstr "Loop Live"
+msgstr "3. Controllare i live loop"
 
 #: A.15-five-live-coding-techniques.md:82 A.15-performance.md:82
 msgid ""
@@ -15067,9 +15093,8 @@ msgid ""
 msgstr ""
 
 #: A.15-five-live-coding-techniques.md:136 A.15-performance.md:136
-#, fuzzy
 msgid "5. Practice"
-msgstr "Effetti in pratica"
+msgstr "5. Pratica"
 
 #: A.15-five-live-coding-techniques.md:138 A.15-performance.md:138
 msgid ""
@@ -15126,14 +15151,12 @@ msgid "` set_mixer_control! lpf: 50 `"
 msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "Programmare dal vivo"
+msgstr "A.16 Come far pratica di live coding"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "Programmare dal vivo"
+msgstr "8 consigli per la pratica di live coding"
 
 #: A.16-practice.md:5
 msgid ""
