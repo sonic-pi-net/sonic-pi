@@ -946,6 +946,18 @@ void MainWindow::update_check_updates() {
   }
 }
 
+bool isScopeEnabledByDefault( const QString& name )
+{
+  if( name == "mono" ) return true;
+  return false;
+}
+
+bool isScopeEnabled( const QSettings& settings, const QString& name )
+{
+  QString lname = name.toLower();
+  return settings.value("prefs/scope/show-"+lname, isScopeEnabledByDefault(lname) ).toBool();
+}
+
 void MainWindow::initPrefsWindow() {
 
   prefTabs = new QTabWidget();
@@ -1173,7 +1185,7 @@ void MainWindow::initPrefsWindow() {
   for( auto name : scopeInterface->getScopeNames() )
   {
     QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) );
-    cb->setChecked( scopeInterface->enableScope( name, settings.value("prefs/scope/show-"+name.toLower(), true).toBool() ) );
+    cb->setChecked( scopeInterface->enableScope( name, isScopeEnabled(settings,name) ) );
     scopeSignalMap->setMapping( cb, cb );
     scope_box_kinds_layout->addWidget(cb);
     connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
@@ -1284,8 +1296,6 @@ void MainWindow::initPrefsWindow() {
   if(settings.value("prefs/rp/force-audio-hdmi", false).toBool()) {
     setRPSystemAudioHDMI();
   }
-
-
 }
 
 void MainWindow::setMessageBoxStyle() {
