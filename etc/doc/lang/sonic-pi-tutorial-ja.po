@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-14 10:03+0000\n"
+"PO-Revision-Date: 2016-10-17 09:46+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -10417,6 +10417,7 @@ msgstr ""
 "end"
 
 #: A.05-acid-bass.md:138
+#, fuzzy
 msgid ""
 "For each standard envelope opt, there's a `cutoff_` equivalent opt in the `:tb"
 "303` synth. So, to change the cutoff attack time we can use the `cutoff_attack"
@@ -10424,12 +10425,17 @@ msgid ""
 "azy sound warble in and out. Now start to play. Try changing the `cutoff_attac"
 "k:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
+"`:tb303`シンセでは、標準的なエンベロープオプションの一つ一つに対応して、`cutoff_`に同等のオプションがあります。したがって、カットオフのア"
+"タック時間を変更するのには、`cutoff_attack:`オプションを使うことができます。上のコードを空のBufferにコピーして実行してみてください。"
+"震えたクレイジーな音を聞くことができるでしょう。では遊んでみましょう。`cutoff_attack:`を`1`に変更し、次に`0.5`に変更してみてくださ"
+"い。さらに`8`を試してみましょう。"
 
 #: A.05-acid-bass.md:144
 msgid ""
 "Notice that I've passed everything through a `:reverb` FX for extra atmosphere"
 " - try other FX to see what works!"
 msgstr ""
+"追加の雰囲気のために全てを`:reverb`エフェクトに渡しているのに気が付いたかもしれません。他のエフェクトもどう作用するか試してみてください！"
 
 #: A.05-acid-bass.md:149
 msgid ""
@@ -10437,6 +10443,8 @@ msgid ""
 "nto an empty buffer, listen for a while and then start live coding your own ch"
 "anges. See what crazy sounds you can make with it! See you next time..."
 msgstr ""
+"最後に、今回のチュートリアルのアイデアを使って制作したコードを紹介します。空のBufferにコピーして少しの間聞いてみてください。そしてあなた自身のコード"
+"になるようライブコーディングしてみてください。このコードでどんなクレイジーな音が作れたか見てみてください！では次回..."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
