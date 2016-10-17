@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-17 17:52+0000\n"
-"Last-Translator: Matthieu Ottaviani <matthieuottaviani@gmail.com>\n"
+"PO-Revision-Date: 2016-10-17 17:55+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -8889,7 +8889,6 @@ msgid "`S-M-s` - Save contents of buffer to a file"
 msgstr "`S-M-s` - Salva il contenuto del buffer in un file"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
-#, fuzzy
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Carica il contenuto del buffer da un file"
 
@@ -14912,7 +14911,7 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:1 A.15-performance.md:1
 msgid "A.15 Five Live Coding Techniques"
-msgstr "A.15 Cinque tecniche per programmare dal vivo"
+msgstr "A.15 Cinque tecniche di live coding"
 
 #: A.15-five-live-coding-techniques.md:3 A.15-performance.md:3
 msgid "Five Live Coding Techniques"
