@@ -1090,7 +1090,7 @@ end"
           accepts_block:  false,
           doc:            "Choose an element at random from a list (array).
 
-If no arguments are given, will return a lambda function which wnen called takes an argument which will be a list to be chosn from. This is useful for choosing random `onset:` vals for samples
+If no arguments are given, will return a lambda function which when called takes an argument which will be a list to be chosen from. This is useful for choosing random `onset:` vals for samples
 
 Always returns a single element (or nil)" ,
          examples:       ["
