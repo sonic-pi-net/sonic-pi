@@ -11,7 +11,7 @@ echo "We're working to make this script a one shot solution for all OSX platform
 echo "Please direct rage and suggestions to Factoid in (https://gitter.im/samaaron/sonic-pi)"
 
 #Install homebrew prerequisites
-brew install qt55 boost
+brew install qt55 boost cmake pkg-config aubio
 
 #Build supercollider 3.8 from source
 cd ../../../../
@@ -78,6 +78,10 @@ cd 'Sonic Pi.app'
 ln -f -s ../../../../app/ ./
 ln -f -s ../../../../etc/ ./
 ln -f -s ../../../../../supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/scsynth ../../../../app/server/native/osx/scsynth
+rsync -arv ../../../../../QScintilla_gpl-2.9.2/Qt4Qt5/libqscintilla2.* Contents/MacOS/
+rsync -arv ../../../../../qwt-6.1.2/lib/ Contents/MacOS/
+install_name_tool -change qwt.framework/Versions/6/qwt @executable_path/qwt.framework/Versions/6/qwt Contents/MacOS/Sonic\ Pi 
+install_name_tool -change libqscintilla2.12.dylib @executable_path/libqscintilla2.12.dylib Contents/MacOS/Sonic\ Pi 
 
 ### FOR FINAL RELEASE ONLY MOVE THIS INTO package-osx-app ###
 #rsync -arv ../../../../app ./
