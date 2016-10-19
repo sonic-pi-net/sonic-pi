@@ -22,7 +22,8 @@ module SonicPi
     def initialize(events, opts={})
       @events = events
       @hostname = opts[:hostname] || "localhost"
-      @port = opts[:sc_port] || 4556
+      @port = opts[:scsynth_port] || 4556
+      @send_port = opts[:scsynth_send_port] || 4556
       @scsynth_pid = nil
       @jack_pid = nil
       @out_queue = SizedQueue.new(20)
@@ -37,7 +38,7 @@ module SonicPi
     def send(*all_args)
       address, *args = *all_args
       log "OSC             ~ #{address} #{args.inspect}" if osc_debug_mode
-      @osc_server.send(@hostname, @port, address, *args)
+      @osc_server.send(@hostname, @send_port, address, *args)
     end
 
     def send_at(ts, *all_args)
@@ -54,7 +55,7 @@ module SonicPi
         log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_f}] #{address} #{args.inspect}"
       end
 
-      @osc_server.send_ts(ts, @hostname, @port, address, *args)
+      @osc_server.send_ts(ts, @hostname, @send_port, address, *args)
     end
 
     def reboot
@@ -69,9 +70,9 @@ module SonicPi
     def shutdown
       puts "Sending /quit command to scsynth"
       begin
-        @osc_server.send(@hostname, @port, "/quit")
+        @osc_server.send(@hostname, @send_port, "/quit")
       rescue Exception => e
-        puts "Error during scsynth shutdown when attempting to send /quit OSC message to server #{@hostname} on port #{@port}"
+        puts "Error during scsynth shutdown when attempting to send /quit OSC message to server #{@hostname} on port #{@send_port}"
         puts " --> #{e.message}"
         puts " --> #{e.backtrace.inspect}\n\n"
       end
@@ -273,8 +274,8 @@ module SonicPi
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
         loop do
           begin
-            puts "Boot - Sending /status to server: #{@hostname}:#{@port}"
-            boot_s.send(@hostname, @port, "/status")
+            puts "Boot - Sending /status to server: #{@hostname}:#{@send_port}"
+            boot_s.send(@hostname, @send_port, "/status")
           rescue Exception => e
             puts "Boot - Error sending /status to server: #{e.message}"
           end

@@ -238,6 +238,7 @@ private:
     QTcpSocket *clientSock;
     QFuture<void> osc_thread, server_thread;
     int protocol;
+    int gui_listen_to_server_port, gui_send_to_server_port, server_listen_to_gui_port, server_send_to_gui_port, scsynth_port, scsynth_send_port, server_osc_cues_port;
     bool focusMode;
     bool startup_error_reported;
     bool is_recording;
@@ -326,7 +327,7 @@ private:
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
-    QString sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path;
+    QString sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path, port_discovery_path;
     QString defaultTextBrowserStyle;
 
     QString version;

@@ -114,6 +114,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+
   QString root_path = rootPath();
 
 #if defined(Q_OS_WIN)
@@ -131,6 +132,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   }
 
   ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
+  port_discovery_path = QDir::toNativeSeparators(root_path + "/app/server/bin/port-discovery.rb");
   sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
   sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
@@ -145,13 +147,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/init-script.rb");
   exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/exit-script.rb");
 
-
-
-  // Clear out old tasks from previous sessions if they still exist
-  std::cout << "[GUI] - running init script" << std::endl;
-  QProcess *initProcess = new QProcess();
-  initProcess->start(ruby_path, QStringList(init_script_path));
-  initProcess->waitForFinished();
 
   QFile tmpFile(sp_user_tmp_path);
   if (!tmpFile.open(QIODevice::WriteOnly)) {
@@ -178,6 +173,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QSettings settings("sonic-pi.net", "gui-settings");
   defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
 
+
   QThreadPool::globalInstance()->setMaxThreadCount(3);
   app.installEventFilter(this);
   app.processEvents();
@@ -187,8 +183,110 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     clientSock = new QTcpSocket(this);
   }
 
-  setupLogPathAndRedirectStdOut();
+
+  QProcess* determineSendPortNumber = new QProcess();
+  QStringList send_args;
+  send_args << port_discovery_path << "gui-send-to-server";
+
+  determineSendPortNumber->start(ruby_path, send_args);
+  determineSendPortNumber->waitForFinished();
+  gui_send_to_server_port = determineSendPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (gui_send_to_server_port == 0) {
+    std::cout << "[GUI] - unable to determine GUI->Server send port. Defaulting to 4557:" << std::endl;
+    gui_send_to_server_port = 4557;
+  }
+
+
+  QProcess* determineListenPortNumber = new QProcess();
+  QStringList listen_args;
+  listen_args << port_discovery_path << "gui-listen-to-server";
+
+  determineListenPortNumber->start(ruby_path, listen_args);
+  determineListenPortNumber->waitForFinished();
+  gui_listen_to_server_port = determineListenPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (gui_listen_to_server_port == 0) {
+    std::cout << "[GUI] - unable to determine GUI<-Server listen port. Defaulting to 4558:" << std::endl;
+    gui_listen_to_server_port = 4558;
+  }
+
+  QProcess* determineServerListenPortNumber = new QProcess();
+  QStringList server_listen_args;
+  server_listen_args << port_discovery_path << "server-listen-to-gui";
+
+  determineServerListenPortNumber->start(ruby_path, server_listen_args);
+  determineServerListenPortNumber->waitForFinished();
+  server_listen_to_gui_port = determineServerListenPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (server_listen_to_gui_port == 0) {
+    std::cout << "[GUI] - unable to determine Server<-GUI listen port. Defaulting to 4557:" << std::endl;
+    server_listen_to_gui_port = 4557;
+  }
+
+  QProcess* determineServerOSCCuesPortNumber = new QProcess();
+  QStringList server_osc_cue_args;
+  server_osc_cue_args << port_discovery_path << "server-osc-cues";
+
+  determineServerOSCCuesPortNumber->start(ruby_path, server_osc_cue_args);
+  determineServerOSCCuesPortNumber->waitForFinished();
+  server_osc_cues_port = determineServerOSCCuesPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (server_osc_cues_port == 0) {
+    std::cout << "[GUI] - unable to determine Server OSC cue listen port. Defaulting to 4559:" << std::endl;
+    server_osc_cues_port = 4559;
+  }
+
+  QProcess* determineServerSendPortNumber = new QProcess();
+  QStringList server_send_args;
+  server_send_args << port_discovery_path << "server-send-to-gui";
+
+  determineServerSendPortNumber->start(ruby_path, server_send_args);
+  determineServerSendPortNumber->waitForFinished();
+  server_send_to_gui_port = determineServerSendPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (server_send_to_gui_port == 0) {
+    std::cout << "[GUI] - unable to determine Server->GUI send port. Defaulting to 4558:" << std::endl;
+    server_send_to_gui_port = 4558;
+  }
+
+  QProcess* determineScsynthPortNumber = new QProcess();
+  QStringList scsynth_args;
+  scsynth_args << port_discovery_path << "scsynth";
+
+  determineScsynthPortNumber->start(ruby_path, scsynth_args);
+  determineScsynthPortNumber->waitForFinished();
+  scsynth_port = determineScsynthPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (scsynth_port == 0) {
+    std::cout << "[GUI] - unable to determine scsynth port. Defaulting to 4556:" << std::endl;
+    scsynth_port = 4556;
+  }
+
+  QProcess* determineScsynthSendPortNumber = new QProcess();
+  QStringList scsynth_send_args;
+  scsynth_send_args << port_discovery_path << "scsynth-send";
+
+  determineScsynthSendPortNumber->start(ruby_path, scsynth_send_args);
+  determineScsynthSendPortNumber->waitForFinished();
+  scsynth_send_port = determineScsynthSendPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (scsynth_port == 0) {
+    std::cout << "[GUI] - unable to determine scsynth send port. Defaulting to 4556:" << std::endl;
+    scsynth_send_port = 4556;
+  }
+
   printAsciiArtLogo();
+
+  // Clear out old tasks from previous sessions if they still exist
+  QProcess *initProcess = new QProcess();
+  initProcess->start(ruby_path, QStringList(init_script_path));
+  initProcess->waitForFinished();
+
+  // Throw all stdout into ~/.sonic-pi/log/gui.log
+  setupLogPathAndRedirectStdOut();
+  std::cout << "[GUI] - Detecting port numbers..." << std::endl;
+  std::cout << "[GUI] - GUI OSC listen port "<< gui_listen_to_server_port << std::endl;
+  std::cout << "[GUI] - GUI OSC out port " << gui_send_to_server_port<< std::endl;
+  std::cout << "[GUI] - Server OSC listen port " << server_listen_to_gui_port << std::endl;
+  std::cout << "[GUI] - Server OSC out port " << server_send_to_gui_port << std::endl;
+  std::cout << "[GUI] - Server incoming OSC cues port " << server_osc_cues_port << std::endl;
+  std::cout << "[GUI] - Scsynth port " << scsynth_port << std::endl;
+  std::cout << "[GUI] - Scsynth send port " << scsynth_send_port << std::endl;
+  std::cout << "[GUI] - Init script completed" << std::endl;
 
   setupTheme();
   lexer = new SonicPiLexer(theme);
@@ -212,14 +310,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
 
   if(protocol == UDP){
-    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler);
+    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler, gui_listen_to_server_port);
     osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
   }
   else{
     sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
     sonicPiOSCServer->start();
   }
-
 
   // Wait to hear back from the server before continuing
   startRubyServer();
@@ -265,11 +362,11 @@ void MainWindow::setupTheme() {
   QFile themeFile(themeFilename);
   if(themeFile.exists()){
     std::cout << "[GUI] - using custom editor colours" << std::endl;
+
     QSettings settings(themeFilename, QSettings::IniFormat);
     theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
   }
   else{
-
     std::cout << "[GUI] - using default editor colours" << std::endl;
     QSettings settings("sonic-pi.net", "gui-settings");
     theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
@@ -826,9 +923,13 @@ void MainWindow::startRubyServer(){
 
   if(protocol == TCP){
     args << "-t";
+  }else {
+    args << "-u";
   }
 
-  std::cout << "[GUI] - launching Sonic Pi Server" << std::endl;
+
+  args << QString("%1").arg(server_listen_to_gui_port) << QString("%1").arg(server_send_to_gui_port) <<  QString("%1").arg(scsynth_port) <<  QString("%1").arg(scsynth_send_port) <<  QString("%1").arg(server_osc_cues_port);
+  std::cout << "[GUI] - launching Sonic Pi Server:" << std::endl;
   if(homeDirWritable) {
     serverProcess->setStandardErrorFile(server_error_log_path);
     serverProcess->setStandardOutputFile(server_output_log_path);
@@ -1490,13 +1591,12 @@ bool MainWindow::saveAs()
 void MainWindow::sendOSC(Message m)
 {
   int TIMEOUT = 30000;
-  int PORT_NUM = 4557;
 
   if(protocol == UDP){
     UdpSocket sock;
-    sock.connectTo("localhost", PORT_NUM);
+    sock.connectTo("localhost", gui_send_to_server_port);
     if (!sock.isOk()) {
-        std::cerr << "[GUI] - Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+        std::cerr << "[GUI] - Error connection to port " << gui_send_to_server_port << ": " << sock.errorMessage() << "\n";
     } else {
         PacketWriter pw;
         pw.addMessage(m);
@@ -1505,7 +1605,7 @@ void MainWindow::sendOSC(Message m)
   }
   else{
     if (clientSock->state() != QAbstractSocket::ConnectedState){
-      clientSock->connectToHost("localhost", PORT_NUM,  QIODevice::ReadWrite);
+      clientSock->connectToHost("localhost", gui_send_to_server_port,  QIODevice::ReadWrite);
     }
 
     if(!clientSock->waitForConnected(TIMEOUT)){

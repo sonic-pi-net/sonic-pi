@@ -14,7 +14,7 @@
 
 #include "sonic_pi_osc_server.h"
 
-SonicPiOSCServer::SonicPiOSCServer(MainWindow *sonicPiWindow, OscHandler *oscHandler) :
+SonicPiOSCServer::SonicPiOSCServer(MainWindow *sonicPiWindow, OscHandler *oscHandler, int port_num) :
     QObject(sonicPiWindow)
 {
     handler = oscHandler;

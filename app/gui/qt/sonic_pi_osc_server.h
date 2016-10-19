@@ -21,7 +21,7 @@ class SonicPiOSCServer : public QObject
 {
     Q_OBJECT
 public:
-    explicit SonicPiOSCServer(MainWindow *parent = 0, OscHandler *handler = 0);
+    explicit SonicPiOSCServer(MainWindow *parent = 0, OscHandler *handler = 0, int port_num = 4558);
     bool waitForServer();
     bool isIncomingPortOpen();
     bool isServerStarted();
@@ -38,7 +38,7 @@ protected:
     MainWindow* parent;
     bool osc_incoming_port_open;
     bool stop_server;
-
+    int port_num;
     bool continueListening();
 
 

@@ -27,9 +27,10 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(hostname, port, msg_queue)
+    def initialize(hostname, scsynth_port, scsynth_send_port, msg_queue)
       @hostname = hostname
-      @port = port
+      @scsynth_port = scsynth_port
+      @scsynth_send_port = scsynth_send_port
       @msg_queue = msg_queue
       @max_concurrent_synths = max_concurrent_synths
       @error_occured_mutex = Mutex.new
@@ -48,7 +49,7 @@ module SonicPi
       message "Initializing..."
       @amp = [0.0, 1.0]
 
-      server = Server.new(@hostname, @port, @msg_queue)
+      server = Server.new(@hostname, @scsynth_port, @scsynth_send_port, @msg_queue)
       server.load_synthdefs(synthdef_path)
       server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]

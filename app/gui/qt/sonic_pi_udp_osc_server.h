@@ -23,7 +23,7 @@ class SonicPiUDPOSCServer : public SonicPiOSCServer
     Q_OBJECT
 
 public:
-    explicit SonicPiUDPOSCServer(MainWindow *parent, OscHandler *handler = 0);
+    explicit SonicPiUDPOSCServer(MainWindow *parent, OscHandler *handler = 0, int  port = 4558);
 
 public slots:
     void stop();

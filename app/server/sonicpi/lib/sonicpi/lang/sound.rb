@@ -94,7 +94,7 @@ module SonicPi
         base.instance_exec do
           define_method(:initialize) do |*splat, &block|
             sonic_pi_mods_sound_initialize_old *splat, &block
-            hostname, port, msg_queue, max_concurrent_synths = *splat
+            hostname, scsynth_port, scsynth_send_port, osc_cues_port, msg_queue, max_concurrent_synths = *splat
             @server_init_args = splat.take(4)
             @mod_sound_home_dir = Dir.home
             @simple_sampler_args = [:amp, :amp_slide, :amp_slide_shape, :amp_slide_curve, :pan, :pan_slide, :pan_slide_shape, :pan_slide_curve, :cutoff, :cutoff_slide, :cutoff_slide_shape, :cutoff_slide_curve, :lpf, :lpf_slide, :lpf_slide_shape, :lpf_slide_curve, :hpf, :hpf_slide, :hpf_slide_shape, :hpf_slide_curve, :rate, :slide, :beat_stretch, :rpitch, :attack, :decay, :sustain, :release, :attack_level, :decay_level, :sustain_level, :env_curve]
@@ -114,7 +114,7 @@ module SonicPi
             @JOB_MIXERS_MUTEX = Mutex.new
             @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
             @JOB_BUSSES_MUTEX = Mutex.new
-            @mod_sound_studio = Studio.new(hostname, port, msg_queue)
+            @mod_sound_studio = Studio.new(hostname, scsynth_port, scsynth_send_port, msg_queue)
 
             @mod_sound_studio_checker = Thread.new do
               # kill all jobs if an error occured in the studio

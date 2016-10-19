@@ -35,8 +35,18 @@ puts "Sonic Pi server booting..."
 
 include SonicPi::Util
 
-server_port = ARGV[1] ? ARGV[0].to_i : 4557
-client_port = ARGV[2] ? ARGV[1].to_i : 4558
+server_port = ARGV[1] ? ARGV[1].to_i : 4557
+client_port = ARGV[2] ? ARGV[2].to_i : 4558
+scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
+scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
+osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
+
+puts "Detecting port numbers..."
+puts "Send port: #{client_port}"
+puts "Listen port: #{server_port}"
+puts "Scsynth port: #{scsynth_port}"
+puts "Scsynth send port: #{scsynth_send_port}"
+puts "OSC cues port: #{osc_cues_port}"
 
 protocol = case ARGV[0]
            when "-t"
@@ -110,7 +120,7 @@ klass.send(:define_method, :inspect) { "Runtime" }
 ws_out = Queue.new
 
 begin
-  sp =  klass.new "localhost", 4556, ws_out, user_methods
+  sp =  klass.new "localhost", scsynth_port, scsynth_send_port, osc_cues_port, ws_out, user_methods
 
   # read in init.rb if exists
   if File.exists?(init_path)

@@ -1002,7 +1002,7 @@ module SonicPi
     include ActiveSupport
     include RuntimeMethods
 
-    def initialize(hostname, port, msg_queue, user_methods)
+    def initialize(hostname, scsynth_port, scsynth_send_port, osc_cues_port, msg_queue, user_methods)
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
@@ -1025,7 +1025,7 @@ module SonicPi
       @global_start_time = 0
       @session_id = SecureRandom.uuid
       @snippets = {}
-      @osc_server = SonicPi::OSC::UDPServer.new(4559) do |address, args|
+      @osc_server = SonicPi::OSC::UDPServer.new(osc_cues_port) do |address, args|
         payload = {
           :time => Time.now.freeze,
           :sleep_mul => 1,

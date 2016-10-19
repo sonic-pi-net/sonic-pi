@@ -31,7 +31,7 @@ module SonicPi
 
     attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta, :scsynth_info
 
-    def initialize(hostname, port, msg_queue)
+    def initialize(hostname, port, send_port, msg_queue)
       # Cache common OSC path strings as frozen instance
       # vars to reduce object creation cost and GC load
       @osc_path_quit        = "/quit".freeze
@@ -66,14 +66,8 @@ module SonicPi
       #TODO: Might want to make this available more globally so it can
       #be dynamically turned on and off
       @debug_mode = debug_mode
-
-      @PORT = port
-
       @osc_events = IncomingEvents.new(:internal_events, -10)
-
-      @scsynth = SCSynthExternal.new(@osc_events)
-
-
+      @scsynth = SCSynthExternal.new(@osc_events, scsynth_port: port, scsynth_send_port: send_port)
 
       @position_codes = {
         head: 0,
