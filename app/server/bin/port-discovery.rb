@@ -4,12 +4,29 @@
 # Change these values to alter the ports
 # Sonic Pi uses to send and receive messages
 # at run time:
+
+# Port which the GUI uses to send messages to the server:
 gui_send_to_server = 4557
+
+# Port which the GUI uses to listen to messages from the server:
 gui_listen_to_server = 4558
+
+# Port which the server uses to send messages to the GUI:
 server_send_to_gui = 4558
+
+# Port which the server uses to listen to messages from the GUI:
 server_listen_to_gui = 4557
+
+# Port which the SuperCollider server scsynth listens to:
+# (scsynth will automatically send replies back to the port
+# from which the message originated from)
 scsynth = 4556
+
+# Port which the server uses to send messages to scsynth
 scsynth_send = 4556
+
+# Port which the server uses to listen to messages which
+# will automatically be converted to cue events:
 server_osc_cues = 4559
 
 
