@@ -32,9 +32,9 @@ Jeremy for all of his contributions - in particular for turning the
 Windows release from a possibility into a reality. Luckily Luis has
 kindly stepped in to maintain the Windows installer.
 
-The main visible feature is the new new scope visualisers. The overall
+The main visible feature is the new scope visualisers. The overall
 audio output can now be visually monitored by one of three wave form
-visualisers. Firstly there is the indivdiual left and right channels,
+visualisers. Firstly there is the individual left and right channels,
 next is a single mono scope which is mixed down from the stereo channels
 using RMS and finally there is a Lissajous scope which displays phase
 differences between the left and right channels. Typically the mono
@@ -50,20 +50,20 @@ other audio source.
 
 Another exciting new feature is the sample opt `onset:` - which lets you
 play a specific percussive part of a sample. This uses an automatic
-onset detection algorithm to determine all the the points in the sample
+onset detection algorithm to determine all the points in the sample
 that go from quiet to loud quickly. For example, this allows you to take
-a complex drum sample and to trigger each of the individual drums in
+a complex drum sample and trigger each of the individual drums in
 your own order and to your own timing.
 
 Finally, translations are now crowd-sourced and small or large
 contributions for any language can be made here:
-`https://hosted.weblate.org/projects/sonic-pi/`If your language isn't
+`https://hosted.weblate.org/projects/sonic-pi/`. If your language isn't
 yet available or you would like to improve things, please join in the
 effort. Thanks to Hanno Zulla for making this possible.
 
 
 ### Breaking Changes
- 
+
 * `sample` now supports the opt `path:` which enables the sample's path
   to be overridden.
 * `use_sample_pack` is now deprecated and no longer available. Consider
@@ -83,7 +83,7 @@ effort. Thanks to Hanno Zulla for making this possible.
   all declared rands are consumed. This change might therefore
   potentially modify your random stream consumption. Consider using
   `rand_back` or `rand_skip` to re-align the stream if necessary.
-* New threads now start with a fresh set tick counters and a new random
+* New threads now start with a fresh set of tick counters and a new random
   stream
 
 
@@ -92,7 +92,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 * `reset` - resets the user's thread locals (such as ticks and rand
   stream index) to the snapshot of the state as recorded at the start of
   the current thread.
-* `clear` - clears all user's thread locals to a blank state.
+* `clear` - clears all the user's thread locals to a blank state.
 * `time_warp`- allows whole blocks of code to be shifted forward or
   backwards in time up to the value of `current_sched_ahead_time`.
 * `rand_look` - generate a random number without consuming a rand by
@@ -119,9 +119,9 @@ effort. Thanks to Hanno Zulla for making this possible.
   supersaw.
 * New synth `:sound_in` - reads audio from the sound card.
 * New synth `:sound_in_stereo` - reads audio from the sound card.
-* All FX now all have a `pre_mix:` opt. This allows the audio flow to
+* All FX now have a `pre_mix:` opt. This allows the audio flow to
   completely bypass a given FX (unlike `mix:` which passes the audio
-  through the FX but modifies the amplitude afterwards.
+  through the FX but modifies the amplitude afterwards).
 * Teach `control` to manipulate the last triggered synth by default. For
   example, `control amp: 3` will set the `amp:` opt of the last
   triggered synth to 3. However, `control foo, amp: 3` will still
@@ -130,13 +130,13 @@ effort. Thanks to Hanno Zulla for making this possible.
 
 ### Samples
 
-* New opt `slice:` - let's you play a specific slice of a sample. The
+* New opt `slice:` - lets you play a specific slice of a sample. The
   default number of slices is 16 which may be changed with the
   `num_slices:` opt. Sample is divided equally into the number of slices
   without regard for audio content and onset points.  The `slice:` opt
   also works with `pick` for triggering random sample slices: `sample
   :loop_amen, slice: pick`.
-* New opt `onset:` - let's you play a specific percussive part of a
+* New opt `onset:` - lets you play a specific percussive part of a
   sample. Uses automatic onset detection to determine the points in the
   sample that go from quiet to loud quickly. Unlike `slice:`, `onset:`
   does not necessarily divide a sample into equal onsets - some onsets
@@ -156,7 +156,7 @@ effort. Thanks to Hanno Zulla for making this possible.
   now have a button for toggling the visibility of the scope(s).
 * Loading multiple samples simultaneously is now much faster.
 * Preferences have been slightly re-organised.
-* Preferences now has a Master volume slider which control's Sonic Pi's
+* Preferences now has a Master volume slider which controls Sonic Pi's
   audio amplitude independently from the system volume.
 * All buttons now display status message + shortcut where available.
 * Enable app transparency slider for Windows.
@@ -164,7 +164,7 @@ effort. Thanks to Hanno Zulla for making this possible.
   to use the same logic.
 * On multi-screen systems, fullscreen mode now defaults to the app's
   current screen.
-  
+
 
 ### Documentation
 
@@ -180,7 +180,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 * Improve log messages written to `~/.sonic-pi/log`
 * Improve booting on Mac in the case that the audio card's rate can't be
   determined.
-* Massively improve boot stability on Windows. 
+* Massively improve boot stability on Windows.
 * Improve error message for `play_chord` when notes isn't list like.
 * The number of samples that may be loaded at any one time has been
   increased from 1000 to 4000. However, memory limitations still apply
@@ -201,7 +201,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 * `sample nil` now no longer plays a sample - it was incorrectly
   defaulting to the first built-in sample (`:ambi_choir`)
 * `pick`'s `skip:` opt now works as expected: `pick(5).drop(1) == pick(5, skip: 1)`
-* `sample` now prints a 'no sample found' message with both `sample nil` and `sample []` ratehr than incorrectly playing the first built-in wav file.  
+* `sample` now prints a 'no sample found' message with both `sample nil` and `sample []` rather than incorrectly playing the first built-in wav file.
 
 
 <a name="v2.10"></a>
