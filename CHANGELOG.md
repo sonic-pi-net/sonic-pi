@@ -1,5 +1,5 @@
 # History
-* [v2.11 'Threadsafe'](#v2.11), To be released
+* [v2.11 'Time Warp'](#v2.11), To be released
 * [v2.10 'Cowbell'](#v2.10), 15th April, 2016
 * [v2.9 'Venster'](#v2.9), 31st Dec, 2015
 * [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
@@ -14,7 +14,7 @@
 
 <a name="v2.11"></a>
 
-## Version 2.11 - 'Threadsafe'
+## Version 2.11 - Time Warp'
 *To be released*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.0)
 
@@ -32,7 +32,7 @@ Jeremy for all of his contributions - in particular for turning the
 Windows release from a possibility into a reality. Luckily Luis has
 kindly stepped in to maintain the Windows installer.
 
-The main visible feature is the new scope visualisers. The overall
+The main visible feature is the new new scope visualisers. The overall
 audio output can now be visually monitored by one of three wave form
 visualisers. Firstly there is the individual left and right channels,
 next is a single mono scope which is mixed down from the stereo channels
@@ -50,10 +50,10 @@ other audio source.
 
 Another exciting new feature is the sample opt `onset:` - which lets you
 play a specific percussive part of a sample. This uses an automatic
-onset detection algorithm to determine all the points in the sample
-that go from quiet to loud quickly. For example, this allows you to take
-a complex drum sample and trigger each of the individual drums in
-your own order and to your own timing.
+onset detection algorithm to determine all the points in the sample that
+go from quiet to loud quickly such as a drum, synth or bass hit. For
+example, this allows you to take a complex drum sample and to trigger
+each of the individual drums in your own order and to your own timing.
 
 Finally, translations are now crowd-sourced and small or large
 contributions for any language can be made here:
@@ -63,7 +63,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 
 
 ### Breaking Changes
-
+ 
 * `sample` now supports the opt `path:` which enables the sample's path
   to be overridden.
 * `use_sample_pack` is now deprecated and no longer available. Consider
@@ -83,8 +83,8 @@ effort. Thanks to Hanno Zulla for making this possible.
   all declared rands are consumed. This change might therefore
   potentially modify your random stream consumption. Consider using
   `rand_back` or `rand_skip` to re-align the stream if necessary.
-* New threads now start with a fresh set of tick counters and a new random
-  stream
+* New threads now start with a fresh set of tick counters and a new
+  random stream.
 
 
 ### New Fns
@@ -190,7 +190,7 @@ effort. Thanks to Hanno Zulla for making this possible.
   opts.
 * Audio server is now paused when app is not in use - reducing CPU load
   and battery consumption.
-
+* Error messages now report names matching the editor tabs such as `buffer 0`.
 
 ### Bugfixes
 
