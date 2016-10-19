@@ -197,5 +197,11 @@ projects:
 * Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html) 
 
 
+## Core Team Thanks
 
+Sam Aaron would like to express his deep thanks to his family and
+friends who have supported him over the years and given him the strength
+to continue on this strange and often unforgiving path. He would
+particularly like to thank his friend and partner Susanna and also his
+fab Mum.
 
