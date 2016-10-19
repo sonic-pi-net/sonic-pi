@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-17 09:46+0000\n"
+"PO-Revision-Date: 2016-10-19 09:54+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -8369,9 +8369,9 @@ msgid ""
 "lore what coordinates are and how they work because they're really, really imp"
 "ortant for programming Minecraft."
 msgstr ""
-"`Run`を押すと、ボーン！新しい場所へあなたの座標が移動しました。たいていは、乾燥した土地、または水に落ちたか、空中のどこかでしょう。`50, 50, 5"
-"0`、これらの数字は何でしょう？これらは瞬間移動しようとしている場所の座標です。座標とは何なのか、そして座標がどのように動作するのかは、Minecraftを"
-"プログラムするにあたって本当に重要なので、少し時間を取って見ていきましょう。"
+"`Run`を押すと、ブーン！新しい場所へあなたの座標が移動しました。たいていは、乾燥した土地、または水に落ちたか、空中のどこかでしょう。`50, 50, "
+"50`、これらの数字は何でしょう？これらは瞬間移動しようとしている場所の座標です。座標とは何なのか、そして座標がどのように動作するのかは、Minecraf"
+"tをプログラムするにあたって本当に重要なので、少し時間を取って見ていきましょう。"
 
 #: 11.1-Basic-API.md:50
 msgid "Coordinates"
@@ -10499,11 +10499,11 @@ msgstr ""
 
 #: A.06-minecraft.md:1
 msgid "A.6 Musical Minecraft"
-msgstr ""
+msgstr "A.6 音楽的なMinecraft"
 
 #: A.06-minecraft.md:3
 msgid "Musical Minecraft"
-msgstr ""
+msgstr "音楽的なMinecraft"
 
 #: A.06-minecraft.md:7
 msgid ""
@@ -10511,22 +10511,24 @@ msgid ""
 " music possibilities of Sonic Pi - (turning your Raspberry Pi into a performan"
 "ce ready musical instrument). So far we've learned how to:"
 msgstr ""
+"こんにちは、そしてまたお会いしましたね！前回のチュートリアルでは、純粋にSonic Piの音楽的な可能性に焦点を当てました（Raspberry "
+"Piをパフォーマンスに十分対応可能な楽器にしました）。ここまでで、我々は以下のことを学びました："
 
 #: A.06-minecraft.md:11
 msgid "Live Code - changing the sounds on-the-fly,"
-msgstr ""
+msgstr "ライブコーディング - 音楽を止めずに変更する,"
 
 #: A.06-minecraft.md:12
 msgid "Code some huge beats,"
-msgstr ""
+msgstr "大規模なビートをコードする,"
 
 #: A.06-minecraft.md:13
 msgid "Generate powerful synth leads,"
-msgstr ""
+msgstr "強力なシンセリードを生成する,"
 
 #: A.06-minecraft.md:14
 msgid "Re-create the famous TB-303 acid-bass sound."
-msgstr ""
+msgstr "有名なTB-303のアシッドベースサウンドを再生成する。"
 
 #: A.06-minecraft.md:16
 msgid ""
@@ -10534,10 +10536,13 @@ msgid ""
 "owever, this month, let's look at something Sonic Pi can do that you probably "
 "didn't realise: control Minecraft."
 msgstr ""
+"他にもたくさん紹介したい内容はあります（いずれこのチュートリアルで掘り下げる予定です）が、今月は、Sonic "
+"Piで出来ることのうち、おそらくあなたが知らないものを紹介したいと思います。Minecraftの制御です。"
 
 #: A.06-minecraft.md:20
+#, fuzzy
 msgid "Hello Minecraft World"
-msgstr ""
+msgstr "Minecraftのワールドへようこそ"
 
 #: A.06-minecraft.md:22
 msgid ""
@@ -10545,10 +10550,12 @@ msgid ""
 "ate a new world. Now start up Sonic Pi and re-size and move your windows so yo"
 "u can see both Sonic Pi and Minecraft Pi at the same time."
 msgstr ""
+"では始めましょう。Raspberry Piをブートし、Minecraft Piを起動して新しいワールドを作りましょう。そして、Sonic Piを起動し、"
+"Sonic PiとMinecraft Piの両方が見えるように、ウィンドウをリサイズしたり移動したりしましょう。"
 
 #: A.06-minecraft.md:26
 msgid "In a fresh buffer type the following:"
-msgstr ""
+msgstr "新しいBufferに次のコードを入力してみましょう。"
 
 #: A.06-minecraft.md:28
 #, no-wrap
@@ -10561,16 +10568,20 @@ msgid ""
 ", stop reading this for a moment and play about with your own messages. Have f"
 "un!"
 msgstr ""
+"では、`Run`を叩いてみてください。ブーン！メッセージがMinecraftに表示されましたね！とても簡単だったでしょう？では、チュートリアルを読むのを止"
+"めて、少しの間メッセージを変更して遊んでみましょう。楽しでみて！"
 
 #: A.06-minecraft.md:36
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 msgstr ""
+"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
-msgstr ""
+msgstr "Sonic Teleporter"
 
 #: A.06-minecraft.md:40
 msgid ""
@@ -10579,6 +10590,8 @@ msgid ""
 "g. It would be far better if we had some sort of teleport machine. Well, thank"
 "s to Sonic Pi, we have one. Try this:"
 msgstr ""
+"では、少し探検してみましょう。ワールドで移動する標準的なやりかたは、マウスとキーボードを使って、あたりを歩き始めることです。これは機能しますが、かなり遅い"
+"し退屈でしょう。何か瞬間移動マシンのようなものがあると良いのですが。。ええ、Sonic Piのおかげで、それは実現できます。これを試してみてください。"
 
 #: A.06-minecraft.md:45
 #, no-wrap
@@ -10586,12 +10599,15 @@ msgid "mc_teleport 80, 40, 100"
 msgstr "mc_teleport 80, 40, 100"
 
 #: A.06-minecraft.md:49
+#, fuzzy
 msgid ""
 "Crikey! That was a long way up. If you weren't in flying-mode then you would h"
 "ave fallen back down all the way to the ground. If you double-tap space to ent"
 "er flying-mode and teleport again, you'll stay hovering at the location you za"
 "p to."
 msgstr ""
+"びっくりした！遠くまで移動できたでしょう。もし飛行モードなかったら、全ての行程を戻って地面に落ちてしまうでしょう。ダブルタップして飛行モードに入ってもう一"
+"度瞬間移動すると、指定した場所に移動して浮いているでしょう。"
 
 #: A.06-minecraft.md:54
 msgid ""
@@ -10599,18 +10615,20 @@ msgid ""
 "dinates of where in the world we want to go. We give each number a name - x, y"
 " and z:"
 msgstr ""
+"では、これらの数字は何を意味するのでしょうか？ワールド内の行きたい場所の座標を表現するのに、3つの数字を使っています。そしてそれらに名前を付けています。"
+"x, yそしてzです。"
 
 #: A.06-minecraft.md:58
 msgid "x - how far left and right (80 in our example)"
-msgstr ""
+msgstr "x - どのくらい右端から左に離れてるか（我々の例では80）"
 
 #: A.06-minecraft.md:59
 msgid "y - how high we want to be (40 in our example)"
-msgstr ""
+msgstr "y - どのくらい高くあがったか（我々の例では40）"
 
 #: A.06-minecraft.md:60
 msgid "z - how far forward and back (100 in our example)"
-msgstr ""
+msgstr "z - どのくらい手前から奥へ離れてるか（我々の例では100）"
 
 #: A.06-minecraft.md:62
 msgid ""
@@ -10620,12 +10638,16 @@ msgid ""
 "nto a mountain. Just choose a higher y value to get back out above land. Keep "
 "on exploring until you find somewhere you like..."
 msgstr ""
+"異なるx, y, zの値を選ぶことで、ワールドの中の*どこでも*瞬間移動することができます。試してみよう！違う値を選んで、どこに辿り着いたか見てみましょう"
+"。もし画面が真っ黒になってしまったら、それは地面の下か山の中に瞬間移動してしまったからです。地面よりも上に戻るように大きなyの値を選択してください。何か発"
+"見するまで探検を続けましょう..."
 
 #: A.06-minecraft.md:69
 msgid ""
 "Using the ideas so far, let's build a Sonic Teleporter which makes a fun telep"
 "ort sound whilst it whizzes us across the Minecraft world:"
 msgstr ""
+"ここまでのアイデアを使って、Minecraftのワールドを瞬間移動するときの音を面白くする`Sonic Teleporter`を作ってみましょう。"
 
 #: A.06-minecraft.md:72
 #, no-wrap
@@ -10659,6 +10681,8 @@ msgid ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
 msgstr ""
+"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
@@ -10670,6 +10694,8 @@ msgid ""
 "sed to and start clicking the mouse furiously to place blocks under the cursor"
 ". Or you could use the magic of Sonic Pi. Try this:"
 msgstr ""
+"では、良い場所が見つかったと思いますので、何か作り始めてみましょう。あなたの慣れたやり方でもできますし、マウスを激しくクリックしてカーソルの部分にブロック"
+"を設置することも可能です。それ以外に、Sonic Piの魔法を使うことも可能です。これを試してみてください。"
 
 #: A.06-minecraft.md:94
 #, no-wrap
