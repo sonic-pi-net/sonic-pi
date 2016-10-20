@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-19 14:46+0000\n"
+"PO-Revision-Date: 2016-10-20 12:29+0000\n"
 "Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -3149,7 +3149,6 @@ msgstr ""
 "sample samps, 1"
 
 #: 03.7-Sample-Packs.md:72
-#, fuzzy
 msgid ""
 "Notice that we no longer need to know the names of the samples in the director"
 "y - we just need to know the directory itself (or have a shortcut to it). If w"
@@ -3157,14 +3156,13 @@ msgid ""
 " round just like Rings. Therefore, whatever number we use we're guaranteed to "
 "get one of the samples in that directory."
 msgstr ""
-"Remarquez qu'on n'a plus besoin de connaître le nom des samples du dossier : o"
-"n doit juste connaître le dossier lui-même (ou avoir un raccourci vers lui). S"
-"i on demande un index qui est plus grand que le nombre de samples, il va juste"
-" boucler comme pour les anneaux. Ainsi, quel que soit le nombre qu'on utilise "
-"on a la garantie de récupérer un des samples de ce dossier."
+"Remarquez qu'on n'a plus besoin de connaître le nom des samples du dossier : "
+"on doit juste connaître le dossier lui-même (ou avoir un raccourci vers lui)"
+". Si on demande un index qui est plus grand que le nombre de samples, il va "
+"juste boucler comme pour les anneaux. Ainsi, quel que soit le nombre qu'on "
+"utilise on a la garantie de récupérer un des samples de ce dossier."
 
 #: 03.7-Sample-Packs.md:79
-#, fuzzy
 msgid "Filtering Sample Packs"
 msgstr "Filtrer des paquets de samples"
 
@@ -3175,13 +3173,12 @@ msgid ""
 "ise our samples. Luckily many sample packs add useful information in the filen"
 "ames. Let's take another look at the sample file names in our directory:"
 msgstr ""
-"D'habitude indexer suffit, mais parfois on a besoin de plus de puissance pour "
-"trier et organiser nos samples. Heureusement de nombreux paquets de samples aj"
-"outent des informations utiles dans les noms de fichiers. Jetons un autre oeil"
-" aux noms de fichier des samples de notre dossier :"
+"D'habitude indexer suffit, mais parfois on a besoin de plus de puissance "
+"pour trier et organiser nos samples. Heureusement de nombreux paquets de "
+"samples ajoutent des informations utiles dans les noms de fichiers. Jetons "
+"un autre œil aux noms de fichier des samples de notre dossier :"
 
 #: 03.7-Sample-Packs.md:93
-#, fuzzy
 msgid ""
 "Notice that in these filenames we have quite a bit of information. Firstly, we"
 " have the BPM of the sample (beats per minute) at the start. So, the piano sam"
@@ -3191,27 +3188,26 @@ msgid ""
 "r code. For example, we know we can only play the piano sample with code that'"
 "s in 120 BPM and in the key of Bb."
 msgstr ""
-"Remarquez que dans ces noms de fichier nous avons pas mal d'informations. On a"
-" le BPM du sample (nombre de battements par minute) au début. Donc le sample d"
-"e piano est à 120 BPM et nos trois premières mélodies sont à 100 BPM. Nos noms"
-" de samples contiennent aussi la clef. Donc le sample de guitare est en Bb (si"
-" bémol) et les mélodies sont en A# (la dièse). Cette information est très util"
-"e pour mélanger ces samples avec le reste de notre code. Par exemple, on sait "
-"qu'on ne peut jouer le sample de piano que dans du code qui est à 120 BPM et d"
-"ans la clef de Bb."
+"Remarquez que dans ces noms de fichier nous avons pas mal d'informations. On "
+"a le BPM du sample (nombre de battements par minute) au début. Donc le "
+"sample de piano est à 120 BPM et nos trois premières mélodies sont à 100 "
+"BPM. Nos noms de samples contiennent aussi la clef. Donc le sample de "
+"guitare est en Bb (Si bémol) et les mélodies sont en A# (La dièse). Cette "
+"information est très utile pour mélanger ces samples avec le reste de notre "
+"code. Par exemple, on sait qu'on ne peut jouer le sample de piano que dans "
+"du code qui est à 120 BPM et dans la clef de Bb."
 
 #: 03.7-Sample-Packs.md:102
-#, fuzzy
 msgid ""
 "It turns out that we can use this particular naming convention of our sample s"
 "ets in the code to help us filter out the ones we want. For example, if we're "
 "working at 120 BPM, we can filter down to all the samples that contain the str"
 "ing `\"120\"` with the following:"
 msgstr ""
-"Il se trouve qu'on peut utiliser cette convention de nommage particulière de n"
-"os ensembles de samples dans le code pour nous aider à ne garder que ceux qu'o"
-"n veut. Par exemple, si nous travaillons à 120 BPM, on peut ne garder que les "
-"samples qui contiennent la chaîne `\"120\"` avec le code suivant :"
+"Il se trouve qu'on peut utiliser cette convention de nommage particulière de "
+"nos ensembles de samples dans le code pour nous aider à ne garder que ceux "
+"qu'on veut. Par exemple, si nous travaillons à 120 BPM, on peut ne garder "
+"que les samples qui contiennent la chaîne `\"120\"` avec le code suivant :"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
@@ -3223,13 +3219,12 @@ msgstr ""
 "sample samps, \"120\""
 
 #: 03.7-Sample-Packs.md:112
-#, fuzzy
 msgid ""
 "This will play us the first match. If we want the second match we just need to"
 " use the index:"
 msgstr ""
-"Cela jouera le premier sample qui correspond. Si on veut le deuxième, on n'a q"
-"u'à utiliser l'index :"
+"Cela jouera le premier sample qui correspond. Si on veut le deuxième, il "
+"suffit d'utiliser l'index :"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -3241,15 +3236,14 @@ msgstr ""
 "sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120
-#, fuzzy
 msgid ""
 "We can even use multiple filters at the same time. For example, if we want a s"
 "ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
 "t easily with the following code:"
 msgstr ""
-"On peut même utiliser de multiples filtres en même temps. Par exemple, si on v"
-"eut un sample dont le nom de fichier contient à la fois les sous-chaînes \"120\""
-" et \"A#\", on peut le trouver facilement avec le code suivant :"
+"On peut même utiliser de multiples filtres en même temps. Par exemple, si on "
+"veut un sample dont le nom de fichier contient à la fois les sous-chaînes \""
+"120\" et \"A#\", on peut le trouver facilement avec le code suivant :"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3261,11 +3255,10 @@ msgstr ""
 "sample samps, \"120\", \"A#\""
 
 #: 03.7-Sample-Packs.md:129
-#, fuzzy
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
 msgstr ""
-"Enfin, on a toujours la possibilité d'ajouter nos options habituelles lors de "
-"l'appel à `sample`:"
+"Enfin, on a toujours la possibilité d'ajouter nos options habituelles lors "
+"de l'appel à `sample` :"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -3278,47 +3271,45 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:136
 msgid "Sources"
-msgstr ""
+msgstr "Sources"
 
 #: 03.7-Sample-Packs.md:138
-#, fuzzy
 msgid ""
 "The sample filter pre-arg system understands two types of information: sources"
 " and filters. Sources are information used to create the list of potential can"
 "didates. A source can take two forms:"
 msgstr ""
-"Le système de pré-argument de filtre de samples comprend deux types d'informat"
-"ion : les sources et les filtres. Les sources sont des informations utilisées "
-"pour créer la liste des candidats potentiels. Une source peut prendre deux for"
-"mes :"
+"Le système de pré-argument de filtre de samples comprend deux types "
+"d'information : les sources et les filtres. Les sources sont des "
+"informations utilisées pour créer la liste des candidats potentiels. Une "
+"source peut prendre deux formes :"
 
 #: 03.7-Sample-Packs.md:142
-#, fuzzy
 msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
-msgstr "\"/path/to/samples\": une chaîne représentant un chemin valide vers un dossier"
+msgstr ""
+"\"/path/to/samples\" : une chaîne représentant un chemin valide vers un "
+"dossier"
 
 #: 03.7-Sample-Packs.md:143
-#, fuzzy
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
-"\"/path/to/samples/foo.wav\": une chaîne représentant un chemin valide vers un s"
-"ample"
+"\"/path/to/samples/foo.wav\" : une chaîne représentant un chemin valide vers "
+"un sample"
 
 #: 03.7-Sample-Packs.md:145
-#, fuzzy
 msgid ""
 "The `sample` fn will first gather all sources and use them to create a large l"
 "ist of candidates. This list is constructed by first adding all valid paths an"
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
-"La fonction `sample` va d'abord rassembler toutes les sources et les utiliser "
-"pour créer une grande liste de candidats. Cette liste est construite en ajouta"
-"nt d'abord tous les chemins valides et puis en ajoutant tous les fichiers vali"
-"des `.flac`, `.aif`, `.aiff`, `.wav`, et `.wave` contenus dans les dossiers."
+"La fonction `sample` va d'abord rassembler toutes les sources et les "
+"utiliser pour créer une grande liste de candidats. Cette liste est "
+"construite en ajoutant d'abord tous les chemins valides et puis en ajoutant "
+"tous les fichiers valides `.flac`, `.aif`, `.aiff`, `.wav`, et `.wave` "
+"contenus dans les dossiers."
 
 #: 03.7-Sample-Packs.md:150
-#, fuzzy
 msgid "For example, take a look at the following code:"
 msgstr "Par exemple, regardez le code suivant :"
 
@@ -3336,20 +3327,18 @@ msgstr ""
 "sample samps, samps2, path, 0"
 
 #: 03.7-Sample-Packs.md:160
-#, fuzzy
 msgid ""
 "Here, we're combining the contents of the samples within two directories and a"
 "dding a specific sample. If `\"/path/to/my/samples/\"` contained 3 samples and `"
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
-"Ici nous combinons les contenus des samples de deux dossiers en y ajoutant un "
-"sample en particulier. Si `\"/path/to/my/samples/\"` contient trois samples et `"
-"\"/path/to/my/samples2/\"` en contient douze, on aurait seize samples potentiels"
-" à indexer et filtrer (3 + 12 + 1)."
+"Ici nous combinons les contenus des samples de deux dossiers en y ajoutant "
+"un sample en particulier. Si `\"/path/to/my/samples/\"` contient trois "
+"samples et `\"/path/to/my/samples2/\"` en contient douze, on aurait seize "
+"samples potentiels à indexer et filtrer (3 + 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
-#, fuzzy
 msgid ""
 "By default, only the sample files within a directory are gathered into the can"
 "didate list. Sometimes you might have a number of nested folders of samples yo"
@@ -3357,11 +3346,11 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
-"Par défaut, seuls les fichiers de samples d'un dossier sont rassemblés dans la"
-" liste de candidats. Parfois vous pourriez avoir un certain nombre de dossiers"
-" imbriqués dans lesquels vous aimeriez chercher et filtrer. Vous pouvez faire "
-"une recherche récursive dans tous les samples de tous les sous-dossiers d'un d"
-"ossier en particulier en ajoutant `**` à la fin du chemin :"
+"Par défaut, seuls les fichiers de samples d'un dossier sont rassemblés dans "
+"la liste de candidats. Parfois vous pourriez avoir un certain nombre de "
+"dossiers imbriqués dans lesquels vous aimeriez chercher et filtrer. Vous "
+"pouvez faire une recherche récursive dans tous les samples de tous les sous-"
+"dossiers d'un dossier en particulier en ajoutant `**` à la fin du chemin :"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -3373,98 +3362,89 @@ msgstr ""
 "sample samps, 0"
 
 #: 03.7-Sample-Packs.md:176
-#, fuzzy
 msgid ""
 "Take care though as searching through a very large set of folders may take a l"
 "ong time. However, the contents of all folder sources are cached, so the delay"
 " will only happen the first time."
 msgstr ""
-"Attention parce que chercher dans un très grand ensemble de dossiers peut pren"
-"dre beaucoup de temps. Cela dit, le contenu des dossiers sources est mis en ca"
-"che, donc le retard n'arrivera que la première fois."
+"Attention parce que chercher dans un très grand ensemble de dossiers peut "
+"prendre beaucoup de temps. Cela dit, le contenu des dossiers sources est mis "
+"en cache, donc le retard n'arrivera que la première fois."
 
 #: 03.7-Sample-Packs.md:180
-#, fuzzy
 msgid ""
 "Finally, note that the sources *must go first*. If no source is given, then th"
 "e set of built-in samples will be selected as the default list of candidates t"
 "o work with."
 msgstr ""
-"Enfin, notez que les sources doivent *être en premier*. Si aucune source n'est"
-" donnée, alors l'ensemble de samples fourni par défaut sera pris comme liste d"
-"es candidats."
+"Enfin, notez que les sources doivent *être en premier*. Si aucune source "
+"n'est donnée, alors l'ensemble de samples fourni par défaut sera pris comme "
+"liste des candidats."
 
 #: 03.7-Sample-Packs.md:184
-#, fuzzy
 msgid "Filters"
 msgstr "Filtres"
 
 #: 03.7-Sample-Packs.md:186
-#, fuzzy
 msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
 msgstr ""
-"Une fois qu'on a une liste de candidats on peut utiliser les types de filtres "
-"suivants pour réduire la sélection :"
+"Une fois qu'on a une liste de candidats on peut utiliser les types de "
+"filtres suivants pour réduire la sélection :"
 
 #: 03.7-Sample-Packs.md:189
-#, fuzzy
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name (minus di"
 "rectory path and extension)."
 msgstr ""
-"`\"foo\"`: les chaînes vont filtrer sur les occurrences de sous-chaîne dans le n"
-"om du fichier (moins le chemin du dossier et l'extension)"
+"`\"foo\"` : les chaînes vont filtrer sur les occurrences de sous-chaîne dans "
+"le nom du fichier (moins le chemin du dossier et l'extension)."
 
 #: 03.7-Sample-Packs.md:190
-#, fuzzy
 msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name (m"
 "inus directory path and extension)."
 msgstr ""
-"`/fo[oO]/`: les expressions régulières filtrent sur des motifs du nom du fichi"
-"er (moins le chemin du dossier et l'extension)"
+"`/fo[oO]/` : les expressions régulières filtrent sur des motifs du nom du "
+"fichier (moins le chemin du dossier et l'extension)."
 
 #: 03.7-Sample-Packs.md:191
-#, fuzzy
 msgid ""
 "`:foo` - Keywords will filter candidates on whether the keyword is a direct ma"
 "tch of the filename (minus directory path and extension)."
 msgstr ""
-"`:foo`: les mots-clefs filtrent les candidats si le mot-clef correspond exacte"
-"ment au nom du fichier (moins le chemin du dossier et l'extension)"
+"`:foo` : les mots-clefs filtrent les candidats si le mot-clef correspond "
+"exactement au nom du fichier (moins le chemin du dossier et l'extension)."
 
 #: 03.7-Sample-Packs.md:192
-#, fuzzy
 msgid ""
 "`lambda{|a| ... }` - Procs with one argument will be treated as a candidate fi"
 "lter or generator function. It will be passed the list of current candidates a"
 "nd must return a new list of candidates (a list of valid paths to sample files"
 ")."
 msgstr ""
-"`lambda{|a| ... }`: les procédures avec un argument seront traitées comme un f"
-"iltre de candidat ou une fonction génératrice. On lui passera la liste des can"
-"didats actuels et elle doit retourner une nouvelle liste de candidats (une lis"
-"te de chemins valides vers des fichiers de samples)"
+"`lambda{|a| ... }` : les procédures avec un argument seront traitées comme "
+"un filtre de candidat ou une fonction génératrice. On lui passera la liste "
+"des candidats actuels et elle doit retourner une nouvelle liste de candidats "
+"(une liste de chemins valides vers des fichiers de samples)."
 
 #: 03.7-Sample-Packs.md:193
-#, fuzzy
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
 msgstr ""
-"`1`: Les nombres sélectionnent le candidat avec cet index (en bouclant comme u"
-"n anneau si nécessaire)"
+"`1` : Les nombres sélectionnent le candidat avec cet index (en bouclant "
+"comme un anneau si nécessaire)."
 
 #: 03.7-Sample-Packs.md:195
-#, fuzzy
 msgid ""
 "For example, we can filter over all the samples in a directory containing the "
 "string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
-"Par exemple on peut filtrer tous les samples d'un dossier qui contiennent la c"
-"haîne \"foo\" et jouer le premier sample correspondant deux fois moins vite :"
+"Par exemple on peut filtrer tous les samples d'un dossier qui contiennent la "
+"chaîne `\"foo\"` et jouer le premier sample correspondant deux fois moins "
+"vite :"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
@@ -3472,30 +3452,28 @@ msgid "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 msgstr "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 
 #: 03.7-Sample-Packs.md:203
-#, fuzzy
 msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
 msgstr ""
-"Regardez l'aide pour `sample`, elle contient plusieurs exemples détaillés d'ut"
-"ilisation. Notez que l'ordre des filtres est respecté."
+"Regardez l'aide pour `sample`, elle contient plusieurs exemples détaillés "
+"d'utilisation. Notez que l'ordre des filtres est respecté."
 
 #: 03.7-Sample-Packs.md:206
 msgid "Composites"
-msgstr ""
+msgstr "Composites"
 
 #: 03.7-Sample-Packs.md:208
-#, fuzzy
 msgid ""
 "Finally, you may use lists wherever you may place a source or filter. The list"
 " will be automatically flattened and the contents will be treated as regular s"
 "ources and filters. Therefore the following calls to `sample` are semantically"
 " equivalent:"
 msgstr ""
-"Enfin vous pouvez utiliser des listes partout où on peut placer une source ou "
-"un filtre. La liste sera automatiquement aplatie et son contenu sera traité co"
-"mme des sources et filtres. Ainsi les appels suivants à `sample` sont sémantiq"
-"uement équivalents :"
+"Enfin vous pouvez utiliser des listes partout où on peut placer une source "
+"ou un filtre. La liste sera automatiquement aplatie et son contenu sera "
+"traité comme des sources et filtres. Ainsi les appels suivants à `sample` "
+"sont sémantiquement équivalents :"
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -3511,12 +3489,10 @@ msgstr ""
 "sample [\"/path/to/dir\", [\"100\", [\"C#\"]]]"
 
 #: 03.7-Sample-Packs.md:220
-#, fuzzy
 msgid "Wrapping Up"
 msgstr "Résumé"
 
 #: 03.7-Sample-Packs.md:222
-#, fuzzy
 msgid ""
 "This was an advanced section for people that need real power to manipulate and"
 " use sample packs. If most of this section didn't make too much sense, don't w"
@@ -3524,99 +3500,92 @@ msgid ""
 "you'll know when you do need it and you can come back and re-read this when yo"
 "u start working with large directories of samples."
 msgstr ""
-"C'était une section avancée pour les gens qui ont besoin de vraie puissance po"
-"ur manipuler et utiliser des paquets de samples. Si la plupart de cette sectio"
-"n n'avait pas trop de sens pour vous, ne vous inquiétez pas. Vous n'avez proba"
-"blement pas encore besoin de cette fonctionnalité. Mais vous vous rendrez comp"
-"te quand vous en aurez besoin et vous pourrez revenir et relire ceci quand vou"
-"s commencerez à travailler avec de grands dossiers de samples."
+"C'était une section avancée pour les gens qui ont besoin de vraie puissance "
+"pour manipuler et utiliser des paquets de samples. Si la plupart de cette "
+"section n'avait pas trop de sens pour vous, ne vous inquiétez pas. Vous "
+"n'avez probablement pas encore besoin de cette fonctionnalité. Mais vous "
+"vous rendrez compte quand vous en aurez besoin et vous pourrez revenir et "
+"relire ceci quand vous commencerez à travailler avec de grands dossiers de "
+"samples."
 
 #: 04-Randomisation.md:1
 msgid "4 Randomisation"
-msgstr ""
+msgstr "4 Aléatoire"
 
 #: 04-Randomisation.md:3
 msgid "Randomisation"
-msgstr ""
+msgstr "Aléatoire"
 
 #: 04-Randomisation.md:5
-#, fuzzy
 msgid ""
 "A great way to add some interest into your music is using some random numbers."
 " Sonic Pi has some great functionality for adding randomness to your music, bu"
 "t before we start we need to learn a shocking truth: in Sonic Pi *random is no"
 "t truly random*. What on earth does this mean? Well, let's see."
 msgstr ""
-"Un grand moyen d'ajouter de l'intérêt à votre musique est d'utiliser quelques "
-"nombres aléatoires (\"random\"). Sonic Pi a des fonctions remarquables pour ajou"
-"ter de l'aléatoire à votre musique, mais avant de commencer, nous devons appre"
-"ndre une vérité choquante : dans Sonic Pi *aléatoire n'est pas vraiment aléato"
-"ire*. Qu'est-ce qu'ici-bas cela signifie ? Eh bien, voyons-le."
+"Un grand moyen d'ajouter de l'intérêt à votre musique est d'utiliser des "
+"nombres aléatoires (\"random\"). Sonic Pi a des fonctions remarquables pour "
+"ajouter de l'aléatoire à votre musique, mais avant de commencer, nous devons "
+"apprendre une vérité choquante : dans Sonic Pi *l'aléatoire n'est pas "
+"vraiment aléatoire*. Qu'est-ce que cela signifie ? Eh bien, voyons-le."
 
 #: 04-Randomisation.md:11
-#, fuzzy
 msgid "Repeatability"
 msgstr "Répétabilité"
 
 #: 04-Randomisation.md:13
-#, fuzzy
 msgid ""
 "A really useful random function is `rrand` which will give you a random value "
 "between two numbers - a *min* and a *max*. (`rrand` is short for ranged random"
 "). Let's try playing a random note:"
 msgstr ""
-"Une fonction vraiment utile est `rrand` qui vous donnera une valeur aléatoire "
-"comprise entre deux nombres - un *min* et un *max*. (`rrand` est l'abréviation"
-" de \"ranged random\"). Essayons de jouer une note aléatoire :"
+"Une fonction vraiment utile est `rrand` qui vous donnera une valeur "
+"aléatoire comprise entre deux nombres : un *min* et un *max*. (`rrand` est "
+"l'abréviation de \"ranged random\"). Essayons de jouer une note aléatoire :"
 
 #: 04-Randomisation.md:17
 #, no-wrap
-#, fuzzy
 msgid "play rrand(50, 95)"
-msgstr "play rrand(50, 100)"
+msgstr "play rrand(50, 95)"
 
 #: 04-Randomisation.md:21
-#, fuzzy
 msgid ""
 "Ooh, it played a random note. It played note `83.7527`. A nice random note bet"
 "ween 50 and 95. Woah, wait, did I just predict the exact random note you got t"
 "oo? Something fishy is going on here. Try running the code again. What? It cho"
 "se `83.7527` again? That can't be random!"
 msgstr ""
-"Ooh, une note aléatoire a été jouée. La note `77.4407` a été jouée - une note "
-"aléatoire sympathique entre 50 et 100. Wooh , attendez, est-ce que je viens ju"
-"ste de prédire exactement la note que vous avez obtenue ? Quelque chose de lou"
-"che se passe ici. Essayez d'exécuter le code une nouvelle fois. Quoi ? `77.440"
-"7` a encore été choisi ? Ce ne peut être aléatoire !"
+"Oh, une note aléatoire a été jouée. La note `83.7527 ` a été jouée. Une note "
+"aléatoire sympathique entre 50 et 95. Wow , attendez, est-ce que je viens "
+"juste de prédire exactement la note que vous avez obtenue ? Quelque chose de "
+"louche se passe ici. Essayez d'exécuter le code une nouvelle fois. Comment ? "
+"`83.7527` a encore été choisie ? Ce ne peut être aléatoire !"
 
 #: 04-Randomisation.md:26
-#, fuzzy
 msgid ""
 "The answer is that it is not truly random, it's pseudo-random. Sonic Pi will g"
 "ive you random-like numbers in a repeatable manner. This is very useful for en"
 "suring that the music you create on your machine sounds identical on everybody"
 " else's machine - even if you use some randomness in your composition."
 msgstr ""
-"La réponse est que ce n'est pas vraiment aléatoire, c'est pseudo-aléatoire. So"
-"nic Pi vous donne une suite d'un semblant de nombres aléatoires de manière rep"
-"roductible. C'est très utile pour s'assurer que la musique que vous avez créée"
-" sur votre machine sonnera de façon identique sur n'importe quelle autre machi"
-"ne - même si vous utilisez de l'aléatoire dans votre composition."
+"La réponse est que ce n'est pas vraiment aléatoire, c'est pseudo-aléatoire. "
+"Sonic Pi vous donne une suite d'un semblant de nombres aléatoires de manière "
+"reproductible. C'est très utile pour s'assurer que la musique que vous avez "
+"créée sur votre machine sonnera de façon identique sur n'importe quelle "
+"autre machine - même si vous utilisez de l'aléatoire dans votre composition."
 
 #: 04-Randomisation.md:32
-#, fuzzy
 msgid ""
 "Of course, in a given piece of music, if it 'randomly' chose `83.7527` every t"
 "ime, then it wouldn't be very interesting. However, it doesn't. Try the follow"
 "ing:"
 msgstr ""
-"Bien sûr, dans un morceau de musique donné, si `77.4407` était choisi 'aléatoi"
-"rement' à chaque fois, ce ne serait pas très intéressant. Ce n'est cependant p"
-"as le cas. Essayez ce qui suit :"
+"Bien sûr, dans un morceau de musique donné, si `83.7527 ` était choisi "
+"'aléatoirement' à chaque fois, ce ne serait pas très intéressant. Ce n'est "
+"cependant pas le cas. Essayez ce qui suit :"
 
 #: 04-Randomisation.md:36
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  play rrand(50, 95)\n"
@@ -3624,12 +3593,11 @@ msgid ""
 "end "
 msgstr ""
 "loop do\n"
-"  play rrand(50, 100)\n"
+"  play rrand(50, 95)\n"
 "  sleep 0.5\n"
 "end "
 
 #: 04-Randomisation.md:43
-#, fuzzy
 msgid ""
 "Yes! It finally sounds random. Within a given *run* subsequent calls to random"
 " functions will return random values. However, the next run will produce exact"
@@ -3637,29 +3605,27 @@ msgid ""
 "ll Sonic Pi code went back in time to exactly the same point every time the Ru"
 "n button was pressed. It's the Groundhog Day of music synthesis!"
 msgstr ""
-"Oui ! ça sonne aléatoire finalement. A l'intérieur d'un *run* donné, des appel"
-"s successifs à des fonction aléatoires retournent des valeurs aléatoires. Cepe"
-"ndant, une nouvelle exécution produira exactement la même séquence de valeurs "
-"aléatoires et sonnera exactement pareil. C'est comme si tout le code de Sonic "
-"Pi revenait en arrière exactement au même point de départ chaque fois que le b"
-"outon \"Run\" était pressé. C'est le jour de la marmotte de la synthèse musicale"
-"."
+"Oui ! Ca sonne enfin aléatoire. A l'intérieur d'un *run* donné, des appels "
+"successifs à des fonction aléatoires retournent des valeurs aléatoires. "
+"Cependant, une nouvelle exécution produira exactement la même séquence de "
+"valeurs aléatoires et sonnera exactement pareil. C'est comme si tout le code "
+"de Sonic Pi revenait en arrière exactement au même point de départ chaque "
+"fois que le bouton \"Run\" était pressé. C'est le \"Un jour sans fin\" de la "
+"synthèse musicale !"
 
 #: 04-Randomisation.md:50
-#, fuzzy
 msgid "Haunted Bells"
 msgstr "Cloches hantées"
 
 #: 04-Randomisation.md:52
-#, fuzzy
 msgid ""
 "A lovely illustration of randomisation in action is the haunted bells example "
 "which loops the `:perc_bell` sample with a random rate and sleep time between "
 "bell sounds:"
 msgstr ""
-"Une agréable illustration de la randomisation en action est l'exemple des cloc"
-"hes hantées en faisant boucler l'échantillon `:perc_bell` avec une vitesse et "
-"un temps de repos aléatoires entre les sons de cloche :"
+"Une agréable illustration de l'aléatoire en action est l'exemple des cloches "
+"hantées qui fait boucler l'échantillon `:perc_bell` avec une vitesse et un "
+"temps de repos aléatoires entre les sons de cloche :"
 
 #: 04-Randomisation.md:56
 #, no-wrap
@@ -3675,19 +3641,17 @@ msgstr ""
 "end"
 
 #: 04-Randomisation.md:63
-#, fuzzy
 msgid "Random cutoff"
 msgstr "Limite (\"cutoff\") aléatoire"
 
 #: 04-Randomisation.md:65
-#, fuzzy
 msgid ""
 "Another fun example of randomisation is to modify the cutoff of a synth random"
 "ly. A great synth to try this out on is the `:tb303` emulator:"
 msgstr ""
-"Un autre exemple sympathique de randomisation est de modifier la limite d'un s"
-"on de synthé aléatoirement. Un synthé super pour essayer cela est l'émulateur "
-"du `:tb303`:"
+"Un autre exemple sympathique d'aléatoire est de modifier la limite d'un son "
+"de synthé aléatoirement. Un synthé super pour essayer cela est l'émulateur "
+"du `:tb303` :"
 
 #: 04-Randomisation.md:69
 #, no-wrap
@@ -3705,26 +3669,23 @@ msgstr ""
 "end"
 
 #: 04-Randomisation.md:78
-#, fuzzy
 msgid "Random seeds"
 msgstr "Tête de série aléatoire"
 
 #: 04-Randomisation.md:80
-#, fuzzy
 msgid ""
 "So, what if you don't like this particular sequence of random numbers Sonic Pi"
 " provides? Well it's totally possible to choose a different starting point via"
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
-"Alors que faire si vous n'aimez pas cette particulière séquence de nombres alé"
-"atoires que fournit Sonic Pi ? Eh bien, c'est tout à fait possible de choisir "
-"un point de départ via `use_random_seed`. Il est établi que la tête de série p"
-"ar défaut est 0, aussi choisissez une autre tête de série pour une expérience "
+"Alors que faire si vous n'aimez pas cette particulière séquence de nombres "
+"aléatoires que fournit Sonic Pi ? Eh bien, c'est tout à fait possible de "
+"choisir un autre point de départ via `use_random_seed`. La tête de série par "
+"défaut est 0, aussi choisissez une autre tête de série pour une expérience "
 "aléatoire différente !"
 
 #: 04-Randomisation.md:85
-#, fuzzy
 msgid "Consider the following:"
 msgstr "Envisagez ce qui suit :"
 
@@ -3742,14 +3703,13 @@ msgstr ""
 "end"
 
 #: 04-Randomisation.md:94
-#, fuzzy
 msgid ""
 "Every time you run this code, you'll hear the same sequence of 5 notes. To get"
 " a different sequence simply change the seed:"
 msgstr ""
-"Chaque fois que vous exécuterez ce code, vous entendrez la même séquence de 5 "
-"notes. Pour obtenir une séquence différente, changez simplement la tête de sér"
-"ie :"
+"Chaque fois que vous exécuterez ce code, vous entendrez la même séquence de "
+"5 notes. Pour obtenir une séquence différente, changez simplement la tête de "
+"série :"
 
 #: 04-Randomisation.md:97
 #, no-wrap
@@ -3767,29 +3727,25 @@ msgstr ""
 "end"
 
 #: 04-Randomisation.md:105
-#, fuzzy
 msgid ""
 "This will produce a different sequence of 5 notes. By changing the seed and li"
 "stening to the results you can find something that you like - and when you sha"
 "re it with others, they will hear exactly what you heard too."
 msgstr ""
-"Ceci va produire une séquence différente de 5 notes. En changeant le tête de s"
-"érie et en écoutant les résultats, vous pouvez trouver quelque chose que vous "
-"aimez - et quand vous le partagerez avec d'autres, ils entendront exactement c"
-"e que vous avez aussi écouté."
+"Ceci va produire une séquence différente de 5 notes. En changeant le tête de "
+"série et en écoutant les résultats, vous pouvez trouver quelque chose que "
+"vous aimez - et quand vous le partagerez avec d'autres, ils entendront "
+"exactement ce que vous avez aussi entendu."
 
 #: 04-Randomisation.md:110
-#, fuzzy
 msgid "Let's have a look at some other useful random functions."
-msgstr "Jetons un œil sur d'autres fonctions de randomisation utiles."
+msgstr "Jetons un œil sur d'autres fonctions aléatoires utiles."
 
 #: 04-Randomisation.md:113
-#, fuzzy
 msgid "choose"
 msgstr "Choix (\"choose\")"
 
 #: 04-Randomisation.md:115
-#, fuzzy
 msgid ""
 "A very common thing to do is to choose an item randomly from a list of known i"
 "tems. For example, I may want to play one note from the following: 60, 65 or 7"
@@ -3798,12 +3754,13 @@ msgid ""
 "uare brackets and separating them with commas: `[60, 65, 72]`. Next I just nee"
 "d to pass them to `choose`:"
 msgstr ""
-"Une chose très commune est de choisir un item aléatoirement dans une liste d'i"
-"tems connus. Par exemple, je peux vouloir jouer une note parmi les suivantes :"
-" 60, 65 ou 72. Je peux y arriver avec `choose` qui me choisit un item dans une"
-" liste. En premier, je dois mettre mes nombres dans une liste, ce qui est réal"
-"isé en les encadrant entre crochets et en les séparant avec des virgules : `[6"
-"0, 65, 72]`. Ensuite, j'ai juste besoin de leur passer `choose`:"
+"Une chose très commune est de choisir un item aléatoirement dans une liste "
+"d'items connus. Par exemple, je peux vouloir jouer une note parmi les "
+"suivantes : 60, 65 ou 72. Je peux y arriver avec `choose` qui me choisit un "
+"item dans une liste. En premier, je dois mettre mes nombres dans une liste, "
+"ce qui est réalisé en les encadrant entre crochets et en les séparant avec "
+"des virgules : `[60, 65, 72]`. Ensuite, j'ai juste besoin de leur passer "
+"`choose` :"
 
 #: 04-Randomisation.md:122
 #, no-wrap
@@ -3811,7 +3768,6 @@ msgid "choose([60, 65, 72])"
 msgstr "choose([60, 65, 72])"
 
 #: 04-Randomisation.md:126
-#, fuzzy
 msgid "Let's hear what that sounds like:"
 msgstr "Écoutons comment cela sonne :"
 
@@ -3830,10 +3786,9 @@ msgstr ""
 
 #: 04-Randomisation.md:135
 msgid "rrand"
-msgstr ""
+msgstr "rrand"
 
 #: 04-Randomisation.md:137
-#, fuzzy
 msgid ""
 "We've already seen `rrand`, but let's run over it again. It returns a random n"
 "umber between two values exclusively. That means it will never return either t"
@@ -3841,19 +3796,18 @@ msgid ""
 " always be a float - meaning it's not a whole number but a fraction of a numbe"
 "r. Examples of floats returned by `rrand(20, 110)`:"
 msgstr ""
-"Nous avons déja vu `rrand`, mais examinons-le encore. Il retourne un nombre al"
-"éatoire entre 2 valeurs exclues. Cela signifie qu'il ne retournera jamais soit"
-" la borne basse, soit la borne haute - toujours quelque chose entre les deux. "
-"Le nombre sera toujours un nombre flottant - ce qui signifie que ce n'est pas "
-"un nombre entier, mais une fraction de nombre. Exemple de flottants retournés "
-"par `rrand(20, 110)`:"
+"Nous avons déjà vu `rrand`, mais examinons-le encore. Il retourne un nombre "
+"aléatoire entre deux valeurs exclues. Cela signifie qu'il ne retournera "
+"jamais soit la borne basse, soit la borne haute - toujours quelque chose "
+"entre les deux. Le nombre sera toujours un nombre flottant - ce qui signifie "
+"que ce n'est pas un nombre entier, mais une fraction de nombre. Exemple de "
+"flottants retournés par `rrand(20, 110)` :"
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
-msgstr ""
+msgstr "rrand_i"
 
 #: 04-Randomisation.md:150
-#, fuzzy
 msgid ""
 "Occasionally you'll want a whole random number, not a float. This is where `rr"
 "and_i` comes to the rescue. It works similarly to `rrand` except it may return"
@@ -3861,27 +3815,27 @@ msgid ""
 " rather than exclusive of the range). Examples of numbers returned by `rrand_i"
 "(20, 110)` are:"
 msgstr ""
-"Occasionnellement, vous désirez un nombre entier aléatoire, pas un flottant. C"
-"'est là que `rrand_i` arrive à la rescousse. Il fonctionne de façon similaire "
-"à `rrand` sauf qu'il peut retourner potentiellement les valeurs minimales et m"
-"aximales comme valeurs aléatoires (ce qui signifie que c'est inclusif plutôt q"
-"u'exclusif des bornes). Exemple de nombres retournés par `rrand_i(20, 110)`:"
+"Occasionnellement, vous désirez un nombre entier aléatoire, pas un flottant. "
+"C'est là que `rrand_i` arrive à la rescousse. Il fonctionne de façon "
+"similaire à `rrand` sauf qu'il peut retourner potentiellement les valeurs "
+"minimales et maximales comme valeurs aléatoires (ce qui signifie que c'est "
+"inclusif plutôt qu'exclusif des bornes). Exemple de nombres retournés par "
+"`rrand_i(20, 110)` :"
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
-#, fuzzy
 msgid ""
 "This will return a random float between 0 (inclusive) and the max value you sp"
 "ecify (exclusive). By default it will return a value between 0 and one. It's t"
 "herefore useful for choosing random `amp:` values:"
 msgstr ""
-"Cette fonction va retourner un flottant aléatoire entre 0 (inclus) et la valeu"
-"r maximale que vous spécifiez (exclue). Par défaut, elle retourne une valeur e"
-"ntre 0 et 1. C'est par conséquent utile pour choisir une valeur de `amp:` aléa"
-"toire :"
+"Cette fonction va retourner un flottant aléatoire entre 0 (inclus) et la "
+"valeur maximale que vous spécifiez (exclue). Par défaut, elle retourne une "
+"valeur entre 0 et 1. C'est par conséquent utile pour choisir une valeur de "
+"`amp:` aléatoire :"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -3898,24 +3852,21 @@ msgstr ""
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
-#, fuzzy
 msgid ""
 "Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will retur"
 "n a random whole number between 0 and the max value you specify."
 msgstr ""
-"Similaire à la relation entre `rrand_i` et `rrand`, `rand_i` retournera un nom"
-"bre entier compris entre 0 et la valeur maximale que vous spécifierez."
+"Similaire à la relation entre `rrand_i` et `rrand`, `rand_i` retournera un "
+"nombre entier compris entre 0 et la valeur maximale que vous spécifierez."
 
 #: 04-Randomisation.md:179
-#, fuzzy
 msgid "dice"
 msgstr "dice (dé)"
 
 #: 04-Randomisation.md:181
-#, fuzzy
 msgid ""
 "Sometimes you want to emulate a dice throw - this is a special case of `rrand_"
 "i` where the lower value is always 1. A call to `dice` requires you to specify"
@@ -3924,19 +3875,19 @@ msgid ""
 "r, just like fantasy role-play games, you might find value in a 4 sided dice, "
 "or a 12 sided dice, or a 20 sided dice - perhaps even a 120 sided dice!"
 msgstr ""
-"Quelquefois, vous souhaitez émuler un jet de dés - c'est un cas particulier de"
-" `rrand_i` où la valeur minimale est toujours 1. Un appel à `dice` nécessite q"
-"ue vous spécifiez le nombre de faces du dé. Un dé standard a 6 faces, donc `di"
-"ce(6)` agira de manière très similaire - retournant l'une des valeurs 1, 2, 3,"
-" 4, 5, ou 6. Cependant, juste comme dans des jeux de rôle fantaisistes, vous p"
-"ourriez trouver des dés à 4 faces, ou à 12 faces, peut-être même à 120 faces !"
+"Quelquefois, vous souhaitez émuler un jet de dé - c'est un cas particulier "
+"de `rrand_i` où la valeur minimale est toujours 1. Un appel à `dice` "
+"nécessite que vous spécifiez le nombre de faces du dé. Un dé standard a 6 "
+"faces, donc `dice(6)` agira de manière très similaire - retournant l'une des "
+"valeurs 1, 2, 3, 4, 5, ou 6. Cependant, juste comme dans des jeux de rôle, "
+"vous pourriez trouver des dés à 4 faces, ou à 12 faces, peut-être même à 120 "
+"faces !"
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
-#, fuzzy
 msgid ""
 "Finally you may wish to emulate throwing the top score of a dice such as a 6 i"
 "n a standard dice. `one_in` therefore returns true with a probability of one i"
@@ -3945,69 +3896,61 @@ msgid ""
 "eful for `if` statements which we will cover in a subsequent section of this t"
 "utorial."
 msgstr ""
-"Finalement, vous pouvez souhaiter simuler la chance que vous avez de tomber su"
-"r le nombre le plus élevé d'un dé, soit 6 pour un dé standard. Ainsi `one_in` "
-"retourne vrai (\"true\") avec une probabilité de 1 sur le nombre de faces du dé."
-" Par conséquent `one_in(6)` retournera vrai avec une probabilité de 1 sur 6 ou"
-" faux (\"false\") autrement. Les valeurs True et False sont très utiles pour les"
-" ordres `if` que nous couvrirons dans une section suivante de ce tutoriel."
+"Finalement, vous pouvez souhaiter simuler la chance que vous avez de tomber "
+"sur le nombre le plus élevé d'un dé, soit 6 pour un dé standard. Ainsi "
+"`one_in` retourne vrai (\"true\") avec une probabilité de 1 sur le nombre de "
+"faces du dé. Par conséquent `one_in(6)` retournera vrai avec une probabilité "
+"de 1 sur 6 ou faux (\"false\") autrement. Les valeurs `true` et `false` sont "
+"très utiles pour les ordres `if` que nous couvrirons dans une section "
+"suivante de ce tutoriel."
 
 #: 04-Randomisation.md:198
-#, fuzzy
 msgid "Now, go and jumble up your code with some randomness!"
 msgstr "Maintenant allez et introduisez de l'aléatoire dans votre code !"
 
 #: 05-Programming-Structures.md:1
-#, fuzzy
 msgid "5 Programming Structures"
-msgstr "5 Structures de Programmations"
+msgstr "5 Structures de programmation"
 
 #: 05-Programming-Structures.md:3
-#, fuzzy
 msgid "Programming Structures"
-msgstr "Structures de Programmation"
+msgstr "Structures de programmation"
 
 #: 05-Programming-Structures.md:5
-#, fuzzy
 msgid ""
 "Now that you've learned the basics of creating sounds with `play` and `sample`"
 " and creating simple melodies and rhythms by `sleep`ing between sounds, you mi"
 "ght be wondering what else the world of code can offer you..."
 msgstr ""
-"Maintenant que vous avez appris les bases de la création des sons avec `play` "
-"et `sample` et la création de mélodies simples et de rythmes avec `sleep` entr"
-"e les sons, vous pourriez être en train de vous demander ce que le monde du co"
-"de peut vous offrir en plus..."
+"Maintenant que vous avez appris les bases de la création des sons avec `play`"
+" et `sample` et la création de mélodies simples et de rythmes en utilisant "
+"`sleep` entre les sons, vous vous demandez peut-être ce que le monde du code "
+"peut vous offrir en plus..."
 
 #: 05-Programming-Structures.md:10
-#, fuzzy
 msgid ""
 "Well, you're in for an exciting treat! It turns out that basic programming str"
 "uctures such as looping, conditionals, functions and threads give you amazingl"
 "y powerful tools to express your musical ideas."
 msgstr ""
-"Eh bien, vous y êtes et pour un voyage passionnant ! Il ressort que les struct"
-"ures de programmation de base telles les boucles, les conditionnels, les fonct"
-"ions, les fils (\"threads\") vont vous procurer des outils puissants et étonnant"
-"s pour exprimer vos idées musicales."
+"Eh bien, vous êtes prêts pour un voyage passionnant ! Il ressort que les "
+"structures de programmation de base telles les boucles, les conditionnels, "
+"les fonctions et les fils (\"threads\") vont vous procurer des outils "
+"puissants et étonnants pour exprimer vos idées musicales."
 
 #: 05-Programming-Structures.md:14
-#, fuzzy
 msgid "Let's get stuck in with the basics..."
 msgstr "Plongeons dans les bases..."
 
 #: 05.1-Blocks.md:1
-#, fuzzy
 msgid "5.1 Blocks"
 msgstr "5.1 Blocs"
 
 #: 05.1-Blocks.md:3
-#, fuzzy
 msgid "Blocks"
 msgstr "Blocs"
 
 #: 05.1-Blocks.md:5
-#, fuzzy
 msgid ""
 "A structure you'll see a lot in Sonic Pi is the block. Blocks allow us to do u"
 "seful things with large chunks of code. For example, with synth and sample par"
@@ -4016,14 +3959,14 @@ msgid ""
 " For example, we may wish to loop it, to add reverb to it, to only run it 1 ti"
 "me out of 5, etc. Consider the following code:"
 msgstr ""
-"Une structure que vous verrez souvant dans Sonic Pi est le bloc. Les blocs vou"
-"s permettent de faire des choses utiles avec de grands morceaux de code. Par e"
-"xemple, avec les paramètres des synthés et des échantillons, nous sommes capab"
-"les de changer sur une seule ligne quelque chose qui s'est passé. Cependant, n"
-"ous souhaitons quelquefois faire quelque chose de significatif sur un certain "
-"nombre de lignes de code. Par exemple, nous souhaiterions les faire boucler, l"
-"eur ajouter de la réverbération, les exécuter seulement une fois sur 5, etc. C"
-"onsidérez le code suivant :"
+"Une structure que vous verrez souvent dans Sonic Pi est le bloc. Les blocs "
+"vous permettent de faire des choses utiles avec de grands morceaux de code. "
+"Par exemple, avec les paramètres des synthés et des échantillons, nous "
+"sommes capables de changer quelque chose qui se passe sur une seule ligne. "
+"Cependant, nous souhaitons parfois faire quelque chose de significatif sur "
+"un certain nombre de lignes de code. Par exemple, nous souhaiterions les "
+"faire boucler, leur ajouter de la réverbération, les exécuter seulement une "
+"fois sur 5, etc. Considérez le code suivant :"
 
 #: 05.1-Blocks.md:13
 #, no-wrap
@@ -4041,15 +3984,14 @@ msgstr ""
 "play 62"
 
 #: 05.1-Blocks.md:21
-#, fuzzy
 msgid ""
 "To do something with a chunk of code, we need to tell Sonic Pi where the code "
 "block *starts* and where it *ends*. We use `do` for start and `end` for end. F"
 "or example:"
 msgstr ""
-"Pour faire quelque chose avec un morceau de code, nous devons dire à Sonic Pi "
-"où *commence* le bloc et où il *finit*. Nous utilisons `do` pour le début et `"
-"end` pour la fin. Par exemple :"
+"Pour faire quelque chose avec un morceau de code, nous devons dire à Sonic "
+"Pi où *commence* le bloc et où il *finit*. Nous utilisons `do` pour le début "
+"et `end` pour la fin. Par exemple :"
 
 #: 05.1-Blocks.md:25
 #, no-wrap
@@ -4071,7 +4013,6 @@ msgstr ""
 "end"
 
 #: 05.1-Blocks.md:35
-#, fuzzy
 msgid ""
 "However, this isn't yet complete and won't work (try it and you'll get an erro"
 "r) as we haven't told Sonic Pi what we want to do with this *do/end block*. We"
@@ -4080,38 +4021,35 @@ msgid ""
 "s important to know that wrapping your code within `do` and `end` tells Sonic "
 "Pi you wish to do something special with that chunk of code."
 msgstr ""
-"Toutefois, ce n'est pas encore complet et ne fonctionnera pas (essayez-le et v"
-"ous obtiendrez une erreur) puique nous n'avons pas dit à Sonic Pi ce que nous "
-"voulions faire avec ce *bloc do/end*. On le dit à Sonic Pi en écrivant du code"
-" spécial avant le `do`. Nous verrons un certain nombre de ces bouts de code sp"
-"éciaux plus tard dans ce tutoriel. Pour l'instant, il est important de savoir "
-"que d'encadrer votre code entre `do` et `end` dit à Sonic Pi que vous voulez f"
-"aire quelque chose de spécial avec ce morceau de code."
+"Toutefois, ce n'est pas encore complet et ne fonctionnera pas (essayez-le et "
+"vous obtiendrez une erreur) puisque nous n'avons pas dit à Sonic Pi ce que "
+"nous voulions faire avec ce *bloc do/end*. On le dit à Sonic Pi en écrivant "
+"du code spécial avant le `do`. Nous verrons un certain nombre de ces bouts "
+"de code spéciaux plus tard dans ce tutoriel. Pour l'instant, il est "
+"important de savoir que d'encadrer votre code entre `do` et `end` dit à "
+"Sonic Pi que vous voulez faire quelque chose de spécial avec ce morceau de "
+"code."
 
 #: 05.2-Iteration-and-Loops.md:1
-#, fuzzy
 msgid "5.2 Iteration and Loops"
-msgstr "5.2 Itérations et Boucles"
+msgstr "5.2 Itérations et boucles"
 
 #: 05.2-Iteration-and-Loops.md:3
-#, fuzzy
 msgid "Iteration and Loops"
-msgstr "Itérations et Boucles"
+msgstr "Itérations et boucles"
 
 #: 05.2-Iteration-and-Loops.md:5
-#, fuzzy
 msgid ""
 "So far we've spent a lot of time looking at the different sounds you can make "
 "with `play` and `sample` blocks. We've also learned how to trigger these sound"
 "s through time using `sleep`."
 msgstr ""
-"Jusqu'à maintenant nous avons passé beaucoup de temps à rechercher les différe"
-"nts sons que vous pouvez faire avec des blocs de `play` et de `sample`. Nous a"
-"vons aussi appris comment déclencher ces sons dans le temps en utilisant `slee"
-"p`."
+"Jusqu'à maintenant nous avons passé beaucoup de temps à rechercher les "
+"différents sons que vous pouvez faire avec des blocs de `play` et de `sample`"
+". Nous avons aussi appris comment déclencher ces sons dans le temps en "
+"utilisant `sleep`."
 
 #: 05.2-Iteration-and-Loops.md:9
-#, fuzzy
 msgid ""
 "As you've probably found out, there's a *lot* of fun you can have with these b"
 "asic building blocks. However, a whole new dimension of fun opens up when you "
@@ -4119,26 +4057,25 @@ msgid ""
 " next few sections we'll explore some of these powerful new tools. First up is"
 " iteration and loops."
 msgstr ""
-"Comme vous vous en êtes probablement rendu compte, il y a *beaucoup* de plaisi"
-"r à avoir avec la construction de ces blocs de base. Toutefois, une dimension "
-"totalement nouvelle de plaisir se découvre quand vous commencez à utiliser la "
-"puissance du code pour structurer votre musique et vos compositions. Dans les "
-"quelques sections suivantes, nous allons explorer quelques uns de ces nouveaux"
-" outils puissants. En premier, découvrons l'itération et les boucles."
+"Comme vous vous en êtes probablement rendu compte, on peut prendre *beaucoup*"
+" de plaisir avec la construction de ces blocs de base. Toutefois, une "
+"dimension totalement nouvelle de plaisir se découvre quand on commence à "
+"utiliser la puissance du code pour structurer sa musique et ses "
+"compositions. Dans les quelques sections suivantes, nous allons explorer "
+"quelques uns de ces nouveaux outils puissants. En premier, découvrons "
+"l'itération et les boucles."
 
 #: 05.2-Iteration-and-Loops.md:15
-#, fuzzy
 msgid "Repetition"
 msgstr "Répétition"
 
 #: 05.2-Iteration-and-Loops.md:17
-#, fuzzy
 msgid ""
 "Have you written some code you'd like to repeat a few times? For example, you "
 "might have something like this:"
 msgstr ""
-"Avez-vous écrit du code que vous aimeriez répéter quelques fois ? Par exemple,"
-" vous pourriez avoir quelque chose comme ceci :"
+"Avez-vous écrit du code que vous aimeriez répéter quelques fois ? Par "
+"exemple, vous pourriez avoir quelque chose comme ceci :"
 
 #: 05.2-Iteration-and-Loops.md:20
 #, no-wrap
