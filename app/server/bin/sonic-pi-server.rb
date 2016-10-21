@@ -71,13 +71,13 @@ begin
   end
 rescue Exception => e
   begin
-    STDERR.puts "Received Exception!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-    STDERR.puts e.backtrace
+    STDOUT.puts "Received Exception!"
+    STDOUT.puts e.message
+    STDOUT.puts e.backtrace.inspect
+    STDOUT.puts e.backtrace
     gui.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is scsynth already running?")
   rescue Errno::EPIPE => e
-    STDERR.puts "GUI not listening, exit anyway."
+    STDOUT.puts "GUI not listening, exit anyway."
   end
   exit
 end
@@ -89,7 +89,7 @@ at_exit do
     STDOUT.puts "Shutting down GUI..."
     gui.send("/exited")
   rescue Errno::EPIPE => e
-    STDERR.puts "GUI not listening."
+    STDOUT.puts "GUI not listening."
   end
   STDOUT.puts "Goodbye :-)"
 end
@@ -138,8 +138,8 @@ begin
   end
 
 rescue Exception => e
-  STDERR.puts "Failed to start server: " + e.message
-  STDERR.puts e.backtrace.join("\n")
+  STDOUT.puts "Failed to start server: " + e.message
+  STDOUT.puts e.backtrace.join("\n")
   gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}")
   exit
 end
@@ -359,7 +359,7 @@ out_t = Thread.new do
         begin
           gui.send("/exited")
         rescue Errno::EPIPE => e
-          STDERR.puts "GUI not listening, exit anyway."
+          STDOUT.puts "GUI not listening, exit anyway."
         end
         continue = false
       else
@@ -427,14 +427,14 @@ out_t = Thread.new do
           action = message[:action]
           # do nothing for now
         else
-          STDERR.puts "ignoring #{message}"
+          STDOUT.puts "ignoring #{message}"
         end
 
       end
     rescue Exception => e
-      STDERR.puts "Exception!"
-      STDERR.puts e.message
-      STDERR.puts e.backtrace.inspect
+      STDOUT.puts "Exception!"
+      STDOUT.puts e.message
+      STDOUT.puts e.backtrace.inspect
     end
   end
 end
