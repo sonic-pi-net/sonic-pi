@@ -909,12 +909,6 @@ void MainWindow::startRubyServer(){
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
-  std::cout << "[GUI] - shutting down any old SuperCollider servers..." << std::endl;
-  Message msg("/exit");
-  msg.pushStr(guiID.toStdString());
-  sendOSC(msg);
-  sleep(2);
-
   serverProcess = new QProcess();
 
   QStringList args;
