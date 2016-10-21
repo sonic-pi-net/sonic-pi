@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-19 09:54+0000\n"
+"PO-Revision-Date: 2016-10-21 10:00+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -10686,7 +10686,7 @@ msgstr ""
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
-msgstr ""
+msgstr "魔法のブロック"
 
 #: A.06-minecraft.md:90
 msgid ""
@@ -10716,6 +10716,10 @@ msgid ""
 " the sky we just need to increase the y value which is why we add 5 to it. Let"
 "'s make a long trail of them:"
 msgstr ""
+"見てみてください！メロンが空中に現れました！ここでは何をしてるのでしょうか？少し時間を取ってコードを見てみましょう。1行目では、"
+"プレーヤーの位置を取得してx, y, zの変数に入れています。これらの対応する座標については上で説明しています。これらの座標は、次の行の`mc_set_b"
+"lock`関数で、指定したブロックを設置するのに使用されます。ブロックをより高い位置に設置するには、yの値に5を加えていたのを増やす必要があります。次にブ"
+"ロックの長い軌跡を作ってみましょう。"
 
 #: A.06-minecraft.md:107
 #, no-wrap
@@ -10738,10 +10742,12 @@ msgid ""
 " if not) and fly all around the world. Look behind you to see a pretty trail o"
 "f melon blocks! See what kind of twisty patterns you can make in the sky."
 msgstr ""
+"では、Minecraftを表示して、飛行モードであることを確認して（もし飛行モードなかったらダブルタップしましょう）、ワールド中を飛び回ってみましょう。後"
+"ろにメロンのブロックの可愛い軌跡を見ることができたでしょう。どんなに曲がりくねったパターンでも作れたと思います。"
 
 #: A.06-minecraft.md:120
 msgid "Live Coding Minecraft"
-msgstr ""
+msgstr "Minecraftをライブコーディングする"
 
 #: A.06-minecraft.md:122
 msgid ""
@@ -10755,6 +10761,12 @@ msgid ""
 "rm music in nightclubs with Sonic Pi - DJs use discs and I use `live_loop`s :-"
 ") However, today we're going to live code both music and Minecraft."
 msgstr ""
+"このチュートリアルをここ数ヶ月読んできた人は驚いたかもしれません。メロンの軌跡はとてもクールだけど、先程の例の最もエキサイティングな部分はMinecraf"
+"tでも`live_loop`を使えるということです！知らない方のために説明すると、`live_loop`は他のプログラミング言語が持っていない、"
+"Sonic Piの特別な機能です。`live_loop`は複数のループを同時に実行し、また実行している最中にそれを変更することができます。それは信じられな"
+"いほど強力で、驚くほど楽しいものです。私は、Sonic "
+"Piを使ってクラブで音楽を演奏するときに`live_loop`を使います。DJはレコードを使い、私は`live_loop`を使います:-) "
+"今日は、音楽とMinecraftをライブコーディングしたいと思います。"
 
 #: A.06-minecraft.md:133
 msgid ""
@@ -10763,6 +10775,9 @@ msgid ""
 "it run. Hey presto, you're now making a brick trail. How simple was that! Fanc"
 "y some music to go with it? Easy. Try this:"
 msgstr ""
+"では始めましょう。先程のコードを実行し、メロンの軌跡を作ってみましょう。そして、そのコードを止めずに、ただ`:melon`を`:brick`に変更して`R"
+"un`を叩いてみてください。 あら不思議、レンガの軌跡が作れたでしょう。なんと簡単なのでしょう！それに合わせて何か気の利いた音楽はいかがでしょう？それも簡"
+"単です。これを試してみてください。"
 
 #: A.06-minecraft.md:138
 #, no-wrap
@@ -10795,12 +10810,16 @@ msgid ""
 "ry `:water`, `:grass` or your favourite block type. Also, try changing the cut"
 "off value from `70` to `80` and then up to `100`. Isn't this fun?"
 msgstr ""
+"では、それが演奏されている間に、コードを変更してみましょう。ブロックのタイプを変更してみましょう。`:water`や `:grass`、そしてあなたの好き"
+"なブロックを試してみましょう。それに加えて、カットオフの値を`70`から`80`に変更し、そして`100`に上げてみましょう。楽しいよね？"
 
 #: A.06-minecraft.md:158
 msgid ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
 msgstr ""
+"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 msgid ""
@@ -10810,6 +10829,9 @@ msgid ""
 "d have a play by changing some of the values whilst it's running live. Have fu"
 "n and see you next time..."
 msgstr ""
+"ここまで見てきた全てに、ちょっとした魔法を追加して組み合わせてみましょう。瞬間移動とブロック設置の機能と音楽を組み合わせて、Minecraftのミュージッ"
+"クビデオを作ってみましょう。全てを理解できなくても気にせずに、ただ以下のコードをタイプして、いくつかの値を実行中に変更してみましょう。楽しんでください。で"
+"はまた..."
 
 #: A.06-minecraft.md:166
 #, no-wrap
@@ -10866,11 +10888,11 @@ msgstr ""
 
 #: A.07-bizet.md:1
 msgid "A.7 Bizet Beats"
-msgstr ""
+msgstr "A.7 ビゼービート"
 
 #: A.07-bizet.md:3
 msgid "Bizet Beats"
-msgstr ""
+msgstr "ビゼービート"
 
 #: A.07-bizet.md:5
 msgid ""
@@ -10879,10 +10901,12 @@ msgid ""
 "al operatic dance piece straight into the 21st century using the awesome power"
 " of code."
 msgstr ""
+"先月は、Sonic PiでMinecraftのコーディングの素晴らしい世界に小旅行しましたが、また音楽的なものに戻りましょう。今日は、コードの凄い力を使っ"
+"て、クラシックのオペラ作品を21世紀に持ち込んでみましょう。"
 
 #: A.07-bizet.md:10
 msgid "Outrageous and Disruptive"
-msgstr ""
+msgstr "奇抜で破壊的な"
 
 #: A.07-bizet.md:12
 msgid ""
@@ -10896,10 +10920,14 @@ msgid ""
 "ic that is also too outrageous and different for most people in our time - liv"
 "e coded music!"
 msgstr ""
+"タイムマシンに乗って1875年に遡ってみましょう。ビゼーという作曲家が、彼の最後のオペラ作品となるカルメンを書き上げました。不運なことに、その作品は、多く"
+"の刺激的で破壊的な新しい音楽作品と同じように、あまりに奇抜でまた普通でないために、当初人々には全く好かれませんでした。そして残念なことに、その作品が国際的"
+"に多大な成功を収め、歴史上、最も有名で頻繁に公演されるオペラの一つになる10年前にビゼーは亡くなってしまいました。この悲劇に共感して、カルメンのメインテー"
+"マの一つを取り上げ、現代を生きる多くの人々にとって、あまりに奇抜でまた普通でない形式の音楽 - ライブコーディングされた音楽に変換してみましょう！"
 
 #: A.07-bizet.md:23
 msgid "Decoding the Habanera"
-msgstr ""
+msgstr "ハバネラの解読"
 
 #: A.07-bizet.md:25
 msgid ""
@@ -10907,10 +10935,11 @@ msgid ""
 "orial, so let's focus on one of the most famous parts - the bass line to the H"
 "abanera:"
 msgstr ""
+"このチュートリアルでカルメンの全体をライブコーディングしようとするのは少し難しいので、最も有名な部分 - ハバネラのベースラインに着目しましょう。"
 
 #: A.07-bizet.md:29
 msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
-msgstr ""
+msgstr "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -10919,10 +10948,13 @@ msgid ""
 "ode - only it represents instructions to a musician instead of a computer. We "
 "therefore need to figure out a way of decoding it."
 msgstr ""
+"もしあなたが楽譜について学んでいなかったら、これは全く読めないでしょう。しかし、プログラマーとして楽譜を見ると、それはプログラミングコードの別な形式と捉え"
+"ることができます。つまり楽譜は、コンピューターの代わりに演奏者に対する指示を表していると言えます。したがって我々は楽譜を解読する方法を理解する必要がありま"
+"す。"
 
 #: A.07-bizet.md:36
 msgid "Notes"
-msgstr ""
+msgstr "音符"
 
 #: A.07-bizet.md:38
 msgid ""
@@ -10930,6 +10962,8 @@ msgid ""
 "also have different heights. *The height on the score represents the pitch of "
 "the note.* The higher the note on the score, the higher the pitch of the note."
 msgstr ""
+"音符は、左から右に、ちょうどこの雑誌の単語と同じように並んでいますが、それぞれ異なる高さの位置を持っています。*楽譜上の高さは、音符のピッチ（音程）を表し"
+"ています。* つまり、楽譜上高い位置にあるものほど、音符のピッチは高くなります。"
 
 #: A.07-bizet.md:43
 msgid ""
