@@ -3184,8 +3184,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         cue_map = cue_map || {}
         cue_id = payload[:cue]
         cue_map[:cue] = cue_id
-        __system_thread_locals.set :sonic_pi_spider_beat, beat
-        __system_thread_locals.set :sonic_pi_spider_time, time.freeze
+        __system_thread_locals.set :sonic_pi_spider_beat, beat if beat
+        __system_thread_locals.set :sonic_pi_spider_time, time.freeze if time
         __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
 
 

@@ -1025,17 +1025,33 @@ module SonicPi
       @global_start_time = 0
       @session_id = SecureRandom.uuid
       @snippets = {}
-      @osc_server = SonicPi::OSC::UDPServer.new(osc_cues_port) do |address, args|
+
+      # TODO Add support for TCP
+      @osc_server = SonicPi::OSC::UDPServer.new(osc_cues_port, use_decoder_cache: true) do |address, args|
+
+        # Address comes as a string, args as an array.
+
+        # cue :nice, arg1: 123, arg2: 456
+        # is equivalent to an osc message:
+        # /nice "arg1" 123 "arg2" 456
+
+        # OSC spec requires address to begin with /.
+        # These are not allowed in ruby identifiers, and must be removed
+        cue_id = address.tr("/", "").to_sym
+
+        # To be consistent with the SonicPi "cue" method, which takes
+        # keyword arguments only, the OSC arguments (which are limited to arrays)
+        # are converted into hashes with keys symbol-ised.
+
+        cue_map = Hash[*args].map { |key, value| [key.to_sym, value] }.to_h
+
         payload = {
           :time => Time.now.freeze,
-          :sleep_mul => 1,
-          :beat => 0,
-          :run => 0,
-          :cue_map => {:args => args},
-          :cue => address
+          :cue_map => cue_map,
+          :cue => cue_id
         }
 
-        @events.async_event("/spider_thread_sync/" + address.to_s, payload)
+        @events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
       end
 
 
