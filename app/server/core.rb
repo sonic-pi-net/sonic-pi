@@ -66,7 +66,7 @@ require 'win32/process' if os == :windows
 
 ## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
 native_lib_path = "#{File.expand_path("../native/#{os}/", __FILE__)}"
-ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*.dylib,so.*}"].first
+ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*dylib,so*,dll}"].first
 
 
 
