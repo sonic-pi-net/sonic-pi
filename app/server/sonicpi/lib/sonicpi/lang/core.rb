@@ -230,7 +230,7 @@ Note that the code within the block is executed synchronously with the code befo
 
 Also, note that you cannot travel backwards in time beyond the `current_sched_ahead_time`.
 
-Finally, note that if the `time_warp` block is within a `density` block, the delta time is not affected (although all the other times such as sleep and phase durations will be affected) - see example."
+Finally, note that if the `time_warp` block is within a `density` block, the delta time is not affected (although all the other times such as sleep and phase durations will be affected) - see example.",
           examples:       ["# shift forwards in time
 play 70            #=> plays at time 0
 sleep 1
