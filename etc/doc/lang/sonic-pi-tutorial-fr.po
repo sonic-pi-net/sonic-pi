@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-20 12:29+0000\n"
+"PO-Revision-Date: 2016-10-23 17:38+0000\n"
 "Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -4095,13 +4095,12 @@ msgstr ""
 "sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:29
-#, fuzzy
 msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple a"
 "nd just copy and paste it three times:"
 msgstr ""
-"Que faire si nous voulions répéter ceci 3 fois ? Eh bien, nous pourrions faire"
-" simple et juste le copier et le coller trois fois :"
+"Et si nous voulons répéter ceci 3 fois ? Eh bien, nous pourrions faire "
+"simple et juste le copier et le coller trois fois :"
 
 #: 05.2-Iteration-and-Loops.md:32
 #, no-wrap
@@ -4145,7 +4144,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:55
-#, fuzzy
 msgid ""
 "Now that's a lot of code! What happens if you want to change the sample to `:e"
 "lec_plip`? You're going to have to find all the places with the original `:ele"
@@ -4153,20 +4151,18 @@ msgid ""
 "he original piece of code 50 times or 1000? Now that would be a lot of code, a"
 "nd a lot of lines of code to alter if you wanted to make a change."
 msgstr ""
-"Maintenant, c'est beaucoup de code ! Que se passe-t-il si nous voulions change"
-"r l'échantillon en `:elec_plip` ? Vous aller devoir trouver tous les endroits "
-"avec l'original `:elec_blup` et les modifier un par un. De façon plus importan"
-"te, que faire si vous voulez répéter le bout de code original 50 fois ou 1000 "
-"fois ? Ça ferait alors beaucoup de code, et beaucoup de lignes de code à modif"
-"ier si vous vouliez faire un changement."
+"Maintenant, ça fait beaucoup de code ! Que se passe-t-il si nous voulions "
+"changer l'échantillon en `:elec_plip` ? Vous aller devoir trouver tous les "
+"endroits avec l'original `:elec_blup` et les modifier un par un. De façon "
+"plus importante, que faire si vous voulez répéter le bout de code original "
+"50 fois ou 1000 fois ? Ça ferait alors vraiment beaucoup de code, et "
+"beaucoup de lignes de code à modifier si vous vouliez faire un changement."
 
 #: 05.2-Iteration-and-Loops.md:62
-#, fuzzy
 msgid "Iteration"
 msgstr "Itération"
 
 #: 05.2-Iteration-and-Loops.md:64
-#, fuzzy
 msgid ""
 "In fact, repeating the code should be as easy as saying *do this three times*."
 " Well, it pretty much is. Remember our old friend the code block? We can use i"
@@ -4175,13 +4171,13 @@ msgid ""
 "*, we write `3.times do` - that's not too hard. Just remember to write `end` a"
 "t the end of the code you'd like to repeat:"
 msgstr ""
-"En fait, répéter le code devrait être aussi facile que de dire *fais ceci troi"
-"s fois*. Eh bien, c'est presque cela. Souvenez-vous de notre vieil ami le bloc"
-" de code. Nous pouvons l'utiliser pour marquer le début et la fin du code que "
-"nous aimerions répéter trois fois. Nous utilisons alors le code spécial `3.tim"
-"es`. Ainsi, à la place d'écrire *fais cela trois fois*, nous écrivons `3.times"
-" do` - Ce n'est pas trop dur. Rappelez-vous juste d'écrire `end` à la fin du c"
-"ode que vous devez répéter :"
+"En fait, répéter le code devrait être aussi facile que de dire *fais ceci "
+"trois fois*. Eh bien, c'est presque cela. Souvenez-vous de notre vieil ami "
+"le bloc de code. Nous pouvons l'utiliser pour marquer le début et la fin du "
+"code que nous aimerions répéter trois fois. Nous utilisons alors le code "
+"spécial `3.times`. Ainsi, à la place d'écrire *fais cela trois fois*, nous "
+"écrivons `3.times do` - ce n'est pas trop dur. Rappelez-vous juste d'écrire "
+"`end` à la fin du code que vous devez répéter :"
 
 #: 05.2-Iteration-and-Loops.md:72
 #, no-wrap
@@ -4205,13 +4201,12 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:83
-#, fuzzy
 msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to create"
 " lots of nice repeating structures:"
 msgstr ""
-"Alors, est-ce que ce n'est pas plus propre que de copier-coller ! Nous pouvons"
-" l'utiliser pour créér beaucoup de chouettes structures répétitives."
+"Alors, est-ce que ce n'est pas plus propre que de copier-coller ! Nous "
+"pouvons l'utiliser pour créer beaucoup de chouettes structures répétitives :"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -4243,18 +4238,16 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:103
-#, fuzzy
 msgid "Nesting Iterations"
 msgstr "Imbrication d'itérations"
 
 #: 05.2-Iteration-and-Loops.md:105
-#, fuzzy
 msgid ""
 "We can put iterations inside other iterations to create interesting patterns. "
 "For example:"
 msgstr ""
-"Nous pouvons mettre des itérations à l'intérieur d'autres itérations pour créé"
-"r des motifs intéressants. Par exemple :"
+"Nous pouvons mettre des itérations à l'intérieur d'autres itérations pour "
+"créer des motifs intéressants. Par exemple :"
 
 #: 05.2-Iteration-and-Loops.md:108
 #, no-wrap
@@ -4286,23 +4279,21 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:123
-#, fuzzy
 msgid "Looping"
-msgstr "Bouclage"
+msgstr "Boucles"
 
 #: 05.2-Iteration-and-Loops.md:125
-#, fuzzy
 msgid ""
 "If you want something to repeat a lot of times, you might find yourself using "
 "really large numbers such as `1000.times do`. In this case, you're probably be"
 "tter off asking Sonic Pi to repeat forever (at least until you press the stop "
 "button!). Let's loop the amen break forever:"
 msgstr ""
-"Si vous voulez répéter quelque chose un grand nombre de fois, vous pourriez vo"
-"us trouvez en situation d'utiliser des nombres vraiment grands comme `1000.tim"
-"es do`. Dans ce cas, vous feriez probablement mieux de demander à Sonic Pi de "
-"répéter à jamais (au moins jusqu'à ce que vous pressiez le bouton stop !). Bou"
-"clons l'échantillon amen à jamais :"
+"Si vous voulez répéter quelque chose un grand nombre de fois, vous pourriez "
+"vous trouvez en situation d'utiliser des nombres vraiment grands comme `"
+"1000.times do`. Dans ce cas, vous feriez probablement mieux de demander à "
+"Sonic Pi de répéter à l'infini (au moins jusqu'à ce que vous pressiez le "
+"bouton stop !). Bouclons l'échantillon break amen à l'infini :"
 
 #: 05.2-Iteration-and-Loops.md:130
 #, no-wrap
@@ -4318,7 +4309,6 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:137
-#, fuzzy
 msgid ""
 "The important thing to know about loops is that they act like black holes for "
 "code. Once the code enters a loop it can never leave until you press stop - it"
@@ -4326,12 +4316,12 @@ msgid ""
 "ter the loop you will *never* hear it. For example, the cymbal after this loop"
 " will never play:"
 msgstr ""
-"La chose importante à savoir à propos des boucles est qu'elles se comportent c"
-"omme des trous noirs pour le code. Une fois que le code est entré dans une bou"
-"cle, il ne peut pas en sortir tant que vous n'avez pas pressé stop - il va jus"
-"te tourner en rond dans la boucle à jamais. Ce qui signifie que si vous avez d"
-"u code après la boucle, vous ne l'entendrez *jamais*. Par exemple, la cymbale "
-"suivant cette boucle ne sera jamais jouée :"
+"La chose importante à savoir à propos des boucles est qu'elles se comportent "
+"comme des trous noirs pour le code. Une fois que le code est entré dans une "
+"boucle, il ne peut pas en sortir tant que vous n'avez pas pressé stop - il "
+"va juste tourner en rond dans la boucle à jamais. Ce qui signifie que si "
+"vous avez du code après la boucle, vous ne l'entendrez *jamais*. Par "
+"exemple, la cymbale suivant cette boucle ne sera jamais jouée :"
 
 #: 05.2-Iteration-and-Loops.md:143
 #, no-wrap
@@ -4349,22 +4339,18 @@ msgstr ""
 "sample :drum_cymbal_open"
 
 #: 05.2-Iteration-and-Loops.md:152
-#, fuzzy
 msgid "Now, get structuring your code with iteration and loops!"
 msgstr "Maintenant, structurez votre code avec des itérations et des boucles !"
 
 #: 05.3-Conditionals.md:1
-#, fuzzy
 msgid "5.3 Conditionals"
 msgstr "5.3 Conditionnels"
 
 #: 05.3-Conditionals.md:3
-#, fuzzy
 msgid "Conditionals"
 msgstr "Conditionnels"
 
 #: 05.3-Conditionals.md:5
-#, fuzzy
 msgid ""
 "A common thing you'll likely find yourself wanting to do is to not only play a"
 " random note (see the previous section on randomness) but also make a random d"
@@ -4372,17 +4358,16 @@ msgid ""
 ", you might want to randomly play a drum or a cymbal. We can achieve this with"
 " an `if` statement."
 msgstr ""
-"Une situation commune dans laquelle vous vous trouverez probablement est de no"
-"n seulement jouer une note aléatoire (voir la précédente section sur l'aléatoi"
-"re) mais de prendre une décision aléatoire basée sur le résultat de l'exécutio"
-"n d'un code ou de tel autre code. Par exemple, vous pourriez vouloir jouer alé"
-"atoirement un tambour ou une cymbale. Nous pouvons y parvenir avec un ordre `i"
-"f` (si)."
+"Une situation commune dans laquelle vous vous trouverez probablement est de "
+"non seulement jouer une note aléatoire (voir la précédente section sur "
+"l'aléatoire) mais de prendre une décision aléatoire et en fonction du "
+"résultat exécuter un code ou un autre. Par exemple, vous pourriez vouloir "
+"jouer aléatoirement un tambour ou une cymbale. Nous pouvons y parvenir avec "
+"un ordre `if` (si)."
 
 #: 05.3-Conditionals.md:11
-#, fuzzy
 msgid "Flipping a Coin"
-msgstr "Pile ou Face"
+msgstr "Pile ou face"
 
 #: 05.3-Conditionals.md:13
 #, fuzzy
