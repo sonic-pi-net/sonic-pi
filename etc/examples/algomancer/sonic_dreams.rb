@@ -1,4 +1,4 @@
-# rand-seed-ver 32
+# rand-seed-ver 33
 #
 # Coded by Sam Aaron
 #
@@ -25,13 +25,13 @@ end
 define :bd do
   cue :in_relentless_cycles
   16.times do
-    sample :bd_haus, amp: 4, cutoff: 120
+    sample :bd_haus, amp: 4, cutoff: 100
     sleep 0.5
   end
   cue :winding_everywhichway
   2.times do
     2.times do
-      sample :bd_haus, amp: 4, cutoff: 120
+      sample :bd_haus, amp: 4, cutoff: 100
       sleep 0.25
     end
     sample :ambi_lunar_land
@@ -52,18 +52,18 @@ end
 define :synths do |s_name, co, n=:e2|
   use_synth s_name
   use_transpose 0
-  use_synth_defaults detune: [12,24].choose, amp: 1, pan: lambda{rrand(-1, 1)}, cutoff: co, pulse_width: 0.12, attack: rrand(0.2, 0.5), release: 0.5 ,  mod_phase: 0.25, mod_invert_wave: 1
+  use_synth_defaults detune: [12,24].choose, amp: 1, cutoff: co, pulse_width: 0.12, attack: rrand(0.2, 0.5), release: 0.5 ,  mod_phase: 0.25, mod_invert_wave: 1
 
-  play :e1, mod_range: [7, 12].choose
+  play :e1, mod_range: [7, 12].choose, pan: rrand(-1, 1)
   sleep 0.125
 
-  play :e3, mod_range: [7, 12].choose
+  play :e3, mod_range: [7, 12].choose, pan: rrand(-1, 1)
   sleep [0.25, 0.5].choose
 
-  play n, mod_range: 12
+  play n, mod_range: 12, pan: rrand(-1, 1)
   sleep 0.5
 
-  play chord(:e2, :minor).choose, mod_range: 12
+  play chord(:e2, :minor).choose, mod_range: 12, pan: rrand(-1, 1)
   sleep 0.25
 end
 
