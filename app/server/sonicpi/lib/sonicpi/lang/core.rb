@@ -196,10 +196,13 @@ end"
       def time_warp(delta, &blk)
         __schedule_delayed_blocks_and_messages!
         raise "time_warp requires a do/end block" unless blk
+        density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
         prev_ts_val = __system_thread_locals.get :sonic_pi_spider_in_time_warp
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
         sat = @mod_sound_studio.sched_ahead_time
-        sleep_time = delta * __thread_locals.get(:sonic_pi_spider_sleep_mul)
+
+        sleep_time = delta * __thread_locals.get(:sonic_pi_spider_sleep_mul) * density
+
         raise "Time travel error - a jump back of #{delta} is too far.\nYou can't go back in time beyond the sched ahead time #{sat}" if sleep_time < (-1 * sat)
         vt_orig = __system_thread_locals.get :sonic_pi_spider_time
         __system_thread_locals.set :sonic_pi_spider_time, (vt_orig + sleep_time).freeze
@@ -225,7 +228,9 @@ end"
 
 Note that the code within the block is executed synchronously with the code before and afterso all thread locals will be modified inline as is the same for `with_fx`. However, as time is always restored to the value before `time_warp` started can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
 
-Also, note that you cannot travel backwards in time beyond the `current_sched_ahead_time`.",
+Also, note that you cannot travel backwards in time beyond the `current_sched_ahead_time`.
+
+Finally, note that if the `time_warp` block is within a `density` block, the delta time is not affected (although all the other times such as sleep and phase durations will be affected) - see example."
           examples:       ["# shift forwards in time
 play 70            #=> plays at time 0
 sleep 1
@@ -297,7 +302,19 @@ end
 
 sleep 0.5
 
-puts tick          #=> prints 4 (at time 1)"
+puts tick          #=> prints 4 (at time 1)",
+
+        "# Time Warp within Density
+density 2 do          # Typically this will double the BPM and affect all times
+                      # in addition to looping the internal block twice
+  time_warp 0.5 do    # However, this time is *not* affected and will remain 0.5
+    play 60
+    sleep 1           # This time will be affected by the density and be 0.5
+  end
+
+end
+
+"
 
 
       ]
@@ -2697,6 +2714,8 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
         raise "density must be called with a do/end block." unless block
         raise "density must be a positive number. Got: #{d.inspect}." unless d.is_a?(Numeric) && d > 0
         reps = d < 1 ? 1.0 : d
+        prev_density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
+        __thread_locals.set_local(:sonic_pi_local_spider_density, prev_density * d)
         with_bpm_mul d do
           if block.arity == 0
             reps.times do
@@ -2708,6 +2727,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
             end
           end
         end
+        __thread_locals.set_local(:sonic_pi_local_spider_density, prev_density)
       end
       doc name:           :density,
           introduced:     Version.new(2,3,0),
