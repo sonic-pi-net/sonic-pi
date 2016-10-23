@@ -305,11 +305,13 @@ sleep 0.5
 puts tick          #=> prints 4 (at time 1)",
 
         "# Time Warp within Density
-density 2 do          # Typically this will double the BPM and affect all times
-                      # in addition to looping the internal block twice
-  time_warp 0.5 do    # However, this time is *not* affected and will remain 0.5
-    play 60
-    sleep 1           # This time will be affected by the density and be 0.5
+density 2 do                        # Typically this will double the BPM and affect all times
+                                    # in addition to looping the internal block twice
+  time_warp 0.5 do                  # However, this time is *not* affected and will remain 0.5
+    with_fx :slicer, phase: 0.5 do  # This phase duration *is* affected and will be 0.25
+      play 60
+      sleep 1                       # This time *will* be affected by the density and be 0.5
+    end
   end
 
 end
