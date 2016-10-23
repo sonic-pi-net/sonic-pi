@@ -202,6 +202,7 @@ effort. Thanks to Hanno Zulla for making this possible.
   defaulting to the first built-in sample (`:ambi_choir`)
 * `pick`'s `skip:` opt now works as expected: `pick(5).drop(1) == pick(5, skip: 1)`
 * `sample` now prints a 'no sample found' message with both `sample nil` and `sample []` rather than incorrectly playing the first built-in wav file.
+* Limit `:piano` synth to notes less than 231 as higher values crash the audio server.
 
 
 <a name="v2.10"></a>

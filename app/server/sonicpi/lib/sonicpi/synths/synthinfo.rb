@@ -2064,7 +2064,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
           :note =>
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`. Note that the piano synth can only play whole tones such as 60 and does not handle floats such as 60.3",
-            :validations => [v_positive(:note)],
+            :validations => [v_positive(:note), v_less_than(:note, 231)],
             :modulatable => true
           },
 
