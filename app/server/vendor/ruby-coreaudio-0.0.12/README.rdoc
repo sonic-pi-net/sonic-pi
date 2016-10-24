@@ -1,6 +1,6 @@
 = coreaudio
 
-CoreAudio (Audio Framework of Mac OS X) wrapper library for ruby 1.9
+CoreAudio (Audio Framework of Mac OS X) wrapper library for ruby 2.0.0 and later.
 
 == Features
 * HAL (Hardware Abstraction Layer) wrapper

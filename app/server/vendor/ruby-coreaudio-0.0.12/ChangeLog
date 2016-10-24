@@ -1,3 +1,7 @@
+Fri Sep  9 12:11:46 2016  CHIKANAGA Tomoyuki  <nagachika@ruby-lang.org>
+
+	* accept option argument of CoreAudio::AudioDevice.new. 
+
 Wed Jan 14 13:55:46 2015  CHIKANAGA Tomoyuki  <nagachika@ruby-lang.org>
 
 	* examples/set_def_out_sample_rate.rb: add example for set output

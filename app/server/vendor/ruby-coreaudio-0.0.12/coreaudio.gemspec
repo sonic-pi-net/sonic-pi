@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = CoreAudio::VERSION
 
-  gem.extensions = ["ext/extconf.rb"]
+  gem.extensions = ["ext/coreaudio/extconf.rb"]
   gem.extra_rdoc_files = [
     "ChangeLog",
     "LICENSE.txt",

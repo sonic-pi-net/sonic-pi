@@ -5,7 +5,7 @@ require 'date'
 class FastOscTest < Minitest::Test
   def setup
     @path = "/thisisatest"
-    @args = ["", 1, 2.0, "baz"]
+    @args = ["", 1, 2.0, "baz", "▁▃▅▇"]
     @timestamp = Date.parse("1st Jan 1990").to_time
 
     @msg0 = OSC::Message.new(@path).encode
@@ -40,8 +40,8 @@ class FastOscTest < Minitest::Test
   def test_that_it_decodes_a_single_message_with_args
     path, args = FastOsc.decode_single_message(@encoded_msg1)
 
-    assert path == @path
-    assert args == @args
+    assert_equal path, @path
+    assert_equal args, @args
   end
 
   def test_that_it_encodes_a_single_bundle
@@ -73,6 +73,16 @@ class FastOscTest < Minitest::Test
     assert_equal path, outpath
     # normalize symbols to strings, round floats to 5 places
     assert_equal args.map {|x| x.is_a?(Symbol) ? x.to_s : x}, outargs.map {|x| x.is_a?(Float) ? x.round(5) : x }
+  end
+
+  def test_that_it_encodes_and_decodes_messages_with_timestamps
+    path = "/s_new"
+    args = [Time.at(1463234577.488746)]
+    #args = [Time.at(1463234577.0)]
+    outpath, outargs = FastOsc.decode_single_message(FastOsc.encode_single_message(path, args))
+
+    assert_equal path, outpath
+    assert_equal args.first.to_f.round(5), outargs.first.to_f.round(5)
   end
 
   def test_that_encoded_timestamps_line_up

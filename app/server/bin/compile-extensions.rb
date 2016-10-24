@@ -45,7 +45,7 @@ native_ext_dirs = [
 
   File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
 
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc/ext/fast_osc'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc-0.0.11/ext/fast_osc'),
 
   [File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean-0.10.0/ext/did_you_mean'), "did_you_mean"]
 ]
@@ -53,7 +53,7 @@ native_ext_dirs = [
 if os == :osx
   native_ext_dirs += [
     File.expand_path(File.dirname(__FILE__) + '/../vendor/narray-0.6.1.1/'),
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.11/ext/')]
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.12/ext/coreaudio/')]
 end
 
 native_ext_dirs.each do |ext_dir|
