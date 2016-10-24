@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-24 12:40+0000\n"
-"Last-Translator: Sander Kesting <kesting.s@gmail.com>\n"
+"PO-Revision-Date: 2016-10-24 13:52+0000\n"
+"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -8907,11 +8907,11 @@ msgstr "`S-M-m` - Tussen licht/donker modus schakelen"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "De-M-s' - inhoud van de buffer in een bestand opslaan"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "De-M-o ' - inhoud van buffer laden uit een bestand"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
@@ -14026,7 +14026,7 @@ msgstr "A.12 Sample Snijden"
 
 #: A.12-sample-slicing.md:3
 msgid "Sample Slicing"
-msgstr "Sample Snijden"
+msgstr "Het snijden van een sample"
 
 #: A.12-sample-slicing.md:5
 msgid ""
@@ -14037,14 +14037,14 @@ msgid ""
 "der. If that sounds a bit crazy to you, don't worry, it will all become clear "
 "and you'll soon master a powerful new tool for your live coded sets."
 msgstr ""
-"Een hele tijd terug in aflevering 3 van deze Sonic Pi serie, keken we hoe we é"
-"én van de meest bekende drum breaks aller tijden  konden loop-en, stretchen en"
-" filteren: de Amen Break. In deze tutorial gaan we nog een stapje verder en ga"
-"an we zien hoe we de sample kunnen opknippen, de stukken door elkaar te schudd"
-"en en deze in een andere volgorde weer aan elkaar te lijmen. Misschien klinkt "
-"dit allemaal wat gek voor jou nu, maar maak je geen zorgen, het zal je snel al"
-"lemaal duidelijk worden, en je zal deze techniek snel meesteer zijn en gebruik"
-"en in je live gecodeerde set in de toekomst."
+"Een hele tijd terug in aflevering 3 van deze Sonic Pi serie, keken we hoe we "
+"één van de meest bekende drum breaks aller tijden  konden loop-en, stretchen "
+"en filteren: de Amen Break. In deze tutorial gaan we nog een stapje verder "
+"en gaan we zien hoe we de sample kunnen opknippen, de stukken door elkaar te "
+"schudden en deze in een andere volgorde weer aan elkaar te lijmen. Misschien "
+"klinkt dit allemaal wat raar nu, maar maak je geen zorgen, het zal je snel "
+"allemaal duidelijk worden, en je zal deze techniek snel meester zijn en deze "
+"in de toekomst gebruiken in je live gecode set ."
 
 #: A.12-sample-slicing.md:13
 msgid "Sound as Data"
@@ -14058,10 +14058,11 @@ msgid ""
 "unch Sonic Pi from the Programming menu, type the following into a fresh buffe"
 "r and then hit the Run button to hear a pre-recorded drum beat:"
 msgstr ""
-"Voor we eraan beginnen, kijken we even hoe we het gebruik van sample's beter k"
-"unnen begrijpen. Ondertussen hebben jullie hopelijk al gespeeld met de krachti"
-"ge sampler van Sonic Pi. Indien niet, start Raspberry Pi, laad Sonic Pi op, en"
-" typ het volgende in een lege buffer om de drum-sample te kunnen  horen:"
+"Voor we eraan beginnen, kijken we even hoe we het gebruik van sample's beter "
+"kunnen begrijpen. Ondertussen hebben jullie hopelijk al gespeeld met de "
+"krachtige sampler van Sonic Pi. Indien niet, start Raspberry Pi, laad Sonic "
+"Pi op, en typ het volgende in een lege buffer om de drum-sample te kunnen "
+"horen:"
 
 #: A.12-sample-slicing.md:26
 msgid ""
@@ -14101,7 +14102,7 @@ msgstr ""
 
 #: A.12-sample-slicing.md:51
 msgid "Playing Part of a Sample"
-msgstr ""
+msgstr "Een deel van een sample afspelen"
 
 #: A.12-sample-slicing.md:53
 msgid ""
@@ -15036,7 +15037,7 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:97 A.15-performance.md:97
 msgid "4. Use the Master Mixer"
-msgstr "4. De Master Mixerr Gebruiken"
+msgstr "4. De Master Mixer Gebruiken"
 
 #: A.15-five-live-coding-techniques.md:99 A.15-performance.md:99
 msgid ""
