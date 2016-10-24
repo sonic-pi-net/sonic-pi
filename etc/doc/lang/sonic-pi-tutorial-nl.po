@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-24 12:39+0000\n"
-"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
+"PO-Revision-Date: 2016-10-24 12:40+0000\n"
+"Last-Translator: Sander Kesting <kesting.s@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -13401,11 +13401,11 @@ msgstr "Kan niet worden aangepast eens ingesteld"
 
 #: A.10-controlling-your-sound.md:79
 msgid "Scaled with current BPM value"
-msgstr "Geschaald met de huidige metronoom stand (beats per minuut)"
+msgstr "Geschaald met huidige BPM waarde"
 
 #: A.10-controlling-your-sound.md:81
 msgid "Multiple Changes"
-msgstr "Verscheidene veranderingen"
+msgstr "Meerdere veranderingen"
 
 #: A.10-controlling-your-sound.md:83
 msgid ""
