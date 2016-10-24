@@ -31,9 +31,9 @@ Jeremy Weatherford. Please extend your kind thoughts and gratitude to
 Jeremy for all of his contributions - in particular for turning the
 Windows release from a possibility into a reality. Luckily Luis has
 kindly stepped in to maintain the Windows installer.
-
-The main visible feature is the new new scope visualisers. The overall
-audio output can now be visually monitored by one of three wave form
+ 
+The main visible feature is the new scope visualisers. The overall audio
+output can now be visually monitored by one of three wave form
 visualisers. Firstly there is the individual left and right channels,
 next is a single mono scope which is mixed down from the stereo channels
 using RMS and finally there is a Lissajous scope which displays phase
@@ -52,8 +52,8 @@ Another exciting new feature is the sample opt `onset:` - which lets you
 play a specific percussive part of a sample. This uses an automatic
 onset detection algorithm to determine all the points in the sample that
 go from quiet to loud quickly such as a drum, synth or bass hit. For
-example, this allows you to take a complex drum sample and to trigger
-each of the individual drums in your own order and to your own timing.
+example, this allows you to take a complex drum sample and trigger each
+of the individual drums in your own order and to your own timing.
 
 Finally, translations are now crowd-sourced and small or large
 contributions for any language can be made here:
@@ -85,6 +85,14 @@ effort. Thanks to Hanno Zulla for making this possible.
   `rand_back` or `rand_skip` to re-align the stream if necessary.
 * New threads now start with a fresh set of tick counters and a new
   random stream.
+* It is no longer possible to use lambdas as values for synth
+  defaults. This is because synth defaults are shared across thread
+  boundaries and there is now a new safety system that only allows
+  immutable/serialisable values to be used. Unfortunately Ruby has no
+  notion of a 'pure' function and each lambda captures over its
+  environment and therefore may contain free variables pointing to
+  mutable data. A replacement system for describing a simple set of pure
+  functions is being designed.
 
 
 ### New Fns
