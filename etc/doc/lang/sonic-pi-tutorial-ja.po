@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-21 10:00+0000\n"
+"PO-Revision-Date: 2016-10-24 09:51+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -755,8 +755,9 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
-"みなさんの中で、すでにいくつかの音楽記号を知っている人は、たとえば C とか F# などを使って メロディーを書きたいかも知れません（もしそうでなければ心配"
-"無用です、それを楽しむ必要はあり ません）。Sonic Piはそれをカバーしてくれます。以下のことをやってみましょう。"
+"みなさんの中で、すでにいくつかの音楽記号を知っている人は、たとえば C とか F# "
+"などの音名を使ってメロディーを書きたいかも知れません（もし知らなくても心配無用です。それが必要というわけではありません）。Sonic "
+"Piはそれをカバーしてくれます。以下のことをやってみましょう。"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -10606,8 +10607,8 @@ msgid ""
 "er flying-mode and teleport again, you'll stay hovering at the location you za"
 "p to."
 msgstr ""
-"びっくりした！遠くまで移動できたでしょう。もし飛行モードなかったら、全ての行程を戻って地面に落ちてしまうでしょう。ダブルタップして飛行モードに入ってもう一"
-"度瞬間移動すると、指定した場所に移動して浮いているでしょう。"
+"びっくりした！遠くまで移動できたでしょう。もし飛行モードなかったら、全ての行程を戻って地面に落ちてしまうでしょう。スペースキーをダブルタップして飛行モード"
+"に入ってもう一度瞬間移動すると、指定した場所に移動して浮いているでしょう。"
 
 #: A.06-minecraft.md:54
 msgid ""
@@ -10742,8 +10743,8 @@ msgid ""
 " if not) and fly all around the world. Look behind you to see a pretty trail o"
 "f melon blocks! See what kind of twisty patterns you can make in the sky."
 msgstr ""
-"では、Minecraftを表示して、飛行モードであることを確認して（もし飛行モードなかったらダブルタップしましょう）、ワールド中を飛び回ってみましょう。後"
-"ろにメロンのブロックの可愛い軌跡を見ることができたでしょう。どんなに曲がりくねったパターンでも作れたと思います。"
+"では、Minecraftを表示して、飛行モードであることを確認して（もし飛行モードなかったらスペースキーをダブルタップしましょう）、ワールド中を飛び回って"
+"みましょう。後ろにメロンのブロックの可愛い軌跡を見ることができたでしょう。どんなに曲がりくねったパターンでも作れたと思います。"
 
 #: A.06-minecraft.md:120
 msgid "Live Coding Minecraft"
@@ -10973,14 +10974,16 @@ msgid ""
 " score represents a specific note name. Take a look at this handy look up tabl"
 "e:"
 msgstr ""
+"Sonic Piでのピッチの変更方法は既に知っているはずです。`play 75`や`play 80`といったように数値を使ったり、`play :E`や`"
+"play :F`といったように音名を使ったりできます。楽譜の上下の位置は、それぞれ特定の音名を表しています。便利な対応表を見てみましょう。"
 
 #: A.07-bizet.md:49
 msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr ""
+msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
-msgstr ""
+msgstr "休符"
 
 #: A.07-bizet.md:53
 msgid ""
