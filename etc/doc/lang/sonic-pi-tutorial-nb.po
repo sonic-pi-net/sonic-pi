@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-01 11:30+0000\n"
+"PO-Revision-Date: 2016-10-25 21:18+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
-"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-pi/"
-"tutorial/nb/>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/nb/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -30,10 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Velkommen til Sonic Pi. Forhåpentligvis er du også glad for å komme i gang å l"
-"age lyd, som jeg skal vise deg. Det skal bli en virkelig *morsom* tur hvor du "
-"vil lære mye om musikk, syntesering, programmering, komposisjon, fremførelse o"
-"g mer."
+"Velkommen til Sonic Pi! Forhåpentligvis er du like ivrig etter å komme igang "
+"med å lage sprø lyder som jeg er etter å lære deg det.  Det kommer til å bli "
+"en *morsom* opplevelse hvor du vil lære om musikk, syntese, programmering, "
+"komponering, fremføring og mer."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -44,12 +44,12 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Hold an, vi har skredet fram for hurtig! La meg presentere meg: - Mitt navn er"
-" [Sam Aaron] (http://twitter.com/samaaron) - han som opprettet Sonic Pi. Jeg e"
-"r å finne på [@samaaron] (http://twitter.com/samaaron) på Twitter, og jeg er m"
-"er enn glad for å kunne hilse på. Du kan ha interesse av å finne ut mer om min"
-"e [direkte kodingsoppvisninger] (http://facebook.com/livecodersamaaron) der je"
-"g koder med Sonic Pi i sanntid foran et publikum."
+"Vent litt, så uhøflig av meg! La meg presentere meg selv - Jeg er [Sam "
+"Aaron](http://twitter.com/samaaron) - fyren som laget Sonic Pi. Du finner "
+"meg som [@samaaron](http://twitter.com/samaaron) på Twitter og jeg hilser "
+"mer enn gjerne på deg. Du vil kanskje også være interessert i mine ["
+"direktesendte opptredener](http://facebook.com/livecodersamaaron) hvor jeg "
+"koder med Sonic Pi på direkten foran et publikum."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -57,9 +57,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Hvis du har tanker eller idéer om hvordan Sonic Pi kan bli bedre, vær så snill"
-" å bringe dem videre - tilbakemeldinger er veldig nyttige.  En vet jo aldri, k"
-"anskje din ide kan bli neste store nyvinning!"
+"Hvis du har tanker eller idéer om hvordan Sonic Pi kan bli bedre, vær så "
+"snill å bring dem videre - tilbakemeldinger er veldig nyttige.  En vet jo "
+"aldri, kanskje din ide kan bli neste store nyvinning!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -86,7 +86,7 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr "OK, la oss komme igang…"
+msgstr "OK, la oss komme igang..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
@@ -1810,15 +1810,14 @@ msgstr ""
 "er et lerret, du har nettopp opprettet et sampel."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"Sonic Pi lar deg gjøre masse morsomme ting med sampler. Ikke bare leveres de m"
-"ed over 90 offentlige sampler klar for deg til å jamme med, de lar deg spille "
-"og styre dine egne. La oss komme til det..."
+"Sonic Pi lar deg gjøre masse morsomme ting med sampler. Ikke bare kommer den "
+"med over 130 offentlige sampler klar for deg til å jamme med, de lar deg "
+"spille og kontrollere dine egne. La oss komme i gang..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
@@ -11230,14 +11229,12 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:1
-#, fuzzy
 msgid "A.14 Amplitude Modulation"
-msgstr "Utslag"
+msgstr "A.14 Utslagsmodulering"
 
 #: A.14-amplitude-modulation.md:3
-#, fuzzy
 msgid "Amplitude Modulation"
-msgstr "Utslag"
+msgstr "Utslagsmodulering"
 
 #: A.14-amplitude-modulation.md:5
 msgid ""
@@ -11253,13 +11250,12 @@ msgid "Slice that Amp"
 msgstr ""
 
 #: A.14-amplitude-modulation.md:14
-#, fuzzy
 msgid ""
 "So, what does the `:slicer` FX actually do? One way to think about it is that "
 "it's just like having someone play around with the volume control on your TV o"
 "r home hi-fi. Let's take a look but first, listen to the deep growl of the fol"
 "lowing code which triggers the `:prophet` synth:"
-msgstr "`:prophet`"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:20
 #, no-wrap
@@ -11302,21 +11298,21 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:49
-#, fuzzy
 msgid ""
 "Now, play with different `phase:` durations yourself. Try longer and shorter v"
 "alues. See what happens when you choose a really short value. Also, try differ"
 "ent synths such as `:beep` or `:dsaw` and different notes. Take a look at the "
 "following diagram to see how different `phase:` values change the number of am"
 "plitude changes per beat."
-msgstr "`:dsaw`"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "Varighet"
+msgstr ""
+"![Fasevarigheter](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -11370,11 +11366,12 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "Varighet"
+msgstr ""
+"![Fasevarigheter](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
@@ -11485,9 +11482,8 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:176
-#, fuzzy
 msgid "Changing tempo"
-msgstr "Endre raten"
+msgstr "Endrer tempo"
 
 #: A.14-amplitude-modulation.md:178
 msgid ""
@@ -11500,13 +11496,16 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_sample_bpm :loop_amen\n"
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_amen\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"use_sample_bpm :loop_amen\n"
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_amen\n"
+"end"
 
 #: A.14-amplitude-modulation.md:194
 msgid ""
@@ -11517,7 +11516,6 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :dark_mist do\n"
 "  co = (line 70, 130, steps: 8).tick\n"
@@ -11536,17 +11534,32 @@ msgid ""
 "  end\n"
 "  sleep 16\n"
 "end"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr ""
+"live_loop :dark_mist do\n"
+"  co = (line 70, 130, steps: 8).tick\n"
+"  with_fx :slicer, probability: 0.7, prob_pos: 1 do\n"
+"    synth :prophet, note: :e1, release: 8, cutoff: co\n"
+"  end\n"
+"  \n"
+"  with_fx :slicer, phase: [0.125, 0.25].choose do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :crashing_waves do\n"
+"  with_fx :slicer, wave: 0, phase: 0.25 do\n"
+"    sample :loop_mika, rate: 0.5\n"
+"  end\n"
+"  sleep 16\n"
+"end"
 
 #: A.15-five-live-coding-techniques.md:1 A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "Direkteoverført koding"
+msgstr "A.15 Fem teknikker for direkteoverført koding"
 
 #: A.15-five-live-coding-techniques.md:3 A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "Direkteoverført koding"
+msgstr "Fem teknikker for direkteoverført koding"
 
 #: A.15-five-live-coding-techniques.md:5
 msgid ""
@@ -11629,9 +11642,8 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:65 A.15-performance.md:65
 #, no-wrap
-#, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
-msgstr "sample :ambi_lunar_land"
+msgstr "sample :ambi_lunar_land, rate: 1"
 
 #: A.15-five-live-coding-techniques.md:69 A.15-performance.md:69
 msgid ""
@@ -11787,14 +11799,12 @@ msgid "` set_mixer_control! lpf: 50 `"
 msgstr ""
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "Direkteoverført koding"
+msgstr "A.16 Hvordan øve på direkteoverført koding"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "Direkteoverført koding"
+msgstr "8 øvetips for direkteoverført koding"
 
 #: A.16-practice.md:5
 msgid ""
