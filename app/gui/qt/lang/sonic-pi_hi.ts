@@ -6,19 +6,19 @@
     <message>
         <location filename="../mainwindow.cpp" line="511"/>
         <source>Preferences</source>
-        <translation>सेटिंग्स</translation>
+        <translation>सेटिंग्स (पसंद)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="524"/>
         <source>Log</source>
-        <translation>सिस्टम लॉग</translation>
+        <translation>लॉग</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="199"/>
         <location filename="../mainwindow.cpp" line="2875"/>
         <location filename="../mainwindow.cpp" line="2895"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished">Sonic Pi</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
@@ -26,7 +26,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>स्टीरियो मोड टॉगल करें।
-यदि सक्रिय है.तो दाये चैनल का आँडियो बाँये.चैनल तथा बाँये चैनल का आँडियो दाये चैनल मे भेजा जाएगा</translation>
+यदि सक्रिय है.तो दाये चैनल का आँडियो बाँये.चैनल तथा बाँये चैनल का आँडियो दाये चैनल मे भेजा जाएगा ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="995"/>
@@ -98,19 +98,19 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1731"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>पुन: लोड हो रहा है</translation>
+        <translation>पुन: लोड हो रहा है ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1762"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>HPF मिक्सर को आँन करे</translation>
+        <translation>HPF मिक्सर को आँन करे ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>HPF मिक्सर बंद हो रहा है</translation>
+        <translation>HPF मिक्सर बंद हो रहा है ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="436"/>
@@ -170,7 +170,8 @@ external PA systems when performing with Sonic Pi.</source>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>टॉगल synth argument checking functions.
+यदि बंद कर दिया तथा आप कुछ synth चुनते हैं, तो आप अप्रत्याशित रूप से जोर से या असुविधाजनक ध्वनियों पैदा कर सकते हैं।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
@@ -185,7 +186,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="803"/>
         <source>Toggle selection comment...</source>
-        <translation>टॉगल कमेंट चयन</translation>
+        <translation>टॉगल कमेंट चयन ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -200,7 +201,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Toggle line comment...</source>
-        <translation>टॉगल रेखा कमेंट</translation>
+        <translation>टॉगल रेखा कमेंट ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="878"/>
@@ -243,7 +244,10 @@ create unexpectedly loud or uncomfortable sounds.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>आपका Raspberry Pi का ऑडियो आउटपुट दो रूप का हैं।
+सबसे पहला रूप, Raspberry Pi के ही हेडफोन जैक है।
+दूसरे जो कुछ HDMI मॉनिटर्स/टीवी है, HDMI पोर्ट के के माध्यम से ऑडियो का समर्थन करते ।
+इन बटनों का उपयोग करके आप आउटपुट को किसी एक माध्यम मे भेज सकते है ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
@@ -285,7 +289,9 @@ Use these buttons to force the output to the one you want.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>cues की लॉगिंग को सक्षम या अक्षम करे ।
+यदि अक्षम है तो भी cues ट्रिगर किया जाएगा ।
+हालांकि, वे लॉग में दिखाई नहीं देगा ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1043"/>
@@ -296,7 +302,8 @@ However, they will not be visible in the logs.</source>
         <location filename="../mainwindow.cpp" line="1044"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>टॉगल लॉग ऑटो स्क्रॉल ।
+अगर सक्षम है तो हर बार नया संदेश प्रदर्शित करने के बाद लॉग नीचे तक स्क्रॉल किया जाता है ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1051"/>
@@ -312,7 +319,9 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>जब सक्षम है, Sonic Pi,  synths और FX  को  load_synthdefs के माध्यम से लोड करने की अनुमति देगा ।
+
+अक्षम होने पर,जब आप Sonic Pi मे एक synth या FX उपयोग करने का प्रयास करते है, जो पहचाना नहीं गया है तो उसके बारे मे शिकायत करता है ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1054"/>
@@ -328,7 +337,9 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>जब सक्षम है तो Sonic Pi , synths और FX ट्रिगर करने के लिए मना कर देगा यदि ट्रिगर करने में बहुत देर हो चुकी है ।
+
+अक्षम होने पर Sonic Pi हमेशा synths और FX को ट्रिगर करने का प्रयास करेंगा यहां तक कि जब ट्रिगर करने में देर हो गई ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1072"/>
@@ -339,7 +350,8 @@ even when a little late.</source>
         <location filename="../mainwindow.cpp" line="1084"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>स्वत: अद्यतन की जाँच टॉगल करें।
+यह चेक अपने प्लेटफॉर्म और संस्करण के बारे में अनाम जानकारी भेजने शामिल करता है ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1085"/>
@@ -350,7 +362,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1086"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>जबरदस्ती अद्यतन के लिए जाँच करे ।
+यह चेक अपने प्लेटफॉर्म और संस्करण के बारे में अनाम जानकारी भेजने शामिल करता है ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
@@ -510,7 +523,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1971"/>
         <source>Log Auto Scroll on...</source>
-        <translation>लॉग ऑटो स्क्रॉल</translation>
+        <translation>लॉग ऑटो स्क्रॉल ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1973"/>
@@ -535,57 +548,57 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>आकार बढाए</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>आकार घटाए</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>ऑडियो oscilloscopes की दृश्यता टॉगल करें। </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>wav फ़ाइल (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3184"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>वापसी पर स्वागत है, अब आप लाइव कोड करे ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1489"/>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>वर्तमान बफ़र सहेजें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>ओसीलोस्कोप को दिखाएँ और छुपाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1194"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>ओसीलोस्कोप के प्रकार</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>ओसीलोस्कोप दिखाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>ऑडियो oscilloscopes की दृश्यता टॉगल करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1212"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>अक्ष दिखाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1216"/>
@@ -595,307 +608,312 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>ऑडियो ओसीलोस्कोप तीन जायके में आता है, जो स्वतंत्र रूप से या सभी को एक साथ देखा जा सकता हैं 
+
+Lissajous - बाएँ और दाएँ चैनलों के बीच phase संबंध दिखाता है
+मोनो - बाएँ और दाएँ चैनलों की एक संयुक्त दृश्य को दर्शाता हैं (RMS का उपयोग करता है)
+स्टीरियो - बाएँ और दाएँ चैनलों के लिए दो स्वतंत्र scopes दिखाता हैं</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>दृश्यों</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1697"/>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>ज़ूम इन करना ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1704"/>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>ज़ूम आउट करना ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1738"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>अद्यतनों के लिए जाँच...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1746"/>
         <source>Enabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>अद्यतन की जाँच को सक्षम करें ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1754"/>
         <source>Disabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>अद्यतन की जाँच को अक्षम करना...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>LPF मिक्सर को सक्षम करें ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>LPF मिक्सर को अक्षम करें...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>उल्टे स्टीरियो सक्षम करने...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1804"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>मानक स्टीरियो सक्षम करने...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1812"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>मोनो मोड...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1820"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>स्टीरियो मोड...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1829"/>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>रोक रहा है...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1936"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>सिस्टम वॉल्यूम का अद्यतन कर रहा...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2408"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>ऑडियो आउटपुट हेड फोन्स के लिए स्विचन...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2424"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>HDMI ऑडियो आउटपुट के लिए स्विचन...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2439"/>
         <source>Switching To Default Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>डिफ़ॉल्ट ऑडियो आउटपुट के लिए स्विचन...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2601"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>वर्तमान बफ़र के रूप में किसी बाह्य फ़ाइल सहेजें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2613"/>
         <source>Start recording to WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>WAV ऑडियो फ़ाइल को रिकॉर्ड करना प्रारंभ करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2618"/>
         <source>Improve readability of code</source>
-        <translation type="unfinished"></translation>
+        <translation>कोड की पठनीयता में सुधार करे</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>मदद पृष्ठ की दृश्यता टॉगल करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2650"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>प्राथमिकताएँ पृष्ठ की दृश्यता टॉगल करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2792"/>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>तैयार...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2887"/>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>फ़ाइल को लोड किया...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>सहेजी गई फ़ाइल...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3149"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>अंतिम जाँच %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3151"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi हर दो सप्ताह के अद्यतन के लिए जाँच करता है।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3153"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>यह Sonic Pi %1 है</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3154"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>संस्करण %2 अब उपलब्ध है!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3158"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>नया संस्करण उपलब्ध है!
+ Sonic Pi %1 प्राप्त करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2590"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>चलाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2596"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>रुको</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2597"/>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>सभी चल रहे कोड बंद करो</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2600"/>
         <source>Save As...</source>
-        <translation type="unfinished"></translation>
+        <translation>के रूप में सहेजें...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>जानकारी</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2640"/>
         <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi के बारे में जानकारी देखें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="565"/>
         <location filename="../mainwindow.cpp" line="2645"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>मदद</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1189"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi के साथ प्रदर्शन के लिए उपयोगी सेटिंग्स</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>सर्वर बूट त्रुटि...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>कृपया पर एक बग रिपोर्टिंग पर विचार</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Prefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Prefs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2612"/>
         <location filename="../mainwindow.cpp" line="2763"/>
         <location filename="../mainwindow.cpp" line="2764"/>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>रिकॉर्डिंग प्रारंभ करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2617"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>ऑटो-पाठ संरेखित करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2621"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>पाठ आकार बढ़ाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>पाठ आकार घटाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>उपकरण</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>के बारे में</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2710"/>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>मुख्य टीम</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>योगदानकर्ता</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2712"/>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>समुदाय</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2713"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>लाइसेंस</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2714"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>इतिहास</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2735"/>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - जानकारी</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2755"/>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>रिकॉर्डिंग रोकें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>रिकॉर्डिंग को सहेजे</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2876"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>फ़ाइल %1 पढ़ा नहीं जा सकता: %2।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 फ़ाइल नहीं लिख सकता: %2।</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="99"/>
@@ -911,32 +929,32 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="889"/>
         <location filename="../ruby_help.h" line="968"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>ट्यूटोरियल</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1002"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>उदाहरण</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1051"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1093"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Fx</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1112"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>नमूने</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1311"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>लैंग</translation>
     </message>
 </context>
 <context>
@@ -944,7 +962,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="43"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
@@ -952,7 +970,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi पहले से ही चल रहा है?  UDP पोर्ट 4558 नहीं खोल सकता।</translation>
     </message>
 </context>
 </TS>
