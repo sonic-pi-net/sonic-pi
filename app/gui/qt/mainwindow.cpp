@@ -912,6 +912,7 @@ void MainWindow::startRubyServer(){
   serverProcess = new QProcess();
 
   QStringList args;
+  args << "-E" << "utf-8";
   args << ruby_server_path;
 
 
