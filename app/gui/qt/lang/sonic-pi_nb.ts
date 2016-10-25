@@ -107,12 +107,12 @@ lage uventede høye eller ubehagelige lyder.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fullskjermmodus påslått.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fullskjermmodus avslått.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -137,7 +137,7 @@ lage uventede høye eller ubehagelige lyder.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Lydutgang på Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -145,7 +145,10 @@ lage uventede høye eller ubehagelige lyder.</translation>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Din Raspberry Pi har to ulike lydutganger.
+For det første er det hodetelefonutgangen på Raspberry Pi-en.
+Dernest har noen HDMI-skjermer/TV-er støtte for lyd via HDMI-porten.
+Bruk disse knappene for å tvinge lyden ut der du ønsker det.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
@@ -155,12 +158,12 @@ Use these buttons to force the output to the one you want.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hodetelefoner</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1003"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
@@ -249,7 +252,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Når aktivert, vil Sonic Pi tillate
 synths og FX å bli lastet via load_synthdefs
 og bli utløst.
@@ -455,7 +458,7 @@ Mørk fremtoning er perfekt for koding på direkten i nattklubber.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Styr synligheten for aksene til lydoscilloskopene</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -475,42 +478,42 @@ Mørk fremtoning er perfekt for koding på direkten i nattklubber.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Hovedlydnivå</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruk denne glideren for å endre systemlydnivået.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="989"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Lydutgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis og skjul oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1194"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscilloskoptype</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis oscilloskopene</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Styr synligheten til lydoscilloskopene.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1212"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis akser</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1216"/>
@@ -520,7 +523,12 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Lydoscilloskopet kommer i tre varianter som kan ses på uavhengig
+av hverandre eller sammen:
+
+Lissajous - viser faseforholdet mellom de venstre og høyre lydkanalene
+Mono - viser en kombinert fremvisning av de venstre og høyre kanalene (ved hjelp av RMS)
+Stereo - viser to uavhengige oscilloskop for de venstre og høyre kanalene</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
@@ -768,12 +776,12 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Styr synligheten for hjelpepanelet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2650"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Styr synligheten for preferansepanelet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
@@ -783,17 +791,17 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Øk størrelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Reduser størrelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Styre synligheten for lydoscilloskopene. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
@@ -968,7 +976,7 @@ Skaff Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Kjører Sonic Pi allerede? Klarer ikke åpne UDP-port 4558.</translation>
     </message>
 </context>
