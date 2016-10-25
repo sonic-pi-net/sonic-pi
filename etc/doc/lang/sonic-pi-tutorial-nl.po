@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-24 13:52+0000\n"
+"PO-Revision-Date: 2016-10-25 10:32+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -14091,6 +14091,20 @@ msgid ""
 "ny electric signal which is then measured many times a second. These measureme"
 "nts are then represented as a series of numbers between -1 and 1."
 msgstr ""
+"Hoe zijn samples eigenlijk opgenomen? Dat  is eigenlijk vrij eenvoudig als u "
+"eenmaal de fundamentele fysica van geluid begrijpt. Bij het produceren van "
+"een klank,bijvoorbeeld door op een trommel te slaan, reist het geluid door "
+"de lucht,op een zelfde manier het wateroppervlak rimpels maakt als je er een "
+"steentje in gooit. Als deze golven jouw oren bereiken, zal jouw trommelvlies "
+"hierop reageren en zullen deze bewegingen omgezet worden naar de klank die "
+"jij dan hoort. Als we een geluid willen opnemen en terug willen afspelen "
+"moeten we deze geluidsgolven capteren, opslaan en reproduceren. We kunnen "
+"dit bijvoorbeeld met een microfoon, die net als een trommelvlies reageert en "
+"heen en weer zal bewegen zodra een geluidsgolf het membraan raakt. De "
+"microfoon registreert deze beweging en zet deze om tot een minuscuul "
+"elektrisch signaal dat op zijn beurt vele malen per seconde wordt "
+"gemeten.Deze metingen worden dan weergegeven als een reeks getallen tussen -"
+"1 en 1."
 
 #: A.12-sample-slicing.md:46
 msgid ""
@@ -14099,6 +14113,10 @@ msgid ""
 "n -1 and 1 on the y axis. You can see an example of such a graph at the top of"
 " the diagram."
 msgstr ""
+"Als we geluid zouden visualiseren zou deze een simpele grafiek zijn van "
+"datagegevens met tijdsverloop op de x-as en de bewegingen van de microfoon/"
+"luidspreker met waarden tussen -1 en 1 op de y-as. Je kan, bovenaan het "
+"diagram, een voorbeeld van zo'n grafiek zien."
 
 #: A.12-sample-slicing.md:51
 msgid "Playing Part of a Sample"
@@ -14114,21 +14132,32 @@ msgid ""
 " of the sample and `1` is the end. So, to play the first half of the Amen Brea"
 "k, we just need to specify a `finish:` of `0.5`:"
 msgstr ""
+"Dus, hoe kunnen we dan Sonic Pi zo coderen dat deze een sample in een andere "
+"volgorde afspeelt? Om een antwoord op deze vraag te kunnen geven moeten we "
+"een kijkje nemen naar de `start:` en`finish:` opts voor `sample`. Deze laten "
+"ons toe de start en eindposities voor de weergave van een sample te bepalen. "
+"De waarden voor deze opts liggen tussen  `0` en`1` waarbij `0` staat voor de "
+"de start van de sample en `1` het einde ervan is. Dus als we de eerste helft "
+"van de Amen Break willen spelen moeten we de  `finish:` zetten op `0.5`:"
 
 #: A.12-sample-slicing.md:66
 msgid "We can add in a `start:` value to play an even smaller section of the sample:"
 msgstr ""
+"We kunnen ook een `start:` toevoegen om een nog kleiner stukje van de sample "
+"te kunnen spelen:"
 
 #: A.12-sample-slicing.md:68
 #, no-wrap
 msgid "sample :loop_amen, start: 0.25, finish: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.25, finish: 0.5"
 
 #: A.12-sample-slicing.md:72
 msgid ""
 "For fun, you can even have the `finish:` opt's value be *before* `start:` and "
 "it will play the section backwards:"
 msgstr ""
+"Voor de lol kunnen we de waarde van `finish:` laten vallen *vòòr* de waarde "
+"van `start:` om de selectie achterstevoren te laten afspelen:"
 
 #: A.12-sample-slicing.md:75
 #, no-wrap
@@ -14137,7 +14166,7 @@ msgstr "sample :loop_amen, start: 0.5, finish: 0.25"
 
 #: A.12-sample-slicing.md:79
 msgid "Re-ordering Sample Playback"
-msgstr ""
+msgstr "Het afspelen van een sample herordenen"
 
 #: A.12-sample-slicing.md:81
 msgid ""
@@ -14145,6 +14174,10 @@ msgid ""
 "back in any order and also how to play a specific part of a sample we can now "
 "start having fun playing a sample back in the 'wrong' order."
 msgstr ""
+"Nu we weten dat een sample een simpele lijst is van getallen, die we in "
+"eender welke volgorde kunnen laten afspelen en we ook weten hoe we een "
+"bepaald deel van de sample kunnen afspelen, kunnen we na aan de slag gaan en "
+"een sample in de verkeerde volgorde gooien en afspelen."
 
 #: A.12-sample-slicing.md:86
 msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
@@ -14160,6 +14193,14 @@ msgid ""
 "s one possible re-ordering of the slices. We can then play this back to create"
 " a new beat. Take a look at the code to do this:"
 msgstr ""
+"Laten we onze Amen break nemen en deze in 8 gelijke stukken verdelen en de "
+"stukken verschuiven. Kijk even op het diagram: bovenaan A) geeft de grafiek "
+"van onze originele sample weer. In 8 stukjes geknipt geeft ons B) , merk op "
+"dat we elk stukje een andere kleur hebben gegeven om deze te kunnen "
+"onderscheiden. Je ziet bovenaan de waarde van start en einde ,van elk "
+"stukje. En tenslotte is  C) een mogelijke herordening van de stukjes. Deze "
+"kunnen we als een nieuwe beat afspelen. Laten we even deze code bekijken om "
+"dit te gaan doen:"
 
 #: A.12-sample-slicing.md:97
 #, no-wrap
@@ -14189,6 +14230,10 @@ msgid ""
 "xactly this: `rand_i(8)`. We then store this random slice index in the variabl"
 "e `slice_idx`."
 msgstr ""
+"We kiezen een willekeurige segment om af te spelen welke een willekeurig "
+"getal tussen 0 en 7 is (voor de 8 stukken, we tellen vanaf 0!) Hiervoor "
+"heeft Sonic Pi een handige functie: `rand_i(8)`. Vervolgens bewaren we deze "
+"willekeurige segment-index in de variabele `slice_idx`."
 
 #: A.12-sample-slicing.md:113
 msgid ""
