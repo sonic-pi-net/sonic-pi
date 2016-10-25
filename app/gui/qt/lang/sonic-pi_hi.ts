@@ -6,26 +6,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="511"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>सेटिंग्स</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="524"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>सिस्टम लॉग</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="199"/>
         <location filename="../mainwindow.cpp" line="2875"/>
         <location filename="../mainwindow.cpp" line="2895"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>स्टीरियो मोड टॉगल करें।
+यदि सक्रिय है.तो दाये चैनल का आँडियो बाँये.चैनल तथा बाँये चैनल का आँडियो दाये चैनल मे भेजा जाएगा</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="995"/>
@@ -34,130 +35,135 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>टॉगल मोनो मोड।
+यदि सक्रिय है तो दाएं और बाएं दोनों ऑडियो चैनल मिश्रित कर दिऐ जाएगे।
+
+उपयोगी है जब आप बाहरी सिस्टम के साथ काम कर रहे है जो केवल मोनो आँडियो संभाल सकते हैं।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1029"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>डिबगींग व्यवहार सेट करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1035"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>टॉगल लॉग संदेश ।
+यदि निष्क्रिय किया तो Synth तथा sample की गतिविधियो के लॉग संदेश नही दिखाया जाएगा ।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>सुरक्षित मोड</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1037"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>रन होने पर लॉग साफ करे</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1038"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>टॉगल लॉग पर साफ़ करने चला।
+यदि सक्षम, लॉग चलाने बटन दबाया जाता है हर बार मंजूरी दे दी है।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1122"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>लाइन नंबर दृश्यता टॉगल करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1134"/>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>डार्क मोड</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1592"/>
         <location filename="../mainwindow.cpp" line="1648"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>कोड चल रहा...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1711"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>सौंदर्यीकरण...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1731"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>पुन: लोड हो रहा है</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1762"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>HPF मिक्सर को आँन करे</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>HPF मिक्सर बंद हो रहा है</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="436"/>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>बफ़र %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="279"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi मै आपका सवागत है</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>चयन इंडेंट करना...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="774"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>पंक्ति इंडेंट करना...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="990"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>उन्नत ऑडियो सेटिंग्स, SonicPi को बाहरी PA सिसटम के साथ कार्य करने के लिए।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1080"/>
         <location filename="../mainwindow.cpp" line="1240"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>अपडेट</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1082"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>अपडेट के लिए जाँचें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>संपादक</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1121"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>पंक्ति क्रमांक दिखाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="320"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>SonicPi अपडेट जानकारी</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"/>
@@ -169,67 +175,67 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>लॉगिंग</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2635"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>सकोप</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="803"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>टॉगल कमेंट चयन</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>पूर्ण स्क्रीन मोड पर।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>पूर्ण स्क्रीन मोड को बंद।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>टॉगल रेखा कमेंट</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="878"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi सर्वर प्रारंभ नहीं किया जा सकता है!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>मास्टर वॉल्यूम</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>सिस्टम वॉल्यूम को परिवर्तित करने के लिए इस स्लाइडर का उपयोग करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="989"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>ऑडियो आउटपुट</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="991"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>स्टीरियो पलटना</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="994"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>जबरदसती मोनो मोड</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>रास्पबेरी पीआई ऑडियो आउटपुट</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -242,37 +248,37 @@ Use these buttons to force the output to the one you want.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; डिफ़ॉल्ट</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; हेडफोन्स</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1003"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1031"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths और FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1032"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths और FX के व्यवहार को संशोधित करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1034"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>लॉग synths</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1040"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>लॉग cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1041"/>
@@ -284,7 +290,7 @@ However, they will not be visible in the logs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1043"/>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>लॉग ऑटो स्क्रॉल</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1044"/>
@@ -295,7 +301,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../mainwindow.cpp" line="1051"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>बाह्य synths और FX सक्षम करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1052"/>
@@ -311,7 +317,7 @@ which isn't recognised.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1054"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>समय की गारंटी लागू करे</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
@@ -327,7 +333,7 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1072"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>पारदर्शिता</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1084"/>
@@ -338,7 +344,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1085"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>अब जाँच करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1086"/>
@@ -349,125 +355,126 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation>अद्यतन प्राप्त करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1088"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>नया संस्करण डाउनलोड करने के लिए http://sonic-pi.net पर जाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1093"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>अद्यतन जानकारी</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1112"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>दिखाएँ और छुपाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1113"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>संपादक प्रदर्शन विकल्प कॉन्फ़िगर करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>देखो और महसूस</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1115"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>संपादक दिखावट को कॉन्फ़िगर करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1116"/>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>स्वचालन</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1117"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>स्वचालन सुविधाएँ कॉन्फ़िगर करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1118"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>ऑटो-संरेखित करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>स्वचालित रूप से कोड रन पर संरेखित करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1123"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>लॉग दिखाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1124"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>लॉग की दृश्यता टॉगल करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1126"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>बटन दिखाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1127"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>नियंत्रण बटन की दृश्यता टॉगल करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1129"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>टैब दिखाएँ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>बफ़र चयन टैब की दृश्यता टॉगल करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>पूर्ण स्क्रीन</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1133"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>पूर्ण स्क्रीन मोड टॉगल करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1135"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>डार्क मोड टॉगल करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1135"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+डार्क मोड रात क्लबों में लाइव कोडिंग के लिए एकदम सही है।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1182"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>ऑडियो</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>ऑडियो oscilloscopes के लिए अक्षों की दृश्यता टॉगल करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>ध्वनि Pi बूट त्रुटि माफी, स्टार्टअप के दौरान कोई गंभीर त्रुटि उत्पन्न हुई</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1469"/>
@@ -475,55 +482,55 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1486"/>
         <location filename="../mainwindow.cpp" line="1489"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>बफ़र फ़ाइलों</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1472"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>लोड Sonic Pi बफ़र</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1472"/>
         <location filename="../mainwindow.cpp" line="1489"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>पाठ फ़ाइलें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1472"/>
         <location filename="../mainwindow.cpp" line="1489"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>रूबी फ़ाइलें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1472"/>
         <location filename="../mainwindow.cpp" line="1489"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>सभी फ़ाइलें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1971"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>लॉग ऑटो स्क्रॉल</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1973"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>ऑटो स्क्रॉल लॉग ऑफ़ करें...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>वर्तमान बफ़र के कोड को चलाए</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>लोड</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>वर्तमान बफ़र में किसी बाह्य फ़ाइल को लोड करे</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
