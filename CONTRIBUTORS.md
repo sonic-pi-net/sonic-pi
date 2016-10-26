@@ -205,3 +205,6 @@ to continue on this strange and often unforgiving path. He would
 particularly like to thank his friend and partner Susanna and also his
 fab Mum.
 
+Luis Lloret wants to thank his wonderful family for their understanding and support
+while working on this. Specially Marina, you are my reason to live. Mar and Darío, 
+keep being so special and giving us so much joy.
