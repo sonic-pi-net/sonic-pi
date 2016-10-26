@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-24 09:51+0000\n"
+"PO-Revision-Date: 2016-10-26 09:57+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -10994,6 +10994,9 @@ msgid ""
 "` or `null` - the absence of a value. In other words not playing a note is lik"
 "e the absence of a note."
 msgstr ""
+"楽譜はとても表現力豊かなコードで、多くのことを伝達できます。したがって、楽譜がどの音符を演奏するかについてのみならず、音符をいつ演奏*しない*かについて伝"
+"達していても、それほど驚くことではないでしょう。これは、プログラミングにおいては`nil`とか`null`（値の無いこと）と同じ考え方です。言い換えると、"
+"音符を演奏しないことは、音符が無いことに似ていると言えるでしょう。"
 
 #: A.07-bizet.md:60
 msgid ""
@@ -11004,10 +11007,13 @@ msgid ""
 "rite `play :rest`, `play nil` or `play false` which are all equivalent ways of"
 " representing rests."
 msgstr ""
+"楽譜をよく見ると、演奏する音符を表す点と線の記号と、休符を表す曲がりくねった記号との組合せであることが分かると思います。Sonic "
+"Piにはとても便利な休符の表現として`:r`が用意されていて、`play :r`を実行するとSonic Piは無音を演奏するのです！これはまた、`"
+"play :rest`や`play nil`や`play false`とも書くことができ、これらはみな休符を表す同じ方法です。"
 
 #: A.07-bizet.md:67
 msgid "Rhythm"
-msgstr ""
+msgstr "リズム"
 
 #: A.07-bizet.md:69
 msgid ""
@@ -11018,18 +11024,25 @@ msgid ""
 "which means they last for an 8th of a beat. The rest has two squiggly beams wh"
 "ich means it also represents a 16th of the beat."
 msgstr ""
+"楽譜を解読するのに学習する最後の内容は、音符のタイミングです。元の楽譜では、音符同士を繋げる細い線、連桁（beam）と呼ばれているものを見ることができるで"
+"しょう。2つ目の音符では2つの連桁があり、これは16分の1拍だけ音が持続することを意味しています。その他の音符は一つの連桁を持っていて、それは8分の1拍だ"
+"け音が持続することを意味しています。休符は2つの曲がりくねった連桁を持っていて、これもまた16分の1拍を表しています。"
 
 #: A.07-bizet.md:77
+#, fuzzy
 msgid ""
 "When we attempt to decode and explore new things a very handy trick is to make"
 " everything as similar as possible to try and see any relationships or pattern"
 "s. For example, when we re-write our notation purely in 16ths you can see that"
 " our notation just turns into a nice sequence of notes and rests."
 msgstr ""
+"新しいことを探索したり解読したりするときに便利なコツは、全てを可能な限り似たものにし、その関係やパターンを見出すことです。たとえば、元の楽譜を純粋に16分"
+"で記述し直すと、音符と休符の良い感じのシークエンスに変わるでしょう。"
 
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 msgstr ""
+"![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
