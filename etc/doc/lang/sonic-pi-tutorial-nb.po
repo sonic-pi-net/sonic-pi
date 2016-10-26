@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-25 21:18+0000\n"
+"PO-Revision-Date: 2016-10-26 04:52+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
@@ -80,9 +80,10 @@ msgid ""
 " stream live on [livecoding.tv/samaaron](http://livecoding.tv/samaaron) so ple"
 "ase do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Til sist, å se andres kode er en veldig fin måte å lære på. Jeg direkteoverfør"
-"er regelmessig på [livecoding.tv/samaaron](http://livecoding.tv/samaaron) så s"
-"tikk gjerne innom, hils på og still mange spørsmål. :-)"
+"Til sist, å se andre kode på direkten er en veldig fin måte å lære på. Jeg "
+"direkteoverfører regelmessig på "
+"[livecoding.tv/samaaron](http://livecoding.tv/samaaron) så stikk gjerne "
+"innom, hils på og still mange spørsmål. :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -90,12 +91,12 @@ msgstr "OK, la oss komme igang..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr "1.1 Direkteoverført koding"
+msgstr "1.1 Koding på direkten"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Direkteoverført koding"
+msgstr "Koding på direkten"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -8046,6 +8047,9 @@ msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
+"Forsøk nå å øk feedback-en til 1 for å høre noe ville lyder!  Les "
+"dokumentasjonen for alle detaljene om de mange tilvalgene som er "
+"tilgjengelig."
 
 #: A.01-tips.md:110
 msgid "5. Live Code"
