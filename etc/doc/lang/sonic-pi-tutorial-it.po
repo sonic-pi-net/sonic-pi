@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-17 17:55+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-10-27 13:03+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -14293,7 +14293,6 @@ msgid "Probability"
 msgstr "Probabilità"
 
 #: A.13-probabilistic-sequencer.md:14
-#, fuzzy
 msgid ""
 "Before we can start making new beats and synth rhythms we need to take a quick"
 " dive into the basics of probability. This might sound daunting and complicate"
@@ -14304,7 +14303,16 @@ msgid ""
 "rage (if you roll lots and lots of times) you'll throw a 1 every 6 throws. Thi"
 "s means you have a 1 in 6 chance of throwing a 1. We can emulate dice rolls in"
 " Sonic Pi with the fn `dice`. Let's roll one 8 times:"
-msgstr "dice (ndT: dado)"
+msgstr ""
+"Prima di cominciare a creare ritmi e synth, facciamo una breve panoramica su "
+"concetti base di probabilità. Detta così può sembrare complicato e "
+"spaventoso ma, in realtà, è tanto semplice quanto lanciare un dado. Quando "
+"lanci un normale dado a 6 facce in un gioco da tavolo cosa succede? Al primo "
+"tentativo i numeri 1, 2, 3, 4, 5 e 6 avranno tutti la stessa probabilità di "
+"uscire. Di fatto, essendo un dado a 6 facce, in media (se lo lanci molte "
+"volte) ti uscirà il numero 1 ogni 6 lanci. Questo significa avere una "
+"possibilità di 1 su 6 che esca 1. Possiamo simulare lo stesso comportamento "
+"in Sonic Pi utilizzando la funzione `dice`. Lanciamone uno 8 volte:"
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
@@ -14320,24 +14328,28 @@ msgstr ""
 "end"
 
 #: A.13-probabilistic-sequencer.md:32
-#, fuzzy
 msgid ""
 "Notice how the log prints values between 1 and 6 just as if we'd rolled a real"
 " dice ourselves."
-msgstr "dice (ndT: dado)"
+msgstr ""
+"Nota come il log mostri valori tra 1 e 6 esattamente come se avessimo "
+"lanciato un vero dado."
 
 #: A.13-probabilistic-sequencer.md:35
 msgid "Random Beats"
 msgstr "Beat casuali"
 
 #: A.13-probabilistic-sequencer.md:37
-#, fuzzy
 msgid ""
 "Now imagine you had a drum and every time you were about to hit it you rolled "
 "a dice. If you rolled a 1, you hit the drum and if you rolled any other number"
 " you didn't. You now have a probabilistic drum machine working with a probabil"
 "ity of 1/6! Let's hear what that sounds like:"
-msgstr "Ascoltiamo che cosa ne è venuto fuori:"
+msgstr ""
+"Ora, immagina di avere una batteria e che ogni volta che stai per colpirla "
+"decidi di lanciare un dado. Se esce 1, colpisci la batteria altrimenti no. "
+"Ora abbiamo una drum machine probabilistica che funziona con una probabilità "
+"di 1/6. Proviamo a sentire il risultato:"
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
@@ -14353,7 +14365,6 @@ msgstr ""
 "end"
 
 #: A.13-probabilistic-sequencer.md:50
-#, fuzzy
 msgid ""
 "Let's quickly go over each line to make sure everything is very clear. First w"
 "e create a new `live_loop` called `:random_beat` which will continually repeat"
@@ -14368,14 +14379,27 @@ msgid ""
 "f it isn't `1` then the statement resolves to `false` and the snare is skipped"
 ". The second line simply waits for `0.125` seconds before rolling the dice aga"
 "in."
-msgstr "rand"
+msgstr ""
+"Guardiamo ogni riga di codice per essere sicuri che sia tutto chiaro. Per "
+"prima cosa creiamo un nuovo `live_loop` chiamato `:random_beat` che si "
+"ripeterà continuamente tra le righe `do` e `end`. La prima di queste righe è "
+"una chiamata a `sample` che riprodurrà un suono preregistrato (in questo "
+"caso il suono `:drum_snare_hard`). Tuttavia questa riga ha una condizione "
+"`if`alla fine. Questo significa che la linea verrà eseguita se la condizione "
+"che è scritta alla destra di `if` risulterà `true` (vero). In questo caso: `"
+"dice == 1`. Questa è una chiamata alla funzione `dice` che, come abbiamo "
+"visto, restituisce un valore tra 1 e 6. Usiamo l'operatore `==` per "
+"verificare se il valore è uguale a `1`. Se è così, la condizione restituisce "
+"`true` e viene riprodotto il suono di rullante, se il numero è diverso da `1`"
+" restituisce `false` e il rullante viene saltato. La seconda linea aspetta "
+"semplicemente che passino `0.125` secondi prima di lanciare nuovamente il "
+"dado."
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
 msgstr "Cambiare le probabilità"
 
 #: A.13-probabilistic-sequencer.md:67
-#, fuzzy
 msgid ""
 "Those of you that have played role play games will be familiar with lots of st"
 "rangely shaped dice with different ranges. For example there is the tetrahedro"
@@ -14386,7 +14410,15 @@ msgid ""
 " chance of rolling a 1 and with a 20 sided dice there's a one in 20 chance. Lu"
 "ckily, Sonic Pi has the handy `one_in` fn for describing exactly this. Let's p"
 "lay:"
-msgstr "one_in"
+msgstr ""
+"Quelli di voi che hanno fatto giochi di ruolo sanno che esistono dadi di "
+"diverse forme e con differenti numeri di facce. Per esempio esiste il dato a "
+"forma di tetraedro che ha solo 4 lati oppure l'icosaedro che, invece, ha 20 "
+"facce. Il numero di facce determina il cambiamento nella probabilità che "
+"esca 1. Minore è il numero di facce, più probabilità hai che esca 1. Per "
+"esempio in un dato a 4 facce, c'è 1 possibilità su 4 mentre in quello da 20 "
+"è 1 su 20. Per fortuna Sonic Pi ha la funzione `one_in` che descrive "
+"esattamente questo. Proviamo:"
 
 #: A.13-probabilistic-sequencer.md:77
 #, no-wrap
@@ -14402,14 +14434,19 @@ msgstr ""
 "end"
 
 #: A.13-probabilistic-sequencer.md:84
-#, fuzzy
 msgid ""
 "Start the live loop above and you'll hear the familiar random rhythm. However,"
 " don't stop the code running. Instead, change the `6` to a different value suc"
 "h as `2` or `20` and hit the `Run` button again. Notice that lower numbers mea"
 "n the snare drum sounds more frequently and higher numbers mean the snare trig"
 "gers fewer times. You're making music with probabilities!"
-msgstr "rand"
+msgstr ""
+"Facendo partire il live loop qui sopra, sentirai un ritmo casuale familiare. "
+"Ora: non fermare la musa ma cambia il `6` con un valore diverso come `2` o "
+"`20` e premi nuovamente `Run`. Nota come più basso è il numero più "
+"frequentemente senti il suono di rullante mentre più è alto il numero minori "
+"sono le probabilità che venga suonato. Stai creando musica con le "
+"probabilità!"
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
@@ -14448,6 +14485,10 @@ msgid ""
 "the rhythm. Also, try changing the samples to create an entirely new feel. For"
 " example try changing `:drum_cymbal_closed` to `:bass_hit_c` for extra bass!"
 msgstr ""
+"Prova a far partire il codice qui sopra cambiando ancora una volta le "
+"probabilità per modificare il ritmo. Puoi provare anche a cambiare il sample "
+"per cambiare completamente il sentimento. Modifica `:drum_cymbal_closed` in "
+"`:bass_hit_c` per avere del basso extra!"
 
 #: A.13-probabilistic-sequencer.md:112
 msgid "Repeatable Rhythms"
