@@ -94,7 +94,9 @@ module SonicPi
            augmented:          [3, 1, 3, 1, 3, 1],
            purvi:              [1, 3, 2, 1, 1, 3, 1],
            chinese:            [4, 2, 1, 4, 1],
-           lydian_minor:       [2, 2, 2, 1, 1, 2, 2]}}.call
+           lydian_minor:       [2, 2, 2, 1, 1, 2, 2],
+           blues_major:        [2, 1, 1, 3, 2, 3],
+           blues_minor:        [3, 2, 1, 1, 3, 2]}}.call
 
     # Zero indexed for CS compatibility
     DEGREES = {:i    => 0,
