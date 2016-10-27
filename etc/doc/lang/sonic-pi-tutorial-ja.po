@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-26 09:57+0000\n"
+"PO-Revision-Date: 2016-10-27 09:49+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -11029,15 +11029,14 @@ msgstr ""
 "け音が持続することを意味しています。休符は2つの曲がりくねった連桁を持っていて、これもまた16分の1拍を表しています。"
 
 #: A.07-bizet.md:77
-#, fuzzy
 msgid ""
 "When we attempt to decode and explore new things a very handy trick is to make"
 " everything as similar as possible to try and see any relationships or pattern"
 "s. For example, when we re-write our notation purely in 16ths you can see that"
 " our notation just turns into a nice sequence of notes and rests."
 msgstr ""
-"新しいことを探索したり解読したりするときに便利なコツは、全てを可能な限り似たものにし、その関係やパターンを見出すことです。たとえば、元の楽譜を純粋に16分"
-"で記述し直すと、音符と休符の良い感じのシークエンスに変わるでしょう。"
+"新しいことを探索したり解読したりするときに役立つコツは、全てを可能な限り似たものにし、それらの関係やパターンを見出すことです。たとえば、元の楽譜を純粋に1"
+"6分で記述し直すと、音符と休符の良い感じのシークエンスに変わるでしょう。"
 
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
@@ -11046,13 +11045,13 @@ msgstr ""
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
-msgstr ""
+msgstr "ハバネラの再コーディング"
 
 #: A.07-bizet.md:87
 msgid ""
 "We're now in a position to start translating this bass line to Sonic Pi. Let's"
 " encode these notes and rests in a ring:"
-msgstr ""
+msgstr "ハバネラのベースラインをSonic Piに翻訳する準備ができました。音符と休符をリングにコード化しましょう。"
 
 #: A.07-bizet.md:90
 #, no-wrap
@@ -11061,7 +11060,7 @@ msgstr "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 
 #: A.07-bizet.md:94
 msgid "Let's see what this sounds like. Throw it in a live loop and tick through it:"
-msgstr ""
+msgstr "どんな音がするか聞いてみましょう。ライブループに入れて、チックでリングを循環するようにしましょう。"
 
 #: A.07-bizet.md:97
 #, no-wrap
@@ -11081,10 +11080,12 @@ msgid ""
 "Fabulous, that instantly recognisable riff springs to life through your speake"
 "rs. It took a lot of effort to get here, but it was worth it - high five!"
 msgstr ""
+"すばらしい。スピーカーから一瞬でそれと分かるリフが活動的に鳴り始めたと思います。ここまで辿り着くのに多くの苦労がありましたが、その価値はありました。やった"
+"ね！"
 
 #: A.07-bizet.md:108
 msgid "Moody Synths"
-msgstr ""
+msgstr "ムーディーなシンセ"
 
 #: A.07-bizet.md:110
 msgid ""
@@ -11093,6 +11094,8 @@ msgid ""
 "d. Let's try it with the starting note `:d` passed through a slicer and reverb"
 ":"
 msgstr ""
+"ベースラインが出来たので、オペラのシーンの背景音を再生成してみましょう。試してみるシンセの一つは、`:blade`です。これは、80年代スタイルのムーディ"
+"ーなリードシンセです。そのシンセを`:d`の音で開始し、スライサーとリバーブに渡すようにしてみましょう。"
 
 #: A.07-bizet.md:115
 #, no-wrap
@@ -11134,6 +11137,9 @@ msgid ""
 "n again. Also, try different values for the slicer's `phase:` opt such as `0.5"
 "`, `0.75` and `1`."
 msgstr ""
+"では、ベースラインの`:a`と`:f5`を他の音に変えてみてください。注意すべきは、`Stop`を叩く必要はないということです。音楽が演奏されている最中に"
+"、だたコードを変更して`Run`を再度叩いてください。そして、スライサーの`phase:`オプションを、`0.5`や`0.75`や`1`といった異なる値に"
+"してみてください。"
 
 #: A.07-bizet.md:140
 msgid ""
@@ -11144,6 +11150,9 @@ msgid ""
 "nd hit run again - how marvellous is that! Now, start mashing it around yourse"
 "lf and have fun."
 msgstr ""
+"最後に全てのアイデアを組合せて、ハバネラの新しいリミックスを作ってみましょう。もう一つのベースラインがコメントアウトされていることに気が付いたかもしれませ"
+"ん。新しいBufferにこれらをタイプしたら、`Run`を叩いて曲を聞いてみてください。そして、`Stop`を叩かずに、2行目のベースラインを*コメントを"
+"解除*して、`#`を削除し、`Run`を再度叩いてみてください。なんと凄いのでしょう！では、あなた自身でこのコードを弄って楽しんでください。"
 
 #: A.07-bizet.md:147
 #, no-wrap
