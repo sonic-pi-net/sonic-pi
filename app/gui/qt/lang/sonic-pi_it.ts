@@ -197,12 +197,12 @@ creare suoni spiacevoli e rumori forti e inaspettati.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attiva modalità schermo intero.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilita modalità schermo intero.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -242,7 +242,7 @@ creare suoni spiacevoli e rumori forti e inaspettati.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Output audio Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -257,7 +257,7 @@ La seconda, una porta HDMI a cui collegare monitor, tv o supporti audio.</transl
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Default</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
@@ -493,7 +493,7 @@ La modalità scura è perfetta per performance nei night club.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita la visualizzazione degli assi per gli oscilloscopi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -563,12 +563,12 @@ Siamo spiacenti, si è verificato un errore durante l'avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingrandisci</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimpicciolisci</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
