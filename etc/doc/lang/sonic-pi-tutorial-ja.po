@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-27 09:49+0000\n"
+"PO-Revision-Date: 2016-10-28 10:00+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -11223,17 +11223,19 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:1
 msgid "A.8 Become a Minecraft VJ"
-msgstr ""
+msgstr "A.8 Minecraft VJになる"
 
 #: A.08-minecraft-vj.md:3
 msgid "Become a Minecraft VJ"
-msgstr ""
+msgstr "Minecraft VJになる"
 
 #: A.08-minecraft-vj.md:5
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
 ".png)"
 msgstr ""
+"![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-0-small.png)"
 
 #: A.08-minecraft-vj.md:7
 msgid ""
@@ -11243,6 +11245,9 @@ msgid ""
 "know that you could use Minecraft to create amazing visuals just like a profes"
 "sional VJ."
 msgstr ""
+"みなさんはMinecraftで遊んだことがあると思います。そして、凄い構造物を建てたり、巧妙なトラップを設計したり、レッドストーンのスイッチで制御された精"
+"巧なトロッコの路線を作ったりしたことがあるかもしれません。しかし、Minecraftでパフォーマンスをしたことがある人はどのくらい居るでしょうか？Mine"
+"craftを使ってまさにプロフェッショナルなVJのように凄いビジュアルを作れることを知っている人は少ないと思います。"
 
 #: A.08-minecraft-vj.md:13
 msgid ""
@@ -11252,16 +11257,19 @@ msgid ""
 "an app called Sonic Pi which makes coding Minecraft not only easy but also inc"
 "redibly fun."
 msgstr ""
+"あなたにとって、Minecraftを操作する唯一の方法がマウスだったら、十分に速くそれを実行できるようになるまで苦労するに違いありません。幸運にも、"
+"あなたの持っているRaspberry Piには、コードで制御可能なMinecraftが搭載されています。そして、Raspberry Piには、Sonic "
+"Piというアプリケーションも搭載されていて、ただ簡単なだけでなく、信じられないほど楽しくMinecraftをコーディングすることが可能です。"
 
 #: A.08-minecraft-vj.md:19
 msgid ""
 "In today's article we'll be showing you some of the tips and tricks that we've"
 " used to create performances in night clubs and music venues around the world."
-msgstr ""
+msgstr "今回の記事では、我々が世界中のクラブやホールでパフォーマンスしたヒントとコツをお教えしたいと思います。"
 
 #: A.08-minecraft-vj.md:23
 msgid "Let's get started..."
-msgstr ""
+msgstr "では始めましょう…"
 
 #: A.08-minecraft-vj.md:25
 msgid "Getting Started"
@@ -11274,6 +11282,9 @@ msgid ""
 "Sonic Pi. In Minecraft, create a new world, and in Sonic Pi choose a fresh buf"
 "fer and write in this code:"
 msgstr ""
+"基本を習得するために、ウォームアップの練習から始めましょう。最初にRaspberry Piを起動し、続いてMinecraftとSonic "
+"Piの両方を起動してください。Minecraftでは、新しいワールドを作成し、Sonic "
+"Piでは新しいBufferを選択して、以下のコードを書いてください。"
 
 #: A.08-minecraft-vj.md:32
 #, no-wrap
@@ -11285,10 +11296,12 @@ msgid ""
 "Hit the Run button and you'll see the message over in the Minecraft window. OK"
 ", we're ready to start, let's have some fun......"
 msgstr ""
+"`Run`ボタンを叩いて、Minecraftのウィンドウ内にメッセージを見ることができたでしょう。大丈夫ですね。では準備ができました。楽しんでください.."
+"...."
 
 #: A.08-minecraft-vj.md:39
 msgid "Sand Storms"
-msgstr ""
+msgstr "砂嵐"
 
 #: A.08-minecraft-vj.md:41
 msgid ""
@@ -11297,18 +11310,20 @@ msgid ""
 "s to create a sand storm by dropping sand blocks from the sky. For that all we"
 " need are a few basic fns:"
 msgstr ""
+"Minecraftを使ってビジュアルを生成する際に、どのようなものが見た目が面白そうで、またコードから生成するのに簡単なのか試行錯誤しました。良さそうなテ"
+"クニックの一つは、砂のブロックを空から落として砂嵐を作るというものです。これを実現するのに必要なものは、以下の基本的な関数です。"
 
 #: A.08-minecraft-vj.md:46
 msgid "`sleep` - for inserting a delay between actions"
-msgstr ""
+msgstr "`sleep` - アクションの間の遅延を挿入するのに使います"
 
 #: A.08-minecraft-vj.md:47
 msgid "`mc_location` - to find our current location"
-msgstr ""
+msgstr "`mc_location` - 現在の位置を取得するのに使います"
 
 #: A.08-minecraft-vj.md:48
 msgid "`mc_set_block`- to place sand blocks at a specific location"
-msgstr ""
+msgstr "`mc_set_block`- 砂のブロックを指定した位置に設置するのに使います"
 
 #: A.08-minecraft-vj.md:49
 msgid "`rrand` - to allow us to generate random values within a range"
