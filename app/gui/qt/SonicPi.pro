@@ -22,9 +22,21 @@ CONFIG += qscintilla2 qwt c++11
 
 QT += core gui concurrent network opengl
 
+include ( /usr/local/qwt-6.1.2/features/qwt.prf )
+LIBS += -L/Users/sam/Development/Supercollider/git-src/external_libraries/boost/libs
+INCLUDEPATH += /Users/sam/Development/Supercollider/git-src/external_libraries/boost/
+DEPENDPATH += /Users/sam/Development/Supercollider/git-src/external_libraries/boost/
+
+LIBS += -L/Users/sam/Downloads/tmp/QScintilla_gpl-2.9.3.dev1606101834/Qt4Qt5
+
+INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla_gpl-2.9.3.dev1606101834/Qt4Qt5
+DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla_gpl-2.9.3.dev1606101834/Qt4Qt5
+QMAKE_MAC_SDK = macosx10.11
+
 greaterThan(QT_MAJOR_VERSION, 4) {
-  QT += widgets opengl
+  QT += widgets
 }
+
 
 # Linux only
 unix:!macx {
@@ -52,7 +64,12 @@ macx {
 
 # Windows only
 win32 {
-  LIBS += -lws2_32
+  include ( c:/qwt-6.1.2/features/qwt.prf )
+  LIBS += -lqscintilla2
+  QMAKE_CXXFLAGS += -Ic:/boost_1_61_0
+#  QMAKE_CXXFLAGS += /WX
+  QMAKE_LFLAGS += /LIBPATH:C:\boost_1_61_0\bin.v2\libs\date_time\build\msvc-12.0\release\link-static\threading-multi
+  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS
 }
 
 CODECFORSRC = UTF-8
@@ -61,17 +78,22 @@ CODECFORTR = UTF-8
 TEMPLATE = app
 
 SOURCES += main.cpp \
-         mainwindow.cpp \
-         sonicpilexer.cpp \
-         sonicpiapis.cpp \
-         sonicpiscintilla.cpp \
-         oschandler.cpp \
-         sonicpilog.cpp \
-         sonic_pi_osc_server.cpp \
-         sonic_pi_udp_osc_server.cpp \
-         sonic_pi_tcp_osc_server.cpp \
-         sonicpitheme.cpp \
-         scope.cpp
+           mainwindow.cpp \
+           sonicpilexer.cpp \
+           sonicpiapis.cpp \
+           sonicpiscintilla.cpp \
+           oschandler.cpp \
+           sonicpilog.cpp \
+           sonic_pi_osc_server.cpp \
+           sonic_pi_udp_osc_server.cpp \
+           sonic_pi_tcp_osc_server.cpp \
+           sonicpitheme.cpp \
+           scope.cpp
+win32 {
+# have to link these explicitly for some reason
+  SOURCES += platform/win/moc_qsciscintilla.cpp \
+             platform/win/moc_qsciscintillabase.cpp
+}
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
