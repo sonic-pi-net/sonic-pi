@@ -329,6 +329,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     splashClose();
 
     showWindow();
+    toggleScope();
+    toggleScope();
     updateDarkMode();
     updateFullScreenMode();
     showWelcomeScreen();
