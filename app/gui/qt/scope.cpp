@@ -84,9 +84,10 @@ void ScopeBase::refresh( )
 ScopePanel::ScopePanel( const QString& name, const QString& title, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : ScopeBase(name,title,parent)
 {
 
-#if (QT_VERSION >= 0x050400) || !defined(Q_OS_LINUX)
+#if defined(Q_OS_WIN)
   // enable OpenGL rendering on all platforms except Raspberry Pi
-  // which is assumed to be Linux + Qt 4
+  // and Mac (as there are docking/undockign issues to be resolved)
+
   plot.setCanvas( new QwtPlotGLCanvas() );
 #endif
 
