@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-27 13:03+0000\n"
+"PO-Revision-Date: 2016-10-28 12:51+0000\n"
 "Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -14495,14 +14495,18 @@ msgid "Repeatable Rhythms"
 msgstr "Ritmi ripetibili"
 
 #: A.13-probabilistic-sequencer.md:114
-#, fuzzy
 msgid ""
 "Next, we can use our old friend `use_random_seed` to reset the random stream a"
 "fter 8 iterations to create a regular beat. Type the following code to hear a "
 "much more regular and repeating rhythm. Once you hear the beat, try changing t"
 "he seed value from `1000` to another number. Notice how different numbers gene"
 "rate different beats."
-msgstr "rand"
+msgstr ""
+"Infine, possiamo usare il caro vecchio `use_random_seed` per resettare il "
+"flusso casuale dopo 8 iterazioni per creare un beat regolare. Scrivi il "
+"seguente codice per sentire un ritmo più regolare e ripetitivo. Una volta "
+"ascoltato, prova a cambiare il valore di seed da `1000` a un altro numero. "
+"Nota come numeri differenti generato beat diversi."
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
@@ -14540,13 +14544,17 @@ msgstr ""
 "che ho già creato in concerti futuri."
 
 #: A.13-probabilistic-sequencer.md:139
-#, fuzzy
 msgid ""
 "Finally, we can throw in some random bass to give it some nice melodic content"
 ". Notice that we can also use our newly discovered probabilistic sequencing me"
 "thod on synths just as well as samples. Don't leave it at that though - tweak "
 "the numbers and make your own track with the power of probabilities!"
-msgstr "rand"
+msgstr ""
+"Infine possiamo aggiungere un suono di basso casuale per dare un po' di "
+"contenuto melodico. Ricorda che possiamo usare il sistema di sequenze "
+"probabilistiche che abbiamo appena scoperto non solo per i sample ma anche "
+"per i sintetizzatori. Non lasciarlo così com'è, cambia i numeri e crea la "
+"tua traccia con la potenza delle probabilità!"
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
