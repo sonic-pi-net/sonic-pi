@@ -236,3 +236,9 @@ fab Mum.
 Luis Lloret wants to thank his wonderful family for their understanding and support
 while working on this. Specially Marina, you are my reason to live. Mar and Darío, 
 keep being so special and giving us so much joy.
+
+Xavier Riley would like to thank his wife Emily, and he'd like to reassure her that he definitely loves 
+her more than any computer. Also big thanks to conference organizers, in particular Simon Starr for putting
+on the awesome Bath Ruby conferences and letting me rock out there not [once](https://youtu.be/Jp0VKD_7pmw?t=10m1s),
+but [twice](https://www.youtube.com/watch?v=L06FlSoiBi4). Lastly I'd like to thank Scott Wilson for teaching me
+some programming as part of a music degree, and my good friend David Bamber for helping me get started as a programmer.
