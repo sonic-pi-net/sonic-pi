@@ -59,7 +59,7 @@ Current members:
 * [Joseph Wilk](https://github.com/josephwilk)
 * [Hanno Zulla](https://github.com/hzulla)
 * [Adrian Cheater](https://github.com/factoid)
-* [Luis Lloret](https://github.com/llloret/)
+
 
 Previous members: 
 
@@ -72,12 +72,12 @@ In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
-* [Sam Aaron](https://github.com/samaaron) (3865)
+* [Sam Aaron](https://github.com/samaaron) (3867)
 * [Joseph Wilk](https://github.com/josephwilk) (159)
 * [Ethan Crawford](https://github.com/ethancrawford) (136)
-* [Jeremy Weatherford](https://github.com/jweather) (127)
 * [Hanno Zulla](https://github.com/hzulla) (127)
-* [Xavier Riley](https://github.com/xavriley) (87)
+* [Jeremy Weatherford](https://github.com/jweather) (127)
+* [Xavier Riley](https://github.com/xavriley) (88)
 * [Adrian Cheater](https://github.com/factoid) (70)
 * [Martin Keegan](https://github.com/mk270) (47)
 * [Nicolas Dermine](https://github.com/nicoder) (35)
@@ -88,27 +88,27 @@ effort to help grow and improve the Sonic Pi code base:
 * [Jeroen Castelein](https://github.com/JeroennC) (6)
 * [Kenichi Kanai](https://github.com/kn1kn1) (5)
 * [Emlyn Corrin](https://github.com/emlyn) (5)
-* [Sebastien Rannou](https://github.com/aimxhaisse) (3)
-* [Chris Ford](https://github.com/ctford) (3)
 * [Petter Reinholdtsen](https://github.com/petterreinholdtsen) (3)
-* [Steve Traylen](https://github.com/traylenator) (3)
-* [Katie Miller](https://github.com/codemiller) (3)
-* [Mark Paton](https://github.com/frobby) (3)
 * [Mariano Guerra](https://github.com/marianoguerra) (3)
-* [Will Stephenson](https://github.com/wstephenson) (2)
-* [Daniel Canelhas](https://github.com/dcanelhas) (2)
-* [Phil Hagelberg](https://github.com/technomancy) (2)
-* [Bruce Adams](https://github.com/bruceadams) (2)
-* [Ben Nuttall](https://github.com/bennuttall) (2)
-* [Mistral Contrastin](https://github.com/madgen) (2)
-* [Scott Kitterman](https://github.com/kitterma) (2)
+* [Katie Miller](https://github.com/codemiller) (3)
+* [Chris Ford](https://github.com/ctford) (3)
+* [Steve Traylen](https://github.com/traylenator) (3)
+* [Mark Paton](https://github.com/frobby) (3)
+* [Sebastien Rannou](https://github.com/aimxhaisse) (3)
 * [Michael Henry](https://github.com/neoCrimeLabs) (2)
-* [Louis Pilfold](https://github.com/lpil) (2)
+* [Will Stephenson](https://github.com/wstephenson) (2)
 * [Franz Laügt](https://github.com/znarf94) (2)
+* [Phil Hagelberg](https://github.com/technomancy) (2)
+* [Daniel Canelhas](https://github.com/dcanelhas) (2)
+* [Bruce Adams](https://github.com/bruceadams) (2)
+* [Louis Pilfold](https://github.com/lpil) (2)
+* [Scott Kitterman](https://github.com/kitterma) (2)
+* [Mistral Contrastin](https://github.com/madgen) (2)
+* [Ben Nuttall](https://github.com/bennuttall) (2)
+* [Nigel Michki](https://github.com/nigeil) (1)
 * [Björn Ekström](https://github.com/bjornekstrom) (1)
+* [Brujo Rojas](https://github.com/brujo-rojas) (1)
 * [Christoph B. Wurzinger](https://github.com/chbw) (1)
-* [Jose Añasco](https://github.com/merongivian) (1)
-* [Sebastian Stahn](https://github.com/stahnirockt) (1)
 * [Adlai](https://github.com/adlai) (1)
 * [Alex McLean](https://github.com/yaxu) (1)
 * [Christian Perfect](https://github.com/christianp) (1)
@@ -126,7 +126,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Michał Lewandowski](https://github.com/mlevvy) (1)
 * [Morgan Owens](https://github.com/equiamos) (1)
 * [Neal McBurnett](https://github.com/nealmcb) (1)
-* [Nigel Michki](https://github.com/nigeil) (1)
+* [Jose Añasco](https://github.com/merongivian) (1)
 * [Pierre De Wilde](https://github.com/pierredewilde) (1)
 * [Piotr Jagielski](https://github.com/pjagielski) (1)
 * [Roland Schmid](https://github.com/Pr0gm4n) (1)
@@ -139,7 +139,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Tom den Braber](https://github.com/tomdenbraber) (1)
 * [Tomek Rabczak](https://github.com/tomekr) (1)
 * [Veith Roethlingshoefer](https://github.com/RunOrVeith) (1)
-* [Brujo Rojas](https://github.com/brujo-rojas) (1)
+* [Sebastian Stahn](https://github.com/stahnirockt) (1)
 * [Enrike Hurtado](https://github.com/enrike) (1)
 * [Linda van der Pal](https://github.com/lvdpal) (1)
 * [Paul Winstanley](https://github.com/sccmentor) (1)
@@ -147,6 +147,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Aspasia Beneti](https://github.com/aspasia) (1)
 
 ## Translation
+
 
 The following volunteers have generously helped to translated Sonic Pi
 into additional languages:
@@ -251,6 +252,7 @@ into additional languages:
 * Mateusz Bielec (1)
 * Tomasz Nurkiewicz (1)
 * Xavier Riley (1)
+
 
 ## Inspiration
 
