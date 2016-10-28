@@ -3542,6 +3542,8 @@ end",
 (scale :C, :purvi)
 (scale :C, :chinese)
 (scale :C, :lydian_minor)
+(scale :C, :blues_major)
+(scale :C, :blues_minor)
 "]
 
 
