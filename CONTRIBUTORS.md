@@ -59,6 +59,7 @@ Current members:
 * [Joseph Wilk](https://github.com/josephwilk)
 * [Hanno Zulla](https://github.com/hzulla)
 * [Adrian Cheater](https://github.com/factoid)
+* [Luis Lloret](https://github.com/llloret/)
 
 
 Previous members: 
@@ -170,7 +171,7 @@ into additional languages:
 * Ole Erik Yrvin (8)
 * Paulo Chiliguano (7)
 * Jan Lund (7)
-* berkin.1998 @ hotmail.com (7)
+* Berkin Kadiroğlu (7)
 * Oleksiy (6)
 * Mahmutcan İlhandağ (6)
 * Matthieu Ottaviani (6)
