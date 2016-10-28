@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-28 12:51+0000\n"
+"PO-Revision-Date: 2016-10-28 19:27+0000\n"
 "Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -14596,27 +14596,34 @@ msgid "Amplitude Modulation"
 msgstr "Modulazione d'ampiezza"
 
 #: A.14-amplitude-modulation.md:5
-#, fuzzy
 msgid ""
 "This month we're going to take a deep dive into one of Sonic Pi's most powerfu"
 "l and flexible audio FX - the `:slicer`. By the end of this article you will h"
 "ave learned how to manipulate the overall volume of parts of our live coded so"
 "und in powerful new ways. This will allow you to create new rhythmic and timbr"
 "al structures and broaden your sonic possibilities."
-msgstr "slicer"
+msgstr ""
+"Questo mese scopriremo tutti i segreti di uno degli effetti più potenti e "
+"flessibili di Sonic Pi: lo `:slicer`. Alla fine di questo articolo avrete "
+"imparato come manipolare il volume generale di alcune parti dei suoni "
+"programmati dal vivo. Questo vi permetterà di creare nuove strutture "
+"ritmiche e timbriche e di allargare le possibilità sonore."
 
 #: A.14-amplitude-modulation.md:12
 msgid "Slice that Amp"
-msgstr ""
+msgstr "Affetta quell'amp"
 
 #: A.14-amplitude-modulation.md:14
-#, fuzzy
 msgid ""
 "So, what does the `:slicer` FX actually do? One way to think about it is that "
 "it's just like having someone play around with the volume control on your TV o"
 "r home hi-fi. Let's take a look but first, listen to the deep growl of the fol"
 "lowing code which triggers the `:prophet` synth:"
-msgstr "`:prophet`"
+msgstr ""
+"Cosa fa esattamente l'effetto `:slicer`? Possiamo pensarlo come qualcuno che "
+"gioca con il controllo del volume della vostra TV o impianto hi-fi. Prima di "
+"approfondire il discorso, ascoltate il suono profondo del synth `:prophet` "
+"generato con questo codice:"
 
 #: A.14-amplitude-modulation.md:20
 #, no-wrap
@@ -14628,9 +14635,8 @@ msgstr ""
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
-#, fuzzy
 msgid "Now, let's pipe it through the `:slicer` FX:"
-msgstr "slicer"
+msgstr "Ora inseriamo l'effetto `:slicer`:"
 
 #: A.14-amplitude-modulation.md:27
 #, no-wrap
@@ -14682,14 +14688,14 @@ msgid ""
 msgstr "`:dsaw`"
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "Durata"
+msgstr ""
+"![Phase Durations](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
-#, fuzzy
 msgid ""
 "Phase duration is the length of time for one on/off cycle. Therefore smaller v"
 "alues will make the FX switch on and off much faster than larger values. Good "
@@ -14702,7 +14708,7 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:64
 msgid "Control Waves"
-msgstr ""
+msgstr "Onde di controllo"
 
 #: A.14-amplitude-modulation.md:66
 #, fuzzy
@@ -14750,11 +14756,12 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "Durata"
+msgstr ""
+"![Phase Durations](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
