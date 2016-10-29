@@ -1692,8 +1692,8 @@ end
           accepts_block:  false,
           doc:            "Given a list of numeric values, this method turns them into a string of bar heights and prints them out. Useful for quickly graphing the shape of an array.",
           examples:       [
-  "spark (range 1, 5))    #=> ▁▃▅█",
-  "spark (range 1, 5).shuffle) #=> ▃█▅▁"
+  "spark (range 1, 5)    #=> ▁▃▅█",
+  "spark (range 1, 5).shuffle #=> ▃█▅▁"
       ]
 
 
