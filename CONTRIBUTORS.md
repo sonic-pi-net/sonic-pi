@@ -289,3 +289,11 @@ her more than any computer. Also big thanks to conference organizers, in particu
 on the awesome Bath Ruby conferences and letting me rock out there not [once](https://youtu.be/Jp0VKD_7pmw?t=10m1s),
 but [twice](https://www.youtube.com/watch?v=L06FlSoiBi4). Lastly I'd like to thank Scott Wilson for teaching me
 some programming as part of a music degree, and my good friend David Bamber for helping me get started as a programmer.
+
+Adrian Cheater dedicates this space in loving memory of his mother, Katherine Cheater, who
+shared her passion for music and performance while making available all the tools I needed
+to explore technology she didn't understand. She was renowned for her patience and sincere
+encouragement of all her piano students, and helped me to understand that failure is
+common and natural, and that effort eventually overcomes all obstacles. Her influence
+carries me in my all my live coding adventures, and I hope these words help you to
+persevere in yours.
