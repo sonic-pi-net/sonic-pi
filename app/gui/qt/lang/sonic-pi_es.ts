@@ -459,7 +459,7 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar la visibilidad de los ejes para los osciloscopios de audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -474,17 +474,17 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aumentar tamaño</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Disminuir tamaño</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar la visibilidad de los osciloscopios de audio </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3158"/>
@@ -501,42 +501,42 @@ Obtén Sonic Pi % 1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volumen Maestro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa este deslizador para cambiar el volumen del sistema.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="989"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Salida de audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar y ocultar Scope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1194"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipos de Scope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar Scopes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar la visibilidad de los osciloscopios de audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1212"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar ejes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1216"/>
@@ -546,12 +546,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">El osciloscopio de audio trae tres variantes que pueden 
+ser vistas independientemente o en conjunto.
+
+Lissajous - ilustra la relación de fase entre los canales izquierdo y derecho
+Mono - muestra una vista combinada de los canales izquierdo y derecho (usando RMS)
+Stereo - muestra dos visores independientes para los canales izquierdo y derecho</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Visuales</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -794,12 +799,12 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar la visibilidad del panel de ayuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2650"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar la visibilidad del panel de preferencias</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
