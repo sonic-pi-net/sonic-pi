@@ -106,12 +106,12 @@ fuertes o incómodos.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Modo pantalla completa activado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Modo pantalla completa desactivado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -136,7 +136,7 @@ fuertes o incómodos.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Salida de Audio de Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -144,12 +144,15 @@ fuertes o incómodos.</translation>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tu Raspberry Pi tiene dos maneras de emitir sonido.
+En primer lugar, el conector de audífonos del mismo Raspberry Pi.
+En segundo lugar, algunos monitores/televisores HDMI pueden recibir audio por el puerto HDMI.
+Usa estos botones para forzar la salida de audio a aquella que desees.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Por &amp;defecto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
@@ -248,7 +251,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Cuando está habilitado, Sonic Pi permitirá
 a los sintetizadores y efectos cargados a través de load_synthdefs
 ser iniciados.
@@ -969,7 +972,7 @@ cada 2 semanas.</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>¿Hay otra instancia de Sonic Pi ejecutándose? No se puede abrir el puerto UDP 4558.</translation>
     </message>
 </context>
