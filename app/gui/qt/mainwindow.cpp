@@ -2275,6 +2275,11 @@ void MainWindow::updateDarkMode(){
     "  background-color: %1;"
     "}").arg(paneColor);
 
+  QString labelStyling = QString(
+    "QLabel{"
+    "  border: none;"
+    "}");
+
   this->setStyleSheet(buttonStyling +
                       splitterStyling +
                       toolTipStyling +
@@ -2283,7 +2288,8 @@ void MainWindow::updateDarkMode(){
                       sliderStyling +
                       menuStyling +
                       windowStyling +
-                      widgetTitleStyling);
+                      widgetTitleStyling +
+                      labelStyling);
 
 
   statusBar()->setStyleSheet( QString(
