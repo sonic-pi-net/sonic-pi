@@ -4414,7 +4414,11 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           begin
             onsets = sample_buffer(path).onset_slices
           rescue Exception => e
-            raise "Unable to find onset for sample with path #{path}:\n#{e.message}\n#{e.backtrace}"
+            if (os == :windows) && sample_buffer(path).sample_rate != 44100
+              raise "Sorry, on Windows, onset detection only currently works with audio files that have a sample rate of 44100. Your sample has a rate of: #{sample_buffer(path).sample_rate}"
+            else
+              raise "Unable to find onset for sample with path #{path}:\n#{e.message}\n#{e.backtrace}"
+            end
           end
 
           if onset_idx.is_a? Numeric
