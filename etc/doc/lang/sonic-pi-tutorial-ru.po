@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-08-29 13:31+0000\n"
-"Last-Translator: ArtyomIsFlash <artyomisflash@mail.ru>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"ru/>\n"
+"PO-Revision-Date: 2016-10-29 09:21+0000\n"
+"Last-Translator: Deca <decard@xakep.ru>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4"
-" && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -38,7 +38,6 @@ msgstr ""
 "сего прочего."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
-#, fuzzy
 msgid ""
 "But wait, how rude of me! Let me introduce myself - I'm [Sam Aaron](http://twi"
 "tter.com/samaaron) - the chap that created Sonic Pi. You can find me at [@sama"
@@ -47,13 +46,14 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Постойте, как же я мог быть таким невоспитанным! Позвольте мне представиться -"
-" я [Sam Aaron](http://twitter.com/samaaron) - тот самый парень, который создал"
-" Sonic Pi. Меня можно найти по имени [@samaaron](http://twitter.com/samaaron) "
-"в Твиттере, и я был бы очень счастлив обменяться там с вами приветствиями. Вам"
-", возможно, также было бы интересно узнать о моих [лайв-кодинг выступлениях](h"
-"ttp://facebook.com/livecodersamaaron), где я сам пишу на Sonic Pi перед зрител"
-"ями."
+"Постойте, как же я мог быть таким невоспитанным! Позвольте мне представиться "
+"- я [Sam Aaron](http://twitter.com/samaaron) - тот самый парень, который "
+"создал Sonic Pi. Меня можно найти по имени "
+"[@samaaron](http://twitter.com/samaaron) в Твиттере, и я был бы очень "
+"счастлив обменяться там с вами приветствиями. Вам, возможно, также было бы "
+"интересно узнать больше о моих [лайв-кодинг "
+"выступлениях](http://facebook.com/livecodersamaaron), где я сам пишу на "
+"Sonic Pi перед зрителями."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -289,13 +289,12 @@ msgstr ""
 " кругу с разными темпами"
 
 #: 01.1-Live-Coding.md:83
-#, fuzzy
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Попробуйте раскомментировать строку с `sample` (уберите знак `#`) и наслаждайт"
-"есь звуками гитары на заднем плане"
+"Попробуйте раскомментировать строку примера (удалите знак `#`) и "
+"наслаждайтесь звуками гитары на заднем плане."
 
 #: 01.1-Live-Coding.md:85
 #, fuzzy
@@ -352,18 +351,17 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:111
-#, fuzzy
 msgid ""
 "Now, keep playing and experimenting until your curiosity about how this all ac"
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"Продолжайте играть и экспериментировать до тех пор, пока вам не станет любопыт"
-"но, как это на самом деле работает, и вы не начнёте думать, что ещё можно сдел"
-"ать. Тогда вы будете готовы к чтению оставшейся части этого учебника."
+"Продолжайте играть и экспериментировать до тех пор, пока вам не станет "
+"любопытно, как это на самом деле работает, и вы не начнёте думать, что ещё "
+"можно сделать. Тогда вы будете готовы к чтению оставшейся части этого "
+"учебника."
 
 #: 01.1-Live-Coding.md:115
-#, fuzzy
 msgid "So what are you waiting for..."
 msgstr "Так чего же вы ждёте..."
 
@@ -372,21 +370,18 @@ msgid "1.2 Exploring the Interface"
 msgstr "1.2 Обзор интерфейса"
 
 #: 01.2-Exploring-the-Interface.md:3
-#, fuzzy
 msgid "The Sonic Pi Interface"
 msgstr "Интерфейс Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
-"У Sonic Pi очень простой интерфейс для кодирования музыки. Мы потратим совсем "
-"немного времени на его изучение."
+"У Sonic Pi очень простой интерфейс для кодирования музыки. Мы потратим "
+"совсем немного времени на его изучение."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 msgstr "![Интерфейс Sonic Pi](../images/tutorial/GUI.png)"
 
