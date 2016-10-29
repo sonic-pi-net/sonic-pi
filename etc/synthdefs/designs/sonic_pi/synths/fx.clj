@@ -332,7 +332,7 @@
  (core/def-fx sonic-pi-fx_level
    []
    [wet-l dry-l
-    wet-r dry-l])
+    wet-r dry-r])
 
 
  (core/def-fx sonic-pi-fx_echo
