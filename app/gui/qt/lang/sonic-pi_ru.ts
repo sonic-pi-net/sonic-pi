@@ -115,7 +115,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="998"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудиовыход Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -123,22 +123,25 @@ create unexpectedly loud or uncomfortable sounds.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>У твоего Raspberry Pi есть два разъёма для вывода звука.
+Во-первых, есть разъём для наушников.
+Во-вторых, некоторые HDMI мониторы/телевизоры поддерживают вывод звука через HDMI разъём.
+Используй эти кнопки для вывода звука на нужный разъём.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Стандарт</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Наушники</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1003"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1029"/>
@@ -363,17 +366,17 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить/выключить видимость осей для аудио осциллографов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Увеличить</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Уменьшить</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2635"/>
@@ -398,17 +401,17 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Общая громкость</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="987"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Используй этот ползунок для изменения системной громкости.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="989"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудиовыход</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="991"/>
@@ -483,27 +486,27 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать и спрятать осциллограф</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1194"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Виды осциллографов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать осциллографы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить/выключить видимость аудио осциллографов.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1212"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать оси</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1216"/>
@@ -513,12 +516,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Звуковой осциллограф бывает трех видов, которые могут
+быть просмотрены независимо или вместе:
+
+Лиссажу - показывает отношение фаз между правым и левым каналами
+Моно - показывает объединённый вид правого и левого каналов (используя RMS)
+Стерео - показывает две независимых области для левого и правого каналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображение</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -776,12 +784,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить/Выключить панель помощи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2650"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать или спрятать панель настроек</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
@@ -791,7 +799,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Показать или спрятать аудио осциллографы. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
