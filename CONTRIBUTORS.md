@@ -295,5 +295,5 @@ shared her passion for music and performance while making available all the tool
 to explore technology she didn't understand. She was renowned for her patience and sincere
 encouragement of all her piano students, and helped me to understand that failure is
 common and natural, and that effort eventually overcomes all obstacles. Her influence
-carries me in my all my live coding adventures, and I hope these words help you to
+carries me in all my live coding adventures, and I hope these words help you to
 persevere in yours.
