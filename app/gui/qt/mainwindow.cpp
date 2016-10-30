@@ -147,6 +147,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/init-script.rb");
   exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/exit-script.rb");
 
+  qt_app_theme_path     = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/app.qss");
+
+  qt_browser_dark_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/dark/doc-styles.css");
+  qt_browser_light_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/light/doc-styles.css");
 
   QFile tmpFile(sp_user_tmp_path);
   if (!tmpFile.open(QIODevice::WriteOnly)) {
@@ -171,8 +175,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   this->i18n = i18n;
   guiID = QUuid::createUuid().toString();
   QSettings settings("sonic-pi.net", "gui-settings");
-  defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
-
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
   app.installEventFilter(this);
@@ -302,6 +304,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
+
+  // The implementation of this method is dynamically generated and can
+  // be found in ruby_help.h:
   initDocsWindow();
 
   //setup autocompletion
@@ -352,7 +357,6 @@ if(settings.value("first_time", 1).toInt() == 1) {
     addUniversalCopyShortcuts(startupPane);
     startupPane->document()->setDefaultStyleSheet(readFile(":/theme/light/doc-styles.css"));
     startupPane->setSource(QUrl("qrc:///html/startup.html"));
-    startupPane->setStyleSheet(defaultTextBrowserStyle);
     docWidget->show();
     startupPane->show();
   }
@@ -561,7 +565,6 @@ void MainWindow::setupWindowStructure() {
   // hudPane = new QTextBrowser;
   // hudPane->setMinimumHeight(130);
   // hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
-  // hudPane->setStyleSheet(defaultTextBrowserStyle);
   // hudWidget = new QDockWidget(this);
   // hudWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   // hudWidget->setAllowedAreas(Qt::RightDockWidgetArea);
@@ -616,7 +619,6 @@ void MainWindow::setupWindowStructure() {
   docPane->setSizePolicy(policy);
   docPane->setMinimumHeight(200);
   docPane->setOpenExternalLinks(true);
-  docPane->setStyleSheet(defaultTextBrowserStyle);
 
   QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
   up->setContext(Qt::WidgetShortcut);
@@ -1985,9 +1987,20 @@ void MainWindow::updateLogAutoScroll() {
 void MainWindow::updateDarkMode(){
   SonicPiTheme *currentTheme = lexer->theme;
 
+  // switch themes
+  if(dark_mode->isChecked()){
+    currentTheme->darkMode();
+  } else {
+    currentTheme->lightMode();
+  }
 
-
-  QString css = readFile(QString(":/theme/%1/doc-styles.css").arg(dark_mode->isChecked() ? "dark" : "light"));
+  //Set css stylesheet for browser-like HTML widgets
+  QString css = "";
+  if(dark_mode->isChecked()) {
+    css = readFile(qt_browser_dark_css);
+  } else {
+    css = readFile(qt_browser_light_css);
+  }
   docPane->document()->setDefaultStyleSheet(css);
   docPane->reload();
   foreach(QTextBrowser* pane, infoPanes) {
@@ -1995,13 +2008,6 @@ void MainWindow::updateDarkMode(){
     pane->reload();
   }
   errorPane->document()->setDefaultStyleSheet(css);
-
-  // switch themes
-  if(dark_mode->isChecked()){
-    currentTheme->darkMode();
-  } else {
-    currentTheme->lightMode();
-  }
 
   // clear stylesheets
   this->setStyleSheet("");
@@ -2017,8 +2023,6 @@ void MainWindow::updateDarkMode(){
   docWidget->setStyleSheet("");
   toolBar->setStyleSheet("");
   scopeWidget->setStyleSheet("");
-
-  docPane->setStyleSheet(defaultTextBrowserStyle);
 
   QPalette p = QApplication::palette();
   p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
@@ -2080,312 +2084,45 @@ void MainWindow::updateDarkMode(){
   QString selectionBackgroundColor = currentTheme->color("SelectionBackground").name();
   QString errorBackgroundColor = currentTheme->color("ErrorBackground").name();
 
-
-  QString buttonStyling = QString(
-    "QPushButton{"
-    "  background-color: %1;"
-    "  color: %5;"
-    "  padding: 5px;"
-    "  border-radius: 3px;"
-    "  border-color: %2;"
-    "  border-width: 2px;"
-    "}"
-    "QPushButton::pressed{"
-    "  background-color: %3;"
-    "  color: %4;"
-    "}").arg( buttonColor, buttonBorderColor, pressedButtonColor, pressedButtonTextColor, buttonTextColor );
-
-
-  QString splitterStyling = QString(
-    "QSplitter::handle:vertical{"
-    "  height: 6px;"
-    "  image: url(images/vsplitter.png);"
-    "}"
-    ""
-    "QSplitter::handle:horizontal {"
-    "  width: 6px;"
-    "  image: url(images/hsplitter.png);"
-    "}");
+  QString appStyling = readFile(qt_app_theme_path);
 
 
 
-  QString scrollStyling = QString(
-    "QScrollBar:horizontal {"
-    "border: 2px %1;"
-    "background: %1;"
-    "height: 15px;"
-    "margin: 0px 20px 0 20px;"
-    "}"
-    "QScrollBar::handle:horizontal {"
-    "background: %2;"
-    "min-width: 20px;"
-    "border: 2px solid %3;"
-    "}"
-    "QScrollBar::add-line:horizontal {"
-    "border: 2px %1;"
-    "background: %1;"
-    "width: 20px;"
-    "subcontrol-position: right;"
-    "subcontrol-origin: margin;"
-    "}"
-    ""
-    "QScrollBar::sub-line:horizontal {"
-    "border: 2px %1;"
-    "background: %1;"
-    "width: 20px;"
+  appStyling
+    .replace("windowColor", windowColor)
+    .replace("windowForegroundColor", windowForegroundColor)
+    .replace("paneColor", paneColor)
+    .replace("logForegroundColor", logForegroundColor)
+    .replace("logBackgroundColor", logBackgroundColor)
+    .replace("windowBorderColor", windowBorderColor)
+    .replace("windowInternalBorderColor", windowInternalBorderColor)
+    .replace("buttonColor", buttonColor)
+    .replace("buttonBorderColor", buttonBorderColor)
+    .replace("buttonTextColor", buttonTextColor)
+    .replace("pressedButtonColor", pressedButtonColor)
+    .replace("pressedButtonTextColor", pressedButtonTextColor)
+    .replace("scrollBarColor", scrollBarColor)
+    .replace("scrollBarBackgroundColor", scrollBarBackgroundColor)
+    .replace("tabColor", tabColor)
+    .replace("tabTextColor", tabTextColor)
+    .replace("tabSelectedColor", tabSelectedColor)
+    .replace("tabSelectedTextColor", tabSelectedTextColor)
+    .replace("toolTipTextColor", toolTipTextColor)
+    .replace("toolTipBaseColor", toolTipBaseColor)
+    .replace("statusBarColor", statusBarColor)
+    .replace("statusBarTextColor", statusBarTextColor)
+    .replace("sliderColor", sliderColor)
+    .replace("sliderBackgroundColor", sliderBackgroundColor)
+    .replace("menuColor", menuColor)
+    .replace("menuTextColor", menuTextColor)
+    .replace("menuSelectedColor", menuSelectedColor)
+    .replace("menuSelectedTextColor", menuSelectedTextColor)
+    .replace("selectionForegroundColor", selectionForegroundColor)
+    .replace("selectionBackgroundColor", selectionBackgroundColor)
+    .replace("errorBackgroundColor", errorBackgroundColor);
 
-    "subcontrol-position: left;"
-    "subcontrol-origin: margin;"
-    "}"
-
-    "QScrollBar:vertical {"
-    "border: 2px %1;"
-    "background: %1;"
-
-    "width: 15px;"
-    "margin: 22px 0 22px 0;"
-    "}"
-
-    "QScrollBar::handle:vertical {"
-    "background: %2;"
-
-    "min-height: 30px;"
-    "border: 2px solid %3;"
-    "}"
-    "QScrollBar::add-line:vertical {"
-    "background: none;"
-    "border: none;"
-    "height: 20px;"
-    "subcontrol-position: bottom;"
-    "subcontrol-origin: margin;"
-    "}"
-    "QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {"
-    "width: 3px;"
-    "height: 3px;"
-    "background: none;"
-    "border: none;"
-    "}"
-    ""
-    "QScrollBar::sub-line:vertical {"
-    "background: none;"
-    "border: none;"
-    "height: 20px;"
-    "subcontrol-position: top;"
-    "subcontrol-origin: margin;"
-    "}").arg(scrollBarBackgroundColor, scrollBarColor, paneColor);
-
-
-  QString tabStyling = QString(
-    "QTabBar::tab{"
-    "  background: %1;"
-    "  color: %2;"
-    "}"
-    ""
-    "QTabBar::tab:selected{"
-    "  background: %3;"
-    "  color: %4"
-    "}"
-    ""
-    "QTabWidget::tab-bar{"
-    "  alignment: center;"
-    "}"
-    ""
-    "QTabWidget::pane{"
-    "  border: 0px;"
-    "}").arg(tabColor, tabTextColor, tabSelectedColor, tabSelectedTextColor);
-
-
-  QString widgetTitleStyling = QString(
-    "QDockWidget::title{"
-    "  color: %3;"
-    "  border-bottom: 1px solid %2;"
-    "  text-align: center;"
-    "  background: %1;"
-    "  font-size 10px;"
-    "}"
-    ""
-    "QDockWidget{"
-    "  font-size:10px;"
-    "}").arg(windowColor, windowBorderColor, windowForegroundColor);
-
-
-  QString toolTipStyling = QString(
-    "QToolTip {"
-    "  color: %1;"
-    "  background-color: %2;"
-    "  border: 0px;"
-    "}").arg(toolTipTextColor, toolTipBaseColor);
-
-
-  QString toolButtonStyling = QString(
-    "QToolButton:hover{"
-    "  background: transparent;"
-    "}");
-
-
-  QString sliderStyling = QString(
-    "QSlider::groove:vertical{"
-    "  margin: 2px 0;"
-    "  background: %2;"
-    "  border-radius: 3px;"
-    "}"
-    ""
-    "QSlider::handle:vertical {"
-    "  border: 1px solid %1;"
-    "  border-radius: 3px;"
-    "  height: 30px;"
-    "  background-color: %1;"
-    "}").arg(sliderColor, sliderBackgroundColor);
-
-
-  QString menuStyling = QString(
-    "QMenu{"
-    "  background: %1;"
-    "  color: %2;"
-    "}"
-    ""
-    "QMenu:selected{"
-    "  background: %3;"
-    "  color: %4"
-    "}").arg(menuColor, menuTextColor, menuSelectedColor, menuSelectedTextColor);
-
-
-  QString windowStyling = QString(
-    "QMainWindow::separator{"
-    "  border: 1px solid %1;"
-    "}"
-    ""
-    "QMainWindow{"
-    "  background-color: %1;"
-    "  color: %2;"
-    "}").arg(windowBorderColor, windowColor);
-
-
-  QString frameStyling = QString(
-    "QFrame {"
-    "  border: 2px solid %1;"
-    "}").arg(paneColor);
-
-
-  QString qwtplotStyling = QString(
-    "QwtPlot{"
-    "  background-color: %1;"
-    "}"
-    "QwtPlotGLCanvas{"
-    "  background-color: %1;"
-    "}").arg(paneColor);
-
-  QString labelStyling = QString(
-    "QLabel{"
-    "  border: none;"
-    "}");
-
-  this->setStyleSheet(buttonStyling +
-                      splitterStyling +
-                      toolTipStyling +
-                      scrollStyling +
-                      toolButtonStyling +
-                      sliderStyling +
-                      menuStyling +
-                      windowStyling +
-                      widgetTitleStyling +
-                      labelStyling);
-
-
-  statusBar()->setStyleSheet( QString(
-    "QStatusBar{"
-    "  background-color: %1;"
-    "  color: %2;"
-    "}").arg(statusBarColor, statusBarTextColor));
-
-
-  // Colour log messages as info by default
-  outputPane->setStyleSheet( QString(
-    "QPlainTextEdit{"
-    "  background-color: %1;"
-    "  color: %2;"
-    "  border: 0px;"
-    "}").arg(logBackgroundColor, logForegroundColor));
-
-  outputWidget->setStyleSheet(widgetTitleStyling);
-
-
-  prefsWidget->setStyleSheet( QString(widgetTitleStyling + buttonStyling + QString(
-    "QGroupBox:title{"
-    "  subcontrol-origin: margin;"
-    "  top:0px;"
-    "  padding: 0px 0 20px 5px;"
-    "  font-size: 11px;"
-    "  color: %1;"
-    "  background-color: %2;"
-    "}"
-    ""
-    "QCheckBox:hover{"
-    "  color: %1;"
-    "  background: %2;"
-    "}"
-    ""
-    "QCheckBox{"
-    "  color: %1;"
-    "  background: %2;"
-    "}"
-    ""
-    "QRadioButton{"
-    "  color: %1;"
-    "  background: %2;"
-    "}"
-    ""
-    "QGroupBox QFrame {"
-    "  background: %2;"
-    "}"
-    "QGroupBox{"
-    "  padding: 0 0 0 0;"
-    "  subcontrol-origin: margin;"
-    "  margin-top: 15px;"
-    "  margin-bottom: 0px;"
-    "  font-size: 11px;"
-    "  background-color: %2;"
-    "  border: 1px solid %3;"
-    "  color: %1;"
-    "}").arg(windowForegroundColor, windowColor, windowInternalBorderColor)));
-
-  tabs->setStyleSheet(tabStyling);
-  prefTabs->setStyleSheet(tabStyling);
-  docsCentral->setStyleSheet(tabStyling);
-
-  docWidget->setStyleSheet( QString(widgetTitleStyling + QString(
-    "QDockWidget QListView {"
-    "  color: %2;"
-    "  background: %1;"
-    "  selection-color: %3;"
-    "  selection-background-color: %4;"
-    "}").arg(paneColor, windowForegroundColor, selectionForegroundColor, selectionBackgroundColor)));
-
-
-  docPane->setStyleSheet( QString(
-    "QTextBrowser {"
-    "  selection-color: %2;"
-    "  selection-background-color: %3;"
-    "  padding-left: 10;"
-    "  padding-top: 10;"
-    "  padding-bottom: 10;"
-    "  padding-right: 10;"
-    "  background: %1"
-    "}").arg(paneColor, selectionForegroundColor, selectionBackgroundColor));
-
-
-  infoWidg->setStyleSheet( QString(scrollStyling + tabStyling + QString(
-    "QTextEdit{"
-    "  background-color: %1;"
-    "}").arg(paneColor)));
-
-
-  toolBar->setStyleSheet( QString(
-    "QToolBar{"
-    "  background-color: %1;"
-    "  border-bottom: 1px solid %2;"
-    "}").arg(windowColor,windowBorderColor));
-
+  this->setStyleSheet(appStyling);
+  infoWidg->setStyleSheet(appStyling);
 
   errorPane->setStyleSheet( QString(
     "QTextEdit{"
@@ -2396,7 +2133,6 @@ void MainWindow::updateDarkMode(){
     "  background-color: %2"
     "}").arg(paneColor, errorBackgroundColor));
 
-  scopeWidget->setStyleSheet( QString(frameStyling + qwtplotStyling));
   scopeInterface->refresh();
   scopeWidget->update();
 
@@ -2406,13 +2142,7 @@ void MainWindow::updateDarkMode(){
   }
 
   foreach(QTextBrowser* pane, infoPanes) {
-    pane->setStyleSheet(QString(scrollStyling +
-      "QTextBrowser{"
-      "  padding-left: 10;"
-      "  padding-top: 10;"
-      "  padding-bottom: 10;"
-      "  padding-right: 10;"
-      "}"));
+    pane->setStyleSheet(appStyling);
   }
 
 

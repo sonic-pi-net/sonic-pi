@@ -1,0 +1,297 @@
+/*
+Available Style Colours:
+
+- windowColor
+- windowForegroundColor
+- paneColor
+- logForegroundColor
+- logBackgroundColor
+- windowBorderColor
+- windowInternalBorderColor
+- buttonColor
+- buttonBorderColor
+- buttonTextColor
+- pressedButtonColor
+- pressedButtonTextColor
+- scrollBarColor
+- scrollBarBackgroundColor
+- tabColor
+- tabTextColor
+- tabSelectedColor
+- tabSelectedTextColor
+- toolTipTextColor
+- toolTipBaseColor
+- statusBarColor
+- statusBarTextColor
+- sliderColor
+- sliderBackgroundColor
+- menuColor
+- menuTextColor
+- menuSelectedColor
+- menuSelectedTextColor
+- selectionForegroundColor
+- selectionBackgroundColor
+- errorBackgroundColor
+*/
+
+QFrame {
+    border: none;
+}
+
+QLabel{
+    border: none;
+    /* border: 1px solid green; */
+}
+
+
+QPushButton{
+    background-color: buttonColor;
+    color: buttonTextColor;
+    padding: 5px;
+    border-radius: 3px;
+    border-color: buttonBorderColor;
+    border-width: 2px;
+}
+
+QPushButton::pressed{
+    background-color: pressedButtonColor;
+    color: pressedButtonTextColor;
+}
+
+
+QSplitter::handle:vertical{
+    height: 6px;
+    image: url(images/vsplitter.png);
+}
+
+QSplitter::handle:horizontal {
+    width: 6px;
+    image: url(images/hsplitter.png);
+}
+
+
+
+QScrollBar:horizontal {
+    border: 2px scrollBarBackgroundColor;
+    background: scrollBarBackgroundColor;
+    height: 15px;
+    margin: 0px 20px 0 20px;
+}
+QScrollBar::handle:horizontal {
+    background: scrollBarColor;
+    min-width: 20px;
+    border: 2px solid paneColor;
+}
+QScrollBar::add-line:horizontal {
+    border: 2px scrollBarBackgroundColor;
+    background: scrollBarBackgroundColor;
+    width: 20px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+    border: 2px scrollBarBackgroundColor;
+    background: scrollBarBackgroundColor;
+    width: 20px;
+
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+QScrollBar:vertical {
+    border: 2px scrollBarBackgroundColor;
+    background: scrollBarBackgroundColor;
+
+    width: 15px;
+    margin: 22px 0 22px 0;
+}
+
+QScrollBar::handle:vertical {
+    background: scrollBarColor;
+
+    min-height: 30px;
+    border: 2px solid paneColor;
+}
+QScrollBar::add-line:vertical {
+    background: none;
+    border: none;
+    height: 20px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+    width: 3px;
+    height: 3px;
+    background: none;
+    border: none;
+}
+
+QScrollBar::sub-line:vertical {
+    background: none;
+    border: none;
+    height: 20px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QTabBar::tab{
+    background: tabColor;
+    color: tabTextColor;
+}
+
+QTabBar::tab:selected{
+    background: tabSelectedColor;
+    color: tabSelectedTextColor;
+}
+
+QTabWidget::tab-bar{
+    alignment: center;
+}
+
+QTabWidget::pane{
+    border: 0px;
+}
+
+QDockWidget::title{
+    color: windowForegroundColor;
+    border-bottom: 1px solid windowBorderColor;
+    text-align: center;
+    background: windowColor;
+    font-size 10px;
+}
+
+QDockWidget{
+    font-size:10px;
+}
+
+QToolTip {
+    color: toolTipTextColor;
+    background-color: toolTipBaseColor;
+    border: 0px;
+}
+
+QToolButton:hover{
+    background: transparent;
+}
+
+QSlider::groove:vertical{
+    margin: 2px 0;
+    background: sliderBackgroundColor;
+    border-radius: 3px;
+}
+
+QSlider::handle:vertical {
+    border: 1px solid sliderColor;
+    border-radius: 3px;
+    height: 30px;
+    background-color: sliderColor;
+}
+
+QMenu{
+    background: menuColor;
+    color: menuTextColor;
+}
+
+QMenu:selected{
+    background: menuSelectedColor;
+    color: menuSelectedTextColor;
+}
+
+QMainWindow::separator{
+    border: 1px solid windowBorderColor;
+}
+
+QMainWindow{
+    background-color: windowBorderColor;
+    color: windowColor;
+}
+
+
+
+QwtPlot{
+    background-color: paneColor;
+}
+
+QwtPlotGLCanvas{
+    background-color: paneColor;
+}
+
+QStatusBar{
+    background-color: statusBarColor;
+    color: statusBarTextColor;
+}
+
+QPlainTextEdit{
+    background-color: logBackgroundColor;
+    color: logForegroundColor;
+    border: 0px;
+}
+
+
+QGroupBox:title{
+    subcontrol-origin: margin;
+    top:0px;
+    padding: 0px 0 20px 5px;
+    font-size: 11px;
+    color: windowForegroundColor;
+    background-color: windowColor;
+}
+
+QCheckBox:hover{
+    color: windowForegroundColor;
+    background: windowColor;
+}
+
+QCheckBox{
+    color: windowForegroundColor;
+    background: windowColor;
+}
+
+QRadioButton{
+    color: windowForegroundColor;
+    background: windowColor;
+}
+
+QGroupBox QFrame {
+    background: windowColor;
+}
+
+QGroupBox{
+    padding: 0 0 0 0;
+    subcontrol-origin: margin;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    font-size: 11px;
+    background-color: windowColor;
+    border: 1px solid windowInternalBorderColor;
+    color: windowForegroundColor;
+}
+
+
+QDockWidget QListView {
+    color: windowForegroundColor;
+    background: paneColor;
+    selection-color: selectionForegroundColor;
+    /* selection-color: blue; */
+    selection-background-color: selectionBackgroundColor;
+}
+
+
+
+QTextBrowser {
+    selection-color: selectionForegroundColor;
+    selection-background-color: selectionBackgroundColor;
+
+    padding: 20;
+    background-color: paneColor;
+}
+
+
+
+
+
+QToolBar{
+    background-color: windowColor;
+    border-bottom: 1px solid windowBorderColor;
+}
