@@ -68,7 +68,7 @@ Previous members:
 
 
 ## Developer Contributions
-
+ 
 In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
@@ -172,7 +172,7 @@ into additional languages:
 * Paulo Chiliguano (7)
 * Jan Lund (7)
 * Berkin Kadiroğlu (7)
-* Oleksiy (6)
+* Олексій Овдієнко (6)
 * Mahmutcan İlhandağ (6)
 * Matthieu Ottaviani (6)
 * Keiko Machiya (6)
@@ -223,7 +223,7 @@ into additional languages:
 * Sugahara Masayuki (1)
 * Eugene Kovalev (1)
 * Andras Nemeth (1)
-* beeisabelm (1)
+* Huiting Milewski (1)
 * Feodor Aleksandrov (1)
 * Ingrid Yrvin (1)
 * Jesper Juellund Jensen (1)
