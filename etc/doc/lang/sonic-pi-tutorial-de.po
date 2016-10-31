@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-31 15:51+0000\n"
+"PO-Revision-Date: 2016-10-31 16:00+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -9141,43 +9141,37 @@ msgid "Algorave"
 msgstr "Algorave"
 
 #: 10.4-Performing.md:36
-#, fuzzy
 msgid ""
 "Another great resource for exploring the live coding world is [Algorave](http:"
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
 msgstr ""
-"Einige Live-Coder spielen auch in Nightclubs. Mehr über dieses spezielle Genre"
-" erfährst Du auf [Algorave](http://algorave.com)."
+"Einige Live-Coder spielen auch in Nightclubs. Mehr über dieses spezielle "
+"Genre erfährst Du auf [Algorave](http://algorave.com)."
 
 #: 11-Minecraft-Pi.md:1
-#, fuzzy
 msgid "11 Minecraft Pi"
 msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
-#, fuzzy
 msgid "Minecraft Pi"
 msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi now supports a simple API for interacting with Minecraft Pi - the spe"
 "cial edition of Minecraft which is installed by default on the Raspberry Pi's "
 "Raspbian Linux-based operating system."
 msgstr ""
-"Raspbian, das Linux-Betriebssystem für Raspberry Pi, bringt eine spezielle Ver"
-"sion von Minecraft als Teil der Vorinstallation mit. Und mit Sonic Pi kannst D"
-"u über eine einfache API jetzt auch Minecraft Pi steuern."
+"Raspbian, das Linux-Betriebssystem für Raspberry Pi, bringt eine spezielle "
+"Version von Minecraft als Teil der Vorinstallation mit. Und mit Sonic Pi "
+"kannst Du über eine einfache API jetzt auch Minecraft Pi steuern."
 
 #: 11-Minecraft-Pi.md:9
-#, fuzzy
 msgid "No need to import libraries"
 msgstr "Keine Bibliotheken notwendig"
 
 #: 11-Minecraft-Pi.md:11
-#, fuzzy
 msgid ""
 "The Minecraft Pi integration has been designed to be insanely easy to use. All"
 " you need to do is to launch Minecraft Pi and create a world. You're then free"
@@ -9185,19 +9179,18 @@ msgid ""
 "need to import anything or install any libraries - it's all ready to go and wo"
 "rks out of the box."
 msgstr ""
-"Die Verbindung zwischen Minecraft Pi und Sonic Pi ist so einfach zu nutzen, da"
-"ss Du nichts dafür vorbereiten musst. Starte einfach Minecraft Pi und baue ein"
-"e Welt. Du kannst sofort die `mc_*`-Funktionen in Deinem Code genau wie `play`"
-" oder `synth` einsetzen. Es gibt nichts zu installieren und keine Bibliotheken"
-" zu importieren - alles ist fix und fertig und sofort startklar für Dich."
+"Die Verbindung zwischen Minecraft Pi und Sonic Pi ist so einfach zu nutzen, "
+"dass Du nichts dafür vorbereiten musst. Starte einfach Minecraft Pi und baue "
+"eine Welt. Du kannst sofort die `mc_*`-Funktionen in Deinem Code genau wie "
+"`play` oder `synth` einsetzen. Es gibt nichts zu installieren und keine "
+"Bibliotheken zu importieren - alles ist fix und fertig und sofort startklar "
+"für Dich."
 
 #: 11-Minecraft-Pi.md:17
-#, fuzzy
 msgid "Automatic Connection"
 msgstr "Automatische Verbindung"
 
 #: 11-Minecraft-Pi.md:19
-#, fuzzy
 msgid ""
 "The Minecraft Pi API takes care of managing your connection to the Minecraft P"
 "i application. This means you don't need to worry about a thing. If you try an"
@@ -9207,14 +9200,14 @@ msgid ""
 "that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
 "Pi will automatically detect and re-create the connection for you."
 msgstr ""
-"Die Minecraft-Pi-API kümmert sich automatisch um die Verbindung zur laufenden "
-"Minecraft-Pi-Applikation. Du musst also nichts dafür tun. Sonic Pi wird sich a"
-"llerdings freundlich beschweren, wenn Du die API benutzen möchtest und Minecra"
-"ft Pi nicht gleichzeitig läuft. Und falls Du die Minecraft-Pi-Applikation been"
-"dest, während Dein Code die API in einem `live_loop` ansprechen will, wird der"
-" Loop beendet und Du erhältst eine entsprechende Fehlermeldung. Starte dann Mi"
-"necraft Pi wieder neu, die API wird sich von selbst damit verbinden und Dein C"
-"ode funktioniert wieder."
+"Die Minecraft-Pi-API kümmert sich automatisch um die Verbindung zur "
+"laufenden Minecraft-Pi-Applikation. Du musst also nichts dafür tun. Sonic Pi "
+"wird sich allerdings freundlich beschweren, wenn Du die API benutzen "
+"möchtest und Minecraft Pi nicht gleichzeitig läuft. Und falls Du die "
+"Minecraft-Pi-Applikation beendest, während Dein Code die API in einem "
+"`live_loop` ansprechen will, wird der Loop beendet und Du erhältst eine "
+"entsprechende Fehlermeldung. Starte dann Minecraft Pi wieder neu, die API "
+"wird sich von selbst damit verbinden und Dein Code funktioniert wieder."
 
 #: 11-Minecraft-Pi.md:28
 #, fuzzy
