@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-05 10:09+0000\n"
+"PO-Revision-Date: 2016-10-31 15:02+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -8402,7 +8402,6 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:93
-#, fuzzy
 msgid ""
 "Here we're using two ticks one for the note to play and another for the sleep "
 "time. As they're both in the same live loop, to keep them separate we need to "
@@ -8411,92 +8410,82 @@ msgid ""
 "alled one tick `:foo` and the other `:bar`. If we want to `look` at these we a"
 "lso need to pass the name of the tick to `look`."
 msgstr ""
-"In diesem Beispiel markiert ein Tick die Position in der Tonleiter, ein zweite"
-"r Tick wählt die Pausenwerte. Beide Ticks befinden sich im gleichen Live-Loop,"
-" also geben wir ihnen zur Unterscheidung eindeutige Namen. Du kennst das Prinz"
-"ip schon von den Live-Loops - einfach ein `:` gefolgt vom Namen. Im Beispiel h"
-"eißt der eine Tick `:foo` und der andere `:bar`. Willst Du die Tick-Werte mit "
-"`look` nur abfragen, musst Du ebenso den Namen nennen."
+"In diesem Beispiel markiert ein Tick die Position in der Tonleiter, ein "
+"zweiter Tick wählt die Pausenwerte. Beide Ticks befinden sich im gleichen "
+"Live-Loop, also geben wir ihnen zur Unterscheidung eindeutige Namen. Du "
+"kennst das Prinzip schon von den Live-Loops - einfach ein `:` gefolgt vom "
+"Namen. Im Beispiel heißt der eine Tick `:foo` und der andere `:bar`. Willst "
+"Du die Tick-Werte mit `look` nur abfragen, musst Du ebenso den Namen nennen."
 
 #: 09.4-Ticking.md:101
-#, fuzzy
 msgid "Don't make it too complicated"
 msgstr "Mach's nicht zu kompliziert"
 
 #: 09.4-Ticking.md:103
-#, fuzzy
 msgid ""
 "Most of the power in the tick system isn't useful when you get started. Don't "
 "try and learn everything in this section. Just focus on ticking through a sing"
 "le ring. That'll give you most of the joy and simplicity of ticking through ri"
 "ngs in your `live_loop`s."
 msgstr ""
-"Mit Ticks kannst Du viele großartige Dinge machen, aber versuche nicht, gleich"
-" alles in diesem Kapitel zu lernen und anzuwenden. Für den Anfang reicht es vö"
-"llig, wenn Du nur durch einen Ring durchtickst und das Prinzip kennenlernst. D"
-"amit kannst Du in Deinen `live_loop`s schon eine Menge anfangen."
+"Mit Ticks kannst Du viele großartige Dinge machen, aber versuche nicht, "
+"gleich alles in diesem Kapitel zu lernen und anzuwenden. Für den Anfang "
+"reicht es völlig, wenn Du nur durch einen Ring durchtickst und das Prinzip "
+"kennenlernst. Damit kannst Du in Deinen `live_loop`s schon eine Menge "
+"anfangen."
 
 #: 09.4-Ticking.md:108
-#, fuzzy
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful exampl"
 "es and happy ticking!"
 msgstr ""
-"Schau Dir die Dokumentation an, Du wirst dort viele praktische Beispiele entde"
-"cken. Viel Spaß beim Durchticken!"
+"Schau Dir die Dokumentation an, Du wirst dort viele praktische Beispiele "
+"entdecken. Viel Spaß beim Durchticken!"
 
 #: 10-Essential-Knowledge.md:1
-#, fuzzy
 msgid "10 Essential Knowledge"
 msgstr "10 Unentbehrliche Kenntnisse"
 
 #: 10-Essential-Knowledge.md:3
-#, fuzzy
 msgid "Essential Knowledge"
 msgstr "Unentbehrliche Kenntnisse"
 
 #: 10-Essential-Knowledge.md:5
-#, fuzzy
 msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge for"
 " getting the most out of your Sonic Pi experience."
 msgstr ""
-"In diesem Kapitel findest Du sehr nützliches - nein, *unentbehrliches* - Wisse"
-"n, um das Bestmögliche aus Deinem Sonic Pi herauszuholen."
+"In diesem Kapitel findest Du sehr nützliches - nein, *unentbehrliches* - "
+"Wissen, um das Bestmögliche aus Sonic Pi herauszuholen."
 
 #: 10-Essential-Knowledge.md:8
-#, fuzzy
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
-"Wir behandeln viele der verfügbaren Tastaturkürzel, zeigen, wie Du Deine Ergeb"
-"nisse mit anderen teilen kannst, und geben Dir Tipps für Auftritte mit Sonic P"
-"i."
+"Wir behandeln viele der verfügbaren Tastaturkürzel, zeigen, wie Du Deine "
+"Ergebnisse mit anderen teilen kannst, und geben Dir Tipps für Auftritte mit "
+"Sonic Pi."
 
 #: 10.1-Using-Shortcuts.md:1
-#, fuzzy
 msgid "10.1 Using Shortcuts"
 msgstr "10.1 Tastaturkürzel"
 
 #: 10.1-Using-Shortcuts.md:3
-#, fuzzy
 msgid "Using Shortcuts"
 msgstr "Tastaturkürzel"
 
 #: 10.1-Using-Shortcuts.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi is as much an instrument as a coding environment. Shortcuts can there"
 "fore make playing Sonic Pi much more *efficient and natural* - especially when"
 " you're playing live in front of an audience."
 msgstr ""
-"Sonic Pi ist zu gleichen Teilen Musikinstrument und Programmierumgebung. Mit T"
-"astaturkürzeln kannst Du Sonic Pi viel *effizienter und natürlicher* spielen -"
-" insbesondere, wenn Du live vor Publikum spielst."
+"Sonic Pi ist zu gleichen Teilen Musikinstrument und Programmierumgebung. Mit "
+"Tastaturkürzeln kannst Du Sonic Pi viel *effizienter und natürlicher* "
+"spielen - insbesondere, wenn Du live vor Publikum spielst."
 
 #: 10.1-Using-Shortcuts.md:9
-#, fuzzy
 msgid ""
 "Much of Sonic Pi can be controlled through the keyboard. As you gain more fami"
 "liarity working and performing with Sonic Pi, you'll likely start using the sh"
@@ -8505,52 +8494,48 @@ msgid ""
 "s it slows me down. I therefore use all of these shortcuts on a very regular b"
 "asis!"
 msgstr ""
-"Sehr vieles in Sonic Pi kann mit der Tastatur gesteuert werden. Je vertrauter "
-"Du mit Sonic Pi wirst, umso mehr wirst Du diese Tastaturkürzel verwenden. *Ich"
-" selbst tippe, ohne die Tastatur anzusehen* (und kann Dir nur empfehlen, das Z"
-"ehnfingersystem auch zu lernen). Und ich bin jedes Mal frustriert, wenn ich zu"
-"r Maus greifen muss, denn das macht mich langsam. Deshalb benutze ich ständig "
-"Tastaturkürzel!"
+"Sehr vieles in Sonic Pi kann mit der Tastatur gesteuert werden. Je "
+"vertrauter Du mit Sonic Pi wirst, umso mehr wirst Du diese Tastaturkürzel "
+"verwenden. *Ich selbst tippe, ohne die Tastatur anzusehen* (und kann Dir nur "
+"empfehlen, das Zehnfingersystem auch zu lernen). Und ich bin jedes Mal "
+"frustriert, wenn ich zur Maus greifen muss, denn das macht mich langsam. "
+"Deshalb benutze ich ständig Tastaturkürzel!"
 
 #: 10.1-Using-Shortcuts.md:16
-#, fuzzy
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
 "tively and you'll be live coding like a pro in no time."
 msgstr ""
-"Wer die Tastaturkürzel beherrscht, kann auch seine Tastatur viel effektiver be"
-"nutzen und in kürzester Zeit wirst Du programmieren wie ein Profi."
+"Wer die Tastaturkürzel beherrscht, kann auch seine Tastatur viel effektiver "
+"benutzen und in kürzester Zeit wirst Du programmieren wie ein Profi."
 
 #: 10.1-Using-Shortcuts.md:19
-#, fuzzy
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the one"
 "s you use most and then keep adding more to your practice."
 msgstr ""
-"*Versuche aber nicht, alle auf einmal zu lernen*, merke Dir erst einmal die, d"
-"ie Du am häufigsten brauchst. Später kannst Du Dein Repertoire nach und nach e"
-"rweitern."
+"*Versuche aber nicht, alle auf einmal zu lernen*, merke Dir erst einmal die, "
+"die Du am häufigsten brauchst. Später kannst Du Dein Repertoire nach und "
+"nach erweitern."
 
 #: 10.1-Using-Shortcuts.md:22
-#, fuzzy
 msgid "Consistency across Platforms"
 msgstr "Konsistenz auf verschiedenen Plattformen"
 
 #: 10.1-Using-Shortcuts.md:24
-#, fuzzy
 msgid ""
 "Imagine you're learning the clarinet. You'd expect all clarinets of all makes "
 "to have similar controls and fingerings. If they didn't, you'd have a tough ti"
 "me switching between different clarinets and you'd be stuck to using just one "
 "make."
 msgstr ""
-"Stell Dir vor, Du lernst Klarinette. Du kannst davon ausgehen, dass alle Klari"
-"netten aller Marken gleiche Mechaniken und Fingersätze haben. Hätten sie das n"
-"icht, könntest Du nicht ohne weiteres zwischen verschiedenen Klarinetten hin- "
-"und her wechseln. Sondern müsstest immer bei einer Marke bleiben."
+"Stell Dir vor, Du lernst Klarinette. Du kannst davon ausgehen, dass alle "
+"Klarinetten aller Marken gleiche Mechaniken und Fingersätze haben. Hätten "
+"sie das nicht, könntest Du nicht ohne weiteres zwischen verschiedenen "
+"Klarinetten hin- und her wechseln. Sondern müsstest immer bei einer Marke "
+"bleiben."
 
 #: 10.1-Using-Shortcuts.md:29
-#, fuzzy
 msgid ""
 "Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
 "come with their own standard defaults for actions such as cut and paste etc. S"
@@ -8560,22 +8545,20 @@ msgid ""
 "whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
 "PC and feel right at home."
 msgstr ""
-"Unglücklicherweise haben die drei wesentlichen Betriebssysteme (Linux, Mac OS "
-"X und Windows) alle ihre eigenen typischen Tastaturkürzel für Aktionen wie z.B"
-". Kopieren, Ausschneiden und Einfügen. Sonic Pi nutzt diese Standards wo immer"
-" möglich. Jedoch *liegt die Priorität auf plattformübergreifender Konsistenz* "
-"innerhalb von Sonic Pi, nicht auf dem Versuch, die Standards der jeweiligen Pl"
-"attform vollumfänglich zu erfüllen. Das bedeutet, dass die in Sonic Pi auf dem"
-" Raspberry Pi gelernten Tastaturkürzel ebenso auf einem Mac oder PC mit Sonic "
-"Pi funktionieren."
+"Unglücklicherweise haben die drei wesentlichen Betriebssysteme (Linux, Mac "
+"OS X und Windows) alle ihre eigenen typischen Tastaturkürzel für Aktionen "
+"wie z.B. Kopieren, Ausschneiden und Einfügen. Sonic Pi nutzt diese Standards "
+"wo immer möglich. Jedoch *liegt die Priorität auf plattformübergreifender "
+"Konsistenz* innerhalb von Sonic Pi, nicht auf dem Versuch, die Standards der "
+"jeweiligen Plattform vollumfänglich zu erfüllen. Das bedeutet, dass die in "
+"Sonic Pi auf dem Raspberry Pi gelernten Tastaturkürzel ebenso auf einem Mac "
+"oder PC mit Sonic Pi funktionieren."
 
 #: 10.1-Using-Shortcuts.md:37
-#, fuzzy
 msgid "Control and Meta"
 msgstr "Control und Meta"
 
 #: 10.1-Using-Shortcuts.md:39
-#, fuzzy
 msgid ""
 "Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
 "se the names *Control* and *Meta* to refer to the two main combination keys. O"
@@ -8584,59 +8567,54 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
-"Für diese Konsistenz müssen wir auch die Namen der Tastaturkürzel entsprechend"
-" auswählen. In Sonic Pi verwenden wir die Namen *Control* und *Meta* für die b"
-"eiden wichtigsten Kombinationstasten. *Control* (*Ctrl* - oder *Strg* für \"Ste"
-"uerung\" auf deutschen Tastaturen) ist auf allen Plattformen gleich. Auf Linux "
-"und Windows ist *Meta* die *Alt*-Taste, während *Meta* auf dem Mac die *Comman"
-"d*-Taste ist. Um konsistent zu bleiben, nutzen wir den Begriff *Meta* - diesem"
-" musst Du mental die passende Taste Deines Betriebssystems zuordnen."
+"Für diese Konsistenz müssen wir auch die Namen der Tastaturkürzel "
+"entsprechend auswählen. In Sonic Pi verwenden wir die Namen *Control* und "
+"*Meta* für die beiden wichtigsten Kombinationstasten. *Control* (*Ctrl* - "
+"oder *Strg* für \"Steuerung\" auf deutschen Tastaturen) ist auf allen "
+"Plattformen gleich. Auf Linux und Windows ist *Meta* die *Alt*-Taste, "
+"während *Meta* auf dem Mac die *Command*-Taste ist. Um konsistent zu "
+"bleiben, nutzen wir den Begriff *Meta* - diesem musst Du mental die passende "
+"Taste Deines Betriebssystems zuordnen."
 
 #: 10.1-Using-Shortcuts.md:46
-#, fuzzy
 msgid "Abbreviations"
 msgstr "Abkürzungen"
 
 #: 10.1-Using-Shortcuts.md:48
-#, fuzzy
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
 "*Control* plus another key and *M-* for *Meta* plus another key. For example, "
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
-"Um die Dinge einfach und lesbar zu halten, werden wir die Abkürzungen *C-* für"
-" *Control* und eine weitere Taste sowie *M-* für *Meta* und eine weitere Taste"
-" verwenden. Wenn ein Tastaturkürzel beispielsweise erfordert, dass Du *Meta* u"
-"nd *r* gleichzeitig drückst, werden wir die Abkürzung `M-r` verwenden. Der Bin"
-"destrich in der Mitte (*-*) bedeutet nur \"zur gleichen Zeit\"."
+"Um die Dinge einfach und lesbar zu halten, werden wir die Abkürzungen *C-* "
+"für *Control* und eine weitere Taste sowie *M-* für *Meta* und eine weitere "
+"Taste verwenden. Wenn ein Tastaturkürzel beispielsweise erfordert, dass Du "
+"*Meta* und *r* gleichzeitig drückst, werden wir die Abkürzung `M-r` "
+"verwenden. Der Bindestrich in der Mitte (*-*) bedeutet nur \"zur gleichen "
+"Zeit\"."
 
 #: 10.1-Using-Shortcuts.md:53
-#, fuzzy
 msgid "The following are some of the shortcuts I find most useful."
 msgstr "Hier sind ein paar der Tastaturkürzel, die ich am nützlichsten finde."
 
 #: 10.1-Using-Shortcuts.md:55
-#, fuzzy
 msgid "Stopping and starting"
 msgstr "Starten und Stoppen"
 
 #: 10.1-Using-Shortcuts.md:57
-#, fuzzy
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
-"Du musst nicht immer zur Maus greifen, um Deinen Code auszuführen. Drücke stat"
-"tdessen einfach `M-r` zum Abspielen. Mit `M-s` stoppst Du die Musik."
+"Du musst nicht immer zur Maus greifen, um Deinen Code auszuführen. Drücke "
+"stattdessen einfach `M-r` zum Abspielen. Mit `M-s` stoppst Du die Musik."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:52
-#, fuzzy
 msgid "Navigation"
 msgstr "Navigation"
 
 #: 10.1-Using-Shortcuts.md:62
-#, fuzzy
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
 " you spend the time to learn them. These shortcuts also work extremely well wh"
@@ -8644,454 +8622,383 @@ msgid ""
 "equiring you to move your hand to the mouse or the arrow keys on your keyboard"
 "."
 msgstr ""
-"Ohne die Tastenkürzel zur Navigation bin ich verloren. Deshalb empfehle ich Di"
-"r dringend, diese Kürzel zu lernen. Sie funktionieren besonders gut, wenn Du d"
-"as Zehnfingersystem schon halbwegs beherrschst, da sie normale Buchstaben verw"
-"enden - so musst Du Deine Hand nicht zur Maus oder zu den Pfeiltasten bewegen."
+"Ohne die Tastenkürzel zur Navigation bin ich verloren. Deshalb empfehle ich "
+"Dir dringend, diese Kürzel zu lernen. Sie funktionieren besonders gut, wenn "
+"Du das Zehnfingersystem schon halbwegs beherrschst, da sie normale "
+"Buchstaben verwenden - so musst Du Deine Hand nicht zur Maus oder zu den "
+"Pfeiltasten bewegen."
 
 #: 10.1-Using-Shortcuts.md:68
-#, fuzzy
 msgid ""
 "You can move to the beginning of the line with `C-a`, the end of the line with"
 " `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
 " `C-f`, and back a character with `C-b`. You can even delete all the character"
 "s from the cursor to the end of the line with `C-k`."
 msgstr ""
-"Mit `C-a` springst Du an den Anfang, mit `C-e` ans Ende einer Zeile. Eine Zeil"
-"e nach oben geht es mit `C-p`, eine nach unten mit `C-n`, ein Zeichen vorwärts"
-" mit `C-f` und eines nach hinten mit `C-b`. Du kannst auch alle Zeichen von de"
-"r akutellen Cursorposition bis zum Ende der Zeile mit `C-k` löschen."
+"Mit `C-a` springst Du an den Anfang, mit `C-e` ans Ende einer Zeile. Eine "
+"Zeile nach oben geht es mit `C-p`, eine nach unten mit `C-n`, ein Zeichen "
+"vorwärts mit `C-f` und eines nach hinten mit `C-b`. Du kannst auch alle "
+"Zeichen von der aktuellen Cursorposition bis zum Ende der Zeile mit `C-k` "
+"löschen."
 
 #: 10.1-Using-Shortcuts.md:74
-#, fuzzy
 msgid "Tidy Code"
 msgstr "Code aufräumen"
 
 #: 10.1-Using-Shortcuts.md:76
-#, fuzzy
 msgid "To auto-align your code simply press `M-m`."
 msgstr "Um Deinen Code sauber einzurücken, drücke `M-m`."
 
 #: 10.1-Using-Shortcuts.md:78
-#, fuzzy
 msgid "Help System"
 msgstr "Hilfesystem"
 
 #: 10.1-Using-Shortcuts.md:80
-#, fuzzy
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
 "isplay the docs if it finds anything. Instant help!"
 msgstr ""
-"Zum Hilfesystem kommst Du mit `M-i`. Noch hilfreicher ist allerdings `C-i`, da"
-"mit wird Dir für das Wort, auf dem der Cursor gerade steht, sofort die passend"
-"e Stelle in der Dokumentation gezeigt. Sofortige Hilfe!"
+"Zum Hilfesystem kommst Du mit `M-i`. Noch hilfreicher ist allerdings `C-i`, "
+"damit wird Dir für das Wort, auf dem der Cursor gerade steht, sofort die "
+"passende Stelle in der Dokumentation gezeigt. Sofortige Hilfe!"
 
 #: 10.1-Using-Shortcuts.md:84
-#, fuzzy
 msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
 msgstr ""
-"Eine Liste aller Tastaturkürzel ist in Kapitel 10.2 \"Cheatsheet für Tastenkürz"
-"el\" enthalten."
+"Eine Liste aller Tastaturkürzel ist in Kapitel 10.2 \"Cheatsheet für "
+"Tastenkürzel\" enthalten."
 
 #: 10.2-Shortcut-Cheatsheet.md:1
-#, fuzzy
 msgid "10.2 Shortcut Cheatsheet"
 msgstr "10.2 Cheatsheet für Tastaturkürzel"
 
 #: 10.2-Shortcut-Cheatsheet.md:3
-#, fuzzy
 msgid "Shortcut Cheatsheet"
 msgstr "Cheatsheet für Tastaturkürzel"
 
 #: 10.2-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
 "ease see Section 10.1 for motivation and background."
 msgstr ""
-"In diesem Abschnitt findest Du eine Zusammenfassung der wichtigsten Tastenkürz"
-"el von Sonic Pi. In Abschnitt 10.1 erklärte ich Dir bereits, warum diese so nü"
-"tzlich sind."
+"In diesem Abschnitt findest Du eine Zusammenfassung der wichtigsten "
+"Tastenkürzel von Sonic Pi. In Abschnitt 10.1 erklärte ich Dir bereits, warum "
+"diese so nützlich sind."
 
 #: 10.2-Shortcut-Cheatsheet.md:8
-#, fuzzy
 msgid "Conventions"
 msgstr "Konventionen"
 
 #: 10.2-Shortcut-Cheatsheet.md:10
-#, fuzzy
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
 msgstr ""
-"Wir verwenden die folgenden Konventionen (*Meta* ist *Alt* auf Windows und Lin"
-"ux und *Cmd* auf dem Mac wie in 10.1 beschrieben):"
+"Wir verwenden die folgenden Konventionen (*Meta* ist *Alt* auf Windows und "
+"Linux und *Cmd* auf dem Mac wie in 10.1 beschrieben):"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
-#, fuzzy
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
 msgstr ""
-"`C-a` bedeutet, die *Control* (*Strg* auf deutschen Tastaturen) zu drücken und"
-" zu halten, dabei *a* zu drücken und danach beide Tasten wieder los zu lassen."
+"`C-a` bedeutet, die *Control* (*Strg* auf deutschen Tastaturen) zu drücken "
+"und zu halten, dabei *a* zu drücken und danach beide Tasten wieder los zu "
+"lassen."
 
 #: 10.2-Shortcut-Cheatsheet.md:14
-#, fuzzy
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
 msgstr ""
-"`M-r` bedeutet, *Meta* zu drücken und zu halten, dabei die *r*-Taste zu drücke"
-"n und danach beide wieder los zu lassen"
+"`M-r` bedeutet, *Meta* zu drücken und zu halten, dabei die *r*-Taste zu "
+"drücken und danach beide wieder los zu lassen."
 
 #: 10.2-Shortcut-Cheatsheet.md:15
-#, fuzzy
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
 msgstr ""
-"`S-M-z` bedeutet, die *Meta*-Taste zu drücken und zu halten, dann *Shift* zu d"
-"rücken und zu halten und schließlich die *z*-Taste und alle drei Tasten gleich"
-"zeitig wieder los zu lassen."
+"`S-M-z` bedeutet, die *Meta*-Taste zu drücken und zu halten, dann *Shift* zu "
+"drücken und zu halten und schließlich die *z*-Taste und alle drei Tasten "
+"gleichzeitig wieder los zu lassen."
 
 #: 10.2-Shortcut-Cheatsheet.md:16
-#, fuzzy
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
 msgstr ""
-"`C-M-f` bedeutet, *Control* zu drücken und zu halten, dann *Meta* zu drücken u"
-"nd zu halten, dann *f* zu drücken und alle drei Tasten gleichzeitig wieder los"
-" zu lassen."
+"`C-M-f` bedeutet, *Control* zu drücken und zu halten, dann *Meta* zu drücken "
+"und zu halten, dann *f* zu drücken und alle drei Tasten gleichzeitig wieder "
+"los zu lassen."
 
 #: 10.2-Shortcut-Cheatsheet.md:18
-#, fuzzy
 msgid "Main Application Manipulation"
 msgstr "Steuerung der Hauptanwendung"
 
 #: 10.2-Shortcut-Cheatsheet.md:20
-#, fuzzy
 msgid "`M-r` - Run code"
 msgstr "`M-r` - Code ausführen"
 
 #: 10.2-Shortcut-Cheatsheet.md:21
-#, fuzzy
 msgid "`M-s` - Stop code"
 msgstr "`M-s` - Code-Ausführung stoppen"
 
 #: 10.2-Shortcut-Cheatsheet.md:22
-#, fuzzy
 msgid "`M-i` - Toggle Help System"
 msgstr "`M-i` - Hilfesystem ein-/ausschalten"
 
 #: 10.2-Shortcut-Cheatsheet.md:23
-#, fuzzy
 msgid "`M-p` - Toggle Preferences"
 msgstr "`M-p` - Einstellungen ein-/ausschalten"
 
 #: 10.2-Shortcut-Cheatsheet.md:24
-#, fuzzy
 msgid "`M-{` - Switch buffer to the left"
 msgstr "`M-<` - Zum Buffer links wechseln"
 
 #: 10.2-Shortcut-Cheatsheet.md:25
-#, fuzzy
 msgid "`M-}` - Switch buffer to the right"
 msgstr "`M->` - Zum Buffer rechts wechseln"
 
 #: 10.2-Shortcut-Cheatsheet.md:26
-#, fuzzy
 msgid "`M-+` - Increase text size of current buffer"
 msgstr "`M-+` - Schrift des Buffers vergrößern"
 
 #: 10.2-Shortcut-Cheatsheet.md:27
-#, fuzzy
 msgid "`M--` - Decrease text size of current buffer"
 msgstr "`M--` - Schrift des Buffers verkleinern"
 
 #: 10.2-Shortcut-Cheatsheet.md:30
-#, fuzzy
 msgid "Selection/Copy/Paste"
 msgstr "Auswahl/Kopieren/Einfügen"
 
 #: 10.2-Shortcut-Cheatsheet.md:32
-#, fuzzy
 msgid "`M-a` - Select all"
 msgstr "`M-a` - Alles auswählen"
 
 #: 10.2-Shortcut-Cheatsheet.md:33
-#, fuzzy
 msgid "`M-c` - Copy selection to paste buffer"
 msgstr "`M-c` - Auswahl in den Zwischenspeicher kopieren"
 
 #: 10.2-Shortcut-Cheatsheet.md:34
-#, fuzzy
 msgid "`M-]` - Copy selection to paste buffer"
 msgstr "`M-]` - Auswahl in den Zwischenspeicher kopieren"
 
 #: 10.2-Shortcut-Cheatsheet.md:35
-#, fuzzy
 msgid "`M-x` - Cut selection to paste buffer"
 msgstr "`M-x` - Auswahl ausschneiden und im Zwischenspeicher ablegen"
 
 #: 10.2-Shortcut-Cheatsheet.md:36
-#, fuzzy
 msgid "`C-]` - Cut selection to paste buffer"
 msgstr "`C-]` - Auswahl ausschneiden und im Zwischenspeicher ablegen"
 
 #: 10.2-Shortcut-Cheatsheet.md:37
-#, fuzzy
 msgid "`C-k` - Cut to the end of the line"
 msgstr "`C-k` - Text ab Cursor bis zum Ende der Zeile ausschneiden"
 
 #: 10.2-Shortcut-Cheatsheet.md:38
-#, fuzzy
 msgid "`M-v` - Paste from paste buffer to editor"
 msgstr "`M-v` - Inhalt des Zwischenspeichers in den Editor kopieren"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
-#, fuzzy
 msgid "`C-y` - Paste from paste buffer to editor"
 msgstr "`C-y` - Inhalt des Zwischenspeichers in den Editor kopieren"
 
 #: 10.2-Shortcut-Cheatsheet.md:40
-#, fuzzy
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr ""
-"`C-SPACE` - Markierung setzen. Textauswahl ab jetzt von hier bis zum Cursor. `"
-"C-g` löscht die Markierung."
+"`C-SPACE` - Markierung setzen. Textauswahl ab jetzt von hier bis zum Cursor. "
+"`C-g` löscht die Markierung."
 
 #: 10.2-Shortcut-Cheatsheet.md:42
-#, fuzzy
 msgid "Text Manipulation"
 msgstr "Text-Manipulation"
 
 #: 10.2-Shortcut-Cheatsheet.md:44
-#, fuzzy
 msgid "`M-m` - Align all text"
 msgstr "`M-m` - Gesamten Code ausrichten"
 
 #: 10.2-Shortcut-Cheatsheet.md:45
-#, fuzzy
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr "`Tab` - Aktuelle Codezeile oder Auswahl ausrichten"
 
 #: 10.2-Shortcut-Cheatsheet.md:46
-#, fuzzy
 msgid "`C-l` - Centre editor"
 msgstr "`C-l` - Editor zentrieren"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
-#, fuzzy
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr "`M-/` - Aktuelle Codezeile auskommentieren"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
-#, fuzzy
 msgid "`C-t` - Transpose/swap characters"
 msgstr "`C-t` - Zeichen vertauschen"
 
 #: 10.2-Shortcut-Cheatsheet.md:49
-#, fuzzy
 msgid "`M-u` - Convert next word (or selection) to upper case."
-msgstr "`M-u` - Das nächste Wort oder Auswahl in Großbuchstaben wandeln"
+msgstr "`M-u` - Das nächste Wort oder Auswahl in Großbuchstaben wandeln."
 
 #: 10.2-Shortcut-Cheatsheet.md:50
-#, fuzzy
 msgid "`M-l` - Convert next word (or selection) to lower case."
-msgstr "`M-l` - Das nächste Wort oder Auswahl in Kleinbuchstaben wandeln"
+msgstr "`M-l` - Das nächste Wort oder Auswahl in Kleinbuchstaben wandeln."
 
 #: 10.2-Shortcut-Cheatsheet.md:54
-#, fuzzy
 msgid "`C-a` - Move to beginning of line"
 msgstr "`C-a` - An den Anfang der Zeile springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:55
-#, fuzzy
 msgid "`C-e` - Move to end of line"
 msgstr "`C-e` - Ans Ende der Zeile springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:56
-#, fuzzy
 msgid "`C-p` - Move to previous line"
 msgstr "`C-p` - Zur vorherigen Zeile springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:57
-#, fuzzy
 msgid "`C-n` - Move to next line"
 msgstr "`C-n` - Zur nächsten Zeile springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:58
-#, fuzzy
 msgid "`C-f` - Move forward one character"
 msgstr "`C-f` - Ein Zeichen vorwärts"
 
 #: 10.2-Shortcut-Cheatsheet.md:59
-#, fuzzy
 msgid "`C-b` - Move backward one character"
 msgstr "`C-b` - Ein Zeichen zurück"
 
 #: 10.2-Shortcut-Cheatsheet.md:60
-#, fuzzy
 msgid "`M-f` - Move forward one word"
 msgstr "`M-f` - Ein Wort nach vorne"
 
 #: 10.2-Shortcut-Cheatsheet.md:61
-#, fuzzy
 msgid "`M-b` - Move backward one word"
 msgstr "`M-b` - Ein Wort zurück"
 
 #: 10.2-Shortcut-Cheatsheet.md:62
-#, fuzzy
 msgid "`C-M-n` - Move line or selection down"
 msgstr "`C-M-n` - Zeile oder Auswahl nach unten schieben"
 
 #: 10.2-Shortcut-Cheatsheet.md:63
-#, fuzzy
 msgid "`C-M-p` - Move line or selection up"
 msgstr "`C-M-p` - Zeile oder Auswahl nach unten schieben"
 
 #: 10.2-Shortcut-Cheatsheet.md:64
-#, fuzzy
 msgid "`S-M-u` - Move up 10 lines"
 msgstr "`S-M-u` - 10 Zeilen nach oben springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
-#, fuzzy
 msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - 10 Zeilen nach unten springen"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
-#, fuzzy
 msgid "`M-<` - Move to beginning of buffer"
 msgstr "`M-<` - Zum Anfang des Buffers gehen"
 
 #: 10.2-Shortcut-Cheatsheet.md:67
-#, fuzzy
 msgid "`M->` - Move to end of buffer"
 msgstr "`M->` - Zum Ende des Buffers gehen"
 
 #: 10.2-Shortcut-Cheatsheet.md:69
-#, fuzzy
 msgid "Deletion"
 msgstr "Löschen"
 
 #: 10.2-Shortcut-Cheatsheet.md:71
-#, fuzzy
 msgid "`C-h` - Delete previous character"
 msgstr "`C-h` - Vorangegangenes Zeichen löschen"
 
 #: 10.2-Shortcut-Cheatsheet.md:72
-#, fuzzy
 msgid "`C-d` - Delete next character"
 msgstr "`C-d` - Nächstes Zeichen löschen"
 
 #: 10.2-Shortcut-Cheatsheet.md:74
-#, fuzzy
 msgid "Advanced Editor Features"
 msgstr "Fortgeschrittene Funktionen des Editors"
 
 #: 10.2-Shortcut-Cheatsheet.md:76
-#, fuzzy
 msgid "`C-i` - Show docs for word under cursor"
 msgstr "`C-i` - Dokumentation für das Wort unter dem Cursor anzeigen"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
-#, fuzzy
 msgid "`M-z` - Undo"
 msgstr "`M-z` - Rückgängig (\"Undo\")"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
-#, fuzzy
 msgid "`S-M-z` - Redo"
 msgstr "`S-M-z` - Wiederholen (\"Redo\")"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
-#, fuzzy
 msgid "`C-g` - Escape"
 msgstr "`C-g` - Escape"
 
 #: 10.2-Shortcut-Cheatsheet.md:80
-#, fuzzy
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr "`S-M-f` - Vollbildmodus ein-/ausschalten"
 
 #: 10.2-Shortcut-Cheatsheet.md:81
-#, fuzzy
 msgid "`S-M-b` - Toggle visibility of buttons"
 msgstr "`S-M-b` - Buttons ein-/ausschalten"
 
 #: 10.2-Shortcut-Cheatsheet.md:82
-#, fuzzy
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr "`S-M-l` - Protokollfenster ein-/ausschalten"
 
 #: 10.2-Shortcut-Cheatsheet.md:83
-#, fuzzy
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Dunkle Benutzeroberfläche ein-/ausschalten"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "`S-M-s` - Inhalt des Buffers in Datei speichern"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "`S-M-o` - Lade Datei in einen Buffer"
 
 #: 10.3-Sharing.md:1
-#, fuzzy
 msgid "10.3 Sharing"
 msgstr "10.3 Teilen"
 
 #: 10.3-Sharing.md:3
-#, fuzzy
 msgid "Sharing"
 msgstr "Teilen"
 
 #: 10.3-Sharing.md:5
-#, fuzzy
 msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr "In Sonic Pi geht es vor allen Dingen um das Teilen und gemeinsame Lernen."
+msgstr ""
+"In Sonic Pi geht es vor allen Dingen um das Teilen und gemeinsame Lernen."
 
 #: 10.3-Sharing.md:7
-#, fuzzy
 msgid ""
 "Once you've learned how to code music, sharing your compositions is as simple "
 "as sending an email containing your code. Please do *share* your code with oth"
 "ers so they can *learn* from your work and even use parts in a new *mash-up*."
 msgstr ""
-"Sobald Du gelernt hast, Musik zu programmieren, kannst Du Deine Kompositionen "
-"ganz leicht mit anderen teilen: Schicke Deinen Code einfach mit einer Email an"
-" Deine Freunde. Ich möchte Dich ermuntern, Deinen Code mit anderen zu *teilen*"
-", so dass sie von Deiner Arbeit *lernen* und Teile davon in neuen *Mash-Ups* v"
-"erwenden können."
+"Sobald Du gelernt hast, Musik zu programmieren, kannst Du Deine "
+"Kompositionen ganz leicht mit anderen teilen: Schicke Deinen Code einfach "
+"mit einer Email an Deine Freunde. Ich möchte Dich ermuntern, Deinen Code mit "
+"anderen zu *teilen*, so dass sie von Deiner Arbeit *lernen* und Teile davon "
+"in neuen *Mash-Ups* verwenden können."
 
 #: 10.3-Sharing.md:12
-#, fuzzy
 msgid ""
 "If you're unsure of the best way to share your work with others I recommend pu"
 "tting your code on [GitHub](https://github.com) and your music on [SoundCloud]"
 "(https://soundcloud.com). That way you'll be able to easily reach a large audi"
 "ence."
 msgstr ""
-"Du hast keine Ahnung, wo Du Deine Werke am besten mit anderen teilen kannst? I"
-"ch empfehle Dir für Deinen Code [GitHub](https://github.com) und für Deine Mus"
-"ik [SoundCloud](https://soundcloud.com). So erreichst Du schnell ein großes Pu"
-"blikum."
+"Du hast keine Ahnung, wo Du Deine Werke am besten mit anderen teilen kannst? "
+"Ich empfehle Dir für Deinen Code [GitHub](https://github.com) und für Deine "
+"Musik [SoundCloud](https://soundcloud.com). So erreichst Du schnell ein "
+"großes Publikum."
 
 #: 10.3-Sharing.md:17
-#, fuzzy
 msgid "Code -> GitHub"
 msgstr "Code -> GitHub"
 
 #: 10.3-Sharing.md:19
-#, fuzzy
 msgid ""
 "[GitHub](https://github.com) is a site for sharing and working with code. It's"
 " used by professional developers as well as artists for sharing and collaborat"
@@ -9100,12 +9007,12 @@ msgid ""
 "gist.github.com) is a simple way of uploading your code in a simple way that o"
 "thers can see, copy and share."
 msgstr ""
-"[GitHub](https://github.com) wird von professionellen Entwicklern und auch Kün"
-"stlern verwendet, um Code zu teilen und zusammenzuarbeiten. Auf GitHub gibt es"
-" einen eigenen Bereich namens [Gist](https://gist.github.com), damit kann man "
-"besonders einfach ein neues Stück Code (egal ob fertig oder nicht) veröffentli"
-"chen. Mit einem [Gist](https://gist.github.com) können dann auch andere Deinen"
-" Code übernehmen, kommentieren und verbessern."
+"[GitHub](https://github.com) wird von professionellen Entwicklern und auch "
+"Künstlern verwendet, um Code zu teilen und zusammenzuarbeiten. Auf GitHub "
+"gibt es einen eigenen Bereich namens [Gist](https://gist.github.com), damit "
+"kann man besonders einfach ein neues Stück Code (egal ob fertig oder nicht) "
+"veröffentlichen. Mit einem [Gist](https://gist.github.com) können dann auch "
+"andere Deinen Code übernehmen, kommentieren und verbessern."
 
 #: 10.3-Sharing.md:27
 #, fuzzy
