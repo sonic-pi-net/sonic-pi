@@ -222,6 +222,10 @@ QStatusBar{
     color: statusBarTextColor;
 }
 
+QStatusBar::item{
+    border: none;
+}
+
 QPlainTextEdit{
     background-color: logBackgroundColor;
     color: logForegroundColor;
