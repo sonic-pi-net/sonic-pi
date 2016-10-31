@@ -2139,15 +2139,7 @@ void MainWindow::updateDarkMode(){
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->setFrameShape(QFrame::NoFrame);
-  }
-
-  foreach(QTextBrowser* pane, infoPanes) {
-    pane->setStyleSheet(appStyling);
-  }
-
-
-  for(int i=0; i < tabs->count(); i++){
-    SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+    ws->setStyleSheet(appStyling);
     ws->redraw();
   }
 
