@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-31 15:02+0000\n"
+"PO-Revision-Date: 2016-10-31 15:51+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -9015,27 +9015,24 @@ msgstr ""
 "andere Deinen Code übernehmen, kommentieren und verbessern."
 
 #: 10.3-Sharing.md:27
-#, fuzzy
 msgid "Audio -> SoundCloud"
 msgstr "Audio -> SoundCloud"
 
 #: 10.3-Sharing.md:29
-#, fuzzy
 msgid ""
 "Another important way of sharing your work is to record the audio and upload i"
 "t to [SoundCloud](https://soundcloud.com). Once you've uploaded your piece, ot"
 "her users can comment and discuss your work. I also recommend placing a link t"
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
-"Statt Code kannst Du auch eine Musikaufnahme veröffentlichen und dafür eine Au"
-"diodatei zu [SoundCloud](https://soundcloud.com) hochladen. Dort können andere"
-" Nutzer Kommentare dazu abgeben und die Musik diskutieren. Es ist empfehlenswe"
-"rt, bei einer Veröffentlichung auf Soundcloud zusätzlich einen Link zu einem ["
-"Gist](https://gist.github.com) mit Deinen Code in die Beschreibung aufzunehmen"
-"."
+"Statt Code kannst Du auch eine Musikaufnahme veröffentlichen und dafür eine "
+"Audiodatei zu [SoundCloud](https://soundcloud.com) hochladen. Dort können "
+"andere Nutzer Kommentare dazu abgeben und die Musik diskutieren. Es ist "
+"empfehlenswert, bei einer Veröffentlichung auf Soundcloud zusätzlich einen "
+"Link zu einem [Gist](https://gist.github.com) mit Deinen Code in die "
+"Beschreibung aufzunehmen."
 
 #: 10.3-Sharing.md:35
-#, fuzzy
 msgid ""
 "To record your work, hit the `Rec` button in the toolbar, and recording starts"
 " immediately. Hit `Run` to start your code if it isn't already in progress. Wh"
@@ -9044,62 +9041,55 @@ msgid ""
 "h can be edited and converted to MP3 by any number of free programs (try Audac"
 "ity for instance)."
 msgstr ""
-"Um Dein Stück aufzunehmen, drücke den `Aufnehmen`-Knopf in der Werkzeugleiste,"
-" die Aufnahme startet dann sofort. Drücke `Ausführen`, um Deinen Code zu start"
-"en, wenn er nicht bereits läuft. Wenn Du fertig bist, drücke den den blinkende"
-"n `Aufnehmen`-Knopf erneut. Du wirst dann nach einem Dateinamen gefragt, unter"
-" dem die Aufnahme als WAV-Datei gespeichert wird. Es gibt viele Werkzeuge, um "
-"eine WAV-Datei in ein MP3 zu wandeln, z.B. das Programm *Audacity*."
+"Um Dein Stück aufzunehmen, drücke den `Aufnehmen`-Knopf in der "
+"Werkzeugleiste, die Aufnahme startet dann sofort. Drücke `Ausführen`, um "
+"Deinen Code zu starten, wenn er nicht bereits läuft. Wenn Du fertig bist, "
+"drücke den den blinkenden `Aufnehmen`-Knopf erneut. Du wirst dann nach einem "
+"Dateinamen gefragt, unter dem die Aufnahme als WAV-Datei gespeichert wird. "
+"Es gibt viele Werkzeuge, um eine WAV-Datei in ein MP3 zu wandeln, z.B. das "
+"Programm *Audacity*."
 
 #: 10.3-Sharing.md:43
-#, fuzzy
 msgid "Hope"
 msgstr "Hoffnung"
 
 #: 10.3-Sharing.md:45
-#, fuzzy
 msgid ""
 "I encourage you to share your work and really hope that we'll all teach each o"
 "ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
 "e to show me."
 msgstr ""
-"Ich möchte Dich ermuntern, Deine Arbeiten zu teilen, und hoffe sehr, dass wir "
-"uns gegenseitig neue Sonic-Pi-Tipps und -Tricks beibringen werden. Ich bin sch"
-"on sehr gespannt darauf, was Du mir zeigen wirst."
+"Ich möchte Dich ermuntern, Deine Arbeiten zu teilen, und hoffe sehr, dass "
+"wir uns gegenseitig neue Sonic-Pi-Tipps und -Tricks beibringen werden. Ich "
+"bin schon sehr gespannt darauf, was Du mir zeigen wirst."
 
 #: 10.4-Performing.md:1
-#, fuzzy
 msgid "10.4 Performing"
 msgstr "10.4 Auftritte"
 
 #: 10.4-Performing.md:3
-#, fuzzy
 msgid "Performing"
 msgstr "Auftritte"
 
 #: 10.4-Performing.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to use cod"
 "e as a *musical instrument*. This means that writing code live can now be seen"
 " as a new way of performing music."
 msgstr ""
-"Einer der aufregendsten Aspekte von Sonic Pi ist, dass Du von nun an Code als "
-"*Musikinstrument* verwenden kannst. Vor Publikum zu programmieren wird damit e"
-"in neuer Weg, um Musik aufzuführen."
+"Einer der aufregendsten Aspekte von Sonic Pi ist, dass Du von nun an Code "
+"als *Musikinstrument* verwenden kannst. Vor Publikum zu programmieren wird "
+"damit ein neuer Weg, um Musik aufzuführen."
 
 #: 10.4-Performing.md:9
-#, fuzzy
 msgid "We call this *Live Coding*."
 msgstr "Das nennen wir *Live-Coding*."
 
 #: 10.4-Performing.md:11
-#, fuzzy
 msgid "Show Your Screen"
 msgstr "Zeig Deinen Bildschirm"
 
 #: 10.4-Performing.md:13
-#, fuzzy
 msgid ""
 "When you live code I recommend you *show your screen* to your audience. Otherw"
 "ise it's like playing a guitar but hiding your fingers and the strings. When I"
@@ -9107,51 +9097,46 @@ msgid ""
 "g room wall. You could use your TV or one of your school/work projectors to gi"
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
-"Wenn Du live programmierst, empfehle ich Dir, Deinem Publikum Deinen *Bildschi"
-"rm zu zeigen*. Beim Gitarrespielen versteckst Du ja auch nicht Deine Finger un"
-"d die Saiten Deines Instruments. Wenn ich zu Hause übe, verwende ich einen Ras"
-"pberry Pi und projiziere den Bildschirm mit einem kleinen Beamer an meine Wohn"
-"zimmerwand. Du könntest auch Deinen Fernseher oder einen Projektor in der Schu"
-"le/Arbeit verwenden und eine kleine Show geben. Versuch es, das macht eine Men"
-"ge Spaß."
+"Wenn Du live programmierst, empfehle ich Dir, Deinem Publikum Deinen *"
+"Bildschirm zu zeigen*. Beim Gitarrespielen versteckst Du ja auch nicht Deine "
+"Finger und die Saiten Deines Instruments. Wenn ich zu Hause übe, verwende "
+"ich einen Raspberry Pi und projiziere den Bildschirm mit einem kleinen "
+"Beamer an meine Wohnzimmerwand. Du könntest auch Deinen Fernseher oder einen "
+"Projektor in der Schule/Arbeit verwenden und eine kleine Show geben. Versuch "
+"es, das macht eine Menge Spaß."
 
 #: 10.4-Performing.md:20
-#, fuzzy
 msgid "Form a Band"
 msgstr "Gründe eine Band"
 
 #: 10.4-Performing.md:22
-#, fuzzy
 msgid ""
 "Don't just play on your own - form a live coding band! It's a lot of fun jammi"
 "ng with others. One person could do beats, another ambient background, etc. Se"
 "e what interesting combinations of sounds you can have together."
 msgstr ""
-"Spiele nicht nur alleine - gründe eine Live-Coding-Band! Mit anderen zu jammen"
-" macht großen Spaß. Einer könnte die Beats programmieren, ein anderer flächige"
-" Hintergrundklänge und so weiter. Probiert aus, welche interessanten Klangkomb"
-"inationen Ihr finden könnt."
+"Spiele nicht nur alleine - gründe eine Live-Coding-Band! Mit anderen zu "
+"jammen macht großen Spaß. Einer könnte die Beats programmieren, ein anderer "
+"flächige Hintergrundklänge und so weiter. Probiert aus, welche interessanten "
+"Klangkombinationen Ihr finden könnt."
 
 #: 10.4-Performing.md:27
-#, fuzzy
 msgid "TOPLAP"
 msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
-#, fuzzy
 msgid ""
 "Live coding isn't completely new - a small number of people have been doing it"
 " for a few years now, typically using bespoke systems they've built for themse"
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
-"Live-Coding ist nicht wirklich neu - eine kleine Gruppe von Enthusiasten macht"
-" das schon seit Jahren, typischerweise mit selbstgebauten, individuellen Syste"
-"men. Bei [TOPLAP](http://toplap.org) erfährst Du mehr über diese anderen Live-"
-"Coder und ihre Geräte."
+"Live-Coding ist nicht wirklich neu - eine kleine Gruppe von Enthusiasten "
+"macht das schon seit Jahren, typischerweise mit selbstgebauten, "
+"individuellen Systemen. Bei [TOPLAP](http://toplap.org) erfährst Du mehr "
+"über diese anderen Live-Coder und ihre Geräte."
 
 #: 10.4-Performing.md:34
-#, fuzzy
 msgid "Algorave"
 msgstr "Algorave"
 
