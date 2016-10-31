@@ -2127,6 +2127,7 @@ void MainWindow::updateDarkMode(){
   errorPane->setStyleSheet( QString(
     "QTextEdit{"
     "  background-color: %1;"
+    "  padding: 5;"
     "}"
     ""
     ".error-background{"
