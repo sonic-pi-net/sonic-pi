@@ -2063,7 +2063,7 @@ void MainWindow::updateDarkMode(){
   QString pressedButtonTextColor = currentTheme->color("PressedButtonText").name();
 
   QString scrollBarColor = currentTheme->color("ScrollBar").name();
-  QString scrollBarBackgroundColor = "transparent";
+  QString scrollBarBackgroundColor = currentTheme->color("ScrollBarBackground").name();
 
   QString tabColor = currentTheme->color("Tab").name();
   QString tabTextColor = currentTheme->color("TabText").name();
