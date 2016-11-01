@@ -349,15 +349,15 @@ module SonicPi
     end
 
     def debug_mode
-      true
+      false
     end
 
     def osc_debug_mode
-      true
+      false
     end
 
     def incoming_osc_debug_mode
-      true
+      false
     end
 
     def resolve_synth_opts_hash_or_array(opts)
