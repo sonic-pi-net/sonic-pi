@@ -34,6 +34,22 @@ Available Style Colours:
 - errorBackgroundColor
 */
 
+QListWidget
+{
+    background: paneColor;
+}
+
+
+QListWidget::item
+{
+    background: paneColor;
+}
+
+QListWidget::item::selected
+{
+    background: menuSelectedColor;
+}
+
 QFrame {
     border: none;
 }
