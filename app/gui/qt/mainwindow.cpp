@@ -2090,7 +2090,13 @@ void MainWindow::updateDarkMode(){
 
   QString appStyling = readFile(qt_app_theme_path);
 
-
+#if defined(Q_OS_WIN)
+  appStyling.replace("fixedWidthFont", "\"Courier New\"");
+#elif defined(Q_OS_MAC)
+  appStyling.replace("fixedWidthFont", "\"Menlo\"");
+#else
+  appStyling.replace("fixedWidthFont", "\"Bitstream Vera Sans Mono\"");
+#endif
 
   appStyling
     .replace("windowColor", windowColor)
@@ -2137,6 +2143,14 @@ void MainWindow::updateDarkMode(){
     ".error-background{"
     "  background-color: %2"
     "}").arg(paneColor, errorBackgroundColor));
+
+
+  docsCentral->setStyleSheet( QString(
+                                      "QListWidget{"
+                                      "border: none;"
+                                      "font-size: 13px;"
+                                      "font-family: none;"
+                                      "}"));
 
   scopeInterface->refresh();
   scopeWidget->update();

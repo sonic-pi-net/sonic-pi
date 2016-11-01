@@ -270,7 +270,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["StatusBarText"] = dt_blue;
 
     themeSettings["Menu"] = dt_darkgrey;
-    themeSettings["MenuText"] = dt_grey;
+    themeSettings["MenuText"] = dt_lightgrey;
     themeSettings["MenuSelected"] = dt_pink;
     themeSettings["MenuSelectedText"] = dt_white;
 

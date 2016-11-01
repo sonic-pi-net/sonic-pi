@@ -32,6 +32,8 @@ Available Style Colours:
 - selectionForegroundColor
 - selectionBackgroundColor
 - errorBackgroundColor
+
+- fixedWidthFont
 */
 
 
@@ -279,7 +281,6 @@ QDockWidget QListView {
     color: windowForegroundColor;
     background: paneColor;
     selection-color: selectionForegroundColor;
-    /* selection-color: blue; */
     selection-background-color: selectionBackgroundColor;
 }
 
@@ -304,12 +305,15 @@ QListWidget
 {
     background: paneColor;
     border: 1px solid menuSelectedColor;
+    font-size: 16px;
+    font-family: fixedWidthFont;
 }
 
 QListWidget::item
 {
     background: paneColor;
     color: menuTextColor;
+
 }
 
 QListWidget::item::selected
