@@ -43,11 +43,13 @@ QListWidget
 QListWidget::item
 {
     background: paneColor;
+    color: menuTextColor;
 }
 
 QListWidget::item::selected
 {
     background: menuSelectedColor;
+    color: menuSelectedTextColor;
 }
 
 QFrame {
