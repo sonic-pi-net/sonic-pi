@@ -238,7 +238,7 @@ into additional languages:
 * Nadezhda Ratckevich (1)
 * Cristian Cabrera (1)
 * Paulo Amaral (1)
-* HMS (1)
+* Hyemin Shim (1)
 * Gabriel Macedo (1)
 * Иван Лавриков (1)
 * Filip Faste (1)
