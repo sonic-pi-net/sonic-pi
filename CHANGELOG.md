@@ -1,5 +1,5 @@
 # History
-* [v2.11 'Time Warp'](#v2.11), To be released
+* [v2.11 'Time Warp'](#v2.11), 2nd Nov, 2016
 * [v2.10 'Cowbell'](#v2.10), 15th April, 2016
 * [v2.9 'Venster'](#v2.9), 31st Dec, 2015
 * [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
@@ -15,7 +15,7 @@
 <a name="v2.11"></a>
 
 ## Version 2.11 - Time Warp'
-*To be released*
+*2nd Nov, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.0)
 
 This release is the biggest and most adventurous release yet. There are
