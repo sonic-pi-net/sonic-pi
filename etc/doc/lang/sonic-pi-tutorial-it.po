@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-28 19:27+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2016-11-01 11:28+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -9882,12 +9882,12 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
-"Per scoprire i tuoi suoni, avrai presto bisogno di modificar e controllare i t"
-"uoi synth e gli effetti. Per esempio, magari vuoi cambiare la lunghezza di una"
-" nota, aggiungere più riverbero, cambiare il tempo tra le ripetizioni dell'eco"
-". Sonic Pi ti permette di avere un grande livello di controllo attraverso i pa"
-"rametri opzionali. Vediamo velocemente come fare. Copia il seguente codice e p"
-"remi run:"
+"Per scoprire i tuoi suoni, avrai presto bisogno di modificar e controllare i "
+"tuoi synth e gli effetti. Per esempio, magari vuoi cambiare la lunghezza di "
+"una nota, aggiungere più riverbero, cambiare il tempo tra le ripetizioni "
+"dell'eco. Sonic Pi ti permette di avere un grande livello di controllo "
+"attraverso i parametri opzionali. Vediamo velocemente come fare. Copia il "
+"seguente codice e premi Run:"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -14654,7 +14654,6 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:35
-#, fuzzy
 msgid ""
 "Hear how the slicer acts like it's muting and unmuting the audio with a regula"
 "r beat. Also, notice how the `:slicer` affects all the audio generated between"
@@ -14662,7 +14661,14 @@ msgid ""
 "on and off with the `phase:` opt which is short for phase duration. Its defaul"
 "t value is `0.25` which means 4 times a second at the default BPM of 60. Let's"
 " make it faster:"
-msgstr "slicer"
+msgstr ""
+"Visto come lo slicer agisce? Sembra che silenzi e poi riattivi l'audio con "
+"un ritmo regolare. Sembra anche che ':slicer' abbia effetto sul suono "
+"generato dal codice scritto tra i blocchi 'do' e 'end'. Puoi controllare la "
+"velocità a cui il suono viene spento e riacceso con lopzione 'phase:' che è "
+"l'abbreviazione di durata di fase in inglese (phase duration). Il valore "
+"predefinito è '0.25', il che significa che lo status cambia 4 volte al "
+"secondo quando i BPM sono a 60. Proviamo a mandarlo più veloce:"
 
 #: A.14-amplitude-modulation.md:42
 #, no-wrap
@@ -14678,14 +14684,18 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:49
-#, fuzzy
 msgid ""
 "Now, play with different `phase:` durations yourself. Try longer and shorter v"
 "alues. See what happens when you choose a really short value. Also, try differ"
 "ent synths such as `:beep` or `:dsaw` and different notes. Take a look at the "
 "following diagram to see how different `phase:` values change the number of am"
 "plitude changes per beat."
-msgstr "`:dsaw`"
+msgstr ""
+"Ora, prova a suonare con differenti valori di ':phase'. Prova valori più "
+"lunghi o più brevi. Guarda cosa accade quando scegli valori molto brevi. "
+"Poi, prova anche a cambiare synth, tipo ':beep' oppure ':dsaw' e anche note "
+"differenti. Osserva il diagramma seguente per capire come valori di ':phase' "
+"diversi cambino il numero di cambiamenti di ampiezza per ogni battito."
 
 #: A.14-amplitude-modulation.md:56
 msgid ""
@@ -14711,7 +14721,6 @@ msgid "Control Waves"
 msgstr "Onde di controllo"
 
 #: A.14-amplitude-modulation.md:66
-#, fuzzy
 msgid ""
 "By default, the `:slicer` FX uses a square wave to manipulate the amplitude th"
 "rough time. This is why we hear the amplitude on for a period, then immediatel"
@@ -14721,7 +14730,17 @@ msgid ""
 "t these look like. We can also hear what they sound like. For example, the fol"
 "lowing code uses (co)sine as the control wave. Hear how the sound doesn't turn"
 " on and off abruptly but instead smoothly fades in and out:"
-msgstr "slicer"
+msgstr ""
+"Di base, l'effetto ':slicer' usa un'onda quadra per cambiare l'ampiezza "
+"d'onda nel tempo. Questo è il motivo per cui sentiamo il suono per un "
+"periodo e successivamente questo scompare per poi ricomparire e così via. "
+"Però l'effetto ':slicer' può usare 4 diverse forme d'onda per modificare il "
+"suono, che sono la dente di sega, la triangolare e la cosinusoidale. Dai "
+"un'occhiata al diagramma sotto per capire la loro forma. Possiamo anche "
+"ascoltare il loro effetto. Per esempio, se digiti il codice seguente userai "
+"l'onda cosinusoidale come onda di controllo. Infatti, in questo caso il "
+"suono non si spegne e accende a scatti, ma in maniera progressiva e senza "
+"brusche interruzioni:"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
@@ -14742,6 +14761,10 @@ msgid ""
 "or saw, `1` for square, `2` for triangle and `3` for sine. See how different w"
 "aves sound with different `phase:` opts too."
 msgstr ""
+"Suona provando a cambiare le forme d'onda attraverso l'opzione 'wave:': '0' "
+"sta per dente di sega, '1' per onda quadra, '2' per triangolare e '3' per "
+"sinusoidale. Prova anche a variare la fase attraverso 'phase:' a ogni forma "
+"d'onda per sentire come cambia il suono."
 
 #: A.14-amplitude-modulation.md:87
 msgid ""
@@ -14754,6 +14777,17 @@ msgid ""
 "hase:`, `wave:`, `invert_wave:` and `phase_offset` opts you can dramatically c"
 "hange how the amplitude is modified through time."
 msgstr ""
+"Ognuna di queste onde può essere invertita utilizzando l'opzione "
+"'invert_wave:' che la ribalta sull'asse y. Per esempio, durante un ciclo "
+"normale l'onda a dente di sega parte dall'alto e si dirige lentamente verso "
+"il basso raggiungendo il punto in cui immediatamente ritorna al valore "
+"massimo. Invertendo la forma d'onda con 'invert_wave:1', l'onda partirà dal "
+"valore minimo ed andrà lentamente verso il valore massimo fino a quando "
+"ricadrà improvvisamente al valore minimo. Un'altra opzione è 'phase_offset:' "
+"per mezzo del quale possiamo far iniziare l'onda da un punto qualsiasi. Il "
+"valore inserito deve essere tra '0' e '1'. Quindi, giocando con i valori di "
+"'phase:', wave:', 'invert_wave:' e 'phase_offset:' puoi cambiare, e di "
+"molto, il comportamento dell'ampiezza dell'onda nel tempo."
 
 #: A.14-amplitude-modulation.md:97
 msgid ""
@@ -14768,13 +14802,16 @@ msgid "Setting your levels"
 msgstr "Imposta i tuoi livelli"
 
 #: A.14-amplitude-modulation.md:102
-#, fuzzy
 msgid ""
 "By default, `:slicer` switches between amplitude values `1` (fully loud) and `"
 "0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. You "
 "can use this alongside the sine wave setting to create a simple tremolo effect"
 ":"
-msgstr "slicer"
+msgstr ""
+"Di base, ':slicer' passa dai valore '1' (volume massimo) e '0' (silenzioso). "
+"Questi valori possono essere cambiati per mezzo delle opzione 'amp_min' e "
+"'amp_max'. Puoi cambiare questi valori accoppiandoli con un'onda sinusoidale "
+"per creare un effetto tremolo:"
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
@@ -14792,19 +14829,25 @@ msgid ""
 "This is just like grabbing the volume knob on your hi-fi and moving it up and "
 "down just a little so the sound 'wobbles' in and out."
 msgstr ""
+"Succederebbe praticamente la stessa cosa se prendessi il controllo del "
+"volume del tuo impianto stereo e lo muovessi in su e giù facendo ondeggiare "
+"il suono."
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
 msgstr "Probabilità"
 
 #: A.14-amplitude-modulation.md:119
-#, fuzzy
 msgid ""
 "One of `:slicer`'s powerful features is its ability to use probability to choo"
 "se whether or not to turn the slicer on or off. Before the `:slicer` FX starts"
 " a new phase it rolls a dice and based on the result either uses the selected "
 "control wave or keeps the amplitude off. Let's take a listen:"
-msgstr "choose (scegli)"
+msgstr ""
+"Una delle caratteristiche più divertenti di ':slicer' è la possibilità di "
+"usare la probabilità per decidere se accendere o spegnere lo slicer. Con "
+"questa possibilità, il sistema lancia un dado prima di ogni fase e agisce "
+"seguendo il valore che viene fuori. Prova a digitare e eseguire quanto segue:"
 
 #: A.14-amplitude-modulation.md:125
 #, no-wrap
@@ -14828,9 +14871,12 @@ msgid ""
 "l have more space between each sound due to the likelihood of the sound being "
 "triggered being much lower."
 msgstr ""
+"Abbiamo ottenuto un interessante ritmo di impulsi. Prova a cambiare "
+"l'opzione 'probability:' (probabilità) con un valore tra '0' e '1'. Più ti "
+"avvicini allo '0', più i suoni saranno spaziati tra loro perché la "
+"probabilità di accensione dell'effetto risulta più bassa."
 
 #: A.14-amplitude-modulation.md:138
-#, fuzzy
 msgid ""
 "Another thing to notice is that the probability system in the FX is just like "
 "the randomisation system accessible via fns such as `rand` and `shuffle`. They"
@@ -14839,13 +14885,23 @@ msgid ""
 "d like to change things around you can use the `seed:` opt to select a differe"
 "nt starting seed. This works exactly the same as `use_random_seed` but only af"
 "fects that particular FX."
-msgstr "rand"
+msgstr ""
+"Il sistema delle probabilità usato negli effetti è lo stesso utilizzato per "
+"la randomizzazione in funzioni come 'rand' e 'shuffle'. Sono entrambi "
+"completamente deterministici. Ciò significa che tutte le volte che premi "
+"Run, sentirai sempre la stessa sequenza per una data probabilità. Se volessi "
+"cambiare la sequenza ottenuta puoi usare l'opzione 'seed:' cambiando il seme "
+"di riferimento. Funziona esattamente come 'use_random_seed', soltanto in "
+"questo caso si agisce su quel particolare effetto e basta."
 
 #: A.14-amplitude-modulation.md:146
 msgid ""
 "Finally, you can change the 'resting' position of the control wave when the pr"
 "obability test fails from `0` to any other position with the `prob_pos:` opt:"
 msgstr ""
+"Infine, con l'opzione 'prob_pos:' puoi cambiare la posizione di riposo "
+"dell'onda di controllo quando il test di probabilità fallisce tra il valore "
+"'0' e un altro qualsiasi punto:"
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
@@ -14867,9 +14923,10 @@ msgid "Slicing Beats"
 msgstr "Affettare i beat"
 
 #: A.14-amplitude-modulation.md:160
-#, fuzzy
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
-msgstr "slicer"
+msgstr ""
+"Una cosa davvero molto divertente è usare ':slicer' per affettare un beat di "
+"batteria:"
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
@@ -14890,20 +14947,31 @@ msgid ""
 "ing will sound totally off. For example, try swapping `:loop_mika` with the `l"
 "oop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
+"Questo ci permette di creare nuove possibilità ritmiche utilizzando un "
+"qualsiasi campione, il che è piuttosto divertente. Tuttavia, bisogna star "
+"attenti a che la durata dei campioni sia coerente con i BPM impostati in "
+"Sonic Pi, altrimenti l'azione di affettamento non funzionerà. Per esempio, "
+"prova a cambiare da ':loop_mika' a ':loop_amen' e ascolta come suona male "
+"quando la durata non coincide."
 
 #: A.14-amplitude-modulation.md:176
 msgid "Changing tempo"
 msgstr "Cambiamenti di tempo"
 
 #: A.14-amplitude-modulation.md:178
-#, fuzzy
 msgid ""
 "As we have already seen, changing the default BPM with `use_bpm` will make all"
 " the sleep times and synth envelope durations grow or shrink to match the beat"
 ". The `:slicer` FX honours this too, as the `phase:` opt is actually measured "
 "in beats not seconds. We can therefore fix the issue with `loop_amen` above by"
 " changing the BPM to match the sample:"
-msgstr "slicer"
+msgstr ""
+"Come abbiamo già visto, cambiare i BPM preimpostati con 'use_bpm' farà anche "
+"cambiare i tempi di 'sleep' e gli le durate degli inviluppi coerentemente al "
+"nuovo valore. L'effetto ':slicer' si comporta nello stesso modo e l'opzione "
+"'phase:' è in realtà misurata in battiti e non in secondi. Quindi possiamo "
+"risolvere il problema di 'loop_amen' appena visto cambiando i BPM e farli "
+"coincidere con quelli del campione:"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
@@ -14919,12 +14987,14 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:194
-#, fuzzy
 msgid ""
 "Let's apply all these ideas into a final example that only uses the `:slicer` "
 "FX to create an interesting combination. Go ahead, start changing it and make "
 "it into your own piece!"
-msgstr "slicer"
+msgstr ""
+"Quindi, applichiamo le idee esposte sopra nell'esempio finale che utilizza "
+"soltanto l'effetto ':slicer' per creare una combinazione interessante. Vai "
+"avanti, cambia quanto scritto e componi il tuo brano personale!"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
