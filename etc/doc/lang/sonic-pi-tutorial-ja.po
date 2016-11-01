@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-28 10:00+0000\n"
+"PO-Revision-Date: 2016-11-01 09:56+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -11327,11 +11327,11 @@ msgstr "`mc_set_block`- 砂のブロックを指定した位置に設置する�
 
 #: A.08-minecraft-vj.md:49
 msgid "`rrand` - to allow us to generate random values within a range"
-msgstr ""
+msgstr "`rrand` - ある範囲の乱数を生成するのに使います"
 
 #: A.08-minecraft-vj.md:50
 msgid "`live_loop` - to allow us to continually make it rain sand"
-msgstr ""
+msgstr "`live_loop` - 砂嵐が起こったままにするのに使います"
 
 #: A.08-minecraft-vj.md:52
 msgid ""
@@ -11341,13 +11341,16 @@ msgid ""
 "the *lang* tab in the Help system and then look up the fns directly along with"
 " all the other exciting things you can do."
 msgstr ""
+"もしあなたが`rrand`といったSonic Piが内蔵する関数に親しくなかったら、その関数名をBufferにタイプし、クリックして選択した後、`Cont"
+"rol-i`のキーの組合せを叩いて、内蔵のドキュメントを開いてみてください。あるいは、ヘルプシステムの*命令*タブを開いて、他にも面白そうな項目がある中か"
+"ら、対象の関数名を直接探すこともできます。"
 
 #: A.08-minecraft-vj.md:58
 msgid ""
 "Let's make it rain a little first before unleashing the full power of the stor"
 "m. Grab your current location and use it to create a few sand blocks up in the"
 " sky nearby:"
-msgstr ""
+msgstr "砂嵐のフルパワーを開放する前に少し砂を降らせてみましょう。現在の位置を取得し、近くの空中にいくつか砂のブロックを作ってください。"
 
 #: A.08-minecraft-vj.md:62
 #, no-wrap
@@ -11377,6 +11380,8 @@ msgid ""
 "g. Don't worry, if you missed them just hit Run again for another batch of san"
 "d rain - just make sure you're looking the right way!"
 msgstr ""
+"`Run`を叩いたとき、辺りを見回す必要があるかもしれません。プレーヤーがどの方向を向いているかにもよりますが、プレーヤーの後ろに砂が降っているかもしれま"
+"せん。でも心配しないでください。砂が降るのを見逃したとしても、`Run`をもう一度叩いて砂を降らせて、プレーヤーが正しい方向を向くようにすればよいのです！"
 
 #: A.08-minecraft-vj.md:79
 msgid ""
@@ -11387,6 +11392,9 @@ msgid ""
 " We chose the same x coordinate, a y coordinate 20 blocks higher and then succ"
 "essively larger z coordinates so the sand dropped in a line away from Steve."
 msgstr ""
+"では上のコードで何が起きているか手短に見ていきましょう。1行目では、`mc_location` 関数を使って、プレーヤーの位置を座標として取得し、`x`"
+", `y`,  `z`に設定しています。次の数行では、mc_set_block`関数を使って、プレーヤーの座標から少し変更を加えたところに砂を置いています"
+"。x座標は同じで、y座標は20ブロック高く、z座標は順に大きくして、プレーヤーからまっすぐ離れるように砂を落としています。"
 
 #: A.08-minecraft-vj.md:87
 msgid ""
@@ -11394,6 +11402,8 @@ msgid ""
 "ding more lines, changing the sleep times, try mixing `:sand` with `:gravel` a"
 "nd choose different coordinates. Just experiment and have fun!"
 msgstr ""
+"このコードであなた自身で遊んでみてはどうでしょう。コードを追加したり、sleepの時間を変更したり、:sand`と`:gravel`を組合せたり、違う座標"
+"を選んでみたりしましょう。色々実験して楽しんでみてください！"
 
 #: A.08-minecraft-vj.md:91
 msgid "Live Loops Unleashed"
@@ -11405,6 +11415,8 @@ msgid ""
 "e_loop` - Sonic Pi's magical ability which unleashes the full power of live co"
 "ding - changing code on-the-fly whilst it's running!"
 msgstr ""
+"では、`live_loop`のフルパワーを開放して、嵐を激しくする時が来ました。`live_loop`"
+"はライブコーディングのフルパワーを開放するSonic Piの特別な機能で、コードを実行したまま変更できてしまうのです！"
 
 #: A.08-minecraft-vj.md:97
 #, no-wrap
