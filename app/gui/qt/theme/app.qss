@@ -34,23 +34,7 @@ Available Style Colours:
 - errorBackgroundColor
 */
 
-QListWidget
-{
-    background: paneColor;
-}
 
-
-QListWidget::item
-{
-    background: paneColor;
-    color: menuTextColor;
-}
-
-QListWidget::item::selected
-{
-    background: menuSelectedColor;
-    color: menuSelectedTextColor;
-}
 
 QFrame {
     border: none;
@@ -310,10 +294,26 @@ QTextBrowser {
 }
 
 
-
-
-
 QToolBar{
     background-color: windowColor;
     border-bottom: 1px solid windowBorderColor;
+}
+
+
+QListWidget
+{
+    background: paneColor;
+    border: 1px solid menuSelectedColor;
+}
+
+QListWidget::item
+{
+    background: paneColor;
+    color: menuTextColor;
+}
+
+QListWidget::item::selected
+{
+    background: menuSelectedColor;
+    color: menuSelectedTextColor;
 }
