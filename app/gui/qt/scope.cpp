@@ -256,11 +256,6 @@ void Scope::refresh() {
         }
       }
     }
-
-    for( auto scope : panels )
-    {
-      scope->refresh();
-    }
   } else
   {
     ++emptyFrames;
@@ -269,6 +264,11 @@ void Scope::refresh() {
       resetScope();
       emptyFrames = 0;
     }
+  }
+
+  for( auto scope : panels )
+  {
+    scope->refresh();
   }
 }
 
