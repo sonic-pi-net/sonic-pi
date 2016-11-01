@@ -15,9 +15,9 @@ be interested in finding out more about my
 [Live Coding Performances](http://facebook.com/livecodersamaaron) where
 I code with Sonic Pi live in front of audiences.
 
-If you have any thoughts, or ideas for improving Sonic Pi - please
-pass them on - feedback is so helpful. You never know, your idea might
-be the next big feature!
+If you have any thoughts, or ideas for improving Sonic Pi - please pass
+them on - feedback is so helpful. You never know, your idea might be the
+next big feature!
 
 This tutorial is divided up into sections grouped by category. Whilst
 I've written it to have an easy learning progression from start to
@@ -27,7 +27,7 @@ consider it for a future version.
 
 Finally, watching others live code is a really great way to learn. I
 regularly stream live on
-[livecoding.tv/samaaron](http://livecoding.tv/samaaron) so please do
+[livecoding.tv/samaaron](http://youtube.com/samaaron) so please do
 drop by, say hi and ask me lots of questions :-)
 
 OK, let's get started...
