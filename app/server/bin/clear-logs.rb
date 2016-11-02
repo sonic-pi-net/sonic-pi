@@ -18,4 +18,7 @@ require_relative "../sonicpi/lib/sonicpi/util"
 
 include SonicPi::Util
 
-FileUtils.rm_rf log_path if File.exists? log_path
+# Clear out all logs (don't remove the files, just empty them)
+Dir["#{log_path}/*"].each do |p|
+  File.open(p, 'w') {|file| file.truncate(0) }
+end
