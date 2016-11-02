@@ -19,7 +19,7 @@ This problem was reported on Windows machines in Sonic Pi v. 2.7. It was reporte
 Ruby Interpreter (CUI)  
 scsynth.exe
 
-You can also check in Task Manger that there is no application entry sonic-pi.exe  
+You can also check in Task Manager that there is no application entry sonic-pi.exe  
 and quit it if there is.
 
 ## Linux: There is no sound with use_synth :piano
