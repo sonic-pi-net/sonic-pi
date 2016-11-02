@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-02 09:32+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-11-02 11:05+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -15113,6 +15113,12 @@ msgid ""
 "calls to `sleep` we will have one call to `play` which we will manually trigge"
 "r using `alt-r`. Let's try it. Type the following code into a fresh buffer:"
 msgstr ""
+"Ora puoi far partire codice istantaneamente con la tastiera, puoi usare "
+"subito questa abilità per la nostra seconda tecnica che consiste nello "
+"stratificare suoni in modo manuale. Invece di 'comporre' usando molte "
+"chiamate a `play` e `sample` separate da `sleep` avremo un'unica chiamata a "
+"`play` che avvieremo automaticamente usando `alt-r`. Proviamo! Inserisci "
+"questo codice in un buffer vuoto:"
 
 #: A.15-five-live-coding-techniques.md:41 A.15-performance.md:41
 #, no-wrap
@@ -15124,6 +15130,8 @@ msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
 msgstr ""
+"Ora, premi `Avvia` e, mentre il suono viene riprodotto, modifica il codice "
+"in modo da eliminare quattro note cambiando il seguente codice:"
 
 #: A.15-five-live-coding-techniques.md:50 A.15-performance.md:50
 #, no-wrap
@@ -15139,10 +15147,17 @@ msgid ""
 "rigger. For example, try changing both the `note:` and the `cutoff:` opts and "
 "then re-trigger."
 msgstr ""
+"Ora, premi `Avvia` di nuovo per sentire entrambi i suoni nello stesso "
+"momento. Questo perché il pulsante `Avvia` di Sonic Pi non aspetta di finire "
+"di eseguire il codice già avviato ma, invece, fa partire il codice già "
+"avviato nello stesso momento. Questo vuol dire che puoi stratificare molti "
+"suoni semplicemente e manualmente con piccole modifiche tra un avvio e "
+"l'altro. Per esempio, prova a cambiare `note:` e `cutoff:` e a rilanciare il "
+"codice."
 
 #: A.15-five-live-coding-techniques.md:63 A.15-performance.md:63
 msgid "You can also try this technique with long abstract samples. For example:"
-msgstr ""
+msgstr "Puoi usare questa tecnica con campioni lunghi. Per esempio:"
 
 #: A.15-five-live-coding-techniques.md:65 A.15-performance.md:65
 #, no-wrap
@@ -15156,6 +15171,10 @@ msgid ""
 "ome negative values such as `-0.5`. Layer the sounds together and see where yo"
 "u can take it. Finally, try adding some FX."
 msgstr ""
+"Prova facendo partire il campione e, poi, abbassa progressivamente il valore "
+"di `rate:` da `1` a `0.5` a `0.25` fino a `0.125` premendo continuamente "
+"`Avvia`. Prova anche con valori negativi come `-0.5`. Stratifica i suoni e "
+"vedi dove puoi arrivare. Prova anche ad aggiungere degli effetti."
 
 #: A.15-five-live-coding-techniques.md:74 A.15-performance.md:74
 msgid ""
@@ -15163,6 +15182,9 @@ msgid ""
 "udience new to Sonic Pi has a good chance to follow what you're doing and rela"
 "te the code that they can read to the sounds they are hearing."
 msgstr ""
+"Quando ti esibisci, lavorare con linee di codice molto semplice può aiutare "
+"il pubblico che non ha mai visto Sonic Pi a seguire quello che stai facendo "
+"riuscendo a collegare quanto stati scrivendo con quello che sentono."
 
 #: A.15-five-live-coding-techniques.md:80 A.15-performance.md:80
 msgid "3. Master Live Loops"
@@ -15190,7 +15212,7 @@ msgstr ""
 
 #: A.15-five-live-coding-techniques.md:97 A.15-performance.md:97
 msgid "4. Use the Master Mixer"
-msgstr ""
+msgstr "4. Usare il mixer master"
 
 #: A.15-five-live-coding-techniques.md:99 A.15-performance.md:99
 msgid ""
@@ -15231,7 +15253,7 @@ msgstr "set_mixer_control! lpf_slide: 16, lpf: 30"
 
 #: A.15-five-live-coding-techniques.md:127 A.15-performance.md:127
 msgid "You can then slide quickly back to a high value with:"
-msgstr ""
+msgstr "Puoi scorrere velocemente a un valore più alto così:"
 
 #: A.15-five-live-coding-techniques.md:129 A.15-performance.md:129
 #, no-wrap
@@ -15243,6 +15265,8 @@ msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
 msgstr ""
+"Quanto ti esibisci può tornare utile tenere un buffer disponibile per "
+"lavorare con il mixer in questo modo."
 
 #: A.15-five-live-coding-techniques.md:136 A.15-performance.md:136
 msgid "5. Practice"
@@ -15258,6 +15282,13 @@ msgid ""
 "uently. Practice also gives you opportunities to explore new sounds and code c"
 "onstructs."
 msgstr ""
+"La tecnica più importante di live coding è fare pratica. La qualità più "
+"comune tra i musicisti professionisti di qualsiasi tipo è che fanno pratica "
+"con il loro strumento spesso per molte ore al giorno. Esercitarsi è "
+"importante per un live coder tanto quanto per un chitarrista. Fare esercizio "
+"permette alle tue dita di memorizzare alcuni pattern e modifiche comuni per "
+"cui puoi digitare e lavorare in modo più fluido. L'esercizio ti dà anche "
+"l'opportunità di esplorare nuovi suoni e codici."
 
 #: A.15-five-live-coding-techniques.md:146 A.15-performance.md:146
 msgid ""
@@ -15266,6 +15297,11 @@ msgid ""
 "ce to draw from. This can help you understand which kinds of modifications wil"
 "l be interesting and also work well with the current sounds."
 msgstr ""
+"Quando ti esibisci, scoprirai che più esercizio fai, più sarà semplice "
+"rilassarsi durante il concerto. La pratica ti permetterà di avere un "
+"catalogo di esperienze da cui prendere spunto. Questo ti permette di capire "
+"che tipo di modifiche saranno interessanti e quali funzioneranno bene con i "
+"suoni che stai utilizzando in quel momento."
 
 #: A.15-five-live-coding-techniques.md:154 A.15-performance.md:154
 msgid ""
@@ -15322,7 +15358,7 @@ msgstr ""
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
-msgstr ""
+msgstr "Fai esercizio regolarmente"
 
 #: A.16-practice.md:15
 msgid ""
@@ -15341,7 +15377,7 @@ msgstr ""
 
 #: A.16-practice.md:27
 msgid "Learn to Touch Type"
-msgstr ""
+msgstr "Impara a digitare senza guardare la tastiera"
 
 #: A.16-practice.md:29
 msgid ""
@@ -15394,7 +15430,7 @@ msgstr ""
 
 #: A.16-practice.md:68
 msgid "Practice setting up"
-msgstr ""
+msgstr "Esercitati sul set up"
 
 #: A.16-practice.md:70
 msgid ""
@@ -15447,7 +15483,7 @@ msgstr ""
 
 #: A.16-practice.md:110
 msgid "Hear the Code"
-msgstr ""
+msgstr "Ascolta il codice"
 
 #: A.16-practice.md:112
 #, fuzzy
@@ -15478,7 +15514,7 @@ msgstr ""
 
 #: A.16-practice.md:134
 msgid "Remove all distractions"
-msgstr ""
+msgstr "Rimuovi tutte le distrazioni"
 
 #: A.16-practice.md:136
 msgid ""
@@ -15502,7 +15538,7 @@ msgstr ""
 
 #: A.16-practice.md:151
 msgid "Keep a practice diary"
-msgstr ""
+msgstr "Tieni un diario"
 
 #: A.16-practice.md:153
 msgid ""
