@@ -1337,10 +1337,10 @@ void MainWindow::initPrefsWindow() {
     go_translate->setText(
       "Sonic Pi hasn't been translated to " +
       QLocale::languageToString(QLocale::system().language()) +
-      " yet.<br>" +
-      "You can help " +
+      " yet.<br/>" +
+      "We rely on crowdsourcing to help create and maintain translations.<br/>" +
       "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
-      "translate the Sonic Pi GUI</a> to your language."
+      "Please consider helping to translate Sonic Pi to your language.</a> "
     );
     go_translate->setTextFormat(Qt::RichText);
     translation_box_layout->addWidget(go_translate);
@@ -2045,6 +2045,8 @@ void MainWindow::updateDarkMode(){
   p.setColor(QPalette::Midlight,        currentTheme->color("Midlight"));
   p.setColor(QPalette::Mid,             currentTheme->color("Mid"));
   p.setColor(QPalette::Dark,            currentTheme->color("Dark"));
+  p.setColor(QPalette::Link,            "deeppink");
+  p.setColor(QPalette::LinkVisited,     "deeppink");
 
   QApplication::setPalette(p);
 
