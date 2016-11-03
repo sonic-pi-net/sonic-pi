@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2016-10-31 16:00+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/d"
+"e/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,10 +75,11 @@ msgstr ""
 "ie ich das in zukünftige Versionen einbauen kann."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
+#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
-" stream live on [livecoding.tv/samaaron](http://livecoding.tv/samaaron) so ple"
-"ase do drop by, say hi and ask me lots of questions :-)"
+" stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
+"e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
 "Besonders gut lernt man Live-Coding, wenn man anderen dabei zuschaut. Ich stre"
 "ame regelmäßig meine Musik auf [livecoding.tv/samaaron](http://livecoding.tv/s"
@@ -209,13 +210,14 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
+#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
-" value for the `:ambi_choir` sample just slightly (say to 0.29). What happens "
-"if you choose a really small `sleep` value? See if you can make it go so fast "
-"your computer will stop with an error because it can't keep up (if that happen"
-"s, just choose a bigger `sleep` time and hit `Run` again)."
+" value for the `:ambi_choir` sample just slightly (say to `0.29`). What happen"
+"s if you choose a really small `sleep` value? See if you can make it go so fas"
+"t your computer will stop with an error because it can't keep up (if that happ"
+"ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
 "So, jetzt spiele damit herum. Verändere die Werte für `rate:` - was passiert, "
 "wenn Du hohe, kleine oder negative Zahlen einträgst? Hast Du gemerkt, wie sich"
@@ -404,6 +406,11 @@ msgstr "*F* - Protokoll-Fenster"
 msgid "*G* - Help System"
 msgstr "*G* - Hilfe-System"
 
+#: 01.2-Exploring-the-Interface.md:18
+#, fuzzy
+msgid "*H* - Scope Viewer"
+msgstr "*F* - Protokoll-Fenster"
+
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
 msgstr "A. Wiedergabe-Steuerung"
@@ -479,11 +486,12 @@ msgid "E. Prefs Panel"
 msgstr "E. Einstellungen"
 
 #: 01.2-Exploring-the-Interface.md:56
+#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
 "he visibility of the Prefs Panel which includes a number of options to be chan"
-"ged. Examples are forcing mono mode, inverting stereo, Toggling log output ver"
+"ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
 "Du kannst verschiedene Einstellungen von Sonic Pi verändern, wenn Du den *Pref"
@@ -513,13 +521,14 @@ msgid "G. Help System"
 msgstr "G. Hilfe-System"
 
 #: 01.2-Exploring-the-Interface.md:73
+#, fuzzy
 msgid ""
-"Finally, one of the most important parts of the Sonic Pi interface is the help"
-" system which appears at the bottom of the window. This can be toggled on and "
-"off by clicking on the blue *Help* button. The help system contains help and i"
-"nformation about all aspects of Sonic Pi including this tutorial, a list of av"
-"ailable synths, samples, examples, FX and a full list of all the functions Son"
-"ic Pi provides for coding music."
+"One of the most important parts of the Sonic Pi interface is the help system w"
+"hich appears at the bottom of the window. This can be toggled on and off by cl"
+"icking on the blue *Help* button. The help system contains help and informatio"
+"n about all aspects of Sonic Pi including this tutorial, a list of available s"
+"ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
+"vides for coding music."
 msgstr ""
 "Das Hilfe-System im unteren Bereich des Programmfensters ist einer der wichtig"
 "sten Teile von Sonic Pi. Du kannst es ein- und ausblenden, wenn Du den blauen`"
@@ -529,6 +538,24 @@ msgstr ""
 "hmal lautmalerisch mit *FX* (\"ef-eks\") abgekürzt; *FX* bezeichnet also die Kla"
 "ngeffekte in Sonic Pi.) sowie eine komplette Liste aller Funktionen, die Sonic"
 " Pi zum Coden von Musik bereitstellt."
+
+#: 01.2-Exploring-the-Interface.md:81
+#, fuzzy
+msgid "H. Scope Viewer"
+msgstr "F. Protokoll-Fenster"
+
+#: 01.2-Exploring-the-Interface.md:83
+msgid ""
+"The scope viewer allows you to see the sound you're hearing. You can easily se"
+"e that the saw wave looks like a saw and that the basic beep is a curvey sine "
+"wave. You can also see the difference between loud and quiet sounds by the siz"
+"e of the lines. There are 3 scopes to play with - the default is a combined sc"
+"ope for the left and right channels, there is a stereo scope which draws a sep"
+"arate scope for each channel. Finally there is a Lissajous curve scope which w"
+"ill show the phase relationship between the left and right channels and allows"
+" you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
+"us_curve)."
+msgstr ""
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -618,12 +645,14 @@ msgid "OK, enough of the intros - let's get into some sound."
 msgstr "Ok, genug der Einführung - jetzt wollen wir Klänge machen."
 
 #: 02-Synths.md:7
+#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
 "es sounds. Typically synths are quite complicated to use - especially analog s"
-"ynths with many patch wires and modules. However, Sonic Pi gives you much of t"
-"hat power in a very simple and approachable manner."
+"ynths such as Eurorack modules connected together by a mess of wires. However,"
+" Sonic Pi gives you much of that power in a very simple and approachable manne"
+"r."
 msgstr ""
 "In diesem Abschnitt besprechen wir, wie man Synths ansteuert und manipuliert. "
 "Synth ist die Kurzform von Synthesizer - ein hochtrabendes Wort für ein Ding, "
@@ -7540,14 +7569,13 @@ msgstr ""
 
 #: 08.5-Ring-Chains.md:73
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
-msgstr ""
-"`.take(5)` - liefert einen neuen Ring, der nur die ersten 5 Elementen enthält"
+msgstr "`.take(5)` - liefert einen neuen Ring, der nur die ersten 5 Elementen enthält"
 
 #: 08.5-Ring-Chains.md:74
 msgid "`.drop(3)` - returns a new ring with everything but the first 3 elements"
 msgstr ""
-"`.drop(3)` - liefert einen neuen Ring, der alles außer den ersten 3 "
-"Elementen enthält"
+"`.drop(3)` - liefert einen neuen Ring, der alles außer den ersten 3 Elementen "
+"enthält"
 
 #: 08.5-Ring-Chains.md:75
 msgid "`.butlast` - returns a new ring with the last element missing"
@@ -7560,8 +7588,8 @@ msgstr "`.drop_last(3)` - liefert einen neuen Ring ohne die letzten 3 Elemente"
 #: 08.5-Ring-Chains.md:77
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
 msgstr ""
-"`.take_last(6)`- liefert einen neuen Ring, der nur die letzten 6 Elemente "
-"enthält"
+"`.take_last(6)`- liefert einen neuen Ring, der nur die letzten 6 Elemente enth"
+"ält"
 
 #: 08.5-Ring-Chains.md:78
 msgid "`.stretch(2)` - repeats each element in the ring twice"
@@ -7573,8 +7601,7 @@ msgstr "`.repeat(3)` - wiederholt den ganzen Ring 3-mal"
 
 #: 08.5-Ring-Chains.md:80
 msgid "`.mirror` - adds the ring to a reversed version of itself"
-msgstr ""
-"`.mirror` - hängt eine umgekehrte Version des Rings an die ursprüngliche an"
+msgstr "`.mirror` - hängt eine umgekehrte Version des Rings an die ursprüngliche an"
 
 #: 08.5-Ring-Chains.md:81
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
@@ -7586,9 +7613,9 @@ msgid ""
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
 "irst 5 elements."
 msgstr ""
-"Natürlich können die Verkettungsmethoden mit Zahlen auch andere Zahlwerte "
-"entgegennehmen. Du schreibst also `.drop(5)` anstelle von `.drop(3)`, wenn "
-"Du die ersten 5 Elemente weglassen willst."
+"Natürlich können die Verkettungsmethoden mit Zahlen auch andere Zahlwerte entg"
+"egennehmen. Du schreibst also `.drop(5)` anstelle von `.drop(3)`, wenn Du die "
+"ersten 5 Elemente weglassen willst."
 
 #: 09-Live-Coding.md:1
 msgid "9 Live Coding"
@@ -7603,21 +7630,21 @@ msgid ""
 "t). However, the main advantage is that you can take Sonic Pi on stage and gig"
 " with it."
 msgstr ""
-"So, und jetzt wird es aufregend! Mit Sonic Pi kannst Du den Code für Deine "
-"Musik live schreiben und verändern. Du kannst also während eines Auftritts "
-"mit Sonic Pi live Musik machen - wie mit einer Gitarre. Das Großartige daran "
-"ist, dass Du noch während des Komponierens sofort die Rückmeldung vom "
-"Publikum erhältst. Starte einen einfachen Loop und spiele daran herum, bis "
-"er genau richtig klingt. Der größte Vorteil ist aber, dass Du Sonic Pi bei "
-"einem Gig mit auf die Bühne nehmen kannst."
+"So, und jetzt wird es aufregend! Mit Sonic Pi kannst Du den Code für Deine Mus"
+"ik live schreiben und verändern. Du kannst also während eines Auftritts mit So"
+"nic Pi live Musik machen - wie mit einer Gitarre. Das Großartige daran ist, da"
+"ss Du noch während des Komponierens sofort die Rückmeldung vom Publikum erhält"
+"st. Starte einen einfachen Loop und spiele daran herum, bis er genau richtig k"
+"lingt. Der größte Vorteil ist aber, dass Du Sonic Pi bei einem Gig mit auf die"
+" Bühne nehmen kannst."
 
 #: 09-Live-Coding.md:12
 msgid ""
 "In this section we'll cover the fundamentals of turning your static code compo"
 "sitions into dynamic performances."
 msgstr ""
-"In diesem Abschnitt behandeln wir die Grundlagen, mit denen Du Deine "
-"Kompositionen von statischem Code in rasante Performances verwandeln kannst."
+"In diesem Abschnitt behandeln wir die Grundlagen, mit denen Du Deine Kompositi"
+"onen von statischem Code in rasante Performances verwandeln kannst."
 
 #: 09-Live-Coding.md:15
 msgid "Hold on to your seats..."
@@ -7634,10 +7661,10 @@ msgid ""
 "ur music compositions live and turning them into a performance. For that we'll"
 " need 3 main ingredients:"
 msgstr ""
-"Inzwischen haben wir genug gelernt, nun können wir wirklich Spaß haben. In "
-"diesem Abschnitt nutzen wir alles, was wir bisher in diesem Tutorial gelernt "
-"haben und zeigen Dir, wie Du Deine Kompositionen live aufführen und in "
-"Performances verwandeln kannst. Dazu benötigen wir vor allem drei Zutaten:"
+"Inzwischen haben wir genug gelernt, nun können wir wirklich Spaß haben. In die"
+"sem Abschnitt nutzen wir alles, was wir bisher in diesem Tutorial gelernt habe"
+"n und zeigen Dir, wie Du Deine Kompositionen live aufführen und in Performance"
+"s verwandeln kannst. Dazu benötigen wir vor allem drei Zutaten:"
 
 #: 09.1-Live-Coding-Fundamentals.md:10
 msgid "An ability to write code that makes sounds - CHECK!"
@@ -7657,10 +7684,10 @@ msgid ""
 " function containing the code we want to play. Let's start simple. We also wan"
 "t to loop calls to that function in a thread:"
 msgstr ""
-"Ok, es kann also los gehen. Lass uns unsere ersten Sounds live coden. Zuerst "
-"brauchen wir eine Funktion, die den abzuspielenden Code enthält. Wir fangen "
-"ganz einfach an. Außerdem wollen wir diese Funktion in einer Schleife in "
-"einem Thread aufrufen:"
+"Ok, es kann also los gehen. Lass uns unsere ersten Sounds live coden. Zuerst b"
+"rauchen wir eine Funktion, die den abzuspielenden Code enthält. Wir fangen gan"
+"z einfach an. Außerdem wollen wir diese Funktion in einer Schleife in einem Th"
+"read aufrufen:"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
@@ -7691,9 +7718,9 @@ msgid ""
 "s on functions and threads. It's not too complicated if you've already wrapped"
 " your head around these things."
 msgstr ""
-"Wenn Dir das ein bisschen zu kompliziert aussieht, lies bitte noch einmal "
-"die Abschnitte über Funktionen und Threads durch. Wenn Du diese Dinge "
-"verstanden hast, wird es Dir nicht mehr sehr kompliziert vorkommen."
+"Wenn Dir das ein bisschen zu kompliziert aussieht, lies bitte noch einmal die "
+"Abschnitte über Funktionen und Threads durch. Wenn Du diese Dinge verstanden h"
+"ast, wird es Dir nicht mehr sehr kompliziert vorkommen."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
 msgid ""
@@ -7701,15 +7728,15 @@ msgid ""
 " for a beat. We then define a named thread called `:looper` which just loops a"
 "round calling `my_loop` repeatedly."
 msgstr ""
-"Wir haben hier eine Funktion, welche die Note 50 spielt und danach eine "
-"Schlagzeit lang schläft. Dann definieren wir einen benamten Thread, den wir "
-"`:looper` nennen. Dieser ruft in einer Endlosschleife `my_loop` auf."
+"Wir haben hier eine Funktion, welche die Note 50 spielt und danach eine Schlag"
+"zeit lang schläft. Dann definieren wir einen benamten Thread, den wir `:looper"
+"` nennen. Dieser ruft in einer Endlosschleife `my_loop` auf."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
 msgstr ""
-"Wenn Du diesen Code ausführst, wirst Du immer und immer wieder die Note 50 "
-"hören..."
+"Wenn Du diesen Code ausführst, wirst Du immer und immer wieder die Note 50 hör"
+"en..."
 
 #: 09.1-Live-Coding-Fundamentals.md:41
 msgid "Changing it up"
@@ -7721,9 +7748,9 @@ msgid ""
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
-"Jetzt geht es richtig los. Während der Code *noch läuft*, ändere die 50 in "
-"eine andere Zahl, zum Beispiel 55, und drücke den `Ausführen`-Button erneut. "
-"Woah! Es hat sich verändert! Live!"
+"Jetzt geht es richtig los. Während der Code *noch läuft*, ändere die 50 in ein"
+"e andere Zahl, zum Beispiel 55, und drücke den `Ausführen`-Button erneut. Woah"
+"! Es hat sich verändert! Live!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
 msgid ""
@@ -7732,20 +7759,20 @@ msgid ""
 "nction. We gave `:my_loop` a new definition. When the `:looper` thread looped "
 "around it simply called the new definition."
 msgstr ""
-"Wir haben keine neue Ebene bekommen, da wir einen benannten Thread verwendet "
-"haben und es nur einen Thread mit diesem Namen geben kann. Der Ton hat sich "
-"geändert, weil wir die Funktion *umgeschrieben* haben. Wir haben also "
-"`:my_loop` eine veränderte Funktion verpasst. Der `:looper`-Thread hat "
-"einfach diese veränderte Funktion aufgerufen."
+"Wir haben keine neue Ebene bekommen, da wir einen benannten Thread verwendet h"
+"aben und es nur einen Thread mit diesem Namen geben kann. Der Ton hat sich geä"
+"ndert, weil wir die Funktion *umgeschrieben* haben. Wir haben also `:my_loop` "
+"eine veränderte Funktion verpasst. Der `:looper`-Thread hat einfach diese verä"
+"nderte Funktion aufgerufen."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
 msgid ""
 "Try changing it again, change the note, change the sleep time. How about addin"
 "g a `use_synth` statement? For example, change it to:"
 msgstr ""
-"Verändere die Funktion noch einmal, ändere die Note und die Pausenzeit. Wie "
-"wäre es damit, ein `use_synth`-Statement einzufügen? Ändere die Funktion zum "
-"Beispiel in folgenden Code:"
+"Verändere die Funktion noch einmal, ändere die Note und die Pausenzeit. Wie wä"
+"re es damit, ein `use_synth`-Statement einzufügen? Ändere die Funktion zum Bei"
+"spiel in folgenden Code:"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -7767,9 +7794,9 @@ msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of p"
 "laying the same note again and again, try playing a chord:"
 msgstr ""
-"Jetzt klingt es schon ganz interessant, wir können es aber noch ein bisschen "
-"aufpeppen. Anstatt immer wieder die gleiche Note zu spielen, versuche es "
-"einmal mit einem Akkord:"
+"Jetzt klingt es schon ganz interessant, wir können es aber noch ein bisschen a"
+"ufpeppen. Anstatt immer wieder die gleiche Note zu spielen, versuche es einmal"
+" mit einem Akkord:"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -7855,10 +7882,10 @@ msgid ""
 "stop what you're doing and read the next section on `live_loop` which will cha"
 "nge the way you code in Sonic Pi forever..."
 msgstr ""
-"Bevor Du jetzt aufspringst und mit Funktionen und Threads live codest, "
-"solltest Du lieber erst einmal eine Pause machen und das nächste Kapitel "
-"über den `live_loop` lesen. Denn dieser wird für immer verändern, wie Du in "
-"Sonic Pi programmierst..."
+"Bevor Du jetzt aufspringst und mit Funktionen und Threads live codest, solltes"
+"t Du lieber erst einmal eine Pause machen und das nächste Kapitel über den `li"
+"ve_loop` lesen. Denn dieser wird für immer verändern, wie Du in Sonic Pi progr"
+"ammierst..."
 
 #: 09.2-Live-Loops.md:1
 msgid "9.2 Live Loops"
@@ -7875,18 +7902,17 @@ msgid ""
 "ndamentals, `live_loop` is a simple way of doing exactly that but without havi"
 "ng to write so much."
 msgstr ""
-"Ok, dieses Kapitel des Tutorials ist ein Juwel. Wenn Du nur einen Abschnitt "
-"lesen würdest, sollte es dieser sein. Mit `live_loop` kannst Du genau das, "
-"was Du im letzten Abschnitt gelernt hast, viel einfacher und mit weniger "
-"Code tun."
+"Ok, dieses Kapitel des Tutorials ist ein Juwel. Wenn Du nur einen Abschnitt le"
+"sen würdest, sollte es dieser sein. Mit `live_loop` kannst Du genau das, was D"
+"u im letzten Abschnitt gelernt hast, viel einfacher und mit weniger Code tun."
 
 #: 09.2-Live-Loops.md:10
 msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam wi"
 "th Sonic Pi."
 msgstr ""
-"Falls Du den letzten Abschnitt nicht gelesen hast: `live_loop` ist der beste "
-"Weg, mit Sonic Pi zu jammen."
+"Falls Du den letzten Abschnitt nicht gelesen hast: `live_loop` ist der beste W"
+"eg, mit Sonic Pi zu jammen."
 
 #: 09.2-Live-Loops.md:13
 msgid "Let's play. Write the following in a new buffer:"
@@ -7911,23 +7937,23 @@ msgid ""
 " However, don't press Stop just yet. Change the `60` to `65` and press Run aga"
 "in."
 msgstr ""
-"Jetzt klicke den `Ausführen`-Button. Du hörst zu jeder Schlagzeit ein "
-"einfaches Piepen. Kein besonderer Spaß. Drücke aber noch nicht den `Stopp`-"
-"Button. Ändere die `60` in `65` und drücke wieder `Ausführen`."
+"Jetzt klicke den `Ausführen`-Button. Du hörst zu jeder Schlagzeit ein einfache"
+"s Piepen. Kein besonderer Spaß. Drücke aber noch nicht den `Stopp`-Button. Änd"
+"ere die `60` in `65` und drücke wieder `Ausführen`."
 
 #: 09.2-Live-Loops.md:26
 msgid "Woah! It changed *automatically* without missing a beat. This is live coding."
 msgstr ""
-"Whoa! Es hat sich *automatisch* verändert, ohne einen Takt auszulassen. Das "
-"ist Live-Coding."
+"Whoa! Es hat sich *automatisch* verändert, ohne einen Takt auszulassen. Das is"
+"t Live-Coding."
 
 #: 09.2-Live-Loops.md:28
 msgid ""
 "Why not change it to be more bass like? Just update your code whilst it's play"
 "ing:"
 msgstr ""
-"Warum es jetzt nicht ein wenig bassiger machen? Verändere Deinen Code, "
-"während er abläuft:"
+"Warum es jetzt nicht ein wenig bassiger machen? Verändere Deinen Code, während"
+" er abläuft:"
 
 #: 09.2-Live-Loops.md:30
 #, no-wrap
@@ -8047,22 +8073,21 @@ msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
-"Vielleicht fragst Du Dich, warum er den Namen `:foo` braucht. Dieser Name "
-"ist wichtig, weil er sicherstellt, dass sich dieser Live-Loop von allen "
-"anderen Live-Loops unterscheidet."
+"Vielleicht fragst Du Dich, warum er den Namen `:foo` braucht. Dieser Name ist "
+"wichtig, weil er sicherstellt, dass sich dieser Live-Loop von allen anderen Li"
+"ve-Loops unterscheidet."
 
 #: 09.3-Multiple-Live-Loops.md:18
 msgid "*There can never be two live loops running with the same name*."
-msgstr ""
-"*Es können nie zwei Live-Loops mit dem selben Namen gleichzeitig laufen*."
+msgstr "*Es können nie zwei Live-Loops mit dem selben Namen gleichzeitig laufen*."
 
 #: 09.3-Multiple-Live-Loops.md:20
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just n"
 "eed to give them different names:"
 msgstr ""
-"Wir müssen also unterschiedliche Namen vergeben, damit wir mehrere "
-"gleichzeitig laufende Live-Loops spielen können:"
+"Wir müssen also unterschiedliche Namen vergeben, damit wir mehrere gleichzeiti"
+"g laufende Live-Loops spielen können:"
 
 #: 09.3-Multiple-Live-Loops.md:23
 #, no-wrap
@@ -8092,8 +8117,8 @@ msgid ""
 "You can now update and change each live loop independently and it all just wor"
 "ks."
 msgstr ""
-"Jetzt kannst Du beide Live-Loops unabhängig voneinander verändern und alles "
-"funktioniert - einfach so."
+"Jetzt kannst Du beide Live-Loops unabhängig voneinander verändern und alles fu"
+"nktioniert - einfach so."
 
 #: 09.3-Multiple-Live-Loops.md:39
 msgid "Syncing Live Loops"
@@ -8107,13 +8132,12 @@ msgid ""
 " therefore `sync` on these cues to ensure our loops are in sync without having"
 " to stop anything."
 msgstr ""
-"Du hast vielleicht schon bemerkt, dass Live-Loops automatisch mit dem Thread-"
-"Cue-Mechanismus arbeiten, den wir uns im Abschnitt über Thread-"
-"Synchronisation bereits angeschaut haben. In jedem Durchlauf des Live-Loops "
-"generiert er ein neues `cue`-Event mit dem Namen des Loops. Anhand dieser "
-"Cues können wir für unsere Loops mit `sync` sicherstellen, dass sie "
-"zueinander synchron laufen, ohne dass wir das Abspielen zwischendurch "
-"stoppen müssen."
+"Du hast vielleicht schon bemerkt, dass Live-Loops automatisch mit dem Thread-C"
+"ue-Mechanismus arbeiten, den wir uns im Abschnitt über Thread-Synchronisation "
+"bereits angeschaut haben. In jedem Durchlauf des Live-Loops generiert er ein n"
+"eues `cue`-Event mit dem Namen des Loops. Anhand dieser Cues können wir für un"
+"sere Loops mit `sync` sicherstellen, dass sie zueinander synchron laufen, ohne"
+" dass wir das Abspielen zwischendurch stoppen müssen."
 
 #: 09.3-Multiple-Live-Loops.md:47
 msgid "Consider this badly synced code:"
@@ -8146,9 +8170,9 @@ msgid ""
 "fix the `:foo` loop to make the sleep a factor of 1 - something like `0.5` wil"
 "l do:"
 msgstr ""
-"Jetzt versuchen wir, das Timing zu korrigieren ohne den Loop zu stoppen. "
-"Zuerst reparieren wir den Loop `:foo`, indem wir die Sleep-Dauer zu einem "
-"Faktor von 1 machen - dafür funktioniert zum Beispiel `0.5`:"
+"Jetzt versuchen wir, das Timing zu korrigieren ohne den Loop zu stoppen. Zuers"
+"t reparieren wir den Loop `:foo`, indem wir die Sleep-Dauer zu einem Faktor vo"
+"n 1 machen - dafür funktioniert zum Beispiel `0.5`:"
 
 #: 09.3-Multiple-Live-Loops.md:65
 #, no-wrap
@@ -8177,10 +8201,10 @@ msgid ""
 " line up correctly. This is because the loops are *out of phase*. Let's fix th"
 "at by syncing one to the other:"
 msgstr ""
-"Damit sind wir aber noch nicht ganz fertig. Du hörst schon, dass die Beats "
-"nicht so recht zusammenpassen. Der Grund dafür ist, dass diese Loops *out of "
-"phase* sind. Das können wir reparieren, indem wir einen Loop mit dem anderen "
-"synchronisieren:"
+"Damit sind wir aber noch nicht ganz fertig. Du hörst schon, dass die Beats nic"
+"ht so recht zusammenpassen. Der Grund dafür ist, dass diese Loops *out of phas"
+"e* sind. Das können wir reparieren, indem wir einen Loop mit dem anderen synch"
+"ronisieren:"
 
 #: 09.3-Multiple-Live-Loops.md:81
 #, no-wrap
@@ -8208,8 +8232,8 @@ msgstr ""
 #: 09.3-Multiple-Live-Loops.md:94
 msgid "Wow, everything is now perfectly in time - all without stopping."
 msgstr ""
-"Wow, jetzt passt alles genau zusammen - und das, ohne dass wir die Loops "
-"anhalten mussten."
+"Wow, jetzt passt alles genau zusammen - und das, ohne dass wir die Loops anhal"
+"ten mussten."
 
 #: 09.3-Multiple-Live-Loops.md:96
 msgid "Now, go forth and live code with live loops!"
@@ -8229,9 +8253,9 @@ msgid ""
 "through rings. You'll be putting notes into rings for melodies, sleeps for rhy"
 "thms, chord progressions, timbral variations, etc. etc."
 msgstr ""
-"Beim Live-Coding wirst Du in Deinen Loops sehr oft Ringe verwenden. Aus "
-"einem Ring wirst Du Noten für Melodien, Pausen für Rhythmen, Akkordfolgen, "
-"Klangvariatonen und ähnliches entnehmen."
+"Beim Live-Coding wirst Du in Deinen Loops sehr oft Ringe verwenden. Aus einem "
+"Ring wirst Du Noten für Melodien, Pausen für Rhythmen, Akkordfolgen, Klangvari"
+"atonen und ähnliches entnehmen."
 
 #: 09.4-Ticking.md:9
 msgid "Ticking Rings"
@@ -8245,9 +8269,9 @@ msgid ""
 " Tick just implements this idea. It provides you with the ability to *tick thr"
 "ough rings*. Let's look at an example:"
 msgstr ""
-"Das Tick-System ist ein *sehr* praktisches Werkzeug, um in einem `live_loop` "
-"mit Ringen zu hantieren. Du kannst damit einen *Ring durchticken*. Hier ein "
-"Beispiel:"
+"Das Tick-System ist ein *sehr* praktisches Werkzeug, um in einem `live_loop` m"
+"it Ringen zu hantieren. Du kannst damit einen *Ring durchticken*. Hier ein Bei"
+"spiel:"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
@@ -8290,10 +8314,10 @@ msgid ""
 ". This tick is local to the live loop, so each live loop can have its own inde"
 "pendent tick:"
 msgstr ""
-"In diesem Beispiel tickt der Code einmal jede Note der pentatonischen E3"
-"-Moll-Tonleiter durch. Dafür fügst Du einfach ein `.tick` hinter der "
-"Tonleiter-Deklaration an. Dieser Tick gilt nur für diese Live-Loop und jede "
-"Live-Loop kann seinen eigenen, unabhängigen Tick haben:"
+"In diesem Beispiel tickt der Code einmal jede Note der pentatonischen E3-Moll-"
+"Tonleiter durch. Dafür fügst Du einfach ein `.tick` hinter der Tonleiter-Dekla"
+"ration an. Dieser Tick gilt nur für diese Live-Loop und jede Live-Loop kann se"
+"inen eigenen, unabhängigen Tick haben:"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -8325,8 +8349,8 @@ msgstr "Tick"
 #: 09.4-Ticking.md:55
 msgid "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr ""
-"Du kannst auch den aktuellen Tick mit der Standard-Funktion `tick` abfragen "
-"und den Wert als Index verwenden:"
+"Du kannst auch den aktuellen Tick mit der Standard-Funktion `tick` abfragen un"
+"d den Wert als Index verwenden:"
 
 #: 09.4-Ticking.md:57
 #, no-wrap
@@ -8349,10 +8373,10 @@ msgid ""
 "n you want to do fancy things with the tick value and for when you want to use"
 " ticks for other things than indexing into rings."
 msgstr ""
-"Aber eigentlich ist es viel einfacher, wenn Du `.tick` am Ende anfügst. Die "
-"`tick`-Funktion kannst Du benutzen, wenn Du aufwändigere Dinge machen "
-"möchtest; oder wenn du Ticks für andere Dinge verwenden möchtest als Werte "
-"aus einem Ring anzusteuern."
+"Aber eigentlich ist es viel einfacher, wenn Du `.tick` am Ende anfügst. Die `t"
+"ick`-Funktion kannst Du benutzen, wenn Du aufwändigere Dinge machen möchtest; "
+"oder wenn du Ticks für andere Dinge verwenden möchtest als Werte aus einem Rin"
+"g anzusteuern."
 
 #: 09.4-Ticking.md:70
 msgid "Look"
@@ -8368,13 +8392,13 @@ msgid ""
 "t increase* it. This is available via the `look` fn. You can call `look` as a "
 "standard fn or by adding `.look` to the end of a ring."
 msgstr ""
-"Die Magie des Ticks ist, dass er sich nach jedem Aufruf erhöht, so dass Du "
-"bei der nächsten Verwendung auch den nächsten Tick bekommst. In den "
-"Beispielen findest Du einige Sonic-Pi-Codes, die `.tick` verwenden, schau "
-"sie Dir mal näher an. Manchmal willst Du aber den aktuellen Tick benutzen, *"
-"ohne dass er gleich um einen Wert weiter tickt*. Dafür gibt es die `look`-"
-"Funktion. Du kannst sie wie zuvor mit `look` als Funktion aufrufen oder mit "
-"`.look` an einen Ring anfügen."
+"Die Magie des Ticks ist, dass er sich nach jedem Aufruf erhöht, so dass Du bei"
+" der nächsten Verwendung auch den nächsten Tick bekommst. In den Beispielen fi"
+"ndest Du einige Sonic-Pi-Codes, die `.tick` verwenden, schau sie Dir mal näher"
+" an. Manchmal willst Du aber den aktuellen Tick benutzen, *ohne dass er gleich"
+" um einen Wert weiter tickt*. Dafür gibt es die `look`-Funktion. Du kannst sie"
+" wie zuvor mit `look` als Funktion aufrufen oder mit `.look` an einen Ring anf"
+"ügen."
 
 #: 09.4-Ticking.md:81
 msgid "Naming Ticks"
@@ -8385,8 +8409,8 @@ msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is achie"
 "ved by giving your tick a name:"
 msgstr ""
-"Gelegentlich wirst Du auch mal mehr als einen Tick pro Live-Loop brauchen. "
-"Gib den Ticks dafür Namen:"
+"Gelegentlich wirst Du auch mal mehr als einen Tick pro Live-Loop brauchen. Gib"
+" den Ticks dafür Namen:"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
@@ -8410,12 +8434,12 @@ msgid ""
 "alled one tick `:foo` and the other `:bar`. If we want to `look` at these we a"
 "lso need to pass the name of the tick to `look`."
 msgstr ""
-"In diesem Beispiel markiert ein Tick die Position in der Tonleiter, ein "
-"zweiter Tick wählt die Pausenwerte. Beide Ticks befinden sich im gleichen "
-"Live-Loop, also geben wir ihnen zur Unterscheidung eindeutige Namen. Du "
-"kennst das Prinzip schon von den Live-Loops - einfach ein `:` gefolgt vom "
-"Namen. Im Beispiel heißt der eine Tick `:foo` und der andere `:bar`. Willst "
-"Du die Tick-Werte mit `look` nur abfragen, musst Du ebenso den Namen nennen."
+"In diesem Beispiel markiert ein Tick die Position in der Tonleiter, ein zweite"
+"r Tick wählt die Pausenwerte. Beide Ticks befinden sich im gleichen Live-Loop,"
+" also geben wir ihnen zur Unterscheidung eindeutige Namen. Du kennst das Prinz"
+"ip schon von den Live-Loops - einfach ein `:` gefolgt vom Namen. Im Beispiel h"
+"eißt der eine Tick `:foo` und der andere `:bar`. Willst Du die Tick-Werte mit "
+"`look` nur abfragen, musst Du ebenso den Namen nennen."
 
 #: 09.4-Ticking.md:101
 msgid "Don't make it too complicated"
@@ -8428,19 +8452,18 @@ msgid ""
 "le ring. That'll give you most of the joy and simplicity of ticking through ri"
 "ngs in your `live_loop`s."
 msgstr ""
-"Mit Ticks kannst Du viele großartige Dinge machen, aber versuche nicht, "
-"gleich alles in diesem Kapitel zu lernen und anzuwenden. Für den Anfang "
-"reicht es völlig, wenn Du nur durch einen Ring durchtickst und das Prinzip "
-"kennenlernst. Damit kannst Du in Deinen `live_loop`s schon eine Menge "
-"anfangen."
+"Mit Ticks kannst Du viele großartige Dinge machen, aber versuche nicht, gleich"
+" alles in diesem Kapitel zu lernen und anzuwenden. Für den Anfang reicht es vö"
+"llig, wenn Du nur durch einen Ring durchtickst und das Prinzip kennenlernst. D"
+"amit kannst Du in Deinen `live_loop`s schon eine Menge anfangen."
 
 #: 09.4-Ticking.md:108
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful exampl"
 "es and happy ticking!"
 msgstr ""
-"Schau Dir die Dokumentation an, Du wirst dort viele praktische Beispiele "
-"entdecken. Viel Spaß beim Durchticken!"
+"Schau Dir die Dokumentation an, Du wirst dort viele praktische Beispiele entde"
+"cken. Viel Spaß beim Durchticken!"
 
 #: 10-Essential-Knowledge.md:1
 msgid "10 Essential Knowledge"
@@ -8455,17 +8478,17 @@ msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge for"
 " getting the most out of your Sonic Pi experience."
 msgstr ""
-"In diesem Kapitel findest Du sehr nützliches - nein, *unentbehrliches* - "
-"Wissen, um das Bestmögliche aus Sonic Pi herauszuholen."
+"In diesem Kapitel findest Du sehr nützliches - nein, *unentbehrliches* - Wisse"
+"n, um das Bestmögliche aus Sonic Pi herauszuholen."
 
 #: 10-Essential-Knowledge.md:8
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
-"Wir behandeln viele der verfügbaren Tastaturkürzel, zeigen, wie Du Deine "
-"Ergebnisse mit anderen teilen kannst, und geben Dir Tipps für Auftritte mit "
-"Sonic Pi."
+"Wir behandeln viele der verfügbaren Tastaturkürzel, zeigen, wie Du Deine Ergeb"
+"nisse mit anderen teilen kannst, und geben Dir Tipps für Auftritte mit Sonic P"
+"i."
 
 #: 10.1-Using-Shortcuts.md:1
 msgid "10.1 Using Shortcuts"
@@ -8481,9 +8504,9 @@ msgid ""
 "fore make playing Sonic Pi much more *efficient and natural* - especially when"
 " you're playing live in front of an audience."
 msgstr ""
-"Sonic Pi ist zu gleichen Teilen Musikinstrument und Programmierumgebung. Mit "
-"Tastaturkürzeln kannst Du Sonic Pi viel *effizienter und natürlicher* "
-"spielen - insbesondere, wenn Du live vor Publikum spielst."
+"Sonic Pi ist zu gleichen Teilen Musikinstrument und Programmierumgebung. Mit T"
+"astaturkürzeln kannst Du Sonic Pi viel *effizienter und natürlicher* spielen -"
+" insbesondere, wenn Du live vor Publikum spielst."
 
 #: 10.1-Using-Shortcuts.md:9
 msgid ""
@@ -8494,29 +8517,29 @@ msgid ""
 "s it slows me down. I therefore use all of these shortcuts on a very regular b"
 "asis!"
 msgstr ""
-"Sehr vieles in Sonic Pi kann mit der Tastatur gesteuert werden. Je "
-"vertrauter Du mit Sonic Pi wirst, umso mehr wirst Du diese Tastaturkürzel "
-"verwenden. *Ich selbst tippe, ohne die Tastatur anzusehen* (und kann Dir nur "
-"empfehlen, das Zehnfingersystem auch zu lernen). Und ich bin jedes Mal "
-"frustriert, wenn ich zur Maus greifen muss, denn das macht mich langsam. "
-"Deshalb benutze ich ständig Tastaturkürzel!"
+"Sehr vieles in Sonic Pi kann mit der Tastatur gesteuert werden. Je vertrauter "
+"Du mit Sonic Pi wirst, umso mehr wirst Du diese Tastaturkürzel verwenden. *Ich"
+" selbst tippe, ohne die Tastatur anzusehen* (und kann Dir nur empfehlen, das Z"
+"ehnfingersystem auch zu lernen). Und ich bin jedes Mal frustriert, wenn ich zu"
+"r Maus greifen muss, denn das macht mich langsam. Deshalb benutze ich ständig "
+"Tastaturkürzel!"
 
 #: 10.1-Using-Shortcuts.md:16
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
 "tively and you'll be live coding like a pro in no time."
 msgstr ""
-"Wer die Tastaturkürzel beherrscht, kann auch seine Tastatur viel effektiver "
-"benutzen und in kürzester Zeit wirst Du programmieren wie ein Profi."
+"Wer die Tastaturkürzel beherrscht, kann auch seine Tastatur viel effektiver be"
+"nutzen und in kürzester Zeit wirst Du programmieren wie ein Profi."
 
 #: 10.1-Using-Shortcuts.md:19
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the one"
 "s you use most and then keep adding more to your practice."
 msgstr ""
-"*Versuche aber nicht, alle auf einmal zu lernen*, merke Dir erst einmal die, "
-"die Du am häufigsten brauchst. Später kannst Du Dein Repertoire nach und "
-"nach erweitern."
+"*Versuche aber nicht, alle auf einmal zu lernen*, merke Dir erst einmal die, d"
+"ie Du am häufigsten brauchst. Später kannst Du Dein Repertoire nach und nach e"
+"rweitern."
 
 #: 10.1-Using-Shortcuts.md:22
 msgid "Consistency across Platforms"
@@ -8529,11 +8552,10 @@ msgid ""
 "me switching between different clarinets and you'd be stuck to using just one "
 "make."
 msgstr ""
-"Stell Dir vor, Du lernst Klarinette. Du kannst davon ausgehen, dass alle "
-"Klarinetten aller Marken gleiche Mechaniken und Fingersätze haben. Hätten "
-"sie das nicht, könntest Du nicht ohne weiteres zwischen verschiedenen "
-"Klarinetten hin- und her wechseln. Sondern müsstest immer bei einer Marke "
-"bleiben."
+"Stell Dir vor, Du lernst Klarinette. Du kannst davon ausgehen, dass alle Klari"
+"netten aller Marken gleiche Mechaniken und Fingersätze haben. Hätten sie das n"
+"icht, könntest Du nicht ohne weiteres zwischen verschiedenen Klarinetten hin- "
+"und her wechseln. Sondern müsstest immer bei einer Marke bleiben."
 
 #: 10.1-Using-Shortcuts.md:29
 msgid ""
@@ -8545,14 +8567,14 @@ msgid ""
 "whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
 "PC and feel right at home."
 msgstr ""
-"Unglücklicherweise haben die drei wesentlichen Betriebssysteme (Linux, Mac "
-"OS X und Windows) alle ihre eigenen typischen Tastaturkürzel für Aktionen "
-"wie z.B. Kopieren, Ausschneiden und Einfügen. Sonic Pi nutzt diese Standards "
-"wo immer möglich. Jedoch *liegt die Priorität auf plattformübergreifender "
-"Konsistenz* innerhalb von Sonic Pi, nicht auf dem Versuch, die Standards der "
-"jeweiligen Plattform vollumfänglich zu erfüllen. Das bedeutet, dass die in "
-"Sonic Pi auf dem Raspberry Pi gelernten Tastaturkürzel ebenso auf einem Mac "
-"oder PC mit Sonic Pi funktionieren."
+"Unglücklicherweise haben die drei wesentlichen Betriebssysteme (Linux, Mac OS "
+"X und Windows) alle ihre eigenen typischen Tastaturkürzel für Aktionen wie z.B"
+". Kopieren, Ausschneiden und Einfügen. Sonic Pi nutzt diese Standards wo immer"
+" möglich. Jedoch *liegt die Priorität auf plattformübergreifender Konsistenz* "
+"innerhalb von Sonic Pi, nicht auf dem Versuch, die Standards der jeweiligen Pl"
+"attform vollumfänglich zu erfüllen. Das bedeutet, dass die in Sonic Pi auf dem"
+" Raspberry Pi gelernten Tastaturkürzel ebenso auf einem Mac oder PC mit Sonic "
+"Pi funktionieren."
 
 #: 10.1-Using-Shortcuts.md:37
 msgid "Control and Meta"
@@ -8567,14 +8589,13 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
-"Für diese Konsistenz müssen wir auch die Namen der Tastaturkürzel "
-"entsprechend auswählen. In Sonic Pi verwenden wir die Namen *Control* und "
-"*Meta* für die beiden wichtigsten Kombinationstasten. *Control* (*Ctrl* - "
-"oder *Strg* für \"Steuerung\" auf deutschen Tastaturen) ist auf allen "
-"Plattformen gleich. Auf Linux und Windows ist *Meta* die *Alt*-Taste, "
-"während *Meta* auf dem Mac die *Command*-Taste ist. Um konsistent zu "
-"bleiben, nutzen wir den Begriff *Meta* - diesem musst Du mental die passende "
-"Taste Deines Betriebssystems zuordnen."
+"Für diese Konsistenz müssen wir auch die Namen der Tastaturkürzel entsprechend"
+" auswählen. In Sonic Pi verwenden wir die Namen *Control* und *Meta* für die b"
+"eiden wichtigsten Kombinationstasten. *Control* (*Ctrl* - oder *Strg* für \"Ste"
+"uerung\" auf deutschen Tastaturen) ist auf allen Plattformen gleich. Auf Linux "
+"und Windows ist *Meta* die *Alt*-Taste, während *Meta* auf dem Mac die *Comman"
+"d*-Taste ist. Um konsistent zu bleiben, nutzen wir den Begriff *Meta* - diesem"
+" musst Du mental die passende Taste Deines Betriebssystems zuordnen."
 
 #: 10.1-Using-Shortcuts.md:46
 msgid "Abbreviations"
@@ -8587,12 +8608,11 @@ msgid ""
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
-"Um die Dinge einfach und lesbar zu halten, werden wir die Abkürzungen *C-* "
-"für *Control* und eine weitere Taste sowie *M-* für *Meta* und eine weitere "
-"Taste verwenden. Wenn ein Tastaturkürzel beispielsweise erfordert, dass Du "
-"*Meta* und *r* gleichzeitig drückst, werden wir die Abkürzung `M-r` "
-"verwenden. Der Bindestrich in der Mitte (*-*) bedeutet nur \"zur gleichen "
-"Zeit\"."
+"Um die Dinge einfach und lesbar zu halten, werden wir die Abkürzungen *C-* für"
+" *Control* und eine weitere Taste sowie *M-* für *Meta* und eine weitere Taste"
+" verwenden. Wenn ein Tastaturkürzel beispielsweise erfordert, dass Du *Meta* u"
+"nd *r* gleichzeitig drückst, werden wir die Abkürzung `M-r` verwenden. Der Bin"
+"destrich in der Mitte (*-*) bedeutet nur \"zur gleichen Zeit\"."
 
 #: 10.1-Using-Shortcuts.md:53
 msgid "The following are some of the shortcuts I find most useful."
@@ -8607,8 +8627,8 @@ msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
-"Du musst nicht immer zur Maus greifen, um Deinen Code auszuführen. Drücke "
-"stattdessen einfach `M-r` zum Abspielen. Mit `M-s` stoppst Du die Musik."
+"Du musst nicht immer zur Maus greifen, um Deinen Code auszuführen. Drücke stat"
+"tdessen einfach `M-r` zum Abspielen. Mit `M-s` stoppst Du die Musik."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:52
 msgid "Navigation"
@@ -8622,11 +8642,10 @@ msgid ""
 "equiring you to move your hand to the mouse or the arrow keys on your keyboard"
 "."
 msgstr ""
-"Ohne die Tastenkürzel zur Navigation bin ich verloren. Deshalb empfehle ich "
-"Dir dringend, diese Kürzel zu lernen. Sie funktionieren besonders gut, wenn "
-"Du das Zehnfingersystem schon halbwegs beherrschst, da sie normale "
-"Buchstaben verwenden - so musst Du Deine Hand nicht zur Maus oder zu den "
-"Pfeiltasten bewegen."
+"Ohne die Tastenkürzel zur Navigation bin ich verloren. Deshalb empfehle ich Di"
+"r dringend, diese Kürzel zu lernen. Sie funktionieren besonders gut, wenn Du d"
+"as Zehnfingersystem schon halbwegs beherrschst, da sie normale Buchstaben verw"
+"enden - so musst Du Deine Hand nicht zur Maus oder zu den Pfeiltasten bewegen."
 
 #: 10.1-Using-Shortcuts.md:68
 msgid ""
@@ -8635,11 +8654,10 @@ msgid ""
 " `C-f`, and back a character with `C-b`. You can even delete all the character"
 "s from the cursor to the end of the line with `C-k`."
 msgstr ""
-"Mit `C-a` springst Du an den Anfang, mit `C-e` ans Ende einer Zeile. Eine "
-"Zeile nach oben geht es mit `C-p`, eine nach unten mit `C-n`, ein Zeichen "
-"vorwärts mit `C-f` und eines nach hinten mit `C-b`. Du kannst auch alle "
-"Zeichen von der aktuellen Cursorposition bis zum Ende der Zeile mit `C-k` "
-"löschen."
+"Mit `C-a` springst Du an den Anfang, mit `C-e` ans Ende einer Zeile. Eine Zeil"
+"e nach oben geht es mit `C-p`, eine nach unten mit `C-n`, ein Zeichen vorwärts"
+" mit `C-f` und eines nach hinten mit `C-b`. Du kannst auch alle Zeichen von de"
+"r aktuellen Cursorposition bis zum Ende der Zeile mit `C-k` löschen."
 
 #: 10.1-Using-Shortcuts.md:74
 msgid "Tidy Code"
@@ -8659,15 +8677,15 @@ msgid ""
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
 "isplay the docs if it finds anything. Instant help!"
 msgstr ""
-"Zum Hilfesystem kommst Du mit `M-i`. Noch hilfreicher ist allerdings `C-i`, "
-"damit wird Dir für das Wort, auf dem der Cursor gerade steht, sofort die "
-"passende Stelle in der Dokumentation gezeigt. Sofortige Hilfe!"
+"Zum Hilfesystem kommst Du mit `M-i`. Noch hilfreicher ist allerdings `C-i`, da"
+"mit wird Dir für das Wort, auf dem der Cursor gerade steht, sofort die passend"
+"e Stelle in der Dokumentation gezeigt. Sofortige Hilfe!"
 
 #: 10.1-Using-Shortcuts.md:84
 msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
 msgstr ""
-"Eine Liste aller Tastaturkürzel ist in Kapitel 10.2 \"Cheatsheet für "
-"Tastenkürzel\" enthalten."
+"Eine Liste aller Tastaturkürzel ist in Kapitel 10.2 \"Cheatsheet für Tastenkürz"
+"el\" enthalten."
 
 #: 10.2-Shortcut-Cheatsheet.md:1
 msgid "10.2 Shortcut Cheatsheet"
@@ -8682,9 +8700,9 @@ msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
 "ease see Section 10.1 for motivation and background."
 msgstr ""
-"In diesem Abschnitt findest Du eine Zusammenfassung der wichtigsten "
-"Tastenkürzel von Sonic Pi. In Abschnitt 10.1 erklärte ich Dir bereits, warum "
-"diese so nützlich sind."
+"In diesem Abschnitt findest Du eine Zusammenfassung der wichtigsten Tastenkürz"
+"el von Sonic Pi. In Abschnitt 10.1 erklärte ich Dir bereits, warum diese so nü"
+"tzlich sind."
 
 #: 10.2-Shortcut-Cheatsheet.md:8
 msgid "Conventions"
@@ -8695,43 +8713,42 @@ msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
 msgstr ""
-"Wir verwenden die folgenden Konventionen (*Meta* ist *Alt* auf Windows und "
-"Linux und *Cmd* auf dem Mac wie in 10.1 beschrieben):"
+"Wir verwenden die folgenden Konventionen (*Meta* ist *Alt* auf Windows und Lin"
+"ux und *Cmd* auf dem Mac wie in 10.1 beschrieben):"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
 msgstr ""
-"`C-a` bedeutet, die *Control* (*Strg* auf deutschen Tastaturen) zu drücken "
-"und zu halten, dabei *a* zu drücken und danach beide Tasten wieder los zu "
-"lassen."
+"`C-a` bedeutet, die *Control* (*Strg* auf deutschen Tastaturen) zu drücken und"
+" zu halten, dabei *a* zu drücken und danach beide Tasten wieder los zu lassen."
 
 #: 10.2-Shortcut-Cheatsheet.md:14
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
 msgstr ""
-"`M-r` bedeutet, *Meta* zu drücken und zu halten, dabei die *r*-Taste zu "
-"drücken und danach beide wieder los zu lassen."
+"`M-r` bedeutet, *Meta* zu drücken und zu halten, dabei die *r*-Taste zu drücke"
+"n und danach beide wieder los zu lassen."
 
 #: 10.2-Shortcut-Cheatsheet.md:15
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
 msgstr ""
-"`S-M-z` bedeutet, die *Meta*-Taste zu drücken und zu halten, dann *Shift* zu "
-"drücken und zu halten und schließlich die *z*-Taste und alle drei Tasten "
-"gleichzeitig wieder los zu lassen."
+"`S-M-z` bedeutet, die *Meta*-Taste zu drücken und zu halten, dann *Shift* zu d"
+"rücken und zu halten und schließlich die *z*-Taste und alle drei Tasten gleich"
+"zeitig wieder los zu lassen."
 
 #: 10.2-Shortcut-Cheatsheet.md:16
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
 msgstr ""
-"`C-M-f` bedeutet, *Control* zu drücken und zu halten, dann *Meta* zu drücken "
-"und zu halten, dann *f* zu drücken und alle drei Tasten gleichzeitig wieder "
-"los zu lassen."
+"`C-M-f` bedeutet, *Control* zu drücken und zu halten, dann *Meta* zu drücken u"
+"nd zu halten, dann *f* zu drücken und alle drei Tasten gleichzeitig wieder los"
+" zu lassen."
 
 #: 10.2-Shortcut-Cheatsheet.md:18
 msgid "Main Application Manipulation"
@@ -8810,8 +8827,8 @@ msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr ""
-"`C-SPACE` - Markierung setzen. Textauswahl ab jetzt von hier bis zum Cursor. "
-"`C-g` löscht die Markierung."
+"`C-SPACE` - Markierung setzen. Textauswahl ab jetzt von hier bis zum Cursor. `"
+"C-g` löscht die Markierung."
 
 #: 10.2-Shortcut-Cheatsheet.md:42
 msgid "Text Manipulation"
@@ -8967,8 +8984,7 @@ msgstr "Teilen"
 
 #: 10.3-Sharing.md:5
 msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr ""
-"In Sonic Pi geht es vor allen Dingen um das Teilen und gemeinsame Lernen."
+msgstr "In Sonic Pi geht es vor allen Dingen um das Teilen und gemeinsame Lernen."
 
 #: 10.3-Sharing.md:7
 msgid ""
@@ -8976,11 +8992,11 @@ msgid ""
 "as sending an email containing your code. Please do *share* your code with oth"
 "ers so they can *learn* from your work and even use parts in a new *mash-up*."
 msgstr ""
-"Sobald Du gelernt hast, Musik zu programmieren, kannst Du Deine "
-"Kompositionen ganz leicht mit anderen teilen: Schicke Deinen Code einfach "
-"mit einer Email an Deine Freunde. Ich möchte Dich ermuntern, Deinen Code mit "
-"anderen zu *teilen*, so dass sie von Deiner Arbeit *lernen* und Teile davon "
-"in neuen *Mash-Ups* verwenden können."
+"Sobald Du gelernt hast, Musik zu programmieren, kannst Du Deine Kompositionen "
+"ganz leicht mit anderen teilen: Schicke Deinen Code einfach mit einer Email an"
+" Deine Freunde. Ich möchte Dich ermuntern, Deinen Code mit anderen zu *teilen*"
+", so dass sie von Deiner Arbeit *lernen* und Teile davon in neuen *Mash-Ups* v"
+"erwenden können."
 
 #: 10.3-Sharing.md:12
 msgid ""
@@ -8989,10 +9005,10 @@ msgid ""
 "(https://soundcloud.com). That way you'll be able to easily reach a large audi"
 "ence."
 msgstr ""
-"Du hast keine Ahnung, wo Du Deine Werke am besten mit anderen teilen kannst? "
-"Ich empfehle Dir für Deinen Code [GitHub](https://github.com) und für Deine "
-"Musik [SoundCloud](https://soundcloud.com). So erreichst Du schnell ein "
-"großes Publikum."
+"Du hast keine Ahnung, wo Du Deine Werke am besten mit anderen teilen kannst? I"
+"ch empfehle Dir für Deinen Code [GitHub](https://github.com) und für Deine Mus"
+"ik [SoundCloud](https://soundcloud.com). So erreichst Du schnell ein großes Pu"
+"blikum."
 
 #: 10.3-Sharing.md:17
 msgid "Code -> GitHub"
@@ -9007,12 +9023,12 @@ msgid ""
 "gist.github.com) is a simple way of uploading your code in a simple way that o"
 "thers can see, copy and share."
 msgstr ""
-"[GitHub](https://github.com) wird von professionellen Entwicklern und auch "
-"Künstlern verwendet, um Code zu teilen und zusammenzuarbeiten. Auf GitHub "
-"gibt es einen eigenen Bereich namens [Gist](https://gist.github.com), damit "
-"kann man besonders einfach ein neues Stück Code (egal ob fertig oder nicht) "
-"veröffentlichen. Mit einem [Gist](https://gist.github.com) können dann auch "
-"andere Deinen Code übernehmen, kommentieren und verbessern."
+"[GitHub](https://github.com) wird von professionellen Entwicklern und auch Kün"
+"stlern verwendet, um Code zu teilen und zusammenzuarbeiten. Auf GitHub gibt es"
+" einen eigenen Bereich namens [Gist](https://gist.github.com), damit kann man "
+"besonders einfach ein neues Stück Code (egal ob fertig oder nicht) veröffentli"
+"chen. Mit einem [Gist](https://gist.github.com) können dann auch andere Deinen"
+" Code übernehmen, kommentieren und verbessern."
 
 #: 10.3-Sharing.md:27
 msgid "Audio -> SoundCloud"
@@ -9025,12 +9041,12 @@ msgid ""
 "her users can comment and discuss your work. I also recommend placing a link t"
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
-"Statt Code kannst Du auch eine Musikaufnahme veröffentlichen und dafür eine "
-"Audiodatei zu [SoundCloud](https://soundcloud.com) hochladen. Dort können "
-"andere Nutzer Kommentare dazu abgeben und die Musik diskutieren. Es ist "
-"empfehlenswert, bei einer Veröffentlichung auf Soundcloud zusätzlich einen "
-"Link zu einem [Gist](https://gist.github.com) mit Deinen Code in die "
-"Beschreibung aufzunehmen."
+"Statt Code kannst Du auch eine Musikaufnahme veröffentlichen und dafür eine Au"
+"diodatei zu [SoundCloud](https://soundcloud.com) hochladen. Dort können andere"
+" Nutzer Kommentare dazu abgeben und die Musik diskutieren. Es ist empfehlenswe"
+"rt, bei einer Veröffentlichung auf Soundcloud zusätzlich einen Link zu einem ["
+"Gist](https://gist.github.com) mit Deinen Code in die Beschreibung aufzunehmen"
+"."
 
 #: 10.3-Sharing.md:35
 msgid ""
@@ -9041,13 +9057,12 @@ msgid ""
 "h can be edited and converted to MP3 by any number of free programs (try Audac"
 "ity for instance)."
 msgstr ""
-"Um Dein Stück aufzunehmen, drücke den `Aufnehmen`-Knopf in der "
-"Werkzeugleiste, die Aufnahme startet dann sofort. Drücke `Ausführen`, um "
-"Deinen Code zu starten, wenn er nicht bereits läuft. Wenn Du fertig bist, "
-"drücke den den blinkenden `Aufnehmen`-Knopf erneut. Du wirst dann nach einem "
-"Dateinamen gefragt, unter dem die Aufnahme als WAV-Datei gespeichert wird. "
-"Es gibt viele Werkzeuge, um eine WAV-Datei in ein MP3 zu wandeln, z.B. das "
-"Programm *Audacity*."
+"Um Dein Stück aufzunehmen, drücke den `Aufnehmen`-Knopf in der Werkzeugleiste,"
+" die Aufnahme startet dann sofort. Drücke `Ausführen`, um Deinen Code zu start"
+"en, wenn er nicht bereits läuft. Wenn Du fertig bist, drücke den den blinkende"
+"n `Aufnehmen`-Knopf erneut. Du wirst dann nach einem Dateinamen gefragt, unter"
+" dem die Aufnahme als WAV-Datei gespeichert wird. Es gibt viele Werkzeuge, um "
+"eine WAV-Datei in ein MP3 zu wandeln, z.B. das Programm *Audacity*."
 
 #: 10.3-Sharing.md:43
 msgid "Hope"
@@ -9059,9 +9074,9 @@ msgid ""
 "ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
 "e to show me."
 msgstr ""
-"Ich möchte Dich ermuntern, Deine Arbeiten zu teilen, und hoffe sehr, dass "
-"wir uns gegenseitig neue Sonic-Pi-Tipps und -Tricks beibringen werden. Ich "
-"bin schon sehr gespannt darauf, was Du mir zeigen wirst."
+"Ich möchte Dich ermuntern, Deine Arbeiten zu teilen, und hoffe sehr, dass wir "
+"uns gegenseitig neue Sonic-Pi-Tipps und -Tricks beibringen werden. Ich bin sch"
+"on sehr gespannt darauf, was Du mir zeigen wirst."
 
 #: 10.4-Performing.md:1
 msgid "10.4 Performing"
@@ -9077,9 +9092,9 @@ msgid ""
 "e as a *musical instrument*. This means that writing code live can now be seen"
 " as a new way of performing music."
 msgstr ""
-"Einer der aufregendsten Aspekte von Sonic Pi ist, dass Du von nun an Code "
-"als *Musikinstrument* verwenden kannst. Vor Publikum zu programmieren wird "
-"damit ein neuer Weg, um Musik aufzuführen."
+"Einer der aufregendsten Aspekte von Sonic Pi ist, dass Du von nun an Code als "
+"*Musikinstrument* verwenden kannst. Vor Publikum zu programmieren wird damit e"
+"in neuer Weg, um Musik aufzuführen."
 
 #: 10.4-Performing.md:9
 msgid "We call this *Live Coding*."
@@ -9097,13 +9112,13 @@ msgid ""
 "g room wall. You could use your TV or one of your school/work projectors to gi"
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
-"Wenn Du live programmierst, empfehle ich Dir, Deinem Publikum Deinen *"
-"Bildschirm zu zeigen*. Beim Gitarrespielen versteckst Du ja auch nicht Deine "
-"Finger und die Saiten Deines Instruments. Wenn ich zu Hause übe, verwende "
-"ich einen Raspberry Pi und projiziere den Bildschirm mit einem kleinen "
-"Beamer an meine Wohnzimmerwand. Du könntest auch Deinen Fernseher oder einen "
-"Projektor in der Schule/Arbeit verwenden und eine kleine Show geben. Versuch "
-"es, das macht eine Menge Spaß."
+"Wenn Du live programmierst, empfehle ich Dir, Deinem Publikum Deinen *Bildschi"
+"rm zu zeigen*. Beim Gitarrespielen versteckst Du ja auch nicht Deine Finger un"
+"d die Saiten Deines Instruments. Wenn ich zu Hause übe, verwende ich einen Ras"
+"pberry Pi und projiziere den Bildschirm mit einem kleinen Beamer an meine Wohn"
+"zimmerwand. Du könntest auch Deinen Fernseher oder einen Projektor in der Schu"
+"le/Arbeit verwenden und eine kleine Show geben. Versuch es, das macht eine Men"
+"ge Spaß."
 
 #: 10.4-Performing.md:20
 msgid "Form a Band"
@@ -9115,10 +9130,10 @@ msgid ""
 "ng with others. One person could do beats, another ambient background, etc. Se"
 "e what interesting combinations of sounds you can have together."
 msgstr ""
-"Spiele nicht nur alleine - gründe eine Live-Coding-Band! Mit anderen zu "
-"jammen macht großen Spaß. Einer könnte die Beats programmieren, ein anderer "
-"flächige Hintergrundklänge und so weiter. Probiert aus, welche interessanten "
-"Klangkombinationen Ihr finden könnt."
+"Spiele nicht nur alleine - gründe eine Live-Coding-Band! Mit anderen zu jammen"
+" macht großen Spaß. Einer könnte die Beats programmieren, ein anderer flächige"
+" Hintergrundklänge und so weiter. Probiert aus, welche interessanten Klangkomb"
+"inationen Ihr finden könnt."
 
 #: 10.4-Performing.md:27
 msgid "TOPLAP"
@@ -9131,10 +9146,10 @@ msgid ""
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
-"Live-Coding ist nicht wirklich neu - eine kleine Gruppe von Enthusiasten "
-"macht das schon seit Jahren, typischerweise mit selbstgebauten, "
-"individuellen Systemen. Bei [TOPLAP](http://toplap.org) erfährst Du mehr "
-"über diese anderen Live-Coder und ihre Geräte."
+"Live-Coding ist nicht wirklich neu - eine kleine Gruppe von Enthusiasten macht"
+" das schon seit Jahren, typischerweise mit selbstgebauten, individuellen Syste"
+"men. Bei [TOPLAP](http://toplap.org) erfährst Du mehr über diese anderen Live-"
+"Coder und ihre Geräte."
 
 #: 10.4-Performing.md:34
 msgid "Algorave"
@@ -9146,8 +9161,8 @@ msgid ""
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
 msgstr ""
-"Einige Live-Coder spielen auch in Nightclubs. Mehr über dieses spezielle "
-"Genre erfährst Du auf [Algorave](http://algorave.com)."
+"Einige Live-Coder spielen auch in Nightclubs. Mehr über dieses spezielle Genre"
+" erfährst Du auf [Algorave](http://algorave.com)."
 
 #: 11-Minecraft-Pi.md:1
 msgid "11 Minecraft Pi"
@@ -9163,9 +9178,9 @@ msgid ""
 "cial edition of Minecraft which is installed by default on the Raspberry Pi's "
 "Raspbian Linux-based operating system."
 msgstr ""
-"Raspbian, das Linux-Betriebssystem für Raspberry Pi, bringt eine spezielle "
-"Version von Minecraft als Teil der Vorinstallation mit. Und mit Sonic Pi "
-"kannst Du über eine einfache API jetzt auch Minecraft Pi steuern."
+"Raspbian, das Linux-Betriebssystem für Raspberry Pi, bringt eine spezielle Ver"
+"sion von Minecraft als Teil der Vorinstallation mit. Und mit Sonic Pi kannst D"
+"u über eine einfache API jetzt auch Minecraft Pi steuern."
 
 #: 11-Minecraft-Pi.md:9
 msgid "No need to import libraries"
@@ -9179,12 +9194,11 @@ msgid ""
 "need to import anything or install any libraries - it's all ready to go and wo"
 "rks out of the box."
 msgstr ""
-"Die Verbindung zwischen Minecraft Pi und Sonic Pi ist so einfach zu nutzen, "
-"dass Du nichts dafür vorbereiten musst. Starte einfach Minecraft Pi und baue "
-"eine Welt. Du kannst sofort die `mc_*`-Funktionen in Deinem Code genau wie "
-"`play` oder `synth` einsetzen. Es gibt nichts zu installieren und keine "
-"Bibliotheken zu importieren - alles ist fix und fertig und sofort startklar "
-"für Dich."
+"Die Verbindung zwischen Minecraft Pi und Sonic Pi ist so einfach zu nutzen, da"
+"ss Du nichts dafür vorbereiten musst. Starte einfach Minecraft Pi und baue ein"
+"e Welt. Du kannst sofort die `mc_*`-Funktionen in Deinem Code genau wie `play`"
+" oder `synth` einsetzen. Es gibt nichts zu installieren und keine Bibliotheken"
+" zu importieren - alles ist fix und fertig und sofort startklar für Dich."
 
 #: 11-Minecraft-Pi.md:17
 msgid "Automatic Connection"
@@ -9200,14 +9214,14 @@ msgid ""
 "that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
 "Pi will automatically detect and re-create the connection for you."
 msgstr ""
-"Die Minecraft-Pi-API kümmert sich automatisch um die Verbindung zur "
-"laufenden Minecraft-Pi-Applikation. Du musst also nichts dafür tun. Sonic Pi "
-"wird sich allerdings freundlich beschweren, wenn Du die API benutzen "
-"möchtest und Minecraft Pi nicht gleichzeitig läuft. Und falls Du die "
-"Minecraft-Pi-Applikation beendest, während Dein Code die API in einem "
-"`live_loop` ansprechen will, wird der Loop beendet und Du erhältst eine "
-"entsprechende Fehlermeldung. Starte dann Minecraft Pi wieder neu, die API "
-"wird sich von selbst damit verbinden und Dein Code funktioniert wieder."
+"Die Minecraft-Pi-API kümmert sich automatisch um die Verbindung zur laufenden "
+"Minecraft-Pi-Applikation. Du musst also nichts dafür tun. Sonic Pi wird sich a"
+"llerdings freundlich beschweren, wenn Du die API benutzen möchtest und Minecra"
+"ft Pi nicht gleichzeitig läuft. Und falls Du die Minecraft-Pi-Applikation been"
+"dest, während Dein Code die API in einem `live_loop` ansprechen will, wird der"
+" Loop beendet und Du erhältst eine entsprechende Fehlermeldung. Starte dann Mi"
+"necraft Pi wieder neu, die API wird sich von selbst damit verbinden und Dein C"
+"ode funktioniert wieder."
 
 #: 11-Minecraft-Pi.md:28
 #, fuzzy
@@ -10478,8 +10492,7 @@ msgstr ""
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
-#: A.15-five-live-coding-techniques.md:152 A.15-performance.md:152
-#: A.16-practice.md:166
+#: A.15-performance.md:152 A.16-practice.md:166
 msgid "Bringing it all together"
 msgstr ""
 
@@ -14107,17 +14120,17 @@ msgid ""
 "end"
 msgstr "sample :guit_em9, rate: 0.5"
 
-#: A.15-five-live-coding-techniques.md:1 A.15-performance.md:1
+#: A.15-performance.md:1
 #, fuzzy
 msgid "A.15 Five Live Coding Techniques"
 msgstr "Live-Coding"
 
-#: A.15-five-live-coding-techniques.md:3 A.15-performance.md:3
+#: A.15-performance.md:3
 #, fuzzy
 msgid "Five Live Coding Techniques"
 msgstr "Live-Coding"
 
-#: A.15-five-live-coding-techniques.md:5
+#: A.15-performance.md:5
 msgid ""
 "In this month's Sonic Pi tutorial we're going to take a look at how you can st"
 "art treating Sonic Pi like a real instrument. We therefore need to start think"
@@ -14129,35 +14142,35 @@ msgid ""
 "acticing for your own live coded performances."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:15 A.15-performance.md:15
+#: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:17 A.15-performance.md:17
+#: A.15-performance.md:17
 msgid ""
 "The first tip to live coding with Sonic Pi is to start using the shortcuts. Fo"
 "r example, instead of wasting valuable time reaching for the mouse, moving it "
 "over to the Run button and clicking, you can simply press `alt` and `r` at the"
 " same time which is much faster and keeps your fingers at the keyboard ready f"
 "or the next edit. You can find out the shortcuts for the main buttons at the t"
-"op by hovering the mouse over. See section 10.2 of the built-in tutorial for t"
-"he full list of shortcuts."
+"op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
+"for the full list of shortcuts."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:26
+#: A.15-performance.md:26
 msgid ""
 "When performing, one fun thing to do is to add a bit of flair with your arm mo"
 "tion when hitting shortcuts. For example, it's often good to communicate to th"
 "e audience when you're about to make a change - so embellish your movement whe"
-"n hitting `alt-r`just like a guitarist would do when hitting a big power chord"
-"."
+"n hitting `alt-r` just like a guitarist would do when hitting a big power chor"
+"d."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:32 A.15-performance.md:32
+#: A.15-performance.md:32
 msgid "2. Manually Layer your Sounds"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:34 A.15-performance.md:34
+#: A.15-performance.md:34
 msgid ""
 "Now you can trigger code instantly with the keyboard, you can instantly apply "
 "this skill for our second technique which is to layer your sounds manually. In"
@@ -14166,25 +14179,25 @@ msgid ""
 "r using `alt-r`. Let's try it. Type the following code into a fresh buffer:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:41 A.15-performance.md:41
+#: A.15-performance.md:41
 #, no-wrap
 #, fuzzy
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
-#: A.15-five-live-coding-techniques.md:46 A.15-performance.md:46
+#: A.15-performance.md:46
 msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:50 A.15-performance.md:50
+#: A.15-performance.md:50
 #, no-wrap
 #, fuzzy
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
-#: A.15-five-live-coding-techniques.md:55 A.15-performance.md:55
+#: A.15-performance.md:55
 msgid ""
 "Now, hit `Run` again, to hear both sounds playing at the same time. This is be"
 "cause Sonic Pi's `Run` button doesn't wait for any previous code to finish, bu"
@@ -14194,17 +14207,17 @@ msgid ""
 "then re-trigger."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:63 A.15-performance.md:63
+#: A.15-performance.md:63
 msgid "You can also try this technique with long abstract samples. For example:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:65 A.15-performance.md:65
+#: A.15-performance.md:65
 #, no-wrap
 #, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
 msgstr "sample :ambi_lunar_land"
 
-#: A.15-five-live-coding-techniques.md:69 A.15-performance.md:69
+#: A.15-performance.md:69
 msgid ""
 "Try starting the sample off, and then progressively halving the `rate:` opt be"
 "tween hitting `Run` from `1` to `0.5` to `0.25` to `0.125` and then even try s"
@@ -14212,19 +14225,19 @@ msgid ""
 "u can take it. Finally, try adding some FX."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:74 A.15-performance.md:74
+#: A.15-performance.md:74
 msgid ""
 "When performing, working with simple lines of code in this way means that an a"
 "udience new to Sonic Pi has a good chance to follow what you're doing and rela"
 "te the code that they can read to the sounds they are hearing."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:80 A.15-performance.md:80
+#: A.15-performance.md:80
 #, fuzzy
 msgid "3. Master Live Loops"
 msgstr "Live-Loops"
 
-#: A.15-five-live-coding-techniques.md:82 A.15-performance.md:82
+#: A.15-performance.md:82
 msgid ""
 "When working with more rhythmic music, it can often be hard to manually trigge"
 "r everything and keep good time. Instead, it is often better to use a `live_lo"
@@ -14235,7 +14248,7 @@ msgid ""
 "n tutorial for more information about working with live loops."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:91 A.15-performance.md:91
+#: A.15-performance.md:91
 msgid ""
 "When performing, remember to make use of `live_loop`'s `sync:` opt to allow yo"
 "u to recover from accidental runtime mistakes which stop the live loop running"
@@ -14244,11 +14257,11 @@ msgid ""
 "art things without missing a beat."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:97 A.15-performance.md:97
+#: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:99 A.15-performance.md:99
+#: A.15-performance.md:99
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
 "h all sound flows. This mixer has both a low pass filter and a high pass filte"
@@ -14258,12 +14271,11 @@ msgid ""
 "are buffer and hit `Run`:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:107
-#, no-wrap
-msgid "set_mixer_control! lpf: 50"
+#: A.15-performance.md:107
+msgid "` set_mixer_control! lpf: 50 `"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:111 A.15-performance.md:111
+#: A.15-performance.md:111
 msgid ""
 "After you run this code, all existing and new sounds will have a low pass filt"
 "er applied to them and will therefore sound more muffled. Note that this means"
@@ -14273,39 +14285,39 @@ msgid ""
 "d `amp:`. For the full list, see the built-in docs for `set_mixer_control!`."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:119 A.15-performance.md:119
+#: A.15-performance.md:119
 msgid ""
 "Use the mixer's `*_slide` opts to slide one or many opts values over time. For"
 " example, to slowly slide the mixer's low pass filter down from the current va"
 "lue to 30, use the following:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:123 A.15-performance.md:123
+#: A.15-performance.md:123
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:127 A.15-performance.md:127
+#: A.15-performance.md:127
 msgid "You can then slide quickly back to a high value with:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:129 A.15-performance.md:129
+#: A.15-performance.md:129
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:133 A.15-performance.md:133
+#: A.15-performance.md:133
 msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:136 A.15-performance.md:136
+#: A.15-performance.md:136
 #, fuzzy
 msgid "5. Practice"
 msgstr "Anwenden von Soundeffekten"
 
-#: A.15-five-live-coding-techniques.md:138 A.15-performance.md:138
+#: A.15-performance.md:138
 msgid ""
 "The most important technique for live coding is practice. The most common attr"
 "ibute across professional musicians of all kinds is that they practice playing"
@@ -14316,7 +14328,7 @@ msgid ""
 "onstructs."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:146 A.15-performance.md:146
+#: A.15-performance.md:146
 msgid ""
 "When performing, you'll find the more practice you do, the easier it will be f"
 "or you to relax into the gig. Practice will also give you a wealth of experien"
@@ -14324,7 +14336,7 @@ msgid ""
 "l be interesting and also work well with the current sounds."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:154 A.15-performance.md:154
+#: A.15-performance.md:154
 msgid ""
 "This month, instead of giving you a final example that combines all the things"
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
@@ -14333,30 +14345,6 @@ msgid ""
 " around with the master mixer. Then repeat. Don't worry if things feel slow an"
 "d clunky at first - just keep practicing and before you know it you'll be live"
 " coding for a real audience."
-msgstr ""
-
-#: A.15-performance.md:5
-msgid ""
-"In this month's Sonic Pi tutorial we're going to take a look at how you can st"
-"art treating Sonic Pi like a real instrument. We therefore need to start think"
-"ing of code in a completely different way. Live coders think of code in a smil"
-"ar way to how violinist thinks of their bow. In fact, just like a violinist ca"
-"n apply various bowing techniques to create different sounds (long slow motion"
-"s vs short fast hits) we will explore five of the basic live coding techniques"
-" that Sonic Pi enables. By the end of this article you'll be able to start pra"
-"cticing for your own live coded performances."
-msgstr ""
-
-#: A.15-performance.md:26
-msgid ""
-"When performing, one fun thing to do is to add a bit of flair with your arm mo"
-"tion when hitting shortcuts. For example, its often good to communicate to the"
-" audience when you're about to make a change - so embellish your movement when"
-" hitting `alt-r`just like a guitarist would do when hitting a big power chord."
-msgstr ""
-
-#: A.15-performance.md:107
-msgid "` set_mixer_control! lpf: 50 `"
 msgstr ""
 
 #: A.16-practice.md:1
@@ -14373,10 +14361,10 @@ msgstr "Live-Coding"
 msgid ""
 "Last month we took a look at five important techniques for mastering live codi"
 "ng - in other words, we explored how we could use Sonic Pi to approach code in"
-" the same we we would approach a musical instrument. One of the important conc"
-"epts that we discussed was practice. This month we're going to take a deeper d"
-"ive into understanding why live coding practice is important and how you might"
-" start."
+" the same way we would approach a musical instrument. One of the important con"
+"cepts that we discussed was practice. This month we're going to take a deeper "
+"dive into understanding why live coding practice is important and how you migh"
+"t start."
 msgstr ""
 
 #: A.16-practice.md:13
@@ -14395,7 +14383,8 @@ msgstr ""
 msgid ""
 "Practice tip #1 - start to develop a practice routine. Find a nice time in the"
 " day that works for you and try and practice at that time as many days of the "
-"week you can. Before long you'll be looking forward to your regular session."
+"week as you can. Before long you'll be looking forward to your regular session"
+"."
 msgstr ""
 
 #: A.16-practice.md:27
@@ -14460,20 +14449,20 @@ msgid ""
 "Most instruments require some assembly and tuning before they can be played. U"
 "nless you're a rockstar with a bus full of roadies, you'll have to set up your"
 " own instrument before your gig. This is often a stressful time and it is easy"
-" for problems to occur. One way to help with this is to encorporate the setup "
+" for problems to occur. One way to help with this is to incorporate the setup "
 "process into your practice sessions."
 msgstr ""
 
 #: A.16-practice.md:76
 msgid ""
 "Practice tip #4 - treat setting up as an important part of your practice. For "
-"example, have a box or bag that you can keep your Raspberry Pi and keyboard et"
-"c. Before each practice session, take out all the parts, connect everything, a"
-"nd work through the boot process until you have Sonic Pi running and can make "
-"sounds. Once you've finished practicing, take the time to carefully pack every"
-"thing away afterwards. This may take some time at first, but before long you'l"
-"l be able to setup and pack everything away incredibly quickly without having "
-"to think about it."
+"example, have a box or bag that you can keep your Raspberry Pi and keyboard in"
+" etc. Before each practice session, take out all the parts, connect everything"
+", and work through the boot process until you have Sonic Pi running and can ma"
+"ke sounds. Once you've finished practicing, take the time to carefully pack ev"
+"erything away afterwards. This may take some time at first, but before long yo"
+"u'll be able to setup and pack everything away incredibly quickly without havi"
+"ng to think about it."
 msgstr ""
 
 #: A.16-practice.md:87
@@ -14496,12 +14485,12 @@ msgstr ""
 msgid ""
 "Practice tip #5 - spend time making sounds and music you don't like. Try to ma"
 "ke time to explore new sounds and ideas. Don't worry that it might sound terri"
-"ble if it's not style you're looking for. When you're experimenting like this "
-"you increase the chance of stumbling over a sound or combination of sounds whi"
-"ch you love! Even if 99% of the sounds you make are bad, that 1% might be the "
-"riff or intro to your new track. Forget the things you don't like and remember"
-" the parts you do. This is even easier when you're making music with code - ju"
-"st hit save!"
+"ble if it's not the style you're looking for. When you're experimenting like t"
+"his you increase the chance of stumbling over a sound or combination of sounds"
+" which you love! Even if 99% of the sounds you make are bad, that 1% might be "
+"the riff or intro to your new track. Forget the things you don't like and reme"
+"mber the parts you do. This is even easier when you're making music with code "
+"- just hit save!"
 msgstr ""
 
 #: A.16-practice.md:110
@@ -14543,11 +14532,11 @@ msgstr ""
 msgid ""
 "A common problem when practicing is to become distracted with other things. Pr"
 "acticing is hard and requires real discipline regardless of the kind of music "
-"you're making - from jazz to classical to EDM. If your're struggling to get st"
-"arted or make progress, it's often too easy to hop on social media, or look so"
-"mething up on the internet etc. If you've set yourself a target of 20 minutes "
-"of practice, it's important to try and spend all that time being as productive"
-" as possible."
+"you're making - from jazz to classical to EDM. If you're struggling to get sta"
+"rted or make progress, it's often too easy to hop on social media, or look som"
+"ething up on the internet etc. If you've set yourself a target of 20 minutes o"
+"f practice, it's important to try and spend all that time being as productive "
+"as possible."
 msgstr ""
 
 #: A.16-practice.md:144
@@ -14574,15 +14563,15 @@ msgstr ""
 #: A.16-practice.md:159
 msgid ""
 "Practice tip #8 - keep a practice diary by your keyboard. When you get an exci"
-"ting new idea, tmporarily pause your practice session, quickly jot the idea do"
-"wn, then forget about it and carry on practicing. You can then spend some qual"
-"ity time thinking about and working on your ideas after you've finished practi"
-"cing."
+"ting new idea, temporarily pause your practice session, quickly jot the idea d"
+"own, then forget about it and carry on practicing. You can then spend some qua"
+"lity time thinking about and working on your ideas after you've finished pract"
+"icing."
 msgstr ""
 
 #: A.16-practice.md:168
 msgid ""
-"Try to establish a practice routine which incorporates as much of these ideas "
+"Try to establish a practice routine which incorporates as many of these ideas "
 "as possible. Try to keep the sessions as fun as possible but be aware that som"
 "e practice sessions will be hard and feel a little like work. However, it will"
 " all be worth it once you've created your first piece or given your first perf"

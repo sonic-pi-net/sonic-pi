@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2016-10-26 04:52+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
-"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/nb/>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/nb/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,10 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Velkommen til Sonic Pi! Forhåpentligvis er du like ivrig etter å komme igang "
-"med å lage sprø lyder som jeg er etter å lære deg det.  Det kommer til å bli "
-"en *morsom* opplevelse hvor du vil lære om musikk, syntese, programmering, "
-"komponering, fremføring og mer."
+"Velkommen til Sonic Pi! Forhåpentligvis er du like ivrig etter å komme igang m"
+"ed å lage sprø lyder som jeg er etter å lære deg det.  Det kommer til å bli en"
+" *morsom* opplevelse hvor du vil lære om musikk, syntese, programmering, kompo"
+"nering, fremføring og mer."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -44,12 +44,12 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Vent litt, så uhøflig av meg! La meg presentere meg selv - Jeg er [Sam "
-"Aaron](http://twitter.com/samaaron) - fyren som laget Sonic Pi. Du finner "
-"meg som [@samaaron](http://twitter.com/samaaron) på Twitter og jeg hilser "
-"mer enn gjerne på deg. Du vil kanskje også være interessert i mine ["
-"direktesendte opptredener](http://facebook.com/livecodersamaaron) hvor jeg "
-"koder med Sonic Pi på direkten foran et publikum."
+"Vent litt, så uhøflig av meg! La meg presentere meg selv - Jeg er [Sam Aaron]("
+"http://twitter.com/samaaron) - fyren som laget Sonic Pi. Du finner meg som [@s"
+"amaaron](http://twitter.com/samaaron) på Twitter og jeg hilser mer enn gjerne "
+"på deg. Du vil kanskje også være interessert i mine [direktesendte opptredener"
+"](http://facebook.com/livecodersamaaron) hvor jeg koder med Sonic Pi på direkt"
+"en foran et publikum."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -57,9 +57,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Hvis du har tanker eller idéer om hvordan Sonic Pi kan bli bedre, vær så "
-"snill å bring dem videre - tilbakemeldinger er veldig nyttige.  En vet jo "
-"aldri, kanskje din ide kan bli neste store nyvinning!"
+"Hvis du har tanker eller idéer om hvordan Sonic Pi kan bli bedre, vær så snill"
+" å bring dem videre - tilbakemeldinger er veldig nyttige.  En vet jo aldri, ka"
+"nskje din ide kan bli neste store nyvinning!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -75,15 +75,15 @@ msgstr ""
 "remtidig versjon."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
+#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
-" stream live on [livecoding.tv/samaaron](http://livecoding.tv/samaaron) so ple"
-"ase do drop by, say hi and ask me lots of questions :-)"
+" stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
+"e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Til sist, å se andre kode på direkten er en veldig fin måte å lære på. Jeg "
-"direkteoverfører regelmessig på "
-"[livecoding.tv/samaaron](http://livecoding.tv/samaaron) så stikk gjerne "
-"innom, hils på og still mange spørsmål. :-)"
+"Til sist, å se andre kode på direkten er en veldig fin måte å lære på. Jeg dir"
+"ekteoverfører regelmessig på [livecoding.tv/samaaron](http://livecoding.tv/sam"
+"aaron) så stikk gjerne innom, hils på og still mange spørsmål. :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -205,13 +205,14 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
+#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
-" value for the `:ambi_choir` sample just slightly (say to 0.29). What happens "
-"if you choose a really small `sleep` value? See if you can make it go so fast "
-"your computer will stop with an error because it can't keep up (if that happen"
-"s, just choose a bigger `sleep` time and hit `Run` again)."
+" value for the `:ambi_choir` sample just slightly (say to `0.29`). What happen"
+"s if you choose a really small `sleep` value? See if you can make it go so fas"
+"t your computer will stop with an error because it can't keep up (if that happ"
+"ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
 "Nå, lek. Endre verdiene - hva skjer når du bruker høye, små eller negative ver"
 "dier? Se hva som skjer når du endrer 'rate:'-verdi for ': ambi_choir'-lydklipp"
@@ -397,6 +398,11 @@ msgstr "*F* - Loggvisning"
 msgid "*G* - Help System"
 msgstr "*G* - Hjelpesystem"
 
+#: 01.2-Exploring-the-Interface.md:18
+#, fuzzy
+msgid "*H* - Scope Viewer"
+msgstr "*F* - Loggvisning"
+
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
 msgstr "A. Avspillingskontroller"
@@ -471,11 +477,12 @@ msgid "E. Prefs Panel"
 msgstr "E. Innstillingspanel"
 
 #: 01.2-Exploring-the-Interface.md:56
+#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
 "he visibility of the Prefs Panel which includes a number of options to be chan"
-"ged. Examples are forcing mono mode, inverting stereo, Toggling log output ver"
+"ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
 "Sonic Pi støtter en rekke justerbare innstillinger som blir tilgjengelig ved å"
@@ -505,13 +512,14 @@ msgid "G. Help System"
 msgstr "G. Hjelpesystem"
 
 #: 01.2-Exploring-the-Interface.md:73
+#, fuzzy
 msgid ""
-"Finally, one of the most important parts of the Sonic Pi interface is the help"
-" system which appears at the bottom of the window. This can be toggled on and "
-"off by clicking on the blue *Help* button. The help system contains help and i"
-"nformation about all aspects of Sonic Pi including this tutorial, a list of av"
-"ailable synths, samples, examples, FX and a full list of all the functions Son"
-"ic Pi provides for coding music."
+"One of the most important parts of the Sonic Pi interface is the help system w"
+"hich appears at the bottom of the window. This can be toggled on and off by cl"
+"icking on the blue *Help* button. The help system contains help and informatio"
+"n about all aspects of Sonic Pi including this tutorial, a list of available s"
+"ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
+"vides for coding music."
 msgstr ""
 "Endelig, en av de viktigste delene av Sonic Pi-grensesnittet er hjelpesystemet"
 " som vises nederst i vinduet. Dette kan slås av og på ved å klikke på den blå "
@@ -519,6 +527,24 @@ msgstr ""
 "r ved Sonic Pi, inkludert denne opplæringen, en liste over tilgjengelige synth"
 "er, lydklipp, eksempler, FX og en fullstendig liste over alle funksjoner Sonic"
 " Pi har for koding av musikk."
+
+#: 01.2-Exploring-the-Interface.md:81
+#, fuzzy
+msgid "H. Scope Viewer"
+msgstr "F. Loggvisning"
+
+#: 01.2-Exploring-the-Interface.md:83
+msgid ""
+"The scope viewer allows you to see the sound you're hearing. You can easily se"
+"e that the saw wave looks like a saw and that the basic beep is a curvey sine "
+"wave. You can also see the difference between loud and quiet sounds by the siz"
+"e of the lines. There are 3 scopes to play with - the default is a combined sc"
+"ope for the left and right channels, there is a stereo scope which draws a sep"
+"arate scope for each channel. Finally there is a Lissajous curve scope which w"
+"ill show the phase relationship between the left and right channels and allows"
+" you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
+"us_curve)."
+msgstr ""
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -605,12 +631,14 @@ msgid "OK, enough of the intros - let's get into some sound."
 msgstr "OK, nok introer - la oss lage lyd."
 
 #: 02-Synths.md:7
+#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
 "es sounds. Typically synths are quite complicated to use - especially analog s"
-"ynths with many patch wires and modules. However, Sonic Pi gives you much of t"
-"hat power in a very simple and approachable manner."
+"ynths such as Eurorack modules connected together by a mess of wires. However,"
+" Sonic Pi gives you much of that power in a very simple and approachable manne"
+"r."
 msgstr ""
 "I denne delen vil vi dekke grunnleggende utløse og styre synter. Synt er forko"
 "rtelse for synthesizer som er slang for noe som lager lyder. Vanligvis er synt"
@@ -1816,9 +1844,9 @@ msgid ""
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"Sonic Pi lar deg gjøre masse morsomme ting med sampler. Ikke bare kommer den "
-"med over 130 offentlige sampler klar for deg til å jamme med, de lar deg "
-"spille og kontrollere dine egne. La oss komme i gang..."
+"Sonic Pi lar deg gjøre masse morsomme ting med sampler. Ikke bare kommer den m"
+"ed over 130 offentlige sampler klar for deg til å jamme med, de lar deg spille"
+" og kontrollere dine egne. La oss komme i gang..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
@@ -8047,9 +8075,8 @@ msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
-"Forsøk nå å øk feedback-en til 1 for å høre noe ville lyder!  Les "
-"dokumentasjonen for alle detaljene om de mange tilvalgene som er "
-"tilgjengelig."
+"Forsøk nå å øk feedback-en til 1 for å høre noe ville lyder!  Les dokumentasjo"
+"nen for alle detaljene om de mange tilvalgene som er tilgjengelig."
 
 #: A.01-tips.md:110
 msgid "5. Live Code"
@@ -8367,8 +8394,7 @@ msgstr ""
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
-#: A.15-five-live-coding-techniques.md:152 A.15-performance.md:152
-#: A.16-practice.md:166
+#: A.15-performance.md:152 A.16-practice.md:166
 msgid "Bringing it all together"
 msgstr ""
 
@@ -11315,8 +11341,8 @@ msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
 msgstr ""
-"![Fasevarigheter](../images/tutorial/articles/A.14-amplitude-"
-"modulation/slicer_phase_durations.png)"
+"![Fasevarigheter](../images/tutorial/articles/A.14-amplitude-modulation/slicer"
+"_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -11374,8 +11400,8 @@ msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
 msgstr ""
-"![Fasevarigheter](../images/tutorial/articles/A.14-amplitude-"
-"modulation/slicer_control_waves.png)"
+"![Fasevarigheter](../images/tutorial/articles/A.14-amplitude-modulation/slicer"
+"_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
@@ -11557,15 +11583,15 @@ msgstr ""
 "  sleep 16\n"
 "end"
 
-#: A.15-five-live-coding-techniques.md:1 A.15-performance.md:1
+#: A.15-performance.md:1
 msgid "A.15 Five Live Coding Techniques"
 msgstr "A.15 Fem teknikker for direkteoverført koding"
 
-#: A.15-five-live-coding-techniques.md:3 A.15-performance.md:3
+#: A.15-performance.md:3
 msgid "Five Live Coding Techniques"
 msgstr "Fem teknikker for direkteoverført koding"
 
-#: A.15-five-live-coding-techniques.md:5
+#: A.15-performance.md:5
 msgid ""
 "In this month's Sonic Pi tutorial we're going to take a look at how you can st"
 "art treating Sonic Pi like a real instrument. We therefore need to start think"
@@ -11577,35 +11603,35 @@ msgid ""
 "acticing for your own live coded performances."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:15 A.15-performance.md:15
+#: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:17 A.15-performance.md:17
+#: A.15-performance.md:17
 msgid ""
 "The first tip to live coding with Sonic Pi is to start using the shortcuts. Fo"
 "r example, instead of wasting valuable time reaching for the mouse, moving it "
 "over to the Run button and clicking, you can simply press `alt` and `r` at the"
 " same time which is much faster and keeps your fingers at the keyboard ready f"
 "or the next edit. You can find out the shortcuts for the main buttons at the t"
-"op by hovering the mouse over. See section 10.2 of the built-in tutorial for t"
-"he full list of shortcuts."
+"op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
+"for the full list of shortcuts."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:26
+#: A.15-performance.md:26
 msgid ""
 "When performing, one fun thing to do is to add a bit of flair with your arm mo"
 "tion when hitting shortcuts. For example, it's often good to communicate to th"
 "e audience when you're about to make a change - so embellish your movement whe"
-"n hitting `alt-r`just like a guitarist would do when hitting a big power chord"
-"."
+"n hitting `alt-r` just like a guitarist would do when hitting a big power chor"
+"d."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:32 A.15-performance.md:32
+#: A.15-performance.md:32
 msgid "2. Manually Layer your Sounds"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:34 A.15-performance.md:34
+#: A.15-performance.md:34
 msgid ""
 "Now you can trigger code instantly with the keyboard, you can instantly apply "
 "this skill for our second technique which is to layer your sounds manually. In"
@@ -11614,23 +11640,23 @@ msgid ""
 "r using `alt-r`. Let's try it. Type the following code into a fresh buffer:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:41 A.15-performance.md:41
+#: A.15-performance.md:41
 #, no-wrap
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:46 A.15-performance.md:46
+#: A.15-performance.md:46
 msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:50 A.15-performance.md:50
+#: A.15-performance.md:50
 #, no-wrap
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:55 A.15-performance.md:55
+#: A.15-performance.md:55
 msgid ""
 "Now, hit `Run` again, to hear both sounds playing at the same time. This is be"
 "cause Sonic Pi's `Run` button doesn't wait for any previous code to finish, bu"
@@ -11640,16 +11666,16 @@ msgid ""
 "then re-trigger."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:63 A.15-performance.md:63
+#: A.15-performance.md:63
 msgid "You can also try this technique with long abstract samples. For example:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:65 A.15-performance.md:65
+#: A.15-performance.md:65
 #, no-wrap
 msgid "sample :ambi_lunar_land, rate: 1"
 msgstr "sample :ambi_lunar_land, rate: 1"
 
-#: A.15-five-live-coding-techniques.md:69 A.15-performance.md:69
+#: A.15-performance.md:69
 msgid ""
 "Try starting the sample off, and then progressively halving the `rate:` opt be"
 "tween hitting `Run` from `1` to `0.5` to `0.25` to `0.125` and then even try s"
@@ -11657,18 +11683,18 @@ msgid ""
 "u can take it. Finally, try adding some FX."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:74 A.15-performance.md:74
+#: A.15-performance.md:74
 msgid ""
 "When performing, working with simple lines of code in this way means that an a"
 "udience new to Sonic Pi has a good chance to follow what you're doing and rela"
 "te the code that they can read to the sounds they are hearing."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:80 A.15-performance.md:80
+#: A.15-performance.md:80
 msgid "3. Master Live Loops"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:82 A.15-performance.md:82
+#: A.15-performance.md:82
 msgid ""
 "When working with more rhythmic music, it can often be hard to manually trigge"
 "r everything and keep good time. Instead, it is often better to use a `live_lo"
@@ -11679,7 +11705,7 @@ msgid ""
 "n tutorial for more information about working with live loops."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:91 A.15-performance.md:91
+#: A.15-performance.md:91
 msgid ""
 "When performing, remember to make use of `live_loop`'s `sync:` opt to allow yo"
 "u to recover from accidental runtime mistakes which stop the live loop running"
@@ -11688,11 +11714,11 @@ msgid ""
 "art things without missing a beat."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:97 A.15-performance.md:97
+#: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:99 A.15-performance.md:99
+#: A.15-performance.md:99
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
 "h all sound flows. This mixer has both a low pass filter and a high pass filte"
@@ -11702,12 +11728,11 @@ msgid ""
 "are buffer and hit `Run`:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:107
-#, no-wrap
-msgid "set_mixer_control! lpf: 50"
+#: A.15-performance.md:107
+msgid "` set_mixer_control! lpf: 50 `"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:111 A.15-performance.md:111
+#: A.15-performance.md:111
 msgid ""
 "After you run this code, all existing and new sounds will have a low pass filt"
 "er applied to them and will therefore sound more muffled. Note that this means"
@@ -11717,38 +11742,38 @@ msgid ""
 "d `amp:`. For the full list, see the built-in docs for `set_mixer_control!`."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:119 A.15-performance.md:119
+#: A.15-performance.md:119
 msgid ""
 "Use the mixer's `*_slide` opts to slide one or many opts values over time. For"
 " example, to slowly slide the mixer's low pass filter down from the current va"
 "lue to 30, use the following:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:123 A.15-performance.md:123
+#: A.15-performance.md:123
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:127 A.15-performance.md:127
+#: A.15-performance.md:127
 msgid "You can then slide quickly back to a high value with:"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:129 A.15-performance.md:129
+#: A.15-performance.md:129
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:133 A.15-performance.md:133
+#: A.15-performance.md:133
 msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:136 A.15-performance.md:136
+#: A.15-performance.md:136
 msgid "5. Practice"
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:138 A.15-performance.md:138
+#: A.15-performance.md:138
 msgid ""
 "The most important technique for live coding is practice. The most common attr"
 "ibute across professional musicians of all kinds is that they practice playing"
@@ -11759,7 +11784,7 @@ msgid ""
 "onstructs."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:146 A.15-performance.md:146
+#: A.15-performance.md:146
 msgid ""
 "When performing, you'll find the more practice you do, the easier it will be f"
 "or you to relax into the gig. Practice will also give you a wealth of experien"
@@ -11767,7 +11792,7 @@ msgid ""
 "l be interesting and also work well with the current sounds."
 msgstr ""
 
-#: A.15-five-live-coding-techniques.md:154 A.15-performance.md:154
+#: A.15-performance.md:154
 msgid ""
 "This month, instead of giving you a final example that combines all the things"
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
@@ -11776,30 +11801,6 @@ msgid ""
 " around with the master mixer. Then repeat. Don't worry if things feel slow an"
 "d clunky at first - just keep practicing and before you know it you'll be live"
 " coding for a real audience."
-msgstr ""
-
-#: A.15-performance.md:5
-msgid ""
-"In this month's Sonic Pi tutorial we're going to take a look at how you can st"
-"art treating Sonic Pi like a real instrument. We therefore need to start think"
-"ing of code in a completely different way. Live coders think of code in a smil"
-"ar way to how violinist thinks of their bow. In fact, just like a violinist ca"
-"n apply various bowing techniques to create different sounds (long slow motion"
-"s vs short fast hits) we will explore five of the basic live coding techniques"
-" that Sonic Pi enables. By the end of this article you'll be able to start pra"
-"cticing for your own live coded performances."
-msgstr ""
-
-#: A.15-performance.md:26
-msgid ""
-"When performing, one fun thing to do is to add a bit of flair with your arm mo"
-"tion when hitting shortcuts. For example, its often good to communicate to the"
-" audience when you're about to make a change - so embellish your movement when"
-" hitting `alt-r`just like a guitarist would do when hitting a big power chord."
-msgstr ""
-
-#: A.15-performance.md:107
-msgid "` set_mixer_control! lpf: 50 `"
 msgstr ""
 
 #: A.16-practice.md:1
@@ -11814,10 +11815,10 @@ msgstr "8 øvetips for direkteoverført koding"
 msgid ""
 "Last month we took a look at five important techniques for mastering live codi"
 "ng - in other words, we explored how we could use Sonic Pi to approach code in"
-" the same we we would approach a musical instrument. One of the important conc"
-"epts that we discussed was practice. This month we're going to take a deeper d"
-"ive into understanding why live coding practice is important and how you might"
-" start."
+" the same way we would approach a musical instrument. One of the important con"
+"cepts that we discussed was practice. This month we're going to take a deeper "
+"dive into understanding why live coding practice is important and how you migh"
+"t start."
 msgstr ""
 
 #: A.16-practice.md:13
@@ -11836,7 +11837,8 @@ msgstr ""
 msgid ""
 "Practice tip #1 - start to develop a practice routine. Find a nice time in the"
 " day that works for you and try and practice at that time as many days of the "
-"week you can. Before long you'll be looking forward to your regular session."
+"week as you can. Before long you'll be looking forward to your regular session"
+"."
 msgstr ""
 
 #: A.16-practice.md:27
@@ -11901,20 +11903,20 @@ msgid ""
 "Most instruments require some assembly and tuning before they can be played. U"
 "nless you're a rockstar with a bus full of roadies, you'll have to set up your"
 " own instrument before your gig. This is often a stressful time and it is easy"
-" for problems to occur. One way to help with this is to encorporate the setup "
+" for problems to occur. One way to help with this is to incorporate the setup "
 "process into your practice sessions."
 msgstr ""
 
 #: A.16-practice.md:76
 msgid ""
 "Practice tip #4 - treat setting up as an important part of your practice. For "
-"example, have a box or bag that you can keep your Raspberry Pi and keyboard et"
-"c. Before each practice session, take out all the parts, connect everything, a"
-"nd work through the boot process until you have Sonic Pi running and can make "
-"sounds. Once you've finished practicing, take the time to carefully pack every"
-"thing away afterwards. This may take some time at first, but before long you'l"
-"l be able to setup and pack everything away incredibly quickly without having "
-"to think about it."
+"example, have a box or bag that you can keep your Raspberry Pi and keyboard in"
+" etc. Before each practice session, take out all the parts, connect everything"
+", and work through the boot process until you have Sonic Pi running and can ma"
+"ke sounds. Once you've finished practicing, take the time to carefully pack ev"
+"erything away afterwards. This may take some time at first, but before long yo"
+"u'll be able to setup and pack everything away incredibly quickly without havi"
+"ng to think about it."
 msgstr ""
 
 #: A.16-practice.md:87
@@ -11937,12 +11939,12 @@ msgstr ""
 msgid ""
 "Practice tip #5 - spend time making sounds and music you don't like. Try to ma"
 "ke time to explore new sounds and ideas. Don't worry that it might sound terri"
-"ble if it's not style you're looking for. When you're experimenting like this "
-"you increase the chance of stumbling over a sound or combination of sounds whi"
-"ch you love! Even if 99% of the sounds you make are bad, that 1% might be the "
-"riff or intro to your new track. Forget the things you don't like and remember"
-" the parts you do. This is even easier when you're making music with code - ju"
-"st hit save!"
+"ble if it's not the style you're looking for. When you're experimenting like t"
+"his you increase the chance of stumbling over a sound or combination of sounds"
+" which you love! Even if 99% of the sounds you make are bad, that 1% might be "
+"the riff or intro to your new track. Forget the things you don't like and reme"
+"mber the parts you do. This is even easier when you're making music with code "
+"- just hit save!"
 msgstr ""
 
 #: A.16-practice.md:110
@@ -11983,11 +11985,11 @@ msgstr ""
 msgid ""
 "A common problem when practicing is to become distracted with other things. Pr"
 "acticing is hard and requires real discipline regardless of the kind of music "
-"you're making - from jazz to classical to EDM. If your're struggling to get st"
-"arted or make progress, it's often too easy to hop on social media, or look so"
-"mething up on the internet etc. If you've set yourself a target of 20 minutes "
-"of practice, it's important to try and spend all that time being as productive"
-" as possible."
+"you're making - from jazz to classical to EDM. If you're struggling to get sta"
+"rted or make progress, it's often too easy to hop on social media, or look som"
+"ething up on the internet etc. If you've set yourself a target of 20 minutes o"
+"f practice, it's important to try and spend all that time being as productive "
+"as possible."
 msgstr ""
 
 #: A.16-practice.md:144
@@ -12014,15 +12016,15 @@ msgstr ""
 #: A.16-practice.md:159
 msgid ""
 "Practice tip #8 - keep a practice diary by your keyboard. When you get an exci"
-"ting new idea, tmporarily pause your practice session, quickly jot the idea do"
-"wn, then forget about it and carry on practicing. You can then spend some qual"
-"ity time thinking about and working on your ideas after you've finished practi"
-"cing."
+"ting new idea, temporarily pause your practice session, quickly jot the idea d"
+"own, then forget about it and carry on practicing. You can then spend some qua"
+"lity time thinking about and working on your ideas after you've finished pract"
+"icing."
 msgstr ""
 
 #: A.16-practice.md:168
 msgid ""
-"Try to establish a practice routine which incorporates as much of these ideas "
+"Try to establish a practice routine which incorporates as many of these ideas "
 "as possible. Try to keep the sessions as fun as possible but be aware that som"
 "e practice sessions will be hard and feel a little like work. However, it will"
 " all be worth it once you've created your first piece or given your first perf"
