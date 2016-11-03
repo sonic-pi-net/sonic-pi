@@ -21,6 +21,8 @@
 
 #include "mainwindow.h"
 #include "sonicpilog.h"
+#include <iostream>
+
 int main(int argc, char *argv[])
 {
 #ifndef Q_OS_MAC
@@ -28,9 +30,19 @@ int main(int argc, char *argv[])
 #endif
 
   QApplication app(argc, argv);
-  qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
+  QCommandLineParser parser;
+  parser.setApplicationDescription("Sonic-Pi");
+  parser.addHelpOption();
+  parser.addVersionOption();
+  QCommandLineOption lang_opt = {{"l","lang"},QObject::tr("Override language to <locale>"),"locale"};
+  parser.addOption(lang_opt);
+  parser.process(app);
+
+  qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
+  
   QString systemLocale = QLocale::system().name();
+  if( parser.isSet(lang_opt) ) systemLocale = parser.value(lang_opt);
 
   QTranslator qtTranslator;
   qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
