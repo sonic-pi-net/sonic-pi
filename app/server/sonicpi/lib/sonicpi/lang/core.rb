@@ -63,19 +63,109 @@ run_code \"sample :ambi_lunar_land\" #=> will play the :ambi_lunar_land sample",
 run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
 
 
-      def use_osc(host_or_port, port=nil)
-        if port
-          host = host_or_port.to_s
-        else
-          host = "localhost"
-          port = Integer(host_or_port)
-        end
-        __thread_locals.set :sonic_pi_osc_client, [host, port]
+      def use_osc(host, port=57120)
+
+        # 57120 is the OSC spec default port
+
+        host_and_port = (host.include? ":") ? host : (host + ":" + port.to_s)
+
+        __thread_locals.set :sonic_pi_osc_client, host_and_port.freeze
+      end
+      doc name:           :use_osc,
+          introduced:     Version.new(2,11,0),
+          summary:        "Configures where OSC messages are sent",
+          args:           [[:host, :port]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sets the destination host and port that `osc` will send messages to.
+
+OSC is a way of passing messages over the network between two programs or
+computers. Computers can be identified by a specific internet address, known as
+and IP address, and specific programs can be reached by specifying a port.
+Here's an example using a hypothetical computer:
+
+`use_osc \"192.168.1.111\", 8000`
+
+If you're sending messages to programs on your own computer, you can use a
+special address called \"localhost\".
+
+`use_osc \"localhost\", 4556`
+
+Once configured, you can use `osc` to send messages.
+
+Go have fun connecting existing programs, even your own programs, to SonicPi
+using OSC! The possibilities are endless.
+
+---
+
+A note to Web Wizards out there: Sonic Pi has its own, undocumented OSC
+interface. You can run code in your current Sonic Pi session by sending OSC
+messages to localhost:4557. You can also trigger cues by sending messages to
+localhost:4559. Cooler yet, you can trigger cues on other people's Sonic Pi
+sessions using OSC. This is great for livecoding in groups!
+
+I highly encourage you to grab some existing OSC libraries in your language of
+choice to wire up whatever software/hardware combo you want to Sonic Pi. If
+you are experiening delays between the OSC message and the played sound, try
+reducing the schedule-ahead time with `set_sched_ahead_time! 0`.
+
+See the examples for implementation specifics:
+",
+         examples: ["# Run Sonic Pi code with OSC
+
+use_osc \"localhost\", 4557
+osc \"/run-code\" 1 \"play 70\"
+",
+
+"# Trigger Sonic Pi cues with OSC
+
+use_osc \"localhost\", 4559
+
+live_loop :send do
+  osc \"/waitforit\"
+  sleep 1
+end
+
+live_loop :drums do
+  sync :waitforit
+  sample :bd_haus
+end
+", "# Trigger Sonic Pi cues with OSC, including parameter passing
+
+use_osc \"localhost\", 4559
+
+live_loop :send do
+  osc \"passalong\", \"param1\", 80, \"param2\", 90
+  sleep 1
+end
+
+live_loop :print do
+  s = sync :passalong
+  puts s[:param1], s[:param2]
+end"
+]
+
+      def with_osc(host, port=57120, &block)
+        raise "with_osc must be called with a do/end block. Perhaps you meant use_osc" unless block
+        current_host_and_port = __thread_locals.get(:sonic_pi_osc_client)
+        use_osc(host, port)
+        res = block.call
+        __thread_locals.set(:sonic_pi_osc_client, current_host_and_port)
+        res
       end
 
       def osc(path, *args)
-        host, port = __thread_locals.get :sonic_pi_osc_client
-        raise "Set outgoing hostname and port for OSC messages with use_osc or with_osc" unless host && port
+        host_and_port = __thread_locals.get :sonic_pi_osc_client
+        raise "Please specify a destination with use_osc or with_osc" unless host_and_port
+
+        host, port = host_and_port.split ":"
+        port = port.to_i
+
+        if path[0] != "/"
+          path = "/" + path
+        end
+
         begin
           @osc_server.send(host, port, path, *args)
           puts "OSC -> #{host}, #{port}, #{path}, #{args}"
@@ -83,6 +173,81 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
           puts "Error sending OSC to #{host}, #{port}, #{path}, #{args.inspect}\n#{e.message}\n#{e.backtrace}"
         end
       end
+      doc name:           :osc,
+          introduced:     Version.new(2,11,0),
+          summary:        "Sends an OSC message",
+          args:           [[:path, :arguments]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sends a message using OSC (Open Sound Control) to the host specified by `use_osc`.
+
+OSC is a way of passing messages over the network between two programs or
+computers. A typical OSC message has two parts: a descriptive `path` which looks
+like a URL of sorts, and an optional list of `arguments` that are usually
+strings or numbers. How each `path` and `arguments` is handled depends on the
+receiving end.
+
+For example, a hypothetical synthesizer program might accept this OSC message:
+
+`/set/filter \"lowpass\" 80 0.5`
+
+where `/set/filter` is the path, and `\"lowpass\"`, `80`, and `0.5` are three
+arguments. This could be sent by Sonic Pi by writing:
+
+`osc \"/set/filter\", \"lowpass\", 80, 0.5`
+
+Go have fun connecting existing programs, even your own programs, to SonicPi
+using OSC! The possibilities are endless.
+
+---
+
+A note to Web Wizards out there: Sonic Pi has its own, undocumented OSC
+interface. You can run code in your current Sonic Pi session by sending OSC
+messages to localhost:4557. You can also trigger cues by sending messages to
+localhost:4559. Cooler yet, you can trigger cues on other people's Sonic Pi
+sessions using OSC. This is great for livecoding in groups!
+
+I highly encourage you to grab some existing OSC libraries in your language of
+choice to wire up whatever software/hardware combo you want to Sonic Pi. If
+you are experiening delays between the OSC message and the played sound, try
+reducing the schedule-ahead time with `set_sched_ahead_time! 0`.
+
+See the examples for implementation specifics:
+",
+         examples: ["# Run Sonic Pi code with OSC
+
+use_osc \"localhost\", 4557
+osc \"/run-code\" 1 \"play 70\"
+",
+
+"# Trigger Sonic Pi cues with OSC
+
+use_osc \"localhost\", 4559
+
+live_loop :send do
+  osc \"/waitforit\"
+  sleep 1
+end
+
+live_loop :drums do
+  sync :waitforit
+  sample :bd_haus
+end
+", "# Trigger Sonic Pi cues with OSC, including parameter passing
+
+use_osc \"localhost\", 4559
+
+live_loop :send do
+  osc \"passalong\", \"param1\", 80, \"param2\", 90
+  sleep 1
+end
+
+live_loop :print do
+  s = sync :passalong
+  puts s[:param1], s[:param2]
+end"
+]
 
       def reset
 
@@ -3184,8 +3349,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         cue_map = cue_map || {}
         cue_id = payload[:cue]
         cue_map[:cue] = cue_id
-        __system_thread_locals.set :sonic_pi_spider_beat, beat
-        __system_thread_locals.set :sonic_pi_spider_time, time.freeze
+        __system_thread_locals.set :sonic_pi_spider_beat, beat if beat
+        __system_thread_locals.set :sonic_pi_spider_time, time.freeze if time
         __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
 
 
