@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-06 11:31+0000\n"
-"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"es/>\n"
+"PO-Revision-Date: 2016-11-08 01:31+0000\n"
+"Last-Translator: Leidy <ladyalgo@outlook.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 2.9\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -395,9 +395,8 @@ msgid "*G* - Help System"
 msgstr "*G* - Sistema de Ayuda"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
-msgstr "*F* - Visor de Registros"
+msgstr "*H* - Visor de Registros"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
@@ -509,7 +508,6 @@ msgid "G. Help System"
 msgstr "G. Sistema de ayuda"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -518,12 +516,13 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"Finalmente, una de las partes más importantes de la interfaz de Sonic Pi es el"
-" sistema de ayuda que aparece en la parte baja de la ventana. Esta puede ser a"
-"ctivada o desactivada al apretar el botón azul «ayuda». El sistema de ayuda co"
-"ntiene información de todos los aspectos de Sonic Pi incluídos en este tutoria"
-"l, listado de sintetizadores disponibles, samples, ejemplos, efectos y una lis"
-"ta de todas las funciones que Sonic Pi provee para codificar música."
+"Finalmente, una de las partes más importantes de la interfaz de Sonic Pi es "
+"el sistema de ayuda que aparece en la parte baja de la ventana. Esta puede "
+"ser activada o desactivada al apretar el botón azul «Ayuda». El sistema de "
+"ayuda contiene información de todos los aspectos de Sonic Pi incluído este "
+"tutorial, listado de sintetizadores disponibles, muestras (samples), "
+"ejemplos, efectos y una lista de todas las funciones que Sonic Pi provee "
+"para codificar música."
 
 #: 01.2-Exploring-the-Interface.md:81
 #, fuzzy
