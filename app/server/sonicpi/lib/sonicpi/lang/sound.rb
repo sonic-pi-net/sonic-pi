@@ -3702,7 +3702,7 @@ end",
 
 
       def chord_invert(notes, shift)
-        raise "Inversion shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
+        raise "Inversion shift value must be a whole number, got #{shift.inspect}" unless shift.is_a?(Integer)
         raise "Notes must be a list of notes, got #{notes.inspect}" unless is_list_like?(notes)
         if(shift > 0)
           chord_invert(notes.to_a[1..-1] + [notes.to_a[0]+12], shift-1)
