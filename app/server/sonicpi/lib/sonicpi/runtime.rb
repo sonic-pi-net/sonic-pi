@@ -774,7 +774,7 @@ module SonicPi
               # TODO: end of hack
 
               err_msg = "[#{w}, line #{line}] \n #{message}"
-              error_line = code.lines.to_a[line] ||  ""
+              error_line = code.lines.to_a[line - firstline] ||  ""
             else
               line = -1
               err_msg = "\n #{e.message}"
