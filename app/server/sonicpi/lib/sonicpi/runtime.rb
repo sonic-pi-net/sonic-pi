@@ -705,6 +705,12 @@ module SonicPi
       #__error(Exception.new(output.join("\n")))
     end
 
+    def __set_default_user_thread_locals!
+      __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
+      __thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
+      __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
+    end
+
     def __spider_eval(code, info={})
       id = @job_counter.next
 
@@ -731,9 +737,7 @@ module SonicPi
 
           __system_thread_locals.set :sonic_pi_spider_job_info, info
           __system_thread_locals.set :sonic_pi_spider_thread, true
-          __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
-          __thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
-          __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
+          __set_default_user_thread_locals!
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
           now = Time.now.freeze

@@ -250,7 +250,6 @@ end"
 ]
 
       def reset
-
         __thread_locals.reset!
       end
       doc name:           :reset,
@@ -315,6 +314,7 @@ end"]
 
       def clear
         __thread_locals.clear!
+        __set_default_user_thread_locals!
       end
       doc name:           :clear,
           introduced:     Version.new(2,11,0),
