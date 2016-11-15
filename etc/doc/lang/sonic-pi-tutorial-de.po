@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-31 16:00+0000\n"
+"PO-Revision-Date: 2016-11-15 13:52+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/d"
-"e/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 2.10-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -75,16 +75,15 @@ msgstr ""
 "ie ich das in zukünftige Versionen einbauen kann."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
 "e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Besonders gut lernt man Live-Coding, wenn man anderen dabei zuschaut. Ich stre"
-"ame regelmäßig meine Musik auf [livecoding.tv/samaaron](http://livecoding.tv/s"
-"amaaron), also schau doch mal rein, sag hallo oder frag mich dort ein wenig au"
-"s. :-)"
+"Besonders gut lernt man Live-Coding, wenn man anderen dabei zuschaut. Ich "
+"streame regelmäßig meine Musik auf "
+"[livecoding.tv/samaaron](http://livecoding.tv/samaaron), also schau doch mal "
+"rein, sag hallo oder frag mich dort ein wenig aus. :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -210,7 +209,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -219,13 +217,14 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"So, jetzt spiele damit herum. Verändere die Werte für `rate:` - was passiert, "
-"wenn Du hohe, kleine oder negative Zahlen einträgst? Hast Du gemerkt, wie sich"
-" eine sehr kleine Änderung des `rate:`-Wertes für das `:ambi_choir`-Sample aus"
-"wirkt (z.B. 0.29)? Was passiert bei einem wirklich kleinen `sleep`-Wert? Kanns"
-"t Du eine Fehlermeldung Deines Computers auslösen, wenn Du den Wert immer klei"
-"ner werden lässt? (Wenn das geschieht, nimm einfach wieder einen größeren Wert"
-" für `sleep` und drücke auf `Ausführen`.)"
+"So, jetzt spiele damit herum. Verändere die Werte für `rate:` - was "
+"passiert, wenn Du hohe, kleine oder negative Zahlen einträgst? Hast Du "
+"gemerkt, wie sich eine sehr kleine Änderung des `rate:`-Wertes für das "
+"`:ambi_choir`-Sample auswirkt (z.B. 0.29)? Was passiert bei einem wirklich "
+"kleinen `sleep`-Wert? Kannst Du eine Fehlermeldung Deines Computers "
+"auslösen, wenn Du den Wert immer kleiner werden lässt? (Wenn das geschieht, "
+"nimm einfach wieder einen größeren Wert für `sleep` und drücke auf "
+"`Ausführen`.)"
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -407,9 +406,8 @@ msgid "*G* - Help System"
 msgstr "*G* - Hilfe-System"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
-msgstr "*F* - Protokoll-Fenster"
+msgstr "*H* - Oszilloskop"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
@@ -486,7 +484,6 @@ msgid "E. Prefs Panel"
 msgstr "E. Einstellungen"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -494,11 +491,11 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Du kannst verschiedene Einstellungen von Sonic Pi verändern, wenn Du den *Pref"
-"s*-Button drückst. Einige davon sind z.B.: Die Ausgabe von Mono-Ton, der Tausc"
-"h der Stereokanäle, die Ausführlichkeit des Protokolls. Auf dem Raspberry Pi k"
-"annst Du hier auch noch die Lautstärke und den Ausgabekanal für den Ton auswäh"
-"len."
+"Du kannst verschiedene Einstellungen von Sonic Pi verändern, wenn Du den "
+"*Prefs*-Button drückst. Einige davon sind z.B.: Die Ausgabe von Mono-Ton, "
+"der Tausch der Stereokanäle, die Ausführlichkeit des Protokolls. Auf dem "
+"Raspberry Pi kannst Du hier auch noch die Lautstärke und den Ausgabekanal "
+"für den Ton auswählen."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -521,7 +518,6 @@ msgid "G. Help System"
 msgstr "G. Hilfe-System"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -530,19 +526,18 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"Das Hilfe-System im unteren Bereich des Programmfensters ist einer der wichtig"
-"sten Teile von Sonic Pi. Du kannst es ein- und ausblenden, wenn Du den blauen`"
-"Hilfe`-Button klickst. Es zeigt Hilfe und Informationen über alle Aspekte von "
-"Sonic Pi, einschließlich dieses Tutorials, einer Liste der mitgelieferten Synt"
-"hs, Samples, Beispiele, Effekte (Im Englischen wird der Begriff *Effekte* manc"
-"hmal lautmalerisch mit *FX* (\"ef-eks\") abgekürzt; *FX* bezeichnet also die Kla"
-"ngeffekte in Sonic Pi.) sowie eine komplette Liste aller Funktionen, die Sonic"
-" Pi zum Coden von Musik bereitstellt."
+"Das Hilfe-System im unteren Bereich des Programmfensters ist einer der "
+"wichtigsten Teile von Sonic Pi. Du kannst es ein- und ausblenden, wenn Du "
+"den blauen`Hilfe`-Button klickst. Es zeigt Hilfe und Informationen über alle "
+"Aspekte von Sonic Pi, einschließlich dieses Tutorials, einer Liste der "
+"mitgelieferten Synths, Samples, Beispiele, Effekte (Im Englischen wird der "
+"Begriff *Effekte* manchmal lautmalerisch mit *FX* (\"ef-eks\") abgekürzt; "
+"*FX* bezeichnet also die Klangeffekte in Sonic Pi.) sowie eine komplette "
+"Liste aller Funktionen, die Sonic Pi zum Coden von Musik bereitstellt."
 
 #: 01.2-Exploring-the-Interface.md:81
-#, fuzzy
 msgid "H. Scope Viewer"
-msgstr "F. Protokoll-Fenster"
+msgstr "H. Oszilloskop"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -645,7 +640,6 @@ msgid "OK, enough of the intros - let's get into some sound."
 msgstr "Ok, genug der Einführung - jetzt wollen wir Klänge machen."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -654,12 +648,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"In diesem Abschnitt besprechen wir, wie man Synths ansteuert und manipuliert. "
-"Synth ist die Kurzform von Synthesizer - ein hochtrabendes Wort für ein Ding, "
-"das einen Klang erzeugt. Typischerweise sind Synths ziemlich kompliziert im Ge"
-"brauch, vor allem analoge Synths mit ihren vielen Kabeln und Modulen. Sonic Pi"
-" stellt Dir aber vieles davon auf eine einfache und gut zugängliche Art zur Ve"
-"rfügung."
+"In diesem Abschnitt besprechen wir, wie man Synths ansteuert und "
+"manipuliert. Synth ist die Kurzform von Synthesizer - ein hochtrabendes Wort "
+"für ein Ding, das einen Klang erzeugt. Typischerweise sind Synths ziemlich "
+"kompliziert im Gebrauch, vor allem analoge Synths mit ihren vielen Kabeln "
+"und Modulen. Sonic Pi stellt Dir aber vieles davon auf eine einfache und gut "
+"zugängliche Art zur Verfügung."
 
 #: 02-Synths.md:14
 msgid ""
@@ -9224,12 +9218,10 @@ msgstr ""
 "ode funktioniert wieder."
 
 #: 11-Minecraft-Pi.md:28
-#, fuzzy
 msgid "Designed to be Live Coded"
 msgstr "Gemacht für Live-Coding"
 
 #: 11-Minecraft-Pi.md:30
-#, fuzzy
 msgid ""
 "The Minecraft Pi API has been designed to work seamlessly within `live_loop`s."
 " This means it's possible to synchronise modifications in your Minecraft Pi wo"
@@ -9239,138 +9231,121 @@ msgid ""
 "arry on as before. Sonic Pi's automatic connection functionality will take car"
 "e of things for you."
 msgstr ""
-"Die Minecraft-Pi-API ist dazu da, dass sie problemlos in in einem `live_loop` "
-"funktioniert. Das heißt, Du kannst damit Veränderungen in Deiner Minecraft-Wel"
-"t mit Veränderungen in Deinen Sonic-Pi-Sounds synchronisieren. Zack, Minecraft"
-"-basierte Musik-Videos! Bedenke aber, dass Minecraft Pi eine Alpha-Version ist"
-" und die Software ein paar kleinere Bugs hat. Wenn ein solches Problem mit Min"
-"ecraft Pi auftritt, starte es einfach neu. Sonic Pi nimmt dann automatisch ein"
-"e neue Verbindung über seine API auf."
+"Die Minecraft-Pi-API ist dazu da, dass sie problemlos in in einem `live_loop`"
+" funktioniert. Du kannst damit also Veränderungen in Deiner Minecraft-Welt "
+"mit Veränderungen in Deinen Sonic-Pi-Sounds synchronisieren. Zack, Minecraft-"
+"basierte Musik-Videos! Bedenke aber, dass Minecraft Pi eine Alpha-Version "
+"ist und die Software ein paar kleinere Bugs hat. Wenn ein solches Problem "
+"mit Minecraft Pi auftritt, starte es einfach neu. Sonic Pi nimmt dann "
+"automatisch eine neue Verbindung über seine API auf."
 
 #: 11-Minecraft-Pi.md:39
-#, fuzzy
 msgid "Requires a Raspberry Pi 2.0"
 msgstr "Raspberry Pi 2 empfohlen"
 
 #: 11-Minecraft-Pi.md:41
-#, fuzzy
 msgid ""
 "It is highly recommended that you use a Raspberry Pi 2 if you wish to run both"
 " Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
 " Pi's sound capabilities."
 msgstr ""
-"Minecraft Pi und Sonic Pi mit seinen Sound-Möglichkeiten sind beides sehr rech"
-"enintensive Programme. Der alte Raspberry ist davon schnell überfordert und ei"
-"n Raspberry Pi 2 mit seinem schnelleren Prozessor deshalb sehr zu empfehlen!"
+"Minecraft Pi und Sonic Pi mit seinen Sound-Möglichkeiten sind beides sehr "
+"rechenintensive Programme. Der alte Raspberry ist davon schnell überfordert "
+"und ein Raspberry Pi 2 mit seinem schnelleren Prozessor deshalb sehr zu "
+"empfehlen!"
 
 #: 11-Minecraft-Pi.md:45
-#, fuzzy
 msgid "API Support"
 msgstr "API-Support"
 
 #: 11-Minecraft-Pi.md:47
-#, fuzzy
 msgid ""
 "At this stage, Sonic Pi supports basic block and player manipulations which ar"
 "e detailed in Section 11.1. Support for event callbacks triggered by player in"
 "teractions in the world is planned for a future release."
 msgstr ""
-"Zur Zeit kann Sonic Pi einige Grundfunktionen zur Manipulation von Minecraft-B"
-"löcken und dem Spieler ausführen. Details dazu findest Du im nächsten Abschnit"
-"t 11.1. Für ein späteres Release plane ich, auch Event-Callbacks aus Minecraft"
-" Pi zu unterstützen, so dass der Code in Sonic Pi von Ereignissen erfahren kan"
-"n, die der Spieler in Minecraft Pi ausgelöst hat."
+"Zur Zeit kann Sonic Pi einige Grundfunktionen zur Manipulation von Minecraft-"
+"Blöcken und dem Spieler ausführen. Details dazu findest Du im nächsten "
+"Abschnitt 11.1. Für ein späteres Release plane ich, auch Event-Callbacks aus "
+"Minecraft Pi zu unterstützen, so dass der Code in Sonic Pi von Ereignissen "
+"erfahren kann, die der Spieler in Minecraft Pi ausgelöst hat."
 
 #: 11.1-Basic-API.md:1
-#, fuzzy
 msgid "11.1 Basic API"
 msgstr "11.1 Grundfunktionen der Minecraft-PI-API"
 
 #: 11.1-Basic-API.md:3
-#, fuzzy
 msgid "Basic Minecraft Pi API"
 msgstr "Grundfunktionen der Minecraft-Pi-API"
 
 #: 11.1-Basic-API.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft Pi"
 ":"
 msgstr ""
-"Folgende Aktionen kannst Du mit der API von Sonic Pi aus in Minecraft Pi auslö"
-"sen:"
+"Folgende Aktionen kannst Du mit der API von Sonic Pi aus in Minecraft Pi "
+"auslösen:"
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
-#, fuzzy
 msgid "Displaying chat messages"
 msgstr "Anzeige von Chat-Nachrichten"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
-#, fuzzy
 msgid "Setting the position of the user"
 msgstr "die Spielerposition setzen"
 
 #: 11.1-Basic-API.md:9
-#, fuzzy
 msgid "Getting the position of the user"
 msgstr "die Spielerposition auslesen"
 
 #: 11.1-Basic-API.md:10
-#, fuzzy
 msgid "Setting the block type at a given coordinate"
 msgstr "den Typ eines Minecraft-Blocks an einer Koordinate setzen"
 
 #: 11.1-Basic-API.md:11
-#, fuzzy
 msgid "Getting the block type at a given coordinate"
 msgstr "den Typ eines Minecraft-Blocks an einer Koordinate auslesen"
 
 #: 11.1-Basic-API.md:14
-#, fuzzy
 msgid "Let's look at each of these in turn."
 msgstr "Schauen wir uns diese der Reihe nach an."
 
 #: 11.1-Basic-API.md:18
-#, fuzzy
 msgid ""
 "Let's see just how easy it is to control Minecraft Pi from Sonic Pi. First, ma"
 "ke sure you have both Minecraft Pi and Sonic Pi open at the same time and also"
 " make sure you've entered a Minecraft world and can walk around."
 msgstr ""
-"Ich zeige Dir mal, wie einfach es ist, von Sonic Pi aus die Kontrolle über Min"
-"ecraft Pi zu übernehmen. Starte also zunächst Sonic Pi und Minecraft Pi und be"
-"trete eine Minecraft-Welt, in der Du herumlaufen kannst."
+"Ich zeige Dir mal, wie einfach es ist, von Sonic Pi aus die Kontrolle über "
+"Minecraft Pi zu übernehmen. Starte also zunächst Sonic Pi und Minecraft Pi "
+"und betrete eine Minecraft-Welt, in der Du herumlaufen kannst."
 
 #: 11.1-Basic-API.md:23
-#, fuzzy
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
 msgstr "Jetzt schreibe folgenden Code in einem leeren Buffer von Sonic Pi :"
 
 #: 11.1-Basic-API.md:25
 #, no-wrap
-#, fuzzy
 msgid "mc_message \"Hello from Sonic Pi\""
 msgstr "mc_message \"Hallo, hier ist Sonic Pi\""
 
 #: 11.1-Basic-API.md:29
-#, fuzzy
 msgid ""
 "When you hit the *Run* button, you'll see your message flash up on the Minecra"
 "ft window. Congratulations, you've written your first Minecraft code! That was"
 " easy wasn't it."
 msgstr ""
-"Führe den Code aus und Du wirst die Nachricht im Minecraft-Fenster aufblitzen "
-"sehen. Gratuliere, das ist Dein erster Minecraft-Code! War doch gar nicht schw"
-"er, oder?"
+"Führe den Code aus und Du wirst die Nachricht im Minecraft-Fenster "
+"aufblitzen sehen. Gratuliere, das ist Dein erster Minecraft-Code! War doch "
+"gar nicht schwer, oder?"
 
 #: 11.1-Basic-API.md:35
-#, fuzzy
 msgid ""
 "Now, let's try a little magic. Let's teleport ourselves somewhere! Try the fol"
 "lowing:"
 msgstr ""
-"Und jetzt zaubern wir ein wenig. Teleportiere Dich einfach, wohin Du willst! P"
-"robiere das hier aus:"
+"Und jetzt zaubern wir ein wenig. Teleportiere Dich einfach, wohin Du willst! "
+"Probiere das hier aus:"
 
 #: 11.1-Basic-API.md:38
 #, no-wrap
@@ -9378,7 +9353,6 @@ msgid "mc_teleport 50, 50, 50"
 msgstr "mc_teleport 50, 50, 50"
 
 #: 11.1-Basic-API.md:42
-#, fuzzy
 msgid ""
 "When you hit *Run* - boom! You're instantantly transported to a new place. Mos"
 "t likely it was somewhere in the sky and you fell down either to dry land or i"
@@ -9387,15 +9361,15 @@ msgid ""
 "lore what coordinates are and how they work because they're really, really imp"
 "ortant for programming Minecraft."
 msgstr ""
-"Nach Klick auf *Ausführen* - Paff! - bist Du sofort an einem anderen Ort in De"
-"iner Minecraft-Welt. Vermutlich irgendwie hoch oben in der Luft und Du bist au"
-"fs Land oder Wasser herunter gefallen. Was bedeuten diese Zahlen: `50, 50, 50`"
-"? Das sind die Koordinaten der Zielposition für den Teleport. Probiere jetzt i"
-"n Deinem Code ein paar Koordinaten aus, damit Du weißt, wie sie funktionieren."
-" Koordinaten sind für Minecraft-Programme sehr sehr wichtig."
+"Nach Klick auf *Ausführen* - Paff! - bist Du sofort an einem anderen Ort in "
+"Deiner Minecraft-Welt. Vermutlich irgendwie hoch oben in der Luft und Du "
+"bist aufs Land oder Wasser herunter gefallen. Was bedeuten diese Zahlen: `"
+"50, 50, 50`? Das sind die Koordinaten der Zielposition für den Teleport. "
+"Probiere jetzt in Deinem Code ein paar Koordinaten aus, damit Du weißt, wie "
+"sie funktionieren. Koordinaten sind für Minecraft-Programme sehr sehr "
+"wichtig."
 
 #: 11.1-Basic-API.md:50
-#, fuzzy
 msgid "Coordinates"
 msgstr "Koordinaten"
 
