@@ -1338,7 +1338,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
         synth_name = current_synth unless synth_name
         sn_sym = synth_name.to_sym
         info = Synths::SynthInfo.get_info(sn_sym)
-        raise "Unknown synth #{sn.inspect}" unless info || __thread_locals.get(:sonic_pi_mod_sound_use_external_synths)
+        raise "Unknown synth #{sn_sym.inspect}" unless info || __thread_locals.get(:sonic_pi_mod_sound_use_external_synths)
 
 
         args_h = resolve_synth_opts_hash_or_array(args)
