@@ -364,7 +364,7 @@ module SonicPi
       rescue
         audio_card = "0"
       end
-      sys("jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -r -i2 -o2 44100& ")
+      sys("jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -r -o2 44100& ")
 
       # Wait for Jackd to start
       while `jack_wait -c`.match /^not running$/
@@ -375,7 +375,7 @@ module SonicPi
 
       buffer_size = raspberry_pi_1? ? 512 : 128
 
-      boot_and_wait("scsynth", "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-z", buffer_size.to_s,  "-c", "128", "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/", "-o", "2", "-b", num_buffers_for_current_os.to_s)
+      boot_and_wait("scsynth", "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-z", buffer_size.to_s,  "-c", "128", "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/", "-i", "2", "-o", "2", "-b", num_buffers_for_current_os.to_s)
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
