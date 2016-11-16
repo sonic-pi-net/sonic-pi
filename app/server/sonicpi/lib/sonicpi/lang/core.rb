@@ -3324,7 +3324,6 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         cue_ids = (cues.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
         opts = cues[cue_ids.size] || {}
         cue_ids.flatten!
-        puts opts.inspect
         raise "Opts for sync must be a map, got a #{opts.class} - #{opts.inspect}" unless opts.is_a?(Hash)
         raise "Timing Exception - you may not sync within a time_warp" if __system_thread_locals.get :sonic_pi_spider_in_time_warp
         raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
