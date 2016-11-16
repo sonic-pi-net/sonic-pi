@@ -3302,7 +3302,11 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
   end",
       ]
 
-      def sync_bpm(cue_ids, opts={})
+      def sync_bpm(*args)
+        cue_ids = (args.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
+        opts = args[cue_ids.size] || {}
+        cue_ids.flatten!
+        raise "Opts for sync_bpm must be a map, got a #{opts.class} - #{opts.inspect}" unless opts.is_a?(Hash)
         sync cue_ids, opts.merge({bpm_sync: true})
       end
       doc name:           :sync_bpm,
@@ -3316,9 +3320,13 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           examples:       ["See examples for sync"]
 
 
-      def sync(cue_ids, opts={})
+      def sync(*cues)
+        cue_ids = (cues.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
+        opts = cues[cue_ids.size] || {}
+        cue_ids.flatten!
+        puts opts.inspect
+        raise "Opts for sync must be a map, got a #{opts.class} - #{opts.inspect}" unless opts.is_a?(Hash)
         raise "Timing Exception - you may not sync within a time_warp" if __system_thread_locals.get :sonic_pi_spider_in_time_warp
-        cue_ids = [cue_ids] if cue_ids.is_a?(Symbol) || cue_ids.is_a?(String) || cue_ids.is_a?(SPSym)
         raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
         p = Promise.new
