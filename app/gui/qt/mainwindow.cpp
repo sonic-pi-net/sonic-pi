@@ -966,6 +966,7 @@ bool MainWindow::waitForServiceSync() {
     server_booted = true;
   } else {
     for(int i = 0; i < 60; i ++) {
+      qApp->processEvents();
       contents = readFile(server_output_log_path);
       if (contents.contains("Sonic Pi Server successfully booted.")) {
         std::cout << std::endl << "[GUI] - Sonic Pi Server successfully booted." << std::endl;
