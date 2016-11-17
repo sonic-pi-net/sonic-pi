@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-15 13:52+0000\n"
+"PO-Revision-Date: 2016-11-17 16:21+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -9374,7 +9374,6 @@ msgid "Coordinates"
 msgstr "Koordinaten"
 
 #: 11.1-Basic-API.md:52
-#, fuzzy
 msgid ""
 "Imagine a pirate's map with a big `X` marking the location of some treasure. T"
 "he exact location of the `X` can be described with two numbers - how far along"
@@ -9384,62 +9383,55 @@ msgid ""
 "easure with other pairs of numbers. Perhaps there's a big chest of gold at `2`"
 " across and `9` up..."
 msgstr ""
-"Stelle Dir eine alte Piraten-Schatzkarte vor - beim großen `X` ist der Schatz "
-"vergraben. Die genaue Position des `X` lässt sich mit zwei Zahlen beschreiben "
-"- wie weit ist das Kreuz horizontal vom Papierrand entfernt und wie weit verti"
-"kal. Angenommen, es ist `10cm` vom linken Rand und `8cm` vom unteren Rand entf"
-"ernt. Diese beiden Zahlen `10` und `8` sind Koordinaten. Auch andere vergraben"
-"e Schätze auf der Karte lassen sich mit ihrem jeweiligen Koordinaten-Zahlenpaa"
-"r genau beschreiben. Etwa die große Goldkiste bei `2` von links und `9` von un"
-"ten..."
+"Stelle Dir eine alte Piraten-Schatzkarte vor - beim großen `X` ist der "
+"Schatz vergraben. Die genaue Position des `X` lässt sich mit zwei Zahlen "
+"beschreiben - wie weit ist das Kreuz horizontal vom Papierrand entfernt und "
+"wie weit vertikal. Angenommen, es ist `10cm` vom linken Rand und `8cm` vom "
+"unteren Rand entfernt. Diese beiden Zahlen `10` und `8` sind Koordinaten. "
+"Auch andere vergrabene Schätze auf der Karte lassen sich mit ihrem "
+"jeweiligen Koordinaten-Zahlenpaar genau beschreiben. Etwa die große "
+"Goldkiste bei `2` von links und `9` von unten..."
 
 #: 11.1-Basic-API.md:61
-#, fuzzy
 msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
 "h we are. We therefore need three numbers:"
 msgstr ""
-"In Minecraft Pi reichen zwei Zahlen nicht mehr aus. Wir brauchen auch eine Höh"
-"enangabe und damit besteht eine Koordinate in Minecraft aus drei Zahlen:"
+"In Minecraft Pi reichen zwei Zahlen nicht mehr aus. Wir brauchen auch eine "
+"Höhenangabe und damit besteht eine Koordinate in Minecraft aus drei Zahlen:"
 
 #: 11.1-Basic-API.md:64
-#, fuzzy
 msgid "How far from right to left in the world - `x`"
 msgstr "Wie weit von rechts nach links innerhalb der Welt - `x`"
 
 #: 11.1-Basic-API.md:65
-#, fuzzy
 msgid "How far from front to back in the world - `z`"
 msgstr "Wie weit von vorn nach hinten innerhalb der Welt - `z`"
 
 #: 11.1-Basic-API.md:66
-#, fuzzy
 msgid "How high up we are in the world - `y`"
 msgstr "Wie hoch vom Boden aus innerhalb der Welt - `y`"
 
 #: 11.1-Basic-API.md:68
-#, fuzzy
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, `y"
 "`, `z`."
 msgstr ""
-"Diese Minecraft-Koordinaten schreiben wir dann in der Reihenfolge `x`, `y`, `z"
-"` auf."
+"Diese Minecraft-Koordinaten schreiben wir dann in der Reihenfolge `x`, `y`, "
+"`z` auf."
 
 #: 11.1-Basic-API.md:71
-#, fuzzy
 msgid "Finding your current coordinates"
 msgstr "Wo befindest Du Dich?"
 
 #: 11.1-Basic-API.md:73
-#, fuzzy
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
 "map and then switch over to Sonic Pi. Now enter the following:"
 msgstr ""
-"Spielen wir also ein wenig mit den Koordinaten herum. Bewege Dich in Minecraft"
-" Pi an einen schönen Ort und wechsele dann zu Sonic Pi. Nun führe folgenden Co"
-"de aus:"
+"Spielen wir also ein wenig mit den Koordinaten herum. Bewege Dich in "
+"Minecraft Pi an einen schönen Ort und wechsele dann zu Sonic Pi. Nun führe "
+"folgenden Code aus:"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
@@ -9447,7 +9439,6 @@ msgid "puts mc_location"
 msgstr "puts mc_location"
 
 #: 11.1-Basic-API.md:80
-#, fuzzy
 msgid ""
 "When you hit the *Run* button you'll see the coordinates of your current posit"
 "ion displayed in the log window. Take a note of them, then move forward in the"
@@ -9457,31 +9448,30 @@ msgid ""
 "the coordinates change when you move. Once you've understood how coordinates w"
 "ork, programming with the Minecraft API will be a complete breeze."
 msgstr ""
-"Drücke *Ausführen* und im Log erscheinen die Koordinaten, an denen Du Dich in "
-"Minecraft befindest. Merke sie Dir, bewege Dich in Minecraft ein wenig weiter "
-"und führe den Code noch einmal aus. Hast Du gesehen, wie sich die Koordinaten "
-"geändert haben? Probiere das noch ein bisschen aus, damit Du ein Gefühl dafür "
-"bekommst, wie sich die Koordinaten mit Deiner Bewegung in der Minecraft-Welt v"
-"erändern. Wenn Du erst einmal verstanden hast, wie Koordinaten funktionieren, "
-"wird das Programmieren mit der Minecraft-Pi-API ganz einfach."
+"Drücke *Ausführen* und im Log erscheinen die Koordinaten, an denen Du Dich "
+"in Minecraft befindest. Merke sie Dir, bewege Dich in Minecraft ein wenig "
+"weiter und führe den Code noch einmal aus. Hast Du gesehen, wie sich die "
+"Koordinaten geändert haben? Probiere das noch ein bisschen aus, damit Du ein "
+"Gefühl dafür bekommst, wie sich die Koordinaten mit Deiner Bewegung in der "
+"Minecraft-Welt verändern. Wenn Du erst einmal verstanden hast, wie "
+"Koordinaten funktionieren, wird das Programmieren mit der Minecraft-Pi-API "
+"ganz einfach."
 
 #: 11.1-Basic-API.md:89
-#, fuzzy
 msgid "Let's Build!"
 msgstr "Lass uns etwas bauen!"
 
 #: 11.1-Basic-API.md:91
-#, fuzzy
 msgid ""
 "Now that you know how to find the current position and to teleport using coord"
 "inates, you have all the tools you need to start building things in Minecraft "
 "with code. Let's say you want to make the block with coordinates `40`, `50`, `"
 "60` to be glass. That's super easy:"
 msgstr ""
-"Jetzt weißt Du, wie Du Deine Position auslesen und Dich an beliebige Stellen t"
-"eleportieren kannst. Als nächstes können wir mit Code Dinge in Minecraft bauen"
-". Zum Beispiel ein Block aus Glas an Koordinate `40, 50, 60`, das geht ganz ei"
-"nfach:"
+"Jetzt weißt Du, wie Du Deine Position auslesen und Dich an beliebige Stellen "
+"teleportieren kannst. Als nächstes können wir mit Code Dinge in Minecraft "
+"bauen. Zum Beispiel ein Block aus Glas an Koordinate `40, 50, 60`, das geht "
+"ganz einfach:"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
@@ -9489,13 +9479,12 @@ msgid "mc_set_block :glass, 40, 50, 60"
 msgstr "mc_set_block :glass, 40, 50, 60"
 
 #: 11.1-Basic-API.md:100
-#, fuzzy
 msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby and "
 "take a look:"
 msgstr ""
-"Haha, das war ja wirklich ganz einfach. Nach getaner Arbeit springst Du schnel"
-"l in die Nähe und schaust Dir das Ergebnis an:"
+"Haha, das war ja wirklich ganz einfach. Nach getaner Arbeit springst Du "
+"schnell in die Nähe und schaust Dir das Ergebnis an:"
 
 #: 11.1-Basic-API.md:103
 #, no-wrap
@@ -9503,13 +9492,12 @@ msgid "mc_teleport 35, 50, 60"
 msgstr "mc_teleport 35, 50, 60"
 
 #: 11.1-Basic-API.md:107
-#, fuzzy
 msgid ""
 "Now turn around and you should see your glass block! Try changing it to diamon"
 "d:"
 msgstr ""
-"Dreh Dich ein wenig und Du wirst Deinen Glasblock sehen! Ändern wir kurz das M"
-"aterial und machen einen Block aus Diamant daraus:"
+"Dreh Dich ein wenig und Du wirst Deinen Glasblock sehen! Ändern wir kurz das "
+"Material und machen einen Block aus Diamant daraus:"
 
 #: 11.1-Basic-API.md:110
 #, no-wrap
@@ -9517,29 +9505,26 @@ msgid "mc_set_block :diamond, 40, 50, 60"
 msgstr "mc_set_block :diamond, 40, 50, 60"
 
 #: 11.1-Basic-API.md:114
-#, fuzzy
 msgid ""
 "If you were looking in the right direction you might have even seen it change "
 "in front of your eyes! This is the start of something exciting..."
 msgstr ""
-"Wenn Du in die richtige Richtung schaust, konntest Du eben sogar dabei zusehen"
-", wie sich der Block verändert. Hier geschieht etwas aufregendes..."
+"Wenn Du in die richtige Richtung schaust, konntest Du eben sogar dabei "
+"zusehen, wie sich der Block verändert. Hier geschieht etwas aufregendes..."
 
 #: 11.1-Basic-API.md:117
-#, fuzzy
 msgid "Looking at blocks"
 msgstr "Blöcke ansehen"
 
 #: 11.1-Basic-API.md:119
-#, fuzzy
 msgid ""
 "Let's look at one last thing before we move onto something a bit more involved"
 ". Given a set of coordinates we can ask Minecraft what the type of a specific "
 "block is. Let's try it with the diamond block you just created:"
 msgstr ""
-"Du kannst Minecraft Pi auch fragen, welcher Typ Block sich an einer Koordinate"
-" befindet. Der folgende Code tut dies für den Diamantblock, den Du gerade geba"
-"ut hast:"
+"Du kannst Minecraft Pi auch fragen, welcher Typ Block sich an einer "
+"Koordinate befindet. Der folgende Code tut dies für den Diamantblock, den Du "
+"gerade gebaut hast:"
 
 #: 11.1-Basic-API.md:124
 #, no-wrap
@@ -9547,28 +9532,25 @@ msgid "puts mc_get_block 40, 50, 60"
 msgstr "puts mc_get_block 40, 50, 60"
 
 #: 11.1-Basic-API.md:128
-#, fuzzy
 msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
 " now say `:glass`? I'm sure it does :-)"
 msgstr ""
-"Yay! Es ist `:diamond`. Ändere das Material des Blocks wieder zu Glas und lese"
-" den Typ noch einmal aus - meldet der Code jetzt `:glass` zurück? Ich bin sich"
-"er, dass er das tut. :-)"
+"Yay! Es ist `:diamond`. Ändere das Material des Blocks wieder zu Glas und "
+"lese den Typ noch einmal aus - meldet der Code jetzt `:glass` zurück? Ich "
+"bin sicher, dass er das tut. :-)"
 
 #: 11.1-Basic-API.md:131
-#, fuzzy
 msgid "Available block types"
 msgstr "Mögliche Materialtypen in Minecraft"
 
 #: 11.1-Basic-API.md:133
-#, fuzzy
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of av"
 "ailable block types useful:"
 msgstr ""
-"Bevor Du jetzt mit Code durch Minecraft Pi tobst, hier noch eine praktische Li"
-"ste aller Material-Typen für Minecraft-Blöcke:"
+"Bevor Du jetzt mit Code durch Minecraft Pi tobst, hier noch eine praktische "
+"Liste aller Material-Typen für Minecraft-Blöcke:"
 
 #: 11.1-Basic-API.md:136
 #, no-wrap
@@ -9726,17 +9708,14 @@ msgstr ""
 "    :nether_reactor_core"
 
 #: 12-Conclusions.md:1
-#, fuzzy
 msgid "12 Conclusions"
 msgstr "12 Abschluss"
 
 #: 12-Conclusions.md:3
-#, fuzzy
 msgid "Conclusions"
 msgstr "Abschluss"
 
 #: 12-Conclusions.md:5
-#, fuzzy
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
 "mething along the way. Don't worry if you feel you didn't understand everythin"
@@ -9744,76 +9723,69 @@ msgid ""
 "ee to dive back in when you have a question that might be covered in one of th"
 "e sections."
 msgstr ""
-"Damit bist Du am Ende des Tutorials von Sonic Pi angekommen. Hoffentlich hast "
-"Du etwas dabei gelernt. Falls Du das Gefühl hast, nicht alles verstanden zu ha"
-"ben - keine Angst, spiele einfach weiter und hab Spaß dabei. Dann wird immer m"
-"ehr hängenbleiben. Und greife einfach auf das Tutorial zurück, wenn Du eine Fr"
-"age hast, die vielleicht in einem der vorherigen Kapitel behandelt wurde."
+"Damit bist Du am Ende des Tutorials von Sonic Pi angekommen. Hoffentlich "
+"hast Du etwas dabei gelernt. Falls Du das Gefühl hast, nicht alles "
+"verstanden zu haben - keine Angst, spiele einfach weiter und hab Spaß dabei. "
+"Dann wird immer mehr hängen bleiben. Und greife einfach auf das Tutorial "
+"zurück, wenn Du eine Frage hast, die vielleicht in einem der vorherigen "
+"Kapitel behandelt wurde."
 
 #: 12-Conclusions.md:11
-#, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
 "se jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/) a"
 "nd ask your question there. You'll find someone friendly and willing to lend a"
 " hand."
 msgstr ""
-"Sind noch Fragen übrig, die über die Einführung hinausgehen? Du kannst damit i"
-"ns [Sonic Pi Forum](http://groups.google.com/group/sonic-pi/) kommen und Dein "
-"Anliegen dort beschreiben. Dort sind viele nette Menschen, die Dir gerne weite"
-"rhelfen."
+"Sind noch Fragen übrig, die über die Einführung hinausgehen? Du kannst damit "
+"ins [Sonic Pi Forum](http://groups.google.com/group/sonic-pi/) kommen und "
+"Dein Anliegen dort beschreiben. Dort sind viele nette Menschen, die Dir "
+"gerne weiterhelfen."
 
 #: 12-Conclusions.md:16
-#, fuzzy
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
 "ion in this help system. There are a number of features that haven't been cove"
 "red in this tutorial that are waiting for your discovery."
 msgstr ""
-"Du bist auch eingeladen, Dir den Rest der Dokumentation im Hilfe-System genaue"
-"r anzuschauen. Es gibt noch eine Reihe von Features, die in dieser Einführung "
-"nicht behandelt wurden und darauf warten, von Dir entdeckt zu werden."
+"Du bist auch eingeladen, Dir den Rest der Dokumentation im Hilfe-System "
+"genauer anzuschauen. Es gibt noch eine Reihe von Features, die in dieser "
+"Einführung nicht behandelt wurden und darauf warten, von Dir entdeckt zu "
+"werden."
 
 #: 12-Conclusions.md:21
-#, fuzzy
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
 msgstr ""
-"Also: Spiele herum, hab Spaß, teile Deinen Code, tritt vor Freunden auf, zeige"
-" was Du auf dem Monitor hast und nicht vergessen:"
+"Also: Spiele herum, hab Spaß, teile Deinen Code, tritt vor Freunden auf, "
+"zeige was Du auf dem Monitor hast und nicht vergessen:"
 
 #: 12-Conclusions.md:24
-#, fuzzy
 msgid "*There are no mistakes, only opportunities.*"
 msgstr ""
-"*There are no mistakes, only opportunities.* (Es gibt keine Fehler, nur Möglic"
-"hkeiten.)"
+"*There are no mistakes, only opportunities.* (Es gibt keine Fehler, nur "
+"Möglichkeiten.)"
 
 #: 12-Conclusions.md:26
-#, fuzzy
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
 msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
-#, fuzzy
 msgid "A Appendix A - MagPi Articles"
-msgstr "A Appendix A - MagPi-Artikel"
+msgstr "A Appendix A - Artikel aus MagPi"
 
 #: A-Articles.md:3
-#, fuzzy
 msgid "MagPi Articles"
-msgstr "MagPi-Artikel"
+msgstr "Artikel aus MagPi"
 
 #: A-Articles.md:5
-#, fuzzy
 msgid "Appendix A collects all the Sonic Pi articles written for the MagPi magazine."
 msgstr ""
-"Appendix A sammelt all Sonic Pi-Artikel, die für das MagPi-Magazin geschrieben"
-" wurden."
+"Appendix A sammelt Artikel über Sonic Pi, die für das MagPi-Magazin "
+"geschrieben wurden."
 
 #: A-Articles.md:8
-#, fuzzy
 msgid "Dive into Topics"
 msgstr "Steig' in die Themen ein"
 
