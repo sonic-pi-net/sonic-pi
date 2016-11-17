@@ -318,7 +318,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>有効にすると、Sonic Piはload_synthdefs
 の呼び出しによるシンセ・エフェクトのロードを
 許可します。
@@ -588,7 +588,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ自動スクロール</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
@@ -988,8 +988,8 @@ Sonic Pi %1 を入手</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation>Sonic Piが既に実行されていませんか？ UDPポートを開くことができませんでした。</translation>
     </message>
 </context>
 </TS>
