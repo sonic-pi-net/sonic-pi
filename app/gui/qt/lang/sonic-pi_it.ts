@@ -26,7 +26,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Attiva inversione stereo.
-Se abilitata, l&apos;audio della cassa sinistra
+Se abilitata, l'audio della cassa sinistra
 verrà inviato alla cassa destra e viceversa.</translation>
     </message>
     <message>
@@ -64,14 +64,14 @@ non saranno, di default, mostrati nel registro.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1125"/>
         <source>Clear log on run</source>
-        <translation>Cancella registro all&apos;avvio</translation>
+        <translation>Cancella registro all'avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1126"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Abilità cancella registro all&apos;avvio.
+        <translation>Abilità cancella registro all'avvio.
 Se abilitato, i contenuti del registro saranno cancellati
 ogni volta che il pulsante avvio verrà premuto.</translation>
     </message>
@@ -261,7 +261,7 @@ La seconda, una porta HDMI a cui collegare monitor, tv o supporti audio.</transl
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
         <source>&amp;Headphones</source>
-        <translation>Cuffie</translation>
+        <translation>&amp; Cuffie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
@@ -317,7 +317,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Se abilitato, Sonic Pi permetterà di
 avviare synth e FX caricati attraverso
 il comando load_synthdefs.
@@ -358,7 +358,7 @@ anche se lanciati in ritardo.</translation>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Abilità controllo automatico aggiornamenti.
-Questo controllo include l&apos;invio di informazione in modo anonimo relative alla tua versione e piattaforma.</translation>
+Questo controllo include l'invio di informazione in modo anonimo relative alla tua versione e piattaforma.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1173"/>
@@ -370,7 +370,7 @@ Questo controllo include l&apos;invio di informazione in modo anonimo relative a
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Forza subito un controllo aggiornamenti.
-Questo controllo include l&apos;invio in modo anonimo di informazioni relative alla tua piattaforma e versione.</translation>
+Questo controllo include l'invio in modo anonimo di informazioni relative alla tua piattaforma e versione.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1175"/>
@@ -395,7 +395,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1201"/>
         <source>Configure editor display options.</source>
-        <translation>Configura opzioni di vista nell&apos;editor.</translation>
+        <translation>Configura opzioni di vista nell'editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1202"/>
@@ -405,7 +405,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>Configure editor look and feel.</source>
-        <translation>Configura aspetto dell&apos;editor.</translation>
+        <translation>Configura aspetto dell'editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
@@ -425,7 +425,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1207"/>
         <source>Automatically align code on Run</source>
-        <translation>Allinea automaticamente il codice all&apos;Avvio</translation>
+        <translation>Allinea automaticamente il codice all'Avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
@@ -494,9 +494,9 @@ La modalità scura è perfetta per performance nei night club.</translation>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation>Errore all&apos;avvio di Sonic Pi
+        <translation>Errore all'avvio di Sonic Pi
 
-Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
+Siamo spiacenti, si è verificato un errore durante l'avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1560"/>
@@ -587,7 +587,7 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto-Scroll log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
@@ -708,17 +708,17 @@ Stereo - mostra due oscilloscopi per il canale sinistro e destro</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2190"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio cuffie...</translation>
+        <translation>Cambiando all'uscita audio cuffie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2206"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio HDMI...</translation>
+        <translation>Cambiando all'uscita audio HDMI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2221"/>
         <source>Switching To Default Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio predefinita...</translation>
+        <translation>Cambiando all'uscita audio predefinita...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2387"/>
@@ -728,7 +728,7 @@ Stereo - mostra due oscilloscopi per il canale sinistro e destro</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2399"/>
         <source>Start recording to WAV audio file</source>
-        <translation>Inizia a registrare l&apos;audio in un file WAV</translation>
+        <translation>Inizia a registrare l'audio in un file WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2404"/>
@@ -838,7 +838,7 @@ Scarica subito Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Segnala l&apos;errore a</translation>
+        <translation>Segnala l'errore a</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2435"/>
@@ -987,8 +987,8 @@ Scarica subito Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation>Sonic Pi è ancora in esecuzione? Impossibile aprire la porta UDP.</translation>
     </message>
 </context>
 </TS>
