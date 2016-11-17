@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-14 22:32+0000\n"
+"PO-Revision-Date: 2016-11-17 20:22+0000\n"
 "Last-Translator: Daniele P. <daniele.paradiso3@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -15238,7 +15238,6 @@ msgstr ""
 "ulteriori informazioni sull'utilizzo dei live loop."
 
 #: A.15-performance.md:91
-#, fuzzy
 msgid ""
 "When performing, remember to make use of `live_loop`'s `sync:` opt to allow yo"
 "u to recover from accidental runtime mistakes which stop the live loop running"
@@ -15246,19 +15245,18 @@ msgid ""
 "d `live_loop`, then you can quickly fix the error and re-run the code to re-st"
 "art things without missing a beat."
 msgstr ""
-"Quando si esegue, ricordarsi di fare uso di ' live_loop ' s ' sync:' optare "
-"per consentire di recuperare da errori di runtime accidentale che "
-"interrompere il loop dal vivo in esecuzione a causa di un errore. Se hai già "
-"il ' sync:' optare che punta a un altro valido 'live_loop', allora si può "
-"rapidamente correggere l'errore ed eseguire nuovamente il codice per "
-"ripartire le cose senza perdere un colpo."
+"Quando esegui un'esecuzione dal vivo, ricordarti di utilizzare nel "
+"`live_loop` l'opzione `sync:` in modo da rimediare ad eventuali errori di "
+"runtime che possono interrompere l'esecuzione in loop del tuo brano. Se hai "
+"già introdotto un `sync:` che punta a un altro valido `live_loop`, allora si "
+"può rapidamente correggere l'errore, eseguendo nuovamente il codice e "
+"ripartire senza perdere il tempo."
 
 #: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
 msgstr "4. Usare il mixer master"
 
 #: A.15-performance.md:99
-#, fuzzy
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
 "h all sound flows. This mixer has both a low pass filter and a high pass filte"
@@ -15267,20 +15265,19 @@ msgid ""
 "or example, whilst some code is running and making sound, enter this into a sp"
 "are buffer and hit `Run`:"
 msgstr ""
-"Uno dei segreti meglio custoditi di Sonic Pi è che ha un mixer principale "
-"attraverso il quale tutti i suoni di flussi. Questo mixer ha sia un filtro "
-"passa-basso e un built-in filtro passa-alto, quindi è possibile eseguire "
-"facilmente modifiche globali al suono. Funzionalità di mixer master sono "
-"accessibili tramite il tasto fn 'set_mixer_control!'. Ad esempio, mentre "
-"alcuni codice è in esecuzione e facendo suonare, entrare in questo in un "
-"buffer di ricambio e colpire 'Esegui':"
+"Uno dei segreti meglio custoditi di Sonic Pi è che esiste un mixer "
+"principale attraverso il quale confluiscono tutti i suoni. Questo mixer ha "
+"di fabbrica sia un filtro passa-basso che un filtro passa-alto, quindi è "
+"possibile operare facilmente delle modifiche globali al suono in uscita. Le "
+"funzionalità del mixer principale sono accessibili tramite la funzione "
+"`set_mixer_control!`. Ad esempio, mentre del codice è in esecuzione e sta "
+"suonando, basta inserire la funzione in un buffer vuoto ed eseguire  `Run`:"
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
 msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.15-performance.md:111
-#, fuzzy
 msgid ""
 "After you run this code, all existing and new sounds will have a low pass filt"
 "er applied to them and will therefore sound more muffled. Note that this means"
@@ -15289,14 +15286,14 @@ msgid ""
 "xer!`. Some of the currently supported opts are: `pre_amp:`, `lpf:` `hpf:`, an"
 "d `amp:`. For the full list, see the built-in docs for `set_mixer_control!`."
 msgstr ""
-"Dopo aver eseguito questo codice, tutti i suoni esistenti e nuovi avrà un "
-"basso passare il filtro applicato a loro e saranno quindi suono più "
-"ovattato. Si noti che questo significa che i nuovi valori di miscelatore "
-"bastone fino a quando sono state modificate nuovamente. Tuttavia, se si "
-"desidera, è possibile reimpostare sempre il mixer al suo stato predefinito "
-"con 'reset_mixer!'. Alcune delle attualmente supportati opta sono: ' pre_amp:"
-"', ' lpf:' ' hpf:', e ' amp:'. Per l'elenco completo, vedere i documenti "
-"incorporati per 'set_mixer_control!'."
+"Dopo l'esecuzione di questo codice, verrà attivato un filtro passa basso, "
+"ottenendo un suono finale più \"ovattato\". Nota bene che i nuovi parametri "
+"del mixer principale verranno mantenuti finché non deciderai di modificarli "
+"nuovamente. Tuttavia, è possibile reimpostare in qualsiasi momento il mixer "
+"al suo stato predefinito con la funzione `reset_mixer!`. Alcune delle "
+"opzioni attualmente supportate sono: `pre_amp:`, `lpf:` `hpf:`, e `amp:`. "
+"Per l'elenco completo, dai un'occhiata alla documentazione relativa a "
+"`set_mixer_control!`."
 
 #: A.15-performance.md:119
 #, fuzzy
@@ -15367,6 +15364,7 @@ msgstr ""
 "zzando in quel momento."
 
 #: A.15-performance.md:154
+#, fuzzy
 msgid ""
 "This month, instead of giving you a final example that combines all the things"
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
@@ -15376,6 +15374,14 @@ msgid ""
 "d clunky at first - just keep practicing and before you know it you'll be live"
 " coding for a real audience."
 msgstr ""
+"Questo mese, invece di darvi un ultimo esempio che unisce tutte le cose "
+"discusse, facciamo parte impostando una sfida. Vedere se è possibile "
+"trascorrere una settimana in una di queste idee di pratica ogni giorno. Ad "
+"esempio, un giorno pratica manuale trigger, il prossimo do qualche base "
+"'live_loop' lavorare e giocare il giorno seguente con il Maestro "
+"miscelatore. Quindi ripetere. Non preoccupatevi se le cose si sentono lento "
+"e goffo in un primo momento - basta mantenere la pratica e prima di sapere "
+"che sarai vivo codifica per un pubblico vero."
 
 #: A.16-practice.md:1
 msgid "A.16 How to Practice Live Coding"
@@ -15386,6 +15392,7 @@ msgid "8 Tips for Live Coding Practice"
 msgstr "8 consigli per la pratica di live coding"
 
 #: A.16-practice.md:5
+#, fuzzy
 msgid ""
 "Last month we took a look at five important techniques for mastering live codi"
 "ng - in other words, we explored how we could use Sonic Pi to approach code in"
@@ -15394,6 +15401,13 @@ msgid ""
 "dive into understanding why live coding practice is important and how you migh"
 "t start."
 msgstr ""
+"Mese scorso abbiamo dato un'occhiata alle cinque tecniche importanti per "
+"mastering live codifica - in altre parole, abbiamo esplorato come potremmo "
+"usare Pi Sonic per codice di approccio allo stesso modo che sarebbe "
+"affrontiamo uno strumento musicale. Uno dei più importanti concetti che "
+"abbiamo discusso è stato pratica. Questo mese ci un'immersione più profonda "
+"comprensione perché la procedura di codifica live è importante e come si "
+"potrebbe iniziare."
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
@@ -15406,14 +15420,24 @@ msgid ""
 " you're starting out. Little but often is what you're aiming for - so if you c"
 "an only manage 10 minutes, that's a great start."
 msgstr ""
+"Il consiglio più importante è quello di assicurarti di fare pratica "
+"regolarmente. Come regola, posso dirti che io in genere mi esercito per 1-2 "
+"ore al giorno, ma anche 20 minuti per iniziare possono andare bene. \"Poco "
+"ma spesso\" è l'obbiettivo al quale puntare - quindi se hai a disposizione "
+"solo 10 minuti, è comunque un ottimo inizio."
 
 #: A.16-practice.md:21
+#, fuzzy
 msgid ""
 "Practice tip #1 - start to develop a practice routine. Find a nice time in the"
 " day that works for you and try and practice at that time as many days of the "
 "week as you can. Before long you'll be looking forward to your regular session"
 "."
 msgstr ""
+"Pratica tip #1 - iniziare a sviluppare una pratica di routine. Trovare un "
+"bel momento nel corso della giornata che funziona per voi e provare e "
+"pratica a quel tempo il numero di giorni della settimana come si può. In "
+"poco tempo ' ll aspettiamo alla sessione regolare."
 
 #: A.16-practice.md:27
 msgid "Learn to Touch Type"
