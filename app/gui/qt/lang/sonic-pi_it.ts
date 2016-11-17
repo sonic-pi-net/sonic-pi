@@ -487,7 +487,7 @@ La modalità scura è perfetta per performance nei night club.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation>Imposta la visibilità degli assi degli oscilloscopi audio.</translation>
+        <translation>Imposta la visibilità degli assi degli oscilloscopi audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
