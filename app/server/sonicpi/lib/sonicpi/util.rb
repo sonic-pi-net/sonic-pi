@@ -285,8 +285,10 @@ module SonicPi
       case os
       when :windows
         File.join(native_path, "ruby", "bin", "ruby.exe")
-      when :osx, :raspberry, :linux
+      when :osx
         File.join(native_path, "ruby", "bin", "ruby")
+      when  :raspberry, :linux
+        "ruby"
       end
     end
 
