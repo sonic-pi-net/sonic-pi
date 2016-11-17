@@ -196,12 +196,12 @@ creare suoni spiacevoli e rumori forti e inaspettati.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="692"/>
         <source>Full screen mode on.</source>
-        <translation>Attiva modalità schermo intero.</translation>
+        <translation>Modalità schermo intero attiva.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"/>
         <source>Full screen mode off.</source>
-        <translation>Disabilita modalità schermo intero.</translation>
+        <translation>Modalità schermo intero disattivata.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="884"/>
@@ -487,7 +487,7 @@ La modalità scura è perfetta per performance nei night club.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation>Abilita la visualizzazione degli assi per gli oscilloscopi</translation>
+        <translation>Imposta la visibilità degli assi degli oscilloscopi audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
