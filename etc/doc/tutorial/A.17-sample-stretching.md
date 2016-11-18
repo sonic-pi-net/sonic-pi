@@ -7,8 +7,8 @@ simple it is to play pre-recorded sounds using the `sample`
 function. For example, you can play an industrial drum loop, hear the
 sound of a choir or even listen to a vinyl scratch all via a single line
 of code. However, many people don't realise that you can actually vary
-the speed that the sample is played back for some powerful effects and a
-whole new level of control of your recorded sounds. So, fire up a copy of
+the speed that the sample is played back at for some powerful effects and a
+whole new level of control over your recorded sounds. So, fire up a copy of
 Sonic Pi and let's get started stretching some samples!
 
 # Slowing Samples Down
@@ -24,7 +24,7 @@ use a `rate:` of `0.5`:
 
     sample :guit_em9, rate: 0.5
     
-Notice that this has two effect to the audio. Firstly the sample sounds
+Notice that this has two effects on the audio. Firstly the sample sounds
 lower in pitch and secondly it takes twice as long to play back (see the
 sidebar for an explanation of why this is the case). We can even choose
 lower and lower rates moving towards `0`, so a `rate:` of `0.25` is a
@@ -46,14 +46,14 @@ Now, let's speed it up a little:
     sample :loop_amen, rate: 1.5
     
 Ha! We just moved musical genres from old-skool techno to jungle. Notice
-how the pitch of each drum hit is higher as well as the whole rhythm
-speeding up. Now, try even higher rates and see how high and short you
+how the pitch of each drum hit is higher as well as how the whole rhythm
+speeds up. Now, try even higher rates and see how high and short you
 can make the drum loop. For example, if you use a rate of `100`, the
 drum loop turns into a click!
 
 # Reverse Gear
 
-Now, I'm sure many of you are thining the same thing right now... "what
+Now, I'm sure many of you are thinking the same thing right now... "what
 if you use a negative number for the rate?". Great question! Let's think
 about this for a moment. If our `rate:` opt signifies the speed with
 which the sample is played back, `1` being normal speed, `2` being
@@ -79,7 +79,7 @@ result in the sample sounding higher in pitch and slower rates result in
 the sample sounding lower in pitch. Another place you may
 have heard this effect in every day life is when you're cycling or
 driving past a beeping pedestrian crossing - as you're heading towards
-the sound source the pitch is higher than when your moving away from the
+the sound source the pitch is higher than when you're moving away from the
 sound - the so-called Doppler effect. Why is this?
 
 Let's consider a simple beep which is represented by a sine wave. If we
@@ -93,10 +93,10 @@ coordinates) which when plotted onto a graph will re-draw the original
 curves. See figure D where each circle represents a coordinate. To turn
 the coordinates back into audio, the computer works through each x value
 and sends the corresponding y value to the speakers. The trick here is
-that the rate which the computer works through the x numbers does not
+that the rate at which the computer works through the x numbers does not
 have to be the same as the rate with which they were recorded. In other
 words, the space (representing an amount of time) between each circle
-can be stretched or compressed. So, if the computer walks throught the x
+can be stretched or compressed. So, if the computer walks through the x
 values faster than the original rate, it will have the effect of
 squashing the circles closer together which will result in a higher
 sounding beep. It will also make the beep shorter as we will work
@@ -131,7 +131,7 @@ via the `rpitch:` opt:
     sample :bass_trance_c, rpitch: 7
     
 If you take a look at the log on the right, you'll notice that an
-`riptch:` of `3` actually corresponds to a rate of `1.892` and a
+`rpitch:` of `3` actually corresponds to a rate of `1.1892` and a
 `rpitch:` of `7` corresponds to a rate of `1.4983`. Finally, we can even
 combine `rate:` and `rpitch:` opts:
 
