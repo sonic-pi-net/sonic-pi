@@ -118,12 +118,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="692"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>进入全屏模式。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>退出全屏模式。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1079"/>
@@ -138,7 +138,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1086"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>树莓派音频输出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
@@ -146,22 +146,25 @@ create unexpectedly loud or uncomfortable sounds.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>您的树莓派具有两种音频输出方式。
+第一种使用树莓派自带的耳机插孔。
+第二种通过HDMI接口输出音频讯息。
+使用这些按钮来指定您想要使用的输出方式。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;默认值</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;耳机</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1116"/>
@@ -225,7 +228,7 @@ However, they will not be visible in the logs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>自动滚动显示日志</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1160"/>
@@ -402,7 +405,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>切换示波器坐标的可见度</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
@@ -431,17 +434,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>主音量</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1075"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>使用此推子来改变系统音量。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1077"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>音频输出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1140"/>
@@ -451,7 +454,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>选中该选项时，Sonic Pi将允许合成器和效果器通过load_synthdefs模块来加载并被触发。
 取消该选项时，Sonic Pi将在尝试加载未被识别的合成器或效果器时发出警告。</translation>
     </message>
@@ -475,27 +478,27 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>显示／隐藏示波器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>示波器种类</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1298"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>显示示波器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1299"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>切换示波器的可见度。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>显示坐标</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
@@ -505,12 +508,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>示波器拥有三种
+可以独立或同时显示的模式：
+
+利萨茹曲线－显示左右声道间的相位关系
+单声道－将左右声道结合起来展示（使用RMS）
+立体声－将左右声道独立开来显示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>视觉</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1560"/>
@@ -748,12 +756,12 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2432"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>切换帮助视窗的可见度</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2436"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>切换首选项视窗的可见度</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2414"/>
@@ -763,17 +771,17 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2409"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>放大</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2416"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>缩小</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>切换示波器的可见度 </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2445"/>
@@ -947,8 +955,8 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation>Sonic Pi是否已经启动？无法打开UDP端口。</translation>
     </message>
 </context>
 </TS>
