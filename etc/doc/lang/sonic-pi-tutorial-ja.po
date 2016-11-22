@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-01 09:56+0000\n"
+"PO-Revision-Date: 2016-11-22 09:59+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/tutorial"
-"/ja/>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 2.10-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -11425,7 +11425,7 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:91
 msgid "Live Loops Unleashed"
-msgstr ""
+msgstr "ライブループ解放"
 
 #: A.08-minecraft-vj.md:93
 msgid ""
@@ -11433,8 +11433,8 @@ msgid ""
 "e_loop` - Sonic Pi's magical ability which unleashes the full power of live co"
 "ding - changing code on-the-fly whilst it's running!"
 msgstr ""
-"では、`live_loop`のフルパワーを開放して、嵐を激しくする時が来ました。`live_loop`はライブコーディングのフルパワーを開放するSonic "
-"Piの特別な機能で、コードを実行したまま変更できてしまうのです！"
+"では、`live_loop`のフルパワーを解放して、嵐を激しくする時が来ました。`live_loop`"
+"はライブコーディングのフルパワーを開放するSonic Piの特別な機能で、コードを実行したまま変更できてしまうのです！"
 
 #: A.08-minecraft-vj.md:97
 #, no-wrap
@@ -11465,18 +11465,20 @@ msgid ""
 "h loop we're finding Steve's location like before but then generating 3 random"
 " values:"
 msgstr ""
+"なんと楽しいのでしょう！このコードは、とても速く（毎秒8回）ループしていて、それぞれのループではプレーヤーの位置を前と同じように取得していますが、次の3つ"
+"のランダムな値を生成しています。"
 
 #: A.08-minecraft-vj.md:113
 msgid "`xd` - the difference for x which will be between -10 and 10"
-msgstr ""
+msgstr "`xd` - x座標の差で、-10と10の間の値を取ります"
 
 #: A.08-minecraft-vj.md:114
 msgid "`zd` - the difference for z also between -10 and 10"
-msgstr ""
+msgstr "`zd` - z座標の差で、同じく-10と10の間の値を取ります"
 
 #: A.08-minecraft-vj.md:115
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
-msgstr ""
+msgstr "`co` - ローパスフィルターのカットオフの値で、70と130の間の値を取ります"
 
 #: A.08-minecraft-vj.md:117
 msgid ""
@@ -11484,8 +11486,11 @@ msgid ""
 "s sand falling in random locations around Steve along with a percussive rain-l"
 "ike sound from the `:cnoise` synth."
 msgstr ""
+"そしてこれらのランダムな値を`synth`と`mc_set_block`関数で使用して、砂をプレーヤーの周りのランダムな位置に落とし、それに合わせて`:c"
+"noise`シンセでパーカッシブな雨のような音を鳴らしています。"
 
 #: A.08-minecraft-vj.md:121
+#, fuzzy
 msgid ""
 "For those of you new to live loops - this is where the fun really starts with "
 "Sonic Pi. Whilst the code is running and the sand is pouring down, try changin"
@@ -11495,6 +11500,10 @@ msgid ""
 "g and changing things around. How different can you make the visuals without s"
 "topping the code?"
 msgstr ""
+"ライブループに慣れていない人にお話すると、ここからがSonic Piで本当に面白くなるところです。コードが実行されていて砂が吹き出している最中に、コード内"
+"のどれかの値、たとえばsleepの時間を`0.25`に変えたり、ブロックタイプを`:sand`から`:gravel`に変えてみてみましょう。そして`Run"
+"`を*もう一度*叩いてみてください。あら不思議！コードが止まらずに変更されました。これが、本物のVJと同じようにパフォーマンスする入り口です。Keep "
+"practising and changing things around. あなたはコードを止めずにどれだけビジュアルを変えることができるかな？"
 
 #: A.08-minecraft-vj.md:129
 msgid "Epic Block Patterns"
