@@ -120,7 +120,7 @@ klass.send(:define_method, :inspect) { "Runtime" }
 ws_out = Queue.new
 
 begin
-  sp =  klass.new "localhost", scsynth_port, scsynth_send_port, osc_cues_port, ws_out, user_methods
+  sp =  klass.new "127.0.0.1", scsynth_port, scsynth_send_port, osc_cues_port, ws_out, user_methods
 
   # read in init.rb if exists
   if File.exists?(init_path)

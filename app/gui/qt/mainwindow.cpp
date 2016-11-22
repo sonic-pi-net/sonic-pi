@@ -1598,7 +1598,7 @@ void MainWindow::sendOSC(Message m)
 
   if(protocol == UDP){
     UdpSocket sock;
-    sock.connectTo("localhost", gui_send_to_server_port);
+    sock.connectTo("127.0.0.1", gui_send_to_server_port);
     if (!sock.isOk()) {
         std::cerr << "[GUI] - Error connection to port " << gui_send_to_server_port << ": " << sock.errorMessage() << "\n";
     } else {
@@ -1609,7 +1609,7 @@ void MainWindow::sendOSC(Message m)
   }
   else{
     if (clientSock->state() != QAbstractSocket::ConnectedState){
-      clientSock->connectToHost("localhost", gui_send_to_server_port,  QIODevice::ReadWrite);
+      clientSock->connectToHost("127.0.0.1", gui_send_to_server_port,  QIODevice::ReadWrite);
     }
 
     if(!clientSock->waitForConnected(TIMEOUT)){

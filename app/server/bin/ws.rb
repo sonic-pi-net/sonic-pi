@@ -45,7 +45,7 @@ klass.send(:include, user_methods)
 klass.send(:include, SonicPi::SpiderAPI)
 klass.send(:include, SonicPi::Mods::Sound)
 puts "starting sp"
-$sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
+$sp =  klass.new "127.0.0.1", 4556, ws_out, 5, user_methods
 puts "finished starting sp"
 $rd = SonicPi::RcvDispatch.new($sp, ws_out)
 $clients = []
@@ -77,7 +77,7 @@ end
 # Receive events from the GUI to Sonic Pi (potentially creating new jobs)
 
 # ws_server = Rubame::Server.new("0.0.0.0", 8001)
-ws_server = Rubame::Server.new("localhost", 8001)
+ws_server = Rubame::Server.new("127.0.0.1", 8001)
 
 in_t = Thread.new do
   while true
@@ -107,7 +107,7 @@ in_t = Thread.new do
 end
 
 # $web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "0.0.0.0" , :DocumentRoot => html_public_path
-$web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "localhost" , :DocumentRoot => html_public_path
+$web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "127.0.0.1" , :DocumentRoot => html_public_path
 
 web_t = Thread.new { $web_server.start}
 

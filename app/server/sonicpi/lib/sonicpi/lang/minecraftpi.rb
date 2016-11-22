@@ -68,7 +68,7 @@ module SonicPi
 
           q = SizedQueue.new(10)
           begin
-            socket = TCPSocket.new('localhost', 4711)
+            socket = TCPSocket.new('127.0.0.1', 4711)
           rescue => e
             raise MinecraftConnectionError, "Unable to connect to a Minecraft server. Make sure Minecraft Pi Edition is running"
           end

@@ -21,7 +21,7 @@ module SonicPi
 
     def initialize(events, opts={})
       @events = events
-      @hostname = opts[:hostname] || "localhost"
+      @hostname = opts[:hostname] || "127.0.0.1"
       @port = opts[:scsynth_port] || 4556
       @send_port = opts[:scsynth_send_port] || 4556
       @scsynth_pid = nil

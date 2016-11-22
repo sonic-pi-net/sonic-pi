@@ -30,7 +30,7 @@ $octave = 3
 $current_note = 40
 $system_vol = 1
 
-$client = OSC::Client.new('localhost', 4556)
+$client = OSC::Client.new('127.0.0.1', 4556)
 $debug = false
 
 def debug(msg)
