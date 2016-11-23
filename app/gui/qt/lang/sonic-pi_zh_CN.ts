@@ -158,7 +158,7 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="913"/>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>移动滑块可以调整音量大小。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
@@ -212,7 +212,7 @@ For example, if you have headphones connected to your Raspberry Pi, choose 'Head
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Advanced Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>高级音频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="978"/>
@@ -289,7 +289,7 @@ However, they will not be visible in the logs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="973"/>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>自动滚动日志</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"/>
@@ -471,7 +471,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1120"/>
         <source>Studio</source>
-        <translation type="unfinished"></translation>
+        <translation>工作室</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
@@ -541,7 +541,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2363"/>
         <source>View audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>查看音频输出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
@@ -741,7 +741,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1132"/>
         <source>Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>性能</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1123"/>
@@ -761,7 +761,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2367"/>
         <source>Toggle help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>切换帮助面板</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2370"/>
@@ -771,7 +771,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2371"/>
         <source>Toggle preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>切换首选项面板</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2375"/>
@@ -911,7 +911,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation type="unfinished"></translation>
+        <translation>请确认Sonic Pi正在运行，无法访问UDP端口4558。</translation>
     </message>
 </context>
 </TS>
