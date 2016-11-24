@@ -153,7 +153,7 @@ Bruk disse knappene for å tvinge lyden ut der du ønsker det.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Standard</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
@@ -247,7 +247,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Når aktivert, vil Sonic Pi tillate
 synths og FX å bli lastet via load_synthdefs
 og bli utløst.
@@ -488,7 +488,7 @@ Mørk fremtoning er perfekt for koding på direkten i nattklubber.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Rull log automatisk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
@@ -975,8 +975,8 @@ Skaff Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation>Kjører Sonic Pi allerede?  Klarer ikke åpne UDP-port.</translation>
     </message>
 </context>
 </TS>
