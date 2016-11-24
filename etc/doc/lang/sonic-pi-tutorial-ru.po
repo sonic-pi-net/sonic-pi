@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-13 12:11+0000\n"
-"Last-Translator: Elena Ogaderova <jlenkaa@mail.ru>\n"
+"PO-Revision-Date: 2016-11-24 19:31+0000\n"
+"Last-Translator: ektestein <wilson.dashing@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.9\n"
+"X-Generator: Weblate 2.10-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1979,7 +1979,7 @@ msgstr "Теперь пришло время поиграть с огибающ�
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3 Сэплы"
 
 #: 03-Samples.md:3
 #, fuzzy
@@ -2165,7 +2165,7 @@ msgstr "Попробуйте создать собственные композ�
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr ""
+msgstr "3.2 Параметры сэмплов"
 
 #: 03.2-Sample-Params.md:3
 #, fuzzy
@@ -3108,13 +3108,12 @@ msgid "Local Samples"
 msgstr "Локальные сэмплы"
 
 #: 03.6-External-Samples.md:28
-#, fuzzy
 msgid ""
 "So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? All "
 "you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"Так как все-таки проиграть любой WAV или AIFF с твоего компьютера? Все что нуж"
-"но, это передать путь к его файлу команде `sample`:"
+"Так как все-таки проиграть любой WAV, AIFF или FLAC с твоего компьютера? Все "
+"что нужно, это передать путь к его файлу команде `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -3157,7 +3156,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:3
 msgid "Sample Packs"
-msgstr ""
+msgstr "Наборы сэмплов"
 
 #: 03.7-Sample-Packs.md:5
 msgid ""
@@ -3187,7 +3186,7 @@ msgstr "/path/to/my/samples/"
 
 #: 03.7-Sample-Packs.md:23
 msgid "When we look inside that folder we find the following samples:"
-msgstr ""
+msgstr "Когда мы посмотрим в директорию, то увидим следующие сэмплы:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
@@ -3402,7 +3401,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "Например, посмотрите на следующий код:"
 
 #: 03.7-Sample-Packs.md:152
 #, no-wrap
@@ -15397,7 +15396,7 @@ msgstr ""
 
 #: A.15-performance.md:63
 msgid "You can also try this technique with long abstract samples. For example:"
-msgstr ""
+msgstr "Также вы можете опробовать эту технику с длинными абстрактными сэмплами"
 
 #: A.15-performance.md:65
 #, no-wrap
@@ -15557,7 +15556,7 @@ msgstr ""
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
-msgstr ""
+msgstr "Регулярно практикуйтесь"
 
 #: A.16-practice.md:15
 msgid ""
@@ -15712,8 +15711,9 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:134
+#, fuzzy
 msgid "Remove all distractions"
-msgstr ""
+msgstr "Устраните все отвлекающие факторы"
 
 #: A.16-practice.md:136
 msgid ""
