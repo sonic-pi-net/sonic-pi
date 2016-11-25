@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-17 16:21+0000\n"
+"PO-Revision-Date: 2016-11-25 15:16+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -9790,67 +9790,58 @@ msgid "Dive into Topics"
 msgstr "Steig' in die Themen ein"
 
 #: A-Articles.md:10
-#, fuzzy
 msgid ""
 "These articles aren't meant to be read in any strict order and contain a lot o"
 "f cross-over material from the tutorial itself. Rather than try and teach you "
 "all of Sonic Pi, they instead each focus on a specific aspect of Sonic Pi and "
 "cover it in a fun and accessible way."
 msgstr ""
-"Diese Artikel müssen nicht in bestimmter Reihenfolge gelesen werden und enthal"
-"ten eine Menge Material aus dem Tutorial. Es geht weniger um einen Gesamtüberb"
-"lick von Sonic Pi, sondern eher darum, einen Aspekt genauer anzusehen und dies"
-"en abwechslungsreich und leicht verständlich darzustellen."
+"Diese Artikel müssen nicht in bestimmter Reihenfolge gelesen werden und "
+"wiederholen einiges aus dem Tutorial. Es geht weniger um einen "
+"Gesamtüberblick von Sonic Pi, sondern eher darum, einen Aspekt genauer "
+"anzusehen und diesen leicht verständlich darzustellen."
 
 #: A-Articles.md:15
-#, fuzzy
 msgid "Read the MagPi"
 msgstr "MagPi lesen"
 
 #: A-Articles.md:17
-#, fuzzy
 msgid ""
 "You can see them in their glorious professionally typeset form in the free PDF"
 " downloads of The MagPi here: https://www.raspberrypi.org/magpi/"
 msgstr ""
-"Du kannst sie in wunderbar gesetzter Form in der Rubrik freie PDF-Downloads de"
-"s MagPi sehen: https://www.raspberrypi.org/magpi/"
+"Du kannst sie in wunderbar gesetzter Form in der Rubrik freie PDF-Downloads "
+"des MagPi sehen: https://www.raspberrypi.org/magpi/"
 
 #: A-Articles.md:20
-#, fuzzy
 msgid "Suggest a Topic"
 msgstr "Schlage ein Thema vor"
 
 #: A-Articles.md:22
-#, fuzzy
 msgid ""
 "If you don't see a topic that interests you covered in these articles - why no"
 "t suggest one? The easiest way to do that is to tweet your suggestion to [@Son"
 "ic_Pi](http://twitter.com/sonic_pi). You never know - your suggestion might be"
 " the subject of the next article!"
 msgstr ""
-"Wenn Dich ein Thema interessiert, welches noch nicht behandelt wurde - warum n"
-"icht eines vorschlagen? Der einfachste Weg ist ein Tweet mit deinem Vorschlag "
-"an [@Sonic_Pi](http://twitter.com/sonic_pi). Man kann nie wissen - dein Vorsch"
-"lag könnte das Thema des nächsten Artikels sein!"
+"Wenn Dich ein Thema interessiert, welches noch nicht behandelt wurde - warum "
+"nicht eines vorschlagen? Der einfachste Weg ist ein Tweet mit deinem "
+"Vorschlag an [@Sonic_Pi](http://twitter.com/sonic_pi). Man kann nie wissen - "
+"Dein Vorschlag könnte das Thema des nächsten Artikels sein!"
 
 #: A.01-tips.md:1
-#, fuzzy
 msgid "A.1 Tips for Sonic Pi"
 msgstr "A.1 Tipps zu Sonic Pi"
 
 #: A.01-tips.md:3
-#, fuzzy
 msgid "Five Top Tips"
 msgstr "Fünf Top-Tipps"
 
 #: A.01-tips.md:5
-#, fuzzy
 msgid "1. There are no mistakes"
 msgstr "1. Es gibt keine Fehler"
 
 #: A.01-tips.md:7
-#, fuzzy
 msgid ""
 "The most important lesson to learn with Sonic Pi is that there really are no m"
 "istakes. The best way to learn is to just try and try and try. Try lots of dif"
@@ -9861,21 +9852,20 @@ msgid ""
 "on't like and keep the things you do. The more 'mistakes' you allow yourself t"
 "o make the quicker you'll learn and discover your personal coding sound."
 msgstr ""
-"Das Wichtigste, das Du mit Sonic Pi lernen kannst, ist, dass es wirklich keine"
-" Fehler gibt. Der beste Weg zu lernen, ist einfach zu versuchen und zu versuch"
-"en und zu versuchen. Probiere viele verschiedene Dinge aus, kümmere Dich nicht"
-" darum, ob dein Code gut oder schlecht klingt und fange an mit so vielen unter"
-"schiedlichen Synths, FXs und Optionen wie möglich zu experimentieren. Du wirst"
-" viele Dinge entdecken, die Dich zum Lachen bringen, weil sie einfach furchtba"
-"r klingen und auch richtige Edelsteine, die einfach toll klingen. Was Dir nich"
-"t gefällt, lässt Du einfach beiseite, und was Dir gefällt, das behälst Du. Je "
-"mehr 'Fehler' Du Dir erlaubst, desto schneller lernst Du und entdeckst dabei D"
-"einen persönlichen Coding Sound."
+"Die wichtigste Lektion mit Sonic Pi ist, dass es wirklich keine Fehler gibt. "
+"Der beste Weg zu lernen, ist einfach es zu versuchen und zu versuchen und zu "
+"versuchen. Probiere viele verschiedene Dinge aus, kümmere Dich nicht darum, "
+"ob Dein Code gut oder schlecht klingt und fange an mit so vielen "
+"unterschiedlichen Synths, FXs und Optionen wie möglich zu experimentieren. "
+"Du wirst viele Dinge entdecken, die Dich zum Lachen bringen, weil sie "
+"einfach furchtbar klingen und auch richtige Edelsteine, die einfach toll "
+"klingen. Was Dir nicht gefällt, lässt Du einfach beiseite, und was Dir "
+"gefällt, das behältst Du. Je mehr 'Fehler' Du Dir erlaubst, desto schneller "
+"lernst Du und entdeckst dabei Deinen persönlichen Coding Sound."
 
 #: A.01-tips.md:18
-#, fuzzy
 msgid "2. Use the FX"
-msgstr "2. Gebrauche die FXs"
+msgstr "2. Verwende die FX"
 
 #: A.01-tips.md:20
 #, fuzzy
