@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-25 15:16+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2016-11-25 15:17+0000\n"
+"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10108,9 +10108,8 @@ msgstr ""
 "h Dir den Abschnitt 9 im Tutorial an."
 
 #: A.01-tips.md:134
-#, fuzzy
 msgid "5. Surf the random streams"
-msgstr "5. Mit dem Zufall surfen gehen"
+msgstr "5. Mit dem Zufall surfen"
 
 #: A.01-tips.md:136
 #, fuzzy
