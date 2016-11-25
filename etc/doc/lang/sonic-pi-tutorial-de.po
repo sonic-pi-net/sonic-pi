@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-25 15:17+0000\n"
-"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
+"PO-Revision-Date: 2016-11-25 16:50+0000\n"
+"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -9868,7 +9868,6 @@ msgid "2. Use the FX"
 msgstr "2. Verwende die FX"
 
 #: A.01-tips.md:20
-#, fuzzy
 msgid ""
 "Say you've already mastered the Sonic Pi basics of making sounds with `sample`"
 ", `play`? What's next? Did you know that Sonic Pi supports over 27 studio FX t"
@@ -9881,17 +9880,17 @@ msgid ""
 "u'd like the FX added to and wrap it with the FX code. Let's look at an exampl"
 "e. Say you had the following code:"
 msgstr ""
-"Sagen wir mal, Du beherrscht die Grundlagen, wie man in Sonic Pi Sounds mit `s"
-"ample`und `play` macht. Was jetzt? Hast Du gewusst, dass Sonic Pi über 27 Stud"
-"io-FX unterstützt, mit denen Du den Sound deines Codes verändern kannst? FX si"
-"nd so ähnlich wie raffinierte Bildeffekte in Bildbearbeitungsprogrammen; nur d"
-"as sie nicht unscharf oder schwarz und weiss machen, sondern dem Sound Hall, V"
-"erzerrung oder Echo hinzufügen. Stell' Dir vor, wie Du das Kabel von Deiner Gi"
-"tarre ins Effekt-Pedal steckst und dann in den Verstärker. Glücklicherweise br"
-"aucht man keine Kabel, und Sonic Pi macht es sehr einfach, FX einzusetzen. Du "
-"musst nur auswählen, auf welchen Teil Deines Codes Du einen FX anwenden willst"
-" und diesen Teil mit dem FX-Code umschließen. Sehen wir uns ein Beispiel an. N"
-"ehmen wir an, Du hast den folgenden Code:"
+"Sagen wir mal, Du beherrschst die Grundlagen, wie man in Sonic Pi Sounds mit "
+"`sample`und `play` macht. Was jetzt? Hast Du gewusst, dass Sonic Pi über 27 "
+"Studio-FX unterstützt, mit denen Du den Sound deines Codes verändern kannst? "
+"FX sind sowas wie raffinierte Bildeffekte in Bildbearbeitungsprogrammen; nur "
+"das sie nicht unscharf oder schwarz/weiß machen, sondern dem Sound Hall, "
+"Verzerrung oder Echo hinzufügen. Stell' Dir vor, wie Du das Kabel von Deiner "
+"Gitarre ins Effekt-Pedal steckst und dann in den Verstärker. "
+"Glücklicherweise braucht man keine Kabel, und Sonic Pi macht es sehr "
+"einfach, FX einzusetzen. Du musst nur auswählen, auf welchen Teil Deines "
+"Codes Du einen FX anwenden willst und diesen Teil mit dem FX-Code "
+"umschließen. Sehen wir uns ein Beispiel an:"
 
 #: A.01-tips.md:32
 #, no-wrap
@@ -9909,13 +9908,12 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:41
-#, fuzzy
 msgid ""
 "If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it insid"
 "e a `with_fx` block like this:"
 msgstr ""
-"Wenn Du einen FX auf das `:loop_gazul`-Sample anwenden möchtest, steckst du di"
-"eses einfach in einen `with_fx`-Block wie hier:"
+"Wenn Du einen FX auf das `:loop_gazul`-Sample anwenden möchtest, steckst du "
+"es einfach in einen `with_fx`-Block, und zwar so:"
 
 #: A.01-tips.md:44
 #, no-wrap
@@ -9937,13 +9935,12 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:55
-#, fuzzy
 msgid ""
 "Now, if you wanted to add FX to the bass drum, go and wrap that with `with_fx`"
 " too:"
 msgstr ""
-"Wenn Du jetzt einen FX zur Bassdrum hinzufügen möchtest, dann packe diese auch"
-" in ein `with_fx` ein:"
+"Wenn Du jetzt einen FX zur Bassdrum hinzufügen möchtest, dann packe diese "
+"auch in ein `with_fx` ein:"
 
 #: A.01-tips.md:58
 #, no-wrap
@@ -9969,21 +9966,18 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:71
-#, fuzzy
 msgid ""
 "Remember, you can wrap *any* code within `with_fx` and any sounds created will"
 " pass through that FX."
 msgstr ""
-"Denk' dran, Du kannst *jeden* Code mit einem `with_fx`umgeben und jeder Sound,"
-" der ausgegeben wird, geht durch diesen FX."
+"Denk' dran, Du kannst *jeden* Code mit einem `with_fx`umgeben und jeder "
+"Sound, der ausgegeben wird, geht durch diesen FX."
 
 #: A.01-tips.md:75
-#, fuzzy
 msgid "3. Parameterise your synths"
-msgstr "3. Parametrisiere deine Synths"
+msgstr "3. Parametrisiere Deine Synths"
 
 #: A.01-tips.md:77
-#, fuzzy
 msgid ""
 "In order to really discover your coding sound you'll soon want to know how to "
 "modify and control synths and FX. For example, you might want to change the du"
@@ -9992,12 +9986,12 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
-"Um Deine programmierten Klänge weiter zu entdecken, möchtest Du sicher wissen,"
-" wie Du Synthesizer und Effekte steuern kannst. Vielleicht möchtest du die Dau"
-"er eines Tons verändern, mehr Hall hinzufügen oder die Zeit zwischen zwei Echo"
-"s verändern. Mit Parametern oder kurz Opts bietet Dir Sonic Pi viele Möglichke"
-"iten, genau das zu tun. Schauen wir uns das mal kurz an. Kopiere diesen Code i"
-"n einen Buffer und klicke auf Ausführen."
+"Um Deine neuen Klänge im Code zu entdecken, möchtest Du sicher wissen, wie "
+"Du Synthesizer und Effekte steuern kannst. Vielleicht möchtest du die Dauer "
+"eines Tons verändern, mehr Hall hinzufügen oder die Zeit zwischen zwei Echos "
+"verändern. Mit Parametern oder kurz Opts bietet Dir Sonic Pi viele "
+"Möglichkeiten, genau das zu tun. Schauen wir uns das mal kurz an. Kopiere "
+"diesen Code in einen Buffer und klicke auf Ausführen:"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -10005,13 +9999,12 @@ msgid "sample :guit_em9"
 msgstr "sample :guit_em9"
 
 #: A.01-tips.md:89
-#, fuzzy
 msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about changi"
 "ng its rate?"
 msgstr ""
-"Oh, was für ein wunderbarer Gitarren-Sound! Spielen wir ein bisschen damit. Wi"
-"e wäre es damit, die Abspielgeschwindigkeit (rate) zu ändern?"
+"Oh, was für ein wunderbarer Gitarren-Sound! Spielen wir ein bisschen damit. "
+"Wie wäre es damit, die Abspielgeschwindigkeit (rate) zu ändern?"
 
 #: A.01-tips.md:92
 #, no-wrap
@@ -10019,15 +10012,14 @@ msgid "sample :guit_em9, rate: 0.5"
 msgstr "sample :guit_em9, rate: 0.5"
 
 #: A.01-tips.md:96
-#, fuzzy
 msgid ""
 "Hey, what's that `rate: 0.5` bit I just added at the end? That's called an opt"
 ". All of Sonic Pi's synths and FX support them and there's loads to play aroun"
 "d with. They're also available for FX too. Try this:"
 msgstr ""
-"Was bedeutet der Schnippsel  `rate: 0.5`, den ich hier am Ende hinzugefügt hab"
-"e? Das ist ein Parameter. Alle Synths und FX in Sonic Pi unterstützen diese un"
-"d man kann viel damit anstellen. Versuche mal das hier:"
+"Was bedeutet der Schnipsel  `rate: 0.5`, den ich hier am Ende hinzugefügt "
+"habe? Das ist ein Parameter. Alle Synths und FX in Sonic Pi unterstützen "
+"diese und man kann viel damit anstellen. Versuche mal das hier:"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -10041,22 +10033,19 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:106
-#, fuzzy
 msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
-"Jetzt setze das feedback auf 1 und hör' Dir die verrückten Sounds an! Einzelhe"
-"iten zu den vielen Parametern, die Dir zur Verfügung stehen, findest Du in der"
-" Dokumentation."
+"Jetzt setze das feedback auf 1 und hör' Dir die verrückten Sounds an! "
+"Einzelheiten zu den vielen Opts, die Dir zur Verfügung stehen, findest Du in "
+"der Dokumentation."
 
 #: A.01-tips.md:110
-#, fuzzy
 msgid "5. Live Code"
 msgstr "5. Live Code"
 
 #: A.01-tips.md:112
-#, fuzzy
 msgid ""
 "The best way to quickly experiment and explore Sonic Pi is to live code. This "
 "allows you to start off some code and continually change and tweak it whilst i"
@@ -10064,11 +10053,11 @@ msgid ""
 "es to a sample, just play around. Let's have a try! Copy this code into one of"
 " your Sonic Pi workspaces:"
 msgstr ""
-"Die beste Art Sonic Pi schnell kennenzulernen, ist, live zu coden. Du fängst m"
-"it irgendeinem Codeschnippsel an und veränderst und verbesserst, während der C"
-"ode abgespielt wird. Wenn Du zum Beispiel nicht weisst, was der Cutoff-Paramet"
-"er mit einem Sample macht, probiere es einfach aus. Fangen wir mal an! Kopiere"
-" diesen Code in einen Buffer von Sonic Pi:"
+"Die beste Art Sonic Pi schnell kennenzulernen, ist, live zu coden. Du fängst "
+"mit irgendeinem Codeschnipsel an und veränderst und verbesserst, während der "
+"Code abgespielt wird. Wenn Du zum Beispiel nicht weißt, was der Cutoff-"
+"Parameter mit einem Sample macht, probiere es einfach aus. Fangen wir mal "
+"an! Kopiere diesen Code in einen Buffer von Sonic Pi:"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -10084,28 +10073,26 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:125
-#, fuzzy
 msgid ""
 "Now, hit run and you'll hear a slightly muffled drum break. Now, change the `c"
 "utoff:` value to `80` and hit run again. Can you hear the difference? Try `90`"
 ", `100`, `110`..."
 msgstr ""
-"Jetzt klicke auf ausführen und Du wirst einen leicht muffigen Drum-Break hören"
-". Ändere den `cutoff:`-Wert auf `80` und klicke wieder ausführen. Hörst Du den"
-" Unterschied? Versuche es mit `90`, `100`, `110`..."
+"Jetzt klicke auf ausführen und Du wirst einen leicht muffigen Drum-Break "
+"hören. Ändere den `cutoff:`-Wert auf `80` und klicke wieder ausführen. Hörst "
+"Du den Unterschied? Versuche es mit `90`, `100`, `110`..."
 
 #: A.01-tips.md:129
-#, fuzzy
 msgid ""
 "Once you get the hang of using `live_loop`s you'll not turn back. Whenever I d"
 "o a live coding gig I rely on `live_loop` as much as a drummer relies on their"
 " sticks. For more information about live coding check out Section 9 of the bui"
 "lt-in tutorial."
 msgstr ""
-"Wenn Du die `live_loop`s einmal im Griff hast, willst du nichts mehr anders ve"
-"rwenden. Wann immer ich einen Live-Coding-Gig habe, brauche ich die `live_loop"
-"` wie ein Schlagzeuger seine Sticks. Um mehr über Live-Coding zu erfahren, sie"
-"h Dir den Abschnitt 9 im Tutorial an."
+"Wenn Du die `live_loop`s einmal im Griff hast, willst du nichts mehr anders "
+"verwenden. Wann immer ich einen Live-Coding-Gig habe, brauche ich die "
+"`live_loop` wie ein Schlagzeuger seine Sticks. Um mehr über Live-Coding zu "
+"erfahren, sieh Dir den Abschnitt 9 im Tutorial an."
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
