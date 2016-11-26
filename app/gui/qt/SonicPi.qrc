@@ -65,17 +65,17 @@
         <file>theme/light/doc-styles.css</file>
         <file>theme/dark/doc-styles.css</file>
 
-        <file>lang/sonic-pi_de.qm</file>
-        <file>lang/sonic-pi_is.qm</file>
-        <file>lang/sonic-pi_ja.qm</file>
-        <file>lang/sonic-pi_nb.qm</file>
-        <file>lang/sonic-pi_pl.qm</file>
-        <file>lang/sonic-pi_fr.qm</file>
-        <file>lang/sonic-pi_es.qm</file>
-        <file>lang/sonic-pi_hu.qm</file>
+        <file>lang/sonic-pi_de.ts</file>
+        <file>lang/sonic-pi_is.ts</file>
+        <file>lang/sonic-pi_ja.ts</file>
+        <file>lang/sonic-pi_nb.ts</file>
+        <file>lang/sonic-pi_pl.ts</file>
+        <file>lang/sonic-pi_fr.ts</file>
+        <file>lang/sonic-pi_es.ts</file>
+        <file>lang/sonic-pi_hu.ts</file>
 <!--
-        <file>lang/sonic-pi_zh-Hans.qm</file>
-        <file>lang/sonic-pi_zh-Hant.qm</file>
+        <file>lang/sonic-pi_zh-Hans.ts</file>
+        <file>lang/sonic-pi_zh-Hant.ts</file>
 -->
     </qresource>
 </RCC>
