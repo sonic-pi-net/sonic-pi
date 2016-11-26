@@ -389,7 +389,7 @@ module SonicPi
       left = (opts_a[idx..-1])
       raise "There must be an even number of trailing synth args" unless left.size.even?
       h = Hash[*left]
-      res.merge()
+      res.merge(h)
     end
 
     def purge_nil_vals!(m)
