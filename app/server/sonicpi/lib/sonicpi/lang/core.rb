@@ -3191,7 +3191,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         args_h = resolve_synth_opts_hash_or_array(opts)
         args_h.each do |k, v|
           raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
-          raise "Invalid cue value type (#{v.class}) for key #{k.inspect}. Must be immutable - currently accepted types: Numbers, Symbols, Booleans and Nil, or Vectors/Rings of immutable types" unless v.sp_thread_safe?
+          raise "Invalid cue value type (#{v.class}) for key #{k.inspect}. Must be immutable - currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays of immutable values" unless v.sp_thread_safe?
         end
 
 
@@ -3224,7 +3224,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       doc name:           :cue,
           introduced:     Version.new(2,0,0),
           summary:        "Cue other threads",
-          doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id` as a map. The values of the opts must be immutable. Currently only numbers, symbols and booleans are supported.",
+          doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id` as a map. The values of the opts must be immutable. Currently numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays of immutable values are supported.",
           args:           [[:cue_id, :symbol]],
           opts:           {:your_key    => "Your value",
                            :another_key => "Another value",
