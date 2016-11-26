@@ -12,7 +12,6 @@ cache:
 # add test runs using the Travis rvm ruby binaries.
 matrix:
   include:
-    - env: USE_QT4=1
     - rvm: 1.9.3
       env: USE_RVM=1
     - rvm: 2.1.2

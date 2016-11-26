@@ -11,41 +11,16 @@
 # notice is included.
 #++
 
-#-------------------------------------------------
-#
-# Project created by QtCreator 2014-02-28T14:51:06
-#
-#-------------------------------------------------
+lessThan(QT_MAJOR_VERSION, 5): error("requires Qt 5")
 
 TARGET = 'sonic-pi'
 CONFIG += qscintilla2 qwt c++11
 
-QT += core gui concurrent network opengl
-
-include ( /usr/local/qwt-6.1.2/features/qwt.prf )
-LIBS += -L/Users/sam/Development/Supercollider/git-src/external_libraries/boost/libs
-INCLUDEPATH += /Users/sam/Development/Supercollider/git-src/external_libraries/boost/
-DEPENDPATH += /Users/sam/Development/Supercollider/git-src/external_libraries/boost/
-
-LIBS += -L/Users/sam/Downloads/tmp/QScintilla_gpl-2.9.3.dev1606101834/Qt4Qt5
-
-INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla_gpl-2.9.3.dev1606101834/Qt4Qt5
-DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla_gpl-2.9.3.dev1606101834/Qt4Qt5
-QMAKE_MAC_SDK = macosx10.11
-
-greaterThan(QT_MAJOR_VERSION, 4) {
-  QT += widgets
-}
-
+QT += core gui concurrent network opengl widgets
 
 # Linux only
 unix:!macx {
-  LIBS += -lrt
-#  lessThan(QT_MAJOR_VERSION, 5) {
-#    LIBS += -lqscintilla2
-#  } else {
-#    LIBS += -lqt5scintilla2
-#  }
+  LIBS += -lrt -lqt5scintilla2
   QMAKE_CXXFLAGS += -std=gnu++11
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   debug {
@@ -55,6 +30,7 @@ unix:!macx {
 
 # Mac OS X only
 macx {
+  QMAKE_MAC_SDK = macosx10.11
   QMAKE_CXXFLAGS += -I/usr/local/include
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   CONFIG += warn_off
