@@ -12,25 +12,19 @@ cache:
 # add test runs using the Travis rvm ruby binaries.
 matrix:
   include:
-    - rvm: 1.9.3
-      env: USE_RVM=1
     - rvm: 2.1.2
       env: USE_RVM=1
     - rvm: 2.2.3
+      env: USE_RVM=1
+    - rvm: 2.3.3
       env: USE_RVM=1
 
 before_install:
  - sudo apt-get update
  - sudo apt-get --yes install ruby-all-dev rake cmake pkg-config g++ libfftw3-dev libffi-dev
- - |
-   if [[ $USE_QT4 ]]
-   then
-      sudo apt-get --yes install libqscintilla2-dev qt4-dev-tools qt4-default libqwt-dev libboost-all-dev
-   else
-      sudo add-apt-repository ppa:latthias/qgis-travis-deps -y
-      sudo apt-get update -q
-      sudo apt-get --yes install libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default libqt5opengl5-dev libqt5svg5-dev libqwt-qt5-dev libboost-all-dev
-   fi
+ - sudo add-apt-repository ppa:latthias/qgis-travis-deps -y
+ - sudo apt-get update -q
+ - sudo apt-get --yes install libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default libqt5opengl5-dev libqt5svg5-dev libqwt-qt5-dev libboost-all-dev
  - wget http://aubio.org/pub/aubio-0.4.2.tar.bz2
  - tar xvjf aubio-0.4.2.tar.bz2
  - cd aubio-0.4.2
@@ -73,12 +67,7 @@ script:
      # the following are the same steps as in ./app/gui/qt/rp-build-app
      echo ""
      echo "***********************************"
-     if [[ $USE_QT4 ]]
-     then
-       echo "* Compiling Sonic Pi GUI with Qt4 *"
-     else
-       echo "* Compiling Sonic Pi GUI with Qt5 *"
-     fi
+     echo "* Compiling Sonic Pi GUI with Qt5 *"
      echo "***********************************"
      cd $TRAVIS_BUILD_DIR/app/gui/qt
      cp -f ruby_help.tmpl ruby_help.h ; /usr/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
