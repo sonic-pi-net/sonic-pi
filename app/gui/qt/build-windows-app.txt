@@ -38,7 +38,7 @@ Choose Qt 5.5 -> MSVC 2013
 CMAKE_PREFIX_PATH=C:\Qt\5.5\msvc2013
 INCLUDE=C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;C:\boost_1_61_0
 LIB=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib;C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10240.0\ucrt\x86;C:\boost_1_61_0\stage\lib
-PATH=C:\Users\Adrian\AppData\Local\Programs\Python\Python35-32\Scripts\;C:\Users\Adrian\AppData\Local\Programs\Python\Python35-32\;C:\sonic-pi\app\server\native\windows\bin;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\;c:\Qt\Tools\mingw530_32\bin;C:\Program Files (x86)\Windows Kits\8.1\bin\x64;C:\Qt\5.5\msvc2013\bin
+PATH=C:\Users\Adrian\AppData\Local\Programs\Python\Python35-32\Scripts\;C:\Users\Adrian\AppData\Local\Programs\Python\Python35-32\;C:\sonic-pi\app\server\native\win\bin;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\;c:\Qt\Tools\mingw530_32\bin;C:\Program Files (x86)\Windows Kits\8.1\bin\x64;C:\Qt\5.5\msvc2013\bin
 
 #BUILD LIBRARIES
 #Download QWT 6
@@ -77,18 +77,16 @@ cd c:\boost-1.61.0\
 bootstrap.bat
 b2 toolset=msvc-12.0
 
-#Download the ASIO SDK, and put besides the SC 3.8 directory below
+#Download the ASIO SDK from Steinberg website, and put besides the SC 3.8 directory below
 
-#Build SC 3.8
-git clone git@github.com:supercollider/supercollider.git
-cd supercollider
-git submodule init && git submodule update
-mkdir build
-cd build
-cmake -G "Visual Studio 12 2013" ..
-cmake --build . --config Release
+# Supercollider 3.8
+#There is no need to build SC ourselves at this point. Just take the official 3.8 release
+#Install SC 3.8 *32 bits* and take the scsynth.exe and its dependencies (msvc*.dll, libfftw3f-3.dll, libsndfile-1.dll, - more might be required - TEST) and copy them to c:\sonic-pi\app\server\native\win
 
-xcopy /E c:\supercollider\build\server\scsynth\Release\* c:\sonic-pi\app\server\native\windows
+# Supercollider 3.8 plugins
+# Download the official *32 bits* SC3-plugins and copy them to c:\sonic-pi\app\server\native\win\plugins
+
+#Remove rugged-0.24.0 folder from c:\sonic-pi\app\server\vendor\. (Not sure why, but otherwise, there will be errors in the next steps...)
 
 #Build Sonic PI
 #build i18n
