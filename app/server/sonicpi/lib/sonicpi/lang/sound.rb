@@ -2551,56 +2551,34 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
           examples:      ["see load_sample"]
 
 
-
-
       def sample_duration(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
         path = resolve_sample_path(filts_and_sources)
         dur = load_sample_at_path(path).duration
         args_h = merge_synth_arg_maps_array(args_a)
-        t_l_args = __thread_locals.get(:sonic_pi_mod_sound_sample_defaults) || {}
-        t_l_args.each do |k, v|
-            args_h[k] = v unless args_h.has_key? k
-        end
 
-        args_h[:rate] = 1 unless args_h[:rate]
+        normalise_and_resolve_sample_args(path, args_h, nil, true)
+
         start = args_h[:start] || 0
         start = [1, [0, start].max].min
         finish = args_h[:finish] || 1
         finish = [1, [0, finish].max].min
-
-        # adjust for both beat and pitch stretching
-        # (which are BPM dependent)
-        if args_h[:beat_stretch]
-          beat_stretch = args_h[:beat_stretch].to_f
-          beat_rate_mod = (1.0 / beat_stretch) * args_h[:rate] * (current_bpm / (60.0 / dur))
-          args_h[:rate] = args_h[:rate] * beat_rate_mod
-        end
-
-        if args_h[:pitch_stretch]
-          pitch_stretch = args_h[:pitch_stretch].to_f
-          pitch_rate_mod = (1.0 / pitch_stretch) * (current_bpm / (60.0 / dur))
-          args_h[:rate] = args_h[:rate] * pitch_rate_mod
-        end
-
-        rate_pitch = args_h[:rpitch]
-        if rate_pitch
-          new_rate = pitch_to_ratio(rate_pitch.to_f)
-          args_h[:rate] = new_rate * (args_h[:rate] || 1)
-        end
+        rate = args_h[:rate] || 1
 
         if finish > start
           len = finish - start
         else
           len = start - finish
         end
-        real_dur = dur * 1.0/(args_h[:rate].abs) * len
 
-        if args_h.has_key?(:sustain)
+        real_dur = dur * 1.0/(rate.abs) * len
+
+        if args_h.has_key?(:sustain) && args_h[:sustain] != -1
           attack = [0, args_h[:attack].to_f].max
           decay = [0, args_h[:decay].to_f].max
+          sustain = [0, args_h[:sustain].to_f].max
           release = [0, args_h[:release].to_f].max
-          real_dur = [attack + decay + release, real_dur].min
+          real_dur = [attack + decay + sustain + release, real_dur].min
         end
 
         if __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
