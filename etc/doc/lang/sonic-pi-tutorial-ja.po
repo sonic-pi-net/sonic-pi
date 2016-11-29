@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-22 09:59+0000\n"
+"PO-Revision-Date: 2016-11-29 10:03+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -11490,7 +11490,6 @@ msgstr ""
 "noise`シンセでパーカッシブな雨のような音を鳴らしています。"
 
 #: A.08-minecraft-vj.md:121
-#, fuzzy
 msgid ""
 "For those of you new to live loops - this is where the fun really starts with "
 "Sonic Pi. Whilst the code is running and the sand is pouring down, try changin"
@@ -11502,8 +11501,8 @@ msgid ""
 msgstr ""
 "ライブループに慣れていない人にお話すると、ここからがSonic Piで本当に面白くなるところです。コードが実行されていて砂が吹き出している最中に、コード内"
 "のどれかの値、たとえばsleepの時間を`0.25`に変えたり、ブロックタイプを`:sand`から`:gravel`に変えてみてみましょう。そして`Run"
-"`を*もう一度*叩いてみてください。あら不思議！コードが止まらずに変更されました。これが、本物のVJと同じようにパフォーマンスする入り口です。Keep "
-"practising and changing things around. あなたはコードを止めずにどれだけビジュアルを変えることができるかな？"
+"`を*もう一度*叩いてみてください。あら不思議！コードが止まらずに変更されました。これが、本物のVJと同じようにパフォーマンスする入り口です。練習してコー"
+"ドを変更し続けてください。あなたはコードを止めずにどれだけビジュアルを変えることができるかな？"
 
 #: A.08-minecraft-vj.md:129
 msgid "Epic Block Patterns"
@@ -11514,8 +11513,11 @@ msgid ""
 "![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
 ".png)"
 msgstr ""
+"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:133
+#, fuzzy
 msgid ""
 "Finally, another great way of generating interesting visuals is to generate hu"
 "ge patterned walls to fly towards and close by. For this effect we'll need to "
@@ -11528,6 +11530,13 @@ msgid ""
 "coordinates for a square. We can then randomly choose block types from a ring "
 "of blocks for an interesting effect:"
 msgstr ""
+"Finally, another great way of generating interesting visuals is to generate "
+"huge patterned walls to fly towards and close by. "
+"この効果のためには、ブロックをランダムに配置することから、規則的に配置することに移る必要があります。 "
+"これを行うには、2つのイテレーション（反復）を入れ子にします（イテレーションの詳細については、ヘルプボタンをクリックして、チュートリアルのセクション5."
+"2\"イテレーション（反復）とループ\"に移動してください）。 doの後の面白い `| xd |`は、イテレーションの各値に対して "
+"`xd`が設定されることを意味します。 したがって、最初は0、1、2 ...などとなります。このように2回のイテレーションを入れ子にすることで、すべての座"
+"標を正方形に生成することができます。また、ブロックのリングからブロックタイプをランダムに選択して、面白い効果を得ることもできます。"
 
 #: A.08-minecraft-vj.md:145
 #, no-wrap
@@ -11555,8 +11564,11 @@ msgid ""
 " types and the more adventurous of you might want to try sticking this within "
 "a `live_loop` so that the patterns keep changing automatically."
 msgstr ""
+"かなりかっこいいね。このコードで楽しんでいる最中に、`bs.choose`を`bs.tick`に変更して、ランダムなパターンからより規則的なものにしてみま"
+"しょう。ブロックタイプの変更やより冒険的な変更は、`live_loop`の中でやってみましょう。そうすればパターンは自動的に変更し続けるでしょう。"
 
 #: A.08-minecraft-vj.md:161
+#, fuzzy
 msgid ""
 "Now, for the VJ finale - change the two `10.times` to `100.times` and hit Run."
 " Kaboom! A Huge gigantic wall of randomly placed bricks. Imagine how long it w"
@@ -11566,6 +11578,10 @@ msgid ""
 " coding power of Sonic Pi to make it real. When you've practised enough dim th"
 "e lights and put on a VJ show for your friends!"
 msgstr ""
+"では、VJの最後に2つの`10.times`を`100.times`に変更して`Run`を叩いてみましょう。Kaboom! "
+"ランダムに配置されたレンガの巨大な巨大な壁。 あなたがマウスで手動で構築するのにどれくらいの時間がかかるか想像してみてください！ スペースをダブルタップし"
+"て飛行モードに入り、素晴らしいビジュアルエフェクトを得るために降下してみましょう。しかしここで止まらないでください。あなたの想像力を使ってクールなアイデア"
+"を思いついたら、Sonic Piのコーディングの力でそれを形にしましょう。十分に練習したら、明かりを暗くし、友達のためにVJショーを始めましょう！"
 
 #: A.09-randomisation.md:1
 msgid "A.9 Randomisation"
