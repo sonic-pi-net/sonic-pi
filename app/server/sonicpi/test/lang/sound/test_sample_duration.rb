@@ -14,6 +14,7 @@
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/util"
 require_relative "../../../lib/sonicpi/sample_loader"
+require 'mocha/setup'
 
 module SonicPi
   module Lang
@@ -33,9 +34,11 @@ module SonicPi
       end
 
       def self.sample_buffer(path)
-        mock_samp = Struct.new(:duration, :onset_slices)
-
-        mock_samp.new(8, [{:start => 0, :finish => 0.125}, {:start => 0.125, :finish => 1}])
+        mock_samp = Object.new
+        mock_samp.stubs(:duration).returns(8)
+        mock_samp.stubs(:onset_slices).returns([{:start => 0, :finish => 0.125}, {:start => 0.125, :finish => 1}])
+        mock_samp.stubs(:slices).returns([{:start => 0, :finish => 0.5}, {:start => 0.5, :finish => 1}])
+        mock_samp
       end
 
       # mock out current bpm to be 60
@@ -70,6 +73,7 @@ module SonicPi
       assert_equal(1,  Lang::Sound.sample_duration(:foo, rate: 2, finish: 0.5, start: 0.75))
       assert_equal(1,  Lang::Sound.sample_duration(:foo, rate: 1, onset: 0))
       assert_equal(7,  Lang::Sound.sample_duration(:foo, rate: 1, onset: 1))
+      assert_equal(4,  Lang::Sound.sample_duration(:foo, rate: 1, slice: 1))
     end
 
   end
