@@ -454,11 +454,19 @@ module SonicPi
       end
 
       def ring
-        SonicPi::Core::RingVector.new(self)
+        if is_a?(SonicPi::Core::RingVector)
+          self
+        else
+          SonicPi::Core::RingVector.new(self)
+        end
       end
 
       def ramp
-        SonicPi::Core::RampVector.new(self)
+        if is_a?(SonicPi::Core::RampVector)
+          self
+        else
+          SonicPi::Core::RampVector.new(self)
+        end
       end
 
       def to_s
