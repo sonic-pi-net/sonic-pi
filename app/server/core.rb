@@ -596,6 +596,28 @@ module SonicPi
         "ramp"
       end
     end
+
+
+    # An immutable map which when used in a splat will
+    # yield its vals
+    class SPSplatMap < SPMap
+
+      def initialize(h)
+        raise "SPSplatMaps may only be initialised with a Hash. You supplied a #{h.class} with value #{h.inspect}" unless h.is_a?(Hash)
+        super
+
+        # as h is a standard Hash, the value insertion order is
+        # preserved at this point. By sticking it into an array, we
+        # guarantee preservation of this ofder after conversion to an
+        # immutable Map
+        @sp_orig_vals = h.values
+      end
+
+      def to_ary
+        @sp_orig_vals.to_ary
+      end
+    end
+
   end
 end
 

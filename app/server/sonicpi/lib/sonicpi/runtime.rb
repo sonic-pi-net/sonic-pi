@@ -371,6 +371,10 @@ module SonicPi
       @events.event("/sync", {:id => id, :result => res})
     end
 
+    def __events
+      @events
+    end
+
     def __stop_job(j)
       __info "Stopping run #{j}"
       # Only allow a job to be stopped once
@@ -1032,27 +1036,13 @@ module SonicPi
 
       # TODO Add support for TCP
       @osc_server = SonicPi::OSC::UDPServer.new(osc_cues_port, use_decoder_cache: true) do |address, args|
-
-        # Address comes as a string, args as an array.
-
-        # cue :nice, arg1: 123, arg2: 456
-        # is equivalent to an osc message:
-        # /nice "arg1" 123 "arg2" 456
-
-        # OSC spec requires address to begin with /.
-        # These are not allowed in ruby identifiers, and must be removed
-        cue_id = address.tr("/", "").to_sym
-
-        # To be consistent with the SonicPi "cue" method, which takes
-        # keyword arguments only, the OSC arguments (which are limited to arrays)
-        # are converted into hashes with keys symbol-ised.
-
-        cue_map = Hash[*args].map { |key, value| [key.to_sym, value] }.to_h
+        # address comes as a string
+        # args as an array of OSC types e.g. ["foo", 3, 5.3]
 
         payload = {
           :time => Time.now.freeze,
-          :cue_map => cue_map,
-          :cue => cue_id
+          :cue_splat_map_or_vec =>  SonicPi::Core::SPSplatMap.from_a(args),
+          :cue => address.to_s
         }
 
         @events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
@@ -1066,7 +1056,6 @@ module SonicPi
       rescue
         @gitsave = nil
       end
-
       @save_queue = SizedQueue.new(20)
 
       @event_t = Thread.new do

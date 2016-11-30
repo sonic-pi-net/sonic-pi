@@ -3188,27 +3188,40 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def cue(cue_id, *opts)
-        args_h = resolve_synth_opts_hash_or_array(opts)
-        args_h.each do |k, v|
-          raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
-          raise "Invalid cue value type (#{v.class}) for key #{k.inspect}. Must be immutable - currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
-        end
 
+        if opts.size == 1 && opts[0].is_a?(Hash)
+          opts[0].each do |k, v|
+            raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
+            raise "Invalid cue argument #{v.inspect} with key #{k.inspect} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
+          end
+          splat_map_or_vec = opts[0]
+        else
+          opts.each_with_index do |v, idx|
+            v = v.freeze
+            raise "Invalid cue argument #{v.inspect} in position #{idx} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
+          end
+          splat_map_or_vec = opts
+        end
 
         payload = {
           :time => __system_thread_locals.get(:sonic_pi_spider_time),
           :sleep_mul => __thread_locals.get(:sonic_pi_spider_sleep_mul),
           :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
           :run => current_job_id,
-          :cue_map => args_h,
+          :cue_splat_map_or_vec => splat_map_or_vec,
           :cue => cue_id
         }
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          if args_h.empty?
+          if splat_map_or_vec.empty?
             __delayed_highlight_message "cue #{cue_id.inspect}"
           else
-            __delayed_highlight_message "cue #{cue_id.inspect}, #{arg_h_pp(args_h)}"
+            if is_list_like?(splat_map_or_vec)
+              __delayed_highlight_message "cue #{cue_id.inspect}, #{splat_map_or_vec}"
+            else
+              __delayed_highlight_message "cue #{cue_id.inspect}, #{arg_h_pp(splat_map_or_vec)}"
+
+            end
           end
         end
 
@@ -3217,14 +3230,14 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           # sleep for a tiny amount of wall-clock time to give other temporally
           # synced threads real time to register syncs at similar virtual
           # times.
-          Kernel.sleep @sync_real_sleep_time
-          @events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
+          Kernel.sleep @sync_real_sleep_time || 0
+          __events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
         end
       end
       doc name:           :cue,
           introduced:     Version.new(2,0,0),
           summary:        "Cue other threads",
-          doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id` as a map. The values of the opts must be immutable. Currently numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values are supported.",
+          doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id`. The values of the opts must be immutable. Currently numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values are supported.",
           args:           [[:cue_id, :symbol]],
           opts:           {:your_key    => "Your value",
                            :another_key => "Another value",
@@ -3320,7 +3333,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           examples:       ["See examples for sync"]
 
 
-      def sync(*cues)
+      def sync(*cues, &blk)
         cue_ids = (cues.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
         opts = cues[cue_ids.size] || {}
         cue_ids.flatten!
@@ -3330,9 +3343,12 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
         p = Promise.new
         handles = cue_ids.map {|id| "/spider_thread_sync/" + id.to_s}
-        @events.async_multi_oneshot_handler(handles) do |payload|
+
+        __events.async_multi_oneshot_handler(handles) do |payload|
           p.deliver! payload
         end
+
+
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           if cue_ids.size == 1
@@ -3345,17 +3361,25 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
         __schedule_delayed_blocks_and_messages!
 
+        blk.call if block_given?
         payload = p.get
         time = payload[:time]
         sleep_mul = payload[:sleep_mul]
         beat = payload[:beat]
         bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : false
         run_id = payload[:run]
-        cue_map = payload[:cue_map]
-        cue_map = cue_map.dup if cue_map
-        cue_map = cue_map || {}
+
+        if payload[:cue_splat_map_or_vec]
+          if is_list_like?(payload[:cue_splat_map_or_vec])
+            res = SonicPi::Core::SPVector.new(payload[:cue_splat_map_or_vec])
+          else
+            res = SonicPi::Core::SPSplatMap.new(payload[:cue_splat_map_or_vec])
+          end
+        else
+          res = SonicPi::Core::SPSplatMap.new({})
+        end
+
         cue_id = payload[:cue]
-        cue_map[:cue] = cue_id
         __system_thread_locals.set :sonic_pi_spider_beat, beat if beat
         __system_thread_locals.set :sonic_pi_spider_time, time.freeze if time
         __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
@@ -3368,7 +3392,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
             __delayed_highlight2_message "synced #{cue_id.inspect} (Run #{run_id})"
           end
         end
-        cue_map
+        res
       end
       doc name:           :sync,
           introduced:     Version.new(2,0,0),
