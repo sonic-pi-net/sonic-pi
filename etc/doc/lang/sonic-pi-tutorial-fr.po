@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-25 12:11+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/f"
-"r/>\n"
+"PO-Revision-Date: 2016-12-04 13:47+0000\n"
+"Last-Translator: VIDAL Alban <alban.vidal@zordhak.fr>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 2.10-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -75,16 +75,15 @@ msgstr ""
 " le faire savoir et je le prendrai en compte dans une prochaine version."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
 "e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Regarder d'autres faire du live-coding est une excellente façon d'apprendre, j"
-"e stream régulièrement sur [livecoding.tv/samaaron] (http://livecoding.tv/sama"
-"aron), n'hésitez pas à y passer, à dire bonjour et à me poser beaucoup de ques"
-"tions :-)"
+"Regarder d'autres faire du live-coding est une excellente façon d'apprendre, "
+"je stream régulièrement sur [livecoding.tv/samaaron] "
+"(http://livecoding.tv/samaaron), n'hésitez pas à y passer, à dire bonjour et "
+"à me poser beaucoup de questions :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -169,7 +168,6 @@ msgid "Change the `sleep` value from `0.5` to something higher like `1`."
 msgstr "Changez la valeur de `sleep` de `0.5` à quelque chose de plus élevé comme `1`."
 
 #: 01.1-Live-Coding.md:34
-#, fuzzy
 msgid "Press the `Run` button again"
 msgstr "Pressez à nouveau le bouton `Run`"
 
@@ -4875,12 +4873,13 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:190
+#, fuzzy
 msgid ""
 "Look at the log pane when you run this code. See how the log reports the name "
 "of the thread with the message?"
 msgstr ""
-"Regardez le panneau \"trace\" quand vous exécutez ce code. Regardez comment le \""
-"trace\" rapporte le nom du thread avec le message."
+"Regardez le panneau \"trace\" quand vous exécutez ce code. Regardez comment "
+"le \"trace\" rapporte le nom du thread avec le message ?"
 
 #: 05.4-Threads.md:193
 #, no-wrap
