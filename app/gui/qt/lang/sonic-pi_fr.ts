@@ -476,7 +476,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Visuels</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2377"/>
@@ -491,7 +491,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal de défilement automatique</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1273"/>
@@ -506,7 +506,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer la visibilité des axes des oscilloscopes audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
@@ -758,12 +758,12 @@ Veuillez nous excuser, une erreur critique s'est produite pendant le démarrage<
     <message>
         <location filename="../mainwindow.cpp" line="2432"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer la visibilité du volet d'aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2436"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer la visibilité du volet des préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2414"/>
@@ -773,17 +773,17 @@ Veuillez nous excuser, une erreur critique s'est produite pendant le démarrage<
     <message>
         <location filename="../mainwindow.cpp" line="2409"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter la taille</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2416"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Réduire la taille</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer la visibilité des oscilloscopes audio. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2445"/>
@@ -959,7 +959,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Est-ce que Sonic Pi fonctionne déjà? Impossible d'ouvrir le port UDP.</translation>
     </message>
 </context>
 </TS>
