@@ -178,7 +178,7 @@ Utilisez ces boutons pour forcer la sortie sur le port voulu.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
         <source>&amp;HDMI</source>
-        <translation>HDMI</translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1116"/>
@@ -441,12 +441,12 @@ Le thème sombre est parfait pour coder en boîte de nuit.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher et masquer la portée</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Types de portée</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1298"/>
