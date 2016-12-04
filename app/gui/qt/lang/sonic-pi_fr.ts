@@ -461,7 +461,7 @@ Le thème sombre est parfait pour coder en boîte de nuit.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les axes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
