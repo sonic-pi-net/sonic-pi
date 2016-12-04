@@ -65,8 +65,8 @@
         <location filename="../mainwindow.cpp" line="1078"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Paramètres audio avancés pour l&apos;utilisation
-d&apos;un amplificateur externe avec Sonic Pi.</translation>
+        <translation>Paramètres audio avancés pour l'utilisation
+d'un amplificateur externe avec Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1080"/>
@@ -85,7 +85,7 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Bascule en mode mono.
-Si activée, l&apos;audio de gauche est mélangé avec celui de droite
+Si activée, l'audio de gauche est mélangé avec celui de droite
 et le même signal est dirigé vers les deux haut-parleurs. 
 Utile quand on travaille avec des systèmes externes qui 
 ne supportent que le mono.</translation>
@@ -162,7 +162,7 @@ Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
         <translation>Votre Raspberry Pi a deux types de sortie audio.
 Premièrement, le port jack sur le Raspberry Pi.
-Deuxièmement, certains moniteurs/TVs HDMI reçoivent l&apos;audio à travers le port HDMI
+Deuxièmement, certains moniteurs/TVs HDMI reçoivent l'audio à travers le port HDMI
 Utilisez ces boutons pour forcer la sortie sur le port voulu.</translation>
     </message>
     <message>
@@ -173,12 +173,12 @@ Utilisez ces boutons pour forcer la sortie sur le port voulu.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Casque audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1116"/>
@@ -211,7 +211,7 @@ Utilisez ces boutons pour forcer la sortie sur le port voulu.</translation>
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Bascule des messages de trace.
-Si désactivée, l&apos;activité telle que le jeu des synthés et des échantillons 
+Si désactivée, l'activité telle que le jeu des synthés et des échantillons 
 ne sera pas affichée dans la trace par défaut.</translation>
     </message>
     <message>
@@ -224,7 +224,7 @@ ne sera pas affichée dans la trace par défaut.</translation>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Bascule de l&apos;effacement de la trace avant exécution.
+        <translation>Bascule de l'effacement de la trace avant exécution.
 Si activé, la trace est effacée à chaque appui 
 sur le bouton run.</translation>
     </message>
@@ -262,7 +262,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Lorsqu’activé, Sonic Pi permettra aux synthés et FX chargée via load_synthdefs pour être déclenché. Lorsque désactivé, Sonic Pi va se plaindre lorsque vous essayez d’utiliser un synthétiseur ou FX qui ne sont pas reconnu.</translation>
     </message>
     <message>
@@ -302,7 +302,7 @@ even when a little late.</source>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Activer/Désactiver la vérification automatique des mises à jour.
-Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre plateforme et votre version.</translation>
+Cette vérification implique l'envoi d'informations anonymes sur votre plateforme et votre version.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1173"/>
@@ -314,12 +314,12 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Force une vérification des mises à jour.
-Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos de votre plateforme et de votre version.</translation>
+Cette vérification implique l'envoi d'informations anonymes à propos de votre plateforme et de votre version.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1175"/>
         <source>Get update</source>
-        <translation>Obtention d&apos;une mise à jour</translation>
+        <translation>Obtention d'une mise à jour</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1176"/>
@@ -339,7 +339,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../mainwindow.cpp" line="1201"/>
         <source>Configure editor display options.</source>
-        <translation>Configuration des options d&apos;affichage de l&apos;éditeur.</translation>
+        <translation>Configuration des options d'affichage de l'éditeur.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1202"/>
@@ -349,7 +349,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>Configure editor look and feel.</source>
-        <translation>Configuration du look and feel de l&apos;éditeur.</translation>
+        <translation>Configuration du look and feel de l'éditeur.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
@@ -359,7 +359,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Configure automation features.</source>
-        <translation>Configurer les fonctionnalités d&apos;automatisation.</translation>
+        <translation>Configurer les fonctionnalités d'automatisation.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1206"/>
@@ -369,7 +369,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../mainwindow.cpp" line="1207"/>
         <source>Automatically align code on Run</source>
-        <translation>Alignement automatique du code à l&apos;exécution</translation>
+        <translation>Alignement automatique du code à l'exécution</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1209"/>
@@ -409,7 +409,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../mainwindow.cpp" line="1219"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Activer/désactiver l&apos;affichage des onglets de sélection des buffers.</translation>
+        <translation>Activer/désactiver l'affichage des onglets de sélection des buffers.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1220"/>
@@ -501,7 +501,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Paramètres utiles pour l&apos;interprétation avec Sonic Pi</translation>
+        <translation>Paramètres utiles pour l'interprétation avec Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
@@ -516,7 +516,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Envisagez SVP la signalisation d&apos;un bogue à</translation>
+        <translation>Envisagez SVP la signalisation d'un bogue à</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
@@ -525,7 +525,7 @@ Stereo - shows two independent scopes for left and right channels</source>
 Apologies, a critical error occurred during startup</source>
         <translation>Erreur de démarrage de Sonic Pi
 
-Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démarrage</translation>
+Veuillez nous excuser, une erreur critique s'est produite pendant le démarrage</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1560"/>
@@ -626,7 +626,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1808"/>
         <source>Enabling Inverted Stereo...</source>
-        <translation>Activation de l&apos;inversion stéréo...</translation>
+        <translation>Activation de l'inversion stéréo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1816"/>
@@ -691,7 +691,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2383"/>
         <source>Stop all running code</source>
-        <translation>Arrête l&apos;exécution de tous les codes</translation>
+        <translation>Arrête l'exécution de tous les codes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2386"/>
@@ -721,7 +721,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2426"/>
         <source>See information about Sonic Pi</source>
-        <translation>Voir l&apos;information sur Sonic Pi</translation>
+        <translation>Voir l'information sur Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2435"/>
@@ -733,12 +733,12 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
         <location filename="../mainwindow.cpp" line="2549"/>
         <location filename="../mainwindow.cpp" line="2550"/>
         <source>Start Recording</source>
-        <translation>Démarrage de l&apos;enregistrement</translation>
+        <translation>Démarrage de l'enregistrement</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2399"/>
         <source>Start recording to WAV audio file</source>
-        <translation>Démarre l&apos;enregistrement vers un fichier audio WAV</translation>
+        <translation>Démarre l'enregistrement vers un fichier audio WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2403"/>
@@ -829,12 +829,12 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
         <location filename="../mainwindow.cpp" line="2541"/>
         <location filename="../mainwindow.cpp" line="2542"/>
         <source>Stop Recording</source>
-        <translation>Arrêter l&apos;enregistrement</translation>
+        <translation>Arrêter l'enregistrement</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Save Recording</source>
-        <translation>Sauvegarde de l&apos;enregistrement</translation>
+        <translation>Sauvegarde de l'enregistrement</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
@@ -885,7 +885,7 @@ toutes les deux semaines.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2939"/>
         <source>This is Sonic Pi %1</source>
-        <translation>C&apos;est Sonic Pi %1</translation>
+        <translation>C'est Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2940"/>
@@ -958,7 +958,7 @@ Obtenez Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
