@@ -1036,16 +1036,17 @@ module SonicPi
 
       # TODO Add support for TCP
       @osc_server = SonicPi::OSC::UDPServer.new(osc_cues_port, use_decoder_cache: true) do |address, args|
+        address = address.to_s
         # address comes as a string
         # args as an array of OSC types e.g. ["foo", 3, 5.3]
 
         payload = {
           :time => Time.now.freeze,
-          :cue_splat_map_or_vec =>  SonicPi::Core::SPSplatMap.from_a(args),
-          :cue => address.to_s
+          :cue_splat_map_or_vec =>  SonicPi::Core::SPVector.new(args),
+          :cue => address
         }
 
-        @events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
+        @events.async_event("/spider_thread_sync/" + address, payload)
       end
 
 

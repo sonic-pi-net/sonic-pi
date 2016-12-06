@@ -3348,14 +3348,11 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           p.deliver! payload
         end
 
-
-
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           if cue_ids.size == 1
             __delayed_highlight3_message "sync #{cue_ids.first.inspect}"
           else
-            ids_list = cue_ids.map{|cid| cid.to_sym}
-            __delayed_highlight3_message "sync #{ids_list.inspect}"
+            __delayed_highlight3_message "sync #{cue_ids.inspect}"
           end
         end
 
@@ -3368,7 +3365,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         beat = payload[:beat]
         bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : false
         run_id = payload[:run]
-
+        run_info = run_id ? "(Run #{run_id})" : "(OSC)"
         if payload[:cue_splat_map_or_vec]
           if is_list_like?(payload[:cue_splat_map_or_vec])
             res = SonicPi::Core::SPVector.new(payload[:cue_splat_map_or_vec])
@@ -3387,9 +3384,10 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           if bpm_sync
-            __delayed_highlight2_message "synced #{cue_id.inspect}. Inheriting bpm of #{current_bpm} (Run #{run_id})"
+
+            __delayed_highlight2_message "synced #{cue_id.inspect}. Inheriting bpm of #{current_bpm} " + run_info
           else
-            __delayed_highlight2_message "synced #{cue_id.inspect} (Run #{run_id})"
+            __delayed_highlight2_message "synced #{cue_id.inspect} " + run_info
           end
         end
         res
