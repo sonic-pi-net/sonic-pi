@@ -202,7 +202,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     gui_send_to_server_port = 4557;
   }
 
-  OscSender* oscSender = new OscSender(gui_send_to_server_port);
+  oscSender = new OscSender(gui_send_to_server_port);
 
   QProcess* determineListenPortNumber = new QProcess();
   QStringList listen_args;
