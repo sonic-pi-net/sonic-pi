@@ -2692,10 +2692,9 @@ void MainWindow::onExitCleanup()
 }
 
 void MainWindow::heartbeatOSC() {
-
-  Message msg("/gui-heartbeat");
-  msg.pushStr(guiID.toStdString());
-  sendOSC(msg);
+  // Message msg("/gui-heartbeat");
+  // msg.pushStr(guiID.toStdString());
+  // sendOSC(msg);
 }
 
 
@@ -2912,6 +2911,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
     }
     return QMainWindow::eventFilter(obj, evt);
 }
+
+
 
 
 
