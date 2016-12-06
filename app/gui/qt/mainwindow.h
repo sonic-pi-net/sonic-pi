@@ -40,6 +40,7 @@
 #include <QSignalMapper>
 #include "sonicpitheme.h"
 #include "scope.h"
+#include "oscsender.h"
 
 class QAction;
 class QMenu;
@@ -108,7 +109,6 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
-    void newlineAndIndent(SonicPiScintilla *ws);
     void returnAndIndentLine(QObject *ws);
     void completeSnippetListOrIndentLine(QObject *ws);
     void completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla *ws);
@@ -342,6 +342,8 @@ private:
     QString guiID;
     bool homeDirWritable, tmpFileStoreAvailable;
     bool updated_dark_mode_for_help, updated_dark_mode_for_prefs;
+
+    OscSender *oscSender;
 };
 
 #endif

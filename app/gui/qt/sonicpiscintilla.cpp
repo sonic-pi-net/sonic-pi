@@ -12,6 +12,7 @@
 //++
 
 #include "sonicpiscintilla.h"
+#include "oscsender.h"
 
 #include <QSettings>
 #include <QShortcut>
@@ -21,11 +22,13 @@
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender)
   : QsciScintilla()
 {
   setAcceptDrops(true);
   this->theme = theme;
+  this->oscSender = oscSender;
+  this->fileName = fileName;
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
   QString skey;
@@ -491,6 +494,19 @@ void SonicPiScintilla::replaceBuffer(QString content, int line, int index, int f
   endUndoAction();
 }
 
+void SonicPiScintilla::newlineAndIndent() {
+  int point_line, point_index, first_line;
+  getCursorPosition(&point_line, &point_index);
+  first_line = firstVisibleLine();
+
+  std::string code = text().toStdString();
+
+  // TODO: fix this:
+  std::string id = "foobar";
+
+  oscSender->bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString(), id);
+}
+
 void SonicPiScintilla::dragEnterEvent(QDragEnterEvent *event)
 {
   if (event->mimeData()->hasFormat("text/uri-list")) {
@@ -504,6 +520,21 @@ void SonicPiScintilla::dragMoveEvent(QDragMoveEvent *event)
     event->acceptProposedAction();
   }
 }
+
+bool SonicPiScintilla::event(QEvent *evt)
+{
+
+  if (evt->type()==QEvent::KeyPress) {
+    QKeyEvent* key = static_cast<QKeyEvent*>(evt);
+    if (key->key() == Qt::Key_Return) {
+      newlineAndIndent();
+      return true;
+    }
+  }
+
+  return QsciScintilla::event(evt);
+}
+
 
 void SonicPiScintilla::dropEvent(QDropEvent *dropEvent)
 {

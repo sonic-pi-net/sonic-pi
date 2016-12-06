@@ -79,6 +79,7 @@
 #include "sonicpitheme.h"
 
 #include "oschandler.h"
+#include "oscsender.h"
 #include "sonicpilog.h"
 #include "sonic_pi_udp_osc_server.h"
 #include "sonic_pi_tcp_osc_server.h"
@@ -86,7 +87,7 @@
 // OSC stuff
 #include "oscpkt.hh"
 #include "udp.hh"
-using namespace oscpkt;// OS specific stuff
+using namespace oscpkt;// OSC specific stuff
 
 // Operating System Specific includes
 #if defined(Q_OS_WIN)
@@ -114,6 +115,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+
+
 
   QString root_path = rootPath();
 
@@ -193,11 +196,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   determineSendPortNumber->start(ruby_path, send_args);
   determineSendPortNumber->waitForFinished();
   gui_send_to_server_port = determineSendPortNumber->readAllStandardOutput().trimmed().toInt();
+
   if (gui_send_to_server_port == 0) {
     std::cout << "[GUI] - unable to determine GUI->Server send port. Defaulting to 4557:" << std::endl;
     gui_send_to_server_port = 4557;
   }
 
+  OscSender* oscSender = new OscSender(gui_send_to_server_port);
 
   QProcess* determineListenPortNumber = new QProcess();
   QStringList listen_args;
@@ -410,18 +415,16 @@ void MainWindow::setupWindowStructure() {
   retSignalMapper = new QSignalMapper (this) ;
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
+    QString fileName = QString("workspace_" ) + QString::fromStdString(number_name(ws));
 
+    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender);
 
-    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme);
+    workspace->setObjectName(QString("Buffer %1").arg(ws));
 
     //tab completion when in list
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
     connect (indentLine, SIGNAL(activated()), signalMapper, SLOT(map())) ;
     signalMapper -> setMapping (indentLine, (QObject*)workspace);
-
-    QShortcut *newLineAndIndent = new QShortcut(QKeySequence("Return"), workspace);
-    connect (newLineAndIndent, SIGNAL(activated()), retSignalMapper, SLOT(map())) ;
-    retSignalMapper -> setMapping (newLineAndIndent, (QObject*)workspace);
 
     // save and load buffers
     QShortcut *saveBufferShortcut = new QShortcut(shiftMetaKey('s'), workspace);
@@ -813,31 +816,11 @@ void MainWindow::returnAndIndentLine(QObject* ws){
   }
   else {
     if(auto_indent_on_run->isChecked()) {
-      newlineAndIndent(spws);
+      spws->newlineAndIndent();
     } else {
       spws->newLine();
     }
   }
-}
-
-
-
-void MainWindow::newlineAndIndent(SonicPiScintilla* ws) {
-  int point_line, point_index, first_line;
-  ws->getCursorPosition(&point_line, &point_index);
-  first_line = ws->firstVisibleLine();
-
-  std::string code = ws->text().toStdString();
-
-  Message msg("/buffer-newline-and-indent");
-  msg.pushStr(guiID.toStdString());
-  std::string filename = workspaceFilename(ws);
-  msg.pushStr(filename);
-  msg.pushStr(code);
-  msg.pushInt32(point_line);
-  msg.pushInt32(point_index);
-  msg.pushInt32(first_line);
-  sendOSC(msg);
 }
 
 void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla* ws) {
@@ -858,7 +841,7 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
 
   Message msg("/buffer-section-complete-snippet-or-indent-selection");
   msg.pushStr(guiID.toStdString());
-  std::string filename = workspaceFilename(ws);
+  std::string filename = ws->fileName.toStdString();
   msg.pushStr(filename);
   msg.pushStr(code);
   msg.pushInt32(start_line);
@@ -891,7 +874,7 @@ void MainWindow::toggleComment(SonicPiScintilla* ws) {
 
   Message msg("/buffer-section-toggle-comment");
   msg.pushStr(guiID.toStdString());
-  std::string filename = workspaceFilename(ws);
+  std::string filename = ws->fileName.toStdString();
   msg.pushStr(filename);
   msg.pushStr(code);
   msg.pushInt32(start_line);
@@ -1505,16 +1488,6 @@ std::string MainWindow::number_name(int i) {
   }
 }
 
-std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
-{
-  for(int i = 0; i < workspace_max; i++) {
-    if(text == workspaces[i]) {
-      return "workspace_" + number_name(i);
-    }
-  }
-  return "default";
-}
-
 void MainWindow::loadWorkspaces()
 {
   std::cout << "[GUI] - loading workspaces" << std::endl;
@@ -1592,48 +1565,6 @@ bool MainWindow::saveAs()
   }
 }
 
-void MainWindow::sendOSC(Message m)
-{
-  int TIMEOUT = 30000;
-
-  if(protocol == UDP){
-    UdpSocket sock;
-    sock.connectTo("127.0.0.1", gui_send_to_server_port);
-    if (!sock.isOk()) {
-        std::cerr << "[GUI] - Error connection to port " << gui_send_to_server_port << ": " << sock.errorMessage() << "\n";
-    } else {
-        PacketWriter pw;
-        pw.addMessage(m);
-        sock.sendPacket(pw.packetData(), pw.packetSize());
-    }
-  }
-  else{
-    if (clientSock->state() != QAbstractSocket::ConnectedState){
-      clientSock->connectToHost("127.0.0.1", gui_send_to_server_port,  QIODevice::ReadWrite);
-    }
-
-    if(!clientSock->waitForConnected(TIMEOUT)){
-      std::cerr <<  "[GUI] - Timeout, could not connect" << "\n";
-      clientSock->abort();
-      return;
-    }
-
-    if(clientSock->state() == QAbstractSocket::ConnectedState){
-      PacketWriter pw;
-      pw.addMessage(m);
-
-      int bytesWritten = clientSock->write(pw.packetDataForStream(), pw.packetSize()+sizeof(uint32_t));
-      clientSock->waitForBytesWritten();
-
-      if (bytesWritten < 0){
-        std::cerr <<  "[GUI] - Failed to send bytes" << "\n";
-      }
-
-    } else {
-      std::cerr << "[GUI] - Client gone away: " << "\n";
-    }
-  }
-}
 
 void MainWindow::resetErrorPane() {
   errorPane->clear();
@@ -1662,7 +1593,8 @@ void MainWindow::runCode()
   std::string code = ws->text().toStdString();
   Message msg("/save-and-run-buffer");
   msg.pushStr(guiID.toStdString());
-  std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
+
+  std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
   msg.pushStr(filename);
 
   if(!print_output->isChecked()) {
@@ -1730,7 +1662,7 @@ void MainWindow::beautifyCode()
   int first_line = ws->firstVisibleLine();
   Message msg("/buffer-beautify");
   msg.pushStr(guiID.toStdString());
-  std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
+  std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
   msg.pushStr(filename);
   msg.pushStr(code);
   msg.pushInt32(line);
@@ -1738,6 +1670,13 @@ void MainWindow::beautifyCode()
   msg.pushInt32(first_line);
   sendOSC(msg);
 }
+
+
+void MainWindow::sendOSC(Message m)
+{
+  oscSender->sendOSC(m);
+}
+
 
 void MainWindow::reloadServerCode()
 {
