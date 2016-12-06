@@ -12,6 +12,34 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
+## Version 2.11.1
+*To be released*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.1)
+
+This is a maintainance release containing a number of bug fixes:
+
+### Docs
+
+* Add new MagPi article on sample stretching.
+
+### Bugfixes
+
+* Ensure `chord_invert`'s shift value is a whole number - otherwise it
+  is possible to get into an infinite recursion.
+* Ensure thread locals have correct default values on `clear`. When a
+  run is created, the thread is given a set of default thread
+  locals. Previously `clear` removed *all* thread locals. Now, we reset
+  the thread locals to the defaults for a brand new thread.
+* Fix line reported on syntax error.
+* Fix unknown synth error message.
+* `sync` can once again handle multiple cues correctly.
+* Fix boot issues for users that don't have a standard /etc/hosts file
+  that contains an entry for localhost.
+* `sample_duration` now handles onsets, slices and sustain.
+* Fix issue with return key not being recognised with Japanese
+  keyboards.
+* Fix sporadic flickering of current line on Raspberry Pi.
+
 <a name="v2.11"></a>
 
 ## Version 2.11 - Time Warp'
