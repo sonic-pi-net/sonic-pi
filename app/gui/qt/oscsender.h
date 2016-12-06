@@ -20,15 +20,13 @@ using namespace oscpkt;
 class OscSender
 {
 
-  int port;
-
 public:
     OscSender(int port);
     void sendOSC(Message m);
     void bufferNewlineAndIndent(int point_line, int point_index, int first_line, std::string code, std::string fileName, std::string id);
 
 private:
-
+    int port;
 };
 
 #endif // OSCSENDER_H
