@@ -29,7 +29,7 @@ void OscSender::sendOSC(Message m) {
   UdpSocket sock;
   sock.connectTo("127.0.0.1", port);
   if (!sock.isOk()) {
-    std::cerr << "[OSC Sender] - Error connection to port " << port << ": " << sock.errorMessage() << "\n";
+    std::cerr << "[OSC Sender] - Error connecting to port " << port << ": " << sock.errorMessage() << "\n";
   } else {
     PacketWriter pw;
     pw.addMessage(m);
