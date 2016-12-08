@@ -2897,6 +2897,25 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
       statusBar()->showMessage(tr("Welcome back. Now get your live code on..."), 2000);
       update();
     }
+
+    // if (evt->type() == QEvent::KeyPress) {
+    //     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(evt);
+    //     qDebug() << "Key Press: " << keyEvent->text() << " " << keyEvent->key();
+    // }
+
+    // if (evt->type() == QEvent::KeyRelease) {
+    //     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(evt);
+    //     qDebug() << "Key Release: " << keyEvent->text();
+    // }
+
+    // if(evt->type() == QEvent::Shortcut){
+    //     QShortcutEvent *sc = static_cast<QShortcutEvent *>(evt);
+    //     const QKeySequence &ks = sc->key();
+    //     qDebug() << "Key Shortcut: " << ks.toString();
+    // }
+
+
+
     return QMainWindow::eventFilter(obj, evt);
 }
 
