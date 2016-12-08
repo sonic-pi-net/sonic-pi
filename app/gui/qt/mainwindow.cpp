@@ -412,12 +412,18 @@ void MainWindow::setupWindowStructure() {
   // create workspaces and add them to the tabs
   // workspace shortcuts
   signalMapper = new QSignalMapper (this) ;
-  retSignalMapper = new QSignalMapper (this) ;
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
     QString fileName = QString("workspace_" ) + QString::fromStdString(number_name(ws));
 
-    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender);
+    //TODO: this is only here to ensure auto_indent_on_run is
+    //      initialised before using it to construct the
+    //      workspaces. Strongly consider how to clean this up in a way
+    //      that nicely scales for more properties such as this.  This
+    //      should only be considered an interim solution necessary to
+    //      fix the return issue on Japanese keyboards.
+    auto_indent_on_run = new QCheckBox(tr("Auto-align"));
+    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender, auto_indent_on_run);
 
     workspace->setObjectName(QString("Buffer %1").arg(ws));
 
@@ -517,7 +523,6 @@ void MainWindow::setupWindowStructure() {
     tabs->addTab(workspace, w);
   }
 
-  connect(retSignalMapper, SIGNAL(mapped(QObject*)), this, SLOT(returnAndIndentLine(QObject*)));
   connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
   connect(signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeSnippetListOrIndentLine(QObject*)));
 
@@ -804,22 +809,6 @@ void MainWindow::completeSnippetListOrIndentLine(QObject* ws){
   }
   else {
     completeSnippetOrIndentCurrentLineOrSelection(spws);
-  }
-}
-
-
-void MainWindow::returnAndIndentLine(QObject* ws){
-  SonicPiScintilla *spws = ((SonicPiScintilla*)ws);
-
-  if(spws->isListActive()) {
-    spws->tabCompleteifList();
-  }
-  else {
-    if(auto_indent_on_run->isChecked()) {
-      spws->newlineAndIndent();
-    } else {
-      spws->newLine();
-    }
   }
 }
 
@@ -1187,7 +1176,7 @@ void MainWindow::initPrefsWindow() {
   editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
   QGroupBox *automation_box = new QGroupBox(tr("Automation"));
   automation_box->setToolTip(tr("Configure automation features."));
-  auto_indent_on_run = new QCheckBox(tr("Auto-align"));
+
   auto_indent_on_run->setToolTip(tr("Automatically align code on Run"));
 
   show_line_numbers = new QCheckBox(tr("Show line numbers"));

@@ -21,14 +21,16 @@
 #include <QDropEvent>
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
+#include <QCheckBox>
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, QCheckBox *autoIndent)
   : QsciScintilla()
 {
   setAcceptDrops(true);
   this->theme = theme;
   this->oscSender = oscSender;
   this->fileName = fileName;
+  this->autoIndent = autoIndent;
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
   QString skey;
@@ -494,6 +496,19 @@ void SonicPiScintilla::replaceBuffer(QString content, int line, int index, int f
   endUndoAction();
 }
 
+void SonicPiScintilla::completeListOrNewlineAndIndent(){
+  if(isListActive()) {
+    tabCompleteifList();
+  }
+  else {
+    if(this->autoIndent->isChecked()) {
+      newlineAndIndent();
+    } else {
+      newLine();
+    }
+  }
+}
+
 void SonicPiScintilla::newlineAndIndent() {
   int point_line, point_index, first_line;
   getCursorPosition(&point_line, &point_index);
@@ -527,7 +542,7 @@ bool SonicPiScintilla::event(QEvent *evt)
   if (evt->type()==QEvent::KeyPress) {
     QKeyEvent* key = static_cast<QKeyEvent*>(evt);
     if (key->key() == Qt::Key_Return) {
-      newlineAndIndent();
+      completeListOrNewlineAndIndent();
       return true;
     }
   }
