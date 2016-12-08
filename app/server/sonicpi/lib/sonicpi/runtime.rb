@@ -974,7 +974,7 @@ module SonicPi
     def normalise_buffer_name(name)
       norm = case name
              when "workspace_zero"
-               "3"
+               "0"
              when "workspace_one"
                "1"
              when "workspace_two"

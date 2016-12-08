@@ -39,6 +39,7 @@ This is a maintainance release containing a number of bug fixes:
 * Fix issue with return key not being recognised with Japanese
   keyboards.
 * Fix sporadic flickering of current line on Raspberry Pi.
+* Fix errors in buffer 0 being reported as being from buffer 3.
 
 <a name="v2.11"></a>
 
