@@ -72,7 +72,8 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
         __thread_locals.set :sonic_pi_osc_client, host_and_port.freeze
       end
       doc name:           :use_osc,
-          introduced:     Version.new(2,11,0),
+          hide:           true,
+          introduced:     Version.new(2,12,0),
           summary:        "Configures where OSC messages are sent",
           args:           [[:host, :port]],
           returns:        nil,
@@ -174,7 +175,8 @@ end"
         end
       end
       doc name:           :osc,
-          introduced:     Version.new(2,11,0),
+          hide:           true,
+          introduced:     Version.new(2,12,0),
           summary:        "Sends an OSC message",
           args:           [[:path, :arguments]],
           returns:        nil,
