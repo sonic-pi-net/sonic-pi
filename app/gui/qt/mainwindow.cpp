@@ -2285,10 +2285,9 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
 
 void MainWindow::createShortcuts()
 {
-  new QShortcut(metaKey('{'), this, SLOT(tabPrev()));
-  new QShortcut(metaKey('}'), this, SLOT(tabNext()));
+  new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
+  new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
   new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
-
   new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
   new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
   new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
