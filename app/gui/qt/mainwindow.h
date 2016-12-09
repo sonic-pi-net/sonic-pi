@@ -133,7 +133,7 @@ private slots:
     void onExitCleanup();
     void toggleRecording();
     void toggleRecordingOnIcon();
-    void changeRPSystemVol(int val);
+    void changeRPSystemVol(int val, int silent=0);
     void changeGUITransparency(int val);
     void setRPSystemAudioAuto();
     void setRPSystemAudioHeadphones();

@@ -344,7 +344,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     updateDarkMode();
     updateFullScreenMode();
     showWelcomeScreen();
-    changeRPSystemVol(system_vol_slider->value());
+    changeRPSystemVol(system_vol_slider->value(), 1);
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
@@ -1868,13 +1868,14 @@ void MainWindow::changeGUITransparency(int val)
 #endif
 }
 
-void MainWindow::changeRPSystemVol(int val)
+void MainWindow::changeRPSystemVol(int val, int silent)
 {
   float v = (float) val;
   v = (v / 100.0) * 2.0;
   Message msg("/mixer-amp");
   msg.pushStr(guiID.toStdString());
   msg.pushFloat(v);
+  msg.pushInt32(silent);
   sendOSC(msg);
   statusBar()->showMessage(tr("Updating System Volume..."), 2000);
 }

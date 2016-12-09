@@ -153,10 +153,10 @@ module SonicPi
       @server.trigger_synth(:head, group, synth_name, args, info, now, t_minus_delta)
     end
 
-    def set_volume(vol, now=false)
+    def set_volume(vol, now=false, silent=false)
       check_for_server_rebooting!(:invert)
       @volume = vol
-      message "Setting master volume to #{vol}"
+      message "Setting master volume to #{vol}" unless silent
       @server.node_ctl @mixer, {"pre_amp" => vol}, now
     end
 
