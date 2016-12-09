@@ -67,9 +67,9 @@ module SonicPi
       end
     end
 
-    def all_completed
+    def all_completed(silent=false)
       @all_completed_blocks.each do |b|
-        b.call
+        b.call(silent)
       end
     end
 

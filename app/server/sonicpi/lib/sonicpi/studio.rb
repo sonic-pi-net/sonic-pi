@@ -324,11 +324,11 @@ module SonicPi
       end
     end
 
-    def pause
+    def pause(silent=false)
       @recording_mutex.synchronize do
         unless recording? || @paused
           @server.node_pause(0, true)
-          message "Pausing SuperCollider audio server"
+          message "Pausing SuperCollider audio server" unless silent
         end
         @paused = true
       end

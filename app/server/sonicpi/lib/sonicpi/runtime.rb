@@ -718,6 +718,8 @@ module SonicPi
     def __spider_eval(code, info={})
       id = @job_counter.next
 
+      silent = info.fetch(:silent, false)
+
       # skip __nosave lines for error reporting
       firstline = 1
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
@@ -814,7 +816,7 @@ module SonicPi
         unless @user_jobs.any_jobs_running?
           __info "All runs completed"
           @msg_queue.push({type: :all_jobs_completed})
-          @life_hooks.all_completed
+          @life_hooks.all_completed(silent)
         end
 
         @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
