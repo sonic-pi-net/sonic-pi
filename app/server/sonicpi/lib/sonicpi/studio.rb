@@ -356,7 +356,7 @@ module SonicPi
     def message(s)
       m = s.to_s
       log "Studio - #{m}"
-      @msg_queue.push({:type => :info, :val => "Studio: #{m}"})
+      @msg_queue.push({:type => :info, :val => "Studio: #{m}"}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
 

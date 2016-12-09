@@ -180,11 +180,11 @@ module SonicPi
     end
 
     def __info(s, style=0)
-      @msg_queue.push({:type => :info, :style => style, :val => s.to_s})
+      @msg_queue.push({:type => :info, :style => style, :val => s.to_s}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
     def __multi_message(m)
-      @msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => __current_thread_name})
+      @msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => __current_thread_name}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
     def __delayed(&block)
@@ -256,7 +256,6 @@ module SonicPi
             end
 
             job_subthread_add(job_id, t)
-
             __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
           end
         end
@@ -721,6 +720,7 @@ module SonicPi
         Thread.current.priority = 20
         begin
 
+
           num_running_jobs = reg_job(id, Thread.current)
           __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
 
@@ -730,6 +730,7 @@ module SonicPi
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
           __system_thread_locals.set :sonic_pi_spider_job_id, id
+          __system_thread_locals.set :sonic_pi_spider_silent, silent
 
           __system_thread_locals.set :sonic_pi_spider_job_info, info
           __system_thread_locals.set :sonic_pi_spider_thread, true
@@ -746,7 +747,7 @@ module SonicPi
             # Force a GC collection before we start making music!
             GC.start
           end
-          __info "Starting run #{id}"
+          __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code)
           code = "in_thread seed: 0 do\n" + code + "\nend"
           firstline -=1
@@ -754,7 +755,7 @@ module SonicPi
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
           __no_kill_block do
-            __info("Stopping Run #{id}")
+            __info("Stopping Run #{id}") unless silent
           end
         rescue SyntaxError => e
           __no_kill_block do
@@ -802,9 +803,9 @@ module SonicPi
         deregister_job_and_return_subthreads(id)
         @user_jobs.job_completed(id)
         Kernel.sleep @mod_sound_studio.sched_ahead_time
-        __info "Completed run #{id}"
+        __info "Completed run #{id}" unless silent
         unless @user_jobs.any_jobs_running?
-          __info "All runs completed"
+          __info "All runs completed" unless silent
           @msg_queue.push({type: :all_jobs_completed})
           @life_hooks.all_completed(silent)
         end
