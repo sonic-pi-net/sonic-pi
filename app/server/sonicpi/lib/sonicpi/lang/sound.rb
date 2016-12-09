@@ -147,8 +147,8 @@ module SonicPi
               # Do nothing for now
             end
 
-            @life_hooks.on_all_completed do
-              @mod_sound_studio.pause
+            @life_hooks.on_all_completed do |silent=false|
+              @mod_sound_studio.pause(silent)
             end
 
             @life_hooks.on_exit do |job_id, payload|
