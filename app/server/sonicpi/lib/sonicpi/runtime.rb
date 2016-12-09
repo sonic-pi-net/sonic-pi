@@ -1024,7 +1024,7 @@ module SonicPi
       @keypress_handlers = {}
       @events = IncomingEvents.new
       @sync_counter = Counter.new
-      @job_counter = Counter.new
+      @job_counter = Counter.new(-1) # Start counting jobs from 0
       @job_subthreads = {}
       @job_main_threads = {}
       @named_subthreads = {}
