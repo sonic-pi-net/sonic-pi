@@ -1079,21 +1079,24 @@ module SonicPi
         end
       end
       __info "Welcome to Sonic Pi", 1
-      date = Time.now.freeze
-      time = "%02d:%02d, %s" % [date.hour, date.min, date.zone]
-      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}, #{time}"
-
       __info [
-"Hello, somewhere in the world
+"Somewhere in the world
    the sun is shining
    for you right now.",
-"Hello, it's lovely to see
+"It's lovely to see
    you again. I do hope that
    you're well.",
 "Turn your head towards the sun
    and the shadows
    will fall
    behind you."].sample, 1
+      __info "This is #{@version}"
+      __info "Running on Ruby #{RUBY_VERSION}"
+      date = Time.now.freeze
+      time = "%02d:%02d, %s" % [date.hour, date.min, date.zone]
+      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}, #{time}"
+
+
 
       msg = @settings.get(:message) || ""
       msg = msg.strip
@@ -1111,7 +1114,7 @@ module SonicPi
 
       log "Unable to initialise git repo at #{project_path}" unless @gitsave
 
-      __info "#{@version} Ready..."
+      __info "Let the Live Coding begin..."
 
     end
 
