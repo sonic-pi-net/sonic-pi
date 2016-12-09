@@ -230,21 +230,11 @@ module SonicPi
             last_vt = __system_thread_locals.get :sonic_pi_spider_time
             parent_t = Thread.current
             job_id = __system_thread_locals(parent_t).get(:sonic_pi_spider_job_id)
+            new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
 
             t = Thread.new do
-
-              __system_thread_locals.set_local(:sonic_pi_local_thread_group, :send_delayed_messages)
+              __system_thread_locals_reset!(new_system_tls)
               Thread.current.priority = -10
-              #only copy the necessary thread locals from parent
-              __system_thread_locals.set_local(:sonic_pi_local_spider_users_thread_name, __system_thread_locals(parent_t).get(:sonic_pi_local_spider_users_thread_name))
-
-              __system_thread_locals.set(:sonic_pi_spider_job_id, job_id)
-              __system_thread_locals.set(:sonic_pi_spider_job_info, __system_thread_locals(parent_t).get(:sonic_pi_spider_job_info))
-              __system_thread_locals.set(:sonic_pi_spider_time, last_vt.freeze)
-              __system_thread_locals.set(:sonic_pi_spider_start_time, __system_thread_locals(parent_t).get(:sonic_pi_spider_start_time))
-
-              __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-              __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
               # Calculate the amount of time to sleep to sync us up with the
               # sched_ahead_time
