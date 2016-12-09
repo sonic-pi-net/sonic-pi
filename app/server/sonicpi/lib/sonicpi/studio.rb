@@ -46,7 +46,6 @@ module SonicPi
     end
 
     def init_studio
-      message "Initializing..."
       @amp = [0.0, 1.0]
 
       server = Server.new(@hostname, @scsynth_port, @scsynth_send_port, @msg_queue)
