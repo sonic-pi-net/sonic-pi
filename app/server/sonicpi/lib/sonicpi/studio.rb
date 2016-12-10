@@ -65,6 +65,10 @@ module SonicPi
       # load rand stream directly - ensuring it doesn't get considered as a 'sample'
       rand_buf = server.buffer_alloc_read(buffers_path + "/rand-stream.wav")
 
+      @sample_sem.synchronize do
+        @buffers = {}
+      end
+
       old_samples = @samples
       @samples = {}
 
@@ -98,6 +102,47 @@ module SonicPi
 
     def scsynth_info
       @server.scsynth_info
+    end
+
+    def allocate_buffer(name, duration_in_seconds=8)
+      check_for_server_rebooting!(:allocate_buffer)
+      name = name.to_sym
+      cached_buffer = @buffers[name]
+      return [cached_buffer, true] if cached_buffer && (cached_buffer.duration == duration_in_seconds)
+
+      # we can't just return a cached buffer - so grab the semaphore and
+      # let's play...
+      @sample_sem.synchronize do
+        buf = @buffers[name]
+        return [buf, true] if buf && (buf.duration == duration_in_seconds)
+
+        # our buffer has the same name but is of a different duration
+        # therefore nuke it
+        @server.buffer_free(buf) if buf
+
+        # now actually allocate a new buffer and cache it
+        sample_rate = @server.scsynth_info[:sample_rate]
+        buffer_info = @server.buffer_alloc(duration_in_seconds * sample_rate, 2)
+        @buffers[name] = buffer_info
+        return [buffer_info, false]
+      end
+    end
+
+    def free_buffer(name)
+      check_for_server_rebooting!(:free_buffer)
+      name = name.to_sym
+
+      if @buffers[name]
+        @sample_sem.synchronize do
+          if @buffers[name]
+            @server.buffer_free(@buffers[name])
+            @buffers.delete(name)
+          end
+        end
+        return true
+      end
+
+      false
     end
 
     def load_synthdefs(path, server=@server)
@@ -388,6 +433,7 @@ module SonicPi
       scope_synth = "sonic-pi-scope"
       @scope = @server.trigger_synth(:head, @monitor_group, scope_synth, { "max_frames" => 1024 })
     end
+
 
     def internal_load_sample(path, server=@server)
       path = File.expand_path(path)
