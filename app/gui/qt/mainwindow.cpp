@@ -1290,7 +1290,6 @@ void MainWindow::initPrefsWindow() {
   viz_box->setLayout(viz_tab_layout);
   prefTabs->addTab(viz_box, tr("Visuals"));
 
-  QGridLayout *performance_box_layout = new QGridLayout;
   //  prefTabs->addTab(performance_box, tr("Status"));
 
 

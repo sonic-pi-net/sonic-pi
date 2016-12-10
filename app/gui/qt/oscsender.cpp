@@ -25,7 +25,6 @@ OscSender::OscSender(int port)
 }
 
 void OscSender::sendOSC(Message m) {
-  int TIMEOUT = 30000;
   UdpSocket sock;
   sock.connectTo("127.0.0.1", port);
   if (!sock.isOk()) {
