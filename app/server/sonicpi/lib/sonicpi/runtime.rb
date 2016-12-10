@@ -1078,7 +1078,8 @@ module SonicPi
           end
         end
       end
-      __info "Welcome to Sonic Pi", 1
+      __info "Welcome to Sonic Pi #{version}", 1
+      __info "Running on Ruby #{RUBY_VERSION}"
       __info [
 "Somewhere in the world
    the sun is shining
@@ -1090,8 +1091,6 @@ module SonicPi
    and the shadows
    will fall
    behind you."].sample, 1
-      __info "This is #{@version}"
-      __info "Running on Ruby #{RUBY_VERSION}"
       date = Time.now.freeze
       time = "%02d:%02d, %s" % [date.hour, date.min, date.zone]
       __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}, #{time}"
