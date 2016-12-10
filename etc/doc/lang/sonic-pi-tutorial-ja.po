@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-29 10:03+0000\n"
-"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
+"PO-Revision-Date: 2016-12-10 19:25+0000\n"
+"Last-Translator: ossa <hayato617@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -13373,7 +13373,6 @@ msgstr ""
 
 #: A.15-performance.md:41
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
@@ -13385,7 +13384,6 @@ msgstr ""
 
 #: A.15-performance.md:50
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
@@ -13540,14 +13538,12 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "ライブコーディング"
+msgstr "A. 16 ライブコーディングの練習方法"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "ライブコーディング"
+msgstr "ライブコーディング練習の8つのコツ"
 
 #: A.16-practice.md:5
 msgid ""
