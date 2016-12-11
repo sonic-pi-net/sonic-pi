@@ -58,7 +58,7 @@ domains is the objective.
 
 Sonic Pi has been developed within the Computer Laboratory at the
 University of Cambridge with kind support from the Raspberry Pi
-Foundation and the Broadcom Foundation.
+Foundation, the Broadcom Foundation and pi-top.
 
 ## Translations
 
