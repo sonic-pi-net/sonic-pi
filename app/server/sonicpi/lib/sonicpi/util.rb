@@ -401,7 +401,7 @@ module SonicPi
       arg_h.each do |k, v|
         if v
           rounded = v.is_a?(Float) ? v.round(4) : v.inspect
-          s << "#{k}: #{rounded}, "
+          s += "#{k}: #{rounded}, "
         end
       end
       s.chomp(", ") << "}"
