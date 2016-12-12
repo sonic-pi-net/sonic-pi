@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-11 16:33+0000\n"
-"Last-Translator: ossa <hayato617+github@gmail.com>\n"
+"PO-Revision-Date: 2016-12-12 05:17+0000\n"
+"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -481,6 +481,7 @@ msgstr ""
 "楽をコーディングするために備えているSonic Piの 全機能のリストといった、Sonic Piの全てについてのヘルプと情報があります。"
 
 #: 01.2-Exploring-the-Interface.md:81
+#, fuzzy
 msgid "H. Scope Viewer"
 msgstr "H. スコープビューア"
 
@@ -5965,6 +5966,7 @@ msgid ""
 msgstr "制御することのできるオプションは、対応する`_slide`オプションを持っています。"
 
 #: 07.3-Sliding-Parameters.md:46
+#, fuzzy
 msgid "Sliding is sticky"
 msgstr "スライドはメモ書きのようなもの"
 
@@ -6913,6 +6915,7 @@ msgid "If you run this code, you'll hear note 50 repeating again and again..."
 msgstr "このコードを実行すると、音符50を何度も何度も繰り返します。"
 
 #: 09.1-Live-Coding-Fundamentals.md:41
+#, fuzzy
 msgid "Changing it up"
 msgstr "変えてみる"
 
@@ -9281,6 +9284,7 @@ msgstr ""
 "ても小さい数や大きい数を試してみましょう。楽しんでみてください！"
 
 #: A.02-live-coding.md:77
+#, fuzzy
 msgid "Sleeping is important"
 msgstr "\"睡眠\"は大切"
 
@@ -11916,10 +11920,11 @@ msgid "A Basic Sound"
 msgstr ""
 
 #: A.10-controlling-your-sound.md:19
+#, fuzzy
 msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer type "
 "the following:"
-msgstr "素敵なシンプルサウンドを作りましょう。Sonic Piを起動し、新しいバッファに以下のコードを打ち込んでください。"
+msgstr "素敵なシンプルサウンドを作りましょう。Sonic Piを起動し、新しいBufferに以下のコードを打ち込んでください。"
 
 #: A.10-controlling-your-sound.md:22
 #, no-wrap
