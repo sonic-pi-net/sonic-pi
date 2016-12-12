@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-12 15:42+0000\n"
+"PO-Revision-Date: 2016-12-12 21:32+0000\n"
 "Last-Translator: tiago morais morgado <eremitatm88@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -207,7 +207,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -216,12 +215,17 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Agora brinca à vontade. Muda as *rates* -- que acontece se usares valores alto"
-"s, baixos ou negativos? Vê o que acontece se mudares o valor `rate:` do `:ambi"
-"_choir` ligeiramente (como 0.29). Que acontece se usares um valor muito baixo "
-"para `sleep`? Vê se consegues levá-lo tão rápido que o computador pára com um "
-"erro porque não consegue manter o passo (se isso acontecer, basta escolher um "
-"valor maior para `sleep` e carregar em `Run` outra vez)."
+"Sinta-se agora à vontade para testar aquilo que aprendeu. Mude parâmetros, "
+"como o rate - preste atenção àquilo que acontece quando porventura usa "
+"valores mais altos, ou valores mais baixos, ou até valores negativos. "
+"Repare, a títutlo de exemplo, no que acontece quando muda o parâmetro 'rate' "
+"para o sample ':ambi_choir' ligeiramente (por exemplo '0.29'. Repare também "
+"no que acontece quando escolhe um valor realmente baixo. Acelere por exemplo "
+"o sample de tal forma, para que o computador não seja de todo capaz de gerir "
+"o output, e isso cause eventualmente um crash. ou se calhar um pouco menos, "
+"e repare na forma como isso consegue modular o espectro e o timbre do som. "
+"se isso acontecer, escolha um valor de 'sleep' ligeiramente mais alto e "
+"carregue em 'run' novamente"
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -399,9 +403,8 @@ msgid "*G* - Help System"
 msgstr "*G* - Sistema de Ajuda"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
-msgstr "*F* - Vizualizador de logs"
+msgstr "'H' - Osciloscópio"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
