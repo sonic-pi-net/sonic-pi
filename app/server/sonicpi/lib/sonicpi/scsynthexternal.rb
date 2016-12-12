@@ -264,7 +264,7 @@ module SonicPi
       puts "Boot - SuperCollider booted successfully."
       puts "Boot - Connecting to the SuperCollider server..."
 
-      boot_s = OSC::UDPServer.new(5998) do |a, b|
+      boot_s = OSC::UDPServer.new(0) do |a, b|
         puts "Boot - Receiving ack from server on port 5998"
         p2.deliver! true unless connected
         connected = true
