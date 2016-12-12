@@ -27,7 +27,7 @@ consider it for a future version.
 
 Finally, watching others live code is a really great way to learn. I
 regularly stream live on
-[livecoding.tv/samaaron](http://youtube.com/samaaron) so please do
+[http://youtube.com/samaaron](http://youtube.com/samaaron) so please do
 drop by, say hi and ask me lots of questions :-)
 
 OK, let's get started...
