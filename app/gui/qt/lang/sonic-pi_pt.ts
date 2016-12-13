@@ -23,7 +23,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="912"/>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema de volume do Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"/>
@@ -41,7 +41,8 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar/desactiva o modo mono.
+Se activado o canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
