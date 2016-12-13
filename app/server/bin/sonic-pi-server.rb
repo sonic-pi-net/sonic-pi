@@ -35,29 +35,40 @@ STDOUT.puts "Sonic Pi server booting..."
 
 include SonicPi::Util
 
-server_port = ARGV[1] ? ARGV[1].to_i : 4557
-client_port = ARGV[2] ? ARGV[2].to_i : 4558
-scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
-scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
-osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
-
-STDOUT.puts "Detecting port numbers..."
-STDOUT.puts "Send port: #{client_port}"
-STDOUT.puts "Listen port: #{server_port}"
-STDOUT.puts "Scsynth port: #{scsynth_port}"
-STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
-STDOUT.puts "OSC cues port: #{osc_cues_port}"
-
-STDOUT.flush
-
 protocol = case ARGV[0]
            when "-t"
              :tcp
            else
              :udp
            end
-
 STDOUT.puts "Using protocol: #{protocol}"
+STDOUT.puts "Detecting port numbers..."
+
+server_port = ARGV[1] ? ARGV[1].to_i : 4557
+client_port = ARGV[2] ? ARGV[2].to_i : 4558
+scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
+scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
+osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
+
+check_port = lambda do |port, gui|
+  begin
+    s = SonicPi::OSC::UDPServer.new(port)
+    s.stop
+    STDOUT.puts "  - OK"
+  rescue Exception => e
+    begin
+      STDOUT.puts "Port #{port} unavailable. Perhaps Sonic Pi is already running?"
+      STDOUT.flush
+      gui.send("/exited-with-boot-error", "Port unavailable: " + port.to_s + ", is scsynth already running?")
+    rescue Errno::EPIPE => e
+      STDOUT.puts "GUI not listening, exit anyway."
+    end
+    exit
+  end
+end
+
+
+STDOUT.puts "Send port: #{client_port}"
 
 begin
   if protocol == :tcp
@@ -71,6 +82,18 @@ rescue Exception => e
   STDOUT.puts e.backtrace.inspect
   STDOUT.puts e.backtrace
 end
+
+
+STDOUT.puts "Listen port: #{server_port}"
+check_port.call(server_port, gui)
+STDOUT.puts "Scsynth port: #{scsynth_port}"
+check_port.call(scsynth_port, gui)
+STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
+check_port.call(scsynth_send_port, gui)
+STDOUT.puts "OSC cues port: #{osc_cues_port}"
+check_port.call(osc_cues_port, gui)
+
+STDOUT.flush
 
 begin
   if protocol == :tcp
