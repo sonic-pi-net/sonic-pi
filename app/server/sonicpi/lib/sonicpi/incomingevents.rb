@@ -75,6 +75,8 @@ module SonicPi
     end
 
     def async_multi_oneshot_handler(handles, &block)
+      return async_oneshot_handler(handles[0], &block) if handles.size == 1
+
       key_prefix = gensym("sonicpi/incomingevents/oneshot")
 
       handles_keys = handles.map {|h| [h, "#{key_prefix}-#{h}"]}
