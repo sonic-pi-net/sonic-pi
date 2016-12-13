@@ -65,6 +65,8 @@ pids.each do |pid|
     next
   end
 
+  log_process_info "  -- command #{orig_cmdline}"
+
   if File.exists? pid_path
     log_process_info "  -- removing #{pid_path}"
     FileUtils.rm pid_path
