@@ -3196,13 +3196,13 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
             raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
             raise "Invalid cue argument #{v.inspect} with key #{k.inspect} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
           end
-          splat_map_or_vec = opts[0]
+          splat_map_or_arr = opts[0]
         else
           opts.each_with_index do |v, idx|
             v = v.freeze
             raise "Invalid cue argument #{v.inspect} in position #{idx} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
           end
-          splat_map_or_vec = opts
+          splat_map_or_arr = opts.freeze
         end
 
         payload = {
@@ -3210,18 +3210,18 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           :sleep_mul => __thread_locals.get(:sonic_pi_spider_sleep_mul),
           :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
           :run => current_job_id,
-          :cue_splat_map_or_vec => splat_map_or_vec,
+          :cue_splat_map_or_arr => splat_map_or_arr,
           :cue => cue_id
         }
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          if splat_map_or_vec.empty?
+          if splat_map_or_arr.empty?
             __delayed_highlight_message "cue #{cue_id.inspect}"
           else
-            if is_list_like?(splat_map_or_vec)
-              __delayed_highlight_message "cue #{cue_id.inspect}, #{splat_map_or_vec}"
+            if is_list_like?(splat_map_or_arr)
+              __delayed_highlight_message "cue #{cue_id.inspect}, #{splat_map_or_arr}"
             else
-              __delayed_highlight_message "cue #{cue_id.inspect}, #{arg_h_pp(splat_map_or_vec)}"
+              __delayed_highlight_message "cue #{cue_id.inspect}, #{arg_h_pp(splat_map_or_arr)}"
 
             end
           end
@@ -3368,11 +3368,11 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : false
         run_id = payload[:run]
         run_info = run_id ? "(Run #{run_id})" : "(OSC)"
-        if payload[:cue_splat_map_or_vec]
-          if is_list_like?(payload[:cue_splat_map_or_vec])
-            res = SonicPi::Core::SPVector.new(payload[:cue_splat_map_or_vec])
+        if payload[:cue_splat_map_or_arr]
+          if is_list_like?(payload[:cue_splat_map_or_arr])
+            res = payload[:cue_splat_map_or_arr]
           else
-            res = SonicPi::Core::SPSplatMap.new(payload[:cue_splat_map_or_vec])
+            res = SonicPi::Core::SPSplatMap.new(payload[:cue_splat_map_or_arr])
           end
         else
           res = SonicPi::Core::SPSplatMap.new({})
