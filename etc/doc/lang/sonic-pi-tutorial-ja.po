@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-12 15:26+0000\n"
-"Last-Translator: ossa <hayato617+github@gmail.com>\n"
+"PO-Revision-Date: 2016-12-13 09:37+0000\n"
+"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -11658,7 +11658,7 @@ msgstr ""
 
 #: A.09-randomisation.md:54
 msgid "Let's use this knowledge to generate a repeatable random melody:"
-msgstr "ランダム作成された繰り返しメロディを作るために、この知識を使ってみましょう。"
+msgstr "繰り返し可能なランダムメロディを作るために、この知識を使ってみましょう。"
 
 #: A.09-randomisation.md:56
 #, no-wrap
@@ -11685,6 +11685,7 @@ msgid "Handy Randomisation Functions"
 msgstr ""
 
 #: A.09-randomisation.md:69
+#, fuzzy
 msgid ""
 "Sonic Pi comes with a number of useful functions for working with the random s"
 "tream. Here's a list of some of the most useful:"
@@ -11712,7 +11713,7 @@ msgstr ""
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr "`choose` - 配列からランダムに値を一つ選択します"
+msgstr "`choose` - リストからランダムに値を一つ選択します"
 
 #: A.09-randomisation.md:79
 msgid ""
