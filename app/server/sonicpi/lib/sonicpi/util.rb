@@ -415,8 +415,6 @@ module SonicPi
       o.is_a?(Array) || o.is_a?(SonicPi::Core::SPVector)
     end
 
-    end
-
     def register_process(pid)
       `'#{ruby_path}' '#{server_path}/bin/task-register.rb' '#{pid}'`
     end
