@@ -412,7 +412,9 @@ module SonicPi
     end
 
     def is_list_like?(o)
-      o.is_a?(SonicPi::Core::SPVector) || o.is_a?(Array)
+      o.is_a?(Array) || o.is_a?(SonicPi::Core::SPVector)
+    end
+
     end
 
     def register_process(pid)
