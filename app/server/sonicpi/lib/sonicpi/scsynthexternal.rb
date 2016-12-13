@@ -156,7 +156,7 @@ module SonicPi
         server_log "Server already booted..."
         return false
       end
-      puts "booting server..."
+      puts "Booting server..."
 
       @osc_server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
 
