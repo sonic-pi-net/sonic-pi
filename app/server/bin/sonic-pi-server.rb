@@ -31,7 +31,7 @@ require_relative "../sonicpi/lib/sonicpi/runtime"
 require 'multi_json'
 require 'memoist'
 
-puts "Sonic Pi server booting..."
+STDOUT.puts "Sonic Pi server booting..."
 
 include SonicPi::Util
 
@@ -41,12 +41,14 @@ scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
 scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
 osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
 
-puts "Detecting port numbers..."
-puts "Send port: #{client_port}"
-puts "Listen port: #{server_port}"
-puts "Scsynth port: #{scsynth_port}"
-puts "Scsynth send port: #{scsynth_send_port}"
-puts "OSC cues port: #{osc_cues_port}"
+STDOUT.puts "Detecting port numbers..."
+STDOUT.puts "Send port: #{client_port}"
+STDOUT.puts "Listen port: #{server_port}"
+STDOUT.puts "Scsynth port: #{scsynth_port}"
+STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
+STDOUT.puts "OSC cues port: #{osc_cues_port}"
+
+STDOUT.flush
 
 protocol = case ARGV[0]
            when "-t"
@@ -55,12 +57,19 @@ protocol = case ARGV[0]
              :udp
            end
 
-puts "Using protocol: #{protocol}"
+STDOUT.puts "Using protocol: #{protocol}"
 
-if protocol == :tcp
-  gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
-else
-  gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+begin
+  if protocol == :tcp
+    gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+  else
+    gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+  end
+rescue Exception => e
+  STDOUT.puts "Exception when opening socket to talk to GUI!"
+  STDOUT.puts e.message
+  STDOUT.puts e.backtrace.inspect
+  STDOUT.puts e.backtrace
 end
 
 begin
@@ -71,7 +80,7 @@ begin
   end
 rescue Exception => e
   begin
-    STDOUT.puts "Received Exception!"
+    STDOUT.puts "Exception when opening a socket to listen from GUI!"
     STDOUT.puts e.message
     STDOUT.puts e.backtrace.inspect
     STDOUT.puts e.backtrace
