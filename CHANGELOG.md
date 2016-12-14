@@ -14,6 +14,8 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
+<a name="v2.11.1"></a>
+
 ## Version 2.11.1 - 'Hack'
 *16th Dec, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.1)
