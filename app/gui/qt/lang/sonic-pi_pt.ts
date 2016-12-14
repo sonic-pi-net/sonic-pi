@@ -42,7 +42,10 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Activar/desactiva o modo mono.
-Se activado o canal</translation>
+Se activado o canal direito e esquerdo são misturados e
+o mesmo sinal é enviado para ambas as colunas.
+Útil quando nos encontramos a trabalhar com sistemas externos que
+apenas conseguem lidar com mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
@@ -74,9 +77,9 @@ Se activado o canal</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Activa/desactiva mensagens de sistema.
-Se desactivado, actividades como o trigar de notas do sintetizador e samples
-não será imprimido na consola</translation>
+        <translation>Activa/desactiva mensagens de log.
+Se desactivado, a actividade do sintetizador e do disparar de sampels
+não será imprimida no terminal por pré-definição</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"/>
@@ -93,8 +96,8 @@ não será imprimido na consola</translation>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Activa/desactiva o apagar do texto do terminal na execução.
-Se activado, o texto será apagado cada vez que o Butão de execução for pressionado</translation>
+        <translation>Activar/Desactivar o log apagando aquando do processo de inicialização da rotina de áudio.
+Se activado, o log é apagado cada vez que o Butão run for premido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
@@ -110,7 +113,7 @@ Se activado, o texto será apagado cada vez que o Butão de execução for press
         <location filename="../mainwindow.cpp" line="1449"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>A correr o Código</translation>
+        <translation>A correr o código...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1512"/>
