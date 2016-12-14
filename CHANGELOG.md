@@ -1,4 +1,5 @@
 # History
+* [v2.11.1 'Hack'](#v2.11.1), 16th Dec, 2016
 * [v2.11 'Time Warp'](#v2.11), 3rd Nov, 2016
 * [v2.10 'Cowbell'](#v2.10), 15th April, 2016
 * [v2.9 'Venster'](#v2.9), 31st Dec, 2015
@@ -9,14 +10,32 @@
 * [v2.4 'Defrost'](#v2.4), 11th Feb, 2015
 * [v2.3 'Bitcrush'](#v2.3), 28th Jan, 2015
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
+* [v2.1.1 'Firewall'](#v2.1.1), 25th Nov, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-## Version 2.11.1
-*To be released*
+## Version 2.11.1 - 'Hack'
+*16th Dec, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.1)
 
-This is a maintainance release containing a number of bug fixes:
+This is primarily a maintainance release containing a number of bug
+fixes and minor tweaks. The feature set remains unchanged from `v2.11`.
+
+One of the core bugs fixed in this release is an issue with the return
+key within some Japanese layouts. Another important change is the
+unification of the font on all platforms to
+[Hack](http://sourcefoundry.org/hack/). This is from the same family as
+Menlo and Bitstream Vera (the previous fonts for Mac and Linux
+respectively) and a dramatic improvement to the Courier font previously
+used for Windows.
+
+### GUI
+
+* Move all platforms to the same font -
+  [Hack](http://sourcefoundry.org/hack/).
+* Improve initial log information and messages.
+* The scope axis are no longer shown by default for a cleaner look and
+  feel.
 
 ### Docs
 
@@ -40,10 +59,14 @@ This is a maintainance release containing a number of bug fixes:
   keyboards.
 * Fix sporadic flickering of current line on Raspberry Pi.
 * Fix errors in buffer 0 being reported as being from buffer 3.
+* Fix scrollbar background colour on Windows in dark mode.
+* Improve error message reported when required ports are not available
+  at boot.
+* Fix issue with calling `control` on a chord group.  
 
 <a name="v2.11"></a>
 
-## Version 2.11 - Time Warp'
+## Version 2.11 - 'Time Warp'
 *3rd Nov, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.0)
 
@@ -1177,7 +1200,7 @@ and echoes.
 * Ensure `live_loop`'s no-sleep detector works within nested `with_fx` blocks
 * `chord` now returns a ring.
 
-## Version 2.1.1
+## Version 2.1.1 - 'Firewall'
 *Tuesday 25th November, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.1)
 
