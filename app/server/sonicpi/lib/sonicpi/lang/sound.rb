@@ -3761,7 +3761,6 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
           # TODO: remove this hard coded behaviour
           if notes
             notes = [notes] unless is_list_like?(notes)
-            puts "hiii: #{notes}"
             args_h[:notes] = notes.map{|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
           end
         else
