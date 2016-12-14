@@ -3725,7 +3725,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 
       def control(*args)
 
-        if (!args.first.is_a?(SonicPi::SynthNode || !args.first.nil?))
+        if (!args.first.is_a?(SonicPi::Node || !args.first.nil?))
           # we haven't specified a node to control - take it from the TL
             node = __thread_locals.get(:sonic_pi_local_last_triggered_node)
         else
@@ -3743,6 +3743,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 
         info = node.info
         defaults = info ? info.arg_defaults : {}
+
         if node.info
           args_h = info.munge_opts(args_h)
           resolve_midi_args!(args_h, info)
@@ -3751,16 +3752,18 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         end
 
         if node.is_a?(ChordGroup)
-
           note = args_h.delete(:note)
           notes = args_h.delete(:notes)
           notes = note if note && !notes
-          notes = [notes] unless is_list_like?(notes)
           normalise_args! args_h, defaults
           # don't normalise notes key as it is special
           # when controlling ChordGroups.
           # TODO: remove this hard coded behaviour
-          args_h[:notes] = notes.map{|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
+          if notes
+            notes = [notes] unless is_list_like?(notes)
+            puts "hiii: #{notes}"
+            args_h[:notes] = notes.map{|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
+          end
         else
           note = args_h[:note]
           if note
