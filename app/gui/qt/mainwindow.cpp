@@ -543,18 +543,11 @@ void MainWindow::setupWindowStructure() {
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
   outputPane->setLineWrapMode(QPlainTextEdit::NoWrap);
-#if defined(Q_OS_WIN)
-  outputPane->setFontFamily("Courier New");
-#elif defined(Q_OS_MAC)
-  outputPane->setFontFamily("Menlo");
-#else
-  outputPane->setFontFamily("Bitstream Vera Sans Mono");
-#endif
+  outputPane->setFontFamily("Hack");
 
   if(!theme->font("LogFace").isEmpty()){
       outputPane->setFontFamily(theme->font("LogFace"));
   }
-
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
@@ -2021,13 +2014,7 @@ void MainWindow::updateDarkMode(){
 
   QString appStyling = readFile(qt_app_theme_path);
 
-#if defined(Q_OS_WIN)
-  appStyling.replace("fixedWidthFont", "\"Courier New\"");
-#elif defined(Q_OS_MAC)
-  appStyling.replace("fixedWidthFont", "\"Menlo\"");
-#else
-  appStyling.replace("fixedWidthFont", "\"Bitstream Vera Sans Mono\"");
-#endif
+  appStyling.replace("fixedWidthFont", "\"Hack\"");
 
   appStyling
     .replace("windowColor", windowColor)

@@ -29,6 +29,9 @@ THE SOFTWARE.
 As the Sonic Pi GUI links with GPLv3-licensed software distributors of
 Sonic Pi GUI binaries must comply with the terms of the GPL
 
+## Font
+The font used in the GUI is [Hack](http://sourcefoundry.org/hack/) released under the [Hack Open Font License v2.0](https://github.com/chrissimpkins/Hack/blob/master/LICENSE.md)
+
 
 ## Docs, Tutorial and Examples 
 (contents of [etc/doc/](https://github.com/samaaron/sonic-pi/tree/master/etc/doc) and [etc/examples](https://github.com/samaaron/sonic-pi/tree/master/etc/examples) directories)

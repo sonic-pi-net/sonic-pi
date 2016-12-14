@@ -28,6 +28,10 @@ int main(int argc, char *argv[])
 #endif
 
   QApplication app(argc, argv);
+
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
+
   qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
   QString systemLocale = QLocale::system().name();
