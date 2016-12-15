@@ -187,7 +187,7 @@ into additional languages:
 * Diego Gurnari (4)
 * Thomas G. Kristensen (4)
 * Francisco Llaryora (4)
-* ossa (4)
+* Hayato Osanai (4)
  * artyomisflash@mail.ru (4)
 * Martin Zeilinger (3)
 * Yang Wanjun (3)
