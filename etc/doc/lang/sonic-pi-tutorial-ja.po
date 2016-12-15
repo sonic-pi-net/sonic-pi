@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-13 09:37+0000\n"
-"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
+"PO-Revision-Date: 2016-12-15 15:33+0000\n"
+"Last-Translator: ossa <hayato617+github@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.10\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -11709,7 +11709,7 @@ msgstr ""
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
-msgstr ""
+msgstr "`dice` - サイコロを転がして、1から6までの値をランダムで返します"
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
