@@ -2346,8 +2346,9 @@ end
 
 
       def rand_look(*args)
-        rand(*args)
+        res = rand(*args)
         rand_back
+        res
       end
       doc name:           :rand_look,
           introduced:     Version.new(2,11,0),
@@ -2373,8 +2374,9 @@ Does not consume a random value from the stream. Therefore, multiple sequential 
 
 
       def rand_i_look(*args)
-        rand_i(*args)
+        res = rand_i(*args)
         rand_back
+        res
       end
       doc name:           :rand_i_look,
           introduced:     Version.new(2,11,0),

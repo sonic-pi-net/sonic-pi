@@ -65,6 +65,7 @@ used for Windows.
 * Improve error message reported when required ports are not available
   at boot.
 * Fix issue with calling `control` on a chord group.  
+* Fix `rand` and `rand_i` to honour their arguments.
 
 <a name="v2.11"></a>
 
