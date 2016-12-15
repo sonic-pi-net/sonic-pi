@@ -36,7 +36,7 @@ used for Windows.
 * Move all platforms to the same font -
   [Hack](http://sourcefoundry.org/hack/).
 * Improve initial log information and messages.
-* The scope axis are no longer shown by default for a cleaner look and
+* The scope axes are no longer shown by default for a cleaner look and
   feel.
 
 ### Docs
