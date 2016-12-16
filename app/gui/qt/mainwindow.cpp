@@ -885,6 +885,12 @@ void MainWindow::startRubyServer(){
   serverProcess = new QProcess();
 
   QStringList args;
+#if defined(Q_OS_MAC)
+  args << "--enable-frozen-string-literal";
+#elif defined(Q_OS_WIN)
+  args << "--enable-frozen-string-literal";
+#endif
+
   args << "-E" << "utf-8";
   args << ruby_server_path;
 
