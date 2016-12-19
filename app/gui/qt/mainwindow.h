@@ -191,6 +191,7 @@ private slots:
 
 private:
 
+    void checkPort(int port);
     QString osDescription();
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;

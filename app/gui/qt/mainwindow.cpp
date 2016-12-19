@@ -287,11 +287,16 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   setupLogPathAndRedirectStdOut();
   std::cout << "[GUI] - Detecting port numbers..." << std::endl;
   std::cout << "[GUI] - GUI OSC listen port "<< gui_listen_to_server_port << std::endl;
-  std::cout << "[GUI] - GUI OSC out port " << gui_send_to_server_port<< std::endl;
+  checkPort(gui_listen_to_server_port);
   std::cout << "[GUI] - Server OSC listen port " << server_listen_to_gui_port << std::endl;
-  std::cout << "[GUI] - Server OSC out port " << server_send_to_gui_port << std::endl;
+  checkPort(server_listen_to_gui_port);
   std::cout << "[GUI] - Server incoming OSC cues port " << server_osc_cues_port << std::endl;
+  checkPort(server_osc_cues_port);
   std::cout << "[GUI] - Scsynth port " << scsynth_port << std::endl;
+  checkPort(scsynth_port);
+
+  std::cout << "[GUI] - Server OSC out port " << server_send_to_gui_port << std::endl;
+  std::cout << "[GUI] - GUI OSC out port " << gui_send_to_server_port<< std::endl;
   std::cout << "[GUI] - Scsynth send port " << scsynth_send_port << std::endl;
   std::cout << "[GUI] - Init script completed" << std::endl;
 
@@ -350,6 +355,17 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
   }
+}
+
+void MainWindow::checkPort(int port) {
+  oscpkt::UdpSocket sock;
+  sock.bindTo(port);
+  if (!sock.isOk()) {
+    std::cout << "[GUI] -    port: " << port << " [Not Available]" << std::endl;
+  } else {
+    std::cout << "[GUI] -    port: " << port << " [OK]" << std::endl;
+  }
+  sock.close();
 }
 
 void MainWindow::showWelcomeScreen() {
