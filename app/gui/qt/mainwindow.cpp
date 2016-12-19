@@ -428,6 +428,8 @@ void MainWindow::setupWindowStructure() {
   // create workspaces and add them to the tabs
   // workspace shortcuts
   signalMapper = new QSignalMapper (this) ;
+  auto_indent_on_run = new QCheckBox(tr("Auto-align"));
+
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
     QString fileName = QString("workspace_" ) + QString::fromStdString(number_name(ws));
@@ -438,7 +440,7 @@ void MainWindow::setupWindowStructure() {
     //      that nicely scales for more properties such as this.  This
     //      should only be considered an interim solution necessary to
     //      fix the return issue on Japanese keyboards.
-    auto_indent_on_run = new QCheckBox(tr("Auto-align"));
+
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender, auto_indent_on_run);
 
     workspace->setObjectName(QString("Buffer %1").arg(ws));
