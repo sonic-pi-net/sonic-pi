@@ -88,11 +88,11 @@
 
 (defmulti handle-message #(get % "type"))
 
-(defmethod handle-message "message"
+(defmethod handle-message "info"
   [msg]
   (show-msg msg))
 
-(defmethod handle-message "multimessage"
+(defmethod handle-message "multi_message"
   [msgs]
   (show-multi-msg msgs))
 
@@ -100,13 +100,17 @@
   [msg]
   (show-msg msg))
 
-(defmethod handle-message "debug_message"
+(defmethod handle-message "message"
   [msg]
-  (println "debug=> " msg))
+  (show-msg msg))
 
 (defmethod handle-message "replace-buffer"
   [msg]
   (.setValue js/editor (get msg "val")))
+
+(defmethod handle-message "all_jobs_completed"
+  [msg]
+  (swap! app-state update-in [:jobs] disj (get msg "jobid" )))
 
 (defmethod handle-message "job"
   [msg]
