@@ -155,6 +155,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   qt_browser_dark_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/dark/doc-styles.css");
   qt_browser_light_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/light/doc-styles.css");
 
+  QDir logDir(log_path);
+  logDir.mkpath(logDir.absolutePath());
+
   QFile tmpFile(sp_user_tmp_path);
   if (!tmpFile.open(QIODevice::WriteOnly)) {
     homeDirWritable = false;
