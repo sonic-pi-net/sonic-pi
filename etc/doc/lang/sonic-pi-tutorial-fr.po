@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-04 13:47+0000\n"
-"Last-Translator: VIDAL Alban <alban.vidal@zordhak.fr>\n"
+"PO-Revision-Date: 2016-12-21 01:23+0000\n"
+"Last-Translator: Nicolas Limage <github@xephon.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.10\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -549,6 +549,7 @@ msgid "H. Scope Viewer"
 msgstr "F. Visualisateur de la trace"
 
 #: 01.2-Exploring-the-Interface.md:83
+#, fuzzy
 msgid ""
 "The scope viewer allows you to see the sound you're hearing. You can easily se"
 "e that the saw wave looks like a saw and that the basic beep is a curvey sine "
@@ -560,6 +561,16 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"Le visualiseur d'oscillo vous permet de voir le son que vous entendez. Vous "
+"pouvez facilement voir que l'onde en dent de scie ressemble à une scie et "
+"que le bip basique est une onde sinusoÏdale courbe. Vous pouvez voir aussi "
+"la différence entre les sons forts et légers à la taille des lignes. Il y a "
+"3 oscilloscopes avec lesquels jouer - celui par défaut est un oscilloscope "
+"combiné pour les canaux gauche et droit, il y a un oscilloscope stéréo qui "
+"affiche un graphique différent pour chaque canal. Enfin, il y a "
+"l'oscilloscope Lissajous qui montre la relation de phase entre les canaux "
+"fauche et droit et vous permet de faire de jolis dessins avec du son "
+"(https://en.wikipedia.org/wiki/Lissajous_curve)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -7103,20 +7114,24 @@ msgstr ""
 "armi ceux-ci :"
 
 #: 08.2-Chords.md:16
+#, fuzzy
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
+#, fuzzy
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
+#, fuzzy
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
+#, fuzzy
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 #, fuzzy
@@ -8495,8 +8510,9 @@ msgid "Now, go forth and live code with live loops!"
 msgstr "Maintenant, allez de l'avant et codez en \"live\" avec des \"live loops\" !"
 
 #: 09.4-Ticking.md:1
+#, fuzzy
 msgid "9.4 Ticking"
-msgstr ""
+msgstr "9.4 Métronome"
 
 #: 09.4-Ticking.md:3
 #, fuzzy
@@ -8933,8 +8949,9 @@ msgstr ""
 ", vous pouvez presser `M-s`."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:52
+#, fuzzy
 msgid "Navigation"
-msgstr ""
+msgstr "Navigation"
 
 #: 10.1-Using-Shortcuts.md:62
 #, fuzzy
@@ -9020,8 +9037,9 @@ msgstr ""
 "."
 
 #: 10.2-Shortcut-Cheatsheet.md:8
+#, fuzzy
 msgid "Conventions"
-msgstr ""
+msgstr "Conventions"
 
 #: 10.2-Shortcut-Cheatsheet.md:10
 #, fuzzy
@@ -9270,12 +9288,14 @@ msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - Déplace 10 lignes vers le bas"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
+#, fuzzy
 msgid "`M-<` - Move to beginning of buffer"
-msgstr ""
+msgstr "`M-<` - Aller au début du tampon"
 
 #: 10.2-Shortcut-Cheatsheet.md:67
+#, fuzzy
 msgid "`M->` - Move to end of buffer"
-msgstr ""
+msgstr "`M->` - Aller à la fin du tampon"
 
 #: 10.2-Shortcut-Cheatsheet.md:69
 #, fuzzy
@@ -9338,12 +9358,14 @@ msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Bascule entre l'affichage clair et sombre"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
+#, fuzzy
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "`S-M-s` - Enregistrer le contenu du tampon dans un fichier"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
+#, fuzzy
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "`S-M-o` - Charger le contenu d'un tampon à partir d'un fichier"
 
 #: 10.3-Sharing.md:1
 #, fuzzy
@@ -9386,8 +9408,9 @@ msgstr ""
 "tte manière vous pourrez atteindre un grand auditoire."
 
 #: 10.3-Sharing.md:17
+#, fuzzy
 msgid "Code -> GitHub"
-msgstr ""
+msgstr "Code -> GitHub"
 
 #: 10.3-Sharing.md:19
 #, fuzzy
@@ -9408,8 +9431,9 @@ msgstr ""
 "re simple : voir, copier, et partager."
 
 #: 10.3-Sharing.md:27
+#, fuzzy
 msgid "Audio -> SoundCloud"
-msgstr ""
+msgstr "Audio -> SoundCloud"
 
 #: 10.3-Sharing.md:29
 #, fuzzy
@@ -9525,8 +9549,9 @@ msgstr ""
 "inaisons de sons que vous pouvez avoir ensemble."
 
 #: 10.4-Performing.md:27
+#, fuzzy
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
 #, fuzzy
@@ -9543,8 +9568,9 @@ msgstr ""
 "s est [TOPLAP](http://toplap.org)."
 
 #: 10.4-Performing.md:34
+#, fuzzy
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: 10.4-Performing.md:36
 #, fuzzy
@@ -9558,12 +9584,14 @@ msgstr ""
 "du codage en \"live\" pour faire de la musique dans les boîtes de nuit."
 
 #: 11-Minecraft-Pi.md:1
+#, fuzzy
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
+#, fuzzy
 msgid "Minecraft Pi"
-msgstr ""
+msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
 #, fuzzy
@@ -10155,12 +10183,14 @@ msgstr ""
 "    :nether_reactor_core"
 
 #: 12-Conclusions.md:1
+#, fuzzy
 msgid "12 Conclusions"
-msgstr ""
+msgstr "12 Conclusions"
 
 #: 12-Conclusions.md:3
+#, fuzzy
 msgid "Conclusions"
-msgstr ""
+msgstr "Conclusions"
 
 #: 12-Conclusions.md:5
 #, fuzzy
@@ -10216,8 +10246,9 @@ msgid "*There are no mistakes, only opportunities.*"
 msgstr "*Il n'y a pas de fautes, que des opportunités*"
 
 #: 12-Conclusions.md:26
+#, fuzzy
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
 #, fuzzy
@@ -10677,8 +10708,9 @@ msgstr ""
 "st ça la magie du code."
 
 #: A.02-live-coding.md:1
+#, fuzzy
 msgid "A.2 Live Coding"
-msgstr ""
+msgstr "A.2 Live Coding"
 
 #: A.02-live-coding.md:5
 #, fuzzy
@@ -10702,10 +10734,13 @@ msgstr ""
 "e Live Coding."
 
 #: A.02-live-coding.md:14
+#, fuzzy
 msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
 msgstr ""
+"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-"
+"aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 #, fuzzy
@@ -11605,8 +11640,9 @@ msgstr ""
 "e codeur."
 
 #: A.04-synth-riffs.md:55
+#, fuzzy
 msgid "Timbre"
-msgstr ""
+msgstr "Timbre"
 
 #: A.04-synth-riffs.md:57
 #, fuzzy
@@ -12182,8 +12218,11 @@ msgstr ""
 "voir sur le diagramme suivant il n'y a que quatre parties principales."
 
 #: A.05-acid-bass.md:113
+#, fuzzy
 msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 msgstr ""
+"![Design du TB-303](../images/tutorial/articles/A.05-acid-"
+"bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 #, fuzzy
@@ -12412,10 +12451,13 @@ msgstr ""
 "eu avec vos propres messages. Amusez-vous !"
 
 #: A.06-minecraft.md:36
+#, fuzzy
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 msgstr ""
+"![Ecran 0](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 #, fuzzy
@@ -12533,10 +12575,13 @@ msgstr ""
 "mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
+#, fuzzy
 msgid ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
 msgstr ""
+"![Ecran 1](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 #, fuzzy
@@ -12693,10 +12738,13 @@ msgstr ""
 "ce pas amusant ?"
 
 #: A.06-minecraft.md:158
+#, fuzzy
 msgid ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
 msgstr ""
+"![Ecran 2](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 #, fuzzy
@@ -12835,8 +12883,9 @@ msgstr ""
 "s : la ligne de basse de la Habanera :"
 
 #: A.07-bizet.md:29
+#, fuzzy
 msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
-msgstr ""
+msgstr "![Riff Habanera](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 #, fuzzy
@@ -12852,8 +12901,9 @@ msgstr ""
 "ions pour un musicien au lieu d'un ordinateur."
 
 #: A.07-bizet.md:36
+#, fuzzy
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
 #: A.07-bizet.md:38
 #, fuzzy
@@ -12883,8 +12933,9 @@ msgstr ""
 "er. Jetez un oeil à cette table de correspondance bien pratique :"
 
 #: A.07-bizet.md:49
+#, fuzzy
 msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr ""
+msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 #, fuzzy
@@ -12965,6 +13016,7 @@ msgstr ""
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 msgstr ""
+"![Riff Habanera 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 #, fuzzy
@@ -13180,6 +13232,8 @@ msgid ""
 "![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
 ".png)"
 msgstr ""
+"![Ecran 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-0-small.png)"
 
 #: A.08-minecraft-vj.md:7
 #, fuzzy
@@ -13505,6 +13559,8 @@ msgid ""
 "![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
 ".png)"
 msgstr ""
+"![Ecran 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:133
 #, fuzzy
@@ -14864,12 +14920,14 @@ msgstr ""
 "end"
 
 #: A.12-sample-slicing.md:1
+#, fuzzy
 msgid "A.12 Sample Slicing"
-msgstr ""
+msgstr "A.12 Découpe d'échantillon"
 
 #: A.12-sample-slicing.md:3
+#, fuzzy
 msgid "Sample Slicing"
-msgstr ""
+msgstr "Découpe d'échantillon"
 
 #: A.12-sample-slicing.md:5
 msgid ""
@@ -14882,10 +14940,12 @@ msgid ""
 msgstr ""
 
 #: A.12-sample-slicing.md:13
+#, fuzzy
 msgid "Sound as Data"
-msgstr ""
+msgstr "Le son en tant que donnée"
 
 #: A.12-sample-slicing.md:15
+#, fuzzy
 msgid ""
 "Before we get started let's just take a brief moment to understand how to work"
 " with samples. By now, you've all hopefully played with Sonic Pi's powerful sa"
@@ -14893,16 +14953,29 @@ msgid ""
 "unch Sonic Pi from the Programming menu, type the following into a fresh buffe"
 "r and then hit the Run button to hear a pre-recorded drum beat:"
 msgstr ""
+"Avant de démarrer, prenons juste un petit moment pour comprendre comment "
+"travailler avec les échantillons. Maintenant, vous devriez tous avoir joué "
+"avec le puissant échantillonneur de Sonic Pi. Si ce n'est pas le cas, c'est "
+"le moment ! Démarrez votre Raspberry Pi, lancez Sonic Pi depuis le menu "
+"Programmation, tapez ce qui suit dans un tampon vide et appuyez sur le "
+"bouton Run pour entendre un rythme de batterie préenregistré :"
 
 #: A.12-sample-slicing.md:26
+#, fuzzy
 msgid ""
 "A recording of a sound is simply represented as data - lots of numbers between"
 " -1 and 1 which represent the peaks and troughs of the sound wave. If we play "
 "those numbers back in order, we get the original sound. However, what's to sto"
 "p us from playing them back in a different order and creating a new sound?"
 msgstr ""
+"L'enregistrement d'un son est simplement représenté comme de la donnée - un "
+"tas de nombres entre -1 et 1 qui représentent les pics et creux de l'onde "
+"sonore. Si nous rejouons ces nombres dans l'ordre, nous obtenons le son "
+"original. Cependant, qu'est-ce qui nous empêche de les jouer dans un ordre "
+"différent pour créer un nouveau son ?"
 
 #: A.12-sample-slicing.md:32
+#, fuzzy
 msgid ""
 "How are samples actually recorded? It's actually pretty simple once you unders"
 "tand the basic physics of sound. When you make a sound - for example by hittin"
@@ -14916,6 +14989,19 @@ msgid ""
 "ny electric signal which is then measured many times a second. These measureme"
 "nts are then represented as a series of numbers between -1 and 1."
 msgstr ""
+"Comment sont réellement enregistrés les échantillons ? C'est en fait assez "
+"simple une fois que vous comprenez les bases physiques du son. Quand vous "
+"produisez un son - par exemple en frappant sur une batterie, le bruit voyage "
+"dans l'air d'une façon proche de celle des petites ondes dans un lac quand "
+"vous y jetez un caillou. Quand ces ondes atteignent vos oreilles, votre "
+"tympan bouge de façon synchrone et convertit ces mouvement en le son que "
+"vous entendez. Si nous souhaitons enregistrer et rejouer le son, nous avons "
+"donc besoin d'un moyen de capturer, stocker et reproduire ces ondes. Une des "
+"méthodes est d'utiliser un microphone qui se comporte comme un tympan et "
+"effectue un va-et-vient lorsque les ondes sonores le touchent. Le microphone "
+"convertit ensuite sa position en un petit signal électrique qui est ensuite "
+"mesuré de nombreuses fois par seconde. Ces mesures sont ensuite représentées "
+"par une série de nombres compris entre -1 et 1."
 
 #: A.12-sample-slicing.md:46
 msgid ""
