@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-21 01:23+0000\n"
-"Last-Translator: Nicolas Limage <github@xephon.org>\n"
+"PO-Revision-Date: 2016-12-21 05:04+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -8510,9 +8510,8 @@ msgid "Now, go forth and live code with live loops!"
 msgstr "Maintenant, allez de l'avant et codez en \"live\" avec des \"live loops\" !"
 
 #: 09.4-Ticking.md:1
-#, fuzzy
 msgid "9.4 Ticking"
-msgstr "9.4 Métronome"
+msgstr "9.4 Avance automatique"
 
 #: 09.4-Ticking.md:3
 #, fuzzy
