@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-21 05:04+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2016-12-22 13:24+0000\n"
+"Last-Translator: Nicolas Limage <github@xephon.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -11954,7 +11954,7 @@ msgstr "A.5 Basse acide"
 #: A.05-acid-bass.md:3
 #, fuzzy
 msgid "Acid Bass"
-msgstr "Basse acide"
+msgstr "Acid Bass"
 
 #: A.05-acid-bass.md:5
 #, fuzzy
@@ -12024,8 +12024,9 @@ msgstr ""
 "play :e1"
 
 #: A.05-acid-bass.md:35
+#, fuzzy
 msgid "Instant acid bass! Let's play around..."
-msgstr ""
+msgstr "De l'Acid Bass instantané ! Jouons un peu..."
 
 #: A.05-acid-bass.md:37
 #, fuzzy
@@ -14937,6 +14938,13 @@ msgid ""
 "der. If that sounds a bit crazy to you, don't worry, it will all become clear "
 "and you'll soon master a powerful new tool for your live coded sets."
 msgstr ""
+"Dans l'episode 3 de cette série sur Sonic Pi, nous avons regardé comment "
+"boucler, étirer et filtrer un des breaks de batterie les plus connus de tous "
+"les temps - l'Amen Break. Dans ce tutoriel nous allons faire un pas de plus "
+"et apprendre comment le découper, mélanger les morceaux et les recoller "
+"ensemble dans un ordre complètement nouveau. Si cela vous paraît fou, ne "
+"vous inquiétez pas, tout va s'éclaircir et vous maîtriserez bientôt un "
+"nouvel outil puissant pour vos sessions de Live Coding."
 
 #: A.12-sample-slicing.md:13
 #, fuzzy
@@ -15009,10 +15017,15 @@ msgid ""
 "n -1 and 1 on the y axis. You can see an example of such a graph at the top of"
 " the diagram."
 msgstr ""
+"Si nous devions tracer point par point une représentation visuelle du son, "
+"ce serait un simple graphique de données avec le temps sur l'axe x et la "
+"position du microphone/de l'enceinte comme une valeur entre -1 et 1 sur "
+"l'axe y. Vous pouvez voir un exemple d'un tel graphique en haut du diagramme."
 
 #: A.12-sample-slicing.md:51
+#, fuzzy
 msgid "Playing Part of a Sample"
-msgstr ""
+msgstr "Jouer une partie d'un échantillon"
 
 #: A.12-sample-slicing.md:53
 msgid ""
@@ -15024,10 +15037,21 @@ msgid ""
 " of the sample and `1` is the end. So, to play the first half of the Amen Brea"
 "k, we just need to specify a `finish:` of `0.5`:"
 msgstr ""
+"Donc, comment coder dans Sonic Pi la lecture d'un échantillon dans un ordre "
+"différent ? Pour répondre à cette question, nous devons jeter un oeil sur "
+"les options `start:` et `finish:` de `sample`. Celles-ci nous permettent de "
+"contrôler les position de début et de fin de notre lecture des nombres qui "
+"représentent le son. Les valeurs de ces deux options sont représentées par "
+"un nombre entre `0` et `1` où `0` représente le début de l'échantillon et `1`"
+" en est la fin. Donc, pour jouer la première partie de l'Amen Break, nous "
+"devons simplement spécifier un `finish:` à `0.5` :"
 
 #: A.12-sample-slicing.md:66
+#, fuzzy
 msgid "We can add in a `start:` value to play an even smaller section of the sample:"
 msgstr ""
+"Nous pouvons ajouter une valeur `start:` pour jouer une partie encore plus "
+"petite de l'échantillon :"
 
 #: A.12-sample-slicing.md:68
 #, no-wrap
@@ -15035,10 +15059,13 @@ msgid "sample :loop_amen, start: 0.25, finish: 0.5"
 msgstr "sample :loop_amen, start: 0.25, finish: 0.5"
 
 #: A.12-sample-slicing.md:72
+#, fuzzy
 msgid ""
 "For fun, you can even have the `finish:` opt's value be *before* `start:` and "
 "it will play the section backwards:"
 msgstr ""
+"Pour le plaisir, vous pouvez même avoir une valeur `finish:` inférieur à la "
+"valeur `start:` et la section sera jouée à l'envers :"
 
 #: A.12-sample-slicing.md:75
 #, no-wrap
@@ -15047,20 +15074,26 @@ msgstr "sample :loop_amen, start: 0.5, finish: 0.25"
 
 #: A.12-sample-slicing.md:79
 msgid "Re-ordering Sample Playback"
-msgstr ""
+msgstr "Réordonner la lecture des échantillons"
 
 #: A.12-sample-slicing.md:81
+#, fuzzy
 msgid ""
 "Now that we know that a sample is simply a list of numbers that can be played "
 "back in any order and also how to play a specific part of a sample we can now "
 "start having fun playing a sample back in the 'wrong' order."
 msgstr ""
+"Maintenant que nous savons qu'un échantillon est simplement une liste de "
+"nombre qui peuvent être joués dans n'importe quel ordre et comment jouer une "
+"partie spécifique d'un échantillon, nous pouvons maintenant nous amuser à "
+"jouer un échantillon dans le 'mauvais' ordre."
 
 #: A.12-sample-slicing.md:86
 msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 msgstr ""
 
 #: A.12-sample-slicing.md:88
+#, fuzzy
 msgid ""
 "Let's take our Amen Break and chop it up into 8 equally-sized slices and then "
 "shuffle the pieces around. Take a look at the diagram: at the top A) represent"
@@ -15070,6 +15103,14 @@ msgid ""
 "s one possible re-ordering of the slices. We can then play this back to create"
 " a new beat. Take a look at the code to do this:"
 msgstr ""
+"Prenons notre Amen Break et découpons-le en 8 tranches égales et mélangeons "
+"ensuite les morceaux. Regardez le diagramme : en haut A) représente le "
+"graphe des données originales de l'échantillon. Le découper en 8 tranches "
+"nous donne B) - notez que nous avons donné à chaque tranche une couleur "
+"différente pour aider à les distinguer. Vous pouvez voir les valeur de début "
+"(`start`) et de fin (`finish`) en haut. Enfin C) est une réorganisation des "
+"tranches. Nous pouvons ensuite jouer ceci pour créer un nouveau rythme. "
+"Jetez un coup d'oeil sur le code utilisé pour faire cela :"
 
 #: A.12-sample-slicing.md:97
 #, no-wrap
@@ -15093,25 +15134,38 @@ msgstr ""
 "end"
 
 #: A.12-sample-slicing.md:108
+#, fuzzy
 msgid ""
 "we choose a random slice to play which should be a random number between 0 and"
 " 7 (remember that we start counting at 0). Sonic Pi has a handy function for e"
 "xactly this: `rand_i(8)`. We then store this random slice index in the variabl"
 "e `slice_idx`."
 msgstr ""
+"Nous choisissons une tranche aléatoire à jouer, qui doit être un nombre "
+"aléatoire entre 0 et 7 (souvenez-vous que nous commençons à compter à partir "
+"de 0). Sonic Pi a une fonction pratique pour faire exactement cela : "
+"`rand_i(8)`. Nous stockons ensuite l'index de cette tranche aléatoire dans "
+"la variable `slice_idx`."
 
 #: A.12-sample-slicing.md:113
+#, fuzzy
 msgid ""
 "We define our `slice_size` which is 1/8 or 0.125. The `slice_size` is necessar"
 "y for us to convert our `slice_idx` into a value between 0 and 1 so we can use"
 " it as our `start:` opt."
 msgstr ""
+"Nous définissons la taille notre tranche, `slice_size` à 1/8 soit 0.125. "
+"`slice_size` nous est nécessaire pour convertir l'index `slice_idx` en une "
+"valeur comprise entre 0 et 1 pour l'utiliser dans l'option `start:`."
 
 #: A.12-sample-slicing.md:117
+#, fuzzy
 msgid ""
 "We calculate the start position `s` by multiplying the `slice_idx` by the `sli"
 "ce_size`."
 msgstr ""
+"Nous calculons la position de départ `s` en multipliant l'index `slice_idx` "
+"par la taille de la tranche `slice_size`."
 
 #: A.12-sample-slicing.md:120
 msgid ""
@@ -15122,12 +15176,16 @@ msgstr ""
 "la position de départ 's'."
 
 #: A.12-sample-slicing.md:123
+#, fuzzy
 msgid ""
 "We can now play the sample slice by plugging in the `s` and `f` values into th"
 "e `start:` and `finish:` opts for `sample`."
 msgstr ""
+"Nous pouvons maintenant jouer la tranche d'échantillon en associant les "
+"valeurs `s` et `f` aux options `start:` et `finish:` de `sample`."
 
 #: A.12-sample-slicing.md:126
+#, fuzzy
 msgid ""
 "Before we play the next slice we need to know how long to `sleep` which should"
 " be the duration of the sample slice. Luckily, Sonic Pi has us covered with `s"
@@ -15135,14 +15193,25 @@ msgid ""
 " the duration. Therefore, by passing `sample_duration` our `start:` and `finis"
 "h:` opts, we can find out the duration of a single slice."
 msgstr ""
+"Avant de jouer la prochaine tranche, nous devons savoir pendant combien de "
+"temps faire une pause avec `sleep`, ce qui doit correspondre à la durée de "
+"la tranche d'échantillon. Heureusement, Sonic Pi s'en occupe avec la "
+"fonction `sample_duration`, qui accepte les même options que `sample` et "
+"retourne simplement la durée. Par conséquent, en fournissant à "
+"`sample_duration` nos options `start:` et `finish:`, nous pouvons trouver la "
+"durée d'une tranche."
 
 #: A.12-sample-slicing.md:133
+#, fuzzy
 msgid ""
 "We wrap all of this code in a `live_loop` so that we continue to pick new rand"
 "om slices to play."
 msgstr ""
+"Nous enveloppons tout ce code dans une boucle `live_loop` pour que nous "
+"puissions continuer à choisir de nouvelles tranches à jouer."
 
 #: A.12-sample-slicing.md:139
+#, fuzzy
 msgid ""
 "Let's combine everything we've seen so far into a final example which demonstr"
 "ates how we can take a similar approach to combine randomly sliced beats with "
@@ -15150,6 +15219,12 @@ msgid ""
 "ke the code below as a starting point and see if you can take it in your own d"
 "irection and create something new..."
 msgstr ""
+"Combinons tout ce que nous avons vu jusqu'à maintenant dans un dernier "
+"exemple, qui démontre comment nous pouvons utiliser une approche similaire "
+"pour combiner aléatoirement des morceaux de rythmes avec de la basse pour "
+"créer le début d'une piste intéressante. Maintenant c'est votre tour - "
+"prenez le code suivant comme point de départ et voyez si vous pouviez le "
+"modifier à votre façon pour créer quelque chose de nouveau..."
 
 #: A.12-sample-slicing.md:145
 #, no-wrap
@@ -15191,14 +15266,17 @@ msgstr ""
 "end"
 
 #: A.13-probabilistic-sequencer.md:1
+#, fuzzy
 msgid "A.13 Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "A.13 Coder un séquenceur probabiliste"
 
 #: A.13-probabilistic-sequencer.md:3
+#, fuzzy
 msgid "Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "Coder un séquenceur probabiliste"
 
 #: A.13-probabilistic-sequencer.md:5
+#, fuzzy
 msgid ""
 "In a previous episode of this Sonic Pi series we explored the power of randomi"
 "sation to introduce variety, surprise and change into our live coded tracks an"
@@ -15206,6 +15284,13 @@ msgid ""
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
 msgstr ""
+"Dans les épisodes précédents de cette série sur Sonic PI, nous avons exploré "
+"la puissance de l'aléatoire pour introduire de la variété, de la surprise et "
+"du changement dans nos pistes et nos représentations de Live Coding. Par "
+"exemple, nous avons choisi aléatoirement des notes d'une gamme pour créer "
+"des mélodies sans fin. Aujourd'hui, nous allons apprendre une nouvelle "
+"technique qui utilise l'aléatoire pour le rythme - les rythmes probabilistes "
+"!"
 
 #: A.13-probabilistic-sequencer.md:12
 #, fuzzy
@@ -15228,25 +15313,30 @@ msgstr "dice (dé)"
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "8.times do\n"
 "  puts dice\n"
 "  sleep 1\n"
 "end"
-msgstr "dice (dé)"
+msgstr ""
+"8.times do\n"
+"  puts dice\n"
+"  sleep 1\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:32
 #, fuzzy
 msgid ""
 "Notice how the log prints values between 1 and 6 just as if we'd rolled a real"
 " dice ourselves."
-msgstr "dice (dé)"
+msgstr ""
+"Remarquez comme le journal affiche des valeurs entre 1 et 6 comme si nous "
+"avions lancé nous-même un dé."
 
 #: A.13-probabilistic-sequencer.md:35
 #, fuzzy
 msgid "Random Beats"
-msgstr "Tête de série aléatoire"
+msgstr "Rythmes aléatoires"
 
 #: A.13-probabilistic-sequencer.md:37
 #, fuzzy
@@ -15259,13 +15349,16 @@ msgstr "Écoutons comment cela sonne :"
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :random_beat do\n"
 "  sample :drum_snare_hard if dice == 1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "dice (dé)"
+msgstr ""
+"live_loop :random_beat do\n"
+"  sample :drum_snare_hard if dice == 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:50
 #, fuzzy
@@ -15287,7 +15380,7 @@ msgstr "dice (dé)"
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
-msgstr ""
+msgstr "Changer les probabilités"
 
 #: A.13-probabilistic-sequencer.md:67
 #, fuzzy
@@ -15311,8 +15404,13 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"live_loop :different_probabilities do\n"
+"  sample :drum_snare_hard if one_in(6)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:84
+#, fuzzy
 msgid ""
 "Start the live loop above and you'll hear the familiar random rhythm. However,"
 " don't stop the code running. Instead, change the `6` to a different value suc"
@@ -15320,16 +15418,25 @@ msgid ""
 "n the snare drum sounds more frequently and higher numbers mean the snare trig"
 "gers fewer times. You're making music with probabilities!"
 msgstr ""
+"Lancez la boucle ci-dessus et vous pourrez entendre un rythme aléatoire "
+"familier. Cependant, n'arrêtez pas l'exécution du code. Au lieu de cela, "
+"changez le `6` pour une valeur différente comme `2` ou `20` et appuyez de "
+"nouveau sur le bouton `Run`. Constatez que des nombres inférieurs signifient "
+"que le son de caisse claire sera plus fréquent et que des nombres supérieurs "
+"signifie que la caisse clair est jouée moins fréquemment. Vous faites de la "
+"musique avec des probabilités !"
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
-msgstr ""
+msgstr "Combiner les probabilités"
 
 #: A.13-probabilistic-sequencer.md:93
 msgid ""
 "Things get really exciting when you combine multiple samples being triggered w"
 "ith different probabilities. For example:"
 msgstr ""
+"Les choses deviennent vraiment excitantes quand plusieurs échantillons sont "
+"joués avec des probabilités différentes. Par exemple :"
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
@@ -15342,6 +15449,13 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"live_loop :multi_beat do\n"
+"  sample :elec_hi_snare if one_in(6)\n"
+"  sample :drum_cymbal_closed if one_in(2)\n"
+"  sample :drum_cymbal_pedal if one_in(3)\n"
+"  sample :bd_haus if one_in(4)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:106
 msgid ""
@@ -15349,6 +15463,11 @@ msgid ""
 "the rhythm. Also, try changing the samples to create an entirely new feel. For"
 " example try changing `:drum_cymbal_closed` to `:bass_hit_c` for extra bass!"
 msgstr ""
+"De nouveau, exécutez le code ci-dessus et commencez à changer les "
+"probabilités pour modifier le rythme. De plus, essayez de changer les "
+"échantillons pour créer une sensation entièrement nouvelle. Par exemple, "
+"essayez de changer `:drum_cymbal_closed` par `:bass_hit_c` pour obtenir plus "
+"de basse !"
 
 #: A.13-probabilistic-sequencer.md:112
 #, fuzzy
@@ -15363,6 +15482,12 @@ msgid ""
 "he seed value from `1000` to another number. Notice how different numbers gene"
 "rate different beats."
 msgstr ""
+"Ensuite, nous pouvons utilisez notre vieil ami `use_random_seed` pour "
+"réinitialiser le générateur aléatoire après 8 itérations pour créer un "
+"rythme régulier. Tapez le code suivant pour entendre un rythme beaucoup plus "
+"régulier et répétitif. Une fois que vous entendez le rythme, essayez de "
+"remplacer la valeur `1000` par un autre nombre. Remarquez comme des nombres "
+"différents génèrent des rythmes différents."
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
@@ -15378,6 +15503,16 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 1000\n"
+"  8.times do\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:133
 msgid ""
@@ -15495,11 +15630,12 @@ msgid ""
 msgstr "Choix (\"choose\")"
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "Durée"
+msgstr ""
+"![Durée de Phase](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -15659,6 +15795,9 @@ msgid ""
 "  sample :loop_mika\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_mika\n"
+"end"
 
 #: A.14-amplitude-modulation.md:169
 msgid ""
@@ -15685,13 +15824,16 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_sample_bpm :loop_amen\n"
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_amen\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"use_sample_bpm :loop_amen\n"
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_amen\n"
+"end"
 
 #: A.14-amplitude-modulation.md:194
 msgid ""
