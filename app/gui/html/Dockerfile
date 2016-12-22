@@ -8,11 +8,15 @@ ADD . sonic-pi
 RUN apt-get update
 RUN apt-get install -y \
   curl \
+  darkice \
   default-jre \
+  icecast2 \
   jackd2 \
   libgit2-dev \
   python \
   sudo \
   wget
 RUN cd /sonic-pi/app/gui/qt && ./build-ubuntu-app
+
+ENTRYPOINT /sonic-pi/app/server/bin/launch-gce
 
