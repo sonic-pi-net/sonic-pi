@@ -52,12 +52,12 @@ app/gui/qt/resources
 # --------
 
 # Javascript map files
-app/gui/html/js/*.map
+app/gui/html/resources/public/js/*.map
 
 # Dev Javascript
-app/gui/html/js/generated
+app/gui/html/resources/public/js/generated
 app/gui/html/target
-app/gui/html/js/cljs-main.js
+app/gui/html/resources/public/js/cljs-main.js
 
 
 # QT makefile

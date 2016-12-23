@@ -249,7 +249,7 @@ module SonicPi
     end
 
     def html_public_path
-      File.absolute_path("#{app_path}/gui/html")
+      File.absolute_path("#{app_path}/gui/html/resources/public")
     end
 
     def qt_gui_path
