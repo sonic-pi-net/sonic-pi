@@ -131,7 +131,7 @@
   (js/console.log "can't handle: " (:type m)))
 
 (defn replace-buffer [buf-id]
-  (.send @ws (JSON/stringify #js {:cmd  "load-buffer"
+  (.send @ws (.stringfy js/JSON #js {:cmd  "load-buffer"
                                   :id   (str buf-id)})))
 
 (defn add-ws-handlers
@@ -144,7 +144,7 @@
 
   (set! (.-onclose @ws) #(show-msg "Websocket Closed"))
   (set! (.-onmessage @ws) (fn [m]
-                           (let [msg (js->clj (JSON/parse (.-data m)))
+                           (let [msg (js->clj (.parse js/JSON (.-data m)))
                                  res (handle-message msg)]
                              (reply-sync msg res))))
   (events/listen js/document (kb/keyword->event-type :keypress)
@@ -152,35 +152,35 @@
                  (let [code (.-charCode e)]
                    (cond
                     (= 18 code)
-                    (.send @ws (JSON/stringify #js{"cmd" "save-and-run-buffer"
+                    (.send @ws (.stringify js/JSON #js{"cmd" "save-and-run-buffer"
                                                    "val" (.getValue js/editor)
                                                    "buffer_id" "main"}))
 
                     (= 19 code)
-                    (.send @ws (JSON/stringify #js{"cmd" "stop-jobs"
+                    (.send @ws (.stringify js/JSON #js{"cmd" "stop-jobs"
                                                    "val" (.getValue js/editor)}))))))
 
 )
 
 (defn ^:export sendCode
   []
-  (.send @ws (JSON/stringify #js {:cmd "save-and-run-buffer"
+  (.send @ws (.stringify js/JSON #js {:cmd "save-and-run-buffer"
                                   :val (.getValue js/editor)
                                   :buffer_id "main"})))
 
 
 (defn ^:export stopCode
   []
-  (.send @ws (JSON/stringify #js {:cmd "stop-jobs"
+  (.send @ws (.stringify js/JSON #js {:cmd "stop-jobs"
                                 :val (.getValue js/editor)})))
 
 (defn ^:export reloadCode
   []
-  (.send @ws (JSON/stringify #js {:cmd "reload"
+  (.send @ws (.stringify js/JSON #js {:cmd "reload"
                                 :val (.getValue js/editor)})))
 
 (defn stop-job [j-id]
-  (.send @ws (JSON/stringify #js {:cmd "stop-job"
+  (.send @ws (.stringify js/JSON #js {:cmd "stop-job"
                                  :val j-id})))
 
 (defn mk-ws []
