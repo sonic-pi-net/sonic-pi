@@ -23,16 +23,17 @@ module SonicPi
     class StudioCurrentlyRebootingError < StandardError ; end
     include Util
 
-    attr_reader :synth_group, :fx_group, :mixer_group, :monitor_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id, :amp, :rebooting
+    attr_reader :synth_group, :fx_group, :mixer_group, :monitor_group, :mixer_id, :mixer_bus, :mixer, :rand_buf_id, :amp, :rebooting
 
     attr_accessor :cent_tuning
 
-    def initialize(hostname, scsynth_port, scsynth_send_port, msg_queue)
+    def initialize(hostname, ports, msg_queue)
       @hostname = hostname
-      @scsynth_port = scsynth_port
-      @scsynth_send_port = scsynth_send_port
+      @scsynth_port = ports[:scsynth_port]
+      @scsynth_send_port = ports[:scsynth_send_port]
+      @osc_cues_port = ports[:osc_cues_port]
+      @osc_midi_port = ports[:osc_midi_port]
       @msg_queue = msg_queue
-      @max_concurrent_synths = max_concurrent_synths
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
       @sample_sem = Mutex.new
@@ -41,8 +42,36 @@ module SonicPi
       @cent_tuning = 0
       @sample_format = "int16"
       @paused = false
+
       init_studio
+      init_midi
       reset_server
+    end
+
+    def init_midi
+      message "Initialising MIDI"
+      kill_and_deregister_process @o2m_pid if @o2m_pid
+      kill_and_deregister_process @m2o_pid if @m2o_pid
+
+      begin
+        @m2o_pid = spawn("'#{osmid_m2o_path}'" + " -o #{@osc_cues_port} -b -m", out: osmid_m2o_log_path, err: osmid_m2o_log_path)
+        register_process(@m2o_pid)
+      rescue Exception => e
+        STDERR.puts "Exception when starting osmid m2o"
+        STDERR.puts e.message
+        STDERR.puts e.backtrace.inspect
+        STDERR.puts e.backtrace
+      end
+
+      begin
+        @o2m_pid = spawn("'#{osmid_o2m_path}'" + " -i #{@osc_midi_port} -O #{@osc_cues_port} -b -m", out: osmid_o2m_log_path, err: osmid_o2m_log_path)
+        register_process(@o2m_pid)
+      rescue Exception => e
+        STDERR.puts "Exception when starting osmid o2m"
+        STDERR.puts e.message
+        STDERR.puts e.backtrace.inspect
+        STDERR.puts e.backtrace
+      end
     end
 
     def init_studio
@@ -361,6 +390,7 @@ module SonicPi
         message "Rebooting SuperCollider audio server. Please wait..."
         @server.shutdown
         init_studio
+        init_midi
         reset_server
         message "SuperCollider audio server ready."
         @rebooting = false

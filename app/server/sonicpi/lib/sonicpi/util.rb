@@ -276,12 +276,31 @@ module SonicPi
       end
     end
 
+    def osmid_o2m_path
+      File.join(native_path, "osmid", "o2m")
+    end
+
+    def osmid_m2o_path
+      File.join(native_path, "osmid", "m2o")
+    end
+
     def scsynth_log_path
       log_path + '/scsynth.log'
     end
 
+    def erlang_log_path
+      log_path + '/erlang.log'
+    end
+
+    def osmid_m2o_log_path
+      log_path + '/osmid_m2o.log'
+    end
+
+    def osmid_o2m_log_path
+      log_path + '/osmid_o2m.log'
+    end
+
     def ruby_path
-      # For running tests
       case os
       when :windows
         File.join(native_path, "ruby", "bin", "ruby.exe")
@@ -290,6 +309,24 @@ module SonicPi
       when  :raspberry, :linux
         "ruby"
       end
+    end
+
+    def erlang_boot_path
+      case os
+      when :windows
+        raise "Please implement me!"
+      when :osx
+        erlang_bin_path = File.join(native_path, "erlang", "erl")
+        "\"#{ruby_path}\" \"#{erlang_bin_path}\""
+        # Uncomment this if you want to use the system Erlang:
+        #"erl"
+      when :raspberry, :linux
+        "erl"
+      end
+    end
+
+    def erlang_server_path
+      File.join(server_path, "erlang")
     end
 
     def user_settings_path

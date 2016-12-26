@@ -49,6 +49,8 @@ client_port = ARGV[2] ? ARGV[2].to_i : 4558
 scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
 scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
 osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
+erlang_port = ARGV[6] ? ARGV[6].to_i : 4560
+osc_midi_port = ARGV[7] ? ARGV[6].to_i : 4561
 
 check_port = lambda do |port, gui|
   begin
@@ -92,8 +94,32 @@ STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
 check_port.call(scsynth_send_port, gui)
 STDOUT.puts "OSC cues port: #{osc_cues_port}"
 check_port.call(osc_cues_port, gui)
+STDOUT.puts "Erlang port: #{erlang_port}"
+check_port.call(erlang_port, gui)
 
 STDOUT.flush
+
+sonic_pi_ports = {
+  server_port: server_port,
+  scsynth_port: scsynth_port,
+  scsynth_send_port: scsynth_send_port,
+  osc_cues_port: osc_cues_port,
+  osc_midi_port: osc_midi_port,
+  erlang_port: erlang_port }
+
+# Start Erlang
+begin
+
+  erlang_cmd = "#{erlang_boot_path} -pz \"#{erlang_server_path}\" -s pi_server start"
+  STDOUT.puts erlang_cmd
+  pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
+  register_process(pid)
+rescue Exception => e
+  STDOUT.puts "Exception when starting Erlang"
+  STDOUT.puts e.message
+  STDOUT.puts e.backtrace.inspect
+  STDOUT.puts e.backtrace
+end
 
 begin
   if protocol == :tcp
@@ -152,7 +178,7 @@ klass.send(:define_method, :inspect) { "Runtime" }
 ws_out = Queue.new
 
 begin
-  sp =  klass.new "127.0.0.1", scsynth_port, scsynth_send_port, osc_cues_port, ws_out, user_methods
+  sp =  klass.new "127.0.0.1", sonic_pi_ports, ws_out, user_methods
 
   # read in init.rb if exists
   if File.exists?(init_path)

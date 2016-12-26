@@ -1003,7 +1003,7 @@ module SonicPi
     include ActiveSupport
     include RuntimeMethods
 
-    def initialize(hostname, scsynth_port, scsynth_send_port, osc_cues_port, msg_queue, user_methods)
+    def initialize(hostname, ports, msg_queue, user_methods)
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
@@ -1026,9 +1026,10 @@ module SonicPi
       @global_start_time = 0
       @session_id = SecureRandom.uuid
       @snippets = {}
+      @osc_cues_port = ports[:osc_cues_port]
 
       # TODO Add support for TCP
-      @osc_server = SonicPi::OSC::UDPServer.new(osc_cues_port, open: false) do |address, args|
+      @osc_server = SonicPi::OSC::UDPServer.new(ports[:osc_cues_port], open: false) do |address, args|
         @events.async_event("/spider_thread_sync/#{address}", {
                               :time => Time.now.freeze,
                               :cue_splat_map_or_arr => args.freeze,
