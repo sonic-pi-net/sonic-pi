@@ -24,8 +24,6 @@ module SonicPi
       @hostname = opts[:hostname] || "127.0.0.1"
       @port = opts[:scsynth_port] || 4556
       @send_port = opts[:scsynth_send_port] || 4556
-      @scsynth_pid = nil
-      @jack_pid = nil
       @out_queue = SizedQueue.new(20)
       boot
     end
@@ -80,22 +78,6 @@ module SonicPi
       @osc_server.stop
       puts "Stopped OSC server..."
       t1, t2 = nil, nil
-      if @jack_pid
-        puts "killing jack process #{@jack_pid}"
-        t1 = Thread.new do
-          kill_pid(@jack_pid)
-          @jack_pid = nil
-        end
-      end
-
-      if @scsynth_pid
-        puts "killing scynth process #{@scsynth_pid}"
-        t2 = Thread.new do
-          kill_pid(@scsynth_pid)
-          @scsynth_pid = nil
-        end
-
-      end
       t1.join if t1
       t2.join if t2
 
@@ -356,8 +338,6 @@ module SonicPi
     def boot_server_raspberry_pi
       log_boot_msg
       puts "Booting on Raspberry Pi"
-      `killall jackd`
-      `killall scsynth`
       begin
         asoundrc = File.read(Dir.home + "/.asoundrc")
         audio_card = (asoundrc.match /pcm.!default\s+{[^}]+\n\s+card\s+([0-9]+)/m)[1]
@@ -365,15 +345,17 @@ module SonicPi
         audio_card = "0"
       end
 
-      sys("jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -o2 -r 44100& ")
-
-      # Wait for Jackd to start
-      while `jack_wait -c`.match /^not running$/
-        sleep 0.25
+      #Start Jack if not already running
+      if `ps cax | grep jackd`.split(" ").first.nil?
+        #Jack not running - start a new instance
+        puts "Jackd not running on system. Starting..."
+        jack_pid = spawn "jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -o2 -r 44100& "
+        register_process jack_pid
+      else
+        puts "Jackd already running. Not starting another server..."
       end
 
-      @jack_pid = `ps cax | grep jackd`.split(" ").first
-
+      register_process jack_pid
       buffer_size = raspberry_pi_1? ? 512 : 128
 
       boot_and_wait("scsynth", "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-z", buffer_size.to_s,  "-c", "128", "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/", "-i", "2", "-o", "2", "-b", num_buffers_for_current_os.to_s)
@@ -390,16 +372,11 @@ module SonicPi
       log_boot_msg
       puts "Booting on Linux"
       #Start Jack if not already running
-      if `jack_wait -c`.match /^not running$/
+      if `ps cax | grep jackd`.split(" ").first.nil?
         #Jack not running - start a new instance
         puts "Jackd not running on system. Starting..."
-        sys("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
-
-        # Wait for Jackd to start
-        while `jack_wait -c`.match /not.*/
-          sleep 0.25
-        end
-        @jack_pid = `ps cax | grep jackd`.split(" ").first
+        jack_pid = ("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+        register_process jack_pid
       else
         puts "Jackd already running. Not starting another server..."
       end
