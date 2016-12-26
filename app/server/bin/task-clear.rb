@@ -42,7 +42,11 @@ os = case RUBY_PLATFORM
        :unknown
      end
 
-pids = Dir.entries(pids_store) - [".", ".."]
+if ARGV.empty?
+  pids = Dir.entries(pids_store) - [".", ".."]
+else
+  pids = ARGV
+end
 
 log_process_info "\n\nClearing pids: #{pids.inspect}\n"
 
