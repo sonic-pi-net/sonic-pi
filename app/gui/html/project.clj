@@ -20,7 +20,7 @@
                  [com.facebook/react "0.9.0"]
                  [om "0.5.0"]]
   :plugins [[lein-figwheel "0.5.2"]
-            [lein-cljsbuild "1.0.2"]]
+            [lein-cljsbuild "1.1.4"]]
   :source-paths ["src-cljs"]
   :cljsbuild {
               :builds [{:id "dev"

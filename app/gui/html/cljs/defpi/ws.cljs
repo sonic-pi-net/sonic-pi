@@ -30,7 +30,8 @@
 (def ws (atom nil))
 (def err-cnt (atom 0))
 (def app-state (atom {:messages (rb/mk-ringbuffer 100)
-                      :jobs #{}}))
+                      :jobs #{}
+                      :audio true}))
 
 (defn jobs-comp [data owner]
   (om/component
@@ -59,6 +60,16 @@
                                      (dom/pre nil
                                               (str/join "\n" (get m "backtrace")))))))
                (:messages data)))))
+
+(defn audio-comp [data owner]
+  (om/component
+   (dom/div nil
+            (when (:audio data)
+              (dom/audio #js {:id "audio"
+                              :autoPlay true} 
+                         (dom/source #js {:src (str "http://" js/window.location.hostname
+                                                    ":8002/sonicpi")
+                                          :type "audio/mpeg"}))))))
 
 (def hostname
   (let [hn (.-host (.-location js/window))]
@@ -131,16 +142,16 @@
   (js/console.log "can't handle: " (:type m)))
 
 (defn replace-buffer [buf-id]
-  (.send @ws (.stringfy js/JSON #js {:cmd  "load-buffer"
+  (.send @ws (.stringify js/JSON #js {:cmd  "load-buffer"
                                   :id   (str buf-id)})))
 
 (defn add-ws-handlers
   []
   (set! (.-onopen @ws) (fn []
-                        (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
-
-                        (om/root jobs-comp app-state {:target (.getElementById js/document "app-jobs")})
-                        (replace-buffer "main")))
+                         (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
+                         (om/root jobs-comp app-state {:target (.getElementById js/document "app-jobs")})
+                         (om/root audio-comp app-state {:target (.getElementById js/document "app-audio")})
+                         (replace-buffer "main")))
 
   (set! (.-onclose @ws) #(show-msg "Websocket Closed"))
   (set! (.-onmessage @ws) (fn [m]
@@ -158,19 +169,18 @@
 
                     (= 19 code)
                     (.send @ws (.stringify js/JSON #js{"cmd" "stop-jobs"
-                                                   "val" (.getValue js/editor)}))))))
-
-)
+                                                       "val" (.getValue js/editor)})))))))
 
 (defn ^:export sendCode
   []
+  (swap! app-state #(assoc % :audio true))
   (.send @ws (.stringify js/JSON #js {:cmd "save-and-run-buffer"
                                   :val (.getValue js/editor)
                                   :buffer_id "main"})))
 
-
 (defn ^:export stopCode
   []
+  (swap! app-state #(assoc % :audio false))
   (.send @ws (.stringify js/JSON #js {:cmd "stop-jobs"
                                 :val (.getValue js/editor)})))
 
