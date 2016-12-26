@@ -191,6 +191,81 @@ module SonicPi
         raise "Sorry, with_sample_pack is no longer supported since v2.11. \n  Please read Section 3.7 of the tutorial for a more powerful replacement."
       end
 
+      def midi_send_timed(*args)
+        t = @global_start_time + vt + current_sched_ahead_time
+        args = [t, "localhost", 8014, "/send_after", "localhost", 4561] + args
+        @osc_server.send_ts(*args)
+      end
+
+      def midi_raw(*args)
+        midi_send_timed("/foo/raw", *args)
+      end
+      doc name:           :midi_raw,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send raw MIDI message",
+          args:           [[], ],
+          returns:        :nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sends the raw MIDI message to *all* connected devices
+
+THIS IS ALPHA! Expect this fn to completely change before final release",
+          examples:       [
+        "midi_raw 0xb0, 0x7b, 0x0  #=> Sends the MIDI reset command"
+]
+
+      def midi_reset
+        midi_raw 0xb0, 0x7b, 0x0
+      end
+      doc name:           :midi_reset,
+          introduced:     Version.new(2,12,0),
+          summary:        "Reset all MIDI devices",
+          args:           [[], ],
+          returns:        :nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sends the MIDI reset command to *all( connected MIDI devices
+
+THIS IS ALPHA! Expect this fn to completely change before final release",
+          examples:       [
+        "midi_reset #=> Resets all connected MIDI devices"
+]
+
+      def midi_play(n, opts={})
+        on_val = opts.has_key?(:on) ? opts[:on] : 1
+        dur = opts[:dur] || 1
+        amp = opts[:amp] || 1
+        amp = (amp.min(0).max(1) * 127.0).to_i
+        n = note(n)
+        on on_val do
+          __delayed_message "midi #{n}, {amp: #{amp}, dur: #{dur}}"
+          midi_raw 0x90, n, amp
+          time_warp dur.to_f do
+            midi_raw 0x80, n, 127
+          end
+          #s = nil
+          #time_warp -0.1 do
+          #      s = synth :sound_in, attack: 0, sustain: dur, release: 0, amp: amp
+          # end
+          #return s
+        end
+        #return @blank_node
+        return nil
+      end
+      doc name:           :midi_play,
+          introduced:     Version.new(2,12,0),
+          summary:        "Trigger and release an external synth via MIDI",
+          args:           [[:note, :number], ],
+          returns:        :nil,
+          opts:           {dur: "Duration of note event in beats",
+                           amp:  "Amplitude of note as a value between 0 and 1"},
+          accepts_block:  false,
+          doc:            "Sends a MIDI note on event to *All* connected MIDI devices and then after dur beats sends a MIDI note off event. Ensures MIDI trigger is synchronised with standard calls to play and sample. Co-operates completely with Sonic Pi's timing system including time_warp.
+
+THIS IS ALPHA! Expect this fn to completely change before final release",
+          examples:       [
+        "midi_play :e1, dur: 0.3, amp: 0.5",
+]
 
       def reboot
         @sample_loader.reset!
