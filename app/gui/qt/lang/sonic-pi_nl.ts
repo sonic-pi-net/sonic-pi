@@ -195,12 +195,12 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="692"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Volledig scherm aan.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Volledig scherm uit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="884"/>
@@ -314,7 +314,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Indien ingeschakeld zal Sonic Pi toestaan om
 synths en effecten die geladen zijn via load_synthdefs 
 te triggeren.
@@ -326,7 +326,7 @@ dat niet wordt herkend.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1142"/>
         <source>Enforce timing guarantees</source>
-        <translation>Het &quot;In maat blijven&quot; afdwingen</translation>
+        <translation>Het "In maat blijven" afdwingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
@@ -977,7 +977,7 @@ Krijg Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
