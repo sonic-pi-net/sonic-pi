@@ -5,6 +5,7 @@ MAINTAINER Joseph Burnett (josephburnett79@gmail.com)
 
 ADD . sonic-pi
 
+RUN cp /sonic-pi/app/gui/html/sources.list /etc/apt/
 RUN apt-get update
 RUN apt-get install -y \
   curl \
