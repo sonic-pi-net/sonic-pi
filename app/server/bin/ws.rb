@@ -14,6 +14,7 @@
 
 require_relative "../core.rb"
 
+require 'optparse'
 require 'rubame'
 require 'webrick'
 require 'json'
@@ -30,6 +31,15 @@ include SonicPi::Util
 
 ws_out = Queue.new
 web_server = nil
+web_server_ip = "127.0.0.1"
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: example.rb [options]"
+
+  opts.on("--ws_ip", "IP address to bind web server to", String) do |ip|
+    web_server_ip = ip
+  end
+end.parse!
 
 at_exit do
   puts "Exiting - shutting down web server..."
@@ -81,8 +91,7 @@ end
 
 # Receive events from the GUI to Sonic Pi (potentially creating new jobs)
 
-ws_server = Rubame::Server.new("0.0.0.0", 8001)
-# ws_server = Rubame::Server.new("127.0.0.1", 8001)
+ws_server = Rubame::Server.new(web_server_ip, 8001)
 
 in_t = Thread.new do
   while true
@@ -111,8 +120,7 @@ in_t = Thread.new do
   end
 end
 
-$web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "0.0.0.0" , :DocumentRoot => html_public_path
-# $web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "127.0.0.1" , :DocumentRoot => html_public_path
+$web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => web_server_ip , :DocumentRoot => html_public_path
 
 web_t = Thread.new { $web_server.start}
 
