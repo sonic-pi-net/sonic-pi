@@ -240,7 +240,7 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1086"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi Audio-uitgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
@@ -248,22 +248,25 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uw Raspberry Pi heeft twee kanalen van audio-uitvoer.
+Ten eerste is er een koptelefoon jack van de Raspberry Pi zelf.
+Ten tweede ondersteunen sommige HDMI monitors/TVs audio doorvoer via de HDMI poort.
+Gebruik deze knoppen om de uitvoer te forceren via het gewenste kanaal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Standaard</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Koptelefoon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"/>
