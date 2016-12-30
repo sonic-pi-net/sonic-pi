@@ -292,6 +292,10 @@ module SonicPi
       log_path + '/erlang.log'
     end
 
+    def osc_cues_log_path
+      log_path + '/osc_cues.log'
+    end
+
     def osmid_m2o_log_path
       log_path + '/osmid_m2o.log'
     end

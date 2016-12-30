@@ -1027,13 +1027,21 @@ module SonicPi
       @session_id = SecureRandom.uuid
       @snippets = {}
       @osc_cues_port = ports[:osc_cues_port]
-
+      # TODO remove hardcoded port number
+      @osc_router_port = 8014
+      @log_cues = true
+      @log_cues_file = File.open(osc_cues_log_path, 'a')
       # TODO Add support for TCP
-      @osc_server = SonicPi::OSC::UDPServer.new(ports[:osc_cues_port], open: false) do |address, args|
+      @osc_server = SonicPi::OSC::UDPServer.new(ports[:osc_cues_port], open: true) do |address, args|
         @events.async_event("/spider_thread_sync/#{address}", {
                               :time => Time.now.freeze,
                               :cue_splat_map_or_arr => args.freeze,
                               :cue => address })
+
+        if @log_cues
+          @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
+          @log_cues_file.flush
+        end
       end
 
 
