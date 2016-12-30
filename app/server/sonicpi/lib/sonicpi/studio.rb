@@ -54,7 +54,7 @@ module SonicPi
       kill_and_deregister_process @m2o_pid if @m2o_pid
 
       begin
-        @m2o_pid = spawn("'#{osmid_m2o_path}'" + " -o #{@osc_cues_port} -b -m", out: osmid_m2o_log_path, err: osmid_m2o_log_path)
+        @m2o_pid = spawn("'#{osmid_m2o_path}'" + " -o #{@osc_cues_port} -m", out: osmid_m2o_log_path, err: osmid_m2o_log_path)
         register_process(@m2o_pid)
       rescue Exception => e
         STDERR.puts "Exception when starting osmid m2o"
@@ -64,7 +64,7 @@ module SonicPi
       end
 
       begin
-        @o2m_pid = spawn("'#{osmid_o2m_path}'" + " -i #{@osc_midi_port} -O #{@osc_cues_port} -b -m", out: osmid_o2m_log_path, err: osmid_o2m_log_path)
+        @o2m_pid = spawn("'#{osmid_o2m_path}'" + " -i #{@osc_midi_port} -O #{@osc_cues_port} -m", out: osmid_o2m_log_path, err: osmid_o2m_log_path)
         register_process(@o2m_pid)
       rescue Exception => e
         STDERR.puts "Exception when starting osmid o2m"
