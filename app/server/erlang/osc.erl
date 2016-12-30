@@ -3,10 +3,10 @@
 %% This file is part of Sonic Pi: http://sonic-pi.net
 %% Full project source: https://github.com/samaaron/sonic-pi
 %% License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
-%% 
+%%
 %% Copyright 2016,2017 by Joe Armstrong (http://joearms.github.io/)
 %% All rights reserved.
-%% 
+%%
 %% Permission is granted for use, copying, modification, and
 %% distribution of modified versions of this work as long as this
 %% notice is included.
@@ -50,7 +50,7 @@ test2() ->
 %% The units of the timestamp are seconds past epoch
 
 now() ->
-    %% seconds past epoc 
+    %% seconds past epoc
     erlang:system_time()/1000000000.
 
 osc_time_to_local(Tsec) ->
@@ -59,17 +59,17 @@ osc_time_to_local(Tsec) ->
     S = Nano div 1000000000, %% 9 zeros
     %% the three args below are MegaSec Sec MicroSec
     Micro = Nano rem 1000000, %%6
-    Time = calendar:now_to_local_time({S div 1000000000, 
-				       S rem 1000000000, 
+    Time = calendar:now_to_local_time({S div 1000000000,
+				       S rem 1000000000,
 				       Micro}),
     Frac = Micro/1000000,
     %% Umm not totally convinced of this ...
     {Time, Frac}.
 
 encode([Verb|Args]) ->
-    io:format(Verb),                                          
-    io:format(Args),                                      
-    io:format("===="),    
+    %% io:format(Verb),
+    %% io:format(Args),
+    %% io:format("===="),
     Str   = encode_string(Verb),
     Flags = encode_flags(Args),
     Data  = [encode_arg(I) || I <- Args],
@@ -101,7 +101,7 @@ encode_arg(X) when is_list(X)    -> encode_string(X);
 encode_arg(X) when is_atom(X)    -> encode_string(atom_to_list(X));
 encode_arg(X) when is_integer(X) -> <<X:32>>;
 encode_arg(X) when is_float(X)   -> <<X:32/float>>; %
-encode_arg({int64,X})            -> <<X:64/unsigned-little-integer>>. 
+encode_arg({int64,X})            -> <<X:64/unsigned-little-integer>>.
 
 %% bundles
 
@@ -122,7 +122,7 @@ pack_ts(Time, Data) ->
 %5 Decoding
 %%----------------------------------------------------------------------
 
-decode(B0) when is_binary(B0) ->    
+decode(B0) when is_binary(B0) ->
     {Verb,  B1}      = get_string(B0),
     %% io:format("Verb: ~p~n",[Verb]),
     case Verb of
@@ -147,7 +147,7 @@ encode_time(Time) ->
     F = T1 - IntPart,
     FracPart = trunc(F * (2 bsl 31)),
     <<IntPart:32, FracPart:32/unsigned-big-integer>>.
-	
+
 decode_time(<<X:32,Y:32/unsigned-big-integer>>) ->
     X - ?EPOCH + binfrac(Y).
 
@@ -156,8 +156,8 @@ decode_time(<<X:32,Y:32/unsigned-big-integer>>) ->
 %% binfrac(Bin, N, Frac) -> binfrac(Bin bsr 1, N*2, Frac + (Bin band 1)/N).
 
 binfrac(I) -> I / (2 bsl 31).
-    
-    
+
+
 decode_bundle(<<Size:32,B:Size/binary,B1/binary>>) ->
     [{Size, B}|decode_bundle(B1)];
 decode_bundle(<<>>) ->
@@ -176,8 +176,8 @@ get_args([$s|T1], B0, L) ->
     get_args(T1, B1, [Str|L]);
 get_args([], _, L) ->
     lists:reverse(L).
-    
-get_string(X) when is_binary(X) -> 
+
+get_string(X) when is_binary(X) ->
     [Bin,After] = binary:split(X, <<0>>),
     %% skip to bounday
     K = 3 - (size(Bin) rem 4),
