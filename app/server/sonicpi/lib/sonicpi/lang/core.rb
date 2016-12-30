@@ -83,7 +83,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
 
 OSC is a way of passing messages over the network between two programs or
 computers. Computers can be identified by a specific internet address, known as
-and IP address, and specific programs can be reached by specifying a port.
+an IP address, and specific programs can be reached by specifying a port.
 Here's an example using a hypothetical computer:
 
 `use_osc \"192.168.1.111\", 8000`
@@ -95,7 +95,7 @@ special address called \"localhost\".
 
 Once configured, you can use `osc` to send messages.
 
-Go have fun connecting existing programs, even your own programs, to SonicPi
+Go have fun connecting existing programs, even your own programs, to Sonic Pi
 using OSC! The possibilities are endless.
 
 ---
@@ -108,7 +108,7 @@ sessions using OSC. This is great for livecoding in groups!
 
 I highly encourage you to grab some existing OSC libraries in your language of
 choice to wire up whatever software/hardware combo you want to Sonic Pi. If
-you are experiening delays between the OSC message and the played sound, try
+you are experiencing delays between the OSC message and the played sound, try
 reducing the schedule-ahead time with `set_sched_ahead_time! 0`.
 
 See the examples for implementation specifics:
@@ -199,7 +199,7 @@ arguments. This could be sent by Sonic Pi by writing:
 
 `osc \"/set/filter\", \"lowpass\", 80, 0.5`
 
-Go have fun connecting existing programs, even your own programs, to SonicPi
+Go have fun connecting existing programs, even your own programs, to Sonic Pi
 using OSC! The possibilities are endless.
 
 ---
@@ -212,7 +212,7 @@ sessions using OSC. This is great for livecoding in groups!
 
 I highly encourage you to grab some existing OSC libraries in your language of
 choice to wire up whatever software/hardware combo you want to Sonic Pi. If
-you are experiening delays between the OSC message and the played sound, try
+you are experiencing delays between the OSC message and the played sound, try
 reducing the schedule-ahead time with `set_sched_ahead_time! 0`.
 
 See the examples for implementation specifics:
@@ -393,7 +393,7 @@ end"
           accepts_block:  true,
           doc:            "The code within the given block is executed with the specified delta time shift specified in beats. For example, if the delta value is 0.1 then all code within the block is executed with a 0.1 beat delay. Negative values are allowed which means you can move a block of code *backwards in time*. For example a delta value of -0.1 will execute the code in the block 0.1 beats ahead of time. The time before the block started is restored after the execution of the block.
 
-Note that the code within the block is executed synchronously with the code before and afterso all thread locals will be modified inline as is the same for `with_fx`. However, as time is always restored to the value before `time_warp` started can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
+Note that the code within the block is executed synchronously with the code before and after, so all thread locals will be modified inline - as is the case for `with_fx`. However, as time is always restored to the value before `time_warp` started, you can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
 
 Also, note that you cannot travel backwards in time beyond the `current_sched_ahead_time`.
 
