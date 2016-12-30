@@ -95,6 +95,8 @@ module SonicPi
           define_method(:initialize) do |*splat, &block|
             sonic_pi_mods_sound_initialize_old *splat, &block
             hostname, ports, msg_queue = *splat
+
+
             @server_init_args = splat.take(4)
             @mod_sound_home_dir = Dir.home
             @simple_sampler_args = [:amp, :amp_slide, :amp_slide_shape, :amp_slide_curve, :pan, :pan_slide, :pan_slide_shape, :pan_slide_curve, :cutoff, :cutoff_slide, :cutoff_slide_shape, :cutoff_slide_curve, :lpf, :lpf_slide, :lpf_slide_shape, :lpf_slide_curve, :hpf, :hpf_slide, :hpf_slide_shape, :hpf_slide_curve, :rate, :slide, :beat_stretch, :rpitch, :attack, :decay, :sustain, :release, :attack_level, :decay_level, :sustain_level, :env_curve]
@@ -115,6 +117,7 @@ module SonicPi
             @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
             @JOB_BUSSES_MUTEX = Mutex.new
             @mod_sound_studio = Studio.new(hostname, ports, msg_queue)
+
 
             @mod_sound_studio_checker = Thread.new do
               # kill all jobs if an error occured in the studio
@@ -192,13 +195,13 @@ module SonicPi
       end
 
       def midi_send_timed(*args)
-        t = @global_start_time + vt + current_sched_ahead_time
-        args = [t, "localhost", 8014, "/send_after", "localhost", 4561] + args
-        @osc_server.send_ts(*args)
+        #TODO remove hardcoded port number
+        osmid_o2m_port = 4561
+        osc "localhost", osmid_o2m_port, *args
       end
 
-      def midi_raw(*args)
-        midi_send_timed("/foo/raw", *args)
+      def midi_raw(a, b, c)
+        midi_send_timed("/foo/raw", a.to_i, b.to_i, c.to_i)
       end
       doc name:           :midi_raw,
           introduced:     Version.new(2,12,0),

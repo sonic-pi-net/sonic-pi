@@ -156,33 +156,33 @@ end"
         res
       end
 
+      def osc_send(host, port, path, *args)
+        t = @global_start_time + vt + current_sched_ahead_time
+        @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
+        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
+      end
+
+      def osc_send_now(host, port, path, *args)
+        @osc_server.send(host, port, path, *args)
+        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
+      end
+
       def osc(path, *args)
         host_and_port = __thread_locals.get :sonic_pi_osc_client
         raise "Please specify a destination with use_osc or with_osc" unless host_and_port
-
         host, port = host_and_port.split ":"
         port = port.to_i
-
-        if path[0] != "/"
-          path = "/" + path
-        end
-
-        begin
-          @osc_server.send(host, port, path, *args)
-          puts "OSC -> #{host}, #{port}, #{path}, #{args}"
-        rescue Exception => e
-          puts "Error sending OSC to #{host}, #{port}, #{path}, #{args.inspect}\n#{e.message}\n#{e.backtrace}"
-        end
+        osc_send host, port, path, *args
       end
       doc name:           :osc,
           hide:           true,
           introduced:     Version.new(2,12,0),
-          summary:        "Sends an OSC message",
+          summary:        "Send an OSC message",
           args:           [[:path, :arguments]],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Sends a message using OSC (Open Sound Control) to the host specified by `use_osc`.
+          doc:            "Sends a message using OSC (Open Sound Control) to the current host and port specified by `use_osc` or `with_osc`.
 
 OSC is a way of passing messages over the network between two programs or
 computers. A typical OSC message has two parts: a descriptive `path` which looks
