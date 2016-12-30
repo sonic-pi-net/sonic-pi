@@ -393,7 +393,7 @@ end"
           accepts_block:  true,
           doc:            "The code within the given block is executed with the specified delta time shift specified in beats. For example, if the delta value is 0.1 then all code within the block is executed with a 0.1 beat delay. Negative values are allowed which means you can move a block of code *backwards in time*. For example a delta value of -0.1 will execute the code in the block 0.1 beats ahead of time. The time before the block started is restored after the execution of the block.
 
-Note that the code within the block is executed synchronously with the code before and afterso all thread locals will be modified inline as is the same for `with_fx`. However, as time is always restored to the value before `time_warp` started can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
+Note that the code within the block is executed synchronously with the code before and after, so all thread locals will be modified inline - as is the case for `with_fx`. However, as time is always restored to the value before `time_warp` started, you can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
 
 Also, note that you cannot travel backwards in time beyond the `current_sched_ahead_time`.
 
