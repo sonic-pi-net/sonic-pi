@@ -8,7 +8,14 @@ if [ "$(whoami)" != "root" ]; then
 fi
 
 if [ -z ${SP_ROOT+x} ]; then
+    echo "Looking for SP_ROOT in git repo."
     export SP_ROOT=`git rev-parse --show-toplevel`
+fi
+
+if [ -z ${SP_ROOT} ]; then
+    echo "Assuming we're running in a Docker container."
+    echo "Setting SP_ROOT as /sonic-pi."
+    export SP_ROOT=/sonic-pi
 fi
 
 INTERNAL_IP=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip" -H "Metadata-Flavor: Google")
