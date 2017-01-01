@@ -207,6 +207,7 @@ module SonicPi
 
     def boot_and_wait(*args)
       puts "Boot - Starting the SuperCollider server..."
+      puts "Boot - #{args.join(' ')}"
       p = Promise.new
       p2 = Promise.new
 
@@ -283,6 +284,7 @@ module SonicPi
     end
 
     def boot_server_osx
+      disable_input = false
       log_boot_msg
       puts "Boot - Booting on OS X"
       puts "Boot - Checkout audio rates on OSX:"
@@ -297,34 +299,46 @@ module SonicPi
         audio_out_rate = CoreAudio.default_output_device.nominal_rate
         puts "Boot - Input audio rate: #{audio_in_rate}"
         puts "Boot - Output audio rate: #{audio_out_rate}"
-        if audio_in_rate != audio_out_rate
-          puts "Attempting to set both in and out sample rates to 44100.0..."
-          CoreAudio.default_output_device(nominal_rate: 44100.0)
-          CoreAudio.default_input_device(nominal_rate: 44100.0)
-          # now check again...
+        if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
+          puts "Boot - Audio input and output rates do not match."
+          if audio_out_rate > 44000
+            puts "Boot - Attempting to set the input rates to match output rate of #{audio_out_rate}..."
+            CoreAudio.default_input_device(nominal_rate: audio_out_rate)
+          end
+
           audio_in_rate = CoreAudio.default_input_device.nominal_rate
           audio_out_rate = CoreAudio.default_output_device.nominal_rate
+
+          if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
+            puts "Boot - Attempting to set both in and out sample rates to 44100.0..."
+            CoreAudio.default_output_device(nominal_rate: 44100.0)
+            CoreAudio.default_input_device(nominal_rate: 44100.0)
+          end
+
           puts "Boot - Input audio rate now: #{audio_in_rate}"
           puts "Boot - Output audio rate now: #{audio_out_rate}"
           if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
-            puts "Boot - Sample rates do not match, exiting"
-            raise
+            puts "Boot - Sample rates still do not match, disabling input"
+            disable_input = true
           end
         else
           puts "Boot - Sample rates match, we may continue to boot..."
         end
 
       rescue Exception => e
-        if (audio_in_rate == :unknown_in_rate) || (audio_out_rate == :unknown_out_rate)
+        if (audio_in_rate == :unknown_in_rate) && (audio_out_rate == :unknown_out_rate)
           # Something went wrong whilst attempting to determine and modify the audio
           # rates. Given that there's a chance the rates are correct, try and continue
           # to boot and let scsynth throw a wobbly if things aren't in order.
           puts "Boot - Unable to detect input and output audio rates. Continuing in the hope that they are actually the same..."
-        else
-          raise "Unable to boot sound synthesis engine: the input and output rates of your audio card are not the same. Got in: #{audio_in_rate}, out: #{audio_out_rate}."
+        elsif (audio_in_rate == :unknown_in_rate)
+          puts "Boot - Unable to detect input audio rate. Disabling input"
+          disable_input = true
         end
       end
-      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-i", "16", "-o", "16", "-b", num_buffers_for_current_os.to_s, "-U", "#{native_path}/supercollider/plugins/",)
+
+      num_inputs = disable_input ? "0" : "16"
+      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-i", num_inputs, "-o", "16", "-b", num_buffers_for_current_os.to_s, "-U", "#{native_path}/supercollider/plugins/")
     end
 
 
