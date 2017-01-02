@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-25 16:50+0000\n"
+"PO-Revision-Date: 2017-01-02 10:08+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -551,6 +551,16 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"Das Oszilloskop kann dir die Töne die Du hörst, anzeigen. Du kannst leicht "
+"erkennen, dass die Sägezahnwelle wie eine Säge aussieht und der Beep wie "
+"eine kurvige Sinus-Kurve. Du kannst auch den Unterschied zwischen lauten und "
+"leisen Tönen anhand der Größe der Linien erkennen. Es gibt drei Felder, mit "
+"denen Du spielen kannst. Standardmäßig ist es ein kombiniertes aus dem "
+"linken und rechten Kanal, es gibt ein Stereo-Oszilloskop das für jeden Kanal "
+"einen eigenen Bereich anzeigt. Zu guter Letzt gibt es die Lissajous-Figur, "
+"sie zeigt Dir die Phasen-Beziehung zwischen dem linken und rechten Kanal. "
+"Damit kann man schöne Bilder aus Klängen malen (https://de.wikipedia.org/wiki"
+"/Lissajous-Figur)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -10099,17 +10109,16 @@ msgid "5. Surf the random streams"
 msgstr "5. Mit dem Zufall surfen"
 
 #: A.01-tips.md:136
-#, fuzzy
 msgid ""
 "Finally, one thing I love doing is cheating by getting Sonic Pi to compose thi"
 "ngs for me. A really great way to do this is using randomisation. It might sou"
 "nd complicated but it really isn't. Let's take a look. Copy this into a spare "
 "workspace:"
 msgstr ""
-"Gerne mogeln ich ein bisschen, indem ich Sonic Pi für mich komponieren lasse. "
-"Das geht besonders gut mit Randomisierung; das klingt vielleicht ein wenig kom"
-"pliziert, ist es aber gar nicht. Sehen wir uns das an. Kopiere diesen Code in "
-"einen Buffer:"
+"Manchmal mogele ich, indem ich Sonic Pi für mich komponieren lasse. Mit "
+"Randomisierung lässt sich das großartig hinbekommen; das klingt vielleicht "
+"ein wenig kompliziert, ist es aber gar nicht. Sehen wir uns das an. Kopiere "
+"diesen Code in einen Buffer:"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -10133,7 +10142,6 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:152
-#, fuzzy
 msgid ""
 "Now, when you play this, you'll hear a constant stream of random notes from th"
 "e scale `:e2 :minor_pentatonic` played with the `:dsaw` synth. \"Wait, wait! Th"
@@ -10143,15 +10151,15 @@ msgid ""
 "e TARDIS with the Doctor to a particular point in time and space. Let's try it"
 " - add the line `use_random_seed 1` to the `live_loop`:"
 msgstr ""
-"Wenn Du das laufen lässt, wirst Du einen regelmäßigen Reihenfolge von zufällig"
-"en Tönen der Skala `:e2 :minor_pentatonic` gespielt vom `:dsaw`-Synth hören. \""
-"Halt mal, das ist doch keine Melodie\", höre ich Dich schon sagen. Ok, dies ist"
-" der erste Teil des Zaubertricks. Jedes Mal, wenn die `live_loop` durchgelaufe"
-"n ist, können wir Sonic Pi sagen, es soll die Zufallsfolge an einen bestimmten"
-" Punkt zurücksetzen. Das ist ein bisschen so, als würden wir wie Dr. Who in se"
-"iner Zeitmaschine TARDIS an einen bestimmten Ort und zu einer bestimmten Zeit "
-"zurückkehren. Versuch's mal und schreibe die Zeile `use_random_seed 1` in die "
-"`live_loop`:"
+"Wenn Du das laufen lässt, wirst Du eine regelmäßige Reihenfolge von "
+"zufälligen Tönen der Skala `:e2 :minor_pentatonic` gespielt vom `:dsaw`-"
+"Synth hören. \"Halt mal, das ist doch keine Melodie\", höre ich Dich schon "
+"sagen. Okay, dies ist der erste Teil des Zaubertricks. Jedes Mal, wenn die "
+"`live_loop` durchgelaufen ist, können wir Sonic Pi sagen, es soll die "
+"Zufallsfolge an einen bestimmten Punkt zurücksetzen. Das ist ein bisschen "
+"so, als würden wir wie Dr. Who in seiner Zeitmaschine TARDIS an einen "
+"bestimmten Ort und zu einer bestimmten Zeit zurückkehren. Versuch's mal und "
+"schreibe die Zeile `use_random_seed 1` in die `live_loop`:"
 
 #: A.01-tips.md:161
 #, no-wrap
@@ -10188,7 +10196,7 @@ msgstr ""
 
 #: A.02-live-coding.md:1
 msgid "A.2 Live Coding"
-msgstr ""
+msgstr "A.2 Live Coding"
 
 #: A.02-live-coding.md:5
 msgid ""
@@ -13505,9 +13513,8 @@ msgid ""
 msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:12
-#, fuzzy
 msgid "Probability"
-msgstr "Übertragbarkeit"
+msgstr "Wahrscheinlichkeit"
 
 #: A.13-probabilistic-sequencer.md:14
 #, fuzzy
