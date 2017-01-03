@@ -106,7 +106,7 @@ fuertes o incómodos.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="692"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished">Modo pantalla completa activado.</translation>
+        <translation>Modo pantalla completa activado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"/>
@@ -246,7 +246,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Cuando está habilitado, Sonic Pi permitirá
 a los sintetizadores y efectos cargados a través de load_synthdefs
 ser iniciados.
@@ -976,8 +976,8 @@ cada 2 semanas.</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation type="unfinished">Sonic Pi ya está ejecutándose? No se puede abrir el puerto UDP</translation>
     </message>
 </context>
 </TS>
