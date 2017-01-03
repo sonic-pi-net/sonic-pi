@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-08 01:31+0000\n"
-"Last-Translator: Leidy <ladyalgo@outlook.com>\n"
+"PO-Revision-Date: 2017-01-03 18:30+0000\n"
+"Last-Translator: GABRIEL BARBA GONZALEZ <gabbobarba@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.9\n"
+"X-Generator: Weblate 2.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -72,15 +72,15 @@ msgstr ""
 " dímelo y veré si añadirlo en el futuro."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
 "e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Por último, observar a otros programar en directo es una gran manera de aprend"
-"er. Yo lo hago en directo por [livecoding.tv/samaaron](http://livecoding.tv/sa"
-"maaron) así que pásate por allí, saludame y pregunta todo lo que quieras :-)"
+"Por último, observar a otros programar en directo es una gran manera de "
+"aprender. Yo lo hago en directo por "
+"[livecoding.tv/samaaron](http://livecoding.tv/samaaron) así que pásate por "
+"allí, salúdame y pregunta todo lo que quieras :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
