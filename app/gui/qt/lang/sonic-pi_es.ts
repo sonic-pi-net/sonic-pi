@@ -157,7 +157,7 @@ Usa estos botones para forzar la salida de audio a aquella que desees.</translat
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished">&amp;Audífonos</translation>
+        <translation>&amp;Audífonos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
