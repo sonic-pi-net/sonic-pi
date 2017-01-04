@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-03 18:30+0000\n"
-"Last-Translator: GABRIEL BARBA GONZALEZ <gabbobarba@gmail.com>\n"
+"PO-Revision-Date: 2017-01-04 02:42+0000\n"
+"Last-Translator: Black SheepX <snoop13@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -202,7 +202,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -211,12 +210,12 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Ahora vamos a jugar. Cambia valores, ¿qué pasa cuando usas valores altos, bajo"
-"s o negativos? Mira lo que pasa cuando cambias el valor `rate:` por `:ambi_cho"
-"ir` ajústalo mínimamente (digamos a 0.29). ¿Qué pasa si pones un valor muy baj"
-"o para `sleep` ? prueba a hacerlo sonar tan rápido que tu computadora se cuelg"
-"ue con un error (si eso sucede, simplemente elige un valor más alto para `slee"
-"p` y presiona `Ejecutar` de nuevo)."
+"Ahora vamos a jugar. Cambia valores, ¿qué pasa cuando usas valores altos, "
+"bajos o negativos? Mira lo que pasa cuando cambias el valor `rate:` por "
+"`:ambi_choir` ajústalo mínimamente (digamos a 0.29). ¿Qué pasa si pones un "
+"valor muy bajo para `sleep`? prueba a hacerlo sonar tan rápido que tu "
+"computadora se cuelgue con un error (si eso sucede, simplemente elige un "
+"valor más alto para `sleep` y presiona `Ejecutar` de nuevo)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -473,7 +472,6 @@ msgid "E. Prefs Panel"
 msgstr "E. Panel de Preferencias"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -481,11 +479,11 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Pi permite cambiar ciertos parámetros accesibles a través del botón *pre"
-"ferencias* . Este botón cambia la visibilidad del panel de preferencias, el cu"
-"al incluye un número de opciones a ser cambiadas. Por ejemplo forzar el modo m"
-"ono, invertir el estéreo, cambiar a vista/no vista de la bitácora, mando de vo"
-"lumen y un selector de audio para la Raspberry Pi."
+"Sonic Pi permite cambiar ciertos parámetros accesibles a través del botón "
+"*preferencias* . Este botón cambia la visibilidad del panel de preferencias, "
+"el cual incluye un número de opciones a ser cambiadas. Por ejemplo forzar el "
+"modo mono, invertir el estéreo, cambiar a vista/no vista de la bitácora, "
+"mando de volumen y un selector de audio para la Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -541,6 +539,16 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"El visor de alcance le permite ver el sonido que esta escuchando. Usted "
+"puede ver fácilmente que la onda de la sierra parece una sierra y que el "
+"pitido básico es una curva de onda senoidal. También puede ver la diferencia "
+"entre sonidos fuertes y silenciosos por el tamaño de las líneas. Hay 3 "
+"alcances para jugar - el defecto es un alcance combinado para los canales "
+"izquierdos y derechos, hay un alcance estéreo que dibuja un alcance separado "
+"para cada canal. Finalmente hay un alcance de curva Lissajous que mostrará "
+"la relación de fase entre los canales izquierdo y derecho y le permitirá "
+"dibujar imágenes bonitas con sonido "
+"(https://en.wikipedia.org/wiki/Lissajous_curve)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -588,9 +596,8 @@ msgstr ""
 " y conviértelo en algo alucinante. El público se volverá ”loco”."
 
 #: 01.3-Learning-through-Play.md:24
-#, fuzzy
 msgid "Start Simple"
-msgstr "Comienza sencillo"
+msgstr "Inicio simple"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -623,12 +630,10 @@ msgid "Synths"
 msgstr "Sintetizadores"
 
 #: 02-Synths.md:5
-#, fuzzy
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr "OK, suficiente de introducciones - hagamos algo de sonido."
+msgstr "De acuerdo, suficiente de introducciones - hagamos algo de sonido."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -637,36 +642,33 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"En esta sección cubriremos las bases de disparar y manipular un sintetizador, "
-"que no es más que una palabra rebuscada para algo que produce sonidos. Típicam"
-"ente los sintetizadores son bastante complicados de usarse - especialmente los"
-" análogos con tantos cables para unir los patches y módulos. Sin embargo, Soni"
-"c-Pi te da mucho de ese poder en una manera mucho más sencilla."
+"En esta sección cubriremos las bases de desencadenar y manipular un "
+"sintetizador, que no es más que una palabra rebuscada para algo que produce "
+"sonidos. Típicamente los sintetizadores son bastante complicados de usarse - "
+"especialmente los análogos con tantos cables para unir los módulos. Sin "
+"embargo, Sonic-Pi te da mucho de ese poder en una manera mucho más sencilla."
 
 #: 02-Synths.md:14
-#, fuzzy
 msgid ""
 "Don't be fooled by the immediate simplicity of Sonic Pi's interface. You can g"
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
-"No te confundas con la sencillez del interfaz de Sonic-Pi. Puedes llegar a man"
-"ipular con mucha profundidad el sonido, si eso te interesa. Mantente atento..."
+"No te confundas con la sencillez del interfaz de Sonic-Pi. Puedes llegar a "
+"manipular con mucha profundidad el sonido, si eso te interesa. Mantente "
+"atento..."
 
 #: 02.1-Your-First-Beeps.md:1
-#, fuzzy
 msgid "2.1 Your First Beeps"
-msgstr "2.1 Tus primeros Beeps"
+msgstr "2.1 Tus primeros Sonidos"
 
 #: 02.1-Your-First-Beeps.md:3
-#, fuzzy
 msgid "Your First Beeps"
-msgstr "tus primeros Beeps"
+msgstr "tus primeros Sonidos"
 
 #: 02.1-Your-First-Beeps.md:5
-#, fuzzy
 msgid "Take a look at the following code:"
-msgstr "Échale una mirada al siguiente código:"
+msgstr "Dale una mirada al siguiente código:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
@@ -674,34 +676,31 @@ msgid "play 70"
 msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
-#, fuzzy
 msgid ""
 "This is where it all starts. Go ahead, copy and paste it into the code window "
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
-"Así comienza todo. Adelante, copia y pega en la ventana superior de la aplicac"
-"ión (ese espacio grande en blanco debajo del botón Run) Ahora, presiona 'Run'"
+"Así comienza todo. Adelante, copia y pega en la ventana superior de la "
+"aplicación (ese espacio grande en blanco debajo del botón Ejecutar) Ahora, "
+"presiona 'Ejecutar'..."
 
 #: 02.1-Your-First-Beeps.md:15
-#, fuzzy
 msgid "Beep!"
-msgstr "Beep!"
+msgstr "Sonido!"
 
 #: 02.1-Your-First-Beeps.md:17
-#, fuzzy
 msgid "Intense. Press it again. And again. *And again...*"
 msgstr "Intenso. Presiónalo otra vez, otra vez, otra vez y *otra vez...*"
 
 #: 02.1-Your-First-Beeps.md:19
-#, fuzzy
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Woah, loco, estoy seguro que podrías seguir así por el resto del día. Pero esp"
-"era, antes de perderte en un infinito bucle de pitidos, intenta cambiando el n"
-"úmero:"
+"Woah, loco, estoy seguro que podrías seguir así por el resto del día. Pero "
+"espera, antes de perderte en un infinito bucle de sonidos, intenta cambiando "
+"el número:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -709,7 +708,6 @@ msgid "play 75"
 msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
-#, fuzzy
 msgid "Can you hear the difference? Try a lower number:"
 msgstr "¿Escuchas la diferencia? Intenta con un número menor:"
 
@@ -719,7 +717,6 @@ msgid "play 60"
 msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
-#, fuzzy
 msgid ""
 "So, lower numbers make lower pitched beeps and higher numbers make higher pitc"
 "hed beeps. Just like on a piano, the keys at the lower part of the piano (the "
@@ -730,38 +727,35 @@ msgid ""
 "just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
 "y 60`."
 msgstr ""
-"Así que números menores hacen pitidos de tonos más graves y números mayores ha"
-"cen pitidos de tonos más agudos...justo como en un piano las teclas más a la i"
-"zquierda son más graves que las del lado derecho. De hecho, los números se rel"
-"acionan con las teclas del piano. `play 47` significa que toque la tecla 47va "
-"del piano; `play 48` es un tono arriba (la siguiente tecla a la derecha). Pasa"
-" que la tecla número 60 del piano es la 4ta octava de DO. Intenta con: `play 6"
-"0`."
+"Así que números menores hacen sonidos de tonos más graves y números mayores "
+"hacen sonidos de tonos más agudos. justo como en un piano, las teclas más a "
+"la izquierda son más graves que las del lado derecho. De hecho, los números "
+"se relacionan con las teclas del piano. `play 47` significa que toque la "
+"47va tecla del piano; `play 48` es un tono arriba (la siguiente tecla a la "
+"derecha). Pasa que la tecla número 60 del piano es la 4ta octava de DO. "
+"Intenta con: `play 60`."
 
 #: 02.1-Your-First-Beeps.md:42
-#, fuzzy
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"Si nada de esto significa algo para tí, no te preocupes, que así fue también c"
-"uando yo comenzaba. Lo que importa es que sepas que los números menores signif"
-"ican pitidos más graves que los números mayores."
+"*No te preocupes* si nada de esto significa algo para tí, que así fue "
+"también cuando yo comenzaba. Lo que importa es que sepas que *los números "
+"menores significan sonidos más graves que los números mayores*."
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
-#, fuzzy
 msgid "Chords"
 msgstr "Acordes"
 
 #: 02.1-Your-First-Beeps.md:48
-#, fuzzy
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
 msgstr ""
-"Si tocar una nota es divertido, tocar varias al mismo tiempo lo es aún más. Pr"
-"uébalo:"
+"Si tocar una nota es divertido, tocar varias al mismo tiempo lo es aún más. "
+"Pruébalo:"
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
@@ -775,15 +769,14 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:57
-#, fuzzy
 msgid ""
 "Jazzy! So, when you write multiple `play`s, they all play at the same time. Tr"
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
-"Jazzy! cuando escribes múltiples `play`s, todos se tocan al mismo tiempo. comp"
-"ruébalo tú mismo - ¿cuáles suenan bien, mal? Prueba, experimenta y encuentra p"
-"or tí mismo."
+"Jazzy! cuando escribes múltiples `play`s, todos se tocan al mismo tiempo. "
+"compruébalo tú mismo - ¿cuáles suenan bien juntos, cuales suenan mal?, "
+"experimenta y encuentra por tí mismo."
 
 #: 02.1-Your-First-Beeps.md:61
 #, fuzzy
@@ -791,14 +784,14 @@ msgid "Melody"
 msgstr "Melodia"
 
 #: 02.1-Your-First-Beeps.md:63
-#, fuzzy
 msgid ""
 "So, playing notes and chords is fun - but how about a melody? What if you want"
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
-"Si tocar notas y acordes es divertido, ¿qué tal si queremos tocar notas en dif"
-"erentes momentos? ¡Fácil! sólo debes poner un `sleep` entre las notas:"
+"Si tocar notas y acordes es divertido, pero ¿que tal una melodía? ¿qué tal "
+"si queremos tocar notas en diferentes momentos? ¡Fácil! sólo debes poner un "
+"`sleep` entre las notas:"
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -816,7 +809,6 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:75
-#, fuzzy
 msgid ""
 "How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it"
 " means the *duration of the sleep*. It actually means sleep for one beat, but "
@@ -824,11 +816,12 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
-"¡qué adorable pequeño arpeggio! Entonces, ¿qué significa el `1` en `sleep 1`? "
-"Bien, significa la *duración de dormir*. Realmente significa dormir por un pul"
-"so, aunque por ahora podemos pensar que significa dormir por espacio de 1 segu"
-"ndo. Así, ¿cómo haríamos para que el arpeggio suene más rápido? Bueno, necesit"
-"aríamos usar valores de 'sleep' menores. ¿qué tal, por ejemplo `0.5`:"
+"¡qué adorable pequeño arpegio! Entonces, ¿qué significa el `1` en `sleep 1`? "
+"Bien, significa la *duración de la interrupción*. Realmente significa "
+"esperar por un pulso, aunque por ahora podemos pensar que significa "
+"detenerse por espacio de 1 segundo. Así, ¿cómo haríamos para que el arpegio "
+"suene más rápido? Bueno, necesitaríamos usar valores de 'sleep' menores. ¿"
+"qué tal, por ejemplo `0.5`:"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -846,41 +839,37 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:89
-#, fuzzy
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
 msgstr ""
-"¿Notaste que se ejecutaron más rápido? ahora prueba tú mismo cambiando los val"
-"ores, usando diferentes tiempos y notas."
+"¿Notaste que se ejecutaron más rápido? ahora prueba tú mismo cambiando los "
+"valores, usando diferentes tiempos y notas."
 
 #: 02.1-Your-First-Beeps.md:92
-#, fuzzy
 msgid ""
 "One thing to try is in-between notes such as `play 52.3` and `play 52.63`. The"
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
-"Una cosa a probar es tocar notas como `play 52.3` y `play 52.63`. No hay neces"
-"idad alguna de usar notas enteras. Toca, prueba y diviértete"
+"Una cosa a probar es tocar notas como `play 52.3` y `play 52.63`. No hay "
+"necesidad alguna de usar notas enteras. Toca, prueba y diviértete."
 
 #: 02.1-Your-First-Beeps.md:97
-#, fuzzy
 msgid "Traditional Note Names"
 msgstr "Nombres tradicionales de las notas"
 
 #: 02.1-Your-First-Beeps.md:99
-#, fuzzy
 msgid ""
 "For those of you that already know some musical notation (don't worry if you d"
 "on't - you don't need it to have fun) you might want to write a melody using n"
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
-"Para aquellos de vosotros que poseáis conocimientos de notación musical (no im"
-"porta si no, no es absolutamente necesario para divertirte) quizás quieras esc"
-"ribir una melodía usando nombres de notas como C y F# en vez de números. Sonic"
-" Pi tiene todo eso cubierto. Puedes hacer lo siguiente:"
+"Para aquellos de vosotros que poseáis conocimientos de notación musical (no "
+"importa si no, no es absolutamente necesario para divertirte) quizás quieras "
+"escribir una melodía usando nombres de notas como C y F# en vez de números. "
+"Sonic Pi tiene todo eso cubierto. Puedes hacer lo siguiente:"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -898,14 +887,13 @@ msgstr ""
 "play :E"
 
 #: 02.1-Your-First-Beeps.md:112
-#, fuzzy
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
 msgstr ""
-"Recuerda poner los dos puntos ':' delante del nombre de la nota, para que se p"
-"onga rosada. también puedes especificar la octava, añadiendo un número delante"
-" de la nota:"
+"Recuerda poner los dos puntos ':' delante del nombre de la nota, para que se "
+"ponga color rosa. también puedes especificar la octava, añadiendo un número "
+"delante de la nota:"
 
 #: 02.1-Your-First-Beeps.md:116
 #, no-wrap
@@ -923,31 +911,27 @@ msgstr ""
 "play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
-#, fuzzy
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
-"Si quieres hacer sostenido de una nota, añádele una 's' al nombre de la nota a"
-"sí:`play :Fs3` y si quieres bemolizar, añádele una `b` así `play :Eb3`."
+"Si quieres hacer una nota aguda, añádele una 's' al nombre de la nota así:`"
+"play :Fs3` y si quieres hacer una nota plana, añádele una `b` así `play "
+":Eb3`."
 
 #: 02.1-Your-First-Beeps.md:127
-#, fuzzy
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr "Ahora, hazte \"loco\" y diviértete con tus propias tonadas."
+msgstr "Ahora, \"enloquece\" y diviértete con tus propias tonadas."
 
 #: 02.2-Synth-Params.md:1
-#, fuzzy
 msgid "2.2 Synth Options"
-msgstr "2.2 Opciones Synth"
+msgstr "2.2 Opciones de Sintetizador"
 
 #: 02.2-Synth-Params.md:3
-#, fuzzy
 msgid "Synth Options: Amp and Pan"
-msgstr "Opciones Synth: Amp y Pan"
+msgstr "Opciones de Sintetizador: Amp y Pan"
 
 #: 02.2-Synth-Params.md:5
-#, fuzzy
 msgid ""
 "As well as allowing you to control which note to play or which sample to trigg"
 "er, Sonic Pi provides a whole range of options to craft and control the sounds"
@@ -956,20 +940,18 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
-"Asimismo como Sonic Pi te permite controlar cuál nota tocar o cuál sample disp"
-"arar, también provee un completo rango de opciones para pulir y controlar los "
-"sonidos. En este tutorial cubriremos muchos de estos y exite una gran document"
-"ación para cada uno en el sistema de ayuda. Sin embargo, por ahora introducire"
-"mos dos de los más útiles: *amplitude* y *pan*. Miremos primero qué son las op"
-"ciones."
+"Asimismo como Sonic Pi te permite controlar cuál nota tocar o cuál muestra "
+"desencadenar, también provee un completo rango de opciones para pulir y "
+"controlar los sonidos. En este tutorial cubriremos muchos de estos y existe "
+"una gran documentación para cada uno en el sistema de ayuda. Sin embargo, "
+"por ahora introduciremos dos de los más útiles: *amplitude* y *pan*. Miremos "
+"primero cuales son las opciones."
 
 #: 02.2-Synth-Params.md:13
-#, fuzzy
 msgid "Options"
 msgstr "Opciones"
 
 #: 02.2-Synth-Params.md:15
-#, fuzzy
 msgid ""
 "Sonic Pi supports the notion of options (or opts for short) for its synths. Op"
 "ts are controls you pass to `play` which modify and control aspects of the sou"
@@ -977,33 +959,31 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
-"Sonic Pi apoya la noción de optiones (opts, abreviando) para sus sintetizadore"
-"s. Opts son controles que pasas a `pla` los cuales modifican y controlan aspec"
-"tos del sonido que oyes. Cada sintetizador tiene su propio set de opts para si"
-"ntonizar su sonido. Sin embargo, hay sets comunes de opts que comparten muchos"
-", tales como `amp:` y opciones de envelopes (cubiertas en otra sección)."
+"Sonic Pi apoya la noción de opciones (opts, abreviando) para sus "
+"sintetizadores. Opts son controles que pasas a `play` los cuales modifican y "
+"controlan aspectos del sonido que oyes. Cada sintetizador tiene su propio "
+"set de opts para sintonizar su sonido. Sin embargo, hay sets comunes de opts "
+"que comparten muchos, como `amp:` y sobre opts (cubiertas en otra sección)."
 
 #: 02.2-Synth-Params.md:22
-#, fuzzy
 msgid ""
 "Opts have two major parts, their name (the name of the control) and their valu"
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
-"Las Opts tienen dos partes principales, su nombre (el nombre del control) y su"
-" valor (el valor al que setearás el control). Por ejemplo, puedes tener un con"
-"trol llamado 'cheese:' y querer setearlo con un valor de `1`."
+"Las Opts tienen dos partes principales, su nombre (el nombre del control) y "
+"su valor (el valor al que pondrás el control). Por ejemplo, puedes tener un "
+"control llamado 'cheese:' y querer ponerlo con un valor de `1`."
 
 #: 02.2-Synth-Params.md:27
-#, fuzzy
 msgid ""
 "Opts are passed to calls to `play` by using a comma `,` and then the name of t"
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
-"Los opts se pasan a las llamadas a `play` por medio del uso de una coma `,` y "
-"después el nombre del opt, tal como `amp:` (no olvides los dos puntos `:`) y d"
-"espués un espacio y el valor del opt. Ejemplo:"
+"Los opts se pasan a las llamadas a `play` por medio del uso de una coma `,` "
+"y después el nombre del opt, tal como `amp:` (no olvides los dos puntos `:`) "
+"y después un espacio y el valor del opt. Ejemplo:"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
@@ -1011,14 +991,12 @@ msgid "play 50, cheese: 1"
 msgstr "play 50, cheese: 1"
 
 #: 02.2-Synth-Params.md:35
-#, fuzzy
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr "(Nota que `cheese:` no es un opt válido, lo usamos sólo como ejemplo)."
 
 #: 02.2-Synth-Params.md:37
-#, fuzzy
 msgid "You can pass multiple opts by separating them with a comma:"
-msgstr "Puedes pasar múltiples opts por medio de comas que los separen:"
+msgstr "Puedes pasar múltiples opts separados por comas:"
 
 #: 02.2-Synth-Params.md:39
 #, no-wrap
@@ -1026,7 +1004,6 @@ msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
-#, fuzzy
 msgid "The order of the opts doesn't matter, so the following is identical:"
 msgstr "El orden de los opts no importa, el siguiente será igual al anterior:"
 
@@ -1036,23 +1013,22 @@ msgid "play 50, beans: 0.5, cheese: 1"
 msgstr "play 50, beans: 0.5, cheese: 1"
 
 #: 02.2-Synth-Params.md:49
-#, fuzzy
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
-"Si un Opt no es reconocido por el sintetizador, simplemente es ignorado (como "
-"en el caso de `cheese` y `beans` ¡los cuales son nombres ridículos, obviamente"
-"!)"
+"Si un Opt no es reconocido por el sintetizador, simplemente es ignorado ("
+"como en el caso de `cheese` y `beans` ¡los cuales son nombres ridículos, "
+"obviamente!)"
 
 #: 02.2-Synth-Params.md:52
-#, fuzzy
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
-"Si accidentalemente utilizas el mismo opt dos veces con diferentes valores, el"
-" último gana. Por ejemplo, `beans:` aquí tendrá el valor de 2 y no el de 0.5:"
+"Si accidentalmente utilizas el mismo opt dos veces con diferentes valores, "
+"el último gana. Por ejemplo, `beans:` aquí tendrá el valor de 2 y no el de "
+"0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
@@ -1060,21 +1036,18 @@ msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
 #: 02.2-Synth-Params.md:60
-#, fuzzy
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
-"Muchas cosas en Sonic Pi aceptan opts, sòlo debes pasar tiempo aprendiendo cóm"
-"o usarlas e irás bien. Ejecutemos nuestro primer opt: `amp:`."
+"Muchas cosas en Sonic Pi aceptan opts, sólo debes pasar tiempo aprendiendo "
+"cómo usarlas e irás bien. Ejecutemos nuestro primer opt: `amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
-#, fuzzy
 msgid "Amplitude"
 msgstr "Amplitud"
 
 #: 02.2-Synth-Params.md:66
-#, fuzzy
 msgid ""
 "Amplitude is a computer representation of the loudness of a sound. A *high amp"
 "litude produces a loud sound* and a *low amplitude produces a quiet sound*. Ju"
@@ -1087,16 +1060,16 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
-"Amplitud es una representación computarizada del volumen de un sonido. Una *al"
-"ta amplitud produce un sonido de alto volumen* y *baja amplitud produce sonido"
-" de bajo volumen*. Así como Sonic Pi utiliza números para representar tonos y "
-"tiempos, usa números para representar la amplitud. Una amplitud de 0 es silenc"
-"io (escucharás nada) y amplitud de 1 es volumen normal. Puedes utilizar volume"
-"n a amplitudes mayores a 2, 10, 100. Sin embargo, debes tener en cuenta que cu"
-"ando la amplitud de todos los sonidos se vuelve muy alta, Sonic Pi utiliza un "
-"compresor para asegurar que no lleguen a tan alto que dañen tus oídos. Esto pu"
-"ede hacer que los sonidos sean extraños. Intenta con amplitudes bajas, por eje"
-"mplo en el rango de 0 to 0.5 para evitar compresión."
+"Amplitud es una representación computarizada del volumen de un sonido. Una *"
+"alta amplitud produce un sonido de alto volumen* y *baja amplitud produce "
+"sonido de bajo volumen*. Así como Sonic Pi utiliza números para representar "
+"tonos y tiempos, usa números para representar la amplitud. Una amplitud de 0 "
+"es silencio (escucharás nada) y amplitud de 1 es volumen normal. Puedes "
+"utilizar volumen a amplitudes mayores a 2, 10, 100. Sin embargo, debes tener "
+"en cuenta que cuando la amplitud de todos los sonidos se vuelve muy alta, "
+"Sonic Pi utiliza un compresor para asegurar que no lleguen a tan alto que "
+"dañen tus oídos. Esto puede hacer que los sonidos sean extraños. Intenta con "
+"amplitudes bajas, por ejemplo en el rango de 0 to 0.5 para evitar compresión."
 
 #: 02.2-Synth-Params.md:79
 #, fuzzy
@@ -1104,13 +1077,12 @@ msgid "Amp it up"
 msgstr "Amplifícalo!"
 
 #: 02.2-Synth-Params.md:81
-#, fuzzy
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
-"Para cambiar la amplitud de un sonido, utiliza el opt `amp:`. Por ejemplo, par"
-"a tocar a la mitad de la amplitud, 0.5:"
+"Para cambiar la amplitud de un sonido, utiliza el opt `amp:`. Por ejemplo, "
+"para tocar a la mitad de la amplitud, 0.5:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
@@ -1118,7 +1090,6 @@ msgid "play 60, amp: 0.5"
 msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
-#, fuzzy
 msgid "To play at double amplitude pass 2:"
 msgstr "Para hacerlo al doble de amplitud 2:"
 
@@ -1128,15 +1099,14 @@ msgid "play 60, amp: 2"
 msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
-#, fuzzy
 msgid ""
 "The `amp:` opt only modifies the call to `play` it's associated with. So, in t"
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
 msgstr ""
-"El opt `amp:` sólo modifica la llamada para el `play` al que está asociado. As"
-"í, en este ejemplo, la primera llamada para tocar es a mitad de volumen y la s"
-"egunda es a la predeterminada (1):"
+"El opt `amp:` sólo modifica la llamada para el `play` al que está asociado. "
+"Así, en este ejemplo, la primera llamada para tocar es a mitad de volumen y "
+"la segunda es a la predeterminada (1):"
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -1150,11 +1120,10 @@ msgstr ""
 "play 65"
 
 #: 02.2-Synth-Params.md:104
-#, fuzzy
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr ""
-"Por supuesto que puedes usar diferentes valores de `amp:` para cada llamada a "
-"play:"
+"Por supuesto que puedes usar diferentes valores de `amp:` para cada llamada "
+"a play:"
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -1176,12 +1145,10 @@ msgstr ""
 "play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
-#, fuzzy
 msgid "Panning"
 msgstr "Paneo"
 
 #: 02.2-Synth-Params.md:118
-#, fuzzy
 msgid ""
 "Another fun opt to use is `pan:` which controls the panning of a sound in ster"
 "eo. Panning a sound to the left means that you hear it out of the left speaker"
@@ -1190,18 +1157,18 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
-"Otro concepto divertido de usar es el paneo `pan:` el cual controla el paneo d"
-"e un sonido en estéreo. Paneando un sonido a la izquierda, significa que lo es"
-"cucharás en la bocina izquierda, paneándolo a la derecha, significa que lo esc"
-"ucharás de la bocina derecha. Para nuestros valores, tenemos -1 para represent"
-"ar completamente a la izquierda, 0 para representar el centro y 1 para represe"
-"ntar completamente a la derecha. Claro, eres libre de usar cualquier valor en "
-"medio de -1 y 1 para controlar la posición exacta de tu sonido."
+"Otro concepto divertido de usar es el paneo `pan:` el cual controla el paneo "
+"de un sonido en estéreo. Panear un sonido a la izquierda, significa que lo "
+"escucharás en la bocina izquierda, panearlo a la derecha, significa que lo "
+"escucharás de la bocina derecha. Para nuestros valores, tenemos -1 para "
+"representar completamente a la izquierda, 0 para representar el centro y 1 "
+"para representar completamente a la derecha. Claro, eres libre de usar "
+"cualquier valor en medio de -1 y 1 para controlar la posición exacta de tu "
+"sonido."
 
 #: 02.2-Synth-Params.md:126
-#, fuzzy
 msgid "Let's play a beep out of the left speaker:"
-msgstr "Toquemos un pitido desde la bocina izquierda:"
+msgstr "Toquemos un sonido desde la bocina izquierda:"
 
 #: 02.2-Synth-Params.md:128
 #, no-wrap
@@ -1209,7 +1176,6 @@ msgid "play 60, pan: -1"
 msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
-#, fuzzy
 msgid "Now, let's play it out of the right speaker:"
 msgstr "ahora que salga de la bocina derecha:"
 
@@ -1219,7 +1185,6 @@ msgid "play 60, pan: 1"
 msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
-#, fuzzy
 msgid "Finally let's play it back out of the center of both (the default position):"
 msgstr "Finalmente, pongámoslo de nuevo al centro (predeterminado):"
 
@@ -1229,22 +1194,18 @@ msgid "play 60, pan: 0"
 msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
-#, fuzzy
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
 msgstr "¡Ahora diviértete cambiando las amplitudes y paneos de tus sonidos!"
 
 #: 02.3-Switching-Synths.md:1
-#, fuzzy
 msgid "2.3 Switching Synths"
 msgstr "2.3 Cambiando Sintetizadores"
 
 #: 02.3-Switching-Synths.md:3
-#, fuzzy
 msgid "Switching Synths"
 msgstr "Cambiando Sintetizadores"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1252,14 +1213,13 @@ msgid ""
 " in this section we'll explore the exciting range of sounds that Sonic Pi has "
 "to offer."
 msgstr ""
-"Hasta ahora nos hemos divertido mucho sólo con pitidos. Sin embargo, de seguro"
-" ya comienzas a cansarte del sonido básico de pitidos. ¿es eso todo lo que Son"
-"ic-Pi tiene para ofrecer? Tiene que haber más que tocar pitidos. Sí, hay mucho"
-" más y lo exploraremos en esta sección con el excitante rango de sonidos que S"
-"onic Pi tiene para ofrecer."
+"Hasta ahora nos hemos divertido mucho sólo con sonidos. Sin embargo, de "
+"seguro ya comienzas a cansarte del sonido básico de pitidos. ¿es eso todo lo "
+"que Sonic-Pi tiene para ofrecer? Tiene que haber más que tocar pitidos. Sí, "
+"hay mucho más y lo exploraremos en esta sección con el excitante rango de "
+"sonidos que Sonic Pi tiene para ofrecer."
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a range of instruments it calls synths which is *short for synthe"
 "sisers*. Whereas samples represent pre-recorded sounds, synths are capable of "
@@ -1268,12 +1228,13 @@ msgid ""
 " you'll have a lot of fun exploring and playing with them. First, let's learn "
 "how to select the current synth to use."
 msgstr ""
-"Sonic Pi posee un rango de instrumentos que se llaman synths, que es como abre"
-"viamos *sintetizadores*. Mientras que los sampleos representan sonidos pregrab"
-"ados, los sintetizadores son capaces de generar nuevos sonidos dependiendo de "
-"cómo los controles (lo cual exploraremos más adelante en el tutorial). Los sin"
-"tetizadores de Sonic Pi son poderosos y expresivos, tendrás mucha diversión to"
-"cando y explorándolos. Primero, aprendamos a seleccionar el synth a usar."
+"Sonic Pi posee un rango de instrumentos que se llaman synths, que es como "
+"abreviamos *sintetizadores*. Mientras que los muestreos representan sonidos "
+"pre-grabados, los sintetizadores son capaces de generar nuevos sonidos "
+"dependiendo de cómo los controles (lo cual exploraremos más adelante en el "
+"tutorial). Los sintetizadores de Sonic Pi son poderosos y expresivos, "
+"tendrás mucha diversión tocando y explorándolos. Primero, aprendamos a "
+"seleccionar el synth a usar."
 
 #: 02.3-Switching-Synths.md:21
 #, fuzzy
@@ -1281,7 +1242,6 @@ msgid "Buzzy saws and prophets"
 msgstr "Sierras y Profetas"
 
 #: 02.3-Switching-Synths.md:23
-#, fuzzy
 msgid "A fun sound is the *saw wave* - let's give it a try:"
 msgstr "Un sonido divertido es el de la *onda sierra* - probémoslo:"
 
