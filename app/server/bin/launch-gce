@@ -7,19 +7,18 @@ if [ "$(whoami)" != "root" ]; then
     exit 1
 fi
 
-if [ -z ${SP_ROOT+x} ]; then
-    echo "Looking for SP_ROOT in git repo."
-    export SP_ROOT=`git rev-parse --show-toplevel`
-fi
+export SP_ROOT=/sonic-pi
 
-if [ -z ${SP_ROOT} ]; then
-    echo "Assuming we're running in a Docker container."
-    echo "Setting SP_ROOT as /sonic-pi."
-    export SP_ROOT=/sonic-pi
-fi
-
-INTERNAL_IP=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip" -H "Metadata-Flavor: Google")
 EXTERNAL_IP=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip" -H "Metadata-Flavor: Google")
+INTERNAL_IP=$(hostname -I)
+
+SP_ENV=docker
+echo "SP_ENV=$SP_ENV"
+if [[ "$SP_ENV" == "dev" ]]; then
+    echo "Launching in dev mode."
+    export SP_ROOT=$(git rev-parse --show-toplevel)
+    INTERNAL_IP=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip" -H "Metadata-Flavor: Google")
+fi
 
 ADMIN_PASSWORD=$(dd if=/dev/urandom bs=256 count=1 2> /dev/null | tr -dc 'a-zA-Z0-9' | head -c 32)
 
