@@ -1027,26 +1027,26 @@ end"
         cur = start
         if inclusive
           if start < finish
-            while cur <= finish
-              res << cur
+            while cur.round(14) <= finish
+              res << cur.round(14)
               cur += step_size
             end
           else
-            while cur >= finish
-              res << cur
+            while cur.round(14) >= finish
+              res << cur.round(14)
               cur -= step_size
             end
           end
 
         else
           if start < finish
-            while cur < finish
-              res << cur
+            while cur.round(14) < finish
+              res << cur.round(14)
               cur += step_size
             end
           else
-            while cur > finish
-              res << cur
+            while cur.round(14) > finish
+              res << cur.round(14)
               cur -= step_size
             end
           end

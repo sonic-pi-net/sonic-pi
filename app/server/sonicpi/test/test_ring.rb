@@ -44,19 +44,18 @@ module SonicPi
     end
 
     def test_range
-      assert_equal([1, 2, 3, 4], range(1, 5))
-      assert_equal([1, 2, 3, 4, 5], range(1, 5, inclusive: true))
-      assert_equal([1, 2, 3, 4], range(1, 5, 1))
-      assert_equal([1, 2, 3, 4], range(1, 5, step: 1))
-      assert_equal(range(1, 5, step: 2), [1, 3])
-      assert_equal(range(1, -5, step: -2), [1, -1, -3])
-      assert_equal(range(10, 50, step: 10), [10, 20, 30, 40])
-      assert_equal(range(1, 5, step: -1), [1, 2, 3, 4])
+      assert_equal([1.0, 2.0, 3.0, 4.0], range(1, 5))
+      assert_equal([1.0, 2.0, 3.0, 4.0, 5.0], range(1, 5, inclusive: true))
+      assert_equal([1.0, 2.0, 3.0, 4.0], range(1, 5, 1))
+      assert_equal([1.0, 2.0, 3.0, 4.0], range(1, 5, step: 1))
+      assert_equal(range(1, 5, step: 2), [1.0, 3.0])
+      assert_equal(range(1, -5, step: -2), [1.0, -1.0, -3.0])
+      assert_equal(range(10, 50, step: 10), [10.0, 20.0, 30.0, 40.0])
+      assert_equal(range(1, 5, step: -1), [1.0, 2.0, 3.0, 4.0])
       assert_equal(range(1, 3).class, SonicPi::Core::RingVector)
       assert_equal(range(10, 10, step: -1), ring())
 
     end
-
 
     def test_line
       assert_equal([0.0, 1.0, 2.0, 3.0], line(0, 4, steps: 4))
@@ -65,6 +64,34 @@ module SonicPi
       assert_equal([5.0, 4.0, 3.0, 2.0, 1.0], line(5, 0, steps: 5))
       assert_equal([0.0, 0.5], line(0, 1, steps: 2))
       assert_equal(line(1.0, 3.0).class, SonicPi::Core::RingVector)
+
+
+      midi_clocks_half = [0,
+                    0.020833333333333332,
+                    0.041666666666666664,
+                    0.0625,
+                    0.08333333333333333,
+                    0.10416666666666666,
+                    0.12499999999999999,
+                    0.14583333333333331,
+                    0.16666666666666666,
+                    0.1875,
+                    0.20833333333333334,
+                    0.22916666666666669,
+                    0.25,
+                    0.2708333333333333,
+                    0.29166666666666663,
+                    0.31249999999999994,
+                    0.33333333333333326,
+                    0.3541666666666666,
+                    0.3749999999999999,
+                    0.3958333333333332,
+                    0.4166666666666665,
+                    0.43749999999999983,
+                    0.45833333333333315,
+        0.47916666666666646].map{|x| x.round(14)}.ring
+
+      assert_equal midi_clocks_half, line(0, 0.5, steps: 24, inclusive: false)
     end
 
     def test_ring
