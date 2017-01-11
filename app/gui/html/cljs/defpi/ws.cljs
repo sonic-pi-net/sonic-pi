@@ -125,17 +125,14 @@
 
 (defmethod handle-message "job"
   [msg]
-  (cond
-   (= "start" (get msg "action"))
-   (swap! app-state update-in [:jobs] conj (get msg "jobid"))
+  (condp contains? (get msg "action")
+    #{"start"}
+    (swap! app-state update-in [:jobs] conj (get msg "jobid"))
 
-   (= "completed" (get msg "action"))
-   (swap! app-state update-in [:jobs] disj (get msg "jobid" ))
+    #{"completed" "killed"}
+    (swap! app-state update-in [:jobs] disj (get msg "jobid" ))
 
-   :else
-   (js/alert (str "Unknown job action: " (:action msg)))
-
-    ))
+    (js/alert (str "Unknown job action: " (get msg "action")))))
 
 (defmethod handle-message js/Object
   [m]
