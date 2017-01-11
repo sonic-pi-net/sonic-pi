@@ -159,7 +159,7 @@ end"
       def osc_send(host, port, path, *args)
         t = @global_start_time + vt + current_sched_ahead_time
         @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
-        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
+        #__delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
       end
 
       def osc_send_now(host, port, path, *args)
