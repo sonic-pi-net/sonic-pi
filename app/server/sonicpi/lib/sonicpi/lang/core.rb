@@ -360,29 +360,59 @@ at do
 end"
 ]
 
-      def time_warp(delta, &blk)
+      def time_warp(times=0, params=nil, &block)
         __schedule_delayed_blocks_and_messages!
-        raise "time_warp requires a do/end block" unless blk
-        density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
-        prev_ts_val = __system_thread_locals.get :sonic_pi_spider_in_time_warp
-        __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
-        sat = @mod_sound_studio.sched_ahead_time
+        raise "time_warp requires a do/end block" unless block
 
-        sleep_time = delta * __thread_locals.get(:sonic_pi_spider_sleep_mul) * density
+        had_params = params
+        times = [times] if times.is_a? Numeric
 
-        raise "Time travel error - a jump back of #{delta} is too far.\nYou can't go back in time beyond the sched ahead time #{sat}" if sleep_time < (-1 * sat)
+        # When no params are specified, pass the times through as params
+        params ||= times
+        params_size = params.size
+
+        raise "params needs to be a list-like thing" unless params.respond_to? :[]
+        raise "times needs to be a list-like thing" unless times.respond_to? :each_with_index
+        prev_tw_val = __system_thread_locals.get :sonic_pi_spider_in_time_warp
+
+
         vt_orig = __system_thread_locals.get :sonic_pi_spider_time
-        __system_thread_locals.set :sonic_pi_spider_time, (vt_orig + sleep_time).freeze
-        curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
-        __system_thread_locals.set(:sonic_pi_spider_beat, curr_beat + delta)
-        blk.call
-        __schedule_delayed_blocks_and_messages!
-        vt = __system_thread_locals.get :sonic_pi_spider_time
-        __system_thread_locals.set :sonic_pi_spider_time, (vt - sleep_time).freeze
-        curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
-        __system_thread_locals.set(:sonic_pi_spider_beat, curr_beat - delta)
+        density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
+        orig_sleep_mul_w_density = __thread_locals.get(:sonic_pi_spider_sleep_mul) * density
+        orig_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
+        sat = __current_sched_ahead_time
+
+        __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
+
+        times.each_with_index do |delta, idx|
+          sleep_time = delta * orig_sleep_mul_w_density
+          raise "Time travel error - a jump back of #{delta} is too far.\nSorry, although it would be amazing, you can't go back in time beyond the sched_ahead time of #{sat}" if sleep_time < (-1 * sat)
+
+          __system_thread_locals.set :sonic_pi_spider_time, (vt_orig + sleep_time).freeze
+          __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
+
+          case block.arity
+            when 0
+              block.call
+            when 1
+              block.call(params[idx % params_size])
+            when 2
+              if had_params
+                block.call(t, params[idx % params_size])
+              else
+                block.call(t, idx)
+              end
+            when 3
+              block.call(t, params[idx % params_size], idx)
+            else
+              raise "block for time_warp should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
+            end
+          __schedule_delayed_blocks_and_messages!
+        end
+
         __system_thread_locals.set :sonic_pi_spider_time, vt_orig
-        __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, prev_ts_val
+        __system_thread_locals.set :sonic_pi_spider_beat, orig_beat
+        __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, prev_tw_val
       end
       doc name:           :time_warp,
           introduced:     Version.new(2,11,0),
@@ -393,11 +423,15 @@ end"
           accepts_block:  true,
           doc:            "The code within the given block is executed with the specified delta time shift specified in beats. For example, if the delta value is 0.1 then all code within the block is executed with a 0.1 beat delay. Negative values are allowed which means you can move a block of code *backwards in time*. For example a delta value of -0.1 will execute the code in the block 0.1 beats ahead of time. The time before the block started is restored after the execution of the block.
 
+Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If size of params list is smaller than the times list, the param values will act as rings (rotate through). If the block is given 1 arg, the times are fed through. If the block is given 2 args, both the times and the params are fed through. A third block arg will receive the index of the time.
+
 Note that the code within the block is executed synchronously with the code before and after, so all thread locals will be modified inline - as is the case for `with_fx`. However, as time is always restored to the value before `time_warp` started, you can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
 
 Also, note that you cannot travel backwards in time beyond the `current_sched_ahead_time`.
 
-Finally, note that if the `time_warp` block is within a `density` block, the delta time is not affected (although all the other times such as sleep and phase durations will be affected) - see example.",
+If the `time_warp` block is within a `density` block, the delta time is not affected (although all the other times such as sleep and phase durations will be affected) - see example.
+
+`time_warp` is ahead-of-time scheduling within the current thread. See `at` for just-in-time scheduling using multiple isolated threads.",
           examples:       ["# shift forwards in time
 play 70            #=> plays at time 0
 sleep 1
@@ -483,10 +517,83 @@ density 2 do                        # Typically this will double the BPM and aff
 
 end
 
+",
+
+        " # Time Warp with lists of times
+
+time_warp [0, 1, 2, 3] do
+  puts \"hello\"                # Will print \"hello\" at 0, 1, 2, and 3 seconds
+end
+                                # Notice that the run completes before all the
+                                # messages have been delivered. This is because
+                                # schedules all the messages at once so the program
+                                # can complete immediately. This is unlike at which
+                                # would appear to behave similarly, but would wait
+                                # for all messages to be delivered (on time) before
+                                # allowing the program to complete. ",
+
+"time_warp [1, 2, 4] do  # plays a note after waiting 1 beat,
+    play 75                # then after 1 more beat,
+  end                      # then after 2 more beats (4 beats total)
+  ",
+  "
+  time_warp [1, 2, 3], [75, 76, 77] do |n|  # plays 3 different notes
+    play n
+  end
+  ",
+  "
+  time_warp [1, 2, 3],
+      [{:amp=>0.5}, {:amp=> 0.8}] do |p| # alternate soft and loud
+    sample :drum_cymbal_open, p          # cymbal hits three times
+  end
+  ",
+  "
+  time_warp [0, 1, 2] do |t| # when no params are given to at, the times are fed through to the block
+    puts t #=> prints 0, 1, then 2
+  end
+  ",
+  "
+  time_warp [0, 1, 2], [:a, :b] do |t, b|  #If you specify the block with 2 args, it will pass through both the time and the param
+    puts [t, b] #=> prints out [0, :a], [1, :b], then [2, :a]
+  end
+  ",
+  "
+  time_warp [0, 0.5, 2] do |t, idx|  #If you specify the block with 2 args, and no param list to at, it will pass through both the time and the index
+    puts [t, idx] #=> prints out [0, 0], [0.5, 1], then [2, 2]
+  end
+  ",
+  "
+  time_warp [0, 0.5, 2], [:a, :b] do |t, b, idx|  #If you specify the block with 3 args, it will pass through the time, the param and the index
+    puts [t, b, idx] #=> prints out [0, :a, 0], [0.5, :b, 1], then [2, :a, 2]
+  end
+  ",
+  " # time_warp  consumes & interferes with the outer random stream
+puts \"main: \", rand  # 0.75006103515625
+rand_back
+time_warp 1 do         # the random stream inside the at block is the
+                       # same as the one in the outer block
+  puts \"time_warp:\", rand # 0.75006103515625
+  puts \"time_warp:\", rand # 0.733917236328125
+  rand_back           # undo last call to rand
+end
+
+sleep 2
+puts \"main: \", rand # value is now 0.733917236328125 again
+",
+
 "
-
-
-      ]
+            # Each block run inherits the same thread locals from the previous one.
+            # This means things like the thread local counters can flow through
+            # time warp iterations::
+time_warp [0, 2] do
+            # first time round (after 1 beat) prints:
+  puts tick # 0
+  puts tick # 1
+end
+            # second time round (after 2 beats) prints:
+            # 2
+            # 3
+" ]
 
 
       def tick_set(*args)
@@ -1697,7 +1804,9 @@ puts slept #=> Returns false as there were no sleeps in the block"]
           summary:        "Asynchronous Time. Run a block at the given time(s)",
           doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If size of params list is smaller than the times list, the param values will act as rings (rotate through). If the block is given 1 arg, the times are fed through. If the block is given 2 args, both the times and the params are fed through. A third block arg will receive the index of the time.
 
-Note, all code within the block is executed in its own thread. Therefore despite inheriting all thread locals such as the random stream and ticks, modifications will be isolated to the block and will not affect external code.",
+Note, all code within the block is executed in its own thread. Therefore despite inheriting all thread locals such as the random stream and ticks, modifications will be isolated to the block and will not affect external code.
+
+`at is just-in-time scheduling using multiple isolated threads. See `time_warp` for ahead-of-time scheduling within the current thread",
           args:           [[:times, :list],
                            [:params, :list]],
           opts:           nil,
