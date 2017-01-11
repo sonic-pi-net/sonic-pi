@@ -416,6 +416,24 @@ module SonicPi
       end
     end
 
+    def truthy?(val)
+
+        case val
+        when Numeric
+          return val != 0
+        when NilClass
+          return false
+        when TrueClass
+          return true
+        when FalseClass
+          return false
+        when Proc
+          new_v = val.call
+          return truthy?(new_v)
+        end
+      end
+
+
     def merge_synth_arg_maps_array(opts_a)
       res = {}
       idx = 0

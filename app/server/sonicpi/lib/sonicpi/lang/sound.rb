@@ -483,22 +483,6 @@ sample :loop_amen        # re-loads and plays amen"]
         "puts rest? {note: nil} # true",
         "puts rest? {note: 50} # false"]
 
-      def truthy?(val)
-
-        case val
-        when Numeric
-          return val != 0
-        when NilClass
-          return false
-        when TrueClass
-          return true
-        when FalseClass
-          return false
-        when Proc
-          new_v = val.call
-          return truthy?(new_v)
-        end
-      end
 
       def should_trigger?(args_h)
         return true unless args_h.key?(:on)
