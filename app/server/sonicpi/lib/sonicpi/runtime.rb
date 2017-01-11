@@ -781,6 +781,7 @@ module SonicPi
             __info("Syntax error in run #{id}. Code ignored.")
           end
         rescue Exception => e
+          __schedule_delayed_blocks_and_messages!
           __no_kill_block do
             __info("Aborted Run #{id}")
             __error(e)
