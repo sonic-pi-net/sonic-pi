@@ -315,7 +315,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Kun valittu, Sonic Pi antaa käynnistää
 load_synthdefs kautta ladattuja
 syntetisaattoreita ja efektejä.
@@ -899,7 +899,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2521"/>
         <source>Sonic Pi - Info</source>
-        <translation>Sonic Pi - Info</translation>
+        <translation>Sonic Pi - Tietoa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2541"/>
@@ -980,7 +980,7 @@ Lataa Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

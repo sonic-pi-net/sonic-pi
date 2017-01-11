@@ -42,7 +42,11 @@ os = case RUBY_PLATFORM
        :unknown
      end
 
-pids = Dir.entries(pids_store) - [".", ".."]
+if ARGV.empty?
+  pids = Dir.entries(pids_store) - [".", ".."]
+else
+  pids = ARGV
+end
 
 log_process_info "\n\nClearing pids: #{pids.inspect}\n"
 
@@ -64,6 +68,8 @@ pids.each do |pid|
     end
     next
   end
+
+  log_process_info "  -- command #{orig_cmdline}"
 
   if File.exists? pid_path
     log_process_info "  -- removing #{pid_path}"

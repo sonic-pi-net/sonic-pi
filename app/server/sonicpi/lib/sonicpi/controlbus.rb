@@ -17,7 +17,7 @@ module SonicPi
     end
 
     def to_s
-      "#<SonicPi::AudioBus @id=#{@id}>"
+      "#<SonicPi::ControlBus @id=#{@id}>"
     end
   end
 end

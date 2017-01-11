@@ -109,7 +109,6 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
-    void returnAndIndentLine(QObject *ws);
     void completeSnippetListOrIndentLine(QObject *ws);
     void completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla *ws);
     void toggleCommentInCurrentWorkspace();
@@ -134,7 +133,7 @@ private slots:
     void onExitCleanup();
     void toggleRecording();
     void toggleRecordingOnIcon();
-    void changeRPSystemVol(int val);
+    void changeRPSystemVol(int val, int silent=0);
     void changeGUITransparency(int val);
     void setRPSystemAudioAuto();
     void setRPSystemAudioHeadphones();
@@ -192,10 +191,10 @@ private slots:
 
 private:
 
+    void checkPort(int port);
     QString osDescription();
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;
-    QSignalMapper *retSignalMapper;
     void startRubyServer();
     bool waitForServiceSync();
     void clearOutputPanels();

@@ -155,6 +155,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   qt_browser_dark_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/dark/doc-styles.css");
   qt_browser_light_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/light/doc-styles.css");
 
+  QDir logDir(log_path);
+  logDir.mkpath(logDir.absolutePath());
+
   QFile tmpFile(sp_user_tmp_path);
   if (!tmpFile.open(QIODevice::WriteOnly)) {
     homeDirWritable = false;
@@ -287,11 +290,16 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   setupLogPathAndRedirectStdOut();
   std::cout << "[GUI] - Detecting port numbers..." << std::endl;
   std::cout << "[GUI] - GUI OSC listen port "<< gui_listen_to_server_port << std::endl;
-  std::cout << "[GUI] - GUI OSC out port " << gui_send_to_server_port<< std::endl;
+  checkPort(gui_listen_to_server_port);
   std::cout << "[GUI] - Server OSC listen port " << server_listen_to_gui_port << std::endl;
-  std::cout << "[GUI] - Server OSC out port " << server_send_to_gui_port << std::endl;
+  checkPort(server_listen_to_gui_port);
   std::cout << "[GUI] - Server incoming OSC cues port " << server_osc_cues_port << std::endl;
+  checkPort(server_osc_cues_port);
   std::cout << "[GUI] - Scsynth port " << scsynth_port << std::endl;
+  checkPort(scsynth_port);
+
+  std::cout << "[GUI] - Server OSC out port " << server_send_to_gui_port << std::endl;
+  std::cout << "[GUI] - GUI OSC out port " << gui_send_to_server_port<< std::endl;
   std::cout << "[GUI] - Scsynth send port " << scsynth_send_port << std::endl;
   std::cout << "[GUI] - Init script completed" << std::endl;
 
@@ -344,12 +352,23 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     updateDarkMode();
     updateFullScreenMode();
     showWelcomeScreen();
-    changeRPSystemVol(system_vol_slider->value());
+    changeRPSystemVol(system_vol_slider->value(), 1);
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
   }
+}
+
+void MainWindow::checkPort(int port) {
+  oscpkt::UdpSocket sock;
+  sock.bindTo(port);
+  if (!sock.isOk()) {
+    std::cout << "[GUI] -    port: " << port << " [Not Available]" << std::endl;
+  } else {
+    std::cout << "[GUI] -    port: " << port << " [OK]" << std::endl;
+  }
+  sock.close();
 }
 
 void MainWindow::showWelcomeScreen() {
@@ -412,12 +431,20 @@ void MainWindow::setupWindowStructure() {
   // create workspaces and add them to the tabs
   // workspace shortcuts
   signalMapper = new QSignalMapper (this) ;
-  retSignalMapper = new QSignalMapper (this) ;
+  auto_indent_on_run = new QCheckBox(tr("Auto-align"));
+
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
     QString fileName = QString("workspace_" ) + QString::fromStdString(number_name(ws));
 
-    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender);
+    //TODO: this is only here to ensure auto_indent_on_run is
+    //      initialised before using it to construct the
+    //      workspaces. Strongly consider how to clean this up in a way
+    //      that nicely scales for more properties such as this.  This
+    //      should only be considered an interim solution necessary to
+    //      fix the return issue on Japanese keyboards.
+
+    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender, auto_indent_on_run);
 
     workspace->setObjectName(QString("Buffer %1").arg(ws));
 
@@ -517,7 +544,6 @@ void MainWindow::setupWindowStructure() {
     tabs->addTab(workspace, w);
   }
 
-  connect(retSignalMapper, SIGNAL(mapped(QObject*)), this, SLOT(returnAndIndentLine(QObject*)));
   connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
   connect(signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeSnippetListOrIndentLine(QObject*)));
 
@@ -538,18 +564,11 @@ void MainWindow::setupWindowStructure() {
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
   outputPane->setLineWrapMode(QPlainTextEdit::NoWrap);
-#if defined(Q_OS_WIN)
-  outputPane->setFontFamily("Courier New");
-#elif defined(Q_OS_MAC)
-  outputPane->setFontFamily("Menlo");
-#else
-  outputPane->setFontFamily("Bitstream Vera Sans Mono");
-#endif
+  outputPane->setFontFamily("Hack");
 
   if(!theme->font("LogFace").isEmpty()){
       outputPane->setFontFamily(theme->font("LogFace"));
   }
-
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
@@ -807,22 +826,6 @@ void MainWindow::completeSnippetListOrIndentLine(QObject* ws){
   }
 }
 
-
-void MainWindow::returnAndIndentLine(QObject* ws){
-  SonicPiScintilla *spws = ((SonicPiScintilla*)ws);
-
-  if(spws->isListActive()) {
-    spws->tabCompleteifList();
-  }
-  else {
-    if(auto_indent_on_run->isChecked()) {
-      spws->newlineAndIndent();
-    } else {
-      spws->newLine();
-    }
-  }
-}
-
 void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla* ws) {
   int start_line, finish_line, point_line, point_index;
   ws->getCursorPosition(&point_line, &point_index);
@@ -903,6 +906,12 @@ void MainWindow::startRubyServer(){
   serverProcess = new QProcess();
 
   QStringList args;
+#if defined(Q_OS_MAC)
+  args << "--enable-frozen-string-literal";
+#elif defined(Q_OS_WIN)
+  args << "--enable-frozen-string-literal";
+#endif
+
   args << "-E" << "utf-8";
   args << ruby_server_path;
 
@@ -1187,7 +1196,7 @@ void MainWindow::initPrefsWindow() {
   editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
   QGroupBox *automation_box = new QGroupBox(tr("Automation"));
   automation_box->setToolTip(tr("Configure automation features."));
-  auto_indent_on_run = new QCheckBox(tr("Auto-align"));
+
   auto_indent_on_run->setToolTip(tr("Automatically align code on Run"));
 
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
@@ -1301,7 +1310,6 @@ void MainWindow::initPrefsWindow() {
   viz_box->setLayout(viz_tab_layout);
   prefTabs->addTab(viz_box, tr("Visuals"));
 
-  QGridLayout *performance_box_layout = new QGridLayout;
   //  prefTabs->addTab(performance_box, tr("Status"));
 
 
@@ -1364,7 +1372,7 @@ void MainWindow::initPrefsWindow() {
 
   //show_left_scope->setChecked( scopeInterface->enableScope( "Left", settings.value("prefs/scope/show-left", true).toBool() ) );
   //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
-  show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", true).toBool() ) );
+  show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
   show_scopes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-scopes", true).toBool() ) );
 
   // Ensure prefs are honoured on boot
@@ -1879,13 +1887,14 @@ void MainWindow::changeGUITransparency(int val)
 #endif
 }
 
-void MainWindow::changeRPSystemVol(int val)
+void MainWindow::changeRPSystemVol(int val, int silent)
 {
   float v = (float) val;
   v = (v / 100.0) * 2.0;
   Message msg("/mixer-amp");
   msg.pushStr(guiID.toStdString());
   msg.pushFloat(v);
+  msg.pushInt32(silent);
   sendOSC(msg);
   statusBar()->showMessage(tr("Updating System Volume..."), 2000);
 }
@@ -2032,13 +2041,7 @@ void MainWindow::updateDarkMode(){
 
   QString appStyling = readFile(qt_app_theme_path);
 
-#if defined(Q_OS_WIN)
-  appStyling.replace("fixedWidthFont", "\"Courier New\"");
-#elif defined(Q_OS_MAC)
-  appStyling.replace("fixedWidthFont", "\"Menlo\"");
-#else
-  appStyling.replace("fixedWidthFont", "\"Bitstream Vera Sans Mono\"");
-#endif
+  appStyling.replace("fixedWidthFont", "\"Hack\"");
 
   appStyling
     .replace("windowColor", windowColor)
@@ -2296,10 +2299,9 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
 
 void MainWindow::createShortcuts()
 {
-  new QShortcut(metaKey('{'), this, SLOT(tabPrev()));
-  new QShortcut(metaKey('}'), this, SLOT(tabNext()));
+  new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
+  new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
   new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
-
   new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
   new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
   new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
@@ -2909,6 +2911,25 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
       statusBar()->showMessage(tr("Welcome back. Now get your live code on..."), 2000);
       update();
     }
+
+    // if (evt->type() == QEvent::KeyPress) {
+    //     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(evt);
+    //     qDebug() << "Key Press: " << keyEvent->text() << " " << keyEvent->key();
+    // }
+
+    // if (evt->type() == QEvent::KeyRelease) {
+    //     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(evt);
+    //     qDebug() << "Key Release: " << keyEvent->text();
+    // }
+
+    // if(evt->type() == QEvent::Shortcut){
+    //     QShortcutEvent *sc = static_cast<QShortcutEvent *>(evt);
+    //     const QKeySequence &ks = sc->key();
+    //     qDebug() << "Key Shortcut: " << ks.toString();
+    // }
+
+
+
     return QMainWindow::eventFilter(obj, evt);
 }
 

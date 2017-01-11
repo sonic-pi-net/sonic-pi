@@ -94,7 +94,9 @@ module SonicPi
         base.instance_exec do
           define_method(:initialize) do |*splat, &block|
             sonic_pi_mods_sound_initialize_old *splat, &block
-            hostname, scsynth_port, scsynth_send_port, osc_cues_port, msg_queue, max_concurrent_synths = *splat
+            hostname, ports, msg_queue = *splat
+
+
             @server_init_args = splat.take(4)
             @mod_sound_home_dir = Dir.home
             @simple_sampler_args = [:amp, :amp_slide, :amp_slide_shape, :amp_slide_curve, :pan, :pan_slide, :pan_slide_shape, :pan_slide_curve, :cutoff, :cutoff_slide, :cutoff_slide_shape, :cutoff_slide_curve, :lpf, :lpf_slide, :lpf_slide_shape, :lpf_slide_curve, :hpf, :hpf_slide, :hpf_slide_shape, :hpf_slide_curve, :rate, :slide, :beat_stretch, :rpitch, :attack, :decay, :sustain, :release, :attack_level, :decay_level, :sustain_level, :env_curve]
@@ -114,7 +116,8 @@ module SonicPi
             @JOB_MIXERS_MUTEX = Mutex.new
             @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
             @JOB_BUSSES_MUTEX = Mutex.new
-            @mod_sound_studio = Studio.new(hostname, scsynth_port, scsynth_send_port, msg_queue)
+            @mod_sound_studio = Studio.new(hostname, ports, msg_queue)
+
 
             @mod_sound_studio_checker = Thread.new do
               # kill all jobs if an error occured in the studio
@@ -147,8 +150,8 @@ module SonicPi
               # Do nothing for now
             end
 
-            @life_hooks.on_all_completed do
-              @mod_sound_studio.pause
+            @life_hooks.on_all_completed do |silent=false|
+              @mod_sound_studio.pause(silent)
             end
 
             @life_hooks.on_exit do |job_id, payload|
@@ -191,6 +194,81 @@ module SonicPi
         raise "Sorry, with_sample_pack is no longer supported since v2.11. \n  Please read Section 3.7 of the tutorial for a more powerful replacement."
       end
 
+      def midi_send_timed(*args)
+        #TODO remove hardcoded port number
+        osmid_o2m_port = 4561
+        osc "localhost", osmid_o2m_port, *args
+      end
+
+      def midi_raw(a, b, c)
+        midi_send_timed("/foo/raw", a.to_i, b.to_i, c.to_i)
+      end
+      doc name:           :midi_raw,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send raw MIDI message",
+          args:           [[], ],
+          returns:        :nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sends the raw MIDI message to *all* connected devices
+
+THIS IS ALPHA! Expect this fn to completely change before final release",
+          examples:       [
+        "midi_raw 0xb0, 0x7b, 0x0  #=> Sends the MIDI reset command"
+]
+
+      def midi_reset
+        midi_raw 0xb0, 0x7b, 0x0
+      end
+      doc name:           :midi_reset,
+          introduced:     Version.new(2,12,0),
+          summary:        "Reset all MIDI devices",
+          args:           [[], ],
+          returns:        :nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sends the MIDI reset command to *all( connected MIDI devices
+
+THIS IS ALPHA! Expect this fn to completely change before final release",
+          examples:       [
+        "midi_reset #=> Resets all connected MIDI devices"
+]
+
+      def midi_play(n, opts={})
+        on_val = opts.has_key?(:on) ? opts[:on] : 1
+        dur = opts[:dur] || 1
+        amp = opts[:amp] || 1
+        amp = (amp.min(0).max(1) * 127.0).to_i
+        n = note(n)
+        on on_val do
+          __delayed_message "midi #{n}, {amp: #{amp}, dur: #{dur}}"
+          midi_raw 0x90, n, amp
+          time_warp dur.to_f do
+            midi_raw 0x80, n, 127
+          end
+          #s = nil
+          #time_warp -0.1 do
+          #      s = synth :sound_in, attack: 0, sustain: dur, release: 0, amp: amp
+          # end
+          #return s
+        end
+        #return @blank_node
+        return nil
+      end
+      doc name:           :midi_play,
+          introduced:     Version.new(2,12,0),
+          summary:        "Trigger and release an external synth via MIDI",
+          args:           [[:note, :number], ],
+          returns:        :nil,
+          opts:           {dur: "Duration of note event in beats",
+                           amp:  "Amplitude of note as a value between 0 and 1"},
+          accepts_block:  false,
+          doc:            "Sends a MIDI note on event to *All* connected MIDI devices and then after dur beats sends a MIDI note off event. Ensures MIDI trigger is synchronised with standard calls to play and sample. Co-operates completely with Sonic Pi's timing system including time_warp.
+
+THIS IS ALPHA! Expect this fn to completely change before final release",
+          examples:       [
+        "midi_play :e1, dur: 0.3, amp: 0.5",
+]
 
       def reboot
         @sample_loader.reset!
@@ -315,7 +393,12 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
 
  ]
 
-
+      # def buffer(name, duration=8)
+      #   name = name.to_sym
+      #   buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
+      #   __info "initialised buffer #{name.inspect}, #{duration}s" unless cached
+      #   buf
+      # end
 
 
       def sample_free_all
@@ -2391,7 +2474,7 @@ puts current_arg_checks # Print out the current arg check setting"]
 
 
 
-      def set_volume!(vol, now=false)
+      def set_volume!(vol, now=false, silent=false)
         max_vol = 5
         if (vol > max_vol)
           new_vol = max_vol
@@ -2400,7 +2483,7 @@ puts current_arg_checks # Print out the current arg check setting"]
         else
           new_vol = vol
         end
-        @mod_sound_studio.set_volume new_vol, now
+        @mod_sound_studio.set_volume new_vol, now, silent
       end
       doc name:          :set_volume!,
           introduced:    Version.new(2,0,0),
@@ -3720,7 +3803,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 
       def control(*args)
 
-        if (!args.first.is_a?(SonicPi::SynthNode || !args.first.nil?))
+        if (!args.first.is_a?(SonicPi::Node || !args.first.nil?))
           # we haven't specified a node to control - take it from the TL
             node = __thread_locals.get(:sonic_pi_local_last_triggered_node)
         else
@@ -3738,6 +3821,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 
         info = node.info
         defaults = info ? info.arg_defaults : {}
+
         if node.info
           args_h = info.munge_opts(args_h)
           resolve_midi_args!(args_h, info)
@@ -3746,16 +3830,17 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         end
 
         if node.is_a?(ChordGroup)
-
           note = args_h.delete(:note)
           notes = args_h.delete(:notes)
           notes = note if note && !notes
-          notes = [notes] unless is_list_like?(notes)
           normalise_args! args_h, defaults
           # don't normalise notes key as it is special
           # when controlling ChordGroups.
           # TODO: remove this hard coded behaviour
-          args_h[:notes] = notes.map{|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
+          if notes
+            notes = [notes] unless is_list_like?(notes)
+            args_h[:notes] = notes.map{|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
+          end
         else
           note = args_h[:note]
           if note

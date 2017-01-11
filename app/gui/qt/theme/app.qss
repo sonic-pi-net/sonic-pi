@@ -139,6 +139,14 @@ QScrollBar::sub-line:vertical {
     subcontrol-origin: margin;
 }
 
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}
+
 QTabBar::tab{
     background: tabColor;
     color: tabTextColor;

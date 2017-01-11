@@ -106,12 +106,12 @@ fuertes o incómodos.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="692"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished">Modo pantalla completa activado.</translation>
+        <translation>Modo pantalla completa activado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished">Modo pantalla completa desactivado.</translation>
+        <translation>Modo pantalla completa desactivado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="884"/>
@@ -144,7 +144,7 @@ fuertes o incómodos.</translation>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished">Tu Raspberry Pi tiene dos maneras de emitir sonido.
+        <translation>Tu Raspberry Pi tiene dos maneras de emitir sonido.
 En primer lugar, el conector de audífonos del mismo Raspberry Pi.
 En segundo lugar, algunos monitores/televisores HDMI pueden recibir audio por el puerto HDMI.
 Usa estos botones para forzar la salida de audio a aquella que desees.</translation>
@@ -157,7 +157,7 @@ Usa estos botones para forzar la salida de audio a aquella que desees.</translat
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished">Audífonos (&amp;H)</translation>
+        <translation type="unfinished">&amp;Audífonos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
@@ -246,13 +246,13 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Cuando está habilitado, Sonic Pi permitirá
 a los sintetizadores y efectos cargados a través de load_synthdefs
 ser iniciados.
 
 Si está deshabilitado, Sonic Pi advertirá
-cuando se intente user un sintetizador o efecto
+cuando se intente usar un sintetizador o efecto
 que no está reconocido.</translation>
     </message>
     <message>
@@ -293,7 +293,7 @@ cuando sea un poco tarde.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1170"/>
         <source>Check for updates</source>
-        <translation>Comprobar nuevas actualizaciones</translation>
+        <translation>Comprobar actualizaciones</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1172"/>
@@ -449,7 +449,7 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Configuraciones útiles para actuar con Sonic Pi</translation>
+        <translation>Configuraciones útiles para realizar con Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
@@ -469,12 +469,12 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
     <message>
         <location filename="../mainwindow.cpp" line="2409"/>
         <source>Size Up</source>
-        <translation type="unfinished">Aumentar tamaño</translation>
+        <translation>Aumentar tamaño</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2416"/>
         <source>Size Down</source>
-        <translation type="unfinished">Disminuir tamaño</translation>
+        <translation>Disminuir tamaño</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
@@ -486,7 +486,7 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>Nueva versión disponible!
-Obtén Sonic Pi % 1</translation>
+Obtén Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
@@ -511,27 +511,27 @@ Obtén Sonic Pi % 1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro Auto-Desplazado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Mostrar y ocultar Scope</translation>
+        <translation>Mostrar y ocultar Visor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Tipos de Scope</translation>
+        <translation>Tipos de visor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1298"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Mostrar Scopes</translation>
+        <translation>Mostrar Visores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1299"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>Alternar la visibilidad de los osciloscopios de audio.</translation>
+        <translation>Cambiar la visibilidad de los osciloscopios de audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -546,7 +546,7 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">El osciloscopio de audio trae tres variantes que pueden 
+        <translation>El osciloscopio de audio trae tres variantes que pueden 
 ser vistas independientemente o en conjunto.
 
 Lissajous - ilustra la relación de fase entre los canales izquierdo y derecho
@@ -606,7 +606,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1660"/>
         <source>Running Code...</source>
-        <translation>Corriendo el código...</translation>
+        <translation>Ejecutando Codigo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1709"/>
@@ -636,32 +636,32 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1758"/>
         <source>Enabling update checking...</source>
-        <translation>Habilitando el chequeo de actualizaciones...</translation>
+        <translation>Habilitando la comprobación de actualizaciones...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1766"/>
         <source>Disabling update checking...</source>
-        <translation>Deshabilitando el chequeo de actualizaciones...</translation>
+        <translation>Deshabilitando la comprobación de actualizaciones...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1774"/>
         <source>Enabling Mixer HPF...</source>
-        <translation>Habilitando Mixer HPF...</translation>
+        <translation>Habilitando Mezclador HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1783"/>
         <source>Disabling Mixer HPF...</source>
-        <translation>Deshabilitando chequeo HPF...</translation>
+        <translation>Deshabilitando Mezclador HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1791"/>
         <source>Enabling Mixer LPF...</source>
-        <translation>Habilitando Mixer LPF...</translation>
+        <translation>Habilitando Mezclador LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1800"/>
         <source>Disabling Mixer LPF...</source>
-        <translation>Deshabilitando Mixer LPF...</translation>
+        <translation>Deshabilitando Mezclador LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1808"/>
@@ -686,7 +686,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Stopping...</source>
-        <translation>Parando...</translation>
+        <translation>Deteniendo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -701,7 +701,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1987"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Quitar desplazamiento automático en el registro ...</translation>
+        <translation>Quitar desplazamiento automático del registro ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2190"/>
@@ -864,7 +864,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Wavefile (*.wav)</source>
-        <translation>Archivo WAV (*wav)</translation>
+        <translation>Archivo WAV (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2578"/>
@@ -904,7 +904,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
         <location filename="../mainwindow.cpp" line="2937"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi busca nuevas actualizaciones 
+        <translation>Sonic Pi busca actualizaciones 
 cada 2 semanas.</translation>
     </message>
     <message>
@@ -956,7 +956,7 @@ cada 2 semanas.</translation>
     <message>
         <location filename="../ruby_help.h" line="1103"/>
         <source>Samples</source>
-        <translation>Samples</translation>
+        <translation>Muestras</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1305"/>
@@ -976,8 +976,8 @@ cada 2 semanas.</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation>Sonic Pi ya está ejecutándose? No se puede abrir el puerto UDP.</translation>
     </message>
 </context>
 </TS>

@@ -97,5 +97,21 @@ module SonicPi
       assert_equal(Fixnum, rand_i(0..10).class)
       assert_equal(Fixnum, rand_i(1.5).class)
     end
+
+    def test_rand_look
+      rand_reset
+      assert_equal(rand_look, 0.75006103515625)
+
+      rand_reset
+      assert_equal(rand_look(0.5), 0.375030517578125)
+    end
+
+    def test_rand_i_look
+      rand_reset
+      assert_equal(rand_i_look, 1)
+
+      rand_reset
+      assert_equal(rand_i_look(100), 75)
+    end
   end
 end

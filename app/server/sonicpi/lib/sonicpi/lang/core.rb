@@ -72,7 +72,8 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
         __thread_locals.set :sonic_pi_osc_client, host_and_port.freeze
       end
       doc name:           :use_osc,
-          introduced:     Version.new(2,11,0),
+          hide:           true,
+          introduced:     Version.new(2,12,0),
           summary:        "Configures where OSC messages are sent",
           args:           [[:host, :port]],
           returns:        nil,
@@ -82,7 +83,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
 
 OSC is a way of passing messages over the network between two programs or
 computers. Computers can be identified by a specific internet address, known as
-and IP address, and specific programs can be reached by specifying a port.
+an IP address, and specific programs can be reached by specifying a port.
 Here's an example using a hypothetical computer:
 
 `use_osc \"192.168.1.111\", 8000`
@@ -94,7 +95,7 @@ special address called \"localhost\".
 
 Once configured, you can use `osc` to send messages.
 
-Go have fun connecting existing programs, even your own programs, to SonicPi
+Go have fun connecting existing programs, even your own programs, to Sonic Pi
 using OSC! The possibilities are endless.
 
 ---
@@ -107,7 +108,7 @@ sessions using OSC. This is great for livecoding in groups!
 
 I highly encourage you to grab some existing OSC libraries in your language of
 choice to wire up whatever software/hardware combo you want to Sonic Pi. If
-you are experiening delays between the OSC message and the played sound, try
+you are experiencing delays between the OSC message and the played sound, try
 reducing the schedule-ahead time with `set_sched_ahead_time! 0`.
 
 See the examples for implementation specifics:
@@ -155,32 +156,33 @@ end"
         res
       end
 
+      def osc_send(host, port, path, *args)
+        t = @global_start_time + vt + current_sched_ahead_time
+        @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
+        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
+      end
+
+      def osc_send_now(host, port, path, *args)
+        @osc_server.send(host, port, path, *args)
+        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
+      end
+
       def osc(path, *args)
         host_and_port = __thread_locals.get :sonic_pi_osc_client
         raise "Please specify a destination with use_osc or with_osc" unless host_and_port
-
         host, port = host_and_port.split ":"
         port = port.to_i
-
-        if path[0] != "/"
-          path = "/" + path
-        end
-
-        begin
-          @osc_server.send(host, port, path, *args)
-          puts "OSC -> #{host}, #{port}, #{path}, #{args}"
-        rescue Exception => e
-          puts "Error sending OSC to #{host}, #{port}, #{path}, #{args.inspect}\n#{e.message}\n#{e.backtrace}"
-        end
+        osc_send host, port, path, *args
       end
       doc name:           :osc,
-          introduced:     Version.new(2,11,0),
-          summary:        "Sends an OSC message",
+          hide:           true,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send an OSC message",
           args:           [[:path, :arguments]],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Sends a message using OSC (Open Sound Control) to the host specified by `use_osc`.
+          doc:            "Sends a message using OSC (Open Sound Control) to the current host and port specified by `use_osc` or `with_osc`.
 
 OSC is a way of passing messages over the network between two programs or
 computers. A typical OSC message has two parts: a descriptive `path` which looks
@@ -197,7 +199,7 @@ arguments. This could be sent by Sonic Pi by writing:
 
 `osc \"/set/filter\", \"lowpass\", 80, 0.5`
 
-Go have fun connecting existing programs, even your own programs, to SonicPi
+Go have fun connecting existing programs, even your own programs, to Sonic Pi
 using OSC! The possibilities are endless.
 
 ---
@@ -210,7 +212,7 @@ sessions using OSC. This is great for livecoding in groups!
 
 I highly encourage you to grab some existing OSC libraries in your language of
 choice to wire up whatever software/hardware combo you want to Sonic Pi. If
-you are experiening delays between the OSC message and the played sound, try
+you are experiencing delays between the OSC message and the played sound, try
 reducing the schedule-ahead time with `set_sched_ahead_time! 0`.
 
 See the examples for implementation specifics:
@@ -391,7 +393,7 @@ end"
           accepts_block:  true,
           doc:            "The code within the given block is executed with the specified delta time shift specified in beats. For example, if the delta value is 0.1 then all code within the block is executed with a 0.1 beat delay. Negative values are allowed which means you can move a block of code *backwards in time*. For example a delta value of -0.1 will execute the code in the block 0.1 beats ahead of time. The time before the block started is restored after the execution of the block.
 
-Note that the code within the block is executed synchronously with the code before and afterso all thread locals will be modified inline as is the same for `with_fx`. However, as time is always restored to the value before `time_warp` started can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
+Note that the code within the block is executed synchronously with the code before and after, so all thread locals will be modified inline - as is the case for `with_fx`. However, as time is always restored to the value before `time_warp` started, you can use it to schedule events for the future in a similar fashion to a thread (via `at` or `in_thread`) without having to use an entirely fresh and distinct set of thread locals - see examples.
 
 Also, note that you cannot travel backwards in time beyond the `current_sched_ahead_time`.
 
@@ -555,8 +557,7 @@ end
       doc name:           :tick_reset_all,
           introduced:     Version.new(2,6,0),
           summary:        "Reset all ticks",
-          args:           [[:value, :number]],
-          alt_args:       [[[:key, :symbol], [:value, :number]]],
+          args:           [],
           returns:        :nil,
           opts:           nil,
           accepts_block:  false,
@@ -2344,8 +2345,9 @@ end
 
 
       def rand_look(*args)
-        rand(*args)
+        res = rand(*args)
         rand_back
+        res
       end
       doc name:           :rand_look,
           introduced:     Version.new(2,11,0),
@@ -2371,8 +2373,9 @@ Does not consume a random value from the stream. Therefore, multiple sequential 
 
 
       def rand_i_look(*args)
-        rand_i(*args)
+        res = rand_i(*args)
         rand_back
+        res
       end
       doc name:           :rand_i_look,
           introduced:     Version.new(2,11,0),
@@ -3194,13 +3197,13 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
             raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
             raise "Invalid cue argument #{v.inspect} with key #{k.inspect} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
           end
-          splat_map_or_vec = opts[0]
+          splat_map_or_arr = opts[0]
         else
           opts.each_with_index do |v, idx|
             v = v.freeze
             raise "Invalid cue argument #{v.inspect} in position #{idx} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
           end
-          splat_map_or_vec = opts
+          splat_map_or_arr = opts.freeze
         end
 
         payload = {
@@ -3208,18 +3211,18 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           :sleep_mul => __thread_locals.get(:sonic_pi_spider_sleep_mul),
           :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
           :run => current_job_id,
-          :cue_splat_map_or_vec => splat_map_or_vec,
+          :cue_splat_map_or_arr => splat_map_or_arr,
           :cue => cue_id
         }
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          if splat_map_or_vec.empty?
+          if splat_map_or_arr.empty?
             __delayed_highlight_message "cue #{cue_id.inspect}"
           else
-            if is_list_like?(splat_map_or_vec)
-              __delayed_highlight_message "cue #{cue_id.inspect}, #{splat_map_or_vec}"
+            if is_list_like?(splat_map_or_arr)
+              __delayed_highlight_message "cue #{cue_id.inspect}, #{splat_map_or_arr}"
             else
-              __delayed_highlight_message "cue #{cue_id.inspect}, #{arg_h_pp(splat_map_or_vec)}"
+              __delayed_highlight_message "cue #{cue_id.inspect}, #{arg_h_pp(splat_map_or_arr)}"
 
             end
           end
@@ -3366,11 +3369,11 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : false
         run_id = payload[:run]
         run_info = run_id ? "(Run #{run_id})" : "(OSC)"
-        if payload[:cue_splat_map_or_vec]
-          if is_list_like?(payload[:cue_splat_map_or_vec])
-            res = SonicPi::Core::SPVector.new(payload[:cue_splat_map_or_vec])
+        if payload[:cue_splat_map_or_arr]
+          if is_list_like?(payload[:cue_splat_map_or_arr])
+            res = payload[:cue_splat_map_or_arr]
           else
-            res = SonicPi::Core::SPSplatMap.new(payload[:cue_splat_map_or_vec])
+            res = SonicPi::Core::SPSplatMap.new(payload[:cue_splat_map_or_arr])
           end
         else
           res = SonicPi::Core::SPSplatMap.new({})

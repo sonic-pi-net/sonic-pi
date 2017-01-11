@@ -180,11 +180,11 @@ module SonicPi
     end
 
     def __info(s, style=0)
-      @msg_queue.push({:type => :info, :style => style, :val => s.to_s})
+      @msg_queue.push({:type => :info, :style => style, :val => s.to_s}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
     def __multi_message(m)
-      @msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => __current_thread_name})
+      @msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => __current_thread_name}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
     def __delayed(&block)
@@ -230,21 +230,11 @@ module SonicPi
             last_vt = __system_thread_locals.get :sonic_pi_spider_time
             parent_t = Thread.current
             job_id = __system_thread_locals(parent_t).get(:sonic_pi_spider_job_id)
+            new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
 
             t = Thread.new do
-
-              __system_thread_locals.set_local(:sonic_pi_local_thread_group, :send_delayed_messages)
+              __system_thread_locals_reset!(new_system_tls)
               Thread.current.priority = -10
-              #only copy the necessary thread locals from parent
-              __system_thread_locals.set_local(:sonic_pi_local_spider_users_thread_name, __system_thread_locals(parent_t).get(:sonic_pi_local_spider_users_thread_name))
-
-              __system_thread_locals.set(:sonic_pi_spider_job_id, job_id)
-              __system_thread_locals.set(:sonic_pi_spider_job_info, __system_thread_locals(parent_t).get(:sonic_pi_spider_job_info))
-              __system_thread_locals.set(:sonic_pi_spider_time, last_vt.freeze)
-              __system_thread_locals.set(:sonic_pi_spider_start_time, __system_thread_locals(parent_t).get(:sonic_pi_spider_start_time))
-
-              __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-              __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
               # Calculate the amount of time to sleep to sync us up with the
               # sched_ahead_time
@@ -266,7 +256,6 @@ module SonicPi
             end
 
             job_subthread_add(job_id, t)
-
             __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
           end
         end
@@ -718,6 +707,8 @@ module SonicPi
     def __spider_eval(code, info={})
       id = @job_counter.next
 
+      silent = info.fetch(:silent, false)
+
       # skip __nosave lines for error reporting
       firstline = 1
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
@@ -729,6 +720,7 @@ module SonicPi
         Thread.current.priority = 20
         begin
 
+
           num_running_jobs = reg_job(id, Thread.current)
           __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
 
@@ -738,6 +730,7 @@ module SonicPi
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
           __system_thread_locals.set :sonic_pi_spider_job_id, id
+          __system_thread_locals.set :sonic_pi_spider_silent, silent
 
           __system_thread_locals.set :sonic_pi_spider_job_info, info
           __system_thread_locals.set :sonic_pi_spider_thread, true
@@ -754,7 +747,7 @@ module SonicPi
             # Force a GC collection before we start making music!
             GC.start
           end
-          __info "Starting run #{id}"
+          __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code)
           code = "in_thread seed: 0 do\n" + code + "\nend"
           firstline -=1
@@ -762,7 +755,7 @@ module SonicPi
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
           __no_kill_block do
-            __info("Stopping Run #{id}")
+            __info("Stopping Run #{id}") unless silent
           end
         rescue SyntaxError => e
           __no_kill_block do
@@ -810,11 +803,11 @@ module SonicPi
         deregister_job_and_return_subthreads(id)
         @user_jobs.job_completed(id)
         Kernel.sleep @mod_sound_studio.sched_ahead_time
-        __info "Completed run #{id}"
+        __info "Completed run #{id}" unless silent
         unless @user_jobs.any_jobs_running?
-          __info "All runs completed"
+          __info "All runs completed" unless silent
           @msg_queue.push({type: :all_jobs_completed})
-          @life_hooks.all_completed
+          @life_hooks.all_completed(silent)
         end
 
         @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
@@ -974,7 +967,7 @@ module SonicPi
     def normalise_buffer_name(name)
       norm = case name
              when "workspace_zero"
-               "3"
+               "0"
              when "workspace_one"
                "1"
              when "workspace_two"
@@ -1010,11 +1003,11 @@ module SonicPi
     include ActiveSupport
     include RuntimeMethods
 
-    def initialize(hostname, scsynth_port, scsynth_send_port, osc_cues_port, msg_queue, user_methods)
+    def initialize(hostname, ports, msg_queue, user_methods)
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
-      @version = Version.new(2, 12, 0, "BETA-#{gh_short}")
+      @version = Version.new(2, 12, 0, "midi-alpha0")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -1022,7 +1015,7 @@ module SonicPi
       @keypress_handlers = {}
       @events = IncomingEvents.new
       @sync_counter = Counter.new
-      @job_counter = Counter.new
+      @job_counter = Counter.new(-1) # Start counting jobs from 0
       @job_subthreads = {}
       @job_main_threads = {}
       @named_subthreads = {}
@@ -1033,20 +1026,22 @@ module SonicPi
       @global_start_time = 0
       @session_id = SecureRandom.uuid
       @snippets = {}
-
+      @osc_cues_port = ports[:osc_cues_port]
+      # TODO remove hardcoded port number
+      @osc_router_port = 8014
+      @log_cues = true
+      @log_cues_file = File.open(osc_cues_log_path, 'a')
       # TODO Add support for TCP
-      @osc_server = SonicPi::OSC::UDPServer.new(osc_cues_port, use_decoder_cache: true) do |address, args|
-        address = address.to_s
-        # address comes as a string
-        # args as an array of OSC types e.g. ["foo", 3, 5.3]
+      @osc_server = SonicPi::OSC::UDPServer.new(ports[:osc_cues_port], open: true) do |address, args|
+        @events.async_event("/spider_thread_sync/#{address}", {
+                              :time => Time.now.freeze,
+                              :cue_splat_map_or_arr => args.freeze,
+                              :cue => address })
 
-        payload = {
-          :time => Time.now.freeze,
-          :cue_splat_map_or_vec =>  SonicPi::Core::SPVector.new(args),
-          :cue => address
-        }
-
-        @events.async_event("/spider_thread_sync/" + address, payload)
+        if @log_cues
+          @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
+          @log_cues_file.flush
+        end
       end
 
 
@@ -1085,14 +1080,10 @@ module SonicPi
           end
         end
       end
-      __info "Welcome to Sonic Pi", 1
-      __info "Session #{@session_id[0..7]}"
-      date = Time.now.freeze
-      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}"
-      __info "%02d:%02d, %s" % [date.hour, date.min, date.zone]
-
+      __info "Welcome to Sonic Pi #{version}", 1
+      __info "Running on Ruby #{RUBY_VERSION}"
       __info [
-"Hello, somewhere in the world
+"Somewhere in the world
    the sun is shining
    for you right now.",
 "Hello, it's lovely to see
@@ -1101,7 +1092,23 @@ module SonicPi
 "Turn your head towards the sun
    and the shadows
    will fall
-   behind you."].sample, 1
+   behind you.",
+"Remember, with live coding music
+   there are no mistakes
+   only opportunities to learn
+   and improve.",
+"The only secret to mastering
+   live coding is practice.
+   Lots and lots of practice.",
+"When you share
+   your work and ideas
+   freely with others
+   the whole world benefits." ].sample, 1
+      date = Time.now.freeze
+      time = "%02d:%02d, %s" % [date.hour, date.min, date.zone]
+      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}, #{time}"
+
+
 
       msg = @settings.get(:message) || ""
       msg = msg.strip
@@ -1119,7 +1126,7 @@ module SonicPi
 
       log "Unable to initialise git repo at #{project_path}" unless @gitsave
 
-      __info "#{@version} Ready..."
+      __info "Let the Live Coding begin..."
 
     end
 

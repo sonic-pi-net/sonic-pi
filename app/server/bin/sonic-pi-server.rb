@@ -31,22 +31,9 @@ require_relative "../sonicpi/lib/sonicpi/runtime"
 require 'multi_json'
 require 'memoist'
 
-puts "Sonic Pi server booting..."
+STDOUT.puts "Sonic Pi server booting..."
 
 include SonicPi::Util
-
-server_port = ARGV[1] ? ARGV[1].to_i : 4557
-client_port = ARGV[2] ? ARGV[2].to_i : 4558
-scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
-scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
-osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
-
-puts "Detecting port numbers..."
-puts "Send port: #{client_port}"
-puts "Listen port: #{server_port}"
-puts "Scsynth port: #{scsynth_port}"
-puts "Scsynth send port: #{scsynth_send_port}"
-puts "OSC cues port: #{osc_cues_port}"
 
 protocol = case ARGV[0]
            when "-t"
@@ -54,13 +41,84 @@ protocol = case ARGV[0]
            else
              :udp
            end
+STDOUT.puts "Using protocol: #{protocol}"
+STDOUT.puts "Detecting port numbers..."
 
-puts "Using protocol: #{protocol}"
+server_port = ARGV[1] ? ARGV[1].to_i : 4557
+client_port = ARGV[2] ? ARGV[2].to_i : 4558
+scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
+scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
+osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
+erlang_port = ARGV[6] ? ARGV[6].to_i : 4560
+osc_midi_port = ARGV[7] ? ARGV[6].to_i : 4561
 
-if protocol == :tcp
-  gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
-else
-  gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+check_port = lambda do |port, gui|
+  begin
+    s = SonicPi::OSC::UDPServer.new(port)
+    s.stop
+    STDOUT.puts "  - OK"
+  rescue Exception => e
+    begin
+      STDOUT.puts "Port #{port} unavailable. Perhaps Sonic Pi is already running?"
+      STDOUT.flush
+      gui.send("/exited-with-boot-error", "Port unavailable: " + port.to_s + ", is scsynth already running?")
+    rescue Errno::EPIPE => e
+      STDOUT.puts "GUI not listening, exit anyway."
+    end
+    exit
+  end
+end
+
+
+STDOUT.puts "Send port: #{client_port}"
+
+begin
+  if protocol == :tcp
+    gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+  else
+    gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+  end
+rescue Exception => e
+  STDOUT.puts "Exception when opening socket to talk to GUI!"
+  STDOUT.puts e.message
+  STDOUT.puts e.backtrace.inspect
+  STDOUT.puts e.backtrace
+end
+
+
+STDOUT.puts "Listen port: #{server_port}"
+check_port.call(server_port, gui)
+STDOUT.puts "Scsynth port: #{scsynth_port}"
+check_port.call(scsynth_port, gui)
+STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
+check_port.call(scsynth_send_port, gui)
+STDOUT.puts "OSC cues port: #{osc_cues_port}"
+check_port.call(osc_cues_port, gui)
+STDOUT.puts "Erlang port: #{erlang_port}"
+check_port.call(erlang_port, gui)
+
+STDOUT.flush
+
+sonic_pi_ports = {
+  server_port: server_port,
+  scsynth_port: scsynth_port,
+  scsynth_send_port: scsynth_send_port,
+  osc_cues_port: osc_cues_port,
+  osc_midi_port: osc_midi_port,
+  erlang_port: erlang_port }
+
+# Start Erlang
+begin
+
+  erlang_cmd = "#{erlang_boot_path} -pz \"#{erlang_server_path}\" -s pi_server start"
+  STDOUT.puts erlang_cmd
+  pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
+  register_process(pid)
+rescue Exception => e
+  STDOUT.puts "Exception when starting Erlang"
+  STDOUT.puts e.message
+  STDOUT.puts e.backtrace.inspect
+  STDOUT.puts e.backtrace
 end
 
 begin
@@ -71,7 +129,7 @@ begin
   end
 rescue Exception => e
   begin
-    STDOUT.puts "Received Exception!"
+    STDOUT.puts "Exception when opening a socket to listen from GUI!"
     STDOUT.puts e.message
     STDOUT.puts e.backtrace.inspect
     STDOUT.puts e.backtrace
@@ -120,11 +178,11 @@ klass.send(:define_method, :inspect) { "Runtime" }
 ws_out = Queue.new
 
 begin
-  sp =  klass.new "127.0.0.1", scsynth_port, scsynth_send_port, osc_cues_port, ws_out, user_methods
+  sp =  klass.new "127.0.0.1", sonic_pi_ports, ws_out, user_methods
 
   # read in init.rb if exists
   if File.exists?(init_path)
-    sp.__spider_eval(File.read(init_path))
+    sp.__spider_eval(File.read(init_path), silent: true)
   else
     begin
     File.open(init_path, "w") do |f|
@@ -315,7 +373,8 @@ end
 osc_server.add_method("/mixer-amp") do |args|
   gui_id = args[0]
   amp = args[1]
-  sp.set_volume!(amp, true)
+  silent = args[2] == 1
+  sp.set_volume!(amp, true, silent)
 end
 
 osc_server.add_method("/enable-update-checking") do |args|

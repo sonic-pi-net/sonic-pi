@@ -15,6 +15,7 @@
 #include "sonicpitheme.h"
 #include "oscsender.h"
 #include "sonicpilog.h"
+#include <QCheckBox>
 
 class SonicPiLexer;
 class QSettings;
@@ -24,7 +25,7 @@ class SonicPiScintilla : public QsciScintilla
   Q_OBJECT
 
  public:
-  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender);
+  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, QCheckBox *autoIndent);
 
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
@@ -65,6 +66,7 @@ class SonicPiScintilla : public QsciScintilla
     void newLine();
     void replaceBuffer(QString content, int line, int index, int first_line);
     void newlineAndIndent();
+    void completeListOrNewlineAndIndent();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
@@ -73,5 +75,6 @@ class SonicPiScintilla : public QsciScintilla
     void dropEvent(QDropEvent *pEvent);
     void dragMoveEvent(QDragMoveEvent *event);
     bool event(QEvent *evt);
+    QCheckBox *autoIndent;
 
 };

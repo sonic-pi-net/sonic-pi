@@ -255,7 +255,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Gdy jest włączone, Sonic Pi pozwoli, 
 aby syntezatory i efekty, ładowane za pomocą 
 polecenia load_synthdefs, mogły 
@@ -269,7 +269,7 @@ potrafi rozpoznać.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1142"/>
         <source>Enforce timing guarantees</source>
-        <translation>Wymuszenie gwarancji wykonania &quot;o czasie&quot;</translation>
+        <translation>Wymuszenie gwarancji wykonania "o czasie"</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
@@ -501,7 +501,7 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto przewijanie logów</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
@@ -991,8 +991,8 @@ Pobierz Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation>Czy Sonic Pi nie jest już uruchomiony? Nie można otworzyć portu UDP.</translation>
     </message>
 </context>
 </TS>

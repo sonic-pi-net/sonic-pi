@@ -21,7 +21,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="599"/>
         <source>Log</source>
-        <translation>Trace</translation>
+        <translation>Journal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="639"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="356"/>
         <source>Welcome to Sonic Pi</source>
-        <translation>Bienvenue à Sonic Pi</translation>
+        <translation>Bienvenue dans Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="847"/>
@@ -446,17 +446,17 @@ Le thème sombre est parfait pour coder en boîte de nuit.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>Scope Kinds</source>
-        <translation>Types de portée</translation>
+        <translation>Types d'Oscillo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1298"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les Oscillos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1299"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la visibilité des oscilloscopes audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -471,7 +471,12 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>L'oscilloscope audio existe sous trois formes qui peuvent
+être affichées indépendamment ou simultanément :
+
+Lissajous - illustre la relation de phase entre les canaux gauche et droit
+Mono - montre une vue combinée des canaux gauche et droit (en utilisant RMS)
+Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et droit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>

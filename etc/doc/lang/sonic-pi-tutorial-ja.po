@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-29 10:03+0000\n"
-"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
+"PO-Revision-Date: 2016-12-15 15:33+0000\n"
+"Last-Translator: ossa <hayato617+github@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.10\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -369,7 +369,7 @@ msgstr "*G* - ヘルプシステム"
 #: 01.2-Exploring-the-Interface.md:18
 #, fuzzy
 msgid "*H* - Scope Viewer"
-msgstr "*F* - ログビューア"
+msgstr "*H* - スコープビューア"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
@@ -483,7 +483,7 @@ msgstr ""
 #: 01.2-Exploring-the-Interface.md:81
 #, fuzzy
 msgid "H. Scope Viewer"
-msgstr "F. ログビューア"
+msgstr "H. スコープビューア"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -9286,7 +9286,7 @@ msgstr ""
 #: A.02-live-coding.md:77
 #, fuzzy
 msgid "Sleeping is important"
-msgstr "睡眠が大切"
+msgstr "\"睡眠\"は大切"
 
 #: A.02-live-coding.md:79
 msgid ""
@@ -11292,7 +11292,7 @@ msgstr "では始めましょう…"
 
 #: A.08-minecraft-vj.md:25
 msgid "Getting Started"
-msgstr ""
+msgstr "入門"
 
 #: A.08-minecraft-vj.md:27
 msgid ""
@@ -11602,7 +11602,7 @@ msgstr ""
 
 #: A.09-randomisation.md:11
 msgid "There is no random"
-msgstr ""
+msgstr "ランダムではない"
 
 #: A.09-randomisation.md:13
 msgid ""
@@ -11641,7 +11641,7 @@ msgstr ""
 
 #: A.09-randomisation.md:41
 msgid "A Random Melody"
-msgstr ""
+msgstr "A ランダムメロディ"
 
 #: A.09-randomisation.md:43
 msgid ""
@@ -11658,7 +11658,7 @@ msgstr ""
 
 #: A.09-randomisation.md:54
 msgid "Let's use this knowledge to generate a repeatable random melody:"
-msgstr ""
+msgstr "繰り返し可能なランダムメロディを作るために、この知識を使ってみましょう。"
 
 #: A.09-randomisation.md:56
 #, no-wrap
@@ -11685,10 +11685,11 @@ msgid "Handy Randomisation Functions"
 msgstr ""
 
 #: A.09-randomisation.md:69
+#, fuzzy
 msgid ""
 "Sonic Pi comes with a number of useful functions for working with the random s"
 "tream. Here's a list of some of the most useful:"
-msgstr ""
+msgstr "Sonic Piにはランダムを扱う便利な関数がたくさんあります。その中でも有用な関数のリストです。"
 
 #: A.09-randomisation.md:72
 msgid "`rand` - Simply returns the next value in the random stream"
@@ -11708,17 +11709,17 @@ msgstr ""
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
-msgstr ""
+msgstr "`dice` - サイコロを転がして、1から6までの値をランダムで返します"
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr ""
+msgstr "`choose` - リストからランダムに値を一つ選択します"
 
 #: A.09-randomisation.md:79
 msgid ""
 "Check out their documentation in the Help system for detailed information and "
 "examples."
-msgstr ""
+msgstr "詳細情報や作例については、ヘルプ内のドキュメントを参照してください。"
 
 #: A.09-randomisation.md:82
 msgid "Resetting the Stream"
@@ -11920,10 +11921,11 @@ msgid "A Basic Sound"
 msgstr ""
 
 #: A.10-controlling-your-sound.md:19
+#, fuzzy
 msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer type "
 "the following:"
-msgstr ""
+msgstr "素敵なシンプルサウンドを作りましょう。Sonic Piを起動し、新しいBufferに以下のコードを打ち込んでください。"
 
 #: A.10-controlling-your-sound.md:22
 #, no-wrap
@@ -11963,7 +11965,7 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:44
 msgid "Let's look at each line in turn:"
-msgstr ""
+msgstr "各行を順番に見ていきましょう。"
 
 #: A.10-controlling-your-sound.md:46
 msgid ""
@@ -13372,8 +13374,7 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:41
-#, no-wrap
-#, fuzzy
+#, fuzzy, no-wrap
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
@@ -13384,8 +13385,7 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:50
-#, no-wrap
-#, fuzzy
+#, fuzzy, no-wrap
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
@@ -13540,14 +13540,12 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "ライブコーディング"
+msgstr "A. 16 ライブコーディングの練習方法"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "ライブコーディング"
+msgstr "ライブコーディング練習の8つのコツ"
 
 #: A.16-practice.md:5
 msgid ""
@@ -13561,7 +13559,7 @@ msgstr ""
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
-msgstr ""
+msgstr "定期的に練習しよう"
 
 #: A.16-practice.md:15
 msgid ""
@@ -13570,6 +13568,8 @@ msgid ""
 " you're starting out. Little but often is what you're aiming for - so if you c"
 "an only manage 10 minutes, that's a great start."
 msgstr ""
+"大事なアドバイスの一つとして、定期的に練習することがあります。原則、1日1-2時間練習しましょう。始めたばかりなら最初は20分でもいいです。少しの時間でも"
+"目標に近づいていきます。もし10分だけもいいスタートになります。"
 
 #: A.16-practice.md:21
 msgid ""
@@ -13659,7 +13659,7 @@ msgstr ""
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
-msgstr ""
+msgstr "音楽的に実験する"
 
 #: A.16-practice.md:89
 msgid ""
