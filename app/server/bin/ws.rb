@@ -33,6 +33,14 @@ ws_out = Queue.new
 web_server = nil
 web_server_ip = "127.0.0.1"
 
+sonic_pi_ports = {
+  server_port: 4557,
+  scsynth_port: 4556,
+  scsynth_send_port: 4556,
+  osc_cues_port: 4559,
+  osc_midi_port: 4561,
+  erlang_port: 4560 }
+
 OptionParser.new do |opts|
   opts.banner = "Usage: example.rb [options]"
 
@@ -60,7 +68,7 @@ klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:extend, Memoist)
 
 puts "starting sp"
-$sp =  klass.new "127.0.0.1", 4556, 4556, 4559, ws_out, user_methods
+$sp =  klass.new "127.0.0.1", sonic_pi_ports, ws_out, user_methods
 puts "finished starting sp"
 $rd = SonicPi::RcvDispatch.new($sp, ws_out)
 $clients = []
