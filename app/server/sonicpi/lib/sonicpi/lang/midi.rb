@@ -53,7 +53,7 @@ module SonicPi
         vel = vel.round.min(0).max(127)
 
         __delayed_message "midi_note_on #{n}, {vel: #{vel}, channel: #{channel}}"
-        midi_send_timed("/foo/note_on", channel, n, vel)
+        midi_send_timed("/*/note_on", channel, n, vel)
         nil
       end
       doc name:           :midi_note_on,
@@ -98,7 +98,7 @@ module SonicPi
         vel = vel.round.min(0).max(127)
 
         __delayed_message "midi_note_off #{n}, {vel: #{vel}, channel: #{channel}}"
-        midi_send_timed("/foo/note_off", channel, n, vel)
+        midi_send_timed("/*/note_off", channel, n, vel)
         nil
       end
       doc name:           :midi_note_off,
@@ -145,7 +145,7 @@ module SonicPi
         val = note(val).round.min(0).max(127)
         control_num = note(control_num).round.min(0).max(127)
         __delayed_message "midi_cc #{control_num}, {val: #{val}, channel: #{channel}}"
-        midi_send_timed("/foo/control_change", channel, control_num, val)
+        midi_send_timed("/*/control_change", channel, control_num, val)
         nil
       end
       doc name:           :midi_cc,
@@ -170,7 +170,7 @@ module SonicPi
 
       def midi_raw(a, b, c)
         __delayed_message "midi_raw #{a}, #{b}, #{c}"
-        midi_send_timed("/foo/raw", a.to_i, b.to_i, c.to_i)
+        midi_send_timed("/*/raw", a.to_i, b.to_i, c.to_i)
       end
       doc name:           :midi_raw,
           introduced:     Version.new(2,12,0),
@@ -372,7 +372,7 @@ All devices on a given channel will respond both to data received both over MIDI
 
       def midi_clock_tick
         __delayed_message "midi_clock_tick"
-        midi_send_timed("/foo/clock")
+        midi_send_timed("/*/clock")
       end
       doc name:           :midi_clock_tick,
           introduced:     Version.new(2,12,0),
@@ -392,7 +392,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
 
       def midi_start
         __delayed_message "midi_start"
-        midi_send_timed("/foo/start")
+        midi_send_timed("/*/start")
       end
       doc name:           :midi_start,
           introduced:     Version.new(2,12,0),
@@ -466,7 +466,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
         end
         __delayed_message "midi_clock_beat"
         time_warp times do
-          midi_send_timed("/foo/clock")
+          midi_send_timed("/*/clock")
         end
       end
       doc name:           :midi_clock_beat,
