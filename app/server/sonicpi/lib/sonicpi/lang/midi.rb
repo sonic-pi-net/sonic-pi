@@ -34,6 +34,11 @@ module SonicPi
           vel = nil
         end
 
+        if rest? n
+          __delayed_message "midi_note_on :rest"
+          return nil
+        end
+
         if vel = vel || opts[:velocity] || opts[:vel]
           vel = vel
         elsif vel = opts[:velocity_f] || opts[:vel_f]
@@ -72,6 +77,11 @@ module SonicPi
         if vel.is_a?(Hash) && opts.empty?
           opts = vel
           vel = nil
+        end
+
+        if rest? n
+          __delayed_message "midi_note_off :rest"
+          return nil
         end
 
         if vel = vel || opts[:velocity] || opts[:vel]
@@ -114,6 +124,11 @@ module SonicPi
         if val.is_a?(Hash) && opts.empty?
           opts = val
           val = nil
+        end
+
+        if rest? control_num
+          __delayed_message "midi_cc :rest"
+          return nil
         end
 
         channel = (opts[:channel] || opts[:chan] || 1).to_i
@@ -474,11 +489,21 @@ Schedules for 24 clock ticks to be sent linearly spread over dur beats.
 
 
 
-      def midi(n, vel=nil, opts={})
-
-        if vel.is_a?(Hash) && opts.empty?
+      def midi(n=nil, vel=nil, opts={})
+        if n.is_a?(Hash)
+          opts = n
+          n = nil
+          vel = nil
+        elsif vel.is_a?(Hash)
           opts = vel
           vel = nil
+        end
+
+        n = n || opts[:note]
+
+        if rest? n
+          __delayed_message "midi :rest"
+          return nil
         end
 
         if vel = vel || opts[:velocity] || opts[:vel]
@@ -509,13 +534,7 @@ Schedules for 24 clock ticks to be sent linearly spread over dur beats.
           time_warp dur.to_f do
             midi_note_off n, rel_vel, channel: channel
           end
-          #s = nil
-          #time_warp -0.1 do
-          #      s = synth :sound_in, attack: 0, sustain: dur, release: 0, amp: amp
-          # end
-          #return s
         end
-        #return @blank_node
         return nil
       end
       doc name:           :midi,
