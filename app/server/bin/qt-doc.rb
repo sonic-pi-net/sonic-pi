@@ -22,6 +22,7 @@ require_relative "../sonicpi/lib/sonicpi/util"
 require_relative "../sonicpi/lib/sonicpi/runtime"
 require_relative "../sonicpi/lib/sonicpi/lang/sound"
 require_relative "../sonicpi/lib/sonicpi/lang/minecraftpi"
+require_relative "../sonicpi/lib/sonicpi/lang/midi"
 
 require 'active_support/inflector'
 
@@ -209,7 +210,7 @@ ruby_html_map = {
 # to make sure that a more specific locale is handled
 # before the generic language code,
 # e.g., "de_CH" should be handled before "de"
-languages = 
+languages =
   Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
   sort_by {|n| -n.length}
