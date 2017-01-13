@@ -24,6 +24,7 @@ require_relative "../sonicpi/lib/sonicpi/util"
 require_relative "../sonicpi/lib/sonicpi/osc/osc"
 require_relative "../sonicpi/lib/sonicpi/lang/core"
 require_relative "../sonicpi/lib/sonicpi/lang/minecraftpi"
+require_relative "../sonicpi/lib/sonicpi/lang/midi"
 require_relative "../sonicpi/lib/sonicpi/lang/sound"
 #require_relative "../sonicpi/lib/sonicpi/lang/pattern"
 require_relative "../sonicpi/lib/sonicpi/runtime"
@@ -160,6 +161,7 @@ klass.send(:include, user_methods)
 klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:include, SonicPi::Lang::Minecraft)
+klass.send(:include, SonicPi::Lang::Midi)
 klass.send(:extend, Memoist)
 
 # This will pick up all memoizable fns in all modules as they share the
