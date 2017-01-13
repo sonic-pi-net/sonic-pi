@@ -157,7 +157,7 @@ end"
       end
 
       def osc_send(host, port, path, *args)
-        t = @global_start_time + vt + current_sched_ahead_time
+        t = __system_thread_locals.get(:sonic_pi_spider_time) + __current_sched_ahead_time
         @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
         #__delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
       end
@@ -3171,7 +3171,9 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 "]
 
 
-
+      def __current_sched_ahead_time
+        @mod_sound_studio.sched_ahead_time
+      end
 
       def sleep(beats)
         # Schedule messages
@@ -3192,7 +3194,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         new_vt = last_vt + sleep_time
 
         # TODO: remove this, api shouldn't need to know about sound module
-        sat = @mod_sound_studio.sched_ahead_time
+        sat = __current_sched_ahead_time
         now = Time.now
         if now - (sat + 0.5) > new_vt
           raise "Timing Exception: thread got too far behind time"
