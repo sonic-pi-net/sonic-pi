@@ -1024,7 +1024,7 @@ module SonicPi
       @user_jobs = Jobs.new
       @sync_real_sleep_time = 0.05
       @user_methods = user_methods
-      @global_start_time = 0
+      @global_start_time = Time.now
       @session_id = SecureRandom.uuid
       @snippets = {}
       @osc_cues_port = ports[:osc_cues_port]
