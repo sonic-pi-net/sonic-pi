@@ -529,7 +529,7 @@ Schedules for 24 clock ticks to be sent linearly spread over dur beats.
           rel_vel = opts.fetch(:release_velocity, 127)
 
           n = note(n).round.min(0).max(127)
-          __delayed_message "midi #{n}, {vel: #{vel}, dur: #{dur}, chan: #{chan}}"
+          __delayed_message "midi #{n}, {vel: #{vel}, dur: #{dur}, channel: #{chan}}"
           midi_note_on n, vel, channel: channel
           time_warp dur.to_f do
             midi_note_off n, rel_vel, channel: channel
