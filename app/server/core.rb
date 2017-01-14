@@ -147,13 +147,15 @@ module SonicPi
         val
       end
 
-      def get(name)
+      def get(name, default=nil)
         if @local_vars.has_key? name
           return @local_vars[name]
         elsif @vars.has_key? name
           return @vars[name]
+        elsif @parent_visible
+          return @parent_vars.fetch(name, default)
         else
-          return @parent_vars[name] if @parent_visible
+          return default
         end
       end
 
