@@ -14,6 +14,8 @@
 require_relative 'support/docsystem'
 require_relative "../version"
 require_relative "../util"
+require_relative "../runtime"
+
 require 'active_support/inflector'
 
 ## TODO: create _* equivalents of all fns - for silent (i.e computation) versions
@@ -386,9 +388,11 @@ end"
 
         times.each_with_index do |delta, idx|
           sleep_time = delta * orig_sleep_mul_w_density
-          raise "Time travel error - a jump back of #{delta} is too far.\nSorry, although it would be amazing, you can't go back in time beyond the sched_ahead time of #{sat}" if sleep_time < (-1 * sat)
+          new_time = vt_orig + sleep_time
 
-          __system_thread_locals.set :sonic_pi_spider_time, (vt_orig + sleep_time).freeze
+          raise "Time travel error - a jump back of #{delta} is too far.\nSorry, although it would be amazing, you can't go back in time beyond the sched_ahead time of #{sat}" if (Time.now - sat) > new_time
+
+          __system_thread_locals.set :sonic_pi_spider_time, new_time.freeze
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
 
           case block.arity
@@ -3895,6 +3899,35 @@ assert_equal [:a, :b, :c].size,  3 # ensure lists can be correctly counted
 # Add messages to the exceptions
 assert_equal 3, 5, \"something is seriously wrong!\"
 " ]
+
+      def assert_similar(a, b, msg=nil)
+        case a
+          when Numeric
+          assert_equal(a.to_f.round(8), b.to_f.round(8), msg)
+        else
+          assert_equal(a, b, msg)
+        end
+      end
+      doc name:           :assert_similar,
+          introduced:     Version.new(2,12,0),
+          summary:        "Ensure args are similar",
+          doc:            "Raises an exception if both arguments aren't similar.
+
+Currently similarity is only defined for numbers - all other types are compared for equality with assert_equal.
+
+Useful for testing in cases where floating point imprecision stops you from being able to use `assert_equal`. ",
+          args:           [[:arg1, :anything], [:arg2, :anything]],
+          alt_args:       [[:arg1, :anything], [:arg2, :anything],[:error_msg, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+# Simple assertions
+assert_similar 1, 1 #=> True
+",
+"
+# Handles floating point imprecision
+assert_similar(4.9999999999, 5.0) #=> True"
+      ]
 
       def load_buffer(path)
         path = File.expand_path(path.to_s)
