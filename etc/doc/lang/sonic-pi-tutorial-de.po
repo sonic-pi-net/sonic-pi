@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-10-20 19:18+0000\n"
-"Last-Translator: Jan Ole Hüser <ols3@hotmail.de>\n"
+"Last-Translator: Sebastian Stahn <robert_owen@gmx.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -11785,8 +11785,8 @@ msgid ""
 "The key to live coding with Sonic Pi is mastering the `live_loop`. Let's look "
 "at one:"
 msgstr ""
-"Der Schlüssel zum 'live-coding' mit Sonic Pi ist das Beherrschen des 'live_loo"
-"ps'. Schauen wir uns einen an:"
+"Der Schlüssel zum 'live-coding' mit Sonic Pi ist das Beherrschen des "
+"'live_loops'. Schauen wir uns einen an:"
 
 #: A.02-live-coding.md:32
 #, no-wrap
@@ -11889,8 +11889,8 @@ msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. C"
 "onsider the following `live_loop`:"
 msgstr ""
-"Eine der wichtigsten Lektionen über 'live_loop's ist, dass sie Pausen brauchen"
-". Betrachte einmal folgenden 'live_loop':"
+"Eine der wichtigsten Lektionen über 'live_loop's ist, dass sie Pausen "
+"brauchen. Betrachte einmal folgenden 'live_loop':"
 
 #: A.02-live-coding.md:82
 #, no-wrap
