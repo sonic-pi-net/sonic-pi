@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-02 10:08+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2017-01-15 16:05+0000\n"
+"Last-Translator: Sebastian Stahn <robert_owen@gmx.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10230,13 +10230,15 @@ msgstr ""
 
 #: A.02-live-coding.md:27
 msgid "Live Loop"
-msgstr ""
+msgstr "Live-Loop"
 
 #: A.02-live-coding.md:29
 msgid ""
 "The key to live coding with Sonic Pi is mastering the `live_loop`. Let's look "
 "at one:"
 msgstr ""
+"Der Schlüssel zum 'live-coding' mit Sonic Pi ist das Beherrschen des "
+"'live_loops'. Schauen wir uns einen an:"
 
 #: A.02-live-coding.md:32
 #, no-wrap
@@ -10265,6 +10267,18 @@ msgid ""
 "at. Go ahead, copy it into an empty Sonic Pi buffer and hit run. Boom, Boom, B"
 "oom!."
 msgstr ""
+"Ein 'live-loop' hat 4 Hauptbestandteile. Der erste ist sein Name. Unser "
+"'live-loop' oben heißt ': Beats'. Du kannst frei entscheiden, wie du deinen "
+"'live_loop' nennen möchtest. Sei kreativ! Ich benutze oft Namen, die dem "
+"Publikum etwas über die Musik mitteilen, die ich mache. Der zweite "
+"Bestandteil ist das Wort 'do', welches anzeigt wo der 'live_loop' beginnt. "
+"Der dritte ist das Wort 'end', das markiert, wo der 'live_loop' endet. "
+"Schließlich gibt es noch den Block innerhalb des 'live_loops', der "
+"beschreibt, was die Schleife wiederholen soll - das ist der Teil zwischen "
+"'do' und 'end'. In unsrem Fall spielen wir ein Bass-Drum-Sample und warten "
+"einen halben Takt. Dies führt zu einem schönen regelmäßigen Bass Beat. Auf "
+"gehts, kopiere den 'live_loop' in einem leeren Sonic Pi-Buffer und drücke "
+"'Ausführen'. Boom, Boom, Boom!"
 
 #: A.02-live-coding.md:52
 msgid "Redefining On-the-fly"
@@ -10302,6 +10316,15 @@ msgid ""
 "- choose your own values. Try negative numbers, really small numbers and large"
 " numbers. Have fun!"
 msgstr ""
+"Drücke den 'Ausführen'-Button oder 'Alt-R'. Du hörst jetzt einen "
+"wunderschönen Chor-Sound. Jetzt, während dieser läuft, änderst du 'rate'-"
+"Wert von '0,4' auf '0,38'. Drücke erneut 'Ausführen'. Woah! Hörst du wie "
+"sich die Tonhöhe des Chors ändert? Ändere den Wert wieder zurück auf '0,4'. "
+"Nun setze den Wert auf '0,2', runter bis '0,19' und dann wieder auf '0,4'. "
+"Siehst du, wie du durch das Ändern eines Parameters, im laufenden Programm, "
+"die volle Kontrolle über die Musik erlangen kannst? Spiele ein bisschen mit "
+"den Werten für 'rate' - wähle deine eigenen Werte. Versuche negative Zahlen, "
+"wirklich kleine Zahlen und ganz große Zahlen. Viel Spass!"
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
