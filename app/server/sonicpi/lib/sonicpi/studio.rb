@@ -385,6 +385,7 @@ module SonicPi
       # Important:
       # This method should only be called from the @server_rebooter
       # thread.
+      return nil if @rebooting
       @reboot_mutex.synchronize do
         @rebooting = true
         message "Rebooting SuperCollider audio server. Please wait..."
