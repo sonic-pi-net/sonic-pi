@@ -1,0 +1,19 @@
+install:
+  - SET PATH=C:\%RUBYVER%\bin;%PATH%
+  - SET RAKEOPT=-rdevkit
+  - gem install bundler --quiet --no-ri --no-rdoc
+  - bundle install
+build: off
+test_script:
+  - bundle exec rake test
+environment:
+  matrix:
+    - RUBYVER: Ruby193
+    - RUBYVER: Ruby200
+    - RUBYVER: Ruby200-x64
+    - RUBYVER: Ruby21
+    - RUBYVER: Ruby21-x64
+    - RUBYVER: Ruby22
+    - RUBYVER: Ruby22-x64
+    - RUBYVER: Ruby23
+    - RUBYVER: Ruby23-x64

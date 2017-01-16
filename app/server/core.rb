@@ -57,7 +57,7 @@ sys_proctable_os = case os
                    when :osx
                      "darwin"
                    end
-$:.unshift "#{File.expand_path("../vendor", __FILE__)}/sys-proctable-1.1.1/lib/#{sys_proctable_os}"
+$:.unshift "#{File.expand_path("../vendor", __FILE__)}/sys-proctable-1.1.3/lib/#{sys_proctable_os}"
 
 
 $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"

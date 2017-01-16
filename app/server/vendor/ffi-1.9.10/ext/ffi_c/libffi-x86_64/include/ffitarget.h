@@ -1,1 +1,0 @@
-/Volumes/work_drive/src/ruby/sonic-pi/app/server/vendor/ffi-1.9.10/ext/ffi_c/libffi/src/x86/ffitarget.h

@@ -1,0 +1,38 @@
+sudo: false
+addons:
+  apt:
+    packages:
+    - libgmp-dev    # this is needed for ruby-2.1.10 and ruby-head on linux
+language: ruby
+before_install:
+  - gem install bundler
+script: bundle exec rake test
+os:
+  - linux
+  - osx
+rvm:
+  - "1.9.3"
+  - "1.8.7"
+  - "2.0.0"
+  - "2.1"
+  - "2.2.3"
+  - "2.3.0"
+  - "ruby-head"
+  - "rbx"
+  - "system"
+env:
+  - CC=gcc
+  - CC=clang
+matrix:
+  allow_failures:
+    - rvm: system
+    - os: osx
+      rvm: "2.3.0"
+    - os: osx
+      rvm: ruby-head
+    - rvm: "rbx"
+    - rvm: "rbx-head"
+    - rvm: "1.8.7"
+    - rvm: "1.9.3"
+after_failure:
+  - "find build -name mkmf.log | xargs cat"

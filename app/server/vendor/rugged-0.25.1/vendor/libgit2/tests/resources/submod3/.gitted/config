@@ -1,0 +1,25 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[submodule "One"]
+	url = ../submod2_target
+[submodule "TWO"]
+	url = ../submod2_target
+[submodule "three"]
+	url = ../submod2_target
+[submodule "FoUr"]
+	url = ../submod2_target
+[submodule "Five"]
+	url = ../submod2_target
+[submodule "six"]
+	url = ../submod2_target
+[submodule "sEvEn"]
+	url = ../submod2_target
+[submodule "EIGHT"]
+	url = ../submod2_target
+[submodule "nine"]
+	url = ../submod2_target
+[submodule "TEN"]
+	url = ../submod2_target
