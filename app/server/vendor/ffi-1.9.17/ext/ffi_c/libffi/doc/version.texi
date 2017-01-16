@@ -1,0 +1,4 @@
+@set UPDATED 23 August 2011
+@set UPDATED-MONTH August 2011
+@set EDITION 3.0.10
+@set VERSION 3.0.10
