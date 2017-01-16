@@ -2,7 +2,7 @@ language: ruby
 
 os: linux
 sudo: required
-dist: trusty
+dist: xenial
 compiler: gcc
 cache:
  - apt
@@ -17,6 +17,8 @@ matrix:
     - rvm: 2.2.3
       env: USE_RVM=1
     - rvm: 2.3.3
+      env: USE_RVM=1
+    - rvm: 2.4.0
       env: USE_RVM=1
 
 before_install:
