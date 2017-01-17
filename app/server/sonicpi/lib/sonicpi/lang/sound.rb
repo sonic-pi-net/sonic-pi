@@ -2444,7 +2444,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
           summary:       "Pre-load first matching sample",
           doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, pre-loads the sample into memory.
 
-+You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load all matching samples. See `sample`'s docs for more information." ,
+You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load all matching samples. See `sample`'s docs for more information." ,
           args:          [[:path, :string]],
           opts:          nil,
           accepts_block: false,
