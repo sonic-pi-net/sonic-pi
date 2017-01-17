@@ -262,10 +262,10 @@ module SonicPi
     module ThreadLocalCounter
 
       def self.__thread_locals(t = Thread.current)
-      tls = t.thread_variable_get(:sonic_pi_thread_locals)
-      tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls
-      return tls
-          end
+        tls = t.thread_variable_get(:sonic_pi_thread_locals)
+        tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls
+        return tls
+      end
 
       def self.get_or_create_counters
         counters = __thread_locals.get(:sonic_pi_local_core_thread_local_counters)
