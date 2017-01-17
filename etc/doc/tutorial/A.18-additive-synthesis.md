@@ -1,4 +1,4 @@
-A.17 Sound Design - Additive Synthesis
+A.18 Sound Design - Additive Synthesis
 
 # Additive Synthesis
 
@@ -75,14 +75,14 @@ synth :square, note: :e3 + detune
 
 If we detune our square waves by 0.7 notes we hear something that
 perhaps doesn't sound in tune or correct - a 'bad' note. However, as we
-move closer to 0 it will sound less and less out of tune as the pitch of
-two waves gets closer and more similar. Try it for yourself! Change the
-`detune:` opt value from `0.7` to `0.5` and listen to the new sound. Try
-`0.2`, `0.1`, `0.05`, `0`. Each time you change the value, take a listen
-and see if you can hear how the sound is changing. Notice that low
-detune values such as `0.1` produce a really nice 'thick' sound, with
-both slightly different pitchs interacting with each other in
-interesting, often surprising, ways. 
+move closer to 0 it will sound less and less out of tune as the pitches
+of the two waves get closer and more similar. Try it for yourself!
+Change the `detune:` opt value from `0.7` to `0.5` and listen to the new
+sound. Try `0.2`, `0.1`, `0.05`, `0`. Each time you change the value,
+take a listen and see if you can hear how the sound is changing. Notice
+that low detune values such as `0.1` produce a really nice 'thick'
+sound, with both slightly different pitches interacting with each other
+in interesting, often surprising, ways.
 
 Some of the built-in synths already include a detune option that do
 exactly this in one synth. Try playing with the `detune:` opt of
@@ -118,14 +118,14 @@ Let's combine all these techniques to see if we can use additive
 synthesis to re-create a basic bell sound. I've broken this example into
 four sections. Firstly we have the 'hit' section which is the initial
 onset part of the bell sound - so uses a short envelope (e.g. a
-`release:` of around `0.1`. Next we have the long ringing section which
-I'm using the pure sound of the sine wave. Notice that I'm often
-increasing the note by roughly `12` and `24` which is the number of
-notes in an ocave. I have also thrown in a couple of low sine waves to
-give the sound some bass and depth. Finally, I used `define` to wrap my
-code in a function which I can then use to play a melody. Try playing
-your own melody and also messing around with the contents of the `:bell`
-function until you create your own crazy sound to play with!
+`release:` of around `0.1`). Next we have the long ringing section in
+which I'm using the pure sound of the sine wave. Notice that I'm often
+increasing the note by roughly `12` and `24` which are the number of
+notes in one and two octaves. I have also thrown in a couple of low sine
+waves to give the sound some bass and depth. Finally, I used `define` to
+wrap my code in a function which I can then use to play a melody. Try
+playing your own melody and also messing around with the contents of the
+`:bell` function until you create your own crazy sound to play with!
 
 define :bell do |n|
   # Triangle waves for the 'hit'
@@ -133,14 +133,14 @@ define :bell do |n|
   synth :tri, note: n + 0.1, release: 0.1
   synth :tri, note: n - 0.1, release: 0.1
   synth :tri, note: n, release: 0.2
-  
+
   # Sine waves for the 'ringing'
   synth :sine, note: n + 24, release: 2
   synth :sine, note: n + 24.1, release: 2
   synth :sine, note: n + 24.2, release: 0.5
   synth :sine, note: n + 11.8, release: 2
   synth :sine, note: n, release: 2
-  
+
   # Low sine waves for the bass
   synth :sine, note: n - 11.8, release: 2
   synth :sine, note: n - 12, release: 2
@@ -154,12 +154,3 @@ sleep 1
 bell :d3
 sleep 1
 bell :g2
-
-
-
-
-
-
-
-
-
