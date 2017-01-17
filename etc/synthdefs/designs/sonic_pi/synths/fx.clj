@@ -1022,12 +1022,132 @@
     wet-r               (+ dry-r (* flange-wave-mul delay-r))
     lout                (local-out:ar [wet-l wet-r])])
 
+ (core/def-fx sonic-pi-fx_eq
+   [
+    low_shelf 0
+    low_shelf_slide 0
+    low_shelf_slide_shape 1
+    low_shelf_slide_curve 0
+    low_shelf_note 43.349957
+    low_shelf_note_slide 0
+    low_shelf_note_slide_shape 1
+    low_shelf_note_slide_curve 0
+    low_shelf_slope 1
+    low_shelf_slope_slide 0
+    low_shelf_slope_slide_shape 1
+    low_shelf_slope_slide_curve 0
 
+    low 0
+    low_slide 0
+    low_slide_shape 1
+    low_slide_curve 0
+    low_note 59.2130948
+    low_note_slide 0
+    low_note_slide_shape 1
+    low_note_slide_curve 0
+    low_q 0.6
+    low_q_slide 0
+    low_q_slide_shape 1
+    low_q_slide_curve 0
+
+    mid 0
+    mid_slide 0
+    mid_slide_shape 1
+    mid_slide_curve 0
+    mid_note 83.2130948
+    mid_note_slide 0
+    mid_note_slide_shape 1
+    mid_note_slide_curve 0
+    mid_q 0.6
+    mid_q_slide 0
+    mid_q_slide_shape 1
+    mid_q_slide_curve 0
+
+    high 0
+    high_slide 0
+    high_slide_shape 1
+    high_slide_curve 0
+    high_note 104.9013539
+    high_note_slide 0
+    high_note_slide_shape 1
+    high_note_slide_curve 0
+    high_q 0.6
+    high_q_slide 0
+    high_q_slide_shape 1
+    high_q_slide_curve 0
+
+    high_shelf 0
+    high_shelf_slide 0
+    high_shelf_slide_shape 1
+    high_shelf_slide_curve 0
+    high_shelf_note 114.2326448
+    high_shelf_note_slide 0
+    high_shelf_note_slide_shape 1
+    high_shelf_note_slide_curve 0
+    high_shelf_slope 1
+    high_shelf_slope_slide 0
+    high_shelf_slope_slide_shape 1
+    high_shelf_slope_slide_curve 0
+
+    ]
+   [
+    low_shelf        (varlag low_shelf low_shelf_slide low_shelf_slide_curve low_shelf_slide_shape)
+    low_shelf        (* low_shelf 15)
+    low_shelf_note   (varlag low_shelf_note low_shelf_note_slide low_shelf_note_slide_curve low_shelf_note_slide_shape)
+    low-shelf-freq   (midicps low_shelf_note)
+    low_shelf_slope  (varlag low_shelf_slope low_shelf_slope_slide low_shelf_slope_slide_curve low_shelf_slope_slide_shape)
+
+    low        (varlag low low_slide low_slide_curve low_slide_shape)
+    low        (* low 15)
+    low_note   (varlag low_note low_note_slide low_note_slide_curve low_note_slide_shape)
+    low-freq   (midicps low_note)
+    low_q      (varlag low_q low_q_slide low_q_slide_curve low_q_slide_shape)
+    low_q      (max 0.001 low_q)
+    low_q      (/ 1 low_q)
+
+    mid        (varlag mid mid_slide mid_slide_curve mid_slide_shape)
+    mid        (* mid 15)
+    mid_note   (varlag mid_note mid_note_slide mid_note_slide_curve mid_note_slide_shape)
+    mid-freq   (midicps mid_note)
+    mid_q      (varlag mid_q mid_q_slide mid_q_slide_curve mid_q_slide_shape)
+    mid_q      (max 0.001 mid_q)
+    mid_q      (/ 1 mid_q)
+
+    high        (varlag high high_slide high_slide_curve high_slide_shape)
+    high        (* high 15)
+    high_note   (varlag high_note high_note_slide high_note_slide_curve high_note_slide_shape)
+    high-freq   (midicps high_note)
+    high_q      (varlag high_q high_q_slide high_q_slide_curve high_q_slide_shape)
+    high_q      (max 0.001 high_q)
+    high_q      (/ 1 high_q)
+
+    high_shelf        (varlag high_shelf high_shelf_slide high_shelf_slide_curve high_shelf_slide_shape)
+    high_shelf        (* high_shelf 15)
+    high_shelf_note   (varlag high_shelf_note high_shelf_note_slide high_shelf_note_slide_curve high_shelf_note_slide_shape)
+    high-shelf-freq   (midicps high_shelf_note)
+    high_shelf_slope  (varlag high_shelf_slope high_shelf_slope_slide high_shelf_slope_slide_curve high_shelf_slope_slide_shape)
+
+    snd (b-low-shelf [dry-l dry-r] low-shelf-freq low_shelf_slope low_shelf)
+    snd (b-peak-eq snd low-freq low_q low)
+    snd (b-peak-eq snd mid-freq high_q mid)
+    snd (b-peak-eq snd high-freq high_q high)
+    snd (b-hi-shelf snd high-shelf-freq high_shelf_slope high_shelf)
+
+    [wet-l wet-r] snd])
+
+ (core/def-fx sonic-pi-fx_record
+   [buffer 0]
+   [
+    ph (phasor:ar 0 (buf-rate-scale:kr buffer) 0 (buf-frames:kr buffer))
+    _  (buf-wr:ar [dry-l dry-r] buffer ph 0)
+    [wet-l wet-r] [dry-l dry-r]
+    ])
 
 
 )
 
- (comment
+(comment
+  (core/save-synthdef sonic-pi-fx_eq)
    (core/save-synthdef sonic-pi-fx_echo)
    (core/save-synthdef sonic-pi-fx_reverb)
    (core/save-synthdef sonic-pi-fx_mono)

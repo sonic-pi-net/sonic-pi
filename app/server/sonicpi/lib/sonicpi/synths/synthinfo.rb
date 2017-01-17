@@ -3888,6 +3888,374 @@ Steal This Sound,  Mitchell Sigman"
       end
     end
 
+    class FXEQ < FXInfo
+
+      def name
+        "EQ"
+      end
+
+      def introduced
+        Version.new(2,12,0)
+      end
+
+      def synth_name
+        "fx_eq"
+      end
+
+      def trigger_with_logical_clock?
+        false
+      end
+
+      def doc
+        "Basic parametric EQ"
+      end
+
+      def arg_defaults
+        super.merge({
+                      :low_shelf => 0,
+                      :low_shelf_slide => 0,
+                      :low_shelf_slide_shape => 1,
+                      :low_shelf_slide_curve => 0,
+                      :low_shelf_note => 43.349957,
+                      :low_shelf_note_slide => 0,
+                      :low_shelf_note_slide_shape => 1,
+                      :low_shelf_note_slide_curve => 0,
+                      :low_shelf_slope => 1,
+                      :low_shelf_slope_slide => 0,
+                      :low_shelf_slope_slide_shape => 1,
+                      :low_shelf_slope_slide_curve => 0,
+
+                      :low => 0,
+                      :low_slide => 0,
+                      :low_slide_shape => 1,
+                      :low_slide_curve => 0,
+                      :low_note => 59.2130948,
+                      :low_note_slide => 0,
+                      :low_note_slide_shape => 1,
+                      :low_note_slide_curve => 0,
+                      :low_q => 0.6,
+                      :low_q_slide => 0,
+                      :low_q_slide_shape => 1,
+                      :low_q_slide_curve => 0,
+
+                      :mid => 0,
+                      :mid_slide => 0,
+                      :mid_slide_shape => 1,
+                      :mid_slide_curve => 0,
+                      :mid_note => 83.2130948,
+                      :mid_note_slide => 0,
+                      :mid_note_slide_shape => 1,
+                      :mid_note_slide_curve => 0,
+                      :mid_q => 0.6,
+                      :mid_q_slide => 0,
+                      :mid_q_slide_shape => 1,
+                      :mid_q_slide_curve => 0,
+
+                      :high => 0,
+                      :high_slide => 0,
+                      :high_slide_shape => 1,
+                      :high_slide_curve => 0,
+                      :high_note => 104.9013539,
+                      :high_note_slide => 0,
+                      :high_note_slide_shape => 1,
+                      :high_note_slide_curve => 0,
+                      :high_q => 0.6,
+                      :high_q_slide => 0,
+                      :high_q_slide_shape => 1,
+                      :high_q_slide_curve => 0,
+
+                      :high_shelf => 0,
+                      :high_shelf_slide => 0,
+                      :high_shelf_slide_shape => 1,
+                      :high_shelf_slide_curve => 0,
+                      :high_shelf_note => 114.2326448,
+                      :high_shelf_note_slide => 0,
+                      :high_shelf_note_slide_shape => 1,
+                      :high_shelf_note_slide_curve => 0,
+                      :high_shelf_slope => 1,
+                      :high_shelf_slope_slide => 0,
+                      :high_shelf_slope_slide_shape => 1,
+                      :high_shelf_slope_slide_curve => 0,
+                    })
+      end
+
+      def specific_arg_info
+        {
+          :low_shelf =>
+          {
+            :doc => "Gain - boost or cut the centre frequency. The low shelf defines the characteristics of the lowest part of the eq FX. A value of 0 will neither boost or cut the low_shelf frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :modulatable => true
+          },
+
+          :low_shelf_slide =>
+          {
+            :doc => generic_slide_doc(:low_shelf),
+            :validations => [v_positive(:low_shelf_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :low_shelf_note =>
+          {
+            :doc => "Centre frequency of low shelf in MIDI notes.",
+            :validations => [v_greater_than(:low_shelf_note, 1)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :low_shelf_note_slide =>
+          {
+            :doc => generic_slide_doc(:low_shelf_note),
+            :validations => [v_positive(:low_shelf_note_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :low_shelf_slope =>
+          {
+            :doc => "Low shelf boost/cut slope. When set to 1 (the default), the shelf slope is as steep as it can be and remain monotonically increasing or decreasing gain with frequency.",
+            :validations => [v_greater_than_oet(:low_shelf_slope, 0), v_less_than_oet(:low_shelf_slope, 1)],
+            :modulatable => true
+          },
+
+          :low_shelf_slope_slide =>
+          {
+            :doc => generic_slide_doc(:low_shelf_slope),
+            :validations => [v_positive(:low_shelf_slope_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
+          :low =>
+          {
+            :doc => "Gain - boost or cut the centre frequency of the bass part of the sound. The low shelf defines the characteristics of the bass of the eq FX. A value of 0 will neither boost or cut the bass frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :modulatable => true
+          },
+
+          :low_slide =>
+          {
+            :doc => generic_slide_doc(:low),
+            :validations => [v_positive(:low_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :low_note =>
+          {
+            :doc => "Centre frequency of the low eq parameter in MIDI notes.",
+            :validations => [v_greater_than(:low_note, 1)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :low_note_slide =>
+          {
+            :doc => generic_slide_doc(:low_note),
+            :validations => [v_positive(:low_note_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :low_q =>
+          {
+            :doc => "The Q factor for the low eq parameter.
+
+The Q factor controls the width of frequencies that will be affected by the low parameter of this eq FX. A low Q factor gives a wide  bandwidth affecting a larger range of frequences. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
+
+Here's a list of various Q factors and an approximate corresponding frequency width:
+
+0.7     -> 2 octaves
+1       -> 1 1/3 octaves
+1.4     -> 1 octave
+2.8     -> 1/2 octave
+4.3     -> 1/3 octave
+8.6     -> 1/6 octave
+
+A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
+",
+            :validations => [v_greater_than_oet(:low_q, 0.001), v_less_than_oet(:low_q, 100)],
+            :modulatable => true
+          },
+
+          :low_q_slide =>
+          {
+            :doc => generic_slide_doc(:low_q),
+            :validations => [v_positive(:low_q_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
+          :mid =>
+          {
+            :doc => "Gain - boost or cut the centre frequency of the middle part of the sound. The mid shelf defines the characteristics of the bass of the eq FX. A value of 0 will neither boost or cut the bass frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :modulatable => true
+          },
+
+          :mid_slide =>
+          {
+            :doc => generic_slide_doc(:mid),
+            :validations => [v_positive(:mid_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :mid_note =>
+          {
+            :doc => "Centre frequency of the mid eq parameter in MIDI notes.",
+            :validations => [v_greater_than(:mid_note, 1)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :mid_note_slide =>
+          {
+            :doc => generic_slide_doc(:mid_note),
+            :validations => [v_positive(:mid_note_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :mid_q =>
+          {
+            :doc => "The Q factor for the mid eq parameter.
+
+The Q factor controls the width of frequencies that will be affected by the mid parameter of this eq FX. A mid Q factor gives a wide  bandwidth affecting a larger range of frequences. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
+
+Here's a list of various Q factors and an approximate corresponding frequency width:
+
+0.7     -> 2 octaves
+1       -> 1 1/3 octaves
+1.4     -> 1 octave
+2.8     -> 1/2 octave
+4.3     -> 1/3 octave
+8.6     -> 1/6 octave
+
+A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
+",
+            :validations => [v_greater_than_oet(:mid_q, 0.001), v_less_than_oet(:mid_q, 100)],
+            :modulatable => true
+          },
+
+          :mid_q_slide =>
+          {
+            :doc => generic_slide_doc(:mid_q),
+            :validations => [v_positive(:mid_q_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
+                    :high =>
+          {
+            :doc => "Gain - boost or cut the centre frequency of the high part of the sound. The high shelf defines the characteristics of the treble of the eq FX. A value of 0 will neither boost or cut the treble frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :modulatable => true
+          },
+
+          :high_slide =>
+          {
+            :doc => generic_slide_doc(:high),
+            :validations => [v_positive(:high_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :high_note =>
+          {
+            :doc => "Centre frequency of the high eq parameter in HIGHI notes.",
+            :validations => [v_greater_than(:high_note, 1)],
+            :modulatable => true,
+            :highi => true
+          },
+
+          :high_note_slide =>
+          {
+            :doc => generic_slide_doc(:high_note),
+            :validations => [v_positive(:high_note_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :high_q =>
+          {
+            :doc => "The Q factor for the high eq parameter.
+
+The Q factor controls the width of frequencies that will be affected by the high parameter of this eq FX. A high Q factor gives a wide  bandwidth affecting a larger range of frequences. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
+
+Here's a list of various Q factors and an approximate corresponding frequency width:
+
+0.7     -> 2 octaves
+1       -> 1 1/3 octaves
+1.4     -> 1 octave
+2.8     -> 1/2 octave
+4.3     -> 1/3 octave
+8.6     -> 1/6 octave
+
+A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
+",
+            :validations => [v_greater_than_oet(:high_q, 0.001), v_less_than_oet(:high_q, 100)],
+            :modulatable => true
+          },
+
+          :high_q_slide =>
+          {
+            :doc => generic_slide_doc(:high_q),
+            :validations => [v_positive(:high_q_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :high_shelf =>
+          {
+            :doc => "Gain - boost or cut the centre frequency. The high shelf defines the characteristics of the highest part of the eq FX. A value of 0 will neither boost or cut the high_shelf frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :modulatable => true
+          },
+
+          :high_shelf_slide =>
+          {
+            :doc => generic_slide_doc(:high_shelf),
+            :validations => [v_positive(:high_shelf_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :high_shelf_note =>
+          {
+            :doc => "Centre frequency of high shelf in MIDI notes.",
+            :validations => [v_greater_than(:high_shelf_note, 1)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :high_shelf_note_slide =>
+          {
+            :doc => generic_slide_doc(:high_shelf_note),
+            :validations => [v_positive(:high_shelf_note_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :high_shelf_slope =>
+          {
+            :doc => "High shelf boost/cut slope. When set to 1 (the default), the shelf slope is as steep as it can be and remain monotonically increasing or decreasing gain with frequency.",
+            :validations => [v_greater_than_oet(:high_shelf_slope, 0), v_less_than_oet(:high_shelf_slope, 1)],
+            :modulatable => true
+          },
+
+          :high_shelf_slope_slide =>
+          {
+            :doc => generic_slide_doc(:high_shelf_slope),
+            :validations => [v_positive(:high_shelf_slope_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          }
+
+        }
+      end
+    end
+
+
     class FXGVerb < FXInfo
 
       def name
@@ -6802,6 +7170,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_octaver => FXOctaver.new,
         :fx_vowel => FXVowel.new,
         :fx_flanger => FXFlanger.new
+        :fx_eq => FXEQ.new,
+        :fx_record => FXRecord.new,
       }
 
       def self.get_info(synth_name)
