@@ -13,25 +13,29 @@
 
 (defproject defining-pi "0.0.0-SNAPSHOT"
   :description "Sonic Pi HTML Interface"
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2173" :scope "provided"]
-                 [org.clojure/core.async "0.1.267.0-0d7780-alpha" :scope "provided"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "1.9.229"]
+                 [org.clojure/core.async "0.2.391"
+                  :exclusions [org.clojure/tools.reader]]
                  [com.facebook/react "0.9.0"]
                  [om "0.5.0"]]
-  :plugins [[lein-cljsbuild "1.0.2"]]
+  :plugins [[lein-figwheel "0.5.2"]
+            [lein-cljsbuild "1.1.4"]]
   :source-paths ["src-cljs"]
-  :profiles {:dev {:plugins [[com.cemerick/austin "0.1.3"]]}}
   :cljsbuild {
               :builds [{:id "dev"
                         :source-paths ["cljs"]
+                        :figwheel {:websocket-host :js-client-host}
                         :compiler {
-                                   :output-dir "js/generated"
-                                   :output-to "js/cljs-main.js"
+                                   :output-dir "resources/public/js/generated"
+                                   :output-to "resources/public/js/cljs-main.js"
                                    :source-map true
                                    :optimizations :none}}
                        {:id "release"
                         :source-paths ["cljs"]
                         :compiler {
-                                   :output-to "js/cljs-main.js"
+                                   :output-to "resources/public/js/cljs-main.js"
                                    :optimizations :advanced
-                                   :pretty-print false}}]})
+                                   :pretty-print false}}]}
+  :figwheel {:server-ip "0.0.0.0"
+             :css-dirs ["resources/public/style"]})

@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ "$(whoami)" != "root" ]; then
+    echo "Please run as root (sudo)."
+    exit 1
+fi
+
+export SP_ROOT=/sonic-pi
+
+EXTERNAL_IP=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip" -H "Metadata-Flavor: Google")
+INTERNAL_IP=$(hostname -I)
+
+SP_ENV=docker
+echo "SP_ENV=$SP_ENV"
+if [[ "$SP_ENV" == "dev" ]]; then
+    echo "Launching in dev mode."
+    export SP_ROOT=$(git rev-parse --show-toplevel)
+    INTERNAL_IP=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip" -H "Metadata-Flavor: Google")
+fi
+
+ADMIN_PASSWORD=$(dd if=/dev/urandom bs=256 count=1 2> /dev/null | tr -dc 'a-zA-Z0-9' | head -c 32)
+
+# Configure Darkice
+cat > ~/darkice.cfg <<EOF
+[general]
+duration       = 0
+bufferSecs     = 1 # This doesn't seem to be effective !?
+
+[input]
+device         = jack
+sampleRate     = 48000
+bitsPerSample  = 16
+channel        = 2
+jackClientName = sonicpi
+
+[icecast2-0]
+bitrateMode    = cbr
+format         = mp3
+bitrate        = 128
+server         = ${INTERNAL_IP?}
+port           = 8002
+password       = ${ADMIN_PASSWORD?}
+mountPoint     = sonicpi
+name           = Sonic Pi
+description    = Live Coding Music Synth for Everyone
+url            = http://${INTERNAL_IP?}
+genre          = edm
+public         = no
+EOF
+
+# Enable Icecast2
+sed -i -- 's/ENABLE=false/ENABLE=true/g' /etc/default/icecast2
+
+# Configure Icecast2
+cat > /etc/icecast2/icecast.xml <<EOF
+<icecast>
+    <location>Earth</location>
+    <admin>icemaster@localhost</admin>
+    <limits>
+        <clients>100</clients>
+        <sources>2</sources>
+        <queue-size>524288</queue-size>
+        <client-timeout>30</client-timeout>
+        <header-timeout>15</header-timeout>
+        <source-timeout>10</source-timeout>
+        <burst-on-connect>0</burst-on-connect>
+        <burst-size>65535</burst-size>
+    </limits>
+    <authentication>
+        <source-password>${ADMIN_PASSWORD?}</source-password>
+        <relay-password>${ADMIN_PASSWORD?}</relay-password>
+        <admin-user>admin</admin-user>
+        <admin-password>${ADMIN_PASSWORD?}</admin-password>
+    </authentication>
+    <hostname>${EXTERNAL_IP?}</hostname>
+    <listen-socket>
+        <port>8002</port>
+        <bind-address>${INTERNAL_IP?}</bind-address>
+    </listen-socket>
+    <http-headers>
+        <header name="Access-Control-Allow-Origin" value="*" />
+    </http-headers>
+    <fileserve>0</fileserve>
+    <paths>
+        <basedir>/usr/share/icecast2</basedir>
+        <logdir>/var/log/icecast2</logdir>
+        <webroot>/usr/share/icecast2/web</webroot>
+        <adminroot>/usr/share/icecast2/admin</adminroot>
+        <alias source="/" destination="/status.xsl"/>
+    </paths>
+    <logging>
+        <accesslog>access.log</accesslog>
+        <errorlog>error.log</errorlog>
+        <loglevel>4</loglevel> <!-- 4 Debug, 3 Info, 2 Warn, 1 Error -->
+        <logsize>10000</logsize> <!-- Max size of a logfile -->
+    </logging>
+    <security>
+        <chroot>1</chroot>
+        <changeowner>
+            <user>nobody</user>
+            <group>nogroup</group>
+        </changeowner>
+    </security>
+</icecast>
+EOF
+
+STATE_FILE=$( mktemp )
+echo "Using state file ${STATE_FILE?}"
+
+trap "tac /tmp/sonicpideps.pid | xargs -L 1 kill; rm ${STATE_FILE?}" SIGINT SIGTERM
+
+jackd -d dummy & echo $! > /tmp/sonicpideps.pid
+sleep 1
+
+/etc/init.d/icecast2 restart
+sleep 1
+
+darkice -c ~/darkice.cfg & echo $! >> /tmp/sonicpideps.pid
+sleep 1
+
+( sleep 5 && \
+  jack_connect SuperCollider:out_1 sonicpi:left &&\
+  jack_connect SuperCollider:out_2 sonicpi:right \
+) &
+
+ruby $SP_ROOT/app/server/bin/ws.rb --ws_ip 0.0.0.0
+

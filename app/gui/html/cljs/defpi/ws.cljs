@@ -30,7 +30,8 @@
 (def ws (atom nil))
 (def err-cnt (atom 0))
 (def app-state (atom {:messages (rb/mk-ringbuffer 100)
-                      :jobs #{}}))
+                      :jobs #{}
+                      :audio true}))
 
 (defn jobs-comp [data owner]
   (om/component
@@ -60,6 +61,16 @@
                                               (str/join "\n" (get m "backtrace")))))))
                (:messages data)))))
 
+(defn audio-comp [data owner]
+  (om/component
+   (dom/div nil
+            (when (:audio data)
+              (dom/audio #js {:id "audio"
+                              :autoPlay true} 
+                         (dom/source #js {:src (str "http://" js/window.location.hostname
+                                                    ":8002/sonicpi")
+                                          :type "audio/mpeg"}))))))
+
 (def hostname
   (let [hn (.-host (.-location js/window))]
     (if (= "" hn)
@@ -88,11 +99,11 @@
 
 (defmulti handle-message #(get % "type"))
 
-(defmethod handle-message "message"
+(defmethod handle-message "info"
   [msg]
   (show-msg msg))
 
-(defmethod handle-message "multimessage"
+(defmethod handle-message "multi_message"
   [msgs]
   (show-multi-msg msgs))
 
@@ -100,47 +111,48 @@
   [msg]
   (show-msg msg))
 
-(defmethod handle-message "debug_message"
+(defmethod handle-message "message"
   [msg]
-  (println "debug=> " msg))
+  (show-msg msg))
 
 (defmethod handle-message "replace-buffer"
   [msg]
   (.setValue js/editor (get msg "val")))
 
+(defmethod handle-message "all_jobs_completed"
+  [msg]
+  (swap! app-state update-in [:jobs] disj (get msg "jobid" )))
+
 (defmethod handle-message "job"
   [msg]
-  (cond
-   (= "start" (get msg "action"))
-   (swap! app-state update-in [:jobs] conj (get msg "jobid"))
+  (condp contains? (get msg "action")
+    #{"start"}
+    (swap! app-state update-in [:jobs] conj (get msg "jobid"))
 
-   (= "completed" (get msg "action"))
-   (swap! app-state update-in [:jobs] disj (get msg "jobid" ))
+    #{"completed" "killed"}
+    (swap! app-state update-in [:jobs] disj (get msg "jobid" ))
 
-   :else
-   (js/alert (str "Unknown job action: " (:action msg)))
-
-    ))
+    (js/alert (str "Unknown job action: " (get msg "action")))))
 
 (defmethod handle-message js/Object
   [m]
   (js/console.log "can't handle: " (:type m)))
 
 (defn replace-buffer [buf-id]
-  (.send @ws (JSON/stringify #js {:cmd  "load-buffer"
+  (.send @ws (.stringify js/JSON #js {:cmd  "load-buffer"
                                   :id   (str buf-id)})))
 
 (defn add-ws-handlers
   []
   (set! (.-onopen @ws) (fn []
-                        (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
-
-                        (om/root jobs-comp app-state {:target (.getElementById js/document "app-jobs")})
-                        (replace-buffer "main")))
+                         (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
+                         (om/root jobs-comp app-state {:target (.getElementById js/document "app-jobs")})
+                         (om/root audio-comp app-state {:target (.getElementById js/document "app-audio")})
+                         (replace-buffer "main")))
 
   (set! (.-onclose @ws) #(show-msg "Websocket Closed"))
   (set! (.-onmessage @ws) (fn [m]
-                           (let [msg (js->clj (JSON/parse (.-data m)))
+                           (let [msg (js->clj (.parse js/JSON (.-data m)))
                                  res (handle-message msg)]
                              (reply-sync msg res))))
   (events/listen js/document (kb/keyword->event-type :keypress)
@@ -148,35 +160,34 @@
                  (let [code (.-charCode e)]
                    (cond
                     (= 18 code)
-                    (.send @ws (JSON/stringify #js{"cmd" "save-and-run-buffer"
+                    (.send @ws (.stringify js/JSON #js{"cmd" "save-and-run-buffer"
                                                    "val" (.getValue js/editor)
                                                    "buffer_id" "main"}))
 
                     (= 19 code)
-                    (.send @ws (JSON/stringify #js{"cmd" "stop-jobs"
-                                                   "val" (.getValue js/editor)}))))))
-
-)
+                    (.send @ws (.stringify js/JSON #js{"cmd" "stop-jobs"
+                                                       "val" (.getValue js/editor)})))))))
 
 (defn ^:export sendCode
   []
-  (.send @ws (JSON/stringify #js {:cmd "save-and-run-buffer"
+  (swap! app-state #(assoc % :audio true))
+  (.send @ws (.stringify js/JSON #js {:cmd "save-and-run-buffer"
                                   :val (.getValue js/editor)
                                   :buffer_id "main"})))
 
-
 (defn ^:export stopCode
   []
-  (.send @ws (JSON/stringify #js {:cmd "stop-jobs"
+  (swap! app-state #(assoc % :audio false))
+  (.send @ws (.stringify js/JSON #js {:cmd "stop-jobs"
                                 :val (.getValue js/editor)})))
 
 (defn ^:export reloadCode
   []
-  (.send @ws (JSON/stringify #js {:cmd "reload"
+  (.send @ws (.stringify js/JSON #js {:cmd "reload"
                                 :val (.getValue js/editor)})))
 
 (defn stop-job [j-id]
-  (.send @ws (JSON/stringify #js {:cmd "stop-job"
+  (.send @ws (.stringify js/JSON #js {:cmd "stop-job"
                                  :val j-id})))
 
 (defn mk-ws []
