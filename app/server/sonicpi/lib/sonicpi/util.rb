@@ -364,13 +364,13 @@ module SonicPi
 
     def log(message)
       if debug_mode
-        message = message.to_s
-        res = ""
+        message = String.new(message.to_s)
+        res = String.new
         res << "\n" if message.empty?
         first = true
         while !(message.empty?)
           if first
-            res << message.slice!(0..151)
+            res << message.slice(0..151)
             res << "\n"
             first = false
           else
