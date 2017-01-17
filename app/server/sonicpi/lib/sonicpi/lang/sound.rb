@@ -1230,7 +1230,7 @@ play 50 # Plays with supersaw synth
 
       def recording_save(filename)
         __info "Stop recording" if @mod_sound_studio.recording_stop
-        if @tmp_path && File.exists?(@tmp_path)
+        if @tmp_path && File.exist?(@tmp_path)
           FileUtils.mv(@tmp_path, filename)
           @tmp_path = nil
           __info "Saving recording to #{filename}"
@@ -4017,7 +4017,7 @@ kill bar"]
 
       def load_synthdefs(path=synthdef_path)
         path = File.expand_path(path)
-        raise "No directory exists called #{path.inspect}" unless File.exists? path
+        raise "No directory exists called #{path.inspect}" unless File.exist? path
         @mod_sound_studio.load_synthdefs(path)
         __info "Loaded synthdefs in path #{path}"
       end
@@ -4132,7 +4132,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def find_sample_with_path(path)
         ["wav", "wave", "aif", "aiff", "flac"].each do |ext|
           full = "#{path}.#{ext}"
-          return full if File.exists?(full)
+          return full if File.exist?(full)
         end
         return nil
       end

@@ -116,7 +116,7 @@ module SonicPi
             all_candidates.concat(ls_samples(expanded[0...-2], true))
           elsif File.directory?(expanded)
             all_candidates.concat(ls_samples(expanded))
-          elsif File.exists?(expanded)
+          elsif File.exist?(expanded)
             all_candidates << expanded
           else
             raise "Unknown sample candidate kind: #{expanded.inspect}. Not a file, directory or /** glob."
@@ -138,7 +138,7 @@ module SonicPi
 
         p = File.expand_path(el)
 
-        if @cached_folder_contents[p] || File.exists?(p) || (p.end_with?("**") && File.directory?(p[0...-2]))
+        if @cached_folder_contents[p] || File.exist?(p) || (p.end_with?("**") && File.directory?(p[0...-2]))
           idx += 1
           candidates << p
         else

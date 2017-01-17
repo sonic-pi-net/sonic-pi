@@ -473,7 +473,7 @@ module SonicPi
       sample_info = nil
       @sample_sem.synchronize do
         return @samples[path] if @samples[path]
-        raise "No sample exists with path:\n  #{unify_tilde_dir(path).inspect}" unless File.exists?(path) && !File.directory?(path)
+        raise "No sample exists with path:\n  #{unify_tilde_dir(path).inspect}" unless File.exist?(path) && !File.directory?(path)
         buf_info = server.buffer_alloc_read(path)
         sample_info = SampleBuffer.new(buf_info, path)
         @samples[path] = sample_info

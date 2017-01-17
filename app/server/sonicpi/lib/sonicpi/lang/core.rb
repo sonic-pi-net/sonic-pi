@@ -33,7 +33,7 @@ module SonicPi
 
       def run_file(path)
         path = File.expand_path(path.to_s)
-        raise "Unable to run file - no file found with path: #{path}" unless File.exists?(path)
+        raise "Unable to run file - no file found with path: #{path}" unless File.exist?(path)
         __spider_eval(File.read(path))
       end
       doc name:           :run_file,
@@ -3931,7 +3931,7 @@ assert_similar(4.9999999999, 5.0) #=> True"
 
       def load_buffer(path)
         path = File.expand_path(path.to_s)
-        raise "Unable to load buffer - no file found with path: #{path}" unless File.exists?(path)
+        raise "Unable to load buffer - no file found with path: #{path}" unless File.exist?(path)
         buf = __current_job_info[:workspace]
         __info "loading #{buf} with #{path}"
         __replace_buffer(buf, File.read(path))

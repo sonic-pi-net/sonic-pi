@@ -23,9 +23,9 @@ module SonicPi
     @@current_uuid = nil
     @@home_dir = nil
     @@util_lock = Mutex.new
-    @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2708`).empty?
-    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2709`).empty? && (`cat /proc/cpuinfo | grep crc32`).empty?
-    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2709`).empty? && !(`cat /proc/cpuinfo | grep crc32`).empty?
+    @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2708`).empty?
+    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2709`).empty? && (`cat /proc/cpuinfo | grep crc32`).empty?
+    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2709`).empty? && !(`cat /proc/cpuinfo | grep crc32`).empty?
 
     @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || Dir.home) + '/.sonic-pi/')
     @@project_path = @@home_dir + '/store/default/'
@@ -34,7 +34,7 @@ module SonicPi
     [@@home_dir, @@project_path, @@log_path].each do |dir|
 
       begin
-        FileUtils.mkdir_p(dir) unless File.exists?(dir)
+        FileUtils.mkdir_p(dir) unless File.exist?(dir)
       rescue
         @@safe_mode = true
         STDERR.puts "Unable to create #{dir} due to permissions errors"
@@ -173,7 +173,7 @@ module SonicPi
         return @@current_uuid if @@current_uuid
         path = home_dir + '/.uuid'
 
-        if (File.exists? path)
+        if (File.exist? path)
           old_id = File.readlines(path).first.strip
           if  (not old_id.empty?) &&
               (old_id.size == 36)
@@ -197,7 +197,7 @@ module SonicPi
 
     def ensure_dir(d)
       begin
-        FileUtils.mkdir_p(dir) unless File.exists?(dir)
+        FileUtils.mkdir_p(dir) unless File.exist?(dir)
       rescue
         @@safe_mode = true
         log "Unable to create #{dir} due to permissions errors"

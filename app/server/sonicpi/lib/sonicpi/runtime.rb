@@ -95,11 +95,11 @@ module SonicPi
 
     def __extract_git_hash
       head_path = root_path + "/.git/HEAD"
-      if File.exists? head_path
+      if File.exist? head_path
         ref = File.readlines(head_path).first
         ref_path = root_path + "/.git/" + ref[5..-1]
         ref_path = ref_path.strip
-        if File.exists? ref_path
+        if File.exist? ref_path
           return File.readlines(ref_path).first
         end
       end
@@ -408,7 +408,7 @@ module SonicPi
       raise "Aborting load: file name is blank" if  id.empty?
       path = project_path + id + '.spi'
       s = "# Welcome to Sonic Pi #{@version.to_s}\n\n"
-      if File.exists? path
+      if File.exist? path
         s = IO.read(path)
       end
       __replace_buffer(id, s)
