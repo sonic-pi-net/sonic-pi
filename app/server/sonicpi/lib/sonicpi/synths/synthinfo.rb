@@ -7169,9 +7169,9 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         #:fx_chorus => FXChorus.new,
         :fx_octaver => FXOctaver.new,
         :fx_vowel => FXVowel.new,
-        :fx_flanger => FXFlanger.new
+        :fx_flanger => FXFlanger.new,
         :fx_eq => FXEQ.new,
-        :fx_record => FXRecord.new,
+
       }
 
       def self.get_info(synth_name)
