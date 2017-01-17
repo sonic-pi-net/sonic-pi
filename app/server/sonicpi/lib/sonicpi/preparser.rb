@@ -22,6 +22,7 @@ module SonicPi
 
     def self.preparse(rb)
       SonicPi::Lang::Core.vec_fns.each do |fn|
+        rb = String.new(rb)
         fn = fn[:name].to_s
         rb.gsub!(/\((\s*)#{fn}([,[:space:]]+)/) {|s| ' ' + $1 + fn + '(' + (' ' * ($2.size - 1))}
 
