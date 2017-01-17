@@ -17,63 +17,49 @@ require_relative "../../../lib/sonicpi/sample_loader"
 require 'mocha/setup'
 
 module SonicPi
-  module Lang
-    module Sound
-      module_function :sample_duration
-      module_function :pitch_to_ratio
-      module_function :sample_split_filts_and_opts
-      module_function :normalise_and_resolve_sample_args
-      module_function :normalise_args!
-      module_function :ratio_to_pitch
-
-
-      # mock out load_sample to always return a sample with duration 8
-      def self.load_sample_at_path(path)
-        mock_samp = Struct.new(:duration)
-        mock_samp.new(8)
-      end
-
-      def self.sample_buffer(path)
-        mock_samp = Object.new
-        mock_samp.stubs(:duration).returns(8)
-        mock_samp.stubs(:onset_slices).returns([{:start => 0, :finish => 0.125}, {:start => 0.125, :finish => 1}])
-        mock_samp.stubs(:slices).returns([{:start => 0, :finish => 0.5}, {:start => 0.5, :finish => 1}])
-        mock_samp
-      end
-
-      # mock out current bpm to be 60
-      def self.current_bpm
-        60
-      end
-
-      def self.resolve_sample_path(*args)
-        "/foo/bar"
-      end
-    end
-  end
 
   class SampleDurationTester < Minitest::Test
 
+    def setup
+      @lang = SonicPi::MockLang.new
+
+      @sample_loader = Object.new
+      @sample_loader.stubs(:find_candidates).returns("/foo.wav")
+      @lang.sample_loader = @sample_loader
+
+
+      @mock_samp = Object.new
+      @mock_samp.stubs(:duration).returns(8)
+      @mock_samp.stubs(:onset_slices).returns([{:start => 0, :finish => 0.125}, {:start => 0.125, :finish => 1}])
+      @mock_samp.stubs(:slices).returns([{:start => 0, :finish => 0.5}, {:start => 0.5, :finish => 1}])
+
+      @lang.mod_sound_studio.stubs(:load_sample).returns(@mock_samp)
+    end
+
     def test_duration_of_samples
-      assert_equal(8,  Lang::Sound.sample_duration(:foo))
-      assert_equal(16, Lang::Sound.sample_duration(:foo, rate: 0.5))
-      assert_equal(4,  Lang::Sound.sample_duration(:foo, rate: 2))
-      assert_equal(4,  Lang::Sound.sample_duration(:foo, rate: -2))
-      assert_equal(8,  Lang::Sound.sample_duration(:foo, rate: 1, attack: 1))
-      assert_equal(8,  Lang::Sound.sample_duration(:foo, rate: 1, release: 1))
-      assert_equal(1,  Lang::Sound.sample_duration(:foo, rate: 1, sustain: 0, release: 1))
-      assert_equal(2,  Lang::Sound.sample_duration(:foo, rate: 1, sustain: 1, release: 1))
-      assert_equal(8,  Lang::Sound.sample_duration(:foo, rate: 1, sustain: -1, release: 12))
-      assert_equal(4,  Lang::Sound.sample_duration(:foo, rate: 1, rpitch: 12))
-      assert_equal(3,  Lang::Sound.sample_duration(:foo, rate: 1, beat_stretch: 3))
-      assert_equal(1,  Lang::Sound.sample_duration(:foo, rate: 1, pitch_stretch: 1))
-      assert_equal(4,  Lang::Sound.sample_duration(:foo, rate: 1, start: 0.5), 4)
-      assert_equal(2,  Lang::Sound.sample_duration(:foo, rate: 1, start: 0.5, finish: 0.75))
-      assert_equal(2,  Lang::Sound.sample_duration(:foo, rate: 1, finish: 0.5, start: 0.75))
-      assert_equal(1,  Lang::Sound.sample_duration(:foo, rate: 2, finish: 0.5, start: 0.75))
-      assert_equal(1,  Lang::Sound.sample_duration(:foo, rate: 1, onset: 0))
-      assert_equal(7,  Lang::Sound.sample_duration(:foo, rate: 1, onset: 1))
-      assert_equal(4,  Lang::Sound.sample_duration(:foo, rate: 1, slice: 1))
+      @lang.instance_eval do
+        assert_equal 8, sample_duration(:foo)
+        assert_equal 16, sample_duration(:foo, rate: 0.5)
+        assert_equal 16, sample_duration(:foo, rate: 0.5)
+        assert_equal 4,  sample_duration(:foo, rate: 2)
+        assert_equal 4,  sample_duration(:foo, rate: -2)
+        assert_equal 8,  sample_duration(:foo, rate: 1, attack: 1)
+        assert_equal 8,  sample_duration(:foo, rate: 1, release: 1)
+        assert_equal 1,  sample_duration(:foo, rate: 1, sustain: 0, release: 1)
+        assert_equal 2,  sample_duration(:foo, rate: 1, sustain: 1, release: 1)
+        assert_equal 8,  sample_duration(:foo, rate: 1, sustain: -1, release: 12)
+        assert_equal 4,  sample_duration(:foo, rate: 1, rpitch: 12)
+        assert_equal 3,  sample_duration(:foo, rate: 1, beat_stretch: 3)
+        assert_equal 1,  sample_duration(:foo, rate: 1, pitch_stretch: 1)
+        assert_equal 4,  sample_duration(:foo, rate: 1, start: 0.5), 4
+        assert_equal 2,  sample_duration(:foo, rate: 1, start: 0.5, finish: 0.75)
+        assert_equal 2,  sample_duration(:foo, rate: 1, finish: 0.5, start: 0.75)
+        assert_equal 1,  sample_duration(:foo, rate: 2, finish: 0.5, start: 0.75)
+        assert_equal 1,  sample_duration(:foo, rate: 1, onset: 0)
+        assert_equal 7,  sample_duration(:foo, rate: 1, onset: 1)
+        assert_equal 4,  sample_duration(:foo, rate: 1, slice: 1)
+      end
+
     end
 
   end

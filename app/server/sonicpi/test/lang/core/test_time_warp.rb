@@ -13,33 +13,13 @@
 
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/lang/core"
+require 'mocha/setup'
 
 module SonicPi
   class SonicPiMiniTest < MiniTest::Test
 
-    class MockSonicPiLang
-      include SonicPi::RuntimeMethods
-      include SonicPi::Lang::Core
-      include SonicPi::Lang::Sound
-
-      def initialize
-        @mod_sound_studio = Object.new
-        @mod_sound_studio.stubs(:sched_ahead_time).returns(0.5)
-
-        __set_default_user_thread_locals!
-        now = Time.now.freeze
-        __system_thread_locals.set :sonic_pi_spider_time, now
-        __system_thread_locals.set :sonic_pi_spider_start_time, now
-        __system_thread_locals.set :sonic_pi_spider_beat, 0
-      end
-
-      def __enqueue_multi_message(*args)
-        # do nothing
-      end
-    end
-
     def setup
-      @lang = MockSonicPiLang.new
+      @lang = SonicPi::MockLang.new
     end
 
     def test_no_warp
