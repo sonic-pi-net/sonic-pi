@@ -788,9 +788,8 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
-"みなさんの中で、すでにいくつかの音楽記号を知っている人は、たとえば C とか F# "
-"などの音名を使ってメロディーを書きたいかも知れません（もし知らなくても心配無用です。それが必要というわけではありません）。Sonic "
-"Piはそれをカバーしてくれます。以下のことをやってみましょう。"
+"みなさんの中で、すでにいくつかの音楽記号を知っている人は、たとえばCとかF#などの音名を使ってメロディーを書きたいかも知れません（もし知らなくても心配無用"
+"です。それが必要というわけではありません）。Sonic Piはそれをカバーしてくれます。以下のことをやってみましょう。"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -848,7 +847,7 @@ msgstr "2.2 シンセのオプション"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr "シンセのオプション：Amp と Pan"
+msgstr "シンセのオプション：AmpとPan"
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -1055,9 +1054,8 @@ msgid ""
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
 "もうひとつの面白いオプションは`pan:`です。ステレオで音の位置を制御します。左に音をパンすることは左のスピーカーから音が聞こえることを意味し、右にパン"
-"すれば右のスピーカーから聞こえます。値としては、-1 は最も左、0 は中心、1 "
-"は最も右、というようにステレオの領域で表現することができます。もちろん、音の正確な位置をコントロールするために、-1 から 1 "
-"の間のどの値でも使用することができます。"
+"すれば右のスピーカーから聞こえます。値としては、-1 は最も左、0 は中心、1 は最も右、というようにステレオの領域で表現することができます。もちろん、音"
+"の正確な位置をコントロールするために、-1から1の間のどの値でも使用することができます。"
 
 #: 02.2-Synth-Params.md:126
 msgid "Let's play a beep out of the left speaker:"
@@ -1245,8 +1243,8 @@ msgid ""
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"演奏するために Sonic Piがどんなシンセを備えているかを見るには、左端のメニュー（効果の上）にあるシンセオプションを見てください。20以上が用意され"
-"ています。これらは、わたしのお気に入りの数種類です。"
+"演奏するためにSonic Piがどんなシンセを備えているかを見るには、左端のメニュー（効果の上）にあるシンセオプションを見てください。20以上が用意されて"
+"います。これらは、わたしのお気に入りの数種類です。"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
@@ -1553,9 +1551,9 @@ msgid ""
 " a very small value such as 0.2."
 msgstr ""
 "サステイン・フェーズは、オプションのリリース・フェーズに入る前に、ミックスの中で主となる存在感を与えたい重要なサウンドにとって有効です。もちろん、`att"
-"ack:`と`release:`両方のオプションを 0に設定することもとても有効ですし、サウンドに対して、完全にフェード・インなし、フェード・アウトなしに"
-"するためにサステインを使えば良いのです。けれど、注意してください、0のリリースはオーディオの中にクリック音を生成します。たいていの場合、0.2のような "
-"ごく小さい値を使う方が良いです。"
+"ack:`と`release:`両方のオプションを0に設定することもとても有効ですし、サウンドに対して、完全にフェード・インなし、フェード・アウトなしにす"
+"るためにサステインを使えば良いのです。けれど、注意してください、0のリリースはオーディオの中にクリック音を生成します。たいていの場合、0.2のようなごく小"
+"さい値を使う方が良いです。"
 
 #: 02.4-Durations-with-Envelopes.md:154
 msgid "Decay Phase"
@@ -1572,8 +1570,8 @@ msgid ""
 msgstr ""
 "そして、今あなたがさらなる制御のレベルを必要としているならば、ディケイ・タイムというものを設定することもできます。これは、アタックとサステインの間にくるエ"
 "ンベロープのフェーズで、音量が`attack_level:`から`decay_level:`（もしこれを明示的に指定しなければ、この値は`sustain_"
-"level:`と同じ値に設定されます）に落ちる時間を指定します。通常では、`decay:`のオプションは0で、アタックとサステインのレベルは両方とも 1 "
-"です。ですから、ディケイ・フェーズで効果を得るには、アタック、サステインのレベルも指定しなくてはなりません。"
+"level:`と同じ値に設定されます）に落ちる時間を指定します。通常では、`decay:`のオプションは0で、アタックとサステインのレベルは両方とも1です"
+"。ですから、ディケイ・フェーズで効果を得るには、アタック、サステインのレベルも指定しなくてはなりません。"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1657,7 +1655,7 @@ msgstr "*sustain*（サステイン）- 音量を`decay_level`から`sustain_lev
 
 #: 02.4-Durations-with-Envelopes.md:198
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
-msgstr "*release*（リリース）- 音量を`sustain_level`から 0 に移行させる時間"
+msgstr "*release*（リリース）- 音量を`sustain_level`から0に移行させる時間"
 
 #: 02.4-Durations-with-Envelopes.md:200
 msgid ""
@@ -1665,7 +1663,7 @@ msgid ""
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
-"サウンドのデュレーションは、これらのフェーズの合計であることに注意することが大切です。したがって、以下のサウンドは 0.5 + 1 + 2 + 0.5 ="
+"サウンドのデュレーションは、これらのフェーズの合計であることに注意することが大切です。したがって、以下のサウンドは、0.5 + 1 + 2 + 0.5 ="
 " 4 で、4秒のデュレーションになります。"
 
 #: 02.4-Durations-with-Envelopes.md:204
@@ -1859,7 +1857,7 @@ msgid ""
 "nds `amp:` and `pan:`."
 msgstr ""
 "シンセの項目で見てきたように、パラメータで簡単にサウンドを制御することができます。サンプルは全く同じパラメータの仕組みを備えています。何度も登場する、`a"
-"mp:`と `pan:`をもう一度見てみましょう。"
+"mp:`と`pan:`をもう一度見てみましょう。"
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
@@ -2272,8 +2270,8 @@ msgid ""
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
-"1秒間のサンプルの長さは `1.753310657596372`と答えるでしょう。ここでは、便宜的に`1.75`としますリリース・タイムを`0.75`にす"
-"ると、驚くべきことが起こります。"
+"1秒間のサンプルの長さは`1.753310657596372`と答えるでしょう。ここでは、便宜的に`1.75`としますリリース・タイムを`0.75`にする"
+"と、驚くべきことが起こります。"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
@@ -2288,9 +2286,9 @@ msgid ""
 "as 10.75 seconds long, it would play the first 10 seconds at full amplitude be"
 "fore fading out over 0.75s."
 msgstr ""
-"サンプルの最初の1秒をフル・アンプで再生し、最後の0.75秒はフェード・アウトします。これが *オート・サステイン*の動きです。標準では、`release"
-":`はいつもサンプルの最後から動作します。もしサンプルの長さが10.75秒なら、最初の10秒はフル・アンプで再生し、最後の0.75秒はフェード・アウトしま"
-"す。"
+"サンプルの最初の1秒をフル・アンプで再生し、最後の0.75秒はフェード・アウトします。これが*オート・サステイン*の動きです。標準では、`release:"
+"`はいつもサンプルの最後から動作します。もしサンプルの長さが10.75秒なら、最初の10秒はフル・アンプで再生し、最後の0.75秒はフェード・アウトします"
+"。"
 
 #: 03.4-Enveloped-Samples.md:71
 msgid "Remember: by default, `release:` fades out at the end of a sample."
@@ -2305,8 +2303,8 @@ msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
 msgstr ""
-"サンプルのデュレーションの間にフェード・アウトとインを行うには "
-"`attack:`と`release:`の両方を使うことができます。オート・サステインの仕組みと一緒に、使用できます。"
+"サンプルのデュレーションの間にフェード・アウトとインを行うには`attack:`と`release:`の両方を使うことができます。オート・サステインの仕組"
+"みと一緒に、使用できます。"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
@@ -2438,7 +2436,7 @@ msgid ""
 "However, wouldn't it be nice if we didn't have to always start at the beginnin"
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
 "t the end of the sample?"
-msgstr "では、いつもサンプルの先頭から開始する必要はあるのでしょうか？  そして、いつもサンプルの最後まで終了する必要はあるのでしょうか？"
+msgstr "では、いつもサンプルの先頭から開始する必要はあるのでしょうか？ そして、いつもサンプルの最後まで終了する必要はあるのでしょうか？"
 
 #: 03.5-Partial-Samples.md:39
 msgid "Choosing a starting point"
@@ -2511,7 +2509,7 @@ msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
-msgstr "かっこいい！ ！ ！ 逆再生になりますね！"
+msgstr "かっこいい！ 逆再生になりますね！"
 
 #: 03.5-Partial-Samples.md:84
 msgid "Combining with rate"
@@ -2610,7 +2608,7 @@ msgid ""
 "So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? All "
 "you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"では、どうやって、あなたが録音したWAVファイルやAIFFファイルをコンピュータで再生するのでしょうか？  "
+"では、どうやって、あなたが録音したWAVファイルやAIFFファイルをコンピュータで再生するのでしょうか？ "
 "`sample`のファイルを置く場所を指定（パスを通す）するだけで、再生できるようになります。"
 
 #: 03.6-External-Samples.md:31
@@ -2916,8 +2914,8 @@ msgid ""
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
-"`sample`関数は、最初に全てのソースを集めてサンプルの候補の巨大なリストを作成します。このリストは最初に全ての有効なパスを追加した後、"
-"次にディレクトリ内にある全ての有効な `.flac`, `.aif`, `.aiff`, `.wav`, `.wave`ファイルを追加します。"
+"`sample`関数は、最初に全てのソースを集めてサンプルの候補の巨大なリストを作成します。このリストは最初に全ての有効なパスを追加した後、次にディレクト"
+"リ内にある全ての有効な`.flac`, `.aif`, `.aiff`, `.wav`, `.wave`ファイルを追加します。"
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
@@ -3107,7 +3105,7 @@ msgid ""
 msgstr ""
 "音楽にすこし面白さを加えるために、ランダムという素晴らしい方法があります。Sonic "
 "Piは音楽にランダム性を追加するためにいくつかの素晴らしい機能を持っていますが、Sonic "
-"Piのランダムは、真のランダムではありません。これは一体何を意味しているのでしょう？  勉強を開始する前に、この衝撃的な真実を見ていきましょう。"
+"Piのランダムは、真のランダムではありません。これは一体何を意味しているのでしょう？ 勉強を開始する前に、この衝撃的な真実を見ていきましょう。"
 
 #: 04-Randomisation.md:11
 msgid "Repeatability"
@@ -3119,8 +3117,8 @@ msgid ""
 "between two numbers - a *min* and a *max*. (`rrand` is short for ranged random"
 "). Let's try playing a random note:"
 msgstr ""
-"たいへん便利なランダム関数に、2つの数字の間 （最小値と最大値）で "
-"乱数（ランダムな値）が得られる`rrand`があります。（rrandはレンジド・ランダムの略です。） ランダムな音階を演奏してみましょう。"
+"たいへん便利なランダム関数に、2つの数字の間（最小値と最大値）で乱数（ランダムな値）が得られる`rrand`があります（rrandはレンジド・ランダムの略"
+"です）。ランダムな音階を演奏してみましょう。"
 
 #: 04-Randomisation.md:17
 #, no-wrap
@@ -3135,7 +3133,7 @@ msgid ""
 "se `83.7527` again? That can't be random!"
 msgstr ""
 "おぉー、ランダムな音符を演奏しましたね。これは、``83.7527`の音符を演奏しました。50と95との間のランダムな音符でしたね。でも、ちょっと待ってく"
-"ださい、上記で、私はあなたが再生したランダムな音符を正確に予測していませんか？ 何か怪しくないですか？  "
+"ださい、上記で、私はあなたが再生したランダムな音符を正確に予測していませんか？ 何か怪しくないですか？ "
 "再度コードを実行してみてください。ランダムのはずが、再び`83.7527`が選ばれましたよね？ 実は、ランダムにすることができないのです！"
 
 #: 04-Randomisation.md:26
@@ -3236,7 +3234,7 @@ msgstr ""
 
 #: 04-Randomisation.md:78
 msgid "Random seeds"
-msgstr "ランダムの種(シード)"
+msgstr "ランダムの種（シード）"
 
 #: 04-Randomisation.md:80
 msgid ""
@@ -3245,8 +3243,8 @@ msgid ""
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
-"もし、SonicPiが提供する乱数の特定の配列が気に入らない場合、`use_random_seed`を介すことで "
-"別の開始点を選択することが可能です。シードのデフォルト値は0であるため、異なるランダム体験のために別のシードの値を入力してみましょう！"
+"もし、SonicPiが提供する乱数の特定の配列が気に入らない場合、`use_random_seed`を介すことで別の開始点を選択することが可能です。シード"
+"のデフォルト値は0であるため、異なるランダム体験のために別のシードの値を入力してみましょう！"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
@@ -3367,7 +3365,7 @@ msgid ""
 "(20, 110)` are:"
 msgstr ""
 "時々、あなたは小数点ではなく、整数の乱数を望むこともあるでしょう。これは`rrand_i`を用いることで解決できます。それは小数点を除いて`rrand`と"
-"同様に最小値および最大値の範囲（この場合、最長値と 最大値も含まれます）に潜在するランダム値を返す動作をします。下記は、`rrand_i(20, "
+"同様に最小値および最大値の範囲（この場合、最長値と最大値も含まれます）に潜在するランダム値を返す動作をします。下記は、`rrand_i(20, "
 "110)`によって返される数値の例です。"
 
 #: 04-Randomisation.md:160
@@ -3380,8 +3378,8 @@ msgid ""
 "ecify (exclusive). By default it will return a value between 0 and one. It's t"
 "herefore useful for choosing random `amp:` values:"
 msgstr ""
-"`rand`は、`0`を含む最小値と、引数として指定した最大値未満の間のランダムな浮動小数点数を返します。デフォルト（既定値）では "
-"`0`と`1`の間の値を返します。このため、`amp:`値をランダム化する際に便利です。"
+"`rand`は、`0`を含む最小値と、引数として指定した最大値未満の間のランダムな浮動小数点数を返します。デフォルト（既定値）では`0`と`1`の間の値を"
+"返します。このため、`amp:`値をランダム化する際に便利です。"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -3460,7 +3458,7 @@ msgid ""
 "ght be wondering what else the world of code can offer you..."
 msgstr ""
 "これまでの章で、みなさんは`play`や`sample`コマンドを使ったり、`sleep`を使ってシンプルなメロディーやリズムを作曲することを通して音楽制"
-"作(サウンドプログラミング)の基礎を学ぶことができました。Sonic Piのコードの世界で他にどんなことができるか興味が出てきたことでしょう..."
+"作（サウンドプログラミング）の基礎を学ぶことができました。Sonic Piのコードの世界で他にどんなことができるか興味が出てきたことでしょう…"
 
 #: 05-Programming-Structures.md:10
 msgid ""
@@ -3492,7 +3490,7 @@ msgid ""
 " For example, we may wish to loop it, to add reverb to it, to only run it 1 ti"
 "me out of 5, etc. Consider the following code:"
 msgstr ""
-"Sonic Piでよく見る構造はブロック(`block`)といいます。ブロックは沢山のコードをひとかたまりとして、便利に扱うことができます。たとえば`sy"
+"Sonic Piでよく見る構造はブロック（`block`）といいます。ブロックは沢山のコードをひとかたまりとして、便利に扱うことができます。たとえば`sy"
 "nth`や`sample`では、その後ろのパラメータによって音を変えることができました。しかし、場合によってはコード数行に同じ変更内容を反映させたい時など"
 "が出てきます。たとえばループする時に、5回のうち1回だけリバーブを加えたい場合を考えてみます。"
 
@@ -3548,7 +3546,7 @@ msgid ""
 "s important to know that wrapping your code within `do` and `end` tells Sonic "
 "Pi you wish to do something special with that chunk of code."
 msgstr ""
-"しかし、これではまだ完璧ではないので、実行されません。（動かしてみてもエラーメッセージが出るだけです）。実行したい*始まり*と*終わり*"
+"しかし、これではまだ完璧ではないので、実行されません（動かしてみてもエラーメッセージが出るだけです）。実行したい*始まり*と*終わり*"
 "のブロックをSonic Piへ伝達が完了していないからです。`do`の前に特別なコードをすこし書くことによってこのブロックをSonic "
 "Piに教えることができます。このチュートリアルの後半でこれらの特別なコードを使ったいくつかの事例を紹介していきます。ひとまず、"
 "みなさんが特別なコードを使ってSonic Piを動かしたい場合、`do`と`end`でコードをまとめることが重要であることを覚えておいてください。"
@@ -3578,9 +3576,9 @@ msgid ""
 " next few sections we'll explore some of these powerful new tools. First up is"
 " iteration and loops."
 msgstr ""
-"これらの基本的なブロックを使用することで*多く*の楽しさがあることを理解してもらえたのではないかと思います。しかし、音楽を作るための強力なコードを学べば、"
-"その楽しさの次元はまた新しい段階に向かうでしょう。次のいくつかのセクションではパワフルな新しいツールを探っていきます。はじめに「イテレーション（反復）とル"
-"ープ」を学びます。"
+"これらの基本的なブロックを使用することで*多く*の楽しさがあることを理解してもらえたのではないでしょうか。しかし、音楽を作るための強力なコードを学べば、そ"
+"の楽しさの次元はまた新しい段階に向かうでしょう。次のいくつかのセクションではパワフルな新しいツールを探っていきます。はじめに「イテレーション（反復）とルー"
+"プ」を学びます。"
 
 #: 05.2-Iteration-and-Loops.md:15
 msgid "Repetition"
@@ -3746,7 +3744,7 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:103
 msgid "Nesting Iterations"
-msgstr "イテレーション(反復)のネスティング(入れ子)"
+msgstr "イテレーション（反復）のネスティング（入れ子）"
 
 #: 05.2-Iteration-and-Loops.md:105
 msgid ""
@@ -3839,7 +3837,7 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:152
 msgid "Now, get structuring your code with iteration and loops!"
-msgstr "さあ、これで回数を指定するイテレーション(反復)と永遠に繰り返すループのコーディング方法を理解することができましたね!"
+msgstr "さあ、これで回数を指定するイテレーション（反復）と永遠に繰り返すループのコーディング方法を理解することができましたね!"
 
 #: 05.3-Conditionals.md:1
 msgid "5.3 Conditionals"
@@ -3872,9 +3870,9 @@ msgid ""
 " can then use the result of this to decide between two pieces of code, the cod"
 "e to play the drum and the code to play the cymbal:"
 msgstr ""
-"それではコインをトス（投げる）してみましょう。もしもコインが表であればドラムを鳴らし、裏であればシンバルを鳴らします。簡単ですね。コイントスの機能は "
-"`one_in` という機能（ランダムのセクションで紹介しています）によって実現されます。2つのうちの1つというように条件を細かく指定するときには "
-"`one_in(2)`と記述すると、ドラムを鳴らすコードとシンバルを鳴らす2つのコードどちらかを決められるようになります。"
+"それではコインをトス（投げる）してみましょう。もしもコインが表であればドラムを鳴らし、裏であればシンバルを鳴らします。簡単ですね。コイントスの機能は`on"
+"e_in` という機能（ランダムのセクションで紹介しています）によって実現されます。2つのうちの1つというように条件を細かく指定するときには`one_in"
+"(2)`と記述すると、ドラムを鳴らすコードとシンバルを鳴らす2つのコードどちらかを決められるようになります。"
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
@@ -3933,8 +3931,8 @@ msgid ""
 " second choice is wrapped between the `else` and the `end`. Just like do/end b"
 "locks you can put multiple lines of code in either place. For example:"
 msgstr ""
-"はじめの選択では `if` と `else` の間に挟まれたプログラムが実行され、そして2番目の選択では`else` と "
-"`end`の間が実行されるということに注目しましょう。それは複数行のコードをまとめる*do/end*ブロックにとても似ていますね。例えば、"
+"はじめの選択では `if` と`else`の間に挟まれたプログラムが実行され、そして2番目の選択では`else`と`end`の間が実行されるということに注"
+"目しましょう。それは複数行のコードをまとめる*do/end*ブロックにとても似ていますね。例えば、"
 
 #: 05.3-Conditionals.md:50
 #, no-wrap
@@ -4002,7 +4000,7 @@ msgstr ""
 msgid ""
 "This will play chords of different numbers with the chance of each note playin"
 "g having a different probability."
-msgstr "上のコードでは、それぞれの音符が持つ別の確率によって、異なる数のコード(和音)を奏でるでしょう。"
+msgstr "上のコードでは、それぞれの音符が持つ別の確率によって、異なる数のコード（和音）を奏でるでしょう。"
 
 #: 05.4-Threads.md:1
 msgid "5.4 Threads"
@@ -4028,7 +4026,7 @@ msgid ""
 "What if Sonic Pi could weave things for you automatically? Well, it can, and y"
 "ou do it with a special thing called a *thread*."
 msgstr ""
-"もし、Sonic Piが自動的にそれらを作り出せるとしたらどうでしょう？ *thread*(スレッド)と呼ばれる特別な命令によってそれが可能になります。"
+"もし、Sonic Piが自動的にそれらを作り出せるとしたらどうでしょう？ *thread*（スレッド）と呼ばれる特別な命令によってそれが可能になります。"
 
 #: 05.4-Threads.md:14
 msgid "Infinite Loops"
@@ -4301,8 +4299,8 @@ msgid ""
 "s played from a separate thread? Any of the settings modified with the various"
 " `use_*` functions will behave in the same way."
 msgstr ""
-"2番目の音符は、それが別のスレッドから再生されたにもかかわらず `:tb303` シンセで演奏されることに注目してください。`use_*` "
-"関数を使ったいかなる設定も同様に作用するでしょう。"
+"2番目の音符は、それが別のスレッドから再生されたにもかかわらず`:tb303`シンセで演奏されることに注目してください。`use_*`関数を使ったいかなる"
+"設定も同様に作用するでしょう。"
 
 #: 05.4-Threads.md:166
 msgid ""
@@ -4374,7 +4372,7 @@ msgid ""
 "name may be running at the same time. Let's explore this. Consider the followi"
 "ng code:"
 msgstr ""
-"名前付きのスレッドについて知っておくべき最後のひとつは、ある名前の付いたスレッドは同時に１つだけ実行されることです。では以下を見てみましょう。次のコードを"
+"名前付きのスレッドについて知っておくべき最後のひとつは、ある名前の付いたスレッドは同時に1つだけ実行されることです。では以下を見てみましょう。次のコードを"
 "考えてみてください。"
 
 #: 05.4-Threads.md:204
@@ -4515,7 +4513,7 @@ msgstr ""
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
 "t."
-msgstr "関数を定義するとき、その名前に`:`(コロン)を付加することを忘れないでください。"
+msgstr "関数を定義するとき、その名前に`:`（コロン）を付加することを忘れないでください。"
 
 #: 05.5-Functions.md:30
 msgid "Calling functions"
@@ -4655,7 +4653,7 @@ msgstr ""
 "`という値の音符を鳴らしています。引数はコードが起動した際にその領域に記憶されている実際の数値に置き換えられるという約束と考えることができます。あなたが関"
 "数を呼び出した際は、この数値を関数に置き換えて実行することが出来るのです。この`my_player "
 "80`というのは、80という音符を鳴らすということです。関数の定義の中で、`n`はすぐに`80`に置き換えられます。そして`play n`は`play "
-"80`となるのです。また次に`my_player 90`という関数を呼び出すと、今度は `n`が`90`に置き換えられ、`play n`は`play "
+"80`となるのです。また次に`my_player 90`という関数を呼び出すと、今度は`n`が`90`に置き換えられ、`play n`は`play "
 "90`として再生されるのです。"
 
 #: 05.5-Functions.md:108
@@ -4696,8 +4694,8 @@ msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
 "also used `root` as if it was a note name in my call to `play`."
 msgstr ""
-"ここでは `repeats.times do`という行の中で1つの数値のように`repeats`が使われます。また、`play` "
-"を呼び出した際の音符の名前と同じように`root`が使われています。"
+"ここでは`repeats.times do`という行の中で1つの数値のように`repeats`が使われます。また、`play`を呼び出した際の音符の名前と"
+"同じように`root`が使われています。"
 
 #: 05.5-Functions.md:129
 msgid ""
@@ -4720,7 +4718,7 @@ msgid ""
 "n the thing you want to remember:"
 msgstr ""
 "コードを書いていく中で役に立つことは、覚えやすい名前を作成することです。Sonic "
-"Piはこれをとても簡単に作ることができます。あなたが使用したいと思う名前に続けて、等号のイコール(`=`)を書き、そのあとに覚えておきたい名前を書きます。"
+"Piはこれをとても簡単に作ることができます。あなたが使用したいと思う名前に続けて、等号のイコール（`=`）を書き、そのあとに覚えておきたい名前を書きます。"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -4789,7 +4787,7 @@ msgid ""
 "Why does it use the number `1.7533`? Where did this number come from? What doe"
 "s it mean? However, look at this code:"
 msgstr ""
-"上の例だけを見ると、なぜ `1.7533`という数値を使ったのでしょう？ その数値はどこから来たのか？ それは何を意味しているのか？ "
+"上の例だけを見ると、なぜ`1.7533`という数値を使ったのでしょう？ その数値はどこから来たのか？ それは何を意味しているのか？ "
 "という疑問がわきます。しかし、次のコードを見てみましょう。"
 
 #: 05.6-Variables.md:47
@@ -4806,7 +4804,7 @@ msgid ""
 "Now, it's much clearer what `1.7533` means: it's the duration of the sample `:"
 "loop_amen`! Of course, you might say why not simply write:"
 msgstr ""
-"こう書くとすぐに `1.7533` "
+"こう書くとすぐに`1.7533` "
 "がサンプル音源`:loop_amen`の長さであるということがわかりますね。もちろん、下記のように一行に書くことも可能です。"
 
 #: 05.6-Variables.md:55
@@ -4982,7 +4980,7 @@ msgstr "しかし、あるスレッドを独自のタイミングで起動した
 
 #: 05.7-Thread-Synchronisation.md:23
 msgid "Cue and Sync"
-msgstr "Cue と Sync"
+msgstr "CueとSync"
 
 #: 05.7-Thread-Synchronisation.md:25
 msgid ""
@@ -5052,7 +5050,7 @@ msgid ""
 "of the `cue` thread and continues running."
 msgstr ""
 "ここでは2つのスレッドが使われています。1つは、音は鳴りませんがメトロノームのような機能として一秒ごとに`:tick`というビートメッセージを送っています"
-"。2つ目のスレッドは、`tick`というビートメッセージと同期し、その際に `cue` のスレッドの時間の情報を継承して実行を続けます。"
+"。2つ目のスレッドは、`tick`というビートメッセージと同期し、その際に`cue`のスレッドの時間の情報を継承して実行を続けます。"
 
 #: 05.7-Thread-Synchronisation.md:63
 msgid ""
@@ -5100,8 +5098,8 @@ msgid ""
 "with the first. However, as we're using `cue` and `sync`, we automatically syn"
 "c the threads bypassing any accidental timing offsets."
 msgstr ""
-"このちょっとやっかいな `sleep(0.3)`は、1つめのスレッドとは時間がずれた2つめのスレッドを作り出してしまいます。しかしながら、`cue`や`s"
-"ync`を使えば、タイミングがずれてしまうようなアクシデントを回避してくれます。"
+"このちょっとやっかいな`sleep(0.3)`は、1つめのスレッドとは時間がずれた2つめのスレッドを作り出してしまいます。しかしながら、`cue`や`sy"
+"nc`を使えば、タイミングがずれてしまうようなアクシデントを回避してくれます。"
 
 #: 05.7-Thread-Synchronisation.md:90
 msgid "Cue Names"
@@ -5226,7 +5224,7 @@ msgstr ""
 
 #: 06-FX.md:18
 msgid "Guitar Pedals"
-msgstr "ギター エフェクター"
+msgstr "ギター・エフェクター"
 
 #: 06-FX.md:20
 msgid ""
@@ -5356,8 +5354,7 @@ msgid ""
 "Notice how the final `play 55` isn't played with reverb. This is because it is"
 " *outside* the do/end block, so it isn't captured by the reverb FX."
 msgstr ""
-"どうして最後の `play "
-"55`にリバーブが適用されないのでしょうか。それはブロックの*外部*に書かれているため、リバーブエフェクトは適応されないのです。"
+"どうして最後の`play 55`にリバーブが適用されないのでしょうか。それはブロックの*外部*に書かれているため、リバーブエフェクトは適応されないのです。"
 
 #: 06.1-Adding-FX.md:48
 msgid ""
@@ -5761,8 +5758,8 @@ msgid ""
 "stics. So play around and use the approach that sounds best to you whilst also"
 " working within the performance constraints of your platform."
 msgstr ""
-"「間違いはない、あるのはただ可能性だけ。」と言ったのを思い出してください。しかしながら、これらの異なるアプローチからは、異なるサウンド、また異なる性能をも"
-"たらします。あなたのプラットフォームの性能の制約の中で、最も良いと思うアプローチを使いながら演奏するようにしましょう。"
+"「間違いはない、あるのはただ可能性だけ」と言ったのを思い出してください。しかしながら、これらの異なるアプローチからは、異なるサウンド、また異なる性能をもた"
+"らします。あなたのプラットフォームの性能の制約の中で、最も良いと思うアプローチを使いながら演奏するようにしましょう。"
 
 #: 07-Control.md:1
 msgid "7 Control"
@@ -6009,8 +6006,8 @@ msgid ""
 " and used every time you slide the corresponding parameter. To stop sliding yo"
 "u must set the `_slide` value to 0 before the next `control` call."
 msgstr ""
-"一度、実行しているシンセの `_slide`オプションを設定したら、それは記憶され、対応するオプションがスライドする度に使用されます。スライドを停止するた"
-"めには、次の`control`を呼び出す前に`0`に`_slide`値を設定する必要があります。"
+"一度、実行しているシンセの`_slide`オプションを設定したら、それは記憶され、対応するオプションがスライドする度に使用されます。スライドを停止するため"
+"には、次の`control`を呼び出す前に`0`に`_slide`値を設定する必要があります。"
 
 #: 07.3-Sliding-Parameters.md:53
 msgid "Sliding FX Opts"
@@ -6454,7 +6451,7 @@ msgstr ""
 
 #: 08.3-Scales.md:48
 msgid "Have fun and remember: there are no mistakes, only opportunities."
-msgstr "「間違いはない、あるのはただ可能性だけ。」ということを思い出して、楽しんでください。"
+msgstr "「間違いはない、あるのはただ可能性だけ」ということを思い出して、楽しんでください。"
 
 #: 08.4-Rings.md:1
 msgid "8.4 Rings"
@@ -6486,7 +6483,7 @@ msgid ""
 "you `nil` which means nothing."
 msgstr ""
 "もしインデックス100を取り出そうとしら、何が起こるでしょう？ まあ、3つの要素しか持たないリストの中でインデックス100の要素は、明らかにありません。"
-"だからSonic Piは空を意味する `nil` を返すでしょう。"
+"だからSonic Piは空を意味する`nil`を返すでしょう。"
 
 #: 08.4-Rings.md:20
 msgid ""
@@ -6895,7 +6892,7 @@ msgstr "チェック要素：ファンクション（関数）を作成する能
 
 #: 09.1-Live-Coding-Fundamentals.md:12
 msgid "An ability to use (named) threads - CHECK!"
-msgstr "チェック要素：(名前付き) スレッドを使う能力"
+msgstr "チェック要素：（名前付き）スレッドを使う能力"
 
 #: 09.1-Live-Coding-Fundamentals.md:14
 msgid ""
@@ -7565,10 +7562,10 @@ msgid ""
 "t increase* it. This is available via the `look` fn. You can call `look` as a "
 "standard fn or by adding `.look` to the end of a ring."
 msgstr ""
-"チックの魅力的なところは、それが新しいインデックス（もしくはそのインデックスにあるリングの値） を返すだけでなく、次にチックを呼んだときに必ず次の値を返す"
-"ことを保証していることでしょう。このようなチックの動作は、様々な形で`tick`のドキュメントの例で見ることができるでしょう。しかし、ここで、チックの現在"
-"の値を見たいだけで、値を*増加させたくない*の場合もあることを指摘することは重要でしょう。これは`look`関数により実現可能です。`look`は、標準関"
-"数として呼んだり、リングの後ろに`.look`を付けたりできます。"
+"チックの魅力的なところは、それが新しいインデックス（もしくはそのインデックスにあるリングの値）を返すだけでなく、次にチックを呼んだときに必ず次の値を返すこ"
+"とを保証していることでしょう。このようなチックの動作は、様々な形で`tick`のドキュメントの例で見ることができるでしょう。しかし、ここで、チックの現在の"
+"値を見たいだけで、値を*増加させたくない*の場合もあることを指摘することは重要でしょう。これは`look`関数により実現可能です。`look`は、標準関数"
+"として呼んだり、リングの後ろに`.look`を付けたりできます。"
 
 #: 09.4-Ticking.md:81
 msgid "Naming Ticks"
@@ -7705,7 +7702,7 @@ msgid ""
 "make."
 msgstr ""
 "クラリネットを習っているところを想像してみてください。すべてのクラリネットは、指使いや操作の全てが一貫してしていることを前提として作られていますが、もしそ"
-"うでなかったら、別のクラリネットに乗り換えるには大変な時間を費やしてしまうだろうし、一回だけの制作のためにそれを使用することについて戸惑ってしまうでしょう"
+"うでなかったら、別のクラリネットに乗り換えるには大変な時間を費やしてしまうだろうし、1回だけの制作のためにそれを使用することについて戸惑ってしまうでしょう"
 "。"
 
 #: 10.1-Using-Shortcuts.md:29
@@ -7725,7 +7722,7 @@ msgstr ""
 
 #: 10.1-Using-Shortcuts.md:37
 msgid "Control and Meta"
-msgstr "Control と Meta"
+msgstr "ControlとMeta"
 
 #: 10.1-Using-Shortcuts.md:39
 msgid ""
@@ -7792,7 +7789,7 @@ msgid ""
 " `C-f`, and back a character with `C-b`. You can even delete all the character"
 "s from the cursor to the end of the line with `C-k`."
 msgstr ""
-"行の先頭に移動するには`C-a`、行の末尾に移動するには`C-e`、１行上は`C-p`、１行下がるには`C-n`、一文字進むには`C-f`、そして、一文字"
+"行の先頭に移動するには`C-a`、行の末尾に移動するには`C-e`、1行上は`C-p`、1行下がるには`C-n`、1文字進むには`C-f`、そして、1文字"
 "戻るには`C-b`。`C-k`でカーソルから行の末尾まで全ての文字を消去する事ができます。"
 
 #: 10.1-Using-Shortcuts.md:74
@@ -7801,7 +7798,7 @@ msgstr "コードの整形"
 
 #: 10.1-Using-Shortcuts.md:76
 msgid "To auto-align your code simply press `M-m`."
-msgstr "コードを自動整形するには `M-m`を押します。"
+msgstr "コードを自動整形するには`M-m`を押します。"
 
 #: 10.1-Using-Shortcuts.md:78
 msgid "Help System"
@@ -7842,7 +7839,7 @@ msgstr "規定"
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
-msgstr "このリストでは下記の規定に準拠します。(WindowsとLinuxの*Meta*キーは*Alt*キー 、そしてMacは *Cmd*キー):"
+msgstr "このリストでは下記の規定に準拠します。（WindowsとLinuxの*Meta*キーは*Alt*キー、そしてMacは*Cmd*キー）:"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
 msgid ""
@@ -8288,8 +8285,8 @@ msgid ""
 "rks out of the box."
 msgstr ""
 "Minecraft Piは、とっても簡単に扱えるよう設計されています。必要なことは、Minecraft "
-"Piを起動してワールドを作成するだけです。その後、`play` や `synth` を扱うように "
-"`mc_*`関数を自由に使えます。何かのライブラリをインストールしたり、インポートする必要はなく、そのまま使えます。"
+"Piを起動してワールドを作成するだけです。その後、`play`や`synth` "
+"を扱うように`mc_*`関数を自由に使えます。何かのライブラリをインストールしたり、インポートする必要はなく、そのまま使えます。"
 
 #: 11-Minecraft-Pi.md:17
 msgid "Automatic Connection"
@@ -8460,8 +8457,8 @@ msgid ""
 " across and `9` up..."
 msgstr ""
 "いくつかの宝の場所が大きな`X`でマーキングされた海賊の地図を想像してみてください。`X`の正確な位置は、左から右へ向かってどれくらい離れているか、下から"
-"上へ向かってどのくらい離れているか、この2つの数字で場所を記述することができます。例えば、横へ`10cm`、上に`8cm`。これら２つの数字`10`と`8"
-"`が座標です。他に隠された宝物の在処も別の２つの数字で容易に記述できることが想像できますね。おそらく、`2`つ横切り、`9`つ上には大きな金脈がありそうで"
+"上へ向かってどのくらい離れているか、この2つの数字で場所を記述することができます。例えば、横へ`10cm`、上に`8cm`。これら2つの数字`10`と`8"
+"`が座標です。他に隠された宝物の在処も別の2つの数字で容易に記述できることが想像できますね。おそらく、`2`つ横切り、`9`つ上には大きな金脈がありそうで"
 "す..."
 
 #: 11.1-Basic-API.md:61
@@ -8718,7 +8715,7 @@ msgstr ""
 "    :gold\t\t\t金\n"
 "    :iron_block\t\t鉄のブロック\n"
 "    :iron\t\t\t鉄\n"
-"    :stone_slab_double\t石板(ダブル)\n"
+"    :stone_slab_double\t石板（ダブル）\n"
 "    :stone_slab\t\t石板\n"
 "    :brick\t\t\tレンガ\n"
 "    :brick_block\t\tレンガブロック\n"
@@ -9379,8 +9376,8 @@ msgid ""
 " call this concurrency and Sonic Pi provides us with an amazingly simple way o"
 "f playing things at the same time. Simply use more than one `live_loop`!"
 msgstr ""
-"音楽は同時に発生する事象で溢れています。ギターとボーカルが同時に鳴っているところにベースが同時に鳴り、それらと同時にドラムが鳴るといったように...計算機"
-"の世界ではこれを*並行性*と呼び、Sonic "
+"音楽は同時に発生する事象で溢れています。ギターとボーカルが同時に鳴っているところにベースが同時に鳴り、それらと同時にドラムが鳴るといったように…計算機の世"
+"界ではこれを*並行性*と呼び、Sonic "
 "Piも驚異的にシンプルな方法で同時に演奏することができます。単純に1つより多い`live_loop`を使えばよいのです。"
 
 #: A.02-live-coding.md:105
@@ -9917,7 +9914,7 @@ msgid ""
 msgstr ""
 "シンセ・リフに不可欠な要素は、音色で遊んだり変更したりすることです。Sonic Piでは、2つの方法で音色を操作することができます。劇的な変化として異なる"
 "シンセを選択することと、より微かな調整としてシンセのオプションの設定を変更することです。またエフェクトも使用できますが、これについては別なチュートリアルが"
-"必要そうです..."
+"必要そうです…"
 
 #: A.04-synth-riffs.md:24
 msgid "Let's create a simple live loop where we continually change the current synth:"
@@ -10071,7 +10068,7 @@ msgid ""
 msgstr ""
 "ここではいくつかのことが実行されています。順番に見ていきましょう。最初に、ランダムシードとしてここでは3を使っています。これは何を意味するのでしょうか？ "
 "そうですね、シードを設定することで便利な点は、次のランダム値が何になるか正確に予測できることです。つまり、最後にシードを3に設定したときと同じになります。"
-"もう一つ便利な点は、音符のリングのシャッフルでも同じように動作することです。上記の例では、標準的なシャッフルのリストの内の`3番目のシャッフル`を必然的に"
+"もう1つ便利な点は、音符のリングのシャッフルでも同じように動作することです。上記の例では、標準的なシャッフルのリストの内の`3番目のシャッフル`を必然的に"
 "要求していることになります。これもシャッフルする直前に設定したランダムシードの値が同じであれば常に同じになります。最後に、シャッフルされた音符を単純にチッ"
 "クして、リフを演奏しています。"
 
@@ -10155,7 +10152,7 @@ msgid ""
 "urn `false` more often introducing more space into the riff."
 msgstr ""
 "知ってると本当に便利な関数は、`one_in`でしょう。この関数は指定した確率に依存して`true`か`false`を返します。ここでは、引数として2を使"
-"用しているので、`one_in`を2回呼ぶ度に1回`true`を返します。言い換えると、50%の確率で`true`を返します。2よりも大きな値を使用すると"
+"用しているので、`one_in`を2回呼ぶ度に1回`true`を返します。言い換えると、50％の確率で`true`を返します。2よりも大きな値を使用すると"
 "`false`をより多く返し、リフにより多くの休符を与えるでしょう。"
 
 #: A.04-synth-riffs.md:159
@@ -10296,7 +10293,7 @@ msgstr ""
 
 #: A.05-acid-bass.md:35
 msgid "Instant acid bass! Let's play around..."
-msgstr "とても簡単なアシッドベースですね！ これで遊んでみましょう..."
+msgstr "とても簡単なアシッドベースですね！ これで遊んでみましょう…"
 
 #: A.05-acid-bass.md:37
 #, fuzzy
@@ -10523,7 +10520,7 @@ msgid ""
 "anges. See what crazy sounds you can make with it! See you next time..."
 msgstr ""
 "最後に、今回のチュートリアルのアイデアを使って制作したコードを紹介します。空のBufferにコピーして少しの間聞いてみてください。そしてあなた自身のコード"
-"になるようライブコーディングしてみてください。このコードでどんなクレイジーな音が作れたか見てみてください！ では次回..."
+"になるようライブコーディングしてみてください。このコードでどんなクレイジーな音が作れたか見てみてください！ では次回…"
 
 #: A.05-acid-bass.md:154
 #, no-wrap
@@ -10595,15 +10592,15 @@ msgstr ""
 
 #: A.06-minecraft.md:11
 msgid "Live Code - changing the sounds on-the-fly,"
-msgstr "ライブコーディング - 音楽を止めずに変更する,"
+msgstr "ライブコーディング - 音楽を止めずに変更する、"
 
 #: A.06-minecraft.md:12
 msgid "Code some huge beats,"
-msgstr "大規模なビートをコードする,"
+msgstr "大規模なビートをコードする、"
 
 #: A.06-minecraft.md:13
 msgid "Generate powerful synth leads,"
-msgstr "強力なシンセリードを生成する,"
+msgstr "強力なシンセリードを生成する、"
 
 #: A.06-minecraft.md:14
 msgid "Re-create the famous TB-303 acid-bass sound."
@@ -10719,7 +10716,7 @@ msgid ""
 msgstr ""
 "異なるx, y, zの値を選ぶことで、ワールドの中の*どこでも*瞬間移動することができます。試してみよう！ 違う値を選んで、どこに辿り着いたか見てみましょ"
 "う。もし画面が真っ黒になってしまったら、それは地面の下か山の中に瞬間移動してしまったからです。地面よりも上に戻るように大きなyの値を選択してください。何か"
-"発見するまで探検を続けましょう..."
+"発見するまで探検を続けましょう…"
 
 #: A.06-minecraft.md:69
 msgid ""
@@ -10910,7 +10907,7 @@ msgid ""
 msgstr ""
 "ここまで見てきた全てに、ちょっとした魔法を追加して組み合わせてみましょう。瞬間移動とブロック設置の機能と音楽を組み合わせて、Minecraftのミュージッ"
 "クビデオを作ってみましょう。全てを理解できなくても気にせずに、ただ以下のコードをタイプして、いくつかの値を実行中に変更してみましょう。楽しんでください。で"
-"はまた..."
+"はまた…"
 
 #: A.06-minecraft.md:166
 #, no-wrap
@@ -11002,7 +10999,7 @@ msgstr ""
 "タイムマシンに乗って1875年に遡ってみましょう。ビゼーという作曲家が、彼の最後のオペラ作品となるカルメンを書き上げました。不運なことに、その作品は、多く"
 "の刺激的で破壊的な新しい音楽作品と同じように、あまりに奇抜でまた普通でないために、当初人々には全く好かれませんでした。そして残念なことに、その作品が国際的"
 "に多大な成功を収め、歴史上、最も有名で頻繁に公演されるオペラの1つになる10年前にビゼーは亡くなってしまいました。この悲劇に共感して、カルメンのメインテー"
-"マの一つを取り上げ、現代を生きる多くの人々にとって、あまりに奇抜でまた普通でない形式の音楽 - ライブコーディングされた音楽に変換してみましょう！"
+"マの1つを取り上げ、現代を生きる多くの人々にとって、あまりに奇抜でまた普通でない形式の音楽 - ライブコーディングされた音楽に変換してみましょう！"
 
 #: A.07-bizet.md:23
 msgid "Decoding the Habanera"
@@ -11374,8 +11371,7 @@ msgid ""
 "Hit the Run button and you'll see the message over in the Minecraft window. OK"
 ", we're ready to start, let's have some fun......"
 msgstr ""
-"`Run`ボタンを叩いて、Minecraftのウィンドウ内にメッセージを見ることができたでしょう。大丈夫ですね。では準備ができました。楽しんでください.."
-"...."
+"`Run`ボタンを叩いて、Minecraftのウィンドウ内にメッセージを見ることができたでしょう。大丈夫ですね。では準備ができました。楽しんでください……"
 
 #: A.08-minecraft-vj.md:39
 msgid "Sand Storms"
