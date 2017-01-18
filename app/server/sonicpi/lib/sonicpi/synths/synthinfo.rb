@@ -4061,7 +4061,7 @@ Steal This Sound,  Mitchell Sigman"
           {
             :doc => "The Q factor for the low eq parameter.
 
-The Q factor controls the width of frequencies that will be affected by the low parameter of this eq FX. A low Q factor gives a wide  bandwidth affecting a larger range of frequences. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
+The Q factor controls the width of frequencies that will be affected by the low parameter of this eq FX. A low Q factor gives a wide bandwidth affecting a larger range of frequencies. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
 
 Here's a list of various Q factors and an approximate corresponding frequency width:
 
@@ -4121,7 +4121,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
           {
             :doc => "The Q factor for the mid eq parameter.
 
-The Q factor controls the width of frequencies that will be affected by the mid parameter of this eq FX. A mid Q factor gives a wide  bandwidth affecting a larger range of frequences. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
+The Q factor controls the width of frequencies that will be affected by the mid parameter of this eq FX. A mid Q factor gives a wide bandwidth affecting a larger range of frequencies. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
 
 Here's a list of various Q factors and an approximate corresponding frequency width:
 
@@ -4163,10 +4163,10 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
 
           :high_note =>
           {
-            :doc => "Centre frequency of the high eq parameter in HIGHI notes.",
+            :doc => "Centre frequency of the high eq parameter in MIDI notes.",
             :validations => [v_greater_than(:high_note, 1)],
             :modulatable => true,
-            :highi => true
+            :midi => true
           },
 
           :high_note_slide =>
@@ -4181,7 +4181,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
           {
             :doc => "The Q factor for the high eq parameter.
 
-The Q factor controls the width of frequencies that will be affected by the high parameter of this eq FX. A high Q factor gives a wide  bandwidth affecting a larger range of frequences. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
+The Q factor controls the width of frequencies that will be affected by the high parameter of this eq FX. A high Q factor gives a wide bandwidth affecting a larger range of frequencies. A high Q factor will give a narrow bandwidth affecting a much smaller range of frequencies.
 
 Here's a list of various Q factors and an approximate corresponding frequency width:
 
@@ -6137,7 +6137,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
 
       def doc
-        "Dampens the parts of the signal that are higher than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typically the bass/mid of the sound). Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
+        "Dampens the parts of the signal that are higher than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typically the bass/mid of the sound). Choose a higher cutoff to keep more of the high frequencies/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
       end
 
 
@@ -6195,7 +6195,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       def doc
         "Dampens the parts of the signal that are higher than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typically the bass/mid of the sound). The resonant part of the resonant low pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res opt with a higher res resulting in greater resonance. High amounts of resonance (rq ~1) can create a whistling sound around the cutoff frequency.
 
-  Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
+  Choose a higher cutoff to keep more of the high frequencies/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
       end
     end
 

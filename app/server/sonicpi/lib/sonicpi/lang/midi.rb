@@ -63,7 +63,7 @@ module SonicPi
           returns:        :nil,
           opts:           {
                              channel: "Channel to send the note event on",
-                             chan: "shorthand for channel:" },
+                             chan: "Shorthand for channel:" },
 
           accepts_block:  false,
           doc:            "Sends a MIDI note on message to *all* connected devices
@@ -108,7 +108,7 @@ module SonicPi
           returns:        :nil,
           opts:           {
                             channel: "Channel to send the note event on",
-                            chan: "shorthand for channel:"},
+                            chan: "Shorthand for channel:"},
 
           accepts_block:  false,
           doc:            "Sends the MIDI note off message to *all* connected devices
@@ -155,10 +155,10 @@ module SonicPi
           returns:        :nil,
           opts: {
                   channel: "Channel to send the note event on",
-                     chan: "shorthand for channel:" },
+                     chan: "Shorthand for channel:" },
 
           accepts_block:  false,
-          doc:            "Sends a MIDI control change  message to *all* connected devices
+          doc:            "Sends a MIDI control change message to *all* connected devices
 
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
@@ -197,7 +197,7 @@ module SonicPi
           returns:        :nil,
           opts: {
                          channel: "Channel to send the sound off message to",
-                         chan: "shorthand for channel:" },
+                         chan: "Shorthand for channel:" },
           accepts_block:  false,
           doc:            "Sends MIDI sound off to *all* connected MIDI devices.
 
@@ -222,8 +222,8 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
           args:           [],
           returns:        :nil,
           opts: {
-                         channel: "Channel to send the sound off message to",
-                         chan: "shorthand for channel:" },
+                         channel: "Channel to send the midi reset message to",
+                         chan: "Shorthand for channel:" },
 
           accepts_block:  false,
           doc:            "Sends MIDI reset to *all* connected MIDI devices.
@@ -247,8 +247,8 @@ All controller values are reset to their default values.
           args:           [],
           returns:        :nil,
           opts: {
-                         channel: "Channel to send the sound off message to",
-                         chan: "shorthand for channel:" },
+                         channel: "Channel to send the local control off message to",
+                         chan: "Shorthand for channel:" },
 
           accepts_block:  false,
           doc:            "Sends a MIDI local control off message to *all* connected MIDI devices.
@@ -272,13 +272,13 @@ All devices on a given channel will respond only to data received over MIDI. Pla
           args:           [],
           returns:        :nil,
           opts: {
-                         channel: "Channel to send the sound off message to",
-                         chan: "shorthand for channel:" },
+                         channel: "Channel to send the local control on message to",
+                         chan: "Shorthand for channel:" },
 
           accepts_block:  false,
-          doc:            "Sends a MIDI local control off message to *all* connected MIDI devices.
+          doc:            "Sends a MIDI local control on message to *all* connected MIDI devices.
 
-All devices on a given channel will respond both to data received both over MIDI and Played data, etc. See `midi_local_control_off` off to disable local control.
+All devices on a given channel will respond both to data received over MIDI and played data, etc. See `midi_local_control_off` to disable local control.
 
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
@@ -317,11 +317,11 @@ All devices on a given channel will respond both to data received both over MIDI
           args:           [],
           returns:        :nil,
           opts: {
-                         channel: "Channel to send the sound off message to",
-                         chan: "shorthand for channel:" },
+                         channel: "Channel to send the MIDI mode message to",
+                         chan: "Shorthand for channel:" },
 
           accepts_block:  false,
-          doc:            "Sets the Omni/Mono/Poly MIDI mode message to *all* connected MIDI devices.
+          doc:            "Sends the Omni/Mono/Poly MIDI mode message to *all* connected MIDI devices.
 
 Valid modes are:
 
@@ -354,19 +354,19 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
           args:           [],
           returns:        :nil,
           opts: {
-                         channel: "Channel to send the sound off message to",
-                         chan: "shorthand for channel:" },
+                         channel: "Channel to send the all notes off message to",
+                         chan: "Shorthand for channel:" },
 
           accepts_block:  false,
-          doc:            "Sends a MIDI local control off message to *all* connected MIDI devices.
+          doc:            "Sends a MIDI all notes off message to *all* connected MIDI devices.
 
 All devices on a given channel will respond both to data received both over MIDI and Played data, etc. See `midi_local_control_off` off to disable local control.
 
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
-        "midi_local_control_on #=> Enable local control on MIDI devices on channel 1",
-        "midi_local_control_on, channel: 2 #=> Enable local control on MIDI devices on channel 2"
+        "midi_all_notes_off #=> Turn off all notes on MIDI devices on channel 1",
+        "midi_all_notes_off, channel: 2 #=> Turn off all notes on MIDI devices on channel 2"
       ]
 
 
@@ -376,7 +376,7 @@ All devices on a given channel will respond both to data received both over MIDI
       end
       doc name:           :midi_clock_tick,
           introduced:     Version.new(2,12,0),
-          summary:        "Reset all MIDI devices",
+          summary:        "Send an individual MIDI clock tick",
           args:           [[], ],
           returns:        :nil,
           opts:           nil,
@@ -471,7 +471,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
       end
       doc name:           :midi_clock_beat,
           introduced:     Version.new(2,12,0),
-          summary:        "Send a quarter-note's worth of midi clock ticks",
+          summary:        "Send a quarter-note's worth of MIDI clock ticks",
           args:           [[], ],
           returns:        :nil,
           opts:           nil,

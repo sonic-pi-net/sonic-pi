@@ -529,7 +529,7 @@ time_warp [0, 1, 2, 3] do
   puts \"hello\"                # Will print \"hello\" at 0, 1, 2, and 3 seconds
 end
                                 # Notice that the run completes before all the
-                                # messages have been delivered. This is because
+                                # messages have been delivered. This is because it
                                 # schedules all the messages at once so the program
                                 # can complete immediately. This is unlike at which
                                 # would appear to behave similarly, but would wait
@@ -557,21 +557,21 @@ end
   end
   ",
   "
-  time_warp [0, 1, 2], [:a, :b] do |t, b|  #If you specify the block with 2 args, it will pass through both the time and the param
+  time_warp [0, 1, 2], [:a, :b] do |t, b|  # If you specify the block with 2 args, it will pass through both the time and the param
     puts [t, b] #=> prints out [0, :a], [1, :b], then [2, :a]
   end
   ",
   "
-  time_warp [0, 0.5, 2] do |t, idx|  #If you specify the block with 2 args, and no param list to at, it will pass through both the time and the index
+  time_warp [0, 0.5, 2] do |t, idx|  # If you specify the block with 2 args, and no param list to at, it will pass through both the time and the index
     puts [t, idx] #=> prints out [0, 0], [0.5, 1], then [2, 2]
   end
   ",
   "
-  time_warp [0, 0.5, 2], [:a, :b] do |t, b, idx|  #If you specify the block with 3 args, it will pass through the time, the param and the index
+  time_warp [0, 0.5, 2], [:a, :b] do |t, b, idx|  # If you specify the block with 3 args, it will pass through the time, the param and the index
     puts [t, b, idx] #=> prints out [0, :a, 0], [0.5, :b, 1], then [2, :a, 2]
   end
   ",
-  " # time_warp  consumes & interferes with the outer random stream
+  " # time_warp consumes & interferes with the outer random stream
 puts \"main: \", rand  # 0.75006103515625
 rand_back
 time_warp 1 do         # the random stream inside the at block is the
@@ -588,7 +588,7 @@ puts \"main: \", rand # value is now 0.733917236328125 again
 "
             # Each block run inherits the same thread locals from the previous one.
             # This means things like the thread local counters can flow through
-            # time warp iterations::
+            # time warp iterations:
 time_warp [0, 2] do
             # first time round (after 1 beat) prints:
   puts tick # 0
