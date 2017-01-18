@@ -36,6 +36,18 @@ module SonicPi
         arg_info
       end
 
+      def on_finish(studio, args_h)
+        # do nothing
+        # implementation should not be block on the event system
+        # as this method will be called from within the event thread
+      end
+
+      def on_start(studio, args_h)
+        # do nothing
+        # implementation should not be block on the event system
+        # as this method will be called from within the event thread
+      end
+
       def rrand(min, max)
         range = (min - max).abs
         r = rand(range.to_f)
