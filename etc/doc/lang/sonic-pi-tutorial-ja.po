@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-15 15:33+0000\n"
-"Last-Translator: ossa <hayato617+github@gmail.com>\n"
+"PO-Revision-Date: 2017-01-18 09:37+0000\n"
+"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.10\n"
+"X-Generator: Weblate 2.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -54,7 +54,7 @@ msgid ""
 "ature!"
 msgstr ""
 "Sonic Piを改善するために、気づいたことや、アイデアでを持っていたら、是非、知らせてください。フィードバックはとても役立ちます。あなたのアイデアが次"
-"の重要な機能になるかもしれません！  "
+"の重要な機能になるかもしれません！"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
