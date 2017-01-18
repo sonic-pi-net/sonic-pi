@@ -1144,6 +1144,46 @@
     ])
 
 
+ (core/def-fx sonic-pi-fx_tremolo
+   [phase 4
+    phase_slide 0
+    phase_slide_shape 1
+    phase_slide_curve 0
+    phase_offset 0
+    wave 2
+    invert_wave 0
+
+    pulse_width 0.5
+    pulse_width_slide 0
+    pulse_width_slide_shape 1
+    pulse_width_slide_curve 0
+
+    depth 0.5
+    depth_slide 0
+    depth_slide_shape 1
+    depth_slide_curve 0]
+   [phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
+    pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
+    depth               (varlag depth depth_slide depth_slide_curve depth_slide_shape)
+    rate                (/ 1 phase)
+
+    double_phase_offset (* 2 phase_offset)
+    rate                (/ 1 phase)
+    ctl-wave            (select:kr wave [(+ (/ (lf-saw:kr rate (+ double_phase_offset 1)) 2) 0.5)
+                                         (lf-pulse:kr rate phase_offset pulse_width)
+                                         (+ (/ (lf-tri:kr rate (+ double_phase_offset 1)) 2) 0.5)
+                                         (+ (/ (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2))) 2) 0.5)
+                                         (+ (/ (lf-cub:kr rate (+ phase_offset 0.5)) 2) 0.5)
+                                         ])
+    ctl-wave            (/ (+ ctl-wave 1) 2)
+    inverted-ctl-wave   (- 1 ctl-wave)
+
+    ctl-wave-i          (select:kr invert_wave [ctl-wave
+                                                inverted-ctl-wave])
+
+    tremolo-wave-mul    (* ctl-wave-i depth)
+    [wet-l wet-r]       [(- dry-l (* dry-l tremolo-wave-mul)) (- dry-r (* dry-r tremolo-wave-mul))]])
+
 )
 
 (comment
@@ -1184,4 +1224,6 @@
    (core/save-synthdef sonic-pi-fx_pitch_shift)
    (core/save-synthdef sonic-pi-fx_ring_mod)
    (core/save-synthdef sonic-pi-fx_octaver)
-   (core/save-synthdef sonic-pi-fx_flanger))
+   (core/save-synthdef sonic-pi-fx_flanger)
+   (core/save-synthdef sonic-pi-fx_tremolo)
+)
