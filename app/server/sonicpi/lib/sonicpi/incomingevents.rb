@@ -39,7 +39,7 @@ module SonicPi
     def event(handle, payload)
       prom = Promise.new
       @event_queue << [:event, [handle, payload, prom]]
-      prom.get
+      prom.get(5)
     end
 
     def async_event(handle, payload)
@@ -49,7 +49,7 @@ module SonicPi
     def add_handler(handle, key, &block)
       prom = Promise.new
       @event_queue << [:add, [handle, key, block, prom]]
-      prom.get
+      prom.get(5)
     end
 
     def async_add_handlers(*args)
