@@ -370,7 +370,7 @@ module SonicPi
         first = true
         while !(message.empty?)
           if first
-            res << message.slice(0..151)
+            res << message.slice!(0..151)
             res << "\n"
             first = false
           else
