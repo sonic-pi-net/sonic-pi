@@ -318,13 +318,15 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
 
  ]
 
-      # def buffer(name, duration=8)
-      #   name = name.to_sym
-      #   buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
-      #   __info "initialised buffer #{name.inspect}, #{duration}s" unless cached
-      #   buf
-      # end
+      def buffer(name, duration=nil)
+        # scale duration to the current BPM
+        duration = duration * __thread_locals.get(:sonic_pi_spider_sleep_mul) if duration
+        name = name.to_sym
 
+        buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
+        __info "Initialised buffer #{name.inspect}, #{duration}s" unless cached
+        buf
+      end
 
       def sample_free_all
         @mod_sound_studio.free_all_samples
@@ -2750,6 +2752,7 @@ sample :loop_amen                    # starting it again
       end
 
       def resolve_sample_paths(filts_and_sources)
+        return filts_and_sources if filts_and_sources.size == 1 && filts_and_sources[0].is_a?(Buffer)
         sample_find_candidates(filts_and_sources)
       end
 
@@ -4090,7 +4093,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         args_h.keys.each do |k|
           v = args_h[k]
           case v
-          when Fixnum, Float
+          when Numeric, Buffer
             # do nothing
           when Proc
             res = v.call
@@ -4287,6 +4290,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         __no_kill_block do
 
+          info.on_start(@mod_sound_studio, args_h) if info
           p = Promise.new
           s = @mod_sound_studio.trigger_synth synth_name, group, args_h, info, now, t_minus_delta
 
@@ -4297,6 +4301,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           tl_tracker.synth_started(s)
 
           s.on_destroyed do
+            info.on_finish(@mod_sound_studio, args_h) if info
             fx_tracker.synth_finished(s) if fx_tracker
             tl_tracker.synth_finished(s)
             p.deliver! true
@@ -4323,6 +4328,30 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           args[:sustain] = [0, sustain].max
           args.delete :duration
         end
+      end
+
+      def normalise_and_allocate_buffer_arg!(args_h)
+        return args_h unless args_h.has_key? :buffer
+        buffer_opt = args_h[:buffer]
+
+        case buffer_opt
+        when Buffer
+          return args_h
+        when String, Symbol
+          buf = buffer(buffer_opt)
+          raise "Unable to initialise buffer #{buffer_opt.inspect}" unless buf
+          args_h[:buffer] = buf
+        when Array, SonicPi::Core::SPVector
+          raise "buffer: opt should only contain 2 elements. You supplied: #{buf.size} - #{buf.inspect}" unless buf.size == 2
+          buf = buffer(*buffer_opt)
+          raise "Unable to initialise buffer #{buffer_opt.inspect}" unless buf
+          args_h[:buffer] = buf
+
+        else
+          raise "Unknown value for Record FX buffer: opt - #{buf.inspect}. Expected one of :foo, \"foo\" or [:foo, 3]"
+        end
+
+        return args_h
       end
 
       def normalise_and_resolve_sample_args(path, args_h, info, combine_tls=false)

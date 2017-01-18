@@ -26,7 +26,7 @@ module SonicPi
       @folder_contents_mutex = Mutex.new
 
       @samples_paths = samples_paths
-      @samples_paths = [@samples_paths] unless @samples_paths.is_a?(Array) or @samples_pathspaths.is_a?(SonicPi::Core::SPVector)
+      @samples_paths = [@samples_paths] unless @samples_paths.is_a?(Array) or @samples_paths.is_a?(SonicPi::Core::SPVector)
     end
 
     def find_candidates(filts_and_sources)
