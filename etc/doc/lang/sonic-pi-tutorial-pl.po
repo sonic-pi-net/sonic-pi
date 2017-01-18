@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-18 15:35+0000\n"
+"PO-Revision-Date: 2017-01-18 16:18+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -11657,6 +11657,11 @@ msgid ""
 "fter another, repeating when we get to the end. Let's create a live loop that "
 "does exactly that:"
 msgstr ""
+"Najpierw zbudujmy żywy arpeggiator aby sprawić by było jeszcze ciekawiej. W "
+"ostatnim tutorialu dowiedzieliśmy się, że jak riffy mogą być po prostu "
+"pierścieniami nut, przez które tykamy raz po raz, powtarzając całość od nowa "
+"kiedy tylko dobrniemy do końca. Stwórzmy żywą pętlę, która będzie robiła "
+"właśnie coś takiego:"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
@@ -11677,19 +11682,23 @@ msgstr ""
 
 #: A.05-acid-bass.md:53
 msgid "Take a look at each line."
-msgstr ""
+msgstr "Przyjrzyjmy się każdej linii."
 
 #: A.05-acid-bass.md:55
 msgid ""
 "On the first line we set the default synth to be `tb303` with the `use_synth` "
 "fn."
 msgstr ""
+"W pierwszej linii za pomocą funkcji `use_synth` ustawiamy aby domyślnym "
+"syntezatorem był `tb303`."
 
 #: A.05-acid-bass.md:58
 msgid ""
 "On line two we create a live loop called `:squelch` which will just loop round"
 " and round."
 msgstr ""
+"W drugiej linii tworzymy żywą pętlę która po prostu będzie kręciła się w "
+"kółko i nazywamy ją `:squelch`."
 
 #: A.05-acid-bass.md:61
 msgid ""
@@ -11701,6 +11710,14 @@ msgid ""
 "t will be `:e2`, followed by `:e3`, and then back to `:e1`, cycling round fore"
 "ver."
 msgstr ""
+"Trzecia linia jest miejscem, w którym tworzymy nasz riff - pierścień nut ("
+"dźwięk E w 1, 2 i 3 oktawie), przez który po prostu cykamy za pomocą "
+"polecenia `.tick`. Definiujemy `n`, które reprezentuje aktualną nutę z "
+"naszego riffu. Znak równości mówi żeby przypisać wartość z prawej strony do "
+"nazwy po lewej stronie. W każdym przebiegu pętli będzie to inna wartość. W "
+"pierwszym przebiegu `n` będzie ustawione jako dźwięk `:e1`. Przy drugiej "
+"rundzie będzie to `:e2`, potem `:e3' a potem znowu `:e1', kręcąc się tak bez "
+"końca."
 
 #: A.05-acid-bass.md:70
 msgid ""
@@ -11708,18 +11725,27 @@ msgid ""
 " interesting opts here: `release:`, `cutoff:`, `res:` and `wave:` which we'll "
 "discuss below."
 msgstr ""
+"Linia czwarta to miejsce w którym faktycznie uruchamiamy nasz syntezator "
+"`:tb303`. Przekazujemy do niego tutaj kilka interesujących opcji: `release:`"
+", `cutoff:`, `res:` i `wave:`, które omówimy poniżej."
 
 #: A.05-acid-bass.md:74
 msgid ""
 "Line five is our `sleep` - we're asking the live loop to loop round every `0.1"
 "25`s or 8 times a second at the default BPM of 60."
 msgstr ""
+"Czwarta linia jest naszym miejscem drzemki (polecenie `sleep`) - prosimy "
+"żywą pętlę aby kręciła się co każde '0.125' sekundy co daje nam 8 razy na "
+"sekundę przy domyślnym tempie 60 BPM (z ang. Beats Per Minute - uderzenia na "
+"minutę)."
 
 #: A.05-acid-bass.md:77
 msgid ""
 "Line six is the `end` to the live loop. This just tells Sonic Pi where the end"
 " of the live loop is."
 msgstr ""
+"Linia szósta jest miejscem, gdzie żywa pętla ma swój koniec (`end`). Mówi "
+"ona Sonic Pi gdzie jest koniec żywej pętli."
 
 #: A.05-acid-bass.md:80
 msgid ""
