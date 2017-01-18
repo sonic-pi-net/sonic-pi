@@ -249,13 +249,18 @@ module SonicPi
         group.subnode_rm(sn)
       end
 
+      normalised_args = []
+      args_h.each do |k,v|
+        normalised_args << k.to_s << v.to_f
+      end
+
       if now
-        osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *args_h.flatten
+        osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
       else
         t = __system_thread_locals.get(:sonic_pi_spider_time) || Time.now
         ts =  t + @sched_ahead_time
         ts = ts - @control_delta if t_minus_delta
-        osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *args_h.flatten
+        osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
       end
       sn
     end
