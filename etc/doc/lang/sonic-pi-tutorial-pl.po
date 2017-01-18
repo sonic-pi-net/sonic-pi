@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-18 15:19+0000\n"
+"PO-Revision-Date: 2017-01-18 15:35+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -11587,6 +11587,12 @@ msgid ""
 "ugh to more recent electronic artists such as Plastikman, Squarepusher and Aph"
 "ex Twin."
 msgstr ""
+"Gdy spojrzymy wstecz na historię muzyki elektronicznej, nie sposób jest nie "
+"zauważyć ogromnego wpływu jaki miał na nią malutki syntezator TB-303. Jest "
+"to sekretny składnik stojący za oryginalnym brzmieniem acid'owej linii "
+"basowej. Te klasycznie piszczące i chlupiące riffy basowe TB-303 można "
+"usłyszeć zarówno we wczesnej scenie Chicago House jak i u bardziej "
+"współczesnych artystów takich jak Plastikman, Squarepusher czy Aphex Twin."
 
 #: A.05-acid-bass.md:12
 msgid ""
@@ -11602,6 +11608,18 @@ msgid ""
 "rs who started using them in ways that Roland didn't imagine to create new cra"
 "zy sounds. Acid House was born."
 msgstr ""
+"Interesujące jest, że firma Roland nigdy nie zamierzała aby TB-303 był "
+"używany do tworzenia muzyki tanecznej. Został pierwotnie stworzony jako "
+"narzędzie pomocnicze dla gitarzystów. Wymyślili sobie, że ludzie mogliby "
+"programować na nich linię basową, do której mogliby jam'ować. Niestety było "
+"zbyt wiele problemów: były odrobinę zbyt skomplikowane do zaprogramowania, "
+"nie brzmiały zbyt dobrze jako zamiennik gitary basowej oraz były dość drogie "
+"w zakupie. Aby uciąć straty, Roland przestał je produkować po sprzedaży "
+"10,000 sztuk. Po paru latach kurzenia się na półkach gitarzystów dosyć "
+"szybko zaczęły trafiać na póki second hand'ów. Te samotne i odrzucone TB-303 "
+"czekały na odkrycie ich przez nową generację eksperymentatorów, którzy "
+"zaczęli ich używać w sposób jakiego Roland nie przewidział do tworzenia "
+"zupełnie nowych zwariowanych dźwięków. Tak narodził się Acid House."
 
 #: A.05-acid-bass.md:25
 msgid ""
@@ -11610,6 +11628,10 @@ msgid ""
 " Sonic Pi. Behold, fire up Sonic Pi and throw this code into an empty buffer a"
 "nd hit Run:"
 msgstr ""
+"Pomimo, że dostanie w swoje ręce oryginalnego egzemplarza TB-303 nie jest "
+"zbyt łatwe, to na pewno ucieszy Cię fakt, że możesz zmienić swój komputer w "
+"jeden z nich korzystając z możliwości jakie daje Sonic Pi. Spójrz, odpal "
+"Sonic Pi, wrzuć ten kawałek kodu do pustego buforu i naciśnij przycisk Run:"
 
 #: A.05-acid-bass.md:30
 #, no-wrap
@@ -11622,11 +11644,11 @@ msgstr ""
 
 #: A.05-acid-bass.md:35
 msgid "Instant acid bass! Let's play around..."
-msgstr ""
+msgstr "Błyskawiczna acid'owa linia basowa! Zabawmy się..."
 
 #: A.05-acid-bass.md:37
 msgid "Squelch that Bass"
-msgstr ""
+msgstr "Chlupnij Basem"
 
 #: A.05-acid-bass.md:39
 msgid ""
