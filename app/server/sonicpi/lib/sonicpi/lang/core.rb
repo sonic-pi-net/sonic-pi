@@ -1939,10 +1939,11 @@ end
 
         # Guard lists of length 1 or repeating vals
         range = 1.0 if range.to_f == 0.0
-
+        res = String.new("")
         values.map {|x|
-          @ticks[(((x - min) / range) * scale).round]
-        }.join
+          res << @ticks[(((x - min) / range) * scale).round]
+        }
+        return res
       end
       doc name:           :spark_graph,
           introduced:     Version.new(2,5,0),
