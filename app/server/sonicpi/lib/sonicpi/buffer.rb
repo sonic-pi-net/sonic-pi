@@ -14,6 +14,7 @@ module SonicPi
   class Buffer
     attr_reader :id, :num_frames, :num_chans, :sample_rate, :duration
     attr_accessor :path
+
     def initialize(server, id, num_frames, num_chans, sample_rate)
       @server = server
       @id = id
@@ -28,6 +29,10 @@ module SonicPi
 
     def to_i
       @id
+    end
+
+    def to_f
+      @id.to_f
     end
 
     def free
