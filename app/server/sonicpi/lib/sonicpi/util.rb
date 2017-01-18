@@ -348,7 +348,7 @@ module SonicPi
 
     def log_exception(e, context="")
       if debug_mode
-        res = "Exception => #{context} #{e.message}"
+        res = String.new("Exception => #{context} #{e.message}")
         e.backtrace.each do |b|
           res << "                                        "
           res << b
