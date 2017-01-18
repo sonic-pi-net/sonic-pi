@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-10 06:18+0000\n"
+"PO-Revision-Date: 2017-01-18 15:19+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -11501,12 +11501,21 @@ msgid ""
 "ength of the riff. Try changing the 16 to 8 or even 4 or 3 and see how it affe"
 "cts the rhythm of the riff."
 msgstr ""
+"Zauważ, że wraz z poleceniem `16.times` dodaliśmy tutaj pewien rodzaj "
+"iteracji. Zrobiliśmy tak ponieważ chcemy tylko zresetować losowe ziarno co "
+"każde 16 nut, tak żeby nasz rytm powtarzał się co każde 16 uderzeń. Nie "
+"wpłynie to na tasowanie ponieważ dzieje się to od razu jak tylko ziarno jest "
+"ustawione. Możemy użyć rozmiaru iteracji do zmiany długości trwania rytmu. "
+"Spróbuj zmienić liczbę 16 na 8 lub nawet 4 czy 3 i zobacz jak wpływa to na "
+"rytm naszego riffu."
 
 #: A.04-synth-riffs.md:168
 msgid ""
 "OK, so let's combine everything we've learned together into one final example."
 " See you next time!"
 msgstr ""
+"No dobrze, to spróbujmy teraz wykorzystać wszystko czego się nauczyliśmy w "
+"naszym finalnym przykładzie. Do zobaczenia w następnym odcinku!"
 
 #: A.04-synth-riffs.md:171
 #, no-wrap
@@ -11563,11 +11572,11 @@ msgstr ""
 
 #: A.05-acid-bass.md:1
 msgid "A.5 Acid Bass"
-msgstr ""
+msgstr "A.5 Acid Bass"
 
 #: A.05-acid-bass.md:3
 msgid "Acid Bass"
-msgstr ""
+msgstr "Acid Bass"
 
 #: A.05-acid-bass.md:5
 msgid ""
