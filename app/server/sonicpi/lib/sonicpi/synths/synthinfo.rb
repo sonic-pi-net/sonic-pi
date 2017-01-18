@@ -6864,6 +6864,89 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
     end
 
+    class FXTremolo < FXInfo
+      def name
+        "Tremolo"
+      end
+
+      def introduced
+        Version.new(2,12,0)
+      end
+
+      def synth_name
+        "fx_tremolo"
+      end
+
+      def doc
+        "Modulate the volume of the sound."
+      end
+
+      def arg_defaults
+        super.merge({
+          :phase => 4,
+          :phase_slide => 0,
+          :phase_slide_shape => 1,
+          :phase_slide_curve => 0,
+          :phase_offset => 0,
+          :wave => 2,
+          :invert_wave => 0,
+          :depth => 5,
+          :depth_slide => 0,
+          :depth_slide_shape => 1,
+          :depth_slide_curve => 0
+        })
+      end
+
+      def specific_arg_info
+        {
+          :phase =>
+          {
+            :doc => "Phase duration in beats of tremolo modulation.",
+            :validations => [v_positive_not_zero(:phase)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :phase_slide =>
+          {
+            :doc => generic_slide_doc(:phase),
+            :validations => [v_positive(:phase_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :wave =>
+          {
+            :doc => "Wave type - 0 saw, 1 pulse, 2 triangle, 3 sine, 4 cubic. Different waves will produce different tremolo modulation effects.",
+            :validations => [v_one_of(:wave, [0, 1, 2, 3, 4])],
+            :modulatable => true
+          },
+
+          :invert_wave =>
+          {
+            :doc => "Invert tremolo control waveform (i.e. flip it on the y axis). 0=uninverted wave, 1=inverted wave.",
+            :validations => [v_one_of(:invert_wave, [0, 1])],
+            :modulatable => true
+          },
+
+          :depth =>
+          {
+            :doc => "Tremolo depth - greater depths produce a more prominent effect.",
+            :validations => [v_between_inclusive(:depth, 0, 1)],
+            :modulatable => true
+          },
+
+          :depth_slide =>
+          {
+            :doc => generic_slide_doc(:delay),
+            :validations => [v_positive(:depth_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          }
+
+        }
+      end
+    end
     class BaseInfo
 
       @@grouped_samples =
@@ -7171,6 +7254,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_vowel => FXVowel.new,
         :fx_flanger => FXFlanger.new,
         :fx_eq => FXEQ.new,
+        :fx_tremolo => FXTremolo.new,
 
       }
 
