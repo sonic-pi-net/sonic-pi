@@ -431,10 +431,16 @@ module SonicPi
           new_v = val.call
           return truthy?(new_v)
         end
-      end
+    end
 
 
     def merge_synth_arg_maps_array(opts_a)
+      return opts_a if opts_a.is_a? Hash
+
+      # merge all initial hash elements
+      # assumes rest of args are kv pairs and turns
+      # them into hashes too and merges the
+      opts_a = opts_a.to_a
       res = {}
       idx = 0
       size = opts_a.size
