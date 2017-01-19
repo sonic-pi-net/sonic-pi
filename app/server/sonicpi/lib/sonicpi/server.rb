@@ -381,6 +381,7 @@ module SonicPi
           :remove_handler
         end
       end
+
       if blk
         Thread.new do
           blk.call
@@ -415,7 +416,7 @@ module SonicPi
         end
       end
       res = block.yield
-      prom.get
+      prom.get(5)
       res
     end
 
