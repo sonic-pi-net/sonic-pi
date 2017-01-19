@@ -1187,6 +1187,7 @@
 )
 
 (comment
+  (core/save-synthdef sonic-pi-fx_record)
   (core/save-synthdef sonic-pi-fx_eq)
    (core/save-synthdef sonic-pi-fx_echo)
    (core/save-synthdef sonic-pi-fx_reverb)

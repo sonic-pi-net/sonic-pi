@@ -343,6 +343,15 @@ module SonicPi
       @BUFFER_ALLOCATOR.release! buf.to_i
     end
 
+    def buffer_write(buf, path, extension="wav", sample_format="int16", synchronous=true)
+      path = File.expand_path(path)
+
+      with_done_sync [@osc_path_b_write, buf.to_i] do
+        osc @osc_path_b_write, buf.to_i, path, extension, sample_format, -1, 0, 0
+      end
+      return nil
+    end
+
     def buffer_stream_open(path, size=65536, n_chans=2, extension="wav", sample_format="int16", n_frames=-1, start_frame=0, leave_open=1)
       buf = buffer_alloc(size, n_chans)
       buf.wait_for_allocation

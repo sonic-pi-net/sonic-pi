@@ -320,12 +320,13 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
 
       def buffer(name, duration=nil)
         # scale duration to the current BPM
-        duration = duration * __thread_locals.get(:sonic_pi_spider_sleep_mul) if duration
+        duration = duration * __thread_locals.get(:sonic_pi_spider_sleep_mul, 1) if duration
         name = name.to_sym
 
         buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
-        __info "Initialised buffer #{name.inspect}, #{duration}s" unless cached
+        __info "Initialised buuffer #{name.inspect}, #{duration}s" unless cached
         buf
+
       end
 
       def sample_free_all
@@ -3735,8 +3736,9 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         defaults = info ? info.arg_defaults : {}
 
         if node.info
-          args_h = info.munge_opts(args_h)
+          args_h = info.munge_opts(@mod_sound_studio, args_h)
           resolve_midi_args!(args_h, info)
+          resolve_buffer_args!(args_h, info)
           add_arg_slide_times!(args_h, info)
           scale_time_args_to_bpm!(args_h, info, false)
         end
@@ -4140,7 +4142,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         return nil
       end
 
-
       def complex_sampler_args?(args_h)
         # break out early if any of the 'complex' keys exist in the
         # args map:
@@ -4159,15 +4160,20 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         end
       end
 
+      def buffer_save(buffer, path)
+        @mod_sound_studio.save_buffer!(buffer, path)
+      end
+
       def trigger_sampler(path, args_h, group=current_job_synth_group)
-       args_h = args_h.to_h
+        args_h = args_h.to_h
         case path
         when Buffer
           buf_info = path
           if buf_info.path
             path = buf_info.path
           else
-            path = path[0]
+            #path = path[0]
+            path = "unknown"
           end
         else
           buf_info = load_sample_at_path(path)
@@ -4301,7 +4307,11 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           tl_tracker.synth_started(s)
 
           s.on_destroyed do
-            info.on_finish(@mod_sound_studio, args_h) if info
+            if info
+              Thread.new do
+                info.on_finish(@mod_sound_studio, args_h)
+              end
+            end
             fx_tracker.synth_finished(s) if fx_tracker
             tl_tracker.synth_finished(s)
             p.deliver! true
@@ -4437,12 +4447,17 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         end
 
-        args_h = info.munge_opts(args_h) if info
-        resolve_midi_args!(args_h, info) if info
+        if info
+          args_h = info.munge_opts(@mod_sound_studio, args_h)
+          resolve_midi_args!(args_h, info)
+          resolve_buffer_args!(args_h, info)
+        end
+
         normalise_args!(args_h, defaults)
         scale_time_args_to_bpm!(args_h, info, true) if info && __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
         args_h
       end
+
 
 
       def normalise_and_resolve_synth_args(args_h, info, combine_tls=false)
@@ -4455,9 +4470,13 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           end
         end
 
-        args_h = info.munge_opts(args_h) if info
 
-        resolve_midi_args!(args_h, info) if info
+        if info
+          args_h = info.munge_opts(@mod_sound_studio, args_h)
+          resolve_midi_args!(args_h, info)
+          resolve_buffer_args!(args_h, info)
+        end
+
         normalise_args!(args_h, defaults)
         calculate_sustain!(args_h)
         scale_time_args_to_bpm!(args_h, info, true) if info && __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
@@ -4737,6 +4756,32 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         info.midi_args.each do |arg_name|
           if args_h.has_key? arg_name
             args_h[arg_name] = note(args_h[arg_name])
+          end
+        end
+        args_h
+      end
+
+      def resolve_buffer_args!(args_h, info)
+        info.buffer_args.each do |arg_name|
+          if args_h.has_key? arg_name
+            buffer_opt = args_h[arg_name]
+
+            case buffer_opt
+            when Buffer
+              # do nothing
+            when String, Symbol
+              buf = buffer(buffer_opt)
+              raise "Unable to initialise buffer #{buffer_opt.inspect}" unless buf
+              args_h[:buffer] = buf
+            when Array, SonicPi::Core::SPVector
+              raise "buffer: opt should only contain 2 elements. You supplied: #{buf.size} - #{buf.inspect}" unless buf.size == 2
+              buf = buffer(*buffer_opt)
+              raise "Unable to initialise buffer #{buffer_opt.inspect}" unless buf
+              args_h[:buffer] = buf
+
+            else
+              raise "Unknown value for buffer: opt - #{buf.inspect}. Expected one of :foo, \"foo\" or [:foo, 3]"
+            end
           end
         end
         args_h

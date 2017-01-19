@@ -36,16 +36,26 @@ module SonicPi
         arg_info
       end
 
-      def on_finish(studio, args_h)
-        # do nothing
-        # implementation should not be block on the event system
-        # as this method will be called from within the event thread
+      def munge_opts(studio, args_h)
+        # This is an opportunity to modify the args_h prior to synth trigger
+        # Result of this method will be the new args_h
+        args_h
       end
 
       def on_start(studio, args_h)
         # do nothing
-        # implementation should not be block on the event system
-        # as this method will be called from within the event thread
+
+        # This will be called immediately prior to the synth
+        # launching.  args_h will have been mostly normalised at this
+        # stage.  (prior to a conversion to an array and all values
+        # being converted to floats via .to_f)
+      end
+
+      def on_finish(studio, args_h)
+        # do nothing
+
+        # This will be called immediately after the synth has completed.
+        # Execution will happen in its own independent thread.
       end
 
       def rrand(min, max)
@@ -156,6 +166,16 @@ module SonicPi
         end
 
         @cached_bpm_scale_args = args_to_scale
+      end
+
+      def buffer_args
+        return @cached_buffer_args if @cached_buffer_args
+
+        buffer_args = []
+        @info.each do |k, v|
+          buffer_args << k if v[:buffer]
+        end
+        @cached_buffer_args = buffer_args
       end
 
       def midi_args
@@ -3900,6 +3920,85 @@ Steal This Sound,  Mitchell Sigman"
       end
     end
 
+    class FXRecord < FXInfo
+      def name
+        "Record"
+      end
+
+      def introduced
+        Version.new(2,12,0)
+      end
+
+      def synth_name
+        "fx_record"
+      end
+
+      def trigger_with_logical_clock?
+        true
+      end
+
+      def doc
+        "Recorder!"
+      end
+
+      def kill_delay(args_h)
+        0
+      end
+
+      def on_start(studio, args_h)
+        raise "Record FX requires a buffer: opt." unless args_h[:buffer].is_a?(Buffer)
+      end
+
+      def on_finish(studio, args_h)
+        buf = args_h[:buffer]
+        if buf && buf.is_a?(Buffer)
+          Thread.new do
+            # Run this in a thread otherwise it will block the event
+            # system as this method will be called from the event system
+            # thread and therefore shouldn't perform synchronous
+            # blocking event functions such as the with_done_sync in
+            # buffer_alloc triggered by this call to save_buffer!
+            studio.save_buffer!(buf, buf.path)
+          end
+        else
+          raise "Record FX completion handler needs a buffer to save - got #{buf.inspect}, #{buf.class} from #{args_h.inspect}"
+        end
+      end
+
+
+      def arg_defaults
+        { :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :mix => 1,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+          :pre_mix => 1,
+          :pre_mix_slide => 0,
+          :pre_mix_slide_shape => 1,
+          :pre_mix_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+          :buffer => nil
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+                      :buffer =>
+                      {
+                        :doc => "The buffer to record into. Must either be a buffer object, buffer name, list of buffer name and size or the buffer id as a number.",
+                        :validations => [v_buffer_like(:buffer)],
+                        :modulatable => false,
+                        :buffer => true
+                      },
+                    })
+      end
+    end
     class FXEQ < FXInfo
 
       def name

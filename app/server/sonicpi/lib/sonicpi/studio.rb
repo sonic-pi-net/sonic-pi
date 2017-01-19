@@ -16,6 +16,7 @@ require_relative "note"
 require_relative "samplebuffer"
 
 require 'set'
+require 'fileutils'
 
 module SonicPi
   class Studio
@@ -42,6 +43,8 @@ module SonicPi
       @cent_tuning = 0
       @sample_format = "int16"
       @paused = false
+      @cached_buffer_dir = Dir.mktmpdir
+
 
       init_studio
       init_midi
@@ -133,26 +136,32 @@ module SonicPi
       @server.scsynth_info
     end
 
-    def allocate_buffer(name, duration_in_seconds=8)
+    def allocate_buffer(name, duration_in_seconds=nil)
       check_for_server_rebooting!(:allocate_buffer)
       name = name.to_sym
       cached_buffer = @buffers[name]
-      return [cached_buffer, true] if cached_buffer && (cached_buffer.duration == duration_in_seconds)
+      return [cached_buffer, true] if cached_buffer && (!duration_in_seconds || (cached_buffer.duration == duration_in_seconds))
 
       # we can't just return a cached buffer - so grab the semaphore and
       # let's play...
       @sample_sem.synchronize do
-        buf = @buffers[name]
-        return [buf, true] if buf && (buf.duration == duration_in_seconds)
+        cached_buffer = @buffers[name]
+        return [cached_buffer, true] if cached_buffer && (!duration_in_seconds || (cached_buffer.duration == duration_in_seconds))
 
+        duration_in_seconds ||= 8
         # our buffer has the same name but is of a different duration
         # therefore nuke it
-        @server.buffer_free(buf) if buf
 
+
+        path = @cached_buffer_dir + "/#{name}.wav"
         # now actually allocate a new buffer and cache it
         sample_rate = @server.scsynth_info[:sample_rate]
         buffer_info = @server.buffer_alloc(duration_in_seconds * sample_rate, 2)
+        buffer_info.wait_for_allocation
+        buffer_info.path = path
+        save_buffer!(buffer_info, path)
         @buffers[name] = buffer_info
+        @server.buffer_free(cached_buffer) if cached_buffer
         return [buffer_info, false]
       end
     end
@@ -180,6 +189,7 @@ module SonicPi
     end
 
     def sample_loaded?(path)
+      return true if path.is_a?(Buffer)
       path = File.expand_path(path)
       return @samples.has_key?(path)
     end
@@ -346,6 +356,10 @@ module SonicPi
         @recorders[bus] = [bs, s]
         true
       end
+    end
+
+    def save_buffer!(buf, path)
+      @server.buffer_write(buf, path, "wav", @sample_format)
     end
 
     def recording_stop(bus=0)
