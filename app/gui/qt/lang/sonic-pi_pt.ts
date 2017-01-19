@@ -31,7 +31,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Inverter stereo.
-Se estiver activo, o audio da coluna esquerda
+Se estiver activado, o audio da coluna esquerda
 será ouvido na coluna do lado direito e vice versa.</translation>
     </message>
     <message>
@@ -70,15 +70,15 @@ apenas conseguem lidar com mono</translation>
     <message>
         <location filename="../mainwindow.cpp" line="959"/>
         <source>Configure debug behaviour</source>
-        <translation>Configurar comportamento de depuração</translation>
+        <translation>Configurar o comportamento do debugger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="965"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Activa/desactiva mensagens de log.
-Se desactivado, a actividade do sintetizador e do disparar de sampels
+        <translation>Activar/desactivar mensagens de log.
+Se desactivado, a actividade do sintetizador e do disparar de samples
 não será imprimida no terminal por pré-definição</translation>
     </message>
     <message>
@@ -96,8 +96,8 @@ não será imprimida no terminal por pré-definição</translation>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Activar/Desactivar o log apagando aquando do processo de inicialização da rotina de áudio.
-Se activado, o log é apagado cada vez que o Butão run for premido</translation>
+        <translation>Activar/Desactivar o apagar o log apagando aquando do processo de inicialização da rotina de áudio.
+Se activado, o log é apagado a cada vez que o Butão run for premido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
@@ -163,14 +163,14 @@ Se activado, o log é apagado cada vez que o Butão run for premido</translation
         <location filename="../mainwindow.cpp" line="913"/>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation>Usa o slider para mudar o volume do sistema do teu Raspberry Pi.</translation>
+        <translation>Usa o slider para mudar o volume do sistema do seu Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation>Definições de áduio avançadas para trabalhar com
+        <translation>Definições de áudio avançadas para trabalhar com
 sistemas de PA externos quando se encontrar a tocar com o Sonic Pi.</translation>
     </message>
     <message>
@@ -187,7 +187,7 @@ For example, if you have headphones connected to your Raspberry Pi, choose 'Head
         <translation>O teu Raspberry Pi tem dois tipos de saída de áudio possíveis.
 Em primero lugar, existe uma saída de áudio minijack incorporada no próprio circuito do Raspberry Pi.
 Em segundo lugar, alguns monitores HDMI e televisões suportam áudio através da porta HDMI.
-Usar estes botões para forçar a saída para um que queiras.</translation>
+Isar estes botões para seleccionar o output de som desejado no teu sistema</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
@@ -225,7 +225,7 @@ Usar estes botões para forçar a saída para um que queiras.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Activar/Desactivar as funções de verificação do argumento do sintetizador.
+        <translation>Activar/Desactivar as funções de argumento de verificação do sintetizador.
 Se desactivado, alguns valores de opt de sintetizadores podem
 criar sons extremamente altos ou desconfortáveis de forma inesperada</translation>
     </message>
@@ -273,7 +273,7 @@ criar sons extremamente altos ou desconfortáveis de forma inesperada</translati
     <message>
         <location filename="../mainwindow.cpp" line="962"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation>Modificando o comportamento dos sintetizadores e Efetos</translation>
+        <translation>A modificar o comportamento dos sintetizadores e Efeitos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"/>
@@ -331,7 +331,7 @@ que não seja reconhecido</translation>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
         <source>Enforce timing guarantees</source>
-        <translation>Forçar garantias de temporação</translation>
+        <translation>Forçar garantias de temporização</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"/>
@@ -412,12 +412,12 @@ Esta verificação envolve enviar informação anónima sobre a plataforma e a v
     <message>
         <location filename="../mainwindow.cpp" line="1049"/>
         <source>Automation</source>
-        <translation>Automatização</translation>
+        <translation>Automação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1050"/>
         <source>Configure automation features.</source>
-        <translation>Configurar opções de automatização</translation>
+        <translation>Configurar opções de automação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1051"/>
@@ -699,7 +699,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
         <location filename="../mainwindow.cpp" line="2877"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>O Sonic Pi verifica a exist~encia de updates
+        <translation>O Sonic Pi verifica a existência de updates
 a cada duas semanas.</translation>
     </message>
     <message>
@@ -826,7 +826,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2451"/>
         <source>Core Team</source>
-        <translation>Equipa nuclear</translation>
+        <translation>Equipa Principal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2452"/>
@@ -928,7 +928,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation>Está o Sonic Pi preparado para correr? Não foi possível abrir a porta UDP 4558.</translation>
+        <translation>O Sonic Pi está preparado para correr? Não foi possível abrir a porta UDP 4558.</translation>
     </message>
 </context>
 </TS>
