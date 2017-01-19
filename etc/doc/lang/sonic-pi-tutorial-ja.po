@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-18 09:37+0000\n"
+"PO-Revision-Date: 2017-01-19 02:14+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -192,7 +192,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -201,10 +200,11 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"では、ちょっと遊んでみましょう。値を変えてみてください。大きな値、小さな値、もしくはマイナスの値にしたとき、 何が起こるでしょうか？では、`:ambi_ch"
-"oir` の `rate:` の値をほんの少し（0.29などに）変えた時、どうなるでしょう？ `sleep` の値をすごく小さくすると、どうでしょう？操作が"
-"速すぎると、エラーが出て コンピュータが止まってしまいます。これはコンピュータがついていけないからです。 （そんな時は、より大きい値を `sleep` に設"
-"定して`Run`ボタンをもう一度押しましょう。）"
+"では、ちょっと遊んでみましょう。値を変えてみてください。大きな値、小さな値、もしくはマイナスの値にしたとき、 何が起こるでしょうか？ "
+"では、`:ambi_choir` の `rate:` の値をほんの少し（0.29などに）変えた時、どうなるでしょう？ `sleep` "
+"の値をすごく小さくすると、どうでしょう？ 操作が速すぎると、エラーが出て "
+"コンピュータが止まってしまいます。これはコンピュータがついていけないからです（そんな時は、より大きい値を `sleep` "
+"に設定して`Run`ボタンをもう一度押しましょう）。"
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -469,7 +469,6 @@ msgid "G. Help System"
 msgstr "G. ヘルプシステム"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -478,9 +477,10 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"最後は、SonicPiインターフェースのもっとも重要な部分の一つである、画面の下にあるヘルプシステムです。 青い*Help*ボタンによって表示/非表示を切り"
-"替えることができます。 ヘルプシステムは、ヘルプと情報を含んでいます。このチュートリアル、入手できるシンセのリスト、 サンプルや実例、効果のリスト、そして音"
-"楽をコーディングするために備えているSonic Piの 全機能のリストといった、Sonic Piの全てについてのヘルプと情報があります。"
+"最後は、SonicPiインタフェースのもっとも重要な部分の1つである、画面の下にあるヘルプシステムです。 "
+"青い*Help*ボタンによって表示/非表示を切り替えることができます。 "
+"ヘルプシステムは、ヘルプと情報を含んでいます。このチュートリアル、入手できるシンセのリスト、サンプルや実例、効果のリスト、"
+"そして音楽をコーディングするために備えているSonic Piの 全機能のリストといった、Sonic Piの全てについてのヘルプと情報があります。"
 
 #: 01.2-Exploring-the-Interface.md:81
 #, fuzzy
@@ -2516,6 +2516,7 @@ msgid "Combining with rate"
 msgstr "レートと組み合わせ"
 
 #: 03.5-Partial-Samples.md:86
+#, fuzzy
 msgid ""
 "We can combine this new ability to play arbitrary segments of audio with our f"
 "riend `rate:`. For example, we can play a very small section of the middle of "
@@ -9217,7 +9218,6 @@ msgstr ""
 "aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
-#, fuzzy
 msgid ""
 "This may sound like a far fetched story from a futuristic night club but codin"
 "g music like this is a growing trend and is often described as Live Coding (ht"
@@ -9229,12 +9229,12 @@ msgid ""
 " end of this article, you'll be programming your own beats and modifying them "
 "live. Where you go afterwards will only be constrained by your imagination."
 msgstr ""
-"これは未来のクラブの現実的でない話のように聞こえるかもしれませんが、音楽をコーディングすることは盛り上がりつつあるトレンドであり、しばしばライブコーディング"
-"(http://toplap.org)と呼ばれています。この音楽制作アプローチの最近の流れの一つは、Algorave(http://algorave.com"
-")です。私のようなアーティストが、人々をダンスさせるために音楽をコーディングするイベントです。しかし、ライブコーディングするのにクラブに居る必要はありません"
-"。Sonic Pi v2.6以上では、ヘッドホンやスピーカーとRaspberry Piを持っていける場所であればどこでも、ライブコーディングができます。一度"
-"この記事を最後まで読めば、あなた自身のビートをプログラミングでき、それをライブで変更できるでしょう。その後どこに進むかは、あなたのイマジネーションにだけ制約"
-"されるでしょう。"
+"これは未来のクラブの現実的でない話のように聞こえるかもしれませんが、音楽をコーディングすることは盛り上がりつつあるトレンドであり、しばしばライブコーディン"
+"グ（http://toplap.org）と呼ばれています。この音楽制作アプローチの最近の流れの1つは、Algorave（http://algorave.c"
+"om）です。私のようなアーティストが、人々をダンスさせるために音楽をコーディングするイベントです。しかし、ライブコーディングするのにクラブに居る必要はあり"
+"ません。Sonic Pi v2.6以上では、ヘッドホンやスピーカーとRaspberry Piを持っていける場所であればどこでも、ライブコーディングができま"
+"す。一度この記事を最後まで読めば、あなた自身のビートをプログラミングでき、それをライブで変更できるでしょう。その後どこに進むかは、あなたのイマジネーション"
+"にだけ制約されるでしょう。"
 
 #: A.02-live-coding.md:27
 msgid "Live Loop"
@@ -9310,7 +9310,6 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:67
-#, fuzzy
 msgid ""
 "Now press the Run button or hit `alt-r`. You're now listening to some gorgeous"
 " choir sounds. Now, whilst it's still playing, change the rate from `0.4` to `"
@@ -9321,11 +9320,11 @@ msgid ""
 "- choose your own values. Try negative numbers, really small numbers and large"
 " numbers. Have fun!"
 msgstr ""
-"では、`Run`ボタンをクリックするか、キーボードから`alt-r`を叩いてみてください。美しいコーラスのサウンドが聞こえると思います。次に、それが演奏され"
-"ている間に、rateを`0.4`から`0.38`に変更して、`Run`を叩いてみてください。ワオ！コーラスの音程が変わったのが聞こえましたか？rateを`0"
-".4`に上げて、値を戻すとどうなるか聞いてみましょう。続いて、rateを`0.2`に下げ、さらに`0.19`に下げ、再び`0.4`にあげてみましょう。たった"
-"一つのオプションをその場で変更するだけで、音楽をコントロールできるのを実感できるでしょう。では、rateを自分自身で選んで遊んでみましょう。マイナスの数、と"
-"ても小さい数や大きい数を試してみましょう。楽しんでみてください！"
+"では、`Run`ボタンをクリックするか、キーボードから`alt-r`を叩いてみてください。美しいコーラスのサウンドが聞こえると思います。次に、それが演奏さ"
+"れている間に、rateを`0.4`から`0.38`に変更して、`Run`を叩いてみてください。ワオ！ コーラスの音程が変わったのが聞こえましたか？ rat"
+"eを`0.4`に上げて、値を戻すとどうなるか聞いてみましょう。続いて、rateを`0.2`に下げ、さらに`0.19`に下げ、再び`0.4`にあげてみましょ"
+"う。たった1つのオプションをその場で変更するだけで、音楽をコントロールできるのを実感できるでしょう。では、rateを自分自身で選んで遊んでみましょう。マイ"
+"ナスの数、とても小さい数や大きい数を試してみましょう。楽しんでみてください！"
 
 #: A.02-live-coding.md:77
 #, fuzzy
@@ -9540,7 +9539,6 @@ msgid "Coded Beats"
 msgstr "コード化されたビート"
 
 #: A.03-coded-beats.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting and disrupting technical developments in modern music"
 " was the invention of samplers. These were boxes that allowed you to record an"
@@ -9553,11 +9551,11 @@ msgid ""
 "of easily introducing new and interesting elements into your live coded perfor"
 "mances."
 msgstr ""
-"現代の音楽における技術的な発展で最も刺激的かつ飛躍的なものの一つは、サンプラーの発明だったと言えます。サンプラーは、あらゆる音を記録し、操作し、そしてさまざ"
-"まな方法でこれらのサウンドを再生することができる箱です。たとえば、もしあなたが古いレコードを持っていたとして、そこからドラムソロ（もしくはブレイク）を探しだ"
-"し、サンプラーに記録して半分の速度で再生すれば、あなたの作品のビートの下地として利用可能です。これはどのように初期のヒップホップが生まれたかを示すものですが"
-"、今日の電子音楽でこのようなサンプルを含まないものを探すことは、ほぼ不可能でしょう。サンプルを使用することは、あなたのライブコーディングのパフォーマンスに、"
-"新しく面白い要素を簡単に追加する本当に素晴らしい方法です。"
+"現代の音楽における技術的な発展で最も刺激的かつ飛躍的なものの1つは、サンプラーの発明だったと言えます。サンプラーは、あらゆる音を記録し、操作し、そしてさま"
+"ざまな方法でこれらのサウンドを再生することができる箱です。たとえば、もしあなたが古いレコードを持っていたとして、そこからドラムソロ（もしくはブレイク）を探"
+"しだし、サンプラーに記録して半分の速度で再生すれば、あなたの作品のビートの下地として利用可能です。これはどのように初期のヒップホップが生まれたかを示すもの"
+"ですが、今日の電子音楽でこのようなサンプルを含まないものを探すことは、ほぼ不可能でしょう。サンプルを使用することは、あなたのライブコーディングのパフォーマ"
+"ンスに、新しく面白い要素を簡単に追加する本当に素晴らしい方法です。"
 
 #: A.03-coded-beats.md:17
 msgid ""
@@ -9594,14 +9592,13 @@ msgstr ""
 "Piにも内蔵していると聞いて、あなたがワクワクしてくれると思っています。Bufferをきれいにして、次のコードを入力してみてください。"
 
 #: A.03-coded-beats.md:37
-#, fuzzy
 msgid ""
 "Hit *Run* and boom! You're listening to one of the most influential drum break"
 "s in the history of dance music. However, this sample wasn't famous for being "
 "played as a one-shot, it was built for being looped."
 msgstr ""
-"*Run*を叩いて、ブーンとやってみてください！ダンスミュージックの歴史で最も影響力のあったドラムブレイクの一つを聞くことができるでしょう。しかし、これは1"
-"回限りで演奏されることよりも、ループとして演奏されることで有名です。"
+"*Run*を叩いて、ブーンとやってみてください！ ダンスミュージックの歴史で最も影響力のあったドラムブレイクの1つを聞くことができるでしょう。しかし、これ"
+"は1回限りで演奏されることよりも、ループとして演奏されることで有名です。"
 
 #: A.03-coded-beats.md:42
 msgid "Beat Stretching"
@@ -9771,13 +9768,12 @@ msgid "Slicing"
 msgstr "スライスする"
 
 #: A.03-coded-beats.md:130
-#, fuzzy
 msgid ""
 "Another great tool to play with is the slicer FX. This will chop (slice) the s"
 "ound up. Wrap the `sample` line with the FX code like this:"
 msgstr ""
-"もう一つの遊んでみるべき凄いツールは、スライサー・エフェクトです。これは音をブツ切り（スライス）にします。`sample`の行を次のようにスライサー・エフェ"
-"クトで包んでみましょう。"
+"もう1つの遊んでみるべき凄いツールは、スライサー・エフェクトです。これは音をブツ切り（スライス）にします。`sample`の行を次のようにスライサー・エフ"
+"ェクトで包んでみましょう。"
 
 #: A.03-coded-beats.md:133
 #, no-wrap
@@ -10493,7 +10489,6 @@ msgstr ""
 "end"
 
 #: A.05-acid-bass.md:138
-#, fuzzy
 msgid ""
 "For each standard envelope opt, there's a `cutoff_` equivalent opt in the `:tb"
 "303` synth. So, to change the cutoff attack time we can use the `cutoff_attack"
@@ -10501,10 +10496,10 @@ msgid ""
 "azy sound warble in and out. Now start to play. Try changing the `cutoff_attac"
 "k:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
-"`:tb303`シンセでは、標準的なエンベロープオプションの一つ一つに対応して、`cutoff_`に同等のオプションがあります。したがって、カットオフのアタ"
-"ック時間を変更するのには、`cutoff_attack:`オプションを使うことができます。上のコードを空のBufferにコピーして実行してみてください。震え"
-"たクレイジーな音を聞くことができるでしょう。では遊んでみましょう。`cutoff_attack:`を`1`に変更し、次に`0.5`に変更してみてください。さ"
-"らに`8`を試してみましょう。"
+"`:tb303`シンセでは、標準的なエンベロープオプションの1つ1つに対応して、`cutoff_`に同等のオプションがあります。したがって、カットオフのア"
+"タック時間を変更するのには、`cutoff_attack:`オプションを使うことができます。上のコードを空のBufferにコピーして実行してみてください。"
+"震えたクレイジーな音を聞くことができるでしょう。では遊んでみましょう。`cutoff_attack:`を`1`に変更し、次に`0.5`に変更してみてくださ"
+"い。さらに`8`を試してみましょう。"
 
 #: A.05-acid-bass.md:144
 msgid ""
@@ -10675,15 +10670,14 @@ msgid "mc_teleport 80, 40, 100"
 msgstr "mc_teleport 80, 40, 100"
 
 #: A.06-minecraft.md:49
-#, fuzzy
 msgid ""
 "Crikey! That was a long way up. If you weren't in flying-mode then you would h"
 "ave fallen back down all the way to the ground. If you double-tap space to ent"
 "er flying-mode and teleport again, you'll stay hovering at the location you za"
 "p to."
 msgstr ""
-"びっくりした！遠くまで移動できたでしょう。もし飛行モードなかったら、全ての行程を戻って地面に落ちてしまうでしょう。スペースキーをダブルタップして飛行モードに"
-"入ってもう一度瞬間移動すると、指定した場所に移動して浮いているでしょう。"
+"びっくりした！ 遠くまで移動できたでしょう。もし飛行モードなかったら、全ての行程を戻って地面に落ちてしまうでしょう。スペースキーをダブルタップして飛行モー"
+"ドに入ってもう一度瞬間移動すると、指定した場所に移動して浮いているでしょう。"
 
 #: A.06-minecraft.md:54
 msgid ""
