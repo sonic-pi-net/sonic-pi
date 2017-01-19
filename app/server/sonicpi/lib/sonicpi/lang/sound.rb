@@ -4324,7 +4324,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def add_out_bus_and_rand_buf!(args_h, out_bus=nil, info=nil)
         out_bus = current_out_bus unless out_bus
         args_h["out_bus"] = out_bus.to_i
-        args_h[:rand_buf] = @mod_sound_studio.rand_buf_id if args_h[:seed] && info
       end
 
       def calculate_sustain!(args)
