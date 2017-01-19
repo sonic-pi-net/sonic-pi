@@ -339,8 +339,12 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
 
  ]
 
-      def buffer
-        @buffer_lookup_w_hash_syntax
+      def buffer(*args)
+        if args.empty?
+          @buffer_lookup_w_hash_syntax
+        else
+          @buffer_lookup_w_hash_syntax[*args]
+        end
       end
 
       def sample_free_all
