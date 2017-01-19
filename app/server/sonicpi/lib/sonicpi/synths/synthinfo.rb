@@ -254,6 +254,33 @@ module SonicPi
 
       private
 
+      def v_buffer_like(arg)
+        l = lambda do |args|
+          a = args[arg]
+          a &&
+            (
+            # straight up buffer
+            a.is_a?(Buffer)  ||
+
+            # string or symbol representing the
+            # buffers name
+            a.is_a?(String)  ||
+            a.is_a?(Symbol)  ||
+
+            # vector description of buffer consisting of two
+            # arguments, name and size:
+            # [:foo, 3]
+            # (A buffer called foo of duration 3)
+            (
+              is_list_like?(a) &&
+              a.size == 2 &&
+              (a[0].is_a?(Symbol) || a[0].is_a?(String)) &&
+              a[1].is_a?(Numeric)
+              ))
+        end
+        [l, "must be a buffer description. Such as a buffer, :foo, \"foo\", or [:foo, 4]"]
+      end
+
       def v_sum_less_than_oet(arg1, arg2, max)
         [lambda{|args| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
       end
