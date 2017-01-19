@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-18 16:47+0000\n"
+"PO-Revision-Date: 2017-01-19 06:30+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -11786,6 +11786,15 @@ msgid ""
 " some insane sounds. At a `res` this high, you're hearing the cutoff filter re"
 "sonate so much it starts to make sounds of its own!"
 msgstr ""
+"Kolejną opcja wartą tego, by się nią pobawić jest `res:`. Kontroluje ona "
+"poziom rezonansu filtra. Wysoki rezonans jest charakterystyczny dla "
+"acid'owych dźwięków basu. Wartość naszego parametru `res:` jest ustawiona na "
+"`0.8`. Spróbuj podkręcić go do poziomu `0.85`, potem do `0.9` i na końcu na "
+"`0.95`. Możesz zauważyć, że odcięcie (cutoff) na poziomie `110` lub wyższym "
+"będzie powodować, że różnica dźwięku będzie łatwiejsza do usłyszenia. Na "
+"koniec zaszalej i spróbuj wpisać wartość `0.999` aby uzyskać szalone "
+"brzmienia. Przy takim wysokim ustawieniu opcji `res:` filtr odcięcia (cutoff)"
+" będziecie rezonował tak mocno, że zacznie sam tworzyć dźwięk!"
 
 #: A.05-acid-bass.md:100
 msgid ""
@@ -11793,26 +11802,36 @@ msgid ""
 "his is the choice of source oscillator. The default is `0` which is a sawtooth"
 " wave. `1` is a pulse wave and `2` is a triangle wave."
 msgstr ""
+"Na koniec, aby uzyskać duży wpływ na tembr spróbuj zmienić opcję `wave:` na "
+"`1`. W ten sposób wybieramy źródło oscylatora. Domyślna wartość to `0` i "
+"daje w efekcie falę piłokształtną, wartość `1` daje falę pulsującą a `2` da "
+"nam w wyniku falę trójkątną."
 
 #: A.05-acid-bass.md:104
 msgid ""
 "Of course, try different riffs by changing the notes in the ring or even picki"
 "ng notes from scales or chords. Have fun with your first acid bass synth."
 msgstr ""
+"Naturalnie, spróbuj różnych riff'ów zmieniając nuty w pierścieniu lub nawet "
+"wybierając nuty ze skal lub akordów. Zabaw się z twoim pierwszym acid'owym "
+"syntezatorem basu."
 
 #: A.05-acid-bass.md:108
 msgid "Deconstructing the TB-303"
-msgstr ""
+msgstr "Dekonstrukcja TB-303"
 
 #: A.05-acid-bass.md:110
 msgid ""
 "The design of the original TB-303 is actually pretty simple. As you can see fr"
 "om the following diagram there's only 4 core parts."
 msgstr ""
+"Konstrukcja oryginalnego TB-303 jest w zasadzie bardzo prosta. Jak możesz "
+"zauważyć na poniższym diagramie, składa się on tylko z 4-ech głównych części."
 
 #: A.05-acid-bass.md:113
 msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 msgstr ""
+"![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
