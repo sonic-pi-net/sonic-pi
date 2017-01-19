@@ -66,6 +66,16 @@ module SonicPi
   module Lang
     module Sound
 
+      class BufferLookup
+        def initialize(blk)
+          @blk = blk
+        end
+
+        def [](*args)
+          @blk.call(*args)
+        end
+      end
+
       include SonicPi::Util
       include SonicPi::Lang::Support::DocSystem
 
@@ -118,6 +128,17 @@ module SonicPi
             @JOB_BUSSES_MUTEX = Mutex.new
             @mod_sound_studio = Studio.new(hostname, ports, msg_queue)
 
+            buf_lookup = lambda do |name, duration=nil|
+              # scale duration to the current BPM
+              duration = duration * __thread_locals.get(:sonic_pi_spider_sleep_mul, 1) if duration
+              name = name.to_sym
+
+              buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
+              __info "Initialised buffer #{name.inspect}, #{duration}s" unless cached
+              buf
+            end
+
+            @buffer_lookup_w_hash_syntax = BufferLookup.new(buf_lookup)
 
             @mod_sound_studio_checker = Thread.new do
               # kill all jobs if an error occured in the studio
@@ -318,15 +339,8 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
 
  ]
 
-      def buffer(name, duration=nil)
-        # scale duration to the current BPM
-        duration = duration * __thread_locals.get(:sonic_pi_spider_sleep_mul, 1) if duration
-        name = name.to_sym
-
-        buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
-        __info "Initialised buffer #{name.inspect}, #{duration}s" unless cached
-        buf
-
+      def buffer
+        @buffer_lookup_w_hash_syntax
       end
 
       def sample_free_all
