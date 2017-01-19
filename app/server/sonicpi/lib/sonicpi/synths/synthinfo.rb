@@ -73,9 +73,7 @@ module SonicPi
         args_h
       end
 
-      def munge_opts(args_h)
-        args_h
-      end
+
 
       def doc
         "Please write documentation!"
@@ -3152,7 +3150,7 @@ Steal This Sound,  Mitchell Sigman"
         ""
       end
 
-      def munge_opts(args_h)
+      def munge_opts(studio, args_h)
         alias_opts!(:cutoff, :lpf, args_h)
         alias_opts!(:cutoff_slide, :lpf_slide, args_h)
         alias_opts!(:cutoff_slide_curve, :lpf_slide_curve, args_h)
@@ -4865,6 +4863,10 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
         "fx_slicer"
       end
 
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
       def doc
         "Modulates the amplitude of the input signal with a specific control wave and phase duration. With the default pulse wave, slices the signal in and out, with the triangle wave, fades the signal in and out and with the saw wave, phases the signal in and then dramatically out. Control wave may be inverted with the arg invert_wave for more variety."
       end
@@ -5113,6 +5115,10 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
         "fx_wobble"
       end
 
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
       def doc
         "Versatile wobble FX. Will repeatedly modulate a range of filters (rlpf, rhpf) between two cutoff values using a range of control wave forms (saw, pulse, tri, sine). You may alter the phase duration of the wobble, and the resonance of the filter. Combines well with the dsaw synth for crazy dub wobbles. Cutoff value is at cutoff_min at the start of phase"
       end
@@ -5352,6 +5358,10 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
 
       def synth_name
         "fx_panslicer"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
       end
 
       def doc
