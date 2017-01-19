@@ -324,7 +324,7 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
         name = name.to_sym
 
         buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
-        __info "Initialised buuffer #{name.inspect}, #{duration}s" unless cached
+        __info "Initialised buffer #{name.inspect}, #{duration}s" unless cached
         buf
 
       end
