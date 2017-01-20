@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-20 13:28+0000\n"
-"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
+"PO-Revision-Date: 2017-01-20 13:33+0000\n"
+"Last-Translator: Sugahara Masayuki <brindflontia@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -4549,14 +4549,13 @@ msgstr ""
 "end"
 
 #: 05.5-Functions.md:52
-#, fuzzy
 msgid ""
 "We can even use `foo` inside iteration blocks or anywhere we may have written "
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
 "te new meaningful words for use in our compositions."
 msgstr ""
-"`foo`は、イテレーション（繰り返し）ブロック内の`play`や`sample`などの書かれたコード内やどこからでも使うことができます。 "
-"この関数は、楽曲の中で自分自身を新しい意味ある言葉として定義し、それ自身を表現する際に非常に優れた方法です。"
+"`foo`は、イテレーション(繰り返し)ブロック内の`play`や`sample`などの書かれたコード内やどこからでも使うことができます。 "
+"これこそが自分を表現するため、そして作曲していく中で意味のある言葉を創るためにうってつけの方法なのです。"
 
 #: 05.5-Functions.md:56
 msgid "Functions are remembered across runs"
