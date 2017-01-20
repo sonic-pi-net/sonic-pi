@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-20 13:33+0000\n"
-"Last-Translator: Sugahara Masayuki <brindflontia@gmail.com>\n"
+"PO-Revision-Date: 2017-01-20 13:58+0000\n"
+"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
 "Language: ja\n"
@@ -512,8 +512,8 @@ msgid ""
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
-"SonicPiは、遊びと実験を通して、コンピューティングと音楽の両方を学ぶ手助けをしてくれます。もっとも大切なことは、楽しむこと。そうすれば、コードや作曲"
-"、演奏を、学ぶ前に自然と身につけられるでしょう。"
+"Sonic Piは、遊びと実験を通して、コンピューティングと音楽の両方を学ぶ手助けをしてくれます。もっとも大切なことは、楽しむこと。そうすれば、コードや作"
+"曲、演奏を、学ぶ前に自然と身につけられるでしょう。"
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
@@ -583,9 +583,10 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"この章では、基本的なシンセ（synth）の出し方と操作方法を紹介します。シンセは、 音を作り出すシンセサイザーという響きのよい言葉を短縮したものです。典型的"
-"なシンセは、 非常に使うのが複雑です。特にアナログのシンセは、沢山のパッチワイヤーとモジュールがついています。 ですが、Sonic Piでは、とても簡単で親"
-"しみやすい方法で、このシンセの力を手に入れることが出来ます。"
+"この章では、基本的なシンセ（synth）の出し方と操作方法を紹介します。シンセは、 "
+"音を作り出すシンセサイザーという響きのよい言葉を短縮したものです。典型的なシンセは、 "
+"非常に使うのが複雑です。特にアナログのシンセは、沢山のパッチワイヤーとモジュールがついています。ですが、Sonic "
+"Piでは、とても簡単で親しみやすい方法で、このシンセの力を手に入れることが出来ます。"
 
 #: 02-Synths.md:14
 msgid ""
@@ -3141,8 +3142,8 @@ msgid ""
 "suring that the music you create on your machine sounds identical on everybody"
 " else's machine - even if you use some randomness in your composition."
 msgstr ""
-"この答えとなる擬似ランダムとは、真のランダムではないということです。SonicPiは、再現可能なランダム風の数を用意しています。これは、あなたのマシンで作"
-"成した音楽が、たとえその中でいくつかランダム性を使用している場合でも、誰か他の人のマシンで同じように聞こえることを保証するのに大変便利な機能です。"
+"この答えとなる擬似ランダムとは、真のランダムではないということです。Sonic Piは、再現可能なランダム風の数を用意しています。これは、あなたのマシンで"
+"作成した音楽が、たとえその中でいくつかランダム性を使用している場合でも、誰か他の人のマシンで同じように聞こえることを保証するのに大変便利な機能です。"
 
 #: 04-Randomisation.md:32
 msgid ""
@@ -3241,8 +3242,8 @@ msgid ""
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
-"もし、SonicPiが提供する乱数の特定の配列が気に入らない場合、`use_random_seed`を介すことで別の開始点を選択することが可能です。シード"
-"のデフォルト値は0であるため、異なるランダム体験のために別のシードの値を入力してみましょう！"
+"もし、Sonic Piが提供する乱数の特定の配列が気に入らない場合、`use_random_seed`を介すことで別の開始点を選択することが可能です。シー"
+"ドのデフォルト値は0であるため、異なるランダム体験のために別のシードの値を入力してみましょう！"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
@@ -4554,8 +4555,8 @@ msgid ""
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
 "te new meaningful words for use in our compositions."
 msgstr ""
-"`foo`は、イテレーション(繰り返し)ブロック内の`play`や`sample`などの書かれたコード内やどこからでも使うことができます。 "
-"これこそが自分を表現するため、そして作曲していく中で意味のある言葉を創るためにうってつけの方法なのです。"
+"`foo`は、イテレーション（繰り返し）ブロック内の`play`や`sample`などの書かれたコード内やどこからでも使うことができます。 "
+"このことは、楽曲の中で利用可能な有意義な言葉を作り出したり、自己表現したりする優れた方法を提供します。"
 
 #: 05.5-Functions.md:56
 msgid "Functions are remembered across runs"
@@ -5993,9 +5994,8 @@ msgid ""
 msgstr "制御することのできるオプションは、対応する`_slide`オプションを持っています。"
 
 #: 07.3-Sliding-Parameters.md:46
-#, fuzzy
 msgid "Sliding is sticky"
-msgstr "スライドはメモ書きのようなもの"
+msgstr "スライドの設定は保持される"
 
 #: 07.3-Sliding-Parameters.md:48
 msgid ""
@@ -6851,9 +6851,9 @@ msgid ""
 "t). However, the main advantage is that you can take Sonic Pi on stage and gig"
 " with it."
 msgstr ""
-"SonicPiの中で一番エキサイティングな特徴の1つは、ライブでギターをかき鳴らすのと同じように、ライブで音楽を演奏しながら、その場でコードを書き換え、音"
-"を変化させていくことができることです。この方法で優れているのは、（シンプルなループを走らせ、そのサウンドが完璧になるまで調整するように）作品を作っている間"
-"にどのような音が出来ているかその場でフィードバックを得られることです。ですが、一番の利点は、Sonic Piでステージ上でライブができることです。"
+"Sonic Piの中で最もエキサイティングな特徴の1つは、ライブでギターをかき鳴らすのと同じように、ライブで音楽を演奏しながら、その場でコードを書き換え、"
+"音を変化させていくことができることです。この方法で優れているのは、（シンプルなループを走らせ、そのサウンドが完璧になるまで調整するように）作品を作っている"
+"間にどのような音が出来ているかその場でフィードバックを得られることです。ですが、一番の利点は、Sonic Piでステージ上でライブができることです。"
 
 #: 09-Live-Coding.md:12
 msgid ""
@@ -7658,7 +7658,7 @@ msgid ""
 " you're playing live in front of an audience."
 msgstr ""
 "Sonic Piは、コーディング環境であると同時に楽器でもあります。したがって、あなたが観客の前でライブ演奏している場合は特に、ショートカットを使うことで"
-"、はるかに*効率的で自然に*SonicPiの演奏を行うことができます。"
+"、はるかに*効率的で自然に*Sonic Piの演奏を行うことができます。"
 
 #: 10.1-Using-Shortcuts.md:9
 msgid ""
@@ -7730,10 +7730,10 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
-"一貫性への考え方のひとつにショートカットの命名があります。SonicPiにおいて、主要な2つの組み合わせキーを当てはめるために、*Controlキー*と*"
-"Metaキー*を用います。すべてのプラットフォームでは、*Controlキー*は同じです。しかし、LinuxとWindowsでは、実際の*Metaキー*は"
-"Altキーで、Macの*Metaキー*は*コマンド⌘キー*です。一貫性のために、*Metaキー*という言葉を使いますが、あなたのオペレーティングシステムに"
-"おける適切なキーに置き換えるようにしてください。"
+"一貫性への考え方のひとつにショートカットの命名があります。Sonic Piにおいて、主要な2つの組み合わせキーを当てはめるために、*Controlキー*と"
+"*Metaキー*を用います。すべてのプラットフォームでは、*Controlキー*は同じです。しかし、LinuxとWindowsでは、実際の*Metaキー*"
+"はAltキーで、Macの*Metaキー*は*コマンド⌘キー*です。一貫性のために、*Metaキー*という言葉を使いますが、あなたのオペレーティングシステム"
+"における適切なキーに置き換えるようにしてください。"
 
 #: 10.1-Using-Shortcuts.md:46
 msgid "Abbreviations"
@@ -8094,7 +8094,7 @@ msgstr "共有"
 
 #: 10.3-Sharing.md:5
 msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr "SonicPiで最も大事なことは、お互いに共有し学習することです。"
+msgstr "Sonic Piで最も大事なことは、お互いに共有し学習することです。"
 
 #: 10.3-Sharing.md:7
 msgid ""
@@ -8319,7 +8319,7 @@ msgid ""
 "arry on as before. Sonic Pi's automatic connection functionality will take car"
 "e of things for you."
 msgstr ""
-"Minecraft Pi APIは`live_loop`内でシームレスに動作するように設計されています。これは、SonicPiの音に変更を加え、"
+"Minecraft Pi APIは`live_loop`内でシームレスに動作するように設計されています。これは、Sonic Piの音に変更を加え、"
 "Minecraft Piのワールドの変更と同期させることが可能であることを意味します。インスタントなMinecraftベースのミュージックビデオです！  "
 "Minecraft Piはアルファ版のソフトウェアであり、わずかに不安定であることに注意してください。何か問題が発生した場合は、単純にMinecraft "
 "Piを再起動し、以前と同様に続けましょう。Sonic Piの自動接続機能が対応します。"
@@ -8399,7 +8399,7 @@ msgstr ""
 
 #: 11.1-Basic-API.md:23
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr "新しいSonicPiのBufferで、次のコードを入力してください。"
+msgstr "新しいSonic PiのBufferで、次のコードを入力してください。"
 
 #: 11.1-Basic-API.md:25
 #, no-wrap
@@ -8492,7 +8492,7 @@ msgstr "現在の座標を知る"
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
 "map and then switch over to Sonic Pi. Now enter the following:"
-msgstr "座標を使って遊んでみましょう。Minecraftのマップで素敵な場所に移動した後、SonicPiに切り替え、次を入力してください。"
+msgstr "座標を使って遊んでみましょう。Minecraftのマップで素敵な場所に移動した後、Sonic Piに切り替え、次を入力してください。"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
