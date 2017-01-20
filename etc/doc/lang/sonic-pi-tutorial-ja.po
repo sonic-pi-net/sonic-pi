@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-19 02:14+0000\n"
+"PO-Revision-Date: 2017-01-20 13:28+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -67,14 +67,13 @@ msgstr ""
 "で、自由に、色々なセクションを覗いてみてください。何か、不足している点に気がついたら、将来のバージョンのために検討したいので、知らせてください。"
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
 "e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"最後に、他の人がライブコーディングするのを見るのはとても良い学習方法です。私は定期的に[livecoding.tv/samaaron](http://liv"
-"ecoding.tv/samaaron)でライブをストリーミングしているのでぜひ立ち寄って、たくさんの質問をしてみてください :-)"
+"最後に、他の人がライブコーディングするのを見るのはとても良い学習方法です。私は定期的に[livecoding.tv/samaaron](http://yo"
+"utube.com/samaaron)でライブをストリーミングしているのでぜひ立ち寄って、たくさんの質問をしてみてください :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -200,11 +199,10 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"では、ちょっと遊んでみましょう。値を変えてみてください。大きな値、小さな値、もしくはマイナスの値にしたとき、 何が起こるでしょうか？ "
-"では、`:ambi_choir` の `rate:` の値をほんの少し（0.29などに）変えた時、どうなるでしょう？ `sleep` "
-"の値をすごく小さくすると、どうでしょう？ 操作が速すぎると、エラーが出て "
-"コンピュータが止まってしまいます。これはコンピュータがついていけないからです（そんな時は、より大きい値を `sleep` "
-"に設定して`Run`ボタンをもう一度押しましょう）。"
+"では、ちょっと遊んでみましょう。値を変えてみてください。大きな値、小さな値、もしくはマイナスの値にしたとき、何が起こるでしょうか？ "
+"では、`:ambi_choir`の`rate:`の値をほんの少し（0.29などに）変えた時、どうなるでしょう？ "
+"`sleep`の値をすごく小さくすると、どうでしょう？ 操作が速すぎると、エラーが出てコンピュータが止まってしまいます。これはコンピュータがついていけない"
+"からです（そんな時は、より大きい値を`sleep`に設定して`Run`ボタンをもう一度押しましょう）。"
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -477,10 +475,9 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"最後は、SonicPiインタフェースのもっとも重要な部分の1つである、画面の下にあるヘルプシステムです。 "
-"青い*Help*ボタンによって表示/非表示を切り替えることができます。 "
-"ヘルプシステムは、ヘルプと情報を含んでいます。このチュートリアル、入手できるシンセのリスト、サンプルや実例、効果のリスト、"
-"そして音楽をコーディングするために備えているSonic Piの 全機能のリストといった、Sonic Piの全てについてのヘルプと情報があります。"
+"最後は、Sonic Piインタフェースのもっとも重要な部分の1つである、画面の下にあるヘルプシステムです。青い*Help*ボタンによって表示/非表示を切り"
+"替えることができます。ヘルプシステムは、ヘルプと情報を含んでいます。このチュートリアル、入手できるシンセのリスト、サンプルや実例、効果のリスト、"
+"そして音楽をコーディングするために備えているSonic Piの全機能のリストといった、Sonic Piの全てについてのヘルプと情報があります。"
 
 #: 01.2-Exploring-the-Interface.md:81
 #, fuzzy
@@ -2516,13 +2513,13 @@ msgid "Combining with rate"
 msgstr "レートと組み合わせ"
 
 #: 03.5-Partial-Samples.md:86
-#, fuzzy
 msgid ""
 "We can combine this new ability to play arbitrary segments of audio with our f"
 "riend `rate:`. For example, we can play a very small section of the middle of "
 "the amen break very slowly:"
 msgstr ""
-"そして新しい機能として、すでに学んだ`rate:`と`start:`(開始)と`finish:`(終了)を使った部分再生を組み合わせることができます。"
+"ここで紹介した部分再生の機能を、すでに学んだ`rate:`を組み合わせることができます。例えば、アーメン・ブレイクの真ん中のとても小さな部分をとてもゆっく"
+"りと再生することができます："
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
@@ -4558,8 +4555,8 @@ msgid ""
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
 "te new meaningful words for use in our compositions."
 msgstr ""
-"`foo`は、イテレーション(繰り返し)ブロック内の`play`や`sample`などの書かれたコード内やどこからでも使うことができます。 この関数は、楽曲"
-"の中で自分自身を新しい意味ある言葉として定義し、それ自身を表現する際に非常に優れた方法です。"
+"`foo`は、イテレーション（繰り返し）ブロック内の`play`や`sample`などの書かれたコード内やどこからでも使うことができます。 "
+"この関数は、楽曲の中で自分自身を新しい意味ある言葉として定義し、それ自身を表現する際に非常に優れた方法です。"
 
 #: 05.5-Functions.md:56
 msgid "Functions are remembered across runs"
@@ -8460,7 +8457,7 @@ msgstr ""
 "いくつかの宝の場所が大きな`X`でマーキングされた海賊の地図を想像してみてください。`X`の正確な位置は、左から右へ向かってどれくらい離れているか、下から"
 "上へ向かってどのくらい離れているか、この2つの数字で場所を記述することができます。例えば、横へ`10cm`、上に`8cm`。これら2つの数字`10`と`8"
 "`が座標です。他に隠された宝物の在処も別の2つの数字で容易に記述できることが想像できますね。おそらく、`2`つ横切り、`9`つ上には大きな金脈がありそうで"
-"す..."
+"す…"
 
 #: 11.1-Basic-API.md:61
 msgid ""
@@ -8563,7 +8560,7 @@ msgstr "mc_set_block :diamond, 40, 50, 60"
 msgid ""
 "If you were looking in the right direction you might have even seen it change "
 "in front of your eyes! This is the start of something exciting..."
-msgstr "見る角度が合えば、それがあなたの目の前で変更されることだってあるのです！ これはエキサイティングな何かの始まりです..."
+msgstr "見る角度が合えば、それがあなたの目の前で変更されることだってあるのです！ これはエキサイティングな何かの始まりです…"
 
 #: 11.1-Basic-API.md:117
 msgid "Looking at blocks"
@@ -10460,12 +10457,12 @@ msgid ""
 "have amazing control over the timbre of the sound by playing with both of thes"
 "e envelopes. Let's take a look:"
 msgstr ""
-"最初はオシレーターです。これは音の原材料となるものです。この図では、矩形波を使っています。次にオシレーターのエンベロープがあります。これは矩形波の音量を時間"
-"に沿って制御しています。Sonic Piでは、`attack:`, `decay:`, `sustain:`, `release:`オプションで対応する音量"
-"レベルにアクセスできます。より詳細な情報は、チュートリアルの'2.4 エンベロープでのデュレーション'を参照してください。エンベロープされた矩形波は、ローパ"
-"スフィルターに渡しています。これは、高い周波数をカットするとともに、レゾナンスエフェクトを追加します。ここからが面白くなるところです。このローパスフィルター"
-"のカットオフの値もまた、独自のエンベロープで制御されているのです！これは、2つのエンベロープを弄ることで、サウンドの音色を驚異的に変化できることを意味してい"
-"るのです。次のコードを見てみましょう。"
+"最初はオシレーターです。これは音の原材料となるものです。この図では、矩形波を使っています。次にオシレーターのエンベロープがあります。これは矩形波の音量を時"
+"間に沿って制御しています。Sonic Piでは、`attack:`, `decay:`, `sustain:`, "
+"`release:`オプションで対応する音量レベルにアクセスできます。より詳細な情報は、チュートリアルの'2.4 エンベロープでのデュレーション'を参照し"
+"てください。エンベロープされた矩形波は、ローパスフィルターに渡しています。これは、高い周波数をカットするとともに、レゾナンスエフェクトを追加します。ここか"
+"らが面白くなるところです。このローパスフィルターのカットオフの値もまた、独自のエンベロープで制御されているのです！ "
+"これは、2つのエンベロープを弄ることで、サウンドの音色を驚異的に変化できることを意味しているのです。次のコードを見てみましょう。"
 
 #: A.05-acid-bass.md:128
 #, no-wrap
@@ -11461,8 +11458,8 @@ msgid ""
 "essively larger z coordinates so the sand dropped in a line away from Steve."
 msgstr ""
 "では上のコードで何が起きているか手短に見ていきましょう。1行目では、`mc_location` 関数を使って、プレイヤーの位置を座標として取得し、`x`"
-", `y`,  `z`に設定しています。次の数行では、mc_set_block`関数を使って、プレイヤーの座標から少し変更を加えたところに砂を置いています"
-"。x座標は同じで、y座標は20ブロック高く、z座標は順に大きくして、プレイヤーからまっすぐ離れるように砂を落としています。"
+", `y`, `z`に設定しています。次の数行では、mc_set_block`関数を使って、プレイヤーの座標から少し変更を加えたところに砂を置いています。"
+"x座標は同じで、y座標は20ブロック高く、z座標は順に大きくして、プレイヤーからまっすぐ離れるように砂を落としています。"
 
 #: A.08-minecraft-vj.md:87
 msgid ""
@@ -11584,9 +11581,10 @@ msgstr ""
 "huge patterned walls to fly towards and close by. "
 "この効果のためには、ブロックをランダムに配置することから、規則的に配置することに移る必要があります。 "
 "これを行うには、2つのイテレーション（反復）を入れ子にします（イテレーションの詳細については、ヘルプボタンをクリックして、チュートリアルのセクション5."
-"2\"イテレーション（反復）とループ\"に移動してください）。 doの後の面白い `| xd |`は、イテレーションの各値に対して "
-"`xd`が設定されることを意味します。 したがって、最初は0、1、2 ...などとなります。このように2回のイテレーションを入れ子にすることで、すべての座"
-"標を正方形に生成することができます。また、ブロックのリングからブロックタイプをランダムに選択して、面白い効果を得ることもできます。"
+"2\"イテレーション（反復）とループ\"に移動してください）。doの後の面白い `| xd "
+"|`は、イテレーションの各値に対して`xd`が設定されることを意味します。 したがって、最初は0, 1, 2…などとなります。このように2回のイテレーショ"
+"ンを入れ子にすることで、すべての座標を正方形に生成することができます。また、ブロックのリングからブロックタイプをランダムに選択して、面白い効果を得ることも"
+"できます。"
 
 #: A.08-minecraft-vj.md:145
 #, no-wrap
