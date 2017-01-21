@@ -261,7 +261,7 @@ Mit diesen Buttons kannst du festlegen welcher Ausgang benutzt werden soll.</tra
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
         <source>&amp;Headphones</source>
-        <translation>&amp;Headphones</translation>
+        <translation>&amp;Kopfhörer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
