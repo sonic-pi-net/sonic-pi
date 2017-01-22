@@ -533,7 +533,7 @@ Stereo - viser to uavhengige oscilloskop for de venstre og høyre kanalene</tran
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visuelle effekter</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
