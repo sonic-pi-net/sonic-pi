@@ -1140,7 +1140,7 @@
    [start       0
     finish      (buf-frames:kr buffer)
     ph          (line start finish (buf-dur buffer))
-    finish-gate (< ph (a2k finish))
+    finish-gate (< (a2k ph) (a2k finish))
     finish-env  (env-gen:kr (adsr 0 0 1 0.05) finish-gate :action FREE)
     dry-l       (* finish-env dry-l)
     dry-r       (* finish-env dry-r)
