@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-23 09:48+0000\n"
+"PO-Revision-Date: 2017-01-23 11:48+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -120,7 +120,7 @@ msgstr "ライブループ"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "さぁ、はじめましょう！下のコードを上の空欄のBuffer（バッファ）にコピーしてみましょう。"
+msgstr "さぁ、はじめましょう！ 下のコードを上の空欄のBuffer（バッファ）にコピーしてみましょう。"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
