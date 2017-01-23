@@ -4791,7 +4791,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
               raise "Unable to initialise buffer #{buffer_opt.inspect}" unless buf
               args_h[:buffer] = buf
             when Array, SonicPi::Core::SPVector
-              raise "buffer: opt should only contain 2 elements. You supplied: #{buf.size} - #{buf.inspect}" unless buf.size == 2
+              raise "buffer: opt should only contain 2 elements. You supplied: #{buf.size} - #{buf.inspect}" unless buffer_opt.size == 2
               buf = buffer(*buffer_opt)
               raise "Unable to initialise buffer #{buffer_opt.inspect}" unless buf
               args_h[:buffer] = buf
