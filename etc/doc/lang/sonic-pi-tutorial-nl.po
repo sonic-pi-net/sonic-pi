@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-25 13:59+0000\n"
-"Last-Translator: Louis Wolf <louis@coderdojo-nijmegen.nl>\n"
+"PO-Revision-Date: 2017-01-25 15:21+0000\n"
+"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -558,6 +558,15 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"Met het scope venster zie je het geluid. Je ziet hier dat een zaagtand-golf "
+"er ook uitziet als een zaag en dat onze basis biep-toon een mooie golvende "
+"sinus-golf is. Je ziet ook duidelijk het verschil tussen luide en zachte "
+"klanken door hun grootte. Er zijn 3 verschillende scopes beschikbaar- de "
+"standaard (default) is een gecombineerde scope voor het linker en rechter "
+"kanaal, een stereo die voor elk kanaal een aparte scope laat zien. En "
+"tenslotte is er een Lissajousfiguur scope die de relatie in fase tussen het "
+"linker- en rechter-kanaal weergeven en die je in staat stelt, mooie figuren "
+"te tekenen  met geluid (https://nl.wikipedia.org/wiki/Lissajousfiguur)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -647,7 +656,6 @@ msgid "OK, enough of the intros - let's get into some sound."
 msgstr "OK, genoeg intro's - laat ons in enkele klanken duiken."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -656,12 +664,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"In deze sectie zullen we de basisprincipes van triggering en het manipuleren v"
-"an synths behandelen. Synth is kort voor synthesizer, wat een chique woord is "
-"voor iets dat geluiden kan creëren. Synths zijn doorgaans vrij ingewikkeld om "
-"te gebruiken - met name analoge synths met vele patch kabels en modules. Sonic"
-" Pi geeft je veel van hun kracht op een zeer eenvoudige en toegankelijke wijze"
-"."
+"In deze sectie zullen we de basisprincipes van het triggeren en het "
+"manipuleren van synth's behandelen. Synth is kort voor synthesizer, wat een "
+"chique woord is voor een ding dat geluiden kan creëren. Synth's zijn "
+"doorgaans vrij ingewikkeld om te gebruiken - met name analoge synth's met "
+"vele patch kabels en modules. Sonic Pi biedt je  een zelfde kracht op een "
+"eenvoudige en toegankelijke wijze."
 
 #: 02-Synths.md:14
 msgid ""
@@ -8931,11 +8939,11 @@ msgstr "`S-M-m` - Tussen licht/donker modus schakelen"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr "De-M-s' - inhoud van de buffer in een bestand opslaan"
+msgstr "`S-M-s` - inhoud van de buffer in een bestand opslaan"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr "De-M-o ' - inhoud van buffer laden uit een bestand"
+msgstr "`S-M-o` - inhoud van buffer laden uit een bestand"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
@@ -14261,24 +14269,33 @@ msgid ""
 "y for us to convert our `slice_idx` into a value between 0 and 1 so we can use"
 " it as our `start:` opt."
 msgstr ""
+"Definiëren we onze `slice_size` die 1/8 is of 0,125 is. De `slice_size` is "
+"noodzakelijk om  onze 'slice_idx' te converteren naar een waarde tussen 0 en "
+"1 zodat we deze kunnen gebruiken als onze `start:` opt."
 
 #: A.12-sample-slicing.md:117
 msgid ""
 "We calculate the start position `s` by multiplying the `slice_idx` by the `sli"
 "ce_size`."
 msgstr ""
+"We berekenen de beginpositie ' door de 'slice_idx' met 'slice_size' te "
+"vermenigvuldigen ."
 
 #: A.12-sample-slicing.md:120
 msgid ""
 "We calculate the finish position `f` by adding the `slice_size` to the start p"
 "osition `s`."
 msgstr ""
+"We berekenen de eind-positie `f` door de ´slice_size` aan de startpositie `s`"
+" toe te voegen."
 
 #: A.12-sample-slicing.md:123
 msgid ""
 "We can now play the sample slice by plugging in the `s` and `f` values into th"
 "e `start:` and `finish:` opts for `sample`."
 msgstr ""
+"We kunnen nu deze sample-slice afspelen door de waarden van `s`en `f`, in de "
+"`start:` en `finish:` opts voor `sample` te steken."
 
 #: A.12-sample-slicing.md:126
 msgid ""
@@ -14288,12 +14305,19 @@ msgid ""
 " the duration. Therefore, by passing `sample_duration` our `start:` and `finis"
 "h:` opts, we can find out the duration of a single slice."
 msgstr ""
+"Voordat we het volgende segment spelen moeten we weten hoe lang de `sleep` "
+"is welke de duurtijd is van ons sample segment. Gelukkig heeft  Sonic Pi ons "
+"voorzien van `sample_duration` welke dezelfde opts heeft als `sample`en ons "
+"zijn duurtijd kan weergeven. Dus, door het passeren van `sample_duration` "
+"aan onze `start:` en  `finish:`  kennen we de duur van elke slice."
 
 #: A.12-sample-slicing.md:133
 msgid ""
 "We wrap all of this code in a `live_loop` so that we continue to pick new rand"
 "om slices to play."
 msgstr ""
+"We steken deze code in een `live_loop` zodat we verder nieuwe random slices "
+"kunnen uitpikken."
 
 #: A.12-sample-slicing.md:139
 msgid ""
@@ -14303,6 +14327,12 @@ msgid ""
 "ke the code below as a starting point and see if you can take it in your own d"
 "irection and create something new..."
 msgstr ""
+"Laten we alles wat we tot nu toe hebben gezien, met de zelfde aanpak in een "
+"laatste voorbeeld combineren, dat demonstreert hoe opgeknipte beats met wat "
+"bass het begin van een interessante track kunnen maken . Nu is het jouw "
+"beurt - om de onderstaande code als uitgangspunt te nemen en te zien of je "
+"deze een eigen twist kan geven om er weer iets helemaal anders van te "
+"maken..."
 
 #: A.12-sample-slicing.md:145
 #, no-wrap
@@ -14403,13 +14433,16 @@ msgid "Random Beats"
 msgstr "Random Beats"
 
 #: A.13-probabilistic-sequencer.md:37
-#, fuzzy
 msgid ""
 "Now imagine you had a drum and every time you were about to hit it you rolled "
 "a dice. If you rolled a 1, you hit the drum and if you rolled any other number"
 " you didn't. You now have a probabilistic drum machine working with a probabil"
 "ity of 1/6! Let's hear what that sounds like:"
-msgstr "Laten we eens horen hoe dat klinkt:"
+msgstr ""
+"Beeld je even in dat je een trommel hebt en dat je elke keer je deze zou "
+"slaan, je een teerling zou werpen. Als je één gooit zou je hem slaan en elke "
+"worp met een ander getal niet. Je hebt nu een probalistische drummachine met "
+"een probabiliteit van 1/6! Laten we eens horen hoe dat klinkt:"
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
