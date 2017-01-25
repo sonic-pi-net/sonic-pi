@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-23 11:48+0000\n"
+"PO-Revision-Date: 2017-01-25 09:59+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -583,9 +583,8 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"この章では、基本的なシンセ（synth）の出し方と操作方法を紹介します。シンセは、 "
-"音を作り出すシンセサイザーという響きのよい言葉を短縮したものです。典型的なシンセは、 "
-"非常に使うのが複雑です。特にアナログのシンセは、沢山のパッチワイヤーとモジュールがついています。ですが、Sonic "
+"この章では、基本的なシンセ（synth）の出し方と操作方法を紹介します。シンセは、音を作り出すシンセサイザーという響きのよい言葉を短縮したものです。典型的"
+"なシンセは、非常に使うのが複雑です。特にアナログのシンセは、沢山のパッチワイヤーとモジュールがついています。ですが、Sonic "
 "Piでは、とても簡単で親しみやすい方法で、このシンセの力を手に入れることが出来ます。"
 
 #: 02-Synths.md:14
@@ -1943,8 +1942,8 @@ msgstr ""
 "サンプルとは、あらかじめ録音されたサウンドで、サウンドを再生するためにスピーカーのコーン（振動板）をどう動かすかを表す数値が格納されています。スピーカーの"
 "コーンは行ったり来たり（振動）するため、数値は、その時々でコーンがどれくらいの距離を行ったり来たりすべきかをその時々で表す必要があります。録音された音を忠"
 "実に再生するために、サンプルは概して1秒間に何千もの数値を格納しておく必要があるのです！ Sonic Piはこの数値のリストを使って、適切なスピードでサウ"
-"ンドを再生するための正しい方法をあなたのコンピューターのスピーカーに伝え、振動させるのです。けれども、サウンドを変えるためにスピーカーに与えられる数値のス"
-"ピードを変えるのも楽しいですよ。"
+"ンドを再生するための正しい方法をあなたのコンピュータのスピーカーに伝え、振動させるのです。けれども、サウンドを変えるためにスピーカーに与えられる数値のスピ"
+"ードを変えるのも楽しいですよ。"
 
 #: 03.3-Stretching-Samples.md:23
 msgid "Changing Rate"
@@ -2794,7 +2793,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
-msgstr "サンプルパックのフィルター"
+msgstr "サンプルパックのフィルタ"
 
 #: 03.7-Sample-Packs.md:81
 msgid ""
@@ -2827,8 +2826,8 @@ msgid ""
 "working at 120 BPM, we can filter down to all the samples that contain the str"
 "ing `\"120\"` with the following:"
 msgstr ""
-"サンプルの特定の命名規則を使って、我々が必要とするファイルをフィルターできることが分かりました。例えば、BPM120で演奏している場合に、`\"120\""
-"`という文字列を含む全てのサンプルを次のようにフィルターできます。"
+"サンプルの特定の命名規則を使って、我々が必要とするファイルをフィルタできることが分かりました。例えば、BPM120で演奏している場合に、`\"120\""
+"`という文字列を含む全てのサンプルを次のようにフィルタできます。"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
@@ -2860,7 +2859,7 @@ msgid ""
 "ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
 "t easily with the following code:"
 msgstr ""
-"さらに複数のフィルターを使うこともできます。例えば、\"120\"と\"A#\""
+"さらに複数のフィルタを使うこともできます。例えば、\"120\"と\"A#\""
 "をファイル名に含むサンプルが必要な場合、次のような簡単なコードで実現できます。"
 
 #: 03.7-Sample-Packs.md:124
@@ -2874,7 +2873,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:129
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
-msgstr "最後に、フィルターを使用した場合にも`sample`で通常使用されるオプションをそのまま自由に追加できます。"
+msgstr "最後に、フィルタを使用した場合にも`sample`で通常使用されるオプションをそのまま自由に追加できます。"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -2895,8 +2894,8 @@ msgid ""
 " and filters. Sources are information used to create the list of potential can"
 "didates. A source can take two forms:"
 msgstr ""
-"サンプルフィルターの引数前の処理システムは、ソースとフィルターという2つタイプの情報を認識します。ソースは、候補となる可能性のあるサンプルのリストを作成す"
-"るのに使われる情報です。ソースは次の2つの形式を取ることができます。"
+"サンプルフィルタの引数前の処理システムは、ソースとフィルタという2つタイプの情報を認識します。ソースは、候補となる可能性のあるサンプルのリストを作成するの"
+"に使われる情報です。ソースは次の2つの形式を取ることができます。"
 
 #: 03.7-Sample-Packs.md:142
 msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
@@ -2942,7 +2941,7 @@ msgid ""
 msgstr ""
 "ここでは、2つのディレクトリの内容と1つの特定のサンプルを組み合わせています。もし`\"/path/to/my/samples/\""
 "`に3つのサンプルがあり、`\"/path/to/my/samples2/\""
-"`に12個のサンプルがあるとすると、インデックスやフィルター可能となるサンプルは16(3 + 12 + 1)になります。"
+"`に12個のサンプルがあるとすると、インデックスやフィルタ可能となるサンプルは16(3 + 12 + 1)になります。"
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -2952,9 +2951,9 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
-"デフォルトでは、ディレクトリ内のサンプルファイルのみが候補リストに集められますが、ときにはネストした数多くのフォルダ内のサンプルを検索したりフィルターした"
-"りしたいことがあるかもしれません。その場合には、次のように`**`をパスの最後に付けることで、全てのサブディレクトリー内のサンプルを再帰的に検索することが"
-"できます。"
+"デフォルトでは、ディレクトリ内のサンプルファイルのみが候補リストに集められますが、ときにはネストした数多くのフォルダ内のサンプルを検索したりフィルタしたり"
+"したいことがあるかもしれません。その場合には、次のように`**`をパスの最後に付けることで、全てのサブディレクトリ内のサンプルを再帰的に検索することができ"
+"ます。"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -2984,13 +2983,13 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
-msgstr "フィルター"
+msgstr "フィルタ"
 
 #: 03.7-Sample-Packs.md:186
 msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
-msgstr "候補リストを取得した後、選択肢を減らすために次のようなフィルターのタイプを使うことができます。"
+msgstr "候補リストを取得した後、選択肢を減らすために次のようなフィルタのタイプを使うことができます。"
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
@@ -3017,8 +3016,8 @@ msgid ""
 "nd must return a new list of candidates (a list of valid paths to sample files"
 ")."
 msgstr ""
-"`lambda{|a| ... }`という1つの引数を伴ったProc（手続きオブジェクト）は、候補リストのフィルターまたは生成する関数として扱われます。こ"
-"の関数は、現在の候補リストが引数として渡され、新しい候補リスト（サンプルの有効なパスのリスト）を返却する必要があります。"
+"`lambda{|a| ... }`という1つの引数を伴ったProc（手続きオブジェクト）は、候補リストのフィルタまたは生成する関数として扱われます。この"
+"関数は、現在の候補リストが引数として渡され、新しい候補リスト（サンプルの有効なパスのリスト）を返却する必要があります。"
 
 #: 03.7-Sample-Packs.md:193
 msgid ""
@@ -3042,7 +3041,7 @@ msgstr "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
-msgstr "詳細な使用例は`sample`のヘルプを参照してください。また、フィルターの順序が尊重されることに注意してください。"
+msgstr "詳細な使用例は`sample`のヘルプを参照してください。また、フィルタの順序が尊重されることに注意してください。"
 
 #: 03.7-Sample-Packs.md:206
 msgid "Composites"
@@ -3055,8 +3054,8 @@ msgid ""
 "ources and filters. Therefore the following calls to `sample` are semantically"
 " equivalent:"
 msgstr ""
-"最後に、ソースまたはフィルターを配置することが可能な位置であればどこでもリストを使用することができます。リストは自動的に平坦化され、正規のソースとフィルタ"
-"ーとして扱われます。したがって、次に示す`sample`の呼び出しは意味的には全て同じものになります。"
+"最後に、ソースまたはフィルタを配置することが可能な位置であればどこでもリストを使用することができます。リストは自動的に平坦化され、正規のソースとフィルタと"
+"して扱われます。したがって、次に示す`sample`の呼び出しは意味的には全て同じものになります。"
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -5204,7 +5203,7 @@ msgid ""
 " basslines."
 msgstr ""
 "Sonic Piには、あなたの作ったサウンドに簡単にスタジオ·エフェクトを追加できるという最もやりがいのある楽しい側面があります。たとえば、部分的にリバー"
-"ブを追加したり、エコーやディストーション（歪み）、ワブルベース（ベース音にフィルターLFOを掛け、断続的な音にすること）を加えることができます。"
+"ブを追加したり、エコーやディストーション（歪み）、ワブルベース（ベース音にフィルタLFOを掛け、断続的な音にすること）を加えることができます。"
 
 #: 06-FX.md:10
 msgid ""
@@ -6045,7 +6044,7 @@ msgstr "データ構造"
 
 #: 08-Data-Structures.md:5
 msgid "A very useful tool in a programmer's toolkit is a data structure."
-msgstr "プログラマーのツールキットで非常に有用なツールはデータ構造です。"
+msgstr "プログラマのツールキットで非常に有用なツールはデータ構造です。"
 
 #: 08-Data-Structures.md:7
 msgid ""
@@ -6486,7 +6485,7 @@ msgstr ""
 msgid ""
 "However, consider you have a counter such as the current beat which continuall"
 "y increases. Let's create our counter and our list:"
-msgstr "ここでは、現在のビート（拍子）が継続的に増加する`counter`を考えてみましょう。まずはカウンターとリストを作成します。"
+msgstr "ここでは、現在のビート（拍子）が継続的に増加する`counter`を考えてみましょう。まずはカウンタとリストを作成します。"
 
 #: 08.4-Rings.md:23
 #, no-wrap
@@ -6508,7 +6507,7 @@ msgstr "puts notes[counter]"
 
 #: 08.4-Rings.md:34
 msgid "Great, we got `52`. Now, let's increment our counter and get another note:"
-msgstr "素晴らしい、`52`を取得しました。カウンターを増やして別の音符を取得してみましょう。"
+msgstr "素晴らしい、`52`を取得しました。カウンタを増やして別の音符を取得してみましょう。"
 
 #: 08.4-Rings.md:37
 #, no-wrap
@@ -7836,7 +7835,7 @@ msgstr "規定"
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
-msgstr "このリストでは下記の規定に準拠します。（WindowsとLinuxの*Meta*キーは*Alt*キー、そしてMacは*Cmd*キー）:"
+msgstr "このリストでは下記の規定に準拠します（WindowsとLinuxの*Meta*キーは*Alt*キー、そしてMacは*Cmd*キー）:"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
 msgid ""
@@ -7928,11 +7927,11 @@ msgstr "`C-k` - カーソルから行の末尾まで全ての文字を消去す�
 
 #: 10.2-Shortcut-Cheatsheet.md:38
 msgid "`M-v` - Paste from paste buffer to editor"
-msgstr "`M-v` - エディターへ張り付け"
+msgstr "`M-v` - エディタへ張り付け"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
 msgid "`C-y` - Paste from paste buffer to editor"
-msgstr "`C-y` - エディターへ張り付け"
+msgstr "`C-y` - エディタへ張り付け"
 
 #: 10.2-Shortcut-Cheatsheet.md:40
 msgid ""
@@ -8146,8 +8145,8 @@ msgid ""
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
 "作品を共有するもう1つの重要な方法は、音を録音し[SoundCloud](https://soundcloud.com)にアップロードすることです。作品を"
-"アップロードしたら、他のユーザーがコメントしあなたの作品について話し合うことができます。また、トラックの詳細にあなたのコードの[Gist](https:/"
-"/gist.github.com) へリンクを貼ることをお勧めします。"
+"アップロードしたら、他のユーザがコメントしあなたの作品について話し合うことができます。また、トラックの詳細にあなたのコードの[Gist](https://"
+"gist.github.com) へリンクを貼ることをお勧めします。"
 
 #: 10.3-Sharing.md:35
 msgid ""
@@ -8370,11 +8369,11 @@ msgstr "チャットメッセージの表示"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
 msgid "Setting the position of the user"
-msgstr "ユーザーの位置設定"
+msgstr "ユーザの位置設定"
 
 #: 11.1-Basic-API.md:9
 msgid "Getting the position of the user"
-msgstr "ユーザーの位置情報の取得"
+msgstr "ユーザの位置情報の取得"
 
 #: 11.1-Basic-API.md:10
 msgid "Setting the block type at a given coordinate"
@@ -8905,8 +8904,8 @@ msgid ""
 msgstr ""
 "`sample`や`play`といったSonic Piの音作りの基本をマスターしたとして、次はどうしよう？ Sonic "
 "Piには、あなたのコードの音を変えることができる27を超えるスタジオ・エフェクトがあるのを知っていますか？ エフェクトは、ドローソフトの派手なイメージフィ"
-"ルターと同じようなものです。ただし、イメージフィルターがぼかしを入れたり、白黒にしたりするのに対し、エフェクトは音にリバーブやディストーション、エコーなど"
-"を追加します。それはちょうどギターからエフェクトペダルにケーブルを差して、さらにアンプに差すようなものと考えるとよいでしょう。幸いにも、Sonic "
+"ルタと同じようなものです。ただし、イメージフィルタがぼかしを入れたり、白黒にしたりするのに対し、エフェクトは音にリバーブやディストーション、エコーなどを追"
+"加します。それはちょうどギターからエフェクトペダルにケーブルを差して、さらにアンプに差すようなものと考えるとよいでしょう。幸いにも、Sonic "
 "Piではエフェクトが本当に簡単になっていて、ケーブルも必要としないのです！ "
 "あなたのやることは、エフェクトを追加したいコード領域を選択し、エフェクトのコードで包むだけです。たとえば、次のようなコードがあったとしましょう。"
 
@@ -9356,9 +9355,9 @@ msgid ""
 "p`."
 msgstr ""
 "このコードを実行しようとすると、`live_loop`が`sleep`していないとSonic Piがエラーを出すでしょう。これはセーフティシステムが実行さ"
-"れたことを示しています。このコードがコンピューターに何を実行させようとしているか、少し考えてみてください。そうです。無限の数のコーラスのサンプルを0秒の間"
-"に再生するように指示してるのですね。もしセーフティシステムが無ければ、コンピューターはこれを実行しようして壊れてしまうでしょう。そんな訳で、`live_l"
-"oop`には必ず`sleep`を含めることを覚えておいてください。"
+"れたことを示しています。このコードがコンピュータに何を実行させようとしているか、少し考えてみてください。そうです。無限の数のコーラスのサンプルを0秒の間に"
+"再生するように指示してるのですね。もしセーフティシステムが無ければ、コンピュータはこれを実行しようして壊れてしまうでしょう。そんな訳で、`live_loo"
+"p`には必ず`sleep`を含めることを覚えておいてください。"
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
@@ -9727,7 +9726,7 @@ msgid ""
 " of the sampler. By default this is disabled but you can easily turn it on:"
 msgstr ""
 "サンプルをライブループできるようになったので、`sample`で提供されている楽しいオプションを見ていきましょう。最初は、`cutoff:`です。これはサ"
-"ンプラーのカットオフ・フィルターを操作します。このオプションはデフォルトでは無効になっていますが、簡単に有効にできます。"
+"ンプラーのカットオフ・フィルタを操作します。このオプションはデフォルトでは無効になっていますが、簡単に有効にできます。"
 
 #: A.03-coded-beats.md:110
 #, no-wrap
@@ -10404,10 +10403,10 @@ msgid ""
 " some insane sounds. At a `res` this high, you're hearing the cutoff filter re"
 "sonate so much it starts to make sounds of its own!"
 msgstr ""
-"他に遊んでみる価値のあるオプションは、`res:`でしょう。これはフィルターのレゾナンスのレベルを制御しています。高いレゾナンスはアシッドベースサウンドの"
-"特徴です。上のコードで`res:`は`0.8`に設定されています。これを`0.85`に上げ、次に`0.9`に上げ、最後に`0.95`に上げてみましょう。`"
-"110`やそれより大きいカットオフで、より違いを聞き分けることができるかもしれません。最後に、狂ったサウンドを出すのに、思い切って`0.999`にしてみま"
-"しょう。`res`が高いと、カットオフフィルターがより共振し、独特のサウンドを出し始めるのを聞くことができるでしょう。"
+"他に遊んでみる価値のあるオプションは、`res:`でしょう。これはフィルタのレゾナンスのレベルを制御しています。高いレゾナンスはアシッドベースサウンドの特"
+"徴です。上のコードで`res:`は`0.8`に設定されています。これを`0.85`に上げ、次に`0.9`に上げ、最後に`0.95`に上げてみましょう。`1"
+"10`やそれより大きいカットオフで、より違いを聞き分けることができるかもしれません。最後に、狂ったサウンドを出すのに、思い切って`0.999`にしてみまし"
+"ょう。`res`が高いと、カットオフフィルタがより共振し、独特のサウンドを出し始めるのを聞くことができるでしょう。"
 
 #: A.05-acid-bass.md:100
 msgid ""
@@ -10459,8 +10458,8 @@ msgstr ""
 "最初はオシレーターです。これは音の原材料となるものです。この図では、矩形波を使っています。次にオシレーターのエンベロープがあります。これは矩形波の音量を時"
 "間に沿って制御しています。Sonic Piでは、`attack:`, `decay:`, `sustain:`, "
 "`release:`オプションで対応する音量レベルにアクセスできます。より詳細な情報は、チュートリアルの'2.4 エンベロープでのデュレーション'を参照し"
-"てください。エンベロープされた矩形波は、ローパスフィルターに渡しています。これは、高い周波数をカットするとともに、レゾナンスエフェクトを追加します。ここか"
-"らが面白くなるところです。このローパスフィルターのカットオフの値もまた、独自のエンベロープで制御されているのです！ "
+"てください。エンベロープされた矩形波は、ローパスフィルタに渡しています。これは、高い周波数をカットするとともに、レゾナンスエフェクトを追加します。ここから"
+"が面白くなるところです。このローパスフィルタのカットオフの値もまた、独自のエンベロープで制御されているのです！ "
 "これは、2つのエンベロープを弄ることで、サウンドの音色を驚異的に変化できることを意味しているのです。次のコードを見てみましょう。"
 
 #: A.05-acid-bass.md:128
@@ -11014,9 +11013,8 @@ msgid ""
 "ode - only it represents instructions to a musician instead of a computer. We "
 "therefore need to figure out a way of decoding it."
 msgstr ""
-"もしあなたが楽譜について学んでいなかったら、これは全く読めないでしょう。しかし、プログラマーとして楽譜を見ると、それはプログラミングコードの別な形式と捉え"
-"ることができます。つまり楽譜は、コンピューターの代わりに演奏者に対する指示を表していると言えます。したがって我々は楽譜を解読する方法を理解する必要がありま"
-"す。"
+"もしあなたが楽譜について学んでいなかったら、これは全く読めないでしょう。しかし、プログラマとして楽譜を見ると、それはプログラミングコードの別な形式と捉える"
+"ことができます。つまり楽譜は、コンピュータの代わりに演奏者に対する指示を表していると言えます。したがって我々は楽譜を解読する方法を理解する必要があります。"
 
 #: A.07-bizet.md:36
 msgid "Notes"
@@ -11456,9 +11454,9 @@ msgid ""
 " We chose the same x coordinate, a y coordinate 20 blocks higher and then succ"
 "essively larger z coordinates so the sand dropped in a line away from Steve."
 msgstr ""
-"では上のコードで何が起きているか手短に見ていきましょう。1行目では、`mc_location` 関数を使って、プレイヤーの位置を座標として取得し、`x`"
-", `y`, `z`に設定しています。次の数行では、mc_set_block`関数を使って、プレイヤーの座標から少し変更を加えたところに砂を置いています。"
-"x座標は同じで、y座標は20ブロック高く、z座標は順に大きくして、プレイヤーからまっすぐ離れるように砂を落としています。"
+"では上のコードで何が起きているか手短に見ていきましょう。1行目では、`mc_location`関数を使って、プレイヤーの位置を座標として取得し、`x`, "
+"`y`, `z`に設定しています。次の数行では、`mc_set_block`関数を使って、プレイヤーの座標から少し変更を加えたところに砂を置いています。x"
+"座標は同じで、y座標は20ブロック高く、z座標は順に大きくして、プレイヤーからまっすぐ離れるように砂を落としています。"
 
 #: A.08-minecraft-vj.md:87
 msgid ""
@@ -11524,7 +11522,7 @@ msgstr "`zd` - z座標の差で、同じく-10と10の間の値を取ります"
 
 #: A.08-minecraft-vj.md:115
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
-msgstr "`co` - ローパスフィルターのカットオフの値で、70と130の間の値を取ります"
+msgstr "`co` - ローパスフィルタのカットオフの値で、70と130の間の値を取ります"
 
 #: A.08-minecraft-vj.md:117
 msgid ""
@@ -11563,7 +11561,6 @@ msgstr ""
 "vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:133
-#, fuzzy
 msgid ""
 "Finally, another great way of generating interesting visuals is to generate hu"
 "ge patterned walls to fly towards and close by. For this effect we'll need to "
@@ -11576,14 +11573,12 @@ msgid ""
 "coordinates for a square. We can then randomly choose block types from a ring "
 "of blocks for an interesting effect:"
 msgstr ""
-"Finally, another great way of generating interesting visuals is to generate "
-"huge patterned walls to fly towards and close by. "
-"この効果のためには、ブロックをランダムに配置することから、規則的に配置することに移る必要があります。 "
-"これを行うには、2つのイテレーション（反復）を入れ子にします（イテレーションの詳細については、ヘルプボタンをクリックして、チュートリアルのセクション5."
-"2\"イテレーション（反復）とループ\"に移動してください）。doの後の面白い `| xd "
-"|`は、イテレーションの各値に対して`xd`が設定されることを意味します。 したがって、最初は0, 1, 2…などとなります。このように2回のイテレーショ"
-"ンを入れ子にすることで、すべての座標を正方形に生成することができます。また、ブロックのリングからブロックタイプをランダムに選択して、面白い効果を得ることも"
-"できます。"
+"最後に、興味深いビジュアルを生成するためのもう1つの素晴らしい方法は、巨大な模様付きの壁を生成して、そこを行き来することです。この効果のためには、ブロック"
+"をランダムに配置することから、規則的に配置することに移る必要があります。これを行うには、2つのイテレーション（反復）を入れ子にします（イテレーションの詳細"
+"については、ヘルプボタンをクリックして、チュートリアルのセクション5.2\"イテレーション（反復）とループ\"に移動してください）。doの後の面白い `|"
+" xd |`は、イテレーションの各値に対して`xd`が設定されることを意味します。 したがって、最初は0, 1, 2…などとなります。このように2回のイテ"
+"レーションを入れ子にすることで、すべての座標を正方形に生成することができます。また、ブロックのリングからブロックタイプをランダムに選択して、興味深い効果を"
+"得ることもできます。"
 
 #: A.08-minecraft-vj.md:145
 #, no-wrap
@@ -11626,9 +11621,9 @@ msgid ""
 "e lights and put on a VJ show for your friends!"
 msgstr ""
 "では、VJの最後に2つの`10.times`を`100.times`に変更して`Run`を叩いてみましょう。Kaboom! "
-"ランダムに配置されたレンガの巨大な巨大な壁。 あなたがマウスで手動で構築するのにどれくらいの時間がかかるか想像してみてください！ スペースをダブルタップし"
-"て飛行モードに入り、素晴らしいビジュアルエフェクトを得るために降下してみましょう。しかしここで止まらないでください。あなたの想像力を使ってクールなアイデア"
-"を思いついたら、Sonic Piのコーディングの力でそれを形にしましょう。十分に練習したら、明かりを暗くし、友達のためにVJショーを始めましょう！"
+"ランダムに配置されたレンガの巨大な巨大な壁。あなたがマウスで手動で構築するのにどれくらいの時間がかかるか想像してみてください！ スペースをダブルタップして"
+"飛行モードに入り、素晴らしいビジュアルエフェクトを得るために降下してみましょう。しかしここで止まらないでください。あなたの想像力を使ってクールなアイデアを"
+"思いついたら、Sonic Piのコーディングの力でそれを形にしましょう。十分に練習したら、明かりを暗くし、友達のためにVJショーを始めましょう！"
 
 #: A.09-randomisation.md:1
 msgid "A.9 Randomisation"
@@ -13589,7 +13584,7 @@ msgstr ""
 
 #: A.16-practice.md:1
 msgid "A.16 How to Practice Live Coding"
-msgstr "A. 16 ライブコーディングの練習方法"
+msgstr "A.16 ライブコーディングの練習方法"
 
 #: A.16-practice.md:3
 msgid "8 Tips for Live Coding Practice"
