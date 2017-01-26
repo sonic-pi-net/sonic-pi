@@ -1190,9 +1190,36 @@
     tremolo-wave-mul    (* ctl-wave-i depth)
     [wet-l wet-r]       [(- dry-l (* dry-l tremolo-wave-mul)) (- dry-r (* dry-r tremolo-wave-mul))]])
 
-)
+
+ (core/def-fx sonic-pi-fx_sound_out_stereo
+   [output 0
+    mode 0]
+   [
+    mono (/ (sum [dry-l dry-r]) 2)
+    src (select:ar mode [[dry-l dry-r]
+                         [dry-r dry-l]
+                         [mono mono] ])
+    _ (out output src)
+    [wet-l wet-r] [dry-l dry-r]
+    ])
+
+ (core/def-fx sonic-pi-fx_sound_out
+   [output 0
+    mode 0]
+   [
+    mono (/ (sum [dry-l dry-r]) 2)
+    src (select:ar mode [dry-l
+                         dry-r
+                         [mono mono] ])
+    _ (out output src)
+    [wet-l wet-r] [dry-l dry-r]
+    ])
+
+ )
 
 (comment
+  (core/save-synthdef sonic-pi-fx_sound_out)
+  (core/save-synthdef sonic-pi-fx_sound_out_stereo)
   (core/save-synthdef sonic-pi-fx_record)
   (core/save-synthdef sonic-pi-fx_eq)
    (core/save-synthdef sonic-pi-fx_echo)

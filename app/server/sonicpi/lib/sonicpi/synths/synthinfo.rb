@@ -11,10 +11,12 @@
 # notice is included.
 #++
 require_relative "../version"
+require_relative "../util"
 
 module SonicPi
   module Synths
     class BaseInfo
+      include Util
       attr_reader :scsynth_name, :info
 
       def initialize
@@ -4024,6 +4026,60 @@ Steal This Sound,  Mitchell Sigman"
                     })
       end
     end
+
+    class FXSoundOut < FXInfo
+      def name
+        "Sound Out"
+      end
+
+      def introduced
+        Version.new(2,12,0)
+      end
+
+      def synth_name
+        "fx_sound_out"
+      end
+
+      def trigger_with_logical_clock?
+        true
+      end
+
+      def doc
+        "Outputs a mono signal to a soundcard output of your choice."
+      end
+
+      def kill_delay(args_h)
+        0
+      end
+    end
+
+    class FXSoundOutStereo < FXInfo
+      def name
+        "Sound Out Stereo"
+      end
+
+      def introduced
+        Version.new(2,12,0)
+      end
+
+      def synth_name
+        "fx_sound_out_stereo"
+      end
+
+      def trigger_with_logical_clock?
+        true
+      end
+
+      def doc
+        "Outputs a two-channel stereo signal to a soundcard output of your choice."
+      end
+
+      def kill_delay(args_h)
+        0
+      end
+    end
+
+
     class FXEQ < FXInfo
 
       def name
@@ -7403,7 +7459,9 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_flanger => FXFlanger.new,
         :fx_eq => FXEQ.new,
         :fx_tremolo => FXTremolo.new,
-
+        :fx_record => FXRecord.new,
+        :fx_sound_out => FXSoundOut.new,
+        :fx_sound_out_stereo => FXSoundOutStereo.new
       }
 
       def self.get_info(synth_name)
