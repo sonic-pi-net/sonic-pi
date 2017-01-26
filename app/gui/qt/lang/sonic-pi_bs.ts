@@ -107,13 +107,13 @@ put kad pritisnete dugme pokreni.</translation>
         <location filename="../mainwindow.cpp" line="1774"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished">Uključujem Mixer HPF...</translation>
+        <translation>Uključujem HPF Mixer...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1783"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished">Isključujem Mixer HPF...</translation>
+        <translation>Isključujem HPF Mixer...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="512"/>
@@ -174,7 +174,7 @@ rad s vanjskim PA sistemom kad se izvršava kroz Sonic Pi.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Uključi provjeru opcija za sintove.
+        <translation>Uključi provjeru opcija za sintove.
 Ako je iskljčeno, neke opcije mogu
 izazvati glasan i neugodan zvuk.</translation>
     </message>
@@ -236,7 +236,7 @@ izazvati glasan i neugodan zvuk.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1082"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Primoraj mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1086"/>
@@ -272,7 +272,7 @@ Koristiti ovu dugmad kako bi izabrali željeni izlaz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1119"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Sintovi i FX</translation>
+        <translation>Sintovi i FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1120"/>
@@ -302,7 +302,7 @@ Ali neće biti vidljivi u zapisima.</translation>
         <location filename="../mainwindow.cpp" line="1132"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Uključi automatsko praćenje zapisa.
+        <translation>Uključi automatsko praćenje zapisa.
 Ako je uključeno prikaz zapisa će uvijek prikazivati najnoviju poruku.</translation>
     </message>
     <message>
@@ -319,12 +319,17 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kada je uključeno, Sonic Pi će dozvoliti
+da se aktiviraju sintovi i FX učitani preko
+load_synthdefs.
+
+Kada je isključeno, Sonic Pi će se pobuniti
+ako pokušate koristiti nepoznate sintove ili FX.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1142"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Primoraj provjeru tajminga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
@@ -335,7 +340,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kada je uključeno, Sonic Pi neće
+aktivirati sintove i FX ako
+je prekasno da to uradi
+
+Kada je isključeno, Sonic Pi će uvijek
+pokušati da aktivira sintove i FX
+čak i ako kasni.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1160"/>
@@ -493,7 +504,7 @@ Izvinjavamo se, došlo je do greške prilikom pokretanja aplikacije</translation
         <location filename="../mainwindow.cpp" line="1577"/>
         <location filename="../mainwindow.cpp" line="1580"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Učitaj datoteke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1563"/>
@@ -521,7 +532,7 @@ Izvinjavamo se, došlo je do greške prilikom pokretanja aplikacije</translation
     <message>
         <location filename="../mainwindow.cpp" line="1985"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished">Uključeno automatsko praćenje zapisa...</translation>
+        <translation>Uključeno automatsko praćenje zapisa...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1987"/>
@@ -576,22 +587,22 @@ Izvinjavamo se, došlo je do greške prilikom pokretanja aplikacije</translation
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">Automatski prati zapise</translation>
+        <translation>Automatski prati zapise</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Show and Hide Scope</source>
-        <translation>Prikaži i sakrij opseg</translation>
+        <translation>Prikaži i sakrij osciloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrste osciloskopa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1298"/>
         <source>Show Scopes</source>
-        <translation>Prikaži opsege</translation>
+        <translation>Prikaži osciloskope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1299"/>
