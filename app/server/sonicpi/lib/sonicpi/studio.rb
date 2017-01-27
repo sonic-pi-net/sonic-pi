@@ -231,9 +231,10 @@ module SonicPi
     end
 
 
-    def trigger_synth(synth_name, group, args, info, now=false, t_minus_delta=false )
+    def trigger_synth(synth_name, group, args, info, now=false, t_minus_delta=false, pos=:tail )
       check_for_server_rebooting!(:trigger_synth)
-      @server.trigger_synth(:head, group, synth_name, args, info, now, t_minus_delta)
+
+      @server.trigger_synth(pos, group, synth_name, args, info, now, t_minus_delta)
     end
 
     def set_volume(vol, now=false, silent=false)

@@ -1972,7 +1972,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
         new_tracker = SynthTracker.new
         orig_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
-        orig_fx_group = __system_thread_locals.get(:sonic_pi_mod_sound_fx_group)
 
         external_fx_t = Thread.current
         fx_t_ = Promise.new
@@ -1985,6 +1984,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         # These will be assigned later...
         new_bus = nil
         fx_group = nil
+        fx_synth_group = nil
         block_res = nil
         block_exception = nil
         start_subthreads = nil
@@ -2013,7 +2013,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
             # Create new group for this FX - this is to enable the FX to be triggered at logical time
             # whilst ensuring it is in the correct position in the scsynth node tree.
-            fx_group = @mod_sound_studio.new_group(:head, current_fx_main_group, "Run-#{current_job_id}-#{fx_name}")
+            fx_group = @mod_sound_studio.new_group(:tail, current_fx_group, "Run-#{current_job_id}-#{fx_name}")
+            fx_synth_group = @mod_sound_studio.new_group(:head, fx_group, "Run-#{current_job_id}-#{fx_name}-synths")
 
             ## Create a 'GC' thread to safely handle completion of the FX
             ## block (or the case that the thread dies) and to clean up
@@ -2112,9 +2113,9 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
         orig_subthreads = __system_thread_locals.get(:sonic_pi_local_spider_subthreads).to_a.clone
         orig_out_bus = current_out_bus
-        orig_fx_group = __system_thread_locals.get :sonic_pi_mod_sound_fx_group
+        orig_fx_group = current_fx_group
 
-        __system_thread_locals.set(:sonic_pi_mod_sound_fx_group, fx_group)
+        __system_thread_locals.set(:sonic_pi_mod_sound_fx_group, fx_synth_group)
         __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
         __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, new_tracker)
 
@@ -4293,12 +4294,12 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         args_h = normalise_and_resolve_synth_args(args_h, info, false)
         add_arg_slide_times!(args_h, info)
         out_bus = current_out_bus
-        n = trigger_synth(synth_name, args_h, group, info, now, out_bus, t_minus_delta)
+        n = trigger_synth(synth_name, args_h, group, info, now, out_bus, t_minus_delta, :tail)
         FXNode.new(n, in_bus, out_bus)
       end
 
       # Function that actually triggers synths now that all args are resolved
-      def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false)
+      def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false, pos=:tail)
 
         add_out_bus_and_rand_buf!(args_h, out_bus, info)
         orig_synth_name = synth_name
@@ -4316,7 +4317,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           info.on_start(@mod_sound_studio, args_h) if info
           p = Promise.new
-          s = @mod_sound_studio.trigger_synth synth_name, group, args_h, info, now, t_minus_delta
+          s = @mod_sound_studio.trigger_synth synth_name, group, args_h, info, now, t_minus_delta, pos
 
           fx_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
           tl_tracker = __current_tracker
@@ -4519,6 +4520,24 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         end
       end
 
+      def job_fx_group(job_id)
+        g = @JOB_FX_GROUPS_A.deref[job_id]
+
+        return g if g
+
+        @JOB_FX_GROUP_MUTEX.synchronize do
+          g = @JOB_FX_GROUPS_A.deref[job_id]
+          return g if g
+          g = @mod_sound_studio.new_fx_group(job_id)
+
+          @JOB_FX_GROUPS_A.swap! do |gs|
+            gs.put job_id, g
+          end
+        end
+        g
+      end
+
+
       def current_fx_group
         __system_thread_locals.get(:sonic_pi_mod_sound_fx_group) || current_fx_main_group
       end
@@ -4532,6 +4551,24 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           return g
         end
       end
+
+      def job_synth_group(job_id)
+        g = @JOB_GROUPS_A.deref[job_id]
+        return g if g
+
+        @JOB_GROUP_MUTEX.synchronize do
+          g = @JOB_GROUPS_A.deref[job_id]
+          return g if g
+          g = @mod_sound_studio.new_synth_group(job_id)
+
+          @JOB_GROUPS_A.swap! do |gs|
+            gs.put job_id, g
+          end
+        end
+        g
+      end
+
+
 
       def current_out_bus
         current_bus = __system_thread_locals.get(:sonic_pi_mod_sound_synth_out_bus)
@@ -4592,7 +4629,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           group = @mod_sound_studio.mixer_group
 
-          n = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, true
+          n = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, true, false, :head
 
           mix_n = ChainNode.new(n)
 
@@ -4604,40 +4641,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         end
       end
 
-
-      def job_synth_group(job_id)
-        g = @JOB_GROUPS_A.deref[job_id]
-        return g if g
-
-        @JOB_GROUP_MUTEX.synchronize do
-          g = @JOB_GROUPS_A.deref[job_id]
-          return g if g
-          g = @mod_sound_studio.new_synth_group(job_id)
-
-          @JOB_GROUPS_A.swap! do |gs|
-            gs.put job_id, g
-          end
-        end
-        g
-      end
-
-      def job_fx_group(job_id)
-        g = @JOB_FX_GROUPS_A.deref[job_id]
-
-
-        return g if g
-
-        @JOB_FX_GROUP_MUTEX.synchronize do
-          g = @JOB_FX_GROUPS_A.deref[job_id]
-          return g if g
-          g = @mod_sound_studio.new_fx_group(job_id)
-
-          @JOB_FX_GROUPS_A.swap! do |gs|
-            gs.put job_id, g
-          end
-        end
-        g
-      end
 
       def free_job_bus(job_id)
         old_job_busses = @JOB_BUSSES_A.swap_returning_old! do |js|
