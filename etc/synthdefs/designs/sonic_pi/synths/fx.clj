@@ -1137,18 +1137,10 @@
 
  (core/def-fx sonic-pi-fx_record
    [buffer      0]
-   [start       0
-    finish      (buf-frames:kr buffer)
-    ph          (line start finish (buf-dur buffer))
-    finish-gate (< (a2k ph) (a2k finish))
-    finish-env  (env-gen:kr (adsr 0 0 1 0.05) finish-gate :action FREE)
-    dry-l       (* finish-env dry-l)
-    dry-r       (* finish-env dry-r)
-    _           (buf-wr:ar [dry-l dry-r] buffer ph 0)
+   [_           (record-buf:ar [dry-l dry-r] buffer :loop 0)
     wet-l       dry-l
     wet-r       dry-r]
    )
-
 
  (core/def-fx sonic-pi-fx_tremolo
    [phase 4
