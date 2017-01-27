@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-25 09:59+0000\n"
+"PO-Revision-Date: 2017-01-27 09:45+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -459,8 +459,8 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"コードを走らせた時、ログ画面にはプログラムがどうなっているかについての情報が表示されます。既定では、正確な再生時間を毎音ごとにメッセージとして見ることがで"
-"きます。コードのデバッグ（欠陥を取り除く作業）に利用でき、コードが何をしているかを理解することにも役立ちます。"
+"コードを走らせた時、ログ画面にはプログラムがどうなっているかについての情報が表示されます。デフォルトでは、正確な再生時間を毎音ごとにメッセージとして見るこ"
+"とができます。コードのデバッグ（欠陥を取り除く作業）に利用でき、コードが何をしているかを理解することにも役立ちます。"
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
@@ -1954,8 +1954,8 @@ msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
-"アンビエント・サウンドのひとつ、`:ambi_choir`で演奏してみましょう。デフォルト（既定値）のレートで演奏するには、`sample`に`rate:"
-"` のオプションを渡します。"
+"アンビエント・サウンドのひとつ、`:ambi_choir`で演奏してみましょう。デフォルトのレートで演奏するには、`sample`に`rate:` "
+"のオプションを渡します。"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
@@ -1967,8 +1967,7 @@ msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
-"これはデフォルト（既定値）のレート（速度）1で演奏するので、まだ何も変わったところはありません。ですが、数値を何か他の値に変えてもよいのです。`0.5`は"
-"どうでしょう。"
+"これはデフォルトのレート（1）で演奏するので、まだ何も変わったところはありません。ですが、数値を何か他の値に変えてもよいのです。`0.5`はどうでしょう。"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
@@ -3376,8 +3375,8 @@ msgid ""
 "ecify (exclusive). By default it will return a value between 0 and one. It's t"
 "herefore useful for choosing random `amp:` values:"
 msgstr ""
-"`rand`は、`0`を含む最小値と、引数として指定した最大値未満の間のランダムな浮動小数点数を返します。デフォルト（既定値）では`0`と`1`の間の値を"
-"返します。このため、`amp:`値をランダム化する際に便利です。"
+"`rand`は、`0`を含む最小値と、引数として指定した最大値未満の間のランダムな浮動小数点数を返します。デフォルトでは`0`と`1`の間の値を返します。"
+"このため、`amp:`値をランダム化する際に便利です。"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -9097,7 +9096,7 @@ msgstr ""
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
-msgstr "5. ランダムの流れに乗る"
+msgstr "5. ランダムストリームに乗る"
 
 #: A.01-tips.md:136
 msgid ""
@@ -9143,7 +9142,7 @@ msgstr ""
 "ここで、上記のコードを実行すると、`:e2 :minor_pentatonic`のスケールから選ばれた音符の絶え間ないランダムな流れが、`:dsaw`のシ"
 "ンセで再生されるのを聞くことができるでしょう。「待って、待って！ "
 "これはメロディーじゃない」とあなたが叫んでいるのが想像できます。落ち着いてください。これはマジックのトリックの前半部分です。Sonic "
-"Piでは、`live_loop`を繰り返す度に、特定の位置にランダムの流れをリセットするように指示することができます。それは、「Dr. "
+"Piでは、`live_loop`を繰り返す度に、特定の位置にランダムストリームをリセットするように指示することができます。それは、「Dr. "
 "Who」に登場するタイムマシンのTARDISが、特定の時間と場所に辿り着くのとちょっと似ています。ではやってみましょう。`live_loop`に`"
 "use_random_seed 1`の行を追加してみてください。"
 
@@ -9179,8 +9178,8 @@ msgid ""
 "e random seed), you can explore as many melodic combinations as you can imagin"
 "e! Now, that's the magic of code."
 msgstr ""
-"これで、`live_loop`がループする度に、ランダムの流れがリセットされるようになりました。これは、ループの度に同じ16の音符が選択されていることを意"
-"味しています。あら不思議！ "
+"これで、`live_loop`がループする度に、ランダムストリームがリセットされるようになりました。これは、ループの度に同じ16の音符が選択されていること"
+"を意味しています。あら不思議！ "
 "手軽なメロディーでしょう。ここからが本当に面白くなるところです。シードの値を`1`から別な数値、たとえば`4923`に変更してみましょう。ワオ！ "
 "別なメロディーになったでしょう！ 1つの数字（ここではシード）を変更するだけで、あなたの想像する限り多くのメロディーの組合せを試すことができるのです！ "
 "これがコードのマジックなのです。"
@@ -11627,11 +11626,11 @@ msgstr ""
 
 #: A.09-randomisation.md:1
 msgid "A.9 Randomisation"
-msgstr ""
+msgstr "A.9 ランダム化"
 
 #: A.09-randomisation.md:3
 msgid "Surfing Random Streams"
-msgstr ""
+msgstr "ランダムストリームに乗る"
 
 #: A.09-randomisation.md:5
 msgid ""
@@ -11641,10 +11640,13 @@ msgid ""
 "over the fundamentals in much greater detail. So, get your lucky hat on and le"
 "t's surf some random streams!"
 msgstr ""
+"このチュートリアルの第4話では、いくつかのシンセ・リフをコーディングしながら、ランダム化を簡単に見ました。ランダム化は私のライブコーディングDJセットの重"
+"要な部分であることを考えると、その基礎をより詳細に取り上げることが有用であると考えました。では、幸運の帽子を被って、ランダムストリームをサーフィンしましょ"
+"う！"
 
 #: A.09-randomisation.md:11
 msgid "There is no random"
-msgstr "ランダムではない"
+msgstr "ランダムは存在しない"
 
 #: A.09-randomisation.md:13
 msgid ""
@@ -11656,6 +11658,11 @@ msgid ""
 "have another go, but let's ask Sonic Pi to choose a number this time. Fire up "
 "Sonic Pi v2.7+ and ask it for a random number but again don't tell me:"
 msgstr ""
+"これはあなたを本当に驚かせるかもしれませんが、Sonic "
+"Piのランダム化関数で遊ぶときに最初に学ぶことは、これらの関数が実際にはランダムではないということです。これは実際にはどういう意味でしょう？ では、いくつ"
+"かのテストを試してみましょう。まず、0と1の間の数字をあなたの頭の中で想像してください。そのまま私に教えないでください。私が当ててみましょう…それは`0."
+"321567`ですか？ 違いましたか？ ブー、当然ながら私はこれを上手く当てることができません。ではもう一度やりましょう。今度はSonic "
+"Piに番号を選んでもらいましょう。v2.7以降のSonic Piを起動して、乱数を要求してみてください。そして先程と同じように私には教えないでください："
 
 #: A.09-randomisation.md:22
 #, no-wrap
@@ -11669,6 +11676,9 @@ msgid ""
 " Run button again and see what we get... What? `0.75006103515625` again? This "
 "clearly can't be random! You're right, it's not."
 msgstr ""
+"では当ててみましょう… それは`0.75006103515625`ですか？ 合ってましたか！ でも、あなたが少し疑っているのが分かります。それは多分ただの"
+"まぐれ当たりでしょう。もう1度やってみましょう。もう1度実行ボタンを押して、出たものを見て...何？ `0.75006103515625`？ "
+"これは明らかにランダムではありません！ あなたは正しい、ランダムではない。"
 
 #: A.09-randomisation.md:32
 msgid ""
@@ -11680,10 +11690,16 @@ msgid ""
 " to rely on the deterministic nature of Sonic Pi's randomisation as a fundamen"
 "tal building block for your compositions and live coded DJ sets."
 msgstr ""
+"ここでは何が起きてるでしょうか？ "
+"ここで登場するコンピュータ科学の用語は決定論です。これは、偶然によるものは何も無く、すべてが運命づけられていることを意味します。"
+"あなたのバージョンのSonic Piは、上記のプログラムで常に "
+"`0.75006103515625`を返すようになっています。これはかなり役に立たないかもしれませんが、Sonic Piの最も強力な部分の1つであることを"
+"断言させてください。もしあなたがそれを追求すれば、作曲やライブコーディングDJセットの基本的なビルディング・ブロックとして、Sonic "
+"Piのランダム化の決定論的な性質に依存する方法を学ぶことになるでしょう。"
 
 #: A.09-randomisation.md:41
 msgid "A Random Melody"
-msgstr "A ランダムメロディ"
+msgstr "ランダムメロディ"
 
 #: A.09-randomisation.md:43
 msgid ""
@@ -11697,6 +11713,11 @@ msgid ""
 "rybody's version of Sonic Pi uses the exact same random stream which is very i"
 "mportant when we start sharing our pieces with each other."
 msgstr ""
+"Sonic Piが起動すると、441,000の事前に生成された乱数のシーケンスが実際にメモリにロードされます。`rand`や` rrand`のようなランダ"
+"ム関数を呼び出すと、このランダムストリームが関数の結果を生成するために使われます。ランダム関数の呼び出しする度に、このストリームから値を消費します。したが"
+"って、ランダム関数への10回目の呼び出しはストリームからの10番目の値を使用します。また、Runボタンを押すたびに、その実行のためにストリームがリセットさ"
+"れます。これが、私が`rand`の結果を予測できたり、'random'なメロディーがいつも同じである理由です。皆さんのSonic "
+"Piは、まったく同じランダムストリームを使用しています。これは、私たちの作品をお互いに共有するときに非常に重要です。"
 
 #: A.09-randomisation.md:54
 msgid "Let's use this knowledge to generate a repeatable random melody:"
