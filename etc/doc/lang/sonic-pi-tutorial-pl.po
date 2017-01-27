@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-26 06:29+0000\n"
+"PO-Revision-Date: 2017-01-27 06:17+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -12560,6 +12560,13 @@ msgid ""
 "which means they last for an 8th of a beat. The rest has two squiggly beams wh"
 "ich means it also represents a 16th of the beat."
 msgstr ""
+"Na koniec, jest jeszcze jedna rzecz do zrozumienia przy rozszyfrowywaniu nut "
+"- czasy trwania nut. Zauważ, że w oryginalnej notacji niektóre nuty są "
+"połączone grubymi liniami, które nazywamy belkami. Druga nuta posiada dwie "
+"takie belki, co oznacza, że przerwa trwa jedną szesnastą uderzenia (bitu). "
+"Inne nuty posiadają pojedyncze belki - oznacza to że trwają one przez jedną "
+"ósmą uderzenia. Pozostałe nuty posiadają dwie falowane belki co oznacza, że "
+"one również reprezentują jedną szesnastą uderzenia."
 
 #: A.07-bizet.md:77
 msgid ""
@@ -12568,20 +12575,29 @@ msgid ""
 "s. For example, when we re-write our notation purely in 16ths you can see that"
 " our notation just turns into a nice sequence of notes and rests."
 msgstr ""
+"Kiedy próbujemy rozszyfrować i odkrywać nowe rzeczy bardzo przydatną "
+"sztuczką jest robienie wszystkiego tak bardzo analogicznie jak to jest tylko "
+"możliwe, aby móc spróbować i wybadać ew. relacje lub wzorce. Na przykład, "
+"kiedy przepisujemy szesnastki możesz zobaczyć, że nasza notacja zostaje "
+"zmieniona w prostą sekwencję nut i przerw."
 
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 msgstr ""
+"![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
-msgstr ""
+msgstr "Zamiana Habanery na kod"
 
 #: A.07-bizet.md:87
 msgid ""
 "We're now in a position to start translating this bass line to Sonic Pi. Let's"
 " encode these notes and rests in a ring:"
 msgstr ""
+"Jesteśmy teraz w stanie zacząć tłumaczyć tę linię basową na kod zrozumiały "
+"dla Sonic Pi. Spróbujmy rozszyfrować te noty i przerwy używając do tego celu "
+"pierścienia:"
 
 #: A.07-bizet.md:90
 #, no-wrap
@@ -12591,6 +12607,8 @@ msgstr "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 #: A.07-bizet.md:94
 msgid "Let's see what this sounds like. Throw it in a live loop and tick through it:"
 msgstr ""
+"Zobaczmy jak to brzmi. Wrzuć ten kawałek kodu do żywej pętli i zacznij przez "
+"niego tykać:"
 
 #: A.07-bizet.md:97
 #, no-wrap
@@ -12610,10 +12628,13 @@ msgid ""
 "Fabulous, that instantly recognisable riff springs to life through your speake"
 "rs. It took a lot of effort to get here, but it was worth it - high five!"
 msgstr ""
+"Fantastycznie, ten natychmiastowo rozpoznawalny riff został przywrócony do "
+"życia w twoich głośnikach. Dotarcie tutaj kosztowało wiele wysiłku, ale "
+"opłaciło się - przybij piątkę!"
 
 #: A.07-bizet.md:108
 msgid "Moody Synths"
-msgstr ""
+msgstr "Nastrojowe Syntezatory"
 
 #: A.07-bizet.md:110
 msgid ""
@@ -12622,6 +12643,10 @@ msgid ""
 "d. Let's try it with the starting note `:d` passed through a slicer and reverb"
 ":"
 msgstr ""
+"Teraz, gdy już mamy linię basową, spróbujmy odtworzyć klimat sceny operowej. "
+"Jednym z syntezatorów do wypróbowania to`:blade`, który  jest jest wiodącym "
+"syntezatorem w stylu lat 80-tych. Spróbujmy go użyć z początkową nutą `:d` i "
+"przepuśćmy go przez efekty slicer i reverb:"
 
 #: A.07-bizet.md:115
 #, no-wrap
@@ -12663,6 +12688,10 @@ msgid ""
 "n again. Also, try different values for the slicer's `phase:` opt such as `0.5"
 "`, `0.75` and `1`."
 msgstr ""
+"A teraz spróbuj z innymi nutami z naszej linii basowej: `:a` i `:f5`. "
+"Pamiętaj, nie musisz naciskać stop, wystarczy, że zmodyfikujesz kod podczas "
+"gdy muzyka wciąż gra i naciśniesz przycisk Run. Spróbuj również ustawić inne "
+"wartości dla opcji `phase:` np. `0.5`, `0.75` czy `1`."
 
 #: A.07-bizet.md:140
 msgid ""
@@ -12673,6 +12702,13 @@ msgid ""
 "nd hit run again - how marvellous is that! Now, start mashing it around yourse"
 "lf and have fun."
 msgstr ""
+"Na koniec spróbujmy połączyć wszystkie pomysły tak aby stworzyć nowy remix "
+"Habanery. Możesz zauważyć, że dorzuciłem kolejną partię linii basowej jako "
+"komentarz. Gdy już wpiszesz to wszystko do świeżego buforu, naciśnij "
+"przycisk Run aby usłyszeć kompozycję. Teraz, bez naciskania przycisku Stop, "
+"*odkomentuj* drugą linię poprzez usunięcie znaku `#` i ponownie naciśnij Run "
+"- ależ to jest fenomenalne! A teraz zacznij kombinować z tym kodem "
+"samodzielnie i baw się dobrze."
 
 #: A.07-bizet.md:147
 #, no-wrap
@@ -12743,17 +12779,19 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:1
 msgid "A.8 Become a Minecraft VJ"
-msgstr ""
+msgstr "A.8 Zostań VJ'em Minecraft'a"
 
 #: A.08-minecraft-vj.md:3
 msgid "Become a Minecraft VJ"
-msgstr ""
+msgstr "Zostań VJ'em Minecraft'a"
 
 #: A.08-minecraft-vj.md:5
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
 ".png)"
 msgstr ""
+"![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-0-small.png)"
 
 #: A.08-minecraft-vj.md:7
 msgid ""
