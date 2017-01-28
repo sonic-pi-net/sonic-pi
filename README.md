@@ -20,7 +20,7 @@
 
 ## Live Coding Synth for Everyone.
 
-Sonic Pi is a *new musical instrument*. It allows to create music by writing code.
+Sonic Pi is a *livemusical instrument*, allowing to create music by writing code.
 
 Sonic Pi aims at finding a balance
 between three principles:
@@ -30,7 +30,7 @@ between three principles:
 * **Powerful** for you to find your own voice
 
 Sonic Pi is an open source environment
-designed to *teach programming concepts* in schools allowing to create *new sounds*. 
+designed to *teach programming concepts* in schools allowing to *compose electronic music*. 
 
 In addition to be an education resource it has evolved into 
 a *live coding instrument* suitable 
