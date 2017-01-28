@@ -27,7 +27,7 @@ between three principles:
 
 * **Simple** so that a 10 year old may have fun with it
 * **Joyful** for optimal flow experience
-* **Powerful** for you to find your unique voice
+* **Powerful** for you to find your own voice
 
 Sonic Pi is an open source environment
 designed to *teach programming concepts* in schools allowing kids to create *new sounds*. 
