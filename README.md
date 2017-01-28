@@ -33,7 +33,7 @@ Sonic Pi is an open source environment
 designed to *teach programming concepts* in schools allowing kids to create *new sounds*. 
 
 In addition to be an education resource it has evolved into 
-a *powerful* and performance-ready *live coding instrument* suitable 
+a *live coding instrument* suitable 
 for Algoravers (https://en.wikipedia.org/wiki/Algorave).
 
 Sonic Pi sits at the intersection
