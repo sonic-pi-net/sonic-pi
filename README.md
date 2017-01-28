@@ -23,7 +23,7 @@
 Sonic Pi is a *new musical instrument*. It allows you to create music by writing code.
 
 Sonic Pi aims at finding a balance
-between three core principles:
+between three principles:
 
 * **Simple** enough so that a 10 year old may have fun with it
 * **Joyful** enough for optimal flow
