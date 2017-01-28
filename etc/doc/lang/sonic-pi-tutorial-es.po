@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-04 02:42+0000\n"
-"Last-Translator: Black SheepX <snoop13@gmail.com>\n"
+"PO-Revision-Date: 2017-01-28 22:00+0000\n"
+"Last-Translator: Abdeselam El-Haman <aelhaman@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -779,9 +779,8 @@ msgstr ""
 "experimenta y encuentra por tí mismo."
 
 #: 02.1-Your-First-Beeps.md:61
-#, fuzzy
 msgid "Melody"
-msgstr "Melodia"
+msgstr "Melodía"
 
 #: 02.1-Your-First-Beeps.md:63
 msgid ""
@@ -1072,9 +1071,8 @@ msgstr ""
 "amplitudes bajas, por ejemplo en el rango de 0 to 0.5 para evitar compresión."
 
 #: 02.2-Synth-Params.md:79
-#, fuzzy
 msgid "Amp it up"
-msgstr "Amplifícalo!"
+msgstr "¡Amplifícalo!"
 
 #: 02.2-Synth-Params.md:81
 msgid ""
@@ -1082,7 +1080,7 @@ msgid ""
 "o play at half amplitude pass 0.5:"
 msgstr ""
 "Para cambiar la amplitud de un sonido, utiliza el opt `amp:`. Por ejemplo, "
-"para tocar a la mitad de la amplitud, 0.5:"
+"para tocar a la mitad de la amplitud cámbialo a 0.5:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
