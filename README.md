@@ -36,8 +36,8 @@ In addition to be an education resource it has evolved into
 a *powerful* and performance-ready *live coding instrument* suitable 
 for Algoravers (https://en.wikipedia.org/wiki/Algorave).
 
-Sonic Pi now sits at the intersection
-between three core domains:
+Sonic Pi sits at the intersection
+between three domains:
 
 * **Art** - providing means to self expression and and finding new ways of music and notation
 * **Technology** - exploring liveness, time and concurrency in programming languages
