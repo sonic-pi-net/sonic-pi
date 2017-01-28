@@ -60,7 +60,7 @@ Foundation, the Broadcom Foundation and pi-top.
 
 ## Translations
 
-Sonic Pi's application and tutorial was translated to several languages thanks to the work of several [volunteer translators](CONTRIBUTORS.md#translation):
+Sonic Pi was translated to several languages thanks to the work of several [volunteer translators](CONTRIBUTORS.md#translation):
 
 Status                                                                                                                                                       | Language            | Application        | Tutorial
 -----------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------ | :----------------: | :----------------: 
