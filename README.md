@@ -25,9 +25,9 @@ Sonic Pi is a *new musical instrument*. It allows you to create music by writing
 Sonic Pi aims at finding a balance
 between three principles:
 
-* **Simple** enough so that a 10 year old may have fun with it
-* **Joyful** enough for optimal flow
-* **Powerful** enough for you to find your unique voice
+* **Simple** so that a 10 year old may have fun with it
+* **Joyful** for optimal flow
+* **Powerful** for you to find your unique voice
 
 Sonic Pi is an open source environment
 designed to *teach programming concepts* in schools allowing kids to create *new sounds*. 
