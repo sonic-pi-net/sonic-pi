@@ -30,7 +30,7 @@ between three core principles:
 * **Powerful** enough for you to find your unique voice
 
 Sonic Pi is an open source environment
-designed to *teach programming concepts* in schools by allowing kids to create *new sounds*. 
+designed to *teach programming concepts* in schools allowing kids to create *new sounds*. 
 
 In addition to be an education resource it has evolved into 
 a *powerful* and performance-ready *live coding instrument* suitable 
