@@ -32,8 +32,7 @@ between three principles:
 Sonic Pi is an open source environment
 designed to *teach programming concepts* in schools allowing to *compose electronic music*. 
 
-In addition to be an education resource it has evolved into 
-a *live coding instrument* suitable 
+It is suitable as an education resource and a *live coding instrument* 
 for Algoravers (https://en.wikipedia.org/wiki/Algorave).
 
 Sonic Pi sits at the intersection
