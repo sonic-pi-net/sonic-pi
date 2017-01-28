@@ -34,7 +34,7 @@ designed to *teach programming concepts* in schools allowing kids to create *new
 
 In addition to be an education resource it has evolved into 
 a *powerful* and performance-ready *live coding instrument* suitable 
-for people in the Algorave scene (https://en.wikipedia.org/wiki/Algorave).
+for Algoravers (https://en.wikipedia.org/wiki/Algorave).
 
 Sonic Pi now sits at the intersection
 between three core domains:
