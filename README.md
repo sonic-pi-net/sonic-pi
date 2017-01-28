@@ -20,30 +20,28 @@
 
 ## The Live Coding Music Synth for Everyone.
 
-Sonic Pi is a *new kind of musical instrument*. Instead of strumming
-strings or whacking things with sticks - you write code - **live**.
+Sonic Pi is a *new musical instrument*. It allows you to create music by writing code.
 
-Sonic Pi has been designed with the aim to find a harmonious balance
+Sonic Pi aims at finding a harmonious balance
 between three core principles:
 
-* **Simple** enough for the 10 year old within you
-* **Joyful** enough for you to lose yourself through play
-* **Powerful** enough for your own expressions
+* **Simple** enough so that a 10 year old may have fun with it
+* **Joyful** enough for optimal flow
+* **Powerful** enough for you to find your unique voice
 
-Sonic Pi is a complete open source programming environment originally
-designed to explore and *teach programming concepts* within schools through 
-the process of creating *new sounds*. 
+Sonic Pi is an open source environment
+designed to *teach programming concepts* in schools by allowing kids to create *new sounds*. 
 
-In addition to being an engaging education resource it has evolved into 
-an *extremely powerful* and performance-ready *live coding instrument* suitable 
-for professional artists and DJs.
+In addition to be an education resource it has evolved into 
+a *powerful* and performance-ready *live coding instrument* suitable 
+for people in the Algorave scene (https://en.wikipedia.org/wiki/Algorave).
 
-Whilst Education is a core focus it now sits at the intersection
+Sonic Pi now sits at the intersection
 between three core domains:
 
-* **Art** - providing the means to express yourself and ask new questions of music and notation
-* **Technology** - exploring questions related to liveness, time and concurrency in programming languages
-* **Education**  - demonstrating that open play rather than rigid structures increases motivation and engagement in the classroom
+* **Art** - providing means to self expression and and finding new ways of music and notation
+* **Technology** - exploring liveness, time and concurrency in programming languages
+* **Education**  - demonstrating that open play increases motivation the classroom
 
 Again, finding a balance working to the best benefits of all these
 domains is the objective.
@@ -56,13 +54,13 @@ domains is the objective.
 
 ## Acknowledgements
 
-Sonic Pi has been developed within the Computer Laboratory at the
+Sonic Pi was developed in the Computer Laboratory at the
 University of Cambridge with kind support from the Raspberry Pi
 Foundation, the Broadcom Foundation and pi-top.
 
 ## Translations
 
-Sonic Pi's application and built in tutorial have been translated into several languages thanks to the awesome work of several [volunteer translators](CONTRIBUTORS.md#translation):
+Sonic Pi's application and tutorial was translated to several languages thanks to the work of several [volunteer translators](CONTRIBUTORS.md#translation):
 
 Status                                                                                                                                                       | Language            | Application        | Tutorial
 -----------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------ | :----------------: | :----------------: 
@@ -83,11 +81,11 @@ Status                                                                          
 [![Translation Status of Sonic Pi: zh_Hans](https://hosted.weblate.org/widgets/sonic-pi/zh_Hans/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Simplified Chinese  | :white_check_mark: | :red_circle:
 [![Translation Status of Sonic Pi: es](https://hosted.weblate.org/widgets/sonic-pi/es/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Spanish             | :white_check_mark: | :white_check_mark:
 
-Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
+Would you like to contribute with a translation? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
 
 ## Information for developers
 
-Sonic Pi is under active development, and welcomes new contributors:
+Sonic Pi is under development, and welcomes new contributors:
 
 * [How to contribute](HOW-TO-CONTRIBUTE.md)
 * [Change log](CHANGELOG.md)
