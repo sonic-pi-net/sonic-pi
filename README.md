@@ -26,7 +26,7 @@ Sonic Pi aims at finding a balance
 between three principles:
 
 * **Simple** so that a 10 year old may have fun with it
-* **Joyful** for optimal flow
+* **Joyful** for optimal flow experience
 * **Powerful** for you to find your unique voice
 
 Sonic Pi is an open source environment
