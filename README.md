@@ -30,7 +30,7 @@ between three principles:
 * **Powerful** for you to find your own voice
 
 Sonic Pi is an open source environment
-designed to *teach programming concepts* in schools allowing kids to create *new sounds*. 
+designed to *teach programming concepts* in schools allowing to create *new sounds*. 
 
 In addition to be an education resource it has evolved into 
 a *live coding instrument* suitable 
@@ -39,7 +39,7 @@ for Algoravers (https://en.wikipedia.org/wiki/Algorave).
 Sonic Pi sits at the intersection
 between three domains:
 
-* **Art** - providing means to self expression and and finding new ways of music and notation
+* **Art** - providing means to self expression and to find new ways of music and notation
 * **Technology** - exploring liveness, time and concurrency in programming languages
 * **Education**  - demonstrating that open play increases motivation the classroom
 
