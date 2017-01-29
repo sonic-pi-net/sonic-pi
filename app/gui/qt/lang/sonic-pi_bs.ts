@@ -37,8 +37,8 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Uključi mono režim.
-Ako je uključeno zvuk sa lijevog i desnog kanala će bit spojen u jedan i
-isti signal će biti poslan na oba zvučnika.
+Ako je uključeno, zvuk lijevog i desnog kanala će biti spojen u jedan, te
+će isti sojeni biti poslan na oba zvučnika.
 Ovo je korisno u stemima koji
 podržavaju samo mono zvuk.</translation>
     </message>
@@ -140,8 +140,8 @@ put kad pritisnete dugme pokreni.</translation>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished">Napredne postavke zvuka za
-rad s vanjskim PA sistemom kad se izvršava kroz Sonic Pi.</translation>
+        <translation>Napredne postavke zvuka za
+vanjska pojacala kad nastupate koristeći Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1168"/>
@@ -282,7 +282,7 @@ Koristiti ovu dugmad kako bi izabrali željeni izlaz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1122"/>
         <source>Log synths</source>
-        <translation type="unfinished">Zapiši sintove</translation>
+        <translation>Zapiši sintove</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1128"/>
@@ -294,9 +294,9 @@ Koristiti ovu dugmad kako bi izabrali željeni izlaz.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Uključi ili isključi zapisivanje redova.
+        <translation>Uključi ili isključi zapisivanje informacija o redovima.
 Ako je isključeno, redovi će se i dalje izvršavati.
-Ali neće biti vidljivi u zapisima.</translation>
+Međutim, oni neće biti vidljivi u zapisima.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"/>
@@ -329,7 +329,7 @@ ako pokušate koristiti nepoznate sintove ili FX.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1142"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Primoraj provjeru tajminga</translation>
+        <translation>Uključi garanciju vremena izvršavanja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
@@ -435,7 +435,7 @@ Ova provjera uključuje anonimno slanje informacija o platformi i verziji.</tran
     <message>
         <location filename="../mainwindow.cpp" line="1212"/>
         <source>Toggle visibility of the log.</source>
-        <translation>Uključi vidljivost zapisa.</translation>
+        <translation>Prikaži zapise.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
@@ -445,17 +445,17 @@ Ova provjera uključuje anonimno slanje informacija o platformi i verziji.</tran
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>Uključi vidljivost kontrolnih dugmadi.</translation>
+        <translation>Prikaži kontrolnu dugmad.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1217"/>
         <source>Show tabs</source>
-        <translation type="unfinished">Prikaži tabove</translation>
+        <translation>Prikaži tabove</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1219"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Prikaži vidljivost spremnika izabranih tabova.</translation>
+        <translation>Prikaži kontrole za biranje spremnika.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1220"/>
@@ -504,7 +504,7 @@ Izvinjavamo se, došlo je do greške prilikom pokretanja aplikacije</translation
         <location filename="../mainwindow.cpp" line="1577"/>
         <location filename="../mainwindow.cpp" line="1580"/>
         <source>Buffer files</source>
-        <translation type="unfinished">Učitaj datoteke</translation>
+        <translation>Učitaj datoteke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1563"/>
@@ -577,7 +577,7 @@ Izvinjavamo se, došlo je do greške prilikom pokretanja aplikacije</translation
     <message>
         <location filename="../mainwindow.cpp" line="2970"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished">Dobro došli nazad. Sada možete početi kodirati...</translation>
+        <translation>Dobro došli nazad. Sada možete početi kodirati...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1580"/>
@@ -622,12 +622,12 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">Zvučni osciloskop dolazi u tri opcije koje
+        <translation>Zvučni osciloskop dolazi u tri opcije koje
 se mogu koristiti zasebno ili zajedno:
 
 Lissajous - prikazuje faznu vezu lijevog i desnog kanala
 Mono - prikazuje kombinovani pregled lijevog i desnog kanala
-Stereo - prkazuje dva zasebna opsega za lijevi i desni kanal</translation>
+Stereo - prkazuje dva zasebna osciloskopa za lijevi i desni kanal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
@@ -663,7 +663,7 @@ Stereo - prkazuje dva zasebna opsega za lijevi i desni kanal</translation>
         <location filename="../mainwindow.cpp" line="1791"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished">Uključujem Mixer LPF...</translation>
+        <translation>Uključujem Mixer LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1800"/>
@@ -675,7 +675,7 @@ Stereo - prkazuje dva zasebna opsega za lijevi i desni kanal</translation>
         <location filename="../mainwindow.cpp" line="1808"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished">Uključujem invertovani stereo...</translation>
+        <translation>Uključujem invertovani stereo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1816"/>
@@ -703,7 +703,7 @@ Stereo - prkazuje dva zasebna opsega za lijevi i desni kanal</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished">Ažuriram jačinu sistemskog zvuka...</translation>
+        <translation>Ažuriram jačinu sistemskog zvuka...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2190"/>
