@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-14 13:23+0000\n"
-"Last-Translator: Tiago Morais Morgado <eremitatm88@gmail.com>\n"
+"PO-Revision-Date: 2017-01-29 18:46+0000\n"
+"Last-Translator: Pedro Fernandes <a_pedro_fernandes@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
 "Language: pt\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3104,6 +3104,8 @@ msgstr "sample \"/path/to/my/samples/\", 0"
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
 msgstr ""
+"Também podemos criar um atalho para a nossa directoria utilizando uma "
+"variável:"
 
 #: 03.7-Sample-Packs.md:59
 #, no-wrap
@@ -3119,6 +3121,8 @@ msgid ""
 "Now, if we want to play the second sample in our directory, we just need to ad"
 "d 1 to our index:"
 msgstr ""
+"Se agora quisermos reproduzir a segunda amostragem na nossa directoria, "
+"apenas é necessário adicionar 1 ao nosso índice:"
 
 #: 03.7-Sample-Packs.md:67
 #, no-wrap
@@ -3137,10 +3141,16 @@ msgid ""
 " round just like Rings. Therefore, whatever number we use we're guaranteed to "
 "get one of the samples in that directory."
 msgstr ""
+"Note-se que não mais é preciso conhecer os nomes das amostragens na "
+"directoria - apenas necessitamos de conhecer a própria directoria (ou ter um "
+"atalho para ela). Se pedirmos um índice que é maior do que o número de "
+"amostragens, simplesmente dará a volta da mesma foram que Rings. Portanto, "
+"qualquer que seja o número que for utilizado, é garantido que vamos obter "
+"uma das amostragens nessa directoria."
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
-msgstr ""
+msgstr "Como filtrar Pacotes de Amostragens"
 
 #: 03.7-Sample-Packs.md:81
 msgid ""
