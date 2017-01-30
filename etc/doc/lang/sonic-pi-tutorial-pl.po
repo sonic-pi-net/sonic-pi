@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-27 06:17+0000\n"
+"PO-Revision-Date: 2017-01-30 06:31+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -12801,6 +12801,12 @@ msgid ""
 "know that you could use Minecraft to create amazing visuals just like a profes"
 "sional VJ."
 msgstr ""
+"Każdy grał w Minecraft'a. Każdy z nas budował niesamowite budowle, "
+"projektował pomysłowe pułapki a nawet stworzył wypracowane linie przewozowe "
+"kotrolowane za pomocą czerwonych kamieni pełniących rolę przełączników. Ale "
+"jak wielu z was korzystało z Minecraft do koncertowania? Założę się, że "
+"żaden z Was nie wiedział, że może użyć Minecraft'a do stworzenia "
+"niesamowitych wizualizacji tak jak to robią profesjonalni VJ'e."
 
 #: A.08-minecraft-vj.md:13
 msgid ""
@@ -12810,20 +12816,30 @@ msgid ""
 "an app called Sonic Pi which makes coding Minecraft not only easy but also inc"
 "redibly fun."
 msgstr ""
+"Jeśli twoją jedynym sposobem na wprowadzanie zmian w świecie Minecraft była "
+"myszka, to masz pewnie za sobą ciężki czas zmieniania rzeczy w wystarczająco "
+"szybkim czasie. Na szczęście dla Ciebie twoje Raspberry Pi domyślnie jest "
+"wyposażone w wersję Minecraft'a, która może być kontrolowana za pomocą kodu. "
+"Ponadto posiada ono domyślnie zainstalowaną aplikację Sonic Pi, która nie "
+"tylko umożliwia nie tylko łatwe kodowanie Minecraft'a ale też i sprawia, że "
+"jest to niesamowicie fajne."
 
 #: A.08-minecraft-vj.md:19
 msgid ""
 "In today's article we'll be showing you some of the tips and tricks that we've"
 " used to create performances in night clubs and music venues around the world."
 msgstr ""
+"W dzisiejszym artykule pokażemy Ci parę sztuczek i trików, których "
+"używaliśmy do występowania w klubach oraz na wydarzeniach muzycznych na "
+"całym świecie."
 
 #: A.08-minecraft-vj.md:23
 msgid "Let's get started..."
-msgstr ""
+msgstr "Zaczynajmy..."
 
 #: A.08-minecraft-vj.md:25
 msgid "Getting Started"
-msgstr ""
+msgstr "Pierwsze Kroki"
 
 #: A.08-minecraft-vj.md:27
 msgid ""
@@ -12832,6 +12848,10 @@ msgid ""
 "Sonic Pi. In Minecraft, create a new world, and in Sonic Pi choose a fresh buf"
 "fer and write in this code:"
 msgstr ""
+"Zacznijmy na rozgrzewkę z czymś prostym aby odświeżyć sobie podstawy. "
+"Najpierw włącz twojego Raspberry Pi a następnie uruchom Minecraft'a i Sonic "
+"Pi. W Minecraft, stwórz nowy świat, a w Sonic Pi wybierz świeży pusty bufor "
+"i wprowadź do niego następujący kod:"
 
 #: A.08-minecraft-vj.md:32
 #, no-wrap
@@ -12843,10 +12863,12 @@ msgid ""
 "Hit the Run button and you'll see the message over in the Minecraft window. OK"
 ", we're ready to start, let's have some fun......"
 msgstr ""
+"Naciśnij przycisk Run a zobaczyć wiadomość w oknie Minecraft'a. Dobrze, "
+"jesteśmy gotowi by zacząć, zabawmy się..."
 
 #: A.08-minecraft-vj.md:39
 msgid "Sand Storms"
-msgstr ""
+msgstr "Burze Piaskowe"
 
 #: A.08-minecraft-vj.md:41
 msgid ""
