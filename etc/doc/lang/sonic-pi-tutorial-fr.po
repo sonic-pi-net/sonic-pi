@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-22 13:24+0000\n"
+"PO-Revision-Date: 2017-01-30 23:28+0000\n"
 "Last-Translator: Nicolas Limage <github@xephon.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.10\n"
+"X-Generator: Weblate 2.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -15091,6 +15091,8 @@ msgstr ""
 #: A.12-sample-slicing.md:86
 msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 msgstr ""
+"![Amen Slices](../images/tutorial/articles/A.12-sample-"
+"slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 #, fuzzy
@@ -15520,6 +15522,10 @@ msgid ""
 "sound good and make a note of them. That way I can easily re-create my rhythms"
 " in future practice sessions or performances."
 msgstr ""
+"Une chose que j'ai tendance à faire avec ce genre de structures, c'est de me "
+"rappeler quelles graines aléatoires sonnent bien et de les noter. De cette "
+"manière, je peux facilement recréer mes rythmes dans des sessions "
+"d'entrainement ou des représentations futures."
 
 #: A.13-probabilistic-sequencer.md:139
 msgid ""
@@ -15528,6 +15534,12 @@ msgid ""
 "thod on synths just as well as samples. Don't leave it at that though - tweak "
 "the numbers and make your own track with the power of probabilities!"
 msgstr ""
+"Finalement, nous pouvons ajouter un peu de basse aléatoire pour lui donner "
+"un contenu mélodique sympa. Vous pourrez remarquer que nous pouvons aussi "
+"utiliser notre méthode de séquençage probabiliste récemment découverte sur "
+"les synthés comme sur les échantillons. Nous vous arrêtez pas là pour autant "
+"- ajuster les nombres et faites votre propre piste grâce au pouvoir des "
+"probabilités !"
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
@@ -15566,29 +15578,43 @@ msgid ""
 "und in powerful new ways. This will allow you to create new rhythmic and timbr"
 "al structures and broaden your sonic possibilities."
 msgstr ""
+"Ce mois-ci nous allons plonger en profondeur dans l'un des effets les plus "
+"puissants et les plus flexibles de Sonic Pi - le `:slicer`. D'ici la fin de "
+"cet article, vous aurez appris comment manipuler le volume global de "
+"certaines parties de notre son codé en live de façons nouvelles et "
+"puissantes."
 
 #: A.14-amplitude-modulation.md:12
+#, fuzzy
 msgid "Slice that Amp"
-msgstr ""
+msgstr "Tranche cet Ampli"
 
 #: A.14-amplitude-modulation.md:14
+#, fuzzy
 msgid ""
 "So, what does the `:slicer` FX actually do? One way to think about it is that "
 "it's just like having someone play around with the volume control on your TV o"
 "r home hi-fi. Let's take a look but first, listen to the deep growl of the fol"
 "lowing code which triggers the `:prophet` synth:"
 msgstr ""
+"Alors, que fait réellement l'effet `:slicer` ? Une façon de se le "
+"représenter est simplement comme quelqu'un qui joue avec le contrôle du "
+"volume de votre TV ou de votre chaine hi-fi. Voyons cela, mais d'abord, "
+"écoutez le grognement profond du code suivant qui utilise le synthé "
+"`:prophet` :"
 
 #: A.14-amplitude-modulation.md:20
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 msgstr ""
+"synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
 msgid "Now, let's pipe it through the `:slicer` FX:"
-msgstr ""
+msgstr "Maintenant, passons le à travers l'effet `:slicer` :"
 
 #: A.14-amplitude-modulation.md:27
 #, no-wrap
@@ -15599,6 +15625,11 @@ msgid ""
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
 msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
 msgid ""
@@ -15609,6 +15640,12 @@ msgid ""
 "t value is `0.25` which means 4 times a second at the default BPM of 60. Let's"
 " make it faster:"
 msgstr ""
+"Écoutez comme le `:slicer` fait comme s'il coupait puis rétablissait le son "
+"à un rythme régulier. Observez aussi comme le `:slicer` affecte tout le son "
+"généré entre les blocs `do` et `end`. Vous pouvez contrôler la vitesse à "
+"laquelle il coupe et rétablit le son avec l'option `phase:` qui est "
+"l'abréviation de \"durée de phase\". Sa valeur par défaut est `0.25` ce qui "
+"signifie 4 fois par seconde au rythme par défaut de 60 BPM. Accélérons le :"
 
 #: A.14-amplitude-modulation.md:42
 #, no-wrap
@@ -15618,6 +15655,10 @@ msgid ""
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:49
 #, fuzzy
@@ -15643,10 +15684,15 @@ msgid ""
 "alues will make the FX switch on and off much faster than larger values. Good "
 "values to start playing with are `0.125`, `0.25`, `0.5` and `1`."
 msgstr ""
+"La durée de phase est la durée d'un cycle on/off. De ce fait, des valeurs "
+"plus petites feront que l'effet alternera entre on et off beaucoup plus "
+"rapidement qu'avec des valeurs plus grandes. De bonnes valeurs pour "
+"commencer à jouer sont `0.125`, `0.25`, `0.5` et `1`."
 
 #: A.14-amplitude-modulation.md:64
+#, fuzzy
 msgid "Control Waves"
-msgstr ""
+msgstr "Ondes de contrôle"
 
 #: A.14-amplitude-modulation.md:66
 msgid ""
@@ -15659,6 +15705,16 @@ msgid ""
 "lowing code uses (co)sine as the control wave. Hear how the sound doesn't turn"
 " on and off abruptly but instead smoothly fades in and out:"
 msgstr ""
+"Par défaut, l'effet `:slicer` utilise une onde carrée pour manipuler "
+"l'amplitude au fil du temps. C'est pour cela que l'on entend l'amplitude "
+"pendant une période, puis elle est immédiatement coupée pendant une période, "
+"puis remise en marche. Il se trouve que l'onde carrée est juste l'une des 4 "
+"différentes ondes de contrôle supportée par le `:slicer`. Les autres sont "
+"l'onde en dent de scie (saw), l'onde triangle et l'onde (co)sinus. Regardez "
+"le diagramme ci-dessous pour voir à quoi elles ressemblent. On peut aussi "
+"entendre comment elles sonnent. Par exemple, le code suivant utilise l'onde "
+"(co)sinus comme onde de contrôle. Remarquez comme le son n'est pas coupé "
+"puis remis brusquement, mais au lieu de cela, augmente et diminue doucement :"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
@@ -15668,6 +15724,10 @@ msgid ""
 "  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.5, wave: 3 do\n"
+"  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
+"  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
+"end"
 
 #: A.14-amplitude-modulation.md:83
 msgid ""
@@ -15675,6 +15735,10 @@ msgid ""
 "or saw, `1` for square, `2` for triangle and `3` for sine. See how different w"
 "aves sound with different `phase:` opts too."
 msgstr ""
+"Jouez avec les différentes formes d'ondes en changeant l'option `wave:` à `0`"
+" pour la dent de scie, `1` pour l'onde carrée, `2` pour l'onde triangle et "
+"`3` pour la sinusoïde. Voyez aussi comme les différentes ondes sonnent avec "
+"des options `phase:`différentes."
 
 #: A.14-amplitude-modulation.md:87
 msgid ""
@@ -15687,17 +15751,28 @@ msgid ""
 "hase:`, `wave:`, `invert_wave:` and `phase_offset` opts you can dramatically c"
 "hange how the amplitude is modified through time."
 msgstr ""
+"Chacune de ces ondes peut être inversée avec l'option `invert_wave:` qui la "
+"retourne sur l'axe y. Par exemple, lors d'une phase, l'onde en dent de scie "
+"commence typiquement à l'état haut puis descend doucement avant de sauter "
+"d'un coup à l'état haut. Avec `invert_wave: 1`, elle va commencer à l'état "
+"bas, puis monter doucement avant de sauter de nouveau à l'état bas. De plus, "
+"l'onde de contrôle peut démarrer à différents points avec avec l'option "
+"`phase_offset:` qui prend une valeur entre `0` et `1`. En jouant avec les "
+"options `phase:`, `wave:`, `invert_wave:` et `phase_offset`, vous pouvez "
+"changer drastiquement la façon dont l'amplitude est modulée au cours du "
+"temps."
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "Durée"
+msgstr ""
+"![Durées de Phases](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
-msgstr ""
+msgstr "Régler vos niveaux"
 
 #: A.14-amplitude-modulation.md:102
 msgid ""
@@ -15706,6 +15781,10 @@ msgid ""
 "can use this alongside the sine wave setting to create a simple tremolo effect"
 ":"
 msgstr ""
+"Par défaut, le `:slicer` alterne entre les valeurs d'amplitude `1` (volume "
+"max nominal) et `0` (silencieux). Ceci peut être changé avec les options "
+"`amp_min:` et `amp_max:`. Vous pouvez utiliser ceci en parallèle du réglage "
+"d'onde sinusoïdale pour créer un effet de trémolo simple :"
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
@@ -15714,16 +15793,21 @@ msgid ""
 "  synth :saw, release: 8\n"
 "end"
 msgstr ""
+"with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
+"  synth :saw, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:113
 msgid ""
 "This is just like grabbing the volume knob on your hi-fi and moving it up and "
 "down just a little so the sound 'wobbles' in and out."
 msgstr ""
+"C'est comme attraper le bouton de volume de votre chaîne hi-fi et le bouger "
+"légèrement de haut en bas pour que le volume oscille."
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
-msgstr ""
+msgstr "Probabilités"
 
 #: A.14-amplitude-modulation.md:119
 #, fuzzy
@@ -15743,6 +15827,11 @@ msgid ""
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:133
 msgid ""
@@ -15751,6 +15840,11 @@ msgid ""
 "l have more space between each sound due to the likelihood of the sound being "
 "triggered being much lower."
 msgstr ""
+"Ecoutez comme nous avons maintenant un rythme de pulsations intéressant. "
+"Essayez de changer l'option `probability:` vers une valeur différente entre "
+"`0` et `1`. Les valeurs plus proches de `0` provoqueront plus d'espacement "
+"entre les sons, dû à la probabilité beaucoup plus basse que le son soit "
+"déclenché."
 
 #: A.14-amplitude-modulation.md:138
 msgid ""
@@ -15762,12 +15856,24 @@ msgid ""
 "nt starting seed. This works exactly the same as `use_random_seed` but only af"
 "fects that particular FX."
 msgstr ""
+"Une autre chose à remarquer, est que le système de probabilités dans l'effet "
+"FX est identique à celui qui est accessible via les fonctions comme `rand` "
+"et `shuffle`. Ils sont tous les deux complètement déterministes. Cela "
+"signifie qu'à chaque fois que vous appuyez sur le bouton `executer`, vous "
+"entendrez exactement le même rythme de pulsations pour une probabilité "
+"donnée. Si vous voulez changer les choses, vous pouvez utiliser l'option "
+"`seed:` pour sélectionner une graine de départ différente. Cela fonctionne "
+"exactement comme `use_random_seed` mais affecte uniquement cet effet "
+"particulier."
 
 #: A.14-amplitude-modulation.md:146
 msgid ""
 "Finally, you can change the 'resting' position of the control wave when the pr"
 "obability test fails from `0` to any other position with the `prob_pos:` opt:"
 msgstr ""
+"Enfin, vous pouvez changer la \"position de repos\" de l'onde de contrôle "
+"quand le test de probabilité échoue, de `0` à n'importe quelle autre "
+"position avec l'option `prob_pos:` :"
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
@@ -15778,6 +15884,11 @@ msgid ""
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:158
 #, fuzzy
@@ -15785,8 +15896,11 @@ msgid "Slicing Beats"
 msgstr "Couper"
 
 #: A.14-amplitude-modulation.md:160
+#, fuzzy
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
 msgstr ""
+"Une chose très amusante à faire est d'utiliser le `:slicer` pour découper un "
+"rythme de batterie :"
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
@@ -15807,6 +15921,13 @@ msgid ""
 "ing will sound totally off. For example, try swapping `:loop_mika` with the `l"
 "oop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
+"Ceci nous permet de prendre n'importe quel échantillon et de créer de "
+"nouvelles possibilités rythmiques, ce qui est très amusant. Cependant, une "
+"chose pour laquelle il faut être prudent est de s'assurer que le tempo de "
+"l'échantillon correspond au rythme actuel dans Sonic Pi, sinon la découpe "
+"sonnera totalement décalée. Par exemple, essayez de remplacer `:loop_mika` "
+"avec l'échantillon `loop_amen` pour entendre comme cela sonne mal quand les "
+"tempo ne s'alignent pas."
 
 #: A.14-amplitude-modulation.md:176
 #, fuzzy
@@ -15821,6 +15942,12 @@ msgid ""
 "in beats not seconds. We can therefore fix the issue with `loop_amen` above by"
 " changing the BPM to match the sample:"
 msgstr ""
+"Comme vous avez pu le voir, changer le BPM par défaut avec `use_bpm` fera "
+"s'accroitre ou se réduire les temps de pause et les durées d'enveloppe des "
+"synthés pour correspondre avec le tempo. L'effet `:slicer` honorera cela "
+"aussi, car l'option `phase:` est en fait mesurée en pulsation et non en "
+"secondes. Nous pouvons donc régler le problème avec `loop_amen` en changeant "
+"le BPM pour qu'il corresponde à l'échantillon :"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
@@ -15841,10 +15968,12 @@ msgid ""
 "FX to create an interesting combination. Go ahead, start changing it and make "
 "it into your own piece!"
 msgstr ""
+"Appliquons ces idées dans un dernier exemple qui utilise uniquement l'effet "
+"`:slicer` pour créer une combinaison intéressante. Allez-y, commencez à le "
+"modifier et à en faire votre propre morceau !"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :dark_mist do\n"
 "  co = (line 70, 130, steps: 8).tick\n"
@@ -15863,7 +15992,24 @@ msgid ""
 "  end\n"
 "  sleep 16\n"
 "end"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr ""
+"live_loop :dark_mist do\n"
+"  co = (line 70, 130, steps: 8).tick\n"
+"  with_fx :slicer, probability: 0.7, prob_pos: 1 do\n"
+"    synth :prophet, note: :e1, release: 8, cutoff: co\n"
+"  end\n"
+"  \n"
+"  with_fx :slicer, phase: [0.125, 0.25].choose do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :crashing_waves do\n"
+"  with_fx :slicer, wave: 0, phase: 0.25 do\n"
+"    sample :loop_mika, rate: 0.5\n"
+"  end\n"
+"  sleep 16\n"
+"end"
 
 #: A.15-performance.md:1
 #, fuzzy
@@ -15871,9 +16017,8 @@ msgid "A.15 Five Live Coding Techniques"
 msgstr "Codage en \"Live\""
 
 #: A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "Codage en \"Live\""
+msgstr "Cinq Techniques de Live Coding"
 
 #: A.15-performance.md:5
 msgid ""
@@ -15886,10 +16031,20 @@ msgid ""
 "s that Sonic Pi enables. By the end of this article you'll be able to start pr"
 "acticing for your own live coded performances."
 msgstr ""
+"Dans le tutoriel Sonic Pi de ce mois-ci, nous allons regarder comment vous "
+"allez pouvoir commencer à traiter Sonic Pi comme un véritable instrument. "
+"Nous allons donc devoir commencer à penser au code d'une façon complètement "
+"différente. Les live coders voient le code de la même façon que les "
+"violonistes voient leur archet. En fait, tout comme un violoniste peut "
+"appliquer différentes méthodes d'archet pour créer des sons différents (des "
+"mouvements lents et amples ou des touches rapides et courtes) nous allons "
+"explorer cinq des techniques de base de live coding que permet Sonic Pi. À "
+"la fin de cet article, vous serez capables de commencer à vous entrainer "
+"pour vos propres représentations de live coding."
 
 #: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
-msgstr ""
+msgstr "1. Mémoriser les Raccourcis"
 
 #: A.15-performance.md:17
 msgid ""
@@ -15901,6 +16056,14 @@ msgid ""
 "op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
 "for the full list of shortcuts."
 msgstr ""
+"Le premier truc pour live coder avec Sonic Pi est de commencer à utiliser "
+"les raccourcis. Par exemple, au lieu de perdre un temps précieux à atteindre "
+"la souris, la déplacer sur le bouton d'exécution et cliquer dessus, vous "
+"pouvez simplement appuyer simultanément sur `alt` et `r`, ce qui est "
+"beaucoup plus rapide et garde vos doigts sur le clavier, prêts pour la "
+"prochaine édition. Vous pouvez trouver les raccourcis pour les principaux "
+"boutons en haut, en passant la souris au dessus d'eux. Voyez la section 10.2 "
+"du tutoriel inclus pour la liste complète des raccourcis."
 
 #: A.15-performance.md:26
 msgid ""
@@ -15910,6 +16073,12 @@ msgid ""
 "n hitting `alt-r` just like a guitarist would do when hitting a big power chor"
 "d."
 msgstr ""
+"Lorsque vous jouez, une chose amusante à faire est d'ajouter un peu de style "
+"à votre mouvement de bras lorsque vous utilisez des raccourcis. Par exemple, "
+"il est souvent bien de communiquer avec votre public quand vous êtes sur le "
+"point de faire un changement. Embellissez donc votre mouvement quand vous "
+"appuyez sur `alt-r` comme le ferait un guitariste lorsqu'il joue un puissant "
+"accord."
 
 #: A.15-performance.md:32
 msgid "2. Manually Layer your Sounds"
