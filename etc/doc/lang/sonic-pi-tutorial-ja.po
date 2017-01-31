@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-27 12:53+0000\n"
+"PO-Revision-Date: 2017-01-31 09:39+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -3231,7 +3231,7 @@ msgstr ""
 
 #: 04-Randomisation.md:78
 msgid "Random seeds"
-msgstr "ランダムの種（シード）"
+msgstr "ランダムシード"
 
 #: 04-Randomisation.md:80
 msgid ""
@@ -3241,7 +3241,7 @@ msgid ""
 "ed for a different random experience!"
 msgstr ""
 "もし、Sonic Piが提供する乱数の特定の配列が気に入らない場合、`use_random_seed`を介すことで別の開始点を選択することが可能です。シー"
-"ドのデフォルト値は0であるため、異なるランダム体験のために別のシードの値を入力してみましょう！"
+"ドのデフォルト値は0であるため、異なる乱数を試すために別のシードの値を入力してみましょう！"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
@@ -9181,7 +9181,7 @@ msgstr ""
 "これで、`live_loop`がループする度に、ランダムストリームがリセットされるようになりました。これは、ループの度に同じ16の音符が選択されていること"
 "を意味しています。あら不思議！ "
 "手軽なメロディーでしょう。ここからが本当に面白くなるところです。シードの値を`1`から別な数値、たとえば`4923`に変更してみましょう。ワオ！ "
-"別なメロディーになったでしょう！ 1つの数字（ここではシード）を変更するだけで、あなたの想像する限り多くのメロディーの組合せを試すことができるのです！ "
+"別なメロディーになったでしょう！ 1つの数字（ランダムシード）を変更するだけで、あなたの想像する限り多くのメロディーの組合せを試すことができるのです！ "
 "これがコードのマジックなのです。"
 
 #: A.02-live-coding.md:1
@@ -10023,7 +10023,7 @@ msgid ""
 "misation and random seeds. Let's look at an example:"
 msgstr ""
 "良いリフを一から思いつくのは、いつも簡単であるとは限りません。ランダムなリフの生成をSonic Piにお願いして、出来たリフから一番良いと思うものを選ぶほ"
-"うが、より簡単なケースが多いでしょう。これを実現するのに、次の3つのものが必要です。リングとランダム化とランダムの種（シード）です。例を見てみましょう。"
+"うが、より簡単なケースが多いでしょう。これを実現するのに、次の3つのものが必要です。リングとランダム化とランダムシードです。例を見てみましょう。"
 
 #: A.04-synth-riffs.md:91
 #, no-wrap
@@ -11742,33 +11742,34 @@ msgid ""
 "'random' notes between 50 and 95. When it's finished, hit Run again to hear ex"
 "actly the same melody again."
 msgstr ""
+"これを空いたBufferに入力して`Run`を叩いてください。50から95の'ランダムな'音符で構成されるメロディーを聞くことができるでしょう。メロディー"
+"が終わったら、もう一度`Run`を叩いてみてください。先ほどと全く同じメロディーを聞くことができるでしょう。"
 
 #: A.09-randomisation.md:67
 msgid "Handy Randomisation Functions"
-msgstr ""
+msgstr "便利なランダム化関数"
 
 #: A.09-randomisation.md:69
-#, fuzzy
 msgid ""
 "Sonic Pi comes with a number of useful functions for working with the random s"
 "tream. Here's a list of some of the most useful:"
-msgstr "Sonic Piにはランダムを扱う便利な関数がたくさんあります。その中でも有用な関数のリストです。"
+msgstr "Sonic Piにはランダムストリームを扱う便利な関数がたくさんあります。その中でも有用な関数のリストです。"
 
 #: A.09-randomisation.md:72
 msgid "`rand` - Simply returns the next value in the random stream"
-msgstr ""
+msgstr "`rand` - ランダムストリームの次の値を返します"
 
 #: A.09-randomisation.md:73
 msgid "`rrand` - Returns a random value within a range"
-msgstr ""
+msgstr "`rrand` - 範囲内のランダムな値を返します"
 
 #: A.09-randomisation.md:74
 msgid "`rrand_i` - Returns a random whole number within a range"
-msgstr ""
+msgstr "`rrand_i` - 範囲内のランダムな整数を返します"
 
 #: A.09-randomisation.md:75
 msgid "`one_in` - Returns true or false with the given probability"
-msgstr ""
+msgstr "`one_in` - 与えられた確率でtrueまたはfalseを返します"
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
@@ -11782,11 +11783,11 @@ msgstr "`choose` - リストからランダムに値を1つ選択します"
 msgid ""
 "Check out their documentation in the Help system for detailed information and "
 "examples."
-msgstr "詳細情報や作例については、ヘルプ内のドキュメントを参照してください。"
+msgstr "詳細情報や例については、ヘルプにあるそれぞれの関数のドキュメントを参照してください。"
 
 #: A.09-randomisation.md:82
 msgid "Resetting the Stream"
-msgstr ""
+msgstr "ランダムストリームのリセット"
 
 #: A.09-randomisation.md:84
 msgid ""
@@ -11795,6 +11796,8 @@ msgid ""
 "want. Wouldn't it be great if we could try a number of different riffs and cho"
 "ose the one we liked best? This is where the real magic starts."
 msgstr ""
+"選択した音符のシーケンスを繰り返す機能は、リフをダンスフロアで再現するためには不可欠ですが、あなたが望んだリフではないかもしれません。もし、いくつかの異な"
+"るリフを試して、一番好きなリフを選ぶことができれば、素晴らしいことではないでしょうか？これが本当のマジックの始まりです。"
 
 #: A.09-randomisation.md:90
 msgid ""
@@ -11802,6 +11805,8 @@ msgid ""
 "nce, a random seed is the starting point from which a new stream of random val"
 "ues can sprout out and blossom. Let's try it:"
 msgstr ""
+"ランダムストリームを`use_random_seed`関数で手動で設定することができます。コンピュータサイエンスでは、ランダムシードとは、ランダムな値の新"
+"しいストリームが芽吹き、開花する出発点です。試してみましょう："
 
 #: A.09-randomisation.md:94
 #, no-wrap
@@ -11823,6 +11828,8 @@ msgid ""
 "Great, we get the first three notes of our random melody above: `84`, `83` and"
 " `71`. However, we can now change the seed to something else. How about this:"
 msgstr ""
+"いいね。上のコードのランダムメロディーの先頭から`84`, `83`, "
+"`71`の3つの音符が得られました。ここで、シードを別な値に変更できます。これはどうでしょう："
 
 #: A.09-randomisation.md:106
 #, no-wrap
@@ -11845,6 +11852,8 @@ msgid ""
 "numbers here are the same as the last two numbers before - this isn't a coinci"
 "dence."
 msgstr ""
+"興味深いことに、ここで`83`, ` 71`, `61`を取得します。ここの最初の2つの数字は、先程の後ろ2つの数字と同じです - "
+"これは偶然ではありません。"
 
 #: A.09-randomisation.md:118
 msgid ""
@@ -11855,6 +11864,10 @@ msgid ""
 "that it's precisely this ability to jump around the random stream which gives "
 "us huge power when making music."
 msgstr ""
+"ランダムストリームは「あらかじめ準備された」値の巨大なリストに過ぎないことを思い出してください。ランダムシードの使用は、そのリスト内の特定の位置に単にジャ"
+"ンプするだけです。それについて考えるもう一つの方法は、あらかじめシャッフルされたトランプカードの巨大なデッキを想像することです。ランダムシードを使用するこ"
+"とは、デッキの特定の位置でカードを分けることです。このことの素晴らしい点の1つは、ランダムストリームを行ったり来たりするこの機能こそ、音楽を作るときに私た"
+"ちに大きな力を与えるということです。"
 
 #: A.09-randomisation.md:126
 msgid ""
