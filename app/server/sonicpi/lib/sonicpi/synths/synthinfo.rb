@@ -20,6 +20,7 @@ module SonicPi
       attr_reader :scsynth_name, :info
 
       def initialize
+        @cached_arg_info = nil
         @scsynth_name = "#{prefix}#{synth_name}"
         merged_info = default_arg_info.merge(specific_arg_info)
         @arg_names = arg_defaults.keys
