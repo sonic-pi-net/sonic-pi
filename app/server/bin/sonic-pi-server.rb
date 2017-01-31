@@ -180,7 +180,7 @@ klass.send(:define_method, :inspect) { "Runtime" }
 ws_out = Queue.new
 
 begin
-  sp =  klass.new "127.0.0.1", sonic_pi_ports, ws_out, user_methods
+  sp =  klass.new sonic_pi_ports, ws_out, user_methods
 
   # read in init.rb if exists
   if File.exists?(init_path)

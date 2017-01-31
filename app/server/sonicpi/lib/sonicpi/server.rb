@@ -31,7 +31,7 @@ module SonicPi
 
     attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta, :scsynth_info
 
-    def initialize(hostname, port, send_port, msg_queue)
+    def initialize(port, send_port, msg_queue)
       # Cache common OSC path strings as frozen instance
       # vars to reduce object creation cost and GC load
       @osc_path_quit        = "/quit".freeze
@@ -58,7 +58,6 @@ module SonicPi
       @osc_path_b_query     = "/b_query".freeze
 
       @OSC_SEM = Mutex.new
-      @HOSTNAME = hostname
       @sched_ahead_time = default_sched_ahead_time
       @MSG_QUEUE = msg_queue
       @control_delta = default_control_delta

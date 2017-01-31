@@ -28,8 +28,7 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(hostname, ports, msg_queue)
-      @hostname = hostname
+    def initialize(ports, msg_queue)
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
       @osc_cues_port = ports[:osc_cues_port]
@@ -80,7 +79,7 @@ module SonicPi
     def init_studio
       @amp = [0.0, 1.0]
 
-      server = Server.new(@hostname, @scsynth_port, @scsynth_send_port, @msg_queue)
+      server = Server.new(@scsynth_port, @scsynth_send_port, @msg_queue)
       server.load_synthdefs(synthdef_path)
       server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]

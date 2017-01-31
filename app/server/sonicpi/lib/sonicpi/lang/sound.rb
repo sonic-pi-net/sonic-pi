@@ -104,7 +104,7 @@ module SonicPi
         base.instance_exec do
           define_method(:initialize) do |*splat, &block|
             sonic_pi_mods_sound_initialize_old *splat, &block
-            hostname, ports, msg_queue = *splat
+            ports, msg_queue = *splat
 
 
             @server_init_args = splat.take(4)
@@ -125,7 +125,7 @@ module SonicPi
             @JOB_MIXERS_MUTEX = Mutex.new
             @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
             @JOB_BUSSES_MUTEX = Mutex.new
-            @mod_sound_studio = Studio.new(hostname, ports, msg_queue)
+            @mod_sound_studio = Studio.new(ports, msg_queue)
 
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
