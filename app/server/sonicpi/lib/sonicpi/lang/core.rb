@@ -3349,7 +3349,11 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           # sleep for a tiny amount of wall-clock time to give other temporally
           # synced threads real time to register syncs at similar virtual
           # times.
-          Kernel.sleep @sync_real_sleep_time || 0
+
+          if instance_variable_defined?(:@sync_real_sleep_time)
+            Kernel.sleep @sync_real_sleep_time
+          end
+
           __events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
         end
       end
