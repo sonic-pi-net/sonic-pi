@@ -290,7 +290,7 @@ module SonicPi
         offset = opts[:offset] || 0
         counters = get_or_create_counters
         if counters[k]
-          curr_val, next_val = *counters[k]
+          _, next_val = *counters[k]
           counters[k] = [next_val + step-1, next_val + step]
           return next_val + step-1 + offset
         else
@@ -696,7 +696,7 @@ module Rubame
 
   class Server
     def run(time = 0, &blk)
-      readable, writable = IO.select(@reading, @writing)
+      readable, _ = IO.select(@reading, @writing)
 
       if readable
         readable.each do |socket|
@@ -784,7 +784,7 @@ class Array
     if Thread.current.thread_variable_get(:sonic_pi_thread_locals)
       self[SonicPi::Core::SPRand.rand!(self.size)]
     else
-      __orig_sample__ *args, &blk
+      __orig_sample__(*args, &blk)
     end
   end
 
@@ -803,7 +803,7 @@ class Array
       SonicPi::Core::SPRand.set_seed!(orig_seed, orig_idx + 1)
       return new_a
     else
-      __orig_shuffle__ *args, &blk
+      __orig_shuffle__(*args, &blk)
     end
   end
 
@@ -813,7 +813,7 @@ class Array
       new_a = self.shuffle
       self.replace(new_a)
     else
-      __orig_shuffle_bang__ *args, &blk
+      __orig_shuffle_bang__(*args, &blk)
     end
   end
 end
