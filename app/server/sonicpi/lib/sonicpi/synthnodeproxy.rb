@@ -79,10 +79,6 @@ module SonicPi
       @node.state
     end
 
-    def name
-      @node.name
-    end
-
     def to_i
       @node.to_i
     end
