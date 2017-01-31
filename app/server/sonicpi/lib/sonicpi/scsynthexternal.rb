@@ -354,7 +354,7 @@ module SonicPi
       puts "Booting on Raspberry Pi"
       begin
         asoundrc = File.read(Dir.home + "/.asoundrc")
-        audio_card = (asoundrc.match /pcm.!default\s+{[^}]+\n\s+card\s+([0-9]+)/m)[1]
+        audio_card = (asoundrc.match(/pcm.!default\s+{[^}]+\n\s+card\s+([0-9]+)/m))[1]
       rescue
         audio_card = "0"
       end
