@@ -48,7 +48,7 @@ module SonicPi
                 code = ""
                 comments = ""
                 s.each_line do |l|
-                  m = l.match /(.*?)[^&]?(#.*)/
+                  m = l.match(/(.*?)[^&]?(#.*)/)
                   if m
 
                     code << CGI.escapeHTML(m[1]) << "\n"
