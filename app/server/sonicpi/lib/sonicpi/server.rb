@@ -448,7 +448,7 @@ module SonicPi
         osc @osc_path_status
         begin
           res = prom.get(timeout)
-        rescue PromiseTimeoutError => e
+        rescue PromiseTimeoutError
           @osc_events.rm_handler("/status.reply", key)
           return nil
         end
