@@ -100,7 +100,6 @@ module SonicPi
       @aubio_sem.synchronize do
         return @aubio_slices if @aubio_slices
         res = []
-        prev = ons[0]
         ons[0...-1].each_with_index do |onset, idx|
           res << {:start => onset, :finish => ons[idx + 1]}
         end

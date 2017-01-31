@@ -95,7 +95,7 @@ module SonicPi
         Process.kill(9, pid)
         puts "Killed #{pid}"
         return true
-      rescue Exception => e
+      rescue Exception
         puts "Could not kill #{pid} - perhaps already killed?"
         return nil
       end
@@ -114,7 +114,7 @@ module SonicPi
               puts "Successfully killed #{pid}"
               return nil
             end
-          rescue Exception => e
+          rescue Exception
             # process is definitely dead!
             puts "Error waiting for process #{pid} - assumed already killed"
             return nil
@@ -124,7 +124,7 @@ module SonicPi
 
         Process.kill(9, pid)
         puts "Forcibly killed #{pid}"
-      rescue Errno::ECHILD => e
+      rescue Errno::ECHILD
         puts "Unable to wait for #{pid} - child process does not exist"
       rescue Errno::ESRCH
         puts "Unable to kill #{pid} - process does not exist"
@@ -325,7 +325,7 @@ module SonicPi
           puts "Boot - Sample rates match, we may continue to boot..."
         end
 
-      rescue Exception => e
+      rescue Exception
         if (audio_in_rate == :unknown_in_rate) && (audio_out_rate == :unknown_out_rate)
           # Something went wrong whilst attempting to determine and modify the audio
           # rates. Given that there's a chance the rates are correct, try and continue
