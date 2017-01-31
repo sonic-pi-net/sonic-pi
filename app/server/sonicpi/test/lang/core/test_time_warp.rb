@@ -16,7 +16,7 @@ require_relative "../../../lib/sonicpi/lang/core"
 require 'mocha/setup'
 
 module SonicPi
-  class SonicPiMiniTest < MiniTest::Test
+  class SonicPiTimeWarpTest < MiniTest::Test
 
     def setup
       @lang = SonicPi::MockLang.new
