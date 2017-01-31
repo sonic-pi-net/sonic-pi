@@ -14,8 +14,10 @@ require_relative "node"
 
 module SonicPi
   class BlankNode < Node
+    attr_reader :args
 
-    def initialize()
+    def initialize(args={})
+      @args = args
     end
 
     def on_destroyed(&block)

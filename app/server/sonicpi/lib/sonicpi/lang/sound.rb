@@ -113,7 +113,6 @@ module SonicPi
 
             init_tuning
 
-            @blank_node = BlankNode.new
             @sample_paths_cache = {}
 
             @sample_loader = SampleLoader.new("#{samples_path}/**")
@@ -1363,7 +1362,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
             __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
           end
-          return @blank_node
+          return BlankNode.new(args_h)
         end
 
         if info
@@ -1950,8 +1949,9 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
               block.call
             end
           else
+            bn = BlankNode.new(args_h)
             return args_h[:reps].times do
-              block.call(@blank_node)
+              block.call(bn)
             end
           end
         end
@@ -1964,7 +1964,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         # external FX), then just use the name the user specified
         fx_synth_name = "fx_#{fx_name}"
         info = Synths::SynthInfo.get_info(fx_synth_name)
-
         unless info
           raise "Unknown FX #{fx_name.inspect}" unless __thread_locals.get(:sonic_pi_mod_sound_use_external_synths)
           fx_synth_name = fx_name
@@ -1977,11 +1976,11 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         fx_t_ = Promise.new
         gc_init_completed = Promise.new
         fx_t_completed = Promise.new
-        fx_synth = BlankNode.new
         tracker = SynthTracker.new
 
 
         # These will be assigned later...
+        fx_synth = nil
         new_bus = nil
         fx_group = nil
         fx_synth_group = nil
@@ -2089,8 +2088,9 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
               block.call
             end
           else
+            bn = BlankNode.new(args_h)
             return args_h[:reps].times do
-              block.call(@blank_node)
+              block.call(bn)
             end
           end
         end
@@ -2819,7 +2819,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
             path = resolve_sample_path([args_h.delete(:path)])
           else
             __delayed_message "sample #{filts_and_sources.inspect}\n           - no match found, skipping."
-            return @blank_node
+            return BlankNode.new(args_h)
           end
         else
           path = resolve_sample_path(filts_and_sources)
@@ -2827,7 +2827,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
 
         if path == nil
           __delayed_message "sample #{filts_and_sources.inspect}\n           - no match found, skipping."
-          return @blank_node
+          return BlankNode.new(args_h)
         end
 
         path = unify_tilde_dir(path) if path.is_a? String
@@ -4211,7 +4211,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             else
               __delayed_message "!! Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
             end
-            return @blank_node
+            return BlankNode.new(args_h)
           end
         end
 
@@ -4237,7 +4237,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           unless in_good_time?
             __delayed_message "!! Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
 
-            return @blank_node
+            return BlankNode.new(args_h)
           end
         end
 
@@ -4263,7 +4263,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
           unless in_good_time?
             __delayed_message "!! Out of time, skipping: synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
-            return @blank_node
+            return BlankNode.new(args_h)
           end
         end
 
@@ -4307,7 +4307,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         synth_name = info ? info.scsynth_name : synth_name
 
         validate_if_necessary! info, args_h
-        return @blank_node unless should_trigger?(args_h)
+        return BlankNode.new(args_h) unless should_trigger?(args_h)
 
         ensure_good_timing!
 
