@@ -4264,7 +4264,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
-       end
+        end
 
         # Scale down amplitude based on number of notes in chord
         amp = args_h[:amp] || 1.0
