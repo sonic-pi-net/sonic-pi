@@ -1967,13 +1967,12 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           fx_synth_name = fx_name
         end
 
-        new_tracker = SynthTracker.new
+        tracker = SynthTracker.new
         orig_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
 
         external_fx_t = Thread.current
         gc_init_completed = Promise.new
         fx_t_completed = Promise.new
-        tracker = SynthTracker.new
 
 
         # These will be assigned later...
@@ -2063,7 +2062,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                 ## triggered in the threads joined above get chance to
                 ## asynchronously communicate their existence to the
                 ## tracker. (This happens in a Node#on_started handler)
-                new_tracker.block_until_finished
+                tracker.block_until_finished
                 Kernel.sleep(kill_delay)
                 fx_group.kill(true)
               end
@@ -2112,7 +2111,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
         __system_thread_locals.set(:sonic_pi_mod_sound_fx_group, fx_synth_group)
         __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
-        __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, new_tracker)
+        __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, tracker)
 
         begin
           if block.arity == 0
