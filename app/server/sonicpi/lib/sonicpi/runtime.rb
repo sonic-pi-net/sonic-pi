@@ -588,7 +588,6 @@ module SonicPi
 
     def __toggle_comment(workspace_id, buf, start_line, finish_line, point_line, point_index)
       id = workspace_id.to_s
-      indented_linex = ""
       buf_lines = buf.lines.to_a
       # Check to see if we need to comment or uncomment:
       # If all lines in selection start with a # (after whitespace)
