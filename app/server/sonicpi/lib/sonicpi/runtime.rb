@@ -628,7 +628,7 @@ module SonicPi
       buf_lines = buf.lines.to_a
       buf = buf_lines.inspect
       buf_lines = buf_lines.map! do |l|
-        if l.match /^\s*$/
+        if l.match(/^\s*$/)
           "_____sonic_pi_tmp_insert_____\n"
         else
           l
