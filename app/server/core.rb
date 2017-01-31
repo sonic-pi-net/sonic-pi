@@ -14,6 +14,8 @@
 
 ## This core file sets up the load path and applies any necessary monkeypatches.
 
+raise "Sonic Pi requires Ruby 2+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "2"
+
 ## Ensure native lib dir is available
 require 'rbconfig'
 ruby_api = RbConfig::CONFIG['ruby_version']
@@ -70,31 +72,7 @@ ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*dylib,so*,dll}"].fi
 
 
 
-# Backport Ruby 2+ thread local variable syntax
-if RUBY_VERSION < "2"
-  class Thread
-    def thread_variable_get(n)
-      self[n]
-    end
 
-    def thread_variable_set(n, v)
-      self[n] = v
-    end
-
-    def thread_variables
-      self.keys
-    end
-  end
-
-  class Hash
-    def to_h
-      self
-    end
-  end
-end
-
-
-raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "1.9.3"
 
 
 module SonicPi
