@@ -13,8 +13,9 @@ module SonicPi
 
     attr_reader :path
 
-    def initialize(path)
-      @path = path.freeze
+    def initialize(path_str)
+      @path = path_str.split(' : ').map(&:to_sym).freeze
+      @path_str = (':' + @path.join(':')).freeze
     end.freeze
 
     def to_s
@@ -22,7 +23,7 @@ module SonicPi
     end
 
     def inspect
-      "<#SPSym #{@path}>"
+      @path_str
     end
   end
 end
