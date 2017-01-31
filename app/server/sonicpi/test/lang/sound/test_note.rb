@@ -17,7 +17,7 @@ require_relative "../../../lib/sonicpi/lang/sound"
 require 'mocha/setup'
 
 module SonicPi
-  class SampleTester < Minitest::Test
+  class NoteTester < Minitest::Test
 
     def setup
       @mock_sound = Object.new
