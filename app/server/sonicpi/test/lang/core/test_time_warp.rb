@@ -38,7 +38,7 @@ module SonicPi
     def test_no_warp_again
       @lang.instance_eval do
         assert_equal(vt, 0)
-        sleep -0.1
+        sleep(-0.1)
         assert_equal(vt, -0.1)
         time_warp do
           use_synth(:tri)
@@ -51,7 +51,7 @@ module SonicPi
     def test_warp
       @lang.instance_eval do
         assert_equal(vt, 0)
-        sleep -0.1
+        sleep(-0.1)
         assert_equal(vt, -0.1)
         time_warp 0.1 do
           use_synth(:tri)
@@ -64,16 +64,16 @@ module SonicPi
     def test_multi_warp
       @lang.instance_eval do
         assert_equal(vt, 0)
-        sleep -0.1
+        sleep(-0.1)
         assert_equal(vt, -0.1)
         time_warp 0.1 do
           assert_equal(vt, 0)
           time_warp 0.1 do
             assert_similar(vt, 0.1)
-            time_warp -0.15 do
+            time_warp(-0.15) do
               assert_similar(vt, -0.05)
               time_warp 3 do
-                time_warp -2 do
+                time_warp(-2) do
                   assert_similar(vt, 0.95)
                   use_synth(:tri)
                 end
