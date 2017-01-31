@@ -103,9 +103,8 @@ module SonicPi
 
         base.instance_exec do
           define_method(:initialize) do |*splat, &block|
-            sonic_pi_mods_sound_initialize_old *splat, &block
+            sonic_pi_mods_sound_initialize_old(*splat, &block)
             ports, msg_queue = *splat
-
 
             @server_init_args = splat.take(4)
             @mod_sound_home_dir = Dir.home
