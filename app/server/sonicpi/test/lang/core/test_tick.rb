@@ -41,7 +41,7 @@ module SonicPi
       assert_equal(nil, tick_reset)
     end
 
-    def test_tick_reset_return_val
+    def test_tick_reset_all_return_val
       assert_equal(nil, tick_reset_all)
     end
 
