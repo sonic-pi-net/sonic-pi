@@ -56,7 +56,25 @@ module SonicPi
       @lang.instance_eval do
         sample({path: :loop_amen}, {rate: 2})
       end
-    end
 
+      # Rates are not handled in a call to sample but are punted to trigger_sample
+      @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 0})
+      @lang.instance_eval do
+        sample path: :loop_amen, rate: 0
+      end
+
+      # Rates are not handled in a call to sample but are punted to trigger_sample
+      l = lambda{ 1 }
+      @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: l})
+      @lang.instance_eval do
+        sample path: :loop_amen, rate: l
+      end
+
+      # Onsets are not handled in a call to sample but are punted to trigger_sample
+      @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2, onset: 0})
+      @lang.instance_eval do
+        sample path: :loop_amen, rate: 2, onset: 0
+      end
+    end
   end
 end

@@ -1,5 +1,6 @@
 require_relative "../../core"
 require_relative "../lib/sonicpi/runtime"
+require_relative "../lib/sonicpi/lang/core"
 require 'minitest/autorun'
 
 module SonicPi
