@@ -69,7 +69,6 @@ module SonicPi
                   summary[0] = summary[0].capitalize
                   html << "<h1>" << summary << "</h1>\n"
                   html << "<p class=\"usage\"><code><pre><span class=\"symbol\">#{v[:name]}</span> "
-                  name_size = v[:name].size
                   req_args = []
                   raise "no args defined for #{v[:name]}" unless v[:args]
                   v[:args].each do |arg|
