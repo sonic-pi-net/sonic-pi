@@ -396,21 +396,21 @@ end"
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
 
           case block.arity
-            when 0
-              block.call
-            when 1
-              block.call(params[idx % params_size])
-            when 2
-              if had_params
-                block.call(t, params[idx % params_size])
-              else
-                block.call(t, idx)
-              end
-            when 3
-              block.call(t, params[idx % params_size], idx)
+          when 0
+            block.call
+          when 1
+            block.call(params[idx % params_size])
+          when 2
+            if had_params
+              block.call(t, params[idx % params_size])
             else
-              raise "block for time_warp should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
+              block.call(t, idx)
             end
+          when 3
+            block.call(t, params[idx % params_size], idx)
+          else
+            raise "block for time_warp should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
+          end
           __schedule_delayed_blocks_and_messages!
         end
 
