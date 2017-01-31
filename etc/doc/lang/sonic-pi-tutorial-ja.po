@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-31 09:39+0000\n"
+"PO-Revision-Date: 2017-01-31 09:47+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -11875,6 +11875,8 @@ msgid ""
 "r, but let's also throw in a live loop so we can experiment live whilst it's p"
 "laying:"
 msgstr ""
+"ランダムメロディーに戻りましょう。今度は新しいランダムストリームのリセットで得られた8つの音符だけでなく、ライブループに入れて演奏中に実験できるようにして"
+"います："
 
 #: A.09-randomisation.md:130
 #, no-wrap
@@ -11901,6 +11903,8 @@ msgid ""
 "se. Try `100`, what about `999`. Try your own values, experiment and play arou"
 "nd - see which seed generates the riff you like best."
 msgstr ""
+"では、上のコードが動いている間に、シードの値を`0`から別な何かに変えてみましょう。`100`、`999`はどうでしょう。それからあなたの好きな値を試して"
+"、実験して遊んでみましょう。そして、どのシードが一番好きなリフを生成するか見てみましょう。"
 
 #: A.09-randomisation.md:147
 msgid ""
