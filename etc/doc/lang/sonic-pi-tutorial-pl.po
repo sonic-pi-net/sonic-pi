@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-31 15:25+0000\n"
-"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"PO-Revision-Date: 2017-01-31 21:55+0000\n"
+"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -79,16 +79,15 @@ msgstr ""
 "ej wersji."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
 "e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Jeszcze jedna sprawa na koniec. Oglądanie innych osób kodujących na żywo jest "
-"naprawdę bardzo dobrym sposobem nauki. Regularnie nadaję na żywo na moim kanal"
-"e [livecoding.tv/samaaron](http://livecoding.tv/samaaron), możesz więc wpaść, "
-"powiedzieć mi cześć i zadać mi dowolne pytanie :-)"
+"Jeszcze jedna sprawa na koniec. Oglądanie innych osób kodujących na żywo "
+"jest naprawdę bardzo dobrym sposobem nauki. Regularnie nadaję na żywo na "
+"moim kanale [livecoding.tv/samaaron](http://livecoding.tv/samaaron), możesz "
+"więc wpaść, powiedzieć mi cześć i zadać dowolne pytanie :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -217,7 +216,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -226,14 +224,14 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"A teraz czas na zabawę. Zacznij zmieniać liczby - co się stanie, gdy użyjesz d"
-"użych, małych lub ujemnych liczb? Zobacz, co się stanie, gdy zmienisz odrobinę"
-" wartość parametru `rate:` dla sampla `:ambi_choir` (np. na 0.29). Co się stan"
-"ie, jeśli wybierzesz naprawdę małą wartość dla parametru `sleep`? Zobacz, czy "
-"uda Ci się uruchomić powyższą pętlę w tak szybkim tempie, że Twój komputer zat"
-"rzyma się z powodu błędu, gdyż nie będzie w stanie nadążyć (jeśli to się zdarz"
-"y, po prostu wybierz większą wartość dla parametru `sleep` i ponownie naciśnij"
-" przycisk `Run`)."
+"A teraz czas na zabawę. Zacznij zmieniać liczby - co się stanie, gdy użyjesz "
+"dużych, małych lub ujemnych liczb? Zobacz, co się stanie, gdy zmienisz "
+"odrobinę wartość parametru `rate:` dla sampla `:ambi_choir` (np. na 0.29). "
+"Co się stanie, jeśli wybierzesz naprawdę małą wartość dla parametru `sleep`? "
+"Zobacz, czy uda Ci się uruchomić powyższą pętlę w tak szybkim tempie, że "
+"Twój komputer zatrzyma się z powodu błędu, gdyż nie będzie w stanie nadążyć ("
+"jeśli to się zdarzy, po prostu wybierz większą wartość dla parametru `sleep` "
+"i ponownie naciśnij przycisk `Run`)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -421,7 +419,6 @@ msgid "*G* - Help System"
 msgstr "*G* - System Pomocy"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
 msgstr "*F* - Podgląd Logów"
 
@@ -506,7 +503,6 @@ msgid "E. Prefs Panel"
 msgstr "E. Panel preferencji"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -514,13 +510,13 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Pi wspiera wiele ustawień, które są dostępne po naciśnięciu przycisku *P"
-"refs* (ustawienia). Jest to przycisk, który znajduje się tuż za przyciskami In"
-"fo (informacje) i Help (pomoc). Naciśnięcie go spowoduje pokazanie Panelu Usta"
-"wień, gdzie znajduje się wiele opcji, które można zmieniać. Przykłady takich u"
-"stawień to: wymuszenie trybu mono, odwrócone stereo, włączanie i wyłączanie pa"
-"nelu logowania, a także suwak głośności i selektor dźwięku, które są dostępne "
-"tylko na platformie Raspberry Pi."
+"Sonic Pi wspiera wiele ustawień, które są dostępne po naciśnięciu przycisku "
+"*Prefs* (ustawienia). Jest to przycisk, który znajduje się tuż za "
+"przyciskami Info (informacje) i Help (pomoc). Naciśnięcie go spowoduje "
+"pokazanie Panelu Ustawień, gdzie znajduje się wiele opcji, które można "
+"zmieniać. Przykłady takich ustawień to: wymuszenie trybu mono, odwrócone "
+"stereo, włączanie i wyłączanie panelu logowania, a także suwak głośności i "
+"selektor dźwięku, które są dostępne tylko na platformie Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -544,7 +540,6 @@ msgid "G. Help System"
 msgstr "G. System Pomocy"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -553,13 +548,13 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"I na koniec została jedna z najważniejszych części interfejsu Sonic Pi - syste"
-"m pomocy, który pojawia się w dolnym oknie. Może on być włączony i wyłączony z"
-"a pomocą niebieskiego przycisku *Help* (pomoc). System pomocy zawiera pomoc or"
-"az informacje dotyczące wszystkich aspektów związanych z Sonic Pi, włączając w"
-" to ten samouczek, listę dostępnych syntezatorów, sampli (próbki dźwięków), pr"
-"zykłady, FX (efekty) oraz listę wszystkich funkcji, jakie Sonic Pi udostępnia "
-"do tworzenia muzyki."
+"I na koniec została jedna z najważniejszych części interfejsu Sonic Pi - "
+"system pomocy, który pojawia się w dolnym oknie. Może on zostać włączony i "
+"wyłączony za pomocą niebieskiego przycisku *Help* (pomoc). System pomocy "
+"zawiera pomoc oraz informacje dotyczące wszystkich aspektów związanych z "
+"Sonic Pi, włączając w to ten samouczek, listę dostępnych syntezatorów, "
+"sampli (próbki dźwięków), przykłady, FX (efekty) oraz listę wszystkich "
+"funkcji, jakie Sonic Pi udostępnia do tworzenia muzyki."
 
 #: 01.2-Exploring-the-Interface.md:81
 #, fuzzy
@@ -680,7 +675,6 @@ msgid "OK, enough of the intros - let's get into some sound."
 msgstr "OK, tyle tytułem wstępu - pora zająć się muzyką."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -689,11 +683,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"W tym rozdziale poznasz podstawy uruchamiania i operowania syntezatorami. Synt"
-"ezator to taka fajna nazwa dla czegoś, co wytwarza dźwięk. Normalnie syntezato"
-"ry są dość skomplikowane w użyciu. Zwłaszcza syntezatory analogowe zawierają w"
-"iele różnych połączeń, kabelków i modułów. Natomiast Sonic Pi oddaje w Twoje r"
-"ęce wiele z tych możliwości w bardzo prostej i przystępnej formie."
+"W tym rozdziale poznasz podstawy uruchamiania i operowania syntezatorami. "
+"Syntezator to taka fajna nazwa dla czegoś, co wytwarza dźwięk. Normalnie "
+"syntezatory są dość skomplikowane w użyciu. Zwłaszcza syntezatory analogowe "
+"zawierają wiele różnych połączeń, kabelków i modułów. Natomiast Sonic Pi "
+"oddaje w Twoje ręce wiele z tych możliwości w bardzo prostej i przystępnej "
+"formie."
 
 #: 02-Synths.md:14
 msgid ""
@@ -10881,18 +10876,17 @@ msgstr ""
 "end"
 
 #: A.03-coded-beats.md:54
-#, fuzzy
 msgid ""
 "OK, so it is looping, but there's an annoying pause every time round. That is "
 "because we asked it to sleep for `2` beats and with the default BPM of 60 the "
 "`:loop_amen` sample only lasts for `1.753` beats. We therefore have a silence "
 "of `2 - 1.753 = 0.247` beats. Even though it's short, it's still noticeable."
 msgstr ""
-"Okej, więc to jest zapętlone, ale są tutaj irytujące pauzy za każdym razem, gd"
-"y ponownie odtwarzany jest sampel. Tak się dzieje, gdyż poprosiliśmy go o uśpi"
-"enie na '2' uderzenia, z domyślnym BPM 60. `: loop_amen` trwa jedynie przez `1"
-".753` uderzenia. Mamy więc ciszę przez 0.247 uderzenia ('2-1.753 = 0.247'). Mi"
-"mo krótkiego czasu trwania, jest to jeszcze zauważalne."
+"Okej, więc to jest zapętlone, ale są tutaj irytujące pauzy za każdym razem, "
+"gdy ponownie odtwarzany jest sampel. Tak się dzieje, gdyż poprosiliśmy go o "
+"uśpienie na '2' uderzenia, z domyślnym BPM 60. `: loop_amen` trwa jedynie "
+"przez `1.753` uderzenia. Mamy więc ciszę przez 0.247 uderzenia ('2-1.753 = "
+"0.247'). Mimo krótkiego czasu trwania, jest to jeszcze zauważalne."
 
 #: A.03-coded-beats.md:60
 msgid ""
@@ -10941,17 +10935,16 @@ msgid "Playing with Time"
 msgstr "Zabawa z Czasem"
 
 #: A.03-coded-beats.md:80
-#, fuzzy
 msgid ""
 "OK, so what if we want to change styles to old school hip hop or breakcore? On"
 "e simple way of doing this is to play with time - or in other words mess with "
 "the tempo. This is super easy in Sonic Pi - just throw in a `use_bpm` into you"
 "r live loop:"
 msgstr ""
-"Dobrze! Więc co, jeśli chcemy zmienić styl na starą szkołę hip-hop lub breakco"
-"re? Jednym z prostszych sposobów jest zabawa z czasem - lub, w innym słowa zna"
-"czeniu, bałagan z tempem. To jest super łatwe w Sonic Pi - po prostu dodaj 'us"
-"e_bpm' do Twojej żywej pętli:"
+"Dobrze! Więc co, jeśli chcemy zmienić styl na starą szkołę hip-hop lub "
+"breakcore? Jednym z prostszych sposobów jest zabawa z czasem - lub, w innym "
+"słowa znaczeniu, bałagan z tempem. To jest super łatwe w Sonic Pi - po "
+"prostu dodaj 'use_bpm' do Twojej żywej pętli:"
 
 #: A.03-coded-beats.md:85
 #, no-wrap
@@ -11041,7 +11034,6 @@ msgstr ""
 "sokość trawy ma pozostać po skoszeniu."
 
 #: A.03-coded-beats.md:128
-#, fuzzy
 msgid "Slicing"
 msgstr "Przycinanie"
 
@@ -12167,7 +12159,6 @@ msgstr ""
 "mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
-#, fuzzy
 msgid ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
@@ -12323,7 +12314,6 @@ msgstr ""
 "później na `100`. Czyż to nie jest fajne?"
 
 #: A.06-minecraft.md:158
-#, fuzzy
 msgid ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
@@ -12961,10 +12951,10 @@ msgid ""
 "d rain - just make sure you're looking the right way!"
 msgstr ""
 "Kiedy naciśniesz przycisk Run, być może będziesz musiał rozejrzeć się trochę "
-"dookoła gdyż bloki mogą zacząć spadać za tobą, zależy w którym kierunku "
+"dookoła, gdyż bloki mogą zacząć spadać za Tobą, zależy w którym kierunku "
 "akurat będziesz zwrócony. Nie przejmuj się, jeśli je przegapiłeś, po prostu "
 "uruchom ponownie przycisk Run dla kolejnej partii padającego piasku - "
-"upewnij się tylko, że patrzysz we właściwą stronę."
+"upewnij się tylko, że patrzysz we właściwą stronę!"
 
 #: A.08-minecraft-vj.md:79
 msgid ""
@@ -13041,11 +13031,11 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:113
 msgid "`xd` - the difference for x which will be between -10 and 10"
-msgstr ""
+msgstr "`xd` - różnica dla x, która będzie między -10 a 10"
 
 #: A.08-minecraft-vj.md:114
 msgid "`zd` - the difference for z also between -10 and 10"
-msgstr ""
+msgstr "`zd` - różnica dla z także między -10 a 10"
 
 #: A.08-minecraft-vj.md:115
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
@@ -13057,6 +13047,9 @@ msgid ""
 "s sand falling in random locations around Steve along with a percussive rain-l"
 "ike sound from the `:cnoise` synth."
 msgstr ""
+"Następnie używamy tych wartości w fns `synth` oraz `mc_set_block', co daje "
+"nam bloki piasku spadające w losowych miejscach wokół Steve'a razem z "
+"perkusyjnym dźwiękiem deszczu podobnym do `:cnoise`."
 
 #: A.08-minecraft-vj.md:121
 msgid ""
@@ -13068,16 +13061,25 @@ msgid ""
 "g and changing things around. How different can you make the visuals without s"
 "topping the code?"
 msgstr ""
+"Dla nowych z żywymi pętlami - to jest miejsce, gdzie naprawdę zaczyna się "
+"zabawa z Sonic Pi. Spróbuj zmienić wartość uśpienia na `0.25` lub `:sand` na "
+"`:gravel:` podczas spadania bloków piasku wokół Steve'a. Następnie naciśnij "
+"jeszcze raz przycisk *Run*. Hej, patrz! Zmieniło się to bez zatrzymywania "
+"uruchomionego kodu! To jest Twoja brama do działania jak prawdziwy VJ. Nie "
+"krępuj się zmieniać rzeczy dookoła - jak różne można tworzyć wizualizacje "
+"bez zatrzymywania kodu?"
 
 #: A.08-minecraft-vj.md:129
 msgid "Epic Block Patterns"
-msgstr ""
+msgstr "Epickie Wzory Bloków"
 
 #: A.08-minecraft-vj.md:131
 msgid ""
 "![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
 ".png)"
 msgstr ""
+"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-"
+"vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:133
 msgid ""
@@ -13119,6 +13121,10 @@ msgid ""
 " types and the more adventurous of you might want to try sticking this within "
 "a `live_loop` so that the patterns keep changing automatically."
 msgstr ""
+"Całkiem miłe. Kiedy czerpiemy radość z zabawy, spróbuj zmienić `bs.choose` "
+"na `bs.tick`, aby ruszyć z losowego wzoru na bardziej regularny. Zrób to "
+"także z typami bloków. Niektórzy z Was będą pewnie chcieli wypróbować to na "
+"taki sposób, żeby wzory zmieniały się automatycznie."
 
 #: A.08-minecraft-vj.md:161
 msgid ""
@@ -13133,11 +13139,12 @@ msgstr ""
 
 #: A.09-randomisation.md:1
 msgid "A.9 Randomisation"
-msgstr ""
+msgstr "A.9 Randomizacja"
 
 #: A.09-randomisation.md:3
+#, fuzzy
 msgid "Surfing Random Streams"
-msgstr ""
+msgstr "Surfowanie Randomowych Strumieni"
 
 #: A.09-randomisation.md:5
 msgid ""
@@ -13150,7 +13157,7 @@ msgstr ""
 
 #: A.09-randomisation.md:11
 msgid "There is no random"
-msgstr ""
+msgstr "Nie istnieje żadna losowość"
 
 #: A.09-randomisation.md:13
 msgid ""
@@ -13206,7 +13213,7 @@ msgstr ""
 
 #: A.09-randomisation.md:54
 msgid "Let's use this knowledge to generate a repeatable random melody:"
-msgstr ""
+msgstr "Użyjmy zatem tej wiedzy do wygenerowania losowo powtarzanej melodii:"
 
 #: A.09-randomisation.md:56
 #, no-wrap
@@ -13227,16 +13234,21 @@ msgid ""
 "'random' notes between 50 and 95. When it's finished, hit Run again to hear ex"
 "actly the same melody again."
 msgstr ""
+"Wpisz ten kod do wolnego bufora i wciśnij *Run*. Usłyszysz melodię, która "
+"składa się z losowych nut z przedziału między 50 a 95. Po jego zakończeniu "
+"ponownie to zrób, aby jeszcze raz usłyszeć dokładnie tę samą melodię."
 
 #: A.09-randomisation.md:67
 msgid "Handy Randomisation Functions"
-msgstr ""
+msgstr "Przydatne Funkcje Randomizacji"
 
 #: A.09-randomisation.md:69
 msgid ""
 "Sonic Pi comes with a number of useful functions for working with the random s"
 "tream. Here's a list of some of the most useful:"
 msgstr ""
+"Sonic Pi zawiera wiele przydatnych funkcji do działania z losowym "
+"strumieniem. Oto lista paru najbardziej użytkowych z nich:"
 
 #: A.09-randomisation.md:72
 msgid "`rand` - Simply returns the next value in the random stream"
@@ -13244,33 +13256,35 @@ msgstr ""
 
 #: A.09-randomisation.md:73
 msgid "`rrand` - Returns a random value within a range"
-msgstr ""
+msgstr "`rrand` - Zwraca losową wartość z danego zakresu"
 
 #: A.09-randomisation.md:74
 msgid "`rrand_i` - Returns a random whole number within a range"
-msgstr ""
+msgstr "`rrand_i` - Zwraca losową liczbę całkowitą z danego zakresu"
 
 #: A.09-randomisation.md:75
 msgid "`one_in` - Returns true or false with the given probability"
-msgstr ""
+msgstr "`one_in` - Zwraca true lub false z danym prawdopodobieństwem"
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
-msgstr ""
+msgstr "`dice` - naśladuje rzut kostki i zwraca wartość między 1 a 6"
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr ""
+msgstr "`choose` - Wybiera losową wartość z listy"
 
 #: A.09-randomisation.md:79
 msgid ""
 "Check out their documentation in the Help system for detailed information and "
 "examples."
 msgstr ""
+"Sprawdź ich dokumentację w Systemie pomocy dla uzyskania szczegółowych "
+"informacji i przykładów."
 
 #: A.09-randomisation.md:82
 msgid "Resetting the Stream"
-msgstr ""
+msgstr "Resetowanie Strumienia"
 
 #: A.09-randomisation.md:84
 msgid ""
