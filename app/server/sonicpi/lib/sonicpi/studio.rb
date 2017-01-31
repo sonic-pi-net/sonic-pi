@@ -391,7 +391,7 @@ module SonicPi
       @server_reboot.kill
       begin
         @server.shutdown
-      rescue Exception => e
+      rescue Exception
       end
     end
 
