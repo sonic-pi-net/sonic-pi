@@ -21,8 +21,8 @@ module SonicPi
     end
 
     def test_basic_properties
-      a = eval(PreParser.preparse(":foo:bar"))
-      b = eval(PreParser.preparse(":foo:bar"))
+      a = eval(PreParser.preparse(":foo:bar",  SonicPi::Lang::Core.vec_fns))
+      b = eval(PreParser.preparse(":foo:bar",  SonicPi::Lang::Core.vec_fns))
 
       assert_equal a, b
       assert_equal a.object_id, b.object_id

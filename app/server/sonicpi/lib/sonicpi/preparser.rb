@@ -11,8 +11,6 @@
 # notice is included.
 #++
 
-require_relative "lang/core"
-require_relative "lang/sound"
 require_relative "lang/support/docsystem"
 
 module SonicPi
@@ -20,8 +18,8 @@ module SonicPi
 
     class PreParseError < StandardError ; end
 
-    def self.preparse(rb)
-      SonicPi::Lang::Core.vec_fns.each do |fn|
+    def self.preparse(rb, vec_fns)
+      vec_fns.each do |fn|
         rb = String.new(rb)
         fn = fn[:name].to_s
         rb.gsub!(/\((\s*)#{fn}([,[:space:]]+)/) {|s| ' ' + $1 + fn + '(' + (' ' * ($2.size - 1))}

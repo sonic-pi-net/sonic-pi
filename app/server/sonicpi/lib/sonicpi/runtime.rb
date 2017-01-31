@@ -17,7 +17,6 @@ require_relative "counter"
 require_relative "promise"
 require_relative "jobs"
 require_relative "synths/synthinfo"
-require_relative "lang/core"
 require_relative "lang/sound"
 require_relative "gitsave"
 require_relative "lifecyclehooks"
@@ -748,7 +747,7 @@ module SonicPi
             GC.start
           end
           __info "Starting run #{id}" unless silent
-          code = PreParser.preparse(code)
+          code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
           code = "in_thread seed: 0 do\n" + code + "\nend"
           firstline -=1
           eval(code, nil, info[:workspace], firstline)
