@@ -1943,7 +1943,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         args_h[:reps] = 1 unless args_h[:reps]
 
         ## Teach with_fx to do nothing if fx_name is :none
-        if fx_name == :none
+        if fx_name == :none || !should_trigger?(args_h)
           if block.arity == 0
             return args_h[:reps].times do
               block.call
