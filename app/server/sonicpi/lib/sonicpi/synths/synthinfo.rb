@@ -1839,52 +1839,52 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
     class Hoover < SonicPiSynth
       def name
         "Hoover"
-        end
+      end
 
-        def introduced
-          Version.new(2,6,0)
-        end
+      def introduced
+        Version.new(2,6,0)
+      end
 
-        def synth_name
-          "hoover"
-        end
+      def synth_name
+        "hoover"
+      end
 
-        def doc
-          "Classic early 90's rave synth - 'a sort of slurry chorussy synth line like the classic Dominator by Human Resource'. Based on Dan Stowell's implementation in SuperCollider and Daniel Turczanski's port to Overtone. Works really well with portamento (see docs for the 'control' method)."
-        end
+      def doc
+        "Classic early 90's rave synth - 'a sort of slurry chorussy synth line like the classic Dominator by Human Resource'. Based on Dan Stowell's implementation in SuperCollider and Daniel Turczanski's port to Overtone. Works really well with portamento (see docs for the 'control' method)."
+      end
 
-        def arg_defaults
-          {
-            :note => 52,
-            :note_slide => 0,
-            :note_slide_shape => 1,
-            :note_slide_curve => 0,
-            :amp => 1,
-            :amp_slide => 0,
-            :amp_slide_shape => 1,
-            :amp_slide_curve => 0,
-            :pan => 0,
-            :pan_slide => 0,
-            :pan_slide_shape => 1,
-            :pan_slide_curve => 0,
-            :attack => 0.05,
-            :decay => 0,
-            :sustain => 0,
-            :release => 1,
-            :attack_level => 1,
-            :decay_level => :sustain_level,
-            :sustain_level => 1,
-            :env_curve => 2,
-            :cutoff => 130,
-            :cutoff_slide => 0,
-            :cutoff_slide_shape => 1,
-            :cutoff_slide_curve => 0,
-            :res => 0.1,
-            :res_slide => 0,
-            :res_slide_shape => 1,
-            :res_slide_curve => 0,
-          }
-        end
+      def arg_defaults
+        {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0.05,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :env_curve => 2,
+          :cutoff => 130,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+          :res => 0.1,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+        }
+      end
     end
 
     class SynthViolin < SonicPiSynth
