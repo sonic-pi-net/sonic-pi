@@ -65,7 +65,7 @@ module SonicPi
       end
 
       def get_nested_beat(pattern)
-        output = nested_beat(pattern).flatten.map do |step|
+        nested_beat(pattern).flatten.map do |step|
           [(1.0/step[:level]), step[:step]]
         end
       end
