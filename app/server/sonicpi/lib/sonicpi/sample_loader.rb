@@ -158,9 +158,9 @@ module SonicPi
         res = @cached_folder_contents[path]
         return res if res
         if recursive
-          res = Dir.chdir(path) { Dir.glob("**/*.{wav,wave,aif,aiff,flac}").map {|path| File.expand_path(path) } }.sort
+          res = Dir.chdir(path) { Dir.glob("**/*.{wav,wave,aif,aiff,flac}").map {|p| File.expand_path(p) } }.sort
         else
-          res = Dir.chdir(path) { Dir.glob("*.{wav,wave,aif,aiff,flac}").map {|path| File.expand_path(path) } }.sort
+          res = Dir.chdir(path) { Dir.glob("*.{wav,wave,aif,aiff,flac}").map {|p| File.expand_path(p) } }.sort
         end
         @cached_folder_contents[path] = res.freeze
       end
