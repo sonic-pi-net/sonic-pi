@@ -283,11 +283,11 @@ module SonicPi
       def sample_free(*paths)
         paths.each do |p|
           p = [p] unless is_list_like?(p)
-          filts_and_sources, args_a = sample_split_filts_and_opts(p)
           resolve_sample_paths(filts_and_sources).each do |p|
             if sample_loaded?(p)
               @mod_sound_studio.free_sample([p])
               __info "Freed sample: #{unify_tilde_dir(p).inspect}"
+          filts_and_sources, _ = sample_split_filts_and_opts(p)
             end
           end
         end
@@ -1123,7 +1123,6 @@ play 64 # Plays note 64"]
         raise "with_tuning requires a do/end block. Perhaps you meant use_tuning" unless block
         raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
         curr_tuning_info = __thread_locals.get(:sonic_pi_mod_sound_tuning)
-        curr_tuning, curr_fundamental = curr_tuning_info
         __thread_locals.set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note].freeze)
         res = block.call
         __thread_locals.set(:sonic_pi_mod_sound_tuning, curr_tuning_info)
@@ -1972,7 +1971,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         orig_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
 
         external_fx_t = Thread.current
-        fx_t_ = Promise.new
         gc_init_completed = Promise.new
         fx_t_completed = Promise.new
         tracker = SynthTracker.new
@@ -1985,8 +1983,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         fx_synth_group = nil
         block_res = nil
         block_exception = nil
-        start_subthreads = nil
-        end_subthreads = nil
 
         __no_kill_block do
 
@@ -2018,7 +2014,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
             ## block (or the case that the thread dies) and to clean up
             ## everything appropriately (i.e. ensure the FX synth has
             ## been killed).
-            gc = Thread.new do
+            Thread.new do
               __system_thread_locals.set(:sonic_pi_local_thread_group, :gc)
               Thread.current.priority = -10
               ## Need to block until either the thread died (which will be
@@ -2046,7 +2042,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
               end
 
               ## Block!
-              res = fx_completed.get
+              fx_completed.get
               ## Clean up blocking alert threads (one of them already
               ## completed, but kill both for completeness)
               t1.kill
@@ -2435,7 +2431,7 @@ set_volume! 2 # Set the main system volume to 2",
 
 
       def sample_loaded?(*args)
-        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        filts_and_sources, _ = sample_split_filts_and_opts(args)
         path = resolve_sample_path(filts_and_sources)
 
         path = File.expand_path(path)
@@ -2456,7 +2452,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
 
       def load_sample(*args)
-        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        filts_and_sources, _ = sample_split_filts_and_opts(args)
         path = sample_find_candidates(filts_and_sources)[0]
         load_sample_at_path path
       end
@@ -2484,7 +2480,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
 
 
       def load_samples(*args)
-        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        filts_and_sources, _ = sample_split_filts_and_opts(args)
         paths = sample_find_candidates(filts_and_sources)
         paths.map do |p|
           load_sample_at_path p
@@ -2550,7 +2546,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
 
 
       def sample_buffer(*args)
-        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        filts_and_sources, _ = sample_split_filts_and_opts(args)
         path = resolve_sample_path(filts_and_sources)
         load_sample_at_path(path)
       end
@@ -2783,7 +2779,7 @@ sample :loop_amen                    # starting it again
 
 
       def sample_paths(*args)
-        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        filts_and_sources, _ = sample_split_filts_and_opts(args)
         resolve_sample_paths(filts_and_sources).ring
       end
       doc name:          :sample_paths,
@@ -4301,7 +4297,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false, pos=:tail)
 
         add_out_bus_and_rand_buf!(args_h, out_bus, info)
-        orig_synth_name = synth_name
 
         synth_name = info ? info.scsynth_name : synth_name
 
@@ -4309,8 +4304,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         return BlankNode.new(args_h) unless should_trigger?(args_h)
 
         ensure_good_timing!
-
-        job_id = current_job_id
 
         __no_kill_block do
 
