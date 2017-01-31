@@ -97,11 +97,6 @@ module SonicPi
       @node.state
     end
 
-    def name
-      wait_for_prom unless @realised
-      @node.name
-    end
-
     def to_i
       wait_for_prom unless @realised
       @node.to_i
