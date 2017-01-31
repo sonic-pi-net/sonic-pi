@@ -4835,7 +4835,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           n += (cent_shift / 100.0)
         end
 
-        if @mod_sound_studio
+        if instance_variable_defined?(:@mod_sound_studio)
           n += (@mod_sound_studio.cent_tuning / 100.0)
         end
 
