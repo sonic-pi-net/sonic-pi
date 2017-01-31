@@ -60,7 +60,7 @@ module SonicPi
         point_index = 0
 
         while (l = lines.shift) && !(l.start_with? "# --")
-          res = l.match /\# ?([_a-z]+):(.*)/
+          res = l.match(/\# ?([_a-z]+):(.*)/)
           if res
             k = res[1].strip
             v = res[2].strip
