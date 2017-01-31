@@ -3741,9 +3741,6 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         args_h = resolve_synth_opts_hash_or_array(args)
         args_h = args_h.to_h
         return nil unless should_trigger?(args_h)
-        # set default slide times
-        default_slide_time = args_h[:slide]
-        args_h.delete :slide
 
         info = node.info
         defaults = info ? info.arg_defaults : {}
