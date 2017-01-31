@@ -122,7 +122,7 @@ module SonicPi
     end
 
     def __last_update_check
-      Time.at(last_update = @settings.get(:last_update_check_time).to_i)
+      Time.at(@settings.get(:last_update_check_time).to_i)
     end
 
     def __check_for_server_version_now
