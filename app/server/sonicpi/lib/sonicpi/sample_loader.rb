@@ -69,7 +69,7 @@ module SonicPi
             bn = File.basename(v, ".*")
             bn.match f
           end
-        when Fixnum
+        when Integer
           unless candidates.empty?
             candidates = [candidates[f % candidates.size]]
           end
