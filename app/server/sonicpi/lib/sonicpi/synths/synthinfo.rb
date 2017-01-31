@@ -7491,7 +7491,6 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def self.info_doc_html_map(klass)
-        key_mod = nil
         res = {}
 
         max_len =  0
