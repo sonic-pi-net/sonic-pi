@@ -20,7 +20,7 @@ require_relative "../../../lib/sonicpi/lang/core"
 require_relative "../../../lib/sonicpi/lang/pattern"
 
 module SonicPi
-    class PlayNestedPatternTester < Minitest::Test
+  class PlayNestedPatternTester < Minitest::Test
     def setup
       @mock_sound = Object.new
       @mock_sound.extend(Lang::Sound)
