@@ -283,11 +283,11 @@ module SonicPi
       def sample_free(*paths)
         paths.each do |p|
           p = [p] unless is_list_like?(p)
-          resolve_sample_paths(filts_and_sources).each do |p|
-            if sample_loaded?(p)
-              @mod_sound_studio.free_sample([p])
-              __info "Freed sample: #{unify_tilde_dir(p).inspect}"
           filts_and_sources, _ = sample_split_filts_and_opts(p)
+          resolve_sample_paths(filts_and_sources).each do |path|
+            if sample_loaded?(path)
+              @mod_sound_studio.free_sample([path])
+              __info "Freed sample: #{unify_tilde_dir(path).inspect}"
             end
           end
         end
