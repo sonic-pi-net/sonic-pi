@@ -1,0 +1,20 @@
+riff_chunk:
+  chunk_id: "RIFF"
+  chunk_size: auto
+  wave_format: "WAVE"
+format_chunk:
+  chunk_id: "fmt "
+  chunk_size: 40
+  audio_format: 1
+  channels: 1
+  sample_rate: 44100
+  byte_rate: 176400
+  block_align: 4
+  bits_per_sample: 32    # Container size
+  extension_size: 22
+  valid_bits_per_sample: 24    # Sample size
+  speaker_mapping: 0x00000001
+  subformat_guid: [1, 0, 0, 0, 0, 0, 16, 0, 128, 0, 0, 170, 0, 56, 155, 113]
+data_chunk:
+  cycle_repeats: 280
+  channel_format: mono

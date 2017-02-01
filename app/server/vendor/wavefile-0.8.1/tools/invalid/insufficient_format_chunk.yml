@@ -1,0 +1,10 @@
+riff_chunk:
+  chunk_id: "RIFF"
+  chunk_size: 12
+  wave_format: "WAVE"
+format_chunk:
+  chunk_id: "fmt "
+  chunk_size: 8
+  audio_format: 1
+  channels: 2
+  sample_rate: 44100
