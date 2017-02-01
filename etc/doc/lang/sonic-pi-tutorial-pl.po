@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-31 21:55+0000\n"
-"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
+"PO-Revision-Date: 2017-02-01 06:15+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -13028,6 +13028,9 @@ msgid ""
 "h loop we're finding Steve's location like before but then generating 3 random"
 " values:"
 msgstr ""
+"Ale zabawa! Kręcimy się kółko całkiem szybko (8 razy na sekundę) i w trakcie "
+"każdego przebiegu odczytujemy aktualną lokację Steve'a tak samo jak "
+"wcześniej, ale tym razem generujemy 3 losowe wartości:"
 
 #: A.08-minecraft-vj.md:113
 msgid "`xd` - the difference for x which will be between -10 and 10"
@@ -13039,7 +13042,7 @@ msgstr "`zd` - różnica dla z także między -10 a 10"
 
 #: A.08-minecraft-vj.md:115
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
-msgstr ""
+msgstr "`co` - wartość odcięcia dla filtra niskich tonów pomiędzy 70 a 130"
 
 #: A.08-minecraft-vj.md:117
 msgid ""
