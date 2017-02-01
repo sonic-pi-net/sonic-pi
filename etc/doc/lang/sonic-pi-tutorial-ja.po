@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-31 09:47+0000\n"
+"PO-Revision-Date: 2017-02-01 10:00+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 2.11\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -11797,7 +11797,7 @@ msgid ""
 "ose the one we liked best? This is where the real magic starts."
 msgstr ""
 "選択した音符のシーケンスを繰り返す機能は、リフをダンスフロアで再現するためには不可欠ですが、あなたが望んだリフではないかもしれません。もし、いくつかの異な"
-"るリフを試して、一番好きなリフを選ぶことができれば、素晴らしいことではないでしょうか？これが本当のマジックの始まりです。"
+"るリフを試して、一番好きなリフを選ぶことができれば、素晴らしいことではないでしょうか？ これが本当のマジックの始まりです。"
 
 #: A.09-randomisation.md:90
 msgid ""
@@ -11865,7 +11865,7 @@ msgid ""
 "us huge power when making music."
 msgstr ""
 "ランダムストリームは「あらかじめ準備された」値の巨大なリストに過ぎないことを思い出してください。ランダムシードの使用は、そのリスト内の特定の位置に単にジャ"
-"ンプするだけです。それについて考えるもう一つの方法は、あらかじめシャッフルされたトランプカードの巨大なデッキを想像することです。ランダムシードを使用するこ"
+"ンプするだけです。それについて考えるもう1つの方法は、あらかじめシャッフルされたトランプカードの巨大なデッキを想像することです。ランダムシードを使用するこ"
 "とは、デッキの特定の位置でカードを分けることです。このことの素晴らしい点の1つは、ランダムストリームを行ったり来たりするこの機能こそ、音楽を作るときに私た"
 "ちに大きな力を与えるということです。"
 
@@ -11918,6 +11918,10 @@ msgid ""
 " close look at some of these applications, but for now let me leave you with a"
 " short example."
 msgstr ""
+"今月のチュートリアルでは、Sonic Piのランダム化機能の動作を技術的に詳しく説明しました。信頼性の高い方法でランダム化を使用して音楽内で繰り返し可能な"
+"パターンを作成する方法と、それがどのように動作するのかについて、何らかの示唆を与えられたことを願っています。そして、繰り返し可能なランダム化を*どこでも*"
+"使用できることを強調しておきます。例えば、音符の音量、リズムのタイミング、リバーブの量、現在のシンセ、エフェクトの掛かり具合などをランダム化することができ"
+"ます。これらについて、将来いくつかの応用を詳しく見たいですが、ここでは簡単な例を挙げておきます。"
 
 #: A.09-randomisation.md:157
 msgid ""
@@ -11928,6 +11932,9 @@ msgid ""
 " seeds you like, put on a live coded performance for your friends by simply sw"
 "itching between your favourite seeds to create a full piece."
 msgstr ""
+"空いたバッファに以下のように入力し、`Run`を叩いてみてください。そして、シードを変更してみて、（演奏された状態のまま）もう1度`Run`を叩いてみてく"
+"ださい。それによって作り出されるさまざまなサウンド、リズム、メロディを探索してみてください。もし素敵なものを見つけたら、シードの数字を覚えておいてください"
+"。最後に、あなたが好きなシードがいくつか見つかったら、お気に入りのシードを切り替えて曲にするだけで、ライブコーディングのパフォーマンスを提供できます。"
 
 #: A.09-randomisation.md:165
 #, no-wrap
@@ -11976,11 +11983,11 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:1
 msgid "A.10 Control"
-msgstr ""
+msgstr "A.10 コントロール"
 
 #: A.10-controlling-your-sound.md:3
 msgid "Controlling Your Sound"
-msgstr ""
+msgstr "音をコントロールする"
 
 #: A.10-controlling-your-sound.md:5
 msgid ""
@@ -11995,6 +12002,12 @@ msgid ""
 "rong! Today you're going to learn something very powerful - how to control run"
 "ning synths."
 msgstr ""
+"ここまでで、このシリーズではサウンドをトリガーすることに焦点を当ててきました。我々は、`play`や`synth`でSonic Piに組み込まれた多くのシ"
+"ンセサイザーを起動させることができ、`sample`であらかじめ録音されたサンプルをトリガーする方法を見てきました。また、トリガーされたサウンドを、`wi"
+"th_fx`コマンドを使ってリバーブやディストーションなどのスタジオ・エフェクト内にどのようにラップできるかを見てきました。これをSonic Piの信じら"
+"れないほど正確なタイミングシステムと組み合わせると、広大なサウンド、ビート、リフを生成することができます。しかし、特定のサウンドのオプションを慎重に選択し"
+"てトリガーすると、再生されている間にそのサウンドを変更することはできないでしょうか？ それができるのです！ "
+"今日は、実行中のシンセをコントロールするとてもパワフルな方法を学びます。"
 
 #: A.10-controlling-your-sound.md:17
 msgid "A Basic Sound"
