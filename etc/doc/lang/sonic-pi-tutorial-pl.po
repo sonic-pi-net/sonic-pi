@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-02 10:05+0000\n"
-"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"PO-Revision-Date: 2017-02-02 11:02+0000\n"
+"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -13510,6 +13510,14 @@ msgid ""
 " seeds you like, put on a live coded performance for your friends by simply sw"
 "itching between your favourite seeds to create a full piece."
 msgstr ""
+"Wpisz następujący kod do czystego bufora, naciśnij Run i następnie "
+"zmieniając wartości seed dookoła, naciśnij Run jeszcze raz (kiedy muzyka "
+"ciągle jest grana). Odkrywaj różne dźwięki, rytmy i melodie, które możesz "
+"stworzyć. Kiedy znajdziesz ten jeden całkiem niezły, zapamiętaj wartość "
+"seed, aby móc do niego później powrócić. Gdy na końcu znajdziesz kilka "
+"seedów, które Ci się podobają, użyj ich w występie kodowanym na żywo dla "
+"Twoich znajomych, przełączając się między Twoimi ulubionymi seedami, by "
+"stworzyć cały kawałek."
 
 #: A.09-randomisation.md:165
 #, no-wrap
@@ -13958,6 +13966,10 @@ msgid ""
 "he current beat. Sometimes we just want to look at the current beat without ha"
 "ving to increment it which we can do via `look`:"
 msgstr ""
+"Widzieliśmy, że `tick`anie robi dwie rzeczy. Powiększa ono (dodaje jedno) i "
+"powraca do obecnego uderzenia. Czasami chcemy tylko spojrzeć na obecne "
+"uderzenia bez zwiększania ich ilości. Do tego zadania wykorzystamy polecenie "
+"`look`:"
 
 #: A.11-beat-tracking.md:49
 #, no-wrap
@@ -14094,11 +14106,11 @@ msgid ""
 "s much more powerful than having a global metronome and beat. Let's take a loo"
 "k at this in action:"
 msgstr ""
-"Bardzo ważną rzeczą, którą warto wiedzieć jest to, iż polecenia `tick`i są "
+"Bardzo ważną rzeczą, którą warto wiedzieć, jest to, iż polecenia `tick`i są "
 "lokalne dla danej pętli `live_loop`. Oznacza to, iż każda żywa pętla  "
 "`live_loop` posiada własny niezależny licznik uderzeń. Takie podejście daje "
 "o wiele więcej możliwości niż posiadanie jednego globalnego metronomu i "
-"bitu. Rzućmy okiem na to jak to działa w praktyce:"
+"bitu. Rzućmy okiem na to, jak to działa w praktyce:"
 
 #: A.11-beat-tracking.md:131
 #, no-wrap
