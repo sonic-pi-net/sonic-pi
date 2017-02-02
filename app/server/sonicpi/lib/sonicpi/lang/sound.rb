@@ -4304,7 +4304,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         __no_kill_block do
 
           info.on_start(@mod_sound_studio, args_h) if info
-          p = Promise.new
           s = @mod_sound_studio.trigger_synth synth_name, group, args_h, info, now, t_minus_delta, pos
 
           fx_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
@@ -4326,7 +4325,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             end
             fx_tracker.synth_finished(s) if fx_tracker
             tl_tracker.synth_finished(s)
-            p.deliver! true
           end
           __thread_locals.set(:sonic_pi_local_last_triggered_node, s)
           s
