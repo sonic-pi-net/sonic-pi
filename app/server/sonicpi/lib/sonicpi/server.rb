@@ -77,6 +77,8 @@ module SonicPi
         replace: 4
       }
 
+      @position_codes.default = :tail
+
       at_exit do
         puts "Exiting - shutting down scsynth server..."
         @scsynth.shutdown
