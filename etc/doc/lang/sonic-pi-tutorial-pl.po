@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-02 15:06+0000\n"
-"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"PO-Revision-Date: 2017-02-02 15:07+0000\n"
+"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -13638,6 +13638,11 @@ msgid ""
 "ntrol** it at a later point in time. For example, let's change the value of th"
 "e `cutoff:` opt after 1 beat:"
 msgstr ""
+"Małą znaną funkcją w Sonic Pi jest to, że `play`, `synth` oraz `sample` "
+"zwracają się do czegoś, co nosi nazwę `SynthNode`, który stanowi działający "
+"dźwięk. Możesz przechwycić jeden z `SynthNode`ów, używając zmiennej "
+"średniej, by następnie **kontrolować** go w dowolnym momencie w czasie. "
+"Przykładowo zmieńmy wartość `cutoff:` opt po jednym uderzeniu:"
 
 #: A.10-controlling-your-sound.md:38
 #, no-wrap
