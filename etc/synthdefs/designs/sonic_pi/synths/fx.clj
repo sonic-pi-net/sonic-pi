@@ -1207,9 +1207,17 @@
     [wet-l wet-r] [dry-l dry-r]
     ])
 
+ (core/def-fx sonic-pi-fx_scope_out
+   [scope_num 0
+    max_frames 4096]
+   [
+    _ (scope-out2 [dry-l dry-r] scope_num max_frames)
+    [wet-l wet-r] [dry-l dry-r]
+    ])
  )
 
 (comment
+  (core/save-synthdef sonic-pi-fx_scope_out)
   (core/save-synthdef sonic-pi-fx_sound_out)
   (core/save-synthdef sonic-pi-fx_sound_out_stereo)
   (core/save-synthdef sonic-pi-fx_record)
