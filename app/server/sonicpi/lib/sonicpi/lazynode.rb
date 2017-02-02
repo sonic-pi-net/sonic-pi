@@ -42,6 +42,16 @@ module SonicPi
       @node.on_started(&block)
     end
 
+    def on_move(&block)
+      wait_for_prom unless @realised
+      @node.on_move(&block)
+    end
+
+    def move(new_group, pos=nil)
+      wait_for_prom unless @realised
+      @node.move(new_group, pos)
+    end
+
     def kill(now=false)
       wait_for_prom unless @realised
       @node.kill(now)

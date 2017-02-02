@@ -4313,6 +4313,11 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           tl_tracker.synth_started(s)
 
+          s.on_move do
+            fx_tracker.synth_finished(s) if fx_tracker
+            tl_tracker.synth_finished(s)
+          end
+
           s.on_destroyed do
             if info
               Thread.new do

@@ -26,6 +26,13 @@ module SonicPi
     def on_started(&block)
     end
 
+    def on_move(&block)
+    end
+
+    def move(new_group, pos=nil)
+      self
+    end
+
     def kill(now=false)
       self
     end

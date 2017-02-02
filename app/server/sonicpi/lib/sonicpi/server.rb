@@ -48,6 +48,7 @@ module SonicPi
       @osc_path_n_free      = "/n_free".freeze
       @osc_path_n_set       = "/n_set".freeze
       @osc_path_n_run       = "/n_run".freeze
+      @osc_path_n_order     = "/n_order".freeze
       @osc_path_s_new       = "/s_new".freeze
       @osc_path_b_allocread = "/b_allocRead".freeze
       @osc_path_b_alloc     = "/b_alloc".freeze
@@ -275,6 +276,12 @@ module SonicPi
       else
         Time.now + @sched_ahead_time
       end
+    end
+
+    def node_move(node, target_node, pos=nil)
+      position = @position_codes[pos]
+      osc @osc_path_n_order, position.to_i, target_node.to_i, node.to_i
+      message "nde m #{'%05d' % node.to_i} - Move node #{node.to_i} to: #{target_node.to_i} pos: #{position}" if @debug_mode
     end
 
     def node_ctl(node, args, now=false)

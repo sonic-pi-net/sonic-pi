@@ -23,6 +23,7 @@ module SonicPi
       @state_change_sem = Mutex.new
       @on_destroyed_callbacks = []
       @on_started_callbacks = []
+      @on_move_callbacks = []
       @info = info
       r = rand.to_s
       @killed_event_key  = "/sonicpi/node/killed#{id}-#{r}"
@@ -59,6 +60,12 @@ module SonicPi
       end
     end
 
+    def on_move(&block)
+      @state_change_sem.synchronize do
+        @on_move_callbacks << block
+      end
+    end
+
     def wait_until_started
       prom = nil
       @state_change_sem.synchronize do
@@ -73,6 +80,14 @@ module SonicPi
         end
       end
       prom.get
+      self
+    end
+
+    def move(new_group, pos=nil)
+      @state_change_sem.synchronize do
+        @comms.node_move(self, new_group, pos)
+        call_on_move_callbacks
+      end
       self
     end
 
@@ -171,6 +186,16 @@ module SonicPi
         log_exception e, "in on started callbacks"
       end
     end
+
+    def call_on_move_callbacks
+      begin
+        @on_move_callbacks.each{|cb| cb.call}
+        @on_move_callbacks = []
+      rescue Exception => e
+        log_exception e, "in on move callbacks"
+      end
+    end
+
 
     def handle_n_off(arg)
       @state_change_sem.synchronize do
