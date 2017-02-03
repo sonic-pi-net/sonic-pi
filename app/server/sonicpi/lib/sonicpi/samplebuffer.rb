@@ -120,9 +120,9 @@ module SonicPi
         slice_size = (finish - start) / num.to_f
         prev = start
         val = start + slice_size
-
-        num.times do
-          res << {:start => prev, :finish => val}
+        num = num.to_i
+        num.times do |n|
+          res << {:start => prev, :finish => val, index: n}
           prev = val
           val += slice_size
         end

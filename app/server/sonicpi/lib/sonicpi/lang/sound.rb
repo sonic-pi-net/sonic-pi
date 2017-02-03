@@ -4422,7 +4422,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           end
           args_h[:start] = slice[:start]
           args_h[:finish] = slice[:finish]
-          args_h.delete :slice
+          args_h[:slice] = slice[:index] if slice[:index]
         end
 
         onset_idx = args_h[:onset]
@@ -4439,17 +4439,18 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           if onset_idx.is_a? Numeric
             args_h.merge!(onsets[onset_idx.to_i])
+            res = onsets[onset_idx]
           elsif onset_idx.is_a? Proc
             res = onset_idx.call(onsets)
             res = res[0] if is_list_like?(res)
             raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{res.inspect}" unless res.respond_to?(:has_key?) && res[:start].is_a?(Numeric) && res[:finish].is_a?(Numeric)
-            args_h[:start] = res[:start]
-            args_h[:finish] = res[:finish]
-            args_h.delete :onset
+
           else
             raise "Unknown sample onset: value. Expected a number or a proc. Got #{onset_idx.inspect}"
           end
-
+          args_h[:start] = res[:start]
+          args_h[:finish] = res[:finish]
+          args_h[:onset] = res[:index] if res[:index]
         end
 
         if info
