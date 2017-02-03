@@ -99,7 +99,7 @@ module SonicPi
         info_prom.deliver! payload
       end
       load_synthdefs(synthdef_path)
-      osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0, []
+      osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0
       info = info_prom.get
       @scsynth_info = SonicPi::Core::SPMap.new({
         :sample_rate => info[2],
