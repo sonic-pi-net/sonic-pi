@@ -280,10 +280,18 @@ module SonicPi
       end
     end
 
-    def node_move(node, target_node, pos=nil)
+    def node_move(node, target_node, pos=nil, now=false)
       position = @position_codes[pos]
-      osc @osc_path_n_order, position.to_i, target_node.to_i, node.to_i
       message "nde m #{'%05d' % node.to_i} - Move node #{node.to_i} to: #{target_node.to_i} pos: #{position}" if @debug_mode
+
+
+      if now
+        osc @osc_path_n_order, position.to_i, target_node.to_i, node.to_i
+      else
+
+        ts = sched_ahead_time_for_node_mod(node.id)
+        osc_bundle ts, @osc_path_n_order, position.to_i, target_node.to_i, node.to_i
+      end
     end
 
     def node_ctl(node, args, now=false)

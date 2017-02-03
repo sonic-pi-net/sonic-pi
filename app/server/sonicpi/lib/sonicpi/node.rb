@@ -83,9 +83,9 @@ module SonicPi
       self
     end
 
-    def move(new_group, pos=nil)
+    def move(new_group, pos=nil, now=false)
       @state_change_sem.synchronize do
-        @comms.node_move(self, new_group, pos)
+        @comms.node_move(self, new_group, pos, now)
         call_on_move_callbacks
       end
       self
