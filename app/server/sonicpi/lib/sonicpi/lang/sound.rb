@@ -3790,7 +3790,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}"
         end
-
+        return node
       end
       doc name:          :control,
           introduced:    Version.new(2,0,0),
