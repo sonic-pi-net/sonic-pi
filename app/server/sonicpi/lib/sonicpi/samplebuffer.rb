@@ -101,7 +101,7 @@ module SonicPi
         return @aubio_slices if @aubio_slices
         res = []
         ons[0...-1].each_with_index do |onset, idx|
-          res << {:start => onset, :finish => ons[idx + 1]}
+          res << {:start => onset, :finish => ons[idx + 1], index: idx}
         end
         @aubio_slices = res.ring
       end
