@@ -305,7 +305,7 @@ module SonicPi
       end
 
       if now
-        osc @osc_path_n_set, node.to_i, *normalised_args
+        osc @osc_path_n_set, node_id, *normalised_args
       else
         ts = sched_ahead_time_for_node_mod(node_id)
         osc_bundle ts, @osc_path_n_set, node_id, *normalised_args
