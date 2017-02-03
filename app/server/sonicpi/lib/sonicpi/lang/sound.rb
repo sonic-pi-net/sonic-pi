@@ -118,8 +118,6 @@ module SonicPi
 
             @JOB_GROUPS_A = Atom.new(Hamster::Hash.new)
             @JOB_GROUP_MUTEX = Mutex.new
-            @JOB_FX_GROUP_MUTEX = Mutex.new
-            @JOB_FX_GROUPS_A = Atom.new(Hamster::Hash.new)
             @JOB_MIXERS_A = Atom.new(Hamster::Hash.new)
             @JOB_MIXERS_MUTEX = Mutex.new
             @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
@@ -179,7 +177,6 @@ module SonicPi
               Thread.current.priority = -10
               shutdown_job_mixer(job_id)
               kill_job_group(job_id)
-              kill_fx_job_group(job_id)
               free_job_bus(job_id)
             end
 
@@ -1978,7 +1975,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         # These will be assigned later...
         fx_synth = nil
         new_bus = nil
-        fx_group = nil
+        fx_container_group = nil
         fx_synth_group = nil
         block_res = nil
         block_exception = nil
@@ -2006,8 +2003,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
             # Create new group for this FX - this is to enable the FX to be triggered at logical time
             # whilst ensuring it is in the correct position in the scsynth node tree.
-            fx_group = @mod_sound_studio.new_group(:tail, current_fx_group, "Run-#{current_job_id}-#{fx_name}")
-            fx_synth_group = @mod_sound_studio.new_group(:head, fx_group, "Run-#{current_job_id}-#{fx_name}-synths")
+            fx_container_group = @mod_sound_studio.new_group(:tail, current_group, "Run-#{current_job_id}-#{fx_name}")
+            fx_synth_group = @mod_sound_studio.new_group(:head, fx_container_group, "Run-#{current_job_id}-#{fx_name}-synths")
 
             ## Create a 'GC' thread to safely handle completion of the FX
             ## block (or the case that the thread dies) and to clean up
@@ -2064,7 +2061,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                 ## tracker. (This happens in a Node#on_started handler)
                 tracker.block_until_finished
                 Kernel.sleep(kill_delay)
-                fx_group.kill(true)
+                fx_container_group.kill(true)
               end
 
               gc_init_completed.deliver! true
@@ -2099,17 +2096,16 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           t_minus_delta = true
           use_logical_clock = true
         end
-
-        fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_group, !use_logical_clock, t_minus_delta)
+        fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_container_group, !use_logical_clock, t_minus_delta)
 
         ## Now actually execute the fx block. Pass the fx synth in as a
         ## parameter if the block was defined with a param.
 
         orig_subthreads = __system_thread_locals.get(:sonic_pi_local_spider_subthreads).to_a.clone
         orig_out_bus = current_out_bus
-        orig_fx_group = current_fx_group
+        orig_synth_group = current_group
 
-        __system_thread_locals.set(:sonic_pi_mod_sound_fx_group, fx_synth_group)
+        __system_thread_locals.set(:sonic_pi_mod_sound_job_group, fx_synth_group)
         __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
         __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, tracker)
 
@@ -2129,8 +2125,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           subthreads = __system_thread_locals.get(:sonic_pi_local_spider_subthreads).to_a - orig_subthreads
           fx_t_completed.deliver! subthreads
           ## Reset out bus to value prior to this with_fx block
+          __system_thread_locals.set(:sonic_pi_mod_sound_job_group, orig_synth_group)
           __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, orig_out_bus)
-          __system_thread_locals.set(:sonic_pi_mod_sound_fx_group, orig_fx_group)
           __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, orig_tracker)
         end
 
@@ -4174,7 +4170,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         @mod_sound_studio.save_buffer!(buffer, path)
       end
 
-      def trigger_sampler(path, args_h, group=current_job_synth_group)
+      def trigger_sampler(path, args_h, group=current_group)
         args_h = args_h.to_h
         case path
         when Buffer
@@ -4221,7 +4217,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       end
 
 
-      def trigger_inst(synth_name, args_h, info=nil, group=current_job_synth_group)
+      def trigger_inst(synth_name, args_h, info=nil, group=current_group)
         processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
         if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
@@ -4242,7 +4238,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         trigger_synth(synth_name, processed_args, group, info, false, out_bus)
       end
 
-      def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
+      def trigger_chord(synth_name, notes, args_a_or_h, group=current_group)
         sn = synth_name.to_sym
         info = Synths::SynthInfo.get_info(sn)
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
@@ -4281,7 +4277,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         cg
       end
 
-      def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group, now=false, t_minus_delta=false)
+      def trigger_fx(synth_name, args_h, info, in_bus, group=current_group, now=false, t_minus_delta=false)
         args_h = normalise_and_resolve_synth_args(args_h, info, false)
         add_arg_slide_times!(args_h, info)
         out_bus = current_out_bus
@@ -4501,49 +4497,18 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         job_mixer(current_job_id)
       end
 
-      def current_fx_main_group
-        if g = __system_thread_locals.get(:sonic_pi_mod_sound_fx_main_group)
-          return g
-        else
-          g = job_fx_group(current_job_id)
-          __system_thread_locals.set :sonic_pi_mod_sound_fx_main_group, g
-          return g
-        end
-      end
 
-      def job_fx_group(job_id)
-        g = @JOB_FX_GROUPS_A.deref[job_id]
-
-        return g if g
-
-        @JOB_FX_GROUP_MUTEX.synchronize do
-          g = @JOB_FX_GROUPS_A.deref[job_id]
-          return g if g
-          g = @mod_sound_studio.new_fx_group(job_id)
-
-          @JOB_FX_GROUPS_A.swap! do |gs|
-            gs.put job_id, g
-          end
-        end
-        g
-      end
-
-
-      def current_fx_group
-        __system_thread_locals.get(:sonic_pi_mod_sound_fx_group) || current_fx_main_group
-      end
-
-      def current_job_synth_group
+      def current_group
         if g = __system_thread_locals.get(:sonic_pi_mod_sound_job_group)
           return g
         else
-          g = job_synth_group(current_job_id)
+          g = default_job_synth_group(current_job_id)
           __system_thread_locals.set :sonic_pi_mod_sound_job_group, g
           return g
         end
       end
 
-      def job_synth_group(job_id)
+      def default_job_synth_group(job_id)
         g = @JOB_GROUPS_A.deref[job_id]
         return g if g
 
@@ -4671,14 +4636,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         job_group = old_job_groups[job_id]
         job_group.kill(true) if job_group
 
-      end
-
-      def kill_fx_job_group(job_id)
-        old_job_groups = @JOB_FX_GROUPS_A.swap_returning_old! do |js|
-          js.delete job_id
-        end
-        job_group = old_job_groups[job_id]
-        job_group.kill(true) if job_group
       end
 
       def join_thread_and_subthreads(t)
