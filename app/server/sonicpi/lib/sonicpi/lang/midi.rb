@@ -208,7 +208,7 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
         "midi_sound_off #=> Silence MIDI devices on channel 1",
-        "midi_sound_off, channel: 2 #=> Silence MIDI devices on channel 2"
+        "midi_sound_off channel: 2 #=> Silence MIDI devices on channel 2"
       ]
 
 
@@ -234,7 +234,7 @@ All controller values are reset to their default values.
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
         "midi_reset #=> Reset MIDI devices on channel 1",
-        "midi_reset, channel: 2 #=> Reset MIDI devices on channel 2"
+        "midi_reset channel: 2 #=> Reset MIDI devices on channel 2"
       ]
 
       def midi_local_control_off(opts={})
@@ -259,7 +259,7 @@ All devices on a given channel will respond only to data received over MIDI. Pla
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
         "midi_local_control_off #=> Disable local control on MIDI devices on channel 1",
-        "midi_local_control_off, channel: 2 #=> Disable local control on MIDI devices on channel 2"
+        "midi_local_control_off channel: 2 #=> Disable local control on MIDI devices on channel 2"
       ]
 
       def midi_local_control_on(opts={})
@@ -284,7 +284,7 @@ All devices on a given channel will respond both to data received over MIDI and 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
         "midi_local_control_on #=> Enable local control on MIDI devices on channel 1",
-        "midi_local_control_on, channel: 2 #=> Enable local control on MIDI devices on channel 2"
+        "midi_local_control_on channel: 2 #=> Enable local control on MIDI devices on channel 2"
       ]
 
 
@@ -366,7 +366,7 @@ All devices on a given channel will respond both to data received both over MIDI
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
         "midi_all_notes_off #=> Turn off all notes on MIDI devices on channel 1",
-        "midi_all_notes_off, channel: 2 #=> Turn off all notes on MIDI devices on channel 2"
+        "midi_all_notes_off channel: 2 #=> Turn off all notes on MIDI devices on channel 2"
       ]
 
 
