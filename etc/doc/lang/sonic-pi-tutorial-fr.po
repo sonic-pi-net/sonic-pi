@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-30 23:28+0000\n"
-"Last-Translator: Nicolas Limage <github@xephon.org>\n"
+"PO-Revision-Date: 2017-02-04 05:53+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 2.11\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -15738,7 +15738,7 @@ msgstr ""
 "Jouez avec les différentes formes d'ondes en changeant l'option `wave:` à `0`"
 " pour la dent de scie, `1` pour l'onde carrée, `2` pour l'onde triangle et "
 "`3` pour la sinusoïde. Voyez aussi comme les différentes ondes sonnent avec "
-"des options `phase:`différentes."
+"des options `phase:` différentes."
 
 #: A.14-amplitude-modulation.md:87
 msgid ""
@@ -16018,7 +16018,7 @@ msgstr "Codage en \"Live\""
 
 #: A.15-performance.md:3
 msgid "Five Live Coding Techniques"
-msgstr "Cinq Techniques de Live Coding"
+msgstr "Cinq techniques de Live Coding"
 
 #: A.15-performance.md:5
 msgid ""
@@ -16044,7 +16044,7 @@ msgstr ""
 
 #: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
-msgstr "1. Mémoriser les Raccourcis"
+msgstr "1. Mémoriser les raccourcis"
 
 #: A.15-performance.md:17
 msgid ""
