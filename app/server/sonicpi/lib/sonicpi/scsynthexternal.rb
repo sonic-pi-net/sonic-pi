@@ -156,6 +156,9 @@ module SonicPi
         when "/n_go"
           id = args[0].to_i
           @events.async_event "/n_go/#{id}", args
+        when "/n_move"
+          id = args[0].to_i
+          @events.async_event "/n_move/#{id}", args
         else
           @events.async_event address, args
         end
@@ -338,7 +341,7 @@ module SonicPi
       end
 
       num_inputs = disable_input ? "0" : "16"
-      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-i", num_inputs, "-o", "16", "-b", num_buffers_for_current_os.to_s, "-U", "#{native_path}/supercollider/plugins/")
+      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-i", num_inputs, "-o", "16", "-b", num_buffers_for_current_os.to_s, "-U", "#{native_path}/supercollider/plugins/", "-Z", "256")
     end
 
 

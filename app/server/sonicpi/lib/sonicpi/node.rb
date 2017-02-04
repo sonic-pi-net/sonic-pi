@@ -30,11 +30,14 @@ module SonicPi
       @paused_event_key  = "/sonicpi/node/paused#{id}-#{r}"
       @started_event_key = "/sonicpi/node/started#{id}-#{r}"
       @created_event_key = "/sonicpi/node/created#{id}-#{r}"
+      @moved_event_key = "/sonicpi/node/moved#{id}-#{r}"
 
       @comms.async_add_event_handlers(["/n_end/#{id}", @killed_event_key,  method(:handle_n_end)],
                                       ["/n_on/#{id}",  @started_event_key, method(:handle_n_on)],
                                       ["/n_go/#{id}",  @created_event_key, method(:handle_n_go)],
+                                      ["/n_move/#{id}",@moved_event_key,   method(:handle_n_move)],
                                       ["/n_off/#{id}", @paused_event_key, method(:handle_n_off)])
+
     end
 
 
@@ -86,7 +89,8 @@ module SonicPi
     def move(new_group, pos=nil, now=false)
       @state_change_sem.synchronize do
         @comms.node_move(self, new_group, pos, now)
-        call_on_move_callbacks
+        @on_move_to_flush_callbacks = @on_move_callbacks
+        @on_move_callbacks = []
       end
       self
     end
@@ -211,6 +215,13 @@ module SonicPi
       nil
     end
 
+    def handle_n_move(arg)
+      @state_change_sem.synchronize do
+        call_on_move_callbacks
+      end
+      nil
+    end
+
     def handle_n_go(arg)
       @state_change_sem.synchronize do
         prev_state = @state
@@ -230,6 +241,7 @@ module SonicPi
           [ ["/n_go/#{@id}",  @created_event_key],
             ["/n_off/#{@id}", @paused_event_key],
             ["/n_on/#{@id}",  @started_event_key],
+            ["/n_move/#{@id}",@moved_event_key],
             ["/n_end/#{@id}", @killed_event_key]]]
 
     end
