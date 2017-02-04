@@ -168,7 +168,7 @@ Utilisez ces boutons pour forcer la sortie sur le port voulu.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>&amp;Default</source>
-        <translation type="unfinished">&amp;Par défaut</translation>
+        <translation>&amp;Par défaut</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
