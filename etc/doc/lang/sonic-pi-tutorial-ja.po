@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-01 10:00+0000\n"
+"PO-Revision-Date: 2017-02-04 00:11+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -11932,9 +11932,9 @@ msgid ""
 " seeds you like, put on a live coded performance for your friends by simply sw"
 "itching between your favourite seeds to create a full piece."
 msgstr ""
-"空いたバッファに以下のように入力し、`Run`を叩いてみてください。そして、シードを変更してみて、（演奏された状態のまま）もう1度`Run`を叩いてみてく"
-"ださい。それによって作り出されるさまざまなサウンド、リズム、メロディを探索してみてください。もし素敵なものを見つけたら、シードの数字を覚えておいてください"
-"。最後に、あなたが好きなシードがいくつか見つかったら、お気に入りのシードを切り替えて曲にするだけで、ライブコーディングのパフォーマンスを提供できます。"
+"空いたBufferに以下のように入力し、`Run`を叩いてみてください。そして、シードを変更してみて、（演奏された状態のまま）もう1度`Run`を叩いてみ"
+"てください。それによって作り出されるさまざまなサウンド、リズム、メロディを探索してみてください。もし素敵なものを見つけたら、シードの数字を覚えておいてくだ"
+"さい。最後に、あなたが好きなシードがいくつか見つかったら、お気に入りのシードを切り替えて曲にするだけで、ライブコーディングのパフォーマンスを提供できます。"
 
 #: A.09-randomisation.md:165
 #, no-wrap
