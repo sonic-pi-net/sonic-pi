@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-05 16:37+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2017-02-05 16:57+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -16055,19 +16055,17 @@ msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
 #: A.15-performance.md:46
-#, fuzzy
 msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
 msgstr ""
-"Maintenant, cliquez sur \"Exécuter\". Pendant que le son joue, modifier le "
-"code afin de décrémenter quatre notes en effectuant ce qui suit:"
+"Maintenant, cliquez sur \"Exécuter\". Pendant que le son joue, modifiez le "
+"code afin de décrémenter quatre notes en effectuant ce qui suit :"
 
 #: A.15-performance.md:50
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 
 #: A.15-performance.md:55
 msgid ""
@@ -16161,7 +16159,6 @@ msgid "4. Use the Master Mixer"
 msgstr "4. Utiliser le Mixeur Maître"
 
 #: A.15-performance.md:99
-#, fuzzy
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
 "h all sound flows. This mixer has both a low pass filter and a high pass filte"
@@ -16171,7 +16168,7 @@ msgid ""
 "are buffer and hit `Run`:"
 msgstr ""
 "L'un des secrets les mieux gardés de Sonic Pi est qu'il a un mixeur maître "
-"par lequel passe tout les flux de sons. Ce mixeur a un filtre de passe basse "
+"par lequel passe tous les flux de sons. Ce mixeur a un filtre de passe basse "
 "et un filtre de passe élevé inclus, afin que vous puissiez facilement "
 "effectuer des modifications globales au son. La fonctionnalité du mixeur "
 "maître est accessible via le fn `set_mixer_control!`. Par exemple, pendant "
