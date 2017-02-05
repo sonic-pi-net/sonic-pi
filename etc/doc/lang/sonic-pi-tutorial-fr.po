@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-04 05:53+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-02-05 06:04+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -467,7 +467,6 @@ msgid "D. Code Editor"
 msgstr "D. Éditeur de code"
 
 #: 01.2-Exploring-the-Interface.md:46
-#, fuzzy
 msgid ""
 "This is the area where you'll write your code and compose/perform music. It's "
 "a simple text editor where you can write code, delete it, cut and paste, etc. "
@@ -476,20 +475,19 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"C'est une zone dans laquelle vous écrirez votre code et composerez / interprét"
-"erez de la musique. C'est un simple éditeur de texte où vous pourrez écrire vo"
-"tre code, l'effacer, couper et coller, etc. Pensez à lui comme à une version t"
-"rès basique de Word ou de Google Docs. L'éditeur coloriera automatiquement les"
-" mots selon leur signification dans le code. Ceci peut paraître étrange au déb"
-"ut, mais vous le trouverez vite très utile. Par exemple, vous saurez que quelq"
-"ue chose est un nombre parce qu'elle sera bleue."
+"C'est la zone dans laquelle vous écrirez votre code et composerez / "
+"interpréterez de la musique. C'est un simple éditeur de texte où vous "
+"pourrez écrire votre code, l'effacer, couper et coller, etc. Voyez-le comme "
+"une version très basique de Word ou de Google Docs. L'éditeur coloriera "
+"automatiquement les mots selon leur signification dans le code. Ceci peut "
+"paraître étrange au début, mais vous trouverez vite cela très utile. Par "
+"exemple, vous saurez que quelque chose est un nombre parce qu'il sera bleu."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
 msgstr "E. Panneau des préférences"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -497,12 +495,12 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Pi supporte quelques préférences ajustables auxquelles on peut accéder e"
-"n pressant le bouton *Prefs* à droite des boutons Info et Help. Cela activera "
-"l'affichage du panneau des préférences qui inclut un nombre d'options modifiab"
-"les. Par exemple pour forcer le mode mono, inverser la stéréo, activer le mode"
-" verbeux de la trace et aussi régler un curseur de volume et le sélecteur audi"
-"o du Raspberry Pi."
+"Sonic Pi supporte quelques préférences ajustables auxquelles on peut accéder "
+"en pressant le bouton *Prefs* à droite des boutons Info et Help. Cela "
+"activera l'affichage du panneau des préférences qui inclut un nombre "
+"d'options modifiables. Par exemple pour forcer le mode mono, inverser la "
+"stéréo, activer le mode verbeux de la trace et aussi régler un curseur de "
+"volume et le sélecteur audio du Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -526,7 +524,6 @@ msgid "G. Help System"
 msgstr "G. Système d'aide"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -535,13 +532,13 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"Enfin, un des aspects les plus importants de l'interface de Sonic Pi est le sy"
-"stème d'aide qui apparaît au bas de la fenêtre. Il peut être activé ou désacti"
-"vé en cliquant sur le bouton *Help* bleu. Le système d'aide contient de l'aide"
-" et de l'information sur tous les aspects de Sonic Pi, y compris ce tutoriel, "
-"une liste des synthétiseurs, des échantillons (\"samples\"), des exemples, des e"
-"ffets (\"FX\") disponibles, et une liste complète de toutes les fonctions que So"
-"nic Pi fournit pour coder de la musique."
+"Enfin, un des aspects les plus importants de l'interface de Sonic Pi est le "
+"système d'aide qui apparaît au bas de la fenêtre. Il peut être activé ou "
+"désactivé en cliquant sur le bouton *Help* bleu. Le système d'aide contient "
+"de l'aide et de l'information sur tous les aspects de Sonic Pi, y compris ce "
+"tutoriel, une liste des synthétiseurs, des échantillons (\"samples\"), des "
+"exemples, des effets (\"FX\") disponibles, et une liste complète de toutes "
+"les fonctions que Sonic Pi fournit pour coder de la musique."
 
 #: 01.2-Exploring-the-Interface.md:81
 #, fuzzy
@@ -661,7 +658,6 @@ msgid "OK, enough of the intros - let's get into some sound."
 msgstr "OK, assez d'introduction, plongeons dans les sons."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -670,12 +666,13 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"Dans cette section, nous allons couvrir les bases du déclenchement et de la ma"
-"nipulation des synthés. \"Synthé\" est l'abréviation de synthétiseur, qui est un"
-" mot savant pour quelque chose qui crée des sons. Typiquement, les synthétiseu"
-"rs sont assez compliqués à utiliser - particulièrement les synthés analogiques"
-" avec beaucoup de \"patches\" et de modules à connecter. Toutefois, Sonic Pi vou"
-"s offre beaucoup de cette puissance d'une manière très simple et abordable."
+"Dans cette section, nous allons couvrir les bases du déclenchement et de la "
+"manipulation des synthés. \"Synthé\" est l'abréviation de synthétiseur, qui "
+"est un mot savant pour quelque chose qui crée des sons. Typiquement, les "
+"synthétiseurs sont assez compliqués à utiliser - particulièrement les "
+"synthés analogiques comme les modules Eurorack qui sont connectés ensemble "
+"par un fouilli de fils. Toutefois, Sonic Pi vous offre beaucoup de cette "
+"puissance d'une manière très simple et abordable."
 
 #: 02-Synths.md:14
 msgid ""
@@ -1115,7 +1112,6 @@ msgstr ""
 " éviter la compression."
 
 #: 02.2-Synth-Params.md:79
-#, fuzzy
 msgid "Amp it up"
 msgstr "Amp-ez le"
 
@@ -2739,15 +2735,14 @@ msgid "sample :loop_amen, rate: 0.5, attack: 1"
 msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
-#, fuzzy
 msgid ""
 "We also looked at how we could use the start of a sample percussively by givin"
 "g `sustain:` an explicit value and setting both the attack and release to be s"
 "hort values:"
 msgstr ""
-"Nous avons aussi vu comment nous pouvions utiliser le début d'un échantillon d"
-"e manière percussive en donnant à `sustain:` une valeur explicite et en assign"
-"ant des valeurs faibles à la fois à `attack:` et à `release:` :"
+"Nous avons aussi vu comment nous pouvions utiliser le début d'un échantillon "
+"en percussion en donnant à `sustain:` une valeur explicite et en assignant "
+"des valeurs faibles à la fois à `attack:` et à `release:` :"
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
@@ -3164,16 +3159,15 @@ msgid "Filtering Sample Packs"
 msgstr "Filtrer des paquets de samples"
 
 #: 03.7-Sample-Packs.md:81
-#, fuzzy
 msgid ""
 "Usually indexing is enough, but sometimes we need more power to sort and organ"
 "ise our samples. Luckily many sample packs add useful information in the filen"
 "ames. Let's take another look at the sample file names in our directory:"
 msgstr ""
-"D'habitude indexer suffit, mais parfois on a besoin de plus de puissance pour "
-"trier et organiser nos samples. Heureusement de nombreux paquets de samples aj"
-"outent des informations utiles dans les noms de fichiers. Jetons un autre œil "
-"aux noms de fichier des samples de notre dossier :"
+"D'habitude indexer suffit, mais parfois on a besoin de plus de puissance "
+"pour trier et organiser nos échantillons. Heureusement de nombreux paquets "
+"d'échantillons ajoutent des informations utiles dans les noms de fichiers. "
+"Jetons un autre œil aux noms de fichier des échantillons de notre dossier :"
 
 #: 03.7-Sample-Packs.md:93
 msgid ""
@@ -4884,13 +4878,12 @@ msgstr ""
 "end"
 
 #: 05.4-Threads.md:190
-#, fuzzy
 msgid ""
 "Look at the log pane when you run this code. See how the log reports the name "
 "of the thread with the message?"
 msgstr ""
 "Regardez le panneau \"trace\" quand vous exécutez ce code. Regardez comment "
-"le \"trace\" rapporte le nom du thread avec le message ?"
+"la \"trace\" rapporte le nom du thread avec le message ?"
 
 #: 05.4-Threads.md:193
 #, no-wrap
@@ -5599,11 +5592,12 @@ msgid "Cue and Sync"
 msgstr "Cue et sync"
 
 #: 05.7-Thread-Synchronisation.md:25
-#, fuzzy
 msgid ""
 "Sonic Pi provides a solution to this problem with the functions `cue` and `syn"
 "c`."
-msgstr "Sonic Pi fourni une solution à ce problème avec les fonctions `cue` et `sync`."
+msgstr ""
+"Sonic Pi fourni une solution à ce problème avec les fonctions `cue` et "
+"`sync`."
 
 #: 05.7-Thread-Synchronisation.md:28
 msgid ""
@@ -6266,17 +6260,14 @@ msgstr ""
 "ts sons nouveaux !"
 
 #: 06.2-FX-in-Practice.md:1
-#, fuzzy
 msgid "6.2 FX in Practice"
 msgstr "6.2 FX en Pratique"
 
 #: 06.2-FX-in-Practice.md:3
-#, fuzzy
 msgid "FX in Practice"
 msgstr "FX en pratique"
 
 #: 06.2-FX-in-Practice.md:5
-#, fuzzy
 msgid ""
 "Although they look deceptively simple on the outside, FX are actually quite co"
 "mplex beasts internally. Their simplicity often entices people to overuse them"
@@ -6284,15 +6275,15 @@ msgid ""
 "ke me - you use a Raspberry Pi to jam with, you need to be careful about how m"
 "uch work you ask it to do if you want to ensure the beats keep flowing."
 msgstr ""
-"Bien qu'ils paraissent trompeusement simples extérieurement, les FX sont réell"
-"ement des bêtes plutôt complexes à l'intérieur. Leur simplicité incite souvent"
-" les gens à en abuser dans leurs morceaux. Ce peut être sympathique si vous av"
-"ez une machine puissante, mais si - comme moi - vous utilisez un Raspberry Pi "
-"pour improviser, vous devez prendre garde à la somme de travail que vous lui d"
-"emandez de faire si vous voulez vous assurer que la cadence reste fluide."
+"Bien qu'ils paraissent trompeusement simples extérieurement, les FX sont en "
+"fait des bêtes plutôt complexes à l'intérieur. Leur simplicité incite "
+"souvent les gens à en abuser dans leurs morceaux. Cela peut être correcte si "
+"vous avez une machine puissante, mais si - comme moi - vous utilisez un "
+"Raspberry Pi pour improviser, vous devez prendre garde à la somme de travail "
+"que vous lui demandez de faire si vous voulez vous assurer que la cadence "
+"reste fluide."
 
 #: 06.2-FX-in-Practice.md:12
-#, fuzzy
 msgid "Consider this code:"
 msgstr "Considérez ce code :"
 
@@ -6314,16 +6305,15 @@ msgstr ""
 "end"
 
 #: 06.2-FX-in-Practice.md:23
-#, fuzzy
 msgid ""
 "In this code we're playing note 60 with a very short release time, so it's a s"
 "hort note. We also want reverb so we've wrapped it in a reverb block. All good"
 " so far. Except..."
 msgstr ""
-"Dans ce code, nous jouons la note 60 avec une durée d'extinction très courte, "
-"c'est donc une note courte. Nous voulons aussi de la réverbération, alors nous"
-" l'avons imbriqué dans un bloc de réverbération. Jusqu'à maintenant, tout est "
-"bon. Sauf que..."
+"Dans ce code, nous jouons la note 60 avec une durée d'extinction très "
+"courte, c'est donc une note courte. Nous voulons aussi de la réverbération, "
+"alors nous l'avons imbriqué dans un bloc de réverbération. Jusqu'à "
+"maintenant, tout est bon. Sauf que..."
 
 #: 06.2-FX-in-Practice.md:27
 #, fuzzy
@@ -6350,14 +6340,13 @@ msgstr ""
 "sance du microprocesseur (CPU) qui peut être précieuse."
 
 #: 06.2-FX-in-Practice.md:37
-#, fuzzy
 msgid ""
 "How do we make it more similar to a traditional setup where our guitarist has "
 "just *one* reverb pedal which all sounds pass through? Simple:"
 msgstr ""
-"Comment le faire d'une manière plus proche d'une installation traditionnelle o"
-"ù notre guitariste n'a *qu'une* pédale de réverbération dans laquelle passent "
-"tous les sons ? Simple :"
+"Comment le faire d'une manière plus proche d'une installation traditionnelle "
+"où notre guitariste n'a *qu'une* pédale de réverbération dans laquelle "
+"passent tous les sons ? Simple :"
 
 #: 06.2-FX-in-Practice.md:41
 #, no-wrap
@@ -6377,23 +6366,21 @@ msgstr ""
 "end"
 
 #: 06.2-FX-in-Practice.md:50
-#, fuzzy
 msgid ""
 "We put our loop *inside* the `with_fx` block. This way we only create a single"
 " reverb for all notes played in our loop. This code is a lot more efficient an"
 "d would work fine on a Raspberry Pi."
 msgstr ""
-"Nous mettons notre boucle *à l'intérieur* du bloc `with_fx`. De cette façon, n"
-"ous créons seulement une unique réverbération pour toutes les notes jouées dan"
-"s notre boucle. Ce code est beaucoup plus efficace et fonctionnerait bien sur "
-"un Raspberry Pi."
+"Nous mettons notre boucle *à l'intérieur* du bloc `with_fx`. De cette façon, "
+"nous créons seulement une unique réverbération pour toutes les notes jouées "
+"dans notre boucle. Ce code est beaucoup plus efficace et fonctionnerait bien "
+"sur un Raspberry Pi."
 
 #: 06.2-FX-in-Practice.md:54
-#, fuzzy
 msgid "A compromise is to use `with_fx` over an iteration within a loop:"
 msgstr ""
-"Un compromis est d'utiliser `with_fx` sur une itération à l'intérieur d'une bo"
-"ucle :"
+"Un compromis est d'utiliser `with_fx` sur une itération à l'intérieur d'une "
+"boucle :"
 
 #: 06.2-FX-in-Practice.md:56
 #, no-wrap
@@ -6453,38 +6440,34 @@ msgstr ""
 "end"
 
 #: 06.2-FX-in-Practice.md:82
-#, fuzzy
 msgid ""
 "Both the `reps: 16` and `16.times do` examples will behave identically. The `r"
 "eps: 16` essentially repeats the code in the `do/end` block 16 times so you ca"
 "n use them both interchangeably and choose the one that feels best for you."
 msgstr ""
-"Les deux exemples `reps: 16` et `16.times do` se comporteront de la même maniè"
-"re. L'exemple avec `reps: 16` répète en fait le code dans le bloc `do/end` sei"
-"ze fois donc vous pouvez choisir l'un ou l'autre en fonction de vos préférence"
-"s."
+"Les deux exemples `reps: 16` et `16.times do` se comporteront de la même "
+"manière. L'exemple avec `reps: 16` répète en fait le code dans le bloc "
+"`do/end` seize fois donc vous pouvez choisir l'un ou l'autre en fonction de "
+"vos préférences."
 
 #: 06.2-FX-in-Practice.md:87
-#, fuzzy
 msgid ""
 "Remember, there are no mistakes, just possibilities. However, some of these ap"
 "proaches will have a different sound and also different performance characteri"
 "stics. So play around and use the approach that sounds best to you whilst also"
 " working within the performance constraints of your platform."
 msgstr ""
-"Rappelez-vous, il n'y a pas de fautes, juste des possibilités. Toutefois, cert"
-"aines de ces approches donneront un son différent et auront des caractéristiqu"
-"es de performance différentes. Donc, jouez et utilisez l'approche qui sonne le"
-" mieux pour vous tout en restant dans les contraintes de performance de votre "
-"plateforme."
+"Rappelez-vous, il n'y a pas de fautes, juste des possibilités. Toutefois, "
+"certaines de ces approches donneront un son différent et auront des "
+"caractéristiques de performance différentes. Donc, jouez et utilisez "
+"l'approche qui sonne le mieux pour vous tout en restant dans les contraintes "
+"de performance de votre plateforme."
 
 #: 07-Control.md:1
-#, fuzzy
 msgid "7 Control"
 msgstr "7 Contrôle"
 
 #: 07-Control.md:3
-#, fuzzy
 msgid "Controlling running sounds"
 msgstr "Contrôle des sons en cours d'écoute"
 
@@ -6503,22 +6486,20 @@ msgstr ""
 "ée du son."
 
 #: 07-Control.md:11
-#, fuzzy
 msgid ""
 "Wouldn't it also be cool if you could change a sound's opts whilst it's still "
 "playing, just like you might bend a string of a guitar whilst it's still vibra"
 "ting?"
 msgstr ""
-"Ne serait-ce pas sympathique si nous pouvions changer les paramètres d'un son "
-"pendant qu'il est encore en train d'être joué, juste comme vous pourriez tendr"
-"e une corde de guitare pendant qu'elle est en train de vibrer ?"
+"Ne serait-ce pas sympathique si nous pouvions changer les paramètres d'un "
+"son pendant qu'il est encore en train d'être joué, tout comme vous pourriez "
+"tendre une corde de guitare pendant qu'elle est en train de vibrer ?"
 
 #: 07-Control.md:15
-#, fuzzy
 msgid "You're in luck - this section will show you how to do exactly this."
 msgstr ""
-"Vous êtes chanceux - cette section va vous montrer précisément comment le fair"
-"e."
+"Vous avez de la chance - cette section va vous montrer précisément comment "
+"le faire."
 
 #: 07.1-Controlling-Running-Synths.md:1
 #, fuzzy
@@ -6548,15 +6529,14 @@ msgid "s = play 60, release: 5"
 msgstr "s = play 60, release: 5"
 
 #: 07.1-Controlling-Running-Synths.md:14
-#, fuzzy
 msgid ""
 "Here, we have a run-local variable `s` which represents the synth playing note"
 " 60. Note that this is *run-local* - you can't access it from other runs like "
 "functions."
 msgstr ""
-"Ici, nous avons une variable locale d'exécution `s` qui représente le synthé j"
-"ouant la note 60. Notez que c'est *local à l'exécution* - vous ne pouvez pas y"
-" accéder depuis d'autres exécutions comme les fonctions."
+"Ici, nous avons une variable locale d'exécution `s` qui représente le synthé "
+"jouant la note 60. Notez que c'est *local à l'exécution* - vous ne pouvez "
+"pas y accéder depuis d'autres exécutions comme les fonctions."
 
 #: 07.1-Controlling-Running-Synths.md:18
 #, fuzzy
@@ -16081,10 +16061,12 @@ msgstr ""
 "accord."
 
 #: A.15-performance.md:32
+#, fuzzy
 msgid "2. Manually Layer your Sounds"
-msgstr ""
+msgstr "Calquer manuellement vos sons"
 
 #: A.15-performance.md:34
+#, fuzzy
 msgid ""
 "Now you can trigger code instantly with the keyboard, you can instantly apply "
 "this skill for our second technique which is to layer your sounds manually. In"
@@ -16092,6 +16074,13 @@ msgid ""
 "calls to `sleep` we will have one call to `play` which we will manually trigge"
 "r using `alt-r`. Let's try it. Type the following code into a fresh buffer:"
 msgstr ""
+"Maintenant que vous pouvez déclencher le code instantanément avec le "
+"clavier, vous pouvez instantanément utiliser cette compétence pour notre "
+"seconde technique qui est de calquer vos sons manuellement. Au lieu de \""
+"composer\" en utilisant beaucoup d'appels de \"jouer\" et \"échantillon\" "
+"séparés par des appels de \"dormir\", nous allons avoir un appel de \"jouer\""
+" que nous allons manuellement déclencher en utilisant \"alt-r\". Essayons-"
+"le. Taper le code suivant dans un nouveau tampon:"
 
 #: A.15-performance.md:41
 #, no-wrap
@@ -16100,10 +16089,13 @@ msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
 #: A.15-performance.md:46
+#, fuzzy
 msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
 msgstr ""
+"Maintenant, cliquez sur \"Exécuter\". Pendant que le son joue, modifier le "
+"code afin de décrémenter quatre notes en effectuant ce qui suit:"
 
 #: A.15-performance.md:50
 #, no-wrap
@@ -16122,14 +16114,17 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:63
+#, fuzzy
 msgid "You can also try this technique with long abstract samples. For example:"
 msgstr ""
+"Vous pouvez également essayer cette technique avec de longs échantillons "
+"abstraits. Par exemple :"
 
 #: A.15-performance.md:65
 #, no-wrap
 #, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
-msgstr "sample :ambi_lunar_land"
+msgstr "sample :ambi_lunar_land, rate:1"
 
 #: A.15-performance.md:69
 msgid ""
@@ -16172,8 +16167,9 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:97
+#, fuzzy
 msgid "4. Use the Master Mixer"
-msgstr ""
+msgstr "4. Utiliser le Mixeur Maître"
 
 #: A.15-performance.md:99
 msgid ""
@@ -16212,8 +16208,11 @@ msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
 msgstr ""
 
 #: A.15-performance.md:127
+#, fuzzy
 msgid "You can then slide quickly back to a high value with:"
 msgstr ""
+"Vous pouvez désormais glisser rapidement de nouveau vers une valeur haute "
+"avec:"
 
 #: A.15-performance.md:129
 #, no-wrap
@@ -16221,15 +16220,18 @@ msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
 msgstr ""
 
 #: A.15-performance.md:133
+#, fuzzy
 msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
 msgstr ""
+"En performant, il est souvent utile de conserver un tampon libre pour "
+"travailler avec le mixeur comme cela."
 
 #: A.15-performance.md:136
 #, fuzzy
 msgid "5. Practice"
-msgstr "FX en pratique"
+msgstr "5. Pratique"
 
 #: A.15-performance.md:138
 msgid ""
@@ -16269,7 +16271,7 @@ msgstr "Codage en \"Live\""
 #: A.16-practice.md:3
 #, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "Codage en \"Live\""
+msgstr "8 astuces pour la pratique du codage en direct"
 
 #: A.16-practice.md:5
 msgid ""
@@ -16283,7 +16285,7 @@ msgstr ""
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
-msgstr ""
+msgstr "Pratiquer régulièrement"
 
 #: A.16-practice.md:15
 msgid ""
