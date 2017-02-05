@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-05 06:58+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2017-02-05 15:23+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -698,7 +698,7 @@ msgstr "Jetez un œil sur le code suivant :"
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
 msgid "play 70"
-msgstr "jouez 70"
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -730,7 +730,7 @@ msgstr ""
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr "jouer 75"
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
@@ -739,7 +739,7 @@ msgstr "Entendez-vous la différence ? Essayez un nombre plus petit :"
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr "jouer 60"
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
@@ -4881,8 +4881,8 @@ msgid ""
 "Look at the log pane when you run this code. See how the log reports the name "
 "of the thread with the message?"
 msgstr ""
-"Regardez le panneau \"trace\" quand vous exécutez ce code. Regardez comment "
-"la \"trace\" rapporte le nom du thread avec le message ?"
+"Regardez le panneau \"trace\" quand vous exécutez ce code. Voyez-vous "
+"comment la \"trace\" rapporte le nom du thread avec le message ?"
 
 #: 05.4-Threads.md:193
 #, no-wrap
@@ -5595,7 +5595,7 @@ msgid ""
 "Sonic Pi provides a solution to this problem with the functions `cue` and `syn"
 "c`."
 msgstr ""
-"Sonic Pi fourni une solution à ce problème avec les fonctions `cue` et "
+"Sonic Pi fournit une solution à ce problème avec les fonctions `cue` et "
 "`sync`."
 
 #: 05.7-Thread-Synchronisation.md:28
@@ -6276,11 +6276,11 @@ msgid ""
 msgstr ""
 "Bien qu'ils paraissent trompeusement simples extérieurement, les FX sont en "
 "fait des bêtes plutôt complexes à l'intérieur. Leur simplicité incite "
-"souvent les gens à en abuser dans leurs morceaux. Cela peut être correcte si "
-"vous avez une machine puissante, mais si - comme moi - vous utilisez un "
-"Raspberry Pi pour improviser, vous devez prendre garde à la somme de travail "
-"que vous lui demandez de faire si vous voulez vous assurer que la cadence "
-"reste fluide."
+"souvent les gens à en abuser dans leurs morceaux. Cela ne sera peut-être pas "
+"gênant si vous avez une machine puissante, mais si - comme moi - vous "
+"utilisez un Raspberry Pi pour improviser, vous devez prendre garde à la "
+"somme de travail que vous lui demandez de faire si vous voulez vous assurer "
+"que la cadence reste fluide."
 
 #: 06.2-FX-in-Practice.md:12
 msgid "Consider this code:"
@@ -6539,7 +6539,7 @@ msgstr ""
 msgid "Once we have `s`, we can start controlling it via the `control` function:"
 msgstr ""
 "Une fois que nous avons `s`, nous pouvons commencer à la contrôler via la "
-"fonction `control`:"
+"fonction `control` :"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
 #, no-wrap
@@ -16239,7 +16239,6 @@ msgid "5. Practice"
 msgstr "5. Pratique"
 
 #: A.15-performance.md:138
-#, fuzzy
 msgid ""
 "The most important technique for live coding is practice. The most common attr"
 "ibute across professional musicians of all kinds is that they practice playing"
@@ -16251,16 +16250,15 @@ msgid ""
 msgstr ""
 "La technique la plus importante pour la programmation en direct est la "
 "pratique. Le trait le plus commun au travers des musiciens professionnels de "
-"tout les types est qu'ils se pratique à jouer avec leur instrument - souvent "
-"plusieurs heures par jour. La pratique est aussi importante pour un "
+"tous les types est qu'ils s'entraînent à jouer avec leur instrument - "
+"souvent plusieurs heures par jour. La pratique est aussi importante pour un "
 "programmeur en direct qu'un guitariste. La pratique permet à vos doigts de "
 "mémoriser certains schémas et éditions communes afin que vous puissiez les "
-"tapez et travailler avec eux plus fluidement. La pratique vous donne "
+"tapez et travailler avec eux de manière plus fluide. La pratique vous donne "
 "également des opportunités d'explorer des nouveaux sons et des nouvelles "
 "constructions de code."
 
 #: A.15-performance.md:146
-#, fuzzy
 msgid ""
 "When performing, you'll find the more practice you do, the easier it will be f"
 "or you to relax into the gig. Practice will also give you a wealth of experien"
@@ -16268,10 +16266,10 @@ msgid ""
 "l be interesting and also work well with the current sounds."
 msgstr ""
 "En performant, vous découvrirez que plus vous pratiquez, plus il sera facile "
-"pour vous de relaxer dans une scéance. La pratique vous donne également une "
-"richesse d'expérience de laquelle apprendre. Cela peut vous aider à "
-"comprendre quel types de modifications serait intéressant et également ce "
-"qui fonctionne bien avec les sons courants."
+"pour vous de vous relaxer pendant une séance. La pratique vous donne "
+"également une richesse d'expérience de laquelle apprendre. Cela peut vous "
+"aider à comprendre quel types de modifications seraient intéressants et "
+"également ce qui fonctionne bien avec les sons courants."
 
 #: A.15-performance.md:154
 msgid ""
@@ -16309,7 +16307,6 @@ msgid "Practice regularly"
 msgstr "Pratiquer régulièrement"
 
 #: A.16-practice.md:15
-#, fuzzy
 msgid ""
 "The most important piece of advice is to make sure you practice regularly. As "
 "a rule I typically practice for 1-2 hours a day, but 20 mins is just fine when"
@@ -16318,11 +16315,10 @@ msgid ""
 msgstr ""
 "Le conseil le plus important est de vous assurer de pratiquer régulièrement. "
 "Par discipline, je pratique normalement 1-2 heures par jour, mais 20 minutes "
-"est correcte quand vous débutez. Petit mais souvent est ce que vous visez - "
-"donc si vous ne pouvez effectuer que 10 minutes, c'est un bon début."
+"est correct quand vous débutez. Un petit peu mais souvent est ce que vous "
+"visez - donc si vous ne pouvez effectuer que 10 minutes, c'est un bon début."
 
 #: A.16-practice.md:21
-#, fuzzy
 msgid ""
 "Practice tip #1 - start to develop a practice routine. Find a nice time in the"
 " day that works for you and try and practice at that time as many days of the "
@@ -16330,14 +16326,14 @@ msgid ""
 "."
 msgstr ""
 "Astuce de pratique #1 - commencer à développer une routine de pratique. "
-"Trouver un bon moment dans la journée qui vous convient et essayer de "
+"Trouvez un bon moment dans la journée qui vous convient et essayer de "
 "pratiquer à ce moment le plus grand nombre de jours dans une semaine que "
-"vous pouvez. Vous allez rapidement avoir hâte à votre session quotidienne."
+"vous pouvez. Vous allez rapidement avoir hâte de faire votre session "
+"quotidienne."
 
 #: A.16-practice.md:27
-#, fuzzy
 msgid "Learn to Touch Type"
-msgstr "Apprenez à Taper Toucher"
+msgstr "Apprenez à taper sans regarder le clavier"
 
 #: A.16-practice.md:29
 msgid ""
@@ -16354,16 +16350,15 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:41
-#, fuzzy
 msgid ""
 "Practice tip #2 - learn how to touch type. There are many apps, websites and e"
 "ven games which can help you achieve this. Find one you like the look of and s"
 "tick at it until you can code without looking down."
 msgstr ""
-"Astuce de pratique #2 - apprenez comment toucher taper. Il y a plusieurs "
-"applications, sites web et même des jeux qui peuvent vous aider à réussir. "
-"Trouvez-en un dont vous aimez l'allure et tenez vous en à lui jusqu'à ce que "
-"vous soyez capable de programmer sans regarder."
+"Astuce de pratique #2 - apprenez comment taper sans regarder le clavier. Il "
+"y a plusieurs applications, sites web et même des jeux qui peuvent vous "
+"aider à réussir. Trouvez-en un dont vous aimez l'allure et tenez vous en à "
+"lui jusqu'à ce que vous soyez capable de programmer sans regarder le clavier."
 
 #: A.16-practice.md:46
 #, fuzzy
@@ -16423,7 +16418,7 @@ msgstr ""
 #: A.16-practice.md:87
 #, fuzzy
 msgid "Experiment Musically"
-msgstr "Expérimenter musicallement"
+msgstr "Expérimenter musicalement"
 
 #: A.16-practice.md:89
 msgid ""
@@ -16528,7 +16523,6 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:168
-#, fuzzy
 msgid ""
 "Try to establish a practice routine which incorporates as many of these ideas "
 "as possible. Try to keep the sessions as fun as possible but be aware that som"
@@ -16536,9 +16530,9 @@ msgid ""
 " all be worth it once you've created your first piece or given your first perf"
 "ormance. Remember, practice is the key to success!"
 msgstr ""
-"Essayer d'établir une routine de pratique qui inclut autant de ces idées que "
-"possible. Essayer de converser des sessions plaisantes autant que possible, "
-"mais soyez prévenus que certains sessions de pratiques seront difficiles et "
+"Essayez d'établir une routine de pratique qui inclut autant de ces idées que "
+"possible. Essayez de rendre les sessions aussi plaisantes que possible, mais "
+"soyez prévenus que certaines sessions de pratiques seront difficiles et "
 "auront l'apparence d'un travail. Toutefois, tout cela aura valu la peine "
 "lorsque vous aurez créé votre première pièce ou que vous aurez donné votre "
 "première performance. Rappelez-vous, la pratique est la clé du succès !"
