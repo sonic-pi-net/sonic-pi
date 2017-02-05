@@ -10,6 +10,8 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require 'thread'
+
 module SonicPi
   class Node
     include SonicPi::Util
@@ -23,7 +25,7 @@ module SonicPi
       @state_change_sem = Mutex.new
       @on_destroyed_callbacks = []
       @on_started_callbacks = []
-      @on_move_callbacks = []
+      @on_move_callbacks = Queue.new
       @info = info
       r = rand.to_s
       @killed_event_key  = "/sonicpi/node/killed#{id}-#{r}"
@@ -64,9 +66,7 @@ module SonicPi
     end
 
     def on_move(&block)
-      @state_change_sem.synchronize do
-        @on_move_callbacks << block
-      end
+      @on_move_callbacks << block
     end
 
     def wait_until_started
@@ -86,12 +86,18 @@ module SonicPi
       self
     end
 
-    def move(new_group, pos=nil, now=false)
-      @state_change_sem.synchronize do
-        @comms.node_move(self, new_group, pos, now)
-        @on_move_to_flush_callbacks = @on_move_callbacks
-        @on_move_callbacks = []
+    def move(new_group, pos=nil, now=false, &blk)
+      if blk
+        key = "/sonicpi/node/moved/#{self.id}/#{rand.to_s}"
+        @comms.add_event_handler("/n_move/#{id}", key) do |payload|
+          _, target_node = *payload
+          if target_node.to_i == new_group.to_i
+            blk.call
+            :remove_handler
+          end
+        end
       end
+      @comms.node_move(self, new_group, pos, now)
       self
     end
 
@@ -191,10 +197,17 @@ module SonicPi
       end
     end
 
-    def call_on_move_callbacks
+    def call_on_move_callbacks(arg)
       begin
-        @on_move_callbacks.each{|cb| cb.call}
-        @on_move_callbacks = []
+
+        @on_move_callbacks.length.times do
+          cb = @on_move_callbacks.pop
+          if cb.arity == 0
+            cb.call
+          else
+            cb.call(arg)
+          end
+        end
       rescue Exception => e
         log_exception e, "in on move callbacks"
       end
@@ -217,7 +230,7 @@ module SonicPi
 
     def handle_n_move(arg)
       @state_change_sem.synchronize do
-        call_on_move_callbacks
+        call_on_move_callbacks(arg)
       end
       nil
     end
