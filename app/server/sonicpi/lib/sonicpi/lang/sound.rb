@@ -2055,10 +2055,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                 subthreads.each do |st|
                   join_thread_and_subthreads(st)
                 end
-                ## Sleep for half a second to ensure that any synths
-                ## triggered in the threads joined above get chance to
-                ## asynchronously communicate their existence to the
-                ## tracker. (This happens in a Node#on_started handler)
                 tracker.block_until_finished
                 Kernel.sleep(kill_delay)
                 fx_container_group.kill(true)
