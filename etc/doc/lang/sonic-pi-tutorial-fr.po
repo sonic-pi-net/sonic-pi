@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2017-02-05 06:04+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"Last-Translator: Nicolas Limage <github@xephon.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -6539,11 +6539,10 @@ msgstr ""
 "pas y accéder depuis d'autres exécutions comme les fonctions."
 
 #: 07.1-Controlling-Running-Synths.md:18
-#, fuzzy
 msgid "Once we have `s`, we can start controlling it via the `control` function:"
 msgstr ""
-"Une fois que nous avons `s`, nous pouvons commencer à le contrôler via la fonc"
-"tion `control`:"
+"Une fois que nous avons `s`, nous pouvons commencer à la contrôler via la "
+"fonction `control`:"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
 #, no-wrap
