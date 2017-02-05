@@ -343,7 +343,7 @@ module SonicPi
         if self.empty?
           "(map)"
         else
-          s = "(map "
+          s = String.new("(map ")
           self.to_h.each do |k, v|
             if k.is_a? Symbol
               s << "#{k}: #{v.inspect}, "
