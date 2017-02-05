@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-05 15:23+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-02-05 16:37+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -6469,18 +6469,17 @@ msgid "Controlling running sounds"
 msgstr "Contrôle des sons en cours d'écoute"
 
 #: 07-Control.md:5
-#, fuzzy
 msgid ""
 "So far we've looked at how you can trigger synths and samples, and also how to"
 " change their default opts such as amplitude, pan, envelope settings and more."
 " Each sound triggered is essentially its own sound with its own list of option"
 "s set for the duration of the sound."
 msgstr ""
-"Pour l'instant, nous avons regardé comment déclencher des sons de synthé et de"
-"s échantillons, et aussi comment changer leur paramètres par défaut comme ampl"
-"itude, balance, paramètres d'enveloppe, et plus. Chaque son émis est essentiel"
-"lement son propre son avec son propre ensemble de paramètres fixés pour la dur"
-"ée du son."
+"Pour l'instant, nous avons regardé comment déclencher des sons de synthé et "
+"des échantillons, et aussi comment changer leurs paramètres par défaut comme "
+"l'amplitude, la balance, les paramètres d'enveloppe, et davantage. Chaque "
+"son émis est essentiellement son propre son avec son propre ensemble de "
+"paramètres fixés pour la durée du son."
 
 #: 07-Control.md:11
 msgid ""
@@ -6499,26 +6498,23 @@ msgstr ""
 "le faire."
 
 #: 07.1-Controlling-Running-Synths.md:1
-#, fuzzy
 msgid "7.1 Controlling Running Synths"
-msgstr "7.1 Contrôle des synthés en cours de jeu"
+msgstr "7.1 Contrôler des synthés en cours de jeu"
 
 #: 07.1-Controlling-Running-Synths.md:3
-#, fuzzy
 msgid "Controlling Running Synths"
-msgstr "Contrôle des synthés en train de jouer"
+msgstr "Contrôler des synthés en train de jouer"
 
 #: 07.1-Controlling-Running-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've only concerned ourselves with triggering new sounds and FX. Howev"
 "er, Sonic Pi gives us the ability to manipulate and control currently running "
 "sounds. We do this by using a variable to capture a reference to a synth:"
 msgstr ""
-"Pour l'instant, nous nous sommes seulement préoccupés de déclencher de nouveau"
-"x sons et effets (FX). Toutefois, Sonic Pi nous offre la capacité de manipuler"
-" et de contrôler les sons pendant qu'il sont joués. Nous le faisons en utilisa"
-"nt une variable pour mémoriser la référence à un synthé."
+"Pour l'instant, nous nous sommes seulement préoccupés de déclencher de "
+"nouveaux sons et effets (FX). Toutefois, Sonic Pi nous offre la capacité de "
+"manipuler et de contrôler les sons pendant qu'il sont joués. Nous le faisons "
+"en utilisant une variable pour mémoriser la référence à un synthé :"
 
 #: 07.1-Controlling-Running-Synths.md:10
 #, no-wrap
@@ -6732,13 +6728,12 @@ msgstr ""
 "en utilisant une durée de glissement plus longue."
 
 #: 07.3-Sliding-Parameters.md:43
-#, fuzzy
 msgid ""
 "Every parameter that can be controlled has a corresponding `_slide` parameter "
 "for you to play with."
 msgstr ""
-"Chaque paramètre qui peut être contrôlé a un paramètre correspondant avec `_sl"
-"ide` à votre disposition."
+"Chaque paramètre qui peut être contrôlé a un paramètre correspondant avec "
+"`_slide` à votre disposition."
 
 #: 07.3-Sliding-Parameters.md:46
 #, fuzzy
@@ -6763,7 +6758,6 @@ msgid "Sliding FX Opts"
 msgstr "Paramètres FX glissants"
 
 #: 07.3-Sliding-Parameters.md:55
-#, fuzzy
 msgid "It is also possible to slide FX opts:"
 msgstr "Il est aussi possible de faire glisser les paramètres FX :"
 
@@ -6783,30 +6777,26 @@ msgstr ""
 "end"
 
 #: 07.3-Sliding-Parameters.md:65
-#, fuzzy
 msgid ""
 "Now have fun sliding things around for smooth transitions and flowing control."
 ".."
 msgstr ""
-"Maintenant ayez du plaisir à faire glisser les choses pour obtenir des transit"
-"ions douces et un contrôle fluide..."
+"Maintenant ayez du plaisir à faire glisser les choses pour obtenir des "
+"transitions douces et un contrôle fluide..."
 
 #: 08-Data-Structures.md:1
-#, fuzzy
 msgid "8 Data Structures"
 msgstr "8 Structures de données"
 
 #: 08-Data-Structures.md:3
-#, fuzzy
 msgid "Data Structures"
 msgstr "Structures de données"
 
 #: 08-Data-Structures.md:5
-#, fuzzy
 msgid "A very useful tool in a programmer's toolkit is a data structure."
 msgstr ""
-"Un outil très utile de la boîte à outil d'un programmeur est la structuration "
-"des données."
+"Un outil très utile dans une boîte à outil d'un programmeur est une "
+"structure de données."
 
 #: 08-Data-Structures.md:7
 #, fuzzy
@@ -6843,26 +6833,23 @@ msgstr ""
 "s."
 
 #: 08.1-Lists.md:1
-#, fuzzy
 msgid "8.1 Lists"
 msgstr "8.1 Listes"
 
 #: 08.1-Lists.md:3
-#, fuzzy
 msgid "Lists"
 msgstr "Listes"
 
 #: 08.1-Lists.md:5
-#, fuzzy
 msgid ""
 "In this section we'll take a look at a data structure which is very useful - t"
 "he list. We met it very briefly before in the section on randomisation when we"
 " randomly chose from a list of notes to play:"
 msgstr ""
-"Dans cette section, nous allons voir une structure de données qui est très uti"
-"le - la liste. Nous l'avons rencontrée brièvement auparavant dans la section s"
-"ur la randomisation quand nous choisissions aléatoirement des notes à jouer da"
-"ns une liste :"
+"Dans cette section, nous allons voir une structure de données qui est très "
+"utile - la liste. Nous l'avons rencontrée brièvement auparavant dans la "
+"section sur l'aléatoire quand nous choisissions aléatoirement des notes à "
+"jouer dans une liste :"
 
 #: 08.1-Lists.md:9
 #, no-wrap
@@ -6870,16 +6857,15 @@ msgid "play choose([50, 55, 62])"
 msgstr "play choose([50, 55, 62])"
 
 #: 08.1-Lists.md:13
-#, fuzzy
 msgid ""
 "In this section we'll explore using lists to also represent chords and scales."
 " First let's recap how we might play a chord. Remember that if we don't use `s"
 "leep`, sounds all happen at the same time:"
 msgstr ""
-"Dans cette section, nous allons explorer l'utilisation des listes également po"
-"ur représenter des accords et des gammes. En premier lieu, récapitulons commen"
-"t nous jouerions un accord. Souvenez-vous que si nous n'utilisons pas `sleep`,"
-" les sons arrivent tous au même moment :"
+"Dans cette section, nous allons explorer l'utilisation des listes également "
+"pour représenter des accords et des gammes. En premier lieu, récapitulons "
+"comment nous jouerions un accord. Souvenez-vous que si nous n'utilisons pas "
+"`sleep`, les sons arrivent tous au même moment :"
 
 #: 08.1-Lists.md:17
 #, no-wrap
@@ -6893,12 +6879,10 @@ msgstr ""
 "play 59"
 
 #: 08.1-Lists.md:23
-#, fuzzy
 msgid "Let's look at other ways to represent this code."
-msgstr "Regardons une autre façon d'écrire ce code."
+msgstr "Regardons d'autres façons d'écrire ce code."
 
 #: 08.1-Lists.md:25
-#, fuzzy
 msgid "Playing a List"
 msgstr "Jeu d'une liste"
 
@@ -6918,13 +6902,13 @@ msgid "play [52, 55, 59]"
 msgstr "play [52, 55, 59]"
 
 #: 08.1-Lists.md:35
-#, fuzzy
 msgid ""
 "Ooh, that's already nicer to read. Playing a list of notes doesn't stop you fr"
 "om using any of the parameters as normal:"
 msgstr ""
-"Ooh, c'est déjà plus agréable à lire. Jouer une liste de notes ne vous empêche"
-" pas d'utiliser n'importe quel paramètre des spécifications :"
+"Ooh, c'est déjà plus agréable à lire. Jouer une liste de notes ne vous "
+"empêche pas d'utiliser normalement n'importe quel paramètre des "
+"spécifications :"
 
 #: 08.1-Lists.md:38
 #, no-wrap
@@ -6932,13 +6916,12 @@ msgid "play [52, 55, 59], amp: 0.3"
 msgstr "play [52, 55, 59], amp: 0.3"
 
 #: 08.1-Lists.md:42
-#, fuzzy
 msgid ""
 "Of course, you can also use the traditional note names instead of the MIDI num"
 "bers:"
 msgstr ""
-"Bien sûr, vous pouvez aussi utiliser les noms traditionnels des notes (en nota"
-"tion anglaise) à la place des nombres de la norme MIDI :"
+"Bien sûr, vous pouvez aussi utiliser les noms traditionnels des notes (en "
+"notation anglaise) à la place des nombres de la norme MIDI :"
 
 #: 08.1-Lists.md:45
 #, no-wrap
@@ -6946,17 +6929,15 @@ msgid "play [:E3, :G3, :B3]"
 msgstr "play [:E3, :G3, :B3]"
 
 #: 08.1-Lists.md:49
-#, fuzzy
 msgid ""
 "Now those of you lucky enough to have studied some music theory might recognis"
 "e that chord as *E Minor* played in the 3rd octave."
 msgstr ""
-"Maintenant, ceux qui sont assez chanceux pour avoir étudié quelques notions de"
-" solfège, pourraient reconnaître l'accord de *Mi mineur* joué à la 3ème octave"
-"."
+"Maintenant, ceux qui sont assez chanceux pour avoir étudié quelques notions "
+"de solfège, pourraient reconnaître l'accord de *Mi mineur* joué à la 3ème "
+"octave."
 
 #: 08.1-Lists.md:52
-#, fuzzy
 msgid "Accessing a List"
 msgstr "Accès à une liste"
 
@@ -6976,14 +6957,14 @@ msgstr ""
 ", les index commencent généralement à 0 et non pas 1."
 
 #: 08.1-Lists.md:60
-#, fuzzy
 msgid "With list indexes we don't count 1, 2, 3... Instead we count 0, 1, 2..."
-msgstr "Avec les index de liste, nous ne comptons pas 1, 2, 3... mais 0, 1, 2..."
+msgstr ""
+"Avec les index d'une liste, nous ne comptons pas 1, 2, 3... mais 0, 1, 2..."
 
 #: 08.1-Lists.md:62
-#, fuzzy
 msgid "Let's look at this in a little more detail. Take a look at this list:"
-msgstr "Regardons ceci en un peu plus de détails. Jetez un œil sur cette liste :"
+msgstr ""
+"Regardons ceci en un peu plus de détails. Jetez un œil sur cette liste :"
 
 #: 08.1-Lists.md:64
 #, no-wrap
@@ -7028,7 +7009,6 @@ msgstr ""
 
 #: 08.1-Lists.md:85
 #, no-wrap
-#, fuzzy
 msgid ""
 "# indexes:  0   1   2\n"
 "           [52, 55, 59]"
@@ -7051,18 +7031,16 @@ msgstr ""
 "uctures musicales pourraient être représentées par une série de nombres..."
 
 #: 08.2-Chords.md:1
-#, fuzzy
 msgid "8.2 Chords"
 msgstr "8.2 Accords"
 
 #: 08.2-Chords.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has built-in support for chord names which will return lists. Try it "
 "for yourself:"
 msgstr ""
-"Sonic Pi incorpore le support des noms d'accord, lequel retourne des listes. E"
-"ssayez-le vous-même :"
+"Sonic Pi incorpore le support des noms d'accord, lequel retourne des listes. "
+"Essayez-le vous-même :"
 
 #: 08.2-Chords.md:8
 #, no-wrap
@@ -16162,6 +16140,7 @@ msgstr ""
 "boucles en direct."
 
 #: A.15-performance.md:91
+#, fuzzy
 msgid ""
 "When performing, remember to make use of `live_loop`'s `sync:` opt to allow yo"
 "u to recover from accidental runtime mistakes which stop the live loop running"
@@ -16169,6 +16148,12 @@ msgid ""
 "d `live_loop`, then you can quickly fix the error and re-run the code to re-st"
 "art things without missing a beat."
 msgstr ""
+"En performant, rappelez-vous d'utiliser l'option `live_loop`'s `sync:` pour "
+"vous permettre de récupérer des erreurs d'exécutions accidentelles qui "
+"arrête la boucle en direct de s'exécuter étant donnée une erreur. Si vous "
+"avez déjà l'option `sync:` qui pointe vers une autre `live_loop` valide, "
+"vous pouvez rapidement réparer l'erreur et ré-exécuter le code pour "
+"redémarrer les choses sans manquer un rythme."
 
 #: A.15-performance.md:97
 #, fuzzy
@@ -16176,6 +16161,7 @@ msgid "4. Use the Master Mixer"
 msgstr "4. Utiliser le Mixeur Maître"
 
 #: A.15-performance.md:99
+#, fuzzy
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
 "h all sound flows. This mixer has both a low pass filter and a high pass filte"
@@ -16184,6 +16170,13 @@ msgid ""
 "or example, whilst some code is running and making sound, enter this into a sp"
 "are buffer and hit `Run`:"
 msgstr ""
+"L'un des secrets les mieux gardés de Sonic Pi est qu'il a un mixeur maître "
+"par lequel passe tout les flux de sons. Ce mixeur a un filtre de passe basse "
+"et un filtre de passe élevé inclus, afin que vous puissiez facilement "
+"effectuer des modifications globales au son. La fonctionnalité du mixeur "
+"maître est accessible via le fn `set_mixer_control!`. Par exemple, pendant "
+"que du code s'exécute et fait du son, entrez ceci dans un tampon "
+"supplémentaire et pressez `Run`:"
 
 #: A.15-performance.md:107
 #, fuzzy
@@ -16201,11 +16194,15 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:119
+#, fuzzy
 msgid ""
 "Use the mixer's `*_slide` opts to slide one or many opts values over time. For"
 " example, to slowly slide the mixer's low pass filter down from the current va"
 "lue to 30, use the following:"
 msgstr ""
+"Utilisez les options `*_slide` du mixeur pour glisser une ou plusieurs "
+"valeurs d'option au fil du temps. Par exemple, pour glisser lentement le "
+"filtre de passe de basse du mixeur de la valeur courante à 30, utilisez ceci:"
 
 #: A.15-performance.md:123
 #, fuzzy, no-wrap
@@ -16272,6 +16269,7 @@ msgstr ""
 "également ce qui fonctionne bien avec les sons courants."
 
 #: A.15-performance.md:154
+#, fuzzy
 msgid ""
 "This month, instead of giving you a final example that combines all the things"
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
@@ -16281,11 +16279,17 @@ msgid ""
 "d clunky at first - just keep practicing and before you know it you'll be live"
 " coding for a real audience."
 msgstr ""
+"Ce mois-ci, au lieu de vous donner un exemple final qui combine toutes les "
+"choses dont nous avons discutés, essayons plutôt de poser un défi. Voyez si "
+"vous pouvez passer une semaine à pratiquer l'une de ces idées tous les "
+"jours. Par exemple, une journée pratiquer les déclencheurs manuels, la "
+"suivante faite du travail basique de `live_loop` et avant que vous ne vous "
+"en rendiez compte, vous serez en train de coder en direct  pour un vrai "
+"public."
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "Codage en \"Live\""
+msgstr "A.16 Comment pratiquer le codage en direct"
 
 #: A.16-practice.md:3
 #, fuzzy
@@ -16293,6 +16297,7 @@ msgid "8 Tips for Live Coding Practice"
 msgstr "8 astuces pour la pratique du codage en direct"
 
 #: A.16-practice.md:5
+#, fuzzy
 msgid ""
 "Last month we took a look at five important techniques for mastering live codi"
 "ng - in other words, we explored how we could use Sonic Pi to approach code in"
@@ -16301,6 +16306,13 @@ msgid ""
 "dive into understanding why live coding practice is important and how you migh"
 "t start."
 msgstr ""
+"Le mois dernier, nous avons étudié cinq techniques importantes pour "
+"maitriser le codage en direct - en d'autres mots, nous avons explorer "
+"comment nous pouvions utiliser Sonic Pi pour approcher le code de la même "
+"façon que nous le ferions avec un instrument de musique. L'un des concepts "
+"importants dont nous avons discuté est la pratique. Ce mois-ci, nous allons "
+"approfondir notre compréhension de pourquoi la pratique du codage en direct "
+"est importante et comment vous pouvez commencer à le faire."
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
@@ -16336,6 +16348,7 @@ msgid "Learn to Touch Type"
 msgstr "Apprenez à taper sans regarder le clavier"
 
 #: A.16-practice.md:29
+#, fuzzy
 msgid ""
 "If you watch a professional musician performing on stage you'll likely notice "
 "a few things. Firstly, when they play they don't stare at their instrument. Th"
@@ -16348,6 +16361,18 @@ msgid ""
 "he music. This is called touch-typing - typing without having to look at the k"
 "eyboard."
 msgstr ""
+"Si vous observez un musicien professionnel qui performe sur scène, vous "
+"remarquez certainement quelques éléments. Premièrement, ils ne fixent pas "
+"leur instrument lorsqu'ils jouent. Leurs doigts, bras et corps savent "
+"quelles sont les touches à appuyer, cordes à gratter ou les tambours à "
+"frapper sans avoir trop à y penser. Ceci est connu comme la \"mémoire "
+"musculaire\" et même si cela peut ressembler à quelque chose qu'uniquement "
+"les professionnels peuvent faire, c'est la même chose que lorsque vous avez "
+"appris à marcher ou à faire de la bicyclette, la pratique par répétition. "
+"Les codeurs en direct utilisent leur mémoire musculaire pour libérer leur "
+"esprit d'avoir à penser à quel endroit placer leurs doigts afin qu'ils "
+"puissent se concenter sur la musique. Cela s'appelle du tape-touche - tapez "
+"sans avoir besoin de regarder le clavier."
 
 #: A.16-practice.md:41
 msgid ""
@@ -16476,7 +16501,6 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:134
-#, fuzzy
 msgid "Remove all distractions"
 msgstr "Enlevez toutes les distractions"
 
