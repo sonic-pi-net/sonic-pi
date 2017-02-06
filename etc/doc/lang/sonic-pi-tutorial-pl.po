@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-06 06:09+0000\n"
-"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"PO-Revision-Date: 2017-02-06 06:10+0000\n"
+"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -14520,14 +14520,18 @@ msgid "Code a Probabilistic Sequencer"
 msgstr ""
 
 #: A.13-probabilistic-sequencer.md:5
-#, fuzzy
 msgid ""
 "In a previous episode of this Sonic Pi series we explored the power of randomi"
 "sation to introduce variety, surprise and change into our live coded tracks an"
 "d performances. For example, we randomly picked notes from a scale to create n"
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
-msgstr "rand"
+msgstr ""
+"W poprzednim odcinku tej serii Sonic Pi odkrywaliśmy zaskakującą i "
+"zmieniającą w naszych kodowanych na żywo ścieżkach oraz występach moc "
+"wprowadzania zmian poprzez losowanie. Przykładowo losowo wybraliśmy nuty ze "
+"skali, by stworzyć nieskończoną melodię. Dzisiaj mamy zamiar nauczyć się "
+"nowej techniki, używając randomizacji dla rytmu - probalistyczne uderzenia!"
 
 #: A.13-probabilistic-sequencer.md:12
 #, fuzzy
