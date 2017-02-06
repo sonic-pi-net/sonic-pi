@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-02 17:53+0000\n"
-"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
+"PO-Revision-Date: 2017-02-06 06:09+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -13954,6 +13954,11 @@ msgid ""
 "a fresh beat counting from 0. However, whilst the run is still active, we can "
 "advance the beat as many times as we want:"
 msgstr ""
+"Spowoduje to zwrócenie aktualnego bitu: `0`. Zauważ, że nawet gdy naciśniesz "
+"kilkukrotnie przycisk Run i tak zawsze zostanie zwrócona wartość `0`. Dzieje "
+"się tak ponieważ każde uruchomienie spowoduje, że bit zacznie być liczony od "
+"0. Jednakże, tak długo jak nasza muzyka jest uruchomiona, możemy przechodzić "
+"do kolejnych uderzeń tak wiele razy jak tylko chcemy:"
 
 #: A.11-beat-tracking.md:32
 #, no-wrap
