@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-04 00:11+0000\n"
+"PO-Revision-Date: 2017-02-08 10:02+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.11\n"
+"X-Generator: Weblate 2.12-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -633,7 +633,7 @@ msgstr "ビックリした？ もう1回、押してみましょう。*そして
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
-msgstr "わお！ すごい！ 一日中楽しんで入られそうだけど、でも待って。ビープ音の無限の流れに夢中になる前に、数値を変えてみましょう。"
+msgstr "わお！ すごい！ 一日中楽しんで居られそうだけど、でも待って。ビープ音の無限の流れに夢中になる前に、数値を変えてみましょう。"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -963,9 +963,8 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
-"アンプは音の大きさをコンピュータで表したものです。高アンプは大きな音を生成し、低アンプは静かな音を生み出します。Sonic "
-"Piは時間と音符を数字を使って表現するので、アンプにも数字を使用します。1 "
-"の値が通常の音量であるのに対して、0はサイレントです（何もきこえませんよ）。2、10、100 "
+"アンプは音の大きさをコンピュータで表したものです。高アンプは大きな音を生成し、低アンプは静かな音を生み出します。Sonic Piは時間と音符を数字を使って"
+"表現するので、アンプにも数字を使用します。1の値が通常の音量であるのに対して、0はサイレントです（何もきこえませんよ）。2、10、100 "
 "というふうに、アンプを上げることができます。ただし、全体の音を増幅しすぎると、大きな音になりすぎないように、Sonic Piはコンプレッサー（圧縮）と呼ば"
 "れるエフェクトを使用して確実な音量に抑えることを覚えておいてください。これは多くの場合、音がこもって奇妙に聞こえます。ですから、圧縮を防ぐために0から0."
 "5のような値で使用してみてください。"
@@ -978,7 +977,7 @@ msgstr "音量を上げる"
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
-msgstr "音の大きさを変えるために、amp: オプションを使います。例として、半分の音量で演奏するために、0.5 にしてみます。"
+msgstr "音の大きさを変えるために、`amp:`オプションを使います。例として、半分の音量で演奏するために、0.5にしてみます。"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
@@ -1051,8 +1050,8 @@ msgid ""
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
 "もうひとつの面白いオプションは`pan:`です。ステレオで音の位置を制御します。左に音をパンすることは左のスピーカーから音が聞こえることを意味し、右にパン"
-"すれば右のスピーカーから聞こえます。値としては、-1 は最も左、0 は中心、1 は最も右、というようにステレオの領域で表現することができます。もちろん、音"
-"の正確な位置をコントロールするために、-1から1の間のどの値でも使用することができます。"
+"すれば右のスピーカーから聞こえます。値としては、-1は最も左、0は中心、1は最も右、というようにステレオの領域で表現することができます。もちろん、音の正確"
+"な位置をコントロールするために、-1から1の間のどの値でも使用することができます。"
 
 #: 02.2-Synth-Params.md:126
 msgid "Let's play a beep out of the left speaker:"
@@ -1360,7 +1359,7 @@ msgid ""
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
 "エンベロープのうちデフォルトで使われている唯一の部分はリリース・フェーズです。通常、全てのシンセのリリース・フェーズ（終わるまでの時間）は1で、これは終了"
-"するまでに1ビート（デフォルトBPMの60の場合には1秒）のデュレーションを持っているということです。"
+"するまでに1拍（デフォルトBPMの60の場合には1秒）のデュレーションを持っているということです。"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
@@ -1640,7 +1639,7 @@ msgstr "つまり要約すると、Sonic PiのADSRエンベロープには、以
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr "*attack*（アタック）- 0 アンプから`attack_level`までの時間"
+msgstr "*attack*（アタック）- 音量を0から`attack_level`まで移行させる時間"
 
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
@@ -1728,8 +1727,8 @@ msgid ""
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
 msgstr ""
-"Sonic Pi は演奏のためにたくさんのサンプルを持っています。`play`コマンドを使うようにサンプルを使えばよいのです。複数のサンプルや音符を演奏す"
-"るには、それらをひとつひとつ順番に書いていきます。"
+"Sonic Piは演奏のためにたくさんのサンプルを持っています。`play`コマンドを使うようにサンプルを使えばよいのです。複数のサンプルや音符を演奏する"
+"には、それらをひとつひとつ順番に書いていきます。"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -2371,7 +2370,7 @@ msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
-msgstr "シンバルを叩いた後のサスティン（持続時間）を増やすことで、響かせるような効果も出すすることができます。"
+msgstr "サスティン（持続時間）を増やすことで、シンバルを叩いた後の減衰の効果も出すことができます："
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
@@ -3129,8 +3128,8 @@ msgid ""
 "oo? Something fishy is going on here. Try running the code again. What? It cho"
 "se `83.7527` again? That can't be random!"
 msgstr ""
-"おぉー、ランダムな音符を演奏しましたね。これは、``83.7527`の音符を演奏しました。50と95との間のランダムな音符でしたね。でも、ちょっと待ってく"
-"ださい、上記で、私はあなたが再生したランダムな音符を正確に予測していませんか？ 何か怪しくないですか？ "
+"おぉー、ランダムな音符を演奏しましたね。これは、`83.7527`の音符を演奏しました。50と95との間のランダムな音符でしたね。でも、ちょっと待ってくだ"
+"さい、上記で、私はあなたが再生したランダムな音符を正確に予測していませんか？ 何か怪しくないですか？ "
 "再度コードを実行してみてください。ランダムのはずが、再び`83.7527`が選ばれましたよね？ 実は、ランダムにすることができないのです！"
 
 #: 04-Randomisation.md:26
@@ -3415,9 +3414,9 @@ msgid ""
 "or a 12 sided dice, or a 20 sided dice - perhaps even a 120 sided dice!"
 msgstr ""
 "ランダムな数字を出す際に、サイコロ投げをまねてみたくなることもあるでしょう。これは、常に下の値が1である`rrand_i`の特殊なケースです。`dice`"
-"を呼び出す時は、サイコロの面の数を指定する必要があります。標準的なサイコロは6面で、`dice(6)`では、1 、2 、3 、4 、5 、または6を返すサ"
-"イコロと同様の作用をします。しかし、空想のボードゲームのように、4面、12面、または20面サイコロ、さらには120面のサイコロで値を見つけたいこともあるで"
-"しょう。"
+"を呼び出す時は、サイコロの面の数を指定する必要があります。標準的なサイコロは6面で、`dice(6)`では、1, 2, 3, 4, 5または6を返すサイコ"
+"ロと同様の作用をします。しかし、空想のボードゲームのように、4面、12面または20面サイコロ、さらには120面のサイコロで値を見つけたいこともあるでしょう"
+"。"
 
 #: 04-Randomisation.md:189
 msgid "one_in"
@@ -3707,8 +3706,7 @@ msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to create"
 " lots of nice repeating structures:"
 msgstr ""
-"コピーと貼り付けよりを繰り返すより、ずっと美しいコードになったと思いませんか？  "
-"このようにブロックを使うと、沢山の繰り返しの構造を作ることが出来るのです。"
+"コピーと貼り付けを繰り返すより、ずっと美しいコードになったと思いませんか？  このようにブロックを使うと、沢山の繰り返しの構造を作ることが出来るのです。"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -3920,7 +3918,7 @@ msgid ""
 "ly what `one_in` does."
 msgstr ""
 "典型的なプログラム言語では、概ね、真（正しいという意味）を`true`で表現し、偽（正しくない場合）は`false`と表記します。そのため、先の例で`on"
-"e_in` が行っているような、`true`か`false`か答えることができる質問が必要となります。"
+"e_in`が行っているような、`true`か`false`か答えることができる質問が必要となります。"
 
 #: 05.3-Conditionals.md:45
 msgid ""
@@ -6524,8 +6522,8 @@ msgid ""
 "to just loop back round and start at the beginning of the list again? This is "
 "what rings are for."
 msgstr ""
-"すごいでしょう、`55`を取得し、それを再び繰り返すならば`59を得ます。さらに繰り返す場合は、リスト内の数が不足し`nil\\"
-"`になるでしょう。では、ちょうどループのはじめに戻り、再びリストの先頭から開始したい場合はどうしたらようでしょうか？ そのためにリングを使います。"
+"すごいでしょう、`55`を取得し、それを再び繰り返すならば`59`を得ます。さらに繰り返す場合は、リスト内の数が不足し`nil`になるでしょう。では、ちょ"
+"うどループのはじめに戻り、再びリストの先頭から開始したい場合はどうしたらようでしょうか？ そのためにリングを使います。"
 
 #: 08.4-Rings.md:47
 msgid "Creating Rings"
@@ -7260,8 +7258,8 @@ msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
-"なぜ': foo’という名前をつける必要があるか疑問をもつかもしれません。この名前は、このライブループが他のすべてのライブループと異なっていることを示すた"
-"めに重要です。"
+"なぜ`:foo`という名前をつける必要があるか疑問を持つかもしれません。この名前は、このライブループが他のすべてのライブループと異なっていることを示すため"
+"に重要です。"
 
 #: 09.3-Multiple-Live-Loops.md:18
 msgid "*There can never be two live loops running with the same name*."
@@ -7638,7 +7636,7 @@ msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
-"利用可能な多くのキーボードのショートカットを活用する方法と、作品を共有する方法、そして Sonic "
+"利用可能な多くのキーボードのショートカットを活用する方法と、作品を共有する方法、そしてSonic "
 "Piでパフォーマンスする際のいくつかのヒントを見ていきます。"
 
 #: 10.1-Using-Shortcuts.md:1
@@ -7745,7 +7743,7 @@ msgid ""
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
 "シンプルで読みやすくするために、*Ctrlキー*＋その他のキーは「*C-*」、*Metaキー*＋その他のキーは「*M-*」の略語を使います。例えば、あるシ"
-"ョートカットが*Metaキー*と' r 'を同時に押さえる必要がある場合、「*M-r*」と表記します。そして、*-*は、\"同時に押さえる\""
+"ョートカットが*Metaキー*と'r'を同時に押さえる必要がある場合、「*M-r*」と表記します。そして、*-*は、\"同時に押さえる\""
 "を意味しています。"
 
 #: 10.1-Using-Shortcuts.md:53
@@ -8207,8 +8205,8 @@ msgid ""
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
 "ライブコーディングするとき、観客に*あなたの画面を表示する*ことをお勧めします。そうでなければ、ギターを指や弦を隠しながら演奏するようなものです。私は家で"
-"練習するときは、ラズベリーパイと小型プロジェクターでリビングルームの壁に投影しています。テレビや学校/職場のプロジェクターを使ってみましょう。挑戦してみて"
-"ください。とても楽しいですよ。"
+"練習するときは、Raspberry Piと小型プロジェクターでリビングルームの壁に投影しています。テレビや学校/職場のプロジェクターを使ってみましょう。挑"
+"戦してみてください。とても楽しいですよ。"
 
 #: 10.4-Performing.md:20
 msgid "Form a Band"
@@ -8523,8 +8521,8 @@ msgid ""
 "with code. Let's say you want to make the block with coordinates `40`, `50`, `"
 "60` to be glass. That's super easy:"
 msgstr ""
-"現在位置を取得する方法と、座標を利用して瞬間移動する方法を覚えたので、あなたはコードでMincraft内に何かを構築し始めるために必要な道具をすべて持って"
-"います。たとえば、座標`40`, `50`, `60`にガラスのブロックを作りたかったら、それはとっても簡単ですね。"
+"現在位置を取得する方法と、座標を利用して瞬間移動する方法を覚えたので、あなたはコードでMinecraft内に何かを構築し始めるために必要な道具をすべて持っ"
+"ています。たとえば、座標`40`, `50`, `60`にガラスのブロックを作りたかったら、それはとっても簡単ですね。"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
@@ -9452,7 +9450,7 @@ msgstr ""
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
 #: A.15-performance.md:152 A.16-practice.md:166
 msgid "Bringing it all together"
-msgstr "全てを1つにまとめる"
+msgstr "まとめ"
 
 #: A.02-live-coding.md:147
 msgid ""
@@ -12011,10 +12009,9 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:17
 msgid "A Basic Sound"
-msgstr ""
+msgstr "基本的なサウンド"
 
 #: A.10-controlling-your-sound.md:19
-#, fuzzy
 msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer type "
 "the following:"
@@ -12031,10 +12028,13 @@ msgid ""
 ". Go ahead, press it again a few times to get a feel for it. OK, done? Let's s"
 "tart controlling it!"
 msgstr ""
+"では、左上にある`Run`ボタンを押して、素敵な響きのシンセサウンドを聞きましょう。続いて、`Run`ボタンを何度か押して、その音の感覚を掴みましょう。で"
+"きましたか？ では制御してみましょう！"
 
 #: A.10-controlling-your-sound.md:30
+#, fuzzy
 msgid "Synth Nodes"
-msgstr ""
+msgstr "シンセ・ノード"
 
 #: A.10-controlling-your-sound.md:32
 msgid ""
@@ -12044,6 +12044,9 @@ msgid ""
 "ntrol** it at a later point in time. For example, let's change the value of th"
 "e `cutoff:` opt after 1 beat:"
 msgstr ""
+"`play`, `synth`, `sample`といった関数が、実行中のサウンドを表象する`SynthNode`と呼ばれるものを返却することは、"
+"Sonic Piで少し知られている機能かもしれません。これらの`SynthNode`は標準的な変数に入れることができ、後で**制御**することができます。"
+"例えば、`cutoff:`のオプションを1拍後に変更してみましょう。"
 
 #: A.10-controlling-your-sound.md:38
 #, no-wrap
@@ -12069,12 +12072,17 @@ msgid ""
 "gful to you for your performances and for people reading your code. I chose `s"
 "n` as it's a nice short mnemonic for synth node."
 msgstr ""
+"最初に、`:prophet`シンセを`synth`関数でいつものようにトリガーしています。しかし、その結果を`sn`という変数に入れています。この変数は`"
+"synth_node`や`jane`といった何か全く異なるものでも構いません。しかし、何か意味のある名前を選ぶことがあなたのパフォーマンスや後でこのコード"
+"を読む人々にとって重要でしょう。私は、シンセ・ノードのニーモニック（略名）が良かったので、`sn`を選びました。"
 
 #: A.10-controlling-your-sound.md:54
 msgid ""
 "On line 2 we have a standard `sleep` command. This does nothing special - it j"
 "ust asks the computer to wait for 1 beat before moving onto the next line."
 msgstr ""
+"2行目では、標準的な`sleep`コマンドを呼んでいます。これは何も特別なことはありません。次の行に進む前に1拍待つようコンピューターに指示しているだけで"
+"す。"
 
 #: A.10-controlling-your-sound.md:58
 msgid ""
@@ -12083,10 +12091,13 @@ msgid ""
 "Run** button, you'll hear the `:prophet` synth start playing as before, but af"
 "ter 1 beat it will shift to sound a lot brighter."
 msgstr ""
+"3行目はコントロールによって楽しくなるところです。ここでは、`control`関数を使って実行中の`SynthNode`にカットオフの値を`130`に変更"
+"するよう指示しています。**Run**ボタンを叩くと、`:prophet`シンセが前と同じように演奏され、1拍後にそのサウンドが明るくなるのを聞くことがで"
+"きるでしょう。"
 
 #: A.10-controlling-your-sound.md:63
 msgid "Modulatable Options"
-msgstr ""
+msgstr "調整可能なオプション"
 
 #: A.10-controlling-your-sound.md:65
 msgid ""
@@ -12100,26 +12111,32 @@ msgid ""
 "he `:beep` synth's `attack:` opt makes it clear that it's not possible to chan"
 "ge it:"
 msgstr ""
+"Sonic Piのシンセやエフェクトのオプションのほとんどは、トリガーされた後に変更できるかもしれません。しかし、これはすべてに当てはまるという訳ではない"
+"のです。例えば、エンベロープのオプション `attack:`, `decay:`, `sustain:`と`release:`は、シンセをトリガーするとき"
+"だけ設定できます。オプションを変更できるどうかは簡単です。特定のシンセまたはエフェクトのドキュメントに進み、個々のオプションのドキュメントまでスクロールし"
+"て、\"May be changed whilst playing\"（演奏中に変更可能です）か\"Can not be changed once "
+"set\"（一度設定されると変更できません）というフレーズを探すだけです。例えば、`:beep`シンセの`attack:`オプションのドキュメントは、それ"
+"を変更できないことを明確にしています："
 
 #: A.10-controlling-your-sound.md:76
 msgid "Default: 0"
-msgstr ""
+msgstr "Default: 0"
 
 #: A.10-controlling-your-sound.md:77
 msgid "Must be zero or greater"
-msgstr ""
+msgstr "Must be zero or greater"
 
 #: A.10-controlling-your-sound.md:78
 msgid "Can not be changed once set"
-msgstr ""
+msgstr "Can not be changed once set"
 
 #: A.10-controlling-your-sound.md:79
 msgid "Scaled with current BPM value"
-msgstr ""
+msgstr "Scaled with current BPM value"
 
 #: A.10-controlling-your-sound.md:81
 msgid "Multiple Changes"
-msgstr ""
+msgstr "複数の変更"
 
 #: A.10-controlling-your-sound.md:83
 msgid ""
@@ -12127,6 +12144,8 @@ msgid ""
 " free to change it as many times as you like. For example, we can turn our `:p"
 "rophet` into a mini arpeggiator with the following:"
 msgstr ""
+"シンセが動作している間は、一度だけ変更することに限らず、何度でも自由に変更することができます。例えば、次のように`:prophet`をミニ・アルペジエータ"
+"ーにすることができます："
 
 #: A.10-controlling-your-sound.md:87
 #, no-wrap
@@ -12158,12 +12177,17 @@ msgid ""
 "d (thanks to the fabulous power of Sonic Pi's rings). For a bit of variety try"
 " replacing `.tick` with `.choose` and see if you can hear the difference."
 msgstr ""
+"このコードスニペットでは、いくつか余分なものを追加しました。最初に、`notes`という新しい変数を定義しました。この変数には、循環させたい音符が含まれて"
+"います（アルペジエーターは音符のリストを順番に循環する何かに名前を付けたものです）。第二に、私たちは単一の呼び出しを`control`に置き換え、それを1"
+"6回呼び出す反復で置き換えました。`control`の呼び出しの度に、`notes`のリングを順に`.tick`していきます（Sonic Piのリングの素"
+"晴らしいパワーのおかげで、リングは末尾に達すると先頭に戻ります）。ちょっとした変化として、`.tick`を`.choose`で置き換えて、その違いを聞くこ"
+"とができるかどうか確認してください。"
 
 #: A.10-controlling-your-sound.md:107
 msgid ""
 "Note that we can change multiple opts simultaneously. Try changing the control"
 " line to the following and listen for the difference:"
-msgstr ""
+msgstr "複数のオプションを同時に変更することもできます。コントロールの行を次のように変更して、その違いを聞いてみてください："
 
 #: A.10-controlling-your-sound.md:110
 #, no-wrap
@@ -12172,7 +12196,7 @@ msgstr "control sn, note: notes.tick, cutoff: rrand(70, 130)"
 
 #: A.10-controlling-your-sound.md:114
 msgid "Sliding"
-msgstr ""
+msgstr "スライド"
 
 #: A.10-controlling-your-sound.md:116
 msgid ""
@@ -12185,6 +12209,10 @@ msgid ""
 " moved a slider or dial. Of course, Sonic Pi can also do this too using the `_"
 "slide:` opts."
 msgstr ""
+"`SynthNode`をコントロールすると、正確に時間通りに応答し、ボタンを押したり、変更を要求するスイッチをフリックしたかのように、オプションの値を新し"
+"いものに即座に変更します。これは、特にオプションがの`cutoff:`ような音色の1つをコントロールしている場合に、リズミカルでパーカッシブに聞こえること"
+"があります。しかし、瞬間的に変更が発生することを望まないこともあります。その代わりに、スライダーやダイヤルを移動した場合のように、現在の値から新しい値にス"
+"ムーズに移動したい場合があります。もちろん、Sonic Piでも`_slide:`オプションを使うことで、これを行うことができます。"
 
 #: A.10-controlling-your-sound.md:125
 msgid ""
@@ -12194,6 +12222,9 @@ msgid ""
 "han all the other opts in that they tell the synth note how to behave **next t"
 "ime they are controlled**. Let's take a look:"
 msgstr ""
+"変更可能なオプションには、それぞれ対応する`_slide:`という特別なオプションがあり、スライドの時間を指定できます。例えば、`amp:`は`amp_s"
+"lide:`を、`cutoff:`は`cutoff_slide:`を持っています。これらのスライド・オプションは、**次にそれらがコントロールされたときに"
+"**どのように動作するかをシンセの音符に指示するという点で、他のすべてのオプションとは少し異なります。次のコードを見てみましょう："
 
 #: A.10-controlling-your-sound.md:131
 #, no-wrap
@@ -12219,6 +12250,12 @@ msgid ""
 "ferent so you can have the cutoff sliding slowly, the amp sliding fast and the"
 " pan sliding somewhere in between if that's what you're looking to create..."
 msgstr ""
+"この例が`cutoff_slide:`を除いて先の例と全く同じであることに注目してください。これは、このシンセで次に`cutoff:`をコントロールすると"
+"、現在の値から新しい値にスライドするのに2拍かかることを示しています。したがって、`control`を使用したとき、カットオフが70から130までスライド"
+"するのを聞くことができるでしょう。これは、音に興味深いダイナミックな感触を作り出します。次に、 `cutoff_slide:`の時間を0.5などの短い値や"
+"4などのより長い値に変更して、音の変化を確認してください。変更可能なオプションであれば、これと同じようにスライドできることを覚えておいてください。それぞれ"
+"の`_slide:`の値は完全に異なるので、あなたがやろうとすれば、カットオフをゆっくりとスライドしつつ、アンプは速くスライドし、パンをどこかの間をスライ"
+"ドさせることも可能です…"
 
 #: A.10-controlling-your-sound.md:151
 msgid ""
@@ -12227,6 +12264,8 @@ msgid ""
 "ynths although with a slightly different syntax. Check out section 7.2 of the "
 "built-in tutorial for more information on controlling FX."
 msgstr ""
+"シンセがトリガーされた後にコントロールする力を実証する短い例を見てみましょう。エフェクトもシンセと同じようにスライドできますが、少し文法が異なることに注目"
+"してください。エフェクトのコントロールについての情報は、チュートリアルのセクション7.2をチェックしてみてください。"
 
 #: A.10-controlling-your-sound.md:157
 msgid ""
@@ -12235,6 +12274,8 @@ msgid ""
 "h, the FX and the sleep times and see if you can turn it into something comple"
 "tely different!"
 msgstr ""
+"以下のコードを使用可能なBufferにコピーして聞いてみてください。そこで止めずに、そのコードで遊んでみてください。スライドの時間や音符、シンセ、エフェク"
+"トやスリープの時間を変更して、全く異なるものに変更できたことを確認してください！"
 
 #: A.10-controlling-your-sound.md:162
 #, no-wrap
@@ -12270,7 +12311,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:1
 msgid "A.11 Tick Tock"
-msgstr ""
+msgstr "A.11 チック・タック"
 
 #: A.11-beat-tracking.md:3
 msgid "Tracking the Beat"
