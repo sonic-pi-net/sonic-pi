@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-05 16:57+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-02-10 00:10+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.11\n"
+"X-Generator: Weblate 2.12-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -209,7 +209,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -218,14 +217,14 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Maintenant, amusez-vous à modifier le code. Changez les \"rates\" - Que se passe"
-"-t-il lorsque vous utilisez des valeurs élevées ou des valeurs négatives ? Reg"
-"ardez ce qui se passe quand vous changez légèrement la valeur de `rate:` pour "
-"l'échantillon `:ambi_choir` (disons 0.29). Que se passe-t-il lorsque vous choi"
-"sissez une valeur vraiment petite de `sleep` ? Regardez si vous arrivez à le f"
-"aire aller tellement vite que votre ordinateur s'arrêtera avec une erreur parc"
-"e qu'il ne peut plus continuer comme cela (si cela arrive, choisissez juste un"
-"e durée `sleep` plus grande et pressez `Run` à nouveau)."
+"Maintenant, amusez-vous à modifier le code. Changez les taux - Que se "
+"passe-t-il lorsque vous utilisez des valeurs élevées, petites ou négatives ? "
+"Regardez ce qui se passe quand vous changez légèrement la valeur de `rate:` "
+"pour l'échantillon `:ambi_choir` (disons 0.29). Que se passe-t-il lorsque "
+"vous choisissez une valeur vraiment petite de `sleep` ? Regardez si vous "
+"arrivez à le faire aller tellement vite que votre ordinateur s'arrêtera avec "
+"une erreur parce qu'il ne peut plus continuer comme cela (si cela arrive, "
+"choisissez juste une durée `sleep` plus grande et pressez `Run` à nouveau)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -6315,7 +6314,6 @@ msgstr ""
 "maintenant, tout est bon. Sauf que..."
 
 #: 06.2-FX-in-Practice.md:27
-#, fuzzy
 msgid ""
 "Let's look at what the code does. First we have a `loop` which means everythin"
 "g inside of it is repeated forever. Next we have a `with_fx` block. This means"
@@ -6326,17 +6324,18 @@ msgid ""
 "e reverb and then waiting until it needs to be stopped and removed is all hand"
 "led by `with_fx` for you, but this takes CPU power which may be precious."
 msgstr ""
-"Regardons ce que fait le code. En premier lieu, nous avons une boucle (`loop`)"
-", ce qui signifie que tout ce qui est à l'intérieur est répété sans fin. Ensui"
-"te, nous avons un bloc `with_fx`. Ceci veut dire que nous allons créer un nouv"
-"el FX de réverbération *chaque fois que nous bouclons*. C'est comme si nous di"
-"sposions d'une pédale de réverbération distincte à chaque fois que nous pincio"
-"ns une corde sur une guitare. C'est super de pouvoir faire ça, mais ce n'est p"
-"as toujours ce que vous voulez. Par exemple, ce code va avoir du mal à s'exécu"
-"ter comme il faut sur un Raspberry Pi. Tout le travail de création de la réver"
-"bération puis d'attente jusqu'à ce qu'elle doive être stoppée et enlevée est c"
-"omplètement pris en charge par `with_fx` pour vous, mais ceci prend de la puis"
-"sance du microprocesseur (CPU) qui peut être précieuse."
+"Regardons ce que fait le code. En premier lieu, nous avons une boucle "
+"(`loop`), ce qui signifie que tout ce qui est à l'intérieur est répété sans "
+"fin. Ensuite, nous avons un bloc `with_fx`. Ceci veut dire que nous allons "
+"créer un nouvel FX de réverbération *chaque fois que nous bouclons*. C'est "
+"comme si nous disposions d'une pédale de réverbération distincte à chaque "
+"fois que nous pincions une corde sur une guitare. C'est super de pouvoir "
+"faire ça, mais ce n'est pas toujours ce que vous voulez. Par exemple, ce "
+"code va avoir du mal à s'exécuter comme il faut sur un Raspberry Pi. Tout le "
+"travail de création de la réverbération puis d'attente jusqu'à ce qu'elle "
+"doive être stoppée et enlevée est complètement pris en charge par `with_fx` "
+"pour vous, mais ceci prend de la puissance du microprocesseur (CPU) qui peut "
+"être précieuse."
 
 #: 06.2-FX-in-Practice.md:37
 msgid ""
@@ -6579,7 +6578,6 @@ msgid "Non-controllable Options"
 msgstr "Paramètres non contrôlables"
 
 #: 07.1-Controlling-Running-Synths.md:40
-#, fuzzy
 msgid ""
 "Some of the opts can't be controlled once the synth has started. This is the c"
 "ase for all the ADSR envelope parameters. You can find out which opts are cont"
@@ -6587,12 +6585,12 @@ msgid ""
 "ation says *Can not be changed once set*, you know it's not possible to contro"
 "l the opt after the synth has started."
 msgstr ""
-"Quelques paramètres ne peuvent pas être contrôlés une fois que le synthé joue."
-" C'est le cas pour tous les paramètres d'enveloppe ADSR. Vous pouvez trouver q"
-"uels paramètres sont contrôlables en regardant leur documentation dans le syst"
-"ème d'aide. Si la documentation dit *Can not be changed once set (ne peut être"
-" modifié une fois attribué)*, vous savez que ce n'est pas possible de contrôle"
-"r le paramètre après que le synthé ait commencé à jouer."
+"Quelques paramètres ne peuvent pas être contrôlés une fois que le synthé "
+"joue. C'est le cas pour tous les paramètres d'enveloppe ADSR. Vous pouvez "
+"trouver quels paramètres sont contrôlables en regardant leur documentation "
+"dans le système d'aide. Si la documentation dit *Can not be changed once set "
+"(ne peut être modifié une fois attribué)*, vous savez que ce n'est pas "
+"possible de contrôler le paramètre après que le synthé ait commencé à jouer."
 
 #: 07.2-Controlling-FX.md:1
 msgid "7.2 Controlling FX"
@@ -6636,17 +6634,17 @@ msgstr ""
 "end"
 
 #: 07.2-Controlling-FX.md:21
-#, fuzzy
 msgid ""
 "Instead of using a variable, we use the goalpost parameters of the do/end bloc"
 "k. Inside the `|` bars, we need to specify a unique name for our running FX wh"
 "ich we then reference from the containing do/end block. This behaviour is iden"
 "tical to using parameterised functions."
 msgstr ""
-"Au lieu d'utiliser une variable, nous utilisons le paramètre cible d'un bloc d"
-"o/end. A l'intérieur des barres verticales `|`, nous devons attribuer un nom u"
-"nique à notre FX en cours, nom que nous référençons alors depuis l'intérieur d"
-"u bloc do/end."
+"Au lieu d'utiliser une variable, nous utilisons le paramètre cible d'un bloc "
+"do/end. À l'intérieur des barres verticales `|`, nous devons attribuer un "
+"nom unique à notre FX en cours, nom que nous référençons alors depuis "
+"l'intérieur du bloc do/end. Ce comportement est identique à celui d'utiliser "
+"des fonctions paramétrées."
 
 #: 07.2-Controlling-FX.md:26
 msgid "Now go and control some synths and FX!"
@@ -6683,18 +6681,17 @@ msgid "Consider the following example:"
 msgstr "Considérez l'exemple suivant :"
 
 #: 07.3-Sliding-Parameters.md:23
-#, fuzzy
 msgid ""
 "Here, you can hear the synth pitch changing immediately on each `control` call"
 ". However, we might want the pitch to slide between changes. As we're controll"
 "ing the `note:` parameter, to add slide, we need to set the `note_slide` param"
 "eter of the synth:"
 msgstr ""
-"Ici, vous pouvez entendre la hauteur du son changer instantanément après l'app"
-"el à `control`. Toutefois, nous pourrions souhaiter que la hauteur glisse entr"
-"e les changements. Comme nous sommes en train de contrôler le paramètre `note:"
-"`, pour ajouter un glissement, nous devons fixer le paramètre `note_slide` du "
-"synthé :"
+"Ici, vous pouvez entendre la hauteur du son changer instantanément après "
+"l'appel à `control`. Toutefois, nous pourrions souhaiter que la hauteur "
+"glisse entre les changements. Comme nous sommes en train de contrôler le "
+"paramètre `note:`, pour ajouter un glissement, nous devons fixer le "
+"paramètre `note_slide` du synthé :"
 
 #: 07.3-Sliding-Parameters.md:28
 #, no-wrap
@@ -6716,16 +6713,15 @@ msgstr ""
 "control s, note: 72"
 
 #: 07.3-Sliding-Parameters.md:38
-#, fuzzy
 msgid ""
 "Now we hear the notes being bent between the `control` calls. It sounds nice, "
 "doesn't it? You can speed up the slide by using a shorter time such as `note_s"
 "lide: 0.2` or slow it down by using a longer slide time."
 msgstr ""
-"Maintenant, nous entendons la hauteur des notes glisser entre les appels à `co"
-"ntrol`. Ça sonne agréablement, n'est-ce pas ? Vous pouvez accélérer le glissem"
-"ent en utilisant une durée plus courte comme `note_slide: 0.2` ou le ralentir "
-"en utilisant une durée de glissement plus longue."
+"Maintenant, nous entendons la hauteur des notes glisser entre les appels à "
+"`control`. Ça sonne agréable, n'est-ce pas ? Vous pouvez accélérer le "
+"glissement en utilisant une durée plus courte comme `note_slide: 0.2` ou le "
+"ralentir en utilisant une durée de glissement plus longue."
 
 #: 07.3-Sliding-Parameters.md:43
 msgid ""
@@ -6736,21 +6732,19 @@ msgstr ""
 "`_slide` à votre disposition."
 
 #: 07.3-Sliding-Parameters.md:46
-#, fuzzy
 msgid "Sliding is sticky"
 msgstr "Le glissement est rémanent"
 
 #: 07.3-Sliding-Parameters.md:48
-#, fuzzy
 msgid ""
 "Once you've set a `_slide` parameter on a running synth, it will be remembered"
 " and used every time you slide the corresponding parameter. To stop sliding yo"
 "u must set the `_slide` value to 0 before the next `control` call."
 msgstr ""
-"Une fois que vous avez fixé un paramètre `_slide` à un synthé en cours de jeu,"
-" il sera mémorisé et appliqué à chaque fois que le paramètre correspondant ser"
-"a utilisé. Pour arrêter le glissement, vous devez fixer la valeur de `_slide` "
-"à 0 avant l'appel suivant à `control`."
+"Une fois que vous avez fixé un paramètre `_slide` à un synthé en cours de "
+"jeu, il sera mémorisé et appliqué à chaque fois que le paramètre "
+"correspondant sera utilisé. Pour arrêter le glissement, vous devez fixer la "
+"valeur de `_slide` à 0 avant l'appel suivant à `control`."
 
 #: 07.3-Sliding-Parameters.md:53
 #, fuzzy
@@ -6799,38 +6793,35 @@ msgstr ""
 "structure de données."
 
 #: 08-Data-Structures.md:7
-#, fuzzy
 msgid ""
 "Sometimes you may wish to represent and use more than one thing. For example, "
 "you may find it useful to have a series of notes to play one after another. Pr"
 "ogramming languages have data structures to allow you do exactly this."
 msgstr ""
-"Quelquefois, vous souhaiteriez représenter et utiliser plus d'une seule chose "
-"à la fois, vous pourriez trouver utile de disposer d'une série de notes à joue"
-"r l'une après l'autre. Les langages de programmation offrent des structures de"
-" données pour autoriser précisément ceci."
+"Quelque fois, vous souhaiteriez représenter et utiliser plus d'une seule "
+"chose à la fois. Vous pourriez trouver utile de disposer d'une série de "
+"notes à jouer l'une après l'autre. Les langages de programmation offrent des "
+"structures de données pour autoriser précisément ceci."
 
 #: 08-Data-Structures.md:12
-#, fuzzy
 msgid ""
 "There are many exciting and exotic data structures available to programmers - "
 "and people are always inventing new ones. However, for now we only really need"
 " to consider a very simple data structure - the list."
 msgstr ""
-"Il y a beaucoup de structures de données passionnantes et exotiques à disposit"
-"ion des programmeurs - et on en invente toujours de nouvelles. Cependant, pour"
-" l'instant nous avons seulement et réellement besoin de nous intéresser à une "
-"structure de données très simple - la liste."
+"Il y a beaucoup de structures de données passionnantes et exotiques à la "
+"disposition des programmeurs - et on en invente toujours de nouvelles. "
+"Cependant, pour l'instant nous avons seulement réellement besoin de nous "
+"intéresser à une structure de données très simple - la liste."
 
 #: 08-Data-Structures.md:16
-#, fuzzy
 msgid ""
 "Let's look at it in more detail. We'll cover its basic form and then also how "
 "lists can be used to represent scales and chords."
 msgstr ""
-"Regardons-la de manière plus détaillée. Nous allons décrire sa forme basique e"
-"t ensuite montrer comment l'utiliser pour représenter des gammes et des accord"
-"s."
+"Regardons-la de manière plus détaillée. Nous allons décrire sa forme basique "
+"et ensuite montrer comment l'utiliser pour représenter des gammes et des "
+"accords."
 
 #: 08.1-Lists.md:1
 msgid "8.1 Lists"
@@ -6887,14 +6878,13 @@ msgid "Playing a List"
 msgstr "Jeu d'une liste"
 
 #: 08.1-Lists.md:27
-#, fuzzy
 msgid ""
 "One option is to place all the notes in a list: `[52, 55, 59]`. Our friendly `"
 "play` function is smart enough to know how to play a list of notes. Try it:"
 msgstr ""
-"Une option est de placer toutes les notes dans une liste : `[52, 55, 59]`. Not"
-"re sympathique fonction `play` est assez évoluée pour savoir comment jouer une"
-" liste de notes. Essayez-le :"
+"Une option est de placer toutes les notes dans une liste : `[52, 55, 59]`. "
+"Notre sympathique fonction `play` est assez évoluée pour savoir comment "
+"jouer une liste de notes. Essayez-le :"
 
 #: 08.1-Lists.md:31
 #, no-wrap
@@ -6942,7 +6932,6 @@ msgid "Accessing a List"
 msgstr "Accès à une liste"
 
 #: 08.1-Lists.md:54
-#, fuzzy
 msgid ""
 "Another very useful feature of a list is the ability to get information out of"
 " it. This may sound a bit strange, but it's no more complicated than someone a"
@@ -6950,11 +6939,11 @@ msgid ""
 "t at index 23? The only strange thing is that in programming indexes usually s"
 "tart at 0 not 1."
 msgstr ""
-"Une autre caractéristique très utile d'une liste est d'en extraire de l'inform"
-"ation. Ceci peut paraître étrange, mais ce n'est pas plus compliqué que de tou"
-"rner les pages d'un livre jusqu'à la page 23. Avec une liste, vous diriez : qu"
-"el est l'élément à l'index 23 ? La seule chose étrange est qu'en programmation"
-", les index commencent généralement à 0 et non pas 1."
+"Une autre caractéristique très utile d'une liste est d'en extraire de "
+"l'information. Ceci peut paraître étrange, mais ce n'est pas plus compliqué "
+"que de tourner les pages d'un livre jusqu'à la page 23. Avec une liste, vous "
+"diriez : quel est l'élément à l'index 23 ? La seule chose étrange est qu'en "
+"programmation, les index commencent généralement à 0 et non pas 1."
 
 #: 08.1-Lists.md:60
 msgid "With list indexes we don't count 1, 2, 3... Instead we count 0, 1, 2..."
@@ -6972,15 +6961,14 @@ msgid "[52, 55, 59]"
 msgstr "[52, 55, 59]"
 
 #: 08.1-Lists.md:68
-#, fuzzy
 msgid ""
 "There's nothing especially scary about this. Now, what's the second element in"
 " that list? Yes, of course, it's `55`. That was easy. Let's see if we can get "
 "the computer to answer it for us too:"
 msgstr ""
-"Il n'y a rien là de particulièrement effrayant. Maintenant, quel est le second"
-" élément de la liste ? Oui, bien sûr, c'est `55`. C'était facile. Regardons si"
-" nous pouvons obtenir la réponse de l'ordinateur :"
+"Il n'y a rien là de particulièrement effrayant. Maintenant, quel est le "
+"second élément de la liste ? Oui, bien sûr, c'est `55`. C'était facile. "
+"Regardons si nous pouvons obtenir la réponse de l'ordinateur :"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
 #, no-wrap
@@ -6988,7 +6976,6 @@ msgid "puts [52, 55, 59][1]"
 msgstr "puts [52, 55, 59][1]"
 
 #: 08.1-Lists.md:76
-#, fuzzy
 msgid ""
 "OK, that looks a bit weird if you've never seen anything like it before. Trust"
 " me though, it's not too hard. There are three parts to the line above: the wo"
@@ -6998,14 +6985,15 @@ msgid ""
 "ent. We need to surround our index with square brackets and because counting s"
 "tarts at `0`, the index for the second element is `1`. Look:"
 msgstr ""
-"OK, ça semble un peu bizarre si vous n'avez jamais vu quelque chose de la sort"
-"e auparavant. Faites-moi confiance toutefois, ce n'est pas trop dur. Il y a tr"
-"ois parties dans la ligne ci-dessus : le mot `puts`, notre liste `52, 55, 59` "
-"et notre index `[1]`. En premier, nous disons `puts` parce que nous voulons qu"
-"e Sonic Pi nous affiche la réponse dans le panneau \"trace\". Ensuite, nous lui "
-"donnons notre liste, et enfin notre index qui demande le second élément. Nous "
-"devons encadrer notre index avec des crochets et parce que le compte commence "
-"à 0, l'index pour le second élément est `1`. Regardez :"
+"OK, ça semble un peu bizarre si vous n'avez jamais vu quelque chose de la "
+"sorte auparavant. Faites-moi confiance toutefois, ce n'est pas trop dur. Il "
+"y a trois parties dans la ligne ci-dessus : le mot `puts`, notre liste `52, "
+"55, 59` et notre index `[1]`. En premier, nous disons `puts` parce que nous "
+"voulons que Sonic Pi nous affiche la réponse dans le panneau \"trace\". "
+"Ensuite, nous lui donnons notre liste, et enfin notre index qui demande le "
+"second élément. Nous devons encadrer notre index avec des crochets et parce "
+"que le compte commence à 0, l'index pour le second élément est `1`. Regardez "
+":"
 
 #: 08.1-Lists.md:85
 #, no-wrap
@@ -9303,12 +9291,10 @@ msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Bascule entre l'affichage clair et sombre"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
-#, fuzzy
 msgid "`S-M-s` - Save contents of buffer to a file"
 msgstr "`S-M-s` - Enregistrer le contenu du tampon dans un fichier"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
-#, fuzzy
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Charger le contenu d'un tampon à partir d'un fichier"
 
@@ -11898,7 +11884,6 @@ msgid "A.5 Acid Bass"
 msgstr "A.5 Basse acide"
 
 #: A.05-acid-bass.md:3
-#, fuzzy
 msgid "Acid Bass"
 msgstr "Acid Bass"
 
@@ -13246,9 +13231,9 @@ msgstr ""
 " libre et écrivez-y ce code :"
 
 #: A.08-minecraft-vj.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_message \"Let's get started...\""
-msgstr "mc_message \"Let's get started...\""
+msgstr "mc_message \"Commençons...\""
 
 #: A.08-minecraft-vj.md:36
 #, fuzzy
@@ -15842,7 +15827,6 @@ msgid "Slicing Beats"
 msgstr "Couper"
 
 #: A.14-amplitude-modulation.md:160
-#, fuzzy
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
 msgstr ""
 "Une chose très amusante à faire est d'utiliser le `:slicer` pour découper un "
@@ -15876,9 +15860,8 @@ msgstr ""
 "tempo ne s'alignent pas."
 
 #: A.14-amplitude-modulation.md:176
-#, fuzzy
 msgid "Changing tempo"
-msgstr "Modifions-le"
+msgstr "Modifier le tempo"
 
 #: A.14-amplitude-modulation.md:178
 msgid ""
@@ -15958,9 +15941,8 @@ msgstr ""
 "end"
 
 #: A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "Codage en \"Live\""
+msgstr "A. 15 techniques de codage en \"Live\""
 
 #: A.15-performance.md:3
 msgid "Five Live Coding Techniques"
@@ -16029,7 +16011,7 @@ msgstr ""
 #: A.15-performance.md:32
 #, fuzzy
 msgid "2. Manually Layer your Sounds"
-msgstr "Calquer manuellement vos sons"
+msgstr "2. Superposer manuellement vos sons"
 
 #: A.15-performance.md:34
 #, fuzzy
@@ -16050,9 +16032,8 @@ msgstr ""
 
 #: A.15-performance.md:41
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 
 #: A.15-performance.md:46
 msgid ""
@@ -16068,6 +16049,7 @@ msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 msgstr "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 
 #: A.15-performance.md:55
+#, fuzzy
 msgid ""
 "Now, hit `Run` again, to hear both sounds playing at the same time. This is be"
 "cause Sonic Pi's `Run` button doesn't wait for any previous code to finish, bu"
@@ -16076,6 +16058,13 @@ msgid ""
 "rigger. For example, try changing both the `note:` and the `cutoff:` opts and "
 "then re-trigger."
 msgstr ""
+"Maintenant, pressez `Run` de nouveau, pour entendre les deux sons jouer en "
+"même temps. Ceci se produit puisque le bouton `Run` de Sonic Pi n'attend pas "
+"qu'aucun code prédécent ne se termine et donc le code s'exécute en même "
+"temps. Ceci veut dire que vous pouvez facilement superposer plusieurs sons "
+"manuellemnts avec des modifications mineures ou majeures entre chaque "
+"déclenchement. Par exemple, essayez de changer la `note:` et l'option de "
+"`cutoff:` et de déclencher de nouveau."
 
 #: A.15-performance.md:63
 #, fuzzy
@@ -16086,9 +16075,8 @@ msgstr ""
 
 #: A.15-performance.md:65
 #, no-wrap
-#, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
-msgstr "sample :ambi_lunar_land, rate:1"
+msgstr "sample :ambi_lunar_land, rate: 1"
 
 #: A.15-performance.md:69
 msgid ""
@@ -16097,6 +16085,11 @@ msgid ""
 "ome negative values such as `-0.5`. Layer the sounds together and see where yo"
 "u can take it. Finally, try adding some FX."
 msgstr ""
+"Essayer de démarrer l'échantillon, et puis progressivement couper de moitié "
+"l'option de `rate:`entre les clics de `Run` de `1` à `0.5` à `0.25` à `0.125`"
+". Ensuite, essayez même des valeurs négatives comme `-0.5`. Superposer les "
+"sons ensembles et découvrez ce que vous pouvez faire. Finalement, essayer "
+"d'ajouter quelques FX."
 
 #: A.15-performance.md:74
 #, fuzzy
@@ -16111,9 +16104,8 @@ msgstr ""
 "son qu'ils entendent."
 
 #: A.15-performance.md:80
-#, fuzzy
 msgid "3. Master Live Loops"
-msgstr "Boucles en \"live\""
+msgstr "3. Boucles maîtresses en \"live\""
 
 #: A.15-performance.md:82
 #, fuzzy
@@ -16159,6 +16151,7 @@ msgid "4. Use the Master Mixer"
 msgstr "4. Utiliser le Mixeur Maître"
 
 #: A.15-performance.md:99
+#, fuzzy
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
 "h all sound flows. This mixer has both a low pass filter and a high pass filte"
@@ -16173,10 +16166,9 @@ msgstr ""
 "effectuer des modifications globales au son. La fonctionnalité du mixeur "
 "maître est accessible via le fn `set_mixer_control!`. Par exemple, pendant "
 "que du code s'exécute et fait du son, entrez ceci dans un tampon "
-"supplémentaire et pressez `Run`:"
+"supplémentaire et pressez `Run` :"
 
 #: A.15-performance.md:107
-#, fuzzy
 msgid "` set_mixer_control! lpf: 50 `"
 msgstr "` set_mixer_control! lpf: 50 `"
 
@@ -16202,19 +16194,18 @@ msgstr ""
 "filtre de passe de basse du mixeur de la valeur courante à 30, utilisez ceci:"
 
 #: A.15-performance.md:123
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
 msgstr "set_mixer_control! lpf_slide: 16, lpf: 30"
 
 #: A.15-performance.md:127
-#, fuzzy
 msgid "You can then slide quickly back to a high value with:"
 msgstr ""
 "Vous pouvez désormais glisser rapidement de nouveau vers une valeur haute "
-"avec:"
+"avec :"
 
 #: A.15-performance.md:129
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
 msgstr "set_mixer_control! lpf_slide: 1, lpf: 130"
 
@@ -16398,6 +16389,15 @@ msgid ""
 "at a desk and then have to get up and stand at a gig, you'll likely find the d"
 "ifference very difficult and frustrating."
 msgstr ""
+"Le corps d'un musicien est conditionné pour jouer leur instrument. Par "
+"exemple, un trompettiste doit être capable de souffler fort, un guitariste "
+"doit être capable de tenir le manche avec force et un batteur doit être "
+"capable de frapper continuellement les tambours pour de longues périodes de "
+"temps. Alors, qu'est-ce qui est physique à propos du codage en direct ? Tout "
+"comme les DJs, les codeurs en direct performent habituellement debout et "
+"certains dansent même en codant ! Si vous pratiquez votre codage en direct "
+"assis à un bureau et que vous avez à vous levez pour jouer pour un concert, "
+"vous trouverez probablement cette différence difficile et frustrante."
 
 #: A.16-practice.md:58
 msgid ""
@@ -16438,7 +16438,6 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:87
-#, fuzzy
 msgid "Experiment Musically"
 msgstr "Expérimenter musicalement"
 
