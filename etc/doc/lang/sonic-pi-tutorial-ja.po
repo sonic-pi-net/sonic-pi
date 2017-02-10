@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-08 10:02+0000\n"
+"PO-Revision-Date: 2017-02-10 15:40+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -12081,8 +12081,8 @@ msgid ""
 "On line 2 we have a standard `sleep` command. This does nothing special - it j"
 "ust asks the computer to wait for 1 beat before moving onto the next line."
 msgstr ""
-"2行目では、標準的な`sleep`コマンドを呼んでいます。これは何も特別なことはありません。次の行に進む前に1拍待つようコンピューターに指示しているだけで"
-"す。"
+"2行目では、標準的な`sleep`コマンドを呼んでいます。これは何も特別なことはありません。次の行に進む前に1拍待つようコンピュータに指示しているだけです"
+"。"
 
 #: A.10-controlling-your-sound.md:58
 msgid ""
@@ -12315,7 +12315,7 @@ msgstr "A.11 チック・タック"
 
 #: A.11-beat-tracking.md:3
 msgid "Tracking the Beat"
-msgstr ""
+msgstr "ビートを追跡する"
 
 #: A.11-beat-tracking.md:5
 msgid ""
@@ -12326,6 +12326,9 @@ msgid ""
 "system. By the end of this article you'll be ticking your way through rhythms "
 "and riffs on your way to being a live coding DJ."
 msgstr ""
+"このシリーズでは先月、Sonic Piを支えるランダム化のシステムについて技術的に詳しく見ました。そして、コードを動的に制御する新しい基準を、どのように決"
+"定論的に追加できるか探索しました。今月は、引続きSonic Piのユニークなチック（tick）システムに焦点を当て、技術的に詳しく見てみたいと思います。こ"
+"の記事の終わりまでに、あなた自身のやり方で、ライブコーディングDJに必要なリズムやリフのチックができるようになるでしょう。"
 
 #: A.11-beat-tracking.md:13
 msgid "Beat Counting"
