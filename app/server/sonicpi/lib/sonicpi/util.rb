@@ -461,6 +461,14 @@ module SonicPi
       m.delete_if { |k, v| v.nil? }
     end
 
+    def pp_el_or_list(l)
+      if l.size == 1
+        return l[0].inspect
+      else
+        return l.inspect
+      end
+    end
+
     def arg_h_pp(arg_h)
       s = "{"
       arg_h.each do |k, v|
