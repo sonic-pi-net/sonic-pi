@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-13 03:19+0000\n"
+"PO-Revision-Date: 2017-02-13 22:51+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -543,7 +543,6 @@ msgid "H. Scope Viewer"
 msgstr "H. Visualiseur de la portée"
 
 #: 01.2-Exploring-the-Interface.md:83
-#, fuzzy
 msgid ""
 "The scope viewer allows you to see the sound you're hearing. You can easily se"
 "e that the saw wave looks like a saw and that the basic beep is a curvey sine "
@@ -557,13 +556,13 @@ msgid ""
 msgstr ""
 "Le visualiseur d'oscillo vous permet de voir le son que vous entendez. Vous "
 "pouvez facilement voir que l'onde en dent de scie ressemble à une scie et "
-"que le bip basique est une onde sinusoÏdale courbe. Vous pouvez voir aussi "
+"que le bip basique est une onde sinusoïdale courbe. Vous pouvez voir aussi "
 "la différence entre les sons forts et légers à la taille des lignes. Il y a "
 "3 oscilloscopes avec lesquels jouer - celui par défaut est un oscilloscope "
 "combiné pour les canaux gauche et droit, il y a un oscilloscope stéréo qui "
 "affiche un graphique différent pour chaque canal. Enfin, il y a "
 "l'oscilloscope Lissajous qui montre la relation de phase entre les canaux "
-"fauche et droit et vous permet de faire de jolis dessins avec du son "
+"gauche et droit et vous permet de faire de jolis dessins avec du son "
 "(https://en.wikipedia.org/wiki/Lissajous_curve)."
 
 #: 01.3-Learning-through-Play.md:1
@@ -6651,14 +6650,12 @@ msgid "Now go and control some synths and FX!"
 msgstr "Maintenant, allez et contrôlez des synthés et des FX !"
 
 #: 07.3-Sliding-Parameters.md:1
-#, fuzzy
 msgid "7.3 Sliding Options"
-msgstr "7.3 Paramètres glissants"
+msgstr "7.3 Paramètres à curseur glissant"
 
 #: 07.3-Sliding-Parameters.md:3
-#, fuzzy
 msgid "Sliding Opts"
-msgstr "Paramètres glissants"
+msgstr "Paramètres à curseur glissant"
 
 #: 07.3-Sliding-Parameters.md:5
 #, fuzzy
