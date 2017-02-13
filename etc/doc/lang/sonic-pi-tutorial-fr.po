@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-10 00:10+0000\n"
+"PO-Revision-Date: 2017-02-13 03:19+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -16173,6 +16173,7 @@ msgid "` set_mixer_control! lpf: 50 `"
 msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.15-performance.md:111
+#, fuzzy
 msgid ""
 "After you run this code, all existing and new sounds will have a low pass filt"
 "er applied to them and will therefore sound more muffled. Note that this means"
@@ -16181,6 +16182,14 @@ msgid ""
 "xer!`. Some of the currently supported opts are: `pre_amp:`, `lpf:` `hpf:`, an"
 "d `amp:`. For the full list, see the built-in docs for `set_mixer_control!`."
 msgstr ""
+"Après que vous ayez exécuté ce code, tous les sons existants et les nouveaux "
+"auront un filtre de passe basse qui leur seront appliqué et ils sonneront "
+"donc plus étouffé. Notez que cela veut dire que les nouvelles valeurs du "
+"mixeur demeurent les mêmes tant qu'elles ne sont pas changées de nouveau. "
+"Cependant, si vous le voulez, vous pouvez toujours remettre le mixeur à son "
+"état par défaut avec `reset_mixer!`. Quelques unes des options supportées "
+"présentement sont : `pre_amp:`, `lpf:` `hpf:`, et `amp:`. Pour la liste "
+"complète, voir la documentation incluse pour `set_mixer_control!`."
 
 #: A.15-performance.md:119
 #, fuzzy
@@ -16400,6 +16409,7 @@ msgstr ""
 "vous trouverez probablement cette différence difficile et frustrante."
 
 #: A.16-practice.md:58
+#, fuzzy
 msgid ""
 "Practice tip #3 - stand whilst you practice. The easiest way to do this is to "
 "use a standing height desk. However, if like me you don't have one at home, th"
@@ -16410,6 +16420,16 @@ msgid ""
 " session. Remember, nobody is watching you, so have fun and you'll feel much m"
 "ore natural on stage."
 msgstr ""
+"Astuce de pratique #3 - tenez vous debout en pratiquant. La façon la plus "
+"facile de faire cela est en utilisant un bureau à usage debout. Par contre, "
+"si comme moi vous n'en n'avez pas à la maison, il existe quelques options à "
+"faible coût. L'approche que je prends est d'utiliser une table à repasser, "
+"ce qui fonctionne assez bien. Une autre façon est d'empiler quelques boites "
+"ou de gros livres sur un bureau normal et placer votre clavier sur le "
+"dessus. De plus, n'oubliez pas de vous étirez avant de commencer votre "
+"pratique et essayez de danser un peu durant votre session. Rappelez-vous, "
+"personne ne vous regarde, donc ayez du plaisir et vous vous sentirez "
+"beaucoup plus naturel sur scène."
 
 #: A.16-practice.md:68
 #, fuzzy
@@ -16417,6 +16437,7 @@ msgid "Practice setting up"
 msgstr "Mise en place de la pratique"
 
 #: A.16-practice.md:70
+#, fuzzy
 msgid ""
 "Most instruments require some assembly and tuning before they can be played. U"
 "nless you're a rockstar with a bus full of roadies, you'll have to set up your"
@@ -16424,8 +16445,16 @@ msgid ""
 " for problems to occur. One way to help with this is to incorporate the setup "
 "process into your practice sessions."
 msgstr ""
+"La majorité des instruments nécessitent de l'assemblage et des ajustements "
+"avant que vous puissiez en jouer. À moins que vous soyez une étoile du rock "
+"avec une autobus remplie de techniciens, vous aurez à mettre en place votre "
+"propre instrument avant votre concert. C'est souvent un moment stressant et "
+"des problèmes peuvent arriver facilement. Une façon de vous aider avec cela "
+"est d'incorporer le processus de mise en place dans vos sessions de "
+"pratiques."
 
 #: A.16-practice.md:76
+#, fuzzy
 msgid ""
 "Practice tip #4 - treat setting up as an important part of your practice. For "
 "example, have a box or bag that you can keep your Raspberry Pi and keyboard in"
@@ -16436,12 +16465,22 @@ msgid ""
 "u'll be able to setup and pack everything away incredibly quickly without havi"
 "ng to think about it."
 msgstr ""
+"Astuce de pratique #4 - traiter la mise en place comme une partie importante "
+"de votre pratique. Par exemple, ayez une boite ou un sac dans lequel vous "
+"pouvez conserver votre Raspberry Pi et votre clavier etc. Avant chaque "
+"session de pratique, sortez toutes les pièces, connectez tout et aller dans "
+"le processus de démarrage jusqu'à ce que vous ayez Sonic Pi qui s'exécute et "
+"que vous puissiez faire des sons. Quand vous avez terminé de pratiquer, "
+"prenez le temps de tout remballer minutieusement. Cela peut prendre du temps "
+"au départ, mais en peu de temps vous serez capable de mettre en place et "
+"emballer tout incroyablement rapidement sans que vous ayez besoin d'y penser."
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
 msgstr "Expérimenter musicalement"
 
 #: A.16-practice.md:89
+#, fuzzy
 msgid ""
 "Once you've set up and are ready to start making music, you might find yoursel"
 "f struggling to know where to start. One problem many people face is that they"
@@ -16452,8 +16491,19 @@ msgid ""
 "long time. It is much more important to be making sounds you don't like than n"
 "ot making any sounds at all."
 msgstr ""
+"Une fois que tout est mis en place et que vous êtes prêt à faire de la "
+"musique, il se peut que vous ayez de la difficulté à savoir par où "
+"commencer. Un problème que plusieurs personnes rencontrent est qu'elles ont "
+"une bonne idée du type de sons qu'elles veulent produire, mais elles sont "
+"frustrés de ne pas être capable de les produire. Certaines personnes ne "
+"savent même pas quel type de sons elles veulent produire! La première chose "
+"à faire est de ne pas s'inquiéter - c'est très commun et ça arrive à tous "
+"les musiciens - même s'ils pratiquent depuis longtemps. C'est beaucoup plus "
+"important de faire des sons que vous n'aimez pas que de ne pas faire de sons "
+"du tout."
 
 #: A.16-practice.md:99
+#, fuzzy
 msgid ""
 "Practice tip #5 - spend time making sounds and music you don't like. Try to ma"
 "ke time to explore new sounds and ideas. Don't worry that it might sound terri"
@@ -16464,6 +16514,16 @@ msgid ""
 "mber the parts you do. This is even easier when you're making music with code "
 "- just hit save!"
 msgstr ""
+"Astuce de pratique #5 - passer du temps à faire des sons et de la musique "
+"que vous n'aimez pas. Essayer de conserver du temps pour explorer des "
+"nouveaux sons et des idées. Ne vous inquiétez pas que cela puisse sonner "
+"terrible si ce n'est pas le style que vous recherchez. Quand vous "
+"expérimentez de cette manière, vous augmentez les chances de tomber sur un "
+"son ou une combinaison de sons que vous aimez! Même si 99% des sons que vous "
+"faites sont mauvais, ce 1% peut être le riff ou l'intro de votre nouvelle "
+"piste. Oubliez les choses que vous n'aimez pas et rappelez-vous de celles "
+"que vous aimez. C'est encore plus facile quand vous faites de la musique "
+"avec du code - vous n'avez qu'à pressez sauvegarder!"
 
 #: A.16-practice.md:110
 #, fuzzy
@@ -16471,6 +16531,7 @@ msgid "Hear the Code"
 msgstr "Entendez le code"
 
 #: A.16-practice.md:112
+#, fuzzy
 msgid ""
 "Many musicians can look at a musical score and hear the music in their head wi"
 "thout having to play it. This is a very useful skill and it's well worth incor"
@@ -16483,8 +16544,21 @@ msgid ""
 " you a long time to master this, but once you do, you'll be able to improvise "
 "on stage and express your ideas fluently."
 msgstr ""
+"Plusieurs musiciens peuvent regarder une partition de musique et entendre la "
+"musique dans leur tête sans avoir à la jouer. C'est une compétence très "
+"utile et ça vaut la peine de l'incorporer dans vos sessions de pratique de "
+"codage en direct. L'important est d'être capable d'avoir une certaine "
+"compréhension de comment va sonner le code. Vous n'avez pas besoin d'être "
+"capable de l'entendre exactement dans votre tête, mais il est utile de "
+"savoir si le code sera vite, lent, fort, rythmée, mélodieux, hasardeux, etc. "
+"Le but final est d'être capable d'inverser le processus par la suite - être "
+"capable d'entendre de la musique dans votre tête et savoir comment la coder. "
+"Cela peut vous prendre beaucoup de temps à maitriser, mais quand c'est le "
+"cas, vous serez capable d'improviser sur scène et exprimer vos idées "
+"fluidement."
 
 #: A.16-practice.md:124
+#, fuzzy
 msgid ""
 "Practice tip #6 - write some code into Sonic Pi but don't hit the Run button. "
 "Instead, try to imagine what sound it is going to produce. Then, hit Run, list"
@@ -16495,12 +16569,23 @@ msgid ""
 "hy I was wrong. Each time this happens, I learn new tricks which allow me to e"
 "xpress myself in new ways."
 msgstr ""
+"Astuce de pratique #6 - écrivez un peu de code dans Sonic Pi, mais ne "
+"pressez pas sur le bouton Exécuter. Au lieu de cela, essayez d'imaginer quel "
+"son ça va produire. Puis, pressez Exécuter, écouter, et penser sur quoi vous "
+"aviez raison et sur quoi vous aviez tort. Continuer de répéter cela jusqu'à "
+"ce que ça devienne une partie naturelle de votre processus de codage. Quand "
+"je pratique, j'ai normalement une bonne idée de comment va sonner le code. "
+"Cependant, je suis encore parfois surpris, et alors j'arrête et prend du "
+"temps pour penser à propos de quoi j'avais tort. À chaque fois que cela se "
+"produit, j'apprends de nouveaux trucs qui me permette de m'exprimer de "
+"nouvelles façons."
 
 #: A.16-practice.md:134
 msgid "Remove all distractions"
 msgstr "Enlevez toutes les distractions"
 
 #: A.16-practice.md:136
+#, fuzzy
 msgid ""
 "A common problem when practicing is to become distracted with other things. Pr"
 "acticing is hard and requires real discipline regardless of the kind of music "
@@ -16510,8 +16595,17 @@ msgid ""
 "f practice, it's important to try and spend all that time being as productive "
 "as possible."
 msgstr ""
+"Un problème courant en pratiquant est de devenir distrait par d'autres "
+"choses. La pratique est difficile et demande une réelle discipline peu "
+"importe le type de musique que vous jouer - du jazz au EDM en passant par le "
+"classique. Si vous avez de la difficulté à commencer ou faire du progrès, "
+"c'est souvent trop facile d'aller sur un réseau social, ou de regarder "
+"quelque chose sur internet etc. Si vous vous êtes fixé un objectif d'une "
+"pratique d'une durée de 20 minutes, c'est important d'essayer et de prendre "
+"tout le temps à être le plus productif possible."
 
 #: A.16-practice.md:144
+#, fuzzy
 msgid ""
 "Practice tip #7 - before you start practicing remove as many distractions as p"
 "ossible. For example, disconnect from the internet, put your phone in another "
@@ -16519,6 +16613,12 @@ msgid ""
 "d. Try to focus on coding music and you can return to your distractions when y"
 "ou've finished."
 msgstr ""
+"Astuce de pratique #7 - avant de commencer votre pratique, enlever le plus "
+"de distractions possible. Par exemple, déconnectez-vous d'internet, laisser "
+"votre téléphone dans une autre pièce et essayer de pratiquer dans un endroit "
+"tranquille où il est peu probable que vous soyez dérangé. Essayer de vous "
+"concentrer sur le codage de la musique et vous pourrez retourner à vos "
+"distractions quand vous aurez terminé."
 
 #: A.16-practice.md:151
 #, fuzzy
@@ -16526,14 +16626,22 @@ msgid "Keep a practice diary"
 msgstr "Tenez un journal de pratique"
 
 #: A.16-practice.md:153
+#, fuzzy
 msgid ""
 "When you are practicing, you'll often find your mind is full of new exciting i"
 "deas - new musical directions, new sounds to try out, new functions to write, "
 "etc. These ideas are often so interesting that you might stop what you're doin"
 "g and start working on the idea. This is another form of distraction!"
 msgstr ""
+"Quand vous pratiquez, vous ressentirez souvent que votre esprit est plein de "
+"nouvelles idées excitantes - nouvelles directions musicales, nouveaux sons à "
+"essayer, nouvelles fonctions à écrire, etc. Ces idées sont souvent tellement "
+"intéressantes que vous allez peut-être interrompre ce que vous faisiez pour "
+"commencer à travailler sur l'idée. Il s'agit d'une autre forme de "
+"distraction !"
 
 #: A.16-practice.md:159
+#, fuzzy
 msgid ""
 "Practice tip #8 - keep a practice diary by your keyboard. When you get an exci"
 "ting new idea, temporarily pause your practice session, quickly jot the idea d"
@@ -16541,6 +16649,11 @@ msgid ""
 "lity time thinking about and working on your ideas after you've finished pract"
 "icing."
 msgstr ""
+"Astuce de pratique #8 - conserver un journal de pratique près de votre "
+"clavier. Quand vous avez une nouvelle idée excitante, arrêter temporairement "
+"votre session, notez rapidement l'idée, et puis oubliez la pour continuer à "
+"pratiquer. Vous pouvez par la suite passer du temps de qualité à penser et à "
+"travailler vos idées une fois que vous avez terminé de pratiquer."
 
 #: A.16-practice.md:168
 msgid ""
