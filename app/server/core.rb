@@ -508,7 +508,7 @@ module SonicPi
           s = nil
         end
 
-        n = @size unless n
+        n = 1 unless n
         raise "pick requires n to be a number, got: #{n.inspect}" unless n.is_a? Numeric
 
         res = []
