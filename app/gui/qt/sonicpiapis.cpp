@@ -37,6 +37,8 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
   keywords[Examples] << ":haunted" << ":ambient_experiment" << ":chord_inversions" << ":filtered_dnb" << ":fm_noise" << ":jungle" << ":ocean" << ":reich_phase" << ":acid" << ":ambient" << ":compus_beats" << ":echo_drama" << ":idm_breakbeat" << ":tron_bike" << ":wob_rhyth" << ":bach" << ":driving_pulse" << ":monday_blues" << ":rerezzed" << ":square_skit" << ":blimp_zones" << ":blip_rhythm" << ":shufflit" << ":tilburg_2" << ":time_machine" << ":sonic_dreams";
 
   keywords[Tuning] << ":just" << ":pythagorean" << ":meantone" << ":equal";
+
+  keywords[MidiParam] << ":sustain" << ":velocity" << ":vel" << ":velocity_f" << ":vel_f" << ":port" << ":channel";
 }
 
 
@@ -150,7 +152,9 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   } else if (first == "use_sample_defaults" || first == "with_sample_defaults") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = SampleParam;
-
+  } else if (words.length() >= 2 && first == "midi") {
+    if (last.endsWith(':')) return; // don't try to complete parameters
+    ctx = MidiParam;
   } else if (context.length() > 1) {
     if (partial.length() <= 2) {
       // don't attempt to autocomplete other words on the same line
