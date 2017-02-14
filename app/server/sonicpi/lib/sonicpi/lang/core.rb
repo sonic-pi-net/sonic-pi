@@ -402,9 +402,9 @@ end"
             block.call(params[idx % params_size])
           when 2
             if had_params
-              block.call(t, params[idx % params_size])
+              block.call(delta, params[idx % params_size])
             else
-              block.call(t, idx)
+              block.call(delta, idx)
             end
           when 3
             block.call(t, params[idx % params_size], idx)
