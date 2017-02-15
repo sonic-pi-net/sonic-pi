@@ -4774,7 +4774,10 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
       def normalise_transpose_and_tune_note_from_args(n, args_h)
         n = n.call if n.is_a? Proc
+        n = n[0] if is_list_like?(n) && n.size == 1
         n = note(n) unless n.is_a? Numeric
+
+        n = n || args_h[:note]
 
         if shift = __thread_locals.get(:sonic_pi_mod_sound_transpose)
           n += shift
