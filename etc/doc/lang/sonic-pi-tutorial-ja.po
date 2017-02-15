@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-10 15:40+0000\n"
+"PO-Revision-Date: 2017-02-15 09:50+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -12315,7 +12315,7 @@ msgstr "A.11 チック・タック"
 
 #: A.11-beat-tracking.md:3
 msgid "Tracking the Beat"
-msgstr "ビートを追跡する"
+msgstr "拍を追跡する"
 
 #: A.11-beat-tracking.md:5
 msgid ""
@@ -12332,7 +12332,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:13
 msgid "Beat Counting"
-msgstr ""
+msgstr "拍を数える"
 
 #: A.11-beat-tracking.md:15
 msgid ""
@@ -12341,12 +12341,16 @@ msgid ""
 " precise control over when a beat actually occurs and even supports multiple b"
 "eats with their own tempos."
 msgstr ""
+"音楽を作るときに、何拍目であるかによって異なることをしたいことがよくあるでしょう。Sonic Piには、`tick`と呼ばれる拍を数える特別なシステムがあ"
+"って、拍が実際にいつ起こるかを正確に制御でき、またそれぞれ独自のテンポを持った複数の拍にも対応しています。"
 
 #: A.11-beat-tracking.md:20
 msgid ""
 "Let's have a play - to advance the beat we just need to call `tick`. Open up a"
 " fresh buffer, type in the following and hit Run:"
 msgstr ""
+"早速遊んでみましょう。拍を進めるのに必要なことは、単に`tick`を呼ぶだけです。新しいBufferを開いて、次のコードを入力して`Run`を叩いてみてく"
+"ださい："
 
 #: A.11-beat-tracking.md:23
 #, no-wrap
@@ -12360,6 +12364,8 @@ msgid ""
 "a fresh beat counting from 0. However, whilst the run is still active, we can "
 "advance the beat as many times as we want:"
 msgstr ""
+"これは現在の拍の`0`を返すでしょう。`Run`ボタンを数回押しているにも関わらず、これが常に`0`を返すことに注意してください。これは、それぞれの実行で"
+"新しい拍のカウントが0から開始するためです。しかし、実行がアクティブのままであれば、拍を好きなだけ進めることができます："
 
 #: A.11-beat-tracking.md:32
 #, no-wrap
@@ -12379,10 +12385,12 @@ msgid ""
 "0` means the code `puts foo` prints `0` to the log at that point in the progra"
 "m."
 msgstr ""
+"コードの行の末尾に`#=>`シンボルがあるときは、そのコードが右側のテキストをログ出力することを意味しています。例えば、`puts foo #=> "
+"0`は`puts foo`がプログラムのその場所で`0`をログ出力することを意味します。"
 
 #: A.11-beat-tracking.md:43
 msgid "Checking the Beat"
-msgstr ""
+msgstr "拍を確認する"
 
 #: A.11-beat-tracking.md:45
 msgid ""
@@ -12390,6 +12398,8 @@ msgid ""
 "he current beat. Sometimes we just want to look at the current beat without ha"
 "ving to increment it which we can do via `look`:"
 msgstr ""
+"ここまでで、`tick`が2つのことをしているのを見てきました。それは、拍を増やし（1を加算し）、拍の値を返しています。場合によっては、拍を増やさずにただ"
+"値を見たいことがあるかもしれませんが、それは`look`で実現できます："
 
 #: A.11-beat-tracking.md:49
 #, no-wrap
@@ -12411,6 +12421,8 @@ msgid ""
 "rned `0`, then `1` as expected, then the two `look`s just returned the last be"
 "at value twice which was `1`."
 msgstr ""
+"このコードでは`tick`で拍を2回増加させ、その後`look`を2回呼んでいます。実行すると、ログに`0`, `1`, `1`, "
+"`1`の値が表示されるでしょう。最初の2つの`tick`で`0`と`1`を返し、次の2つの`look`は拍の最新の値である`1`を単純に返しています。"
 
 #: A.11-beat-tracking.md:64
 msgid ""
@@ -12422,6 +12434,10 @@ msgid ""
 "ts the beat. Secondly it looks up the ring value using the beat as the index. "
 "Let's take a look:"
 msgstr ""
+"`tick`で拍を進め、`look`で拍を確認できるようになりました。次は何でしょう？`tick`で何かを進める必要がありそうですね。Sonic Piはリ"
+"フやメロディーやリズムを表すのにリングを使っていて、`tick`システムはこれと密接に連携するよう設計されています。実際に、リングは`.`の付いた`tic"
+"k`の独自のバージョンを持っていて、それは2つのことをします。最初に、それは通常の`tick`と同じように拍を増加させます。次に、拍をインデックスとして使"
+"用して、リングの値にアクセスします。次を見てみましょう："
 
 #: A.11-beat-tracking.md:72
 #, no-wrap
@@ -12434,6 +12450,8 @@ msgid ""
 "f the ring `:a`. We can grab each of the values in the ring by calling `.tick`"
 " multiple times:"
 msgstr ""
+"`.tick`は`tick`の`.`付きの特別なバージョンで、これはリングの最初の値である`:a`を返します。次のように、`.tick`を複数回呼ぶことで"
+"、リングの値をそれぞれ掴むことができます："
 
 #: A.11-beat-tracking.md:80
 #, no-wrap
@@ -12456,10 +12474,12 @@ msgid ""
 "tice that `look` returns `3`. Calls to `.tick` act just like they are regular "
 "calls to `tick` - they increment the local beat."
 msgstr ""
+"ログを見ると、`:a`, `:b`, `:c`が表示され、その後再び`:a`が表示されているでしょう。`look`が`3`を返しているのに注目してください"
+"。`.tick`の呼び出しは、`tick`の通常の呼び出しとちょうど似た振る舞いをしていますが、それは独自の拍を増加させているのです。"
 
 #: A.11-beat-tracking.md:93
 msgid "A Live Loop Arpeggiator"
-msgstr ""
+msgstr "ライブループ・アルペジエーター"
 
 #: A.11-beat-tracking.md:95
 msgid ""
@@ -12467,26 +12487,28 @@ msgid ""
 "bined we have all the tools we need to both build and understand a simple arpe"
 "giator. We need just four things:"
 msgstr ""
+"'tick'は、リングと`live_loop`と組み合わせることによって、本当の力が発揮されます。それらを組み合せると、シンプルなアルペジエーターを構築し"
+"て理解するために必要な全ての道具を手に入れたことになります。必要なものは、次の4つです："
 
 #: A.11-beat-tracking.md:99
 msgid "A ring containing the notes we want to loop over."
-msgstr ""
+msgstr "ループしたい音符を保持するリング"
 
 #: A.11-beat-tracking.md:100
 msgid "A means of incrementing and obtaining the beat."
-msgstr ""
+msgstr "拍を増加したり保持したりする手段"
 
 #: A.11-beat-tracking.md:101
 msgid "The ability to play a note based on the current beat."
-msgstr ""
+msgstr "拍に応じて音符を演奏する機能"
 
 #: A.11-beat-tracking.md:102
 msgid "A loop structure to keep the arpegiator repeating."
-msgstr ""
+msgstr "アルペジエーターを繰り返し続けるループ構造"
 
 #: A.11-beat-tracking.md:104
 msgid "These concepts can all be found in the following code:"
-msgstr ""
+msgstr "これらの概念のすべてを、次のコードで見つけることができます："
 
 #: A.11-beat-tracking.md:106
 #, no-wrap
@@ -12514,10 +12536,13 @@ msgid ""
 "rement our beat counter and use the latest beat value as an index into our not"
 "es ring. Finally, we wait for an eighth of a beat before looping round again."
 msgstr ""
+"各行を順に見ていきましょう。最初に、繰り返し演奏される音符のリングを定義しています。次に、`:arp`と名付けられた`live_loop`を作ってループさ"
+"せています。`live_loop`を繰り返す度に、シンセを`:dpulse`に設定し、`.tick`と使ってリング内の次の音符を演奏しています。これにより"
+"、拍のカウンタを増加させ、最新の拍の値を音符のリングのインデックスとして使っている点に注意してください。最後に、1/8拍待ってループしています。"
 
 #: A.11-beat-tracking.md:124
 msgid "Multiple Simultaneous Beats"
-msgstr ""
+msgstr "複数の同時の拍"
 
 #: A.11-beat-tracking.md:126
 msgid ""
@@ -12526,6 +12551,8 @@ msgid ""
 "s much more powerful than having a global metronome and beat. Let's take a loo"
 "k at this in action:"
 msgstr ""
+"本当に知っておいて欲しい大切なことは、`tick`は`live_loop`でローカルなことです。これは、それぞれの`live_loop`がそれ自身の独立し"
+"た拍のカウンタを持っていることを意味します。これは、グローバルなメトロノームと拍よりもはるかに強力です。実際に動いているところを見てみましょう："
 
 #: A.11-beat-tracking.md:131
 #, no-wrap
@@ -12560,13 +12587,14 @@ msgstr ""
 
 #: A.11-beat-tracking.md:149
 msgid "Clashing Beats"
-msgstr ""
+msgstr "拍を壊す"
 
 #: A.11-beat-tracking.md:151
 msgid ""
 "A big cause of confusion with Sonic Pi's tick system is when people want to ti"
 "ck over multiple rings in the same `live_loop`:"
 msgstr ""
+"Sonic Piの`tick`システムに関する混乱の大きな原因は、`live_loop`に複数のリングで`tick`をしようとする際に生じるものです："
 
 #: A.11-beat-tracking.md:154
 #, no-wrap
@@ -12600,6 +12628,12 @@ msgid ""
 "you use. That way you can work with as many beats as you need! See the section"
 " on named ticks in 9.4 of the built-in tutorial for more information."
 msgstr ""
+"`live_loop`には独自の拍のカウンタがありますが、ここでは同じ`live_loop`内で`.tick`を2回呼び出しています。これは、ループする毎"
+"に拍が2回増加されることを意味しています。これは何か面白いポリリズムを生み出すことができるかもしれませんが、多くの場合あなたが望むものではないでしょう。こ"
+"の問題には2つの解決策があります。1つめは、`live_loop`の開始時に手動で`tick`を呼び出し、`.look`を使って各`live_loop`の"
+"現在の拍を確認することです。2つめは、`.tick(:foo)`のように、`.tick`の呼び出しにユニークな名前を渡すことです。Sonic "
+"Piは、名前付きチック毎に別々の拍のカウンタを作成し、追跡します。そうすれば、必要なだけ多くの拍で作業できます！ "
+"詳細については、チュートリアルの9.4の名前付きチックに関するセクションを参照してください。"
 
 #: A.11-beat-tracking.md:178
 msgid ""
@@ -12608,6 +12642,8 @@ msgid ""
 "changing things and play around with it and see what you can turn it into. See"
 " you next time..."
 msgstr ""
+"`tick`, `ring`, `live_loop`の知識を使って、最後に楽しい例を紹介しましょう。いつものように、これを完成された曲として扱わないよう"
+"にしてください。これで遊びながら色々と変更して、どこまで変えることができるか見てみてください。ではまた次回お会いしましょう…"
 
 #: A.11-beat-tracking.md:183
 #, no-wrap
