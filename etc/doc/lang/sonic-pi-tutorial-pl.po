@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-15 06:32+0000\n"
+"PO-Revision-Date: 2017-02-15 17:41+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -13166,9 +13166,8 @@ msgid "A.9 Randomisation"
 msgstr "A.9 Randomizacja"
 
 #: A.09-randomisation.md:3
-#, fuzzy
 msgid "Surfing Random Streams"
-msgstr "Surfowanie Losowych Strumieni"
+msgstr "Surfowanie Po Losowych Strumieniach"
 
 #: A.09-randomisation.md:5
 msgid ""
@@ -13626,9 +13625,8 @@ msgstr ""
 "jeszcze kilka razy - poczuj ją. Okej, zrobione? Zacznijmy ją kontrolować!"
 
 #: A.10-controlling-your-sound.md:30
-#, fuzzy
 msgid "Synth Nodes"
-msgstr "Syntezator Węzłów"
+msgstr "Węzły Syntezatorów (Synth Nodes)"
 
 #: A.10-controlling-your-sound.md:32
 msgid ""
@@ -13701,9 +13699,8 @@ msgstr ""
 "dźwięk na znacznie jaśniejszy."
 
 #: A.10-controlling-your-sound.md:63
-#, fuzzy
 msgid "Modulatable Options"
-msgstr "Modulowane Opcje"
+msgstr "Opcje Z Możliwością Modulacji"
 
 #: A.10-controlling-your-sound.md:65
 msgid ""
@@ -14747,9 +14744,8 @@ msgstr ""
 "probabliistyczne uderzenia!"
 
 #: A.13-probabilistic-sequencer.md:12
-#, fuzzy
 msgid "Probability"
-msgstr "Przenośność"
+msgstr "Prawdopodobieństwo"
 
 #: A.13-probabilistic-sequencer.md:14
 #, fuzzy
@@ -14763,7 +14759,17 @@ msgid ""
 "rage (if you roll lots and lots of times) you'll throw a 1 every 6 throws. Thi"
 "s means you have a 1 in 6 chance of throwing a 1. We can emulate dice rolls in"
 " Sonic Pi with the fn `dice`. Let's roll one 8 times:"
-msgstr "dice (kostka do gry)"
+msgstr ""
+"Before we can start making new beats and synth rhythms we need to take a "
+"quick dive into the basics of probability. This might sound daunting and "
+"complicated, but really it's just as simple as rolling a dice - honestly! "
+"When you take a regular 6 sided board game dice and roll it what's actually "
+"happening? Well, firstly you'll roll either a 1, 2, 3, 4, 5 or 6 with "
+"exactly the same chance of getting any of the numbers. In fact, given that "
+"it's a 6 sided dice, on average (if you roll lots and lots of times) you'll "
+"throw a 1 every 6 throws. This means you have a 1 in 6 chance of throwing a "
+"1. We can emulate dice rolls in Sonic Pi with the fn `dice`. Let's roll one "
+"8 times:"
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
@@ -14785,9 +14791,8 @@ msgid ""
 msgstr "Zauważ, jak log wyświetla wartości z przedziału"
 
 #: A.13-probabilistic-sequencer.md:35
-#, fuzzy
 msgid "Random Beats"
-msgstr "Losowe zarzewie"
+msgstr "Losowe Beat'y"
 
 #: A.13-probabilistic-sequencer.md:37
 #, fuzzy
@@ -14796,17 +14801,24 @@ msgid ""
 "a dice. If you rolled a 1, you hit the drum and if you rolled any other number"
 " you didn't. You now have a probabilistic drum machine working with a probabil"
 "ity of 1/6! Let's hear what that sounds like:"
-msgstr "Posłuchajmy zatem, jak to brzmi:"
+msgstr ""
+"Now imagine you had a drum and every time you were about to hit it you "
+"rolled a dice. If you rolled a 1, you hit the drum and if you rolled any "
+"other number you didn't. You now have a probabilistic drum machine working "
+"with a probability of 1/6! Let's hear what that sounds like:"
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :random_beat do\n"
 "  sample :drum_snare_hard if dice == 1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "rand"
+msgstr ""
+"live_loop :random_beat do\n"
+"  sample :drum_snare_hard if dice == 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:50
 #, fuzzy
@@ -14824,7 +14836,20 @@ msgid ""
 "f it isn't `1` then the statement resolves to `false` and the snare is skipped"
 ". The second line simply waits for `0.125` seconds before rolling the dice aga"
 "in."
-msgstr "rand"
+msgstr ""
+"Let's quickly go over each line to make sure everything is very clear. First "
+"we create a new `live_loop` called `:random_beat` which will continually "
+"repeat the two lines between `do` and `end`. The first of these lines is a "
+"call to `sample` which will play a pre-recorded sound (the `:drum_snare_hard`"
+" sound in this case). However, this line has a special conditional `if` "
+"ending. This means that the line will only be executed if the statement on "
+"the right hand side of the `if` is `true`. The statement in this case is `"
+"dice == 1`. This calls our `dice` function which, as we have seen, returns a "
+"value between 1 and 6. We then use the equality operator `==` to check to "
+"see if this value is `1`. If it is `1`, then the statement resolves to `true`"
+" and our snare drum sounds, if it isn't `1` then the statement resolves to "
+"`false` and the snare is skipped. The second line simply waits for `0.125` "
+"seconds before rolling the dice again."
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
@@ -14842,17 +14867,29 @@ msgid ""
 " chance of rolling a 1 and with a 20 sided dice there's a one in 20 chance. Lu"
 "ckily, Sonic Pi has the handy `one_in` fn for describing exactly this. Let's p"
 "lay:"
-msgstr "one_in"
+msgstr ""
+"Those of you that have played role play games will be familiar with lots of "
+"strangely shaped dice with different ranges. For example there is the "
+"tetrahedron shaped dice which has 4 sides and even a 20 sided dice in the "
+"shape of a icosahedron. The number of sides on the dice changes the chance, "
+"or probability of rolling a 1. The fewer sides, the more likely you are to "
+"roll a 1 and the more sides the less likely. For example, with a 4 sided "
+"dice, there's a one in 4 chance of rolling a 1 and with a 20 sided dice "
+"there's a one in 20 chance. Luckily, Sonic Pi has the handy `one_in` fn for "
+"describing exactly this. Let's play:"
 
 #: A.13-probabilistic-sequencer.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :different_probabilities do\n"
 "  sample :drum_snare_hard if one_in(6)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :different_probabilities do\n"
+"  sample :drum_snare_hard if one_in(6)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:84
 #, fuzzy
@@ -14862,7 +14899,12 @@ msgid ""
 "h as `2` or `20` and hit the `Run` button again. Notice that lower numbers mea"
 "n the snare drum sounds more frequently and higher numbers mean the snare trig"
 "gers fewer times. You're making music with probabilities!"
-msgstr "rand"
+msgstr ""
+"Start the live loop above and you'll hear the familiar random rhythm. "
+"However, don't stop the code running. Instead, change the `6` to a different "
+"value such as `2` or `20` and hit the `Run` button again. Notice that lower "
+"numbers mean the snare drum sounds more frequently and higher numbers mean "
+"the snare triggers fewer times. You're making music with probabilities!"
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
@@ -14878,7 +14920,6 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  sample :elec_hi_snare if one_in(6)\n"
@@ -14887,7 +14928,14 @@ msgid ""
 "  sample :bd_haus if one_in(4)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  sample :elec_hi_snare if one_in(6)\n"
+"  sample :drum_cymbal_closed if one_in(2)\n"
+"  sample :drum_cymbal_pedal if one_in(3)\n"
+"  sample :bd_haus if one_in(4)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:106
 msgid ""
@@ -14912,11 +14960,15 @@ msgid ""
 "much more regular and repeating rhythm. Once you hear the beat, try changing t"
 "he seed value from `1000` to another number. Notice how different numbers gene"
 "rate different beats."
-msgstr "rand"
+msgstr ""
+"Next, we can use our old friend `use_random_seed` to reset the random stream "
+"after 8 iterations to create a regular beat. Type the following code to hear "
+"a much more regular and repeating rhythm. Once you hear the beat, try "
+"changing the seed value from `1000` to another number. Notice how different "
+"numbers generate different beats."
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 1000\n"
@@ -14928,7 +14980,17 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 1000\n"
+"  8.times do\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:133
 msgid ""
@@ -14948,11 +15010,15 @@ msgid ""
 ". Notice that we can also use our newly discovered probabilistic sequencing me"
 "thod on synths just as well as samples. Don't leave it at that though - tweak "
 "the numbers and make your own track with the power of probabilities!"
-msgstr "rand"
+msgstr ""
+"Finally, we can throw in some random bass to give it some nice melodic "
+"content. Notice that we can also use our newly discovered probabilistic "
+"sequencing method on synths just as well as samples. Don't leave it at that "
+"though - tweak the numbers and make your own track with the power of "
+"probabilities!"
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 2000\n"
@@ -14967,10 +15033,22 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "choose (wybierz)"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 2000\n"
+"  8.times do\n"
+"    c = rrand(70, 130)\n"
+"    n = (scale :e1, :minor_pentatonic).take(3).choose\n"
+"    synth :tb303, note: n, release: 0.1, cutoff: c if rand < 0.9\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus, amp: 1.5 if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.14-amplitude-modulation.md:1
-#, fuzzy
 msgid "A.14 Amplitude Modulation"
 msgstr "A.14 Modulacja Amplitudy"
 
@@ -14986,11 +15064,16 @@ msgid ""
 "ave learned how to manipulate the overall volume of parts of our live coded so"
 "und in powerful new ways. This will allow you to create new rhythmic and timbr"
 "al structures and broaden your sonic possibilities."
-msgstr "slicer"
+msgstr ""
+"This month we're going to take a deep dive into one of Sonic Pi's most "
+"powerful and flexible audio FX - the `:slicer`. By the end of this article "
+"you will have learned how to manipulate the overall volume of parts of our "
+"live coded sound in powerful new ways. This will allow you to create new "
+"rhythmic and timbral structures and broaden your sonic possibilities."
 
 #: A.14-amplitude-modulation.md:12
 msgid "Slice that Amp"
-msgstr ""
+msgstr "Pokrój tę Amplitudę"
 
 #: A.14-amplitude-modulation.md:14
 #, fuzzy
@@ -14999,7 +15082,11 @@ msgid ""
 "it's just like having someone play around with the volume control on your TV o"
 "r home hi-fi. Let's take a look but first, listen to the deep growl of the fol"
 "lowing code which triggers the `:prophet` synth:"
-msgstr "`:prophet`"
+msgstr ""
+"So, what does the `:slicer` FX actually do? One way to think about it is "
+"that it's just like having someone play around with the volume control on "
+"your TV or home hi-fi. Let's take a look but first, listen to the deep growl "
+"of the following code which triggers the `:prophet` synth:"
 
 #: A.14-amplitude-modulation.md:20
 #, no-wrap
@@ -15007,22 +15094,27 @@ msgid ""
 "synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 msgstr ""
+"synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
-#, fuzzy
 msgid "Now, let's pipe it through the `:slicer` FX:"
-msgstr "slicer"
+msgstr "A teraz spróbujmy nałożyć na niego efekt `:slicer`:"
 
 #: A.14-amplitude-modulation.md:27
 #, no-wrap
-#, fuzzy
 msgid ""
 "\n"
 "with_fx :slicer do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
 #, fuzzy
@@ -15033,17 +15125,26 @@ msgid ""
 "on and off with the `phase:` opt which is short for phase duration. Its defaul"
 "t value is `0.25` which means 4 times a second at the default BPM of 60. Let's"
 " make it faster:"
-msgstr "slicer"
+msgstr ""
+"Hear how the slicer acts like it's muting and unmuting the audio with a "
+"regular beat. Also, notice how the `:slicer` affects all the audio generated "
+"between the `do`/`end` blocks. You can control the speed at which it turns "
+"the audio on and off with the `phase:` opt which is short for phase "
+"duration. Its default value is `0.25` which means 4 times a second at the "
+"default BPM of 60. Let's make it faster:"
 
 #: A.14-amplitude-modulation.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:49
 #, fuzzy
@@ -15053,14 +15154,20 @@ msgid ""
 "ent synths such as `:beep` or `:dsaw` and different notes. Take a look at the "
 "following diagram to see how different `phase:` values change the number of am"
 "plitude changes per beat."
-msgstr "`:dsaw`"
+msgstr ""
+"Now, play with different `phase:` durations yourself. Try longer and shorter "
+"values. See what happens when you choose a really short value. Also, try "
+"different synths such as `:beep` or `:dsaw` and different notes. Take a look "
+"at the following diagram to see how different `phase:` values change the "
+"number of amplitude changes per beat."
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "Długość trwania dźwięku (ang. Duration)"
+msgstr ""
+"![Phase Durations](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -15068,10 +15175,15 @@ msgid ""
 "alues will make the FX switch on and off much faster than larger values. Good "
 "values to start playing with are `0.125`, `0.25`, `0.5` and `1`."
 msgstr ""
+"Czas trwania fazy jest to długość czasu jaka jest potrzebna dla jednego "
+"włączenia/wyłączenia cyklu. Dlatego też mniejsze wartości spowodują że efekt "
+"FX będzie włączany i wyłączany dużo częściej niż przy ustawieniu większych "
+"wartości. Dobrymi wartościami na początek zabawy są `0.125`, `0.25`, `0.5` i "
+"`1`."
 
 #: A.14-amplitude-modulation.md:64
 msgid "Control Waves"
-msgstr ""
+msgstr "Kontrola Fal"
 
 #: A.14-amplitude-modulation.md:66
 #, fuzzy
@@ -15084,17 +15196,29 @@ msgid ""
 "t these look like. We can also hear what they sound like. For example, the fol"
 "lowing code uses (co)sine as the control wave. Hear how the sound doesn't turn"
 " on and off abruptly but instead smoothly fades in and out:"
-msgstr "slicer"
+msgstr ""
+"By default, the `:slicer` FX uses a square wave to manipulate the amplitude "
+"through time. This is why we hear the amplitude on for a period, then "
+"immediately off for a period, then back on again. It turns out that the "
+"square wave is just one of 4 different control waves that are supported by "
+"`:slicer`. The others are saw, triangle and (co)sine. Take a look at the "
+"diagram below to see what these look like. We can also hear what they sound "
+"like. For example, the following code uses (co)sine as the control wave. "
+"Hear how the sound doesn't turn on and off abruptly but instead smoothly "
+"fades in and out:"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.5, wave: 3 do\n"
 "  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
 "  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.5, wave: 3 do\n"
+"  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
+"  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
+"end"
 
 #: A.14-amplitude-modulation.md:83
 msgid ""
@@ -15102,6 +15226,11 @@ msgid ""
 "or saw, `1` for square, `2` for triangle and `3` for sine. See how different w"
 "aves sound with different `phase:` opts too."
 msgstr ""
+"Spróbuj pobawić się z różnymi formami fali poprzez zmianę opcji `wave:` na "
+"wartość `0` aby uzyskać falę podobną do piły, `1` dla uzyskania fali o "
+"kwadratowym kształcie, `2` dla stworzenia fali trójkątnej oraz `3` aby fala "
+"miała kształt sinusoidalny. Zobacz też jak różne fale brzmią z innymi "
+"opcjami, na przykład `phase:`."
 
 #: A.14-amplitude-modulation.md:87
 msgid ""
@@ -15114,17 +15243,28 @@ msgid ""
 "hase:`, `wave:`, `invert_wave:` and `phase_offset` opts you can dramatically c"
 "hange how the amplitude is modified through time."
 msgstr ""
+"Każda z tych fal może zostać odwrócona za pomocą opcji `invert_wave:`, która "
+"obraca ją wokół osi y. Na przykład, w jednej fazie fala o kształcie piły "
+"zazwyczaj zaczyna się wysoko, powoli opada po czym ponownie wskakuje na "
+"szczyt. Ustawiając opcję `invert_wave: 1` fala taka zacznie się nisko i "
+"najpierw będzie powoli szła w górę do momentu w którym z powrotem zeskoczy "
+"na dół. Oprócz tego możemy kontrolować falę poprzez uruchomienie jej w "
+"różnych momentach korzystając z polecenia `phase_offset:`, używamy do tego "
+"wartości pomiędzy `0` a `1`. Bawiąc się i zmieniając wartości opcji `phase:`"
+", `wave:`, `invert_wave:` i `phase_offset` możesz znacząco wpłynąć na to w "
+"jaki sposób amplituda jest zmieniana na przestrzeni czasu."
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "Długość trwania dźwięku (ang. Duration)"
+msgstr ""
+"![Phase Durations](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
-msgstr ""
+msgstr "Ustawianie własnych poziomów"
 
 #: A.14-amplitude-modulation.md:102
 #, fuzzy
@@ -15133,26 +15273,35 @@ msgid ""
 "0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. You "
 "can use this alongside the sine wave setting to create a simple tremolo effect"
 ":"
-msgstr "slicer"
+msgstr ""
+"By default, `:slicer` switches between amplitude values `1` (fully loud) and "
+"`0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. "
+"You can use this alongside the sine wave setting to create a simple tremolo "
+"effect:"
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
 "  synth :saw, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
+"  synth :saw, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:113
 msgid ""
 "This is just like grabbing the volume knob on your hi-fi and moving it up and "
 "down just a little so the sound 'wobbles' in and out."
 msgstr ""
+"To jest zupełnie tak jak złapanie pokrętła od głośności znajdującego się na "
+"twoim sprzęcie hi-fi i przekręcanie go odrobinę w górę i w dół tak, że "
+"dźwięk 'drga' (z ang. wobble) w jedną i drugą stronę."
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
-msgstr ""
+msgstr "Prawdopodobieństwa"
 
 #: A.14-amplitude-modulation.md:119
 #, fuzzy
@@ -15161,18 +15310,26 @@ msgid ""
 "se whether or not to turn the slicer on or off. Before the `:slicer` FX starts"
 " a new phase it rolls a dice and based on the result either uses the selected "
 "control wave or keeps the amplitude off. Let's take a listen:"
-msgstr "choose (wybierz)"
+msgstr ""
+"One of `:slicer`'s powerful features is its ability to use probability to "
+"choose whether or not to turn the slicer on or off. Before the `:slicer` FX "
+"starts a new phase it rolls a dice and based on the result either uses the "
+"selected control wave or keeps the amplitude off. Let's take a listen:"
 
 #: A.14-amplitude-modulation.md:125
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:133
 msgid ""
@@ -15181,6 +15338,11 @@ msgid ""
 "l have more space between each sound due to the likelihood of the sound being "
 "triggered being much lower."
 msgstr ""
+"Posłuchaj teraz jak udało nam się uzyskać bardzo interesujący rytm impulsów. "
+"Spróbuj zmienić opcję `probability:` na inną wartość pomiędzy `0` a `1`. "
+"Wartości bliższe zeru spowodują, że między każdym z dźwięków będzie więcej "
+"przestrzeni. Będzie to spowodowanie tym, że prawdopodobieństwo tego, że "
+"dźwięki zostaną uruchomione będzie znacznie większe."
 
 #: A.14-amplitude-modulation.md:138
 #, fuzzy
@@ -15192,45 +15354,64 @@ msgid ""
 "d like to change things around you can use the `seed:` opt to select a differe"
 "nt starting seed. This works exactly the same as `use_random_seed` but only af"
 "fects that particular FX."
-msgstr "rand"
+msgstr ""
+"Another thing to notice is that the probability system in the FX is just "
+"like the randomisation system accessible via fns such as `rand` and `shuffle`"
+". They are both completely deterministic. This means that each time you hit "
+"Run you'll hear exactly the same rhythm of pulses for a given probability. "
+"If you would like to change things around you can use the `seed:` opt to "
+"select a different starting seed. This works exactly the same as "
+"`use_random_seed` but only affects that particular FX."
 
 #: A.14-amplitude-modulation.md:146
+#, fuzzy
 msgid ""
 "Finally, you can change the 'resting' position of the control wave when the pr"
 "obability test fails from `0` to any other position with the `prob_pos:` opt:"
 msgstr ""
+"Finally, you can change the 'resting' position of the control wave when the "
+"probability test fails from `0` to any other position with the `prob_pos:` "
+"opt:"
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:158
-#, fuzzy
 msgid "Slicing Beats"
-msgstr "Przycinanie"
+msgstr "Przycinanie Beat'ów"
 
 #: A.14-amplitude-modulation.md:160
 #, fuzzy
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
-msgstr "slicer"
+msgstr ""
+"One really fun thing to do is to use `:slicer` to chop a drum beat in and "
+"out:"
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_mika\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_mika\n"
+"end"
 
 #: A.14-amplitude-modulation.md:169
+#, fuzzy
 msgid ""
 "This allows us to take any sample and create new rhythmical possibilites which"
 " is a lot of fun. However, one thing to be careful about is to make sure that "
@@ -15238,11 +15419,16 @@ msgid ""
 "ing will sound totally off. For example, try swapping `:loop_mika` with the `l"
 "oop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
+"This allows us to take any sample and create new rhythmical possibilites "
+"which is a lot of fun. However, one thing to be careful about is to make "
+"sure that the tempo of the sample matches the current BPM in Sonic Pi "
+"otherwise the slicing will sound totally off. For example, try swapping "
+"`:loop_mika` with the `loop_amen` sample to hear how bad this can sound when "
+"the tempos don't align."
 
 #: A.14-amplitude-modulation.md:176
-#, fuzzy
 msgid "Changing tempo"
-msgstr "Spróbujmy coś zmienić"
+msgstr "Zmiana tempa"
 
 #: A.14-amplitude-modulation.md:178
 #, fuzzy
@@ -15252,17 +15438,25 @@ msgid ""
 ". The `:slicer` FX honours this too, as the `phase:` opt is actually measured "
 "in beats not seconds. We can therefore fix the issue with `loop_amen` above by"
 " changing the BPM to match the sample:"
-msgstr "slicer"
+msgstr ""
+"As we have already seen, changing the default BPM with `use_bpm` will make "
+"all the sleep times and synth envelope durations grow or shrink to match the "
+"beat. The `:slicer` FX honours this too, as the `phase:` opt is actually "
+"measured in beats not seconds. We can therefore fix the issue with "
+"`loop_amen` above by changing the BPM to match the sample:"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_sample_bpm :loop_amen\n"
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_amen\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"use_sample_bpm :loop_amen\n"
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_amen\n"
+"end"
 
 #: A.14-amplitude-modulation.md:194
 #, fuzzy
@@ -15270,7 +15464,10 @@ msgid ""
 "Let's apply all these ideas into a final example that only uses the `:slicer` "
 "FX to create an interesting combination. Go ahead, start changing it and make "
 "it into your own piece!"
-msgstr "slicer"
+msgstr ""
+"Let's apply all these ideas into a final example that only uses the `:slicer`"
+" FX to create an interesting combination. Go ahead, start changing it and "
+"make it into your own piece!"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
@@ -15293,19 +15490,35 @@ msgid ""
 "  end\n"
 "  sleep 16\n"
 "end"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr ""
+"live_loop :dark_mist do\n"
+"  co = (line 70, 130, steps: 8).tick\n"
+"  with_fx :slicer, probability: 0.7, prob_pos: 1 do\n"
+"    synth :prophet, note: :e1, release: 8, cutoff: co\n"
+"  end\n"
+"  \n"
+"  with_fx :slicer, phase: [0.125, 0.25].choose do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :crashing_waves do\n"
+"  with_fx :slicer, wave: 0, phase: 0.25 do\n"
+"    sample :loop_mika, rate: 0.5\n"
+"  end\n"
+"  sleep 16\n"
+"end"
 
 #: A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "Kodowanie na żywo"
+msgstr "A.15 Pięc Technik Kodowania Na Żywo"
 
 #: A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "Kodowanie na żywo"
+msgstr "Pięć Technik Kodowania Na Żywo"
 
 #: A.15-performance.md:5
+#, fuzzy
 msgid ""
 "In this month's Sonic Pi tutorial we're going to take a look at how you can st"
 "art treating Sonic Pi like a real instrument. We therefore need to start think"
@@ -15316,12 +15529,21 @@ msgid ""
 "s that Sonic Pi enables. By the end of this article you'll be able to start pr"
 "acticing for your own live coded performances."
 msgstr ""
+"In this month's Sonic Pi tutorial we're going to take a look at how you can "
+"start treating Sonic Pi like a real instrument. We therefore need to start "
+"thinking of code in a completely different way. Live coders think of code in "
+"a similar way to how violinists think of their bow. In fact, just like a "
+"violinist can apply various bowing techniques to create different sounds ("
+"long slow motions vs short fast hits) we will explore five of the basic live "
+"coding techniques that Sonic Pi enables. By the end of this article you'll "
+"be able to start practicing for your own live coded performances."
 
 #: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
-msgstr ""
+msgstr "1. Zapamiętaj Skrót"
 
 #: A.15-performance.md:17
+#, fuzzy
 msgid ""
 "The first tip to live coding with Sonic Pi is to start using the shortcuts. Fo"
 "r example, instead of wasting valuable time reaching for the mouse, moving it "
@@ -15331,8 +15553,16 @@ msgid ""
 "op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
 "for the full list of shortcuts."
 msgstr ""
+"The first tip to live coding with Sonic Pi is to start using the shortcuts. "
+"For example, instead of wasting valuable time reaching for the mouse, moving "
+"it over to the Run button and clicking, you can simply press `alt` and `r` "
+"at the same time which is much faster and keeps your fingers at the keyboard "
+"ready for the next edit. You can find out the shortcuts for the main buttons "
+"at the top by hovering the mouse over them. See section 10.2 of the built-in "
+"tutorial for the full list of shortcuts."
 
 #: A.15-performance.md:26
+#, fuzzy
 msgid ""
 "When performing, one fun thing to do is to add a bit of flair with your arm mo"
 "tion when hitting shortcuts. For example, it's often good to communicate to th"
@@ -15340,12 +15570,19 @@ msgid ""
 "n hitting `alt-r` just like a guitarist would do when hitting a big power chor"
 "d."
 msgstr ""
+"When performing, one fun thing to do is to add a bit of flair with your arm "
+"motion when hitting shortcuts. For example, it's often good to communicate "
+"to the audience when you're about to make a change - so embellish your "
+"movement when hitting `alt-r` just like a guitarist would do when hitting a "
+"big power chord."
 
 #: A.15-performance.md:32
+#, fuzzy
 msgid "2. Manually Layer your Sounds"
-msgstr ""
+msgstr "2. Manually Layer your Sounds"
 
 #: A.15-performance.md:34
+#, fuzzy
 msgid ""
 "Now you can trigger code instantly with the keyboard, you can instantly apply "
 "this skill for our second technique which is to layer your sounds manually. In"
@@ -15353,26 +15590,35 @@ msgid ""
 "calls to `sleep` we will have one call to `play` which we will manually trigge"
 "r using `alt-r`. Let's try it. Type the following code into a fresh buffer:"
 msgstr ""
+"Now you can trigger code instantly with the keyboard, you can instantly "
+"apply this skill for our second technique which is to layer your sounds "
+"manually. Instead of 'composing' using lots of calls to `play`, and `sample` "
+"separated by calls to `sleep` we will have one call to `play` which we will "
+"manually trigger using `alt-r`. Let's try it. Type the following code into a "
+"fresh buffer:"
 
 #: A.15-performance.md:41
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 
 #: A.15-performance.md:46
+#, fuzzy
 msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
 msgstr ""
+"Now, hit `Run` and whilst the sound is playing, modify the code in order to "
+"drop down four notes by changing it to the following:"
 
 #: A.15-performance.md:50
 #, no-wrap
 #, fuzzy
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 
 #: A.15-performance.md:55
+#, fuzzy
 msgid ""
 "Now, hit `Run` again, to hear both sounds playing at the same time. This is be"
 "cause Sonic Pi's `Run` button doesn't wait for any previous code to finish, bu"
@@ -15381,38 +15627,54 @@ msgid ""
 "rigger. For example, try changing both the `note:` and the `cutoff:` opts and "
 "then re-trigger."
 msgstr ""
+"Now, hit `Run` again, to hear both sounds playing at the same time. This is "
+"because Sonic Pi's `Run` button doesn't wait for any previous code to "
+"finish, but instead starts the code running at the same time. This means you "
+"can easily layer lots of sounds manually with minor or major modifications "
+"between each trigger. For example, try changing both the `note:` and the "
+"`cutoff:` opts and then re-trigger."
 
 #: A.15-performance.md:63
+#, fuzzy
 msgid "You can also try this technique with long abstract samples. For example:"
 msgstr ""
+"You can also try this technique with long abstract samples. For example:"
 
 #: A.15-performance.md:65
 #, no-wrap
-#, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
-msgstr "sample :ambi_lunar_land"
+msgstr "sample :ambi_lunar_land, rate: 1"
 
 #: A.15-performance.md:69
+#, fuzzy
 msgid ""
 "Try starting the sample off, and then progressively halving the `rate:` opt be"
 "tween hitting `Run` from `1` to `0.5` to `0.25` to `0.125` and then even try s"
 "ome negative values such as `-0.5`. Layer the sounds together and see where yo"
 "u can take it. Finally, try adding some FX."
 msgstr ""
+"Try starting the sample off, and then progressively halving the `rate:` opt "
+"between hitting `Run` from `1` to `0.5` to `0.25` to `0.125` and then even "
+"try some negative values such as `-0.5`. Layer the sounds together and see "
+"where you can take it. Finally, try adding some FX."
 
 #: A.15-performance.md:74
+#, fuzzy
 msgid ""
 "When performing, working with simple lines of code in this way means that an a"
 "udience new to Sonic Pi has a good chance to follow what you're doing and rela"
 "te the code that they can read to the sounds they are hearing."
 msgstr ""
+"When performing, working with simple lines of code in this way means that an "
+"audience new to Sonic Pi has a good chance to follow what you're doing and "
+"relate the code that they can read to the sounds they are hearing."
 
 #: A.15-performance.md:80
-#, fuzzy
 msgid "3. Master Live Loops"
-msgstr "Żywe Pętle (Live Loops)"
+msgstr "3. Opanuj Żywe Pętle (Live Loops)"
 
 #: A.15-performance.md:82
+#, fuzzy
 msgid ""
 "When working with more rhythmic music, it can often be hard to manually trigge"
 "r everything and keep good time. Instead, it is often better to use a `live_lo"
@@ -15422,8 +15684,17 @@ msgid ""
 "each other and manual code triggers. Take a look at section 9.2 of the built-i"
 "n tutorial for more information about working with live loops."
 msgstr ""
+"When working with more rhythmic music, it can often be hard to manually "
+"trigger everything and keep good time. Instead, it is often better to use a "
+"`live_loop`. This provides repetition for your code whilst also giving the "
+"ability to edit the code for the next time round the loop. They also will "
+"run at the same time as other `live_loop`s which means you can layer them "
+"together both with each other and manual code triggers. Take a look at "
+"section 9.2 of the built-in tutorial for more information about working with "
+"live loops."
 
 #: A.15-performance.md:91
+#, fuzzy
 msgid ""
 "When performing, remember to make use of `live_loop`'s `sync:` opt to allow yo"
 "u to recover from accidental runtime mistakes which stop the live loop running"
@@ -15431,12 +15702,18 @@ msgid ""
 "d `live_loop`, then you can quickly fix the error and re-run the code to re-st"
 "art things without missing a beat."
 msgstr ""
+"When performing, remember to make use of `live_loop`'s `sync:` opt to allow "
+"you to recover from accidental runtime mistakes which stop the live loop "
+"running due to an error. If you already have the `sync:` opt pointing to "
+"another valid `live_loop`, then you can quickly fix the error and re-run the "
+"code to re-start things without missing a beat."
 
 #: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
-msgstr ""
+msgstr "4. Korzystaj z Głównego Miksera (Master Mixer)"
 
 #: A.15-performance.md:99
+#, fuzzy
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
 "h all sound flows. This mixer has both a low pass filter and a high pass filte"
@@ -15445,12 +15722,19 @@ msgid ""
 "or example, whilst some code is running and making sound, enter this into a sp"
 "are buffer and hit `Run`:"
 msgstr ""
+"One of Sonic Pi's best kept secrets is that it has a master mixer through "
+"which all sound flows. This mixer has both a low pass filter and a high pass "
+"filter built-in, so you can easily perform global modifications to the "
+"sound. The master mixer's functionality can be accessed via the fn "
+"`set_mixer_control!`. For example, whilst some code is running and making "
+"sound, enter this into a spare buffer and hit `Run`:"
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
-msgstr ""
+msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.15-performance.md:111
+#, fuzzy
 msgid ""
 "After you run this code, all existing and new sounds will have a low pass filt"
 "er applied to them and will therefore sound more muffled. Note that this means"
@@ -15459,22 +15743,34 @@ msgid ""
 "xer!`. Some of the currently supported opts are: `pre_amp:`, `lpf:` `hpf:`, an"
 "d `amp:`. For the full list, see the built-in docs for `set_mixer_control!`."
 msgstr ""
+"After you run this code, all existing and new sounds will have a low pass "
+"filter applied to them and will therefore sound more muffled. Note that this "
+"means that the new mixer values stick until they are changed again. However, "
+"if you want, you can always reset the mixer back to its default state with "
+"`reset_mixer!`. Some of the currently supported opts are: `pre_amp:`, `lpf:` "
+"`hpf:`, and `amp:`. For the full list, see the built-in docs for "
+"`set_mixer_control!`."
 
 #: A.15-performance.md:119
+#, fuzzy
 msgid ""
 "Use the mixer's `*_slide` opts to slide one or many opts values over time. For"
 " example, to slowly slide the mixer's low pass filter down from the current va"
 "lue to 30, use the following:"
 msgstr ""
+"Use the mixer's `*_slide` opts to slide one or many opts values over time. "
+"For example, to slowly slide the mixer's low pass filter down from the "
+"current value to 30, use the following:"
 
 #: A.15-performance.md:123
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 16, lpf: 30"
 
 #: A.15-performance.md:127
+#, fuzzy
 msgid "You can then slide quickly back to a high value with:"
-msgstr ""
+msgstr "You can then slide quickly back to a high value with:"
 
 #: A.15-performance.md:129
 #, no-wrap
@@ -15482,15 +15778,17 @@ msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
 msgstr "set_mixer_control! lpf_slide: 1, lpf: 130"
 
 #: A.15-performance.md:133
+#, fuzzy
 msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
 msgstr ""
+"When performing, it's often useful to keep a buffer free for working with "
+"the mixer like this."
 
 #: A.15-performance.md:136
-#, fuzzy
 msgid "5. Practice"
-msgstr "5. Efekty w praktyce"
+msgstr "5. Praktyka"
 
 #: A.15-performance.md:138
 msgid ""
@@ -15511,14 +15809,20 @@ msgstr ""
 "również możliwości do odkrywania nowych dźwięków i składni kodów."
 
 #: A.15-performance.md:146
+#, fuzzy
 msgid ""
 "When performing, you'll find the more practice you do, the easier it will be f"
 "or you to relax into the gig. Practice will also give you a wealth of experien"
 "ce to draw from. This can help you understand which kinds of modifications wil"
 "l be interesting and also work well with the current sounds."
 msgstr ""
+"When performing, you'll find the more practice you do, the easier it will be "
+"for you to relax into the gig. Practice will also give you a wealth of "
+"experience to draw from. This can help you understand which kinds of "
+"modifications will be interesting and also work well with the current sounds."
 
 #: A.15-performance.md:154
+#, fuzzy
 msgid ""
 "This month, instead of giving you a final example that combines all the things"
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
@@ -15528,18 +15832,26 @@ msgid ""
 "d clunky at first - just keep practicing and before you know it you'll be live"
 " coding for a real audience."
 msgstr ""
+"This month, instead of giving you a final example that combines all the "
+"things discussed, let's part by setting down a challenge. See if you can "
+"spend a week practicing one of these ideas every day. For example, one day "
+"practice manual triggers, the next do some basic `live_loop` work and the "
+"following day play around with the master mixer. Then repeat. Don't worry if "
+"things feel slow and clunky at first - just keep practicing and before you "
+"know it you'll be live coding for a real audience."
 
 #: A.16-practice.md:1
 #, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "Kodowanie na żywo"
+msgstr "A.16 How to Practice Live Coding"
 
 #: A.16-practice.md:3
 #, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "Kodowanie na żywo"
+msgstr "8 Tips for Live Coding Practice"
 
 #: A.16-practice.md:5
+#, fuzzy
 msgid ""
 "Last month we took a look at five important techniques for mastering live codi"
 "ng - in other words, we explored how we could use Sonic Pi to approach code in"
@@ -15548,32 +15860,49 @@ msgid ""
 "dive into understanding why live coding practice is important and how you migh"
 "t start."
 msgstr ""
+"Last month we took a look at five important techniques for mastering live "
+"coding - in other words, we explored how we could use Sonic Pi to approach "
+"code in the same way we would approach a musical instrument. One of the "
+"important concepts that we discussed was practice. This month we're going to "
+"take a deeper dive into understanding why live coding practice is important "
+"and how you might start."
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
-msgstr ""
+msgstr "Ćwicz regularnie"
 
 #: A.16-practice.md:15
+#, fuzzy
 msgid ""
 "The most important piece of advice is to make sure you practice regularly. As "
 "a rule I typically practice for 1-2 hours a day, but 20 mins is just fine when"
 " you're starting out. Little but often is what you're aiming for - so if you c"
 "an only manage 10 minutes, that's a great start."
 msgstr ""
+"The most important piece of advice is to make sure you practice regularly. "
+"As a rule I typically practice for 1-2 hours a day, but 20 mins is just fine "
+"when you're starting out. Little but often is what you're aiming for - so if "
+"you can only manage 10 minutes, that's a great start."
 
 #: A.16-practice.md:21
+#, fuzzy
 msgid ""
 "Practice tip #1 - start to develop a practice routine. Find a nice time in the"
 " day that works for you and try and practice at that time as many days of the "
 "week as you can. Before long you'll be looking forward to your regular session"
 "."
 msgstr ""
+"Practice tip #1 - start to develop a practice routine. Find a nice time in "
+"the day that works for you and try and practice at that time as many days of "
+"the week as you can. Before long you'll be looking forward to your regular "
+"session."
 
 #: A.16-practice.md:27
 msgid "Learn to Touch Type"
-msgstr ""
+msgstr "Naucz się pisać bezwzrokowo na klawiaturze"
 
 #: A.16-practice.md:29
+#, fuzzy
 msgid ""
 "If you watch a professional musician performing on stage you'll likely notice "
 "a few things. Firstly, when they play they don't stare at their instrument. Th"
@@ -15586,19 +15915,34 @@ msgid ""
 "he music. This is called touch-typing - typing without having to look at the k"
 "eyboard."
 msgstr ""
+"If you watch a professional musician performing on stage you'll likely "
+"notice a few things. Firstly, when they play they don't stare at their "
+"instrument. Their fingers, arms and bodies know which keys to press, strings "
+"to pluck or drums to hit without them having to think about it too much. "
+"This is known as \"muscle memory\" and although it might sound like "
+"something only professionals can do - it's just the same as when you first "
+"learned to walk or ride a bike - practicing through repetition. Live coders "
+"use muscle memory to free their minds from having to think about where to "
+"move their fingers so they can focus on the music. This is called touch-"
+"typing - typing without having to look at the keyboard."
 
 #: A.16-practice.md:41
+#, fuzzy
 msgid ""
 "Practice tip #2 - learn how to touch type. There are many apps, websites and e"
 "ven games which can help you achieve this. Find one you like the look of and s"
 "tick at it until you can code without looking down."
 msgstr ""
+"Practice tip #2 - learn how to touch type. There are many apps, websites and "
+"even games which can help you achieve this. Find one you like the look of "
+"and stick at it until you can code without looking down."
 
 #: A.16-practice.md:46
 msgid "Code whilst standing"
-msgstr ""
+msgstr "Koduj na stojąco"
 
 #: A.16-practice.md:48
+#, fuzzy
 msgid ""
 "The body of a musician is conditioned for playing their instrument. For exampl"
 "e, a trumpet player needs to be able to blow hard, a guitar player needs to be"
@@ -15609,8 +15953,17 @@ msgid ""
 "at a desk and then have to get up and stand at a gig, you'll likely find the d"
 "ifference very difficult and frustrating."
 msgstr ""
+"The body of a musician is conditioned for playing their instrument. For "
+"example, a trumpet player needs to be able to blow hard, a guitar player "
+"needs to be able to grip the fretboard with strength and a drummer needs to "
+"be able to continually hit the drums for long periods of time. So, what's "
+"physical about live coding? Just like DJs, live coders typically perform "
+"whilst standing up and some even dance whilst they code! If you practice "
+"live coding whilst sitting at a desk and then have to get up and stand at a "
+"gig, you'll likely find the difference very difficult and frustrating."
 
 #: A.16-practice.md:58
+#, fuzzy
 msgid ""
 "Practice tip #3 - stand whilst you practice. The easiest way to do this is to "
 "use a standing height desk. However, if like me you don't have one at home, th"
@@ -15621,12 +15974,22 @@ msgid ""
 " session. Remember, nobody is watching you, so have fun and you'll feel much m"
 "ore natural on stage."
 msgstr ""
+"Practice tip #3 - stand whilst you practice. The easiest way to do this is "
+"to use a standing height desk. However, if like me you don't have one at "
+"home, there's a couple of low-fi options. The approach I take is to use an "
+"ironing board which happens to work rather well. Another is to stack some "
+"boxes or large books on a normal desk and place your keyboard on top of "
+"that. Also, make sure you stretch before you start practicing and try and "
+"dance a little during the session. Remember, nobody is watching you, so have "
+"fun and you'll feel much more natural on stage."
 
 #: A.16-practice.md:68
+#, fuzzy
 msgid "Practice setting up"
-msgstr ""
+msgstr "Practice setting up"
 
 #: A.16-practice.md:70
+#, fuzzy
 msgid ""
 "Most instruments require some assembly and tuning before they can be played. U"
 "nless you're a rockstar with a bus full of roadies, you'll have to set up your"
@@ -15634,8 +15997,14 @@ msgid ""
 " for problems to occur. One way to help with this is to incorporate the setup "
 "process into your practice sessions."
 msgstr ""
+"Most instruments require some assembly and tuning before they can be played. "
+"Unless you're a rockstar with a bus full of roadies, you'll have to set up "
+"your own instrument before your gig. This is often a stressful time and it "
+"is easy for problems to occur. One way to help with this is to incorporate "
+"the setup process into your practice sessions."
 
 #: A.16-practice.md:76
+#, fuzzy
 msgid ""
 "Practice tip #4 - treat setting up as an important part of your practice. For "
 "example, have a box or bag that you can keep your Raspberry Pi and keyboard in"
@@ -15646,12 +16015,21 @@ msgid ""
 "u'll be able to setup and pack everything away incredibly quickly without havi"
 "ng to think about it."
 msgstr ""
+"Practice tip #4 - treat setting up as an important part of your practice. "
+"For example, have a box or bag that you can keep your Raspberry Pi and "
+"keyboard in etc. Before each practice session, take out all the parts, "
+"connect everything, and work through the boot process until you have Sonic "
+"Pi running and can make sounds. Once you've finished practicing, take the "
+"time to carefully pack everything away afterwards. This may take some time "
+"at first, but before long you'll be able to setup and pack everything away "
+"incredibly quickly without having to think about it."
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
-msgstr ""
+msgstr "Eksperymentuj Muzycznie"
 
 #: A.16-practice.md:89
+#, fuzzy
 msgid ""
 "Once you've set up and are ready to start making music, you might find yoursel"
 "f struggling to know where to start. One problem many people face is that they"
@@ -15662,8 +16040,17 @@ msgid ""
 "long time. It is much more important to be making sounds you don't like than n"
 "ot making any sounds at all."
 msgstr ""
+"Once you've set up and are ready to start making music, you might find "
+"yourself struggling to know where to start. One problem many people face is "
+"that they might have a good idea of the kinds of sounds they want to make, "
+"but are frustrated that they can't produce them. Some people don't even know "
+"what kind of sounds they want to make! The first thing to do is not to worry "
+"- this is very common and happens to every musician - even if they've been "
+"practicing for a long time. It is much more important to be making sounds "
+"you don't like than not making any sounds at all."
 
 #: A.16-practice.md:99
+#, fuzzy
 msgid ""
 "Practice tip #5 - spend time making sounds and music you don't like. Try to ma"
 "ke time to explore new sounds and ideas. Don't worry that it might sound terri"
@@ -15674,10 +16061,18 @@ msgid ""
 "mber the parts you do. This is even easier when you're making music with code "
 "- just hit save!"
 msgstr ""
+"Practice tip #5 - spend time making sounds and music you don't like. Try to "
+"make time to explore new sounds and ideas. Don't worry that it might sound "
+"terrible if it's not the style you're looking for. When you're experimenting "
+"like this you increase the chance of stumbling over a sound or combination "
+"of sounds which you love! Even if 99% of the sounds you make are bad, that 1%"
+" might be the riff or intro to your new track. Forget the things you don't "
+"like and remember the parts you do. This is even easier when you're making "
+"music with code - just hit save!"
 
 #: A.16-practice.md:110
 msgid "Hear the Code"
-msgstr ""
+msgstr "Usłysz Kod"
 
 #: A.16-practice.md:112
 #, fuzzy
@@ -15692,9 +16087,20 @@ msgid ""
 "to hear music in your head and know what code to write to make it. It may take"
 " you a long time to master this, but once you do, you'll be able to improvise "
 "on stage and express your ideas fluently."
-msgstr "rand"
+msgstr ""
+"Many musicians can look at a musical score and hear the music in their head "
+"without having to play it. This is a very useful skill and it's well worth "
+"incorporating into your live coding practice sessions. The imporant point is "
+"to be able to have some understanding of what the code is going to sound "
+"like. You don't need to be able to hear it exactly in your head, but instead "
+"it's useful to know if the code is going to be fast, slow, loud, rhythmic, "
+"melodic, random, etc. The final goal is then to be able to reverse this "
+"process - to be able to hear music in your head and know what code to write "
+"to make it. It may take you a long time to master this, but once you do, "
+"you'll be able to improvise on stage and express your ideas fluently."
 
 #: A.16-practice.md:124
+#, fuzzy
 msgid ""
 "Practice tip #6 - write some code into Sonic Pi but don't hit the Run button. "
 "Instead, try to imagine what sound it is going to produce. Then, hit Run, list"
@@ -15705,12 +16111,21 @@ msgid ""
 "hy I was wrong. Each time this happens, I learn new tricks which allow me to e"
 "xpress myself in new ways."
 msgstr ""
+"Practice tip #6 - write some code into Sonic Pi but don't hit the Run "
+"button. Instead, try to imagine what sound it is going to produce. Then, hit "
+"Run, listen, and think about what you got right and what you didn't. Keep "
+"repeating this until it become a natural part of your coding process. When I "
+"practice I normally have a good idea of what the code will sound like. "
+"However, I still am occasionally surprised, and then I'll stop and spend "
+"some time thinking about why I was wrong. Each time this happens, I learn "
+"new tricks which allow me to express myself in new ways."
 
 #: A.16-practice.md:134
 msgid "Remove all distractions"
-msgstr ""
+msgstr "Usuń wszelkie rozpraszacze"
 
 #: A.16-practice.md:136
+#, fuzzy
 msgid ""
 "A common problem when practicing is to become distracted with other things. Pr"
 "acticing is hard and requires real discipline regardless of the kind of music "
@@ -15720,8 +16135,16 @@ msgid ""
 "f practice, it's important to try and spend all that time being as productive "
 "as possible."
 msgstr ""
+"A common problem when practicing is to become distracted with other things. "
+"Practicing is hard and requires real discipline regardless of the kind of "
+"music you're making - from jazz to classical to EDM. If you're struggling to "
+"get started or make progress, it's often too easy to hop on social media, or "
+"look something up on the internet etc. If you've set yourself a target of 20 "
+"minutes of practice, it's important to try and spend all that time being as "
+"productive as possible."
 
 #: A.16-practice.md:144
+#, fuzzy
 msgid ""
 "Practice tip #7 - before you start practicing remove as many distractions as p"
 "ossible. For example, disconnect from the internet, put your phone in another "
@@ -15729,6 +16152,11 @@ msgid ""
 "d. Try to focus on coding music and you can return to your distractions when y"
 "ou've finished."
 msgstr ""
+"Practice tip #7 - before you start practicing remove as many distractions as "
+"possible. For example, disconnect from the internet, put your phone in "
+"another room and try to practice in a quiet place where you're unlikely to "
+"be disturbed. Try to focus on coding music and you can return to your "
+"distractions when you've finished."
 
 #: A.16-practice.md:151
 msgid "Keep a practice diary"
@@ -15749,6 +16177,7 @@ msgstr ""
 "rozproszenia!"
 
 #: A.16-practice.md:159
+#, fuzzy
 msgid ""
 "Practice tip #8 - keep a practice diary by your keyboard. When you get an exci"
 "ting new idea, temporarily pause your practice session, quickly jot the idea d"
@@ -15756,8 +16185,14 @@ msgid ""
 "lity time thinking about and working on your ideas after you've finished pract"
 "icing."
 msgstr ""
+"Practice tip #8 - keep a practice diary by your keyboard. When you get an "
+"exciting new idea, temporarily pause your practice session, quickly jot the "
+"idea down, then forget about it and carry on practicing. You can then spend "
+"some quality time thinking about and working on your ideas after you've "
+"finished practicing."
 
 #: A.16-practice.md:168
+#, fuzzy
 msgid ""
 "Try to establish a practice routine which incorporates as many of these ideas "
 "as possible. Try to keep the sessions as fun as possible but be aware that som"
@@ -15765,3 +16200,8 @@ msgid ""
 " all be worth it once you've created your first piece or given your first perf"
 "ormance. Remember, practice is the key to success!"
 msgstr ""
+"Try to establish a practice routine which incorporates as many of these "
+"ideas as possible. Try to keep the sessions as fun as possible but be aware "
+"that some practice sessions will be hard and feel a little like work. "
+"However, it will all be worth it once you've created your first piece or "
+"given your first performance. Remember, practice is the key to success!"
