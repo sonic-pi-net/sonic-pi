@@ -100,26 +100,21 @@ module SonicPi
 
 
 
-      def midi_note_on(n=:e3, vel=nil, opts={})
-        # Allow vel to either be passed as a positional parameter or an opt:
-        # positional: midi_note_on :e3, 100
-        # optional: midi_note_on :e3, vel: 100
-        # optional float: midi_note_on :e3, vel_f: 0.7
-
-        if vel.is_a?(Hash) && opts.empty?
-          opts = vel
-          vel = nil
-        end
+      def midi_note_on(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        n, vel = *params
 
         if rest? n
           __delayed_message "midi_note_on :rest"
           return nil
         end
 
+        n = normalise_transpose_and_tune_note_from_args(n, opts)
+
         channels = __resolve_midi_channels(opts)
         ports    = __resolve_midi_ports(opts)
         vel      = __resolve_midi_velocity(vel, opts)
-        n        = note(n).round.min(0).max(127)
+        n        = n.round.min(0).max(127)
         chan     = pp_el_or_list(channels)
         port     = pp_el_or_list(ports)
 
@@ -152,30 +147,34 @@ module SonicPi
 
 
 
-      def midi_note_off(n, vel=nil, opts={})
-        if vel.is_a?(Hash) && opts.empty?
-          opts = vel
-          vel = nil
-        end
+      def midi_note_off(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        n, vel = *params
 
         if rest? n
           __delayed_message "midi_note_off :rest"
           return nil
         end
 
-        channels = __resolve_midi_channels(opts)
-        ports    = __resolve_midi_ports(opts)
-        vel      = __resolve_midi_velocity(vel, opts)
-        n        = note(n).round.min(0).max(127)
-        chan     = pp_el_or_list(channels)
-        port     = pp_el_or_list(ports)
+        n = normalise_transpose_and_tune_note_from_args(n, opts)
 
-        ports.each do |p|
-          channels.each do |c|
-            __midi_send_timed_pc("/note_off", p, c, [n, vel])
+        on_val = opts.fetch(:on, 1)
+
+        on on_val do
+          channels = __resolve_midi_channels(opts)
+          ports    = __resolve_midi_ports(opts)
+          vel      = __resolve_midi_velocity(vel, opts)
+          n        = note(n).round.min(0).max(127)
+          chan     = pp_el_or_list(channels)
+          port     = pp_el_or_list(ports)
+
+          ports.each do |p|
+            channels.each do |c|
+              __midi_send_timed_pc("/note_off", p, c, [n, vel])
+            end
           end
+          __delayed_message "midi_note_off #{n}, #{vel}, port: #{port}, channel: #{chan}"
         end
-        __delayed_message "midi_note_off #{n}, #{vel}, port: #{port}, channel: #{chan}"
         nil
       end
       doc name:           :midi_note_off,
@@ -201,30 +200,32 @@ module SonicPi
 
 
 
-      def midi_cc(control_num, val, opts={})
-        if val.is_a?(Hash) && opts.empty?
-          opts = val
-          val = nil
-        end
+      def midi_cc(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        control_num, val = *params
 
         if rest? control_num
           __delayed_message "midi_cc :rest"
           return nil
         end
 
-        channels    = __resolve_midi_channels(opts)
-        ports       = __resolve_midi_ports(opts)
-        val         = __resolve_midi_val(val, opts)
-        control_num = note(control_num).round.min(0).max(127)
-        chan        = pp_el_or_list(channels)
-        port        = pp_el_or_list(ports)
+        on_val = opts.fetch(:on, 1)
 
-        ports.each do |p|
-          channels.each do |c|
-            __midi_send_timed_pc("/control_change", p, c, [control_num, val])
+        on on_val do
+          channels    = __resolve_midi_channels(opts)
+          ports       = __resolve_midi_ports(opts)
+          val         = __resolve_midi_val(val, opts)
+          control_num = note(control_num).round.min(0).max(127)
+          chan        = pp_el_or_list(channels)
+          port        = pp_el_or_list(ports)
+
+          ports.each do |p|
+            channels.each do |c|
+              __midi_send_timed_pc("/control_change", p, c, [control_num, val])
+            end
           end
+          __delayed_message "midi_cc #{control_num}, #{val}, port: #{port}, channel: #{chan}"
         end
-        __delayed_message "midi_cc #{control_num}, #{val}, port: #{port}, channel: #{chan}"
         nil
       end
       doc name:           :midi_cc,
@@ -541,7 +542,7 @@ All devices on a given channel will respond both to data received both over MIDI
         ports.each do |p|
           __midi_send_timed("/#{p}/clock")
         end
-        __delayed_message "midi_clock_tick port: #{port}"
+        nil
       end
       doc name:           :midi_clock_tick,
           introduced:     Version.new(2,12,0),
@@ -565,7 +566,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
 
 
 
-      def midi_start
+      def midi_start(opts={})
         ports = __resolve_midi_ports(opts)
         port  = pp_el_or_list(ports)
 
@@ -655,11 +656,13 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
         port  = pp_el_or_list(ports)
 
         ports.each do |p|
-          time_warp times do
+          time_warp times do |i, el|
             __midi_send_timed("/#{p}/clock")
           end
         end
-        __delayed_message "midi_clock_beat port: #{port}"
+
+        __delayed_message "midi_clock_beat port: #{ports}"
+
       end
       doc name:           :midi_clock_beat,
           introduced:     Version.new(2,12,0),
@@ -681,22 +684,17 @@ Schedules for 24 clock ticks to be sent linearly spread over dur beats.
 
 
 
-      def midi(n=nil, vel=nil, opts={})
-        if n.is_a?(Hash)
-          opts = n
-          n = nil
-          vel = nil
-        elsif vel.is_a?(Hash)
-          opts = vel
-          vel = nil
-        end
 
-        n = n || opts[:note]
+      def midi(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        n, vel = *params
 
         if rest? n
           __delayed_message "midi :rest"
           return nil
         end
+
+        n = normalise_transpose_and_tune_note_from_args(n, opts)
 
         on_val = opts.fetch(:on, 1)
 
@@ -708,14 +706,14 @@ Schedules for 24 clock ticks to be sent linearly spread over dur beats.
           vel      = __resolve_midi_velocity(vel, opts)
           sus      = opts.fetch(:sustain, 1).to_f
           rel_vel  = opts.fetch(:release_velocity, 127)
-          n        = note(n).round.min(0).max(127)
+          n        = n.round.min(0).max(127)
           chan     = pp_el_or_list(channels)
           port     = pp_el_or_list(ports)
 
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/note_on", p, c, [n, vel])
-              time_warp sus do
+              time_warp sus - 0.01 do
                 __midi_send_timed_pc("/note_off", p, c, [n, rel_vel])
               end
             end
