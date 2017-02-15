@@ -1055,7 +1055,7 @@ module SonicPi
 
       @event_t = Thread.new do
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :event_loop)
-        loop do
+        Kernel.loop do
           event = @event_queue.pop
           __handle_event event
         end
@@ -1063,7 +1063,7 @@ module SonicPi
 
       @save_t = Thread.new do
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :save_loop)
-        loop do
+        Kernel.loop do
           event = @save_queue.pop
           id, content = *event
           filename = id + '.spi'

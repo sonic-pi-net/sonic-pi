@@ -77,7 +77,7 @@ module SonicPi
 
         Thread.new do
           cnt = 0
-          loop do
+          Kernel.loop do
             m, p = q.pop
             if p
               begin

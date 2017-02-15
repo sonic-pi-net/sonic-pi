@@ -24,7 +24,7 @@ module SonicPi
 
       def safe_detector
         @server.listen(5)
-        loop do
+        Kernel.loop do
           @so ||= @server.accept
           begin
             read_all = false

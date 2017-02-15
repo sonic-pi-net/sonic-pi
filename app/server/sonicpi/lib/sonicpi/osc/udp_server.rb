@@ -69,7 +69,7 @@ module SonicPi
       private
 
       def start_listener
-        loop do
+        Kernel.loop do
           begin
             osc_data, _ = @socket.recvfrom( 16384 )
           rescue Exception => e

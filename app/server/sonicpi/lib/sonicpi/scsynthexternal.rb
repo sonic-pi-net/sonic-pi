@@ -258,7 +258,7 @@ module SonicPi
 
       t2 = Thread.new do
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
-        loop do
+        Kernel.loop do
           begin
             puts "Boot - Sending /status to server: #{@hostname}:#{@send_port}"
             boot_s.send(@hostname, @send_port, "/status")

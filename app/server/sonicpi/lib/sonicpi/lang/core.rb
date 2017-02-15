@@ -1496,6 +1496,41 @@ end"
         "dec 1 # returns 0",
         "dec -1 # returns -2"]
 
+      def loop(&block)
+        raise "loop needs a block" unless block
+        Kernel.loop do
+          __system_thread_locals.set(:sonic_pi_spider_synced, false)
+          slept = block_slept? do
+            block.call
+          end
+          raise "loop did not sleep!" unless slept or __system_thread_locals.get(:sonic_pi_spider_synced)
+        end
+      end
+      doc name:           :loop,
+          introduced:     Version.new(2,0,0),
+          summary:        "Repeat do/end block forever",
+          doc:            "Given a do/end block, repeats it forever. Note that once the program enters the loop - it will not move on but will instead stay within the loop. Plain loops like this are like black holes - instead of sucking in the light they suck in the program.
+
+For a more powerful, flexible loop built for live coding see `live_loop`.",
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  true,
+          requires_block: true,
+          async_block:    false,
+          examples: ["
+
+play 70       # note 70 is played
+
+loop do
+  play 50     # This loop will repeat notes 50 and 62 forever
+  sleep 1
+  play 62
+  sleep 2
+end
+
+play 80      # This is *never* played as the program is trapped in the loop above"]
+
+
 
 
       def live_loop(name=nil, *args, &block)
@@ -1543,13 +1578,8 @@ end"
           end
           use_random_seed args_h[:seed] if args_h[:seed]
           loop do
-            slept = block_slept? do
-              __system_thread_locals.set(:sonic_pi_spider_synced, false)
-              cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
-              res = send(ll_name, res)
-            end
-
-            raise "Live loop #{name.to_sym.inspect} did not sleep!" unless slept or __system_thread_locals.get(:sonic_pi_spider_synced)
+            cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
+            res = send(ll_name, res)
           end
         end
 

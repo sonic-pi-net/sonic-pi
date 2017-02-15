@@ -140,7 +140,7 @@ module SonicPi
               # kill all jobs if an error occured in the studio
               __system_thread_locals.set_local(:sonic_pi_local_thread_group, :studio_checker)
               Thread.current.priority = 200
-              loop do
+              Kernel.loop do
                 Kernel.sleep 5
                 begin
                   error = @mod_sound_studio.error_occurred?
