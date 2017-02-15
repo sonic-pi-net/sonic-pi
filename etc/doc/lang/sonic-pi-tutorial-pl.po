@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-15 17:44+0000\n"
+"PO-Revision-Date: 2017-02-15 17:53+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -14785,6 +14785,7 @@ msgstr ""
 "end"
 
 #: A.13-probabilistic-sequencer.md:32
+#, fuzzy
 msgid ""
 "Notice how the log prints values between 1 and 6 just as if we'd rolled a real"
 " dice ourselves."
@@ -15632,10 +15633,9 @@ msgstr ""
 "`cutoff:` opts and then re-trigger."
 
 #: A.15-performance.md:63
-#, fuzzy
 msgid "You can also try this technique with long abstract samples. For example:"
 msgstr ""
-"You can also try this technique with long abstract samples. For example:"
+"Możesz spróbować tej techniki z długimi abstrakcyjnymi samplami. Na przykład:"
 
 #: A.15-performance.md:65
 #, no-wrap
@@ -15981,9 +15981,8 @@ msgstr ""
 "fun and you'll feel much more natural on stage."
 
 #: A.16-practice.md:68
-#, fuzzy
 msgid "Practice setting up"
-msgstr "Practice setting up"
+msgstr "Ćwicz konfigurację"
 
 #: A.16-practice.md:70
 #, fuzzy
