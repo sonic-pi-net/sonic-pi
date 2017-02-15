@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-13 06:30+0000\n"
+"PO-Revision-Date: 2017-02-15 06:32+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -14461,6 +14461,19 @@ msgid ""
 "ny electric signal which is then measured many times a second. These measureme"
 "nts are then represented as a series of numbers between -1 and 1."
 msgstr ""
+"Ale w jaki sposób tak naprawdę sample są nagrywane? W sumie to jest to dość "
+"proste gdy już zrozumiesz podstawowe prawa jakimi rządzi się dźwięk. Kiedy "
+"wydajesz jakiś dźwięk, na przykład poprzez uderzenie bębna, hałas "
+"przemieszcza się przez powietrze w sposób bardzo podobny tego w jaki faluje "
+"tafla jeziora kiedy wrzucisz do niego kamyk. Kiedy te fale dotrą do twoich "
+"uszu, twój bębenek porusza się sympatycznie i przetwarza te ruchy na dźwięk, "
+"który słyszysz. Jeśli chcemy nagrać i odtworzyć ten dźwięk ponownie, "
+"potrzebny jest nam sposób w który moglibyśmy uchwycić, zapisać i odtworzyć "
+"te fale. Jednym ze sposobów jest wykorzystanie mikrofonu, który zachowuje "
+"się tak jak bębenek i porusza się tam i z powrotem gdy kolejne fale dźwięku "
+"uderzają w niego. Następnie mikrofon konwertuje jego pozycję na małe "
+"elektroniczne sygnały, które są następnie mierzone wiele razy na sekundę. Te "
+"pomiary są następnie odwzorowane jako seria liczb pomiędzy -1 i 1."
 
 #: A.12-sample-slicing.md:46
 msgid ""
@@ -14469,10 +14482,14 @@ msgid ""
 "n -1 and 1 on the y axis. You can see an example of such a graph at the top of"
 " the diagram."
 msgstr ""
+"Jeśli chcielibyśmy narysować wykres wizualizujący dźwięk, byłby to prosty "
+"graf przedstawiający dane, gdzie x byłoby osią czasu, natomiast aktualna "
+"pozycja mikrofonu/głośnika byłaby oznaczona na osi y jako wartość pomiędzy -"
+"1 a 1. Możesz zobaczyć przykład takiego grafu na samej górze diagramu."
 
 #: A.12-sample-slicing.md:51
 msgid "Playing Part of a Sample"
-msgstr ""
+msgstr "Granie Wycinka Sampla"
 
 #: A.12-sample-slicing.md:53
 msgid ""
@@ -14484,10 +14501,21 @@ msgid ""
 " of the sample and `1` is the end. So, to play the first half of the Amen Brea"
 "k, we just need to specify a `finish:` of `0.5`:"
 msgstr ""
+"Zastanówmy się zatem, w jaki sposób możemy zakodować Sonic Pi aby zagrało "
+"dany sampel od tyłu? Aby odpowiedzieć na te pytanie musimy przyjrzeć się "
+"opcjom `start:` i `finish:`, które są zdefiniowane dla polecenia `sample`. "
+"Pozwalają nam one na kontrolę momentu początku i zakończenia naszego dźwięku "
+"za pomocą liczb, które reprezentują dźwięk. Wartości te dla obu opcji są "
+"reprezentowane jako liczby pomiędzy `0` i `1`, gdzie `0` stanowi początek "
+"danego sampla, natomiast `1` jest jego końcem. Aby więc zagrać pierwszą "
+"połowę sampla Amen Break, wystarczy, że opcji `finish:` ustawimy wartość "
+"`0.5`:"
 
 #: A.12-sample-slicing.md:66
 msgid "We can add in a `start:` value to play an even smaller section of the sample:"
 msgstr ""
+"Możemy ponadto zdefiniować wartość początku opcją `start:` dla zagrania "
+"jeszcze mniejszego wycinka sampla:"
 
 #: A.12-sample-slicing.md:68
 #, no-wrap
@@ -14499,6 +14527,8 @@ msgid ""
 "For fun, you can even have the `finish:` opt's value be *before* `start:` and "
 "it will play the section backwards:"
 msgstr ""
+"Dla zabawy, możesz nawet ustawić opcję `finish:` tak aby była *przed* opcją "
+"`start:` a spowodujesz, że ta część sampla zostanie zagrana od tyłu:"
 
 #: A.12-sample-slicing.md:75
 #, no-wrap
@@ -14507,7 +14537,7 @@ msgstr "sample :loop_amen, start: 0.5, finish: 0.25"
 
 #: A.12-sample-slicing.md:79
 msgid "Re-ordering Sample Playback"
-msgstr ""
+msgstr "Zmiana kolejności Odtwarzania Sampla"
 
 #: A.12-sample-slicing.md:81
 msgid ""
@@ -14515,10 +14545,16 @@ msgid ""
 "back in any order and also how to play a specific part of a sample we can now "
 "start having fun playing a sample back in the 'wrong' order."
 msgstr ""
+"Teraz gdy już wiemy, że sampel to nic innego jak tylko lista liczb, które "
+"mogą być zagrane w odwróconej kolejności oraz w jaki sposób możemy zagrać "
+"określoną część danego sampla, możemy zacząć zabawę w zagranie sampla od "
+"tylu w 'niewłaściwej` kolejności."
 
 #: A.12-sample-slicing.md:86
 msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 msgstr ""
+"![Amen Slices](../images/tutorial/articles/A.12-sample-"
+"slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
@@ -14530,6 +14566,15 @@ msgid ""
 "s one possible re-ordering of the slices. We can then play this back to create"
 " a new beat. Take a look at the code to do this:"
 msgstr ""
+"Spróbujmy wziąć nasz sampel Amen Break, pociąć go na 8 równych kawałków a "
+"następnie przetasować te części. Spójrz na diagram: na samej górze sekcja A) "
+"reprezentuje diagram przedstawiający dane naszego oryginalnego sampla. "
+"Pocięcie go na 8 kawałków da nam to co widzimy w sekcji B) - zauważ, że "
+"nadaliśmy każdej części inny kolor abyśmy mogli łatwiej je rozróżnić. Możesz "
+"zauważyć, że każdy kawałek ma na górze wartości początku i końca. Na koniec "
+"w sekcji C) widzimy jedną z możliwych kombinacji przetasowania tych "
+"kawałków. Następnie możemy zagrać te części aby stworzyć zupełnie nowy beat. "
+"Zobacz na poniższy kawałek kodu, który robi te rzeczy:"
 
 #: A.12-sample-slicing.md:97
 #, no-wrap
@@ -14559,6 +14604,10 @@ msgid ""
 "xactly this: `rand_i(8)`. We then store this random slice index in the variabl"
 "e `slice_idx`."
 msgstr ""
+"wybieramy losowe cięcie do zagrania, co powinno być losową liczbą z zakresu "
+"od 0 do 7 (pamiętaj, że zaczynamy liczyć od 0). Sonic Pi posiada bardzo "
+"przydatną funkcję, która idealnie nadaje się do tego celu : `rand_i(8)`. "
+"Następnie zapisujemy indeks tego losowego wycinka w zmiennej `slice_idx`."
 
 #: A.12-sample-slicing.md:113
 msgid ""
@@ -14566,24 +14615,34 @@ msgid ""
 "y for us to convert our `slice_idx` into a value between 0 and 1 so we can use"
 " it as our `start:` opt."
 msgstr ""
+"Definiujemy rozmiar dla każdego kawałka (`slice_size`), który w naszym "
+"przypadku ma wielkość 1/8 lub 0.125. Wielkość wycinka `slice_size` jest nam "
+"niezbędna abyśmy mogli skonwertować nasz indeks `slice_idx` do wartości "
+"pomiędzy 0 a 1, tak żebyśmy mogli użyć go jako nasza opcja startu `start:`."
 
 #: A.12-sample-slicing.md:117
 msgid ""
 "We calculate the start position `s` by multiplying the `slice_idx` by the `sli"
 "ce_size`."
 msgstr ""
+"Aby obliczyć pozycję startu `s` mnożymy indeks `slice_idx` przez wielkość "
+"wycinka `slice_size`."
 
 #: A.12-sample-slicing.md:120
 msgid ""
 "We calculate the finish position `f` by adding the `slice_size` to the start p"
 "osition `s`."
 msgstr ""
+"Obliczamy pozycję końcową `f` poprzez dodanie wielkości wycinka `slice_size` "
+"do pozycji początkowej `s`."
 
 #: A.12-sample-slicing.md:123
 msgid ""
 "We can now play the sample slice by plugging in the `s` and `f` values into th"
 "e `start:` and `finish:` opts for `sample`."
 msgstr ""
+"Teraz możemy zagrać wycinek sampla poprzez podłączenie wartości `s` i `f` po "
+"opcje `start:` i `finish:` polecenia `sample`."
 
 #: A.12-sample-slicing.md:126
 msgid ""
@@ -14593,12 +14652,22 @@ msgid ""
 " the duration. Therefore, by passing `sample_duration` our `start:` and `finis"
 "h:` opts, we can find out the duration of a single slice."
 msgstr ""
+"Zanim zagramy kolejny kawałek musimy wiedzieć jak długo powinniśmy poczekać "
+"(`sleep`), powinien to być czas równy długości trwania jednego wycinka "
+"sampla. Na szczęście Sonic Pi udostępnia nam funkcję `sample_duration`, "
+"która akceptuje wszystkie te same opcje, które możemy przekazać do polecenia "
+"`sample` i po prostu zwraca długość trwania. W związku z tym, poprzez "
+"przekazanie do polecenia `sample_duration` naszych opcji `start:` i `finish:`"
+", możemy łatwo dowiedzieć się jaki jest czas trwania pojedynczego wycinka "
+"sampla."
 
 #: A.12-sample-slicing.md:133
 msgid ""
 "We wrap all of this code in a `live_loop` so that we continue to pick new rand"
 "om slices to play."
 msgstr ""
+"Cały ten kod opakowujemy w żywą pętlę `live_loop`, dzięki temu w kółko "
+"wybieramy kolejne losowe kawałki do zagrania."
 
 #: A.12-sample-slicing.md:139
 msgid ""
@@ -14608,6 +14677,12 @@ msgid ""
 "ke the code below as a starting point and see if you can take it in your own d"
 "irection and create something new..."
 msgstr ""
+"Spróbujmy teraz połączyć wszystko co do tej pory widzieliśmy i stwórzmy "
+"finałowy przykład, który zademonstruje jak możemy wykorzystać podobne "
+"podejście do połączenia losowo pociętych beatów z odrobiną basu aby utworzyć "
+"zaczyn ciekawego utworu. Teraz twoja kolej - użyj poniższego kodu jako punkt "
+"wyjściowy, zobacz czy potrafisz zmienić go po swojemu aby utworzyć coś "
+"nowego..."
 
 #: A.12-sample-slicing.md:145
 #, no-wrap
@@ -14650,11 +14725,11 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:1
 msgid "A.13 Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "A.13 Kodowanie Probabilistycznego Sekwencera"
 
 #: A.13-probabilistic-sequencer.md:3
 msgid "Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "Kodowanie Probabilistycznego Sekwencera"
 
 #: A.13-probabilistic-sequencer.md:5
 msgid ""
@@ -14753,7 +14828,7 @@ msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
-msgstr ""
+msgstr "Zmienianie Prawdopodobieństwa"
 
 #: A.13-probabilistic-sequencer.md:67
 #, fuzzy
@@ -14791,13 +14866,15 @@ msgstr "rand"
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
-msgstr ""
+msgstr "Łączenie Prawdopodobieństwa"
 
 #: A.13-probabilistic-sequencer.md:93
 msgid ""
 "Things get really exciting when you combine multiple samples being triggered w"
 "ith different probabilities. For example:"
 msgstr ""
+"Bardzo ciekawe efekty można uzyskać gdy połączymy jednocześnie uruchamianie "
+"wielu sampli z różnym prawdopodobieństwem. Na przykład:"
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
@@ -14818,10 +14895,14 @@ msgid ""
 "the rhythm. Also, try changing the samples to create an entirely new feel. For"
 " example try changing `:drum_cymbal_closed` to `:bass_hit_c` for extra bass!"
 msgstr ""
+"A teraz, uruchom powyższy kod i zacznij zmieniać prawdopodobieństwa aby "
+"zmienić rytm. Spróbuj również zmieniać sample aby utworzyć zupełnie nowe "
+"brzmienie. Na przykład spróbuj zmienić sampel `:drum_cymbal_closed` na "
+"`:bass_hit_c` aby uzyskać ekstra bass!"
 
 #: A.13-probabilistic-sequencer.md:112
 msgid "Repeatable Rhythms"
-msgstr ""
+msgstr "Powtarzalne Rytmy"
 
 #: A.13-probabilistic-sequencer.md:114
 #, fuzzy
@@ -14855,6 +14936,10 @@ msgid ""
 "sound good and make a note of them. That way I can easily re-create my rhythms"
 " in future practice sessions or performances."
 msgstr ""
+"Kiedy pracuję z tego typu strukturami, staram się zazwyczaj zapamiętać które "
+"ciągi dźwięków brzmią fajnie i staram się je zapisywać. W ten sposób mogę "
+"bardzo łatwo odtwarzać moje rytmy w przyszłych wprawkach czy wystąpieniach "
+"na żywo."
 
 #: A.13-probabilistic-sequencer.md:139
 #, fuzzy
