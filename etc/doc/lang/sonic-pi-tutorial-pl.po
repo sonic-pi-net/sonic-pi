@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-15 17:41+0000\n"
+"PO-Revision-Date: 2017-02-15 17:44+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -15471,7 +15471,6 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :dark_mist do\n"
 "  co = (line 70, 130, steps: 8).tick\n"
@@ -15577,9 +15576,8 @@ msgstr ""
 "big power chord."
 
 #: A.15-performance.md:32
-#, fuzzy
 msgid "2. Manually Layer your Sounds"
-msgstr "2. Manually Layer your Sounds"
+msgstr "2. Układaj Swoje Dźwięki Manualnie"
 
 #: A.15-performance.md:34
 #, fuzzy
@@ -15613,7 +15611,6 @@ msgstr ""
 
 #: A.15-performance.md:50
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 msgstr "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 
