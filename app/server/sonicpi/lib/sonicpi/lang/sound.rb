@@ -2861,7 +2861,7 @@ Finally, the sampler supports a powerful filtering system to make it easier to w
 6. Keywords - `:quux` - will filter the candidates based on whether the keyword is a direct match of the filename (without extension).
 7. Numbers - `0` - will select the candidate with that index (wrapping round like a ring if necessary).
 8. Lists of the above - `[\"/foo/bar\", \"baz\", /0-9.*/]` - will recurse down and work through the internal filter parameters as if they were in the top level.
-9. Lambdas - `lambda {|s| [s.choose] } - the ultimate power tool for filters. Allows you to create a custom fn which receives a list of candidates as an arg and which should return a new list of candidates (this may be smaller, larger, re-ordered it's up to you).
+9. Lambdas - `lambda {|s| [s.choose] }` - the ultimate power tool for filters. Allows you to create a custom fn which receives a list of candidates as an arg and which should return a new list of candidates (this may be smaller, larger, re-ordered it's up to you).
 
 By combining commands which add to the candidates and then filtering those candidates it is possible to work with folders full of samples in very powerful ways. Note that the specific ordering of filter parameters is irrelevant with the exception of the numbers - in which case the last number is the index. All the candidates will be gathered first before the filters are applied.
 ",
