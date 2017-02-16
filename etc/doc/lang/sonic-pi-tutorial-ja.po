@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-15 09:50+0000\n"
+"PO-Revision-Date: 2017-02-16 10:01+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -2312,8 +2312,8 @@ msgid ""
 "add up to 1.5s, the sustain is automatically set to 0.25s. This allows us to e"
 "asily fade the sample in and out."
 msgstr ""
-"サンプルのアーメンブレイク全体のデュレーションは1.75秒なので、アタックとリリースの時間が1.5秒まで追加されると、サステインは自動的に0.25秒にセッ"
-"トされます。これで簡単にサンプルをフェード・イン、アウトすることができます。"
+"サンプルのアーメン・ブレイク全体のデュレーションは1.75秒なので、アタックとリリースの時間が1.5秒まで追加されると、サステインは自動的に0.25秒にセ"
+"ットされます。これで簡単にサンプルをフェード・イン、アウトすることができます。"
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
@@ -2444,8 +2444,8 @@ msgid ""
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
 msgstr ""
-"サンプルのどこからでも、好きな場所を選んで音を再生することが可能です。0はサンプルの開始で、1は終了です。0.5はサンプルの途中です。アーメンブレイクの最"
-"後の半分を再生してみましょう。"
+"サンプルのどこからでも、好きな場所を選んで音を再生することが可能です。0はサンプルの開始で、1は終了です。0.5はサンプルの途中です。アーメン・ブレイクの"
+"最後の半分を再生してみましょう。"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
@@ -2469,7 +2469,7 @@ msgstr "終了点を選択する"
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample as"
 " a value between 0 and 1. Let's finish the amen break half way through:"
-msgstr "同様に、サンプルの0から1の間の値を終了点として選ぶことができます。アーメンブレイクの半分までで終わらせてみましょう。"
+msgstr "同様に、サンプルの0から1の間の値を終了点として選ぶことができます。アーメン・ブレイクの半分までで終わらせてみましょう。"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
@@ -3788,7 +3788,7 @@ msgid ""
 "button!). Let's loop the amen break forever:"
 msgstr ""
 "もしすごくたくさんの繰り返しをしたい場合、`1000.times do`のようにすごく大きな数値の繰り返しをさせることになってしまいます。こういった場合は"
-"、おそらく（stopボタンを押すまで）無限に繰り返す機能がほしいと思うでしょう。さあ、アーメンブレークのサンプルを無限にループさせてみましょう。"
+"、おそらく（stopボタンを押すまで）無限に繰り返す機能がほしいと思うでしょう。さあ、アーメン・ブレイクのサンプルを無限にループさせてみましょう。"
 
 #: 05.2-Iteration-and-Loops.md:130
 #, no-wrap
@@ -4432,7 +4432,7 @@ msgid ""
 "Try pressing the Run button multiple times with this code. You'll only ever he"
 "ar one amen break loop. You'll also see this in the log:"
 msgstr ""
-"このコードでRunボタン複数回、押してみてください。ひとつのアーメン・ブレークのループのみが聞こえるでしょう。そして下記のテキストがログ画面に表示されます"
+"このコードでRunボタン複数回、押してみてください。ひとつのアーメン・ブレイクのループのみが聞こえるでしょう。そして下記のテキストがログ画面に表示されます"
 "。"
 
 #: 05.4-Threads.md:236
@@ -12315,7 +12315,7 @@ msgstr "A.11 チック・タック"
 
 #: A.11-beat-tracking.md:3
 msgid "Tracking the Beat"
-msgstr "拍を追跡する"
+msgstr "ビートを追跡する"
 
 #: A.11-beat-tracking.md:5
 msgid ""
@@ -12332,7 +12332,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:13
 msgid "Beat Counting"
-msgstr "拍を数える"
+msgstr "ビートをカウントする"
 
 #: A.11-beat-tracking.md:15
 msgid ""
@@ -12341,16 +12341,16 @@ msgid ""
 " precise control over when a beat actually occurs and even supports multiple b"
 "eats with their own tempos."
 msgstr ""
-"音楽を作るときに、何拍目であるかによって異なることをしたいことがよくあるでしょう。Sonic Piには、`tick`と呼ばれる拍を数える特別なシステムがあ"
-"って、拍が実際にいつ起こるかを正確に制御でき、またそれぞれ独自のテンポを持った複数の拍にも対応しています。"
+"音楽を作るときに、何ビート目であるかによって何か異なることをしたいことがよくあるでしょう。Sonic Piには、`tick`と呼ばれるビートをカウントする"
+"特別なシステムがあって、ビートが実際にいつ起こるかを正確に制御でき、またそれぞれ独自のテンポを持った複数のビートにも対応しています。"
 
 #: A.11-beat-tracking.md:20
 msgid ""
 "Let's have a play - to advance the beat we just need to call `tick`. Open up a"
 " fresh buffer, type in the following and hit Run:"
 msgstr ""
-"早速遊んでみましょう。拍を進めるのに必要なことは、単に`tick`を呼ぶだけです。新しいBufferを開いて、次のコードを入力して`Run`を叩いてみてく"
-"ださい："
+"早速遊んでみましょう。ビートを進めるのに必要なことは、単に`tick`を呼ぶだけです。新しいBufferを開いて、次のコードを入力して`Run`を叩いてみ"
+"てください："
 
 #: A.11-beat-tracking.md:23
 #, no-wrap
@@ -12364,8 +12364,8 @@ msgid ""
 "a fresh beat counting from 0. However, whilst the run is still active, we can "
 "advance the beat as many times as we want:"
 msgstr ""
-"これは現在の拍の`0`を返すでしょう。`Run`ボタンを数回押しているにも関わらず、これが常に`0`を返すことに注意してください。これは、それぞれの実行で"
-"新しい拍のカウントが0から開始するためです。しかし、実行がアクティブのままであれば、拍を好きなだけ進めることができます："
+"これは現在のビートの`0`を返すでしょう。`Run`ボタンを数回押しているにも関わらず、これが常に`0`を返すことに注意してください。これは、それぞれの実"
+"行で新しいビートのカウントが0から開始するためです。しかし、実行がアクティブのままであれば、ビートを好きなだけ進めることができます："
 
 #: A.11-beat-tracking.md:32
 #, no-wrap
@@ -12390,7 +12390,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:43
 msgid "Checking the Beat"
-msgstr "拍を確認する"
+msgstr "ビートを確認する"
 
 #: A.11-beat-tracking.md:45
 msgid ""
@@ -12398,8 +12398,8 @@ msgid ""
 "he current beat. Sometimes we just want to look at the current beat without ha"
 "ving to increment it which we can do via `look`:"
 msgstr ""
-"ここまでで、`tick`が2つのことをしているのを見てきました。それは、拍を増やし（1を加算し）、拍の値を返しています。場合によっては、拍を増やさずにただ"
-"値を見たいことがあるかもしれませんが、それは`look`で実現できます："
+"ここまでで、`tick`が2つのことをしているのを見てきました。それは、ビートを増やし（1を加算し）、ビートの値を返しています。場合によっては、ビートを増"
+"やさずにただ値を見たいことがあるかもしれませんが、それは`look`で実現できます："
 
 #: A.11-beat-tracking.md:49
 #, no-wrap
@@ -12421,8 +12421,8 @@ msgid ""
 "rned `0`, then `1` as expected, then the two `look`s just returned the last be"
 "at value twice which was `1`."
 msgstr ""
-"このコードでは`tick`で拍を2回増加させ、その後`look`を2回呼んでいます。実行すると、ログに`0`, `1`, `1`, "
-"`1`の値が表示されるでしょう。最初の2つの`tick`で`0`と`1`を返し、次の2つの`look`は拍の最新の値である`1`を単純に返しています。"
+"このコードでは`tick`でビートを2回増加させ、その後`look`を2回呼んでいます。実行すると、ログに`0`, `1`, `1`, "
+"`1`の値が表示されるでしょう。最初の2つの`tick`で`0`と`1`を返し、次の2つの`look`はビートの最新の値である`1`を単純に返しています。"
 
 #: A.11-beat-tracking.md:64
 msgid ""
@@ -12434,10 +12434,10 @@ msgid ""
 "ts the beat. Secondly it looks up the ring value using the beat as the index. "
 "Let's take a look:"
 msgstr ""
-"`tick`で拍を進め、`look`で拍を確認できるようになりました。次は何でしょう？`tick`で何かを進める必要がありそうですね。Sonic Piはリ"
-"フやメロディーやリズムを表すのにリングを使っていて、`tick`システムはこれと密接に連携するよう設計されています。実際に、リングは`.`の付いた`tic"
-"k`の独自のバージョンを持っていて、それは2つのことをします。最初に、それは通常の`tick`と同じように拍を増加させます。次に、拍をインデックスとして使"
-"用して、リングの値にアクセスします。次を見てみましょう："
+"`tick`でビートを進め、`look`でビートを確認できるようになりました。次は何でしょう？ `tick`で何かを進める必要がありそうですね。"
+"Sonic Piはリフやメロディーやリズムを表すのにリングを使っていて、`tick`システムはこれと密接に連携するよう設計されています。実際に、リングは`"
+".`の付いた`tick`の独自のバージョンを持っていて、それは2つのことをします。最初に、それは通常の`tick`と同じようにビートを増加させます。次に、"
+"ビートをインデックスとして使用して、リングの値にアクセスします。次を見てみましょう："
 
 #: A.11-beat-tracking.md:72
 #, no-wrap
@@ -12475,7 +12475,7 @@ msgid ""
 "calls to `tick` - they increment the local beat."
 msgstr ""
 "ログを見ると、`:a`, `:b`, `:c`が表示され、その後再び`:a`が表示されているでしょう。`look`が`3`を返しているのに注目してください"
-"。`.tick`の呼び出しは、`tick`の通常の呼び出しとちょうど似た振る舞いをしていますが、それは独自の拍を増加させているのです。"
+"。`.tick`の呼び出しは、`tick`の通常の呼び出しとちょうど似た振る舞いをしていますが、それは独自のビートを増加させているのです。"
 
 #: A.11-beat-tracking.md:93
 msgid "A Live Loop Arpeggiator"
@@ -12496,11 +12496,11 @@ msgstr "ループしたい音符を保持するリング"
 
 #: A.11-beat-tracking.md:100
 msgid "A means of incrementing and obtaining the beat."
-msgstr "拍を増加したり保持したりする手段"
+msgstr "ビートを増加したり保持したりする手段"
 
 #: A.11-beat-tracking.md:101
 msgid "The ability to play a note based on the current beat."
-msgstr "拍に応じて音符を演奏する機能"
+msgstr "ビートに応じて音符を演奏する機能"
 
 #: A.11-beat-tracking.md:102
 msgid "A loop structure to keep the arpegiator repeating."
@@ -12538,11 +12538,11 @@ msgid ""
 msgstr ""
 "各行を順に見ていきましょう。最初に、繰り返し演奏される音符のリングを定義しています。次に、`:arp`と名付けられた`live_loop`を作ってループさ"
 "せています。`live_loop`を繰り返す度に、シンセを`:dpulse`に設定し、`.tick`と使ってリング内の次の音符を演奏しています。これにより"
-"、拍のカウンタを増加させ、最新の拍の値を音符のリングのインデックスとして使っている点に注意してください。最後に、1/8拍待ってループしています。"
+"、ビートのカウンタを増加させ、最新のビートの値を音符のリングのインデックスとして使っている点に注意してください。最後に、1/8拍待ってループしています。"
 
 #: A.11-beat-tracking.md:124
 msgid "Multiple Simultaneous Beats"
-msgstr "複数の同時の拍"
+msgstr "複数の同時ビート"
 
 #: A.11-beat-tracking.md:126
 msgid ""
@@ -12552,7 +12552,7 @@ msgid ""
 "k at this in action:"
 msgstr ""
 "本当に知っておいて欲しい大切なことは、`tick`は`live_loop`でローカルなことです。これは、それぞれの`live_loop`がそれ自身の独立し"
-"た拍のカウンタを持っていることを意味します。これは、グローバルなメトロノームと拍よりもはるかに強力です。実際に動いているところを見てみましょう："
+"たビートのカウンタを持っていることを意味します。これは、グローバルなメトロノームとビートよりもはるかに強力です。実際に動いているところを見てみましょう："
 
 #: A.11-beat-tracking.md:131
 #, no-wrap
@@ -12587,7 +12587,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:149
 msgid "Clashing Beats"
-msgstr "拍を壊す"
+msgstr "ビートを壊す"
 
 #: A.11-beat-tracking.md:151
 msgid ""
@@ -12628,11 +12628,11 @@ msgid ""
 "you use. That way you can work with as many beats as you need! See the section"
 " on named ticks in 9.4 of the built-in tutorial for more information."
 msgstr ""
-"`live_loop`には独自の拍のカウンタがありますが、ここでは同じ`live_loop`内で`.tick`を2回呼び出しています。これは、ループする毎"
-"に拍が2回増加されることを意味しています。これは何か面白いポリリズムを生み出すことができるかもしれませんが、多くの場合あなたが望むものではないでしょう。こ"
-"の問題には2つの解決策があります。1つめは、`live_loop`の開始時に手動で`tick`を呼び出し、`.look`を使って各`live_loop`の"
-"現在の拍を確認することです。2つめは、`.tick(:foo)`のように、`.tick`の呼び出しにユニークな名前を渡すことです。Sonic "
-"Piは、名前付きチック毎に別々の拍のカウンタを作成し、追跡します。そうすれば、必要なだけ多くの拍で作業できます！ "
+"`live_loop`には独自のビートのカウンタがありますが、ここでは同じ`live_loop`内で`.tick`を2回呼び出しています。これは、ループす"
+"る毎にビートが2回増加されることを意味しています。これは何か面白いポリリズムを生み出すことができるかもしれませんが、多くの場合あなたが望むものではないでし"
+"ょう。この問題には2つの解決策があります。1つめは、`live_loop`の開始時に手動で`tick`を呼び出し、`.look`を使って各`live_lo"
+"op`の現在のビートを確認することです。2つめは、`.tick(:foo)`のように、`.tick`の呼び出しにユニークな名前を渡すことです。Sonic "
+"Piは、名前付きチック毎に別々のビートのカウンタを作成し、追跡します。そうすれば、必要なだけ多くのビートで作業できます！ "
 "詳細については、チュートリアルの9.4の名前付きチックに関するセクションを参照してください。"
 
 #: A.11-beat-tracking.md:178
@@ -12694,11 +12694,11 @@ msgstr ""
 
 #: A.12-sample-slicing.md:1
 msgid "A.12 Sample Slicing"
-msgstr ""
+msgstr "A.12 サンプルをスライスする"
 
 #: A.12-sample-slicing.md:3
 msgid "Sample Slicing"
-msgstr ""
+msgstr "サンプルをスライスする"
 
 #: A.12-sample-slicing.md:5
 msgid ""
@@ -12709,12 +12709,17 @@ msgid ""
 "der. If that sounds a bit crazy to you, don't worry, it will all become clear "
 "and you'll soon master a powerful new tool for your live coded sets."
 msgstr ""
+"このSonic Piのシリーズの3回目の記事では、最も有名なドラム・ブレイクの1つであるアーメン・ブレイクをループ、ストレッチ、フィルタする方法を見ました"
+"。今回の記事では、これをさらに一歩進めて、スライスし、スライスをシャッフルし、まったく新しい順序で一緒に戻す方法を学習します。それは少しクレイジーな話に聞"
+"こえるかもしれませんが、心配する必要はありません。それはすべて明らかになり、あなたはライブコーディングのセットのための強力な新しいツールをすぐに習得するで"
+"しょう。"
 
 #: A.12-sample-slicing.md:13
 msgid "Sound as Data"
-msgstr ""
+msgstr "データとしてのサウンド"
 
 #: A.12-sample-slicing.md:15
+#, fuzzy
 msgid ""
 "Before we get started let's just take a brief moment to understand how to work"
 " with samples. By now, you've all hopefully played with Sonic Pi's powerful sa"
@@ -12722,6 +12727,10 @@ msgid ""
 "unch Sonic Pi from the Programming menu, type the following into a fresh buffe"
 "r and then hit the Run button to hear a pre-recorded drum beat:"
 msgstr ""
+"始める前に、少し時間を取って、サンプルで作業する方法を理解しましょう。ここまでで、みなさんはSonic "
+"Piの強力なサンプラーで遊んだことがあると思います。そうでなければ、現在のような時間はありません！ あなたのRaspberry Piを起動し、Sonic "
+"Piを`Programming`のメニューから起動し、新しいBufferに次のように入力して、`Run`ボタンを押すと、あらかじめ録音されたドラムビートを"
+"聞くことができます："
 
 #: A.12-sample-slicing.md:26
 msgid ""
@@ -12730,6 +12739,8 @@ msgid ""
 "those numbers back in order, we get the original sound. However, what's to sto"
 "p us from playing them back in a different order and creating a new sound?"
 msgstr ""
+"音の記録は、音の波形の山と谷を表す-1から1のたくさんの数値のデータとして単純に表現されます。これらの数値を順番に再生すると、元の音が得られます。しかし、"
+"それらを別の順序で再生して新しい音を作り出すことに、何か問題があるしょうか？"
 
 #: A.12-sample-slicing.md:32
 msgid ""
@@ -12745,6 +12756,11 @@ msgid ""
 "ny electric signal which is then measured many times a second. These measureme"
 "nts are then represented as a series of numbers between -1 and 1."
 msgstr ""
+"実際にサンプルはどのように記録されるのでしょうか？ 音の基本的な物理を一度理解すれば、実際のところかなり簡単です。例えばドラムを叩くなどして音を出すと、小"
+"石を投げ込んだときに湖の表面が波打つのと同じように、空気中を音が移動します。これらの波紋があなたの耳に届くと、あなたの鼓膜が共振するよう動いて、その動きを"
+"聞こえる音に変換します。したがって、音を記録して再生したい場合、これらの波紋をキャプチャし、保存し、再生する方法が必要です。1つの方法は、鼓膜のように音の"
+"波紋が届いたときに前後に振動するマイクロフォンを使用することです。マイクロフォンはその位置を小さな電気信号に変換します。そして、それを1秒間に何度も測定し"
+"ます。これらの測定値は、-1と1の間の一連の数値として表されます。"
 
 #: A.12-sample-slicing.md:46
 msgid ""
@@ -12753,10 +12769,12 @@ msgid ""
 "n -1 and 1 on the y axis. You can see an example of such a graph at the top of"
 " the diagram."
 msgstr ""
+"音を視覚化してプロットしようとすると、x軸に時間を、y軸にマイクロフォン/スピーカーの位置を-1と1の間の値として持つデータの単純なグラフになるでしょう。"
+"このようなグラフの例は、図表の上部に見ることができるでしょう。"
 
 #: A.12-sample-slicing.md:51
 msgid "Playing Part of a Sample"
-msgstr ""
+msgstr "サンプルを部分的に再生する"
 
 #: A.12-sample-slicing.md:53
 msgid ""
@@ -12768,10 +12786,14 @@ msgid ""
 " of the sample and `1` is the end. So, to play the first half of the Amen Brea"
 "k, we just need to specify a `finish:` of `0.5`:"
 msgstr ""
+"では、サンプルを別の順序で再生するためには、Sonic Piでどのようにコーディングすれば良いでしょうか？ この質問に答えるには、`sample`の`st"
+"art:`と`finish:`オプションを見てみる必要があります。これらは、サウンドを表す数字の再生の開始位置と終了位置を制御します。これらのオプションの"
+"どちらの値も`0`と`1`の間の数字として表され、`0`はサンプルの開始を、`1`は終了を表しています。したがって、アーメン・ブレイクの前半部分を再生する"
+"に必要なことは、次のように`finish:`に`0.5`を指定するだけです："
 
 #: A.12-sample-slicing.md:66
 msgid "We can add in a `start:` value to play an even smaller section of the sample:"
-msgstr ""
+msgstr "また、`start:`の値を追加することもでき、先ほどの例より更に短い区間のサンプルを演奏することも可能です："
 
 #: A.12-sample-slicing.md:68
 #, no-wrap
@@ -12782,7 +12804,7 @@ msgstr "sample :loop_amen, start: 0.25, finish: 0.5"
 msgid ""
 "For fun, you can even have the `finish:` opt's value be *before* `start:` and "
 "it will play the section backwards:"
-msgstr ""
+msgstr "更に面白いのは、`finish:`オプションの値を`start:`より*前に*設定することができます。その場合には、その区間が逆再生されます："
 
 #: A.12-sample-slicing.md:75
 #, no-wrap
