@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-10-20 19:18+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -14403,11 +14403,14 @@ msgstr "`rrand` - Gibt einen Zufallswert innerhalb eines Bereichs zurück"
 
 #: A.09-randomisation.md:74
 msgid "`rrand_i` - Returns a random whole number within a range"
-msgstr "`rrand_i` - Gibt eine zufällige ganze Zahl innerhalb eines Bereichs zurück"
+msgstr ""
+"`rrand_i` - Gibt eine zufällige ganze Zahl innerhalb eines Bereichs zurück"
 
 #: A.09-randomisation.md:75
 msgid "`one_in` - Returns true or false with the given probability"
-msgstr "`one_in` - Gibt wahr oder falsch mit der angegebenen Wahrscheinlichkeit zurück"
+msgstr ""
+"`one_in` - Gibt wahr oder falsch mit der angegebenen Wahrscheinlichkeit "
+"zurück"
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
