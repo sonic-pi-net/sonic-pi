@@ -433,6 +433,29 @@ module SonicPi
         end
     end
 
+    def split_params_and_merge_opts_array(opts_a)
+      return [], opts_a if opts_a.is_a? Hash
+
+      opts_a = opts_a.to_a
+      params = []
+      idx = 0
+      size = opts_a.size
+
+      while (idx < size) && !(m = opts_a[idx]).is_a?(Hash)
+        params << m
+        idx += 1
+      end
+
+      return params, {} if idx == size
+
+      opts = (opts_a[idx..-1]).reduce({}) do |s, el|
+        s.merge(el)
+      end
+
+      return params, opts
+    end
+
+
 
     def merge_synth_arg_maps_array(opts_a)
       return opts_a if opts_a.is_a? Hash
