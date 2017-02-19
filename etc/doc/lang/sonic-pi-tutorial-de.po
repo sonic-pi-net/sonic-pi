@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-19 16:51+0000\n"
+"PO-Revision-Date: 2017-02-19 18:16+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr "1 Sonic Pi begrüßt Dich!"
+msgstr "1 Willkommen bei Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
@@ -355,7 +355,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr "Worauf wartest Du...?"
+msgstr "Also, worauf wartest Du..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
@@ -9432,7 +9432,7 @@ msgstr ""
 
 #: 11.1-Basic-API.md:71
 msgid "Finding your current coordinates"
-msgstr "Wo befindest Du Dich?"
+msgstr "Finde deine aktuellen Koordinaten"
 
 #: 11.1-Basic-API.md:73
 msgid ""
@@ -12096,7 +12096,7 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:25
 msgid "Getting Started"
-msgstr ""
+msgstr "Erste Schritte"
 
 #: A.08-minecraft-vj.md:27
 msgid ""
@@ -12119,7 +12119,7 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:39
 msgid "Sand Storms"
-msgstr ""
+msgstr "Sandstürme"
 
 #: A.08-minecraft-vj.md:41
 msgid ""
@@ -12284,7 +12284,7 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:129
 msgid "Epic Block Patterns"
-msgstr ""
+msgstr "Epische Blockmuster"
 
 #: A.08-minecraft-vj.md:131
 msgid ""
@@ -12346,7 +12346,7 @@ msgstr ""
 
 #: A.09-randomisation.md:1
 msgid "A.9 Randomisation"
-msgstr ""
+msgstr "A.9 Zufälligkeit"
 
 #: A.09-randomisation.md:3
 msgid "Surfing Random Streams"
@@ -12363,7 +12363,7 @@ msgstr ""
 
 #: A.09-randomisation.md:11
 msgid "There is no random"
-msgstr ""
+msgstr "Es gibt keinen Zufall"
 
 #: A.09-randomisation.md:13
 msgid ""
@@ -12402,7 +12402,7 @@ msgstr ""
 
 #: A.09-randomisation.md:41
 msgid "A Random Melody"
-msgstr ""
+msgstr "Eine zufällige Melodie"
 
 #: A.09-randomisation.md:43
 msgid ""
@@ -12443,7 +12443,7 @@ msgstr ""
 
 #: A.09-randomisation.md:67
 msgid "Handy Randomisation Functions"
-msgstr ""
+msgstr "Praktische Zufälligkeitsfunktionen"
 
 #: A.09-randomisation.md:69
 msgid ""
@@ -12457,15 +12457,18 @@ msgstr ""
 
 #: A.09-randomisation.md:73
 msgid "`rrand` - Returns a random value within a range"
-msgstr ""
+msgstr "`rrand` - Gibt einen Zufallswert innerhalb eines Bereichs zurück"
 
 #: A.09-randomisation.md:74
 msgid "`rrand_i` - Returns a random whole number within a range"
 msgstr ""
+"`rrand_i` - Gibt eine zufällige ganze Zahl innerhalb eines Bereichs zurück"
 
 #: A.09-randomisation.md:75
 msgid "`one_in` - Returns true or false with the given probability"
 msgstr ""
+"`one_in` - Gibt wahr oder falsch mit der angegebenen Wahrscheinlichkeit "
+"zurück"
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
@@ -12473,7 +12476,7 @@ msgstr ""
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr ""
+msgstr "`choose` - Wählt einen zufälligen Wert aus einer Liste aus"
 
 #: A.09-randomisation.md:79
 msgid ""
@@ -12656,7 +12659,7 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:1
 msgid "A.10 Control"
-msgstr ""
+msgstr "A.10 Steuerung"
 
 #: A.10-controlling-your-sound.md:3
 msgid "Controlling Your Sound"
@@ -12678,7 +12681,7 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:17
 msgid "A Basic Sound"
-msgstr ""
+msgstr "Ein Grundton"
 
 #: A.10-controlling-your-sound.md:19
 msgid ""
@@ -12752,7 +12755,7 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:63
 msgid "Modulatable Options"
-msgstr ""
+msgstr "Modulierbare Optionen"
 
 #: A.10-controlling-your-sound.md:65
 msgid ""
@@ -12769,23 +12772,23 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:76
 msgid "Default: 0"
-msgstr ""
+msgstr "Standard: 0"
 
 #: A.10-controlling-your-sound.md:77
 msgid "Must be zero or greater"
-msgstr ""
+msgstr "Muss null oder größer sein"
 
 #: A.10-controlling-your-sound.md:78
 msgid "Can not be changed once set"
-msgstr ""
+msgstr "Kann nicht mehr geändert werden, wenn einmal festgelegt"
 
 #: A.10-controlling-your-sound.md:79
 msgid "Scaled with current BPM value"
-msgstr ""
+msgstr "Mit dem aktuellen BPM-Wert skaliert"
 
 #: A.10-controlling-your-sound.md:81
 msgid "Multiple Changes"
-msgstr ""
+msgstr "Mehrere Änderungen"
 
 #: A.10-controlling-your-sound.md:83
 msgid ""
@@ -13107,7 +13110,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:104
 msgid "These concepts can all be found in the following code:"
-msgstr ""
+msgstr "Diese Konzepte findest du alle in dem folgenden Code:"
 
 #: A.11-beat-tracking.md:106
 #, no-wrap
@@ -13138,7 +13141,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:124
 msgid "Multiple Simultaneous Beats"
-msgstr ""
+msgstr "Mehrere gleichzeitige Beats"
 
 #: A.11-beat-tracking.md:126
 msgid ""
@@ -13297,7 +13300,7 @@ msgstr ""
 
 #: A.12-sample-slicing.md:13
 msgid "Sound as Data"
-msgstr ""
+msgstr "Ton als Daten"
 
 #: A.12-sample-slicing.md:15
 msgid ""
@@ -13526,21 +13529,19 @@ msgid "Code a Probabilistic Sequencer"
 msgstr ""
 
 #: A.13-probabilistic-sequencer.md:5
-#, fuzzy
 msgid ""
 "In a previous episode of this Sonic Pi series we explored the power of randomi"
 "sation to introduce variety, surprise and change into our live coded tracks an"
 "d performances. For example, we randomly picked notes from a scale to create n"
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:12
 msgid "Probability"
 msgstr "Wahrscheinlichkeit"
 
 #: A.13-probabilistic-sequencer.md:14
-#, fuzzy
 msgid ""
 "Before we can start making new beats and synth rhythms we need to take a quick"
 " dive into the basics of probability. This might sound daunting and complicate"
@@ -13551,51 +13552,53 @@ msgid ""
 "rage (if you roll lots and lots of times) you'll throw a 1 every 6 throws. Thi"
 "s means you have a 1 in 6 chance of throwing a 1. We can emulate dice rolls in"
 " Sonic Pi with the fn `dice`. Let's roll one 8 times:"
-msgstr "dice"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "8.times do\n"
 "  puts dice\n"
 "  sleep 1\n"
 "end"
-msgstr "dice"
+msgstr ""
+"8.times do\n"
+"  puts dice\n"
+"  sleep 1\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:32
-#, fuzzy
 msgid ""
 "Notice how the log prints values between 1 and 6 just as if we'd rolled a real"
 " dice ourselves."
-msgstr "dice"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:35
-#, fuzzy
 msgid "Random Beats"
-msgstr "Startpunkt der Zufallsfolge (random seed)"
+msgstr "Zufällige Beats"
 
 #: A.13-probabilistic-sequencer.md:37
-#, fuzzy
 msgid ""
 "Now imagine you had a drum and every time you were about to hit it you rolled "
 "a dice. If you rolled a 1, you hit the drum and if you rolled any other number"
 " you didn't. You now have a probabilistic drum machine working with a probabil"
 "ity of 1/6! Let's hear what that sounds like:"
-msgstr "Hören wir uns das an:"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :random_beat do\n"
 "  sample :drum_snare_hard if dice == 1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "rand"
+msgstr ""
+"live_loop :random_beat do\n"
+"  sample :drum_snare_hard if dice == 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:50
-#, fuzzy
 msgid ""
 "Let's quickly go over each line to make sure everything is very clear. First w"
 "e create a new `live_loop` called `:random_beat` which will continually repeat"
@@ -13610,14 +13613,13 @@ msgid ""
 "f it isn't `1` then the statement resolves to `false` and the snare is skipped"
 ". The second line simply waits for `0.125` seconds before rolling the dice aga"
 "in."
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
-msgstr ""
+msgstr "Wahrscheinlichkeiten ändern"
 
 #: A.13-probabilistic-sequencer.md:67
-#, fuzzy
 msgid ""
 "Those of you that have played role play games will be familiar with lots of st"
 "rangely shaped dice with different ranges. For example there is the tetrahedro"
@@ -13628,31 +13630,33 @@ msgid ""
 " chance of rolling a 1 and with a 20 sided dice there's a one in 20 chance. Lu"
 "ckily, Sonic Pi has the handy `one_in` fn for describing exactly this. Let's p"
 "lay:"
-msgstr "one_in"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :different_probabilities do\n"
 "  sample :drum_snare_hard if one_in(6)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :different_probabilities do\n"
+"  sample :drum_snare_hard if one_in(6)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:84
-#, fuzzy
 msgid ""
 "Start the live loop above and you'll hear the familiar random rhythm. However,"
 " don't stop the code running. Instead, change the `6` to a different value suc"
 "h as `2` or `20` and hit the `Run` button again. Notice that lower numbers mea"
 "n the snare drum sounds more frequently and higher numbers mean the snare trig"
 "gers fewer times. You're making music with probabilities!"
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
-msgstr ""
+msgstr "Wahrscheinlichkeiten kombinieren"
 
 #: A.13-probabilistic-sequencer.md:93
 msgid ""
@@ -13662,7 +13666,6 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  sample :elec_hi_snare if one_in(6)\n"
@@ -13671,7 +13674,14 @@ msgid ""
 "  sample :bd_haus if one_in(4)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  sample :elec_hi_snare if one_in(6)\n"
+"  sample :drum_cymbal_closed if one_in(2)\n"
+"  sample :drum_cymbal_pedal if one_in(3)\n"
+"  sample :bd_haus if one_in(4)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:106
 msgid ""
@@ -13682,21 +13692,19 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:112
 msgid "Repeatable Rhythms"
-msgstr ""
+msgstr "Wiederholbare Rhythmen"
 
 #: A.13-probabilistic-sequencer.md:114
-#, fuzzy
 msgid ""
 "Next, we can use our old friend `use_random_seed` to reset the random stream a"
 "fter 8 iterations to create a regular beat. Type the following code to hear a "
 "much more regular and repeating rhythm. Once you hear the beat, try changing t"
 "he seed value from `1000` to another number. Notice how different numbers gene"
 "rate different beats."
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 1000\n"
@@ -13708,7 +13716,17 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 1000\n"
+"  8.times do\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:133
 msgid ""
@@ -13718,17 +13736,15 @@ msgid ""
 msgstr ""
 
 #: A.13-probabilistic-sequencer.md:139
-#, fuzzy
 msgid ""
 "Finally, we can throw in some random bass to give it some nice melodic content"
 ". Notice that we can also use our newly discovered probabilistic sequencing me"
 "thod on synths just as well as samples. Don't leave it at that though - tweak "
 "the numbers and make your own track with the power of probabilities!"
-msgstr "rand"
+msgstr ""
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 2000\n"
@@ -13743,40 +13759,49 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "Auswählen (choose)"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 2000\n"
+"  8.times do\n"
+"    c = rrand(70, 130)\n"
+"    n = (scale :e1, :minor_pentatonic).take(3).choose\n"
+"    synth :tb303, note: n, release: 0.1, cutoff: c if rand < 0.9\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus, amp: 1.5 if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.14-amplitude-modulation.md:1
-#, fuzzy
 msgid "A.14 Amplitude Modulation"
-msgstr "Amplitude"
+msgstr "A.14 Amplitudenmodulation"
 
 #: A.14-amplitude-modulation.md:3
-#, fuzzy
 msgid "Amplitude Modulation"
-msgstr "Amplitude"
+msgstr "Amplitudenmodulation"
 
 #: A.14-amplitude-modulation.md:5
-#, fuzzy
 msgid ""
 "This month we're going to take a deep dive into one of Sonic Pi's most powerfu"
 "l and flexible audio FX - the `:slicer`. By the end of this article you will h"
 "ave learned how to manipulate the overall volume of parts of our live coded so"
 "und in powerful new ways. This will allow you to create new rhythmic and timbr"
 "al structures and broaden your sonic possibilities."
-msgstr "slicer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:12
 msgid "Slice that Amp"
 msgstr ""
 
 #: A.14-amplitude-modulation.md:14
-#, fuzzy
 msgid ""
 "So, what does the `:slicer` FX actually do? One way to think about it is that "
 "it's just like having someone play around with the volume control on your TV o"
 "r home hi-fi. Let's take a look but first, listen to the deep growl of the fol"
 "lowing code which triggers the `:prophet` synth:"
-msgstr "`:prophet`"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:20
 #, no-wrap
@@ -13784,25 +13809,29 @@ msgid ""
 "synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 msgstr ""
+"synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
-#, fuzzy
 msgid "Now, let's pipe it through the `:slicer` FX:"
-msgstr "slicer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:27
 #, no-wrap
-#, fuzzy
 msgid ""
 "\n"
 "with_fx :slicer do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
-#, fuzzy
 msgid ""
 "Hear how the slicer acts like it's muting and unmuting the audio with a regula"
 "r beat. Also, notice how the `:slicer` affects all the audio generated between"
@@ -13810,34 +13839,35 @@ msgid ""
 "on and off with the `phase:` opt which is short for phase duration. Its defaul"
 "t value is `0.25` which means 4 times a second at the default BPM of 60. Let's"
 " make it faster:"
-msgstr "slicer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:49
-#, fuzzy
 msgid ""
 "Now, play with different `phase:` durations yourself. Try longer and shorter v"
 "alues. See what happens when you choose a really short value. Also, try differ"
 "ent synths such as `:beep` or `:dsaw` and different notes. Take a look at the "
 "following diagram to see how different `phase:` values change the number of am"
 "plitude changes per beat."
-msgstr "`:dsaw`"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "Dauer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -13851,7 +13881,6 @@ msgid "Control Waves"
 msgstr ""
 
 #: A.14-amplitude-modulation.md:66
-#, fuzzy
 msgid ""
 "By default, the `:slicer` FX uses a square wave to manipulate the amplitude th"
 "rough time. This is why we hear the amplitude on for a period, then immediatel"
@@ -13861,17 +13890,20 @@ msgid ""
 "t these look like. We can also hear what they sound like. For example, the fol"
 "lowing code uses (co)sine as the control wave. Hear how the sound doesn't turn"
 " on and off abruptly but instead smoothly fades in and out:"
-msgstr "slicer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.5, wave: 3 do\n"
 "  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
 "  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.5, wave: 3 do\n"
+"  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
+"  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
+"end"
 
 #: A.14-amplitude-modulation.md:83
 msgid ""
@@ -13893,33 +13925,33 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "Dauer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
 msgstr ""
 
 #: A.14-amplitude-modulation.md:102
-#, fuzzy
 msgid ""
 "By default, `:slicer` switches between amplitude values `1` (fully loud) and `"
 "0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. You "
 "can use this alongside the sine wave setting to create a simple tremolo effect"
 ":"
-msgstr "slicer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
 "  synth :saw, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
+"  synth :saw, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:113
 msgid ""
@@ -13929,27 +13961,30 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
-msgstr ""
+msgstr "Wahrscheinlichkeiten"
 
 #: A.14-amplitude-modulation.md:119
-#, fuzzy
 msgid ""
 "One of `:slicer`'s powerful features is its ability to use probability to choo"
 "se whether or not to turn the slicer on or off. Before the `:slicer` FX starts"
 " a new phase it rolls a dice and based on the result either uses the selected "
 "control wave or keeps the amplitude off. Let's take a listen:"
-msgstr "Auswählen (choose)"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:125
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:133
 msgid ""
@@ -13960,7 +13995,6 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:138
-#, fuzzy
 msgid ""
 "Another thing to notice is that the probability system in the FX is just like "
 "the randomisation system accessible via fns such as `rand` and `shuffle`. They"
@@ -13969,7 +14003,7 @@ msgid ""
 "d like to change things around you can use the `seed:` opt to select a differe"
 "nt starting seed. This works exactly the same as `use_random_seed` but only af"
 "fects that particular FX."
-msgstr "rand"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:146
 msgid ""
@@ -13979,33 +14013,37 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:158
-#, fuzzy
 msgid "Slicing Beats"
-msgstr "Gleitende Parameter"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:160
-#, fuzzy
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
-msgstr "slicer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_mika\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_mika\n"
+"end"
 
 #: A.14-amplitude-modulation.md:169
 msgid ""
@@ -14017,41 +14055,36 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:176
-#, fuzzy
 msgid "Changing tempo"
-msgstr "Hochschalten"
+msgstr "Tempo ändern"
 
 #: A.14-amplitude-modulation.md:178
-#, fuzzy
 msgid ""
 "As we have already seen, changing the default BPM with `use_bpm` will make all"
 " the sleep times and synth envelope durations grow or shrink to match the beat"
 ". The `:slicer` FX honours this too, as the `phase:` opt is actually measured "
 "in beats not seconds. We can therefore fix the issue with `loop_amen` above by"
 " changing the BPM to match the sample:"
-msgstr "slicer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_sample_bpm :loop_amen\n"
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_amen\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:194
-#, fuzzy
 msgid ""
 "Let's apply all these ideas into a final example that only uses the `:slicer` "
 "FX to create an interesting combination. Go ahead, start changing it and make "
 "it into your own piece!"
-msgstr "slicer"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :dark_mist do\n"
 "  co = (line 70, 130, steps: 8).tick\n"
@@ -14070,17 +14103,32 @@ msgid ""
 "  end\n"
 "  sleep 16\n"
 "end"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr ""
+"live_loop :dark_mist do\n"
+"  co = (line 70, 130, steps: 8).tick\n"
+"  with_fx :slicer, probability: 0.7, prob_pos: 1 do\n"
+"    synth :prophet, note: :e1, release: 8, cutoff: co\n"
+"  end\n"
+"  \n"
+"  with_fx :slicer, phase: [0.125, 0.25].choose do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :crashing_waves do\n"
+"  with_fx :slicer, wave: 0, phase: 0.25 do\n"
+"    sample :loop_mika, rate: 0.5\n"
+"  end\n"
+"  sleep 16\n"
+"end"
 
 #: A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "Live-Coding"
+msgstr ""
 
 #: A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "Live-Coding"
+msgstr ""
 
 #: A.15-performance.md:5
 msgid ""
@@ -14133,9 +14181,8 @@ msgstr ""
 
 #: A.15-performance.md:41
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 
 #: A.15-performance.md:46
 msgid ""
@@ -14145,9 +14192,8 @@ msgstr ""
 
 #: A.15-performance.md:50
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 
 #: A.15-performance.md:55
 msgid ""
@@ -14165,9 +14211,8 @@ msgstr ""
 
 #: A.15-performance.md:65
 #, no-wrap
-#, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
-msgstr "sample :ambi_lunar_land"
+msgstr "sample :ambi_lunar_land, rate: 1"
 
 #: A.15-performance.md:69
 msgid ""
@@ -14185,9 +14230,8 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:80
-#, fuzzy
 msgid "3. Master Live Loops"
-msgstr "Live-Loops"
+msgstr ""
 
 #: A.15-performance.md:82
 msgid ""
@@ -14211,7 +14255,7 @@ msgstr ""
 
 #: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
-msgstr ""
+msgstr "4. Verwende den Hauptmischer"
 
 #: A.15-performance.md:99
 msgid ""
@@ -14225,7 +14269,7 @@ msgstr ""
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
-msgstr ""
+msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.15-performance.md:111
 msgid ""
@@ -14247,7 +14291,7 @@ msgstr ""
 #: A.15-performance.md:123
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 16, lpf: 30"
 
 #: A.15-performance.md:127
 msgid "You can then slide quickly back to a high value with:"
@@ -14256,7 +14300,7 @@ msgstr ""
 #: A.15-performance.md:129
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 1, lpf: 130"
 
 #: A.15-performance.md:133
 msgid ""
@@ -14265,9 +14309,8 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:136
-#, fuzzy
 msgid "5. Practice"
-msgstr "Anwenden von Soundeffekten"
+msgstr "5. Übung"
 
 #: A.15-performance.md:138
 msgid ""
@@ -14300,14 +14343,12 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "Live-Coding"
+msgstr ""
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "Live-Coding"
+msgstr ""
 
 #: A.16-practice.md:5
 msgid ""
@@ -14321,7 +14362,7 @@ msgstr ""
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
-msgstr ""
+msgstr "Übe regelmäßig"
 
 #: A.16-practice.md:15
 msgid ""
@@ -14419,7 +14460,7 @@ msgstr ""
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
-msgstr ""
+msgstr "Experimentiere musikalisch"
 
 #: A.16-practice.md:89
 msgid ""
@@ -14447,10 +14488,9 @@ msgstr ""
 
 #: A.16-practice.md:110
 msgid "Hear the Code"
-msgstr ""
+msgstr "Höre den Code"
 
 #: A.16-practice.md:112
-#, fuzzy
 msgid ""
 "Many musicians can look at a musical score and hear the music in their head wi"
 "thout having to play it. This is a very useful skill and it's well worth incor"
@@ -14462,7 +14502,7 @@ msgid ""
 "to hear music in your head and know what code to write to make it. It may take"
 " you a long time to master this, but once you do, you'll be able to improvise "
 "on stage and express your ideas fluently."
-msgstr "rand"
+msgstr ""
 
 #: A.16-practice.md:124
 msgid ""
