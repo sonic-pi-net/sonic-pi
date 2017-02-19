@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-15 16:05+0000\n"
-"Last-Translator: Sebastian Stahn <robert_owen@gmx.de>\n"
+"PO-Revision-Date: 2017-02-19 16:51+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 2.12-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -10328,7 +10328,7 @@ msgstr ""
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
-msgstr ""
+msgstr "Schlafen ist wichtig"
 
 #: A.02-live-coding.md:79
 msgid ""
@@ -10360,7 +10360,7 @@ msgstr ""
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
-msgstr ""
+msgstr "Töne kombinieren"
 
 #: A.02-live-coding.md:99
 msgid ""
@@ -10447,7 +10447,7 @@ msgstr ""
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
 #: A.15-performance.md:152 A.16-practice.md:166
 msgid "Bringing it all together"
-msgstr ""
+msgstr "Alles zusammenführen"
 
 #: A.02-live-coding.md:147
 msgid ""
@@ -10637,7 +10637,7 @@ msgstr ""
 
 #: A.03-coded-beats.md:78
 msgid "Playing with Time"
-msgstr ""
+msgstr "Mit der Zeit spielen"
 
 #: A.03-coded-beats.md:80
 msgid ""
@@ -10678,7 +10678,7 @@ msgstr ""
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
-msgstr ""
+msgstr "Filterung"
 
 #: A.03-coded-beats.md:105
 msgid ""
@@ -10904,7 +10904,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:65
 msgid "Melodic Composition"
-msgstr ""
+msgstr "Melodische Komposition"
 
 #: A.04-synth-riffs.md:67
 msgid ""
@@ -10939,7 +10939,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
-msgstr ""
+msgstr "Automatische Melodie"
 
 #: A.04-synth-riffs.md:86
 msgid ""
@@ -10993,7 +10993,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
-msgstr ""
+msgstr "Pseudozufälligkeit"
 
 #: A.04-synth-riffs.md:123
 msgid ""
@@ -11292,7 +11292,7 @@ msgstr ""
 
 #: A.05-acid-bass.md:108
 msgid "Deconstructing the TB-303"
-msgstr ""
+msgstr "Den TB-303 zerlegen"
 
 #: A.05-acid-bass.md:110
 msgid ""
@@ -11578,7 +11578,7 @@ msgstr ""
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
-msgstr ""
+msgstr "Magische Blöcke"
 
 #: A.06-minecraft.md:90
 msgid ""
@@ -11789,7 +11789,7 @@ msgstr ""
 
 #: A.07-bizet.md:23
 msgid "Decoding the Habanera"
-msgstr ""
+msgstr "Die Habanera dekodieren"
 
 #: A.07-bizet.md:25
 msgid ""
@@ -11812,7 +11812,7 @@ msgstr ""
 
 #: A.07-bizet.md:36
 msgid "Notes"
-msgstr ""
+msgstr "Anmerkungen"
 
 #: A.07-bizet.md:38
 msgid ""
@@ -11860,7 +11860,7 @@ msgstr ""
 
 #: A.07-bizet.md:67
 msgid "Rhythm"
-msgstr ""
+msgstr "Rhythmus"
 
 #: A.07-bizet.md:69
 msgid ""
