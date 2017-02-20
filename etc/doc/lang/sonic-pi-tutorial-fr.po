@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-18 02:25+0000\n"
+"PO-Revision-Date: 2017-02-20 02:21+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -7876,13 +7876,13 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:63
-#, fuzzy
 msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of p"
 "laying the same note again and again, try playing a chord:"
 msgstr ""
-"Maintenant, ça sonne plutôt intéressant, mais on peut le pimenter un peu plus."
-" Au lieu de jouer la même note encore et encore, essayez de jouer un accord :"
+"Maintenant, ça sonne plutôt intéressant, mais on peut le pimenter un peu "
+"plus. Au lieu de jouer la même note encore et encore, essayez de jouer un "
+"accord :"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -7919,7 +7919,6 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:85
-#, fuzzy
 msgid "Or using a random cutoff value:"
 msgstr "Ou utiliser une valeur de cutoff aléatoire :"
 
@@ -7939,7 +7938,6 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:95
-#, fuzzy
 msgid "Finally, add some drums:"
 msgstr "Finalement, ajoutons quelques notes de batterie :"
 
@@ -7961,7 +7959,6 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:106
-#, fuzzy
 msgid "Now things are getting exciting!"
 msgstr "Maintenant, les choses commencent à devenir passionnantes !"
 
@@ -7978,14 +7975,12 @@ msgstr ""
 "mais votre façon de coder dans Sonic Pi..."
 
 #: 09.2-Live-Loops.md:1
-#, fuzzy
 msgid "9.2 Live Loops"
-msgstr "9.2 Boucles en 'live'"
+msgstr "9.2 Boucles en direct"
 
 #: 09.2-Live-Loops.md:3
-#, fuzzy
 msgid "Live Loops"
-msgstr "Boucles en \"live\""
+msgstr "Boucles en direct"
 
 #: 09.2-Live-Loops.md:5
 #, fuzzy
@@ -8001,18 +7996,16 @@ msgstr ""
 "ctement la même chose mais sans avoir tant à écrire."
 
 #: 09.2-Live-Loops.md:10
-#, fuzzy
 msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam wi"
 "th Sonic Pi."
 msgstr ""
-"Si vous n'avez pas lu la section précédente, `live_loop` est la meilleure faço"
-"n d'improviser avec Sonic Pi."
+"Si vous n'avez pas lu la section précédente, `live_loop` est la meilleure "
+"façon d'improviser avec Sonic Pi."
 
 #: 09.2-Live-Loops.md:13
-#, fuzzy
 msgid "Let's play. Write the following in a new buffer:"
-msgstr "Jouons. Ecrivez le code suivant dans un buffer :"
+msgstr "Jouons. Écrivez le code suivant dans un tampon :"
 
 #: 09.2-Live-Loops.md:15
 #, no-wrap
@@ -8039,20 +8032,18 @@ msgstr ""
 "e bouton \"Stop\". Changez le `60` en `65` et pressez \"Run\" à nouveau."
 
 #: 09.2-Live-Loops.md:26
-#, fuzzy
 msgid "Woah! It changed *automatically* without missing a beat. This is live coding."
 msgstr ""
-"Woah ! Ça a changé *automatiquement* sans manquer un temps. C'est du codage en"
-" \"live\"."
+"Woah ! Ça a changé *automatiquement* sans manquer un temps. C'est du codage "
+"en direct."
 
 #: 09.2-Live-Loops.md:28
-#, fuzzy
 msgid ""
 "Why not change it to be more bass like? Just update your code whilst it's play"
 "ing:"
 msgstr ""
-"Pourquoi ne pas le modifier pour ressembler plus à une basse ? Modifiez juste "
-"votre code pendant que ça joue :"
+"Pourquoi ne pas le modifier pour ressembler plus à une basse ? Modifiez "
+"juste votre code pendant que ça joue :"
 
 #: 09.2-Live-Loops.md:30
 #, no-wrap
@@ -8100,7 +8091,6 @@ msgid "Hit Run again."
 msgstr "Puis pressez \"Run\" à nouveau."
 
 #: 09.2-Live-Loops.md:52
-#, fuzzy
 msgid "Add some drums:"
 msgstr "Ajoutez de la batterie :"
 
@@ -8122,9 +8112,8 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:63
-#, fuzzy
 msgid "Change the note from `e1` to `c1`:"
-msgstr "Changez la note de `e1` en `c1`:"
+msgstr "Changez la note de `e1` en `c1` :"
 
 #: 09.2-Live-Loops.md:65
 #, no-wrap
@@ -8144,24 +8133,20 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:74
-#, fuzzy
 msgid "Now stop listening to me and play around yourself! Have fun!"
-msgstr "Maintenant, arrêtez de me suivre et jouez vous-même ! Prenez du plaisir !"
+msgstr "Maintenant, arrêtez de me suivre et jouez vous-même ! Ayez du plaisir !"
 
 #: 09.3-Multiple-Live-Loops.md:1
-#, fuzzy
 msgid "9.3 Multiple Live Loops"
-msgstr "9.3 Boucles multiples en 'live'"
+msgstr "9.3 Boucles multiples en direct"
 
 #: 09.3-Multiple-Live-Loops.md:3
-#, fuzzy
 msgid "Multiple Live Loops"
-msgstr "Boucles multiples en \"live\""
+msgstr "Boucles multiples en direct"
 
 #: 09.3-Multiple-Live-Loops.md:5
-#, fuzzy
 msgid "Consider the following live loop:"
-msgstr "Considérez la boucle en \"live\" suivante :"
+msgstr "Considérez la boucle en direct suivante :"
 
 #: 09.3-Multiple-Live-Loops.md:7
 #, no-wrap
