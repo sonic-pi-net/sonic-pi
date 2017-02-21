@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-16 10:01+0000\n"
+"PO-Revision-Date: 2017-02-21 10:04+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -12813,7 +12813,7 @@ msgstr "sample :loop_amen, start: 0.5, finish: 0.25"
 
 #: A.12-sample-slicing.md:79
 msgid "Re-ordering Sample Playback"
-msgstr ""
+msgstr "サンプル再生の順序並び替え"
 
 #: A.12-sample-slicing.md:81
 msgid ""
@@ -12821,10 +12821,14 @@ msgid ""
 "back in any order and also how to play a specific part of a sample we can now "
 "start having fun playing a sample back in the 'wrong' order."
 msgstr ""
+"サンプルが単純にどの順序でも再生可能な数字のリストであることと、特定の位置から再生する方法を習得したので、サンプルを'誤った'順序で楽しく再生することがで"
+"きるようになりました。"
 
 #: A.12-sample-slicing.md:86
 msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 msgstr ""
+"![Amen Slices](../images/tutorial/articles/A.12-sample-"
+"slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
@@ -12836,6 +12840,10 @@ msgid ""
 "s one possible re-ordering of the slices. We can then play this back to create"
 " a new beat. Take a look at the code to do this:"
 msgstr ""
+"アーメン・ブレイクを8つの同じサイズのスライスにぶつ切りにして、それをシャッフルしてみましょう。図を見てください：上のAはサンプルのオリジナルのデータです"
+"。それを8つのスライスにぶつ切りにしたのがBです。それぞれのスライスを異なる色にして区別しやすくしていることに注意してください。また、各スライスの開始と終"
+"了の値が上にあるのを見ることができるでしょう。最後にCは、スライスの並び替えの1例です。これを再生して新しいビートを作ることができます。これを実現するため"
+"のコードを見てみましょう："
 
 #: A.12-sample-slicing.md:97
 #, no-wrap
@@ -12865,6 +12873,8 @@ msgid ""
 "xactly this: `rand_i(8)`. We then store this random slice index in the variabl"
 "e `slice_idx`."
 msgstr ""
+"0から7のランダムな数字（0から数え始めることを忘れないでください）のいずれかのスライスを選択しています。Sonic Piは正にこれを行うための便利な関数"
+"として、`rand_i(8)`を使うことができます。次に、このランダムなスライスのインデックスを`slice_idx`変数に格納しています。"
 
 #: A.12-sample-slicing.md:113
 msgid ""
@@ -12872,24 +12882,27 @@ msgid ""
 "y for us to convert our `slice_idx` into a value between 0 and 1 so we can use"
 " it as our `start:` opt."
 msgstr ""
+"`slice_size`を1/8または0.125に定義しています。`slice_size`は、`slice_idx`を`start:`オプションで使用する"
+"0から1の値に変更するために必要です。"
 
 #: A.12-sample-slicing.md:117
 msgid ""
 "We calculate the start position `s` by multiplying the `slice_idx` by the `sli"
 "ce_size`."
-msgstr ""
+msgstr "開始地点である`s`は、`slice_idx`と`slice_size`を掛け算して求めます。"
 
 #: A.12-sample-slicing.md:120
 msgid ""
 "We calculate the finish position `f` by adding the `slice_size` to the start p"
 "osition `s`."
-msgstr ""
+msgstr "終了地点である`f`は、開始地点である`s`と`slice_size`を足し算して求めます。"
 
 #: A.12-sample-slicing.md:123
 msgid ""
 "We can now play the sample slice by plugging in the `s` and `f` values into th"
 "e `start:` and `finish:` opts for `sample`."
 msgstr ""
+"変数`s`と`f`を`sample`関数の`start:`と`finish:`にそれぞれ繋げて、サンプルのスライスを再生することができるようになりました。"
 
 #: A.12-sample-slicing.md:126
 msgid ""
