@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-19 15:34+0000\n"
+"PO-Revision-Date: 2017-02-21 15:31+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -15195,7 +15195,6 @@ msgid "Control Waves"
 msgstr "Kontrola Fal"
 
 #: A.14-amplitude-modulation.md:66
-#, fuzzy
 msgid ""
 "By default, the `:slicer` FX uses a square wave to manipulate the amplitude th"
 "rough time. This is why we hear the amplitude on for a period, then immediatel"
@@ -15212,7 +15211,11 @@ msgstr ""
 "całkowicie wyłączony na kolejny moment, potem znowu gra i tak w kółko. "
 "Okazuje się jednak, że fala kwadratowa jest zaledwie jedną z 4 różnych fal, "
 "które mogą być używane przez efekt `:slicer`. Inne fale z których możemy "
-"korzystać to piła (ang. saw), trójkąt (ang. triangle) i sinusoida. TBC..."
+"korzystać to piła (ang. saw), trójkąt (ang. triangle) i sinusoida. Zerknij "
+"na poniższy diagram aby zobaczyć jak one wyglądają. Możemy również posłuchać "
+"jak brzmią. Na przykład, poniższy kod używa sinusoidy jako fali sterującej. "
+"Posłuchaj jak dźwięk nie jest już włączany i wyłączany nagle lecz zamiast "
+"tego płynnie pojawia się i zanika:"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
@@ -15274,17 +15277,17 @@ msgid "Setting your levels"
 msgstr "Ustawianie własnych poziomów"
 
 #: A.14-amplitude-modulation.md:102
-#, fuzzy
 msgid ""
 "By default, `:slicer` switches between amplitude values `1` (fully loud) and `"
 "0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. You "
 "can use this alongside the sine wave setting to create a simple tremolo effect"
 ":"
 msgstr ""
-"By default, `:slicer` switches between amplitude values `1` (fully loud) and "
-"`0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. "
-"You can use this alongside the sine wave setting to create a simple tremolo "
-"effect:"
+"Domyślnie `:slicer` zmienia się w zakresie amplitudy o wartościach od `1` ("
+"pełna głośność) do `0` (cisza). Może to zostać zmienione za pomocą opcji "
+"`amp_min:` (amplituda minimalna) oraz `amp_max:` (amplituda maksymalna). "
+"Możesz z nich skorzystać w połączeniu z falą sinusoidalną aby stworzyć "
+"prosty efekt tremolo:"
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
@@ -15311,17 +15314,17 @@ msgid "Probabilities"
 msgstr "Prawdopodobieństwa"
 
 #: A.14-amplitude-modulation.md:119
-#, fuzzy
 msgid ""
 "One of `:slicer`'s powerful features is its ability to use probability to choo"
 "se whether or not to turn the slicer on or off. Before the `:slicer` FX starts"
 " a new phase it rolls a dice and based on the result either uses the selected "
 "control wave or keeps the amplitude off. Let's take a listen:"
 msgstr ""
-"One of `:slicer`'s powerful features is its ability to use probability to "
-"choose whether or not to turn the slicer on or off. Before the `:slicer` FX "
-"starts a new phase it rolls a dice and based on the result either uses the "
-"selected control wave or keeps the amplitude off. Let's take a listen:"
+"Jednym z najbardziej potężnych właściwości efektu `:slicer`jest zdolność do "
+"używania prawdopodobieństwa aby decydowało o tym kiedy go włączać a kiedy "
+"wyłączać. Zanim `:slicer` zacznie nową fazę następuje rzut kostką i w "
+"zależności od wyniku albo zostaje użyta określona fala, albo dźwięk "
+"pozostanie wyciszony. Posłuchaj:"
 
 #: A.14-amplitude-modulation.md:125
 #, no-wrap
@@ -15352,7 +15355,6 @@ msgstr ""
 "dźwięki zostaną uruchomione będzie znacznie większe."
 
 #: A.14-amplitude-modulation.md:138
-#, fuzzy
 msgid ""
 "Another thing to notice is that the probability system in the FX is just like "
 "the randomisation system accessible via fns such as `rand` and `shuffle`. They"
@@ -15362,23 +15364,24 @@ msgid ""
 "nt starting seed. This works exactly the same as `use_random_seed` but only af"
 "fects that particular FX."
 msgstr ""
-"Another thing to notice is that the probability system in the FX is just "
-"like the randomisation system accessible via fns such as `rand` and `shuffle`"
-". They are both completely deterministic. This means that each time you hit "
-"Run you'll hear exactly the same rhythm of pulses for a given probability. "
-"If you would like to change things around you can use the `seed:` opt to "
-"select a different starting seed. This works exactly the same as "
-"`use_random_seed` but only affects that particular FX."
+"Inną rzeczą godną zanotowania jest to, że system prawdopodobieństwa w "
+"efektach (FX) jest dokładnie taki sam jak system randomizacji (losowości), "
+"który jest dostępny przez funkcje takie jak `rand` czy `shuffle`. Oba są "
+"całkowicie przewidywalne. Oznacza to, że za każdym razem gdy naciśniesz "
+"przycisk Run, usłyszysz dokładnie ten sam rytm pulsujący dla danego "
+"prawdopodobieństwa. Jeśli chciałbyś to zmienić, to zawsze możesz użyć opcji "
+"`seed:` aby wybrać inny punkt początkowy dla losowych wartości. Działa to "
+"dokładnie tak samo jak funkcja `use_random_seed` ale wpływa tylko na ten "
+"konkretny efekt."
 
 #: A.14-amplitude-modulation.md:146
-#, fuzzy
 msgid ""
 "Finally, you can change the 'resting' position of the control wave when the pr"
 "obability test fails from `0` to any other position with the `prob_pos:` opt:"
 msgstr ""
-"Finally, you can change the 'resting' position of the control wave when the "
-"probability test fails from `0` to any other position with the `prob_pos:` "
-"opt:"
+"Na koniec, możesz zmienić zmienić pozycję `spoczynku` dla fali kontrolującej "
+"kiedy test prawdopodobieństwa nie udaje się z wartości `0` na dowolną inną "
+"pozycję wykorzystując opcję `prob_pos`:"
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
@@ -15400,11 +15403,10 @@ msgid "Slicing Beats"
 msgstr "Przycinanie Beat'ów"
 
 #: A.14-amplitude-modulation.md:160
-#, fuzzy
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
 msgstr ""
-"One really fun thing to do is to use `:slicer` to chop a drum beat in and "
-"out:"
+"Jedną naprawdę fajną rzeczą jest spróbowanie użycia efektu `:slicer` do "
+"pocięcia beatu perkusyjnego:"
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
@@ -15418,7 +15420,6 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:169
-#, fuzzy
 msgid ""
 "This allows us to take any sample and create new rhythmical possibilites which"
 " is a lot of fun. However, one thing to be careful about is to make sure that "
@@ -15426,19 +15427,19 @@ msgid ""
 "ing will sound totally off. For example, try swapping `:loop_mika` with the `l"
 "oop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
-"This allows us to take any sample and create new rhythmical possibilites "
-"which is a lot of fun. However, one thing to be careful about is to make "
-"sure that the tempo of the sample matches the current BPM in Sonic Pi "
-"otherwise the slicing will sound totally off. For example, try swapping "
-"`:loop_mika` with the `loop_amen` sample to hear how bad this can sound when "
-"the tempos don't align."
+"Pozwala nam to aby wziąć dowolny sampel i stworzyć zupełnie nowe brzmienia "
+"rytmiczne co daje ogromną frajdę. Jednakże, jedną rzeczą o której należy "
+"pamiętać to to, aby upewnić się, że tempo sampla pasuje do naszego "
+"aktualnego tempa BPM w Sonic Pi. W przeciwnym wypadku nasze cięcia będą "
+"brzmieć całkowicie beznadziejnie. na przykład, spróbuj zamienić sampel "
+"`:loop_mika` na `loop_amen` aby usłyszeć jak kiepsko może to brzmieć kiedy "
+"tempo jest niewłaściwe."
 
 #: A.14-amplitude-modulation.md:176
 msgid "Changing tempo"
 msgstr "Zmiana tempa"
 
 #: A.14-amplitude-modulation.md:178
-#, fuzzy
 msgid ""
 "As we have already seen, changing the default BPM with `use_bpm` will make all"
 " the sleep times and synth envelope durations grow or shrink to match the beat"
@@ -15446,11 +15447,13 @@ msgid ""
 "in beats not seconds. We can therefore fix the issue with `loop_amen` above by"
 " changing the BPM to match the sample:"
 msgstr ""
-"As we have already seen, changing the default BPM with `use_bpm` will make "
-"all the sleep times and synth envelope durations grow or shrink to match the "
-"beat. The `:slicer` FX honours this too, as the `phase:` opt is actually "
-"measured in beats not seconds. We can therefore fix the issue with "
-"`loop_amen` above by changing the BPM to match the sample:"
+"Jak już widzieliśmy, zmiana domyślnego tempa BPM z wykorzystaniem polecenia "
+"`use_bpm` spowoduje, że wszystkie czasy odpoczynku (ang. sleep) oraz długość "
+"trwania obwiedni dźwięku syntezatorów zwiększy się lub skróci aby dopasować "
+"się do beatu. Dotyczy to również efektu `:slicer` ponieważ długość trwania "
+"opcji `phase:` jest mierzona w beatach a nie sekundach. Możemy zatem "
+"naprawić problem jaki mamy w pętli `loop_amen` powyżej poprzez zmianę tempa "
+"BPM tak aby pasowało do naszego sampla:"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
@@ -15466,15 +15469,14 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:194
-#, fuzzy
 msgid ""
 "Let's apply all these ideas into a final example that only uses the `:slicer` "
 "FX to create an interesting combination. Go ahead, start changing it and make "
 "it into your own piece!"
 msgstr ""
-"Let's apply all these ideas into a final example that only uses the `:slicer`"
-" FX to create an interesting combination. Go ahead, start changing it and "
-"make it into your own piece!"
+"Spróbujmy zastosować wszystkie te pomysły w finalnym przykładzie, który "
+"używa samego tylko efektu `:slicer` do stworzenia ciekawej kombinacji. "
+"Dalej, śmiało - zacznij zmieniać ten kawałek i zrób z niego swój nowy numer!"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
@@ -15524,7 +15526,6 @@ msgid "Five Live Coding Techniques"
 msgstr "Pięć Technik Kodowania Na Żywo"
 
 #: A.15-performance.md:5
-#, fuzzy
 msgid ""
 "In this month's Sonic Pi tutorial we're going to take a look at how you can st"
 "art treating Sonic Pi like a real instrument. We therefore need to start think"
@@ -15535,21 +15536,22 @@ msgid ""
 "s that Sonic Pi enables. By the end of this article you'll be able to start pr"
 "acticing for your own live coded performances."
 msgstr ""
-"In this month's Sonic Pi tutorial we're going to take a look at how you can "
-"start treating Sonic Pi like a real instrument. We therefore need to start "
-"thinking of code in a completely different way. Live coders think of code in "
-"a similar way to how violinists think of their bow. In fact, just like a "
-"violinist can apply various bowing techniques to create different sounds ("
-"long slow motions vs short fast hits) we will explore five of the basic live "
-"coding techniques that Sonic Pi enables. By the end of this article you'll "
-"be able to start practicing for your own live coded performances."
+"W bieżącym numerze tego poradnika o Sonic Pi zobaczymy w jaki sposób możesz "
+"zacząć traktować Sonic Pi jak prawdziwy instrument. Musimy zatem zacząć "
+"myśleć o kodzie w zupełnie nowy sposób. Osoby kodujące na żywo myślą o "
+"kodzie w sposób podobny do tego w jaki skrzypkowie myślą o swoich smyczkach. "
+"W rzeczy samej, tak jak skrzypek potrafi wykorzystać różne techniki "
+"smyczkowania aby stworzyć różne dźwięki (długie powolne ruchy kontra szybkie "
+"krótkie pociągnięcia) tak samo my poznamy pięć podstawowych technik "
+"kodowania na żywo, które umożliwia Sonic Pi. Pod koniec tego artykułu "
+"będziesz mógł samodzielnie ćwiczyć na potrzeby swoich własnych występów "
+"przed publicznością."
 
 #: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
 msgstr "1. Zapamiętaj Skrót"
 
 #: A.15-performance.md:17
-#, fuzzy
 msgid ""
 "The first tip to live coding with Sonic Pi is to start using the shortcuts. Fo"
 "r example, instead of wasting valuable time reaching for the mouse, moving it "
@@ -15559,13 +15561,15 @@ msgid ""
 "op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
 "for the full list of shortcuts."
 msgstr ""
-"The first tip to live coding with Sonic Pi is to start using the shortcuts. "
-"For example, instead of wasting valuable time reaching for the mouse, moving "
-"it over to the Run button and clicking, you can simply press `alt` and `r` "
-"at the same time which is much faster and keeps your fingers at the keyboard "
-"ready for the next edit. You can find out the shortcuts for the main buttons "
-"at the top by hovering the mouse over them. See section 10.2 of the built-in "
-"tutorial for the full list of shortcuts."
+"Pierwszą wskazówką w kodowaniu na żywo z Sonic Pi jest zaczęcie używania "
+"skrótów klawiszowych. Na przykład, zamiast tracić cenny czas na sięganie po "
+"myszkę, przesuwanie ją na przycisk Run i kliknięcie, możesz po prostu "
+"nacisnąć jednocześnie przyciski `alt` i `r`. Będzie to dużo szybsze i dzięki "
+"temu wciąż będziesz miał palce na klawiaturze gotowe do kolejnej edycji "
+"kodu. Możesz poznać wszystkie skróty klawiszowe dotyczące przycisków na "
+"górze poprzez najechanie na nie myszką i poczekanie chwilę aż pokaże się "
+"opis. Aby zobaczyć pełną listę skrótów klawiszowych udaj się do sekcji 10.2 "
+"samouczka wbudowanego w Sonic Pi."
 
 #: A.15-performance.md:26
 #, fuzzy
