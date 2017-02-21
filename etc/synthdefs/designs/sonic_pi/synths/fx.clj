@@ -1187,6 +1187,7 @@
    [output 0
     mode 0]
    [
+    output (- output 1)
     mono (/ (sum [dry-l dry-r]) 2)
     fx-l (select:ar mode [dry-l
                           dry-r
@@ -1203,10 +1204,12 @@
    [output 0
     mode 0]
    [
+    output (- output 1)
     mono (/ (sum [dry-l dry-r]) 2)
-    src (select:ar mode [dry-l
+    src (select:ar mode [mono
+                         dry-l
                          dry-r
-                         [mono mono] ])
+])
     _ (out output src)
     [wet-l wet-r] [dry-l dry-r]
     ])

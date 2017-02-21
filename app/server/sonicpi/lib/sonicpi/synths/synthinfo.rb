@@ -4052,6 +4052,29 @@ Steal This Sound,  Mitchell Sigman"
       def kill_delay(args_h)
         0
       end
+
+      def arg_defaults
+        super.merge({
+                      :output => 1,
+                      :mode => 0
+                    })
+      end
+
+      def specific_arg_info
+        {
+          :output =>
+          {
+            :doc => "Sound card output to send audio to. Indexing starts at 1, so the third output is output 3.",
+            :modulatable => true
+          },
+          :mode =>
+          {
+            :doc => "Output mixing mode. 0 is a mixed-down mono version of the stereo input, 1 is the left channel only, 2 is the right channel only. ",
+            :modulatable => true
+          }
+        }
+      end
+
     end
 
     class FXSoundOutStereo < FXInfo
@@ -4072,11 +4095,33 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "Outputs a two-channel stereo signal to a soundcard output of your choice."
+        "Outputs a two-channel stereo signal to two consecutive soundcard outputs of your choice. "
       end
 
       def kill_delay(args_h)
         0
+      end
+
+      def arg_defaults
+        super.merge({
+                      :output => 1,
+                      :mode => 0
+                    })
+      end
+
+      def specific_arg_info
+        {
+          :output =>
+          {
+            :doc => "First of two consecutive sound card outputs to send audio to. Indexing starts at 1 and two outputs are used. Therefore an output of 2 will send audio to both outputs 2 and 3 ",
+            :modulatable => true
+          },
+          :mode =>
+          {
+            :doc => "Output mixing mode. Mode 0 is standard - left audio on the first channel, right on the second. Mode 1 is inverse - right audio on the first channel, left on the second. Mode 2 is mono - a mixed mono version of both channels is sent to both audio outputs.",
+            :modulatable => true
+          }
+        }
       end
     end
 

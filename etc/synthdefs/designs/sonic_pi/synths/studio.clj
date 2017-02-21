@@ -27,13 +27,12 @@
                              amp_slide 0.02
                              amp_slide_shape 1
                              amp_slide_curve 0
-                             hpf 0
+                             hpf 22
                              hpf_bypass 0
-
                              hpf_slide 0.02
                              hpf_slide_shape 1
                              hpf_slide_curve 0
-                             lpf 135.5
+                             lpf 136
                              lpf_bypass 0
                              lpf_slide 0.02
                              lpf_slide_shape 1
@@ -41,9 +40,10 @@
                              force_mono 0
                              invert_stereo 0
                              limiter_bypass 0
-                             leak_dc_bypass 0]
-     (let [l        (in in_bus 1)
-           r        (in (+ in_bus 1))
+                             leak_dc_bypass 0
+                             out_bus 0]
+     (let [l        (+ (in out_bus) (in in_bus))
+           r        (+ (in (+ out_bus 1)) (in (+ in_bus 1)))
            amp      (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pre_amp  (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
            hpf      (varlag hpf hpf_slide hpf_slide_curve hpf_slide_shape)
@@ -106,7 +106,7 @@
            safe-snd (clip2 snd 1)
            safe-snd (overtone.live/hpf safe-snd 10)
            safe-snd (overtone.live/lpf safe-snd 20500)]
-       (replace-out 0 safe-snd)))
+       (replace-out out_bus safe-snd)))
 
    (defsynth sonic-pi-basic_mixer [in_bus 0
                                    out_bus 0
