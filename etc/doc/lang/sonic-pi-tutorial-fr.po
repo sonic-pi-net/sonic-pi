@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-20 02:21+0000\n"
+"PO-Revision-Date: 2017-02-23 01:31+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -7330,18 +7330,18 @@ msgstr ""
 "puts notes[counter]"
 
 #: 08.4-Rings.md:42
-#, fuzzy
 msgid ""
 "Super, we now get `55` and if we do it again we get `59`. However, if we do it"
 " again, we'll run out of numbers in our list and get `nil`. What if we wanted "
 "to just loop back round and start at the beginning of the list again? This is "
 "what rings are for."
 msgstr ""
-"Super, nous obtenons maintenant `55` et si nous le faisons une nouvelle fois, "
-"nous obtenons `59`. Toutefois, si nous le faisons encore une nouvelle fois, no"
-"us allons nous trouver en dehors des nombres de notre liste et obtenir `nil`. "
-"Que faire si nous voulions juste boucler en revenant en arrière et recommencer"
-" au début de la liste ? C'est pour cela que les anneaux (\"rings\") sont faits."
+"Super, nous obtenons maintenant `55` et si nous le faisons une nouvelle "
+"fois, nous obtenons `59`. Toutefois, si nous le faisons encore une nouvelle "
+"fois, nous allons nous trouver en dehors des nombres de notre liste et "
+"obtenir `nil`. Que faire si nous voulions juste boucler en revenant en "
+"arrière et recommencer au début de la liste ? C'est pour cela que les "
+"anneaux (\"rings\") sont faits."
 
 #: 08.4-Rings.md:47
 msgid "Creating Rings"
@@ -7378,18 +7378,17 @@ msgid "Indexing Rings"
 msgstr "Indexation des anneaux"
 
 #: 08.4-Rings.md:65
-#, fuzzy
 msgid ""
 "Once we have a ring, you can use it in exactly the same way you would use a no"
 "rmal list with the exception that you can use indexes that are negative or lar"
 "ger than the size of the ring and they'll wrap round to always point at one of"
 " the ring's elements:"
 msgstr ""
-"Une fois que nous avons un anneau, nous pouvons l'utiliser de la même manière "
-"que nous utiliserions une liste normale avec l'exception que nous pouvons util"
-"iser des index négatifs ou des index qui sont plus grands que la taille de l'a"
-"nneau, et ils vont boucler tout autour jusqu'à pointer sur un des éléments de "
-"l'anneau :"
+"Une fois que nous avons un anneau, nous pouvons l'utiliser de la même "
+"manière que nous utiliserions une liste normale avec l'exception que nous "
+"pouvons utiliser des index négatifs ou des index qui sont plus grands que la "
+"taille de l'anneau, et ils vont boucler tout autour pour toujours pointer "
+"sur un des éléments de l'anneau :"
 
 #: 08.4-Rings.md:70
 #, no-wrap
@@ -7411,18 +7410,17 @@ msgid "Using Rings"
 msgstr "Utilisation des anneaux"
 
 #: 08.4-Rings.md:80
-#, fuzzy
 msgid ""
 "Let's say we're using a variable to represent the current beat number. We can "
 "use this as an index into our ring to fetch notes to play, or release times or"
 " anything useful we've stored in our ring regardless of the beat number we're "
 "currently on."
 msgstr ""
-"Mettons que nous utilisions une variable pour représenter le numéro de batteme"
-"nt courant. Nous pouvons l'utiliser comme un index de notre anneau pour aller "
-"chercher les notes à jouer, ou les durées d'extinction ou n'importe quelle cho"
-"se utile que nous avons mémorisée dans notre anneau sans se préoccuper de la v"
-"aleur du numéro de battement en cours."
+"Supposons que nous utilisons une variable pour représenter le numéro de "
+"battement courant. Nous pouvons l'utiliser comme un index de notre anneau "
+"pour aller chercher les notes à jouer, ou les durées d'extinction ou "
+"n'importe quelle chose utile que nous avons mémorisée dans notre anneau sans "
+"se préoccuper de la valeur du numéro de battement en cours."
 
 #: 08.4-Rings.md:85
 msgid "Scales and Chords are Rings"
