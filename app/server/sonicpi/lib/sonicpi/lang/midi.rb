@@ -661,7 +661,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
           end
         end
 
-        __delayed_message "midi_clock_beat port: #{ports}"
+        __delayed_message "midi_clock_beat port: #{port}"
 
       end
       doc name:           :midi_clock_beat,
