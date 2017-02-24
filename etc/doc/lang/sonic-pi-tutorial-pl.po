@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-24 06:42+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2017-02-24 06:49+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -15852,12 +15852,10 @@ msgid "A.16 How to Practice Live Coding"
 msgstr "A.16 W jaki sposób ćwiczyć kodowanie na żywo (Live Coding)"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "8 Tips for Live Coding Practice"
+msgstr "8 Wskazówek dotyczących ćwiczenia kodowania na żywo (Live Coding)"
 
 #: A.16-practice.md:5
-#, fuzzy
 msgid ""
 "Last month we took a look at five important techniques for mastering live codi"
 "ng - in other words, we explored how we could use Sonic Pi to approach code in"
@@ -15866,29 +15864,30 @@ msgid ""
 "dive into understanding why live coding practice is important and how you migh"
 "t start."
 msgstr ""
-"Last month we took a look at five important techniques for mastering live "
-"coding - in other words, we explored how we could use Sonic Pi to approach "
-"code in the same way we would approach a musical instrument. One of the "
-"important concepts that we discussed was practice. This month we're going to "
-"take a deeper dive into understanding why live coding practice is important "
-"and how you might start."
+"W ubiegłym miesiącu mieliśmy okazję poznać pięć ważnych technik które "
+"umożliwiają opanowanie kodowania na żywo (Live Coding) - innymi słowy, "
+"dowiedzieliśmy się w jaki sposób możemy korzystać Sonic Pi aby zastosować do "
+"kodu takie same podejście jak do instrumentu muzycznego. Jedną z ważnych "
+"koncepcji, które omówiliśmy była praktyka. W tym miesiącu posuniemy się "
+"dalej i głębiej, żeby zrozumieć dlaczego praktykowanie kodowania na żywo "
+"jest takie ważne i w jaki sposób możesz zacząć."
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
 msgstr "Ćwicz regularnie"
 
 #: A.16-practice.md:15
-#, fuzzy
 msgid ""
 "The most important piece of advice is to make sure you practice regularly. As "
 "a rule I typically practice for 1-2 hours a day, but 20 mins is just fine when"
 " you're starting out. Little but often is what you're aiming for - so if you c"
 "an only manage 10 minutes, that's a great start."
 msgstr ""
-"The most important piece of advice is to make sure you practice regularly. "
-"As a rule I typically practice for 1-2 hours a day, but 20 mins is just fine "
-"when you're starting out. Little but often is what you're aiming for - so if "
-"you can only manage 10 minutes, that's a great start."
+"Najważniejszą radą jaką mogę Ci dać to pilnowanie się aby ćwiczyć "
+"regularnie. Z zasady zazwyczaj ćwiczę ok. 1-2 godzin dziennie, ale dla "
+"Ciebie na początek może wystarczyć i 20 minut dziennie. Mało ale często to "
+"jest to jest twój cel - jeśli więc możesz wygospodarować choćby 10 min, to "
+"świetny początek."
 
 #: A.16-practice.md:21
 #, fuzzy
