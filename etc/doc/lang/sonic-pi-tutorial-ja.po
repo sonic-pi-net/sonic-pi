@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-21 10:04+0000\n"
+"PO-Revision-Date: 2017-02-24 09:35+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -618,8 +618,8 @@ msgid ""
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
-"ここからすべてが始まります。アプリの上部のコードウィンドウ（実行ボタンの下に大きな空白）にコピーして貼り付けます。そして、左上のRunボタンを押してみまし"
-"ょう。"
+"ここからすべてが始まります。アプリケーションの上部のコードウィンドウ（`Run`ボタンの下の大きな空白）にコピーして貼り付けます。そして、`Run`ボタン"
+"を押してみましょう。"
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
@@ -627,7 +627,7 @@ msgstr "ビープ音が鳴った！"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "ビックリした？ もう1回、押してみましょう。*そしてもう1回..。*"
+msgstr "ビックリした？ もう1回、押してみましょう。*そしてもう1回…*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
@@ -741,7 +741,7 @@ msgid ""
 "s. What about a half i.e. `0.5`:"
 msgstr ""
 "なんて素敵なアルペジオ（和音を続けて弾くこと）！ では、`sleep 1`の`1`は何を意味するのでしょうか？ "
-"これは一拍休む、という意味ですが、とりあえず今は、一秒休む、と考えましょう。では、アルペジオをもう少し早くしたいと思ったら？ "
+"これは1拍休む、という意味ですが、とりあえず今は、1秒休む、と考えましょう。では、アルペジオをもう少し早くしたいと思ったら？ "
 "それは、短い値を使えばよいのです。例えば半分の値`0.5`ではどうでしょう？"
 
 #: 02.1-Your-First-Beeps.md:81
@@ -1745,7 +1745,7 @@ msgstr ""
 
 #: 03.1-Triggering-Samples.md:23
 msgid "If you want to space them out in time, use the `sleep` command:"
-msgstr "もし間を空けたいなら、sleep を使います。"
+msgstr "もし間を空けたいなら、`sleep`を使います。"
 
 #: 03.1-Triggering-Samples.md:25
 #, no-wrap
@@ -1857,7 +1857,7 @@ msgstr ""
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
-msgstr "サンプルをアンピングする"
+msgstr "サンプルの音量を変更する"
 
 #: 03.2-Sample-Params.md:11
 msgid ""
@@ -2068,8 +2068,8 @@ msgid ""
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
 msgstr ""
-"バネを縮めることは、その密度（1cm あたりのコイルの数）を増やすことです。これは*高いピッチ（音程）*のサンプルに近づくことになります。バネを伸ばすこと"
-"は、密度を減らすことで、*低いピッチ（音程）*のサウンドに近づいていきます。"
+"バネを縮めることは、その密度（1cmあたりのコイルの数）を増やすことです。これは*高いピッチ（音程）*のサンプルに近づくことになります。バネを伸ばすことは"
+"、密度を減らすことで、*低いピッチ（音程）*のサウンドに近づいていきます。"
 
 #: 03.3-Stretching-Samples.md:93
 msgid "The Maths Behind Sample Rate"
@@ -2113,7 +2113,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr "サンプルのデュレーションは、再生するレートに影響を与えます。"
+msgstr "サンプルのデュレーションは、再生するレートの影響を受けます："
 
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
@@ -2252,7 +2252,8 @@ msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask Sonic"
 " Pi how long the sample is:"
 msgstr ""
-"これまでのことをを求するために、我らがアーメン・ブレイクをさらに詳細にみてみます。Sonic Piにサンプルがどれくらいの長さなのか尋ねてみます。"
+"これまでのことを探索するために、アーメン・ブレイクをさらに詳細に見てみましょう。アーメン・ブレイクのサンプルがどれくらいの長さなのか、Sonic "
+"Piに尋ねてみてはどうでしょう："
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
@@ -2317,7 +2318,7 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
-msgstr "明白なサステイン"
+msgstr "サステインの明示的な指定"
 
 #: 03.4-Enveloped-Samples.md:88
 msgid ""
@@ -2337,8 +2338,8 @@ msgid ""
 "s there for 0s then releases back down to 0 amplitude over the release period "
 "- 0.75s."
 msgstr ""
-"いま、サンプルはトータルで0.75秒間だけ再生されました。`attack:`と`decay:`の通常値0ですので、サンプルはフル・アンプ（最大音量）に直接"
-"変わり、0秒間サスティン（持続）し、リリースの0.75秒間で0アンプに戻ります。"
+"いま、サンプルはトータルで0.75秒間だけ再生されました。`attack:`と`decay:`のデフォルト値が0ですので、サンプルはフル・アンプ（最大音量"
+"）に直接変わり、0秒間サステイン（持続）し、リリースの0.75秒間で0アンプに戻ります。"
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
@@ -2370,7 +2371,7 @@ msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
-msgstr "サスティン（持続時間）を増やすことで、シンバルを叩いた後の減衰の効果も出すことができます："
+msgstr "サステイン（持続時間）を増やすことで、シンバルを叩いた後の減衰の効果も出すことができます："
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
@@ -2562,8 +2563,8 @@ msgid ""
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
-"内蔵のサンプルは、すぐに使用でき、再生することができる一方で、あなたは別に録音された音を試してみたいと願うかもしれません。Sonic "
-"Piは完全にこの願いを叶えます。まずは、あなたの部品（録音した音）の携帯性について、確認してみましょう。"
+"内蔵のサンプルは、すぐに使用でき、再生することができる一方で、あなたは自分で録音した音を試してみたいと思うかもしれません。Sonic "
+"Piはこれに完全に対応しています。最初に、あなたの録音した音の携帯性について少し議論してみましょう。"
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
@@ -2578,9 +2579,9 @@ msgid ""
 "your sounds. That makes it *really easy to share* with your friends as they ju"
 "st need to get hold of the code."
 msgstr ""
-"あなたが、内蔵のシンセやサンプルだけを使って作曲した場合、コードだけが音楽を忠実に再生ために必要なものになります。でもちょっと考えてみてください。それは、"
-"実はとても凄いことなのですよね！ あなたの音楽を忠実に再現する作品は、テキストによるシンプルなものなので、電子メールで周りに送ったり、[Gist](htt"
-"ps://gist.github.com)に埋め込んで公開することができます。コードを持っていれば友人と本当に簡単に共有することができます。"
+"あなたが内蔵のシンセやサンプルだけを使って作曲した場合、音楽を忠実に再現するために必要なものは、コードだけになります。でもちょっと考えてみてください。それ"
+"は、実はとても凄いことなのですよね！ あなたの音楽を忠実に再現する作品は、テキストによるシンプルなものなので、電子メールで周りに送ったり、[Gist](h"
+"ttps://gist.github.com)に埋め込んで公開することができます。コードを持っていれば友人と本当に簡単に共有することができます。"
 
 #: 03.6-External-Samples.md:19
 msgid ""
@@ -2751,7 +2752,7 @@ msgstr "sample \"/path/to/my/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
-msgstr "さらにディレクトリ名は変数を使ってショートカットを作ることさえ可能です。"
+msgstr "さらにディレクトリ名は変数を使ってショートカットを作ることも可能です。"
 
 #: 03.7-Sample-Packs.md:59
 #, no-wrap
@@ -4585,7 +4586,7 @@ msgid ""
 msgstr ""
 "`Run`ボタンを押して、関数の`foo`が再生されることを確認してください。コードはどこにいったのでしょう？ また、Sonic "
 "Piは、実行の仕方をどのように知っていたのでしょうか？ Sonic PiはBufferを消したあとでも、あなたが打ち込んだ関数を覚えていて、定義した関数を"
-"をしっかりと再生してみせたのです。この動作は`define`もしくは`defonce`を使用した時にだけ働く機能です。"
+"しっかりと再生してみせたのです。この動作は`define`もしくは`defonce`を使用した時にだけ働く機能です。"
 
 #: 05.5-Functions.md:75
 msgid "Parameterised functions"
@@ -5043,7 +5044,7 @@ msgid ""
 "ynchronising on `tick` messages and when it receives one it inherits the time "
 "of the `cue` thread and continues running."
 msgstr ""
-"ここでは2つのスレッドが使われています。1つは、音は鳴りませんがメトロノームのような機能として一秒ごとに`:tick`というビートメッセージを送っています"
+"ここでは2つのスレッドが使われています。1つは、音は鳴りませんがメトロノームのような機能として1秒ごとに`:tick`というビートメッセージを送っています"
 "。2つ目のスレッドは、`tick`というビートメッセージと同期し、その際に`cue`のスレッドの時間の情報を継承して実行を続けます。"
 
 #: 05.7-Thread-Synchronisation.md:63
@@ -6799,11 +6800,11 @@ msgstr "`.drop(3)` - 最初の3つの要素以外の要素からなる新しい�
 
 #: 08.5-Ring-Chains.md:75
 msgid "`.butlast` - returns a new ring with the last element missing"
-msgstr "`.butlast` - 最後の要素が欠けた新しいリングをを返却します"
+msgstr "`.butlast` - 最後の要素が欠けた新しいリングを返却します"
 
 #: 08.5-Ring-Chains.md:76
 msgid "`.drop_last(3)` - returns a new ring with the last 3 elements missing"
-msgstr "`.drop_last(3)` - 最後の3つの要素が欠けた新しいリングをを返却します"
+msgstr "`.drop_last(3)` - 最後の3つの要素が欠けた新しいリングを返却します"
 
 #: 08.5-Ring-Chains.md:77
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
@@ -7127,7 +7128,7 @@ msgid ""
 " However, don't press Stop just yet. Change the `60` to `65` and press Run aga"
 "in."
 msgstr ""
-"`Run`ボタンを押してください。一拍毎に基本的なビープ音が鳴ります。これでは楽しくないのですが、まだ`Stop`を押さないでください。`60`を`65`"
+"`Run`ボタンを押してください。1拍毎に基本的なビープ音が鳴ります。これでは楽しくないのですが、まだ`Stop`を押さないでください。`60`を`65`"
 "へ変更して、`Run`ボタンを押してください。"
 
 #: 09.2-Live-Loops.md:26
@@ -12912,12 +12913,15 @@ msgid ""
 " the duration. Therefore, by passing `sample_duration` our `start:` and `finis"
 "h:` opts, we can find out the duration of a single slice."
 msgstr ""
+"次のスライスを再生する前に、どれだけの時間`sleep`するか、すなわちスライスされたサンプルの長さを知る必要があります。幸いにも、Sonic Piには単"
+"にサンプルの長さを返す`sample_duration`関数があり、それは`sample`と全く同じオプションを受け入れます。したがって、`sample_"
+"duration`に`start:`と`finish:`オプションを渡してあげれば、スライスの長さを知ることができるのです。"
 
 #: A.12-sample-slicing.md:133
 msgid ""
 "We wrap all of this code in a `live_loop` so that we continue to pick new rand"
 "om slices to play."
-msgstr ""
+msgstr "そして、新しいランダムなスライスを選んで再生し続けるように、このコードの全てを`live_loop`で包みます。"
 
 #: A.12-sample-slicing.md:139
 msgid ""
@@ -12927,6 +12931,8 @@ msgid ""
 "ke the code below as a starting point and see if you can take it in your own d"
 "irection and create something new..."
 msgstr ""
+"ここまで見てきた全てを組み合わせて最後の例にしましょう。興味深いトラックの作り始めるのに、ランダムにスライスされたビートとベースを組み合せた同じようなアプ"
+"ローチが可能であることを示していると思います。次は、あなたの番です。このコードを開始地点として、自分自身で進めて何か新しいものを作れるか見てみてください…"
 
 #: A.12-sample-slicing.md:145
 #, no-wrap
@@ -12969,29 +12975,29 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:1
 msgid "A.13 Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "A.13 確率的シーケンサーをコーディングする"
 
 #: A.13-probabilistic-sequencer.md:3
 msgid "Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "確率的シーケンサーをコーディングする"
 
 #: A.13-probabilistic-sequencer.md:5
-#, fuzzy
 msgid ""
 "In a previous episode of this Sonic Pi series we explored the power of randomi"
 "sation to introduce variety, surprise and change into our live coded tracks an"
 "d performances. For example, we randomly picked notes from a scale to create n"
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
-msgstr "rand"
+msgstr ""
+"このシリーズの前回の記事では、ランダム化の力を探求し、それがライブコーディングされたトラックやパフォーマンスに多様性や驚きや変化をもたらすのを示しました。"
+"例えば、ある音階からランダムにピックアップした音符で、終わりのないメロディーを作りました。今日は、ランダム化をリズムに適用した新しいテクニック、確率的ビー"
+"トについて学びます。"
 
 #: A.13-probabilistic-sequencer.md:12
-#, fuzzy
 msgid "Probability"
-msgstr "携帯性"
+msgstr "確率"
 
 #: A.13-probabilistic-sequencer.md:14
-#, fuzzy
 msgid ""
 "Before we can start making new beats and synth rhythms we need to take a quick"
 " dive into the basics of probability. This might sound daunting and complicate"
@@ -13002,51 +13008,61 @@ msgid ""
 "rage (if you roll lots and lots of times) you'll throw a 1 every 6 throws. Thi"
 "s means you have a 1 in 6 chance of throwing a 1. We can emulate dice rolls in"
 " Sonic Pi with the fn `dice`. Let's roll one 8 times:"
-msgstr "dice:サイコロ"
+msgstr ""
+"新しいビートやシンセのリズムを作り始める前に、確率に関する基本についてざっと見てみる必要があります。これは複雑で骨の折れるように聞こえるかもしれませんが、"
+"実際のところ、サイコロを振るのと同じくらい簡単です！ 普通の6面のサイコロを振ると何が起きるでしょうか？ そうですね。1, 2, 3, 4, 5, 6のい"
+"ずれかが同じチャンスで得られるでしょう。実際、6面のサイコロであれば、（もしあなたが何度も何度も振れば）平均して6回に1回1の目が出るでしょう。これが1の"
+"目を出すのに1/6のチャンスがあることを示しています。Sonic "
+"Piでは、サイコロを振るのを`dice`関数でエミュレートできます。では8回サイコロを振ってみましょう："
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "8.times do\n"
 "  puts dice\n"
 "  sleep 1\n"
 "end"
-msgstr "dice:サイコロ"
+msgstr ""
+"8.times do\n"
+"  puts dice\n"
+"  sleep 1\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:32
-#, fuzzy
 msgid ""
 "Notice how the log prints values between 1 and 6 just as if we'd rolled a real"
 " dice ourselves."
-msgstr "dice:サイコロ"
+msgstr "ちょうど実物のサイコロを振ったのと同じように、1から6の間の値をログに表示していることに注目してください。"
 
 #: A.13-probabilistic-sequencer.md:35
-#, fuzzy
 msgid "Random Beats"
-msgstr "ランダムの種(シード)"
+msgstr "ランダム・ビート"
 
 #: A.13-probabilistic-sequencer.md:37
-#, fuzzy
 msgid ""
 "Now imagine you had a drum and every time you were about to hit it you rolled "
 "a dice. If you rolled a 1, you hit the drum and if you rolled any other number"
 " you didn't. You now have a probabilistic drum machine working with a probabil"
 "ity of 1/6! Let's hear what that sounds like:"
-msgstr "どんな音になるか聞いてみましょう。"
+msgstr ""
+"では、あなたの目の前にドラムがあって、それを叩こうとするときにいつもサイコロを振るのを想像してみてください。もしあなたが1の目を出したらドラムを叩き、それ"
+"以外の目を出したら叩かないとしましょう。これであなたは、1/6の確率で動作する確率的なドラムマシーンを手に入れたことになります！ "
+"どんな音がするか聞いてみましょう："
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :random_beat do\n"
 "  sample :drum_snare_hard if dice == 1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "rand"
+msgstr ""
+"live_loop :random_beat do\n"
+"  sample :drum_snare_hard if dice == 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:50
-#, fuzzy
 msgid ""
 "Let's quickly go over each line to make sure everything is very clear. First w"
 "e create a new `live_loop` called `:random_beat` which will continually repeat"
@@ -13061,14 +13077,20 @@ msgid ""
 "f it isn't `1` then the statement resolves to `false` and the snare is skipped"
 ". The second line simply waits for `0.125` seconds before rolling the dice aga"
 "in."
-msgstr "rand"
+msgstr ""
+"全てが明確になるよう、各行をざっと見ていきましょう。最初に、`:random_beat`という名前を付けた`live_loop`を作って、`do`から`e"
+"nd`までの2行を繰り返しています。ループ内の最初の行は、`sample`を呼んであらかじめ録音された音（この場合は`:drum_snare_hard`の"
+"音）を再生しています。しかし、この行には特別な`if`の条件が末尾に付いています。これは、この行が`if`の右側の条件式が`true`であるときだけ実行さ"
+"れることを意味しています。この場合、条件式は`dice == 1`です。`dice`関数の呼び出しは、我々が既に見てきたように、1から6の値を返します。つ"
+"づいて、等価演算子の`==`を使って、この値が`1`かどうかチェックしています。もし`1`であれば、この条件式は`true`となり、スネアドラムの音が再生"
+"され、`1`でなければ、この条件式は`false`となり、スネアドラムはスキップされます。ループ内の2行目は、次にサイコロを振る前に、単に`0.125`秒"
+"間待っているだけです。"
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
-msgstr ""
+msgstr "確率を変更する"
 
 #: A.13-probabilistic-sequencer.md:67
-#, fuzzy
 msgid ""
 "Those of you that have played role play games will be familiar with lots of st"
 "rangely shaped dice with different ranges. For example there is the tetrahedro"
@@ -13079,31 +13101,41 @@ msgid ""
 " chance of rolling a 1 and with a 20 sided dice there's a one in 20 chance. Lu"
 "ckily, Sonic Pi has the handy `one_in` fn for describing exactly this. Let's p"
 "lay:"
-msgstr "one_in"
+msgstr ""
+"ロールプレイングゲームをプレイしたことがある人の中には、さまざまな範囲を持つ不思議なな形をしたサイコロに馴染みがあるかもしれません。たとえば、三角錐（正四"
+"面体）の形をした4面のサイコロや、正二十面体の形をした20面のサイコロがあります。サイコロの面の数はも1の目を出すチャンスや確率を変えます。面が少なければ"
+"、より1の目を出しやすくなり、面が多くなれば、より1の目を出しにくくなります。たとえば、4面のサイコロでは、1の目をだすのに1/4のチャンスがありますが、"
+"20面のサイコロでは、1の目をだすのに1/20のチャンスがあります。幸いにも、Sonic "
+"Piにはちょうどこれと同じことができる便利な`one_in`関数があります。次をやってみましょう："
 
 #: A.13-probabilistic-sequencer.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :different_probabilities do\n"
 "  sample :drum_snare_hard if one_in(6)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :different_probabilities do\n"
+"  sample :drum_snare_hard if one_in(6)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:84
-#, fuzzy
 msgid ""
 "Start the live loop above and you'll hear the familiar random rhythm. However,"
 " don't stop the code running. Instead, change the `6` to a different value suc"
 "h as `2` or `20` and hit the `Run` button again. Notice that lower numbers mea"
 "n the snare drum sounds more frequently and higher numbers mean the snare trig"
 "gers fewer times. You're making music with probabilities!"
-msgstr "rand"
+msgstr ""
+"上のライブループを開始すると、馴染みのあるランダムリズムを聞くことができるでしょう。しかし、実行されているコードを止めないでください。そのかわり、`6`を"
+"異なる値、たとえば`2`とか`20`に変更して、`Run`ボタンを叩いてみてください。小さい数字はスネアドラムがより頻繁に再生され、大きい数字はスネアドラ"
+"ムがあまり頻繁に再生されないということを意味しているのに注目してください。これであなたは確率で音楽を作っていることになるのです！"
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
-msgstr ""
+msgstr "確率を組み合せる"
 
 #: A.13-probabilistic-sequencer.md:93
 msgid ""
