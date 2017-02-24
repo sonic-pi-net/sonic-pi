@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-23 19:02+0000\n"
-"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
+"PO-Revision-Date: 2017-02-24 06:42+0000\n"
+"Last-Translator: anonymous <>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -15815,20 +15815,19 @@ msgstr ""
 "również możliwości do odkrywania nowych dźwięków i składni kodów."
 
 #: A.15-performance.md:146
-#, fuzzy
 msgid ""
 "When performing, you'll find the more practice you do, the easier it will be f"
 "or you to relax into the gig. Practice will also give you a wealth of experien"
 "ce to draw from. This can help you understand which kinds of modifications wil"
 "l be interesting and also work well with the current sounds."
 msgstr ""
-"When performing, you'll find the more practice you do, the easier it will be "
-"for you to relax into the gig. Practice will also give you a wealth of "
-"experience to draw from. This can help you understand which kinds of "
-"modifications will be interesting and also work well with the current sounds."
+"Podczas występów na żywo, zauważysz że im więcej ćwiczysz, tym łatwiej "
+"będzie Ci się rozluźnić na imprezie. Ponadto praktyka da Ci sporo "
+"doświadczeń, z których będziesz mógł korzystać. Może Ci to pomóc zrozumieć, "
+"które typy zmian mogą być interesujące a także dobrze współgrać z aktualnie "
+"grającymi dźwiękami."
 
 #: A.15-performance.md:154
-#, fuzzy
 msgid ""
 "This month, instead of giving you a final example that combines all the things"
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
@@ -15838,18 +15837,19 @@ msgid ""
 "d clunky at first - just keep practicing and before you know it you'll be live"
 " coding for a real audience."
 msgstr ""
-"This month, instead of giving you a final example that combines all the "
-"things discussed, let's part by setting down a challenge. See if you can "
-"spend a week practicing one of these ideas every day. For example, one day "
-"practice manual triggers, the next do some basic `live_loop` work and the "
-"following day play around with the master mixer. Then repeat. Don't worry if "
-"things feel slow and clunky at first - just keep practicing and before you "
-"know it you'll be live coding for a real audience."
+"W tym miesiącu zamiast dawać Ci końcowy przykład, który bardzo dobrze "
+"wkomponowywał się w tematy omawiane w danym numerze, proponuję małe "
+"wyzwanie. Zobacz czy jesteś w stanie spędzić cały tydzień ćwicząc każdego "
+"dnia jedną z wymienionych technik. Na przykład, jednego dnia ćwicz ręczne "
+"uruchamianie kodu, następnego spróbuj popracować z jakąś prostą żywą pętlą "
+"`live_loop` a kolejnego dnia spróbuj pobawić się z głównym mikserem. Powtórz "
+"to raz jeszcze. Nie przejmuj się jeśli na początku będziesz odczuwać, że "
+"idzie to jak po grudzie - po prostu staraj się ćwiczyć a zanim się obejrzysz "
+"zaczniesz kodować na żywo przed prawdziwą publicznością."
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "A.16 How to Practice Live Coding"
+msgstr "A.16 W jaki sposób ćwiczyć kodowanie na żywo (Live Coding)"
 
 #: A.16-practice.md:3
 #, fuzzy
