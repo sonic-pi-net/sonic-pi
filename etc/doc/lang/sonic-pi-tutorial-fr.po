@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-23 01:31+0000\n"
+"PO-Revision-Date: 2017-02-25 00:07+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -7825,15 +7825,15 @@ msgid "Changing it up"
 msgstr "Modifions-le"
 
 #: 09.1-Live-Coding-Fundamentals.md:43
-#, fuzzy
 msgid ""
 "Now, this is where the fun starts. Whilst the code is *still running* change 5"
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
-"Maintenant, c'est là que le plaisir commence. Pendant que le code est *encore "
-"en cours d'exécution* changez 50 en un autre nombre, disons 55, ensuite presse"
-"z le bouton \"Run\" une nouvelle fois. Woah ! C'est modifié ! En \"live\" !"
+"Maintenant, c'est là que le plaisir commence. Pendant que le code est *"
+"encore en cours d'exécution* changez 50 en un autre nombre, disons 55, "
+"ensuite pressez le bouton Exécuter une nouvelle fois. Woah ! C'est modifié ! "
+"En direct !"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
 #, fuzzy
@@ -7850,13 +7850,13 @@ msgstr ""
 "ement appelé la nouvelle définition."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
-#, fuzzy
 msgid ""
 "Try changing it again, change the note, change the sleep time. How about addin"
 "g a `use_synth` statement? For example, change it to:"
 msgstr ""
-"Essayez de le modifier encore, changez la note, changer la durée de sleep. Com"
-"ment faire pour ajouter un ordre `use_synth` ? Par exemple, changez-le en :"
+"Essayez de le modifier encore, changez la note, changer la durée de sommeil. "
+"Comment faire pour ajouter une instruction `use_synth` ? Par exemple, "
+"changez-le en :"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -7961,16 +7961,15 @@ msgid "Now things are getting exciting!"
 msgstr "Maintenant, les choses commencent à devenir passionnantes !"
 
 #: 09.1-Live-Coding-Fundamentals.md:108
-#, fuzzy
 msgid ""
 "However, before you jump up and start live coding with functions and threads, "
 "stop what you're doing and read the next section on `live_loop` which will cha"
 "nge the way you code in Sonic Pi forever..."
 msgstr ""
-"Toutefois, avant que vous bondissiez et que vous vous lanciez dans le codage e"
-"n \"live\" avec des fonctions et des threads, arrêtez ce que vous êtes en train "
-"de faire et lisez la section suivante sur `live_loop` qui va vous changer à ja"
-"mais votre façon de coder dans Sonic Pi..."
+"Toutefois, avant que vous bondissiez et que vous vous lanciez dans le codage "
+"en direct avec des fonctions et des fils d'exécution, arrêtez ce que vous "
+"êtes en train de faire et lisez la section suivante sur `live_loop` qui va "
+"changer à jamais votre façon de coder dans Sonic Pi..."
 
 #: 09.2-Live-Loops.md:1
 msgid "9.2 Live Loops"
@@ -7981,17 +7980,17 @@ msgid "Live Loops"
 msgstr "Boucles en direct"
 
 #: 09.2-Live-Loops.md:5
-#, fuzzy
 msgid ""
 "Ok, so this section of the tutorial is the real gem. If you only read one sect"
 "ion, it should be this one. If you read the previous section on Live Coding Fu"
 "ndamentals, `live_loop` is a simple way of doing exactly that but without havi"
 "ng to write so much."
 msgstr ""
-"Ok, ainsi cette section est la véritable perle. Si vous ne lisez qu'une sectio"
-"n, ce devrait être celle-ci. Si vous avez lu la section précédente sur les fon"
-"damentaux du codage en \"live\", `live_loop` est une manière simple de faire exa"
-"ctement la même chose mais sans avoir tant à écrire."
+"Ok, ainsi cette section du tutoriel est la véritable perle. Si vous ne lisez "
+"qu'une section, ce devrait être celle-ci. Si vous avez lu la section "
+"précédente sur les fondamentaux du codage en direct, `live_loop` est une "
+"manière simple de faire exactement la même chose mais sans avoir tant à "
+"écrire."
 
 #: 09.2-Live-Loops.md:10
 msgid ""
@@ -8019,15 +8018,15 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:22
-#, fuzzy
 msgid ""
 "Now press the Run button. You hear a basic beep every beat. Nothing fun there."
 " However, don't press Stop just yet. Change the `60` to `65` and press Run aga"
 "in."
 msgstr ""
-"Maintenant pressez le bouton \"Run\". Vous entendez un beep basique à chaque tem"
-"ps. Rien de plaisant pour l'instant. Toutefois, ne pressez pas tout de suite l"
-"e bouton \"Stop\". Changez le `60` en `65` et pressez \"Run\" à nouveau."
+"Maintenant pressez le bouton Exécuter. Vous entendez un bip basique à chaque "
+"temps. Rien de plaisant pour l'instant. Toutefois, ne pressez pas tout de "
+"suite le bouton Arrêter. Changez le `60` en `65` et pressez Exécuter à "
+"nouveau."
 
 #: 09.2-Live-Loops.md:26
 msgid "Woah! It changed *automatically* without missing a beat. This is live coding."
@@ -8059,12 +8058,10 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:38
-#, fuzzy
 msgid "Then hit Run."
-msgstr "Puis pressez \"Run\"."
+msgstr "Puis pressez Exécuter."
 
 #: 09.2-Live-Loops.md:40
-#, fuzzy
 msgid "Let's make the cutoff move around:"
 msgstr "Faisons bouger le cutoff aléatoirement :"
 
@@ -8084,9 +8081,8 @@ msgstr ""
 "end"
 
 #: 09.2-Live-Loops.md:50
-#, fuzzy
 msgid "Hit Run again."
-msgstr "Puis pressez \"Run\" à nouveau."
+msgstr "Puis pressez Exécuter à nouveau."
 
 #: 09.2-Live-Loops.md:52
 msgid "Add some drums:"
