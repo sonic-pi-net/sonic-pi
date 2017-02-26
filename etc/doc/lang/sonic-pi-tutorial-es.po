@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-28 22:00+0000\n"
-"Last-Translator: Abdeselam El-Haman <aelhaman@gmail.com>\n"
+"PO-Revision-Date: 2017-02-26 17:59+0000\n"
+"Last-Translator: Miguel García <miguel.garciarod@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 2.12-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -525,7 +525,7 @@ msgstr ""
 #: 01.2-Exploring-the-Interface.md:81
 #, fuzzy
 msgid "H. Scope Viewer"
-msgstr "F. Visor de Log"
+msgstr "H. Visor de contexto"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -559,15 +559,16 @@ msgid "Learning through Play"
 msgstr "Aprender jugando"
 
 #: 01.3-Learning-through-Play.md:5
+#, fuzzy
 msgid ""
 "Sonic Pi encourages you to learn about both computing and music through play a"
 "nd experimentation. The most important thing is that you're having fun, and be"
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
-"Sonic Pi te incita a aprender computación y música a través de jugar y experim"
-"entar. Lo más importante es que te diviertas y sin darte cuenta, estarás apren"
-"diendo a codificar, componer y ejecutar."
+"Sonic Pi te incita a aprender computación y música a través de jugar y "
+"experimentar. Lo más importante es que te diviertas y sin darte cuenta, "
+"estarás aprendiendo a programar, componer y reproducir."
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
@@ -586,14 +587,15 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
-"Hablando de eso, déjame darte un consejo, aprendido a través de mis años de es"
-"cribir código musical en vivo: «no hay errores, sólo oportunidades». Esto es a"
-"lgo que he escuchado a menudo en relación al jazz, pero funciona igualmente bi"
-"en en el live-coding. No importa lo experimentado que seas -de completo princi"
-"piante a un Algoraver, alguna vez ejecutarás código que salga de manera inespe"
-"rada. Puede que suene increíblemente bien, en cuyo caso continúa con él. O pue"
-"de que suene mal o fuera de lugar. Pero no importa. Toma el sonido, manipúlalo"
-" y conviértelo en algo alucinante. El público se volverá ”loco”."
+"Hablando de eso, déjame darte un consejo, aprendido a través de mis años "
+"programando musica en vivo: «no hay errores, sólo oportunidades». Esto es "
+"algo que he escuchado a menudo en relación al jazz, pero funciona igualmente "
+"bien en el live-coding. No importa lo experimentado que seas -de completo "
+"principiante a un Algoraver, alguna vez ejecutarás código que salga de "
+"manera inesperada. Puede que suene increíblemente bien, en cuyo caso "
+"continúa con él. O puede que suene mal o fuera de lugar. Pero no importa. "
+"Toma el sonido, manipúlalo y conviértelo en algo alucinante. El público se "
+"volverá ”loco”."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
