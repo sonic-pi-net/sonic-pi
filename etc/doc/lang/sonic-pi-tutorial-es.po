@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-26 17:59+0000\n"
-"Last-Translator: Miguel García <miguel.garciarod@gmail.com>\n"
+"PO-Revision-Date: 2017-02-27 00:58+0000\n"
+"Last-Translator: Esteban Betancur <essteb@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -559,15 +559,14 @@ msgid "Learning through Play"
 msgstr "Aprender jugando"
 
 #: 01.3-Learning-through-Play.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi encourages you to learn about both computing and music through play a"
 "nd experimentation. The most important thing is that you're having fun, and be"
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
-"Sonic Pi te incita a aprender computación y música a través de jugar y "
-"experimentar. Lo más importante es que te diviertas y sin darte cuenta, "
+"Sonic Pi te incita a aprender computación y música a través del juego y la "
+"experimentación. Lo más importante es que te diviertas y sin darte cuenta, "
 "estarás aprendiendo a programar, componer y reproducir."
 
 #: 01.3-Learning-through-Play.md:10
@@ -1315,7 +1314,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
-#, fuzzy
 msgid "Now at the same time:"
 msgstr "Ahora al mismo tiempo:"
 
@@ -1355,23 +1353,20 @@ msgstr ""
 "sté en uso. Puedes mover el synth a un nuevo synth con cada nuevo `use_synth`."
 
 #: 02.3-Switching-Synths.md:80
-#, fuzzy
 msgid "Discovering Synths"
-msgstr "Descubriendo Synths"
+msgstr "Descubriendo Sintetizadores"
 
 #: 02.3-Switching-Synths.md:82
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"Para saber cuáles sintetizadores tiene Sonic Pi, échale un vistazo a la opción"
-" Synths en el menú a la izquierda (encima de FX). Hay más de 20 de los cuales "
-"elegir. Aquí están algunos de mis favoritos:"
+"Para saber cuáles sintetizadores tiene Sonic Pi, échale un vistazo a la "
+"opción Synths en el menú a la izquierda (encima de FX). Hay más de 20 de los "
+"cuales elegir. Aquí están algunos de mis favoritos:"
 
 #: 02.3-Switching-Synths.md:86
-#, fuzzy
 msgid "`:prophet`"
 msgstr "`:prophet`"
 
@@ -1407,14 +1402,12 @@ msgstr ""
 "ores para diferentes secciones de tú música."
 
 #: 02.4-Durations-with-Envelopes.md:1
-#, fuzzy
 msgid "2.4 Duration with Envelopes"
-msgstr "2.4 Duración con Sobres"
+msgstr "2.4 Duración con Envolventes"
 
 #: 02.4-Durations-with-Envelopes.md:3
-#, fuzzy
 msgid "Duration with Envelopes"
-msgstr "Duración con Sobres"
+msgstr "Duración con Envolventes"
 
 #: 02.4-Durations-with-Envelopes.md:5
 #, fuzzy
@@ -1428,17 +1421,16 @@ msgstr ""
 "ción de nuestros sonidos."
 
 #: 02.4-Durations-with-Envelopes.md:9
-#, fuzzy
 msgid ""
 "In order to give us a simple, yet powerful means of *controlling the duration*"
 " of our sounds, Sonic Pi provides the notion of an *ADSR amplitude envelope* ("
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
-"A manera de tener una sencilla, pero poderosa manera de *controlar la duración"
-"* de nuestros sonidos, Sonic Pi provee la noción de un *sobre de amplitud ADSR"
-"* (después cubriremos lo que significa ADSR). Un sobre de amplitud ofrece dos "
-"útiles aspectos de contro:"
+"A manera de tener una sencilla, pero poderosa manera de *controlar la "
+"duración* de nuestros sonidos, Sonic Pi provee la noción de una *envolvente "
+"de amplitud ADSR* (después cubriremos lo que significa ADSR). Una envolvente "
+"de amplitud ofrece dos útiles aspectos de control:"
 
 #: 02.4-Durations-with-Envelopes.md:14
 #, fuzzy
@@ -1446,30 +1438,27 @@ msgid "control over the duration of a sound"
 msgstr "control sobre la duración del sonido"
 
 #: 02.4-Durations-with-Envelopes.md:15
-#, fuzzy
 msgid "control over the amplitude of a sound"
 msgstr "control sobre la amplitud del sonido"
 
 #: 02.4-Durations-with-Envelopes.md:17
-#, fuzzy
 msgid "Duration"
 msgstr "Duración"
 
 #: 02.4-Durations-with-Envelopes.md:19
-#, fuzzy
 msgid ""
 "The duration is the length the sound lasts for. A longer duration means that y"
 "ou hear the sound for longer. Sonic Pi's sounds all have a controllable amplit"
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
-"Duración es la longitud del sonido. Una mayor duración significa que escuchará"
-"s el sonido por más tiempo. Todos los sonidos de Sonic -Pi tienen un sobre de "
-"control de la amplitud y la duración total del sobre es la duración del sonido"
-". Por lo tanto, al controlar el sobre, controlas la duración."
+"Duración es la longitud del sonido. Una mayor duración significa que "
+"escucharás el sonido por más tiempo. Todos los sonidos de Sonic Pi tienen "
+"una envolvente de control de la amplitud y la duración total de la "
+"envolvente es la duración del sonido. Por lo tanto, al controlar la "
+"envolvente, controlas la duración."
 
 #: 02.4-Durations-with-Envelopes.md:27
-#, fuzzy
 msgid ""
 "The ADSR envelope not only controls duration, it also gives you *fine control "
 "over the amplitude of the sound*. All audible sounds start and end silent and "
@@ -1480,28 +1469,27 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
-"El sobre ADSR no sólo controla la duración, también te permite control fino de"
-" la amplitud del sonido. Todos los sonidos audibles comienzan y terminan en si"
-"lencio, conteniendo partes no-silentes en medio. Los sobres permiten deslizar "
-"y mantener la amplitud de las partes no-silente. Es como darle instrucciones a"
-" alguien sobre cómo subir y bajar el volumen del amplificador de una guitarra."
-" Por ejemplo, puedes pedirle a alguien \"comienza en silencio, lentamente llega"
-" a máximo volumen, manténlo por un momento y rápidamente vuelve a silencio\". S"
-"onic Pi te permite controlar exactamente esta conducta con los sobres."
+"La envolvente ADSR no sólo controla la duración, también te permite control *"
+"fino de la amplitud del sonido*. Todos los sonidos audibles comienzan y "
+"terminan en silencio, conteniendo partes no-silentes en medio. Las "
+"envolventes permiten deslizar y mantener la amplitud de las partes no-"
+"silentes. Es como darle instrucciones a alguien sobre cómo subir y bajar el "
+"volumen del amplificador de una guitarra. Por ejemplo, puedes pedirle a "
+"alguien \"comienza en silencio, lentamente llega a máximo volumen, manténlo "
+"por un momento y rápidamente vuelve a silencio\". Sonic Pi te permite "
+"controlar exactamente esta conducta con los envolventes."
 
 #: 02.4-Durations-with-Envelopes.md:37
-#, fuzzy
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
 msgstr ""
-"Recapitulando lo visto anteriormente, una amplitud de 0 es silencio y una ampl"
-"itud de 1 es volumen normal"
+"Recapitulando lo visto anteriormente, una amplitud de 0 es silencio y una "
+"amplitud de 1 es volumen normal."
 
 #: 02.4-Durations-with-Envelopes.md:40
-#, fuzzy
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr "Ahora, veamos cada parte del sobre."
+msgstr "Ahora, veamos cada una de las partes de las envolventes."
 
 #: 02.4-Durations-with-Envelopes.md:42
 #, fuzzy
@@ -2566,7 +2554,7 @@ msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
 msgid "Auto Sustain"
-msgstr ""
+msgstr "Sustain Automático"
 
 #: 03.4-Enveloped-Samples.md:36
 #, fuzzy
@@ -3175,6 +3163,9 @@ msgid ""
 "samples within our directory. What if we just want to listen to each sample in"
 " turn quickly?"
 msgstr ""
+"Sin embargo, cada uno de estos llamados a sample requieren que sepamos los "
+"nombres de los samples en nuestro directorio. ¿Que tal si solo quisiéramos "
+"escuchar cada sample, uno tras otro, rápidamente?"
 
 #: 03.7-Sample-Packs.md:48
 #, fuzzy
@@ -3211,13 +3202,12 @@ msgstr ""
 "sample samps, 0"
 
 #: 03.7-Sample-Packs.md:64
-#, fuzzy
 msgid ""
 "Now, if we want to play the second sample in our directory, we just need to ad"
 "d 1 to our index:"
 msgstr ""
-"Ahora, si queremos reproducir un segundo sample en nuestro directorio, sólo ne"
-"cesitamos añadir 1 a nuestro índice:"
+"Ahora, si queremos reproducir un segundo sample en nuestro directorio, sólo "
+"necesitamos añadir 1 a nuestro índice:"
 
 #: 03.7-Sample-Packs.md:67
 #, no-wrap
@@ -3229,6 +3219,7 @@ msgstr ""
 "sample samps, 1"
 
 #: 03.7-Sample-Packs.md:72
+#, fuzzy
 msgid ""
 "Notice that we no longer need to know the names of the samples in the director"
 "y - we just need to know the directory itself (or have a shortcut to it). If w"
@@ -3236,6 +3227,11 @@ msgid ""
 " round just like Rings. Therefore, whatever number we use we're guaranteed to "
 "get one of the samples in that directory."
 msgstr ""
+"Note que ya no necesitamos saber los nombres de los samples en el directorio "
+"-  solamente debemos conocer el directorio (o tener una abreviatura para él)"
+". Si requerimos un indice que es mas grande que el numero de samples, "
+"simplemente se redondea ?????. De cualquier manera, sin importar el número "
+"que usemos, esta garantizado que tendremos un sample del directorio."
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
@@ -3247,6 +3243,11 @@ msgid ""
 "ise our samples. Luckily many sample packs add useful information in the filen"
 "ames. Let's take another look at the sample file names in our directory:"
 msgstr ""
+"Usualmente con indexarlos es suficiente, pero algunas veces necesitamos algo "
+"mas poderoso para organizar nuestros samples. Afortunadamente muchos "
+"paquetes de samples añaden información valiosa en los nombres de los "
+"archivos. Ahora miremos de nuevo los nombres de los samples en nuestro "
+"directorio:"
 
 #: 03.7-Sample-Packs.md:93
 msgid ""
