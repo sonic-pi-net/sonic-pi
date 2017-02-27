@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-25 00:07+0000\n"
+"PO-Revision-Date: 2017-02-27 02:55+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -8166,20 +8166,19 @@ msgstr ""
 " boucles en \"live\"."
 
 #: 09.3-Multiple-Live-Loops.md:18
-#, fuzzy
 msgid "*There can never be two live loops running with the same name*."
 msgstr ""
-"*Il ne peut y avoir deux boucles en \"live\" en cours d'exécution avec le même n"
-"om*"
+"*Il ne peut y avoir deux boucles en direct en cours d'exécution avec le même "
+"nom*."
 
 #: 09.3-Multiple-Live-Loops.md:20
-#, fuzzy
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just n"
 "eed to give them different names:"
 msgstr ""
-"Ce qui signifie que si nous voulons de multiples boucles en \"live\" s'exécutant"
-" en simultané, nous devons simplement leur donner des noms différents :"
+"Ce qui signifie que si nous voulons de multiples boucles en direct "
+"s'exécutant en simultanée, nous devons simplement leur donner des noms "
+"différents :"
 
 #: 09.3-Multiple-Live-Loops.md:23
 #, no-wrap
