@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-24 09:35+0000\n"
+"PO-Revision-Date: 2017-03-01 09:50+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -13141,11 +13141,10 @@ msgstr "確率を組み合せる"
 msgid ""
 "Things get really exciting when you combine multiple samples being triggered w"
 "ith different probabilities. For example:"
-msgstr ""
+msgstr "複数のサンプルが異なる確率でトリガーされるのを組み合せると、本当に刺激的になります。例えば："
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  sample :elec_hi_snare if one_in(6)\n"
@@ -13154,7 +13153,14 @@ msgid ""
 "  sample :bd_haus if one_in(4)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  sample :elec_hi_snare if one_in(6)\n"
+"  sample :drum_cymbal_closed if one_in(2)\n"
+"  sample :drum_cymbal_pedal if one_in(3)\n"
+"  sample :bd_haus if one_in(4)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:106
 msgid ""
@@ -13162,24 +13168,27 @@ msgid ""
 "the rhythm. Also, try changing the samples to create an entirely new feel. For"
 " example try changing `:drum_cymbal_closed` to `:bass_hit_c` for extra bass!"
 msgstr ""
+"もう一度、上のコードを実行して、リズムを変更するために確率を変更してみてください。また、試しにサンプルを変更してみると、全く新しい感覚を生み出すでしょう。"
+"例えば、低音を追加するために、試しに`:drum_cymbal_closed`を`:bass_hit_c`に変更してみてください！"
 
 #: A.13-probabilistic-sequencer.md:112
 msgid "Repeatable Rhythms"
-msgstr ""
+msgstr "再現可能なリズム"
 
 #: A.13-probabilistic-sequencer.md:114
-#, fuzzy
 msgid ""
 "Next, we can use our old friend `use_random_seed` to reset the random stream a"
 "fter 8 iterations to create a regular beat. Type the following code to hear a "
 "much more regular and repeating rhythm. Once you hear the beat, try changing t"
 "he seed value from `1000` to another number. Notice how different numbers gene"
 "rate different beats."
-msgstr "rand"
+msgstr ""
+"次に、我々にはすっかりお馴染みの`use_random_seed`を使って、8回の繰り返しの後に、ランダム・ストリームをリセットすると、規則的なビートを作"
+"ることができます。次のコードをタイプして、より規則的で再現可能なリズムを聞いてみましょう。一度ビートを聞いたら、シードの値を`1000`から別なものにして"
+"みましょう。異なる数字が異なるビートを生成することに注目してください。"
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 1000\n"
@@ -13191,7 +13200,17 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 1000\n"
+"  8.times do\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:133
 msgid ""
@@ -13199,19 +13218,21 @@ msgid ""
 "sound good and make a note of them. That way I can easily re-create my rhythms"
 " in future practice sessions or performances."
 msgstr ""
+"この種の構造で私がよくやるのは、よい感じの音がしたらシードを記録しておくことです。それにより、後で練習したりパフォーマンスしたりするときに、簡単にそのリズ"
+"ムを再生成することができます。"
 
 #: A.13-probabilistic-sequencer.md:139
-#, fuzzy
 msgid ""
 "Finally, we can throw in some random bass to give it some nice melodic content"
 ". Notice that we can also use our newly discovered probabilistic sequencing me"
 "thod on synths just as well as samples. Don't leave it at that though - tweak "
 "the numbers and make your own track with the power of probabilities!"
-msgstr "rand"
+msgstr ""
+"最後に、よい感じのメロディーを提供するランダムなベースを入れることができます。我々が新しく発見した確率的なシーケンスの方法は、サンプルと同じようにシンセに"
+"対しても同様に使用可能です。このコードをそのままにせずに、数字を操作して、確率の力であなた自身のトラックを是非作ってください！"
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 2000\n"
@@ -13226,40 +13247,57 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "choose：選択"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 2000\n"
+"  8.times do\n"
+"    c = rrand(70, 130)\n"
+"    n = (scale :e1, :minor_pentatonic).take(3).choose\n"
+"    synth :tb303, note: n, release: 0.1, cutoff: c if rand < 0.9\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus, amp: 1.5 if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.14-amplitude-modulation.md:1
 #, fuzzy
 msgid "A.14 Amplitude Modulation"
-msgstr "アンプ（増幅）"
+msgstr "A.14 振幅変調"
 
 #: A.14-amplitude-modulation.md:3
 #, fuzzy
 msgid "Amplitude Modulation"
-msgstr "アンプ（増幅）"
+msgstr "振幅変調"
 
 #: A.14-amplitude-modulation.md:5
-#, fuzzy
 msgid ""
 "This month we're going to take a deep dive into one of Sonic Pi's most powerfu"
 "l and flexible audio FX - the `:slicer`. By the end of this article you will h"
 "ave learned how to manipulate the overall volume of parts of our live coded so"
 "und in powerful new ways. This will allow you to create new rhythmic and timbr"
 "al structures and broaden your sonic possibilities."
-msgstr "slicer"
+msgstr ""
+"今月は、Sonic Piで最もパワフルでフレキシブルなエフェクトの1つである、`:slicer`を深く見ていきたいと思います。この記事の終わりまでに、ライ"
+"ブコーディングされたサウンドの全体的な音量を操作する、新しいパワフルな方法を習得できるでしょう。これは、新しいリズム的・音色的な構造を生成することができ、"
+"また音響的な可能性を広げることができるでしょう。"
 
 #: A.14-amplitude-modulation.md:12
 msgid "Slice that Amp"
-msgstr ""
+msgstr "あの音量をスライスしよう"
 
 #: A.14-amplitude-modulation.md:14
-#, fuzzy
 msgid ""
 "So, what does the `:slicer` FX actually do? One way to think about it is that "
 "it's just like having someone play around with the volume control on your TV o"
 "r home hi-fi. Let's take a look but first, listen to the deep growl of the fol"
 "lowing code which triggers the `:prophet` synth:"
-msgstr "`:prophet`"
+msgstr ""
+"実際のところ、`:slicer`エフェクトは何をやってるのでしょうか？ 誰かがテレビやオーディオ製品のボリュームコントロールで遊んでいるのと同じようなもの"
+"と考えてみるのも、1つの方法かもしれません。早速見ていきたいところですが、最初に`:prophet`をトリガーする次のコードの深い唸り声を聞いてみてくださ"
+"い："
 
 #: A.14-amplitude-modulation.md:20
 #, no-wrap
@@ -13267,25 +13305,29 @@ msgid ""
 "synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 msgstr ""
+"synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
-#, fuzzy
 msgid "Now, let's pipe it through the `:slicer` FX:"
-msgstr "slicer"
+msgstr "では、これを`:slicer`エフェクトに通してみましょう："
 
 #: A.14-amplitude-modulation.md:27
 #, no-wrap
-#, fuzzy
 msgid ""
 "\n"
 "with_fx :slicer do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
-#, fuzzy
 msgid ""
 "Hear how the slicer acts like it's muting and unmuting the audio with a regula"
 "r beat. Also, notice how the `:slicer` affects all the audio generated between"
@@ -13293,17 +13335,24 @@ msgid ""
 "on and off with the `phase:` opt which is short for phase duration. Its defaul"
 "t value is `0.25` which means 4 times a second at the default BPM of 60. Let's"
 " make it faster:"
-msgstr "slicer"
+msgstr ""
+"`:slicer`が規則的なビートで音をミュートしたりしなかったりするのを聞いてみてください。また、`:slicer`が`do`/`end`ブロックの中で"
+"生成された全ての音に影響していることに注目してください。音のオン・オフの速さは、`phase duration`の短縮語である`phase:`オプションを"
+"使ってコントロールできます。`phase:`オプションのデフォルト値は`0.25`で、デフォルトのBPM60だと、1秒間に4回という意味になります。もっと"
+"速くしてみましょう："
 
 #: A.14-amplitude-modulation.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:49
 #, fuzzy
