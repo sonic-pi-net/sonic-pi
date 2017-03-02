@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-27 02:55+0000\n"
+"PO-Revision-Date: 2017-03-02 01:02+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -7285,14 +7285,13 @@ msgstr ""
 "."
 
 #: 08.4-Rings.md:20
-#, fuzzy
 msgid ""
 "However, consider you have a counter such as the current beat which continuall"
 "y increases. Let's create our counter and our list:"
 msgstr ""
-"Maintenant, imaginons que nous ayons un compteur tel que celui des temps music"
-"aux et qui s'incrémente continuellement. Créons notre compteur et notre liste "
-":"
+"Maintenant, imaginons que nous ayons un compteur tel que celui des temps "
+"musicaux qui s'incrémente continuellement. Créons notre compteur et notre "
+"liste :"
 
 #: 08.4-Rings.md:23
 #, no-wrap
@@ -7758,16 +7757,15 @@ msgid "An ability to use (named) threads - CHECK!"
 msgstr "Une capacité à utiliser des threads (nommés) - C'est fait !"
 
 #: 09.1-Live-Coding-Fundamentals.md:14
-#, fuzzy
 msgid ""
 "Alrighty, let's get started. Let's live code our first sounds. We first need a"
 " function containing the code we want to play. Let's start simple. We also wan"
 "t to loop calls to that function in a thread:"
 msgstr ""
-"D'accord, allons-y. Codons en \"live\" nos premiers sons. En premier lieu, nous "
-"avons besoin d'une fonction contenant le code que nous voulons jouer. Commenço"
-"ns simple. Nous voulons aussi une boucle d'appels à cette fonction dans un thr"
-"ead :"
+"D'accord, allons-y. Codons en direct nos premiers sons. En premier lieu, "
+"nous avons besoin d'une fonction contenant le code que nous voulons jouer. "
+"Commençons simple. Nous voulons aussi une boucle d'appels à cette fonction "
+"dans un fil d'exécution :"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
@@ -8156,14 +8154,13 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:14
-#, fuzzy
 msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
-"Vous pouvez vous être demandé pourquoi elle avait besoin du nom `:foo`. Ce nom"
-" est important parce qu'il signifie que cette boucle est différente des autres"
-" boucles en \"live\"."
+"Vous vous êtes peut-être demandé pourquoi elle avait besoin du nom `:foo`. "
+"Ce nom est important parce qu'il signifie que cette boucle est différente "
+"des autres boucles en direct."
 
 #: 09.3-Multiple-Live-Loops.md:18
 msgid "*There can never be two live loops running with the same name*."
@@ -8204,18 +8201,16 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:36
-#, fuzzy
 msgid ""
 "You can now update and change each live loop independently and it all just wor"
 "ks."
 msgstr ""
-"Vous pouvez maintenant modifier et changer chaque boucle indépendamment et sim"
-"plement tout fonctionne."
+"Vous pouvez maintenant modifier et changer chaque boucle indépendamment et "
+"tout fonctionne."
 
 #: 09.3-Multiple-Live-Loops.md:39
-#, fuzzy
 msgid "Syncing Live Loops"
-msgstr "Synchronisation des boucles en \"live\""
+msgstr "Synchronisation des boucles en direct"
 
 #: 09.3-Multiple-Live-Loops.md:41
 #, fuzzy
@@ -8234,7 +8229,6 @@ msgstr ""
 " avoir à arrêter quoi que ce soit."
 
 #: 09.3-Multiple-Live-Loops.md:47
-#, fuzzy
 msgid "Consider this badly synced code:"
 msgstr "Considérez ce code mal synchronisé :"
 
@@ -8260,15 +8254,14 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:61
-#, fuzzy
 msgid ""
 "Let's see if we can fix the timing and sync without stopping it. First, let's "
 "fix the `:foo` loop to make the sleep a factor of 1 - something like `0.5` wil"
 "l do:"
 msgstr ""
-"Voyons si nous pouvons corriger le timing et synchroniser sans arrêter l'exécu"
-"tion. Corrigeons la boucle `:foo` pour l'aligner sur le facteur de sleep de 1 "
-"- quelque chose comme `0.5` fera l'affaire :"
+"Voyons si nous pouvons corriger le timing et synchroniser sans arrêter "
+"l'exécution. Corrigeons la boucle `:foo` pour l'aligner sur le facteur de "
+"sleep de 1 - quelque chose comme `0.5` fera l'affaire :"
 
 #: 09.3-Multiple-Live-Loops.md:65
 #, no-wrap
@@ -8292,15 +8285,14 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:77
-#, fuzzy
 msgid ""
 "We're not quite finished yet though - you'll notice that the beats don't quite"
 " line up correctly. This is because the loops are *out of phase*. Let's fix th"
 "at by syncing one to the other:"
 msgstr ""
-"Cependant, nous n'avons pas encore tout à fait fini - vous remarquerez que les"
-" temps ne battent pas ensemble correctement. C'est parce que les boucles sont "
-"*déphasées*. Corrigeons cela en les synchronisant :"
+"Cependant, nous n'avons pas encore tout à fait fini - vous remarquerez que "
+"les temps ne battent pas ensemble correctement. C'est parce que les boucles "
+"sont *déphasées*. Corrigeons cela en les synchronisant :"
 
 #: 09.3-Multiple-Live-Loops.md:81
 #, no-wrap
@@ -8326,14 +8318,14 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:94
-#, fuzzy
 msgid "Wow, everything is now perfectly in time - all without stopping."
-msgstr "Wow, tout est maintenant parfaitement en phase - tout cela sans arrêter."
+msgstr ""
+"Wow, tout est maintenant parfaitement en phase - tout cela sans arrêter."
 
 #: 09.3-Multiple-Live-Loops.md:96
-#, fuzzy
 msgid "Now, go forth and live code with live loops!"
-msgstr "Maintenant, allez de l'avant et codez en \"live\" avec des \"live loops\" !"
+msgstr ""
+"Maintenant, allez de l'avant et codez en direct avec des boucles en direct !"
 
 #: 09.4-Ticking.md:1
 msgid "9.4 Ticking"
@@ -8358,7 +8350,6 @@ msgstr ""
 "tc."
 
 #: 09.4-Ticking.md:9
-#, fuzzy
 msgid "Ticking Rings"
 msgstr "Parcours automatique des anneaux"
 
@@ -8396,7 +8387,6 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:26
-#, fuzzy
 msgid "This is equivalent to:"
 msgstr "C'est l'équivalent de :"
 
