@@ -590,6 +590,54 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
       ]
 
 
+      def midi_stop(opts={})
+        ports = __resolve_midi_ports(opts)
+        port  = pp_el_or_list(ports)
+
+        ports.each do |p|
+          __midi_send_timed("/#{p}/stop")
+        end
+        __delayed_message "midi_stop port: #{port}"
+      end
+      doc name:           :midi_stop,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send MIDI system message - stop",
+          args:           [[]],
+          returns:        :nil,
+          opts:           {port: "MIDI Port(s) to send the stop message to"},
+          accepts_block:  false,
+          doc:            "Sends the MIDI stop system message to *all* connected MIDI devices on *all* ports.  Use the `port:` opt to restrict which MIDI ports are used.
+
+*THIS IS ALPHA!* Expect this fn to completely change before final release",
+          examples:       [
+        "midi_stop #=> Send stop message to all connected MIDI devices"
+      ]
+
+      def midi_continue(opts={})
+        ports = __resolve_midi_ports(opts)
+        port  = pp_el_or_list(ports)
+
+        ports.each do |p|
+          __midi_send_timed("/#{p}/continue")
+        end
+        __delayed_message "midi_continue port: #{port}"
+      end
+      doc name:           :midi_continue,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send MIDI system message - continue",
+          args:           [[]],
+          returns:        :nil,
+          opts:           {port: "MIDI Port(s) to send the continue message to"},
+          accepts_block:  false,
+          doc:            "Sends the MIDI continue system message to *all* connected MIDI devices on *all* ports.  Use the `port:` opt to restrict which MIDI ports are used.
+
+The continue message continues at the point the sequence was stopped.
+
+*THIS IS ALPHA!* Expect this fn to completely change before final release",
+          examples:       [
+        "midi_continue #=> Send stop message to all connected MIDI devices"
+      ]
+
 
 
       def midi_clock_beat(dur=1, opts={})
