@@ -635,7 +635,7 @@ The continue message continues at the point the sequence was stopped.
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
-        "midi_continue #=> Send stop message to all connected MIDI devices"
+        "midi_continue #=> Send continue message to all connected MIDI devices"
       ]
 
 
