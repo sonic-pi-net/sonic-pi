@@ -255,7 +255,7 @@ module SonicPi
       def midi_raw(a, b, c, opts={})
         ports = __resolve_midi_ports(opts)
         ports.each do |p|
-          midi_send_timed("/#{p}/raw", a.to_i, b.to_i, c.to_i)
+          __midi_send_timed("/#{p}/raw", a.to_i, b.to_i, c.to_i)
         end
         port = pp_el_or_list(ports)
         __delayed_message "midi_raw #{a}, #{b}, #{c}, port: #{port}"
