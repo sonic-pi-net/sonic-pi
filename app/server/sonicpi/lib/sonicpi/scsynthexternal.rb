@@ -195,12 +195,14 @@ module SonicPi
       end
 
       begin
-        v = p.get(60)
-      rescue Exception => e
+        p.get(60)
+      rescue PromiseTimeoutError => e
+        kill_and_deregister_process(@scsynth_id)
         t1.kill
-        Process.kill(9, @scsynth_pid)
+        msg = "Boot - Unable to boot SuperCollider - boot server log did not report server ready"
+        puts msg
+        raise msg
       end
-      raise "Unable to boot SuperCollider - boot server log did not report server ready" unless v
 
       puts "Boot - SuperCollider booted successfully."
       puts "Boot - Connecting to the SuperCollider server..."
