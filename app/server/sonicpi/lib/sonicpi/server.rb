@@ -150,8 +150,12 @@ module SonicPi
     def clear_scsynth!
       info "Clearing scsynth" if @debug_mode
       @CURRENT_NODE_ID.reset!
+      @osc_events.reset!
       clear_schedule
-      group_clear 0, true
+      Kernel.sleep 0.5
+      with_server_sync do
+        group_clear 0, true
+      end
     end
 
     def clear_schedule
