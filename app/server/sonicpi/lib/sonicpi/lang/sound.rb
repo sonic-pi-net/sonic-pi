@@ -212,11 +212,15 @@ module SonicPi
       # End deprecated methods
 
       def reboot
+
+        if @mod_sound_studio.rebooting
+          __info "Already rebooting sound server"
+          return nil
+        end
         @sample_loader.reset!
-        return nil if @mod_sound_studio.rebooting
         __no_kill_block do
           __stop_other_jobs
-          __info "Rebooting sound server"
+
           res = @mod_sound_studio.reboot
 
           if res
