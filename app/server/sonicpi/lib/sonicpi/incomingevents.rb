@@ -91,7 +91,7 @@ module SonicPi
     def rm_handler(handle, key)
       prom = Promise.new
       @event_queue << [:rm, [handle, key, prom]]
-      prom.get
+      prom.get(5)
     end
 
     def reset!
