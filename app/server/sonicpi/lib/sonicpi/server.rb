@@ -135,10 +135,10 @@ module SonicPi
       log "SRV #{s}"
     end
 
-   def request_notifications
-     info "Requesting notifications" if @debug_mode
-     osc @osc_path_notify, 1
-   end
+    def request_notifications
+      info "Requesting notifications" if @debug_mode
+      osc @osc_path_notify, 1
+    end
 
     def load_synthdefs(path)
       info "Loading synthdefs from path: #{path}" if @debug_mode
