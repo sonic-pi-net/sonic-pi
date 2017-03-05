@@ -94,6 +94,11 @@ module SonicPi
       prom.get
     end
 
+    def reset!
+      @event_queue.clear
+      @event_queue << [:reset, []]
+    end
+
     def shutdown
       @event_queue << [:quit, []]
     end
@@ -180,6 +185,9 @@ module SonicPi
         q_sync_rm_handler(*content)
       when :quit
         @continue = false
+      when :reset
+        @event_queue.clear
+        @handlers = {}
       end
     end
   end
