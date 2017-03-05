@@ -215,7 +215,9 @@ module SonicPi
         message "grp n #{'%05d' % id} - Create [#{name}:#{id}] #{position} #{target.inspect}" if @debug_mode
         g.wait_until_started
       else
-        message "nde e      - unable to create a node with position: #{position} and target #{target.inspect}" if @debug_mode
+        m = "unable to create a node with position: #{position} and target #{target.inspect}"
+        message "nde e      - #{m}" if @debug_mode
+        raise m
         nil
       end
     end
