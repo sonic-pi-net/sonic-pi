@@ -88,51 +88,6 @@ module SonicPi
 
     private
 
-    def kill_pid_win(pid)
-      # for some reason SIGINT doesn't seem to work
-      # on Windows, so go straight for the jugular
-      begin
-        Process.kill(9, pid)
-        puts "Killed #{pid}"
-        return true
-      rescue Exception
-        puts "Could not kill #{pid} - perhaps already killed?"
-        return nil
-      end
-    end
-
-    def kill_pid(pid, safe_wait=4)
-      puts "going to kill #{pid}"
-      return kill_pid_win(pid) if os == :windows
-      pid = Integer(pid)
-      begin
-        Process.kill(15, pid)
-        safe_wait.to_i.times do
-          begin
-            alive = Process.waitpid(pid, Process::WNOHANG)
-            unless alive
-              puts "Successfully killed #{pid}"
-              return nil
-            end
-          rescue Exception
-            # process is definitely dead!
-            puts "Error waiting for process #{pid} - assumed already killed"
-            return nil
-          end
-          sleep 1
-        end
-
-        Process.kill(9, pid)
-        puts "Forcibly killed #{pid}"
-      rescue Errno::ECHILD
-        puts "Unable to wait for #{pid} - child process does not exist"
-      rescue Errno::ESRCH
-        puts "Unable to kill #{pid} - process does not exist"
-      end
-
-      return nil
-    end
-
     def boot
       if booted?
         server_log "Server already booted..."
