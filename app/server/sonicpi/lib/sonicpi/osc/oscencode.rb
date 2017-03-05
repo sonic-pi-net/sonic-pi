@@ -46,7 +46,7 @@ module SonicPi
       end
 
       def encode_single_message(address, args=[])
-        args_encoded, tags = "", ","
+        args_encoded, tags = String.new(""), String.new(",")
 
         # inlining this method was not faster surprisingly
         address = get_from_or_add_to_string_cache(address)
