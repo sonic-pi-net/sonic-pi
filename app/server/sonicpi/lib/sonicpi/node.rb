@@ -69,7 +69,7 @@ module SonicPi
       @on_move_callbacks << block
     end
 
-    def wait_until_started
+    def wait_until_started(timeout=nil)
       prom = nil
       @state_change_sem.synchronize do
         if @state != :pending
@@ -82,7 +82,7 @@ module SonicPi
           @on_started_callbacks << cb
         end
       end
-      prom.get
+      prom.get(timeout)
       self
     end
 
