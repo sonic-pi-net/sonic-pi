@@ -15,7 +15,7 @@ associated with the sound of analog synthesisers of the 1960s and 1970s
 but also with the recent renaissance of modular analog synths through
 popular standards such as Eurorack.
 
-Despite this sounding like particularly complicated and advanced
+Despite this sounding like a particularly complicated and advanced
 technique, Sonic Pi makes it surprisingly simple and easy - so let's
 dive right in.
 
@@ -40,7 +40,7 @@ synth :beep, note: :e2, release: 4
 ```
 
 As the `:beep` synth is just a sine wave, you'll hear a much purer tone
-and only at `:e2`and none of the high crispy/buzzy sounds which you
+and only at `:e2` and none of the high crispy/buzzy sounds which you
 heard in the `:saw`. It's this buzziness and variation from a pure sine
 wave that we can play with when we use subtractive synthesis.
 
@@ -86,7 +86,7 @@ quiet.
 # [Low Pass Filter] - breakout box
 
 The low pass filter is such an important part of every subtractive
-synthesis toolkit that it's worth taking a deeper look at how it it
+synthesis toolkit that it's worth taking a deeper look at how it
 works. This diagram shows the same sound wave (the `:prophet` synth)
 with varying amounts of filtering. At the top, section A shows the audio
 wave with no filtering. Notice how the wave form is very pointy and
@@ -122,7 +122,7 @@ with_fx :lpf, cutoff: 50 do |fx|
 end
 ```
 
-Let's take a quick look at what's going on here. Firstly we start a
+Let's take a quick look at what's going on here. Firstly we start an
 `:lpf` FX block as normal with an initial `cutoff:` of a very low
 `20`. However, the first line also finishes with the strange `|fx|` at
 the end. This is an optional part of the `with_fx` syntax which allows
