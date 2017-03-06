@@ -136,7 +136,7 @@ module SonicPi
                            port: "MIDI port to send to",
                            vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity)"},
           accepts_block:  false,
-          doc:            "Sends a MIDI note on message to *all* connected devices on *all* channels. Use the `port:` and `chanel:` opts to restrict which MIDI ports and channels are used.
+          doc:            "Sends a MIDI note on message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -239,7 +239,8 @@ module SonicPi
                            value: "Control value as a MIDI number",
                            val_f: "Control value as a value between 0 and 1 (will be converted to a MIDI velocity)"},
           accepts_block:  false,
-          doc:            "Sends a MIDI control change message to *all* connected devices on *all* channels. Use the `port:` and `chanel:` opts to restrict which MIDI ports and channels are used.
+          doc:            "Sends a MIDI control change message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
+
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -522,7 +523,7 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
                            port: "MIDI port to send to"},
 
           accepts_block:  false,
-          doc:            "Sends a MIDI all notes off message to *all* connected MIDI devices. on *all* channels. Use the `port:` and `chanel:` opts to restrict which MIDI ports and channels are used.
+          doc:            "Sends a MIDI all notes off message to *all* connected MIDI devices. on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
 
 All devices on a given channel will respond both to data received both over MIDI and Played data, etc. See `midi_local_control_off` off to disable local control.
 
