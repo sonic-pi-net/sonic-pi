@@ -188,6 +188,132 @@ module SonicPi
         end
       end
 
+      def get(n, default=nil)
+        ns = n.to_sym
+        if respond_to?(ns)
+          res = send(ns)
+        else
+          res = default
+        end
+        yield(res) if block_given?
+        return res
+      end
+
+      def deflive(n, when_already_live_blk=nil, &blk)
+        ns = ":live_synth:#{n}".to_sym
+        sn = get(ns)
+        if sn.respond_to?(:live?) && sn.live?
+          when_already_live_blk.call(sn) if when_already_live_blk
+          return sn
+        end
+        sn = blk.call
+        define ns do
+          sn
+        end
+        return sn
+      end
+
+      def live_synth(n, sn, args={})
+        unless sn
+          ns = ":live_synth:#{n}".to_sym
+          node = get(ns)
+
+          puts node.inspect
+          if node
+            __info "Stopping live_synth #{n.inspect}"
+            node.kill
+            define ns do
+              nil
+            end
+          else
+            __info "Already stopped live_synth #{n.inspect}"
+          end
+          return nil
+        end
+
+        fx_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
+        tl_tracker = __current_tracker
+        with_debug false do
+          when_already_live_blk = lambda do |s|
+            control s, gate: 1
+            fx_tracker.synth_started(s) if fx_tracker
+            tl_tracker.synth_started(s) if tl_tracker
+          end
+
+          s = deflive n, when_already_live_blk  do
+            synth sn, args
+          end
+
+          control s, args, out_bus: current_out_bus
+          s.move(current_group, :tail, false) do
+            # deregister synth from trackers
+            # next time this node is moved
+            s.on_move do
+              fx_tracker.synth_finished(s) if fx_tracker
+              tl_tracker.synth_finished(s) if tl_tracker
+            end
+          end
+          s
+        end
+      end
+
+      def opts
+        __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[], {}])[1]
+      end
+
+      def args
+        __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[], {}])[0]
+      end
+
+      def defn(*params)
+        args, opts = split_params_and_merge_opts_array(params)
+        define args[0] do |*params|
+          current_args_opts = __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[].freeze, {}.freeze].freeze)
+          args, opts = split_params_and_merge_opts_array(params)
+          __thread_locals.set(:sonic_pi_mod_sound_defn_args_opts, [args.freeze, opts.freeze].freeze)
+          yield args, opts
+          current_args_opts = __thread_locals.set(:sonic_pi_mod_sound_defn_args_opts, current_args_opts)
+        end
+      end
+
+      def live_audio(*params)
+        args, opts = split_params_and_merge_opts_array(params)
+
+        synth_name = if truthy?(opts[:stereo])
+                       :sound_in_stereo
+                     else
+                       :sound_in
+                     end
+        raise "live_audio requires a name" if params.empty?
+        return live_synth params[0], nil if params.size > 1 && params[1] == nil
+        live_synth params[0], synth_name, {input: 1}.merge(opts).merge({sustain: 44100})
+      end
+      doc name:           :live_audio,
+          introduced:     Version.new(2,12,0),
+          summary:        "A named audio stream live from your soundcard",
+          args:           [[]],
+          returns:        :SynthNode,
+        #   opts:           {sound_in_stereo: {doc: "",
+        #   default: true
+        # }},
+          accepts_block:  false,
+          args_size: 0,
+          opts_keys: [:sound_in_stereo],
+          doc:            "Create a named synthesiser which works similar to `play`, `sample` or `synth`. Rather than synthesising the sound mathematically or playing back recorded audio, it streams audio live from your sound card.
+
+However, unlike `play`, `sample` and `synth`, which allow multiple multiple similar synths to play at the same time (i.e. a chord) only one `live_audio` synth of a given name may exist in the system at any one time. This is similar to `live_loop` where only one live loop of each name may exist at any one time. See examples for further information.
+
+An additional difference is that `live_audio` will create an infinitely long synth rather than be timed to an envelope like the standard `synth` and `sample` synths. This is particularly suitable for working with continunous incoming audio streams where the source of the audio is unknown (for example, it may be a guitar, an analog synth or an electronic violin). If the source is continuous, then it may not be suited to being stitched together by successive enveloped calls to something like: `synth :sound_in, attack: 0, sustain: 4, release: 0`. If we were to `live_loop` this with a `sleep 4` to match the sustain duration, we would get something that emulated a continuous stream, but for certain inputs you'll hear clicking at the seams between each successive call to `synth` where the final part of the audio signal from the previous synth doesn't precisely match up with the start of the signal in the next synth due to very minor timing differences.
+
+Another important feature of `live_audio` is that it will automatically move an existing `live_audio` synth into the current FX context. This means you can live code the FX chain around the live stream and it will update automatically. See examples.
+.
+",
+      examples:       [
+        ""
+]
+
+
+
       # Deprecated fns
 
       def current_sample_pack_aliases(*args)
@@ -2510,6 +2636,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
 
 
       def load_sample_at_path(path)
+        raise "yo"
         case path
         when String
           raise "Attempted to load sample with an empty string as path" if path.empty?
@@ -4470,7 +4597,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         purge_nil_vals!(args_h)
         defaults = info ? info.arg_defaults : {}
         if combine_tls
-          t_l_args = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults) || {}
+          ot_l_args = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults) || {}
           t_l_args.each do |k, v|
             args_h[k] = v unless args_h.has_key? k || v.nil?
           end

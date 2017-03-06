@@ -62,7 +62,12 @@ module SonicPi
       return true if @realised
       @prom_mut.synchronize do
         return true if @realised
-        num_frames, num_chans, sample_rate = @prom.get
+        res = @prom.get
+        if res.is_a? Exception
+          raise res
+        else
+          num_frames, num_chans, sample_rate = res
+        end
         @num_frames = num_frames
         @num_chans = num_chans
         @sample_rate = sample_rate

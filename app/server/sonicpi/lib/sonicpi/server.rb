@@ -123,7 +123,6 @@ module SonicPi
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new @scsynth_info[:num_control_busses]
 
       message "info        - Initialising comms... #{msg_queue}" if @debug_mode
-
       clear_scsynth!
     end
 
@@ -344,8 +343,11 @@ module SonicPi
 
     def buffer_alloc_read(path, start=0, n_frames=0)
       buffer_id = @BUFFER_ALLOCATOR.allocate
+      detect_fail = lambda do |args|
+        (args[0] == @osc_path_b_allocread ) && (args[2] == buffer_id)
+      end
       buffer_info(buffer_id) do
-        with_done_sync [@osc_path_b_allocread, buffer_id] do
+        with_done_sync [@osc_path_b_allocread, buffer_id], detect_fail do
           osc @osc_path_b_allocread, buffer_id, path, start, n_frames
         end
       end
@@ -395,7 +397,8 @@ module SonicPi
 
     def buffer_info(id, &blk)
       prom = Promise.new
-      @osc_events.add_handler(@osc_path_b_info, @osc_events.gensym("/sonicpi/server")) do |payload|
+      handle_key = @osc_events.gensym("/sonicpi/server")
+      @osc_events.add_handler(@osc_path_b_info, handle_key) do |payload|
         p = payload.to_a
         if (id == p[0])
           p.shift
@@ -406,8 +409,13 @@ module SonicPi
 
       if blk
         Thread.new do
-          blk.call
-          osc @osc_path_b_query, id
+          res = blk.call
+          if res.is_a? Exception
+            prom.deliver! res
+            @osc_events.rm_handler @osc_path_b_info, handle_key
+          else
+            osc @osc_path_b_query, id
+          end
         end
       else
         osc @osc_path_b_query, id
@@ -415,9 +423,21 @@ module SonicPi
       LazyBuffer.new(self, id, prom)
     end
 
-    def with_done_sync(matchers, &block)
+    def with_done_sync(matchers, detect_fail = nil, &block)
       prom = Promise.new
-      @osc_events.add_handler(@osc_path_done, @osc_events.gensym("/sonicpi/server")) do |pl|
+      handle = @osc_events.gensym("/sonicpi/server")
+      fail_handle = detect_fail ? @osc_events.gensym("/sonicpi/server/fail") : nil
+      if detect_fail
+        @osc_events.add_handler("/fail", fail_handle) do |pl|
+          pla = pl.to_a
+          if detect_fail.call(pla)
+            prom.deliver! Exception.new(pla[1])
+            [:remove_handlers, [handle, fail_handle]]
+          end
+        end
+      end
+
+      @osc_events.add_handler(@osc_path_done, handle) do |pl|
         matched = true
 
         begin
@@ -434,11 +454,16 @@ module SonicPi
         end
         if matched
           prom.deliver! true
-          :remove_handler
+          if fail_handle
+            [:remove_handlers, [handle, fail_handle]]
+          else
+            :remove_handler
+          end
         end
       end
       res = block.yield
-      prom.get(5)
+      pres = prom.get(5)
+      return pres if pres.is_a? Exception
       res
     end
 
