@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-02 01:02+0000\n"
+"PO-Revision-Date: 2017-03-07 01:55+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.12-dev\n"
+"X-Generator: Weblate 2.12\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -8478,7 +8478,6 @@ msgstr ""
 "ée ou utiliser les \"ticks\" pour autre chose que l'indexation des anneaux."
 
 #: 09.4-Ticking.md:70
-#, fuzzy
 msgid "Look"
 msgstr "Fonction Look"
 
@@ -8504,7 +8503,6 @@ msgstr ""
 "."
 
 #: 09.4-Ticking.md:81
-#, fuzzy
 msgid "Naming Ticks"
 msgstr "Nommage des Ticks"
 
@@ -8549,7 +8547,6 @@ msgstr ""
 "ître leur valeur, nous devons aussi passer le nom du \"tick\" à `look`."
 
 #: 09.4-Ticking.md:101
-#, fuzzy
 msgid "Don't make it too complicated"
 msgstr "Ne faites pas de choses trop compliquées"
 
@@ -8568,63 +8565,56 @@ msgstr ""
 "_loop`s."
 
 #: 09.4-Ticking.md:108
-#, fuzzy
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful exampl"
 "es and happy ticking!"
 msgstr ""
-"Jetez un œil sur la documentation des `tick`s où se trouvent de nombreux exemp"
-"les utiles, et joyeux parcours automatiques !"
+"Jetez un œil à la documentation des `tick`s où se trouvent de nombreux "
+"exemples utiles, et joyeux parcours automatiques !"
 
 #: 10-Essential-Knowledge.md:1
-#, fuzzy
 msgid "10 Essential Knowledge"
 msgstr "10 Connaissances essentielles"
 
 #: 10-Essential-Knowledge.md:3
-#, fuzzy
 msgid "Essential Knowledge"
 msgstr "Connaissances essentielles"
 
 #: 10-Essential-Knowledge.md:5
-#, fuzzy
 msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge for"
 " getting the most out of your Sonic Pi experience."
 msgstr ""
-"Cette section va couvrir des connaissances très utiles - en vérité *essentiell"
-"es* - pour obtenir le meilleur de votre expérimentation de Sonic Pi."
+"Cette section va couvrir des connaissances très utiles - en vérité "
+"*essentielles* - pour obtenir le meilleur de votre expérience de Sonic Pi."
 
 #: 10-Essential-Knowledge.md:8
-#, fuzzy
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
-"Nous couvrirons comment prendre avantage des nombreux raccourcis clavier mis à"
-" votre disposition, comment partager votre travail et quelques trucs sur l'int"
-"erprétation musicale avec Sonic Pi."
+"Nous couvrirons comment prendre avantage des nombreux raccourcis clavier mis "
+"à votre disposition, comment partager votre travail et quelques trucs sur "
+"l'interprétation musicale avec Sonic Pi."
 
 #: 10.1-Using-Shortcuts.md:1
-#, fuzzy
 msgid "10.1 Using Shortcuts"
 msgstr "10.1 Utilisation des raccourcis"
 
 #: 10.1-Using-Shortcuts.md:3
-#, fuzzy
 msgid "Using Shortcuts"
-msgstr "Utilisation des raccourcis clavier"
+msgstr "Utilisation des raccourcis"
 
 #: 10.1-Using-Shortcuts.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi is as much an instrument as a coding environment. Shortcuts can there"
 "fore make playing Sonic Pi much more *efficient and natural* - especially when"
 " you're playing live in front of an audience."
 msgstr ""
-"Sonic Pi est plus un instrument qu'un environnement de programmation. Les racc"
-"ourcis peuvent cependant rendre votre jeu avec Sonic Pi plus *efficace et natu"
-"rel* - particulièrement quand vous jouez en \"live\" devant un auditoire."
+"Sonic Pi est tout autant un instrument qu'un environnement de programmation. "
+"Les raccourcis peuvent cependant rendre votre jeu avec Sonic Pi plus *"
+"efficace et naturel* - particulièrement quand vous jouez en direct devant un "
+"auditoire."
 
 #: 10.1-Using-Shortcuts.md:9
 #, fuzzy
@@ -8645,26 +8635,24 @@ msgstr ""
 "ourcis très régulièrement."
 
 #: 10.1-Using-Shortcuts.md:16
-#, fuzzy
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
 "tively and you'll be live coding like a pro in no time."
 msgstr ""
-"Par conséquent, si vous apprenez les raccourcis, vous saurez utiliser efficace"
-"ment votre clavier et vous coderez en \"live\" comme un pro."
+"Par conséquent, si vous apprenez les raccourcis, vous saurez utiliser "
+"efficacement votre clavier et vous coderez en direct comme un pro en peu de "
+"temps."
 
 #: 10.1-Using-Shortcuts.md:19
-#, fuzzy
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the one"
 "s you use most and then keep adding more to your practice."
 msgstr ""
-"Toutefois, *n'essayez pas de les apprendre tous à la fois*, essayez et souvene"
-"z-vous simplement de ceux que vous utilisez le plus et continuez à en ajouter "
-"en supplément à votre pratique."
+"Toutefois, *n'essayez pas de les apprendre tous à la fois*, essayez et "
+"souvenez-vous simplement de ceux que vous utilisez le plus et continuez à en "
+"ajouter en supplément à votre pratique."
 
 #: 10.1-Using-Shortcuts.md:22
-#, fuzzy
 msgid "Consistency across Platforms"
 msgstr "Compatibilité entre plateformes"
 
@@ -8725,7 +8713,6 @@ msgstr ""
 "aire correspondre à la touche appropriée sur votre système d'exploitation."
 
 #: 10.1-Using-Shortcuts.md:46
-#, fuzzy
 msgid "Abbreviations"
 msgstr "Abréviations"
 
@@ -8744,14 +8731,12 @@ msgstr ""
 "emps que\"."
 
 #: 10.1-Using-Shortcuts.md:53
-#, fuzzy
 msgid "The following are some of the shortcuts I find most useful."
-msgstr "Voici ci-dessous les raccourcis que j'estime les plus utiles :"
+msgstr "Voici ci-dessous les raccourcis que j'estime les plus utiles."
 
 #: 10.1-Using-Shortcuts.md:55
-#, fuzzy
 msgid "Stopping and starting"
-msgstr "Arrêt et Départ"
+msgstr "Arrêter et démarrer"
 
 #: 10.1-Using-Shortcuts.md:57
 #, fuzzy
