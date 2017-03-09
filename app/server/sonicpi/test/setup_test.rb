@@ -1,5 +1,6 @@
 require_relative "../../core"
 require_relative "../lib/sonicpi/runtime"
+require_relative "../lib/sonicpi/state"
 require_relative "../lib/sonicpi/lang/core"
 require 'minitest/autorun'
 
@@ -33,6 +34,9 @@ module SonicPi
       __system_thread_locals.set :sonic_pi_spider_beat, 0
       __system_thread_locals.set :sonic_pi_spider_job_id, 1
       __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
+
+      @state = State.new
+      @state.set :sched_ahead_time, 0, 0.5
     end
 
     def __schedule_delayed_blocks_and_messages!(*args)

@@ -31,7 +31,7 @@ module SonicPi
 
     attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta, :scsynth_info
 
-    def initialize(port, send_port, msg_queue)
+    def initialize(port, send_port, msg_queue, state)
       # Cache common OSC path strings as frozen instance
       # vars to reduce object creation cost and GC load
       @osc_path_quit        = "/quit".freeze
@@ -57,9 +57,8 @@ module SonicPi
       @osc_path_b_close     = "/b_close".freeze
       @osc_path_b_info      = "/b_info".freeze
       @osc_path_b_query     = "/b_query".freeze
-
+      @state = state
       @OSC_SEM = Mutex.new
-      @sched_ahead_time = default_sched_ahead_time
       @MSG_QUEUE = msg_queue
       @control_delta = default_control_delta
 
@@ -265,7 +264,7 @@ module SonicPi
         osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
       else
         t = __system_thread_locals.get(:sonic_pi_spider_time) || Time.now
-        ts =  t + @sched_ahead_time
+        ts =  t + sched_ahead_time
         ts = ts - @control_delta if t_minus_delta
         osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
       end
@@ -279,9 +278,9 @@ module SonicPi
         thread_local_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
         d = thread_local_deltas[node_id] ||= @control_delta
         thread_local_deltas[node_id] += @control_delta
-        thread_local_time + d + @sched_ahead_time
+        thread_local_time + d + sched_ahead_time
       else
-        Time.now + @sched_ahead_time
+        Time.now + sched_ahead_time
       end
     end
 
@@ -562,6 +561,16 @@ module SonicPi
     def shutdown
       @scsynth.shutdown
       @osc_events.shutdown
+    end
+
+    def sched_ahead_time
+      sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
+      return sat if sat
+
+      t = __system_thread_locals.get(:sonic_pi_spider_time, Time.now)
+      res = @state.get(:sched_ahead_time, t)
+      raise "sched_ahead_time, can't get time. Is this a Sonic Pi thread? " unless res
+      return res
     end
 
   end

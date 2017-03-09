@@ -122,7 +122,7 @@ module SonicPi
             @JOB_MIXERS_MUTEX = Mutex.new
             @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
             @JOB_BUSSES_MUTEX = Mutex.new
-            @mod_sound_studio = Studio.new(ports, msg_queue)
+            @mod_sound_studio = Studio.new(ports, msg_queue, @state)
 
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
@@ -770,20 +770,6 @@ control s, note: 82                    # immediately start sliding note.
 
 
 
-
-      def set_sched_ahead_time!(t)
-        @mod_sound_studio.sched_ahead_time = t
-        __info "Schedule ahead time set to #{t}"
-      end
-      doc name:          :set_sched_ahead_time!,
-          introduced:    Version.new(2,0,0),
-          summary:       "Set sched ahead time globally",
-          doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding.",
-          args:          [[:time, :number]],
-          opts:          nil,
-          modifies_env: true,
-          accepts_block: false,
-          examples:      ["set_sched_ahead_time! 1 # Code will now run approximately 1 second ahead of audio."]
 
 
 
@@ -2267,21 +2253,7 @@ puts current_sample_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
 
 
 
-      def current_sched_ahead_time
-        @mod_sound_studio.sched_ahead_time
-      end
-      doc name:          :current_sched_ahead_time,
-          introduced:    Version.new(2,0,0),
-          summary:       "Get current sched ahead time",
-          doc:           "Returns the current schedule ahead time.
 
-This can be set via the fn `set_sched_ahead_time!`.",
-          args:          [],
-          opts:          nil,
-          accepts_block: false,
-          examples:      ["
-set_sched_ahead_time! 0.5
-puts current_sched_ahead_time # Prints 0.5"]
 
 
 
@@ -4663,7 +4635,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         # negative values mean we're ahead of time
         # positive values mean we're behind time
         vt  = __system_thread_locals.get :sonic_pi_spider_time
-        sat = @mod_sound_studio.sched_ahead_time
+        sat = current_sched_ahead_time
         compensated = (Time.now - sat)
         compensated - vt
       end

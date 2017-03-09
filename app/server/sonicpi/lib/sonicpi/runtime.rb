@@ -26,6 +26,7 @@ require_relative "version"
 require_relative "config/settings"
 require_relative "preparser"
 require_relative "spsym"
+require_relative "state"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -221,6 +222,11 @@ module SonicPi
       __enqueue_multi_message(2, s)
     end
 
+    def __current_sched_ahead_time
+      t = __system_thread_locals.get(:sonic_pi_spider_time)
+      __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) || @state.get(:sched_ahead_time, __system_thread_locals.get(:sonic_pi_spider_time))
+    end
+
     def __schedule_delayed_blocks_and_messages!
       delayed_messages = __system_thread_locals.get :sonic_pi_local_spider_delayed_messages
       delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks) || []
@@ -237,7 +243,7 @@ module SonicPi
 
             # Calculate the amount of time to sleep to sync us up with the
             # sched_ahead_time
-            sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
+            sched_ahead_sync_t = last_vt + __current_sched_ahead_time
             sleep_time = sched_ahead_sync_t - Time.now
             Kernel.sleep(sleep_time) if sleep_time > 0
             #We're now in sync with the sched_ahead time
@@ -312,10 +318,6 @@ module SonicPi
 
     def __current_local_run_time
       __system_thread_locals.get(:sonic_pi_spider_time) - __system_thread_locals.get(:sonic_pi_spider_start_time)
-    end
-
-    def __current_sched_at_time
-      __system_thread_locals.get(:sonic_pi_spider_time) + @mod_sound_studio.sched_ahead_time
     end
 
     def __current_thread_name
@@ -801,7 +803,7 @@ module SonicPi
         @life_hooks.exit(id, {:start_t => start_t})
         deregister_job_and_return_subthreads(id)
         @user_jobs.job_completed(id)
-        Kernel.sleep @mod_sound_studio.sched_ahead_time
+        Kernel.sleep default_sched_ahead_time
         __info "Completed run #{id}" unless silent
         unless @user_jobs.any_jobs_running?
           __info "All runs completed" unless silent
@@ -1030,6 +1032,10 @@ module SonicPi
       @osc_router_port = 8014
       @log_cues = true
       @log_cues_file = File.open(osc_cues_log_path, 'a')
+
+      @state = State.new
+      @state.set :sched_ahead_time, 0, default_sched_ahead_time
+
       # TODO Add support for TCP
       @osc_server = SonicPi::OSC::UDPServer.new(ports[:osc_cues_port], open: true) do |address, args|
         @events.async_event("/spider_thread_sync/#{address}", {

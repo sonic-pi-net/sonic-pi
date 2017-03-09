@@ -22,6 +22,7 @@ require 'active_support/inflector'
 
 module SonicPi
   module Lang
+
     module Core
 
       include SonicPi::Lang::Support::DocSystem
@@ -159,7 +160,7 @@ end"
       end
 
       def osc_send(host, port, path, *args)
-        t = __system_thread_locals.get(:sonic_pi_spider_time) + __current_sched_ahead_time
+        t = __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
         @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
         #__delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
       end
@@ -382,7 +383,7 @@ end"
         density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
         orig_sleep_mul_w_density = __thread_locals.get(:sonic_pi_spider_sleep_mul) * density
         orig_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
-        sat = __current_sched_ahead_time
+        sat = current_sched_ahead_time
 
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
 
@@ -3205,10 +3206,50 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
   puts bt(1) # 2
 "]
 
-
-      def __current_sched_ahead_time
-        @mod_sound_studio.sched_ahead_time
+      def set_sched_ahead_time!(t)
+        @state.set(:sched_ahead_time, __system_thread_locals.get(:sonic_pi_spider_time), t)
+        __info "Schedule ahead time set to #{t}"
       end
+      doc name:          :set_sched_ahead_time!,
+          introduced:    Version.new(2,0,0),
+          summary:       "Set sched ahead time globally",
+          doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding.",
+          args:          [[:time, :number]],
+          opts:          nil,
+          modifies_env: true,
+          accepts_block: false,
+          examples:      ["set_sched_ahead_time! 1 # Code will now run approximately 1 second ahead of audio."]
+
+
+
+      def use_sched_ahead_time t
+        __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, t)
+      end
+
+      def with_sched_ahead_time t, &blk
+        raise "with_sched_ahead_time must be called with a do/end block. Perhaps you meant use_sched_ahead_time" unless blk
+        current_sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
+        use_osc(host, port)
+        res = blk.call
+        __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, t)
+        res
+      end
+
+      def current_sched_ahead_time
+        __current_sched_ahead_time
+      end
+      doc name:          :current_sched_ahead_time,
+          introduced:    Version.new(2,0,0),
+          summary:       "Get current sched ahead time",
+          doc:           "Returns the current schedule ahead time.
+
+This can be set via the fn `set_sched_ahead_time!`.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+set_sched_ahead_time! 0.5
+puts current_sched_ahead_time # Prints 0.5"]
 
       def sleep(beats)
         # Schedule messages
@@ -3228,8 +3269,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         # Calculate the new virtual time
         new_vt = last_vt + sleep_time
 
-        # TODO: remove this, api shouldn't need to know about sound module
-        sat = __current_sched_ahead_time
+        sat = current_sched_ahead_time
         now = Time.now
         if now - (sat + 0.5) > new_vt
           raise "Timing Exception: thread got too far behind time"
