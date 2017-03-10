@@ -28,7 +28,8 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(ports, msg_queue)
+    def initialize(ports, msg_queue, state)
+      @state = state
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
       @osc_cues_port = ports[:osc_cues_port]
@@ -44,21 +45,26 @@ module SonicPi
       @paused = false
       @cached_buffer_dir = Dir.mktmpdir
 
-
-      init_studio
-      init_midi
+      init_scsynth
       reset_server
+      init_studio
+      init_or_reset_midi
     end
 
-    def init_midi
-      message "Initialising MIDI"
-      kill_and_deregister_process @o2m_pid if @o2m_pid
-      kill_and_deregister_process @m2o_pid if @m2o_pid
+    def init_or_reset_midi
+      if @o2m_pid || @m2o_pid
+        message "Resetting MIDI"
+        kill_and_deregister_process @o2m_pid if @o2m_pid
+        kill_and_deregister_process @m2o_pid if @m2o_pid
+      else
+        message "Initialising MIDI"
+      end
 
       begin
         @m2o_pid = spawn("'#{osmid_m2o_path}'" + " -o #{@osc_cues_port} -m", out: osmid_m2o_log_path, err: osmid_m2o_log_path)
         register_process(@m2o_pid)
       rescue Exception => e
+        message "Error initialising MIDI inputs"
         STDERR.puts "Exception when starting osmid m2o"
         STDERR.puts e.message
         STDERR.puts e.backtrace.inspect
@@ -69,6 +75,7 @@ module SonicPi
         @o2m_pid = spawn("'#{osmid_o2m_path}'" + " -i #{@osc_midi_port} -O #{@osc_cues_port} -m", out: osmid_o2m_log_path, err: osmid_o2m_log_path)
         register_process(@o2m_pid)
       rescue Exception => e
+        message "Error initialising MIDI outputs"
         STDERR.puts "Exception when starting osmid o2m"
         STDERR.puts e.message
         STDERR.puts e.backtrace.inspect
@@ -76,25 +83,28 @@ module SonicPi
       end
     end
 
-    def init_studio
-      @amp = [0.0, 1.0]
+    def init_scsynth
+      @server = Server.new(@scsynth_port, @scsynth_send_port, @msg_queue, @state)
+    end
 
-      server = Server.new(@scsynth_port, @scsynth_send_port, @msg_queue)
-      server.load_synthdefs(synthdef_path)
-      server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
+    def init_studio
+      @server.load_synthdefs(synthdef_path)
+      @amp = [0.0, 1.0]
+      @server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]
       end
+
 
       old_synthdefs = @loaded_synthdefs
       @loaded_synthdefs = Set.new
 
       (old_synthdefs || []).each do |s|
         message "Reloading synthdefs in #{unify_tilde_dir(s)}"
-        internal_load_synthdefs(s, server)
+        internal_load_synthdefs(s, @server)
       end
 
       # load rand stream directly - ensuring it doesn't get considered as a 'sample'
-      rand_buf = server.buffer_alloc_read(buffers_path + "/rand-stream.wav")
+      rand_buf = @server.buffer_alloc_read(buffers_path + "/rand-stream.wav")
 
       @sample_sem.synchronize do
         @buffers = {}
@@ -108,14 +118,14 @@ module SonicPi
         Thread.current.priority = -10
         (old_samples || {}).each do |k, v|
           message "Reloading sample - #{unify_tilde_dir(k)}"
-          internal_load_sample(k, server)
+          internal_load_sample(k, @server)
         end
       end
 
 
       @recorders = {}
       @recording_mutex = Mutex.new
-      @server = server
+
       rand_buf.wait_for_allocation
       @rand_buf_id = rand_buf.to_i
     end
@@ -311,14 +321,6 @@ module SonicPi
       @server.allocate_audio_bus
     end
 
-    def sched_ahead_time
-      @server.sched_ahead_time
-    end
-
-    def sched_ahead_time=(t)
-      @server.sched_ahead_time = t
-    end
-
     def control_delta
       @server.control_delta
     end
@@ -403,11 +405,36 @@ module SonicPi
       @reboot_mutex.synchronize do
         @rebooting = true
         message "Rebooting SuperCollider audio server. Please wait..."
-        @server.shutdown
-        init_studio
-        init_midi
-        reset_server
-        message "SuperCollider audio server ready."
+#        @server.shutdown
+        message "init_midi"
+        begin
+          init_or_reset_midi
+        rescue Exception => e
+          message "Error initialising MIDI"
+          message e.message
+          message e.backtrace.inspect
+          message e.backtrace
+        end
+
+        begin
+          reset_server
+        rescue Exception => e
+          message "Error resetting server"
+          message e.message
+          message e.backtrace.inspect
+          message e.backtrace
+        end
+
+        begin
+          init_studio
+        rescue Exception => e
+          message "Error initialising Studio"
+          message e.message
+          message e.backtrace.inspect
+          message e.backtrace
+        end
+
+        message "SuperCollider audio studio ready."
         @rebooting = false
         true
       end
@@ -417,7 +444,7 @@ module SonicPi
       @recording_mutex.synchronize do
         unless recording? || @paused
           @server.node_pause(0, true)
-          message "Pausing SuperCollider audio server" unless silent
+          message "Pausing SuperCollider audio studio" unless silent
         end
         @paused = true
       end
@@ -427,7 +454,7 @@ module SonicPi
       @recording_mutex.synchronize do
         if @paused
           @server.node_run(0, true)
-          message "Resuming SuperCollider audio server"
+          message "Resuming SuperCollider audio studio"
         end
         @paused = false
       end
@@ -451,8 +478,13 @@ module SonicPi
 
 
     def reset_and_setup_groups_and_busses
+      log "Studio - clearing scsynth"
       @server.clear_scsynth!
+
+      log "Studio - allocating audio bus"
       @mixer_bus = @server.allocate_audio_bus
+
+      log "Studio - Create Base Synth Groups"
       @mixer_group = @server.create_group(:head, 0, "STUDIO-MIXER")
       @fx_group = @server.create_group(:before, @mixer_group, "STUDIO-FX")
       @synth_group = @server.create_group(:before, @fx_group, "STUDIO-SYNTHS")
@@ -460,6 +492,7 @@ module SonicPi
     end
 
     def reset_server
+      message "Resetting SuperCollider audio server"
       reset_and_setup_groups_and_busses
       start_mixer
       start_scope
@@ -470,11 +503,13 @@ module SonicPi
       # TODO create a way of swapping these on the fly:
       # set_mixer! :basic
       # set_mixer! :default
+      log "Starting mixer"
       mixer_synth = raspberry_pi_1? ? "sonic-pi-basic_mixer" : "sonic-pi-mixer"
       @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i}, nil, true)
     end
 
     def start_scope
+      log "Starting scope"
       scope_synth = "sonic-pi-scope"
       @scope = @server.trigger_synth(:head, @monitor_group, scope_synth, { "max_frames" => 1024 })
     end
