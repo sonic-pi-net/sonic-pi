@@ -109,40 +109,65 @@ module SonicPi
           return nil
         end
 
-        n = normalise_transpose_and_tune_note_from_args(n, opts)
+        on_val = opts.fetch(:on, 1)
 
-        channels = __resolve_midi_channels(opts)
-        ports    = __resolve_midi_ports(opts)
-        vel      = __resolve_midi_velocity(vel, opts)
-        n        = n.round.min(0).max(127)
-        chan     = pp_el_or_list(channels)
-        port     = pp_el_or_list(ports)
+        if truthy?(on_val)
+          n = normalise_transpose_and_tune_note_from_args(n, opts)
 
-        ports.each do |p|
-          channels.each do |c|
-            __midi_send_timed_pc("/note_on", p, c, [n, vel])
+          channels = __resolve_midi_channels(opts)
+          ports    = __resolve_midi_ports(opts)
+          vel      = __resolve_midi_velocity(vel, opts)
+          n        = n.round.min(0).max(127)
+          chan     = pp_el_or_list(channels)
+          port     = pp_el_or_list(ports)
+
+          ports.each do |p|
+            channels.each do |c|
+              __midi_send_timed_pc("/note_on", p, c, [n, vel])
+            end
           end
+          __delayed_message "midi_note_on #{n}, #{vel}, channel: #{chan}, port: #{port}"
+        else
+          __delayed_message "midi_note_on :rest, on: 0"
         end
-        __delayed_message "midi_note_on #{n}, #{vel}, channel: #{chan}, port: #{port}"
         nil
       end
       doc name:           :midi_note_on,
           introduced:     Version.new(2,12,0),
           summary:        "Send MIDI note on message",
           args:           [[:note, :midi], [:velocity, :midi]],
+          alt_args:       [[[:note, :midi]]],
           returns:        :nil,
           opts:           {
-                           channel: "Channel to send to",
-                           port: "MIDI port to send to",
-                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity)"},
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block:  false,
-          doc:            "Sends a MIDI note on message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
+          doc:            "Sends a MIDI Note On Event to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to indepently restrict which MIDI ports and channels are used.
+
+Note and velocity values can be passed as a note symbol such as `:e3` or a MIDI number such as 52. Decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3. These values will also be clipped within the range 0->127 so all values lower than 0 will be increased to 0 and all values greater than 127 will be reduced to 127.
+
+The `velocity` param may be omitted - in which case it will default to 127 unless you supply it as an opt via the keys `value:` or `val_f:`.
+
+You may also optionally pass the velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be linearly mapped to MIDI values between 0 and 127) using the val_f: opt.
+
+MIDI 1.0 Specification - Channel Voice Messages - 1001nnnn - Note on event
+https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
-          examples:       [
+      examples:       [
+        "midi_note_on :e3  #=> Sends MIDI note on :e3 with the default velocity of 12 to all ports and channels",
         "midi_note_on :e3, 12  #=> Sends MIDI note on :e3 with velocity 12 to all channels",
         "midi_note_on :e3, 12, channel: 3  #=> Sends MIDI note on :e3 with velocity 12 on channel 3",
-        "midi_note_on :e3, vel_f: 0.8 #=> Sends MIDI note on for :e1 with velocity 102"]
+        "midi_note_on :e3, velocity: 100 #=> Sends MIDI note on for :e3 with velocity 100",
+        "midi_note_on :e3, vel_f: 0.8 #=> Scales velocity 0.8 to MIDI value 102 and sends MIDI note on for :e3 with velocity 102",
+        "midi_note_on 60.3, 50.5 #=> Rounds params up or down to the nearest whole number and sends MIDI note on for note 60 with velocity 51",
+        "midi_note_on :e3, channel: [1, 3, 5] #=> Send MIDI note :e3 on to channels 1, 3, 5 on all connected ports",
+        "midi_note_on :e3, port: [\"foo\", \"bar\"] #=> Send MIDI note :e3 on to on all channels on ports named \"foo\" and \"bar\"",
+        "midi_note_on :e3, channel: 1, port: \"foo\" #=> Send MIDI note :e3 on only on channel 1 on port \"foo\""
+      ]
 
 
 
@@ -160,7 +185,7 @@ module SonicPi
 
         on_val = opts.fetch(:on, 1)
 
-        on on_val do
+        if truthy?(on_val)
           channels = __resolve_midi_channels(opts)
           ports    = __resolve_midi_ports(opts)
           vel      = __resolve_midi_velocity(vel, opts)
@@ -174,6 +199,8 @@ module SonicPi
             end
           end
           __delayed_message "midi_note_off #{n}, #{vel}, port: #{port}, channel: #{chan}"
+        else
+          __delayed_message "midi_note_off :rest, on: 0"
         end
         nil
       end
@@ -181,21 +208,38 @@ module SonicPi
           introduced:     Version.new(2,12,0),
           summary:        "Send MIDI note off message",
           args:           [[:note, :midi], [:release_velocity, :midi]],
+          alt_args:       [[[:note, :midi]]],
           returns:        :nil,
           opts:           {
-                           channel: "Channel to send to",
-                           port: "MIDI port to send to",
-                           velicity: "Release velocity as a MIDI number",
-                           vel_f: "Release velocity as a value between 0 and 1 (will be converted to a MIDI velocity)"},
+                           channel: "MIDI channel(s) to send event on as a number or list of numbers.",
+                           port: "MIDI port(s) to send to as a string or list of strings.",
+                           velocity: "Release velocity as a MIDI number.",
+                           vel_f: "Release velocity as a value between 0 and 1 (will be converted to a MIDI velocity)",
+                           on: "If specified and false/nil/0 will stop the midi note off message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_off` regardless of value)."},
           accepts_block:  false,
           doc:            "Sends the MIDI note off message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
 
+Note and release velocity values can be passed as a note symbol such as :e3 or a number. Decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3. These values will also be clipped within the range 0->127 so all values lower then 0 will be increased to 0 and all values greater than 127 will be reduced to 127.
+
+The `release_velocity` param may be omitted - in which case it will default to 127 unless you supply it as a named opt via the keys `velocity:` or `vel_f:`.
+
+You may also optionally pass the release velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `vel_f:` opt.
+
+MIDI 1.0 Specification - Channel Voice Messages - 1000nnnn - Note off event
+https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
-          examples:       [
-          "midi_note_off :e3, 12  #=> Sends MIDI note off on :e3 with velocity 12 on all channels",
-          "midi_note_off :e3, 12, channel: 3  #=> Sends MIDI note off on :e3 with velocity 12 to channel 3",
-          "midi_note_off :e3, vel_f: 0.8 #=> Sends MIDI note off for :e1 with velocity 102"
-]
+      examples:       [
+        "midi_note_off :e3 #=> Sends MIDI note off for :e3 with the default release velocity of 127 to all ports and channels",
+        "midi_note_off :e3, 12  #=> Sends MIDI note off on :e3 with velocity 12 on all channels",
+        "midi_note_off :e3, 12, channel: 3  #=> Sends MIDI note off on :e3 with velocity 12 to channel 3",
+        "midi_note_off :e3, velocity: 100 #=> Sends MIDI note on for :e3 with release velocity 100",
+        "midi_note_off :e3, vel_f: 0.8 #=> Scales release velocity 0.8 to MIDI value 102 and sends MIDI note off for :e3 with release velocity 102",
+        "midi_note_off 60.3, 50.5 #=> Rounds params up or down to the nearest whole number and sends MIDI note off for note 60 with velocity 51",
+        "midi_note_off :e3, channel: [1, 3, 5] #=> Send MIDI note off on :e3 to channels 1, 3, 5 on all connected ports",
+        "midi_note_off :e3, port: [\"foo\", \"bar\"] #=> Send MIDI note off on :e3 to on all channels on ports named \"foo\" and \"bar\"",
+        "midi_note_off :e3, channel: 1, port: \"foo\" #=> Send MIDI note off on :e3 only on channel 1 on port \"foo\""
+      ]
 
 
 
@@ -211,7 +255,7 @@ module SonicPi
 
         on_val = opts.fetch(:on, 1)
 
-        on on_val do
+        if truthy?(on_val)
           channels    = __resolve_midi_channels(opts)
           ports       = __resolve_midi_ports(opts)
           val         = __resolve_midi_val(val, opts)
@@ -225,6 +269,8 @@ module SonicPi
             end
           end
           __delayed_message "midi_cc #{control_num}, #{val}, port: #{port}, channel: #{chan}"
+        else
+          __delayed_message "midi_cc :rest, on: 0"
         end
         nil
       end
@@ -236,11 +282,15 @@ module SonicPi
           opts:           {
                            channel: "Channel to send to",
                            port: "MIDI port to send to",
-                           value: "Control value as a MIDI number",
-                           val_f: "Control value as a value between 0 and 1 (will be converted to a MIDI velocity)"},
+                           value: "Control value as a MIDI number.",
+                           val_f: "Control value as a value between 0 and 1 (will be converted to a MIDI velocity)",
+                           on: "If specified and false/nil/0 will stop the midi cc message from being sent out. (Ensures all opts are evaluated in this call to `midi_cc` regardless of value)."},
           accepts_block:  false,
           doc:            "Sends a MIDI control change message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
 
+Control number and control value can be passed as a note such as :e3 and decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3.
+
+You may also optionally pass the control value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the val_f: opt.
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -253,23 +303,34 @@ module SonicPi
 
 
 
-      def midi_raw(a, b, c, opts={})
-        ports = __resolve_midi_ports(opts)
-        ports.each do |p|
-          __midi_send_timed("/#{p}/raw", a.to_i, b.to_i, c.to_i)
+      def midi_raw(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        a, b, c = params
+        ports   = __resolve_midi_ports(opts)
+        on_val  = opts.fetch(:on, 1)
+
+        if truthy?(on_val)
+          ports.each do |p|
+            __midi_send_timed("/#{p}/raw", a.to_i, b.to_i, c.to_i)
+          end
+          port = pp_el_or_list(ports)
+          __delayed_message "midi_raw #{a}, #{b}, #{c}, port: #{port}"
+          nil
+
+        else
+          __delayed_message "midi_raw #{a}, #{b}, #{c}, on: 0"
         end
-        port = pp_el_or_list(ports)
-        __delayed_message "midi_raw #{a}, #{b}, #{c}, port: #{port}"
-        nil
       end
       doc name:           :midi_raw,
           introduced:     Version.new(2,12,0),
           summary:        "Send raw MIDI message",
           args:           [[], ],
           returns:        :nil,
-          opts:           {port: "Port or ports to send the MIDI message to"},
+          opts:           {port: "Port or ports to send the raw MIDI message to"},
           accepts_block:  false,
-          doc:            "Sends the raw MIDI message to *all* connected MIDI devices. Gives you direct access to the bytes of a MIDI message. Typically this should be rarely used - prefer the other `midi_` fns where possible.
+          doc:            "Sends the raw MIDI message to *all* connected MIDI devices. Gives you direct access to the individual bytes of a MIDI message. Typically this should be rarely used - prefer the other `midi_` fns where possible.
+
+
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -790,7 +851,9 @@ If `note` is specified as `:off` then all notes will be turned off (same as `mid
 ]
 
 
-
+      def midi_reset!
+        @mod_sound_studio.reset_midi!
+      end
 
       def __resolve_midi_channels(opts)
         channels = (opts[:channel] || opts[:chan] || current_midi_channels)
@@ -816,8 +879,16 @@ If `note` is specified as `:off` then all notes will be turned off (same as `mid
         end
       end
 
-      def __resolve_midi_velocity(vel, opts)
-        if vel = vel || opts[:velocity] || opts[:vel]
+      def __resolve_midi_note(n, opts={})
+        if n = n || opts[:note]
+          return note(n).round.min(0).max(127)
+        else
+          return 60
+        end
+      end
+
+      def __resolve_midi_velocity(vel, opts={})
+        if vel = opts[:velocity] || opts[:vel] || vel
           return note(vel).round.min(0).max(127)
         elsif vel = opts[:velocity_f] || opts[:vel_f]
           return (note(vel).to_f * 127).round.min(0).max(127)
@@ -826,8 +897,8 @@ If `note` is specified as `:off` then all notes will be turned off (same as `mid
         end
       end
 
-      def __resolve_midi_val(val, opts)
-        if val = val || opts[:value] || opts[:val]
+      def __resolve_midi_val(val, opts={})
+        if val = opts[:value] || opts[:val] || val
           val = note(val).round.min(0).max(127)
         elsif val = opts[:value_f] || opts[:val_f]
           val = (note(val).to_f * 127).round.min(0).max(127)
