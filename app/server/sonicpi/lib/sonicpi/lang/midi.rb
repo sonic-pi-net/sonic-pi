@@ -153,8 +153,7 @@ The `velocity` param may be omitted - in which case it will default to 127 unles
 
 You may also optionally pass the velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be linearly mapped to MIDI values between 0 and 127) using the vel_f: opt.
 
-MIDI 1.0 Specification - Channel Voice Messages - Note on event
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Voice Messages - Note on event](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
       examples:       [
@@ -225,8 +224,7 @@ The `release_velocity` param may be omitted - in which case it will default to 1
 
 You may also optionally pass the release velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `vel_f:` opt.
 
-MIDI 1.0 Specification - Channel Voice Messages - Note off event
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Voice Messages - Note off event](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
       examples:       [
@@ -292,8 +290,7 @@ Control number and control value can be passed as a note such as `:e3` and decim
 
 You may also optionally pass the control value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
 
-MIDI 1.0 Specification - Channel Voice Messages - Control change
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Voice Messages - Control change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -390,8 +387,7 @@ See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for
 
 All oscillators will turn off, and their volume envelopes are set to zero as soon as possible.
 
-MIDI 1.0 Specification - Channel Mode Messages - All Sound Off
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Mode Messages - All Sound Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -440,8 +436,7 @@ https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 All controller values are reset to their defaults.
 
-MIDI 1.0 Specification - Channel Mode Messages - Reset All Controllers
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Mode Messages - Reset All Controllers](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
       examples:       [
@@ -488,8 +483,7 @@ https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 All devices on a given channel will respond only to data received over MIDI. Played data, etc. will be ignored. See `midi_local_control_on` to enable local control.
 
-MIDI 1.0 Specification - Channel Mode Messages - Local Control Off
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Mode Messages - Local Control Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -536,8 +530,7 @@ https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 All devices on a given channel will respond both to data received over MIDI and played data, etc. See `midi_local_control_off` to disable local control.
 
-MIDI 1.0 Specification - Channel Mode Messages - Local Control On
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Mode Messages - Local Control On](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -632,8 +625,7 @@ Valid modes are:
 
 Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
-MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off | Omni Mode On | Mono Mode On (Poly Off) | Poly Mode On
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off | Omni Mode On | Mono Mode On (Poly Off) | Poly Mode On](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -681,8 +673,7 @@ https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 When an All Notes Off event is received, all oscillators will turn off.
 
-MIDI 1.0 Specification - Channel Mode Messages - All Notes Off
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - Channel Mode Messages - All Notes Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -723,8 +714,7 @@ https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 Typical MIDI devices expect the clock to send 24 ticks per quarter note (typically a beat). See `midi_clock_beat` for a simple way of sending all the ticks for a given beat.
 
-MIDI 1.0 Specification - System Real-Time Messages - Timing Clock
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - System Real-Time Messages - Timing Clock](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -762,8 +752,7 @@ https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 Start the current sequence playing. (This message should be followed with calls to `midi_clock_tick` or `midi_clock_beat`).
 
-MIDI 1.0 Specification - System Real-Time Messages - Start
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -801,8 +790,7 @@ https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 Stops the current sequence.
 
-MIDI 1.0 Specification - System Real-Time Messages - Start
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
@@ -840,8 +828,7 @@ https://www.midi.org/specifications/item/table-1-summary-of-midi-message
 
 Upon receiving the MIDI continue event, the MIDI device(s) will continue at the point the sequence was stopped.
 
-MIDI 1.0 Specification - System Real-Time Messages - Continue
-https://www.midi.org/specifications/item/table-1-summary-of-midi-message
+[MIDI 1.0 Specification - System Real-Time Messages - Continue](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
 *THIS IS ALPHA!* Expect this fn to completely change before final release",
           examples:       [
