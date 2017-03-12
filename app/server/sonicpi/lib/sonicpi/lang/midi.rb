@@ -149,7 +149,7 @@ module SonicPi
 
 Note and velocity values can be passed as a note symbol such as `:e3` or a MIDI number such as 52. Decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3. These values will also be clipped within the range 0->127 so all values lower than 0 will be increased to 0 and all values greater than 127 will be reduced to 127.
 
-The `velocity` param may be omitted - in which case it will default to 127 unless you supply it as an opt via the keys `value:` or `val_f:`.
+The `velocity` param may be omitted - in which case it will default to 127 unless you supply it as an opt via the keys `velocity:` or `vel_f:`.
 
 You may also optionally pass the velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be linearly mapped to MIDI values between 0 and 127) using the val_f: opt.
 
