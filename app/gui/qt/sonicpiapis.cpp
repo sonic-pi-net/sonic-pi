@@ -38,7 +38,7 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
 
   keywords[Tuning] << ":just" << ":pythagorean" << ":meantone" << ":equal";
 
-  keywords[MidiParam] << ":sustain" << ":velocity" << ":vel" << ":velocity_f" << ":vel_f" << ":port" << ":channel";
+  keywords[MidiParam] << "sustain:" << "velocity:" << "vel:" << "velocity_f:" << "vel_f:" << "port:" << "channel:";
 }
 
 
