@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-13 08:41+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-03-17 01:55+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -8440,16 +8440,14 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:53
-#, fuzzy
 msgid "Tick"
 msgstr "Fonction Tick"
 
 #: 09.4-Ticking.md:55
-#, fuzzy
 msgid "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr ""
-"Vous pouvez également appeler `tick` comme une fonction standard et utiliser s"
-"a valeur de retour comme un index :"
+"Vous pouvez également appeler `tick` comme une fonction standard et utiliser "
+"sa valeur de retour comme un index :"
 
 #: 09.4-Ticking.md:57
 #, no-wrap
@@ -8467,15 +8465,15 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:65
-#, fuzzy
 msgid ""
 "However, it is much nicer to call `.tick` at the end. The `tick` fn is for whe"
 "n you want to do fancy things with the tick value and for when you want to use"
 " ticks for other things than indexing into rings."
 msgstr ""
-"Cependant, c'est plus joli d'appeler `.tick` à la fin. La fonction `.tick` est"
-" faite pour les cas où vous voulez faire des fantaisies avec la valeur retourn"
-"ée ou utiliser les \"ticks\" pour autre chose que l'indexation des anneaux."
+"Cependant, c'est plus joli d'appeler `.tick` à la fin. La fonction `.tick` "
+"est faite pour les cas où vous voulez faire des fantaisies avec la valeur "
+"retournée ou utiliser les \"ticks\" pour autre chose que l'indexation des "
+"anneaux."
 
 #: 09.4-Ticking.md:70
 msgid "Look"
@@ -8507,13 +8505,12 @@ msgid "Naming Ticks"
 msgstr "Nommage des Ticks"
 
 #: 09.4-Ticking.md:83
-#, fuzzy
 msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is achie"
 "ved by giving your tick a name:"
 msgstr ""
-"Finalement, vous avez quelquefois besoin de plus d'un \"tick\" par boucle live. "
-"C'est réalisé en donnant un nom à vos \"ticks\":"
+"Finalement, vous avez quelques fois besoin de plus d'un \"tick\" par boucle "
+"en direct. C'est réalisé en donnant un nom à vos \"ticks\" :"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
@@ -8551,18 +8548,17 @@ msgid "Don't make it too complicated"
 msgstr "Ne faites pas de choses trop compliquées"
 
 #: 09.4-Ticking.md:103
-#, fuzzy
 msgid ""
 "Most of the power in the tick system isn't useful when you get started. Don't "
 "try and learn everything in this section. Just focus on ticking through a sing"
 "le ring. That'll give you most of the joy and simplicity of ticking through ri"
 "ngs in your `live_loop`s."
 msgstr ""
-"La plupart de la puissance du système des \"ticks\" n'est pas utile quand vous d"
-"ébutez. N'essayez pas et n'apprenez pas tout de cette section. Concentrez-vous"
-" seulement sur le parcours d'un simple anneau. Cela vous procurera la plus gra"
-"nde part de la joie et de la simplicité du parcours des anneaux dans vos `live"
-"_loop`s."
+"La plupart de la puissance du système des \"ticks\" n'est pas utile quand "
+"vous débutez. N'essayez pas et n'apprenez pas tout dans cette section. "
+"Concentrez-vous seulement sur le parcours d'un simple anneau. Cela vous "
+"procurera la plus grande part de la joie et de la simplicité du parcours des "
+"anneaux dans vos `live_loop`s."
 
 #: 09.4-Ticking.md:108
 msgid ""
@@ -8617,7 +8613,6 @@ msgstr ""
 "auditoire."
 
 #: 10.1-Using-Shortcuts.md:9
-#, fuzzy
 msgid ""
 "Much of Sonic Pi can be controlled through the keyboard. As you gain more fami"
 "liarity working and performing with Sonic Pi, you'll likely start using the sh"
@@ -8626,13 +8621,13 @@ msgid ""
 "s it slows me down. I therefore use all of these shortcuts on a very regular b"
 "asis!"
 msgstr ""
-"La plus grande part de Sonic Pi peut être contrôlée au moyen du clavier. Au fu"
-"r et à mesure que vous deviendrez plus familier dans la pratique et l'interpré"
-"tation avec Sonic Pi, vous commencerez probablement à utiliser de plus en plus"
-" de raccourcis. *Personnellement, je tape sans regarder le clavier* (je recomm"
-"ande que vous appreniez à le faire aussi) et je me sens frustré quand j'ai bes"
-"oin d'attraper la souris parce que ça me retarde. J'utilise donc tous ces racc"
-"ourcis très régulièrement."
+"La plus grande part de Sonic Pi peut être contrôlée au moyen du clavier. Au "
+"fur et à mesure que vous deviendrez plus familier dans la pratique et "
+"l'interprétation avec Sonic Pi, vous commencerez probablement à utiliser de "
+"plus en plus de raccourcis. *Personnellement, je tape sans regarder le "
+"clavier* (je recommande que vous appreniez à le faire aussi) et je me sens "
+"frustré quand j'ai besoin d'attraper la souris parce que ça me retarde. "
+"J'utilise donc tous ces raccourcis très régulièrement !"
 
 #: 10.1-Using-Shortcuts.md:16
 msgid ""
@@ -8657,17 +8652,16 @@ msgid "Consistency across Platforms"
 msgstr "Compatibilité entre plateformes"
 
 #: 10.1-Using-Shortcuts.md:24
-#, fuzzy
 msgid ""
 "Imagine you're learning the clarinet. You'd expect all clarinets of all makes "
 "to have similar controls and fingerings. If they didn't, you'd have a tough ti"
 "me switching between different clarinets and you'd be stuck to using just one "
 "make."
 msgstr ""
-"Imaginez que vous appreniez la clarinette. Vous vous attendriez à ce que toute"
-"s les clarinettes aient les mêmes contrôles et le même doigté. Si elles ne l'a"
-"vaient pas, vous passeriez un moment pénible à basculer entre différentes clar"
-"inettes et vous seriez enclin à rester toujours avec la même."
+"Imaginez que vous appreniez la clarinette. Vous vous attendriez à ce que "
+"toutes les clarinettes aient les mêmes contrôles et le même doigté. Si elles "
+"ne l'avaient pas, vous passeriez un moment pénible à basculer entre "
+"différentes clarinettes et vous seriez pris à rester toujours avec la même."
 
 #: 10.1-Using-Shortcuts.md:29
 #, fuzzy
