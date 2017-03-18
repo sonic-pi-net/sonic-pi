@@ -44,6 +44,7 @@ contributions which have supported the Sonic Pi Community:
 
 * [Paul Winstanley](https://twitter.com/SCCMentor)
 * [Robin Newman](https://twitter.com/rbnman)
+* [Dago Sondervan](https://twitter.com/sondervan1)
 
 
 ## Core Team
