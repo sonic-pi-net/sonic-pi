@@ -5,8 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-10-20 19:19+0000\n"
-"Last-Translator: Alexandre Karpinski Manikowski <alexandre.karpinski.m@gmail."
-"com>\n"
+"Last-Translator: João Medeiros <medeiros.joaquim@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/pt/>\n"
 "Language: pt\n"
@@ -3259,8 +3258,8 @@ msgid ""
 "r code. For example, we know we can only play the piano sample with code that'"
 "s in 120 BPM and in the key of Bb."
 msgstr ""
-"Note que há boas informações nos nomes dos arquivos. Primeiro, BPM (batidas po"
-"r minuto)"
+"Note que há boas informações nos nomes dos arquivos. Primeiro, BPM (batidas "
+"por minuto)"
 
 #: 03.7-Sample-Packs.md:102
 msgid ""
@@ -3288,8 +3287,8 @@ msgid ""
 "This will play us the first match. If we want the second match we just need to"
 " use the index:"
 msgstr ""
-"Isso tocará o primeiro resultado encontrado. Se quisermos o segundo, basta usa"
-"r o índice:"
+"Isso tocará o primeiro resultado encontrado. Se quisermos o segundo, basta "
+"usar o índice:"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -3322,7 +3321,8 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:129
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
-msgstr "Finalmente, podemos usar nossas próprias definições para chamar o 'sample':"
+msgstr ""
+"Finalmente, podemos usar nossas próprias definições para chamar o 'sample':"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -3399,10 +3399,10 @@ msgid ""
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
-"Aqui estamos combinando os samples encontrados em dois diretórios e adicionand"
-"o um sample específico. Se  `\"/path/to/my/samples/\"` contém 3 samples e `\"/pat"
-"h/to/my/samples2/\"`  contém 12, temos 16 samples possíveis para indexar e filt"
-"rar ( 3+ 12 + 1)."
+"Aqui estamos combinando os samples encontrados em dois diretórios e "
+"adicionando um sample específico. Se  `\"/path/to/my/samples/\"` contém 3 "
+"samples e `\"/path/to/my/samples2/\"`  contém 12, temos 16 samples possíveis "
+"para indexar e filtrar ( 3+ 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -3432,9 +3432,9 @@ msgid ""
 "ong time. However, the contents of all folder sources are cached, so the delay"
 " will only happen the first time."
 msgstr ""
-"Cuidado ao buscar em uma pasta com muitos subdiretórios porque poderá levar mu"
-"ito tempo.  Porém, os conteúdos serão guardados para utilização posterior e a "
-"demora acontecerá apenas na primeira vez."
+"Cuidado ao buscar em uma pasta com muitos subdiretórios porque poderá levar "
+"muito tempo.  Porém, os conteúdos serão guardados para utilização posterior "
+"e a demora acontecerá apenas na primeira vez."
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
