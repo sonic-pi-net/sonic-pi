@@ -30,9 +30,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>Inverter stereo.
-Se estiver activado, o audio da coluna esquerda
-será ouvido na coluna do lado direito e vice versa.</translation>
+        <translation type="unfinished">Toggle stereo inversion.
+If enabled, audio sent to the left speaker will
+be routed to the right speaker and visa versa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"/>
@@ -41,11 +41,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Activar/desactiva o modo mono.
-Se activado o canal direito e esquerdo são misturados e
+        <translation>Ativar/desactiva o modo mono.
+Se ativado o canal direito e esquerdo são misturados e
 o mesmo sinal é enviado para ambas as colunas.
-Útil quando nos encontramos a trabalhar com sistemas externos que
-apenas conseguem lidar com mono</translation>
+Útil quando trabalhamos com sistemas externos que
+apenas suportam mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
