@@ -50,7 +50,7 @@ apenas suportam mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation>Output de Áudio do Raspberry Pi</translation>
+        <translation>Saída de Áudio do Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"/>
@@ -60,7 +60,7 @@ apenas suportam mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>&amp;Headphones</source>
-        <translation>&amp;Auscultadores</translation>
+        <translation>&amp;Fones de ouvido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="938"/>
@@ -78,8 +78,8 @@ apenas suportam mono.</translation>
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Activar/desactivar mensagens de log.
-Se desactivado, a actividade do sintetizador e do disparar de samples
-não será imprimida no terminal por pré-definição</translation>
+Se desativado, atividades como a do sintetizador e dos samples
+não serão impressas no terminal por pré-definição.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"/>
@@ -89,20 +89,20 @@ não será imprimida no terminal por pré-definição</translation>
     <message>
         <location filename="../mainwindow.cpp" line="967"/>
         <source>Clear log on run</source>
-        <translation>Apagar o log e correr</translation>
+        <translation>Limpar o log ao tocar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Activar/Desactivar o apagar o log apagando aquando do processo de inicialização da rotina de áudio.
-Se activado, o log é apagado a cada vez que o Butão run for premido</translation>
+        <translation>Ativar/Desativar limpeza de log.
+Se ativado, o log será limpo cada vez que o botão run for pressionado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>Toggle line number visibility.</source>
-        <translation>Inverter visibilidade de número de linha.</translation>
+        <translation>Ativar visibilidade do número de linha.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"/>
@@ -113,7 +113,7 @@ Se activado, o log é apagado a cada vez que o Butão run for premido</translati
         <location filename="../mainwindow.cpp" line="1449"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>A correr o código...</translation>
+        <translation>Rodando código...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1512"/>
@@ -125,19 +125,19 @@ Se activado, o log é apagado a cada vez que o Butão run for premido</translati
         <location filename="../mainwindow.cpp" line="1532"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>A recarregar...</translation>
+        <translation>Recarregando...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1563"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>A activar o filtro passa alto na mesa de mistura</translation>
+        <translation>Ativando High Pass Filter...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1572"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>a desactivar o filtro passa alto na mesa de mistura</translation>
+        <translation>Desativando High Pass Filder...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
@@ -147,23 +147,23 @@ Se activado, o log é apagado a cada vez que o Butão run for premido</translati
     <message>
         <location filename="../mainwindow.cpp" line="235"/>
         <source>Welcome to Sonic Pi</source>
-        <translation>Benvindo ao Sonic Pi</translation>
+        <translation>Bem-vindo ao Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="709"/>
         <source>Indenting selection...</source>
-        <translation>A identar a selecção...</translation>
+        <translation>Identando a seleção...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"/>
         <source>Indenting line...</source>
-        <translation>A identar a linha...</translation>
+        <translation>Identando a linha...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="913"/>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation>Usa o slider para mudar o volume do sistema do seu Raspberry Pi.</translation>
+        <translation>Use o slider para mudar o volume do sistema do seu Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
@@ -171,7 +171,7 @@ Se activado, o log é apagado a cada vez que o Butão run for premido</translati
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
         <translation>Definições de áudio avançadas para trabalhar com
-sistemas de PA externos quando se encontrar a tocar com o Sonic Pi.</translation>
+sistemas de PA externos quando se apresentar com o Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"/>
@@ -875,7 +875,7 @@ Obter o Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Não é possível ler o ficheiro %1:
+        <translation>Não é possível escrever o arquivo %1:
 %2.</translation>
     </message>
     <message>
