@@ -30,9 +30,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished">Toggle stereo inversion.
-If enabled, audio sent to the left speaker will
-be routed to the right speaker and visa versa.</translation>
+        <translation>Inverter estéreo
+Se ativado, o áudio enviado para a coluna esquerda
+será redirecionado para a coluna direita e vice versa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"/>
