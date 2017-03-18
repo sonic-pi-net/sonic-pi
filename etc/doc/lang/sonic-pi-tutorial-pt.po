@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-01-29 18:46+0000\n"
-"Last-Translator: Pedro Fernandes <a_pedro_fernandes@yahoo.com>\n"
+"PO-Revision-Date: 2017-03-18 19:07+0000\n"
+"Last-Translator: João Medeiros <medeiros.joaquim@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
 "Language: pt\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 2.12\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3158,6 +3158,10 @@ msgid ""
 "ise our samples. Luckily many sample packs add useful information in the filen"
 "ames. Let's take another look at the sample file names in our directory:"
 msgstr ""
+"Geralmente indexar é o suficiente, mas algumas vezes precisamos de mais "
+"capacidade para organizar os samples. No entanto, muitos pacotes de samples "
+"contém informações úteis nos nomes dos arquivos. Vamos dar uma olhada nos "
+"nomes dos arquivos de sample em nosso diretório."
 
 #: 03.7-Sample-Packs.md:93
 msgid ""
@@ -3169,6 +3173,8 @@ msgid ""
 "r code. For example, we know we can only play the piano sample with code that'"
 "s in 120 BPM and in the key of Bb."
 msgstr ""
+"Note que há boas informações nos nomes dos arquivos. Primeiro, BPM (batidas "
+"por minuto)"
 
 #: 03.7-Sample-Packs.md:102
 msgid ""
@@ -3177,6 +3183,10 @@ msgid ""
 "working at 120 BPM, we can filter down to all the samples that contain the str"
 "ing `\"120\"` with the following:"
 msgstr ""
+"Podemos usar essa convenção de nomeclatura apresentada nos exemplos para "
+"ajudar a filtrar o que queremos. Por exemplo, se estamos trabalhando em 120 "
+"BPM, podemos filtrar todos os exemplos que contenham '\"120'\" da seguinte "
+"maneira:"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
@@ -3192,6 +3202,8 @@ msgid ""
 "This will play us the first match. If we want the second match we just need to"
 " use the index:"
 msgstr ""
+"Isso tocará o primeiro resultado encontrado. Se quisermos o segundo, basta "
+"usar o índice:"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -3208,6 +3220,9 @@ msgid ""
 "ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
 "t easily with the following code:"
 msgstr ""
+"Podemos usar vários filtros ao mesmo tempo. Se quisermos um exemplo em que o "
+"nome do arquivo contenha tanto \"120\" como \"A#\",  podemos usar o seguinte "
+"código:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3221,6 +3236,7 @@ msgstr ""
 #: 03.7-Sample-Packs.md:129
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
 msgstr ""
+"Finalmente, podemos usar nossas próprias definições para chamar o 'sample':"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -3233,7 +3249,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:136
 msgid "Sources"
-msgstr ""
+msgstr "Código"
 
 #: 03.7-Sample-Packs.md:138
 msgid ""
@@ -3241,14 +3257,21 @@ msgid ""
 " and filters. Sources are information used to create the list of potential can"
 "didates. A source can take two forms:"
 msgstr ""
+"O filtro pre-arg aceita dois tipos de informação: código e filtros. Códigos "
+"são informações usadas para criar uma lista de resultados em potencial. Um "
+"código pode ter duas formas:"
 
 #: 03.7-Sample-Packs.md:142
 msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
 msgstr ""
+"\"/path/to/samples\" - um comando representando um caminho válido para um "
+"diretório"
 
 #: 03.7-Sample-Packs.md:143
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
+"\"/path/to/samples/foo.wav\" - um comando representando um caminho válido "
+"para um sample"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -3257,10 +3280,15 @@ msgid ""
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
+"`sample` fn  primeiro reunirá todos os códigos e os usará para criar uma "
+"grande lista de resultados possíveis. A lista é construída primeiro "
+"adicionando todos os caminhos de diretório válidos e depois todos os "
+"arquivos `.flac`, `.aif`, `.aiff`, `.wav`, `.wave`  encontrados nos "
+"diretórios."
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "Por exemplo, dê uma olhada no seguinte código:"
 
 #: 03.7-Sample-Packs.md:152
 #, no-wrap
@@ -3282,6 +3310,10 @@ msgid ""
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
+"Aqui estamos combinando os samples encontrados em dois diretórios e "
+"adicionando um sample específico. Se  `\"/path/to/my/samples/\"` contém 3 "
+"samples e `\"/path/to/my/samples2/\"`  contém 12, temos 16 samples possíveis "
+"para indexar e filtrar ( 3+ 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -3291,6 +3323,10 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
+"Por padrão, apenas os arquivos de sample dentro de um diretório são colhidos "
+"para a lista de resultados possíveis. Algumas vezes você pode querer "
+"pesquisar e filtrar em subdiretórios. Para isso, use a busca recursiva "
+"adicionando '**' ao final do diretório raiz."
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -3307,6 +3343,9 @@ msgid ""
 "ong time. However, the contents of all folder sources are cached, so the delay"
 " will only happen the first time."
 msgstr ""
+"Cuidado ao buscar em uma pasta com muitos subdiretórios porque poderá levar "
+"muito tempo.  Porém, os conteúdos serão guardados para utilização posterior "
+"e a demora acontecerá apenas na primeira vez."
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
