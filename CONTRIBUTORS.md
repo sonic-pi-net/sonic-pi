@@ -281,7 +281,7 @@ projects:
 * James McCartney - [SuperCollider](http://supercollider.github.io)
 * Jeff Rose - [Overtone](http://overtone.github.com)
 * Linda Liukas - [Hello Ruby](http://www.helloruby.com/)
-* Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](ruby-lang.org)
+* Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](http://www.ruby-lang.org)
 * Rich Hickey - [Clojure](http://clojure.org)
 * Seymour Papert - [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language))
 * The Scratch Team - [Scratch](https://scratch.mit.edu)
