@@ -698,6 +698,16 @@ module SonicPi
       #__error(Exception.new(output.join("\n")))
     end
 
+    def __set_default_system_thread_locals!
+      __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
+      __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+      __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
+      __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
+      __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
+      __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
+      __system_thread_locals.set :sonic_pi_spider_thread, true
+    end
+
     def __set_default_user_thread_locals!
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
       __thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
@@ -714,26 +724,19 @@ module SonicPi
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
       start_t_prom = Promise.new
       info[:workspace] = 'eval' unless info[:workspace]
+
       info[:workspace].freeze
       info.freeze
       job = Thread.new do
         Thread.current.priority = 20
         begin
-
-
           num_running_jobs = reg_job(id, Thread.current)
           __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
-
-          __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-          __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
-          __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
           __system_thread_locals.set :sonic_pi_spider_job_id, id
           __system_thread_locals.set :sonic_pi_spider_silent, silent
-
           __system_thread_locals.set :sonic_pi_spider_job_info, info
-          __system_thread_locals.set :sonic_pi_spider_thread, true
+
+          __set_default_system_thread_locals!
           __set_default_user_thread_locals!
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
