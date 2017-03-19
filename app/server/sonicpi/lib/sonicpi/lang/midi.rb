@@ -3,7 +3,7 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2016, 2017 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
 # Permission is granted for use, copying, modification, and
@@ -1011,7 +1011,7 @@ end"
 
 
       def midi_reset!
-        @mod_sound_studio.reset_midi!
+        @mod_sound_studio.init_or_reset_midi
       end
 
       def __resolve_midi_channels(opts)
