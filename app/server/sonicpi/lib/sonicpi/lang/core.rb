@@ -3910,6 +3910,30 @@ It is possible to delay the initial trigger of the thread on creation with both 
   play 80                   # Note 80 is played at time 0
   "    ]
 
+      def assert_inherited(arg, klass=Object)
+        unless arg.is_a?(klass)
+          raise AssertionError, "Assert inherited failed! #{arg.inspect} is not a descendent of #{klass}"
+        end
+        arg
+      end
+
+      def assert_error(klass=Exception, &blk)
+        raised_exception = nil
+        begin
+          blk.call
+        rescue klass => e
+          return nil
+        rescue Exception => e
+          raised_exception = e.class
+        end
+
+        if raised_exception
+          raise AssertionError, "Assert error failed! #{klass.inspect} not raised by running do/end block, instead block raised #{raised_exception.inspect}"
+        else
+          raise AssertionError, "Assert error failed! No errors raised by running do/end block"
+        end
+      end
+
 
       def assert(arg, msg=nil)
         unless arg
