@@ -3786,20 +3786,22 @@ puts current_sched_ahead_time # Prints 0.5"]
             end
           rescue Exception => e
             __schedule_delayed_blocks_and_messages!
+            job_subthread_rm(job_id, Thread.current)
             if name
               __error e, "Thread death +--> #{name.inspect}"
             else
               __error e, "Thread death!"
             end
+            raise e
+          else
 
+            # Wait for any trackers by blocking on all promises until
+            # All have been delivered
+            __current_tracker.get
+
+            # Disassociate thread with job as it has now finished
+            job_subthread_rm(job_id, Thread.current)
           end
-
-          # Wait for any trackers by blocking on all promises until
-          # All have been delivered
-          __current_tracker.get
-
-          # Disassociate thread with job as it has now finished
-          job_subthread_rm(job_id, Thread.current)
         end
 
         # Whilst we know that the new thread is waiting on the promise to
