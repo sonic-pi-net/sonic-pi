@@ -31,48 +31,48 @@ module SonicPi
 
     def test_sample_with_various_args
       @lang.expects(:trigger_sampler).with("/foo/bar.wav",  {})
-      @lang.instance_eval do
+      @lang.run do
         sample :loop_amen
       end
 
       @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2})
-      @lang.instance_eval do
+      @lang.run do
         sample :loop_amen, rate: 2
       end
 
       @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2})
-      @lang.instance_eval do
+      @lang.run do
         sample lambda { :loop_amen }, rate: 2
       end
 
       #Single hash
       @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2})
-      @lang.instance_eval do
+      @lang.run do
         sample path: :loop_amen, rate: 2
       end
 
       # Hash and args
       @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2})
-      @lang.instance_eval do
+      @lang.run do
         sample({path: :loop_amen}, {rate: 2})
       end
 
       # Rates are not handled in a call to sample but are punted to trigger_sample
       @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 0})
-      @lang.instance_eval do
+      @lang.run do
         sample path: :loop_amen, rate: 0
       end
 
       # Rates are not handled in a call to sample but are punted to trigger_sample
       l = lambda{ 1 }
       @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: l})
-      @lang.instance_eval do
+      @lang.run do
         sample path: :loop_amen, rate: l
       end
 
       # Onsets are not handled in a call to sample but are punted to trigger_sample
       @lang.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2, onset: 0})
-      @lang.instance_eval do
+      @lang.run do
         sample path: :loop_amen, rate: 2, onset: 0
       end
     end

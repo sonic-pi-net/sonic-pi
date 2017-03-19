@@ -37,7 +37,7 @@ module SonicPi
     end
 
     def test_duration_of_samples
-      @lang.instance_eval do
+      @lang.run do
         assert_equal 8, sample_duration(:foo)
         assert_equal 16, sample_duration(:foo, rate: 0.5)
         assert_equal 16, sample_duration(:foo, rate: 0.5)

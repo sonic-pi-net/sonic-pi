@@ -23,7 +23,7 @@ module SonicPi
     end
 
     def test_basic_sleep
-      @lang.instance_eval do
+      @lang.run  do
         sleep 2
         assert_equal(__current_local_run_time, 2.0)
         sleep 1
@@ -32,7 +32,7 @@ module SonicPi
     end
 
     def test_bpm_scaled_sleep
-      @lang.instance_eval do
+      @lang.run do
         use_bpm 120
 
         sleep 2

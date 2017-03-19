@@ -17,26 +17,27 @@ require 'mocha/setup'
 
 module SonicPi
   class SonicPiTimeWarpTest < MiniTest::Test
+    class TestError < StandardError ; end
 
     def setup
       @lang = SonicPi::MockLang.new
     end
 
     def test_no_warp
-      @lang.instance_eval do
+      @lang.run do
         assert_equal(vt, 0)
-        sleep 0.5
-        assert_equal(vt, 0.5)
+        sleep 0.1
+        assert_equal(vt, 0.1)
         time_warp do
           use_synth(:saw)
-          assert_equal(vt, 0.5)
+          assert_equal(vt, 0.1)
         end
         assert_equal(:saw, current_synth)
       end
     end
 
     def test_no_warp_again
-      @lang.instance_eval do
+      @lang.run do
         assert_equal(vt, 0)
         sleep(-0.1)
         assert_equal(vt, -0.1)
@@ -49,7 +50,7 @@ module SonicPi
     end
 
     def test_warp
-      @lang.instance_eval do
+      @lang.run do
         assert_equal(vt, 0)
         sleep(-0.1)
         assert_equal(vt, -0.1)
@@ -62,7 +63,7 @@ module SonicPi
     end
 
     def test_multi_warp
-      @lang.instance_eval do
+      @lang.run do
         assert_equal(vt, 0)
         sleep(-0.1)
         assert_equal(vt, -0.1)
@@ -82,6 +83,16 @@ module SonicPi
           end
         end
         assert_equal(:tri, current_synth)
+      end
+    end
+
+    def test_exception_handling
+      @lang.run do
+        assert_error TestError do
+          time_warp 0.1 do
+            raise TestError
+          end
+        end
       end
     end
   end
