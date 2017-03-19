@@ -406,6 +406,7 @@ end"
         sat = current_sched_ahead_time
         already_in_time_warp = __system_thread_locals.get :sonic_pi_spider_in_time_warp
 
+        __system_thread_locals.set_local(:sonic_pi_spider_time_warp_start, vt_orig) unless  already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
 
         times.each_with_index do |delta, idx|
