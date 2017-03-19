@@ -398,14 +398,13 @@ end"
 
         raise "params needs to be a list-like thing" unless params.respond_to? :[]
         raise "times needs to be a list-like thing" unless times.respond_to? :each_with_index
-        prev_tw_val = __system_thread_locals.get :sonic_pi_spider_in_time_warp
-
 
         vt_orig = __system_thread_locals.get :sonic_pi_spider_time
         density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
         orig_sleep_mul_w_density = __thread_locals.get(:sonic_pi_spider_sleep_mul) * density
         orig_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
         sat = current_sched_ahead_time
+        already_in_time_warp = __system_thread_locals.get :sonic_pi_spider_in_time_warp
 
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
 
@@ -439,7 +438,7 @@ end"
 
         __system_thread_locals.set :sonic_pi_spider_time, vt_orig
         __system_thread_locals.set :sonic_pi_spider_beat, orig_beat
-        __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, prev_tw_val
+        __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
       end
       doc name:           :time_warp,
           introduced:     Version.new(2,11,0),
