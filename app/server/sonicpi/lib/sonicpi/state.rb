@@ -10,41 +10,53 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require_relative "util"
 
 module SonicPi
   class State
-    def initialize(memory_time = 10)
+
+    include SonicPi::Util
+
+    def initialize(opts={})
       # memory_time is in seconds
-      @memory_time = memory_time * 1000
-      reset!
+      @memory_time = (opts.fetch :memory_time, 10) * 1000
+      @multi_write = opts.fetch :multi_write, true
       @state_mut = Mutex.new
+      reset!
     end
 
     def get(k, t, default=nil)
       t = t.to_f
-      wait_for_threads!(t)
+      wait_for_threads!(t) if @multi_write
       vals = nil
       @state_mut.synchronize do
-        vals = @state[k]
+        vals = @state.fetch(k, [])
       end
+
       res = default
       vals.each do |tv|
         # if this time/val pair has a timestamp
         # after t, then it's not for us - return
         # last seen val
-        return res if tv[0] > t
+       return res if tv[0] > t
         res = tv[1]
       end
+
       return res
     end
 
     def set(k, t, v, current_time = Time.now)
-      t = t.to_f
-      current_time = current_time.to_f
       @state_mut.synchronize do
-        tvals = @state[k]
+        t = t.to_f
+        current_time = current_time.to_f
+        tvals = @state.fetch(k, [])
         tvals.push [t, v]
-        tvals.sort! {|a, b| a[0] <=> b[0]}
+
+        # ensure list is sorted if in multi_write mode
+        # if not, we can assume it is always sorted as there
+        # will only ever be one producer writing in events
+        # with its own single timeline
+        tvals.sort! {|a, b| a[0] <=> b[0]} if @multi_write
 
         # remove values which are older than @memory_time seconds ago
 
@@ -55,10 +67,11 @@ module SonicPi
         tvals.shift(idx) if idx
         @state[k] = tvals
       end
+      nil
     end
 
     def reset!
-      @state = Hash.new([])
+      @state = {}
     end
 
     def to_s
@@ -73,7 +86,8 @@ module SonicPi
     private
 
     def wait_for_threads!(t)
-      # implement me!
+      # implement me properly!
+      Kernel.sleep(0.01)
     end
   end
 end

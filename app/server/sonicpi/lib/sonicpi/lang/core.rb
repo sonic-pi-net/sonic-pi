@@ -29,8 +29,30 @@ module SonicPi
       include SonicPi::Util
 
       class AssertionError < StandardError ; end
+      class TimingError < StandardError ; end
 
       THREAD_RAND_SEED_MAX = 10e20
+
+      def set(k, v)
+        t = __system_thread_locals.get(:sonic_pi_spider_time)
+        @state.set k, t, v
+        v
+      end
+
+      def get(k, default=nil)
+        # If we've time_warped into the future raise a timing exception
+        if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
+          if __system_thread_locals.get(:sonic_pi_spider_time_warp_start) < __system_thread_locals.get(:sonic_pi_spider_time)
+            raise TimingError, "Sadly, you may not time_warp into the future to call get, then bring the result back in time to now."
+          end
+        end
+
+        #
+
+        t = __system_thread_locals.get(:sonic_pi_spider_time)
+        r = @state.get k, t, default
+        r
+      end
 
       def run_file(path)
         path = File.expand_path(path.to_s)
