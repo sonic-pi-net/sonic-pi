@@ -24,24 +24,18 @@ module SonicPi
 
     def test_get_with_no_set
       @lang.instance_eval do
-
-
-        clear
         assert_equal nil, get(:foodbarbaz)
       end
     end
 
     def test_get_defaults
       @lang.run do
-
-
         assert_equal :bar, get(:foo, :bar)
       end
     end
 
     def test_basic_set
       @lang.run do
-        clear
         set(:foo, 1)
         get(:foo)
         assert_equal 1, get(:foo, 999)
@@ -80,7 +74,6 @@ module SonicPi
 
     def test_time_warp_future_setting_further
       @lang.run do
-        clear
         assert_equal nil, get(:intensity)
 
         10.times do
@@ -99,14 +92,12 @@ module SonicPi
           assert_equal get(:intensity), 100
           sleep 0.005
           assert_equal get(:intensity), 900
-
         end
       end
     end
 
     def test_get_inside_future_time_warp_throws_an_error
       @lang.run do
-        clear
         time_warp 0.1 do
           set(:amp, 0.7)
           assert_error SonicPi::Lang::Core::TimingError do
@@ -118,7 +109,6 @@ module SonicPi
 
     def test_get_inside_past_time_warp
       @lang.run do
-        clear
         sleep 0.05
         assert_equal get(:amp, :default), :default
         set :amp, 0.4
@@ -135,11 +125,50 @@ module SonicPi
     end
 
     def test_multi_sets
-      @lang.instance_eval do
-        clear
+      @lang.run do
         set(:foo, :bar)
         set(:foo, :baz)
         assert_equal :baz, get(:foo, :default)
+      end
+        end
+
+    def test_osc_sync_no_prior_vals
+      @lang.run do
+        p = Promise.new
+        in_thread do
+          res = sync_osc "/barbazquuux"
+          p.deliver! res
+        end
+        assert_error do
+          p.get(1)
+        end
+      end
+    end
+
+    def test_osc_sync
+      @lang.run do
+        p1 = Promise.new
+        p2 = Promise.new
+
+        in_thread do
+          res = sync_osc "/foo"
+          p1.deliver! res
+        end
+
+        in_thread do
+          res = sync_osc "/foo"
+          p2.deliver! res
+        end
+        sleep 0.01
+        time_warp 0.1 do
+          @osc_state.set current_time, 0, "/foo", [2, 4, 6]
+        end
+        time_warp 0.2 do
+          @osc_state.set current_time, 0, "/foo", [1, 2, 3]
+        end
+
+        assert_equal p1.get(1), [2, 4, 6]
+        assert_equal p2.get(1), [2, 4, 6]
       end
     end
 

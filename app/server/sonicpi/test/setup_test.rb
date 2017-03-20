@@ -24,10 +24,11 @@ module SonicPi
 
       @msg_queue = Queue.new
       __set_default_user_thread_locals!
-      now = Time.now.freeze
 
-      @state = State.new
-      @state.set :sched_ahead_time, 0, 0.5
+      @system_state = State.new
+      @user_state = State.new
+      @osc_state = State.new(multi_write: false)
+      @system_state.set 0, 0, :sched_ahead_time, 0.5
 
       @settings = Config::Settings.new("/bogus/path/to/default/to/empty/settings.txt")
       @version = Version.new(0, 0, 0, "test")
@@ -77,7 +78,7 @@ module SonicPi
 
         t2 = in_thread do
           clear
-          self.instance_eval &blk
+          self.instance_eval(&blk)
         end
 
         t2.join
