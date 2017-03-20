@@ -3098,6 +3098,37 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
   "    ]
 
 
+
+
+      def current_time
+        __system_thread_locals.get(:sonic_pi_spider_time)
+      end
+      doc name:          :current_time,
+          introduced:    Version.new(2,12,0),
+          summary:       "Get current (logically quantized) time",
+          doc:           "Returns the current logical time. This is a 'wall-clock' time which should typically be pretty similar to Time.now but quantised to a nearby sleep point in the thread. May be quite different to Time.now within a time_warp!
+
+Unlike `Time.now`, Multiple calls to `current_time` with no interleaved calls to `sleep` or `sync` will return the same value.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+  puts current_time # 2017-03-19 23:37:57 +0000",
+"
+# The difference between current_time and Time.now
+# See that Time.now is continuous and current_time is discrete
+#
+# {run: 19, time: 0.0}
+puts \"A\", Time.now.to_f # ├─ \"A\" 1489966042.761211
+puts \"B\", __system_thread_locals.get(:sonic_pi_spider_time).to_f # ├─ \"B\" 1489966042.760181
+puts \"C\", Time.now.to_f # ├─ \"C\" 1489966042.761235
+puts \"D\", __system_thread_locals.get(:sonic_pi_spider_time).to_f # ├─ \"D\" 1489966042.760181
+puts \"E\", __system_thread_locals.get(:sonic_pi_spider_time).to_f # └─ \"E\" 1489966042.760181
+
+"]
+
+
+
       def current_random_seed
         SonicPi::Core::SPRand.get_seed_plus_idx
       end
