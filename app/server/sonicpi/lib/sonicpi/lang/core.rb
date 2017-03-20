@@ -52,6 +52,19 @@ module SonicPi
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         r = @state.get k, t, default
         r
+      def sync_osc(k)
+        unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
+          __delayed_highlight3_message "sync #{k.inspect}"
+        end
+        __schedule_delayed_blocks_and_messages!
+        time, beat, v = @osc_state.wait_next_tbv(current_time, k)
+        unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
+          __delayed_highlight2_message "synced #{k.inspect}."
+        end
+        __system_thread_locals.set(:sonic_pi_spider_synced, true)
+        __system_thread_locals.set :sonic_pi_spider_beat, beat if beat
+        __system_thread_locals.set :sonic_pi_spider_time, Time.at(time).freeze if time
+        v
       end
 
       def run_file(path)

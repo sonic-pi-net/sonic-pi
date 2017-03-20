@@ -1038,12 +1038,17 @@ module SonicPi
 
       @state = State.new
       @state.set :sched_ahead_time, 0, default_sched_ahead_time
+      @osc_state = State.new(multi_write: false)
+      @system_state.set 0, 0, :sched_ahead_time, default_sched_ahead_time
 
       # TODO Add support for TCP
       @osc_server = SonicPi::OSC::UDPServer.new(ports[:osc_cues_port], open: true) do |address, args|
+        t = Time.now.freeze
+        a = args.freeze
+        @osc_state.set(t, 0, address.freeze, a)
         @events.async_event("/spider_thread_sync/#{address}", {
-                              :time => Time.now.freeze,
-                              :cue_splat_map_or_arr => args.freeze,
+                              :time => t,
+                              :cue_splat_map_or_arr => a,
                               :cue => address })
 
         if @log_cues
