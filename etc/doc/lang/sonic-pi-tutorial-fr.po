@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-17 01:55+0000\n"
+"PO-Revision-Date: 2017-03-20 00:52+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -7698,7 +7698,6 @@ msgid "9 Live Coding"
 msgstr "9 Codage en direct"
 
 #: 09-Live-Coding.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to write a"
 "nd modify code live to make music, just like you might perform live with a gui"
@@ -7707,13 +7706,13 @@ msgid ""
 "t). However, the main advantage is that you can take Sonic Pi on stage and gig"
 " with it."
 msgstr ""
-"Un des aspects les plus passionnants de Sonic Pi est qu'il vous permet d'écrir"
-"e et de modifier du code en \"live\" pour faire de la musique, juste comme vous "
-"le feriez avec une guitare. Un avantage de cette approche est qu'il vous procu"
-"re plus de feedback pendant que vous composez (avoir une simple boucle en cour"
-"s d'exécution et continuer à l'ajuster jusqu'à qu'elle sonne parfaitement). Ce"
-"pendant, le principal avantage est que vous pouvez amener Sonic Pi sur scène e"
-"t donner un concert avec."
+"Un des aspects les plus passionnants de Sonic Pi est qu'il vous permet "
+"d'écrire et de modifier du code en direct pour faire de la musique, juste "
+"comme vous le feriez avec une guitare. Un avantage de cette approche est "
+"qu'il vous procure plus de retour d'informations pendant que vous composez ("
+"avoir une simple boucle en cours d'exécution et continuer à l'ajuster "
+"jusqu'à qu'elle sonne parfaitement). Cependant, le principal avantage est "
+"que vous pouvez amener Sonic Pi sur scène et donner un concert avec."
 
 #: 09-Live-Coding.md:12
 msgid ""
@@ -7791,26 +7790,25 @@ msgstr ""
 "end"
 
 #: 09.1-Live-Coding-Fundamentals.md:31
-#, fuzzy
 msgid ""
 "If that looks a little too complicated to you, go back and re-read the section"
 "s on functions and threads. It's not too complicated if you've already wrapped"
 " your head around these things."
 msgstr ""
-"Si ça vous semble un petit peu trop compliqué, revenez en arrière et relisez l"
-"es sections sur les fonctions et les threads. Ce n'est pas trop compliqué si v"
-"ous avez déjà emmagasiné ces choses dans votre tête."
+"Si ça vous semble un petit peu trop compliqué, revenez en arrière et relisez "
+"les sections sur les fonctions et les threads. Ce n'est pas trop compliqué "
+"si vous avez déjà emmagasiné ces choses dans votre tête."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
-#, fuzzy
 msgid ""
 "What we have here is a function definition which just plays note 50 and sleeps"
 " for a beat. We then define a named thread called `:looper` which just loops a"
 "round calling `my_loop` repeatedly."
 msgstr ""
-"Ce que nous avons ici est une définition de fonction qui joue juste la note 50"
-" et qui dort pendant un temps musical. Nous définissons ensuite un thread nomm"
-"é `:looper` qui simplement boucle en appelant `my_loop` de manière répétitive."
+"Ce que nous avons ici est une définition de fonction qui joue juste la note "
+"50 et qui dort pendant un temps musical. Nous définissons ensuite un thread "
+"nommé `:looper` qui simplement boucle en appelant `my_loop` de manière "
+"répétitive."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
@@ -7834,18 +7832,17 @@ msgstr ""
 "En direct !"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
-#, fuzzy
 msgid ""
 "It didn't add a new layer because we're using named threads which only allow o"
 "ne thread for each name. Also, the sound changed because we *redefined* the fu"
 "nction. We gave `:my_loop` a new definition. When the `:looper` thread looped "
 "around it simply called the new definition."
 msgstr ""
-"Une nouvelle couche n'a pas été ajoutée parce que nous avons utilisé des threa"
-"ds nommés et que seul un thread est permis pour chaque nom. En outre, le son a"
-" changé parce que nous *avons redéfini* la fonction. Nous avons donné à `:my_l"
-"oop` une nouvelle définition. Quand le thread `:looper` a rebouclé, il a simpl"
-"ement appelé la nouvelle définition."
+"Une nouvelle couche n'a pas été ajoutée parce que nous utilisons des threads "
+"nommés et que seul un thread est permis pour chaque nom. De plus, le son a "
+"changé parce que nous *avons redéfini* la fonction. Nous avons donné à "
+"`:my_loop` une nouvelle définition. Quand le thread `:looper` a rebouclé, il "
+"a simplement appelé la nouvelle définition."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
 msgid ""
@@ -8213,7 +8210,6 @@ msgid "Syncing Live Loops"
 msgstr "Synchronisation des boucles en direct"
 
 #: 09.3-Multiple-Live-Loops.md:41
-#, fuzzy
 msgid ""
 "One thing you might have already noticed is that live loops work automatically"
 " with the thread cue mechanism we explored previously. Every time the live loo"
@@ -8221,12 +8217,12 @@ msgid ""
 " therefore `sync` on these cues to ensure our loops are in sync without having"
 " to stop anything."
 msgstr ""
-"Une chose que vous pourriez avoir déjà remarqué est que ces boucles en \"live\" "
-"fonctionnent automatiquement avec le mécanisme de thread que nous avons explor"
-"é précédemment. Chaque fois qu'une \"live loop\" boucle, elle génère un nouvel é"
-"vénement `cue` avec le même nom que la boucle. Par conséquent, nous pouvons no"
-"us `sync` sur ces cues pour garantir que ces boucles soient synchronisées sans"
-" avoir à arrêter quoi que ce soit."
+"Une chose que vous pourriez avoir déjà remarqué est que ces boucles en "
+"direct fonctionnent automatiquement avec le mécanisme de thread que nous "
+"avons exploré précédemment. Chaque fois qu'une boucle en direct boucle, elle "
+"génère un nouvel événement `cue` avec le même nom que la boucle. Par "
+"conséquent, nous pouvons nous `sync` sur ces repères pour garantir que ces "
+"boucles soient synchronisées sans avoir à arrêter quoi que ce soit."
 
 #: 09.3-Multiple-Live-Loops.md:47
 msgid "Consider this badly synced code:"
@@ -8332,22 +8328,19 @@ msgid "9.4 Ticking"
 msgstr "9.4 Avance automatique"
 
 #: 09.4-Ticking.md:3
-#, fuzzy
 msgid "Ticking"
-msgstr "Avance automatique (\"ticking\")"
+msgstr "Avance automatique"
 
 #: 09.4-Ticking.md:5
-#, fuzzy
 msgid ""
 "Something you'll likely find yourself doing a lot when live coding is looping "
 "through rings. You'll be putting notes into rings for melodies, sleeps for rhy"
 "thms, chord progressions, timbral variations, etc. etc."
 msgstr ""
-"Il est probable que vous vous trouverez quelquefois en train d'en faire des ta"
-"s quand votre codage en \"live\" consistera à boucler au travers d'anneaux. Vous"
-" mettrez des notes dans des anneaux (\"rings\") pour les mélodies, des \"sleeps\" "
-"pour les rythmes, des progressions d'accords, des variations de timbre, etc. e"
-"tc."
+"Quelque chose que vous vous retrouverez probablement à faire beaucoup en "
+"codant en direct est de boucler au travers d'anneaux. Vous mettrez des notes "
+"dans des anneaux pour les mélodies, des pauses pour les rythmes, des "
+"progressions d'accords, des variations de timbre, etc. etc."
 
 #: 09.4-Ticking.md:9
 msgid "Ticking Rings"
@@ -8404,17 +8397,16 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:35
-#, fuzzy
 msgid ""
 "Here, we're just grabbing the scale E3 minor pentatonic and ticking through ea"
 "ch element. This is done by adding `.tick` to the end of the scale declaration"
 ". This tick is local to the live loop, so each live loop can have its own inde"
 "pendent tick:"
 msgstr ""
-"Ici, nous prenons simplement la gamme mineure pentatonique de Mi3 et nous la p"
-"arcourons élement par élément. C'est réalisé en ajoutant `.tick` à la fin de l"
-"a déclaration de la gamme. Ce \"tick\" est local à la boucle live, ainsi chaque "
-"boucle live a son propre \"tick\" indépendant :"
+"Ici, nous prenons simplement la gamme mineure pentatonique de Mi3 et nous la "
+"parcourons élément par élément. C'est fait en ajoutant `.tick` à la fin de "
+"la déclaration de la gamme. Ce \"tick\" est local à la boucle en direct, "
+"ainsi chaque boucle en direct a son propre \"tick\" indépendant :"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -8664,7 +8656,6 @@ msgstr ""
 "différentes clarinettes et vous seriez pris à rester toujours avec la même."
 
 #: 10.1-Using-Shortcuts.md:29
-#, fuzzy
 msgid ""
 "Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
 "come with their own standard defaults for actions such as cut and paste etc. S"
@@ -8674,17 +8665,16 @@ msgid ""
 "whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
 "PC and feel right at home."
 msgstr ""
-"Malheureusement, les trois systèmes d'exploitation principaux (Linux, Mac OS X"
-" et Windows) se présentent avec leurs propres standards par défaut pour des ac"
-"tions telles que copier/coller. Sonic Pi va essayer d'honorer ces standards. T"
-"outefois *la priorité est de favoriser la compatibilité entre plateformes* ave"
-"c Sonic Pi plutôt que de tenter de se conformer aux standards d'une plateforme"
-" donnée. Ceci signifie que quand vous apprenez les raccourcis de jeu avec Soni"
-"c Pi sur votre Raspberry Pi, vous pouvez passer au Mac ou au PC et vous retrou"
-"ver en terre connue."
+"Malheureusement, les trois systèmes d'exploitation principaux (Linux, Mac OS "
+"X et Windows) se présentent avec leurs propres standards par défaut pour des "
+"actions telles que copier/coller etc. Sonic Pi va essayer et honorer ces "
+"standards. Toutefois *la priorité est de favoriser la compatibilité entre "
+"plateformes* avec Sonic Pi plutôt que de tenter de se conformer aux "
+"standards d'une plateforme donnée. Ceci signifie que quand vous apprenez les "
+"raccourcis de jeu avec Sonic Pi sur votre Raspberry Pi, vous pouvez passer "
+"au Mac ou au PC et vous retrouver en terre connue."
 
 #: 10.1-Using-Shortcuts.md:37
-#, fuzzy
 msgid "Control and Meta"
 msgstr "\"Control\" et \"Meta\""
 
