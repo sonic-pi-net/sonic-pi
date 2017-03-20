@@ -4380,12 +4380,11 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         slice_idx = args_h[:slice]
         if slice_idx
-          num_slices = args_h[:num_slices] || 16
+          num_slices = args_h.fetch(:num_slices, 16).round
           raise "Sample opt num_slices: needs to be greater than 0. Got: #{num_slices}" unless num_slices.is_a?(Numeric) && num_slices > 0
-          num_slices = num_slices.to_f
           slices = sample_buffer(path).slices(num_slices)
           if slice_idx.is_a? Numeric
-            slice_idx = slice_idx.to_i
+            slice_idx = slice_idx
             slice = slices[slice_idx]
           elsif slice_idx.is_a? Proc
             slice = slice_idx.call(slices)
@@ -4412,7 +4411,8 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           end
 
           if onset_idx.is_a? Numeric
-            args_h.merge!(onsets[onset_idx.to_i])
+            onset_idx = onset_idx.round
+            args_h.merge!(onsets[onset_idx])
             res = onsets[onset_idx]
           elsif onset_idx.is_a? Proc
             res = onset_idx.call(onsets)
