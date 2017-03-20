@@ -122,7 +122,7 @@ module SonicPi
             @JOB_MIXERS_MUTEX = Mutex.new
             @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
             @JOB_BUSSES_MUTEX = Mutex.new
-            @mod_sound_studio = Studio.new(ports, msg_queue, @state)
+            @mod_sound_studio = Studio.new(ports, msg_queue, @system_state)
 
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM

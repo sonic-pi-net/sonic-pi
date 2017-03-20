@@ -223,8 +223,7 @@ module SonicPi
     end
 
     def __current_sched_ahead_time
-      t = __system_thread_locals.get(:sonic_pi_spider_time)
-      __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) || @state.get(:sched_ahead_time, __system_thread_locals.get(:sonic_pi_spider_time))
+      __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) || @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), :sched_ahead_time,)
     end
 
     def __schedule_delayed_blocks_and_messages!
@@ -1035,9 +1034,8 @@ module SonicPi
       @osc_router_port = 8014
       @log_cues = true
       @log_cues_file = File.open(osc_cues_log_path, 'a')
-
-      @state = State.new
-      @state.set :sched_ahead_time, 0, default_sched_ahead_time
+      @system_state = State.new
+      @user_state = State.new
       @osc_state = State.new(multi_write: false)
       @system_state.set 0, 0, :sched_ahead_time, default_sched_ahead_time
 

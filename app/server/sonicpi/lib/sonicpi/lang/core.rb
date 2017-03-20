@@ -35,7 +35,8 @@ module SonicPi
 
       def set(k, v)
         t = __system_thread_locals.get(:sonic_pi_spider_time)
-        @state.set k, t, v
+        b = __system_thread_locals.get(:sonic_pi_spider_beat)
+        @user_state.set t, b, k, v
         v
       end
 
@@ -47,11 +48,15 @@ module SonicPi
           end
         end
 
-        #
-
         t = __system_thread_locals.get(:sonic_pi_spider_time)
-        r = @state.get k, t, default
-        r
+        if k.is_a? String
+          return  @osc_state.get(t, k, default)
+        else
+          return  @user_state.get(t, k, default)
+        end
+      end
+
+
       def sync_osc(k)
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight3_message "sync #{k.inspect}"
@@ -3273,7 +3278,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 "]
 
       def set_sched_ahead_time!(t)
-        @state.set(:sched_ahead_time, __system_thread_locals.get(:sonic_pi_spider_time), t)
+        @system_state.set(__system_thread_locals.get(:sonic_pi_spider_time), __system_thread_locals.get(:sonic_pi_spider_beat), :sched_ahead_time, t)
         __info "Schedule ahead time set to #{t}"
       end
       doc name:          :set_sched_ahead_time!,
@@ -3593,13 +3598,18 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def sync(*cues, &blk)
-        cue_ids = (cues.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
-        opts = cues[cue_ids.size] || {}
+        params, opts = split_params_and_merge_opts_array(cues)
+        # Add syncing on threads!
+        cue_ids = params
         cue_ids.flatten!
-        raise "Opts for sync must be a map, got a #{opts.class} - #{opts.inspect}" unless opts.is_a?(Hash)
         raise "Timing Exception - you may not sync within a time_warp" if __system_thread_locals.get :sonic_pi_spider_in_time_warp
         raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
+
+        if (cue_ids.size == 1) && cue_ids[0].is_a?(String)
+          # dispatch to sync_osc for standard osc syncs
+          return sync_osc(cue_ids[0])
+        end
         p = Promise.new
         handles = cue_ids.map {|id| "/spider_thread_sync/" + id.to_s}
 
