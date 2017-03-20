@@ -29,7 +29,7 @@ module SonicPi
   class Server
     include Util
 
-    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta, :scsynth_info
+    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :control_delta, :scsynth_info
 
     def initialize(port, send_port, msg_queue, state)
       # Cache common OSC path strings as frozen instance
