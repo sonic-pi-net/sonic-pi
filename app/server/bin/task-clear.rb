@@ -109,7 +109,7 @@ pids.each do |pid|
           log_process_info "  -- politely killing #{pid}"
         else
           Process.kill(9, pid)
-          log_process_info "  -- force killing #{pid} - #{i}"
+          log_process_info "  -- force killing #{pid}"
         end
         sleep 0.5
         cnt += 1
