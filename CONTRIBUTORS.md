@@ -22,7 +22,7 @@ of Sonic Pi with their time, advice, and wisdom:
 * [Rachel Drury](https://twitter.com/Rachel_Drury)
 * [Juneau Projects](http://www.juneauprojects.co.uk)
 * Stephan Lachowsky
-* [Jonathan Graham](http://twitter.com/graham_jp))
+* [Jonathan Graham](http://twitter.com/graham_jp)
 
 
 ## Organisations
