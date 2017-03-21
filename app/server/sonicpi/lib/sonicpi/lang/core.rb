@@ -72,6 +72,98 @@ module SonicPi
         v
       end
 
+
+
+
+      def with_swing (*args, &blk)
+        raise "with_swing must be called with a do/end block." unless blk
+        params, opts = split_params_and_merge_opts_array(args)
+        shift = params[0] || opts.fetch(:shift, 0.1)
+
+        pulse = params[1] || opts.fetch(:pulse, 4)
+        key = (params[2] || opts.fetch(:tick, :swing)).to_sym
+
+        raise "with_swing shift should be a number. Got: #{shift.inspect}" unless shift.is_a?(Numeric)
+        raise "with_swing pulse should be a positive number. Got: #{pulse.inspect}" unless pulse.is_a?(Numeric) && pulse > 0
+
+        tick(key)
+        use_shift = (look(key) % pulse) != 0
+        if use_shift
+          time_warp shift do
+            blk.call
+          end
+        else
+          blk.call
+        end
+        nil
+      end
+      doc name:           :with_swing,
+          introduced:     Version.new(2,12,0),
+          summary:        "Add swing to successive calls to do/end block",
+          args:           [[:shift, :beats], [:pulse, :number], [:key, :symbol]],
+          returns:        nil,
+          opts:           {shift: "How much time to delay/forward the block. Greater values produce more emphasised swing. Defaults to 0.1 beats.",
+                           pulse: "How often to apply the swing. Defaults to 4.",
+                           tick: "A key for the tick with which to count pulses. Override this if you have more than one `with_swing` block in your `live_loop` or thread to stop them interferring with each other."},
+          accepts_block:  false,
+          doc:            "Runs block within a `time_warp` every `pulse` consecutive runs (Defaulting to 4). When used for rhythmical purposes this results in one in every `pulse` calls to be either shifted forward or backwards in time by `shift` beats.",
+          examples: ["
+live_loop :foo do
+  with_swing 0.1 do
+    sample :elec_beep      # plays the :elec_beep sample slightly late every 4th time
+  end
+  sleep 0.25
+end
+",
+        "
+live_loop :foo do
+  with_swing -0.1 do
+    sample :elec_beep      # plays the :elec_beep sample slightly early every 4th time
+  end
+  sleep 0.25
+end
+",
+        "
+live_loop :foo do
+  with_swing -0.1, pulse: 8 do
+    sample :elec_beep      # plays the :elec_beep sample slightly early every 8th time
+  end
+  sleep 0.25
+end
+",
+        "
+# Use unique tick names if you plan on using with_swing
+# more than once in any given live_loop or thread.
+live_loop :foo do
+  with_swing 0.1, pulse: 4, tick: :a do
+    sample :elec_beep      # plays the :elec_beep sample slightly early every 4th time
+  end
+
+  with_swing -0.1, pulse: 4, tick: :b do
+    sample :elec_beep, rate: 2  # plays the :elec_beep sample slightly early every 4th time
+  end
+  sleep 0.25
+end
+",
+        "
+live_loop :foo do
+  with_swing 0.1 do
+    cue :tick              # send out cue messages with swing timing
+  end
+  sleep 0.25
+end
+
+live_loop :bar do
+  sync :tick
+  sample :elec_beep       # sync on the swing cue messages to bring the swing into
+                          # another live loop (sync will match the timing and clock of
+                          # the sending live loop
+end
+"      ]
+
+
+
+
       def run_file(path)
         path = File.expand_path(path.to_s)
         raise "Unable to run file - no file found with path: #{path}" unless File.exist?(path)
