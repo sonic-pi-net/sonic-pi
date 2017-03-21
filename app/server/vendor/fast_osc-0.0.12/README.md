@@ -4,6 +4,8 @@
 
 A Ruby wrapper around [rtosc](https://github.com/fundamental/rtosc/) to encode and decode OSC messages.
 
+This also includes a fallback implementation in pure Ruby in the case that the compiled version doesn't load properly. This can be forced by setting an environment variable of `FAST_OSC_USE_FALLBACK=1` where needed.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -31,34 +33,30 @@ Key:
 ### Encoding Benchmark
 
 ```
-["/feeooblah", ["beans", 1, 2.0]]
+Warming up --------------------------------------
+            fast_osc    64.995k i/100ms
+             samsosc    23.371k i/100ms
+            osc-ruby     7.691k i/100ms
 Calculating -------------------------------------
-            fast_osc    54.101k i/100ms
-                 osc     7.688k i/100ms
-             samsosc    21.406k i/100ms
--------------------------------------------------
-            fast_osc    909.680k (±21.4%) i/s -      4.328M
-                 osc     94.678k (±14.5%) i/s -    468.968k
-             samsosc    271.908k (±19.3%) i/s -      1.327M
+            fast_osc    797.673k (±15.0%) i/s -      3.900M in   5.043770s
+             samsosc    258.331k (±12.8%) i/s -      1.285M in   5.063755s
+            osc-ruby     83.203k (±12.6%) i/s -    415.314k in   5.073578s
 ```
 
 ## Decoding Bencmark
 
 ```
-["/feeooblah", ["beans", 1, 2.0]]
+Warming up --------------------------------------
+            fast_osc   102.344k i/100ms
+             samsosc    20.770k i/100ms
+            osc-ruby     3.145k i/100ms
 Calculating -------------------------------------
-            fast_osc    91.434k i/100ms
-             samsosc    22.095k i/100ms
-             oscruby     3.522k i/100ms
--------------------------------------------------
-            fast_osc      2.635M (±22.2%) i/s -     12.435M
-             samsosc    264.614k (±16.1%) i/s -      1.304M
-             oscruby     36.362k (±16.3%) i/s -    179.622k
+            fast_osc      1.650M (±14.5%) i/s -      8.085M in   5.017162s
+             samsosc    234.951k (±14.0%) i/s -      1.163M in   5.049167s
+            osc-ruby     34.266k (±13.3%) i/s -    169.830k in   5.048509s
 ```
 
-Benchmark adapted from https://github.com/samaaron/sonic-pi/blob/master/app/server/sonicpi/test/performance/test_osc_perf.rb
-
-I'll include a better test in the repo in time.
+Benchmarks are now part of this repo - run `rake test` to see the results for yourself.
 
 ## Usage
 
@@ -83,11 +81,12 @@ $ rake clean && rake clobber && rake compile && rake test
 
 ## Still todo
 
-* Implement more types
-* Bring benchmarks into the repo
-* Implement multi message/nested bundles
-* Documentation
-* Travis
+-[x] Implement more types
+-[x] Bring benchmarks into the repo
+-[ ] Work out cross compilation story for easier packaging
+-[ ] Implement multi message/nested bundles
+-[ ] Documentation
+-[ ] Travis
 
 ## Development notes
 
