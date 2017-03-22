@@ -106,11 +106,11 @@ module SonicPi
                            pulse: "How often to apply the swing. Defaults to 4.",
                            tick: "A key for the tick with which to count pulses. Override this if you have more than one `with_swing` block in your `live_loop` or thread to stop them interferring with each other."},
           accepts_block:  false,
-          doc:            "Runs block within a `time_warp` every `pulse` consecutive runs (Defaulting to 4). When used for rhythmical purposes this results in one in every `pulse` calls to be either shifted forward or backwards in time by `shift` beats.",
+          doc:            "Runs block within a `time_warp` every except for once ever `pulse` consecutive runs (Defaulting to 4). When used for rhythmical purposes this results in one in every `pulse` calls the block to be 'on beat' and the rest shifted forward or backwards in time by `shift` beats.",
           examples: ["
 live_loop :foo do
   with_swing 0.1 do
-    sample :elec_beep      # plays the :elec_beep sample slightly late every 4th time
+    sample :elec_beep      # plays the :elec_beep sample late except for every 4th time
   end
   sleep 0.25
 end
@@ -118,16 +118,16 @@ end
         "
 live_loop :foo do
   with_swing -0.1 do
-    sample :elec_beep      # plays the :elec_beep sample slightly early every 4th time
-  end
+    sample :elec_beep      # plays the :elec_beep sample slightly early
+  end                      # except for every 4th time
   sleep 0.25
 end
 ",
         "
 live_loop :foo do
   with_swing -0.1, pulse: 8 do
-    sample :elec_beep      # plays the :elec_beep sample slightly early every 8th time
-  end
+    sample :elec_beep      # plays the :elec_beep sample slightly early
+  end                      # except for every 8th time
   sleep 0.25
 end
 ",
@@ -135,16 +135,15 @@ end
 # Use unique tick names if you plan on using with_swing
 # more than once in any given live_loop or thread.
 live_loop :foo do
-  with_swing 0.1, pulse: 4, tick: :a do
-    sample :elec_beep      # plays the :elec_beep sample slightly early every 4th time
-  end
+  with_swing 0.14, tick: :a do
+    sample :elec_beep      # plays the :elec_beep sample slightly late
+  end                      # except for every 4th time
 
-  with_swing -0.1, pulse: 4, tick: :b do
-    sample :elec_beep, rate: 2  # plays the :elec_beep sample slightly early every 4th time
-  end
+  with_swing -0.1, tick: :b do
+    sample :elec_beep, rate: 2  # plays the :elec_beep sample at double rate
+  end                           #  slightly early except for every 4th time
   sleep 0.25
-end
-",
+end",
         "
 live_loop :foo do
   with_swing 0.1 do
@@ -157,7 +156,7 @@ live_loop :bar do
   sync :tick
   sample :elec_beep       # sync on the swing cue messages to bring the swing into
                           # another live loop (sync will match the timing and clock of
-                          # the sending live loop
+                          # the sending live loop)
 end
 "      ]
 
