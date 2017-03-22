@@ -104,9 +104,9 @@ module SonicPi
           returns:        nil,
           opts:           {shift: "How much time to delay/forward the block. Greater values produce more emphasised swing. Defaults to 0.1 beats.",
                            pulse: "How often to apply the swing. Defaults to 4.",
-                           tick: "A key for the tick with which to count pulses. Override this if you have more than one `with_swing` block in your `live_loop` or thread to stop them interferring with each other."},
+                           tick: "A key for the tick with which to count pulses. Override this if you have more than one `with_swing` block in your `live_loop` or thread to stop them interfering with each other."},
           accepts_block:  false,
-          doc:            "Runs block within a `time_warp` every except for once ever `pulse` consecutive runs (Defaulting to 4). When used for rhythmical purposes this results in one in every `pulse` calls the block to be 'on beat' and the rest shifted forward or backwards in time by `shift` beats.",
+          doc:            "Runs block within a `time_warp` except for once every `pulse` consecutive runs (defaulting to 4). When used for rhythmical purposes this results in one in every `pulse` calls of the block being 'on beat' and the rest shifted forward or backwards in time by `shift` beats.",
           examples: ["
 live_loop :foo do
   with_swing 0.1 do
