@@ -3689,6 +3689,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def sync(*cues, &blk)
+        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
         params, opts = split_params_and_merge_opts_array(cues)
         # Add syncing on threads!
         cue_ids = params
