@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-02-27 00:58+0000\n"
-"Last-Translator: Esteban Betancur <essteb@gmail.com>\n"
+"PO-Revision-Date: 2017-03-24 10:23+0000\n"
+"Last-Translator: Carlos David Perales Cejudo <carlosd.perales@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.12-dev\n"
+"X-Generator: Weblate 2.12\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -167,7 +167,7 @@ msgstr "Presiona de nuevo el botón \"Ejecutar\""
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr "¿Notas cómo cambió la velocidad de la batería?."
+msgstr "Fíjate como ha cambiado la velocidad del bombo."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
