@@ -496,7 +496,10 @@ end"
 
       def time_warp(times=0, params=nil, &block)
         __schedule_delayed_blocks_and_messages!
+
+
         raise "time_warp requires a do/end block" unless block
+        prev_ctl_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
 
         had_params = params
         times = [times] if times.is_a? Numeric
@@ -526,6 +529,7 @@ end"
 
           __system_thread_locals.set :sonic_pi_spider_time, new_time.freeze
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
+          __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
 
           case block.arity
           when 0
@@ -549,6 +553,7 @@ end"
         __system_thread_locals.set :sonic_pi_spider_time, vt_orig
         __system_thread_locals.set :sonic_pi_spider_beat, orig_beat
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
+        __system_thread_locals.set_local :sonic_pi_local_control_deltas, prev_ctl_deltas
       end
       doc name:           :time_warp,
           introduced:     Version.new(2,11,0),
