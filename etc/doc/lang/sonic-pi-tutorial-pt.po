@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-18 19:07+0000\n"
-"Last-Translator: João Medeiros <medeiros.joaquim@gmail.com>\n"
+"PO-Revision-Date: 2017-03-27 01:54+0000\n"
+"Last-Translator: Diemesleno Souza Carvalho <diemesleno@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
 "Language: pt\n"
@@ -3348,11 +3348,15 @@ msgstr ""
 "e a demora acontecerá apenas na primeira vez."
 
 #: 03.7-Sample-Packs.md:180
+#, fuzzy
 msgid ""
 "Finally, note that the sources *must go first*. If no source is given, then th"
 "e set of built-in samples will be selected as the default list of candidates t"
 "o work with."
 msgstr ""
+"Finalmente, note que as fontes *precisam ir primeiro*. Se nenhuma fonte é "
+"indicada, então a configuração padrão dos samples serão selecionados como "
+"uma lista candidata padrão para se trabalhar."
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
