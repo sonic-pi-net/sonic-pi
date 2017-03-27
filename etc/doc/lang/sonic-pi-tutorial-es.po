@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-27 14:16+0000\n"
-"Last-Translator: Hugo <hvila2@gmail.com>\n"
+"PO-Revision-Date: 2017-03-27 14:19+0000\n"
+"Last-Translator: Francisco Llaryora <fllaryora@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -1649,9 +1649,10 @@ msgstr ""
 "agrama:"
 
 #: 02.4-Durations-with-Envelopes.md:114
-#, fuzzy
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
+msgstr ""
+"![Faces de ataque y release de la curva de sonido (attack release "
+"envelope)](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
