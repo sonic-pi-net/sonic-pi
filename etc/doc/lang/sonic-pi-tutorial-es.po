@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-27 14:19+0000\n"
-"Last-Translator: Francisco Llaryora <fllaryora@gmail.com>\n"
+"PO-Revision-Date: 2017-03-27 14:21+0000\n"
+"Last-Translator: Hugo <hvila2@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -120,7 +120,7 @@ msgid ""
 msgstr ""
 "Antes de entrar en los detalles de cómo funciona Sonic Pi, me gustaría "
 "enseñarte qué es programar en directo. No te preocupes si no entiendes mucho "
-"(o nada) de esto. Sólo permanece sentado y disfruta ..."
+"(o nada) de esto. Sólo trata de permanecer sentado y disfruta ..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -363,7 +363,7 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr "![Interfaz de Sonic Pi](../images/tutorial/GUI.png)"
+msgstr "![La Interfaz de Sonic Pi](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
