@@ -39,7 +39,8 @@ module SonicPi
 
       THREAD_RAND_SEED_MAX = 10e20
 
-      def set(k, v)
+      def set(k, val)
+        raise NotImmutableError, "Error setting state - value must be immutable. Got: #{val.inspect} for #{k.inspect}" unless val.sp_thread_safe?
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
         @user_state.set t, b, k, v
