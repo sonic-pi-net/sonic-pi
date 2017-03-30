@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-30 13:53+0000\n"
+"PO-Revision-Date: 2017-03-30 20:25+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -15199,10 +15199,15 @@ msgid ""
 "d `live_loop`, then you can quickly fix the error and re-run the code to re-st"
 "art things without missing a beat."
 msgstr ""
+"Cand interpretezi, tine minte sa folosesti parametrul 'sync:' al 'live_loop' "
+"pentru a permite revenirea dupa probleme de rulare care opresc bucla live "
+"din cauza unor erori. Daca ai deja parametrul 'sync:' legat de o alta bucla "
+"live valida, atunci poti sa remediezi cu usurinta eroarea si sa rulezi din "
+"nou codul pentru a reporni sunetul fara sa pierzi un beat."
 
 #: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
-msgstr ""
+msgstr "4. Foloseste Mixerul principal"
 
 #: A.15-performance.md:99
 msgid ""
@@ -15213,10 +15218,17 @@ msgid ""
 "or example, whilst some code is running and making sound, enter this into a sp"
 "are buffer and hit `Run`:"
 msgstr ""
+"Unul dintre cele mai bine pastrate secrete ale Sonic Pi este ca are un mixer "
+"principal prin care trec toate sunetele. Mixerul are incorporate atat un "
+"filtru trece jos cat si unul trece sus, deci puteti face cu usurinta "
+"modificari globale asupra sunetului. Functionalitatile mixerului principal "
+"pot fi accesate folosind functia 'set_mixer_control!'. De exemplu, in timp "
+"ce se executa o bucata de cod care produce sunete, introdu comanda de mai "
+"jos intr-un buffer gol si apasa 'Run':"
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
-msgstr ""
+msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.15-performance.md:111
 msgid ""
@@ -15227,6 +15239,14 @@ msgid ""
 "xer!`. Some of the currently supported opts are: `pre_amp:`, `lpf:` `hpf:`, an"
 "d `amp:`. For the full list, see the built-in docs for `set_mixer_control!`."
 msgstr ""
+"Dupa ce executi aceasta instructiune, tuturor sunetelor existente si "
+"viitoare li se va aplica un filtru trece jos si vor fi in consecinta mai "
+"inabusite. Retine ca aceasta inseamna ca valorile pe care le-am setat pentru "
+"mixer voi fi mentinute pana cand le schimbam din nou. Totusi, daca vrei, "
+"poti sa resetezi oricand mixerul la starea implicita cu 'reset_mixer!'. "
+"Cativa dintre parametrii suportati in acest moment sunt: `pre_amp:`, `lpf:` "
+"`hpf:` si `amp:`. Pentru lista completa, vezi documentatia pentru "
+"`set_mixer_control!`."
 
 #: A.15-performance.md:119
 msgid ""
@@ -15234,26 +15254,31 @@ msgid ""
 " example, to slowly slide the mixer's low pass filter down from the current va"
 "lue to 30, use the following:"
 msgstr ""
+"Foloseste parametrii '*_slide' ai mixerului pentru a face sa varieze una sau "
+"mai multe valori in timp. De exemplu, pentru a face ca filtrul trece jos sa "
+"coboare lin de la valoarea curenta la 30, foloseste:"
 
 #: A.15-performance.md:123
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 16, lpf: 30"
 
 #: A.15-performance.md:127
 msgid "You can then slide quickly back to a high value with:"
-msgstr ""
+msgstr "Poti apoi sa cresti rapid la o valoare mai ridicata cu:"
 
 #: A.15-performance.md:129
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 1, lpf: 130"
 
 #: A.15-performance.md:133
 msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
 msgstr ""
+"Cand interpretezi, este util sa pastrezi un buffer liber pentru a lucra cu "
+"mixerul in acest mod."
 
 #: A.15-performance.md:136
 msgid "5. Practice"
@@ -15269,6 +15294,14 @@ msgid ""
 "uently. Practice also gives you opportunities to explore new sounds and code c"
 "onstructs."
 msgstr ""
+"Cea mai importanta tehnica pentru programarea live este exersarea. "
+"Caracteristica cea mai intalnita intre muzicienii profesionisti de toate "
+"tipurile este ca ei exerseaza cantatul la instrumentele lor - adesea multe "
+"ore pe zi. Exersarea este la fel de importanta pentru un programator live ca "
+"si pentru un chitarist. Repetitia permite degetelor tale sa memoreze anumite "
+"sabloane si modificari frecvente astfel incat sa le poti introduce de la "
+"tastatura si sa lucrezi cu ele mai fluent. Exersarea iti ofera de asemenea "
+"posibilitatea sa explorezi sunete si secvente de cod noi."
 
 #: A.15-performance.md:146
 msgid ""
@@ -15277,6 +15310,10 @@ msgid ""
 "ce to draw from. This can help you understand which kinds of modifications wil"
 "l be interesting and also work well with the current sounds."
 msgstr ""
+"Cand interpretezi, vei descoperi ca iti va fi cu atat mai usor cu cat ai "
+"exersat mai mult. Exersarea iti va oferi de asemenea o experienta utila. "
+"Aceasta te va ajuta sa intelegi ce tipuri de modificari vor fi mai "
+"interesante si vor merge mai bine cu sunetele curente."
 
 #: A.15-performance.md:154
 msgid ""
@@ -15438,7 +15475,6 @@ msgid "Hear the Code"
 msgstr ""
 
 #: A.16-practice.md:112
-#, fuzzy
 msgid ""
 "Many musicians can look at a musical score and hear the music in their head wi"
 "thout having to play it. This is a very useful skill and it's well worth incor"
@@ -15450,7 +15486,17 @@ msgid ""
 "to hear music in your head and know what code to write to make it. It may take"
 " you a long time to master this, but once you do, you'll be able to improvise "
 "on stage and express your ideas fluently."
-msgstr "rand"
+msgstr ""
+"Multi muzicieni pot privi o partitura si sa \"auda\" muzica fara a fi "
+"nevoiti sa o cante. Aceasta abilitate este foarte utila si merita sa o "
+"folositi cand exersati programarea live. Este important sa intelegeti macar "
+"partial cum va suna bucata de cod. Nu e nevoie sa fiti capabili sa o auziti "
+"exact, dar e bine sa stiti macar daca va fi o bucata rapida, lenta, "
+"zgomotoasa, ritmica, melodica, aleatoare, etc. Scopul final este sa puteti "
+"reversa procesul - sa imaginati muzica in minte si sa stiti cum sa scrieti "
+"codul care o va crea. Acest lucru poate lua mult timp, dar odata ce veti "
+"stapani procesul, veti putea improviza pe scena ca sa va exprimati fluent "
+"ideile."
 
 #: A.16-practice.md:124
 msgid ""
