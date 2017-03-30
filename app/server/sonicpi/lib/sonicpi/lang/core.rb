@@ -3952,7 +3952,7 @@ puts current_sched_ahead_time # Prints 0.5"]
             else
               __error e, "Thread death!"
             end
-            raise e
+            #raise e
           else
 
             # Wait for any trackers by blocking on all promises until
