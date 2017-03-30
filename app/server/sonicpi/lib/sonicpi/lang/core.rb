@@ -1646,13 +1646,15 @@ end"
           slept = block_slept? do
             block.call
           end
-          raise "loop did not sleep!" unless slept or __system_thread_locals.get(:sonic_pi_spider_synced)
+          raise ZeroTimeLoopError, "loop did not sleep or sync!" unless slept or __system_thread_locals.get(:sonic_pi_spider_synced)
         end
       end
       doc name:           :loop,
           introduced:     Version.new(2,0,0),
           summary:        "Repeat do/end block forever",
           doc:            "Given a do/end block, repeats it forever. Note that once the program enters the loop - it will not move on but will instead stay within the loop. Plain loops like this are like black holes - instead of sucking in the light they suck in the program.
+
+The loop must either `sleep` or `sync` each time round otherwise it will stop and throw an error. This is to stop the loop from spinning out of control and locking the system.
 
 For a more powerful, flexible loop built for live coding see `live_loop`.",
           args:           [[]],
