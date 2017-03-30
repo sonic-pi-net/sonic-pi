@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-15 08:44+0000\n"
+"PO-Revision-Date: 2017-03-30 12:55+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
-"Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-pi/tutorial"
-"/ro/>\n"
+"Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)"
-") ? 1 : 2;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 2.13-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -75,16 +75,15 @@ msgstr ""
 "a-ma si voi lua in considerare ideea ta pentru versiunile viitoare."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
 "e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"A urmari pe cineva in timp ce programeaza live este o buna metoda de a invata."
-" Eu transmit live in mod regulat sesiunile mele la [livecoding.tv/samaaron](ht"
-"tp://livecoding.tv/samaaron), deci te rog sa treci pe acolo, sa ne salutam si "
-"sa iti raspund la intrebari :)"
+"A urmari pe cineva in timp ce programeaza live este o buna metoda de a "
+"invata. Eu transmit live in mod regulat sesiunile mele la "
+"[livecoding.tv/samaaron](http://livecoding.tv/samaaron), deci te rog sa "
+"treci pe acolo, sa ne salutam si sa iti raspund la intrebari :)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -211,7 +210,6 @@ msgstr ""
 "```"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -220,13 +218,13 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Acum poti sa te joci. Schimba valorile pentru ritm - ce se intampla cand folos"
-"esti valori mai mari sau mai mici, sau valori negative? Vezi ce se intampla ca"
-"nd schimbi 'rate:' pentru ':ambi_choir' doar putin (sa zicem la 0.29). Ce se i"
-"ntampla daca alegi o valoare foarte mica pentru 'sleep'? Vezi daca poti sa il "
-"faci sa se miste atat de repede incat calculatorul sa dea o eroare fiindca nu "
-"poate tine pasul (in cazul asta alege o valoare mai mare prentru 'sleep si apa"
-"sa din nou 'Run')."
+"Acum poti sa te joci. Schimba valorile pentru ritm - ce se intampla cand "
+"folosesti valori mai mari sau mai mici, sau valori negative? Vezi ce se "
+"intampla cand schimbi 'rate:' pentru ':ambi_choir' doar putin (sa zicem la "
+"0.29). Ce se intampla daca alegi o valoare foarte mica pentru 'sleep'? Vezi "
+"daca poti sa il faci sa se miste atat de repede incat calculatorul sa dea o "
+"eroare fiindca nu poate tine pasul (in cazul asta alege o valoare mai mare "
+"prentru 'sleep si apasa din nou 'Run')."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -411,9 +409,8 @@ msgid "*G* - Help System"
 msgstr "*G* - Sistem Ajutor"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
-msgstr "*F* - Vizualizare Jurnal"
+msgstr "*H* - Vizualizare Osciloscop"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
@@ -489,7 +486,6 @@ msgid "E. Prefs Panel"
 msgstr "E. Panou de Optiuni"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -497,12 +493,12 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Pi permite schimbarea anumitor parametri la care se poate ajunge apasand"
-" butonul *optiuni* in zona Informatii si Ajutor. Acesta va comuta afisarea Pan"
-"oului Optiuni care contine un numar de parametri ce pot fi schimbati. Exemple "
-"de astfel de parametri sunt: forteaza modul mono, inversare canale stereo, com"
-"utare nivel de detaliu jurnal. Exista si un potentiometru de volum si selectie"
-" de iesire audio pentru Raspberry Pi."
+"Sonic Pi permite schimbarea anumitor parametri la care se poate ajunge "
+"apasand butonul *optiuni* in zona Informatii si Ajutor. Acesta va comuta "
+"afisarea Panoului Optiuni care contine un numar de parametri ce pot fi "
+"schimbati. Exemple de astfel de parametri sunt: forteaza modul mono, "
+"inversare canale stereo, comutare nivel de detaliu jurnal. Exista si un "
+"potentiometru de volum si selectie de iesire audio pentru Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -526,7 +522,6 @@ msgid "G. Help System"
 msgstr "G. Sistem Ajutor"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -535,18 +530,17 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"In sfarsit, una dintre cele mai importante parti ale interfetei Sonic Pi este "
-"reprezentata de sistemul de ajutor care apare in partea de jos a ferestrei. Ac"
-"easta poate fi afisata/ascunsa apasand pe butonul albastru *Ajutor*. Sistemul "
-"de ajutor contine informatii utile despre toate elementele Sonic Pi, inclusiv "
-"acest tutorial, o lista a sintetizatoarelor disponibile, sample-uri, exemple, "
-"efecte (FX) si o lista a tuturor functiilor pe care Sonic Pi le ofera pentru p"
-"rogramarea muzicii."
+"In sfarsit, una dintre cele mai importante parti ale interfetei Sonic Pi "
+"este reprezentata de sistemul de ajutor care apare in partea de jos a "
+"ferestrei. Aceasta poate fi afisata/ascunsa apasand pe butonul albastru "
+"*Ajutor*. Sistemul de ajutor contine informatii utile despre toate "
+"elementele Sonic Pi, inclusiv acest tutorial, o lista a sintetizatoarelor "
+"disponibile, sample-uri, exemple, efecte (FX) si o lista a tuturor "
+"functiilor pe care Sonic Pi le ofera pentru programarea muzicii."
 
 #: 01.2-Exploring-the-Interface.md:81
-#, fuzzy
 msgid "H. Scope Viewer"
-msgstr "F. Afisare Jurnal"
+msgstr "H. Osciloscop"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -560,6 +554,15 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"Osciloscopul ofera o reprezentare grafica a sunetelor pe care le auzi. Poti "
+"sa observi cum unda fierastrau chiar arata ca niste dinti de fierastrau si "
+"cum banalul bip este o unda sinusoidala. Poti observa de asemenea diferenta "
+"intre sunetele slabe si cele puternice urmarind dimensiunea liniilor. Exista "
+"3 osciloscoape cu care te poti juca - cel implicit combina canalele stanga "
+"si dreapta, cel stereo afiseaza separat fiecare canal, iar al treilea "
+"prezinta relatia de faza intre cele doua canale folosind Curbele lui "
+"Lissajous (https://en.wikipedia.org/wiki/Lissajous_curve) si permite crearea "
+"de imagini interesante folosind sunetul."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -647,7 +650,6 @@ msgid "OK, enough of the intros - let's get into some sound."
 msgstr "OK, destul cu introducerea - sa trecem la sunete."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -656,12 +658,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"In aceasta sectiune vom discuta bazele lucrului cu sintetizatoare. De multe or"
-"i se foloseste varianta synth, forma prescurtata a cuvantului din engleza (syn"
-"thesiser), care este un nume mai dichisit pentru ceva care creeaza sunete. De "
-"obicei, sintetizatoarele sunt complicat de folosit - mai ales cele analogice c"
-"u multe cabluri si module. Totusi, Sonic Pi iti ofera accesul la aceste instru"
-"mente puternice intr-o maniera usor de abordat."
+"In aceasta sectiune vom discuta bazele lucrului cu sintetizatoare. De multe "
+"ori se foloseste varianta synth, forma prescurtata a cuvantului din engleza "
+"(synthesiser), care este un nume mai dichisit pentru ceva care creeaza "
+"sunete. De obicei, sintetizatoarele sunt complicat de folosit - mai ales "
+"cele analogice cu multe cabluri si module. Totusi, Sonic Pi iti ofera "
+"accesul la aceste instrumente puternice intr-o maniera usor de abordat."
 
 #: 02-Synths.md:14
 msgid ""
@@ -8843,11 +8845,11 @@ msgstr "`S-M-m` - Comuta intre modurile luminos/intunecat"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "`S-M-s` - Salveaza continutul bufferului intr-un fisier"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "`S-M-o` - Incarca dintr-un fisier continutul bufferului"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
@@ -14245,29 +14247,31 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:1
 msgid "A.13 Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "A.13 Programeaza un Sequencer probabilistic"
 
 #: A.13-probabilistic-sequencer.md:3
 msgid "Code a Probabilistic Sequencer"
-msgstr ""
+msgstr "Programeaza un Sequencer probabilistic"
 
 #: A.13-probabilistic-sequencer.md:5
-#, fuzzy
 msgid ""
 "In a previous episode of this Sonic Pi series we explored the power of randomi"
 "sation to introduce variety, surprise and change into our live coded tracks an"
 "d performances. For example, we randomly picked notes from a scale to create n"
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
-msgstr "Intr-un episod precedent am"
+msgstr ""
+"Intr-un episod precedent am explorat randomizarea pentru a introduce "
+"varietate, surpriza si schimbare in interpretarile bazate pe programarea "
+"live. De exemplu, am ales la intamplare note dintr-o scala pentru a crea "
+"melodii fara sfarsit. Azi vom invata o tehnica noua care foloseste "
+"randomizarea pentru ritm - beat-uri probabilistice!"
 
 #: A.13-probabilistic-sequencer.md:12
-#, fuzzy
 msgid "Probability"
-msgstr "Portabilitatea"
+msgstr "Probabilitati"
 
 #: A.13-probabilistic-sequencer.md:14
-#, fuzzy
 msgid ""
 "Before we can start making new beats and synth rhythms we need to take a quick"
 " dive into the basics of probability. This might sound daunting and complicate"
@@ -14278,51 +14282,68 @@ msgid ""
 "rage (if you roll lots and lots of times) you'll throw a 1 every 6 throws. Thi"
 "s means you have a 1 in 6 chance of throwing a 1. We can emulate dice rolls in"
 " Sonic Pi with the fn `dice`. Let's roll one 8 times:"
-msgstr "dice"
+msgstr ""
+"Inainte sa incepem sa cream noi beat-uri si ritmuri de sintetizator, trebuie "
+"sa discutam putin despre bazele probabilitatilor. Poate suna putin "
+"complicat, chiar infricosator, dar este la fel de simplu ca a da cu zarul, "
+"serios! Cand iei un zar obisnuit cu 6 fete si il rostogolesti, ce se "
+"intampla de fapt? Ei bine, in primul rand vei obtine un 1, 2, 3, 4, 5 sau 6, "
+"fiecare dintre acestea avand aceeasi sansa sa apara. De fapt, tinand cont de "
+"faptul ca zarul are 6 fete, vei obtine in medie un 1 la fiecare 6 aruncari ("
+"daca arunci zarul de un numar de ori suficient de mare). Asta inseamana ca "
+"ai o sansa din sase sa abtii un 1. Putem simula datul cu zarul in Sonic Pi "
+"folosind functia 'dice'. Sa dam cu zarul de 8 ori:"
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "8.times do\n"
 "  puts dice\n"
 "  sleep 1\n"
 "end"
-msgstr "dice"
+msgstr ""
+"8.times do\n"
+"  puts dice\n"
+"  sleep 1\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:32
-#, fuzzy
 msgid ""
 "Notice how the log prints values between 1 and 6 just as if we'd rolled a real"
 " dice ourselves."
-msgstr "dice"
+msgstr ""
+"Observi cum in log apar valori intre 1 si 6, ca si cum am fi dat cu zarul."
 
 #: A.13-probabilistic-sequencer.md:35
-#, fuzzy
 msgid "Random Beats"
-msgstr "Valoarea de initializare (seed) a secventei aleatoare"
+msgstr "Beat-uri aleatoare"
 
 #: A.13-probabilistic-sequencer.md:37
-#, fuzzy
 msgid ""
 "Now imagine you had a drum and every time you were about to hit it you rolled "
 "a dice. If you rolled a 1, you hit the drum and if you rolled any other number"
 " you didn't. You now have a probabilistic drum machine working with a probabil"
 "ity of 1/6! Let's hear what that sounds like:"
-msgstr "Sa ascultam sunetul obtinut:"
+msgstr ""
+"Acum sa ne imaginam ca ai o toba si de fiecare data cand te pregatesti sa o "
+"lovesti dai cu zatul. Daca obtii 1, lovesti toba, iar daca obtii altceva, nu "
+"o lovesti. Acum ai o toba automata care merge cu probabilitatea 1/6! Sa "
+"ascultam sunetul obtinut:"
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :random_beat do\n"
 "  sample :drum_snare_hard if dice == 1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "rand"
+msgstr ""
+"live_loop :random_beat do\n"
+"  sample :drum_snare_hard if dice == 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:50
-#, fuzzy
 msgid ""
 "Let's quickly go over each line to make sure everything is very clear. First w"
 "e create a new `live_loop` called `:random_beat` which will continually repeat"
@@ -14337,14 +14358,27 @@ msgid ""
 "f it isn't `1` then the statement resolves to `false` and the snare is skipped"
 ". The second line simply waits for `0.125` seconds before rolling the dice aga"
 "in."
-msgstr "rand"
+msgstr ""
+"Sa parcurgem rapid fiecare linie ca sa ne asiguram ca totul este clar. Mai "
+"intai cream o noua bucla live numita ':random_beat' care va repeta in "
+"continuu cele doua linii dintre 'do' si 'end'. Prima dintre aceste linii "
+"este un apel 'sample' care va reda un sunet pre-inregistrat (':"
+"drum_snare_hard' in cazul acesta). Aceasta linie are insa o conditie la "
+"sfarsit, introdusa de un 'if' (daca). Aceasta inseamna ca linia se va "
+"executa doar daca acea conditie care urmeaza dupa 'if' este indeplinita. "
+"Conditia in acest caz este 'dice == 1'. Este apelata functia 'dice' care, "
+"asa cum am vazut, returneaza o valoare intre 1 si 6. Apoi folosim operatorul "
+"'==' pentru a verifica daca aceasta valoare este '1'. Daca este '1', atunci "
+"conditia este indeplinita (are valoarea 'true', adica adevarat) si este "
+"redat sunetul de toba mica, daca nu este '1' conditia nu este indeplinita si "
+"instructiunea sunetul nu este redat. A doua linie introduce o pauza simpla "
+"de '0.125' secunde inainte de a da din nou cu zarul."
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
-msgstr ""
+msgstr "Schimbarea probabilitatilor"
 
 #: A.13-probabilistic-sequencer.md:67
-#, fuzzy
 msgid ""
 "Those of you that have played role play games will be familiar with lots of st"
 "rangely shaped dice with different ranges. For example there is the tetrahedro"
@@ -14355,41 +14389,60 @@ msgid ""
 " chance of rolling a 1 and with a 20 sided dice there's a one in 20 chance. Lu"
 "ckily, Sonic Pi has the handy `one_in` fn for describing exactly this. Let's p"
 "lay:"
-msgstr "one_in"
+msgstr ""
+"Cei care ati jucat jocuri de tip RPG (role playing games) sunteti probabil "
+"familiari cu zarurile cu forme ciudate si cu numar diferit de fete. De "
+"exemplu, exista un zar in forma de tetraedru care are 4 fete, dar si zaruri "
+"cu 20 de fete in forma de icosaedru. Numarul de fete ale zarului schimba "
+"probabilitatea de a obtine un 1. Cu cat sunt mai putine fete, cu atat e mai "
+"probabil sa obtii un 1, iar cu cat sunt mai multe, cu atat este mai putin "
+"probabil.\n"
+"De exemplu, pentru un zar cu 4 fete ai 1 sansa din 4, iar pentru zarul cu 20 "
+"de fete ai 1 sansa din 20. Din fericire, Sonic Pi are o functie 'one_in' "
+"foarte la indemana pentru a descrie exact acest lucru. Sa ne jucam:"
 
 #: A.13-probabilistic-sequencer.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :different_probabilities do\n"
 "  sample :drum_snare_hard if one_in(6)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :different_probabilities do\n"
+"  sample :drum_snare_hard if one_in(6)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:84
-#, fuzzy
 msgid ""
 "Start the live loop above and you'll hear the familiar random rhythm. However,"
 " don't stop the code running. Instead, change the `6` to a different value suc"
 "h as `2` or `20` and hit the `Run` button again. Notice that lower numbers mea"
 "n the snare drum sounds more frequently and higher numbers mean the snare trig"
 "gers fewer times. You're making music with probabilities!"
-msgstr "rand"
+msgstr ""
+"Incepe cu bucla live de mai sus si vei auzi ritmul aleator deja cunoscut. Nu "
+"opri insa codul care ruleaza. In schimb, modifica '6' cu o valoare diferita, "
+"cum ar fi '2' sau '20' si apasa din nou butonul 'Run'. Observi ca un numar "
+"mai mic inseamna ca sunetul de toba mica se va auzi mai des, iar un numar "
+"mai mare inseamna ca sunetul se va auzi mai rar. Acum creezi muzica folosind "
+"probabilitatile!"
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
-msgstr ""
+msgstr "Combinarea probabilitatilor"
 
 #: A.13-probabilistic-sequencer.md:93
 msgid ""
 "Things get really exciting when you combine multiple samples being triggered w"
 "ith different probabilities. For example:"
 msgstr ""
+"Lucrurile pot deveni cu adevarat interesante cand combini mai multe "
+"esantioane care sunt redate cu probabilitati diferite. De exemplu:"
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  sample :elec_hi_snare if one_in(6)\n"
@@ -14398,7 +14451,14 @@ msgid ""
 "  sample :bd_haus if one_in(4)\n"
 "  sleep 0.125\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  sample :elec_hi_snare if one_in(6)\n"
+"  sample :drum_cymbal_closed if one_in(2)\n"
+"  sample :drum_cymbal_pedal if one_in(3)\n"
+"  sample :bd_haus if one_in(4)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:106
 msgid ""
@@ -14406,25 +14466,32 @@ msgid ""
 "the rhythm. Also, try changing the samples to create an entirely new feel. For"
 " example try changing `:drum_cymbal_closed` to `:bass_hit_c` for extra bass!"
 msgstr ""
+"Executa codul de mai sus si apoi schimba probabilitatile pentru a modifica "
+"ritmul. De asemenea, incerca sa schimbi esantioanele pentru a crea ceva cu "
+"totul diferit. De exemplu, schimba `:drum_cymbal_closed` cu `:bass_hit_c` "
+"pentru mai mult bas!"
 
 #: A.13-probabilistic-sequencer.md:112
-#, fuzzy
 msgid "Repeatable Rhythms"
-msgstr "Ritmul"
+msgstr "Ritmuri repetabile"
 
 #: A.13-probabilistic-sequencer.md:114
-#, fuzzy
 msgid ""
 "Next, we can use our old friend `use_random_seed` to reset the random stream a"
 "fter 8 iterations to create a regular beat. Type the following code to hear a "
 "much more regular and repeating rhythm. Once you hear the beat, try changing t"
 "he seed value from `1000` to another number. Notice how different numbers gene"
 "rate different beats."
-msgstr "rand"
+msgstr ""
+"In continuare, putem apela la vechiul nostru prieten 'use_random_seed' "
+"pentru a reseta sirul aleator dupa fiecare 8 iteratii pentru a crea un beat "
+"regulat. Scrie codul de mai jos pentru a auzi un ritm mai regulat care se "
+"repeta. Dupa ce se aude beat-ul, incearca sa schimbi valoarea de "
+"initializare (random seed) din 1000 in altceva. Observi ca numere diferite "
+"vor produce beat-uri diferite."
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 1000\n"
@@ -14436,7 +14503,17 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "one_in"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 1000\n"
+"  8.times do\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.13-probabilistic-sequencer.md:133
 msgid ""
@@ -14444,19 +14521,24 @@ msgid ""
 "sound good and make a note of them. That way I can easily re-create my rhythms"
 " in future practice sessions or performances."
 msgstr ""
+"Un lucru pe care il fac de obicei cu acest tip de structura este sa vad ce "
+"valoare de initializare suna mai bine si sa o notez. In felul asta pot "
+"recrea usor ritmurile mele in viitor cand exersez sau interpretez live."
 
 #: A.13-probabilistic-sequencer.md:139
-#, fuzzy
 msgid ""
 "Finally, we can throw in some random bass to give it some nice melodic content"
 ". Notice that we can also use our newly discovered probabilistic sequencing me"
 "thod on synths just as well as samples. Don't leave it at that though - tweak "
 "the numbers and make your own track with the power of probabilities!"
-msgstr "rand"
+msgstr ""
+"In fine, putem adauga niste bas aleator pentru a crea un continut melodic "
+"placut. Putem folosi metoda probabilistica de redare a esantioanelor pe care "
+"tocmai am descoperit-o. Dar nu lasa lucrurile asa - modifica numerele si "
+"creeaza propria ta melodie folosind puterea probabilitatilor!"
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 2000\n"
@@ -14471,40 +14553,58 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "choose (alege)"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 2000\n"
+"  8.times do\n"
+"    c = rrand(70, 130)\n"
+"    n = (scale :e1, :minor_pentatonic).take(3).choose\n"
+"    synth :tb303, note: n, release: 0.1, cutoff: c if rand < 0.9\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus, amp: 1.5 if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.14-amplitude-modulation.md:1
-#, fuzzy
 msgid "A.14 Amplitude Modulation"
-msgstr "Amplitudinea"
+msgstr "A.14 Modulatia in amplitudine"
 
 #: A.14-amplitude-modulation.md:3
-#, fuzzy
 msgid "Amplitude Modulation"
-msgstr "Amplitudinea"
+msgstr "Modulatia in amplitudine"
 
 #: A.14-amplitude-modulation.md:5
-#, fuzzy
 msgid ""
 "This month we're going to take a deep dive into one of Sonic Pi's most powerfu"
 "l and flexible audio FX - the `:slicer`. By the end of this article you will h"
 "ave learned how to manipulate the overall volume of parts of our live coded so"
 "und in powerful new ways. This will allow you to create new rhythmic and timbr"
 "al structures and broaden your sonic possibilities."
-msgstr "slicer"
+msgstr ""
+"Luna asta vom analiza in detaliu  unul dintre cele mai puternice efecte "
+"audio ale Sonic Pi - ':slicer'. La sfarsitul acestui articol vei sti sa "
+"modifici volumul global al diferitelor parti din sunetul programat live in "
+"moduri noi foarte puternice. Asta iti va permita se creezi noi structuri "
+"ritmice si timbrale si sa iti largesti capacitatea de exprimare."
 
 #: A.14-amplitude-modulation.md:12
 msgid "Slice that Amp"
-msgstr ""
+msgstr "Modifica amplitudinea cu ':slicer'"
 
 #: A.14-amplitude-modulation.md:14
-#, fuzzy
 msgid ""
 "So, what does the `:slicer` FX actually do? One way to think about it is that "
 "it's just like having someone play around with the volume control on your TV o"
 "r home hi-fi. Let's take a look but first, listen to the deep growl of the fol"
 "lowing code which triggers the `:prophet` synth:"
-msgstr "`:prophet`"
+msgstr ""
+"Ce face de fapt efectul ':slicer'? Poti sa iti imaginezi ca cineva se joaca "
+"cu volumul la televizorul tau sau la amplificatorul audio. Sa aruncam o "
+"privire, dar mai intai sa ascultam murmurul produs de bucata asta de cod "
+"care foloseste sintetizatorul ':prophet':"
 
 #: A.14-amplitude-modulation.md:20
 #, no-wrap
@@ -14512,25 +14612,29 @@ msgid ""
 "synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 msgstr ""
+"synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
-#, fuzzy
 msgid "Now, let's pipe it through the `:slicer` FX:"
-msgstr "slicer"
+msgstr "Acum, sa il trecem printr-un efect ':slicer':"
 
 #: A.14-amplitude-modulation.md:27
 #, no-wrap
-#, fuzzy
 msgid ""
 "\n"
 "with_fx :slicer do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
-#, fuzzy
 msgid ""
 "Hear how the slicer acts like it's muting and unmuting the audio with a regula"
 "r beat. Also, notice how the `:slicer` affects all the audio generated between"
@@ -14538,34 +14642,49 @@ msgid ""
 "on and off with the `phase:` opt which is short for phase duration. Its defaul"
 "t value is `0.25` which means 4 times a second at the default BPM of 60. Let's"
 " make it faster:"
-msgstr "slicer"
+msgstr ""
+"Observa cum efectul slicer actioneaza ca si cand ar opri/porni sunetul intr-"
+"un ritm regulat. De asemenea, vei vedea ca ':slicer' afecteaza toate "
+"sunetele generate intre blocurile 'do'/'end'. Poti controla viteza cu care "
+"porneste si opreste sunetul cu parametrul 'phase:' care este o prescurtare "
+"de la durata fazei. Valoarea implicita este '0.25' ceea ce inseamna de 4 ori "
+"pe secunda la BPM implicit de 60. Sa il facem mai rapid:"
 
 #: A.14-amplitude-modulation.md:42
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:49
-#, fuzzy
 msgid ""
 "Now, play with different `phase:` durations yourself. Try longer and shorter v"
 "alues. See what happens when you choose a really short value. Also, try differ"
 "ent synths such as `:beep` or `:dsaw` and different notes. Take a look at the "
 "following diagram to see how different `phase:` values change the number of am"
 "plitude changes per beat."
-msgstr "`:dsaw`"
+msgstr ""
+"Acum, joaca-te cu diferite durate pentru 'phase:'. Incearca valori mai mari "
+"sau mai mici. Vezi ce se intampla cand alegi o durata foarte scurta. De "
+"asemenea, incearca diferite sintetizatoare, cum ar fi ':beep' sau ':dsaw' si "
+"note diferite. Priveste diagrama urmatoare pentru a vedea cum schimba "
+"diferitele valori pentru ':phase' numarul de schimbari de amplitudine intr-"
+"un beat."
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "Durata"
+msgstr ""
+"![Duratele fazei](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -14573,13 +14692,15 @@ msgid ""
 "alues will make the FX switch on and off much faster than larger values. Good "
 "values to start playing with are `0.125`, `0.25`, `0.5` and `1`."
 msgstr ""
+"Durata fazei este timpul pentru un ciclu pornit/oprit. Ca urmare, valori mai "
+"mici vor face efectul sa comute mai rapid decat valori mai mari. Valori cu "
+"care ai putea experimenta sunt  `0.125`, `0.25`, `0.5` si `1`."
 
 #: A.14-amplitude-modulation.md:64
 msgid "Control Waves"
-msgstr ""
+msgstr "Forma de unda de control"
 
 #: A.14-amplitude-modulation.md:66
-#, fuzzy
 msgid ""
 "By default, the `:slicer` FX uses a square wave to manipulate the amplitude th"
 "rough time. This is why we hear the amplitude on for a period, then immediatel"
@@ -14589,17 +14710,29 @@ msgid ""
 "t these look like. We can also hear what they sound like. For example, the fol"
 "lowing code uses (co)sine as the control wave. Hear how the sound doesn't turn"
 " on and off abruptly but instead smoothly fades in and out:"
-msgstr "slicer"
+msgstr ""
+"Implicit, efectul ':slicer' foloseste o forma de unda dreptunghiulara pentru "
+"a modifica amplitudinea in timp. De acceea auzim sunetul o perioada, apoi "
+"imediat dispare, apoi apare din nou. Forma de unda dreptunghiulara este doar "
+"una dintre cele 4 care pot fi folosite de catre ':slicer'. Celelalte sunt "
+"tip dinti de fierastrau, triunghiulara si (co)sinusoidala. Priveste diagrama "
+"de mai jos pentru a vedea cum arata diecare. Putem sa si auzim cum suna "
+"fiecare. De exemplu, codul de mai jos foloseste forma de unda co(sinusoidala)"
+" pentru control. Observi ca sunetul nu se opreste/porneste brusc ci are un "
+"efect de fade out/fade in:"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.5, wave: 3 do\n"
 "  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
 "  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.5, wave: 3 do\n"
+"  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
+"  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
+"end"
 
 #: A.14-amplitude-modulation.md:83
 msgid ""
@@ -14607,6 +14740,10 @@ msgid ""
 "or saw, `1` for square, `2` for triangle and `3` for sine. See how different w"
 "aves sound with different `phase:` opts too."
 msgstr ""
+"Joaca-te cu diferite forme de unda schimband parametrul 'wave:' la '0' "
+"pentru dinti de fierastrau, '1' pentru patrata, '2' pentru triunghiulara si "
+"'3' pentru sinusoidala. Observa de asemenea cum suna diferitele forme de "
+"unda cu valori diferite pentru 'phase:'."
 
 #: A.14-amplitude-modulation.md:87
 msgid ""
@@ -14619,65 +14756,91 @@ msgid ""
 "hase:`, `wave:`, `invert_wave:` and `phase_offset` opts you can dramatically c"
 "hange how the amplitude is modified through time."
 msgstr ""
+"Fiecare dintre aceste forme de unda poate fi inversata folosind parametrul "
+"'invert_wave:' care o oglindeste fata de axa y. De exemplu, pe parcursul "
+"unei singure faze unda dinti de fierastrau porneste in general de sus si "
+"coboara incet pentru ca apoi sa sara instantaneu din nou la valoarea maxima. "
+"Folosind 'invert_wave: 1', ea va porni de jos si va creste progresiv inainte "
+"de a reveni instantaneu la valoarea minima. In plus, forma de unda poate "
+"porni din diferite puncte, folosind parametrul 'phase_offset:' care trebuie "
+"sa aiba o valoare intre '0' si '1'. Jucandu-te cu parametrii  `phase:`, "
+"`wave:`, `invert_wave:` si `phase_offset` poti schimba semnificativ modul in "
+"care amplitudinea este modificata in timp."
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "Durata"
+msgstr ""
+"![Duratele fazelor](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
-msgstr ""
+msgstr "Stabilirea nivelului"
 
 #: A.14-amplitude-modulation.md:102
-#, fuzzy
 msgid ""
 "By default, `:slicer` switches between amplitude values `1` (fully loud) and `"
 "0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. You "
 "can use this alongside the sine wave setting to create a simple tremolo effect"
 ":"
-msgstr "slicer"
+msgstr ""
+"Implicit, ':slicer' comuta intre valorile '1' (sunet la maximum) si '0' ("
+"oprit complet) pentru amplitudine. Acestea pot fi schimbate folosind "
+"parametrii `amp_min:` si `amp_max:`. Poti folosi acesti parametri impreuna "
+"cu o unda sinusoidala pentru a crea un efect simplu de tremolo:"
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
 "  synth :saw, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
+"  synth :saw, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:113
 msgid ""
 "This is just like grabbing the volume knob on your hi-fi and moving it up and "
 "down just a little so the sound 'wobbles' in and out."
 msgstr ""
+"Este ca si cum ai roti putin la stanga si la dreapta butonul de volum de la "
+"amplificatorul tau audio pentru ca taria sunetului sa oscileze putin."
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
-msgstr ""
+msgstr "Probabilitati"
 
 #: A.14-amplitude-modulation.md:119
-#, fuzzy
 msgid ""
 "One of `:slicer`'s powerful features is its ability to use probability to choo"
 "se whether or not to turn the slicer on or off. Before the `:slicer` FX starts"
 " a new phase it rolls a dice and based on the result either uses the selected "
 "control wave or keeps the amplitude off. Let's take a listen:"
-msgstr "choose (alege)"
+msgstr ""
+"Una dintre caracteristicile importante ale efectului ':slicer' este "
+"posibilitatea de a folosi probabilitatile pentru a alege daca activeaza sau "
+"nu modificarea de amplitudine. Inainte ca ':slicer' sa inceapa o noua faza, "
+"el da cu zarul si pe baza rezultatului fie foloseste forma de unda selectata "
+"fie mentine amplitudinea la 0. Sa ascultam:"
 
 #: A.14-amplitude-modulation.md:125
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:133
 msgid ""
@@ -14686,9 +14849,12 @@ msgid ""
 "l have more space between each sound due to the likelihood of the sound being "
 "triggered being much lower."
 msgstr ""
+"Observi ca acum avem un ritm interesant de impulsuri. Incearca sa setezi "
+"parametrul \"probability:' la o valoare intre '0' si '1'. Valorile mai "
+"apropiate de 0 vor duce la pauze mai mari intre sunete deoarece "
+"probabilitatea ca sunetul sa fie redat este mult mai mica."
 
 #: A.14-amplitude-modulation.md:138
-#, fuzzy
 msgid ""
 "Another thing to notice is that the probability system in the FX is just like "
 "the randomisation system accessible via fns such as `rand` and `shuffle`. They"
@@ -14697,7 +14863,15 @@ msgid ""
 "d like to change things around you can use the `seed:` opt to select a differe"
 "nt starting seed. This works exactly the same as `use_random_seed` but only af"
 "fects that particular FX."
-msgstr "rand"
+msgstr ""
+"Un alt lucru de remarcat este ca sistemul de probabilitati din acest efect "
+"este la fel ca sistemul de randomizare accesibil prin intermediul functiilor "
+"ca 'rand' si 'shuffle'. Ambele sunt complet deterministe. Aceasta inseamna "
+"ca de fiecare data cand apesi pe Run vei auzi exact acelasi ritm de "
+"impulsuri pentru o probabilitate data. Daca vrei sa schimbi acest lucru poti "
+"folosi parametrul 'seed:' pentru a selecta un punct de pornire diferit in "
+"secventa de numere aleatoare. Acest parametru functioneaza exact ca "
+"`use_random_seed`, dar afecteaza doar acest efect particular."
 
 #: A.14-amplitude-modulation.md:146
 msgid ""
@@ -14707,14 +14881,18 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:158
 #, fuzzy
@@ -14728,12 +14906,14 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_mika\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_mika\n"
+"end"
 
 #: A.14-amplitude-modulation.md:169
 msgid ""
@@ -14745,9 +14925,8 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:176
-#, fuzzy
 msgid "Changing tempo"
-msgstr "Sa schimbam putin"
+msgstr "Schimbarea tempo-ului"
 
 #: A.14-amplitude-modulation.md:178
 #, fuzzy
@@ -14761,13 +14940,16 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_sample_bpm :loop_amen\n"
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_amen\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"use_sample_bpm :loop_amen\n"
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_amen\n"
+"end"
 
 #: A.14-amplitude-modulation.md:194
 #, fuzzy
@@ -14779,7 +14961,6 @@ msgstr "slicer"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :dark_mist do\n"
 "  co = (line 70, 130, steps: 8).tick\n"
@@ -14798,17 +14979,32 @@ msgid ""
 "  end\n"
 "  sleep 16\n"
 "end"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr ""
+"live_loop :dark_mist do\n"
+"  co = (line 70, 130, steps: 8).tick\n"
+"  with_fx :slicer, probability: 0.7, prob_pos: 1 do\n"
+"    synth :prophet, note: :e1, release: 8, cutoff: co\n"
+"  end\n"
+"  \n"
+"  with_fx :slicer, phase: [0.125, 0.25].choose do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :crashing_waves do\n"
+"  with_fx :slicer, wave: 0, phase: 0.25 do\n"
+"    sample :loop_mika, rate: 0.5\n"
+"  end\n"
+"  sleep 16\n"
+"end"
 
 #: A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "Programare live"
+msgstr "A.15 Cinci tehnici de programare live"
 
 #: A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "Programare live"
+msgstr "Cinci tehnici de programare live"
 
 #: A.15-performance.md:5
 msgid ""
@@ -14861,9 +15057,8 @@ msgstr ""
 
 #: A.15-performance.md:41
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 
 #: A.15-performance.md:46
 msgid ""
@@ -14873,9 +15068,8 @@ msgstr ""
 
 #: A.15-performance.md:50
 #, no-wrap
-#, fuzzy
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 
 #: A.15-performance.md:55
 msgid ""
@@ -14893,9 +15087,8 @@ msgstr ""
 
 #: A.15-performance.md:65
 #, no-wrap
-#, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
-msgstr "sample :ambi_lunar_land"
+msgstr "sample :ambi_lunar_land, rate: 1"
 
 #: A.15-performance.md:69
 msgid ""
@@ -14913,9 +15106,8 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:80
-#, fuzzy
 msgid "3. Master Live Loops"
-msgstr "Bucle live"
+msgstr "3. Stapaneste buclele live"
 
 #: A.15-performance.md:82
 msgid ""
@@ -14993,9 +15185,8 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:136
-#, fuzzy
 msgid "5. Practice"
-msgstr "Efectele in viata reala"
+msgstr "5. Exerseaza"
 
 #: A.15-performance.md:138
 msgid ""
@@ -15028,14 +15219,12 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "Programare live"
+msgstr "A.16 Cum sa exersezi programarea live"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "Programare live"
+msgstr "8 Sfaturi pentru a exersa programarea live"
 
 #: A.16-practice.md:5
 msgid ""
