@@ -28,8 +28,14 @@ module SonicPi
       include SonicPi::Lang::Support::DocSystem
       include SonicPi::Util
 
-      class AssertionError < StandardError ; end
-      class TimingError < StandardError ; end
+      class SonicPiError < StandardError ; end
+      class AssertionError < SonicPiError ; end
+      class TimingError < SonicPiError ; end
+      class ZeroTimeLoopError < TimingError ; end
+      class NotImmutableError < SonicPiError ; end
+      class TimeTravelError < SonicPiError ; end
+      class LiveLockError < SonicPiError ; end
+      class DeprecationError < SonicPiError ; end
 
       THREAD_RAND_SEED_MAX = 10e20
 
@@ -76,15 +82,15 @@ module SonicPi
 
 
       def with_swing (*args, &blk)
-        raise "with_swing must be called with a do/end block." unless blk
+        raise ArgumentError, "with_swing must be called with a do/end block." unless blk
         params, opts = split_params_and_merge_opts_array(args)
         shift = params[0] || opts.fetch(:shift, 0.1)
 
         pulse = params[1] || opts.fetch(:pulse, 4)
         key = (params[2] || opts.fetch(:tick, :swing)).to_sym
 
-        raise "with_swing shift should be a number. Got: #{shift.inspect}" unless shift.is_a?(Numeric)
-        raise "with_swing pulse should be a positive number. Got: #{pulse.inspect}" unless pulse.is_a?(Numeric) && pulse > 0
+        raise ArgumentError, "with_swing shift should be a number. Got: #{shift.inspect}" unless shift.is_a?(Numeric)
+        raise ArgumentError, "with_swing pulse should be a positive number. Got: #{pulse.inspect}" unless pulse.is_a?(Numeric) && pulse > 0
 
         tick(key)
         use_shift = (look(key) % pulse) != 0
@@ -165,7 +171,7 @@ end
 
       def run_file(path)
         path = File.expand_path(path.to_s)
-        raise "Unable to run file - no file found with path: #{path}" unless File.exist?(path)
+        raise IOError, "Unable to run file - no file found with path: #{path}" unless File.exist?(path)
         __spider_eval(File.read(path))
       end
       doc name:           :run_file,
@@ -282,7 +288,7 @@ end"
 ]
 
       def with_osc(host, port=57120, &block)
-        raise "with_osc must be called with a do/end block. Perhaps you meant use_osc" unless block
+        raise ArgumentError, "with_osc must be called with a do/end block. Perhaps you meant use_osc" unless block
         current_host_and_port = __thread_locals.get(:sonic_pi_osc_client)
         use_osc(host, port)
         res = block.call
@@ -303,7 +309,7 @@ end"
 
       def osc(path, *args)
         host_and_port = __thread_locals.get :sonic_pi_osc_client
-        raise "Please specify a destination with use_osc or with_osc" unless host_and_port
+        raise ArgumentError, "Please specify a destination with use_osc or with_osc" unless host_and_port
         host, port = host_and_port.split ":"
         port = port.to_i
         osc_send host, port, path, *args
@@ -498,7 +504,7 @@ end"
         __schedule_delayed_blocks_and_messages!
 
 
-        raise "time_warp requires a do/end block" unless block
+        raise ArgumentError, "time_warp requires a do/end block" unless block
         prev_ctl_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
 
         had_params = params
@@ -508,8 +514,8 @@ end"
         params ||= times
         params_size = params.size
 
-        raise "params needs to be a list-like thing" unless params.respond_to? :[]
-        raise "times needs to be a list-like thing" unless times.respond_to? :each_with_index
+        raise ArgumentError, "params needs to be a list-like thing" unless params.respond_to? :[]
+        raise ArgumentError, "times needs to be a list-like thing" unless times.respond_to? :each_with_index
 
         vt_orig = __system_thread_locals.get :sonic_pi_spider_time
         density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
@@ -525,7 +531,7 @@ end"
           sleep_time = delta * orig_sleep_mul_w_density
           new_time = vt_orig + sleep_time
 
-          raise "Time travel error - a jump back of #{delta} is too far.\nSorry, although it would be amazing, you can't go back in time beyond the sched_ahead time of #{sat}" if (Time.now - sat) > new_time
+          raise TimeTravelError, "Time travel error - a jump back of #{delta} is too far.\nSorry, although it would be amazing, you can't go back in time beyond the sched_ahead time of #{sat}" if (Time.now - sat) > new_time
 
           __system_thread_locals.set :sonic_pi_spider_time, new_time.freeze
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
@@ -545,7 +551,7 @@ end"
           when 3
             block.call(t, params[idx % params_size], idx)
           else
-            raise "block for time_warp should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
+            raise ArgumentError, "block for time_warp should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
           end
           __schedule_delayed_blocks_and_messages!
         end
@@ -1100,7 +1106,7 @@ end"
 
 
       def stretch(*args)
-        raise "stretch needs an even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
+        raise ArgumentError, "stretch needs an even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
         res = args.each_slice(2).flat_map do |values, num_its|
 
           if !values.respond_to? :flat_map
@@ -1127,7 +1133,7 @@ end"
 
 
       def knit(*args)
-        raise "knit must have a even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
+        raise ArgumentError, "knit must have a even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
         res = []
         args.each_slice(2) do |val, num_its|
           if num_its > 0
@@ -1328,7 +1334,7 @@ end"
         num_slices = args_h[:steps] || 4
         inclusive = args_h[:inclusive]
 
-        raise "steps: opt for fn line should be a positive non-zero whole number" unless num_slices > 0
+        raise ArgumentError, "steps: opt for fn line should be a positive non-zero whole number" unless num_slices > 0
 
         if inclusive
           step_size = (start - finish).abs.to_f / (num_slices - 1)
@@ -1358,7 +1364,7 @@ end"
 
 
       def halves(start, num_halves=1)
-        raise "Start value for halves needs to be a number, got: #{start.inspect}" unless start.is_a?(Numeric)
+        raise ArgumentError, "Start value for halves needs to be a number, got: #{start.inspect}" unless start.is_a?(Numeric)
         start = start.to_f
         return doubles(start, num_halves * -1) if num_halves < 0
         a = []
@@ -1389,7 +1395,7 @@ end"
 
 
       def doubles(start, num_doubles=1)
-        raise "Start value for doubles needs to be a number, got: #{start.inspect}" unless start.is_a?(Numeric)
+        raise ArgumentError, "Start value for doubles needs to be a number, got: #{start.inspect}" unless start.is_a?(Numeric)
         return halves(start, num_doubles * -1) if num_doubles < 0
         start = start.to_f
         a = []
@@ -1634,7 +1640,7 @@ end"
         "dec -1 # returns -2"]
 
       def loop(&block)
-        raise "loop needs a block" unless block
+        raise ArgumentError, "loop needs a block" unless block
         Kernel.loop do
           __system_thread_locals.set(:sonic_pi_spider_synced, false)
           slept = block_slept? do
@@ -1671,10 +1677,10 @@ play 80      # This is *never* played as the program is trapped in the loop abov
 
 
       def live_loop(name=nil, *args, &block)
-        raise "live_loop needs to have a unique name. For example: live_loop :foo" unless name
-        raise "live_loop's name needs to be a string or symbol, got: #{name.inspect}. Example usage: live_loop :foo" unless (name.is_a?(Symbol) || name.is_a?(String))
+        raise ArgumentError, "live_loop needs to have a unique name. For example: live_loop :foo" unless name
+        raise ArgumentError, "live_loop's name needs to be a string or symbol, got: #{name.inspect}. Example usage: live_loop :foo" unless (name.is_a?(Symbol) || name.is_a?(String))
         ll_name = "live_loop_#{name}".to_sym
-        raise "live_loop #{name.inspect} must be called with a do/end block" unless block
+        raise ArgumentError, "live_loop #{name.inspect} must be called with a do/end block" unless block
 
         args_h = resolve_synth_opts_hash_or_array(args)
 
@@ -1682,10 +1688,10 @@ play 80      # This is *never* played as the program is trapped in the loop abov
         sync_bpm_sym = args_h[:sync_bpm]
         sync_sym = nil if sync_bpm_sym
 
-        raise "livelock detection - live_loop cannot sync with itself - please choose another sync name for live_loop #{name.inspect}" if name == sync_sym || name == sync_bpm_sym
+        raise LiveLockError, "livelock detection - live_loop cannot sync with itself - please choose another sync name for live_loop #{name.inspect}" if name == sync_sym || name == sync_bpm_sym
 
         delay = args_h[:delay]
-        raise "live_loop's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
+        raise ArgumentError, "live_loop's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
         if args_h.has_key? :auto_cue
           auto_cue = args_h[:auto_cue]
@@ -1703,7 +1709,7 @@ play 80      # This is *never* played as the program is trapped in the loop abov
             block.call(a)
           end
         else
-          raise "Live loop block must only accept 0 or 1 args"
+          raise ArgumentError, "Live loop block must only accept 0 or 1 args"
         end
 
         in_thread(name: ll_name, delay: delay, sync: sync_sym, sync_bpm: sync_bpm_sym) do
@@ -1938,14 +1944,14 @@ puts slept #=> Returns false as there were no sleeps in the block"]
 
 
       def at(times=0, params=nil, &block)
-        raise "at must be called with a do/end block" unless block
+        raise ArgumentError, "at must be called with a do/end block" unless block
         had_params = params
         times = [times] if times.is_a? Numeric
         # When no params are specified, pass the times through as params
         params ||= times
 
-        raise "params needs to be a list-like thing" unless params.respond_to? :[]
-        raise "times needs to be a list-like thing" unless times.respond_to? :each_with_index
+        raise ArgumentError, "params needs to be a list-like thing" unless params.respond_to? :[]
+        raise ArgumentError, "times needs to be a list-like thing" unless times.respond_to? :each_with_index
 
         params_size = params.size
         times.each_with_index do |t, idx|
@@ -1965,7 +1971,7 @@ puts slept #=> Returns false as there were no sleeps in the block"]
             when 3
               block.call(t, params[idx % params_size], idx)
             else
-              raise "block for at should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
+              raise ArgumentError, "block for at should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
             end
           end
         end
@@ -2147,7 +2153,7 @@ end
 
 
       def defonce(name, *opts, &block)
-        raise "defonce must be called with a do/end block" unless block
+        raise ArgumentError, "defonce must be called with a do/end block" unless block
         args_h = resolve_synth_opts_hash_or_array(opts)
         if args_h[:override] || !(@user_methods.method_defined? name)
           val = block.yield
@@ -2294,7 +2300,7 @@ end
 
 
       def comment(*args, &block)
-        raise "comment requires a block." unless block
+        raise ArgumentError, "comment requires a block." unless block
         #do nothing!
       end
       doc name:           :comment,
@@ -2316,7 +2322,7 @@ end
 
 
       def uncomment(*args, &block)
-        raise "uncomment requires a block." unless block
+        raise ArgumentError, "uncomment requires a block." unless block
         block.call
       end
       doc name:           :uncomment,
@@ -2421,7 +2427,7 @@ end
 
 
       def quantise(n, step)
-        raise "quantisation step resolution should be positive" if step <= 0
+        raise ArgumentError, "quantisation step resolution should be positive" if step <= 0
         (n.to_f / step).round * step
       end
       doc name:           :quantise,
@@ -2807,7 +2813,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def use_random_seed(seed, &block)
-        raise "use_random_seed does not work with a block. Perhaps you meant with_random_seed" if block
+        raise ArgumentError, "use_random_seed does not work with a block. Perhaps you meant with_random_seed" if block
         __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
 
         SonicPi::Core::SPRand.set_seed! seed
@@ -2859,7 +2865,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def with_random_seed(seed, &block)
-        raise "with_random_seed requires a block. Perhaps you meant use_random_seed" unless block
+        raise ArgumentError, "with_random_seed requires a block. Perhaps you meant use_random_seed" unless block
         new_thread_gen_idx = __thread_locals.get :sonic_pi_spider_new_thread_random_gen_idx
 
         current_seed, current_idx = SonicPi::Core::SPRand.get_seed_and_idx
@@ -2930,12 +2936,12 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
       # Give a deprecation warning to users coming from v1.0
       def with_tempo(*args, &block)
-        raise "The function with_tempo is deprecated since v2.0. Please consider use_bpm or with_bpm."
+        raise DeprecationError, "The function with_tempo is deprecated since v2.0. Please consider use_bpm or with_bpm."
       end
 
 
       def use_cue_logging(v, &block)
-        raise "use_cue_logging does not work with a do/end block. Perhaps you meant with_cue_logging" if block
+        raise DeprecationError, "use_cue_logging does not work with a do/end block. Perhaps you meant with_cue_logging" if block
         __thread_locals.set(:sonic_pi_suppress_cue_logging, !v)
       end
       doc name:          :use_cue_logging,
@@ -2951,7 +2957,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def with_cue_logging(v, &block)
-        raise "with_cue_logging requires a do/end block. Perhaps you meant use_cue_logging" unless block
+        raise ArgumentError, "with_cue_logging requires a do/end block. Perhaps you meant use_cue_logging" unless block
         current = __thread_locals.get(:sonic_pi_suppress_cue_logging)
         __thread_locals.set(:sonic_pi_suppress_cue_logging, !v)
         block.call
@@ -2986,8 +2992,8 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def use_bpm(bpm, &block)
-        raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
-        raise "use_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
+        raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
+        raise ArgumentError, "use_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
         sleep_mul = 60.0 / bpm
         __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul)
       end
@@ -3040,8 +3046,8 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def with_bpm(bpm, &block)
-        raise "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
-        raise "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
+        raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
+        raise ArgumentError, "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
         current_mul = __thread_locals.get(:sonic_pi_spider_sleep_mul)
         sleep_mul = 60.0 / bpm
         __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul)
@@ -3098,8 +3104,8 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def with_bpm_mul(mul, &block)
-        raise "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
-        raise "with_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
+        raise ArgumentError, "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
+        raise ArgumentError, "with_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
         current_mul = __thread_locals.get(:sonic_pi_spider_sleep_mul)
         new_mul = current_mul.to_f / mul
         __thread_locals.set(:sonic_pi_spider_sleep_mul, new_mul)
@@ -3133,8 +3139,8 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def use_bpm_mul(mul, &block)
-        raise "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
-        raise "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
+        raise ArgumentError, "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
+        raise ArgumentError, "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
         current_mul = __thread_locals.get(:sonic_pi_spider_sleep_mul)
         new_mul = current_mul.to_f / mul
         __thread_locals.set(:sonic_pi_spider_sleep_mul, new_mul)
@@ -3162,8 +3168,8 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def density(d, &block)
-        raise "density must be called with a do/end block." unless block
-        raise "density must be a positive number. Got: #{d.inspect}." unless d.is_a?(Numeric) && d > 0
+        raise ArgumentError, "density must be called with a do/end block." unless block
+        raise ArgumentError, "density must be a positive number. Got: #{d.inspect}." unless d.is_a?(Numeric) && d > 0
         reps = d < 1 ? 1.0 : d
         prev_density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
         __thread_locals.set_local(:sonic_pi_local_spider_density, prev_density * d)
@@ -3394,7 +3400,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       end
 
       def with_sched_ahead_time t, &blk
-        raise "with_sched_ahead_time must be called with a do/end block. Perhaps you meant use_sched_ahead_time" unless blk
+        raise ArgumentError, "with_sched_ahead_time must be called with a do/end block. Perhaps you meant use_sched_ahead_time" unless blk
         current_sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
         use_osc(host, port)
         res = blk.call
@@ -3439,7 +3445,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         sat = current_sched_ahead_time
         now = Time.now
         if now - (sat + 0.5) > new_vt
-          raise "Timing Exception: thread got too far behind time"
+          raise TimingError, "Timing Exception: thread got too far behind time"
         elsif (now - sat) > new_vt
           # TODO: Empirical tests to see what effect this priority stuff
           # actually has on typical workloads
@@ -3467,7 +3473,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           if in_time_warp
             # Don't sleep if within a time shift
             # However, do make sure the vt hasn't got too far ahead of the real time
-             raise "Timing Exception: thread got too far ahead of time" if  (new_vt - 17) > now
+             raise TimingError, "Timing Exception: thread got too far ahead of time" if  (new_vt - 17) > now
           else
             Kernel.sleep new_vt - now
           end
@@ -3547,14 +3553,14 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         if opts.size == 1 && opts[0].is_a?(Hash)
           opts[0].each do |k, v|
-            raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
-            raise "Invalid cue argument #{v.inspect} with key #{k.inspect} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
+            raise ArgumentError, "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
+            raise ArgumentError, "Invalid cue argument #{v.inspect} with key #{k.inspect} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
           end
           splat_map_or_arr = opts[0]
         else
           opts.each_with_index do |v, idx|
             v = v.freeze
-            raise "Invalid cue argument #{v.inspect} in position #{idx} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
+            raise ArgumentError, "Invalid cue argument #{v.inspect} in position #{idx} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
           end
           splat_map_or_arr = opts.freeze
         end
@@ -3679,7 +3685,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         cue_ids = (args.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
         opts = args[cue_ids.size] || {}
         cue_ids.flatten!
-        raise "Opts for sync_bpm must be a map, got a #{opts.class} - #{opts.inspect}" unless opts.is_a?(Hash)
+        raise ArgumentError, "Opts for sync_bpm must be a map, got a #{opts.class} - #{opts.inspect}" unless opts.is_a?(Hash)
         sync cue_ids, opts.merge({bpm_sync: true})
       end
       doc name:           :sync_bpm,
@@ -3699,8 +3705,8 @@ puts current_sched_ahead_time # Prints 0.5"]
         # Add syncing on threads!
         cue_ids = params
         cue_ids.flatten!
-        raise "Timing Exception - you may not sync within a time_warp" if __system_thread_locals.get :sonic_pi_spider_in_time_warp
-        raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
+        raise ArgumentError, "Timing Exception - you may not sync within a time_warp" if __system_thread_locals.get :sonic_pi_spider_in_time_warp
+        raise ArgumentError, "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
 
         if (cue_ids.size == 1) && cue_ids[0].is_a?(String)
@@ -3836,7 +3842,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         sync_bpm_sym = args_h[:sync_bpm]
         sync_sym = nil if sync_bpm_sym
 
-        raise "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
+        raise ArgumentError, "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
         parent_t = Thread.current
 
@@ -4205,7 +4211,7 @@ assert_similar(4.9999999999, 5.0) #=> True"
 
       def load_buffer(path)
         path = File.expand_path(path.to_s)
-        raise "Unable to load buffer - no file found with path: #{path}" unless File.exist?(path)
+        raise IOError, "Unable to load buffer - no file found with path: #{path}" unless File.exist?(path)
         buf = __current_job_info[:workspace]
         __info "loading #{buf} with #{path}"
         __replace_buffer(buf, File.read(path))
@@ -4223,7 +4229,7 @@ load_buffer \"~/sonic-pi-tracks/phat-beats.rb\" # will replace content of curren
 
       def load_example(example_name)
         path = Dir[examples_path + '/**/' + example_name.to_s + '.rb'].first
-        raise "Error - no example found with name: #{example_name.inspect}" unless path
+        raise IOError, "Error - no example found with name: #{example_name.inspect}" unless path
         buf = __current_job_info[:workspace]
         __info "loading #{buf} with #{path}"
         title = ActiveSupport::Inflector.titleize(example_name)
