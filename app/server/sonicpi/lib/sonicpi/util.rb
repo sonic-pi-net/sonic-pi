@@ -433,6 +433,23 @@ module SonicPi
         end
     end
 
+    def zipmap(a, b)
+      res = {}
+      a_size = a.size
+      b_size = b.size
+      iters = if a_size < b_size
+                a_size
+              else
+                b_size
+              end
+
+      iters.times do |i|
+        res[a[i]] = b[i]
+      end
+
+      res
+    end
+
     def split_params_and_merge_opts_array(opts_a)
       return [], opts_a if opts_a.is_a? Hash
 
