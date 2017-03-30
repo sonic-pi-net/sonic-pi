@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-30 12:55+0000\n"
+"PO-Revision-Date: 2017-03-30 13:10+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -14878,6 +14878,10 @@ msgid ""
 "Finally, you can change the 'resting' position of the control wave when the pr"
 "obability test fails from `0` to any other position with the `prob_pos:` opt:"
 msgstr ""
+"In fine, poti schimba pozitia de \"repaus\" a undei de control pentru cazul "
+"in care testul probabilistic esueaza (deci nu se initiaza modificarea "
+"amplitudinii conform formei de unda) de la '0' la orice alta valoare, "
+"folosind parametrul 'prob_pos:':"
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
@@ -14895,14 +14899,14 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:158
-#, fuzzy
 msgid "Slicing Beats"
-msgstr "Slicing"
+msgstr "Crearea de beat-uri folosind slicing"
 
 #: A.14-amplitude-modulation.md:160
-#, fuzzy
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
-msgstr "slicer"
+msgstr ""
+"Un lucru cu adevarat amuzant este sa folosesti ':slicer' pentru a cioparti "
+"un beat de toba:"
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
@@ -14923,20 +14927,31 @@ msgid ""
 "ing will sound totally off. For example, try swapping `:loop_mika` with the `l"
 "oop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
+"Acest lucru ne permite sa luam orice esantion si sa cream noi ritmuri, ceea "
+"ce este chiar distractiv. Totusi, un lucru de care trebuie sa tinem seama "
+"este ca tempo-ul esantionului trebuie sa fie acelasi cu BPM curent din Sonic "
+"Pi, altfel slicing-ul va suna total anapoda. De exemplu, incearca sa schimbi "
+"`:loop_mika` cu `loop_amen` pentru a auzi cat de rau suna cand tempo-urile "
+"nu coincid."
 
 #: A.14-amplitude-modulation.md:176
 msgid "Changing tempo"
 msgstr "Schimbarea tempo-ului"
 
 #: A.14-amplitude-modulation.md:178
-#, fuzzy
 msgid ""
 "As we have already seen, changing the default BPM with `use_bpm` will make all"
 " the sleep times and synth envelope durations grow or shrink to match the beat"
 ". The `:slicer` FX honours this too, as the `phase:` opt is actually measured "
 "in beats not seconds. We can therefore fix the issue with `loop_amen` above by"
 " changing the BPM to match the sample:"
-msgstr "slicer"
+msgstr ""
+"Dupa cum am vazut, modificarea BPM implicit cu 'use_bpm' va faca ca toate "
+"pauzele sau duratele anvelopelor pentru esantioane sa creasca sau sa scada "
+"pentru a se potrivi cu beat-ul. Efectul ':slicer' respecta aceeasi regula, "
+"parametrul 'phase:' fiind de fapt masurat in masuri, nu in secunde. Putem "
+"deci corecta problema de mai sus cu 'loop_amen' schimband BPM pentru a se "
+"potrivi cu cel al esantionului:"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
@@ -14952,12 +14967,14 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:194
-#, fuzzy
 msgid ""
 "Let's apply all these ideas into a final example that only uses the `:slicer` "
 "FX to create an interesting combination. Go ahead, start changing it and make "
 "it into your own piece!"
-msgstr "slicer"
+msgstr ""
+"Sa aplicam toate aceste idei intr-un exemplu final care foloseste doar "
+"efectul ':slicer' pentru a crea o combinatie interesanta. Da-i drumul, "
+"modifica-l si transforma-l in propria ta piesa!"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
