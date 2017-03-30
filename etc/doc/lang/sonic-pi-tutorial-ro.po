@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-30 13:10+0000\n"
+"PO-Revision-Date: 2017-03-30 13:47+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -15034,10 +15034,19 @@ msgid ""
 "s that Sonic Pi enables. By the end of this article you'll be able to start pr"
 "acticing for your own live coded performances."
 msgstr ""
+"In tutorialul de luna aceasta vom vedea cum putem sa tratam Sonic Pi ca pe "
+"un instrument adevarat. Va trebui deci sa incepem sa ne gandim la cod intr-"
+"un mod complet diferit. Cei care programeaza live se gandesc la cod intr-un "
+"mod similar cu cel in care violonistul se gandeste la arcus. De fapt, asa "
+"cum violonistul poate aplica tehnici diferite de manuire a arcusului pentru "
+"a crea sunete diferite (miscari lungi si lente vs lovituri scurte si rapide)"
+", vom vedea ca Sonic Pi permite tehnici diferite de programare live dintre "
+"care vom analiza 5. La sfarsitul acestui tutorial vei putea incepe sa "
+"exersezi pentru propriile interpretari live."
 
 #: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
-msgstr ""
+msgstr "1. Memorati scurtaturile de la tastatura (shortcuts)"
 
 #: A.15-performance.md:17
 msgid ""
@@ -15049,6 +15058,14 @@ msgid ""
 "op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
 "for the full list of shortcuts."
 msgstr ""
+"Primul sfat pentru a putea programa live cu Sonic Pi este sa incepi sa "
+"folosesti shortcut-uri. De exemplu, in loc sa pierzi timp pretios ca sa iei "
+"mouse-ul, sa il muti deasupra butonului Run si sa faci click, poti apasa "
+"'Alt' si 'r' in acelasi timp, ceea ce este mai rapid si iti tine degetele "
+"deasupra tastaturii, pregatite pentru ce ai de introdus. Poti descoperi care "
+"sunt scurtaturile pentru butoanele principale deplasand cursorul mouse-ului "
+"deasupra lor. Vezi sectiunea 10.2 a tutorialului inclus in program pentru "
+"lista completa de scurtaturi."
 
 #: A.15-performance.md:26
 msgid ""
@@ -15058,10 +15075,15 @@ msgid ""
 "n hitting `alt-r` just like a guitarist would do when hitting a big power chor"
 "d."
 msgstr ""
+"Cand interpretati, un lucru haios pe care il puteti face este sa adaugati un "
+"pic de stil prin miscarea mainilor cand apasati scurtaturile. De exemplu, "
+"este bine sa comunicati audientei cand va pregatiti sa faceti o schimbare - "
+"deci ornati putin miscarea cand apasati 'Alt-r' exact cum un chitarist ar "
+"face-o cand reda un acord de forta."
 
 #: A.15-performance.md:32
 msgid "2. Manually Layer your Sounds"
-msgstr ""
+msgstr "2. Stratificati manual sunetele"
 
 #: A.15-performance.md:34
 msgid ""
@@ -15071,6 +15093,12 @@ msgid ""
 "calls to `sleep` we will have one call to `play` which we will manually trigge"
 "r using `alt-r`. Let's try it. Type the following code into a fresh buffer:"
 msgstr ""
+"Acum puteti porni codul instantaneu cu ajutorul tastaturii si puteti folosi "
+"aceasta abilitate pentru a doua tehnica - stratificarea manuala a sunetelor. "
+"In loc sa 'compuneti' folosind o multime de apeluri 'play' si 'sample' "
+"separate de apeluri 'sleep' pentru pauze, vom avea un apel 'play' pe care il "
+"vom declansa manual folosind 'Alt-r'. Sa incercam. Scrie codul de mai jos "
+"intr-un buffer nou:"
 
 #: A.15-performance.md:41
 #, no-wrap
@@ -15082,6 +15110,8 @@ msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
 msgstr ""
+"Acum, apasa 'Run' si, in timp ce sunetul este redat, schimba codul pentru a "
+"cobori patru note, modificandu-l in:"
 
 #: A.15-performance.md:50
 #, no-wrap
@@ -15097,10 +15127,18 @@ msgid ""
 "rigger. For example, try changing both the `note:` and the `cutoff:` opts and "
 "then re-trigger."
 msgstr ""
+"Acum, apasa 'Run' din nou, pentru a auzi ambele sunete redate in acelasi "
+"timp. Aceasta deoarece apasarea butonului 'Run' in Sonic Pi duce la "
+"executarea codului imediat, fara a astepta ca sunetul dinainte sa se "
+"termine. Asta inseamna ca poti adauga manual cu usurinta noi straturi "
+"sunetului cu modificari mai mici sau mai mari intre doua lansari in "
+"executie. De exemplu, incearca sa schimbi atat parametrul 'note:' cat si "
+"'cutoff:', apoi reporneste."
 
 #: A.15-performance.md:63
 msgid "You can also try this technique with long abstract samples. For example:"
 msgstr ""
+"Poti incerca aceasta tehnica si cu esantioane abstracte lungi. De exemplu:"
 
 #: A.15-performance.md:65
 #, no-wrap
@@ -15114,6 +15152,11 @@ msgid ""
 "ome negative values such as `-0.5`. Layer the sounds together and see where yo"
 "u can take it. Finally, try adding some FX."
 msgstr ""
+"Incearca sa pornesti esantionul apoi injumatateste de fiecare data "
+"parametrul 'rate:' inainte de a apasa din nou pe 'Run', de la '1' la '0.5' "
+"la '0.25' la '0.125' si apoi chiar la valori negative cum ar fi '-0.5'. "
+"Asterne straturile de sunet unul peste altul si vezi la ce poti ajunge. "
+"Apoi, incearca sa adaugi efecte."
 
 #: A.15-performance.md:74
 msgid ""
