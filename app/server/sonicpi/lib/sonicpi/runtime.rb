@@ -306,6 +306,7 @@ module SonicPi
       else
         res = res + "[#{w}]"
       end
+      res += " - #{e.class}"
       res = res + "\n" + m if m
       res = res + "\n #{err_msg}"
       @msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
