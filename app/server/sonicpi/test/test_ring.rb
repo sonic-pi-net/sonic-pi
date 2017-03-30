@@ -37,7 +37,7 @@ module SonicPi
       assert_equal(knit([:e2], 0), ring())
       assert_equal(knit(:e2, -1), ring())
 
-      assert_raises RuntimeError, "even number" do
+      assert_raises ArgumentError, "even number" do
         assert_equal(knit(:e2, 1, :c3), ring())
       end
 
