@@ -70,17 +70,17 @@ module SonicPi
     end
 
     def wait_until_started(timeout=nil)
+      return self if @state != :pending
+
       prom = nil
       @state_change_sem.synchronize do
-        if @state != :pending
-          return self
-        else
-          prom = Promise.new
-          cb = lambda do
-            prom.deliver! :stop_waiting_for_node
-          end
-          @on_started_callbacks << cb
+        return self if @state != :pending
+
+        prom = Promise.new
+        cb = lambda do
+          prom.deliver! :stop_waiting_for_node
         end
+        @on_started_callbacks << cb
       end
       prom.get(timeout)
       self
