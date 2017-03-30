@@ -3867,13 +3867,20 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
 
+
+        n_threads_spawned = __system_thread_locals.get :sonic_pi_spider_num_threads_spawned
+        __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, n_threads_spawned + 1
+        thread_id_path = __system_thread_locals.get :sonic_pi_spider_thread_id_path
+        new_thread_id_path = thread_id_path << n_threads_spawned
+
         # Create the new thread
         t = Thread.new do
           # Copy thread locals across from parent thread to this new thread
           __thread_locals_reset!(new_tls)
           __system_thread_locals_reset!(new_system_tls)
           __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
-
+          __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
+          __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, new_thread_id_path
           main_t = Thread.current
           main_t.priority = 10
 
