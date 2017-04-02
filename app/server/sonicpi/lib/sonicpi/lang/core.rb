@@ -2245,11 +2245,11 @@ end
 
 
       def define(name, &block)
-        raise "define must be called with a do/end block" unless block
+        raise ArgumentError, "define must be called with a do/end block" unless block
         already_defined = @user_methods.method_defined? name
 
         if !already_defined && self.respond_to?(name)
-          raise "A function called #{name} is already part of Sonic Pi's core API. Please choose another name."
+          raise ArgumentError, "A function called #{name} is already part of Sonic Pi's core API. Please choose another name."
         end
 
         if already_defined
