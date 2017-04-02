@@ -318,7 +318,7 @@ You may also optionally pass the control value as a floating point value between
         if truthy?(on_val)
           channels           = __resolve_midi_channels(opts)
           ports              = __resolve_midi_ports(opts)
-          delta, delta_midi  = __resolve_midi_delta(delta, opts)
+          delta, delta_midi  = __resolve_midi_deltas(delta, opts)
           chan               = pp_el_or_list(channels)
           port               = pp_el_or_list(ports)
 
