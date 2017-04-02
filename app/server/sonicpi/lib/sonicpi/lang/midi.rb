@@ -304,6 +304,71 @@ You may also optionally pass the control value as a floating point value between
 
 
 
+      def midi_pitch_bend(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        delta = params[0]
+
+        if params.size > 0 && rest?(delta)
+          __midi_message "midi_pitch_bend :rest"
+          return nil
+        end
+
+        on_val = opts.fetch(:on, 1)
+
+        if truthy?(on_val)
+          channels           = __resolve_midi_channels(opts)
+          ports              = __resolve_midi_ports(opts)
+          delta, delta_midi  = __resolve_midi_delta(delta, opts)
+          chan               = pp_el_or_list(channels)
+          port               = pp_el_or_list(ports)
+
+          ports.each do |p|
+            channels.each do |c|
+              __midi_send_timed_pc("/pitch_bend", p, c, [delta])
+            end
+          end
+          __midi_message "midi_pitch_bend #{delta}, delta_midi: #{delta_midi}, port: #{port}, channel: #{chan}"
+        else
+          __midi_rest_message "midi_pitch_bend :rest, on: 0"
+        end
+        nil
+      end
+      doc name:           :midi_pitch_bend,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send MIDI pitch bend message",
+          args:           [[:delta, :float01]],
+          returns:        :nil,
+          opts:           {
+                           channel: "Channel(s) to send to",
+                           port: "MIDI port(s) to send to",
+                           delta: "Pitch bend value as a number between 0 and 1 (will be converted to a value between 0 and 16383). No bend is the central value 0.5",
+                           delta_midi: "Pitch bend value as a number between 0 and 16383 inclusively. No bend is central value 8191.",
+
+                           on: "If specified and false/nil/0 will stop the midi pitch bend message from being sent out. (Ensures all opts are evaluated in this call to `midi_pitch_bend` regardless of value)."},
+          accepts_block:  false,
+          doc:            "Sends a MIDI pitch bend message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
+
+Delta value is between 0 and 1 with 0.5 representing no pitch bend, 1 max pitch bend and 0 minimum pitch bend.
+
+Typical MIDI values such as note or cc are represented with 7 bit numbers which translates to the range 0-127. This makes sense for keyboards which have at most 88 keys. However, it translates to a poor resolution when working with pitch bend. Therefore, pitch bend is unlike most MIDI values in that it has a much greater range: 0 - 16383 (by virtue of being represented by 14 bits).
+
+* It is also possible to specify the delta value as a (14 bit) MIDI pitch bend value between 0 and 16383 using the `delta_midi:` opt.
+* When using the `delta_midi:` opt no pitch bend is the value 8191
+
+[MIDI 1.0 Specification - Channel Voice Messages - Pitch Bend Change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+
+*THIS IS ALPHA!* Expect this fn to completely change before final release",
+          examples:       [
+        "midi_pitch_bend 0  #=> Sends MIDI pitch bend message with value 0 to all ports and channels",
+        "midi_pitch_bend 1  #=> Sends MIDI pitch bend message with value 16383 to all ports and channels",
+        "midi_pitch_bend 0.5  #=> Sends MIDI pitch bend message with value 8191 to all ports and channels",
+        "midi_pitch_bend delta_midi: 8191  #=> Sends MIDI pitch bend message with value 8191 to all ports and channels",
+        "midi_pitch_bend 0, channel: [1, 5]  #=> Sends MIDI pitch bend message with value 0 on channel 1 and 5 to all ports"
+]
+
+
+
+
       def midi_raw(*args)
         params, opts = split_params_and_merge_opts_array(args)
         a, b, c      = params
@@ -1064,6 +1129,21 @@ end"
         else
           val = 127
         end
+      end
+
+      def __resolve_midi_deltas(delta, opts={})
+        if delta = opts[:delta_midi]
+          delta_midi = delta.round.min(0).max(16383)
+          delta = delta_midi / 16383.0
+        elsif delta = opts[:delta] || opts[:val_f] || delta
+          delta = delta.to_f.min(0).max(1)
+          delta_midi = (delta * 16383).round
+        else
+          delta = 0.5
+          delta_midi = 8191
+        end
+
+        return delta, delta_midi
       end
 
       def __midi_send_timed_pc(path, p, c, args)
