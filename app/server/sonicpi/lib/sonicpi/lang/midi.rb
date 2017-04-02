@@ -342,7 +342,7 @@ You may also optionally pass the control value as a floating point value between
                            channel: "Channel(s) to send to",
                            port: "MIDI port(s) to send to",
                            delta: "Pitch bend value as a number between 0 and 1 (will be converted to a value between 0 and 16383). No bend is the central value 0.5",
-                           delta_midi: "Pitch bend value as a number between 0 and 16383 inclusively. No bend is central value 8191.",
+                           delta_midi: "Pitch bend value as a number between 0 and 16383 inclusively. No bend is central value 8192.",
 
                            on: "If specified and false/nil/0 will stop the midi pitch bend message from being sent out. (Ensures all opts are evaluated in this call to `midi_pitch_bend` regardless of value)."},
           accepts_block:  false,
@@ -353,7 +353,7 @@ Delta value is between 0 and 1 with 0.5 representing no pitch bend, 1 max pitch 
 Typical MIDI values such as note or cc are represented with 7 bit numbers which translates to the range 0-127. This makes sense for keyboards which have at most 88 keys. However, it translates to a poor resolution when working with pitch bend. Therefore, pitch bend is unlike most MIDI values in that it has a much greater range: 0 - 16383 (by virtue of being represented by 14 bits).
 
 * It is also possible to specify the delta value as a (14 bit) MIDI pitch bend value between 0 and 16383 using the `delta_midi:` opt.
-* When using the `delta_midi:` opt no pitch bend is the value 8191
+* When using the `delta_midi:` opt no pitch bend is the value 8192
 
 [MIDI 1.0 Specification - Channel Voice Messages - Pitch Bend Change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
 
@@ -361,8 +361,8 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
           examples:       [
         "midi_pitch_bend 0  #=> Sends MIDI pitch bend message with value 0 to all ports and channels",
         "midi_pitch_bend 1  #=> Sends MIDI pitch bend message with value 16383 to all ports and channels",
-        "midi_pitch_bend 0.5  #=> Sends MIDI pitch bend message with value 8191 to all ports and channels",
-        "midi_pitch_bend delta_midi: 8191  #=> Sends MIDI pitch bend message with value 8191 to all ports and channels",
+        "midi_pitch_bend 0.5  #=> Sends MIDI pitch bend message with value 8192 to all ports and channels",
+        "midi_pitch_bend delta_midi: 8192  #=> Sends MIDI pitch bend message with value 8192 to all ports and channels",
         "midi_pitch_bend 0, channel: [1, 5]  #=> Sends MIDI pitch bend message with value 0 on channel 1 and 5 to all ports"
 ]
 
@@ -1140,7 +1140,7 @@ end"
           delta_midi = (delta * 16383).round
         else
           delta = 0.5
-          delta_midi = 8191
+          delta_midi = 8192
         end
 
         return delta, delta_midi
