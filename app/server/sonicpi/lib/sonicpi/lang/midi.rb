@@ -1115,7 +1115,7 @@ end"
         if vel = opts[:velocity] || opts[:vel] || vel
           return note(vel).round.min(0).max(127)
         elsif vel = opts[:velocity_f] || opts[:vel_f]
-          return (note(vel).to_f * 127).round.min(0).max(127)
+          return (vel.to_f * 127).round.min(0).max(127)
         else
           return 127
         end
@@ -1125,7 +1125,7 @@ end"
         if val = opts[:value] || opts[:val] || val
           val = note(val).round.min(0).max(127)
         elsif val = opts[:value_f] || opts[:val_f]
-          val = (note(val).to_f * 127).round.min(0).max(127)
+          val = (val.to_f * 127).round.min(0).max(127)
         else
           val = 127
         end
