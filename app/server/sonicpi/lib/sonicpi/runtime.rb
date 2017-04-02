@@ -1035,7 +1035,7 @@ module SonicPi
       @osc_cues_port = ports[:osc_cues_port]
       # TODO remove hardcoded port number
       @osc_router_port = 8014
-      @log_cues = true
+      @log_cues = false
       @log_cues_file = File.open(osc_cues_log_path, 'a')
       @system_state = State.new
       @user_state = State.new
@@ -1051,6 +1051,8 @@ module SonicPi
                               :time => t,
                               :cue_splat_map_or_arr => a,
                               :cue => address })
+
+        @msg_queue.push({:type => :incoming, :val => "#{address}, #{args.inspect}"})
 
         if @log_cues
           @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")

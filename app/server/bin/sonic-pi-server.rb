@@ -425,6 +425,8 @@ out_t = Thread.new do
         continue = false
       else
         case message[:type]
+        when :incoming
+          gui.send("/incoming/osc", message[:val])
         when :multi_message
           gui.send("/log/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
         when :info
