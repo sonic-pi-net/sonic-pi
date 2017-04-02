@@ -49,6 +49,7 @@ public slots:
     void setFontFamily(QString font_name);
     void handleMultiMessage(SonicPiLog::MultiMessage mm);
     void forceScrollDown(bool force);
+    void appendPlainText(QString text);
 
 protected:
 };

@@ -317,6 +317,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
+  updateIncomingOscLogVisibility();
 
   // The implementation of this method is dynamically generated and can
   // be found in ruby_help.h:
@@ -325,7 +326,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   //setup autocompletion
   autocomplete->loadSamples(sample_path);
 
-  OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
+  OscHandler* handler = new OscHandler(this, outputPane, errorPane, incomingPane, theme);
 
   if(protocol == UDP){
     sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler, gui_listen_to_server_port);
@@ -415,6 +416,7 @@ void MainWindow::setupWindowStructure() {
   // Setup output and error panes
 
   outputPane = new SonicPiLog;
+  incomingPane = new SonicPiLog;
   errorPane = new QTextBrowser;
   errorPane->setOpenExternalLinks(true);
   update_info = new QLabel(tr("Sonic Pi update info"));
@@ -557,28 +559,40 @@ void MainWindow::setupWindowStructure() {
   // addUniversalCopyShortcuts(outputPane);
 #if QT_VERSION >= 0x050400
   //requires Qt 5
-  new QShortcut(ctrlKey('='), outputPane, SLOT(zoomIn()));
-  new QShortcut(ctrlKey('-'), outputPane, SLOT(zoomOut()));
+  new QShortcut(ctrlKey('='), this, SLOT(zoomInLogs()));
+  new QShortcut(ctrlKey('-'), this, SLOT(zoomOutLogs()));
+
 #endif
   addUniversalCopyShortcuts(errorPane);
   outputPane->setReadOnly(true);
+  incomingPane->setReadOnly(true);
   errorPane->setReadOnly(true);
   outputPane->setLineWrapMode(QPlainTextEdit::NoWrap);
   outputPane->setFontFamily("Hack");
+  incomingPane->setLineWrapMode(QPlainTextEdit::NoWrap);
+  incomingPane->setFontFamily("Hack");
 
   if(!theme->font("LogFace").isEmpty()){
       outputPane->setFontFamily(theme->font("LogFace"));
+      incomingPane->setFontFamily(theme->font("LogFace"));
   }
+
   outputPane->document()->setMaximumBlockCount(1000);
+  incomingPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
 #if QT_VERSION >= 0x050400
   //zoomable QPlainTextEdit requires QT 5.4
   outputPane->zoomIn(1);
+  incomingPane->zoomIn(1);
 #endif
   outputPane->setTextColor(QColor(theme->color("LogInfoForeground")));
   outputPane->appendPlainText("\n");
-  //outputPane->append(asciiArtLogo());
+  incomingPane->setTextColor(QColor(theme->color("LogInfoForeground")));
+  incomingPane->appendPlainText("\n");
+  incomingPane->appendPlainText(asciiArtLogo());
+  incomingPane->appendPlainText("\n");
+  incomingPane->appendPlainText("\n");
 
   errorPane->zoomIn(1);
   errorPane->setMaximumHeight(130);
@@ -623,8 +637,17 @@ void MainWindow::setupWindowStructure() {
   outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
+
+  incomingWidget = new QDockWidget(tr("Incoming OSC"), this);
+  incomingWidget->setFocusPolicy(Qt::NoFocus);
+  incomingWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+  incomingWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+  incomingWidget->setWidget(incomingPane);
+
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
+  addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
   outputWidget->setObjectName("output");
+  incomingWidget->setObjectName("output");
 
   blankWidget = new QWidget();
   outputWidgetTitle = outputWidget->titleBarWidget();
@@ -748,18 +771,20 @@ void MainWindow::updateFocusMode(){
     show_tabs->setChecked(false);
     show_buttons->setChecked(false);
     show_log->setChecked(false);
+    show_incoming_osc_log->setChecked(false);
   }
   else {
     full_screen->setChecked(false);
     show_tabs->setChecked(true);
     show_buttons->setChecked(true);
-    show_log->setChecked(true);
+    show_incoming_osc_log->setChecked(true);
   }
 
   updateFullScreenMode();
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
+  updateIncomingOscLogVisibility();
 }
 
 void MainWindow::toggleScopePaused() {
@@ -781,6 +806,15 @@ void MainWindow::updateLogVisibility(){
   }
   else{
     outputWidget->close();
+  }
+}
+
+void MainWindow::updateIncomingOscLogVisibility(){
+  if(show_incoming_osc_log->isChecked()) {
+    incomingWidget->show();
+  }
+  else{
+    incomingWidget->close();
   }
 }
 
@@ -1202,8 +1236,11 @@ void MainWindow::initPrefsWindow() {
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
   show_line_numbers->setToolTip(tr("Toggle line number visibility."));
   show_log = new QCheckBox(tr("Show log"));
+  show_incoming_osc_log = new QCheckBox(tr("Show incoming OSC message log"));
   show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
+  show_incoming_osc_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the incoming OSC message log.")));
   show_log->setChecked(true);
+  show_incoming_osc_log->setChecked(false);
   show_buttons = new QCheckBox(tr("Show buttons"));
   show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
   show_buttons->setChecked(true);
@@ -1216,6 +1253,7 @@ void MainWindow::initPrefsWindow() {
   dark_mode->setToolTip(tooltipStrShiftMeta('M', tr("Toggle dark mode.")) + QString(tr("\nDark mode is perfect for live coding in night clubs.")));
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
   connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
+  connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateIncomingOscLogVisibility()));
   connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
   connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
   connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
@@ -1227,6 +1265,7 @@ void MainWindow::initPrefsWindow() {
   QGridLayout *gridEditorPrefs = new QGridLayout;
   editor_display_box_layout->addWidget(show_line_numbers);
   editor_display_box_layout->addWidget(show_log);
+  editor_display_box_layout->addWidget(show_incoming_osc_log);
   editor_display_box_layout->addWidget(show_buttons);
   editor_display_box_layout->addWidget(show_tabs);
   editor_box_look_feel_layout->addWidget(dark_mode);
@@ -1374,6 +1413,8 @@ void MainWindow::initPrefsWindow() {
   //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
   show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
   show_scopes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-scopes", true).toBool() ) );
+  show_incoming_osc_log->setChecked( settings.value("prefs/show_incoming_osc_log", false).toBool());
+
 
   // Ensure prefs are honoured on boot
   update_mixer_invert_stereo();
@@ -2593,6 +2634,7 @@ void MainWindow::writeSettings()
   //settings.setValue("prefs/scope/show-right", show_right_scope->isChecked() );
   settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
   settings.setValue("prefs/scope/show-scopes", show_scopes->isChecked() );
+  settings.value("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
@@ -2945,5 +2987,15 @@ QString MainWindow::sonicPiHomePath() {
   else {
     return path;
   }
+}
+
+void MainWindow::zoomInLogs() {
+  outputPane->zoomIn();
+  incomingPane->zoomIn();
+}
+
+void MainWindow::zoomOutLogs() {
+  outputPane->zoomOut();
+  incomingPane->zoomOut();
 }
 #include "ruby_help.h"

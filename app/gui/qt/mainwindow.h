@@ -92,6 +92,8 @@ public slots:
     void invokeStartupError(QString msg);
 
 private slots:
+    void zoomInLogs();
+    void zoomOutLogs();
     QString sonicPiHomePath();
     void updateLogAutoScroll();
     bool eventFilter(QObject *obj, QEvent *evt);
@@ -170,6 +172,7 @@ private slots:
     void toggleFocusMode();
     void toggleScopePaused();
     void updateLogVisibility();
+    void updateIncomingOscLogVisibility();
     void toggleLogVisibility();
     void updateTabsVisibility();
     void toggleTabsVisibility();
@@ -256,8 +259,10 @@ private:
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
     SonicPiLog *outputPane;
+    SonicPiLog *incomingPane;
     QTextBrowser *errorPane;
     QDockWidget *outputWidget;
+    QDockWidget *incomingWidget;
     QDockWidget *prefsWidget;
     QDockWidget *hudWidget;
     QDockWidget *docWidget;
@@ -295,6 +300,7 @@ private:
     QCheckBox *auto_indent_on_run;
     QCheckBox *full_screen;
     QCheckBox *show_log;
+    QCheckBox *show_incoming_osc_log;
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;

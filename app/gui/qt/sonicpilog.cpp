@@ -49,6 +49,16 @@ void SonicPiLog::setFontFamily(QString font_name)
   setFont(QFont(font_name));
 }
 
+void SonicPiLog::appendPlainText(QString text)
+{
+  QPlainTextEdit::appendPlainText(text);
+  if(forceScroll) {
+    QScrollBar *sb = verticalScrollBar();
+    sb->setValue(sb->maximum());
+  }
+}
+
+
 void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
 {
     int msg_count = mm.messages.size();

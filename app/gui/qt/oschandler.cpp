@@ -20,11 +20,12 @@
 
 #include <QTextEdit>
 
-OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane, QTextEdit *errorPane, SonicPiTheme *theme)
+OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane, QTextEdit *errorPane, SonicPiLog *incomingPane, SonicPiTheme *theme)
 {
     window = parent;
     out = outPane;
     error = errorPane;
+    incoming = incomingPane;
     signal_server_stop = false;
     server_started = false;
     this->theme = theme;
@@ -55,6 +56,15 @@ void OscHandler::oscMessage(std::vector<char> buffer){
 
         QMetaObject::invokeMethod( out, "handleMultiMessage", Qt::QueuedConnection,
                                    Q_ARG(SonicPiLog::MultiMessage, mm ) );
+      }
+      else if (msg->match("/incoming/osc")) {
+        std::string s;
+        if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( incoming, "appendPlainText", Qt::QueuedConnection,
+                                     Q_ARG(QString, QString::fromStdString(s) ) );
+        } else {
+          std::cout << "[GUI] - unhandled OSC msg /incoming/osc: "<< std::endl;
+        }
       }
       else if (msg->match("/log/info")) {
         std::string s;
