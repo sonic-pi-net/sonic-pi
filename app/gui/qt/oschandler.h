@@ -33,7 +33,7 @@ private:
     SonicPiLog  *out;
     SonicPiLog  *incoming;
     QTextEdit  *error;
-    int log_count;
+    int last_incoming_path_lens [20];
 
     oscpkt::PacketReader pr;
     oscpkt::PacketWriter pw;
