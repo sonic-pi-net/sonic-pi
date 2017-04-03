@@ -2634,7 +2634,7 @@ void MainWindow::writeSettings()
   //settings.setValue("prefs/scope/show-right", show_right_scope->isChecked() );
   settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
   settings.setValue("prefs/scope/show-scopes", show_scopes->isChecked() );
-  settings.value("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
+  settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
