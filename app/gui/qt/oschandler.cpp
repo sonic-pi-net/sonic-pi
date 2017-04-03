@@ -28,6 +28,7 @@ OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane, QTextEdit *error
     incoming = incomingPane;
     signal_server_stop = false;
     server_started = false;
+    log_count = 0;
     this->theme = theme;
 }
 
@@ -58,10 +59,17 @@ void OscHandler::oscMessage(std::vector<char> buffer){
                                    Q_ARG(SonicPiLog::MultiMessage, mm ) );
       }
       else if (msg->match("/incoming/osc")) {
-        std::string s;
-        if (msg->arg().popStr(s).isOkNoMoreArgs()) {
-          QMetaObject::invokeMethod( incoming, "appendPlainText", Qt::QueuedConnection,
-                                     Q_ARG(QString, QString::fromStdString(s) ) );
+        std::string time;
+        int id;
+        std::string address;
+        std::string args;
+        if (msg->arg().popStr(time).popInt32(id).popStr(address).popStr(args).isOkNoMoreArgs()) {
+          int idmod = ((id * 3) % 200);
+          idmod = 155 + ((idmod < 100) ? idmod : 200 - idmod);
+          QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 20, 147, idmod)), Q_ARG(QColor, "white"));
+
+          QMetaObject::invokeMethod( incoming, "appendPlainText",        Qt::QueuedConnection,
+                                     Q_ARG(QString, QString::fromStdString("osc_cue " + address + ", " + args) ) );
         } else {
           std::cout << "[GUI] - unhandled OSC msg /incoming/osc: "<< std::endl;
         }

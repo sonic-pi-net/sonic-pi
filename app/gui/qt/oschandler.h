@@ -33,6 +33,7 @@ private:
     SonicPiLog  *out;
     SonicPiLog  *incoming;
     QTextEdit  *error;
+    int log_count;
 
     oscpkt::PacketReader pr;
     oscpkt::PacketWriter pw;

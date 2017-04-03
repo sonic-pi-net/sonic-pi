@@ -162,6 +162,7 @@ klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:include, SonicPi::Lang::Minecraft)
 klass.send(:include, SonicPi::Lang::Midi)
+klass.send(:include, SonicPi::Lang::Support::DocSystem)
 klass.send(:extend, Memoist)
 
 # This will pick up all memoizable fns in all modules as they share the
@@ -426,7 +427,7 @@ out_t = Thread.new do
       else
         case message[:type]
         when :incoming
-          gui.send("/incoming/osc", message[:val])
+          gui.send("/incoming/osc", message[:time], message[:id], message[:address], message[:args])
         when :multi_message
           gui.send("/log/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
         when :info

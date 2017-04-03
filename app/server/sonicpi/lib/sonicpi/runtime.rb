@@ -1043,7 +1043,9 @@ module SonicPi
       @system_state.set 0, 0, :sched_ahead_time, default_sched_ahead_time
 
       # TODO Add support for TCP
+      gui_log_id = 0
       @osc_server = SonicPi::OSC::UDPServer.new(ports[:osc_cues_port], open: true) do |address, args|
+        gui_log_id += 1
         t = Time.now.freeze
         a = args.freeze
         @osc_state.set(t, 0, address.freeze, a)
@@ -1052,7 +1054,7 @@ module SonicPi
                               :cue_splat_map_or_arr => a,
                               :cue => address })
 
-        @msg_queue.push({:type => :incoming, :val => "#{address}, #{args.inspect}"})
+        @msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
 
         if @log_cues
           @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
