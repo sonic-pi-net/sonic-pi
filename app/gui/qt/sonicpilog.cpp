@@ -37,11 +37,20 @@ void SonicPiLog::setTextColor(QColor c)
   setCurrentCharFormat(tf);
 }
 
+void SonicPiLog::setTextBgFgColors(QColor bg, QColor fg)
+{
+  QTextCharFormat tf;
+  tf.setBackground(bg);
+  tf.setForeground(fg);
+  setCurrentCharFormat(tf);
+}
+
 void SonicPiLog::setTextBackgroundColor(QColor c)
 {
   QTextCharFormat tf;
   tf.setBackground(c);
   setCurrentCharFormat(tf);
+
 }
 
 void SonicPiLog::setFontFamily(QString font_name)
