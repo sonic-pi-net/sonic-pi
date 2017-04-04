@@ -793,6 +793,11 @@ void MainWindow::toggleScopePaused() {
 
 void MainWindow::allJobsCompleted() {
   scopeInterface->pause();
+
+  // re-enable log text selection
+  incomingPane->setTextInteractionFlags(Qt::TextSelectableByMouse);
+  outputPane->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
 }
 
 void MainWindow::toggleLogVisibility() {
@@ -1629,6 +1634,21 @@ void MainWindow::runBufferIdx(int idx)
 void MainWindow::runCode()
 {
   scopeInterface->resume();
+
+  // move log cursors to end of log files
+  // and disable user input
+  incomingPane->setTextInteractionFlags(Qt::NoTextInteraction);
+  QTextCursor newIncomingCursor = incomingPane->textCursor();
+  newIncomingCursor.movePosition(QTextCursor::End);
+  incomingPane->setTextCursor(newIncomingCursor);
+
+  outputPane->setTextInteractionFlags(Qt::NoTextInteraction);
+  QTextCursor newOutputCursor = outputPane->textCursor();
+  newOutputCursor.movePosition(QTextCursor::End);
+  outputPane->setTextCursor(newOutputCursor);
+
+
+
   update();
   if(auto_indent_on_run->isChecked()) {
     beautifyCode();
