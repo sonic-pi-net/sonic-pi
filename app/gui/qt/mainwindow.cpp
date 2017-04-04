@@ -638,7 +638,7 @@ void MainWindow::setupWindowStructure() {
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
 
-  incomingWidget = new QDockWidget(tr("Incoming OSC"), this);
+  incomingWidget = new QDockWidget(tr("Cues"), this);
   incomingWidget->setFocusPolicy(Qt::NoFocus);
   incomingWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   incomingWidget->setAllowedAreas(Qt::RightDockWidgetArea);
