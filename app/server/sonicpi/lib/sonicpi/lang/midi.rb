@@ -24,9 +24,161 @@ module SonicPi
 
 
 
-      def use_midi_channels(chan)
-        __thread_locals.set(:sonic_pi_midi_channels, v)
+      def use_midi_defaults(*args, &block)
+        raise "use_midi_defaults does not work with a block. Perhaps you meant with_midi_defaults" if block
+        args_h = resolve_synth_opts_hash_or_array(args)
+        __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(args_h)
       end
+      doc name:          :use_midi_defaults,
+          introduced:    Version.new(2,12,0),
+          summary:       "Use new MIDI defaults",
+          doc:           "Specify new default values to be used by all subsequent calls to `midi_*` fns. Will remove and override any previous defaults.",
+          args:          [],
+          opts:          {},
+          accepts_block: false,
+          examples:      ["
+midi_note_on :e1 # Sends MIDI :e1 note_on with default opts
+
+use_midi_defaults channel: 3, port: \"foo\"
+
+midi_note_on :e3 # Sends MIDI :e3 note_on to channel 3 on port \"foo\"
+
+use_midi_defaults channel: 1
+
+midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1. Note that the port is back to the default and no longer \"foo\".
+"]
+
+
+
+
+      def with_midi_defaults(*args, &block)
+        raise "with_midi_defaults must be called with a do/end block" unless block
+        current_defs = __thread_locals.get(:sonic_pi_mod_midi_defaults)
+
+        args_h = resolve_synth_opts_hash_or_array(args)
+        __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(args_h)
+        res = block.call
+        __thread_locals.set :sonic_pi_mod_midi_defaults, current_defs
+        res
+      end
+      doc name:           :with_midi_defaults,
+          introduced:     Version.new(2,12,0),
+          summary:        "Block-level use new MIDI defaults",
+          doc:            "Specify new default values to be used by all calls to `midi_*` fns within the `do`/`end` block. After the `do`/`end` block has completed the previous MIDI defaults (if any) are restored.",
+          args:           [],
+          opts:           {},
+          accepts_block:  true,
+          requires_block: true,
+          examples:       ["
+midi_note_on :e1 # Sends MIDI :e1 note on with default opts
+
+with_midi_defaults channel: 3, port: \"foo\" do
+  midi_note_on :e3 # Sends MIDI :e3 note on to channel 3 on port \"foo\"
+end
+
+use_midi_defaults channel: 1   # this will be overridden by the following
+
+with_midi_defaults channel: 5 do
+  midi_note_on :e2 # Sends MIDI :e2 note on to channel 5.
+                   # Note that the port is back to the default
+end
+
+  midi_note_on :e4 # Sends MIDI :e4 note on to channel 1
+                   # Note that the call to use_midi_defaults is now honoured.
+"]
+
+
+
+
+      def use_merged_midi_defaults(*args, &block)
+        raise "use_merged_midi_defaults does not work with a block. Perhaps you meant with_midi_defaults" if block
+        current_defs = __thread_locals.get(:sonic_pi_mod_midi_defaults)
+        args_h = resolve_synth_opts_hash_or_array(args)
+        merged_defs = (current_defs || {}).merge(args_h)
+        __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(merged_defs)
+      end
+      doc name:          :use_merged_midi_defaults,
+          introduced:    Version.new(2,12,0),
+          summary:       "Merge MIDI defaults",
+          doc:           "Specify new default values to be used by all subsequent calls to `midi_*` fns. Merges the specified values with any previous defaults, rather than replacing them",
+          args:          [],
+          opts:          {},
+          accepts_block: false,
+          examples:      ["
+midi_note_on :e1 # Sends MIDI :e1 note_on with default opts
+
+use_midi_defaults channel: 3, port: \"foo\"
+
+midi_note_on :e3 # Sends MIDI :e3 note_on to channel 3 on port \"foo\"
+
+use_merged_midi_defaults channel: 1
+
+midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1 on port \"foo\".
+                 # This is because the call to use_merged_midi_defaults overrode the
+                 # channel but not the port which got merged in.
+"]
+
+
+
+
+      def with_merged_midi_defaults(*args, &block)
+        raise "with_merged_midi_defaults must be called with a do/end block" unless block
+        current_defs = __thread_locals.get(:sonic_pi_mod_midi_defaults)
+
+        args_h = resolve_synth_opts_hash_or_array(args)
+        merged_defs = (current_defs || {}).merge(args_h)
+        __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(merged_defs)
+        res = block.call
+        __thread_locals.set :sonic_pi_mod_midi_defaults, current_defs
+        res
+      end
+      doc name:           :with_merged_midi_defaults,
+          introduced:     Version.new(2,12,0),
+          summary:        "Block-level merge midi defaults",
+          doc:            "Specify opt values to be used by any following call to the `midi_*` fns within the specified `do`/`end` block. Merges the specified values with any previous midi defaults, rather than replacing them. After the `do`/`end` block has completed, previous defaults (if any) are restored.",
+          args:           [],
+          opts:           {},
+          accepts_block:  true,
+          requires_block: true,
+          examples:       ["
+midi_note_on :e1 # Sends MIDI :e1 note_on with default opts
+
+use_midi_defaults channel: 3, port: \"foo\"
+
+midi_note_on :e3 # Sends MIDI :e3 note_on to channel 3 on port \"foo\"
+
+with_merged_midi_defaults channel: 1 do
+
+  midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1 on port \"foo\".
+                   # This is because the call to use_merged_midi_defaults overrode the
+                   # channel but not the port which got merged in.
+end
+
+midi_note_on :e2 # Sends MIDI :e2 note_on to channel 3 on port \"foo\".
+                 # This is because the previous defaults were restored after
+                 # the call to with_merged_midi_defaults.
+
+"]
+
+
+
+
+      def current_midi_defaults
+        __thread_locals.get(:sonic_pi_mod_midi_defaults) || {}
+      end
+      doc name:          :current_midi_defaults,
+          introduced:    Version.new(2,12,0),
+          summary:       "Get current MIDI defaults",
+          doc:           "Returns the current MIDI defaults. This is a map of opt names to values
+
+This can be set via the fns `use_midi_defaults`, `with_midi_defaults`, `use_merged_midi_defaults` and `with_merged_midi_defaults`.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+use_midi_defaults channel: 1, port: \"foo\"
+midi_note_on :e1 # Sends MIDI :e1 note on to channel 1 on port \"foo\"
+current_midi_defaults #=> Prints {channel: 1, port: \"foo\"}"]
 
 
 
@@ -102,6 +254,7 @@ module SonicPi
 
       def midi_note_on(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         n, vel = *params
 
         if rest? n
@@ -173,6 +326,7 @@ You may also optionally pass the velocity value as a floating point value betwee
 
       def midi_note_off(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         n, vel = *params
 
         if rest? n
@@ -243,7 +397,8 @@ You may also optionally pass the release velocity value as a floating point valu
 
 
       def midi_cc(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        params, opts     = split_params_and_merge_opts_array(args)
+        opts             = current_midi_defaults.merge(opts)
         control_num, val = *params
 
         if rest? control_num
@@ -306,7 +461,8 @@ You may also optionally pass the control value as a floating point value between
 
       def midi_pitch_bend(*args)
         params, opts = split_params_and_merge_opts_array(args)
-        delta = params[0]
+        opts         = current_midi_defaults.merge(opts)
+        delta        = params[0]
 
         if params.size > 0 && rest?(delta)
           __midi_message "midi_pitch_bend :rest"
@@ -371,6 +527,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
 
       def midi_raw(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         a, b, c      = params
         a            = a.to_f.round
         b            = b.to_f.round
@@ -420,6 +577,7 @@ See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for
 
       def midi_sound_off(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -465,6 +623,7 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
 
       def midi_reset(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         reset_val    = opts[:value] || opts[:val] || params[0] || 0
         on_val       = opts.fetch(:on, 1)
 
@@ -514,6 +673,7 @@ All controller values are reset to their defaults.
 
       def midi_local_control_off(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -561,6 +721,7 @@ All devices on a given channel will respond only to data received over MIDI. Pla
 
       def midi_local_control_on(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -608,6 +769,7 @@ All devices on a given channel will respond both to data received over MIDI and 
 
       def midi_mode(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
         mode         = opts[:mode] || params[0] || :omni_off
         channels     = __resolve_midi_channels(opts)
@@ -705,6 +867,7 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
       def midi_all_notes_off(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -751,6 +914,7 @@ When an All Notes Off event is received, all oscillators will turn off.
 
       def midi_clock_tick(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -791,6 +955,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
 
       def midi_start(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -829,6 +994,7 @@ Start the current sequence playing. (This message should be followed with calls 
 
       def midi_stop(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -867,6 +1033,7 @@ Stops the current sequence.
 
       def midi_continue(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -904,6 +1071,7 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
 
       def midi_clock_beat(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
@@ -1012,6 +1180,7 @@ end"
 
       def midi(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
         n, vel = *params
 
         if rest? n
