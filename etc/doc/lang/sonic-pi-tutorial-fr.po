@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-20 03:48+0000\n"
+"PO-Revision-Date: 2017-04-07 03:19+0000\n"
 "Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.12\n"
+"X-Generator: Weblate 2.13-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -7681,7 +7681,7 @@ msgstr "`.mirror` - ajoute l'anneau à une version inversée de lui-même"
 
 #: 08.5-Ring-Chains.md:81
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
-msgstr "`.reflect` - comme mirroir mais sans dupliquer la valeur du milieu"
+msgstr "`.reflect` - comme `.mirror` mais sans dupliquer la valeur du milieu"
 
 #: 08.5-Ring-Chains.md:83
 msgid ""
