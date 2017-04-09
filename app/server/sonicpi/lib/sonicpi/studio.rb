@@ -491,7 +491,7 @@ module SonicPi
 
     def reset_and_setup_groups_and_busses
       log "Studio - clearing scsynth"
-      @server.clear_scsynth!
+      @server.reset!
 
       log "Studio - allocating audio bus"
       @mixer_bus = @server.allocate_audio_bus
