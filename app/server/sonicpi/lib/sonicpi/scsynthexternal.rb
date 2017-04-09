@@ -19,12 +19,15 @@ module SonicPi
   class SCSynthExternal
     include Util
 
+    attr_reader :version
+
     def initialize(events, opts={})
       @events = events
       @hostname = opts[:hostname] || "127.0.0.1"
       @port = opts[:scsynth_port] || 4556
       @send_port = opts[:scsynth_send_port] || 4556
       @out_queue = SizedQueue.new(20)
+      @version = request_version.freeze
       boot
     end
 
@@ -87,6 +90,16 @@ module SonicPi
     end
 
     private
+
+    def request_version
+      version_string = `#{scsynth_path} -v`
+      m = version_string.match /\A\s*scsynth\s+([0-9.]+)\s.*/
+      if m && m[1] && !m[1].empty?
+        "v#{m[1]}"
+      else
+        ""
+      end
+    end
 
     def boot
       if booted?
