@@ -23,7 +23,6 @@ module SonicPi
 
 
 
-
       def use_midi_defaults(*args, &block)
         raise "use_midi_defaults does not work with a block. Perhaps you meant with_midi_defaults" if block
         args_h = resolve_synth_opts_hash_or_array(args)
@@ -224,7 +223,7 @@ current_midi_defaults #=> Prints {channel: 1, port: \"foo\"}"]
           when NilClass
             # Do nothing
           when Proc
-            raise "MIDI Port Filter Proc needs to accept 1 argument only. Found #{block.arity}" unless f.arity == 1
+            raise "MIDI Port Filter Proc accepts 1 argument only. Found #{block.arity}" unless f.arity == 1
             found_proc = true
             candidates = f.call(candidates)
             candidates = [candidates] unless is_list_like?(candidates)
