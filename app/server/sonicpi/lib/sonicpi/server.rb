@@ -60,6 +60,7 @@ module SonicPi
       @osc_path_b_close     = "/b_close".freeze
       @osc_path_b_info      = "/b_info".freeze
       @osc_path_b_query     = "/b_query".freeze
+      @osc_path_c_set       = "/c_set".freeze
       @state = state
       @OSC_SEM = Mutex.new
       @MSG_QUEUE = msg_queue
@@ -357,6 +358,18 @@ module SonicPi
       else
         ts = sched_ahead_time_for_node_mod(node_id)
         osc_bundle ts, @osc_path_n_map, node_id, *normalised_args
+      end
+    end
+
+    def control_bus_set(bus, val, now=false)
+      bus = bus.to_i
+      val = val.to_f
+
+      if now
+        osc @osc_path_c_set, bus, val
+      else
+        ts = sched_ahead_time_for_node_mod(bus * -1)
+        osc_bundle ts, @osc_path_c_set, bus, val
       end
     end
 
