@@ -52,12 +52,11 @@ module SonicPi
     end
 
     def init_or_reset_midi
+      success = true
       if @o2m_pid || @m2o_pid
         message "Resetting MIDI"
         kill_and_deregister_process @o2m_pid if @o2m_pid
         kill_and_deregister_process @m2o_pid if @m2o_pid
-      else
-        message "Initialising MIDI"
       end
 
       begin
@@ -67,6 +66,7 @@ module SonicPi
         @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
         register_process(@m2o_pid)
       rescue Exception => e
+        success = false
         message "Error initialising MIDI inputs"
         STDERR.puts "Exception when starting osmid m2o"
         STDERR.puts e.message
@@ -81,16 +81,20 @@ module SonicPi
         @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
         register_process(@o2m_pid)
       rescue Exception => e
+        success = false
         message "Error initialising MIDI outputs"
         STDERR.puts "Exception when starting osmid o2m"
         STDERR.puts e.message
         STDERR.puts e.backtrace.inspect
         STDERR.puts e.backtrace
       end
+
+      message "Initialised MIDI Subsystems" if success
     end
 
     def init_scsynth
       @server = Server.new(@scsynth_port, @scsynth_send_port, @msg_queue, @state)
+      message "Initialised SuperCollider Audio Server #{@server.version}"
     end
 
     def init_studio
@@ -327,6 +331,8 @@ module SonicPi
       @server.allocate_audio_bus
     end
 
+
+
     def control_delta
       @server.control_delta
     end
@@ -410,7 +416,7 @@ module SonicPi
       return nil if @rebooting
       @reboot_mutex.synchronize do
         @rebooting = true
-        message "Rebooting SuperCollider audio server. Please wait..."
+        message "Rebooting SuperCollider Audio Server. Please wait..."
 #        @server.shutdown
         message "init_midi"
         begin
@@ -440,27 +446,27 @@ module SonicPi
           message e.backtrace
         end
 
-        message "SuperCollider audio studio ready."
+        message "SuperCollider Audio Server ready."
         @rebooting = false
         true
       end
     end
 
-    def pause(silent=false)
+    def pause(silent=true)
       @recording_mutex.synchronize do
         unless recording? || @paused
           @server.node_pause(0, true)
-          message "Pausing SuperCollider audio studio" unless silent
+          message "Pausing SuperCollider Audio Server" unless silent
         end
         @paused = true
       end
     end
 
-    def start
+    def start(silent=true)
       @recording_mutex.synchronize do
         if @paused
           @server.node_run(0, true)
-          message "Resuming SuperCollider audio studio"
+          message "Resuming SuperCollider Audio Server" unless silent
         end
         @paused = false
       end
@@ -498,14 +504,13 @@ module SonicPi
     end
 
     def reset_server
-      message "Resetting SuperCollider audio server"
+      log "Resetting server"
       reset_and_setup_groups_and_busses
       start_mixer
       start_scope
     end
 
     def start_mixer
-      #message "Starting mixer"
       # TODO create a way of swapping these on the fly:
       # set_mixer! :basic
       # set_mixer! :default

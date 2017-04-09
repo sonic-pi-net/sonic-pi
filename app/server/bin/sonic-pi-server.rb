@@ -198,6 +198,8 @@ begin
     end
   end
 
+  sp.__print_boot_messages
+
 rescue Exception => e
   STDOUT.puts "Failed to start server: " + e.message
   STDOUT.puts e.backtrace.join("\n")

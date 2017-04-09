@@ -1098,8 +1098,23 @@ module SonicPi
           end
         end
       end
+
       __info "Welcome to Sonic Pi #{version}", 1
-      __info "Running on Ruby #{RUBY_VERSION}"
+
+      date = Time.now.freeze
+      time = "%02d:%02d, %s" % [date.hour, date.min, date.zone]
+      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}, #{time}"
+      __info "Running on Ruby v#{RUBY_VERSION}"
+
+      if safe_mode?
+        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
+      end
+
+      log "Unable to initialise git repo at #{project_path}" unless @gitsave
+      load_snippets(snippets_path, true)
+    end
+
+    def __print_boot_messages
       __info [
 "Somewhere in the world
    the sun is shining
@@ -1122,30 +1137,13 @@ module SonicPi
    your work and ideas
    freely with others
    the whole world benefits." ].sample, 1
-      date = Time.now.freeze
-      time = "%02d:%02d, %s" % [date.hour, date.min, date.zone]
-      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}, #{time}"
-
-
-
-      msg = @settings.get(:message) || ""
-      msg = msg.strip
-
-      __print_version_outdated_info if @version < @server_version
-
-      __info msg unless msg.empty?
-
-
-      load_snippets(snippets_path, true)
-
-      if safe_mode?
-        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
-      end
-
-      log "Unable to initialise git repo at #{project_path}" unless @gitsave
 
       __info "Let the Live Coding begin..."
 
+      __print_version_outdated_info if @version < @server_version
+      msg = @settings.get(:message) || ""
+      msg = msg.strip
+      __info msg unless msg.empty?
     end
 
 
