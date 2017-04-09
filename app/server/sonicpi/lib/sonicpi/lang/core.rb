@@ -215,7 +215,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
       doc name:           :use_osc,
           hide:           true,
           introduced:     Version.new(2,12,0),
-          summary:        "Configures where OSC messages are sent",
+          summary:        "Set the default hostname and port number for outgoing OSC messages.",
           args:           [[:host, :port]],
           returns:        nil,
           opts:           nil,
@@ -236,23 +236,6 @@ special address called \"localhost\".
 
 Once configured, you can use `osc` to send messages.
 
-Go have fun connecting existing programs, even your own programs, to Sonic Pi
-using OSC! The possibilities are endless.
-
----
-
-A note to Web Wizards out there: Sonic Pi has its own, undocumented OSC
-interface. You can run code in your current Sonic Pi session by sending OSC
-messages to localhost:4557. You can also trigger cues by sending messages to
-localhost:4559. Cooler yet, you can trigger cues on other people's Sonic Pi
-sessions using OSC. This is great for livecoding in groups!
-
-I highly encourage you to grab some existing OSC libraries in your language of
-choice to wire up whatever software/hardware combo you want to Sonic Pi. If
-you are experiencing delays between the OSC message and the played sound, try
-reducing the schedule-ahead time with `set_sched_ahead_time! 0`.
-
-See the examples for implementation specifics:
 ",
          examples: ["# Run Sonic Pi code with OSC
 
