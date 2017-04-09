@@ -128,6 +128,11 @@ module SonicPi
       self
     end
 
+    def map_control(*args)
+      args_h = resolve_synth_opts_hash_or_array(args)
+      @comms.node_map self, args_h
+    end
+
     def control(*args)
       ctl(*args)
     end

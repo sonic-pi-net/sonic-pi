@@ -51,6 +51,7 @@ module SonicPi
       @osc_path_n_set       = "/n_set".freeze
       @osc_path_n_run       = "/n_run".freeze
       @osc_path_n_order     = "/n_order".freeze
+      @osc_path_n_map       = "/n_map".freeze
       @osc_path_s_new       = "/s_new".freeze
       @osc_path_b_allocread = "/b_allocRead".freeze
       @osc_path_b_alloc     = "/b_alloc".freeze
@@ -339,6 +340,23 @@ module SonicPi
       else
         ts = sched_ahead_time_for_node_mod(node_id)
         osc_bundle ts, @osc_path_n_run, node_id, 1
+      end
+    end
+
+    def node_map(node, args_h, now=false)
+      node_id = node.to_i
+      message "nde b #{'%05d' % node_id} - Map #{node.inspect}, #{args_h.inspect}" if @debug_mode
+
+      normalised_args = []
+      args_h.each do |k,v|
+        normalised_args << k.to_s << v.to_f
+      end
+
+      if now
+        osc @osc_path_n_map, node_id, *normalised_args
+      else
+        ts = sched_ahead_time_for_node_mod(node_id)
+        osc_bundle ts, @osc_path_n_map, node_id, *normalised_args
       end
     end
 
