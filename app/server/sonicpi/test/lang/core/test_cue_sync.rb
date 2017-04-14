@@ -21,7 +21,7 @@ module SonicPi
   class CueSyncTester < Minitest::Test
 
     def setup
-      events = IncomingEvents.new
+      cue_events = IncomingEvents.new
       @mock_core = Object.new
       @mock_core.extend(Lang::Core)
       @mock_core.stubs(:current_job_id).returns(100)
@@ -30,7 +30,7 @@ module SonicPi
       @mock_core.stubs(:__delayed_highlight3_message).returns(true)
       @mock_core.stubs(:__delayed_highlight2_message).returns(true)
       @mock_core.stubs(:__schedule_delayed_blocks_and_messages!).returns(true)
-      @mock_core.stubs(:__events).returns(events)
+      @mock_core.stubs(:__cue_events).returns(cue_events)
     end
 
     def send_rcv_cue_sync(cue_id, *args, &blk)
