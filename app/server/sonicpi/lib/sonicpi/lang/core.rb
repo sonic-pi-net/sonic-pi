@@ -3583,7 +3583,7 @@ puts current_sched_ahead_time # Prints 0.5"]
             Kernel.sleep @sync_real_sleep_time
           end
 
-          __events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
+          __cue_events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
         end
       end
       doc name:           :cue,
@@ -3702,7 +3702,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         p = Promise.new
         handles = cue_ids.map {|id| "/spider_thread_sync/" + id.to_s}
 
-        __events.async_multi_oneshot_handler(handles) do |payload|
+        __cue_events.async_multi_oneshot_handler(handles) do |payload|
           p.deliver! payload
         end
 

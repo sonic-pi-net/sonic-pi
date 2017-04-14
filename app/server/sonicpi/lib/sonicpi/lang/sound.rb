@@ -180,7 +180,7 @@ module SonicPi
               free_job_bus(job_id)
             end
 
-            @events.add_handler("/exit", @events.gensym("/mods-sound-exit")) do |payload|
+            @cue_events.add_handler("/exit", @cue_events.gensym("/mods-sound-exit")) do |payload|
               @mod_sound_studio.shutdown
               nil
             end

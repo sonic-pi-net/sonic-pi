@@ -335,7 +335,7 @@ module SonicPi
     def __sync_msg_command(msg)
       id = @sync_counter.next
       prom = Promise.new
-      @events.add_handler("/sync", @events.gensym("/spider")) do |payload|
+      @cue_events.add_handler("/sync", @cue_events.gensym("/spider")) do |payload|
         if payload[:id] == id
           prom.deliver! payload[:result]
           :remove_handler
@@ -358,11 +358,11 @@ module SonicPi
     end
 
     def __sync(id, res)
-      @events.event("/sync", {:id => id, :result => res})
+      @cue_events.event("/sync", {:id => id, :result => res})
     end
 
-    def __events
-      @events
+    def __cue_events
+      @cue_events
     end
 
     def __stop_job(j)
@@ -1019,7 +1019,7 @@ module SonicPi
       @msg_queue = msg_queue
       @event_queue = SizedQueue.new(20)
       @keypress_handlers = {}
-      @events = IncomingEvents.new
+      @cue_events = IncomingEvents.new
       @sync_counter = Counter.new
       @job_counter = Counter.new(-1) # Start counting jobs from 0
       @job_subthreads = {}
@@ -1049,7 +1049,7 @@ module SonicPi
         t = Time.now.freeze
         a = args.freeze
         @osc_state.set(t, 0, address.freeze, a)
-        @events.async_event("/spider_thread_sync/#{address}", {
+        @cue_events.async_event("/spider_thread_sync/#{address}", {
                               :time => t,
                               :cue_splat_map_or_arr => a,
                               :cue => address })
