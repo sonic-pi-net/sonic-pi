@@ -33,7 +33,7 @@ module SonicPi
 
     attr_reader :version
 
-    def initialize(port, send_port, msg_queue, state)
+    def initialize(port, send_port, msg_queue, state, register_cue_event_lambda)
       # Cache common OSC path strings as frozen instance
       # vars to reduce object creation cost and GC load
       @osc_path_quit        = "/quit".freeze
@@ -70,8 +70,8 @@ module SonicPi
       #be dynamically turned on and off
       @debug_mode = debug_mode
       @osc_events = IncomingEvents.new(:internal_events, -10)
-      @scsynth = SCSynthExternal.new(@osc_events, scsynth_port: port, scsynth_send_port: send_port)
-      @version = @scsynth.version
+      @scsynth = SCSynthExternal.new(@osc_events, scsynth_port: port, scsynth_send_port: send_port, register_cue_event_lambda: register_cue_event_lambda)
+      @version = @scsynth.version.freeze
       @position_codes = {
         head: 0,
         tail: 1,

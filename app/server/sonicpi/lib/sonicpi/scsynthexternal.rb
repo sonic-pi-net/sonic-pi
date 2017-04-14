@@ -26,6 +26,8 @@ module SonicPi
       @hostname = opts[:hostname] || "127.0.0.1"
       @port = opts[:scsynth_port] || 4556
       @send_port = opts[:scsynth_send_port] || 4556
+      @register_cue_event_lambda = opts[:register_cue_event_lambda]
+      raise "No cue event lambda!" unless @register_cue_event_lambda
       @out_queue = SizedQueue.new(20)
       @version = request_version.freeze
       boot
@@ -130,6 +132,8 @@ module SonicPi
         else
           @events.async_event address, args
         end
+
+        @register_cue_event_lambda.call(address, args) if address.start_with? "/cue/"
       end
 
 
