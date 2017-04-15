@@ -3550,9 +3550,9 @@ puts current_sched_ahead_time # Prints 0.5"]
           end
           splat_map_or_arr = opts.freeze
         end
-
+        t = __system_thread_locals.get(:sonic_pi_spider_time)
         payload = {
-          :time => __system_thread_locals.get(:sonic_pi_spider_time),
+          :time => t,
           :sleep_mul => __thread_locals.get(:sonic_pi_spider_sleep_mul),
           :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
           :run => current_job_id,
@@ -3584,6 +3584,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           end
 
           __cue_events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
+          @msg_queue.push({:type => :incoming, :time => t.to_s, :id => @gui_log_ids.next, :address => cue_id.inspect, :args => splat_map_or_arr.inspect})
         end
       end
       doc name:           :cue,
