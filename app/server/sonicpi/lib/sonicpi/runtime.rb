@@ -114,7 +114,7 @@ module SonicPi
         __info "Your version of Sonic Pi is the latest: #{@version}"
       end
 
-      @msg_queue.push({:type => :version, :version => @version.to_s, :version_num =>  @version.to_i, :latest_version => v.to_s, :latest_version_num => v.to_i, :last_checked => __last_update_check})
+      __msg_queue.push({:type => :version, :version => @version.to_s, :version_num =>  @version.to_i, :latest_version => v.to_s, :latest_version_num => v.to_i, :last_checked => __last_update_check})
 
     end
 
@@ -180,11 +180,11 @@ module SonicPi
     end
 
     def __info(s, style=0)
-      @msg_queue.push({:type => :info, :style => style, :val => s.to_s}) unless __system_thread_locals.get :sonic_pi_spider_silent
+      __msg_queue.push({:type => :info, :style => style, :val => s.to_s}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
     def __multi_message(m)
-      @msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => __current_thread_name}) unless __system_thread_locals.get :sonic_pi_spider_silent
+      __msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => __current_thread_name}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
     def __delayed(&block)
@@ -309,7 +309,7 @@ module SonicPi
       res += " - #{e.class}"
       res = res + "\n" + m if m
       res = res + "\n #{err_msg}"
-      @msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
+      __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
     end
 
     def __current_run_time
@@ -344,7 +344,7 @@ module SonicPi
       msg[:sync] = id
       msg[:jobid] = __current_job_id
       msg[:jobinfo] = __current_job_info
-      @msg_queue.push msg
+      __msg_queue.push msg
       prom.get
     end
 
@@ -373,7 +373,7 @@ module SonicPi
           job_subthreads_kill(j)
           @life_hooks.killed(j)
           @user_jobs.kill_job j
-          @msg_queue.push({type: :job, jobid: j, action: :killed})
+          __msg_queue.push({type: :job, jobid: j, action: :killed})
         end
       end
     end
@@ -418,19 +418,19 @@ module SonicPi
     def __replace_buffer(id, content)
       id = id.to_s
       content = content.to_s
-      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: content, line: 0, index: 0, first_line: 0})
+      __msg_queue.push({type: "replace-buffer", buffer_id: id, val: content, line: 0, index: 0, first_line: 0})
     end
 
     def __replace_buffer_idx(idx, content)
       idx = idx.to_i
       content = content.to_s
-      @msg_queue.push({type: "replace-buffer-idx", buffer_idx: idx, val: content, line: 0, index: 0, first_line: 0})
+      __msg_queue.push({type: "replace-buffer-idx", buffer_idx: idx, val: content, line: 0, index: 0, first_line: 0})
     end
 
     def __run_buffer_idx(idx)
       idx = idx.to_i
       content = content.to_s
-      @msg_queue.push({type: "run-buffer-idx", buffer_idx: idx})
+      __msg_queue.push({type: "run-buffer-idx", buffer_idx: idx})
     end
 
     def __add_completion(k, text, point_line_offset=0, point=0)
@@ -566,7 +566,7 @@ module SonicPi
     def __buffer_complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index, complete_snippet=true)
       id = workspace_id.to_s
       res = __complete_snippet_or_indent_lines(buf, start_line, finish_line, point_line, point_index, true)
-      @msg_queue.push(res.merge({type: "replace-lines", buffer_id: id}))
+      __msg_queue.push(res.merge({type: "replace-lines", buffer_id: id}))
     end
 
     def __buffer_newline_and_indent(workspace_id, buf, point_line, point_index, first_line)
@@ -621,7 +621,7 @@ module SonicPi
         end
       end
 
-      @msg_queue.push({type: "replace-lines", buffer_id: id, val: lines.join, start_line: start_line, finish_line: finish_line, point_line: point_line, point_index: point_index})
+      __msg_queue.push({type: "replace-lines", buffer_id: id, val: lines.join, start_line: start_line, finish_line: finish_line, point_line: point_line, point_index: point_index})
     end
 
     def __buffer_beautify(id, buf, line, index, first_line)
@@ -671,7 +671,7 @@ module SonicPi
       line = line - (beautiful_len - post_lstrip_len)
       line = 0 if line < 0
       beautiful.chomp!
-      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful, line: line, index: index, first_line: first_line})
+      __msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful, line: line, index: index, first_line: first_line})
     end
 
     def __save_buffer(id, content)
@@ -740,7 +740,7 @@ module SonicPi
 
           __set_default_system_thread_locals!
           __set_default_user_thread_locals!
-          @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
+          __msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
           now = Time.now.freeze
           start_t_prom.deliver! now
@@ -781,8 +781,8 @@ module SonicPi
               line = -1
               err_msg = "\n #{e.message}"
             end
-            @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            @msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
+            __msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+            __msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
             __info("Syntax error in run #{id}. Code ignored.")
           end
         rescue Exception => e
@@ -790,7 +790,7 @@ module SonicPi
           __no_kill_block do
             __info("Aborted Run #{id}")
             __error(e)
-            @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+            __msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
           end
         end
       end
@@ -812,11 +812,11 @@ module SonicPi
         __info "Completed run #{id}" unless silent
         unless @user_jobs.any_jobs_running?
           __info "All runs completed" unless silent
-          @msg_queue.push({type: :all_jobs_completed})
+          __msg_queue.push({type: :all_jobs_completed})
           @life_hooks.all_completed(silent)
         end
 
-        @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+        __msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
 
       end
     end
@@ -826,7 +826,7 @@ module SonicPi
       @event_t.kill
       log "Runtime - stopping all jobs..."
       __stop_jobs
-      @msg_queue.push({:type => :exit, :jobid => __current_job_id, :jobinfo => __current_job_info})
+      __msg_queue.push({:type => :exit, :jobid => __current_job_id, :jobinfo => __current_job_info})
       log "Runtime - shutdown completed."
     end
 
@@ -854,6 +854,10 @@ module SonicPi
         subthreads = Set.new
         subthreads = __system_thread_locals(t).set_local(:sonic_pi_local_spider_subthreads, subthreads)
       end
+    end
+
+    def __msg_queue
+      @msg_queue
     end
 
     private
@@ -1054,7 +1058,7 @@ module SonicPi
                               :cue_splat_map_or_arr => a,
                               :cue => address })
 
-        @msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
+        __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
 
 
         if @log_cues
