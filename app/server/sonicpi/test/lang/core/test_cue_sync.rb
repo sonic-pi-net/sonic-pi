@@ -31,6 +31,7 @@ module SonicPi
       @mock_core.stubs(:__delayed_highlight2_message).returns(true)
       @mock_core.stubs(:__schedule_delayed_blocks_and_messages!).returns(true)
       @mock_core.stubs(:__cue_events).returns(cue_events)
+      @mock_core.stubs(:__msg_queue).returns(Queue.new)
     end
 
     def send_rcv_cue_sync(cue_id, *args, &blk)
