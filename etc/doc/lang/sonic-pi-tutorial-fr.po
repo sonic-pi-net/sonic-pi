@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-13 03:52+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-04-15 15:16+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -8701,18 +8701,17 @@ msgid "Abbreviations"
 msgstr "Abréviations"
 
 #: 10.1-Using-Shortcuts.md:48
-#, fuzzy
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
 "*Control* plus another key and *M-* for *Meta* plus another key. For example, "
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
-"Pour conserver les choses simples et lisibles, nous utiliserons les abréviatio"
-"ns *C-* pour *Control* plus une autre touche et *M-* pour *Meta* plus une autr"
-"e touche. Par exemple, si un raccourci consiste à maintenir enfoncées à la foi"
-"s *meta* et *r*, nous l'écrirons *M-r*. Le *-* veut dire simplement \"en même t"
-"emps que\"."
+"Pour conserver les choses simples et lisibles, nous utiliserons les "
+"abréviations *C-* pour *Control* plus une autre touche et *M-* pour *Meta* "
+"plus une autre touche. Par exemple, si un raccourci consiste à maintenir "
+"enfoncées à la fois *meta* et *r*, nous l'écrirons *M-r*. Le *-* veut dire "
+"simplement \"en même temps que.\""
 
 #: 10.1-Using-Shortcuts.md:53
 msgid "The following are some of the shortcuts I find most useful."
@@ -8723,22 +8722,19 @@ msgid "Stopping and starting"
 msgstr "Arrêter et démarrer"
 
 #: 10.1-Using-Shortcuts.md:57
-#, fuzzy
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
-"Au lieu de toujours attraper la souris pour exécuter votre code, vous pouvez s"
-"implement presser `M-r`. Similairement, pour stopper l'exécution de votre code"
-", vous pouvez presser `M-s`."
+"Au lieu de toujours attraper la souris pour exécuter votre code, vous pouvez "
+"simplement presser `M-r`. Similairement, pour stopper l'exécution de votre "
+"code, vous pouvez presser `M-s`."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:52
-#, fuzzy
 msgid "Navigation"
 msgstr "Navigation"
 
 #: 10.1-Using-Shortcuts.md:62
-#, fuzzy
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
 " you spend the time to learn them. These shortcuts also work extremely well wh"
@@ -8746,255 +8742,221 @@ msgid ""
 "equiring you to move your hand to the mouse or the arrow keys on your keyboard"
 "."
 msgstr ""
-"Je suis vraiment perdu sans les raccourcis de navigation. Je recommande donc v"
-"ivement que vous passiez du temps à les apprendre. Ces raccourcis fonctionnent"
-" aussi extrèmement bien quand vous apprenez à taper sans regarder le clavier p"
-"arce qu'ils utilisent des lettres standards sans nécessiter de déplacer votre "
-"main jusqu'à la souris ou jusqu'aux touches flèches de votre clavier."
+"Je suis vraiment perdu sans les raccourcis de navigation. Je recommande donc "
+"vivement que vous passiez du temps à les apprendre. Ces raccourcis "
+"fonctionnent aussi extrêmement bien quand vous apprenez à taper sans "
+"regarder le clavier parce qu'ils utilisent des lettres standards sans "
+"nécessiter de déplacer votre main jusqu'à la souris ou jusqu'aux touches "
+"flèches de votre clavier."
 
 #: 10.1-Using-Shortcuts.md:68
-#, fuzzy
 msgid ""
 "You can move to the beginning of the line with `C-a`, the end of the line with"
 " `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
 " `C-f`, and back a character with `C-b`. You can even delete all the character"
 "s from the cursor to the end of the line with `C-k`."
 msgstr ""
-"Vous pouvez vous déplacer au début de la ligne avec `C-a`, à la fin de la lign"
-"e avec `C-e`, à la ligne du dessus avec `C-p`, à la ligne du dessous avec `C-n"
-"`, avancer d'un caractère avec `C-f`, reculer d'un caractère avec `C-b`. Vous "
-"pouvez même effacer tous les caractères depuis le curseur jusqu'à la fin de la"
-" ligne avec `C-k`."
+"Vous pouvez vous déplacer au début de la ligne avec `C-a`, à la fin de la "
+"ligne avec `C-e`, à la ligne du dessus avec `C-p`, à la ligne du dessous "
+"avec `C-n`, avancer d'un caractère avec `C-f` et reculer d'un caractère avec "
+"`C-b`. Vous pouvez même effacer tous les caractères depuis le curseur "
+"jusqu'à la fin de la ligne avec `C-k`."
 
 #: 10.1-Using-Shortcuts.md:74
-#, fuzzy
 msgid "Tidy Code"
 msgstr "Code ordonné"
 
 #: 10.1-Using-Shortcuts.md:76
-#, fuzzy
 msgid "To auto-align your code simply press `M-m`."
-msgstr "Pour aligner et indenter automatiquement vos lignes de code, pressez `M-m`."
+msgstr ""
+"Pour aligner et indenter automatiquement vos lignes de code, pressez `M-m`."
 
 #: 10.1-Using-Shortcuts.md:78
-#, fuzzy
 msgid "Help System"
 msgstr "Système d'aide"
 
 #: 10.1-Using-Shortcuts.md:80
-#, fuzzy
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
 "isplay the docs if it finds anything. Instant help!"
 msgstr ""
-"Pour afficher/cacher le système d'aide vous pouvez presser `M-i`. Toutefois un"
-" raccourci plus utile à connaître est `C-i`. Il détecte le mot où se trouve le"
-" curseur et affiche la documentation le concernant s'il la trouve. Aide instan"
-"tanée !"
+"Pour afficher/cacher le système d'aide vous pouvez presser `M-i`. Toutefois, "
+"un raccourci plus utile à connaître est `C-i`. Il détecte le mot où se "
+"trouve le curseur et affiche la documentation le concernant s'il la trouve. "
+"Aide instantanée !"
 
 #: 10.1-Using-Shortcuts.md:84
-#, fuzzy
 msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
 msgstr ""
-"Pour une liste complète, jetez un œil à la section 10.2 - Antisèche des raccou"
-"rcis."
+"Pour une liste complète, jetez un œil à la section 10.2 - Antisèche des "
+"raccourcis."
 
 #: 10.2-Shortcut-Cheatsheet.md:1
-#, fuzzy
 msgid "10.2 Shortcut Cheatsheet"
-msgstr "10.2 Récapitulatif des raccourcis"
+msgstr "10.2 Antisèche des raccourcis"
 
 #: 10.2-Shortcut-Cheatsheet.md:3
-#, fuzzy
 msgid "Shortcut Cheatsheet"
 msgstr "Antisèche des raccourcis"
 
 #: 10.2-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
 "ease see Section 10.1 for motivation and background."
 msgstr ""
-"Ce qui suit est un récapitulatif des principaux raccourcis clavier disponibles"
-" avec Sonic Pi. Voyez S.V.P. la section 10.1 pour la motivation et le contexte"
-"."
+"Ce qui suit est un récapitulatif des principaux raccourcis clavier "
+"disponibles avec Sonic Pi. Voyez svp la section 10.1 pour la motivation et "
+"le contexte."
 
 #: 10.2-Shortcut-Cheatsheet.md:8
-#, fuzzy
 msgid "Conventions"
 msgstr "Conventions"
 
 #: 10.2-Shortcut-Cheatsheet.md:10
-#, fuzzy
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
 msgstr ""
-"Dans cette liste, nous utilisons les conventions suivantes (où *Meta* est la t"
-"ouche *Alt* pour Windows/Linux et *Cmd* sur Mac) :"
+"Dans cette liste, nous utilisons les conventions suivantes (où *Meta* est la "
+"touche *Alt* pour Windows/Linux et *Cmd* sur Mac) :"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
-#, fuzzy
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
 msgstr ""
-"`C-a` signifie maintenir la touche *Control* enfoncée puis presser la touche *"
-"a*, puis relacher les deux en même temps."
+"`C-a` signifie maintenir la touche *Control* enfoncée puis presser la touche "
+"*a* en les maintenant les deux en mêmes temps, puis les relâcher."
 
 #: 10.2-Shortcut-Cheatsheet.md:14
-#, fuzzy
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
 msgstr ""
-"`M-r` signifie maintenir la touche *Meta* enfoncée puis presser la touche *r*,"
-" puis relacher les deux en même temps."
+"`M-r` signifie maintenir la touche *Meta* enfoncée puis presser la touche *r*"
+" en les maintenant les deux en mêmes temps, puis les relâcher."
 
 #: 10.2-Shortcut-Cheatsheet.md:15
-#, fuzzy
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
 msgstr ""
-"`S-M-z` signifie maintenir les touches *Majuscule* et *Meta* enfoncées puis pr"
-"esser la touche *z*, puis les relacher toutes en même temps."
+"`S-M-z` signifie maintenir les touches *Majuscule* et *Meta* enfoncées puis "
+"presser la touche *z* en les maintenant les deux en mêmes temps, puis les "
+"relâcher."
 
 #: 10.2-Shortcut-Cheatsheet.md:16
-#, fuzzy
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
 msgstr ""
-"`C-M-f` signifie maintenir les touches *Control* et *Meta* enfoncées puis pres"
-"ser la touche *f*, puis les relacher toutes en même temps."
+"`C-M-f` signifie maintenir les touches *Control* et *Meta* enfoncées puis "
+"presser la touche *f* en les maintenant les deux en mêmes temps, puis les "
+"relâcher."
 
 #: 10.2-Shortcut-Cheatsheet.md:18
-#, fuzzy
 msgid "Main Application Manipulation"
-msgstr "Manipulation de l'Application principale"
+msgstr "Manipulation de l'application principale"
 
 #: 10.2-Shortcut-Cheatsheet.md:20
-#, fuzzy
 msgid "`M-r` - Run code"
 msgstr "`M-r` - Exécute le code"
 
 #: 10.2-Shortcut-Cheatsheet.md:21
-#, fuzzy
 msgid "`M-s` - Stop code"
 msgstr "`M-s` - Arrête le code"
 
 #: 10.2-Shortcut-Cheatsheet.md:22
-#, fuzzy
 msgid "`M-i` - Toggle Help System"
 msgstr "`M-i` - Affiche/cache le système d'aide"
 
 #: 10.2-Shortcut-Cheatsheet.md:23
-#, fuzzy
 msgid "`M-p` - Toggle Preferences"
 msgstr "`M-p` - Affiche/cache les préférences"
 
 #: 10.2-Shortcut-Cheatsheet.md:24
-#, fuzzy
 msgid "`M-{` - Switch buffer to the left"
-msgstr "`M-}` - Bascule sur le buffer de gauche"
+msgstr "`M-{` - Bascule sur le buffer de gauche"
 
 #: 10.2-Shortcut-Cheatsheet.md:25
-#, fuzzy
 msgid "`M-}` - Switch buffer to the right"
-msgstr "`S-M-{` - Bascule sur le buffer de droite"
+msgstr "`M-}` - Bascule sur le buffer de droite"
 
 #: 10.2-Shortcut-Cheatsheet.md:26
-#, fuzzy
 msgid "`M-+` - Increase text size of current buffer"
 msgstr "`M-+` - Augmente la taille du texte du buffer courant"
 
 #: 10.2-Shortcut-Cheatsheet.md:27
-#, fuzzy
 msgid "`M--` - Decrease text size of current buffer"
 msgstr "`M--` - Diminue la taille du texte du buffer courant"
 
 #: 10.2-Shortcut-Cheatsheet.md:30
-#, fuzzy
 msgid "Selection/Copy/Paste"
 msgstr "Sélection/Copier/Coller"
 
 #: 10.2-Shortcut-Cheatsheet.md:32
-#, fuzzy
 msgid "`M-a` - Select all"
-msgstr "`M-a` - Sélectionne tout"
+msgstr "`M-a` - Sélectionner tout"
 
 #: 10.2-Shortcut-Cheatsheet.md:33
-#, fuzzy
 msgid "`M-c` - Copy selection to paste buffer"
 msgstr "`M-c` - Copie la sélection dans le presse-papier"
 
 #: 10.2-Shortcut-Cheatsheet.md:34
-#, fuzzy
 msgid "`M-]` - Copy selection to paste buffer"
 msgstr "`M-]` - Copie la sélection dans le presse-papier"
 
 #: 10.2-Shortcut-Cheatsheet.md:35
-#, fuzzy
 msgid "`M-x` - Cut selection to paste buffer"
 msgstr "`M-x` - Coupe la sélection et la copie dans le presse-papier"
 
 #: 10.2-Shortcut-Cheatsheet.md:36
-#, fuzzy
 msgid "`C-]` - Cut selection to paste buffer"
 msgstr "`C-]` - Coupe la sélection et la copie dans le presse-papier"
 
 #: 10.2-Shortcut-Cheatsheet.md:37
-#, fuzzy
 msgid "`C-k` - Cut to the end of the line"
-msgstr "`C-k` - Coupe jusqu'à la fin de la ligne et le copie dans le presse-papier"
+msgstr ""
+"`C-k` - Coupe jusqu'à la fin de la ligne et le copie dans le presse-papier"
 
 #: 10.2-Shortcut-Cheatsheet.md:38
-#, fuzzy
 msgid "`M-v` - Paste from paste buffer to editor"
 msgstr "`M-v` - Colle depuis le presse-papier"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
-#, fuzzy
 msgid "`C-y` - Paste from paste buffer to editor"
 msgstr "`C-y` - Colle depuis le presse-papier"
 
 #: 10.2-Shortcut-Cheatsheet.md:40
-#, fuzzy
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr ""
-"`C-SPACE` - Pose une marque. La navigation surligne et sélectionne la région d"
-"epuis la marque. Utilisez `C-g` pour sortir."
+"`C-SPACE` - Pose une marque. La navigation surligne et sélectionne la région "
+"depuis la marque. Utilisez `C-g` pour sortir."
 
 #: 10.2-Shortcut-Cheatsheet.md:42
-#, fuzzy
 msgid "Text Manipulation"
 msgstr "Manipulation du texte"
 
 #: 10.2-Shortcut-Cheatsheet.md:44
-#, fuzzy
 msgid "`M-m` - Align all text"
-msgstr "`M-m` - aligne et indente tout le texte"
+msgstr "`M-m` - Aligne et indente tout le texte"
 
 #: 10.2-Shortcut-Cheatsheet.md:45
-#, fuzzy
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr ""
-"`Tab` - aligne et indente la ligne courante ou la sélection (ou sélectionne l'"
-"auto-complétion)"
+"`Tab` - Aligne et indente la ligne courante ou la sélection (ou sélectionne l"
+"'auto-complétion)"
 
 #: 10.2-Shortcut-Cheatsheet.md:46
-#, fuzzy
 msgid "`C-l` - Centre editor"
 msgstr "`C-l` - Centre l'éditeur"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
-#, fuzzy
 msgid "`M-/` - Comment/Uncomment current line or selection"
-msgstr "`M-/` - Commente / décommente la ligne courante ou la sélection"
+msgstr "`M-/` - Commente/Décommente la ligne courante ou la sélection"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
 #, fuzzy
@@ -9002,142 +8964,114 @@ msgid "`C-t` - Transpose/swap characters"
 msgstr "`C-t` - Intervertit les caractères sélectionnés"
 
 #: 10.2-Shortcut-Cheatsheet.md:49
-#, fuzzy
 msgid "`M-u` - Convert next word (or selection) to upper case."
 msgstr "`M-u` - Convertit le mot suivant (ou la sélection) en majuscule."
 
 #: 10.2-Shortcut-Cheatsheet.md:50
-#, fuzzy
 msgid "`M-l` - Convert next word (or selection) to lower case."
 msgstr "`M-l` - Convertit le mot suivant (ou la sélection) en minuscule."
 
 #: 10.2-Shortcut-Cheatsheet.md:54
-#, fuzzy
 msgid "`C-a` - Move to beginning of line"
 msgstr "`C-a` - Déplace au début de la ligne"
 
 #: 10.2-Shortcut-Cheatsheet.md:55
-#, fuzzy
 msgid "`C-e` - Move to end of line"
 msgstr "`C-e` - Déplace à la fin de la ligne"
 
 #: 10.2-Shortcut-Cheatsheet.md:56
-#, fuzzy
 msgid "`C-p` - Move to previous line"
 msgstr "`C-p` - Déplace à la ligne précédente"
 
 #: 10.2-Shortcut-Cheatsheet.md:57
-#, fuzzy
 msgid "`C-n` - Move to next line"
 msgstr "`C-n` - Déplace à la ligne suivante"
 
 #: 10.2-Shortcut-Cheatsheet.md:58
-#, fuzzy
 msgid "`C-f` - Move forward one character"
 msgstr "`C-f` - Avance d'un caractère"
 
 #: 10.2-Shortcut-Cheatsheet.md:59
-#, fuzzy
 msgid "`C-b` - Move backward one character"
 msgstr "`C-b` - Recule d'un caractère"
 
 #: 10.2-Shortcut-Cheatsheet.md:60
-#, fuzzy
 msgid "`M-f` - Move forward one word"
 msgstr "`M-f` - Avance d'un mot"
 
 #: 10.2-Shortcut-Cheatsheet.md:61
-#, fuzzy
 msgid "`M-b` - Move backward one word"
 msgstr "`M-b` - Recule d'un mot"
 
 #: 10.2-Shortcut-Cheatsheet.md:62
-#, fuzzy
 msgid "`C-M-n` - Move line or selection down"
 msgstr "`C-M-n` - Déplace la ligne ou la sélection vers le bas"
 
 #: 10.2-Shortcut-Cheatsheet.md:63
-#, fuzzy
 msgid "`C-M-p` - Move line or selection up"
 msgstr "`C-M-p` - Déplace la ligne ou la sélection vers le haut"
 
 #: 10.2-Shortcut-Cheatsheet.md:64
-#, fuzzy
 msgid "`S-M-u` - Move up 10 lines"
 msgstr "`S-M-u` - Déplace 10 lignes vers le haut"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
-#, fuzzy
 msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - Déplace 10 lignes vers le bas"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
-#, fuzzy
 msgid "`M-<` - Move to beginning of buffer"
 msgstr "`M-<` - Aller au début du tampon"
 
 #: 10.2-Shortcut-Cheatsheet.md:67
-#, fuzzy
 msgid "`M->` - Move to end of buffer"
 msgstr "`M->` - Aller à la fin du tampon"
 
 #: 10.2-Shortcut-Cheatsheet.md:69
-#, fuzzy
 msgid "Deletion"
 msgstr "Suppression"
 
 #: 10.2-Shortcut-Cheatsheet.md:71
-#, fuzzy
 msgid "`C-h` - Delete previous character"
 msgstr "`C-h` - Supprime le caractère précédent"
 
 #: 10.2-Shortcut-Cheatsheet.md:72
-#, fuzzy
 msgid "`C-d` - Delete next character"
 msgstr "`C-d` - Supprime le caractère suivant"
 
 #: 10.2-Shortcut-Cheatsheet.md:74
-#, fuzzy
 msgid "Advanced Editor Features"
 msgstr "Fonctionnalités avancées de l'éditeur"
 
 #: 10.2-Shortcut-Cheatsheet.md:76
-#, fuzzy
 msgid "`C-i` - Show docs for word under cursor"
 msgstr "`C-i` - Affiche la documentation du mot où se trouve le curseur"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
-#, fuzzy
 msgid "`M-z` - Undo"
 msgstr "`M-z` - Défait"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
-#, fuzzy
 msgid "`S-M-z` - Redo"
 msgstr "`S-M-z` - Refait"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
-#, fuzzy
 msgid "`C-g` - Escape"
-msgstr "`C-g` - Sort"
+msgstr "`C-g` - Sortir"
 
 #: 10.2-Shortcut-Cheatsheet.md:80
-#, fuzzy
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr "`S-M-f` - Bascule en mode plein écran"
 
 #: 10.2-Shortcut-Cheatsheet.md:81
-#, fuzzy
 msgid "`S-M-b` - Toggle visibility of buttons"
 msgstr "`S-M-b` - Affiche/cache les boutons"
 
 #: 10.2-Shortcut-Cheatsheet.md:82
-#, fuzzy
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr "`S-M-l` - Affiche/cache le panneau \"trace\""
 
 #: 10.2-Shortcut-Cheatsheet.md:83
-#, fuzzy
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Bascule entre l'affichage clair et sombre"
 
@@ -9150,17 +9084,14 @@ msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Charger le contenu d'un tampon à partir d'un fichier"
 
 #: 10.3-Sharing.md:1
-#, fuzzy
 msgid "10.3 Sharing"
 msgstr "10.3 Partage"
 
 #: 10.3-Sharing.md:3
-#, fuzzy
 msgid "Sharing"
 msgstr "Partage"
 
 #: 10.3-Sharing.md:5
-#, fuzzy
 msgid "Sonic Pi is all about sharing and learning with each other."
 msgstr "Sonic Pi a tout ce qu'il faut pour étudier et partager avec les autres."
 
