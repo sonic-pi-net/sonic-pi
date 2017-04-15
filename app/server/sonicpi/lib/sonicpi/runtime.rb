@@ -1043,9 +1043,9 @@ module SonicPi
       @system_state.set 0, 0, :sched_ahead_time, default_sched_ahead_time
 
       # TODO Add support for TCP
-      gui_log_id = 0
+      @gui_log_ids = Counter.new
       @register_cue_event_lambda = lambda do |address, args|
-        gui_log_id += 1
+        gui_log_id = @gui_log_ids.next
         t = Time.now.freeze
         a = args.freeze
         @osc_state.set(t, 0, address.freeze, a)
