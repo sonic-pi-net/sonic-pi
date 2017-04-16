@@ -37,7 +37,7 @@ module SonicPi
       @msg_queue = Queue.new
       @event_queue = SizedQueue.new(20)
       @keypress_handlers = {}
-      @events = IncomingEvents.new
+      @cue_events = IncomingEvents.new
       @sync_counter = Counter.new
       @job_counter = Counter.new(-1) # Start counting jobs from 0
       @job_subthreads = {}
@@ -50,7 +50,7 @@ module SonicPi
       @global_start_time = Time.now
       @session_id = SecureRandom.uuid
       @snippets = {}
-
+      @gui_cue_log_idxs = Counter.new
     end
 
     def run(&blk)
