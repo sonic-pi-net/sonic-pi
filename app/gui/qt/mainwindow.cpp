@@ -1245,7 +1245,7 @@ void MainWindow::initPrefsWindow() {
   show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
   show_incoming_osc_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the incoming OSC message log.")));
   show_log->setChecked(true);
-  show_incoming_osc_log->setChecked(false);
+  show_incoming_osc_log->setChecked(true);
   show_buttons = new QCheckBox(tr("Show buttons"));
   show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
   show_buttons->setChecked(true);
@@ -1418,7 +1418,7 @@ void MainWindow::initPrefsWindow() {
   //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
   show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
   show_scopes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-scopes", true).toBool() ) );
-  show_incoming_osc_log->setChecked( settings.value("prefs/show_incoming_osc_log", false).toBool());
+  show_incoming_osc_log->setChecked( settings.value("prefs/show_incoming_osc_log", true).toBool());
 
 
   // Ensure prefs are honoured on boot
