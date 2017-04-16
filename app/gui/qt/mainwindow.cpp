@@ -1241,9 +1241,9 @@ void MainWindow::initPrefsWindow() {
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
   show_line_numbers->setToolTip(tr("Toggle line number visibility."));
   show_log = new QCheckBox(tr("Show log"));
-  show_incoming_osc_log = new QCheckBox(tr("Show incoming OSC message log"));
+  show_incoming_osc_log = new QCheckBox(tr("Show cue log"));
   show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
-  show_incoming_osc_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the incoming OSC message log.")));
+  show_incoming_osc_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
   show_log->setChecked(true);
   show_incoming_osc_log->setChecked(true);
   show_buttons = new QCheckBox(tr("Show buttons"));
