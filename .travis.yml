@@ -4,7 +4,7 @@ os: linux
 sudo: required
 dist: xenial
 compiler: gcc
-rvm: 2.4.0
+rvm: 2.4.1
 env: USE_RVM=1
 
 cache:
