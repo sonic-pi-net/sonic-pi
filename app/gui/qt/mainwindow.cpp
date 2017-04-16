@@ -590,9 +590,6 @@ void MainWindow::setupWindowStructure() {
   outputPane->appendPlainText("\n");
   incomingPane->setTextColor(QColor(theme->color("LogInfoForeground")));
   incomingPane->appendPlainText("\n");
-  incomingPane->appendPlainText(asciiArtLogo());
-  incomingPane->appendPlainText("\n");
-  incomingPane->appendPlainText("\n");
 
   errorPane->zoomIn(1);
   errorPane->setMaximumHeight(130);
