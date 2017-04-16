@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-15 15:16+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2017-04-16 03:00+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -8827,7 +8827,7 @@ msgid ""
 "both at the same time, then releasing."
 msgstr ""
 "`C-a` signifie maintenir la touche *Control* enfoncée puis presser la touche "
-"*a* en les maintenant les deux en mêmes temps, puis les relâcher."
+"*a* en les maintenant les deux en même temps, puis les relâcher."
 
 #: 10.2-Shortcut-Cheatsheet.md:14
 msgid ""
@@ -8835,7 +8835,7 @@ msgid ""
 " both at the same time, then releasing."
 msgstr ""
 "`M-r` signifie maintenir la touche *Meta* enfoncée puis presser la touche *r*"
-" en les maintenant les deux en mêmes temps, puis les relâcher."
+" en les maintenant les deux en même temps, puis les relâcher."
 
 #: 10.2-Shortcut-Cheatsheet.md:15
 msgid ""
@@ -8843,7 +8843,7 @@ msgid ""
 "key all at the same time, then releasing."
 msgstr ""
 "`S-M-z` signifie maintenir les touches *Majuscule* et *Meta* enfoncées puis "
-"presser la touche *z* en les maintenant les deux en mêmes temps, puis les "
+"presser la touche *z* en les maintenant les deux en même temps, puis les "
 "relâcher."
 
 #: 10.2-Shortcut-Cheatsheet.md:16
@@ -8852,7 +8852,7 @@ msgid ""
 "ey all at the same time, then releasing."
 msgstr ""
 "`C-M-f` signifie maintenir les touches *Control* et *Meta* enfoncées puis "
-"presser la touche *f* en les maintenant les deux en mêmes temps, puis les "
+"presser la touche *f* en les maintenant les deux en même temps, puis les "
 "relâcher."
 
 #: 10.2-Shortcut-Cheatsheet.md:18
@@ -9093,7 +9093,8 @@ msgstr "Partage"
 
 #: 10.3-Sharing.md:5
 msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr "Sonic Pi a tout ce qu'il faut pour étudier et partager avec les autres."
+msgstr ""
+"Sonic Pi a tout ce qu'il faut pour partager et apprendre avec les autres."
 
 #: 10.3-Sharing.md:7
 #, fuzzy
