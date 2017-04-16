@@ -299,80 +299,105 @@ end"
         osc_send host, port, path, *args
       end
       doc name:           :osc,
-          hide:           true,
           introduced:     Version.new(2,12,0),
-          summary:        "Send an OSC message",
+          summary:        "Send an OSC message (Open Sound Control)",
           args:           [[:path, :arguments]],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Sends a message using OSC (Open Sound Control) to the current host and port specified by `use_osc` or `with_osc`.
+          doc:            "Sends an OSC message to the current host and port specified by `use_osc` or `with_osc`.
 
-OSC is a way of passing messages over the network between two programs or
-computers. A typical OSC message has two parts: a descriptive `path` which looks
-like a URL of sorts, and an optional list of `arguments` that are usually
-strings or numbers. How each `path` and `arguments` is handled depends on the
-receiving end.
+OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `osc` enables you to send well-timed OSC messages from within Sonic Pi. `osc` will ensure that the OSC message is sent at the correct time using the same timing system shared with the synthesis functionality via `sample`, `synth` and friends. `osc` even works seamlessly within `time_warp` - see examples.
 
-For example, a hypothetical synthesizer program might accept this OSC message:
+A typical OSC message has two parts: a descriptive `path` which looks simalar to a URL (website address), and an optional list of `arguments` that are either numbers or strings.
 
-`/set/filter \"lowpass\" 80 0.5`
+For example, a hypothetical synth program might accept this OSC message:
 
-where `/set/filter` is the path, and `\"lowpass\"`, `80`, and `0.5` are three
-arguments. This could be sent by Sonic Pi by writing:
+`/set/filter lowpass 80 0.5`
+
+where `/set/filter` is the path, and `lowpass`, `80`, and `0.5` are three
+arguments. This can be sent from within Sonic Pi by writing:
 
 `osc \"/set/filter\", \"lowpass\", 80, 0.5`
 
-Go have fun connecting existing programs, even your own programs, to Sonic Pi
-using OSC! The possibilities are endless.
+However, in order to send the OSC message you must first specify where to send it to. This is achieved by specifying both the host (the machine's internet address) and the port that the remote OSC server is listening on. This is configured using `use_osc` or `with_osc`. So, if our synth program was running on a machine on the local network with IP address `10.0.1.5` on port `5100` we could send our OSC message to it with the following:
 
----
 
-A note to Web Wizards out there: Sonic Pi has its own, undocumented OSC
-interface. You can run code in your current Sonic Pi session by sending OSC
-messages to localhost:4557. You can also trigger cues by sending messages to
-localhost:4559. Cooler yet, you can trigger cues on other people's Sonic Pi
-sessions using OSC. This is great for livecoding in groups!
+`use_osc \"10.0.1.5\", 5100`
 
-I highly encourage you to grab some existing OSC libraries in your language of
-choice to wire up whatever software/hardware combo you want to Sonic Pi. If
-you are experiencing delays between the OSC message and the played sound, try
-reducing the schedule-ahead time with `set_sched_ahead_time! 0`.
+`osc \"/set/filter\", \"lowpass\", 80, 0.5`
 
-See the examples for implementation specifics:
+
+Note, by default, Sonic Pi listens for OSC messages on port `4559`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4559` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
+
+Finally, it is also very useful to send OSC messages to aother programs on the same computer. This can be achieved by specifying \"localhost\" as the hostname and the port as normal (depending on which port the other program is listening on).
+
+See `osc_send` for a version which allows you to specify the hostname and port directly (ignoring any values set via `use_osc` or `with_osc`).
+
+For further information see the OSC spec: [http://opensoundcontrol.org/spec-1_0](http://opensoundcontrol.org/spec-1_0)
 ",
-         examples: ["# Run Sonic Pi code with OSC
+      examples: [
+" # Send a simple OSC message to another program on the same machine
 
-use_osc \"localhost\", 4557
-osc \"/run-code\" 1 \"play 70\"
+use_osc \"localhost\", 7000  # Specify port 7000 on this machine
+osc \"/foo/bar\"             # Send an OSC message with path \"/foo/bar\"
+                             # and no arguments
 ",
 
-"# Trigger Sonic Pi cues with OSC
+" # Send an OSC messages with arguments to another program on the same machine
 
-use_osc \"localhost\", 4559
+use_osc \"localhost\", 7000        # Specify port 7000 on this machine
+osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
+                                   # and three arguments:
+                                   # 1) The whole number (integer) 1
+                                   # 2) The fractional number (float) 3,89
+                                   # 3) The string \"baz\"
+",
 
-live_loop :send do
-  osc \"/waitforit\"
-  sleep 1
+" # Send an OSC messages with arguments to another program on a different machine
+
+use_osc \"10.0.1.5\", 7000         # Specify port 7000 on the machine with address 10.0.1.5
+osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
+                                   # and three arguments:
+                                   # 1) The whole number (integer) 1
+                                   # 2) The fractional number (float) 3,89
+                                   # 3) The string \"baz\"
+",
+
+" # OSC messages honour the timing system
+
+osc \"/foo/bar\"       # Send an OSC message with path /foo/bar at *exactly* the
+play 60                # same time as note 60 is played
+
+sleep 1                # Wait for 1 beat
+
+osc \"/baz/quux\"       # Send an OSC message with path /baz/quux at *exactly* the
+play 72                 # same time as note 72 is played
+",
+
+" # Send a incrementing OSC counter
+
+live_loop :foo do             # Start a live loop called :foo
+  osc \"/counter\", tick      # Send an OSC message with the path /counter
+                              # with successive whole numbers (0, 1, 2, 3.. etc.)
+                              # each time round the live loop
+  sleep 1                     # Repeat the live loop every 1 beat
+end
+",
+
+" # OSC messages can be sent from within time_warp
+
+time_warp 0.5 do
+  osc \"/foo/bar\"       # Send an OSC message with path /foo/bar at 0.5 beats
 end
 
-live_loop :drums do
-  sync :waitforit
-  sample :bd_haus
+sleep 1                  # Wait for 1 beat
+
+time_warp -0.1 do
+  osc \"/baz/quux\"      # Send an OSC message with path /baz/quux at 0.9 beats
 end
-", "# Trigger Sonic Pi cues with OSC, including parameter passing
+"
 
-use_osc \"localhost\", 4559
-
-live_loop :send do
-  osc \"passalong\", \"param1\", 80, \"param2\", 90
-  sleep 1
-end
-
-live_loop :print do
-  s = sync :passalong
-  puts s[:param1], s[:param2]
-end"
 ]
 
       def reset
