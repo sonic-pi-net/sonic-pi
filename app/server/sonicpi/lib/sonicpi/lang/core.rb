@@ -3936,14 +3936,19 @@ puts current_sched_ahead_time # Prints 0.5"]
               __schedule_delayed_blocks_and_messages!
             end
           rescue Exception => e
-            __schedule_delayed_blocks_and_messages!
-            job_subthread_rm(job_id, Thread.current)
             if name
               __error e, "Thread death +--> #{name.inspect}"
             else
               __error e, "Thread death!"
             end
-            #raise e
+
+            # Wait for any trackers by blocking on all promises until
+            # All have been delivered
+            __current_tracker.get
+            __schedule_delayed_blocks_and_messages!
+            job_subthread_rm(job_id, Thread.current)
+
+            raise e
           else
 
             # Wait for any trackers by blocking on all promises until
