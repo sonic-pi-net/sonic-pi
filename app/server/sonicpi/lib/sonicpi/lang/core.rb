@@ -3609,7 +3609,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           end
 
           __cue_events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
-          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => @gui_log_ids.next, :address => cue_id.inspect, :args => splat_map_or_arr.inspect})
+          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => __gui_cue_log_idxs.next, :address => cue_id.inspect, :args => splat_map_or_arr.inspect})
         end
       end
       doc name:           :cue,
