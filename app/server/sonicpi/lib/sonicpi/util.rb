@@ -225,7 +225,7 @@ module SonicPi
     end
 
     def tutorial_path
-      File.absolute_path("#{doc_path}/tutorial")
+      File.absolute_path("#{doc_path}/tutorial/en")
     end
 
     def tmp_path
