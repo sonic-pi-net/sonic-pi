@@ -860,6 +860,10 @@ module SonicPi
       @msg_queue
     end
 
+    def __gui_cue_log_idxs
+      @gui_cue_log_idxs
+    end
+
     private
 
     def reg_job(job_id, t)
@@ -1045,13 +1049,12 @@ module SonicPi
       @user_state = State.new
       @osc_state = State.new(multi_write: false)
       @system_state.set 0, 0, :sched_ahead_time, default_sched_ahead_time
-
-      # TODO Add support for TCP
-      @gui_log_ids = Counter.new
+      @gui_cue_log_idxs = Counter.new
       @register_cue_event_lambda = lambda do |address, args|
-        gui_log_id = @gui_log_ids.next
+        gui_log_id = @gui_cue_log_idxs.next
         t = Time.now.freeze
         a = args.freeze
+
         @osc_state.set(t, 0, address.freeze, a)
         @cue_events.async_event("/spider_thread_sync/#{address}", {
                               :time => t,
