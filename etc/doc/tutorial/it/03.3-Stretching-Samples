@@ -1,0 +1,155 @@
+3.3 Estendere i campioni
+
+# Estendere i campioni
+
+Adesso che siamo capaci di suonare con un buon numero di sintetizzatori
+e campioni, è il momento buono di imparare come modificare sia i primi 
+sia i secondi per creare una musica ancora più unica e interessante.
+Quindi, per prima cosa, esploriamo la possibilità di *stretch* (allungare)
+e *squash* (schiacciare) i campioni.
+
+## Rappresentazione dei campioni
+
+I campioni sono dei suoni pre-registrati che vengono conservati nella 
+memoria del computer come numeri. Questi numeri vengono interpretati dal
+software per muovere il cono delle casse audio in maniera appropriata e
+quindi riprodurre il suono desiderato. Il cono della cassa acustica può
+muoversi in avanti o indietro e quindi i numeri devono rappresentare quan
+te volte deve effettuare questi spostamenti e anche la profondità dello 
+spostamento. Per far in modo di riprodurre fedelmente un suono registrato,
+il campione solitmente deve contenere molte migliaia di numeri per ogni se
+condo di riproduzione! Sonic Pi preleva questa serie di numeri e li inserisce
+alla velocità appropriata per far riprodurre alle casse del tuo computer il
+suono desiderato. Certo, potrebbe essere divertente cambiare la velocità in 
+cui questi numeri vengono inviati al sistema audio in modo tale da cambiare 
+il suono.
+
+## Cambiare la velocità
+
+Giochiamo adesso con un dei suoni "ambient": `:ambi_choir`. Per suonarlo alla
+velocità preimpostata, puoi inserire l'operatore `rate:` accanto a `sample` nel
+seguente modo:
+
+```
+sample :ambi_choir, rate: 1
+```
+
+Questa stringa suona il campione alla velocità normale (1), quindi niente di spe
+ciale. Siamo comunque libero di cambiare quel numero con un'altro. Proviamo `0.5`:
+
+```
+sample :ambi_choir, rate: 0.5
+```
+
+Wow! Che succede? Beh, per la precisione due cose. Primo, il campione ci mette il
+doppio ad essere riprodotto. Secondo, il suono è a un'ottava inferiore. Proviamo 
+a esplorare questo parametro un po' più nel dettaglio.
+
+## Allungamenti
+
+Uno dei campioni molto divertenti da allungare e comprimere è Amen Break. Alla velo
+cità normale, potrebbe andare a pennello deltro una traccia in stile *drum 'n' bass*:
+
+```
+sample :loop_amen
+```
+
+Invece, se cambiamo la su velocità di riproduzione, possiamo piazzarlo in traccie di
+diverso genere. Prova a ridurre la velocità della metà per ottenere un effetto *old 
+school hip-hop*:
+
+```
+sample :loop_amen, rate: 0.5
+```
+
+Se invece lo velocizziamo, possiamo inoltrarci in territorio *jungle*:
+
+```
+sample :loop_amen, rate: 1.5
+```
+
+Adesso invece, per il nostro ultimo pezzo, vediamo cosa succede se utilizziamo una
+velocità negativa:
+
+```
+sample :loop_amen, rate: -1
+```
+
+Wow! Suona al contrario! Adesso prova a suonare con differenti campioni a velocità
+diverse. Prova le velocità estreme. Prova anche la riproduzione lentissima. Guarda
+che suoni interessanti puoi produrre.
+
+## Una spegazione semplice della velocità di riproduzione
+
+E' molto utile pensare ai campioni come a delle molle. La velocità di riproduzione
+è come schiacciare o estendere queste molle. Se riproduci il campione alla velocità
+2, stai *schiacciando la molla* alla metà della sua normale lunghezza. Il campione
+quindi ci mette la metà del tempo ad essere riprodotto, visto che è più corto. 
+Se riproduci il campione a metà della velocità normale, stai invece *estendendo la
+molla* al doppio della sua lunghezza. Quindi ci mette il doppio del tempo a essere 
+riprodotto visto ce è più lungo. Più il campione viene schiacciato (velocità maggiore)
+più è corto e più invece viene allungato (velocità minore) e più diventa lungo. 
+
+Se comprimi una molla, aumenti la sua densità, ovvero il numero di spire per cm. 
+Una cosa simile accade ai campioni che suonano a un'*altezza maggiore*.L'allungamento
+della molla invece diminuisce la sua densità e similmente accade al suono del campione
+che viene riprodotto a un'*altezza minore*.
+
+
+## La matematica che sta dietro alla velocità di campionamento
+
+(Questa sezione è indirizzata a coloro che sono interessati ai dettagli. Sentiti pure
+libero/a di andare oltre...)
+
+Come abbiamo visto più sopra, un campione è rappresentato come una lunga
+serie di numeri che rappresentano dove il cono della cassa audio si deve
+trovare in un certo momento preciso. Possiamo prendere questa serie di 
+numeri e usarla per disegnare un grafico che dovrebbe assomigliare a
+questo:
+
+![sample graph](../images/tutorial/sample.png)
+
+Probabilmente, avrai già visto delle immagini simili prima. Si chiamano
+le *forme d'onda* di un campione. E' semplicemente un grafico di numeri.
+Solitamente, una forma d'onda come questa ha 44100 punti di dati per 
+secondo (questa densitò è dovuto al teorema di campionamento di Nyquist-
+Shannon). Quindi, se il campione dura 2 secondi, la forma d'onda sarà
+rappresentata da 88200 numeri che saranno inviati verso le casse audio
+a una velocità di 44100 per secondo. Possiamo anche, ovviamente, inviarli
+a una velocità doppia, ovvero 88200 dati al secondo. In questo caso il
+campione ci metterà soltanto un secondo a essere riprodotto. Possiamo 
+anche farlo suonare alla metà della velocità normale, quindi a 22050 numeri
+per secondo, impiegando quindi 4 secondi ad arrivare alla conclusione. 
+
+La durata del campione è influenzata dalla velocità di riproduzione: 
+
+* Raddoppiare la velocità di riproduzione dimezza la durata,
+* Dimezzare la velocità di riproduzione raddoppia la durata,
+* Ridurre a un quarto la velocità di riproduzione, quadruplica la durata,
+* Ridurre a un decimo la velocità di riproduzione, decuplica la durata.
+
+Possiamo rappresentare le affermazioni appena citate con la seguente formula:
+
+```
+new_sample_duration = (1 / rate) * sample_duration 
+```
+
+Variare la velocità di riproduzione influenza anche l'altezza del cam
+pione. La frequenza, o altezza, di una forma d'onda è determinata anche
+da quanto velocemente quest'ultima si muove in alto e in basso. Il nostro
+cervello, in qualche modo, percepisce i movimenti veloci dei coni delle
+casse acustiche come note con una maggiore altezza rispetto ai movimenti
+più lenti, percepiti invece come note basse. Per questo motivo a volte 
+si vedono delle casse molto grandi muoversi mentre il basso pompa. Questo
+accade perché la frequenza del suono è piuttosto bassa. I suoni alti invece
+non vengono percepiti nel movimento delle casse, perché i coni si muovono
+troppo velocemente per essere percepiti dal nostro occhio.
+
+Se prendi una forma d'onda e la schiacci, essa si muoverà in sù e giù
+più volte per secondo rispetto a prima. Per questo il suono risulta più
+acuto. Quindi, il raddoppiamento dei movimenti dall'alto in basso 
+dell'onda (oscillazioni) raddoppia la frequenza. Quindi, *suonando i
+tuoi campioni a velocità doppia avrai un suono al doppio della frequenza
+precedente*. Consequentemente, anche *dimezzare la velocità di riproduzione
+dimezzerà anche la frequenza del suono*. Altre velocità quindi influenzeranno
+la frequenza del suono coerentemente a quanto appena affermato.
