@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-17 09:07+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-04-17 17:30+0000\n"
+"Last-Translator: John Doe <pintapierr@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -7223,7 +7223,6 @@ msgid "Discovering Chords and Scales"
 msgstr "Découverte des accords et des gammes"
 
 #: 08.3-Scales.md:42
-#, fuzzy
 msgid ""
 "To find out which scales and chords are supported by Sonic Pi simply click the"
 " Lang button on the far left of this tutorial and then choose either chord or "
@@ -7231,12 +7230,12 @@ msgid ""
 " you see a long list of chords or scales (depending on which you're looking at"
 ")."
 msgstr ""
-"Pour trouver quelles gammes et quels accords sont supportés par Sonic   Pi, cl"
-"iquez sur le bouton \"Lang\" du menu horizontal à gauche et au bas de la fenêtre"
-", et choisissez soit \"chord\" (accord) ou \"scale\" (gamme) dans la liste du dess"
-"us. Dans le panneau d'information, faites défiler l'affichage vers le bas jusq"
-"u'à voir une longue liste d'accords ou de gammes (selon ce que vous êtes en tr"
-"ain de chercher)."
+"Pour découvrir quelles gammes et quels accords sont supportés par Sonic Pi, "
+"cliquez sur le bouton \"Lang\" du menu horizontal à gauche de ce tutoriel, "
+"et choisissez soit \"chord\" (accord) ou \"scale\" (gamme) dans la liste du "
+"dessus. Dans le panneau d'information, faites défiler l'affichage vers le "
+"bas jusqu'à voir une longue liste d'accords ou de gammes (selon lequel des "
+"deux vous regardez)."
 
 #: 08.3-Scales.md:48
 msgid "Have fun and remember: there are no mistakes, only opportunities."
@@ -7253,16 +7252,15 @@ msgid "Rings"
 msgstr "Anneaux"
 
 #: 08.4-Rings.md:5
-#, fuzzy
 msgid ""
 "An interesting spin on standard lists are rings. If you know some programming,"
 " you might have come across ring buffers or ring arrays. Here, we'll just go f"
 "or ring - it's short and simple."
 msgstr ""
-"Un parcours circulaire intéressant sur les listes est fourni par les anneaux ("
-"\"rings\"). Si vous avez quelques connaissances en programmation, vous pourriez "
-"avoir eu affaire aux \"ring buffers\" ou aux \"ring arrays\". Ici, nous allons jus"
-"te voir les \"rings\" - c'est court et simple."
+"Les anneaux sont une variation intéressante des listes classiques. Si vous "
+"avez quelques connaissances en programmation, vous pouvez avoir eu affaire "
+"aux \"ring buffers\" ou aux \"ring arrays\". Ici, nous allons juste voir les "
+"\"rings\" - c'est court et simple."
 
 #: 08.4-Rings.md:9
 msgid ""
