@@ -1322,7 +1322,7 @@ end"
       def __midi_send_timed(*args)
         #TODO remove hardcoded port number
         osmid_o2m_port = 4561
-        osc_send "localhost", osmid_o2m_port, *args
+        __osc_send "localhost", osmid_o2m_port, *args
       end
 
       def __midi_message(m)

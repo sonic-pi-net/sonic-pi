@@ -306,12 +306,15 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
         res
       end
 
-      def osc_send(host, port, path, *args)
+      def __osc_send(host, port, path, *args)
         t = __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
         @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
-        #__delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
       end
 
+      def osc_send(host, port, path, *args)
+        __osc_send(host, port, path, *args)
+        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
+      end
       def osc_send_now(host, port, path, *args)
         @osc_server.send(host, port, path, *args)
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
@@ -322,7 +325,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
         raise ArgumentError, "Please specify a destination with use_osc or with_osc" unless host_and_port
         host, port = host_and_port.split ":"
         port = port.to_i
-        osc_send host, port, path, *args
+        __osc_send host, port, path, *args
       end
       doc name:           :osc,
           introduced:     Version.new(2,12,0),
