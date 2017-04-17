@@ -115,6 +115,15 @@ RC_FILE = SonicPi.rc
 
 ICON = images/app.icns
 
+!win32 {
+	QMAKE_COPY = install --preserve-timestamps
+	QMAKE_STRIP = echo # Leave strip decision to package system
+
+	target.files = sonic-pi
+	target.path = /usr/bin
+	INSTALLS += target
+}
+
 win32 {
   install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
   install_qsci.path = release
