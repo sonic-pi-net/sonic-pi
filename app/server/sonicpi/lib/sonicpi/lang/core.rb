@@ -215,7 +215,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
       doc name:           :use_osc,
           introduced:     Version.new(2,12,0),
           summary:        "Set the default hostname and port number for outgoing OSC messages.",
-          args:           [[:hostname, :port]],
+          args:           [[:hostname, :string], [:port, :number]],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
@@ -305,20 +305,62 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
         __thread_locals.set(:sonic_pi_osc_client, current_host_and_port)
         res
       end
+      doc name:           :with_osc,
+          introduced:     Version.new(2,12,0),
+          summary:        "Block-level setting for the default hostname and port number of outgoing OSC messages.",
+          args:           [[:hostname, :string], [:port, :number]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  true,
+          doc:            "Sets the destination host and port that `osc` will send messages to for the given do/end block.",
+          examples: [
+"
+use_osc \"localhost\", 7000  # Specify port 7010
+osc \"/foo/baz\"             # Send an OSC message to port 7000
+
+with_osc \"localhost\", 7010 do # set hostname and port for the duration
+                                # of this do/end block
+   osc \"/foo/baz\"             # Send an OSC message to port 7010
+end
+
+osc \"/foo/baz\"             # Send an OSC message to port 7000
+                             # as old setting is restored outside
+                             # do/end block
+"        ]
 
       def __osc_send(host, port, path, *args)
         t = __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
         @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
       end
 
+
       def osc_send(host, port, path, *args)
         __osc_send(host, port, path, *args)
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
       end
-      def osc_send_now(host, port, path, *args)
-        @osc_server.send(host, port, path, *args)
-        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
-      end
+      doc name:           :osc_send,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send an OSC message to a specific host and port",
+          args:           [[:hostname, :string], [:port, :number], [:path, :osc_path], [:args, :list]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  true,
+          doc:            "Similar to `osc` except ignores any `use_osc` settings and sends the OSC message directly to the specified `hostname` and `port`.
+
+See `osc` for more information.",
+          examples: [
+"
+osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000 on the same machine
+",
+"
+use_osc \"localhost\", 7010                 # set hostname and port
+osc \"/foo/baz\"                            # Send an OSC message to port 7010
+
+osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
+                                            # (ignores use_osc settings)
+
+"        ]
+
 
       def osc(path, *args)
         host_and_port = __thread_locals.get :sonic_pi_osc_client
@@ -326,6 +368,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
         host, port = host_and_port.split ":"
         port = port.to_i
         __osc_send host, port, path, *args
+        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
       end
       doc name:           :osc,
           introduced:     Version.new(2,12,0),
