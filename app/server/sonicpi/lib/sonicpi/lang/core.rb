@@ -213,62 +213,88 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
         __thread_locals.set :sonic_pi_osc_client, host_and_port.freeze
       end
       doc name:           :use_osc,
-          hide:           true,
           introduced:     Version.new(2,12,0),
           summary:        "Set the default hostname and port number for outgoing OSC messages.",
-          args:           [[:host, :port]],
+          args:           [[:hostname, :port]],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
           doc:            "Sets the destination host and port that `osc` will send messages to.
 
-OSC is a way of passing messages over the network between two programs or
-computers. Computers can be identified by a specific internet address, known as
-an IP address, and specific programs can be reached by specifying a port.
-Here's an example using a hypothetical computer:
+OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `use_osc` allows you to specify which computer (`hostname`) and program (`port`) to send messages to.
 
-`use_osc \"192.168.1.111\", 8000`
+It is possible to send messages to the same computer by using the host name `\"localhost\"`
 
-If you're sending messages to programs on your own computer, you can use a
-special address called \"localhost\".
+This is a thread-local setting - therefore each thread (or live loop) can have their own separate `use_osc` values.
 
-`use_osc \"localhost\", 4556`
-
-Once configured, you can use `osc` to send messages.
+Note that calls to `osc_send` will ignore these values.
 
 ",
-         examples: ["# Run Sonic Pi code with OSC
+      examples: [
+" # Send a simple OSC message to another program on the same machine
 
-use_osc \"localhost\", 4557
-osc \"/run-code\" 1 \"play 70\"
+use_osc \"localhost\", 7000  # Specify port 7000 on this machine
+osc \"/foo/bar\"             # Send an OSC message with path \"/foo/bar\"
+                             # and no arguments
 ",
 
-"# Trigger Sonic Pi cues with OSC
+" # Send an OSC messages with arguments to another program on the same machine
 
-use_osc \"localhost\", 4559
+use_osc \"localhost\", 7000        # Specify port 7000 on this machine
+osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
+                                   # and three arguments:
+                                   # 1) The whole number (integer) 1
+                                   # 2) The fractional number (float) 3,89
+                                   # 3) The string \"baz\"
+",
 
-live_loop :send do
-  osc \"/waitforit\"
+" # Send an OSC messages with arguments to another program on a different machine
+
+use_osc \"10.0.1.5\", 7000         # Specify port 7000 on the machine with address 10.0.1.5
+osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
+                                   # and three arguments:
+                                   # 1) The whole number (integer) 1
+                                   # 2) The fractional number (float) 3,89
+                                   # 3) The string \"baz\"
+",
+
+" # use_osc only affects calls to osc until the next call to use_osc
+
+use_osc \"localhost\", 7000  # Specify port 7000 on this machine
+osc \"/foo/bar\"             # Send an OSC message to port 7000
+osc \"/foo/baz\"             # Send another OSC message to port 7000
+
+use_osc \"localhost\", 7005  # Specify port 7000 on this machine
+osc \"/foo/bar\"             # Send an OSC message to port 7005
+osc \"/foo/baz\"             # Send another OSC message to port 7005
+",
+
+" # threads may have their own use_osc value
+
+use_osc \"localhost\", 7000  # Specify port 7000 on this machine
+
+live_loop :foo do
+  osc \"/foo/bar\"             # Thread inherits outside use_osc values
+  sleep 1                      # and therefore sends OSC messages to port 7000
+end
+
+live_loop :bar do
+  use_osc \"localhost\", 7005  # Override OSC hostname and port for just this
+                               # thread (live loop :bar). Live loop :foo is
+                               # unaffected.
+
+  osc \"/foo/bar\"             # Send OSC messages to port 7005
   sleep 1
 end
 
-live_loop :drums do
-  sync :waitforit
-  sample :bd_haus
-end
-", "# Trigger Sonic Pi cues with OSC, including parameter passing
+use_osc \"localhost\", 7010  # Specify port 7010
+osc \"/foo/baz\"             # Send another OSC message to port 7010
+                             # Note that neither live loops :foo or :bar
+                             # are affected (their use_osc values are
+                             # independent and isolated.
 
-use_osc \"localhost\", 4559
 
-live_loop :send do
-  osc \"passalong\", \"param1\", 80, \"param2\", 90
-  sleep 1
-end
-
-live_loop :print do
-  s = sync :passalong
-  puts s[:param1], s[:param2]
-end"
+",
 ]
 
       def with_osc(host, port=57120, &block)
