@@ -19,14 +19,13 @@ you have any difficulty please contact Factoid in the sonic-pi gitter channel
 * Run the setup wizard and install to a known location which we'll call `/path/to/qt`
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and untar into a known location which we'll call `/path/to/qscintilla`
   (current version is QScintilla-gpl-2.9)
-* Install SuperCollider 3.6 from http://supercollider.github.io/download.html
-* Download SuperCollider extensions from http://sourceforge.net/projects/sc3-plugins/files/OSX_3.6/SC3ExtPlugins-universal.dmg/download and install as per the included README.txt file
+* Install SuperCollider 3.7 from http://supercollider.github.io/download.html. After downloading the zip file, expand it (by double-clicking) and from the resulting Super Collider 4 folder copy the SuperCollider app to your Applications folder.
 * Grab a copy of Sonic Pi's source to a known location (which we'll call `/path/to/sonic-pi/root/`)
   - `cd /path/to/sonic-pi/root/`
   - `git clone git://github.com/samaaron/sonic-pi.git`
 
 
-## Create Symlinks for Ruby and SuperCollider's scsynth
+## Create Symlinks for Ruby, and relocate SuperCollider's scsynth, plugins folder and various dylib files
 
 * Provide a Ruby version for Sonic Pi to use
   - The Qt app expects Ruby to exist at a certain path. We can use a symlink to provide an appropriate Ruby Version
@@ -34,11 +33,11 @@ you have any difficulty please contact Factoid in the sonic-pi gitter channel
   - `mkdir -p app/server/native/osx/ruby/bin`
   - link the ruby version into place:
   - ``ln -s `which ruby` app/server/native/osx/ruby/bin/ruby``
-* Provide a SuperCollider scsynth for Sonic Pi to use  
- - The Qt app expects scsynth to exist at a certain path. We can also use a symlink here.
- - `cd /path/to/sonic-pi/root/`
- - `cd app/server/native/osx/`
- - `ln -s /Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth .`
+* Provide a SuperCollider scsynth for Sonic Pi to use, plus a plugins folder and 6 dylib files  
+- elements in the SuperCollider package need to be located within a specific folder in Sonic Pi
+- The easiest way to do this is to open two Finder windows on your Mac. In the first navigate to
+  /path/to/sonic-pi/root/app/server/native/osx. In the second navigate to /Applications. Right-click on the SuperCollider icon and choose Show Package Contents. Then open Contents/Resources and copy and paste scsynth to the OSX folder in the other open finder window. Copy and paste the pligins folder in the same way. In the SuperCollider windows move up a folder and enter the MacOS folder. Copy and paste the six dylib files to the OSX folder. Note, making symlinks instead can lead to permissions problems, so it is safer to put actual versions of the files in the OSX folder as described here.
+- (As an alternative to the previous step, you can download SonicPi 2.10 from `http://sonic-pi.net/files/releases/v2.10.0/Sonic-Pi-for-Mac-v2.10.0.dmg` mount the dmg file, and copy the contents of the `Sonic Pi.app/app/server/native/OSX` folder APART FROM THE RUBY FOLDER into your own OSX folder. Again right click the Sonic Pi icon and choose Show Package Contents to access Sonic Pi from a finder window.)
 
 ## Compile Ruby Server extensions
 ### Prerequisites
