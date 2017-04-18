@@ -22,6 +22,53 @@ module SonicPi
       end
 
 
+      def use_midi_logging(v, &block)
+        raise DeprecationError, "use_midi_logging does not work with a do/end block. Perhaps you meant with_midi_logging" if block
+        __thread_locals.set(:sonic_pi_suppress_midi_logging, !v)
+      end
+      doc name:          :use_midi_logging,
+          introduced:    Version.new(2,12,0),
+          summary:       "Enable and disable MIDI logging",
+          doc:           "Enable or disable log messages created on MIDI functions. This does not disable the MIDI functions themselves, it just stops them from being printed to the log",
+          args:          [[:true_or_false, :boolean]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["use_midi_logging true # Turn on MIDI logging", "use_midi_logging false # Disable MIDI logging"]
+
+
+
+
+      def with_midi_logging(v, &block)
+        raise ArgumentError, "with_midi_logging requires a do/end block. Perhaps you meant use_midi_logging" unless block
+        current = __thread_locals.get(:sonic_pi_suppress_midi_logging)
+        __thread_locals.set(:sonic_pi_suppress_midi_logging, !v)
+        block.call
+        __thread_locals.set(:sonic_pi_suppress_midi_logging, current)
+      end
+      doc name:          :with_midi_logging,
+          introduced:    Version.new(2,12,0),
+          summary:       "Block-level enable and disable MIDI logging",
+          doc:           "Similar to use_midi_logging except only applies to code within supplied `do`/`end` block. Previous MIDI log value is restored after block.",
+          args:          [[:true_or_false, :boolean]],
+          opts:          nil,
+          accepts_block: true,
+          requires_block: true,
+          examples:      ["
+  # Turn on MIDI logging:
+  use_midi_logging true
+
+  midi :e1 #  message is printed to log
+
+  with_midi_logging false do
+    #MIDI logging is now disabled
+    midi :f2 # MIDI message *is* sent but not displayed in log
+  end
+  sleep 1
+  # Debug is re-enabled
+  midi :G3 # message is displayed in log
+  "]
+
+
 
       def use_midi_defaults(*args, &block)
         raise "use_midi_defaults does not work with a block. Perhaps you meant with_midi_defaults" if block
@@ -1325,8 +1372,7 @@ end"
         __osc_send "localhost", osmid_o2m_port, *args
       end
 
-      def __midi_message(m)
-        __delayed_message m
+      def __midi_message(m) __delayed_message m unless __thread_locals.get(:sonic_pi_suppress_midi_logging)
       end
 
       def __midi_rest_message(m)
