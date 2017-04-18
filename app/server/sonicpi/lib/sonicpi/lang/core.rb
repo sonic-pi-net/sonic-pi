@@ -3481,6 +3481,73 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       def use_sched_ahead_time t
         __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, t)
       end
+      doc name:          :use_sched_ahead_time,
+          introduced:    Version.new(2,12,0),
+          summary:       "Set sched ahead time for the current thread",
+          doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding.
+
+See `set_sched_ahead_time!` for a global version of this function. Note, `use_sched_ahead_time` will override any value set with `set_sched_ahead_time!` for the current thread.
+
+See `use_real_time` for a simple way of setting the schedule ahead time to 0.",
+          args:          [[:time, :number]],
+          opts:          nil,
+          modifies_env: true,
+          accepts_block: false,
+          examples:      ["use_sched_ahead_time 1 # Code will now run approximately 1 second ahead of audio.",
+"# Each thread can have its own sched ahead time
+live_loop :foo do
+  use_sched_ahead_time 1
+  play 70                 # Note 70 will be played with 1 second latency
+  sleep 1
+end
+
+live_loop :foo do
+  use_sched_ahead_time 0.5 # Note 70 will be played with 0.5 second latency
+  play 82
+  sleep 1
+end
+"
+      ]
+
+
+      def use_real_time
+        use_sched_ahead_time 0
+      end
+      doc name:          :use_real_time,
+          introduced:    Version.new(2,12,0),
+          summary:       "Set sched ahead time to 0 for the current thread",
+          doc:           "
+Set sched ahead time to 0 for the current thread. Shorthand for `use_sched_ahead_time 0`.
+
+See `use_sched_ahead_time` for a version of this function which allows you to set the schedule ahead time to any arbitrary value. Note, `use_real_time` will override any value set with `set_sched_ahead_time!` for the current thread.
+
+",
+          args:          [[]],
+          opts:          nil,
+          modifies_env: true,
+          accepts_block: false,
+          examples:      ["use_real_time 1 # Code will now run approximately 1 second ahead of audio."]
+
+
+      def with_real_time(&blk)
+        with_sched_ahead_time 0, &blk
+      end
+      doc name:          :with_real_time,
+          introduced:    Version.new(2,12,0),
+          summary:       "Sets sched ahead time to 0 within the block for the current thread",
+          doc:           "
+
+Sets sched ahead time to 0 within the block for the current thread. Shorthand for `with_sched_ahead_time 0`.
+
+See `with_sched_ahead_time` for a version of this function which allows you to set the schedule ahead time to any arbitrary value. Note, `with_real_time` will override any value set with `set_sched_ahead_time!` for the current thread.
+
+",
+          args:          [[]],
+          opts:          nil,
+          modifies_env: true,
+          accepts_block: false,
+          examples:      ["use_real_time 1 # Code will now run approximately 1 second ahead of audio."]
+
 
       def with_sched_ahead_time t, &blk
         raise ArgumentError, "with_sched_ahead_time must be called with a do/end block. Perhaps you meant use_sched_ahead_time" unless blk
@@ -3490,6 +3557,27 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, t)
         res
       end
+      doc name:          :with_sched_ahead_time,
+          introduced:    Version.new(2,12,0),
+          summary:       "Block-level set sched ahead time for the current thread",
+          doc:           "Specify how many seconds ahead of time the synths should be triggered for the block. See `use_sched_ahead_time` for further information.
+
+See `set_sched_ahead_time!` for a global version of this function. Note, `with_sched_ahead_time` will override any value set with `set_sched_ahead_time!` for the given block within the current thread.
+
+See `with_real_time` for a simple way of setting the schedule ahead time to 0.",
+          args:          [[:time, :number]],
+          opts:          nil,
+          modifies_env: true,
+          accepts_block: false,
+          examples:      ["
+with_sched_ahead_time 1 do
+  play 70  # Sound will happen with a latency of 1
+end
+
+play 70  # Sound will happen with the default latency (0.5s)
+"
+      ]
+
 
       def current_sched_ahead_time
         __current_sched_ahead_time
