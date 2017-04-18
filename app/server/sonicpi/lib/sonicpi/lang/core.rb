@@ -204,6 +204,57 @@ run_code \"sample :ambi_lunar_land\" #=> will play the :ambi_lunar_land sample",
 run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
 
 
+
+
+      def use_osc_logging(v, &block)
+        raise DeprecationError, "use_osc_logging does not work with a do/end block. Perhaps you meant with_osc_logging" if block
+        __thread_locals.set(:sonic_pi_suppress_osc_logging, !v)
+      end
+      doc name:          :use_osc_logging,
+          introduced:    Version.new(2,12,0),
+          summary:       "Enable and disable OSC logging",
+          doc:           "Enable or disable log messages created on OSC functions. This does not disable the OSC functions themselves, it just stops them from being printed to the log",
+          args:          [[:true_or_false, :boolean]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["use_osc_logging true # Turn on OSC logging", "use_osc_logging false # Disable OSC logging"]
+
+
+
+
+      def with_osc_logging(v, &block)
+        raise ArgumentError, "with_osc_logging requires a do/end block. Perhaps you meant use_osc_logging" unless block
+        current = __thread_locals.get(:sonic_pi_suppress_osc_logging)
+        __thread_locals.set(:sonic_pi_suppress_osc_logging, !v)
+        block.call
+        __thread_locals.set(:sonic_pi_suppress_osc_logging, current)
+      end
+      doc name:          :with_osc_logging,
+          introduced:    Version.new(2,12,0),
+          summary:       "Block-level enable and disable OSC logging",
+          doc:           "Similar to use_osc_logging except only applies to code within supplied `do`/`end` block. Previous OSC log value is restored after block.",
+          args:          [[:true_or_false, :boolean]],
+          opts:          nil,
+          accepts_block: true,
+          requires_block: true,
+          examples:      ["
+  # Turn on OSC logging:
+  use_osc_logging true
+
+  osc \"/foo\" #  message is printed to log
+
+  with_osc_logging false do
+    #OSC logging is now disabled
+    osc \"/foo\" # OSC message *is* sent but not displayed in log
+  end
+  sleep 1
+  # Debug is re-enabled
+  osc \"/foo\" # message is displayed in log
+  "]
+
+
+
+
       def use_osc(host, port=57120)
 
         # 57120 is the OSC spec default port
@@ -336,7 +387,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
 
       def osc_send(host, port, path, *args)
         __osc_send(host, port, path, *args)
-        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
+        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc_send,
           introduced:     Version.new(2,12,0),
@@ -368,7 +419,7 @@ osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
         host, port = host_and_port.split ":"
         port = port.to_i
         __osc_send host, port, path, *args
-        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}"
+        __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc,
           introduced:     Version.new(2,12,0),
