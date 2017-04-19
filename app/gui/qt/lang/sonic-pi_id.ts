@@ -946,7 +946,7 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1042"/>
         <source>Synths</source>
-        <translation>Synths</translation>
+        <translation>Synth</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1084"/>
