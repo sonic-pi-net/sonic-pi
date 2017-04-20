@@ -89,7 +89,10 @@ module SonicPi
     def __restart_cue_server!
       @osc_cue_server_mutex.synchronize do
         @osc_server.stop if @osc_server
-        @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: @osc_cue_server_is_open, &@register_cue_event_lambda)
+        @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: @osc_cue_server_is_open,) do |address, args|
+          address = "/osc#{address}"
+          @register_cue_event_lambda.call(address, args)
+        end
       end
     end
 
@@ -868,6 +871,7 @@ module SonicPi
 
     def job_subthread_add_unmutexed(job_id, t, name=nil)
       #todo only add subthread if name isn't registered yet
+
       unless @job_subthreads[job_id]
         t.kill
         job_subthread_rm_unmutexed(job_id, t)

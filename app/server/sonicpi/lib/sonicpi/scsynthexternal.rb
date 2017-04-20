@@ -133,7 +133,7 @@ module SonicPi
           @events.async_event address, args
         end
 
-        @register_cue_event_lambda.call(address, args) if address.start_with? "/cue/"
+        @register_cue_event_lambda.call(address, args) if address.start_with? "/scsynth/"
       end
 
 
