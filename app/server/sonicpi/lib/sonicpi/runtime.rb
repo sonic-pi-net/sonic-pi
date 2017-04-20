@@ -45,7 +45,6 @@ module SonicPi
 
   module RuntimeMethods
 
-
     ## Not officially part of the API
     ## Probably should be moved somewhere else
     @@stop_job_mutex = Mutex.new
@@ -337,22 +336,6 @@ module SonicPi
 
     def __current_job_info
       __system_thread_locals.get(:sonic_pi_spider_job_info) || {}
-    end
-
-    def __sync_msg_command(msg)
-      id = @sync_counter.next
-      prom = Promise.new
-      @cue_events.add_handler("/sync", @cue_events.gensym("/spider")) do |payload|
-        if payload[:id] == id
-          prom.deliver! payload[:result]
-          :remove_handler
-        end
-      end
-      msg[:sync] = id
-      msg[:jobid] = __current_job_id
-      msg[:jobinfo] = __current_job_info
-      __msg_queue.push msg
-      prom.get
     end
 
     def __handle_event(e)
