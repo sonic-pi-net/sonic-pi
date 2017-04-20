@@ -87,6 +87,13 @@ module SonicPi
       end
     end
 
+    def __restart_cue_server!
+      @osc_cue_server_mutex.synchronize do
+        @osc_server.stop if @osc_server
+        @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: @osc_cue_server_is_open, &@register_cue_event_lambda)
+      end
+    end
+
     def __gui_heartbeat(id)
       t = Time.now.freeze
       @gui_heartbeats[id] = t
@@ -1050,6 +1057,8 @@ module SonicPi
       @osc_state = State.new(multi_write: false)
       @system_state.set 0, 0, :sched_ahead_time, default_sched_ahead_time
       @gui_cue_log_idxs = Counter.new
+      @osc_cue_server_is_open = false
+      @osc_cue_server_mutex = Mutex.new
       @register_cue_event_lambda = lambda do |address, args|
         gui_log_id = @gui_cue_log_idxs.next
         t = Time.now.freeze
@@ -1073,7 +1082,7 @@ module SonicPi
 
       # TODO Add support for TCP
 
-      @osc_server = SonicPi::OSC::UDPServer.new(ports[:osc_cues_port], open: true, &@register_cue_event_lambda)
+      __restart_cue_server!
 
       @gui_heartbeats = {}
       @gui_last_heartbeat = nil
