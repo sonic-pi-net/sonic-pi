@@ -4319,30 +4319,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         end
       end
 
-      def normalise_and_allocate_buffer_arg!(args_h)
-        return args_h unless args_h.has_key? :buffer
-        buffer_opt = args_h[:buffer]
-
-        case buffer_opt
-        when Buffer
-          return args_h
-        when String, Symbol
-          buf = buffer(buffer_opt)
-          raise "Unable to initialise buffer #{buffer_opt.inspect}" unless buf
-          args_h[:buffer] = buf
-        when Array, SonicPi::Core::SPVector
-          raise "buffer: opt should only contain 2 elements. You supplied: #{buf.size} - #{buf.inspect}" unless buf.size == 2
-          buf = buffer(*buffer_opt)
-          raise "Unable to initialise buffer #{buffer_opt.inspect}" unless buf
-          args_h[:buffer] = buf
-
-        else
-          raise "Unknown value for Record FX buffer: opt - #{buf.inspect}. Expected one of :foo, \"foo\" or [:foo, 3]"
-        end
-
-        return args_h
-      end
-
       def normalise_and_resolve_sample_args(path, args_h, info, combine_tls=false)
         purge_nil_vals!(args_h)
         defaults = info ? info.arg_defaults : {}
