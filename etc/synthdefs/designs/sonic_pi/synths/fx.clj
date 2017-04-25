@@ -18,6 +18,97 @@
 
 (without-namespace-in-synthdef
 
+ (core/def-fx sonic-pi-fx_mcverb
+   [num_allpasses 4
+    num_combs 7
+    comb_rand 0.1
+    allpass_rand 0.05
+    rand_buf 0
+    decay 15
+    pre_delay 0.048
+    slope 8
+    seed 0]
+
+   [num_combs (clip num_combs 1 7)
+    num_allpasses (clip num_allpasses 1 4)
+    pre_delay (clip pre_delay 0 0.2)
+    comb_rand (clip comb_rand 0 0.3)
+    allpass_rand (clip comb_rand 0 0.3)
+    slope (max slope 1)
+
+    pre-delay-l (delay-n dry-l pre_delay)
+    pre-delay-r (delay-n dry-r pre_delay)
+
+    r #(core/deterministic-rand rand_buf %1 comb_rand)
+    n #(core/deterministic-lf-noise1 rand_buf %1 (r %1) slope)
+
+    cl0 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 0)) 0.04 0.05) decay)
+    cl1 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 100)) 0.04 0.05) decay)
+    cl2 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 200)) 0.04 0.05) decay)
+    cl3 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 300)) 0.04 0.05) decay)
+    cl4 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 400)) 0.04 0.05) decay)
+    cl5 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 500)) 0.04 0.05) decay)
+    cl6 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 600)) 0.04 0.05) decay)
+    cl7 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 700)) 0.04 0.05) decay)
+    cl8 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 800)) 0.04 0.05) decay)
+    cl9 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 900)) 0.04 0.05) decay)
+
+    cr0 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1000)) 0.04 0.05) decay)
+    cr1 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1100)) 0.04 0.05) decay)
+    cr2 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1200)) 0.04 0.05) decay)
+    cr3 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1300)) 0.04 0.05) decay)
+    cr4 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1400)) 0.04 0.05) decay)
+    cr5 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1500)) 0.04 0.05) decay)
+    cr6 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1600)) 0.04 0.05) decay)
+    cr7 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1700)) 0.04 0.05) decay)
+    cr8 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1800)) 0.04 0.05) decay)
+    cr9 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1900)) 0.04 0.05) decay)
+
+    rev-r (select num_combs [0
+                             (/ (+ cr0 cr1) 2)
+                             (/ (+ cr0 cr1 cr2) 3)
+                             (/ (+ cr0 cr1 cr2 cr3) 4)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4) 5)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5) 6)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6) 7)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6 cr7) 8)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6 cr7 cr8) 9)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6 cr7 cr8 cr9) 10)])
+
+    rev-l (select num_combs [0
+                             (/ (+ cl0 cl1) 2)
+                             (/ (+ cl0 cl1 cl2) 3)
+                             (/ (+ cl0 cl1 cl2 cl3) 4)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4) 5)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5) 6)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5 cl6) 7)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5 cl6 cl7) 8)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5 cl6 cl7 cl8) 9)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5 cl6 cl7 cl8 cl9) 10)])
+
+    rev-l1 (allpass-n rev-l  0.3 (core/deterministic-rand rand_buf seed allpass_rand))
+    rev-l2 (allpass-n rev-l1 0.3 (core/deterministic-rand rand_buf (+ seed 1) allpass_rand) 1)
+    rev-l3 (allpass-n rev-l2 0.3 (core/deterministic-rand rand_buf (+ seed 2) allpass_rand) 1)
+    rev-l4 (allpass-n rev-l3 0.3 (core/deterministic-rand rand_buf (+ seed 3) allpass_rand) 1)
+
+    rev-r1 (allpass-n rev-r  0.3 (core/deterministic-rand rand_buf (+ seed 4) allpass_rand) 1)
+    rev-r2 (allpass-n rev-r1 0.3 (core/deterministic-rand rand_buf (+ seed 5) allpass_rand) 1)
+    rev-r3 (allpass-n rev-r2 0.3 (core/deterministic-rand rand_buf (+ seed 6) allpass_rand) 1)
+    rev-r4 (allpass-n rev-r3 0.3 (core/deterministic-rand rand_buf (+ seed 7) allpass_rand) 1)
+
+    wet-l (select num_allpasses [0
+                                 rev-l1
+                                 rev-l2
+                                 rev-l3
+                                 rev-l4])
+
+    wet-r (select num_allpasses [0
+                                 rev-r1
+                                 rev-r2
+                                 rev-r3
+                                 rev-r4])
+    ])
+
  (core/def-fx sonic-pi-fx_mono
    [pan 0
     pan_slide 0
