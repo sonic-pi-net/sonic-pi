@@ -3,7 +3,7 @@
 ;; Full project source: https://github.com/samaaron/sonic-pi
 ;; License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 ;;
-;; Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
+;; Copyright 2013, 2014, 2015, 2017 by Sam Aaron (http://sam.aaron.name).
 ;; All rights reserved.
 ;;
 ;; Permission is granted for use, copying, modification, and
@@ -45,6 +45,40 @@
              v     (buf-rd:kr 1 buf phase 1)
              res   (< v prob)
              ]
+         res)))
+
+(defcgen deterministic-rand
+  "Deterministic rand using random buffer"
+  [buf {:doc "pre-allocated buffer containing random values between 0 and 1"}
+   seed {:default 0, :doc "Offset into pre-allocated buffer. Acts as the seed"}
+   max {:default 1, :doc "Max value (result will be a random value between 0 and max)"}]
+  ""
+  (:kr (let [v     (buf-rd:kr 1 buf seed 1)
+             res (* max v)]
+         res)))
+
+(defcgen deterministic-lf-noise0
+  "Deterministic version of lf-noise0"
+  [buf {:doc "pre-allocated buffer containing random values between 0 and 1"}
+   seed {:default 0, :doc "Offset into pre-allocated buffer. Acts as the seed"}
+   freq {:doc "Frequency at which to generate random values"}]
+  ""
+  (:kr (let [phase (+ seed (pulse-count:kr (impulse:kr freq)))
+             v     (buf-rd:kr 1 buf seed 1)
+             res   (lin-lin v 0 1 -1 1)]
+         res)))
+
+(defcgen deterministic-lf-noise1
+  "Deterministic version of lf-noise1"
+  [buf {:doc "pre-allocated buffer containing random values between 0 and 1"}
+   seed {:default 0, :doc "Offset into pre-allocated buffer. Acts as the seed"}
+   freq {:doc "Frequency at which to generate random values"}
+   slope {:doc "Slope rate between new values (positive value)"}]
+  ""
+  (:kr (let [phase (+ seed (pulse-count:kr (impulse:kr (/ freq slope))))
+             v     (buf-rd:kr 1 buf seed 1)
+             v     (lag v (/ slope freq))
+             res   (lin-lin v 0 1 -1 1)]
          res)))
 
 (defn shaped-adsr
