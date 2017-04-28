@@ -642,7 +642,7 @@ module SonicPi
       # Beautify buffer
 
       beautiful = beautify_ruby_source(buf)
-
+      
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
       beautiful_len = beautiful_lines.size
@@ -969,7 +969,11 @@ module SonicPi
     end
     def beautify_ruby_source(source)
       source = source << "\n" unless source.end_with? "\n"
-      RBeautify.beautify_string :ruby, source
+      begin
+        return RubyBeautify.pretty_string source, indent_token: " ", indent_count: 2, syntax_check: false
+      rescue
+        return source
+      end
     end
 
     def normalise_buffer_name(name)
