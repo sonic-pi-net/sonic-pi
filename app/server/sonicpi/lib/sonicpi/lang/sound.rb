@@ -3243,9 +3243,14 @@ puts status # Returns something similar to:
       def note(n, *args)
         # Short circuit out if possible.
         # Also recurse if necessary.
+
         case n
         when Numeric
-          return n
+          if (key = Thread.current.thread_variable_get(:sonic_pi_spider_key))
+            return key.call(n)
+          else
+            return n
+          end
         when Symbol
           return nil if(n == :r || n == :rest)
         when NilClass
@@ -3269,24 +3274,29 @@ puts status # Returns something similar to:
       doc name:          :note,
       introduced:    Version.new(2,0,0),
       summary:       "Describe note",
-      doc:           "Takes a midi note, a symbol (e.g. `:C`) or a string (e.g. `\"C\"`) and resolves it to a midi note. You can also pass an optional `octave:` parameter to get the midi note for a given octave. Please note - `octave:` param overrides any octave specified in a symbol i.e. `:c3`. If the note is `nil`, `:r` or `:rest`, then `nil` is returned (`nil` represents a rest)",
+      doc:           "Takes a note, a symbol (e.g. `:C`) or a string (e.g. `\"C\"`) and resolves it to a midi note. You can also pass an optional `octave:` parameter to get the midi note for a given octave. Please note - `octave:` param overrides any octave specified in a symbol i.e. `:c3`. If the note is `nil`, `:r` or `:rest`, then `nil` is returned (`nil` represents a rest)",
       args:          [[:note, :symbol_or_number]],
       opts:          {:octave => "The octave of the note. Overrides any octave declaration in the note symbol such as :c2. Default is 4"},
       accepts_block: false,
       examples:      ["
 # These all return 60 which is the midi number for middle C (octave 4)
-puts note(60)
 puts note(:C)
 puts note(:C4)
 puts note('C')
+
+# And when the key is C major
+puts note(0)
 ",
         "# returns 60 - octave param has no effect if we pass in a number
-puts note(60, octave: 2)
+puts note(0, octave: 2)
 
 # These all return 36 which is the midi number for C2 (two octaves below middle C)
 puts note(:C, octave: 2)
 puts note(:C4, octave: 2) # note the octave param overrides any octaves specified in a symbol
 puts note('C', octave: 2)
+
+# And when the key is C major
+puts note(-14)
 "]
 
 
