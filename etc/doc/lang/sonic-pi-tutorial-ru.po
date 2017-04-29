@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-29 10:52+0000\n"
-"Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
+"PO-Revision-Date: 2017-04-29 10:59+0000\n"
+"Last-Translator: Elena Ogaderova <jlenkaa@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -166,7 +166,7 @@ msgstr "Убедитесь, что барабаны по-прежнему зву
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Измените значение `sleep` с `0.5` на что-нибудь побольше, например `1`."
+msgstr "Измените значение `sleep` с `0.5` на значение побольше, например `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
