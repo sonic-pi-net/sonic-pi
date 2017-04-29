@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2017-04-29 11:34+0000\n"
-"Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
+"Last-Translator: Elena Ogaderova <jlenkaa@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -423,17 +423,16 @@ msgid "A. Play Controls"
 msgstr "A. Управление Воспроизведением"
 
 #: 01.2-Exploring-the-Interface.md:22
-#, fuzzy
 msgid ""
 "These pink buttons are the main controls for starting and stopping sounds. The"
 "re's the *Run* button for running the code in the editor, *Stop* for stopping "
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"Эти розовые кнопки - главные элементы для начала и остановки звука. Есть кнопк"
-"а *Выполнить* для запуска кода из редактора, *Остановить* для остановки всего "
-"выполняющегося кода, *Сохранить* для сохранения кода в файл и *Запись* для соз"
-"дания записи того, что вы слышите в звуковой файл в формате WAV."
+"Эти розовые кнопки - главные элементы для запуска и остановки звука. Есть "
+"кнопка *Выполнить* для запуска кода из редактора, *Остановить* для остановки "
+"всего выполняющегося кода, *Сохранить* для сохранения кода в файл и *Запись* "
+"для создания записи того, что вы слышите в звуковой файл в формате WAV."
 
 #: 01.2-Exploring-the-Interface.md:28
 #, fuzzy
