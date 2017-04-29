@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-29 11:33+0000\n"
+"PO-Revision-Date: 2017-04-29 11:34+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -387,22 +387,18 @@ msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 msgstr "![Интерфейс Sonic Pi](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
-#, fuzzy
 msgid "*A* - Play Controls"
 msgstr "*A* - Управление воспроизведением"
 
 #: 01.2-Exploring-the-Interface.md:12
-#, fuzzy
 msgid "*B* - Editor Controls"
 msgstr "*B* - Управление редактором"
 
 #: 01.2-Exploring-the-Interface.md:13
-#, fuzzy
 msgid "*C* - Info and Help"
 msgstr "*C* - Помощь и справка"
 
 #: 01.2-Exploring-the-Interface.md:14
-#, fuzzy
 msgid "*D* - Code Editor"
 msgstr "*D* - Редактор кода"
 
@@ -411,22 +407,18 @@ msgid "*E* - Prefs Panel"
 msgstr "*E* - Панель настроек"
 
 #: 01.2-Exploring-the-Interface.md:16
-#, fuzzy
 msgid "*F* - Log Viewer"
 msgstr "*F* - Просмотр сообщений"
 
 #: 01.2-Exploring-the-Interface.md:17
-#, fuzzy
 msgid "*G* - Help System"
 msgstr "*G* - Справочная система"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
 msgstr "*F* - Просмотр сообщений"
 
 #: 01.2-Exploring-the-Interface.md:20
-#, fuzzy
 msgid "A. Play Controls"
 msgstr "A. Управление Воспроизведением"
 
