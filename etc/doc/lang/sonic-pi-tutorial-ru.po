@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-29 11:14+0000\n"
-"Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
+"PO-Revision-Date: 2017-04-29 11:20+0000\n"
+"Last-Translator: Elena Ogaderova <jlenkaa@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -283,13 +283,12 @@ msgstr ""
 "."
 
 #: 01.1-Live-Coding.md:81
-#, fuzzy
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Попробуйте изменить время для `sleep` и выясните, как обе петли повторяются по"
-" кругу с разными темпами"
+"Попробуйте изменить время для `sleep` и вы услышите, как оба цикла "
+"повторяются по кругу с разными темпами"
 
 #: 01.1-Live-Coding.md:83
 msgid ""
