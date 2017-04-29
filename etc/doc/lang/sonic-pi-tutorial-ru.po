@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-11-24 19:31+0000\n"
-"Last-Translator: ektestein <wilson.dashing@gmail.com>\n"
+"PO-Revision-Date: 2017-04-29 10:52+0000\n"
+"Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.14-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -77,16 +77,16 @@ msgstr ""
 "е мне об этом знать, и я посмотрю, что можно сделать для следующей версии."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
 "e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Наконец, смотреть за тем, как другие кодируют, - отличный способ учиться. Я ре"
-"гулярно вещаю в прямом эфире на [livecoding.tv/samaaron](http://livecoding.tv/"
-"samaaron). Так что не забывайте появляться там, чтобы поприветствовать всех и "
-"задать все свои многочисленные вопросы :-)"
+"Наконец, наблюдать за чужим кодингом в режиме реального времени это отличный "
+"способ учиться. Я регулярно вещаю в прямом эфире на "
+"[livecoding.tv/samaaron](http://livecoding.tv/samaaron). Так что, не "
+"забывайте появляться там, чтобы поприветствовать всех и задать все свои "
+"многочисленные вопросы :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
