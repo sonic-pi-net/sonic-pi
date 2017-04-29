@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-29 10:59+0000\n"
-"Last-Translator: Elena Ogaderova <jlenkaa@mail.ru>\n"
+"PO-Revision-Date: 2017-04-29 11:03+0000\n"
+"Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -173,8 +173,9 @@ msgid "Press the `Run` button again"
 msgstr "Снова нажмите кнопку `Выполнить`"
 
 #: 01.1-Live-Coding.md:35
+#, fuzzy
 msgid "Notice how the drum speed has changed."
-msgstr "Видите, теперь темп барабанов изменился."
+msgstr "Можно заметить, что темп барабанов изменился."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
