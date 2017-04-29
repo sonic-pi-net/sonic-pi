@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-29 11:34+0000\n"
-"Last-Translator: Elena Ogaderova <jlenkaa@mail.ru>\n"
+"PO-Revision-Date: 2017-04-29 19:28+0000\n"
+"Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -435,28 +435,24 @@ msgstr ""
 "для создания записи того, что вы слышите в звуковой файл в формате WAV."
 
 #: 01.2-Exploring-the-Interface.md:28
-#, fuzzy
 msgid "B. Editor Controls"
 msgstr "B. Управление Редактором"
 
 #: 01.2-Exploring-the-Interface.md:30
-#, fuzzy
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
-"Оранжевые кнопки дают вам возможность манипулировать редактором кода. Кнопки *"
-"Размер +* и *Размер -* делают текст больше и меньше. Кнопка *Выровнять* автома"
-"тически выравнивает код, от чего он выглядит более профессионально."
+"Оранжевые кнопки дают вам возможность манипулировать редактором кода. Кнопки "
+"*Размер +* и *Размер -* делают текст больше и меньше. Кнопка *Выровнять* "
+"автоматически выравнивает код, от чего он выглядит более профессионально."
 
 #: 01.2-Exploring-the-Interface.md:35
-#, fuzzy
 msgid "C. Info and Help"
 msgstr "C. Помощь И Справка"
 
 #: 01.2-Exploring-the-Interface.md:37
-#, fuzzy
 msgid ""
 "These blue buttons give you access to information, help and preferences. The *"
 "Info* button will open up the information window which contains information ab"
@@ -464,19 +460,18 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
-"Синие кнопки здесь дают вам доступ к информации и настройкам. Кнопка *Информац"
-"ия* открывает справочное окно, в котором находится информация о самом Sonic Pi"
-" - главной команде разработчиков, истории, помощниках и сообществе. Кнопка *По"
-"мощь* включает систему помощи (*F*), а кнопка *Параметры* включает панель наст"
-"роек, где можно менять некоторые простые параметры приложения."
+"Данные синие кнопки дают вам доступ к информации и настройкам. Кнопка "
+"*Информация* открывает справочное окно, в котором находится информация о "
+"самом Sonic Pi - главной команде разработчиков, истории, помощниках и "
+"сообществе. Кнопка *Помощь* включает систему помощи (*F*), а кнопка "
+"*Параметры* включает панель настроек, где можно менять некоторые базовые "
+"параметры приложения."
 
 #: 01.2-Exploring-the-Interface.md:44
-#, fuzzy
 msgid "D. Code Editor"
 msgstr "D. Редактор Кода"
 
 #: 01.2-Exploring-the-Interface.md:46
-#, fuzzy
 msgid ""
 "This is the area where you'll write your code and compose/perform music. It's "
 "a simple text editor where you can write code, delete it, cut and paste, etc. "
@@ -485,20 +480,19 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"Это область, в которой вы будете писать свой код и сочинять/исполнять музыку. "
-"Это простой текстовый редактор, где можно написать код, удалить его, вырезать,"
-" вставить и так далее. Представьте, что это простая версия Word или Google Doc"
-"s. Редактор автоматически раскрасит слова в зависимости от их значения в коде."
-" Поначалу это может казаться странным, но скоро вы увидите, насколько это помо"
-"гает. К примеру, глядя на что-то синее ты будешь знать, что это число."
+"Это область, в которой вы будете писать свой код и сочинять/исполнять "
+"музыку. Это простой текстовый редактор, где можно написать код, удалить его, "
+"вырезать, вставить и так далее. Представьте, что это простая версия Word или "
+"Google Docs. Редактор автоматически раскрасит слова в зависимости от их "
+"значения в коде. Поначалу это может казаться странным, но скоро вы увидите, "
+"насколько это помогает. К примеру, глядя на что-то синее ты будешь знать, "
+"что это число."
 
 #: 01.2-Exploring-the-Interface.md:54
-#, fuzzy
 msgid "E. Prefs Panel"
 msgstr "E. Панель Настроек"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -506,33 +500,30 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"В Sonic Pi есть множество настраиваемых параметров. Доступ к ним можно получит"
-"ь, нажав кнопку *Параметры* в наборе кнопок \"Помошь и справка\". Она переключит"
-" видимость панели настроек, в которой представлено множество вариантов, доступ"
-"ных для изменения. Примерами являются режим моно, инвертированное стерео, вклю"
-"чение вывода детальных сообщений, ползунок громкости и выбор аудиовыхода Raspb"
-"erry Pi."
+"В Sonic Pi есть множество настраиваемых параметров. Доступ к ним можно "
+"получить, нажав кнопку *Параметры* в наборе кнопок \"Помощь и справка\". Она "
+"переключит видимость панели настроек, в которой представлено множество "
+"вариантов, доступных для изменения. Примерами являются режим моно, "
+"инвертированное стерео, включение вывода детальных сообщений, ползунок "
+"громкости и выбор аудиовыхода Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
-#, fuzzy
 msgid "F. Log Viewer"
 msgstr "F. Просмотр Сообщений"
 
 #: 01.2-Exploring-the-Interface.md:65
-#, fuzzy
 msgid ""
 "When you run your code, information about what the program is doing will be di"
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"Когда твой код выполняется, то информация о том, что делает программа, будет в"
-"ыводиться в просмотрщике сообщений. По умолчанию, ты будешь видеть новое сообщ"
-"ение для каждого воспроизводимого звука с точным указанием времени, когда он н"
-"ачался. Это очень полезно для отладки кода и понимание того, что он делает."
+"Когда твой код выполняется, то информация о том, что делает программа, будет "
+"выводиться в лог сообщений. По умолчанию, ты будешь видеть новое сообщение "
+"для каждого воспроизводимого звука с точным указанием времени, когда он "
+"начался. Это очень полезно для отладки кода и понимания того, что он делает."
 
 #: 01.2-Exploring-the-Interface.md:71
-#, fuzzy
 msgid "G. Help System"
 msgstr "G. Справочная Система"
 
