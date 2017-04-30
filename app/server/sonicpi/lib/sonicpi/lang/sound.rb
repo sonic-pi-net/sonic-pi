@@ -2773,7 +2773,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
         args_h = merge_synth_arg_maps_array(args_a)
         tls = __thread_locals.get(:sonic_pi_mod_sound_sample_defaults) || {}
 
-        args_h = tls.merge(args_h)
+        args_h = tls.merge(args_h).to_h
 
         if filts_and_sources.size == 0
           if args_h.has_key?(:path)
