@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-26 02:52+0000\n"
+"PO-Revision-Date: 2017-05-01 13:32+0000\n"
 "Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -6784,7 +6784,7 @@ msgstr "Structures de données"
 #: 08-Data-Structures.md:5
 msgid "A very useful tool in a programmer's toolkit is a data structure."
 msgstr ""
-"Un outil très utile dans une boîte à outil d'un programmeur est une "
+"Un outil très utile dans la boîte à outils d'un programmeur est une "
 "structure de données."
 
 #: 08-Data-Structures.md:7
@@ -16045,7 +16045,6 @@ msgstr ""
 "également ce qui fonctionne bien avec les sons courants."
 
 #: A.15-performance.md:154
-#, fuzzy
 msgid ""
 "This month, instead of giving you a final example that combines all the things"
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
@@ -16056,10 +16055,10 @@ msgid ""
 " coding for a real audience."
 msgstr ""
 "Ce mois-ci, au lieu de vous donner un exemple final qui combine toutes les "
-"choses dont nous avons discutés, essayons plutôt de poser un défi. Voyez si "
+"choses dont nous avons discuté, essayons plutôt de poser un défi. Voyez si "
 "vous pouvez passer une semaine à pratiquer l'une de ces idées tous les "
-"jours. Par exemple, une journée pratiquer les déclencheurs manuels, la "
-"suivante faite du travail basique de `live_loop` et avant que vous ne vous "
+"jours. Par exemple, une journée pratiquez les déclencheurs manuels, la "
+"suivante faites du travail basique de `live_loop` et avant que vous ne vous "
 "en rendiez compte, vous serez en train de coder en direct  pour un vrai "
 "public."
 
@@ -16073,7 +16072,6 @@ msgid "8 Tips for Live Coding Practice"
 msgstr "8 astuces pour la pratique du codage en direct"
 
 #: A.16-practice.md:5
-#, fuzzy
 msgid ""
 "Last month we took a look at five important techniques for mastering live codi"
 "ng - in other words, we explored how we could use Sonic Pi to approach code in"
@@ -16083,12 +16081,12 @@ msgid ""
 "t start."
 msgstr ""
 "Le mois dernier, nous avons étudié cinq techniques importantes pour "
-"maitriser le codage en direct - en d'autres mots, nous avons explorer "
-"comment nous pouvions utiliser Sonic Pi pour approcher le code de la même "
-"façon que nous le ferions avec un instrument de musique. L'un des concepts "
-"importants dont nous avons discuté est la pratique. Ce mois-ci, nous allons "
-"approfondir notre compréhension de pourquoi la pratique du codage en direct "
-"est importante et comment vous pouvez commencer à le faire."
+"maitriser le codage en direct - en d'autres mots, nous avons exploré comment "
+"nous pouvions utiliser Sonic Pi pour approcher le code de la même façon que "
+"nous le ferions avec un instrument de musique. L'un des concepts importants "
+"dont nous avons discuté est la pratique. Ce mois-ci, nous allons approfondir "
+"notre compréhension de pourquoi la pratique du codage en direct est "
+"importante et comment vous pouvez commencer à le faire."
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
