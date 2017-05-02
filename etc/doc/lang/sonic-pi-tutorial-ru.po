@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-29 19:28+0000\n"
+"PO-Revision-Date: 2017-05-02 18:13+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -173,7 +173,6 @@ msgid "Press the `Run` button again"
 msgstr "Снова нажмите кнопку `Выполнить`"
 
 #: 01.1-Live-Coding.md:35
-#, fuzzy
 msgid "Notice how the drum speed has changed."
 msgstr "Можно заметить, что темп барабанов изменился."
 
@@ -299,14 +298,13 @@ msgstr ""
 " звуками гитары на заднем плане."
 
 #: 01.1-Live-Coding.md:85
-#, fuzzy
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
-"Попробуйте поменять синее значение любого из `mix:` на число в промежутке от `"
-"0` (что соответствует исключению из общего микса) до `1` (полностью сочетается"
-")"
+"Попробуйте поменять синее значение любого из `mix:` на число в промежутке от "
+"`0` (что соответствует исключению из общего микса) до `1` (полностью "
+"сочетается)."
 
 #: 01.1-Live-Coding.md:88
 #, fuzzy
@@ -518,7 +516,7 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"Когда твой код выполняется, то информация о том, что делает программа, будет "
+"Когда твой код выполняется, информация о том, что делает программа, будет "
 "выводиться в лог сообщений. По умолчанию, ты будешь видеть новое сообщение "
 "для каждого воспроизводимого звука с точным указанием времени, когда он "
 "начался. Это очень полезно для отладки кода и понимания того, что он делает."
@@ -528,7 +526,6 @@ msgid "G. Help System"
 msgstr "G. Справочная Система"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -537,17 +534,16 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"Наконец, одна из самых важных частей интерфейса Sonic Pi - это справочная сист"
-"ема, которую можно увидеть в нижней части окна приложения. Её можно выводить и"
-" прятать, нажимая синюю кнопку *Помощь*. В справочную систему входит помощь и "
-"информация обо все аспектах Sonic Pi, включая этот учебник, список доступных с"
-"интезаторов, сэмплов, эффектов, примеры и полный перечень всех функций Sonic P"
-"i для кодирования музыки."
+"Наконец, одна из самых важных частей интерфейса Sonic Pi - это справочная "
+"система, которую можно увидеть в нижней части окна приложения. Её можно "
+"выводить и прятать, нажимая синюю кнопку *Помощь*. В справочную систему "
+"входит помощь и информация обо все аспектах Sonic Pi, включая этот учебник, "
+"список доступных синтезаторов, сэмплов, эффектов, примеры и полный перечень "
+"всех функций Sonic Pi для кодирования музыки."
 
 #: 01.2-Exploring-the-Interface.md:81
-#, fuzzy
 msgid "H. Scope Viewer"
-msgstr "F. Просмотр Сообщений"
+msgstr "H. Область видимости"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -561,32 +557,39 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"В области видимости можно наблюдать за воспроизводимым звуком. Вы с "
+"лёгкостью заметите, что пилообразная волна действительно напоминает пилу, а "
+"простейшие сигналы выглядят как синусоидальные волны. Вы также можете "
+"увидеть разницу между громкими и тихими звуками, глядя на размер выводимых "
+"линий. Существует три области видимости, с которыми можно повозиться - "
+"стандартная (комбинация левого и правого каналов), стерео (каждый канал "
+"обособлен) и, наконец, область видимости фигур Лиссажу, которая показывает "
+"отношения фаз левого и правого каналов, а также позволяет создавать красивые "
+"изображения при помощи звука. (https://ru.wikipedia.org/wiki/%D0%A4%D0%B8%D0%"
+"B3%D1%83%D1%80%D1%8B_%D0%9B%D0%B8%D1%81%D1%81%D0%B0%D0%B6%D1%83)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
 msgstr "1.3 Обучение через игру"
 
 #: 01.3-Learning-through-Play.md:3
-#, fuzzy
 msgid "Learning through Play"
-msgstr "Обучение Через Игру"
+msgstr "Обучение через игру"
 
 #: 01.3-Learning-through-Play.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi encourages you to learn about both computing and music through play a"
 "nd experimentation. The most important thing is that you're having fun, and be"
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
-"Sonic Pi стремится воодушевить вас изучать компьютеры и музыку через игру и эс"
-"периментирование. Самое главное, чтобы вам было весело, и тогда, прежде чем вы"
-" это поймёте, вы случайно научитесь кодировать, сочинять и исполнять."
+"Sonic Pi стремится воодушевить вас изучать компьютеры и музыку через игру и "
+"экспериментирование. Самое главное, чтобы вам было весело, и тогда, прежде, "
+"чем вы это поймёте, вы случайно научитесь кодировать, сочинять и исполнять."
 
 #: 01.3-Learning-through-Play.md:10
-#, fuzzy
 msgid "There are no mistakes"
-msgstr "Ошибок Нет"
+msgstr "Ошибок не существует"
 
 #: 01.3-Learning-through-Play.md:12
 #, fuzzy
@@ -614,12 +617,10 @@ msgstr ""
 "вать*."
 
 #: 01.3-Learning-through-Play.md:24
-#, fuzzy
 msgid "Start Simple"
-msgstr "Начните С Простого"
+msgstr "Начните с простого"
 
 #: 01.3-Learning-through-Play.md:26
-#, fuzzy
 msgid ""
 "When you're learning, it's tempting to want to do amazing things *now*. Howeve"
 "r, just hold that thought and see it as a distant goal to reach *later*. For n"
@@ -629,17 +630,17 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
-"Когда вы только учитесь, очень хочется делать удивительные вещи уже *сейчас*. "
-"Но попридержите эту мысль и смотрите на нее, как на далекую цель, которую вы д"
-"остигнете *позже*. Пока что, вместо этого думайте о самом *простом*, что вы мо"
-"жете написать и что было бы забавно и стояще. Каждый раз это будет небольшим ш"
-"агом к тому поразительному, что есть в вашем воображении. Как только у вас поя"
-"вилась идея о простом шаге, попробуйте сделать его, играйте с тем, что получил"
-"ось и разбирайтесь, какие новые идеи он дает вам. Вскоре у вас появится огромн"
-"ое количество способов повеселиться, а обучение пойдет в гору."
+"Когда вы только учитесь, очень хочется делать удивительные вещи уже *сейчас*"
+". Но попридержите эту мысль и смотрите на нее, как на далекую цель, которую "
+"вы достигнете *позже*. Пока что, вместо этого думайте о самом *простом*, что "
+"вы можете написать, что было бы забавно и приносило бы некое удовлетворение. "
+"Каждый раз это будет небольшим шагом к тому поразительному, что есть в вашем "
+"воображении. Как только у вас появилась идея о простом шаге, попробуйте "
+"сделать его, играйте с тем, что получилось и разбирайтесь, какие новые идеи "
+"он дает вам. Вскоре у вас появится огромное количество способов "
+"повеселиться, а обучение пойдет в гору."
 
 #: 01.3-Learning-through-Play.md:35
-#, fuzzy
 msgid "Just make sure to share your work with others!"
 msgstr "Но не забывайте делиться своими достижениями с другими!"
 
@@ -648,17 +649,14 @@ msgid "2 Synths"
 msgstr "2 Синт - Синтезатор"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
-#, fuzzy
 msgid "Synths"
-msgstr "Синты"
+msgstr "Синтезаторы"
 
 #: 02-Synths.md:5
-#, fuzzy
 msgid "OK, enough of the intros - let's get into some sound."
 msgstr "Довольно вступлений. Пора экспериментировать со звуком."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -667,11 +665,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"В этой главе мы будем рассматривать основы запуска и управления синтами. Синт "
-"- это сокращение от синтезатор, что само по себе означает модное словечко для "
-"чего-то, что издает звук. Обычно, синты довольно сложны в использовании (особе"
-"нно аналоговые, в которых много соединений проводами и модулей). Sonic Pi пред"
-"оставляет такие же возможности, но очень простым и доступным способом."
+"В этой главе мы будем рассматривать основы запуска и управления синтами. "
+"Синт - это сокращение от синтезатор, что само по себе означает модное "
+"словечко для чего-то, что издает звук. Обычно, синты довольно сложны в "
+"использовании (особенно аналоговые, в которых много соединений проводами и "
+"модулей). Sonic Pi предоставляет такие же возможности, но очень простым и "
+"доступным способом."
 
 #: 02-Synths.md:14
 #, fuzzy
@@ -680,21 +679,19 @@ msgid ""
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
-"Не обманывайтесь кажущейся простотой интерфейса Sonic Pi. С ним, если захочетс"
-"я, можно добраться до самых потаенных глубин очень сложной манипуляции звуком."
-" Итак, придержите свои шляпы, чтобы не сдуло ветром..."
+"Не обманывайтесь кажущейся простотой интерфейса Sonic Pi. С ним, если "
+"захочется, можно добраться до самых потаенных глубин очень сложной "
+"манипуляции звуком. Итак, придержите свои шляпы, чтобы не сдуло ветром..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
 msgstr "2.1 Ваш первый звук"
 
 #: 02.1-Your-First-Beeps.md:3
-#, fuzzy
 msgid "Your First Beeps"
 msgstr "Ваши Первые Звуки"
 
 #: 02.1-Your-First-Beeps.md:5
-#, fuzzy
 msgid "Take a look at the following code:"
 msgstr "Посмотрите на этот код:"
 
@@ -704,35 +701,31 @@ msgid "play 70"
 msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
-#, fuzzy
 msgid ""
 "This is where it all starts. Go ahead, copy and paste it into the code window "
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
-"Отсюда всё берет свое начало. Давайте, скопируйте и вставьте его в окно кода в"
-"верху приложения (большое белое пространство под кнопкой `Выполнить`). Ну, а т"
-"еперь нажмите `Выполнить`..."
+"Отсюда всё берет свое начало. Давайте, скопируйте и вставьте его в окно кода "
+"вверху приложения (большое белое пространство под кнопкой `Выполнить`). "
+"Затем, нажмите `Выполнить`..."
 
 #: 02.1-Your-First-Beeps.md:15
-#, fuzzy
 msgid "Beep!"
 msgstr "Звук!"
 
 #: 02.1-Your-First-Beeps.md:17
-#, fuzzy
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "Сильно. Нажмите заново. Снова. *И снова...*"
+msgstr "Впечатляет. Нажмите заново. Снова. *И снова...*"
 
 #: 02.1-Your-First-Beeps.md:19
-#, fuzzy
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Ого, с ума сойти, уверен, вы бы могли просидеть так целый день. Но подождите, "
-"до того, как вы растворитесь в бесконечном потоке звуков, попробуйте изменить "
-"число:"
+"Ого, с ума сойти, уверен, вы бы могли просидеть так целый день. Но "
+"подождите, до того, как вы растворитесь в бесконечном потоке звуков, "
+"попробуйте изменить число:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -740,7 +733,6 @@ msgid "play 75"
 msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
-#, fuzzy
 msgid "Can you hear the difference? Try a lower number:"
 msgstr "Слышите разницу? Попробуйте число поменьше:"
 
@@ -750,7 +742,6 @@ msgid "play 60"
 msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
-#, fuzzy
 msgid ""
 "So, lower numbers make lower pitched beeps and higher numbers make higher pitc"
 "hed beeps. Just like on a piano, the keys at the lower part of the piano (the "
@@ -761,38 +752,35 @@ msgid ""
 "just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
 "y 60`."
 msgstr ""
-"Вот, меньшее число дает более низкий звук, а большее число дает более высокий "
-"звук. Прямо как на пианино. Клавиши в нижней части пианино (слева) звучат ниже"
-", а клавиши в верхней части пианино (правая сторона) - выше. На самом деле, чи"
-"сла имеют прямое отношение к клавишам пианино. `play 47` означает \"сыграй соро"
-"к седьмую ноту на пианино\". То есть `play 48` - это на одну ноту выше (следующ"
-"ая клавиша справа). Так сложилось, что нота \"До\" четвертой октавы имеет номер "
-"60. Попробуйте сыграть её: `play 60`."
+"Вот, меньшее число дает более низкий звук, а большее число дает более "
+"высокий звук. Прямо как на пианино. Клавиши в нижней части пианино (слева) "
+"звучат ниже, а клавиши в верхней части пианино (правая сторона) - выше. На "
+"самом деле, числа имеют прямое отношение к клавишам пианино. `play 47` "
+"означает \"сыграй сорок седьмую ноту на пианино\". То есть `play 48` - это "
+"на одну ноту выше (следующая клавиша справа). Так сложилось, что нота \"До\" "
+"четвертой октавы имеет номер 60. Попробуйте сыграть её: `play 60`."
 
 #: 02.1-Your-First-Beeps.md:42
-#, fuzzy
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"*Не волнуйтесь*, если для вас это ничего не значит - у меня было то же самое, "
-"когдаf я только начинал. Сейчас важно то, что *меньшие числа дают более низкие"
-" звуки*, а *большие числа дают более высокие звуки*."
+"*Не волнуйтесь*, если для вас это ничего не значит - у меня было то же "
+"самое, когда я только начинал. Сейчас важно то, что *меньшие числа дают "
+"более низкие звуки*, а *большие числа дают более высокие звуки*."
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
-#, fuzzy
 msgid "Chords"
 msgstr "Аккорды"
 
 #: 02.1-Your-First-Beeps.md:48
-#, fuzzy
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
 msgstr ""
-"Играть одну ноту весьма забавно, но играть несколько нот сразу может быть ещё "
-"лучше. Попробуйте:"
+"Играть одну ноту весьма забавно, но играть несколько нот сразу ещё лучше. "
+"Попробуйте:"
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
@@ -806,31 +794,29 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:57
-#, fuzzy
 msgid ""
 "Jazzy! So, when you write multiple `play`s, they all play at the same time. Tr"
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
-"Как будто джаз! Итак, когда вы пишете `play` много раз, все ноты играют в одно"
-" и то же время. Попробуйте самостоятельно - какие числа звучат вместе хорошо? "
-"Какие звучат ужасно? Экспериментируйте, исследуйте и вы выясните это сами."
+"Звучит джазово! Итак, когда вы пишете `play` много раз, все ноты играют в "
+"одно и то же время. Попробуйте самостоятельно - какие числа звучат вместе "
+"хорошо? Какие звучат ужасно? Экспериментируйте, исследуйте и вы выясните это "
+"сами."
 
 #: 02.1-Your-First-Beeps.md:61
-#, fuzzy
 msgid "Melody"
 msgstr "Мелодия"
 
 #: 02.1-Your-First-Beeps.md:63
-#, fuzzy
 msgid ""
 "So, playing notes and chords is fun - but how about a melody? What if you want"
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
-"Играть ноты и аккорды весело, а как насчет мелодий? Что, если вы хотите играть"
-" одну ноту за другой, а не все вместе? Что же, это легко. Просто нужно вставит"
-"ь `sleep` между ними:"
+"Играть ноты и аккорды весело, а как насчет мелодий? Что, если вы хотите "
+"играть одну ноту за другой, а не все вместе? Что же, это легко. Просто нужно "
+"вставить `sleep` между ними:"
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -848,7 +834,6 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:75
-#, fuzzy
 msgid ""
 "How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it"
 " means the *duration of the sleep*. It actually means sleep for one beat, but "
@@ -856,11 +841,12 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
-"Как мило, маленькое арпеджио. Что же значит `1` в `sleep 1`? Ну, это означает "
-"*продолжительность паузы*. Вообще-то, это означает задержку на время одной дол"
-"и такта, но, пока что будем считать, что это значит спать одну секунду. А вдру"
-"г мы захотим, чтобы наше арпеджио стало немного быстрее? Тогда надо указать зн"
-"ачение для паузы покороче. Как насчет половины, то есть `0.5`:"
+"Как мило, маленькое арпеджио. Что же значит `1` в `sleep 1`? Ну, это "
+"означает *продолжительность паузы*. Вообще-то, это означает задержку на "
+"время одной доли такта, но, пока что будем считать, что это значит спать "
+"одну секунду. А вдруг мы захотим, чтобы наше арпеджио стало немного быстрее? "
+"Тогда надо указать значение для паузы покороче. Как насчет половины, то есть "
+"`0.5`:"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -878,42 +864,38 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:89
-#, fuzzy
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
 msgstr ""
-"Видите, теперь это играет быстрее. Попробуйте сами поменять время и используйт"
-"е разные продолжительности и ноты."
+"Можно заметить: мелодия стала играть быстрее. Попробуйте сами поменять время "
+"и используйте разные продолжительности и ноты."
 
 #: 02.1-Your-First-Beeps.md:92
-#, fuzzy
 msgid ""
 "One thing to try is in-between notes such as `play 52.3` and `play 52.63`. The"
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
-"Интересно попробовать значения между нотами, например `play 52.3` или `play 52"
-".63`. Совсем не нужно держаться стандартных целых чисел. Развлекайтесь и получ"
-"айте удовольствие."
+"Интересно попробовать значения между нотами, например `play 52.3` или `play "
+"52.63`. Совсем не нужно держаться стандартных целых чисел. Развлекайтесь и "
+"получайте удовольствие."
 
 #: 02.1-Your-First-Beeps.md:97
-#, fuzzy
 msgid "Traditional Note Names"
-msgstr "Обычные Названия Нот"
+msgstr "Обычные названия нот"
 
 #: 02.1-Your-First-Beeps.md:99
-#, fuzzy
 msgid ""
 "For those of you that already know some musical notation (don't worry if you d"
 "on't - you don't need it to have fun) you might want to write a melody using n"
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
-"Для тех, кто уже немного знаком с нотной грамотой (не волнуйтесь, если вы не з"
-"наете о чём речь - для веселья она вам не нужна), может быть интересно записат"
-"ь мелодию, используя названия нот, такие как \"До\" (C) и \"Фа-диез\" (F#), а не ч"
-"исла. Sonic Pi предусмотрел это. Можно делать так:"
+"Для тех, кто уже немного знаком с нотной грамотой (не волнуйтесь, если вы не "
+"знаете о чём речь - для веселья она вам не нужна), может быть интересно "
+"записать мелодию, используя названия нот, такие как \"До\" (C) и \"Фа-диез\" "
+"(F#), а не числа. Sonic Pi предусмотрел это. Можно делать так:"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -931,13 +913,13 @@ msgstr ""
 "play :E"
 
 #: 02.1-Your-First-Beeps.md:112
-#, fuzzy
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
 msgstr ""
-"Просто помните, что перед нотой должно стоять двоеточие `:`. Тогда она станет "
-"розовой. Ещё можно указывать октаву, добавляя её номер после названия ноты:"
+"Просто помните, что перед нотой должно стоять двоеточие `:`. Тогда она "
+"станет розовой. Ещё можно указывать октаву, добавляя её номер после названия "
+"ноты:"
 
 #: 02.1-Your-First-Beeps.md:116
 #, no-wrap
@@ -955,28 +937,25 @@ msgstr ""
 "play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
-#, fuzzy
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
-"Если хотите сделать ноту на пола тона выше, поставьте `s` после её имени, то е"
-"сть `play :Fs3`. А когда нужен бемоль, обозначьте это при помощи `b`, то есть "
-"`play :Eb3`."
+"Если хотите сделать ноту на полтона выше, поставьте `s` после её имени, то "
+"есть `play :Fs3`. А когда нужен бемоль, обозначьте это при помощи `b`, то "
+"есть `play :Eb3`."
 
 #: 02.1-Your-First-Beeps.md:127
-#, fuzzy
 msgid "Now go *crazy* and have fun making your own tunes."
 msgstr ""
-"А теперь, дайте себе волю, и как следует повеселитесь, придумывая собственные "
-"мелодии."
+"А теперь, дайте себе волю, и как следует *повеселитесь*, придумывая "
+"собственные мелодии."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
-msgstr ""
+msgstr "2.2 Свойства синтезаторов"
 
 #: 02.2-Synth-Params.md:3
-#, fuzzy
 msgid "Synth Options: Amp and Pan"
 msgstr "Параметры: Amp и Pan"
 
@@ -998,7 +977,6 @@ msgstr ""
 "такое эти настройки на самом деле."
 
 #: 02.2-Synth-Params.md:13
-#, fuzzy
 msgid "Options"
 msgstr "Настройки"
 
@@ -1046,14 +1024,12 @@ msgid "play 50, cheese: 1"
 msgstr "play 50, cheese: 1"
 
 #: 02.2-Synth-Params.md:35
-#, fuzzy
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr ""
-"(Замечание: `cheese:` - не настоящая настройка, мы просто используем ее для пр"
-"имера)"
+"(Замечание: `cheese:` - не настоящая настройка, мы просто используем ее для "
+"примера)."
 
 #: 02.2-Synth-Params.md:37
-#, fuzzy
 msgid "You can pass multiple opts by separating them with a comma:"
 msgstr "Можно передавать много настроек, разделяя их запятыми:"
 
@@ -1063,9 +1039,9 @@ msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
-#, fuzzy
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr "Порядок регулировок не важен, так что следующий пример ничем не отличается:"
+msgstr ""
+"Порядок регулировок не важен, так что следующий пример ничем не отличается:"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
@@ -1073,22 +1049,20 @@ msgid "play 50, beans: 0.5, cheese: 1"
 msgstr "play 50, beans: 0.5, cheese: 1"
 
 #: 02.2-Synth-Params.md:49
-#, fuzzy
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
-"Регуляторы, о которых синтезатор не знает, попросту пропускаются (такие как `c"
-"heese` и `beans` - очевидно нелепые названия для настроек!)"
+"Регуляторы, о которых синтезатор не знает, попросту пропускаются (такие как "
+"`cheese` и `beans` - очевидно нелепые названия для настроек!)"
 
 #: 02.2-Synth-Params.md:52
-#, fuzzy
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
-"Если вы случайно укажите одну и ту же настройку с разными значениями, то побед"
-"ит последнее. Например, значением `beans:` будет `2`, а не `0.5`:"
+"Если вы случайно укажите одну и ту же настройку с разными значениями, то "
+"победит последнее. Например, значением `beans:` будет `2`, а не `0.5`:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
@@ -1106,7 +1080,6 @@ msgstr ""
 "авимся с нашим первым регулятором - `amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
-#, fuzzy
 msgid "Amplitude"
 msgstr "Амплитуда"
 
@@ -1136,18 +1109,16 @@ msgstr ""
 ", чтобы избегать компрессии."
 
 #: 02.2-Synth-Params.md:79
-#, fuzzy
 msgid "Amp it up"
 msgstr "Усиление"
 
 #: 02.2-Synth-Params.md:81
-#, fuzzy
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
-"Чтобы изменить амплитуду звука, можно воспользоваться настройкой `amp:`. Напри"
-"мер, передай 0.5, чтобы играть на половинной громкости:"
+"Чтобы изменить амплитуду звука, можно воспользоваться настройкой `amp:`. "
+"Например, передай 0.5, чтобы играть на половинной громкости:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
@@ -1155,7 +1126,6 @@ msgid "play 60, amp: 0.5"
 msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
-#, fuzzy
 msgid "To play at double amplitude pass 2:"
 msgstr "Чтобы играть на удвоенной громкости, передай 2:"
 
@@ -1187,9 +1157,9 @@ msgstr ""
 "play 65"
 
 #: 02.2-Synth-Params.md:104
-#, fuzzy
 msgid "Of course, you can use different `amp:` values for each call to play:"
-msgstr "Конечно, можно задавать разные значения `amp:` для каждого вызова `play`:"
+msgstr ""
+"Конечно, можно задавать разные значения `amp:` для каждого вызова `play`:"
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -1211,7 +1181,6 @@ msgstr ""
 "play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
-#, fuzzy
 msgid "Panning"
 msgstr "Панорамирование"
 
@@ -1234,7 +1203,6 @@ msgstr ""
 "го звука."
 
 #: 02.2-Synth-Params.md:126
-#, fuzzy
 msgid "Let's play a beep out of the left speaker:"
 msgstr "Давай получим звук из левого динамика:"
 
@@ -1244,7 +1212,6 @@ msgid "play 60, pan: -1"
 msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
-#, fuzzy
 msgid "Now, let's play it out of the right speaker:"
 msgstr "Теперь, повторим его из правого:"
 
@@ -1254,7 +1221,6 @@ msgid "play 60, pan: 1"
 msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
-#, fuzzy
 msgid "Finally let's play it back out of the center of both (the default position):"
 msgstr "Наконец, выведем его снова по центру (позиция по умолчанию):"
 
@@ -1264,18 +1230,16 @@ msgid "play 60, pan: 0"
 msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
-#, fuzzy
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
 msgstr ""
-"Попробуйте сами сделать что-нибудь весёлое, меняя амплитуду и панорамирование "
-"ваших звуков!"
+"Попробуйте сами сделать что-нибудь весёлое, меняя амплитуду и "
+"панорамирование ваших звуков!"
 
 #: 02.3-Switching-Synths.md:1
 msgid "2.3 Switching Synths"
 msgstr ""
 
 #: 02.3-Switching-Synths.md:3
-#, fuzzy
 msgid "Switching Synths"
 msgstr "Переключаем Синтезаторы"
 
@@ -1312,12 +1276,10 @@ msgstr ""
 "е, давайте научимся выбирать какой синтезатор мы будем использовать."
 
 #: 02.3-Switching-Synths.md:21
-#, fuzzy
 msgid "Buzzy saws and prophets"
 msgstr "Жужжащие Пилы И Профеты"
 
 #: 02.3-Switching-Synths.md:23
-#, fuzzy
 msgid "A fun sound is the *saw wave* - let's give it a try:"
 msgstr "*Пилообразная волна* - забавный звук. Давайте попробуем его:"
 
@@ -1341,7 +1303,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
-#, fuzzy
 msgid "Let's try another sound - the *prophet*:"
 msgstr "Попробуйте другой - *prophet*:"
 
@@ -1365,7 +1326,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
-#, fuzzy
 msgid "How about combining two sounds. First one after another:"
 msgstr "Как насчет смешивания обоих. Сначала один, а потом другой:"
 
@@ -1391,7 +1351,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
-#, fuzzy
 msgid "Now at the same time:"
 msgstr "А теперь вместе:"
 
