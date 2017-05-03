@@ -1,0 +1,194 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #ddd; /* light grey */
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 100;
+}
+
+.hidden {
+  display: none;
+}
+.flex-container {
+  display: flex;
+  align-items: center;
+}
+nav {
+  height: 48px;
+  display: flex;
+}
+main {
+  height: calc(100% - 80px);
+}
+@keyframes highlight {
+  /*THE PINK*/
+  0%   { background: rgba(255, 20, 147, 0.0); }
+  15%  { background: rgba(255, 20, 147, 0.5); }
+  100% { background: rgba(255, 20, 147, 0.0); }
+}
+.container {
+  height: 100%;
+  width: 100%;
+  float: left;
+}
+
+.run-animation {
+  animation: highlight 0.3s 1; 
+}
+
+.compressed {
+  width: calc(100% - 320px);
+}
+aside {
+  display: inline-block;
+  height: 100%;
+  width: 320px;
+  padding: 12px;
+}
+aside h1 {
+  margin: 0 0 20px 0;
+}
+footer {
+  height: 32px;
+}
+a.active {
+  border: 1px solid white;
+}
+.button {
+  border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+  font-family: Arial;
+  font-size: 15px;
+  margin: 0 10px;
+  padding: 6px 8px;
+  text-decoration: none;
+}
+.button:active {
+  position: relative;
+  top: 1px;
+}
+.button i {
+  margin: 0;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 15px;
+  margin-right: 8px;
+}
+
+
+/* Dark theme */
+
+.theme-dark {
+  color: #eee;
+}
+.theme-dark nav {
+  background-color: #444;
+  border-bottom: 1px solid #333;
+}
+.theme-dark .container {
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+}
+.theme-dark aside {
+  background-color: #444;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #333;
+  border-left: 1px solid #666;
+}
+.theme-dark footer {
+  background-color: #444;
+  border-top: 1px solid #666;
+}
+.theme-dark .button {
+  color: #eee;
+  border: 1px solid #333;
+  box-shadow: inset 0px 1px 0px 0px #777;
+  background: linear-gradient(to bottom, #666 5%, #555 100%);
+  text-shadow: 0px 1px 0px #777;
+}
+.theme-dark .button:hover {
+  background: linear-gradient(to bottom, #555 5%, #666 100%);
+  background-color: #555;
+}
+
+
+/* Light theme */
+
+.theme-light body {
+  color: #222;
+}
+.theme-light nav {
+  background-color: #ddd;
+  border-bottom: 1px solid #bbb;
+}
+.theme-light .container {
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+}
+.theme-light aside {
+  background-color: #ddd;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #bbb;
+  border-left: 1px solid #fff;
+}
+.theme-light footer {
+  background-color: #ddd;
+  border-top: 1px solid #fff;
+}
+.theme-light .button {
+  color: #333;
+  border: 1px solid #bbb;
+  box-shadow: inset 0px 1px 0px 0px #ddd;
+  background: linear-gradient(to bottom, #ddd 5%, #ccc 100%);
+  text-shadow: 0px 1px 0px #eee;
+}
+.theme-light .button:hover {
+  background: linear-gradient(to bottom, #ccc 5%, #ddd 100%);
+  background-color: #ccc;
+}
+
+select {
+  border: 1px solid #bbb;
+  height: 2.25em;
+}
+
+legend {
+  font-weight: 100;
+  display: block;
+  padding: .3em 0;
+  width: 100%;
+}
+.theme-light legend {
+  border-bottom: 1px solid #333;
+}
+
+.theme-dark legend {
+  border-bottom: 1px solid #eee;
+}
+
+fieldset {
+  margin: 0;
+  padding: .35em 0 .75em;
+  border: 0;
+}
+
+label {
+  font-size: 0.9em;
+}
+
+.input-group {
+  line-height: 2em;
+}

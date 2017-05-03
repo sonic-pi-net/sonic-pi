@@ -1,0 +1,17 @@
+{
+  "name": "sonic-pi-electron",
+  "version": "0.0.1",
+  "main": "src/init.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "bower": "^1.4.1",
+    "osc-min": "^0.2.0",
+    "electron-compile": "^0.7.1"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "0.30.3",
+    "node-uuid": "^1.4.3"
+  }
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="../bower_components/ace-builds/src-min/ace.js"></script>
+    <script src="../bower_components/ace-builds/src-min/ext-themelist.js"></script>
+    <script src="../bower_components/ace-builds/src-min/mode-ruby.js"></script>
+    <link rel="stylesheet" href="../bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="frontend/styles/app.css">
+    <title>Sonic Pi!</title>
+  </head>
+  <body class="theme-dark">
+    <nav class="flex-container">
+      <a href="#" id="run-button" class="button"><i class="fa fa-play"></i>Run</a>
+      <a href="#" id="stop-button" class="button"><i class="fa fa-stop"></i>Stop</a>
+      <a href="#" id="save-button" class="button"><i class="fa fa-bookmark"></i>Save</a>
+      <a href="#" id="settings-button" class="button"><i class="fa fa-cog"></i>Settings</a>
+    </nav>
+    <main>
+<div id="editor" class="container">#go wild
+play 80
+sleep 1
+play 70
+sleep 1
+play 90
+</div>
+      <aside id="settings-pane" class="hidden">
+        <h1> Settings </h1>
+        <form>
+          <fieldset>
+            <legend>Editor</legend>
+            <div class="input-group">
+              <label for="theme">Color scheme</label>
+              <select id="theme" size="1">
+                <!-- this is populated separately -->
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="key-binding">Key Binding</label>
+              <select id="key-binding" size="1">
+                <option value="ace/keyboard/vim">Vim</option>
+                <option value="ace/keyboard/emacs">Emacs</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="show-numbers">Show line numbers</label>
+              <input type="checkbox" id="show-numbers" value="0">
+            </div>
+            <div class="input-group">
+              <label for="highlight-on-run">Highlight on run</label>
+              <input type="checkbox" id="highlight-on-run" value="0">
+            </div>
+
+          </fieldset>
+          <fieldset>
+            <legend>Ui</legend>
+            <div class="input-group">
+              <label for="ui-theme">Theme</label>
+              <select id="ui-theme" size="1">
+                <option value="theme-light">Light</option>
+                <option value="theme-dark">Dark</option>
+              </select>
+            </div>
+          </fieldset>
+        </form>
+      </aside>
+    </main>
+    <footer>
+    </footer>
+  </body>
+  <script src="frontend/scripts/app.js"></script>
+</html>

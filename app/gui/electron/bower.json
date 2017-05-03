@@ -1,0 +1,19 @@
+{
+  "name": "electron",
+  "version": "0.0.1",
+  "homepage": "https://github.com/samaaron/sonic-pi",
+  "description": "An electron version of the awesome Sonic-Pi app",
+  "main": "src/frontend/app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ace-builds": "~1.2.0",
+    "fontawesome": "~4.4.0"
+  }
+}
