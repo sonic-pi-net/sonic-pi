@@ -376,8 +376,15 @@ module SonicPi
       @user_jobs.each_id do |id|
         __stop_job id
       end
+      # Flush OSC messages on Erlang scheduler
+      __osc_flush!
+
       # Force a GC collection now everything has stopped
       GC.start
+    end
+
+    def __osc_flush!
+      @osc_server.send("localhost", @osc_router_port, "/flush", "default")
     end
 
     def __stop_other_jobs
