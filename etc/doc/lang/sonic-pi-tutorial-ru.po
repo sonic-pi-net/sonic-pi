@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-05 18:27+0000\n"
+"PO-Revision-Date: 2017-05-05 18:49+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -287,7 +287,7 @@ msgid ""
 "erent rates."
 msgstr ""
 "Попробуйте изменить время для `sleep` и вы услышите, как оба цикла "
-"повторяются по кругу с разными темпами"
+"повторяются по кругу с разными темпами."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
