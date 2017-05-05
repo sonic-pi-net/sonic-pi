@@ -93,6 +93,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
            QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
                                      Q_ARG(QString, QString::fromStdString(args) ) );
            last_incoming_path_lens[id % 20] = address.length();
+           QMetaObject::invokeMethod( window, "addCuePath", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(address)));
         } else {
           std::cout << "[GUI] - unhandled OSC msg /incoming/osc: "<< std::endl;
         }

@@ -2950,6 +2950,14 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
   }
 }
 
+void MainWindow::addCuePath(QString path)
+{
+  if (!cuePaths.contains(path)) {
+      autocomplete->addCuePath(path);
+      cuePaths << path;
+  }
+}
+
 
 void MainWindow::setupLogPathAndRedirectStdOut() {
   QDir().mkdir(sp_user_path);

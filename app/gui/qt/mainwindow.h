@@ -30,6 +30,7 @@
 #include <QFuture>
 #include <QShortcut>
 #include <QSettings>
+#include <QSet>
 #include <QHash>
 #include <QTcpSocket>
 #include "oscpkt.hh"
@@ -92,6 +93,7 @@ public slots:
     void invokeStartupError(QString msg);
 
 private slots:
+    void addCuePath(QString path);
     void zoomInLogs();
     void zoomOutLogs();
     QString sonicPiHomePath();
@@ -349,6 +351,7 @@ private:
     bool updated_dark_mode_for_help, updated_dark_mode_for_prefs;
 
     OscSender *oscSender;
+    QSet<QString> cuePaths;
 };
 
 #endif

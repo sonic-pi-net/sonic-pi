@@ -71,6 +71,10 @@ void SonicPiAPIs::addSynthArgs(QString fx, QStringList args) {
   synthArgs.insert(fx, args);
 }
 
+void SonicPiAPIs::addCuePath(QString path) {
+  keywords[CuePath] << path;
+}
+
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
   if (context.isEmpty()) return;
@@ -104,6 +108,8 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   if (last == "sample" || last == "sample_info" || last == "sample_duration" || last == "use_sample_bpm" || last == "sample_buffer" || last == "sample_loaded?" || last == "load_sample" || last == "load_samples") {
     ctx = Sample;
+  } else if (last == "sync") {
+    ctx = CuePath;
   } else if (last == "with_fx" || last == "use_fx") {
     ctx = FX;
   } else if (last == "with_synth" || last == "use_synth" || last == "synth") {
