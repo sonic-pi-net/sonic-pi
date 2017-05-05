@@ -36,6 +36,7 @@ module SonicPi
       class TimeTravelError < SonicPiError ; end
       class LiveLockError < SonicPiError ; end
       class DeprecationError < SonicPiError ; end
+      class MapArgError < SonicPiError ; end
 
       THREAD_RAND_SEED_MAX = 10e20
 
@@ -1602,6 +1603,12 @@ end"
 
 
       def map(*args)
+        if args.size > 1
+
+          raise MapArgError, "There needs to be an even number of args to map. Got: #{args.size}" unless args.size.even?
+          m = Hash[*args]
+          args = [m]
+        end
         SonicPi::Core::SPMap.new(*args)
       end
       doc name:           :map,
