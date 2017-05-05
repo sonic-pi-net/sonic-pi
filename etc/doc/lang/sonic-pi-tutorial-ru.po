@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-05 18:49+0000\n"
+"PO-Revision-Date: 2017-05-05 18:50+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -701,7 +701,9 @@ msgstr "Посмотрите на этот код:"
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
 msgid "play 70"
-msgstr "play 70"
+msgstr ""
+"Попробуйте изменить время для `sleep` и вы услышите, как оба цикла "
+"повторяются по кругу с разными темпами."
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
