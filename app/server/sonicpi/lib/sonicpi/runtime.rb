@@ -1121,6 +1121,8 @@ module SonicPi
       __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}, #{time}"
       __info "Running on Ruby v#{RUBY_VERSION}"
 
+      __info "Initialised Erlang OSC Scheduler"
+
       if safe_mode?
         __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
       end
