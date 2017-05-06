@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-05 18:50+0000\n"
+"PO-Revision-Date: 2017-05-06 18:50+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -210,7 +210,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -221,8 +220,8 @@ msgid ""
 msgstr ""
 "Время поиграться. Поменяйте частоту.  Что происходит, когда вы используете "
 "высокие, малые, или отрицательные значения? Посмотрите, что произойдет, "
-"когда вы поменяете значение `rate:` для семпла `:ambi_choir` в "
-"незначительном количестве (например до `0.29`). Что произойдет, если вы "
+"когда вы поменяете значение `rate:` для сэмпла `:ambi_choir` на "
+"незначительную величину (например до `0.29`). Что произойдет, если вы "
 "выберите очень маленькое значение для `sleep`? Проверьте, получится ли "
 "заставить его играть так быстро, что ваш компьютер прекратит свою работу и "
 "выдаст ошибку из-за того, что он не справится с этим (если это всё же "
@@ -963,7 +962,6 @@ msgid "Synth Options: Amp and Pan"
 msgstr "Параметры: Amp и Pan"
 
 #: 02.2-Synth-Params.md:5
-#, fuzzy
 msgid ""
 "As well as allowing you to control which note to play or which sample to trigg"
 "er, Sonic Pi provides a whole range of options to craft and control the sounds"
@@ -972,12 +970,12 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
-"В дополнение к возможности выбрать какую ноту играть или какой сэмпл включать,"
-" Sonic Pi предоставляет целый арсенал настроек для создания и управления звуко"
-"м. Многие из этих настроек описаны в этом учебнике, и есть обширная документац"
-"ия по каждой из них в справочной системе. Пока что познакомимся всего лишь с д"
-"вумя самыми полезными: амплитуда и панорамирование. Вначале посмотрим, что же "
-"такое эти настройки на самом деле."
+"В дополнение к возможности выбрать какую ноту играть или какой сэмпл "
+"включать, Sonic Pi предоставляет целый арсенал настроек для создания и "
+"управления звуком. Многие из этих настроек описаны в этом учебнике, и есть "
+"обширная документация по каждой из них в справочной системе. Пока что, мы "
+"познакомимся всего лишь с двумя самыми полезными: амплитуда и "
+"панорамирование. Вначале посмотрим, что же такое эти настройки на самом деле."
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
@@ -1242,7 +1240,6 @@ msgid "Switching Synths"
 msgstr "Переключаем Синтезаторы"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1250,14 +1247,13 @@ msgid ""
 " in this section we'll explore the exciting range of sounds that Sonic Pi has "
 "to offer."
 msgstr ""
-"До сего момента мы, по большей части, развлекались с простыми звуками. Однако,"
-" простые тона уже начали вас утомлять. Разве это все, что Sonic Pi может предл"
-"ожить? Определенно, у лайвкодинга есть больше возможностей, чем просто гудение"
-". Да, есть. И в этой главе мы познакомимся с захватывающим набором звуков, дос"
-"тупных в Sonic Pi."
+"До сего момента мы, по большей части, развлекались с простыми звуками. "
+"Однако, простые тона уже начали вас утомлять. Разве это все, что Sonic Pi "
+"может предложить? Определенно, у лайвкодинга есть больше возможностей, чем "
+"просто гудение. Да, есть. И в этой главе мы познакомимся с захватывающим "
+"набором звуков, доступных в Sonic Pi."
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a range of instruments it calls synths which is *short for synthe"
 "sisers*. Whereas samples represent pre-recorded sounds, synths are capable of "
@@ -1266,12 +1262,13 @@ msgid ""
 " you'll have a lot of fun exploring and playing with them. First, let's learn "
 "how to select the current synth to use."
 msgstr ""
-"В Sonic Pi есть ряд инструментов, называемых синтами, что есть *сокращение от "
-"термина \"синтезатор\"*. В то время, как сэмплы представляют собой предварительн"
-"о записанные звуки, синты могут генерировать новые звуки в зависимости от того"
-", как вы ими управляете (это мы изучим далее в этом учебнике). Синты Sonic Pi "
-"- очень могущественные и яркие инструменты. Играть с ними очень весело. Вначал"
-"е, давайте научимся выбирать какой синтезатор мы будем использовать."
+"В Sonic Pi есть ряд инструментов, называемых синтами, что есть *сокращение "
+"от термина \"синтезатор\"*. В то время, как сэмплы представляют собой "
+"предварительно записанные звуки, синты могут генерировать новые звуки в "
+"зависимости от того, как вы ими управляете (это мы изучим далее в этом "
+"учебнике). Синты Sonic Pi - очень могущественные и яркие инструменты. Играть "
+"с ними очень весело. Вначале, давайте научимся выбирать какой синтезатор мы "
+"будем использовать."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1376,33 +1373,30 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
-#, fuzzy
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
-"Заметили, что команда `use_synth` влияет только на следующие вызовы `play`? Пр"
-"едставьте, что это *большой выключатель* - новые вызовы `play` будут играть то"
-"лько на используемом синте. На новый синт можно переключиться с помощью `use_s"
-"ynth`."
+"Как вы могли заметить, команда `use_synth` влияет только на следующие вызовы "
+"`play`. Представьте, что это *большой выключатель* - новые вызовы `play` "
+"будут играть только на используемом синте. На новый синт можно переключиться "
+"с помощью `use_synth`."
 
 #: 02.3-Switching-Synths.md:80
-#, fuzzy
 msgid "Discovering Synths"
-msgstr "Изучаем Синты"
+msgstr "Изучаем синтезаторы"
 
 #: 02.3-Switching-Synths.md:82
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"Чтобы увидеть, какие синты есть в Sonic Pi, загляните во вкладку Synths в меню"
-" слева внизу (рядом с Fx). Там их больше 20 на выбор. Вот несколько моих любим"
-"ых:"
+"Чтобы увидеть, какие синты есть в Sonic Pi, загляните во вкладку Synths в "
+"меню слева внизу (рядом с Fx). Там их больше 20 на выбор. Вот несколько моих "
+"любимых:"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
@@ -1425,24 +1419,22 @@ msgid "`:pulse`"
 msgstr ""
 
 #: 02.3-Switching-Synths.md:92
-#, fuzzy
 msgid ""
 "Now play around with *switching synths during your music*. Have fun combining "
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
 msgstr ""
-"Попробуйте *попереключаться между синтами, пока ваша музыка играет*. Позабавьт"
-"есь со смешиванием синтов, чтобы получать новые звуки. Еще можно использовать "
-"разные синтезаторы для разных частей музыки."
+"Попробуйте *попереключаться между синтами, пока ваша музыка играет*. "
+"Позабавьтесь со смешиванием синтов, чтобы получать новые звуки. Еще можно "
+"использовать разные синтезаторы для разных частей музыки."
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:3
-#, fuzzy
 msgid "Duration with Envelopes"
-msgstr "Длительность С Помощью Огибающих"
+msgstr "Управление длительностью при помощи огибающих"
 
 #: 02.4-Durations-with-Envelopes.md:5
 #, fuzzy
