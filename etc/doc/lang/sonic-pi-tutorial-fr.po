@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-01 13:32+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-05-06 21:37+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -8957,7 +8957,6 @@ msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr "`M-/` - Commente/Décommente la ligne courante ou la sélection"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
-#, fuzzy
 msgid "`C-t` - Transpose/swap characters"
 msgstr "`C-t` - Intervertit les caractères sélectionnés"
 
@@ -9095,37 +9094,35 @@ msgstr ""
 "Sonic Pi a tout ce qu'il faut pour partager et apprendre avec les autres."
 
 #: 10.3-Sharing.md:7
-#, fuzzy
 msgid ""
 "Once you've learned how to code music, sharing your compositions is as simple "
 "as sending an email containing your code. Please do *share* your code with oth"
 "ers so they can *learn* from your work and even use parts in a new *mash-up*."
 msgstr ""
-"Une fois que vous avez appris comment coder de la musique, partager vos compos"
-"itions est aussi simple que d'envoyer un mail contenant votre code. S.V.P. *pa"
-"rtagez* votre code avec les autres, ainsi ils pourront *apprendre* de votre tr"
-"avail et même en utiliser des parties dans un nouveau *\"mashup\"*."
+"Une fois que vous avez appris comment coder de la musique, partager vos "
+"compositions est aussi simple que d'envoyer un mail contenant votre code. "
+"S.V.P. *partagez* votre code avec les autres, ainsi ils pourront *apprendre* "
+"de votre travail et même en utiliser des parties dans un nouveau *\"mashup\""
+"*."
 
 #: 10.3-Sharing.md:12
-#, fuzzy
 msgid ""
 "If you're unsure of the best way to share your work with others I recommend pu"
 "tting your code on [GitHub](https://github.com) and your music on [SoundCloud]"
 "(https://soundcloud.com). That way you'll be able to easily reach a large audi"
 "ence."
 msgstr ""
-"Si vous n'êtes pas sûr de connaître le meilleur moyen de partager votre travai"
-"l avec les autres, je vous recommande de mettre votre code sur [GitHub](https:"
-"//github.com) et votre musique sur [SoundCloud](https://soundcloud.com). De ce"
-"tte manière vous pourrez atteindre un grand auditoire."
+"Si vous n'êtes pas sûr de connaître le meilleur moyen de partager votre "
+"travail avec les autres, je vous recommande de mettre votre code sur "
+"[GitHub](https://github.com) et votre musique sur "
+"[SoundCloud](https://soundcloud.com). De cette manière vous pourrez "
+"atteindre facilement un grand auditoire."
 
 #: 10.3-Sharing.md:17
-#, fuzzy
 msgid "Code -> GitHub"
 msgstr "Code -> GitHub"
 
 #: 10.3-Sharing.md:19
-#, fuzzy
 msgid ""
 "[GitHub](https://github.com) is a site for sharing and working with code. It's"
 " used by professional developers as well as artists for sharing and collaborat"
@@ -9134,32 +9131,32 @@ msgid ""
 "gist.github.com) is a simple way of uploading your code in a simple way that o"
 "thers can see, copy and share."
 msgstr ""
-"[GitHub](https://github.com) est un site pour partager et travailler avec du c"
-"ode. Il est utilisé aussi bien par des développeurs professionnels que par des"
-" artistes pour partager et collaborer avec du code. La manière la plus simple "
-"pour partager un morceau de code (ou même un morceau non terminé) est de créer"
-" un [Gist](https://gist.github.com). Un [Gist](https://gist.github.com) est un"
-" moyen simple de déposer votre code afin que les autres y aient accès de maniè"
-"re simple : voir, copier, et partager."
+"[GitHub](https://github.com) est un site pour partager et travailler avec du "
+"code. Il est utilisé aussi bien par des développeurs professionnels que par "
+"des artistes pour partager et collaborer avec du code. La manière la plus "
+"simple pour partager un morceau de code (ou même un morceau non terminé) est "
+"de créer un [Gist](https://gist.github.com). Un "
+"[Gist](https://gist.github.com) est un moyen simple de déposer votre code "
+"afin que les autres y aient accès de manière simple : voir, copier et "
+"partager."
 
 #: 10.3-Sharing.md:27
-#, fuzzy
 msgid "Audio -> SoundCloud"
 msgstr "Audio -> SoundCloud"
 
 #: 10.3-Sharing.md:29
-#, fuzzy
 msgid ""
 "Another important way of sharing your work is to record the audio and upload i"
 "t to [SoundCloud](https://soundcloud.com). Once you've uploaded your piece, ot"
 "her users can comment and discuss your work. I also recommend placing a link t"
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
-"Une autre façon importante de partager votre travail est d'enregistrer l'audio"
-" et de déposer l'enregistrement sur [SoundCloud](https://soundcloud.com). Une "
-"fois que vous avez déposé votre morceau, les autres peuvent commenter et discu"
-"ter votre travail. Je vous recommande aussi de placer un lien vers le [Gist](h"
-"ttps://gist.github.com) de votre code dans la description de la piste."
+"Une autre façon importante de partager votre travail est d'enregistrer "
+"l'audio et de déposer l'enregistrement sur "
+"[SoundCloud](https://soundcloud.com). Une fois que vous avez déposé votre "
+"morceau, les autres peuvent commenter et discuter de votre travail. Je vous "
+"recommande aussi de placer un lien vers le [Gist](https://gist.github.com) "
+"de votre code dans la description de la piste."
 
 #: 10.3-Sharing.md:35
 #, fuzzy
@@ -9180,42 +9177,37 @@ msgstr ""
 "mme gratuit (essayez Audacity par exemple)."
 
 #: 10.3-Sharing.md:43
-#, fuzzy
 msgid "Hope"
 msgstr "Espoir"
 
 #: 10.3-Sharing.md:45
-#, fuzzy
 msgid ""
 "I encourage you to share your work and really hope that we'll all teach each o"
 "ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
 "e to show me."
 msgstr ""
-"Je vous encourage à partager votre travail et espère vraiment que nous allons "
-"tous nous apprendre de nouvelles astuces et progresser avec Sonic Pi. Je suis "
-"réellement enthousiaste de ce que vous allez avoir à me montrer."
+"Je vous encourage à partager votre travail et j'espère vraiment que nous "
+"allons tous nous apprendre de nouvelles astuces et progresser avec Sonic Pi. "
+"Je suis très enthousiaste de ce que vous allez avoir à me montrer."
 
 #: 10.4-Performing.md:1
-#, fuzzy
 msgid "10.4 Performing"
 msgstr "10.4 Se produire"
 
 #: 10.4-Performing.md:3
-#, fuzzy
 msgid "Performing"
 msgstr "Se produire"
 
 #: 10.4-Performing.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to use cod"
 "e as a *musical instrument*. This means that writing code live can now be seen"
 " as a new way of performing music."
 msgstr ""
-"Un des aspects les plus passionnants de Sonic Pi est qu'il vous permet d'utili"
-"ser le code comme un *instrument de musique*. Ce qui signifie qu'écrire du cod"
-"e en \"live\" peut maintenant être considéré comme une nouvelle manière d'interp"
-"réter de la musique."
+"Un des aspects les plus passionnants de Sonic Pi est qu'il vous permet "
+"d'utiliser le code comme un *instrument de musique*. Cela signifie qu'écrire "
+"du code en direct peut maintenant être considéré comme une nouvelle manière "
+"d'interpréter de la musique."
 
 #: 10.4-Performing.md:9
 #, fuzzy
