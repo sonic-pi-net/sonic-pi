@@ -339,22 +339,43 @@ module SonicPi
         @sp_thread_safe
       end
 
-      def inspect
+      def sp_log_inspect
         if self.empty?
-          "(map)"
+          return "(map)"
         else
           s = String.new("(map ")
-          self.to_h.each do |k, v|
-            if k.is_a? Symbol
-              s << "#{k}: #{v.inspect}, "
+          longest_key = keys.to_a.map(&:to_s).map(&:size).sort[-1] + 2
+          self.each do |k, v|
+            if k.is_a?(Symbol)
+              pk = "#{k.to_s}:".ljust(longest_key)
+              s << "#{pk} #{v.inspect},\n       "
+            else
+              s << "#{k.inspect.ljust(longest_key)} => #{v.inspect},\n       "
+            end
+          end
+          s.strip!.chomp!(",")
+          s << ")"
+        end
+        return s
+      end
+
+      def inspect
+        if self.empty?
+          return "(map)"
+        else
+          s = String.new("(map ")
+          self.each do |k, v|
+            if k.is_a?(Symbol)
+              pk = "#{k.to_s}:"
+              s << "#{pk} #{v.inspect}, "
             else
               s << "#{k.inspect} => #{v.inspect}, "
             end
           end
           s.chomp!(", ")
           s << ")"
-          return s
         end
+        return s
       end
 
       def to_s
@@ -815,6 +836,10 @@ end
 # Meta-glasses from our hero Why to help us
 # see more clearly..
 class Object
+
+  def sp_log_inspect
+    inspect
+  end
 
   def sp_thread_safe?
       self.is_a?(Numeric) ||

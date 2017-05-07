@@ -2485,7 +2485,7 @@ end
 
 
       def print(*msgs)
-        output = msgs.map{|m| m.inspect}.join(" ")
+        output = msgs.map{|m| m.sp_log_inspect}.join(" ")
         __delayed_user_message output
       end
       doc name:          :print,
@@ -2505,7 +2505,7 @@ end
 
 
       def puts(*msgs)
-        output = msgs.map{|m| m.inspect}.join(" ")
+        output = msgs.map{|m| m.sp_log_inspect}.join(" ")
         __delayed_user_message output
       end
       doc name:           :puts,
