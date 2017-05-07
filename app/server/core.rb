@@ -803,6 +803,10 @@ class Time
 end
 
 class Hash
+  def to_sp_map
+    SonicPi::Core::SPMap.new(self)
+  end
+
   def sp_thread_safe?
     frozen? && all? {|k, v| k.sp_thread_safe? && v.sp_thread_safe?}
   end
