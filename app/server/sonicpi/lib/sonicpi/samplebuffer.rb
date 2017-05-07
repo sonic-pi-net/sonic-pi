@@ -13,7 +13,9 @@
 
 require_relative "buffer"
 require_relative "util"
+require_relative "sox"
 require 'aubio'
+
 
 module SonicPi
   class SampleBuffer < Buffer
@@ -21,10 +23,13 @@ module SonicPi
     def initialize(buffer, path)
       @aubio_onsets = {}
       @buffer = buffer
+      @mono_buffer = nil
       @path = path
       @aubio_sem = Mutex.new
       @slices = {}
       @slices_sem = Mutex.new
+      @sox_sem = Mutex.new
+      @sox_info = nil
     end
 
     def num_frames
@@ -65,6 +70,20 @@ module SonicPi
 
     def to_i
       @buffer.to_i
+    end
+
+    def mono
+      return self if num_chans == 1
+      raise "implement me!"
+    end
+
+    def info
+      return @sox_info if @sox_info
+      @sox_sem.synchronize do
+        return @sox_info if @sox_info
+        @sox_info = Sox.info(@path)
+      end
+      return @sox_info
     end
 
     def onset_data
