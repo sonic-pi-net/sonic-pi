@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-07 18:39+0000\n"
+"PO-Revision-Date: 2017-05-07 18:41+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -1776,53 +1776,49 @@ msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:170
-#, fuzzy
 msgid "Decay Level"
-msgstr "Уровень спада"
+msgstr "Уровень спада (Decay Level)"
 
 #: 02.4-Durations-with-Envelopes.md:172
-#, fuzzy
 msgid ""
 "One last trick is that although the `decay_level:` opt defaults to be the same"
 " value as `sustain_level:` you can explicitly set them to different values for"
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"Еще один, последний, трюк состоит в том, что хотя настройки `decay_level:` изн"
-"ачально совпадают со значением `sustain_level:`, ты можешь явно присвоить им р"
-"азные значения для полного контроля над огибающей. Это тебе позволяет создават"
-"ь огибающие наподобие следующей:"
+"Еще один, последний трюк, состоит в том, что хотя настройки `decay_level:` "
+"изначально совпадают со значением `sustain_level:`, вы можете явно присвоить "
+"им разные значения для полного контроля над огибающей. Это позволяет "
+"создавать огибающие наподобие следующей:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
-#, fuzzy
 msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
 "1, sustain_level: 0.4, release: 0.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3,\n"
-"sustain: 1, sustain_level: 0.4, release: 0.5"
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:183
-#, fuzzy
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
-msgstr "Можно к тому же устанавливать `decay_level:` выше, чем `sustain_level:`:"
+msgstr ""
+"Можно, к тому же, устанавливать `decay_level:` выше, чем `sustain_level:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
-#, fuzzy
 msgid ""
 "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: "
 "0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1,\n"
-"sustain: 0.5, sustain_level: 0.8, release: 1.5"
+"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain:"
+" 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
