@@ -2,7 +2,7 @@ language: ruby
 
 os: linux
 sudo: required
-dist: xenial
+dist: trusty
 compiler: gcc
 rvm: 2.4.1
 env: USE_RVM=1
