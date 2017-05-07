@@ -60,7 +60,7 @@ module SonicPi
       end
 
       begin
-        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_cues_port} -m 6"
+        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_cues_port} -m 6 -v 'Sonic Pi'"
         Kernel.puts "Studio - Spawning m2o with:"
         Kernel.puts "    #{m2o_spawn_cmd}"
         @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
