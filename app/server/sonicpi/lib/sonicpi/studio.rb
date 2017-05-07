@@ -477,26 +477,32 @@ module SonicPi
     def check_for_server_rebooting!(msg=nil)
       if @rebooting
         message "Oops, already rebooting: #{msg}"
-        log "Oops, already rebooting: #{msg}"
+        log_message "Oops, already rebooting: #{msg}"
         raise StudioCurrentlyRebootingError if @rebooting
       end
     end
 
+    def log_message(s)
+      s = "Studio - #{s}"
+      Kernel.puts s
+      log s
+    end
+
     def message(s)
       m = s.to_s
-      log "Studio - #{m}"
-      @msg_queue.push({:type => :info, :val => "Studio: #{m}"}) unless __system_thread_locals.get :sonic_pi_spider_silent
+      @msg_queue.push({:type => :info, :val => m}) unless __system_thread_locals.get :sonic_pi_spider_silent
+      log_message(m)
     end
 
 
     def reset_and_setup_groups_and_busses
-      log "Studio - clearing scsynth"
+      log_message "Studio - clearing scsynth"
       @server.reset!
 
-      log "Studio - allocating audio bus"
+      log_message "Studio - allocating audio bus"
       @mixer_bus = @server.allocate_audio_bus
 
-      log "Studio - Create Base Synth Groups"
+      log_message "Studio - Create Base Synth Groups"
       @mixer_group = @server.create_group(:head, 0, "STUDIO-MIXER")
       @fx_group = @server.create_group(:before, @mixer_group, "STUDIO-FX")
       @synth_group = @server.create_group(:before, @fx_group, "STUDIO-SYNTHS")
@@ -504,7 +510,7 @@ module SonicPi
     end
 
     def reset_server
-      log "Resetting server"
+      log_message "Resetting server"
       reset_and_setup_groups_and_busses
       start_mixer
       start_scope
@@ -514,13 +520,13 @@ module SonicPi
       # TODO create a way of swapping these on the fly:
       # set_mixer! :basic
       # set_mixer! :default
-      log "Starting mixer"
+      log_message "Starting mixer"
       mixer_synth = raspberry_pi_1? ? "sonic-pi-basic_mixer" : "sonic-pi-mixer"
       @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i}, nil, true)
     end
 
     def start_scope
-      log "Starting scope"
+      log_message "Starting scope"
       scope_synth = "sonic-pi-scope"
       @scope = @server.trigger_synth(:head, @monitor_group, scope_synth, { "max_frames" => 1024 })
     end
