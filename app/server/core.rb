@@ -430,6 +430,11 @@ module SonicPi
         end
       end
 
+      def scale(val)
+        val = val.to_f
+        return self.map{|el| el * val}
+      end
+
       def [](idx, len=(missing_length = true))
         return nil unless idx
         raise InvalidIndexError, "Invalid index: #{idx.inspect}, was expecting a number or range" unless idx && (idx.is_a?(Numeric) || idx.is_a?(Range))
