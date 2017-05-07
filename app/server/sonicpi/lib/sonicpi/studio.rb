@@ -54,7 +54,7 @@ module SonicPi
     def init_or_reset_midi
       success = true
       if @o2m_pid || @m2o_pid
-        message "Resetting MIDI"
+        message "Resetting MIDI Subsystems"
         kill_and_deregister_process @o2m_pid if @o2m_pid
         kill_and_deregister_process @m2o_pid if @m2o_pid
       end
