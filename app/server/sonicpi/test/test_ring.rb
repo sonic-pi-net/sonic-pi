@@ -153,7 +153,7 @@ module SonicPi
     def test_scale
       assert_equal(ring(1, 2, 3).scale(2), ring(2.0, 4.0, 6.0))
       assert_equal(ring(1, 2, 3).scale(-2), ring(-2.0, -4.0, -6.0))
-      assert_equal(ring(1, 2, 3).scale(0), ring(0, 0, 0))
+      assert_equal(ring(1, 2, 3).scale(0), ring(0.0, 0.0, 0.0))
     end
   end
 end
