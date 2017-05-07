@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-06 18:50+0000\n"
+"PO-Revision-Date: 2017-05-07 18:39+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -1400,23 +1400,23 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
 msgid ""
@@ -1430,65 +1430,59 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr ""
+msgstr "2.4 Длительность и огибающие"
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
 msgstr "Управление длительностью при помощи огибающих"
 
 #: 02.4-Durations-with-Envelopes.md:5
-#, fuzzy
 msgid ""
 "In an earlier section, we looked at how we can use the `sleep` command to cont"
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
 msgstr ""
-"В одной из предыдущих глав мы изучали, как можно воспользоваться командой `sle"
-"ep` для того, чтобы контролировать, когда начинается звук. Однако, до этого мо"
-"мента мы не могли настраивать продолжительность наших звуков."
+"В одной из предыдущих глав мы изучали, как можно использовать команду `sleep`"
+" для того, чтобы контролировать, когда начинается звук. Однако, до этого "
+"момента мы не могли настраивать продолжительность наших звуков."
 
 #: 02.4-Durations-with-Envelopes.md:9
-#, fuzzy
 msgid ""
 "In order to give us a simple, yet powerful means of *controlling the duration*"
 " of our sounds, Sonic Pi provides the notion of an *ADSR amplitude envelope* ("
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
-"В качестве простого и мощного способа *управления длительностью* наших звуков "
-"Sonic Pi предоставляет нам понятие *ADSR амплитудной огибающей* (Дальше в этой"
-" главе - ADSR). Амплитудная огибающая предлагает контроль по двум параметрам:"
+"В качестве простого и мощного способа *управления длительностью* наших "
+"звуков Sonic Pi предоставляет нам понятие *ADSR амплитудной огибающей* ("
+"Дальше в этой главе - ADSR). Амплитудная огибающая предлагает контроль по "
+"двум параметрам:"
 
 #: 02.4-Durations-with-Envelopes.md:14
-#, fuzzy
 msgid "control over the duration of a sound"
-msgstr "Управление длительностью звука"
+msgstr "управление длительностью звука"
 
 #: 02.4-Durations-with-Envelopes.md:15
-#, fuzzy
 msgid "control over the amplitude of a sound"
-msgstr "Управление амплитудой звука"
+msgstr "управление амплитудой звука"
 
 #: 02.4-Durations-with-Envelopes.md:17
-#, fuzzy
 msgid "Duration"
 msgstr "Длительность"
 
 #: 02.4-Durations-with-Envelopes.md:19
-#, fuzzy
 msgid ""
 "The duration is the length the sound lasts for. A longer duration means that y"
 "ou hear the sound for longer. Sonic Pi's sounds all have a controllable amplit"
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
-"Длительность - это отрезок времени, в течении которого продолжается звук. Боль"
-"шая продолжительность означает, что вы слышите звук дольше. Все звуки в Sonic "
-"Pi имеют контролируемую продолжительность. Поэтому, управляя огибающей, вы упр"
-"авляете продолжительностью."
+"Длительность - это отрезок времени, в течении которого продолжается звук. "
+"Большая продолжительность означает, что вы слышите звук дольше. Все звуки в "
+"Sonic Pi имеют контролируемую продолжительность. Поэтому, управляя "
+"огибающей, вы управляете продолжительностью."
 
 #: 02.4-Durations-with-Envelopes.md:27
-#, fuzzy
 msgid ""
 "The ADSR envelope not only controls duration, it also gives you *fine control "
 "over the amplitude of the sound*. All audible sounds start and end silent and "
@@ -1499,57 +1493,53 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
-"ADSR-огибающая задает не только длительность, но еще и позволяет *тонкую настр"
-"ойку амплитуды сигнала*. Все слышимые звуки начинаются и заканчиваются тишиной"
-", а в промежутке находится изменяющаяся часть звука. Огибающие дают вам возмож"
-"ность плавно изменять и удерживать амплитуду разных частей звука. Это как будт"
-"о написать для кого-нибудт инструкцию о том, в каком порядке понижать и повыша"
-"ть громкость гитарного усилителя. Например, вы можете попросить \"начать с тиши"
-"ны, потом медленно повышать до полной громкости, держать её на этой отметке ко"
-"роткое время, а потом быстро вернуть на тихий уровень\". Sonic Pi дает возможно"
-"сть запрограммировать такое поведение очень точно с помощью огибающих."
+"ADSR-огибающая задает не только длительность, но еще и позволяет *тонкую "
+"настройку амплитуды сигнала*. Все слышимые звуки начинаются и заканчиваются "
+"тишиной, а в промежутке находится изменяющаяся часть звука. Огибающие дают "
+"вам возможность плавно изменять и удерживать амплитуду разных частей звука. "
+"Это похоже на написание инструкции о том, в каком порядке понижать и "
+"повышать громкость гитарного усилителя. Например, вы можете попросить \""
+"начать с тишины, потом медленно повышать до полной громкости, держать её на "
+"этой отметке короткое время, а потом быстро вернуть на тихий уровень\". "
+"Sonic Pi дает возможность запрограммировать такое поведение очень точно с "
+"помощью огибающих."
 
 #: 02.4-Durations-with-Envelopes.md:37
-#, fuzzy
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
 msgstr ""
-"Итак, как мы видели раньше, амплитуда 0 - это тишина, а амплитуда 1 - нормальн"
-"ая громкость."
+"Итак, как мы видели раньше, амплитуда 0 - это тишина, а амплитуда 1 - "
+"нормальная громкость."
 
 #: 02.4-Durations-with-Envelopes.md:40
-#, fuzzy
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr "Теперь пришла пора взглянуть на каждую часть огибающей по порядку."
+msgstr "Теперь, пришла пора взглянуть на каждую часть огибающей по порядку."
 
 #: 02.4-Durations-with-Envelopes.md:42
-#, fuzzy
 msgid "Release Phase"
-msgstr "Фаза Затухания"
+msgstr "Фаза затухания (Release Phase)"
 
 #: 02.4-Durations-with-Envelopes.md:44
-#, fuzzy
 msgid ""
 "The only part of the envelope that's used by default is the release time. This"
 " is the time it takes for the synth's sound to fade out. All synths have a rel"
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
-"Единственная часть огибающей, установленная по умолчанию, - это время затухани"
-"я. Оно обозначает продолжительность времени, за которое звук полностью исчезне"
-"т. У всех синтов затухание настроено на 1, что значит по умолчанию звук длится"
-" в течение одной доли такта (что при темпе по умолчанию в 60 составляет 1 секу"
-"нду):"
+"Единственная часть огибающей, установленная по умолчанию, - это время "
+"затухания. Оно обозначает продолжительность времени, за которое звук "
+"полностью исчезнет. У всех синтов затухание настроено на 1, что значит по "
+"умолчанию звук длится в течение одной доли такта (что при темпе по умолчанию "
+"в 60 составляет 1 секунду):"
 
 #: 02.4-Durations-with-Envelopes.md:53
-#, fuzzy
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
-"Ноту будет слышно одну секунду. Можете измерить сами :-) В полной, и более явн"
-"ой записи, то же самое будет выглядеть так:"
+"Ноту будет слышно одну секунду. Можете измерить сами :-) В полной, и более "
+"явной записи, то же самое будет выглядеть так:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
@@ -1557,14 +1547,13 @@ msgid "play 70, release: 1"
 msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
-#, fuzzy
 msgid ""
 "Notice how this sounds exactly the same (the sound lasts for one second). Howe"
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
-"Заметили, что звук получился точно таким же (длился 1 секунду)? Очень легко из"
-"менять длительность, изменяя значение регулировки `release:`"
+"Заметьте, что звук получился точно таким же (длился ровно 1 секунду). Очень "
+"легко изменять длительность, изменяя значение регулировки `release:`:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1572,13 +1561,12 @@ msgid "play 60, release: 2"
 msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
-#, fuzzy
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
 msgstr ""
-"Можно заставить синт звучать очень коротко, указав очень маленькое значение за"
-"тухания:"
+"Можно cделать звучание синта крайне непродолжительным, указав очень "
+"маленькое значение затухания:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
@@ -1586,15 +1574,14 @@ msgid "play 60, release: 0.2"
 msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
-#, fuzzy
 msgid ""
 "The duration of the release of the sound is called the *release phase* and by "
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
-"Длительность затухания звука называется *фазой затухания* и по умолчанию предс"
-"тавляет из себя линейный переход (то есть прямую линию). Следующая диаграмма и"
-"ллюстрирует такой переход:"
+"Длительность затухания звука называется *фазой затухания* (release phase) и, "
+"по умолчанию, представляет из себя линейный переход (т.e. прямую линию). "
+"Следующая диаграмма иллюстрирует такой переход:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
@@ -1609,40 +1596,37 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"Вертикальная линия на левом краю диаграммы показывает, что звук начинается при"
-" амплитуде 0, но сразу после этого начинает выводиться на полной громкости (эт"
-"о фаза атаки, которую мы рассмотрим далее). Как только достигнута максимальная"
-" амплитуда, она спадает прямой линией до нуля, занимая время, указанное для `r"
-"elease:`. *Более продолжительное время затухания дает более долгое стихание си"
-"нта.*"
+"Вертикальная линия на левом краю диаграммы показывает, что звук начинается "
+"при амплитуде 0, но сразу после этого начинает выводиться на полной "
+"громкости (это фаза атаки, которую мы рассмотрим далее). Как только "
+"достигнута максимальная амплитуда, она спадает прямой линией до нуля, "
+"занимая время, указанное для `release:`. *Чем продолжительнее время "
+"затухания, тем дольше будет стихать синт*"
 
 #: 02.4-Durations-with-Envelopes.md:88
-#, fuzzy
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
-"Так что вы можете менять длительность своих звуков, изменяя время затухания. П"
-"отратьте немного времени, пробуя добавлять время затухания к собственной музык"
-"е."
+"Таким образом, вы можете менять длительность звучания своих звуков, изменяя "
+"время затухания. Потратьте немного времени, пробуя добавлять время затухания "
+"к собственной музыке."
 
 #: 02.4-Durations-with-Envelopes.md:91
-#, fuzzy
 msgid "Attack Phase"
-msgstr "Фаза Атаки"
+msgstr "Фаза атаки (Attack Phase)"
 
 #: 02.4-Durations-with-Envelopes.md:93
-#, fuzzy
 msgid ""
 "By default, the *attack phase* is 0 for all synths which means they move from "
 "0 amplitude to 1 immediately. This gives the synth an initial percussive sound"
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
-"По умолчанию *фаза атаки* равна 0 для всех синтов, что значит их амплитуда мен"
-"яется от 0 до 1 мгновенно. Поэтому начальный звук синта похож на удар. Но вам "
-"может понадобиться плавно вывести звук. Этого можно добиться при помощи регули"
-"ровки `attack:`. Попробуйте плавно извлекать какие-нибудь звуки:"
+"По умолчанию *фаза атаки* равна 0 для всех синтов, что значит их амплитуда "
+"меняется от 0 до 1 мгновенно. Поэтому начальный звук синта похож на удар. Но "
+"вам может понадобиться плавно вывести звук. Этого можно добиться при помощи "
+"регулировки `attack:`. Попробуйте плавно извлекать какие-нибудь звуки:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1656,13 +1640,12 @@ msgstr ""
 "play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
-#, fuzzy
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
-"Можно пользоваться несколькими регуляторами в одно и то же время. Например, дл"
-"я короткой атаки и долгого затухания попробуй:"
+"Можно пользоваться несколькими регуляторами в одно и то же время. Например, "
+"для короткой атаки и долгого затухания попробуйте:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
@@ -1670,22 +1653,22 @@ msgid "play 60, attack: 0.7, release: 4"
 msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
-#, fuzzy
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
-msgstr "Эта краткая атака и длинное затухание иллюстрируются следующей диаграммой:"
+msgstr ""
+"Эта краткая атака и длинное затухание иллюстрируются следующей диаграммой:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:116
-#, fuzzy
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
-msgstr "Конечно, можно и наоборот. Попробуйте долгую атаку и короткое затухание:"
+msgstr ""
+"Конечно, можно и наоборот. Попробуйте долгую атаку и короткое затухание:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
@@ -1699,13 +1682,12 @@ msgid ""
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:125
-#, fuzzy
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
 msgstr ""
-"В конце-концов, для кратких звуков можно сделать короткими и атаку, и затухани"
-"е."
+"В конце-концов, для кратких звуков можно сделать короткими и атаку, и "
+"затухание."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
@@ -1719,20 +1701,19 @@ msgid ""
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:134
-#, fuzzy
 msgid "Sustain Phase"
-msgstr "Фаза задержки"
+msgstr "Фаза задержки (Sustain Phase)"
 
 #: 02.4-Durations-with-Envelopes.md:136
-#, fuzzy
 msgid ""
 "In addition to specifying attack and release times, you may also specify a sus"
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
 msgstr ""
-"Вдобавок, к заданию времени атаки и затухания, можно указать время задержки, ч"
-"тобы управлять *фазой задержки*. Это отрезок времени, в течение которого звук "
-"остается на полной громкости в промежутке между фазами атаки и затухания."
+"Вдобавок, к заданию времени атаки и затухания, можно указать время задержки, "
+"чтобы управлять *фазой задержки*. Это отрезок времени, в течение которого "
+"звук остается на полной громкости в промежутке между фазами атаки и "
+"затухания."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
@@ -1744,7 +1725,6 @@ msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:147
-#, fuzzy
 msgid ""
 "The sustain time is useful for important sounds you wish to give full presence"
 " in the mix before entering an optional release phase. Of course, it's totally"
@@ -1753,20 +1733,19 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
-"Задержка полезна для важных звуков, которые вы хотели бы полностью выделить пр"
-"и сведении, прежде чем они перейдут в необязательную фазу затухания. Конечно ж"
-"е, совершенно допустимо устанавливать и `attack:` и `release:` в 0 и попросту "
-"использовать задержку, чтобы не иметь абсолютно никакого нарастания и затухани"
-"я у звука. Но стоит заметить, что затухание 0 может давать щелчки в аудио, и ч"
-"асто лучше все-таки указывать очень маленькое значение, такое как 0.2."
+"Задержка полезна для важных звуков, которые вы хотели бы полностью выделить "
+"при сведении, прежде чем они перейдут в необязательную фазу затухания. "
+"Конечно же, совершенно допустимо устанавливать и `attack:` и `release:` в 0 "
+"и попросту использовать задержку, чтобы не иметь абсолютно никакого "
+"нарастания и затухания у звука. Но стоит заметить, что затухание 0 может "
+"давать щелчки в аудио, и часто лучше все-таки указывать очень маленькое "
+"значение, такое как 0.2."
 
 #: 02.4-Durations-with-Envelopes.md:154
-#, fuzzy
 msgid "Decay Phase"
-msgstr "Фаза Спада"
+msgstr "Фаза спада (Decay Phase)"
 
 #: 02.4-Durations-with-Envelopes.md:156
-#, fuzzy
 msgid ""
 "For an extra level of control, you can also specify a decay time. This is a ph"
 "ase of the envelope that fits between the attack and sustain phases and specif"
@@ -1775,21 +1754,21 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
-"Для дополнительного уровня контроля можно указать время спада. Это фаза огибаю"
-"щей, которая помещается между фазами атаки и задержки. Она задает участок врем"
-"ени, когда амплитуда будет падать от уровня `attack_level:` до `decay_level:` "
-"(если явно не установить его, то он будет совпадать с `sustain_level:`). По ум"
-"олчанию, уровни `decay:` и `attack:` установлена в 0, а уровень затухания в 1,"
-" поэтому надо указывать время спада, чтобы оно имело какой-либо эффект:"
+"Для дополнительного уровня контроля можно указать время спада. Это фаза "
+"огибающей, которая помещается между фазами атаки и задержки. Она задает "
+"участок времени, когда амплитуда будет падать от уровня `attack_level:` до "
+"`decay_level:` (если явно не установить его, то он будет совпадать с "
+"`sustain_level:`). По умолчанию, уровни `decay:` и `attack:` установлена в "
+"0, а уровень затухания в 1, поэтому надо указывать время спада, чтобы оно "
+"имело какой-либо эффект:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
-#, fuzzy
 msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain"
 ": 1, release: 0.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4,\n"
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, "
 "sustain: 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
