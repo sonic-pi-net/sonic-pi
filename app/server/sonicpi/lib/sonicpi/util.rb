@@ -276,6 +276,10 @@ module SonicPi
       end
     end
 
+    def sox_path
+      File.join(native_path, "sox", "sox")
+    end
+
     def osmid_o2m_path
       File.join(native_path, "osmid", "o2m")
     end
