@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-07 18:41+0000\n"
+"PO-Revision-Date: 2017-05-08 20:05+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -1233,7 +1233,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:1
 msgid "2.3 Switching Synths"
-msgstr ""
+msgstr "2.3 Переключение между синтезаторами"
 
 #: 02.3-Switching-Synths.md:3
 msgid "Switching Synths"
@@ -1585,10 +1585,9 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1662,6 +1661,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
 msgstr ""
+"![огибающая атаки и затухания](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1680,6 +1680,8 @@ msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![огибающая с долгой атакой и быстрым стиханием](../images/tutorial/env-long-"
+"attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1699,6 +1701,8 @@ msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 msgstr ""
+"![огибающая с короткой атакой и коротким стиханием](../images/tutorial/env-"
+"short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -1722,7 +1726,7 @@ msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr ""
+msgstr "![ASR огибающая](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1774,6 +1778,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:168
 msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 msgstr ""
+"![ADSR огибающая](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1802,7 +1807,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR огибающая](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
@@ -1822,64 +1827,58 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR огибающая](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
-#, fuzzy
 msgid "ADSR Envelopes"
 msgstr "ADSR-огибающие"
 
 #: 02.4-Durations-with-Envelopes.md:193
-#, fuzzy
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr "Итак, подведем итог. ADSR-огибающие в Sonic Pi состоят из следующих фаз:"
+msgstr ""
+"Итак, подведем итог. ADSR-огибающие в Sonic Pi состоят из следующих фаз:"
 
 #: 02.4-Durations-with-Envelopes.md:195
-#, fuzzy
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr "*Attac - атака* - время, за которое амплитуда растет от 0 до `attack_level`,"
+msgstr ""
+"*Attack - атака* - время, за которое амплитуда растет от 0 до `attack_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:196
-#, fuzzy
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
-"*Decay - спад* - время, когда амплитуда переходит от `attack_level` до `decay_"
-"level`,"
+"*Decay - спад* - время, когда амплитуда переходит от `attack_level` до "
+"`decay_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:197
-#, fuzzy
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr ""
-"*Sustain - задержка* - время изменения амплитуды с `decay_level` на `sustain_l"
-"evel`,"
+"*Sustain - задержка* - время изменения амплитуды с `decay_level` на "
+"`sustain_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:198
-#, fuzzy
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
 msgstr "*Release - затухание* - время падения амплитуда с `sustain_level` до 0"
 
 #: 02.4-Durations-with-Envelopes.md:200
-#, fuzzy
 msgid ""
 "It's important to note that the duration of a sound is the summation of the ti"
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
-"Важно помнить, что длительность звука - это сумма продолжительностей всех фаз."
-" Соответственно, такой звук будет длиться 0.5 + 1 + 2 + 0.5 = 4 доли такта:"
+"Важно помнить, что длительность звука - это сумма продолжительностей всех "
+"фаз. Соответственно, такой звук будет длиться 0.5 + 1 + 2 + 0.5 = 4 доли "
+"такта:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
-#, fuzzy
 msgid ""
 "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
 "2, release: 0.5"
 msgstr ""
-"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4,\n"
-"sustain: 2, release: 0.5"
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
-#, fuzzy
 msgid "Now go and have a play adding envelopes to your sounds..."
 msgstr "Теперь пришло время поиграть с огибающими, добавляя их в свои звуки..."
 
@@ -1888,33 +1887,30 @@ msgid "3 Samples"
 msgstr "3 Сэплы"
 
 #: 03-Samples.md:3
-#, fuzzy
 msgid "Samples"
 msgstr "Сэмплы"
 
 #: 03-Samples.md:5
-#, fuzzy
 msgid ""
 "Another great way to develop your music is to use pre-recorded sounds. In grea"
 "t hip-hop tradition, we call these pre-recorded sounds *samples*. So, if you t"
 "ake a microphone outside, go and record the gentle sound of rain hitting canva"
 "s, you've just created a sample."
 msgstr ""
-"Другой отличный способ сочинять музыку - использовать заранее записанные звуки"
-". В лучших традициях хип-хопа, мы называем такие записанные звуки *сэмплами*. "
-"То есть, если вы возьмёте микрофон, выйдете наружу и запишете мягкие звуки уда"
-"ров дождя о навес, вы создадите сэмпл."
+"Другой отличный способ сочинять музыку - использовать заранее записанные "
+"звуки. В лучших традициях хип-хопа, мы называем такие записанные звуки "
+"*сэмплами*. То есть, если вы возьмёте микрофон, выйдете наружу и запишете "
+"мягкие звуки ударов дождя о навес, вы создадите сэмпл."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"В Sonic Pi можно делать много забавных вещей с сэмплами. Помимо 90 встроенных "
-"сэмплов со свободной лицензией, программа даёт вам работать и играть с собстве"
-"нными. Перейдем же к делу.."
+"В Sonic Pi можно делать много забавных вещей с сэмплами. Помимо 90 "
+"встроенных сэмплов со свободной лицензией, программа даёт вам работать и "
+"играть с собственными. Перейдем же к делу.."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
@@ -1926,13 +1922,12 @@ msgid "Triggering Samples"
 msgstr "Воспроизведение Сэмплов"
 
 #: 03.1-Triggering-Samples.md:5
-#, fuzzy
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is triggeri"
 "ng pre-recorded samples. Try it:"
 msgstr ""
-"Простые звуки - это только начало. Кое-что весьма весёлое - это проигрывание с"
-"эмплов. Попробуйте:"
+"Простые звуки - это только начало. Кое-что весьма весёлое - это проигрывание "
+"сэмплов. Попробуйте:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
@@ -1940,15 +1935,14 @@ msgid "sample :ambi_lunar_land"
 msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
-#, fuzzy
 msgid ""
 "Sonic Pi includes many samples for you to play with. You can use them just lik"
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
 msgstr ""
-"Sonic Pi включает множество сэмплов. Их можно использовать так же, как вы испо"
-"льзуете команду `play`. Чтобы проиграть несколько сэмплов и нот, просто запиши"
-"те их друг под другом:"
+"Sonic Pi включает множество сэмплов. Их можно использовать так же, как вы "
+"используете команду `play`. Чтобы проиграть несколько сэмплов и нот, просто "
+"запишите их друг под другом:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1964,7 +1958,6 @@ msgstr ""
 "sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
-#, fuzzy
 msgid "If you want to space them out in time, use the `sleep` command:"
 msgstr "Если их нужно разделить во времени, используйте команду `sleep`:"
 
@@ -1990,7 +1983,6 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
@@ -1998,74 +1990,71 @@ msgid ""
 "esting overlap effects. Later in this tutorial we'll take a look at controllin"
 "g the *duration* of sounds with envelopes."
 msgstr ""
-"Обратите внимание, что Sonic Pi не ждёт, пока закончится один звук, прежде чем"
-" начать играть следующий. Команда `sleep` всего лишь описывает разделение моме"
-"нтов, когда звуки *начинаются*. За счет этого их можно легко совмещать, создав"
-"ая интересные эффекты наложения. Далее в этом учебнике мы рассмотрим управлени"
-"е *длительностью* звуков при помощи огибающих."
+"Обратите внимание, что Sonic Pi не ждёт, пока закончится один звук, прежде "
+"чем начать играть следующий. Команда `sleep` всего лишь описывает разделение "
+"моментов, когда звуки *начинаются*. За счет этого их можно легко совмещать, "
+"создавая интересные эффекты наложения. Далее в этом учебнике мы рассмотрим "
+"управление *длительностью* звуков при помощи огибающих."
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid "Discovering Samples"
-msgstr "Знакомимся С Сэмплами"
+msgstr "Знакомимся с сэмплами"
 
 #: 03.1-Triggering-Samples.md:46
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the far left vertical men"
 "u, choose your category and then you'll see a list of available sounds."
 msgstr ""
-"Есть два способа познакомиться с набором сэмплов, включённых в Sonic Pi. Во-пе"
-"рвых, вы можете воспользоваться системой помощи. Щелкните Samples в левом нижн"
-"ем меню, выберите желаемую категорию, и после этого вы увидите список доступны"
-"х звуков."
+"Есть два способа познакомиться с набором сэмплов, включённых в Sonic Pi. Во-"
+"первых, вы можете воспользоваться системой помощи. Щелкните Samples в левом "
+"нижнем меню, выберите желаемую категорию, и после этого вы увидите список "
+"доступных звуков."
 
 #: 03.1-Triggering-Samples.md:51
-#, fuzzy
 msgid ""
 "Alternatively you can use the *auto-completion system*. Simply type the start "
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
-"С другой стороны, можно задействовать *систему автодополнения*. Просто начните"
-" набирать название группы сэмплов, например `sample :ambi_`, и появится выпада"
-"ющее меню с названиями сэмплов на выбор. Попробуйте такие варианты приставки:"
+"С другой стороны, можно задействовать *систему автодополнения*. Просто "
+"начните набирать название группы сэмплов, например `sample :ambi_`, и "
+"появится выпадающее меню с названиями сэмплов на выбор. Попробуйте такие "
+"варианты приставки:"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
-#, fuzzy
 msgid "Now start mixing samples into your compositions!"
 msgstr "Попробуйте создать собственные композиции из сэмплов!"
 
@@ -2074,28 +2063,24 @@ msgid "3.2 Sample Parameters"
 msgstr "3.2 Параметры сэмплов"
 
 #: 03.2-Sample-Params.md:3
-#, fuzzy
 msgid "Sample Parameters: Amp and Pan"
-msgstr "Параметры Сэмплов: Амплитуда И Панорамирование"
+msgstr "Параметры сэмплов: Амплитуда и Панорамирование"
 
 #: 03.2-Sample-Params.md:5
-#, fuzzy
 msgid ""
 "As we saw with synths, we can easily control our sounds with parameters. Sampl"
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
-"Так же, как и с синтами, мы можем легко контролировать наши сэмплы при помощи "
-"параметров. Механизм передачи параметров сэмплам точно такой же. Вспомним наши"
-"х друзей `amp:` и `pan:`"
+"Также, как и с синтами, мы можем легко контролировать наши сэмплы при помощи "
+"параметров. Механизм передачи параметров сэмплам точно такой же. Вспомним "
+"наших друзей `amp:` и `pan:`."
 
 #: 03.2-Sample-Params.md:9
-#, fuzzy
 msgid "Amping samples"
-msgstr "Усиливаем Сэмплы"
+msgstr "Усиливаем сэмплы"
 
 #: 03.2-Sample-Params.md:11
-#, fuzzy
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
@@ -2107,20 +2092,18 @@ msgid "sample :ambi_lunar_land, amp: 0.5"
 msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
-#, fuzzy
 msgid "Panning samples"
-msgstr "Панорамируем Сэмплы"
+msgstr "Панорамируем сэмплы"
 
 #: 03.2-Sample-Params.md:20
-#, fuzzy
 msgid ""
 "We're also able to use the `pan:` parameter on samples. For example, here's ho"
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
-"Ещё один параметр сэмплов, доступый для использования - `pan:`. Например, вот "
-"так мы бы сыграли амен-брейк в левом канале, а потом на середине проиграли бы "
-"его снова, но в правом канале:"
+"Ещё один параметр сэмплов, доступный для использования - `pan:`. Например, "
+"вот так мы бы сыграли амен-брейк в левом канале, а потом на середине "
+"проиграли бы его снова, но в правом канале:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -2134,51 +2117,45 @@ msgstr ""
 "sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
-#, fuzzy
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
-"Обратите внимание, что 0.877 - это половина продолжительности сэмпла в секунда"
-"х."
+"Обратите внимание, что 0.877 - это половина продолжительности сэмпла в "
+"секундах."
 
 #: 03.2-Sample-Params.md:33
-#, fuzzy
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr ""
-"Наконец, если вы сбросите регулировки какого-нибудь синта на настройки по умол"
-"чанию, (как это сделать при помощи `use_synth_defaults`, рассмотрим далее), то"
-" сэмпл не обратит на это внимания."
+"Наконец, если вы сбросите регулировки какого-нибудь синта на настройки по "
+"умолчанию, (как это сделать при помощи `use_synth_defaults`, рассмотрим "
+"далее), то сэмпл не обратит на это внимания."
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
 msgstr ""
 
 #: 03.3-Stretching-Samples.md:3
-#, fuzzy
 msgid "Stretching Samples"
-msgstr "Растягиваем Сэмплы"
+msgstr "Растягиваем сэмплы"
 
 #: 03.3-Stretching-Samples.md:5
-#, fuzzy
 msgid ""
 "Now that we can play a variety of synths and samples to create some music, it'"
 "s time to learn how to modify both the synths and samples to make the music ev"
 "en more unique and interesting. First, let's explore the ability to *stretch* "
 "and *squash* samples."
 msgstr ""
-"Раз уж теперь мы умеем играть на разнообразных синтах и воспроизводить всевозм"
-"ожные сэмплы, пришло время научиться управлять ими обоими, чтобы музыка получа"
-"лась ещё более уникальной и интересной. Вначале, давайте рассмотрим возможност"
-"ь *растягивать* и *сжимать* сэмплы."
+"Раз уж теперь мы умеем играть на разнообразных синтах и воспроизводить "
+"всевозможные сэмплы, пришло время научиться управлять ими обоими, чтобы "
+"музыка получалась ещё более уникальной и интересной. Вначале, давайте "
+"рассмотрим возможность *растягивать* и *сжимать* сэмплы."
 
 #: 03.3-Stretching-Samples.md:10
-#, fuzzy
 msgid "Sample Representation"
-msgstr "Представление Сэмпла"
+msgstr "Представление сэмпла"
 
 #: 03.3-Stretching-Samples.md:12
-#, fuzzy
 msgid ""
 "Samples are pre-recorded sounds stored as numbers which represent how to move "
 "the speaker cone to reproduce the sound. The speaker cone can move in and out,"
@@ -2190,30 +2167,28 @@ msgid ""
 "d. However, it's also fun to change the speed with which the numbers are fed t"
 "o the speaker to change the sound."
 msgstr ""
-"Сэмплы - это предварительно записанные звуки в виде чисел, описывающих, как ко"
-"леблется мембрана динамика, чтобы воспроизвести звук. Мембрана движется внутрь"
-" и наружу, так что числами всего лишь нужно задать насколько втянутой или выпу"
-"клой она должна быть в каждый момент времени. Для правдоподобного воспроизведе"
-"ния звука, обычно сэмпл хранит много тысяч чисел для каждой секунды! Sonic Pi "
-"берет список этих чисел и передаёт их с нужной скоростью, чтобы двигать мембра"
-"ной динамика наружу и внутрь так, чтобы получился нужный звук. Но можно неплох"
-"о поразвлечься, меняя звук за счет изменения скорости, с которой числа идут в "
-"динамик."
+"Сэмплы - это предварительно записанные звуки в виде чисел, описывающих, как "
+"колеблется мембрана динамика, чтобы воспроизвести звук. Мембрана движется "
+"внутрь и наружу, так что числами всего лишь нужно задать насколько втянутой "
+"или выпуклой она должна быть в каждый момент времени. Для правдоподобного "
+"воспроизведения звука, обычно сэмпл хранит много тысяч чисел для каждой "
+"секунды! Sonic Pi берет список этих чисел и передаёт их с нужной скоростью, "
+"чтобы двигать мембраной динамика наружу и внутрь так, чтобы получился нужный "
+"звук. Но можно неплохо поразвлечься, меняя звук за счет изменения скорости, "
+"с которой числа идут в динамик."
 
 #: 03.3-Stretching-Samples.md:23
-#, fuzzy
 msgid "Changing Rate"
-msgstr "Меняем Скорость"
+msgstr "Меняем скорость"
 
 #: 03.3-Stretching-Samples.md:25
-#, fuzzy
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
-"Попробуем проверить это на одном из природных звуков: `:ambi_choir`. Чтобы вос"
-"произвести его с обычной скоростью, можно передавать команде `sample` настройк"
-"у `rate:`:"
+"Попробуем проверить это на одном из природных звуков: `:ambi_choir`. Чтобы "
+"воспроизвести его с обычной скоростью, можно передавать команде `sample` "
+"настройку `rate:`:"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
@@ -2221,14 +2196,13 @@ msgid "sample :ambi_choir, rate: 1"
 msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
-#, fuzzy
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
-"Этот пример воспроизводит сэмпл с нормальной скоростью (1). Пока что ничего ос"
-"обенного. Однако, мы можем свободно изменить это число на что-то другое. Как н"
-"асчет `0.5`:"
+"Этот пример воспроизводит сэмпл с нормальной скоростью (1). Пока что ничего "
+"особенного. Однако, мы можем свободно изменить это число на что-то другое. "
+"Как насчет `0.5`:"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
@@ -2236,29 +2210,26 @@ msgid "sample :ambi_choir, rate: 0.5"
 msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
-#, fuzzy
 msgid ""
 "Woah! What's going on here? Well, two things. Firstly, the sample takes twice "
 "as long to play, secondly the sound is an octave lower. Let's explore these th"
 "ings in a little more detail."
 msgstr ""
-"Ого! Это что такое происходит? Ну, две вещи. Во-первых - сэмпл воспроиводится "
-"в два раза дольше. Во-вторых - звук стал ниже на октаву. Давайте разберём это "
-"более детально."
+"Ого! Это что такое происходит? Ну, две вещи. Во-первых - сэмпл "
+"воспроизводится в два раза дольше. Во-вторых - звук стал ниже на октаву. "
+"Давайте разберём это более детально."
 
 #: 03.3-Stretching-Samples.md:43
-#, fuzzy
 msgid "Let's stretch"
-msgstr "Растягивание"
+msgstr "Давайте растянем"
 
 #: 03.3-Stretching-Samples.md:45
-#, fuzzy
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
-"Сэмпл, который забавно растягитьвать и сжимать, - это амен-брейк. С нормальной"
-" скоростью мы можем легко себе представить его в составе трека драм-н-бейс:"
+"Сэмпл, который забавно растягивать и сжимать, - это амен-брейк. С нормальной "
+"скоростью мы можем легко себе представить его в составе трека драм-н-бейс:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
@@ -2267,13 +2238,12 @@ msgid "sample :loop_amen"
 msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
-#, fuzzy
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
 msgstr ""
-"Но, задавая скорость, можно переключать и жанры. Попробуй половинное значение,"
-" чтобы получить *старый-добрый хип-хоп*:"
+"Но, задавая скорость, можно переключать и жанры. Попробуй половинное "
+"значение, чтобы получить *старый-добрый хип-хоп*:"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
@@ -2281,7 +2251,6 @@ msgid "sample :loop_amen, rate: 0.5"
 msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
-#, fuzzy
 msgid "If we speed it up, we enter *jungle* territory:"
 msgstr "А если ускориться, то мы попадаем на территорию *джангл*:"
 
@@ -2291,13 +2260,12 @@ msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
-#, fuzzy
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative ra"
 "te:"
 msgstr ""
-"А теперь гвоздь программы - проверим, что произойдет, если мы зададим отрицате"
-"льную скорость:"
+"А теперь гвоздь программы - проверим, что произойдет, если мы зададим "
+"отрицательную скорость:"
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
@@ -2305,23 +2273,20 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
-#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
 msgstr ""
-"Ничего себе! Он стал играть *задом-наперёд*! Попробуйте воспроизвести разные с"
-"эмплы на разных скоростях. Попробуйте очень быстрые скорости. Попробуйте несур"
-"азно медленные. Узнайте, какие интересные звуки можно создать."
+"Ничего себе! Он стал играть *задом-наперёд*! Попробуйте воспроизвести разные "
+"сэмплы на разных скоростях. Попробуйте очень быстрые скорости. Попробуйте "
+"несуразно медленные. Узнайте, какие интересные звуки можно создать."
 
 #: 03.3-Stretching-Samples.md:76
-#, fuzzy
 msgid "A Simple Explanation of Sample Rate"
-msgstr "Простое Объяснение Скорости Сэмпла"
+msgstr "Простое объяснение скорости сэмпла"
 
 #: 03.3-Stretching-Samples.md:78
-#, fuzzy
 msgid ""
 "A useful way to think of samples is as springs. Playback rate is like squashin"
 "g and stretching the spring. If you play the sample at rate 2, you're *squashi"
@@ -2332,59 +2297,55 @@ msgid ""
 "rate), the shorter it gets, the more you stretch (lower rate), the longer it g"
 "ets."
 msgstr ""
-"Полезная мысленная аналогия сэмплам - пружина. Темп воспроизведения - это как "
-"сжатие и растягивание пружины. Если воспроизводить сэмпл со скоростью 2, то вы"
-" будете *сжимать пружину* до половины ее нормальной длины. Следовательно, восп"
-"роизведение сэмпла займёт половину времени, ведь он стал короче. Если играть с"
-"эмпл на половине обычной скорости, то вы *растягиваете пружину* в два раза. По"
-"этому сэмпл длится в два раза дольше, ведь он стал длиннее. Чем больше вы сдав"
-"ливаете, тем короче он получается (скорость выше), а чем больше вы растягивает"
-"е, тем длиннее он становится (скорость ниже)."
+"Полезная мысленная аналогия сэмплам - пружина. Темп воспроизведения - это "
+"как сжатие и растягивание пружины. Если воспроизводить сэмпл со скоростью 2, "
+"то вы будете *сжимать пружину* до половины ее нормальной длины. "
+"Следовательно, воспроизведение сэмпла займёт половину времени, ведь он стал "
+"короче. Если играть сэмпл на половине обычной скорости, то вы *растягиваете "
+"пружину* в два раза. Поэтому сэмпл длится в два раза дольше, ведь он стал "
+"длиннее. Чем больше вы сдавливаете, тем короче он получается (скорость выше)"
+", а чем больше вы растягиваете, тем длиннее он становится (скорость ниже)."
 
 #: 03.3-Stretching-Samples.md:87
-#, fuzzy
 msgid ""
 "Compressing a spring increases its density (the number of coils per cm) - this"
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
 msgstr ""
-"Сжатие пружины увеличивает ее плотность (число витков на сантиметр) - это совп"
-"адает с тем, почему сэмпл начинает звучать с *высокой частотой*. Растягивание "
-"пружины снижает ее плотность, и это похоже на то, как *частота звука понижаетс"
-"я*."
+"Сжатие пружины увеличивает ее плотность (число витков на сантиметр) - это "
+"совпадает с тем, почему сэмпл начинает звучать с *высокой частотой*. "
+"Растягивание пружины снижает ее плотность, и это похоже на то, как *частота "
+"звука понижается*."
 
 #: 03.3-Stretching-Samples.md:93
-#, fuzzy
 msgid "The Maths Behind Sample Rate"
-msgstr "Математика, Объясняющая Скорость Сэмпла"
+msgstr "Математика, объясняющая скорость сэмпла"
 
 #: 03.3-Stretching-Samples.md:95
-#, fuzzy
 msgid ""
 "(This section is provided for those that are interested in the details. Please"
 " feel free to skip it...)"
 msgstr ""
-"(Эта часть приведена для тех, кому интересны детали. Всем остальным её можно п"
-"ропустить...)"
+"(Эта часть приведена для тех, кому интересны детали. Всем остальным её можно "
+"пропустить...)"
 
 #: 03.3-Stretching-Samples.md:98
-#, fuzzy
 msgid ""
 "As we saw above, a sample is represented by a big long list of numbers represe"
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
 msgstr ""
-"Как мы видели раньше, представление сэмпла - это очень длинный список чисел, к"
-"оторые описывают движение мембраны динамика во времени. Можно взять эту послед"
-"овательность чисел и нарисовать по ней график, который будет выглядеть примерн"
-"о так:"
+"Как мы видели раньше, представление сэмпла - это очень длинный список чисел, "
+"которые описывают движение мембраны динамика во времени. Можно взять эту "
+"последовательность чисел и нарисовать по ней график, который будет выглядеть "
+"примерно так:"
 
 #: 03.3-Stretching-Samples.md:103
+#, fuzzy
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![граф семплирования](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
-#, fuzzy
 msgid ""
 "You might have seen pictures like this before. It's called the *waveform* of a"
 " sample. It's just a graph of numbers. Typically a waveform like this will hav"
@@ -2396,53 +2357,46 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
-"Вы могли видеть похожие картинки до этого. Они называются *волновой формой* сэ"
-"мпла. Это просто числовой график. Обычно подобные формы включают 44100 точек с"
-" данными на каждую секунду времени (из-за теоремы сэмплирования Найквиста-Шэнн"
-"она). Итак, если сэмпл длится две секунды, то форма волны будет состоять из 88"
-"200 чисел, которые мы бы передавали динамической головке со скоростью 44100 зн"
-"ачения в секунду. Конечно, мы могли бы удвоить темп передачи, тогда воспроизве"
-"дение бы заняло всего одну секунду. А еще мы могли бы проигрывать его в два ра"
-"за медленнее, что означало бы 22500 точек в секунду, и весь процесс бы занял ч"
-"етыре секунды."
+"Вы могли видеть похожие картинки до этого. Они называются *волновой формой* "
+"сэмпла. Это просто числовой график. Обычно подобные формы включают 44100 "
+"точек с данными на каждую секунду времени (из-за теоремы сэмплирования "
+"Найквиста-Шэннона). Итак, если сэмпл длится две секунды, то форма волны "
+"будет состоять из 88200 чисел, которые мы бы передавали динамической головке "
+"со скоростью 44100 значения в секунду. Конечно, мы могли бы удвоить темп "
+"передачи, тогда воспроизведение бы заняло всего одну секунду. А еще мы могли "
+"бы проигрывать его в два раза медленнее, что означало бы 22500 точек в "
+"секунду, и весь процесс бы занял четыре секунды."
 
 #: 03.3-Stretching-Samples.md:116
-#, fuzzy
 msgid "The duration of the sample is affected by the playback rate:"
 msgstr "На длительность сэмпла влияет скорость воспроизведения:"
 
 #: 03.3-Stretching-Samples.md:118
-#, fuzzy
 msgid "Doubling the playback rate halves the playback time,"
-msgstr "Удвоение темпа уполовинивает время воспроизведения"
+msgstr "Удвоение темпа уполовинивает время воспроизведения,"
 
 #: 03.3-Stretching-Samples.md:119
-#, fuzzy
 msgid "Halving the playback rate doubles the playback time,"
-msgstr "Сокращение темпа вдвое удваивает время воспроизведения"
+msgstr "Сокращение темпа вдвое удваивает время воспроизведения,"
 
 #: 03.3-Stretching-Samples.md:120
-#, fuzzy
 msgid "Using a playback rate of one fourth quadruples the playback time,"
-msgstr "Если задать темп, равный четверти от нормального, то время учетверится"
+msgstr "Если задать темп, равный четверти от нормального, то время учетверится,"
 
 #: 03.3-Stretching-Samples.md:121
-#, fuzzy
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
 msgstr ""
-"Если скорость воспроизведения равна 1/10 от нормальной, то время воспроизведен"
-"ия увеличится в 10 раз"
+"Если скорость воспроизведения равна 1/10 от нормальной, то время "
+"воспроизведения увеличится в 10 раз."
 
 #: 03.3-Stretching-Samples.md:123
-#, fuzzy
 msgid "We can represent this with the formula:"
-msgstr "Мы можем представить это отношение формулой"
+msgstr "Мы можем представить это отношение формулой:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
-#, fuzzy
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr "новая_длительность_сэмпла = (1 / скорость) * длительность_сэмпла"
+msgstr "новая_длительность_сэмпла = (1 / скорость) * длительность_сэмпла "
 
 #: 03.3-Stretching-Samples.md:129
 #, fuzzy
