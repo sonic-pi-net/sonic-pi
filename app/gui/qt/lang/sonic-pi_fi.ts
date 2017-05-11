@@ -216,17 +216,17 @@ tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Pää-äänenvoimakkuus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1075"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muuta järjestelmän äänenvoimakkuutta tällä liukusäätimellä.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1077"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänilähtö</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1079"/>
@@ -241,7 +241,7 @@ tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1086"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi:n äänilähtö</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
@@ -249,22 +249,25 @@ tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Raspberry Pi:ssä on kaksi äänilähtöä.
+Laitteessa itsessään on kuulokejakki.
+Lisäksi jotkin monitorit/TV:t toistavat ääntä HDMI:n kautta.
+Pakota ääni haluamaasi ulostuloon näillä valinnoilla.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Oletus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1090"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kuulokkeet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1091"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"/>
@@ -485,7 +488,7 @@ Tumma tila sopii live-koodaukseen yökerhoissa.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä/piilota oskilloskoopin akselit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
@@ -555,17 +558,17 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2409"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Isommaksi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2416"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pienemmäksi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Muuttaa oskilloskooppien näkyvyyden. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
@@ -585,32 +588,32 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vieritä lokia automaattisesti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä/piilota skoopit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Skooppityypit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1298"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä skoopit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1299"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä tai piilota oskilloskoopit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä akselit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
@@ -620,12 +623,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ohjelmassa on kolme erilaista oskilloskooppia,
+jotka voidaan näyttää yksitellen tai kaikki yhdessä:
+
+Lissajous - kuvaa oikean ja vasemman kanavan vaiheiden yhteyttä
+Mono - näyttää vasemman ja oikean kanavan yhdessä käyttäen RMS-arvoja
+Stereo - näyttää omat skooppinsa oikealle ja vasemmalle kanavalle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulkonäkö</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1709"/>
@@ -731,12 +739,12 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2432"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Näyttää/piilottaa ohjeruudun</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2436"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Näyttää/piilottaa asetusruudun</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2578"/>
@@ -981,7 +989,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Onko Sonic Pi jo käynnissä? UDP-porttia ei voitu avata.</translation>
     </message>
 </context>
 </TS>
