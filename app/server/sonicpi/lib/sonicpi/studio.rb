@@ -155,7 +155,7 @@ module SonicPi
       @server.scsynth_info
     end
 
-    def allocate_buffer(name, duration_in_seconds=nil)
+    def allocate_buffer(name, duration_in_seconds)
       check_for_server_rebooting!(:allocate_buffer)
       name = name.to_sym
       cached_buffer = @buffers[name]
@@ -167,7 +167,6 @@ module SonicPi
         cached_buffer = @buffers[name]
         return [cached_buffer, true] if cached_buffer && (!duration_in_seconds || (cached_buffer.duration == duration_in_seconds))
 
-        duration_in_seconds ||= 8
         # our buffer has the same name but is of a different duration
         # therefore nuke it
 

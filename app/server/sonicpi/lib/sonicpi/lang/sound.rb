@@ -126,7 +126,8 @@ module SonicPi
 
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
-              duration = duration * __thread_locals.get(:sonic_pi_spider_sleep_mul, 1) if duration
+              duration ||= 8
+              duration = duration * __thread_locals.get(:sonic_pi_spider_sleep_mul, 1)
               name = name.to_sym
 
               buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
