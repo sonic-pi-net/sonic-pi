@@ -22,6 +22,7 @@
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 #include <QCheckBox>
+#include <QDir>
 
 SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, QCheckBox *autoIndent)
   : QsciScintilla()
@@ -558,7 +559,7 @@ void SonicPiScintilla::dropEvent(QDropEvent *dropEvent)
     QList<QUrl> urlList = dropEvent->mimeData()->urls();
     QString text;
     for (int i = 0; i < urlList.size(); ++i) {
-      text += "\"" + urlList.at(i).toLocalFile() + "\"" + QLatin1Char('\n');
+      text += "\"" + QDir::toNativeSeparators(urlList.at(i).toLocalFile()) + "\"" + QLatin1Char('\n');
     }
     insert(text);
   }
