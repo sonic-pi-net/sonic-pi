@@ -558,7 +558,7 @@ void SonicPiScintilla::dropEvent(QDropEvent *dropEvent)
     QList<QUrl> urlList = dropEvent->mimeData()->urls();
     QString text;
     for (int i = 0; i < urlList.size(); ++i) {
-      text += "\"" + urlList.at(i).path() + "\"" + QLatin1Char('\n');
+      text += "\"" + urlList.at(i).toLocalFile() + "\"" + QLatin1Char('\n');
     }
     insert(text);
   }
