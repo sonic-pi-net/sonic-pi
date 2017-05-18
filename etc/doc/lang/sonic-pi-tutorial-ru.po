@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-12 07:39+0000\n"
+"PO-Revision-Date: 2017-05-18 16:04+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.14-dev\n"
+"X-Generator: Weblate 2.14\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3406,14 +3406,18 @@ msgid ""
 "nd must return a new list of candidates (a list of valid paths to sample files"
 ")."
 msgstr ""
+"`lambda{|a| ... }` - Процесс с одним аргументом будет обрабатываться как "
+"фильтр списка совпадений или функция-генератор. Он принимает текущий и "
+"должен вернуть новый список совпадений (список действительных путей к "
+"сэмплам)."
 
 #: 03.7-Sample-Packs.md:193
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
 msgstr ""
-"`1` - Числа будут выбирать совпадение с этим индексом (обертывание, как "
-"кольцо, если необходимо)."
+"`1` - Числа будут выбирать совпадение с этим индексом (зацикливаться, если "
+"необходимо)."
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
@@ -3421,7 +3425,7 @@ msgid ""
 "string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
 "Например, мы можем отфильтровать все образцы в каталоге, содержащем строку `"
-"\"foo \"`, и воспроизвести первый совпадающий образец на половинной скорости:"
+"\"foo\"`, и воспроизвести первый совпадающий образец на половинной скорости:"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
@@ -3433,7 +3437,7 @@ msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
 msgstr ""
-"См. Справку по `sample` для многих подробных примеров использования. "
+"См. Справку по `sample` для множества подробных примеров использования. "
 "Обратите внимание, что порядок фильтров соблюдается."
 
 #: 03.7-Sample-Packs.md:206
@@ -3728,7 +3732,7 @@ msgstr "Давайте познакомимся с некоторыми друг
 
 #: 04-Randomisation.md:113
 msgid "choose"
-msgstr ""
+msgstr "choose"
 
 #: 04-Randomisation.md:115
 #, fuzzy
@@ -3772,7 +3776,7 @@ msgstr ""
 
 #: 04-Randomisation.md:135
 msgid "rrand"
-msgstr ""
+msgstr "rrand"
 
 #: 04-Randomisation.md:137
 #, fuzzy
@@ -3791,7 +3795,7 @@ msgstr ""
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
-msgstr ""
+msgstr "rrand_i"
 
 #: 04-Randomisation.md:150
 #, fuzzy
@@ -3809,7 +3813,7 @@ msgstr ""
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
 #, fuzzy
@@ -3837,7 +3841,7 @@ msgstr ""
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
 #, fuzzy
@@ -3850,7 +3854,7 @@ msgstr ""
 
 #: 04-Randomisation.md:179
 msgid "dice"
-msgstr ""
+msgstr "dice"
 
 #: 04-Randomisation.md:181
 #, fuzzy
@@ -3872,7 +3876,7 @@ msgstr ""
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
 #, fuzzy
@@ -3900,47 +3904,43 @@ msgstr ""
 
 #: 05-Programming-Structures.md:1
 msgid "5 Programming Structures"
-msgstr ""
+msgstr "5 Программирование структур"
 
 #: 05-Programming-Structures.md:3
-#, fuzzy
 msgid "Programming Structures"
-msgstr "Программные Структуры"
+msgstr "Программирование структур"
 
 #: 05-Programming-Structures.md:5
-#, fuzzy
 msgid ""
 "Now that you've learned the basics of creating sounds with `play` and `sample`"
 " and creating simple melodies and rhythms by `sleep`ing between sounds, you mi"
 "ght be wondering what else the world of code can offer you..."
 msgstr ""
-"После того, как мы изучили основы создания звука при помощи `play` и `sample`,"
-" и сочинения простых мелодий и ритмов, расставляя задержки между ними, вам мог"
-"ло стать интересно, а что же ещё мир программирования может нам предложить..."
+"После того, как мы изучили основы создания звука при помощи `play` и `sample`"
+", и сочинения простых мелодий и ритмов, расставляя задержки между ними, вам "
+"могло стать интересно, а что же ещё мир программирования может нам "
+"предложить..."
 
 #: 05-Programming-Structures.md:10
-#, fuzzy
 msgid ""
 "Well, you're in for an exciting treat! It turns out that basic programming str"
 "uctures such as looping, conditionals, functions and threads give you amazingl"
 "y powerful tools to express your musical ideas."
 msgstr ""
-"Скажем так, вас ожидает захватывающее путешествие! Оказывается, что основные с"
-"труктуры программирования, такие как циклы, условные выражения, функции и пото"
-"ки выполнения, предлагают нам очень мощные инструменты для выражения собственн"
-"ых музыкальных идей."
+"Скажем так, вас ожидает захватывающее путешествие! Оказывается, что основные "
+"структуры программирования, такие как циклы, условные выражения, функции и "
+"потоки выполнения, предлагают нам очень мощные инструменты для выражения "
+"собственных музыкальных идей."
 
 #: 05-Programming-Structures.md:14
-#, fuzzy
 msgid "Let's get stuck in with the basics..."
 msgstr "Ограничимся лишь основами..."
 
 #: 05.1-Blocks.md:1
 msgid "5.1 Blocks"
-msgstr ""
+msgstr "5.1 Блоки"
 
 #: 05.1-Blocks.md:3
-#, fuzzy
 msgid "Blocks"
 msgstr "Блоки"
 
@@ -4026,12 +4026,11 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:1
 msgid "5.2 Iteration and Loops"
-msgstr ""
+msgstr "5.2 Итерации и циклы"
 
 #: 05.2-Iteration-and-Loops.md:3
-#, fuzzy
 msgid "Iteration and Loops"
-msgstr "Итерации И Циклы"
+msgstr "Итерации и циклы"
 
 #: 05.2-Iteration-and-Loops.md:5
 #, fuzzy
@@ -4045,7 +4044,6 @@ msgstr ""
 " эти звуки во времени, используя `sleep`."
 
 #: 05.2-Iteration-and-Loops.md:9
-#, fuzzy
 msgid ""
 "As you've probably found out, there's a *lot* of fun you can have with these b"
 "asic building blocks. However, a whole new dimension of fun opens up when you "
@@ -4053,25 +4051,23 @@ msgid ""
 " next few sections we'll explore some of these powerful new tools. First up is"
 " iteration and loops."
 msgstr ""
-"Как мы уже смогли выяснить, даже с этими простейшими блоками кода можно долго "
-"забавляться. Однако, совершенно новое измерение веселья откроется для вас, ког"
-"да вы начнёте использовать мощь блоков кода для струкрутирования вашей музыки."
-" В нескольких последующих главах мы рассмотрим некоторые из этих новых инструм"
-"ентов. Вначале идут итерации и циклы."
+"Как мы уже смогли выяснить, даже с этими простейшими блоками кода можно "
+"долго забавляться. Однако, совершенно новое измерение веселья откроется для "
+"вас, когда вы начнёте использовать мощь блоков кода для структурирования "
+"вашей музыки. В нескольких последующих главах мы рассмотрим некоторые из "
+"этих новых инструментов. Вначале идут итерации и циклы."
 
 #: 05.2-Iteration-and-Loops.md:15
-#, fuzzy
 msgid "Repetition"
 msgstr "Повторение"
 
 #: 05.2-Iteration-and-Loops.md:17
-#, fuzzy
 msgid ""
 "Have you written some code you'd like to repeat a few times? For example, you "
 "might have something like this:"
 msgstr ""
-"Доводилось ли вам писать код, который вы бы хотели повторить несколько раз? На"
-"пример, у вас могло получиться нечто подобное:"
+"Доводилось ли вам писать код, который вы бы хотели повторить несколько раз? "
+"Например, у вас могло получиться нечто подобное:"
 
 #: 05.2-Iteration-and-Loops.md:20
 #, no-wrap
@@ -4096,8 +4092,8 @@ msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple a"
 "nd just copy and paste it three times:"
 msgstr ""
-"Что если мы захотим повторить это три раза? Что ж, можно было бы выбрать прост"
-"ейший путь и попросту продублировать код трижды:"
+"Что, если мы захотим повторить это три раза? Что ж, можно было бы выбрать "
+"простейший путь и попросту продублировать код трижды:"
 
 #: 05.2-Iteration-and-Loops.md:32
 #, no-wrap
@@ -4149,11 +4145,11 @@ msgid ""
 "he original piece of code 50 times or 1000? Now that would be a lot of code, a"
 "nd a lot of lines of code to alter if you wanted to make a change."
 msgstr ""
-"Теперь этот код огромен! Как быть, если нам захочется поменять сэмпл на `:elec"
-"_plip`? Придется найти все места с изначальным `:elec_blup` и переписать их. Ч"
-"то ещё важнее, каким образом повторить кусок кода 50 раз или 1000? Это было бы"
-" и впрямь целая куча кода. Гигансткое число строк пришлось бы изменять для каж"
-"дой правки."
+"Этот код просто огромен! Как быть, если нам захочется поменять сэмпл на "
+"`:elec_plip`? Придется найти все места с изначальным `:elec_blup` и "
+"переписать их. Что ещё важнее, каким образом повторить кусок кода 50 раз или "
+"1000? Это было бы и впрямь целая куча кода. Гигантское число строк пришлось "
+"бы изменять для каждой правки."
 
 #: 05.2-Iteration-and-Loops.md:62
 #, fuzzy
@@ -4200,13 +4196,12 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:83
-#, fuzzy
 msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to create"
 " lots of nice repeating structures:"
 msgstr ""
-"Ну, разве это не лучше дублирования? Много красивых структур может быть создан"
-"о с использованием этой инструкции:"
+"Ну, разве это не лучше дублирования? Много красивых структур может быть "
+"создано с использованием этой инструкции:"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -4238,18 +4233,16 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:103
-#, fuzzy
 msgid "Nesting Iterations"
 msgstr "Вложенные Итерации"
 
 #: 05.2-Iteration-and-Loops.md:105
-#, fuzzy
 msgid ""
 "We can put iterations inside other iterations to create interesting patterns. "
 "For example:"
 msgstr ""
-"Еще можно поместить итерации внутрь других итераций и получить интересный рису"
-"нок. Например:"
+"Еще можно поместить итерации внутрь других итераций и получить интересный "
+"рисунок. Например:"
 
 #: 05.2-Iteration-and-Loops.md:108
 #, no-wrap
