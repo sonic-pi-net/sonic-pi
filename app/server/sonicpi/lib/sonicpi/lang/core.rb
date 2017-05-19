@@ -72,14 +72,14 @@ module SonicPi
         end
         __schedule_delayed_blocks_and_messages!
         # TODO insert thread id and delta values here:
-        se = @osc_state.sync(current_time, 0, 0, current_beat, 0, k)
+        se = @osc_state.sync(current_time, 0, 0, current_beat, k)
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight2_message "synced #{k.inspect}."
         end
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
         __system_thread_locals.set :sonic_pi_spider_beat, se.beat
         __system_thread_locals.set :sonic_pi_spider_time, Time.at(se.time).freeze
-        se.args
+        se.val
       end
 
 
