@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-01 09:50+0000\n"
+"PO-Revision-Date: 2017-05-19 09:51+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.12-dev\n"
+"X-Generator: Weblate 2.14\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -367,7 +367,6 @@ msgid "*G* - Help System"
 msgstr "*G* - ヘルプシステム"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
 msgstr "*H* - スコープビューア"
 
@@ -480,7 +479,6 @@ msgstr ""
 "そして音楽をコーディングするために備えているSonic Piの全機能のリストといった、Sonic Piの全てについてのヘルプと情報があります。"
 
 #: 01.2-Exploring-the-Interface.md:81
-#, fuzzy
 msgid "H. Scope Viewer"
 msgstr "H. スコープビューア"
 
@@ -496,6 +494,11 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"スコープビューアは、あなたの聞いている音を見ることを可能にします。ノコギリ波がのこぎりのようだったり、単純なビープ音が正弦波であることを簡単に見ることが出"
+"来ます。また、うるさい音と静かな音の違いを線の大きさで見ることも可能です。Sonic Piには、3つのスコープがあります。デフォルトは左右のチャネルを混ぜ"
+"あわせたモノラルスコープです。左右のチャネルを別々のスコープで描画するステレオスコープがあります。最後に、左右のチャネルの位相の関係を描画するリサジュース"
+"コープがあります。（https://ja.wikipedia.org/wiki/%E3%83%AA%E3%82%B5%E3%82%B8%E3%83%A5%"
+"E3%83%BC%E5%9B%B3%E5%BD%A2）"
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -771,8 +774,8 @@ msgid ""
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
-"たとえば`play 52.3`や` play "
-"52.63`のような中間的な値でも演奏してみてください。通常の全音符で演奏し続ける必要は、まったくありません。遊んで、楽しみましょう。"
+"たとえば`play 52.3`や`play "
+"52.63`のような中間的な値でも演奏してみてください。通常の音符にこだわる必要は全くありません。遊んで、楽しんでみてください。"
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
@@ -999,8 +1002,8 @@ msgid ""
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
 msgstr ""
-"`amp:`オプションは、関連付けられている`play`への命令だけを変更します。ですから、この例では、最初の命令は半分の音量になり、次にはデフォルト（1"
-"の値）に戻ります。"
+"`amp:`オプションは、関連付けられている`play`への命令だけを変更します。ですから、この例では、最初の命令は半分の音量になり、次はデフォルトの値（"
+"1）に戻ります。"
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -1119,7 +1122,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
-msgstr "酔っ払いのsawとprophet"
+msgstr "賑やかなsawとprophet"
 
 #: 02.3-Switching-Synths.md:23
 msgid "A fun sound is the *saw wave* - let's give it a try:"
@@ -1790,8 +1793,8 @@ msgid ""
 "t, you can use this help system. Click on Samples in the far left vertical men"
 "u, choose your category and then you'll see a list of available sounds."
 msgstr ""
-"Sonic Piが収録しているサンプルの種類を知るには、2つの方法があります。1つ目は、このヘルプシステムを使うことです。下のメニューの中の、`サンプル`"
-"をクリックし、カテゴリを選ぶと、使用できるなサウンドのリストが表示されます。"
+"Sonic Piが収録しているサンプルの種類を知るには、2つの方法があります。1つ目は、このヘルプシステムを使うことです。下のメニューの中の`サンプル`を"
+"クリックし、カテゴリを選ぶと、使用できるサウンドのリストが表示されます。"
 
 #: 03.1-Triggering-Samples.md:51
 msgid ""
@@ -3432,7 +3435,7 @@ msgid ""
 "eful for `if` statements which we will cover in a subsequent section of this t"
 "utorial."
 msgstr ""
-"最後に、サイコロ投げをまねて、例えば6という一番大きな数値を出してみたくなることもあるでしょう。`one_in`はサイコロの面の数分の1の確率でtrueを"
+"最後に、一般的なサイコロを振って、例えば6を出すということをやってみたくなることもあるでしょう。`one_in`はサイコロの面の数分の1の確率でtrueを"
 "返します。したがって`one_in(6)`では6分1の確率でtrue、それ以外の場合はfalseを返します。`true`と`false`の値は、このチュー"
 "トリアルの次のセクションで説明するif文で非常に有用です。"
 
@@ -3562,8 +3565,8 @@ msgid ""
 "with `play` and `sample` blocks. We've also learned how to trigger these sound"
 "s through time using `sleep`."
 msgstr ""
-"以前、`play`と`sample`のブロックを使って様々な音を作り出せること勉強しました。また、`sleep`を使うことによって、音の発生する時間をコン"
-"トロールする方法も学びました。"
+"以前に我々は、`play`と`sample`のブロックで、様々な音を作り出せることを見てきました。また、`sleep`を使うことで、これらの音を時間に沿っ"
+"て再生する方法も学びました。"
 
 #: 05.2-Iteration-and-Loops.md:9
 msgid ""
@@ -4547,13 +4550,14 @@ msgstr ""
 "end"
 
 #: 05.5-Functions.md:52
+#, fuzzy
 msgid ""
 "We can even use `foo` inside iteration blocks or anywhere we may have written "
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
 "te new meaningful words for use in our compositions."
 msgstr ""
-"`foo`は、イテレーション（繰り返し）ブロック内の`play`や`sample`などの書かれたコード内やどこからでも使うことができます。 "
-"このことは、楽曲の中で利用可能な有意義な言葉を作り出したり、自己表現したりする優れた方法を提供します。"
+"`foo`は、イテレーション（反復）ブロックの中からも使えたり、`play`や`sample`が書けるところであればどこからでも使えます。このことは、楽曲"
+"の中で利用可能な意味のある言葉を作り出したり、自己表現したりする優れた方法を提供します。"
 
 #: 05.5-Functions.md:56
 msgid "Functions are remembered across runs"
@@ -8983,7 +8987,6 @@ msgid ""
 msgstr "*どんな*コードでも`with_fx`で包めば、どんな音もそのままエフェクトに送られることを覚えておくとよいでしょう。"
 
 #: A.01-tips.md:75
-#, fuzzy
 msgid "3. Parameterise your synths"
 msgstr "3. オプションを使う"
 
@@ -10604,7 +10607,6 @@ msgstr ""
 "Piで出来ることのうち、おそらくあなたが知らないものを紹介したいと思います。Minecraftの制御です。"
 
 #: A.06-minecraft.md:20
-#, fuzzy
 msgid "Hello Minecraft World"
 msgstr "Minecraftのワールドへようこそ"
 
@@ -11548,7 +11550,7 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:129
 msgid "Epic Block Patterns"
-msgstr ""
+msgstr "壮大なブロックのパターン"
 
 #: A.08-minecraft-vj.md:131
 msgid ""
@@ -12016,7 +12018,7 @@ msgstr "基本的なサウンド"
 msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer type "
 "the following:"
-msgstr "素敵なシンプルサウンドを作りましょう。Sonic Piを起動し、新しいBufferに以下のコードを打ち込んでください。"
+msgstr "はじめに、良い感じの簡単な音を作ってみましょう。Sonic Piを起動し、新しいBufferに以下のコードを打ち込んでください："
 
 #: A.10-controlling-your-sound.md:22
 #, no-wrap
@@ -12033,7 +12035,6 @@ msgstr ""
 "きましたか？ では制御してみましょう！"
 
 #: A.10-controlling-your-sound.md:30
-#, fuzzy
 msgid "Synth Nodes"
 msgstr "シンセ・ノード"
 
@@ -12720,7 +12721,6 @@ msgid "Sound as Data"
 msgstr "データとしてのサウンド"
 
 #: A.12-sample-slicing.md:15
-#, fuzzy
 msgid ""
 "Before we get started let's just take a brief moment to understand how to work"
 " with samples. By now, you've all hopefully played with Sonic Pi's powerful sa"
@@ -12729,9 +12729,9 @@ msgid ""
 "r and then hit the Run button to hear a pre-recorded drum beat:"
 msgstr ""
 "始める前に、少し時間を取って、サンプルで作業する方法を理解しましょう。ここまでで、みなさんはSonic "
-"Piの強力なサンプラーで遊んだことがあると思います。そうでなければ、現在のような時間はありません！ あなたのRaspberry Piを起動し、Sonic "
-"Piを`Programming`のメニューから起動し、新しいBufferに次のように入力して、`Run`ボタンを押すと、あらかじめ録音されたドラムビートを"
-"聞くことができます："
+"Piの強力なサンプラーで遊んだことがあると思います。もし試したことがなかったら、今やってみましょう！ Raspberry Piを起動し、Sonic Piを"
+"`Programming`のメニューから起動し、新しいBufferに次のように入力して、`Run`ボタンを押すと、あらかじめ録音されたドラムビートを聞くこ"
+"とができます："
 
 #: A.12-sample-slicing.md:26
 msgid ""
@@ -13355,21 +13355,24 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:49
-#, fuzzy
 msgid ""
 "Now, play with different `phase:` durations yourself. Try longer and shorter v"
 "alues. See what happens when you choose a really short value. Also, try differ"
 "ent synths such as `:beep` or `:dsaw` and different notes. Take a look at the "
 "following diagram to see how different `phase:` values change the number of am"
 "plitude changes per beat."
-msgstr "`:dsaw`"
+msgstr ""
+"では、異なる`phase:`の長さで遊んでみましょう。長い値や短い値を試してみましょう。本当に短い値を選んだら何が起こるか見てみてください。また、`:be"
+"ep`や`:dsaw`といった異なるシンセや、異なる音符も試してみましょう。次の図で、異なる`phase:`の値が、1拍の間に音の大きさを変更する回数をど"
+"のように変化させるか見てみましょう。"
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "デュレーション"
+msgstr ""
+"![Phase Durations](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -13377,13 +13380,14 @@ msgid ""
 "alues will make the FX switch on and off much faster than larger values. Good "
 "values to start playing with are `0.125`, `0.25`, `0.5` and `1`."
 msgstr ""
+"`phase duration`は、オン・オフの周期の時間の長さを示してします。したがって、より小さい値はエフェクトのオン・オフをより早く切り替えます。は"
+"じめに試してみるのに良さそうな値は、`0.125`, `0.25`, `0.5`, `1`でしょう。"
 
 #: A.14-amplitude-modulation.md:64
 msgid "Control Waves"
-msgstr ""
+msgstr "波形を操作する"
 
 #: A.14-amplitude-modulation.md:66
-#, fuzzy
 msgid ""
 "By default, the `:slicer` FX uses a square wave to manipulate the amplitude th"
 "rough time. This is why we hear the amplitude on for a period, then immediatel"
@@ -13393,17 +13397,24 @@ msgid ""
 "t these look like. We can also hear what they sound like. For example, the fol"
 "lowing code uses (co)sine as the control wave. Hear how the sound doesn't turn"
 " on and off abruptly but instead smoothly fades in and out:"
-msgstr "slicer"
+msgstr ""
+"デフォルトでは、`:slicer`エフェクトは音の大きさを操作するのに矩形波を使っています。一定時間音量がオンで聞こえてその後急にオフになるのは、これが理"
+"由です。矩形波は、`:slicer`がサポートしている4つの制御波形の1つであることが分かるでしょう。それ以外のものは、ノコギリ波、三角波、正弦波（または"
+"余弦波）です。下の図はそれぞれがどのような形をしているか示しています。また、それがどのような音がするのか聴くこともできます。例えば、次のコードは正弦波（ま"
+"たは余弦波）を制御波形として使用しています。音が急にオン・オフせずにスムーズにフェードイン・フェードアウトするのを聴いてみてください。"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.5, wave: 3 do\n"
 "  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
 "  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.5, wave: 3 do\n"
+"  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
+"  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
+"end"
 
 #: A.14-amplitude-modulation.md:83
 msgid ""
@@ -13411,6 +13422,8 @@ msgid ""
 "or saw, `1` for square, `2` for triangle and `3` for sine. See how different w"
 "aves sound with different `phase:` opts too."
 msgstr ""
+"`wave:`オプションを変更することで、異なる波形で演奏してみましょう。`0`がノコギリ波、`1`が矩形波、`2`が三角波で、`3`が正弦波です。 "
+"また、異なる`phase:`オプションを組み合わせて、それぞれの波形がどのような音がするか試してみましょう。"
 
 #: A.14-amplitude-modulation.md:87
 msgid ""
@@ -13423,65 +13436,79 @@ msgid ""
 "hase:`, `wave:`, `invert_wave:` and `phase_offset` opts you can dramatically c"
 "hange how the amplitude is modified through time."
 msgstr ""
+"これらの波形は、`invert_wave:`オプションでy軸方向に反転させることができます。例えば、典型的なノコギリ波は、高い値から始まり、徐々に値が下が"
+"っていって、ある時点で元の高い値に戻ります。`invert_wave: 1`を指定することで、低い値から始まり、徐々に値が上がっていって、ある時点で元の低"
+"い値に戻るようになります。また、波形操作は、`phase_offset:`オプションに`0`から`1`の値を指定することにより、波形の任意の位相から開始す"
+"ることができます。`phase:`, `wave:`, `invert_wave:`と`phase_offset`オプションを変更することで、時間に沿って"
+"音量をどれだけ変化させるかを、劇的に変更することができます。"
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "デュレーション"
+msgstr ""
+"![Phase Durations](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
-msgstr ""
+msgstr "音量を設定する"
 
 #: A.14-amplitude-modulation.md:102
-#, fuzzy
 msgid ""
 "By default, `:slicer` switches between amplitude values `1` (fully loud) and `"
 "0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. You "
 "can use this alongside the sine wave setting to create a simple tremolo effect"
 ":"
-msgstr "slicer"
+msgstr ""
+"デフォルトでは、`:slicer`エフェクトは`1`（最大）と`0`（無音）の間の音量を切り替えます。これは、`amp_min:`と`amp_max:`オ"
+"プションで変更できます。これを正弦波の設定に適用することで、シンプルなトレモロ効果を作ることができます："
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
 "  synth :saw, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
+"  synth :saw, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:113
 msgid ""
 "This is just like grabbing the volume knob on your hi-fi and moving it up and "
 "down just a little so the sound 'wobbles' in and out."
-msgstr ""
+msgstr "これはちょうど、オーディオ機器のボリュームつまみをひねって、音を`グラグラ`させるのに似ています。"
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
-msgstr ""
+msgstr "確率"
 
 #: A.14-amplitude-modulation.md:119
-#, fuzzy
 msgid ""
 "One of `:slicer`'s powerful features is its ability to use probability to choo"
 "se whether or not to turn the slicer on or off. Before the `:slicer` FX starts"
 " a new phase it rolls a dice and based on the result either uses the selected "
 "control wave or keeps the amplitude off. Let's take a listen:"
-msgstr "choose：選択"
+msgstr ""
+"`:slicer`エフェクトのパワフルな特長の1つは、スライサーをオン・オフするかしないかを選択するのに、確率を使用可能なことでしょう。`:slicer`"
+"エフェクトが次の位相を開始する前にサイコロを振って、その結果をもとに選択した波形を使うかもしくは音量をオフにしたままにするかします。聞いてみましょう："
 
 #: A.14-amplitude-modulation.md:125
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:133
 msgid ""
@@ -13490,9 +13517,10 @@ msgid ""
 "l have more space between each sound due to the likelihood of the sound being "
 "triggered being much lower."
 msgstr ""
+"興味深いパルスのリズムを生成できたのを聞くことができるでしょう。試しに、`probability:`オプションを`0`から`1`の間の値に変更してみましょ"
+"う。`0`に近い値にすると、音がトリガーされる確率がより低くなるため、それぞれの音の間が広がるでしょう。"
 
 #: A.14-amplitude-modulation.md:138
-#, fuzzy
 msgid ""
 "Another thing to notice is that the probability system in the FX is just like "
 "the randomisation system accessible via fns such as `rand` and `shuffle`. They"
@@ -13501,43 +13529,51 @@ msgid ""
 "d like to change things around you can use the `seed:` opt to select a differe"
 "nt starting seed. This works exactly the same as `use_random_seed` but only af"
 "fects that particular FX."
-msgstr "rand"
+msgstr ""
+"他にお伝えしたいのは、`:slice`エフェクトにおけるランダム化システムは、`rand`や`shuffle`といった関数経由でアクセス可能なランダム化シ"
+"ステムとちょうど同じであるということです。これらはどちらも完全に決定的です。これは`Run`を叩いたときに、指定された確率に対応して毎回同じパルスのリズム"
+"を聞くことになることを意味しています。これらを変更したい場合には、`seed:`オプションを使って異なるシードを選択することが可能です。これは`use_r"
+"andom_seed`と全く同じように動作しますが、特定のエフェクトにのみ影響します。"
 
 #: A.14-amplitude-modulation.md:146
 msgid ""
 "Finally, you can change the 'resting' position of the control wave when the pr"
 "obability test fails from `0` to any other position with the `prob_pos:` opt:"
-msgstr ""
+msgstr "最後に、確率的にオフになった場合に制御波形内の'休止する'位置を、`prob_pos:`オプションを使って`0`から他の値に変更できます："
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
 "  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:158
-#, fuzzy
 msgid "Slicing Beats"
-msgstr "オプションのスライド"
+msgstr "ビートをスライスする"
 
 #: A.14-amplitude-modulation.md:160
-#, fuzzy
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
-msgstr "slicer"
+msgstr "`:slicer`エフェクトでドラムビートをブツ切りするのは、やってみると本当に楽しいことの1つです："
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_mika\n"
 "end"
-msgstr "slicer"
+msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_mika\n"
+"end"
 
 #: A.14-amplitude-modulation.md:169
 msgid ""
@@ -13547,43 +13583,50 @@ msgid ""
 "ing will sound totally off. For example, try swapping `:loop_mika` with the `l"
 "oop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
+"これにより、任意のサンプル音源から新しいリズムの可能性を作り出すことができ、とても楽しいでしょう。しかしながら、1つ注意すべきことは、"
+"サンプルのテンポがSonic PiのカレントのBPMに合うようにすることです。そうでないと、スライスは全くの無音にしてしまうかもしれません。たとえば、`:"
+"loop_mika`を`loop_amen`サンプルに変更してみて、テンポが揃ってない場合にどれだけひどい音になるか聞いてみましょう。"
 
 #: A.14-amplitude-modulation.md:176
-#, fuzzy
 msgid "Changing tempo"
-msgstr "チェンジアップ（変化）させる"
+msgstr "テンポを変更する"
 
 #: A.14-amplitude-modulation.md:178
-#, fuzzy
 msgid ""
 "As we have already seen, changing the default BPM with `use_bpm` will make all"
 " the sleep times and synth envelope durations grow or shrink to match the beat"
 ". The `:slicer` FX honours this too, as the `phase:` opt is actually measured "
 "in beats not seconds. We can therefore fix the issue with `loop_amen` above by"
 " changing the BPM to match the sample:"
-msgstr "slicer"
+msgstr ""
+"既に見てきたように、`use_bpm`でデフォルトのBPMを変更すると、全てのsleepの長さとシンセのエンベロープの長さがビートに一致するように伸縮され"
+"ます。`:slicer`エフェクトの`phase:`オプションな実際には秒単位でなく拍単位なので、同じようにこれを受け入れることができます。したがって、B"
+"PMを変更してサンプルに一致させることで、上の`loop_amen`の問題を解決できます。"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_sample_bpm :loop_amen\n"
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_amen\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"use_sample_bpm :loop_amen\n"
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_amen\n"
+"end"
 
 #: A.14-amplitude-modulation.md:194
-#, fuzzy
 msgid ""
 "Let's apply all these ideas into a final example that only uses the `:slicer` "
 "FX to create an interesting combination. Go ahead, start changing it and make "
 "it into your own piece!"
-msgstr "slicer"
+msgstr ""
+"最後に、これらのアイデアを全て適用して1つの例にしましょう。`:slicer`エフェクトのみを使って、興味深い組み合わせを作り出してみましょう。ここから変"
+"更して自分自身の作品にしてみましょう！"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :dark_mist do\n"
 "  co = (line 70, 130, steps: 8).tick\n"
@@ -13602,17 +13645,32 @@ msgid ""
 "  end\n"
 "  sleep 16\n"
 "end"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr ""
+"live_loop :dark_mist do\n"
+"  co = (line 70, 130, steps: 8).tick\n"
+"  with_fx :slicer, probability: 0.7, prob_pos: 1 do\n"
+"    synth :prophet, note: :e1, release: 8, cutoff: co\n"
+"  end\n"
+"  \n"
+"  with_fx :slicer, phase: [0.125, 0.25].choose do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :crashing_waves do\n"
+"  with_fx :slicer, wave: 0, phase: 0.25 do\n"
+"    sample :loop_mika, rate: 0.5\n"
+"  end\n"
+"  sleep 16\n"
+"end"
 
 #: A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "ライブコーディング"
+msgstr "A.15 ライブコーディング5つのテクニック"
 
 #: A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "ライブコーディング"
+msgstr "ライブコーディング5つのテクニック"
 
 #: A.15-performance.md:5
 msgid ""
@@ -13625,10 +13683,14 @@ msgid ""
 "s that Sonic Pi enables. By the end of this article you'll be able to start pr"
 "acticing for your own live coded performances."
 msgstr ""
+"今月のチュートリアルでは、Sonic Piを本物の楽器と同じように扱う方法を見ていきたいと思います。そのため、コードについて今までと全く異なる見方で考える"
+"必要があります。ライブコーダーはコードを、バイオリニストにとっての弓と同じように考えています。実際、バイオリニストが異なる音を作るのに様々な弓のテクニック"
+"を適用する（長くゆっくりとした動きと短く早い打弦）のとちょうど同じように、Sonic Piで可能な基本的なライブコーディングのテクニックを5つ見ていきます"
+"。この記事の終わりまでに、あなたはライブコーディングのパフォーマンスの練習を始めることが出来ているでしょう。"
 
 #: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
-msgstr ""
+msgstr "1. ショートカットを覚える"
 
 #: A.15-performance.md:17
 msgid ""
@@ -13640,6 +13702,10 @@ msgid ""
 "op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
 "for the full list of shortcuts."
 msgstr ""
+"Sonic Piでライブコーディングする際の最初のヒントは、ショートカットを使うことです。例えば、マウスに手を伸ばして`Run`ボタンに合わせてクリックす"
+"るのに貴重な時間を無駄にするよりも、単に`alt`と`r`を同時に押すことが可能です。これは速いし、指がキーボードに置かれたままなので、次の編集のための準"
+"備が整っています。ショートカットを探すには、画面上部のボタンにそれぞれマウスを乗せると表示されます。ショートカットの一覧を見るには、チュートリアルの10."
+"2を参照してください。"
 
 #: A.15-performance.md:26
 msgid ""
@@ -13649,10 +13715,12 @@ msgid ""
 "n hitting `alt-r` just like a guitarist would do when hitting a big power chor"
 "d."
 msgstr ""
+"パフォーマンスの際、1つやってみると面白いのは、ショートカットを叩くときの動作に少し装飾を追加してみることです。例えば、あなたが音を変更しようとするときに"
+"それを観客に伝えるのは良いことです。したがって、`alt-r`を叩く際の動作を飾るのはギタリストがパワーコードを掻き鳴らすのとちょうど同じことなのです。"
 
 #: A.15-performance.md:32
 msgid "2. Manually Layer your Sounds"
-msgstr ""
+msgstr "2. 手動で音を重ねる"
 
 #: A.15-performance.md:34
 msgid ""
@@ -13662,22 +13730,25 @@ msgid ""
 "calls to `sleep` we will have one call to `play` which we will manually trigge"
 "r using `alt-r`. Let's try it. Type the following code into a fresh buffer:"
 msgstr ""
+"コードをキーボードから素早く実行できるようになったら、そのスキルは、手動で音を重ねる2つめのテクニックに適用できます。たくさんの`play`と`sampl"
+"e`の呼び出しを`sleep`で挟んで'作曲'する代わりに、1つの`play`の呼び出しを`alt-r`で手動で実行してみたいと思います。では試してみまし"
+"ょう。次のコードを新しいBufferにタイプしてみてください："
 
 #: A.15-performance.md:41
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 0, release: 12, cutoff: 90"
 
 #: A.15-performance.md:46
 msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
-msgstr ""
+msgstr "タイプしたら、`Run`を叩いて音を出してみてください。音が出ている間に、次のコードのように、4音下げるためにコードを変更してください："
 
 #: A.15-performance.md:50
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
-msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
+msgstr "synth :tb303, note: :e2 - 4, release: 12, cutoff: 90"
 
 #: A.15-performance.md:55
 msgid ""
@@ -13688,16 +13759,18 @@ msgid ""
 "rigger. For example, try changing both the `note:` and the `cutoff:` opts and "
 "then re-trigger."
 msgstr ""
+"では、再度`Run`を叩いてみてください。両方の音がそのまま再生されているが聞こえると思います。これは、Sonic Piの`Run`が前回実行したコードが"
+"終わるのを待つたずに、新しいコードを開始するためです。これは、実行の度に多少の変更を加えることで、簡単にたくさんの音を重ねることが可能ということです。例え"
+"ば、`note:`と`cutoff:`オプションの両方を変更して、再度実行してみてください。"
 
 #: A.15-performance.md:63
 msgid "You can also try this technique with long abstract samples. For example:"
-msgstr ""
+msgstr "また、このテクニックは長いアブストラクトなサンプルでも試すことができます。例えば、次のコードです："
 
 #: A.15-performance.md:65
 #, no-wrap
-#, fuzzy
 msgid "sample :ambi_lunar_land, rate: 1"
-msgstr "sample :ambi_lunar_land"
+msgstr "sample :ambi_lunar_land, rate: 1"
 
 #: A.15-performance.md:69
 msgid ""
@@ -13706,6 +13779,8 @@ msgid ""
 "ome negative values such as `-0.5`. Layer the sounds together and see where yo"
 "u can take it. Finally, try adding some FX."
 msgstr ""
+"最初はサンプル無しで始めて、`Run`を叩く度に、`rate:`オプションを`1`から`0.5`, `0.25`, `0.125`に変更し、さらに`-0."
+"5`のような負の値も試してみましょう。音を重ね合わせてどう聞こえるか試してみてください。最後に何かエフェクトを追加してみてください。"
 
 #: A.15-performance.md:74
 msgid ""
@@ -13713,11 +13788,12 @@ msgid ""
 "udience new to Sonic Pi has a good chance to follow what you're doing and rela"
 "te the code that they can read to the sounds they are hearing."
 msgstr ""
+"パフォーマンスの際にこのようなシンプルなコードを使用すると、Sonic "
+"Piにあまり馴染みのない観客にとっては、あなたが何をしているのかを追ったり、コードと音を関連付けたりするのに良い機会になると言えるでしょう。"
 
 #: A.15-performance.md:80
-#, fuzzy
 msgid "3. Master Live Loops"
-msgstr "ライブループ"
+msgstr "3. ライブループをマスターする"
 
 #: A.15-performance.md:82
 msgid ""
@@ -13729,6 +13805,10 @@ msgid ""
 "each other and manual code triggers. Take a look at section 9.2 of the built-i"
 "n tutorial for more information about working with live loops."
 msgstr ""
+"もっとリズミカルな音楽の場合、全てを手動で実行しながら良いタイミングを保つのは難しいでしょう。その場合は、`live_loop`を使うのが良いでしょう。こ"
+"れはコードを繰り返しつつ、次にループが先頭に戻ったときに実行されるように、コードを編集できる機能を提供しています。また、ライブループは他の`live_lo"
+"op`と同時に実行でき、それはすなわち、ライブループ同士を重ねたり、他に手動で実行したコードと重ねたりすることが可能ということです。ライブループに関するよ"
+"り詳細な情報については、チュートリアルの9.2を参照してください。"
 
 #: A.15-performance.md:91
 msgid ""
@@ -13738,10 +13818,13 @@ msgid ""
 "d `live_loop`, then you can quickly fix the error and re-run the code to re-st"
 "art things without missing a beat."
 msgstr ""
+"パフォーマンスの際には、`live_loop`の`sync:`を使うことを覚えておくと良いでしょう。これは、エラーによってライブループの実行が止まってしま"
+"った場合の回復手段として役に立ちます。もし既に`sync:`が他の正常に動作している`live_loop`を指しているのであれば、エラーをすぐに修正してコ"
+"ードを再実行することで、ビートが欠いた状態を解消して再起動できるでしょう。"
 
 #: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
-msgstr ""
+msgstr "4. マスターミキサーを使う"
 
 #: A.15-performance.md:99
 msgid ""
@@ -13752,10 +13835,13 @@ msgid ""
 "or example, whilst some code is running and making sound, enter this into a sp"
 "are buffer and hit `Run`:"
 msgstr ""
+"Sonic Piの最高の秘密の1つは、全ての音が流れるマスターミキサーを持っていることです。そしてこのミキサーはローパスフィルタとハイパスフィルタを内蔵し"
+"ているので、簡単に音全体を変更できます。マスターミキサーの機能は、`set_mixer_control!`関数によりアクセス可能です。例えば、何かコードが"
+"実行中で音を出している最中に、次のコードを空いたBufferに入力して`Run`を叩いてみてください："
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
-msgstr ""
+msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.15-performance.md:111
 msgid ""
@@ -13766,6 +13852,10 @@ msgid ""
 "xer!`. Some of the currently supported opts are: `pre_amp:`, `lpf:` `hpf:`, an"
 "d `amp:`. For the full list, see the built-in docs for `set_mixer_control!`."
 msgstr ""
+"このコードの実行後、既に出ている音とこれから出てくる音の全てにローパスフィルタが適用されるので、ぼんやりとした音になります。これは、先程のコードで設定され"
+"たミキサーの値が、再び変更されるまで保持されることを意味しています。しかし、もし値をリセットしたい場合には、`reset_mixer!`でいつでもデフォル"
+"トの状態に戻すことができます。現在対応しているオプションには、`pre_amp:`, `lpf:`, "
+"`hpf:`,`amp:`があります。全てのオプションの一覧については、`set_mixer_control!`のドキュメントを参照してください。"
 
 #: A.15-performance.md:119
 msgid ""
@@ -13773,31 +13863,32 @@ msgid ""
 " example, to slowly slide the mixer's low pass filter down from the current va"
 "lue to 30, use the following:"
 msgstr ""
+"オプションの値を時間に沿ってスライドさせるために、ミキサーの`*_slide`オプションを使ってみましょう。例えば、ミキサーのローパスフィルタを現在の値か"
+"ら30にゆっくりスライドさせるには、次のコードを使ってみてください："
 
 #: A.15-performance.md:123
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 16, lpf: 30"
 
 #: A.15-performance.md:127
 msgid "You can then slide quickly back to a high value with:"
-msgstr ""
+msgstr "次に、高い値に素早くスライドして戻すこともできます："
 
 #: A.15-performance.md:129
 #, no-wrap
 msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
-msgstr ""
+msgstr "set_mixer_control! lpf_slide: 1, lpf: 130"
 
 #: A.15-performance.md:133
 msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
-msgstr ""
+msgstr "パフォーマンスの際には、ここでやったようにミキサーのためのBufferを空けておくと便利でしょう。"
 
 #: A.15-performance.md:136
-#, fuzzy
 msgid "5. Practice"
-msgstr "エフェクトの実践"
+msgstr "5. 練習"
 
 #: A.15-performance.md:138
 msgid ""
@@ -13809,6 +13900,9 @@ msgid ""
 "uently. Practice also gives you opportunities to explore new sounds and code c"
 "onstructs."
 msgstr ""
+"ライブコーディングの最も重要なテクニックは練習です。すべてのプロのミュージシャンに共通する点は、自分の楽器を練習することです。多くの場合、1日に何時間も練"
+"習しています。ギタリストと同じようにライブコーダーにとっても練習は重要です。練習によってあなたの指は特定のパターンや一般的な編集内容を覚えるので、入力や作"
+"業がよりスムーズに行えます。練習はまた、新しい音やコード構成を探求する機会をあなたに提供します。"
 
 #: A.15-performance.md:146
 msgid ""
@@ -13817,6 +13911,8 @@ msgid ""
 "ce to draw from. This can help you understand which kinds of modifications wil"
 "l be interesting and also work well with the current sounds."
 msgstr ""
+"パフォーマンスの際には、やってきた練習が多ければ多いほど、緊張せずにライブに入ることが簡単になると気づくでしょう。練習はまたそこから豊富な経験を提供するで"
+"しょう。それにより、どんな種類の変更が面白く、また現在の音に上手く作用するか分かるようになるでしょう。"
 
 #: A.15-performance.md:154
 msgid ""
@@ -13828,6 +13924,10 @@ msgid ""
 "d clunky at first - just keep practicing and before you know it you'll be live"
 " coding for a real audience."
 msgstr ""
+"今月は、全てを組み合わせた例を示す代わりに、課題を設定してお別れにしましょう。今回紹介したアイデアを毎日1つ選んで練習して1週間を過ごせるか試してみてくだ"
+"さい。例えば、ある日は手動の実行を練習し、その次の日は`live_loop`の基本的な作業をやってみて、その次の日はマスターミキサーで遊んでみます。そして"
+"それを繰り返します。最初は、全てがゆっくりで不器用に感じられるかもしれませんが、心配しないでください。ただ練習を継続すれば、あなたの知らないうちに実際の聴"
+"衆の前でライブコーディングできるようになっているでしょう。"
 
 #: A.16-practice.md:1
 msgid "A.16 How to Practice Live Coding"
@@ -13835,7 +13935,7 @@ msgstr "A.16 ライブコーディングの練習方法"
 
 #: A.16-practice.md:3
 msgid "8 Tips for Live Coding Practice"
-msgstr "ライブコーディング練習の8つのコツ"
+msgstr "ライブコーディング練習の8つのヒント"
 
 #: A.16-practice.md:5
 msgid ""
@@ -13846,6 +13946,9 @@ msgid ""
 "dive into understanding why live coding practice is important and how you migh"
 "t start."
 msgstr ""
+"先月は、ライブコーディングをマスターするための5つの重要なテクニックを見ました。言い換えると、楽器と同じようなやり方でコードに接するために、"
+"どのようにSonic Piを使うことができるか探求しました。そして、我々が議論した重要なコンセプトの1つに、練習がありました。今月は、なぜライブコーディン"
+"グの練習が重要で、それをどのように始めるかについて、理解を深めて行きたいと思います。"
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
@@ -13858,8 +13961,8 @@ msgid ""
 " you're starting out. Little but often is what you're aiming for - so if you c"
 "an only manage 10 minutes, that's a great start."
 msgstr ""
-"大事なアドバイスの1つとして、定期的に練習することがあります。原則、1日1-2時間練習しましょう。始めたばかりなら最初は20分でもいいです。少しの時間でも"
-"目標に近づいていきます。もし10分だけもいいスタートになります。"
+"最も重要なアドバイスとしては、必ず定期的に練習することです。私自身は1日1-2時間練習するようにしていますが、最初は20分でもよいでしょう。少しの時間でも"
+"頻繁に練習することを目標にしましょう。もし10分しか捻出できなかったとしても、良いスタートになります。"
 
 #: A.16-practice.md:21
 msgid ""
@@ -13868,10 +13971,12 @@ msgid ""
 "week as you can. Before long you'll be looking forward to your regular session"
 "."
 msgstr ""
+"練習のヒント #1 - 練習ルーチンを開発する。あなたにとって都合の良い時間を見つけて、週のうち可能な限り多くの日にその時間で練習するようにしてみましょう"
+"。いずれ定期的なセッションが楽しみになると思います。"
 
 #: A.16-practice.md:27
 msgid "Learn to Touch Type"
-msgstr ""
+msgstr "ブラインドタッチを習得する"
 
 #: A.16-practice.md:29
 msgid ""
@@ -13886,6 +13991,11 @@ msgid ""
 "he music. This is called touch-typing - typing without having to look at the k"
 "eyboard."
 msgstr ""
+"ステージで演奏するプロのミュージシャンを見ると、いくつか気が付くことがあると思います。最初に、彼らが演奏するとき楽器を凝視することはないでしょう。指と腕と"
+"体が、どのキーを押すか、どの弦を弾くか、どのドラムを叩くかを、深く考えること無く覚えていると思います。これは\"運動記憶\"として知られているもので、プロ"
+"の人達だけが出来ることのように聞こえるかもしれませんが、あなたが繰り返し練習して歩いたり自転車に乗ったりできるようになったことと同じです。ライブコーダーは"
+"どこに指を動かせば良いか考えずに済むように運動記憶を使い、それによって音楽に集中するのです。これはブラインドタッチと呼ばれるもので、キーボードを見ることな"
+"くタイプすることです。"
 
 #: A.16-practice.md:41
 msgid ""
@@ -13893,10 +14003,12 @@ msgid ""
 "ven games which can help you achieve this. Find one you like the look of and s"
 "tick at it until you can code without looking down."
 msgstr ""
+"練習のヒント #2 - ブラインドタッチを習得する。ブラインドタッチを習得するためのアプリケション、ウェブサイト、さらにはゲームが数多くあります。どれか好"
+"きなものを探して、キーボードを見ずにコーディングできるまで続けてみましょう。"
 
 #: A.16-practice.md:46
 msgid "Code whilst standing"
-msgstr ""
+msgstr "立ったままコーディングする"
 
 #: A.16-practice.md:48
 msgid ""
@@ -13909,6 +14021,10 @@ msgid ""
 "at a desk and then have to get up and stand at a gig, you'll likely find the d"
 "ifference very difficult and frustrating."
 msgstr ""
+"ミュージシャンの体は、それぞれの楽器を演奏するように調整されています。例えば、トランペット奏者は強く吹ける必要がありますし、ギタープレイヤーはフレットを強"
+"く握れる必要がありますし、ドラマーは長い時間繰り返し叩くことができる必要があります。では、ライブコーディングではどうでしょうか？ ライブコーダーは典型的に"
+"はDJのように立ちながらパフォーマンスします。さらには踊りながらということさえあります。ライブコーディングを座ったままで練習して、ライブの際に立たなければ"
+"ならない場合、その違いがとても難しくイライラさせるでしょう。"
 
 #: A.16-practice.md:58
 msgid ""
@@ -13921,10 +14037,14 @@ msgid ""
 " session. Remember, nobody is watching you, so have fun and you'll feel much m"
 "ore natural on stage."
 msgstr ""
+"練習のヒント #3 - 立って練習する。これを実現するのに最も簡単な方法は、スタンディングデスクを使うことです。しかし、もしスタンディングデスクが家に無い"
+"場合にも、いくつかローファイな選択肢があります。私はアイロン台を使っていますが、意外に使いやすいです。他にも何かの箱や大きい本を普通の机に置いて、その上に"
+"キーボードを置くこともできます。また、練習前にストレッチしておいたり、セッション中に少し踊ってみたりするのもよいでしょう。誰も見ていないので、楽しんでやっ"
+"てみましょう。そうすれば、ステージで緊張しなくなるでしょう。"
 
 #: A.16-practice.md:68
 msgid "Practice setting up"
-msgstr ""
+msgstr "準備の練習"
 
 #: A.16-practice.md:70
 msgid ""
@@ -13934,6 +14054,9 @@ msgid ""
 " for problems to occur. One way to help with this is to incorporate the setup "
 "process into your practice sessions."
 msgstr ""
+"多くの楽器は、演奏する前にそれを組み立てたりチューニングしたりする必要があります。あなたがバスいっぱいの会場設営スタッフを抱えるロックスターでも無い限り、"
+"ライブの前に自分の楽器を準備しなければなりません。これはしばしばストレスの掛かる作業で、問題が発生しやすいです。これに対処する1つの方法は、練習セッション"
+"の際に準備のプロセスを組み込んでしまうことです。"
 
 #: A.16-practice.md:76
 msgid ""
@@ -13946,6 +14069,10 @@ msgid ""
 "u'll be able to setup and pack everything away incredibly quickly without havi"
 "ng to think about it."
 msgstr ""
+"練習のヒント #4 - 準備を練習の重要な部分として扱う。例えば、Raspberry "
+"Piやキーボードを入れておく箱やバッグを用意します。練習セッションの前に、毎回全ての部品を取り出して接続し、Sonic Piが実行されて音が出るまでの起動"
+"プロセスを一通り作業してください。練習が終わったら、時間を取って慎重に全てを詰め直してください。これは最初は時間が掛かるかもしれませんが、あなたはすぐに何"
+"も考えずに非常に素早く準備と片付けが出来るようになるでしょう。"
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
@@ -13962,6 +14089,10 @@ msgid ""
 "long time. It is much more important to be making sounds you don't like than n"
 "ot making any sounds at all."
 msgstr ""
+"音楽を作り始める準備ができたとき、どこから初めて良いか分からないかもしれません。多くの人々が直面する問題の1つは、作りたい音楽がどのようなものであるかは良"
+"いアイデアを持っていても、それを作り出すことができずにフラストレーションがたまることではないでしょうか。さらに、自分がどのような音がを作りたいか分かってい"
+"ない人々さえ居ます！ これらに対して第一にやることは、心配しないことです。これはミュージシャンにはよくあることで、長年練習を積み重ねたミュージシャンも例外"
+"ではありません。全く何も音を出さないよりも、好みではなくとも何か音を出すことが重要です。"
 
 #: A.16-practice.md:99
 msgid ""
@@ -13974,13 +14105,16 @@ msgid ""
 "mber the parts you do. This is even easier when you're making music with code "
 "- just hit save!"
 msgstr ""
+"練習のヒント #5 - 好みでない音を作るのに時間を使う。新しい音やアイデアの探求に時間を使いましょう。それがあなたの探しているスタイルでなくひどい音がし"
+"ても気にしないようにしましょう。実験すると、あなたの好きな音や音の組み合わせに出会う機会を増えるのです。99％の音が悪くても1％があなたの新しい曲のリフや"
+"イントロになるかもしれないのです。好みでないものは忘れ、好みのものを覚えておくようにしましょう。これは、コードで音楽を作っていれば全く簡単でしょう。保存を"
+"押すだけです！"
 
 #: A.16-practice.md:110
 msgid "Hear the Code"
-msgstr ""
+msgstr "コードを聞く"
 
 #: A.16-practice.md:112
-#, fuzzy
 msgid ""
 "Many musicians can look at a musical score and hear the music in their head wi"
 "thout having to play it. This is a very useful skill and it's well worth incor"
@@ -13992,7 +14126,13 @@ msgid ""
 "to hear music in your head and know what code to write to make it. It may take"
 " you a long time to master this, but once you do, you'll be able to improvise "
 "on stage and express your ideas fluently."
-msgstr "rand"
+msgstr ""
+"多くのミュージシャンは、演奏することなしに、楽譜だけを見て彼らの頭の中で音楽を聞くことができます。これは、ライブコーディングの練習セッションに取り入れる価"
+"値のある、とても有用なスキルです。重要なポイントは、あるコードがどのような音がするかについて、何らかの理解が得られることです。その際に、必ずしも音そのもの"
+"を聞こえるようになる必要はなく、その代わりに、そのコードによって、音楽が速くなるのか、遅くなるのか、うるさくなるのか、リズミカルになるのか、メロディアスに"
+"なるのか、ランダムになるのか、といったことが分かることが有用です。最終的な目標は、このプロセスを逆にしたものです。つまり、頭の中で音楽を聞き、それを作るの"
+"にどのようなコードを書くべきか分かるかということです。これをマスターするのには長い時間が掛かるかもしれませんが、一度マスターすれば、ステージ上で即興演奏で"
+"き、あなたのアイデアをスムーズに表現できます。"
 
 #: A.16-practice.md:124
 msgid ""
@@ -14005,10 +14145,15 @@ msgid ""
 "hy I was wrong. Each time this happens, I learn new tricks which allow me to e"
 "xpress myself in new ways."
 msgstr ""
+"練習のヒント #6 - Sonic Piにコードを書いても`Run`を押さない。その代わり、それがどのような音を作り出すか想像してみてください。次に、`R"
+"un`を叩いて聞いてみましょう。何が想像した音と合っていて何が合っていなかったか考えましょう。これを、あなたのコーディングのプロセスの一部になるまで繰り返"
+"してください。私が練習するとき、普通はコードがどのような音がするか想像できています。しかし、想像していなかった音が未だに出ることがあって驚くことがあります"
+"。そのときは、そこで止まって、時間を取ってなぜ私が間違っていたか考えるようにしています。このようなことが起こる度に、私は新しい方法で自分を表現できる新しい"
+"技を学んでいます。"
 
 #: A.16-practice.md:134
 msgid "Remove all distractions"
-msgstr ""
+msgstr "気が散るものを全て取り除く"
 
 #: A.16-practice.md:136
 msgid ""
@@ -14020,6 +14165,9 @@ msgid ""
 "f practice, it's important to try and spend all that time being as productive "
 "as possible."
 msgstr ""
+"練習の際の一般的な問題は、他のことに邪魔されることです。練習は、それがどのような種類の音楽（ジャズからクラシック、ダンス・ミュージック）であれ、過酷で本当"
+"の訓練を必要とします。もしあなたが練習を始めたり、進めるのに苦労しているのであれば、それはしばしばソーシャルメディアにアクセスしたり、インターネット上の何"
+"かを見るのが簡単すぎることが原因でしょう。仮にあなたが20分間の練習を目標とした場合、その20分間の間可能な限り生産的であるようにすることが重要です。"
 
 #: A.16-practice.md:144
 msgid ""
@@ -14029,10 +14177,13 @@ msgid ""
 "d. Try to focus on coding music and you can return to your distractions when y"
 "ou've finished."
 msgstr ""
+"練習のヒント #7 - 練習を始める前に可能な限り気が散るものを取り除く。例えば、インターネットを切断したり、電話を他の部屋に置いたりして、不意に気をそら"
+"されない静かな場所で練習するようにしましょう。練習が終われば、またそれらの気をそらすものに戻れるので、それまでは音楽のコーディングに集中するようにしましょ"
+"う。"
 
 #: A.16-practice.md:151
 msgid "Keep a practice diary"
-msgstr ""
+msgstr "練習日記をつける"
 
 #: A.16-practice.md:153
 msgid ""
@@ -14041,6 +14192,9 @@ msgid ""
 "etc. These ideas are often so interesting that you might stop what you're doin"
 "g and start working on the idea. This is another form of distraction!"
 msgstr ""
+"あなたが練習している最中、気がつくと、音楽の方向、試してみたい音、書いてみたい関数など、新しい刺激的なアイデアで頭がいっぱいになることがあるかもしれません"
+"。これらのアイデアはしばしばとても面白そうなので、練習をやめてそのアイデアを作業してしまうかもしれません。これは、別な形の'気が散るもの'と言えるでしょう"
+"！"
 
 #: A.16-practice.md:159
 msgid ""
@@ -14050,6 +14204,8 @@ msgid ""
 "lity time thinking about and working on your ideas after you've finished pract"
 "icing."
 msgstr ""
+"練習のヒント #8 - 練習日記をつける。刺激的な新しいアイデアが浮かんだら、一時的に練習セッションを停止し、素早くアイデアを書き留めてください。そして、"
+"そのアイデアのことは忘れて、練習を続けてください。そうすれば、練習が終わった後、そのアイデアを集中して検討したり作業できるのです。"
 
 #: A.16-practice.md:168
 msgid ""
@@ -14059,3 +14215,6 @@ msgid ""
 " all be worth it once you've created your first piece or given your first perf"
 "ormance. Remember, practice is the key to success!"
 msgstr ""
+"ここで紹介したアイデアを可能な限り取り込んだ練習ルーチンを確立するようにしてください。練習セッションは可能な限り楽しくしておくべきですが、ときには練習セッ"
+"ションは過酷で仕事のように感じることもあるでしょう。しかしながら、一度初めての作品を完成させたり、初めてのパフォーマンスを成功させたりしたら、練習はその価"
+"値があったと言えるでしょう。覚えておいてください、練習は成功の鍵なのです！"
