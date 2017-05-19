@@ -26,7 +26,7 @@ require_relative "version"
 require_relative "config/settings"
 require_relative "preparser"
 require_relative "spsym"
-require_relative "state"
+require_relative "event_history"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -232,7 +232,9 @@ module SonicPi
     end
 
     def __current_sched_ahead_time
-      __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) || @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), :sched_ahead_time,)
+      #TODO: insert thread id and delta correctly
+      __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) ||
+        @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), 0, 0, __system_thread_locals.get(:sonic_pi_spider_beat), :sched_ahead_time,).val
     end
 
     def __schedule_delayed_blocks_and_messages!
@@ -1046,10 +1048,10 @@ module SonicPi
       @osc_router_port = 8014
       @log_cues = false
       @log_cues_file = File.open(osc_cues_log_path, 'a')
-      @system_state = State.new
-      @user_state = State.new
-      @osc_state = State.new(multi_write: false)
-      @system_state.set 0, 0, :sched_ahead_time, default_sched_ahead_time
+      @system_state = EventHistory.new
+      @user_state = EventHistory.new
+      @osc_state = EventHistory.new
+      @system_state.set 0, 0, 0, 0, :sched_ahead_time, default_sched_ahead_time
       @gui_cue_log_idxs = Counter.new
       @osc_cue_server_is_open = false
       @osc_cue_server_mutex = Mutex.new
@@ -1058,7 +1060,7 @@ module SonicPi
         t = Time.now.freeze
         a = args.freeze
 
-        @osc_state.set(t, 0, address.freeze, a)
+        @osc_state.set(t, 0, 0, 0, address.freeze, a)
         @cue_events.async_event("/spider_thread_sync/#{address}", {
                               :time => t,
                               :cue_splat_map_or_arr => a,

@@ -1,15 +1,12 @@
 require_relative "../../core"
 require_relative "../lib/sonicpi/runtime"
-require_relative "../lib/sonicpi/state"
 require_relative "../lib/sonicpi/lang/core"
+require_relative "../lib/sonicpi/event_history"
 require 'minitest'
 require 'minitest/autorun'
 
 module SonicPi
   class MockStudio
-    def sched_ahead_time
-      0.5
-    end
   end
 
   class MockLang
@@ -25,10 +22,10 @@ module SonicPi
       @msg_queue = Queue.new
       __set_default_user_thread_locals!
 
-      @system_state = State.new
-      @user_state = State.new
-      @osc_state = State.new(multi_write: false)
-      @system_state.set 0, 0, :sched_ahead_time, 0.5
+      @system_state = EventHistory.new
+      @user_state = EventHistory.new
+      @osc_state = EventHistory.new
+      @system_state.set 0, 0, 0, 0, :sched_ahead_time, 0.5
 
       @settings = Config::Settings.new("/bogus/path/to/default/to/empty/settings.txt")
       @version = Version.new(0, 0, 0, "test")

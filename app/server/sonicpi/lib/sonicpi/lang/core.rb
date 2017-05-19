@@ -44,7 +44,7 @@ module SonicPi
         raise NotImmutableError, "Error setting state - value must be immutable. Got: #{val.inspect} for #{k.inspect}" unless val.sp_thread_safe?
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
-        @user_state.set t, b, k, val
+        @osc_state.set t, 0, 0, b, k, val
         val
       end
 
@@ -57,30 +57,33 @@ module SonicPi
         end
 
         t = __system_thread_locals.get(:sonic_pi_spider_time)
-        if k.is_a? String
-          return  @osc_state.get(t, k, default)
-        else
-          return  @user_state.get(t, k, default)
-        end
+        b = __system_thread_locals.get(:sonic_pi_spider_beat)
+        res = @osc_state.get(t, b, 0, k, nil)
+        return res.args if res
+        return default
       end
 
 
       def sync_osc(k)
+        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight3_message "sync #{k.inspect}"
         end
         __schedule_delayed_blocks_and_messages!
-        time, beat, v = @osc_state.wait_next_tbv(current_time, k)
+        se = @osc_state.sync(current_time, current_beat, 0, k)
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight2_message "synced #{k.inspect}."
         end
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
-        __system_thread_locals.set :sonic_pi_spider_beat, beat if beat
-        __system_thread_locals.set :sonic_pi_spider_time, Time.at(time).freeze if time
-        v
+        __system_thread_locals.set :sonic_pi_spider_beat, se.beat
+        __system_thread_locals.set :sonic_pi_spider_time, Time.at(se.time).freeze
+        se.args
       end
 
 
+      def current_beat
+        beat
+      end
 
 
       def with_swing (*args, &blk)
@@ -3520,9 +3523,11 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
   puts bt(1) # 2
 "]
 
-      def set_sched_ahead_time!(t)
-        @system_state.set(__system_thread_locals.get(:sonic_pi_spider_time), __system_thread_locals.get(:sonic_pi_spider_beat), :sched_ahead_time, t)
-        __info "Schedule ahead time set to #{t}"
+      def set_sched_ahead_time!(sat)
+        t = __system_thread_locals.get(:sonic_pi_spider_time)
+        b = __system_thread_locals.get(:sonic_pi_spider_beat)
+        @system_state.set(t, 0, 0, b, :sched_ahead_time, sat)
+        __info "Schedule ahead time set to #{sat}"
       end
       doc name:          :set_sched_ahead_time!,
           introduced:    Version.new(2,0,0),

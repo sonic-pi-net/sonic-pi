@@ -601,9 +601,9 @@ module SonicPi
       return sat if sat
 
       t = __system_thread_locals.get(:sonic_pi_spider_time, Time.now)
-      res = @state.get(t, :sched_ahead_time)
+      res = @state.get(t, 0, 0, 0, :sched_ahead_time)
       raise "sched_ahead_time, can't get time. Is this a Sonic Pi thread? " unless res
-      return res
+      return res.val
     end
 
   end
