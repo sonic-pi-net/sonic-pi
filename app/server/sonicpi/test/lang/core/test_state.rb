@@ -48,20 +48,28 @@ module SonicPi
       @lang.run do
         assert_equal nil, get(:intensity)
         10.times do
+          # TODO - remove these promises
+          # when thread waiting is implemented
+          p1 = Promise.new
+          p2 = Promise.new
           t2 = in_thread do
             # TODO: remove this sleep when
             # thread waiting has been implemented
             # for sync and get
             sleep 0.01
+            p1.get
             assert_equal get(:intensity), 100
             sleep 0.04
+            p2.get
             assert_equal get(:intensity), 102
           end
 
           t1 = in_thread do
             set(:intensity, 100)
+            p1.deliver! true
             sleep 0.03
             set(:intensity, 102)
+            p2.deliver! true
           end
 
           t2.join
