@@ -325,7 +325,7 @@ module SonicPi
   module Core
     class EmptyVectorError < StandardError ; end
     class InvalidIndexError < StandardError ; end
-
+    class NotThreadSafeError < StandardError ; end
 
 
     class SPMap < Hamster::Hash
@@ -398,6 +398,11 @@ module SonicPi
 
       def ___sp_vector_name
         "vector"
+      end
+
+      def __sp_make_thread_safe
+        return self if @thread_safe
+        map {|v| v.__sp_make_thread_safe }
       end
 
       def ___sp_preserve_vec_kind(a)
@@ -633,6 +638,11 @@ class String
     frozen?
   end
 
+  def __sp_make_thread_safe
+    return self if frozen?
+    self.clone.freeze
+  end
+
   def shuffle
     self.chars.to_a.shuffle.join
   end
@@ -734,6 +744,11 @@ end
 class Array
   include SonicPi::Core::TLMixin
 
+  def __sp_make_thread_safe
+    res = map {|v| v.__sp_make_thread_safe}
+    res.freeze
+  end
+
   def sp_thread_safe?
     frozen? && self.all? {|el| el.sp_thread_safe?}
   end
@@ -833,10 +848,20 @@ class Hash
     SonicPi::Core::SPMap.new(self)
   end
 
+  def __sp_make_thread_safe
+    res = {}
+    each do |k, v|
+      res[k.__sp_make_thread_safe] = v.__sp_make_thread_safe
+    end
+    res.to_sp_map
+  end
+
   def sp_thread_safe?
     frozen? && all? {|k, v| k.sp_thread_safe? && v.sp_thread_safe?}
   end
 end
+
+
 
 # Meta-glasses from our hero Why to help us
 # see more clearly..
@@ -853,6 +878,12 @@ class Object
       self.is_a?(FalseClass) ||
       self.is_a?(NilClass) ||
       (self.is_a?(SonicPi::Core::SPVector) && self.all? {|el| el.sp_thread_safe?})
+  end
+
+  def __sp_make_thread_safe
+    return self if self.sp_thread_safe?
+
+    raise SonicPi::Core::NotThreadSafeError, "Sorry, unable to make a #{self.class} thread safe"
   end
 
 
