@@ -65,14 +65,14 @@ module SonicPi
       end
 
 
-      def sync_osc(k)
+      def sync_osc(k, arg_matcher=nil)
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight3_message "sync #{k.inspect}"
         end
         __schedule_delayed_blocks_and_messages!
         # TODO insert thread id and delta values here:
-        se = @osc_state.sync(current_time, 0, 0, current_beat, k)
+        se = @osc_state.sync(current_time, 0, 0, current_beat, k, arg_matcher)
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight2_message "synced #{k.inspect}."
         end

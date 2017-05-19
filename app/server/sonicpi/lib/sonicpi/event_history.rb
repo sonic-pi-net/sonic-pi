@@ -14,6 +14,17 @@ require_relative "cueevent"
 
 module SonicPi
 
+  module EventMatcherUtil
+    def safe_matcher_call(matcher, event)
+      return true unless matcher
+      begin
+        return matcher.call(event)
+      rescue Exception => e
+        return false
+      end
+    end
+  end
+
   class EventHistoryNode
     attr_accessor :children, :events
 
@@ -24,7 +35,9 @@ module SonicPi
   end
 
   class EventMatcher
-    def initialize(path)
+    include EventMatcherUtil
+
+    def initialize(path, val_matcher=nil)
       path = String.new(path)
       path.strip!
       path[0] = '' if path.start_with?('/')
@@ -32,10 +45,11 @@ module SonicPi
       path.gsub!(/(?<!\.)\*/, '[^/]*')
       matcher_str = "\\A/?#{path}/?\\Z"
       @matcher = Regexp.new(matcher_str)
+      @val_matcher = val_matcher
     end
 
-    def match(other)
-      @matcher.match other
+    def match(path, val)
+      @matcher.match(path) && safe_matcher_call(@val_matcher, val)
     end
   end
 
@@ -45,14 +59,14 @@ module SonicPi
       @matchers = []
     end
 
-    def put(matcher_path, prom)
-      matcher = EventMatcher.new(matcher_path)
+    def put(matcher_path, val_matcher, prom)
+      matcher = EventMatcher.new(matcher_path, val_matcher)
       @matchers << [matcher, prom]
     end
 
-    def match(path)
+    def match(path, val)
       @matchers.delete_if do |matcher, prom|
-        if matcher.match(path)
+        if matcher.match(path, val)
           prom.deliver! true
           true
         else
@@ -65,6 +79,7 @@ module SonicPi
 
 
   class EventHistory
+    include EventMatcherUtil
 
     def initialize
       @state = EventHistoryNode.new
@@ -85,27 +100,26 @@ module SonicPi
       get_event = CueEvent.new(t, i, d, b, path, [], {})
 
       @get_mut.synchronize do
-        @unprocessed.size.times do
-          p = @unprocessed.pop
-          __insert_event!(p)
-        end
+        @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
         res = get_w_no_mutex(get_event, val_matcher, get_next)
         return res
       end
     end
 
+    # Get next version (after current time)
+    # return nil if nothing found
+    # Does not modify time
     def get_next(t, i, d, b, path, val_matcher=nil)
       get(t, i, d, b, path, val_matcher, true)
     end
 
     # Register cue event for time t
-    # Do not change time
+    # Do not modify time
     def set(t, i, d, b, path, val, meta={})
-
       # TODO = fill meta correctly with Thread Locals if available
       ce = CueEvent.new(t, i, d, b, path, val, meta)
       @unprocessed << ce
-      @event_matchers.match(ce.path)
+      @event_matchers.match(ce.path, ce.val)
     end
 
     # Get the next version (after the current time)
@@ -120,14 +134,16 @@ module SonicPi
         res = get_w_no_mutex(ge, val_matcher, true)
         return res if res
         p = Promise.new
-        @event_matchers.put ge.path, p
+        @event_matchers.put ge.path, val_matcher, p
       end
       p.get
 
       # have to do a get_next again in case
       # an event with an earlier timestamp arrived
       # after this one
-      return get_next(t, i, d, b, path, val_matcher)
+      res = get_next(t, i, d, b, path, val_matcher)
+      raise "sync error - couldn't find result for #{[t, i, d, b, path]}" unless res
+      return res
       #TODO:  set thread locals
     end
 
@@ -364,7 +380,7 @@ module SonicPi
 
     def find_most_recent_event(ge, val_matcher, events)
       if val_matcher
-        events.find { |e|  e <= ge  && val_matcher.call(e.val) }
+        events.find { |e|  e <= ge  && safe_matcher_call(val_matcher, e.val) }
       else
         events.find { |e|  e <= ge }
       end
@@ -383,35 +399,20 @@ module SonicPi
       # Find the first event that's less than the time t, d.
       idx = events.find_index { |e| e <= ge }
       if idx && idx > 0
-        if val_matcher
-
-          while idx > 0
-            idx -= 1
-            return events[idx] if safe_matcher_call(val_matcher, events[idx])
-          end
-
-          return nil
-
-        else
-          return events[idx -1]
+        return events[idx -1] unless val_matcher
+        while idx > 0
+          idx -= 1
+          return events[idx] if safe_matcher_call(val_matcher, events[idx].val)
         end
+      end
+
+      last = events.last
+      if val_matcher
+        return last if last && (last > ge) && safe_matcher_call(val_matcher, last.val)
       else
-        last = events.last
-        if val_matcher
-          return last if last && (last > ge) && safe_matcher_call(val_matcher, last.val)
-        else
-          return last if last && (last > ge)
-        end
-        return nil
+        return last if last && (last > ge)
       end
-    end
-
-    def safe_matcher_call(m, a)
-      begin
-        return matcher.call(events[idx].val)
-      rescue Exception => e
-        return false
-      end
+      return nil
     end
 
     def matcher?(p)

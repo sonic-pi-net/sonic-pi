@@ -33,18 +33,40 @@ module SonicPi
       history = EventHistory.new
       t = 0
       p = "/foo/bar"
+
+      tm = lambda { |_| true }
+
       m = lambda do |args|
         args.size == 2 && args.first != :foo
       end
 
+      m2 = lambda do |args|
+        args.size == 3 && args.first == :baz
+      end
+
       history.set(t, 0, 0, 0, p, [:baz, :bar], {})
       history.set(t, 0, 1, 0, p, [:foo, :bar], {})
-      history.set(t, 0, 2, 0, p, [:baz, :bar, :foo], {})
-      history.set(t, 0, 3, 0, p, [:bar], {})
+      history.set(t, 0, 2, 0, p, [:boz, :boz, :boz], {})
+      history.set(t, 0, 3, 0, p, [:boz, :boz], {})
+      history.set(t, 0, 3, 0, p, [:baz, :boz], {})
+      history.set(t, 0, 4, 0, p, [:baz, :bar, :foo], {})
+      history.set(t, 0, 5, 0, p, [:bar], {})
 
-      v = history.get(t, 0, 5, 0, p, m)
-      assert_equal [:baz, :bar], v.val
+      v = history.get(t, 0, 6, 0, p, m)
+      assert_equal [:baz, :boz], v.val
+
+      v = history.get_next(t, 0, 0, 0, p, tm)
+      assert_equal [:foo, :bar], v.val
+
+      v = history.get_next(t, 0, 0, 0, p, m)
+      assert_equal [:boz, :boz], v.val
+
+      v = history.get_next(t, 0, 0, 0, p, m2)
+      assert_equal [:baz, :bar, :foo], v.val
     end
+
+
+
 
     def test_deltas
       history = EventHistory.new
@@ -297,35 +319,35 @@ module SonicPi
 
     def test_event_matcher
       m = EventMatcher.new("/foo/bar/baz")
-      assert  m.match("/foo/bar/baz")
-      assert  m.match("/foo/bar/baz/")
-      assert  m.match("foo/bar/baz")
-      assert_nil m.match("/foo/bar/bazz")
+      assert  m.match("/foo/bar/baz", nil)
+      assert  m.match("/foo/bar/baz/", nil)
+      assert  m.match("foo/bar/baz", nil)
+      assert_nil m.match("/foo/bar/bazz", nil)
     end
 
 
     def test_event_matcher_star
       m = EventMatcher.new("/foo*/*/*baz")
-      assert  m.match("/foo/bar/baz")
-      assert  m.match("/foo/bar/baz/")
-      assert  m.match("foo/bar/baz")
-      assert  m.match("foo/bar/eggsbaz")
-      assert  m.match("foo333/bar/eggsbaz")
-      assert_nil  m.match("foo333//bar/eggsbaz")
-      assert_nil  m.match("foo333/beans/bar/eggsbaz")
-      assert_nil m.match("/foo/bar/bazz")
+      assert  m.match("/foo/bar/baz", nil)
+      assert  m.match("/foo/bar/baz/", nil)
+      assert  m.match("foo/bar/baz", nil)
+      assert  m.match("foo/bar/eggsbaz", nil)
+      assert  m.match("foo333/bar/eggsbaz", nil)
+      assert_nil  m.match("foo333//bar/eggsbaz", nil)
+      assert_nil  m.match("foo333/beans/bar/eggsbaz", nil)
+      assert_nil m.match("/foo/bar/bazz", nil)
     end
 
     def test_event_matcher_glob_star
       m = EventMatcher.new("/foo/**/baz")
-      assert  m.match("/foo/bar/baz")
-      assert  m.match("/foo/bar/baz/")
-      assert  m.match("/foo/bar/beans/quux/baz/")
-      assert  m.match("foo/bar/baz")
-      assert_nil  m.match("/foo/bar/beans/quux/bazz/")
-      assert_nil  m.match("foo333//bar/eggsbaz")
-      assert_nil  m.match("foo333/beans/bar/eggsbaz")
-      assert_nil m.match("/foo/bar/bazz")
+      assert  m.match("/foo/bar/baz", nil)
+      assert  m.match("/foo/bar/baz/", nil)
+      assert  m.match("/foo/bar/beans/quux/baz/", nil)
+      assert  m.match("foo/bar/baz", nil)
+      assert_nil  m.match("/foo/bar/beans/quux/bazz/", nil)
+      assert_nil  m.match("foo333//bar/eggsbaz", nil)
+      assert_nil  m.match("foo333/beans/bar/eggsbaz", nil)
+      assert_nil m.match("/foo/bar/bazz", nil)
     end
 
     def test_sync_with_existing_event
