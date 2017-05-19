@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-27 14:21+0000\n"
-"Last-Translator: Hugo <hvila2@gmail.com>\n"
+"PO-Revision-Date: 2017-05-19 21:53+0000\n"
+"Last-Translator: Luis Garcia <floss.dev@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13-dev\n"
+"X-Generator: Weblate 2.14.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1073,7 +1073,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:79
 msgid "Amp it up"
-msgstr "¡Amplifícalo!"
+msgstr "Amplifícalo"
 
 #: 02.2-Synth-Params.md:81
 msgid ""
@@ -5053,7 +5053,7 @@ msgstr ""
 #: 05.4-Threads.md:236
 #, no-wrap
 msgid "==> Skipping thread creation: thread with name :amen already exists."
-msgstr "==> Skipping thread creation: thread with name :amen already exists."
+msgstr "==> Omitiendo creación de hilo: ya existe un hilo con el nombre :amen."
 
 #: 05.4-Threads.md:240
 #, fuzzy
@@ -5987,7 +5987,7 @@ msgstr ""
 #: 06-FX.md:29
 #, no-wrap
 msgid "Guitar -> Distortion -> Reverb -> Amplifier"
-msgstr "Guitar -> Distortion -> Reverb -> Amplifier"
+msgstr "Guitarra -> Distorsión -> Reverberación -> Amplificador"
 
 #: 06-FX.md:33
 #, fuzzy
@@ -9667,7 +9667,7 @@ msgstr "Escribe lo siguiente en un buffer vacío de Sonic Pi:"
 #: 11.1-Basic-API.md:25
 #, no-wrap
 msgid "mc_message \"Hello from Sonic Pi\""
-msgstr "mc_message \"Hello from Sonic Pi\""
+msgstr "mc_message \"Hola desde Sonic Pi\""
 
 #: 11.1-Basic-API.md:29
 #, fuzzy
@@ -11716,7 +11716,7 @@ msgstr ""
 #: A.06-minecraft.md:28
 #, no-wrap
 msgid "mc_message \"Hello Minecraft from Sonic Pi!\""
-msgstr "mc_message \"Hello Minecraft from Sonic Pi!\""
+msgstr "mc_message \"Hola Minecraft desde Sonic Pi!\""
 
 #: A.06-minecraft.md:32
 msgid ""
@@ -12356,7 +12356,7 @@ msgstr ""
 #: A.08-minecraft-vj.md:32
 #, no-wrap
 msgid "mc_message \"Let's get started...\""
-msgstr "mc_message \"Let's get started...\""
+msgstr "mc_message \"Comencemos...\""
 
 #: A.08-minecraft-vj.md:36
 msgid ""
