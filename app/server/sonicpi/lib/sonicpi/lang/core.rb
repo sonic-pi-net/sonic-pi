@@ -60,7 +60,7 @@ module SonicPi
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
         # TODO insert thread id and delta values here:
         res = @osc_state.get(t, 0, 0, b, k, nil)
-        return res.args if res
+        return res.val if res
         return default
       end
 
