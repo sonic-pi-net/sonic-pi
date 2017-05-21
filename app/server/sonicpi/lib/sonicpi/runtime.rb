@@ -27,6 +27,7 @@ require_relative "config/settings"
 require_relative "preparser"
 require_relative "spsym"
 require_relative "event_history"
+require_relative "thread_id"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -734,7 +735,7 @@ module SonicPi
         begin
           num_running_jobs = reg_job(id, Thread.current)
           __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
-          __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, [id].ring
+          __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, ThreadId.new(id)
           __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
           __system_thread_locals.set :sonic_pi_spider_job_id, id
           __system_thread_locals.set :sonic_pi_spider_silent, silent

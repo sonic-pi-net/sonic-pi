@@ -2,6 +2,7 @@ require_relative "../../core"
 require_relative "../lib/sonicpi/runtime"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/event_history"
+require_relative "../lib/sonicpi/thread_id"
 require 'minitest'
 require 'minitest/autorun'
 
@@ -60,7 +61,7 @@ module SonicPi
 
         reg_job 0, Thread.current
         __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
-        __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, [id]
+        __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, ThreadId.new(id)
         __system_thread_locals.set :sonic_pi_spider_job_id, id
         __system_thread_locals.set :sonic_pi_spider_silent, silent
         __system_thread_locals.set :sonic_pi_spider_job_info, info
