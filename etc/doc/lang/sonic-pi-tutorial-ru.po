@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-18 16:04+0000\n"
+"PO-Revision-Date: 2017-05-21 15:16+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.14\n"
+"X-Generator: Weblate 2.14.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2706,11 +2706,10 @@ msgstr ""
 "воспроизведения их на половинной скорости:"
 
 #: 03.5-Partial-Samples.md:20
-#, fuzzy
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr ""
-"Затем мы увидели как можно постепенно усиливать сэмпл (совместим это с уменьшё"
-"нной вдвое скоростью):"
+"Затем, мы увидели, как можно постепенно усиливать сэмпл (совместим это с "
+"уменьшённой вдвое скоростью):"
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
@@ -2807,7 +2806,6 @@ msgid "sample :loop_amen, start: 0.4, finish: 0.6"
 msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
 #: 03.5-Partial-Samples.md:75
-#, fuzzy
 msgid "What happens if we choose a start position after the finish position?"
 msgstr "Что случится, если установить старт после финиша?"
 
@@ -2864,8 +2862,7 @@ msgstr ""
 #, fuzzy
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
 msgstr ""
-"Теперь попробуй себя во взбивании коктейля из сэмплов и всех этих забавных шту"
-"к..."
+"Попробуйте также комбинировать сэмплы, не ограничивайте свою фантазию..."
 
 #: 03.6-External-Samples.md:1
 msgid "3.6 External Samples"
@@ -2890,9 +2887,8 @@ msgstr ""
 "дим переносимость твоего произведения."
 
 #: 03.6-External-Samples.md:10
-#, fuzzy
 msgid "Portability"
-msgstr "Переносимость"
+msgstr "Портативность"
 
 #: 03.6-External-Samples.md:12
 #, fuzzy
@@ -3233,7 +3229,6 @@ msgstr ""
 "sample samps, \"120\", \"A#\""
 
 #: 03.7-Sample-Packs.md:129
-#, fuzzy
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
 msgstr ""
 "Наконец, мы по-прежнему можем добавлять свойства к вызову нашего `сэмпла`:"
@@ -3248,12 +3243,10 @@ msgstr ""
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 
 #: 03.7-Sample-Packs.md:136
-#, fuzzy
 msgid "Sources"
 msgstr "Источники"
 
 #: 03.7-Sample-Packs.md:138
-#, fuzzy
 msgid ""
 "The sample filter pre-arg system understands two types of information: sources"
 " and filters. Sources are information used to create the list of potential can"
@@ -3306,7 +3299,6 @@ msgstr ""
 "sample samps, samps2, path, 0"
 
 #: 03.7-Sample-Packs.md:160
-#, fuzzy
 msgid ""
 "Here, we're combining the contents of the samples within two directories and a"
 "dding a specific sample. If `\"/path/to/my/samples/\"` contained 3 samples and `"
