@@ -94,10 +94,10 @@ module SonicPi
 
     # Get the last seen version (at or before the current time)
     # Do not change time
-    def get(t, i, d, b, path, val_matcher=nil, get_next=false)
+    def get(t, p, i, d, b, path, val_matcher=nil, get_next=false)
       wait_for_threads
       res = nil
-      get_event = CueEvent.new(t, i, d, b, path, [], {})
+      get_event = CueEvent.new(t, p, i, d, b, path, [], {})
 
       @get_mut.synchronize do
         @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
@@ -109,15 +109,15 @@ module SonicPi
     # Get next version (after current time)
     # return nil if nothing found
     # Does not modify time
-    def get_next(t, i, d, b, path, val_matcher=nil)
-      get(t, i, d, b, path, val_matcher, true)
+    def get_next(t, p, i, d, b, path, val_matcher=nil)
+      get(t, p, i, d, b, path, val_matcher, true)
     end
 
     # Register cue event for time t
     # Do not modify time
-    def set(t, i, d, b, path, val, meta={})
+    def set(t, p, i, d, b, path, val, meta={})
       # TODO = fill meta correctly with Thread Locals if available
-      ce = CueEvent.new(t, i, d, b, path, val, meta)
+      ce = CueEvent.new(t, p, i, d, b, path, val, meta)
       @unprocessed << ce
       @event_matchers.match(ce.path, ce.val)
     end
@@ -125,24 +125,26 @@ module SonicPi
     # Get the next version (after the current time)
     # Set time to time of cue
 
-    def sync(t, i, d, b, path, val_matcher=nil,timeout=nil)
+    def sync(t, p, i, d, b, path, val_matcher=nil,timeout=nil, &blk)
       wait_for_threads
-      p = nil
-      ge = CueEvent.new(t, i, d, b, path, [], {})
+      prom = nil
+      ge = CueEvent.new(t, p, i, d, b, path, [], {})
       @get_mut.synchronize do
         @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
         res = get_w_no_mutex(ge, val_matcher, true)
         return res if res
-        p = Promise.new
-        @event_matchers.put ge.path, val_matcher, p
+        prom = Promise.new
+        matcher = @event_matchers.put ge.path, val_matcher, prom
+        blk.call(matcher) if blk
       end
-      p.get
+
+      prom.get
 
       # have to do a get_next again in case
       # an event with an earlier timestamp arrived
       # after this one
-      res = get_next(t, i, d, b, path, val_matcher)
-      raise "sync error - couldn't find result for #{[t, i, d, b, path]}" unless res
+      res = get_next(t, p, i, d, b, path, val_matcher)
+      raise "sync error - couldn't find result for #{[t, i, p, d, b, path]}" unless res
       return res
       #TODO:  set thread locals
     end
@@ -150,13 +152,13 @@ module SonicPi
     # Wait for the first out of the list of cues to arrive
     # Set time to time of first cue
     # Once first cue has arrived - no longer wait for other cues
-    def sync_first(t, i, d, b, paths, val_matcher, timeout=nil)
+    def sync_first(t, p, i, d, b, paths, val_matcher, timeout=nil)
 
     end
 
     # Wait for all cues to arrive (after the current time)
     # Set time to time of last cue
-    def sync_all(t, i, d, b, paths, val_matcher, timeout=nil)
+    def sync_all(t, p, i, d, b, paths, val_matcher, timeout=nil)
 
     end
 

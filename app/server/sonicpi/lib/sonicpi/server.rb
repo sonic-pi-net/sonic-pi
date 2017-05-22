@@ -21,6 +21,7 @@ require_relative "counter"
 require_relative "lazybuffer"
 require_relative "bufferstream"
 require_relative "scsynthexternal"
+require_relative "thread_id"
 
 #require_relative "scsynthnative"
 
@@ -65,6 +66,7 @@ module SonicPi
       @OSC_SEM = Mutex.new
       @MSG_QUEUE = msg_queue
       @control_delta = default_control_delta
+      @server_thread_id = ThreadId.new(-3)
 
       #TODO: Might want to make this available more globally so it can
       #be dynamically turned on and off
@@ -601,7 +603,8 @@ module SonicPi
       return sat if sat
 
       t = __system_thread_locals.get(:sonic_pi_spider_time, Time.now)
-      res = @state.get(t, 0, 0, 0, :sched_ahead_time)
+      i = __system_thread_locals.get(:sonic_pi_spider_thread_id_path, @server_thread_id)
+      res = @state.get(t, 0, i, 0, 0, :sched_ahead_time)
       raise "sched_ahead_time, can't get time. Is this a Sonic Pi thread? " unless res
       return res.val
     end

@@ -92,7 +92,7 @@ module SonicPi
         @osc_server.stop if @osc_server
         @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: @osc_cue_server_is_open,) do |address, args|
           address = "/osc#{address}"
-          @register_cue_event_lambda.call(address, args)
+          @register_cue_event_lambda.call(address, args, @system_init_thread_id)
         end
       end
     end
@@ -235,7 +235,8 @@ module SonicPi
     def __current_sched_ahead_time
       #TODO: insert thread id and delta correctly
       __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) ||
-        @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), 0, 0, __system_thread_locals.get(:sonic_pi_spider_beat), :sched_ahead_time,).val
+
+        @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), 0, __current_thread_id, 0, __system_thread_locals.get(:sonic_pi_spider_beat), :sched_ahead_time,).val
     end
 
     def __schedule_delayed_blocks_and_messages!
@@ -859,6 +860,10 @@ module SonicPi
       end
     end
 
+    def __current_thread_id
+      __system_thread_locals.get :sonic_pi_spider_thread_id_path
+    end
+
     def __msg_queue
       @msg_queue
     end
@@ -1052,16 +1057,18 @@ module SonicPi
       @system_state = EventHistory.new
       @user_state = EventHistory.new
       @osc_state = EventHistory.new
-      @system_state.set 0, 0, 0, 0, :sched_ahead_time, default_sched_ahead_time
+      @system_init_thread_id = ThreadId.new(-1)
+      osc_cue_server_thread_id = ThreadId.new(-2)
+      @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, :sched_ahead_time, default_sched_ahead_time
       @gui_cue_log_idxs = Counter.new
       @osc_cue_server_is_open = false
       @osc_cue_server_mutex = Mutex.new
-      @register_cue_event_lambda = lambda do |address, args|
+      @register_cue_event_lambda = lambda do |address, args, thread_id|
         gui_log_id = @gui_cue_log_idxs.next
         t = Time.now.freeze
         a = args.freeze
 
-        @osc_state.set(t, 0, 0, 0, address.freeze, a)
+        @osc_state.set(t, 0, thread_id, 0, 0, address.freeze, a)
         @cue_events.async_event("/spider_thread_sync/#{address}", {
                               :time => t,
                               :cue_splat_map_or_arr => a,

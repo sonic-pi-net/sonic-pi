@@ -18,13 +18,14 @@ module SonicPi
   class CueEventTester < Minitest::Test
     def test_init
       t = Time.now
-      b = 0
+      p = 0
       i = 0
       d = 0
+      b = 0
       m = {foo: 3}
       v = [:a, :b, :c]
-      p = "/foo/bar"
-      c = CueEvent.new(t, i, d, b, p, v, m )
+      n = "/foo/bar"
+      c = CueEvent.new(t, p, i, d, b, n, v, m)
       assert_equal t.to_f, c.time
       assert_equal i, c.thread_id
       assert_equal d.to_i, c.delta
@@ -36,19 +37,21 @@ module SonicPi
 
     def test_non_thread_safe_init
       t = Time.now
+      p = 0
       i = 0
       d = 0
       b = 0
       m = {foo: 3}
-      p = "/foo/bar"
+      n = "/foo/bar"
       a = [:a, :b, Object.new]
       assert_raises SonicPi::Core::NotThreadSafeError do
-        c = CueEvent.new(t, i, d, b, p,  a, m )
+        c = CueEvent.new(t, p, i, d, b, n,  a, m )
       end
     end
 
     def test_ordering
       t1 = Time.now
+      p = 0
       sleep 0.001
       t2 = Time.now
       sleep 0.001
@@ -59,47 +62,50 @@ module SonicPi
       d3 = 2
       m = {foo: 3}
       a = [:a, :b, :c]
-      p = "/foo/bar"
-      p2 = "/z/foo/bar"
-      c1 = CueEvent.new(t1, i, d1, 0, p, a, m )
-      c1clone = CueEvent.new(t1, i, d1, 0, p, a, m )
-      c1diff = CueEvent.new(t1, i, d1, 0, p, [:foo], m )
-      c2 = CueEvent.new(t2, i, d1, 0, p, a, m )
-      c3 = CueEvent.new(t3, i, d1, 0, p, a, m )
-      c3p2 = CueEvent.new(t3, i, d2, 0, p2, a, m )
+      n = "/foo/bar"
+      n2 = "/z/foo/bar"
+      c1 = CueEvent.new(t1, p, i, d1, 0, n, a, m )
+      c1clone = CueEvent.new(t1, p, i, d1, 0, n, a, m )
+      c1diff = CueEvent.new(t1, p, i, d1, 0, n, [:foo], m )
+      c2 = CueEvent.new(t2, p, i, d1, 0, n, a, m )
+      c3 = CueEvent.new(t3, p, i, d1, 0, n, a, m )
+      c3p2 = CueEvent.new(t3, p, i, d2, 0, n2, a, m )
       assert c1 < c2
       assert c1 < c3
       assert c2 < c3
       assert c1 == c1
       assert c1 == c1clone
-      assert c1 == c1diff
+      assert c1 != c1diff
       assert c3 < c3p2
     end
 
     def test_path_splitting
       t = Time.now
+      p = 0
       i = 0
       d = 0
       m = {foo: 3}
       a = [:a, :b, :c]
-      p = "/foo/bar"
-      c = CueEvent.new(t, i, d, 0, p, a, m )
+      n = "/foo/bar"
+      c = CueEvent.new(t, p, i, d, 0, n, a, m )
       assert_equal ["foo", "bar"], c.split_path
     end
 
     def test_path_segment
       t = Time.now
+      p = 0
       i = 0
       d = 0
       m = {foo: 3}
       a = [:a, :b, :c]
-      p = "/foo/bar/baz"
-      c = CueEvent.new(t, i, d, 0, p, a, m )
+      n = "/foo/bar/baz"
+      c = CueEvent.new(t, p, i, d, 0, n, a, m )
       assert_equal "foo", c.path_segment(0)
       assert_equal "bar", c.path_segment(1)
       assert_equal "baz", c.path_segment(2)
       assert_equal nil, c.path_segment(3)
     end
+
   end
 
 end

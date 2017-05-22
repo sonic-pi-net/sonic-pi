@@ -18,12 +18,13 @@ module SonicPi
 
     include Comparable
 
-    attr_reader :time, :beat, :thread_id, :delta, :path, :val, :meta, :split_path, :path_size
-    def initialize(time, thread_id, delta, beat, path, val, meta={})
+    attr_reader :time, :priority, :thread_id, :delta, :beat, :path, :val, :meta, :split_path, :path_size
+    def initialize(time, priority, thread_id, delta, beat, path, val, meta={})
       @time = time.to_f
-      @beat = beat.to_f
-      @delta = delta.to_i
+      @priority = priority.to_i
       @thread_id = thread_id
+      @delta = delta.to_i
+      @beat = beat.to_f
       if path.is_a?(Symbol)
         @path = "/cue/#{path}".strip.freeze
       else
@@ -39,19 +40,22 @@ module SonicPi
     end
 
     def ==(other)
-      other.is_a? CueEvent
-      other.time == @time
-      other.thread_id == @thread_id
-      other.delta == @delta
-      other.beat == @beat
-      other.path == @path
-      other.val == @val
-      other.meta == @meta
+      other.is_a?(CueEvent) &&
+      (other.time == @time) &&
+      (other.priority == @priority) &&
+      (other.thread_id == @thread_id) &&
+      (other.delta == @delta) &&
+      (other.beat == @beat) &&
+      (other.path == @path) &&
+      (other.val == @val) &&
+      (other.meta == @meta)
     end
 
     def <=>(other)
       return -1 if @time < other.time
       return 1 if @time > other.time
+      return -1 if @priority < other.priority
+      return 1 if @priority > other.priority
       return -1 if @thread_id < other.thread_id
       return 1 if @thread_id > other.thread_id
       return -1 if @delta < other.delta
@@ -64,7 +68,7 @@ module SonicPi
     end
 
     def to_s
-      "#<SonicPi::CueEvent:#{[[@time, @thread_id, @delta, @beat], @path, @val]}"
+      "#<SonicPi::CueEvent:#{[[@time, @priority, @thread_id, @delta, @beat], @path, @val]}"
     end
 
     def inspect

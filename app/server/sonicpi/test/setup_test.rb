@@ -26,7 +26,8 @@ module SonicPi
       @system_state = EventHistory.new
       @user_state = EventHistory.new
       @osc_state = EventHistory.new
-      @system_state.set 0, 0, 0, 0, :sched_ahead_time, 0.5
+      @system_init_thread_id = ThreadId.new(-1)
+      @system_state.set 0, 0, @system_init_thread_id, 0, 0, :sched_ahead_time, 0.5
 
       @settings = Config::Settings.new("/bogus/path/to/default/to/empty/settings.txt")
       @version = Version.new(0, 0, 0, "test")

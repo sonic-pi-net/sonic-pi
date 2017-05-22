@@ -44,7 +44,11 @@ module SonicPi
         raise NotImmutableError, "Error setting state - value must be immutable. Got: #{val.inspect} for #{k.inspect}" unless val.sp_thread_safe?
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
-        @osc_state.set t, 0, 0, b, k, val
+        i = __current_thread_id
+        d = 0 # delta
+        p = 0 # priority
+
+        @osc_state.set t, p, i, d, b, k, val
         val
       end
 
@@ -58,8 +62,12 @@ module SonicPi
 
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
+        i = __current_thread_id
+        d = 0 # delta
+        p = 0 # priority
         # TODO insert thread id and delta values here:
-        res = @osc_state.get(t, 0, 0, b, k, nil)
+
+        res = @osc_state.get(t, p, i, d, b, k)
         return res.val if res
         return default
       end
@@ -72,7 +80,13 @@ module SonicPi
         end
         __schedule_delayed_blocks_and_messages!
         # TODO insert thread id and delta values here:
-        se = @osc_state.sync(current_time, 0, 0, current_beat, k, arg_matcher)
+        se = nil
+        i = __current_thread_id
+        d = 0 # delta
+        p = 0 # priority
+
+        se = @osc_state.sync(current_time, p, i, d, current_beat, k, arg_matcher)
+
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight2_message "synced #{k.inspect}."
         end
@@ -3528,7 +3542,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       def set_sched_ahead_time!(sat)
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
-        @system_state.set(t, 0, 0, b, :sched_ahead_time, sat)
+        i = __current_thread_id
+        @system_state.set(t, 0, i, 0, b, :sched_ahead_time, sat)
         __info "Schedule ahead time set to #{sat}"
       end
       doc name:          :set_sched_ahead_time!,
