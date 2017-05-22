@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-21 15:16+0000\n"
+"PO-Revision-Date: 2017-05-22 19:00+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -2439,7 +2439,6 @@ msgid "Enveloped Samples"
 msgstr "Огибающие сэмплов"
 
 #: 03.4-Enveloped-Samples.md:5
-#, fuzzy
 msgid ""
 "It is also possible to modify the *duration* and *amplitude* of a sample using"
 " an ADSR envelope. However, this works slightly differently to the ADSR envelo"
@@ -2449,12 +2448,13 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
-"Также возможно изменять *длительность* и *амплитуду* сэмпла, используя ADSR-ог"
-"ибающие. Но это работает немного по-другому, чем ADSR-огибающие синтов. Огибаю"
-"щие сэмплов позволяют уменьшать громкость и длительность, но не увеличивать их"
-". Сэмпл остановится, либо когда его воспроизведение завершено, либо когда огиб"
-"ающая закончилась - в зависимости от того, что произошло раньше. Так что если "
-"задать очень долгое *затухание*, то звучание сэмпла не удлинится."
+"Также возможно изменять *длительность* и *амплитуду* сэмпла, используя ADSR-"
+"огибающие. Но это работает немного по-другому, чем ADSR-огибающие синтов. "
+"Огибающие сэмплов позволяют уменьшать громкость и длительность, но не "
+"увеличивать их. Сэмпл остановится, либо когда его воспроизведение завершено, "
+"либо когда огибающая закончилась - в зависимости от того, что произошло "
+"раньше. Так что если задать очень долгое *затухание*, то звучание сэмпла не "
+"удлинится."
 
 #: 03.4-Enveloped-Samples.md:13
 msgid "Amen Envelopes"
@@ -2505,16 +2505,17 @@ msgid ""
 " values add up to more than the duration of the sample, the sustain is simply "
 "set to 0."
 msgstr ""
-"Отличие поведения ADSR-огибающей сэмпла от стандартной огибающей синта лежит в"
-" значении *удержания*. В обычной огибающей синта удержание само по себе устана"
-"вливалось в 0, если мы не указывали его вручную. Для сэмплов оно также настраи"
-"вается *автоматически*, но равняется времени, необходимому для завершения сэмп"
-"ла. Поэтому мы слышим полный сэмпл, когда никаких настроек не задаётся. Если б"
-"ы значения атаки, спада, удержания и затухания равнялись 0, то мы бы и намёка "
-"на сэмпл не услышвали. Так что Sonic Pi вычисляет сколько времени длится сэмпл"
-", вычитает длительности атаки, спада и затухания, и присваивает результат фазе"
-" удержания. Если атака, спад и затухание вместе дают значение больше продолжит"
-"ельности сэмпла, то удержание устанавливается в 0."
+"Отличие поведения ADSR-огибающей сэмпла от стандартной огибающей синта лежит "
+"в значении *удержания*. В обычной огибающей синта удержание само по себе "
+"устанавливалось в 0, если мы не указывали его вручную. Для сэмплов оно также "
+"настраивается *автоматически*, но равняется времени, необходимому для "
+"завершения сэмпла. Поэтому мы слышим полный сэмпл, когда никаких настроек не "
+"задаётся. Если бы значения атаки, спада, удержания и затухания равнялись 0, "
+"то мы бы и намёка на сэмпл не услышали. Так что Sonic Pi вычисляет сколько "
+"времени длится сэмпл, вычитает длительности атаки, спада и затухания, и "
+"присваивает результат фазе удержания. Если атака, спад и затухание вместе "
+"дают значение больше продолжительности сэмпла, то удержание устанавливается "
+"в 0."
 
 #: 03.4-Enveloped-Samples.md:48
 msgid "Fade Outs"
@@ -3888,11 +3889,10 @@ msgstr ""
 ", которые мы рассмотрим в одной из следующих глав нашего учебника."
 
 #: 04-Randomisation.md:198
-#, fuzzy
 msgid "Now, go and jumble up your code with some randomness!"
 msgstr ""
-"А теперь пришла пора добавить немного неразберихи в вашу музыку за счет случай"
-"ностей!"
+"А теперь, пришла пора добавить немного неразберихи в вашу музыку за счет "
+"случайностей!"
 
 #: 05-Programming-Structures.md:1
 msgid "5 Programming Structures"
@@ -3970,15 +3970,14 @@ msgstr ""
 "play 62"
 
 #: 05.1-Blocks.md:21
-#, fuzzy
 msgid ""
 "To do something with a chunk of code, we need to tell Sonic Pi where the code "
 "block *starts* and where it *ends*. We use `do` for start and `end` for end. F"
 "or example:"
 msgstr ""
-"Чтобы что-то сделать с куском кода, нам надо сказать Sonic Pi, где этот блок к"
-"ода *начинается*, и где он *заканчивается*. Для его начала мы используем `do`,"
-" а для обозначения конца - `end`. Пример:"
+"Чтобы сделать что-то с куском кода, нам надо сказать Sonic Pi, где этот блок "
+"кода *начинается*, и где он *заканчивается*. Для его начала мы используем "
+"`do`, а для обозначения конца - `end`. Пример:"
 
 #: 05.1-Blocks.md:25
 #, no-wrap
@@ -4025,15 +4024,14 @@ msgid "Iteration and Loops"
 msgstr "Итерации и циклы"
 
 #: 05.2-Iteration-and-Loops.md:5
-#, fuzzy
 msgid ""
 "So far we've spent a lot of time looking at the different sounds you can make "
 "with `play` and `sample` blocks. We've also learned how to trigger these sound"
 "s through time using `sleep`."
 msgstr ""
-"До этого момента мы потратили немало времени, пробуя разные звуки, которые мож"
-"но производить внутри блоков `play` и `sample`. Мы также изучили как разносить"
-" эти звуки во времени, используя `sleep`."
+"До этого момента мы потратили немало времени, пробуя разные звуки, которые "
+"можно производить внутри блоков `play` и `sample`. Мы также изучили как "
+"разносить эти звуки во времени, используя `sleep`."
 
 #: 05.2-Iteration-and-Loops.md:9
 msgid ""
@@ -4079,7 +4077,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:29
-#, fuzzy
 msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple a"
 "nd just copy and paste it three times:"
@@ -4129,7 +4126,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:55
-#, fuzzy
 msgid ""
 "Now that's a lot of code! What happens if you want to change the sample to `:e"
 "lec_plip`? You're going to have to find all the places with the original `:ele"
@@ -4144,7 +4140,6 @@ msgstr ""
 "бы изменять для каждой правки."
 
 #: 05.2-Iteration-and-Loops.md:62
-#, fuzzy
 msgid "Iteration"
 msgstr "Итерации"
 
@@ -4327,23 +4322,20 @@ msgstr ""
 "sample :drum_cymbal_open"
 
 #: 05.2-Iteration-and-Loops.md:152
-#, fuzzy
 msgid "Now, get structuring your code with iteration and loops!"
 msgstr ""
-"Теперь пришла пора создать интересные структуры из вашего кода при помощи итер"
-"аций и циклов!"
+"Теперь, пришла пора создать интересные структуры из вашего кода при помощи "
+"итераций и циклов!"
 
 #: 05.3-Conditionals.md:1
 msgid "5.3 Conditionals"
-msgstr ""
+msgstr "5.3 Условные выражения"
 
 #: 05.3-Conditionals.md:3
-#, fuzzy
 msgid "Conditionals"
-msgstr "Условные Выражения"
+msgstr "Условные выражения"
 
 #: 05.3-Conditionals.md:5
-#, fuzzy
 msgid ""
 "A common thing you'll likely find yourself wanting to do is to not only play a"
 " random note (see the previous section on randomness) but also make a random d"
@@ -4351,16 +4343,15 @@ msgid ""
 ", you might want to randomly play a drum or a cymbal. We can achieve this with"
 " an `if` statement."
 msgstr ""
-"Часто помимо игры произвольных нот (см. предыдущую главу), вы также будете хот"
-"еть принимать произвольные решения и выполнять либо одну, либо другую ветку ко"
-"да, в зависимости от результата. Например, вы можете решить случайным образом "
-"сыграть звук барабана или звук тарелки. Мы можем достичь этого при помощи выра"
-"жения `if`."
+"Часто, помимо игры произвольных нот (см. предыдущую главу), вы также будете "
+"хотеть принимать произвольные решения и выполнять либо одну, либо другую "
+"ветку кода, в зависимости от результата. Например, вы можете решить "
+"случайным образом сыграть звук барабана или звук тарелки. Мы можем достичь "
+"этого при помощи выражения `if`."
 
 #: 05.3-Conditionals.md:11
-#, fuzzy
 msgid "Flipping a Coin"
-msgstr "Подбрасывание Монетки"
+msgstr "Подбрасывание монетки"
 
 #: 05.3-Conditionals.md:13
 #, fuzzy
@@ -15391,7 +15382,6 @@ msgid "set_mixer_control! lpf_slide: 16, lpf: 30"
 msgstr "set_mixer_control! lpf_slide: 16, lpf: 30"
 
 #: A.15-performance.md:127
-#, fuzzy
 msgid "You can then slide quickly back to a high value with:"
 msgstr "Затем вы можете быстро перескочить обратно к высокому значению:"
 
@@ -15407,9 +15397,8 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:136
-#, fuzzy
 msgid "5. Practice"
-msgstr "Практика Использования Эффектов"
+msgstr "5. Практика"
 
 #: A.15-performance.md:138
 msgid ""
@@ -15442,14 +15431,12 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "Лайв-кодинг"
+msgstr "А. 16 Как практиковаться в лайв-кодинге"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "Лайв-кодинг"
+msgstr "8 Советов, которые помогут вам при лайв-кодинге"
 
 #: A.16-practice.md:5
 msgid ""
@@ -15483,7 +15470,7 @@ msgstr ""
 
 #: A.16-practice.md:27
 msgid "Learn to Touch Type"
-msgstr ""
+msgstr "Научитесь слепому набору"
 
 #: A.16-practice.md:29
 msgid ""
@@ -15508,7 +15495,7 @@ msgstr ""
 
 #: A.16-practice.md:46
 msgid "Code whilst standing"
-msgstr ""
+msgstr "Программируйте стоя"
 
 #: A.16-practice.md:48
 msgid ""
@@ -15535,8 +15522,9 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:68
+#, fuzzy
 msgid "Practice setting up"
-msgstr ""
+msgstr "Практикуйтесь в развёртке оборудования"
 
 #: A.16-practice.md:70
 msgid ""
@@ -15561,7 +15549,7 @@ msgstr ""
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
-msgstr ""
+msgstr "Проводите множество музыкальных экспериментов"
 
 #: A.16-practice.md:89
 msgid ""
@@ -15589,7 +15577,7 @@ msgstr ""
 
 #: A.16-practice.md:110
 msgid "Hear the Code"
-msgstr ""
+msgstr "Учитесь слышать код"
 
 #: A.16-practice.md:112
 msgid ""
