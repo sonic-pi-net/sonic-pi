@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-19 09:51+0000\n"
+"PO-Revision-Date: 2017-05-22 14:26+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.14\n"
+"X-Generator: Weblate 2.14.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -53,8 +53,8 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Sonic Piを改善するために、気づいたことや、アイデアでを持っていたら、是非、知らせてください。フィードバックはとても役立ちます。あなたのアイデアが次"
-"の重要な機能になるかもしれません！"
+"Sonic Piを改善するために、気づいたことや、アイデアを持っていたら、是非、知らせてください。フィードバックはとても役立ちます。あなたのアイデアが次の"
+"重要な機能になるかもしれません！"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -146,25 +146,25 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr "-バスドラムがまだ鳴っていることを確認します。"
+msgstr "バスドラムがまだ鳴っていることを確認します。"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "-`sleep`の値を、`0.5`から、`1`より大きい値に書き換えてみましょう。"
+msgstr "`sleep`の値を、`0.5`から、`1`のような、より大きい値に書き換えてみましょう。"
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr "-`Run`（再生）ボタンをもう一度押します。"
+msgstr "`Run`（再生）ボタンをもう一度押します。"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr "-ドラムの早さがどのように変わったかを確認してみましょう。"
+msgstr "ドラムの速さがどのように変わったかを確認してみましょう。"
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
-msgstr "-この瞬間を忘れないでください。これが、あなたが初めてSonic Piでライブコーディングをした瞬間です。そしてこれが最後にはならないはず…"
+msgstr "この瞬間を忘れないでください。これが、あなたが初めてSonic Piでライブコーディングをした瞬間です。そしてこれが最後にはならないはず…"
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -201,8 +201,8 @@ msgid ""
 msgstr ""
 "では、ちょっと遊んでみましょう。値を変えてみてください。大きな値、小さな値、もしくはマイナスの値にしたとき、何が起こるでしょうか？ "
 "では、`:ambi_choir`の`rate:`の値をほんの少し（0.29などに）変えた時、どうなるでしょう？ "
-"`sleep`の値をすごく小さくすると、どうでしょう？ 操作が速すぎると、エラーが出てコンピュータが止まってしまいます。これはコンピュータがついていけない"
-"からです（そんな時は、より大きい値を`sleep`に設定して`Run`ボタンをもう一度押しましょう）。"
+"`sleep`の値をすごく小さくすると、どうでしょう？ 速くしすぎると、エラーが出てコンピュータが止まってしまいます。これはコンピュータがついていけないか"
+"らです（そんな時は、より大きい値を`sleep`に設定して`Run`ボタンをもう一度押しましょう）。"
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -240,8 +240,8 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"最後に、楽しむための技をお伝えしましょう。以下のコードを、上の空欄のBufferにコピーします。そして、2つは同時にループ（繰り返し）します。まずは精一杯"
-"、体験して楽しみましょう！ いくつかを試してみましょう。"
+"最後に、遊んでみると面白いのことをみなさんにお伝えしましょう。下のほうにあるコードを空いたBufferにコピーします。次に、2つのループがある（つまり2つ"
+"のことが同時進行している）ということ以外は深く考えないようにして、遊びながら実験してみましょう。その際、以下のようなヒントがあります："
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
@@ -272,9 +272,9 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"`Run`ボタンを押し、次に繰り返しがどう変化したかに耳を傾けることを忘れないでください。うまくいかなくても気にしないでください。`Stop`ボタンを押し"
-"て、Buffer内のコードを削除して、新しいコードをコピー&ペーストして、再び演奏の準備をすれば良いです。失敗することがどんなことよりも学習の近道になるの"
-"ですから。"
+"`Run`ボタンを押すのを忘れないでください。次のループで音が変化するのを聞くことができるでしょう。うまくいかなくても気にしないでください。`Stop`ボ"
+"タンを押して、Buffer内のコードを削除して、新しいコードをコピー&ペーストして、再び演奏の準備をすれば良いです。失敗することがどんなことよりも学習の近"
+"道になるのですから。"
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -426,7 +426,7 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"ここでは音楽を作曲/演奏したりするためのコードを書く領域です。コードを書いたり、消したり、切り取り、貼り付けなどを行うためのシンプルな編集画面です。"
+"ここは音楽を作曲/演奏したりするためのコードを書く領域です。コードを書いたり、消したり、切り取り、貼り付けなどを行うためのシンプルな編集画面です。"
 "Google DocsやWordの基本版だと思ってください。編集画面ではコードの意味合いに応じて自動で色つけします。はじめは変わっていると思うかもしれませ"
 "んが、とても使いやすくなるはずです。例えば、数値は青色で示されます。"
 
@@ -458,8 +458,8 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"コードを走らせた時、ログ画面にはプログラムがどうなっているかについての情報が表示されます。デフォルトでは、正確な再生時間を毎音ごとにメッセージとして見るこ"
-"とができます。コードのデバッグ（欠陥を取り除く作業）に利用でき、コードが何をしているかを理解することにも役立ちます。"
+"コードを実行させた時、ログ画面にはプログラムがどうなっているかについての情報が表示されます。デフォルトでは、正確な再生時間を毎音ごとにメッセージとして見る"
+"ことができます。コードのデバッグ（欠陥を取り除く作業）に利用でき、コードが何をしているかを理解することにも役立ちます。"
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
@@ -535,11 +535,11 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
-"この章の間に、何年も音楽とライブコーディングを学んできた私から、ちょっとアドバイスを。「間違いはない、あるのはただ可能性だけ」これは、しばしばジャズについ"
-"て言われることですが、ライブコーディングにも同様に言えることです。経験に関係なく、あなたが全くの初心者でも、熟練のコーディング使いでも、作り出すコードがま"
-"ったく予期せぬ結果になることがあります。めちゃくちゃクールに聞こえる場合は、そのコードを実行すればいいのですが、しかし、すごく耳障りで場違いに聞こえる場合"
-"もあります。ですが、そうなっても問題ではありません。重要なのは、あなたが次にすべきことです。音を取り除き、それを操作し、素晴らしいものに変化させるのです。"
-"観衆は*熱狂*するでしょう。"
+"このチュートリアルの内容に取り組むにあたって、私が何年もライブコーディングしてきて得られたアドバイスを紹介しましょう。「間違いはない、あるのはただ可能性だ"
+"け」これは、しばしばジャズについて言われることですが、ライブコーディングにも同様に言えることです。経験に関係なく、あなたが全くの初心者でも、熟練のライブコ"
+"ーダーでも、コードを実行してまったく予期せぬ結果になることがあります。めちゃくちゃクールに聞こえる場合は、そのコードを実行すればいいのですが、すごく耳障り"
+"で場違いに聞こえる場合もあります。そうなっても問題ではありません。重要なのは、あなたが次にすべきことです。音を取り除き、それを操作し、素晴らしいものに変化"
+"させるのです。観衆は*熱狂*するでしょう。"
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -555,10 +555,10 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
-"学習していると、*今すぐ*すごいことをしたい気持ちに駆られます。しかし、今はその気持ちをこらえ、それは*後に*到達する遠い目標として持ってください。今のと"
-"ころは、あなたの頭の中にあるすごいことに向かう*価値ある小さな一歩*として、楽しくやりがいをもって書くという「最も単純な事」を考えていきましょう。一度、そ"
-"の誠実に学ぶイメージを持って、試し、それを構築し、そして再生していけば、斬新なアイデアを与えてくれるでしょう。すぐに、あなたは、楽しみながら、確実に上達を"
-"することに大忙しになっているでしょう。"
+"学習していると、*今すぐ*すごいことをしたい気持ちに駆られます。しかし、今はその気持ちをこらえ、それは*後に*到達する遠い目標として持ってください。その代"
+"わり、今のところは、あなたが楽しくやりがいをもって書くことができる*最も単純な*事を考えていきましょう。それが、あなたの頭の中のすごいことへの小さな一歩に"
+"なるのです。一度その単純な一歩についてアイデアを思いついたら、それを作って遊んでみてください。そして、そこからどのような新しいアイデアを得られるか見てみま"
+"しょう。すぐに、あなたは楽しみながら確実に上達することに大忙しになっているでしょう。"
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
@@ -666,7 +666,7 @@ msgstr ""
 "つまり、より低い値は低い音程（ピッチ）の音を、より高い値は高い音程（ピッチ）の音を鳴らします。ちょうどピアノのように、低い部分の鍵盤（左手側）が低い音階を"
 "演奏し、高い部分の鍵盤（右手側）が高い音階を奏でます。実は、数値は実際にピアノの鍵盤と関係しています。`play "
 "47`は、実はピアノの47番目の鍵盤を演奏することを意味しています。`play "
-"48`は一音上がる（右隣りの鍵盤）ということです。第4オクターブはCの60ということになります。続いて、`play 60`を鳴らしてみましょう。"
+"48`は一音上がる（右隣りの鍵盤）ということです。第4オクターブのCは、60ということになります。`play 60`を鳴らしてみましょう。"
 
 #: 02.1-Your-First-Beeps.md:42
 msgid ""
@@ -674,8 +674,8 @@ msgid ""
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"もし、これがあたなにとって何の意味かわからなくても*心配しない*でください。わたしも始めた時は同じでした。いま重要なことは、*低い数値は低い音*を、*高い"
-"数値は高い音*を生み出す、ということを知っておくことです。"
+"もし、これがあなたにとって何の意味か分からなくても*心配しない*でください。私も始めた時は同じでした。いま重要なことは、*低い数値は低い音*を、*高い数値"
+"は高い音*を生み出す、ということを知っておくことです。"
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
@@ -1243,7 +1243,7 @@ msgid ""
 " from. Here are a few of my favourites:"
 msgstr ""
 "演奏するためにSonic Piがどんなシンセを備えているかを見るには、左端のメニュー（エフェクトの上）にあるシンセオプションを見てください。20以上が用意"
-"されています。これらは、わたしのお気に入りの数種類です。"
+"されています。私のお気に入りを以下に紹介します："
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
@@ -1703,7 +1703,7 @@ msgid ""
 "anipulate your own. Let's get to it..."
 msgstr ""
 "Sonic Piは、サンプルで楽しいことがたくさんできるようになっています。130以上のパブリック・ドメイン（著作権がない）サンプルが、ジャム（即興演奏）"
-"するために同梱されているだけでなく、自分で操作して演奏することも可能にしてくれるのです。さっそくみていきましょう…"
+"するために同梱されているだけでなく、あなたが持っているサンプルを操作して演奏することも可能です。さっそく見てみましょう…"
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
@@ -1883,8 +1883,8 @@ msgid ""
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
-"サンプルで`pan:`のパラメータを使うこともできます。例えば、定番のドラムフレーズのアーメン・ブレイクを左耳で聞いた後に、半分は通過して再度右耳で聞く方"
-"法です。"
+"サンプルで`pan:`のパラメータを使うこともできます。例えば、次のコードは、定番のドラムフレーズのアーメン・ブレイクを左耳で再生し、半分まで来たところで"
+"再度右耳で再生する方法です。"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -1899,7 +1899,7 @@ msgstr ""
 
 #: 03.2-Sample-Params.md:30
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
-msgstr "0.877 は、`:loop_amen`サンプルの半分の再生時間であることに注意してください。"
+msgstr "0.877は、`:loop_amen`サンプルの半分の再生時間であることに注意してください。"
 
 #: 03.2-Sample-Params.md:33
 msgid ""
@@ -2198,7 +2198,7 @@ msgstr "アーメン・エンベロープ"
 
 #: 03.4-Enveloped-Samples.md:15
 msgid "Let's return to our trusty friend the Amen Break:"
-msgstr "わたしたちのお気に入りのフレーズ、アーメン・ブレイクに戻ります。"
+msgstr "では、我々にはすっかりお馴染みのフレーズ、アーメン・ブレイクに戻りましょう："
 
 #: 03.4-Enveloped-Samples.md:21
 msgid ""
@@ -3466,8 +3466,8 @@ msgid ""
 "uctures such as looping, conditionals, functions and threads give you amazingl"
 "y powerful tools to express your musical ideas."
 msgstr ""
-"それでは、プログラミングの基礎となるループや条件文、ファンクション（関数）やスレッドなどに進みましょう。音楽的のアイデアを実現させるをびっくりするほど強力"
-"なツールをになることでしょう。"
+"それでは、プログラミングの基礎となるループや条件文、ファンクション（関数）やスレッドなどに進みましょう。それらが、音楽的なアイデアを実現するための驚くほど"
+"強力なツールになることでしょう。"
 
 #: 05-Programming-Structures.md:14
 msgid "Let's get stuck in with the basics..."
@@ -13685,7 +13685,7 @@ msgid ""
 msgstr ""
 "今月のチュートリアルでは、Sonic Piを本物の楽器と同じように扱う方法を見ていきたいと思います。そのため、コードについて今までと全く異なる見方で考える"
 "必要があります。ライブコーダーはコードを、バイオリニストにとっての弓と同じように考えています。実際、バイオリニストが異なる音を作るのに様々な弓のテクニック"
-"を適用する（長くゆっくりとした動きと短く早い打弦）のとちょうど同じように、Sonic Piで可能な基本的なライブコーディングのテクニックを5つ見ていきます"
+"を適用する（長くゆっくりとした動きと短く速い打弦）のとちょうど同じように、Sonic Piで可能な基本的なライブコーディングのテクニックを5つ見ていきます"
 "。この記事の終わりまでに、あなたはライブコーディングのパフォーマンスの練習を始めることが出来ているでしょう。"
 
 #: A.15-performance.md:15
