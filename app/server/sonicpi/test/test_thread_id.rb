@@ -47,5 +47,24 @@ module SonicPi
       assert_equal ordered, orig.sort
     end
 
+    def test_equality
+      v1 = ThreadId.new(3, 5, 7)
+      v2 = ThreadId.new(3, 5, 7)
+      v3 = ThreadId.new(3, 5, 8)
+
+      assert_equal v1, v2
+      assert !(v1 == v3)
+    end
+
+    def test_serialization
+      v1 = ThreadId.new(3, 5, 7)
+      v1s = v1.serialize
+      assert_equal "::-::thread-id::-::3_5_7", v1s
+
+      v2 = ThreadId.new_from_serialized(v1s)
+
+      assert_equal v1, v2
+    end
+
   end
 end

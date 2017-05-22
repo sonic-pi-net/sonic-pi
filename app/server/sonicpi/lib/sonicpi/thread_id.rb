@@ -10,6 +10,7 @@
 # notice is included.
 #++
 
+
 module SonicPi
 
   class ThreadId
@@ -17,8 +18,16 @@ module SonicPi
 
     attr_reader :ids
 
+    def self.new_from_serialized(str)
+      _, name, vals = str.split('::-::')
+      raise "Unable to deserialize ThreadId: #{str}" unless name == "thread-id"
+      ids = vals.split('_').map{|v| v.to_i}
+      new(*ids)
+    end
+
     def initialize(*ids)
       @ids = ids.map { |i| i.to_i }.freeze
+      @serialized = "::-::thread-id::-::#{ids.join('_')}"
     end
 
     def <<(other)
@@ -55,6 +64,10 @@ module SonicPi
 
     def to_s
       "#<SonicPi::ThreadId #{@ids.inspect}>"
+    end
+
+    def serialize
+      @serialized
     end
 
     def inspect
