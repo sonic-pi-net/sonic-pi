@@ -171,10 +171,10 @@ module SonicPi
         sleep 0.01
         i = __current_thread_id
         time_warp 0.1 do
-          @osc_state.set current_time, 0, i, 0, 0, "/foo", [2, 4, 6]
+          @event_history.set current_time, 0, i, 0, 0, "/foo", [2, 4, 6]
         end
         time_warp 0.2 do
-          @osc_state.set current_time, 0, i, 0, 0, "/foo", [1, 2, 3]
+          @event_history.set current_time, 0, i, 0, 0, "/foo", [1, 2, 3]
         end
 
         assert_equal p1.get(1), [2, 4, 6]

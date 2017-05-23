@@ -11,7 +11,7 @@ module SonicPi
   end
 
   class MockLang
-    attr_accessor :mod_sound_studio, :sample_loader, :msg_queue
+    attr_accessor :mod_sound_studio, :sample_loader, :msg_queue, :event_history
     include SonicPi::RuntimeMethods
     include SonicPi::Lang::Core
     include SonicPi::Lang::Sound
@@ -25,7 +25,7 @@ module SonicPi
 
       @system_state = EventHistory.new
       @user_state = EventHistory.new
-      @osc_state = EventHistory.new
+      @event_history = EventHistory.new
       @system_init_thread_id = ThreadId.new(-1)
       @system_state.set 0, 0, @system_init_thread_id, 0, 0, :sched_ahead_time, 0.5
 
@@ -54,7 +54,7 @@ module SonicPi
 
     def run(&blk)
       t = Thread.new do
-
+        Thread.current.abort_on_exception = true
         id = 0
         silent = false
         info = {}.freeze
@@ -76,6 +76,7 @@ module SonicPi
         __set_default_user_thread_locals!
 
         t2 = in_thread do
+
           clear
           self.instance_eval(&blk)
         end
@@ -88,6 +89,7 @@ module SonicPi
     def __schedule_delayed_blocks_and_messages!(*args)
       # do nothing
     end
+
   end
 
 

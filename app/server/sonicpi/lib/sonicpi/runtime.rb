@@ -1056,7 +1056,7 @@ module SonicPi
       @log_cues_file = File.open(osc_cues_log_path, 'a')
       @system_state = EventHistory.new
       @user_state = EventHistory.new
-      @osc_state = EventHistory.new
+      @event_history = EventHistory.new
       @system_init_thread_id = ThreadId.new(-1)
       osc_cue_server_thread_id = ThreadId.new(-2)
       @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, :sched_ahead_time, default_sched_ahead_time
@@ -1068,7 +1068,7 @@ module SonicPi
         t = Time.now.freeze
         a = args.freeze
 
-        @osc_state.set(t, 0, thread_id, 0, 0, address.freeze, a)
+        @event_history.set(t, 0, thread_id, 0, 0, address.freeze, a)
         @cue_events.async_event("/spider_thread_sync/#{address}", {
                               :time => t,
                               :cue_splat_map_or_arr => a,

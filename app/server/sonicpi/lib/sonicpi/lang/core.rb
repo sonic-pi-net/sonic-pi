@@ -48,7 +48,7 @@ module SonicPi
         d = 0 # delta
         p = 0 # priority
 
-        @osc_state.set t, p, i, d, b, k, val
+        @event_history.set t, p, i, d, b, k, val
         val
       end
 
@@ -67,7 +67,7 @@ module SonicPi
         p = 0 # priority
         # TODO insert thread id and delta values here:
 
-        res = @osc_state.get(t, p, i, d, b, k)
+        res = @event_history.get(t, p, i, d, b, k)
         return res.val if res
         return default
       end
@@ -85,7 +85,7 @@ module SonicPi
         d = 0 # delta
         p = 0 # priority
 
-        se = @osc_state.sync(current_time, p, i, d, current_beat, k, arg_matcher)
+        se = @event_history.sync(current_time, p, i, d, current_beat, k, arg_matcher)
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight2_message "synced #{k.inspect}."
