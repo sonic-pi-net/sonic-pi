@@ -37,7 +37,9 @@ module SonicPi
   class EventMatcher
     include EventMatcherUtil
 
-    def initialize(path, val_matcher=nil)
+    attr_reader :prom, :thread_id
+
+    def initialize(path, val_matcher, thread_id, prom)
       path = String.new(path)
       path.strip!
       path[0] = '' if path.start_with?('/')
@@ -46,6 +48,17 @@ module SonicPi
       matcher_str = "\\A/?#{path}/?\\Z"
       @matcher = Regexp.new(matcher_str)
       @val_matcher = val_matcher
+      @alive = true
+      @prom = prom
+      @thread_id = thread_id
+    end
+
+    def kill
+      @alive = false
+    end
+
+    def dead?
+      !@alive
     end
 
     def match(path, val)
@@ -55,24 +68,32 @@ module SonicPi
 
 
   class EventMatchers
+    attr_reader :matchers
+
     def initialize
       @matchers = []
     end
 
-    def put(matcher_path, val_matcher, prom)
-      matcher = EventMatcher.new(matcher_path, val_matcher)
-      @matchers << [matcher, prom]
+    def put(matcher_path, val_matcher, thread_id, prom)
+      matcher = EventMatcher.new(matcher_path, val_matcher, thread_id, prom)
+      @matchers << matcher
+      return matcher
     end
 
     def match(path, val)
-      @matchers.delete_if do |matcher, prom|
+      @matchers.delete_if do |matcher|
         if matcher.match(path, val)
-          prom.deliver! true
-          true
+          matcher.prom.deliver! true
+          matched = true
         else
-          false
+          matched = false
         end
+        matcher.dead? || matched
       end
+    end
+
+    def prune(thread_id)
+      @matchers.delete_if { |m| m.dead? || m.thread_id == thread_id }
     end
   end
 
@@ -80,6 +101,8 @@ module SonicPi
 
   class EventHistory
     include EventMatcherUtil
+
+    attr_accessor :event_matchers
 
     def initialize
       @state = EventHistoryNode.new
@@ -129,12 +152,15 @@ module SonicPi
       wait_for_threads
       prom = nil
       ge = CueEvent.new(t, p, i, d, b, path, [], {})
+
       @get_mut.synchronize do
         @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
         res = get_w_no_mutex(ge, val_matcher, true)
         return res if res
+
+
         prom = Promise.new
-        matcher = @event_matchers.put ge.path, val_matcher, prom
+        matcher = @event_matchers.put ge.path, val_matcher, i, prom
         blk.call(matcher) if blk
       end
 
@@ -160,6 +186,12 @@ module SonicPi
     # Set time to time of last cue
     def sync_all(t, p, i, d, b, paths, val_matcher, timeout=nil)
 
+    end
+
+    def prune(thread_id)
+      @get_mut.synchronize do
+        @event_matchers.prune(thread_id)
+      end
     end
 
     private

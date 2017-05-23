@@ -19,7 +19,6 @@ require_relative "../lib/sonicpi/event_history"
 module SonicPi
   class CueEventTester < Minitest::Test
 
-
     def test_basic_set_get_w_sym
       history = EventHistory.new
       i = ThreadId.new(5)
@@ -327,7 +326,7 @@ module SonicPi
     end
 
     def test_event_matcher
-      m = EventMatcher.new("/foo/bar/baz")
+      m = EventMatcher.new("/foo/bar/baz", nil, ThreadId.new(5), Promise.new)
       assert  m.match("/foo/bar/baz", nil)
       assert  m.match("/foo/bar/baz/", nil)
       assert  m.match("foo/bar/baz", nil)
@@ -336,7 +335,7 @@ module SonicPi
 
 
     def test_event_matcher_star
-      m = EventMatcher.new("/foo*/*/*baz")
+      m = EventMatcher.new("/foo*/*/*baz", nil, ThreadId.new(5), Promise.new)
       assert  m.match("/foo/bar/baz", nil)
       assert  m.match("/foo/bar/baz/", nil)
       assert  m.match("foo/bar/baz", nil)
@@ -348,7 +347,7 @@ module SonicPi
     end
 
     def test_event_matcher_glob_star
-      m = EventMatcher.new("/foo/**/baz")
+      m = EventMatcher.new("/foo/**/baz", nil, ThreadId.new(5), Promise.new)
       assert  m.match("/foo/bar/baz", nil)
       assert  m.match("/foo/bar/baz/", nil)
       assert  m.match("/foo/bar/beans/quux/baz/", nil)
@@ -376,6 +375,29 @@ module SonicPi
         history.set(0, 0, i, 1, 0, n1, [:baz1], {})
       end
       assert_equal [:baz1], history.sync(0, 0, i, 0, 0, n1).val
+    end
+
+    def test_event_matcher_pruning
+      history = EventHistory.new
+      prom = Promise.new
+      i = ThreadId.new(5)
+      i2 = ThreadId.new(5, 1)
+
+      t = Thread.new do
+        history.sync 0, 0, i, 0, 0, "/foo/bar"
+      end
+
+      t2 = Thread.new do
+        history.sync 0, 0, i2, 0, 0, "/foo/bar/baz"
+      end
+      Kernel.sleep 0.1
+      assert_equal 2, history.event_matchers.matchers.size
+      history.event_matchers.prune(i)
+      assert_equal 1, history.event_matchers.matchers.size
+      history.event_matchers.prune(i2)
+      assert_equal 0, history.event_matchers.matchers.size
+      t.kill
+      t2.kill
     end
   end
 end

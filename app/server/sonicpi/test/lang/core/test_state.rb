@@ -183,5 +183,25 @@ module SonicPi
     end
 
 
+    def test_event_matcher_pruning
+      @lang.run do
+        assert_equal 0,  @event_history.event_matchers.matchers.size
+        t = in_thread do
+          sync "/foo/bar"
+        end
+
+        t2 = in_thread do
+          sync "/foo/bar"
+        end
+        Kernel.sleep 0.1
+        assert_equal 2,  @event_history.event_matchers.matchers.size
+        t.kill
+        Kernel.sleep 0.1
+        assert_equal 1,  @event_history.event_matchers.matchers.size
+        t2.kill
+        Kernel.sleep 0.1
+        assert_equal 0,  @event_history.event_matchers.matchers.size
+      end
+    end
   end
 end

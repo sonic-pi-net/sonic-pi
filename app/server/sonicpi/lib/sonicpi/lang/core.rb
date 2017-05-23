@@ -4123,122 +4123,130 @@ puts current_sched_ahead_time # Prints 0.5"]
         new_thread_id_path = thread_id_path << n_threads_spawned
 
         # Create the new thread
-        t = Thread.new do
-          # Copy thread locals across from parent thread to this new thread
-          __thread_locals_reset!(new_tls)
-          __system_thread_locals_reset!(new_system_tls)
-          __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
-          __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
-          __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, new_thread_id_path
-          main_t = Thread.current
-          main_t.priority = 10
+        t = nil
+        __no_kill_block do
 
-          Thread.new do
-            if name
-              __system_thread_locals.set_local(:sonic_pi_local_thread_group, "in_thread_join_#{name}".freeze)
-            else
-              __system_thread_locals.set_local(:sonic_pi_local_thread_group, :in_thread_join)
+
+          t = Thread.new do
+            # Copy thread locals across from parent thread to this new thread
+            __thread_locals_reset!(new_tls)
+            __system_thread_locals_reset!(new_system_tls)
+            __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
+            __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
+            __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, new_thread_id_path
+            main_t = Thread.current
+            main_t.priority = 10
+
+            # Thread GC - will wait for main thread to finish and then execute
+            Thread.new do
+              if name
+                __system_thread_locals.set_local(:sonic_pi_local_thread_group, "in_thread_join_#{name}".freeze)
+              else
+                __system_thread_locals.set_local(:sonic_pi_local_thread_group, :in_thread_join)
+              end
+              Thread.current.priority = -10
+
+              main_t.join
+
+              # remove any un-matched event matchers
+              @event_history.prune(new_thread_id_path)
+
+              # wait for all subthreads to finish before removing self from
+              # the parent subthread tree
+              __join_subthreads(main_t)
+
+              __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
+                __current_subthreads.delete(main_t)
+              end
             end
-            Thread.current.priority = -10
-            # wait for all subthreads to finish before removing self from
-            # the parent subthread tree
-            main_t.join
-            __join_subthreads(main_t)
 
-            __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-              __current_subthreads.delete(main_t)
-            end
-          end
+            __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
 
-          __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
-
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
-          __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
+            __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
+            __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
+            __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
 
 
-          # Reset subthreads thread local to the empty set. This shouldn't
-          # be inherited from the parent thread.
-          __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
+            # Reset subthreads thread local to the empty set. This shouldn't
+            # be inherited from the parent thread.
+            __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
 
-          # Give new thread a new subthread mutex
-          __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
+            # Give new thread a new subthread mutex
+            __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
 
-          # Give new thread a new no_kill mutex This reduces contention
-          # over the alternative of a global no_kill mutex.  Killing a Run
-          # then essentially turns into waiting for each no_kill mutext for
-          # every sub-in_thread before killing them.
-          __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
-
-
+            # Give new thread a new no_kill mutex This reduces contention
+            # over the alternative of a global no_kill mutex.  Killing a Run
+            # then essentially turns into waiting for each no_kill mutext for
+            # every sub-in_thread before killing them.
+            __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
 
-          # Wait for parent to deliver promise. Throws an exception if
-          # parent dies before the promise is delivered, thus stopping
-          # this thread from continually waiting for forgotten promises...
-          wait_for_parent_thread!(parent_t, reg_with_parent_completed)
+            # Wait for parent to deliver promise. Throws an exception if
+            # parent dies before the promise is delivered, thus stopping
+            # this thread from continually waiting for forgotten promises...
+            wait_for_parent_thread!(parent_t, reg_with_parent_completed)
 
-          # Attempt to associate the current thread with job with
-          # job_id. This will kill the current thread if job is no longer
-          # running.
-          job_subthread_add(job_id, Thread.current, name)
+            # Attempt to associate the current thread with job with
+            # job_id. This will kill the current thread if job is no longer
+            # running.
+            job_subthread_add(job_id, Thread.current, name)
 
-          # Actually run the thread code specified by the user!
-          begin
-            sleep delay if delay
-            sync sync_sym if sync_sym
-            sync_bpm sync_bpm_sym if sync_bpm_sym
-            block.call
-            # ensure delayed jobs and messages are honoured for this
-            # thread:
-            __schedule_delayed_blocks_and_messages!
-          rescue Stop => e
-            __schedule_delayed_blocks_and_messages!
-            if name
-              __info("Stopping thread #{name.inspect}")
-            else
-              __delayed_message("Stopped internal thread")
+            # Actually run the thread code specified by the user!
+            begin
+              sleep delay if delay
+              sync sync_sym if sync_sym
+              sync_bpm sync_bpm_sym if sync_bpm_sym
+              block.call
+              # ensure delayed jobs and messages are honoured for this
+              # thread:
               __schedule_delayed_blocks_and_messages!
-            end
-          rescue Exception => e
-            if name
-              __error e, "Thread death +--> #{name.inspect}"
+            rescue Stop => e
+              __schedule_delayed_blocks_and_messages!
+              if name
+                __info("Stopping thread #{name.inspect}")
+              else
+                __delayed_message("Stopped internal thread")
+                __schedule_delayed_blocks_and_messages!
+              end
+            rescue Exception => e
+              if name
+                __error e, "Thread death +--> #{name.inspect}"
+              else
+                __error e, "Thread death!"
+              end
+
+              # Wait for any trackers by blocking on all promises until
+              # All have been delivered
+              __current_tracker.get
+              __schedule_delayed_blocks_and_messages!
+              job_subthread_rm(job_id, Thread.current)
+              raise e
             else
-              __error e, "Thread death!"
+
+              # Wait for any trackers by blocking on all promises until
+              # All have been delivered
+              __current_tracker.get
+
+              # Disassociate thread with job as it has now finished
+              job_subthread_rm(job_id, Thread.current)
             end
-
-            # Wait for any trackers by blocking on all promises until
-            # All have been delivered
-            __current_tracker.get
-            __schedule_delayed_blocks_and_messages!
-            job_subthread_rm(job_id, Thread.current)
-
-            raise e
-          else
-
-            # Wait for any trackers by blocking on all promises until
-            # All have been delivered
-            __current_tracker.get
-
-            # Disassociate thread with job as it has now finished
-            job_subthread_rm(job_id, Thread.current)
           end
+
+          # Whilst we know that the new thread is waiting on the promise to
+          # be delivered, we can now add it to our list of subthreads. Using
+          # the promise means that we can be assured that killing this
+          # current thread won't create a zombie child thread as the child
+          # thread will only continue exiting after it has been sucessfully
+          # registered.
+
+          __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
+            subthreads = __system_thread_locals(parent_t).get :sonic_pi_local_spider_subthreads
+            subthreads.add(t)
+          end
+
+          # Allow the subthread to continue running
+          reg_with_parent_completed.deliver! true
         end
-
-        # Whilst we know that the new thread is waiting on the promise to
-        # be delivered, we can now add it to our list of subthreads. Using
-        # the promise means that we can be assured that killing this
-        # current thread won't create a zombie child thread as the child
-        # thread will only continue exiting after it has been sucessfully
-        # registered.
-
-        __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-          subthreads = __system_thread_locals(parent_t).get :sonic_pi_local_spider_subthreads
-          subthreads.add(t)
-        end
-
-        # Allow the subthread to continue running
-        reg_with_parent_completed.deliver! true
 
         # Return subthread
         t
