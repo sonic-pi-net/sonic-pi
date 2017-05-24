@@ -6202,13 +6202,13 @@ msgstr ""
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
 msgid ""
-"define :my_sound do\n"
+"define :my_loop do\n"
 "  play 50\n"
 "  sleep 1\n"
 "end\n"
 "in_thread(name: :looper) do\n"
 "  loop do\n"
-"    my_sound\n"
+"    my_loop\n"
 "  end\n"
 "end"
 msgstr ""
@@ -6224,7 +6224,7 @@ msgstr ""
 msgid ""
 "What we have here is a function definition which just plays note 50 and sleeps"
 " for a beat. We then define a named thread called `:looper` which just loops a"
-"round calling `my_sound` repeatedly."
+"round calling `my_loop` repeatedly."
 msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:39
@@ -6246,7 +6246,7 @@ msgstr ""
 msgid ""
 "It didn't add a new layer because we're using named threads which only allow o"
 "ne thread for each name. Also, the sound changed because we *redefined* the fu"
-"nction. We gave `:my_sound` a new definition. When the `:looper` thread looped "
+"nction. We gave `:my_loop` a new definition. When the `:looper` thread looped "
 "around it simply called the new definition."
 msgstr ""
 
@@ -6259,7 +6259,7 @@ msgstr ""
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
 msgid ""
-"define :my_sound do\n"
+"define :my_loop do\n"
 "  use_synth :tb303\n"
 "  play 50, release: 0.3\n"
 "  sleep 0.25\n"
@@ -6275,7 +6275,7 @@ msgstr ""
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
 msgid ""
-"define :my_sound do\n"
+"define :my_loop do\n"
 "  use_synth :tb303\n"
 "  play chord(:e3, :minor), release: 0.3\n"
 "  sleep 0.5\n"
@@ -6289,7 +6289,7 @@ msgstr ""
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
 msgid ""
-"define :my_sound do\n"
+"define :my_loop do\n"
 "  use_synth :tb303\n"
 "  play choose(chord(:e3, :minor)), release: 0.3\n"
 "  sleep 0.25\n"
@@ -6303,7 +6303,7 @@ msgstr ""
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
 msgid ""
-"define :my_sound do\n"
+"define :my_loop do\n"
 "  use_synth :tb303\n"
 "  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
 "  sleep 0.25\n"
@@ -6317,7 +6317,7 @@ msgstr ""
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
 msgid ""
-"define :my_sound do\n"
+"define :my_loop do\n"
 "  use_synth :tb303\n"
 "  sample :drum_bass_hard, rate: rrand(0.5, 2)\n"
 "  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
