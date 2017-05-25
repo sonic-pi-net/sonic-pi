@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-23 09:41+0000\n"
+"PO-Revision-Date: 2017-05-25 09:43+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.14.1-dev\n"
+"X-Generator: Weblate 2.14.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -847,7 +847,7 @@ msgstr "2.2 シンセのオプション"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr "シンセのオプション：AmpとPan"
+msgstr "シンセのオプション: ampとpan"
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -859,8 +859,8 @@ msgid ""
 "ally are."
 msgstr ""
 "Sonic Piは、演奏した音符や再生したサンプルを制御可能なだけでなく、音の作成や制御のための様々なオプションを提供しています。このチュートリアルではこ"
-"れらの多くを紹介する予定ですし、それぞれについての詳細なドキュメントがヘルプシステムにあります。ここでは、その中でも最も有用なものの2つ、*amplitu"
-"de（音量）*と*pan（パン）*を紹介します。では最初に、オプションが実際にどのようなものか見てみましょう。"
+"れらの多くを紹介していく予定です。また、ヘルプシステムにはそれぞれについての詳細なドキュメントがあります。ここでは、その中でも最も有用なものの2つ、*am"
+"plitude（音量）*と*pan（パン）*を紹介します。では最初に、オプションが実際にどのようなものか見てみましょう。"
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
@@ -989,7 +989,7 @@ msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
-msgstr "倍の音量で演奏するために、2 にしてみます。"
+msgstr "倍の音量で演奏するために、2にしてみます。"
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
@@ -1076,7 +1076,7 @@ msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
 msgid "Finally let's play it back out of the center of both (the default position):"
-msgstr "最後に元の通り、中心から鳴らしてみます（通常の位置です）。"
+msgstr "最後に元の通り、中心から鳴らしてみます（デフォルトの位置です）。"
 
 #: 02.2-Synth-Params.md:141
 #, no-wrap
@@ -1242,8 +1242,8 @@ msgid ""
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"演奏するためにSonic Piがどんなシンセを備えているかを見るには、左端のメニュー（エフェクトの上）にあるシンセオプションを見てください。20以上が用意"
-"されています。私のお気に入りを以下に紹介します："
+"Sonic Piにどのようなシンセがあるのか見るには、左端のメニュー（エフェクトの上）にあるシンセ・オプションを見てください。20以上が用意されています。"
+"私のお気に入りを以下に紹介します："
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
@@ -1288,8 +1288,8 @@ msgid ""
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
 msgstr ""
-"前半のセクションでは、音を演奏したい時にどのように`sleep`コマンドを使用するかを見てきました。ですが、わたしたちはまだ音のデュレーション（長さ）につ"
-"いて制御できていませんね。"
+"前のほうのセクションで、音をいつ再生するか制御するのに、どのように`sleep`コマンドを使用可能か見てきました。しかし、まだ我々は音のデュレーション（長"
+"さ）を制御できていないですね。"
 
 #: 02.4-Durations-with-Envelopes.md:9
 msgid ""
@@ -3143,8 +3143,8 @@ msgid ""
 "suring that the music you create on your machine sounds identical on everybody"
 " else's machine - even if you use some randomness in your composition."
 msgstr ""
-"この答えとなる擬似ランダムとは、真のランダムではないということです。Sonic Piは、再現可能なランダム風の数を用意しています。これは、あなたのマシンで"
-"作成した音楽が、たとえその中でいくつかランダム性を使用している場合でも、誰か他の人のマシンで同じように聞こえることを保証するのに大変便利な機能です。"
+"答えは、それが真のランダムではなく、擬似ランダムであるということです。Sonic Piは、再現可能なランダム風の数を用意しています。これは、あなたのマシン"
+"で作成した音楽が、たとえその中でいくつかランダム性を使用している場合でも、誰か他の人のマシンで同じように聞こえることを保証するのに大変便利な機能です。"
 
 #: 04-Randomisation.md:32
 msgid ""
