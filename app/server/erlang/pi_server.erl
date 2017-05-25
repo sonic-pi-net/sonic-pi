@@ -173,7 +173,12 @@ send_later(Tag, BundleTime, {_Tremote,_Tlocal}, Socket, Host, Port, Cmd) ->
     %% LocalAbsTime = Tlocal + RemoteDelay,
     RealDelay = BundleTime - osc:now(),
     MsDelay = trunc(RealDelay*1000+0.5), %% nearest
-    sleep(MsDelay),
+    if
+        MsDelay >= 0 ->
+            sleep(MsDelay);
+        true ->
+            io:format("Ignoring negative sleep: ~p~n", [MsDelay])
+    end,
     ok = gen_udp:send(Socket, Host, Port, Bin).
     %% io:format("Group (~p) Sending to ~p:~p => ~p~n",[Tag,Host, Port, Cmd]).
 
