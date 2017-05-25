@@ -1327,32 +1327,32 @@ end"
       end
 
       def __resolve_midi_velocity(vel, opts={})
-        if vel = opts[:velocity] || opts[:vel] || vel
+        if v = opts[:velocity] || opts[:vel] || vel
           return note(vel).round.min(0).max(127)
-        elsif vel = opts[:velocity_f] || opts[:vel_f]
-          return (vel.to_f * 127).round.min(0).max(127)
+        elsif v = opts[:velocity_f] || opts[:vel_f]
+          return (v.to_f * 127).round.min(0).max(127)
         else
           return 127
         end
       end
 
       def __resolve_midi_val(val, opts={})
-        if val = opts[:value] || opts[:val] || val
-          val = note(val).round.min(0).max(127)
-        elsif val = opts[:value_f] || opts[:val_f]
-          val = (val.to_f * 127).round.min(0).max(127)
+        if v = opts[:value] || opts[:val] || val
+          return note(v).round.min(0).max(127)
+        elsif v = opts[:value_f] || opts[:val_f]
+          return (v.to_f * 127).round.min(0).max(127)
         else
-          val = 127
+          return 127
         end
       end
 
       def __resolve_midi_deltas(delta, opts={})
-        if delta = opts[:delta_midi]
-          delta_midi = delta.round.min(0).max(16383)
+        if d = opts[:delta_midi]
+          delta_midi = d.round.min(0).max(16383)
           delta = delta_midi / 16383.0
-        elsif delta = opts[:delta] || opts[:val_f] || delta
-          delta = delta.to_f.min(0).max(1)
-          delta_midi = (delta * 16383).round
+        elsif d = opts[:delta] || opts[:val_f] || delta
+          delta = d.to_f.min(0).max(1)
+          delta_midi = (d * 16383).round
         else
           delta = 0.5
           delta_midi = 8192
