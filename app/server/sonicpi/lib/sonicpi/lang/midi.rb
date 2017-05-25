@@ -526,7 +526,7 @@ You may also optionally pass the control value as a floating point value between
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/pitch_bend", p, c, [delta])
+              __midi_send_timed_pc("/pitch_bend", p, c, [delta_midi])
             end
           end
           __midi_message "midi_pitch_bend #{delta}, delta_midi: #{delta_midi}, port: #{port}, channel: #{chan}"
