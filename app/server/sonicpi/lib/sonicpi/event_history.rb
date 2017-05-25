@@ -158,21 +158,25 @@ module SonicPi
         res = get_w_no_mutex(ge, val_matcher, true)
         return res if res
 
-
         prom = Promise.new
         matcher = @event_matchers.put ge.path, val_matcher, i, prom
+
+        # TODO: look into why this is needed
         blk.call(matcher) if blk
       end
-
       prom.get
-
       # have to do a get_next again in case
       # an event with an earlier timestamp arrived
       # after this one
-      res = get_next(t, p, i, d, b, path, val_matcher)
-      raise "sync error - couldn't find result for #{[t, i, p, d, b, path]}" unless res
-      return res
-      #TODO:  set thread locals
+
+      @get_mut.synchronize do
+        @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
+        res = get_w_no_mutex(ge, val_matcher, true)
+        if res
+          return res
+        end
+        raise "sync error - couldn't find result for #{[t.to_f, i, p, d, b, path]}"
+      end
     end
 
     # Wait for the first out of the list of cues to arrive
@@ -348,7 +352,9 @@ module SonicPi
     end
 
     def wait_for_threads
-
+      # TODO: DON'T SLEEP! sync on all threads
+      # checking their last write promise times
+      Kernel.sleep 0.001
     end
 
     def matching_ancestors(partial, n, res=[])
