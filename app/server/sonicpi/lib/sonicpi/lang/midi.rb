@@ -1328,7 +1328,7 @@ end"
 
       def __resolve_midi_velocity(vel, opts={})
         if v = opts[:velocity] || opts[:vel] || vel
-          return note(vel).round.min(0).max(127)
+          return note(v).round.min(0).max(127)
         elsif v = opts[:velocity_f] || opts[:vel_f]
           return (v.to_f * 127).round.min(0).max(127)
         else
