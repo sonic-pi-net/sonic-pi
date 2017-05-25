@@ -37,7 +37,7 @@ module SonicPi
         "7sus2"       => [0, 2, 7, 10],
         "7sus4"       => [0, 5, 7, 10],
         "7-5"         => [0, 4, 6, 10],
-        "m7-5"        => [0, 3, 6, 10],
+        "halfdiminished" => [0, 3, 6, 10],
         "7+5"         => [0, 4, 8, 10],
         "m7+5"        => [0, 3, 8, 10],
         "9"           => [0, 4, 7, 10, 14],
@@ -72,8 +72,10 @@ module SonicPi
         "madd11"      => [0, 3, 7, 17],
         "madd13"      => [0, 3, 7, 21],
         "major"       => major,
+        "maj"         => major,
         "M"           => major,
         "minor"       => minor,
+        "min"         => minor,
         "m"           => minor,
         "major7"      => major7,
         "dom7"        => dom7,
@@ -88,7 +90,10 @@ module SonicPi
         "i"           => dim,
         "diminished7" => dim7,
         "dim7"        => dim7,
-        "i7"          => dim7}}.call
+        "i7"          => dim7,
+        "halfdim"     => halfdiminished,
+        "m7b5"        => halfdiminished,
+        "m7-5"        => halfdiminished}}.call
 
     attr_reader :name, :tonic, :notes, :num_octaves
 
