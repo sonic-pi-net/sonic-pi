@@ -41,12 +41,26 @@ module SonicPi
 
     def initialize(path, val_matcher, thread_id, prom)
       path = String.new(path)
+
+      # get rid of white space
       path.strip!
+
+      # remove initial / if present
       path[0] = '' if path.start_with?('/')
+
+      # replace glob-style ** with regexp .*
       path.gsub!(/\/\s*\*\*\s*\//, '/.*/')
+
+      # replace ** at end of string (sans /) with .*
+      path.gsub!(/\/\s*\*\*\s*\Z/, '/.*')
+
+      # handle standard *foo, bar* and baz*boz
       path.gsub!(/(?<!\.)\*/, '[^/]*')
+
+      # convert to a regexp
       matcher_str = "\\A/?#{path}/?\\Z"
       @matcher = Regexp.new(matcher_str)
+
       @val_matcher = val_matcher
       @alive = true
       @prom = prom

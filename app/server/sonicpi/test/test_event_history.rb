@@ -19,6 +19,18 @@ require_relative "../lib/sonicpi/event_history"
 module SonicPi
   class CueEventTester < Minitest::Test
 
+    def test_get_and_set_w_diff_thread_ids
+      history = EventHistory.new
+      i1 = ThreadId.new(18, 0, 0)
+      i2 = ThreadId.new(18, 0, 1)
+      t = 1495752780.305016
+
+      history.set(t, 0, i1, 0, 0, "/cue/bar", [:hello], {})
+      v = history.get(t, 0, i2, 0, 0, "/cue/bar")
+      assert_equal [:hello], v.val
+
+    end
+
     def test_basic_set_get_w_sym
       history = EventHistory.new
       i = ThreadId.new(5)
@@ -309,6 +321,7 @@ module SonicPi
 
       assert_equal [:baz3],    history.get_next(3, 0, i, 3, 0, "/**/bar/*").val
       assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, "/foo/bar/**/").val
+      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, "/foo/bar/**").val
     end
 
 
@@ -358,6 +371,18 @@ module SonicPi
       assert_nil m.match("/foo/bar/bazz", nil)
     end
 
+    def test_event_matcher_glob_star_at_end
+      m = EventMatcher.new("/foo/**", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/foo/bar/baz", nil)
+      assert  m.match("/foo/bar/baz/", nil)
+      assert  m.match("/foo/bar/beans/quux/baz/", nil)
+      assert  m.match("foo/bar/baz", nil)
+      assert  m.match("/foo/bar/beans/quux/bazz/", nil)
+      assert_nil  m.match("foo333//bar/eggsbaz", nil)
+      assert_nil  m.match("foo333/beans/bar/eggsbaz", nil)
+      assert m.match("/foo/bar/bazz", nil)
+    end
+
     def test_sync_with_existing_event
       history = EventHistory.new
       i = ThreadId.new(5)
@@ -375,6 +400,35 @@ module SonicPi
         history.set(0, 0, i, 1, 0, n1, [:baz1], {})
       end
       assert_equal [:baz1], history.sync(0, 0, i, 0, 0, n1).val
+    end
+
+    def test_sync_w_matchers
+      history = EventHistory.new
+      i = ThreadId.new(5)
+      n1 = "/foo/bar/baz"
+      Thread.new do
+        Kernel.sleep 0.01
+        history.set(0, 0, i, 1, 0, n1, [:baz1], {})
+      end
+      assert_equal [:baz1], history.sync(0, 0, i, 0, 0, "/foo/**").val
+    end
+
+
+    def test_simultaneous_sync_set
+      50.times do |i|
+        history = EventHistory.new
+        i = ThreadId.new(5)
+        n1 = "/foo/bar/baz"
+        t1 = Thread.new do
+          history.set(0, 0, i, 1, 0, n1, [:baz1], {})
+        end
+        t2 = Thread.new do
+          assert_equal [:baz1], history.sync(0, 0, i, 0, 0, n1).val
+        end
+
+        t1.join
+        t2.join
+      end
     end
 
     def test_event_matcher_pruning
