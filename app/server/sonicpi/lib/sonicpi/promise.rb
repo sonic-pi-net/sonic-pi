@@ -53,6 +53,10 @@ module SonicPi
       end
     end
 
+    def delivered?
+      @delivered
+    end
+
     def to_s
       "<Promise delivered: #{@delivered}>"
     end
