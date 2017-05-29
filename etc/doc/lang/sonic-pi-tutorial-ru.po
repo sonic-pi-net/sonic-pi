@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-22 19:00+0000\n"
+"PO-Revision-Date: 2017-05-29 18:40+0000\n"
 "Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.14.1-dev\n"
+"X-Generator: Weblate 2.14.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -14946,6 +14946,11 @@ msgid ""
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
 msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
 msgid ""
@@ -14965,6 +14970,10 @@ msgid ""
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:49
 msgid ""
@@ -14976,11 +14985,12 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "Длительность"
+msgstr ""
+"![Длительность фазы](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -14990,8 +15000,9 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:64
+#, fuzzy
 msgid "Control Waves"
-msgstr ""
+msgstr "Контроль волн"
 
 #: A.14-amplitude-modulation.md:66
 msgid ""
@@ -15013,6 +15024,10 @@ msgid ""
 "  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.5, wave: 3 do\n"
+"  synth :dsaw, note: :e3, release: 8, cutoff: 120\n"
+"  synth :dsaw, note: :e2, release: 8, cutoff: 100\n"
+"end"
 
 #: A.14-amplitude-modulation.md:83
 msgid ""
@@ -15034,15 +15049,17 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "Длительность"
+msgstr ""
+"![Длительность фаз](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
+#, fuzzy
 msgid "Setting your levels"
-msgstr ""
+msgstr "Устанавливаем собственные уровни"
 
 #: A.14-amplitude-modulation.md:102
 msgid ""
@@ -15059,6 +15076,9 @@ msgid ""
 "  synth :saw, release: 8\n"
 "end"
 msgstr ""
+"with_fx :slicer, amp_min: 0.25, amp_max: 0.75, wave: 3, phase: 0.25 do\n"
+"  synth :saw, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:113
 msgid ""
@@ -15068,7 +15088,7 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
-msgstr ""
+msgstr "Вероятности"
 
 #: A.14-amplitude-modulation.md:119
 msgid ""
@@ -15087,6 +15107,11 @@ msgid ""
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:133
 msgid ""
@@ -15122,11 +15147,15 @@ msgid ""
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:158
-#, fuzzy
 msgid "Slicing Beats"
-msgstr "Нарезка"
+msgstr "\"Нарезаем\" биты"
 
 #: A.14-amplitude-modulation.md:160
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
@@ -15139,6 +15168,9 @@ msgid ""
 "  sample :loop_mika\n"
 "end"
 msgstr ""
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_mika\n"
+"end"
 
 #: A.14-amplitude-modulation.md:169
 msgid ""
@@ -15150,9 +15182,8 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:176
-#, fuzzy
 msgid "Changing tempo"
-msgstr "Изменяем Это"
+msgstr "Изменяем темп"
 
 #: A.14-amplitude-modulation.md:178
 msgid ""
@@ -15165,13 +15196,16 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_sample_bpm :loop_amen\n"
 "with_fx :slicer, phase: 0.125 do\n"
 "  sample :loop_amen\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"use_sample_bpm :loop_amen\n"
+"with_fx :slicer, phase: 0.125 do\n"
+"  sample :loop_amen\n"
+"end"
 
 #: A.14-amplitude-modulation.md:194
 msgid ""
@@ -15182,7 +15216,6 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :dark_mist do\n"
 "  co = (line 70, 130, steps: 8).tick\n"
@@ -15201,17 +15234,32 @@ msgid ""
 "  end\n"
 "  sleep 16\n"
 "end"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr ""
+"live_loop :dark_mist do\n"
+"  co = (line 70, 130, steps: 8).tick\n"
+"  with_fx :slicer, probability: 0.7, prob_pos: 1 do\n"
+"    synth :prophet, note: :e1, release: 8, cutoff: co\n"
+"  end\n"
+"  \n"
+"  with_fx :slicer, phase: [0.125, 0.25].choose do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :crashing_waves do\n"
+"  with_fx :slicer, wave: 0, phase: 0.25 do\n"
+"    sample :loop_mika, rate: 0.5\n"
+"  end\n"
+"  sleep 16\n"
+"end"
 
 #: A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "Лайв-кодинг"
+msgstr "A.15 Пять техник лайв-кодинга"
 
 #: A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "Лайв-кодинг"
+msgstr "Пять техник лайв-кодинга"
 
 #: A.15-performance.md:5
 msgid ""
@@ -15492,6 +15540,10 @@ msgid ""
 "ven games which can help you achieve this. Find one you like the look of and s"
 "tick at it until you can code without looking down."
 msgstr ""
+"Практический совет #2 - тренируйтесь слепой печати. Есть множество "
+"приложений, вебсайтов и даже игр, которые могут помочь вам в этом деле. "
+"Найдите то, которое вам нравится и поупражняйтесь в нём, пока у вас не "
+"получится набирать текст не глядя."
 
 #: A.16-practice.md:46
 msgid "Code whilst standing"
@@ -15522,7 +15574,6 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:68
-#, fuzzy
 msgid "Practice setting up"
 msgstr "Практикуйтесь в развёртке оборудования"
 
