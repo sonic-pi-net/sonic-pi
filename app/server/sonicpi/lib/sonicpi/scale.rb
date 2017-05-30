@@ -119,8 +119,7 @@ module SonicPi
            iraq:               [1.5, 2, 1.5, 1.5, 2, 2, 1.5],
            bastanikar:         [1.5, 2, 1.5, 1.5, 1, 3, 1],
            mustaar:            [2.5, 1, 2, 1, 2, 2, 1.5],
-           jiharkah:           [2, 2, 1, 2, 2, 1.5, 1.5],
-           shawq_afza:         [2, 2, 1, 2, 1, 3, 1]}}.call
+           jiharkah:           [2, 2, 1, 2, 2, 1.5, 1.5]}}.call
 
     # Zero indexed for CS compatibility
     DEGREES = {:i    => 0,
