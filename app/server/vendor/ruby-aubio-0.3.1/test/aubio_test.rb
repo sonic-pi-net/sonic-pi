@@ -2,6 +2,7 @@ require 'test_helper'
 
 class AubioTest < Minitest::Test
   def setup
+    @not_audio_file_path = File.expand_path("../sounds/not_an_audio_file.txt", __FILE__)
     @loop_amen_path = File.expand_path("../sounds/loop_amen.wav", __FILE__)
     @loop_amen_full_path = File.expand_path("../sounds/loop_amen_full.wav", __FILE__)
     @french_house_path = File.expand_path("../sounds/french_house_thing.wav", __FILE__)
@@ -20,7 +21,7 @@ class AubioTest < Minitest::Test
 
   def test_it_checks_file_is_readable_audio
     assert_raises Aubio::InvalidAudioInput do
-      Aubio.open("/Users/xriley/Projects/aubio/Gemfile")
+      Aubio.open(@not_audio_file_path)
     end
   end
 
@@ -50,19 +51,24 @@ class AubioTest < Minitest::Test
   end
 
   def test_it_calculates_pitches
-    result = Aubio.open(@bobby_mcferrin_path).pitches.to_a
+    result = Aubio.open(@bobby_mcferrin_path, pitch_method: 'yinfft', confidence_thresh: 0.9).pitches.to_a
     assert_equal [
-      {:pitch=>50.614505767822266, :confidence=>0.9164013862609863, :start=>0, :end=>0}
+      {:pitch=>69.69815826416016, :confidence=>0.9001411199569702, :start=>0, :end=>0}
     ], result.first(1)
   end
 
   def test_it_calculates_beats
-    result = Aubio.open(@loop_amen_full_path).beats.to_a
+    result = Aubio.open(@loop_amen_full_path).beats
     assert_equal [
-      {:confidence=>0.0, :s=>1.5100454092025757, :ms=>1510.04541015625, :start=>0, :end=>0}
+      {:confidence=>1, :s=>0.0, :ms=>0.0, :sample_no=>0, :total_samples=>302400.0, :rel_start=>0.0, :rel_end=>0.2202149470899471}
     ], result.first(1)
 
     assert_equal 13, result.length
+  end
+
+  def test_it_filters_beats_based_on_minimum_interval
+    result = Aubio.open(@loop_amen_full_path, minioi: 0.5).beats
+    assert_equal 8, result.length
   end
 
   def test_it_calculates_bpm
