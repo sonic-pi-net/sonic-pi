@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-06 21:37+0000\n"
+"PO-Revision-Date: 2017-05-31 00:27+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.14-dev\n"
+"X-Generator: Weblate 2.14.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -9210,17 +9210,14 @@ msgstr ""
 "d'interpréter de la musique."
 
 #: 10.4-Performing.md:9
-#, fuzzy
 msgid "We call this *Live Coding*."
-msgstr "Nous appelons ceci *codage en \"live\"*."
+msgstr "Nous appelons ceci *codage en direct*."
 
 #: 10.4-Performing.md:11
-#, fuzzy
 msgid "Show Your Screen"
 msgstr "Montrez votre écran"
 
 #: 10.4-Performing.md:13
-#, fuzzy
 msgid ""
 "When you live code I recommend you *show your screen* to your audience. Otherw"
 "ise it's like playing a guitar but hiding your fingers and the strings. When I"
@@ -9228,72 +9225,65 @@ msgid ""
 "g room wall. You could use your TV or one of your school/work projectors to gi"
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
-"Quand vous codez en \"live\", je vous recommande de *montrer votre écran* à votr"
-"e auditoire. Autrement, c'est comme jouer de la guitare, mais en cachant vos d"
-"oigts et les cordes. Quand je pratique à la maison, j'utilise un Raspberry Pi "
-"et un mini projecteur sur le mur de mon salon. Vous pouvez utiliser votre TV o"
-"u une de vos lampes de bureau pour faire un \"show\". Essayez-le, c'est beaucoup"
-" de plaisir."
+"Quand vous codez en direct, je vous recommande de *montrer votre écran* à "
+"votre auditoire. Autrement, c'est comme jouer de la guitare, mais en cachant "
+"vos doigts et les cordes. Quand je pratique à la maison, j'utilise un "
+"Raspberry Pi et un mini projecteur sur le mur de mon salon. Vous pouvez "
+"utiliser votre TV ou l'un de vos projecteurs d'école/travail pour faire un "
+"spectacle. Essayez-le, c'est beaucoup de plaisir."
 
 #: 10.4-Performing.md:20
-#, fuzzy
 msgid "Form a Band"
-msgstr "Formez un orchestre"
+msgstr "Formez un groupe"
 
 #: 10.4-Performing.md:22
-#, fuzzy
 msgid ""
 "Don't just play on your own - form a live coding band! It's a lot of fun jammi"
 "ng with others. One person could do beats, another ambient background, etc. Se"
 "e what interesting combinations of sounds you can have together."
 msgstr ""
-"Ne jouez pas juste pour vous seul - formez un orchestre de codage en \"live\". C"
-"'est beaucoup de plaisir que d'improviser avec d'autres. Une personne pourrait"
-" faire la rythmique, une autre faire le fond ambiant, etc. Recherchez les comb"
-"inaisons de sons que vous pouvez avoir ensemble."
+"Ne jouez pas juste vous seul - formez un groupe de codage en direct. C'est "
+"beaucoup de plaisir que d'improviser avec d'autres. Une personne pourrait "
+"faire la rythmique, une autre faire le fond ambiant, etc. Recherchez les "
+"combinaisons de sons intéressantes que vous pouvez avoir ensemble."
 
 #: 10.4-Performing.md:27
-#, fuzzy
 msgid "TOPLAP"
 msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
-#, fuzzy
 msgid ""
 "Live coding isn't completely new - a small number of people have been doing it"
 " for a few years now, typically using bespoke systems they've built for themse"
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
-"Le codage en \"live\" n'est pas totalement nouveau - un petit nombre de personne"
-"s l'on pratiqué maintenant depuis quelques années, typiquement en utilisant de"
-"s systèmes sur mesure qu'ils avaient élaborés eux-mêmes. Un super site à visit"
-"er pour trouver plus d'informations sur les codeurs en \"live\" et leurs système"
-"s est [TOPLAP](http://toplap.org)."
+"Le codage en direct n'est pas totalement nouveau - un petit nombre de "
+"personnes le font maintenant depuis quelques années, typiquement en "
+"utilisant des systèmes sur mesure qu'ils avaient élaborés eux-mêmes. Un "
+"super site à visiter pour trouver plus d'informations sur les autres codeurs "
+"en direct et leurs systèmes est [TOPLAP](http://toplap.org)."
 
 #: 10.4-Performing.md:34
-#, fuzzy
 msgid "Algorave"
 msgstr "Algorave"
 
 #: 10.4-Performing.md:36
-#, fuzzy
 msgid ""
 "Another great resource for exploring the live coding world is [Algorave](http:"
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
 msgstr ""
-"Une autre super ressource pour explorer le monde du codage en \"live\" est [Algo"
-"rave](http://algorave.com). Vous trouverez là tout sur une branche spécifique "
-"du codage en \"live\" pour faire de la musique dans les boîtes de nuit."
+"Une autre bonne ressource pour explorer le monde du codage en direct est "
+"[Algorave](http://algorave.com). Vous trouverez là tout sur une branche "
+"spécifique du codage en direct pour faire de la musique dans les boîtes de "
+"nuit."
 
 #: 11-Minecraft-Pi.md:1
-#, fuzzy
 msgid "11 Minecraft Pi"
 msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
-#, fuzzy
 msgid "Minecraft Pi"
 msgstr "Minecraft Pi"
 
