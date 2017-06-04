@@ -40,6 +40,54 @@ module SonicPi
 
       THREAD_RAND_SEED_MAX = 10e20
 
+      def __cue_path_segment(s)
+        s = String.new(s.to_s)
+        s.gsub!(/[ \s#*,?\/\[\]{}]/, '_')
+        s.downcase!
+        s.freeze
+      end
+
+      def __cue_path(s)
+        if s.is_a?(Symbol)
+          return "/cue/#{__cue_path_segment(s)}".downcase.freeze
+        end
+
+        s = s.to_s
+
+        if s.start_with?('/')
+          s = String.new("#{s}")
+        else
+          s = String.new("/cue/#{s}")
+        end
+
+        # convert all characters not allowed in
+        # OSC path seg to underscores
+        s.gsub!(/[ \s#*,?\[\]{}]/, '_')
+        s.downcase!
+        s.freeze
+        s
+      end
+
+      def __sync_path(s)
+        if s.is_a?(Symbol)
+          return "/cue/#{__cue_path_segment(s)}".downcase.freeze
+        end
+
+        s = s.to_s
+
+        if s.start_with?('/')
+          s = String.new("#{s}")
+        else
+          s = String.new("/cue/#{s}")
+        end
+
+        # convert all characters not allowed in
+        # OSC path seg to underscores
+        s.downcase!
+        s.freeze
+        s
+      end
+
       def set(k, val)
         raise NotImmutableError, "Error setting state - value must be immutable. Got: #{val.inspect} for #{k.inspect}" unless val.sp_thread_safe?
         t = __system_thread_locals.get(:sonic_pi_spider_time)
