@@ -160,7 +160,7 @@ module SonicPi
     # Get the next version (after the current time)
     # Set time to time of cue
 
-    def sync(t, p, i, d, b, path, val_matcher=nil,timeout=nil, &blk)
+    def sync(t, p, i, d, b, path, val_matcher=nil, &blk)
       wait_for_threads
       prom = nil
       ge = CueEvent.new(t, p, i, d, b, path, [], {})
