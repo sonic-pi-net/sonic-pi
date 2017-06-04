@@ -279,6 +279,44 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     scsynth_send_port = 4556;
   }
 
+  QProcess* determineErlangRouterPortNumber = new QProcess();
+  QStringList erlang_router_args;
+  erlang_router_args << port_discovery_path << "erlang-router";
+
+  determineErlangRouterPortNumber->start(ruby_path, erlang_router_args);
+  determineErlangRouterPortNumber->waitForFinished();
+  erlang_router_port = determineErlangRouterPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (erlang_router_port == 0) {
+    std::cout << "[GUI] - unable to determine Erlang router port. Defaulting to 4560:" << std::endl;
+    erlang_router_port = 4560;
+  }
+
+
+  QProcess* determineOscMidiOutPortNumber = new QProcess();
+  QStringList osc_midi_out_args;
+  osc_midi_out_args << port_discovery_path << "osc-midi-out";
+
+  determineOscMidiOutPortNumber->start(ruby_path, osc_midi_out_args);
+  determineOscMidiOutPortNumber->waitForFinished();
+  osc_midi_out_port = determineOscMidiOutPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (osc_midi_out_port == 0) {
+    std::cout << "[GUI] - unable to determine OSC MIDI out port. Defaulting to 4561:" << std::endl;
+    osc_midi_out_port = 4561;
+  }
+
+
+  QProcess* determineOscMidiInPortNumber = new QProcess();
+  QStringList osc_midi_in_args;
+  osc_midi_in_args << port_discovery_path << "osc-midi-in";
+
+  determineOscMidiInPortNumber->start(ruby_path, osc_midi_in_args);
+  determineOscMidiInPortNumber->waitForFinished();
+  osc_midi_in_port = determineOscMidiInPortNumber->readAllStandardOutput().trimmed().toInt();
+  if (osc_midi_in_port == 0) {
+    std::cout << "[GUI] - unable to determine OSC MIDI in port. Defaulting to 4562:" << std::endl;
+    osc_midi_in_port = 4562;
+  }
+
   printAsciiArtLogo();
 
   // Clear out old tasks from previous sessions if they still exist
@@ -301,6 +339,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   std::cout << "[GUI] - Server OSC out port " << server_send_to_gui_port << std::endl;
   std::cout << "[GUI] - GUI OSC out port " << gui_send_to_server_port<< std::endl;
   std::cout << "[GUI] - Scsynth send port " << scsynth_send_port << std::endl;
+  std::cout << "[GUI] - Erlang router port " << erlang_router_port << std::endl;
+  checkPort(erlang_router_port);
+  std::cout << "[GUI] - OSC MIDI out port " << osc_midi_out_port << std::endl;
+  checkPort(osc_midi_out_port);
+  std::cout << "[GUI] - OSC MIDI in port " << osc_midi_in_port << std::endl;
+  checkPort(osc_midi_in_port);
   std::cout << "[GUI] - Init script completed" << std::endl;
 
   setupTheme();
@@ -959,7 +1003,7 @@ void MainWindow::startRubyServer(){
   }
 
 
-  args << QString("%1").arg(server_listen_to_gui_port) << QString("%1").arg(server_send_to_gui_port) <<  QString("%1").arg(scsynth_port) <<  QString("%1").arg(scsynth_send_port) <<  QString("%1").arg(server_osc_cues_port);
+  args << QString("%1").arg(server_listen_to_gui_port) << QString("%1").arg(server_send_to_gui_port) <<  QString("%1").arg(scsynth_port) <<  QString("%1").arg(scsynth_send_port) <<  QString("%1").arg(server_osc_cues_port) << QString("%1").arg(erlang_router_port) << QString("%1").arg(osc_midi_out_port) << QString("%1").arg(osc_midi_in_port);
   std::cout << "[GUI] - launching Sonic Pi Server:" << std::endl;
   if(homeDirWritable) {
     serverProcess->setStandardErrorFile(server_error_log_path);

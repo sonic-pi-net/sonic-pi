@@ -51,7 +51,8 @@ scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
 scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
 osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
 erlang_port = ARGV[6] ? ARGV[6].to_i : 4560
-osc_midi_port = ARGV[7] ? ARGV[6].to_i : 4561
+osc_midi_out_port = ARGV[7] ? ARGV[7].to_i : 4561
+osc_midi_in_port = ARGV[8] ? ARGV[8].to_i : 4562
 
 check_port = lambda do |port, gui|
   begin
@@ -97,6 +98,10 @@ STDOUT.puts "OSC cues port: #{osc_cues_port}"
 check_port.call(osc_cues_port, gui)
 STDOUT.puts "Erlang port: #{erlang_port}"
 check_port.call(erlang_port, gui)
+STDOUT.puts "OSC MIDI out port: #{osc_midi_out_port}"
+check_port.call(osc_midi_out_port, gui)
+STDOUT.puts "OSC MIDI in port: #{osc_midi_in_port}"
+check_port.call(osc_midi_in_port, gui)
 
 STDOUT.flush
 
@@ -105,12 +110,12 @@ sonic_pi_ports = {
   scsynth_port: scsynth_port,
   scsynth_send_port: scsynth_send_port,
   osc_cues_port: osc_cues_port,
-  osc_midi_port: osc_midi_port,
-  erlang_port: erlang_port }
+  erlang_port: erlang_port,
+  osc_midi_out_port: osc_midi_out_port,
+  osc_midi_in_port: osc_midi_in_port }
 
 # Start Erlang
 begin
-
   erlang_cmd = "#{erlang_boot_path} -pz \"#{erlang_server_path}\" -s pi_server start"
   STDOUT.puts erlang_cmd
   pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path

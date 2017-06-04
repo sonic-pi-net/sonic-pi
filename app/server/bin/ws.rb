@@ -38,7 +38,8 @@ sonic_pi_ports = {
   scsynth_port: 4556,
   scsynth_send_port: 4556,
   osc_cues_port: 4559,
-  osc_midi_port: 4561,
+  osc_midi_in_port: 4561,
+  osc_midi_out_port: 4562,
   erlang_port: 4560 }
 
 OptionParser.new do |opts|

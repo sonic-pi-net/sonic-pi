@@ -33,7 +33,8 @@ module SonicPi
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
       @osc_cues_port = ports[:osc_cues_port]
-      @osc_midi_port = ports[:osc_midi_port]
+      @osc_midi_in_port = ports[:osc_midi_in_port]
+      @osc_midi_out_port = ports[:osc_midi_out_port]
       @msg_queue = msg_queue
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
@@ -60,7 +61,7 @@ module SonicPi
       end
 
       begin
-        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_cues_port} -m 6 -v 'Sonic Pi'"
+        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_midi_in_port} -m 6 'Sonic Pi'"
         Kernel.puts "Studio - Spawning m2o with:"
         Kernel.puts "    #{m2o_spawn_cmd}"
         @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
@@ -75,7 +76,7 @@ module SonicPi
       end
 
       begin
-        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@osc_midi_port} -O #{@osc_cues_port} -m 6"
+        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@osc_midi_out_port} -O #{@osc_midi_in_port} -m 6"
         Kernel.puts "Studio - Spawning o2m with:"
         Kernel.puts "    #{o2m_spawn_cmd}"
         @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)

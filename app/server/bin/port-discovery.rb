@@ -29,6 +29,20 @@ scsynth_send = 4556
 # will automatically be converted to cue events:
 server_osc_cues = 4559
 
+# Port which the Erlang router listens to.
+erlang_router = 4560
+
+# Port which the server uses to send OSC messages representing
+# output MIDI. This is used by osmid's o2m to listen to incoming
+# OSC messages and then forward them on as standard MIDI messages
+osc_midi_out = 4561
+
+
+# Port which the server uses to listen to OSC messages generated
+# by incoming MIDI. This is used by osmid's m2o as the outgoing
+# port.
+osc_midi_in = 4562
+
 
 
 case (ARGV[0] || "").downcase
@@ -46,6 +60,12 @@ when "scsynth"
   puts scsynth
 when "scsynth-send"
   puts scsynth_send
+when "erlang-router"
+  puts erlang_router
+when "osc-midi-out"
+  puts osc_midi_out
+when "osc-midi-in"
+  puts osc_midi_in
 else
   puts "Unknown port name: #{ARGV[0]}.\nExpecting one of:\n* gui-send-to-server\n* gui-listen-to-server\n* server-send-to-gui\n* server-listen-to-gui\n* server-osc-cues\n* scsynth\n* scsynth-send"
 end
