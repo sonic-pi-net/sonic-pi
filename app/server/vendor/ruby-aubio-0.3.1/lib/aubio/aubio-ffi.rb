@@ -4,7 +4,9 @@ require 'ffi'
 
 module Aubio::Api
   extend FFI::Library
-  ffi_lib "/usr/local/Cellar/aubio/0.4.4/lib/libaubio.dylib"
+  lib_paths = Array(ENV["AUBIO_LIB"] || Dir["/{opt,usr}/{,local/}{lib,lib64,Cellar/aubio**}/libaubio.{*.dylib,so.*}"])
+  fallback_names = %w(libaubio.4.4.4.dylib libaubio.so.1 aubio1.dll)
+  ffi_lib(lib_paths + fallback_names)
 
   def self.attach_function(name, *_)
     begin; super; rescue FFI::NotFoundError => e
