@@ -93,10 +93,12 @@ module SonicPi
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
         i = __current_thread_id
-        d = 0 # delta
-        p = 0 # priority
+        d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
+        p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
 
         @event_history.set t, p, i, d, b, k, val
+
+        __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         val
       end
 
@@ -112,7 +114,7 @@ module SonicPi
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
         i = __current_thread_id
         d = 0 # delta
-        p = 0 # priority
+        p = 1001
         # TODO insert thread id and delta values here:
 
         res = @event_history.get(t, p, i, d, b, k)
@@ -120,29 +122,6 @@ module SonicPi
         return default
       end
 
-
-      def sync_osc(k, arg_matcher=nil)
-        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-        unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          __delayed_highlight3_message "sync #{k.inspect}"
-        end
-        __schedule_delayed_blocks_and_messages!
-        # TODO insert thread id and delta values here:
-        se = nil
-        i = __current_thread_id
-        d = 0 # delta
-        p = 0 # priority
-
-        se = @event_history.sync(current_time, p, i, d, current_beat, k, arg_matcher)
-
-        unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          __delayed_highlight2_message "synced #{k.inspect}."
-        end
-        __system_thread_locals.set(:sonic_pi_spider_synced, true)
-        __system_thread_locals.set :sonic_pi_spider_beat, se.beat
-        __system_thread_locals.set :sonic_pi_spider_time, Time.at(se.time).freeze
-        se.val
-      end
 
 
       def current_beat
@@ -724,7 +703,7 @@ end"
         sat = current_sched_ahead_time
         already_in_time_warp = __system_thread_locals.get :sonic_pi_spider_in_time_warp
 
-        __system_thread_locals.set_local(:sonic_pi_spider_time_warp_start, vt_orig) unless  already_in_time_warp
+        __system_thread_locals.set(:sonic_pi_spider_time_warp_start, vt_orig.freeze) unless  already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
 
         times.each_with_index do |delta, idx|
@@ -756,7 +735,7 @@ end"
           __schedule_delayed_blocks_and_messages!
         end
 
-        __system_thread_locals.set :sonic_pi_spider_time, vt_orig
+        __system_thread_locals.set :sonic_pi_spider_time, vt_orig.freeze
         __system_thread_locals.set :sonic_pi_spider_beat, orig_beat
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, prev_ctl_deltas
@@ -3781,6 +3760,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set :sonic_pi_spider_time, new_vt.freeze
         ## reset control deltas now that time has advanced
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
+        __system_thread_locals.set_local :sonic_pi_local_last_sync, nil
       end
       doc name:           :sleep,
           introduced:     Version.new(2,0,0),
@@ -3849,6 +3829,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def cue(cue_id, *opts)
+        cue_path = __cue_path(cue_id)
 
         if opts.size == 1 && opts[0].is_a?(Hash)
           opts[0].each do |k, v|
@@ -3864,14 +3845,17 @@ puts current_sched_ahead_time # Prints 0.5"]
           splat_map_or_arr = opts.freeze
         end
         t = __system_thread_locals.get(:sonic_pi_spider_time)
-        payload = {
-          :time => t,
-          :sleep_mul => __thread_locals.get(:sonic_pi_spider_sleep_mul),
-          :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
-          :run => current_job_id,
-          :cue_splat_map_or_arr => splat_map_or_arr,
-          :cue => cue_id
-        }
+
+        # TODO thread some of this through the cue-sync metadata
+        # To re-enable sync_bpm
+        # meta = {
+        #   :time => t,
+        #   :sleep_mul => __thread_locals.get(:sonic_pi_spider_sleep_mul),
+        #   :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
+        #   :run => current_job_id,
+        #   :cue_splat_map_or_arr => splat_map_or_arr,
+        #   :cue => cue_id
+        # }
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           if splat_map_or_arr.empty?
@@ -3886,19 +3870,13 @@ puts current_sched_ahead_time # Prints 0.5"]
           end
         end
 
-        Thread.new do
-          __system_thread_locals.set_local(:sonic_pi_local_thread_group, :cue)
-          # sleep for a tiny amount of wall-clock time to give other temporally
-          # synced threads real time to register syncs at similar virtual
-          # times.
+        d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
+        __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
+        p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
 
-          if instance_variable_defined?(:@sync_real_sleep_time)
-            Kernel.sleep @sync_real_sleep_time
-          end
+        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, cue_path, splat_map_or_arr, __current_sched_ahead_time)
 
-          __cue_events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
-          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => __gui_cue_log_idxs.next, :address => cue_id.inspect, :args => splat_map_or_arr.inspect})
-        end
+
       end
       doc name:           :cue,
           introduced:     Version.new(2,0,0),
@@ -3983,6 +3961,8 @@ puts current_sched_ahead_time # Prints 0.5"]
 
       def sync_bpm(*args)
         cue_ids = (args.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
+        raise "please fix me!"
+
         opts = args[cue_ids.size] || {}
         cue_ids.flatten!
         raise ArgumentError, "Opts for sync_bpm must be a map, got a #{opts.class} - #{opts.inspect}" unless opts.is_a?(Hash)
@@ -3998,61 +3978,47 @@ puts current_sched_ahead_time # Prints 0.5"]
           advances_time:  true,
           examples:       ["See examples for sync"]
 
+      def sync(k, arg_matcher=nil)
+        # TODO: need to add this
+        bpm_sync = false
+        cue_id = __sync_path(k)
+        last_sync = __system_thread_locals.get(:sonic_pi_local_last_sync, nil)
 
-      def sync(*cues, &blk)
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-        params, opts = split_params_and_merge_opts_array(cues)
-        # Add syncing on threads!
-        cue_ids = params
-        cue_ids.flatten!
-        raise ArgumentError, "Timing Exception - you may not sync within a time_warp" if __system_thread_locals.get :sonic_pi_spider_in_time_warp
-        raise ArgumentError, "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
-        __system_thread_locals.set(:sonic_pi_spider_synced, true)
-
-        if (cue_ids.size == 1) && cue_ids[0].is_a?(String)
-          # dispatch to sync_osc for standard osc syncs
-          return sync_osc(cue_ids[0])
-        end
-        p = Promise.new
-        handles = cue_ids.map {|id| "/spider_thread_sync/" + id.to_s}
-
-        __cue_events.async_multi_oneshot_handler(handles) do |payload|
-          p.deliver! payload
-        end
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          if cue_ids.size == 1
-            __delayed_highlight3_message "sync #{cue_ids.first.inspect}"
-          else
-            __delayed_highlight3_message "sync #{cue_ids.inspect}"
-          end
+          __delayed_highlight3_message "sync #{k.inspect}"
         end
 
         __schedule_delayed_blocks_and_messages!
 
-        blk.call if block_given?
-        payload = p.get
-        time = payload[:time]
-        sleep_mul = payload[:sleep_mul]
-        beat = payload[:beat]
-        bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : false
-        run_id = payload[:run]
-        run_info = run_id ? "(Run #{run_id})" : "(OSC)"
-        if payload[:cue_splat_map_or_arr]
-          if is_list_like?(payload[:cue_splat_map_or_arr])
-            res = payload[:cue_splat_map_or_arr]
-          else
-            res = SonicPi::Core::SPSplatMap.new(payload[:cue_splat_map_or_arr])
-          end
+        if last_sync
+          t = last_sync.time
+          i = last_sync.thread_id
+          p = last_sync.priority
+          d = last_sync.delta
+          b = last_sync.beat
         else
-          res = SonicPi::Core::SPSplatMap.new({})
+          # TODO insert priority and delta values here:
+          t = current_time
+          p = -100 # priority
+          i = __current_thread_id
+          d = 0 # delta
+          b = current_beat
         end
 
-        cue_id = payload[:cue]
-        __system_thread_locals.set :sonic_pi_spider_beat, beat if beat
-        __system_thread_locals.set :sonic_pi_spider_time, time.freeze if time
-        __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
+        se = @event_history.sync(t, p, i, d, b, cue_id, arg_matcher)
 
+        __system_thread_locals.set(:sonic_pi_spider_synced, true)
+        __system_thread_locals.set :sonic_pi_spider_beat, se.beat
+        __system_thread_locals.set :sonic_pi_spider_time, se.time.freeze
+
+        # TODO: add this
+        #        __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
+
+        # run_id = payload[:run]
+        # run_info = run_id ? "(Run #{run_id})" : "(OSC)"
+        run_info = ""
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           if bpm_sync
@@ -4062,7 +4028,8 @@ puts current_sched_ahead_time # Prints 0.5"]
             __delayed_highlight2_message "synced #{cue_id.inspect} " + run_info
           end
         end
-        res
+        __system_thread_locals.set_local :sonic_pi_local_last_sync, se
+        se.val
       end
       doc name:           :sync,
           introduced:     Version.new(2,0,0),
@@ -4182,6 +4149,7 @@ puts current_sched_ahead_time # Prints 0.5"]
             __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
             __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
             __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, new_thread_id_path
+            __system_thread_locals.set_local :sonic_pi_spider_thread_delta, 0
             main_t = Thread.current
             main_t.priority = 10
 

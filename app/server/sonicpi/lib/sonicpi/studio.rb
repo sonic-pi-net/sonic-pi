@@ -46,6 +46,7 @@ module SonicPi
       @paused = false
       @cached_buffer_dir = Dir.mktmpdir
       @register_cue_event_lambda = register_cue_event_lambda
+      @midi_osc_server_thread_id = ThreadId.new(-4)
       init_scsynth
       reset_server
       init_studio
@@ -54,6 +55,15 @@ module SonicPi
 
     def init_or_reset_midi
       success = true
+      @osc_midi_server.stop if @osc_midi_server
+      @osc_midi_server = SonicPi::OSC::UDPServer.new(@osc_midi_in_port, open: false) do |address, args|
+        sched_ahead_time = @state.get(Time.now, 0, @midi_osc_server_thread_id, 0, 0, :sched_ahead_time).val
+        p = 0
+        d = 0
+        b = 0
+        @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, address, args , 0)
+      end
+
       if @o2m_pid || @m2o_pid
         message "Resetting MIDI Subsystems"
         kill_and_deregister_process @o2m_pid if @o2m_pid

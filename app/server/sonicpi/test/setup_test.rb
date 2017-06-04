@@ -50,6 +50,34 @@ module SonicPi
       @session_id = SecureRandom.uuid
       @snippets = {}
       @gui_cue_log_idxs = Counter.new
+      @register_cue_event_lambda = lambda do |t, p, i, d, b, address, args, sched_ahead_time=0|
+        gui_log_id = @gui_cue_log_idxs.next
+        a = args.freeze
+
+        @event_history.set(t, p, i, d, b, address.freeze, a)
+        @cue_events.async_event("/spider_thread_sync/#{address}", {
+                                  :time => t,
+                                  :cue_splat_map_or_arr => a,
+                                  :cue => address })
+
+        sched_ahead_sync_t = t + sched_ahead_time
+        sleep_time = sched_ahead_sync_t - Time.now
+        if sleep_time > 0
+          Thread.new do
+            Kernel.sleep(sleep_time) if sleep_time > 0
+            __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
+          end
+        else
+          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
+        end
+
+        if @log_cues
+          @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
+          @log_cues_file.flush
+        end
+
+      end
+
     end
 
     def run(&blk)

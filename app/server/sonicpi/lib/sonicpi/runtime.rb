@@ -92,7 +92,10 @@ module SonicPi
         @osc_server.stop if @osc_server
         @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: @osc_cue_server_is_open,) do |address, args|
           address = "/osc#{address}"
-          @register_cue_event_lambda.call(address, args, @system_init_thread_id)
+          p = 0
+          d = 0
+          b = 0
+          @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, address, args, 0)
         end
       end
     end
@@ -1063,24 +1066,31 @@ module SonicPi
       @gui_cue_log_idxs = Counter.new
       @osc_cue_server_is_open = false
       @osc_cue_server_mutex = Mutex.new
-      @register_cue_event_lambda = lambda do |address, args, thread_id|
+      @register_cue_event_lambda = lambda do |t, p, i, d, b, address, args, sched_ahead_time=0|
         gui_log_id = @gui_cue_log_idxs.next
-        t = Time.now.freeze
         a = args.freeze
 
-        @event_history.set(t, 0, thread_id, 0, 0, address.freeze, a)
+        @event_history.set(t, p, i, d, b, address.freeze, a)
         @cue_events.async_event("/spider_thread_sync/#{address}", {
-                              :time => t,
-                              :cue_splat_map_or_arr => a,
-                              :cue => address })
+                                  :time => t,
+                                  :cue_splat_map_or_arr => a,
+                                  :cue => address })
 
-        __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
-
-
-        if @log_cues
-          @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
-          @log_cues_file.flush
+        sched_ahead_sync_t = t + sched_ahead_time
+        sleep_time = sched_ahead_sync_t - Time.now
+        if sleep_time > 0
+          Thread.new do
+            Kernel.sleep(sleep_time) if sleep_time > 0
+            __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
+          end
+        else
+          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
         end
+
+        # if @log_cues
+        #   @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
+        #   @log_cues_file.flush
+        # end
 
       end
 

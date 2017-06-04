@@ -29,6 +29,7 @@ module SonicPi
       @register_cue_event_lambda = opts[:register_cue_event_lambda]
       raise "No cue event lambda!" unless @register_cue_event_lambda
       @out_queue = SizedQueue.new(20)
+      @scsynth_thread_id = ThreadId.new(-5)
       @version = request_version.freeze
       boot
     end
@@ -132,8 +133,11 @@ module SonicPi
         else
           @events.async_event address, args
         end
+        p = 0
+        d = 0
+        b = 0
 
-        @register_cue_event_lambda.call(address, args) if address.start_with? "/scsynth/"
+        @register_cue_event_lambda.call(Time.now, p, @scsynth_thread_id, d, b, address, args) if address.start_with? "/scsynth/"
       end
 
 
