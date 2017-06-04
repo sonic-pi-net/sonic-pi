@@ -1,5 +1,5 @@
 require_relative "aubio/version"
-require_relative "aubio/api"
+require_relative "aubio/aubio-ffi"
 require_relative "aubio/onsets"
 require_relative "aubio/pitches"
 require_relative "aubio/beats"
@@ -40,16 +40,55 @@ module Aubio
       Pitches.new(@source, @params).each
     end
 
-    def beats
+    def enum_beats
       check_for_closed
 
       Beats.new(@source, @params).each
     end
 
+    def beats
+      check_for_closed
+
+      beats = Beats.new(@source, @params).each.to_a
+
+      # fill in the zero beat
+      beats = beats.unshift(
+        beats.first.merge({
+          confidence: 1,
+          s: 0.0,
+          ms: 0.0,
+          sample_no: 0,
+          rel_start: 0.0
+        })
+      )
+
+      # fetch the rel_end from the next beat
+      # using 1.0 for the last beat
+      beats = beats.each_cons(2).map {|a,b|
+        a.merge({
+          rel_end: (b[:rel_start] || 1.0)
+        })
+      }
+
+      # set minimum inter-onset interval in seconds
+      # allows for 4/4 at 400bpm (faster than most music)
+      # filters beats detected too closely together
+      minioi = @params[:minioi] || 0.15
+      filtered_beats = [beats.first]
+      beats.each do |b|
+        if (b[:s] - filtered_beats.last[:s]) > minioi
+          filtered_beats << b
+        end
+      end
+
+      # TODO: are there other smoothing methods that would be useful here?
+      filtered_beats
+    end
+
     def bpm
       check_for_closed
 
-      beat_locations = Beats.new(@source, @params).each.to_a
+      beat_locations = self.beats
       beat_periods = beat_locations.each_cons(2).map {|a,b| b[:s] - a[:s] }
 
       return 60.0 if beat_locations.length == 1

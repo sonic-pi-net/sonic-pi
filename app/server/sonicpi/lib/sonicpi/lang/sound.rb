@@ -4412,6 +4412,35 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           args_h[:onset] = res[:index] if res[:index]
         end
 
+        beat_idx = args_h[:beat]
+        if beat_idx
+          begin
+            beats = sample_buffer(path).beat_slices
+          rescue Exception => e
+            if (os == :windows) && sample_buffer(path).sample_rate != 44100
+              raise "Sorry, on Windows, beat detection only currently works with audio files that have a sample rate of 44100. Your sample has a rate of: #{sample_buffer(path).sample_rate}"
+            else
+              raise "Unable to find beat for sample with path #{path}:\n#{e.message}\n#{e.backtrace}"
+            end
+          end
+
+          if beat_idx.is_a? Numeric
+            beat_idx = beat_idx.round
+            args_h.merge!(beats[beat_idx])
+            res = beats[beat_idx]
+          elsif beat_idx.is_a? Proc
+            res = beat_idx.call(beats)
+            res = res[0] if is_list_like?(res)
+            raise "Result of beat: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{res.inspect}" unless res.respond_to?(:has_key?) && res[:start].is_a?(Numeric) && res[:finish].is_a?(Numeric)
+
+          else
+            raise "Unknown sample beat: value. Expected a number or a proc. Got #{beat_idx.inspect}"
+          end
+          args_h[:start] = res[:start]
+          args_h[:finish] = res[:finish]
+          args_h[:beat] = res[:index] if res[:index]
+        end
+
         if info
           args_h = info.munge_opts(@mod_sound_studio, args_h)
           resolve_midi_args!(args_h, info)
