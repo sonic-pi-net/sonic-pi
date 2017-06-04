@@ -28,9 +28,9 @@ before_install:
  - sudo add-apt-repository ppa:latthias/qgis-travis-deps -y
  - sudo apt-get update -q
  - sudo apt-get --yes install libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default libqt5opengl5-dev libqt5svg5-dev libqwt-qt5-dev libboost-all-dev
- - wget http://aubio.org/pub/aubio-0.4.2.tar.bz2
- - tar xvjf aubio-0.4.2.tar.bz2
- - cd aubio-0.4.2
+ - wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
+ - tar xvjf aubio-0.4.4.tar.bz2
+ - cd aubio-0.4.4
  - ./waf configure build
  - sudo ./waf install
 
