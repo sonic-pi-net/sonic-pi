@@ -451,7 +451,7 @@ module SonicPi
       # Find the first event that's less than the time t, d.
       idx = events.find_index { |e| e <= ge }
       if idx && idx > 0
-        return events[idx -1] unless val_matcher
+        return events[idx - 1] unless val_matcher
         while idx > 0
           idx -= 1
           return events[idx] if safe_matcher_call(val_matcher, events[idx].val)
