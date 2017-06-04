@@ -19,7 +19,7 @@ module SonicPi
       return true unless matcher
       begin
         return matcher.call(event)
-      rescue Exception => e
+      rescue Exception
         return false
       end
     end
