@@ -37,13 +37,15 @@ module SonicPi
       v3 = ThreadId.new(3, 5, 6)
       v4 = ThreadId.new(3, 5)
       v5 = ThreadId.new(3, 5, 6, 1)
+      v6 = ThreadId.new(3, 5, 6, 1, 0)
 
       assert !(v2 < v1)
       assert (v1 < v2)
       assert v5 > v3
+      assert v5 < v6
 
-      orig    = [v1, v2, v3, v4, v5]
-      ordered = [v4, v3, v5, v1, v2]
+      orig    = [v1, v2, v3, v4, v5, v6]
+      ordered = [v4, v3, v5, v6, v1, v2]
       assert_equal ordered, orig.sort
     end
 

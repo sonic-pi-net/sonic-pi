@@ -85,14 +85,17 @@ module SonicPi
       @lang.run do
         assert_equal nil, get(:intensity)
 
-        10.times do
+        1.times do
           sleep 0.1
           time_warp [0.005, 0.01] do |v|
+            Kernel.puts "hey"
             set(:intensity, (ring 100, 900).tick)
           end
 
           sleep 0.005
+          Kernel.puts "ney"
           assert_equal get(:intensity), 100
+
           sleep 0.005
           assert_equal get(:intensity), 900
           sleep 0.005
@@ -154,18 +157,18 @@ module SonicPi
       end
     end
 
-    def test_osc_sync
+    def test_sync
       @lang.run do
         p1 = Promise.new
         p2 = Promise.new
 
         in_thread do
-          res = sync_osc "/foo"
+          res = sync "/foo"
           p1.deliver! res
         end
 
         in_thread do
-          res = sync_osc "/foo"
+          res = sync "/foo"
           p2.deliver! res
         end
         sleep 0.01

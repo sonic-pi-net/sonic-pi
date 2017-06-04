@@ -26,7 +26,7 @@ module SonicPi
       v = [:a, :b, :c]
       n = "/foo/bar"
       c = CueEvent.new(t, p, i, d, b, n, v, m)
-      assert_equal t.to_f, c.time
+      assert_equal t, c.time
       assert_equal i, c.thread_id
       assert_equal d.to_i, c.delta
       assert_equal b.to_i, c.beat

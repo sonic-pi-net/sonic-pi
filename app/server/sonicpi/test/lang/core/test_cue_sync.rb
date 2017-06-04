@@ -22,83 +22,93 @@ module SonicPi
       @lang = SonicPi::MockLang.new
     end
 
-    def test_basic_cue_with_no_args
+
+    def test_time_increment
       @lang.run do
-        t = in_thread do
-          res = sync :foo
-          assert_equal [], res
+
+        assert_equal 0, vt
+        sleep 0.05
+        assert_equal 0.05, vt
+
+        Kernel.puts "\n"
+        in_thread do
+          sleep 0.1
+          cue :foo
         end
 
-        cue :foo
-        t.join
+        sync :foo
+
+        assert_equal 0.15,  vt
+        sleep 0.1
+        assert_equal 0.25,  vt
+
+        Kernel.puts "\n"
+        in_thread do
+          sleep 0.1
+          cue :foo
+        end
+
+        sync :foo
+
+        assert_equal 0.35,  vt
+
+        Kernel.puts "\n"
+        in_thread do
+          sleep 0.02
+          cue :foo
+        end
+
+        sync :foo
+
+        assert_equal 0.37,  vt
       end
     end
 
+    # syncing should return the 'next' event from the current
+    # time.
 
-    def test_basic_cue_with_list_args
+    def test_time_increment_w_faster_bpm
       @lang.run do
-        t = in_thread do
-          a, b, c = sync :foo
-          assert_equal a, 1
-          assert_equal b, "bar"
-          assert_equal c, 3.38
+        use_bpm 120
+        assert_equal 0, vt
+        sleep 0.1
+        assert_equal 0.1 / 2, vt
+
+        in_thread do
+          sleep 0.05
+          cue :foo
         end
 
-        cue :foo, 1, "bar", 3.38
-        t.join
-      end
+        sync :foo
 
-      @lang.run do
-        t = in_thread do
-          res = sync :foo
-          assert_equal res[0], 1
-          assert_equal res[1], "bar"
-          assert_equal res[2], 3.38
+        assert_equal 0.15 / 2,  vt
+        sleep 0.02
+        assert_equal 0.17 / 2,  vt
+        in_thread do
+          sleep 0.04
+          cue :foo
         end
 
-        cue :foo, 1, "bar", 3.38
-        t.join
-      end
-    end
+        sync :foo
 
-    def test_basic_cue_with_map_args
-      @lang.run do
-        t = in_thread do
-          a, b, c = sync :foo
-          assert_equal a, 1
-          assert_equal b, 2
-          assert_equal c, 3.38
+        assert_equal 0.21 / 2,  vt
+
+        in_thread do
+          sleep 0.05
+          cue :foo, 2
         end
 
-        cue :foo, a: 1, b: 2, c: 3.38
-        t.join
-      end
-
-      @lang.run do
-        t = in_thread do
-          res = sync :foo
-          assert_equal res[:a], 1
-          assert_equal res[:b], 2
-          assert_equal res[:c], 3.38
+        in_thread do
+          sleep 0.05
+          cue :foo, 3
         end
 
-        cue :foo, a: 1, b: 2, c: 3.38
-        t.join
+        v = sync :foo
+
+        assert_equal 0.26 / 2, vt
+        assert_equal 2, v[0]
       end
     end
 
-    def test_multi_syncs
-      @lang.run do
-        t = in_thread do
-          a, b, c = sync [:foo, :bar]
-          assert_equal a, 1
-          assert_equal b, 2
-          assert_equal c, 3.38
-        end
-
-        cue :foo, a: 1, b: 2, c: 3.38
-        t.join
-      end
-    end
   end
 end

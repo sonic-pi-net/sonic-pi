@@ -391,17 +391,6 @@ module SonicPi
       assert_equal [:baz1], history.sync(0, 0, i, 0, 0, n1).val
     end
 
-    def test_basic_sync
-      history = EventHistory.new
-      i = ThreadId.new(5)
-      n1 = "/foo/bar/baz"
-      Thread.new do
-        Kernel.sleep 0.01
-        history.set(0, 0, i, 1, 0, n1, [:baz1], {})
-      end
-      assert_equal [:baz1], history.sync(0, 0, i, 0, 0, n1).val
-    end
-
     def test_sync_w_matchers
       history = EventHistory.new
       i = ThreadId.new(5)
@@ -423,7 +412,7 @@ module SonicPi
           history.set(0, 0, i, 1, 0, n1, [:baz1], {})
         end
         t2 = Thread.new do
-          assert_equal [:baz1], history.sync(0, 0, i, 0, 0, n1).val
+          assert_equal [:baz1], history.sync(0, -100, i, 0, 0, n1).val
         end
 
         t1.join
@@ -452,6 +441,37 @@ module SonicPi
       assert_equal 0, history.event_matchers.matchers.size
       t.kill
       t2.kill
+    end
+
+
+    # def test_basic_sync
+    #   10.times do
+    #     history = EventHistory.new
+    #     i = ThreadId.new(5)
+    #     n1 = "/foo/bar/baz"
+    #     Thread.new do
+    #       Kernel.sleep 0.01
+    #       history.set(0, 0, i, 1, 0, n1, [:baz1], {})
+    #     end
+    #     assert_equal [:baz1], history.sync(0, 0, i, 0, 0, n1).val
+    #   end
+    # end
+
+    def test_foo
+      history = EventHistory.new
+      i1 = ThreadId.new(0, 0)
+      i2 = ThreadId.new(0, 0, 0)
+      i3 = ThreadId.new(0, 0, 1)
+      n = "/cue/foo"
+
+      history.set(1496358140.495527, 0, i1, 0, 0, n, 1, {})
+      history.set(1496358140.495527, 0, i1, 1, 0, n, 2, {})
+      history.set(1496358140.595527, 0, i2, 0, 0.1, n, 3, {})
+      history.get(1496358140.595527, -100, i1, 0, 0.1, n)
+      history.set(1496358140.595527,  0, i3, 0, 0.1, n, 5, {})
+      history.get(1496358140.595527, -100, i1, 0, 0.1, n)
+      v = history.get(1496358140.6955268, -100, i1, 0, 0.2, n)
+      assert_equal 5, v.val
     end
   end
 end
