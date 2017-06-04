@@ -235,7 +235,7 @@ module SonicPi
       return __get(ge, split_path, 0, val_matcher, @state, nil, get_next)
     end
 
-    def __get(ge, split_path, idx, val_matcher, sn, res = nil, get_next)
+    def __get(ge, split_path, idx, val_matcher, sn, res, get_next)
       if idx == split_path.size
         # we are at the leaf node
         # see if we can find a result!
