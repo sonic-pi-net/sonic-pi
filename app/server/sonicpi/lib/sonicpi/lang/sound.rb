@@ -1368,7 +1368,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
           args_h[:note] = n
         end
-        res_node = trigger_inst synth_name, args_h, bus_args_h, info
+        res_node = trigger_inst synth_name, args_h, info
         t = nil
         if block_given?
           t = in_thread do
