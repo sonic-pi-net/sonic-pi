@@ -13,7 +13,10 @@
 require_relative "util"
 require_relative "promise"
 require_relative "osc/osc"
+require_relative "thread_id"
+
 require 'fileutils'
+
 
 module SonicPi
   class SCSynthExternal
