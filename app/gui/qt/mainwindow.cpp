@@ -274,7 +274,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   determineScsynthSendPortNumber->start(ruby_path, scsynth_send_args);
   determineScsynthSendPortNumber->waitForFinished();
   scsynth_send_port = determineScsynthSendPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (scsynth_port == 0) {
+  if (scsynth_send_port == 0) {
     std::cout << "[GUI] - unable to determine scsynth send port. Defaulting to 4556:" << std::endl;
     scsynth_send_port = 4556;
   }
