@@ -329,11 +329,11 @@ module SonicPi
     end
 
     def __current_run_time
-      __system_thread_locals.get(:sonic_pi_spider_time) - @global_start_time
+      (__system_thread_locals.get(:sonic_pi_spider_time) - @global_start_time).round(6)
     end
 
     def __current_local_run_time
-      __system_thread_locals.get(:sonic_pi_spider_time) - __system_thread_locals.get(:sonic_pi_spider_start_time)
+      (__system_thread_locals.get(:sonic_pi_spider_time) - __system_thread_locals.get(:sonic_pi_spider_start_time)).round(6)
     end
 
     def __current_thread_name
