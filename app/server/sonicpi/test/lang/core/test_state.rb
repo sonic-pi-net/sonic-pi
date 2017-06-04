@@ -88,7 +88,6 @@ module SonicPi
         1.times do
           sleep 0.1
           time_warp [0.005, 0.01] do |v|
-            Kernel.puts "hey"
             set(:intensity, (ring 100, 900).tick)
           end
 
