@@ -875,6 +875,7 @@ module SonicPi
       @gui_cue_log_idxs
     end
 
+
     private
 
     def reg_job(job_id, t)
@@ -1040,7 +1041,6 @@ module SonicPi
       @event_queue = SizedQueue.new(20)
       @keypress_handlers = {}
       @cue_events = IncomingEvents.new
-      @sync_counter = Counter.new
       @job_counter = Counter.new(-1) # Start counting jobs from 0
       @job_subthreads = {}
       @job_main_threads = {}
