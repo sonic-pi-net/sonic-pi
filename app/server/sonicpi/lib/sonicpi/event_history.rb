@@ -180,7 +180,7 @@ module SonicPi
       # have to do a get_next again in case
       # an event with an earlier timestamp arrived
       # after this one
-
+      wait_for_threads
       @get_mut.synchronize do
         @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
         res = get_w_no_mutex(ge, val_matcher, true)
