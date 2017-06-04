@@ -130,7 +130,6 @@ module SonicPi
 
 
     # Get the last seen version (at or before the current time)
-    # Do not change time
     def get(t, p, i, d, b, path, val_matcher=nil, get_next=false)
       wait_for_threads
       res = nil
@@ -145,7 +144,6 @@ module SonicPi
 
     # Get next version (after current time)
     # return nil if nothing found
-    # Does not modify time
     def get_next(t, p, i, d, b, path, val_matcher=nil)
       get(t, p, i, d, b, path, val_matcher, true)
     end
