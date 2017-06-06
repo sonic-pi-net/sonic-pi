@@ -4369,7 +4369,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           raise "Sample opt num_slices: needs to be greater than 0. Got: #{num_slices}" unless num_slices.is_a?(Numeric) && num_slices > 0
           slices = sample_buffer(path).slices(num_slices)
           if slice_idx.is_a? Numeric
-            slice_idx = slice_idx
+            slice_idx = slice_idx.round
             slice = slices[slice_idx]
           elsif slice_idx.is_a? Proc
             slice = slice_idx.call(slices)
