@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-06 01:02+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2017-06-06 04:35+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -9309,10 +9309,10 @@ msgid ""
 msgstr ""
 "L'intégration avec Minecraft Pi a été conçue pour être extrêmement simple à "
 "utiliser. Tout ce dont vous avez besoin est de lancer Minecraft Pi et de "
-"créer un monde. Il vous êtes alors libre d'utiliser les fonctions `mc_*` "
-"tout comme vous pourriez utiliser `play` et `synth`. Il n'y a pas besoin "
-"d'importer quoi que ce soit ou d'installer des bibliothèques - c'est tout "
-"prêt à utiliser et à fonctionner en dehors de la boite."
+"créer un monde. Vous êtes alors libre d'utiliser les fonctions `mc_*` tout "
+"comme vous pourriez utiliser `play` et `synth`. Il n'y a pas besoin "
+"d'importer quoi que ce soit ou d'installer des bibliothèques - tout est déjà "
+"prêt à être utilisé."
 
 #: 11-Minecraft-Pi.md:17
 msgid "Automatic Connection"
@@ -9335,8 +9335,8 @@ msgstr ""
 "Similairement, si vous arrêtez Minecraft Pi quand vous êtes encore en train "
 "d'exécuter une `live_loop` qui utilise l'API, la boucle s'arrêtera et vous "
 "avertira poliment de l'impossibilité de se connecter. Pour vous reconnecter, "
-"relancer simplement Minecraft Pi et Sonic Pi le détectera automatiquement "
-"pour recréera la connexion pour vous."
+"relancez simplement Minecraft Pi et Sonic Pi le détectera automatiquement et "
+"rétablira la connexion pour vous."
 
 #: 11-Minecraft-Pi.md:28
 msgid "Designed to be Live Coded"
@@ -9409,7 +9409,7 @@ msgstr ""
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
 msgid "Displaying chat messages"
-msgstr "Affichage de messages de clavardage"
+msgstr "Affichage de messages de conversation"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
 msgid "Setting the position of the user"
