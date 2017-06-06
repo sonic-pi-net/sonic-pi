@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-31 00:27+0000\n"
+"PO-Revision-Date: 2017-06-06 01:02+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.14.1\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -8345,7 +8345,6 @@ msgid "Ticking Rings"
 msgstr "Parcours automatique des anneaux"
 
 #: 09.4-Ticking.md:11
-#, fuzzy
 msgid ""
 "Sonic Pi provides a *very* handy tool for working with rings within `live_loop"
 "`s. It's called the tick system. In the section about the rings we were talkin"
@@ -8353,12 +8352,12 @@ msgid ""
 " Tick just implements this idea. It provides you with the ability to *tick thr"
 "ough rings*. Let's look at an example:"
 msgstr ""
-"Sonic Pi fournit un outil *très* pratique pour travailler avec des anneaux (\"r"
-"ings\") à l'intérieur des `live_loop`s. Il s'agit du système d'avance automatiq"
-"ue (\"tick\"). Dans la section sur les anneaux on parlait d'un compteur qui augm"
-"ente constamment, comme un nombre courant de battement. \"Tick\" implémente just"
-"ement cette idée. Il vous fournit la capacité de *parcourir des anneaux*. Rega"
-"rdons un exemple :"
+"Sonic Pi fournit un outil *très* pratique pour travailler avec les anneaux à "
+"l'intérieur des `live_loop`s. Il s'agit du système d'avance automatique (\""
+"tick\"). Dans la section sur les anneaux, on parlait d'un compteur qui "
+"augmente constamment, comme un nombre courant de battements. \"Tick\" "
+"implémente justement cette idée. Il vous fournit la capacité de *parcourir "
+"des anneaux*. Regardons un exemple :"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
@@ -8470,7 +8469,6 @@ msgid "Look"
 msgstr "Fonction Look"
 
 #: 09.4-Ticking.md:72
-#, fuzzy
 msgid ""
 "The magical thing about tick is that not only does it return a new index (or t"
 "he value of the ring at that index) it also makes sure that next time you call"
@@ -8480,15 +8478,15 @@ msgid ""
 "t increase* it. This is available via the `look` fn. You can call `look` as a "
 "standard fn or by adding `.look` to the end of a ring."
 msgstr ""
-"La chose magique apportée par \"tick\" est que non seulement un nouvel index est"
-" retourné (ou la valeur de l'anneau à cet index) mais qu'il garantit que la fo"
-"is suivante où vous l'appellerez, vous obtiendrez la valeur suivante. Jetez un"
-" œil sur les exemples de la documentation de `.tick` pour voir les différentes"
-" façons de l'employer. Toutefois, pour le moment, il est important de souligne"
-"r que quelquefois, vous voulez juste obtenir la valeur courante de \"tick\" sans"
-" l'*incrémenter*. Ceci est disponible via la fonction `look`. Vous pouvez appe"
-"ler `look` comme une fonction standard ou ajouter `.look` à la fin d'un anneau"
-"."
+"La chose magique apportée par \"tick\" est que non seulement un nouvel index "
+"est retourné (ou la valeur de l'anneau à cet index), mais qu'il garantit que "
+"la fois suivante où vous l'appellerez, vous obtiendrez la valeur suivante. "
+"Jetez un œil aux exemples dans la documentation pour `.tick` pour voir les "
+"différentes façons de l'employer. Toutefois, pour le moment, il est "
+"important de souligner que quelquefois, vous voulez juste obtenir la valeur "
+"courante de \"tick\" sans l'*incrémenter*. Ceci est disponible via la "
+"fonction `look`. Vous pouvez appeler `look` comme une fonction standard ou "
+"ajouter `.look` à la fin d'un anneau."
 
 #: 09.4-Ticking.md:81
 msgid "Naming Ticks"
@@ -8516,7 +8514,6 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:93
-#, fuzzy
 msgid ""
 "Here we're using two ticks one for the note to play and another for the sleep "
 "time. As they're both in the same live loop, to keep them separate we need to "
@@ -8525,13 +8522,14 @@ msgid ""
 "alled one tick `:foo` and the other `:bar`. If we want to `look` at these we a"
 "lso need to pass the name of the tick to `look`."
 msgstr ""
-"Ici, nous utilisons deux \"ticks\", un pour la note à jouer et un autre pour la "
-"durée de \"sleep\". Comme ils sont tous deux dans la même boucle, pour les maint"
-"enir indépendants, nous devons leur donner des noms uniques. C'est exactement "
-"le même genre de solution que dans le cas   du nommage des `live_loop`s - nous"
-" passons simplement un symbole précédé d'un `:`. Dans l'exemple ci-dessus, nou"
-"s avons appelé un \"tick\" `:foo` et l'autre `:bar`. Si nous voulons juste conna"
-"ître leur valeur, nous devons aussi passer le nom du \"tick\" à `look`."
+"Ici, nous utilisons deux \"ticks\", un pour la note à jouer et un autre pour "
+"la durée de sommeil. Comme ils sont tous deux dans la même boucle, pour les "
+"maintenir indépendants, nous devons leur donner des noms uniques. C'est "
+"exactement le même genre de solution que dans le cas du nommage des "
+"`live_loop`s - nous passons simplement un symbole précédé d'un `:`. Dans "
+"l'exemple ci-dessus, nous avons appelé un \"tick\" `:foo` et l'autre `:bar`. "
+"Si nous voulons juste connaître leur valeur, nous devons aussi passer le nom "
+"du \"tick\" à `look`."
 
 #: 09.4-Ticking.md:101
 msgid "Don't make it too complicated"
@@ -8677,7 +8675,6 @@ msgid "Control and Meta"
 msgstr "\"Control\" et \"Meta\""
 
 #: 10.1-Using-Shortcuts.md:39
-#, fuzzy
 msgid ""
 "Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
 "se the names *Control* and *Meta* to refer to the two main combination keys. O"
@@ -8686,13 +8683,14 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
-"Une part de la notion de compatibilité est l'appellation des raccourcis. Dans "
-"Sonic Pi, nous utilisons les termes *Control* et *Meta* pour se référer aux de"
-"ux combinaisons de touches principales. Sur toutes les plateformes *Control* ("
-"Ctrl) est identique. Toutefois, sur Linux et Windows, *Meta* est en réalité la"
-" touche *Alt* alors que sur Mac, *Meta* est la touche *Command* (Cmd). Pour la"
-" compatibilité, nous utiliserons le terme *Meta* - rappelez-vous juste de le f"
-"aire correspondre à la touche appropriée sur votre système d'exploitation."
+"Une part de la notion de constance est l'appellation des raccourcis. Dans "
+"Sonic Pi, nous utilisons les termes *Control* et *Meta* pour se référer aux "
+"deux combinaisons de touches principales. Sur toutes les plateformes "
+"*Control* (Ctrl) est identique. Toutefois, sur Linux et Windows, *Meta* est "
+"en réalité la touche *Alt* alors que sur Mac, *Meta* est la touche *Command* "
+"(Cmd). Pour la constance, nous utiliserons le terme *Meta* - rappelez-vous "
+"juste de le faire correspondre à la touche appropriée sur votre système "
+"d'exploitation."
 
 #: 10.1-Using-Shortcuts.md:46
 msgid "Abbreviations"
@@ -9159,7 +9157,6 @@ msgstr ""
 "de votre code dans la description de la piste."
 
 #: 10.3-Sharing.md:35
-#, fuzzy
 msgid ""
 "To record your work, hit the `Rec` button in the toolbar, and recording starts"
 " immediately. Hit `Run` to start your code if it isn't already in progress. Wh"
@@ -9168,13 +9165,13 @@ msgid ""
 "h can be edited and converted to MP3 by any number of free programs (try Audac"
 "ity for instance)."
 msgstr ""
-"Pour enregistrer votre travail, pressez le bouton `Rec` de la barre d'outils, "
-"et l'enregistrement démarre immédiatement. Pressez `Run` pour lancer votre cod"
-"e s'il n'est pas encore démarré. Quand votre enregistrement devra être arrêté,"
-" pressez le bouton `Rec` clignotant à nouveau, et il vous sera demandé d'entre"
-"r un nom de fichier. L'enregistrement sera sauvegardé dans le format d'un fich"
-"ier WAV, lequel peut être modifié et converti en MP3 par n'importe quel progra"
-"mme gratuit (essayez Audacity par exemple)."
+"Pour enregistrer votre travail, pressez le bouton `Rec` de la barre "
+"d'outils, et l'enregistrement démarre immédiatement. Pressez `Run` pour "
+"lancer votre code s'il n'est pas encore démarré. Quand votre enregistrement "
+"devra être arrêté, pressez le bouton `Rec` clignotant à nouveau, et il vous "
+"sera demandé d'entrer un nom de fichier. L'enregistrement sera sauvegardé "
+"dans le format d'un fichier WAV, lequel peut être modifié et converti en MP3 "
+"par n'importe quel programme gratuit (essayez Audacity par exemple)."
 
 #: 10.3-Sharing.md:43
 msgid "Hope"
@@ -9288,23 +9285,21 @@ msgid "Minecraft Pi"
 msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi now supports a simple API for interacting with Minecraft Pi - the spe"
 "cial edition of Minecraft which is installed by default on the Raspberry Pi's "
 "Raspbian Linux-based operating system."
 msgstr ""
-"Sonic Pi supporte maintenant une simple API (interface de programmation) pour "
-"interagir avec Minecraft Pi - l'édition spéciale de Minecraft qui est installé"
-"e par défaut avec le système d'exploitation Raspbian Linux du Raspberry Pi."
+"Sonic Pi supporte maintenant une simple API (interface de programmation) "
+"pour interagir avec Minecraft Pi - l'édition spéciale de Minecraft qui est "
+"installée par défaut avec le système d'exploitation Raspbian Linux du "
+"Raspberry Pi."
 
 #: 11-Minecraft-Pi.md:9
-#, fuzzy
 msgid "No need to import libraries"
-msgstr "Importation de bibliothèques non nécessaire"
+msgstr "Aucun besoin d'importer des bibliothèques"
 
 #: 11-Minecraft-Pi.md:11
-#, fuzzy
 msgid ""
 "The Minecraft Pi integration has been designed to be insanely easy to use. All"
 " you need to do is to launch Minecraft Pi and create a world. You're then free"
@@ -9312,20 +9307,18 @@ msgid ""
 "need to import anything or install any libraries - it's all ready to go and wo"
 "rks out of the box."
 msgstr ""
-"L'intégration avec Minecraft Pi a été conçue pour être extrêmement simple à ut"
-"iliser. Tout ce dont vous avez besoin est de lancer Minecraft Pi et de créer u"
-"n nouveau monde. Il vous est alors possible d'utiliser les fonctions `mc_*` ju"
-"ste comme vous pourriez utiliser `play` et `synth`. Il n'y a pas besoin d'impo"
-"rter quoi que ce soit ou d'installer des bibliothèques - c'est tout prêt à uti"
-"liser et à fonctionner sans autre procès."
+"L'intégration avec Minecraft Pi a été conçue pour être extrêmement simple à "
+"utiliser. Tout ce dont vous avez besoin est de lancer Minecraft Pi et de "
+"créer un monde. Il vous êtes alors libre d'utiliser les fonctions `mc_*` "
+"tout comme vous pourriez utiliser `play` et `synth`. Il n'y a pas besoin "
+"d'importer quoi que ce soit ou d'installer des bibliothèques - c'est tout "
+"prêt à utiliser et à fonctionner en dehors de la boite."
 
 #: 11-Minecraft-Pi.md:17
-#, fuzzy
 msgid "Automatic Connection"
-msgstr "Connection Automatique"
+msgstr "Connexion automatique"
 
 #: 11-Minecraft-Pi.md:19
-#, fuzzy
 msgid ""
 "The Minecraft Pi API takes care of managing your connection to the Minecraft P"
 "i application. This means you don't need to worry about a thing. If you try an"
@@ -9335,19 +9328,19 @@ msgid ""
 "that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
 "Pi will automatically detect and re-create the connection for you."
 msgstr ""
-"L'API à Minecraft Pi se préoccupe de la gestion de votre connexion à l'applica"
-"tion Minecraft Pi. Ce qui signifie que vous n'avez pas besoin de vous en inqui"
-"éter. Si vous essayez d'utiliser l'API à Minecraft Pi quand Minecraft Pi n'est"
-" pas démarré, Sonic Pi vous en avertira poliment. Similairement, si vous arrêt"
-"ez Minecraft Pi quand vous êtes encore en train d'exécuter une `live_loop` qui"
-" utilise l'API, la boucle s'arrêtera et vous avertira poliment de l'impossibil"
-"ité de se connecter. Pour vous reconnecter, relancer simplement Minecraft Pi, "
-"Sonic Pi le détectera automatiquement et recréera la connection pour vous."
+"L'API Minecraft Pi se préoccupe de la gestion de votre connexion à "
+"l'application Minecraft Pi. Cela veut dire que vous n'avez pas besoin de "
+"vous en inquiéter. Si vous essayez d'utiliser l'API à Minecraft Pi quand "
+"Minecraft Pi n'est pas démarré, Sonic Pi vous en avertira poliment. "
+"Similairement, si vous arrêtez Minecraft Pi quand vous êtes encore en train "
+"d'exécuter une `live_loop` qui utilise l'API, la boucle s'arrêtera et vous "
+"avertira poliment de l'impossibilité de se connecter. Pour vous reconnecter, "
+"relancer simplement Minecraft Pi et Sonic Pi le détectera automatiquement "
+"pour recréera la connexion pour vous."
 
 #: 11-Minecraft-Pi.md:28
-#, fuzzy
 msgid "Designed to be Live Coded"
-msgstr "Conçue pour être codée en \"live\""
+msgstr "Conçue pour être codée en direct"
 
 #: 11-Minecraft-Pi.md:30
 #, fuzzy
@@ -9370,84 +9363,71 @@ msgstr ""
 "ique de Sonic Pi prendra soin des choses pour vous."
 
 #: 11-Minecraft-Pi.md:39
-#, fuzzy
 msgid "Requires a Raspberry Pi 2.0"
 msgstr "Nécessite un Raspberry Pi 2.0"
 
 #: 11-Minecraft-Pi.md:41
-#, fuzzy
 msgid ""
 "It is highly recommended that you use a Raspberry Pi 2 if you wish to run both"
 " Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
 " Pi's sound capabilities."
 msgstr ""
-"Il est vivement recommandé d'utiliser un Raspberry Pi 2 si vous voulez exécute"
-"r à la fois Sonic Pi et Minecraft en même temps   - particulièrement si vous v"
-"oulez utiliser les capacités sonores de Sonic Pi."
+"Il est grandement recommandé d'utiliser un Raspberry Pi 2 si vous voulez "
+"exécuter à la fois Sonic Pi et Minecraft en même temps - particulièrement si "
+"vous voulez utiliser les capacités sonores de Sonic Pi."
 
 #: 11-Minecraft-Pi.md:45
-#, fuzzy
 msgid "API Support"
 msgstr "Support de l'API"
 
 #: 11-Minecraft-Pi.md:47
-#, fuzzy
 msgid ""
 "At this stage, Sonic Pi supports basic block and player manipulations which ar"
 "e detailed in Section 11.1. Support for event callbacks triggered by player in"
 "teractions in the world is planned for a future release."
 msgstr ""
-"À cette étape, Sonic Pi supporte les manipulations basiques des joueurs et des"
-" blocs qui sont détaillées dans la section 11.1. Le support pour les callbacks"
-" d'évènements générés par les interactions des joueurs dans le monde est plani"
-"fié pour une version future."
+"À cette étape, Sonic Pi supporte les manipulations basiques des joueurs et "
+"des blocs qui sont détaillées dans la section 11.1. Le support pour les "
+"retours d'appel d'événements déclenchés par les interactions des joueurs "
+"dans le monde est planifié pour une version future."
 
 #: 11.1-Basic-API.md:1
-#, fuzzy
 msgid "11.1 Basic API"
-msgstr "11.1 Basique API"
+msgstr "11.1 API basique"
 
 #: 11.1-Basic-API.md:3
-#, fuzzy
 msgid "Basic Minecraft Pi API"
-msgstr "Basique API à Minecraft Pi"
+msgstr "API basique de Minecraft Pi"
 
 #: 11.1-Basic-API.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft Pi"
 ":"
 msgstr ""
-"Sonic Pi supporte actuellement les interactions basiques suivantes avec Minecr"
-"aft Pi :"
+"Sonic Pi supporte actuellement les interactions basiques suivantes avec "
+"Minecraft Pi :"
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
-#, fuzzy
 msgid "Displaying chat messages"
-msgstr "Affichage de messages de \"chat\""
+msgstr "Affichage de messages de clavardage"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
-#, fuzzy
 msgid "Setting the position of the user"
-msgstr "Fixation de la position de l'utilisateur"
+msgstr "Fixer la position de l'utilisateur"
 
 #: 11.1-Basic-API.md:9
-#, fuzzy
 msgid "Getting the position of the user"
-msgstr "Obtention de la position de l'utilisateur"
+msgstr "Obtenir la position de l'utilisateur"
 
 #: 11.1-Basic-API.md:10
-#, fuzzy
 msgid "Setting the block type at a given coordinate"
-msgstr "Fixation du type de bloc à une position donnée"
+msgstr "Fixer le type de bloc à une coordonnée donnée"
 
 #: 11.1-Basic-API.md:11
-#, fuzzy
 msgid "Getting the block type at a given coordinate"
-msgstr "Obtention du type de bloc à une position donnée"
+msgstr "Obtenir le type de bloc à une coordonnée donnée"
 
 #: 11.1-Basic-API.md:14
-#, fuzzy
 msgid "Let's look at each of these in turn."
 msgstr "Voyons chacune d'elles tour à tour."
 
@@ -9464,9 +9444,8 @@ msgstr ""
 "us pouvez vous y déplacer."
 
 #: 11.1-Basic-API.md:23
-#, fuzzy
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr "Dans un buffer vierge de Sonic Pi, entrez le code suivant :"
+msgstr "Dans un tampon vierge de Sonic Pi, entrez simplement le code suivant :"
 
 #: 11.1-Basic-API.md:25
 #, no-wrap
@@ -9474,24 +9453,22 @@ msgid "mc_message \"Hello from Sonic Pi\""
 msgstr "mc_message \"Hello from Sonic Pi\""
 
 #: 11.1-Basic-API.md:29
-#, fuzzy
 msgid ""
 "When you hit the *Run* button, you'll see your message flash up on the Minecra"
 "ft window. Congratulations, you've written your first Minecraft code! That was"
 " easy wasn't it."
 msgstr ""
-"Quand vous pressez le bouton *Run*, vous verrez votre message clignoter dans l"
-"a fenêtre de Minecraft. Félicitations, vous avez écrit votre premier code Mine"
-"craft ! C'était facile, n'était-ce pas ?"
+"Quand vous pressez le bouton *Run*, vous verrez votre message clignoter dans "
+"la fenêtre de Minecraft. Félicitations, vous avez écrit votre premier code "
+"Minecraft ! C'était facile, aucun doute."
 
 #: 11.1-Basic-API.md:35
-#, fuzzy
 msgid ""
 "Now, let's try a little magic. Let's teleport ourselves somewhere! Try the fol"
 "lowing:"
 msgstr ""
-"Maintenant, essayons un peu de magie. Téléportons-nous quelque-part ! Essayez "
-"le code suivant :"
+"Maintenant, essayons un peu de magie. Téléportons-nous quelque-part ! "
+"Essayez le code suivant :"
 
 #: 11.1-Basic-API.md:38
 #, no-wrap
