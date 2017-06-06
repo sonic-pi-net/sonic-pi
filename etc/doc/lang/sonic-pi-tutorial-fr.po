@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-06 04:35+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-06-06 23:13+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -9432,16 +9432,15 @@ msgid "Let's look at each of these in turn."
 msgstr "Voyons chacune d'elles tour à tour."
 
 #: 11.1-Basic-API.md:18
-#, fuzzy
 msgid ""
 "Let's see just how easy it is to control Minecraft Pi from Sonic Pi. First, ma"
 "ke sure you have both Minecraft Pi and Sonic Pi open at the same time and also"
 " make sure you've entered a Minecraft world and can walk around."
 msgstr ""
-"Voyons juste comme c'est facile de contrôler Minecraft Pi depuis Sonic Pi. Ass"
-"urez-vous d'abord que vous avez Minecraft Pi et Sonic Pi actifs en même temps "
-"et assurez-vous aussi que vous êtes entré dans un monde de Minecraft et que vo"
-"us pouvez vous y déplacer."
+"Voyons juste comme c'est facile de contrôler Minecraft Pi depuis Sonic Pi. "
+"Assurez-vous d'abord que vous avez Minecraft Pi et Sonic Pi actifs en même "
+"temps et assurez-vous aussi que vous êtes entré dans un monde de Minecraft "
+"et que vous pouvez vous y déplacer."
 
 #: 11.1-Basic-API.md:23
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
@@ -9494,7 +9493,6 @@ msgstr ""
 "t importantes pour programmer Minecraft."
 
 #: 11.1-Basic-API.md:50
-#, fuzzy
 msgid "Coordinates"
 msgstr "Coordonnées"
 
@@ -9519,43 +9517,37 @@ msgstr ""
 "a-t-il un gros coffre d'or à `2` en horizontal et à `9` en vertical..."
 
 #: 11.1-Basic-API.md:61
-#, fuzzy
 msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
 "h we are. We therefore need three numbers:"
 msgstr ""
-"Maintenant, dans Minecraft, deux nombres ne sont pas tout à fait suffisants. N"
-"ous devons aussi savoir à quelle hauteur nous sommes. Nous avons donc besoin d"
-"e trois nombres :"
+"Maintenant, dans Minecraft, deux nombres ne sont pas tout à fait suffisants. "
+"Nous devons aussi savoir à quelle hauteur nous sommes. Nous avons donc "
+"besoin de trois nombres :"
 
 #: 11.1-Basic-API.md:64
-#, fuzzy
 msgid "How far from right to left in the world - `x`"
 msgstr "Distance de la droite vers la gauche dans le monde - `x`"
 
 #: 11.1-Basic-API.md:65
-#, fuzzy
 msgid "How far from front to back in the world - `z`"
 msgstr "Distance du devant vers l'arrière du monde - `z`"
 
 #: 11.1-Basic-API.md:66
-#, fuzzy
 msgid "How high up we are in the world - `y`"
-msgstr "A quelle hauteur sommes-nous dans le monde - `y`"
+msgstr "À quelle hauteur nous sommes dans le monde - `y`"
 
 #: 11.1-Basic-API.md:68
-#, fuzzy
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, `y"
 "`, `z`."
 msgstr ""
-"Une chose en plus - nous décrivons habituellement ces trois coordonnées dans l"
-"'ordre `x`, `y`, `z`."
+"Une chose en plus - nous décrivons habituellement ces trois coordonnées dans "
+"l'ordre `x`, `y`, `z`."
 
 #: 11.1-Basic-API.md:71
-#, fuzzy
 msgid "Finding your current coordinates"
-msgstr "Trouver vos coordonnées courantes"
+msgstr "Trouver vos coordonnées actuelles"
 
 #: 11.1-Basic-API.md:73
 #, fuzzy
