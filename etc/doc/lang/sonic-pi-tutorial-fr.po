@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-06 23:13+0000\n"
+"PO-Revision-Date: 2017-06-07 23:16+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -9550,13 +9550,12 @@ msgid "Finding your current coordinates"
 msgstr "Trouver vos coordonnées actuelles"
 
 #: 11.1-Basic-API.md:73
-#, fuzzy
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
 "map and then switch over to Sonic Pi. Now enter the following:"
 msgstr ""
-"Jouons avec les coordonnées. Naviguez vers un bel endroit de la carte de Minec"
-"raft et puis basculez sur Sonic Pi. Maintenant, entrez le code suivant :"
+"Jouons avec les coordonnées. Naviguez vers un bel endroit de la carte de "
+"Minecraft et puis basculez sur Sonic Pi. Maintenant, entrez le code suivant :"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
@@ -9585,23 +9584,21 @@ msgstr ""
 "craft sera du gâteau."
 
 #: 11.1-Basic-API.md:89
-#, fuzzy
 msgid "Let's Build!"
 msgstr "Construisons !"
 
 #: 11.1-Basic-API.md:91
-#, fuzzy
 msgid ""
 "Now that you know how to find the current position and to teleport using coord"
 "inates, you have all the tools you need to start building things in Minecraft "
 "with code. Let's say you want to make the block with coordinates `40`, `50`, `"
 "60` to be glass. That's super easy:"
 msgstr ""
-"Maintenant que vous savez comment trouver la position courante et vous télépor"
-"ter en utilisant les coordonnées, vous avez tous les outils dont vous avez bes"
-"oin pour commencer à construire des choses dans Minecraft avec du code. Disons"
-" que vous voulez faire du bloc avec les coordonnées `40`, `50`, `60` un bloc \""
-"glass\" (de verre). C'est super facile :"
+"Maintenant que vous savez comment trouver la position actuelle et vous "
+"téléporter en utilisant les coordonnées, vous avez tous les outils dont vous "
+"avez besoin pour commencer à construire des choses dans Minecraft avec du "
+"code. Disons que vous voulez faire du bloc avec les coordonnées `40`, `50`, "
+"`60` un bloc de verre. C'est super facile :"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
@@ -9609,13 +9606,12 @@ msgid "mc_set_block :glass, 40, 50, 60"
 msgstr "mc_set_block :glass, 40, 50, 60"
 
 #: 11.1-Basic-API.md:100
-#, fuzzy
 msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby and "
 "take a look:"
 msgstr ""
-"Ha ha, c'était vraiment facile. Pour voir le résultat de votre travail pratiqu"
-"e, téléportez-vous aux alentours et regardez :"
+"Haha, c'était vraiment facile. Pour voir le résultat de votre travail "
+"pratique, téléportez-vous aux alentours et regardez :"
 
 #: 11.1-Basic-API.md:103
 #, no-wrap
@@ -9623,12 +9619,11 @@ msgid "mc_teleport 35, 50, 60"
 msgstr "mc_teleport 35, 50, 60"
 
 #: 11.1-Basic-API.md:107
-#, fuzzy
 msgid ""
 "Now turn around and you should see your glass block! Try changing it to diamon"
 "d:"
 msgstr ""
-"Maintenant, tourner autour de vous et vous devriez voir votre bloc de verre ! "
+"Maintenant, tourner sur vous-même et vous devriez voir votre bloc de verre ! "
 "Essayez de le changer en diamant :"
 
 #: 11.1-Basic-API.md:110
@@ -9637,13 +9632,13 @@ msgid "mc_set_block :diamond, 40, 50, 60"
 msgstr "mc_set_block :diamond, 40, 50, 60"
 
 #: 11.1-Basic-API.md:114
-#, fuzzy
 msgid ""
 "If you were looking in the right direction you might have even seen it change "
 "in front of your eyes! This is the start of something exciting..."
 msgstr ""
-"Si vous regardiez dans la bonne direction, vous auriez même pu voir le changem"
-"ent devant vos yeux ! C'est le début de quelquechose de passionnant..."
+"Si vous regardiez dans la bonne direction, vous avez même pu voir le "
+"changement devant vos yeux ! C'est le début de quelque chose de "
+"passionnant..."
 
 #: 11.1-Basic-API.md:117
 #, fuzzy
@@ -9668,27 +9663,24 @@ msgid "puts mc_get_block 40, 50, 60"
 msgstr "puts mc_get_block 40, 50, 60"
 
 #: 11.1-Basic-API.md:128
-#, fuzzy
 msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
 " now say `:glass`? I'm sure it does :-)"
 msgstr ""
-"Ouais ! C'est `:diamond`. Essayez de le faire revenir au verre et demandez à n"
-"ouveau - Dit-il vraiment `:glass` maintenant ? je suis certain que oui :-)"
+"Ouais ! C'est `:diamond`. Essayez de le faire revenir au verre et demandez à "
+"nouveau - Dit-il vraiment `:glass` maintenant ? Je suis certain que oui :-)"
 
 #: 11.1-Basic-API.md:131
-#, fuzzy
 msgid "Available block types"
 msgstr "Types de bloc disponibles"
 
 #: 11.1-Basic-API.md:133
-#, fuzzy
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of av"
 "ailable block types useful:"
 msgstr ""
-"Avant que vous alliez vers un déchaînement de codage de Minecraft Pi, vous pou"
-"rriez trouver utile cette liste des types de blocs disponibles :"
+"Avant que vous alliez vers un déchaînement de codage de Minecraft Pi, vous "
+"pourriez trouver utile cette liste des types de blocs disponibles :"
 
 #: 11.1-Basic-API.md:136
 #, no-wrap
@@ -9846,12 +9838,10 @@ msgstr ""
 "    :nether_reactor_core"
 
 #: 12-Conclusions.md:1
-#, fuzzy
 msgid "12 Conclusions"
 msgstr "12 Conclusions"
 
 #: 12-Conclusions.md:3
-#, fuzzy
 msgid "Conclusions"
 msgstr "Conclusions"
 
