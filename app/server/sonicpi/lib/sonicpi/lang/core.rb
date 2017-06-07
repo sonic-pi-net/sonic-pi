@@ -95,14 +95,15 @@ module SonicPi
         i = __current_thread_id
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
         p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
+        m = current_bpm
 
-        @event_history.set t, p, i, d, b, k, val
+        @event_history.set t, p, i, d, b, m, k, val
 
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         val
       end
 
-      def get(k, default=nil)
+      def get(k, default=nil, &blk)
         # If we've time_warped into the future raise a timing exception
         if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
           if __system_thread_locals.get(:sonic_pi_spider_time_warp_start) < __system_thread_locals.get(:sonic_pi_spider_time)
@@ -115,9 +116,9 @@ module SonicPi
         i = __current_thread_id
         d = 0 # delta
         p = 1001
-        # TODO insert thread id and delta values here:
+        m = current_bpm
 
-        res = @event_history.get(t, p, i, d, b, k)
+        res = @event_history.get(t, p, i, d, b, m, k, blk)
         return res.val if res
         return default
       end
@@ -3874,7 +3875,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
 
-        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, cue_path, splat_map_or_arr, __current_sched_ahead_time)
+        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, current_bpm, cue_path, splat_map_or_arr, __current_sched_ahead_time)
 
 
       end
@@ -3998,6 +3999,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           p = last_sync.priority
           d = last_sync.delta
           b = last_sync.beat
+          m = last_sync.bpm
         else
           # TODO insert priority and delta values here:
           t = current_time
@@ -4005,9 +4007,10 @@ puts current_sched_ahead_time # Prints 0.5"]
           i = __current_thread_id
           d = 0 # delta
           b = current_beat
+          m = current_bpm
         end
 
-        se = @event_history.sync(t, p, i, d, b, cue_id, arg_matcher)
+        se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
         __system_thread_locals.set :sonic_pi_spider_beat, se.beat

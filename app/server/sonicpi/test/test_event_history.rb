@@ -25,8 +25,8 @@ module SonicPi
       i2 = ThreadId.new(18, 0, 1)
       t = 1495752780.305016
 
-      history.set(t, 0, i1, 0, 0, "/cue/bar", [:hello], {})
-      v = history.get(t, 0, i2, 0, 0, "/cue/bar")
+      history.set(t, 0, i1, 0, 0, 60, "/cue/bar", [:hello])
+      v = history.get(t, 0, i2, 0, 0, 60, "/cue/bar")
       assert_equal [:hello], v.val
 
     end
@@ -36,8 +36,10 @@ module SonicPi
       i = ThreadId.new(5)
       t = 1495180483.9735098
       n = :foobar
-      history.set(0, 0, i, 0, 0, n, :foo, {})
-      v = history.get(t, 0, i, 0, 0, :foobar)
+      m = 60
+
+      history.set(0, 0, i, 0, 0, m, n, :foo)
+      v = history.get(t, 0, i, 0, 0, m, :foobar)
       assert_equal :foo, v.val
     end
 
@@ -58,24 +60,24 @@ module SonicPi
         args.size == 3 && args.first == :baz
       end
 
-      history.set(t, 0, i, 0, 0, n, [:baz, :bar], {})
-      history.set(t, 0, i, 1, 0, n, [:foo, :bar], {})
-      history.set(t, 0, i, 2, 0, n, [:boz, :boz, :boz], {})
-      history.set(t, 0, i, 3, 0, n, [:boz, :boz], {})
-      history.set(t, 0, i, 3, 0, n, [:baz, :boz], {})
-      history.set(t, 0, i, 4, 0, n, [:baz, :bar, :foo], {})
-      history.set(t, 0, i, 5, 0, n, [:bar], {})
+      history.set(t, 0, i, 0, 0, 60, n, [:baz, :bar])
+      history.set(t, 0, i, 1, 0, 60, n, [:foo, :bar])
+      history.set(t, 0, i, 2, 0, 60, n, [:boz, :boz, :boz])
+      history.set(t, 0, i, 3, 0, 60, n, [:boz, :boz])
+      history.set(t, 0, i, 3, 0, 60, n, [:baz, :boz])
+      history.set(t, 0, i, 4, 0, 60, n, [:baz, :bar, :foo])
+      history.set(t, 0, i, 5, 0, 60, n, [:bar])
 ###sdlkfjsdlfjdslkfj
-      v = history.get(t, 0, i, 6, 0, n, m)
+      v = history.get(t, 0, i, 6, 0, 60, n, m)
       assert_equal [:baz, :boz], v.val
 
-      v = history.get_next(t, 0, i, 0, 0, n, tm)
+      v = history.get_next(t, 0, i, 0, 0, 60, n, tm)
       assert_equal [:foo, :bar], v.val
 
-      v = history.get_next(t, 0, i, 0, 0, n, m)
+      v = history.get_next(t, 0, i, 0, 0, 60, n, m)
       assert_equal [:boz, :boz], v.val
 
-      v = history.get_next(t, 0, i, 0, 0, n, m2)
+      v = history.get_next(t, 0, i, 0, 0, 60, n, m2)
       assert_equal [:baz, :bar, :foo], v.val
     end
 
@@ -87,11 +89,12 @@ module SonicPi
       t = 0
       i = ThreadId.new(5)
       n = "/foo/bar"
-      history.set(t, 0, i, 0, 0, n, [:foo], {})
-      history.set(t, 0, i, 1, 0, n, [:bar], {})
-      v = history.get(t, 0, i, 0, 0, n)
-      v2 = history.get(t, 0, i, 1, 0, n)
-      v3 = history.get(t, 0, i, 0, 0, n)
+      m = 60
+      history.set(t, 0, i, 0, 0, m, n, [:foo])
+      history.set(t, 0, i, 1, 0, m, n, [:bar])
+      v = history.get(t, 0, i, 0, 0, m, n)
+      v2 = history.get(t, 0, i, 1, 0, m, n)
+      v3 = history.get(t, 0, i, 0, 0, m, n)
       assert_equal [:foo], v.val
       assert_equal [:bar], v2.val
       assert_equal [:foo], v3.val
@@ -103,11 +106,13 @@ module SonicPi
       i = ThreadId.new(5)
       n = "/foo/bar"
       n2 = "/foo/quux"
-      history.set(t, 0, i, 0, 0, n, [:foo], {})
-      history.set(t, 0, i, 0, 0, n2, [:bar], {})
+      m = 60
 
-      v = history.get(t, 0, i, 0, 0, n)
-      v2 = history.get(t, 0, i, 0, 0, n2)
+      history.set(t, 0, i, 0, 0, m, n, [:foo])
+      history.set(t, 0, i, 0, 0, m, n2, [:bar])
+
+      v = history.get(t, 0, i, 0, 0, m, n)
+      v2 = history.get(t, 0, i, 0, 0, m, n2)
 
       assert_equal [:foo], v.val
       assert_equal [:bar], v2.val
@@ -119,12 +124,13 @@ module SonicPi
       i = ThreadId.new(5)
       n = "/foo/bar"
       n2 = "/foo/quux"
+      m = 60
 
-      history.set(t, 0, i, 0, 0, n2, [:bar], {})
-      history.set(t, 0, i, 0, 0, n, [:foo], {})
+      history.set(t, 0, i, 0, 0, m, n2, [:bar])
+      history.set(t, 0, i, 0, 0, m, n, [:foo])
 
-      v = history.get(t, 0, i, 0, 0, n)
-      v2 = history.get(t, 0, i, 0, 0, n2)
+      v = history.get(t, 0, i, 0, 0, m, n)
+      v2 = history.get(t, 0, i, 0, 0, m, n2)
 
       assert_equal [:foo], v.val
       assert_equal [:bar], v2.val
@@ -137,18 +143,19 @@ module SonicPi
       n = "/foo/bar/baz"
       n2 = "/foo/bar/boz"
       n3 = "/foo/quux"
+      m = 60
 
-      history.set(t, 0, i, 0, 0, n, [:foo], {})
-      history.set(t + 1, 0, i, 0, 0, n2, [:bar], {})
-      history.set(t, 0, i, 0, 0, n3, [:baz], {})
+      history.set(t, 0, i, 0, 0, m, n, [:foo])
+      history.set(t + 1, 0, i, 0, 0, m, n2, [:bar])
+      history.set(t, 0, i, 0, 0, m, n3, [:baz])
 
-      v = history.get(t, 0, i, 0, 0, "/foo/bar/*")
+      v = history.get(t, 0, i, 0, 0, m, "/foo/bar/*")
       assert_equal [:foo], v.val
-      v2 = history.get(t, 0, i, 0, 0, "/foo/*/quux")
+      v2 = history.get(t, 0, i, 0, 0, m, "/foo/*/quux")
       assert_nil  v2
-      v3 = history.get(t, 0, i, 0, 0,"/*/*/boz")
+      v3 = history.get(t, 0, i, 0, 0, m, "/*/*/boz")
       assert_nil  v3
-      v4 = history.get(t + 1, 0, i, 0, 0, "/*/*/boz")
+      v4 = history.get(t + 1, 0, i, 0, 0, m, "/*/*/boz")
       assert_equal [:bar], v4.val
     end
 
@@ -159,13 +166,14 @@ module SonicPi
       i = ThreadId.new(5)
       t = 0
       n = "/foo/bar/baz"
+      m = 60
 
-      history.set(t, 0, i, 0, 0, n, [:foo], {})
-      history.set(t + 1, 0, i, 0, 0, n, [:bar], {})
+      history.set(t, 0, i, 0, 0, m, n, [:foo])
+      history.set(t + 1, 0, i, 0, 0, m, n, [:bar])
 
-      v = history.get(t, 0, i, 0, 0, n)
-      v2 = history.get(t + 0.5, 0, i, 0, 0, n)
-      v3 = history.get(t + 1, 0, i, 0, 0, n)
+      v = history.get(t, 0, i, 0, 0, m, n)
+      v2 = history.get(t + 0.5, 0, i, 0, 0, m, n)
+      v3 = history.get(t + 1, 0, i, 0, 0, m, n)
 
       assert_equal [:foo], v.val
       assert_equal [:foo], v2.val
@@ -179,6 +187,7 @@ module SonicPi
       t = 0
       #t = 1
       n = "/foo/bar/baz"
+      m = 60
 
       # t = 0
       n2 = "/foo/bar/boz"
@@ -188,21 +197,21 @@ module SonicPi
       n6 = "/z"
       n7 = "/foo/quux/beans/milk"
 
-      history.set(t, 0, i, 1, 0, n, [:baz], {})
-      history.set(t, 0, i, 0, 0, n2, [:boz], {})
-      history.set(t, 0, i, 2, 0, n3, [:quux], {})
-      history.set(t, 0, i, 3, 0, n4, [:eggs], {})
-      history.set(t, 0, i, 5, 0, n5, [:a], {})
-      history.set(t, 0, i, 4, 0, n6, [:z], {})
-      history.set(t, 0, i, 6, 0, n7, [:milk], {})
+      history.set(t, 0, i, 1, 0, m, n, [:baz])
+      history.set(t, 0, i, 0, 0, m, n2, [:boz])
+      history.set(t, 0, i, 2, 0, m, n3, [:quux])
+      history.set(t, 0, i, 3, 0, m, n4, [:eggs])
+      history.set(t, 0, i, 5, 0, m, n5, [:a])
+      history.set(t, 0, i, 4, 0, m, n6, [:z])
+      history.set(t, 0, i, 6, 0, m, n7, [:milk])
 
-      v = history.get(t, 0, i, 0, 0, "/**")
+      v = history.get(t, 0, i, 0, 0, m, "/**")
       assert_equal [:boz], v.val
 
-      v = history.get(t, 0, i, 0, 0, "/foo/**")
+      v = history.get(t, 0, i, 0, 0, m, "/foo/**")
       assert_equal [:boz], v.val
 
-      v = history.get(t, 1, i, 0, 0, "/foo/*/beans/**")
+      v = history.get(t, 1, i, 0, 0, m, "/foo/*/beans/**")
       assert_equal [:milk], v.val
     end
 
@@ -219,41 +228,42 @@ module SonicPi
       n7 = "/foo/quux/beans/milk"
       n8 = "/foo/cheese/beans/quorn"
       n9 = "/foo/cheese/bleans/quorn"
+      m = 60
 
-      history.set(0, 0, i, 0,  0, n1, [:baz], {})
-      history.set(0, 0, i, 1,  0, n1, [:baz1], {})
-      history.set(0, 0, i, 2,  0, n1, [:baz2], {})
-      history.set(1, 0, i, 3,  0, n1, [:baz3], {})
-      history.set(0, 0, i, 4,  0, n2, [:boz], {})
-      history.set(0, 0, i, 5,  0, n3, [:quux], {})
-      history.set(0, 0, i, 6,  0, n4, [:eggs], {})
-      history.set(0, 0, i, 7,  0, n5, [:a], {})
-      history.set(0, 0, i, 8,  0, n6, [:z], {})
-      history.set(0, 0, i, 9,  0, n7, [:milk], {})
-      history.set(0, 0, i, 10, 0, n8, [:quorn], {})
-      history.set(1, 0, i, 11, 0, n9, [:quorn2], {})
+      history.set(0, 0, i, 0,  0, m, n1, [:baz])
+      history.set(0, 0, i, 1,  0, m, n1, [:baz1])
+      history.set(0, 0, i, 2,  0, m, n1, [:baz2])
+      history.set(1, 0, i, 3,  0, m, n1, [:baz3])
+      history.set(0, 0, i, 4,  0, m, n2, [:boz])
+      history.set(0, 0, i, 5,  0, m, n3, [:quux])
+      history.set(0, 0, i, 6,  0, m, n4, [:eggs])
+      history.set(0, 0, i, 7,  0, m, n5, [:a])
+      history.set(0, 0, i, 8,  0, m, n6, [:z])
+      history.set(0, 0, i, 9,  0, m, n7, [:milk])
+      history.set(0, 0, i, 10, 0, m, n8, [:quorn])
+      history.set(1, 0, i, 11, 0, m, n9, [:quorn2])
 
-      assert_nil history.get(0, 0, i, 0, 0, "/**/quux")
-      assert_equal [:quux],   history.get(2, 0, i, 0, 0, "/**/**/**/quux").val
-      assert_equal [:quux],   history.get(2, 0, i, 0, 0, "/**/quux").val
-      assert_equal [:quux],   history.get(2, 0, i, 0, 0, "/**/*/quux").val
-      assert_equal [:quux],   history.get(2, 0, i, 0, 0, "/*/**/quux").val
-      assert_equal [:milk],   history.get(2, 0, i, 0, 0, "/*/**/quux/**").val
-      assert_equal [:quorn],  history.get(2, 0, i, 0, 0, "/foo/*/beans/**").val
-      assert_equal [:quorn],  history.get(2, 0, i, 0, 0, "/foo/**/beans/**").val
-      assert_equal [:baz],    history.get(0, 0, i, 0, 0, "/**").val
-      assert_equal [:baz],    history.get(0, 0, i, 0, 0, "/**/").val
-      assert_equal [:baz],    history.get(0, 0, i, 0, 0, "**").val
-      assert_equal [:baz],    history.get(0, 0, i, 0, 0, "**").val
-      assert_equal [:baz1],   history.get(0, 0, i, 1, 0, "/**/").val
-      assert_equal [:quorn2], history.get(2, 0, i, 0, 0, "/**/").val
-      assert_equal [:baz],    history.get(0, 0, i, 0, 0, "/foo/**/").val
-      assert_equal [:baz1],   history.get(0, 0, i, 1, 0, "/foo/**/").val
-      assert_equal [:baz],    history.get(0, 0, i, 0, 0, "/foo/bar/baz").val
-      assert_equal [:baz1],   history.get(0, 0, i, 1, 0, "/foo/bar/baz").val
-      assert_equal [:baz2],   history.get(1, 0, i, 2, 0, "/foo/bar/baz").val
-      assert_equal [:quorn2], history.get(2, 0, i, 0, 0, "/f*/*/b*/quorn").val
-      assert_equal [:quorn2], history.get(2, 0, i, 0, 0, "/f*/*se/b*/quorn").val
+      assert_nil history.get(0, 0, i, 0, 0, m, "/**/quux")
+      assert_equal [:quux],   history.get(2, 0, i, 0, 0, m, "/**/**/**/quux").val
+      assert_equal [:quux],   history.get(2, 0, i, 0, 0, m, "/**/quux").val
+      assert_equal [:quux],   history.get(2, 0, i, 0, 0, m, "/**/*/quux").val
+      assert_equal [:quux],   history.get(2, 0, i, 0, 0, m, "/*/**/quux").val
+      assert_equal [:milk],   history.get(2, 0, i, 0, 0, m, "/*/**/quux/**").val
+      assert_equal [:quorn],  history.get(2, 0, i, 0, 0, m, "/foo/*/beans/**").val
+      assert_equal [:quorn],  history.get(2, 0, i, 0, 0, m, "/foo/**/beans/**").val
+      assert_equal [:baz],    history.get(0, 0, i, 0, 0, m, "/**").val
+      assert_equal [:baz],    history.get(0, 0, i, 0, 0, m, "/**/").val
+      assert_equal [:baz],    history.get(0, 0, i, 0, 0, m, "**").val
+      assert_equal [:baz],    history.get(0, 0, i, 0, 0, m, "**").val
+      assert_equal [:baz1],   history.get(0, 0, i, 1, 0, m, "/**/").val
+      assert_equal [:quorn2], history.get(2, 0, i, 0, 0, m, "/**/").val
+      assert_equal [:baz],    history.get(0, 0, i, 0, 0, m, "/foo/**/").val
+      assert_equal [:baz1],   history.get(0, 0, i, 1, 0, m, "/foo/**/").val
+      assert_equal [:baz],    history.get(0, 0, i, 0, 0, m, "/foo/bar/baz").val
+      assert_equal [:baz1],   history.get(0, 0, i, 1, 0, m, "/foo/bar/baz").val
+      assert_equal [:baz2],   history.get(1, 0, i, 2, 0, m, "/foo/bar/baz").val
+      assert_equal [:quorn2], history.get(2, 0, i, 0, 0, m, "/f*/*/b*/quorn").val
+      assert_equal [:quorn2], history.get(2, 0, i, 0, 0, m, "/f*/*se/b*/quorn").val
     end
 
     def test_more_globs
@@ -261,81 +271,87 @@ module SonicPi
 
       i = ThreadId.new(5)
       n1 = "/foo/bar/baz"
+      m = 60
 
-      history.set(0, 0, i, 0, 0, n1, [:baz], {})
-      history.set(0, 0, i, 1, 0, n1, [:baz1], {})
+      history.set(0, 0, i, 0, 0, m, n1, [:baz])
+      history.set(0, 0, i, 1, 0, m, n1, [:baz1])
 
-      assert_equal [:baz],  history.get(0, 0, i, 0, 0, n1).val
-      assert_equal [:baz1], history.get(0, 0, i, 1, 0, n1).val
-      assert_equal [:baz1], history.get(0, 0, i, 1, 0, "/f*/bar/*").val
-      assert_equal [:baz],  history.get(0, 0, i, 0, 0, "/foo/bar/*").val
-      assert_equal [:baz],  history.get(0, 0, i, 0, 0, "/fo*o/b*/*").val
-      assert_equal [:baz1], history.get(0, 0, i, 1, 0, "/*/*/*").val
-      assert_equal [:baz],  history.get(0, 0, i, 0, 0, "/*/*/*").val
-      assert_equal [:baz],  history.get(0, 0, i, 0, 0, "/**").val
-      assert_equal [:baz1], history.get(0, 0, i, 1, 0, "/**").val
-      assert_equal [:baz1], history.get(0, 0, i, 1, 0, "/**/**").val
-      assert_equal [:baz1], history.get(0, 0, i, 1, 0, "/foo/**/*").val
+      assert_equal [:baz],  history.get(0, 0, i, 0, 0, m, n1).val
+      assert_equal [:baz1], history.get(0, 0, i, 1, 0, m, n1).val
+      assert_equal [:baz1], history.get(0, 0, i, 1, 0, m, "/f*/bar/*").val
+      assert_equal [:baz],  history.get(0, 0, i, 0, 0, m, "/foo/bar/*").val
+      assert_equal [:baz],  history.get(0, 0, i, 0, 0, m, "/fo*o/b*/*").val
+      assert_equal [:baz1], history.get(0, 0, i, 1, 0, m, "/*/*/*").val
+      assert_equal [:baz],  history.get(0, 0, i, 0, 0, m, "/*/*/*").val
+      assert_equal [:baz],  history.get(0, 0, i, 0, 0, m, "/**").val
+      assert_equal [:baz1], history.get(0, 0, i, 1, 0, m, "/**").val
+      assert_equal [:baz1], history.get(0, 0, i, 1, 0, m, "/**/**").val
+      assert_equal [:baz1], history.get(0, 0, i, 1, 0, m, "/foo/**/*").val
     end
 
     def test_basic_get_next
       history = EventHistory.new
       i = ThreadId.new(5)
       n1 = "/foo/bar/baz"
-      history.set(0, 0, i, 0, 0, n1, [:baz0], {})
-      history.set(0, 0, i, 1, 0, n1, [:baz1], {})
-      history.set(1, 0, i, 0, 0, n1, [:baz2], {})
-      assert_equal [:baz1], history.get_next(0, 0, i, 0, 0, n1).val
+      m = 60
+
+      history.set(0, 0, i, 0, 0, m, n1, [:baz0])
+      history.set(0, 0, i, 1, 0, m, n1, [:baz1])
+      history.set(1, 0, i, 0, 0, m, n1, [:baz2])
+      assert_equal [:baz1], history.get_next(0, 0, i, 0, 0, m, n1).val
     end
 
     def test_get_next
       history = EventHistory.new
       i = ThreadId.new(5)
       n1 = "/foo/bar/baz"
-      history.set(0, 0, i, 0, 0, n1, [:baz0], {})
-      history.set(0, 0, i, 1, 0, n1, [:baz01], {})
-      history.set(1, 0, i, 0, 0, n1, [:baz1], {})
+      m = 60
 
-      history.set(2, 0, i, 1, 0, n1, [:baz2], {})
-      history.set(5, 0, i, 3, 0, n1, [:baz3], {})
-      history.set(5, 0, i, 2, 0, "/foo/bar/beans/baaaz", [:baaaz2], {})
-      history.set(5, 0, i, 3, 0, "/foo/bar/beans/baaaz", [:baaaz3], {})
-      history.set(5, 0, i, 3, 0, "/foo/qux/beans/baaaz", [:baaaz31], {})
-      history.set(5, 0, i, 5, 0, "/foo/qux/beans/baaaz", [:baaaz32], {})
-      history.set(5, 0, i, 4, 0, "/foo/bar/beans/baaaz", [:baaaz4], {})
+      history.set(0, 0, i, 0, 0, m, n1, [:baz0])
+      history.set(0, 0, i, 1, 0, m, n1, [:baz01])
+      history.set(1, 0, i, 0, 0, m, n1, [:baz1])
 
-      assert_equal [:baz01],   history.get(0, 0, i, 1, 0, n1).val
-      assert_equal [:baz01],   history.get_next(0, 0, i, 0, 0, n1).val
-      assert_equal [:baz1],    history.get_next(0, 0, i, 1, 0, n1).val
-      assert_equal [:baz1],    history.get_next(0, 0, i, 1, 0, "/**/").val
-      assert_equal [:baz1],    history.get_next(0, 0, i, 1, 0, "/foo/*/*").val
-      assert_equal [:baz1],    history.get_next(0, 0, i, 2, 0, "/foo/*/*").val
-      assert_equal [:baz3],    history.get_next(3, 0, i, 3, 0, "/foo/*/*").val
-      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, "/**/*/*").val
-      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, "/**/*").val
-      assert_equal [:baaaz3],  history.get_next(5, 0, i, 2, 0, "/foo/*/*/baaaz/").val
-      assert_equal [:baaaz32], history.get(5, 0, i, 6, 0, "/foo/*/*/baaaz/").val
-      assert_equal [:baaaz4],  history.get(5, 0, i, 6, 0, "/foo/bar/*/baaaz/").val
+      history.set(2, 0, i, 1, 0, m, n1, [:baz2])
+      history.set(5, 0, i, 3, 0, m, n1, [:baz3])
+      history.set(5, 0, i, 2, 0, m, "/foo/bar/beans/baaaz", [:baaaz2])
+      history.set(5, 0, i, 3, 0, m, "/foo/bar/beans/baaaz", [:baaaz3])
+      history.set(5, 0, i, 3, 0, m, "/foo/qux/beans/baaaz", [:baaaz31])
+      history.set(5, 0, i, 5, 0, m, "/foo/qux/beans/baaaz", [:baaaz32])
+      history.set(5, 0, i, 4, 0, m, "/foo/bar/beans/baaaz", [:baaaz4])
 
-      assert_equal [:baaaz32], history.get(5, 0, i, 6, 0, "/**/*/baaaz/").val
+      assert_equal [:baz01],   history.get(0, 0, i, 1, 0, m, n1).val
+      assert_equal [:baz01],   history.get_next(0, 0, i, 0, 0, m, n1).val
+      assert_equal [:baz1],    history.get_next(0, 0, i, 1, 0, m, n1).val
+      assert_equal [:baz1],    history.get_next(0, 0, i, 1, 0, m, "/**/").val
+      assert_equal [:baz1],    history.get_next(0, 0, i, 1, 0, m, "/foo/*/*").val
+      assert_equal [:baz1],    history.get_next(0, 0, i, 2, 0, m, "/foo/*/*").val
+      assert_equal [:baz3],    history.get_next(3, 0, i, 3, 0, m, "/foo/*/*").val
+      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, m, "/**/*/*").val
+      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, m, "/**/*").val
+      assert_equal [:baaaz3],  history.get_next(5, 0, i, 2, 0, m, "/foo/*/*/baaaz/").val
+      assert_equal [:baaaz32], history.get(5, 0, i, 6, 0, m, "/foo/*/*/baaaz/").val
+      assert_equal [:baaaz4],  history.get(5, 0, i, 6, 0, m, "/foo/bar/*/baaaz/").val
 
-      assert_equal [:baz3],    history.get_next(3, 0, i, 3, 0, "/**/bar/*").val
-      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, "/foo/bar/**/").val
-      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, "/foo/bar/**").val
+      assert_equal [:baaaz32], history.get(5, 0, i, 6, 0, m, "/**/*/baaaz/").val
+
+      assert_equal [:baz3],    history.get_next(3, 0, i, 3, 0, m, "/**/bar/*").val
+      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, m, "/foo/bar/**/").val
+      assert_equal [:baaaz2],  history.get_next(3, 0, i, 3, 0, m, "/foo/bar/**").val
     end
 
 
     def test_event_order
       history = EventHistory.new
       i = ThreadId.new(5)
+      m = 60
 
-      history.set(0, 0, i, 2, 0, "/foo/bar/baz", [:baz3], {})
-      history.set(0, 0, i, 1, 0, "/foo/bar/baz", [:baz2], {})
-      history.set(0, 0, i, 0, 0, "/foo/bar/baz", [:baz1], {})
+      history.set(0, 0, i, 2, 0, m, "/foo/bar/baz", [:baz3])
+      history.set(0, 0, i, 1, 0, m, "/foo/bar/baz", [:baz2])
+      history.set(0, 0, i, 0, 0, m, "/foo/bar/baz", [:baz1])
 
-      assert_equal [:baz1], history.get(0, 0, i, 0, 0, "/foo/bar/baz").val
-      assert_equal [:baz2], history.get(0, 0, i, 1, 0, "/foo/bar/baz").val
-      assert_equal [:baz3], history.get(0, 0, i, 2, 0, "/foo/bar/baz").val
+      assert_equal [:baz1], history.get(0, 0, i, 0, 0, m, "/foo/bar/baz").val
+      assert_equal [:baz2], history.get(0, 0, i, 1, 0, m, "/foo/bar/baz").val
+      assert_equal [:baz3], history.get(0, 0, i, 2, 0, m, "/foo/bar/baz").val
     end
 
     def test_event_matcher
@@ -387,19 +403,22 @@ module SonicPi
       history = EventHistory.new
       i = ThreadId.new(5)
       n1 = "/foo/bar/baz"
-      history.set(0, 0, i, 1, 0, n1, [:baz1], {})
-      assert_equal [:baz1], history.sync(0, 0, i, 0, 0, n1).val
+      m = 60
+      history.set(0, 0, i, 1, 0, m, n1, [:baz1])
+      assert_equal [:baz1], history.sync(0, 0, i, 0, 0, m, n1).val
     end
 
     def test_sync_w_matchers
       history = EventHistory.new
       i = ThreadId.new(5)
       n1 = "/foo/bar/baz"
+      m = 60
+
       Thread.new do
         Kernel.sleep 0.01
-        history.set(0, 0, i, 1, 0, n1, [:baz1], {})
+        history.set(0, 0, i, 1, 0, m, n1, [:baz1])
       end
-      assert_equal [:baz1], history.sync(0, 0, i, 0, 0, "/foo/**").val
+      assert_equal [:baz1], history.sync(0, 0, i, 0, 0, m, "/foo/**").val
     end
 
 
@@ -408,11 +427,13 @@ module SonicPi
         history = EventHistory.new
         i = ThreadId.new(5)
         n1 = "/foo/bar/baz"
+        m = 60
+
         t1 = Thread.new do
-          history.set(0, 0, i, 1, 0, n1, [:baz1], {})
+          history.set(0, 0, i, 1, 0, m, n1, [:baz1])
         end
         t2 = Thread.new do
-          assert_equal [:baz1], history.sync(0, -100, i, 0, 0, n1).val
+          assert_equal [:baz1], history.sync(0, -100, i, 0, 0, m, n1).val
         end
 
         t1.join
@@ -425,13 +446,14 @@ module SonicPi
       prom = Promise.new
       i = ThreadId.new(5)
       i2 = ThreadId.new(5, 1)
+      m = 60
 
       t = Thread.new do
-        history.sync 0, 0, i, 0, 0, "/foo/bar"
+        history.sync 0, 0, i, 0, 0, m, "/foo/bar"
       end
 
       t2 = Thread.new do
-        history.sync 0, 0, i2, 0, 0, "/foo/bar/baz"
+        history.sync 0, 0, i2, 0, 0, m, "/foo/bar/baz"
       end
       Kernel.sleep 0.1
       assert_equal 2, history.event_matchers.matchers.size
@@ -463,14 +485,15 @@ module SonicPi
       i2 = ThreadId.new(0, 0, 0)
       i3 = ThreadId.new(0, 0, 1)
       n = "/cue/foo"
+      m = 60
 
-      history.set(1496358140.495527, 0, i1, 0, 0, n, 1, {})
-      history.set(1496358140.495527, 0, i1, 1, 0, n, 2, {})
-      history.set(1496358140.595527, 0, i2, 0, 0.1, n, 3, {})
-      history.get(1496358140.595527, -100, i1, 0, 0.1, n)
-      history.set(1496358140.595527,  0, i3, 0, 0.1, n, 5, {})
-      history.get(1496358140.595527, -100, i1, 0, 0.1, n)
-      v = history.get(1496358140.6955268, -100, i1, 0, 0.2, n)
+      history.set(1496358140.495527, 0, i1, 0, 0, m, n, 1)
+      history.set(1496358140.495527, 0, i1, 1, 0, m, n, 2)
+      history.set(1496358140.595527, 0, i2, 0, 0.1, m, n, 3)
+      history.get(1496358140.595527, -100, i1, 0, 0.1, m, n)
+      history.set(1496358140.595527,  0, i3, 0, 0.1, m, n, 5)
+      history.get(1496358140.595527, -100, i1, 0, 0.1, m, n)
+      v = history.get(1496358140.6955268, -100, i1, 0, 0.2, m, n)
       assert_equal 5, v.val
     end
   end

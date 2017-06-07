@@ -22,16 +22,15 @@ module SonicPi
       i = 0
       d = 0
       b = 0
-      m = {foo: 3}
+      m = 60
       v = [:a, :b, :c]
       n = "/foo/bar"
-      c = CueEvent.new(t, p, i, d, b, n, v, m)
+      c = CueEvent.new(t, p, i, d, b, m, n, v)
       assert_equal t, c.time
       assert_equal i, c.thread_id
       assert_equal d.to_i, c.delta
       assert_equal b.to_i, c.beat
       assert_equal v.ring, c.val
-      assert_equal m.to_sp_map, c.meta
       assert_equal Array, c.val.class
     end
 
@@ -41,11 +40,11 @@ module SonicPi
       i = 0
       d = 0
       b = 0
-      m = {foo: 3}
+      m = 60
       n = "/foo/bar"
       a = [:a, :b, Object.new]
       assert_raises SonicPi::Core::NotThreadSafeError do
-        c = CueEvent.new(t, p, i, d, b, n,  a, m )
+        c = CueEvent.new(t, p, i, d, b, m, n, a)
       end
     end
 
@@ -60,16 +59,16 @@ module SonicPi
       d1 = 0
       d2 = 1
       d3 = 2
-      m = {foo: 3}
+      m = 60
       a = [:a, :b, :c]
       n = "/foo/bar"
       n2 = "/z/foo/bar"
-      c1 = CueEvent.new(t1, p, i, d1, 0, n, a, m )
-      c1clone = CueEvent.new(t1, p, i, d1, 0, n, a, m )
-      c1diff = CueEvent.new(t1, p, i, d1, 0, n, [:foo], m )
-      c2 = CueEvent.new(t2, p, i, d1, 0, n, a, m )
-      c3 = CueEvent.new(t3, p, i, d1, 0, n, a, m )
-      c3p2 = CueEvent.new(t3, p, i, d2, 0, n2, a, m )
+      c1 = CueEvent.new(t1, p, i, d1, 0, m, n, a )
+      c1clone = CueEvent.new(t1, p, i, d1, 0, m, n, a )
+      c1diff = CueEvent.new(t1, p, i, d1, 0, m, n, [:foo])
+      c2 = CueEvent.new(t2, p, i, d1, 0, m, n, a)
+      c3 = CueEvent.new(t3, p, i, d1, 0, m, n, a)
+      c3p2 = CueEvent.new(t3, p, i, d2, 0, m, n2, a)
       assert c1 < c2
       assert c1 < c3
       assert c2 < c3
@@ -84,10 +83,10 @@ module SonicPi
       p = 0
       i = 0
       d = 0
-      m = {foo: 3}
+      m = 60
       a = [:a, :b, :c]
       n = "/foo/bar"
-      c = CueEvent.new(t, p, i, d, 0, n, a, m )
+      c = CueEvent.new(t, p, i, d, 0, m, n, a)
       assert_equal ["foo", "bar"], c.split_path
     end
 
@@ -96,10 +95,10 @@ module SonicPi
       p = 0
       i = 0
       d = 0
-      m = {foo: 3}
+      m = 60
       a = [:a, :b, :c]
       n = "/foo/bar/baz"
-      c = CueEvent.new(t, p, i, d, 0, n, a, m )
+      c = CueEvent.new(t, p, i, d, 0, m, n, a)
       assert_equal "foo", c.path_segment(0)
       assert_equal "bar", c.path_segment(1)
       assert_equal "baz", c.path_segment(2)

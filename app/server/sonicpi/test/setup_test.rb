@@ -27,7 +27,7 @@ module SonicPi
       @user_state = EventHistory.new
       @event_history = EventHistory.new
       @system_init_thread_id = ThreadId.new(-1)
-      @system_state.set 0, 0, @system_init_thread_id, 0, 0, :sched_ahead_time, 0.5
+      @system_state.set 0, 0, @system_init_thread_id, 0, 0, 60, :sched_ahead_time, 0.5
 
       @settings = Config::Settings.new("/bogus/path/to/default/to/empty/settings.txt")
       @version = Version.new(0, 0, 0, "test")
@@ -50,11 +50,11 @@ module SonicPi
       @session_id = SecureRandom.uuid
       @snippets = {}
       @gui_cue_log_idxs = Counter.new
-      @register_cue_event_lambda = lambda do |t, p, i, d, b, address, args, sched_ahead_time=0|
+      @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
         gui_log_id = @gui_cue_log_idxs.next
         a = args.freeze
 
-        @event_history.set(t, p, i, d, b, address.freeze, a)
+        @event_history.set(t, p, i, d, b, m, address.freeze, a)
         @cue_events.async_event("/spider_thread_sync/#{address}", {
                                   :time => t,
                                   :cue_splat_map_or_arr => a,

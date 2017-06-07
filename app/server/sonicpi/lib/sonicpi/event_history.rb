@@ -130,10 +130,10 @@ module SonicPi
 
 
     # Get the last seen version (at or before the current time)
-    def get(t, p, i, d, b, path, val_matcher=nil, get_next=false)
+    def get(t, p, i, d, b, m, path, val_matcher=nil, get_next=false)
       wait_for_threads
       res = nil
-      get_event = CueEvent.new(t, p, i, d, b, path, [], {})
+      get_event = CueEvent.new(t, p, i, d, b, m, path, [])
 
       @get_mut.synchronize do
         @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
@@ -144,15 +144,15 @@ module SonicPi
 
     # Get next version (after current time)
     # return nil if nothing found
-    def get_next(t, p, i, d, b, path, val_matcher=nil)
-      get(t, p, i, d, b, path, val_matcher, true)
+    def get_next(t, p, i, d, b, m, path, val_matcher=nil)
+      get(t, p, i, d, b, m, path, val_matcher, true)
     end
 
     # Register cue event for time t
     # Do not modify time
-    def set(t, p, i, d, b, path, val, meta={})
-      # TODO = fill meta correctly with Thread Locals if available
-      ce = CueEvent.new(t, p, i, d, b, path, val, meta)
+    def set(t, p, i, d, b, m, path, val)
+
+      ce = CueEvent.new(t, p, i, d, b, m, path, val)
       @unprocessed << ce
       @event_matchers.match(ce.path, ce.val)
     end
@@ -160,16 +160,14 @@ module SonicPi
     # Get the next version (after the current time)
     # Set time to time of cue
 
-    def sync(t, p, i, d, b, path, val_matcher=nil, &blk)
+    def sync(t, p, i, d, b, m, path, val_matcher=nil, &blk)
       wait_for_threads
       prom = nil
-      ge = CueEvent.new(t, p, i, d, b, path, [], {})
-
+      ge = CueEvent.new(t, p, i, d, b, m, path, [])
       @get_mut.synchronize do
         @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
         res = get_w_no_mutex(ge, val_matcher, true)
         return res if res
-
         prom = Promise.new
         matcher = @event_matchers.put ge.path, val_matcher, i, prom
 
@@ -194,13 +192,13 @@ module SonicPi
     # Wait for the first out of the list of cues to arrive
     # Set time to time of first cue
     # Once first cue has arrived - no longer wait for other cues
-    def sync_first(t, p, i, d, b, paths, val_matcher, timeout=nil)
+    def sync_first(t, p, i, d, b, m, paths, val_matcher, timeout=nil)
 
     end
 
     # Wait for all cues to arrive (after the current time)
     # Set time to time of last cue
-    def sync_all(t, p, i, d, b, paths, val_matcher, timeout=nil)
+    def sync_all(t, p, i, d, b, m, paths, val_matcher, timeout=nil)
 
     end
 

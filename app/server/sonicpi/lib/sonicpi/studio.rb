@@ -61,7 +61,8 @@ module SonicPi
         p = 0
         d = 0
         b = 0
-        @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, address, args , 0)
+        m = 60
+        @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
       end
 
       if @o2m_pid || @m2o_pid

@@ -18,14 +18,16 @@ module SonicPi
 
     include Comparable
 
-    attr_reader :time, :time_r, :priority, :thread_id, :delta, :beat, :path, :val, :meta, :split_path, :path_size
-    def initialize(time, priority, thread_id, delta, beat, path, val, meta={})
+    attr_reader :time, :time_r, :priority, :thread_id, :delta, :beat, :bpm, :path, :val, :meta, :split_path, :path_size
+    def initialize(time, priority, thread_id, delta, beat, bpm, path, val, meta={})
       @time = time
       @time_r = time.to_r
       @priority = priority.to_i
       @thread_id = thread_id
       @delta = delta.to_i
       @beat = beat.to_f
+      @bpm = bpm.to_f
+
       if path.is_a?(Symbol)
         @path = "/cue/#{path}".strip.freeze
       else
@@ -33,6 +35,7 @@ module SonicPi
         path = "/#{path}" unless path.start_with?("/")
         @path = path.strip.freeze
       end
+
       raise EmptyPathError, "CueEvent must have a valid path. Got: #{@path}" if @path == "/"
       @val = val.__sp_make_thread_safe
       @meta = meta.__sp_make_thread_safe
@@ -69,7 +72,7 @@ module SonicPi
     end
 
     def to_s
-      "#<SonicPi::CueEvent:#{[[@time.to_f, @priority, @thread_id, @delta, @beat], @path, @val]}"
+      "#<SonicPi::CueEvent:#{[[@time.to_f, @priority, @thread_id, @delta, @beat, @bpm], @path, @val]}"
     end
 
     def inspect

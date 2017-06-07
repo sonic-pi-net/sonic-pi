@@ -95,7 +95,8 @@ module SonicPi
           p = 0
           d = 0
           b = 0
-          @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, address, args, 0)
+          m = 60
+          @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
         end
       end
     end
@@ -239,7 +240,7 @@ module SonicPi
       #TODO: insert thread id and delta correctly
       __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) ||
 
-        @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), 0, __current_thread_id, 0, __system_thread_locals.get(:sonic_pi_spider_beat), :sched_ahead_time,).val
+        @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), 0, __current_thread_id, 0, __system_thread_locals.get(:sonic_pi_spider_beat), current_bpm, :sched_ahead_time,).val
     end
 
     def __schedule_delayed_blocks_and_messages!
@@ -1062,15 +1063,15 @@ module SonicPi
       @event_history = EventHistory.new
       @system_init_thread_id = ThreadId.new(-1)
       osc_cue_server_thread_id = ThreadId.new(-2)
-      @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, :sched_ahead_time, default_sched_ahead_time
+      @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
       @gui_cue_log_idxs = Counter.new
       @osc_cue_server_is_open = false
       @osc_cue_server_mutex = Mutex.new
-      @register_cue_event_lambda = lambda do |t, p, i, d, b, address, args, sched_ahead_time=0|
+      @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
         gui_log_id = @gui_cue_log_idxs.next
         a = args.freeze
 
-        @event_history.set(t, p, i, d, b, address.freeze, a)
+        @event_history.set(t, p, i, d, b, m, address.freeze, a)
         @cue_events.async_event("/spider_thread_sync/#{address}", {
                                   :time => t,
                                   :cue_splat_map_or_arr => a,
