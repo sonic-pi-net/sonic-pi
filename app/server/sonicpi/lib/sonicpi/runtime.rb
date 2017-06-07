@@ -1036,6 +1036,7 @@ module SonicPi
     include RuntimeMethods
 
     def initialize(ports, msg_queue, user_methods)
+      @ports = ports
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
@@ -1059,7 +1060,7 @@ module SonicPi
       @snippets = {}
       @osc_cues_port = ports[:osc_cues_port]
       # TODO remove hardcoded port number
-      @osc_router_port = 8014
+      @osc_router_port = ports[:erlang_port]
       @log_cues = false
       @log_cues_file = File.open(osc_cues_log_path, 'a')
       @system_state = EventHistory.new

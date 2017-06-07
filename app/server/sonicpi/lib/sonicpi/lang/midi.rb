@@ -1367,9 +1367,7 @@ end"
       end
 
       def __midi_send_timed(*args)
-        #TODO remove hardcoded port number
-        osmid_o2m_port = 4561
-        __osc_send "localhost", osmid_o2m_port, *args
+        __osc_send "localhost", @ports[:osc_midi_out_port], *args
       end
 
       def __midi_message(m) __delayed_message m unless __thread_locals.get(:sonic_pi_suppress_midi_logging)

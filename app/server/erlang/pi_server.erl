@@ -52,19 +52,22 @@
 
 %% Assumptions
 
-server_port() -> 8014.
+%% server_port() -> 8014.
 
-start() ->
+start([ARGVPort|T]) ->
+    A = atom_to_list(ARGVPort),
+    {Port, Rest} = string:to_integer(A),
     S = self(),
-    register(?MODULE, spawn(fun() -> go(S) end)),
+    register(?MODULE, spawn(fun() -> go(S, Port) end)),
     receive
 	ack ->
 	    true
     end.
 
-go(P) ->
-    {ok, Socket} = gen_udp:open(server_port(), [binary]),
-    io:format("~n+--------------------------------+~n+ This is the Sonic Pi IO Server +~n+       Powered by Erlang        +~n+     Listening on port ~p     +~n+--------------------------------+~n~n~n",[server_port()]),
+go(P, Port) ->
+
+    {ok, Socket} = gen_udp:open(Port, [binary]),
+    io:format("~n+--------------------------------+~n+ This is the Sonic Pi IO Server +~n+       Powered by Erlang        +~n+     Listening on port ~p     +~n+--------------------------------+~n~n~n",[Port]),
     P ! ack,
     Monitor = spawn(fun() -> monitor() end),
     TagMap = #{},

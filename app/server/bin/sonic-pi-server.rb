@@ -116,7 +116,7 @@ sonic_pi_ports = {
 
 # Start Erlang
 begin
-  erlang_cmd = "#{erlang_boot_path} -pz \"#{erlang_server_path}\" -s pi_server start"
+  erlang_cmd = "#{erlang_boot_path} -pz \"#{erlang_server_path}\" -s pi_server start #{erlang_port}"
   STDOUT.puts erlang_cmd
   pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
   register_process(pid)
