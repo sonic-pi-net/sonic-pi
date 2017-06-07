@@ -112,7 +112,7 @@ sonic_pi_ports = {
   osc_cues_port: osc_cues_port,
   erlang_port: erlang_port,
   osc_midi_out_port: osc_midi_out_port,
-  osc_midi_in_port: osc_midi_in_port }
+  osc_midi_in_port: osc_midi_in_port }.freeze
 
 # Start Erlang
 begin
