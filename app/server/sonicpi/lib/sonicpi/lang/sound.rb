@@ -127,7 +127,7 @@ module SonicPi
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
               duration ||= 8
-              duration = duration * __thread_locals.get(:sonic_pi_spider_sleep_mul, 1)
+              duration = duration * __system_thread_locals.get(:sonic_pi_spider_sleep_mul, 1)
               name = name.to_sym
 
               buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
@@ -2566,7 +2566,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
         end
 
         if __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
-          return real_dur.to_f / __thread_locals.get(:sonic_pi_spider_sleep_mul)
+          return real_dur.to_f / __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
         else
           return real_dur
         end
@@ -4695,14 +4695,14 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             # allows defaults to be keys one level deep
             # see .normalise_args!
             val = (args_h[val] || defaults[val]) if val.is_a?(Symbol)
-            scaled_val = val * __thread_locals.get(:sonic_pi_spider_sleep_mul)
+            scaled_val = val * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
             new_args[arg_name] = scaled_val unless scaled_val == defaults[arg_name]
 
           end
         else
           # only scale the args that have been passed.
           info.bpm_scale_args.each do |arg_name, default|
-            new_args[arg_name] = args_h[arg_name] * __thread_locals.get(:sonic_pi_spider_sleep_mul) if args_h.has_key?(arg_name)
+            new_args[arg_name] = args_h[arg_name] * __system_thread_locals.get(:sonic_pi_spider_sleep_mul) if args_h.has_key?(arg_name)
 
           end
         end

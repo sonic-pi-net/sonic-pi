@@ -699,7 +699,7 @@ end"
 
         vt_orig = __system_thread_locals.get :sonic_pi_spider_time
         density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
-        orig_sleep_mul_w_density = __thread_locals.get(:sonic_pi_spider_sleep_mul) * density
+        orig_sleep_mul_w_density = __system_thread_locals.get(:sonic_pi_spider_sleep_mul) * density
         orig_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
         sat = current_sched_ahead_time
         already_in_time_warp = __system_thread_locals.get :sonic_pi_spider_in_time_warp
@@ -3183,7 +3183,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
         raise ArgumentError, "use_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
         sleep_mul = 60.0 / bpm
-        __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul)
+        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul)
       end
       doc name:           :use_bpm,
           introduced:     Version.new(2,0,0),
@@ -3236,11 +3236,11 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
       def with_bpm(bpm, &block)
         raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
         raise ArgumentError, "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
-        current_mul = __thread_locals.get(:sonic_pi_spider_sleep_mul)
+        current_mul = __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
         sleep_mul = 60.0 / bpm
-        __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul)
+        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul)
         res = block.call
-        __thread_locals.set(:sonic_pi_spider_sleep_mul, current_mul)
+        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, current_mul)
         res
       end
       doc name:           :with_bpm,
@@ -3294,11 +3294,11 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
       def with_bpm_mul(mul, &block)
         raise ArgumentError, "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
         raise ArgumentError, "with_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        current_mul = __thread_locals.get(:sonic_pi_spider_sleep_mul)
+        current_mul = __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
         new_mul = current_mul.to_f / mul
-        __thread_locals.set(:sonic_pi_spider_sleep_mul, new_mul)
+        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, new_mul)
         res = block.call
-        __thread_locals.set(:sonic_pi_spider_sleep_mul, current_mul)
+        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, current_mul)
         res
       end
       doc name:           :with_bpm_mul,
@@ -3329,9 +3329,9 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
       def use_bpm_mul(mul, &block)
         raise ArgumentError, "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
         raise ArgumentError, "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        current_mul = __thread_locals.get(:sonic_pi_spider_sleep_mul)
+        current_mul = __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
         new_mul = current_mul.to_f / mul
-        __thread_locals.set(:sonic_pi_spider_sleep_mul, new_mul)
+        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, new_mul)
       end
       doc name:           :use_bpm_mul,
           introduced:     Version.new(2,3,0),
@@ -3466,7 +3466,7 @@ puts rand               #=> 0.24249267578125
 
 
       def current_bpm
-        60.0 / __thread_locals.get(:sonic_pi_spider_sleep_mul)
+        __current_bpm
       end
       doc name:          :current_bpm,
           introduced:    Version.new(2,0,0),
@@ -3484,7 +3484,7 @@ This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sa
 
 
       def current_beat_duration
-        __thread_locals.get(:sonic_pi_spider_sleep_mul)
+        __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
       end
       doc name:          :current_beat_duration,
           introduced:    Version.new(2,6,0),
@@ -3528,7 +3528,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def rt(t)
-        t / __thread_locals.get(:sonic_pi_spider_sleep_mul)
+        t / __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
       end
       doc name:          :rt,
           introduced:    Version.new(2,0,0),
@@ -3549,7 +3549,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def bt(t)
-        t * __thread_locals.get(:sonic_pi_spider_sleep_mul)
+        t * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
       end
       doc name:          :bt,
           introduced:    Version.new(2,8,0),
@@ -3717,12 +3717,14 @@ puts current_sched_ahead_time # Prints 0.5"]
         # Now get on with syncing the rest of the sleep time...
 
         # Calculate the amount of time to sleep (take into account current bpm setting)
-        sleep_time = beats * __thread_locals.get(:sonic_pi_spider_sleep_mul)
+        sleep_time = beats * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+
         # Calculate the new virtual time
         new_vt = last_vt + sleep_time
 
         sat = current_sched_ahead_time
         now = Time.now
+
         if now - (sat + 0.5) > new_vt
           raise TimingError, "Timing Exception: thread got too far behind time"
         elsif (now - sat) > new_vt
@@ -3851,7 +3853,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         # To re-enable sync_bpm
         # meta = {
         #   :time => t,
-        #   :sleep_mul => __thread_locals.get(:sonic_pi_spider_sleep_mul),
+        #   :sleep_mul => __system_thread_locals.get(:sonic_pi_spider_sleep_mul),
         #   :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
         #   :run => current_job_id,
         #   :cue_splat_map_or_arr => splat_map_or_arr,
@@ -4017,7 +4019,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set :sonic_pi_spider_time, se.time.freeze
 
         # TODO: add this
-        #        __thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
+        #        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
 
         # run_id = payload[:run]
         # run_info = run_id ? "(Run #{run_id})" : "(OSC)"

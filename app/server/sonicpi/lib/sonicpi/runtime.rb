@@ -236,14 +236,18 @@ module SonicPi
       __enqueue_multi_message(2, s)
     end
 
+    def __current_bpm
+      60.0 / __system_thread_locals.get(:sonic_pi_spider_sleep_mul, 60)
+    end
+
     def __current_sched_ahead_time
       #TODO: insert thread id and delta correctly
       __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) ||
-
-        @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), 0, __current_thread_id, 0, __system_thread_locals.get(:sonic_pi_spider_beat), current_bpm, :sched_ahead_time,).val
+        @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), 0, __current_thread_id, 0, __system_thread_locals.get(:sonic_pi_spider_beat), __current_bpm, :sched_ahead_time,).val
     end
 
     def __schedule_delayed_blocks_and_messages!
+
       delayed_messages = __system_thread_locals.get :sonic_pi_local_spider_delayed_messages
       delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks) || []
       if delayed_messages
@@ -718,7 +722,7 @@ module SonicPi
 
     def __set_default_user_thread_locals!
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
-      __thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
+      __system_thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
       __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
     end
 
