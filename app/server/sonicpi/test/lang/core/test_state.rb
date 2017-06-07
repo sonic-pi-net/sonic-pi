@@ -92,7 +92,6 @@ module SonicPi
           end
 
           sleep 0.005
-          Kernel.puts "ney"
           assert_equal get(:intensity), 100
 
           sleep 0.005
