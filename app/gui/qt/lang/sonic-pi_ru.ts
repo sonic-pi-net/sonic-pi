@@ -194,7 +194,7 @@ However, they will not be visible in the logs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1131"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Автопрокрутка журнала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1160"/>
@@ -436,14 +436,14 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1120"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation>Изменяй поведение синтезаторов и FX</translation>
+        <translation>Изменить поведение синтезаторов и FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation>Переключить логирование автопрокрутки.
-Если включено - лог прокручен до конца, после каждого нового сообщения.</translation>
+        <translation>Включить/выключить прокручивание журнала автоматически.
+Если включено, журнал прокручивается в самый конец после каждого нового сообщения.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1139"/>
@@ -458,19 +458,19 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
-        <translation>Когда включен, Sonic Pi разрешит
-синтезаторам и FX загружаться через load_synthdefs
-чтобы иметь возможность переключать.
+which isn't recognised.</source>
+        <translation>Когда включено, Sonic Pi разрешит
+срабатывать синтезаторам и FX,
+загруженным через load_synthdefs.
 
-Если выключен, Sonic Pi пожалуется,
-когда вы попробуете использовать синтезатор или FX,
-которые не распознаны.</translation>
+Когда выключено, Sonic Pi будет
+жаловаться при попытке использовать
+неопознанный синтезатор или FX.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1142"/>
         <source>Enforce timing guarantees</source>
-        <translation>Соблюдение сроков гарантии</translation>
+        <translation>Соблюдать гарантии таймингов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
@@ -481,7 +481,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation>Когда включен, Sonic Pi откажется возбуждать синтезаторов и FX, если это слишком поздно, сделать это при отключении, Sonic Pi всегда будет пытаться вызвать синтезаторов и FX даже тогда, когда это немного поздно.</translation>
+        <translation>Когда включено, Sonic Pi откажется
+использовать синтезаторы и FX, если
+уже слишком поздно.
+
+Когда выключено, Sonic Pi будет пытаться
+использовать синтезаторы и FX всегда,
+даже если уже немного поздно.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1281"/>
@@ -516,7 +522,7 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation>Звуковой осциллограф бывает трех видов, которые могут
+        <translation>Звуковой осциллограф бывает трёх видов, которые могут
 быть просмотрены независимо или вместе:
 
 Лиссажу - показывает отношение фаз между правым и левым каналами
@@ -545,7 +551,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Пожалуйста, рассмотрите возможность сообщать об ошибке в</translation>
+        <translation>Подумайте о том, чтобы отправить отчёт об ошибке на</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1560"/>
@@ -676,12 +682,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1985"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Логирование автопрокрутки вкл...</translation>
+        <translation>Автопрокрутка журнала вкл...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1987"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Логирование автопрокрутки выкл...</translation>
+        <translation>Автопрокрутка журнала выкл...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2190"/>
@@ -783,7 +789,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2432"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation>Включить/Выключить панель помощи</translation>
+        <translation>Показать/скрыть панель помощи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2436"/>
@@ -854,18 +860,19 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Wavefile (*.wav)</source>
-        <translation>Файл формата (*.wav)</translation>
+        <translation>Файл WAV (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2578"/>
         <source>Ready...</source>
-        <translation>Подготовка...</translation>
+        <translation>Готов...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Не удаётся прочитать файл %1: %2.</translation>
+        <translation>Не удаётся прочитать файл %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2673"/>
@@ -876,7 +883,8 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="2682"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Не удаётся записать файл %1: %2.</translation>
+        <translation>Не удаётся записать файл %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2700"/>
@@ -971,8 +979,8 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation>Sonic Pi уже работает? Не удалось открыть порт UDP.</translation>
     </message>
 </context>
 </TS>
