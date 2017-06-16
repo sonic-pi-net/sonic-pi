@@ -4222,13 +4222,15 @@ puts current_sched_ahead_time # Prints 0.5"]
               # thread:
               __schedule_delayed_blocks_and_messages!
             rescue Stop => e
-              __schedule_delayed_blocks_and_messages!
               if name
                 __info("Stopping thread #{name.inspect}")
               else
                 __delayed_message("Stopped internal thread")
-                __schedule_delayed_blocks_and_messages!
               end
+              __schedule_delayed_blocks_and_messages!
+              __current_tracker.get
+              job_subthread_rm(job_id, Thread.current)
+              raise e
             rescue Exception => e
               if name
                 __error e, "Thread death +--> #{name.inspect}"
