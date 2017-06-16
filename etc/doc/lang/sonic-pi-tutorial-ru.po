@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-29 18:40+0000\n"
-"Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
+"PO-Revision-Date: 2017-06-16 13:41+0000\n"
+"Last-Translator: Andrey Raspopov <regharmitage@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.14.1\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2492,7 +2492,6 @@ msgid "Auto Sustain"
 msgstr "Автоудержание"
 
 #: 03.4-Enveloped-Samples.md:36
-#, fuzzy
 msgid ""
 "Where the ADSR envelope's behaviour differs from the standard synth envelope i"
 "s in the *sustain* value. In the standard synth envelope, the sustain defaulte"
@@ -2506,9 +2505,9 @@ msgid ""
 "set to 0."
 msgstr ""
 "Отличие поведения ADSR-огибающей сэмпла от стандартной огибающей синта лежит "
-"в значении *удержания*. В обычной огибающей синта удержание само по себе "
-"устанавливалось в 0, если мы не указывали его вручную. Для сэмплов оно также "
-"настраивается *автоматически*, но равняется времени, необходимому для "
+"в значении сустейна. В обычной огибающей синта сустейн сам по себе "
+"устанавливался в 0, если мы не указывали его вручную. Для сэмплов оно также "
+"настраивается \"автомагически\", и равняется времени, необходимому для "
 "завершения сэмпла. Поэтому мы слышим полный сэмпл, когда никаких настроек не "
 "задаётся. Если бы значения атаки, спада, удержания и затухания равнялись 0, "
 "то мы бы и намёка на сэмпл не услышали. Так что Sonic Pi вычисляет сколько "
@@ -2626,9 +2625,8 @@ msgstr ""
 "0.75 секунды полностью затихает во время фазы затухания."
 
 #: 03.4-Enveloped-Samples.md:100
-#, fuzzy
 msgid "Percussive cymbals"
-msgstr "Ударные тарелки"
+msgstr "Тарелки"
 
 #: 03.4-Enveloped-Samples.md:102
 msgid ""
