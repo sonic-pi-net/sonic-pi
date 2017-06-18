@@ -94,7 +94,11 @@ module SonicPi
     end
 
     def unify_tilde_dir(path)
-      path.gsub(/\A#{@@tilde_dir}/, "~")
+      if os == :windows
+        path
+      else
+        path.gsub(/\A#{@@tilde_dir}/, "~")
+      end
     end
 
     def num_buffers_for_current_os
