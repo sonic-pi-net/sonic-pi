@@ -189,6 +189,7 @@ module SonicPi
         end
       end
 
+      def live_audio(*params)
         args, opts = split_params_and_merge_opts_array(params)
 
         synth_name = if truthy?(opts[:stereo])
