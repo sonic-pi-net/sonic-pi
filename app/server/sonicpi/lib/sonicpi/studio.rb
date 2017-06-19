@@ -265,9 +265,9 @@ module SonicPi
       @server.kill_live_synth(name_id)
     end
 
-    def trigger_live_synth(name_id, synth_name, group, args, info, now=false, t_minus_delta=false, pos=:tail, pre_trig, on_init_blk, on_move_blk)
+    def trigger_live_synth(name_id, synth_name, group, args, info, now=false, t_minus_delta=false, pos=:tail, pre_trig, on_move_blk)
       check_for_server_rebooting!(:trigger_live_synth)
-      @server.trigger_live_synth(name_id, pos, group, synth_name, args, info, now, t_minus_delta, pre_trig, on_init_blk, on_move_blk)
+      @server.trigger_live_synth(name_id, pos, group, synth_name, args, info, now, t_minus_delta, pre_trig, on_move_blk)
     end
 
     def trigger_synth(synth_name, group, args, info, now=false, t_minus_delta=false, pos=:tail )

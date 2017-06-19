@@ -4421,7 +4421,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           info.on_start(@mod_sound_studio, args_h) if info
 
-        s = @mod_sound_studio.trigger_live_synth live_id, synth_name, group, args_h, info, now, t_minus_delta, pos, pre_trig_blk, on_init_blk, on_move_blk
+        s = @mod_sound_studio.trigger_live_synth live_id, synth_name, group, args_h, info, now, t_minus_delta, pos, pre_trig_blk, on_move_blk
 
         __thread_locals.set(:sonic_pi_local_last_triggered_node, s)
         end

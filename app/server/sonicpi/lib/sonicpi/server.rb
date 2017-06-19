@@ -248,7 +248,7 @@ module SonicPi
       end
     end
 
-    def trigger_live_synth(name_id, position, group, synth_name, args_h, info,  now=false, t_minus_delta=false, pre_trig_blk, on_init_blk, on_move_blk)
+    def trigger_live_synth(name_id, position, group, synth_name, args_h, info,  now=false, t_minus_delta=false, pre_trig_blk, on_move_blk)
       @live_synths_mut.synchronize do
         pos_code = @position_codes[position]
         group_id = group.to_i
@@ -269,7 +269,6 @@ module SonicPi
           node_id = @CURRENT_NODE_ID.next
           synth_node = SynthNode.new(node_id, group_id, self, s_name, args_h, info)
           # Call on init block if given  - this only happens the first time the synth is initiated
-          on_init_blk.call(synth_node) if on_init_blk
 
           # cache result
           @live_synths[name_id] = synth_node
