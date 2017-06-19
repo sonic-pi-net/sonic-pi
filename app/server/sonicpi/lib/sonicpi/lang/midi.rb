@@ -442,6 +442,130 @@ You may also optionally pass the release velocity value as a floating point valu
 
 
 
+      def midi_poly_pressure(*args)
+        params, opts     = split_params_and_merge_opts_array(args)
+        opts             = current_midi_defaults.merge(opts)
+        control_num, val = *params
+
+        if rest? control_num
+          __midi_message "midi_poly_pressure :rest"
+          return nil
+        end
+
+        on_val = opts.fetch(:on, 1)
+
+        if truthy?(on_val)
+          channels    = __resolve_midi_channels(opts)
+          ports       = __resolve_midi_ports(opts)
+          val         = __resolve_midi_val(val, opts)
+          control_num = note(control_num).round.min(0).max(127)
+          chan        = pp_el_or_list(channels)
+          port        = pp_el_or_list(ports)
+
+          ports.each do |p|
+            channels.each do |c|
+              __midi_send_timed_pc("/poly_pressure", p, c, [control_num, val])
+            end
+          end
+          __midi_message "midi_poly_pressure #{control_num}, #{val}, port: #{port}, channel: #{chan}"
+        else
+          __midi_rest_message "midi_poly_pressure :rest, on: 0"
+        end
+        nil
+      end
+      doc name:           :midi_poly_pressure,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send a MIDI polyphonic key pressure message",
+          args:           [[:note, :midi], [:value, :midi]],
+          returns:        :nil,
+          opts:           {
+                           channel: "Channel(s) to send to",
+                           port: "MIDI port(s) to send to",
+                           value: "Pressure value as a MIDI number.",
+                           val_f: "Pressure value as a value between 0 and 1 (will be converted to a MIDI value",
+                           on: "If specified and false/nil/0 will stop the midi poly pressure message from being sent out. (Ensures all opts are evaluated in this call to `midi_poly_pressure` regardless of value)."},
+          accepts_block:  false,
+          doc:            "Sends a MIDI polyphonic key pressure message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
+
+Note number and pressure value can be passed as a note such as `:e3` and decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3.
+
+You may also optionally pass the control value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
+
+[MIDI 1.0 Specification - Channel Voice Messages - Polyphonic Key Pressure (Aftertouch)](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+
+*THIS IS ALPHA!* Expect this fn to completely change before final release",
+          examples:       [
+        "midi_poly_pressure 100, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
+        "midi_poly_pressure :e7, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
+        "midi_poly_pressure 100, 32, channel: 5  #=> Sends MIDI poly key pressure message to control note 100 with value 32 on channel 5 to all ports",
+        "midi_poly_pressure 100, val_f: 0.8, channel: 5  #=> Sends a MIDI poly key pressure message to control note 100 with value 102 on channel 5 to all ports",
+        "midi_poly_pressure 100, value: 102, channel: [1, 5]  #=> Sends MIDI poly key pressure message to control note 100 with value 102 on channel 1 and 5 to all ports"
+      ]
+
+
+            def midi_poly_pressure(*args)
+        params, opts     = split_params_and_merge_opts_array(args)
+        opts             = current_midi_defaults.merge(opts)
+        control_num, val = *params
+
+        if rest? control_num
+          __midi_message "midi_poly_pressure :rest"
+          return nil
+        end
+
+        on_val = opts.fetch(:on, 1)
+
+        if truthy?(on_val)
+          channels    = __resolve_midi_channels(opts)
+          ports       = __resolve_midi_ports(opts)
+          val         = __resolve_midi_val(val, opts)
+          control_num = note(control_num).round.min(0).max(127)
+          chan        = pp_el_or_list(channels)
+          port        = pp_el_or_list(ports)
+
+          ports.each do |p|
+            channels.each do |c|
+              __midi_send_timed_pc("/poly_pressure", p, c, [control_num, val])
+            end
+          end
+          __midi_message "midi_poly_pressure #{control_num}, #{val}, port: #{port}, channel: #{chan}"
+        else
+          __midi_rest_message "midi_poly_pressure :rest, on: 0"
+        end
+        nil
+      end
+      doc name:           :midi_poly_pressure,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send a MIDI polyphonic key pressure message",
+          args:           [[:note, :midi], [:value, :midi]],
+          returns:        :nil,
+          opts:           {
+                           channel: "Channel(s) to send to",
+                           port: "MIDI port(s) to send to",
+                           value: "Pressure value as a MIDI number.",
+                           val_f: "Pressure value as a value between 0 and 1 (will be converted to a MIDI value",
+                           on: "If specified and false/nil/0 will stop the midi poly pressure message from being sent out. (Ensures all opts are evaluated in this call to `midi_poly_pressure` regardless of value)."},
+          accepts_block:  false,
+          doc:            "Sends a MIDI polyphonic key pressure message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
+
+Note number and pressure value can be passed as a note such as `:e3` and decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3.
+
+You may also optionally pass the pressure value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
+
+[MIDI 1.0 Specification - Channel Voice Messages - Polyphonic Key Pressure (Aftertouch)](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+
+*THIS IS ALPHA!* Expect this fn to completely change before final release",
+          examples:       [
+        "midi_poly_pressure 100, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
+        "midi_poly_pressure :e7, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
+        "midi_poly_pressure 100, 32, channel: 5  #=> Sends MIDI poly key pressure message to control note 100 with value 32 on channel 5 to all ports",
+        "midi_poly_pressure 100, val_f: 0.8, channel: 5  #=> Sends a MIDI poly key pressure message to control note 100 with value 102 on channel 5 to all ports",
+        "midi_poly_pressure 100, value: 102, channel: [1, 5]  #=> Sends MIDI poly key pressure message to control note 100 with value 102 on channel 1 and 5 to all ports"
+      ]
+
+
+
+
       def midi_cc(*args)
         params, opts     = split_params_and_merge_opts_array(args)
         opts             = current_midi_defaults.merge(opts)
@@ -500,6 +624,65 @@ You may also optionally pass the control value as a floating point value between
         "midi_cc 100, 32, channel: 5  #=> Sends MIDI cc message to control 100 with value 32 on channel 5 to all ports",
         "midi_cc 100, val_f: 0.8, channel: 5  #=> Sends MIDI cc message to control 100 with value 102 on channel 5 to all ports",
         "midi_cc 100, value: 102, channel: [1, 5]  #=> Sends MIDI cc message to control 100 with value 102 on channel 1 and 5 to all ports"
+]
+
+
+      def midi_channel_pressure(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
+        pressure     = params[0]
+
+        if params.size > 0 && rest?(pressure)
+          __midi_message "midi_channel_pressure :rest"
+          return nil
+        end
+
+        on_val = opts.fetch(:on, 1)
+
+        if truthy?(on_val)
+          channels                 = __resolve_midi_channels(opts)
+          ports                    = __resolve_midi_ports(opts)
+          pressure, pressure_midi  = __resolve_midi_val(pressure, opts)
+          chan                     = pp_el_or_list(channels)
+          port                     = pp_el_or_list(ports)
+
+          ports.each do |p|
+            channels.each do |c|
+              __midi_send_timed_pc("/channel_pressure", p, c, [pressure_midi])
+            end
+          end
+          __midi_message "midi_channel_pressure #{pressure}, value: #{pressure_midi}, port: #{port}, channel: #{chan}"
+        else
+          __midi_rest_message "midi_channel_pressure :rest, on: 0"
+        end
+        nil
+      end
+      doc name:           :midi_channel_pressure,
+          introduced:     Version.new(2,12,0),
+          summary:        "Send MIDI channel pressure (aftertouch) message",
+          args:           [[:val, :midi]],
+          returns:        :nil,
+          opts:           {
+                           channel: "Channel(s) to send to",
+                           port: "MIDI port(s) to send to",
+                           value: "Pressure value as a MIDI number.",
+                           val_f: "Pressure value as a value between 0 and 1 (will be converted to a MIDI value",
+                           on: "If specified and false/nil/0 will stop the midi channel pressure message from being sent out. (Ensures all opts are evaluated in this call to `midi_channel_pressure` regardless of value)."},
+          accepts_block:  false,
+          doc:            "Sends a MIDI channel pressure (aftertouch) message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
+
+The pressure value can be passed as a note such as `:e3` and decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3.
+
+You may also optionally pass the pressure value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
+
+[MIDI 1.0 Specification - Channel Voice Messages - Channel Pressure (Aftertouch)](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+
+*THIS IS ALPHA!* Expect this fn to completely change before final release",
+          examples:       [
+        "midi_channel_pressure 50  #=> Sends MIDI channel pressure message with value 50 to all ports and channels",
+        "midi_channel_pressure :C4  #=> Sends MIDI channel pressure message with value 60 to all ports and channels",
+        "midi_channel_pressure 0.5  #=> Sends MIDI channel pressure message with value 63.5 to all ports and channels",
+        "midi_channel_pressure 30, channel: [1, 5]  #=> Sends MIDI channel pressure message with value 30 on channel 1 and 5 to all ports"
 ]
 
 
