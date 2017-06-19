@@ -4516,7 +4516,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           if onset_idx.is_a? Numeric
             onset_idx = onset_idx.round
-            args_h = args_h.merge(onsets[onset_idx])
+            args_h.merge!(onsets[onset_idx])
             res = onsets[onset_idx]
           elsif onset_idx.is_a? Proc
             res = onset_idx.call(onsets)
