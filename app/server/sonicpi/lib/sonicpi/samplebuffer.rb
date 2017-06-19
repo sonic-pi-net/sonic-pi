@@ -22,7 +22,6 @@ module SonicPi
     include Util
     def initialize(buffer, path)
       @aubio_onsets = {}
-      @aubio_beats = {}
       @buffer = buffer
       @mono_buffer = nil
       @path = path
@@ -122,34 +121,6 @@ module SonicPi
         res = []
         ons[0...-1].each_with_index do |onset, idx|
           res << {:start => onset, :finish => ons[idx + 1], index: idx}
-        end
-        @aubio_slices = res.ring
-      end
-      return @aubio_slices
-    end
-
-    def beat_data
-      return @aubio_beat_data if @aubio_beat_data
-      @aubio_sem.synchronize do
-        return @aubio_beat_data if @aubio_beat_data
-        __no_kill_block do
-          aubio_file = Aubio.open @path
-          native_beats = aubio_file.beats.ring
-          aubio_file.close
-          @aubio_beat_data = native_beats
-        end
-      end
-      return @aubio_beat_data
-    end
-
-    def beat_slices
-      return @aubio_slices if @aubio_slices
-      bts = beat_data
-      @aubio_sem.synchronize do
-        return @aubio_slices if @aubio_slices
-        res = []
-        bts[0...-1].each_with_index do |beat, idx|
-          res << {:start => beat[:rel_start], :finish => beat[:rel_end], index: idx}
         end
         @aubio_slices = res.ring
       end
