@@ -1,5 +1,5 @@
 module Aubio
-  class Beats
+  class Onsets
 
     def initialize(aubio_source, params)
       # TODO: cleanup param dups
@@ -8,11 +8,13 @@ module Aubio
       @hop_size    = params[:hop_size]    || 512
 
       @source = aubio_source
-      @tempo = Api.new_aubio_tempo('specdiff', @window_size, @hop_size, @sample_rate)
+      @onset = Api.new_aubio_onset('default', @window_size, @hop_size, @sample_rate)
+      Api.aubio_onset_set_minioi_ms(@onset, 12.0)
+      Api.aubio_onset_set_threshold(@onset, 0.3)
 
       # create output for source
       @sample_buffer = Api.new_fvec(@hop_size)
-      # create output for beat
+      # create output for pitch and beat
       @out_fvec = Api.new_fvec(1)
     end
 
@@ -21,31 +23,28 @@ module Aubio
 
       total_frames_counter = 0
       read_buffer = FFI::MemoryPointer.new(:int)
-      total_samples = Api.aubio_source_get_duration(@source).to_f
 
       loop do
-        # Perform tempo calculation
+        # Perform onset calculation
         Api.aubio_source_do(@source, @sample_buffer, read_buffer)
-        Api.aubio_tempo_do(@tempo, @sample_buffer, @out_fvec)
+        Api.aubio_onset_do(@onset, @sample_buffer, @out_fvec)
 
         # Retrieve result
-        is_beat = Api.fvec_get_sample(@out_fvec, 0)
+        onset_new_peak = Api.fvec_get_sample(@out_fvec, 0)
         no_of_bytes_read = read_buffer.read_int
         total_frames_counter += no_of_bytes_read
 
-        if is_beat > 0.0
-          tempo_samples = Api.aubio_tempo_get_last(@tempo)
-          tempo_seconds = Api.aubio_tempo_get_last_s(@tempo)
-          tempo_milliseconds = Api.aubio_tempo_get_last_ms(@tempo)
-          tempo_confidence = Api.aubio_tempo_get_confidence(@tempo)
-
+        if onset_new_peak > 0.0
+          onset_seconds = Api.aubio_onset_get_last_s(@onset)
+          onset_silence = Api.aubio_onset_get_silence(@onset)
+          onset_delay = Api.aubio_onset_get_delay_s(@onset)
           output = {
-            :confidence => tempo_confidence,
-            :s => tempo_seconds,
-            :ms => tempo_milliseconds,
-            :sample_no => tempo_samples,
-            :total_samples => total_samples,
-            :rel_start => tempo_samples/total_samples
+            :s => onset_seconds,
+            :silence => onset_silence,
+            :peak => onset_new_peak,
+            :delay => onset_delay,
+            :start => (onset_seconds == 0.0 ? 1 : 0),
+            :end => 0
           }
           yield output
         end
@@ -53,19 +52,17 @@ module Aubio
         if no_of_bytes_read != @hop_size
           # there's no more audio to look at
 
-          # Let's output one last tempo to mark the end of the file
+          # Let's output one last onset to mark the end of the file
           total_time = total_frames_counter.to_f / @sample_rate.to_f
           output = {
-            :confidence => 1.0,
             :s => total_time,
-            :ms => total_time/1000.0,
-            :sample_no => total_samples,
-            :total_samples => total_samples
+            :start => 0,
+            :end  => 1
           }
           yield output
 
           # clean up
-          Api.del_aubio_tempo(@tempo)
+          Api.del_aubio_onset(@onset)
           Api.del_fvec(@sample_buffer)
           Api.del_fvec(@out_fvec)
 

@@ -1,7 +1,7 @@
 require 'ffi'
 
 module Aubio
-  module LegacyApi #:nodoc
+  module Api #:nodoc
     extend FFI::Library
     # idea inspired by https://github.com/qoobaa/magic/blob/master/lib/magic/api.rb
     lib_paths = Array(ENV["AUBIO_LIB"] || Dir["/{opt,usr}/{,local/}{lib,lib64,Cellar/aubio**}/libaubio.{*.dylib,so.*}"])

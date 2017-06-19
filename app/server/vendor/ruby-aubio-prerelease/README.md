@@ -14,15 +14,6 @@ In their own words...
 
 `brew install aubio --with-libsndfile --with-fftw --with-libsamplerate`
 
-## Using `ffi_gen` to autogenerate bindings
-
-```
-brew install aubio --with-libsndfile --with-fftw --with-libsamplerate
-brew install llvm --with-clang --enable-shared
-# clone this repo and cd into the root folder, then run
-LD_LIBRARY_PATH="/usr/local/opt/llvm35/lib/llvm-3.5/lib" ruby aubio-ffi-generator.rb
-```
-
 ## Installation
 
 Add this line to your application's Gemfile:
