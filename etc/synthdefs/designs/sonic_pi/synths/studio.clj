@@ -123,6 +123,39 @@
      [out-buf 0 in_bus 0]
      (disk-out out-buf (in in_bus 2)))
 
+
+   (defsynth sonic-pi-live_audio_mono [amp 1
+                                       amp_slide 0
+                                       amp_slide_shape 1
+                                       amp_slide_curve 0
+                                       pan 0
+                                       pan_slide 0
+                                       pan_slide_shape 1
+                                       pan_slide_curve 0
+                                       input 1
+                                       out_bus 0]
+     (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           snd         (sound-in (- input 1))]
+       (out out_bus (pan2 snd pan amp))))
+
+   (defsynth sonic-pi-live_audio_stereo [amp 1
+                                amp_slide 0
+                                amp_slide_shape 1
+                                amp_slide_curve 0
+                                pan 0
+                                pan_slide 0
+                                pan_slide_shape 1
+                                pan_slide_curve 0
+                                input 1
+                                out_bus 0]
+     (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           snd-l       (sound-in (- input 1))
+           snd-r       (sound-in input)
+           snd         (balance2 snd-l snd-r pan amp)]
+       (out out_bus snd)))
+
    (defsynth sonic-pi-sound_in [amp 1
                                 amp_slide 0
                                 amp_slide_shape 1
@@ -206,6 +239,8 @@
 
 
   (comment
+    (core/save-synthdef sonic-pi-live_audio_mono)
+    (core/save-synthdef sonic-pi-live_audio_stereo)
     (core/save-synthdef sonic-pi-sound_in)
     (core/save-synthdef sonic-pi-sound_in_stereo)
     (core/save-synthdef sonic-pi-mixer)
