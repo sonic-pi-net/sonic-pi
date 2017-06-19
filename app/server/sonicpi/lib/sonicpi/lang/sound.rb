@@ -189,6 +189,65 @@ module SonicPi
         end
       end
 
+        args, opts = split_params_and_merge_opts_array(params)
+
+        synth_name = if truthy?(opts[:stereo])
+                       "sonic-pi-live_audio_stereo"
+                     else
+                       "sonic-pi-live_audio_mono"
+                     end
+        opts.delete(:stereo)
+        raise "live_audio requires a name" if args.empty?
+        id = args[0]
+        sn_sym = synth_name.to_sym
+        info = Synths::SynthInfo.get_info(sn_sym)
+        synth_name = info ? info.scsynth_name : synth_name
+
+        if args.size > 1 && args[1] == nil
+          # kill synth
+          return @mod_sound_studio.kill_live_synth(id)
+        end
+
+        unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+          __delayed_message "live_audio #{id.inspect}, #{arg_h_pp(opts)}"
+        end
+
+        trigger_live_synth(synth_name, opts, current_group, info, false, current_out_bus, false, :tail, id)
+      end
+      doc name:           :live_audio,
+          introduced:     Version.new(2,12,0),
+          summary:        "A named audio stream live from your soundcard",
+          args:           [[]],
+          returns:        :SynthNode,
+          #   opts:           {sound_in_stereo: {doc: "",
+          #   default: true
+          # }},
+          accepts_block:  false,
+          args_size:      0,
+          opts_keys:      [:sound_in_stereo],
+          doc:            "Create a named synthesiser which works similar to `play`, `sample` or `synth`. Rather than synthesising the sound mathematically or playing back recorded audio, it streams audio live from your sound card.
+
+However, unlike `play`, `sample` and `synth`, which allow multiple multiple similar synths to play at the same time (i.e. a chord) only one `live_audio` synth of a given name may exist in the system at any one time. This is similar to `live_loop` where only one live loop of each name may exist at any one time. See examples for further information.
+
+An additional difference is that `live_audio` will create an infinitely long synth rather than be timed to an envelope like the standard `synth` and `sample` synths. This is particularly suitable for working with continunous incoming audio streams where the source of the audio is unknown (for example, it may be a guitar, an analog synth or an electronic violin). If the source is continuous, then it may not be suited to being stitched together by successive enveloped calls to something like: `synth :sound_in, attack: 0, sustain: 4, release: 0`. If we were to `live_loop` this with a `sleep 4` to match the sustain duration, we would get something that emulated a continuous stream, but for certain inputs you'll hear clicking at the seams between each successive call to `synth` where the final part of the audio signal from the previous synth doesn't precisely match up with the start of the signal in the next synth due to very minor timing differences.
+
+Another important feature of `live_audio` is that it will automatically move an existing `live_audio` synth into the current FX context. This means you can live code the FX chain around the live stream and it will update automatically. See examples.
+.
+",
+      examples:       [
+        ""
+]
+
+
+      def opts
+        __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[], {}])[1]
+      end
+
+      def args
+        __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[], {}])[0]
+      end
+
+
       # Deprecated fns
 
       def current_sample_pack_aliases(*args)
@@ -4293,7 +4352,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           tl_tracker.synth_started(s)
 
-          s.on_move do
+          s.on_next_move do
             fx_tracker.synth_finished(s) if fx_tracker
             tl_tracker.synth_finished(s)
           end
@@ -4310,6 +4369,63 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           __thread_locals.set(:sonic_pi_local_last_triggered_node, s)
           s
         end
+      end
+
+
+      def trigger_live_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false, pos=:tail, live_id=nil)
+
+        add_out_bus_and_rand_buf!(args_h, out_bus, info)
+
+        synth_name = info ? info.scsynth_name : synth_name
+
+        validate_if_necessary! info, args_h
+        return BlankNode.new(args_h) unless should_trigger?(args_h)
+
+        ensure_good_timing!
+
+        fx_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
+        tl_tracker = __current_tracker
+        stud = @mod_sound_studio
+        group_id = group.id
+
+        on_move_blk = lambda do |sn|
+          sn.on_next_move do |args|
+            # check to see if this move is a move from the latest group
+            if args[1] > group_id
+              fx_tracker.synth_finished([sn, group_id]) if fx_tracker
+              tl_tracker.synth_finished([sn, group_id]) if tl_tracker
+            else
+              :keep_on_move_lambda
+            end
+          end
+        end
+
+        pre_trig_blk = lambda do |sn|
+          fx_tracker.synth_started([sn, group_id]) if fx_tracker
+          tl_tracker.synth_started([sn, group_id]) if tl_tracker
+
+          sn.on_destroyed(:sonic_pi_live_synth_finish) do
+            if info
+              Thread.new do
+                info.on_finish(stud, args_h)
+              end
+            end
+            fx_tracker.synth_finished([sn, group_id]) if fx_tracker
+            tl_tracker.synth_finished([sn, group_id]) if tl_tracker
+          end
+        end
+
+        s = nil
+        __no_kill_block do
+
+          info.on_start(@mod_sound_studio, args_h) if info
+
+        s = @mod_sound_studio.trigger_live_synth live_id, synth_name, group, args_h, info, now, t_minus_delta, pos, pre_trig_blk, on_init_blk, on_move_blk
+
+        __thread_locals.set(:sonic_pi_local_last_triggered_node, s)
+        end
+        s
+
       end
 
       def add_out_bus_and_rand_buf!(args_h, out_bus=nil, info=nil)

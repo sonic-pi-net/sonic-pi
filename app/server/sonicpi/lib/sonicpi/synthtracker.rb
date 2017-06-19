@@ -54,7 +54,6 @@ module SonicPi
     end
 
     def to_s
-      synths = @synths.map{|s| s.to_i}
       "<SynthTracker prom:#{@prom}, synths:#{synths.inspect}>"
     end
   end

@@ -67,6 +67,8 @@ module SonicPi
       @MSG_QUEUE = msg_queue
       @control_delta = default_control_delta
       @server_thread_id = ThreadId.new(-3)
+      @live_synths = {}
+      @live_synths_mut = Mutex.new
 
       #TODO: Might want to make this available more globally so it can
       #be dynamically turned on and off
@@ -238,6 +240,87 @@ module SonicPi
       @CONTROL_BUS_ALLOCATOR.allocate
     end
 
+    def kill_live_synth(name_id)
+      synth_node = nil
+      @live_synths_mut.synchronize do
+        synth_node = @live_synths[name_id]
+        synth_node.kill if synth_node
+      end
+    end
+
+    def trigger_live_synth(name_id, position, group, synth_name, args_h, info,  now=false, t_minus_delta=false, pre_trig_blk, on_init_blk, on_move_blk)
+      @live_synths_mut.synchronize do
+        pos_code = @position_codes[position]
+        group_id = group.to_i
+        s_name = synth_name.to_s
+
+        normalised_args = []
+        args_h.each do |k,v|
+          normalised_args << k.to_s << v.to_f
+        end
+        initial_trigger = false
+        synth_node = nil
+
+        # Try and retrieve a cached synth node (will be here if previously triggered)
+        synth_node = @live_synths[name_id]
+        unless synth_node
+          initial_trigger = true
+          # No synth node found in cache - trigger one and cache the result
+          node_id = @CURRENT_NODE_ID.next
+          synth_node = SynthNode.new(node_id, group_id, self, s_name, args_h, info)
+          # Call on init block if given  - this only happens the first time the synth is initiated
+          on_init_blk.call(synth_node) if on_init_blk
+
+          # cache result
+          @live_synths[name_id] = synth_node
+        end
+
+
+        log synth_node.stats
+
+        orig_synth_node_group = synth_node.group
+
+        # Call reset on synth node - this doesn't do anything if the synth
+        # isn't yet in the destroyed state
+        synth_node.reset!
+
+        if initial_trigger || (group_id != orig_synth_node_group)
+          pre_trig_blk.call(synth_node) if pre_trig_blk
+          on_move_blk.call(synth_node) if on_move_blk
+
+
+          synth_node.set_group!(group_id)
+
+          node_id = synth_node.id
+          if @debug_mode
+            if osc_debug_mode
+              message "lde t #{'%05d' % node_id} - Live Trigger <#{synth_name}:#{node_id}> #{position} #{group.inspect}"
+            else
+              message "lde t #{'%05d' % node_id} - Live Trigger <#{synth_name}:#{node_id}> #{position} #{group.inspect},  args: #{args_h}" if @debug_mode
+            end
+          end
+
+          if now
+            osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
+
+            Thread.new do
+              Kernel.sleep @control_delta
+              osc @osc_path_n_set, node_id, *normalised_args
+              osc @osc_path_n_order, pos_code, group_id, node_id
+            end
+
+          else
+            t = __system_thread_locals.get(:sonic_pi_spider_time) || Time.now
+            ts =  t + sched_ahead_time
+            ts = ts - @control_delta if t_minus_delta
+            osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
+            osc_bundle ts + @control_delta, @osc_path_n_set, node_id, *normalised_args
+            osc_bundle ts + @control_delta, @osc_path_n_order, pos_code, group_id, node_id
+          end
+        end
+        synth_node
+      end
+    end
 
 
     def trigger_synth(position, group, synth_name, args_h, info=nil, now=false, t_minus_delta=false)

@@ -25,8 +25,8 @@ module SonicPi
       @node.on_started(&block)
     end
 
-    def on_move(&block)
-      @node.on_move(&block)
+    def on_next_move(&block)
+      @node.on_next_move(&block)
     end
 
     def move(new_group, pos=nil)

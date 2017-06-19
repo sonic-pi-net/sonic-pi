@@ -21,11 +21,14 @@ module SonicPi
     def initialize(id, comms, info=nil)
       @id = id
       @comms = comms
-      @state = :pending
+
       @state_change_sem = Mutex.new
+      @move_cb_sem = Mutex.new
       @on_destroyed_callbacks = []
+      @named_on_destroyed_callbacks = {}
       @on_started_callbacks = []
-      @on_move_callbacks = Queue.new
+      @on_next_move_callbacks = []
+      @state = :pending
       @info = info
       r = rand.to_s
       @killed_event_key  = "/sonicpi/node/killed#{id}-#{r}"
@@ -33,24 +36,42 @@ module SonicPi
       @started_event_key = "/sonicpi/node/started#{id}-#{r}"
       @created_event_key = "/sonicpi/node/created#{id}-#{r}"
       @moved_event_key = "/sonicpi/node/moved#{id}-#{r}"
+      add_event_handlers
 
+    end
+
+    def add_event_handlers
       @comms.async_add_event_handlers(["/n_end/#{id}", @killed_event_key,  method(:handle_n_end)],
                                       ["/n_on/#{id}",  @started_event_key, method(:handle_n_on)],
                                       ["/n_go/#{id}",  @created_event_key, method(:handle_n_go)],
                                       ["/n_move/#{id}",@moved_event_key,   method(:handle_n_move)],
-                                      ["/n_off/#{id}", @paused_event_key, method(:handle_n_off)])
-
+                                      ["/n_off/#{id}", @paused_event_key,  method(:handle_n_off)])
     end
 
+    def stats
+      "node #{self.id}, state: #{state.inspect}, dcbs: #{@on_destroyed_callbacks.size + @named_on_destroyed_callbacks.values.size}, scbs: #{@on_started_callbacks.size}, mcbs: #{@on_next_move_callbacks.size}"
+    end
+
+    def reset!(group=nil)
+      @state_change_sem.synchronize do
+        add_event_handlers if @state == :destroyed
+        @state = :restarted if @state == :destroyed
+
+      end
+    end
 
     # block will be called when the node is destroyed or immediately if
     # node is already destroyed. Possibly executed on a separate thread.
-    def on_destroyed(&block)
+    def on_destroyed(id=nil, &block)
       @state_change_sem.synchronize do
         if @state == :destroyed
           block.call
         else
-          @on_destroyed_callbacks << block
+          if id
+            @named_on_destroyed_callbacks[id] = block
+          else
+            @on_destroyed_callbacks << block
+          end
         end
       end
     end
@@ -65,8 +86,10 @@ module SonicPi
       end
     end
 
-    def on_move(&block)
-      @on_move_callbacks << block
+    def on_next_move(&block)
+      @move_cb_sem.synchronize do
+        @on_next_move_callbacks << block
+      end
     end
 
     def wait_until_started(timeout=nil)
@@ -185,36 +208,53 @@ module SonicPi
     private
 
     def call_on_destroyed_callbacks
-      begin
-        @on_destroyed_callbacks.each{|cb| cb.call}
-        @on_destroyed_callbacks = []
-      rescue Exception => e
-        log_exception e, "in on destroyed callbacks"
+
+      @on_destroyed_callbacks.each do |cb|
+        begin
+          cb.call
+        rescue Exception => e
+          log_exception e, "in on destroyed callbacks"
+        end
       end
+      @on_destroyed_callbacks = []
+
+      @named_on_destroyed_callbacks.values.each do |cb|
+        begin
+          cb.call
+        rescue Exception => e
+          log_exception e, "in named on destroyed callbacks"
+        end
+      end
+      @named_on_destroyed_callbacks = {}
     end
 
     def call_on_started_callbacks
-      begin
-        @on_started_callbacks.each{|cb| cb.call}
-        @on_started_callbacks = []
-      rescue Exception => e
-        log_exception e, "in on started callbacks"
+      @on_started_callbacks.each do |cb|
+        begin
+          cb.call
+        rescue Exception => e
+          log_exception e, "in on started callbacks"
+        end
       end
+      @on_started_callbacks = []
     end
 
-    def call_on_move_callbacks(arg)
-      begin
-
-        @on_move_callbacks.length.times do
-          cb = @on_move_callbacks.pop
-          if cb.arity == 0
-            cb.call
-          else
-            cb.call(arg)
+    def call_on_next_move_callbacks(arg)
+      @move_cb_sem.synchronize do
+        new_cbs = []
+        @on_next_move_callbacks.each do |cb|
+          begin
+            if cb.arity == 0
+              res = cb.call
+            else
+              res = cb.call(arg)
+            end
+            new_cbs << cb if res == :keep_on_move_lambda
+          rescue Exception => e
+            log_exception e, "in on move callbacks"
           end
         end
-      rescue Exception => e
-        log_exception e, "in on move callbacks"
+        @on_next_move_callbacks = new_cbs
       end
     end
 
@@ -235,7 +275,7 @@ module SonicPi
 
     def handle_n_move(arg)
       @state_change_sem.synchronize do
-        call_on_move_callbacks(arg)
+        call_on_next_move_callbacks(arg)
       end
       nil
     end
@@ -244,23 +284,27 @@ module SonicPi
       @state_change_sem.synchronize do
         prev_state = @state
         @state = :running
-        call_on_started_callbacks if prev_state == :pending
+        call_on_started_callbacks if (prev_state == :pending) || (prev_state == :destroyed)
       end
       nil
     end
 
     def handle_n_end(arg)
-        @state_change_sem.synchronize do
-          prev_state = @state
-          @state = :destroyed
-          call_on_destroyed_callbacks if prev_state != :destroyed
-        end
-        [:remove_handlers,
-          [ ["/n_go/#{@id}",  @created_event_key],
-            ["/n_off/#{@id}", @paused_event_key],
-            ["/n_on/#{@id}",  @started_event_key],
-            ["/n_move/#{@id}",@moved_event_key],
-            ["/n_end/#{@id}", @killed_event_key]]]
+      @state_change_sem.synchronize do
+        prev_state = @state
+        @state = :destroyed
+        call_on_destroyed_callbacks if prev_state != :destroyed
+
+        # TODO - either move this to synthnode or make group an
+        # instance var for node itself
+        @group = nil
+      end
+      [:remove_handlers,
+        [ ["/n_go/#{@id}",  @created_event_key],
+          ["/n_off/#{@id}", @paused_event_key],
+          ["/n_on/#{@id}",  @started_event_key],
+          ["/n_move/#{@id}",@moved_event_key],
+          ["/n_end/#{@id}", @killed_event_key]]]
 
     end
   end

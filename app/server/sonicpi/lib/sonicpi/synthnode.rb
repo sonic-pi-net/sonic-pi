@@ -16,7 +16,7 @@ require 'active_support/core_ext/hash/indifferent_access'
 module SonicPi
   class SynthNode < Node
 
-    attr_reader :name, :args
+    attr_reader :name, :args, :group
 
     def initialize(id, group, comms, name, args, info = nil)
       super(id, comms, info)
@@ -34,12 +34,21 @@ module SonicPi
       end
     end
 
+    def handle_n_move(arg)
+      super
+      @group = arg[1]
+    end
+
+    def set_group!(group)
+      @group = group if group
+    end
+
     def control(*args)
       ctl(*args)
     end
 
     def to_s
-      "#<SonicPi::SynthNode @id=#{@id}, @name=#{@name}>"
+      "#<SonicPi::SynthNode @id=#{@id}, @name=#{@name} @state=#{@state}>"
     end
   end
 end
