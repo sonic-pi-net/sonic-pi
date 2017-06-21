@@ -3571,7 +3571,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
         i = __current_thread_id
-        @system_state.set(t, 0, i, 0, b, :sched_ahead_time, sat)
+        m = current_bpm
+        @system_state.set(t, 0, i, 0, b, m, :sched_ahead_time, sat)
         __info "Schedule ahead time set to #{sat}"
       end
       doc name:          :set_sched_ahead_time!,
