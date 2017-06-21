@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-05-19 21:53+0000\n"
-"Last-Translator: Luis Garcia <floss.dev@gmail.com>\n"
+"PO-Revision-Date: 2017-06-21 10:04+0000\n"
+"Last-Translator: Carlos Arturo Guerra Parra <carlosarturoguerra@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.14.1-dev\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -30,10 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Bienvenido a Sonic Pi. Espero que estés tan emocionado por comenzar a hacer so"
-"nidos sorprendentes, como yo lo estoy por enseñarte a hacerlos. Será realmente"
-" divertido. Aprenderás sobre música, síntesis, programación, composición, inte"
-"rpretación y más."
+"Bienvenido a Sonic Pi. Espero que estés tan emocionado por comenzar a hacer "
+"sonidos sorprendentes como yo lo estoy por enseñarte a hacerlos. Será "
+"realmente divertido. Aprenderás sobre música, síntesis, programación, "
+"composición, interpretación y mucho más."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -56,8 +56,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Si tienes ideas para mejorar Sonic Pi - por favor pásamelas - los comentarios "
-"son bienvenidos. ¡Nunca se sabe, tu idea podría ser incluida!"
+"Si tienes algunas observaciones o ideas para mejorar Sonic Pi - por favor "
+"pásamelas -, los comentarios son bienvenidos. Nunca se sabe, ¡tu idea podría "
+"ser incluida como una importante funcionalidad!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -66,10 +67,10 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
-"Este tutorial está dividido en secciones, agrupadas por categoría. Lo he escri"
-"to para tener una fácil progresión de principio a fin, siéntete libre de salta"
-"r de una sección a otra cuanto te apetezca. Si piensas que hay algo que falta,"
-" dímelo y veré si añadirlo en el futuro."
+"Este tutorial está dividido en secciones agrupadas por categoría. Lo he "
+"escrito para tener una fácil progresión de principio a fin, siéntete libre "
+"de saltar de una sección a otra cuanto te apetezca. Si piensas que hay algo "
+"que falta, házmelo saber y lo tendré en cuenta para versiones futuras."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -77,7 +78,7 @@ msgid ""
 " stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
 "e do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Por último, observar a otros programar en directo es una gran manera de "
+"Por último, observar a otros haciendo live-coding es una excelente manera de "
 "aprender. Yo lo hago en directo por "
 "[livecoding.tv/samaaron](http://livecoding.tv/samaaron) así que pásate por "
 "allí, salúdame y pregunta todo lo que quieras :-)"
@@ -88,12 +89,12 @@ msgstr "OK, comencemos..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr "1.1 Programación en directo (Live Coding)"
+msgstr "1.1 Live Coding (Programación en vivo)"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Programación en directo (Live Coding)"
+msgstr "Live Coding (Programación en vivo)"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -109,7 +110,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr "Libera tu mente"
+msgstr "Abre tu mente"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -119,8 +120,8 @@ msgid ""
 "o your seats and enjoy..."
 msgstr ""
 "Antes de entrar en los detalles de cómo funciona Sonic Pi, me gustaría "
-"enseñarte qué es programar en directo. No te preocupes si no entiendes mucho "
-"(o nada) de esto. Sólo trata de permanecer sentado y disfruta ..."
+"enseñarte qué es programar en vivo. No te preocupes si no entiendes mucho (o "
+"nada) de esto. Sólo trata de permanecer sentado y disfruta ..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -1288,9 +1289,8 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
-#, fuzzy
 msgid "How about combining two sounds. First one after another:"
-msgstr "¿qué tal si combinamos ambos sonidos. Uno después del otro?"
+msgstr "¿Qué tal si combinamos ambos sonidos? Pongamos uno después del otro:"
 
 #: 02.3-Switching-Synths.md:49
 #, no-wrap
@@ -1341,16 +1341,16 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
-#, fuzzy
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
-"Debes notar que el comando `use_synth` sólo afecta los siguientes `play`. Pien"
-"sa en él como un *gran switch* - nuevas llamadas `play` tocarán el synth que e"
-"sté en uso. Puedes mover el synth a un nuevo synth con cada nuevo `use_synth`."
+"Debes notar que el comando `use_synth` sólo afecta a las siguientes llamadas "
+"a `play`. Piensa en él como un *gran conmutador* - nuevas llamadas a `play` "
+"tocarán el sintetizador que esté en uso. Puedes cambiar el conmutador a un "
+"nuevo sintetizador con `use_synth`."
 
 #: 02.3-Switching-Synths.md:80
 msgid "Discovering Synths"
@@ -1362,9 +1362,9 @@ msgid ""
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"Para saber cuáles sintetizadores tiene Sonic Pi, échale un vistazo a la "
-"opción Synths en el menú a la izquierda (encima de FX). Hay más de 20 de los "
-"cuales elegir. Aquí están algunos de mis favoritos:"
+"Para saber qué sintetizadores tiene Sonic Pi, échale un vistazo a la opción "
+"Sintetizadores en el menú a la izquierda (a la izquierda de Efectos). Hay "
+"más de 20 entre los que elegir. Aquí están algunos de mis favoritos:"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
@@ -1391,15 +1391,14 @@ msgid "`:pulse`"
 msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
-#, fuzzy
 msgid ""
 "Now play around with *switching synths during your music*. Have fun combining "
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
 msgstr ""
-"Ahora prueba ir cambiando sintetizadores durante tu música. Diviértete combina"
-"ndo synths para hacer nuevos sonidos así como utilizando diferentes sintetizad"
-"ores para diferentes secciones de tú música."
+"Ahora prueba a *cambiar los sintetizadores durante la ejecución de tu música*"
+". Diviértete combinando sintetizadores para hacer nuevos sonidos así como "
+"utilizando diferentes sintetizadores para diferentes secciones de tu música."
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
@@ -1410,15 +1409,14 @@ msgid "Duration with Envelopes"
 msgstr "Duración con Envolventes"
 
 #: 02.4-Durations-with-Envelopes.md:5
-#, fuzzy
 msgid ""
 "In an earlier section, we looked at how we can use the `sleep` command to cont"
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
 msgstr ""
-"En una sección anterior, miramos cómo utilizar el comando `sleep` para control"
-"ar cuándo disparar sonidos. Sin embargo, aún no hemos podido controlar la dura"
-"ción de nuestros sonidos."
+"En una sección anterior, vimos cómo utilizar el comando `sleep` para "
+"controlar cuándo disparar sonidos. Sin embargo, aún no hemos podido "
+"controlar la duración de nuestros sonidos."
 
 #: 02.4-Durations-with-Envelopes.md:9
 msgid ""
@@ -1427,13 +1425,13 @@ msgid ""
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
-"A manera de tener una sencilla, pero poderosa manera de *controlar la "
-"duración* de nuestros sonidos, Sonic Pi provee la noción de una *envolvente "
-"de amplitud ADSR* (después cubriremos lo que significa ADSR). Una envolvente "
-"de amplitud ofrece dos útiles aspectos de control:"
+"Con el fin de darnos una simple pero poderosa manera de *controlar la "
+"duración* de nuestros sonidos, Sonic Pi proporciona el concepto de una *"
+"envolvente de amplitud ADSR* (más adelante en esta sección trataremos qué "
+"significa ADSR). Una envolvente de amplitud ofrece el control de dos "
+"aspectos muy útiles:"
 
 #: 02.4-Durations-with-Envelopes.md:14
-#, fuzzy
 msgid "control over the duration of a sound"
 msgstr "control sobre la duración del sonido"
 
@@ -1452,11 +1450,11 @@ msgid ""
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
-"Duración es la longitud del sonido. Una mayor duración significa que "
+"La duración es la longitud del sonido. Una mayor duración significa que "
 "escucharás el sonido por más tiempo. Todos los sonidos de Sonic Pi tienen "
-"una envolvente de control de la amplitud y la duración total de la "
+"una envolvente de control de la amplitud, y la duración total de la "
 "envolvente es la duración del sonido. Por lo tanto, al controlar la "
-"envolvente, controlas la duración."
+"envolvente controlas la duración."
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
