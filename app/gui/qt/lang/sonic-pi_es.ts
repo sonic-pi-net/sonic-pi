@@ -327,7 +327,7 @@ Esta verificación conlleva enviar información anónima acerca de tu plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1181"/>
         <source>Update Info</source>
-        <translation>Actualizar Info</translation>
+        <translation type="unfinished">Información de actualización</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1200"/>
