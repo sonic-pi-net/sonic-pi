@@ -1147,10 +1147,46 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *ioTab = new QGroupBox();
 
+  QGroupBox *network_box = new QGroupBox(tr("Network"));
+  network_box->setToolTip(tr("Network Settings"));
+
+  QLabel *network_ip_label = new QLabel();
+  QString ip_address_trans = tr("Local IP address");
+  QString port_num_trans = tr("Listening for OSC messages on port");
+  QString ip_address = "";
+  QString all_ip_addresses  = "";
+
+  QList<QHostAddress> list = QNetworkInterface::allAddresses();
+
+  for(int nIter=0; nIter<list.count(); nIter++)
+
+  {
+    if(!list[nIter].isLoopback()) {
+      if (list[nIter].protocol() == QAbstractSocket::IPv4Protocol ) {
+        if (ip_address.isEmpty()) {
+          ip_address = list[nIter].toString();
+        }
+        all_ip_addresses = all_ip_addresses + list[nIter].toString() + "\n";
+      }
+    }
+
+  }
+
+  if (ip_address.isEmpty()) {
+    ip_address = tr("Unavailable");
+  }
+  network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(server_osc_cues_port));
+  network_ip_label->setToolTip(all_ip_addresses);
+
+
+  QVBoxLayout *network_box_layout = new QVBoxLayout;
+  network_box_layout->addWidget(network_ip_label);
+  network_box->setLayout(network_box_layout);
+
   QGroupBox *midi_box = new QGroupBox(tr("MIDI"));
   midi_box->setToolTip(tr("Configure MIDI behaviour"));
 
-  midi_enable_check = new QCheckBox(tr("Enable MIDI Subsystems"));
+  midi_enable_check = new QCheckBox(tr("Enable MIDI subsystems"));
   midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
   connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
 
@@ -1197,7 +1233,9 @@ void MainWindow::initPrefsWindow() {
   midi_box->setLayout(midi_box_layout);
   QGridLayout *io_tab_layout = new QGridLayout();
   io_tab_layout->addWidget(midi_box, 0, 0);
-  io_tab_layout->addWidget(midi_box, 0, 1);
+
+
+  io_tab_layout->addWidget(network_box, 0, 1);
 
   ioTab->setLayout(io_tab_layout);
 
