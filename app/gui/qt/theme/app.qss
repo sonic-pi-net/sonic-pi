@@ -330,3 +330,40 @@ QListWidget::item::selected
     background: menuSelectedColor;
     color: menuSelectedTextColor;
 }
+
+QComboBox {
+    border: 1px solid tabSelectedColor;
+    border-radius: 3px;
+    padding: 1px 18px 1px 3px;
+    background: tabColor;
+    color: tabTextColor;
+
+}
+
+QComboBox::item {
+    background: tabColor;
+    color: tabTextColor;
+    selection-color: tabSelectedTextColor;
+    selection-background-color: tabSelectedColor;
+}
+
+QComboBox:hover{
+    border-radius: 3px;
+    border-width:2px;
+    border-color: #1e90ff
+}
+
+QComboBox::item::selected {
+    background: tabSelectedColor;
+    color: tabSelectedTextColor;
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+    padding-left: 4px;
+    color: tabSelectedColor;
+}
+
+QComboBox::drop-down {
+    border-style: none;
+}

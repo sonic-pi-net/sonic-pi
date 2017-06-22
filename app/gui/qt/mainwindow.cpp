@@ -68,6 +68,7 @@
 #include <QScrollBar>
 #include <QSignalMapper>
 #include <QSplitter>
+#include <QComboBox>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -1144,6 +1145,64 @@ void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
+  QGroupBox *ioTab = new QGroupBox();
+
+  QGroupBox *midi_box = new QGroupBox(tr("MIDI"));
+  midi_box->setToolTip(tr("Configure MIDI behaviour"));
+
+  midi_enable_check = new QCheckBox(tr("Enable MIDI Subsystems"));
+  midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
+  connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
+
+
+  midi_default_channel_combo = new QComboBox();
+  midi_default_channel_combo->addItem("*");
+  midi_default_channel_combo->addItem("1");
+  midi_default_channel_combo->addItem("2");
+  midi_default_channel_combo->addItem("3");
+  midi_default_channel_combo->addItem("4");
+  midi_default_channel_combo->addItem("5");
+  midi_default_channel_combo->addItem("6");
+  midi_default_channel_combo->addItem("7");
+  midi_default_channel_combo->addItem("8");
+  midi_default_channel_combo->addItem("9");
+  midi_default_channel_combo->addItem("10");
+  midi_default_channel_combo->addItem("11");
+  midi_default_channel_combo->addItem("12");
+  midi_default_channel_combo->addItem("13");
+  midi_default_channel_combo->addItem("14");
+  midi_default_channel_combo->addItem("15");
+  midi_default_channel_combo->addItem("16");
+  midi_default_channel_combo->setMaxVisibleItems(17);
+  midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength) ;
+
+
+  QLabel *midi_default_channel_label = new QLabel;
+  midi_default_channel_label->setText(tr("Default Channel (* means all)"));
+
+  QGroupBox *midi_default_channel_box = new QGroupBox();
+  QHBoxLayout *midi_default_channel_layout = new QHBoxLayout();
+
+  midi_default_channel_combo->setToolTip(tr("Default MIDI Channel to send messages to"));
+  // connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
+  midi_default_channel_layout->addWidget(midi_default_channel_combo);
+  midi_default_channel_layout->addWidget(midi_default_channel_label);
+
+  midi_default_channel_box->setLayout(midi_default_channel_layout);
+
+  QVBoxLayout *midi_box_layout = new QVBoxLayout;
+  midi_box_layout->addWidget(midi_enable_check);
+  midi_box_layout->addWidget(midi_default_channel_box);
+
+  midi_box->setLayout(midi_box_layout);
+  QGridLayout *io_tab_layout = new QGridLayout();
+  io_tab_layout->addWidget(midi_box, 0, 0);
+  io_tab_layout->addWidget(midi_box, 0, 1);
+
+  ioTab->setLayout(io_tab_layout);
+
+
+
   QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
   volBox->setToolTip(tr("Use this slider to change the system volume."));
 
@@ -1345,8 +1404,11 @@ void MainWindow::initPrefsWindow() {
   audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
 #endif
 
+
   prefTabs->addTab(audio_prefs_box, tr("Audio"));
   audio_prefs_box->setLayout(audio_prefs_box_layout);
+
+  prefTabs->addTab(ioTab, tr("IO"));
 
   prefTabs->addTab(editor_box, tr("Editor"));
 
@@ -1726,6 +1788,9 @@ void MainWindow::runCode()
   if(synth_trigger_timing_guarantees_cb->isChecked()) {
      code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
+
+  code = "use_midi_defaults channel: \"" + midi_default_channel_combo->currentText().toStdString() + "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
+
 
   if(clear_output_on_run->isChecked()){
     outputPane->clear();
@@ -3011,6 +3076,21 @@ void MainWindow::setupLogPathAndRedirectStdOut() {
     coutbuf = std::cout.rdbuf();
     stdlog.open(gui_log_path.toStdString().c_str());
     std::cout.rdbuf(stdlog.rdbuf());
+  }
+}
+
+void MainWindow::toggleMidi() {
+  if (midi_enable_check->isChecked()) {
+    statusBar()->showMessage(tr("Enabling MIDI..."), 2000);
+    Message msg("/midi-enable");
+    msg.pushStr(guiID.toStdString());
+    sendOSC(msg);
+
+  } else {
+    statusBar()->showMessage(tr("Disabling MIDI..."), 2000);
+    Message msg("/midi-disable");
+    msg.pushStr(guiID.toStdString());
+    sendOSC(msg);
   }
 }
 

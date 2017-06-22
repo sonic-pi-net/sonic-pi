@@ -42,6 +42,7 @@
 #include "sonicpitheme.h"
 #include "scope.h"
 #include "oscsender.h"
+#include <QComboBox>
 
 class QAction;
 class QMenu;
@@ -193,6 +194,7 @@ private slots:
     void setupTheme();
     void escapeWorkspaces();
     void allJobsCompleted();
+    void toggleMidi();
 
 private:
 
@@ -306,6 +308,9 @@ private:
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
+
+    QCheckBox *midi_enable_check;
+    QComboBox *midi_default_channel_combo;
 
     QSignalMapper *scopeSignalMap;
 //    QCheckBox *show_left_scope;

@@ -1560,6 +1560,20 @@ end"
         __delayed_message m
       end
 
+      def __midi_disable
+        __info "Disabling MIDI subsystems..."
+        __schedule_delayed_blocks_and_messages!
+        @mod_sound_studio.disable_midi
+        __info "Disabled MIDI subsystems"
+
+      end
+
+      def __midi_enable
+        __info "Starting MIDI subsystems..."
+        __schedule_delayed_blocks_and_messages!
+        @mod_sound_studio.init_or_reset_midi
+      end
+
     end
   end
 end

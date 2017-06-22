@@ -416,6 +416,16 @@ osc_server.add_method("/gui-heartbeat") do |args|
   sp.__gui_heartbeat gui_id
 end
 
+osc_server.add_method("/midi-enable") do |args|
+  gui_id = args[0]
+  sp.__midi_enable
+end
+
+osc_server.add_method("/midi-disable") do |args|
+  gui_id = args[0]
+  sp.__midi_disable
+end
+
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
   continue = true

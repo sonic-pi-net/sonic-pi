@@ -53,55 +53,66 @@ module SonicPi
       init_or_reset_midi
     end
 
+    def disable_midi
+      @reboot_mutex.synchronize do
+        if @o2m_pid || @m2o_pid
+          kill_and_deregister_process @o2m_pid if @o2m_pid
+          kill_and_deregister_process @m2o_pid if @m2o_pid
+        end
+      end
+    end
+
+
     def init_or_reset_midi
-      success = true
-      @osc_midi_server.stop if @osc_midi_server
-      @osc_midi_server = SonicPi::OSC::UDPServer.new(@osc_midi_in_port, open: false) do |address, args|
-        sched_ahead_time = @state.get(Time.now, 0, @midi_osc_server_thread_id, 0, 0, 60, :sched_ahead_time).val
-        p = 0
-        d = 0
-        b = 0
-        m = 60
-        @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
-      end
+      @reboot_mutex.synchronize do
+        success = true
+        @osc_midi_server.stop if @osc_midi_server
+        @osc_midi_server = SonicPi::OSC::UDPServer.new(@osc_midi_in_port, open: false) do |address, args|
+          sched_ahead_time = @state.get(Time.now, 0, @midi_osc_server_thread_id, 0, 0, 60, :sched_ahead_time).val
+          p = 0
+          d = 0
+          b = 0
+          m = 60
+          @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
+        end
 
-      if @o2m_pid || @m2o_pid
-        message "Resetting MIDI Subsystems"
-        kill_and_deregister_process @o2m_pid if @o2m_pid
-        kill_and_deregister_process @m2o_pid if @m2o_pid
-      end
+        if @o2m_pid || @m2o_pid
+          kill_and_deregister_process @o2m_pid if @o2m_pid
+          kill_and_deregister_process @m2o_pid if @m2o_pid
+        end
 
-      begin
-        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_midi_in_port} -m 6 'Sonic Pi'"
-        Kernel.puts "Studio - Spawning m2o with:"
-        Kernel.puts "    #{m2o_spawn_cmd}"
-        @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
-        register_process(@m2o_pid)
-      rescue Exception => e
-        success = false
-        message "Error initialising MIDI inputs"
-        STDERR.puts "Exception when starting osmid m2o"
-        STDERR.puts e.message
-        STDERR.puts e.backtrace.inspect
-        STDERR.puts e.backtrace
-      end
+        begin
+          m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_midi_in_port} -m 6 'Sonic Pi'"
+          Kernel.puts "Studio - Spawning m2o with:"
+          Kernel.puts "    #{m2o_spawn_cmd}"
+          @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
+          register_process(@m2o_pid)
+        rescue Exception => e
+          success = false
+          message "Error initialising MIDI inputs"
+          STDERR.puts "Exception when starting osmid m2o"
+          STDERR.puts e.message
+          STDERR.puts e.backtrace.inspect
+          STDERR.puts e.backtrace
+        end
 
-      begin
-        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@osc_midi_out_port} -O #{@osc_midi_in_port} -m 6"
-        Kernel.puts "Studio - Spawning o2m with:"
-        Kernel.puts "    #{o2m_spawn_cmd}"
-        @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
-        register_process(@o2m_pid)
-      rescue Exception => e
-        success = false
-        message "Error initialising MIDI outputs"
-        STDERR.puts "Exception when starting osmid o2m"
-        STDERR.puts e.message
-        STDERR.puts e.backtrace.inspect
-        STDERR.puts e.backtrace
-      end
+        begin
+          o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@osc_midi_out_port} -O #{@osc_midi_in_port} -m 6"
+          Kernel.puts "Studio - Spawning o2m with:"
+          Kernel.puts "    #{o2m_spawn_cmd}"
+          @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
+          register_process(@o2m_pid)
+        rescue Exception => e
+          success = false
+          message "Error initialising MIDI outputs"
+          STDERR.puts "Exception when starting osmid o2m"
+          STDERR.puts e.message
+          STDERR.puts e.backtrace.inspect
+          STDERR.puts e.backtrace
+        end
 
-      message "Initialised MIDI Subsystems" if success
+        message "Initialised MIDI Subsystems" if success
+      end
     end
 
     def init_scsynth
@@ -438,7 +449,7 @@ module SonicPi
         @rebooting = true
         message "Rebooting SuperCollider Audio Server. Please wait..."
 #        @server.shutdown
-        message "init_midi"
+        message "Initialising MIDI..."
         begin
           init_or_reset_midi
         rescue Exception => e
