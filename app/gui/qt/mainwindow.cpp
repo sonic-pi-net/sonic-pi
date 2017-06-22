@@ -1210,11 +1210,12 @@ void MainWindow::initPrefsWindow() {
   midi_default_channel_combo->addItem("15");
   midi_default_channel_combo->addItem("16");
   midi_default_channel_combo->setMaxVisibleItems(17);
+  midi_default_channel_combo->setMinimumContentsLength(2);
   midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength) ;
 
 
   QLabel *midi_default_channel_label = new QLabel;
-  midi_default_channel_label->setText(tr("Default Channel (* means all)"));
+  midi_default_channel_label->setText(tr("Default MIDI Channel (* means all)"));
 
   QGroupBox *midi_default_channel_box = new QGroupBox();
   QHBoxLayout *midi_default_channel_layout = new QHBoxLayout();
