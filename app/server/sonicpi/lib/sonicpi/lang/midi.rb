@@ -640,18 +640,18 @@ You may also optionally pass the control value as a floating point value between
         on_val = opts.fetch(:on, 1)
 
         if truthy?(on_val)
-          channels                 = __resolve_midi_channels(opts)
-          ports                    = __resolve_midi_ports(opts)
-          pressure, pressure_midi  = __resolve_midi_val(pressure, opts)
-          chan                     = pp_el_or_list(channels)
-          port                     = pp_el_or_list(ports)
+          channels = __resolve_midi_channels(opts)
+          ports    = __resolve_midi_ports(opts)
+          pressure = __resolve_midi_val(pressure, opts)
+          chan     = pp_el_or_list(channels)
+          port     = pp_el_or_list(ports)
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/channel_pressure", p, c, [pressure_midi])
+              __midi_send_timed_pc("/channel_pressure", p, c, [pressure])
             end
           end
-          __midi_message "midi_channel_pressure #{pressure}, value: #{pressure_midi}, port: #{port}, channel: #{chan}"
+          __midi_message "midi_channel_pressure #{pressure}, port: #{port}, channel: #{chan}"
         else
           __midi_rest_message "midi_channel_pressure :rest, on: 0"
         end
