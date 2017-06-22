@@ -1215,21 +1215,20 @@ void MainWindow::initPrefsWindow() {
 
 
   QLabel *midi_default_channel_label = new QLabel;
-  midi_default_channel_label->setText(tr("Default MIDI Channel (* means all)"));
+  midi_default_channel_label->setText(tr("Default MIDI channel (* means all)"));
 
-  QGroupBox *midi_default_channel_box = new QGroupBox();
-  QHBoxLayout *midi_default_channel_layout = new QHBoxLayout();
+  QGridLayout *midi_default_channel_layout = new QGridLayout();
 
-  midi_default_channel_combo->setToolTip(tr("Default MIDI Channel to send messages to"));
+  midi_default_channel_combo->setToolTip(tr("Default MIDI channel to send messages to"));
   // connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
-  midi_default_channel_layout->addWidget(midi_default_channel_combo);
-  midi_default_channel_layout->addWidget(midi_default_channel_label);
+  midi_default_channel_layout->addWidget(midi_default_channel_combo, 0, 0);
+  midi_default_channel_layout->addWidget(midi_default_channel_label, 0, 1);
 
-  midi_default_channel_box->setLayout(midi_default_channel_layout);
+
 
   QVBoxLayout *midi_box_layout = new QVBoxLayout;
   midi_box_layout->addWidget(midi_enable_check);
-  midi_box_layout->addWidget(midi_default_channel_box);
+  midi_box_layout->addLayout(midi_default_channel_layout);
 
   midi_box->setLayout(midi_box_layout);
   QGridLayout *io_tab_layout = new QGridLayout();
