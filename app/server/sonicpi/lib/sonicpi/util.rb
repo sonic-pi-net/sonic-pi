@@ -537,11 +537,13 @@ module SonicPi
     end
 
     def register_process(pid)
-      `'#{ruby_path}' '#{server_path}/bin/task-register.rb' '#{pid}'`
+      pid = spawn "'#{ruby_path}' '#{File.join(server_path, 'bin', 'task-register.rb')}' #{pid}"
+      Process.wait pid
     end
 
     def kill_and_deregister_process(pid)
-      `'#{ruby_path}' '#{server_path}/bin/task-clear.rb' '#{pid}'`
+      pid = spawn "'#{ruby_path}' '#{File.join(server_path, 'bin', 'task-clear.rb')}' #{pid}"
+      Process.wait pid
     end
 
     def __thread_locals(t = Thread.current)
