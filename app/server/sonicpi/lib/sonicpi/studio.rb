@@ -47,71 +47,80 @@ module SonicPi
       @cached_buffer_dir = Dir.mktmpdir
       @register_cue_event_lambda = register_cue_event_lambda
       @midi_osc_server_thread_id = ThreadId.new(-4)
+      @midi_on = true
       init_scsynth
       reset_server
       init_studio
       init_or_reset_midi
     end
 
-    def disable_midi
+    def stop_midi(silent=false)
       @reboot_mutex.synchronize do
-        if @o2m_pid || @m2o_pid
-          kill_and_deregister_process @o2m_pid if @o2m_pid
-          kill_and_deregister_process @m2o_pid if @m2o_pid
-        end
+        @midi_on = false
+        kill_and_deregister_process @o2m_pid if @o2m_pid
+        kill_and_deregister_process @m2o_pid if @m2o_pid
+        @o2m_pid = nil
+        @m2o_pid = nil
+        message "MIDI Subsystems stopped." unless silent
       end
     end
 
-
-    def init_or_reset_midi
+    def start_midi(silent=false)
       @reboot_mutex.synchronize do
-        success = true
+        reb_mut_init_or_return_midi_osc_server
+        reb_mut_spawn_midi_o2m unless @o2m_pid
+        reb_mut_spawn_midi_m2o unless @m2o_pid
+        @midi_on = true
+        message "MIDI Subsystems started." unless silent
+      end
+    end
+
+    def init_or_reset_midi(silent=false)
+
+      @reboot_mutex.synchronize do
+
+        # shutdown all running systems
+
+        kill_and_deregister_process @o2m_pid if @o2m_pid
+        @o2m_pid = nil
+
+        kill_and_deregister_process @m2o_pid if @m2o_pid
+        @m2o_pid = nil
+
         @osc_midi_server.stop if @osc_midi_server
-        @osc_midi_server = SonicPi::OSC::UDPServer.new(@osc_midi_in_port, open: false) do |address, args|
-          sched_ahead_time = @state.get(Time.now, 0, @midi_osc_server_thread_id, 0, 0, 60, :sched_ahead_time).val
-          p = 0
-          d = 0
-          b = 0
-          m = 60
-          @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
+
+        # set server to nil
+        @osc_midi_server = nil
+        # so the next call will init a new server:
+
+        reb_mut_init_or_return_midi_osc_server
+
+        # Try and spawn osmid processes
+        o2m_success = false
+        m2o_success = false
+        o2m_success = reb_mut_spawn_midi_o2m
+
+        message "Error initialising MIDI output" unless o2m_success || silent
+        m2o_success = reb_mut_spawn_midi_m2o
+        message "Error initialising MIDI input" unless m2o_success || silent
+
+        # Tidy up
+        unless @o2m_pid && !o2m_success
+          kill_and_deregister_process @o2m_pid
+          @o2m_pid = nil
         end
 
-        if @o2m_pid || @m2o_pid
-          kill_and_deregister_process @o2m_pid if @o2m_pid
-          kill_and_deregister_process @m2o_pid if @m2o_pid
+        unless @m2o_pid && !m2o_success
+          kill_and_deregister_process @m2o_pid
+          @m2o_pid = nil
         end
 
-        begin
-          m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_midi_in_port} -m 6 'Sonic Pi'"
-          Kernel.puts "Studio - Spawning m2o with:"
-          Kernel.puts "    #{m2o_spawn_cmd}"
-          @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
-          register_process(@m2o_pid)
-        rescue Exception => e
-          success = false
-          message "Error initialising MIDI inputs"
-          STDERR.puts "Exception when starting osmid m2o"
-          STDERR.puts e.message
-          STDERR.puts e.backtrace.inspect
-          STDERR.puts e.backtrace
-        end
+        success = o2m_success && m2o_success
+        @midi_on = success
 
-        begin
-          o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@osc_midi_out_port} -O #{@osc_midi_in_port} -m 6"
-          Kernel.puts "Studio - Spawning o2m with:"
-          Kernel.puts "    #{o2m_spawn_cmd}"
-          @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
-          register_process(@o2m_pid)
-        rescue Exception => e
-          success = false
-          message "Error initialising MIDI outputs"
-          STDERR.puts "Exception when starting osmid o2m"
-          STDERR.puts e.message
-          STDERR.puts e.backtrace.inspect
-          STDERR.puts e.backtrace
+        unless silent
+          message "Initialised MIDI subsystems" if success
         end
-
-        message "Initialised MIDI Subsystems" if success
       end
     end
 
@@ -586,5 +595,57 @@ module SonicPi
       end
     end
 
+    def reb_mut_spawn_midi_m2o
+      success = true
+      begin
+        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_midi_in_port} -m 6 'Sonic Pi'"
+        Kernel.puts "Studio - Spawning m2o with:"
+        Kernel.puts "    #{m2o_spawn_cmd}"
+        @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
+        register_process(@m2o_pid)
+      rescue Exception => e
+        success = false
+        message "Error initialising MIDI inputs"
+        STDERR.puts "Exception when starting osmid m2o"
+        STDERR.puts e.message
+        STDERR.puts e.backtrace.inspect
+        STDERR.puts e.backtrace
+      end
+      success
+    end
+
+    def reb_mut_spawn_midi_o2m
+      success = true
+      begin
+        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@osc_midi_out_port} -O #{@osc_midi_in_port} -m 6"
+        Kernel.puts "Studio - Spawning o2m with:"
+        Kernel.puts "    #{o2m_spawn_cmd}"
+        @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
+        register_process(@o2m_pid)
+      rescue Exception => e
+        success = false
+        message "Error initialising MIDI outputs"
+        STDERR.puts "Exception when starting osmid o2m"
+        STDERR.puts e.message
+        STDERR.puts e.backtrace.inspect
+        STDERR.puts e.backtrace
+      end
+      success
+    end
+
+
+    def reb_mut_init_or_return_midi_osc_server
+
+      return @osc_midi_server if @osc_midi_server
+
+      @osc_midi_server = SonicPi::OSC::UDPServer.new(@osc_midi_in_port, open: false) do |address, args|
+        sched_ahead_time = @state.get(Time.now, 0, @midi_osc_server_thread_id, 0, 0, 60, :sched_ahead_time).val
+        p = 0
+        d = 0
+        b = 0
+        m = 60
+        @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
+      end
+    end
   end
 end

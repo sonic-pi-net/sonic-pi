@@ -194,7 +194,9 @@ private slots:
     void setupTheme();
     void escapeWorkspaces();
     void allJobsCompleted();
-    void toggleMidi();
+    void toggleMidi(int silent=0);
+    void resetMidi();
+    void honourPrefs();
 
 private:
 
@@ -309,8 +311,8 @@ private:
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
 
-    QCheckBox *midi_enable_check;
     QComboBox *midi_default_channel_combo;
+    QCheckBox *midi_enable_check;
 
     QSignalMapper *scopeSignalMap;
 //    QCheckBox *show_left_scope;

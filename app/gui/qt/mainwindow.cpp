@@ -386,7 +386,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   startRubyServer();
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...
-
+    honourPrefs();
     loadWorkspaces();
     requestVersion();
 
@@ -1136,6 +1136,33 @@ bool isScopeEnabled( const QSettings& settings, const QString& name )
   return settings.value("prefs/scope/show-"+lname, isScopeEnabledByDefault(lname) ).toBool();
 }
 
+void MainWindow::honourPrefs() {
+  QSettings settings("sonic-pi.net", "gui-settings");
+
+  int stored_vol = settings.value("prefs/system-vol", 50).toInt();
+  system_vol_slider->setValue(stored_vol);
+
+  update_mixer_invert_stereo();
+  update_mixer_force_mono();
+  changeRPSystemVol(stored_vol);
+  update_check_updates();
+  updateLogAutoScroll();
+  toggleScopeAxes();
+  toggleMidi(1);
+
+
+
+  if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
+    setRPSystemAudioAuto();
+  }
+  if(settings.value("prefs/rp/force-audio-headphones", false).toBool()) {
+    setRPSystemAudioHeadphones();
+  }
+  if(settings.value("prefs/rp/force-audio-hdmi", false).toBool()) {
+    setRPSystemAudioHDMI();
+  }
+}
+
 void MainWindow::initPrefsWindow() {
 
   prefTabs = new QTabWidget();
@@ -1190,6 +1217,9 @@ void MainWindow::initPrefsWindow() {
   midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
   connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
 
+  QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
+  midi_reset_button->setToolTip(tr("Reset MIDI subsystems \n(Required to detect device changes on macOS)" ));
+  connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(resetMidi()));
 
   midi_default_channel_combo = new QComboBox();
   midi_default_channel_combo->addItem("*");
@@ -1219,8 +1249,8 @@ void MainWindow::initPrefsWindow() {
 
   QGridLayout *midi_default_channel_layout = new QGridLayout();
 
-  midi_default_channel_combo->setToolTip(tr("Default MIDI channel to send messages to"));
-  // connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
+  midi_default_channel_combo->setToolTip(tr("Default MIDI Channel to send messages to"));
+
   midi_default_channel_layout->addWidget(midi_default_channel_combo, 0, 0);
   midi_default_channel_layout->addWidget(midi_default_channel_label, 0, 1);
 
@@ -1229,6 +1259,7 @@ void MainWindow::initPrefsWindow() {
   QVBoxLayout *midi_box_layout = new QVBoxLayout;
   midi_box_layout->addWidget(midi_enable_check);
   midi_box_layout->addLayout(midi_default_channel_layout);
+  midi_box_layout->addWidget(midi_reset_button);
 
   midi_box->setLayout(midi_box_layout);
   QGridLayout *io_tab_layout = new QGridLayout();
@@ -1529,6 +1560,8 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 
   // Read in preferences from previous session
+  midi_enable_check->setChecked(settings.value("prefs/midi-enable", true).toBool());
+  midi_default_channel_combo->setCurrentIndex(settings.value("prefs/default-midi-channel", 0).toInt());
   check_args->setChecked(settings.value("prefs/check-args", true).toBool());
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
@@ -1552,8 +1585,7 @@ void MainWindow::initPrefsWindow() {
 
   gui_transparency_slider->setValue(settings.value("prefs/gui_transparency", 0).toInt());
 
-  int stored_vol = settings.value("prefs/system-vol", 50).toInt();
-  system_vol_slider->setValue(stored_vol);
+
 
   //show_left_scope->setChecked( scopeInterface->enableScope( "Left", settings.value("prefs/scope/show-left", true).toBool() ) );
   //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
@@ -1562,23 +1594,7 @@ void MainWindow::initPrefsWindow() {
   show_incoming_osc_log->setChecked( settings.value("prefs/show_incoming_osc_log", true).toBool());
 
 
-  // Ensure prefs are honoured on boot
-  update_mixer_invert_stereo();
-  update_mixer_force_mono();
-  changeRPSystemVol(stored_vol);
-  update_check_updates();
-  updateLogAutoScroll();
-  toggleScopeAxes();
 
-  if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
-    setRPSystemAudioAuto();
-  }
-  if(settings.value("prefs/rp/force-audio-headphones", false).toBool()) {
-    setRPSystemAudioHeadphones();
-  }
-  if(settings.value("prefs/rp/force-audio-hdmi", false).toBool()) {
-    setRPSystemAudioHDMI();
-  }
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -2763,6 +2779,8 @@ void MainWindow::writeSettings()
   settings.setValue("size", size());
   settings.setValue("first_time", 0);
 
+  settings.setValue("prefs/midi-default-channel", midi_default_channel_combo->currentIndex());
+  settings.setValue("prefs/midi-enable", midi_enable_check->isChecked());
 
   settings.setValue("prefs/check-args", check_args->isChecked());
   settings.setValue("prefs/print-output", print_output->isChecked());
@@ -3117,21 +3135,32 @@ void MainWindow::setupLogPathAndRedirectStdOut() {
   }
 }
 
-void MainWindow::toggleMidi() {
+void MainWindow::toggleMidi(int silent) {
   if (midi_enable_check->isChecked()) {
     statusBar()->showMessage(tr("Enabling MIDI..."), 2000);
-    Message msg("/midi-enable");
+    Message msg("/midi-start");
     msg.pushStr(guiID.toStdString());
+    msg.pushInt32(silent);
     sendOSC(msg);
-
   } else {
     statusBar()->showMessage(tr("Disabling MIDI..."), 2000);
-    Message msg("/midi-disable");
+    Message msg("/midi-stop");
     msg.pushStr(guiID.toStdString());
+    msg.pushInt32(silent);
     sendOSC(msg);
   }
 }
 
+void MainWindow::resetMidi() {
+  if (midi_enable_check->isChecked()) {
+    statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
+    Message msg("/midi-reset");
+    msg.pushStr(guiID.toStdString());
+    sendOSC(msg);
+  } else {
+    statusBar()->showMessage(tr("MIDI is disabled..."), 2000);
+  }
+}
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
 {

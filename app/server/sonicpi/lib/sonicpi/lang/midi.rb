@@ -851,6 +851,7 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
 
 
       def midi_reset(*args)
+        __info "Resetting MIDI Subsystems"
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         reset_val    = opts[:value] || opts[:val] || params[0] || 0
@@ -1473,10 +1474,6 @@ end"
 ]
 
 
-      def midi_reset!
-        @mod_sound_studio.init_or_reset_midi
-      end
-
       def __resolve_midi_channels(opts)
         channels = (opts[:channel] || opts[:chan] || current_midi_channels)
         if channels == '*'
@@ -1560,19 +1557,29 @@ end"
         __delayed_message m
       end
 
-      def __midi_disable
-        __info "Disabling MIDI subsystems..."
-        __schedule_delayed_blocks_and_messages!
-        @mod_sound_studio.disable_midi
-        __info "Disabled MIDI subsystems"
-
+      def __midi_system_reset(silent=false)
+        __info "Resetting MIDI subsystems..."
+        __schedule_delayed_blocks_and_messages! unless silent
+        @mod_sound_studio.init_or_reset_midi(silent)
       end
 
-      def __midi_enable
-        __info "Starting MIDI subsystems..."
+      def __midi_system_start(silent=false)
+        __info "Starting MIDI subsystems..." unless silent
         __schedule_delayed_blocks_and_messages!
-        @mod_sound_studio.init_or_reset_midi
+        @mod_sound_studio.start_midi(silent)
       end
+
+      def __midi_system_stop(silent=false)
+        __info "Stopping MIDI subsystems..." unless silent
+        __schedule_delayed_blocks_and_messages!
+        @mod_sound_studio.stop_midi(silent)
+      end
+
+
+
+
+
+
 
     end
   end
