@@ -33,8 +33,8 @@ module SonicPi
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
       @osc_cues_port = ports[:osc_cues_port]
-      @osc_midi_in_port = ports[:osc_midi_in_port]
-      @osc_midi_out_port = ports[:osc_midi_out_port]
+      @midi_osc_in_port = ports[:osc_midi_in_port]
+      @midi_osc_out_port = ports[:osc_midi_out_port]
       @erlang_port = ports[:erlang_port]
       @msg_queue = msg_queue
       @error_occured_mutex = Mutex.new
@@ -49,7 +49,7 @@ module SonicPi
       @register_cue_event_lambda = register_cue_event_lambda
       @midi_osc_server_thread_id = ThreadId.new(-4)
       @midi_on = true
-      @osc_midi_server = nil
+      @midi_osc_server = nil
       @erlang_pid = nil
       @erlang_mut = Mutex.new
       init_scsynth
@@ -103,6 +103,8 @@ module SonicPi
 
     def stop_midi(silent=false)
       @reboot_mutex.synchronize do
+        reb_mut_kill_midi_osc_server
+
         @midi_on = false
         kill_and_deregister_process @o2m_pid if @o2m_pid
         kill_and_deregister_process @m2o_pid if @m2o_pid
@@ -127,17 +129,15 @@ module SonicPi
       @reboot_mutex.synchronize do
 
         # shutdown all running systems
+        reb_mut_kill_midi_osc_server
 
         kill_and_deregister_process @o2m_pid if @o2m_pid
-        @o2m_pid = nil
-
         kill_and_deregister_process @m2o_pid if @m2o_pid
+
+        @o2m_pid = nil
         @m2o_pid = nil
 
-        @osc_midi_server.stop if @osc_midi_server
 
-        # set server to nil
-        @osc_midi_server = nil
         # so the next call will init a new server:
 
         reb_mut_init_or_return_midi_osc_server
@@ -152,12 +152,12 @@ module SonicPi
         message "Error initialising MIDI input" unless m2o_success || silent
 
         # Tidy up
-        unless @o2m_pid && !o2m_success
+        if @o2m_pid && !o2m_success
           kill_and_deregister_process @o2m_pid
           @o2m_pid = nil
         end
 
-        unless @m2o_pid && !m2o_success
+        if @m2o_pid && !m2o_success
           kill_and_deregister_process @m2o_pid
           @m2o_pid = nil
         end
@@ -645,7 +645,7 @@ module SonicPi
     def reb_mut_spawn_midi_m2o
       success = true
       begin
-        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@osc_midi_in_port} -m 6 'Sonic Pi'"
+        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@midi_osc_in_port} -m 6 'Sonic Pi'"
         Kernel.puts "Studio - Spawning m2o with:"
         Kernel.puts "    #{m2o_spawn_cmd}"
         @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
@@ -664,7 +664,7 @@ module SonicPi
     def reb_mut_spawn_midi_o2m
       success = true
       begin
-        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@osc_midi_out_port} -O #{@osc_midi_in_port} -m 6"
+        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@midi_osc_out_port} -O #{@midi_osc_in_port} -m 6"
         Kernel.puts "Studio - Spawning o2m with:"
         Kernel.puts "    #{o2m_spawn_cmd}"
         @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
@@ -683,9 +683,9 @@ module SonicPi
 
     def reb_mut_init_or_return_midi_osc_server
 
-      return @osc_midi_server if @osc_midi_server
+      return @midi_osc_server if @midi_osc_server
 
-      @osc_midi_server = SonicPi::OSC::UDPServer.new(@osc_midi_in_port, open: false) do |address, args|
+      @midi_osc_server = SonicPi::OSC::UDPServer.new(@midi_osc_in_port, open: false) do |address, args|
         sched_ahead_time = @state.get(Time.now, 0, @midi_osc_server_thread_id, 0, 0, 60, :sched_ahead_time).val
         p = 0
         d = 0
@@ -693,6 +693,13 @@ module SonicPi
         m = 60
         @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
       end
+
+    end
+
+    def reb_mut_kill_midi_osc_server
+      @midi_osc_server.stop if @midi_osc_server
+      # set server to nil
+      @midi_osc_server = nil
     end
   end
 end
