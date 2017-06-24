@@ -114,18 +114,6 @@ sonic_pi_ports = {
   osc_midi_out_port: osc_midi_out_port,
   osc_midi_in_port: osc_midi_in_port }.freeze
 
-# Start Erlang
-begin
-  erlang_cmd = "#{erlang_boot_path} -pz \"#{erlang_server_path}\" -s pi_server start #{erlang_port}"
-  STDOUT.puts erlang_cmd
-  pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
-  register_process(pid)
-rescue Exception => e
-  STDOUT.puts "Exception when starting Erlang"
-  STDOUT.puts e.message
-  STDOUT.puts e.backtrace.inspect
-  STDOUT.puts e.backtrace
-end
 
 begin
   if protocol == :tcp

@@ -35,6 +35,7 @@ module SonicPi
       @osc_cues_port = ports[:osc_cues_port]
       @osc_midi_in_port = ports[:osc_midi_in_port]
       @osc_midi_out_port = ports[:osc_midi_out_port]
+      @erlang_port = ports[:erlang_port]
       @msg_queue = msg_queue
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
@@ -48,10 +49,56 @@ module SonicPi
       @register_cue_event_lambda = register_cue_event_lambda
       @midi_osc_server_thread_id = ThreadId.new(-4)
       @midi_on = true
+      @osc_midi_server = nil
+      @erlang_pid = nil
+      @erlang_mut = Mutex.new
       init_scsynth
       reset_server
       init_studio
+      start_erlang
       init_or_reset_midi
+    end
+
+
+    def __erl_mut_start_erlang
+      return @erlang_pid if @erlang_pid
+      # Start Erlang
+      begin
+        erlang_cmd = "#{erlang_boot_path} -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port}"
+        STDOUT.puts erlang_cmd
+        @erlang_pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
+        register_process(@erlang_pid)
+      rescue Exception => e
+        STDOUT.puts "Exception when starting Erlang"
+        STDOUT.puts e.message
+        STDOUT.puts e.backtrace.inspect
+        STDOUT.puts e.backtrace
+      end
+    end
+
+    def __erl_mut_stop_erlang
+      return nil unless @erlang_pid
+      kill_and_deregister_process @erlang_pid
+      @erlang_pid = nil
+    end
+
+    def stop_erlang
+      @erlang_mut.synchronize do
+        __erl_mut_stop_erlang
+      end
+    end
+
+    def start_erlang
+      @erlang_mut.synchronize do
+        __erl_mut_start_erlang
+      end
+    end
+
+    def reset_erlang
+      @erlang_mut.synchronize do
+        __erl_mut_stop_erlang
+        __erl_mut_start_erlang
+      end
     end
 
     def stop_midi(silent=false)
