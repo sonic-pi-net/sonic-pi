@@ -422,6 +422,19 @@ osc_server.add_method("/midi-reset") do |args|
   sp.__midi_system_reset(silent)
 end
 
+osc_server.add_method("/osc-port-start") do |args|
+  gui_id = args[0]
+  silent = args[1] == 1
+  open = args[2] == 1
+  sp.__restart_cue_server!(open, silent)
+end
+
+osc_server.add_method("/osc-port-stop") do |args|
+  gui_id = args[0]
+  silent = args[1] == 1
+  sp.__stop_cue_server!(silent)
+end
+
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
   continue = true

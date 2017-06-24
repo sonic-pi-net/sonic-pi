@@ -195,6 +195,7 @@ private slots:
     void escapeWorkspaces();
     void allJobsCompleted();
     void toggleMidi(int silent=0);
+    void toggleOSCServer(int silent=0);
     void resetMidi();
     void honourPrefs();
 
@@ -313,6 +314,8 @@ private:
 
     QComboBox *midi_default_channel_combo;
     QCheckBox *midi_enable_check;
+    QCheckBox *osc_public_check;
+    QCheckBox *osc_server_enabled_check;
 
     QSignalMapper *scopeSignalMap;
 //    QCheckBox *show_left_scope;

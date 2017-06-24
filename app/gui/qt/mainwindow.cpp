@@ -1149,6 +1149,7 @@ void MainWindow::honourPrefs() {
   updateLogAutoScroll();
   toggleScopeAxes();
   toggleMidi(1);
+  toggleOSCServer(1);
 
 
 
@@ -1205,8 +1206,18 @@ void MainWindow::initPrefsWindow() {
   network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(server_osc_cues_port));
   network_ip_label->setToolTip(all_ip_addresses);
 
+  osc_public_check = new QCheckBox(tr("Receive remote OSC messages"));
+  osc_public_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages from remove machines.\n When unchecked, only messages from the local machine will be received."));
+  connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOSCServer()));
+
+  osc_server_enabled_check = new QCheckBox(tr("Enable OSC server"));
+  osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages.\n When unchecked no OSC messages will be received."));
+  connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOSCServer()));
+
 
   QVBoxLayout *network_box_layout = new QVBoxLayout;
+  network_box_layout->addWidget(osc_server_enabled_check);
+  network_box_layout->addWidget(osc_public_check);
   network_box_layout->addWidget(network_ip_label);
   network_box->setLayout(network_box_layout);
 
@@ -1560,6 +1571,9 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 
   // Read in preferences from previous session
+
+  osc_public_check->setChecked(settings.value("prefs/osc-public", false).toBool());
+  osc_server_enabled_check->setChecked(settings.value("prefs/osc-enabled", true).toBool());
   midi_enable_check->setChecked(settings.value("prefs/midi-enable", true).toBool());
   midi_default_channel_combo->setCurrentIndex(settings.value("prefs/default-midi-channel", 0).toInt());
   check_args->setChecked(settings.value("prefs/check-args", true).toBool());
@@ -2781,6 +2795,8 @@ void MainWindow::writeSettings()
 
   settings.setValue("prefs/midi-default-channel", midi_default_channel_combo->currentIndex());
   settings.setValue("prefs/midi-enable", midi_enable_check->isChecked());
+  settings.setValue("prefs/osc-public", osc_public_check->isChecked());
+  settings.setValue("prefs/osc-enabled", osc_server_enabled_check->isChecked());
 
   settings.setValue("prefs/check-args", check_args->isChecked());
   settings.setValue("prefs/print-output", print_output->isChecked());
@@ -3145,6 +3161,25 @@ void MainWindow::toggleMidi(int silent) {
   } else {
     statusBar()->showMessage(tr("Disabling MIDI..."), 2000);
     Message msg("/midi-stop");
+    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(silent);
+    sendOSC(msg);
+  }
+}
+
+void MainWindow::toggleOSCServer(int silent) {
+  if (osc_server_enabled_check->isChecked()) {
+    statusBar()->showMessage(tr("Opening OSC port for remote messages..."), 2000);
+    int open = osc_public_check->isChecked() ? 1 : 0;
+
+    Message msg("/osc-port-start");
+    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(silent);
+    msg.pushInt32(open);
+    sendOSC(msg);
+  } else {
+    statusBar()->showMessage(tr("Stopping OSC server..."), 2000);
+    Message msg("/osc-port-stop");
     msg.pushStr(guiID.toStdString());
     msg.pushInt32(silent);
     sendOSC(msg);
