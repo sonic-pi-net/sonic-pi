@@ -20,7 +20,6 @@ raise "Sonic Pi requires Ruby 2+ to be installed. You are using version #{RUBY_V
 require 'rbconfig'
 ruby_api = RbConfig::CONFIG['ruby_version']
 
-
 ## Ensure all libs in vendor directory are available
 Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
   $:.unshift vendor_lib
@@ -36,31 +35,30 @@ require 'hamster/vector'
 require 'wavefile'
 
 os = case RUBY_PLATFORM
-     when /.*arm.*-linux.*/
-       :raspberry
-     when /.*linux.*/
-       :linux
-     when /.*darwin.*/
-       :osx
-     when /.*mingw.*/
-       :windows
-     else
-       RUBY_PLATFORM
-     end
+when /.*arm.*-linux.*/
+ :raspberry
+when /.*linux.*/
+ :linux
+when /.*darwin.*/
+ :osx
+when /.*mingw.*/
+ :windows
+else
+ RUBY_PLATFORM
+end
 
 # special case for proctable lib
 sys_proctable_os = case os
-                   when :raspberry
-                     "linux"
-                   when :linux
-                     "linux"
-                   when :windows
-                     "windows"
-                   when :osx
-                     "darwin"
-                   end
+when :raspberry
+ "linux"
+when :linux
+ "linux"
+when :windows
+ "windows"
+when :osx
+ "darwin"
+end
 $:.unshift "#{File.expand_path("../vendor", __FILE__)}/sys-proctable-1.1.3/lib/#{sys_proctable_os}"
-
 
 $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"
 
@@ -69,11 +67,6 @@ require 'win32/process' if os == :windows
 ## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
 native_lib_path = "#{File.expand_path("../native/#{os}/", __FILE__)}"
 ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*dylib,so*,dll}"].first
-
-
-
-
-
 
 module SonicPi
   module Core
@@ -141,8 +134,6 @@ module SonicPi
   end
 end
 
-
-
 module SonicPi
   module Core
     module SPRand
@@ -152,66 +143,66 @@ module SonicPi
       def self.tl_seed_map(seed, idx=0)
         {:sonic_pi_spider_random_gen_seed => seed,
           :sonic_pi_spider_random_gen_idx => idx}
-      end
+        end
 
-      def self.__thread_locals(t = Thread.current)
-        tls = t.thread_variable_get(:sonic_pi_thread_locals)
-        tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls
-        return tls
-      end
+        def self.__thread_locals(t = Thread.current)
+          tls = t.thread_variable_get(:sonic_pi_thread_locals)
+          tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls
+          return tls
+        end
 
-      def self.to_a
-        @@random_numbers
-      end
+        def self.to_a
+          @@random_numbers
+        end
 
-      def self.inc_idx!(increment=1, init=0)
-        ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx) || init
-        __thread_locals.set :sonic_pi_spider_random_gen_idx, ridx + increment
-        ridx
-      end
+        def self.inc_idx!(increment=1, init=0)
+          ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx) || init
+          __thread_locals.set :sonic_pi_spider_random_gen_idx, ridx + increment
+          ridx
+        end
 
-      def self.dec_idx!(decrement=1, init=0)
-        ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx) || init
-        __thread_locals.set :sonic_pi_spider_random_gen_idx, ridx - decrement
-        ridx
-      end
+        def self.dec_idx!(decrement=1, init=0)
+          ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx) || init
+          __thread_locals.set :sonic_pi_spider_random_gen_idx, ridx - decrement
+          ridx
+        end
 
-      def self.set_seed!(seed, idx=0)
-        __thread_locals.set :sonic_pi_spider_random_gen_seed, seed
-        __thread_locals.set :sonic_pi_spider_random_gen_idx, idx
-      end
+        def self.set_seed!(seed, idx=0)
+          __thread_locals.set :sonic_pi_spider_random_gen_seed, seed
+          __thread_locals.set :sonic_pi_spider_random_gen_idx, idx
+        end
 
-      def self.set_idx!(idx)
-        __thread_locals.set :sonic_pi_spider_random_gen_idx, idx
-      end
+        def self.set_idx!(idx)
+          __thread_locals.set :sonic_pi_spider_random_gen_idx, idx
+        end
 
-      def self.get_seed_and_idx
-        [__thread_locals.get(:sonic_pi_spider_random_gen_seed),
-          __thread_locals.get(:sonic_pi_spider_random_gen_idx)]
-      end
+        def self.get_seed_and_idx
+          [__thread_locals.get(:sonic_pi_spider_random_gen_seed),
+            __thread_locals.get(:sonic_pi_spider_random_gen_idx)]
+          end
 
-      def self.get_seed
-        __thread_locals.get(:sonic_pi_spider_random_gen_seed) || 0
-      end
+          def self.get_seed
+            __thread_locals.get(:sonic_pi_spider_random_gen_seed) || 0
+          end
 
-      def self.get_idx
-        __thread_locals.get(:sonic_pi_spider_random_gen_idx) || 0
-      end
+          def self.get_idx
+            __thread_locals.get(:sonic_pi_spider_random_gen_idx) || 0
+          end
 
-      def self.get_seed_plus_idx
-        (__thread_locals.get(:sonic_pi_spider_random_gen_idx) || 0) +
-          __thread_locals.get(:sonic_pi_spider_random_gen_seed) || 0
-      end
+          def self.get_seed_plus_idx
+            (__thread_locals.get(:sonic_pi_spider_random_gen_idx) || 0) +
+            __thread_locals.get(:sonic_pi_spider_random_gen_seed) || 0
+          end
 
-      def self.rand!(max=1, idx=nil)
-        idx = inc_idx! unless idx
-        rand_peek(max, idx)
-      end
+          def self.rand!(max=1, idx=nil)
+            idx = inc_idx! unless idx
+            rand_peek(max, idx)
+          end
 
-      def self.rand_peek(max=1, idx=nil, seed=nil)
-        idx = get_idx unless idx
-        seed = get_seed unless seed
-        idx = seed + idx
+          def self.rand_peek(max=1, idx=nil, seed=nil)
+            idx = get_idx unless idx
+            seed = get_seed unless seed
+            idx = seed + idx
         # we know that the fixed rand stream has length 441000
         # also, scsynth server seems to swallow first rand
         # so always add 1 to index
@@ -319,7 +310,6 @@ module SonicPi
     end
   end
 end
-
 
 module SonicPi
   module Core
@@ -608,7 +598,6 @@ module SonicPi
       end
     end
 
-
     # An immutable map which when used in a splat will
     # yield its vals
     class SPSplatMap < SPMap
@@ -631,7 +620,6 @@ module SonicPi
 
   end
 end
-
 
 class String
   def sp_thread_safe?
@@ -701,7 +689,6 @@ class Float
   end
 end
 
-
 require 'rubame'
 
 ## Teach Rubame::Server#run to block on IO.select
@@ -738,8 +725,6 @@ module Rubame
     end
   end
 end
-
-
 
 class Array
   include SonicPi::Core::TLMixin
@@ -795,8 +780,7 @@ class Array
 
     res
   end
-
-
+  
   alias_method :__orig_sample__, :sample
   def sample(*args, &blk)
 
@@ -861,8 +845,6 @@ class Hash
   end
 end
 
-
-
 # Meta-glasses from our hero Why to help us
 # see more clearly..
 class Object
@@ -872,12 +854,12 @@ class Object
   end
 
   def sp_thread_safe?
-      self.is_a?(Numeric) ||
-      self.is_a?(Symbol) ||
-      self.is_a?(TrueClass) ||
-      self.is_a?(FalseClass) ||
-      self.is_a?(NilClass) ||
-      (self.is_a?(SonicPi::Core::SPVector) && self.all? {|el| el.sp_thread_safe?})
+    self.is_a?(Numeric) ||
+    self.is_a?(Symbol) ||
+    self.is_a?(TrueClass) ||
+    self.is_a?(FalseClass) ||
+    self.is_a?(NilClass) ||
+    (self.is_a?(SonicPi::Core::SPVector) && self.all? {|el| el.sp_thread_safe?})
   end
 
   def __sp_make_thread_safe
@@ -885,7 +867,6 @@ class Object
 
     raise SonicPi::Core::NotThreadSafeError, "Sorry, unable to make a #{self.class} thread safe"
   end
-
 
   def ring
     self.to_a.ring
