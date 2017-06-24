@@ -503,7 +503,7 @@ You may also optionally pass the control value as a floating point value between
       ]
 
 
-            def midi_poly_pressure(*args)
+      def midi_poly_pressure(*args)
         params, opts     = split_params_and_merge_opts_array(args)
         opts             = current_midi_defaults.merge(opts)
         control_num, val = *params
