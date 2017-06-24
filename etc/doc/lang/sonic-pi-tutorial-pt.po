@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-24 21:03+0000\n"
+"PO-Revision-Date: 2017-06-24 22:08+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -3615,13 +3615,16 @@ msgstr ""
 
 #: 04-Randomisation.md:63
 msgid "Random cutoff"
-msgstr ""
+msgstr "Cutoff aleatório"
 
 #: 04-Randomisation.md:65
 msgid ""
 "Another fun example of randomisation is to modify the cutoff of a synth random"
 "ly. A great synth to try this out on is the `:tb303` emulator:"
 msgstr ""
+"Outro exemplo giro de aleatoriedade é a modificação do cutoff de um "
+"sintetizador de forma aleatória. Um bom sintetizador para experimentar isto "
+"é o emulador `:tb303`:"
 
 #: 04-Randomisation.md:69
 #, no-wrap
@@ -3640,7 +3643,7 @@ msgstr ""
 
 #: 04-Randomisation.md:78
 msgid "Random seeds"
-msgstr ""
+msgstr "Sementes para gerar números aleatórios"
 
 #: 04-Randomisation.md:80
 msgid ""
@@ -3649,10 +3652,15 @@ msgid ""
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
+"Então e se não gostares desta sequência em particular de números aleatórios "
+"que o Sonic Pi fornece? É totalmente possível escolher um diferente ponto de "
+"partida usando `use_random_seed` . A semente padrão usada para gerar números "
+"aleatórios é 0, escolhe uma semente diferente para uma diferente experiência "
+"aleatória."
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
-msgstr ""
+msgstr "Considera o seguinte:"
 
 #: 04-Randomisation.md:87
 #, no-wrap
@@ -3672,6 +3680,8 @@ msgid ""
 "Every time you run this code, you'll hear the same sequence of 5 notes. To get"
 " a different sequence simply change the seed:"
 msgstr ""
+"Cada vez que corres este código, ouvirás a mesma sequência de 5 notas. Para "
+"ter uma diferente sequência simplesmente altera a semente:"
 
 #: 04-Randomisation.md:97
 #, no-wrap
@@ -3694,14 +3704,17 @@ msgid ""
 "stening to the results you can find something that you like - and when you sha"
 "re it with others, they will hear exactly what you heard too."
 msgstr ""
+"Isto irá produzir uma sequência diferente de 5 notas. Ao alterar a semente e "
+"ouvindo o resultado poderás encontrar algo que gostes - e depois partilhar "
+"com outros, eles ouviram exactamente o que ouviste."
 
 #: 04-Randomisation.md:110
 msgid "Let's have a look at some other useful random functions."
-msgstr ""
+msgstr "Vamos ver algumas outras funções aleatórias úteis."
 
 #: 04-Randomisation.md:113
 msgid "choose"
-msgstr ""
+msgstr "escolhe"
 
 #: 04-Randomisation.md:115
 msgid ""
@@ -3712,6 +3725,12 @@ msgid ""
 "uare brackets and separating them with commas: `[60, 65, 72]`. Next I just nee"
 "d to pass them to `choose`:"
 msgstr ""
+"Algo bastante comum de se fazer é escolher um item aleatoriamente de uma "
+"determinada lista de itens conhecidos. Por exemplo, posso querer tocar uma "
+"nota da seguinte lista: 60, 65 ou 72. Posso conseguir isso com `choose`que "
+"me deixa escolher um item da lista. Primeiro coloco os meus números numa "
+"lista o que é feito envolvendo-os em parênteses rectos separados por "
+"virgulas: `[60, 65, 72]`. A seguir só temos que os passar ao `choose`:"
 
 #: 04-Randomisation.md:122
 #, no-wrap
@@ -3720,7 +3739,7 @@ msgstr "choose([60, 65, 72])"
 
 #: 04-Randomisation.md:126
 msgid "Let's hear what that sounds like:"
-msgstr ""
+msgstr "Vamos ouvir como soa:"
 
 #: 04-Randomisation.md:128
 #, no-wrap
@@ -3737,7 +3756,7 @@ msgstr ""
 
 #: 04-Randomisation.md:135
 msgid "rrand"
-msgstr ""
+msgstr "rrand"
 
 #: 04-Randomisation.md:137
 msgid ""
@@ -3747,10 +3766,15 @@ msgid ""
 " always be a float - meaning it's not a whole number but a fraction of a numbe"
 "r. Examples of floats returned by `rrand(20, 110)`:"
 msgstr ""
+"Já vimos `rrand`, mas voltando a ela. Ela devolve um número aleatório entre "
+"dois números exclusivamente. Isso significa que numa irá fornecer o máximo "
+"ou o mínimo - mas sim sempre algo entre os dois. O número será sempre um "
+"número flutuante - que não é um numero inteiro mas sim a fracção de um "
+"numero. Exemplo de números flutuantes devolvidos por `rrand(20,110)`:"
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
-msgstr ""
+msgstr "rrand_i"
 
 #: 04-Randomisation.md:150
 msgid ""
@@ -3760,10 +3784,15 @@ msgid ""
 " rather than exclusive of the range). Examples of numbers returned by `rrand_i"
 "(20, 110)` are:"
 msgstr ""
+"Ocasionalmente queremos um número inteiro e não um flutuante. É ai que a "
+"`rrand_i` nos vem ajudar. Trabalha da forma similar a ´rrand`excepto que "
+"pode devolver o min e o max como potencial número aleatório (o que significa "
+"que é inclusivo e não exclusivo nos limites). Exemplos de números devolvidos "
+"por `rrand_i(20,100)` são:"
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
 msgid ""
@@ -3771,6 +3800,9 @@ msgid ""
 "ecify (exclusive). By default it will return a value between 0 and one. It's t"
 "herefore useful for choosing random `amp:` values:"
 msgstr ""
+"Isto devolve um número aleatório flutuante entre 0 (inclusive) e um valor "
+"máximo especificado (exclusivo). Por padrão irá devolver um valor entre 0 e "
+"1. É assim útil para escolher valores aleatórios `amp:`:"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -3787,7 +3819,7 @@ msgstr ""
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
 msgid ""
