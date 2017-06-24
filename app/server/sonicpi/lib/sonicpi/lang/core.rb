@@ -3843,7 +3843,8 @@ puts current_sched_ahead_time # Prints 0.5"]
           splat_map_or_arr = opts[0]
         else
           opts.each_with_index do |v, idx|
-            v = v.freeze
+
+            v = v.__sp_make_thread_safe
             raise ArgumentError, "Invalid cue argument #{v.inspect} in position #{idx} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
           end
           splat_map_or_arr = opts.freeze
