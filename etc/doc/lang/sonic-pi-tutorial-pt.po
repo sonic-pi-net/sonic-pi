@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-03-29 14:11+0000\n"
-"Last-Translator: Italo Adler <adler.italo@gmail.com>\n"
+"PO-Revision-Date: 2017-06-24 20:43+0000\n"
+"Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
 "Language: pt\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13-dev\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3348,15 +3348,14 @@ msgstr ""
 "e a demora acontecerá apenas na primeira vez."
 
 #: 03.7-Sample-Packs.md:180
-#, fuzzy
 msgid ""
 "Finally, note that the sources *must go first*. If no source is given, then th"
 "e set of built-in samples will be selected as the default list of candidates t"
 "o work with."
 msgstr ""
-"Finalmente, note que as fontes *precisam ir primeiro*. Se nenhuma fonte é "
-"indicada, então a configuração padrão dos samples serão selecionados como "
-"uma lista candidata padrão para se trabalhar."
+"Finalmente, note que as fontes precisam de ser definidas inicialmente. Se "
+"nenhuma fonte é indicada, os samples de origem serão usados como candidatos "
+"na lista padrão de trabalho."
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
@@ -3367,24 +3366,33 @@ msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
 msgstr ""
+"Depois de teres uma lista de candidatos poderás usar os seguintes filtros "
+"para reduzir ainda mais a seleção:"
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name (minus di"
 "rectory path and extension)."
 msgstr ""
+"`\"foo\"` As cadeias filtram ocorrências da sub-cadeia dentro do nome do "
+"ficheiro (menos o caminho da directoria e a sua extensão)."
 
 #: 03.7-Sample-Packs.md:190
 msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name (m"
 "inus directory path and extension)."
 msgstr ""
+"`/fo[oO]/` Usando o padrão de \"Expressões Regulares\" para filtrar o nome "
+"do ficheiro (menos o caminho da directoria e a extensão do ficheiro)."
 
 #: 03.7-Sample-Packs.md:191
 msgid ""
 "`:foo` - Keywords will filter candidates on whether the keyword is a direct ma"
 "tch of the filename (minus directory path and extension)."
 msgstr ""
+"`:foo` - Keywords filtra os candidatos com base na correspondência directa "
+"da palavra chave no nome do ficheiro (menos o caminho da directoria e a "
+"extensão do ficheiro)."
 
 #: 03.7-Sample-Packs.md:192
 msgid ""
@@ -3393,18 +3401,27 @@ msgid ""
 "nd must return a new list of candidates (a list of valid paths to sample files"
 ")."
 msgstr ""
+"`lambda{|a| ... }` - Função PROC com um argumento será tratada como um "
+"filtro de candidatos ou uma função geradora. Recebe uma lista de candidatos "
+"actuais e devolve uma nova lista de candidatos (uma lista de caminhos para "
+"os ficheiros de samples)."
 
 #: 03.7-Sample-Packs.md:193
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
 msgstr ""
+"`1` - Números irão selecionar o candidato com esse índice (desdobrando o "
+"índice circularmente se necessário)."
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
 "For example, we can filter over all the samples in a directory containing the "
 "string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
+",Por exemplo. podemos filtrar sobre todos os samples de uma directoria que "
+"contêm a cadeia `\"foo\"`e tocar o sample com a primeira correspondência a "
+"meia velocidade:"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
@@ -3416,10 +3433,12 @@ msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
 msgstr ""
+"Consultar a ajuda para `sample` para exemplos mais detalhados de uso. Notar "
+"que a ordem dos filtros é honrada."
 
 #: 03.7-Sample-Packs.md:206
 msgid "Composites"
-msgstr ""
+msgstr "Compósitos"
 
 #: 03.7-Sample-Packs.md:208
 msgid ""
@@ -3428,6 +3447,10 @@ msgid ""
 "ources and filters. Therefore the following calls to `sample` are semantically"
 " equivalent:"
 msgstr ""
+"Finalmente, poderá ser usadas listas sempre que se colocar uma fonte ou "
+"filtro. A lista será \"achatada\" e o seu conteúdo será tratado como uma "
+"fonte regular ou filtro. Assim as seguintes chamadas a `sample` são "
+"semanticamente equivalentes:"
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -3444,7 +3467,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:220
 msgid "Wrapping Up"
-msgstr ""
+msgstr "Envolvendo"
 
 #: 03.7-Sample-Packs.md:222
 msgid ""
@@ -3454,14 +3477,20 @@ msgid ""
 "you'll know when you do need it and you can come back and re-read this when yo"
 "u start working with large directories of samples."
 msgstr ""
+"Esta é uma secção avançada para pessoas que necessitam  verdadeiro poder "
+"para manipular e usar pacotes de samples. Se muito desta secção não fizer "
+"sentido não se preocupe. É provável que não necessite de nenhuma da sua "
+"funcionalidade por agora. No entanto, saberá quando necessitar e poderá "
+"regressar e reler a secção quando começar a trabalhar com grandes "
+"directorias de samples."
 
 #: 04-Randomisation.md:1
 msgid "4 Randomisation"
-msgstr ""
+msgstr "4 Randomização"
 
 #: 04-Randomisation.md:3
 msgid "Randomisation"
-msgstr ""
+msgstr "Randomização"
 
 #: 04-Randomisation.md:5
 msgid ""
@@ -3470,10 +3499,15 @@ msgid ""
 "t before we start we need to learn a shocking truth: in Sonic Pi *random is no"
 "t truly random*. What on earth does this mean? Well, let's see."
 msgstr ""
+"Uma boa maneira de adicionar algum interesse à musica é usando números "
+"aleatórios. Sonic Pi apresenta uma excelente funcionalidade em adicionar "
+"aleatoriedade à sua musica, mas antes de começar temos que aprender a "
+"verdade chocante: no Sonic Pi *random não é verdadeiramente random*. O que "
+"raio quer isto dizer? Bem, vamos ver."
 
 #: 04-Randomisation.md:11
 msgid "Repeatability"
-msgstr ""
+msgstr "Repetibilidade"
 
 #: 04-Randomisation.md:13
 msgid ""
@@ -3481,6 +3515,9 @@ msgid ""
 "between two numbers - a *min* and a *max*. (`rrand` is short for ranged random"
 "). Let's try playing a random note:"
 msgstr ""
+"Uma função verdadeiramente útil para gerar números aleatórios é `rrand` que "
+"devolve um número aleatório entre dois números - um *min* e um *max* (`rrand`"
+" é abreviatura de ranged random). Vamos tentar tocar uma nota aleatória:"
 
 #: 04-Randomisation.md:17
 #, no-wrap
@@ -3494,6 +3531,10 @@ msgid ""
 "oo? Something fishy is going on here. Try running the code again. What? It cho"
 "se `83.7527` again? That can't be random!"
 msgstr ""
+"Ooh, tocou uma nota aleatória. Tocou a nota `83.7527`. Um simpática nota "
+"entre 50 e 95. Espera, previ a mesma nota que tu? Algo estranho está a "
+"acontecer. Tenta correr o código novamente. O quê? Escolheu `83.7527` "
+"novamente? Isto não pode ser aleatório!"
 
 #: 04-Randomisation.md:26
 msgid ""
@@ -3502,6 +3543,10 @@ msgid ""
 "suring that the music you create on your machine sounds identical on everybody"
 " else's machine - even if you use some randomness in your composition."
 msgstr ""
+"A resposta é que não é verdadeiramente aleatório, é pseudo-aleatório. Sonic "
+"Pi gera números pseudo-aleatórios de uma maneira repetível. Isto é bastante "
+"útil para assegurar que a musica que crias na tua maquina soa idêntica na "
+"maquina de qualquer pessoa - mesmo que use aleatoriedade na tua composição."
 
 #: 04-Randomisation.md:32
 msgid ""
@@ -3509,6 +3554,9 @@ msgid ""
 "ime, then it wouldn't be very interesting. However, it doesn't. Try the follow"
 "ing:"
 msgstr ""
+"Claro que, numa dada peça de musica, se 'aleatoriamente' escolhe `83.7527`"
+"todas as vezes, não seria muito interessante. No entanto, não o faz. "
+"Experimente o seguinte:"
 
 #: 04-Randomisation.md:36
 #, no-wrap
@@ -3531,10 +3579,16 @@ msgid ""
 "ll Sonic Pi code went back in time to exactly the same point every time the Ru"
 "n button was pressed. It's the Groundhog Day of music synthesis!"
 msgstr ""
+"Sim! Finalmente soa a aleatório. Numa dada *run* subsequentes chamadas à "
+"função random devolve valores aleatórios. No entanto, a próxima corrida ira "
+"produzir exactamente a mesma sequência de valores aleatórios e soa "
+"exactamente igual. É como se todo o código do Sonic Pi regressa-se no tempo "
+"exactamente ao mesmo ponto cada vez que se pressiona o botão Run. É o dia do "
+"Groundhog da síntese musical"
 
 #: 04-Randomisation.md:50
 msgid "Haunted Bells"
-msgstr ""
+msgstr "Sinos amaldiçoados"
 
 #: 04-Randomisation.md:52
 msgid ""
