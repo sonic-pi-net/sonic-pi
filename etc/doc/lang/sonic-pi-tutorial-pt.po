@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-24 20:43+0000\n"
+"PO-Revision-Date: 2017-06-24 21:03+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -3596,6 +3596,9 @@ msgid ""
 "which loops the `:perc_bell` sample with a random rate and sleep time between "
 "bell sounds:"
 msgstr ""
+"Uma bonita ilustração da aleatoriedade em acção é o exemplo dos sinos "
+"amaldiçoados em que o loop do sample `:perc_bell` é tocado a uma velocidade "
+"e tempo de descanço aleatorio entre os sons de sinos."
 
 #: 04-Randomisation.md:56
 #, no-wrap
