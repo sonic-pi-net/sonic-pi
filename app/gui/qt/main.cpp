@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
   app.setStyle("gtk");
 
 #ifdef Q_OS_MAC
-  //app.setAttribute( Qt::AA_UseHighDpiPixmaps );
+  app.setAttribute( Qt::AA_UseHighDpiPixmaps );
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
   splashWindow->setAttribute( Qt::WA_TranslucentBackground);
