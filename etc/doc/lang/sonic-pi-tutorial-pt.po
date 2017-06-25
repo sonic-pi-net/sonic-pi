@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-24 22:08+0000\n"
+"PO-Revision-Date: 2017-06-25 18:27+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -3826,10 +3826,12 @@ msgid ""
 "Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will retur"
 "n a random whole number between 0 and the max value you specify."
 msgstr ""
+"Similarmente à relação entre `rrand_i` e `rrand`, `rand_i` irá devolver um "
+"número aleatório inteiro entre 0 e o valor máximo que especificaste."
 
 #: 04-Randomisation.md:179
 msgid "dice"
-msgstr ""
+msgstr "Dado"
 
 #: 04-Randomisation.md:181
 msgid ""
@@ -3840,10 +3842,16 @@ msgid ""
 "r, just like fantasy role-play games, you might find value in a 4 sided dice, "
 "or a 12 sided dice, or a 20 sided dice - perhaps even a 120 sided dice!"
 msgstr ""
+"Às vezes queres emular o lançamento de um dado - isto é um caso especial de "
+"`rrand_i` em que o valor mais baixo é 1. Chamar `dice` requer que "
+"especifiques o número de lados do dado. Um dado normal tem 6 lados, assim "
+"`dice(6)` irá se comportar de forma semelhante - devolvendo os valores 1, 2, "
+"3, 4, 5 ou 6. No entanto, tal como nos jogos de role play, poderás encontrar "
+"dados de 4 lados, ou 12 ou 20, ou até mesmo uma dado de 120 lados."
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
 msgid ""
@@ -3854,18 +3862,24 @@ msgid ""
 "eful for `if` statements which we will cover in a subsequent section of this t"
 "utorial."
 msgstr ""
+"Finalmente poderás querer emular o lançamento de uma pontuação máxima num "
+"dado tal como um 6 num dado normal. `one_in` devolve true com a "
+"probabilidade de um sobre o número de lados do dado. Assim `one_in(6)` irá "
+"devolver true com a probabilidade de 1 em 6 ou false em caso contrario. True "
+"e false são valores muito úteis nas declarações condicionais `if`, que serão "
+"descritas nas seguintes secções deste tutorial."
 
 #: 04-Randomisation.md:198
 msgid "Now, go and jumble up your code with some randomness!"
-msgstr ""
+msgstr "Agora vai e enche o teu código de aleatoriedade!"
 
 #: 05-Programming-Structures.md:1
 msgid "5 Programming Structures"
-msgstr ""
+msgstr "5 estruturas de programação"
 
 #: 05-Programming-Structures.md:3
 msgid "Programming Structures"
-msgstr ""
+msgstr "Estruturas de programação"
 
 #: 05-Programming-Structures.md:5
 msgid ""
@@ -3873,6 +3887,9 @@ msgid ""
 " and creating simple melodies and rhythms by `sleep`ing between sounds, you mi"
 "ght be wondering what else the world of code can offer you..."
 msgstr ""
+"Agora que aprendemos o básico de como criar sons com `play` e `sample` e a "
+"criação de melodias simples e ritmos usando `sleep` entre os sons, perguntas-"
+"te o que mais o mundo do código te pode oferecer..."
 
 #: 05-Programming-Structures.md:10
 msgid ""
@@ -3880,18 +3897,21 @@ msgid ""
 "uctures such as looping, conditionals, functions and threads give you amazingl"
 "y powerful tools to express your musical ideas."
 msgstr ""
+"Vais ter uma agradável surpresa! Estruturas básicas de programação como "
+"looping, condicionais, funções e threads dão-te ferramentas extremamente "
+"poderosas para expressares as tuas ideias musicais."
 
 #: 05-Programming-Structures.md:14
 msgid "Let's get stuck in with the basics..."
-msgstr ""
+msgstr "Vamos começar com o básico..."
 
 #: 05.1-Blocks.md:1
 msgid "5.1 Blocks"
-msgstr ""
+msgstr "5.1 Blocos"
 
 #: 05.1-Blocks.md:3
 msgid "Blocks"
-msgstr ""
+msgstr "Blocos"
 
 #: 05.1-Blocks.md:5
 msgid ""
@@ -3902,6 +3922,12 @@ msgid ""
 " For example, we may wish to loop it, to add reverb to it, to only run it 1 ti"
 "me out of 5, etc. Consider the following code:"
 msgstr ""
+"Uma estrutura que se vê bastante no Sonic Pi é um bloco. Um bloco permite-"
+"nos fazer coisas úteis com grandes pedaços de código. Podemos mudar algo que "
+"ocorre numa única linha de código com parâmetros de synth e sample. No "
+"entanto podemos querer fazer algo mais significativo a várias linhas de "
+"código. Por exemplo, podemos querer fazer um loop, adicionar reverb, apenas "
+"correr 1 vez a cada 5 vezes, etc. Considera o seguinte código:"
 
 #: 05.1-Blocks.md:13
 #, no-wrap
@@ -3924,6 +3950,9 @@ msgid ""
 "block *starts* and where it *ends*. We use `do` for start and `end` for end. F"
 "or example:"
 msgstr ""
+"Para fazer algo com um pedaço de código devemos dizer ao Sonic Pi onde o "
+"bloco *começa* e onde *acaba*. Usamos `do` para o começo e `end` para o fim. "
+"Por exemplo:"
 
 #: 05.1-Blocks.md:25
 #, no-wrap
@@ -3953,14 +3982,21 @@ msgid ""
 "s important to know that wrapping your code within `do` and `end` tells Sonic "
 "Pi you wish to do something special with that chunk of code."
 msgstr ""
+"No entanto isto não está completo e não funcionará (tenta e terás um erro) "
+"uma vez que não dissemos ao Sonic Pi o que fazer com este *bloco do/end*. "
+"Dizemos isso aos Sonic Pi escrevendo um código especial antes do `do`. "
+"Iremos ver alguns destes pedaços especiais de código mais tarde neste "
+"tutorial. Por agora, é importante saber que envolvendo o teu código entre "
+"`do`e `end` diz ao Sonic Pi que queres fazer algo especial com esse pedaço "
+"de código."
 
 #: 05.2-Iteration-and-Loops.md:1
 msgid "5.2 Iteration and Loops"
-msgstr ""
+msgstr "5.2 Iteração e Loops"
 
 #: 05.2-Iteration-and-Loops.md:3
 msgid "Iteration and Loops"
-msgstr ""
+msgstr "Iteração e Loops"
 
 #: 05.2-Iteration-and-Loops.md:5
 msgid ""
@@ -3968,6 +4004,9 @@ msgid ""
 "with `play` and `sample` blocks. We've also learned how to trigger these sound"
 "s through time using `sleep`."
 msgstr ""
+"Até agora passamos imenso tempo a olhar para diferentes sons que podemos "
+"fazer com blocos `play` e `sample`. Também aprendemos como lançar esses sons "
+"no tempo usando `sleep`."
 
 #: 05.2-Iteration-and-Loops.md:9
 msgid ""
@@ -3977,16 +4016,23 @@ msgid ""
 " next few sections we'll explore some of these powerful new tools. First up is"
 " iteration and loops."
 msgstr ""
+"Como provavelmente descobriste, existe muito divertimento que se tem com "
+"estes blocos básicos de construção. No entanto, uma dimensão totalmente nova "
+"de divertimento abre-se quando começares a usar o poder do código para "
+"estruturar a tua musica e composições. Nas próximas secções iremos explorar "
+"essas novas poderosas ferramentas. Primeiro iteração e loops."
 
 #: 05.2-Iteration-and-Loops.md:15
 msgid "Repetition"
-msgstr ""
+msgstr "Repetição"
 
 #: 05.2-Iteration-and-Loops.md:17
 msgid ""
 "Have you written some code you'd like to repeat a few times? For example, you "
 "might have something like this:"
 msgstr ""
+"Escreveste algum código e gostarias de o repetir algumas vezes? Por exemplo, "
+"podes ter algo como isto:"
 
 #: 05.2-Iteration-and-Loops.md:20
 #, no-wrap
@@ -4010,6 +4056,8 @@ msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple a"
 "nd just copy and paste it three times:"
 msgstr ""
+"Se quiseres repetir isto 3 vezes? O que podemos fazer é copiar e colar três "
+"vezes:"
 
 #: 05.2-Iteration-and-Loops.md:32
 #, no-wrap
@@ -4060,10 +4108,15 @@ msgid ""
 "he original piece of code 50 times or 1000? Now that would be a lot of code, a"
 "nd a lot of lines of code to alter if you wanted to make a change."
 msgstr ""
+"Isso é muito código! O que acontece se quiseres mudar o sample para "
+"`:elec_plip`? Terás de encontrar todos os locais onde aparece o `:elec_blup`"
+"original e os mudar. Mais importante, como repetir o código original 50 ou "
+"1000 vezes? Isso é muito código, e muitas linhas de código para alterar se "
+"quiseres fazer uma mudança."
 
 #: 05.2-Iteration-and-Loops.md:62
 msgid "Iteration"
-msgstr ""
+msgstr "Iteração"
 
 #: 05.2-Iteration-and-Loops.md:64
 msgid ""
@@ -4074,6 +4127,12 @@ msgid ""
 "*, we write `3.times do` - that's not too hard. Just remember to write `end` a"
 "t the end of the code you'd like to repeat:"
 msgstr ""
+"De facto, alterar o código deverá ser fácil como dizer *faz isto 3 vezes*. "
+"Na verdade é isso. Lembraste do nosso velho amigo bloco de código? Podemos o "
+"usar para marcar o inicio e o fim do código que queremos repetir 3 vezes. "
+"Usamos então o código especial `3.times`. Assim, em vez de escrever *faz "
+"isto 3 vezes*, escrevemos `3.time do` - não é difícil. Não te podes esquecer "
+"de escrever `end` no final do código que queres repetir:"
 
 #: 05.2-Iteration-and-Loops.md:72
 #, no-wrap
@@ -4101,6 +4160,8 @@ msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to create"
 " lots of nice repeating structures:"
 msgstr ""
+"Isto assim é bem mais limpo que cortar e colar. Podemos usar isto para criar "
+"elegantes estruturas repetitivas:"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -4133,13 +4194,15 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:103
 msgid "Nesting Iterations"
-msgstr ""
+msgstr "Iterações aninhadas"
 
 #: 05.2-Iteration-and-Loops.md:105
 msgid ""
 "We can put iterations inside other iterations to create interesting patterns. "
 "For example:"
 msgstr ""
+"Podemos colocar iterações dentro de iterações e produzir padrões "
+"interessantes. Por exemplo:"
 
 #: 05.2-Iteration-and-Loops.md:108
 #, no-wrap
@@ -4172,7 +4235,7 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:123
 msgid "Looping"
-msgstr ""
+msgstr "Looping"
 
 #: 05.2-Iteration-and-Loops.md:125
 msgid ""
@@ -4181,6 +4244,10 @@ msgid ""
 "tter off asking Sonic Pi to repeat forever (at least until you press the stop "
 "button!). Let's loop the amen break forever:"
 msgstr ""
+"Se quiseres que algo repita muitas vezes, poderás dar por ti a usar números "
+"grandes como `1000.times do`. Neste caso é provavelmente melhor pedir ao "
+"Sonic Pi para repetir para sempre (pelo menos até premires o botão stop). "
+"Vamos repetir o amen break para sempre:"
 
 #: 05.2-Iteration-and-Loops.md:130
 #, no-wrap
@@ -4203,6 +4270,11 @@ msgid ""
 "ter the loop you will *never* hear it. For example, the cymbal after this loop"
 " will never play:"
 msgstr ""
+"a coisa importante a saber sobre loops é que eles actuam como buracos negros "
+"para o código. Uma vez que o código entra em loop nunca sairá até premires "
+"stop - irá repetir para sempre. Isso significa que se tiveres código após o "
+"loop nunca o irás ouvir. Por exemplo, o címbalo depois deste loop nunca será "
+"tocado:"
 
 #: 05.2-Iteration-and-Loops.md:143
 #, no-wrap
@@ -4221,15 +4293,15 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:152
 msgid "Now, get structuring your code with iteration and loops!"
-msgstr ""
+msgstr "Agora podes estruturar o teu código com iterações e loops!"
 
 #: 05.3-Conditionals.md:1
 msgid "5.3 Conditionals"
-msgstr ""
+msgstr "5.3 Condicionais"
 
 #: 05.3-Conditionals.md:3
 msgid "Conditionals"
-msgstr ""
+msgstr "Condicionais"
 
 #: 05.3-Conditionals.md:5
 msgid ""
@@ -4239,10 +4311,15 @@ msgid ""
 ", you might want to randomly play a drum or a cymbal. We can achieve this with"
 " an `if` statement."
 msgstr ""
+"Uma coisa comum que certamente quererás fazer é não tocar só notas "
+"aleatórias (ver a secção anterior em aleatoriedade) mas também tomar "
+"decisões aleatórias baseadas no resultado do código que corre ou nalgum "
+"outro código. Por exemplo, poderás querer aleatoriamente tocar uma bateria "
+"ou címbalo. Podemos conseguir isso com uma declaração `if`."
 
 #: 05.3-Conditionals.md:11
 msgid "Flipping a Coin"
-msgstr ""
+msgstr "Lançar uma moeda"
 
 #: 05.3-Conditionals.md:13
 msgid ""
@@ -4252,6 +4329,12 @@ msgid ""
 " can then use the result of this to decide between two pieces of code, the cod"
 "e to play the drum and the code to play the cymbal:"
 msgstr ""
+"Então, vamos lançar uma moeda: se for cara, toca a bateria, se for coroa, "
+"toca o címbalo. Podemos emular o lançamento da moeda com a nossa função "
+"`one_in` (introduzida na secção de aleatoriedade), especificando a "
+"probabilidade de 1 em 2: `one_in(2)`. Podemos usar esse resultado para "
+"decidir entre dois pedaços de código, o código que toca a bateria e o código "
+"que toca o címbalo."
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
@@ -4280,19 +4363,21 @@ msgstr ""
 
 #: 05.3-Conditionals.md:34
 msgid "Notice that `if` statements have three parts:"
-msgstr ""
+msgstr "Repara que a declaração `if` tem 3 partes:"
 
 #: 05.3-Conditionals.md:36
 msgid "The question to ask"
-msgstr ""
+msgstr "A questão a perguntar"
 
 #: 05.3-Conditionals.md:37
 msgid "The first choice of code to run (if the answer to the question is yes)"
 msgstr ""
+"A primeira escolha de código a executar (se a questão à pergunta for sim)"
 
 #: 05.3-Conditionals.md:38
 msgid "The second choice of code to run (if the answer to the question is no)"
 msgstr ""
+"A segunda escolha de código a executar (se a resposta à questão for não)"
 
 #: 05.3-Conditionals.md:40
 msgid ""
@@ -4301,6 +4386,10 @@ msgid ""
 "to find a question that will give us a `true` or `false` answer which is exact"
 "ly what `one_in` does."
 msgstr ""
+"Tipicamente em linguagens de programação, a noção de sim é representada pelo "
+"termo `true` e a noção de não é representada pelo termo `false`. Assim temos "
+"que arranjar uma questão que nos dirá uma resposta `true` ou `false` o que é "
+"exactamente isso que o `one_in` faz."
 
 #: 05.3-Conditionals.md:45
 msgid ""
@@ -4308,6 +4397,10 @@ msgid ""
 " second choice is wrapped between the `else` and the `end`. Just like do/end b"
 "locks you can put multiple lines of code in either place. For example:"
 msgstr ""
+"Repara como a primeira escolha está envolvida entre o `if` e o `else` e a "
+"segunda escolha está envolvida entre o `else` e o `end`. Tal como os blocos "
+"do/end poderás colocar múltiplas linhas de código nesses espaços. Por "
+"exemplo:"
 
 #: 05.3-Conditionals.md:50
 #, no-wrap
