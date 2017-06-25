@@ -24,6 +24,9 @@
 debug/
 release/
 
+# Core dumps
+*.dump
+
 # QT GUI
 # --------
 
