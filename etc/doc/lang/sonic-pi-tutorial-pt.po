@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-25 20:11+0000\n"
+"PO-Revision-Date: 2017-06-25 22:17+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -4801,6 +4801,8 @@ msgid ""
 "When threads are created, they inherit all the settings from their parent but "
 "they don't share any changes back."
 msgstr ""
+"Quando os threads são criados eles herdam todas as settings dos seus pais "
+"mas não passam para eles qualquer mudança que tenham."
 
 #: 05.4-Threads.md:169
 msgid "Naming Threads"
@@ -5992,10 +5994,16 @@ msgid ""
 "ke me - you use a Raspberry Pi to jam with, you need to be careful about how m"
 "uch work you ask it to do if you want to ensure the beats keep flowing."
 msgstr ""
+"Apesar de parecerem relativamente simples exteriormente, os efeitos são uma "
+"besta realmente complexa internamente. A sua simplicidade faz com que as "
+"pessoas os usem demasiado nas suas peças. Isto pode não ter importância se "
+"tiverem uma maquina poderosa mas se - tal como eu - usares uma Rasperry Pi "
+"para tocar, terás de ter atenção à quantidade de trabalho que pedes para "
+"fazer de forma a garantir que a batida continue a correr."
 
 #: 06.2-FX-in-Practice.md:12
 msgid "Consider this code:"
-msgstr ""
+msgstr "Considera este código:"
 
 #: 06.2-FX-in-Practice.md:14
 #, no-wrap
@@ -6020,6 +6028,9 @@ msgid ""
 "hort note. We also want reverb so we've wrapped it in a reverb block. All good"
 " so far. Except..."
 msgstr ""
+"Neste código estamos a tocar a nota 60 com um muito pequeno tempo de "
+"release, é uma nota curta. Também queremos reverb assim embrulhamos num "
+"bloco de reverb. Até aqui tudo bem. Excepto..."
 
 #: 06.2-FX-in-Practice.md:27
 msgid ""
@@ -6032,12 +6043,23 @@ msgid ""
 "e reverb and then waiting until it needs to be stopped and removed is all hand"
 "led by `with_fx` for you, but this takes CPU power which may be precious."
 msgstr ""
+"Vamos ver o que este código faz. Primeiro temos um `loop` que significa que "
+"tudo dentro dele é repetido para sempre. A seguir temos um bloco `with_fx`. "
+"Isto significa que criamos um novo efeito de reverb *cada vez que repetimos*"
+". Isto é como ter um pedal de reverb para cada vez que tocamos na corda da "
+"guitarra. É muito cool que se possa fazer isso, mas não é sempre o que "
+"queres fazer. Por exemplo, este código terá dificuldade em correr bem no "
+"Raspberry Pi. Todo o trabalho de criar o reverb e depois esperar até que "
+"tenha que ser parado e removido é tratado por `with_fx` por ti, mas isso "
+"requer poder de CPU que pode ser precioso."
 
 #: 06.2-FX-in-Practice.md:37
 msgid ""
 "How do we make it more similar to a traditional setup where our guitarist has "
 "just *one* reverb pedal which all sounds pass through? Simple:"
 msgstr ""
+"Como o tornamos mais similar ao setup tradicional em que o guitarrista tem "
+"apenas *um* pedal de reverb e todo o som passa por ele? Simples:"
 
 #: 06.2-FX-in-Practice.md:41
 #, no-wrap
@@ -6062,10 +6084,13 @@ msgid ""
 " reverb for all notes played in our loop. This code is a lot more efficient an"
 "d would work fine on a Raspberry Pi."
 msgstr ""
+"Colocamos o nosso loop *dentro* do bloco `with_fx`. Desta forma apenas "
+"criamos um simples reverb para todas as notas do nosso loop. Este código é "
+"muito mais eficiente e executa bem num Raspberry Pi."
 
 #: 06.2-FX-in-Practice.md:54
 msgid "A compromise is to use `with_fx` over an iteration within a loop:"
-msgstr ""
+msgstr "Um compromisso é usar `with_fx`numa iteração dentro do loop:"
 
 #: 06.2-FX-in-Practice.md:56
 #, no-wrap
@@ -6093,6 +6118,8 @@ msgid ""
 "This way we've lifted the `with_fx` out of the inner part of the `loop` and we"
 "'re now creating a new reverb every 16 notes."
 msgstr ""
+"Desta forma tiramos o `with_fx`fora da parte interior do `loop`e criamos um "
+"novo reverb a cada 16 notas."
 
 #: 06.2-FX-in-Practice.md:70
 msgid ""
