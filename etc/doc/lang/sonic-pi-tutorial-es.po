@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-25 09:52+0000\n"
+"PO-Revision-Date: 2017-06-25 10:22+0000\n"
 "Last-Translator: Carlos Arturo Guerra Parra <carlosarturoguerra@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -1490,9 +1490,8 @@ msgid "Now, let us look at each of the parts of the envelopes in turn."
 msgstr "Ahora, veamos cada una de las partes de las envolventes."
 
 #: 02.4-Durations-with-Envelopes.md:42
-#, fuzzy
 msgid "Release Phase"
-msgstr "Fase Release (desenganche)"
+msgstr "Fase de Release (apagado del sonido)"
 
 #: 02.4-Durations-with-Envelopes.md:44
 msgid ""
@@ -1549,15 +1548,14 @@ msgid "play 60, release: 0.2"
 msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
-#, fuzzy
 msgid ""
 "The duration of the release of the sound is called the *release phase* and by "
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
-"La duración del apagado del sonido es lo que llamamos *fase de release* y por "
-"defecto es una transición lineal. El siguiente diagrama ilustra esta transició"
-"n:"
+"La duración del apagado del sonido es lo que llamamos *fase de release* y "
+"por defecto es una transición lineal. El siguiente diagrama ilustra esta "
+"transición:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
@@ -1566,7 +1564,6 @@ msgstr ""
 "ial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1574,24 +1571,22 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"La línea vertical en la izquierda del diagrama muestra que el sonido comienza "
-"con 0 amplitud, pero llega a amplitud completa (esto es el ataque, que cubrire"
-"mos próximamente). Una vez que la amplitud es máxima, se mueve en línea recta "
-"hacia abajo hasta llegar a cero, tomando el tiempo que para ello se especificó"
-" en `release:`. *Entre más largos son los tiempos de release, más tiempo le to"
-"ma al sintetizador desvanecerse.*"
+"La línea vertical en la izquierda del diagrama muestra que el sonido "
+"comienza con amplitud 0, pero llega a amplitud completa (esto es el ataque, "
+"que cubriremos próximamente). Una vez que la amplitud es máxima, se mueve en "
+"línea recta hacia abajo hasta llegar a 0, tomando el tiempo que para ello se "
+"especificó en `release:`. * Cuanto más largos son los tiempos de release, "
+"más tiempo le toma al sintetizador desvanecerse.*"
 
 #: 02.4-Durations-with-Envelopes.md:88
-#, fuzzy
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
-"Puedes, por tanto, cambiar la duración de tu sonido, cambiando el tiempo de re"
-"lease. ¡Prueba varios tiempos de release en tu música!"
+"Puedes, por tanto, cambiar la duración de tu sonido, cambiando el tiempo de "
+"release. Prueba a añadir tiempos de release a tu música."
 
 #: 02.4-Durations-with-Envelopes.md:91
-#, fuzzy
 msgid "Attack Phase"
 msgstr "Fase de Ataque"
 
@@ -3214,7 +3209,6 @@ msgstr ""
 "sample samps, 1"
 
 #: 03.7-Sample-Packs.md:72
-#, fuzzy
 msgid ""
 "Notice that we no longer need to know the names of the samples in the director"
 "y - we just need to know the directory itself (or have a shortcut to it). If w"
@@ -3222,15 +3216,16 @@ msgid ""
 " round just like Rings. Therefore, whatever number we use we're guaranteed to "
 "get one of the samples in that directory."
 msgstr ""
-"Note que ya no necesitamos saber los nombres de los samples en el directorio "
-"-  solamente debemos conocer el directorio (o tener una abreviatura para él)"
-". Si requerimos un indice que es mas grande que el numero de samples, "
-"simplemente se redondea ?????. De cualquier manera, sin importar el número "
+"Date cuenta de que ya no necesitamos saber los nombres de los samples en el "
+"directorio -  solamente debemos conocer el directorio (o tener una "
+"abreviatura para él). Si requerimos un indice que es mas grande que el "
+"numero de samples, simplemente retornamos al principio del directorio como "
+"si fuera un anillo. De cualquier manera, sin importar el número de índice "
 "que usemos, esta garantizado que tendremos un sample del directorio."
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
-msgstr ""
+msgstr "Filtrar paquetes de samples"
 
 #: 03.7-Sample-Packs.md:81
 msgid ""
@@ -3254,6 +3249,15 @@ msgid ""
 "r code. For example, we know we can only play the piano sample with code that'"
 "s in 120 BPM and in the key of Bb."
 msgstr ""
+"Date cuenta de que en estos nombres de archivo tenemos bastante información. "
+"En primer lugar tenemos el BPM del sample (número de pulsaciones por minuto) "
+"al comienzo. Por lo tanto, el sample del piano está a 120 BPM y nuestras "
+"primeras tres melodías están a 100 BPM. Además, nuestros nombres de los "
+"samples contienen la clave musical. Por tanto, el sample de la guitarra está "
+"en Bb (si bemol) y las melodías están en A# (la sostenido). Esta información "
+"es muy útil para mezclar estos samples con el resto del código. Por ejemplo, "
+"sabemos que solamente podemos usar el sample del piano con código que está a "
+"120 BPM y en la clave de Bb."
 
 #: 03.7-Sample-Packs.md:102
 msgid ""
