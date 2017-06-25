@@ -851,7 +851,6 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
 
 
       def midi_reset(*args)
-        __info "Resetting MIDI Subsystems"
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         reset_val    = opts[:value] || opts[:val] || params[0] || 0
