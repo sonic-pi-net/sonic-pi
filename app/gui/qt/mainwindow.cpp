@@ -1207,7 +1207,7 @@ void MainWindow::initPrefsWindow() {
   network_ip_label->setToolTip(all_ip_addresses);
 
   osc_public_check = new QCheckBox(tr("Receive remote OSC messages"));
-  osc_public_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages from remove machines.\n When unchecked, only messages from the local machine will be received."));
+  osc_public_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages from remote machines.\n When unchecked, only messages from the local machine will be received."));
   connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOSCServer()));
 
   osc_server_enabled_check = new QCheckBox(tr("Enable OSC server"));
