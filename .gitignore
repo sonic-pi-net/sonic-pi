@@ -15,6 +15,9 @@
 *.la
 *.a
 
+# Compiled Erlang files
+*.beam
+
 # MSVC stuff
 *.Debug
 *.Release
