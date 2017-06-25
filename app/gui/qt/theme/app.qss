@@ -359,8 +359,6 @@ QComboBox::item::selected {
 }
 
 QComboBox:on { /* shift the text when the popup opens */
-    padding-top: 3px;
-    padding-left: 4px;
     color: tabSelectedColor;
 }
 
