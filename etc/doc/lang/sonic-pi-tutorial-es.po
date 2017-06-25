@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-21 10:04+0000\n"
+"PO-Revision-Date: 2017-06-25 09:50+0000\n"
 "Last-Translator: Carlos Arturo Guerra Parra <carlosarturoguerra@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -1495,27 +1495,25 @@ msgid "Release Phase"
 msgstr "Fase Release (desenganche)"
 
 #: 02.4-Durations-with-Envelopes.md:44
-#, fuzzy
 msgid ""
 "The only part of the envelope that's used by default is the release time. This"
 " is the time it takes for the synth's sound to fade out. All synths have a rel"
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
-"La única parte del sobre que es utilizada predeterminadamente es el release, q"
-"ue es el tiempo que le toma al sintetizador para apagar el sonido completament"
-"e. Todos los sintetizadores tienen un tiempo de release de 1, lo que significa"
-" que tienen una duración de un pulso (el cual por defecto es 1 segundo, si el "
-"BPM es 60)"
+"La única parte de la envolvente que es utilizada predeterminadamente es el "
+"release, que es el tiempo que le toma al sintetizador para apagar el sonido "
+"completamente. Todos los sintetizadores tienen un tiempo de release de 1, lo "
+"que significa que tienen una duración de un pulso (el cual por defecto es 1 "
+"segundo, si el BPM es 60):"
 
 #: 02.4-Durations-with-Envelopes.md:53
-#, fuzzy
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
-"La nota será audible por 1 segundo. Vamos, cronométralo! Esta es la manera abr"
-"eviada de decir lo mismo que:"
+"La nota será audible por 1 segundo. ¡Vamos, cronométralo! Esta es la manera "
+"abreviada de decir lo mismo que:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
