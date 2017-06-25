@@ -217,6 +217,9 @@ module SonicPi
 
       rand_buf.wait_for_allocation
       @rand_buf_id = rand_buf.to_i
+
+      @control_bus_mutex = Mutex.new
+      @control_busses = {}
     end
 
     def error_occurred?
@@ -557,6 +560,25 @@ module SonicPi
         end
         @paused = false
       end
+    end
+
+    def control_bus(name)
+      check_for_server_rebooting!(:control_bus)
+      return @control_busses[name] if @control_busses.has_key?(name)
+
+      @control_bus_mutex.synchronize do
+        bus = @server.allocate_control_bus
+        @control_busses[name] = bus
+        return bus
+      end
+    end
+
+    def control_bus_set(name, val)
+      bus = control_bus(name)
+      if bus
+        @server.control_bus_set(bus, val)
+      end
+      return bus
     end
 
     private
