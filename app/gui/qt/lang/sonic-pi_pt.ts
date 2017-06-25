@@ -243,7 +243,7 @@ criar sons extremamente altos ou desconfortáveis de forma inesperada.</translat
     <message>
         <location filename="../mainwindow.cpp" line="742"/>
         <source>Toggle selection comment...</source>
-        <translation>Activar/Desactivar o comentário da selecção</translation>
+        <translation>Activar/Desactivar o comentário da selecção...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="746"/>
@@ -304,7 +304,7 @@ No entanto, não serão visíveis nos registros.</translation>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
         <translation>Activar/desactivar auto deslizamento do registro.
-Se activado, o registro é percorrido até ao fundo cada vez que novas mensagens forem visualizadas</translation>
+Se activado, o registro é percorrido até ao fundo cada vez que novas mensagens forem visualizadas.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"/>
@@ -372,7 +372,7 @@ A verificação envolve enviar informação anónima sobre a sua plataforma e ve
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Forçar uma verificação de actualização agora.
-Esta verificação envolve enviar informação anónima sobre a sua plataforma e a versão</translation>
+Esta verificação envolve enviar informação anónima sobre a sua plataforma e a versão.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"/>
@@ -382,7 +382,7 @@ Esta verificação envolve enviar informação anónima sobre a sua plataforma e
     <message>
         <location filename="../mainwindow.cpp" line="1021"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Visitar http://sonic-pi.net para descarregar uma versão actualizada.</translation>
+        <translation>Visite http://sonic-pi.net para descarregar uma versão actualizada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1026"/>
@@ -447,7 +447,7 @@ Esta verificação envolve enviar informação anónima sobre a sua plataforma e
     <message>
         <location filename="../mainwindow.cpp" line="1060"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>Activar/desactivar a visibilidade dos botões de controlo</translation>
+        <translation>Activar/desactivar a visibilidade dos botões de controlo.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1062"/>
@@ -457,7 +457,7 @@ Esta verificação envolve enviar informação anónima sobre a sua plataforma e
     <message>
         <location filename="../mainwindow.cpp" line="1064"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Activar/desactivar a visibilidade das abas de selecção de buffer</translation>
+        <translation>Activar/desactivar a visibilidade das abas de selecção de buffer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"/>
@@ -505,7 +505,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
         <location filename="../mainwindow.cpp" line="1375"/>
         <location filename="../mainwindow.cpp" line="1376"/>
         <source>Buffer files</source>
-        <translation>Ficheiros de buffer.</translation>
+        <translation>Ficheiros de buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
@@ -538,7 +538,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="1756"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Auto-deslizmento de registro desactivado</translation>
+        <translation>Auto-deslizmento de registro desactivado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2340"/>
@@ -578,12 +578,12 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="1498"/>
         <source>Zooming In...</source>
-        <translation>A ampliar</translation>
+        <translation>A ampliar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>Zooming Out...</source>
-        <translation>A diminuir zoom</translation>
+        <translation>A diminuir zoom...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1539"/>
@@ -604,7 +604,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
         <location filename="../mainwindow.cpp" line="1580"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Activar a mistura de Low Pass Filter</translation>
+        <translation>Activar a mistura de Low Pass Filter...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"/>
@@ -634,7 +634,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
         <location filename="../mainwindow.cpp" line="1621"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation>Modo Estéreo</translation>
+        <translation>Modo Estéreo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1630"/>
@@ -711,7 +711,7 @@ a cada duas semanas.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
         <source>Version %2 is now available!</source>
-        <translation>Versão %2 encontra-se agora disponível</translation>
+        <translation>Versão %2 encontra-se agora disponível!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
@@ -870,13 +870,13 @@ Obter o Sonic Pi %1</translation>
         <source>Cannot read file %1:
 %2.</source>
         <translation>Não é possível ler o ficheiro %1:
-%2</translation>
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Não é possível escrever o arquivo %1:
+        <translation>Não é possível escrever o ficheiro %1:
 %2.</translation>
     </message>
     <message>
@@ -929,7 +929,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation>O Sonic Pi está preparado para correr? Não foi possível abrir a porta UDP 4558.</translation>
+        <translation>O Sonic Pi está a ser executado? Não foi possível abrir a porta UDP 4558.</translation>
     </message>
 </context>
 </TS>
