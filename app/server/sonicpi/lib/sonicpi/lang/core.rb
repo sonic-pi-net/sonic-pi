@@ -3702,6 +3702,8 @@ set_sched_ahead_time! 0.5
 puts current_sched_ahead_time # Prints 0.5"]
 
       def sleep(beats)
+        __system_thread_locals.set_local :sonic_pi_local_last_sync, nil
+
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
         curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
@@ -3761,7 +3763,6 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set :sonic_pi_spider_time, new_vt.freeze
         ## reset control deltas now that time has advanced
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-        __system_thread_locals.set_local :sonic_pi_local_last_sync, nil
       end
       doc name:           :sleep,
           introduced:     Version.new(2,0,0),
