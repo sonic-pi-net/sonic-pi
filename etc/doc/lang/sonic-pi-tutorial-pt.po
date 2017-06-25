@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-25 18:27+0000\n"
+"PO-Revision-Date: 2017-06-25 20:11+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -4432,16 +4432,20 @@ msgid ""
 "This time we're sleeping for a different amount of time depending on which cho"
 "ice we make."
 msgstr ""
+"Desta vez estamos a dormir por um determinado tempo diferente dependendo da "
+"escolha que fazemos."
 
 #: 05.3-Conditionals.md:68
 msgid "Simple if"
-msgstr ""
+msgstr "if simples"
 
 #: 05.3-Conditionals.md:70
 msgid ""
 "Sometimes you want to optionally execute just one line of code. This is possib"
 "le by placing `if` and then the question at the end. For example:"
 msgstr ""
+"Por vezes queremos opcionalmente executar apenas uma linha de código. Isto é "
+"possível colocando o `if` e depois a questão no final. Por exemplo:"
 
 #: 05.3-Conditionals.md:73
 #, no-wrap
@@ -4469,14 +4473,16 @@ msgid ""
 "This will play chords of different numbers with the chance of each note playin"
 "g having a different probability."
 msgstr ""
+"Isto irá tocar o acorde de diferentes números com a possibilidade de cada "
+"nota ter uma diferente probabilidade."
 
 #: 05.4-Threads.md:1
 msgid "5.4 Threads"
-msgstr ""
+msgstr "5.4 Threads"
 
 #: 05.4-Threads.md:3
 msgid "Threads"
-msgstr ""
+msgstr "Threads"
 
 #: 05.4-Threads.md:5
 msgid ""
@@ -4485,22 +4491,30 @@ msgid ""
 ", then a bit of drums, then more bass... However, the timing soon gets hard to"
 " think about, especially when you start weaving in more elements."
 msgstr ""
+"Fizeste uma killer bassline e um fat beat. Como os tocar ao mesmo tempo? Uma "
+"solução é interligar os dois manualmente - tocar algum baixo, depois um "
+"pouco de bateria, e mais algum baixo... No entanto, o tempo torna-se difícil "
+"de pensar, especialmente se começares a entrelaçar mais elementos."
 
 #: 05.4-Threads.md:11
 msgid ""
 "What if Sonic Pi could weave things for you automatically? Well, it can, and y"
 "ou do it with a special thing called a *thread*."
 msgstr ""
+"E se o Sonic Pi pode-se entrelaçar as coisas por ti automaticamente? Bem, "
+"ele pode, e fazes isso com algo chamado *thread*."
 
 #: 05.4-Threads.md:14
 msgid "Infinite Loops"
-msgstr ""
+msgstr "Loops infinitos"
 
 #: 05.4-Threads.md:16
 msgid ""
 "To keep this example simple, you'll have to imagine that this is a phat beat a"
 "nd a killer bassline:"
 msgstr ""
+"Para manter este exemplo simples, terás que imaginar que isto é um fat beat "
+"e uma killer bassline:"
 
 #: 05.4-Threads.md:19
 #, no-wrap
@@ -4533,10 +4547,15 @@ msgid ""
 "rt something at the same time as the rest of the code. This is where threads c"
 "ome to the rescue."
 msgstr ""
+"Como discutimos previamente, loops são buracos negros para o programa. Uma "
+"vez neles nunca poderás sair até premires stop. Então como tocar ambos os "
+"loops ao mesmo tempo? Teremos que dizer ao Sonic Pi que queremos começar "
+"algo ao mesmo tempo que o resto do código. É ai que os threads vêm ao nosso "
+"auxilio."
 
 #: 05.4-Threads.md:38
 msgid "Threads to the Rescue"
-msgstr ""
+msgstr "Threads ao auxilio"
 
 #: 05.4-Threads.md:40
 #, no-wrap
@@ -4572,10 +4591,14 @@ msgid ""
 "atement after the do/end block (which happens to be the second loop). Try it a"
 "nd you'll hear both the drums and the bassline weaved together!"
 msgstr ""
+"Envolvendo o primeiro loop num `in_thread` do bloco do/end dizemos aos Sonic "
+"Pi para correr o conteúdo do bloco *exactamente* ao mesmo tempo que a "
+"declaração seguinte ao bloco (que até é o segundo loop). Experimenta e "
+"ouvirás a bateria e o baixo entrelaçados."
 
 #: 05.4-Threads.md:61
 msgid "Now, what if we wanted to add a synth on top. Something like:"
-msgstr ""
+msgstr "Agora e se queremos adicionar um synth por cima. Algo como:"
 
 #: 05.4-Threads.md:63
 #, no-wrap
@@ -4620,6 +4643,9 @@ msgid ""
 "ime as the second loop due to the `in_thread`. However, *the third loop is nev"
 "er reached*. We therefore need another thread:"
 msgstr ""
+"Teremos o mesmo problema que anteriormente. O primeiro loop é tocado ao "
+"mesmo tempo que o segundo devido ao `in_thread`. No entanto, *o terceiro "
+"loop nunca é alcançado*. Assim necessitamos de outro thread:"
 
 #: 05.4-Threads.md:88
 #, no-wrap
@@ -4664,7 +4690,7 @@ msgstr ""
 
 #: 05.4-Threads.md:111
 msgid "Runs as threads"
-msgstr ""
+msgstr "Correr como threads"
 
 #: 05.4-Threads.md:113
 msgid ""
@@ -4673,10 +4699,14 @@ msgid ""
 "es will layer sounds over each other. As the runs themselves are threads, they"
 " will automatically weave the sounds together for you."
 msgstr ""
+"O que te pode supreender é que quando carregas no botão Run, está a criar um "
+"novo thread para o código correr. É por isso que carregando múltiplas vezes "
+"irá adicionar camadas de som umas sobre as outras. As próprias corridas são "
+"threads, elas irão entrelaçar automaticamente os sons por ti."
 
 #: 05.4-Threads.md:119
 msgid "Scope"
-msgstr ""
+msgstr "Scope"
 
 #: 05.4-Threads.md:121
 msgid ""
@@ -4687,6 +4717,13 @@ msgid ""
 "itching the synth in the *current thread* - no other thread will have their sy"
 "nth switched. Let's see this in action:"
 msgstr ""
+"Quando aprenderes a conquistar o Sonic Pi, aprenderas que os threads são o "
+"bloco de construção mais importante da tua musica. Um dos importantes "
+"trabalhos que fazem é isolar a noção de *settings actuais* de outros threads."
+"\n"
+"O que significa isso? Bem, quando trocas de synth usando o `use_synth` "
+"apenas estás a mudar de sintetizador na *thread actual* - nenhum outro "
+"thread terá a mudança de sintetizador. Vamos ver isto em pratica:"
 
 #: 05.4-Threads.md:129
 #, no-wrap
@@ -4714,10 +4751,13 @@ msgid ""
 "Notice how the middle sound was different to the others? The `use_synth` state"
 "ment only affected the thread it was in and not the outer main run thread."
 msgstr ""
+"Repara como o som do meio foi diferente dos restantes? A declaração "
+"`use_synth` apenas afectou o thread onde estava e não o thread principal "
+"exterior que corre."
 
 #: 05.4-Threads.md:146
 msgid "Inheritance"
-msgstr ""
+msgstr "Herança"
 
 #: 05.4-Threads.md:148
 msgid ""
@@ -4725,6 +4765,9 @@ msgid ""
 "ly inherit all of the current settings from the current thread. Let's see that"
 ":"
 msgstr ""
+"Quando crias um novo thread com `in_thread`, o novo thread irá "
+"automaticamente herdar todas as settings actuais do thread corrente. Vamos "
+"ver isso:"
 
 #: 05.4-Threads.md:152
 #, no-wrap
@@ -4749,6 +4792,9 @@ msgid ""
 "s played from a separate thread? Any of the settings modified with the various"
 " `use_*` functions will behave in the same way."
 msgstr ""
+"Repara como a segunda nota foi tocada com o sintetizador `:tb303` apesar de "
+"ter sido tocada de uma thread separada? Todas as settings modificadas com as "
+"várias funções `use_*` irão se comportar da mesma maneira."
 
 #: 05.4-Threads.md:166
 msgid ""
