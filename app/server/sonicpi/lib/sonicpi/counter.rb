@@ -31,5 +31,13 @@ module SonicPi
         @val = @init_val
       end
     end
+
+    def val
+      @val
+    end
+
+    def sp_thread_safe?
+      true
+    end
   end
 end
