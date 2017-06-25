@@ -196,7 +196,7 @@ begin
 rescue Exception => e
   STDOUT.puts "Failed to start server: " + e.message
   STDOUT.puts e.backtrace.join("\n")
-  gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}")
+  gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}\n #{e.backtrace}")
   exit
 end
 
