@@ -87,10 +87,21 @@ module SonicPi
       end
     end
 
-    def __restart_cue_server!
+    def __stop_cue_server!(silent=false)
+      @osc_cue_server_mutex.synchronize do
+        if @osc_server
+          __info "Stopping OSC server...." unless silent
+          @osc_server.stop
+          @osc_server = nil
+        end
+      end
+    end
+
+    def __restart_cue_server!(open=false, silent=false)
       @osc_cue_server_mutex.synchronize do
         @osc_server.stop if @osc_server
-        @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: @osc_cue_server_is_open,) do |address, args|
+        __info "Restarting OSC server...." unless silent
+        @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: open,) do |address, args|
           address = "/osc#{address}"
           p = 0
           d = 0
@@ -98,6 +109,15 @@ module SonicPi
           m = 60
           @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
         end
+
+        unless silent
+          if open
+            __info "OSC server started. Listening for local and remote messages on port #{@osc_cues_port}."
+          else
+            __info "OSC server started. Listening for local messages on port #{@osc_cues_port}"
+          end
+        end
+
       end
     end
 
@@ -1070,7 +1090,6 @@ module SonicPi
       osc_cue_server_thread_id = ThreadId.new(-2)
       @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
       @gui_cue_log_idxs = Counter.new
-      @osc_cue_server_is_open = false
       @osc_cue_server_mutex = Mutex.new
       @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
         gui_log_id = @gui_cue_log_idxs.next
