@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-25 09:50+0000\n"
+"PO-Revision-Date: 2017-06-25 09:52+0000\n"
 "Last-Translator: Carlos Arturo Guerra Parra <carlosarturoguerra@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -1521,15 +1521,14 @@ msgid "play 70, release: 1"
 msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
-#, fuzzy
 msgid ""
 "Notice how this sounds exactly the same (the sound lasts for one second). Howe"
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
-"¡Notas que suenan exactamente igual los últimos dos comandos! Sin embargo, es "
-"ahora muy fácil cambiar la duración con tan sólo modificar el valor del `relea"
-"se:`:"
+"¡Observa que suenan exactamente igual los últimos dos comandos! Sin embargo, "
+"es ahora muy fácil cambiar la duración con tan sólo modificar el valor del "
+"`release:`:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1537,13 +1536,12 @@ msgid "play 60, release: 2"
 msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
-#, fuzzy
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
 msgstr ""
-"Podemos hacer que el sintetizador suene por un periodo de tiempo muy corto al "
-"poner un valor de release muy pequeño:"
+"Podemos hacer que el sintetizador suene por un periodo de tiempo muy corto "
+"al poner un valor de release muy pequeño:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
