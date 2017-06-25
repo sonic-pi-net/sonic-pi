@@ -2289,7 +2289,7 @@ puts current_synth # Print out the current synth name"]
       doc name:          :current_synth_defaults,
           introduced:    Version.new(2,0,0),
           summary:       "Get current synth defaults",
-          doc:           "Returns the current synth defaults. This is a map of synth arg names to either values or functions.
+          doc:           "Returns the current synth defaults. This is a map of synth arg names to values.
 
 This can be set via the fns `use_synth_defaults`, `with_synth_defaults`, `use_merged_synth_defaults` and `with_merged_synth_defaults`.",
           args:          [],
