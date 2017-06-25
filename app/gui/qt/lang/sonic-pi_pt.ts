@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="473"/>
         <source>Log</source>
-        <translation>Log</translation>
+        <translation>Registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"/>
@@ -31,8 +31,8 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Inverter estéreo
-Se ativado, o áudio enviado para a coluna esquerda
-será redirecionado para a coluna direita e vice versa.</translation>
+Se activado, o áudio enviado para a coluna esquerda
+será redireccionado para a coluna direita e vice versa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"/>
@@ -41,8 +41,8 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Ativar/desactiva o modo mono.
-Se ativado o canal direito e esquerdo são misturados e
+        <translation>Activar/desactiva o modo mono.
+Se activado o canal direito e esquerdo são misturados e
 o mesmo sinal é enviado para ambas as colunas.
 Útil quando trabalhamos com sistemas externos que
 apenas suportam mono.</translation>
@@ -77,32 +77,32 @@ apenas suportam mono.</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Activar/desactivar mensagens de log.
-Se desativado, atividades como a do sintetizador e dos samples
+        <translation>Activar/desactivar mensagens de registro.
+Se desactivado, actividades como a do sintetizador e dos samples
 não serão impressas no terminal por pré-definição.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"/>
         <source>Safe mode</source>
-        <translation>Modo Seguro</translation>
+        <translation>Modo Segurança</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"/>
         <source>Clear log on run</source>
-        <translation>Limpar o log ao tocar</translation>
+        <translation>Limpar o registro quando executar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Ativar/Desativar limpeza de log.
-Se ativado, o log será limpo cada vez que o botão run for pressionado.</translation>
+        <translation>Activar/Desactivar limpeza de registro.
+Se activado, o registro será limpo cada vez que o botão Executar for pressionado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>Toggle line number visibility.</source>
-        <translation>Ativar visibilidade do número de linha.</translation>
+        <translation>Activar/desactivar visibilidade do número de linha.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"/>
@@ -113,7 +113,7 @@ Se ativado, o log será limpo cada vez que o botão run for pressionado.</transl
         <location filename="../mainwindow.cpp" line="1449"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>Rodando código...</translation>
+        <translation>Executando código...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1512"/>
@@ -131,13 +131,13 @@ Se ativado, o log será limpo cada vez que o botão run for pressionado.</transl
         <location filename="../mainwindow.cpp" line="1563"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>Ativando High Pass Filter...</translation>
+        <translation>Activando misturador de High Pass Filter...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1572"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>Desativando High Pass Filder...</translation>
+        <translation>Desactivando misturador de High Pass Filder...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
@@ -147,17 +147,17 @@ Se ativado, o log será limpo cada vez que o botão run for pressionado.</transl
     <message>
         <location filename="../mainwindow.cpp" line="235"/>
         <source>Welcome to Sonic Pi</source>
-        <translation>Bem-vindo ao Sonic Pi</translation>
+        <translation>Bem vindo ao Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="709"/>
         <source>Indenting selection...</source>
-        <translation>Identando a seleção...</translation>
+        <translation>Indentando a selecção...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"/>
         <source>Indenting line...</source>
-        <translation>Identando a linha...</translation>
+        <translation>Indentando a linha...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="913"/>
@@ -171,7 +171,7 @@ Se ativado, o log será limpo cada vez que o botão run for pressionado.</transl
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
         <translation>Definições de áudio avançadas para trabalhar com
-sistemas de PA externos quando se apresentar com o Sonic Pi.</translation>
+sistemas de P.A. externos quando se apresentar com o Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"/>
@@ -185,9 +185,9 @@ Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
         <translation>O teu Raspberry Pi tem dois tipos de saída de áudio possíveis.
-Em primero lugar, existe uma saída de áudio minijack incorporada no próprio circuito do Raspberry Pi.
+Em primeiro lugar, existe uma saída de áudio minijack incorporada no próprio circuito do Raspberry Pi.
 Em segundo lugar, alguns monitores HDMI e televisões suportam áudio através da porta HDMI.
-Isar estes botões para seleccionar o output de som desejado no teu sistema</translation>
+Usar estes botões para seleccionar o output de som desejado no teu sistema.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
@@ -198,7 +198,7 @@ Isar estes botões para seleccionar o output de som desejado no teu sistema</tra
     <message>
         <location filename="../mainwindow.cpp" line="1015"/>
         <source>Check for updates</source>
-        <translation>Verificar actualizações</translation>
+        <translation>Procurar por actualizações</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"/>
@@ -208,12 +208,12 @@ Isar estes botões para seleccionar o output de som desejado no teu sistema</tra
     <message>
         <location filename="../mainwindow.cpp" line="1054"/>
         <source>Show line numbers</source>
-        <translation>Mostrar números lineares</translation>
+        <translation>Mostrar números de linha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="277"/>
         <source>Sonic Pi update info</source>
-        <translation>Actualizar a informação do Sonic Pi</translation>
+        <translation>Informação de actualização do Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
@@ -225,14 +225,14 @@ Isar estes botões para seleccionar o output de som desejado no teu sistema</tra
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Activar/Desactivar as funções de argumento de verificação do sintetizador.
-Se desactivado, alguns valores de opt de sintetizadores podem
-criar sons extremamente altos ou desconfortáveis de forma inesperada</translation>
+        <translation>Activar/Desactivar as funções de verificação de argumento do sintetizador.
+Se desactivado, alguns valores de opção de sintetizadores podem
+criar sons extremamente altos ou desconfortáveis de forma inesperada.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="958"/>
         <source>Logging</source>
-        <translation>A carregar</translation>
+        <translation>Registrando</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"/>
@@ -273,43 +273,43 @@ criar sons extremamente altos ou desconfortáveis de forma inesperada</translati
     <message>
         <location filename="../mainwindow.cpp" line="962"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation>A modificar o comportamento dos sintetizadores e Efeitos</translation>
+        <translation>Modifica o comportamento dos sintetizadores e efeitos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"/>
         <source>Log synths</source>
-        <translation>A carregar sintetizadores</translation>
+        <translation>Registo de sintetizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
         <source>Log cues</source>
-        <translation>Indicações de inicialização</translation>
+        <translation>Registro de sinais</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="971"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Activar/desactivar indicações de inicialização.
-Se desactivado, as indicações serão ainda assim disparadas.
-No entanto, não serão visíveis nos relatórios</translation>
+        <translation>Activar/desactivar registro de sinais.
+Se desactivado, os sinais serão ainda assim disparados.
+No entanto, não serão visíveis nos registros.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"/>
         <source>Log auto scroll</source>
-        <translation>Auto deslizamento da caixa de diálogo do log</translation>
+        <translation>Auto deslizamento da caixa de registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation>Activar/desactivar auto deslizamento do log.
-Se activado, o log é percorrido até ao fundo cada vez que novas mensagens forem visualizadas</translation>
+        <translation>Activar/desactivar auto deslizamento do registro.
+Se activado, o registro é percorrido até ao fundo cada vez que novas mensagens forem visualizadas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"/>
         <source>Enable external synths and FX</source>
-        <translation>Activar sintetizadores e efeitos externos</translation>
+        <translation>Habilitar sintetizadores e efeitos externos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"/>
@@ -321,12 +321,12 @@ When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
         <translation>Quando activado, o Sonic Pi irá permitir
-que sintetizadores e Efeitos sejam carregados a partir de sinthdefs
+que sintetizadores e efeitos sejam carregados a partir de load_synthdefs
 para serem disparados.
 
 Quando desactivado, o Sonic Pi irá queixar-se
-cada vez que tentar usar um sintetizador ou Efeito
-que não seja reconhecido</translation>
+cada vez que tentar usar um sintetizador ou efeito
+que não seja reconhecido.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
@@ -343,12 +343,12 @@ When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
         <translation>Quando activado, o Sonic Pi irá recusar
-disparar sintetizadores e Efeitos se
+disparar sintetizadores e efeitos se
 for demasiado tarde para o fazer
 
 Quando desactivado, o Sonic Pi irá sempre
-tentar disparar sintetizadores e Efeitos
-mesmo se isso acontecer de formar ligeiramente atrazada.</translation>
+tentar disparar sintetizadores e efeitos
+mesmo se isso acontecer de formar ligeiramente atrasada.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
@@ -359,8 +359,8 @@ mesmo se isso acontecer de formar ligeiramente atrazada.</translation>
         <location filename="../mainwindow.cpp" line="1017"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Activar/desactivar verificação de updates automática.
-A verificação envolve enviar informação anónima sobre a sua plataforma e versão</translation>
+        <translation>Activar/desactivar verificação de actualização automática.
+A verificação envolve enviar informação anónima sobre a sua plataforma e versão.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"/>
@@ -371,8 +371,8 @@ A verificação envolve enviar informação anónima sobre a sua plataforma e ve
         <location filename="../mainwindow.cpp" line="1019"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Forçar um update de verificações neste preciso momento.
-Esta verificação envolve enviar informação anónima sobre a plataforma e a versão</translation>
+        <translation>Forçar uma verificação de actualização agora.
+Esta verificação envolve enviar informação anónima sobre a sua plataforma e a versão</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"/>
@@ -387,12 +387,12 @@ Esta verificação envolve enviar informação anónima sobre a plataforma e a v
     <message>
         <location filename="../mainwindow.cpp" line="1026"/>
         <source>Update Info</source>
-        <translation>Actualizar informação</translation>
+        <translation>Informação de actualização</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1045"/>
         <source>Show and Hide</source>
-        <translation>Mostrar ou Esconder</translation>
+        <translation>Mostrar ou Ocultar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1046"/>
@@ -402,22 +402,22 @@ Esta verificação envolve enviar informação anónima sobre a plataforma e a v
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>Look and Feel</source>
-        <translation>Aparência</translation>
+        <translation>Aparência e Experiência</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"/>
         <source>Configure editor look and feel.</source>
-        <translation>Configurar a aparência do editor</translation>
+        <translation>Configurar a aparência e a experiência do editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1049"/>
         <source>Automation</source>
-        <translation>Automação</translation>
+        <translation>Automatização</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1050"/>
         <source>Configure automation features.</source>
-        <translation>Configurar opções de automação</translation>
+        <translation>Configurar funções de automatização.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1051"/>
@@ -427,17 +427,17 @@ Esta verificação envolve enviar informação anónima sobre a plataforma e a v
     <message>
         <location filename="../mainwindow.cpp" line="1052"/>
         <source>Automatically align code on Run</source>
-        <translation>Alinhar o código automaticamente e correr</translation>
+        <translation>Alinhar o código automaticamente ao executar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1056"/>
         <source>Show log</source>
-        <translation>Mostrar o log</translation>
+        <translation>Mostrar registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1057"/>
         <source>Toggle visibility of the log.</source>
-        <translation>Activar/desactivar a visibilidade do log.</translation>
+        <translation>Activar/desactivar a visibilidade do registro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1059"/>
@@ -452,33 +452,34 @@ Esta verificação envolve enviar informação anónima sobre a plataforma e a v
     <message>
         <location filename="../mainwindow.cpp" line="1062"/>
         <source>Show tabs</source>
-        <translation>Mostrar tabuladores</translation>
+        <translation>Mostrar abas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1064"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Activar/desactivar a visibilidade do buffer selecção de tabuladores</translation>
+        <translation>Activar/desactivar a visibilidade das abas de selecção de buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"/>
         <source>Full screen</source>
-        <translation>Ecrã completo</translation>
+        <translation>Ecrã cheio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1066"/>
         <source>Toggle full screen mode.</source>
-        <translation>Activar desactivar o modo de ecrã completo.</translation>
+        <translation>Activar/desactivar o modo de ecrã cheio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1068"/>
         <source>Toggle dark mode.</source>
-        <translation>Activar/desactivar o modo escurecido.</translation>
+        <translation>Activar/desactivar o modo escuro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1068"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>O modo escurecida é ideal para fazer live cosign em clubes nocturnos.</translation>
+        <translation>
+O modo escuro é ideal para fazer live coding em clubes nocturnos.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1107"/>
@@ -532,17 +533,17 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="1754"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Auto-deslizamento da barra de log em...</translation>
+        <translation>Auto-deslizamento de registro...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1756"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Auto-deslizmento da barra de log desactivado</translation>
+        <translation>Auto-deslizmento de registro desactivado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2340"/>
         <source>Run the code in the current buffer</source>
-        <translation>Correr o código do buffer actual</translation>
+        <translation>Executar o código do buffer actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2353"/>
@@ -567,7 +568,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2910"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Bem vindo novamente. Por favor obtenha o seu código disponível em...</translation>
+        <translation>Bem vindo novamente. Por favor obtenha o seu live code em...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1376"/>
@@ -592,36 +593,36 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="1547"/>
         <source>Enabling update checking...</source>
-        <translation>Activar a verificação da existência de udpdates...</translation>
+        <translation>Activar a verificação de existência de actualizações...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Disabling update checking...</source>
-        <translation>Desactivar a verificação de existência de updates</translation>
+        <translation>Desactivar a verificação de existência de actualizações...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1580"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Activar o filtro passa baixo da mesa de mistura</translation>
+        <translation>Activar a mistura de Low Pass Filter</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>desactivar o filtro passa baixo da mesa de mistura...</translation>
+        <translation>Desactivar a mistura do Low Pass Filter...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1597"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Activar Inversão de Canais...</translation>
+        <translation>Activar Inversão de Canais stereo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1605"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Activar Stéreo Estandardizado...</translation>
+        <translation>Activar stereo padrão...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1613"/>
@@ -658,7 +659,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>Switching To Default Audio Output...</source>
-        <translation>Activar a saída de áudio pré-definida...</translation>
+        <translation>Activar a saída de áudio padrão...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2350"/>
@@ -673,7 +674,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2381"/>
         <source>Improve readability of code</source>
-        <translation>Melhorar a facilidade de letitura do código</translation>
+        <translation>Melhorar a leitura do código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"/>
@@ -683,12 +684,12 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2621"/>
         <source>File loaded...</source>
-        <translation>Ficheiro Carregado</translation>
+        <translation>Ficheiro carregado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2648"/>
         <source>File saved...</source>
-        <translation>Fichero Gravado...</translation>
+        <translation>Ficheiro gravado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2875"/>
@@ -699,13 +700,13 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
         <location filename="../mainwindow.cpp" line="2877"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>O Sonic Pi verifica a existência de updates
+        <translation>O Sonic Pi verifica a existência de actualizações
 a cada duas semanas.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2879"/>
         <source>This is Sonic Pi %1</source>
-        <translation>Isto é um Sonic Pi %1</translation>
+        <translation>Isto é Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
@@ -722,7 +723,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2339"/>
         <source>Run</source>
-        <translation>Correr</translation>
+        <translation>Executar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2345"/>
@@ -732,7 +733,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2346"/>
         <source>Stop all running code</source>
-        <translation>Para todo o código em execução</translation>
+        <translation>Parar todo o código em execução</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2349"/>
@@ -747,7 +748,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2358"/>
         <source>See information about Sonic Pi</source>
-        <translation>Ver informação acerca do Sonic Pi</translation>
+        <translation>Ver informação sobre o Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="514"/>
@@ -778,7 +779,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2367"/>
         <source>Toggle help pane</source>
-        <translation>Activar/Desactivar o painel de ajuda</translation>
+        <translation>Activar/desactivar o painel de ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2370"/>
@@ -795,23 +796,23 @@ Obter o Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2504"/>
         <location filename="../mainwindow.cpp" line="2505"/>
         <source>Start Recording</source>
-        <translation>Começa Gravação</translation>
+        <translation>Começar a Gravação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2380"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation>Auto-alinhar texto</translation>
+        <translation>Auto-alinhar Texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2387"/>
         <source>Increase Text Size</source>
-        <translation>Aumentar tamanho do texto</translation>
+        <translation>Aumentar tamanho do Texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2394"/>
         <source>Decrease Text Size</source>
-        <translation>Diminuir tamanho do texto</translation>
+        <translation>Diminuir tamanho do Texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2399"/>
@@ -821,7 +822,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2450"/>
         <source>About</source>
-        <translation>Acerca</translation>
+        <translation>Sobre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2451"/>
@@ -851,7 +852,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2476"/>
         <source>Sonic Pi - Info</source>
-        <translation>Informação - Sonic Pi</translation>
+        <translation>Sonic Pi - Informação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2496"/>
@@ -862,7 +863,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Save Recording</source>
-        <translation>Gravar Gravação</translation>
+        <translation>Salvar Gravação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2610"/>
