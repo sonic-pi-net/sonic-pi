@@ -54,6 +54,15 @@ module SonicPi
       assert_equal(true, v2 < v1)
     end
 
+    def test_to_i
+      v3 = Version.new(2, 11, 1)
+      v4 = Version.new(3, 0, 0, "beta")
+      assert_equal(true, v3 < v4)
+      puts v3.to_i
+      puts v4.to_i
+      assert_equal(true, v3.to_i < v4.to_i)
+    end
+
     def test_greater_than
       v1 = Version.new(2, 1, 1)
       v2 = Version.new(2, 1, 0)
