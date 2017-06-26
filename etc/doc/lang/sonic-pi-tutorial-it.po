@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2016-12-09 17:18+0000\n"
 "Last-Translator: verbgio <giova1982@tin.it>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,15 +75,15 @@ msgstr ""
 "erò in considerazione il tuo suggerimento per una prossima versione."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
+#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
-" stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
-"e do drop by, say hi and ask me lots of questions :-)"
+" stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
+"please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Infine, guardare gli altri che fanno live coding è un ottimo modo per "
-"imparare. Sono spesso on line su "
-"[livecoding.tv/samaaron](http://youtube.com/samaaron) quindi lasciami un "
-"messaggio e fammi tante domande :-)"
+"Infine, guardare gli altri che fanno live coding è un ottimo modo per imparare"
+". Sono spesso on line su [livecoding.tv/samaaron](http://youtube.com/samaaron)"
+" quindi lasciami un messaggio e fammi tante domande :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -219,13 +219,13 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"E adesso, sbizzarrisciti. Cambia il parametro `rate:` - cosa succede se usi "
-"valori grandi, o piccoli, o negativi? Guarda cosa succede se cambi il valore "
-"di `rate:` del campione `:ambi_choir` anche di pochissimo (diciamo 0.29). "
-"Cosa succede se scegli un valore molto piccolo per `sleep`? Prova a farlo "
-"così velocemente da provocare un errore, perché il computer non riesce a "
-"stargli dietro (se succede, basta scegliere un valore di `sleep` più grande "
-"e premere di nuovo `Run`)."
+"E adesso, sbizzarrisciti. Cambia il parametro `rate:` - cosa succede se usi va"
+"lori grandi, o piccoli, o negativi? Guarda cosa succede se cambi il valore di "
+"`rate:` del campione `:ambi_choir` anche di pochissimo (diciamo 0.29). Cosa su"
+"ccede se scegli un valore molto piccolo per `sleep`? Prova a farlo così veloce"
+"mente da provocare un errore, perché il computer non riesce a stargli dietro ("
+"se succede, basta scegliere un valore di `sleep` più grande e premere di nuovo"
+" `Run`)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -490,13 +490,12 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Attraverso il tasto *prefs* nel gruppo di tasti Info e Help, puoi accedere "
-"alle opzioni di configurazione di Sonic Pi. Questo tasto ti permette di "
-"aprire e chiudere la finestra delle preferenze che possono essere "
-"modificate. Per esempio, forzare la modalità mono, invertire i canali "
-"stereo, modificare il livello di dettaglio dei messaggi di log e c'è anche "
-"un cursore per il livello del suono in uscita e un selettore audio se stai "
-"usando un Raspberry Pi."
+"Attraverso il tasto *prefs* nel gruppo di tasti Info e Help, puoi accedere all"
+"e opzioni di configurazione di Sonic Pi. Questo tasto ti permette di aprire e "
+"chiudere la finestra delle preferenze che possono essere modificate. Per esemp"
+"io, forzare la modalità mono, invertire i canali stereo, modificare il livello"
+" di dettaglio dei messaggi di log e c'è anche un cursore per il livello del su"
+"ono in uscita e un selettore audio se stai usando un Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -529,13 +528,13 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"Infine, una delle parti più importanti dell’interfaccia di Sonic Pi è la "
-"sezione Help che appare in basso nella finestra del programma. Puoi "
-"attivarla o disattivarla usando il tasto *Help*. La sezione Help contiene "
-"aiuti e informazioni su tutti gli aspetti di Sonic Pi, compreso questo "
-"tutorial, una lista dei sintetizzatori e dei campioni disponibili, esempi, "
-"effetti (FX) ed una lista completa di tutte le funzioni e le istruzioni "
-"disponibili nel linguaggio di Sonic Pi."
+"Infine, una delle parti più importanti dell’interfaccia di Sonic Pi è la sezio"
+"ne Help che appare in basso nella finestra del programma. Puoi attivarla o dis"
+"attivarla usando il tasto *Help*. La sezione Help contiene aiuti e informazion"
+"i su tutti gli aspetti di Sonic Pi, compreso questo tutorial, una lista dei si"
+"ntetizzatori e dei campioni disponibili, esempi, effetti (FX) ed una lista com"
+"pleta di tutte le funzioni e le istruzioni disponibili nel linguaggio di Sonic"
+" Pi."
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
@@ -553,17 +552,16 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
-"Il visualizzatore di segnale ti permette di \"guardare\" il suono che stai "
-"ascoltando. Poi osservare facilmente che l'onda a dente di sega ha davvero "
-"la forma di una sega e che il beep è una curva della funzione seno. Puoi "
-"inoltre distinguere i suoni forti dai suoni deboli osservando la grandezza "
-"delle linee. Ci sono tre sezioni a disposizione: la predefinita è dedicata "
-"alla combinazione dei canali destro e sinistro, poi c'è quella che permette "
-"di visualizzare i due canali separatamente e infine c'è la sezione che "
-"mostra la \"figura di Lissajous\". Quest'ultima indica la relazione "
-"parametrica fra canale sinistro e canale destro, inoltre ti permette di "
-"disegnare delle forme geometriche con il suono "
-"(https://en.wikipedia.org/wiki/Lissajous_curve)."
+"Il visualizzatore di segnale ti permette di \"guardare\" il suono che stai ascol"
+"tando. Poi osservare facilmente che l'onda a dente di sega ha davvero la forma"
+" di una sega e che il beep è una curva della funzione seno. Puoi inoltre disti"
+"nguere i suoni forti dai suoni deboli osservando la grandezza delle linee. Ci "
+"sono tre sezioni a disposizione: la predefinita è dedicata alla combinazione d"
+"ei canali destro e sinistro, poi c'è quella che permette di visualizzare i due"
+" canali separatamente e infine c'è la sezione che mostra la \"figura di Lissajo"
+"us\". Quest'ultima indica la relazione parametrica fra canale sinistro e canale"
+" destro, inoltre ti permette di disegnare delle forme geometriche con il suono"
+" (https://en.wikipedia.org/wiki/Lissajous_curve)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -661,12 +659,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"In questa parte vedremo le basi dell'utilizzo dei synth. Synth è "
-"l'abbreviazione di *synthesizer* (sintetizzatore), che è una strana parola "
-"per indicare un generatore di suoni. Di solito i synth sono abbastanza "
-"complicati da usare - specialmente quelli analogici che sono formati da "
-"tanti moduli collegati fra di loro da decine di cavi. Sonic Pi, invece, "
-"permette gran parte di quella potenzialità, ma in modo semplice e intuitivo."
+"In questa parte vedremo le basi dell'utilizzo dei synth. Synth è l'abbreviazio"
+"ne di *synthesizer* (sintetizzatore), che è una strana parola per indicare un "
+"generatore di suoni. Di solito i synth sono abbastanza complicati da usare - s"
+"pecialmente quelli analogici che sono formati da tanti moduli collegati fra di"
+" loro da decine di cavi. Sonic Pi, invece, permette gran parte di quella poten"
+"zialità, ma in modo semplice e intuitivo."
 
 #: 02-Synths.md:14
 msgid ""
@@ -2240,7 +2238,7 @@ msgstr "sample :loop_amen, rate: 0.5"
 msgid "If we speed it up, we enter *jungle* territory:"
 msgstr "Se aumentiamo la velocità, entriamo nel territorio del *jungle*:"
 
-#: 03.3-Stretching-Samples.md:61
+#: 03.3-Stretching-Samples.md:61 A.17-sample-stretching.md:46
 #, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
@@ -3333,7 +3331,7 @@ msgstr ""
 "a sorgente viene indicata, allora il gruppo di campioni già presenti nel siste"
 "ma verrà selezionato automaticamente per la sessione."
 
-#: 03.7-Sample-Packs.md:184
+#: 03.7-Sample-Packs.md:184 A.19-subtractive-synthesis.md:47
 msgid "Filters"
 msgstr "Filtri"
 
@@ -7584,7 +7582,13 @@ msgstr "`.mirror` - aggiunge all'anello una versione invertita di se stesso"
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
 msgstr "`.reflect` - come mirror ma non duplica il valore di mezzo"
 
-#: 08.5-Ring-Chains.md:83
+#: 08.5-Ring-Chains.md:82
+msgid ""
+"`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
+"ng contains numbers only)"
+msgstr ""
+
+#: 08.5-Ring-Chains.md:84
 msgid ""
 "Of course, those chain methods that take numbers can take other numbers too! S"
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
@@ -9937,7 +9941,7 @@ msgstr ""
 "Ooh, un bellissimo suono di chitarra. Ora cominciamo a giocarci. Perché non ca"
 "mbiare la velocità?"
 
-#: A.01-tips.md:92
+#: A.01-tips.md:92 A.17-sample-stretching.md:25
 #, no-wrap
 msgid "sample :guit_em9, rate: 0.5"
 msgstr "sample :guit_em9, rate: 0.5"
@@ -10403,7 +10407,8 @@ msgstr ""
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
-#: A.15-performance.md:152 A.16-practice.md:166
+#: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:147
+#: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:137
 msgid "Bringing it all together"
 msgstr "Mettiamo tutto insieme"
 
@@ -15106,15 +15111,14 @@ msgid ""
 "op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
 "for the full list of shortcuts."
 msgstr ""
-"Uno dei primi consigli da seguire a proposito del live coding, è quello di "
-"cominciare ad usare le combinazioni di tasti (shortcut). Ad esempio, invece "
-"di perdere tempo cercando il mouse, muoverlo sul bottone Run e cliccarlo, "
-"puoi semplicemente premere `alt` e `r` contemporaneamente. Oltre ad essere "
-"molto più veloce, le tue dita saranno già sulla tastiera pronte a digitare "
-"il prossimo comando. Puoi vedere ognuna delle combinazioni per le funzioni "
-"principali andando con il cursore del mouse sopra il pulsante relativo alla "
-"funzione stessa. Oppure, al paragrafo 10.2 del tutorial puoi trovare "
-"l'intera lista."
+"Uno dei primi consigli da seguire a proposito del live coding, è quello di com"
+"inciare ad usare le combinazioni di tasti (shortcut). Ad esempio, invece di pe"
+"rdere tempo cercando il mouse, muoverlo sul bottone Run e cliccarlo, puoi semp"
+"licemente premere `alt` e `r` contemporaneamente. Oltre ad essere molto più ve"
+"loce, le tue dita saranno già sulla tastiera pronte a digitare il prossimo com"
+"ando. Puoi vedere ognuna delle combinazioni per le funzioni principali andando"
+" con il cursore del mouse sopra il pulsante relativo alla funzione stessa. Opp"
+"ure, al paragrafo 10.2 del tutorial puoi trovare l'intera lista."
 
 #: A.15-performance.md:26
 msgid ""
@@ -15124,11 +15128,11 @@ msgid ""
 "n hitting `alt-r` just like a guitarist would do when hitting a big power chor"
 "d."
 msgstr ""
-"Mentre stai suonando, una cosa divertente da fare è dare un po' di enfasi al "
-"movimento delle braccia quando effettui una combinazione di tasti. Ad "
-"esempio, è sempre buona cosa comunicare agli spettatori quando stai per "
-"introdurre un cambiamento, quindi amplifica il gesto quando digiti `alt-r`, "
-"al pari di un chitarrista che dà una potente pennata."
+"Mentre stai suonando, una cosa divertente da fare è dare un po' di enfasi al m"
+"ovimento delle braccia quando effettui una combinazione di tasti. Ad esempio, "
+"è sempre buona cosa comunicare agli spettatori quando stai per introdurre un c"
+"ambiamento, quindi amplifica il gesto quando digiti `alt-r`, al pari di un chi"
+"tarrista che dà una potente pennata."
 
 #: A.15-performance.md:32
 msgid "2. Manually Layer your Sounds"
@@ -15228,14 +15232,14 @@ msgid ""
 "each other and manual code triggers. Take a look at section 9.2 of the built-i"
 "n tutorial for more information about working with live loops."
 msgstr ""
-"Quando si lavora con della musica più ritmata, può risultare spesso "
-"difficile sincronizzare tutto e mantenere un buon tempo. In questi casi è "
-"preferibile utilizzare un 'live_loop'. Oltre a garantire la ripetizione al "
-"tuo codice, ti dà la possibilità di modificarlo, aggiornandolo per la "
-"prossima iterazione. Inoltre, allo stesso tempo altri `live_loop` possono "
-"essere eseguiti, il che significa che è possibile sovrapporli fra loro, o a "
-"istruzioni manuali. Dai un'occhiata alla sezione 9.2 del tutorial per "
-"ulteriori informazioni sull'utilizzo dei live loop."
+"Quando si lavora con della musica più ritmata, può risultare spesso difficile "
+"sincronizzare tutto e mantenere un buon tempo. In questi casi è preferibile ut"
+"ilizzare un 'live_loop'. Oltre a garantire la ripetizione al tuo codice, ti dà"
+" la possibilità di modificarlo, aggiornandolo per la prossima iterazione. Inol"
+"tre, allo stesso tempo altri `live_loop` possono essere eseguiti, il che signi"
+"fica che è possibile sovrapporli fra loro, o a istruzioni manuali. Dai un'occh"
+"iata alla sezione 9.2 del tutorial per ulteriori informazioni sull'utilizzo de"
+"i live loop."
 
 #: A.15-performance.md:91
 msgid ""
@@ -15245,12 +15249,12 @@ msgid ""
 "d `live_loop`, then you can quickly fix the error and re-run the code to re-st"
 "art things without missing a beat."
 msgstr ""
-"Quando esegui un'esecuzione dal vivo, ricordarti di utilizzare nel "
-"`live_loop` l'opzione `sync:` in modo da rimediare ad eventuali errori di "
-"runtime che possono interrompere l'esecuzione in loop del tuo brano. Se hai "
-"già introdotto un `sync:` che punta a un altro valido `live_loop`, allora si "
-"può rapidamente correggere l'errore, eseguendo nuovamente il codice e "
-"ripartire senza perdere il tempo."
+"Quando esegui un'esecuzione dal vivo, ricordarti di utilizzare nel `live_loop`"
+" l'opzione `sync:` in modo da rimediare ad eventuali errori di runtime che pos"
+"sono interrompere l'esecuzione in loop del tuo brano. Se hai già introdotto un"
+" `sync:` che punta a un altro valido `live_loop`, allora si può rapidamente co"
+"rreggere l'errore, eseguendo nuovamente il codice e ripartire senza perdere il"
+" tempo."
 
 #: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
@@ -15265,13 +15269,13 @@ msgid ""
 "or example, whilst some code is running and making sound, enter this into a sp"
 "are buffer and hit `Run`:"
 msgstr ""
-"Uno dei segreti meglio custoditi di Sonic Pi è che esiste un mixer "
-"principale attraverso il quale confluiscono tutti i suoni. Questo mixer ha "
-"di fabbrica sia un filtro passa-basso che un filtro passa-alto, quindi è "
-"possibile operare facilmente delle modifiche globali al suono in uscita. Le "
-"funzionalità del mixer principale sono accessibili tramite la funzione "
-"`set_mixer_control!`. Ad esempio, mentre del codice è in esecuzione e sta "
-"suonando, basta inserire la funzione in un buffer vuoto ed eseguire  `Run`:"
+"Uno dei segreti meglio custoditi di Sonic Pi è che esiste un mixer principale "
+"attraverso il quale confluiscono tutti i suoni. Questo mixer ha di fabbrica si"
+"a un filtro passa-basso che un filtro passa-alto, quindi è possibile operare f"
+"acilmente delle modifiche globali al suono in uscita. Le funzionalità del mixe"
+"r principale sono accessibili tramite la funzione `set_mixer_control!`. Ad ese"
+"mpio, mentre del codice è in esecuzione e sta suonando, basta inserire la funz"
+"ione in un buffer vuoto ed eseguire  `Run`:"
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
@@ -15286,14 +15290,13 @@ msgid ""
 "xer!`. Some of the currently supported opts are: `pre_amp:`, `lpf:` `hpf:`, an"
 "d `amp:`. For the full list, see the built-in docs for `set_mixer_control!`."
 msgstr ""
-"Dopo l'esecuzione di questo codice, verrà attivato un filtro passa basso, "
-"ottenendo un suono finale più \"ovattato\". Nota bene che i nuovi parametri "
-"del mixer principale verranno mantenuti finché non deciderai di modificarli "
-"nuovamente. Tuttavia, è possibile reimpostare in qualsiasi momento il mixer "
-"al suo stato predefinito con la funzione `reset_mixer!`. Alcune delle "
-"opzioni attualmente supportate sono: `pre_amp:`, `lpf:` `hpf:`, e `amp:`. "
-"Per l'elenco completo, dai un'occhiata alla documentazione relativa a "
-"`set_mixer_control!`."
+"Dopo l'esecuzione di questo codice, verrà attivato un filtro passa basso, otte"
+"nendo un suono finale più \"ovattato\". Nota bene che i nuovi parametri del mixe"
+"r principale verranno mantenuti finché non deciderai di modificarli nuovamente"
+". Tuttavia, è possibile reimpostare in qualsiasi momento il mixer al suo stato"
+" predefinito con la funzione `reset_mixer!`. Alcune delle opzioni attualmente "
+"supportate sono: `pre_amp:`, `lpf:` `hpf:`, e `amp:`. Per l'elenco completo, d"
+"ai un'occhiata alla documentazione relativa a `set_mixer_control!`."
 
 #: A.15-performance.md:119
 msgid ""
@@ -15301,10 +15304,10 @@ msgid ""
 " example, to slowly slide the mixer's low pass filter down from the current va"
 "lue to 30, use the following:"
 msgstr ""
-"Utilizza l'opzione ' * _slide' del mixer per far scorrere uno o molti valori "
-"delle opzioni nel tempo. Ad esempio, per far scorrere lentamente i valori "
-"del filtro passa-basso del mixer dal valore corrente a 30, prova a digitare "
-"il codice seguente:"
+"Utilizza l'opzione ' * _slide' del mixer per far scorrere uno o molti valori d"
+"elle opzioni nel tempo. Ad esempio, per far scorrere lentamente i valori del f"
+"iltro passa-basso del mixer dal valore corrente a 30, prova a digitare il codi"
+"ce seguente:"
 
 #: A.15-performance.md:123
 #, no-wrap
@@ -15373,15 +15376,14 @@ msgid ""
 "d clunky at first - just keep practicing and before you know it you'll be live"
 " coding for a real audience."
 msgstr ""
-"Questo mese, invece di presentare un esempio riassuntivo delle cose già "
-"fatte, iniziamo con una sfida. Prova a vedere se riesci a esercitarti tutti "
-"i giorni della settimana con gli esercizi che ti fornirò. Ad esempio, un "
-"giorno fai pratica con i trigger manuali, il successivo crea quale "
-"'live_loop', quelo ancora dopo esercitati con il mixer principale, e così "
-"via. Poi ripeti tutto da capo. Non preoccuparti se ti senti lento/a o goffo/"
-"a in un primo momento - basta che ti eserciti ogni giorno e prima di "
-"rendertene conto sarai davanti a un pubblico vero e suonerai come una "
-"rockstar, o meglio come una live coding star."
+"Questo mese, invece di presentare un esempio riassuntivo delle cose già fatte,"
+" iniziamo con una sfida. Prova a vedere se riesci a esercitarti tutti i giorni"
+" della settimana con gli esercizi che ti fornirò. Ad esempio, un giorno fai pr"
+"atica con i trigger manuali, il successivo crea quale 'live_loop', quelo ancor"
+"a dopo esercitati con il mixer principale, e così via. Poi ripeti tutto da cap"
+"o. Non preoccuparti se ti senti lento/a o goffo/a in un primo momento - basta "
+"che ti eserciti ogni giorno e prima di rendertene conto sarai davanti a un pub"
+"blico vero e suonerai come una rockstar, o meglio come una live coding star."
 
 #: A.16-practice.md:1
 msgid "A.16 How to Practice Live Coding"
@@ -15400,13 +15402,13 @@ msgid ""
 "dive into understanding why live coding practice is important and how you migh"
 "t start."
 msgstr ""
-"Il mese scorso abbiamo dato un'occhiata alle cinque tecniche più importanti "
-"per impadronirsi e impratichirsi nel live coding. In altre parole, abbiamo "
-"visto come usare Pi Sonic per approcciarsi alla programmazione musicale "
-"nello stesso modo in cui ci approcceremmo a uno strumento musicale. Uno dei "
-"concetti importanti che abbiamo trattato è stato quello della pratica. "
-"Questo mese ci occuperemo invece di capire perché la pratica continua di "
-"live coding è importante e come dovresti cominciare."
+"Il mese scorso abbiamo dato un'occhiata alle cinque tecniche più importanti pe"
+"r impadronirsi e impratichirsi nel live coding. In altre parole, abbiamo visto"
+" come usare Pi Sonic per approcciarsi alla programmazione musicale nello stess"
+"o modo in cui ci approcceremmo a uno strumento musicale. Uno dei concetti impo"
+"rtanti che abbiamo trattato è stato quello della pratica. Questo mese ci occup"
+"eremo invece di capire perché la pratica continua di live coding è importante "
+"e come dovresti cominciare."
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
@@ -15419,11 +15421,11 @@ msgid ""
 " you're starting out. Little but often is what you're aiming for - so if you c"
 "an only manage 10 minutes, that's a great start."
 msgstr ""
-"Il consiglio più importante è quello di assicurarti di fare pratica "
-"regolarmente. Come regola, posso dirti che io in genere mi esercito per 1-2 "
-"ore al giorno, ma anche 20 minuti per iniziare possono andare bene. \"Poco "
-"ma spesso\" è l'obbiettivo al quale puntare - quindi se hai a disposizione "
-"solo 10 minuti, è comunque un ottimo inizio."
+"Il consiglio più importante è quello di assicurarti di fare pratica regolarmen"
+"te. Come regola, posso dirti che io in genere mi esercito per 1-2 ore al giorn"
+"o, ma anche 20 minuti per iniziare possono andare bene. \"Poco ma spesso\" è l'o"
+"bbiettivo al quale puntare - quindi se hai a disposizione solo 10 minuti, è co"
+"munque un ottimo inizio."
 
 #: A.16-practice.md:21
 msgid ""
@@ -15432,10 +15434,9 @@ msgid ""
 "week as you can. Before long you'll be looking forward to your regular session"
 "."
 msgstr ""
-"Consiglio pratico n.1 - inizia a sviluppare la routine di fare pratica. "
-"Trovati un momento piacevole e rilassante del giorno e fai pratica ogni "
-"volta che puoi. In poco tempo, non vedrai l'ora di arrivare alla tua "
-"sessione di pratica."
+"Consiglio pratico n.1 - inizia a sviluppare la routine di fare pratica. Trovat"
+"i un momento piacevole e rilassante del giorno e fai pratica ogni volta che pu"
+"oi. In poco tempo, non vedrai l'ora di arrivare alla tua sessione di pratica."
 
 #: A.16-practice.md:27
 msgid "Learn to Touch Type"
@@ -15454,19 +15455,18 @@ msgid ""
 "he music. This is called touch-typing - typing without having to look at the k"
 "eyboard."
 msgstr ""
-"Se osservi un musicista professionista mentre suona sul palco noterai "
-"sicuramente alcuni aspetti. In primo luogo, quando suona non guarda il "
-"proprio strumento. Le sue dita, braccia e il corpo in generale conoscono le "
-"azioni da compiere senza bisogno di pensarci su troppo tempo. Questa abilità "
-"è chiamata \"memoria muscolare\" e anche se potrebbe sembrare qualcosa che "
-"solo i professionisti riescono a fare, in realtà questo processo funziona "
-"semplicemente come quando hai imparato per la prima volta a camminare o "
-"andare in bicicletta: hai fatto pratica attraverso la ripetizione. I e le "
-"live coder utilizzano la memoria muscolare per liberare le loro menti dal "
-"pensiero della gestione del movimento delle loro dita, in modo che possano "
-"concentrarsi sulla musica. Questa abilità è chiamata touch-type in inglese, "
-"e corrisponde all'abilità di digitare sulla tastiera senza il bisogno di "
-"guardarla."
+"Se osservi un musicista professionista mentre suona sul palco noterai sicurame"
+"nte alcuni aspetti. In primo luogo, quando suona non guarda il proprio strumen"
+"to. Le sue dita, braccia e il corpo in generale conoscono le azioni da compier"
+"e senza bisogno di pensarci su troppo tempo. Questa abilità è chiamata \"memori"
+"a muscolare\" e anche se potrebbe sembrare qualcosa che solo i professionisti r"
+"iescono a fare, in realtà questo processo funziona semplicemente come quando h"
+"ai imparato per la prima volta a camminare o andare in bicicletta: hai fatto p"
+"ratica attraverso la ripetizione. I e le live coder utilizzano la memoria musc"
+"olare per liberare le loro menti dal pensiero della gestione del movimento del"
+"le loro dita, in modo che possano concentrarsi sulla musica. Questa abilità è "
+"chiamata touch-type in inglese, e corrisponde all'abilità di digitare sulla ta"
+"stiera senza il bisogno di guardarla."
 
 #: A.16-practice.md:41
 msgid ""
@@ -15474,10 +15474,10 @@ msgid ""
 "ven games which can help you achieve this. Find one you like the look of and s"
 "tick at it until you can code without looking down."
 msgstr ""
-"Consiglio pratico n.2 - imparare a dattilografare. Ci sono molte "
-"applicazioni, siti web e anche i giochi che ti possono aiutare a raggiungere "
-"questo obiettivo. Trova quello che ti piace di più e rimanici incollato/a "
-"finché non riuscirai a programmare senza guardare la tastiera."
+"Consiglio pratico n.2 - imparare a dattilografare. Ci sono molte applicazioni,"
+" siti web e anche i giochi che ti possono aiutare a raggiungere questo obietti"
+"vo. Trova quello che ti piace di più e rimanici incollato/a finché non riuscir"
+"ai a programmare senza guardare la tastiera."
 
 #: A.16-practice.md:46
 msgid "Code whilst standing"
@@ -15494,16 +15494,16 @@ msgid ""
 "at a desk and then have to get up and stand at a gig, you'll likely find the d"
 "ifference very difficult and frustrating."
 msgstr ""
-"Il corpo di un musicista si adatta alla pratica del proprio strumento. Ad "
-"esempio, un suonatore di tromba deve essere in grado di soffiare forte, un "
-"chitarrista ha bisogno di essere in grado di afferrare il manico con forza e "
-"un batterista deve essere in grado di suonare continuamente la batteria per "
-"lunghi periodi di tempo. Quindi, qual'è l'aspetto fisico nel live coding? "
-"Proprio come i e le DJ, i e le live coder in genere suonano stando in piedi "
-"e alcuni/e riescono anche a ballare mentre suonano! Se si fa pratica di live "
-"coding seduti a una scrivania, dopo sarà difficile adattarsi a suonare in "
-"piedi ad un concerto. Probabilmente troverai le due situazioni molto diverse "
-"tra loro e non sarà facile passare dall'una all'altra."
+"Il corpo di un musicista si adatta alla pratica del proprio strumento. Ad esem"
+"pio, un suonatore di tromba deve essere in grado di soffiare forte, un chitarr"
+"ista ha bisogno di essere in grado di afferrare il manico con forza e un batte"
+"rista deve essere in grado di suonare continuamente la batteria per lunghi per"
+"iodi di tempo. Quindi, qual'è l'aspetto fisico nel live coding? Proprio come i"
+" e le DJ, i e le live coder in genere suonano stando in piedi e alcuni/e riesc"
+"ono anche a ballare mentre suonano! Se si fa pratica di live coding seduti a u"
+"na scrivania, dopo sarà difficile adattarsi a suonare in piedi ad un concerto."
+" Probabilmente troverai le due situazioni molto diverse tra loro e non sarà fa"
+"cile passare dall'una all'altra."
 
 #: A.16-practice.md:58
 msgid ""
@@ -15516,17 +15516,17 @@ msgid ""
 " session. Remember, nobody is watching you, so have fun and you'll feel much m"
 "ore natural on stage."
 msgstr ""
-"Consiglio pratico n.3 - stai in piedi mentre fai pratica. Il modo più "
-"semplice per farlo consiste nell'utilizzare una scrivania che tenga la "
-"tastiera all'altezza giusta di quando stai in piedi. Tuttavia, se come me "
-"non hai una a casa, ti posso dare un paio di consigli semplici ma efficaci. "
-"Il primo è quello di utilizzare un asse da stiro, che sembra funzionare "
-"piuttosto bene. Un altro è quello di impilare alcune scatole o libri di "
-"grandi dimensioni su una normale scrivania e posizionare la tastiera in cima "
-"alla torre. Inoltre, ti consiglio di fare un po' di allungamenti prima di "
-"iniziare a suonare e prova anche a muoverti a ritmo durante la sessione. "
-"Ricordati, nessuno ti sta guardando, quindi divertiti e comportati "
-"naturalmente. Questo ti aiuterà anche quando sarai sul palco."
+"Consiglio pratico n.3 - stai in piedi mentre fai pratica. Il modo più semplice"
+" per farlo consiste nell'utilizzare una scrivania che tenga la tastiera all'al"
+"tezza giusta di quando stai in piedi. Tuttavia, se come me non hai una a casa,"
+" ti posso dare un paio di consigli semplici ma efficaci. Il primo è quello di "
+"utilizzare un asse da stiro, che sembra funzionare piuttosto bene. Un altro è "
+"quello di impilare alcune scatole o libri di grandi dimensioni su una normale "
+"scrivania e posizionare la tastiera in cima alla torre. Inoltre, ti consiglio "
+"di fare un po' di allungamenti prima di iniziare a suonare e prova anche a muo"
+"verti a ritmo durante la sessione. Ricordati, nessuno ti sta guardando, quindi"
+" divertiti e comportati naturalmente. Questo ti aiuterà anche quando sarai sul"
+" palco."
 
 #: A.16-practice.md:68
 msgid "Practice setting up"
@@ -15540,13 +15540,12 @@ msgid ""
 " for problems to occur. One way to help with this is to incorporate the setup "
 "process into your practice sessions."
 msgstr ""
-"Molti strumenti musicali richiedono di essere assemblati e accordati prima "
-"di essere suonati. Almeno che non tu sia già una rockstar, con un autobus "
-"pieno di assistenti, dovrai preparare tutto da solo/a prima del tuo "
-"concerto. Di solito, questo è un momento piuttosto stressante ed è facile "
-"che emergano problemi. Una soluzione che può aiutarti è quella di "
-"incorporare nella pratica quotidiana anche la preparazione della "
-"strumentazione."
+"Molti strumenti musicali richiedono di essere assemblati e accordati prima di "
+"essere suonati. Almeno che non tu sia già una rockstar, con un autobus pieno d"
+"i assistenti, dovrai preparare tutto da solo/a prima del tuo concerto. Di soli"
+"to, questo è un momento piuttosto stressante ed è facile che emergano problemi"
+". Una soluzione che può aiutarti è quella di incorporare nella pratica quotidi"
+"ana anche la preparazione della strumentazione."
 
 #: A.16-practice.md:76
 msgid ""
@@ -15559,15 +15558,15 @@ msgid ""
 "u'll be able to setup and pack everything away incredibly quickly without havi"
 "ng to think about it."
 msgstr ""
-"Consiglio pratico n.4. Inserisci il set-up nella tua routine di pratica "
-"quotidiana. Per esempio, procurati una scatola o una borsa in cui tenere il "
-"tuo Raspberry Pi, la tastiera ecc. Prima di ogni sessione di pratica, tira "
-"fuori tutte le parti, connettile e avvia il tutto fino a che non otterrai la "
-"schermata iniziale di Sonic Pi. Poi, quando avrai finito la tua sessione di "
-"pratica, lasciati il tempo di mettere tutto a posto con cura. All'inizio "
-"questa operazione potrebbe portarti via un po' di tempo, ma poi diventerai "
-"pratico/a anche in questo e tutto sarà molto più facile e veloce. Non ci "
-"dovrai nemmeno pensare mentre lo fai."
+"Consiglio pratico n.4. Inserisci il set-up nella tua routine di pratica quotid"
+"iana. Per esempio, procurati una scatola o una borsa in cui tenere il tuo Rasp"
+"berry Pi, la tastiera ecc. Prima di ogni sessione di pratica, tira fuori tutte"
+" le parti, connettile e avvia il tutto fino a che non otterrai la schermata in"
+"iziale di Sonic Pi. Poi, quando avrai finito la tua sessione di pratica, lasci"
+"ati il tempo di mettere tutto a posto con cura. All'inizio questa operazione p"
+"otrebbe portarti via un po' di tempo, ma poi diventerai pratico/a anche in que"
+"sto e tutto sarà molto più facile e veloce. Non ci dovrai nemmeno pensare ment"
+"re lo fai."
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
@@ -15584,14 +15583,14 @@ msgid ""
 "long time. It is much more important to be making sounds you don't like than n"
 "ot making any sounds at all."
 msgstr ""
-"Quando avrai sistemato tutto e sarai pronto/a per iniziare a suonare, "
-"potresti ritrovarti spaesato/a e non sapere dove cominciare. Molte persone "
-"hanno questo problema: trovare  una buona idea da cui cominciare oppure "
-"avere una buona idea ma non sapere come realizzarla. Alcune persone "
-"addirittura non hanno proprio idea di che suoni vogliono fare! La prima cosa "
-"da fare è non preoccuparsi. Infatti è una situazione molto comune e succede "
-"ad ogni musicista, anche se hanno una lunga esperienza. E' comunque molto "
-"meglio fare un suono che non ti piace piuttosto che non farne nessuno."
+"Quando avrai sistemato tutto e sarai pronto/a per iniziare a suonare, potresti"
+" ritrovarti spaesato/a e non sapere dove cominciare. Molte persone hanno quest"
+"o problema: trovare  una buona idea da cui cominciare oppure avere una buona i"
+"dea ma non sapere come realizzarla. Alcune persone addirittura non hanno propr"
+"io idea di che suoni vogliono fare! La prima cosa da fare è non preoccuparsi. "
+"Infatti è una situazione molto comune e succede ad ogni musicista, anche se ha"
+"nno una lunga esperienza. E' comunque molto meglio fare un suono che non ti pi"
+"ace piuttosto che non farne nessuno."
 
 #: A.16-practice.md:99
 msgid ""
@@ -15604,15 +15603,15 @@ msgid ""
 "mber the parts you do. This is even easier when you're making music with code "
 "- just hit save!"
 msgstr ""
-"Consiglio pratico n. 5. Passa del tempo a fare suoni e musica che non ti "
-"piacciono. Prenditi il tempo di esplorare nuove idee e nuovi suoni. Non ti "
-"preoccupare se ti sembrano orribili o se non sono nello stile che volevi "
-"ottenere. Quando sperimenti in questo modo incrementi le possibilità di "
-"imbatterti in suoni o combinazioni di essi che potresti amare! Anche se il "
-"99% dei suoni che fai sono brutti, quell'1% potrebbe contenere un riff da "
-"inserire nel tuo nuovo brano. Dimenticati delle cose che non ti piacciono e "
-"ricordati di quelle che ti piacciono. Far ciò è anche più facile quando "
-"suoni con il codice. Infatti, puoi semplicemente premere salva!"
+"Consiglio pratico n. 5. Passa del tempo a fare suoni e musica che non ti piacc"
+"iono. Prenditi il tempo di esplorare nuove idee e nuovi suoni. Non ti preoccup"
+"are se ti sembrano orribili o se non sono nello stile che volevi ottenere. Qua"
+"ndo sperimenti in questo modo incrementi le possibilità di imbatterti in suoni"
+" o combinazioni di essi che potresti amare! Anche se il 99% dei suoni che fai "
+"sono brutti, quell'1% potrebbe contenere un riff da inserire nel tuo nuovo bra"
+"no. Dimenticati delle cose che non ti piacciono e ricordati di quelle che ti p"
+"iacciono. Far ciò è anche più facile quando suoni con il codice. Infatti, puoi"
+" semplicemente premere salva!"
 
 #: A.16-practice.md:110
 msgid "Hear the Code"
@@ -15631,18 +15630,17 @@ msgid ""
 " you a long time to master this, but once you do, you'll be able to improvise "
 "on stage and express your ideas fluently."
 msgstr ""
-"Molti musicisti riescono a guardare uno spartito e \"ascoltare\" la musica "
-"nella propria testa senza aver bisogno di suonarla. Si tratta di una "
-"capacità davvero molto utile e vale la pena provare a trasferirla nei propri "
-"esercizi di live coding. In verità, la cosa veramente importante è avere "
-"idea di cosa una determinata istruzione andrà a suonare. Non è necessario "
-"essere in grado di immaginarlo esattamente, ma sapere perlomeno se sarà un "
-"qualcosa di veloce, lento, forte, ritmico, melodico, casuale, eccetera. "
-"L'obbiettivo è poter invertire il processo, immaginando quello che si vuol "
-"suonare e quindi decidere quali istruzioni andare a scrivere. Può volerci "
-"molto tempo per perfezionare questo processo, ma appena ci riesci, sarai in "
-"grado di improvvisare ed esprimere le tue idee sul palco in modo del tutto "
-"spontaneo."
+"Molti musicisti riescono a guardare uno spartito e \"ascoltare\" la musica nella"
+" propria testa senza aver bisogno di suonarla. Si tratta di una capacità davve"
+"ro molto utile e vale la pena provare a trasferirla nei propri esercizi di liv"
+"e coding. In verità, la cosa veramente importante è avere idea di cosa una det"
+"erminata istruzione andrà a suonare. Non è necessario essere in grado di immag"
+"inarlo esattamente, ma sapere perlomeno se sarà un qualcosa di veloce, lento, "
+"forte, ritmico, melodico, casuale, eccetera. L'obbiettivo è poter invertire il"
+" processo, immaginando quello che si vuol suonare e quindi decidere quali istr"
+"uzioni andare a scrivere. Può volerci molto tempo per perfezionare questo proc"
+"esso, ma appena ci riesci, sarai in grado di improvvisare ed esprimere le tue "
+"idee sul palco in modo del tutto spontaneo."
 
 #: A.16-practice.md:124
 msgid ""
@@ -15655,16 +15653,16 @@ msgid ""
 "hy I was wrong. Each time this happens, I learn new tricks which allow me to e"
 "xpress myself in new ways."
 msgstr ""
-"Consiglio pratico n. 6. Scrivi codice dentro Sonic Pi ma non premere Run. "
-"Prova invece ad immaginarti che suono potrebbe produrre quel codice. Solo "
-"dopo premi Run, ascolta e prova a pensare a cosa hai fatto di giusto e di "
-"sbagliato. Continua a fare questo passaggio finché non diventa un'azione "
-"naturale della tua attività di programmazione. Quando io mi esercito, di "
-"solito ho un'idea piuttosto precisa di come quel pezzo di codice suonerà. "
-"Tuttavia, riesco ancora a volte a sorprendermi. In questi casi fermo il "
-"processo e cerco di capire perché ho pensato una cosa e n'è successa "
-"un'altra. Tutte le volte che succede questo, riesco a imparare nuovi trucchi "
-"che mi permettono di esprimermi in modi nuovi."
+"Consiglio pratico n. 6. Scrivi codice dentro Sonic Pi ma non premere Run. Prov"
+"a invece ad immaginarti che suono potrebbe produrre quel codice. Solo dopo pre"
+"mi Run, ascolta e prova a pensare a cosa hai fatto di giusto e di sbagliato. C"
+"ontinua a fare questo passaggio finché non diventa un'azione naturale della tu"
+"a attività di programmazione. Quando io mi esercito, di solito ho un'idea piut"
+"tosto precisa di come quel pezzo di codice suonerà. Tuttavia, riesco ancora a "
+"volte a sorprendermi. In questi casi fermo il processo e cerco di capire perch"
+"é ho pensato una cosa e n'è successa un'altra. Tutte le volte che succede ques"
+"to, riesco a imparare nuovi trucchi che mi permettono di esprimermi in modi nu"
+"ovi."
 
 #: A.16-practice.md:134
 msgid "Remove all distractions"
@@ -15680,14 +15678,13 @@ msgid ""
 "f practice, it's important to try and spend all that time being as productive "
 "as possible."
 msgstr ""
-"Un problema comune quando fai pratica è quello di essere distratti da altre "
-"cose. Far pratica è un'attività difficile e richiede una grande dose di "
-"disciplina, qualsiasi sia il tipo di musica che fai: jazz, classica o EDM. "
-"Se ti stai fortemente impegnando a iniziare oppure a migliorare le tue "
-"abilità, è spesso anche troppo facile andare sui social o cercare cose su "
-"internet. Se decidi di fare 20 minuti di pratica, è importante che questi 20 "
-"minuti siano dedicati totalmente a quell'attività e che siano il più "
-"produttivi possibile."
+"Un problema comune quando fai pratica è quello di essere distratti da altre co"
+"se. Far pratica è un'attività difficile e richiede una grande dose di discipli"
+"na, qualsiasi sia il tipo di musica che fai: jazz, classica o EDM. Se ti stai "
+"fortemente impegnando a iniziare oppure a migliorare le tue abilità, è spesso "
+"anche troppo facile andare sui social o cercare cose su internet. Se decidi di"
+" fare 20 minuti di pratica, è importante che questi 20 minuti siano dedicati t"
+"otalmente a quell'attività e che siano il più produttivi possibile."
 
 #: A.16-practice.md:144
 msgid ""
@@ -15697,12 +15694,12 @@ msgid ""
 "d. Try to focus on coding music and you can return to your distractions when y"
 "ou've finished."
 msgstr ""
-"Consiglio pratico n.7. Prima di iniziare a fare pratica, cerca di eliminare "
-"quanti più elementi di distrazione possibile. Per esempio, disconnetti da "
-"internet, metti il telefono in un'altra stanza e cerca un posto per fare "
-"pratica in cui difficilmente verrai disturbato. Cerca di focalizzarti sulla "
-"tua attività di live coding e poi successivamente potrai tornare alle tue "
-"distrazioni quando avrai finito."
+"Consiglio pratico n.7. Prima di iniziare a fare pratica, cerca di eliminare qu"
+"anti più elementi di distrazione possibile. Per esempio, disconnetti da intern"
+"et, metti il telefono in un'altra stanza e cerca un posto per fare pratica in "
+"cui difficilmente verrai disturbato. Cerca di focalizzarti sulla tua attività "
+"di live coding e poi successivamente potrai tornare alle tue distrazioni quand"
+"o avrai finito."
 
 #: A.16-practice.md:151
 msgid "Keep a practice diary"
@@ -15715,11 +15712,11 @@ msgid ""
 "etc. These ideas are often so interesting that you might stop what you're doin"
 "g and start working on the idea. This is another form of distraction!"
 msgstr ""
-"Mentre stai facendo pratica, spesso potresti avere in mente molte idee nuove "
-"ed eccitanti. Per esempio nuove direzioni musicali, nuovi suoni, nuove "
-"funzioni ecc. Queste idee a volte possono essere talmente interessanti che "
-"potresti fermarti e provare a realizzarle. Comunque, anche questa è una "
-"forma di distrazione!"
+"Mentre stai facendo pratica, spesso potresti avere in mente molte idee nuove e"
+"d eccitanti. Per esempio nuove direzioni musicali, nuovi suoni, nuove funzioni"
+" ecc. Queste idee a volte possono essere talmente interessanti che potresti fe"
+"rmarti e provare a realizzarle. Comunque, anche questa è una forma di distrazi"
+"one!"
 
 #: A.16-practice.md:159
 msgid ""
@@ -15729,12 +15726,11 @@ msgid ""
 "lity time thinking about and working on your ideas after you've finished pract"
 "icing."
 msgstr ""
-"Consiglio pratico n.8. Tieni un diario della tua pratica vicino alla "
-"tastiera. Quando hai delle idee che ti piacciono particolarmente, ferma un "
-"attimo la tua sessione di pratica e sbozza velocemente l'idea sul diario. "
-"Appena finito, dimenticatela e vai avanti con la sessione. Potrai quindi "
-"tornare indietro successivamente su quell'idea e pensarci con maggiore "
-"attenzione."
+"Consiglio pratico n.8. Tieni un diario della tua pratica vicino alla tastiera."
+" Quando hai delle idee che ti piacciono particolarmente, ferma un attimo la tu"
+"a sessione di pratica e sbozza velocemente l'idea sul diario. Appena finito, d"
+"imenticatela e vai avanti con la sessione. Potrai quindi tornare indietro succ"
+"essivamente su quell'idea e pensarci con maggiore attenzione."
 
 #: A.16-practice.md:168
 msgid ""
@@ -15744,9 +15740,691 @@ msgid ""
 " all be worth it once you've created your first piece or given your first perf"
 "ormance. Remember, practice is the key to success!"
 msgstr ""
-"Cerca di mettere a punto una routine di pratica che includa queste idee nel "
-"più gran numero possibile. Cerca di rendere le sessioni il più divertenti "
-"possibile ma sii sempre consapevole che alcune sessioni saranno dure e "
-"sentirai di aver svolto un lavoro insoddisfacente. Tuttavia, tutto ti sarà "
-"stato utile quando avrai creato il tuo primo brano o avrai eseguito il tuo "
-"primo concerto. Ricordati, la pratica è la chiave per il successo!"
+"Cerca di mettere a punto una routine di pratica che includa queste idee nel pi"
+"ù gran numero possibile. Cerca di rendere le sessioni il più divertenti possib"
+"ile ma sii sempre consapevole che alcune sessioni saranno dure e sentirai di a"
+"ver svolto un lavoro insoddisfacente. Tuttavia, tutto ti sarà stato utile quan"
+"do avrai creato il tuo primo brano o avrai eseguito il tuo primo concerto. Ric"
+"ordati, la pratica è la chiave per il successo!"
+
+#: A.17-sample-stretching.md:1
+#, fuzzy
+msgid "A.17 Sample Stretching"
+msgstr "A.12 Tagliare i campioni"
+
+#: A.17-sample-stretching.md:3
+#, fuzzy
+msgid "Sample Stretching"
+msgstr "Tagliare i campioni"
+
+#: A.17-sample-stretching.md:5
+msgid ""
+"When people discover Sonic Pi, one of the first things they learn is how simpl"
+"e it is to play pre-recorded sounds using the `sample` function. For example, "
+"you can play an industrial drum loop, hear the sound of a choir or even listen"
+" to a vinyl scratch all via a single line of code. However, many people don't "
+"realise that you can actually vary the speed that the sample is played back at"
+" for some powerful effects and a whole new level of control over your recorded"
+" sounds. So, fire up a copy of Sonic Pi and let's get started stretching some "
+"samples!"
+msgstr ""
+
+#: A.17-sample-stretching.md:14
+#, fuzzy
+msgid "Slowing Samples Down"
+msgstr "Campioni (Samples)"
+
+#: A.17-sample-stretching.md:16
+msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
+msgstr ""
+
+#: A.17-sample-stretching.md:18
+#, no-wrap
+#, fuzzy
+msgid "sample :guit_em9, rate: 1"
+msgstr "sample :guit_em9, rate: 0.5"
+
+#: A.17-sample-stretching.md:20
+msgid ""
+"If we specify a `rate:` of `1` then the sample is played back at the normal ra"
+"te. If we want to play it back at half speed we simply use a `rate:` of `0.5`:"
+msgstr ""
+
+#: A.17-sample-stretching.md:27
+#, fuzzy
+msgid ""
+"Notice that this has two effects on the audio. Firstly the sample sounds lower"
+" in pitch and secondly it takes twice as long to play back (see the sidebar fo"
+"r an explanation of why this is the case). We can even choose lower and lower "
+"rates moving towards `0`, so a `rate:` of `0.25` is a quarter speed, `0.1` is "
+"a tenth of the speed, etc. Try playing with some low rates and see if you can "
+"turn the sound into a low rumble."
+msgstr "choose (scegli)"
+
+#: A.17-sample-stretching.md:34
+#, fuzzy
+msgid "Speeding Samples Up"
+msgstr "Campioni (Samples)"
+
+#: A.17-sample-stretching.md:36
+msgid ""
+"In addition to making the sound longer and lower using a small rate, we can us"
+"e higher rates to make the sound shorter and higher. Let's play with a drum lo"
+"op this time. First, take a listen to how it sounds at the default rate of `1`"
+":"
+msgstr ""
+
+#: A.17-sample-stretching.md:41
+#, no-wrap
+#, fuzzy
+msgid "sample :loop_amen, rate: 1"
+msgstr "sample :loop_amen, rate: -1"
+
+#: A.17-sample-stretching.md:44
+msgid "Now, let's speed it up a little:"
+msgstr ""
+
+#: A.17-sample-stretching.md:48
+msgid ""
+"Ha! We just moved musical genres from old-skool techno to jungle. Notice how t"
+"he pitch of each drum hit is higher as well as how the whole rhythm speeds up."
+" Now, try even higher rates and see how high and short you can make the drum l"
+"oop. For example, if you use a rate of `100`, the drum loop turns into a click"
+"!"
+msgstr ""
+
+#: A.17-sample-stretching.md:54
+msgid "Reverse Gear"
+msgstr ""
+
+#: A.17-sample-stretching.md:56
+msgid ""
+"Now, I'm sure many of you are thinking the same thing right now... \"what if yo"
+"u use a negative number for the rate?\". Great question! Let's think about this"
+" for a moment. If our `rate:` opt signifies the speed with which the sample is"
+" played back, `1` being normal speed, `2` being double speed, `0.5` being half"
+" speed, `-1` must mean backwards! Let's try it on a snare. First, play it back"
+" at the normal rate:"
+msgstr ""
+
+#: A.17-sample-stretching.md:63
+#, no-wrap
+msgid "sample :elec_filt_snare, rate: 1"
+msgstr ""
+
+#: A.17-sample-stretching.md:65
+#, fuzzy
+msgid "Now, play it backwards:"
+msgstr "Forte! Suona all’indietro!"
+
+#: A.17-sample-stretching.md:67
+#, no-wrap
+msgid "sample :elec_filt_snare, rate: -1"
+msgstr ""
+
+#: A.17-sample-stretching.md:69
+msgid ""
+"Of course, you can play it backwards twice as fast with a rate of `-2` or back"
+"wards at half speed with a rate of `-0.5`. Now, play around with different neg"
+"ative rates and have fun. It's particularly amusing with the `:misc_burp` samp"
+"le!"
+msgstr ""
+
+#: A.17-sample-stretching.md:75
+msgid "Sample, Rate and Pitch [Sidebar]"
+msgstr ""
+
+#: A.17-sample-stretching.md:77
+msgid ""
+"One of the effects of rate modification on samples is that faster rates result"
+" in the sample sounding higher in pitch and slower rates result in the sample "
+"sounding lower in pitch. Another place you may have heard this effect in every"
+" day life is when you're cycling or driving past a beeping pedestrian crossing"
+" - as you're heading towards the sound source the pitch is higher than when yo"
+"u're moving away from the sound - the so-called Doppler effect. Why is this?"
+msgstr ""
+
+#: A.17-sample-stretching.md:85
+msgid ""
+"Let's consider a simple beep which is represented by a sine wave. If we use an"
+" oscilloscope to plot a beep, we'll see something like Figure A. If we plot a "
+"beep an octave higher, we'll see Figure B and an octave lower will look like F"
+"igure C. Notice that the waves of higher notes are more compact and the waves "
+"of lower notes are more spread out."
+msgstr ""
+
+#: A.17-sample-stretching.md:91
+msgid ""
+"A sample of a beep is nothing more than a lot of numbers (x, y, coordinates) w"
+"hich when plotted onto a graph will re-draw the original curves. See figure D "
+"where each circle represents a coordinate. To turn the coordinates back into a"
+"udio, the computer works through each x value and sends the corresponding y va"
+"lue to the speakers. The trick here is that the rate at which the computer wor"
+"ks through the x numbers does not have to be the same as the rate with which t"
+"hey were recorded. In other words, the space (representing an amount of time) "
+"between each circle can be stretched or compressed. So, if the computer walks "
+"through the x values faster than the original rate, it will have the effect of"
+" squashing the circles closer together which will result in a higher sounding "
+"beep. It will also make the beep shorter as we will work through all the circl"
+"es faster. This is shown in Figure E."
+msgstr ""
+
+#: A.17-sample-stretching.md:105
+msgid ""
+"Finally, one last thing to know is that a mathematician called Fourier proved "
+"that any sound is actually lots and lots of sine waves all combined together. "
+"Therefore, when we compress and stretch any recorded sound we're actually stre"
+"tching and compressing many sine waves all at the same time in exactly this ma"
+"nner."
+msgstr ""
+
+#: A.17-sample-stretching.md:111
+msgid "Pitch Bending"
+msgstr ""
+
+#: A.17-sample-stretching.md:113
+msgid ""
+"As we've seen, using a faster rate will make the sound higher in pitch and a s"
+"lower rate will make the sound lower in pitch. A very simple and useful trick "
+"is to know that doubling the rate actually results in the pitch being an octav"
+"e higher and inversely halving the rate results in the pitch being an octave l"
+"ower. This means that for melodic samples, playing it alongside itself at doub"
+"le/half rates actually sounds rather nice:"
+msgstr ""
+
+#: A.17-sample-stretching.md:121
+#, no-wrap
+msgid ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
+msgstr ""
+
+#: A.17-sample-stretching.md:125
+msgid ""
+"However, what if we just want to alter the rate such that the pitch goes up on"
+"e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
+"itch:` opt:"
+msgstr ""
+
+#: A.17-sample-stretching.md:129
+#, no-wrap
+msgid ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
+msgstr ""
+
+#: A.17-sample-stretching.md:133
+msgid ""
+"If you take a look at the log on the right, you'll notice that an `rpitch:` of"
+" `3` actually corresponds to a rate of `1.1892` and a `rpitch:` of `7` corresp"
+"onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
+" opts:"
+msgstr ""
+
+#: A.17-sample-stretching.md:138
+#, no-wrap
+msgid ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
+msgstr ""
+
+#: A.17-sample-stretching.md:149
+msgid ""
+"Let's take a look at a simple piece which combines these ideas. Copy it into a"
+"n empty Sonic Pi buffer, hit play, listen to it for a while and then use it as"
+" a starting point for your own piece. See how much fun it is to manipulate the"
+" playback rate of samples. As an added exercise try recording your own sounds "
+"and play around with the rate to see what crazy sounds you can make."
+msgstr ""
+
+#: A.17-sample-stretching.md:156
+#, no-wrap
+#, fuzzy
+msgid ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
+msgstr "sample :guit_em9"
+
+#: A.18-additive-synthesis.md:1
+msgid "A.18 Sound Design - Additive Synthesis"
+msgstr ""
+
+#: A.18-additive-synthesis.md:3
+msgid "Additive Synthesis"
+msgstr ""
+
+#: A.18-additive-synthesis.md:5
+msgid ""
+"This is the first of a short series of articles on how to use Sonic Pi for sou"
+"nd design. We'll be take a quick tour of a number of different techniques avai"
+"lable for you to craft your own unique sound. The first technique we'll look a"
+"t is called *additive synthesis*. This may sound complicated - but if we expan"
+"d each word slightly the meaning pops right out. Firstly, additive means a com"
+"bination of things and secondly synthesis means to create sound. Additive synt"
+"hesis therefore means nothing more complicated than *combining existing sounds"
+" to create new ones*. This synthesis technique dates back a very long time - f"
+"or example, pipe organs in the middle ages had lots of slightly different soun"
+"ding pipes which you could enable or disable with stops. Pulling out the stop "
+"for a given pipe 'added it to the mix' making the sound richer and more comple"
+"x. Now, let's see how we can pull out all the stops with Sonic Pi."
+msgstr ""
+
+#: A.18-additive-synthesis.md:21
+msgid "Simple Combinations"
+msgstr ""
+
+#: A.18-additive-synthesis.md:23
+msgid ""
+"Let's start with the most basic sound there is - the humble pure-toned sine wa"
+"ve:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:26
+#, no-wrap
+msgid "synth :sine, note: :d3"
+msgstr ""
+
+#: A.18-additive-synthesis.md:30
+msgid "Now, let's see how this sounds combined with a square wave:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:32
+#, no-wrap
+msgid ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
+msgstr ""
+
+#: A.18-additive-synthesis.md:37
+msgid ""
+"Notice how the two sounds combine to form a new, richer sound. Of course, we d"
+"on't have to stop there, we can add as many sounds as we need. However, we nee"
+"d to be careful with how many sounds we add together. Just like when we mix pa"
+"ints to create new colours, adding too many colours will result in a messy bro"
+"wn, similarly - adding too many sounds together will result in a muddy sound."
+msgstr ""
+
+#: A.18-additive-synthesis.md:45
+#, fuzzy
+msgid "Blending"
+msgstr "Sliding"
+
+#: A.18-additive-synthesis.md:47
+msgid ""
+"Let's add something to make it sound a little brighter. We could use a triangl"
+"e wave at an octave higher (for that high bright sound) yet only play it at am"
+"p `0.4` so it adds something extra to the sound rather than taking it over:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:52
+#, no-wrap
+msgid ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3\n"
+"synth :tri, note: :d4, amp: 0.4"
+msgstr ""
+
+#: A.18-additive-synthesis.md:58
+msgid ""
+"Now, try creating your own sounds by combining 2 or more synths at different o"
+"ctaves and amplitudes. Also, note that you can play around with each synth's o"
+"pts to modify each source sound before it is mixed in for even more combinatio"
+"ns of sounds."
+msgstr ""
+
+#: A.18-additive-synthesis.md:64
+msgid "Detuning"
+msgstr ""
+
+#: A.18-additive-synthesis.md:66
+msgid ""
+"So far, when combining our different synths we've used either the same pitch o"
+"r switched octave. How might it sound if we didn't stick to octaves but instea"
+"d chose a slightly higher or lower note? Let's try it:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:70
+#, no-wrap
+msgid ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
+msgstr ""
+
+#: A.18-additive-synthesis.md:76
+msgid ""
+"If we detune our square waves by 0.7 notes we hear something that perhaps does"
+"n't sound in tune or correct - a 'bad' note. However, as we move closer to 0 i"
+"t will sound less and less out of tune as the pitches of the two waves get clo"
+"ser and more similar. Try it for yourself! Change the `detune:` opt value from"
+" `0.7` to `0.5` and listen to the new sound. Try `0.2`, `0.1`, `0.05`, `0`. Ea"
+"ch time you change the value, take a listen and see if you can hear how the so"
+"und is changing. Notice that low detune values such as `0.1` produce a really "
+"nice 'thick' sound, with both slightly different pitches interacting with each"
+" other in interesting, often surprising, ways."
+msgstr ""
+
+#: A.18-additive-synthesis.md:87
+#, fuzzy
+msgid ""
+"Some of the built-in synths already include a detune option that do exactly th"
+"is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
+"`:dtri`."
+msgstr "`:dsaw`"
+
+#: A.18-additive-synthesis.md:92
+#, fuzzy
+msgid "Amplitude shaping"
+msgstr "Ampiezza"
+
+#: A.18-additive-synthesis.md:94
+msgid ""
+"Another way we can finely craft our sound is to use a different envelope and o"
+"ptions for each synth trigger. For example this will allow you to make some as"
+"pects of the sound percussive and other aspects ring out for a period of time."
+msgstr ""
+
+#: A.18-additive-synthesis.md:99
+#, no-wrap
+msgid ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
+msgstr ""
+
+#: A.18-additive-synthesis.md:108
+msgid ""
+"In the example above I have mixed in a noisy percussive element to the sound a"
+"long with some more persistent background rumbling. This was achieved firstly "
+"by using two noise synths with middling cutoff values (`90` and `100`) using s"
+"hort release times along with a noise with a longer release time but with a lo"
+"w cutoff value (which makes the noise less crisp and more rumbly.)"
+msgstr ""
+
+#: A.18-additive-synthesis.md:117
+msgid ""
+"Let's combine all these techniques to see if we can use additive synthesis to "
+"re-create a basic bell sound. I've broken this example into four sections. Fir"
+"stly we have the 'hit' section which is the initial onset part of the bell sou"
+"nd - so uses a short envelope (e.g. a `release:` of around `0.1`). Next we hav"
+"e the long ringing section in which I'm using the pure sound of the sine wave."
+" Notice that I'm often increasing the note by roughly `12` and `24` which are "
+"the number of notes in one and two octaves. I have also thrown in a couple of "
+"low sine waves to give the sound some bass and depth. Finally, I used `define`"
+" to wrap my code in a function which I can then use to play a melody. Try play"
+"ing your own melody and also messing around with the contents of the `:bell` f"
+"unction until you create your own crazy sound to play with!"
+msgstr ""
+
+#: A.18-additive-synthesis.md:130
+msgid ""
+"define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - 12,"
+" release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
+"1, release: 0.1 synth :tri, note: n, release: 0.2"
+msgstr ""
+
+#: A.18-additive-synthesis.md:137
+msgid ""
+"\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth :s"
+"ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
+"h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
+msgstr ""
+
+#: A.18-additive-synthesis.md:144
+msgid ""
+"\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
+"sine, note: n - 12, release: 2 end"
+msgstr ""
+
+#: A.18-additive-synthesis.md:149
+msgid "Play a melody with our new bell!"
+msgstr ""
+
+#: A.18-additive-synthesis.md:150
+msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:1
+msgid "A.19 Sound Design - Subtractive Synthesis"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:3
+msgid "Subtractive Synthesis"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:5
+msgid ""
+"This is the second in a series of articles on how to use Sonic Pi for sound de"
+"sign. Last month we looked at additive synthesis which we discovered was the s"
+"imple act of playing multiple sounds at the same time to make a new combined s"
+"ound. For example we could combine different sounding synths or even the same "
+"synth at different pitches to build a new complex sound from simple ingredient"
+"s. This month we'll look at a new technique commonly called *subtractive synth"
+"esis* which is simply the act of taking an existing complex sound and removing"
+" parts of it to create something new. This is a technique which is commonly as"
+"sociated with the sound of analog synthesisers of the 1960s and 1970s but also"
+" with the recent renaissance of modular analog synths through popular standard"
+"s such as Eurorack."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:18
+msgid ""
+"Despite this sounding like a particularly complicated and advanced technique, "
+"Sonic Pi makes it surprisingly simple and easy - so let's dive right in."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:22
+msgid "Complex Source Signal"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:24
+msgid ""
+"For a sound to work well with subtractive synthesis, it typically needs to be "
+"fairly rich and interesting. This doesn't mean we need something hugely comple"
+"x - in fact, just a standard `:square` or `:saw` wave will do:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:29
+#, no-wrap
+msgid "synth :saw, note: :e2, release: 4"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:33
+msgid ""
+"Notice that this sound is already pretty interesting and contains many differe"
+"nt frequencies above `:e2` (the second E on a piano) which add to create the t"
+"imbre. If that didn't make much sense to you, try comparing it with the `:beep"
+"`:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:38
+#, no-wrap
+msgid "synth :beep, note: :e2, release: 4"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:42
+msgid ""
+"As the `:beep` synth is just a sine wave, you'll hear a much purer tone and on"
+"ly at `:e2` and none of the high crispy/buzzy sounds which you heard in the `:"
+"saw`. It's this buzziness and variation from a pure sine wave that we can play"
+" with when we use subtractive synthesis."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:49
+msgid ""
+"Once we have our raw source signal, the next step is to pass it through a filt"
+"er of some kind which will modify the sound by removing or reducing parts of i"
+"t. One of the most common filters used for subtractive synthesis is something "
+"called a low pass filter. This will allow all the low parts of the sound throu"
+"gh but will reduce or remove the higher parts. Sonic Pi has a powerful yet sim"
+"ple to use FX system that includes a low pass filter, called `:lpf`. Let's pla"
+"y with it:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:57
+#, no-wrap
+msgid ""
+"with_fx :lpf, cutoff: 100 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:63
+msgid ""
+"If you listen carefully you'll hear how some of that buzziness and crispiness "
+"has been removed. In fact, all the frequencies in the sound above note `100` h"
+"ave been reduced or removed and only the ones below are still present in the s"
+"ound. Try changing that `cutoff:` point to lower notes, say `70` and then `50`"
+" and compare the sounds."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:69
+msgid ""
+"Of course, the `:lpf` isn't the only filter you can use to manipulate the sour"
+"ce signal. Another important FX is the high pass filter referred to as `:hpf` "
+"in Sonic Pi. This does the opposite to `:lpf` in that it lets the high parts o"
+"f the sound through and cuts off the low parts."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:74
+#, no-wrap
+msgid ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:80
+msgid ""
+"Notice how this sounds much more buzzy and raspy now that all the low frequenc"
+"y sounds have been removed. Play around with the cutoff value - notice how low"
+"er values let more of the original bass parts of the source signal through and"
+" higher values sound increasingly tinny and quiet."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:86
+msgid "[Low Pass Filter] - breakout box"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:88
+#, fuzzy
+msgid ""
+"The low pass filter is such an important part of every subtractive synthesis t"
+"oolkit that it's worth taking a deeper look at how it works. This diagram show"
+"s the same sound wave (the `:prophet` synth) with varying amounts of filtering"
+". At the top, section A shows the audio wave with no filtering. Notice how the"
+" wave form is very pointy and contains lots of sharp edges. It is these hard, "
+"sharp angles that produce the high crispy/buzzy parts of the sound. Section B "
+"shows the low pass filter in action - notice how it is less pointy and more ro"
+"unded than the wave form above. This means that the sound will have fewer high"
+" frequencies giving it a more mellow rounded feel. Section C shows the low pas"
+"s filter with a fairly low cutoff value - this means that even more of the hig"
+"h frequencies have been removed from the signal resulting in an even softer, r"
+"ounder wave form. Finally, notice how the size of the wave form, which represe"
+"nts the amplitude, decreases as we move from A to C. Subtractive synthesis wor"
+"ks by removing parts of the signal which means that the overall amplitude is r"
+"educed as the amount of filtering that is taking place increases."
+msgstr "`:prophet`"
+
+#: A.19-subtractive-synthesis.md:107
+msgid "Filter Modulation"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:109
+msgid ""
+"So far we've just produced fairly static sounds. In other words, the sound doe"
+"sn't change in any way for the entirety of its duration. Often you might want "
+"some movement in the sound to give the timbre some life. One way to achieve th"
+"is is via filter modulation - changing the filter's options through time. Luck"
+"ily Sonic Pi gives you powerful tools to manipulate an FX's opts through time."
+" For example, you can set a slide time to each modulatable opt to specify how "
+"long it should take for the current value to linearly slide to the target valu"
+"e:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:118
+#, no-wrap
+msgid ""
+"with_fx :lpf, cutoff: 50 do |fx|\n"
+"  control fx, cutoff_slide: 3, cutoff: 130\n"
+"  synth :prophet, note: :e2, sustain: 3.5\n"
+"end"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:125
+msgid ""
+"Let's take a quick look at what's going on here. Firstly we start an `:lpf` FX"
+" block as normal with an initial `cutoff:` of a very low `20`. However, the fi"
+"rst line also finishes with the strange `|fx|` at the end. This is an optional"
+" part of the `with_fx` syntax which allows you to directly name and control th"
+"e running FX synth. Line 2 does exactly this and controls the FX to set the `c"
+"utoff_slide:` opt to 4 and the new target `cutoff:` to be `130`. The FX will n"
+"ow start sliding the `cutoff:` opt's value from `50` to `130` over a period of"
+" 3 beats. Finally we also trigger a source signal synth so we can hear the eff"
+"ect of the modulated low pass filter."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:139
+msgid ""
+"This is just a very basic taster of what's possible when you use filters to mo"
+"dify and change a source sound. Try playing with Sonic Pi's many built-in FX t"
+"o see what crazy sounds you can design. If your sound feels too static, rememb"
+"er you can start modulating the options to create some movement."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:145
+msgid ""
+"Let's finish by designing a function which will play a new sound created with "
+"subtractive synthesis. See if you can figure out what's going on here - and fo"
+"r the advanced Sonic Pi readers out there - see if you can work out why I wrap"
+"ped everything inside a call to `at` (please send answers to @samaaron on Twit"
+"ter)."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:151
+#, no-wrap
+#, fuzzy
+msgid ""
+"define :subt_synth do |note, sus|\n"
+"  at do\n"
+"    with_fx :lpf, cutoff: 40, amp: 2 do |fx|\n"
+"      control fx, cutoff_slide: 6, cutoff: 100\n"
+"      synth :prophet, note: note, sustain: sus\n"
+"    end\n"
+"    with_fx :hpf, cutoff_slide: 0.01 do |fx|\n"
+"      synth :dsaw, note: note + 12, sustain: sus\n"
+"      (sus * 8).times do\n"
+"        control fx, cutoff: rrand(70, 110)\n"
+"        sleep 0.125\n"
+"      end\n"
+"    end\n"
+"  end\n"
+"end\n"
+"subt_synth :e1, 8\n"
+"sleep 8\n"
+"subt_synth :e1 - 4, 8"
+msgstr "rrand (Funzione random)"

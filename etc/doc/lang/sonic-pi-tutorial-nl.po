@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2017-06-18 22:22+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/nl/>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/nl"
+"/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,22 +69,23 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
-"Deze handleiding is verdeeld in secties en gegroepeerd per categorie. Hoewel "
-"ik deze in een volgorde geschreven heb met een eenvoudige leercurve voor "
-"ogen, wees vrij, om in afzonderlijke secties te duiken zoals jij dat wil. "
-"Als je het gevoel hebt dat er iets ontbreekt, laat dit gerust aan mij weten, "
-"ik zal jouw bedenking in overweging nemen voor een toekomstige versie."
+"Deze handleiding is verdeeld in secties en gegroepeerd per categorie. Hoewel i"
+"k deze in een volgorde geschreven heb met een eenvoudige leercurve voor ogen, "
+"wees vrij, om in afzonderlijke secties te duiken zoals jij dat wil. Als je het"
+" gevoel hebt dat er iets ontbreekt, laat dit gerust aan mij weten, ik zal jouw"
+" bedenking in overweging nemen voor een toekomstige versie."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
+#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
-" stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
-"e do drop by, say hi and ask me lots of questions :-)"
+" stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
+"please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Tenslotte, het bekijken van anderen die “live coden” is een fantastische "
-"manier van leren. Regelmatig stream ik live op  "
-"[livecoding.tv/samaaron](http://livecoding.tv/samaaron) dus kom daar eens "
-"langs, zeg gedag en stel me dan veel vragen :-)"
+"Tenslotte, het bekijken van anderen die “live coden” is een fantastische manie"
+"r van leren. Regelmatig stream ik live op  [livecoding.tv/samaaron](http://liv"
+"ecoding.tv/samaaron) dus kom daar eens langs, zeg gedag en stel me dan veel vr"
+"agen :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -219,14 +220,14 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Speel hiermee. Verander de `rate:` (snelheid) waardes - wat gebeurd er, als "
-"je hoge waarden gebruikt,of kleine waarden of negatieve waarden? Kijk wat er "
-"gebeurd wanneer je de `rate:` waarde van het `:ambi_choir` sample maar een "
-"tikkeltje veranderd (bv. 0.29). Wat gebeurd er als je een héél kleine `sleep`"
-" (rust) waarde kiest? Kijk nu of je het zo snel kan laten gaan dat je "
-"computer stopt en een foutmelding geeft omdat hij het niet meer kan "
-"verwerken (wanneer dit gebeurd, kun je gewoon een grotere `sleep` tijd "
-"instellen en op `afspelen` klikken)."
+"Speel hiermee. Verander de `rate:` (snelheid) waardes - wat gebeurd er, als je"
+" hoge waarden gebruikt,of kleine waarden of negatieve waarden? Kijk wat er geb"
+"eurd wanneer je de `rate:` waarde van het `:ambi_choir` sample maar een tikkel"
+"tje veranderd (bv. 0.29). Wat gebeurd er als je een héél kleine `sleep` (rust)"
+" waarde kiest? Kijk nu of je het zo snel kan laten gaan dat je computer stopt "
+"en een foutmelding geeft omdat hij het niet meer kan verwerken (wanneer dit ge"
+"beurd, kun je gewoon een grotere `sleep` tijd instellen en op `afspelen` klikk"
+"en)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -497,12 +498,12 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Pi ondersteunt een aantal instellingen die toegankelijk zijn door het "
-"in-/uitschakelen van de knop *Voorkeuren* in de Info en Hulp knoppen-set. "
-"Dit zal de zichtbaarheid van het Paneel Voorkeursinstellingen, met daarin "
-"een aantal regelbare opties, in- of uitschakelen. Voorbeelden zijn: het "
-"brengen van stereo naar mono, stereo omkeren, de detaillering van het log en "
-"ook een volumeregelaar en audio keuze voor de Raspberry Pi."
+"Sonic Pi ondersteunt een aantal instellingen die toegankelijk zijn door het in"
+"-/uitschakelen van de knop *Voorkeuren* in de Info en Hulp knoppen-set. Dit za"
+"l de zichtbaarheid van het Paneel Voorkeursinstellingen, met daarin een aantal"
+" regelbare opties, in- of uitschakelen. Voorbeelden zijn: het brengen van ster"
+"eo naar mono, stereo omkeren, de detaillering van het log en ook een volumereg"
+"elaar en audio keuze voor de Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -534,13 +535,13 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"Eén van de belangrijkste onderdelen van de Sonic Pi-interface is het hulp-"
-"systeem dat wordt weergegeven aan de onderkant van het venster. Dit kan "
-"worden in- en uitgeschakeld door op de blauwe knop *Hulp* te klikken. Het "
-"hulp-systeem bevat hulp en informatie over alle aspecten van Sonic Pi, "
-"inclusief deze handleiding, een lijst van beschikbare synths, samples, "
-"voorbeelden, effecten en een volledige lijst van alle functies die Sonic Pi "
-"biedt voor het coderen van muziek."
+"Eén van de belangrijkste onderdelen van de Sonic Pi-interface is het hulp-syst"
+"eem dat wordt weergegeven aan de onderkant van het venster. Dit kan worden in-"
+" en uitgeschakeld door op de blauwe knop *Hulp* te klikken. Het hulp-systeem b"
+"evat hulp en informatie over alle aspecten van Sonic Pi, inclusief deze handle"
+"iding, een lijst van beschikbare synths, samples, voorbeelden, effecten en een"
+" volledige lijst van alle functies die Sonic Pi biedt voor het coderen van muz"
+"iek."
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
@@ -558,15 +559,15 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
-"Met het scope venster zie je het geluid. Je ziet hier dat een zaagtand-golf "
-"er ook uitziet als een zaag en dat onze basis biep-toon een mooie golvende "
-"sinus-golf is. Je ziet ook duidelijk het verschil tussen luide en zachte "
-"klanken door hun grootte. Er zijn 3 verschillende scopes beschikbaar- de "
-"standaard (default) is een gecombineerde scope voor het linker en rechter "
-"kanaal, een stereo die voor elk kanaal een aparte scope laat zien. En "
-"tenslotte is er een Lissajousfiguur scope die de relatie in fase tussen het "
-"linker- en rechter-kanaal weergeven en die je in staat stelt, mooie figuren "
-"te tekenen  met geluid (https://nl.wikipedia.org/wiki/Lissajousfiguur)."
+"Met het scope venster zie je het geluid. Je ziet hier dat een zaagtand-golf er"
+" ook uitziet als een zaag en dat onze basis biep-toon een mooie golvende sinus"
+"-golf is. Je ziet ook duidelijk het verschil tussen luide en zachte klanken do"
+"or hun grootte. Er zijn 3 verschillende scopes beschikbaar- de standaard (defa"
+"ult) is een gecombineerde scope voor het linker en rechter kanaal, een stereo "
+"die voor elk kanaal een aparte scope laat zien. En tenslotte is er een Lissajo"
+"usfiguur scope die de relatie in fase tussen het linker- en rechter-kanaal wee"
+"rgeven en die je in staat stelt, mooie figuren te tekenen  met geluid (https:/"
+"/nl.wikipedia.org/wiki/Lissajousfiguur)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -664,12 +665,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"In deze sectie zullen we de basisprincipes van het triggeren en het "
-"manipuleren van synth's behandelen. Synth is kort voor synthesizer, wat een "
-"chique woord is voor een ding dat geluiden kan creëren. Synth's zijn "
-"doorgaans vrij ingewikkeld om te gebruiken - met name analoge synth's met "
-"vele patch kabels en modules. Sonic Pi biedt je  een zelfde kracht op een "
-"eenvoudige en toegankelijke wijze."
+"In deze sectie zullen we de basisprincipes van het triggeren en het manipulere"
+"n van synth's behandelen. Synth is kort voor synthesizer, wat een chique woord"
+" is voor een ding dat geluiden kan creëren. Synth's zijn doorgaans vrij ingewi"
+"kkeld om te gebruiken - met name analoge synth's met vele patch kabels en modu"
+"les. Sonic Pi biedt je  een zelfde kracht op een eenvoudige en toegankelijke w"
+"ijze."
 
 #: 02-Synths.md:14
 msgid ""
@@ -2258,7 +2259,7 @@ msgstr "sample :loop_amen, rate: 0.5"
 msgid "If we speed it up, we enter *jungle* territory:"
 msgstr "Als we het versnellen, komen we op het grondgebied van *jungle*:"
 
-#: 03.3-Stretching-Samples.md:61
+#: 03.3-Stretching-Samples.md:61 A.17-sample-stretching.md:46
 #, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
@@ -3345,7 +3346,7 @@ msgstr ""
 "gegeven, zal de set van ingebouwde samples geselecteerd worden als de standaar"
 "dlijst van kandidaten om mee te werken."
 
-#: 03.7-Sample-Packs.md:184
+#: 03.7-Sample-Packs.md:184 A.19-subtractive-synthesis.md:47
 msgid "Filters"
 msgstr "Filters"
 
@@ -7589,7 +7590,13 @@ msgstr ""
 "'.reflect' - hetzelfde als spiegel maar middelste waarde wordt niet geduplicee"
 "rd"
 
-#: 08.5-Ring-Chains.md:83
+#: 08.5-Ring-Chains.md:82
+msgid ""
+"`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
+"ng contains numbers only)"
+msgstr ""
+
+#: 08.5-Ring-Chains.md:84
 msgid ""
 "Of course, those chain methods that take numbers can take other numbers too! S"
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
@@ -9972,7 +9979,7 @@ msgstr ""
 "Ooh, een mooie gitaarklank! Nu gaan we hiermee spelen. Wat dacht je van zijn k"
 "oers te veranderen?"
 
-#: A.01-tips.md:92
+#: A.01-tips.md:92 A.17-sample-stretching.md:25
 #, no-wrap
 msgid "sample :guit_em9, rate: 0.5"
 msgstr "sample :guit_em9, rate: 0.5"
@@ -10448,7 +10455,8 @@ msgstr ""
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
-#: A.15-performance.md:152 A.16-practice.md:166
+#: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:147
+#: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:137
 msgid "Bringing it all together"
 msgstr "Waardoor het allemaal samen valt"
 
@@ -14269,33 +14277,33 @@ msgid ""
 "y for us to convert our `slice_idx` into a value between 0 and 1 so we can use"
 " it as our `start:` opt."
 msgstr ""
-"Definiëren we onze `slice_size` die 1/8 is of 0,125 is. De `slice_size` is "
-"noodzakelijk om  onze 'slice_idx' te converteren naar een waarde tussen 0 en "
-"1 zodat we deze kunnen gebruiken als onze `start:` opt."
+"Definiëren we onze `slice_size` die 1/8 is of 0,125 is. De `slice_size` is noo"
+"dzakelijk om  onze 'slice_idx' te converteren naar een waarde tussen 0 en 1 zo"
+"dat we deze kunnen gebruiken als onze `start:` opt."
 
 #: A.12-sample-slicing.md:117
 msgid ""
 "We calculate the start position `s` by multiplying the `slice_idx` by the `sli"
 "ce_size`."
 msgstr ""
-"We berekenen de beginpositie ' door de 'slice_idx' met 'slice_size' te "
-"vermenigvuldigen ."
+"We berekenen de beginpositie ' door de 'slice_idx' met 'slice_size' te vermeni"
+"gvuldigen ."
 
 #: A.12-sample-slicing.md:120
 msgid ""
 "We calculate the finish position `f` by adding the `slice_size` to the start p"
 "osition `s`."
 msgstr ""
-"We berekenen de eind-positie `f` door de ´slice_size` aan de startpositie `s`"
-" toe te voegen."
+"We berekenen de eind-positie `f` door de ´slice_size` aan de startpositie `s` "
+"toe te voegen."
 
 #: A.12-sample-slicing.md:123
 msgid ""
 "We can now play the sample slice by plugging in the `s` and `f` values into th"
 "e `start:` and `finish:` opts for `sample`."
 msgstr ""
-"We kunnen nu deze sample-slice afspelen door de waarden van `s`en `f`, in de "
-"`start:` en `finish:` opts voor `sample` te steken."
+"We kunnen nu deze sample-slice afspelen door de waarden van `s`en `f`, in de `"
+"start:` en `finish:` opts voor `sample` te steken."
 
 #: A.12-sample-slicing.md:126
 msgid ""
@@ -14305,19 +14313,19 @@ msgid ""
 " the duration. Therefore, by passing `sample_duration` our `start:` and `finis"
 "h:` opts, we can find out the duration of a single slice."
 msgstr ""
-"Voordat we het volgende segment spelen moeten we weten hoe lang de `sleep` "
-"is welke de duurtijd is van ons sample segment. Gelukkig heeft  Sonic Pi ons "
-"voorzien van `sample_duration` welke dezelfde opts heeft als `sample`en ons "
-"zijn duurtijd kan weergeven. Dus, door het passeren van `sample_duration` "
-"aan onze `start:` en  `finish:`  kennen we de duur van elke slice."
+"Voordat we het volgende segment spelen moeten we weten hoe lang de `sleep` is "
+"welke de duurtijd is van ons sample segment. Gelukkig heeft  Sonic Pi ons voor"
+"zien van `sample_duration` welke dezelfde opts heeft als `sample`en ons zijn d"
+"uurtijd kan weergeven. Dus, door het passeren van `sample_duration` aan onze `"
+"start:` en  `finish:`  kennen we de duur van elke slice."
 
 #: A.12-sample-slicing.md:133
 msgid ""
 "We wrap all of this code in a `live_loop` so that we continue to pick new rand"
 "om slices to play."
 msgstr ""
-"We steken deze code in een `live_loop` zodat we verder nieuwe random slices "
-"kunnen uitpikken."
+"We steken deze code in een `live_loop` zodat we verder nieuwe random slices ku"
+"nnen uitpikken."
 
 #: A.12-sample-slicing.md:139
 msgid ""
@@ -14327,12 +14335,11 @@ msgid ""
 "ke the code below as a starting point and see if you can take it in your own d"
 "irection and create something new..."
 msgstr ""
-"Laten we alles wat we tot nu toe hebben gezien, met de zelfde aanpak in een "
-"laatste voorbeeld combineren, dat demonstreert hoe opgeknipte beats met wat "
-"bass het begin van een interessante track kunnen maken . Nu is het jouw "
-"beurt - om de onderstaande code als uitgangspunt te nemen en te zien of je "
-"deze een eigen twist kan geven om er weer iets helemaal anders van te "
-"maken..."
+"Laten we alles wat we tot nu toe hebben gezien, met de zelfde aanpak in een la"
+"atste voorbeeld combineren, dat demonstreert hoe opgeknipte beats met wat bass"
+" het begin van een interessante track kunnen maken . Nu is het jouw beurt - om"
+" de onderstaande code als uitgangspunt te nemen en te zien of je deze een eige"
+"n twist kan geven om er weer iets helemaal anders van te maken..."
 
 #: A.12-sample-slicing.md:145
 #, no-wrap
@@ -14389,12 +14396,12 @@ msgid ""
 "ever-ending melodies. Today we're going to learn a new technique which uses ra"
 "ndomisation for rhythm - probabilistic beats!"
 msgstr ""
-"In een vorige aflevering van deze Sonic Pi serie, verkenden we de kracht van "
-"randomiseren om verscheidenheid,variatie en verassing te kunnen introduceren "
-"in onze live gecodeerde nummers en optredens. We plukten bijvoorbeeld "
-"willekeurig noten van een bepaalde toonladder, om nooit-eindigende melodieën "
-"te creëren. Vandaag gaan we een nieuwe techniek leren, die gebruik maakt van "
-"het randomiseren van ritme - probabilistische beats!"
+"In een vorige aflevering van deze Sonic Pi serie, verkenden we de kracht van r"
+"andomiseren om verscheidenheid,variatie en verassing te kunnen introduceren in"
+" onze live gecodeerde nummers en optredens. We plukten bijvoorbeeld willekeuri"
+"g noten van een bepaalde toonladder, om nooit-eindigende melodieën te creëren."
+" Vandaag gaan we een nieuwe techniek leren, die gebruik maakt van het randomis"
+"eren van ritme - probabilistische beats!"
 
 #: A.13-probabilistic-sequencer.md:12
 msgid "Probability"
@@ -14412,14 +14419,14 @@ msgid ""
 "s means you have a 1 in 6 chance of throwing a 1. We can emulate dice rolls in"
 " Sonic Pi with the fn `dice`. Let's roll one 8 times:"
 msgstr ""
-"Voor we nieuwe beats en synth ritmes beginnen maken, moeten we even kijken "
-"naar de basisprincipes van probabiliteit. Het lijkt misschien ingewikkeld, "
-"maar het is echt net zo eenvoudig als een dobbelstenen werpen - echt waar! "
-"Als je een 6 zijdige dobbelsteen gooit, wat gebeurt er dan? Wel misschien "
-"gooi je een 1, 2, 3, 4, 5 of 6 met precies dezelfde kansen.\n"
-"Hierdoor heb je een kans van 1 in 6 van het gooien van een 1. We kunnen ook "
-"het gooien van dobbelstenen in Sonic Pi emuleren met de fn 'dice' . Laten we "
-"eens 8 keer gooien:"
+"Voor we nieuwe beats en synth ritmes beginnen maken, moeten we even kijken naa"
+"r de basisprincipes van probabiliteit. Het lijkt misschien ingewikkeld, maar h"
+"et is echt net zo eenvoudig als een dobbelstenen werpen - echt waar! Als je ee"
+"n 6 zijdige dobbelsteen gooit, wat gebeurt er dan? Wel misschien gooi je een 1"
+", 2, 3, 4, 5 of 6 met precies dezelfde kansen.\n"
+"Hierdoor heb je een kans van 1 in 6 van het gooien van een 1. We kunnen ook he"
+"t gooien van dobbelstenen in Sonic Pi emuleren met de fn 'dice' . Laten we een"
+"s 8 keer gooien:"
 
 #: A.13-probabilistic-sequencer.md:25
 #, no-wrap
@@ -14453,10 +14460,10 @@ msgid ""
 " you didn't. You now have a probabilistic drum machine working with a probabil"
 "ity of 1/6! Let's hear what that sounds like:"
 msgstr ""
-"Beeld je even in dat je een trommel hebt en dat je elke keer je deze zou "
-"slaan, je een teerling zou werpen. Als je één gooit zou je hem slaan en elke "
-"worp met een ander getal niet. Je hebt nu een probalistische drummachine met "
-"een probabiliteit van 1/6! Laten we eens horen hoe dat klinkt:"
+"Beeld je even in dat je een trommel hebt en dat je elke keer je deze zou slaan"
+", je een teerling zou werpen. Als je één gooit zou je hem slaan en elke worp m"
+"et een ander getal niet. Je hebt nu een probalistische drummachine met een pro"
+"babiliteit van 1/6! Laten we eens horen hoe dat klinkt:"
 
 #: A.13-probabilistic-sequencer.md:42
 #, no-wrap
@@ -14487,15 +14494,15 @@ msgid ""
 ". The second line simply waits for `0.125` seconds before rolling the dice aga"
 "in."
 msgstr ""
-"Laat ons even snel elke regel overlopen om er zeker van te zijn dat alles "
-"duidelijk is. Eerst creëren we een nieuwe `live_loop` die `:random_beat`heet "
-", en de twee regels tussen `do` en `end`, herhaalt. De eerste regel roept "
-"een `sample` aan die een vooraf opgenomen geluidsbestand afspeelt ( "
-"`:drum_snare_hard` in dit geval ).Deze lijn heeft echter een special "
-"voorwaardelijk einde met de `if` functie. Deze betekent dat de regel enkel "
-"wordt uitgevoerd als de declaratie, rechts van de `if` (als), `true`(waar) "
-"is. Deze geeft in dit geval `dice == 1` aan. Die roept onze `dice`functie "
-"aan dewelke, zoals we reeds zagen, een waarde tussen 1 en 6 zal teruggeven."
+"Laat ons even snel elke regel overlopen om er zeker van te zijn dat alles duid"
+"elijk is. Eerst creëren we een nieuwe `live_loop` die `:random_beat`heet , en "
+"de twee regels tussen `do` en `end`, herhaalt. De eerste regel roept een `samp"
+"le` aan die een vooraf opgenomen geluidsbestand afspeelt ( `:drum_snare_hard` "
+"in dit geval ).Deze lijn heeft echter een special voorwaardelijk einde met de "
+"`if` functie. Deze betekent dat de regel enkel wordt uitgevoerd als de declara"
+"tie, rechts van de `if` (als), `true`(waar) is. Deze geeft in dit geval `dice "
+"== 1` aan. Die roept onze `dice`functie aan dewelke, zoals we reeds zagen, een"
+" waarde tussen 1 en 6 zal teruggeven."
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
@@ -15477,3 +15484,685 @@ msgid ""
 " all be worth it once you've created your first piece or given your first perf"
 "ormance. Remember, practice is the key to success!"
 msgstr ""
+
+#: A.17-sample-stretching.md:1
+#, fuzzy
+msgid "A.17 Sample Stretching"
+msgstr "A.12 Sample Snijden"
+
+#: A.17-sample-stretching.md:3
+#, fuzzy
+msgid "Sample Stretching"
+msgstr "Het snijden van een sample"
+
+#: A.17-sample-stretching.md:5
+msgid ""
+"When people discover Sonic Pi, one of the first things they learn is how simpl"
+"e it is to play pre-recorded sounds using the `sample` function. For example, "
+"you can play an industrial drum loop, hear the sound of a choir or even listen"
+" to a vinyl scratch all via a single line of code. However, many people don't "
+"realise that you can actually vary the speed that the sample is played back at"
+" for some powerful effects and a whole new level of control over your recorded"
+" sounds. So, fire up a copy of Sonic Pi and let's get started stretching some "
+"samples!"
+msgstr ""
+
+#: A.17-sample-stretching.md:14
+#, fuzzy
+msgid "Slowing Samples Down"
+msgstr "Samples"
+
+#: A.17-sample-stretching.md:16
+msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
+msgstr ""
+
+#: A.17-sample-stretching.md:18
+#, no-wrap
+#, fuzzy
+msgid "sample :guit_em9, rate: 1"
+msgstr "sample :guit_em9, rate: 0.5"
+
+#: A.17-sample-stretching.md:20
+msgid ""
+"If we specify a `rate:` of `1` then the sample is played back at the normal ra"
+"te. If we want to play it back at half speed we simply use a `rate:` of `0.5`:"
+msgstr ""
+
+#: A.17-sample-stretching.md:27
+#, fuzzy
+msgid ""
+"Notice that this has two effects on the audio. Firstly the sample sounds lower"
+" in pitch and secondly it takes twice as long to play back (see the sidebar fo"
+"r an explanation of why this is the case). We can even choose lower and lower "
+"rates moving towards `0`, so a `rate:` of `0.25` is a quarter speed, `0.1` is "
+"a tenth of the speed, etc. Try playing with some low rates and see if you can "
+"turn the sound into a low rumble."
+msgstr "choose"
+
+#: A.17-sample-stretching.md:34
+#, fuzzy
+msgid "Speeding Samples Up"
+msgstr "Samples"
+
+#: A.17-sample-stretching.md:36
+msgid ""
+"In addition to making the sound longer and lower using a small rate, we can us"
+"e higher rates to make the sound shorter and higher. Let's play with a drum lo"
+"op this time. First, take a listen to how it sounds at the default rate of `1`"
+":"
+msgstr ""
+
+#: A.17-sample-stretching.md:41
+#, no-wrap
+#, fuzzy
+msgid "sample :loop_amen, rate: 1"
+msgstr "sample :loop_amen, rate: -1"
+
+#: A.17-sample-stretching.md:44
+msgid "Now, let's speed it up a little:"
+msgstr ""
+
+#: A.17-sample-stretching.md:48
+msgid ""
+"Ha! We just moved musical genres from old-skool techno to jungle. Notice how t"
+"he pitch of each drum hit is higher as well as how the whole rhythm speeds up."
+" Now, try even higher rates and see how high and short you can make the drum l"
+"oop. For example, if you use a rate of `100`, the drum loop turns into a click"
+"!"
+msgstr ""
+
+#: A.17-sample-stretching.md:54
+msgid "Reverse Gear"
+msgstr ""
+
+#: A.17-sample-stretching.md:56
+msgid ""
+"Now, I'm sure many of you are thinking the same thing right now... \"what if yo"
+"u use a negative number for the rate?\". Great question! Let's think about this"
+" for a moment. If our `rate:` opt signifies the speed with which the sample is"
+" played back, `1` being normal speed, `2` being double speed, `0.5` being half"
+" speed, `-1` must mean backwards! Let's try it on a snare. First, play it back"
+" at the normal rate:"
+msgstr ""
+
+#: A.17-sample-stretching.md:63
+#, no-wrap
+msgid "sample :elec_filt_snare, rate: 1"
+msgstr ""
+
+#: A.17-sample-stretching.md:65
+#, fuzzy
+msgid "Now, play it backwards:"
+msgstr "Cool! Het speelt achterstevoren!"
+
+#: A.17-sample-stretching.md:67
+#, no-wrap
+msgid "sample :elec_filt_snare, rate: -1"
+msgstr ""
+
+#: A.17-sample-stretching.md:69
+msgid ""
+"Of course, you can play it backwards twice as fast with a rate of `-2` or back"
+"wards at half speed with a rate of `-0.5`. Now, play around with different neg"
+"ative rates and have fun. It's particularly amusing with the `:misc_burp` samp"
+"le!"
+msgstr ""
+
+#: A.17-sample-stretching.md:75
+msgid "Sample, Rate and Pitch [Sidebar]"
+msgstr ""
+
+#: A.17-sample-stretching.md:77
+msgid ""
+"One of the effects of rate modification on samples is that faster rates result"
+" in the sample sounding higher in pitch and slower rates result in the sample "
+"sounding lower in pitch. Another place you may have heard this effect in every"
+" day life is when you're cycling or driving past a beeping pedestrian crossing"
+" - as you're heading towards the sound source the pitch is higher than when yo"
+"u're moving away from the sound - the so-called Doppler effect. Why is this?"
+msgstr ""
+
+#: A.17-sample-stretching.md:85
+msgid ""
+"Let's consider a simple beep which is represented by a sine wave. If we use an"
+" oscilloscope to plot a beep, we'll see something like Figure A. If we plot a "
+"beep an octave higher, we'll see Figure B and an octave lower will look like F"
+"igure C. Notice that the waves of higher notes are more compact and the waves "
+"of lower notes are more spread out."
+msgstr ""
+
+#: A.17-sample-stretching.md:91
+msgid ""
+"A sample of a beep is nothing more than a lot of numbers (x, y, coordinates) w"
+"hich when plotted onto a graph will re-draw the original curves. See figure D "
+"where each circle represents a coordinate. To turn the coordinates back into a"
+"udio, the computer works through each x value and sends the corresponding y va"
+"lue to the speakers. The trick here is that the rate at which the computer wor"
+"ks through the x numbers does not have to be the same as the rate with which t"
+"hey were recorded. In other words, the space (representing an amount of time) "
+"between each circle can be stretched or compressed. So, if the computer walks "
+"through the x values faster than the original rate, it will have the effect of"
+" squashing the circles closer together which will result in a higher sounding "
+"beep. It will also make the beep shorter as we will work through all the circl"
+"es faster. This is shown in Figure E."
+msgstr ""
+
+#: A.17-sample-stretching.md:105
+msgid ""
+"Finally, one last thing to know is that a mathematician called Fourier proved "
+"that any sound is actually lots and lots of sine waves all combined together. "
+"Therefore, when we compress and stretch any recorded sound we're actually stre"
+"tching and compressing many sine waves all at the same time in exactly this ma"
+"nner."
+msgstr ""
+
+#: A.17-sample-stretching.md:111
+msgid "Pitch Bending"
+msgstr ""
+
+#: A.17-sample-stretching.md:113
+msgid ""
+"As we've seen, using a faster rate will make the sound higher in pitch and a s"
+"lower rate will make the sound lower in pitch. A very simple and useful trick "
+"is to know that doubling the rate actually results in the pitch being an octav"
+"e higher and inversely halving the rate results in the pitch being an octave l"
+"ower. This means that for melodic samples, playing it alongside itself at doub"
+"le/half rates actually sounds rather nice:"
+msgstr ""
+
+#: A.17-sample-stretching.md:121
+#, no-wrap
+msgid ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
+msgstr ""
+
+#: A.17-sample-stretching.md:125
+msgid ""
+"However, what if we just want to alter the rate such that the pitch goes up on"
+"e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
+"itch:` opt:"
+msgstr ""
+
+#: A.17-sample-stretching.md:129
+#, no-wrap
+msgid ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
+msgstr ""
+
+#: A.17-sample-stretching.md:133
+msgid ""
+"If you take a look at the log on the right, you'll notice that an `rpitch:` of"
+" `3` actually corresponds to a rate of `1.1892` and a `rpitch:` of `7` corresp"
+"onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
+" opts:"
+msgstr ""
+
+#: A.17-sample-stretching.md:138
+#, no-wrap
+msgid ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
+msgstr ""
+
+#: A.17-sample-stretching.md:149
+msgid ""
+"Let's take a look at a simple piece which combines these ideas. Copy it into a"
+"n empty Sonic Pi buffer, hit play, listen to it for a while and then use it as"
+" a starting point for your own piece. See how much fun it is to manipulate the"
+" playback rate of samples. As an added exercise try recording your own sounds "
+"and play around with the rate to see what crazy sounds you can make."
+msgstr ""
+
+#: A.17-sample-stretching.md:156
+#, no-wrap
+#, fuzzy
+msgid ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
+msgstr "sample :guit_em9"
+
+#: A.18-additive-synthesis.md:1
+msgid "A.18 Sound Design - Additive Synthesis"
+msgstr ""
+
+#: A.18-additive-synthesis.md:3
+msgid "Additive Synthesis"
+msgstr ""
+
+#: A.18-additive-synthesis.md:5
+msgid ""
+"This is the first of a short series of articles on how to use Sonic Pi for sou"
+"nd design. We'll be take a quick tour of a number of different techniques avai"
+"lable for you to craft your own unique sound. The first technique we'll look a"
+"t is called *additive synthesis*. This may sound complicated - but if we expan"
+"d each word slightly the meaning pops right out. Firstly, additive means a com"
+"bination of things and secondly synthesis means to create sound. Additive synt"
+"hesis therefore means nothing more complicated than *combining existing sounds"
+" to create new ones*. This synthesis technique dates back a very long time - f"
+"or example, pipe organs in the middle ages had lots of slightly different soun"
+"ding pipes which you could enable or disable with stops. Pulling out the stop "
+"for a given pipe 'added it to the mix' making the sound richer and more comple"
+"x. Now, let's see how we can pull out all the stops with Sonic Pi."
+msgstr ""
+
+#: A.18-additive-synthesis.md:21
+msgid "Simple Combinations"
+msgstr ""
+
+#: A.18-additive-synthesis.md:23
+msgid ""
+"Let's start with the most basic sound there is - the humble pure-toned sine wa"
+"ve:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:26
+#, no-wrap
+msgid "synth :sine, note: :d3"
+msgstr ""
+
+#: A.18-additive-synthesis.md:30
+msgid "Now, let's see how this sounds combined with a square wave:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:32
+#, no-wrap
+msgid ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
+msgstr ""
+
+#: A.18-additive-synthesis.md:37
+msgid ""
+"Notice how the two sounds combine to form a new, richer sound. Of course, we d"
+"on't have to stop there, we can add as many sounds as we need. However, we nee"
+"d to be careful with how many sounds we add together. Just like when we mix pa"
+"ints to create new colours, adding too many colours will result in a messy bro"
+"wn, similarly - adding too many sounds together will result in a muddy sound."
+msgstr ""
+
+#: A.18-additive-synthesis.md:45
+#, fuzzy
+msgid "Blending"
+msgstr "Sliden"
+
+#: A.18-additive-synthesis.md:47
+msgid ""
+"Let's add something to make it sound a little brighter. We could use a triangl"
+"e wave at an octave higher (for that high bright sound) yet only play it at am"
+"p `0.4` so it adds something extra to the sound rather than taking it over:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:52
+#, no-wrap
+msgid ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3\n"
+"synth :tri, note: :d4, amp: 0.4"
+msgstr ""
+
+#: A.18-additive-synthesis.md:58
+msgid ""
+"Now, try creating your own sounds by combining 2 or more synths at different o"
+"ctaves and amplitudes. Also, note that you can play around with each synth's o"
+"pts to modify each source sound before it is mixed in for even more combinatio"
+"ns of sounds."
+msgstr ""
+
+#: A.18-additive-synthesis.md:64
+msgid "Detuning"
+msgstr ""
+
+#: A.18-additive-synthesis.md:66
+msgid ""
+"So far, when combining our different synths we've used either the same pitch o"
+"r switched octave. How might it sound if we didn't stick to octaves but instea"
+"d chose a slightly higher or lower note? Let's try it:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:70
+#, no-wrap
+msgid ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
+msgstr ""
+
+#: A.18-additive-synthesis.md:76
+msgid ""
+"If we detune our square waves by 0.7 notes we hear something that perhaps does"
+"n't sound in tune or correct - a 'bad' note. However, as we move closer to 0 i"
+"t will sound less and less out of tune as the pitches of the two waves get clo"
+"ser and more similar. Try it for yourself! Change the `detune:` opt value from"
+" `0.7` to `0.5` and listen to the new sound. Try `0.2`, `0.1`, `0.05`, `0`. Ea"
+"ch time you change the value, take a listen and see if you can hear how the so"
+"und is changing. Notice that low detune values such as `0.1` produce a really "
+"nice 'thick' sound, with both slightly different pitches interacting with each"
+" other in interesting, often surprising, ways."
+msgstr ""
+
+#: A.18-additive-synthesis.md:87
+#, fuzzy
+msgid ""
+"Some of the built-in synths already include a detune option that do exactly th"
+"is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
+"`:dtri`."
+msgstr "`:dsaw`"
+
+#: A.18-additive-synthesis.md:92
+#, fuzzy
+msgid "Amplitude shaping"
+msgstr "Amplitude"
+
+#: A.18-additive-synthesis.md:94
+msgid ""
+"Another way we can finely craft our sound is to use a different envelope and o"
+"ptions for each synth trigger. For example this will allow you to make some as"
+"pects of the sound percussive and other aspects ring out for a period of time."
+msgstr ""
+
+#: A.18-additive-synthesis.md:99
+#, no-wrap
+msgid ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
+msgstr ""
+
+#: A.18-additive-synthesis.md:108
+msgid ""
+"In the example above I have mixed in a noisy percussive element to the sound a"
+"long with some more persistent background rumbling. This was achieved firstly "
+"by using two noise synths with middling cutoff values (`90` and `100`) using s"
+"hort release times along with a noise with a longer release time but with a lo"
+"w cutoff value (which makes the noise less crisp and more rumbly.)"
+msgstr ""
+
+#: A.18-additive-synthesis.md:117
+msgid ""
+"Let's combine all these techniques to see if we can use additive synthesis to "
+"re-create a basic bell sound. I've broken this example into four sections. Fir"
+"stly we have the 'hit' section which is the initial onset part of the bell sou"
+"nd - so uses a short envelope (e.g. a `release:` of around `0.1`). Next we hav"
+"e the long ringing section in which I'm using the pure sound of the sine wave."
+" Notice that I'm often increasing the note by roughly `12` and `24` which are "
+"the number of notes in one and two octaves. I have also thrown in a couple of "
+"low sine waves to give the sound some bass and depth. Finally, I used `define`"
+" to wrap my code in a function which I can then use to play a melody. Try play"
+"ing your own melody and also messing around with the contents of the `:bell` f"
+"unction until you create your own crazy sound to play with!"
+msgstr ""
+
+#: A.18-additive-synthesis.md:130
+msgid ""
+"define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - 12,"
+" release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
+"1, release: 0.1 synth :tri, note: n, release: 0.2"
+msgstr ""
+
+#: A.18-additive-synthesis.md:137
+msgid ""
+"\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth :s"
+"ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
+"h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
+msgstr ""
+
+#: A.18-additive-synthesis.md:144
+msgid ""
+"\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
+"sine, note: n - 12, release: 2 end"
+msgstr ""
+
+#: A.18-additive-synthesis.md:149
+msgid "Play a melody with our new bell!"
+msgstr ""
+
+#: A.18-additive-synthesis.md:150
+msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:1
+msgid "A.19 Sound Design - Subtractive Synthesis"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:3
+msgid "Subtractive Synthesis"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:5
+msgid ""
+"This is the second in a series of articles on how to use Sonic Pi for sound de"
+"sign. Last month we looked at additive synthesis which we discovered was the s"
+"imple act of playing multiple sounds at the same time to make a new combined s"
+"ound. For example we could combine different sounding synths or even the same "
+"synth at different pitches to build a new complex sound from simple ingredient"
+"s. This month we'll look at a new technique commonly called *subtractive synth"
+"esis* which is simply the act of taking an existing complex sound and removing"
+" parts of it to create something new. This is a technique which is commonly as"
+"sociated with the sound of analog synthesisers of the 1960s and 1970s but also"
+" with the recent renaissance of modular analog synths through popular standard"
+"s such as Eurorack."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:18
+msgid ""
+"Despite this sounding like a particularly complicated and advanced technique, "
+"Sonic Pi makes it surprisingly simple and easy - so let's dive right in."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:22
+msgid "Complex Source Signal"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:24
+msgid ""
+"For a sound to work well with subtractive synthesis, it typically needs to be "
+"fairly rich and interesting. This doesn't mean we need something hugely comple"
+"x - in fact, just a standard `:square` or `:saw` wave will do:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:29
+#, no-wrap
+msgid "synth :saw, note: :e2, release: 4"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:33
+msgid ""
+"Notice that this sound is already pretty interesting and contains many differe"
+"nt frequencies above `:e2` (the second E on a piano) which add to create the t"
+"imbre. If that didn't make much sense to you, try comparing it with the `:beep"
+"`:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:38
+#, no-wrap
+msgid "synth :beep, note: :e2, release: 4"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:42
+msgid ""
+"As the `:beep` synth is just a sine wave, you'll hear a much purer tone and on"
+"ly at `:e2` and none of the high crispy/buzzy sounds which you heard in the `:"
+"saw`. It's this buzziness and variation from a pure sine wave that we can play"
+" with when we use subtractive synthesis."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:49
+msgid ""
+"Once we have our raw source signal, the next step is to pass it through a filt"
+"er of some kind which will modify the sound by removing or reducing parts of i"
+"t. One of the most common filters used for subtractive synthesis is something "
+"called a low pass filter. This will allow all the low parts of the sound throu"
+"gh but will reduce or remove the higher parts. Sonic Pi has a powerful yet sim"
+"ple to use FX system that includes a low pass filter, called `:lpf`. Let's pla"
+"y with it:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:57
+#, no-wrap
+msgid ""
+"with_fx :lpf, cutoff: 100 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:63
+msgid ""
+"If you listen carefully you'll hear how some of that buzziness and crispiness "
+"has been removed. In fact, all the frequencies in the sound above note `100` h"
+"ave been reduced or removed and only the ones below are still present in the s"
+"ound. Try changing that `cutoff:` point to lower notes, say `70` and then `50`"
+" and compare the sounds."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:69
+msgid ""
+"Of course, the `:lpf` isn't the only filter you can use to manipulate the sour"
+"ce signal. Another important FX is the high pass filter referred to as `:hpf` "
+"in Sonic Pi. This does the opposite to `:lpf` in that it lets the high parts o"
+"f the sound through and cuts off the low parts."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:74
+#, no-wrap
+msgid ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:80
+msgid ""
+"Notice how this sounds much more buzzy and raspy now that all the low frequenc"
+"y sounds have been removed. Play around with the cutoff value - notice how low"
+"er values let more of the original bass parts of the source signal through and"
+" higher values sound increasingly tinny and quiet."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:86
+msgid "[Low Pass Filter] - breakout box"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:88
+#, fuzzy
+msgid ""
+"The low pass filter is such an important part of every subtractive synthesis t"
+"oolkit that it's worth taking a deeper look at how it works. This diagram show"
+"s the same sound wave (the `:prophet` synth) with varying amounts of filtering"
+". At the top, section A shows the audio wave with no filtering. Notice how the"
+" wave form is very pointy and contains lots of sharp edges. It is these hard, "
+"sharp angles that produce the high crispy/buzzy parts of the sound. Section B "
+"shows the low pass filter in action - notice how it is less pointy and more ro"
+"unded than the wave form above. This means that the sound will have fewer high"
+" frequencies giving it a more mellow rounded feel. Section C shows the low pas"
+"s filter with a fairly low cutoff value - this means that even more of the hig"
+"h frequencies have been removed from the signal resulting in an even softer, r"
+"ounder wave form. Finally, notice how the size of the wave form, which represe"
+"nts the amplitude, decreases as we move from A to C. Subtractive synthesis wor"
+"ks by removing parts of the signal which means that the overall amplitude is r"
+"educed as the amount of filtering that is taking place increases."
+msgstr "`:prophet`"
+
+#: A.19-subtractive-synthesis.md:107
+msgid "Filter Modulation"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:109
+msgid ""
+"So far we've just produced fairly static sounds. In other words, the sound doe"
+"sn't change in any way for the entirety of its duration. Often you might want "
+"some movement in the sound to give the timbre some life. One way to achieve th"
+"is is via filter modulation - changing the filter's options through time. Luck"
+"ily Sonic Pi gives you powerful tools to manipulate an FX's opts through time."
+" For example, you can set a slide time to each modulatable opt to specify how "
+"long it should take for the current value to linearly slide to the target valu"
+"e:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:118
+#, no-wrap
+msgid ""
+"with_fx :lpf, cutoff: 50 do |fx|\n"
+"  control fx, cutoff_slide: 3, cutoff: 130\n"
+"  synth :prophet, note: :e2, sustain: 3.5\n"
+"end"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:125
+msgid ""
+"Let's take a quick look at what's going on here. Firstly we start an `:lpf` FX"
+" block as normal with an initial `cutoff:` of a very low `20`. However, the fi"
+"rst line also finishes with the strange `|fx|` at the end. This is an optional"
+" part of the `with_fx` syntax which allows you to directly name and control th"
+"e running FX synth. Line 2 does exactly this and controls the FX to set the `c"
+"utoff_slide:` opt to 4 and the new target `cutoff:` to be `130`. The FX will n"
+"ow start sliding the `cutoff:` opt's value from `50` to `130` over a period of"
+" 3 beats. Finally we also trigger a source signal synth so we can hear the eff"
+"ect of the modulated low pass filter."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:139
+msgid ""
+"This is just a very basic taster of what's possible when you use filters to mo"
+"dify and change a source sound. Try playing with Sonic Pi's many built-in FX t"
+"o see what crazy sounds you can design. If your sound feels too static, rememb"
+"er you can start modulating the options to create some movement."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:145
+msgid ""
+"Let's finish by designing a function which will play a new sound created with "
+"subtractive synthesis. See if you can figure out what's going on here - and fo"
+"r the advanced Sonic Pi readers out there - see if you can work out why I wrap"
+"ped everything inside a call to `at` (please send answers to @samaaron on Twit"
+"ter)."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:151
+#, no-wrap
+#, fuzzy
+msgid ""
+"define :subt_synth do |note, sus|\n"
+"  at do\n"
+"    with_fx :lpf, cutoff: 40, amp: 2 do |fx|\n"
+"      control fx, cutoff_slide: 6, cutoff: 100\n"
+"      synth :prophet, note: note, sustain: sus\n"
+"    end\n"
+"    with_fx :hpf, cutoff_slide: 0.01 do |fx|\n"
+"      synth :dsaw, note: note + 12, sustain: sus\n"
+"      (sus * 8).times do\n"
+"        control fx, cutoff: rrand(70, 110)\n"
+"        sleep 0.125\n"
+"      end\n"
+"    end\n"
+"  end\n"
+"end\n"
+"subt_synth :e1, 8\n"
+"sleep 8\n"
+"subt_synth :e1 - 4, 8"
+msgstr "rrand"
