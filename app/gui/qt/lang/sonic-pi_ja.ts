@@ -196,7 +196,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="683"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Cue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="779"/>
@@ -221,90 +221,93 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1178"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1182"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>ローカルIPアドレス</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>OSCメッセージ受信ポート</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>利用不可</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1209"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>OSCメッセージをリモートから受信する</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>有効にすると、Sonic PiはリモートマシーンからOSCメッセージを受信します。
+無効にすると、ローカルマシーンからのみOSCメッセージを受信します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>OSCサーバーを有効にする</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>有効にすると、Sonic PiはOSCメッセージを受信します。
+無効にすると、OSCメッセージを受信しません。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIの動作を設定する</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIサブシステムを有効にする</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIの入出力を有効にしたり無効にしたりします</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1231"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIをリセットする</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIサブシステムをリセットします
+（Mac OSでデバイスの変更を検出するのに必要です）</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>デフォルトMIDIチャネル (*は全てを意味します)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1263"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージを送信するデフォルトMIDIチャネル</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1286"/>
@@ -411,7 +414,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>有効にすると、Sonic Piはload_synthdefs
 の呼び出しによるシンセ・エフェクトのロードを
 許可します。
@@ -671,32 +674,32 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3187"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIを有効にしています…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIを無効にしています…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3203"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSCポートをオープンしています…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3212"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSCサーバーを停止しています…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIをリセットしています…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIが無効です…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
@@ -716,17 +719,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1424"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>cueのログを表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1426"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>cueのログを表示を切り替えます。cueとOSC/MIDIメッセージのログです。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1491"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>入出力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1501"/>
@@ -1126,7 +1129,7 @@ Sonic Pi %1 を入手</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Sonic Piが既に実行されていませんか？ UDPポートを開くことができませんでした。</translation>
     </message>
 </context>
