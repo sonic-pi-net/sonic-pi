@@ -482,7 +482,7 @@ You may also optionally pass the release velocity value as a floating point valu
                            channel: "Channel(s) to send to",
                            port: "MIDI port(s) to send to",
                            value: "Pressure value as a MIDI number.",
-                           val_f: "Pressure value as a value between 0 and 1 (will be converted to a MIDI value",
+                           val_f: "Pressure value as a value between 0 and 1 (will be converted to a MIDI value)",
                            on: "If specified and false/nil/0 will stop the midi poly pressure message from being sent out. (Ensures all opts are evaluated in this call to `midi_poly_pressure` regardless of value)."},
           accepts_block:  false,
           doc:            "Sends a MIDI polyphonic key pressure message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
@@ -545,7 +545,7 @@ You may also optionally pass the pressure value as a floating point value betwee
                            channel: "Channel(s) to send to",
                            port: "MIDI port(s) to send to",
                            value: "Control value as a MIDI number.",
-                           val_f: "Control value as a value between 0 and 1 (will be converted to a MIDI value",
+                           val_f: "Control value as a value between 0 and 1 (will be converted to a MIDI value)",
                            on: "If specified and false/nil/0 will stop the midi cc message from being sent out. (Ensures all opts are evaluated in this call to `midi_cc` regardless of value)."},
           accepts_block:  false,
           doc:            "Sends a MIDI control change message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
@@ -605,7 +605,7 @@ You may also optionally pass the control value as a floating point value between
                            channel: "Channel(s) to send to",
                            port: "MIDI port(s) to send to",
                            value: "Pressure value as a MIDI number.",
-                           val_f: "Pressure value as a value between 0 and 1 (will be converted to a MIDI value",
+                           val_f: "Pressure value as a value between 0 and 1 (will be converted to a MIDI value)",
                            on: "If specified and false/nil/0 will stop the midi channel pressure message from being sent out. (Ensures all opts are evaluated in this call to `midi_channel_pressure` regardless of value)."},
           accepts_block:  false,
           doc:            "Sends a MIDI channel pressure (aftertouch) message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
