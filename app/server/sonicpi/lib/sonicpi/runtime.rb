@@ -1060,7 +1060,8 @@ module SonicPi
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
-      @version = Version.new(3, 0, 0, "beta-{gh_short}")
+
+      @version = Version.new(3, 0, 0, "beta")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -1201,6 +1202,7 @@ module SonicPi
    the whole world benefits." ].sample, 1
 
       __info "Let the Live Coding begin..."
+
 
       __print_version_outdated_info if @version < @server_version
       msg = @settings.get(:message) || ""
