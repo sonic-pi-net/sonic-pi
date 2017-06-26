@@ -406,6 +406,35 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
           @buffer_lookup_w_hash_syntax[*args]
         end
       end
+      doc name:           :buffer,
+          introduced:     Version.new(3,0,0),
+          summary:        "Intialise or return named buffer",
+          args:           [[]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Initialise or return a named buffer with a specific duration (defaults to 8 beats). Useful for working with the `:record` FX. If the buffer is requested with a different duration, then a new buffer will be initialised and the old one recycled.",
+          examples:       ["
+buffer(:foo) # load a 8s buffer and name it :foo
+b = buffer(:foo) # return cached buffer and bind it to b
+puts b.duration  #=> 8.0",
+        "
+buffer(:foo, 16) # load a 16s buffer and name it :foo
+",
+        "
+use_bpm 120
+buffer(:foo, 16) # load a 8s buffer and name it :foo
+                 # (this isn't 16s as the BPM has been
+                 # doubled from the default of 60)
+",
+        "
+buffer(:foo)     # init a 8s buffer and name it :foo
+buffer(:foo, 8)  # return cached 8s buffer (has the same duration)
+buffer(:foo, 10) # init a new 10s buffer and name it :foo
+buffer(:foo, 10) # return cached 10s buffer
+buffer(:foo)     # init a 8s buffer and name it :foo
+buffer(:foo)     # return cached 8s buffer (has the same duration)"]
+
 
       def sample_free_all
         @mod_sound_studio.free_all_samples
