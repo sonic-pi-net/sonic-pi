@@ -353,8 +353,7 @@ The `velocity` param may be omitted - in which case it will default to 127 unles
 You may also optionally pass the velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be linearly mapped to MIDI values between 0 and 127) using the vel_f: opt.
 
 [MIDI 1.0 Specification - Channel Voice Messages - Note on event](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
       examples:       [
         "midi_note_on :e3  #=> Sends MIDI note on :e3 with the default velocity of 12 to all ports and channels",
         "midi_note_on :e3, 12  #=> Sends MIDI note on :e3 with velocity 12 to all channels",
@@ -425,8 +424,7 @@ The `release_velocity` param may be omitted - in which case it will default to 1
 You may also optionally pass the release velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `vel_f:` opt.
 
 [MIDI 1.0 Specification - Channel Voice Messages - Note off event](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
       examples:       [
         "midi_note_off :e3 #=> Sends MIDI note off for :e3 with the default release velocity of 127 to all ports and channels",
         "midi_note_off :e3, 12  #=> Sends MIDI note off on :e3 with velocity 12 on all channels",
@@ -492,8 +490,7 @@ Note number and pressure value can be passed as a note such as `:e3` and decimal
 You may also optionally pass the control value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
 
 [MIDI 1.0 Specification - Channel Voice Messages - Polyphonic Key Pressure (Aftertouch)](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_poly_pressure 100, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
         "midi_poly_pressure :e7, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
@@ -553,8 +550,7 @@ Note number and pressure value can be passed as a note such as `:e3` and decimal
 You may also optionally pass the pressure value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
 
 [MIDI 1.0 Specification - Channel Voice Messages - Polyphonic Key Pressure (Aftertouch)](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_poly_pressure 100, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
         "midi_poly_pressure :e7, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
@@ -616,8 +612,7 @@ Control number and control value can be passed as a note such as `:e3` and decim
 You may also optionally pass the control value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
 
 [MIDI 1.0 Specification - Channel Voice Messages - Control change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_cc 100, 32  #=> Sends MIDI cc message to control 100 with value 32 to all ports and channels",
         "midi_cc :e7, 32  #=> Sends MIDI cc message to control 100 with value 32 to all ports and channels",
@@ -676,8 +671,7 @@ The pressure value can be passed as a note such as `:e3` and decimal values will
 You may also optionally pass the pressure value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
 
 [MIDI 1.0 Specification - Channel Voice Messages - Channel Pressure (Aftertouch)](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_channel_pressure 50  #=> Sends MIDI channel pressure message with value 50 to all ports and channels",
         "midi_channel_pressure :C4  #=> Sends MIDI channel pressure message with value 60 to all ports and channels",
@@ -741,8 +735,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
 * When using the `delta_midi:` opt no pitch bend is the value 8192
 
 [MIDI 1.0 Specification - Channel Voice Messages - Pitch Bend Change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_pitch_bend 0  #=> Sends MIDI pitch bend message with value 0 to all ports and channels",
         "midi_pitch_bend 1  #=> Sends MIDI pitch bend message with value 16383 to all ports and channels",
@@ -792,8 +785,7 @@ Floats will be rounded up or down to the nearest whole number e.g. 176.1 -> 176,
 Non-number values will be automatically turned into numbers prior to sending the event if possible (if this conversion does not work an Error will be thrown).
 
 See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for a summary of MIDI messages and their corresponding byte structures.
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples: [
         "midi_raw 176, 121, 0  #=> Sends the MIDI reset command",
         "midi_raw 176.1, 120.5, 0.49  #=> Sends the MIDI reset command (values are rounded down, up and down respectively)",
@@ -840,8 +832,7 @@ See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for
 All oscillators will turn off, and their volume envelopes are set to zero as soon as possible.
 
 [MIDI 1.0 Specification - Channel Mode Messages - All Sound Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_sound_off #=> Silence MIDI devices on all ports and channels",
         "midi_sound_off channel: 2 #=> Silence MIDI devices on channel 2"
@@ -851,6 +842,7 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
 
 
       def midi_reset(*args)
+        __info "Resetting MIDI Subsystems"
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         reset_val    = opts[:value] || opts[:val] || params[0] || 0
@@ -890,8 +882,7 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
 All controller values are reset to their defaults.
 
 [MIDI 1.0 Specification - Channel Mode Messages - Reset All Controllers](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
       examples:       [
         "midi_reset #=> Reset MIDI devices on all channels (and ports)",
         "midi_reset channel: 2 #=> Reset MIDI devices on channel 2"
@@ -938,8 +929,7 @@ All controller values are reset to their defaults.
 All devices on a given channel will respond only to data received over MIDI. Played data, etc. will be ignored. See `midi_local_control_on` to enable local control.
 
 [MIDI 1.0 Specification - Channel Mode Messages - Local Control Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_local_control_off #=> Disable local control on MIDI devices on all channels (and ports)",
         "midi_local_control_off channel: 2 #=> Disable local control on MIDI devices on channel 2"
@@ -986,8 +976,7 @@ All devices on a given channel will respond only to data received over MIDI. Pla
 All devices on a given channel will respond both to data received over MIDI and played data, etc. See `midi_local_control_off` to disable local control.
 
 [MIDI 1.0 Specification - Channel Mode Messages - Local Control On](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_local_control_on #=> Enable local control on MIDI devices on all channels (and ports)",
         "midi_local_control_on channel: 2 #=> Enable local control on MIDI devices on channel 2"
@@ -1082,8 +1071,7 @@ Valid modes are:
 Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
 [MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off | Omni Mode On | Mono Mode On (Poly Off) | Poly Mode On](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_mode :omni_on #=> Turn Omni Mode On on all ports and channels",
         "midi_mode :mono, num_chans: 5 #=> Mono Mode On, Omni off using 5 channels.",
@@ -1131,8 +1119,7 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
 When an All Notes Off event is received, all oscillators will turn off.
 
 [MIDI 1.0 Specification - Channel Mode Messages - All Notes Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_all_notes_off #=> Turn off all notes on MIDI devices on all channels (and ports)",
         "midi_all_notes_off channel: 2 #=> Turn off all notes on MIDI devices on channel 2"
@@ -1173,8 +1160,7 @@ When an All Notes Off event is received, all oscillators will turn off.
 Typical MIDI devices expect the clock to send 24 ticks per quarter note (typically a beat). See `midi_clock_beat` for a simple way of sending all the ticks for a given beat.
 
 [MIDI 1.0 Specification - System Real-Time Messages - Timing Clock](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_clock_tick #=> Send an individual clock tick to all connected MIDI devices on all ports."
       ]
@@ -1212,8 +1198,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
 Start the current sequence playing. (This message should be followed with calls to `midi_clock_tick` or `midi_clock_beat`).
 
 [MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_start #=> Send start message to all connected MIDI devices"
       ]
@@ -1251,8 +1236,7 @@ Start the current sequence playing. (This message should be followed with calls 
 Stops the current sequence.
 
 [MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_stop #=> Send stop message to all connected MIDI devices"
       ]
@@ -1290,8 +1274,7 @@ Stops the current sequence.
 Upon receiving the MIDI continue event, the MIDI device(s) will continue at the point the sequence was stopped.
 
 [MIDI 1.0 Specification - System Real-Time Messages - Continue](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_continue #=> Send continue message to all connected MIDI devices"
       ]
@@ -1385,8 +1368,7 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
           doc:            "Sends enough MIDI clock ticks for one beat to *all* connected MIDI devices. Use the `port:` opt to restrict which MIDI ports are used.
 
 The MIDI specification requires 24 clock tick events to be sent per beat. These can either be sent manually using `midi_clock_tick` or all 24 can be scheduled in one go using this fn. `midi_clock_beat` will therefore schedule for 24 clock ticks to be sent linearly spread over duration beats. This fn will automatically take into account the current BPM and any `time_warp`s.
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi_clock_beat #=> Send 24 clock ticks over a period of 1 beat",
         "midi_clock_beat 0.5 #=> Send 24 clock ticks over a period of 0.5 beats",
@@ -1459,8 +1441,7 @@ end"
           doc:            "Sends a MIDI note on event to *all* connected MIDI devices and *all* channels and then after sustain beats sends a MIDI note off event. Ensures MIDI trigger is synchronised with standard calls to play and sample. Co-operates completely with Sonic Pi's timing system including `time_warp`.
 
 If `note` is specified as `:off` then all notes will be turned off (same as `midi_all_notes_off`).
-
-*THIS IS ALPHA!* Expect this fn to completely change before final release",
+",
           examples:       [
         "midi :e1, sustain: 0.3, vel_f: 0.5, channel: 3 # Play E, octave 1 for 0.3 beats at half velocity on channel 3 on all connected MIDI ports.",
         "midi :off, channel: 3 #=> Turn off all notes on channel 3 on all connected MIDI ports",
