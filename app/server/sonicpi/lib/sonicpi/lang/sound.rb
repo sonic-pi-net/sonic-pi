@@ -216,7 +216,7 @@ module SonicPi
         trigger_live_synth(synth_name, opts, current_group, info, false, current_out_bus, false, :tail, id)
       end
       doc name:           :live_audio,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "A named audio stream live from your soundcard",
           args:           [[]],
           returns:        :SynthNode,

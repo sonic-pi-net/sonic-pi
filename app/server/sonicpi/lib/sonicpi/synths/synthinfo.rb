@@ -3954,7 +3954,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def introduced
-        Version.new(2,12,0)
+        Version.new(3,0,0)
       end
 
       def synth_name
@@ -4034,7 +4034,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def introduced
-        Version.new(2,12,0)
+        Version.new(3,0,0)
       end
 
       def synth_name
@@ -4083,7 +4083,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def introduced
-        Version.new(2,12,0)
+        Version.new(3,0,0)
       end
 
       def synth_name
@@ -4133,7 +4133,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def introduced
-        Version.new(2,12,0)
+        Version.new(3,0,0)
       end
 
       def synth_name
@@ -7120,7 +7120,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def introduced
-        Version.new(2,12,0)
+        Version.new(3,0,0)
       end
 
       def synth_name

@@ -27,7 +27,7 @@ module SonicPi
         __thread_locals.set(:sonic_pi_suppress_midi_logging, !v)
       end
       doc name:          :use_midi_logging,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Enable and disable MIDI logging",
           doc:           "Enable or disable log messages created on MIDI functions. This does not disable the MIDI functions themselves, it just stops them from being printed to the log",
           args:          [[:true_or_false, :boolean]],
@@ -46,7 +46,7 @@ module SonicPi
         __thread_locals.set(:sonic_pi_suppress_midi_logging, current)
       end
       doc name:          :with_midi_logging,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Block-level enable and disable MIDI logging",
           doc:           "Similar to use_midi_logging except only applies to code within supplied `do`/`end` block. Previous MIDI log value is restored after block.",
           args:          [[:true_or_false, :boolean]],
@@ -76,7 +76,7 @@ module SonicPi
         __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(args_h)
       end
       doc name:          :use_midi_defaults,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Use new MIDI defaults",
           doc:           "Specify new default values to be used by all subsequent calls to `midi_*` fns. Will remove and override any previous defaults.",
           args:          [],
@@ -108,7 +108,7 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1. Note that the port is ba
         res
       end
       doc name:           :with_midi_defaults,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Block-level use new MIDI defaults",
           doc:            "Specify new default values to be used by all calls to `midi_*` fns within the `do`/`end` block. After the `do`/`end` block has completed the previous MIDI defaults (if any) are restored.",
           args:           [],
@@ -144,7 +144,7 @@ end
         __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(merged_defs)
       end
       doc name:          :use_merged_midi_defaults,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Merge MIDI defaults",
           doc:           "Specify new default values to be used by all subsequent calls to `midi_*` fns. Merges the specified values with any previous defaults, rather than replacing them",
           args:          [],
@@ -179,7 +179,7 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1 on port \"foo\".
         res
       end
       doc name:           :with_merged_midi_defaults,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Block-level merge midi defaults",
           doc:            "Specify opt values to be used by any following call to the `midi_*` fns within the specified `do`/`end` block. Merges the specified values with any previous midi defaults, rather than replacing them. After the `do`/`end` block has completed, previous defaults (if any) are restored.",
           args:           [],
@@ -213,7 +213,7 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 3 on port \"foo\".
         __thread_locals.get(:sonic_pi_mod_midi_defaults) || {}
       end
       doc name:          :current_midi_defaults,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Get current MIDI defaults",
           doc:           "Returns the current MIDI defaults. This is a map of opt names to values
 
@@ -332,7 +332,7 @@ current_midi_defaults #=> Prints {channel: 1, port: \"foo\"}"]
         nil
       end
       doc name:           :midi_note_on,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send MIDI note on message",
           args:           [[:note, :midi], [:velocity, :midi]],
           alt_args:       [[[:note, :midi]]],
@@ -404,7 +404,7 @@ You may also optionally pass the velocity value as a floating point value betwee
         nil
       end
       doc name:           :midi_note_off,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send MIDI note off message",
           args:           [[:note, :midi], [:release_velocity, :midi]],
           alt_args:       [[[:note, :midi]]],
@@ -474,7 +474,7 @@ You may also optionally pass the release velocity value as a floating point valu
         nil
       end
       doc name:           :midi_poly_pressure,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send a MIDI polyphonic key pressure message",
           args:           [[:note, :midi], [:value, :midi]],
           returns:        :nil,
@@ -535,7 +535,7 @@ You may also optionally pass the control value as a floating point value between
         nil
       end
       doc name:           :midi_poly_pressure,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send a MIDI polyphonic key pressure message",
           args:           [[:note, :midi], [:value, :midi]],
           returns:        :nil,
@@ -598,7 +598,7 @@ You may also optionally pass the pressure value as a floating point value betwee
         nil
       end
       doc name:           :midi_cc,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send MIDI control change message",
           args:           [[:control_num, :midi], [:value, :midi]],
           returns:        :nil,
@@ -658,7 +658,7 @@ You may also optionally pass the control value as a floating point value between
         nil
       end
       doc name:           :midi_channel_pressure,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send MIDI channel pressure (aftertouch) message",
           args:           [[:val, :midi]],
           returns:        :nil,
@@ -719,7 +719,7 @@ You may also optionally pass the pressure value as a floating point value betwee
         nil
       end
       doc name:           :midi_pitch_bend,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send MIDI pitch bend message",
           args:           [[:delta, :float01]],
           returns:        :nil,
@@ -776,7 +776,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         nil
       end
       doc name:           :midi_raw,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send raw MIDI message",
           args:           [[:a, :byte], [:b, :byte], [:c, :byte]],
           returns:        :nil,
@@ -826,7 +826,7 @@ See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for
         nil
       end
       doc name:           :midi_sound_off,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Silence all MIDI devices",
           args:           [],
           returns:        :nil,
@@ -874,7 +874,7 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
         nil
       end
       doc name:           :midi_reset,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Reset MIDI devices",
           args:           [[:value, :number]],
           returns:        :nil,
@@ -924,7 +924,7 @@ All controller values are reset to their defaults.
         nil
       end
       doc name:           :midi_local_control_off,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Disable local control on MIDI devices",
           args:           [],
           returns:        :nil,
@@ -971,7 +971,7 @@ All devices on a given channel will respond only to data received over MIDI. Pla
         nil
       end
       doc name:           :midi_local_control_on,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Enable local control on MIDI devices",
           args:           [],
           returns:        :nil,
@@ -1058,7 +1058,7 @@ All devices on a given channel will respond both to data received over MIDI and 
         nil
       end
       doc name:           :midi_mode,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Set Omni/Mono/Poly mode",
           args:           [[:mode, :mode_keyword]],
           returns:        :nil,
@@ -1117,7 +1117,7 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
         nil
       end
       doc name:           :midi_all_notes_off,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Turn off all notes on MIDI devices",
           args:           [],
           returns:        :nil,
@@ -1160,7 +1160,7 @@ When an All Notes Off event is received, all oscillators will turn off.
         nil
       end
       doc name:           :midi_clock_tick,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send an individual MIDI clock tick",
           args:           [[]],
           returns:        :nil,
@@ -1201,7 +1201,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
         nil
       end
       doc name:           :midi_start,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send MIDI system message - start",
           args:           [[]],
           returns:        :nil,
@@ -1240,7 +1240,7 @@ Start the current sequence playing. (This message should be followed with calls 
         nil
       end
       doc name:           :midi_stop,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send MIDI system message - stop",
           args:           [[]],
           returns:        :nil,
@@ -1279,7 +1279,7 @@ Stops the current sequence.
         nil
       end
       doc name:           :midi_continue,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send MIDI system message - continue",
           args:           [[]],
           returns:        :nil,
@@ -1374,7 +1374,7 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
         end
       end
       doc name:           :midi_clock_beat,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send a quarter-note's worth of MIDI clock ticks",
           args:           [[:duration, :beats]],
           returns:        :nil,
@@ -1448,7 +1448,7 @@ end"
         nil
       end
       doc name:           :midi,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Trigger and release an external synth via MIDI",
           args:           [[:note, :number], ],
           returns:        :nil,
