@@ -82,20 +82,39 @@ HEADERS  += mainwindow.h \
             sonicpitheme.h \
             scope.h
 
-TRANSLATIONS = lang/sonic-pi_de.ts \
+TRANSLATIONS = lang/sonic-pi_bs.ts \
+               lang/sonic-pi_ca.ts \
+               lang/sonic-pi_cs.ts \
+               lang/sonic-pi_da.ts \
+               lang/sonic-pi_de.ts \
+               lang/sonic-pi_el.ts \
+               lang/sonic-pi_en_US.ts \
                lang/sonic-pi_es.ts \
+               lang/sonic-pi_et.ts \
                lang/sonic-pi_fi.ts \
                lang/sonic-pi_fr.ts \
+               lang/sonic-pi_hi.ts \
                lang/sonic-pi_hu.ts \
+               lang/sonic-pi_id.ts \
                lang/sonic-pi_is.ts \
                lang/sonic-pi_it.ts \
                lang/sonic-pi_ja.ts \
+               lang/sonic-pi_ko.ts \
                lang/sonic-pi_nb.ts \
                lang/sonic-pi_nl.ts \
                lang/sonic-pi_pl.ts \
+               lang/sonic-pi_pt.ts \
+               lang/sonic-pi_pt_BR.ts \
                lang/sonic-pi_ro.ts \
                lang/sonic-pi_ru.ts \
+               lang/sonic-pi_sv.ts \
+               lang/sonic-pi_tr.ts \
+               lang/sonic-pi_uk.ts \
                lang/sonic-pi_zh-Hans.ts \
+               lang/sonic-pi_zh.ts \
+               lang/sonic-pi_zh_HK.ts \
+               lang/sonic-pi_zh_TW.ts \
+
 
 OTHER_FILES += \
     images/copy.png \
