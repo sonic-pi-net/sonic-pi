@@ -251,11 +251,26 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         std::string id;
         if (msg->arg().popStr(id).isOkNoMoreArgs()) {
           server_started = true;
-
-        } else
+        } else {
           std::cout << "[GUI] - error: unhandled OSC msg /ack " << std::endl;
+        }
       }
-      else if (msg->match("/version")) {
+      else if (msg->match("/midi/out-ports")) {
+        std::string port_info;
+        if (msg->arg().popStr(port_info).isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( window, "updateMIDIOutPorts", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(port_info)));
+        } else {
+          std::cout << "[GUI] - error: unhandled OSC msg /midi/out-ports: "<< std::endl;
+        }
+      }
+      else if (msg->match("/midi/in-ports")) {
+        std::string port_info;
+        if (msg->arg().popStr(port_info).isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( window, "updateMIDIInPorts", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(port_info)));
+        } else {
+          std::cout << "[GUI] - error: unhandled OSC msg /midi/in-ports: "<< std::endl;
+        }
+      } else if (msg->match("/version")) {
         std::string version;
         int version_num;
         std::string latest_version;

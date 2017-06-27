@@ -1265,11 +1265,20 @@ void MainWindow::initPrefsWindow() {
   midi_default_channel_layout->addWidget(midi_default_channel_combo, 0, 0);
   midi_default_channel_layout->addWidget(midi_default_channel_label, 0, 1);
 
-
+  midi_in_ports_label = new QLabel;
+  midi_out_ports_label = new QLabel;
+  midi_in_ports_label->setFont(QFont("Hack"));
+  midi_out_ports_label->setFont(QFont("Hack"));
+  midi_in_ports_label->setAccessibleName("midi-in-ports-label");
+  midi_out_ports_label->setAccessibleName("midi-out-ports-label");
+  midi_in_ports_label->setText(tr("No connected input devices"));
+  midi_out_ports_label->setText(tr("No connected output devices"));
 
   QVBoxLayout *midi_box_layout = new QVBoxLayout;
   midi_box_layout->addWidget(midi_enable_check);
   midi_box_layout->addLayout(midi_default_channel_layout);
+  midi_box_layout->addWidget(midi_in_ports_label);
+  midi_box_layout->addWidget(midi_out_ports_label);
   midi_box_layout->addWidget(midi_reset_button);
 
   midi_box->setLayout(midi_box_layout);
@@ -3159,6 +3168,8 @@ void MainWindow::toggleMidi(int silent) {
     msg.pushInt32(silent);
     sendOSC(msg);
   } else {
+    midi_in_ports_label->setText(tr("No connected input devices"));
+    midi_out_ports_label->setText(tr("No connected output devices"));
     statusBar()->showMessage(tr("Disabling MIDI..."), 2000);
     Message msg("/midi-stop");
     msg.pushStr(guiID.toStdString());
@@ -3188,6 +3199,8 @@ void MainWindow::toggleOSCServer(int silent) {
 
 void MainWindow::resetMidi() {
   if (midi_enable_check->isChecked()) {
+    midi_in_ports_label->setText(tr("No connected input devices"));
+    midi_out_ports_label->setText(tr("No connected output devices"));
     statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
     Message msg("/midi-reset");
     msg.pushStr(guiID.toStdString());
@@ -3250,3 +3263,14 @@ void MainWindow::zoomOutLogs() {
   incomingPane->zoomOut();
 }
 #include "ruby_help.h"
+
+
+void MainWindow::updateMIDIInPorts(QString port_info) {
+  QString input_header = tr("MIDI inputs") + ":\n\n";
+  midi_in_ports_label->setText(input_header + port_info);
+}
+
+void MainWindow::updateMIDIOutPorts(QString port_info) {
+  QString output_header = tr("MIDI outputs") + ":\n\n";
+  midi_out_ports_label->setText(output_header + port_info);
+}

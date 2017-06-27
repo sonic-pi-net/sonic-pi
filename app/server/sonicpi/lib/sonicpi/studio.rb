@@ -52,6 +52,8 @@ module SonicPi
       @midi_osc_server = nil
       @erlang_pid = nil
       @erlang_mut = Mutex.new
+      @midi_in_ports = []
+      @midi_out_ports = []
       init_scsynth
       reset_server
       init_studio
@@ -103,6 +105,10 @@ module SonicPi
 
     def stop_midi(silent=false)
       @reboot_mutex.synchronize do
+
+        @midi_in_ports = []
+        @midi_out_ports = []
+
         reb_mut_kill_midi_osc_server
 
         @midi_on = false
@@ -127,6 +133,9 @@ module SonicPi
     def init_or_reset_midi(silent=false)
 
       @reboot_mutex.synchronize do
+
+        @midi_in_ports = []
+        @midi_out_ports = []
 
         # shutdown all running systems
         reb_mut_kill_midi_osc_server
@@ -667,7 +676,7 @@ module SonicPi
     def reb_mut_spawn_midi_m2o
       success = true
       begin
-        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -o #{@midi_osc_in_port} -m 6 'Sonic Pi'"
+        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -b -o #{@midi_osc_in_port} -m 6 'Sonic Pi'"
         Kernel.puts "Studio - Spawning m2o with:"
         Kernel.puts "    #{m2o_spawn_cmd}"
         @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
@@ -686,7 +695,7 @@ module SonicPi
     def reb_mut_spawn_midi_o2m
       success = true
       begin
-        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -i #{@midi_osc_out_port} -O #{@midi_osc_in_port} -m 6"
+        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -b -i #{@midi_osc_out_port} -O #{@midi_osc_in_port} -m 6"
         Kernel.puts "Studio - Spawning o2m with:"
         Kernel.puts "    #{o2m_spawn_cmd}"
         @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
@@ -713,7 +722,24 @@ module SonicPi
         d = 0
         b = 0
         m = 60
-        @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
+
+
+        if address == "/o2m/heartbeat"
+          if args != @midi_out_ports
+            @midi_out_ports = args
+            desc = args.each_slice(3).reduce("") { |s, v| s += "#{v[2]}\n" }
+            @msg_queue.push({:type => :midi_out_ports, :val => desc})
+          end
+        elsif address == "/m2o/heartbeat"
+          if args != @midi_in_ports
+            @midi_in_ports = args
+            desc = args.each_slice(3).reduce("") { |s, v| s += "#{v[2]}\n" }
+            @msg_queue.push({:type => :midi_in_ports, :val => desc})
+          end
+        else
+          @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
+        end
+
       end
 
     end

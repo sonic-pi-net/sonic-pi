@@ -456,6 +456,10 @@ out_t = Thread.new do
           gui.send("/incoming/osc", message[:time], message[:id], message[:address], message[:args])
         when :multi_message
           gui.send("/log/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
+        when :midi_out_ports
+          gui.send("/midi/out-ports", message[:val])
+        when :midi_in_ports
+          gui.send("/midi/in-ports", message[:val])
         when :info
           gui.send("/log/info", message[:style] || 0, message[:val] || "")
         when :syntax_error

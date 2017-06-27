@@ -365,3 +365,19 @@ QComboBox:on { /* shift the text when the popup opens */
 QComboBox::drop-down {
     border-style: none;
 }
+
+QLabel[accessibleName="midi-in-ports-label"] {
+   font-size: 10px;
+   padding: 1px 18px 1px 3px;
+   border-radius: 3px;
+   background-color: tabColor;
+   color: tabTextColor;
+}
+
+QLabel[accessibleName="midi-out-ports-label"] {
+   font-size: 10px;
+   padding: 1px 18px 1px 3px;
+   border-radius: 3px;
+   background-color: tabColor;
+   color: tabTextColor;
+}

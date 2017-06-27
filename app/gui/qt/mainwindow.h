@@ -198,6 +198,8 @@ private slots:
     void toggleOSCServer(int silent=0);
     void resetMidi();
     void honourPrefs();
+    void updateMIDIInPorts(QString port_info);
+    void updateMIDIOutPorts(QString port_info);
 
 private:
 
@@ -326,6 +328,8 @@ private:
     QPushButton *check_updates_now;
     QPushButton *visit_sonic_pi_net;
     QLabel *update_info;
+    QLabel *midi_in_ports_label;
+    QLabel *midi_out_ports_label;
 
     QRadioButton *rp_force_audio_hdmi;
     QRadioButton *rp_force_audio_default;
