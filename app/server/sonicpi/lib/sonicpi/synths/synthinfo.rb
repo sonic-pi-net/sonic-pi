@@ -4493,6 +4493,102 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
       end
     end
 
+    # class FXMcVerb < FXInfo
+    #   def name
+    #     "McVerb"
+    #   end
+
+    #   def introduced
+    #     Version.new(2,9,0)
+    #   end
+
+    #   def synth_name
+    #     "fx_mcverb"
+    #   end
+
+    #   def trigger_with_logical_clock?
+    #     false
+    #   end
+
+    #   def doc
+    #     "Reverb typically makes the incoming signal sound more spacious or distant as if it were played in a large room or cave. Similar to reverb but with a more spacious feel. This is a reverb based on an early design by SuperCollider creator James McCarthy which employs multiple allpass and comb filters to produce the effect."
+    #   end
+
+    #   def arg_defaults
+    #     super.merge({
+    #       :num_allpasses => 4,
+    #       :num_combs => 7,
+    #       :comb_rand => 0.3,
+    #       :comb_rand_slide => 0,
+    #       :comb_rand_slide_shape => 1,
+    #       :comb_rand_slide_curve => 0,
+    #       :allpass_rand => 0.15,
+    #       :allpass_rand_slide => 0,
+    #       :allpass_rand_slide_shape => 1,
+    #       :allpass_rand_slide_curve => 0,
+    #       :min_delay => 0.01,
+    #       :min_delay_slide => 0,
+    #       :min_delay_slide_shape => 1,
+    #       :min_delay_slide_curve => 0,
+    #       :max_delay => 0.09,
+    #       :max_delay_slide => 0,
+    #       :max_delay_slide_shape => 1,
+    #       :max_delay_slide_curve => 0,
+    #       :decay => 15,
+    #       :pre_delay => 0.048,
+    #       :seed => 0,
+    #       :slope => 8
+
+    #     })
+    #   end
+
+    #   def kill_delay(args_h)
+    #     args_h[:decay] || arg_defaults[:decay]
+    #   end
+
+    #   def specific_arg_info
+    #     {
+    #       :num_allpasses =>
+    #       {
+    #         :doc => "Number of (chained) allpass filters to use.",
+    #         :validations => [v_one_of(:num_allpasses, [1, 2, 3, 4])],
+    #         :modulatable => true
+    #       },
+
+    #       :num_combs =>
+    #       {
+    #         :doc => "Number of comb filters to mix together ",
+    #         :validations => [v_one_of(:num_combs, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])],
+    #         :modulatable => true
+    #       },
+
+    #       :comb_rand =>
+    #       {
+    #         :doc => "Amount of (deterministic) randomisation to inject into comb filters. See the seed: opt to vary random choices.",
+    #         :validations => [v_between_inclusive(:comb_rand, 0, 1)],
+    #         :modulatable => true
+    #       },
+
+    #       :allpass_rand =>
+    #       {
+    #         :doc => "Amount of (deterministic) randomisation to inject into allpass filters. See the seed: opt to vary random choices.",
+    #         :validations => [v_between_inclusive(:allpass_rand, 0, 1)],
+    #         :modulatable => true
+    #       },
+
+    #       :min_delay =>
+    #       {
+    #         :doc => "High frequency rolloff of input signal. 0 is no damping (the reverb will ring out more) and 1 dampens the reverb signal completely",
+    #         :validations => [v_between_inclusive(:pre_damp, 0, 1)],
+    #         :modulatable => true
+    #       },
+
+    #     }
+    #   end
+
+
+    # end
+
 
     class FXGVerb < FXInfo
 

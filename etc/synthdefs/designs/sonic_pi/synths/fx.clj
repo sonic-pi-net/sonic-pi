@@ -15,56 +15,73 @@
   (:use [overtone.live])
   (:require [sonic-pi.synths.core :as core]))
 
-
 (without-namespace-in-synthdef
-
- (core/def-fx sonic-pi-fx_mcverb
+  (core/def-fx sonic-pi-fx_mcverb
    [num_allpasses 4
     num_combs 7
-    comb_rand 0.1
     allpass_rand 0.05
-    rand_buf 0
-    decay 15
-    pre_delay 0.048
-    slope 8
-    seed 0]
+    allpass_rand_slide 0
 
-   [num_combs (clip num_combs 1 7)
-    num_allpasses (clip num_allpasses 1 4)
-    pre_delay (clip pre_delay 0 0.2)
-    comb_rand (clip comb_rand 0 0.3)
-    allpass_rand (clip comb_rand 0 0.3)
-    slope (max slope 1)
+    allpass_rand_slide_shape 1
+    allpass_rand_slide_curve 0
+    comb_min_delay 0.01
+    comb_min_delay_slide 0
+    comb_min_delay_slide_shape 1
+    comb_min_delay_slide_curve 0
+    comb_max_delay 0.09
+    comb_max_delay_slide 0
+    comb_max_delay_slide_shape 1
+    comb_max_delay_slide_curve 0
+    comb_decay 15
+    pre_delay 0.048
+    seed 0
+    slope 8
+    rand_buf 0
+]
+
+   [
+    allpass_rand (varlag allpass_rand allpass_rand_slide allpass_rand_slide_curve allpass_rand_slide_shape)
+    comb_min_delay (varlag comb_min_delay comb_min_delay_slide comb_min_delay_slide_curve comb_min_delay_slide_shape)
+    comb_max_delay (varlag comb_max_delay comb_max_delay_slide comb_max_delay_slide_curve comb_max_delay_slide_shape)
+
+    num_combs      (- (clip num_combs 1 10) 1)
+    num_allpasses  (clip num_allpasses 1 4)
+    pre_delay      (clip pre_delay 0 0.2)
+    allpass_rand   (clip (lin-lin allpass_rand 0 1 0 0.3) 0 0.3)
+    comb_max_delay (clip comb_max_delay 0 1)
+    comb_min_delay (clip comb_min_delay 0 comb_max_delay)
+    slope          (clip slope 0.001 8)
 
     pre-delay-l (delay-n dry-l pre_delay)
     pre-delay-r (delay-n dry-r pre_delay)
 
-    r #(core/deterministic-rand rand_buf %1 comb_rand)
+    r #(core/deterministic-rand rand_buf %1)
     n #(core/deterministic-lf-noise1 rand_buf %1 (r %1) slope)
+    cl #(comb-l:ar pre-delay-l 0.3 (lin-lin (n (+ seed %1)) -1 1 comb_min_delay comb_max_delay) comb_decay)
+    cr #(comb-l:ar pre-delay-r 0.3 (lin-lin (n (+ seed %1)) -1 1 comb_min_delay comb_max_delay) comb_decay)
 
-    cl0 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 0)) 0.04 0.05) decay)
-    cl1 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 100)) 0.04 0.05) decay)
-    cl2 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 200)) 0.04 0.05) decay)
-    cl3 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 300)) 0.04 0.05) decay)
-    cl4 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 400)) 0.04 0.05) decay)
-    cl5 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 500)) 0.04 0.05) decay)
-    cl6 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 600)) 0.04 0.05) decay)
-    cl7 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 700)) 0.04 0.05) decay)
-    cl8 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 800)) 0.04 0.05) decay)
-    cl9 (comb-l:ar pre-delay-l 0.3 (mul-add (n (+ seed 900)) 0.04 0.05) decay)
+    cl0 (cl 0)
+    cr0 (cr 1)
+    cl1 (cl 2)
+    cr1 (cr 3)
+    cl2 (cl 4)
+    cr2 (cr 5)
+    cl3 (cl 6)
+    cr3 (cr 7)
+    cl4 (cl 8)
+    cr4 (cr 9)
+    cl5 (cl 10)
+    cr5 (cr 11)
+    cl6 (cl 12)
+    cr6 (cr 13)
+    cl7 (cl 14)
+    cr7 (cr 15)
+    cl8 (cl 16)
+    cr8 (cr 17)
+    cl9 (cl 18)
+    cr9 (cr 19)
 
-    cr0 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1000)) 0.04 0.05) decay)
-    cr1 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1100)) 0.04 0.05) decay)
-    cr2 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1200)) 0.04 0.05) decay)
-    cr3 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1300)) 0.04 0.05) decay)
-    cr4 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1400)) 0.04 0.05) decay)
-    cr5 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1500)) 0.04 0.05) decay)
-    cr6 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1600)) 0.04 0.05) decay)
-    cr7 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1700)) 0.04 0.05) decay)
-    cr8 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1800)) 0.04 0.05) decay)
-    cr9 (comb-l:ar pre-delay-r 0.3 (mul-add (n (+ seed 1900)) 0.04 0.05) decay)
-
-    rev-r (select num_combs [0
+    rev-r (select num_combs [cr0
                              (/ (+ cr0 cr1) 2)
                              (/ (+ cr0 cr1 cr2) 3)
                              (/ (+ cr0 cr1 cr2 cr3) 4)
@@ -75,7 +92,7 @@
                              (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6 cr7 cr8) 9)
                              (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6 cr7 cr8 cr9) 10)])
 
-    rev-l (select num_combs [0
+    rev-l (select num_combs [cl0
                              (/ (+ cl0 cl1) 2)
                              (/ (+ cl0 cl1 cl2) 3)
                              (/ (+ cl0 cl1 cl2 cl3) 4)
@@ -1315,6 +1332,7 @@
  )
 
 (comment
+  ;;(core/save-synthdef sonic-pi-fx_mcverb)
   (core/save-synthdef sonic-pi-fx_scope_out)
   (core/save-synthdef sonic-pi-fx_sound_out)
   (core/save-synthdef sonic-pi-fx_sound_out_stereo)
