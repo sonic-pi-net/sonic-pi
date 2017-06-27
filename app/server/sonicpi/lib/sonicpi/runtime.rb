@@ -92,7 +92,7 @@ module SonicPi
         if @osc_server
           __info "Stopping OSC server...." unless silent
           @osc_server.stop
-          @osc_server = nil
+          @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: false)
         end
       end
     end
