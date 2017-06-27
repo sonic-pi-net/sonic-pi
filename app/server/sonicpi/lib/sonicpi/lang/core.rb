@@ -4409,6 +4409,34 @@ It is possible to delay the initial trigger of the thread on creation with both 
           raise AssertionError, "Assert error failed! No errors raised by running do/end block"
         end
       end
+      doc name:           :assert_error,
+          introduced:     Version.new(3,0,0),
+          summary:        "Ensure block throws an error",
+          doc:            "Runs the block and ensures that it raises the correct Exception. Useful for asserting that an Exception will be raised. You may specifiy the specific Exception class, which defaults to `Exception`.",
+          args:           [[:class, :Exception]],
+          opts:           nil,
+          accepts_block:  true,
+          examples:       ["
+assert_error do
+  play 70
+end                         # Will throw an exception: \"Assert error failed!\" as the block
+                            # contains no errors.
+",
+      "
+assert_error do
+  1 / 0
+end                         # Will not throw an exception as the block contains an errors.",
+
+        "
+assert_error ZeroDivisionError do
+  1 / 0
+end                         # Will not throw an exception as the block contains a ZeroDivisionError.",
+        "
+assert_error ThreadError do
+  1 / 0
+end                         # Will throw an exception as the block contains a ZeroDivisionError rather than
+                              a ThreadError."]
+
 
 
       def assert(arg, msg=nil)
