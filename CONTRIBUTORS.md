@@ -62,6 +62,7 @@ Current members:
 * [Hanno Zulla](https://github.com/hzulla)
 * [Adrian Cheater](https://github.com/factoid)
 * [Luis Lloret](https://github.com/llloret/)
+* [Robin Newman](https://github.com/rbnpi)
 
 
 Previous members: 
@@ -349,3 +350,11 @@ encouragement of all her piano students, and helped me to understand that failur
 common and natural, and that effort eventually overcomes all obstacles. Her influence
 carries me in all my live coding adventures, and I hope these words help you to
 persevere in yours.
+
+Robin Newman would like to thank Sam for producing such inspirational
+software as Sonic Pi. Both the sounds that it can produce and the
+intricate programming beneath the surface are a work of art. To work
+with Sonic Pi gives me such a buzz as I have not experienced since
+working with Music on a network of BBC Micros in the 1980s. Then as now
+my Wife Julia describes herself as a computer widow. I thank her for
+putting up with my passion for musical programming over the years.
