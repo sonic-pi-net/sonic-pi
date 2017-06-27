@@ -222,32 +222,32 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1178"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkeinstellungen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1182"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokale IP-Adresse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte auf OSC-Nachrichten auf Port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht verfügbar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1209"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Empfange entfernte OSC-Nachrichten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
@@ -410,7 +410,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Hiermit kannst Du in Sonic Pi
 externe Synths und FX via load_synthdefs
 nachladen.
@@ -1125,7 +1125,7 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Läuft Sonic Pi bereits? Der UDP-Port ist schon belegt.</translation>
     </message>
 </context>
