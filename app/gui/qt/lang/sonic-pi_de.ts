@@ -197,7 +197,7 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="683"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="779"/>
@@ -237,7 +237,7 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Listening for OSC messages on port</source>
-        <translation>Warte auf OSC-Nachrichten auf Port</translation>
+        <translation>Hörche auf OSC-Nachrichten auf Port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
@@ -253,59 +253,62 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Aktivierung wird Sonic Pi auf OSC-Nachrichten von entfernten Geräten horchen.
+Ohne Aktivierung werden nur lokale Nachrichten empfangen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC-Server aktivieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Aktivierung wird Sonic Pi auf OSC-Nachrichten horchen.
+Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-Verhalten konfigurieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-Subsystem aktivieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein- und ausgehende MIDI-Verbindungen de-/aktivieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1231"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI zurücksetzen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-Subsystem zurücksetzen
+(Wir benötigt um auf macOS Gerätänderungen zu erkennen)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard MIDI Kanal (* meint alle)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1263"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard MIDI-Kanal um Nachrichten zu verschicken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1286"/>
@@ -671,32 +674,32 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3187"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviere MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Deaktiviere MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3203"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffne OSC-Port für entfernte Nachrichten...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3212"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Stoppe OSC-Server...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Setze MIDI zurück...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI ist deaktiviert...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
@@ -716,17 +719,17 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1424"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige cue Log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1426"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schaltet die Sichtbarkeit vom cue Log, welcher interne cues und eingehende OSC/MIDI Nachrichten anzeigt, um.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1491"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>I/O</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1501"/>
