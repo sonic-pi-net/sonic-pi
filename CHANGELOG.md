@@ -1,4 +1,5 @@
 # History
+* [v3.0 'IO'](#v3.0), 29th June, 2017
 * [v2.11.1 'Hack'](#v2.11.1), 16th Dec, 2016
 * [v2.11 'Time Warp'](#v2.11), 3rd Nov, 2016
 * [v2.10 'Cowbell'](#v2.10), 15th April, 2016
@@ -13,6 +14,81 @@
 * [v2.1.1 'Firewall'](#v2.1.1), 25th Nov, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v3.0"></a>
+
+## Version 3.0 - 'IO'
+*29th June, 2017*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0)
+
+MIDI
+OSC
+Cue Event System (synths can send cues using SendReply + /cue prefix)
+live_audio synth
+GUI translations
+sound_out FX
+
+### Breaking Changes
+
+* Ring's `.pick` now returns 1 element by default. Previously calling `.pick` on a ring would pick n elements randomly from the ring (including duplicate picks) where n would be the size of the ring. With this change, `.pick` only returns a single element. This makes it similar to choose.
+* 
+
+### New Fns
+* `midi_*` - many new MIDI-specific fns such as `midi_note_on`, `midi_pitch_bend`, `midi_cc`, `midi_clock_tick`. See new tutorial section for more information. These fns *send* MIDI messages to connected MIDI devices. Incoming MIDI is received via the new event log.
+* `with_swing` - add swing to successive calls to do/end block.
+
+* `get` - get a named value from the event history at the current time. This will return the last value entered. Previous values can be read when within a `time_warp`.
+* `set` - set a named value in the event history at the current time. Future values can be set when within a `time_warp`.
+* `use_real_time` - convenience fn for setting the schedule ahead time to 0 for the current thread. Very useful for removing latency from live loops that are working with external cues (such as MIDI or OSC).
+* `use_midi_defaults` - set defaults to be used for all subsequent MIDI calls. Similar to `use_synth_defaults`. Also available: `with_midi_defaults`.
+
+* `use_osc` - set the default hostname and port number for subsequent outgoing OSC messages. See also `with_osc`.
+* `osc` - send Open Sound Control messages in time with the music to default hostname and port
+* `osc_send` - similar to `osc` but requires you to specifiy the hostname and port
+* `use_sched_ahead_time` - set the schedule ahead time specifically for the current thread. Also available - `with_sched_ahead_time`.
+* `current_time` - return the current logical time.
+* `assert_error` - An assertion to ensure the specified block of code raises the specified error.
+
+
+### Synths & FX
+
+* New synth `live_audio` - directly stream audio from your soundcard as a synth.
+
+* New FX `record` - enables you internally record any audio into named buffers. Perfect for building looper systems.
+
+* New FX `:sound_out` - stream out a audio to a specific output on your sound card. This enables multi-channel audio out. 
+* New FX `:sound_out_stereo` - similar to `sound_out` but streams out to pair of consecutive audio card (left and right) output channels.
+* New FX `eq` - Parametric EQ with three centre freqs - low, mid & high - all with Q values and gain (-1 -> 1). Also has low and high shelves with centre freqs and slope adjustment.
+* New FX `tremelo` - simple tremelo effect which modulates the volume within the `do/end` block.
+
+### Samples
+
+### GUI
+
+* New GUI translations for the folloing languages: (BS) Bosnian, (CA) Catalan, (CS) Czech, (DA) Danish, (EL) Greek, (ET) Estonian, (HI) Hindi, (ID) Indonesian, (KO) Korean, (PT) Portuguese, (TR) Turkish, (ZH) Chinese  app/server/bin/i18n-tool.rb -u
+* Added new pane for displaying new cue events (including incoming OSC and MIDI)
+* Added new IO preferences tab for configuring MIDI and network settings.
+* Automatically autocomplete `sync`, `cue` and `get` or `set`
+* Increase width of autocompletion popup.
+
+
+### Documentation
+
+* New articles on additive and subtractive synthesis techniques.
+
+### Improvements
+* Teach `time_warp` about input ranges. It now works similar to `at` in that it can now take a two lists of args - times and values - which represent a list of time distinations to be visited in turn.
+* Ensure any unprinted messages are displayed if an exception occurs.
+* Teach `range` to work as expected with both floats and ints.
+* Teach rings a new chain method - `.scale` which will return a new ring with all elements multipled by the scale value.
+* The fn `control` now returns the node you're controlling.
+* Add many new chords 
+
+### Bugfixes
+
+* Fix randomisation aspects of `:slicer`, `:wobble` and `:panslicer` FX (i.e. via the `probability:` opt).
+* Fix file path drag and drop on Windows to not accidentally prefix path with /.
+* Teach `chord_invert` and `sample` to work with floating point args.
 
 <a name="v2.11.1"></a>
 
