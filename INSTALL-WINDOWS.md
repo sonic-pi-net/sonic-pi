@@ -4,9 +4,9 @@ Last revision 1st June 2016
 
 Tested on Windows 10 64bit.
 
-This document details the process from beginning to end to build Sonic Pi 2.11dev and I hope it will be useful to others, and encourage them to have a go themselves.
+This document details the process from beginning to end to build Sonic Pi 2.11dev and I hope it will be useful to others and encourage them to have a go themselves.
 
-First there is quite a bit of software to install to facilitate the build, not least the source files for Sonic Pi.
+First, there is quite a bit of software to install to facilitate the build, not least the source files for Sonic Pi.
 
 First install **git** from https://msysgit.github.io/ click **download** then run `Git-2.6.3-64-bit.exe` I selected options **Use git from Windows Command Prompt**, **Checkout Windows-style**, **commit Unix-style line endings**, **Use Windows default console window**, and **Enable file system caching**
 
@@ -37,13 +37,13 @@ Run the installer, selecting the option **Add to the System PATH for all (or cur
 
 Install **Ruby** from http://rubyinstaller.org/downloads/
 I choose **Ruby 2.3.0**.
-Choose the **32 bit version**
+Choose the **32-bit version**
 Run the installer when downloaded. Choose the default install ```c:\Ruby23```
 Select **add Ruby Executables to your path** and **associate .rb and .rbw files with this installation**.
 
 Scroll further down the page of http://rubyinstaller.org/downloads/ and select
 ```DevKit-mingw64-32-4.7.2-20130224-1151-sfx.exe``` and download that as well
-Make sure you use the **32 bit version for Ruby 2.0 and higher**.
+Make sure you use the **32-bit version for Ruby 2.0 and higher**.
 When downloaded, run this and set the extract location to ```c:\RubyDev```
 
 Now you have to complete the installation as follows:
@@ -84,16 +84,16 @@ From there we will install gem files required by Sonic Pi
 
 ```.\bin\gem install did_you_mean```
 
-(allow access if you are asked). The install may take a little time. Eventually it will say two gems installed (did_you_mean and interception)
+(allow access if you are asked). The install may take a little time. Eventually, it will say two gems installed (did_you_mean and interception)
 
 ```.\bin\gem install ffi --platform=ruby```
 
 
-Another gem recently added, that is needed specifically for the windows install is ```win32-process```
+Another gem recently added that is needed specifically for the Windows install is ```win32-process```
 
 ```.\bin\gem install win32-process```
 
-The fourth gem file is problematical, and needs a patch to install. It goes like this:
+The fourth gem file is problematical and needs a patch to install. It goes like this:
 
 ```.\bin\gem fetch rugged```
 
@@ -128,7 +128,7 @@ Also, some lines below this, comment the 2 lines inside the ```if windows?``` pu
 
 NB: this may no longer be needed with more recent versions of rugged
 
-Then resave the file and quit notepad.
+Then resave the file and quit Notepad.
 Go back to the cmd window
 
 ```cd ..\..\```
@@ -234,7 +234,7 @@ cd c:\sonic-pi
 .\app\gui\qt\win-build-app.bat
 ```
 This should carry out the build. Don’t worry about various warnings en route.
-We now add some files from visual studio which will be needed at run time.
+We now add some files from the visual studio which will be needed at run time.
 Open two FileExplorer windows. In the first navigate to:
 
 ```Local Disk (C:)> Program Files (x86) > Microsoft Visual Studio 12.0 > VC > redist > x86 > Microsoft.VC120.CRT```
@@ -286,11 +286,11 @@ Copy ```scsynth.exe``` from the former to the latter.
 Keep these windows open for the moment.
 
 Open the ```sc3-plugins-3.6.0-win32``` folder in the Downloads folder and navigate to ```SC3-plugins```.
-Copy all the *.scx files that folder into the ```plugins``` folder copied to destination folder in the previous step.
+Copy all the *.scx files that folder into the ```plugins``` folder copied to the destination folder in the previous step.
 
 Close the open FileExplorer windows.
 
-There is one final patch to install. The Ugen file associated with the Piano synth was updated in the summer, to eliminate a problem with the tuning. Unfortunately the current Ugen has NOT yet been updated for windows, and consequently we have to use a modified version of the MdaUgen. This can be downloaded from https://goo.gl/K316fw
+There is one final patch to install. The Ugen file associated with the Piano synth was updated in the summer, to eliminate a problem with the tuning. Unfortunately the current Ugen has NOT yet been updated for Windows, and consequently we have to use a modified version of the MdaUgen. This can be downloaded from https://goo.gl/K316fw
 Extract the contents and follow the instructions in the readme file. Basically you replace the file ```sonic-pi-piano.scsyndef``` in ```c:\sonic-pi\etc\synthdefs\compiled``` with the one downloaded in the patch.
 
 (You may like to retain a copy of the original before overwriting it, or perhaps rename it to ```sonic-pi-piano.scsyndef.original```)
