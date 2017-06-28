@@ -237,8 +237,54 @@ Another important feature of `live_audio` is that it will automatically move an 
 To stop a `live_audio` synth, use the `:stop` arg: `live_audio :foo, :stop`.
 .
 ",
-      examples:       [
-        ""
+      examples:       ["
+# Basic usage
+live_audio :foo  # Play whatever audio is coming into the sound card on input 1
+",
+        "
+# Specify an input
+live_audio :foo, input: 3  # Play whatever audio is coming into the sound card on input 3
+",
+        "
+# Work with stereo input
+live_audio :foo, input: 3, stereo: true  # Play whatever audio is coming into the sound card on inputs 3 and 4
+                                         # as a stereo stream
+",
+
+
+        "# Switching audio contexts (i.e. changing FX)
+live_audio :guitar     # Play whatever audio is coming into the sound card on input 1
+
+sleep 2                # Wait for 2 seconds then...
+
+with_fx :reverb do
+  live_audio :guitar   # Add reverb to the audio from input 1
+end
+
+sleep 2                # Wait for another 2 seconds then...
+
+live_audio :guitar     # Remove the reverb from input 1
+",
+        "
+# Working with live_loops
+
+live_loop :foo do
+  with_fx [:reverb, :distortion, :echo].choose do   # chooses a new FX each time round the live loop
+    live_audio :voice                               # the audio stream from input 1 will be moved to the
+  end                                               # new FX and the old FX will complete and finish as normal.
+  sleep 8
+end",
+        "
+# Stopping
+
+live_audio :foo            #=> start playing audio from input 1
+live_audio :bar, input: 2  #=> start playing audio from input 2
+
+sleep 3                    #=> wait for 3s...
+
+live_audio :foo, :stop     #=> stop playing audio from input 1
+                           #=> (live_audio :bar is still playing)
+"
 ]
 
 
