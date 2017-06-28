@@ -1257,6 +1257,7 @@ void MainWindow::initPrefsWindow() {
 
   QLabel *midi_default_channel_label = new QLabel;
   midi_default_channel_label->setText(tr("Default MIDI channel (* means all)"));
+  midi_default_channel_label->setToolTip(tr("Default MIDI Channel to send messages to"));
 
   QGridLayout *midi_default_channel_layout = new QGridLayout();
 
@@ -1273,6 +1274,9 @@ void MainWindow::initPrefsWindow() {
   midi_out_ports_label->setAccessibleName("midi-out-ports-label");
   midi_in_ports_label->setText(tr("No connected input devices"));
   midi_out_ports_label->setText(tr("No connected output devices"));
+  midi_in_ports_label->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
+  midi_out_ports_label->setToolTip(tr("MIDI output devices receieve MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
+
 
   QVBoxLayout *midi_box_layout = new QVBoxLayout;
   midi_box_layout->addWidget(midi_enable_check);
@@ -3266,11 +3270,11 @@ void MainWindow::zoomOutLogs() {
 
 
 void MainWindow::updateMIDIInPorts(QString port_info) {
-  QString input_header = tr("MIDI inputs") + ":\n\n";
+  QString input_header = tr("Connected MIDI inputs") + ":\n\n";
   midi_in_ports_label->setText(input_header + port_info);
 }
 
 void MainWindow::updateMIDIOutPorts(QString port_info) {
-  QString output_header = tr("MIDI outputs") + ":\n\n";
+  QString output_header = tr("Connected MIDI outputs") + ":\n\n";
   midi_out_ports_label->setText(output_header + port_info);
 }
