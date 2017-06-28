@@ -653,7 +653,7 @@ Sonic Pi que se puede enviar vía midi_ * fns</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished">Pro Icons</translation>
+        <translation>Iconos Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
