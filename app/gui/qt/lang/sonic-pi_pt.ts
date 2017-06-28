@@ -738,17 +738,17 @@ Sonic Pi que podem ser enviadas via funções midi_*</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar / desseleccionar visibilidade do registro de fila que exibe filas internas e mensagens OSC/MIDI de entrada.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Ícones Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
