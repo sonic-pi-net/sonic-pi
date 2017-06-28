@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-22 06:46+0000\n"
-"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/p"
-"l/>\n"
+"PO-Revision-Date: 2017-06-28 06:25+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 ||"
-" n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.14-dev\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -80,16 +80,15 @@ msgstr ""
 "ej wersji."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Jeszcze jedna sprawa na koniec. Oglądanie innych osób kodujących na żywo jest "
-"naprawdę bardzo dobrym sposobem nauki. Regularnie nadaję na żywo na moim kanal"
-"e [livecoding.tv/samaaron](http://livecoding.tv/samaaron), możesz więc wpaść, "
-"powiedzieć mi cześć i zadać dowolne pytanie :-)"
+"Jeszcze jedna sprawa na koniec. Oglądanie innych osób kodujących na żywo "
+"jest naprawdę bardzo dobrym sposobem nauki. Regularnie nadaję na żywo na "
+"moim kanale [http://youtube.com/samaaron](http://youtube.com/samaaron), "
+"możesz więc wpaść, powiedzieć mi cześć i zadać dowolne pytanie :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -7764,6 +7763,9 @@ msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
+"`.scale(2)` - zwraca nowy pierścień, do którego zostają załadowane wszystkie "
+"elementy po uprzednim przemnożeniu przez 2 (przy założeniu, że pierścień ten "
+"zawiera tylko liczby)"
 
 #: 08.5-Ring-Chains.md:84
 msgid ""
@@ -16159,14 +16161,12 @@ msgstr ""
 "miętaj, trening czyni mistrza!"
 
 #: A.17-sample-stretching.md:1
-#, fuzzy
 msgid "A.17 Sample Stretching"
-msgstr "A.12 Krojenie Sampli"
+msgstr "A.17 Rozciąganie Sampli"
 
 #: A.17-sample-stretching.md:3
-#, fuzzy
 msgid "Sample Stretching"
-msgstr "Krojenie Sampli"
+msgstr "Rozciąganie Sampli"
 
 #: A.17-sample-stretching.md:5
 msgid ""
@@ -16181,19 +16181,17 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:14
-#, fuzzy
 msgid "Slowing Samples Down"
-msgstr "Sample"
+msgstr "Spowalnianie Sampli"
 
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
-msgstr ""
+msgstr "Aby zmienić tempo odtwarzania sampla musimy użyć opcji `rate:`:"
 
 #: A.17-sample-stretching.md:18
 #, no-wrap
-#, fuzzy
 msgid "sample :guit_em9, rate: 1"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr "sample :guit_em9, rate: 1"
 
 #: A.17-sample-stretching.md:20
 msgid ""
