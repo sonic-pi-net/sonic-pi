@@ -622,7 +622,8 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quando seleccionado, o Sonic Pi irá escutar mensagens OSC de maquinas remotas
+Quando desseleccionado, apenas mensagens da maquina local serão recebidas.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1213"/>
