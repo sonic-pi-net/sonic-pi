@@ -616,7 +616,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="1209"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Recebe mensagens OSC remotas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
