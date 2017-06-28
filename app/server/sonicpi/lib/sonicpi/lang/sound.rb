@@ -2099,7 +2099,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           fx_synth_name = fx_name
         end
 
-        resolve_buffer_args!(args_h, info)
+        resolve_buffer_args!(args_h, info) if info
 
         tracker = SynthTracker.new
         orig_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
