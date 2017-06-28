@@ -73,6 +73,7 @@ module SonicPi
       def use_midi_defaults(*args, &block)
         raise "use_midi_defaults does not work with a block. Perhaps you meant with_midi_defaults" if block
         args_h = resolve_synth_opts_hash_or_array(args)
+        args_h.each { |k, v|  v.freeze }
         __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(args_h)
       end
       doc name:          :use_midi_defaults,
@@ -100,8 +101,9 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1. Note that the port is ba
       def with_midi_defaults(*args, &block)
         raise "with_midi_defaults must be called with a do/end block" unless block
         current_defs = __thread_locals.get(:sonic_pi_mod_midi_defaults)
-
         args_h = resolve_synth_opts_hash_or_array(args)
+        args_h.each { |k, v|  v.freeze }
+
         __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(args_h)
         res = block.call
         __thread_locals.set :sonic_pi_mod_midi_defaults, current_defs
