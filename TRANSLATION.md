@@ -16,7 +16,7 @@ translation effort.
 
 Luckily a number of fabulous contributors have already started to
 translate much of Sonic Pi to their language. However, we always
-appreciate help by those willing to proofread, spellcheck or update the
+appreciate the help by those willing to proofread, spellcheck or update the
 existing translations. Every contribution - big or small is hugely
 appreciated.
 
@@ -70,7 +70,7 @@ share with other translators.
 
 We can't thank you enough for putting up with the inconvenience of
 translating Sonic Pi, but allow me to ask you for one more giant
-favour: If you want to help keep the translation up-to-date in the
+favor: If you want to help keep the translation up-to-date in the
 future, please consider [subscribing to the Sonic Pi project on
 Weblate](https://hosted.weblate.org/accounts/profile/#subscriptions) so
 that you will be informed of new or changed strings.
@@ -81,7 +81,7 @@ that you will be informed of new or changed strings.
 The original English text was written in a fun, friendly, open and
 informal style designed to be accessible to children and adults
 alike. We would invite you to attempt to adopt this style when working
-on translations to another language. For example, try to use simple
+on translations to another language. For example, try to use a simple
 language where possible - and where not, try and explain what the
 complicated/technical words mean.
 
@@ -94,4 +94,4 @@ a friend might use when explaining things to you.
 You cannot change the original English strings with Weblate. If you
 spot a mistake in the English texts, please [file an
 issue](https://github.com/samaaron/sonic-pi/issues) or correct it with
-a pull request here on github. Thanks!
+a pull request here on Github. Thanks!
