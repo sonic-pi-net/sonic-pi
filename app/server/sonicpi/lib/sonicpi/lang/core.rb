@@ -4436,7 +4436,7 @@ end                         # Will not throw an exception as the block contains 
 assert_error ThreadError do
   1 / 0
 end                         # Will throw an exception as the block contains a ZeroDivisionError rather than
-                              a ThreadError."]
+                            # a ThreadError."]
 
 
 
