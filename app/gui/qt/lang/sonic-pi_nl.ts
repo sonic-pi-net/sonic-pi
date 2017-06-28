@@ -314,27 +314,28 @@ Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</t
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen aangesloten ingave apparaten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen aangesloten uitgang apparaten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI ingang apparaten zenden MIDI berichten rechtstreeks naar Sonic Pi en worden ontvangen als aanwijzings-signalen
+(gelijkaardig als inkomende OSC berichten en interne aanwijzings-signalen).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Midi uitgang apparaten ontvangen MIDI signalen rechtstreeks van Sonic Pi. Deze kunnen rechtstreeks verzonden worden via de midi_*fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
