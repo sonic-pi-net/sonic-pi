@@ -338,7 +338,8 @@ direkt an Sonic Pi und dienen als Cue-Ereignisse
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-Ausgabegeräte erhalten MIDI-Nachrichten direkt
+von Sonic Pi mit den midi_* Funktionen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -547,12 +548,12 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Angeschlossene MIDI-Eingänge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Angeschlossene MIDI-Ausgänge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -769,7 +770,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Icons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
