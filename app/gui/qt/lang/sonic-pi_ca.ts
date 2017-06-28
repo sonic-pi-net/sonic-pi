@@ -329,13 +329,16 @@ Si està desmarcat, no es rebran missatges OSC.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Els dispositius MIDI d'entrada envien missatges MIDI directament a
+Sonic Pi i són rebuts com a esdeveniments de senyal
+(semblants a missatges OSC entrants i senyals interns)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Els dispositius MIDI d'eixida reben missatges MIDI directament de
+Sonic Pi. Aquestos missatges poden enviar-se a través de midi_* fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -545,12 +548,12 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrades MIDI connectades</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Eixides MIDI connectades</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -767,7 +770,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Icones Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
