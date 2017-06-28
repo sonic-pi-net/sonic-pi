@@ -4413,7 +4413,7 @@ It is possible to delay the initial trigger of the thread on creation with both 
       doc name:           :assert_error,
           introduced:     Version.new(3,0,0),
           summary:        "Ensure block throws an error",
-          doc:            "Runs the block and ensures that it raises the correct Exception. Useful for asserting that an Exception will be raised. You may specifiy the specific Exception class, which defaults to `Exception`.",
+          doc:            "Runs the block and ensures that it raises the correct Exception. Useful for asserting that an Exception will be raised. You may specify the particular Exception class, which defaults to `Exception`.",
           args:           [[:class, :Exception]],
           opts:           nil,
           accepts_block:  true,
@@ -4426,7 +4426,7 @@ end                         # Will throw an exception: \"Assert error failed!\" 
       "
 assert_error do
   1 / 0
-end                         # Will not throw an exception as the block contains an errors.",
+end                         # Will not throw an exception as the block contains an error.",
 
         "
 assert_error ZeroDivisionError do
