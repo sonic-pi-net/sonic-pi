@@ -172,7 +172,7 @@ Use these buttons to force the output to the one you want.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself. 
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
-For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
+For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
         <translation>O teu Raspberry Pi tem dois tipos de saída de áudio possíveis.
 Em primeiro lugar, existe uma saída de áudio minijack incorporada no próprio circuito do Raspberry Pi.
 Em segundo lugar, alguns monitores HDMI e televisões suportam áudio através da porta HDMI.
@@ -297,7 +297,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Quando activado, o Sonic Pi irá permitir
 que sintetizadores e efeitos sejam carregados a partir de load_synthdefs
 para serem disparados.
@@ -634,63 +634,65 @@ Quando desseleccionado, apenas mensagens da maquina local serão recebidas.</tra
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quando seleccionado, o Sonic Pi irá escutar por mensagens OSC
+Quando desseleccionado nenhuma mensagem OSC será recebida.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar comportamento MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponibilizar subsistemas MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir ou rejeitar comunicações MIDI de entrada ou saída</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Reiniciar MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Reiniciar subsistemas MIDI
+(Requerido para detectar mudanças de equipamento no macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI padrão (* significa todos)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI padrão para envio de mensagens</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Sem conexão a equipamentos de entrada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Sem conexão a equipamentos de saída</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
@@ -1168,7 +1170,7 @@ Obter o Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
