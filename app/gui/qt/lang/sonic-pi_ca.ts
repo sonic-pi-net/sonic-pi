@@ -25,7 +25,7 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>Estèreo invertit.
+        <translation>Activa o desactiva l'estèreo invertit.
 Si està activat, l'àudio de l'altaveu esquerre
 es desviarà a l'altaveu dret i viceversa.</translation>
     </message>
@@ -36,10 +36,10 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Mode Mono. 
-Si està activat, aquest mesclarà l'àudio dels altaveus esquerre i dret
-i enviarà el mateix senyal a ambdós altaveus.
-Açò és útil quan es treballa amb sistemes externs que només
+        <translation>Activa o desactiva el mode Mono. 
+Si està activat, es mesclarà l'àudio dels altaveus esquerre i dret
+i s'enviarà el mateix senyal a ambdós altaveus.
+És útil quan es treballa amb sistemes externs que només
 suporten eixida mono.</translation>
     </message>
     <message>
@@ -52,7 +52,7 @@ suporten eixida mono.</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Canviar l'opció d'enregistrar missatges.
+        <translation>Activa o desactiva l'opció d'enregistrar missatges.
 Si aquesta opció està deshabilitada, activitats com el disparador del sintetitzador
 o el disparador de mostres no s'imprimiran en el registre per defecte.</translation>
     </message>
@@ -71,14 +71,14 @@ o el disparador de mostres no s'imprimiran en el registre per defecte.</translat
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Canviar opció de netejar el registre a l'iniciar.
+        <translation>Activa o desactiva l'opció de netejar el registre a l'iniciar.
 Si està habilitat, el registre es netejarà
 cada vegada que es prema el botó d'iniciar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
         <source>Toggle line number visibility.</source>
-        <translation>Canvia la visibilitat del número de línies.</translation>
+        <translation>Mostra o amaga els números de línies.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
@@ -113,12 +113,12 @@ cada vegada que es prema el botó d'iniciar.</translation>
         <location filename="../mainwindow.cpp" line="1966"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>Desactivant Mesclador HPF...</translation>
+        <translation>Deshabilitant Mesclador HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="589"/>
         <source>Buffer %1</source>
-        <translation>Buffer %1</translation>
+        <translation>Memòria intermèdia %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="426"/>
@@ -128,12 +128,12 @@ cada vegada que es prema el botó d'iniciar.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="914"/>
         <source>Indenting selection...</source>
-        <translation>Sagnant la selecció...</translation>
+        <translation>Indentant la selecció...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"/>
         <source>Indenting line...</source>
-        <translation>Sagnant la línia...</translation>
+        <translation>Indentant la línia...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1290"/>
@@ -141,7 +141,7 @@ cada vegada que es prema el botó d'iniciar.</translation>
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
         <translation>Ajustaments avançats d'àudio per treballar amb
-sistemes externs PA quan s'actua amb Sonic Pi.</translation>
+sistemes externs PA quan s'interactua amb Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1380"/>
@@ -174,8 +174,8 @@ sistemes externs PA quan s'actua amb Sonic Pi.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Canvia l'opció de comprovació d'arguments en el sintetitzador.
-Si està deshabilitat, certes opcions poden generar sons
+        <translation>Activa o desactiva la funció de comprovació d'arguments en el sintetitzador.
+Si està deshabilitat, és possible que certes opcions generen sons
 molt forts o incòmodes.</translation>
     </message>
     <message>
@@ -186,7 +186,7 @@ molt forts o incòmodes.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
         <source>Scope</source>
-        <translation>Osciloscopi</translation>
+        <translation>Visor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="947"/>
@@ -216,7 +216,7 @@ molt forts o incòmodes.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1027"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>El Servidor de Sonic Pi podria no iniciar-se!</translation>
+        <translation>No s'ha pogut iniciar el servidor de Sonic Pi!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1178"/>
@@ -236,7 +236,7 @@ molt forts o incòmodes.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Listening for OSC messages on port</source>
-        <translation>Escoltant missatges OSC al port</translation>
+        <translation>Esperant missatges OSC al port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
@@ -348,7 +348,7 @@ Use these buttons to force the output to the one you want.</source>
         <translation>La teua Raspberry Pi té dues maneres d'emetre so.
 En primer lloc, el connector d'auriculars de la mateixa Raspberry Pi.
 En segon lloc, alguns monitors/televisors HDMI poden rebre àudio per el port HDMI.
-Utilitza aquests botons per forçar l'eixida d'àudio a aquella que desitges.</translation>
+Utilitza aquests botons per forçar l'eixida d'àudio a l'opció que desitges.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
@@ -392,19 +392,19 @@ If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
         <translation>Habilita o deshabilita el registre de senyals.
 Si es deshabilita, els senyals s'iniciaran normalment
-però seran visibles al registre.</translation>
+però no seran visibles al registre.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation>Canviar el desplaçament automàtic del registre.
+        <translation>Activa o desactiva el desplaçament automàtic del registre.
 Si s'activa, el registre es desplaça al final després de cada nou missatge mostrat.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Enable external synths and FX</source>
-        <translation>Habilitat sintetitzadors i efectes externs</translation>
+        <translation>Habilitar sintetitzadors i efectes externs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1352"/>
@@ -532,7 +532,7 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1425"/>
         <source>Toggle visibility of the log.</source>
-        <translation>Alterna la visibilitat del registre.</translation>
+        <translation>Mostra o amaga el registre.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
@@ -542,7 +542,7 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>Alterna la visibilitat dels botons de control.</translation>
+        <translation>Mostra o amaga els botons de control.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1432"/>
@@ -552,7 +552,7 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1434"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Canvia la visibilitat de les pestanyes de selecció de les memòries intermèdies.</translation>
+        <translation>Mostra o amaga les pestanyes de selecció de les memòries intermèdies.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -562,12 +562,12 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
         <source>Toggle full screen mode.</source>
-        <translation>Canvia a pantalla completa.</translation>
+        <translation>Activa o desactiva el mode de pantalla completa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Toggle dark mode.</source>
-        <translation>Canvia a mode obscur.</translation>
+        <translation>Activa o desactiva el mode obscur.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
@@ -584,7 +584,7 @@ L'opció de mode obscur és perfecta per fer live coding a discoteques o llocs a
     <message>
         <location filename="../mainwindow.cpp" line="1521"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation>Alternar la visibilitat dels eixos per als oscil·loscopis d'àudio</translation>
+        <translation>Mostra o amaga els eixos per als oscil·loscopis d'àudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1661"/>
@@ -649,7 +649,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2596"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Carregar un arxiu extern a la memòria intermèdia (buffer) actual</translation>
+        <translation>Carregar un arxiu extern a la memòria intermèdia actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2612"/>
@@ -664,7 +664,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2625"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation>Alternar la visibilitat dels oscil·loscopis d'àudio. </translation>
+        <translation>Mostra o amaga els oscil·loscopis d'àudio. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2765"/>
@@ -704,7 +704,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Bentornat. Ara comencem a programar música en viu...</translation>
+        <translation>Bentornat. Ara, comencem a programar música en viu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
@@ -724,7 +724,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1426"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation>Canvia la visualització del registre d'entrades que mostra entrades internes i missatges OSC/MIDI entrants.</translation>
+        <translation>Mostra o amaga el registre de senyals, el qual mostra senyals interns i missatges OSC/MIDI entrants.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1491"/>
@@ -749,7 +749,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>Canviar la visibilitat dels oscil·loscopis d'àudio.</translation>
+        <translation>Mostra o amaga els oscil·loscopis d'àudio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1520"/>
@@ -764,7 +764,7 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation>L'oscil·loscopi d'àudio duu tres variants que poden
+        <translation>L'oscil·loscopi d'àudio conté tres variants que poden
 ser vistes independentment o en conjunt:
 
 Lissajous - il·lustra la relació de fase entre els canals esquerre i dret
@@ -850,7 +850,7 @@ Stereo - mostra dos visors independents per als canals esquerre i dret</translat
     <message>
         <location filename="../mainwindow.cpp" line="2394"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation>Canviar a eixida d'àudio per auriculars...</translation>
+        <translation>Canviant a eixida d'àudio per auriculars...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2410"/>
@@ -880,12 +880,12 @@ Stereo - mostra dos visors independents per als canals esquerre i dret</translat
     <message>
         <location filename="../mainwindow.cpp" line="2635"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation>Alternar la visibilitat del panell d'ajuda</translation>
+        <translation>Mostra o amaga el panell d'ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2642"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation>Alternar la visibilitat del panell de preferències</translation>
+        <translation>Mostra o amaga el panell de preferències</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
@@ -929,7 +929,7 @@ cada dues setmanes.</translation>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>Nova versió disponible!
-Obtín Sonic Pi %1</translation>
+Aconsegueix Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
