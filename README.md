@@ -26,15 +26,14 @@ strings or whacking things with sticks - you write code - **live**.
 Sonic Pi has been designed with the aim to find a harmonious balance
 between three core principles:
 
-* **Simple** enough for the 10 year old within you
+* **Simple** enough for the 10-year-old within you
 * **Joyful** enough for you to lose yourself through play
 * **Powerful** enough for your own expressions
 
-Sonic Pi is a complete open source programming environment originally
-designed to explore and *teach programming concepts* within schools through 
-the process of creating *new sounds*. 
+Sonic Pi is a completely open source programming environment originally
+designed to explore and *teach programming concepts* within schools through the process of creating *new sounds*. 
 
-In addition to being an engaging education resource it has evolved into 
+In addition to being an engaging education resource, it has evolved into 
 an *extremely powerful* and performance-ready *live coding instrument* suitable 
 for professional artists and DJs.
 
@@ -46,7 +45,7 @@ between three core domains:
 * **Education**  - demonstrating that open play rather than rigid structures increases motivation and engagement in the classroom
 
 Again, finding a balance working to the best benefits of all these
-domains is the objective.
+domains are the objective.
 
 
 * Info & Latest Releases: http://sonic-pi.net
@@ -57,7 +56,7 @@ domains is the objective.
 ## Acknowledgements
 
 Sonic Pi has been developed within the Computer Laboratory at the
-University of Cambridge with kind support from the Raspberry Pi
+The University of Cambridge with kind support from the Raspberry Pi
 Foundation, the Broadcom Foundation and pi-top.
 
 ## Translations
