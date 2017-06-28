@@ -172,7 +172,7 @@ Use these buttons to force the output to the one you want.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself. 
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
-For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
+For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
         <translation>O teu Raspberry Pi tem dois tipos de saída de áudio possíveis.
 Em primeiro lugar, existe uma saída de áudio minijack incorporada no próprio circuito do Raspberry Pi.
 Em segundo lugar, alguns monitores HDMI e televisões suportam áudio através da porta HDMI.
@@ -297,7 +297,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Quando activado, o Sonic Pi irá permitir
 que sintetizadores e efeitos sejam carregados a partir de load_synthdefs
 para serem disparados.
@@ -536,32 +536,32 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="3187"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitindo MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Desligar MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3203"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrindo portas OSC para mensagens remotas...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3212"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Parando servidor OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fazer reset ao MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI está parado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
@@ -576,42 +576,42 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="683"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="779"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de ecrã total activado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="800"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de ecrã total desactivado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1178"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Rede</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Settings de rede</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1182"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Endereço IP local</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Escutando por mensagens OSC na porta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Não disponível</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1209"/>
@@ -1124,7 +1124,7 @@ Obter o Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
