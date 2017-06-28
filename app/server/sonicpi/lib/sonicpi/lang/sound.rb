@@ -288,13 +288,13 @@ live_audio :foo, :stop     #=> stop playing audio from input 1
 ]
 
 
-      def opts
-        __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[], {}])[1]
-      end
+      # def opts
+      #   __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[], {}])[1]
+      # end
 
-      def args
-        __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[], {}])[0]
-      end
+      # def args
+      #   __thread_locals.get(:sonic_pi_mod_sound_defn_args_opts, [[], {}])[0]
+      # end
 
 
       # Deprecated fns
