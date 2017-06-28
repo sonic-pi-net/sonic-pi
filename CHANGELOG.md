@@ -44,7 +44,7 @@ sound_out FX
 
 * `use_osc` - set the default hostname and port number for subsequent outgoing OSC messages. See also `with_osc`.
 * `osc` - send Open Sound Control messages in time with the music to default hostname and port
-* `osc_send` - similar to `osc` but requires you to specifiy the hostname and port
+* `osc_send` - similar to `osc` but requires you to specify the hostname and port
 * `use_sched_ahead_time` - set the schedule ahead time specifically for the current thread. Also available - `with_sched_ahead_time`.
 * `current_time` - return the current logical time.
 * `assert_error` - An assertion to ensure the specified block of code raises the specified error.
@@ -54,18 +54,18 @@ sound_out FX
 
 * New synth `live_audio` - directly stream audio from your soundcard as a synth.
 
-* New FX `record` - enables you internally record any audio into named buffers. Perfect for building looper systems.
+* New FX `record` - enables you to internally record any audio into named buffers. Perfect for building looper systems.
 
-* New FX `:sound_out` - stream out a audio to a specific output on your sound card. This enables multi-channel audio out. 
-* New FX `:sound_out_stereo` - similar to `sound_out` but streams out to pair of consecutive audio card (left and right) output channels.
+* New FX `:sound_out` - stream out audio to a specific output on your sound card. This enables multi-channel audio out.
+* New FX `:sound_out_stereo` - similar to `sound_out` but streams out to a pair of consecutive audio card (left and right) output channels.
 * New FX `eq` - Parametric EQ with three centre freqs - low, mid & high - all with Q values and gain (-1 -> 1). Also has low and high shelves with centre freqs and slope adjustment.
-* New FX `tremelo` - simple tremelo effect which modulates the volume within the `do/end` block.
+* New FX `tremolo` - simple tremolo effect which modulates the volume within the `do/end` block.
 
 ### Samples
 
 ### GUI
 
-* New GUI translations for the folloing languages: (BS) Bosnian, (CA) Catalan, (CS) Czech, (DA) Danish, (EL) Greek, (ET) Estonian, (HI) Hindi, (ID) Indonesian, (KO) Korean, (PT) Portuguese, (TR) Turkish, (ZH) Chinese  app/server/bin/i18n-tool.rb -u
+* New GUI translations for the following languages: (BS) Bosnian, (CA) Catalan, (CS) Czech, (DA) Danish, (EL) Greek, (ET) Estonian, (HI) Hindi, (ID) Indonesian, (KO) Korean, (PT) Portuguese, (TR) Turkish, (ZH) Chinese
 * Added new pane for displaying new cue events (including incoming OSC and MIDI)
 * Added new IO preferences tab for configuring MIDI and network settings.
 * Automatically autocomplete `sync`, `cue` and `get` or `set`
@@ -77,12 +77,12 @@ sound_out FX
 * New articles on additive and subtractive synthesis techniques.
 
 ### Improvements
-* Teach `time_warp` about input ranges. It now works similar to `at` in that it can now take a two lists of args - times and values - which represent a list of time distinations to be visited in turn.
+* Teach `time_warp` about input ranges. It now works similar to `at` in that it can now take two lists of args - times and values - which represent a list of time destinations to be visited in turn.
 * Ensure any unprinted messages are displayed if an exception occurs.
 * Teach `range` to work as expected with both floats and ints.
-* Teach rings a new chain method - `.scale` which will return a new ring with all elements multipled by the scale value.
+* Teach rings a new chain method - `.scale` which will return a new ring with all elements multiplied by the scale value.
 * The fn `control` now returns the node you're controlling.
-* Add many new chords 
+* Add many new chords
 
 ### Bugfixes
 
