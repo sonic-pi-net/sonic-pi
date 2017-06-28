@@ -157,7 +157,7 @@ Usa estos botones para forzar la salida de audio a aquella que desees.</translat
     <message>
         <location filename="../mainwindow.cpp" line="1316"/>
         <source>&amp;Headphones</source>
-        <translation>&amp;Audífonos</translation>
+        <translation>&amp;Auriculares</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
@@ -1143,7 +1143,7 @@ cada 2 semanas.</translation>
     <message>
         <location filename="../ruby_help.h" line="1144"/>
         <source>Samples</source>
-        <translation>Muestras</translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1389"/>
