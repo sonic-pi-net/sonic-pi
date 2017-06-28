@@ -195,7 +195,7 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Signalen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -220,91 +220,94 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk instellingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokaal IP adres</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het luisteren naar OSC berichten op poort</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbeschikbaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Ontvang OSC berichten van buitenaf</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien aangevinkt, zal Sonic Pi controleren of er OSC berichten ontvangen worden verstuurd door externe apparaten.
+Indien niet aangevinkt, zullen enkel berichten ontvangen worden van lokaal aanwezige apparaten.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer OSC server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien aangevinkt, zal Sonic Pi controleren of er OSC berichten ontvangen worden.
+Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configureer MIDI functionaliteit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer MIDI subsysteem</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer of deactiveer inkomende en uitgaande MIDI communicatie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset MIDI subsysteem
+(nodig om te detecteren of er veranderingen zijn in het macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard MIDI channel (* = allemaal)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Stadaard MIDI kanaal om MIDI signalen naar te verzenden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
@@ -438,7 +441,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Indien ingeschakeld zal Sonic Pi toestaan om
 synths en effecten die geladen zijn via load_synthdefs 
 te triggeren.
@@ -450,7 +453,7 @@ dat niet wordt herkend.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
         <source>Enforce timing guarantees</source>
-        <translation>Het &quot;In maat blijven&quot; afdwingen</translation>
+        <translation>Het "In maat blijven" afdwingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
@@ -1161,7 +1164,7 @@ Krijg Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
