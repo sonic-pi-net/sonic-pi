@@ -548,12 +548,12 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished">MIDI入力</translation>
+        <translation>MIDI入力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished">MIDI出力</translation>
+        <translation>MIDI出力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -770,7 +770,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro Icons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
