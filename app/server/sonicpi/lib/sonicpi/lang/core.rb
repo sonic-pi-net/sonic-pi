@@ -302,10 +302,8 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
 
 
 
-      def use_osc(host, port=57120)
-
-        # 57120 is the OSC spec default port
-
+      def use_osc(host, port=4559)
+        host = host.to_s
         host_and_port = (host.include? ":") ? host : (host + ":" + port.to_s)
 
         __thread_locals.set :sonic_pi_osc_client, host_and_port.freeze
@@ -317,7 +315,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Sets the destination host and port that `osc` will send messages to.
+          doc:            "Sets the destination host and port that `osc` will send messages to. If no port number is specified - will default to port 4559 (Sonic Pi's default OSC listening port).
 
 OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `use_osc` allows you to specify which computer (`hostname`) and program (`port`) to send messages to.
 
