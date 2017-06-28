@@ -315,27 +315,30 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>入力デバイス無し</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>出力デバイス無し</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>入力デバイスはSonic Piに直接MIDIメッセージを送信し、
+Sonic Piはそれをcueイベントとして受信します
+(OSCメッセージの受信とcueと同じです)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>出力デバイスは、Sonic Piのmidi_*関数で送信された
+MIDIメッセージを直接受信します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -442,7 +445,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>有効にすると、Sonic Piはload_synthdefs
 の呼び出しによるシンセ・エフェクトのロードを
 許可します。
@@ -545,12 +548,12 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI入力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI出力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -1172,7 +1175,7 @@ Sonic Pi %1 を入手</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Sonic Piが既に実行されていませんか？ UDPポートを開くことができませんでした。</translation>
     </message>
 </context>
