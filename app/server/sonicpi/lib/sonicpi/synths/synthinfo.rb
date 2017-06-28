@@ -4046,7 +4046,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "Outputs a mono signal to a soundcard output of your choice."
+        "Outputs a mono signal to a soundcard output of your choice. By default will mix the incoming stereo signal (generated within the FX block) into a single mono channel. However, with the `mode:` opt, it is possible to alternatively send the either the incoming left or right channels out directly. "
       end
 
       def kill_delay(args_h)
@@ -4095,7 +4095,8 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "Outputs a two-channel stereo signal to two consecutive soundcard outputs of your choice. "
+        "Outputs a two-channel stereo signal to two consecutive soundcard outputs of your choice. By default will route the left and right channels of the incoming stereo signal (generated within the FX block) into separate left and right output channels. However, with the `mode:` opt, it is possible to alternatively cross over the channels or mix the incoming stereo channels into a single mono output and duplicate that on both left and right output channels. "
+
       end
 
       def kill_delay(args_h)
@@ -4611,6 +4612,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
       def doc
         "Make the incoming signal sound more spacious or distant as if it were played in a large room or cave. Similar to reverb but with a more spacious feel."
       end
+
 
       def arg_defaults
         super.merge({
