@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="468"/>
         <source>Sonic Pi update info</source>
-        <translation>Info de mise à jour de Sonic Pi</translation>
+        <translation>Informations de mise à jour de Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="590"/>
@@ -112,7 +112,7 @@ engendrer des sons forts ou inconfortables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>Le serveur Sonic Pi ne peut démarrer !</translation>
+        <translation>Le serveur Sonic Pi ne peut être démarré !</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -511,7 +511,7 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP locale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
@@ -521,7 +521,7 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Indisponible</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
@@ -537,7 +537,7 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer serveur OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
@@ -548,44 +548,45 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurer comportement MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer sous-systèmes MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer ou désactiver communication MIDI entrant et sortant</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Réinitialiser MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Réinitialiser sous-systèmes MIDI
+(Nécessaire pour détecter changements de dispositifs sous macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI par défaut (* signifie tous)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI par défaut pour envoyer messages</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
@@ -632,12 +633,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Icones Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée/Sortie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1510"/>
@@ -877,12 +878,12 @@ Veuillez nous excuser, une erreur critique s'est produite pendant le démarrage<
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrées MIDI connectées</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorties MIDI connectées</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
@@ -1083,7 +1084,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI est désactivé...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
