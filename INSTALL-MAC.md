@@ -53,7 +53,7 @@ so by typing the following commands in your terminal:
 
 * `cmake` - If installed, it will show the usage of the program
 * `pkg-config` - If installed, it will show a message indicating that a 
-package name should be specified.
+the package name should be specified.
 
 Installation of both the programs can be done through Homebrew or MacPorts
 
