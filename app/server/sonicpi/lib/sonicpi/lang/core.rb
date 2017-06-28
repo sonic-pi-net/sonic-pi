@@ -463,6 +463,7 @@ osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
       def osc(path, *args)
         host_and_port = __thread_locals.get :sonic_pi_osc_client
         raise ArgumentError, "Please specify a destination with use_osc or with_osc" unless host_and_port
+        path = "/#{path}" if path.is_a? Symbol
         host, port = host_and_port.split ":"
         port = port.to_i
         __osc_send host, port, path, *args
