@@ -1479,7 +1479,7 @@ end"
 
       def __midi_system_reset(silent=false)
         __info "Resetting MIDI subsystems..." unless silent
-        __schedule_delayed_blocks_and_messages! unless silent
+        __schedule_delayed_blocks_and_messages!
         @mod_sound_studio.init_or_reset_midi(silent)
       end
 
