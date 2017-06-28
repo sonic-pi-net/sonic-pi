@@ -699,38 +699,41 @@ Quando desseleccionado nenhuma mensagem OSC será recebida.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Equipamentos de entrada MIDI enviam mensagens directamente
+ao Sonic Pi e são recebidos como eventos em fila
+(similar a mensagens OSC recebidas e filas internas)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Equipamento MIDI de saída recebem mensagens MIDI directamente do
+Sonic Pi que podem ser enviadas via funções midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Master de Volume</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Use este slider para mudar o volume do sistema.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1303"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Saída audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro auto-deslizavel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar registro de fila</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
