@@ -255,7 +255,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Gdy jest włączone, Sonic Pi pozwoli, 
 aby syntezatory i efekty, ładowane za pomocą 
 polecenia load_synthdefs, mogły 
@@ -269,7 +269,7 @@ potrafi rozpoznać.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
         <source>Enforce timing guarantees</source>
-        <translation>Wymuszenie gwarancji wykonania &quot;o czasie&quot;</translation>
+        <translation>Wymuszenie gwarancji wykonania "o czasie"</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
@@ -585,27 +585,32 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak podłączonych urządzeń wejściowych</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak podłączonych urządzeń wyjściowych</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Urządzenia wejściowe MIDI wysyłają komunikaty MIDI 
+bezpośrednio do Sonic Pi i są odbierane jako zdarzenia 
+typu cue (podobnie do przychodzących komunikatów 
+OSC oraz wewnętrznych punktów cue)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Urządzenia wyjściowe MIDI odbierają komunikaty MIDI 
+bezpośrednio z Sonic Pi, które można wysyłać za pomocą 
+funkcji midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -641,7 +646,7 @@ oraz przychodzące komunikaty OSC/MIDI.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Profesjonalne Ikony</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
@@ -909,12 +914,12 @@ na twoim komputerze do aktualnego buforu</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Wejścia MIDI podłączone</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjścia MIDI podłączone</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
@@ -1176,7 +1181,7 @@ Pobierz Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Czy Sonic Pi nie jest już uruchomiony? Nie można otworzyć portu UDP.</translation>
     </message>
 </context>
