@@ -628,7 +628,7 @@ Quando desseleccionado, apenas mensagens da maquina local serão recebidas.</tra
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponibiliza servidor OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
