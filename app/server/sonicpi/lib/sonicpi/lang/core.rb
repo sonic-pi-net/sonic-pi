@@ -152,7 +152,7 @@ module SonicPi
         nil
       end
       doc name:           :with_swing,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Add swing to successive calls to do/end block",
           args:           [[:shift, :beats], [:pulse, :number], [:key, :symbol]],
           returns:        nil,
@@ -258,7 +258,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
         __thread_locals.set(:sonic_pi_suppress_osc_logging, !v)
       end
       doc name:          :use_osc_logging,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Enable and disable OSC logging",
           doc:           "Enable or disable log messages created on OSC functions. This does not disable the OSC functions themselves, it just stops them from being printed to the log",
           args:          [[:true_or_false, :boolean]],
@@ -277,7 +277,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
         __thread_locals.set(:sonic_pi_suppress_osc_logging, current)
       end
       doc name:          :with_osc_logging,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Block-level enable and disable OSC logging",
           doc:           "Similar to use_osc_logging except only applies to code within supplied `do`/`end` block. Previous OSC log value is restored after block.",
           args:          [[:true_or_false, :boolean]],
@@ -311,7 +311,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
         __thread_locals.set :sonic_pi_osc_client, host_and_port.freeze
       end
       doc name:           :use_osc,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Set the default hostname and port number for outgoing OSC messages.",
           args:           [[:hostname, :string], [:port, :number]],
           returns:        nil,
@@ -404,7 +404,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
         res
       end
       doc name:           :with_osc,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Block-level setting for the default hostname and port number of outgoing OSC messages.",
           args:           [[:hostname, :string], [:port, :number]],
           returns:        nil,
@@ -437,7 +437,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc_send,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send an OSC message to a specific host and port",
           args:           [[:hostname, :string], [:port, :number], [:path, :osc_path], [:args, :list]],
           returns:        nil,
@@ -470,7 +470,7 @@ osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Send an OSC message (Open Sound Control)",
           args:           [[:path, :arguments]],
           returns:        nil,
@@ -3410,7 +3410,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
         __system_thread_locals.get(:sonic_pi_spider_time)
       end
       doc name:          :current_time,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Get current (logically quantized) time",
           doc:           "Returns the current logical time. This is a 'wall-clock' time which should typically be pretty similar to Time.now but quantised to a nearby sleep point in the thread. May be quite different to Time.now within a time_warp!
 
@@ -3589,7 +3589,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, t)
       end
       doc name:          :use_sched_ahead_time,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Set sched ahead time for the current thread",
           doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding.
 
@@ -3621,7 +3621,7 @@ end
         use_sched_ahead_time 0
       end
       doc name:          :use_real_time,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Set sched ahead time to 0 for the current thread",
           doc:           "
 Set sched ahead time to 0 for the current thread. Shorthand for `use_sched_ahead_time 0`.
@@ -3640,7 +3640,7 @@ See `use_sched_ahead_time` for a version of this function which allows you to se
         with_sched_ahead_time 0, &blk
       end
       doc name:          :with_real_time,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Sets sched ahead time to 0 within the block for the current thread",
           doc:           "
 
@@ -3665,7 +3665,7 @@ See `with_sched_ahead_time` for a version of this function which allows you to s
         res
       end
       doc name:          :with_sched_ahead_time,
-          introduced:    Version.new(2,12,0),
+          introduced:    Version.new(3,0,0),
           summary:       "Block-level set sched ahead time for the current thread",
           doc:           "Specify how many seconds ahead of time the synths should be triggered for the block. See `use_sched_ahead_time` for further information.
 
@@ -4513,7 +4513,7 @@ assert_equal 3, 5, \"something is seriously wrong!\"
         end
       end
       doc name:           :assert_similar,
-          introduced:     Version.new(2,12,0),
+          introduced:     Version.new(3,0,0),
           summary:        "Ensure args are similar",
           doc:            "Raises an exception if both arguments aren't similar.
 
