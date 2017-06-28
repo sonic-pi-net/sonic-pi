@@ -1275,7 +1275,7 @@ void MainWindow::initPrefsWindow() {
   midi_in_ports_label->setText(tr("No connected input devices"));
   midi_out_ports_label->setText(tr("No connected output devices"));
   midi_in_ports_label->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
-  midi_out_ports_label->setToolTip(tr("MIDI output devices receieve MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
+  midi_out_ports_label->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
 
 
   QVBoxLayout *midi_box_layout = new QVBoxLayout;
