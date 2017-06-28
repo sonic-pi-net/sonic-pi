@@ -316,21 +316,23 @@ Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein Eingabegerät angeschlossen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein Ausgabegerät angeschlossen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Die MIDI-Nachrichten von MIDI-Eingabegeräten gehen
+direkt an Sonic Pi und dienen als Cue-Ereignisse
+(ebenso wie eingehende OSC-Nachrichten und interne Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
@@ -441,7 +443,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Hiermit kannst Du in Sonic Pi
 externe Synths und FX via load_synthdefs
 nachladen.
@@ -1171,7 +1173,7 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Läuft Sonic Pi bereits? Der UDP-Port ist schon belegt.</translation>
     </message>
 </context>
