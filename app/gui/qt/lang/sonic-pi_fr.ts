@@ -496,7 +496,7 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Signaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
@@ -516,7 +516,7 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Ecoute des messages OSC sur le port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
@@ -526,13 +526,14 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Recevoir des messages OSC distants</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsque la case est cochée, Sonic Pi sera à l'écoute des messages OSC de machines distantes.
+Lorsque la case est décochée, seul les messages de la machine locale seront reçues.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
@@ -543,7 +544,8 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsque la case est cochée, Sonic Pi sera à l'écoute des messages OSC.
+Lorsque la case est décochée, aucun message OSC ne sera reçu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
@@ -593,27 +595,30 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de périphérique d'entrée</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de périphériques de sortie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Périphériques d'entrée MIDI envoient les messages MIDI directement à 
+Sonic-Pi et recoivent en tant que signaux
+(similaires aux messages OSC entrant et aux signaux internes)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Les périphériques de sortie MIDI recoivent les messages MIDI directement de
+Sonic Pi qui peuvent être envoyés via midi_ *fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -623,12 +628,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voir journal de signaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activer/désactiver la visibilité du journal des signaux qui affichent les signaux internes et les messages entrant OSC/MIDI.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
@@ -1059,27 +1064,27 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Activation MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactivation MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouverture du port OSC pour les messages distants...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêt du serveur OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Réinitialisation MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
