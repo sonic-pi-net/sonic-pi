@@ -753,32 +753,32 @@ Sonic Pi que podem ser enviadas via funções midi_*</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar e esconder osciloscópio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo de osciloscópio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1535"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar osciloscópio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1536"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comutar visibilidade dos osciloscópio audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar eixos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1538"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Comutar a visibilidade dos eixos dos osciloscópio audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
@@ -788,12 +788,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>OS osciloscópio vêm em 3 sabores que podem 
+ser vistos independentemente ou todos juntos:
+
+Lissajous - Ilustra a relação de fase entre o canal esquerdo e o direito
+Mono - Mostra uma vista combinada do canal esquerdo e direito (usando RMS)
+Estéreo - Mostra 2 osciloscópio independentes para o canal esquerdo e direito</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Visuais</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
@@ -899,27 +904,27 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentar tamanho</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuir tamanho</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Comutar a visibilidade dos osciloscópio audio. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Comutar a visibilidade do painel de ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Comutar a visibilidade do painel de preferências</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
@@ -968,12 +973,12 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entradas MIDI conectadas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Saídas MIDI conectadas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
@@ -1174,7 +1179,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>O Sonic Pi já está a correr? Impossível de abrir porta UDP.</translation>
     </message>
 </context>
 </TS>
