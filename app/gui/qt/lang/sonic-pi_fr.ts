@@ -609,16 +609,16 @@ Lorsque la case est décochée, aucun message OSC ne sera reçu.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">Périphériques d'entrée MIDI envoient les messages MIDI directement à 
-Sonic-Pi et recoivent en tant que signaux
+        <translation>Périphériques d'entrée MIDI envoient les messages MIDI directement à 
+Sonic-Pi et reçoivent en tant que signaux
 (similaires aux messages OSC entrant et aux signaux internes)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">Les périphériques de sortie MIDI recoivent les messages MIDI directement de
-Sonic Pi qui peuvent être envoyés via midi_ *fns</translation>
+        <translation>Les périphériques de sortie MIDI reçoivent les messages MIDI directement de
+Sonic Pi qui peuvent être envoyés via les fns midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -633,7 +633,7 @@ Sonic Pi qui peuvent être envoyés via midi_ *fns</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">Activer/désactiver la visibilité du journal des signaux qui affichent les signaux internes et les messages entrant OSC/MIDI.</translation>
+        <translation>Activer/désactiver la visibilité du journal des signaux qui affiche les signaux internes et les messages entrant OSC/MIDI.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
