@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-28 14:25+0000\n"
+"PO-Revision-Date: 2017-06-29 13:00+0000\n"
 "Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -1257,9 +1257,8 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
-#, fuzzy
 msgid "Let's try another sound - the *prophet*:"
-msgstr "Probemos otro sonido - el *profeta*:"
+msgstr "Probemos otro sonido - *prophet*:"
 
 #: 02.3-Switching-Synths.md:37
 #, no-wrap
@@ -1363,7 +1362,6 @@ msgid "`:prophet`"
 msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
-#, fuzzy
 msgid "`:dsaw`"
 msgstr "`:dsaw`"
 
@@ -1376,7 +1374,6 @@ msgid "`:tb303`"
 msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
-#, fuzzy
 msgid "`:pulse`"
 msgstr "`:pulse`"
 
@@ -1580,18 +1577,17 @@ msgid "Attack Phase"
 msgstr "Fase de Ataque"
 
 #: 02.4-Durations-with-Envelopes.md:93
-#, fuzzy
 msgid ""
 "By default, the *attack phase* is 0 for all synths which means they move from "
 "0 amplitude to 1 immediately. This gives the synth an initial percussive sound"
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
-"Por defecto, la *fase de ataque* es 0 para todos los sintetizadores, lo que si"
-"gnifica que pasan de amplitud 0 a 1 inmediatamente. Esto le da al sintetizador"
-" un percusivo sonido inicial. Sin embargo, podrías desear encender tu sonido d"
-"e a poco. Esto se logra con el operador `attack:` . Prueba encender tu sonido "
-"de a poco:"
+"Por defecto, la *fase de ataque* es 0 para todos los sintetizadores, lo que "
+"significa que pasan  inmediatamente de amplitud 0 a 1. Ésto le da al "
+"sintetizador un sonido inicial percutivo. Sin embargo, podrías desear que el "
+"sonido se inicie gradualmente. Esto se logra con el operador `attack:`. "
+"Prueba hacerlo con varios sonidos:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1618,13 +1614,11 @@ msgid "play 60, attack: 0.7, release: 4"
 msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
-#, fuzzy
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
 msgstr ""
-"Este sobre con ataque corto y largo release queda ilustrado en el siguiente di"
-"agrama:"
+"Este ataque corto y largo release queda ilustrado en el siguiente diagrama:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
@@ -1711,12 +1705,12 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
-"El sostenimiento es útil para importantes sonidos a los que desees darles máxi"
-"ma presencia a la mezcla antes de entrar a la fase de release. Claro, es total"
-"mente válido usar ambos operandos, `attack:` y `release:` opts a 0 y dejar el "
-"sostenimiento sin aparecimiento gradual ni desvanecimiento. Sin embargo, ten e"
-"n cuenta que un release de 0 puede producir clicks en el audio y es aconsejabl"
-"e usar un valor muy pequeño como 0.2."
+"El sostenimiento es útil para sonidos a los que desees darles máxima "
+"presencia a la mezcla antes de entrar a la fase de release. Claro, es "
+"totalmente válido usar ambos operadores, `attack:` y `release:` opts a 0 y "
+"dejar el sostenimiento sin aparecimiento gradual ni desvanecimiento. Sin "
+"embargo, ten en cuenta que un release de 0 puede producir clicks en el audio "
+"y es aconsejable usar un valor muy pequeño como 0.2."
 
 #: 02.4-Durations-with-Envelopes.md:154
 #, fuzzy
@@ -3254,6 +3248,10 @@ msgid ""
 "working at 120 BPM, we can filter down to all the samples that contain the str"
 "ing `\"120\"` with the following:"
 msgstr ""
+"Podemos usar como convención esta nomenclatura de nuestros conjuntos de "
+"samples en el código para ayudarnos a filtrar los que queremos. Por ejemplo, "
+"si trabajamos a 120 BPM, podemos filtrar a todos los ejemplos que contienen "
+"la cadena `\" 120 \"` con lo siguiente:"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
@@ -3269,6 +3267,8 @@ msgid ""
 "This will play us the first match. If we want the second match we just need to"
 " use the index:"
 msgstr ""
+"Ésto ejecutará el primer sample. Si queremos el segundo sample sólo "
+"necesitamos usar el índice:"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -3285,6 +3285,9 @@ msgid ""
 "ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
 "t easily with the following code:"
 msgstr ""
+"Incluso podemos usar varios filtros al mismo tiempo. Por ejemplo, si "
+"queremos un sample cuyo nombre de archivo contenga las subcadenas \"120\" y "
+"\"A #\", lo encontraremos fácilmente con el siguiente código:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3297,7 +3300,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:129
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
-msgstr ""
+msgstr "Por último, podemos añadir las opciones habituales al `sample`:"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -3310,22 +3313,30 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:136
 msgid "Sources"
-msgstr ""
+msgstr "Fuentes"
 
 #: 03.7-Sample-Packs.md:138
+#, fuzzy
 msgid ""
 "The sample filter pre-arg system understands two types of information: sources"
 " and filters. Sources are information used to create the list of potential can"
 "didates. A source can take two forms:"
 msgstr ""
+"El sistema de pre-arg de filtro del sample entiende dos tipos de información:"
+" fuentes y filtros. Las fuentes son información utilizada para crear la "
+"lista de candidatos potenciales. Una fuente puede tomar dos formas:"
 
 #: 03.7-Sample-Packs.md:142
 msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
 msgstr ""
+"\"/path/to/samples\" - una cadena que representa una ruta de acceso válida a "
+"un directorio"
 
 #: 03.7-Sample-Packs.md:143
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
+"\"/path/to/samples/foo.wav\" - Una cadena que representa una ruta válida a "
+"un sample"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -3334,6 +3345,10 @@ msgid ""
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
+"El 'sample' fn primero coge todas las fuentes y crear una lista con todos "
+"los candidatos. Esta lista se construye agregando primero todas las rutas "
+"válidas y añadiendo, luego, todos los ficheros `.flac`,` .aif`, `.aiff`,` "
+".wav`, `.wave` contenidos en los directorios."
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
@@ -3359,6 +3374,10 @@ msgid ""
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
+"Aquí, combinamos el contenido de los samples dentro de dos directorios y "
+"añadiendo un sample específico. Si `\"/path/to/my/samples/\"` contiene 3 "
+"samples y `\"/path/to/my/samples2/\"` contiene 12, tenemos 16 samples "
+"potenciales para indexar y filtrar (3 + 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -3368,6 +3387,11 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
+"Por defecto, sólo los samples de un directorio se agrupan en una lista de "
+"candidatos. Es posible que tenga una serie de subcarpetas de samples en la "
+"que quieras buscar y filtrar. Por lo tanto, puedes realizar una búsqueda "
+"recursiva de todas los samples dentro de todas las subcarpetas de una "
+"carpeta determinada añadiendo `**` al final de la ruta:"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -3384,6 +3408,10 @@ msgid ""
 "ong time. However, the contents of all folder sources are cached, so the delay"
 " will only happen the first time."
 msgstr ""
+"Ten cuidado ya que la búsqueda en un conjunto muy grande de carpetas puede "
+"tomar mucho tiempo. Sin embargo, el contenido de todas las fuentes de las "
+"carpetas se almacenan en el caché, por lo que el retraso sólo se producirá "
+"la primera vez."
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
@@ -3391,6 +3419,9 @@ msgid ""
 "e set of built-in samples will be selected as the default list of candidates t"
 "o work with."
 msgstr ""
+"Por último, ten en cuenta que las fuentes *deben ir primero*. Si no se da "
+"ninguna fuente, entonces el conjunto de samples incorporados se seleccionará "
+"de la lista predeterminada de candidatos con los que trabajar."
 
 #: 03.7-Sample-Packs.md:184 A.19-subtractive-synthesis.md:47
 msgid "Filters"
@@ -3405,10 +3436,13 @@ msgstr ""
 "de filtros para reducir aún más la selección:"
 
 #: 03.7-Sample-Packs.md:189
+#, fuzzy
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name (minus di"
 "rectory path and extension)."
 msgstr ""
+"`` Foo '`Las cadenas filtrarán la ocurrencia de la subcadena dentro del "
+"nombre de archivo (menos la ruta del directorio y la extensión)."
 
 #: 03.7-Sample-Packs.md:190
 msgid ""
@@ -15481,6 +15515,10 @@ msgid ""
 "  synth :prophet, note: :e2, sustain: 3.5\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 50 do |fx|\n"
+"  control fx, cutoff_slide: 3, cutoff: 130\n"
+"  synth :prophet, note: :e2, sustain: 3.5\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:125
 msgid ""
