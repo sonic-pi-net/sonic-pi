@@ -297,7 +297,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
         <translation>MIDIサブシステムをリセットします
-（Mac OSでデバイスの変更を検出するのに必要です）</translation>
+(macOSでデバイスの変更を検出するのに必要です)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
