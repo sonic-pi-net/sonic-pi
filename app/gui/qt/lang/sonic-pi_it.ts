@@ -26,7 +26,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Attiva inversione stereo.
-Se abilitata, l&apos;audio della cassa sinistra
+Se abilitata, l'audio della cassa sinistra
 verrà inviato alla cassa destra e viceversa.</translation>
     </message>
     <message>
@@ -64,14 +64,14 @@ non saranno, di default, mostrati nel registro.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Clear log on run</source>
-        <translation>Cancella registro all&apos;avvio</translation>
+        <translation>Cancella registro all'avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1352"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Abilità cancella registro all&apos;avvio.
+        <translation>Abilità cancella registro all'avvio.
 Se abilitato, i contenuti del registro saranno cancellati
 ogni volta che il pulsante avvio verrà premuto.</translation>
     </message>
@@ -196,7 +196,7 @@ creare suoni spiacevoli e rumori forti e inaspettati.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Segnali di partenza</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -221,118 +221,124 @@ creare suoni spiacevoli e rumori forti e inaspettati.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Rete</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni di rete</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo IP locale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Porta di ascolto messaggi OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Non disponibile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Ricezione messaggi OSC remoti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se selezionato, Sonic PI rimarrà in attesa di ricevere messaggi OSC da un computer remoto
+Se deselezionato, verranno ricevuti solo messaggi dal computer locale.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita server OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se selezionato, Sonic PI rimarrà in ascolto per messaggi OSC.
+Se deselezionato, non verranno ricevuti messaggi OSC.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura impostazioni MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilità il sottosistema MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita o disabilita messaggi MIDI in ingresso e in uscita</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Reimposta MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetta il sottosistema MIDI
+(Necessario per identificare modifiche nei dispositivi su macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale MIDI di default (* significa tutti)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale MIDI di default a cui inviare messaggi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivi di input non connessi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivi di output non connessi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>I dispositivi MIDI di input inviano messaggi MIDI direttamente a
+Sonic PI e vengono ricevuti come segnali di partenza
+(allo stesso modo funzionano i messaggi OSC in ingresso)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>I dispositivi MIDI di output ricevono messaggi MIDI direttamente da
+Sonic PI e possono essere inviati con la funzione midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -438,7 +444,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Se abilitato, Sonic Pi permetterà di
 avviare synth e FX caricati attraverso
 il comando load_synthdefs.
@@ -479,7 +485,7 @@ anche se lanciati in ritardo.</translation>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Abilità controllo automatico aggiornamenti.
-Questo controllo include l&apos;invio di informazione in modo anonimo relative alla tua versione e piattaforma.</translation>
+Questo controllo include l'invio di informazione in modo anonimo relative alla tua versione e piattaforma.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1399"/>
@@ -491,7 +497,7 @@ Questo controllo include l&apos;invio di informazione in modo anonimo relative a
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Forza subito un controllo aggiornamenti.
-Questo controllo include l&apos;invio in modo anonimo di informazioni relative alla tua piattaforma e versione.</translation>
+Questo controllo include l'invio in modo anonimo di informazioni relative alla tua piattaforma e versione.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
@@ -516,7 +522,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1427"/>
         <source>Configure editor display options.</source>
-        <translation>Configura opzioni di vista nell&apos;editor.</translation>
+        <translation>Configura opzioni di vista nell'editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
@@ -526,7 +532,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor look and feel.</source>
-        <translation>Configura aspetto dell&apos;editor.</translation>
+        <translation>Configura aspetto dell'editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
@@ -541,12 +547,12 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingressi MIDI connessi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Uscite MIDI connesse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -556,7 +562,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
         <source>Automatically align code on Run</source>
-        <translation>Allinea automaticamente il codice all&apos;Avvio</translation>
+        <translation>Allinea automaticamente il codice all'Avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
@@ -625,9 +631,9 @@ La modalità scura è perfetta per performance nei night club.</translation>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation>Errore all&apos;avvio di Sonic Pi
+        <translation>Errore all'avvio di Sonic Pi
 
-Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
+Siamo spiacenti, si è verificato un errore durante l'avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1776"/>
@@ -708,32 +714,32 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilitando il MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilitando il MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Apertura porta OSC per messaggi remoti...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermando il server OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Reimpostando il MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI disabilitato...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
@@ -753,22 +759,22 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra registro segnali</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita o disabilita il registro dei segnali per mostrare segnali di avvio interni e messaggi OSC/MIDI in ingresso.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Icone Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
@@ -889,17 +895,17 @@ Stereo - mostra due oscilloscopi per il canale sinistro e destro</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2421"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio cuffie...</translation>
+        <translation>Cambiando all'uscita audio cuffie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2437"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio HDMI...</translation>
+        <translation>Cambiando all'uscita audio HDMI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2452"/>
         <source>Switching To Default Audio Output...</source>
-        <translation>Cambiando all&apos;uscita audio predefinita...</translation>
+        <translation>Cambiando all'uscita audio predefinita...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2617"/>
@@ -909,7 +915,7 @@ Stereo - mostra due oscilloscopi per il canale sinistro e destro</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Start recording to WAV audio file</source>
-        <translation>Inizia a registrare l&apos;audio in un file WAV</translation>
+        <translation>Inizia a registrare l'audio in un file WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
@@ -1019,7 +1025,7 @@ Scarica subito Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Segnala l&apos;errore a</translation>
+        <translation>Segnala l'errore a</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2668"/>
@@ -1168,7 +1174,7 @@ Scarica subito Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Sonic Pi è ancora in esecuzione? Impossibile aprire la porta UDP.</translation>
     </message>
 </context>
