@@ -396,7 +396,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Сигналы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="952"/>
@@ -411,17 +411,17 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки сети</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Локальный IP-адрес</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
@@ -431,44 +431,46 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Недоступно</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Принимать удалённые сообщения OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Когда включено, Sonic Pi будет принимать сообщения OSC с удалённых компьютеров.
+ Когда выключено, будут приниматься только сообщения с локального компьютера.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить сервер OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Когда включено, Sonic Pi будет принимать сообщения OSC.
+Когда выключено, сообщения OSC приниматься не будут.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Настроить поведение MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить подсистемы MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
@@ -478,38 +480,39 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Сбросить MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Сбросить подсистемы MIDI
+(Требуется для обнаружения изменений устройств на macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал MIDI по умолчанию (* означает все)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал MIDI для отправки сообщений по умолчанию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет подключённых устройств ввода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет подключённых устройств вывода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
@@ -579,7 +582,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Когда включено, Sonic Pi разрешит
 срабатывать синтезаторам и FX,
 загруженным через load_synthdefs.
@@ -613,12 +616,12 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать журнал сигналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать/скрыть журнал сигналов, в котором показаны внутренние сигналы и входящие сообщения OSC/MIDI.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
@@ -1074,32 +1077,32 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключение MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Открытие порта OSC для удалённых сообщений...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Остановка сервера OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Сброс MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI выключено...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
@@ -1160,7 +1163,7 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Sonic Pi уже работает? Не удалось открыть порт UDP.</translation>
     </message>
 </context>
