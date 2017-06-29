@@ -49,7 +49,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Indenting line...</source>
-        <translation>Indentando linea...</translation>
+        <translation>Indentando línea...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
@@ -215,7 +215,7 @@ cada vez que se presione el botón de iniciar.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Log cues</source>
-        <translation>Registro de señales</translation>
+        <translation>Registro de señales (cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
@@ -299,7 +299,7 @@ cuando sea un poco tarde.</translation>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Cambia la opción del comprobación automática de actualizaciones.  
+        <translation>Cambia la opción de comprobación automática de actualizaciones.  
 Esta verificación conlleva enviar información anónima de tu plataforma y versión actuales.</translation>
     </message>
     <message>
@@ -372,12 +372,12 @@ Esta verificación conlleva enviar información anónima acerca de tu plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Show line numbers</source>
-        <translation>Mostrar número de lineas</translation>
+        <translation>Mostrar los números de línea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
         <source>Toggle line number visibility.</source>
-        <translation>Cambia la visibilidad del número de lineas.</translation>
+        <translation>Cambia la visibilidad de los números de línea.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
@@ -449,7 +449,7 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Configuraciones útiles para realizar con Sonic Pi</translation>
+        <translation>Configuraciones útiles para hacer música con Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1538"/>
@@ -491,7 +491,7 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Por favor, considera reportar este error</translation>
+        <translation>Por favor, considera reportar este error a</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
@@ -610,15 +610,15 @@ Cuando no esté seleccionado no se recibirán mensajes OSC.</translation>
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
         <translation>Los dispositivos de entrada MIDI envían mensajes MIDI directamente a
-Sonic Pi y son recibidos como eventos cue
-(Similar a los mensajes OSC entrantes y las señales(cue) internas)</translation>
+Sonic Pi y son recibidos como eventos de señal (cue)
+(Similar a los mensajes OSC entrantes y las señales (cue) internas)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
         <translation>Los dispositivos de salida MIDI reciben mensajes MIDI de
-Sonic Pi que se puede enviar vía midi_ * fns</translation>
+Sonic Pi que se puede enviar vía midi_* fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -648,7 +648,7 @@ Sonic Pi que se puede enviar vía midi_ * fns</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation>Cambia la visibilidad del registro cue que muestra las señales internas y los mensajes OSC / MIDI entrantes.</translation>
+        <translation>Cambia la visibilidad del registro "cue" que muestra las señales internas y los mensajes OSC / MIDI entrantes.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
@@ -843,7 +843,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Auto desplazamiento del registro...</translation>
+        <translation>Desplazamiento automático del registro...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
@@ -888,7 +888,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2617"/>
         <source>Save current buffer as an external file</source>
-        <translation>Guardar el búffer actual como un archivo externo</translation>
+        <translation>Guardar el buffer actual como un archivo externo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2622"/>
@@ -945,7 +945,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Improve readability of code</source>
-        <translation>Mejorar legibilidad del código</translation>
+        <translation>Mejorar la legibilidad del código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2637"/>
@@ -1050,7 +1050,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>File saved...</source>
-        <translation>Archivos guardados...</translation>
+        <translation>Archivo guardado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3186"/>
@@ -1092,7 +1092,7 @@ cada 2 semanas.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation>Deteniendo el servidor OSC ...</translation>
+        <translation>Deteniendo el servidor OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
@@ -1102,7 +1102,7 @@ cada 2 semanas.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation>MIDI está deshabilitado ...</translation>
+        <translation>MIDI está deshabilitado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
@@ -1164,7 +1164,7 @@ cada 2 semanas.</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port.</source>
-        <translation>Sonic Pi ya está ejecutándose? No se puede abrir el puerto UDP.</translation>
+        <translation>¿Sonic Pi ya está ejecutándose? No se puede abrir el puerto UDP.</translation>
     </message>
 </context>
 </TS>
