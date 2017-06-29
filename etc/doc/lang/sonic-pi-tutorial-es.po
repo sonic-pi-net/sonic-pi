@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-29 13:00+0000\n"
-"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
+"PO-Revision-Date: 2017-06-29 22:41+0000\n"
+"Last-Translator: Esteban Betancur <essteb@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -1803,14 +1803,13 @@ msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
-#, fuzzy
 msgid "ADSR Envelopes"
-msgstr "Sobres ADSR"
+msgstr "Envolventes ADSR"
 
 #: 02.4-Durations-with-Envelopes.md:193
-#, fuzzy
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr "Para resumir, los sobres ADSR de Sonic Pi tienen las siguientes fases:"
+msgstr ""
+"Para resumir, las envolventes ADSR de Sonic Pi tienen las siguientes fases:"
 
 #: 02.4-Durations-with-Envelopes.md:195
 #, fuzzy
@@ -1837,15 +1836,14 @@ msgid "*release* - time to move amplitude from `sustain_level` to 0"
 msgstr "*release* - tiempo para mover la amplitud desde `sustain_level` a 0"
 
 #: 02.4-Durations-with-Envelopes.md:200
-#, fuzzy
 msgid ""
 "It's important to note that the duration of a sound is the summation of the ti"
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
-"Es importante recalcar que la duración de un sonido es la sumatoria de los tie"
-"mpos de todas las fases. Por tanto, el siguiente sonido tendrá una duración de"
-" 0.5 + 1 + 2 + 0.5 = 4 pulsos:"
+"Es importante recalcar que la duración de un sonido es la sumatoria de los "
+"tiempos de todas las fases. Por tanto, el siguiente sonido tendrá una "
+"duración de 0.5 + 1 + 2 + 0.5 = 4 pulsos:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
@@ -1857,19 +1855,16 @@ msgstr ""
 "2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
-#, fuzzy
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr "Ahora ve a jugar con sobres en tus sonidos..."
+msgstr "Ahora ve a jugar con envolventes en tus sonidos..."
 
 #: 03-Samples.md:1
-#, fuzzy
 msgid "3 Samples"
-msgstr "3 Sampleos"
+msgstr "3 Muestras"
 
 #: 03-Samples.md:3
-#, fuzzy
 msgid "Samples"
-msgstr "Sampleos"
+msgstr "Muestras"
 
 #: 03-Samples.md:5
 #, fuzzy
@@ -1886,25 +1881,22 @@ msgstr ""
 "lpeando la tela, ya creaste un sampleo."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
-"Sonic Pi te deja hacer muchas y divertidas cosas con los sampleos. No sólo vie"
-"ne con cerca de 90 sampleos de libre dominio para que ser utilizados, sino que"
-" te deja manipular los tuyos. Veamos..."
+"Sonic Pi te deja hacer muchas y divertidas cosas con las muestras. No sólo "
+"viene con cerca de 90 muestras de dominio libre para que ser utilizados, "
+"sino que te deja manipular los tuyos. Veamos..."
 
 #: 03.1-Triggering-Samples.md:1
-#, fuzzy
 msgid "3.1 Triggering Samples"
-msgstr "3.1 Disparando sampleos"
+msgstr "3.1 Disparando muestras"
 
 #: 03.1-Triggering-Samples.md:3
-#, fuzzy
 msgid "Triggering Samples"
-msgstr "Disparando sampleos"
+msgstr "Disparando muestras"
 
 #: 03.1-Triggering-Samples.md:5
 #, fuzzy
@@ -1945,9 +1937,8 @@ msgstr ""
 "sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
-#, fuzzy
 msgid "If you want to space them out in time, use the `sleep` command:"
-msgstr "Si quieres espacearlos en el tiempo, usa el comando `sleep`:"
+msgstr "Si quieres distribuirlos en el tiempo, usa el comando `sleep`:"
 
 #: 03.1-Triggering-Samples.md:25
 #, no-wrap
@@ -1971,7 +1962,6 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
@@ -1979,16 +1969,15 @@ msgid ""
 "esting overlap effects. Later in this tutorial we'll take a look at controllin"
 "g the *duration* of sounds with envelopes."
 msgstr ""
-"¿Notas que Sonic Pi no espera a finalizar un sonido para comenzar el siguiente"
-"? El comando `sleep` sólo describe la separación de los sonidos *disparados*. "
-"Esto te permite hacer capas de sonidos fácilmente, creando interesantes efecto"
-"s de capas superpuestas. Más tarde en el tutorial miraremos cómo controlar la "
-"*duración* de los sonidos con los *sobres*."
+"¿Notas que Sonic Pi no espera a finalizar un sonido para comenzar el "
+"siguiente? El comando `sleep` sólo describe la separación de los sonidos "
+"*disparados*. Esto te permite hacer capas de sonidos fácilmente, creando "
+"interesantes efectos de capas superpuestas. Más tarde en el tutorial "
+"miraremos cómo controlar la *duración *de los sonidos con las envolventes."
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid "Discovering Samples"
-msgstr "Descubriendo los sampleos"
+msgstr "Descubriendo las muestras"
 
 #: 03.1-Triggering-Samples.md:46
 #, fuzzy
@@ -2047,14 +2036,12 @@ msgid "`:bd_`"
 msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
-#, fuzzy
 msgid "Now start mixing samples into your compositions!"
-msgstr "¡Ahora puedes comenzar a mezclar sampleos en tus composiciones!"
+msgstr "¡Ahora puedes comenzar a mezclar muestras en tus composiciones!"
 
 #: 03.2-Sample-Params.md:1
-#, fuzzy
 msgid "3.2 Sample Parameters"
-msgstr "3.2 Parámetros de sampleo"
+msgstr "3.2 Parámetros de muestreo"
 
 #: 03.2-Sample-Params.md:3
 #, fuzzy
@@ -2062,15 +2049,15 @@ msgid "Sample Parameters: Amp and Pan"
 msgstr "Parámetros de Sampleo: Amp y Pan"
 
 #: 03.2-Sample-Params.md:5
-#, fuzzy
 msgid ""
 "As we saw with synths, we can easily control our sounds with parameters. Sampl"
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
-"Como ya vimos con los sintetizadores, podemos controlar con facilidad nuestros"
-" sonidos con parámetros. Los sampleos permiten exactamente el mismo mecanismo "
-"de parametrización. Veamos a nuestros viejos conocidos `amp:` y `pan:`."
+"Como ya vimos con los sintetizadores, podemos controlar con facilidad "
+"nuestros sonidos con parámetros. Las muestras permiten exactamente el mismo "
+"mecanismo de parametrización. Veamos a nuestros viejos conocidos `amp:` y "
+"`pan:`."
 
 #: 03.2-Sample-Params.md:9
 #, fuzzy
@@ -3475,6 +3462,9 @@ msgid ""
 "For example, we can filter over all the samples in a directory containing the "
 "string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
+"Por ejemplo, podemos filtrar sobre todos las muestras en un directorio que "
+"contengan el string `\"foo\"` y ejecutar la primera muestra correspondiente "
+"a la mitad de su velocidad:"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
@@ -14944,9 +14934,8 @@ msgid ""
 msgstr "Elegir (choose)"
 
 #: A.17-sample-stretching.md:34
-#, fuzzy
 msgid "Speeding Samples Up"
-msgstr "Sampleos"
+msgstr "Acelerando las muestras"
 
 #: A.17-sample-stretching.md:36
 msgid ""
@@ -14958,9 +14947,8 @@ msgstr ""
 
 #: A.17-sample-stretching.md:41
 #, no-wrap
-#, fuzzy
 msgid "sample :loop_amen, rate: 1"
-msgstr "sample :loop_amen, rate: -1"
+msgstr "sample :loop_amen, rate: 1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
@@ -14995,9 +14983,8 @@ msgid "sample :elec_filt_snare, rate: 1"
 msgstr ""
 
 #: A.17-sample-stretching.md:65
-#, fuzzy
 msgid "Now, play it backwards:"
-msgstr "¡Cool! ¡Se toca al revés!"
+msgstr "Ahora, ejecutado al revés:"
 
 #: A.17-sample-stretching.md:67
 #, no-wrap
@@ -15401,6 +15388,9 @@ msgid ""
 "imbre. If that didn't make much sense to you, try comparing it with the `:beep"
 "`:"
 msgstr ""
+"Note que este sonido ya es más interesante y contiene muchas frecuencias "
+"diferentes `:e2`(el segundo Mi del piano) que se añade para crear el timbre. "
+"Si esto no tiene mucho sentido para usted, intente compararlo con `:beep`:"
 
 #: A.19-subtractive-synthesis.md:38
 #, no-wrap
@@ -15433,6 +15423,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 100 do \n"
+"  synth :saw, note: :e2, release: 4 \n"
+"end"
 
 #: A.19-subtractive-synthesis.md:63
 msgid ""
@@ -15549,6 +15542,11 @@ msgid ""
 "ped everything inside a call to `at` (please send answers to @samaaron on Twit"
 "ter)."
 msgstr ""
+"Terminemos diseñando una función que ejecutará un nuevo sonido creado con "
+"síntesis sustantiva. Intente descubrir que es lo que sucede - y para "
+"aquellos usuarios avanzados de Sonic Pi- vean si pueden descubrir porque yo "
+"empaqueté todo en el llamado a `at` (por favor envíen sus respuestas a @"
+"samaaron en Twiter)."
 
 #: A.19-subtractive-synthesis.md:151
 #, no-wrap
