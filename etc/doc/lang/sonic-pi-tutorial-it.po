@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-12-09 17:18+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"it/>\n"
+"PO-Revision-Date: 2017-06-29 06:57+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -75,15 +75,15 @@ msgstr ""
 "erò in considerazione il tuo suggerimento per una prossima versione."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Infine, guardare gli altri che fanno live coding è un ottimo modo per imparare"
-". Sono spesso on line su [livecoding.tv/samaaron](http://youtube.com/samaaron)"
-" quindi lasciami un messaggio e fammi tante domande :-)"
+"Infine, guardare gli altri che fanno live coding è un ottimo modo per "
+"imparare. Sono spesso on line su "
+"[http://youtube.com/samaaron](http://youtube.com/samaaron) quindi lasciami "
+"un messaggio e fammi tante domande :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -15748,14 +15748,12 @@ msgstr ""
 "ordati, la pratica è la chiave per il successo!"
 
 #: A.17-sample-stretching.md:1
-#, fuzzy
 msgid "A.17 Sample Stretching"
-msgstr "A.12 Tagliare i campioni"
+msgstr "A.17 Allungare i campioni"
 
 #: A.17-sample-stretching.md:3
-#, fuzzy
 msgid "Sample Stretching"
-msgstr "Tagliare i campioni"
+msgstr "Allungare i campioni"
 
 #: A.17-sample-stretching.md:5
 msgid ""
@@ -15770,9 +15768,8 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:14
-#, fuzzy
 msgid "Slowing Samples Down"
-msgstr "Campioni (Samples)"
+msgstr "Rallentare i campioni (samples)"
 
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
@@ -15780,9 +15777,8 @@ msgstr ""
 
 #: A.17-sample-stretching.md:18
 #, no-wrap
-#, fuzzy
 msgid "sample :guit_em9, rate: 1"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr "sample :guit_em9, rate: 1"
 
 #: A.17-sample-stretching.md:20
 msgid ""
