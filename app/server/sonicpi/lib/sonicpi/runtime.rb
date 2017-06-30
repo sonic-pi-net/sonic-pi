@@ -1123,7 +1123,7 @@ module SonicPi
 
       # TODO Add support for TCP
 
-      __restart_cue_server!
+      __restart_cue_server!(false, true)
 
       @gui_heartbeats = {}
       @gui_last_heartbeat = nil

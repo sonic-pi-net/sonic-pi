@@ -1149,7 +1149,7 @@ void MainWindow::honourPrefs() {
   updateLogAutoScroll();
   toggleScopeAxes();
   toggleMidi(1);
-  toggleOSCServer(1);
+  toggleOSCServer(0);
 
 
 
