@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-16 13:41+0000\n"
-"Last-Translator: Andrey Raspopov <regharmitage@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"ru/>\n"
+"PO-Revision-Date: 2017-06-30 07:33+0000\n"
+"Last-Translator: Anton Shestakov <av6@dwimlabs.net>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4"
-" && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.15-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
@@ -77,16 +77,16 @@ msgstr ""
 "е мне об этом знать, и я посмотрю, что можно сделать для следующей версии."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Наконец, наблюдать за чужим кодингом в режиме реального времени это отличный с"
-"пособ учиться. Я регулярно вещаю в прямом эфире на [livecoding.tv/samaaron](ht"
-"tp://livecoding.tv/samaaron). Так что, не забывайте появляться там, чтобы попр"
-"иветствовать всех и задать все свои многочисленные вопросы :-)"
+"Наконец, наблюдать за чужим кодингом в режиме реального времени это отличный "
+"способ учиться. Я регулярно вещаю в прямом эфире на "
+"[http://youtube.com/samaaron](http://youtube.com/samaaron), так что не "
+"забывайте появляться там, чтобы поприветствовать всех и задать все свои "
+"многочисленные вопросы :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -4987,7 +4987,7 @@ msgstr ""
 
 #: 05.5-Functions.md:1
 msgid "5.5 Functions"
-msgstr ""
+msgstr "5.5 Функции"
 
 #: 05.5-Functions.md:3
 #, fuzzy
@@ -5270,7 +5270,7 @@ msgstr ""
 
 #: 05.6-Variables.md:1
 msgid "5.6 Variables"
-msgstr ""
+msgstr "5.6 Переменные"
 
 #: 05.6-Variables.md:3
 #, fuzzy
@@ -5548,7 +5548,7 @@ msgstr "В следующей главе мы рассмотрим подроб�
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
-msgstr ""
+msgstr "5.7 Синхронизация Потоков"
 
 #: 05.7-Thread-Synchronisation.md:3
 #, fuzzy
@@ -6816,7 +6816,7 @@ msgstr "Пришла пора добавить немного плавности
 
 #: 08-Data-Structures.md:1
 msgid "8 Data Structures"
-msgstr ""
+msgstr "8 Структуры Данных"
 
 #: 08-Data-Structures.md:3
 #, fuzzy
@@ -6864,7 +6864,7 @@ msgstr ""
 
 #: 08.1-Lists.md:1
 msgid "8.1 Lists"
-msgstr ""
+msgstr "8.1 Списки"
 
 #: 08.1-Lists.md:3
 #, fuzzy
@@ -7066,7 +7066,7 @@ msgstr ""
 
 #: 08.2-Chords.md:1
 msgid "8.2 Chords"
-msgstr ""
+msgstr "8.2 Аккорды"
 
 #: 08.2-Chords.md:5
 #, fuzzy
