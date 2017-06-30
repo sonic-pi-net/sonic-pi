@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-30 06:25+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2017-06-30 06:41+0000\n"
+"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -15486,7 +15486,7 @@ msgstr "`:prophet`"
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
-msgstr ""
+msgstr "Modulación del filtro"
 
 #: A.19-subtractive-synthesis.md:109
 msgid ""
