@@ -45,7 +45,7 @@ suporten eixida mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1343"/>
         <source>Configure debug behaviour</source>
-        <translation>Configurar comportament en depuració</translation>
+        <translation>Configura el comportament de depuració</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1349"/>
@@ -54,7 +54,7 @@ If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Activa o desactiva l'opció d'enregistrar missatges.
 Si aquesta opció està deshabilitada, activitats com el disparador del sintetitzador
-o el disparador de mostres no s'imprimiran en el registre per defecte.</translation>
+o el disparador de samples no s'imprimiran en el registre per defecte.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -64,21 +64,21 @@ o el disparador de mostres no s'imprimiran en el registre per defecte.</translat
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Clear log on run</source>
-        <translation>Netejar el registre a l'iniciar</translation>
+        <translation>Neteja el registre a l'iniciar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1352"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Activa o desactiva l'opció de netejar el registre a l'iniciar.
+        <translation>Activa o desactiva l'opció de netejar el registre en iniciar.
 Si està habilitat, el registre es netejarà
 cada vegada que es prema el botó d'iniciar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
         <source>Toggle line number visibility.</source>
-        <translation>Mostra o amaga els números de línies.</translation>
+        <translation>Mostra o amaga els números de línia.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
@@ -118,12 +118,12 @@ cada vegada que es prema el botó d'iniciar.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="590"/>
         <source>Buffer %1</source>
-        <translation>Memòria intermèdia %1</translation>
+        <translation>Buffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Welcome to Sonic Pi</source>
-        <translation>Benvingudes i benvinguts a Sonic Pi</translation>
+        <translation>Us donem la benvinguda a Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
@@ -141,7 +141,7 @@ cada vegada que es prema el botó d'iniciar.</translation>
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
         <translation>Ajustaments avançats d'àudio per treballar amb
-sistemes externs PA quan s'interactua amb Sonic Pi.</translation>
+sistemes externs PA quan es fa música amb Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1394"/>
@@ -196,7 +196,7 @@ molt forts o incòmodes.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation>Entrades</translation>
+        <translation>Senyals (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -258,7 +258,7 @@ Si està desmarcat, només es rebran missatges de la màquina local.</translatio
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation>Habilitar servidor OSC</translation>
+        <translation>Habilita el servidor OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
@@ -275,29 +275,29 @@ Si està desmarcat, no es rebran missatges OSC.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation>Configurar comportament de MIDI</translation>
+        <translation>Configura el comportament de MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation>Habilitar subsistemes MIDI</translation>
+        <translation>Habilita els subsistemes MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation>Habilitar o deshabilitar comunicació MIDI d'entrada i d'eixida</translation>
+        <translation>Habilita o deshabilita la comunicació MIDI d'entrada i d'eixida</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation>Reiniciar MIDI</translation>
+        <translation>Reinicia el MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation>Reiniciar subsistemes MIDI
-(A macOS es requereix el reinici si es volen detectar canvis als dispositius)</translation>
+        <translation>Reinicia els subsistemes MIDI
+(A macOS cal reiniciar si es volen detectar canvis als dispositius)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
@@ -330,8 +330,8 @@ Si està desmarcat, no es rebran missatges OSC.</translation>
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
         <translation>Els dispositius MIDI d'entrada envien missatges MIDI directament a
-Sonic Pi i són rebuts com a esdeveniments de senyal
-(semblants a missatges OSC entrants i senyals interns)</translation>
+Sonic Pi i són rebuts com a esdeveniments de senyal (cue)
+(semblants a missatges OSC entrants i senyals -cue- interns)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
@@ -358,12 +358,12 @@ Sonic Pi. Aquestos missatges poden enviar-se a través de midi_* fns</translatio
     <message>
         <location filename="../mainwindow.cpp" line="1305"/>
         <source>Invert stereo</source>
-        <translation>Invertir estèreo</translation>
+        <translation>Inverteix l'estèreo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
         <source>Force mono</source>
-        <translation>Forçar mono</translation>
+        <translation>Força el Mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1312"/>
@@ -404,7 +404,7 @@ Utilitza aquests botons per forçar l'eixida d'àudio a l'opció que desitges.</
     <message>
         <location filename="../mainwindow.cpp" line="1346"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation>Modificar comportament de sintetitzadors i efectes</translation>
+        <translation>Modifica el comportament de sintetitzadors i efectes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
@@ -414,15 +414,15 @@ Utilitza aquests botons per forçar l'eixida d'àudio a l'opció que desitges.</
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Log cues</source>
-        <translation>Registre de senyals</translation>
+        <translation>Registre de senyals (cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Habilita o deshabilita el registre de senyals.
-Si es deshabilita, els senyals s'iniciaran normalment
+        <translation>Habilita o deshabilita el registre de senyals (cues).
+Si es deshabilita, els senyals (cues) s'iniciaran normalment
 però no seran visibles al registre.</translation>
     </message>
     <message>
@@ -435,7 +435,7 @@ Si s'activa, el registre es desplaça al final després de cada nou missatge mos
     <message>
         <location filename="../mainwindow.cpp" line="1365"/>
         <source>Enable external synths and FX</source>
-        <translation>Habilitar sintetitzadors i efectes externs</translation>
+        <translation>Habilita els sintetitzadors i efectes externs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1366"/>
@@ -457,7 +457,7 @@ que no siga reconegut.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
         <source>Enforce timing guarantees</source>
-        <translation>Imposar garanties de temporització</translation>
+        <translation>Imposa garanties de temporització</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
@@ -485,25 +485,25 @@ encara que siga un poc tard.</translation>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Canvia l'opció de comprovació automàtica d'actualitzacions.
+        <translation>Activa o desactiva la comprovació automàtica d'actualitzacions.
 Aquesta verificació suposa enviar informació anònima de la teua plataforma i versió actuals.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1399"/>
         <source>Check now</source>
-        <translation>Comprovar ara</translation>
+        <translation>Comprova-ho ara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Forçar la comprovació d'actualitzacions ara. 
+        <translation>Força la comprovació d'actualitzacions ara. 
 Aquesta verificació suposa enviar informació anònima sobre la teua plataforma i versió actuals.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Get update</source>
-        <translation>Obtenir actualitzacions</translation>
+        <translation>Obtín actualitzacions</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
@@ -523,7 +523,7 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1427"/>
         <source>Configure editor display options.</source>
-        <translation>Configurar opcions de pantalla de l'editor.</translation>
+        <translation>Configura les opcions de pantalla de l'editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
@@ -568,7 +568,7 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show log</source>
-        <translation>Mostrar registre</translation>
+        <translation>Mostra el registre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
@@ -578,7 +578,7 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1443"/>
         <source>Show buttons</source>
-        <translation>Mostrar botons</translation>
+        <translation>Mostra els botons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -588,12 +588,12 @@ Aquesta verificació suposa enviar informació anònima sobre la teua plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Show tabs</source>
-        <translation>Mostrar pestanyes</translation>
+        <translation>Mostra les pestanyes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1449"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Mostra o amaga les pestanyes de selecció de les memòries intermèdies.</translation>
+        <translation>Mostra o amaga les pestanyes de selecció dels buffers.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
@@ -634,7 +634,7 @@ L'opció de mode obscur és perfecta per fer live coding a discoteques o llocs a
 Apologies, a critical error occurred during startup</source>
         <translation>Error d'arrencada de Sonic Pi
 
-Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
+Ho lamentem, ha ocorregut un error crític durant l'inici</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1776"/>
@@ -642,12 +642,12 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
         <location filename="../mainwindow.cpp" line="1793"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Buffer files</source>
-        <translation>Arxius de memòria intermèdia</translation>
+        <translation>Arxius del buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation>Carregar memòria intermèdia de Sonic Pi</translation>
+        <translation>Carrega el buffer de Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
@@ -680,27 +680,27 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
         <source>Run the code in the current buffer</source>
-        <translation>Executar el codi en la memòria intermèdia actual</translation>
+        <translation>Executa el codi en el buffer actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2622"/>
         <source>Load</source>
-        <translation>Carregar</translation>
+        <translation>Carrega</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Carregar un arxiu extern a la memòria intermèdia actual</translation>
+        <translation>Carrega un arxiu extern al buffer actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
-        <translation>Augmentar mida</translation>
+        <translation>Augmenta la mida</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
-        <translation>Disminuir mida</translation>
+        <translation>Disminueix la mida</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
@@ -745,12 +745,12 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Bentornat. Ara, comencem a programar música en viu...</translation>
+        <translation>Bentornat. Ara, comenceu a programar música en viu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Save Current Buffer</source>
-        <translation>Guardar la memòria intermèdia actual</translation>
+        <translation>Guardar el buffer actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -760,12 +760,12 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation>Mostra el registre d'entrades</translation>
+        <translation>Mostra el registre de senyals (cue)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation>Mostra o amaga el registre de senyals, el qual mostra senyals interns i missatges OSC/MIDI entrants.</translation>
+        <translation>Mostra o amaga el registre de senyals (cues), el qual mostra senyals (cues) interns i missatges OSC/MIDI entrants.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
@@ -780,7 +780,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Show and Hide Scope</source>
-        <translation>Mostrar i amagar Visor</translation>
+        <translation>Mostra i amaga el Visor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
@@ -790,7 +790,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1535"/>
         <source>Show Scopes</source>
-        <translation>Mostrar Visors</translation>
+        <translation>Mostra els visors</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1536"/>
@@ -800,7 +800,7 @@ Ho lamentem, una errada crítica ha ocorregut durant l'inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
         <source>Show Axes</source>
-        <translation>Mostrar eixos</translation>
+        <translation>Mostra els eixos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
@@ -911,17 +911,17 @@ Stereo - mostra dos visors independents per als canals esquerre i dret</translat
     <message>
         <location filename="../mainwindow.cpp" line="2617"/>
         <source>Save current buffer as an external file</source>
-        <translation>Guardar la memòria intermèdia actual com un arxiu extern</translation>
+        <translation>Guarda el buffer actual com un arxiu extern</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Start recording to WAV audio file</source>
-        <translation>Iniciar enregistrament en arxiu d'àudio WAV</translation>
+        <translation>Inicia l'enregistrament en un arxiu d'àudio WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Improve readability of code</source>
-        <translation>Millorar llegibilitat del codi</translation>
+        <translation>Millora la llegibilitat del codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
@@ -980,22 +980,22 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
         <source>Run</source>
-        <translation>Executar</translation>
+        <translation>Executa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2612"/>
         <source>Stop</source>
-        <translation>Aturar</translation>
+        <translation>Atura</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2613"/>
         <source>Stop all running code</source>
-        <translation>Aturar tot el codi que s'està executant</translation>
+        <translation>Atura tot el codi que s'està executant</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2616"/>
         <source>Save As...</source>
-        <translation>Guardar com…</translation>
+        <translation>Guarda com…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2655"/>
@@ -1005,7 +1005,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2656"/>
         <source>See information about Sonic Pi</source>
-        <translation>Veure informació sobre Sonic Pi</translation>
+        <translation>Vegeu informació sobre Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
@@ -1016,7 +1016,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Configuracions útils per actuar amb Sonic Pi</translation>
+        <translation>Configuracions útils per fer música amb Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
@@ -1026,7 +1026,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Per favor, considera reportar aquest error</translation>
+        <translation>Per favor, considereu reportar aquest error</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2668"/>
@@ -1038,23 +1038,23 @@ Aconsegueix Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2792"/>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Start Recording</source>
-        <translation>Començar l'enregistrament</translation>
+        <translation>Comença l'enregistrament</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2633"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation>Alinear text automàticament</translation>
+        <translation>Alinea el text automàticament</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2637"/>
         <source>Increase Text Size</source>
-        <translation>Augmentar mida del text</translation>
+        <translation>Augmenta la mida del text</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Decrease Text Size</source>
-        <translation>Disminuir mida del text</translation>
+        <translation>Disminueix la mida del text</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
@@ -1111,14 +1111,14 @@ Aconsegueix Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>No es pot llegir l'arxiu %1:
+        <translation>L'arxiu %1 no es pot llegir:
 %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2934"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>No es pot escriure l'arxiu %1:
+        <translation>L'arxiu %1 no es pot escriure:
 %2.</translation>
     </message>
     <message>
@@ -1155,7 +1155,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1144"/>
         <source>Samples</source>
-        <translation>Mostres</translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1389"/>
