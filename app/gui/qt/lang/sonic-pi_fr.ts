@@ -533,7 +533,7 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
         <translation>Lorsque la case est cochée, Sonic Pi sera à l'écoute des messages OSC de machines distantes.
-Lorsque la case est décochée, seul les messages de la machine locale seront reçues.</translation>
+Lorsque la case est décochée, seul les messages de la machine locale seront reçus.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
@@ -609,7 +609,7 @@ Lorsque la case est décochée, aucun message OSC ne sera reçu.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation>Périphériques d'entrée MIDI envoient les messages MIDI directement à 
+        <translation>Les périphériques d'entrée MIDI envoient les messages MIDI directement à 
 Sonic-Pi et reçoivent en tant que signaux
 (similaires aux messages OSC entrant et aux signaux internes)</translation>
     </message>
@@ -618,7 +618,7 @@ Sonic-Pi et reçoivent en tant que signaux
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
         <translation>Les périphériques de sortie MIDI reçoivent les messages MIDI directement de
-Sonic Pi qui peuvent être envoyés via les fns midi_*</translation>
+Sonic Pi qui peuvent être envoyés via les fonctions midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -628,7 +628,7 @@ Sonic Pi qui peuvent être envoyés via les fns midi_*</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished">Voir journal de signaux</translation>
+        <translation>Voir le journal de signaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
