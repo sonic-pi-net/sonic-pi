@@ -496,7 +496,7 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished">Signaux</translation>
+        <translation>Marqueurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
