@@ -393,7 +393,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
 ",
 ]
 
-      def with_osc(host, port=57120, &block)
+      def with_osc(host, port=4559, &block)
         raise ArgumentError, "with_osc must be called with a do/end block. Perhaps you meant use_osc" unless block
         current_host_and_port = __thread_locals.get(:sonic_pi_osc_client)
         use_osc(host, port)
