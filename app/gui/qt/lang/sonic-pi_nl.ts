@@ -321,21 +321,21 @@ Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</t
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation>Geen aangesloten uitgang apparaten</translation>
+        <translation>Geen uitgangs apparaten aangesloten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation>MIDI ingang apparaten zenden MIDI berichten rechtstreeks naar Sonic Pi en worden ontvangen als aanwijzingssignalen
-(gelijkaardig als inkomende OSC berichten en interne aanwijzings-signalen).</translation>
+        <translation>Apparaten met MIDI ingang zenden hun MIDI berichten rechtstreeks naar Sonic Pi en worden ontvangen als uitvoeringssignalen
+(gelijkaardig als inkomende OSC berichten en interne uitvoeringssignalen).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation>Midi uitgang apparaten ontvangen MIDI signalen rechtstreeks van Sonic Pi. Deze kunnen rechtstreeks verzonden worden via de midi_*fns</translation>
+        <translation>Midi Apparaten ontvangen MIDI signalen rechtstreeks van Sonic Pi, en kunnen rechtstreeks verzonden worden via de midi_* functies</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -345,7 +345,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Use this slider to change the system volume.</source>
-        <translation>Gebruik deze schuifregelaar om het systeemvolume te wijzigen.</translation>
+        <translation>Gebruik deze schuifregelaar om het volume te wijzigen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1303"/>
@@ -355,12 +355,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1305"/>
         <source>Invert stereo</source>
-        <translation>Stereo omkeren</translation>
+        <translation>Stereobeeld omkeren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
         <source>Force mono</source>
-        <translation>Herleidt naar mono</translation>
+        <translation>Herleiden naar mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1312"/>
@@ -373,10 +373,10 @@ Sonic Pi which can be sent via the midi_* fns</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished">Uw Raspberry Pi heeft twee kanalen van audio-uitvoer.
-Ten eerste is er een koptelefoon jack van de Raspberry Pi zelf.
-Ten tweede ondersteunen sommige HDMI monitors/TVs audio doorvoer via de HDMI poort.
-Gebruik deze knoppen om de uitvoer te forceren via het gewenste kanaal.</translation>
+        <translation>Uw Raspberry Pi heeft twee soorten audio-uitvoerkanalen.
+Er is de koptelefoon jack van de Raspberry Pi zelf.
+En voorts ondersteunen sommige HDMI monitors/TVs audio doorvoer via de HDMI poort.
+Gebruik deze knoppen om de uitvoer te kiezen naar het gewenste kanaal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1315"/>
@@ -411,15 +411,15 @@ Gebruik deze knoppen om de uitvoer te forceren via het gewenste kanaal.</transla
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Log cues</source>
-        <translation>Log startteken</translation>
+        <translation>Log cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Schakel het loggen van cues (starttekens) in/uit.
-Indien uitgeschakeld zullen cues nog altijd triggeren,
+        <translation>Schakel het loggen van cues (uitvoersignalen) in/uit.
+Indien uitgeschakeld zullen cues nog wel triggeren,
 maar zullen niet zichtbaar zijn in het logvenster.</translation>
     </message>
     <message>
@@ -454,7 +454,7 @@ dat niet wordt herkend.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
         <source>Enforce timing guarantees</source>
-        <translation>Het "In maat blijven" afdwingen</translation>
+        <translation>Het "In de maat blijven" garanderen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
@@ -466,12 +466,12 @@ When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
         <translation>Wanneer ingeschakeld,zal Sonic Pi weigeren
-om Synths en Effecten te triggeren wanneer
-het te laat is om dit te doen.
+om Synths en Effecten te triggeren als
+deze te laat zijn ingegeven.
 
-Wanneer deze is uitgeschakeld,zal Sonic Pi altijd
+Wanneer dit is uitgeschakeld,zal Sonic Pi altijd
 proberen Synths en Effecten te triggeren,
-zelfs wanneer dit een beetje te laat is.</translation>
+ook wanneer die een beetje te laat zijn ingegeven.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1386"/>
@@ -488,7 +488,7 @@ Deze controle omvat het verzenden van anonieme gegevens over het platform en de 
     <message>
         <location filename="../mainwindow.cpp" line="1399"/>
         <source>Check now</source>
-        <translation>Nu controleren</translation>
+        <translation>Nu opzoeken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1400"/>
@@ -500,7 +500,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Get update</source>
-        <translation>Update verkrijgen</translation>
+        <translation>Update krijgen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
@@ -510,7 +510,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1407"/>
         <source>Update Info</source>
-        <translation>Update Info</translation>
+        <translation>Info Updaten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1426"/>
@@ -525,12 +525,12 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Look and Feel</source>
-        <translation>De vormgeving en de interactieve stijl</translation>
+        <translation>Vormgeving en gedrag</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor look and feel.</source>
-        <translation>Configureer het uitzicht en het aanvoelen,van de editor .</translation>
+        <translation>Configureer het uitzicht en het gedrag van de editor .</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
@@ -545,12 +545,12 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden MIDI ingangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden MIDI uitgangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -570,7 +570,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
         <source>Toggle visibility of the log.</source>
-        <translation>In-/ uitschakelen van het logboekvenster.</translation>
+        <translation>In-/ uitschakelen van het logvenster.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1443"/>
@@ -580,7 +580,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>Zichtbaarheid van de bedieningsknoppen in-/ uitschakelen.</translation>
+        <translation>Het tonen van de bedieningsknoppen in-/ uitschakelen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
@@ -590,7 +590,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1449"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Zichtbaarheid van de buffer tabbladen in-/uitschakelen.</translation>
+        <translation>Het tonen van de buffer tabbladen in-/uitschakelen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
@@ -612,7 +612,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
         <translation>
-Donkere modus is ideaal voor het live coderen in nachtclubs.</translation>
+Donkere modus is ideaal voor het live coderen in een nachtclub.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
@@ -622,15 +622,15 @@ Donkere modus is ideaal voor het live coderen in nachtclubs.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1538"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>De zichtbaarheid van de assen van de audio oscilloscoop in-/ uitschakelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation>Opstart fout van Sonic Pi 
-Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
+        <translation>Sonic Pi is fout opgestart  
+Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1776"/>
@@ -676,7 +676,7 @@ Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
         <source>Run the code in the current buffer</source>
-        <translation>Code laten lopen in de huidige buffer</translation>
+        <translation>Code laten lopen in het huidige buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2622"/>
@@ -686,62 +686,62 @@ Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Extern bestand in de huidige buffer laden</translation>
+        <translation>Extern bestand in het huidige buffer laden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Vergroten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Verkleinen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Zet de zichtbaarheid van de audio-oscilloscopen aan/uit </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2804"/>
         <source>Wavefile (*.wav)</source>
-        <translation>WAVEFILE (*.wav)</translation>
+        <translation>Geluidsbestand (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI inschakelen ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI uitschakelen ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC-poort voor externe berichten openen  ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC-server stoppen ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI herstarten...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI is uitgeschakeld...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Welkom terug.Zet nu je live code op...</translation>
+        <translation>Welkom terug.Zet nu je live code klaar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1796"/>
@@ -751,52 +751,52 @@ Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto-scroll log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon cue-log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>De zichtbaarheid van de cue-log, die interne cues &amp; binnenkomende OSC/MIDI-berichten toont, in-/ uitschakelen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Iconen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Scope weergeven of verbergen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Soorten Scope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1535"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Scope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1536"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>De zichtbaarheid van de audio-oscilloscopen in/uitschakelen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon (xy)assen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
@@ -806,12 +806,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>De audio oscilloscoop komt in drie smaken die afzonderlijk 
+kunnen worden bekeken of allemaal samen:
+
+In Lissajous - ziet u de relatie van de fase tussen het linkse en het rechtse kanaal
+Mono - geeft een gecombineerde weergave van het linker- en rechterkanaal (met behulp van RMS)
+Stereo - toont twee onafhankelijke oscilloscopen voor het linker- en rechterkanaal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Beelden (Visuals)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
@@ -917,12 +922,12 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>De zichtbaarheid van het help-venster in/uitschakelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Het voorkeurvenster in/uitschakelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
@@ -948,7 +953,8 @@ Stereo - shows two independent scopes for left and right channels</source>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi controleert naar updates om de twee weken.</translation>
+        <translation>Sonic Pi controleert naar updates
+om de twee weken.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3190"/>
@@ -965,7 +971,7 @@ every two weeks.</source>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>Er is een nieuwe versie beschikbaar! 
-Krijg Sonic Pi %1</translation>
+Sonic Pi krijgen %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
@@ -995,7 +1001,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2656"/>
         <source>See information about Sonic Pi</source>
-        <translation>Bekijk de informatie over Sonic Pi</translation>
+        <translation>Info Sonic Pi bekijken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
@@ -1006,17 +1012,17 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Instellingen die nuttig zijn om met Sonic Pi een optreden te doen</translation>
+        <translation>Nuttige instellingen om met Sonic Pi op te treden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Server boot error...</source>
-        <translation>Server opstart fout...</translation>
+        <translation>Opstart fout van de Server...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Overweeg aub. het rapporteren van een bug aan</translation>
+        <translation>Denk eraan bugs te raporteren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2668"/>
@@ -1039,17 +1045,17 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2637"/>
         <source>Increase Text Size</source>
-        <translation>Tekstgrootte vergroten</translation>
+        <translation>Tekst vergroten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Decrease Text Size</source>
-        <translation>Tekstgrootte verkleinen</translation>
+        <translation>Tekst verkleinen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
         <source>Tools</source>
-        <translation>Gereedschappen</translation>
+        <translation>Hulpmiddelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
@@ -1101,15 +1107,15 @@ Krijg Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Kan het bestand %1:
-%2 niet lezen.</translation>
+        <translation>Kan het bestand niet lezen %1:
+%2 .</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2934"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Kan het bestand  %1: 
-%2 niet schrijven.</translation>
+        <translation>Kan het bestand niet schrijven %1: 
+%2.</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="102"/>
@@ -1150,7 +1156,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1389"/>
         <source>Lang</source>
-        <translation>Programmeertaal</translation>
+        <translation>Taal</translation>
     </message>
 </context>
 <context>
@@ -1166,7 +1172,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can't open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Is Sonic Pi al opgestart? Kan UDP poort niet openen.</translation>
     </message>
 </context>
 </TS>
