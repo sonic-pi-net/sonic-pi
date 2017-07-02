@@ -6,26 +6,29 @@
     <message>
         <location filename="../mainwindow.cpp" line="665"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Lastnosti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="678"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Dnevnik</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="359"/>
         <location filename="../mainwindow.cpp" line="2913"/>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrnjen stereo izhod.
+Če je nastavljen, levi kanal
+gre na desni zvočnik in desni
+v levega.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1309"/>
@@ -34,141 +37,155 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamenjava mono načina
+Če je omogočen, se zmešata levi in desni
+kanal v en signal in ta gre v levi in desni zvočnik.
+Uporabno, če uporabljamo mono zunanjo opremo.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1343"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracija razhroščevanja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1349"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamenjava dnevniških poročil.
+Če je onemogočeno, dejavnosti kot sintetizator
+in vzorčenje ne bodo zapisaovali sporočil v 
+dnevniško datoteko.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Varni način</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Počisti dnevnik ob zagonu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1352"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamenjava čiščenja dnevnika ob zagonu.
+Če je omogočeno, bo dnevniška datoteka
+počiščena ob ponovnem zagonu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Preklopi prikaz številk vrstic.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Nočni način</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Zagonska koda ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1916"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Olepševanje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1943"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ponovno nalaganje ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1974"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Omogočen Mixer HPF ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1983"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Onemogočen Mixer HPF ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="590"/>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomnilnik %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Dobrodošli v Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamik izbora ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamik vrstice ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Nadaljnje nastavitve zvoka za delo z
+zunanjimi PA sistemi, če jih oblikujemo
+s Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1394"/>
         <location filename="../mainwindow.cpp" line="1566"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Posodobitve</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1396"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Preveri posodobitve</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1510"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Urejevalnik</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Številči vrstice</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="468"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Podatki o posodobitvah Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Preklopi funkcijo preverjanja argumentov
+sintetizatorja.
+Če je onemogočena, lahko nekatere vrednosti
+povzročijo nepričakovane glasnosti ali neprijetne 
+zvoke.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1342"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Prijava</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
@@ -188,125 +205,133 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Celozaslonski način.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="801"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne celozaslonski način.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="952"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Preklopi komentarje vrstic ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Strežnik Sonic Pi se ni mogel zagnati!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Omrežje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavitve omrežja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Localni IP naslov</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslišanje OSC sporočil na portu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Ni na voljo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Prejemanje OSC sporočil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko je izbrano, bo Sonic Pi poslušal OSC
+sporočila iz oddaljene naprave.
+Ko ni izbrano, bo prejemal le sporočila
+iz lokalne naprave.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Omogoči OSC strežnik</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko je izbrano, bo Sonic Pi poslušal OSC
+sporočila.
+Ko ni izbrano, ne bo poslušal OSC sporočil.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavitve MIDI delovanja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Omogoči MIDI podsistem</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Omogoči ali prepreči vhodno izhodno
+MIDI komunikacijo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponastavi MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponastavi MIDI podsistem
+(Na MacOS zahteva zaznavanje spremembe
+naprave)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Privzeti MIDI kanal (* za vse)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Privzeti MIDI kanal za sporočila</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ni povezane vhodne naprave</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ni povezane izhodne naprave</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
