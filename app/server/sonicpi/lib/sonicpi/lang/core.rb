@@ -303,7 +303,7 @@ run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
 
 
       def use_osc(host, port=4559)
-        host = host.to_s
+        host = host.to_s.strip
         host_and_port = (host.include? ":") ? host : (host + ":" + port.to_s)
 
         __thread_locals.set :sonic_pi_osc_client, host_and_port.freeze
@@ -395,6 +395,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
 
       def with_osc(host, port=4559, &block)
         raise ArgumentError, "with_osc must be called with a do/end block. Perhaps you meant use_osc" unless block
+        host = host.to_s.strip
         current_host_and_port = __thread_locals.get(:sonic_pi_osc_client)
         use_osc(host, port)
         res = block.call
