@@ -433,6 +433,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
 
       def osc_send(host, port, path, *args)
         __osc_send(host, port, path, *args)
+        host = host.to_s.strip
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc_send,
