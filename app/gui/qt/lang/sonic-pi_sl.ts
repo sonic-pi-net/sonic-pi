@@ -235,12 +235,12 @@ zvoke.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation>Localni IP naslov</translation>
+        <translation>Lokalni IP naslov</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation>Poslišanje OSC sporočil na portu</translation>
+        <translation>Poslušanje OSC sporočil na portu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
@@ -250,7 +250,7 @@ zvoke.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation>Prejemanje OSC sporočil</translation>
+        <translation>Prejemanje oddaljenih OSC sporočil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
@@ -338,43 +338,47 @@ naprave)</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI naprava pošlje MIDI sporočilo direktno
+v Sonic Pi in je sprejeto kot znakovni signal
+(podobno kot prihajajoča OSC sporočila in notranji znak )</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI izhodne naprave pošljejo MIDI
+sporočilo direktno iz Sonic Pija, ki ga lahko
+pošljemo preko midi_*fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Osnovna glasnost</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>S tem drsnikom spreminjamo sistemsko glasnost.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1303"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio izhod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1305"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrni stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavi mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1312"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi audio izhod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1313"/>
@@ -382,27 +386,30 @@ Sonic Pi which can be sent via the midi_* fns</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi ima dve vrsti audio izhoda.
+Prva možnost je audio izhod na osnovni plošči.
+Druga možnost pa je audio preko HDMI kabla, če 
+ga imamo. S temi gumbi določimo ustrezen izhod.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1315"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Privzeto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1316"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Slušalke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Sintetizator in FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1346"/>
