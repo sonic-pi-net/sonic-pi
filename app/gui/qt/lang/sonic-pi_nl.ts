@@ -328,8 +328,8 @@ Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</t
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation>Apparaten met MIDI ingang zenden hun MIDI berichten rechtstreeks naar Sonic Pi en worden ontvangen als uitvoeringssignalen
-(gelijkaardig als inkomende OSC berichten en interne uitvoeringssignalen).</translation>
+        <translation>MIDI ingang apparaten zenden MIDI berichten rechtstreeks naar Sonic Pi en worden ontvangen als aanwijzingssignalen
+(gelijkaardig als inkomende OSC berichten en interne aanwijzings-signalen)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
