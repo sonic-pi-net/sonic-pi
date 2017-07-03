@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-18 22:22+0000\n"
+"PO-Revision-Date: 2017-07-03 16:07+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/nl"
-"/>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.15-dev\n"
+"X-Generator: Weblate 2.16-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -30,10 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Welkom bij Sonic Pi. Hopelijk ben je net zo enthousiast als ik ben, om te gekk"
-"e klanken te gaan maken. Het zal een *plezierige* belevenis worden, waarin je "
-"alles over muziek, synthese, programmeren, compositie en live spelen gaat lere"
-"n en nog veel meer..."
+"Welkom bij Sonic Pi. Hopelijk ben je net zo enthousiast als ik om te gekke "
+"klanken te gaan maken. Het zal een *leuk* avontuur worden, waarin je alles "
+"over muziek, synthese, programmeren, compositie en ook live te spelen, gaat "
+"leren en nog veel meer..."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -76,16 +76,15 @@ msgstr ""
 " bedenking in overweging nemen voor een toekomstige versie."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Tenslotte, het bekijken van anderen die “live coden” is een fantastische manie"
-"r van leren. Regelmatig stream ik live op  [livecoding.tv/samaaron](http://liv"
-"ecoding.tv/samaaron) dus kom daar eens langs, zeg gedag en stel me dan veel vr"
-"agen :-)"
+"Tenslotte, anderen live code te zien doen, is een fantastische manier om het "
+"te leren. Regelmatig stream ik live op "
+"[http://youtube.com/samaaron](http://youtube.com/samaaron)  ga daar eens "
+"kijken, om een Hallo! te zeggen of vragen te stellen :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -183,8 +182,8 @@ msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"En, *onthou dit moment*, dit is de eerste keer dat je live hebt gecodeerd met "
-"Sonic Pi en het is waarschijnlijk niet je laatste keer..."
+"En *onthou dit moment*, dit is de eerste keer dat je een Live Code met Sonic "
+"Pi hebt gedaan en het is waarschijnlijk niet je laatste keer..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -277,24 +276,24 @@ msgstr ""
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Wijzig de blauwe `rate:` waarden en hoor hierbij dat de klank van de „sample” "
-"verandert."
+"Wijzig de blauwe `rate:` waarden, om het geluid van de sample-klank te horen "
+"veranderen."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Wijzig de `sleep` tijd en hoor dat beide loops kunnen afspelen met verschillen"
-"de rusttijden."
+"Wijzig de `sleep` tijd en hoor nu, dat je beide loops kunt afspelen met "
+"verschillende rusttijden."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Probeer de commentaarlijn te wissen (verwijder het `#`) uit onze voorbeeldlijn"
-" en geniet van de gitaarklank, die nu achteruit afspeelt."
+"Probeer de commentaarlijn te wissen (verwijder het `#`) uit onze "
+"voorbeeldlijn en geniet van de gitaarklank, die nu achterwaarts afspeelt."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
@@ -311,11 +310,11 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"Denk eraan te klikken op 'afspelen' om deze veranderingen te kunnen horen, bij"
-" de volgende loop die vertrekt. Maak je geen zorgen als het hierbij soms in de"
-" soep draait, klik dan op `Stop`, wis de code in de buffer en plak er een nieu"
-"we kopie in, zo je bent weer gereed om opnieuw te gaan improviseren. Van je fo"
-"uten kan je nu eenmaal het beste leren."
+"Denk er ook aan, te klikken op 'afspelen' om deze veranderingen te kunnen "
+"horen, bij de volgende loop die vertrekt. Maak je geen zorgen als het "
+"hierbij soms in de soep draait, klik dan op `Stop`, wis de code in de buffer "
+"en plak er een nieuwe kopie in, zo je bent weer gereed om opnieuw te gaan "
+"improviseren. Van je fouten kan je nu eenmaal het beste leren."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -360,7 +359,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr "Zo,waar wacht je nog op . . ."
+msgstr "Dus,waar wacht je nog op . . ."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
@@ -3259,8 +3258,8 @@ msgstr "\"/pad/naar/samples\" - een tekenreeks dat een geldig pad naar een map w
 #: 03.7-Sample-Packs.md:143
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
-"\"/pad/naar/samples/foo.wav\" - en tekenreeks die een geldig pad naar een sample"
-" weergeeft"
+"\"/pad/naar/samples/eenderwat.wav\" - en tekenreeks die een geldig pad naar "
+"een sample weergeeft"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -7595,6 +7594,8 @@ msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
+"`.scale(2)`- geeft een nieuwe ring met alle elementen, maal 2 (van uitgegaan "
+"dat ring alleen cijfers bevat)"
 
 #: 08.5-Ring-Chains.md:84
 msgid ""
@@ -8946,11 +8947,11 @@ msgstr "`S-M-m` - Tussen licht/donker modus schakelen"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr "`S-M-s` - inhoud van de buffer in een bestand opslaan"
+msgstr "`S-M-s` - Inhoud van de buffer naar een bestand opslaan"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr "`S-M-o` - inhoud van buffer laden uit een bestand"
+msgstr "`S-M-o` - Inhoud van buffer vanuit een bestand laden"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
@@ -9959,12 +9960,13 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
-"Om je eigen geluid te ontwikkelen zal je snel willen leren hoe je synths en Fx"
-" kan veranderen en controllen. Zo wil je bijvoorbeeld de lengte van een noot v"
-"eranderen, of wil je wat meer reverb toevoegen, of de tijdsinstellingen van ee"
-"n echo aanpassen. Gelukkig geeft Sonic Pi de mogelijkheid om dit op een hoog n"
-"iveau te gaan doen met behulp van optionele parameters of in het kort: opts. L"
-"aten we dit even bekijken. Kopieer deze code in een werkveld en klik afspelen:"
+"Om je eigen geluid te gaan ontwikkelen, zal je snel willen leren, hoe je "
+"synths en Fx kan veranderen en controllen. Zo wil je bijvoorbeeld de lengte "
+"van een noot veranderen, of wil je wat meer reverb toevoegen, of de "
+"tijdsinstellingen van een echo aanpassen. Gelukkig geeft Sonic Pi de "
+"mogelijkheid om dit op een hoog niveau te gaan doen met behulp van optionele "
+"parameters of in het kort: opts. Laten we dit even bekijken. Kopieer de "
+"volgende code in een werkveld en klik afspelen:"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -14506,7 +14508,7 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:65
 msgid "Changing Probabilities"
-msgstr ""
+msgstr "Probabiliteit veranderen"
 
 #: A.13-probabilistic-sequencer.md:67
 msgid ""
@@ -14520,6 +14522,16 @@ msgid ""
 "ckily, Sonic Pi has the handy `one_in` fn for describing exactly this. Let's p"
 "lay:"
 msgstr ""
+"Wie al een rollenspel heeft gespeeld zal al wel vertrouwd zijn met vreemd "
+"gevormde dobbelstenen die verschillende reeksen getallen kunnen hebben. Er "
+"is bijvoorbeeld de tetraëder-vormige dobbelsteen die 4 zijden heeft en zelfs "
+"een 20 zijdige dobbelsteen in de vorm van een icosaëder. Het aantal zijden "
+"op de dobbelsteen verandert de kans of waarschijnlijkheid van het rollen van "
+"een 1. Hoe minder kanten, hoe meer kans je hebt om 1 te gooien en hoe meer "
+"zijden hoe minder waarschijnlijk. Met een 4-zijdige dobbelstenen "
+"bijvoorbeeld, is er  een kans van één op 4 om een 1 te gooien en met een 20 "
+"zijdige dobbelsteen er is één kans op de 20. Gelukkig heeft Sonic Pi de "
+"handige 'one_in' fn om precies dit te bepalen. Laten we gaan gooien:"
 
 #: A.13-probabilistic-sequencer.md:77
 #, no-wrap
@@ -14542,16 +14554,23 @@ msgid ""
 "n the snare drum sounds more frequently and higher numbers mean the snare trig"
 "gers fewer times. You're making music with probabilities!"
 msgstr ""
+"Start de bovenstaande live-loop en je hoort het bekende random ritme. Stop "
+"deze nog even niet maar wijzig de `6` naar een andere waarde, zoals `2` of "
+"`20` en druk op de `Afspeel` - knop. Merk op dat een lager getal betekent "
+"dat je de snare drum vaker hoort en dat hogere cijfers de snare minder "
+"zullen triggeren. Je maakt nu muziek met kansberekening!"
 
 #: A.13-probabilistic-sequencer.md:91
 msgid "Combining Probabilities"
-msgstr ""
+msgstr "Probabiliteit combineren"
 
 #: A.13-probabilistic-sequencer.md:93
 msgid ""
 "Things get really exciting when you combine multiple samples being triggered w"
 "ith different probabilities. For example:"
 msgstr ""
+"Echt spannend wordt het wanneer je meerdere samples combineert, die worden "
+"geactiveerd met verschillende kansen. Bijvoorbeeld:"
 
 #: A.13-probabilistic-sequencer.md:96
 #, no-wrap
@@ -14578,10 +14597,14 @@ msgid ""
 "the rhythm. Also, try changing the samples to create an entirely new feel. For"
 " example try changing `:drum_cymbal_closed` to `:bass_hit_c` for extra bass!"
 msgstr ""
+"Opnieuw, laat de bovenstaande code lopen, en wijzig de probabiliteit, om het "
+"ritme te modificeren. Probeer het ook de samples te veranderen om een geheel "
+"nieuw gevoel te creëren. Probeer bijvoorbeeld `:drum_cymbal_closed` naar "
+"`:bass_hit_c` te veranderen voor extra bass!"
 
 #: A.13-probabilistic-sequencer.md:112
 msgid "Repeatable Rhythms"
-msgstr ""
+msgstr "Herhaalbare ritmes"
 
 #: A.13-probabilistic-sequencer.md:114
 msgid ""
@@ -14591,6 +14614,12 @@ msgid ""
 "he seed value from `1000` to another number. Notice how different numbers gene"
 "rate different beats."
 msgstr ""
+"Vervolgens kunnen we gebruik maken van onze oude vriend `use_random_seed` om "
+"de willekeurige stroom, na 8 herhalingen opnieuw in te stellen om een "
+"regelmatige beat te maken. Typ de volgende code om een meer regelmatig en "
+"herhalend ritme te horen. Zodra je de beat hoort, probeer de seed waarde van "
+"`1000` naar een ander nummer te wijzigen. Merk op hoe verschillende cijfers, "
+"verschillende beats genereren."
 
 #: A.13-probabilistic-sequencer.md:120
 #, no-wrap
@@ -14672,27 +14701,35 @@ msgid "Amplitude Modulation"
 msgstr "Amplitude Modulatie"
 
 #: A.14-amplitude-modulation.md:5
-#, fuzzy
 msgid ""
 "This month we're going to take a deep dive into one of Sonic Pi's most powerfu"
 "l and flexible audio FX - the `:slicer`. By the end of this article you will h"
 "ave learned how to manipulate the overall volume of parts of our live coded so"
 "und in powerful new ways. This will allow you to create new rhythmic and timbr"
 "al structures and broaden your sonic possibilities."
-msgstr "slicer"
+msgstr ""
+"Deze maand gaan we een diepe duik nemen in een van Sonic Pi ' s meest "
+"krachtige en flexibele audio effecten: de `: slicer`. Aan het eind van dit "
+"artikel heb je geleerd hoe je de totale omvang van de onderdelen van ons "
+"live gecodeerd geluid op een krachtige, nieuwe manieren kan manipuleren. Dit "
+"zal je toelaten, nieuwe ritmische en timbrale structuren te creëren en je "
+"klankspectrum te verruimen."
 
 #: A.14-amplitude-modulation.md:12
 msgid "Slice that Amp"
-msgstr ""
+msgstr "Snij de Amp"
 
 #: A.14-amplitude-modulation.md:14
-#, fuzzy
 msgid ""
 "So, what does the `:slicer` FX actually do? One way to think about it is that "
 "it's just like having someone play around with the volume control on your TV o"
 "r home hi-fi. Let's take a look but first, listen to the deep growl of the fol"
 "lowing code which triggers the `:prophet` synth:"
-msgstr "`:prophet`"
+msgstr ""
+"Dus, wat doet deze:slicer` FX eigenlijk? Een manier om er naar te kijken is "
+",dat het net iemand is, die speelt met de volumeknop op de stereoinstallatie "
+"of de TV. Laten we eens een kijkje nemen, maar zeker eerst luisteren naar "
+"het diepe gegrom van de volgende code die de `:prophet` synth triggeren:"
 
 #: A.14-amplitude-modulation.md:20
 #, no-wrap
@@ -14704,13 +14741,11 @@ msgstr ""
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
-#, fuzzy
 msgid "Now, let's pipe it through the `:slicer` FX:"
-msgstr "slicer"
+msgstr "Laat ons dit nu door het `:slicer`FX leiden:"
 
 #: A.14-amplitude-modulation.md:27
 #, no-wrap
-#, fuzzy
 msgid ""
 "\n"
 "with_fx :slicer do\n"
@@ -14725,7 +14760,6 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:35
-#, fuzzy
 msgid ""
 "Hear how the slicer acts like it's muting and unmuting the audio with a regula"
 "r beat. Also, notice how the `:slicer` affects all the audio generated between"
@@ -14733,7 +14767,13 @@ msgid ""
 "on and off with the `phase:` opt which is short for phase duration. Its defaul"
 "t value is `0.25` which means 4 times a second at the default BPM of 60. Let's"
 " make it faster:"
-msgstr "slicer"
+msgstr ""
+"Hoor hier, hoe de Slicer, het geluid met een een regelmatige tel, lijkt op "
+"en aan te zetten.Merk hierbij op dat de `:slicer` het geluid, gegenereerd "
+"tussen de `do`/`end` blocks, beïnvloed. Je kan de snelheid waarmee het "
+"geluid wordt af- en aangezet bepalen met de `phase:` opt ( duurtijd fase). "
+"Zijn standaard instelling is `0.25`, dat is 4 keer per minuut aan de "
+"standaard 60 BPM. Dit maken we sneller:"
 
 #: A.14-amplitude-modulation.md:42
 #, no-wrap
@@ -14759,11 +14799,12 @@ msgid ""
 msgstr "`:dsaw`"
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
-msgstr "Duurtijd"
+msgstr ""
+"![Phase Durations](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -14774,7 +14815,7 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:64
 msgid "Control Waves"
-msgstr ""
+msgstr "Golven controllen"
 
 #: A.14-amplitude-modulation.md:66
 #, fuzzy
@@ -14822,15 +14863,16 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
-msgstr "Duurtijd"
+msgstr ""
+"![Phase Durations](../images/tutorial/articles/A.14-amplitude-"
+"modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
-msgstr ""
+msgstr "Het instellen van je niveaus"
 
 #: A.14-amplitude-modulation.md:102
 #, fuzzy
@@ -14857,10 +14899,12 @@ msgid ""
 "This is just like grabbing the volume knob on your hi-fi and moving it up and "
 "down just a little so the sound 'wobbles' in and out."
 msgstr ""
+"Dit is net als de volumeknop van je hi-fi vastnemen en op en neer bewegen, "
+"zodat het geluid een beetje aan en uit 'wiebelt'."
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
-msgstr ""
+msgstr "Probabiliteit"
 
 #: A.14-amplitude-modulation.md:119
 #, fuzzy
@@ -14914,7 +14958,6 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
 "  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
@@ -14922,9 +14965,11 @@ msgid ""
 "  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
 "end"
 msgstr ""
-"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1 do synth :tb303, "
-"note: :e1, cutoff_attack: 8, release: 8 synth :tb303, note: :e2, cutoff_attack"
-": 4, release: 8 synth :tb303, note: :e3, cutoff_attack: 2, release: 8 end"
+"with_fx :slicer, phase: 0.125, probability: 0.6, prob_pos: 1  do\n"
+"  synth :tb303, note: :e1, cutoff_attack: 8, release: 8\n"
+"  synth :tb303, note: :e2, cutoff_attack: 4, release: 8\n"
+"  synth :tb303, note: :e3, cutoff_attack: 2, release: 8\n"
+"end"
 
 #: A.14-amplitude-modulation.md:158
 msgid "Slicing Beats"
@@ -15031,14 +15076,12 @@ msgstr ""
 "end"
 
 #: A.15-performance.md:1
-#, fuzzy
 msgid "A.15 Five Live Coding Techniques"
-msgstr "Live Coderen"
+msgstr "A.15 Vijf Live codering technieken"
 
 #: A.15-performance.md:3
-#, fuzzy
 msgid "Five Live Coding Techniques"
-msgstr "Live Coderen"
+msgstr "Vijf Live-Coding Technieken"
 
 #: A.15-performance.md:5
 msgid ""
@@ -15054,7 +15097,7 @@ msgstr ""
 
 #: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
-msgstr ""
+msgstr "1. Het onthouden van de Sneltoetsen"
 
 #: A.15-performance.md:17
 msgid ""
@@ -15078,7 +15121,7 @@ msgstr ""
 
 #: A.15-performance.md:32
 msgid "2. Manually Layer your Sounds"
-msgstr ""
+msgstr "2. Handmatig je geluid van lagen voorzien"
 
 #: A.15-performance.md:34
 msgid ""
@@ -15179,7 +15222,7 @@ msgstr ""
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
-msgstr ""
+msgstr "` set_mixer_control! lpf: 50 `"
 
 #: A.15-performance.md:111
 msgid ""
@@ -15255,14 +15298,12 @@ msgid ""
 msgstr ""
 
 #: A.16-practice.md:1
-#, fuzzy
 msgid "A.16 How to Practice Live Coding"
-msgstr "Live Coderen"
+msgstr "A. 16 Hoe Live Coding te oefenen"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
-msgstr "Live Coderen"
+msgstr "8 Tips om Live-Coding te oefenen"
 
 #: A.16-practice.md:5
 msgid ""
@@ -15276,7 +15317,7 @@ msgstr ""
 
 #: A.16-practice.md:13
 msgid "Practice regularly"
-msgstr ""
+msgstr "Regelmatig oefenen"
 
 #: A.16-practice.md:15
 msgid ""
@@ -15296,7 +15337,7 @@ msgstr ""
 
 #: A.16-practice.md:27
 msgid "Learn to Touch Type"
-msgstr ""
+msgstr "Leer blind typen"
 
 #: A.16-practice.md:29
 msgid ""
@@ -15321,7 +15362,7 @@ msgstr ""
 
 #: A.16-practice.md:46
 msgid "Code whilst standing"
-msgstr ""
+msgstr "Codeer terwijl je rechtstaat"
 
 #: A.16-practice.md:48
 msgid ""
@@ -15349,7 +15390,7 @@ msgstr ""
 
 #: A.16-practice.md:68
 msgid "Practice setting up"
-msgstr ""
+msgstr "Oefen het opstellen"
 
 #: A.16-practice.md:70
 msgid ""
@@ -15374,7 +15415,7 @@ msgstr ""
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
-msgstr ""
+msgstr "Experimenteer op muzikaal vlak"
 
 #: A.16-practice.md:89
 msgid ""
@@ -15402,7 +15443,7 @@ msgstr ""
 
 #: A.16-practice.md:110
 msgid "Hear the Code"
-msgstr ""
+msgstr "Hoor de code"
 
 #: A.16-practice.md:112
 #, fuzzy
@@ -15433,7 +15474,7 @@ msgstr ""
 
 #: A.16-practice.md:134
 msgid "Remove all distractions"
-msgstr ""
+msgstr "Verwijder alle afleiding"
 
 #: A.16-practice.md:136
 msgid ""
@@ -15457,7 +15498,7 @@ msgstr ""
 
 #: A.16-practice.md:151
 msgid "Keep a practice diary"
-msgstr ""
+msgstr "Hou een oefenboek bij"
 
 #: A.16-practice.md:153
 msgid ""
@@ -15508,9 +15549,8 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:14
-#, fuzzy
 msgid "Slowing Samples Down"
-msgstr "Samples"
+msgstr "Samples vertragen"
 
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
@@ -15540,9 +15580,8 @@ msgid ""
 msgstr "choose"
 
 #: A.17-sample-stretching.md:34
-#, fuzzy
 msgid "Speeding Samples Up"
-msgstr "Samples"
+msgstr "Samples versnellen"
 
 #: A.17-sample-stretching.md:36
 msgid ""
@@ -15560,7 +15599,7 @@ msgstr "sample :loop_amen, rate: -1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
-msgstr ""
+msgstr "We versnellen deze een beetje:"
 
 #: A.17-sample-stretching.md:48
 msgid ""
@@ -15573,7 +15612,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
-msgstr ""
+msgstr "In achteruit"
 
 #: A.17-sample-stretching.md:56
 msgid ""
@@ -15588,7 +15627,7 @@ msgstr ""
 #: A.17-sample-stretching.md:63
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: 1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: 1"
 
 #: A.17-sample-stretching.md:65
 #, fuzzy
@@ -15598,7 +15637,7 @@ msgstr "Cool! Het speelt achterstevoren!"
 #: A.17-sample-stretching.md:67
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: -1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: -1"
 
 #: A.17-sample-stretching.md:69
 msgid ""
@@ -15610,7 +15649,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch [Sidebar]"
-msgstr ""
+msgstr "Sample, Rate and Pitch [Sidebar]"
 
 #: A.17-sample-stretching.md:77
 msgid ""
@@ -15677,6 +15716,9 @@ msgid ""
 "sample :bass_trance_c, rate: 2\n"
 "sample :bass_trance_c, rate: 0.5"
 msgstr ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
 
 #: A.17-sample-stretching.md:125
 msgid ""
@@ -15692,6 +15734,9 @@ msgid ""
 "sample :bass_trance_c, rpitch: 3\n"
 "sample :bass_trance_c, rpitch: 7"
 msgstr ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
 
 #: A.17-sample-stretching.md:133
 msgid ""
@@ -15712,6 +15757,13 @@ msgid ""
 "sleep 1\n"
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 msgstr ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:149
 msgid ""
@@ -15724,7 +15776,6 @@ msgstr ""
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :beats do\n"
 "  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
@@ -15742,7 +15793,23 @@ msgid ""
 "    end\n"
 "  end\n"
 "end"
-msgstr "sample :guit_em9"
+msgstr ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
@@ -15781,7 +15848,7 @@ msgstr ""
 #: A.18-additive-synthesis.md:26
 #, no-wrap
 msgid "synth :sine, note: :d3"
-msgstr ""
+msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
@@ -15793,6 +15860,8 @@ msgid ""
 "synth :sine, note: :d3\n"
 "synth :square, note: :d3"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
 
 #: A.18-additive-synthesis.md:37
 msgid ""
@@ -15822,6 +15891,9 @@ msgid ""
 "synth :square, note: :d3\n"
 "synth :tri, note: :d4, amp: 0.4"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3\n"
+"synth :tri, note: :d4, amp: 0.4"
 
 #: A.18-additive-synthesis.md:58
 msgid ""
@@ -15849,6 +15921,9 @@ msgid ""
 "synth :square, note: :e3\n"
 "synth :square, note: :e3 + detune"
 msgstr ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
 
 #: A.18-additive-synthesis.md:76
 msgid ""
@@ -15893,6 +15968,12 @@ msgid ""
 "synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
 "synth :noise, release: 0.2, amp: 1, cutoff: 90"
 msgstr ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
 
 #: A.18-additive-synthesis.md:108
 msgid ""
@@ -15924,6 +16005,9 @@ msgid ""
 " release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
 "1, release: 0.1 synth :tri, note: n, release: 0.2"
 msgstr ""
+"define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - "
+"12, release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n "
+"- 0.1, release: 0.1 synth :tri, note: n, release: 0.2"
 
 #: A.18-additive-synthesis.md:137
 msgid ""
@@ -15931,12 +16015,17 @@ msgid ""
 "ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
 "h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 msgstr ""
+"\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth "
+":sine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 "
+"synth :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 
 #: A.18-additive-synthesis.md:144
 msgid ""
 "\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
 "sine, note: n - 12, release: 2 end"
 msgstr ""
+"\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 "
+"synth :sine, note: n - 12, release: 2 end"
 
 #: A.18-additive-synthesis.md:149
 msgid "Play a melody with our new bell!"
@@ -15944,7 +16033,7 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:150
 msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
-msgstr ""
+msgstr "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
@@ -15989,7 +16078,7 @@ msgstr ""
 #: A.19-subtractive-synthesis.md:29
 #, no-wrap
 msgid "synth :saw, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :saw, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:33
 msgid ""
@@ -16002,7 +16091,7 @@ msgstr ""
 #: A.19-subtractive-synthesis.md:38
 #, no-wrap
 msgid "synth :beep, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :beep, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:42
 msgid ""
@@ -16030,6 +16119,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 100 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:63
 msgid ""
@@ -16055,6 +16147,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:80
 msgid ""
@@ -16090,7 +16185,7 @@ msgstr "`:prophet`"
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
-msgstr ""
+msgstr "Filter Modulatie"
 
 #: A.19-subtractive-synthesis.md:109
 msgid ""
@@ -16112,6 +16207,10 @@ msgid ""
 "  synth :prophet, note: :e2, sustain: 3.5\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 50 do |fx|\n"
+"  control fx, cutoff_slide: 3, cutoff: 130\n"
+"  synth :prophet, note: :e2, sustain: 3.5\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:125
 msgid ""
@@ -16145,7 +16244,6 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:151
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :subt_synth do |note, sus|\n"
 "  at do\n"
@@ -16165,4 +16263,22 @@ msgid ""
 "subt_synth :e1, 8\n"
 "sleep 8\n"
 "subt_synth :e1 - 4, 8"
-msgstr "rrand"
+msgstr ""
+"define :subt_synth do |note, sus|\n"
+"  at do\n"
+"    with_fx :lpf, cutoff: 40, amp: 2 do |fx|\n"
+"      control fx, cutoff_slide: 6, cutoff: 100\n"
+"      synth :prophet, note: note, sustain: sus\n"
+"    end\n"
+"    with_fx :hpf, cutoff_slide: 0.01 do |fx|\n"
+"      synth :dsaw, note: note + 12, sustain: sus\n"
+"      (sus * 8).times do\n"
+"        control fx, cutoff: rrand(70, 110)\n"
+"        sleep 0.125\n"
+"      end\n"
+"    end\n"
+"  end\n"
+"end\n"
+"subt_synth :e1, 8\n"
+"sleep 8\n"
+"subt_synth :e1 - 4, 8"
