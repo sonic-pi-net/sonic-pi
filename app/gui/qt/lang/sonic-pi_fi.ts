@@ -167,7 +167,7 @@ kanssa työskentelyyn kun esiinnytään Sonic Pi:llä.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="468"/>
         <source>Sonic Pi update info</source>
-        <translation>Sonic Pi päivitystiedot</translation>
+        <translation>Sonic Pi -päivitystiedot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
@@ -175,7 +175,7 @@ kanssa työskentelyyn kun esiinnytään Sonic Pi:llä.</translation>
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
         <translation>Vaihda syntetisaattorin argumentin tarkkailu.
-Jos pois käytöstä, jotkin arvot saattavat
+Jos se on pois käytöstä, jotkin arvot saattavat
 tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     </message>
     <message>
@@ -196,17 +196,17 @@ tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Merkit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Koko ruudun tila päällä.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="801"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Koko ruudun tila pois päältä.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="952"/>
@@ -221,118 +221,124 @@ tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Verkko</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Verkkoasetukset</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Paikallinen IP-osoite</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC-viestien kuuntelu portissa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei saatavilla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Vastaanota OSC-viestit verkosta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun asetus on päällä, Sonic Pi kuuntelee OSC-viestejä myös verkon muilta tietokoneilta. 
+Kun asetus ei ole päällä, Sonic Pi kuuntelee vain oman tietokoneen OSC-viestit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC-palvelin päällä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun asetus on päällä, Sonic Pi kuuntelee OSC-viestejä.
+Kun asetus on pois päältä, OSC-viestejä ei vastaanoteta.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Määritä MIDI-asetukset</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-osajärjestelmä päällä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Ota käyttöön sisään- ja ulostuleva MIDI-liikenne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetoi MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetoi MIDI-osajärjestelmät
+(Vaaditaan laitemuutoksien havaitsemiseen macOS:llä)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Oletus MIDI-kanava (* tarkoittaa kaikkia)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Oletus MIDI-kanava viestien lähettämiseen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei kytkettyjä syöttölaitteita</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei kytkettyjä ulostulolaitteita</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-sisääntulolaitteet lähettävät MIDI-viestit suoraan Sonic Pi:lle, 
+joka vastaanottaa ne merkkitapahtumina (cue events) samaan 
+tapaan kuin sisääntulevat OSC-viestit ja sisäiset merkit (internal cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-ulostulolaitteet vastaanottavat MIDI-viestejä suoraan
+Sonic Pi:stä. Viestit voi lähettää käyttämällä midi_* funktioita</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -370,8 +376,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation type="unfinished">Raspberry Pi:ssä on kaksi äänilähtöä.
-Laitteessa itsessään on kuulokejakki.
+        <translation>Raspberry Pi:ssä on kaksi äänilähtöä.
+Laitteessa itsessään on kuulokeliitäntä.
 Lisäksi jotkin monitorit/TV:t toistavat ääntä HDMI:n kautta.
 Pakota ääni haluamaasi ulostuloon näillä valinnoilla.</translation>
     </message>
@@ -439,7 +445,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Kun valittu, Sonic Pi antaa käynnistää
 load_synthdefs kautta ladattuja
 syntetisaattoreita ja efektejä.
@@ -502,7 +508,7 @@ Tämä tarkistus sisältää anonyymin tiedon lähettämisen ympäristöstäsi j
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Lataa uusi versio osoitteesta http://sonic-pi.net</translation>
+        <translation>Lataa uusin versio osoitteesta http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1407"/>
@@ -542,12 +548,12 @@ Tämä tarkistus sisältää anonyymin tiedon lähettämisen ympäristöstäsi j
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kytketyt MIDI-sisääntulot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kytketyt MIDI-ulostulot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -641,7 +647,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation>Lataa Sonic Pi puskuri</translation>
+        <translation>Lataa Sonic Pi -puskuri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
@@ -653,7 +659,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation>Ruby tiedostot</translation>
+        <translation>Ruby-tiedostot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
@@ -689,12 +695,12 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
-        <translation type="unfinished">Isommaksi</translation>
+        <translation>Suurenna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
-        <translation type="unfinished">Pienemmäksi</translation>
+        <translation>Pienennä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
@@ -709,32 +715,32 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Otetaan MIDI käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Poistetaan MIDI käytöstä...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Avataan OSC-portti viestien kuuntelua varten...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pysäytetään OSC-palvelin...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetoidaan MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI on poissa käytöstä...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
@@ -754,22 +760,22 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä cue-loki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä tai piilota cue-loki, jossa näkyy sisäiset cuet ja sisääntulevat OSC-/MIDI-viestit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro-ikonit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
@@ -804,10 +810,10 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">Ohjelmassa on kolme erilaista oskilloskooppia,
+        <translation>Sonic Pi:ssä on kolme erilaista oskilloskooppia,
 jotka voidaan näyttää yksitellen tai kaikki yhdessä:
 
-Lissajous - kuvaa oikean ja vasemman kanavan vaiheiden yhteyttä
+Lissajous - kuvaa oikean ja vasemman kanavan vaiheiden suhdetta
 Mono - näyttää vasemman ja oikean kanavan yhdessä käyttäen RMS-arvoja
 Stereo - näyttää omat skooppinsa oikealle ja vasemmalle kanavalle</translation>
     </message>
@@ -1129,7 +1135,7 @@ Lataa Sonic Pi %1</translation>
         <location filename="../ruby_help.h" line="913"/>
         <location filename="../ruby_help.h" line="995"/>
         <source>Tutorial</source>
-        <translation>Opetusohjelma</translation>
+        <translation>Ohjeet</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1029"/>
@@ -1169,7 +1175,7 @@ Lataa Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Onko Sonic Pi jo käynnissä? UDP-porttia ei voitu avata.</translation>
     </message>
 </context>
