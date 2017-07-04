@@ -65,16 +65,16 @@ si redare sample nu vor fi memorate in jurnal.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Clear log on run</source>
-        <translation>Curata jurnalul la apasarea &apos;Executa&apos;</translation>
+        <translation>Curata jurnalul la apasarea 'Executa'</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1352"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Curatare jurnal la apasarea &apos;Executa&apos;
+        <translation>Curatare jurnal la apasarea 'Executa'
 Daca este actvata, jurnalul este curatat
-de fiecare data cand se apasa &apos;Executa&apos;.</translation>
+de fiecare data cand se apasa 'Executa'.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
@@ -223,105 +223,108 @@ sau chiar deranjante.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Retea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametri retea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa IP locala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Asculta mesaje OSC pe portul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Indisponibil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Receptioneaza mesaje OSC de la distanta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cand este bifat, Sonic Pi asculta pentru mesaje OSC de la alte masini.
+ Cand este debifat, doar mesajele de pe statia locala sunt receptionate.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeaza serverul OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cand este bifat, Sonic Pi asculta pentru mesaje OSC.
+ Cand este debifat nu sunt receptionate mesaje OSC.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configureaza comportamentul MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeaza subsistemele MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeaza sau dezactiveaza comunicarea MIDI (intrare/iesire)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Reseteaza MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Reseteaza subsistemele MIDI
+(Necesar pentru detectarea schimbarilor legate de dispozitive pe macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI implicit (* inseamana toate)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Canalul MIDI implicit catre care se trimit mesajele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Nu existe dispozitive de intrare conectate</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Nu existe dispozitive de iesire conectate</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
@@ -441,7 +444,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Cand este activata, Sonic Pi va permite 
 incarcarea de sintetizatoare si efecte
 folosind load_synthdefs
@@ -545,12 +548,12 @@ Cautara implica trimiterea de informatii anonime despre platforma pe care ruleaz
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Intrari MIDI conectate</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Iesiri MIDI conectate</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -713,32 +716,32 @@ Scuze, a aparut o eroare critica la pornire</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Activare MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dezactivare MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Deschidere port OSC pentru mesaje de la distanta...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Oprire server OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetare MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI este dezactivat...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
@@ -773,7 +776,7 @@ Scuze, a aparut o eroare critica la pornire</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
@@ -1173,7 +1176,7 @@ Descarca Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
         <translation>Sonic Pi este deja pornit? Nu pot deschide portul UDP.</translation>
     </message>
 </context>
