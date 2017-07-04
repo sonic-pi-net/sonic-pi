@@ -198,7 +198,7 @@ sau chiar deranjante.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcaje audio (cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -331,13 +331,17 @@ sau chiar deranjante.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispozitivele MIDI de intrare trimit direct catre Sonic Pi
+mesaje MIDI care sunt receptionate ca evenimente legate
+de marcaje (similar cu mesajele OSC de intrare si
+marcajele interne)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispozitivele de iesire MIDI primesc direct de la Sonic Pi
+mesaje MIDI care pot fi trimise folosind functiile midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -761,17 +765,17 @@ Scuze, a aparut o eroare critica la pornire</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Arata jurnal marcaje audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comuta afisarea jurnalului de marcaje care contine marcajele interne si mesajele de intrare OSC/MIDI.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Iconite Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
