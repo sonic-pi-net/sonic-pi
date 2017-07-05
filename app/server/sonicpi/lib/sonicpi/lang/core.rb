@@ -40,6 +40,16 @@ module SonicPi
 
       THREAD_RAND_SEED_MAX = 10e20
 
+      class TimeStateLookup
+        def initialize(blk)
+          @blk = blk
+        end
+
+        def [](*args)
+          @blk.call(*args)
+        end
+      end
+
       def __cue_path_segment(s)
         s = String.new(s.to_s)
         s.gsub!(/[ \s#*,?\/\[\]{}]/, '_')
@@ -102,24 +112,29 @@ module SonicPi
         val
       end
 
-      def get(k, default=nil, &blk)
-        # If we've time_warped into the future raise a timing exception
-        if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
-          if __system_thread_locals.get(:sonic_pi_spider_time_warp_start) < __system_thread_locals.get(:sonic_pi_spider_time)
-            raise TimingError, "Sadly, you may not time_warp into the future to call get, then bring the result back in time to now."
+      def get(*args)
+        if args.empty?
+          lookup = lambda { |*args| get(*args) }
+          return TimeStateLookup.new(lookup)
+        else
+          k, default = args
+          # If we've time_warped into the future raise a timing exception
+          if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
+            if __system_thread_locals.get(:sonic_pi_spider_time_warp_start) < __system_thread_locals.get(:sonic_pi_spider_time)
+              raise TimingError, "Sadly, you may not time_warp into the future to call get, then bring the result back in time to now."
+            end
           end
+
+          t = __system_thread_locals.get(:sonic_pi_spider_time)
+          b = __system_thread_locals.get(:sonic_pi_spider_beat)
+          i = __current_thread_id
+          d = 0 # delta
+          p = 1001
+          m = current_bpm
+          res = @event_history.get(t, p, i, d, b, m, k)
+          return res.val if res
+          return default
         end
-
-        t = __system_thread_locals.get(:sonic_pi_spider_time)
-        b = __system_thread_locals.get(:sonic_pi_spider_beat)
-        i = __current_thread_id
-        d = 0 # delta
-        p = 1001
-        m = current_bpm
-
-        res = @event_history.get(t, p, i, d, b, m, k, blk)
-        return res.val if res
-        return default
       end
 
 
