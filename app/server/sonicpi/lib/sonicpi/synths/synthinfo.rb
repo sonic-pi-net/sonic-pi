@@ -4046,7 +4046,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "Outputs a mono signal to a soundcard output of your choice. By default will mix the incoming stereo signal (generated within the FX block) into a single mono channel. However, with the `mode:` opt, it is possible to alternatively send the either the incoming left or right channels out directly. "
+        "Outputs a mono signal to a soundcard output of your choice. By default will mix the incoming stereo signal (generated within the FX block) into a single mono channel. However, with the `mode:` opt, it is possible to alternatively send either the incoming left or right channel out directly. "
       end
 
       def kill_delay(args_h)
