@@ -160,7 +160,7 @@ module SonicPi
     # Get the next version (after the current time)
     # Set time to time of cue
 
-    def sync(t, p, i, d, b, m, path, val_matcher=nil, &blk)
+    def sync(t, p, i, d, b, m, path, val_matcher=nil)
       wait_for_threads
       prom = nil
       ge = CueEvent.new(t, p, i, d, b, m, path, [])
@@ -170,9 +170,6 @@ module SonicPi
         return res if res
         prom = Promise.new
         matcher = @event_matchers.put ge.path, val_matcher, i, prom
-
-        # TODO: look into why this is needed
-        blk.call(matcher) if blk
       end
       prom.get
       # have to do a get_next again in case
