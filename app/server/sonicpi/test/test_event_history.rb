@@ -465,6 +465,38 @@ module SonicPi
       t2.kill
     end
 
+    def test_get_matchers
+
+      history = EventHistory.new
+      i1 = ThreadId.new(18, 0, 0)
+      i2 = ThreadId.new(18, 0, 1)
+      t = 1495752780.305016
+      t2 = 1495752780.305016 - 1
+
+      history.set(t, 0, i1, 0, 0, 60, "/cue/bar", [:hello])
+      history.set(t2, 0, i1, 0, 0, 60, "/set/bar", [:there])
+      v = history.get(t, 0, i2, 0, 0, 60, "/cue/bar")
+      assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/set/bar")
+      assert_equal [:there], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/*/bar")
+      assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/{cue,set}/bar")
+      assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/{cu?,set}/bar")
+      assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/{ce?,set}/bar")
+      assert_equal [:there], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/cu/bar")
+      assert_equal nil, v
+      v = history.get(t, 0, i2, 0, 0, 60, "/cu?/bar")
+      assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/{cu?/bar")
+      assert_equal nil, v
+      v = history.get(t, 0, i2, 0, 0, 60, "/???/ba?")
+      assert_equal [:hello], v.val
+    end
+
 
     # def test_basic_sync
     #   10.times do

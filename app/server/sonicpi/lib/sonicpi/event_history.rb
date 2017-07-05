@@ -221,7 +221,21 @@ module SonicPi
         if stripped == '**'
           stripped
         elsif matcher?(segment)
-          Regexp.new(segment.gsub!('*', '.*'))
+          segment = Regexp.escape(segment)
+          segment.gsub!('\*', '.*')
+          segment.gsub!('\{', '(')
+          segment.gsub!('\}', ')')
+          segment.gsub!(',', '|')
+          segment.gsub!('\?', '.')
+          segment.gsub!('\[', '[')
+          segment.gsub!('[!', '[^')
+          segment.gsub!('\]', ']')
+          segment.gsub!('\-', '-')
+          begin
+            Regexp.new(segment)
+          rescue
+            stripped
+          end
         else
           stripped
         end
@@ -463,7 +477,7 @@ module SonicPi
     end
 
     def matcher?(p)
-      p.include?('*')
+      p.include?('*') || p.include?('{') || p.include?('?') || p.include?('[')
     end
   end
 end
