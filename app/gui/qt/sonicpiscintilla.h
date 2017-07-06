@@ -76,5 +76,6 @@ class SonicPiScintilla : public QsciScintilla
     void dragMoveEvent(QDragMoveEvent *event);
     bool event(QEvent *evt);
     QCheckBox *autoIndent;
+    QMutex *mutex;
 
 };
