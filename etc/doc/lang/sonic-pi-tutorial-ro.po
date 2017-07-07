@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-04 18:59+0000\n"
+"PO-Revision-Date: 2017-07-07 17:42+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -15698,30 +15698,41 @@ msgid ""
 " sounds. So, fire up a copy of Sonic Pi and let's get started stretching some "
 "samples!"
 msgstr ""
+"Cand cineva ia contact prima data cu Sonic PI, unul dintre primele lucruri "
+"pe care le descopera este cat de simplu este sa redai sunete pre-"
+"inregistrate folosind functia 'sample'. De exemplu, poti reda in bucla un "
+"sunet de toba, sa auzi vocile unui cor sau chiar sa asculti niste efecte "
+"obtinute prin manipularea discurilor de vinil printr-o singura linie de cod. "
+"Totusi, sunt multi cei care nu realizeaza ca pot modifica viteza la care "
+"este redat esantionul pentru a obtine niste efecte interesante si a controla "
+"mai bine sunetul inregistrat. Deci, porneste Sonic Pi si hai sa incepem sa "
+"ne jucam cu viteza esantioanelor!"
 
 #: A.17-sample-stretching.md:14
-#, fuzzy
 msgid "Slowing Samples Down"
-msgstr "Esantioane"
+msgstr "Incetinirea esantioanelor"
 
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
 msgstr ""
+"Pentru a modifica viteza de redare a esantionului, trebuie sa folosim "
+"parametrul 'rate:'"
 
 #: A.17-sample-stretching.md:18
 #, no-wrap
-#, fuzzy
 msgid "sample :guit_em9, rate: 1"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr "sample :guit_em9, rate: 1"
 
 #: A.17-sample-stretching.md:20
 msgid ""
 "If we specify a `rate:` of `1` then the sample is played back at the normal ra"
 "te. If we want to play it back at half speed we simply use a `rate:` of `0.5`:"
 msgstr ""
+"Daca specificam valoarea '1' pentru 'rate:', esantionul va fi redat la "
+"viteza normala. Daca vrem sa fie redat cu o viteza injumatatita, folosim "
+"valoarea '0.5' pentru 'rate:':"
 
 #: A.17-sample-stretching.md:27
-#, fuzzy
 msgid ""
 "Notice that this has two effects on the audio. Firstly the sample sounds lower"
 " in pitch and secondly it takes twice as long to play back (see the sidebar fo"
@@ -15729,12 +15740,18 @@ msgid ""
 "rates moving towards `0`, so a `rate:` of `0.25` is a quarter speed, `0.1` is "
 "a tenth of the speed, etc. Try playing with some low rates and see if you can "
 "turn the sound into a low rumble."
-msgstr "choose (alege)"
+msgstr ""
+"Observi ca aceasta va avea doua efecte. In primul rand esantionul va contine "
+"sunete mai joase si in al doilea rand redarea sa va dura de doua ori mai "
+"mult (vezi in bara laterala o explicatie pentru acest lucru). Putem alege "
+"valori din ce in ce mai mici pentru 'rate:', pana spre '0', '0.25' avand "
+"viteza un sfert din cea initiala, '0.1' o zecime, etc. Incearca sa te joci "
+"cu niste valori mai joase si sa vezi cum sunetul e transforma intr-un huruit "
+"cu tonuri grave."
 
 #: A.17-sample-stretching.md:34
-#, fuzzy
 msgid "Speeding Samples Up"
-msgstr "Esantioane"
+msgstr "Redarea esantioanelor cu viteza marita"
 
 #: A.17-sample-stretching.md:36
 msgid ""
@@ -15743,16 +15760,19 @@ msgid ""
 "op this time. First, take a listen to how it sounds at the default rate of `1`"
 ":"
 msgstr ""
+"In afara de a face sunetul sa dureze mai mult si sa fie mai grav, putem sa "
+"il facem si mai scurt, dar mai acut, folosind valori mai mare pentru 'rate:"
+"'. Sa ne jucam cu un sunet de toba de data asta. Mai intai, sa ascultam cum "
+"suna la viteza normala:"
 
 #: A.17-sample-stretching.md:41
 #, no-wrap
-#, fuzzy
 msgid "sample :loop_amen, rate: 1"
-msgstr "sample :loop_amen, rate: -1"
+msgstr "sample :loop_amen, rate: 1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
-msgstr ""
+msgstr "Acum, sa il redam putin mai rapid:"
 
 #: A.17-sample-stretching.md:48
 msgid ""
@@ -15762,10 +15782,15 @@ msgid ""
 "oop. For example, if you use a rate of `100`, the drum loop turns into a click"
 "!"
 msgstr ""
+"Ha! Tocmai am schimbat genul muzical din old-skool techno in jungle. Observi "
+"ca tonalitatea pentru fiecare bataie de toba este mai inalta si tot ritmul "
+"este mai rapid, Acum, incearca viteze chiar mai mari si vezi cat de scurt si "
+"inalt poti face sunetul de toba. De exemplu, daca folosesti '100' pentru "
+"'rate:', sunetul se transforma intr-un click!"
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
-msgstr ""
+msgstr "Marsarier"
 
 #: A.17-sample-stretching.md:56
 msgid ""
@@ -15776,21 +15801,26 @@ msgid ""
 " speed, `-1` must mean backwards! Let's try it on a snare. First, play it back"
 " at the normal rate:"
 msgstr ""
+"Sunt sigur ca multi dintre voi va ganditi acum... \"dar daca as folosi o "
+"valoare negativa pentru viteza?\". Buna intrebare! Sa ne gandim putin la "
+"acest lucru. Daca parametrul 'rate:' semnifica viteza cu care sunetul este "
+"redat, '1' fiind viteza normala, '2' fiind viteza dubla, '0.5' viteza "
+"injumatatita, '-1' trebuie sa insemne redare inversa! Sa incercam cu un "
+"sunet de toba. Mai intai, reda-l la viteza normala:"
 
 #: A.17-sample-stretching.md:63
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: 1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: 1"
 
 #: A.17-sample-stretching.md:65
-#, fuzzy
 msgid "Now, play it backwards:"
-msgstr "Super! Este redat de la coada la cap!"
+msgstr "Acum, reda-l de la coada la cap:"
 
 #: A.17-sample-stretching.md:67
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: -1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: -1"
 
 #: A.17-sample-stretching.md:69
 msgid ""
@@ -15799,10 +15829,14 @@ msgid ""
 "ative rates and have fun. It's particularly amusing with the `:misc_burp` samp"
 "le!"
 msgstr ""
+"Desigur, il poti reda invers cu viteza dubla folosind valoarea '-2' sau cu "
+"viteza injumatatita folosind valoarea '-0.5' pentru 'rate:'. Acum joaca-te "
+"cu diferite viteze negative si distreaza-te. Este amuzant in special daca "
+"folosesti esantionul ':misc_burp'!"
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch [Sidebar]"
-msgstr ""
+msgstr "Esantion, Viteza si Tonalitate [Bara laterala]"
 
 #: A.17-sample-stretching.md:77
 msgid ""
@@ -15813,6 +15847,12 @@ msgid ""
 " - as you're heading towards the sound source the pitch is higher than when yo"
 "u're moving away from the sound - the so-called Doppler effect. Why is this?"
 msgstr ""
+"Unul dintre efectele modificarii vitezei esantioanelor este ca o redare mai "
+"rapida produce sunete mai inalte, iar una mai lenta duce la sunete mai "
+"joase. Acest efect poate fi intalnit in viata de zi cu zi cand mergi cu "
+"bicicleta si treci pe langa un semafor cu semnalizare sonora - cand te "
+"apropii de sursa sunetului tonalitatea este ma inalta decat atunci cand te "
+"indepartezi - efectul Doppler. De ce se intampla asta?"
 
 #: A.17-sample-stretching.md:85
 msgid ""
@@ -15822,6 +15862,11 @@ msgid ""
 "igure C. Notice that the waves of higher notes are more compact and the waves "
 "of lower notes are more spread out."
 msgstr ""
+"Sa analizam un sunet simplu reprezentat ca o unda sinusoidala. Daca folosim "
+"un osciloscop pentru a vizualiza sunetul vom vedea ceva ca in figura A. Daca "
+"reprezentam un sunte mai inalt cu o octava, vom vedea figura B, iar cu o "
+"octava mai jos va arata ca in figura C. Observam ca undele pentru notele mai "
+"inalte sunt ai compacte, iar undele pentru notele mai joase sunt mai extinse."
 
 #: A.17-sample-stretching.md:91
 msgid ""
@@ -15838,6 +15883,17 @@ msgid ""
 "beep. It will also make the beep shorter as we will work through all the circl"
 "es faster. This is shown in Figure E."
 msgstr ""
+"Un esantion pentru un sunet reprezinta doar un set de numere (coordonate x, "
+"y) care atunci cand sunt afisate grafic redeseneaza curbele initiale. Vezi "
+"figura D unde fiecare cerc reprezinta o coordonata. Pentru a transforma "
+"aceste coordonate inapoi in sunet, computerul parcurge fiecare coordonata x "
+"si trimite valoarea y corespunzatoare la difuzoare. Interesant este ca "
+"viteza cu care computerul parcurge valorile pentru x nu trebuie sa fie "
+"aceeasi cu cea cu care au fost inregistrate. Deci, cand computerul parcurge "
+"valorile pentru x mai rapid decat la inregistrare, efectul va fi de "
+"inghesuire a cercurilor, ceea ce va duce la un sunet mai inalt. Sunetul va "
+"fi deasemenea mai scurt, deoarece vom parcurge aceste valori mai repede. "
+"Acest lucru este aratat in figura E."
 
 #: A.17-sample-stretching.md:105
 msgid ""
@@ -15847,10 +15903,15 @@ msgid ""
 "tching and compressing many sine waves all at the same time in exactly this ma"
 "nner."
 msgstr ""
+"Un ultim lucru pe care trebuie sa-l stii este ca un matematician numit "
+"Fourier a demonstrat ca fiecare sunet este de fapt format dintr-o multime de "
+"unde sinusoidale combinate. Ca urmare, cand comprimam sau extindem un sunet "
+"inregistrat, de fapt comprimam sau extindem in acelasi timp mai multe unde "
+"sinusoidale in modul descris anterior."
 
 #: A.17-sample-stretching.md:111
 msgid "Pitch Bending"
-msgstr ""
+msgstr "Modificarea tonalitatii"
 
 #: A.17-sample-stretching.md:113
 msgid ""
@@ -15861,6 +15922,12 @@ msgid ""
 "ower. This means that for melodic samples, playing it alongside itself at doub"
 "le/half rates actually sounds rather nice:"
 msgstr ""
+"Asa cum am vazut, folosind o viteza de redare mai mare vom obtine un sunet "
+"cu o tonalitate mai inalta, iar o viteza mai mica va crea un sunet mai grav. "
+"O regula simpla spune ca dublarea vitezei va duce la un sunet cu o octava "
+"mai sus si invers, injumatatirea vitezei duce la un sunet cu o octava mai "
+"jos. Aceasta inseamna ca pentru esantioanele melodice redarea lor in paralel "
+"la viteza normala, dubla si injumatatita va suna chiar interesant"
 
 #: A.17-sample-stretching.md:121
 #, no-wrap
@@ -15869,6 +15936,9 @@ msgid ""
 "sample :bass_trance_c, rate: 2\n"
 "sample :bass_trance_c, rate: 0.5"
 msgstr ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
 
 #: A.17-sample-stretching.md:125
 msgid ""
@@ -15876,6 +15946,9 @@ msgid ""
 "e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
 "itch:` opt:"
 msgstr ""
+"Totusi, ce ar trebui sa facem daca am dori doar sa schimbam viteza astfel "
+"incat sa crestem tonalitatea cu un semiton (cu o nota mai sus la pian)? "
+"Sonic Pi face acest lucru foarte usor folosind parametrul 'rpitch:':"
 
 #: A.17-sample-stretching.md:129
 #, no-wrap
@@ -15884,6 +15957,9 @@ msgid ""
 "sample :bass_trance_c, rpitch: 3\n"
 "sample :bass_trance_c, rpitch: 7"
 msgstr ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
 
 #: A.17-sample-stretching.md:133
 msgid ""
@@ -15892,6 +15968,10 @@ msgid ""
 "onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
 " opts:"
 msgstr ""
+"Daca arunci o privire la jurnalul din partea dreapta, vei observa ca o "
+"valoare de '3' pentru 'rpitch:' corespunde unei viteze ('rate:') de `1.1892` "
+"iar o valoare `rpitch:` de `7` corespunde unui 'rate:' de `1.4983`. In fine, "
+"putem chiar combina parametrii `rate:` si `rpitch:`:"
 
 #: A.17-sample-stretching.md:138
 #, no-wrap
@@ -15904,6 +15984,13 @@ msgid ""
 "sleep 1\n"
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 msgstr ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:149
 msgid ""
@@ -15913,10 +16000,15 @@ msgid ""
 " playback rate of samples. As an added exercise try recording your own sounds "
 "and play around with the rate to see what crazy sounds you can make."
 msgstr ""
+"Sa aruncam o privire la o bucata simpla care combina aceste idei. Copiaza "
+"codul intr-un buffer gol, apasa play si asculta putin apoi foloseste-l ca "
+"punct de pornire pentru propria ta piesa. Vezi cat de distractiv este sa "
+"modifici viteza de redare a esantioanelor. Ca exercitiu suplimentar, "
+"incearca sa inregistrezi propriile sunete si joca-te cu viteza de redare "
+"pentru a vedea ce sunete interesante poti obtine."
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :beats do\n"
 "  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
@@ -15934,17 +16026,34 @@ msgid ""
 "    end\n"
 "  end\n"
 "end"
-msgstr "sample :guit_em9"
+msgstr ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
-msgstr ""
+msgstr "A.18 Design de sunet - Sinteza aditiva"
 
 #: A.18-additive-synthesis.md:3
 msgid "Additive Synthesis"
-msgstr ""
+msgstr "Sinteza aditiva"
 
 #: A.18-additive-synthesis.md:5
+#, fuzzy
 msgid ""
 "This is the first of a short series of articles on how to use Sonic Pi for sou"
 "nd design. We'll be take a quick tour of a number of different techniques avai"
@@ -15959,6 +16068,11 @@ msgid ""
 "for a given pipe 'added it to the mix' making the sound richer and more comple"
 "x. Now, let's see how we can pull out all the stops with Sonic Pi."
 msgstr ""
+"Acesta este primul dintr-o scurta serie de articole despre cum sa utilizezi "
+"Sonic Pi pentru design de sunet. Vom face un tur rapid al catorva tehnici pe "
+"care le ai la dispozitie pentru a crea propriile sunete unice. Prima tehnica "
+"pe care o vom analiza se numeste *sinteza aditiva*. Poate suna complicat, "
+"dar daca explicam putin fiecare cuvant, inte"
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
@@ -15973,7 +16087,7 @@ msgstr ""
 #: A.18-additive-synthesis.md:26
 #, no-wrap
 msgid "synth :sine, note: :d3"
-msgstr ""
+msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
@@ -15985,6 +16099,8 @@ msgid ""
 "synth :sine, note: :d3\n"
 "synth :square, note: :d3"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
 
 #: A.18-additive-synthesis.md:37
 msgid ""
@@ -15996,9 +16112,8 @@ msgid ""
 msgstr ""
 
 #: A.18-additive-synthesis.md:45
-#, fuzzy
 msgid "Blending"
-msgstr "Sliding"
+msgstr "Amestecarea"
 
 #: A.18-additive-synthesis.md:47
 msgid ""
@@ -16014,6 +16129,9 @@ msgid ""
 "synth :square, note: :d3\n"
 "synth :tri, note: :d4, amp: 0.4"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3\n"
+"synth :tri, note: :d4, amp: 0.4"
 
 #: A.18-additive-synthesis.md:58
 msgid ""
@@ -16041,6 +16159,9 @@ msgid ""
 "synth :square, note: :e3\n"
 "synth :square, note: :e3 + detune"
 msgstr ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
 
 #: A.18-additive-synthesis.md:76
 msgid ""
@@ -16085,6 +16206,12 @@ msgid ""
 "synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
 "synth :noise, release: 0.2, amp: 1, cutoff: 90"
 msgstr ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
 
 #: A.18-additive-synthesis.md:108
 msgid ""
