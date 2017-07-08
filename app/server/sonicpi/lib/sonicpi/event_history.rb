@@ -235,16 +235,14 @@ module SonicPi
         elsif matcher?(segment)
           segment = Regexp.escape(segment)
           segment.gsub!('\*', '.*')
-          segment.gsub!('\{', '(')
-          segment.gsub!('\}', ')')
+          segment.gsub!(/\\\{(.*)\\\}/, '(\1)')
           segment.gsub!(',', '|')
           segment.gsub!('\?', '.')
-          segment.gsub!('\[', '[')
-          segment.gsub!('[!', '[^')
-          segment.gsub!('\]', ']')
+          segment.gsub!(/\\\[([^!].*)\\\]/, '[\1]')
+          segment.gsub!(/\\\[!(.*)\\\]/, '[^\1]')
           segment.gsub!('\-', '-')
           begin
-            Regexp.new(segment)
+            Regexp.new(/\A#{segment}\Z/)
           rescue
             stripped
           end

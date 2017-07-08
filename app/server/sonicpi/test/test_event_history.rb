@@ -473,10 +473,12 @@ module SonicPi
       t = 1495752780.305016
       t2 = 1495752780.305016 - 1
       t3 = 1495752780.305016 - 2
+      t4 = 1495752780.305016 + 2
 
       history.set(t, 0, i1, 0, 0, 60, "/cue/bar", [:hello])
       history.set(t2, 0, i1, 0, 0, 60, "/set/bar", [:there])
       history.set(t3, 0, i1, 0, 0, 60, "/set/yo3", [:yo])
+      history.set(t4, 0, i1, 0, 0, 60, "/set/howdy30", [:howdy])
       v = history.get(t, 0, i2, 0, 0, 60, "/cue/bar")
       assert_equal [:hello], v.val
       v = history.get(t, 0, i2, 0, 0, 60, "/set/bar")
@@ -504,6 +506,15 @@ module SonicPi
       v = history.get(t, 0, i2, 0, 0, 60, "/[!d]ue/ba?")
       assert_equal [:hello], v.val
       v = history.get(t, 0, i2, 0, 0, 60, "/[!c]ue/ba?")
+      assert_equal nil, v
+
+      v = history.get(t4, 0, i2, 0, 0, 60, "/set/howdy30")
+      assert_equal [:howdy], v.val
+
+      v = history.get(t4, 0, i2, 0, 0, 60, "/set/howdy[3]0")
+      assert_equal [:howdy], v.val
+
+      v = history.get(t4, 0, i2, 0, 0, 60, "/set/howdy[3]")
       assert_equal nil, v
 
       v = history.get(t, 0, i2, 0, 0, 60, "/set/yo?")
@@ -557,6 +568,16 @@ module SonicPi
       assert  m.match("/due/baz/quux/", nil)
     end
 
+    def test_event_matcher_with_single_char_at_end
+      m = EventMatcher.new("/?ue/{baz,boz}/quux[!12]", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/cue/baz/quux3/", nil)
+      assert_nil  m.match("/cue/baz/quux34/", nil)
+    end
+
+    def test_event_matcher_with_single_char_at_end2
+      m = EventMatcher.new("/push[!1]", nil, ThreadId.new(5), Promise.new)
+      assert_nil  m.match("/push40", nil)
+    end
 
 
     # def test_basic_sync
