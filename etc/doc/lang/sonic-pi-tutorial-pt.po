@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-29 10:14+0000\n"
+"PO-Revision-Date: 2017-07-08 09:21+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.15-dev\n"
+"X-Generator: Weblate 2.16-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -6053,6 +6053,10 @@ msgid ""
 "ed to play some code with echo and then with reverb? Easy, just put one inside"
 " the other:"
 msgstr ""
+"Um dos mais poderosos aspectos dos blocos de efeitos é que podem ser "
+"aninhados. Isto permite facilmente encadear efeitos. Por exemplo, se "
+"quisermos tocar algum código com eco e a seguido de reverb? Fácil, basta "
+"colocar um dentro de outro:"
 
 #: 06.1-Adding-FX.md:129
 #, no-wrap
@@ -6083,6 +6087,9 @@ msgid ""
 "ithin the inner do/end block such as `play 50` is first sent to the echo FX an"
 "d the sound of the echo FX is in turn sent out to the reverb FX."
 msgstr ""
+"Pensa no audio fluindo de dentro para fora. O som do código dentro no bloco "
+"do/end interior como o `play 50` é primeiro enviado para o efeito de eco e o "
+"som do efeito de eco é então enviado para o efeito de reverb."
 
 #: 06.1-Adding-FX.md:146
 msgid ""
@@ -6091,10 +6098,15 @@ msgid ""
 "tiple FX simultaneously. So be sparing with your use of FX especially on low p"
 "owered platforms such as the Raspberry Pi."
 msgstr ""
+"Podemos usar aninhamentos muito profundos para resultados estranhos. No "
+"entanto, um aviso, os efeitos podem usar muitos recursos, e quando os "
+"aninhas efectivamente estas a usar múltiplos efeitos simultaneamente. Limita "
+"o uso de efeitos especialmente em plataformas com pouco poder como o "
+"Raspberry Pi."
 
 #: 06.1-Adding-FX.md:151
 msgid "Discovering FX"
-msgstr ""
+msgstr "Descobrindo efeitos"
 
 #: 06.1-Adding-FX.md:153
 msgid ""
@@ -6102,38 +6114,43 @@ msgid ""
 "ch ones are available, click on FX in the far left of this help system and you"
 "'ll see a list of available options. Here's a list of some of my favourites:"
 msgstr ""
+"O Sonic Pi vem com um grande número de feitos para brincares com eles. Para "
+"descobrires quais estão disponíveis, clica no botão FX no lado esquerdo "
+"deste sistema de ajuda e verás uma listagem das opções disponíveis. Aqui vai "
+"uma lista dos meus favoritos:"
 
 #: 06.1-Adding-FX.md:158
 msgid "wobble,"
-msgstr ""
+msgstr "Ondular,"
 
 #: 06.1-Adding-FX.md:159
 msgid "reverb,"
-msgstr ""
+msgstr "reverb,"
 
 #: 06.1-Adding-FX.md:160
 msgid "echo,"
-msgstr ""
+msgstr "eco,"
 
 #: 06.1-Adding-FX.md:161
 msgid "distortion,"
-msgstr ""
+msgstr "distorção,"
 
 #: 06.1-Adding-FX.md:162
 msgid "slicer"
-msgstr ""
+msgstr "fatiador"
 
 #: 06.1-Adding-FX.md:164
 msgid "Now go crazy and add FX everywhere for some amazing new sounds!"
 msgstr ""
+"Agora fica maluco e adiciona efeitos em todo lado para incríveis novos sons!"
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
-msgstr ""
+msgstr "6.2 Efeitos na pratica"
 
 #: 06.2-FX-in-Practice.md:3
 msgid "FX in Practice"
-msgstr ""
+msgstr "Efeitos na pratica"
 
 #: 06.2-FX-in-Practice.md:5
 msgid ""
@@ -6275,6 +6292,8 @@ msgid ""
 "This is such a common pattern that `with_fx` supports an opt to do exactly thi"
 "s but without having to write the `16.times` block:"
 msgstr ""
+"Este é um padrão muitos comum que o `with_fx` suporta uma opção que faz "
+"exactamente isto mas sem ter de escrever o bloco `16.times`."
 
 #: 06.2-FX-in-Practice.md:73
 #, no-wrap
@@ -6299,6 +6318,9 @@ msgid ""
 "eps: 16` essentially repeats the code in the `do/end` block 16 times so you ca"
 "n use them both interchangeably and choose the one that feels best for you."
 msgstr ""
+"Tanto o exemplo `reps: 16` como o `16.times do` irão se comportar de forma "
+"idêntica. O `resp: 16` essencialmente repete o código no bloco `do/end` 16 "
+"vezes assim podes usar um ou outro conforme preferires."
 
 #: 06.2-FX-in-Practice.md:87
 msgid ""
@@ -6307,14 +6329,18 @@ msgid ""
 "stics. So play around and use the approach that sounds best to you whilst also"
 " working within the performance constraints of your platform."
 msgstr ""
+"Lembra-te não existem erros, apenas possibilidades. No entanto, algumas "
+"destas abordagens terão diferentes sons e características de performance "
+"diferentes. Brinca com isso e usa a abordagem que soa melhor para ti "
+"trabalhando na performance dentro dos constrangimentos da tua plataforma."
 
 #: 07-Control.md:1
 msgid "7 Control"
-msgstr ""
+msgstr "7 Controlo"
 
 #: 07-Control.md:3
 msgid "Controlling running sounds"
-msgstr ""
+msgstr "Controlando sons que correm"
 
 #: 07-Control.md:5
 msgid ""
@@ -6323,6 +6349,10 @@ msgid ""
 " Each sound triggered is essentially its own sound with its own list of option"
 "s set for the duration of the sound."
 msgstr ""
+"Até agora vimos como podemos despoletar synths e samples, a como podemos "
+"mudar as suas opções padrão como a amplitude, panorâmica, envelope e entre "
+"outras. Cada som despoletado é essencialmente o seu próprio som com a sua "
+"lista de opções durante a sua duração."
 
 #: 07-Control.md:11
 msgid ""
@@ -6330,18 +6360,22 @@ msgid ""
 "playing, just like you might bend a string of a guitar whilst it's still vibra"
 "ting?"
 msgstr ""
+"Não seria porreiro se pudesse-mos mudar as opções de som quando ele esta a "
+"ser tocado, tal como dobramos a corda de uma guitarra enquanto ela ainda "
+"esta a vibrar?"
 
 #: 07-Control.md:15
 msgid "You're in luck - this section will show you how to do exactly this."
 msgstr ""
+"Estás com sorte - esta secção mostra-te como podes fazer exactamente isso."
 
 #: 07.1-Controlling-Running-Synths.md:1
 msgid "7.1 Controlling Running Synths"
-msgstr ""
+msgstr "7.1 Controlando Synths em execução"
 
 #: 07.1-Controlling-Running-Synths.md:3
 msgid "Controlling Running Synths"
-msgstr ""
+msgstr "Controlando Synths em execução"
 
 #: 07.1-Controlling-Running-Synths.md:5
 msgid ""
@@ -6349,6 +6383,10 @@ msgid ""
 "er, Sonic Pi gives us the ability to manipulate and control currently running "
 "sounds. We do this by using a variable to capture a reference to a synth:"
 msgstr ""
+"Até agora apenas nos preocupamos em despoletar novos sons e efeitos. No "
+"entanto, o Sonic Pi dá-nos a habilidade de manipular e controlar sons em "
+"execução. Fazemos isso usando uma variável para capturar a referencia a um "
+"synth:"
 
 #: 07.1-Controlling-Running-Synths.md:10
 #, no-wrap
@@ -6361,10 +6399,14 @@ msgid ""
 " 60. Note that this is *run-local* - you can't access it from other runs like "
 "functions."
 msgstr ""
+"Aqui temos uma variável de execução local `s` que representa o synth a tocar "
+"a nota 60. Nota que é *run-local* - não poderás aceder a ela a partir de "
+"outras corridas como as funções."
 
 #: 07.1-Controlling-Running-Synths.md:18
 msgid "Once we have `s`, we can start controlling it via the `control` function:"
 msgstr ""
+"Depois de termos `s`, podemos começar a controlar-la via a função `control`:"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
 #, no-wrap
@@ -6391,16 +6433,21 @@ msgid ""
 "re just triggering one synth and then change the pitch 3 times afterwards, whi"
 "le it's playing."
 msgstr ""
+"A coisa a reparar é que não estamos a despoletar 4 synths diferentes - "
+"estamos apenas a despoletar um synth e posteriormente mudamos o pitch 3 "
+"vezes, enquanto é tocado."
 
 #: 07.1-Controlling-Running-Synths.md:35
 msgid ""
 "We can pass any of the standard opts to `control`, so you can control things l"
 "ike `amp:`, `cutoff:` or `pan:`."
 msgstr ""
+"Podemos passar qualquer das opções padrão ao `control`, assim podes "
+"controlar coisas como `amp:`, `cutoff:` ou `pan:`."
 
 #: 07.1-Controlling-Running-Synths.md:38
 msgid "Non-controllable Options"
-msgstr ""
+msgstr "Opções não controláveis"
 
 #: 07.1-Controlling-Running-Synths.md:40
 msgid ""
@@ -6410,20 +6457,27 @@ msgid ""
 "ation says *Can not be changed once set*, you know it's not possible to contro"
 "l the opt after the synth has started."
 msgstr ""
+"Algumas das opções não podem ser controladas depois do synth ter começado. "
+"Este é o caso para todos os parâmetros dos envelopes ADSR. Podes descobrir "
+"que opções podem ser controlados vendo a documentação no sistema de ajuda. "
+"Se na documentação diz *Can not be changed once set*, saberás que não é "
+"possível controlar as opções depois do synth ter sido iniciado."
 
 #: 07.2-Controlling-FX.md:1
 msgid "7.2 Controlling FX"
-msgstr ""
+msgstr "7.2 Controlando os efeitos"
 
 #: 07.2-Controlling-FX.md:3
 msgid "Controlling FX"
-msgstr ""
+msgstr "Controlando os efeitos"
 
 #: 07.2-Controlling-FX.md:5
 msgid ""
 "It is also possible to control FX, although this is achieved in a slightly dif"
 "ferent way:"
 msgstr ""
+"É também possível controlar os efeitos, apesar de isto ser feito de uma "
+"maneira ligeiramente diferente:"
 
 #: 07.2-Controlling-FX.md:8
 #, no-wrap
@@ -6457,18 +6511,22 @@ msgid ""
 "ich we then reference from the containing do/end block. This behaviour is iden"
 "tical to using parameterised functions."
 msgstr ""
+"Em vez de usar uma variável, usamos um parâmetro de meta do bloco do/end. "
+"Dentro das barras `|`, necessitamos especificar um nome único para o nosso "
+"efeito em execução no qual então fazemos referencia no respectivo bloco do/"
+"end. Este comportamento é idêntico ao uso de funções parametrizadas."
 
 #: 07.2-Controlling-FX.md:26
 msgid "Now go and control some synths and FX!"
-msgstr ""
+msgstr "Vai agora e controla alguns synths e efeitos!"
 
 #: 07.3-Sliding-Parameters.md:1
 msgid "7.3 Sliding Options"
-msgstr ""
+msgstr "7.3 Opções deslizantes"
 
 #: 07.3-Sliding-Parameters.md:3
 msgid "Sliding Opts"
-msgstr ""
+msgstr "Opções deslizantes"
 
 #: 07.3-Sliding-Parameters.md:5
 msgid ""
@@ -6478,10 +6536,15 @@ msgid ""
 "pecial opts that only work when you control synths as introduced in the previo"
 "us section."
 msgstr ""
+"Enquanto exploravas as opções dos synth e efeitos, poderás ter reparado que "
+"existe um número de opções terminando com `_slide`. Podes até ter tentado as "
+"chamar e não veres nenhum efeito. Isto é porque eles não são parâmetros "
+"normais, eles são opções especiais que apenas funcionam quando controlares "
+"synths como introduzido na secção anterior."
 
 #: 07.3-Sliding-Parameters.md:11
 msgid "Consider the following example:"
-msgstr ""
+msgstr "Considera o exemplo seguinte:"
 
 #: 07.3-Sliding-Parameters.md:23
 msgid ""
@@ -6490,6 +6553,10 @@ msgid ""
 "ing the `note:` parameter, to add slide, we need to set the `note_slide` param"
 "eter of the synth:"
 msgstr ""
+"Aqui, podes ouvir o pitch do synth mudar imediatamente a cada chamada a "
+"`control`. No entanto, podemos querer que o pitch deslize entre as mudanças. "
+"Ao controlarmos o parâmetro `note:`, para adicionar o deslizamento, "
+"necessitamos de definir o parâmetros `note_slide` no synth:"
 
 #: 07.3-Sliding-Parameters.md:28
 #, no-wrap
@@ -6516,16 +6583,21 @@ msgid ""
 "doesn't it? You can speed up the slide by using a shorter time such as `note_s"
 "lide: 0.2` or slow it down by using a longer slide time."
 msgstr ""
+"Agora podemos ouvir as notas a serem dobradas entre as chamadas a `control`. "
+"Soa bem ,não soa? Podes acelerar o deslizamento usando um tempo mais curto "
+"como `note_slide: 0.2` ou abrandar usando um tempo mais longo."
 
 #: 07.3-Sliding-Parameters.md:43
 msgid ""
 "Every parameter that can be controlled has a corresponding `_slide` parameter "
 "for you to play with."
 msgstr ""
+"Cada parâmetro pode ser controlado como um parâmetro `_slide` correspondente "
+"para tu brincares com ele."
 
 #: 07.3-Sliding-Parameters.md:46
 msgid "Sliding is sticky"
-msgstr ""
+msgstr "Deslizamento é permanente"
 
 #: 07.3-Sliding-Parameters.md:48
 msgid ""
@@ -6533,14 +6605,18 @@ msgid ""
 " and used every time you slide the corresponding parameter. To stop sliding yo"
 "u must set the `_slide` value to 0 before the next `control` call."
 msgstr ""
+"Uma vez definido um parâmetro `_slide` num synth em execução, ele será "
+"lembrado e usado cada vez que deslizes o parâmetro correspondente. Para "
+"parar o deslizamento, terás que definir o valor de `_slide` a 0 antes da "
+"próxima chamada a `control`."
 
 #: 07.3-Sliding-Parameters.md:53
 msgid "Sliding FX Opts"
-msgstr ""
+msgstr "Deslizando opções de efeitos"
 
 #: 07.3-Sliding-Parameters.md:55
 msgid "It is also possible to slide FX opts:"
-msgstr ""
+msgstr "É também possível deslizar opções de efeitos:"
 
 #: 07.3-Sliding-Parameters.md:57
 #, no-wrap
@@ -6562,18 +6638,22 @@ msgid ""
 "Now have fun sliding things around for smooth transitions and flowing control."
 ".."
 msgstr ""
+"Agora diverte-te deslizando coisas para suavizar transições e controlo do "
+"fluxo..."
 
 #: 08-Data-Structures.md:1
 msgid "8 Data Structures"
-msgstr ""
+msgstr "8 Estruturas de dados"
 
 #: 08-Data-Structures.md:3
 msgid "Data Structures"
-msgstr ""
+msgstr "Estruturas de dados"
 
 #: 08-Data-Structures.md:5
 msgid "A very useful tool in a programmer's toolkit is a data structure."
 msgstr ""
+"Uma ferramenta muito útil na caixa de ferramentas de um programador é uma "
+"estrutura de dados."
 
 #: 08-Data-Structures.md:7
 msgid ""
@@ -6581,6 +6661,10 @@ msgid ""
 "you may find it useful to have a series of notes to play one after another. Pr"
 "ogramming languages have data structures to allow you do exactly this."
 msgstr ""
+"As vezes podes querer representar e usar mais do que uma coisa. Por exemplo, "
+"pode ser útil teres uma serie de notas a tocar umas a seguir as outras. "
+"Linguagens de programação têm estruturas de dados que te permitem fazer "
+"exactamente isso."
 
 #: 08-Data-Structures.md:12
 msgid ""
@@ -6588,20 +6672,25 @@ msgid ""
 "and people are always inventing new ones. However, for now we only really need"
 " to consider a very simple data structure - the list."
 msgstr ""
+"Existem muitas estruturas de dados excitantes e exóticas disponíveis para os "
+"programadores - as pessoas estão sempre a inventar novas. No entanto, por "
+"enquanto precisamos apenas de considerar uma muito simples - a lista."
 
 #: 08-Data-Structures.md:16
 msgid ""
 "Let's look at it in more detail. We'll cover its basic form and then also how "
 "lists can be used to represent scales and chords."
 msgstr ""
+"Vamos ver em mais detalhe. Descrevemos a forma básica e depois como as "
+"listas podem ser usadas para representar escalas e acordes."
 
 #: 08.1-Lists.md:1
 msgid "8.1 Lists"
-msgstr ""
+msgstr "8.1 Listas"
 
 #: 08.1-Lists.md:3
 msgid "Lists"
-msgstr ""
+msgstr "Listas"
 
 #: 08.1-Lists.md:5
 msgid ""
@@ -6609,6 +6698,9 @@ msgid ""
 "he list. We met it very briefly before in the section on randomisation when we"
 " randomly chose from a list of notes to play:"
 msgstr ""
+"Nesta secção vamos dar uma vista de olhos à estrutura de dados que é "
+"bastante útil - a lista. Já encontramos anteriormente na secção de "
+"aleatoriedade quando escolhíamos de uma lista de notas a tocar:"
 
 #: 08.1-Lists.md:9
 #, no-wrap
@@ -6621,6 +6713,10 @@ msgid ""
 " First let's recap how we might play a chord. Remember that if we don't use `s"
 "leep`, sounds all happen at the same time:"
 msgstr ""
+"Nesta secção iremos explorar o uso de listas para representar acordes e "
+"escalas. Primeiro vamos recapitular em como poderemos querer tocar um "
+"acorde. Lembra-te que se não usarmos o `sleep`, o som acontece todo ao mesmo "
+"tempo:"
 
 #: 08.1-Lists.md:17
 #, no-wrap
@@ -6635,17 +6731,20 @@ msgstr ""
 
 #: 08.1-Lists.md:23
 msgid "Let's look at other ways to represent this code."
-msgstr ""
+msgstr "Vamos ver outras maneiras de representar este código."
 
 #: 08.1-Lists.md:25
 msgid "Playing a List"
-msgstr ""
+msgstr "Tocando uma lista"
 
 #: 08.1-Lists.md:27
 msgid ""
 "One option is to place all the notes in a list: `[52, 55, 59]`. Our friendly `"
 "play` function is smart enough to know how to play a list of notes. Try it:"
 msgstr ""
+"Uma das opções é colocar todas as notas numa lista: `[52, 55, 59]`. O nosso "
+"amigável `play` é suficientemente esperto para saber como tocar uma lista de "
+"notas. Tenta:"
 
 #: 08.1-Lists.md:31
 #, no-wrap
@@ -6657,6 +6756,8 @@ msgid ""
 "Ooh, that's already nicer to read. Playing a list of notes doesn't stop you fr"
 "om using any of the parameters as normal:"
 msgstr ""
+"Ooh, já é bastante melhor de se ler. Tocar uma lista de notas não te impede "
+"de usar qualquer outro parâmetro normalmente:"
 
 #: 08.1-Lists.md:38
 #, no-wrap
@@ -6668,6 +6769,8 @@ msgid ""
 "Of course, you can also use the traditional note names instead of the MIDI num"
 "bers:"
 msgstr ""
+"Claro, que poderás usar o nome tradicional das notas em vez do seu número "
+"MIDI:"
 
 #: 08.1-Lists.md:45
 #, no-wrap
@@ -6679,10 +6782,12 @@ msgid ""
 "Now those of you lucky enough to have studied some music theory might recognis"
 "e that chord as *E Minor* played in the 3rd octave."
 msgstr ""
+"Aqueles sortudos que estudaram teoria musical poderão reconhecer o acorde "
+"como *Mi Menor* tocado na terceira oitava."
 
 #: 08.1-Lists.md:52
 msgid "Accessing a List"
-msgstr ""
+msgstr "Acedendo à lista"
 
 #: 08.1-Lists.md:54
 msgid ""
@@ -6692,14 +6797,21 @@ msgid ""
 "t at index 23? The only strange thing is that in programming indexes usually s"
 "tart at 0 not 1."
 msgstr ""
+"Uma outra característica bastante útil numa lista é a habilidade de receber "
+"informação dela. Isto pode soar estranho, mas não é mais complicado do que "
+"alguém pedir para abrir o livro na pagina 23. Com uma lista, dizes, qual é o "
+"elemento do índice 23? A única coisa estranha é que os índices na "
+"programação geralmente começam do 0 e não do 1."
 
 #: 08.1-Lists.md:60
 msgid "With list indexes we don't count 1, 2, 3... Instead we count 0, 1, 2..."
 msgstr ""
+"Com os índices das listas não contamos 1, 2, 3... Em vez disso contamos 0, "
+"1, 2..."
 
 #: 08.1-Lists.md:62
 msgid "Let's look at this in a little more detail. Take a look at this list:"
-msgstr ""
+msgstr "Vamos ver isto em mais detalhe. Vê esta lista:"
 
 #: 08.1-Lists.md:64
 #, no-wrap
@@ -6712,6 +6824,9 @@ msgid ""
 " that list? Yes, of course, it's `55`. That was easy. Let's see if we can get "
 "the computer to answer it for us too:"
 msgstr ""
+"Não existe nada assustador sobre isto. Agora, qual é o segundo elemento da "
+"lista? Sim , claro que é o `55`. É fácil. Vamos ver se o computador dá a "
+"mesma resposta que nós:"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
 #, no-wrap
@@ -6728,6 +6843,14 @@ msgid ""
 "ent. We need to surround our index with square brackets and because counting s"
 "tarts at `0`, the index for the second element is `1`. Look:"
 msgstr ""
+"Ok, isto é um pouco esquisito se não tinhas visto algo assim anteriormente. "
+"Acredita em mim, não é difícil. Existe 3 partes na linha acima: a palavra "
+"`puts`, a nossa lista `52, 55, 59` e o nosso índice`[1]`. Primeiro estamos a "
+"dizer `puts` porque queremos que o Sonic Pi imprima a resposta no registo. "
+"Segundo, estamos a dar a nossa lista e finalmente o índice está a perguntar "
+"pelo segundo elemento. Necessitamos de rodear o nosso índice com parênteses "
+"rectos e como a contagem começa do `0`, o índice do segundo elemento é `1`. "
+"Olha:"
 
 #: 08.1-Lists.md:85
 #, no-wrap
@@ -6745,16 +6868,22 @@ msgid ""
 "ow you might use a list in your next code jam. For example, what musical struc"
 "tures might be represented as a series of numbers..."
 msgstr ""
+"Tenta correr o código `puts [52, 55, 59][1]`e verás `55` aparecer no "
+"registo. Muda o indice `1`para outros índices, tenta listas maiores e pensa "
+"em como podes usar uma lista na próxima sessão de jam. Por exemplo, que "
+"estruturas musicais podem ser representadas por uma serie de números..."
 
 #: 08.2-Chords.md:1
 msgid "8.2 Chords"
-msgstr ""
+msgstr "8.2 Acordes"
 
 #: 08.2-Chords.md:5
 msgid ""
 "Sonic Pi has built-in support for chord names which will return lists. Try it "
 "for yourself:"
 msgstr ""
+"O Sonic Pi tem suporte incluído para nomes de acordes que devolverão listas. "
+"Tenta por ti próprio:"
 
 #: 08.2-Chords.md:8
 #, no-wrap
@@ -6767,30 +6896,35 @@ msgid ""
 " lists (and is easier to read for other people). So what other chords does Son"
 "ic Pi support? Well, a *lot*. Try some of these:"
 msgstr ""
+"Agora estamos a chegar a algum lado. Isso parece mais bonito que as listas "
+"em bruto (e são mais fáceis de ler para outras pessoas). Assim que outros "
+"acordes o Sonic Pi suporta? Bem, *muitos*. Tenta alguns destes:"
 
 #: 08.2-Chords.md:16
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 msgid "Arpeggios"
-msgstr ""
+msgstr "Arpejos"
 
 #: 08.2-Chords.md:23
 msgid "We can easily turn chords into arpeggios with the function `play_pattern`:"
 msgstr ""
+"Podemos facilmente transformar acordes em arpejos com a função "
+"`play_pattern`:"
 
 #: 08.2-Chords.md:26
 #, no-wrap
@@ -6804,6 +6938,10 @@ msgid ""
 "play`. We can use another function `play_pattern_timed` to specify our own tim"
 "ings and speed things up:"
 msgstr ""
+"Ok, isto não é tão divertido - tocou muito devagar. `play_pattern` irá tocar "
+"cada nota na lista separada com uma chamada a `sleep 1` entre cada chamada a "
+"`play`. Podemos usar outra função `play_pattern_timed` para especificar o "
+"nosso próprio tempo e acelerar as coisas:"
 
 #: 08.2-Chords.md:35
 #, no-wrap
@@ -6813,6 +6951,8 @@ msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 #: 08.2-Chords.md:39
 msgid "We can even pass a list of times which it will treat as a circle of times:"
 msgstr ""
+"Podemos até passar uma lista de tempos que ira ser tratada como um circulo "
+"de tempos:"
 
 #: 08.2-Chords.md:42
 #, no-wrap
@@ -6821,7 +6961,7 @@ msgstr "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 
 #: 08.2-Chords.md:46
 msgid "This is the equivalent to:"
-msgstr ""
+msgstr "Isto é equivalente a:"
 
 #: 08.2-Chords.md:48
 #, no-wrap
@@ -6856,21 +6996,23 @@ msgstr ""
 
 #: 08.2-Chords.md:64
 msgid "Which would you prefer to write?"
-msgstr ""
+msgstr "Qual preveres escrever?"
 
 #: 08.3-Scales.md:1
 msgid "8.3 Scales"
-msgstr ""
+msgstr "8.3 Escalas"
 
 #: 08.3-Scales.md:3
 msgid "Scales"
-msgstr ""
+msgstr "Escalas"
 
 #: 08.3-Scales.md:5
 msgid ""
 "Sonic Pi has support for a wide range of scales. How about playing a C3 major "
 "scale?"
 msgstr ""
+"O Sonic Pi suporta uma grande quantidade de escalas. Que tal tocar uma "
+"escala de Dó maior na 3 oitava?"
 
 #: 08.3-Scales.md:8
 #, no-wrap
@@ -6879,7 +7021,7 @@ msgstr "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:12
 msgid "We can even ask for more octaves:"
-msgstr ""
+msgstr "Podemos até pedir mais oitavas:"
 
 #: 08.3-Scales.md:14
 #, no-wrap
@@ -6888,7 +7030,7 @@ msgstr "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0
 
 #: 08.3-Scales.md:18
 msgid "How about all the notes in a pentatonic scale?"
-msgstr ""
+msgstr "Que tal todas as notas de uma escala pentatónica?"
 
 #: 08.3-Scales.md:20
 #, no-wrap
@@ -6901,7 +7043,7 @@ msgstr ""
 
 #: 08.3-Scales.md:24
 msgid "Random notes"
-msgstr ""
+msgstr "Notas aleatórias"
 
 #: 08.3-Scales.md:26
 msgid ""
@@ -6909,6 +7051,9 @@ msgid ""
 "meaningful. Have a play with this example which picks random notes from the ch"
 "ord E3 minor:"
 msgstr ""
+"Acordes e escalas são óptimas maneiras de constranger as escolhas aleatórias "
+"em algo significativo. Brinca com este exemplo que escolhe notas aleatórias "
+"do acorde Mi3 menor:"
 
 #: 08.3-Scales.md:30
 #, no-wrap
@@ -6927,11 +7072,11 @@ msgstr ""
 
 #: 08.3-Scales.md:38
 msgid "Try switching in different chord names and cutoff ranges."
-msgstr ""
+msgstr "Tenta diferentes acordes e distancias de corte."
 
 #: 08.3-Scales.md:40
 msgid "Discovering Chords and Scales"
-msgstr ""
+msgstr "Descobrindo acordes e escalas"
 
 #: 08.3-Scales.md:42
 msgid ""
@@ -6941,18 +7086,22 @@ msgid ""
 " you see a long list of chords or scales (depending on which you're looking at"
 ")."
 msgstr ""
+"Para saber que escalas e acordes são suportados pelo Sonic Pi simplesmente "
+"clica no botão Lang na esquerda estrema a este tutorial e escolhe acorde ou "
+"escala na lista de API. Na informação do painel principal, no final verás "
+"uma longa lista de acordes e escalas (dependendo de qual estiveres a ver)."
 
 #: 08.3-Scales.md:48
 msgid "Have fun and remember: there are no mistakes, only opportunities."
-msgstr ""
+msgstr "Diverte-te e lembra-te, não existem erros, apenas oportunidades."
 
 #: 08.4-Rings.md:1
 msgid "8.4 Rings"
-msgstr ""
+msgstr "8.4 Anéis"
 
 #: 08.4-Rings.md:3 A.11-beat-tracking.md:62
 msgid "Rings"
-msgstr ""
+msgstr "Anéis"
 
 #: 08.4-Rings.md:5
 msgid ""
@@ -6960,12 +7109,17 @@ msgid ""
 " you might have come across ring buffers or ring arrays. Here, we'll just go f"
 "or ring - it's short and simple."
 msgstr ""
+"Um variação interessante às listas padrão são os anéis. Se sabes alguma "
+"programação, poderás conhecer buffers em anel ou arrays em anel. Aqui chamam-"
+"se apenas anéis - é curto e simples."
 
 #: 08.4-Rings.md:9
 msgid ""
 "In the previous section on lists we saw how we could fetch elements out of the"
 "m by using the indexing mechanism:"
 msgstr ""
+"Na secção anterior sobre listas vimos que podíamos obter elementos dela "
+"usando o mecanismo de indexação:"
 
 #: 08.4-Rings.md:16
 msgid ""
@@ -6973,12 +7127,17 @@ msgid ""
 " index 100 as the list has only three elements in it. So Sonic Pi will return "
 "you `nil` which means nothing."
 msgstr ""
+"O que acontece se queremos o índice `100`? Bem, claramente que não existe "
+"elemento no índice 100 porque a lista só tem 3 elementos. Assim o Sonic Pi "
+"devolve `nil` que significa nada."
 
 #: 08.4-Rings.md:20
 msgid ""
 "However, consider you have a counter such as the current beat which continuall"
 "y increases. Let's create our counter and our list:"
 msgstr ""
+"No entanto, considera que temos um contador tal como a batida corrente que "
+"aumenta continuamente. Vamos criar o nosso contador e a nossa lista:"
 
 #: 08.4-Rings.md:23
 #, no-wrap
@@ -6991,7 +7150,7 @@ msgstr ""
 
 #: 08.4-Rings.md:28
 msgid "We can now use our counter to access a note in our list:"
-msgstr ""
+msgstr "Podemos usar o nosso contador para aceder a nota na nossa lista:"
 
 #: 08.4-Rings.md:30
 #, no-wrap
@@ -7001,6 +7160,7 @@ msgstr "puts notes[counter]"
 #: 08.4-Rings.md:34
 msgid "Great, we got `52`. Now, let's increment our counter and get another note:"
 msgstr ""
+"Boa, obtemos `52`. Agora, vamos aumentar o nosso contador e obter outra nota:"
 
 #: 08.4-Rings.md:37
 #, no-wrap
@@ -7018,16 +7178,22 @@ msgid ""
 "to just loop back round and start at the beginning of the list again? This is "
 "what rings are for."
 msgstr ""
+"Fantástico, agora obtemos `55`e se o fizéssemos outra vez obteria-mos `59`. "
+"No entanto, se o fizéssemos outra vez, ficaríamos sem números na nossa lista "
+"e obteríamos `nil`. E se quiséssemos regressar ao inicio da lista novamente? "
+"É para isto que os anéis servem."
 
 #: 08.4-Rings.md:47
 msgid "Creating Rings"
-msgstr ""
+msgstr "Criando anéis"
 
 #: 08.4-Rings.md:49
 msgid ""
 "We can create rings one of two ways. Either we use the `ring` function with th"
 "e elements of the ring as parameters:"
 msgstr ""
+"Podemos criar anéis de duas maneiras. Ou usamos a função `ring` com os "
+"elementos do anel como parâmetros:"
 
 #: 08.4-Rings.md:52
 #, no-wrap
@@ -7039,6 +7205,8 @@ msgid ""
 "Or we can take a normal list and convert it to a ring by sending it the `.ring"
 "` message:"
 msgstr ""
+"Ou podemos usar uma lista normal e converter num anel enviando a mensagem "
+"`.ring`:"
 
 #: 08.4-Rings.md:59
 #, no-wrap
@@ -7047,7 +7215,7 @@ msgstr "[52, 55, 59].ring"
 
 #: 08.4-Rings.md:63
 msgid "Indexing Rings"
-msgstr ""
+msgstr "Indexando anéis"
 
 #: 08.4-Rings.md:65
 msgid ""
@@ -7056,6 +7224,10 @@ msgid ""
 "ger than the size of the ring and they'll wrap round to always point at one of"
 " the ring's elements:"
 msgstr ""
+"Depois de termos um anel, podemos usar exactamente da mesma maneira que "
+"usaríamos uma lista normal com a excepção que podemos usar índices que são "
+"negativos ou maiores que o tamanho do anel e eles enrolam de forma a apontar "
+"sempre para um elemento do anel:"
 
 #: 08.4-Rings.md:70
 #, no-wrap
@@ -7074,7 +7246,7 @@ msgstr ""
 
 #: 08.4-Rings.md:78
 msgid "Using Rings"
-msgstr ""
+msgstr "Usando anéis"
 
 #: 08.4-Rings.md:80
 msgid ""
@@ -7083,68 +7255,80 @@ msgid ""
 " anything useful we've stored in our ring regardless of the beat number we're "
 "currently on."
 msgstr ""
+"Imagina que estamos a usar uma variável que representa o número corrente do "
+"beat. Podemos usar isto como índice no nosso anel para buscar notas a tocar, "
+"ou tempos de release ou qualquer coisa útil que podemos armazenar no nosso "
+"anel independentemente do número de beat que estamos correntemente."
 
 #: 08.4-Rings.md:85
 msgid "Scales and Chords are Rings"
-msgstr ""
+msgstr "Escalas e acordes são anéis"
 
 #: 08.4-Rings.md:87
 msgid ""
 "A useful thing to know is that the lists returned by `scale` and `chord` are a"
 "lso rings and allow you to access them with arbitrary indexes."
 msgstr ""
+"Uma coisa útil é que as listas devolvidas por `scale` e `chord` são também "
+"anéis e permitem que os acedas com índices arbitrários."
 
 #: 08.4-Rings.md:90
 msgid "Ring Constructors"
-msgstr ""
+msgstr "Construtores de anéis"
 
 #: 08.4-Rings.md:92
 msgid ""
 "In addition to `ring` there are a number of other functions which will constru"
 "ct a ring for us."
 msgstr ""
+"Além de `ring` existem algumas outras funções que constroem um anel por nós."
 
 #: 08.4-Rings.md:95
 msgid "`range` invites you specify a starting point, end point and step size."
 msgstr ""
+"`range` convida-te a especificar um ponto de inicio, um ponto final e um "
+"tamanho de passo."
 
 #: 08.4-Rings.md:96
 msgid "`bools` allows you to use `1`s and `0`s to succinctly represent booleans."
 msgstr ""
+"`bools` permite usar `1`s e `0`s para sucintamente representar booleans."
 
 #: 08.4-Rings.md:97
 msgid "`knit` allows you to knit a sequence of repeated values."
-msgstr ""
+msgstr "`knit`permite-te tricotar uma sequência de valores repetidos."
 
 #: 08.4-Rings.md:98
 msgid "`spread` creates a ring of bools with a Euclidean distribution."
-msgstr ""
+msgstr "`spread` cria um anel de bools com uma distribuição Euclidiana."
 
 #: 08.4-Rings.md:100
 msgid "Take a look at their respective documentation for more information."
-msgstr ""
+msgstr "Dá uma vista de olhos na documentação respectiva para mais informação."
 
 #: 08.5-Ring-Chains.md:1
 msgid "8.5 Ring Chains"
-msgstr ""
+msgstr "8.5 Cadeia de anéis"
 
 #: 08.5-Ring-Chains.md:3
 msgid "Ring Chains"
-msgstr ""
+msgstr "Cadeia de anéis"
 
 #: 08.5-Ring-Chains.md:5
 msgid ""
 "In addition to the constructors such as `range` and `spread` another way of cr"
 "eating new rings is to manipulate existing rings."
 msgstr ""
+"Para além de construtores como `range` e `spread` outra maneira de criar "
+"novos anéis é manipular anéis existentes."
 
 #: 08.5-Ring-Chains.md:9
 msgid "Chain Commands"
-msgstr ""
+msgstr "Cadeia de comandos"
 
 #: 08.5-Ring-Chains.md:11
 msgid "To explore this, take a simple ring:"
-msgstr ""
+msgstr "Para explorar isto, vê este anel simples:"
 
 #: 08.5-Ring-Chains.md:13
 #, no-wrap
@@ -7156,6 +7340,8 @@ msgid ""
 "What if we wanted it backwards? Well we'd use the chain command `.reverse` to "
 "take the ring and turn it around:"
 msgstr ""
+"E se o quisermos ao contrario? Usamos a cadeia de comando `.reverse` para "
+"pegar no anel e o rodar:"
 
 #: 08.5-Ring-Chains.md:20
 #, no-wrap
@@ -7164,7 +7350,7 @@ msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
 #: 08.5-Ring-Chains.md:24
 msgid "Now, what if we wanted the first three values from the ring?"
-msgstr ""
+msgstr "Agora, e se quisermos os 3 primeiros valores do anel?"
 
 #: 08.5-Ring-Chains.md:26
 #, no-wrap
@@ -7173,7 +7359,7 @@ msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
 #: 08.5-Ring-Chains.md:30
 msgid "Finally, what if we wanted to shuffle the ring?"
-msgstr ""
+msgstr "Finalmente, e se quisermos baralhar o anel?"
 
 #: 08.5-Ring-Chains.md:32
 #, no-wrap
@@ -7182,39 +7368,46 @@ msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
 #: 08.5-Ring-Chains.md:36
 msgid "Multiple Chains"
-msgstr ""
+msgstr "Múltiplas cadeias"
 
 #: 08.5-Ring-Chains.md:38
 msgid ""
 "This is already a powerful way of creating new rings. However, the *real* powe"
 "r comes when you chain a few of these commands together."
 msgstr ""
+"Isto já é uma maneira poderosa de criar novos anéis. No entanto, o poder "
+"*real* vem quando encadeias alguns destes comando em conjunto."
 
 #: 08.5-Ring-Chains.md:41
 msgid "How about shuffling the ring, dropping 1 element and then taking the next 3?"
-msgstr ""
+msgstr "Que tal baralhar o anel, largar o 1 elemento e obter os 3 posteriores?"
 
 #: 08.5-Ring-Chains.md:43
 msgid "Let's take this in stages:"
-msgstr ""
+msgstr "Vamos fazer isso por etapas:"
 
 #: 08.5-Ring-Chains.md:45
 msgid "`(ring 10, 20, 30, 40, 50)` - our initial ring"
-msgstr ""
+msgstr "`(ring 10, 20, 30, 40, 50)` - o nosso anel inicial"
 
 #: 08.5-Ring-Chains.md:46
 msgid "`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle` - baralhar - `(ring 40, 30, 10, 50, 20)`"
 
 #: 08.5-Ring-Chains.md:47
 msgid "`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - retira 1 - `(ring 30, 10, 50, "
+"20)`"
 
 #: 08.5-Ring-Chains.md:48
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, 10, "
 "50)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - obtem 3 - `(ring 30, "
+"10, 50)`"
 
 #: 08.5-Ring-Chains.md:50
 msgid ""
@@ -7222,10 +7415,14 @@ msgid ""
 "king them together*. We can combine these in any order we want creating an ext"
 "remely rich and powerful way of generating new rings from existing ones."
 msgstr ""
+"Como podes ver acabamos de criar uma cadeia longa destes métodos "
+"*adicionando-os em conjunto*. Podemos combinar estes em qualquer ordem "
+"criando uma maneira extremamente rica e poderosa de gerar novos anéis a "
+"partir de existentes."
 
 #: 08.5-Ring-Chains.md:55
 msgid "Immutability"
-msgstr ""
+msgstr "Imutabilidade"
 
 #: 08.5-Ring-Chains.md:57
 msgid ""
