@@ -32,9 +32,7 @@ if ENV['RUN_PERF_TESTS']
   args = ["beans", 1, 2.0]
   msg = OSC::Message.new(address, *args)
   test_message = msg.encode
-  # puts test_message.inspect
 
-  # puts [address, args].inspect
   puts "ENCODING TEST"
   Benchmark.ips do |bencher|
     bencher.report("fast_osc") { FastOsc.encode_single_message(address, args) }

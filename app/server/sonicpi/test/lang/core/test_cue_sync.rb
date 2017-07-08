@@ -30,7 +30,6 @@ module SonicPi
         sleep 0.05
         assert_equal 0.05, vt
 
-        Kernel.puts "\n"
         in_thread do
           sleep 0.1
           cue :foo
@@ -42,7 +41,6 @@ module SonicPi
         sleep 0.1
         assert_equal 0.25,  vt
 
-        Kernel.puts "\n"
         in_thread do
           sleep 0.1
           cue :foo
@@ -52,7 +50,6 @@ module SonicPi
 
         assert_equal 0.35,  vt
 
-        Kernel.puts "\n"
         in_thread do
           sleep 0.02
           cue :foo
