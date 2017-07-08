@@ -472,9 +472,11 @@ module SonicPi
       i2 = ThreadId.new(18, 0, 1)
       t = 1495752780.305016
       t2 = 1495752780.305016 - 1
+      t3 = 1495752780.305016 - 2
 
       history.set(t, 0, i1, 0, 0, 60, "/cue/bar", [:hello])
       history.set(t2, 0, i1, 0, 0, 60, "/set/bar", [:there])
+      history.set(t3, 0, i1, 0, 0, 60, "/set/yo3", [:yo])
       v = history.get(t, 0, i2, 0, 0, 60, "/cue/bar")
       assert_equal [:hello], v.val
       v = history.get(t, 0, i2, 0, 0, 60, "/set/bar")
@@ -495,7 +497,66 @@ module SonicPi
       assert_equal nil, v
       v = history.get(t, 0, i2, 0, 0, 60, "/???/ba?")
       assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/[cd]ue/ba?")
+      assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/[a-d]ue/ba?")
+      assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/[!d]ue/ba?")
+      assert_equal [:hello], v.val
+      v = history.get(t, 0, i2, 0, 0, 60, "/[!c]ue/ba?")
+      assert_equal nil, v
+
+      v = history.get(t, 0, i2, 0, 0, 60, "/set/yo?")
+      assert_equal [:yo], v.val
     end
+
+    def test_event_matcher_star
+      m = EventMatcher.new("/{cue,set}/[a-c]az", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/cue/baz", nil)
+      assert  m.match("/set/aaz/", nil)
+      assert  m.match("/set/baz/", nil)
+      assert  m.match("/set/caz/", nil)
+      assert  m.match("/cue/caz/", nil)
+      assert_nil  m.match("/cue/daz/", nil)
+    end
+
+    def test_event_matcher_multi_squares
+      m = EventMatcher.new("/[a-c]ue/[d-g]az/[!w]uux", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/cue/daz/quux/", nil)
+      assert_nil  m.match("/cue/daz/wuux/", nil)
+    end
+
+    def test_event_matcher_square_neg_range
+      m = EventMatcher.new("/[a-c]ue/[d-g]az/[!a-w]uux", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/cue/daz/zuux/", nil)
+      assert_nil  m.match("/cue/daz/wuux/", nil)
+    end
+
+
+    def test_event_matcher_broken_squares
+      m = EventMatcher.new("/[cue/caz]", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/[cue/caz]/", nil)
+    end
+
+    def test_event_matcher_broken_squiggles
+      m = EventMatcher.new("/{cue/caz}", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/{cue/caz}/", nil)
+    end
+
+    def test_event_matcher_multi_squiggles
+      m = EventMatcher.new("/{a,c}ue/{baz,boz}/[!w]uux", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/cue/baz/quux/", nil)
+      assert  m.match("/cue/boz/quux/", nil)
+      assert_nil  m.match("/due/baz/quux/", nil)
+    end
+
+    def test_event_matcher_with_single_char
+      m = EventMatcher.new("/?ue/{baz,boz}/[!w]uux", nil, ThreadId.new(5), Promise.new)
+      assert  m.match("/cue/baz/quux/", nil)
+      assert  m.match("/cue/boz/quux/", nil)
+      assert  m.match("/due/baz/quux/", nil)
+    end
+
 
 
     # def test_basic_sync

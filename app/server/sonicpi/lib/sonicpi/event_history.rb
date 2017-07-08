@@ -48,17 +48,36 @@ module SonicPi
       # remove initial / if present
       path[0] = '' if path.start_with?('/')
 
+      path = Regexp.escape(path)
+
       # replace glob-style ** with regexp .*
-      path.gsub!(/\/\s*\*\*\s*\//, '/.*/')
+      path.gsub!(/\/\s*\\\*\\\*\s*\//, '/.*/')
 
       # replace ** at end of string (sans /) with .*
-      path.gsub!(/\/\s*\*\*\s*\Z/, '/.*')
+      path.gsub!(/\/\s*\\\*\\\*\s*\Z/, '/.*')
 
       # handle standard *foo, bar* and baz*boz
-      path.gsub!(/(?<!\.)\*/, '[^/]*')
+      path.gsub!(/(?<!\.)\\\*/, '[^/]*')
+
+      # handle word options /{foo,bar}/baz
+      path.gsub!(/\\\{([^\/]*)\\\}/, '(\1)')
+
+      # handle char ranges /[a-g]oo/baz/
+      path.gsub!(/\\\[!([^\/]*)\\\]/, '[^\1]')
+
+      # handle negative char ranges /[!a-g]/baz
+      path.gsub!(/\\\[([^!\/]+[^\/]*)\\\]/, '[\1]')
+
+      # swap , for | and unescape - for char ranges
+      path.gsub!(',', '|')
+      path.gsub!('\\-', '-')
+
+      # handle single chars /?oo/baz/
+      path.gsub!('\\?', '.')
 
       # convert to a regexp
       matcher_str = "\\A/?#{path}/?\\Z"
+
       @matcher = Regexp.new(matcher_str)
 
       @val_matcher = val_matcher
