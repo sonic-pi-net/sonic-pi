@@ -140,7 +140,6 @@ module SonicPi
     def initialize
       @state = EventHistoryNode.new
       @event_matchers = EventMatchers.new
-      @unprocessed = Queue.new
       @process_mut = Mutex.new
       @sync_notification_mut = Mutex.new
       @sync_notifiers = Hash.new([])
@@ -153,12 +152,8 @@ module SonicPi
       wait_for_threads
       res = nil
       get_event = CueEvent.new(t, p, i, d, b, m, path, [])
-
-      @get_mut.synchronize do
-        @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
-        res = get_w_no_mutex(get_event, val_matcher, get_next)
-        return res
-      end
+      res = get_w_no_mutex(get_event, val_matcher, get_next)
+      return res
     end
 
     # Get next version (after current time)
@@ -172,8 +167,10 @@ module SonicPi
     def set(t, p, i, d, b, m, path, val)
 
       ce = CueEvent.new(t, p, i, d, b, m, path, val)
-      @unprocessed << ce
-      @event_matchers.match(ce.path, ce.val)
+      __insert_event!(ce)
+      @process_mut.synchronize do
+        @event_matchers.match(ce.path, ce.val)
+      end
     end
 
     # Get the next version (after the current time)
@@ -183,11 +180,10 @@ module SonicPi
       wait_for_threads
       prom = nil
       ge = CueEvent.new(t, p, i, d, b, m, path, [])
-      @get_mut.synchronize do
-        @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
-        res = get_w_no_mutex(ge, val_matcher, true)
-        return res if res
-        prom = Promise.new
+      res = get_w_no_mutex(ge, val_matcher, true)
+      return res if res
+      prom = Promise.new
+      @process_mut.synchronize do
         matcher = @event_matchers.put ge.path, val_matcher, i, prom
       end
       prom.get
@@ -195,14 +191,11 @@ module SonicPi
       # an event with an earlier timestamp arrived
       # after this one
       wait_for_threads
-      @get_mut.synchronize do
-        @unprocessed.size.times { __insert_event!(@unprocessed.pop) }
-        res = get_w_no_mutex(ge, val_matcher, true)
-        if res
-          return res
-        end
-        raise "sync error - couldn't find result for #{[t.to_f, i, p, d, b, path]}"
+      res = get_w_no_mutex(ge, val_matcher, true)
+      if res
+        return res
       end
+      raise "sync error - couldn't find result for #{[t.to_f, i, p, d, b, path]}"
     end
 
     # Wait for the first out of the list of cues to arrive
