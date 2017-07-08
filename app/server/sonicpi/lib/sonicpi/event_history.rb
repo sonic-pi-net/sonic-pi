@@ -141,6 +141,7 @@ module SonicPi
       @state = EventHistoryNode.new
       @event_matchers = EventMatchers.new
       @process_mut = Mutex.new
+      @matcher_mut = Mutex.new
       @sync_notification_mut = Mutex.new
       @sync_notifiers = Hash.new([])
       @get_mut = Mutex.new
@@ -167,8 +168,10 @@ module SonicPi
     def set(t, p, i, d, b, m, path, val)
 
       ce = CueEvent.new(t, p, i, d, b, m, path, val)
-      __insert_event!(ce)
       @process_mut.synchronize do
+        __insert_event!(ce)
+      end
+      @matcher_mut.synchronize do
         @event_matchers.match(ce.path, ce.val)
       end
     end
@@ -183,7 +186,7 @@ module SonicPi
       res = get_w_no_mutex(ge, val_matcher, true)
       return res if res
       prom = Promise.new
-      @process_mut.synchronize do
+      @matcher_mut.synchronize do
         matcher = @event_matchers.put ge.path, val_matcher, i, prom
       end
       prom.get
@@ -250,8 +253,10 @@ module SonicPi
           stripped
         end
       end
+      @process_mut.synchronize do
+        return __get(ge, split_path, 0, val_matcher, @state, nil, get_next)
+      end
 
-      return __get(ge, split_path, 0, val_matcher, @state, nil, get_next)
     end
 
     def __get(ge, split_path, idx, val_matcher, sn, res, get_next)
@@ -336,6 +341,7 @@ module SonicPi
         end
       end
       return res
+
     end
 
 
