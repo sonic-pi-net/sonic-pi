@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-08 13:53+0000\n"
+"PO-Revision-Date: 2017-07-09 14:08+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -8337,10 +8337,16 @@ msgid ""
 "alled one tick `:foo` and the other `:bar`. If we want to `look` at these we a"
 "lso need to pass the name of the tick to `look`."
 msgstr ""
+"Aqui estamos a usar dois ticks, um para tocar as notas e outro para o tempo "
+"de pausa. Como ambos estão no mesmo live loop, para os manter separados "
+"necessitamos de lhes dar nomes únicos. Isto é exactamente a mesma coisa que "
+"nomear `live_loop`s - apenas passamos o símbolo com o prefixo `:`. No "
+"exemplo acima chamamos um dos ticks `:foo` e o outro `:bar`. Se quisermos os "
+"`look` temos que passar o nome do tick a `look`."
 
 #: 09.4-Ticking.md:101
 msgid "Don't make it too complicated"
-msgstr ""
+msgstr "Não o faças muito complicado"
 
 #: 09.4-Ticking.md:103
 msgid ""
@@ -8349,40 +8355,51 @@ msgid ""
 "le ring. That'll give you most of the joy and simplicity of ticking through ri"
 "ngs in your `live_loop`s."
 msgstr ""
+"A maioria do poder do sistema de tick não é útil quando começas. Não tentes "
+"aprender tudo nesta secção. Foca-te no tiquetaque de um único anel. Isso "
+"dará a maioria da alegria da simplicidade do tiquetaque de anéis nos teus "
+"`live_loop`s."
 
 #: 09.4-Ticking.md:108
 msgid ""
 "Take a look at the documentation for `tick` where there are many useful exampl"
 "es and happy ticking!"
 msgstr ""
+"Dá uma vista de olhos na documentação sobre `tick` onde existe muitos "
+"exemplos úteis e tem um feliz tiquetaquear!"
 
 #: 10-Essential-Knowledge.md:1
 msgid "10 Essential Knowledge"
-msgstr ""
+msgstr "10 Conhecimento essencial"
 
 #: 10-Essential-Knowledge.md:3
 msgid "Essential Knowledge"
-msgstr ""
+msgstr "Conhecimento essencial"
 
 #: 10-Essential-Knowledge.md:5
 msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge for"
 " getting the most out of your Sonic Pi experience."
 msgstr ""
+"Esta secção descreve algum conhecimento útil - aliás *essencial* para "
+"retirares o máximo da tua experiência com o Sonic Pi."
 
 #: 10-Essential-Knowledge.md:8
 msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
+"Falaremos de como podes tiras partido de muitos atalhos de teclado "
+"disponíveis para ti, como partilhar o teu trabalho e algumas dicas sobre "
+"performance no Sonic Pi."
 
 #: 10.1-Using-Shortcuts.md:1
 msgid "10.1 Using Shortcuts"
-msgstr ""
+msgstr "10.1 Usando atalhos"
 
 #: 10.1-Using-Shortcuts.md:3
 msgid "Using Shortcuts"
-msgstr ""
+msgstr "Usando atalhos"
 
 #: 10.1-Using-Shortcuts.md:5
 msgid ""
@@ -8390,6 +8407,9 @@ msgid ""
 "fore make playing Sonic Pi much more *efficient and natural* - especially when"
 " you're playing live in front of an audience."
 msgstr ""
+"O Sonic Pi é tanto um instrumento como um ambiente de codificação. Atalhos "
+"podem fazer com que tocar o Sonic Pi seja muito mais *eficiente e natural* - "
+"especialmente se estiveres a tocar em frente a uma audiência."
 
 #: 10.1-Using-Shortcuts.md:9
 msgid ""
@@ -8400,22 +8420,33 @@ msgid ""
 "s it slows me down. I therefore use all of these shortcuts on a very regular b"
 "asis!"
 msgstr ""
+"Muito do Sonic Pi pode ser controlado através do teclado. Quanto mais "
+"familiaridade tiveres trabalhando e actuando com o Sonic Pi mais tendência "
+"terás de usar atalhos. *Eu pessoalmente uso o teclado* (eu recomendo "
+"considerares aprenderes também) sinto-me frustrado quando tenho que alcançar "
+"o rato pois isso atrasa-me. Por isso uso todos estes atalhos de uma forma "
+"bastante regular!"
 
 #: 10.1-Using-Shortcuts.md:16
 msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
 "tively and you'll be live coding like a pro in no time."
 msgstr ""
+"Assim, se aprenderes os atalhos, aprenderás a usar o teclado de forma "
+"efectiva e estarás a fazer live coding como um profissional em tempo record."
 
 #: 10.1-Using-Shortcuts.md:19
 msgid ""
 "However, *don't try and learn them all at once*, just try and remember the one"
 "s you use most and then keep adding more to your practice."
 msgstr ""
+"No entanto, *não tentes aprende-los todos de uma só vez*, apenas tenta "
+"lembrar-te dos que mais usas e continua a adicionar mais à medida que os "
+"praticas."
 
 #: 10.1-Using-Shortcuts.md:22
 msgid "Consistency across Platforms"
-msgstr ""
+msgstr "Consistência entre plataformas"
 
 #: 10.1-Using-Shortcuts.md:24
 msgid ""
@@ -8424,6 +8455,9 @@ msgid ""
 "me switching between different clarinets and you'd be stuck to using just one "
 "make."
 msgstr ""
+"Imagina que estas a aprender o clarinete. Esperas que todos os clarinetes "
+"tenham os mesmos controles e botões. Se não tiverem, terás um tempo difícil "
+"a mudar entre vários clarinetes ou ficaras retido em usar só um."
 
 #: 10.1-Using-Shortcuts.md:29
 msgid ""
@@ -8435,10 +8469,17 @@ msgid ""
 "whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
 "PC and feel right at home."
 msgstr ""
+"Infelizmente a maioria dos sistemas operativos (Linux, Mac OS X e Windows) "
+"vêm com os seus próprios padrões para acções como o copy e paste etc. Sonic "
+"Pi tenta honrar estes padrões. no entanto a *prioridade é colocada na "
+"consistência entre plataformas* dentro do Sonic Pi em vez de tentar adaptar-"
+"se aos padrões de uma determinada plataforma. Isto significa que quando "
+"aprenderes os atalhos enquanto tocas com o Sonic Pi no teu Raspberry Pi, "
+"podes mudar para um Mac ou um PC e sentires-te em casa."
 
 #: 10.1-Using-Shortcuts.md:37
 msgid "Control and Meta"
-msgstr ""
+msgstr "Control e Meta"
 
 #: 10.1-Using-Shortcuts.md:39
 msgid ""
@@ -8449,10 +8490,16 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
+"Parte da noção de consistência é o nome dos atalhos. No Sonic Pi usamos o "
+"nome *Control* e *Meta* para referir as 2 principais teclas de combinações. "
+"Em todas as plataformas o *Control* é o mesmo. No entanto, no Linux e no "
+"Windows *Meta* é a tecla *Alt* enquanto que no Mac *Meta* é a tecla *Command*"
+". Para consistência usaremos o termo *Meta* - Lembra-te apenas de mapear "
+"para a tecla apropriada no teu sistema operativo."
 
 #: 10.1-Using-Shortcuts.md:46
 msgid "Abbreviations"
-msgstr ""
+msgstr "Abreviações"
 
 #: 10.1-Using-Shortcuts.md:48
 msgid ""
@@ -8461,24 +8508,31 @@ msgid ""
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
+"Para ajudar a manter as coisas simples e legíveis, usaremos as abreviaturas "
+"*C-* para *Control* mais uma outra tecla e *M-* para *Meta* mais outra "
+"tecla. Por exemplo, se um atalho requer que primas simultaneamente *Meta* e "
+"*r* escreveremos como *M-r*. O *-* significa apenas \"ao mesmo tempo\"."
 
 #: 10.1-Using-Shortcuts.md:53
 msgid "The following are some of the shortcuts I find most useful."
-msgstr ""
+msgstr "Os seguintes são alguns dos atalhos que considero mais úteis."
 
 #: 10.1-Using-Shortcuts.md:55
 msgid "Stopping and starting"
-msgstr ""
+msgstr "Parando e iniciando"
 
 #: 10.1-Using-Shortcuts.md:57
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
+"Em vez de alcançar o rato cada vez que se quer correr o código, podes "
+"simplesmente pressionar `M-r`. Da mesma forma podes parar o código "
+"carregando `M-s`."
 
 #: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:52
 msgid "Navigation"
-msgstr ""
+msgstr "Navegação"
 
 #: 10.1-Using-Shortcuts.md:62
 msgid ""
@@ -8488,6 +8542,11 @@ msgid ""
 "equiring you to move your hand to the mouse or the arrow keys on your keyboard"
 "."
 msgstr ""
+"Fico mesmo perdido sem os atalhos de navegação. Recomendo vivamente que "
+"passes algum tempo a aprende-los. Estes atalhos trabalhas extremamente bem "
+"quando aprendes a teclar sem mexer as mãos pois eles usam letras standard e "
+"não requerem que mexas as mãos para alcançar o rato ou as setas do teu "
+"teclado."
 
 #: 10.1-Using-Shortcuts.md:68
 msgid ""
@@ -8496,18 +8555,22 @@ msgid ""
 " `C-f`, and back a character with `C-b`. You can even delete all the character"
 "s from the cursor to the end of the line with `C-k`."
 msgstr ""
+"Podes mover para o inicio da linha com `C-a`, para o final da linha com `C-e`"
+", subir uma linha com `C-p`, para baixo uma linha com `C-n`, um carácter "
+"para a frente com `C-f`, e um carácter para trás com `C-b`. Podes até apagar "
+"todos os caracteres do cursor até ao final da linha com `C-k`."
 
 #: 10.1-Using-Shortcuts.md:74
 msgid "Tidy Code"
-msgstr ""
+msgstr "Código limpo"
 
 #: 10.1-Using-Shortcuts.md:76
 msgid "To auto-align your code simply press `M-m`."
-msgstr ""
+msgstr "Para auto-alinhar o teu código simplesmente carrega `M-m`."
 
 #: 10.1-Using-Shortcuts.md:78
 msgid "Help System"
-msgstr ""
+msgstr "Sistema de ajuda"
 
 #: 10.1-Using-Shortcuts.md:80
 msgid ""
@@ -8515,18 +8578,23 @@ msgid ""
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
 "isplay the docs if it finds anything. Instant help!"
 msgstr ""
+"Para comutar o sistema de ajuda podes premir `M-i`- No entanto, um atalho "
+"muito mais útil é `C-i` em que irá verificar a palavra por baixo do cursor e "
+"mostra os documentos se descobrir algo. Ajuda instantânea!"
 
 #: 10.1-Using-Shortcuts.md:84
 msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
 msgstr ""
+"Para uma listagem completa vê a secção 10.2 com uma folha de ajuda de "
+"atalhos."
 
 #: 10.2-Shortcut-Cheatsheet.md:1
 msgid "10.2 Shortcut Cheatsheet"
-msgstr ""
+msgstr "10.2 Folha de ajuda de atalhos"
 
 #: 10.2-Shortcut-Cheatsheet.md:3
 msgid "Shortcut Cheatsheet"
-msgstr ""
+msgstr "Folha de ajuda de atalhos"
 
 #: 10.2-Shortcut-Cheatsheet.md:5
 msgid ""
