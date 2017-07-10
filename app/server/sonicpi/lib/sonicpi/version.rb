@@ -97,7 +97,7 @@ module SonicPi
     end
 
     def to_i
-      res = (@major * 10000000000) + (@minor * 100000) + (@patch)
+      res = (@major * 100000000) + (@minor * 1000) + (@patch)
       res += 1 unless @dev
       return res
     end
