@@ -77,7 +77,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["Base"] = dt_lightgrey;
     themeSettings["AlternateBase"] = dt_grey;
     themeSettings["ToolTipBase"] = dt_grey;
-    themeSettings["ToolTipText"] = dt_white;
+    themeSettings["ToolTipText"] = dt_black;
     themeSettings["Button"] = dt_pink;
     themeSettings["ButtonBorder"] = dt_white;
     themeSettings["PressedButton"] = dt_grey;
