@@ -2311,7 +2311,7 @@ void MainWindow::toggleIcons() {
       prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs.png"));
     }
   } else {
-    toolBar->setIconSize(QSize(270/3, 111/3));
+    toolBar->setIconSize(QSize(73, 30));
     runAct->setIcon(QIcon(":/images/toolbar/default/run.png"));
     stopAct->setIcon(QIcon(":/images/toolbar/default/stop.png"));
     saveAsAct->setIcon(QIcon(":/images/toolbar/default/save.png"));
@@ -2796,7 +2796,7 @@ void MainWindow::createToolBar()
 
   toolBar = addToolBar(tr("Tools"));
   toolBar->setObjectName("toolbar");
-  toolBar->setIconSize(QSize(270/3, 111/3));
+  toolBar->setIconSize(QSize(73, 30));
   toolBar->addAction(runAct);
   toolBar->addAction(stopAct);
   toolBar->addAction(recAct);
