@@ -1,22 +1,51 @@
 <RCC>
     <qresource prefix="/">
         <file>images/app.icns</file>
-        <file>images/help.png</file>
-        <file>images/info.png</file>
-        <file>images/prefs.png</file>
-        <file>images/run.png</file>
-        <file>images/save.png</file>
-        <file>images/load.png</file>
-        <file>images/stop.png</file>
-        <file>images/rec.png</file>
-        <file>images/recording_a.png</file>
-        <file>images/recording_b.png</file>
-        <file>images/text-dec.png</file>
-        <file>images/text-inc.png</file>
-        <file>images/align.png</file>
-        <file>images/size_down.png</file>
-        <file>images/size_up.png</file>
-        <file>images/scope.png</file>
+        <file>images/toolbar/default/help.png</file>
+        <file>images/toolbar/default/info.png</file>
+        <file>images/toolbar/default/prefs.png</file>
+        <file>images/toolbar/default/run.png</file>
+        <file>images/toolbar/default/save.png</file>
+        <file>images/toolbar/default/load.png</file>
+        <file>images/toolbar/default/stop.png</file>
+        <file>images/toolbar/default/rec.png</file>
+        <file>images/toolbar/default/recording_a.png</file>
+        <file>images/toolbar/default/recording_b.png</file>
+        <file>images/toolbar/default/text-dec.png</file>
+        <file>images/toolbar/default/text-inc.png</file>
+        <file>images/toolbar/default/align.png</file>
+        <file>images/toolbar/default/size_down.png</file>
+        <file>images/toolbar/default/size_up.png</file>
+        <file>images/toolbar/default/scope.png</file>
+
+        <file>images/toolbar/pro/run.png</file>
+        <file>images/toolbar/pro/stop.png</file>
+        <file>images/toolbar/pro/save-dark.png</file>
+        <file>images/toolbar/pro/save.png</file>
+        <file>images/toolbar/pro/load-dark.png</file>
+        <file>images/toolbar/pro/load.png</file>
+        <file>images/toolbar/pro/rec.png</file>
+        <file>images/toolbar/pro/recording-a.png</file>
+        <file>images/toolbar/pro/recording-b.png</file>
+        <file>images/toolbar/pro/recording-b-dark.png</file>
+        <file>images/toolbar/pro/size-up.png</file>
+        <file>images/toolbar/pro/size-down.png</file>
+        <file>images/toolbar/pro/scope.png</file>
+        <file>images/toolbar/pro/scope-bordered.png</file>
+        <file>images/toolbar/pro/info.png</file>
+        <file>images/toolbar/pro/info-bordered.png</file>
+        <file>images/toolbar/pro/info-dark.png</file>
+        <file>images/toolbar/pro/info-dark-bordered.png</file>
+        <file>images/toolbar/pro/help.png</file>
+        <file>images/toolbar/pro/help-dark.png</file>
+        <file>images/toolbar/pro/help-bordered.png</file>
+        <file>images/toolbar/pro/help-dark-bordered.png</file>
+        <file>images/toolbar/pro/prefs.png</file>
+        <file>images/toolbar/pro/prefs-dark.png</file>
+        <file>images/toolbar/pro/prefs-bordered.png</file>
+        <file>images/toolbar/pro/prefs-dark-bordered.png</file>
+
+
         <file>images/splash@2x.png</file>
         <file>images/splash.png</file>
         <file>images/icon.png</file>

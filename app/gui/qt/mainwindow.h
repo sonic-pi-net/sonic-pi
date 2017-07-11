@@ -43,6 +43,7 @@
 #include "scope.h"
 #include "oscsender.h"
 #include <QComboBox>
+#include "infowidget.h"
 
 class QAction;
 class QMenu;
@@ -134,6 +135,7 @@ private slots:
     void about();
     void scope();
     void toggleScope();
+    void toggleIcons();
     void help();
     void onExitCleanup();
     void toggleRecording();
@@ -148,9 +150,11 @@ private slots:
     void toggleLeftScope();
     void toggleRightScope();
     void toggleScopeAxes();
+    void scopeVisibilityChanged();
     void toggleDarkMode();
     void updateDarkMode();
-    void showPrefsPane();
+    void updatePrefsIcon();
+    void togglePrefs();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
     void showWindow();
@@ -168,7 +172,7 @@ private slots:
     void helpScrollDown();
     void docScrollUp();
     void docScrollDown();
-    void helpClosed(bool visible);
+    void helpVisibilityChanged();
     void updateFullScreenMode();
     void toggleFullScreenMode();
     void updateFocusMode();
@@ -294,7 +298,17 @@ private:
 
     QToolBar *toolBar;
 
+    QAction *runAct;
+    QAction *stopAct;
+    QAction *saveAsAct;
+    QAction *loadFileAct;
     QAction *recAct;
+    QAction *textIncAct;
+    QAction *textDecAct;
+    QAction *scopeAct;
+    QAction *infoAct;
+    QAction *helpAct;
+    QAction *prefsAct;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
@@ -318,6 +332,7 @@ private:
     QCheckBox *midi_enable_check;
     QCheckBox *osc_public_check;
     QCheckBox *osc_server_enabled_check;
+    QCheckBox *pro_icons_check;
 
     QSignalMapper *scopeSignalMap;
 //    QCheckBox *show_left_scope;
@@ -337,7 +352,7 @@ private:
     QSlider *system_vol_slider;
     QSlider *gui_transparency_slider;
 
-    QWidget *infoWidg;
+    InfoWidget *infoWidg;
     QList<QTextBrowser *> infoPanes;
     QTextEdit *startupPane;
     QVBoxLayout *mainWidgetLayout;

@@ -84,6 +84,7 @@
 #include "sonicpilog.h"
 #include "sonic_pi_udp_osc_server.h"
 #include "sonic_pi_tcp_osc_server.h"
+#include "infowidget.h"
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -389,12 +390,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     honourPrefs();
     loadWorkspaces();
     requestVersion();
+    toggleIcons();
 
     splashClose();
 
     showWindow();
     toggleScope();
-    toggleScope();
+    updatePrefsIcon();
     updateDarkMode();
     updateFullScreenMode();
     showWelcomeScreen();
@@ -661,6 +663,8 @@ void MainWindow::setupWindowStructure() {
   scopeWidget->setObjectName("scope");
   addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
 
+  connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
+
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setFocusPolicy(Qt::NoFocus);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
@@ -673,6 +677,8 @@ void MainWindow::setupWindowStructure() {
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
   prefsWidget->hide();
   prefsWidget->setObjectName("prefs");
+
+  connect(prefsWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updatePrefsIcon()));
 
   outputWidget = new QDockWidget(tr("Log"), this);
   outputWidget->setFocusPolicy(Qt::NoFocus);
@@ -732,10 +738,10 @@ void MainWindow::setupWindowStructure() {
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
   docWidget->hide();
 
-  // Currently causes a segfault when dragging doc pane out of main
-  // window:
-  // connect(docWidget, SIGNAL(visibilityChanged(bool)), this,
-  // SLOT(helpClosed(bool)));
+  //Currently causes a segfault when dragging doc pane out of main
+  //window:
+  connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(helpVisibilityChanged()));
+
 
   mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
@@ -1150,7 +1156,7 @@ void MainWindow::honourPrefs() {
   toggleScopeAxes();
   toggleMidi(1);
   toggleOSCServer(0);
-
+  toggleIcons();
 
 
   if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
@@ -1440,6 +1446,8 @@ void MainWindow::initPrefsWindow() {
   show_log->setChecked(true);
   show_incoming_osc_log->setChecked(true);
   show_buttons = new QCheckBox(tr("Show buttons"));
+  pro_icons_check = new QCheckBox(tr("Pro Icons"));
+  pro_icons_check->setToolTip(tr("Toggle Pro Icons - switch between the default\n and a more minimistic icon set."));
   show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
   show_buttons->setChecked(true);
   show_tabs = new QCheckBox(tr("Show tabs"));
@@ -1456,6 +1464,7 @@ void MainWindow::initPrefsWindow() {
   connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
   connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
   connect(dark_mode, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+  connect(pro_icons_check, SIGNAL(clicked()), this, SLOT(toggleIcons()));
 
   QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
   QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
@@ -1468,6 +1477,8 @@ void MainWindow::initPrefsWindow() {
   editor_display_box_layout->addWidget(show_tabs);
   editor_box_look_feel_layout->addWidget(dark_mode);
   editor_box_look_feel_layout->addWidget(full_screen);
+  editor_box_look_feel_layout->addWidget(pro_icons_check);
+
   editor_display_box->setLayout(editor_display_box_layout);
   editor_look_feel_box->setLayout(editor_box_look_feel_layout);
 
@@ -1619,6 +1630,7 @@ void MainWindow::initPrefsWindow() {
   show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
   show_scopes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-scopes", true).toBool() ) );
   show_incoming_osc_log->setChecked( settings.value("prefs/show_incoming_osc_log", true).toBool());
+  pro_icons_check->setChecked( settings.value("prefs/toolbar/pro", false).toBool());
 
 
 
@@ -2037,6 +2049,16 @@ void MainWindow::stopCode()
   statusBar()->showMessage(tr("Stopping..."), 2000);
 }
 
+void MainWindow::scopeVisibilityChanged() {
+  if (scopeWidget->isVisible()) {
+    show_scopes->setChecked(true);
+  } else {
+    show_scopes->setChecked(false);
+  }
+
+  scope();
+}
+
 void MainWindow::toggleScope()
 {
   if(show_scopes->isChecked()) {
@@ -2050,6 +2072,15 @@ void MainWindow::toggleScope()
 
 void MainWindow::scope()
 {
+
+  if (pro_icons_check->isChecked()) {
+    if (show_scopes->isChecked()) {
+        scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope-bordered.png"));
+      } else {
+      scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope.png"));
+    }
+  }
+
   if(show_scopes->isChecked()) {
     scopeWidget->show();
   } else {
@@ -2063,9 +2094,24 @@ void MainWindow::about()
   // Qt::Tool windows get closed automatically when app loses focus
   if(infoWidg->isVisible()) {
     infoWidg->hide();
+    if (pro_icons_check->isChecked()) {
+      if (dark_mode->isChecked()) {
+        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-dark.png"));
+      } else {
+        infoAct->setIcon(QIcon(":/images/toolbar/pro/info.png"));
+      }
+    }
+
   } else {
     infoWidg->raise();
     infoWidg->show();
+    if (pro_icons_check->isChecked()) {
+      if (dark_mode->isChecked()) {
+        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-dark-bordered.png"));
+      } else {
+        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-bordered.png"));
+      }
+    }
   }
 }
 
@@ -2075,11 +2121,25 @@ void MainWindow::help()
   if(docWidget->isVisible()) {
     hidingDocPane = true;
     docWidget->hide();
+    if (pro_icons_check->isChecked()) {
+      if (dark_mode->isChecked()) {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark.png"));
+      } else {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help.png"));
+      }
+    }
   } else {
     docWidget->show();
     if(!updated_dark_mode_for_help) {
       updateDarkMode();
       updated_dark_mode_for_help = true;
+    }
+    if (pro_icons_check->isChecked()) {
+      if (dark_mode->isChecked()) {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark-bordered.png"));
+      } else {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-bordered.png"));
+      }
     }
   }
 }
@@ -2185,6 +2245,88 @@ void MainWindow::updateLogAutoScroll() {
   }
  }
 
+void MainWindow::toggleIcons() {
+  if (pro_icons_check->isChecked()) {
+
+    toolBar->setIconSize(QSize(30, 30));
+    if (dark_mode->isChecked()) {
+      runAct->setIcon(QIcon(":/images/toolbar/pro/run.png"));
+      stopAct->setIcon(QIcon(":/images/toolbar/pro/stop.png"));
+      saveAsAct->setIcon(QIcon(":/images/toolbar/pro/save-dark.png"));
+      loadFileAct->setIcon(QIcon(":/images/toolbar/pro/load-dark.png"));
+      recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
+      textIncAct->setIcon(QIcon(":/images/toolbar/pro/size-up.png"));
+      textDecAct->setIcon(QIcon(":/images/toolbar/pro/size-down.png"));
+      if (show_scopes->isChecked()) {
+          scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope-bordered.png"));
+        } else {
+        scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope.png"));
+      }
+
+      if (infoWidg->isVisible()) {
+        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-dark-bordered.png"));
+      } else {
+        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-dark.png"));
+      }
+
+      if (docWidget->isVisible()) {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark-bordered.png"));
+      } else {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark.png"));
+      }
+
+      if (prefsWidget->isVisible()) {
+        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-dark-bordered.png"));
+      } else {
+        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-dark.png"));
+      }
+    } else {
+      runAct->setIcon(QIcon(":/images/toolbar/pro/run.png"));
+      stopAct->setIcon(QIcon(":/images/toolbar/pro/stop.png"));
+      saveAsAct->setIcon(QIcon(":/images/toolbar/pro/save.png"));
+      loadFileAct->setIcon(QIcon(":/images/toolbar/pro/load.png"));
+      recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
+      textIncAct->setIcon(QIcon(":/images/toolbar/pro/size-up.png"));
+      textDecAct->setIcon(QIcon(":/images/toolbar/pro/size-down.png"));
+
+      if (show_scopes->isChecked()) {
+          scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope-bordered.png"));
+        } else {
+        scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope.png"));
+      }
+
+
+      if (infoWidg->isVisible()) {
+        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-bordered.png"));
+      } else {
+        infoAct->setIcon(QIcon(":/images/toolbar/pro/info.png"));
+      }
+
+      if (docWidget->isVisible()) {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-bordered.png"));
+      } else {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help.png"));
+      }
+
+      prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs.png"));
+    }
+  } else {
+    toolBar->setIconSize(QSize(270/3, 111/3));
+    runAct->setIcon(QIcon(":/images/toolbar/default/run.png"));
+    stopAct->setIcon(QIcon(":/images/toolbar/default/stop.png"));
+    saveAsAct->setIcon(QIcon(":/images/toolbar/default/save.png"));
+    loadFileAct->setIcon(QIcon(":/images/toolbar/default/load.png"));
+    recAct->setIcon(QIcon(":/images/toolbar/default/rec.png"));
+    textIncAct->setIcon(QIcon(":/images/toolbar/default/size_up.png"));
+    textDecAct->setIcon(QIcon(":/images/toolbar/default/size_down.png"));
+    scopeAct->setIcon(QIcon(":/images/toolbar/default/scope.png"));
+    infoAct->setIcon(QIcon(":/images/toolbar/default/info.png"));
+    helpAct->setIcon(QIcon(":/images/toolbar/default/help.png"));
+    prefsAct->setIcon(QIcon(":/images/toolbar/default/prefs.png"));
+  }
+
+}
+
 void MainWindow::updateDarkMode(){
   SonicPiTheme *currentTheme = lexer->theme;
 
@@ -2194,6 +2336,8 @@ void MainWindow::updateDarkMode(){
   } else {
     currentTheme->lightMode();
   }
+
+  toggleIcons();
 
   //Set css stylesheet for browser-like HTML widgets
   QString css = "";
@@ -2416,15 +2560,30 @@ void MainWindow::setRPSystemAudioAuto()
 #endif
 }
 
-void MainWindow::showPrefsPane()
-{
+void MainWindow::togglePrefs() {
   if(prefsWidget->isVisible()) {
     prefsWidget->hide();
   } else {
     prefsWidget->show();
-    if(!updated_dark_mode_for_prefs) {
-      updateDarkMode();
-      updated_dark_mode_for_prefs = true;
+  }
+  updatePrefsIcon();
+}
+
+void MainWindow::updatePrefsIcon()
+{
+  if(pro_icons_check->isChecked()) {
+    if(prefsWidget->isVisible()) {
+      if (dark_mode->isChecked()) {
+        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-dark-bordered.png"));
+      } else {
+        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-bordered.png"));
+      }
+    } else {
+      if (dark_mode->isChecked()) {
+        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-dark.png"));
+      } else {
+        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs.png"));
+      }
     }
   }
 }
@@ -2563,29 +2722,29 @@ void MainWindow::createShortcuts()
 void MainWindow::createToolBar()
 {
   // Run
-  QAction *runAct = new QAction(QIcon(":/images/run.png"), tr("Run"), this);
+  runAct = new QAction(QIcon(":/images/toolbar/default/run.png"), tr("Run"), this);
   setupAction(runAct, 'R', tr("Run the code in the current buffer"),
 	      SLOT(runCode()));
   new QShortcut(QKeySequence(metaKeyModifier() + Qt::Key_Return), this, SLOT(runCode()));
 
   // Stop
-  QAction *stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);
+  stopAct = new QAction(QIcon(":/images/toolbar/default/stop.png"), tr("Stop"), this);
   setupAction(stopAct, 'S', tr("Stop all running code"), SLOT(stopCode()));
 
   // Save
-  QAction *saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
+  saveAsAct = new QAction(QIcon(":/images/toolbar/default/save.png"), tr("Save As..."), this);
   QString saveFileDesc = tooltipStrShiftMeta('S', tr("Save current buffer as an external file"));
   setupAction(saveAsAct, 0, saveFileDesc, SLOT(saveAs()));
   saveAsAct->setToolTip(saveFileDesc);
 
   // Load
-  QAction *loadFileAct = new QAction(QIcon(":/images/load.png"), tr("Load"), this);
+  loadFileAct = new QAction(QIcon(":/images/toolbar/default/load.png"), tr("Load"), this);
   QString loadFileDesc = tooltipStrShiftMeta('O', tr("Load an external file in the current buffer"));
   setupAction(loadFileAct, 0, loadFileDesc, SLOT(loadFile()));
   loadFileAct->setToolTip(loadFileDesc);
 
   // Record
-  recAct = new QAction(QIcon(":/images/rec.png"), tr("Start Recording"), this);
+  recAct = new QAction(QIcon(":/images/toolbar/default/rec.png"), tr("Start Recording"), this);
   setupAction(recAct, 0, tr("Start recording to WAV audio file"), SLOT(toggleRecording()));
 
   // Align
@@ -2595,36 +2754,39 @@ void MainWindow::createToolBar()
 
   // Font Size Increase
   QString sizeUpDesc = tooltipStrMeta('+', tr("Increase Text Size"));
-  QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
+  textIncAct = new QAction(QIcon(":/images/toolbar/default/size_up.png"),
                                     tr("Size Up"), this);
   setupAction(textIncAct, 0, sizeUpDesc, SLOT(zoomCurrentWorkspaceIn()));
   textIncAct->setToolTip(sizeUpDesc);
 
   // Font Size Decrease
   QString sizeDownDesc = tooltipStrMeta('-', tr("Decrease Text Size"));
-  QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
+  textDecAct = new QAction(QIcon(":/images/toolbar/default/size_down.png"),
                                     tr("Size Down"), this);
   setupAction(textDecAct, 0, sizeDownDesc, SLOT(zoomCurrentWorkspaceOut()));
   textDecAct->setToolTip(sizeDownDesc);
 
   // Scope
-  QAction *scopeAct = new QAction(QIcon(":/images/scope.png"), tr("Scope"), this);
+  scopeAct = new QAction(QIcon(QPixmap(":/images/toolbar/default/scope.png")), tr("Scope"), this);
   setupAction(scopeAct, 0, tr("Toggle the visibility of the audio oscilloscopes. "), SLOT(toggleScope()));
 
     // Info
-  QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
+  infoAct = new QAction(QIcon(":/images/toolbar/default/scope.png"), tr("Info"), this);
   setupAction(infoAct, 0, tr("See information about Sonic Pi"),
 	      SLOT(about()));
 
 
   // Help
-  QAction *helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
+  helpAct = new QAction(QIcon(":/images/toolbar/default/scope.png"), tr("Help"), this);
   setupAction(helpAct, 'I', tr("Toggle the visibility of the help pane"), SLOT(help()));
 
   // Preferences
-  QAction *prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
+
+
+
+  prefsAct = new QAction(QIcon(QPixmap(":/images/toolbar/default/prefs.png")), tr("Prefs"), this);
   setupAction(prefsAct, 'P', tr("Toggle the visibility of the preferences pane"),
-	      SLOT(showPrefsPane()));
+	      SLOT(togglePrefs()));
 
 
 
@@ -2704,11 +2866,13 @@ void MainWindow::createInfoPane() {
   QBoxLayout *infoLayout = new QBoxLayout(QBoxLayout::LeftToRight);
   infoLayout->addWidget(infoTabs);
 
-  infoWidg = new QWidget;
+  infoWidg = new InfoWidget;
   infoWidg->setWindowIcon(QIcon(":images/icon-smaller.png"));
   infoWidg->setLayout(infoLayout);
   infoWidg->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
   infoWidg->setWindowTitle(tr("Sonic Pi - Info"));
+
+  connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 
   QAction *closeInfoAct = new QAction(this);
   closeInfoAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
@@ -2718,10 +2882,26 @@ void MainWindow::createInfoPane() {
 
 void MainWindow::toggleRecordingOnIcon() {
   show_rec_icon_a = !show_rec_icon_a;
-  if(show_rec_icon_a) {
-    recAct->setIcon(QIcon(":/images/recording_a.png"));
+  if (pro_icons_check->isChecked()) {
+    if(show_rec_icon_a) {
+      if (dark_mode->isChecked()) {
+        recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
+      } else {
+        recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
+      }
+    } else {
+      if (dark_mode->isChecked()) {
+        recAct->setIcon(QIcon(":/images/toolbar/pro/recording-b-dark.png"));
+      } else {
+        recAct->setIcon(QIcon(":/images/toolbar/pro/recording-b.png"));
+      }
+    }
   } else {
-    recAct->setIcon(QIcon(":/images/recording_b.png"));
+    if(show_rec_icon_a) {
+      recAct->setIcon(QIcon(":/images/toolbar/default/recording_a.png"));
+    } else {
+      recAct->setIcon(QIcon(":/images/toolbar/default/recording_b.png"));
+    }
   }
 }
 
@@ -2738,7 +2918,11 @@ void MainWindow::toggleRecording() {
     rec_flash_timer->stop();
     recAct->setStatusTip(tr("Start Recording"));
     recAct->setToolTip(tr("Start Recording"));
-    recAct->setIcon(QIcon(":/images/rec.png"));
+    if (pro_icons_check->isChecked()) {
+        recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
+    } else {
+      recAct->setIcon(QIcon(":/images/toolbar/default/rec.png"));
+    }
     Message msg("/stop-recording");
     msg.pushStr(guiID.toStdString());
     sendOSC(msg);
@@ -2846,6 +3030,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
   settings.setValue("prefs/scope/show-scopes", show_scopes->isChecked() );
   settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
+  settings.setValue("prefs/toolbar/pro", pro_icons_check->isChecked() );
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
@@ -3047,12 +3232,23 @@ void MainWindow::docScrollDown() {
   docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
 }
 
-void MainWindow::helpClosed(bool visible) {
-  if (visible) return;
-  // redock on close
-  if (!hidingDocPane)
-    docWidget->setFloating(false);
-  hidingDocPane = false;
+void MainWindow::helpVisibilityChanged() {
+  statusBar()->showMessage(tr("help visibility changed..."), 2000);
+  if(pro_icons_check->isChecked()) {
+    if (docWidget->isVisible()) {
+      if (dark_mode->isChecked()) {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark-bordered.png"));
+      } else {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-bordered.png"));
+      }
+    } else {
+      if (dark_mode->isChecked()) {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark.png"));
+      } else {
+        helpAct->setIcon(QIcon(":/images/toolbar/pro/help.png"));
+      }
+    }
+  }
 }
 
 void MainWindow::tabNext() {
