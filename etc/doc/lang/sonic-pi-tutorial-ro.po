@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-07 17:42+0000\n"
+"PO-Revision-Date: 2017-07-12 11:44+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -16076,13 +16076,13 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
-msgstr ""
+msgstr "Combinatii simple"
 
 #: A.18-additive-synthesis.md:23
 msgid ""
 "Let's start with the most basic sound there is - the humble pure-toned sine wa"
 "ve:"
-msgstr ""
+msgstr "Sa incepem cu cel mai simplu sunet - unda sinusoidala pura:"
 
 #: A.18-additive-synthesis.md:26
 #, no-wrap
@@ -16091,7 +16091,7 @@ msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
-msgstr ""
+msgstr "Acum, sa vedem cum suna impreuna cu o unda rectangulara:"
 
 #: A.18-additive-synthesis.md:32
 #, no-wrap
@@ -16110,6 +16110,12 @@ msgid ""
 "ints to create new colours, adding too many colours will result in a messy bro"
 "wn, similarly - adding too many sounds together will result in a muddy sound."
 msgstr ""
+"Ai observat cum cele doua sunete s-au combinat intr-unul nou, mai bogat. "
+"Desigur, nu trebuie sa ne oprim aici, putem adauga cate sunete ne trebuie. "
+"Totusi, trebuie sa avem grija cate sunete suprapunem. Asa cum atunci cand "
+"amestecam vopsele pentru a obtine noi culori, daca punem prea multe culori "
+"vom obtine un fel de maroniu murdar, in mod asemanator, amestecarea prea "
+"multor sunete va crea un nou sunet lipsit de claritate."
 
 #: A.18-additive-synthesis.md:45
 msgid "Blending"
