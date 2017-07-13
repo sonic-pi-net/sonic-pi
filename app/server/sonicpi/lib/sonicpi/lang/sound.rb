@@ -4201,7 +4201,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
 
       def chord_names
-        Chord::CHORD.keys.sort.ring
+        Chord::CHORD_NAMES.ring
       end
       doc name:          :chord_names,
           introduced:    Version.new(2,6,0),
