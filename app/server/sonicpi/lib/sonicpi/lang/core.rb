@@ -4139,6 +4139,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         job_id = __current_job_id
         reg_with_parent_completed = Promise.new
+        subthread_added_prom = Promise.new
 
         if args_h[:seed]
           new_rand_seed = args_h[:seed]
@@ -4185,7 +4186,9 @@ puts current_sched_ahead_time # Prints 0.5"]
 
               main_t.join
 
-              # remove any un-matched event matchers
+              # remove any un-matched event matchers created
+              # by the thread we're currently cleaning up
+              # after:
               @event_history.prune(new_thread_id_path)
 
               # wait for all subthreads to finish before removing self from
@@ -4224,15 +4227,39 @@ puts current_sched_ahead_time # Prints 0.5"]
             wait_for_parent_thread!(parent_t, reg_with_parent_completed)
 
             # Attempt to associate the current thread with job with
-            # job_id. This will kill the current thread if job is no longer
-            # running.
-            job_subthread_add(job_id, Thread.current, name)
+            # job_id. This will kill the current thread if job is no
+            # longer running or if there already exists a name thread
+            # with this same name
+            added_subthread_prom = Promise.new
+            main_in_thread = Thread.current
+
+            subthread_added_deliver_thread = Thread.new do
+              # The following line after this block will attempt to add
+              # the thread to the list of job subthreads but that action
+              # will potentially terminate the current thread if the
+              # main job isn't running or if there already exists a
+              # similarly named thread. Therefore we attempt to join on
+              # its death here to ensure we deliver the subthread_added
+              # promise both in the case where the main thread dies as
+              # explained above or in the case where it doesn't die :-)
+              main_in_thread.join
+              subthread_added_prom.deliver! true
+            end
+
+            job_subthread_add(job_id, main_in_thread, name)
+
+            # Thread didn't die! Deliver promise and tidy up delivery
+            # thread
+            subthread_added_prom.deliver! true
+            subthread_added_deliver_thread.kill
+
 
             # Actually run the thread code specified by the user!
             begin
               sleep delay if delay
               sync sync_sym if sync_sym
               sync_bpm sync_bpm_sym if sync_bpm_sym
+
               block.call
               # ensure delayed jobs and messages are honoured for this
               # thread:
@@ -4285,6 +4312,9 @@ puts current_sched_ahead_time # Prints 0.5"]
 
           # Allow the subthread to continue running
           reg_with_parent_completed.deliver! true
+
+          # Wait for thread to be registered before continuing...
+          subthread_added_prom.get
         end
 
         # Return subthread
