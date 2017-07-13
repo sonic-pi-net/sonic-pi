@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-09 14:08+0000\n"
+"PO-Revision-Date: 2017-07-13 23:51+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -5719,9 +5719,8 @@ msgid "6 FX"
 msgstr "6 Efeitos"
 
 #: 06-FX.md:3
-#, fuzzy
 msgid "Studio FX"
-msgstr "Studio FX"
+msgstr "Estudio de efeitos"
 
 #: 06-FX.md:5
 msgid ""
@@ -8601,226 +8600,240 @@ msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
 "ease see Section 10.1 for motivation and background."
 msgstr ""
+"O seguinte é um sumário dos principais atalhos disponíveis no Sonic Pi. Por "
+"favor vê a secção 10.1 para motivação e contexto."
 
 #: 10.2-Shortcut-Cheatsheet.md:8
 msgid "Conventions"
-msgstr ""
+msgstr "Convenções"
 
 #: 10.2-Shortcut-Cheatsheet.md:10
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
 msgstr ""
+"Nesta lista, usamos a seguinte convenção (onde *Meta* ou é o *Alt* em "
+"Windows/Linux ou o *Cmd* no Mac):"
 
 #: 10.2-Shortcut-Cheatsheet.md:13
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
 msgstr ""
+"`C-a` significa carregar na tecla *Control* e depois carrega a tecla *a* "
+"estando as duas pressionadas ao mesmo tempo, depois libertando."
 
 #: 10.2-Shortcut-Cheatsheet.md:14
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
 msgstr ""
+"`M-r` significa pressionar a tecla *Meta* e depois pressionar a tecla *r* ao "
+"mesmo tempo, depois libertando."
 
 #: 10.2-Shortcut-Cheatsheet.md:15
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
 msgstr ""
+"`S-M-z` significa presionar a tecla *Shift*, depois a tecla *Meta*, e "
+"finalmente a tecla *z* todas ao mesmo tempo, depois libertando."
 
 #: 10.2-Shortcut-Cheatsheet.md:16
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
 msgstr ""
+"`C-M-f` significa premir a tecla *Control*, e depois premir a tecla *Meta*, "
+"finalmente a tecla *f* todas ao mesmo tempo, depois libertando."
 
 #: 10.2-Shortcut-Cheatsheet.md:18
 msgid "Main Application Manipulation"
-msgstr ""
+msgstr "Manipulação da Aplicação principal"
 
 #: 10.2-Shortcut-Cheatsheet.md:20
 msgid "`M-r` - Run code"
-msgstr ""
+msgstr "`M-r` - Correr código"
 
 #: 10.2-Shortcut-Cheatsheet.md:21
 msgid "`M-s` - Stop code"
-msgstr ""
+msgstr "`M-s` - Parar código"
 
 #: 10.2-Shortcut-Cheatsheet.md:22
 msgid "`M-i` - Toggle Help System"
-msgstr ""
+msgstr "`M-i`- Comutar o sistema de ajuda"
 
 #: 10.2-Shortcut-Cheatsheet.md:23
 msgid "`M-p` - Toggle Preferences"
-msgstr ""
+msgstr "`M-p`- Comutar preferencias"
 
 #: 10.2-Shortcut-Cheatsheet.md:24
 msgid "`M-{` - Switch buffer to the left"
-msgstr ""
+msgstr "`M-{` - Mudar para a buffer da esquerda"
 
 #: 10.2-Shortcut-Cheatsheet.md:25
 msgid "`M-}` - Switch buffer to the right"
-msgstr ""
+msgstr "`M-}` - Mudar para a buffer da direita"
 
 #: 10.2-Shortcut-Cheatsheet.md:26
 msgid "`M-+` - Increase text size of current buffer"
-msgstr ""
+msgstr "`M-+` - Aumentar tamanho do texto da buffer corrente"
 
 #: 10.2-Shortcut-Cheatsheet.md:27
 msgid "`M--` - Decrease text size of current buffer"
-msgstr ""
+msgstr "`M--` - Reduzir o tamanho de texto na corrente buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:30
 msgid "Selection/Copy/Paste"
-msgstr ""
+msgstr "Selecionar/copiar/colar"
 
 #: 10.2-Shortcut-Cheatsheet.md:32
 msgid "`M-a` - Select all"
-msgstr ""
+msgstr "`M-a` - Selecionar tudo"
 
 #: 10.2-Shortcut-Cheatsheet.md:33
 msgid "`M-c` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-c`- Copiar selecção para colar na buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:34
 msgid "`M-]` - Copy selection to paste buffer"
-msgstr ""
+msgstr "`M-]` - Copiar seleção para colar no buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:35
 msgid "`M-x` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`M-x` - Cortar seleção para colar na buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:36
 msgid "`C-]` - Cut selection to paste buffer"
-msgstr ""
+msgstr "`C-]` - Cortar seleção para a colar na buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:37
 msgid "`C-k` - Cut to the end of the line"
-msgstr ""
+msgstr "`C-k`- Cortar até ao fim da linha"
 
 #: 10.2-Shortcut-Cheatsheet.md:38
 msgid "`M-v` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`M-v`- Colar para o editor"
 
 #: 10.2-Shortcut-Cheatsheet.md:39
 msgid "`C-y` - Paste from paste buffer to editor"
-msgstr ""
+msgstr "`C-y` - Colar para o editor"
 
 #: 10.2-Shortcut-Cheatsheet.md:40
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr ""
+"`C-SPACE` - Colocar marca. A navegação irá agora manipular a região "
+"sublinhada. Usar `C-g`para escapar."
 
 #: 10.2-Shortcut-Cheatsheet.md:42
 msgid "Text Manipulation"
-msgstr ""
+msgstr "Manipulação de texto"
 
 #: 10.2-Shortcut-Cheatsheet.md:44
 msgid "`M-m` - Align all text"
-msgstr ""
+msgstr "`M-m` - Alinhar todo o texto"
 
 #: 10.2-Shortcut-Cheatsheet.md:45
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
-msgstr ""
+msgstr "`Tab`- Alinha a corrente linha ou seleção (ou escolhe autocompletion)"
 
 #: 10.2-Shortcut-Cheatsheet.md:46
 msgid "`C-l` - Centre editor"
-msgstr ""
+msgstr "`C-l` - Centra o editor"
 
 #: 10.2-Shortcut-Cheatsheet.md:47
 msgid "`M-/` - Comment/Uncomment current line or selection"
-msgstr ""
+msgstr "`M-/` - Comuta os comentários da linha actual ou seleção"
 
 #: 10.2-Shortcut-Cheatsheet.md:48
 msgid "`C-t` - Transpose/swap characters"
-msgstr ""
+msgstr "`C-t` - Transpõe/troca caracteres"
 
 #: 10.2-Shortcut-Cheatsheet.md:49
 msgid "`M-u` - Convert next word (or selection) to upper case."
-msgstr ""
+msgstr "`M-u`- Converte a próxima palavra (ou selecção) para maiúsculas."
 
 #: 10.2-Shortcut-Cheatsheet.md:50
 msgid "`M-l` - Convert next word (or selection) to lower case."
-msgstr ""
+msgstr "`M-l` - Converte a próxima palavra (ou selecção) para minúsculas."
 
 #: 10.2-Shortcut-Cheatsheet.md:54
 msgid "`C-a` - Move to beginning of line"
-msgstr ""
+msgstr "`C-a` - Mover para o inicio da linha"
 
 #: 10.2-Shortcut-Cheatsheet.md:55
 msgid "`C-e` - Move to end of line"
-msgstr ""
+msgstr "`C-e` - Mover para o final da linha"
 
 #: 10.2-Shortcut-Cheatsheet.md:56
 msgid "`C-p` - Move to previous line"
-msgstr ""
+msgstr "`C-p` - Mover para a linha anterior"
 
 #: 10.2-Shortcut-Cheatsheet.md:57
 msgid "`C-n` - Move to next line"
-msgstr ""
+msgstr "`C-n` - Mover para a próxima linha"
 
 #: 10.2-Shortcut-Cheatsheet.md:58
 msgid "`C-f` - Move forward one character"
-msgstr ""
+msgstr "`C-f` - Mover para a frente um caractere"
 
 #: 10.2-Shortcut-Cheatsheet.md:59
 msgid "`C-b` - Move backward one character"
-msgstr ""
+msgstr "`C-b` - Mover para trás um caractere"
 
 #: 10.2-Shortcut-Cheatsheet.md:60
 msgid "`M-f` - Move forward one word"
-msgstr ""
+msgstr "`M-f` - Mover para a frente uma palavra"
 
 #: 10.2-Shortcut-Cheatsheet.md:61
 msgid "`M-b` - Move backward one word"
-msgstr ""
+msgstr "`M-b`- Mover para trás uma palavra"
 
 #: 10.2-Shortcut-Cheatsheet.md:62
 msgid "`C-M-n` - Move line or selection down"
-msgstr ""
+msgstr "`C-M-n` - Mover uma linha ou selecção para baixo"
 
 #: 10.2-Shortcut-Cheatsheet.md:63
 msgid "`C-M-p` - Move line or selection up"
-msgstr ""
+msgstr "`C-M-p` - Mover linha ou selecção para cima"
 
 #: 10.2-Shortcut-Cheatsheet.md:64
 msgid "`S-M-u` - Move up 10 lines"
-msgstr ""
+msgstr "`S-M-u` - Mover para cima 10 linhas"
 
 #: 10.2-Shortcut-Cheatsheet.md:65
 msgid "`S-M-d` - Move down 10 lines"
-msgstr ""
+msgstr "`S-M-d`- Mover para baixo 10 linhas"
 
 #: 10.2-Shortcut-Cheatsheet.md:66
 msgid "`M-<` - Move to beginning of buffer"
-msgstr ""
+msgstr "`M-<` - Mover para o inicio da buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:67
 msgid "`M->` - Move to end of buffer"
-msgstr ""
+msgstr "`M->` - Mover para o final da buffer"
 
 #: 10.2-Shortcut-Cheatsheet.md:69
 msgid "Deletion"
-msgstr ""
+msgstr "Remoção"
 
 #: 10.2-Shortcut-Cheatsheet.md:71
 msgid "`C-h` - Delete previous character"
-msgstr ""
+msgstr "`C-h` - Remove o caractere anterior"
 
 #: 10.2-Shortcut-Cheatsheet.md:72
 msgid "`C-d` - Delete next character"
-msgstr ""
+msgstr "`C-d` - Remove o proximo caractere"
 
 #: 10.2-Shortcut-Cheatsheet.md:74
 msgid "Advanced Editor Features"
-msgstr ""
+msgstr "Características avançadas do editor"
 
 #: 10.2-Shortcut-Cheatsheet.md:76
 msgid "`C-i` - Show docs for word under cursor"
-msgstr ""
+msgstr "`C-i` - Mostra documentação sobre a palavra por baixo do cursor"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
 msgid "`M-z` - Undo"
