@@ -746,7 +746,7 @@ end"
           sleep_time = delta * orig_sleep_mul_w_density
           new_time = vt_orig + sleep_time
 
-          __system_thread_locals.set :sonic_pi_spider_time, new_time.freeze
+          __change_time!(new_time)
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
           __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
 
@@ -769,7 +769,7 @@ end"
           __schedule_delayed_blocks_and_messages!
         end
 
-        __system_thread_locals.set :sonic_pi_spider_time, vt_orig.freeze
+        __change_time!(vt_orig)
         __system_thread_locals.set :sonic_pi_spider_beat, orig_beat
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, prev_ctl_deltas
@@ -3737,14 +3737,30 @@ This can be set via the fn `set_sched_ahead_time!`.",
 set_sched_ahead_time! 0.5
 puts current_sched_ahead_time # Prints 0.5"]
 
+      def __change_time!(new_vt)
+        __system_thread_locals.get(:sonic_pi_spider_time_change).synchronize do
+          __system_thread_locals.set :sonic_pi_spider_time, new_vt.freeze
+
+          # free any state waiters if we've advance time sufficiently
+          unless  __system_thread_locals.get :sonic_pi_spider_in_time_warp
+            __system_thread_locals.get(:sonic_pi_spider_state_waiters).delete_if do |w|
+              w[:prom].deliver! true if new_vt > w[:vt]
+            end
+          end
+        end
+      end
+
       def sleep(beats)
-        __system_thread_locals.set_local :sonic_pi_local_last_sync, nil
+
+        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
+        __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
 
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
         curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
         __system_thread_locals.set(:sonic_pi_spider_beat, curr_beat + beats)
         return if beats == 0
+
         # Grab the current virtual time
         last_vt = __system_thread_locals.get :sonic_pi_spider_time
 
@@ -3759,6 +3775,8 @@ puts current_sched_ahead_time # Prints 0.5"]
         new_vt = last_vt + sleep_time
 
         sat = current_sched_ahead_time
+        __change_time!(new_vt)
+
         now = Time.now
 
         if now - (sat + 0.5) > new_vt
@@ -3796,7 +3814,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           end
         end
 
-        __system_thread_locals.set :sonic_pi_spider_time, new_vt.freeze
+
         ## reset control deltas now that time has advanced
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
       end
@@ -4056,7 +4074,9 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
         __system_thread_locals.set :sonic_pi_spider_beat, se.beat
-        __system_thread_locals.set :sonic_pi_spider_time, se.time.freeze
+
+        __change_time!(se.time)
+        __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         # TODO: add this
         #        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
@@ -4196,6 +4216,7 @@ puts current_sched_ahead_time # Prints 0.5"]
             __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
             __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, new_thread_id_path
             __system_thread_locals.set_local :sonic_pi_spider_thread_delta, 0
+            __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
             main_t = Thread.current
             main_t.priority = 10
 
