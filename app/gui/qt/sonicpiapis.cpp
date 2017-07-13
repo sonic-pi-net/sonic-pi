@@ -72,11 +72,7 @@ void SonicPiAPIs::addSynthArgs(QString fx, QStringList args) {
 }
 
 void SonicPiAPIs::addCuePath(QString path) {
-  if (path.startsWith(":"))  {
-      keywords[CuePath] << path;
-    } else {
-      keywords[CuePath] << "\"" + path + "\"";
-    }
+  keywords[CuePath] << path;
 }
 
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,

@@ -2213,6 +2213,7 @@ void MainWindow::toggleScope( QWidget* qw )
   QSettings settings("sonic-pi.net", "gui-settings");
   settings.setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );
   scopeInterface->enableScope( cb->text(), cb->isChecked() );
+
 }
 
 void MainWindow::toggleLeftScope()
@@ -3340,8 +3341,12 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
   }
 }
 
-void MainWindow::addCuePath(QString path)
+void MainWindow::addCuePath(QString path, QString val)
 {
+  if (!path.startsWith(":"))  {
+      path =  "\"" + path + "\"";
+  }
+
   if (!cuePaths.contains(path)) {
       autocomplete->addCuePath(path);
       cuePaths << path;
@@ -3466,6 +3471,7 @@ void MainWindow::zoomOutLogs() {
 
 
 void MainWindow::updateMIDIInPorts(QString port_info) {
+
   QString input_header = tr("Connected MIDI inputs") + ":\n\n";
   midi_in_ports_label->setText(input_header + port_info);
 }

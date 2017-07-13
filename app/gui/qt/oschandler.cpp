@@ -76,26 +76,30 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           len_diff = len_diff + 1;
           int idmod = ((id * 3) % 200);
           idmod = 155 + ((idmod < 100) ? idmod : 200 - idmod);
-          QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 20, 147, idmod)), Q_ARG(QColor, "white"));
 
-          QMetaObject::invokeMethod( incoming, "appendPlainText",        Qt::QueuedConnection,
-                                     Q_ARG(QString, QString::fromStdString(" " + address) ) );
+          QString qs_address =  QString::fromStdString(address);
+          if(!qs_address.startsWith(":")) {
+              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 20, 147, idmod)), Q_ARG(QColor, "white"));
 
-          QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
-                                     Q_ARG(QString, QString::fromStdString(std::string(len_diff, ' ')) ) );
+              QMetaObject::invokeMethod( incoming, "appendPlainText",        Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(" " + address) ) );
 
-          QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")), Q_ARG(QColor, "white"));
+              QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(std::string(len_diff, ' ')) ) );
 
-          QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
-                                     Q_ARG(QString, QString::fromStdString(" ")));
+              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")), Q_ARG(QColor, "white"));
 
-          QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor, "white"));
-           QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
-                                     Q_ARG(QString, QString::fromStdString(args) ) );
-           last_incoming_path_lens[id % 20] = address.length();
-           QMetaObject::invokeMethod( window, "addCuePath", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(address)));
-        } else {
-          std::cout << "[GUI] - unhandled OSC msg /incoming/osc: "<< std::endl;
+              QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(" ")));
+
+              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor, "white"));
+              QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(args) ) );
+              last_incoming_path_lens[id % 20] = address.length();
+            }
+          QMetaObject::invokeMethod( window, "addCuePath", Qt::QueuedConnection, Q_ARG(QString, qs_address), Q_ARG(QString, QString::fromStdString(args)));
+            } else {
+              std::cout << "[GUI] - unhandled OSC msg /incoming/osc: "<< std::endl;
         }
       }
       else if (msg->match("/log/info")) {

@@ -1094,6 +1094,10 @@ module SonicPi
       @gui_cue_log_idxs = Counter.new
       @osc_cue_server_mutex = Mutex.new
       @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
+
+        sym = nil
+        address, sym = *address if address.is_a?(Array)
+
         gui_log_id = @gui_cue_log_idxs.next
         a = args.freeze
 
@@ -1109,12 +1113,13 @@ module SonicPi
           Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
             __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
+            __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => a.inspect}) if sym
           end
         else
           __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
+          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => a.inspect}) if sym
         end
 
-        # if @log_cues
         #   @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
         #   @log_cues_file.flush
         # end

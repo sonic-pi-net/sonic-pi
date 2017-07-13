@@ -57,17 +57,13 @@ module SonicPi
         s.freeze
       end
 
-      def __cue_path(s)
-        if s.is_a?(Symbol)
-          return "/cue/#{__cue_path_segment(s)}".downcase.freeze
-        end
-
+      def __cue_path(s, prefix='cue')
         s = s.to_s
 
         if s.start_with?('/')
           s = String.new("#{s}")
         else
-          s = String.new("/cue/#{s}")
+          s = String.new("/#{prefix}/#{s}")
         end
 
         # convert all characters not allowed in
@@ -80,7 +76,7 @@ module SonicPi
 
       def __sync_path(s)
         if s.is_a?(Symbol)
-          return "/cue/#{__cue_path_segment(s)}".downcase.freeze
+          return "/{cue,set}/#{__cue_path_segment(s)}".downcase.freeze
         end
 
         s = s.to_s
@@ -91,14 +87,27 @@ module SonicPi
           s = String.new("/cue/#{s}")
         end
 
-        # convert all characters not allowed in
-        # OSC path seg to underscores
         s.downcase!
         s.freeze
         s
       end
 
+      def live_state(*args)
+        get(*args)
+      end
+
       def set(k, val)
+        if k.is_a?(Symbol)
+          path = __cue_path(k, "set")
+          cue_path = [path, k.inspect]
+        else
+          cue_path = __cue_path(k)
+          path = cue_path
+        end
+
+          __delayed_highlight_message "set #{k.inspect}, #{val.inspect}"
+        end
+
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
         i = __current_thread_id
@@ -112,14 +121,24 @@ module SonicPi
         val
       end
 
+      def __osc_match(matcher, osc_path)
+        # returns true if matcher matches osc_path
+        # i.e. /foo/*/ba? matches /foo/baz/bar
+        SonicPi::EventMatcher.new(matcher).match(osc_path)
+      end
+
       def get(*args)
+
         if args.empty?
           lookup = lambda { |*args| get(*args) }
           return TimeStateLookup.new(lookup)
         else
           k, default = args
+          k = __sync_path(k)
+
           # If we've time_warped into the future raise a timing exception
           if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
+
             if __system_thread_locals.get(:sonic_pi_spider_time_warp_start) < __system_thread_locals.get(:sonic_pi_spider_time)
               raise TimingError, "Sadly, you may not time_warp into the future to call get, then bring the result back in time to now."
             end
@@ -131,6 +150,7 @@ module SonicPi
           d = 0 # delta
           p = 1001
           m = current_bpm
+
           res = @event_history.get(t, p, i, d, b, m, k)
           return res.val if res
           return default
@@ -3847,7 +3867,11 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def cue(cue_id, *opts)
-        cue_path = __cue_path(cue_id)
+        if cue_id.is_a?(Symbol)
+          cue_path = [__cue_path(cue_id), cue_id.inspect]
+        else
+          cue_path = __cue_path(cue_id)
+        end
 
         if opts.size == 1 && opts[0].is_a?(Hash)
           opts[0].each do |k, v|

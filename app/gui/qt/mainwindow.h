@@ -95,7 +95,7 @@ public slots:
     void invokeStartupError(QString msg);
 
 private slots:
-    void addCuePath(QString path);
+    void addCuePath(QString path, QString val);
     void zoomInLogs();
     void zoomOutLogs();
     QString sonicPiHomePath();
