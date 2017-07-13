@@ -72,7 +72,7 @@ def handle_entry(msgid, filename, line, flags = [])
 
   if $po.has_key?msgid then
     $count_msgstr += 1 unless ($po[msgid].msgstr == nil) || ($po[msgid].msgstr == "")
-    $count_fuzzy += 1 if $po[msgid].flags.include?"fuzzy"
+    $count_fuzzy += 1 if $po[msgid].flags.include?("fuzzy")
     return $po[msgid].msgstr || msgid
   else
     return msgid
