@@ -714,12 +714,10 @@ module SonicPi
       return @midi_osc_server if @midi_osc_server
 
       @midi_osc_server = SonicPi::OSC::UDPServer.new(@midi_osc_in_port, open: false) do |address, args|
-        sched_ahead_time = @state.get(Time.now, 0, @midi_osc_server_thread_id, 0, 0, 60, :sched_ahead_time).val
         p = 0
         d = 0
         b = 0
         m = 60
-
 
         if address == "/o2m/heartbeat"
           if args != @midi_out_ports
