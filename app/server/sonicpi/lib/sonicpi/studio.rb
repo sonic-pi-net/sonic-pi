@@ -45,7 +45,6 @@ module SonicPi
       @cent_tuning = 0
       @sample_format = "int16"
       @paused = false
-      @cached_buffer_dir = Dir.mktmpdir
       @register_cue_event_lambda = register_cue_event_lambda
       @midi_osc_server_thread_id = ThreadId.new(-4)
       @midi_on = true
@@ -260,9 +259,7 @@ module SonicPi
 
         # our buffer has the same name but is of a different duration
         # therefore nuke it
-
-
-        path = @cached_buffer_dir + "/#{name}.wav"
+        path = cached_samples_path + "/#{name}.wav"
         # now actually allocate a new buffer and cache it
         sample_rate = @server.scsynth_info[:sample_rate]
         buffer_info = @server.buffer_alloc(duration_in_seconds * sample_rate, 2)

@@ -31,7 +31,9 @@ module SonicPi
     @@project_path = @@home_dir + '/store/default/'
     @@log_path = @@home_dir + '/log/'
 
-    [@@home_dir, @@project_path, @@log_path].each do |dir|
+    @@cached_samples_path = File.absolute_path("#{@@project_path}/cached_samples")
+
+    [@@home_dir, @@project_path, @@log_path, @@cached_samples_path].each do |dir|
 
       begin
         FileUtils.mkdir_p(dir) unless File.exist?(dir)
@@ -166,6 +168,11 @@ module SonicPi
     def project_path
       @@project_path
     end
+
+    def cached_samples_path
+      @@cached_samples_path
+    end
+
 
     def log_path
       @@log_path
