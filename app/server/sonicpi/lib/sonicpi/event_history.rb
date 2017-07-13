@@ -37,9 +37,9 @@ module SonicPi
   class EventMatcher
     include EventMatcherUtil
 
-    attr_reader :prom, :thread_id
+    attr_reader :handle, :prom
 
-    def initialize(path, val_matcher, thread_id, prom)
+    def initialize(path, val_matcher=nil, handle=nil, prom=nil)
       path = String.new(path)
 
       # get rid of white space
@@ -83,7 +83,7 @@ module SonicPi
       @val_matcher = val_matcher
       @alive = true
       @prom = prom
-      @thread_id = thread_id
+      @handle = handle
     end
 
     def kill
@@ -125,8 +125,8 @@ module SonicPi
       end
     end
 
-    def prune(thread_id)
-      @matchers.delete_if { |m| m.dead? || m.thread_id == thread_id }
+    def prune(handle_to_remove)
+      @matchers.delete_if { |m| m.dead? || m.handle == handle_to_remove }
     end
   end
 
