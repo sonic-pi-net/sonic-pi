@@ -153,7 +153,7 @@ module SonicPi
       wait_for_threads
       res = nil
       get_event = CueEvent.new(t, p, i, d, b, m, path, [])
-      res = get_w_no_mutex(get_event, val_matcher, get_next)
+      res = get_w_mutex(get_event, val_matcher, get_next)
       return res
     end
 
@@ -183,7 +183,7 @@ module SonicPi
       wait_for_threads
       prom = nil
       ge = CueEvent.new(t, p, i, d, b, m, path, [])
-      res = get_w_no_mutex(ge, val_matcher, true)
+      res = get_w_mutex(ge, val_matcher, true)
       return res if res
       prom = Promise.new
       @matcher_mut.synchronize do
@@ -194,7 +194,8 @@ module SonicPi
       # an event with an earlier timestamp arrived
       # after this one
       wait_for_threads
-      res = get_w_no_mutex(ge, val_matcher, true)
+      wait_for_threads(t)
+      res = get_w_mutex(ge, val_matcher, true)
       if res
         return res
       end
@@ -221,7 +222,7 @@ module SonicPi
     end
 
     private
-    def get_w_no_mutex(ge, val_matcher, get_next=false)
+    def get_w_mutex(ge, val_matcher, get_next=false)
       # get value or return default
       if ge.path.start_with? '/'
         path = String.new(ge.path)
