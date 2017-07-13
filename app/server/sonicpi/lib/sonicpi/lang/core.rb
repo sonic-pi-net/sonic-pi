@@ -112,6 +112,7 @@ module SonicPi
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
         i = __current_thread_id
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
+        __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
         m = current_bpm
 
