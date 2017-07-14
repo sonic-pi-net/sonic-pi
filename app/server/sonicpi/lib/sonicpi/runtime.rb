@@ -1129,8 +1129,6 @@ module SonicPi
 
       # TODO Add support for TCP
 
-      __restart_cue_server!(false, true)
-
       @gui_heartbeats = {}
       @gui_last_heartbeat = nil
       begin
@@ -1169,9 +1167,6 @@ module SonicPi
 
       __info "Welcome to Sonic Pi #{version}", 1
 
-      date = Time.now.freeze
-      time = "%02d:%02d, %s" % [date.hour, date.min, date.zone]
-      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}, #{time}"
       __info "Running on Ruby v#{RUBY_VERSION}"
 
       __info "Initialised Erlang OSC Scheduler"
