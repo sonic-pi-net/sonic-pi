@@ -1139,13 +1139,10 @@ bool isScopeEnabled( const QSettings& settings, const QString& name )
 
 void MainWindow::honourPrefs() {
   QSettings settings("sonic-pi.net", "gui-settings");
-
   int stored_vol = settings.value("prefs/system-vol", 50).toInt();
-  system_vol_slider->setValue(stored_vol);
-
   update_mixer_invert_stereo();
   update_mixer_force_mono();
-  changeRPSystemVol(stored_vol);
+  changeRPSystemVol(stored_vol, 1);
   update_check_updates();
   updateLogAutoScroll();
   toggleScopeAxes();
@@ -1335,6 +1332,9 @@ void MainWindow::initPrefsWindow() {
 
   QHBoxLayout *vol_box = new QHBoxLayout;
   system_vol_slider = new QSlider(this);
+  QSettings settings("sonic-pi.net", "gui-settings");
+  int stored_vol = settings.value("prefs/system-vol", 50).toInt();
+  system_vol_slider->setValue(stored_vol);
   connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
   vol_box->addWidget(system_vol_slider);
   volBox->setLayout(vol_box);
@@ -1524,7 +1524,6 @@ void MainWindow::initPrefsWindow() {
   QVBoxLayout *scope_box_layout = new QVBoxLayout;
 
   scopeSignalMap = new QSignalMapper(this);
-  QSettings settings("sonic-pi.net", "gui-settings");
   for( auto name : scopeInterface->getScopeNames() )
   {
     QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) );
