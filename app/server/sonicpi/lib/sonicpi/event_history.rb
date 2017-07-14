@@ -94,8 +94,13 @@ module SonicPi
       !@alive
     end
 
-    def match(path, val)
-      @matcher.match(path) && safe_matcher_call(@val_matcher, val)
+    def match(path, val=:sonic_pi_no_match_val)
+
+      if @val_matcher && (val != :sonic_pi_no_match_val)
+        @matcher.match(path) && safe_matcher_call(@val_matcher, val)
+      else
+        @matcher.match(path)
+      end
     end
   end
 
