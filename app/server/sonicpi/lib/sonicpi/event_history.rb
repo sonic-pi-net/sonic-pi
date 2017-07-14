@@ -138,7 +138,7 @@ module SonicPi
 
     attr_accessor :event_matchers
 
-    def initialize
+    def initialize(all_threads=nil, thread_mut=nil)
       @state = EventHistoryNode.new
       @event_matchers = EventMatchers.new
       @process_mut = Mutex.new
