@@ -106,7 +106,6 @@ module SonicPi
         end
 
           __delayed_highlight_message "set #{k.inspect}, #{val.inspect}"
-        end
 
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
