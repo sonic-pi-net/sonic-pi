@@ -76,7 +76,7 @@ module SonicPi
 
       def __sync_path(s)
         if s.is_a?(Symbol)
-          return "/{cue,set}/#{__cue_path_segment(s)}".downcase.freeze
+          return "/{cue,set,live_loop}/#{__cue_path_segment(s)}".downcase.freeze
         end
 
         s = s.to_s
@@ -1943,7 +1943,7 @@ play 80      # This is *never* played as the program is trapped in the loop abov
           end
           use_random_seed args_h[:seed] if args_h[:seed]
           loop do
-            cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
+            __live_loop_cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
             res = send(ll_name, res)
           end
         end
@@ -3883,7 +3883,14 @@ puts current_sched_ahead_time # Prints 0.5"]
           examples:       []
 
 
-
+      def __live_loop_cue(id)
+        t = __system_thread_locals.get(:sonic_pi_spider_time)
+        p = -100
+        d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
+        __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
+        cue_path = "/live_loop/#{id}"
+        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, current_bpm, cue_path, [], __current_sched_ahead_time)
+      end
 
       def cue(cue_id, *opts)
         if cue_id.is_a?(Symbol)
