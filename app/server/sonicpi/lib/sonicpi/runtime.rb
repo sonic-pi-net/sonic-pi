@@ -1086,9 +1086,9 @@ module SonicPi
       @osc_router_port = ports[:erlang_port]
       @log_cues = false
       @log_cues_file = File.open(osc_cues_log_path, 'a')
-      @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex, @msg_queue)
-      @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex, @msg_queue)
-      @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex, @msg_queue)
+      @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
+      @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
+      @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @system_init_thread_id = ThreadId.new(-1)
       osc_cue_server_thread_id = ThreadId.new(-2)
       @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
