@@ -121,7 +121,7 @@ module SonicPi
     def match(path, val)
       @matchers.delete_if do |matcher|
         if matcher.match(path, val)
-          matcher.prom.deliver! true
+          matcher.prom.deliver! true if matcher.prom
           matched = true
         else
           matched = false
