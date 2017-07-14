@@ -628,11 +628,6 @@ void MainWindow::setupWindowStructure() {
   incomingPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
-#if QT_VERSION >= 0x050400
-  //zoomable QPlainTextEdit requires QT 5.4
-  outputPane->zoomIn(1);
-  incomingPane->zoomIn(1);
-#endif
   outputPane->setTextColor(QColor(theme->color("LogInfoForeground")));
   outputPane->appendPlainText("\n");
   incomingPane->setTextColor(QColor(theme->color("LogInfoForeground")));
