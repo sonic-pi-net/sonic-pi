@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-12 11:44+0000\n"
+"PO-Revision-Date: 2017-07-14 20:49+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -16053,7 +16053,6 @@ msgid "Additive Synthesis"
 msgstr "Sinteza aditiva"
 
 #: A.18-additive-synthesis.md:5
-#, fuzzy
 msgid ""
 "This is the first of a short series of articles on how to use Sonic Pi for sou"
 "nd design. We'll be take a quick tour of a number of different techniques avai"
@@ -16072,7 +16071,15 @@ msgstr ""
 "Sonic Pi pentru design de sunet. Vom face un tur rapid al catorva tehnici pe "
 "care le ai la dispozitie pentru a crea propriile sunete unice. Prima tehnica "
 "pe care o vom analiza se numeste *sinteza aditiva*. Poate suna complicat, "
-"dar daca explicam putin fiecare cuvant, inte"
+"dar daca explicam putin fiecare cuvant, va fi foarte usor de inteles. In "
+"primul rand, aditiv inseamna o combinatie de element, iar sinteza inseamna "
+"crearea de sunete. Sinteza aditiva inseamna deci nici mai mult nici mai "
+"putin decat *combinarea unor sunete existente pentru a crea unele noi*. "
+"Aceasta tehnica de sinteza dateaza de foarte mult timp - de exemplu orgile "
+"din evul mediu aveau o multime de tuburi care sunau diferit si care puteau "
+"fi activate sau dezactivate folosind parghii. Tragand de parghia pentru un "
+"anumit tub, acesta era 'adaugat in combinatie' facand sunetul mai bogat si "
+"mai complex. Acum, sa vedem cum putem trage de aceste parghii cu Sonic Pi."
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
@@ -16127,6 +16134,10 @@ msgid ""
 "e wave at an octave higher (for that high bright sound) yet only play it at am"
 "p `0.4` so it adds something extra to the sound rather than taking it over:"
 msgstr ""
+"Sa adaugam ceva care va face sunetul mai viu. Am putea folosi o unda "
+"triunghiulara cu o octava mai sus (pentru un sunet viu inalt), dar sa o "
+"redam la o amplitudine de '0.4' astfel incat doar va adauga ceva sunetului "
+"in loc sa-l acapareze cu totul:"
 
 #: A.18-additive-synthesis.md:52
 #, no-wrap
@@ -16146,6 +16157,11 @@ msgid ""
 "pts to modify each source sound before it is mixed in for even more combinatio"
 "ns of sounds."
 msgstr ""
+"Acum, incearca sa creezi propriile tale sunete combinand 2 sau mai multe "
+"sintetizatoare in octave si cu amplitudini diferite. De asemenea, observa ca "
+"poti sa te joci cu fiecare dintre parametrii sintetizatoarelor pentru a "
+"modifica fiecare sunet sursa inainte de a-l adauga la mix pentru si mai "
+"multe combinatii de sunete."
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
