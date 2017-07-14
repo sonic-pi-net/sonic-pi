@@ -134,6 +134,7 @@ module SonicPi
 
   class EventHistory
     include EventMatcherUtil
+    include Util
 
     attr_accessor :event_matchers
 
@@ -150,7 +151,7 @@ module SonicPi
 
     # Get the last seen version (at or before the current time)
     def get(t, p, i, d, b, m, path, val_matcher=nil, get_next=false)
-      wait_for_threads
+      wait_for_threads(t)
       res = nil
       get_event = CueEvent.new(t, p, i, d, b, m, path, [])
       res = get_w_mutex(get_event, val_matcher, get_next)
@@ -166,7 +167,6 @@ module SonicPi
     # Register cue event for time t
     # Do not modify time
     def set(t, p, i, d, b, m, path, val)
-
       ce = CueEvent.new(t, p, i, d, b, m, path, val)
       @process_mut.synchronize do
         __insert_event!(ce)
@@ -180,7 +180,8 @@ module SonicPi
     # Set time to time of cue
 
     def sync(t, p, i, d, b, m, path, val_matcher=nil)
-      wait_for_threads
+
+      wait_for_threads(t)
       prom = nil
       ge = CueEvent.new(t, p, i, d, b, m, path, [])
       res = get_w_mutex(ge, val_matcher, true)
@@ -193,7 +194,6 @@ module SonicPi
       # have to do a get_next again in case
       # an event with an earlier timestamp arrived
       # after this one
-      wait_for_threads
       wait_for_threads(t)
       res = get_w_mutex(ge, val_matcher, true)
       if res
@@ -389,10 +389,66 @@ module SonicPi
       end
     end
 
-    def wait_for_threads
-      # TODO: DON'T SLEEP! sync on all threads
-      # checking their last write promise times
+    def wait_for_threads(vt)
+      # Time sync on all other threads checking their last write promise
+      # times
+
+      # unless @all_threads
       Kernel.sleep 0.001
+      return true
+      # end
+
+      # The code below is a work in progress. For now, simply sleep on
+      # reads, but eventually we will just wait for all the tother
+      # hreads to have moved on sufficiently to ensure deterministic
+      # behaviour.
+
+      promises = []
+
+      # p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
+      # id = __system_thread_locals.get :sonic_pi_spider_thread_id_path
+
+      # First grab the currently running threads. We do this by
+      # obtaining a lock to the creation of new threads so we can get
+      # a consistent view.
+      current_threads = []
+      @thread_mut.synchronize do
+        @all_threads.values.each do |thread_set|
+          thread_set.each do |t|
+            current_threads << t
+          end
+        end
+      end
+
+      # Work through each thread and see if it's behind or ahead of
+      # us. If it's behind, we ask it to notify us when it jumps ahead
+      # by inserting a promise into its state waiters list.
+      current_threads.each do |t|
+        unless t == Thread.current
+          __system_thread_locals(t).get(:sonic_pi_spider_time_change).synchronize do
+            tvt = __system_thread_locals(t).get(:sonic_pi_spider_time)
+            if tvt && ((tvt <= vt))
+              prom = Promise.new
+              promises << prom
+              waiters = __system_thread_locals(t).get(:sonic_pi_spider_state_waiters)
+              waiters << {:vt => vt, :prom => prom}
+            end
+          end
+        end
+
+      end
+
+      if promises.empty?
+        return true
+      else
+        # we have to wait for at least one thread, block until we can
+        # continue
+
+        promises.each { |p| p.get }
+        # The threads we waited for might have spawned new
+        # threads. Check again...
+        wait_for_threads(vt)
+      end
     end
 
     def matching_ancestors(partial, n, res=[])
@@ -466,15 +522,20 @@ module SonicPi
 
     def find_next_event(ge, val_matcher, events)
       return nil if events.empty?
-      # Find the first match where time is greater than time t, d
-      # events are ordered largest t ... smallest t
-      # so actually find the first match where event's time is same or lt t, d
+
+      # events are ordered with events[0] > events[max] later events are
+      # therefore closer to the start of the list
+
+      # Find the first match where time is greater than time t, d events
+      # are ordered largest t ... smallest t so actually find the first
+      # match where event's time is same or lt t, d
       #
-      # Additionally if val_matcher is not nil, it is assumed to be a lambda
-      # representing an arg matching fn. This will then be used asqo a constraint over the
-      # val when finding a given event.
+      # Additionally if val_matcher is not nil, it is assumed to be a
+      # lambda representing an arg matching fn. This will then be used
+      # asqo a constraint over the val when finding a given event.
 
       # Find the first event that's less than the time t, d.
+
       idx = events.find_index { |e| e <= ge }
       if idx && idx > 0
         return events[idx - 1] unless val_matcher

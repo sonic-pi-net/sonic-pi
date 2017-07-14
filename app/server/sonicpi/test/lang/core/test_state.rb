@@ -71,11 +71,7 @@ module SonicPi
             set(:intensity, 102)
             p2.deliver! true
           end
-
-          t2.join
-          t1.join
-
-          sleep 0.05
+          sleep 0.001
         end
       end
     end
@@ -142,19 +138,6 @@ module SonicPi
       end
     end
 
-    def test_osc_sync_no_prior_vals
-      @lang.run do
-        p = Promise.new
-        in_thread do
-          res = sync_osc "/barbazquuux"
-          p.deliver! res
-        end
-        assert_error do
-          p.get(1)
-        end
-      end
-    end
-
     def test_sync
       @lang.run do
         p1 = Promise.new
@@ -202,6 +185,16 @@ module SonicPi
         t2.kill
         Kernel.sleep 0.1
         assert_equal 0,  @event_history.event_matchers.matchers.size
+      end
+    end
+
+    def test_set_makes_vals_thread_safe
+      @lang.run do
+        a = [1, 2]
+        set :foo, a
+
+        assert_equal [1, 2], get(:foo)
+        assert get(:foo).sp_thread_safe?
       end
     end
   end

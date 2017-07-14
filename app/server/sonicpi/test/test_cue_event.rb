@@ -44,7 +44,7 @@ module SonicPi
       n = "/foo/bar"
       a = [:a, :b, Object.new]
       assert_raises SonicPi::Core::NotThreadSafeError do
-        c = CueEvent.new(t, p, i, d, b, m, n, a)
+        CueEvent.new(t, p, i, d, b, m, n, a)
       end
     end
 
@@ -58,7 +58,6 @@ module SonicPi
       i = 0
       d1 = 0
       d2 = 1
-      d3 = 2
       m = 60
       a = [:a, :b, :c]
       n = "/foo/bar"

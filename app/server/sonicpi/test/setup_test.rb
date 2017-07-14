@@ -23,11 +23,9 @@ module SonicPi
       @msg_queue = Queue.new
       __set_default_user_thread_locals!
 
-      @system_state = EventHistory.new
-      @user_state = EventHistory.new
-      @event_history = EventHistory.new
+
       @system_init_thread_id = ThreadId.new(-1)
-      @system_state.set 0, 0, @system_init_thread_id, 0, 0, 60, :sched_ahead_time, 0.5
+
 
       @settings = Config::Settings.new("/bogus/path/to/default/to/empty/settings.txt")
       @version = Version.new(0, 0, 0, "test")
@@ -50,7 +48,15 @@ module SonicPi
       @session_id = SecureRandom.uuid
       @snippets = {}
       @gui_cue_log_idxs = Counter.new
+      @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
+      @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
+      @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)
+      @system_state.set 0, 0, @system_init_thread_id, 0, 0, 60, :sched_ahead_time, 0.5
       @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
+
+        sym = nil
+        address, sym = *address if address.is_a?(Array)
+
         gui_log_id = @gui_cue_log_idxs.next
         a = args.freeze
 
@@ -71,22 +77,19 @@ module SonicPi
           __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
         end
 
-        if @log_cues
-          @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
-          @log_cues_file.flush
-        end
-
       end
 
     end
 
     def run(&blk)
-      t = Thread.new do
+      id = 0
+      silent = false
+      info = {}.freeze
+      now = Time.now.freeze
+
+      job = Thread.new do
         Thread.current.abort_on_exception = true
-        id = 0
-        silent = false
-        info = {}.freeze
-        now = Time.now.freeze
+
 
         reg_job 0, Thread.current
         __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
@@ -103,14 +106,28 @@ module SonicPi
         __set_default_system_thread_locals!
         __set_default_user_thread_locals!
 
-        t2 = in_thread do
-
+        in_thread do
           clear
           self.instance_eval(&blk)
         end
-
-        t2.join
       end
+      @user_jobs.add_job(id, job, info)
+      t = Thread.new do
+        Thread.current.priority = -10
+        __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
+        job.join
+        __join_subthreads(job)
+        # wait until all synths are dead
+        @life_hooks.completed(id)
+        @life_hooks.exit(id, {:start_t => now})
+        deregister_job_and_return_subthreads(id)
+        @user_jobs.job_completed(id)
+        Kernel.sleep default_sched_ahead_time
+        unless @user_jobs.any_jobs_running?
+          @life_hooks.all_completed(silent)
+        end
+      end
+
       t.join
     end
 

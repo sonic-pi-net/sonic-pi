@@ -105,6 +105,12 @@ module SonicPi
           path = cue_path
         end
 
+        # update thread local time state cache
+        cache = __system_thread_locals.get(:sonic_pi_spider_time_state_cache, [])
+        cache.unshift [path, val]
+        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, cache)
+
+        unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight_message "set #{k.inspect}, #{val.inspect}"
         end
 
@@ -116,9 +122,11 @@ module SonicPi
         p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
         m = current_bpm
 
-        @event_history.set t, p, i, d, b, m, k, val
+        # TODO - correctly add sched ahead time here after thread
+        # waiting has been implemented
+        # @register_cue_event_lambda.call(t, p, i, d, b, m, cue_path, val, current_sched_ahead_time)
 
-        __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
+        @register_cue_event_lambda.call(t, p, i, d, b, m, cue_path, val, default_sched_ahead_time)
         val
       end
 
@@ -145,11 +153,20 @@ module SonicPi
             end
           end
 
+          cache = __system_thread_locals.get(:sonic_pi_spider_time_state_cache, [])
+
+          match_idx = cache.find_index { |x|  __osc_match(k, x[0]) }
+          if match_idx
+            puts "found cache!"
+            return cache[match_idx][1]
+          end
+
+
           t = __system_thread_locals.get(:sonic_pi_spider_time)
           b = __system_thread_locals.get(:sonic_pi_spider_beat)
           i = __current_thread_id
-          d = 0 # delta
-          p = 1001
+          d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
+          p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 1001)
           m = current_bpm
 
           res = @event_history.get(t, p, i, d, b, m, k)
@@ -722,7 +739,7 @@ end"
 
         raise ArgumentError, "time_warp requires a do/end block" unless block
         prev_ctl_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
-
+        prev_cache = __system_thread_locals.get(:sonic_pi_spider_time_state_cache, [])
         had_params = params
         times = [times] if times.is_a? Numeric
 
@@ -750,6 +767,7 @@ end"
           __change_time!(new_time)
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
           __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
+          __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
 
           case block.arity
           when 0
@@ -774,6 +792,7 @@ end"
         __system_thread_locals.set :sonic_pi_spider_beat, orig_beat
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, prev_ctl_deltas
+        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, prev_cache)
       end
       doc name:           :time_warp,
           introduced:     Version.new(2,11,0),
@@ -4047,7 +4066,11 @@ puts current_sched_ahead_time # Prints 0.5"]
           advances_time:  true,
           examples:       ["See examples for sync"]
 
+
+
+
       def sync(k, arg_matcher=nil)
+        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
         # TODO: need to add this
         bpm_sync = false
         cue_id = __sync_path(k)
@@ -4071,9 +4094,9 @@ puts current_sched_ahead_time # Prints 0.5"]
         else
           # TODO insert priority and delta values here:
           t = current_time
-          p = -100 # priority
+          p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, -100)
           i = __current_thread_id
-          d = 0 # delta
+          d = __system_thread_locals.get(:sonic_pi_spider_thread_delta, 0)
           b = current_beat
           m = current_bpm
         end
@@ -4221,10 +4244,14 @@ puts current_sched_ahead_time # Prints 0.5"]
             __thread_locals_reset!(new_tls)
             __system_thread_locals_reset!(new_system_tls)
             __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
-            __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
-            __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, new_thread_id_path
-            __system_thread_locals.set_local :sonic_pi_spider_thread_delta, 0
+            __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
+            __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
+            __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
+
+            # Thread locals used for waiting for threads (essential for Time State's determinism)
+            __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
             __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
+
             main_t = Thread.current
             main_t.priority = 10
 
@@ -4243,6 +4270,14 @@ puts current_sched_ahead_time # Prints 0.5"]
               # by the thread we're currently cleaning up
               # after:
               @event_history.prune(new_thread_id_path)
+
+              # Remove any time state waiters
+              __system_thread_locals(main_t).get(:sonic_pi_spider_time_change).synchronize do
+                __system_thread_locals(main_t).get(:sonic_pi_spider_state_waiters).delete_if do |w|
+                  w[:prom].deliver! true
+                end
+              end
+
 
               # wait for all subthreads to finish before removing self from
               # the parent subthread tree

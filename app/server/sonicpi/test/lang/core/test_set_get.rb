@@ -24,15 +24,17 @@ module SonicPi
 
 
     def test_time_increment
-      @lang.run do
-        use_bpm 200
-        20.times do
+      10.times do
+        @lang.run do
+        use_bpm 800
+
           set :foo, 1
           set :foo, 2
           sleep 0.1
 
           t1 = in_thread do
             sleep 0
+            assert_equal 2, get[:foo]
             set :foo, 3
           end
 
@@ -40,7 +42,7 @@ module SonicPi
           # has been properly implemented
           t1.join
 
-          assert_equal 3, get(:foo)
+          assert_equal 2, get[:foo]
 
           t2 = in_thread do
             sleep 0
@@ -50,20 +52,25 @@ module SonicPi
             set :foo, 10
           end
 
-          assert_equal 5, get(:foo)
+          v = get(:foo)
+          assert_equal 2, v
 
           sleep 0.1
 
-          assert_equal 5, get(:foo)
+          assert_equal 5, get[:foo]
 
           sleep 0.1
 
-          # TODO: remove this when thread waiting
-          # has been properly implemented
-          t2.join
-
-          assert_equal 10, get(:foo)
+          assert_equal 5, get[:foo]
         end
+      end
+    end
+
+    def test_matchers
+      @lang.run do
+        set "/foo/bar3", 3
+        assert_equal 3, get("/foo/bar?")
+        assert_equal 3, get("/foo/bar{1,3}")
       end
     end
   end

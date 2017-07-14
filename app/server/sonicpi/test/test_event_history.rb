@@ -18,9 +18,10 @@ require_relative "../lib/sonicpi/event_history"
 
 module SonicPi
   class CueEventTester < Minitest::Test
-
+    include SonicPi::Util
     def test_get_and_set_w_diff_thread_ids
-      history = EventHistory.new
+      history = EventHistory.new()
+
       i1 = ThreadId.new(18, 0, 0)
       i2 = ThreadId.new(18, 0, 1)
       t = 1495752780.305016
@@ -404,8 +405,10 @@ module SonicPi
       i = ThreadId.new(5)
       n1 = "/foo/bar/baz"
       m = 60
-      history.set(0, 0, i, 1, 0, m, n1, [:baz1])
-      assert_equal [:baz1], history.sync(0, 0, i, 0, 0, m, n1).val
+      history.set(0, 0, i, 1, 0, m, n1, [:baz0])
+      history.set(1, 0, i, 1, 0, m, n1, [:baz1])
+      history.set(2, 0, i, 1, 0, m, n1, [:baz2])
+      assert_equal [:baz1], history.sync(0, 0, i, 1, 0, m, n1).val
     end
 
     def test_sync_w_matchers
@@ -414,11 +417,12 @@ module SonicPi
       n1 = "/foo/bar/baz"
       m = 60
 
-      Thread.new do
-        Kernel.sleep 0.01
-        history.set(0, 0, i, 1, 0, m, n1, [:baz1])
-      end
-      assert_equal [:baz1], history.sync(0, 0, i, 0, 0, m, "/foo/**").val
+     t = Thread.new do
+
+       history.set(0, 0, i, 1, 0, m, n1, [:baz1])
+     end
+     assert_equal [:baz1], history.sync(0, 0, i, 0, 0, m, "/foo/**").val
+     t.join
     end
 
 
@@ -443,7 +447,6 @@ module SonicPi
 
     def test_event_matcher_pruning
       history = EventHistory.new
-      prom = Promise.new
       i = ThreadId.new(5)
       i2 = ThreadId.new(5, 1)
       m = 60

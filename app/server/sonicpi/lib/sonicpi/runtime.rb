@@ -745,6 +745,7 @@ module SonicPi
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
       __system_thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
       __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
+      __system_thread_locals.set(:sonic_pi_spider_thread_priority, 0)
     end
 
     def __spider_eval(code, info={})
@@ -1085,9 +1086,9 @@ module SonicPi
       @osc_router_port = ports[:erlang_port]
       @log_cues = false
       @log_cues_file = File.open(osc_cues_log_path, 'a')
-      @system_state = EventHistory.new
-      @user_state = EventHistory.new
-      @event_history = EventHistory.new
+      @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex, @msg_queue)
+      @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex, @msg_queue)
+      @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex, @msg_queue)
       @system_init_thread_id = ThreadId.new(-1)
       osc_cue_server_thread_id = ThreadId.new(-2)
       @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
