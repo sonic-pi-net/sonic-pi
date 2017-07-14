@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-29 06:57+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2017-07-14 11:54+0000\n"
+"Last-Translator: Federico Saccà <info@federicosacca.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.15-dev\n"
+"X-Generator: Weblate 2.16-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -7587,6 +7587,8 @@ msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
+"`.scale(2)` - restituisce un nuovo anello con tutti gli elementi "
+"moltiplicati per 2 (suppone che l'anello contiene solo numeri)"
 
 #: 08.5-Ring-Chains.md:84
 msgid ""
@@ -7594,9 +7596,9 @@ msgid ""
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
 "irst 5 elements."
 msgstr ""
-"Ovviamente, questi metodi di concatenazione accettano altri valori! Sentiti li"
-"bero di chiamare `.drop(5)` invece che `.drop(3)` se vuoi rimuovere i primi 5 "
-"elementi."
+"Ovviamente, questi metodi di concatenazione accettano anche altri valori! "
+"Sentiti libero di chiamare `.drop(5)` invece che `.drop(3)` se vuoi "
+"rimuovere i primi 5 elementi."
 
 #: 09-Live-Coding.md:1
 msgid "9 Live Coding"
@@ -15766,6 +15768,15 @@ msgid ""
 " sounds. So, fire up a copy of Sonic Pi and let's get started stretching some "
 "samples!"
 msgstr ""
+"Quando le persone scoprono Sonic Pi, una delle prime cose che impara è "
+"quanto sia semplice riprodurre suoni pre-registrati usando la funzione "
+"`sample`. Ad esempio, puoi suonare un loop di tamburo industriale, ascoltare "
+"il suono di un coro o anche ascoltare un graffio di vinile tutto attraverso "
+"una singola riga di codice. Tuttavia, molte persone non si rendono conto che "
+"è possibile effettivamente variare la velocità, il campione viene riprodotto "
+"per alcuni effetti potenti e un nuovo livello di controllo sui suoni "
+"registrati. Quindi, scarica una copia di Sonic Pi e iniziamo a giocare con  "
+"alcuni campioni!"
 
 #: A.17-sample-stretching.md:14
 msgid "Slowing Samples Down"
@@ -15774,6 +15785,8 @@ msgstr "Rallentare i campioni (samples)"
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
 msgstr ""
+"Per modificare la frequenza di riproduzione di un campione dobbiamo "
+"utilizzare il `rate:` opt:"
 
 #: A.17-sample-stretching.md:18
 #, no-wrap
@@ -15785,6 +15798,9 @@ msgid ""
 "If we specify a `rate:` of `1` then the sample is played back at the normal ra"
 "te. If we want to play it back at half speed we simply use a `rate:` of `0.5`:"
 msgstr ""
+"Se si specifica una `rate:` di `1` allora il campione viene riprodotto alla "
+"velocità normale. Se vogliamo riprodurlo a mezza velocità usiamo "
+"semplicemente una \"velocità\" di `0.5`:"
 
 #: A.17-sample-stretching.md:27
 #, fuzzy
@@ -15798,9 +15814,8 @@ msgid ""
 msgstr "choose (scegli)"
 
 #: A.17-sample-stretching.md:34
-#, fuzzy
 msgid "Speeding Samples Up"
-msgstr "Campioni (Samples)"
+msgstr "Accelerare i campioni"
 
 #: A.17-sample-stretching.md:36
 msgid ""
@@ -15818,7 +15833,7 @@ msgstr "sample :loop_amen, rate: -1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
-msgstr ""
+msgstr "Ora, acceleriamoli un pò:"
 
 #: A.17-sample-stretching.md:48
 msgid ""
@@ -15831,7 +15846,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
-msgstr ""
+msgstr "Retromarcia"
 
 #: A.17-sample-stretching.md:56
 msgid ""
@@ -15842,6 +15857,13 @@ msgid ""
 " speed, `-1` must mean backwards! Let's try it on a snare. First, play it back"
 " at the normal rate:"
 msgstr ""
+"Ora, sono sicuro che molti di voi stanno pensando la stessa cosa adesso ... "
+"\"cosa succede se si utilizza un numero negativo per il rate?\". Grande "
+"domanda! Pensiamo a questo per un momento. Se il nostro `rate:` opt "
+"significa la velocità con cui viene riprodotto il campione, `1` è la "
+"velocità normale,` 2` è doppia velocità, `0.5` è mezza velocità,` -1` deve "
+"significare all'indietro! Proviamolo su un rullante. Innanzitutto, "
+"riprodurlo al ritmo normale:"
 
 #: A.17-sample-stretching.md:63
 #, no-wrap
