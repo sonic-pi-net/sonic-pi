@@ -129,13 +129,13 @@ module SonicPi
         @register_cue_event_lambda.call(t, p, i, d, b, m, cue_path, val, __current_sched_ahead_time)
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          if splat_map_or_arr.empty?
-            __delayed_highlight_message "#{prefix} #{cue_id.inspect}"
+          unless val
+            __delayed_highlight_message "#{prefix} #{k.inspect}"
           else
-            if is_list_like?(splat_map_or_arr)
-              __delayed_highlight_message "#{prefix} #{cue_id.inspect}, #{splat_map_or_arr}"
+            if is_list_like?(val)
+              __delayed_highlight_message "#{prefix} #{k.inspect}, #{val}"
             else
-              __delayed_highlight_message "#{prefix} #{cue_id.inspect}, #{arg_h_pp(splat_map_or_arr)}"
+              __delayed_highlight_message "#{prefix} #{k.inspect}, #{val.sp_log_inspect}"
 
             end
           end
