@@ -376,6 +376,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   pro_prefs_dark_icon = QIcon(":/images/toolbar/pro/prefs-dark.png");
   pro_rec_b_icon = QIcon(":/images/toolbar/pro/recording-b.png");
   pro_rec_b_dark_icon = QIcon(":/images/toolbar/pro/recording-b-dark.png");
+  pro_load_dark_icon = QIcon(":/images/toolbar/pro/load-dark.png");
+  pro_save_dark_icon = QIcon(":/images/toolbar/pro/save-dark.png");
 
   setupWindowStructure();
   createShortcuts();
@@ -2272,8 +2274,8 @@ void MainWindow::toggleIcons() {
     if (dark_mode->isChecked()) {
       runAct->setIcon(pro_run_icon);
       stopAct->setIcon(pro_stop_icon);
-      saveAsAct->setIcon(pro_save_icon);
-      loadFileAct->setIcon(pro_load_icon);
+      saveAsAct->setIcon(pro_save_dark_icon);
+      loadFileAct->setIcon(pro_load_dark_icon);
       recAct->setIcon(pro_rec_icon);
       textIncAct->setIcon(pro_size_up_icon);
       textDecAct->setIcon(pro_size_down_icon);
