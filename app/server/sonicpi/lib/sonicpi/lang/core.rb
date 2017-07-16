@@ -96,9 +96,9 @@ module SonicPi
         get(*args)
       end
 
-      def set(k, val)
+      def __cueset(k, val, prefix)
         if k.is_a?(Symbol)
-          path = __cue_path(k, "set")
+          path = __cue_path(k, prefix)
           cue_path = [path, k.inspect]
         else
           cue_path = __cue_path(k)
@@ -126,9 +126,130 @@ module SonicPi
         # waiting has been implemented
         # @register_cue_event_lambda.call(t, p, i, d, b, m, cue_path, val, current_sched_ahead_time)
 
-        @register_cue_event_lambda.call(t, p, i, d, b, m, cue_path, val, default_sched_ahead_time)
+        @register_cue_event_lambda.call(t, p, i, d, b, m, cue_path, val, __current_sched_ahead_time)
+
+        unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
+          if splat_map_or_arr.empty?
+            __delayed_highlight_message "#{prefix} #{cue_id.inspect}"
+          else
+            if is_list_like?(splat_map_or_arr)
+              __delayed_highlight_message "#{prefix} #{cue_id.inspect}, #{splat_map_or_arr}"
+            else
+              __delayed_highlight_message "#{prefix} #{cue_id.inspect}, #{arg_h_pp(splat_map_or_arr)}"
+
+            end
+          end
+        end
+
         val
       end
+
+      def set(k, val)
+        __cueset(k, val, "set")
+      end
+
+      def cue(k, *opts)
+        splat_map_or_arr = []
+
+        if opts.size == 1 && opts[0].is_a?(Hash)
+
+          opts[0].each do |k, v|
+            raise ArgumentError, "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
+            raise ArgumentError, "Invalid cue argument #{v.inspect} with key #{k.inspect} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
+          end
+          splat_map_or_arr = opts[0]
+        else
+          opts.each_with_index do |v, idx|
+
+            v = v.__sp_make_thread_safe
+            raise ArgumentError, "Invalid cue argument #{v.inspect} in position #{idx} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
+          end
+          splat_map_or_arr = opts.freeze
+        end
+
+        __cueset(k, splat_map_or_arr, "cue")
+      end
+            doc name:           :cue,
+          introduced:     Version.new(2,0,0),
+          summary:        "Cue other threads",
+          doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id`. The values of the opts must be immutable. Currently numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values are supported.",
+          args:           [[:cue_id, :symbol]],
+          opts:           {:your_key    => "Your value",
+                           :another_key => "Another value",
+                           :key         => "All these opts are passed through to the thread which syncs"},
+          accepts_block:  false,
+          examples:       ["
+  in_thread do
+    sync :foo # this parks the current thread waiting for a foo cue message to be received.
+    sample :ambi_lunar_land
+  end
+
+  sleep 5
+
+  cue :foo # We send a cue message from the main thread.
+            # This then unblocks the thread above and we then hear the sample",
+
+  "
+  in_thread do   # Start a metronome thread
+    loop do      # Loop forever:
+      cue :tick  # sending tick heartbeat messages
+      sleep 0.5  # and sleeping for 0.5 beats between ticks
+    end
+  end
+
+  # We can now play sounds using the metronome.
+  loop do                    # In the main thread, just loop
+    sync :tick               # waiting for :tick cue messages
+    sample :drum_heavy_kick  # after which play the drum kick sample
+  end",
+
+  "
+  in_thread do   # Start a metronome thread
+    loop do      # Loop forever:
+      cue [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
+      sleep 0.5  # and sleeping for 0.5 beats between ticks
+    end
+  end
+
+  # We can now play sounds using the metronome:
+
+  in_thread do
+    loop do              # In the main thread, just loop
+      sync :foo          # waiting for :foo cue messages
+      sample :elec_beep  # after which play the elec beep sample
+    end
+  end
+
+  in_thread do
+    loop do              # In the main thread, just loop
+      sync :bar          # waiting for :bar cue messages
+      sample :elec_flip  # after which play the elec flip sample
+    end
+  end
+
+  in_thread do
+    loop do              # In the main thread, just loop
+      sync :baz          # waiting for :baz cue messages
+      sample :elec_blup  # after which play the elec blup sample
+    end
+  end",
+
+  "
+  in_thread do
+    loop do
+      cue :tick, foo: 64  # sending tick heartbeat messages with a value :foo
+      sleep 0.5
+    end
+  end
+
+  # The value for :foo can now be used in synced threads
+
+  loop do
+    values = sync :tick
+    play values[:foo]    # play the note value from :foo
+  end",
+      ]
+
 
       def __osc_match(matcher, osc_path)
         # returns true if matcher matches osc_path
@@ -3911,141 +4032,8 @@ puts current_sched_ahead_time # Prints 0.5"]
         @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, current_bpm, cue_path, [], __current_sched_ahead_time)
       end
 
-      def cue(cue_id, *opts)
-        if cue_id.is_a?(Symbol)
-          cue_path = [__cue_path(cue_id), cue_id.inspect]
-        else
-          cue_path = __cue_path(cue_id)
-        end
-
-        if opts.size == 1 && opts[0].is_a?(Hash)
-          opts[0].each do |k, v|
-            raise ArgumentError, "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
-            raise ArgumentError, "Invalid cue argument #{v.inspect} with key #{k.inspect} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
-          end
-          splat_map_or_arr = opts[0]
-        else
-          opts.each_with_index do |v, idx|
-
-            v = v.__sp_make_thread_safe
-            raise ArgumentError, "Invalid cue argument #{v.inspect} in position #{idx} due to unrecognised type: (#{v.class}). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values" unless v.sp_thread_safe?
-          end
-          splat_map_or_arr = opts.freeze
-        end
-        t = __system_thread_locals.get(:sonic_pi_spider_time)
-
-        # TODO thread some of this through the cue-sync metadata
-        # To re-enable sync_bpm
-        # meta = {
-        #   :time => t,
-        #   :sleep_mul => __system_thread_locals.get(:sonic_pi_spider_sleep_mul),
-        #   :beat => __system_thread_locals.get(:sonic_pi_spider_beat),
-        #   :run => current_job_id,
-        #   :cue_splat_map_or_arr => splat_map_or_arr,
-        #   :cue => cue_id
-        # }
-
-        unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          if splat_map_or_arr.empty?
-            __delayed_highlight_message "cue #{cue_id.inspect}"
-          else
-            if is_list_like?(splat_map_or_arr)
-              __delayed_highlight_message "cue #{cue_id.inspect}, #{splat_map_or_arr}"
-            else
-              __delayed_highlight_message "cue #{cue_id.inspect}, #{arg_h_pp(splat_map_or_arr)}"
-
-            end
-          end
-        end
-
-        d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
-        __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
-        p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
-
-        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, current_bpm, cue_path, splat_map_or_arr, __current_sched_ahead_time)
 
 
-      end
-      doc name:           :cue,
-          introduced:     Version.new(2,0,0),
-          summary:        "Cue other threads",
-          doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id`. The values of the opts must be immutable. Currently numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values are supported.",
-          args:           [[:cue_id, :symbol]],
-          opts:           {:your_key    => "Your value",
-                           :another_key => "Another value",
-                           :key         => "All these opts are passed through to the thread which syncs"},
-          accepts_block:  false,
-          examples:       ["
-  in_thread do
-    sync :foo # this parks the current thread waiting for a foo cue message to be received.
-    sample :ambi_lunar_land
-  end
-
-  sleep 5
-
-  cue :foo # We send a cue message from the main thread.
-            # This then unblocks the thread above and we then hear the sample",
-
-  "
-  in_thread do   # Start a metronome thread
-    loop do      # Loop forever:
-      cue :tick  # sending tick heartbeat messages
-      sleep 0.5  # and sleeping for 0.5 beats between ticks
-    end
-  end
-
-  # We can now play sounds using the metronome.
-  loop do                    # In the main thread, just loop
-    sync :tick               # waiting for :tick cue messages
-    sample :drum_heavy_kick  # after which play the drum kick sample
-  end",
-
-  "
-  in_thread do   # Start a metronome thread
-    loop do      # Loop forever:
-      cue [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
-      sleep 0.5  # and sleeping for 0.5 beats between ticks
-    end
-  end
-
-  # We can now play sounds using the metronome:
-
-  in_thread do
-    loop do              # In the main thread, just loop
-      sync :foo          # waiting for :foo cue messages
-      sample :elec_beep  # after which play the elec beep sample
-    end
-  end
-
-  in_thread do
-    loop do              # In the main thread, just loop
-      sync :bar          # waiting for :bar cue messages
-      sample :elec_flip  # after which play the elec flip sample
-    end
-  end
-
-  in_thread do
-    loop do              # In the main thread, just loop
-      sync :baz          # waiting for :baz cue messages
-      sample :elec_blup  # after which play the elec blup sample
-    end
-  end",
-
-  "
-  in_thread do
-    loop do
-      cue :tick, foo: 64  # sending tick heartbeat messages with a value :foo
-      sleep 0.5
-    end
-  end
-
-  # The value for :foo can now be used in synced threads
-
-  loop do
-    values = sync :tick
-    play values[:foo]    # play the note value from :foo
-  end",
-      ]
 
       def sync_bpm(*args)
         cue_ids = (args.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
