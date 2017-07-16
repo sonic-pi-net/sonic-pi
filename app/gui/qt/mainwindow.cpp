@@ -1624,7 +1624,7 @@ void MainWindow::initPrefsWindow() {
   check_args->setChecked(settings.value("prefs/check-args", true).toBool());
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
-  log_cues->setChecked(settings.value("prefs/log-cues", true).toBool());
+  log_cues->setChecked(settings.value("prefs/log-cues", false).toBool());
   log_auto_scroll->setChecked(settings.value("prefs/log-auto-scroll", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
   enable_external_synths_cb->setChecked(settings.value("prefs/enable-external-synths", false).toBool());
