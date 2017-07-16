@@ -72,9 +72,10 @@ sound_out FX
 * Increase width of autocompletion popup.
 
 
-### Documentation
+### Documentation & Examples
 
 * New articles on additive and subtractive synthesis techniques.
+* New example piece 'Cloud Beat' by Pit Noack
 
 ### Improvements
 * Teach `time_warp` about input ranges. It now works similar to `at` in that it can now take two lists of args - times and values - which represent a list of time destinations to be visited in turn.
