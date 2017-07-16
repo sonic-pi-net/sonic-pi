@@ -381,6 +381,8 @@ private:
 
     OscSender *oscSender;
     QSet<QString> cuePaths;
+
+    QIcon pro_run_icon, pro_stop_icon, pro_save_icon, pro_load_icon, pro_rec_icon, pro_size_up_icon, pro_size_down_icon, pro_scope_bordered_icon, pro_scope_icon, pro_info_bordered_icon, pro_info_icon, pro_help_bordered_icon, pro_help_icon, pro_prefs_icon, pro_prefs_bordered_icon, pro_info_dark_bordered_icon, pro_info_dark_icon, pro_help_dark_bordered_icon, pro_help_dark_icon, pro_prefs_dark_bordered_icon, pro_prefs_dark_icon, pro_rec_b_icon, pro_rec_b_dark_icon;
 };
 
 #endif

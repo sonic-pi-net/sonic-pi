@@ -352,6 +352,31 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   setupTheme();
   lexer = new SonicPiLexer(theme);
 
+  // load up pro icons into memory
+  pro_run_icon = QIcon(":/images/toolbar/pro/run.png");
+  pro_stop_icon = QIcon(":/images/toolbar/pro/stop.png");
+  pro_save_icon = QIcon(":/images/toolbar/pro/save.png");
+  pro_load_icon = QIcon(":/images/toolbar/pro/load.png");
+  pro_rec_icon = QIcon(":/images/toolbar/pro/rec.png");
+  pro_size_up_icon = QIcon(":/images/toolbar/pro/size-up.png");
+  pro_size_down_icon = QIcon(":/images/toolbar/pro/size-down.png");
+  pro_scope_bordered_icon = QIcon(":/images/toolbar/pro/scope-bordered.png");
+  pro_scope_icon = QIcon(":/images/toolbar/pro/scope.png");
+  pro_info_icon = QIcon(":/images/toolbar/pro/info.png");
+  pro_info_bordered_icon = QIcon(":/images/toolbar/pro/info-bordered.png");
+  pro_help_bordered_icon = QIcon(":/images/toolbar/pro/help-bordered.png");
+  pro_help_icon = QIcon(":/images/toolbar/pro/help.png");
+  pro_prefs_icon = QIcon(":/images/toolbar/pro/prefs.png");
+  pro_prefs_bordered_icon = QIcon(":/images/toolbar/pro/prefs-bordered.png");
+  pro_info_dark_bordered_icon = QIcon(":/images/toolbar/pro/info-dark-bordered.png");
+  pro_info_dark_icon = QIcon(":/images/toolbar/pro/info-dark.png");
+  pro_help_dark_bordered_icon = QIcon(":/images/toolbar/pro/help-dark-bordered.png");
+  pro_help_dark_icon = QIcon(":/images/toolbar/pro/help-dark.png");
+  pro_prefs_dark_bordered_icon = QIcon(":/images/toolbar/pro/prefs-dark-bordered.png");
+  pro_prefs_dark_icon = QIcon(":/images/toolbar/pro/prefs-dark.png");
+  pro_rec_b_icon = QIcon(":/images/toolbar/pro/recording-b.png");
+  pro_rec_b_dark_icon = QIcon(":/images/toolbar/pro/recording-b-dark.png");
+
   setupWindowStructure();
   createShortcuts();
   createToolBar();
@@ -2069,9 +2094,9 @@ void MainWindow::scope()
 
   if (pro_icons_check->isChecked()) {
     if (show_scopes->isChecked()) {
-        scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope-bordered.png"));
+        scopeAct->setIcon(pro_scope_bordered_icon);
       } else {
-      scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope.png"));
+      scopeAct->setIcon(pro_scope_icon);
     }
   }
 
@@ -2090,9 +2115,9 @@ void MainWindow::about()
     infoWidg->hide();
     if (pro_icons_check->isChecked()) {
       if (dark_mode->isChecked()) {
-        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-dark.png"));
+        infoAct->setIcon(pro_info_dark_icon);
       } else {
-        infoAct->setIcon(QIcon(":/images/toolbar/pro/info.png"));
+        infoAct->setIcon(pro_info_icon);
       }
     }
 
@@ -2101,9 +2126,9 @@ void MainWindow::about()
     infoWidg->show();
     if (pro_icons_check->isChecked()) {
       if (dark_mode->isChecked()) {
-        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-dark-bordered.png"));
+        infoAct->setIcon(pro_info_dark_bordered_icon);
       } else {
-        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-bordered.png"));
+        infoAct->setIcon(pro_info_bordered_icon);
       }
     }
   }
@@ -2117,9 +2142,9 @@ void MainWindow::help()
     docWidget->hide();
     if (pro_icons_check->isChecked()) {
       if (dark_mode->isChecked()) {
-        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark.png"));
+        helpAct->setIcon(pro_help_dark_icon);
       } else {
-        helpAct->setIcon(QIcon(":/images/toolbar/pro/help.png"));
+        helpAct->setIcon(pro_help_icon);
       }
     }
   } else {
@@ -2130,9 +2155,9 @@ void MainWindow::help()
     }
     if (pro_icons_check->isChecked()) {
       if (dark_mode->isChecked()) {
-        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark-bordered.png"));
+        helpAct->setIcon(pro_help_dark_bordered_icon);
       } else {
-        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-bordered.png"));
+        helpAct->setIcon(pro_help_bordered_icon);
       }
     }
   }
@@ -2245,65 +2270,68 @@ void MainWindow::toggleIcons() {
 
     toolBar->setIconSize(QSize(30, 30));
     if (dark_mode->isChecked()) {
-      runAct->setIcon(QIcon(":/images/toolbar/pro/run.png"));
-      stopAct->setIcon(QIcon(":/images/toolbar/pro/stop.png"));
-      saveAsAct->setIcon(QIcon(":/images/toolbar/pro/save-dark.png"));
-      loadFileAct->setIcon(QIcon(":/images/toolbar/pro/load-dark.png"));
-      recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
-      textIncAct->setIcon(QIcon(":/images/toolbar/pro/size-up.png"));
-      textDecAct->setIcon(QIcon(":/images/toolbar/pro/size-down.png"));
+      runAct->setIcon(pro_run_icon);
+      stopAct->setIcon(pro_stop_icon);
+      saveAsAct->setIcon(pro_save_icon);
+      loadFileAct->setIcon(pro_load_icon);
+      recAct->setIcon(pro_rec_icon);
+      textIncAct->setIcon(pro_size_up_icon);
+      textDecAct->setIcon(pro_size_down_icon);
+
       if (show_scopes->isChecked()) {
-          scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope-bordered.png"));
+          scopeAct->setIcon(pro_scope_bordered_icon);
         } else {
-        scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope.png"));
+        scopeAct->setIcon(pro_scope_icon);
       }
 
       if (infoWidg->isVisible()) {
-        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-dark-bordered.png"));
+        infoAct->setIcon(pro_info_dark_bordered_icon);
       } else {
-        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-dark.png"));
+        infoAct->setIcon(pro_info_dark_icon);
       }
 
       if (docWidget->isVisible()) {
-        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark-bordered.png"));
+        helpAct->setIcon(pro_help_dark_bordered_icon);
       } else {
-        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-dark.png"));
+        helpAct->setIcon(pro_help_dark_icon);
       }
 
       if (prefsWidget->isVisible()) {
-        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-dark-bordered.png"));
+        prefsAct->setIcon(pro_prefs_dark_bordered_icon);
       } else {
-        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-dark.png"));
+        prefsAct->setIcon(pro_prefs_dark_icon);
       }
     } else {
-      runAct->setIcon(QIcon(":/images/toolbar/pro/run.png"));
-      stopAct->setIcon(QIcon(":/images/toolbar/pro/stop.png"));
-      saveAsAct->setIcon(QIcon(":/images/toolbar/pro/save.png"));
-      loadFileAct->setIcon(QIcon(":/images/toolbar/pro/load.png"));
-      recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
-      textIncAct->setIcon(QIcon(":/images/toolbar/pro/size-up.png"));
-      textDecAct->setIcon(QIcon(":/images/toolbar/pro/size-down.png"));
+
+      runAct->setIcon(pro_run_icon);
+      stopAct->setIcon(pro_stop_icon);
+      saveAsAct->setIcon(pro_save_icon);
+      loadFileAct->setIcon(pro_load_icon);
+      recAct->setIcon(pro_rec_icon);
+
+      textIncAct->setIcon(pro_size_up_icon);
+      textDecAct->setIcon(pro_size_down_icon);
 
       if (show_scopes->isChecked()) {
-          scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope-bordered.png"));
+          scopeAct->setIcon(pro_scope_bordered_icon);
         } else {
-        scopeAct->setIcon(QIcon(":/images/toolbar/pro/scope.png"));
+        scopeAct->setIcon(pro_scope_icon);
       }
 
 
       if (infoWidg->isVisible()) {
-        infoAct->setIcon(QIcon(":/images/toolbar/pro/info-bordered.png"));
+        infoAct->setIcon(pro_info_bordered_icon);
       } else {
-        infoAct->setIcon(QIcon(":/images/toolbar/pro/info.png"));
+        infoAct->setIcon(pro_info_icon);
       }
 
       if (docWidget->isVisible()) {
-        helpAct->setIcon(QIcon(":/images/toolbar/pro/help-bordered.png"));
+        helpAct->setIcon(pro_help_bordered_icon);
       } else {
-        helpAct->setIcon(QIcon(":/images/toolbar/pro/help.png"));
+        helpAct->setIcon(pro_help_icon);
       }
 
-      prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs.png"));
+      prefsAct->setIcon(pro_prefs_icon);
     }
   } else {
     toolBar->setIconSize(QSize(73, 30));
@@ -2569,15 +2597,15 @@ void MainWindow::updatePrefsIcon()
   if(pro_icons_check->isChecked()) {
     if(prefsWidget->isVisible()) {
       if (dark_mode->isChecked()) {
-        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-dark-bordered.png"));
+        prefsAct->setIcon(pro_prefs_dark_bordered_icon);
       } else {
-        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-bordered.png"));
+        prefsAct->setIcon(pro_prefs_bordered_icon);
       }
     } else {
       if (dark_mode->isChecked()) {
-        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs-dark.png"));
+        prefsAct->setIcon(pro_prefs_dark_icon);
       } else {
-        prefsAct->setIcon(QIcon(":/images/toolbar/pro/prefs.png"));
+        prefsAct->setIcon(pro_prefs_icon);
       }
     }
   }
@@ -2879,16 +2907,12 @@ void MainWindow::toggleRecordingOnIcon() {
   show_rec_icon_a = !show_rec_icon_a;
   if (pro_icons_check->isChecked()) {
     if(show_rec_icon_a) {
-      if (dark_mode->isChecked()) {
-        recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
-      } else {
-        recAct->setIcon(QIcon(":/images/toolbar/pro/rec.png"));
-      }
+      recAct->setIcon(pro_rec_icon);
     } else {
       if (dark_mode->isChecked()) {
-        recAct->setIcon(QIcon(":/images/toolbar/pro/recording-b-dark.png"));
+        recAct->setIcon(pro_rec_b_dark_icon);
       } else {
-        recAct->setIcon(QIcon(":/images/toolbar/pro/recording-b.png"));
+        recAct->setIcon(pro_rec_b_icon);
       }
     }
   } else {
