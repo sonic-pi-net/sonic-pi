@@ -1,5 +1,5 @@
 # History
-* [v3.0 'IO'](#v3.0), 29th June, 2017
+* [v3.0 'IO'](#v3.0), 18th July, 2017
 * [v2.11.1 'Hack'](#v2.11.1), 16th Dec, 2016
 * [v2.11 'Time Warp'](#v2.11), 3rd Nov, 2016
 * [v2.10 'Cowbell'](#v2.10), 15th April, 2016
@@ -18,15 +18,30 @@
 <a name="v3.0"></a>
 
 ## Version 3.0 - 'IO'
-*29th June, 2017*
+*18th July, 2017*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0)
 
-MIDI
-OSC
-Cue Event System (synths can send cues using SendReply + /cue prefix)
-live_audio synth
-GUI translations
-sound_out FX
+This release is our most ambitious to date. The goal is to open up the
+code within Sonic Pi to the outside world. We want you to be able to both
+manipulate the real world to change the code and change the real world
+with the code. Input Output. IO.
+
+We have therefore focussed on getting events and audio in and out of
+Sonic Pi in new ways whilst keeping to our philosophy of simple code,
+live manipulation, and strict, powerful timing. This release introduces
+a number of brand-new components:
+
+* *Time State* - a powerful new time-based deterministic shared memory system
+* *MIDI* - support for input and output of MIDI 
+* *OSC* - support for sending and receiving OSC messages on the network.
+* *Live Audio* - for getting multiple streams of audio into Sonic Pi
+* *Multi-channel audio out* - for outputing multiple streams of audio.
+* *Audio Buffers* - for internal recording of audio enabling the creation of loopers.
+
+We're really very excited about what new kinds of instruments people
+will be able to create with this new technology both in the classroom
+and on stage at musical festivals. Sonic Pi has now become a fully
+programmable music studio. Have fun live coding!
 
 ### Breaking Changes
 
@@ -36,9 +51,8 @@ sound_out FX
 ### New Fns
 * `midi_*` - many new MIDI-specific fns such as `midi_note_on`, `midi_pitch_bend`, `midi_cc`, `midi_clock_tick`. See new tutorial section for more information. These fns *send* MIDI messages to connected MIDI devices. Incoming MIDI is received via the new event log.
 * `with_swing` - add swing to successive calls to do/end block.
-
-* `get` - get a named value from the event history at the current time. This will return the last value entered. Previous values can be read when within a `time_warp`.
-* `set` - set a named value in the event history at the current time. Future values can be set when within a `time_warp`.
+* `get` - get a named value from the Time State at the current time. This will return the last value entered. Previous values can be read when within a `time_warp`. Has full support for OSC 
+* `set` - set a named value in the Time State at the current time. Future values can be set when within a `time_warp`.
 * `use_real_time` - convenience fn for setting the schedule ahead time to 0 for the current thread. Very useful for removing latency from live loops that are working with external cues (such as MIDI or OSC).
 * `use_midi_defaults` - set defaults to be used for all subsequent MIDI calls. Similar to `use_synth_defaults`. Also available: `with_midi_defaults`.
 
@@ -61,16 +75,14 @@ sound_out FX
 * New FX `eq` - Parametric EQ with three centre freqs - low, mid & high - all with Q values and gain (-1 -> 1). Also has low and high shelves with centre freqs and slope adjustment.
 * New FX `tremolo` - simple tremolo effect which modulates the volume within the `do/end` block.
 
-### Samples
-
 ### GUI
 
+* New 'pro' icon set for performances.
 * New GUI translations for the following languages: (BS) Bosnian, (CA) Catalan, (CS) Czech, (DA) Danish, (EL) Greek, (ET) Estonian, (HI) Hindi, (ID) Indonesian, (KO) Korean, (PT) Portuguese, (TR) Turkish, (ZH) Chinese
 * Added new pane for displaying new cue events (including incoming OSC and MIDI)
 * Added new IO preferences tab for configuring MIDI and network settings.
 * Automatically autocomplete `sync`, `cue` and `get` or `set`
 * Increase width of autocompletion popup.
-
 
 ### Documentation & Examples
 
