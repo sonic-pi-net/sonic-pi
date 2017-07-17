@@ -109,7 +109,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   if (last == "sample" || last == "sample_info" || last == "sample_duration" || last == "use_sample_bpm" || last == "sample_buffer" || last == "sample_loaded?" || last == "load_sample" || last == "load_samples") {
     ctx = Sample;
-  } else if (last == "sync") {
+  } else if (last == "sync" || last == "cue" || last == "get" || last == "set" || last == "get[" ) {
     ctx = CuePath;
   } else if (last == "with_fx" || last == "use_fx") {
     ctx = FX;
