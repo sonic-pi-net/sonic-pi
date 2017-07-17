@@ -169,7 +169,7 @@ module SonicPi
 
         __cueset(k, splat_map_or_arr, "cue")
       end
-            doc name:           :cue,
+      doc name:           :cue,
           introduced:     Version.new(2,0,0),
           summary:        "Cue other threads",
           doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id`. The values of the opts must be immutable. Currently numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values are supported.",
@@ -265,7 +265,7 @@ module SonicPi
         SonicPi::EventMatcher.new(ce).path_match(osc_path)
       end
 
-      def get(*args)
+      def get_event(*args)
 
         if args.empty?
           lookup = lambda { |*args| get(*args) }
@@ -298,10 +298,49 @@ module SonicPi
           m = current_bpm
 
           res = @event_history.get(t, p, i, d, b, m, k)
+        end
+      end
+
+      def get(*args)
+        if args.empty?
+          lookup = lambda { |*args| get(*args) }
+          return TimeStateLookup.new(lookup)
+        else
+
+          params, opts = split_params_and_merge_opts_array(args)
+          default = params[1] || opts[:default]
+          res = get_event(params[0])
           return res.val if res
           return default
         end
       end
+      doc name:           :get,
+          introduced:     Version.new(3,0,0),
+          summary:        "Get information from the Time State",
+          doc:            "Retreive information from Time State set prior to the current time from either the current or any other thread. If called multiple times will always return the same value unless a call to `sleep`, `sync`, `set` or `cue` is interleved. Also, calls to `get` will always return the same value across Runs for determinstic behaviour - which means you may safely use it in your compositions for repeatable music.
+
+May be used within a `time_warp` to retreive past events. If in a time warp, `get` can not be called from a future position. Does not advance time.",
+          args:           [[:time_state_key, :default]],
+          accepts_block:  false,
+          examples:       ["
+  get :foo #=> returns the last value set as :foo or nil",
+
+        "
+set :foo, 3
+get[:foo] #=> returns 3",
+
+        "
+in_thread do
+  set :foo, 3
+end
+
+in_thread do
+  puts get[:foo]  #=> always returns 3 (no race conditions here!)
+end
+"]
+
+
+
 
 
 
@@ -4042,13 +4081,9 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def sync_bpm(*args)
-        cue_ids = (args.take_while {|v| v.is_a?(Symbol) || v.is_a?(String) || is_list_like?(v)} ) || []
-        raise "please fix me!"
-
-        opts = args[cue_ids.size] || {}
-        cue_ids.flatten!
-        raise ArgumentError, "Opts for sync_bpm must be a map, got a #{opts.class} - #{opts.inspect}" unless opts.is_a?(Hash)
-        sync cue_ids, opts.merge({bpm_sync: true})
+        params, opts = split_params_and_merge_opts_array(args)
+        opts[:bpm_sync] = true
+        sync(*params, opts)
       end
       doc name:           :sync_bpm,
           introduced:     Version.new(2,10,0),
@@ -4062,11 +4097,15 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
 
+      def sync_event(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        k = params[0]
 
-      def sync(k, arg_matcher=nil)
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
         # TODO: need to add this
-        bpm_sync = false
+        bpm_sync = truthy?(opts[:bpm_sync])
+        arg_matcher = opts[:arg_matcher]
+
         cue_id = __sync_path(k)
         last_sync = __system_thread_locals.get(:sonic_pi_local_last_sync, nil)
 
@@ -4103,11 +4142,11 @@ puts current_sched_ahead_time # Prints 0.5"]
         __change_time!(se.time)
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
-        # TODO: add this
-        #        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
+        if bpm_sync
+          bpm = se.bpm <= 0 ? 60 : se.bpm
+          __system_thread_locals.set(:sonic_pi_spider_sleep_mul, 60.0 / bpm)
+        end
 
-        # run_id = payload[:run]
-        # run_info = run_id ? "(Run #{run_id})" : "(OSC)"
         run_info = ""
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
@@ -4119,7 +4158,11 @@ puts current_sched_ahead_time # Prints 0.5"]
           end
         end
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
-        se.val
+        se
+      end
+
+      def sync(*args)
+        sync_event(*args).val
       end
       doc name:           :sync,
           introduced:     Version.new(2,0,0),
