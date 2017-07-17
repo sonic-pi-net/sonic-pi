@@ -3,6 +3,8 @@
 # Taken from "Beats basteln wie die Großen"
 # c't 13/2017
 
+# Note: requires a powerful machine to run smoothly.
+
 use_bpm 100
 
 # HISS
