@@ -183,10 +183,6 @@ QToolTip {
     border: 0px;
 }
 
-QToolButton:hover{
-    background: transparent;
-}
-
 QSlider::groove:vertical{
     margin: 2px 0;
     background: sliderBackgroundColor;
@@ -302,13 +298,6 @@ QTextBrowser {
     background-color: paneColor;
 }
 
-
-QToolBar{
-    background-color: windowColor;
-    border-bottom: 1px solid windowBorderColor;
-}
-
-
 QListWidget
 {
     background: paneColor;
@@ -380,4 +369,22 @@ QLabel[accessibleName="midi-out-ports-label"] {
    border-radius: 3px;
    background-color: tabColor;
    color: tabTextColor;
+}
+
+QToolBar{
+    background-color: windowColor;
+    border-bottom: 1px solid windowBorderColor;
+}
+
+QToolButton{
+    background-color: none;
+    border: none;
+    border-radius: 3px;
+    padding: 0px;
+}
+
+QToolButton::hover {
+    background-color: paneColor;
+    border: none;
+    padding: 0px;
 }
