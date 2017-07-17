@@ -1,4 +1,4 @@
-10.2 Shortcut Cheatsheet
+B.2 Shortcut Cheatsheet
 
 # Shortcut Cheatsheet
 
