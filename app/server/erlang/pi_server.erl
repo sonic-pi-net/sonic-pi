@@ -161,7 +161,7 @@ do_bundle(Tag, TagMap, Time, Clock, Socket, Host, Port, Cmd1) ->
 dispatcher(Tag) ->
     receive
 	{send_later, Time, Clock, Socket, Host, Port, Cmd1} ->
-	    spawn_link(fun() ->
+	    spawn(fun() ->
 			       send_later(Tag, Time, Clock, Socket, Host, Port, Cmd1)
 		       end),
 	    dispatcher(Tag)
@@ -182,7 +182,7 @@ send_later(Tag, BundleTime, {_Tremote,_Tlocal}, Socket, Host, Port, Cmd) ->
         true ->
             io:format("Ignoring negative sleep: ~p~n", [MsDelay])
     end,
-    spawn(fun() -> gen_udp:send(Socket, Host, Port, Bin) end).
+    ok = gen_udp:send(Socket, Host, Port, Bin).
     %% io:format("Group (~p) Sending to ~p:~p => ~p~n",[Tag,Host, Port, Cmd]).
 
 %% send_later(BundleTime, {Tremote,Tlocal}, Socket, Host, Port, Cmd) ->
