@@ -3842,7 +3842,6 @@ See `with_sched_ahead_time` for a version of this function which allows you to s
       def with_sched_ahead_time t, &blk
         raise ArgumentError, "with_sched_ahead_time must be called with a do/end block. Perhaps you meant use_sched_ahead_time" unless blk
         current_sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
-        use_osc(host, port)
         res = blk.call
         __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, t)
         res
