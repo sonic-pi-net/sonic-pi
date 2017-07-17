@@ -37,10 +37,10 @@ module SonicPi
   class EventMatcher
     include EventMatcherUtil
 
-    attr_reader :handle, :prom
+    attr_reader :handle, :prom, :ce
 
-    def initialize(path, val_matcher=nil, handle=nil, prom=nil)
-      path = String.new(path)
+    def initialize(ce, val_matcher=nil, handle=nil, prom=nil)
+      path = String.new(ce.path)
 
       # get rid of white space
       path.strip!
@@ -84,6 +84,7 @@ module SonicPi
       @alive = true
       @prom = prom
       @handle = handle
+      @ce = ce
     end
 
     def kill
@@ -94,7 +95,7 @@ module SonicPi
       !@alive
     end
 
-    def match(path, val=:sonic_pi_no_match_val)
+    def path_match(path, val=:sonic_pi_no_match_val)
 
       if @val_matcher && (val != :sonic_pi_no_match_val)
         @matcher.match(path) && safe_matcher_call(@val_matcher, val)
@@ -112,15 +113,15 @@ module SonicPi
       @matchers = []
     end
 
-    def put(matcher_path, val_matcher, thread_id, prom)
-      matcher = EventMatcher.new(matcher_path, val_matcher, thread_id, prom)
+    def put(ce, val_matcher, thread_id, prom)
+      matcher = EventMatcher.new(ce, val_matcher, thread_id, prom)
       @matchers << matcher
       return matcher
     end
 
-    def match(path, val)
+    def match(ce)
       @matchers.delete_if do |matcher|
-        if matcher.match(path, val)
+        if matcher.path_match(ce.path, ce.val) && ce > matcher.ce
           matcher.prom.deliver! true if matcher.prom
           matched = true
         else
@@ -177,7 +178,7 @@ module SonicPi
         __insert_event!(ce)
       end
       @matcher_mut.synchronize do
-        @event_matchers.match(ce.path, ce.val)
+        @event_matchers.match(ce)
       end
     end
 
@@ -193,7 +194,7 @@ module SonicPi
       return res if res
       prom = Promise.new
       @matcher_mut.synchronize do
-        matcher = @event_matchers.put ge.path, val_matcher, i, prom
+        matcher = @event_matchers.put ge, val_matcher, i, prom
       end
       prom.get
       # have to do a get_next again in case

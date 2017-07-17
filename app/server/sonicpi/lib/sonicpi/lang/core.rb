@@ -251,10 +251,18 @@ module SonicPi
       ]
 
 
-      def __osc_match(matcher, osc_path)
+      def __osc_match(matcher_path, osc_path)
         # returns true if matcher matches osc_path
-        # i.e. /foo/*/ba? matches /foo/baz/bar
-        SonicPi::EventMatcher.new(matcher).match(osc_path)
+        t = 0
+        p = 0
+        i = 0
+        d = 0
+        b = 0
+        m = 60
+        v = []
+        n = matcher_path
+        ce = CueEvent.new(t, p, i, d, b, m, n, v)
+        SonicPi::EventMatcher.new(ce).path_match(osc_path)
       end
 
       def get(*args)
