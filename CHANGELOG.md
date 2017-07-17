@@ -35,7 +35,7 @@ a number of brand-new components:
 * *MIDI* - support for input and output of MIDI 
 * *OSC* - support for sending and receiving OSC messages on the network.
 * *Live Audio* - for getting multiple streams of audio into Sonic Pi
-* *Multi-channel audio out* - for outputing multiple streams of audio.
+* *Multi-channel audio out* - for outputting multiple streams of audio.
 * *Audio Buffers* - for internal recording of audio enabling the creation of loopers.
 
 We're really very excited about what new kinds of instruments people
