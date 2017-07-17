@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-03 16:07+0000\n"
+"PO-Revision-Date: 2017-07-17 10:43+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -14652,6 +14652,9 @@ msgid ""
 "sound good and make a note of them. That way I can easily re-create my rhythms"
 " in future practice sessions or performances."
 msgstr ""
+"Wat ik met dit soort structuren ook graag doe is, de seeds, welke goed "
+"klinken,te onthouden en deze te noteren. Op die manier kan ik makkelijk mijn "
+"favoriete ritmes opnieuw maken in toekomstige trainingen of voorstellingen."
 
 #: A.13-probabilistic-sequencer.md:139
 msgid ""
@@ -14660,6 +14663,11 @@ msgid ""
 "thod on synths just as well as samples. Don't leave it at that though - tweak "
 "the numbers and make your own track with the power of probabilities!"
 msgstr ""
+"Tot slot kunnen we er een random baslijn aan toevoegen om er een mooie "
+"melodische inhoud aan te geven. Merk ook op dat we onze pas aangeleerde "
+"probabilistische sequentie methode, kunnen gebruiken op synths en samples. "
+"Laat het daar zeker ook niet bij, pas de getallen aan, en maak je eigen "
+"nummer met de kracht van waarschijnlijkheden!"
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
