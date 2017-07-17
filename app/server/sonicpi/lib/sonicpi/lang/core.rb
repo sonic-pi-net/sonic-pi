@@ -935,6 +935,8 @@ end"
           sleep_time = delta * orig_sleep_mul_w_density
           new_time = vt_orig + sleep_time
 
+          raise TimeTravelError, "Time travel error - a jump back of #{delta} is too far.\nSorry, although it would be amazing, you can't go back in time beyond the sched_ahead time of #{sat}" if (Time.now - sat) > new_time
+
           __change_time!(new_time)
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
           __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
