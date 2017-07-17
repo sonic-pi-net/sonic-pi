@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-17 10:43+0000\n"
+"PO-Revision-Date: 2017-07-17 12:32+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -14797,14 +14797,18 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:49
-#, fuzzy
 msgid ""
 "Now, play with different `phase:` durations yourself. Try longer and shorter v"
 "alues. See what happens when you choose a really short value. Also, try differ"
 "ent synths such as `:beep` or `:dsaw` and different notes. Take a look at the "
 "following diagram to see how different `phase:` values change the number of am"
 "plitude changes per beat."
-msgstr "`:dsaw`"
+msgstr ""
+"Speel nu zelf met de verschillende `phase:` tijden. Probeer langere en "
+"kortere waarden. Zie wat er gebeurt wanneer je kiest voor een heel korte-"
+"waarde. Probeer ook verschillende synths zoals `:beep` of `:dsaw` en probeer "
+"ook andere noten. Bekijk het volgende diagram om te zien hoe verschillende "
+"`phase:` waarden, het aantal veranderingen op de amplitude per beat wijzigt."
 
 #: A.14-amplitude-modulation.md:56
 msgid ""
@@ -14820,13 +14824,16 @@ msgid ""
 "alues will make the FX switch on and off much faster than larger values. Good "
 "values to start playing with are `0.125`, `0.25`, `0.5` and `1`."
 msgstr ""
+"De duur van een fase is de lengte van een aan/uit cyclus. Daarom zullen "
+"kleinere waarden, de FX schakelaar veel sneller aan-/ uitschakelen, dan "
+"grotere waarden. Leuke waarden om mee te beginnen spelen zijn `0.125`, `0.25`"
+", `0.5` en `1`."
 
 #: A.14-amplitude-modulation.md:64
 msgid "Control Waves"
 msgstr "Golven controllen"
 
 #: A.14-amplitude-modulation.md:66
-#, fuzzy
 msgid ""
 "By default, the `:slicer` FX uses a square wave to manipulate the amplitude th"
 "rough time. This is why we hear the amplitude on for a period, then immediatel"
@@ -14836,7 +14843,17 @@ msgid ""
 "t these look like. We can also hear what they sound like. For example, the fol"
 "lowing code uses (co)sine as the control wave. Hear how the sound doesn't turn"
 " on and off abruptly but instead smoothly fades in and out:"
-msgstr "slicer"
+msgstr ""
+"Standaard gebruikt het `:slicer` FX een blokgolf om de amplitude in een "
+"bepaalde tijdsduur te manipuleren.  Daarom horen we amplitude voor een "
+"tijdje, en dan voor een tijdje helemaal niet, om dan weer met een zelfde "
+"cyclus te beginnen. Het is zo dat de blokgolf  één van de vier golfvormen is "
+"die we kunnen instellen in deze  `:slicer`. De andere golfsoorten zijn: "
+"zaagtand, driehoeksgolf, en (co)sinus. Kijk ook eens naar de onderstaande "
+"afbeelding om te zien hoe deze eruit zien. We kunnen ook horen hoe deze "
+"klinken. De volgende code gebruikt een sinusgolf als controlegolf. Merk "
+"hierbij, dat het geluid niet abrupt aan en uit gaat, maar in plaats, zacht "
+"in en uit wordt ge-fade:"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
@@ -14857,6 +14874,10 @@ msgid ""
 "or saw, `1` for square, `2` for triangle and `3` for sine. See how different w"
 "aves sound with different `phase:` opts too."
 msgstr ""
+"Speel met verschillende golftypes door de `wave:` opt naar `0` te veranderen "
+"voor saw (zaagtandgolf) , `1` voor square (blokgolf), `2` voor triangle "
+"(driehoeksgolf) en `3` voor sine (sinusgolf). Bekijk ook hoe deze "
+"verschillende golftypes klinken met verschillende `phase:` opts."
 
 #: A.14-amplitude-modulation.md:87
 msgid ""
