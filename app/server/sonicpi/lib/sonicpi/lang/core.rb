@@ -286,7 +286,6 @@ module SonicPi
 
           match_idx = cache.find_index { |x|  __osc_match(k, x[0]) }
           if match_idx
-            puts "found cache!"
             return cache[match_idx][1]
           end
 
