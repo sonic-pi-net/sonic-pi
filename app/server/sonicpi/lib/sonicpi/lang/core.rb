@@ -321,9 +321,9 @@ module SonicPi
       doc name:           :get,
           introduced:     Version.new(3,0,0),
           summary:        "Get information from the Time State",
-          doc:            "Retreive information from Time State set prior to the current time from either the current or any other thread. If called multiple times will always return the same value unless a call to `sleep`, `sync`, `set` or `cue` is interleved. Also, calls to `get` will always return the same value across Runs for determinstic behaviour - which means you may safely use it in your compositions for repeatable music.
+          doc:            "Retrieve information from Time State set prior to the current time from either the current or any other thread. If called multiple times will always return the same value unless a call to `sleep`, `sync`, `set` or `cue` is interleved. Also, calls to `get` will always return the same value across Runs for determinstic behaviour - which means you may safely use it in your compositions for repeatable music.
 
-May be used within a `time_warp` to retreive past events. If in a time warp, `get` can not be called from a future position. Does not advance time.",
+May be used within a `time_warp` to retrieve past events. If in a time warp, `get` can not be called from a future position. Does not advance time.",
           args:           [[:time_state_key, :default]],
           accepts_block:  false,
           examples:       ["
