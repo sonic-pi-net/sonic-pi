@@ -105,11 +105,6 @@ module SonicPi
           path = cue_path
         end
 
-        # update thread local time state cache
-        cache = __system_thread_locals.get(:sonic_pi_spider_time_state_cache, [])
-        cache.unshift [path, val]
-        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, cache)
-
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
           __delayed_highlight_message "set #{k.inspect}, #{val.inspect}"
         end
@@ -121,6 +116,15 @@ module SonicPi
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
         m = current_bpm
+
+        ce = CueEvent.new(t, p, i, d, b, m, cue_path, val)
+
+        # update thread local time state cache
+        cache = __system_thread_locals.get(:sonic_pi_spider_time_state_cache, [])
+        cache.unshift [path, ce]
+        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, cache)
+
+
 
         # TODO - correctly add sched ahead time here after thread
         # waiting has been implemented
@@ -268,7 +272,7 @@ module SonicPi
       def get_event(*args)
 
         if args.empty?
-          lookup = lambda { |*args| get(*args) }
+          lookup = lambda { |*args| get_event(*args) }
           return TimeStateLookup.new(lookup)
         else
           k, default = args
