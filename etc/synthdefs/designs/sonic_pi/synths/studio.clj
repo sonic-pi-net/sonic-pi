@@ -211,7 +211,7 @@
            snd-r       (* env snd-r)
            snd         (balance2 snd-l snd-r pan amp)]
 
-       (out out_bus (pan2 (* env snd) pan amp))))
+       (out out_bus snd)))
 
    (defsynth sonic-pi-scope [bus 0
                              scope_num 0
