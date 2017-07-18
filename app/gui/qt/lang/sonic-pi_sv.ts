@@ -26,7 +26,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Invertera stereokanaler
-Om aktiverad, kommer ljud avsett för vänster högtalare
+Om den här knappen är aktiverad, kommer ljud avsett för vänster högtalare
 omdirigeras till höger, och omvänt.</translation>
     </message>
     <message>
@@ -37,7 +37,7 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Aktivera monoläge
-Om aktiverad mixas höger och vänster kanal och
+Om den här knappen är aktiverad mixas höger och vänster kanal och
 samma signal går till båda högtalarna.
 Användbart när den externa utrustningen bara kan hantera mono.</translation>
     </message>
@@ -298,7 +298,7 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation>Om aktiverad låter Sonic Pi 
+        <translation>Om den här knappen är aktiverad låter Sonic Pi 
 syntar och FX attladdas via load_synthdefs 
 för att triggas.
 
@@ -320,7 +320,7 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation>Om aktiverad kommer Sonic Pi
+        <translation>Om den här knappen är aktiverad kommer Sonic Pi
 att vägra trigga syntar och FX
 om det är för sent för att göra detta.
 
