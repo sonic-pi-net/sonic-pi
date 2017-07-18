@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-13 23:51+0000\n"
+"PO-Revision-Date: 2017-07-18 13:58+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -8837,51 +8837,51 @@ msgstr "`C-i` - Mostra documentação sobre a palavra por baixo do cursor"
 
 #: 10.2-Shortcut-Cheatsheet.md:77
 msgid "`M-z` - Undo"
-msgstr ""
+msgstr "`M-z` - Undo"
 
 #: 10.2-Shortcut-Cheatsheet.md:78
 msgid "`S-M-z` - Redo"
-msgstr ""
+msgstr "`S-M-z` - Refazer"
 
 #: 10.2-Shortcut-Cheatsheet.md:79
 msgid "`C-g` - Escape"
-msgstr ""
+msgstr "`C-g` - Escapar"
 
 #: 10.2-Shortcut-Cheatsheet.md:80
 msgid "`S-M-f` - Toggle fullscreen mode"
-msgstr ""
+msgstr "`S-M-f` - comutar ecrã total"
 
 #: 10.2-Shortcut-Cheatsheet.md:81
 msgid "`S-M-b` - Toggle visibility of buttons"
-msgstr ""
+msgstr "`S-M-b` - Comutar visibilidade dos botões"
 
 #: 10.2-Shortcut-Cheatsheet.md:82
 msgid "`S-M-l` - Toggle visibility of log"
-msgstr ""
+msgstr "`S-M-l` - Comuta visibilidade do registo"
 
 #: 10.2-Shortcut-Cheatsheet.md:83
 msgid "`S-M-m` - Toggle between light/dark modes"
-msgstr ""
+msgstr "`S-M-m` - Comuta entre o modo claro/escuro"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "`S-M-s`- Salva o conteúdo de uma buffer para um ficheiro"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "`S-M-o` - Carrega o conteúdo de uma buffer para um ficheiro"
 
 #: 10.3-Sharing.md:1
 msgid "10.3 Sharing"
-msgstr ""
+msgstr "10.3 Partilha"
 
 #: 10.3-Sharing.md:3
 msgid "Sharing"
-msgstr ""
+msgstr "Partilha"
 
 #: 10.3-Sharing.md:5
 msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr ""
+msgstr "No Sonic Pi é tudo sobre partilha e aprendendo uns com os outros."
 
 #: 10.3-Sharing.md:7
 msgid ""
@@ -8889,6 +8889,10 @@ msgid ""
 "as sending an email containing your code. Please do *share* your code with oth"
 "ers so they can *learn* from your work and even use parts in a new *mash-up*."
 msgstr ""
+"Depois de aprenderes a codificar musica, partilhar as tuas composições é tão "
+"simples como mandar um email contendo o teu código. Por favor *partilha* o "
+"teu código com outro para que eles possam *aprender* com o teu trabalho ou "
+"mesmo usar num novo*mash-up*."
 
 #: 10.3-Sharing.md:12
 msgid ""
@@ -8897,10 +8901,14 @@ msgid ""
 "(https://soundcloud.com). That way you'll be able to easily reach a large audi"
 "ence."
 msgstr ""
+"Se estás inseguro da melhor maneira de partilhar o teu trabalho com outros "
+"eu recomendo colocar o código no [GitHub] (https://github.com) e a tua "
+"música no [SoundCloud](https://soundcloud.com). Dessa forma poderás "
+"facilmente chegar a uma grande audiência."
 
 #: 10.3-Sharing.md:17
 msgid "Code -> GitHub"
-msgstr ""
+msgstr "Código -> GitHub"
 
 #: 10.3-Sharing.md:19
 msgid ""
@@ -8911,10 +8919,16 @@ msgid ""
 "gist.github.com) is a simple way of uploading your code in a simple way that o"
 "thers can see, copy and share."
 msgstr ""
+"[GitHub](https://github.com) é um site para trabalhar e partilhar código. É "
+"usado por criadores bem como artistas para partilhar e colaborar no código. "
+"A maneira mais simples de partilhar uma nova peça de código (ou mesmo uma "
+"peça inacabada) é criar um [Gist](https://gist.github.com). Um "
+"[Gist](https://gist.github.com) é uma maneira simples de enviar o teu código "
+"numa maneira simples para os outros o verem, copiarem e partilharem."
 
 #: 10.3-Sharing.md:27
 msgid "Audio -> SoundCloud"
-msgstr ""
+msgstr "Audio -> SoundCloud"
 
 #: 10.3-Sharing.md:29
 msgid ""
@@ -8923,6 +8937,11 @@ msgid ""
 "her users can comment and discuss your work. I also recommend placing a link t"
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
+"Uma outra maneira importante de partilhares o teu trabalho é gravares o "
+"audio e o enviares para o [SoundCloud](https://soundcloud.com). Depois de "
+"enviares a tua peça, outro utilizadores podem comentar e discutir o teu "
+"trabalho. Eu recomendo também colocares uma ligação para o "
+"[Gist](https://gist.github.com) do teu código na descrição da faixa."
 
 #: 10.3-Sharing.md:35
 msgid ""
@@ -8933,10 +8952,17 @@ msgid ""
 "h can be edited and converted to MP3 by any number of free programs (try Audac"
 "ity for instance)."
 msgstr ""
+"Para gravares o teu trabalho, clica no botão `Rec` na barra de ferramentas e "
+"a gravação começa imediatamente. Clica `Run` para começar a correr o teu "
+"código se não estiver já a correr. Quando estiver pronta a gravação, clica "
+"no botão `Rec` a piscar a vermelho outra vez, e será pedido para dar o nome "
+"ao ficheiro. A gravação será salva como ficheiro WAV, que pode ser editado e "
+"convertido para MP3 por diversos programas grátis (experimenta o Audacity "
+"por exemplo)."
 
 #: 10.3-Sharing.md:43
 msgid "Hope"
-msgstr ""
+msgstr "Esperança"
 
 #: 10.3-Sharing.md:45
 msgid ""
@@ -8944,14 +8970,17 @@ msgid ""
 "ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
 "e to show me."
 msgstr ""
+"Eu encorajo-te a partilhares o teu trabalho e tenho esperança que todos "
+"aprendamos uns com os outros truques novos para o Sonic Pi. Estou mesmo "
+"excitado com o que tens para me mostrar."
 
 #: 10.4-Performing.md:1
 msgid "10.4 Performing"
-msgstr ""
+msgstr "10.4 Performance"
 
 #: 10.4-Performing.md:3
 msgid "Performing"
-msgstr ""
+msgstr "Performance"
 
 #: 10.4-Performing.md:5
 msgid ""
@@ -8959,14 +8988,17 @@ msgid ""
 "e as a *musical instrument*. This means that writing code live can now be seen"
 " as a new way of performing music."
 msgstr ""
+"Um dos aspectos mais excitantes no Sonic Pi é que permite usares código como "
+"um *instrumento musical*. Isto significa que escrever código ao vivo pode "
+"agora ser visto como uma performance musical."
 
 #: 10.4-Performing.md:9
 msgid "We call this *Live Coding*."
-msgstr ""
+msgstr "Chamamos a isso *Live Coding*."
 
 #: 10.4-Performing.md:11
 msgid "Show Your Screen"
-msgstr ""
+msgstr "Mostra o teu ecrã"
 
 #: 10.4-Performing.md:13
 msgid ""
@@ -8976,10 +9008,15 @@ msgid ""
 "g room wall. You could use your TV or one of your school/work projectors to gi"
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
+"Quando codificas ao vivo eu recomendo *mostrares o teu ecrã*. De outro modo "
+"é como tocar guitarra mas esconderes os teus dedos e as cordas. Quando "
+"pratico em casa eu uso o Raspberry Pi e um pequeno projector na minha sala "
+"de estar. Poderás usar uma Tv ou um projector para dares um espectáculo. "
+"Experimenta, é muito divertido."
 
 #: 10.4-Performing.md:20
 msgid "Form a Band"
-msgstr ""
+msgstr "Forma uma banda"
 
 #: 10.4-Performing.md:22
 msgid ""
@@ -8987,10 +9024,13 @@ msgid ""
 "ng with others. One person could do beats, another ambient background, etc. Se"
 "e what interesting combinations of sounds you can have together."
 msgstr ""
+"Não toques sozinho - cria uma banda de live coding. É muito divertido tocar "
+"com outros. Uma pessoa pode fazer os beats, outra o background ambiental, "
+"etc. Vê que combinações interessantes de som podem criar em conjunto."
 
 #: 10.4-Performing.md:27
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
 msgid ""
@@ -8999,10 +9039,14 @@ msgid ""
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
+"Live coding não é uma coisa completamente nova . Um pequeno número de "
+"pessoas têm estado a fazer durante alguns anos, tipicamente usando sistemas "
+"que eles proprios criaram. Um excelente sitio para descobrir mais sobre live "
+"coders e sistemas é [TOPLAP](http://toplap.org)."
 
 #: 10.4-Performing.md:34
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: 10.4-Performing.md:36
 msgid ""
@@ -9010,14 +9054,17 @@ msgid ""
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
 msgstr ""
+"Outro grande recurso para explorar o mundo do live coding é "
+"[Algorave](http://algorave.com). Onde podes descobrir tudo sobre um tipo "
+"especifico de live coding para a criação de musica em clubes nocturnos."
 
 #: 11-Minecraft-Pi.md:1
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
 msgid "Minecraft Pi"
-msgstr ""
+msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
 msgid ""
