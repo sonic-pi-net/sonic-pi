@@ -44,7 +44,7 @@ contributions which have supported the Sonic Pi Community:
 
 * [Paul Winstanley](https://twitter.com/SCCMentor)
 * [Robin Newman](https://twitter.com/rbnman)
-* [Ethan Crawford]
+* Ethan Crawford
 
 
 ## Guidance and Advice
@@ -52,7 +52,7 @@ contributions which have supported the Sonic Pi Community:
 We would like to thank the following people for their time providing
 valuable advice, feedback and suggestions on a wide variety of aspects
 of Sonic Pi - from technical development, to artistic
-conceptualisations, to musical production and performace.
+conceptualisations, to musical production and performance.
 
 * [Dago Sondervan](https://twitter.com/sondervan1)
 * [Sam Conran](https://twitter.com/samconran)
