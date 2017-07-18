@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-14 20:49+0000\n"
+"PO-Revision-Date: 2017-07-18 10:55+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -16165,7 +16165,7 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
-msgstr ""
+msgstr "Dezacordarea"
 
 #: A.18-additive-synthesis.md:66
 msgid ""
@@ -16173,6 +16173,9 @@ msgid ""
 "r switched octave. How might it sound if we didn't stick to octaves but instea"
 "d chose a slightly higher or lower note? Let's try it:"
 msgstr ""
+"Pana acum, cand am combinat diferite sintetizatoare am folosit fie aceeasi "
+"inaltime, fie am schimbat octava. Cum ar suna daca nu am respecta octavele "
+"ci am alege o nota putin mai inalta sau mai joasa? Sa incercam:"
 
 #: A.18-additive-synthesis.md:70
 #, no-wrap
@@ -16197,19 +16200,29 @@ msgid ""
 "nice 'thick' sound, with both slightly different pitches interacting with each"
 " other in interesting, often surprising, ways."
 msgstr ""
+"Daca decalam cele 2 unde rectangulare cu 0.7 note putem auzi ceva ce "
+"probabil nu suna corect, ci dezacordat - o nota 'gresita'. Totusi, pe masura "
+"ce ne apropiem de 0 va suna din ce in ce mai putin dezacordat, inaltimile "
+"celor doua unde devenind mai apropiate si mai asemanatoare. Incearca! "
+"Schimba valoarea pentru 'detune:' din '0.7' in '0.5' si asculta noul sunet. "
+"Incearca `0.2`, `0.1`, `0.05`, `0`. De fiecare data cand schimbi valoarea, "
+"asculta si incearca sa auzi cum se schimba sunetul. Observa ca un dezacord "
+"minor, cum ar fi cu '0.1' produce un sunet 'plin', cele doua inaltimi usor "
+"diferite interactionand in moduri interesante, adesea surprinzatoare."
 
 #: A.18-additive-synthesis.md:87
-#, fuzzy
 msgid ""
 "Some of the built-in synths already include a detune option that do exactly th"
 "is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
 "`:dtri`."
-msgstr "`:dsaw`"
+msgstr ""
+"Unele dintre sintetizatoarele incluse au deja parametrul 'detune:' care face "
+"exact acelasi lucru pentru un singur sintetizator. Joaca-te cu parametrul "
+"`detune:` pentru `:dsaw`, `:dpulse` si `:dtri`."
 
 #: A.18-additive-synthesis.md:92
-#, fuzzy
 msgid "Amplitude shaping"
-msgstr "Amplitudinea"
+msgstr "Modelarea amplitudinii"
 
 #: A.18-additive-synthesis.md:94
 msgid ""
@@ -16217,6 +16230,10 @@ msgid ""
 "ptions for each synth trigger. For example this will allow you to make some as"
 "pects of the sound percussive and other aspects ring out for a period of time."
 msgstr ""
+"O alta metoda prin care poti fasona sunetul este sa folosesti anvelope si "
+"parametri diferiti pentru fiecare sintetizator. De exemplu, aceasta iti va "
+"permite sa faci anumite parti ale sunetului mai percutante iar altele mai "
+"rasunatoare pentru un timp."
 
 #: A.18-additive-synthesis.md:99
 #, no-wrap
@@ -16243,6 +16260,12 @@ msgid ""
 "hort release times along with a noise with a longer release time but with a lo"
 "w cutoff value (which makes the noise less crisp and more rumbly.)"
 msgstr ""
+"In exemplul de mai sus am combinat un element zgomotos percutant alaturi de "
+"un huruit de fundal mai persistent. Am realizat asta in primul rand folosind "
+"doua sintetizatoare de zgomot cu valorii medii de cutoff (`90` si `100`) si "
+"timp de release scurt, alaturi de un zgomot cu release mai lung, dar cu o "
+"valoare de cutoff mai joasa (care face zgomotul mai putin clar si mai "
+"huruitor)."
 
 #: A.18-additive-synthesis.md:117
 msgid ""
@@ -16258,42 +16281,66 @@ msgid ""
 "ing your own melody and also messing around with the contents of the `:bell` f"
 "unction until you create your own crazy sound to play with!"
 msgstr ""
+"Sa combinam toate aceste tehnici pentru a vedea daca putem folosi sinteza "
+"aditiva pentru a re-crea un sunet de clopot simplu. Am impartit acest "
+"exemplu in 4 sectiuni. In primul rand avem sectiunea 'hit' (lovitura) care "
+"reprezinta partea de atac a sunetului de clopot - deci utilizeaza o anvelopa "
+"scurta (de exemplu un 'release:' de aproximativ '0.1'). Apoi avem sectiunea "
+"mai lunga a sunetului de clopot in care folosesc o unda sinusoidala. Observi "
+"ca adesea cresc nota cu '12' sau '24', ceea ce reprezinta numarul de note "
+"din una, respectiv doua octave. Am mai adaugat si doua unde sinusoidale "
+"joase, pentru a da sunetului niste bass si profunzime. La final, am folosit "
+"'define' pentru a ingloba codul intr-o functie pe care o pot apoi folosi "
+"pentru a canta o melodie. Incearca sa canti propria melodie si sa modifici "
+"continutul functiei ':bell' pana cand obtii niste sunete super tari cu care "
+"sa te joci!"
 
 #: A.18-additive-synthesis.md:130
+#, fuzzy
 msgid ""
 "define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - 12,"
 " release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
 "1, release: 0.1 synth :tri, note: n, release: 0.2"
 msgstr ""
+"define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - "
+"12, release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n "
+"- 0.1, release: 0.1 synth :tri, note: n, release: 0.2"
 
 #: A.18-additive-synthesis.md:137
+#, fuzzy
 msgid ""
 "\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth :s"
 "ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
 "h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 msgstr ""
+"\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth "
+":sine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 "
+"synth :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 
 #: A.18-additive-synthesis.md:144
+#, fuzzy
 msgid ""
 "\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
 "sine, note: n - 12, release: 2 end"
 msgstr ""
+"\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 "
+"synth :sine, note: n - 12, release: 2 end"
 
 #: A.18-additive-synthesis.md:149
 msgid "Play a melody with our new bell!"
-msgstr ""
+msgstr "Canta o melodie cu noul tau clopot!"
 
 #: A.18-additive-synthesis.md:150
 msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
-msgstr ""
+msgstr "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
-msgstr ""
+msgstr "A.19 Design de sunet - Sinteza substractiva"
 
 #: A.19-subtractive-synthesis.md:3
 msgid "Subtractive Synthesis"
-msgstr ""
+msgstr "Sinteza substractiva"
 
 #: A.19-subtractive-synthesis.md:5
 msgid ""
@@ -16309,16 +16356,30 @@ msgid ""
 " with the recent renaissance of modular analog synths through popular standard"
 "s such as Eurorack."
 msgstr ""
+"Acesta este al doilea articol dintr-o serie referitoare la felul in care "
+"poti dolosi Sonic Pi pentru design de sunet. Luna trecuta am vorbit despre "
+"sinteza aditiva care inseamna pur si simplu redarea mai multor sunete in "
+"acelasi timp pentru ca crea un sunet combinat. De exemplu, putem combina "
+"diferite sintetizatoare, sau chiar sunete de la acelasi sintetizator la "
+"intaltimi diferite pentru a crea un sunet nou, complex, pornind de la "
+"ingrediente simple. Luna aceasta vom descoperi o noua tehnica, numita *"
+"sinteza substractiva* care inseamna ca pornim de la un sunet complex si "
+"extragem parti din el pentru a crea ceva nou. Aceasta tehnica este asociata "
+"de obicei cu sunetul sintetizatoarelor analogice din anii '60 si '70, dar si "
+"cu recenta revigorare a sintetizatoarelor analogice modulare prin standarde "
+"populare, cum ar fi Eurorack."
 
 #: A.19-subtractive-synthesis.md:18
 msgid ""
 "Despite this sounding like a particularly complicated and advanced technique, "
 "Sonic Pi makes it surprisingly simple and easy - so let's dive right in."
 msgstr ""
+"Desi suna ca o tehnica avansata si complicata, Sonic Pi face utilizarea ei "
+"surprinzator de facila. Sa intram direct in subiect."
 
 #: A.19-subtractive-synthesis.md:22
 msgid "Complex Source Signal"
-msgstr ""
+msgstr "Semnal sursa complex"
 
 #: A.19-subtractive-synthesis.md:24
 msgid ""
