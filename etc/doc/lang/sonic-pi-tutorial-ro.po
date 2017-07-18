@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-18 11:02+0000\n"
+"PO-Revision-Date: 2017-07-18 11:18+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -16404,6 +16404,10 @@ msgid ""
 "imbre. If that didn't make much sense to you, try comparing it with the `:beep"
 "`:"
 msgstr ""
+"Observi ca sunetul este deja destul de interesant si contine mult frecvente "
+"diferite mai sus de ':e2' (al doilea Mi la un pian) care se combina pentru a "
+"crea timbrul. Daca nu intelegi mare lucru din asta, incearca sa il compari "
+"cu un ':beep':"
 
 #: A.19-subtractive-synthesis.md:38
 #, no-wrap
@@ -16417,6 +16421,10 @@ msgid ""
 "saw`. It's this buzziness and variation from a pure sine wave that we can play"
 " with when we use subtractive synthesis."
 msgstr ""
+"Cum sintetizatorul ':beep' este o unda simpla sinusoidala, vei auzi un sunet "
+"mult mai pur, doar ':e2' fara nimic din sunetele mai inalte si mai "
+"bazaitoare care se aud la ':saw'. Cu acest zumzet care face diferenta fata "
+"de o unda sinusoidala ne putem juca pentru a aplica sinteza substractiva."
 
 #: A.19-subtractive-synthesis.md:49
 msgid ""
@@ -16428,6 +16436,13 @@ msgid ""
 "ple to use FX system that includes a low pass filter, called `:lpf`. Let's pla"
 "y with it:"
 msgstr ""
+"Odata ce avem sunetul brut, urmatorul pas este sa-l trecem printr-un filtru "
+"care il va modifica scotand sau atenuand anumite parti din el. Unul dintre "
+"filtrele cele mai folosite in sinteza substractiva este ceea ce se numeste "
+"filtrul trece-jos. Acesta permite componentelor joase din sunet sa treaca, "
+"dar le scoate sau le atenueaza pe cele inalte. Sonic Pi are un sistem de "
+"efecte (FX) foarte simplu dar foarte puternic care include un filtru trece-"
+"jos, numit ':lpf' (low-pass filter). Sa ne jucam cu el:"
 
 #: A.19-subtractive-synthesis.md:57
 #, no-wrap
