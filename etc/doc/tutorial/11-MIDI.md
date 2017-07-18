@@ -8,7 +8,7 @@ syntax and sound system can be exciting and put you into a new creative
 position. However, sometimes it is essential to break out of the code
 into the real world. We want two extra things:
 
-1. To be able to convert actions in the real world into Sonic Pi events to work with programtically 
+1. To be able to convert actions in the real world into Sonic Pi events to code with
 2. To be able to use Sonic Pi's strong timing model and semantics to control and manipulate objects in the real world
 
 Luckily there's a protocol that's been around since the 80s that enables
