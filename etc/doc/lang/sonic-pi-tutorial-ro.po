@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-18 11:18+0000\n"
+"PO-Revision-Date: 2017-07-18 13:29+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -15927,7 +15927,7 @@ msgstr ""
 "O regula simpla spune ca dublarea vitezei va duce la un sunet cu o octava "
 "mai sus si invers, injumatatirea vitezei duce la un sunet cu o octava mai "
 "jos. Aceasta inseamna ca pentru esantioanele melodice redarea lor in paralel "
-"la viteza normala, dubla si injumatatita va suna chiar interesant"
+"la viteza normala, dubla si injumatatita va suna chiar interesant:"
 
 #: A.17-sample-stretching.md:121
 #, no-wrap
@@ -16173,7 +16173,7 @@ msgid ""
 "r switched octave. How might it sound if we didn't stick to octaves but instea"
 "d chose a slightly higher or lower note? Let's try it:"
 msgstr ""
-"Pana acum, cand am combinat diferite sintetizatoare am folosit fie aceeasi "
+"Pana acum, cand am combinat diferite sintetizatoare, fie am folosit aceeasi "
 "inaltime, fie am schimbat octava. Cum ar suna daca nu am respecta octavele "
 "ci am alege o nota putin mai inalta sau mai joasa? Sa incercam:"
 
@@ -16296,7 +16296,6 @@ msgstr ""
 "sa te joci!"
 
 #: A.18-additive-synthesis.md:130
-#, fuzzy
 msgid ""
 "define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - 12,"
 " release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
@@ -16307,7 +16306,6 @@ msgstr ""
 "- 0.1, release: 0.1 synth :tri, note: n, release: 0.2"
 
 #: A.18-additive-synthesis.md:137
-#, fuzzy
 msgid ""
 "\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth :s"
 "ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
@@ -16318,7 +16316,6 @@ msgstr ""
 "synth :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 
 #: A.18-additive-synthesis.md:144
-#, fuzzy
 msgid ""
 "\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
 "sine, note: n - 12, release: 2 end"
@@ -16463,6 +16460,11 @@ msgid ""
 "ound. Try changing that `cutoff:` point to lower notes, say `70` and then `50`"
 " and compare the sounds."
 msgstr ""
+"Daca asculti cu atentie vei observa ca o parte din zumzet a disparut. De "
+"fapt, toate frecventele din sunet mai sus de nota '100' au fost reduse sau "
+"eliminate si au ramas in sunet doar cele mai joase. Incearca sa schimbi "
+"aceasta valoare de 'cutoff:' la o nota mai joasa, sa zicem '70', apoi '50' "
+"si apoi compara sunetele."
 
 #: A.19-subtractive-synthesis.md:69
 msgid ""
@@ -16471,6 +16473,11 @@ msgid ""
 "in Sonic Pi. This does the opposite to `:lpf` in that it lets the high parts o"
 "f the sound through and cuts off the low parts."
 msgstr ""
+"Desigur, ':lpf' nu este singurul filtru pe care il poti folosi pentru a "
+"modifica semnalul sursa. Un alt efect important care poate fi aplicat in "
+"Sonic Pi este filtrul trece-sus, numit ':hpf' (high pass filter). Acesta "
+"actioneaza invers decat ':lpf' prin aceea ca lasa sa treaca partile inalte "
+"ale sunetului si le taie pe cele joase."
 
 #: A.19-subtractive-synthesis.md:74
 #, no-wrap
@@ -16490,13 +16497,16 @@ msgid ""
 "er values let more of the original bass parts of the source signal through and"
 " higher values sound increasingly tinny and quiet."
 msgstr ""
+"Observi ca sunetul a devenit mai zumzaitor si mai strident prin eliminarea "
+"sunetelor de frecventa joasa. Joaca-te cu valoarea de cutoff - observa cum "
+"valorile mai joase lasa sa treaca mai mult din partile de bass originale, "
+"iar valorile mai mari fac sunetul mai \"subtire\" si mai linistit."
 
 #: A.19-subtractive-synthesis.md:86
 msgid "[Low Pass Filter] - breakout box"
-msgstr ""
+msgstr "[Filtrul trece-jos] - conexiuni"
 
 #: A.19-subtractive-synthesis.md:88
-#, fuzzy
 msgid ""
 "The low pass filter is such an important part of every subtractive synthesis t"
 "oolkit that it's worth taking a deeper look at how it works. This diagram show"
@@ -16513,11 +16523,27 @@ msgid ""
 "nts the amplitude, decreases as we move from A to C. Subtractive synthesis wor"
 "ks by removing parts of the signal which means that the overall amplitude is r"
 "educed as the amount of filtering that is taking place increases."
-msgstr "`:prophet`"
+msgstr ""
+"Filtrul trece-jos este o parte foarte importanta a fiecarui instrument de "
+"sinteza substractiva si merita sa aruncam o privire mai atenta asupra "
+"felului in care functioneaza. Aceasta diagrama arata aceeasi unda sonora ("
+"sintetizatorul ':prophet') filtrata in mod diferit. In partea de sus, "
+"sectiunea A arata unda audio fara filtrare. Se observa ca forma de unda este "
+"foarte ascutita si contine multe variatii bruste. Aceste unghiuri ascutite "
+"produce bazaitul de tonalitate inalta din sunet. Sectiunea B arata cum "
+"actioneaza filtrul trece-jos - se observa ca unda este mai putin ascutita si "
+"mai rotunjita fata de cea dinainte. Asta inseamna ca sunetul va avea mai "
+"putine frecvente inalte si va suna mai cuminte. Sectiunea C arata filtrul "
+"trece-jos cu o frecventa de taiere destul de coborata - asta inseamna ca si "
+"mai multe dintre frecventele inalte au fost eliminate iar unda va fi si mai "
+"rotunjita. In fine, poti observa ca marimea undei (care reprezinta "
+"amplitudinea), scade de la A la C. Sinteza substractiva functioneaza prin "
+"elimnarea de parti din semnal, ceea ce inseamna ca amplitudinea globala "
+"scade cu atat mai mult cu cat filtrarea este mai intensa."
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
-msgstr ""
+msgstr "Flitrarea modulata"
 
 #: A.19-subtractive-synthesis.md:109
 msgid ""
@@ -16530,6 +16556,15 @@ msgid ""
 "long it should take for the current value to linearly slide to the target valu"
 "e:"
 msgstr ""
+"Pana acum am produs sunete destul de statice. Cu alte cuvinte, sunetul nu se "
+"schimba in niciun fel pe toata durata sa. Uneori ai putea avea nevoie de o "
+"variatie a sunetului pentru a da viata timbrului. Un mod de a realiza acest "
+"lucru este sa aplici o filtrare modulata - adica sa schimbi parametrii "
+"filtrului in timp. Din fericire, Sonic Pi iti ofera unelte puternice pentru "
+"a manipula parametrii efectelor in timp. De exemplu, poti sa alegi un timp "
+"de variatie pentru fiecare parametru modulabil pentru a spune cat timp "
+"trebuie sa treaca pentru ca valoarea curenta sa se modifice liniar (slide) "
+"in valoarea tinta:"
 
 #: A.19-subtractive-synthesis.md:118
 #, no-wrap
@@ -16556,6 +16591,16 @@ msgid ""
 " 3 beats. Finally we also trigger a source signal synth so we can hear the eff"
 "ect of the modulated low pass filter."
 msgstr ""
+"Sa vedem ce se petrece aici. Mai intai, pornim un flitru trece-jos cu o "
+"valoare foarte coborata ('50') pentru 'cutoff:'. Totusi, prima linie se "
+"termina in mod ciudat cu '|fx|'. Aceasta reprezinta o parte optionala din "
+"sintaxa pentru 'with_fx' care iti permite sa numesti si sa controlezi direct "
+"efectele care ruleaza. Linia 2 face exact acest lucru si controleaza efectul "
+"stabilindu-i timpul de glisare ('cutoff_slide') la 3 si valoarea tinta "
+"pentru 'cutoff:' la '130'. Valoarea pentru 'cutoff:' pentru acest efect va "
+"creste liniar de la '50' la '130' pe durata a 3 batai. La final vom proni un "
+"semnal sursa de la un sintetizator pentru a putea auzi efectul filtrului "
+"trece-jos modulat."
 
 #: A.19-subtractive-synthesis.md:139
 msgid ""
@@ -16564,6 +16609,11 @@ msgid ""
 "o see what crazy sounds you can design. If your sound feels too static, rememb"
 "er you can start modulating the options to create some movement."
 msgstr ""
+"Acesta este doar un exemplu simplu pentru ce se poate obtine folosind "
+"filtrele pentru modificarea unor sunete. Incearca sa te joci cu multitudinea "
+"de efecte incluse in Sonic Pi si vezi ce sunete cool poti crea. Daca sunetul "
+"tau pare prea monoton, aminteste-ti ca poti modula parametrii sai pentru a "
+"ii da viata."
 
 #: A.19-subtractive-synthesis.md:145
 msgid ""
@@ -16573,6 +16623,10 @@ msgid ""
 "ped everything inside a call to `at` (please send answers to @samaaron on Twit"
 "ter)."
 msgstr ""
+"Sa incheiem creand o functie care va reda un sunet nou creat prin sinteza "
+"substractiva. Incearca sa-ti dai seama singur ce se petrece aici, iar daca "
+"esti un utilizator Sonic Pi avansat, spune-mi daca stii de ce am inglobat "
+"totul intr-un apel 'at' (te rog sa trimiti mesajul la @samaaron pe Twitter)."
 
 #: A.19-subtractive-synthesis.md:151
 #, no-wrap
