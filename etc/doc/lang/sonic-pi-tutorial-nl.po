@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-19 09:38+0000\n"
+"PO-Revision-Date: 2017-07-19 14:20+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -15084,7 +15084,7 @@ msgstr ""
 "van de synths gaan groeien of krimpen, om gelijk met de tel te kunnen lopen. "
 "De `:slicer` FX houdt hier ook rekening mee, vermits de `phase:` optie in de "
 "maat wordt berekend en niet in seconden. We kunnen dus bovenstaand probleem "
-"oplossen door de BPM te veranderen om deze met de sample overeen te stemmen:"
+"oplossen door de BPM te veranderen om deze met de sample te laten passen:"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
@@ -15100,12 +15100,14 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:194
-#, fuzzy
 msgid ""
 "Let's apply all these ideas into a final example that only uses the `:slicer` "
 "FX to create an interesting combination. Go ahead, start changing it and make "
 "it into your own piece!"
-msgstr "slicer"
+msgstr ""
+"Laten we deze ideeën nu even toepassen in een laatste voorbeeld waar enkel "
+"het `:slicer` FX wordt gebruikt om een interessante combinatie te maken. Ga "
+"je gang, begin dingen te veranderen en maak er je eigen nummer van!"
 
 #: A.14-amplitude-modulation.md:198
 #, no-wrap
@@ -15165,6 +15167,14 @@ msgid ""
 "s that Sonic Pi enables. By the end of this article you'll be able to start pr"
 "acticing for your own live coded performances."
 msgstr ""
+"In de Sonic Pi zelfstudie van deze maand gaan we eens kijken hoe je Sonic Pi "
+"als een echt muziekinstrument kan gaan hanteren. We moeten daarvoor met een "
+"andere blik naar de code beginnen kijken. Live Coders bekijken hun code "
+"zoals een violist naar zijn strijkstok kijkt. Zoals een violist in feite "
+"verschillende strijktechnieken gebruikt om andere klanken te creëren (lange "
+"trage bewegingen of korte snelle aanslagen), zullen wij vijf van de "
+"basistechnieken onderzoeken die Sonic Pi mogelijk maakt. Aan het eind van "
+"het artikel, kan je je eigen live coding optreden beginnen oefenen."
 
 #: A.15-performance.md:15
 msgid "1. Memorise the Shortcuts"
@@ -15180,6 +15190,14 @@ msgid ""
 "op by hovering the mouse over them. See section 10.2 of the built-in tutorial "
 "for the full list of shortcuts."
 msgstr ""
+"De eerste tip om met Sonic Pi live coding te gaan doen is beginnen gebruik "
+"maken van de sneltoetsen. Bijvoorbeeld, in plaats van kostbare tijd te "
+"verliezen door de muis te moeten gaan nemen om op de afspeeltoets te klikken "
+"kan je simpelweg tegelijk de `alt` en`r` toets typen, dat werkt niet alleen "
+"sneller, je vingers staan zo ook al klaar op het klavier voor de volgende "
+"bewerking. Je kan de sneltoetsen voor de belangrijkste knoppen bovenaan "
+"makkelijk uitzoeken door met de muis eroverheen te zweven. Zie sectie 10.2 "
+"voor de ingebouwde handleiding voor de volledige lijst met sneltoetsen."
 
 #: A.15-performance.md:26
 msgid ""
@@ -15189,6 +15207,11 @@ msgid ""
 "n hitting `alt-r` just like a guitarist would do when hitting a big power chor"
 "d."
 msgstr ""
+"Wanneer je een voorstelling doet is het ook prettig om je armbewegingen met "
+"wat flair te doen als je een sneltoets aanslaat. Zo is het bijvoorbeeld heel "
+"goed met het publiek fysiek te communiceren als je op het punt staat een "
+"verandering te maken, dus maak een mooie beweging als je `alt-r` typt, net "
+"zoals een gitarist zou doen wanneer hij een power chord aanslaat."
 
 #: A.15-performance.md:32
 msgid "2. Manually Layer your Sounds"
@@ -15202,6 +15225,12 @@ msgid ""
 "calls to `sleep` we will have one call to `play` which we will manually trigge"
 "r using `alt-r`. Let's try it. Type the following code into a fresh buffer:"
 msgstr ""
+"Nu je de code direct kunt activeren met het computerklavier, kan je deze "
+"vaardigheid voor onze tweede techniek gaan gebruiken, en dat is handmatig je "
+"geluid van lagen voorzien. In plaats van te componeren door meermaals een "
+"`play`, en een `sample` op te roepen, gescheiden door oproepen van `sleep`, "
+"hebben we één oproep naar `play` welk we manueel activeren met `alt-r`. Typ "
+"de volgende code in een nieuwe buffer:"
 
 #: A.15-performance.md:41
 #, no-wrap
@@ -15213,6 +15242,8 @@ msgid ""
 "Now, hit `Run` and whilst the sound is playing, modify the code in order to dr"
 "op down four notes by changing it to the following:"
 msgstr ""
+"Klik nu op de  `Afspeel` knop wanneer de klank loopt, verander de code om "
+"vier tonen te zakken door het volgende te doen:"
 
 #: A.15-performance.md:50
 #, no-wrap
@@ -15228,10 +15259,17 @@ msgid ""
 "rigger. For example, try changing both the `note:` and the `cutoff:` opts and "
 "then re-trigger."
 msgstr ""
+"Klik nu terug op `Afspelen`, om beide klanken, tegelijk te horen spelen. Dit "
+"komt omdat de `Afspelen`knop van Sonic Pi niet wacht tot een voorgaande code "
+"is afgelopen, maar in plaats daarvan de code tegelijkertijd start. Dit "
+"betekent dat je makkelijk veel lagen van je geluid van kleinere of grotere "
+"veranderingen kan voorzien tussen elke trigger. Verander bijvoorbeeld zowel "
+"de `note:` als de  `cutoff:` opties en herstart dan."
 
 #: A.15-performance.md:63
 msgid "You can also try this technique with long abstract samples. For example:"
 msgstr ""
+"Je kan deze techniek ook gebruiken met lange abstracte samples. Bijvoorbeeld:"
 
 #: A.15-performance.md:65
 #, no-wrap
@@ -15245,6 +15283,11 @@ msgid ""
 "ome negative values such as `-0.5`. Layer the sounds together and see where yo"
 "u can take it. Finally, try adding some FX."
 msgstr ""
+"Probeer de sample op te starten en dan geleidelijk de `rate:` waarde te "
+"halveren tussen de afspeelcommando's door en gebruik getallen tussen `1` tot "
+"`0.5` tot `0.25` tot `0.125` en probeer zelfs negatieve waarden zoals `-0.5`"
+". Voeg lagen toe en kijk waar je uitkomt. Voeg er tenslotte nog een snuifje "
+"FX aan toe."
 
 #: A.15-performance.md:74
 msgid ""
@@ -15252,6 +15295,10 @@ msgid ""
 "udience new to Sonic Pi has a good chance to follow what you're doing and rela"
 "te the code that they can read to the sounds they are hearing."
 msgstr ""
+"Werken met eenvoudige regels code tijdens een uitvoering, betekent hier dat "
+"een publiek dat niet vertrouwd is met Sonic Pi, een goede kans maakt, te "
+"begrijpen wat jij aan het doen bent, en de code kunnen koppelen en lezen aan "
+"de klank die ze horen."
 
 #: A.15-performance.md:80
 msgid "3. Master Live Loops"
@@ -15267,6 +15314,14 @@ msgid ""
 "each other and manual code triggers. Take a look at section 9.2 of the built-i"
 "n tutorial for more information about working with live loops."
 msgstr ""
+"Als je eerder met ritmische muziek werkt, kan het dikwijls moeilijk zijn om "
+"alles manueel te activeren en hierin een goeie timing te houden. In plaats "
+"daarvan is het dikwijls beter om een `live_loop`te gebruiken. Het geeft "
+"herhaling aan je code en geeft je ook de mogelijkheid de code te bewerken "
+"voor de volgende cyclus van een loop. Deze lopen samen met andere `live_loop`"
+"s, wat betekent dat je deze kan lagen met elkaar en manueel triggers "
+"codeert. Bekijk sectie 9.2 van de ingebouwde handleiding om meer over live "
+"loops te weten te komen."
 
 #: A.15-performance.md:91
 msgid ""
@@ -15276,6 +15331,11 @@ msgid ""
 "d `live_loop`, then you can quickly fix the error and re-run the code to re-st"
 "art things without missing a beat."
 msgstr ""
+"Denk eraan om, bij een uitvoering, gebruikt te maken van de  `sync:` optie "
+"van `live_loop`om te kunnen herstellen van een accidentele doorloop die de "
+"live loop stopt door een fout. Als je de `sync:` optie laat verwijzen naar "
+"een andere geldige `live_loop`, kan je snel de fout herstellen en de code te "
+"herstarten zonder een tel te missen."
 
 #: A.15-performance.md:97
 msgid "4. Use the Master Mixer"
