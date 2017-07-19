@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-17 12:32+0000\n"
+"PO-Revision-Date: 2017-07-19 09:38+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -14831,7 +14831,7 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:64
 msgid "Control Waves"
-msgstr "Golven controllen"
+msgstr "Golfsoort Instellen"
 
 #: A.14-amplitude-modulation.md:66
 msgid ""
@@ -14851,9 +14851,8 @@ msgstr ""
 "die we kunnen instellen in deze  `:slicer`. De andere golfsoorten zijn: "
 "zaagtand, driehoeksgolf, en (co)sinus. Kijk ook eens naar de onderstaande "
 "afbeelding om te zien hoe deze eruit zien. We kunnen ook horen hoe deze "
-"klinken. De volgende code gebruikt een sinusgolf als controlegolf. Merk "
-"hierbij, dat het geluid niet abrupt aan en uit gaat, maar in plaats, zacht "
-"in en uit wordt ge-fade:"
+"klinken. De volgende code gebruikt een sinusgolf als controlegolf. Hoor nu "
+"dat het geluid niet abrupt aan en uit gaat, maar zacht in- en uit-fade:"
 
 #: A.14-amplitude-modulation.md:76
 #, no-wrap
@@ -14890,6 +14889,16 @@ msgid ""
 "hase:`, `wave:`, `invert_wave:` and `phase_offset` opts you can dramatically c"
 "hange how the amplitude is modified through time."
 msgstr ""
+"Elk van deze golven kan worden omgekeerd met de `invert_wave:` optie, en "
+"spiegelt deze tegenover de Y-as. Bijvoorbeeld, in een enkele fase, zal een "
+"zaagtand-golf normaal gezien op zijn hoogste punt beginnen en langzaam naar "
+"beneden te gaan, om dan terug naar zin hoogste punt te springen. Met "
+"`invert_wave: 1` zal deze nu op het laagste punt beginnen en langzaam naar "
+"boven gaan, om dan naar beneden te vallen. Bijkomend, kan je de  golf ook "
+"instellen dat deze op andere punten start met de `phase_offset:` optie. Deze "
+"kan een getal bevatten tussen `0` en`1`. Door te gaan spelen met de `phase:`"
+", `wave:`, `invert_wave:` en`phase_offset` opties kan je de amplitude binnen "
+"een tijdsverloop dramatisch veranderen."
 
 #: A.14-amplitude-modulation.md:97
 msgid ""
@@ -14904,13 +14913,16 @@ msgid "Setting your levels"
 msgstr "Het instellen van je niveaus"
 
 #: A.14-amplitude-modulation.md:102
-#, fuzzy
 msgid ""
 "By default, `:slicer` switches between amplitude values `1` (fully loud) and `"
 "0` (silent). This can be changed with the `amp_min:` and `amp_max:` opts. You "
 "can use this alongside the sine wave setting to create a simple tremolo effect"
 ":"
-msgstr "slicer"
+msgstr ""
+"Standaard schakelt `:slicer` tussen de amplitude-waarden `1` (luid) en `0` "
+"(stil). Dit kan je veranderen met de `amp_min:` en `amp_max:` opties. Je kan "
+"deze gebruiken naast de sinusgolf instelling om een eenvoudige tremolo-"
+"effect te bekomen:"
 
 #: A.14-amplitude-modulation.md:107
 #, no-wrap
@@ -14928,21 +14940,25 @@ msgid ""
 "This is just like grabbing the volume knob on your hi-fi and moving it up and "
 "down just a little so the sound 'wobbles' in and out."
 msgstr ""
-"Dit is net als de volumeknop van je hi-fi vastnemen en op en neer bewegen, "
-"zodat het geluid een beetje aan en uit 'wiebelt'."
+"Dit is zoals je de volumeknop van je hi-fi op en neer zou bewegen, zodat het "
+"geluid een beetje aan en uit 'wiebelt'."
 
 #: A.14-amplitude-modulation.md:117
 msgid "Probabilities"
 msgstr "Probabiliteit"
 
 #: A.14-amplitude-modulation.md:119
-#, fuzzy
 msgid ""
 "One of `:slicer`'s powerful features is its ability to use probability to choo"
 "se whether or not to turn the slicer on or off. Before the `:slicer` FX starts"
 " a new phase it rolls a dice and based on the result either uses the selected "
 "control wave or keeps the amplitude off. Let's take a listen:"
-msgstr "choose"
+msgstr ""
+"Een van de krachtigste functies van ': slicer' , is de mogelijkheid of u de "
+"slicer aan of uit wil schakelen. Vooraleer het `:slicer` FX een nieuwe fase "
+"start, zal deze een teerling werpen, en gebaseerd op de uitkomst hiervan , "
+"de geselecteerde controle golf gebruiken, of de amplitude niet aanzetten. "
+"Laten we even gaan luisteren:"
 
 #: A.14-amplitude-modulation.md:125
 #, no-wrap
@@ -14966,9 +14982,13 @@ msgid ""
 "l have more space between each sound due to the likelihood of the sound being "
 "triggered being much lower."
 msgstr ""
+"Hoor hoe we nu een interessant ritme van pulsen hebben bekomen. Probeer de "
+"`probability:` optie naar een andere waarde tussen `0` en `1` te "
+"veranderen.  Waarden dichter bij `0` zullen meer ruimte tussen elk geluid "
+"hebben, doordat de waarschijnlijkheid dat het geluid wordt getriggerd veel "
+"lager ligt."
 
 #: A.14-amplitude-modulation.md:138
-#, fuzzy
 msgid ""
 "Another thing to notice is that the probability system in the FX is just like "
 "the randomisation system accessible via fns such as `rand` and `shuffle`. They"
@@ -14977,13 +14997,24 @@ msgid ""
 "d like to change things around you can use the `seed:` opt to select a differe"
 "nt starting seed. This works exactly the same as `use_random_seed` but only af"
 "fects that particular FX."
-msgstr "rand"
+msgstr ""
+"Wat je zeker ook nog moet weten is, dat het probabiliteitssysteem in FX, net "
+"zoals het randomisatie-systeem toegankelijk is via functies zoals `rand` "
+"en`shuffle`. Ze zijn beide volledig deterministisch. Dit betekent dat elke "
+"keer je op afspelen klikt, je precies hetzelfde ritme van pulsen zal horen "
+"binnen een bepaalde probabiliteit. Wil je toch nog dingen veranderen, "
+"gebruik dan de `seed:` opt om een verschillend start seed te kiezen. Dit "
+"werkt precies hetzelfde als `use_random_seed` maar zal enkel invloed hebben "
+"op dat bepaalde FX."
 
 #: A.14-amplitude-modulation.md:146
 msgid ""
 "Finally, you can change the 'resting' position of the control wave when the pr"
 "obability test fails from `0` to any other position with the `prob_pos:` opt:"
 msgstr ""
+"Tenslotte kan je ook nog de 'rust' positie van de controle-Golf als de "
+"probabiliteit-test mislukt, van `0` naar eender welke positie brengen met de "
+"`prob_pos:` opt:"
 
 #: A.14-amplitude-modulation.md:150
 #, no-wrap
@@ -15002,13 +15033,13 @@ msgstr ""
 
 #: A.14-amplitude-modulation.md:158
 msgid "Slicing Beats"
-msgstr "Beats Slicen (Snijden)"
+msgstr "Beats Slicen (Opknippen)"
 
 #: A.14-amplitude-modulation.md:160
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
 msgstr ""
-"Wat ook echt leuk is om te doen is het gebruik van `:slicer` om een drum beat "
-"in en uit te hakken:"
+"Wat ook heel leuk is om te doen is het gebruik van `:slicer` om een drum "
+"beat aan en uit te knipperen:"
 
 #: A.14-amplitude-modulation.md:163
 #, no-wrap
@@ -15029,20 +15060,31 @@ msgid ""
 "ing will sound totally off. For example, try swapping `:loop_mika` with the `l"
 "oop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
+"Hiermee kunnen we met eender welke sample nieuwe ritmische mogelijkheden "
+"creëren, heel leuk om mee te spelen. Waar je wel op moet letten is dat het "
+"tempo van de sample past in het huidige BPM van Sonic Pi, anders knipt hij "
+"naast het ritme. Probeer bijvoorbeeld de `:loop_mika` met de `loop_amen` "
+"sample te verwisselen, om te horen hoe slecht dit kan klinken als het tempo "
+"niet uitlijnt."
 
 #: A.14-amplitude-modulation.md:176
 msgid "Changing tempo"
 msgstr "Tempo Veranderen"
 
 #: A.14-amplitude-modulation.md:178
-#, fuzzy
 msgid ""
 "As we have already seen, changing the default BPM with `use_bpm` will make all"
 " the sleep times and synth envelope durations grow or shrink to match the beat"
 ". The `:slicer` FX honours this too, as the `phase:` opt is actually measured "
 "in beats not seconds. We can therefore fix the issue with `loop_amen` above by"
 " changing the BPM to match the sample:"
-msgstr "slicer"
+msgstr ""
+"Zoals we reeds gezien hebben, als het standaard BPM met `use_bpm` wordt "
+"veranderd, zal dit ervoor zorgen dat de rusttijden (sleep) en de enveloppe "
+"van de synths gaan groeien of krimpen, om gelijk met de tel te kunnen lopen. "
+"De `:slicer` FX houdt hier ook rekening mee, vermits de `phase:` optie in de "
+"maat wordt berekend en niet in seconden. We kunnen dus bovenstaand probleem "
+"oplossen door de BPM te veranderen om deze met de sample overeen te stemmen:"
 
 #: A.14-amplitude-modulation.md:184
 #, no-wrap
