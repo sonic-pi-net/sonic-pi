@@ -583,7 +583,8 @@ Sonic Pi og tas imot som vinkhendelser
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Veksle Pro-ikoner - bytt mellom forvalget
+og et mer minimalistisk ikonsett.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
