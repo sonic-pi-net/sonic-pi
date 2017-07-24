@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-18 13:58+0000\n"
+"PO-Revision-Date: 2017-07-24 03:59+0000\n"
 "Last-Translator: Mauro João Salgado Figueira <fct_mauro@yahoo.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pt/>\n"
@@ -9072,10 +9072,13 @@ msgid ""
 "cial edition of Minecraft which is installed by default on the Raspberry Pi's "
 "Raspbian Linux-based operating system."
 msgstr ""
+"O Sonic Pi suporta agora um simples API para interagir com o Minecraft Pi - "
+"uma edição especial do Minecraft que vem instalada por default no sistema "
+"operativo baseado no Raspian Linux instalado no Raspberry Pi."
 
 #: 11-Minecraft-Pi.md:9
 msgid "No need to import libraries"
-msgstr ""
+msgstr "Não é necessário importar bibliotecas"
 
 #: 11-Minecraft-Pi.md:11
 msgid ""
@@ -9085,10 +9088,15 @@ msgid ""
 "need to import anything or install any libraries - it's all ready to go and wo"
 "rks out of the box."
 msgstr ""
+"A integração do Minecraft Pi foi desenhada para ser extremamente fácil de "
+"usar. Tudo o que necessitas é correr o minecraft Pi e criar um mundo. Então "
+"podes usar a função `mc_*` tal como poderias usar o `play` e `synth`. Não é "
+"necessário importar nada ou instalar bibliotecas - está pronto a ser usado e "
+"funciona \"out of the box\"."
 
 #: 11-Minecraft-Pi.md:17
 msgid "Automatic Connection"
-msgstr ""
+msgstr "Conexão automática"
 
 #: 11-Minecraft-Pi.md:19
 msgid ""
@@ -9100,10 +9108,18 @@ msgid ""
 "that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
 "Pi will automatically detect and re-create the connection for you."
 msgstr ""
+"O API do Minecraft Pi trata de gerir a conexão à aplicação do Minecaft Pi. "
+"Isso significa que não precisas de te preocupar com nada. Se tentares usar o "
+"API do Minecraft Pi quando o Minecraft Pi ainda não está a correr, o Sonic "
+"Pi educadamente vai-te avisar. Similarmente, se fechares o Minecraft Pi "
+"enquanto ainda estiveres a correr um `live_loop` que usa o API, o live loop "
+"irá parar e dirá que não se consegue conectar. Para reconectar basta "
+"correres o Minecraft Pi outra vez e o Sonic Pi irá detectar e recriar a "
+"conexão por ti."
 
 #: 11-Minecraft-Pi.md:28
 msgid "Designed to be Live Coded"
-msgstr ""
+msgstr "Desenhado para ser codificado ao vivo"
 
 #: 11-Minecraft-Pi.md:30
 msgid ""
@@ -9115,10 +9131,17 @@ msgid ""
 "arry on as before. Sonic Pi's automatic connection functionality will take car"
 "e of things for you."
 msgstr ""
+"O API do Minecraft Pi foi desenhado para trabalhar sem falhas dentro dos "
+"`live_loop`s. Isto significa que é possível sincronizar modificações nos "
+"teus mundos do Minecraft Pi com modificações nos teus sons do Sonic Pi. "
+"Videos musicais baseados no Minecraft instantâneos! Nota no entanto que o "
+"Minecraft Pi é um software alpha e pode ter bugs. Se encontrares alguns "
+"problemas, simplesmente reinicia o Minecraft Pi e continua como "
+"anteriormente. A conexão automática do Sonic Pi encarrega-se do resto."
 
 #: 11-Minecraft-Pi.md:39
 msgid "Requires a Raspberry Pi 2.0"
-msgstr ""
+msgstr "Requer o Raspberry Pi 2.0"
 
 #: 11-Minecraft-Pi.md:41
 msgid ""
@@ -9126,10 +9149,13 @@ msgid ""
 " Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
 " Pi's sound capabilities."
 msgstr ""
+"É altamente recomendado que uses o Raspberry Pi 2 se quiseres correr ao "
+"mesmo tempo o Sonic Pi e o Minecraft - especialmente se quiseres utilizar as "
+"capacidades sonoras do Sonic Pi."
 
 #: 11-Minecraft-Pi.md:45
 msgid "API Support"
-msgstr ""
+msgstr "Suporte de API"
 
 #: 11-Minecraft-Pi.md:47
 msgid ""
@@ -9137,44 +9163,47 @@ msgid ""
 "e detailed in Section 11.1. Support for event callbacks triggered by player in"
 "teractions in the world is planned for a future release."
 msgstr ""
+"Nesta fase, o Sonic Pi suporta blocos básicos e manipulação pelo jogador que "
+"são detalhadas na secção 11.1.  Suporte para chamada de eventos despoletadas "
+"pelo jogador no mundo está planeado para futuras edições."
 
 #: 11.1-Basic-API.md:1
 msgid "11.1 Basic API"
-msgstr ""
+msgstr "11.1 API básico"
 
 #: 11.1-Basic-API.md:3
 msgid "Basic Minecraft Pi API"
-msgstr ""
+msgstr "API básico do Minecraft Pi"
 
 #: 11.1-Basic-API.md:5
 msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft Pi"
 ":"
-msgstr ""
+msgstr "O Sonic Pi suporta as seguintes iterações básicas com o Minecraft Pi:"
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
 msgid "Displaying chat messages"
-msgstr ""
+msgstr "Visualizar mensagens de chat"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
 msgid "Setting the position of the user"
-msgstr ""
+msgstr "Definir a posição do jogador"
 
 #: 11.1-Basic-API.md:9
 msgid "Getting the position of the user"
-msgstr ""
+msgstr "Receber a posição do jogador"
 
 #: 11.1-Basic-API.md:10
 msgid "Setting the block type at a given coordinate"
-msgstr ""
+msgstr "Colocar um determinado tipo de bloco numa determinada coordenada"
 
 #: 11.1-Basic-API.md:11
 msgid "Getting the block type at a given coordinate"
-msgstr ""
+msgstr "Verificar o tipo de bloco de determinada coordenada"
 
 #: 11.1-Basic-API.md:14
 msgid "Let's look at each of these in turn."
-msgstr ""
+msgstr "Vamos ver cada uma delas à vez."
 
 #: 11.1-Basic-API.md:18
 msgid ""
@@ -9182,10 +9211,13 @@ msgid ""
 "ke sure you have both Minecraft Pi and Sonic Pi open at the same time and also"
 " make sure you've entered a Minecraft world and can walk around."
 msgstr ""
+"Vamos ver como é fácil controlar o Minecraft Pi a partir do Sonic Pi. "
+"Primeiro, verifica que temos o Minecraft Pi e o Sonic Pi abertos ao mesmo "
+"tempo e que entramos no mundo do Minecraft e nos podemos deslocar."
 
 #: 11.1-Basic-API.md:23
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr ""
+msgstr "Numa nova buffer do Sonic Pi coloca o seguinte código:"
 
 #: 11.1-Basic-API.md:25
 #, no-wrap
@@ -9198,12 +9230,17 @@ msgid ""
 "ft window. Congratulations, you've written your first Minecraft code! That was"
 " easy wasn't it."
 msgstr ""
+"Quando pressionamos o botão *Run*, verás uma mensagem a piscar na janela do "
+"Minecraft. Parabéns, escreveste o teu primeiro código no Minecraft! Isto foi "
+"fácil não foi."
 
 #: 11.1-Basic-API.md:35
 msgid ""
 "Now, let's try a little magic. Let's teleport ourselves somewhere! Try the fol"
 "lowing:"
 msgstr ""
+"Agora vamos experimentar uma pequena magia. Vamos teleportar para outro "
+"sitio! Experimenta o seguinte:"
 
 #: 11.1-Basic-API.md:38
 #, no-wrap
@@ -9219,10 +9256,16 @@ msgid ""
 "lore what coordinates are and how they work because they're really, really imp"
 "ortant for programming Minecraft."
 msgstr ""
+"Quando carregares no *Run* - Boom! És instantaneamente teleportado para um "
+"novo sitio. Mais provável algures no céu e caíste em terra seca ou para a "
+"água. Agora, o que são estes números: `50, 50, 50`? Eles são as coordenadas "
+"da localização que estás a tentar teleportar. Vamos tomar algum tempo para "
+"explorar que coordenadas são e como funcionam porque elas são realmente "
+"importante para programares o Minecraft."
 
 #: 11.1-Basic-API.md:50
 msgid "Coordinates"
-msgstr ""
+msgstr "Coordenadas"
 
 #: 11.1-Basic-API.md:52
 msgid ""
@@ -9234,40 +9277,53 @@ msgid ""
 "easure with other pairs of numbers. Perhaps there's a big chest of gold at `2`"
 " across and `9` up..."
 msgstr ""
+"Imagina um mapa de um pirata com um `X` grande marcando o local de algum "
+"tesouro. A localização exacta do `X` pode ser descrita com dois números - "
+"quando ao longo do mapa da esquerda para a direita e quanto ao longo do mapa "
+"do fundo para o topo. Por exemplo `10 cm` ao longo e `8 cm` para cima. Estes "
+"dois números `10` e `8` são coordenadas. Podes imaginar facilmente "
+"descreveres a localização de outros tesouros com outros pares de números. "
+"Talvez exista um grande baú de ouro em `2` ao longo e `9` para cima..."
 
 #: 11.1-Basic-API.md:61
 msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
 "h we are. We therefore need three numbers:"
 msgstr ""
+"Agora, no Minecraft dois números não são suficientes. Necessitamos também "
+"saber a altura que estamos. Assim necessitamos 3 números:"
 
 #: 11.1-Basic-API.md:64
 msgid "How far from right to left in the world - `x`"
-msgstr ""
+msgstr "Quanto ao longo da direita para a esquerda estamos no mundo - `x`"
 
 #: 11.1-Basic-API.md:65
 msgid "How far from front to back in the world - `z`"
-msgstr ""
+msgstr "Quando ao longo da frente para trás estamos no mundo - `z`"
 
 #: 11.1-Basic-API.md:66
 msgid "How high up we are in the world - `y`"
-msgstr ""
+msgstr "Quando alto estamos no mundo - `y`"
 
 #: 11.1-Basic-API.md:68
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, `y"
 "`, `z`."
 msgstr ""
+"Uma coisa a mais - tipicamente descrevemos estas coordenadas nesta ordem "
+"`x`,`y`,`z`."
 
 #: 11.1-Basic-API.md:71
 msgid "Finding your current coordinates"
-msgstr ""
+msgstr "Descobrindo as coordenadas actuais"
 
 #: 11.1-Basic-API.md:73
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
 "map and then switch over to Sonic Pi. Now enter the following:"
 msgstr ""
+"Vamos brincar com estas coordenadas. Navega para um sitio agradável no mapa "
+"do Minecraft e depois muda para o Sonic Pi. Agora escreve o seguinte:"
 
 #: 11.1-Basic-API.md:76
 #, no-wrap
@@ -9284,10 +9340,17 @@ msgid ""
 "the coordinates change when you move. Once you've understood how coordinates w"
 "ork, programming with the Minecraft API will be a complete breeze."
 msgstr ""
+"Quando carregares no botão *Run* verás que as coordenadas da tua posição "
+"actual apresentadas na janela de log. Toma nota delas, depois move-te para a "
+"frente no mundo e tenta outra vez. Repara como as coordenadas mudaram! "
+"Agora, recomendo que passes algum tempo a repetir isto - move-te um pouco "
+"pelo mundo, verifica as coordenadas e repete. Faz isso até perceberes como "
+"as coordenadas mudam enquanto te moves. Uma vez que percebas isso, programar "
+"com o API do Minecraft será muito fácil."
 
 #: 11.1-Basic-API.md:89
 msgid "Let's Build!"
-msgstr ""
+msgstr "Vamos construir!"
 
 #: 11.1-Basic-API.md:91
 msgid ""
@@ -9296,6 +9359,10 @@ msgid ""
 "with code. Let's say you want to make the block with coordinates `40`, `50`, `"
 "60` to be glass. That's super easy:"
 msgstr ""
+"Agora que sabemos encontrar a posição actual e teleportar usando "
+"coordenadas, terás todas as ferramentas para começar a construir coisas com "
+"código Minecraft. Digamos que queres criar um bloco de vidro com coordenadas "
+"`40, `50`, `60`. É muito fácil:"
 
 #: 11.1-Basic-API.md:96
 #, no-wrap
@@ -9307,6 +9374,8 @@ msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby and "
 "take a look:"
 msgstr ""
+"Haha, foi muito fácil. Para ver o resultado teleporta-te para uma zona perto "
+"e dá uma olhada:"
 
 #: 11.1-Basic-API.md:103
 #, no-wrap
@@ -9318,6 +9387,7 @@ msgid ""
 "Now turn around and you should see your glass block! Try changing it to diamon"
 "d:"
 msgstr ""
+"Agora volta-te e verás o teu bloco de vidro! Tenta muda-lo para um diamante:"
 
 #: 11.1-Basic-API.md:110
 #, no-wrap
@@ -9329,10 +9399,12 @@ msgid ""
 "If you were looking in the right direction you might have even seen it change "
 "in front of your eyes! This is the start of something exciting..."
 msgstr ""
+"Se tiveres voltado para o lado correcto poderás ter visto a mudança a frente "
+"dos teus olhos! Isto é o principio de algo excitante..."
 
 #: 11.1-Basic-API.md:117
 msgid "Looking at blocks"
-msgstr ""
+msgstr "Observando os blocos"
 
 #: 11.1-Basic-API.md:119
 msgid ""
@@ -9340,6 +9412,10 @@ msgid ""
 ". Given a set of coordinates we can ask Minecraft what the type of a specific "
 "block is. Let's try it with the diamond block you just created:"
 msgstr ""
+"Vamos ver uma ultima coisa antes de seguirmos para algo mais evoluido. Dado "
+"um conjunto de coordenadas podemos perguntar ao Minecraft que tipo "
+"especifico de bloco é. Vamos experimentar com o bloco de diamante que "
+"acabamos de criar:"
 
 #: 11.1-Basic-API.md:124
 #, no-wrap
@@ -9351,16 +9427,20 @@ msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
 " now say `:glass`? I'm sure it does :-)"
 msgstr ""
+"Yey! É um `:diamond`. Tenta mudar do movo para vidro e perguntar outra vez - "
+"agora diz `:glass`? Tenho a certeza que sim :-)"
 
 #: 11.1-Basic-API.md:131
 msgid "Available block types"
-msgstr ""
+msgstr "Tipo de blocos disponíveis"
 
 #: 11.1-Basic-API.md:133
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of av"
 "ailable block types useful:"
 msgstr ""
+"Antes de ires num diluvio de código no Minecraft Pi, poderás achas a "
+"seguinte lista de tipo de blocos disponíveis útil:"
 
 #: 11.1-Basic-API.md:136
 #, no-wrap
@@ -9519,11 +9599,11 @@ msgstr ""
 
 #: 12-Conclusions.md:1
 msgid "12 Conclusions"
-msgstr ""
+msgstr "12 Conclusões"
 
 #: 12-Conclusions.md:3
 msgid "Conclusions"
-msgstr ""
+msgstr "Conclusões"
 
 #: 12-Conclusions.md:5
 msgid ""
@@ -9533,6 +9613,11 @@ msgid ""
 "ee to dive back in when you have a question that might be covered in one of th"
 "e sections."
 msgstr ""
+"Isto conclui o tutorial introdutório do Sonic Pi. Espero que tenhas "
+"aprendido algo ao longo do caminho. Não te preocupes se sentires que não "
+"percebes tudo - apenas brinca e diverte-te e aprenderás ao teu tempo. Está a "
+"vontade de regressares se tiveres duvidas que poderão ser explicadas numa "
+"das secções."
 
 #: 12-Conclusions.md:11
 msgid ""
@@ -9541,6 +9626,9 @@ msgid ""
 "nd ask your question there. You'll find someone friendly and willing to lend a"
 " hand."
 msgstr ""
+"Se tiveres alguma duvida que não foi coberta no tutorial, tenta os [Sonic Pi "
+"foruns](http://groups.google.com/group/sonic-pi/) e coloca a tua questão lá. "
+"Encontrarás alguém amigável pronto a ajudar."
 
 #: 12-Conclusions.md:16
 msgid ""
@@ -9548,36 +9636,42 @@ msgid ""
 "ion in this help system. There are a number of features that haven't been cove"
 "red in this tutorial that are waiting for your discovery."
 msgstr ""
+"Finalmente, Também te convido a dares uma vista aprofundada ao resto da "
+"documentação no sistema de ajuda. Existem uma serie de coisas que não foram "
+"apresentadas neste tutorial e estão a espera que as descubras."
 
 #: 12-Conclusions.md:21
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
 msgstr ""
+"Brinca, diverte-te, partilha o teu código, actua para os teus amigos, mostra "
+"o ecrã e lembra-te:"
 
 #: 12-Conclusions.md:24
 msgid "*There are no mistakes, only opportunities.*"
-msgstr ""
+msgstr "*Não existem erros, apenas oportunidades.*"
 
 #: 12-Conclusions.md:26
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
 msgid "A Appendix A - MagPi Articles"
-msgstr ""
+msgstr "A Apêndice  A - Artigos na MagPi"
 
 #: A-Articles.md:3
 msgid "MagPi Articles"
-msgstr ""
+msgstr "Artigos na MagPi"
 
 #: A-Articles.md:5
 msgid "Appendix A collects all the Sonic Pi articles written for the MagPi magazine."
 msgstr ""
+"Apêndice A colecção de todos os artigo do Sonic Pi para a revista MagPi."
 
 #: A-Articles.md:8
 msgid "Dive into Topics"
-msgstr ""
+msgstr "Verifica os tópicos"
 
 #: A-Articles.md:10
 msgid ""
@@ -9586,20 +9680,26 @@ msgid ""
 "all of Sonic Pi, they instead each focus on a specific aspect of Sonic Pi and "
 "cover it in a fun and accessible way."
 msgstr ""
+"Estes artigos não foram feitos para serem lidos numa ordem em particular e "
+"contêm muito material repetido do tutorial. Em vez de tentar e ensinar todo "
+"o Sonic Pi, eles estão focados num aspecto especifico do Sonic Pi e tentam "
+"explica-los de uma forma divertida e acessível."
 
 #: A-Articles.md:15
 msgid "Read the MagPi"
-msgstr ""
+msgstr "Lê a MagPi"
 
 #: A-Articles.md:17
 msgid ""
 "You can see them in their glorious professionally typeset form in the free PDF"
 " downloads of The MagPi here: https://www.raspberrypi.org/magpi/"
 msgstr ""
+"Poderás ver o typeset glorioso e profissional na forma de PDF para download "
+"da MagPi aqui: https://www.raspberrypi.org/magpi/"
 
 #: A-Articles.md:20
 msgid "Suggest a Topic"
-msgstr ""
+msgstr "Sugerir um tópico"
 
 #: A-Articles.md:22
 msgid ""
@@ -9608,18 +9708,22 @@ msgid ""
 "ic_Pi](http://twitter.com/sonic_pi). You never know - your suggestion might be"
 " the subject of the next article!"
 msgstr ""
+"Se não veres um tópico que tenhas curiosidade nestes artigos - porque não "
+"sugerir um? A maneira mais fácil é tweetares a tua sugestão para "
+"[@Sonic_Pi](http://twitter.com/sonic_pi). A tua sugestão poderá ser o tema "
+"do próximo artigo!"
 
 #: A.01-tips.md:1
 msgid "A.1 Tips for Sonic Pi"
-msgstr ""
+msgstr "A.1 Dicas para o Sonic Pi"
 
 #: A.01-tips.md:3
 msgid "Five Top Tips"
-msgstr ""
+msgstr "As cinco melhores dicas"
 
 #: A.01-tips.md:5
 msgid "1. There are no mistakes"
-msgstr ""
+msgstr "1. Não existem erros"
 
 #: A.01-tips.md:7
 msgid ""
@@ -9632,10 +9736,18 @@ msgid ""
 "on't like and keep the things you do. The more 'mistakes' you allow yourself t"
 "o make the quicker you'll learn and discover your personal coding sound."
 msgstr ""
+"A coisa mais importante lição a aprender com o Sonic Pi é que realmente não "
+"existem erros. A melhor maneira é tentar e tentar. Tenta coisas diferentes, "
+"pára de te preocupar se o teu código soa bem ou não e começa a experimentar "
+"com diferentes synths, notas, efeitos e opções o máximo possível. "
+"Descobrirás muitas coisas que te farão rir porque soam mal e algumas pérolas "
+"que soam realmente bem. Simplesmente retira o que não gostas e fica com as "
+"que gostas. Quantos mais 'erros' te permitires mais rápido aprenderás e "
+"descobrirás o teu som pessoal no código."
 
 #: A.01-tips.md:18
 msgid "2. Use the FX"
-msgstr ""
+msgstr "2. Usa os efeitos"
 
 #: A.01-tips.md:20
 msgid ""
@@ -9650,6 +9762,16 @@ msgid ""
 "u'd like the FX added to and wrap it with the FX code. Let's look at an exampl"
 "e. Say you had the following code:"
 msgstr ""
+"Digamos que já dominas o básico do Sonic Pi de fazer sons com `sample`, "
+"`play`? O que se segue? Sabias que o Sonic Pi suporta mais de 27 efeitos de "
+"estúdio para mudar o som do teu código? Efeitos são como filtros de imagens "
+"bonitos nos programas de desenho excepto que em vez de desfocar ou tornar "
+"algo a preto e branco, podes acrescentar reverb, distorção e eco ao teu som. "
+"Pensa que é como ligar o cabo de uma guitarra a um pedal de efeitos à tua "
+"escolha e depois ao amplificador. Felizmente, o Sonic Pi torna o uso de "
+"efeitos muito fácil e não requer cabos! Tudo o que tens que fazer é escolher "
+"que secção do código queres adicionar o efeito e embrulhares com o código do "
+"efeito. Vamos ver um exemplo. Imagina que tens o seguinte código:"
 
 #: A.01-tips.md:32
 #, no-wrap
@@ -9671,6 +9793,8 @@ msgid ""
 "If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it insid"
 "e a `with_fx` block like this:"
 msgstr ""
+"Se quiseres acrescentar um efeito ao sample `:loop_garzul`, apenas tens que "
+"o colocar dentro de um bloco `with_fx` assim:"
 
 #: A.01-tips.md:44
 #, no-wrap
@@ -9696,6 +9820,8 @@ msgid ""
 "Now, if you wanted to add FX to the bass drum, go and wrap that with `with_fx`"
 " too:"
 msgstr ""
+"Agora, se quiseres adicionar um efeito à bass drum, vai e embrulha isso com "
+"o `with_fx` também:"
 
 #: A.01-tips.md:58
 #, no-wrap
@@ -9725,10 +9851,12 @@ msgid ""
 "Remember, you can wrap *any* code within `with_fx` and any sounds created will"
 " pass through that FX."
 msgstr ""
+"Lembra-te, podes embrulhar *qualquer* código com o `with_fx` e qualquer som "
+"criado passará pelo efeito."
 
 #: A.01-tips.md:75
 msgid "3. Parameterise your synths"
-msgstr ""
+msgstr "3. Paramatriza os teus synths"
 
 #: A.01-tips.md:77
 msgid ""
@@ -9739,6 +9867,13 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
+"De forma a realmente descobrires o teu som no código em breve quererás saber "
+"como modificar e controlar os synth e efeitos. Por exemplo, poderás querer "
+"mudar a duração de uma nota, adicionar mais reverb, ou mudar o tempo entre "
+"os ecos. Felizmente, o Sonic Pi dá-te um incrível nível de controlo para "
+"fazer isso com uma coisa especial chamada parâmetros opcionais ou opts como "
+"abreviatura. Vamos dar uma vista de olhos. Copia este código para o espaço "
+"de trabalho e carrega run:"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -9750,6 +9885,8 @@ msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about changi"
 "ng its rate?"
 msgstr ""
+"Ooh, um bonito som de guitarra! Agora, vamos começar a brincar com ele. Que "
+"tal mudar a sua rate?"
 
 #: A.01-tips.md:92 A.17-sample-stretching.md:25
 #, no-wrap
@@ -9762,6 +9899,9 @@ msgid ""
 ". All of Sonic Pi's synths and FX support them and there's loads to play aroun"
 "d with. They're also available for FX too. Try this:"
 msgstr ""
+"Hey, o que é essa `rate: 0.5` que acrescentei no final? É chamada um opt. "
+"Todos os Synths do Sonic Py e efeitos suportam-no e existem muitos para "
+"brincar com eles. Eles também estão disponíveis para efeitos. Tenta isto:"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -9779,10 +9919,12 @@ msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
+"Agora, tenta aumentar o feedback para 1 para ouvires alguns sons malucos! Lê "
+"a documentação para todos os detalhes de todas as opts disponíveis para ti."
 
 #: A.01-tips.md:110
 msgid "5. Live Code"
-msgstr ""
+msgstr "5. Código ao vivo"
 
 #: A.01-tips.md:112
 msgid ""
@@ -9792,6 +9934,11 @@ msgid ""
 "es to a sample, just play around. Let's have a try! Copy this code into one of"
 " your Sonic Pi workspaces:"
 msgstr ""
+"A melhor maneira de experimentar e explorar o Sonic Pi é codificares ao "
+"vivo. Isto permite que comeces um código e o mudes e afines enquanto esta a "
+"ser tocado. Por exemplo, se não sabes o que o parâmetro cutoff faz a um "
+"sample, brinca com isso. Vamos experimentar! Copia este código para um "
+"espaço de trabalho do Sonic Pi:"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -9812,6 +9959,9 @@ msgid ""
 "utoff:` value to `80` and hit run again. Can you hear the difference? Try `90`"
 ", `100`, `110`..."
 msgstr ""
+"Agora, carrega run e ouvirás um drum break ligeiramente abafado. Agora, muda "
+"o valor de `cutoff:` para `80` e carrega outra vez em run. Consegues ouvir a "
+"diferença? Experimenta `90`, `100`, `110`..."
 
 #: A.01-tips.md:129
 msgid ""
