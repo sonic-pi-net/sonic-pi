@@ -1100,12 +1100,12 @@ module SonicPi
         address, sym = *address if address.is_a?(Array)
 
         gui_log_id = @gui_cue_log_idxs.next
-        a = args.freeze
-
-        @event_history.set(t, p, i, d, b, m, address.freeze, a)
+        args = args.__sp_make_thread_safe
+        address = address.to_s.freeze
+        @event_history.set(t, p, i, d, b, m, address, args)
         @cue_events.async_event("/spider_thread_sync/#{address}", {
                                   :time => t,
-                                  :cue_splat_map_or_arr => a,
+                                  :cue_splat_map_or_arr => args,
                                   :cue => address })
 
         sched_ahead_sync_t = t + sched_ahead_time
@@ -1113,12 +1113,12 @@ module SonicPi
         if sleep_time > 0
           Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
-            __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
-            __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => a.inspect}) if sym
+            __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => args.inspect})
+            __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => args.inspect}) if sym
           end
         else
-          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => a.inspect})
-          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => a.inspect}) if sym
+          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => args.inspect})
+          __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => args.inspect}) if sym
         end
 
         #   @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
