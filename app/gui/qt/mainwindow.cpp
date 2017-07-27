@@ -427,7 +427,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     updateDarkMode();
     updateFullScreenMode();
     showWelcomeScreen();
-    changeRPSystemVol(system_vol_slider->value(), 1);
+    changeSystemPreAmp(system_vol_slider->value(), 1);
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
@@ -1169,24 +1169,13 @@ void MainWindow::honourPrefs() {
   int stored_vol = settings.value("prefs/system-vol", 50).toInt();
   update_mixer_invert_stereo();
   update_mixer_force_mono();
-  changeRPSystemVol(stored_vol, 1);
+  changeSystemPreAmp(stored_vol, 1);
   update_check_updates();
   updateLogAutoScroll();
   toggleScopeAxes();
   toggleMidi(1);
   toggleOSCServer(1);
   toggleIcons();
-
-
-  if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
-    setRPSystemAudioAuto();
-  }
-  if(settings.value("prefs/rp/force-audio-headphones", false).toBool()) {
-    setRPSystemAudioHeadphones();
-  }
-  if(settings.value("prefs/rp/force-audio-hdmi", false).toBool()) {
-    setRPSystemAudioHDMI();
-  }
 }
 
 void MainWindow::initPrefsWindow() {
@@ -1333,25 +1322,6 @@ void MainWindow::initPrefsWindow() {
   mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
 
-  QGroupBox *rpAudioOutputBox = new QGroupBox(tr("Raspberry Pi Audio Output"));
-  rpAudioOutputBox->setToolTip(tr("Your Raspberry Pi has two forms of audio output.\nFirstly, there is the headphone jack of the Raspberry Pi itself.\nSecondly, some HDMI monitors/TVs support audio through the HDMI port.\nUse these buttons to force the output to the one you want."));
-
-  rp_force_audio_default = new QRadioButton(tr("&Default"));
-  rp_force_audio_headphones = new QRadioButton(tr("&Headphones"));
-  rp_force_audio_hdmi = new QRadioButton(tr("&HDMI"));
-
-
-  connect(rp_force_audio_default, SIGNAL(clicked()), this, SLOT(setRPSystemAudioAuto()));
-  connect(rp_force_audio_headphones, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHeadphones()));
-  connect(rp_force_audio_hdmi, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHDMI()));
-
-  QVBoxLayout *rp_audio_box = new QVBoxLayout;
-  rp_audio_box->addWidget(rp_force_audio_default);
-  rp_audio_box->addWidget(rp_force_audio_headphones);
-  rp_audio_box->addWidget(rp_force_audio_hdmi);
-  rp_audio_box->addStretch(1);
-  rpAudioOutputBox->setLayout(rp_audio_box);
-
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
   advanced_audio_box_layout->addWidget(mixer_invert_stereo);
   advanced_audio_box_layout->addWidget(mixer_force_mono);
@@ -1362,7 +1332,7 @@ void MainWindow::initPrefsWindow() {
   QSettings settings("sonic-pi.net", "gui-settings");
   int stored_vol = settings.value("prefs/system-vol", 50).toInt();
   system_vol_slider->setValue(stored_vol);
-  connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
+  connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeSystemPreAmp(int)));
   vol_box->addWidget(system_vol_slider);
   volBox->setLayout(vol_box);
 
@@ -1519,16 +1489,9 @@ void MainWindow::initPrefsWindow() {
   QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
   audio_prefs_box_layout->addWidget(volBox, 0, 0, 0, 1);
-
-
-#if defined(Q_OS_LINUX)
-  audio_prefs_box_layout->addWidget(rpAudioOutputBox, 0, 1);
-  audio_prefs_box_layout->addWidget(synths_box, 1, 1);
-  audio_prefs_box_layout->addWidget(advancedAudioBox, 2, 1);
-#else
   audio_prefs_box_layout->addWidget(synths_box, 0, 1);
   audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
-#endif
+
 
 
   prefTabs->addTab(audio_prefs_box, tr("Audio"));
@@ -1632,11 +1595,6 @@ void MainWindow::initPrefsWindow() {
   dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
-
-  rp_force_audio_default->setChecked(settings.value("prefs/rp/force-audio-default", true).toBool());
-  rp_force_audio_headphones->setChecked(settings.value("prefs/rp/force-audio-headphones", false).toBool());
-  rp_force_audio_hdmi->setChecked(settings.value("prefs/rp/force-audio-hdmi", false).toBool());
-
 
   check_updates->setChecked(settings.value("prefs/rp/check-updates", true).toBool());
 
@@ -2216,7 +2174,7 @@ void MainWindow::changeGUITransparency(int val)
 #endif
 }
 
-void MainWindow::changeRPSystemVol(int val, int silent)
+void MainWindow::changeSystemPreAmp(int val, int silent)
 {
   float v = (float) val;
   v = (v / 100.0) * 2.0;
@@ -2537,52 +2495,6 @@ void MainWindow::changeShowLineNumbers(){
       ws->hideLineNumbers();
     }
   }
-}
-
-void MainWindow::setRPSystemAudioHeadphones()
-{
-#if defined(Q_OS_WIN)
-  //do nothing
-#elif defined(Q_OS_MAC)
-  //do nothing
-#else
-  //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To Headphone Audio Output..."), 2000);
-  QProcess *p = new QProcess();
-  QString prog = "amixer cset numid=3 1";
-  p->start(prog);
-#endif
-}
-
-void MainWindow::setRPSystemAudioHDMI()
-{
-
-#if defined(Q_OS_WIN)
-  //do nothing
-#elif defined(Q_OS_MAC)
-  //do nothing
-#else
-  //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To HDMI Audio Output..."), 2000);
-  QProcess *p = new QProcess();
-  QString prog = "amixer cset numid=3 2";
-  p->start(prog);
-#endif
-}
-
-void MainWindow::setRPSystemAudioAuto()
-{
-#if defined(Q_OS_WIN)
-  //do nothing
-#elif defined(Q_OS_MAC)
-  //do nothing
-#else
-  //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To Default Audio Output..."), 2000);
-  QProcess *p = new QProcess();
-  QString prog = "amixer cset numid=3 0";
-  p->start(prog);
-#endif
 }
 
 void MainWindow::togglePrefs() {
@@ -3028,10 +2940,6 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
   settings.setValue("prefs/system-vol", system_vol_slider->value());
-  settings.setValue("prefs/rp/force-audio-default", rp_force_audio_default->isChecked());
-  settings.setValue("prefs/rp/force-audio-headphones", rp_force_audio_headphones->isChecked());
-  settings.setValue("prefs/rp/force-audio-hdmi", rp_force_audio_hdmi->isChecked());
-
   settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
   settings.setValue("prefs/auto-indent-on-run", auto_indent_on_run->isChecked());
   settings.setValue("prefs/gui_transparency", gui_transparency_slider->value());

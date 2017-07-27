@@ -140,11 +140,8 @@ private slots:
     void onExitCleanup();
     void toggleRecording();
     void toggleRecordingOnIcon();
-    void changeRPSystemVol(int val, int silent=0);
+    void changeSystemPreAmp(int val, int silent=0);
     void changeGUITransparency(int val);
-    void setRPSystemAudioAuto();
-    void setRPSystemAudioHeadphones();
-    void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
     void toggleScope(QWidget* qw);
     void toggleLeftScope();
@@ -346,9 +343,6 @@ private:
     QLabel *midi_in_ports_label;
     QLabel *midi_out_ports_label;
 
-    QRadioButton *rp_force_audio_hdmi;
-    QRadioButton *rp_force_audio_default;
-    QRadioButton *rp_force_audio_headphones;
     QSlider *system_vol_slider;
     QSlider *gui_transparency_slider;
 
