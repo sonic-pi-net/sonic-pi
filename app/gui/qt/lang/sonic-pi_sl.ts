@@ -190,17 +190,17 @@ zvoke.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Obseg</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="948"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Preklopi izbiro komentarjev ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Namigi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -414,7 +414,7 @@ ga imamo. S temi gumbi določimo ustrezen izhod.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1346"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Spremeni obnašanje sintetizatorja in FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
