@@ -37,8 +37,8 @@ number of modifications.
 
 ### Improvements
 * The Time State system no longer maintains a history of *all* events -
-  instead it retains at least 20 events and beyond that culls events 30s
-  in the past.
+  instead it retains at least 20 events for each path and beyond that
+  culls events 30s in the past.
 
 ### Bugfixes
 * Fix minor issues with docs (grammar and rendering).
@@ -79,7 +79,7 @@ possible due to a new well-timed scheduler. This was built in a
 remarkable programming language called [Erlang](http://erlang.org) which
 is now part of the Sonic Pi distribution. We have had the great honour
 of one of Erlang's co-creators, Joe Armstrong working directly with us
-on the implmentation of this scheduler and we look forward immensely to
+on the implementation of this scheduler and we look forward immensely to
 continuing to work with him on new functionality.
 
 Another very important part of this release is the addition of Robin
@@ -88,7 +88,7 @@ his fearless and experimental attitude - pushing Sonic Pi into new areas
 with ease. We're excited that he's decided to join our core team and
 hope you're as excited by his future work with us as we are.
 
-Finally, We're really very excited about what new kinds of instruments
+Finally, we're really very excited about what new kinds of instruments
 people will be able to create with this new technology both in the
 classroom and on stage at musical festivals. Sonic Pi has now become a
 fully programmable music studio. Have fun live coding!
