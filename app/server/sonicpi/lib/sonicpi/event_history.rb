@@ -145,6 +145,9 @@ module SonicPi
     attr_accessor :event_matchers
 
     def initialize(all_threads=nil, thread_mut=nil)
+      @trim_history = false
+      @min_history_size = 20
+      @history_depth = 32
       @state = EventHistoryNode.new
       @event_matchers = EventMatchers.new
       @process_mut = Mutex.new
@@ -356,11 +359,18 @@ module SonicPi
       if idx == e.path_size
         # we are at the leaf node
 
-        # TODO: remove old events from start of events list
-        # otherwise it will grow forever!
-
         sn.events.unshift(e)
         bubble_up_sort!(sn.events)
+
+        # Auto-trim history Keep at least @min_history_size elements and
+        # only remove elements older than @history_depth seconds ago
+        # (this may be opened to tuning in the future)
+        if @trim_history
+          cutoff_t = (Time.now - @history_depth).to_i
+          while (sn.events.size > @min_history_size) && (sn.events.last.time.to_i < cutoff_t)
+            sn.events.pop
+          end
+        end
         return sn
       end
 
