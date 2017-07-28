@@ -113,6 +113,14 @@ module SonicPi
       end
     end
 
+    def test_set_get_w_capital_letters
+      @lang.run do
+        set "/foo/baR", 0.7
+        v = get["/foo/baR"]
+        assert_equal 0.7, v
+      end
+    end
+
     def test_get_inside_past_time_warp
       @lang.run do
         sleep 0.05

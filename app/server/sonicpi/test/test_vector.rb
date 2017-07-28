@@ -26,5 +26,22 @@ module SonicPi
       assert_equal(v[100], nil)
     end
 
+    def test_init
+      v = vector(:a, :b, :c)
+      assert v.sp_thread_safe?
+    end
+
+    def test_init_w_non_ts_vals
+      v = vector(:a, :b, [])
+      v2 = v.__sp_make_thread_safe
+
+      assert !v.sp_thread_safe?
+
+      assert v == v2
+
+      assert v2.sp_thread_safe?
+      assert v2[2].frozen?
+    end
+
   end
 end
