@@ -1,4 +1,5 @@
 # History
+* [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
 * [v2.11.1 'Hack'](#v2.11.1), 16th Dec, 2016
 * [v2.11 'Time Warp'](#v2.11), 3rd Nov, 2016
@@ -14,6 +15,39 @@
 * [v2.1.1 'Firewall'](#v2.1.1), 25th Nov, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v3.0.1"></a>
+
+## Version 3.0 - 'IOIO'
+*28th July, 2017*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0.1):
+
+This is a minor release addressing a few bugs and includes a small
+number of modifications.
+
+### Breaking Changes
+* Raspberry Pi only - based on a request from Raspberry Pi we have
+  removed the ability to switch between HDMI and headphone output as
+  this is now duplicate functionality to what is now available in
+  PIXEL. Now, to change audio output, you need to right-click on the
+  audio logo in the menu at the top right of the screen.
+  
+### GUI
+* The IO menu has been slightly tweaked to improve amount of space used.
+
+### Improvements
+* The Time State system no longer maintains a history of *all* events -
+  instead it retains at least 20 events and beyond that culls events 30s
+  in the past.
+
+### Bugfixes
+* Fix minor issues with docs (grammar and rendering).
+* Incoming OSC now correctly handles OSC paths which contain capital letters.
+
+ 
+*18th July, 2017*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0):
+
 
 <a name="v3.0"></a>
 
@@ -40,10 +74,24 @@ a number of brand-new components:
 * *Multi-channel audio out* - for outputting multiple streams of audio.
 * *Audio Buffers* - for internal recording of audio enabling the creation of loopers.
 
-We're really very excited about what new kinds of instruments people
-will be able to create with this new technology both in the classroom
-and on stage at musical festivals. Sonic Pi has now become a fully
-programmable music studio. Have fun live coding!
+It's important to mention that MIDI and OSC output functionality is
+possible due to a new well-timed scheduler. This was built in a
+remarkable programming language called [Erlang](http://erlang.org) which
+is now part of the Sonic Pi distribution. We have had the great honour
+of one of Erlang's co-creators, Joe Armstrong working directly with us
+on the implmentation of this scheduler and we look forward immensely to
+continuing to work with him on new functionality.
+
+Another very important part of this release is the addition of Robin
+Newman to the core team. We have always been consistently impressed with
+his fearless and experimental attitude - pushing Sonic Pi into new areas
+with ease. We're excited that he's decided to join our core team and
+hope you're as excited by his future work with us as we are.
+
+Finally, We're really very excited about what new kinds of instruments
+people will be able to create with this new technology both in the
+classroom and on stage at musical festivals. Sonic Pi has now become a
+fully programmable music studio. Have fun live coding!
 
 
 ### Breaking Changes
