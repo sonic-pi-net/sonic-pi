@@ -1189,8 +1189,8 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *ioTab = new QGroupBox();
 
-  QGroupBox *network_box = new QGroupBox(tr("Network"));
-  network_box->setToolTip(tr("Network Settings"));
+  QGroupBox *network_box = new QGroupBox(tr("Networked OSC"));
+  network_box->setToolTip(tr("Sonic Pi can send and receive Open Sound Control messages\nto and from other programs or computers\n via the currently connected network."));
 
   QLabel *network_ip_label = new QLabel();
   QString ip_address_trans = tr("Local IP address");
@@ -1235,8 +1235,11 @@ void MainWindow::initPrefsWindow() {
   network_box_layout->addWidget(network_ip_label);
   network_box->setLayout(network_box_layout);
 
-  QGroupBox *midi_box = new QGroupBox(tr("MIDI"));
-  midi_box->setToolTip(tr("Configure MIDI behaviour"));
+  QGroupBox *midi_config_box = new QGroupBox(tr("MIDI Configuration"));
+  midi_config_box->setToolTip(tr("Configure MIDI behaviour"));
+
+  QGroupBox *midi_ports_box = new QGroupBox(tr("MIDI Ports"));
+  midi_ports_box->setToolTip(tr("List all connected MIDI Ports"));
 
   midi_enable_check = new QCheckBox(tr("Enable MIDI subsystems"));
   midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
@@ -1292,19 +1295,21 @@ void MainWindow::initPrefsWindow() {
   midi_out_ports_label->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
 
 
-  QVBoxLayout *midi_box_layout = new QVBoxLayout;
-  midi_box_layout->addWidget(midi_enable_check);
-  midi_box_layout->addLayout(midi_default_channel_layout);
-  midi_box_layout->addWidget(midi_in_ports_label);
-  midi_box_layout->addWidget(midi_out_ports_label);
-  midi_box_layout->addWidget(midi_reset_button);
+  QVBoxLayout *midi_ports_box_layout = new QVBoxLayout;
+  QVBoxLayout *midi_config_box_layout = new QVBoxLayout;
+  midi_config_box_layout->addWidget(midi_enable_check);
+  midi_config_box_layout->addLayout(midi_default_channel_layout);
 
-  midi_box->setLayout(midi_box_layout);
+  midi_ports_box_layout->addWidget(midi_in_ports_label);
+  midi_ports_box_layout->addWidget(midi_out_ports_label);
+  midi_ports_box_layout->addWidget(midi_reset_button);
+
+  midi_ports_box->setLayout(midi_ports_box_layout);
+  midi_config_box->setLayout(midi_config_box_layout);
   QGridLayout *io_tab_layout = new QGridLayout();
-  io_tab_layout->addWidget(midi_box, 0, 0);
-
-
-  io_tab_layout->addWidget(network_box, 0, 1);
+  io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
+  io_tab_layout->addWidget(midi_config_box, 0, 1);
+  io_tab_layout->addWidget(network_box, 1, 1);
 
   ioTab->setLayout(io_tab_layout);
 
