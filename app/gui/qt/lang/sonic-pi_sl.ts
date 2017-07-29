@@ -419,12 +419,12 @@ ga imamo. S temi gumbi določimo ustrezen izhod.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Poročilo sintetizatorjev</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Poročilo namigov</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
