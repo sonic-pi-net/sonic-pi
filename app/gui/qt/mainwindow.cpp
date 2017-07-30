@@ -1868,17 +1868,21 @@ void MainWindow::runCode()
 
   code = "use_midi_defaults channel: \"" + midi_default_channel_combo->currentText().toStdString() + "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
 
-
+	if(code.length() >  65507){
+		QMessageBox *box = new QMessageBox(QMessageBox::Warning,
+			tr("Warning buffer limit reached"), tr("The character limit of the current buffer has been reached.\n\nIf you write more code and attempt to run it in this buffer, some code won't be run and some code may be removed from the buffer\n\nTo get around this issue you can type code in another text editor, save it to a text file and put in a buffer: run_file \"path/to/file\".\n\nSorry for any inconvenience.");
+		return;
+	} else {
   if(clear_output_on_run->isChecked()){
     outputPane->clear();
   }
-
 
   msg.pushStr(code);
   msg.pushStr(filename);
   sendOSC(msg);
 
   QTimer::singleShot(500, this, SLOT(unhighlightCode()));
+	}
 }
 
 void MainWindow::unhighlightCode()
