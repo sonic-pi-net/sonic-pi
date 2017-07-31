@@ -18,7 +18,7 @@
 
 <a name="v3.0.1"></a>
 
-## Version 3.0 - 'IOIO'
+## Version 3.0.1 - 'IOIO'
 *28th July, 2017*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0.1):
 
