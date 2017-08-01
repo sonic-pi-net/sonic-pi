@@ -431,18 +431,21 @@ ga imamo. S temi gumbi določimo ustrezen izhod.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Omogoči ali onemogoči dnevnik oznak.
+Če je onemogočeno, jih še vedno spodbuja.
+Seveda pa niso vidne v dnevniškem zapisu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1358"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamenjava samoskroliranja dnevnika.
+Če je omogočeno, se na dnu vedno pojavijo nova sporočila.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1365"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Omogoči zunanje sintetizatorje in FXe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1366"/>
@@ -453,7 +456,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko je omogočeno, Sonic Pi dovoljuje
+proženje nalaganja sintentizatorjev in FXov  
+z load_synthdefs.
+
+Ko je onemogočeno, bo Sonic Pi sporočil,
+da zahtevani sintetizator ali FX 
+ni prepoznan.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
