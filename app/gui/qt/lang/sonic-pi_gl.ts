@@ -6,26 +6,28 @@
     <message>
         <location filename="../mainwindow.cpp" line="665"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferenzas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="678"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Rexistro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="359"/>
         <location filename="../mainwindow.cpp" line="2913"/>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertir stéreo.
+Se está habilitado, o audio do altofalante esquerdo
+redirixirase ao altofalante dereitor e viceversa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1309"/>
@@ -39,141 +41,148 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1343"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar comportamento da depuración</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1349"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rexistro das mensaxes.
+Se está deshabilitada, a actividade do sintetizador e 
+das mostras non se imprimirán no rexistro por defecto.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo seguro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpar rexistro ao iniciar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1352"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpar o rexistro ao iniciar.
+Se está habilitado, o rexistro limparase cada
+vez que se prema o botón de execución.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar a visibilidade do número de liña.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo escuro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Executando Código...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1916"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mellorando interface...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1943"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Recargando...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1974"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Habilitando Misturador HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1983"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Deshabilitando Misturador HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="590"/>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Almacén %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Benvido a Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Indentando a selección...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Indentando a liña...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Configuracións de audio avanzadas para traballar con
+sistemas PA externos cando interactúas con Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1394"/>
         <location filename="../mainwindow.cpp" line="1566"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualizacións</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1396"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobar actualizacións</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1510"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Amosar número de liña</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="468"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Información de actualización de Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opción de comprobar os argumentos das funcións.
+Se está deshabilitado, certas opcións poderían xerar
+sons moi fortes e incómodos.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1342"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Rexistro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Ámbito</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="948"/>
@@ -372,17 +381,17 @@ Use these buttons to force the output to the one you want.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Sintetizadores e efectos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1346"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Modficar o comportamento dos sintetizadores e efectos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
@@ -499,17 +508,17 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatización</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar as características de automatización.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entradas MIDI conectadas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
@@ -519,7 +528,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>Aliñamento automático</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
@@ -529,7 +538,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>Amosar rexistro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
@@ -539,7 +548,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1443"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Amosar botóns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -549,7 +558,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Amosar pestanas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1449"/>
@@ -559,17 +568,17 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1451"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar a modo pantalla completa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar a modo escuro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
@@ -580,7 +589,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1538"/>
@@ -600,35 +609,35 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1793"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de almacenamento</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargar un almacenamento de Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ficheiros de texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ficheiros Ruby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos os ficheiros</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Desprazamento automático do rexistro...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
@@ -638,27 +647,27 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Executar o código do almacenamento actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2622"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargar un ficheiro externo no almacenamento actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentar tamaño</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuír tamaño</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
@@ -668,12 +677,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2804"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Arquivo WAV (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitando MIDI ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
@@ -733,7 +742,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
@@ -743,12 +752,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipos de Ámbito</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1535"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Amosar ámbitos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1536"/>
@@ -758,7 +767,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Amosar eixos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
@@ -773,22 +782,22 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Visuais</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentando zoom...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1909"/>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuíndo zoom...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobando actualizacións...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
@@ -828,18 +837,18 @@ Stereo - shows two independent scopes for left and right channels</source>
         <location filename="../mainwindow.cpp" line="2024"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Modo Mono...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2032"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Modo Estéreo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2041"/>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>Detendo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2151"/>
@@ -915,12 +924,12 @@ every two weeks.</source>
     <message>
         <location filename="../mainwindow.cpp" line="3190"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Isto é Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3191"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión %2 está dispoñible agora!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3195"/>
@@ -931,27 +940,27 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Executar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2612"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Parar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2613"/>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>Para todo o código en execución</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2616"/>
         <source>Save As...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gardar como...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2655"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Información</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2656"/>
@@ -962,17 +971,17 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="727"/>
         <location filename="../mainwindow.cpp" line="2661"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Axuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuraciń útiles para facer música con Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro na carga do servidor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
@@ -1035,28 +1044,28 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Licenza</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2735"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Historia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Información</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2784"/>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Parar a Gravación</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2804"/>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Gardar a Gravación</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
@@ -1084,32 +1093,32 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="913"/>
         <location filename="../ruby_help.h" line="995"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutorial</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1029"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemplos</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1078"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Sintetizadores</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1125"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Efectos</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1144"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostras</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1389"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Idioma</translation>
     </message>
 </context>
 <context>
@@ -1117,7 +1126,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="47"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
