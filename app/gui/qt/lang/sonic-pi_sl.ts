@@ -483,79 +483,81 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Prosojnost programa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vklopi/izklopi samodejno preverjanje posodobitev.
+Preverjanje vključuje pošiljanje anonimnih podatkov o tvoji različici programa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1399"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Preveri zdaj</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Preveri, če obstajajo posodobitve.
+To vključuje pošiljanje anonimnih podatkov o tvoji različici programa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Poišči posodobitve.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>Obišči http://sonic-pi.net, da preneseš novo različico</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1407"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Podatki o posodobitvi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1426"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokaži/skrij</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1427"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Določi urejevalnikove nastavitve prikaza.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>Videz in občutki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Določi videz urejevalnika.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>Avtomatizacija</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Določi nastavitve samodejnih dejanj.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Povezani vhodi naprav MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Povezani izhodi naprav MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
@@ -570,42 +572,42 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokaži "dnevnik" programa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Določi, ali naj bo "dnevnik" programa viden.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1443"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaži gumbe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Določi, ali naj bodo nadzorni gumbi vidni.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaži zavihke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1449"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Določi, ali naj bodo vidni zavihki za izbiro delovnega prostora.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Celoten zaslon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1451"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Določi, ali naj bo program prikazan v celozaslonskem načinu (tako, da zavzame cel zaslon).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
