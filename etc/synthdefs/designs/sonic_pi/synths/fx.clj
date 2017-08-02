@@ -974,6 +974,21 @@
     [wet-l wet-r] (bpf [dry-l dry-r] freq res)])
 
 
+ (core/def-fx sonic-pi-fx_nbpf
+   [centre 100
+    centre_slide 0
+    centre_slide_shape 1
+    centre_slide_curve 0
+    res 0.6
+    res_slide 0
+    res_slide_shape 1
+    res_slide_curve 0]
+   [centre        (varlag centre centre_slide centre_slide_curve centre_slide_shape)
+    freq          (midicps centre)
+    res           (lin-lin res 1 0 0 1)
+    res           (varlag res res_slide res_slide_curve res_slide_shape)
+
+    [wet-l wet-r] (normalizer (bpf [dry-l dry-r] freq res))])
 
  (core/def-fx sonic-pi-fx_rbpf
    [centre 100
@@ -1367,6 +1382,7 @@
   (core/save-synthdef sonic-pi-fx_distortion)
   (core/save-synthdef sonic-pi-fx_pan)
   (core/save-synthdef sonic-pi-fx_bpf)
+  (core/save-synthdef sonic-pi-fx_nbpf)
   (core/save-synthdef sonic-pi-fx_rbpf)
   (core/save-synthdef sonic-pi-fx_nrbpf)
   (core/save-synthdef sonic-pi-fx_tanh)
