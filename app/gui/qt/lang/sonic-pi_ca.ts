@@ -1160,7 +1160,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1389"/>
         <source>Lang</source>
-        <translation>Llengua</translation>
+        <translation>Llenguatge</translation>
     </message>
 </context>
 <context>
