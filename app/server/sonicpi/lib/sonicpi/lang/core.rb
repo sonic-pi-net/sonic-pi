@@ -741,7 +741,7 @@ use_osc \"localhost\", 7000        # Specify port 7000 on this machine
 osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
                                    # and three arguments:
                                    # 1) The whole number (integer) 1
-                                   # 2) The fractional number (float) 3,89
+                                   # 2) The fractional number (float) 3.89
                                    # 3) The string \"baz\"
 ",
 
@@ -751,7 +751,7 @@ use_osc \"10.0.1.5\", 7000         # Specify port 7000 on the machine with addre
 osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
                                    # and three arguments:
                                    # 1) The whole number (integer) 1
-                                   # 2) The fractional number (float) 3,89
+                                   # 2) The fractional number (float) 3.89
                                    # 3) The string \"baz\"
 ",
 
