@@ -738,20 +738,20 @@ osc \"/foo/bar\"             # Send an OSC message with path \"/foo/bar\"
 " # Send an OSC messages with arguments to another program on the same machine
 
 use_osc \"localhost\", 7000        # Specify port 7000 on this machine
-osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
+osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
                                    # and three arguments:
                                    # 1) The whole number (integer) 1
-                                   # 2) The fractional number (float) 3,89
+                                   # 2) The fractional number (float) 3.89
                                    # 3) The string \"baz\"
 ",
 
 " # Send an OSC messages with arguments to another program on a different machine
 
 use_osc \"10.0.1.5\", 7000         # Specify port 7000 on the machine with address 10.0.1.5
-osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
+osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
                                    # and three arguments:
                                    # 1) The whole number (integer) 1
-                                   # 2) The fractional number (float) 3,89
+                                   # 2) The fractional number (float) 3.89
                                    # 3) The string \"baz\"
 ",
 
