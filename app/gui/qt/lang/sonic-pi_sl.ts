@@ -928,7 +928,7 @@ Stereo - pokaže dve neodvisni ponazoritvi za levi in desni kanal</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Improve readability of code</source>
-        <translation>Povečaj čitljivost skript</translation>
+        <translation>Izboljšaj čitljivost skript</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
