@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2913"/>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>Sonic Pi</source>
-        <translation>Sonic Pi</translation>
+        <translation>सोनिक पाई</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
@@ -157,7 +157,7 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Show line numbers</source>
-        <translation>पंक्ति क्रमांक दिखाएँ</translation>
+        <translation>पंक्ति संख्या प्रदर्शित करें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="468"/>
@@ -356,8 +356,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>जबरदस्ती अद्यतन के लिए जाँच करे ।
-यह चेक अपने प्लेटफॉर्म और संस्करण के बारे में अनाम जानकारी भेजने शामिल करता है ।</translation>
+        <translation>अपडेट के लिए जबरदस्ती जाँच करे ।
+इस चेक में आपके कंप्यूटर और सॉफ़्टवेयर संस्करण के बारे में अनाम जानकारी शामिल है।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
@@ -387,7 +387,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Look and Feel</source>
-        <translation>देखो और महसूस</translation>
+        <translation>दिखावट तथा अनुभव</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
@@ -489,7 +489,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1793"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Buffer files</source>
-        <translation>बफ़र फ़ाइलों</translation>
+        <translation>बफर फ़ाइलें</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
@@ -742,7 +742,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation>Pro Icons</translation>
+        <translation>Pro प्रतीक</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
@@ -828,7 +828,7 @@ Lissajous - बाएँ और दाएँ चैनलों के बीच
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>LPF मिक्सर को अक्षम करें...</translation>
+        <translation>LPF मिक्सर अक्षम कर रहा है...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
@@ -1011,7 +1011,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2668"/>
         <source>Prefs</source>
-        <translation>Prefs</translation>
+        <translation>प्राथमिकताएं</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
@@ -1049,7 +1049,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Core Team</source>
-        <translation>मुख्य टीम</translation>
+        <translation>मुख्य समूह(टीम)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
@@ -1123,7 +1123,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="1078"/>
         <source>Synths</source>
-        <translation>Synths</translation>
+        <translation>सिंथेसाइज़र</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1125"/>
@@ -1146,7 +1146,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="47"/>
         <source>Sonic Pi</source>
-        <translation>Sonic Pi</translation>
+        <translation>सोनिक पाई</translation>
     </message>
 </context>
 <context>
