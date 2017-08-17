@@ -171,7 +171,7 @@ Use these buttons to force the output to the one you want.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself. 
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
-For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
+For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
         <translation>Din Raspberry Pi har två slags ljudutgångar.
 För det första så har själva Raspberry Pi:n ett hörlursuttag.
 För det andra så har vissa HDMI-skärmar/TV-apparater ljudutgång genom HDMI-porten.
@@ -297,7 +297,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn't recognised.</source>
+which isn&apos;t recognised.</source>
         <translation>Om den här knappen är aktiverad låter Sonic Pi 
 syntar och FX attladdas via load_synthdefs 
 för att triggas.
@@ -1164,7 +1164,7 @@ Hämta Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1389"/>
         <source>Lang</source>
-        <translation>Språk</translation>
+        <translation>Lang</translation>
     </message>
 </context>
 <context>
@@ -1179,7 +1179,7 @@ Hämta Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
         <translation>Körs Sonic PI redan? Kan inte öppna UDP-port.</translation>
     </message>
 </context>
