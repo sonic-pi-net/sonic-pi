@@ -41,8 +41,8 @@ rsync -arv SC3plugins ../../supercollider/build/editors/sc-ide/SuperCollider.app
 
 #Download and extract source packages
 cd ../../../../
-wget 'http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
-wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
+wget 'https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
+wget 'https://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
 tar -xf QScintilla_gpl-2.9.2.tar.gz
 tar -xf qwt-6.1.2.tar.bz2
 
