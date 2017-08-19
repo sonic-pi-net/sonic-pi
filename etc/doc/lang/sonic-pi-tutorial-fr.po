@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-20 00:40+0000\n"
+"PO-Revision-Date: 2017-08-19 10:02+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/f"
-"r/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.15-dev\n"
+"X-Generator: Weblate 2.17-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -7670,6 +7670,8 @@ msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
+"`.scale(2)` - retourne un nouvel anneau avec tout les éléments multipliés "
+"par 2 (nous assumons que l'anneau contient uniquement des nombres)"
 
 #: 08.5-Ring-Chains.md:84
 msgid ""
@@ -16309,6 +16311,15 @@ msgid ""
 " sounds. So, fire up a copy of Sonic Pi and let's get started stretching some "
 "samples!"
 msgstr ""
+"Lorsque les personnes découvrent Sonic Pi, l'une des premières choses qu'ils "
+"apprennent est combien il est facile de jouer des sons pré-enregistrés en "
+"utilisant la fonction `sample`. Par exemple, vous pouvez faire jouer une "
+"boucle de batterie industrielle, entendre le bruit d'une chorale ou même "
+"écouter le \"scratch\" d'un vinyle, tout ça via une seule ligne de code. "
+"Cependant, plusieurs personnes ne réalisent pas que vous pouvez varier la "
+"vitesse à laquelle l'échantillon est joué pour ajouter des effets puissants "
+"et un tout nouveau niveau de contrôle sur vos sons enregistrés. Alors, "
+"lancez une copie de Sonic Pi et commençons à étirer quelques échantillons!"
 
 #: A.17-sample-stretching.md:14
 #, fuzzy
@@ -16318,6 +16329,8 @@ msgstr "Échantillons (\"Samples\")"
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
 msgstr ""
+"Pour modifier la vitesse à laquelle joue un échantillon, nous devons "
+"utiliser l'option `rate:` :"
 
 #: A.17-sample-stretching.md:18
 #, no-wrap
@@ -16330,6 +16343,9 @@ msgid ""
 "If we specify a `rate:` of `1` then the sample is played back at the normal ra"
 "te. If we want to play it back at half speed we simply use a `rate:` of `0.5`:"
 msgstr ""
+"Si nous spécifions un `rate:` de `1`, alors l'échantillon sera joué à une "
+"vitesse normale. Si nous voulons le jouer à une vitesse réduite de moitié, "
+"nous utilisons tout simplement un `rate:` de `0.5` :"
 
 #: A.17-sample-stretching.md:27
 #, fuzzy
@@ -16354,6 +16370,10 @@ msgid ""
 "op this time. First, take a listen to how it sounds at the default rate of `1`"
 ":"
 msgstr ""
+"En plus de rendre le son plus long et grave en utilisant une petite vitesse, "
+"nous pouvons utiliser des vitesses plus rapides pour rendre le son plus "
+"court et aïgu. Jouons avec une boucle de batterie pour cette fois-ci. "
+"Premièrement, écoutez comment cela sonne à la vitesse par défaut de `1` :"
 
 #: A.17-sample-stretching.md:41
 #, no-wrap
@@ -16363,7 +16383,7 @@ msgstr "sample :loop_amen, rate: -1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
-msgstr ""
+msgstr "Maintenant, accélérons les choses un peu :"
 
 #: A.17-sample-stretching.md:48
 msgid ""
