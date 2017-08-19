@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-08-19 10:02+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2017-08-20 10:45+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -7670,7 +7670,7 @@ msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
-"`.scale(2)` - retourne un nouvel anneau avec tout les éléments multipliés "
+"`.scale(2)` - retourne un nouvel anneau avec tous les éléments multipliés "
 "par 2 (nous assumons que l'anneau contient uniquement des nombres)"
 
 #: 08.5-Ring-Chains.md:84
@@ -16319,7 +16319,7 @@ msgstr ""
 "Cependant, plusieurs personnes ne réalisent pas que vous pouvez varier la "
 "vitesse à laquelle l'échantillon est joué pour ajouter des effets puissants "
 "et un tout nouveau niveau de contrôle sur vos sons enregistrés. Alors, "
-"lancez une copie de Sonic Pi et commençons à étirer quelques échantillons!"
+"lancez une copie de Sonic Pi et commençons à étirer quelques échantillons !"
 
 #: A.17-sample-stretching.md:14
 #, fuzzy
@@ -16372,7 +16372,7 @@ msgid ""
 msgstr ""
 "En plus de rendre le son plus long et grave en utilisant une petite vitesse, "
 "nous pouvons utiliser des vitesses plus rapides pour rendre le son plus "
-"court et aïgu. Jouons avec une boucle de batterie pour cette fois-ci. "
+"court et aigu. Jouons avec une boucle de batterie pour cette fois-ci. "
 "Premièrement, écoutez comment cela sonne à la vitesse par défaut de `1` :"
 
 #: A.17-sample-stretching.md:41
