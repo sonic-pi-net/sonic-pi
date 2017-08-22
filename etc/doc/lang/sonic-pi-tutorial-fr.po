@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-08-20 10:45+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-08-23 01:45+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -16396,7 +16396,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
-msgstr ""
+msgstr "Renverser l'engrenage"
 
 #: A.17-sample-stretching.md:56
 msgid ""
@@ -16411,7 +16411,7 @@ msgstr ""
 #: A.17-sample-stretching.md:63
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: 1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: 1"
 
 #: A.17-sample-stretching.md:65
 #, fuzzy
@@ -16421,7 +16421,7 @@ msgstr "Cool ! Ça joue à l'envers !"
 #: A.17-sample-stretching.md:67
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: -1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: -1"
 
 #: A.17-sample-stretching.md:69
 msgid ""
