@@ -64,9 +64,13 @@ module SonicPi
         }
       end
 
-      def get_nested_beat(pattern)
+      def get_nested_beat(pattern, *args)
+        args_h = resolve_synth_opts_hash_or_array(args)
+        args_h.delete(:mode)
+        args_h.delete(:beat_length)
+        
         nested_beat(pattern).flatten.map do |step|
-          [(1.0/step[:level]), step[:step]]
+          [(1.0/step[:level]), step[:step], args_h]
         end
       end
 
@@ -75,19 +79,21 @@ module SonicPi
         args_h[:mode] = :notes unless args_h[:mode]
         args_h[:beat_length] = 1 unless args_h[:beat_length]
 
-        if [:notes, :samples, :lambdas].none? {|x| x == args_h[:mode] }
-          raise "Unrecognized :mode for play_nested_pattern. Must be one of [:notes, :samples, :lambdas]"
+        if [:notes, :samples, :lambdas, :midis].none? {|x| x == args_h[:mode] }
+          raise "Unrecognized :mode for play_nested_pattern. Must be one of [:notes, :samples, :lambdas, :midis]"
         end
 
-        get_nested_beat(pattern).each do |mul, val|
+        get_nested_beat(pattern, args_h).each do |mul, val, opt|
           with_bpm_mul mul do
             case args_h[:mode]
             when :notes
-              play val
+              play val, opt
             when :samples
-              sample val
+              sample val, opt
             when :lambdas
               val.call
+            when :midis
+              midi val, opt
             end
             sleep args_h[:beat_length] # this is scaled by the bpm mul
           end
