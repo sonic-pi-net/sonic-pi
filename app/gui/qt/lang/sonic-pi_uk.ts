@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2913"/>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>Sonic Pi</source>
-        <translation>Sonic Пі</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
@@ -36,10 +36,12 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Увімкнути або вимкнути режим моно.
-Якщо ввімкнуто, то аудіо зліва і справа змішується
-і той же сигнал надходить до обох динаміків.
-Корисним під час роботи з зовнішніми системами,
-який може обробляти тільки моно.</translation>
+Якщо увімкнено, то аудіо в лівому
+та правому каналах змішується,
+і однаковий сигнал надходить до обох динаміків.
+Функція корисна під час роботи
+з зовнішніми системами,
+що можуть обробляти лише моно.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1312"/>
@@ -498,7 +500,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation>Ruby файли</translation>
+        <translation>Файли Ruby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
@@ -509,12 +511,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Логування автопрокрутки увімкнути...</translation>
+        <translation>Увімкнути автопрокрутку логів...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Логування автопрокрутки вимкнути...</translation>
+        <translation>Вимкнути автопрокрутку логів...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
@@ -539,32 +541,32 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Умикання MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Вимикання MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Відкриття OSC порту для зовнішніх повідомлень...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Вимикання OSC серверу...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Скидання налаштувань MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI вимкнено...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
@@ -584,153 +586,161 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнено повноекранний режим.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="801"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вимкнено повноекранний режим.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Мережа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштування мережі</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Локальна IP-адреса</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Очікування на OSC повідомлення на порті</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Недоступно</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Отримувати віддалені повідомлення OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо опція виділена, Sonic Pi слухатиме на OSC-повідомлення з віддалених пристроїв.
+Якщо її вимнено, будуть отримуватися лише повідомлення з цього пристрою.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути OSC-сервер</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо опція виділена, Sonic Pi слухатиме OSC-повідомлення.
+Якщо її вимнено, OSC-повідомлення не будуть отримуватися.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштувати поведінку MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути підсистеми MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути або вимкнути вхідні й вихідні MIDI-комунікації</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Скинути налаштування MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Скинути налаштування підсистем MIDI
+(Необхідно щоб виявити зміни в пристроях на MacOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал MIDI за замовченням (* позначає усі)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал MIDI за замовченням для відправлення повідомлень</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Не підключено жодного пристрою введення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Не підключено жодного пристрою виведення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Пристрої введеня MIDI відправляють MIDI-повідомлення
+безпосередньо до Sonic Pi та отримуються у вигляді
+cue-подій (так само як вхідні OSC повідомлення
+та внутрішні cue-сигнали)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Пристрої виведення MIDI отримують MIDI-повідомлення
+безпосередньо від Sonic Pi. Ці повідомлення можуть бути
+відправлені через функції midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Загальна гучність</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовувати цей слайдер для регулювання загальної гучності.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1303"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Виведення аудіо</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Авто-прокрутка журналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показувати логи cue-сигналів</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
@@ -1171,7 +1181,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чи Sonic Pi вже запущено? Неможливо відкрити UDP-порт.</translation>
     </message>
 </context>
 </TS>
