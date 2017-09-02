@@ -56,7 +56,7 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1316"/>
         <source>&amp;Headphones</source>
-        <translation>&amp; Навушники</translation>
+        <translation type="unfinished">+ навушники</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
@@ -100,7 +100,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
         <source>Toggle line number visibility.</source>
-        <translation>Переключити видимість номер рядка.</translation>
+        <translation>Переключити відображення номерів у рядках.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
@@ -245,12 +245,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1305"/>
         <source>Invert stereo</source>
-        <translation>Інвертувати стерео</translation>
+        <translation>Віддзеркалювати стерео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
         <source>Force mono</source>
-        <translation>Примусовий моно режим</translation>
+        <translation>Примусовий моно-режим</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
@@ -302,13 +302,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation>Коли включений, Sonic Pi дозволить
-синтезаторам і FX завантажуватися через load_synthdefs
-щоб мати можливість перемикати.
+        <translation>Якщо опція обрана, Sonic Pi дозволятиме
+завантаження синтезаторів і ефектів через load_synthdefs,
+що необхідно для їх використання.
 
-Якщо вимкнено, Sonic Pi поскаржиться,
-коли ви спробуєте використовувати синтезатор або FX,
-які не розпізнано.</translation>
+Якщо опцію вимкнено, Sonic Pi скаржитиметься
+при спробах використати синтезатор або ефект,
+не відомий програмі.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
@@ -379,7 +379,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1427"/>
         <source>Configure editor display options.</source>
-        <translation>Настроїти параметри відображення редактора.</translation>
+        <translation>Налаштувати параметри відображення редактора.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
@@ -429,7 +429,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>Переключити видимість кнопки управління.</translation>
+        <translation>Переключити відображення кнопок керування.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
@@ -541,7 +541,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation>Умикання MIDI...</translation>
+        <translation>Вмикання MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
@@ -551,7 +551,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished">Відкриття OSC порту для зовнішніх повідомлень...</translation>
+        <translation>Відкриття OSC-порту для зовнішніх повідомлень...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
@@ -581,7 +581,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Сигнали</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -704,10 +704,10 @@ Apologies, a critical error occurred during startup</source>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">Пристрої введеня MIDI відправляють MIDI-повідомлення
+        <translation>Пристрої введеня MIDI відправляють MIDI-повідомлення
 безпосередньо до Sonic Pi та отримуються у вигляді
-cue-подій (так само як вхідні OSC повідомлення
-та внутрішні cue-сигнали)</translation>
+Сигналів (так само як вхідні OSC повідомлення
+та внутрішні сигнали)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
@@ -730,7 +730,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1303"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Виведення аудіо</translation>
+        <translation>Відтворення аудіо</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -740,52 +740,52 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished">Показувати логи cue-сигналів</translation>
+        <translation type="unfinished">Показувати журнал Сигналів</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити показ журналу сигналів, який відібражає внутрішні сигнали та вхідні повідомлення OSC/MIDI.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Іконки «Pro»</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Введення-Відтворення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати та сховати осцилограф</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Типи осцилографа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1535"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати осцилографи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1536"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити відображення аудіо-осцилографа.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати осі</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1538"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити відображення осей для аудіо-осцилографа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
@@ -795,67 +795,72 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Є 3 варіанта аудіо-осцилографу, що можуть
+бути перелянуті незалежно або одночасно:
+
+Крива Ліссажу — передає фазове відношення між лівим та правим каналами
+Моно — показує комбінацію лівого та правого каналів (як середнє квадратичне сигналів)
+Стерео — показує два незалежні осцилографа для лівого та правого каналів</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Візуалізація</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
         <source>Zooming In...</source>
-        <translation>Масштабування...</translation>
+        <translation>Збільшення масштаба...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1909"/>
         <source>Zooming Out...</source>
-        <translation>Масштабування (зменшення)...</translation>
+        <translation>Зменшення масштабу...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Checking for updates...</source>
-        <translation>Перевірити наявність оновлень...</translation>
+        <translation>Перевірка оновлень...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
         <source>Enabling update checking...</source>
-        <translation>Увімкнення перевірки оновлення...</translation>
+        <translation>Увімкнення перевірки оновлень...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
         <source>Disabling update checking...</source>
-        <translation>Відключення перевірки оновлення...</translation>
+        <translation>Відключення перевірки оновлень...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1991"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Активація мікшера НЧФ ...</translation>
+        <translation type="unfinished">Вмикання НЧФ на мікшері...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>Відключення мікшера НЧФ ...</translation>
+        <translation type="unfinished">Вимикання НЧФ на мікшері...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Активація інвертованого Стерео ...</translation>
+        <translation>Увімкнення віддзеркалення стерео...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2016"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Увімкнення стандартного стерео...</translation>
+        <translation>Увімкнення звичайного стерео...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2024"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation>Моно режим...</translation>
+        <translation>Режим моно...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2032"/>
@@ -866,12 +871,12 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2041"/>
         <source>Stopping...</source>
-        <translation>Зупинка...</translation>
+        <translation>Зупинення...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2151"/>
         <source>Updating System Volume...</source>
-        <translation>Оновлення системної гучності...</translation>
+        <translation type="unfinished">Оновлення загальної гучності системи...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2421"/>
@@ -886,52 +891,52 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2452"/>
         <source>Switching To Default Audio Output...</source>
-        <translation>Перехід на аудіо вихід за промовчанням...</translation>
+        <translation type="unfinished">Перемикання на аудіо-вихід за замовчанням...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2617"/>
         <source>Save current buffer as an external file</source>
-        <translation>Зберегти поточний буфер як зовнішній файл</translation>
+        <translation>Зберегти поточний буфер в зовнішньому файлі</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Start recording to WAV audio file</source>
-        <translation>Почати записування на аудіо-файл WAV</translation>
+        <translation>Розочати запис до аудіо-файлу WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Improve readability of code</source>
-        <translation>Підвищення зручності читання коду</translation>
+        <translation>Підвищити зручність прочитання коду</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Збільшити розмір</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Зменшити розмір</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити відображення аудіо-осцилографів </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити відображення панелі допомоги</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключити відображення панелі налаштувань</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
         <source>Ready...</source>
-        <translation>Готові...</translation>
+        <translation>Готово...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
@@ -941,19 +946,19 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>File saved...</source>
-        <translation>Файл збережений...</translation>
+        <translation>Файл збережено...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3186"/>
         <source>Last checked %1</source>
-        <translation>Остання перевірка %1</translation>
+        <translation>Остання перевірка: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi  перевіряє наявність оновлень
- кожні два тижні.</translation>
+        <translation>Sonic Pi перевіряє наявність оновлень
+кожні два тижні.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3190"/>
@@ -963,24 +968,24 @@ every two weeks.</source>
     <message>
         <location filename="../mainwindow.cpp" line="3191"/>
         <source>Version %2 is now available!</source>
-        <translation>Версія %2 тепер доступна!</translation>
+        <translation>Вже наявна версія %2!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3195"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation>Нова версія доступна!
+        <translation>Наявна нова версія!
 Отримати Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Підключені пристрої введення MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Підключені пристрої виводу MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
@@ -1021,7 +1026,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Параметри корисні для виконання на Sonic Pi</translation>
+        <translation>Налаштування, доцільні для живого виконання на Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
@@ -1031,7 +1036,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Прохання розглянути подання звіту про помилку на</translation>
+        <translation type="unfinished">Будемо вдячні, якщо надішлете звіт про помилку на</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2668"/>
@@ -1049,7 +1054,7 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="2633"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation>Автоматичне вирівнювання тексту</translation>
+        <translation>Автоматично вирівняти текст</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2637"/>
@@ -1079,12 +1084,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Contributors</source>
-        <translation>Автори та перекладачі</translation>
+        <translation type="unfinished">Автори та перекладачі</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2733"/>
         <source>Community</source>
-        <translation>Спільноти</translation>
+        <translation type="unfinished">Спільнота</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
@@ -1155,12 +1160,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="1125"/>
         <source>Fx</source>
-        <translation>FX</translation>
+        <translation>Ефекти</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1144"/>
         <source>Samples</source>
-        <translation>Зразки</translation>
+        <translation>Семпли</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1389"/>
@@ -1173,7 +1178,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="47"/>
         <source>Sonic Pi</source>
-        <translation>Сонік Пай</translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
