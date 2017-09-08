@@ -344,7 +344,7 @@ v Sonic Pi in je sprejeto kot dajanje znakov
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
         <translation>MIDI izhodne naprave prejmejo MIDI sporočila neposredno iz
-Sonic Pi-ja, lahko pa so poslana s funkcijami midi_*</translation>
+Sonic Pi-ja, lahko pa so poslana tudi z ukazi midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -455,7 +455,7 @@ when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
         <translation>Ko je vklopljeno, Sonic Pi dovoljuje
 nalaganje glasbil in učinkov FX  
-prek load_synthdefs.
+z ukazom load_synthdefs.
 
 Ko je izklopljeno, bo Sonic Pi sporočil,
 ko poskusiš uporabiti glasbilo ali učinek FX,
@@ -666,7 +666,7 @@ Med zaganjanjem je prišlo do kritične napake</translation>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation>Datoteke &quot;Ruby&quot;</translation>
+        <translation>Programi v jeziku ruby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
