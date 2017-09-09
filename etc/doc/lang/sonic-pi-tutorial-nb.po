@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-22 10:42+0000\n"
+"PO-Revision-Date: 2017-09-10 13:52+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.16-dev\n"
+"X-Generator: Weblate 2.17-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -75,15 +75,15 @@ msgstr ""
 "remtidig versjon."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Til sist, å se andre kode på direkten er en veldig fin måte å lære på. Jeg dir"
-"ekteoverfører regelmessig på [livecoding.tv/samaaron](http://livecoding.tv/sam"
-"aaron) så stikk gjerne innom, hils på og still mange spørsmål. :-)"
+"Til sist, å se andre kode på direkten er en veldig fin måte å lære på. Jeg "
+"direkteoverfører regelmessig på "
+"[livecoding.tv/samaaron](http://livecoding.tv/samaaron) så stikk gjerne "
+"innom for å hilse på og still meg mange spørsmål. :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -981,11 +981,12 @@ msgstr ""
 #: 02.2-Synth-Params.md:31
 #, no-wrap
 msgid "play 50, cheese: 1"
-msgstr "play 50, cheese: 1"
+msgstr "play 50, ost: 1"
 
 #: 02.2-Synth-Params.md:35
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
-msgstr "(Merk at \"cheese:' er ikke et gyldig opt, vi bruker det bare som et eksempel)."
+msgstr ""
+"(Merk at \"ost:' er ikke en gyldig opt, vi bruker det bare som et eksempel)."
 
 #: 02.2-Synth-Params.md:37
 msgid "You can pass multiple opts by separating them with a comma:"
@@ -994,7 +995,7 @@ msgstr "Du kan sende flere opt ved å skille dem med komma:"
 #: 02.2-Synth-Params.md:39
 #, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
-msgstr "play 50, cheese: 1, beans: 0.5"
+msgstr "play 50, ost: 1, bønner: 0.5"
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
@@ -1003,28 +1004,28 @@ msgstr "Rekkefølgen på opt-ene spiller ingen rolle, så de følgende er identi
 #: 02.2-Synth-Params.md:45
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
-msgstr "play 50, beans: 0.5, cheese: 1"
+msgstr "play 50, bønner: 0.5, ost: 1"
 
 #: 02.2-Synth-Params.md:49
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
-"Opts som ikke gjenkjennes av synt ignoreres bare (som 'cheese' og 'bean' som t"
-"ydelig er latterlige som opt-navn!)"
+"Opts som ikke gjenkjennes av synth ignoreres bare (som 'ost' og 'bønner' som "
+"tydelig er latterlige som opt-navn!)"
 
 #: 02.2-Synth-Params.md:52
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
-"Hvis du tilfeldigvis bruker samme opt to ganger med ulike verdier, vinner den "
-"siste. For eksempel at 'beans:' her vil ha verdien 2 i stedet for 0.5:"
+"Hvis du tilfeldigvis bruker samme opt to ganger med ulike verdier, vinner "
+"den siste. For eksempel at 'bønner:' her vil ha verdien 2 i stedet for 0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
-msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
+msgstr "play 50, bønner: 0.5, ost: 3, egg: 0.1, bønner: 2"
 
 #: 02.2-Synth-Params.md:60
 msgid ""
@@ -7335,11 +7336,11 @@ msgstr ""
 
 #: 11-Minecraft-Pi.md:1
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
 msgid "Minecraft Pi"
-msgstr ""
+msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
 msgid ""
@@ -7347,10 +7348,13 @@ msgid ""
 "cial edition of Minecraft which is installed by default on the Raspberry Pi's "
 "Raspbian Linux-based operating system."
 msgstr ""
+"Sonic Pi støtter i dag et enkelt programmeringsgrensesnitt for å samvirke "
+"med Minecraft Pi - spesialutgaven av Minecraft som er installert i "
+"standardutgaven av Raspberry Pi sitt Linux-baserte Raspbian-operativsystem."
 
 #: 11-Minecraft-Pi.md:9
 msgid "No need to import libraries"
-msgstr ""
+msgstr "Det er ikke nødvendig å importere biblioteker"
 
 #: 11-Minecraft-Pi.md:11
 msgid ""
@@ -7360,10 +7364,15 @@ msgid ""
 "need to import anything or install any libraries - it's all ready to go and wo"
 "rks out of the box."
 msgstr ""
+"Minecraft Pi-integrasjonen er utformet for å være sinnsykt enkel å bruke.  "
+"Alt du trenger er å starte Minecraft Pi og lage en verden.  Du står så fritt "
+"til å bruke `mc_*`-funksjonene akkurat som du gjør med `play` og `synth`.  "
+"Det er ikke nødvendig å importere noe eller installere noen biblioteker.  "
+"Alt er klart til å gå i gang og virker ut av boksen."
 
 #: 11-Minecraft-Pi.md:17
 msgid "Automatic Connection"
-msgstr ""
+msgstr "Automatisk oppkobling"
 
 #: 11-Minecraft-Pi.md:19
 msgid ""
@@ -12639,7 +12648,7 @@ msgid ""
 "nts the amplitude, decreases as we move from A to C. Subtractive synthesis wor"
 "ks by removing parts of the signal which means that the overall amplitude is r"
 "educed as the amount of filtering that is taking place increases."
-msgstr "`:prophet`"
+msgstr ""
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
@@ -12697,7 +12706,7 @@ msgid ""
 msgstr ""
 
 #: A.19-subtractive-synthesis.md:151
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "define :subt_synth do |note, sus|\n"
 "  at do\n"
