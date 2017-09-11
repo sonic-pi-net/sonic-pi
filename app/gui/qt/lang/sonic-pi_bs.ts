@@ -196,7 +196,7 @@ izazvati glasan i neugodan zvuk.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Redovi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -221,17 +221,17 @@ izazvati glasan i neugodan zvuk.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Mreža</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Postavke Mreže</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalna IP adresa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
