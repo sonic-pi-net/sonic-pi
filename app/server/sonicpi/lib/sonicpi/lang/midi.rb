@@ -686,7 +686,58 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         "midi_pitch_bend 0, channel: [1, 5]  #=> Sends MIDI pitch bend message with value 0 on channel 1 and 5 to all ports"
 ]
 
+      def midi_pc(*args)
+        params, opts    = split_params_and_merge_opts_array(args)
+        opts            = current_midi_defaults.merge(opts)
+        program_num     = params[0]
+        ports           = __resolve_midi_ports(opts)
+        on_val          = opts.fetch(:on, 1)
 
+        if program_num == nil #deal with missing midi_pc paramter
+          return nil
+        end
+                  
+        if truthy?(on_val)
+          channels       = __resolve_midi_channels(opts)
+          ports          = __resolve_midi_ports(opts)
+          program_num    = note(program_num).round.min(0).max(127)
+          chan           = pp_el_or_list(channels)
+          port           = pp_el_or_list(ports)
+
+          ports.each do |p|
+            channels.each do |c|
+              __midi_send_timed_pc("/program_change",p, c, program_num)
+            end
+          end
+          __midi_message "midi_pc #{program_num}, port: #{port}, channel: #{chan}"
+        else
+          __midi_message "midi_pc  #{program_num}, on: 0"
+        end
+        nil
+      end
+      doc name:           :midi_pc,
+          introduced:     Version.new(3,0,2),
+          summary:        "Send MIDI program change message",
+          args:           [[:program_num, :midi]],
+          returns:        :nil,
+          opts:           {
+                           channel: "Channel(s) to send to",
+                           port: "MIDI port(s) to send to",
+                           on: "If specified and false/nil/0 will stop the midi pc message from being sent out. (Ensures all opts are evaluated in this call to `midi_pc` regardless of value)."},
+          accepts_block:  false,
+          doc:            "Sends a MIDI program change message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
+
+Program number can be passed as a note such as `:e3` and decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3.
+
+[MIDI 1.0 Specification - Channel Voice Messages - Program change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+",
+          examples:       [
+        "midi_pc 100  #=> Sends MIDI pc message to all ports and channels",
+        "midi_pc :e7  #=> Sends MIDI pc message to all ports and channels",
+        "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
+        "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
+        "midi_pc 100, channel: [1, 5]  #=> Sends MIDI pc message on channel 1 and 5 to all ports"
+]     
 
 
       def midi_raw(*args)
@@ -1404,7 +1455,7 @@ end"
           return channels.map do |c|
             return ['*'] if c == '*'
             c.to_i.min(1).max(16)
-          end.uniq!
+          end.uniq  #requires uniq not uniq! here uniq! will return nil for [1,2,3]
         else
           return [channels.to_i.min(1).max(16)]
         end
