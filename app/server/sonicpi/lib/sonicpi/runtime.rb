@@ -336,10 +336,10 @@ module SonicPi
       info = __current_job_info
       err_msg.gsub(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
       res = ""
+      w = info[:workspace]
       if line != -1
 
         # TODO: Remove this hack when we have projects
-        w = info[:workspace]
         w = normalise_buffer_name(w)
         w = "buffer " + w
         # TODO: end of hack
