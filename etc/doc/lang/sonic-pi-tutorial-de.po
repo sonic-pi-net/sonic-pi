@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-04-27 20:35+0000\n"
-"Last-Translator: Stephan Schuster <hypertexthome@googlemail.com>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/d"
-"e/>\n"
+"PO-Revision-Date: 2017-09-15 19:47+0000\n"
+"Last-Translator: Jakob Bo Kristensen <jakobbo@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.14-dev\n"
+"X-Generator: Weblate 2.17-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -106,9 +106,10 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Mit Sonic Pi kannst Du etwas sehr aufregendes tun: Du kannst Musik aus Code li"
-"ve schreiben und *verändern, während sie spielt*. Fast so wie mit einer Gitarr"
-"e. Mit anderen Worten: Du kannst Sonic Pi mit auf die Bühne nehmen und jammen!"
+"Mit Sonic Pi kannst Du etwas sehr aufregendes tun: Du kannst Musik aus Code "
+"live schreiben und *verändern, während sie spielt*. Fast so wie mit einer "
+"Gitarre. Mit anderen Worten: Du kannst Sonic Pi mit auf die Bühne nehmen und "
+"jammen."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -162,7 +163,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr "Lass den Beat der Bass-Drum weiter laufen."
+msgstr "Lass den Beat der Bass-Drum weiter laufen"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
@@ -170,7 +171,7 @@ msgstr "Verändere die Zahl hinter `sleep` von `0.5` auf einen höheren Wert, et
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr "Drücke wieder den `Ausführen`-Button."
+msgstr "Drücke wieder den `Ausführen`-Button"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
@@ -218,13 +219,14 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"So, jetzt spiele damit herum. Verändere die Werte für `rate:` - was passiert, "
-"wenn Du hohe, kleine oder negative Zahlen einträgst? Hast Du gemerkt, wie sich"
-" eine sehr kleine Änderung des `rate:`-Wertes für das `:ambi_choir`-Sample aus"
-"wirkt (z.B. 0.29)? Was passiert bei einem wirklich kleinen `sleep`-Wert? Kanns"
-"t Du eine Fehlermeldung Deines Computers auslösen, wenn Du den Wert immer klei"
-"ner werden lässt? (Wenn das geschieht, nimm einfach wieder einen größeren Wert"
-" für `sleep` und drücke auf `Ausführen`.)"
+"So, jetzt spiele damit herum. Verändere die Werte für `rate:` - was "
+"passiert, wenn Du hohe, kleine oder negative Zahlen einträgst? Hast Du "
+"gemerkt, wie sich eine sehr kleine Änderung des `rate:`-Wertes für das "
+"`:ambi_choir`-Sample auswirkt (z.B. 0.29)? Was passiert bei einem wirklich "
+"kleinen `sleep`-Wert? Kannst Du eine Fehlermeldung Deines Computers "
+"auslösen, wenn Du den Wert immer kleiner werden lässt? (Wenn das geschieht, "
+"nimm einfach wieder einen größeren Wert für `sleep` und drücke auf "
+"`Ausführen`)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -730,7 +732,7 @@ msgstr "Hörst Du den Unterschied? Nimm eine kleinere Zahl:"
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr "play 60"
+msgstr "play 601"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
