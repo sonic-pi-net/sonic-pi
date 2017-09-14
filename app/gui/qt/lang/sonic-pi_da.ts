@@ -25,7 +25,7 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>Slå lydombytning til
+        <translation>Slå lydombytning til.
 Hvis slået til, vil lyd sendt til venstre højttaler
 spille i højre højttaler og omvendt.</translation>
     </message>
@@ -565,7 +565,7 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Velkommen tilbage. Få din live code igang...</translation>
+        <translation>Velkommen tilbage. Kom i gang med at &apos;live code&apos; ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1796"/>
