@@ -595,183 +595,189 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netværksindstillinger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokal IP-adresse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Lytter efter OSC-beskeder på port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilgængelig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Modtag eksterne OSC-beskeder</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis afkrydset, vil Sonic Pi lytte efter OSC-beskeder fra eksterne maskiner.
+Hvis blank, vil kun beskeder fra din lokale maskine blive modtaget.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivér OSC-server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis afkrydset, vil Sonic Pi lytte efter OSC-beskeder.
+Hvis blank, vil ingen OSC-beskeder blive modtaget.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurér MIDI adfærd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivér MIDI-undersystemer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivér ind- og udgående MIDI kommunikation</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Nulstil MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nulstil MIDI-undersystemer
+(nødvendig for at spore enhedsændringer i macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard MIDI-kanal (* betyder alle)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard MIDI-kanal, der sendes beskeder til</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen tilsluttede input-enheder</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen tilsluttede output-enheder</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI input-enheder sender MIDI-beskeder direkte til
+Sonic Pi og bliver modtaget som indsats-events
+(på samme måde som indkommende OSC-beskeder og interne indsatser)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI output-enheder modtager de MIDI-beskeder direkte fra
+Sonic Pi, som kan sendes via midi_* fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Generel lydstyrke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Brug denne skyder til at ændre systemets lydstyrke.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1303"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Lydudgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Logfilen ruller automatisk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis log over indsatser</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis indsatslog, som indeholder interne indsatser og indkommende OSC/MIDI-beskeder.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Prof. ikoner</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Input/Output</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis/skjul Oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscilloskop-typer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1535"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis Oscilloskoper</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1536"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synlighed af lyd-afbildning i oscilloskoper.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis akser</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1538"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synligheden af x- og y-akse for lyd-oscilloskopet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
@@ -781,12 +787,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Lyd-oscilloskopet kommer i tre varianter, som kan 
+vises uafhængigt eller samtidigt:
+
+Lissajous - viser faseafhængigheden mellem venstre og højre lyd-kanal
+Mono - viser et sammenlagt billede af højre og venstre kanal (bruger RMS)
+Stereo - viser to uafhængige afbildninger af højre og venstre kanal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Billede</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
@@ -892,27 +903,27 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Skalér op</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Skalér ned</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synlighed af lyd-oscilloskoper. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synlighed af hjælpevinduet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift synlighed af indstillingsvinduet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
@@ -961,12 +972,12 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilsluttede MIDI-input</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilsluttede MIDI-output</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
@@ -1167,7 +1178,7 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kører Sonic Pi allerede? Kan ikke åbne UDP porten.</translation>
     </message>
 </context>
 </TS>
