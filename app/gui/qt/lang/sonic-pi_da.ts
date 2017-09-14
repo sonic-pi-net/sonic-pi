@@ -590,7 +590,7 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Netværk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
