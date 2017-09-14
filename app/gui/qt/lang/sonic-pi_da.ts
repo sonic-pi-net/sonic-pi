@@ -560,7 +560,7 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation>MIDI er frakoblet...</translation>
+        <translation>MIDI er deaktiveret...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
