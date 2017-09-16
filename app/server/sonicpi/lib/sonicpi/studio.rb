@@ -65,7 +65,7 @@ module SonicPi
       return @erlang_pid if @erlang_pid
       # Start Erlang
       begin
-        erlang_cmd = "#{erlang_boot_path} -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port}"
+        erlang_cmd = "#{erlang_boot_path} -noshell -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port}"
         STDOUT.puts erlang_cmd
         @erlang_pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
         register_process(@erlang_pid)
