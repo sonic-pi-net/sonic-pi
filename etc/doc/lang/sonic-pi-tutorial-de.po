@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-18 13:36+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2017-09-19 13:45+0000\n"
+"Last-Translator: Timo Dankert <timo.dankert@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10414,6 +10414,11 @@ msgid ""
 " call this concurrency and Sonic Pi provides us with an amazingly simple way o"
 "f playing things at the same time. Simply use more than one `live_loop`!"
 msgstr ""
+"Musik ist voller Dinge die zur selben Zeit geschehen. Schlagzeug zur selben "
+"Zeit wie der Bass, Vocals, Gitarren,... Beim Computing nennen wir das "
+"Nebenläufigkeit (concurrency) und Sonic Pi bietet uns eine einfache "
+"Möglichkeit, verschiedenste Dinge zur selben Zeit abzuspielen. Benutze "
+"einfach mehr als einen `live_loop`!"
 
 #: A.02-live-coding.md:105
 #, no-wrap
@@ -10445,10 +10450,13 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:121
+#, fuzzy
 msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a crazy bass sound."
 msgstr ""
+"Hier haben wir zwei `live_loop`s, einer looped schnell die beats, während "
+"der andere langsam einen verrückten Bass Sound looped."
 
 #: A.02-live-coding.md:124
 msgid ""
