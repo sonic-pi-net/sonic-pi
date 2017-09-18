@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-18 13:21+0000\n"
-"Last-Translator: Timo Dankert <timo.dankert@gmail.com>\n"
+"PO-Revision-Date: 2017-09-18 13:22+0000\n"
+"Last-Translator: Sebastian Stahn <robert_owen@gmx.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10370,6 +10370,8 @@ msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. C"
 "onsider the following `live_loop`:"
 msgstr ""
+"Eine der wichtigsten Lektionen über 'live_loop's ist, dass sie Pausen "
+"brauchen. Betrachte einmal folgenden 'live_loop':"
 
 #: A.02-live-coding.md:82
 #, no-wrap
