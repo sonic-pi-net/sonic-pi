@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-10 13:52+0000\n"
+"PO-Revision-Date: 2017-09-19 05:05+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
@@ -7384,10 +7384,19 @@ msgid ""
 "that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
 "Pi will automatically detect and re-create the connection for you."
 msgstr ""
+"API-et til Minecraft Pi tar seg av å styre forbindelsen din til Minecraft Pi-"
+"programmet.  Dette betyrat du ikke trenger bekymre deg for noen ting.  Hvis "
+"du forsøker å bruke API-et til Minecraft Pi når Minecraft Pi ikke er aktiv "
+"så vil Sonic Pi vennlig fortelle deg det.  Tilsvarende, hvis du lukker "
+"Minecraft Pi mens du fortsatt kjører en \"live_loop\" som bruker API-et, sa "
+"vil den aktive løkken stoppe og vennlig fortelle deg at den ikke kan koble "
+"seg opp.  For å opprette ny forbindelse er det bare å starte Minecraft Pi på "
+"nytt slik at Sonic Pi automatisk kan oppdage den og gjenopprette "
+"forbindelsen for deg."
 
 #: 11-Minecraft-Pi.md:28
 msgid "Designed to be Live Coded"
-msgstr ""
+msgstr "Utformet for å programmeres mens programmet kjøres"
 
 #: 11-Minecraft-Pi.md:30
 msgid ""
@@ -7402,7 +7411,7 @@ msgstr ""
 
 #: 11-Minecraft-Pi.md:39
 msgid "Requires a Raspberry Pi 2.0"
-msgstr ""
+msgstr "Krever en Raspberry Pi 2.0"
 
 #: 11-Minecraft-Pi.md:41
 msgid ""
@@ -7410,10 +7419,13 @@ msgid ""
 " Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
 " Pi's sound capabilities."
 msgstr ""
+"Det er svært anbefalt at du bruker en Raspberry Pi 2 hvis du ønsker a bruke "
+"både Sonic Pi og Minecraft på samme tid - spesielt hvis du ønsker å bruke "
+"lydevnene til Sonic Pi."
 
 #: 11-Minecraft-Pi.md:45
 msgid "API Support"
-msgstr ""
+msgstr "API-støtte"
 
 #: 11-Minecraft-Pi.md:47
 msgid ""
@@ -7424,41 +7436,41 @@ msgstr ""
 
 #: 11.1-Basic-API.md:1
 msgid "11.1 Basic API"
-msgstr ""
+msgstr "11.1 Grunnleggende API"
 
 #: 11.1-Basic-API.md:3
 msgid "Basic Minecraft Pi API"
-msgstr ""
+msgstr "Grunnleggende Minecraft Pi-API"
 
 #: 11.1-Basic-API.md:5
 msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft Pi"
 ":"
-msgstr ""
+msgstr "Sonic Pi støtter følgende grunnleggende samhandlinger med Minecraft Pi:"
 
 #: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
 msgid "Displaying chat messages"
-msgstr ""
+msgstr "Vise frem samtalemeldinger"
 
 #: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
 msgid "Setting the position of the user"
-msgstr ""
+msgstr "Sette brukerens posisjon"
 
 #: 11.1-Basic-API.md:9
 msgid "Getting the position of the user"
-msgstr ""
+msgstr "Hente ut brukerens posisjon"
 
 #: 11.1-Basic-API.md:10
 msgid "Setting the block type at a given coordinate"
-msgstr ""
+msgstr "Sette blokk-typen på et gitt koordinat"
 
 #: 11.1-Basic-API.md:11
 msgid "Getting the block type at a given coordinate"
-msgstr ""
+msgstr "Hente ut blokktypen på et gitt koordinat"
 
 #: 11.1-Basic-API.md:14
 msgid "Let's look at each of these in turn."
-msgstr ""
+msgstr "La oss se på hver av disse etter tur."
 
 #: 11.1-Basic-API.md:18
 msgid ""
@@ -11314,6 +11326,8 @@ msgid ""
 "synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 msgstr ""
+"synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
 msgid "Now, let's pipe it through the `:slicer` FX:"
@@ -11328,6 +11342,11 @@ msgid ""
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
 msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
 msgid ""
@@ -12240,6 +12259,9 @@ msgid ""
 "sample :bass_trance_c, rate: 2\n"
 "sample :bass_trance_c, rate: 0.5"
 msgstr ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
 
 #: A.17-sample-stretching.md:125
 msgid ""
@@ -12255,6 +12277,9 @@ msgid ""
 "sample :bass_trance_c, rpitch: 3\n"
 "sample :bass_trance_c, rpitch: 7"
 msgstr ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
 
 #: A.17-sample-stretching.md:133
 msgid ""
@@ -12275,6 +12300,13 @@ msgid ""
 "sleep 1\n"
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 msgstr ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:149
 msgid ""
