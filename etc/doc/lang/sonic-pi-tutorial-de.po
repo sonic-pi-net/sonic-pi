@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-15 19:47+0000\n"
-"Last-Translator: Jakob Bo Kristensen <jakobbo@gmail.com>\n"
+"PO-Revision-Date: 2017-09-18 13:21+0000\n"
+"Last-Translator: Timo Dankert <timo.dankert@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10226,10 +10226,13 @@ msgstr ""
 "Programmcode. Live. Das ist Live-Coding."
 
 #: A.02-live-coding.md:14
+#, fuzzy
 msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
 msgstr ""
+"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-"
+"aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -10311,12 +10314,18 @@ msgid "Redefining On-the-fly"
 msgstr ""
 
 #: A.02-live-coding.md:54
+#, fuzzy
 msgid ""
 "Ok, so what's so special about the `live_loop`? So far it just seems like a gl"
 "orified `loop`! Well, the beauty of `live_loop`s is that you can redefine them"
 " on-the-fly. This means that whilst they're still running, you can change what"
 " they do. This is the secret to live coding with Sonic Pi. Let's have a play:"
 msgstr ""
+"Okay, was ist nun also so speziell am `live_loop`? Bisher scheint es nur ein "
+"verherrlichter `loop` zu sein. Also, das Schöne an einem `live_loop` ist, "
+"dass Du diesen beim Ausführen neu definieren kannst. Das bedeutet, dass "
+"während dieser läuft, Du ändern kannst, was dieser tut. Das ist das "
+"Geheimnis vom live coding mit Sonic Pi.  Probieren wir das einmal aus:"
 
 #: A.02-live-coding.md:60
 #, no-wrap
@@ -10383,6 +10392,13 @@ msgid ""
 "h and burn in the process. So remember, your `live_loop`s must contain a `slee"
 "p`."
 msgstr ""
+"Wenn du versuchst, diese Code auszuführen, wirst du bemerken, dass Sonic Pi "
+"sich beschwert, dass der `live_loop` nicht geschlafen hat. Das ist ein "
+"Sicherheitssystem! Nimm dir etwas Zeit und denk darüber nach, was dieser "
+"Code vom Computer verlangt. Genau, der Computer wird gefragt eine unendliche "
+"Anzahl an Samples zum Nullzeitpunkt zu spielen. Ohne das Sicherheitssystem "
+"wird der arme Computer das probieren und währenddessen abstürzen. Also immer "
+"daran denken: Deine `live_loop`s müssen ein `sleep` beinhalten."
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
