@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-18 13:22+0000\n"
-"Last-Translator: Sebastian Stahn <robert_owen@gmx.de>\n"
+"PO-Revision-Date: 2017-09-18 13:36+0000\n"
+"Last-Translator: anonymous <>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -167,7 +167,8 @@ msgstr "Lass den Beat der Bass-Drum weiter laufen"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Verändere die Zahl hinter `sleep` von `0.5` auf einen höheren Wert, etwa `1`."
+msgstr ""
+"Verändere den Wert von `sleep` von `0.5` auf einen höheren Wert, etwa `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
