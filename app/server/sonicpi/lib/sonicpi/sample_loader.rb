@@ -157,10 +157,11 @@ module SonicPi
       @folder_contents_mutex.synchronize do
         res = @cached_folder_contents[path]
         return res if res
+        pattern = '*.{[wW][aA][vV],[wW][aA][vV][eE],[aA][iI][fF],[aA][iI][fF][fF],[fF][lL][aA][cC]}'
         if recursive
-          res = Dir.chdir(path) { Dir.glob("**/*.{wav,wave,aif,aiff,flac,WAV,WAVE,AIF,AIFF,FLAC}").map {|p| File.expand_path(p) } }.sort
+          res = Dir.chdir(path) { Dir.glob("**/#{pattern}").map { |p| File.expand_path(p) } }.sort
         else
-          res = Dir.chdir(path) { Dir.glob("*.{wav,wave,aif,aiff,flac,WAV,WAVE,AIF,AIFF,FLAC}").map {|p| File.expand_path(p) } }.sort
+          res = Dir.chdir(path) { Dir.glob(pattern).map { |p| File.expand_path(p) } }.sort
         end
         @cached_folder_contents[path] = res.freeze
       end
