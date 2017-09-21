@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-19 05:05+0000\n"
-"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
+"PO-Revision-Date: 2017-09-22 08:06+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
 "Language: nb\n"
@@ -399,9 +399,8 @@ msgid "*G* - Help System"
 msgstr "*G* - Hjelpesystem"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
-msgstr "*F* - Loggvisning"
+msgstr "*H* - Skopvisning"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
@@ -2150,9 +2149,8 @@ msgstr ""
 "tt nærmere."
 
 #: 03.3-Stretching-Samples.md:43
-#, fuzzy
 msgid "Let's stretch"
-msgstr "OK, så oss komme igang..."
+msgstr "La oss strekke ut"
 
 #: 03.3-Stretching-Samples.md:45
 msgid ""
