@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-06-30 06:41+0000\n"
-"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
+"PO-Revision-Date: 2017-09-27 19:48+0000\n"
+"Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.15-dev\n"
+"X-Generator: Weblate 2.17-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3436,6 +3436,9 @@ msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name (m"
 "inus directory path and extension)."
 msgstr ""
+"`/fo[oO]/` Regular Expresssions filtrará aquellos archivos cuyo nombre sea "
+"más parecido al del archivo especificado (en el nombre de archivo no se "
+"incluye su ruta ni su extensión de archivo)."
 
 #: 03.7-Sample-Packs.md:191
 msgid ""
@@ -3456,6 +3459,8 @@ msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
 msgstr ""
+"`1` - Los números seleccionarán el candidato cuyo índice coincida con dicho "
+"número (dando la vuelta como una estructura de anillo si hace falta)."
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
@@ -3476,10 +3481,12 @@ msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
 msgstr ""
+"Mira la sección de ayuda para `sample` donde encontrarás muchos ejemplos de "
+"uso detallados. Ten en cuenta que debes respetar el orden de los filtros."
 
 #: 03.7-Sample-Packs.md:206
 msgid "Composites"
-msgstr ""
+msgstr "Filtros y fuentes compuestos"
 
 #: 03.7-Sample-Packs.md:208
 msgid ""
@@ -3488,6 +3495,10 @@ msgid ""
 "ources and filters. Therefore the following calls to `sample` are semantically"
 " equivalent:"
 msgstr ""
+"Finalmente, puedes usar listas dentro de una fuente o filtro. La lista será "
+"aplanada automáticamente, y sus contenidos serán tratados como fuentes y "
+"filtros normales y corrientes. Por tanto, las siguientes llamadas a `sample` "
+"son equivalentes sintácticamente:"
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -3504,7 +3515,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:220
 msgid "Wrapping Up"
-msgstr ""
+msgstr "Conclusión"
 
 #: 03.7-Sample-Packs.md:222
 msgid ""
@@ -3514,6 +3525,12 @@ msgid ""
 "you'll know when you do need it and you can come back and re-read this when yo"
 "u start working with large directories of samples."
 msgstr ""
+"Ésta es una sección avanzada pensada para gente que necesite manipular y "
+"usar paquetes de samples de forma eficiente. No te preocupes si no entiendes "
+"si esta sección. Es probable que no necesites ninguna de estas opciones "
+"ahora mismo. Cuando llegue el momento. verás si te hacen falta estas "
+"herramientas; siempre puedes volver y leer esta ayuda de nuevo cuando "
+"empieces a trabajar con directorios de samples muy grandes."
 
 #: 04-Randomisation.md:1
 #, fuzzy
@@ -3626,7 +3643,7 @@ msgstr ""
 
 #: 04-Randomisation.md:50
 msgid "Haunted Bells"
-msgstr ""
+msgstr "Campanas encantadas"
 
 #: 04-Randomisation.md:52
 #, fuzzy
@@ -5454,6 +5471,9 @@ msgid ""
 " (as we saw in a previous section). Another is to use meaningful variable name"
 "s. Look at this code:"
 msgstr ""
+"Una forma de ayudar a otras personas a entender lo que hace tu código es "
+"escribir comentarios (como vimos en una sección anterior). Otra forma es "
+"utilizar nombres de variables significativos. Mira este código:"
 
 #: 05.6-Variables.md:40
 #, no-wrap
@@ -6358,23 +6378,23 @@ msgstr ""
 
 #: 06.1-Adding-FX.md:158
 msgid "wobble,"
-msgstr ""
+msgstr "tambaleo,"
 
 #: 06.1-Adding-FX.md:159
 msgid "reverb,"
-msgstr ""
+msgstr "reverberación,"
 
 #: 06.1-Adding-FX.md:160
 msgid "echo,"
-msgstr ""
+msgstr "eco,"
 
 #: 06.1-Adding-FX.md:161
 msgid "distortion,"
-msgstr ""
+msgstr "distorsión"
 
 #: 06.1-Adding-FX.md:162
 msgid "slicer"
-msgstr ""
+msgstr "rebanador"
 
 #: 06.1-Adding-FX.md:164
 #, fuzzy
@@ -6530,12 +6550,16 @@ msgid ""
 "This way we've lifted the `with_fx` out of the inner part of the `loop` and we"
 "'re now creating a new reverb every 16 notes."
 msgstr ""
+"De esta forma, hemos sacado el `with_fx` fuera de la parte interna del `loop`"
+" y ahora estamos creando un nuevo reverb cada 16 notas."
 
 #: 06.2-FX-in-Practice.md:70
 msgid ""
 "This is such a common pattern that `with_fx` supports an opt to do exactly thi"
 "s but without having to write the `16.times` block:"
 msgstr ""
+"Éste es un patrón tan común que `with_fx` ofrece una opción para hacer esto "
+"mismo, pero sin tener que escribir el bloque `16.times`:"
 
 #: 06.2-FX-in-Practice.md:73
 #, no-wrap
@@ -6560,6 +6584,10 @@ msgid ""
 "eps: 16` essentially repeats the code in the `do/end` block 16 times so you ca"
 "n use them both interchangeably and choose the one that feels best for you."
 msgstr ""
+"Ambos ejemplos, `reps: 16` y `16.times do`, tendrán el mismo comportamiento. "
+"Básicamente, el `reps: 16` repite el código dentro del bloque `do/end` 16 "
+"veces; así que puedes usar ambos de manera intercambiable, y utilizar aquel "
+"que te guste más."
 
 #: 06.2-FX-in-Practice.md:87
 #, fuzzy
@@ -6575,7 +6603,7 @@ msgstr ""
 
 #: 07-Control.md:1
 msgid "7 Control"
-msgstr ""
+msgstr "7 Control"
 
 #: 07-Control.md:3
 #, fuzzy
@@ -7182,20 +7210,24 @@ msgstr ""
 "Prueba con estos:"
 
 #: 08.2-Chords.md:16
+#, fuzzy
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
+#, fuzzy
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
+#, fuzzy
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
+#, fuzzy
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 #, fuzzy
@@ -7455,6 +7487,7 @@ msgstr ""
 #: 08.4-Rings.md:28
 msgid "We can now use our counter to access a note in our list:"
 msgstr ""
+"Ahora podemos usar nuestro contador para acceder a una nota de nuestra lista:"
 
 #: 08.4-Rings.md:30
 #, no-wrap
@@ -7627,25 +7660,27 @@ msgstr "Mira la documentación de cada uno para más información."
 
 #: 08.5-Ring-Chains.md:1
 msgid "8.5 Ring Chains"
-msgstr ""
+msgstr "8.5 Cadenas de Anillos"
 
 #: 08.5-Ring-Chains.md:3
 msgid "Ring Chains"
-msgstr ""
+msgstr "Cadenas de Anillos"
 
 #: 08.5-Ring-Chains.md:5
 msgid ""
 "In addition to the constructors such as `range` and `spread` another way of cr"
 "eating new rings is to manipulate existing rings."
 msgstr ""
+"Otra forma de crear nuevos anillos, además de con constructores como `range` "
+"y `spread`, es manipulando anillos existentes."
 
 #: 08.5-Ring-Chains.md:9
 msgid "Chain Commands"
-msgstr ""
+msgstr "Comandos de Cadenas"
 
 #: 08.5-Ring-Chains.md:11
 msgid "To explore this, take a simple ring:"
-msgstr ""
+msgstr "Para explorar esta idea, mira el siguiente anillo:"
 
 #: 08.5-Ring-Chains.md:13
 #, no-wrap
@@ -7657,6 +7692,8 @@ msgid ""
 "What if we wanted it backwards? Well we'd use the chain command `.reverse` to "
 "take the ring and turn it around:"
 msgstr ""
+"¿Y si lo queremos de atrás a delante? Bueno, sólo tendríamos que usar el "
+"comando `.reverse` para coger el anillo y darle la vuelta:"
 
 #: 08.5-Ring-Chains.md:20
 #, no-wrap
@@ -7665,7 +7702,7 @@ msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
 #: 08.5-Ring-Chains.md:24
 msgid "Now, what if we wanted the first three values from the ring?"
-msgstr ""
+msgstr "Ahora bien, ¿y si queremos los tres primeros valores del anillo?"
 
 #: 08.5-Ring-Chains.md:26
 #, no-wrap
@@ -7674,7 +7711,7 @@ msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
 #: 08.5-Ring-Chains.md:30
 msgid "Finally, what if we wanted to shuffle the ring?"
-msgstr ""
+msgstr "Finalmente, ¿y si queremos mezclar (barajar) el anillo?"
 
 #: 08.5-Ring-Chains.md:32
 #, no-wrap
@@ -7683,39 +7720,50 @@ msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
 #: 08.5-Ring-Chains.md:36
 msgid "Multiple Chains"
-msgstr ""
+msgstr "Cadenas Múltiples"
 
 #: 08.5-Ring-Chains.md:38
 msgid ""
 "This is already a powerful way of creating new rings. However, the *real* powe"
 "r comes when you chain a few of these commands together."
 msgstr ""
+"Por sí sola, ésta es una forma muy potente de crear nuevos anillos. Sin "
+"embargo, el *verdadero* poder viene cuando encadenas unos cuantos de estos "
+"comandos juntos."
 
 #: 08.5-Ring-Chains.md:41
 msgid "How about shuffling the ring, dropping 1 element and then taking the next 3?"
 msgstr ""
+"¿Y qué me dices de desordenar el anillo, quitarle 1 elemento, y después "
+"coger los siguientes 3?"
 
 #: 08.5-Ring-Chains.md:43
 msgid "Let's take this in stages:"
-msgstr ""
+msgstr "Veamos esto por pasos:"
 
 #: 08.5-Ring-Chains.md:45
 msgid "`(ring 10, 20, 30, 40, 50)` - our initial ring"
-msgstr ""
+msgstr "`(ring 10, 20, 30, 40, 50)` - nuestro anillo inicial"
 
 #: 08.5-Ring-Chains.md:46
 msgid "`(ring 10, 20, 30, 40, 50).shuffle` - shuffles - `(ring 40, 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle` - lo desordenamos - `(ring 40, 30, 10, "
+"50, 20)`"
 
 #: 08.5-Ring-Chains.md:47
 msgid "`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - drop 1 - `(ring 30, 10, 50, 20)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1)` - quitamos 1 - `(ring 30, 10, "
+"50, 20)`"
 
 #: 08.5-Ring-Chains.md:48
 msgid ""
 "`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - take 3 - `(ring 30, 10, "
 "50)`"
 msgstr ""
+"`(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)` - cogemos 3 - `(ring 30, "
+"10, 50)`"
 
 #: 08.5-Ring-Chains.md:50
 msgid ""
@@ -7723,10 +7771,14 @@ msgid ""
 "king them together*. We can combine these in any order we want creating an ext"
 "remely rich and powerful way of generating new rings from existing ones."
 msgstr ""
+"¿Ves cómo hemos creado una cadena larga de estos métodos con sólo *unirlos*? "
+"Podemos combinarlos en el orden que queramos; ésta es una forma "
+"extremadamente rica y potente de generar nuevos anillos a partir de anillos "
+"existentes."
 
 #: 08.5-Ring-Chains.md:55
 msgid "Immutability"
-msgstr ""
+msgstr "Inmutabilidad"
 
 #: 08.5-Ring-Chains.md:57
 msgid ""
@@ -7736,78 +7788,97 @@ msgid ""
 "ns you're free to share rings across threads and start chaining them within a "
 "thread knowing you won't be affecting any other thread using the same ring."
 msgstr ""
+"Estos anillos tienen una propiedad muy poderosa e importante. Son "
+"inmutables, es decir, no pueden cambiar. Esto significa que la cadena de "
+"métodos descrita en esta sección *no cambia anillos*, sino que *crea nuevos "
+"anillos*. Por eso, puedes compartir anillos entre distintos hilos con total "
+"libertad; puedes encadenarlos dentro de un hilo sabiendo que ningún otro "
+"hilo usando el mismo anillo se va a ver afectado."
 
 #: 08.5-Ring-Chains.md:64
 msgid "Available Chain Methods"
-msgstr ""
+msgstr "Métodos de Cadenas Disponibles"
 
 #: 08.5-Ring-Chains.md:66
 msgid "Here's a list of the available chain methods for you to play with:"
 msgstr ""
+"Aquí tienes una lista de los métodos de cadenas disponibles, para que "
+"juegues con ellos:"
 
 #: 08.5-Ring-Chains.md:68
 msgid "`.reverse` - returns a reversed version of the ring"
-msgstr ""
+msgstr "`.reverse` - devuelve una versión del anillo dado la vuelta"
 
 #: 08.5-Ring-Chains.md:69
 msgid "`.sort` - creates a sorted version of the ring"
-msgstr ""
+msgstr "`.sort` - crea una versión ordenada del anillo"
 
 #: 08.5-Ring-Chains.md:70
 msgid "`.shuffle` - creates a shuffled version of the ring"
-msgstr ""
+msgstr "`.shuffle` - crea una versión desordenada del anillo"
 
 #: 08.5-Ring-Chains.md:71
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
 msgstr ""
+"`.pick(3)` - devuelve un anillo que es el resultado de llamar `.choose` 3 "
+"veces"
 
 #: 08.5-Ring-Chains.md:72
 msgid ""
 "`.pick` - similar to `.pick(3)` only the size defaults to the same as the orig"
 "inal ring"
 msgstr ""
+"`.pick` - similar a `.pick(3)` sólo que el tamaño por defecto es el mismo "
+"que el del anillo original"
 
 #: 08.5-Ring-Chains.md:73
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
 msgstr ""
+"`.take(5)` - devuelve un anillo nuevo, que sólo contiene los primeros 5 "
+"elementos"
 
 #: 08.5-Ring-Chains.md:74
 msgid "`.drop(3)` - returns a new ring with everything but the first 3 elements"
 msgstr ""
+"`.drop(3)` - devuelve un anillo nuevo con todos los elementos salvo los 3 "
+"primeros"
 
 #: 08.5-Ring-Chains.md:75
 msgid "`.butlast` - returns a new ring with the last element missing"
-msgstr ""
+msgstr "`.butlast` - devuelve un anillo nuevo sin el último elemento"
 
 #: 08.5-Ring-Chains.md:76
 msgid "`.drop_last(3)` - returns a new ring with the last 3 elements missing"
-msgstr ""
+msgstr "`.drop_last(3)` - devuelve un nuevo anillo sin los 3 últimos elementos"
 
 #: 08.5-Ring-Chains.md:77
 msgid "`.take_last(6)`- returns a new ring with only the last 6 elements"
 msgstr ""
+"`.take_last(6)`- devuelve un anillo nuevo con sólo los últimos 6 elementos"
 
 #: 08.5-Ring-Chains.md:78
 msgid "`.stretch(2)` - repeats each element in the ring twice"
-msgstr ""
+msgstr "`.stretch(2)` - repite cada elemento en el anillo dos veces"
 
 #: 08.5-Ring-Chains.md:79
 msgid "`.repeat(3)` - repeats the entire ring 3 times"
-msgstr ""
+msgstr "`.repeat(3)` - repite el anillo entero 3 veces"
 
 #: 08.5-Ring-Chains.md:80
 msgid "`.mirror` - adds the ring to a reversed version of itself"
-msgstr ""
+msgstr "`.mirror` - añade el anillo a una versión invertida del mismo"
 
 #: 08.5-Ring-Chains.md:81
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
-msgstr ""
+msgstr "`.reflect` - lo mismo que mirror, pero no duplica el valor del medio"
 
 #: 08.5-Ring-Chains.md:82
 msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
+"`.scale(2)` - devuelve un anillo nuevo con todos los elementos multiplicados "
+"por 2 (asume que el anillo sólo contiene números)"
 
 #: 08.5-Ring-Chains.md:84
 msgid ""
@@ -7815,10 +7886,14 @@ msgid ""
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
 "irst 5 elements."
 msgstr ""
+"Por supuesto, estos métodos para cadenas con números, ¡pueden utilizar otros "
+"númros cualquiera! Así que, siéntete libre de llamar `.drop(5)` en vez de "
+"`.drop(3)` si quieres quitar los primeros 5 elementos."
 
 #: 09-Live-Coding.md:1
+#, fuzzy
 msgid "9 Live Coding"
-msgstr ""
+msgstr "9 Live Coding"
 
 #: 09-Live-Coding.md:5
 #, fuzzy
@@ -8474,11 +8549,11 @@ msgstr "¡Ahora ve y codifica en vivo con bucles en vivo!"
 
 #: 09.4-Ticking.md:1
 msgid "9.4 Ticking"
-msgstr ""
+msgstr "9.4 Ticado"
 
 #: 09.4-Ticking.md:3
 msgid "Ticking"
-msgstr ""
+msgstr "Ticado"
 
 #: 09.4-Ticking.md:5
 #, fuzzy
@@ -8528,7 +8603,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:26
 msgid "This is equivalent to:"
-msgstr ""
+msgstr "Esto es equivalente a:"
 
 #: 09.4-Ticking.md:28
 #, no-wrap
@@ -8580,8 +8655,9 @@ msgstr ""
 "end"
 
 #: 09.4-Ticking.md:53
+#, fuzzy
 msgid "Tick"
-msgstr ""
+msgstr "Tick"
 
 #: 09.4-Ticking.md:55
 #, fuzzy
@@ -9286,11 +9362,11 @@ msgstr "`S-M-m` - Cambia entre los modos luminoso/Obscuro de pantalla"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
+msgstr "`S-M-s` - Guarda los contenidos del búfer en un archivo"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
+msgstr "`S-M-o` - Carga los contenidos de un archivo en el búfer"
 
 #: 10.3-Sharing.md:1
 #, fuzzy
@@ -9354,8 +9430,9 @@ msgstr ""
 "o por los demás para ver, copiar y compartir."
 
 #: 10.3-Sharing.md:27
+#, fuzzy
 msgid "Audio -> SoundCloud"
-msgstr ""
+msgstr "Audio -> SoundCloud"
 
 #: 10.3-Sharing.md:29
 #, fuzzy
@@ -9466,8 +9543,9 @@ msgstr ""
 "ca interesantes combinaciones de sonido para hacer."
 
 #: 10.4-Performing.md:27
+#, fuzzy
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: 10.4-Performing.md:29
 #, fuzzy
@@ -9482,8 +9560,9 @@ msgstr ""
 "ra encontrar otros live coders es [TOPLAP](http://toplap.org)."
 
 #: 10.4-Performing.md:34
+#, fuzzy
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: 10.4-Performing.md:36
 #, fuzzy
@@ -9497,12 +9576,14 @@ msgstr ""
 "dign para nightclubs."
 
 #: 11-Minecraft-Pi.md:1
+#, fuzzy
 msgid "11 Minecraft Pi"
-msgstr ""
+msgstr "11 Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:3
+#, fuzzy
 msgid "Minecraft Pi"
-msgstr ""
+msgstr "Minecraft Pi"
 
 #: 11-Minecraft-Pi.md:5
 #, fuzzy
@@ -10142,24 +10223,27 @@ msgid "*There are no mistakes, only opportunities.*"
 msgstr "*No hay errores, sólo oportunidades.*"
 
 #: 12-Conclusions.md:26
+#, fuzzy
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
 msgid "A Appendix A - MagPi Articles"
-msgstr ""
+msgstr "A Apéndice A - Artículos de MagPi"
 
 #: A-Articles.md:3
 msgid "MagPi Articles"
-msgstr ""
+msgstr "Artículos de MagPi"
 
 #: A-Articles.md:5
 msgid "Appendix A collects all the Sonic Pi articles written for the MagPi magazine."
 msgstr ""
+"El Apéndice A contiene todos los artículos de Sonic Pi escritos para la "
+"revista MagPi."
 
 #: A-Articles.md:8
 msgid "Dive into Topics"
-msgstr ""
+msgstr "Bucea por los Temas"
 
 #: A-Articles.md:10
 msgid ""
@@ -10168,20 +10252,26 @@ msgid ""
 "all of Sonic Pi, they instead each focus on a specific aspect of Sonic Pi and "
 "cover it in a fun and accessible way."
 msgstr ""
+"Estos artículos no están pensados para ser leídos en un orden concreto, y "
+"contienen un montón de referencias a este tutorial. En vez de intentar "
+"enseñarte todo Sonic Pi, cada artículo se centra en un aspecto específico "
+"del lenguaje, y lo explica de forma divertida y accesible."
 
 #: A-Articles.md:15
 msgid "Read the MagPi"
-msgstr ""
+msgstr "Lee la revista MagPi"
 
 #: A-Articles.md:17
 msgid ""
 "You can see them in their glorious professionally typeset form in the free PDF"
 " downloads of The MagPi here: https://www.raspberrypi.org/magpi/"
 msgstr ""
+"Puedes verlos con letras gloriosas y profesionales en la sección de "
+"descargas PDF gratuitas de MagPi, aquí: https://www.raspberrypi.org/magpi/"
 
 #: A-Articles.md:20
 msgid "Suggest a Topic"
-msgstr ""
+msgstr "Sugiere un Tema"
 
 #: A-Articles.md:22
 msgid ""
@@ -10190,18 +10280,22 @@ msgid ""
 "ic_Pi](http://twitter.com/sonic_pi). You never know - your suggestion might be"
 " the subject of the next article!"
 msgstr ""
+"Si no encuentras un tema que te interese en estos artículos... ¿por qué no "
+"lo sugieres? La forma más fácil de hacerlo es que tuitees tus sugerencias a "
+"[@Sonic_Pi](http://twitter.com/sonic_pi). Nunca se sabe; ¡tu sugerencia "
+"podría ser el tema del próximo artículo!"
 
 #: A.01-tips.md:1
 msgid "A.1 Tips for Sonic Pi"
-msgstr ""
+msgstr "A.1 Consejos para Sonic Pi"
 
 #: A.01-tips.md:3
 msgid "Five Top Tips"
-msgstr ""
+msgstr "Los Cinco Mejores Consejos"
 
 #: A.01-tips.md:5
 msgid "1. There are no mistakes"
-msgstr ""
+msgstr "1. No hay errores"
 
 #: A.01-tips.md:7
 msgid ""
@@ -10214,10 +10308,17 @@ msgid ""
 "on't like and keep the things you do. The more 'mistakes' you allow yourself t"
 "o make the quicker you'll learn and discover your personal coding sound."
 msgstr ""
+"La lección más importante que debes aprender de Sonic Pi es que realmente no "
+"hay errores. La mejor forma de aprender es sencillamente probar, probar y "
+"probar. Prueba un montón de cosas, deja de preocuparte de si tu código suena "
+"bien o no y empieza a experimentar con tantos sintetizadores, notas, FX y "
+"opciones como puedas. Quita las cosas que no te gusten y deja las cosas que "
+"te gusten, sencilamente. Cuantos más 'errores' te permitas hacer, más rápido "
+"aprenderás y descubrirás tu propio sonido al hacer código."
 
 #: A.01-tips.md:18
 msgid "2. Use the FX"
-msgstr ""
+msgstr "2. Usa los FX"
 
 #: A.01-tips.md:20
 msgid ""
@@ -10232,6 +10333,17 @@ msgid ""
 "u'd like the FX added to and wrap it with the FX code. Let's look at an exampl"
 "e. Say you had the following code:"
 msgstr ""
+"¿Ya has dominado lo esencial de Sonic Pi haciendo sonidos con `sample` y "
+"`play`? ¿Y ahora, qué? ¿Sabías que Sonic Pi ofrece hasta 27 efectos FX de "
+"estudio para cambiar el sonido de tu código? Los efectos son como filtros "
+"imagen chulos para los programas de dibujo, sólo que en vez de difuminar o "
+"hacer algo blanco y negro, puedes añadir cosas como reverberación, "
+"distorsión y eco a tu sonido. Piensa en lo que haces cuando conectas el "
+"cable de tu guitarra con un pedal de efectos que te guste, que a su vez va a "
+"un amplificador. Por suerte, usar efectos en Sonic Pi es muy fácil, ¡y no "
+"necesitas cables! Sólo necesitas escoger la sección de tu código a la que le "
+"quieras añadir el efecto, y envolverla con el código del mismo. Vamos a ver "
+"un ejemplo. Imagina que tienes el siguiente código:"
 
 #: A.01-tips.md:32
 #, no-wrap
@@ -10253,6 +10365,8 @@ msgid ""
 "If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it insid"
 "e a `with_fx` block like this:"
 msgstr ""
+"Si quieres añadir el efecto al sample `:loop_garzul`, sólo necesitas meter "
+"el bucle en un bloque `with_fx`, así:"
 
 #: A.01-tips.md:44
 #, no-wrap
@@ -10278,6 +10392,8 @@ msgid ""
 "Now, if you wanted to add FX to the bass drum, go and wrap that with `with_fx`"
 " too:"
 msgstr ""
+"Vale, y ahora si quieres añadir el efecto al pedal de la batería, vas y lo "
+"envuelves con `with_fx`, exactamente igual:"
 
 #: A.01-tips.md:58
 #, no-wrap
@@ -10307,10 +10423,12 @@ msgid ""
 "Remember, you can wrap *any* code within `with_fx` and any sounds created will"
 " pass through that FX."
 msgstr ""
+"Recuerda, puedes envolver *cualquier* código en `with_fx` y cualquier sonido "
+"que haya creado el código pasará por ese efecto."
 
 #: A.01-tips.md:75
 msgid "3. Parameterise your synths"
-msgstr ""
+msgstr "3. Parametriza tus sintetizadores"
 
 #: A.01-tips.md:77
 msgid ""
@@ -10321,6 +10439,13 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
+"Si estás buscando tu verdadero sonido al hacer código, pronto querrás saber "
+"cómo modificar y controlar sintetizadores y efectos. Por ejemplo, puede que "
+"quieras cambiar la duración de una nota, añadir más reverberación, o cambiar "
+"el tiempo entre ecos. Por suerte, Sonic Pi te da un nivel de control "
+"increíble para hacer esto, con unas cosas especiales llamadas parámetros u "
+"opciones (abreviado como opts). Copia este código en tu área de trabajo y "
+"dale a Ejecutar:"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -10328,10 +10453,13 @@ msgid "sample :guit_em9"
 msgstr "sample :guit_em9"
 
 #: A.01-tips.md:89
+#, fuzzy
 msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about changi"
 "ng its rate?"
 msgstr ""
+"¡Hey, un sonido de guitarra! Vamos a jugar un poco con ese sonido. ¿Qué te "
+"parece si cambiamos su ritmo?"
 
 #: A.01-tips.md:92 A.17-sample-stretching.md:25
 #, no-wrap
@@ -10344,6 +10472,10 @@ msgid ""
 ". All of Sonic Pi's synths and FX support them and there's loads to play aroun"
 "d with. They're also available for FX too. Try this:"
 msgstr ""
+"Ey, ¿qué es ese `rate: 0.5` que acabo de añadir al final? Eso se llama "
+"opción (opt). Todos los sintetizadores y efectos de Sonic Pi soportan los "
+"opt's, y hay montones con los que puedes trastear. También están disponibles "
+"para efectos. Prueba esto:"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -10361,10 +10493,14 @@ msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
+"Ahora, ¡prueba a subir la retroalimentación (feedback) a 1, para escuchar "
+"sonidos muuy locos! Lee la documentación para más detalles sobre los muchos "
+"opts que tienes disponibles."
 
 #: A.01-tips.md:110
+#, fuzzy
 msgid "5. Live Code"
-msgstr ""
+msgstr "5. Live Code"
 
 #: A.01-tips.md:112
 msgid ""
@@ -10374,6 +10510,12 @@ msgid ""
 "es to a sample, just play around. Let's have a try! Copy this code into one of"
 " your Sonic Pi workspaces:"
 msgstr ""
+"La mejor forma de experimentar rápido y explorar Sonic Pi es hacer código en "
+"vivo (live coding). Esto te permite empezar con algo de código e ir "
+"cambiándolo continuamente, retocándolo mientras suena. Por ejemplo, si no "
+"sabes qué le hace el parámetro cutoff a un sample, empieza a trastear con "
+"ello. ¡Vamos a probar! Copia este código en una de tus áreas de trabajo de "
+"Sonic Pi:"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -10394,6 +10536,9 @@ msgid ""
 "utoff:` value to `80` and hit run again. Can you hear the difference? Try `90`"
 ", `100`, `110`..."
 msgstr ""
+"Ahora, dale a Ejecutar y escucharás un break de batería ligeramente "
+"amortiguado. Vale, ahora cambia el valor de `cutoff:` a `80` y dale a "
+"Ejecutar de nuevo. ¿Escuchas la diferencia? Prueba con `90`, `100`, `110`..."
 
 #: A.01-tips.md:129
 msgid ""
@@ -10402,10 +10547,15 @@ msgid ""
 " sticks. For more information about live coding check out Section 9 of the bui"
 "lt-in tutorial."
 msgstr ""
+"Una vez le has cogido el tranquillo a usar `live_loop`s, verás no puedes "
+"dejar de usarlo. Cada vez que toco en un concierto de live coding, confío en "
+"mi `live_loop` igual que un/a baterista confía en sus baquetas. Para más "
+"información sobre live coding, mira la Sección 9 de el tutorial incluido en "
+"el programa."
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
-msgstr ""
+msgstr "5. Navega por flujos aleatorios"
 
 #: A.01-tips.md:136
 msgid ""
@@ -10414,6 +10564,10 @@ msgid ""
 "nd complicated but it really isn't. Let's take a look. Copy this into a spare "
 "workspace:"
 msgstr ""
+"Por último, algo que me encanta es hacer trampa dejando a Sonic Pi que "
+"componga cosas por mí. Una forma muy chula de hacer esto es usar "
+"randomización. Puede sonar complicado, pero en realidad no lo es. Vamos a "
+"echarle un vistazo. Copia esto en un área de trabajo vacía:"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -10446,6 +10600,13 @@ msgid ""
 "e TARDIS with the Doctor to a particular point in time and space. Let's try it"
 " - add the line `use_random_seed 1` to the `live_loop`:"
 msgstr ""
+"Ahora, cuando toques esto, escucharás un flujo constante de notas aleatorias "
+"de la escala `:e2 :minor_pentatonic`, tocada con el sintetizador `:dsaw`. \"¡"
+"Espera, espera! Eso no es una melodía\", te oigo decir entre gritos. Pues "
+"bien, aquí viene la primera parte del truco de magia. Cada vez que damos una "
+"vuelta en el `live_loop`, le podemos decir a Sonic Pi que resetee el flujo "
+"aleatorio a un punto que conozcamos. Vamos a probarlo - añade la línea "
+"`use_random_seed_1` al `live_loop`:"
 
 #: A.01-tips.md:161
 #, no-wrap
@@ -10479,10 +10640,17 @@ msgid ""
 "e random seed), you can explore as many melodic combinations as you can imagin"
 "e! Now, that's the magic of code."
 msgstr ""
+"Ahora, cada vez que el `live_loop` da una vuelta, el flujo de notas "
+"aleatorias se resetea. Esto significa que elige las mismas 16 notas cada "
+"vez. ¡Abracadabra! Una melodía en el momento. Aquí viene la parte realmente "
+"interesante. Cambia el valor de la semilla de `1` a cualquier otro número. "
+"Por ejemplo, `4923`. ¡Guau! ¡Otra melodía! O sea, con cambiar un sólo número "
+"(la semilla), ¡puedes explorar tantas combinaciones melódicas que te puedas "
+"imaginar! He aquí la magia del código."
 
 #: A.02-live-coding.md:1
 msgid "A.2 Live Coding"
-msgstr ""
+msgstr "A.2. Live Coding"
 
 #: A.02-live-coding.md:5
 msgid ""
@@ -10494,12 +10662,23 @@ msgid ""
 "c Pi running on a Raspberry Pi. The occupant of the DJ booth wasn't spinning d"
 "isks, he was writing, editing and evaluating code. Live. This is Live Coding."
 msgstr ""
+"El rayo láser atravesaba las nubes de humo; el subwoofer bombeaba las notas "
+"graves muy profundamente, en los cuerpos del público. El ambiente estaba "
+"cargado con una embriagadora mezcla de sintetizadores y baile. Sin embargo, "
+"algo no llegaba a encajar del todo en esta discoteca. Proyectado en colores "
+"brillantes, encima de la cabina de DJ, había un texto moviéndose, bailando, "
+"relampagueante. No eran efectos visuales, sino una simple proyección de "
+"Sonic Pi ejecutándose en una Raspberri Pi. La persona que estaba en la "
+"cabina de DJ no estaba tocando discos; estaba escribiendo, editando y "
+"evaluando código. En vivo. Esto es Live Coding."
 
 #: A.02-live-coding.md:14
 msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
 msgstr ""
+"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-"
+"aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -10513,16 +10692,30 @@ msgid ""
 " end of this article, you'll be programming your own beats and modifying them "
 "live. Where you go afterwards will only be constrained by your imagination."
 msgstr ""
+"Esto puede sonar como la disparatada historia de una discoteca futurista, "
+"pero escribie música en código como en esta historia es una tendencia cada "
+"vez más extendida, y se suele llamar por el nombre de Live Coding "
+"(http://toplap.org). Una de las direcciones más recientes que este estilo ha "
+"tomado es el Algorave (http://algorave.com) - eventos en los que l@s "
+"artistas como yo programamos música para que la gente baile. No obstante, no "
+"tienes por qué estar en una discoteca para hacer Live Coding - con Sonic Pi "
+"versión 2.6 (y posteriores), puedes hacerlo siempre que tengas a mano tu "
+"Raspberry Pi y un par de auriculares o unos altavoces. Una vez llegues al "
+"final de este artículo, programarás tus propios beats y sabrás modificarlos "
+"en vivo y en directo. A dónde llegues después de esto está en el poder de tu "
+"imaginación."
 
 #: A.02-live-coding.md:27
 msgid "Live Loop"
-msgstr ""
+msgstr "Bucle en Vivo"
 
 #: A.02-live-coding.md:29
 msgid ""
 "The key to live coding with Sonic Pi is mastering the `live_loop`. Let's look "
 "at one:"
 msgstr ""
+"La clave para hacer live coding con Sonic Pi está en manejar el `live_loop` ("
+"bucle en vivo). Vamos a ver uno:"
 
 #: A.02-live-coding.md:32
 #, no-wrap
@@ -10551,10 +10744,22 @@ msgid ""
 "at. Go ahead, copy it into an empty Sonic Pi buffer and hit run. Boom, Boom, B"
 "oom!."
 msgstr ""
+"Un `live_loop` tiene 4 ingredientes fundamentales. El primero es su nombre. "
+"Nuestro `live_loop` de arriba se llama `:beats`. Eres libre de llamar a tu "
+"`live_loop` como quieras. Haz una locura. Sé creativ@. Yo suelo usar nombres "
+"que comuniquen algo sobre la música que va a sonar, pensando en el público. "
+"El segundo ingrediente es la palabra `do` que marca dónde empieza el "
+"`live_loop`. El tercer ingrediente es la palabra `end` que marca dónde el "
+"`live_loop` acaba, y finalmente está el cuerpo del `live_loop` que describe "
+"qué es lo que va a repetir el bucle (ésta es la parte entre el `do` y el "
+"`end`). En este caso estamos tocando de forma repetida un bombo de batería y "
+"luego esperamos durante medio pulso. Esto produce un pulso grave regular "
+"perfecto. Adelante, cópialo en un búfer vacío de Sonic Pi y dale a Ejecutar. "
+"¡Boom, Boom, Boom!."
 
 #: A.02-live-coding.md:52
 msgid "Redefining On-the-fly"
-msgstr ""
+msgstr "Redefiniendo al vuelo"
 
 #: A.02-live-coding.md:54
 msgid ""
@@ -10563,6 +10768,11 @@ msgid ""
 " on-the-fly. This means that whilst they're still running, you can change what"
 " they do. This is the secret to live coding with Sonic Pi. Let's have a play:"
 msgstr ""
+"Vale, entonces, ¿qué hace al `live_loop` tan especial? ¡Hasta ahora parecía "
+"un `loop` glorificado! Pues bien, la belleza de los `live_loop`s está en que "
+"puedes redefinirlos sobre la marcha, al vuelo. Esto significa que mientras "
+"que éstos se ejecutan, puedes cambiar lo que hacen. Éste es el secreto de "
+"hacer live coding con Sonic Pi. Vamos a tocar un poco:"
 
 #: A.02-live-coding.md:60
 #, no-wrap
@@ -10588,16 +10798,27 @@ msgid ""
 "- choose your own values. Try negative numbers, really small numbers and large"
 " numbers. Have fun!"
 msgstr ""
+"Ahora pulsa el botón de Ejecutar o presiona las teclas `alt-r`. Ahora mismo "
+"estás escuchando unos coros preciosos. Ahora, mientras suenan, cambia el "
+"rate de `0.4` a `0.38`. Dale a Ejecutar de nuevo. ¡Guau! ¿Notas cómo ha "
+"cambiado la nota del coro? Cámbialo de nuevo a `0.4` para volver a cómo era "
+"antes. Ahora bájalo a `0.2`, luego a `0.19` y después vuelve a `0.4`. ¿Ves "
+"cómo el cambiar un sólo parámetro sobre la marcha, te puede dar control de "
+"verdad sobre la música? Ahora trastea con el rate tú mism@ - escoge tus "
+"propios valores. Prueba con números neativos, números muy pequeños y números "
+"muy grandes. ¡Que te diviertas!"
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
-msgstr ""
+msgstr "Dormir es importante"
 
 #: A.02-live-coding.md:79
 msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. C"
 "onsider the following `live_loop`:"
 msgstr ""
+"Una de las lecciones más importantes sobre el `live_loop` es que necesitan "
+"descansar. Mira el siguiente `live_loop`:"
 
 #: A.02-live-coding.md:82
 #, no-wrap
@@ -10620,10 +10841,18 @@ msgid ""
 "h and burn in the process. So remember, your `live_loop`s must contain a `slee"
 "p`."
 msgstr ""
+"Si intentas ejecutar este código, verás de inmediato a Sonic Pi quejándose "
+"de que el `live_loop` no durmió. ¡Esto es el sistema de seguridad haciendo "
+"efecto! Tómate un segundo para pensar en lo que este código le está pidiendo "
+"al ordenador que haga. Efectivamente, le está pidiendo al ordenador que "
+"toque un número infinito de samples de coro en cero segundos. De no ser por "
+"el sistema de seguridad, el pobre ordenador intentará hacerlo y se colgará y "
+"arderá en el proceso. Así que recuerda, tu `live_loop` debe contener un "
+"`sleep`."
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
-msgstr ""
+msgstr "Combinando Sonidos"
 
 #: A.02-live-coding.md:99
 msgid ""
@@ -10632,6 +10861,11 @@ msgid ""
 " call this concurrency and Sonic Pi provides us with an amazingly simple way o"
 "f playing things at the same time. Simply use more than one `live_loop`!"
 msgstr ""
+"La música está llena de cosas pasando a la vez. La batería a la vez que el "
+"bajo a la vez que las voces a la vez que las guitarras... En informática "
+"llamamos a esto concurrencia, y Sonic Pi nos ofrece una forma increíblemente "
+"fácil de tocar varias cosas a la vez. Sencillamente, ¡usa más de un "
+"`live_loop`!"
 
 #: A.02-live-coding.md:105
 #, no-wrap
@@ -10667,6 +10901,8 @@ msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a crazy bass sound."
 msgstr ""
+"Aquí tenemos dos `live_loop`s, uno dando la vuelta rápido marcando el pulso, "
+"y otro dando la vuelta lentamente y tocando un sonido de bajo muy loco."
 
 #: A.02-live-coding.md:124
 msgid ""
@@ -10675,6 +10911,10 @@ msgid ""
 "olyrhythmical structures and even play with phasing Steve Reich style. Check t"
 "his out:"
 msgstr ""
+"Una de las cosas interesantes que tiene el usar varios `live_loop`s es que "
+"cada uno gestiona su propio tiempo. Esto significa que es muy fácil crear "
+"estructuras polirrítimicas interesantes, e incluso tocar con fases al estilo "
+"de Steve Reich. Échale un ojo a esto:"
 
 #: A.02-live-coding.md:129
 #, no-wrap
@@ -10711,7 +10951,7 @@ msgstr ""
 #: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:147
 #: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:137
 msgid "Bringing it all together"
-msgstr ""
+msgstr "Juntándolo todo"
 
 #: A.02-live-coding.md:147
 msgid ""
@@ -10723,6 +10963,13 @@ msgid ""
 "as a starting point for a new performance, and most of all have fun! See you n"
 "ext time..."
 msgstr ""
+"En cada uno de estos tutoriales, vamos a acabar con un ejemplo final en "
+"forma de una pieza de música, que coge un poco de todas las ideas que hemos "
+"ido introduciendo. Lee este código y mira si puedes imaginarte lo que está "
+"haciendo. Después, cópialo en un búfer vacío en Sonic Pi, dale a Ejecutar y "
+"escucha cómo suena. Finalmente, cambia uno de los números o comenta y "
+"descomenta cosas. Mira si puedes utilizar esto como un punto de partida para "
+"una nueva actuación, y sobre todo, ¡para pasártelo bien! Hasta la próxima..."
 
 #: A.02-live-coding.md:156
 #, no-wrap
@@ -10781,11 +11028,11 @@ msgstr ""
 
 #: A.03-coded-beats.md:1
 msgid "A.3 Coded Beats"
-msgstr ""
+msgstr "A.3. Beats Programados"
 
 #: A.03-coded-beats.md:3
 msgid "Coded Beats"
-msgstr ""
+msgstr "Beats Programados"
 
 #: A.03-coded-beats.md:5
 msgid ""
@@ -10800,6 +11047,17 @@ msgid ""
 "of easily introducing new and interesting elements into your live coded perfor"
 "mances."
 msgstr ""
+"Uno de los desarrollos tecnológicos más emocionantes y disruptivos en la "
+"música moderna fue la invención de los samplers. Eran cajas que te permitían "
+"grabar cualquier sonido y manipularlo, reproduciendo estos sonidos grabados "
+"de distintas formas muy interesantes. Por ejemplo, podías coger una "
+"grabación antigua, encontrar un solo de batería (o un break), grabarlo en tu "
+"sampler y después reproducirlo en repetición a la mitad de la velocidad, "
+"para tener una base para tus beats. Así es como la música hip-hop se creó en "
+"sus inicios; hoy en día es casi imposible encontrar música electrónica que "
+"no incorpore samples de algún tipo. Usar samples es una forma maravillosa de "
+"introducir fácilmente elementos nuevos e interesantes en tus conciertos de "
+"live coding."
 
 #: A.03-coded-beats.md:17
 msgid ""
@@ -10807,10 +11065,13 @@ msgid ""
 "y Pi! The built-in live coding app Sonic Pi has an extremely powerful sampler "
 "built into its core. Let's play with it!"
 msgstr ""
+"¿Y dónde puedes conseguir un sampler? Bueno, ya tienes uno - ¡es tu "
+"Raspberry Pi! La aplicación incorporada Sonic Pi incluye un sampler "
+"extremadamente potente. ¡Vamos a tocar con él!"
 
 #: A.03-coded-beats.md:21
 msgid "The Amen Break"
-msgstr ""
+msgstr "El Amen Break"
 
 #: A.03-coded-beats.md:23
 msgid ""
@@ -10821,6 +11082,13 @@ msgid ""
 " used in a wide variety of other styles such as drum and bass, breakbeat, hard"
 "core techno and breakcore."
 msgstr ""
+"Uno de los samples de batería más clásicos y reconocibles es el Amen Break. "
+"Fue utilizado por primera vez en 1969 en la canción \"Amen Brother\", de los "
+"Winstons, como parte de un break de batería. Sin embargo, no fue conocido "
+"hasta que lo descubrieron los primeros músicos de hip-hop de los 80's, "
+"quienes lo usaron en samplers; a partir de ahí empezó a usarse muchísimo, y "
+"en una gran variedad de estilos como drum and bass, breakbeat, hardcore "
+"tecno y breakcore."
 
 #: A.03-coded-beats.md:30
 msgid ""
