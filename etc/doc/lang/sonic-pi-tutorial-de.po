@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-26 12:03+0000\n"
-"Last-Translator: Timo Dankert <timo.dankert@gmail.com>\n"
+"PO-Revision-Date: 2017-09-27 13:45+0000\n"
+"Last-Translator: Sebastian Stahn <robert_owen@gmx.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10317,18 +10317,17 @@ msgid "Redefining On-the-fly"
 msgstr ""
 
 #: A.02-live-coding.md:54
-#, fuzzy
 msgid ""
 "Ok, so what's so special about the `live_loop`? So far it just seems like a gl"
 "orified `loop`! Well, the beauty of `live_loop`s is that you can redefine them"
 " on-the-fly. This means that whilst they're still running, you can change what"
 " they do. This is the secret to live coding with Sonic Pi. Let's have a play:"
 msgstr ""
-"Okay, was ist nun also so speziell am `live_loop`? Bisher scheint es nur ein "
-"verherrlichter `loop` zu sein. Also, das Schöne an einem `live_loop` ist, "
-"dass Du diesen beim Ausführen neu definieren kannst. Das bedeutet, dass "
-"während dieser läuft, Du ändern kannst, was dieser tut. Das ist das "
-"Geheimnis vom live coding mit Sonic Pi.  Probieren wir das einmal aus:"
+"OK, aber was ist nun das besondere an einem 'live_loop'? Bisher scheint er "
+"nur eine überbewertete \"Schleife\" zu sein! Nun, das Schöne am 'live_loop' "
+"ist, dass du ihn im laufenden Programm neu definieren kannst. Das bedeutet, "
+"du kannst ändern was er machen sollen, während er läuft. Das ist das "
+"Geheimnis, um mit Sonic Pi live zu coden. Lass uns einmal damit spielen:"
 
 #: A.02-live-coding.md:60
 #, no-wrap
