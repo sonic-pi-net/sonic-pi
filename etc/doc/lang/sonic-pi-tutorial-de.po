@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-19 13:45+0000\n"
-"Last-Translator: Timo Dankert <timo.dankert@gmail.com>\n"
+"PO-Revision-Date: 2017-09-26 12:01+0000\n"
+"Last-Translator: Deleted User <noreply@weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -75,16 +75,15 @@ msgstr ""
 "ie ich das in zukünftige Versionen einbauen kann."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Besonders gut lernt man Live-Coding, wenn man anderen dabei zuschaut. Ich stre"
-"ame regelmäßig meine Musik auf [livecoding.tv/samaaron](http://livecoding.tv/s"
-"amaaron), also schau doch mal rein, sag hallo oder frag mich dort ein wenig au"
-"s. :-)"
+"Besonders gut lernt man Live-Coding, wenn man anderen dabei zuschaut. Ich "
+"streame meine Musik regelmäßig auf "
+"[http://youtube.com/samaaron](http://youtube.com/samaaron), also schau doch "
+"mal rein, sag hallo und frag mich dort ein wenig aus. :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
