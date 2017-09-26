@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-26 12:01+0000\n"
-"Last-Translator: Deleted User <noreply@weblate.org>\n"
+"PO-Revision-Date: 2017-09-26 12:03+0000\n"
+"Last-Translator: Timo Dankert <timo.dankert@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -7613,10 +7613,13 @@ msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
 msgstr "`.reflect` - wie `.mirror`, verdoppelt aber nicht die mittleren Werte"
 
 #: 08.5-Ring-Chains.md:82
+#, fuzzy
 msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
+"`.scale(2)` - liefert einen neuen Ring, der alle Elemente mit 2 "
+"multipliziert enthält (Vorrausgesetzt ist, dass der Ring nur Nummern enthält)"
 
 #: 08.5-Ring-Chains.md:84
 msgid ""
