@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-22 08:06+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2017-09-28 13:47+0000\n"
+"Last-Translator: Martin Solheim <martin.solheim@me.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
 "Language: nb\n"
@@ -21,7 +21,7 @@ msgstr "1 Velkommen til Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr "Velkommen, venn :-)"
+msgstr "Velkommen, kompis :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -127,7 +127,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr "Ei levende løkke"
+msgstr "En levende løkke"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
@@ -162,7 +162,8 @@ msgstr "Forsikre deg om at basstrommelyden fremdeles går"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Endre 'hvilemodus'-verdien fra '0,5' til noe høyere, som for eksempel '1'."
+msgstr ""
+"Endre `hvilemodus`-verdien fra `0,5` til noe høyere, som for eksempel `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
@@ -186,8 +187,8 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"OK, det var enkelt nok. La oss legge inn noe mer. Over 'prøven: bd_haus' legg "
-"til linjen 'eksempel: ambi_choir, rate: 0,3'. Koden skal se slik ut:"
+"OK, det var enkelt nok. La oss legge inn noe mer. Over `prøven: bd_haus` "
+"legg til linjen `eksempel: ambi_choir, rate: 0,3`. Koden skal se slik ut:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -205,7 +206,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -214,16 +214,19 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Nå, lek. Endre verdiene - hva skjer når du bruker høye, små eller negative ver"
-"dier? Se hva som skjer når du endrer 'rate:'-verdi for ': ambi_choir'-lydklipp"
-"et bare litt (si til 0.29). Hva skjer hvis du velger en svært liten \"sove\"-ver"
-"di? Se om du kan få det til å gå så hurtig at datamaskinen din stopper med en "
-"feilmelding fordi den ikke kan holde følge med tempoet (hvis det skjer, bare v"
-"elg en større \"sove\"-tid og trykk \"Kjør\" igjen)."
+"Nå kan du leke deg litt. Endre verdiene, hva skjer når du bruker store, små "
+"eller negative verdier? Se hva som skjer hvis du endrer litt på `rate:`-"
+"verdien for `: ambi_choir`-lydklippet (til `0.29` for eksempel). Hva skjer "
+"hvis du velger en svært små `sove`-verdi? Se om du kan få det til å gå så "
+"hurtig at datamaskinen din stopper med en feilmelding fordi den ikke kan "
+"holde følge med tempoet (hvis det skjer, bare velg en større `sove`-tid og "
+"trykk `Kjør` igjen)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr "Prøv å kommentere et av `sampel`-linjene ved å legge til en `#` i begynnelsen:"
+msgstr ""
+"Prøv å kommentere ut en av `sampel`-linjene ved å legge til en `#` på "
+"starten av linjen:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -241,14 +244,15 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:70
+#, fuzzy
 msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Legg merke til hvordan den forteller at maskinen skal overse det, så vi ikke h"
-"ører den. Dette kalles en kommentar. Vi kan bruke kommentarer til å kommentere"
-" ut fra- og legge ting til - i miksen i Sonic Pi."
+"Legg merke til at den får maskinen til å overse det, så vi ikke hører det. "
+"Dette kalles en kommentar. I Sonic Pi kan vi bruke kommentarer til å legge "
+"til og ta ut ting fra miksen."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -266,8 +270,8 @@ msgstr ""
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Prøv å endre den blå ' rate:'-verdien for å høre at lydkarakteren til lydklipp"
-"et endres."
+"Prøv å endre den blå `rate:`-verdien for å høre at lydkarakteren til klippet "
+"endres."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
@@ -12647,6 +12651,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:80
 msgid ""
