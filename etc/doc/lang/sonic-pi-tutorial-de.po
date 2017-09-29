@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-27 13:45+0000\n"
-"Last-Translator: Sebastian Stahn <robert_owen@gmx.de>\n"
+"PO-Revision-Date: 2017-09-30 19:45+0000\n"
+"Last-Translator: Juli <Tom.Julux@outlook.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10466,6 +10466,10 @@ msgid ""
 "olyrhythmical structures and even play with phasing Steve Reich style. Check t"
 "his out:"
 msgstr ""
+"Eine der interessanten Eigenschaften über mehrere`live_loop`s ist, dass sie "
+"jeweils ihre eigene Zeit managen. Das bedeutet, dass es sehr einfach ist "
+"interessante polyrhythmische Strukturen zu erzeugen oder sogar im Still von "
+"Steve Reich zu spielen: Sieh dir das hier an:"
 
 #: A.02-live-coding.md:129
 #, no-wrap
