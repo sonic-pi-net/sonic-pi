@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-27 19:48+0000\n"
+"PO-Revision-Date: 2017-10-01 22:48+0000\n"
 "Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -11095,6 +11095,8 @@ msgid ""
 "I'm sure you're excited to hear that it's also built right into Sonic Pi. Clea"
 "r up a buffer and throw in the following code:"
 msgstr ""
+"Te encantará saber que este sample también está incorporado en Sonic Pi. "
+"Limpia un búfer y pega este código:"
 
 #: A.03-coded-beats.md:37
 msgid ""
@@ -11102,16 +11104,22 @@ msgid ""
 "s in the history of dance music. However, this sample wasn't famous for being "
 "played as a one-shot, it was built for being looped."
 msgstr ""
+"Dale a *Ejecutar* y ¡boom! Estás escuchando uno de los breaks de batería más "
+"importante de la historia de la música dance. No obstante, este sample no "
+"era famoso por ser tocado una vez; estaba pensado para ser tocado en bucle."
 
 #: A.03-coded-beats.md:42
+#, fuzzy
 msgid "Beat Stretching"
-msgstr ""
+msgstr "Beat Stretching"
 
 #: A.03-coded-beats.md:44
 msgid ""
 "Let's loop the Amen Break by using our old friend the `live_loop` introduced i"
 "n this tutorial last month:"
 msgstr ""
+"Vamos a poner el Amen Break en bucle usando nuestro viejo amigo, el "
+"`live_loop` introducido en este tutorial el último mes:"
 
 #: A.03-coded-beats.md:47
 #, no-wrap
@@ -11133,12 +11141,20 @@ msgid ""
 "`:loop_amen` sample only lasts for `1.753` beats. We therefore have a silence "
 "of `2 - 1.753 = 0.247` beats. Even though it's short, it's still noticeable."
 msgstr ""
+"Vale, está en bucle, pero a cada vuelta se escucha una molesta pausa. Esto "
+"pasa porque le dijimos que durmiese `2` pulsos; con el BPM por defecto de 60 "
+"que tiene el sample `:loop_amen`, éste sólo dura `1.753` pulsos. Por eso "
+"ponemos un silencio de `2 - 1.753 = 0.247` pulsos. Aunque es un silencio "
+"corto, se nota."
 
 #: A.03-coded-beats.md:60
 msgid ""
 "To fix this issue we can use the `beat_stretch:` opt to ask Sonic Pi to stretc"
 "h (or shrink) the sample to match the specified number of beats."
 msgstr ""
+"Para arreglar este problema, podemos usar el opt `beat_stretch:` para "
+"decirle a Sonic Pi que estire (stretch) o encoja (shrink) el sample, de modo "
+"que éste encaje con el número de beats que queremos."
 
 #: A.03-coded-beats.md:63
 msgid ""
@@ -11147,6 +11163,10 @@ msgid ""
 "arameter is a real mouthful so we just call them *opts* to keep things nice an"
 "d simple."
 msgstr ""
+"Las funciones `sample` y `synth` en Sonic Pi te dan mucho control con "
+"parámetros opcionales, como `amp:`, `cutoff:` y `release:`. Lo de parámetro "
+"opcional suena un poco a trabalenguas, así que vamos a llamarlos *opts* (del "
+"inglés *option*, opción) para que sea más fácil."
 
 #: A.03-coded-beats.md:68
 #, no-wrap
@@ -11166,10 +11186,12 @@ msgid ""
 "Now we're dancing! Although, perhaps we want to speed it up or slow it down to"
 " suit the mood."
 msgstr ""
+"¡Ahora sí se puede bailar! Tal vez queramos hacerlo más rápido o más lento, "
+"para que encaje con el carácter del baile."
 
 #: A.03-coded-beats.md:78
 msgid "Playing with Time"
-msgstr ""
+msgstr "Jugando con el Tiempo"
 
 #: A.03-coded-beats.md:80
 msgid ""
@@ -11178,6 +11200,10 @@ msgid ""
 "the tempo. This is super easy in Sonic Pi - just throw in a `use_bpm` into you"
 "r live loop:"
 msgstr ""
+"Bueno, ¿y qué pasa si queremos cambiar el estilo a hip hop de la vieja "
+"escuela, o a breakcore? Una forma fácil de hacer esto es jugar con el tiempo "
+"- o en otras palabras, toquetear el tempo de la canción. Esto es súper fácil "
+"en Sonic Pi - sólo necesitas poner un `use_bpm` en tu live loop:"
 
 #: A.03-coded-beats.md:85
 #, no-wrap
@@ -11200,6 +11226,9 @@ msgid ""
 "for 2 and our BPM is 30, yet everything is in time. The `beat_stretch` opt wor"
 "ks with the current BPM to make sure everything just works."
 msgstr ""
+"Mientras rapeas con esos beats lentos, fíjate en que seguimos durmiendo 2 y "
+"que nuestro BPM es 30, y aun así todo sigue a tiempo. El opt `beat_stretch` "
+"trabaja con el BPM actual para asegurarse de que todo suene bien."
 
 #: A.03-coded-beats.md:97
 msgid ""
@@ -11207,10 +11236,14 @@ msgid ""
 "e `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in tim"
 "e*! Try going faster - up to 80, to 120, now go crazy and punch in 200!"
 msgstr ""
+"Aquí viene la parte graciosa. Mientras el bucle sigue activo, cambia el `30` "
+"a `50` en la línea de `use_bpm 30`. ¡Guau, todo ha acelerado, pero sigue *a "
+"tiempo*! Intenta ir más rápido - a 80, a 120, ¡y ahora vuélvete loc@ y mete "
+"200!"
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
-msgstr ""
+msgstr "Filtrando"
 
 #: A.03-coded-beats.md:105
 msgid ""
@@ -11218,6 +11251,10 @@ msgid ""
 " by the `sample` synth. First up is `cutoff:` which controls the cutoff filter"
 " of the sampler. By default this is disabled but you can easily turn it on:"
 msgstr ""
+"Ahora que podemos poner samples en bucle en directo, vamos a ver uno de los "
+"opts más divertidos del sintetizador `sample`. El primero es `cutoff:`, que "
+"controla el filtro limitador (cutoff) del sampler. Está desactivado por "
+"defecto, pero puedes activarlo fácilmente:"
 
 #: A.03-coded-beats.md:110
 #, no-wrap
@@ -11244,16 +11281,26 @@ msgid ""
 "f the top of the grass. The `cutoff:` opt is like the length setting - determi"
 "ning how much grass is left over."
 msgstr ""
+"Adelante, cambia el opt `cutoff`. Por ejemplo, súbelo a 100, dale a "
+"*Ejecutar* y espera al bucle que dé una vuelta para escuchar el cambio en el "
+"sonido. Fíjate en que valores bajos como 50 suenan suaves, como un bajo; "
+"valores altos como 100 o 120 son más completos y ásperos. Esto pasa porque "
+"la opción `cutoff:` corta las frecuencias altas del sonido, igual que un "
+"cortacésped corta la parte de arrriba de la hierba. La opción `cutoff:` es "
+"como la longitud del cortacésped: determina cuánta hierba deja sin cortar."
 
 #: A.03-coded-beats.md:128
 msgid "Slicing"
-msgstr ""
+msgstr "Cortando"
 
 #: A.03-coded-beats.md:130
 msgid ""
 "Another great tool to play with is the slicer FX. This will chop (slice) the s"
 "ound up. Wrap the `sample` line with the FX code like this:"
 msgstr ""
+"Otra herramienta muy chula que puedes probar es el efecto de corte (slicer). "
+"Éste corta (slice) el sonido. Envuelve la línea que dice `sample` con el "
+"código del efecto, tal que así:"
 
 #: A.03-coded-beats.md:133
 #, no-wrap
@@ -11286,6 +11333,17 @@ msgid ""
 "e shapes. 0 is a saw wave, (hard in, fade out) 1 is a square wave (hard in, ha"
 "rd out) and 2 is a triangle wave (fade in, fade out)."
 msgstr ""
+"Si te das cuenta, el sonido se balancea hacia arriba y hacia abajo un poco "
+"más. (Puedes escuchar el sonido original sin el efecto cambiando el opt "
+"`mix:` a `0`). Ahora, experimenta con la opción `phase:`. Este controla el "
+"ritmo (en pulsos) del efecto de slicing. Un valor más pequeño como `0.125` "
+"corta más rápido, y valores grandes como `0.5` cortan más lento. Fíjate en "
+"que si doblas o divides por la mitad la opción `phase:` sucesivamente, "
+"siempre suena bien. Por último, cambia la opción `wave:` a 0, 1 o 2, y "
+"escucha cómo cambia el sonido. Éstos números son distintas formas de onda. 0 "
+"es una onda de sierra (inicio duro, salida suave), 1 es una onda cuadrada ("
+"inicio duro, salida dura), y 2 es una onda de triángulo (inicio suave, "
+"salida suave)."
 
 #: A.03-coded-beats.md:157
 msgid ""
@@ -11295,6 +11353,11 @@ msgid ""
 "d see where you can take it. Please do share what you create! See you next tim"
 "e..."
 msgstr ""
+"Por último, vamos a volver atrás en el tiempo y a visitar de nuevo la escena "
+"drum and bass de Bristol en sus inicios, con el ejemplo de este mes. No te "
+"preocupes si no lo entiendes; tú escríbelo, dale a Ejecutar, y empieza a "
+"hacer live coding cambiando los números de los opts, a ver a dónde puedes "
+"llegar con ello. Por favor, ¡comparte tus creaciones! Hasta la próxima..."
 
 #: A.03-coded-beats.md:163
 #, no-wrap
@@ -11345,11 +11408,11 @@ msgstr ""
 
 #: A.04-synth-riffs.md:1
 msgid "A.4 Synth Riffs"
-msgstr ""
+msgstr "A.4 Riffs con sintetizadores"
 
 #: A.04-synth-riffs.md:3
 msgid "Synth Riffs"
-msgstr ""
+msgstr "Riffs con Sintetizadores"
 
 #: A.04-synth-riffs.md:5
 msgid ""
@@ -11359,16 +11422,25 @@ msgid ""
 "ered how to code our beats. In this tutorial we'll cover how to code up the th"
 "ree core components of a synth riff - the timbre, melody and rhythm."
 msgstr ""
+"No importa si es el giro hechizante de los estrepitosos osciladores, o el "
+"golpe desafinado de las ondas de sierra perforando el remix; el sintetizador "
+"que lleva la melodía (lead synth) tiene un papel muy importante en cualquier "
+"canción de música electrónica. En la edición del último mes de esta serie de "
+"tutoriales, vimos cómo programar nuestros beats. En este tutorial, vamos a "
+"ver cómo programar los tres componentes fundamentales de un buen riff de "
+"sintetizador - timbre, melodía y ritmo."
 
 #: A.04-synth-riffs.md:12
 msgid ""
 "OK, so power up your Raspberry Pi, crack open Sonic Pi v2.6+ and let's make so"
 "me noise!"
 msgstr ""
+"Vale, pues enciende tu Raspberry Pi, abre Sonic Pi v2.6+ y, ¡vamos a hacer "
+"ruido!"
 
 #: A.04-synth-riffs.md:16
 msgid "Timbral Possibilities"
-msgstr ""
+msgstr "Posibilidades Tímbricas"
 
 #: A.04-synth-riffs.md:18
 msgid ""
@@ -11377,10 +11449,17 @@ msgid ""
 "erent synths for a dramatic change and setting the various synth opts for more"
 " subtle modifications. We can also use FX, but that's for another tutorial..."
 msgstr ""
+"Una parte esencial de cualquier riff de sintetizador es cambiar y jugar con "
+"el timbre de los sonidos. Podemos controlar el timbre en Sonic Pi de dos "
+"formas - eligiendo diferentes sintetizadores para un cambio drástico, y "
+"cambiando los opts de un mismo sintetizador para un cambio más suave. "
+"También podemos usar efectos, pero eso lo veremos en otro tutorial..."
 
 #: A.04-synth-riffs.md:24
 msgid "Let's create a simple live loop where we continually change the current synth:"
 msgstr ""
+"Vamos a crear un live loop sencillo, donde podamos cambiar constantemente el "
+"sintetizador actual:"
 
 #: A.04-synth-riffs.md:27
 #, no-wrap
@@ -11406,6 +11485,13 @@ msgid ""
 "e), with a release time of 0.5 beats (half a second at the default BPM of 60) "
 "and with the `cutoff:` opt set to 100."
 msgstr ""
+"Échale un vistazo al código. Sólo estamos haciendo ticking sobre un anillo "
+"de nombres de sintetizador (esto recorre cada uno de ellos y repite la lista "
+"una y otra vez). Le pasamos este nombre de sintetizador a la función ("
+"abreviada como fn) `use_synth`, que cambia el sintetizador actual del "
+"`live_loop`. También estamos tocando la nota `:e2` (Mi en la segunda octava)"
+", con una separación de 0.5 pulsos (medio segundo con el BPM de 60 que está "
+"por defecto), y con la opción `cutoff:` puesta a 100."
 
 #: A.04-synth-riffs.md:42
 msgid ""
@@ -11420,10 +11506,24 @@ msgid ""
 "of all the synths and all the available opts each individual synth supports to"
 " see just how much power you have under your coding fingertips."
 msgstr ""
+"Escucha cómo los distintos sintetizadores tienen sonidos muy diferentes, "
+"aunque estén tocando la misma nota. Ahora, experimenta y juega con ello. "
+"Cambia el tiempo de decaimiento (release) a valores más altos y más bajos. "
+"Por ejemplo, cambia las opciones `attack:` y `release:` para ver cómo "
+"distintos tiempos de entrada y salida pueden cambiar considerablemente el "
+"sonido. Finalmente, cambia el opt `cutoff:` para ver cómo distintos valores "
+"de cutoff pueden cambiar notablemente el timbre (con valores entre 60 y 130 "
+"está bien). Mira cuántos sonidos distintos puedes crear con sólo cambiar "
+"unos pocos valores. Una vez le cojas el tranquillo, ve a la pestaña de "
+"Sintetizadores en el sistema de Ayuda si quieres una lista completa de todos "
+"los sintetizadores y de todas las opciones disponibles para cada "
+"sintetizador, para que veas cuánto poder tienes en tus manos de "
+"programador/a."
 
 #: A.04-synth-riffs.md:55
+#, fuzzy
 msgid "Timbre"
-msgstr ""
+msgstr "Timbre"
 
 #: A.04-synth-riffs.md:57
 msgid ""
@@ -11433,10 +11533,15 @@ msgid ""
 " be different. That sound quality - the thing which allows you to tell the dif"
 "ference between a piano and a guitar is the timbre."
 msgstr ""
+"Timbre es una palabra guay para describir cómo suena un sonido. Si tocas la "
+"misma nota con distintos instrumentos como un violín, una guitarra o un "
+"piano, la altura (cómo de agudo o grave suena) es la misma en todos ellos, "
+"pero la cualidad del sonido cambia. Esa cualidad del sonido - aquello que te "
+"permite diferenciar un piano de una guitarra, es el timbre."
 
 #: A.04-synth-riffs.md:65
 msgid "Melodic Composition"
-msgstr ""
+msgstr "Composición Melódica"
 
 #: A.04-synth-riffs.md:67
 msgid ""
@@ -11444,6 +11549,9 @@ msgid ""
 "lay. If you already have a good idea, then you can simply create a ring with y"
 "our notes in and tick through them:"
 msgstr ""
+"Otro aspecto importante para nuestro sintetizador lead son las notas que "
+"queremos que toque. Si ya tienes una idea, sólo tienes que crear un anillo "
+"con las notas que has pensado, y hacer ticking sobre ellas:"
 
 #: A.04-synth-riffs.md:71
 #, no-wrap
@@ -11468,10 +11576,13 @@ msgid ""
 ":e3` and rests represented by `:r`. We're then using `.tick` to cycle through "
 "each note to give us a repeating riff."
 msgstr ""
+"Aquí hemos definido nuestra melodía con un anillo, que incluye notas como "
+"`:e3` y silencios representados como un ':r'. Después usamos `.tick` para "
+"recorrer cada nota, lo que nos da un riff repetitivo."
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
-msgstr ""
+msgstr "Melodía Automática"
 
 #: A.04-synth-riffs.md:86
 msgid ""
@@ -11480,6 +11591,10 @@ msgid ""
 "ne you like the best. To do that we need to combine three things: rings, rando"
 "misation and random seeds. Let's look at an example:"
 msgstr ""
+"No siempre es fácil inventarse una melodía desde cero. Es más fácil pedirle "
+"a Sonic Pi una selección de riffs aleatorios y esocoger aquel que te guste "
+"más. Para ello tenemos que combinar tres cosas: anillos, aleatoriedad y "
+"semillas aleatorias. Veamos un ejemplo:"
 
 #: A.04-synth-riffs.md:91
 #, no-wrap
@@ -11512,6 +11627,17 @@ msgid ""
 "g the random seed to the same value right before the shuffle. Finally we're ju"
 "st ticking through our shuffled notes to play the riff."
 msgstr ""
+"Hay varias cosas que tenemos que revisar - vamos a verlas una por una. "
+"Primero, estamos usando una semilla aleatoria de 3. ¿Qué significa esto? "
+"Bien, hacer esto es muy útil porque, cuando especificamos la semilla, "
+"podemos predecir cuál va a ser el siguiente valor aleatorio - ¡igual que la "
+"última vez que pusimos la semilla a 3! Otra cosa útil que te viene bien "
+"saber, es que desordenar un anillo de notas funciona de la misma forma. En "
+"el ejemplo de arriba estamos preguntando por el 'tercer desorden' en la "
+"lista estándar de formas de desordenar notas - que también es igual cada vez "
+"porque siempre estamos usando la misma semilla para el mismo valor, justo "
+"antes de que empecemos a desordenar las notas. Finalmente, estamos haciendo "
+"ticking, recorriendo nuestras notas desordenadas para tocar el riff."
 
 #: A.04-synth-riffs.md:112
 msgid ""
@@ -11522,10 +11648,17 @@ msgid ""
 "ed we want to shuffle with. If we don't like the melody, just change one of th"
 "ose two things and try again. Repeat until you like what you hear!"
 msgstr ""
+"Ahora es cuando empieza la diversión. Si cambiamos el valor de la semilla "
+"aleatoria a otro número, como 3000, obtenemos una mezcla de notas totalmente "
+"distinta. Así es muy fácil explorar nuevas melodías. Sencillamente, escoge "
+"la lista de notas que queremos mezclar (una escala está bien para empezar), "
+"y selecciona la semilla con la que queremos mezclarlas. Si no te gusta la "
+"melodía, sólo tienes que cambiar las notas o la semilla, y probar de nuevo. ¡"
+"Repite hasta que te guste lo que escuchas!"
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
-msgstr ""
+msgstr "Pseudoaleatoriedad"
 
 #: A.04-synth-riffs.md:123
 msgid ""
@@ -11536,10 +11669,16 @@ msgid ""
 "tual dice, it just picks the next value from the list. Setting the random seed"
 " is just jumping to a specific point in that list."
 msgstr ""
+"La aleatoriedad en Sonic Pi no es aleatoria en realidad; es lo que se conoce "
+"como pseudoaleatoria. Imagina que tienes que tirar un dado 100 veces y luego "
+"escribes los resultados en una hoja de papel. Sonic Pi tiene algo parecido "
+"esta lista de resultados, que utiliza cuando le pides un valor aleatorio. "
+"Ajustar la semilla aleatoria es como saltar a un punto específico en dicha "
+"lista."
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
-msgstr ""
+msgstr "Encontrando tu Ritmo"
 
 #: A.04-synth-riffs.md:133
 msgid ""
@@ -11550,6 +11689,13 @@ msgid ""
 " every note we can use a conditional to play a note with a given probability. "
 "Let's take a look:"
 msgstr ""
+"Otro aspecto importante de nuestro riff es el ritmo - cuándo tocar una nota "
+"y cuándo no. Como vimos arriba, podemos usar `:r` en nuestros anillos para "
+"insertar silencios. Otra forma muy potente de hacer esto es usar extensiones "
+"(spreads), que veremos en otro tutorial. Hoy vamos a usar la aleatoriedad "
+"para que nos ayude a encontrar nuestro ritmo. En vez de tocar cada nota, "
+"vamos a usar una condición para tocar una nota con una determinada "
+"probabilidad. Vamos a echarle un vistazo:"
 
 #: A.04-synth-riffs.md:140
 #, no-wrap
@@ -11582,6 +11728,12 @@ msgid ""
 "s, 50% of the time it will return `true`. Using higher values will make it ret"
 "urn `false` more often introducing more space into the riff."
 msgstr ""
+"Una función muy útil que deberías conocer es `one_in`, que nos devuelve un "
+"valor `true` (verdadero) o `false` (falso) con una determinada probabilidad. "
+"Vamos a usar un valor de 2, así que, de media, una de cada dos llamadas a "
+"`one_in` va a devolver `true`. Dicho de otra forma, el 50% del tiempo vamos "
+"a recibir `true`. Usar valores más altos devolverá `false` más a menudo, "
+"introduciendo más espacio en el riff."
 
 #: A.04-synth-riffs.md:159
 msgid ""
@@ -11592,12 +11744,21 @@ msgid ""
 "ength of the riff. Try changing the 16 to 8 or even 4 or 3 and see how it affe"
 "cts the rhythm of the riff."
 msgstr ""
+"Fíjate en que hemos añadido algo de iteración con el `16.times`. Esto es "
+"porque sólo queremos resetear el valor de nuestra semilla aleatoria cada 16 "
+"notas, de modo que nuestro ritmo se repita cada 16 veces. Esto no afecta a "
+"la mezcla, ya que dicha operación se realiza justo después de que se ajuste "
+"la semilla. Podemos usar el tamaño de la iteración para cambiar la duración "
+"del riff. Prueba a cambiar el 16 a 8, o incluso a 4 o 3, y mira cómo afecta "
+"al ritmo del riff."
 
 #: A.04-synth-riffs.md:168
 msgid ""
 "OK, so let's combine everything we've learned together into one final example."
 " See you next time!"
 msgstr ""
+"Vale, ahora vamos a combinar todo lo que hemos aprendido en un ejemplo "
+"final. ¡Hasta la próxima!"
 
 #: A.04-synth-riffs.md:171
 #, no-wrap
@@ -11653,12 +11814,14 @@ msgstr ""
 "end"
 
 #: A.05-acid-bass.md:1
+#, fuzzy
 msgid "A.5 Acid Bass"
-msgstr ""
+msgstr "A.5 Acid Bass"
 
 #: A.05-acid-bass.md:3
+#, fuzzy
 msgid "Acid Bass"
-msgstr ""
+msgstr "Acid Bass"
 
 #: A.05-acid-bass.md:5
 msgid ""
@@ -11669,6 +11832,12 @@ msgid ""
 "ugh to more recent electronic artists such as Plastikman, Squarepusher and Aph"
 "ex Twin."
 msgstr ""
+"Es imposible mirar en la historia de la música electrónica dance sin ver el "
+"enorme impacto del pequeño sintetizdor Roland TB-303. Es la salsa secreta "
+"del sonido de bajo ácido (acid bass). Esos clásicos riffs de bajo chillones "
+"del TB-303 se pueden escuchar desde los inicios de la música House en "
+"Chicago, hasta en artistas electrónic@s más recientes como Plastikman, "
+"Squarepusher y Aphex Twin."
 
 #: A.05-acid-bass.md:12
 msgid ""
@@ -11684,6 +11853,18 @@ msgid ""
 "rs who started using them in ways that Roland didn't imagine to create new cra"
 "zy sounds. Acid House was born."
 msgstr ""
+"Curiosamente, Roland no diseñó el TB-303 para música de baile. Se creó "
+"inicialmente como una ayuda para practicar para guitarristas. Pensaron que "
+"la gente podría programarlos para tocar líneas de bajo eléctrico que "
+"sirviesen de acompañamiento. Por desgracia había varios problemas: eran un "
+"poco difíciles de programar, no sonaban muy bien como substitutos para un "
+"bajo eléctrico, y eran bastante caros. Para contrarrestar sus pérdidas, "
+"Roland dejó de fabricarlos después de vender 10.000 unidades, y después de "
+"unos años cogiendo polvo en armarios de guitarristas, era fácil verlos en "
+"los escaparates de tiendas de segunda mano. Estos TB-303 solitarios estaban "
+"esperando a ser descubiertos por una nueva generación de experimentador@s "
+"que empezaron a usarlos de formas en las que Roland no se habría imaginado, "
+"creando sonidos muy guays. Así nació el Acid House."
 
 #: A.05-acid-bass.md:25
 msgid ""
@@ -11692,6 +11873,10 @@ msgid ""
 " Sonic Pi. Behold, fire up Sonic Pi and throw this code into an empty buffer a"
 "nd hit Run:"
 msgstr ""
+"Aunque no es fácil tocar un TB-303 original, te alegrará saber que puedes "
+"convertir tu Raspberri Pi en este sintetizador usando el poder de Sonic Pi. "
+"Abre Sonic Pi, pon este código en un búfer vacío, dale a Ejecutar y "
+"contempla...:"
 
 #: A.05-acid-bass.md:30
 #, no-wrap
@@ -11704,11 +11889,11 @@ msgstr ""
 
 #: A.05-acid-bass.md:35
 msgid "Instant acid bass! Let's play around..."
-msgstr ""
+msgstr "¡Acid bass al instante! Vamos a cambiar cosillas..."
 
 #: A.05-acid-bass.md:37
 msgid "Squelch that Bass"
-msgstr ""
+msgstr "Que Chille ese Bajo"
 
 #: A.05-acid-bass.md:39
 msgid ""
@@ -11717,6 +11902,10 @@ msgid ""
 "fter another, repeating when we get to the end. Let's create a live loop that "
 "does exactly that:"
 msgstr ""
+"Primero, vamos a construir un arpegiador en directo para hacer las cosas más "
+"divertidas. En el último tutorial vimos cómo un riff puede ser sencillamente "
+"un anillo de notas sobre las que hacemos tick una tras otra, repitiéndolas "
+"cuando llegamos al final. Vamos a crear un live loop que haga justo eso:"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
@@ -11737,19 +11926,23 @@ msgstr ""
 
 #: A.05-acid-bass.md:53
 msgid "Take a look at each line."
-msgstr ""
+msgstr "Échale un vistazo a cada línea."
 
 #: A.05-acid-bass.md:55
 msgid ""
 "On the first line we set the default synth to be `tb303` with the `use_synth` "
 "fn."
 msgstr ""
+"En la primera línea ponemos el sintetizador por defecto como `tb303`, con la "
+"función `use_synth`."
 
 #: A.05-acid-bass.md:58
 msgid ""
 "On line two we create a live loop called `:squelch` which will just loop round"
 " and round."
 msgstr ""
+"En la línea dos creamos un live loop llamado `:squelch` (chillar) que "
+"sencillamente da vueltas, vueltas y más vueltas."
 
 #: A.05-acid-bass.md:61
 msgid ""
@@ -11761,6 +11954,13 @@ msgid ""
 "t will be `:e2`, followed by `:e3`, and then back to `:e1`, cycling round fore"
 "ver."
 msgstr ""
+"En la línea tres es donde creamos nuestro riff - un anillo de notas (Mi en "
+"las octavas 1, 2 y 3), que recorremos con `.tick`. Definimos `n` para "
+"representar la nota actual dentro del riff. El símbolo de igual asigna el "
+"valor de la derecha al nombre de la izquierda. Este valor será diferente en "
+"cada vuelta del bucle. La primera vez, `n` valdrá `:e1`. La segunda vez "
+"valdrá `:e2`, luego `:e3`, y así hasta volver a `:e1`, dando vueltas para "
+"siempre."
 
 #: A.05-acid-bass.md:70
 msgid ""
@@ -11768,18 +11968,26 @@ msgid ""
 " interesting opts here: `release:`, `cutoff:`, `res:` and `wave:` which we'll "
 "discuss below."
 msgstr ""
+"En la línea cuatro es donde realmente usamos nuestro sintetizador `:tb303`. "
+"Le estamos pasando varios opts interesantes: `release:`, `cutoff:`, `res:` y "
+"`wave:`, que vamos a ver a continuación."
 
 #: A.05-acid-bass.md:74
 msgid ""
 "Line five is our `sleep` - we're asking the live loop to loop round every `0.1"
 "25`s or 8 times a second at the default BPM of 60."
 msgstr ""
+"La línea cinco es nuestro `sleep` - le estamos diciendo al live loop que dé "
+"una vuelta cada `0.125`, o 8 veces cada segundo si utilizamos el BPM por "
+"defecto (60)."
 
 #: A.05-acid-bass.md:77
 msgid ""
 "Line six is the `end` to the live loop. This just tells Sonic Pi where the end"
 " of the live loop is."
 msgstr ""
+"La línea séis es el `end` (fin) de nuestro live loop. Esto le dice a Sonic "
+"Pi dónde acaba el live loop, sencillamente."
 
 #: A.05-acid-bass.md:80
 msgid ""
@@ -11787,6 +11995,9 @@ msgid ""
 "it the Run button. You should hear the `:tb303` kick into action. Now, this is"
 " where the action is: let's start live coding."
 msgstr ""
+"Mientras te preguntas qué está pasando, escribe el código de arriba en Sonic "
+"Pi y dale a Ejecutar. Deberías escuchar el `:tb303` en acción. Ahora viene "
+"lo bueno: vamos a hacer live coding."
 
 #: A.05-acid-bass.md:84
 msgid ""
@@ -11797,6 +12008,13 @@ msgid ""
 "ou feel like a rest. Then repeat as many times as you want. Don't worry, I'll "
 "still be here..."
 msgstr ""
+"Mientras el bucle sigue funcionando, cambia el opt `cutoff:` a `110`. Ahora "
+"dale al botón de Ejecutar de nuevo. Deberías escuchar que el sonido se hace "
+"un poco más duro y chillón. Cambia de nuevo el `cutoff:` a `120` y dale a "
+"Ejecutar. Ahora con `130`. Escucha cómo frecuencias de cutoff más bajas "
+"hacen que suene más penetrante e intenso. Finalmente, bájalo a `80`, con lo "
+"que sentirás una sensación de respiro. Repite tantas veces como quieras. No "
+"te preocupes, yo sigo por aquí..."
 
 #: A.05-acid-bass.md:91
 msgid ""
@@ -11808,6 +12026,14 @@ msgid ""
 " some insane sounds. At a `res` this high, you're hearing the cutoff filter re"
 "sonate so much it starts to make sounds of its own!"
 msgstr ""
+"Otra opción que merece la pena probar es `res:`. Ésta controla el nivel de "
+"resonancia del filtro. Una resonancia alta es típica de sonidos de acid "
+"bass. Ahora mismo tenemos nuestro `res:` a `0.8`. Prueba a cambiarlo a `0.85`"
+", luego a `0.9`, y finalmente a `0.95`. Tal vez notes que un cutoff como "
+"`110` o más alto hace las diferencias más fáciles de escuchar. Ahora haz una "
+"locura y cámbialo a `0.999` para escuchar sonidos muy chulos. ¡Con una `res` "
+"tan alta, escuchas el filtro cutoff resonando tanto que empieza a crear "
+"sonidos él mismo!"
 
 #: A.05-acid-bass.md:100
 msgid ""
@@ -11815,26 +12041,37 @@ msgid ""
 "his is the choice of source oscillator. The default is `0` which is a sawtooth"
 " wave. `1` is a pulse wave and `2` is a triangle wave."
 msgstr ""
+"Por último, para un cambio grande en el timbre, modifica el valor de la "
+"opción `wave` a `1`. Esta opción selecciona un oscilador inicial. El valor "
+"por defecto es `0`, que es una onda de sierra. `1` es una onda de pulso y `2`"
+" es una onda triangular."
 
 #: A.05-acid-bass.md:104
 msgid ""
 "Of course, try different riffs by changing the notes in the ring or even picki"
 "ng notes from scales or chords. Have fun with your first acid bass synth."
 msgstr ""
+"Por supuesto, prueba con distintos riffs cambiando las notas en el anillo o "
+"incluso cogiendo notas de escalas o acordes. Que te diviertas con tu primer "
+"sintetizador de acid bass."
 
 #: A.05-acid-bass.md:108
 msgid "Deconstructing the TB-303"
-msgstr ""
+msgstr "Desmontando el TB-303"
 
 #: A.05-acid-bass.md:110
 msgid ""
 "The design of the original TB-303 is actually pretty simple. As you can see fr"
 "om the following diagram there's only 4 core parts."
 msgstr ""
+"El diseño del TB-303 original es muy sencillo en realidad. Como puedes ver "
+"en el siguiente diagrama, sólo tiene 4 partes básicas."
 
 #: A.05-acid-bass.md:113
+#, fuzzy
 msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 msgstr ""
+"![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -11850,6 +12087,18 @@ msgid ""
 "have amazing control over the timbre of the sound by playing with both of thes"
 "e envelopes. Let's take a look:"
 msgstr ""
+"En primer lugar tenemos la onda de oscilador - el ingrediente crudo del "
+"sonido. En este caso tenemos una onda cuadrada. Después tenemos el "
+"envolvente (envelope) de amplitud del oscilador, que controla la "
+"amplificación (amp) de la onda cuadrada con el paso del tiempo. Estas "
+"opciones se acceden en Sonic Pi con los opts `attack:`, `decay:`, `sustain:` "
+"y `release:`, y lo mismo con sus versiones para el volumen. Para más "
+"información, lee la sección 2.4, 'Duración con Envolventes' en el tutorial "
+"incluido en Sonic Pi. Después del envolvente pasamos nuestra onda cuadrada "
+"por un filtro de paso bajo. Aquí es donde empieza la diversión. ¡El valor de "
+"cutoff de este filtro también se controla con su propio envolvente! Esto "
+"significa que tenemos un nivel de control alucinante sobre el tumbre del "
+"sonido con sólo jugar con estos dos envolventes. Echémosle un vistazo:"
 
 #: A.05-acid-bass.md:128
 #, no-wrap
@@ -11880,12 +12129,21 @@ msgid ""
 "azy sound warble in and out. Now start to play. Try changing the `cutoff_attac"
 "k:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
+"Para cada opción estándar de un envolvente, hay una opción `cutoff_` "
+"equivalente en el sintetizador `:tb303`. Por tanto, podemos usar la opción "
+"`cutoff_attack:` para cambiar el valor de ataque del cutoff. Copia el código "
+"de abajo en un búfer vacío y dale a Ejecutar. Escucharás un sonido de lo más "
+"curioso, haciendo trinos arriba y abajo. Ahora empieza a tocar cosillas. "
+"Prueba a cambiar el tiempo de `cutoff_attack` a `1`, y luego a `0.5`. Ahora "
+"prueba con `8`."
 
 #: A.05-acid-bass.md:144
 msgid ""
 "Notice that I've passed everything through a `:reverb` FX for extra atmosphere"
 " - try other FX to see what works!"
 msgstr ""
+"Fíjate en que he pasado todo por un efecto `:reverb` para darle un poco más "
+"de ambiente - ¡prueba con otros efectos para ver cuál funciona mejor!"
 
 #: A.05-acid-bass.md:149
 msgid ""
@@ -11893,6 +12151,10 @@ msgid ""
 "nto an empty buffer, listen for a while and then start live coding your own ch"
 "anges. See what crazy sounds you can make with it! See you next time..."
 msgstr ""
+"Finalmente, aquí tienes una pieza que he compuesto usando ideas de este "
+"tutorial. Cópiala en un búfer vacío, escúchala un rato y empieza a a hacer "
+"live coding con tus propios cambios. ¡A ver qué sonidos locos le puedes "
+"sacar! Hasta la próxima..."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
@@ -11947,11 +12209,11 @@ msgstr ""
 
 #: A.06-minecraft.md:1
 msgid "A.6 Musical Minecraft"
-msgstr ""
+msgstr "A.6 Minecraft Musical"
 
 #: A.06-minecraft.md:3
 msgid "Musical Minecraft"
-msgstr ""
+msgstr "Minecraft Musical"
 
 #: A.06-minecraft.md:7
 msgid ""
@@ -11959,22 +12221,26 @@ msgid ""
 " music possibilities of Sonic Pi - (turning your Raspberry Pi into a performan"
 "ce ready musical instrument). So far we've learned how to:"
 msgstr ""
+"¡Hola y bienvenid@ de nuevo! En tutoriales anteriores, nos hemos centrado "
+"sólamente en las posibilidades musicales de Sonic Pi - (convirtiendo tu "
+"Raspberry Pi en un instrumento musical preparado para tu concierto). Hasta "
+"ahora hemos aprendido cómo:"
 
 #: A.06-minecraft.md:11
 msgid "Live Code - changing the sounds on-the-fly,"
-msgstr ""
+msgstr "Hacer Live Coding - cambiar sonidos al vuelo,"
 
 #: A.06-minecraft.md:12
 msgid "Code some huge beats,"
-msgstr ""
+msgstr "Programar unos beats muy salvajes,"
 
 #: A.06-minecraft.md:13
 msgid "Generate powerful synth leads,"
-msgstr ""
+msgstr "Generar sintetizadores lead potentes,"
 
 #: A.06-minecraft.md:14
 msgid "Re-create the famous TB-303 acid-bass sound."
-msgstr ""
+msgstr "Re-crear el famoso sonido acid bass del TB-303."
 
 #: A.06-minecraft.md:16
 msgid ""
@@ -11982,10 +12248,13 @@ msgid ""
 "owever, this month, let's look at something Sonic Pi can do that you probably "
 "didn't realise: control Minecraft."
 msgstr ""
+"Hay mucho más por ver (que exploraremos en futuras ediciones). Sin embargo, "
+"este mes vamos a centrarnos en algo que Sonic Pi hace y que de lo que "
+"probablemente no te has dado cuenta: controlar Minecraft."
 
 #: A.06-minecraft.md:20
 msgid "Hello Minecraft World"
-msgstr ""
+msgstr "Hola Mundo Minecraft"
 
 #: A.06-minecraft.md:22
 msgid ""
@@ -11993,10 +12262,13 @@ msgid ""
 "ate a new world. Now start up Sonic Pi and re-size and move your windows so yo"
 "u can see both Sonic Pi and Minecraft Pi at the same time."
 msgstr ""
+"Vale, allá vamos. Enciende tu Raspberry Pi, abre Minecraft Pi y crea un "
+"nuevo mundo. Ahora inicia Sonic Pi, y mueve y cambia el tamaño de ambas "
+"ventanas, para que puedas ver Sonic Pi y Minecraft Pi al mismo tiempo."
 
 #: A.06-minecraft.md:26
 msgid "In a fresh buffer type the following:"
-msgstr ""
+msgstr "Escribe lo siguiente en un búfer vacío:"
 
 #: A.06-minecraft.md:28
 #, no-wrap
@@ -12009,16 +12281,22 @@ msgid ""
 ", stop reading this for a moment and play about with your own messages. Have f"
 "un!"
 msgstr ""
+"Ahora, dale a Ejecutar. ¡Boom! ¡Tu mensaje apareció en Minecraft! ¿A que ha "
+"sido fácil? Ahora, deja de leer esto por un momento y prueba a poner tus "
+"propios mensajes. ¡Que te diviertas!"
 
 #: A.06-minecraft.md:36
+#, fuzzy
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 msgstr ""
+"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
-msgstr ""
+msgstr "Teletransportador Sónico"
 
 #: A.06-minecraft.md:40
 msgid ""
@@ -12027,6 +12305,10 @@ msgid ""
 "g. It would be far better if we had some sort of teleport machine. Well, thank"
 "s to Sonic Pi, we have one. Try this:"
 msgstr ""
+"Ahora vamos a explorar el mundo. La opción estándar es coger el teclado y el "
+"ratón y empezar a moverte alrededor. Esto funciona, pero es bastante lento y "
+"aburrido. Sería mucho mejor si tuviésemos una especie de máquina de "
+"teletransporte. Bueno, tenemos una, gracias a Sonic Pi. Prueba esto:"
 
 #: A.06-minecraft.md:45
 #, no-wrap
@@ -12040,6 +12322,10 @@ msgid ""
 "er flying-mode and teleport again, you'll stay hovering at the location you za"
 "p to."
 msgstr ""
+"¡Vaya! Eso ha sido una subida. Si no estuvieses en modo vuelo habrías caído "
+"toda esa distancia hasta el suelo. Si pulsas dos veces la tecla espacio para "
+"entrar en el modo vuelo y teletransportarte de nuevo, te quedarás flotando "
+"en el lugar al que has volado a toda pastilla."
 
 #: A.06-minecraft.md:54
 msgid ""
@@ -12047,18 +12333,22 @@ msgid ""
 "dinates of where in the world we want to go. We give each number a name - x, y"
 " and z:"
 msgstr ""
+"¿Y qué significan esos números? Tenemos tres números que indican las "
+"coordenadas del lugar del mundo donde te encuentras. Le damos un nombre a "
+"cada número: x, y, z:"
 
 #: A.06-minecraft.md:58
 msgid "x - how far left and right (80 in our example)"
 msgstr ""
+"x - cómo de lejos estás a la derecha o a la izquierda (80 en nuestro ejemplo)"
 
 #: A.06-minecraft.md:59
 msgid "y - how high we want to be (40 in our example)"
-msgstr ""
+msgstr "y - cómo de alto queremos estar (40 en nuestro ejemplo)"
 
 #: A.06-minecraft.md:60
 msgid "z - how far forward and back (100 in our example)"
-msgstr ""
+msgstr "z - cómo de lejos hacia delante o hacia atrás (100 en nuestro ejemplo)"
 
 #: A.06-minecraft.md:62
 msgid ""
@@ -12068,12 +12358,21 @@ msgid ""
 "nto a mountain. Just choose a higher y value to get back out above land. Keep "
 "on exploring until you find somewhere you like..."
 msgstr ""
+"Al escoger distintos valores de x, y y z, podemos teletransportarnos *a "
+"cualquier lugar* en nuestro mundo. ¡Pruébalo! Escoge distintos números y "
+"mira dónde puedes acabar. Si la pantalla se vuelve negra es porque te has "
+"teletransportado debajo del suelo o dentro de una montaña. Sencillamente pon "
+"un valor más alto de y, para volver a estar por encima de la tierra. Sigue "
+"explorando hasta que encuentres algo que te guste..."
 
 #: A.06-minecraft.md:69
 msgid ""
 "Using the ideas so far, let's build a Sonic Teleporter which makes a fun telep"
 "ort sound whilst it whizzes us across the Minecraft world:"
 msgstr ""
+"Usando estas ideas, vamos a construir un Teletransportador Sónico que haga "
+"un sonido de teletransporte divertido mientras nos hace pasar zumbando por "
+"el mundo de Minecraft:"
 
 #: A.06-minecraft.md:72
 #, no-wrap
@@ -12103,14 +12402,17 @@ msgstr ""
 "mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
+#, fuzzy
 msgid ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
 msgstr ""
+"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
-msgstr ""
+msgstr "Bloques Mágicos"
 
 #: A.06-minecraft.md:90
 msgid ""
@@ -12118,6 +12420,10 @@ msgid ""
 "sed to and start clicking the mouse furiously to place blocks under the cursor"
 ". Or you could use the magic of Sonic Pi. Try this:"
 msgstr ""
+"Ahora que has encontrado un sitio que te guste, ¡empecemos a construir!. "
+"Podrías hacer lo que sueles hacer y empezar a hacer click con el ratón una y "
+"otra vez (furiosamente) para poner bloques debajo del cursor. O podrías usar "
+"la magia de Sonic Pi. Prueba esto:"
 
 #: A.06-minecraft.md:94
 #, no-wrap
@@ -12138,6 +12444,14 @@ msgid ""
 " the sky we just need to increase the y value which is why we add 5 to it. Let"
 "'s make a long trail of them:"
 msgstr ""
+"¿Lo ves? ¡Hay un melón en el cielo! Tómate un momento para mirar el código. ¿"
+"Qué hemos hecho? En la línea uno, hemos cogido nuestra localización actual "
+"de Steve con las variables x, y, z. Éstas corresponden a nuestras "
+"coordenadas descritas anteriormente. Usamos esas coordenadas en la función "
+"`mc_set_block`, que deja el bloque que queramos en las coordenadas "
+"especificadas. Para hacer algo más alto en el cielo, sólo tenemos que subir "
+"el valor de y, que es el motivo por el cual le hemos añadido 5. Vamos a "
+"hacer una tira de melones:"
 
 #: A.06-minecraft.md:107
 #, no-wrap
@@ -12160,10 +12474,14 @@ msgid ""
 " if not) and fly all around the world. Look behind you to see a pretty trail o"
 "f melon blocks! See what kind of twisty patterns you can make in the sky."
 msgstr ""
+"Ahora, vuelve a Minecraft, asegúrate de que estás en modo vuelo (si no, "
+"pulsa la tecla espacio dos veces), y vuelva por el mundo. Mira detrás tuya "
+"para ver... ¡una preciosa tira de bloques de melón! A ver qué patrones "
+"puedes hacer en el cielo."
 
 #: A.06-minecraft.md:120
 msgid "Live Coding Minecraft"
-msgstr ""
+msgstr "Haciendo Live Coding con Minecraft"
 
 #: A.06-minecraft.md:122
 msgid ""
@@ -12177,6 +12495,16 @@ msgid ""
 "rm music in nightclubs with Sonic Pi - DJs use discs and I use `live_loop`s :-"
 ") However, today we're going to live code both music and Minecraft."
 msgstr ""
+"Aquell@s que hayáis seguido este tutorial durante los últimos meses estaréis "
+"flipando en colores. La tira de melones está muy chula, pero la parte más "
+"increíble de este ejemplo es que ¡podéis usar `live_loop` con Minecraft! "
+"Para quienes no lo sepáis, `live_loop` es una habilidad mágica de Sonic Pi "
+"que no tiene ningún otro lenguaje de programación. Te permite ejecutar "
+"varios bucles al mismo tiempo y cambiarlos mientras tanto. Son "
+"increíblemente potentes y divertidos. Yo uso los `live_loop`s para dar "
+"conciertos de música en discotecas con Sonic Pi - los DJs usan discos y yo "
+"uso `live_loop`s :-) Sin embargo, hoy vamos a hacer live coding con música y "
+"con Minecraft."
 
 #: A.06-minecraft.md:133
 msgid ""
@@ -12185,6 +12513,10 @@ msgid ""
 "it run. Hey presto, you're now making a brick trail. How simple was that! Fanc"
 "y some music to go with it? Easy. Try this:"
 msgstr ""
+"Empecemos. Ejecuta el código de arriba y empieza a hacer tu propia tira de "
+"melones de nuevo. Ahora, sin parar el código, cambia `:melon` por `:brick` y "
+"dale a Ejecutar. ¡Abracadabra!, estás haciendo una tira de ladrillos. ¡A que "
+"es fácil! ¿Y si le ponemos música chula de fondo? Pan comido. Prueba esto:"
 
 #: A.06-minecraft.md:138
 #, no-wrap
@@ -12217,12 +12549,19 @@ msgid ""
 "ry `:water`, `:grass` or your favourite block type. Also, try changing the cut"
 "off value from `70` to `80` and then up to `100`. Isn't this fun?"
 msgstr ""
+"Ahora, mientras suena, empieza a cambiar el código. Cambia los tipos de "
+"bloques - prueba `:water`, `:grass` o tu tipo de bloque favorito. Prueba "
+"también a cambiar el valor de cutoff de `70` a `80` y así hasta `100`. ¿"
+"Divertido, eh?"
 
 #: A.06-minecraft.md:158
+#, fuzzy
 msgid ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
 msgstr ""
+"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 msgid ""
@@ -12232,6 +12571,11 @@ msgid ""
 "d have a play by changing some of the values whilst it's running live. Have fu"
 "n and see you next time..."
 msgstr ""
+"Vamos a combinar todo lo que hemos visto hasta ahora con un poco de magia "
+"extra. Vamos a combinar nuestra habilidad de teletransporte con moviminto de "
+"bloques y música, para crear un Videoclip de Minecraft. No te preocupes si "
+"no lo entiendes todo, tú dale y prueba a cambiar algunos valores mientras se "
+"ejecuta. Pásatelo bien y hasta la próxima..."
 
 #: A.06-minecraft.md:166
 #, no-wrap
@@ -12287,12 +12631,14 @@ msgstr ""
 "end"
 
 #: A.07-bizet.md:1
+#, fuzzy
 msgid "A.7 Bizet Beats"
-msgstr ""
+msgstr "A.7 Bizet Beats"
 
 #: A.07-bizet.md:3
+#, fuzzy
 msgid "Bizet Beats"
-msgstr ""
+msgstr "Bizet Beats"
 
 #: A.07-bizet.md:5
 msgid ""
@@ -12301,10 +12647,14 @@ msgid ""
 "al operatic dance piece straight into the 21st century using the awesome power"
 " of code."
 msgstr ""
+"Tras nuestra pequeña excursión por el mundo fantástico de Minecraft "
+"programando con Sonic Pi este último mes, vamos a hacer música de nuevo.  "
+"Hoy vamos a traer una pieza ópera clásica al siglo 21, usando el poder "
+"alucinante de la programación."
 
 #: A.07-bizet.md:10
 msgid "Outrageous and Disruptive"
-msgstr ""
+msgstr "Atroz y Disruptivo"
 
 #: A.07-bizet.md:12
 msgid ""
@@ -12318,10 +12668,20 @@ msgid ""
 "ic that is also too outrageous and different for most people in our time - liv"
 "e coded music!"
 msgstr ""
+"Viajemos atrás en el tiempo, al año 1875. Un compositor llamado Bizet ha "
+"acabado su última ópera, Carmen. Por desgracia, como ocurre con las piezas "
+"de música más disruptivas, no le gustó a la gente porque era demasiado "
+"expererimental y diferente. Tristemente, Bizet murió diez años antes de que "
+"la ópera se hiciese conocida internacionalmente y se convirtiese en una de "
+"las óperas más famosas y más tocadas de todos los tiempos. En un acto de "
+"simpatía con este genio y su tragedia, vamos a coger uno de los temas "
+"principales de Carmen y a convertirlo a un formato moderno de música que "
+"también es muy atroz y diferente para la mayoría de la gente de nuestra "
+"época - ¡la música con live coding!"
 
 #: A.07-bizet.md:23
 msgid "Decoding the Habanera"
-msgstr ""
+msgstr "Descifrando la Habanera"
 
 #: A.07-bizet.md:25
 msgid ""
@@ -12329,10 +12689,14 @@ msgid ""
 "orial, so let's focus on one of the most famous parts - the bass line to the H"
 "abanera:"
 msgstr ""
+"Intentar hacer live coding con la ópera entera sería todo un desafío para "
+"este tutorial, así que vamos a centrarnos en una de las partes más conocidas "
+"- la línea de bajo de la Habanera:"
 
 #: A.07-bizet.md:29
+#, fuzzy
 msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
-msgstr ""
+msgstr "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -12341,10 +12705,15 @@ msgid ""
 "ode - only it represents instructions to a musician instead of a computer. We "
 "therefore need to figure out a way of decoding it."
 msgstr ""
+"Esto te puede parecer extremadamente ilegible si nunca has estudiado "
+"notación musical. No obstante, l@s programador@s vemos la notación musical "
+"como otra forma de código - sólo representa instrucciones para un/a músic@ "
+"en vez de un ordenador. Por tanto necesitamos encontrar una forma de "
+"descifrarlo."
 
 #: A.07-bizet.md:36
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #: A.07-bizet.md:38
 msgid ""
@@ -12352,6 +12721,10 @@ msgid ""
 "also have different heights. *The height on the score represents the pitch of "
 "the note.* The higher the note on the score, the higher the pitch of the note."
 msgstr ""
+"Las notas están colocadas de izquierda a derecha como las palabras en esta "
+"revista, pero tienen distintas alturas. *La altura en la partitura "
+"representa la altura de la nota*. Cuanto más alta sea la nota en la "
+"partitura, mayor será la altura de la nota."
 
 #: A.07-bizet.md:43
 msgid ""
@@ -12361,14 +12734,20 @@ msgid ""
 " score represents a specific note name. Take a look at this handy look up tabl"
 "e:"
 msgstr ""
+"En Sonic Pi ya sabemos cómo cambiar la altura de una nota - usamos números "
+"más o menos altos como `play 75` y `play 80`, o usamos los nombres de las "
+"notas: `play :E` y `play :F`. Por suerte, cada una de las posiciones "
+"verticales de la partitura representa el nombre de una nota específica. "
+"Échale un vistazo a esta tabla, es bastante útil:"
 
 #: A.07-bizet.md:49
+#, fuzzy
 msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr ""
+msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
-msgstr ""
+msgstr "Silencios"
 
 #: A.07-bizet.md:53
 msgid ""
@@ -12379,6 +12758,12 @@ msgid ""
 "` or `null` - the absence of a value. In other words not playing a note is lik"
 "e the absence of a note."
 msgstr ""
+"Las partituras musicales son un tipo de código extremadamente rico y "
+"expresivo capaz de comunicar muchas cosas. Por tanto, no debería "
+"sorprenderte que las partituras no sólo te muestran cuándo tocar notas, sino "
+"también cuándo *no* tocarlas. En programación, esto es bastante parecido al "
+"concepto de `nil` o `null` - la ausencia de valor. En otras palabras, no "
+"tocar una nota es como la ausencia de una nota."
 
 #: A.07-bizet.md:60
 msgid ""
@@ -12389,10 +12774,17 @@ msgid ""
 "rite `play :rest`, `play nil` or `play false` which are all equivalent ways of"
 " representing rests."
 msgstr ""
+"Si has mirado de cerca la partitura, verás que en realidad es una "
+"combinación de puntos negros, con líneas que representan las notas a tocar, "
+"y con cosas con forma de garrapata que representan silencios. "
+"Afortunadamente, Sonic Pi tiene una representación muy útil para el silencio:"
+" `:r`, así que si ejecutamos: `play :r`, en realidad, ¡está tocando "
+"silencio! También podríamos escribir `play :rest`, `play nil` o `play false`"
+", que son formas equivalentes de representar silencios."
 
 #: A.07-bizet.md:67
 msgid "Rhythm"
-msgstr ""
+msgstr "Ritmo"
 
 #: A.07-bizet.md:69
 msgid ""
@@ -12403,6 +12795,14 @@ msgid ""
 "which means they last for an 8th of a beat. The rest has two squiggly beams wh"
 "ich means it also represents a 16th of the beat."
 msgstr ""
+"Finalmente, hay una última cosa que debemos aprender para descifrar la "
+"notación - los ritmos de las notas. En la notación original puedes ver que "
+"las notas están conectadas con líneas gruesas, llamadas barras. La segunda "
+"nota tiene dos de estas barras, que significa que dura la dieciseisava parte "
+"de un compás (lo que se llama beat en Sonic Pi). Las otras notas tienen una "
+"sola barra, que significa que duran la octava parte de un compás. El "
+"silencio tiene dos barras con forma de garrapata, que significa que también "
+"representa un dieciseisavo de un compás."
 
 #: A.07-bizet.md:77
 msgid ""
