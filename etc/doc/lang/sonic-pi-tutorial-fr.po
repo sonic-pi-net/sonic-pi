@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-10-20 19:18+0000\n"
-"Last-Translator: Mathieu H <Aurnytoraink@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: LL <lu.lecocq@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -5098,7 +5098,9 @@ msgstr ""
 #: 05.4-Threads.md:236
 #, no-wrap
 msgid "==> Skipping thread creation: thread with name :amen already exists."
-msgstr "==> Sautant la création d'un thread : le thread avec le nom :amen existe déjà."
+msgstr ""
+"==> Sautant la création d'un thread : le thread avec le nom :amen existe "
+"déjà."
 
 #: 05.4-Threads.md:240
 msgid ""
