@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-08-23 01:45+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2017-10-03 22:45+0000\n"
+"Last-Translator: LL <lu.lecocq@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -97,7 +97,7 @@ msgstr "1.1 Codage en 'live'"
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Codage en \"Live\""
+msgstr "Codage en direct"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -4977,9 +4977,8 @@ msgstr ""
 #, no-wrap
 msgid "==> Skipping thread creation: thread with name :amen already exists."
 msgstr ""
-"==> Skipping thread creation: thread with name :amen already exists.\n"
-"   (sautant la création d'un thread : le thread avec le nom :amen existe déjà."
-")"
+"==> Sautant la création d'un thread : le thread avec le nom :amen existe "
+"déjà."
 
 #: 05.4-Threads.md:240
 msgid ""
