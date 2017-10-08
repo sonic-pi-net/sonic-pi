@@ -91,23 +91,25 @@ sünti ja sämplite mängimist vaikimisi.</translation>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita logi puhastamine käivitamisel.
+Kui lubatud, siis puhastatakse logi
+iga kord kui vajutatake nuppu &quot;Käivita&quot;.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita reanumbrite kuvamine.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tume režiim</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Koodi käivitamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1916"/>
@@ -1130,7 +1132,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="47"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished">Sonic Pi</translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
