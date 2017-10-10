@@ -322,7 +322,18 @@ module SonicPi
       end
 
       num_inputs = disable_input ? "0" : "16"
-      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-i", num_inputs, "-o", "16", "-b", num_buffers_for_current_os.to_s, "-U", "#{native_path}/supercollider/plugins/", "-Z", "256")
+      boot_and_wait(scsynth_path,
+                    "-u", @port.to_s,
+                    "-a", num_audio_busses_for_current_os.to_s,
+                    "-m", "131072",
+                    "-D", "0",
+                    "-R", "0",
+                    "-l", "1",
+                    "-i", num_inputs,
+                    "-o", "16",
+                    "-U", "#{native_path}/supercollider/plugins/",
+                    "-b", num_buffers_for_current_os.to_s,
+                    "-B", "127.0.0.1")
     end
 
 
@@ -330,7 +341,18 @@ module SonicPi
       log_boot_msg
       puts "Booting on Windows"
 
-      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-i", "16", "-o", "16", "-b", num_buffers_for_current_os.to_s, "-U", "#{native_path}/plugins/", "-B", "127.0.0.1")
+      boot_and_wait(scsynth_path,
+                    "-u", @port.to_s,
+                    "-m", "131072",
+                    "-a", num_audio_busses_for_current_os.to_s,
+                    "-D", "0",
+                    "-R", "0",
+                    "-l", "1",
+                    "-i", "16",
+                    "-o", "16",
+                    "-U", "#{native_path}/plugins/",
+                    "-b", num_buffers_for_current_os.to_s,
+                    "-B", "127.0.0.1")
     end
 
     def boot_server_raspberry_pi
@@ -354,9 +376,22 @@ module SonicPi
       end
 
       register_process jack_pid
-      buffer_size = raspberry_pi_1? ? 512 : 128
+      block_size = raspberry_pi_1? ? 512 : 128
 
-      boot_and_wait("scsynth", "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-z", buffer_size.to_s,  "-c", "128", "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/", "-i", "2", "-o", "2", "-b", num_buffers_for_current_os.to_s)
+      boot_and_wait("scsynth",
+                    "-u", @port.to_s,
+                    "-m", "131072",
+                    "-a", num_audio_busses_for_current_os.to_s,
+                    "-D", "0",
+                    "-R", "0",
+                    "-l", "1",
+                    "-i", "2",
+                    "-o", "2",
+                    "-z", block_size.to_s,
+                    "-c", "128",
+                    "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/",
+                    "-b", num_buffers_for_current_os.to_s,
+                    "-B", "127.0.0.1")
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
@@ -379,7 +414,17 @@ module SonicPi
         puts "Jackd already running. Not starting another server..."
       end
 
-      boot_and_wait("scsynth", "-u", @port.to_s, "-m", "131072", "-a", num_audio_busses_for_current_os.to_s, "-D", "0", "-R", "0", "-l", "1", "-i", "16", "-o", "16", "-b", num_buffers_for_current_os.to_s)
+      boot_and_wait("scsynth",
+                    "-u", @port.to_s,
+                    "-m", "131072",
+                    "-a", num_audio_busses_for_current_os.to_s,
+                    "-D", "0",
+                    "-R", "0",
+                    "-l", "1",
+                    "-i", "16",
+                    "-o", "16",
+                    "-b", num_buffers_for_current_os.to_s,
+                    "-B", "127.0.0.1")
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
