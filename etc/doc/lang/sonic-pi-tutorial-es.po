@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-06 19:47+0000\n"
-"Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
+"PO-Revision-Date: 2017-10-10 03:09+0000\n"
+"Last-Translator: LuPa <lupa@inventati.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -1867,18 +1867,16 @@ msgid "Samples"
 msgstr "Muestras"
 
 #: 03-Samples.md:5
-#, fuzzy
 msgid ""
 "Another great way to develop your music is to use pre-recorded sounds. In grea"
 "t hip-hop tradition, we call these pre-recorded sounds *samples*. So, if you t"
 "ake a microphone outside, go and record the gentle sound of rain hitting canva"
 "s, you've just created a sample."
 msgstr ""
-"Otra gran manera de desarrollar tu música es usando sonidos pre-grabados. En l"
-"a gran tradición de la \"música concreta\", llamamos a estos sonidos pre-grabado"
-"s \"sampleos\". Another great way to develop your music is to use pre-recorded s"
-"ounds. Así que si tomas un micrófono afuera y grabas el sonido de la lluvia go"
-"lpeando la tela, ya creaste un sampleo."
+"Otra gran manera de desarrollar tu música es usando sonidos pre-grabados. En "
+"la gran tradición de la \"música concreta\", llamamos a estos sonidos pre-"
+"grabados \"sampleos\".  Así que si tomas un micrófono afuera y grabas el "
+"sonido de la lluvia golpeando la tela, ya creaste un sampleo."
 
 #: 03-Samples.md:10
 msgid ""
