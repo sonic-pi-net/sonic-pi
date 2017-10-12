@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-08-01 19:14+0000\n"
-"Last-Translator: Daria Szatan <seraphine@vivaldi.net>\n"
+"PO-Revision-Date: 2017-10-13 08:02+0000\n"
+"Last-Translator: Daria Szatan <bla_ke@tuta.io>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.16-dev\n"
+"X-Generator: Weblate 2.17-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -16283,21 +16283,27 @@ msgid ""
 " speed, `-1` must mean backwards! Let's try it on a snare. First, play it back"
 " at the normal rate:"
 msgstr ""
+"Teraz jestem pewien, że w tej chwili wielu z Was ma w głowie tę samą "
+"rzecz... \"A co, jeśli użyjesz minusowej liczby dla tempa?\". Ciekawe "
+"pytanie! Pomyślmy zatem o tym przez chwilkę. Jeśli nasza wartość `rate:` "
+"oznacza prędkość, z którą odtwarzany jest dany sampel, czyli `1` - normalna "
+"szybkość, pod `2` kryje się podwójna, `0.5` oznacza tempo mniejsze o połowę, "
+"to wartość `-1` spowoduje, iż dźwięk zostanie zagrany od końca! Wypróbujmy "
+"to na \"snare\", lecz rozpoczynając od normalnego tempa:"
 
 #: A.17-sample-stretching.md:63
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: 1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: 1"
 
 #: A.17-sample-stretching.md:65
-#, fuzzy
 msgid "Now, play it backwards:"
 msgstr "Świetnie! Wybrany kawałek jest odtwarzany od końca!"
 
 #: A.17-sample-stretching.md:67
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: -1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: -1"
 
 #: A.17-sample-stretching.md:69
 msgid ""
@@ -16306,6 +16312,9 @@ msgid ""
 "ative rates and have fun. It's particularly amusing with the `:misc_burp` samp"
 "le!"
 msgstr ""
+"Oczywiście możesz zagrać go od końca dwa razy szybciej z wartością `-2` albo "
+"dwa razy wolniej za pomocą `-0.5`. Obeznaj się z różnymi minusowymi tempami "
+"oraz baw się dobrze! Ten efekt brzmi całkiem zabawnie z samplem `:misc_burp`!"
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch [Sidebar]"
@@ -16376,6 +16385,9 @@ msgid ""
 "sample :bass_trance_c, rate: 2\n"
 "sample :bass_trance_c, rate: 0.5"
 msgstr ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
 
 #: A.17-sample-stretching.md:125
 msgid ""
@@ -16391,6 +16403,9 @@ msgid ""
 "sample :bass_trance_c, rpitch: 3\n"
 "sample :bass_trance_c, rpitch: 7"
 msgstr ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
 
 #: A.17-sample-stretching.md:133
 msgid ""
@@ -16411,6 +16426,13 @@ msgid ""
 "sleep 1\n"
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 msgstr ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:149
 msgid ""
@@ -16423,7 +16445,6 @@ msgstr ""
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :beats do\n"
 "  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
@@ -16441,15 +16462,31 @@ msgid ""
 "    end\n"
 "  end\n"
 "end"
-msgstr "sample :guit_em9"
+msgstr ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
-msgstr ""
+msgstr "A.18 Design Dźwięku - Synteza Addytywna"
 
 #: A.18-additive-synthesis.md:3
 msgid "Additive Synthesis"
-msgstr ""
+msgstr "Synteza Addytywna"
 
 #: A.18-additive-synthesis.md:5
 msgid ""
@@ -16469,22 +16506,24 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
-msgstr ""
+msgstr "Proste Kompozycje"
 
 #: A.18-additive-synthesis.md:23
 msgid ""
 "Let's start with the most basic sound there is - the humble pure-toned sine wa"
 "ve:"
 msgstr ""
+"Rozpocznijmy więc od najbardziej podstawowego dźwięku, który możesz tutaj "
+"znaleźć - prostej czystotonowej fali sinusoidalnej:"
 
 #: A.18-additive-synthesis.md:26
 #, no-wrap
 msgid "synth :sine, note: :d3"
-msgstr ""
+msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
-msgstr ""
+msgstr "Teraz spójrzmy na brzmienie w połączeniu z falą kwadratową:"
 
 #: A.18-additive-synthesis.md:32
 #, no-wrap
@@ -16492,6 +16531,8 @@ msgid ""
 "synth :sine, note: :d3\n"
 "synth :square, note: :d3"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
 
 #: A.18-additive-synthesis.md:37
 msgid ""
@@ -16501,6 +16542,13 @@ msgid ""
 "ints to create new colours, adding too many colours will result in a messy bro"
 "wn, similarly - adding too many sounds together will result in a muddy sound."
 msgstr ""
+"Zauważ, jak one się łączą, tworząc całkowicie nowe i bogate dźwięki. Jasne "
+"jest dla nas to, iż nie musimy się zatrzymywać na tym etapie - możemy dodać "
+"tyle dźwięków, ile tak naprawdę potrzebujemy. Jednak musimy być ostrożni "
+"podczas ich łączenia, gdyż to jest tak, jak z łączeniem nowych kolorów - "
+"kiedy dodamy ich za dużo, wynikiem będzie brzydki brązowy. Ta sama rzecz "
+"dzieje się z dźwiękami - pakowanie za dużej ich liczby do jednego pola "
+"spowoduje zamianę w coś niezbyt \"zjadliwego\"."
 
 #: A.18-additive-synthesis.md:45
 #, fuzzy
@@ -16521,6 +16569,9 @@ msgid ""
 "synth :square, note: :d3\n"
 "synth :tri, note: :d4, amp: 0.4"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3\n"
+"synth :tri, note: :d4, amp: 0.4"
 
 #: A.18-additive-synthesis.md:58
 msgid ""
@@ -16532,7 +16583,7 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
-msgstr ""
+msgstr "Strojenie"
 
 #: A.18-additive-synthesis.md:66
 msgid ""
@@ -16548,6 +16599,9 @@ msgid ""
 "synth :square, note: :e3\n"
 "synth :square, note: :e3 + detune"
 msgstr ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
 
 #: A.18-additive-synthesis.md:76
 msgid ""
@@ -16563,12 +16617,14 @@ msgid ""
 msgstr ""
 
 #: A.18-additive-synthesis.md:87
-#, fuzzy
 msgid ""
 "Some of the built-in synths already include a detune option that do exactly th"
 "is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
 "`:dtri`."
-msgstr "`:dsaw`"
+msgstr ""
+"Niektóre z wbudowanych syntezatorów obsługują już opcję rozstrojenia, przez "
+"co można z niej korzystać w jednym z nich. Spróbuj zagrać z parametrem "
+"`detune:` -  `:dsaw`, `:dpulse` oraz `:dtri`."
 
 #: A.18-additive-synthesis.md:92
 #, fuzzy
@@ -16592,6 +16648,12 @@ msgid ""
 "synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
 "synth :noise, release: 0.2, amp: 1, cutoff: 90"
 msgstr ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
 
 #: A.18-additive-synthesis.md:108
 msgid ""
@@ -16623,35 +16685,45 @@ msgid ""
 " release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
 "1, release: 0.1 synth :tri, note: n, release: 0.2"
 msgstr ""
+"define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - "
+"12, release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n "
+"- 0.1, release: 0.1 synth :tri, note: n, release: 0.2"
 
 #: A.18-additive-synthesis.md:137
+#, fuzzy
 msgid ""
 "\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth :s"
 "ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
 "h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 msgstr ""
+"\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth "
+":sine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 "
+"synth :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 
 #: A.18-additive-synthesis.md:144
 msgid ""
 "\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
 "sine, note: n - 12, release: 2 end"
 msgstr ""
+"\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 "
+"synth :sine, note: n - 12, release: 2 end"
 
 #: A.18-additive-synthesis.md:149
 msgid "Play a melody with our new bell!"
-msgstr ""
+msgstr "Zagrajmy melodię z naszym nowym dzwonkiem!"
 
 #: A.18-additive-synthesis.md:150
+#, fuzzy
 msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
-msgstr ""
+msgstr "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
-msgstr ""
+msgstr "A.19 Design Dźwięku - Synteza Subtraktywna"
 
 #: A.19-subtractive-synthesis.md:3
 msgid "Subtractive Synthesis"
-msgstr ""
+msgstr "Synteza Subtraktywna"
 
 #: A.19-subtractive-synthesis.md:5
 msgid ""
@@ -16673,6 +16745,8 @@ msgid ""
 "Despite this sounding like a particularly complicated and advanced technique, "
 "Sonic Pi makes it surprisingly simple and easy - so let's dive right in."
 msgstr ""
+"Pomimo iż to brzmi jak szczególnie skomplikowana i zaawansowana technika, "
+"Sonic Pi sprawia, że jest to zaskakująco proste oraz łatwe - zanurkujmy więc!"
 
 #: A.19-subtractive-synthesis.md:22
 msgid "Complex Source Signal"
@@ -16684,11 +16758,15 @@ msgid ""
 "fairly rich and interesting. This doesn't mean we need something hugely comple"
 "x - in fact, just a standard `:square` or `:saw` wave will do:"
 msgstr ""
+"Dźwięk, który ma pracować dobrze z syntezą subtraktywną, zazwyczaj musi być "
+"dość bogaty i ciekawy. To nie oznacza jednak, że potrzebujemy czegoś "
+"ogromnie złożonego - w rzeczywistości standardowe fale `:square` lub `:saw` "
+"w zupełności wystarczą:"
 
 #: A.19-subtractive-synthesis.md:29
 #, no-wrap
 msgid "synth :saw, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :saw, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:33
 msgid ""
@@ -16697,19 +16775,29 @@ msgid ""
 "imbre. If that didn't make much sense to you, try comparing it with the `:beep"
 "`:"
 msgstr ""
+"Zauważ to, iż dźwięk jest całkiem intrygujący oraz zawiera wiele różnych "
+"częstotliwości powyżej `:e2` (drugi klawisz E na fortepianie), które dodaje "
+"się, by utworzyć barwę dźwięku. Jeżeli to na razie nie ma dla Ciebie "
+"większego sensu, spróbuj porównać go z `:beep`:"
 
 #: A.19-subtractive-synthesis.md:38
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "synth :beep, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :beep, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:42
+#, fuzzy
 msgid ""
 "As the `:beep` synth is just a sine wave, you'll hear a much purer tone and on"
 "ly at `:e2` and none of the high crispy/buzzy sounds which you heard in the `:"
 "saw`. It's this buzziness and variation from a pure sine wave that we can play"
 " with when we use subtractive synthesis."
 msgstr ""
+"Ze względu na to, iż syntezator `:beep` jest po prostu falą sinusoidalną, "
+"usłyszysz o wiele czystszy ton tylko na `:e2` oraz żaden z tych chrupiących/"
+"brzęczących dźwięków, z którymi miałeś do czynienia w `:saw`. To jest "
+"brzęczenie i odmiana z czystej fali sinusoidalnej, gdzie możemy grać, kiedy "
+"używamy syntezy subtraktywnej."
 
 #: A.19-subtractive-synthesis.md:49
 msgid ""
@@ -16729,6 +16817,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 100 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:63
 msgid ""
@@ -16754,6 +16845,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:80
 msgid ""
@@ -16789,7 +16883,7 @@ msgstr "`:prophet`"
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
-msgstr ""
+msgstr "Modulacja Filtra"
 
 #: A.19-subtractive-synthesis.md:109
 msgid ""
@@ -16811,6 +16905,10 @@ msgid ""
 "  synth :prophet, note: :e2, sustain: 3.5\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 50 do |fx|\n"
+"  control fx, cutoff_slide: 3, cutoff: 130\n"
+"  synth :prophet, note: :e2, sustain: 3.5\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:125
 msgid ""
@@ -16841,10 +16939,14 @@ msgid ""
 "ped everything inside a call to `at` (please send answers to @samaaron on Twit"
 "ter)."
 msgstr ""
+"Zakończmy, projektując funkcję, która zagra nowy dźwięk utworzony za pomocą "
+"syntezy substraktywnej. Sprawdź, czy możesz ogarnąć to, co się tutaj dzieje -"
+" a dla zaawansowanych Czytelników Sonic Pi - zobacz, czy możesz sprawdzić, "
+"dlaczego owinąłem wszystko w środku połączenia do `at`  (proszę wysłać "
+"rozwiązania do @samaaron na Twitterze w języku angielskim)."
 
 #: A.19-subtractive-synthesis.md:151
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :subt_synth do |note, sus|\n"
 "  at do\n"
@@ -16864,4 +16966,22 @@ msgid ""
 "subt_synth :e1, 8\n"
 "sleep 8\n"
 "subt_synth :e1 - 4, 8"
-msgstr "rrand"
+msgstr ""
+"define :subt_synth do |note, sus|\n"
+"  at do\n"
+"    with_fx :lpf, cutoff: 40, amp: 2 do |fx|\n"
+"      control fx, cutoff_slide: 6, cutoff: 100\n"
+"      synth :prophet, note: note, sustain: sus\n"
+"    end\n"
+"    with_fx :hpf, cutoff_slide: 0.01 do |fx|\n"
+"      synth :dsaw, note: note + 12, sustain: sus\n"
+"      (sus * 8).times do\n"
+"        control fx, cutoff: rrand(70, 110)\n"
+"        sleep 0.125\n"
+"      end\n"
+"    end\n"
+"  end\n"
+"end\n"
+"subt_synth :e1, 8\n"
+"sleep 8\n"
+"subt_synth :e1 - 4, 8"
