@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-10 20:41+0000\n"
+"PO-Revision-Date: 2017-10-13 08:02+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -15852,9 +15852,8 @@ msgstr ""
 
 #: A.17-sample-stretching.md:18
 #, no-wrap
-#, fuzzy
 msgid "sample :guit_em9, rate: 1"
-msgstr "sample :guit_em9, rate: 0.5"
+msgstr "sample :guit_em9, rate: 1"
 
 #: A.17-sample-stretching.md:20
 msgid ""
@@ -15946,9 +15945,8 @@ msgid "sample :elec_filt_snare, rate: 1"
 msgstr "sample :elec_filt_snare, rate: 1"
 
 #: A.17-sample-stretching.md:65
-#, fuzzy
 msgid "Now, play it backwards:"
-msgstr "Cool! Het speelt achterstevoren!"
+msgstr "Cool! Het speelt achterstevoren:"
 
 #: A.17-sample-stretching.md:67
 #, no-wrap
@@ -16016,6 +16014,19 @@ msgid ""
 "beep. It will also make the beep shorter as we will work through all the circl"
 "es faster. This is shown in Figure E."
 msgstr ""
+"Een sample van een pieptoon is niets meer dan een heleboel cijfers (x, y, "
+"coördinaten) die wanneer ze uitgezet worden op een grafiek hun "
+"oorspronkelijke curven laten zien. Zie figuur D waarbij elke cirkel een "
+"coördinaat vertegenwoordigd. Om de coördinaten terug om te zetten in geluid, "
+"zet de computer elke x-waarde en de bijbehorende waarde van y naar de "
+"luidsprekers om. De truc hier is dat de afspeelsnelheid waarmee de computer "
+"zich door de x-nummers werkt niet dezelfde moet zijn als de snelheid waarmee "
+"zij werden geregistreerd. Met andere woorden, kan de ruimte (die de tijd "
+"vertegenwoordigen) tussen elke cirkel worden uitgerekt of samengedrukt. Dus, "
+"als de computer de x-waarden sneller dan het oorspronkelijke snelheid "
+"doorloopt, zal het het effect van het samendrukken van de cirkels in een "
+"hogere klinkende pieptoon resulteren. Het maakt ook de pieptoon korter maken "
+"gezien we sneller door de cirkels lopen. Dit wordt getoond in figuur E."
 
 #: A.17-sample-stretching.md:105
 msgid ""
@@ -16025,10 +16036,14 @@ msgid ""
 "tching and compressing many sine waves all at the same time in exactly this ma"
 "nner."
 msgstr ""
+"Tot slot, interessant om weten is dat, een wiskundige genaamd Fourier bewees "
+"dat elk geluid eigenlijk bestaat uit heel veel sinusgolven. Daarom, als we "
+"een opgenomen geluid comprimeren , rekken we vele sinusgolven allemaal op "
+"hetzelfde moment op precies deze manier uit."
 
 #: A.17-sample-stretching.md:111
 msgid "Pitch Bending"
-msgstr ""
+msgstr "Pitch Bending"
 
 #: A.17-sample-stretching.md:113
 msgid ""
@@ -16039,6 +16054,14 @@ msgid ""
 "ower. This means that for melodic samples, playing it alongside itself at doub"
 "le/half rates actually sounds rather nice:"
 msgstr ""
+"Zoals we hebben gezien, zal met een sneller tempo het geluid hoger in "
+"toonhoogte, en een trager tempo zal het geluid lager in toonhoogte zijn. Een "
+"zeer eenvoudige en nuttige truc is om te weten dat een verdubbeling van de "
+"rate waarde, eigenlijk resulteert in een toonhoogte van een octaaf hoger "
+"wordt en omgekeerd de halvering van de rate waarde resulteren in een "
+"toonhoogte van een octaaf lager. Dit betekent dat voor melodische samples, "
+"het naast elkaar afspelen op het dubbel/helft van de rate waarde, deze "
+"eigenlijk vrij mooi klinken:"
 
 #: A.17-sample-stretching.md:121
 #, no-wrap
@@ -16057,6 +16080,9 @@ msgid ""
 "e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
 "itch:` opt:"
 msgstr ""
+"Maar, wat als we gewoon het tempo willen veranderen zodat de toonhoogte "
+"stijgt met een halve toon (één noot hoger op een piano)? Sonic Pi maakt dit "
+"zeer eenvoudig via de ' rpitch:' optie:"
 
 #: A.17-sample-stretching.md:129
 #, no-wrap
@@ -16076,6 +16102,10 @@ msgid ""
 "onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
 " opts:"
 msgstr ""
+"Als u een kijkje nemen op het log aan de rechterkant, zal je merken dat een "
+"' rpitch:' van '3' overeenkomt met een snelheid van '1.1892' en een ' rpitch:"
+"' van '7' overeenkomt met een snelheid van '1.4983'. Tot slot kunnen we "
+"zelfs de ' rate:' en ' rpitch:' optie combineren:"
 
 #: A.17-sample-stretching.md:138
 #, no-wrap
@@ -16104,6 +16134,13 @@ msgid ""
 " playback rate of samples. As an added exercise try recording your own sounds "
 "and play around with the rate to see what crazy sounds you can make."
 msgstr ""
+"Laat ons even kijken naar een eenvoudig stukje waarbij deze ideeën "
+"gecombineerd worden  . Kopiër deze naar een lege Sonic Pi buffer en klik op "
+"afspelen, luisteren even en gebruik deze dan als uitgangspunt voor je eigen "
+"stuk muziek. Merk hoe leuk het is om de snelheid van het afspelen van "
+"samples te manipuleren. Als extra oefening probeer je je eigen geluiden op "
+"te nemen en speel met de rate waarden om te zien wat voor gekke geluiden je "
+"hiermee kan maken."
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
@@ -16144,11 +16181,11 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
-msgstr ""
+msgstr "A.18 Sound Design - Additieve Synthese"
 
 #: A.18-additive-synthesis.md:3
 msgid "Additive Synthesis"
-msgstr ""
+msgstr "Additieve Synthese"
 
 #: A.18-additive-synthesis.md:5
 msgid ""
@@ -16165,16 +16202,32 @@ msgid ""
 "for a given pipe 'added it to the mix' making the sound richer and more comple"
 "x. Now, let's see how we can pull out all the stops with Sonic Pi."
 msgstr ""
+"Dit is de eerste van een reeks korte artikeltjes over het gebruik van Sonic "
+"Pi bij klankontwerp (Sounddesign). We nemen een rondleiding door een aantal "
+"technieken die voor je beschikbaar zijn om je eigen unieke klank te "
+"ontwikkelen. De eerste techniek die we zullen bekijken heet * additieve "
+"synthese *. Dit kan ingewikkeld klinken - maar als we elk woord even apart "
+"bekijken is de betekenis vrij snel duidelijk. Ten eerste, additief betekent "
+"letterlijk de combinatie van een aantal elementen en het tweede woord "
+"synthese, betekent geluid creëren . Additieve synthese betekent daarom niets "
+"minder dan * bestaande geluiden combineren om nieuwe te maken *. Deze "
+"synthese techniek dateert al van lang geleden  - bijvoorbeeld pijporgels in "
+"de middeleeuwen hadden veel lichtjes verschillende cillinderpijpen die je  "
+"met tussenpozen kan in- of uitschakelen. De stop uit een bepaalde pijp "
+"trekken 'voegt deze aan de mix toe' en maken het geluid rijker en complexer. "
+"Nu, laten we eens kijken hoe we dat kunnen doen met Sonic Pi."
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
-msgstr ""
+msgstr "Eenvoudige combinaties"
 
 #: A.18-additive-synthesis.md:23
 msgid ""
 "Let's start with the most basic sound there is - the humble pure-toned sine wa"
 "ve:"
 msgstr ""
+"Laten we beginnen met het meest elementaire geluid dat er is - de eenvoudige "
+"zuiver gestemde sinus golf:"
 
 #: A.18-additive-synthesis.md:26
 #, no-wrap
@@ -16183,7 +16236,7 @@ msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
-msgstr ""
+msgstr "Laten we eens kijken hoe dit klinkt gecombineerd met een blokgolf:"
 
 #: A.18-additive-synthesis.md:32
 #, no-wrap
@@ -16202,11 +16255,17 @@ msgid ""
 "ints to create new colours, adding too many colours will result in a messy bro"
 "wn, similarly - adding too many sounds together will result in a muddy sound."
 msgstr ""
+"Merk op hoe deze twee geluiden combineren tot een nieuwe, rijker geluid. "
+"Natuurlijk, hoeven we hier nog niet te stoppen, we kunnen zoveel geluiden we "
+"willen toevoegen. We moeten echter wel voorzichtig zijn hoe veel geluiden we "
+"bij elkaar gaan optellen. Net zoals wanneer we verf maken om  nieuwe kleuren "
+"te mengen, het toevoegen van dat beetje teveel kleur zal resulteren in "
+"bijvoorbeeld een rommelig bruin, evenzo - zal het toevoegen van te veel "
+"geluiden resulteren in een modderig geluid."
 
 #: A.18-additive-synthesis.md:45
-#, fuzzy
 msgid "Blending"
-msgstr "Sliden"
+msgstr "Mengen"
 
 #: A.18-additive-synthesis.md:47
 msgid ""
@@ -16214,6 +16273,10 @@ msgid ""
 "e wave at an octave higher (for that high bright sound) yet only play it at am"
 "p `0.4` so it adds something extra to the sound rather than taking it over:"
 msgstr ""
+"Laten we iets toevoegen om het geluid een beetje helderder te maken. We "
+"zouden een driehoeksgolf kunnen gebruiken van een octaaf hoger (voor dat "
+"hoge heldere geluid) voorlopig op amp '0.4' afgesteld om iets extra's toe te "
+"voegen aan het geluid, zo dat dit geluid het niet overheerst:"
 
 #: A.18-additive-synthesis.md:52
 #, no-wrap
@@ -16233,10 +16296,14 @@ msgid ""
 "pts to modify each source sound before it is mixed in for even more combinatio"
 "ns of sounds."
 msgstr ""
+"Nu, probeer je eigen geluid te creëren door een combinatie van 2 of meer "
+"synths op verschillende octaven en amplitudes. Merk ook op dat je met elke "
+"synth kunt spelen om elk brongeluid afzonderlijk kan worden gewijzigd "
+"voordat het wordt gemengd in nog meer combinaties van geluiden."
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
-msgstr ""
+msgstr "Detuning (Ontstemmen)"
 
 #: A.18-additive-synthesis.md:66
 msgid ""
@@ -16244,6 +16311,11 @@ msgid ""
 "r switched octave. How might it sound if we didn't stick to octaves but instea"
 "d chose a slightly higher or lower note? Let's try it:"
 msgstr ""
+"Tot nu toe hebben we bij het combineren van onze verschillende synthesizers "
+"dezelfde toonhoogte gebruikt of zijn we naar een andere octave overgestapt. "
+"Hoe zou het misschien klinken als wij ons niet aan octaven vasthouden, maar "
+"in plaats daarvan voor een iets hogere of lagere noot zouden kiezen? Laten "
+"we dit proberen:"
 
 #: A.18-additive-synthesis.md:70
 #, no-wrap
@@ -16278,9 +16350,8 @@ msgid ""
 msgstr "`:dsaw`"
 
 #: A.18-additive-synthesis.md:92
-#, fuzzy
 msgid "Amplitude shaping"
-msgstr "Amplitude"
+msgstr "Amplitude vormgeven"
 
 #: A.18-additive-synthesis.md:94
 msgid ""
@@ -16360,7 +16431,7 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:149
 msgid "Play a melody with our new bell!"
-msgstr ""
+msgstr "Speel een melodie met onze nieuwe klok!"
 
 #: A.18-additive-synthesis.md:150
 msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
@@ -16368,11 +16439,11 @@ msgstr "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
-msgstr ""
+msgstr "A. 19 Sound Design - Subtractieve Synthese"
 
 #: A.19-subtractive-synthesis.md:3
 msgid "Subtractive Synthesis"
-msgstr ""
+msgstr "Subtractieve synthese"
 
 #: A.19-subtractive-synthesis.md:5
 msgid ""
@@ -16397,7 +16468,7 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:22
 msgid "Complex Source Signal"
-msgstr ""
+msgstr "Complex Bron Signaal"
 
 #: A.19-subtractive-synthesis.md:24
 msgid ""
