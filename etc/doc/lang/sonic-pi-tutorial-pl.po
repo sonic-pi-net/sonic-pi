@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-13 08:02+0000\n"
+"PO-Revision-Date: 2017-10-14 07:03+0000\n"
 "Last-Translator: Daria Szatan <bla_ke@tuta.io>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.17-dev\n"
+"X-Generator: Weblate 2.17\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -16318,7 +16318,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch [Sidebar]"
-msgstr ""
+msgstr "Próbki, Tempo i Wysokość [Panel Boczny]"
 
 #: A.17-sample-stretching.md:77
 msgid ""
@@ -16329,6 +16329,12 @@ msgid ""
 " - as you're heading towards the sound source the pitch is higher than when yo"
 "u're moving away from the sound - the so-called Doppler effect. Why is this?"
 msgstr ""
+"Jednym z efektów zmiany tempa sampli jest to, iż szybsze wartości oznaczają "
+"wyższą wysokość dźwięku i na odwrót - wolniejsze zaś niższą. Słyszysz go "
+"prawdopodobnie codziennie w swoim życiu - wtedy, gdy jeździsz na rowerze lub "
+"przechodzisz obok służb na sygnale. Im bliżej dźwięku, tym wysokość jest "
+"wyższa, im dalej zaś, tym jest niższa. Nazywa się to efektem Dopplera. "
+"Dlaczego tak się dzieje?"
 
 #: A.17-sample-stretching.md:85
 msgid ""
@@ -16338,6 +16344,11 @@ msgid ""
 "igure C. Notice that the waves of higher notes are more compact and the waves "
 "of lower notes are more spread out."
 msgstr ""
+"Rozważmy prosty sygnał dźwiękowy reprezentowany przez falę sinusoidalną. "
+"Jeżeli użyjemy oscyloskopu, by rozrysować dźwięk, zobaczymy coś podobnego do "
+"Figury A. Dźwięk z wyższą oktawą reprezentuje Figura B, a z niższą - Figura "
+"C. Zauważ to, iż fale wyższych nut są bardziej ściśle oraz niższych - "
+"bardziej rozłożone."
 
 #: A.17-sample-stretching.md:91
 msgid ""
@@ -16354,6 +16365,18 @@ msgid ""
 "beep. It will also make the beep shorter as we will work through all the circl"
 "es faster. This is shown in Figure E."
 msgstr ""
+"Sampel sygnału jest niczym innym jak wiele liczb (x, y, współrzędne), które "
+"rozrysowane na grafie odrysowują pierwotne krzywe. Spójrz na figurę D, gdzie "
+"każde koło reprezentuje współrzędne. By zamienić je ponownie w dźwięk, "
+"komputer pracuje przy każdej wartości x i wysyła odpowiednie wartości y do "
+"głośników. Magią jest to, iż tempo, nad którym pracuje maszyna poprzez "
+"numery x, nie musi być takie same jak tempo, z którym zostały nagrane. "
+"Używając innych słów - przestrzeń (reprezentująca ilość czasu) między każdym "
+"kołem może zostać rozciągnięta lub ściśnięta. Więc jeśli komputer przechodzi "
+"przez wartość x szybciej niż za pomocą oryginalnego tempa, wpłynie to na "
+"efekt zgniatania kół ze sobą, czego rezultatem będzie wyżej brzmiący sygnał. "
+"To także uczyni go krótszym, poprzez szybszą pracę przez koła. Zostało to "
+"pokazane na Figurze E."
 
 #: A.17-sample-stretching.md:105
 msgid ""
@@ -16363,10 +16386,16 @@ msgid ""
 "tching and compressing many sine waves all at the same time in exactly this ma"
 "nner."
 msgstr ""
+"Wreszcie ostatnią rzeczą potrzebną do zrozumienia tego wszystkiego jest "
+"matematyk o imieniu Fourier, który udowodnił, że każdy dźwięk to tak "
+"naprawdę wiele fal sinusoidalnych połączonych w jedną całość. W związku z "
+"tym ściśnięcie i rozciągnięcie każdego nagranego sygnału oznacza wykonanie "
+"tej czynności na wielu falach sinusoidalnych - w tym samym czasie i w tej "
+"samej formie."
 
 #: A.17-sample-stretching.md:111
 msgid "Pitch Bending"
-msgstr ""
+msgstr "Funkcja Pitch Bending"
 
 #: A.17-sample-stretching.md:113
 msgid ""
@@ -16377,6 +16406,12 @@ msgid ""
 "ower. This means that for melodic samples, playing it alongside itself at doub"
 "le/half rates actually sounds rather nice:"
 msgstr ""
+"Jak widzimy, używanie szybszego tempa powoduje, iż dźwięk będzie miał wyższą "
+"wysokość i na odwrót - niższe tempo = niższa wysokość. Bardzo prosta i "
+"użyteczna sztuczka dotyczy tego, iż wysokość większa o oktawę jest "
+"rezultatem podwójnego tempa i na odwrót - wysokość mniejsza o oktawę jest "
+"rezultatem dwa razy mniejszego tempa. Melodyjne sample grane jeden obok "
+"drugiego brzmią całkiem fajnie:"
 
 #: A.17-sample-stretching.md:121
 #, no-wrap
@@ -16395,6 +16430,9 @@ msgid ""
 "e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
 "itch:` opt:"
 msgstr ""
+"Jednakże co w przypadku, gdy po prostu chcemy zmienić tempo tak, aby "
+"wysokość zwiększyła się o jeden półton (jedną nutę na pianinie)? Sonic Pi "
+"sprawia, iż jest to banalnie proste - wystarczy użyć parametru `rpitch:`:"
 
 #: A.17-sample-stretching.md:129
 #, no-wrap
@@ -16414,6 +16452,10 @@ msgid ""
 "onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
 " opts:"
 msgstr ""
+"Jeśli spojrzysz na logi po prawej stronie, to zauważysz, iż `rpitch:` trójki "
+"aktualnie odpowiada tempie o wartości `1.1892` i `rpitch:` siódemki "
+"odpowiada tempie o wartości `1.4983`. Wreszcie możemy także łączyć ze sobą "
+"parametry `rate:` oraz `rpitch:`:"
 
 #: A.17-sample-stretching.md:138
 #, no-wrap
@@ -16442,6 +16484,12 @@ msgid ""
 " playback rate of samples. As an added exercise try recording your own sounds "
 "and play around with the rate to see what crazy sounds you can make."
 msgstr ""
+"Spójrzmy na zwyczajny kawałek, który łączy te pomysły. Skopiuj go do wolnego "
+"bufora Sonic Pi, naciśnij play, wsłuchaj się przez chwilę oraz użyj jako "
+"punktu startowego dla Twojego własnego kodu. Zobacz, jak zabawna jest "
+"kontrola tempa odtwarzanych sampli. Jako ćwiczenie spróbuj nagrać Twoje "
+"własne dźwięki i pobaw się z wartością parametru `rate:`, aby zobaczyć, jak "
+"szalone kombinacje możesz stworzyć."
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
@@ -16551,9 +16599,8 @@ msgstr ""
 "spowoduje zamianę w coś niezbyt \"zjadliwego\"."
 
 #: A.18-additive-synthesis.md:45
-#, fuzzy
 msgid "Blending"
-msgstr "Przesuwne"
+msgstr "Mieszanie"
 
 #: A.18-additive-synthesis.md:47
 msgid ""
@@ -16561,6 +16608,10 @@ msgid ""
 "e wave at an octave higher (for that high bright sound) yet only play it at am"
 "p `0.4` so it adds something extra to the sound rather than taking it over:"
 msgstr ""
+"Dodajmy coś, aby dźwięk brzmiał trochę jaśniej. Możemy użyć fali trójkątnej "
+"z wyższą oktawą (dla tego wysokiego, jasnego dźwięku), ale tylko grając z "
+"amplitudą o wartości `0.4`. To tylko dodaje coś ekstra zamiast całkowicie "
+"zmienić znaczenie:"
 
 #: A.18-additive-synthesis.md:52
 #, no-wrap
@@ -16580,6 +16631,11 @@ msgid ""
 "pts to modify each source sound before it is mixed in for even more combinatio"
 "ns of sounds."
 msgstr ""
+"Teraz spróbuj stworzyć swoje własne dźwięki poprzez połączenie dwóch lub "
+"większej ilości syntezatorów z różnymi oktawami i aplitudami. Także zauważ "
+"to, jak możesz się bawić każdymi ustawieniami parametrów syntezatorów, "
+"których źródło muzyki jest wcześniej miksowane w większą ilość ich "
+"kombinacji."
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
@@ -16591,6 +16647,10 @@ msgid ""
 "r switched octave. How might it sound if we didn't stick to octaves but instea"
 "d chose a slightly higher or lower note? Let's try it:"
 msgstr ""
+"Łącząc różne syntezatory, używaliśmy tej samej wysokości lub zmienionej "
+"oktawy przez całą naszą drogę. Jak może to zabrzmieć, jeżeli nie będziemy "
+"się trzymać tego drugiego parametru, a właśnie wybierzemy troszeczkę wyższą "
+"lub niższą nutę? Spróbujmy tego:"
 
 #: A.18-additive-synthesis.md:70
 #, no-wrap
@@ -16627,9 +16687,8 @@ msgstr ""
 "`detune:` -  `:dsaw`, `:dpulse` oraz `:dtri`."
 
 #: A.18-additive-synthesis.md:92
-#, fuzzy
 msgid "Amplitude shaping"
-msgstr "Amplituda"
+msgstr "Kształtowanie Amplitudy"
 
 #: A.18-additive-synthesis.md:94
 msgid ""
@@ -16637,6 +16696,9 @@ msgid ""
 "ptions for each synth trigger. For example this will allow you to make some as"
 "pects of the sound percussive and other aspects ring out for a period of time."
 msgstr ""
+"Kolejnym sposobem na tworzenie naszych dźwięków jest użycie innej obwiedni i "
+"ustawień dla każdego wyzwalacza syntezatora. Przykładowo pozwoli Ci to na "
+"wymyślenie aspektów perkusyjnej muzyki oraz pierścieni na okres czasu."
 
 #: A.18-additive-synthesis.md:99
 #, no-wrap
@@ -16663,6 +16725,11 @@ msgid ""
 "hort release times along with a noise with a longer release time but with a lo"
 "w cutoff value (which makes the noise less crisp and more rumbly.)"
 msgstr ""
+"W powyższym przykładzie zmiksowałem hałaśliwy, perkusyjny element wraz z "
+"trwałym dudnieniem w tle. Zostało to osiągnięte poprzez użycie dwóch "
+"głośnych syntezatorów: jednego ze środkowymi wartościami odcięcia (`90` i "
+"`100` i krótkim czasem wyzwolenia) oraz drugiego z niską wartością odcięcia ("
+"co powoduje, że dźwięk jest mniej chrupki, a także i bardziej burczący)."
 
 #: A.18-additive-synthesis.md:117
 msgid ""
