@@ -1444,7 +1444,7 @@ void MainWindow::initPrefsWindow() {
   show_incoming_osc_log->setChecked(true);
   show_buttons = new QCheckBox(tr("Show buttons"));
   pro_icons_check = new QCheckBox(tr("Pro Icons"));
-  pro_icons_check->setToolTip(tr("Toggle Pro Icons - switch between the default\n and a more minimistic icon set."));
+  pro_icons_check->setToolTip(tr("Toggle Pro Icons - switch between the default\n and a more minimalistic icon set."));
   show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
   show_buttons->setChecked(true);
   show_tabs = new QCheckBox(tr("Show tabs"));
