@@ -2296,7 +2296,11 @@ void MainWindow::toggleIcons() {
         helpAct->setIcon(pro_help_icon);
       }
 
-      prefsAct->setIcon(pro_prefs_icon);
+      if (prefsWidget->isVisible()) {
+        prefsAct->setIcon(pro_prefs_bordered_icon);
+      } else {
+        prefsAct->setIcon(pro_prefs_icon);
+      }
     }
   } else {
     toolBar->setIconSize(QSize(73, 30));
