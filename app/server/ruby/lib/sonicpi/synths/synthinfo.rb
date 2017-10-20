@@ -7238,7 +7238,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :phase_offset => 0,
           :wave => 2,
           :invert_wave => 0,
-          :depth => 5,
+          :depth => 0.5,
           :depth_slide => 0,
           :depth_slide_shape => 1,
           :depth_slide_curve => 0
