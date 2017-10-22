@@ -115,25 +115,25 @@ iga kord kui vajutatake nuppu &quot;Käivita&quot;.</translation>
         <location filename="../mainwindow.cpp" line="1916"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Kaunistab...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1943"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Taaslaadimine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1974"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mixer HPF lubamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1983"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mixer HPF keelamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="590"/>
@@ -143,24 +143,25 @@ iga kord kui vajutatake nuppu &quot;Käivita&quot;.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Teretulemast kasutama Sonic Pi&apos;d</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Valiku süvendamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Rea süvendamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Täiendavad audio seaded töötamaks väliste
+PA süsteemidega, kui esinetake Sonic Pi&apos;ga.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1313"/>
@@ -173,33 +174,36 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Sinu Raspberry Pi&apos;l on kaks audioväljundit.
+Raspberry Pil on olemas kõrvaklapi pesa.
+Samuti toetavad HDMI heli mõned monitorid ja telerid.
+Kasuta neid nuppe, et suunata heli ühte neist kahest.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1394"/>
         <location filename="../mainwindow.cpp" line="1566"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Uuendused</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1396"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrolli uuendusi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1510"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Toimeti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva reanumbrid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="468"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi värskenduse info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
