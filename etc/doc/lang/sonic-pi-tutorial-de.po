@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-23 04:33+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
+"PO-Revision-Date: 2017-10-23 04:34+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -10585,11 +10585,11 @@ msgstr ""
 
 #: A.03-coded-beats.md:1
 msgid "A.3 Coded Beats"
-msgstr ""
+msgstr "A.3 Kodierte Beats"
 
 #: A.03-coded-beats.md:3
 msgid "Coded Beats"
-msgstr ""
+msgstr "Kodierte Beats"
 
 #: A.03-coded-beats.md:5
 msgid ""
