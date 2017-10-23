@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-23 04:52+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2017-10-23 04:54+0000\n"
+"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -14657,7 +14657,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:14
 msgid "Slowing Samples Down"
-msgstr "Samples verlangsamen"
+msgstr "Sample verlangsamen"
 
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
@@ -14692,7 +14692,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:34
 msgid "Speeding Samples Up"
-msgstr "Samples beschleunigen"
+msgstr "Sample beschleunigen"
 
 #: A.17-sample-stretching.md:36
 msgid ""
