@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-23 04:54+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
+"PO-Revision-Date: 2017-10-23 04:55+0000\n"
+"Last-Translator: anonymous <>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -14704,9 +14704,8 @@ msgstr ""
 
 #: A.17-sample-stretching.md:41
 #, no-wrap
-#, fuzzy
 msgid "sample :loop_amen, rate: 1"
-msgstr "sample :loop_amen, rate: -1"
+msgstr "sample :loop_amen, rate: 1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
