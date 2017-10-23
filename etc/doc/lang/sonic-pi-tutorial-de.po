@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-23 04:59+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2017-10-24 08:46+0000\n"
+"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -7613,13 +7613,13 @@ msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
 msgstr "`.reflect` - wie `.mirror`, verdoppelt aber nicht die mittleren Werte"
 
 #: 08.5-Ring-Chains.md:82
-#, fuzzy
 msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
-"`.scale(2)` - liefert einen neuen Ring, der alle Elemente mit 2 "
-"multipliziert enthält (Vorrausgesetzt ist, dass der Ring nur Nummern enthält)"
+"`.scale(2)` - gibt einen neuen Ring zurück, der alle Elemente des "
+"ursprünglichen Rings mit 2 multipliziert enthält (Voraussetzung: Ring "
+"enthält nur Zahlen)"
 
 #: 08.5-Ring-Chains.md:84
 msgid ""
@@ -10230,12 +10230,11 @@ msgstr ""
 "Programmcode. Live. Das ist Live-Coding."
 
 #: A.02-live-coding.md:14
-#, fuzzy
 msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
 msgstr ""
-"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-"
+"![Sam Aaron Live-Coding](../images/tutorial/articles/A.02-live-coding/sam-"
 "aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
@@ -10416,11 +10415,11 @@ msgid ""
 " call this concurrency and Sonic Pi provides us with an amazingly simple way o"
 "f playing things at the same time. Simply use more than one `live_loop`!"
 msgstr ""
-"Musik ist voller Dinge die zur selben Zeit geschehen. Schlagzeug zur selben "
-"Zeit wie der Bass, Vocals, Gitarren,... Beim Computing nennen wir das "
-"Nebenläufigkeit (concurrency) und Sonic Pi bietet uns eine einfache "
-"Möglichkeit, verschiedenste Dinge zur selben Zeit abzuspielen. Benutze "
-"einfach mehr als einen `live_loop`!"
+"Musik ist voll von Dingen, die zur selben Zeit geschehen. Das Schlagzeug "
+"spielt zur selben Zeit wie der Bass, Gesang und die Gitarre… In der "
+"Informatik nennen wir das Nebenläufigkeit (concurrency). Sonic Pi bietet uns "
+"eine einfache Möglichkeit verschiedenste Dinge zur selben Zeit abspielen zu "
+"lassen. Benutze einfach mehr als einen `live_loop`!"
 
 #: A.02-live-coding.md:105
 #, no-wrap
@@ -10452,13 +10451,12 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:121
-#, fuzzy
 msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a crazy bass sound."
 msgstr ""
-"Hier haben wir zwei `live_loop`s, einer looped schnell die beats, während "
-"der andere langsam einen verrückten Bass Sound looped."
+"Hier haben wir zwei `live_loop`s. Der eine wiederholt schnell Beats, während "
+"der andere durch langsames Wiederholen einen verrückten Bass Sound kreiert."
 
 #: A.02-live-coding.md:124
 msgid ""
@@ -10519,11 +10517,11 @@ msgid ""
 "as a starting point for a new performance, and most of all have fun! See you n"
 "ext time..."
 msgstr ""
-"Jedes dieser Tutorials werden wir mit einem abschließenden Beispiel beenden, "
-"das sich aller zuvor behandelten Ideen bedient. Schau dir diesen Code genau "
-"an und überlege dir, was er tut. Kopiere ihn anschließend in einen neuen "
-"Sonic Pi buffer, drücke auf Start und hör dir an, wie er klingt. Ändere zum "
-"Schluss etwas am Code, indem du Parameter veränderst oder Dinge "
+"Jedes dieser Tutorials werden wir mit einem abschließenden Code Beispiel "
+"beenden, das sich aller zuvor behandelter Ideen bedient. Schau dir diesen "
+"Code genau an und überlege dir, was er tut. Kopiere ihn anschließend in "
+"einen neuen Sonic Pi buffer, drücke auf Start und hör dir an, wie er klingt. "
+"Ändere zum Schluss etwas am Code, indem du Parameter veränderst oder Dinge "
 "auskommentierst. Vielleicht kannst du das als Ausgangspunkt für eine eigene "
 "Performance nutzen. Das wichtigste ist auf jeden Fall der Spaß dabei. Bis "
 "zum nächsten mal…"
@@ -10604,6 +10602,17 @@ msgid ""
 "of easily introducing new and interesting elements into your live coded perfor"
 "mances."
 msgstr ""
+"Eine der spannendsten und einflussreichsten technischen Entwicklungen der "
+"modernen Musik ist die Erfindung von Samplern. Sampler sind "
+"Musikinstrumente, die es einem erlauben Töne aufzunehmen, sie zu verändern "
+"und auf verschiedene Arten und Weisen wiederzugeben. Zum Beispiel ist es mit "
+"einem Sampler möglich ein Schlagzeug Solo (oder Break) von einer alten "
+"Schalplatte einzuspielen und es anschließend als Grundlage für einen neuen "
+"Beat zu verwenden, indem man es mit halber Geschwindigkeit wiedergibt. So "
+"ist früher Hip-Hop entstanden und heute gibt es kaum noch Elektronische "
+"Musik, die ohne irgendeine Art von Samples auskommt. Samples bieten dir eine "
+"großartige Möglichkeit auf einfache Art und Weise neue und interessante "
+"Elemente in Deine live gecodete Performance einfließen zu lassen."
 
 #: A.03-coded-beats.md:17
 msgid ""
@@ -10611,10 +10620,13 @@ msgid ""
 "y Pi! The built-in live coding app Sonic Pi has an extremely powerful sampler "
 "built into its core. Let's play with it!"
 msgstr ""
+"Aber wo kriegen wir einen Sampler her? Wir haben bereits einen - es ist "
+"unser Raspberry Pi! Die mitgelieferte Live-Coding App Sonic Pi stellt uns "
+"einen mächtigen Sampler bereit. Lasst ihn uns ausprobieren!"
 
 #: A.03-coded-beats.md:21
 msgid "The Amen Break"
-msgstr ""
+msgstr "Der Amen Break"
 
 #: A.03-coded-beats.md:23
 msgid ""
@@ -10625,12 +10637,21 @@ msgid ""
 " used in a wide variety of other styles such as drum and bass, breakbeat, hard"
 "core techno and breakcore."
 msgstr ""
+"Eines der klassischen Schlagzeug Break Samples mit dem größten "
+"Wiedererkennungswert ist der Amen Break. Er wurde erstmals 1969 von den "
+"Winstons in ihrem Song \"Amen Brother\" als Teil des Drum Break aufgeführt. "
+"Doch erst die Wiederentdeckung durch frühe Hip-hop Musiker der 80er und der "
+"Einsatz in Samplern bewirkte den Einzug des Samples in einer Bandbreite von "
+"Musikstilen, wie Drum and Bass, Breakbeat, Hardcore Techno und Breakcore."
 
 #: A.03-coded-beats.md:30
 msgid ""
 "I'm sure you're excited to hear that it's also built right into Sonic Pi. Clea"
 "r up a buffer and throw in the following code:"
 msgstr ""
+"Ich bin mir sicher, du freust dich zu hören, dass das Sample direkt in Sonic "
+"Pi eingebaut ist. Bereite einfach einen Buffer vor und kopiere den folgenden "
+"Code hinein:"
 
 #: A.03-coded-beats.md:37
 msgid ""
@@ -10638,6 +10659,10 @@ msgid ""
 "s in the history of dance music. However, this sample wasn't famous for being "
 "played as a one-shot, it was built for being looped."
 msgstr ""
+"Drücke auf *Start* und boom! Du hörst dir gerade eines der einflussreichsten "
+"Drum Breaks in der Geschichte der Tanzmusik an. Dieses Sample ist allerdings "
+"nicht damit berühmt geworden, einmal abgespielt zu werden. Vielmehr ist es "
+"wie gemacht dafür wiederholt zu werden."
 
 #: A.03-coded-beats.md:42
 msgid "Beat Stretching"
@@ -10648,6 +10673,8 @@ msgid ""
 "Let's loop the Amen Break by using our old friend the `live_loop` introduced i"
 "n this tutorial last month:"
 msgstr ""
+"Lass uns den Amen Break in Schleife schalten, indem wir unseren alten "
+"Bekannten, den`live_loop` aus dem Tutorial vom letzten Monat, einsetzen:"
 
 #: A.03-coded-beats.md:47
 #, no-wrap
@@ -10669,12 +10696,21 @@ msgid ""
 "`:loop_amen` sample only lasts for `1.753` beats. We therefore have a silence "
 "of `2 - 1.753 = 0.247` beats. Even though it's short, it's still noticeable."
 msgstr ""
+"OK, es wiederholt sich. Allerdings kommt es am Ende eines Durchlaufs zu "
+"einer lästige Pause. Diese entsteht durch unserer Anweisung `2` Takte zu "
+"pausieren. Das `:loop_amen` Sample dauert bei einem voreingestellten BPM "
+"Wert von 60 nur `1.753` Takte. Das bedeutet kommt es am Sample Ende zu einer "
+"Pause von `2 - 1.753 = 0.247` Takten, was kurz, aber durchaus wahrnehmbar "
+"ist."
 
 #: A.03-coded-beats.md:60
 msgid ""
 "To fix this issue we can use the `beat_stretch:` opt to ask Sonic Pi to stretc"
 "h (or shrink) the sample to match the specified number of beats."
 msgstr ""
+"Um dieses Problem zu beheben, können wir die `beat_stretch:` Option "
+"verwenden. Sie sagt Sonic Pi, dass das Sample auf die angegebene Anzahl von "
+"Takten ausgedehnt (bzw. gestaucht) werden soll."
 
 #: A.03-coded-beats.md:63
 msgid ""
@@ -10683,6 +10719,11 @@ msgid ""
 "arameter is a real mouthful so we just call them *opts* to keep things nice an"
 "d simple."
 msgstr ""
+"Die Sonic Pi Funktionen `sample` und `synth` bieten uns über optionale "
+"Parameter wie `amp:`, `cutoff:` und `release:` viele zusätzliche "
+"Kontrollmöglichkeiten. Da die Bezeichnung optimale Parameter allerdings ganz "
+"schön lang ist, werden wir der Einfachheit halber ab jetzt von *opts* "
+"sprechen."
 
 #: A.03-coded-beats.md:68
 #, no-wrap
@@ -10702,6 +10743,8 @@ msgid ""
 "Now we're dancing! Although, perhaps we want to speed it up or slow it down to"
 " suit the mood."
 msgstr ""
+"Jetzt schwingen wir das Tanzbein! Vielleicht wollen wir es noch etwas "
+"schneller, oder doch einen Ton gemächlicher - je nach Stimmung."
 
 #: A.03-coded-beats.md:78
 msgid "Playing with Time"
@@ -10746,7 +10789,7 @@ msgstr ""
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
-msgstr "Filterung"
+msgstr "Filtern"
 
 #: A.03-coded-beats.md:105
 msgid ""
