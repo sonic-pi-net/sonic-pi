@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-23 04:55+0000\n"
+"PO-Revision-Date: 2017-10-23 04:59+0000\n"
 "Last-Translator: anonymous <>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -14709,7 +14709,7 @@ msgstr "sample :loop_amen, rate: 1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
-msgstr ""
+msgstr "Lassen wir es etwas schneller werden:"
 
 #: A.17-sample-stretching.md:48
 msgid ""
