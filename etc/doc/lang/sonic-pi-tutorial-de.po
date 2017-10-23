@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-23 04:51+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
+"PO-Revision-Date: 2017-10-23 04:52+0000\n"
+"Last-Translator: anonymous <>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -14691,9 +14691,8 @@ msgstr ""
 "Raten herum und schaue, ob du es schaffst ein tiefes Murren zu erzeugen."
 
 #: A.17-sample-stretching.md:34
-#, fuzzy
 msgid "Speeding Samples Up"
-msgstr "Samples"
+msgstr "Samples beschleunigen"
 
 #: A.17-sample-stretching.md:36
 msgid ""
