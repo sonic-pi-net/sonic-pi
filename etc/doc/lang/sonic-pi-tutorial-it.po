@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-07-14 11:54+0000\n"
-"Last-Translator: Federico Saccà <info@federicosacca.it>\n"
+"PO-Revision-Date: 2017-10-26 22:46+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.16-dev\n"
+"X-Generator: Weblate 2.17\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -15803,7 +15803,6 @@ msgstr ""
 "semplicemente una \"velocità\" di `0.5`:"
 
 #: A.17-sample-stretching.md:27
-#, fuzzy
 msgid ""
 "Notice that this has two effects on the audio. Firstly the sample sounds lower"
 " in pitch and secondly it takes twice as long to play back (see the sidebar fo"
@@ -15811,7 +15810,15 @@ msgid ""
 "rates moving towards `0`, so a `rate:` of `0.25` is a quarter speed, `0.1` is "
 "a tenth of the speed, etc. Try playing with some low rates and see if you can "
 "turn the sound into a low rumble."
-msgstr "choose (scegli)"
+msgstr ""
+"Tieni conto che questo ha un duplice effetto sul suono. In primo luogo il "
+"campione suonerà più basso, più grave e in secondo luogo ci metterà il "
+"doppio ad essere riprodotto (dai un'occhiata alla barra laterale per una "
+"spiegazione più approfondita). Possiamo addirittura scegliere anche dei "
+"valori ancora più bassi avvicinandoci allo '0'. Per esempio '0.25' è un "
+"quarto della velocità originale, '0.1' è un decimo e così via. Prova a "
+"suonare i campioni utilizzando numeri bassi e osserva come puoi trasformare "
+"il suono in una specie di basso ruggito."
 
 #: A.17-sample-stretching.md:34
 msgid "Speeding Samples Up"
@@ -15824,12 +15831,15 @@ msgid ""
 "op this time. First, take a listen to how it sounds at the default rate of `1`"
 ":"
 msgstr ""
+"Oltre a prolungare ed abbassare i suoni mediante l'abbassamento del valore "
+"di rate, possiamo utilizzare dei valori più alti per accorciare e rendere "
+"più acuti i suoni. Proviamo a riprodurre un loop di batteria stavolta. Per "
+"prima cosa, prova ad ascoltare come suona alla velocità normale: '1':"
 
 #: A.17-sample-stretching.md:41
 #, no-wrap
-#, fuzzy
 msgid "sample :loop_amen, rate: 1"
-msgstr "sample :loop_amen, rate: -1"
+msgstr "sample :loop_amen, rate: 1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
@@ -15871,7 +15881,6 @@ msgid "sample :elec_filt_snare, rate: 1"
 msgstr ""
 
 #: A.17-sample-stretching.md:65
-#, fuzzy
 msgid "Now, play it backwards:"
 msgstr "Forte! Suona all’indietro!"
 
@@ -16004,7 +16013,6 @@ msgstr ""
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :beats do\n"
 "  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
@@ -16022,7 +16030,23 @@ msgid ""
 "    end\n"
 "  end\n"
 "end"
-msgstr "sample :guit_em9"
+msgstr ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
@@ -16084,9 +16108,8 @@ msgid ""
 msgstr ""
 
 #: A.18-additive-synthesis.md:45
-#, fuzzy
 msgid "Blending"
-msgstr "Sliding"
+msgstr "Mescolare"
 
 #: A.18-additive-synthesis.md:47
 msgid ""
