@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-24 08:46+0000\n"
+"PO-Revision-Date: 2017-10-27 13:46+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -10757,6 +10757,10 @@ msgid ""
 "the tempo. This is super easy in Sonic Pi - just throw in a `use_bpm` into you"
 "r live loop:"
 msgstr ""
+"OK, wie sieht es aus, wenn wir den Stiel unserer Musik zu Hip Hop oder "
+"Breakcore ändern wollen? Eine einfache Möglichkeit das zu tun ist mit der "
+"Zeit zu spielen - oder in anderen Worten am Tempo herumbasteln. In Sonic Pi "
+"ist das super leicht - füge einfach `use_bpm` in deinen Live-Loop ein:"
 
 #: A.03-coded-beats.md:85
 #, no-wrap
@@ -10779,6 +10783,10 @@ msgid ""
 "for 2 and our BPM is 30, yet everything is in time. The `beat_stretch` opt wor"
 "ks with the current BPM to make sure everything just works."
 msgstr ""
+"Während du gerade zu diesen langsamen Beats rappst, beobachte, dass obwohl "
+"wir immer noch eine Pause von 2 machen und unsere BPM bei 30 liegen nichts "
+"verzögert klingt. Die `beat_stretch` Option berücksichtigt den aktuellen BPM "
+"Wert und bringt alles in Einklang."
 
 #: A.03-coded-beats.md:97
 msgid ""
