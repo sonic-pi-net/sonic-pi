@@ -210,80 +210,85 @@ Kasuta neid nuppe, et suunata heli ühte neist kahest.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita süntesaatori argumentide kontrolli funtsioone.
+Keelatud olekus võivad mõned süntesaatori loodud
+helid olla ootamatult valjud või ebameeldivaid.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1342"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Logimine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostsilloskoop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="948"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita valiku kommentaar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="952"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita rea kommentaar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Serverit ei suudetud käivitada!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1305"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Stereokanalite vahetus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunni mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Süntesaatorid ja efektid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1346"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Muuda süntesaatorite ja efektide käitumist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi süntesaatoreid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi viheid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba või keela vihjete logimine.
+Keelatud olekus käivitatakse vihjed 
+ikkagi, kuid nad ei ole logides näha.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1358"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita automaatne kerimine.
+Sisselülitatud olekus keritake logi iga sõnumi logimisel kohe edasi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1365"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba välised süntesaatorid ja efektid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1366"/>
@@ -294,12 +299,18 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisselülitatult lubab Sonic Pi kasutada
+süntesaatoreid ja efekte, mis on laetud
+load_synthdefs funktsiooniga.
+
+Väljalülitatult kaebab Sonic Pi katsest
+kasutada tundmatut süntesaatorit või
+efekti.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Jõusta ajastusgarantiid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
@@ -310,140 +321,149 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisselülitatult keeldub Sonic Pi
+kasutamast süntesaatorit või efekti,
+kui see juhtub liiga hilja.
+
+Väljalülitatult proovib Sonic Pi alati
+kasutada süntesaatorit või efekti,
+isegi kui see on natuke hilja.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Läbipaistvus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülitab automaatse värskenduste kontrolli.
+See kontroll sisaldab anonüümse informatsiooni saatmist kasutavast platvormist ja versioonist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1399"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrolli nüüd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunni kohene värskenduste kontroll.
+Kontrollimisel saadetakse anonüümne informatsioon sinu platvormist ja versioonist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation>Hangi värskendus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>Laadi uuem versioon aadressilt http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1407"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Värskenduse teave</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1426"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva ja peida</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1427"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigureeri toimeti kuvamise seadeid.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>Väljanägemine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigureeri toimeti väljanägemist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatiseerimine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigureeri automatiseerimist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaatne joondamine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Koodi automaatne joondamine käivitamisel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva logi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülitab logi kuvamist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1443"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva nupud</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülitab juhtnuppude kuvamist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva vahekaardid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1449"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülitab puhvri valiku vahekaartide kuvamist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Täisekraan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1451"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülitab täisekraani režiimi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülitab tumerežiimi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Tumerežiim on sobilik ööklubides kohapeal kodeerimiseks.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
