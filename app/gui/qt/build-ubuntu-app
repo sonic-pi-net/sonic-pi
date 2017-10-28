@@ -7,11 +7,13 @@ set -e
 SUPERCOLLIDER_VERSION=3.8.0
 SC_PLUGINS_VERSION=${SUPERCOLLIDER_VERSION}
 AUBIO_VERSION=0.4.5
+OSMID_VERSION=391f35f789f18126003d2edf32902eb714726802
 
 #Internal definitions
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SP_APP_SRC=${SCRIPT_DIR}
 SP_ROOT=${SP_APP_SRC}/../../../../
+OSMID_DIR=${SP_APP_SRC}/../../server/native/linux/osmid
 
 echo "This script has been tested on ubuntu 16.04, it should work on ubuntu 15.10."
 echo "14.04 users may need to install some of the dependencies by hand from source"
@@ -26,7 +28,7 @@ sudo apt-get install -y \
      libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default \
      qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev \
      qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev libffi-dev \
-     curl python
+     curl python erlang-base
 
 ### IF YOU HAVE PROBLEMS WITH qwt
 #cd $SP_APP_SRC/../../../../
@@ -53,7 +55,7 @@ git clone https://github.com/supercollider/supercollider.git || true
 cd supercollider
 git checkout Version-${SUPERCOLLIDER_VERSION}
 git submodule init && git submodule update
-mkdir build || true
+mkdir -p build
 cd build
 cmake -DSC_EL=no ..
 make
@@ -67,7 +69,7 @@ cd sc3-plugins
 git checkout Version-${SC_PLUGINS_VERSION}
 git submodule init && git submodule update
 cp -r external_libraries/nova-simd/* source/VBAPUGens
-mkdir build || true
+mkdir -p build
 cd build
 cmake -DSC_PATH=/usr/local/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
 make
@@ -82,6 +84,23 @@ make getwaf
 ./waf configure
 ./waf build
 sudo ./waf install
+
+#Install osmid (for MIDI support)
+cd ${SP_ROOT}
+git clone https://github.com/llloret/osmid.git || true
+cd osmid
+git checkout ${OSMID_VERSION}
+mkdir -p build
+cd build
+cmake ..
+make
+mkdir -p ${OSMID_DIR}
+install m2o o2m -t ${OSMID_DIR}
+
+#Build Erlang files
+cd ${SP_APP_SRC}/../../server/erlang
+erlc osc.erl
+erlc pi_server.erl
 
 #Build sonic-pi server extensions, documentation, and binary.
 cd ${SP_APP_SRC}
