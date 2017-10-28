@@ -675,7 +675,7 @@ void MainWindow::setupWindowStructure() {
   // hudWidget->setWidget(hudPane);
   // hudWidget->setObjectName("hud");
 
-  scopeWidget = new QDockWidget("",this);
+  scopeWidget = new QDockWidget("Scope",this);
   scopeWidget->setFocusPolicy(Qt::NoFocus);
   scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
   scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -704,13 +704,13 @@ void MainWindow::setupWindowStructure() {
 
   outputWidget = new QDockWidget(tr("Log"), this);
   outputWidget->setFocusPolicy(Qt::NoFocus);
-  outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+  outputWidget->setFeatures(QDockWidget::DockWidgetClosable);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
 
   incomingWidget = new QDockWidget(tr("Cues"), this);
   incomingWidget->setFocusPolicy(Qt::NoFocus);
-  incomingWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+  incomingWidget->setFeatures(QDockWidget::DockWidgetClosable);
   incomingWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   incomingWidget->setWidget(incomingPane);
 
