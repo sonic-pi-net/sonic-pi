@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-28 09:13+0000\n"
+"PO-Revision-Date: 2017-10-29 07:05+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -2364,11 +2364,11 @@ msgstr "Die Sample-Dauer ist also abhängig von der Datenrate:"
 
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
-msgstr "Wird die Abtastrate verdoppelt, halbiert das die Abspielzeit."
+msgstr "Wird die Abtastrate verdoppelt, halbiert das die Abspielzeit,"
 
 #: 03.3-Stretching-Samples.md:119
 msgid "Halving the playback rate doubles the playback time,"
-msgstr "Wird die Abtastrate halbiert, dann verdoppelt sich die Abspielzeit."
+msgstr "Wird die Abtastrate halbiert, dann verdoppelt sich die Abspielzeit,"
 
 #: 03.3-Stretching-Samples.md:120
 msgid "Using a playback rate of one fourth quadruples the playback time,"
@@ -3828,13 +3828,13 @@ msgid ""
 "r, just like fantasy role-play games, you might find value in a 4 sided dice, "
 "or a 12 sided dice, or a 20 sided dice - perhaps even a 120 sided dice!"
 msgstr ""
-"Manchmal möchte man so tun, als würde man würfeln (engl. *to dice*) - das ist "
-"ein Sonderfall von `rrand_i`, wobei der kleinste Wert immer die 1 ist. Wenn ma"
-"n `dice` verwendet, muss man dabei immer bestimmen, wie viele Seiten der Würfe"
-"l hat. Ein normaler Würfel hat 6 Seiten, also wird `dice(6)` entsprechend funk"
-"tionieren und den Wert 1, 2, 3, 4, 5 oder 6 zurückgeben. Aber - angenommen wir"
-" befänden uns in einen Fantasy-Rollenspiel - ist es Dir vielleicht lieber, wen"
-"n der Würfel 4 oder 12, 20 oder sogar 120 Seiten hat!?"
+"Manchmal möchte man so tun, als würde man würfeln (engl. *to dice*) - das "
+"ist ein Sonderfall von `rrand_i`, wobei der kleinste Wert immer die 1 ist. "
+"Wenn man `dice` verwendet, muss man dabei immer bestimmen, wie viele Seiten "
+"der Würfel hat. Ein normaler Würfel hat 6 Seiten, also wird `dice(6)` "
+"entsprechend funktionieren und den Wert 1, 2, 3, 4, 5 oder 6 zurückgeben. "
+"Aber - angenommen wir befänden uns in einen Fantasy-Rollenspiel - ist es Dir "
+"vielleicht lieber, wenn der Würfel 4 oder 12, 20 oder sogar 120 Seiten hat?"
 
 #: 04-Randomisation.md:189
 msgid "one_in"
@@ -6958,11 +6958,12 @@ msgid ""
 "ow you might use a list in your next code jam. For example, what musical struc"
 "tures might be represented as a series of numbers..."
 msgstr ""
-"Versuche mal, den Code `puts [52, 55, 59][1]` auszuführen, dann wirst Du sehen"
-", dass `55` im Protokoll erscheint. Ändere den Index `1` in einen anderen, pro"
-"biere längere Listen aus und denke darüber nach, wie Du Listen in Deinem nächs"
-"ten Code-Jam verwenden könntest. Welche Strukturen aus der Musik könnte man de"
-"nn als eine Reihe von Zahlen interpretieren?"
+"Versuche mal, den Code `puts [52, 55, 59][1]` auszuführen, dann wirst Du "
+"sehen, dass `55` im Protokoll erscheint. Ändere den Index `1` in einen "
+"anderen, probiere längere Listen aus und denke darüber nach, wie Du Listen "
+"in Deinem nächsten Code-Jam verwenden könntest. Überlege dir zum Beispiel, "
+"welche Strukturen aus der Musik man als eine Reihe von Zahlen interpretieren "
+"könnte..."
 
 #: 08.2-Chords.md:1
 msgid "8.2 Chords"
@@ -7373,8 +7374,8 @@ msgid ""
 "In addition to `ring` there are a number of other functions which will constru"
 "ct a ring for us."
 msgstr ""
-"Zusätzlich zu `ring` gibt es noch eine Anzahl weiterer Funktionen, die Ringe f"
-"ür uns erzeugen:"
+"Zusätzlich zu `ring` gibt es noch eine Anzahl weiterer Funktionen, die Ringe "
+"für uns erzeugen."
 
 #: 08.4-Rings.md:95
 msgid "`range` invites you specify a starting point, end point and step size."
@@ -8622,11 +8623,12 @@ msgid ""
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
-"Um die Dinge einfach und lesbar zu halten, werden wir die Abkürzungen *C-* für"
-" *Control* und eine weitere Taste sowie *M-* für *Meta* und eine weitere Taste"
-" verwenden. Wenn ein Tastaturkürzel beispielsweise erfordert, dass Du *Meta* u"
-"nd *r* gleichzeitig drückst, werden wir die Abkürzung `M-r` verwenden. Der Bin"
-"destrich in der Mitte (*-*) bedeutet nur \"zur gleichen Zeit\"."
+"Um die Dinge einfach und lesbar zu halten, werden wir die Abkürzungen *C-* "
+"für *Control* und eine weitere Taste sowie *M-* für *Meta* und eine weitere "
+"Taste verwenden. Wenn ein Tastaturkürzel beispielsweise erfordert, dass Du "
+"*Meta* und *r* gleichzeitig drückst, werden wir die Abkürzung `M-r` "
+"verwenden. Der Bindestrich in der Mitte (*-*) bedeutet nur \"zur gleichen "
+"Zeit.\""
 
 #: 10.1-Using-Shortcuts.md:53
 msgid "The following are some of the shortcuts I find most useful."
@@ -9269,9 +9271,10 @@ msgid ""
 " Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
 " Pi's sound capabilities."
 msgstr ""
-"Minecraft Pi und Sonic Pi mit seinen Sound-Möglichkeiten sind beides sehr rech"
-"enintensive Programme. Der alte Raspberry ist davon schnell überfordert und ei"
-"n Raspberry Pi 2 mit seinem schnelleren Prozessor deshalb sehr zu empfehlen!"
+"Minecraft Pi und Sonic Pi mit seinen Sound-Möglichkeiten sind beides sehr "
+"rechenintensive Programme. Der alte Raspberry ist davon schnell überfordert "
+"und ein Raspberry Pi 2 mit seinem schnelleren Prozessor deshalb sehr zu "
+"empfehlen."
 
 #: 11-Minecraft-Pi.md:45
 msgid "API Support"
@@ -10666,9 +10669,8 @@ msgstr ""
 "wie gemacht dafür wiederholt zu werden."
 
 #: A.03-coded-beats.md:42
-#, fuzzy
 msgid "Beat Stretching"
-msgstr "Takte strecken"
+msgstr "Beat Stretching"
 
 #: A.03-coded-beats.md:44
 msgid ""
@@ -10854,13 +10856,16 @@ msgstr ""
 
 #: A.03-coded-beats.md:128
 msgid "Slicing"
-msgstr "Zerschneiden"
+msgstr "Slicing"
 
 #: A.03-coded-beats.md:130
 msgid ""
 "Another great tool to play with is the slicer FX. This will chop (slice) the s"
 "ound up. Wrap the `sample` line with the FX code like this:"
 msgstr ""
+"Ein anderes tolles Tool, das wir ausprobieren können, ist der FX Slicer. Er "
+"stückelt unseren Sound in Einzelsequenzen. Verpacke die `sample` Zeile dafür "
+"einfach mit dem folgenden FX Code:"
 
 #: A.03-coded-beats.md:133
 #, no-wrap
@@ -10893,6 +10898,17 @@ msgid ""
 "e shapes. 0 is a saw wave, (hard in, fade out) 1 is a square wave (hard in, ha"
 "rd out) and 2 is a triangle wave (fade in, fade out)."
 msgstr ""
+"Beobachte, wie der Klang dadurch etwas mehr auf und ab federt. (Du kannst "
+"dir den ursprünglichen Klang ohne FX anhören, indem du die Option `mix:` auf "
+"`0` setzt.) Als nächstes, versuche dich an der `phase:` Option. Das ist die "
+"Rate (in Beats) in der gestückelt wird. Ein kleiner Wert wie `0.125` "
+"stückelt häufig, hohe Werte wie `0.5` stückeln hingegen langsamer. "
+"Beobachte, dass eine stufenweises Halbieren oder Vierteln der `phase:` "
+"tendenziell immer gut klingt. Setzte zuletzt die `wave:` Option auf 0, 1, "
+"oder 2 und höre dir an, wie die Änderung klingt. Die Werte stehen für "
+"unterschiedliche Schwingungsformen. 0 repräsentiert eine Sägezahnschwindung ("
+"hard in, fade out), 1 eine Rechteckschwingung (hard in, hard out) und 2 eine "
+"Dreieckschwingung (hard in, hard out)."
 
 #: A.03-coded-beats.md:157
 msgid ""
@@ -14811,9 +14827,8 @@ msgid "sample :elec_filt_snare, rate: 1"
 msgstr ""
 
 #: A.17-sample-stretching.md:65
-#, fuzzy
 msgid "Now, play it backwards:"
-msgstr "Cool! Dann spielt es rückwärts!"
+msgstr "Jetzt lass es uns rückwärts abspielen:"
 
 #: A.17-sample-stretching.md:67
 #, no-wrap
@@ -14944,7 +14959,6 @@ msgstr ""
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :beats do\n"
 "  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
@@ -14962,7 +14976,23 @@ msgid ""
 "    end\n"
 "  end\n"
 "end"
-msgstr "sample :guit_em9"
+msgstr ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
@@ -15052,7 +15082,7 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
-msgstr ""
+msgstr "Verstimmung"
 
 #: A.18-additive-synthesis.md:66
 msgid ""
@@ -15068,6 +15098,9 @@ msgid ""
 "synth :square, note: :e3\n"
 "synth :square, note: :e3 + detune"
 msgstr ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
 
 #: A.18-additive-synthesis.md:76
 msgid ""
@@ -15083,17 +15116,19 @@ msgid ""
 msgstr ""
 
 #: A.18-additive-synthesis.md:87
-#, fuzzy
 msgid ""
 "Some of the built-in synths already include a detune option that do exactly th"
 "is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
 "`:dtri`."
-msgstr "`:dsaw`"
+msgstr ""
+"Einige der integrierten Synths haben bereits eine Option zur Verstimmung, "
+"die das ganze für einem Synth machen. Probiere die Option `detune:` von "
+"`:dsaw`, `:dpulse` und `:dtri` aus."
 
 #: A.18-additive-synthesis.md:92
 #, fuzzy
 msgid "Amplitude shaping"
-msgstr "Amplitude"
+msgstr "Amplitudenformung"
 
 #: A.18-additive-synthesis.md:94
 msgid ""
@@ -15288,7 +15323,6 @@ msgid "[Low Pass Filter] - breakout box"
 msgstr ""
 
 #: A.19-subtractive-synthesis.md:88
-#, fuzzy
 msgid ""
 "The low pass filter is such an important part of every subtractive synthesis t"
 "oolkit that it's worth taking a deeper look at how it works. This diagram show"
@@ -15305,7 +15339,7 @@ msgid ""
 "nts the amplitude, decreases as we move from A to C. Subtractive synthesis wor"
 "ks by removing parts of the signal which means that the overall amplitude is r"
 "educed as the amount of filtering that is taking place increases."
-msgstr "`:prophet`"
+msgstr ""
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
@@ -15364,7 +15398,6 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:151
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :subt_synth do |note, sus|\n"
 "  at do\n"
@@ -15384,4 +15417,22 @@ msgid ""
 "subt_synth :e1, 8\n"
 "sleep 8\n"
 "subt_synth :e1 - 4, 8"
-msgstr "rrand"
+msgstr ""
+"define :subt_synth do |note, sus|\n"
+"  at do\n"
+"    with_fx :lpf, cutoff: 40, amp: 2 do |fx|\n"
+"      control fx, cutoff_slide: 6, cutoff: 100\n"
+"      synth :prophet, note: note, sustain: sus\n"
+"    end\n"
+"    with_fx :hpf, cutoff_slide: 0.01 do |fx|\n"
+"      synth :dsaw, note: note + 12, sustain: sus\n"
+"      (sus * 8).times do\n"
+"        control fx, cutoff: rrand(70, 110)\n"
+"        sleep 0.125\n"
+"      end\n"
+"    end\n"
+"  end\n"
+"end\n"
+"subt_synth :e1, 8\n"
+"sleep 8\n"
+"subt_synth :e1 - 4, 8"
