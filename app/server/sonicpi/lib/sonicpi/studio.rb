@@ -692,7 +692,7 @@ module SonicPi
     def reb_mut_spawn_midi_o2m
       success = true
       begin
-        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + "-L -b -i #{@midi_osc_out_port} -O #{@midi_osc_in_port} -m 6"
+        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -L -b -i #{@midi_osc_out_port} -O #{@midi_osc_in_port} -m 6"
         Kernel.puts "Studio - Spawning o2m with:"
         Kernel.puts "    #{o2m_spawn_cmd}"
         @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
