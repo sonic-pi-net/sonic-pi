@@ -428,8 +428,8 @@ module SonicPi
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
-      `jack_connect SuperCollider:in_1 system_capture_1`
-      `jack_connect SuperCollider:in_2 system_capture_2`
+      `jack_connect SuperCollider:in_1 system:capture_1`
+      `jack_connect SuperCollider:in_2 system:capture_2`
     end
   end
 end
