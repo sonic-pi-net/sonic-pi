@@ -267,7 +267,7 @@ helid olla ootamatult valjud või ebameeldivaid.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Log cues</source>
-        <translation>Logi viheid</translation>
+        <translation>Logi vihjeid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
@@ -470,7 +470,9 @@ Tumerežiim on sobilik ööklubides kohapeal kodeerimiseks.</translation>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi laadeviga
+
+Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1776"/>
@@ -478,276 +480,282 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1793"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Puhverfailid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Laadi Sonic Pi puhver</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Tesktifailid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruby failid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Kõik failid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi automaatkerimine sees...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi automaatkerimine väljas...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Käivita kood praegusest puhvrist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2622"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Laadi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Laadi väline faili jooksvasse puhvrisse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2804"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wave faili (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI lubamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI keelamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC pordi avamine kaugteadetele...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC teenuse peatamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI lähtestamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI on keeltatud...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Teretulemast tagasi. Alusta nüüd otsekodeerimisega...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvesta jooksev puhver</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Vihjed</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Täisekraanirežiim aktiivne.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="801"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Täisekraanirežiim mitteaktiivne.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Võrk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Võrguseaded</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Kohalik IP aadress</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC sõnumite kuulamine pordil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Pole saadaval</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC sõnumite vastuvõtt võrgust</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitud olekus võtab Sonic Pi vastu teiste masinate OSC sõnumeid.
+ Valimata olekus võetakse vastu ainult kohaliku masina sõnumeid.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba OSC teenus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitud olekus võtab Sonic Pi vastu OSC sõnumeid.
+ Valimata olekus OSC sõnumeid vastu ei võeta.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Seadista MIDI käitumine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba MIDI alamsüsteemid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba või keela sisenev ja väljuv MIDI kommunikatsioon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Lähtesta MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lähtesta MIDI alamsüsteemid
+(vajalik tuvastamaks seadmete muutust macOSis)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaikimisi MIDI kanal (* tähendab kõik)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaikimisi MIDI kanal, kuhu sõnumeid saata</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <location filename="../mainwindow.cpp" line="3232"/>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ühendatud sisendseadmeid ei ole</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="3233"/>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ühendatud väljundseadmeid ei ole</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI sisendseadmed saadavad MIDI sõnumeid 
+Sonic Pile otse ja neid käsitletakse vihjete sündmustena
+(sarnaselt sisenevatele OSC sõnumitele ja sisevihjetele)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI väljundseadmed võtavad vastu Sonic Pi midi_* 
+funktsioonidega saadetud MIDI sõnumeid otse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Peamine helitugevus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kasuta seda liugurit süsteemi helitugevuse muutmiseks.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1303"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Heli väljund</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi automaatne kerimine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva vihjete logi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülitab nii sisevihjete kui ka sisenevate OSC ja MIDI vihjete logi kuvamist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro ikoonid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>I/O</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva või peida skoop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
@@ -1006,7 +1014,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Seaded, mis on olulised Sonic Piga koos esinedes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
