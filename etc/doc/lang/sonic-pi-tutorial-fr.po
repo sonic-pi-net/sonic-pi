@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-03 22:45+0000\n"
-"Last-Translator: LL <lu.lecocq@free.fr>\n"
+"PO-Revision-Date: 2017-10-30 13:46+0000\n"
+"Last-Translator: Nicolas Cosson <nicolas.cosson@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.17-dev\n"
+"X-Generator: Weblate 2.17\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -16493,12 +16493,15 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:121
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :bass_trance_c, rate: 1\n"
 "sample :bass_trance_c, rate: 2\n"
 "sample :bass_trance_c, rate: 0.5"
 msgstr ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
 
 #: A.17-sample-stretching.md:125
 msgid ""
@@ -16508,12 +16511,15 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:129
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :bass_trance_c\n"
 "sample :bass_trance_c, rpitch: 3\n"
 "sample :bass_trance_c, rpitch: 7"
 msgstr ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
 
 #: A.17-sample-stretching.md:133
 msgid ""
