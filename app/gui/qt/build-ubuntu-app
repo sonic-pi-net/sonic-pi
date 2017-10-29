@@ -99,6 +99,20 @@ install m2o o2m -t ${OSMID_DIR}
 
 #Build Erlang files
 cd ${SP_APP_SRC}/../../server/erlang
+#The current implementation of osc.erl uses Erlang features that require
+#at least Erlang 19.1 to be installed. 16.04 LTS is currently at 18.3.
+#If versions < 19.1 are installed, and we use the current code, the MIDI
+#implementation breaks because the Erlang OSC router is failing.
+ERLANG_VERSION=$(./print_erlang_version)
+if [ -e "osc.erl.orig" ]; then
+    # Handle, if the original file in the source tree ever gets updated.
+    rm osc.erl.orig
+    git checkout osc.erl
+fi
+if [[ "${ERLANG_VERSION}" < "19.1" ]]; then
+    echo "Found Erlang version < 19.1 (${ERLANG_VERSION})! Updating source code."
+    sed -i.orig 's|erlang:system_time(nanosecond)|erlang:system_time(nano_seconds)|' osc.erl
+fi
 erlc osc.erl
 erlc pi_server.erl
 

@@ -84,6 +84,7 @@ app/gui/qt/qrc__*
 \.#*
 .lein-plugins
 *~
+*.orig
 
 # Native
 
