@@ -319,7 +319,7 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαφάνεια</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
