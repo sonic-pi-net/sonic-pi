@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-29 07:05+0000\n"
+"PO-Revision-Date: 2017-10-31 15:46+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -10968,11 +10968,11 @@ msgstr ""
 
 #: A.04-synth-riffs.md:1
 msgid "A.4 Synth Riffs"
-msgstr ""
+msgstr "A.4 Synth Riffs"
 
 #: A.04-synth-riffs.md:3
 msgid "Synth Riffs"
-msgstr ""
+msgstr "Synth Riffs"
 
 #: A.04-synth-riffs.md:5
 msgid ""
@@ -10988,10 +10988,12 @@ msgid ""
 "OK, so power up your Raspberry Pi, crack open Sonic Pi v2.6+ and let's make so"
 "me noise!"
 msgstr ""
+"OK, fahre deinen Raspberry Pi hoch, öffne Sonic Pi v2.6+ und auf gehts, lass "
+"und Musik machen!"
 
 #: A.04-synth-riffs.md:16
 msgid "Timbral Possibilities"
-msgstr ""
+msgstr "Die Welt der Klangfarben"
 
 #: A.04-synth-riffs.md:18
 msgid ""
@@ -11004,6 +11006,8 @@ msgstr ""
 #: A.04-synth-riffs.md:24
 msgid "Let's create a simple live loop where we continually change the current synth:"
 msgstr ""
+"Lass uns einen einfachen Live-Loop schreiben, in dem wir laufend den Synth "
+"ändern:"
 
 #: A.04-synth-riffs.md:27
 #, no-wrap
@@ -11046,7 +11050,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:55
 msgid "Timbre"
-msgstr ""
+msgstr "Klangfarbe"
 
 #: A.04-synth-riffs.md:57
 msgid ""
@@ -11148,7 +11152,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
-msgstr "Pseudozufälligkeit"
+msgstr "Pseudo-Randomisierung"
 
 #: A.04-synth-riffs.md:123
 msgid ""
@@ -11277,11 +11281,11 @@ msgstr ""
 
 #: A.05-acid-bass.md:1
 msgid "A.5 Acid Bass"
-msgstr ""
+msgstr "A.5 Acid Bass"
 
 #: A.05-acid-bass.md:3
 msgid "Acid Bass"
-msgstr ""
+msgstr "Acid Bass"
 
 #: A.05-acid-bass.md:5
 msgid ""
@@ -11360,19 +11364,23 @@ msgstr ""
 
 #: A.05-acid-bass.md:53
 msgid "Take a look at each line."
-msgstr ""
+msgstr "Gucke dir jede Codeziele genau an."
 
 #: A.05-acid-bass.md:55
 msgid ""
 "On the first line we set the default synth to be `tb303` with the `use_synth` "
 "fn."
 msgstr ""
+"In der ersten Zeile setzen wir den Defaultwert der`use_synth` Funktion auf "
+"`tb303`."
 
 #: A.05-acid-bass.md:58
 msgid ""
 "On line two we create a live loop called `:squelch` which will just loop round"
 " and round."
 msgstr ""
+"In der zweiten Zeile erstellen wir einen Live-Loop vom Typen `:squelch`, der "
+"sich die ganze Zeit wiederholt."
 
 #: A.05-acid-bass.md:61
 msgid ""
@@ -11458,6 +11466,7 @@ msgstr ""
 #: A.05-acid-bass.md:113
 msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 msgstr ""
+"![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
