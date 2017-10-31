@@ -760,27 +760,27 @@ funktsioonidega saadetud MIDI sõnumeid otse</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1519"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostsilloskoobi tüübid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1535"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva ostsilloskoobid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1536"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülitab audio ostsilloskoopide kuvamist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva teljed</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1538"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita heli ostsilloskoopide telgede kuvamist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
@@ -790,27 +790,32 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Heli kolme tüüpi ostsilloskoope saab kuvada ükshaaval 
+või kõiki korraga. Tüübid on:
+
+Lissajous - ilmestab parema ja vasaku kanali faaside suhet
+Mono - kuvab vasaku ja parema kanali kombineeritud vaate (kasutades RMS&apos;i)
+Stereo - kuvab kaks sõltumatut ostsilloskoopi vasaku ja parema kanali jaoks</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Visuaalid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>Detailsemaks...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1909"/>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>Üldisemaks...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Värskenduste kontroll...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
