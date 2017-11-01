@@ -959,7 +959,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2612"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Στόπ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2613"/>
@@ -985,7 +985,7 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="727"/>
         <location filename="../mainwindow.cpp" line="2661"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Βοήθεια</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
@@ -1112,7 +1112,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="1029"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Παραδείγματα</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1078"/>
