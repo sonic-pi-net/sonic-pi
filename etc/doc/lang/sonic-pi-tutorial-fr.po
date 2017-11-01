@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-01 18:27+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-11-02 18:45+0000\n"
+"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.17\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -16540,6 +16540,13 @@ msgid ""
 "sleep 1\n"
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 msgstr ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:149
 msgid ""
@@ -16552,7 +16559,6 @@ msgstr ""
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :beats do\n"
 "  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
@@ -16570,7 +16576,23 @@ msgid ""
 "    end\n"
 "  end\n"
 "end"
-msgstr "sample :guit_em9"
+msgstr ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
@@ -16609,7 +16631,7 @@ msgstr ""
 #: A.18-additive-synthesis.md:26
 #, no-wrap
 msgid "synth :sine, note: :d3"
-msgstr ""
+msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
@@ -16621,6 +16643,8 @@ msgid ""
 "synth :sine, note: :d3\n"
 "synth :square, note: :d3"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
 
 #: A.18-additive-synthesis.md:37
 msgid ""
