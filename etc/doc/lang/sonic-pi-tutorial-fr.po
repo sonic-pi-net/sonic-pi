@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-31 15:46+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
+"PO-Revision-Date: 2017-11-01 18:27+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -16395,7 +16395,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
-msgstr "Renverser l'engrenage"
+msgstr "Marche arrière"
 
 #: A.17-sample-stretching.md:56
 msgid ""
