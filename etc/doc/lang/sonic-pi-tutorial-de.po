@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-31 15:46+0000\n"
+"PO-Revision-Date: 2017-11-02 00:37+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -10327,11 +10327,11 @@ msgid ""
 " on-the-fly. This means that whilst they're still running, you can change what"
 " they do. This is the secret to live coding with Sonic Pi. Let's have a play:"
 msgstr ""
-"OK, aber was ist nun das besondere an einem 'live_loop'? Bisher scheint er "
-"nur eine überbewertete \"Schleife\" zu sein! Nun, das Schöne am 'live_loop' "
+"OK, aber was ist nun das besondere an einem `live_loop`? Bisher scheint er "
+"nur eine überbewertete \"Schleife\" zu sein! Nun, das Schöne am `live_loop` "
 "ist, dass du ihn im laufenden Programm neu definieren kannst. Das bedeutet, "
-"du kannst ändern was er machen soll, während er läuft. Das ist das "
-"Geheimnis, um mit Sonic Pi live zu coden. Lass uns einmal damit spielen:"
+"du kannst ändern was er machen soll, während er läuft. Das ist das Geheimnis "
+"hinter Live-Coding mit Sonic Pi. Lass uns das ausprobieren:"
 
 #: A.02-live-coding.md:60
 #, no-wrap
@@ -10816,7 +10816,7 @@ msgid ""
 msgstr ""
 "Jetzt können wir damit beginnen Samples in unseren Live-Loop zu integrieren. "
 "Lass uns einige der lustigsten Optionen des `sample` Synths anschauen. "
-"Zunächst hätten wir `cutoff:`, das den Ausschalt-Filter des Samplers "
+"Zunächst hätten wir `cutoff:`, das den Cut-Off-Filter des Samplers "
 "kontrolliert. Per default ist dieser ausgestellt. Aber du kannst ihn ganz "
 "einfach frei geben:"
 
@@ -10918,6 +10918,12 @@ msgid ""
 "d see where you can take it. Please do share what you create! See you next tim"
 "e..."
 msgstr ""
+"Lass uns für unser letztes Beispiel einem Blick auf die frühe Drum and Bass "
+"Szene in Bristol werfen. Mach dir keinen Sorgen, wenn du nicht genau "
+"verstehst, wie das Beispiel funktioniert. Füge den Code einfach in Sonic Pi "
+"ein, klicke auf Ausführen und versuche dich am Live-Coden, indem du die "
+"Werte der verschiedenen Optionen veränderst. Vergesse nicht deine Kreationen "
+"mit anderen zu teilen! Bis zum nächsten Mal…"
 
 #: A.03-coded-beats.md:163
 #, no-wrap
@@ -10982,6 +10988,10 @@ msgid ""
 "ered how to code our beats. In this tutorial we'll cover how to code up the th"
 "ree core components of a synth riff - the timbre, melody and rhythm."
 msgstr ""
+"Im der letzten Einheit dieses Tutorials haben wir gelernt, wie man Klänge "
+"erzeugt. Jetzt werden wir uns damit beschäftigen, wie wir die drei "
+"Hauptkomponenten eines Synth Riffs - Klangfarbe, Melodie und Rhythmus - "
+"coden können."
 
 #: A.04-synth-riffs.md:12
 msgid ""
@@ -11002,6 +11012,12 @@ msgid ""
 "erent synths for a dramatic change and setting the various synth opts for more"
 " subtle modifications. We can also use FX, but that's for another tutorial..."
 msgstr ""
+"Ein essentieller Teil jedes Synth Riffs ist das Verändern und "
+"Experimentieren mit der Klangfarbe. Sonic Pi bietet uns zwei Möglichkeiten, "
+"die Klangfarbe zu kontrollieren - für dramatische Änderungen können wir "
+"verschiedene Synths verwenden, für dezente Umwandlungen reicht es die "
+"Optionen eines Synths einzustellen. Wir könnten auch FX verwenden, aber das "
+"heben wir uns für ein anderes Tutorial auf…"
 
 #: A.04-synth-riffs.md:24
 msgid "Let's create a simple live loop where we continually change the current synth:"
@@ -11033,6 +11049,13 @@ msgid ""
 "e), with a release time of 0.5 beats (half a second at the default BPM of 60) "
 "and with the `cutoff:` opt set to 100."
 msgstr ""
+"Schau dir den Code genauer an. Mit dem `tick` Befehl gehen wir Eintrag für "
+"Eintrag durch einen Ring von Synth Namen (wobei wir die Liste immer wieder "
+"wiederholen). Anschließend übergeben wir diesen Synth an die `use_synth` "
+"Funktion, die den aktuellen Synth unseres Live-Loops ändert. Außerdem "
+"spielen wir die Note `:e2` (e der zweiten Oktave) mit einer Abklingzeit von "
+"0.5 Takten (0.5 Sekunden bei unser Standard-BPM von 60) und einem `cutoff:` "
+"Wert von 100."
 
 #: A.04-synth-riffs.md:42
 msgid ""
@@ -11047,6 +11070,19 @@ msgid ""
 "of all the synths and all the available opts each individual synth supports to"
 " see just how much power you have under your coding fingertips."
 msgstr ""
+"Hörst du, wie die unterschiedlichen Synths vollkommen verschiedene Klänge "
+"erzeugen, obwohl sie alle die selbe Note spielen? Lass uns damit "
+"experimentieren. Erhöhe oder verkleinere den Wert der Abklingzeit. Ändere "
+"zum Beispiel die Werte der Optionen `attack:` und `release:`, um zu sehen, "
+"wie sich unterschiedliche Fade-In und Fade-Out Zeiten auf den Klang "
+"auswirken. Zuletzt kannst du den Wert der `cutoff:` Option ändern, um zu "
+"beobachten, wie unterschiedliche Cut-Off-Wert die Klangfarbe beeinflussen ("
+"Werte zwischen 60 und 130 sind gut). Probiert mal aus, wie viele "
+"verschiedene Klänge du erzeugen kannst, indem du an diesen wenigen "
+"Parametern rumschraubst. Wenn dir das gelingt, kannst du im dir im Help "
+"System den Eintrag zu Synth anschauen. Hier findest du eine Auflistung aller "
+"Synths und der Optionen, die sie bereitstellen. Ein Reich an Möglichkeiten "
+"liegt dir zu Füßen."
 
 #: A.04-synth-riffs.md:55
 msgid "Timbre"
@@ -11060,6 +11096,13 @@ msgid ""
 " be different. That sound quality - the thing which allows you to tell the dif"
 "ference between a piano and a guitar is the timbre."
 msgstr ""
+"Klangfarbe (engl. timbre) ist nur ein ausgefallenes Wort für den Klang eines "
+"Geräusches. Wenn man die selbe Note auf verschiedenen Instrumenten, wie zum "
+"Beispiel einer Geige, einer Gitarre oder einem Klavier spielt, so bleibt die "
+"Tonhöhe (wie hoch oder niedrig ein Ton ist) immer die selbe. Die Tonqualität "
+"hingegen unterscheidet sich. Dieser Unterschied, der einem erlaubt "
+"festzustellen, ob es sich um ein Klavier oder eine Gitarre handelt, ist die "
+"Klangfarbe."
 
 #: A.04-synth-riffs.md:65
 msgid "Melodic Composition"
@@ -11166,7 +11209,7 @@ msgstr ""
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
-msgstr ""
+msgstr "Finde deinen Rythmus"
 
 #: A.04-synth-riffs.md:133
 msgid ""
@@ -11331,7 +11374,7 @@ msgstr ""
 
 #: A.05-acid-bass.md:35
 msgid "Instant acid bass! Let's play around..."
-msgstr ""
+msgstr "Siehe da! Wir haben einen Acid Bass! Lass uns weiter experimentieren…"
 
 #: A.05-acid-bass.md:37
 msgid "Squelch that Bass"
@@ -11399,18 +11442,25 @@ msgid ""
 " interesting opts here: `release:`, `cutoff:`, `res:` and `wave:` which we'll "
 "discuss below."
 msgstr ""
+"Mit Zeile viert wird der eigentliche `:tb303` Synth eingeleitet. Dabei "
+"werden einige interessante Optionen mitgegeben: `release:`, `cutoff:`, `res:`"
+" and `wave:` über die wir etwas später genauer diskutieren werden."
 
 #: A.05-acid-bass.md:74
 msgid ""
 "Line five is our `sleep` - we're asking the live loop to loop round every `0.1"
 "25`s or 8 times a second at the default BPM of 60."
 msgstr ""
+"Zeile fünf repräsentiert unsere Pause - wir lassen unseren Live-Loop alle "
+"`0.125`s in Schleife laufen oder 8 mal eine Sekunde bei einem BPM von 60."
 
 #: A.05-acid-bass.md:77
 msgid ""
 "Line six is the `end` to the live loop. This just tells Sonic Pi where the end"
 " of the live loop is."
 msgstr ""
+"Zeile sechs markiert das Ende (`end`) des Live-Loops. Sie teilt Sonic Pi nur "
+"mit, wo der Live-Loops zu Ende ist."
 
 #: A.05-acid-bass.md:80
 msgid ""
@@ -12426,7 +12476,7 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:115
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
-msgstr ""
+msgstr "`co` - ein Cut-Off-Wert für den Tiefpassfilter zwischen 70 und 130"
 
 #: A.08-minecraft-vj.md:117
 msgid ""
@@ -15156,6 +15206,12 @@ msgid ""
 "synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
 "synth :noise, release: 0.2, amp: 1, cutoff: 90"
 msgstr ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
 
 #: A.18-additive-synthesis.md:108
 msgid ""
