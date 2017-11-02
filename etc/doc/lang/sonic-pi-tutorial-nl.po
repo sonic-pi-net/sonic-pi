@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-30 13:45+0000\n"
-"Last-Translator: Nicolas Cosson <nicolas.cosson@gmail.com>\n"
+"PO-Revision-Date: 2017-11-03 11:35+0000\n"
+"Last-Translator: Rachid Ben Moussa <rachidbm@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -8946,8 +8946,9 @@ msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Tussen licht/donker modus schakelen"
 
 #: 10.2-Shortcut-Cheatsheet.md:84
+#, fuzzy
 msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr "`S-M-s` - Inhoud van de buffer naar een bestand opslaan"
+msgstr "`S-M-s` - Inhoud van de buffer opslaan in een bestand"
 
 #: 10.2-Shortcut-Cheatsheet.md:85
 msgid "`S-M-o` - Load contents of buffer from a file"
