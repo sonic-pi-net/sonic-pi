@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-02 00:43+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2017-11-03 01:46+0000\n"
+"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -30,10 +30,11 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Willkommen bei Sonic Pi! Hoffentlich bist Du genauso gespannt darauf, "
-"verrückte Sounds zu machen, denn ich will Dir zeigen, wie das geht. Wir "
-"werden viel Spaß dabei haben, über Musik, Synthese, Coding, Komposition, "
-"Aufführung und andere Dinge zu lernen."
+"Willkommen bei Sonic Pi! Hoffentlich bist Du gespannt darauf, zu lernen, wie "
+"man mit Sonic Pi verrückte Sounds machen kann, genauso wie ich gespannt "
+"darauf bin, dir zu zeigen, wie es geht. Es wird ein *Riesenspaß* bei dem du "
+"etwas über Musik, Synthese, Programmieren, Komposition, Aufführung und viele "
+"andere Dinge lernen wirst."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -1780,9 +1781,10 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"Normalerweise hat die Opt `decay_level:` den gleichen Wert wie `sustain_level:"
-"`, aber Du kannst auch bewusst einen anderen Wert setzen. So hast Du volle Kon"
-"trolle über die Hüllkurve und kannst z.B. eine wie diese vorgeben:"
+"Normalerweise hat die Option `decay_level:` den selben Wert wie "
+"`sustain_level:`, aber Du kannst sie auch bewusst einen anderen Wert setzen. "
+"So hast Du volle Kontrolle über die Hüllkurve und kannst zum Beispiel eine "
+"wie diese vorgeben:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -5505,7 +5507,7 @@ msgstr ""
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
-msgstr "5.7 Thread-Synchronisation"
+msgstr "5.7 Thread Synchronisierung"
 
 #: 05.7-Thread-Synchronisation.md:3
 msgid "Thread Synchronisation"
@@ -8458,7 +8460,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:101
 msgid "Don't make it too complicated"
-msgstr "Mach's nicht zu kompliziert"
+msgstr "Mache es nicht zu kompliziert"
 
 #: 09.4-Ticking.md:103
 msgid ""
@@ -10003,12 +10005,13 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
-"Um Deine neuen Klänge im Code zu entdecken, möchtest Du sicher wissen, wie Du "
-"Synthesizer und Effekte steuern kannst. Vielleicht möchtest du die Dauer eines"
-" Tons verändern, mehr Hall hinzufügen oder die Zeit zwischen zwei Echos veränd"
-"ern. Mit Parametern oder kurz Opts bietet Dir Sonic Pi viele Möglichkeiten, ge"
-"nau das zu tun. Schauen wir uns das mal kurz an. Kopiere diesen Code in einen "
-"Buffer und klicke auf Ausführen:"
+"Um Deine codierten Klänge so richtig entdecken zu können, wirst Du sicher "
+"bald wissen wollen, wie Du Synths und FX steuern kannst. Vielleicht möchtest "
+"du die Dauer eines Tons verändern, mehr Hall hinzufügen oder die Zeit "
+"zwischen zwei Echos verändern. Mit optionalen Parametern oder kurz Opts "
+"bietet Dir Sonic Pi viele Möglichkeiten, genau das zu tun. Schauen wir uns "
+"das mal kurz an. Kopiere diesen Code in einen Buffer und klicke auf "
+"Ausführen:"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -10034,9 +10037,9 @@ msgid ""
 ". All of Sonic Pi's synths and FX support them and there's loads to play aroun"
 "d with. They're also available for FX too. Try this:"
 msgstr ""
-"Was bedeutet der Schnipsel  `rate: 0.5`, den ich hier am Ende hinzugefügt habe"
-"? Das ist ein Parameter. Alle Synths und FX in Sonic Pi unterstützen diese und"
-" man kann viel damit anstellen. Versuche mal das hier:"
+"Was bedeutet der Schnipsel  `rate: 0.5`, den ich hier am Ende hinzugefügt "
+"habe? Das ist ein Parameter. Alle Synths und FX in Sonic Pi unterstützen "
+"diesen und man kann viel damit anstellen. Versuche mal das hier:"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -10113,7 +10116,7 @@ msgstr ""
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
-msgstr "5. Mit dem Zufall surfen"
+msgstr "5. Mit dem Zufall spielen"
 
 #: A.01-tips.md:136
 msgid ""
@@ -15308,7 +15311,7 @@ msgstr ""
 #: A.19-subtractive-synthesis.md:29
 #, no-wrap
 msgid "synth :saw, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :saw, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:33
 msgid ""
@@ -15321,7 +15324,7 @@ msgstr ""
 #: A.19-subtractive-synthesis.md:38
 #, no-wrap
 msgid "synth :beep, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :beep, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:42
 msgid ""
@@ -15349,6 +15352,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 100 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:63
 msgid ""
@@ -15374,6 +15380,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:80
 msgid ""
