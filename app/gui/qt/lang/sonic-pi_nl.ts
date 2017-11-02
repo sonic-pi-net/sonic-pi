@@ -161,7 +161,7 @@ externe PA systemen te werken wanneer je optreedt met Sonic Pi.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Show line numbers</source>
-        <translation>Toon nummering regels</translation>
+        <translation>Regelnummers tonen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="468"/>
@@ -295,13 +295,13 @@ Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</t
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation>Reset MIDI subsysteem
-(nodig om te detecteren of er veranderingen zijn in het macOS)</translation>
+        <translation type="unfinished">MIDI-subsysteem herstellen
+(nodig om te detecteren of er veranderingen zijn met apparaten in macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation>Standaard MIDI channel (* = allemaal)</translation>
+        <translation type="unfinished">Standaard MIDI-kanaal (* = allemaal)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
@@ -731,7 +731,7 @@ Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation>MIDI herstarten...</translation>
+        <translation type="unfinished">MIDI herstellen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
@@ -1017,7 +1017,7 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Server boot error...</source>
-        <translation>Opstart fout van de Server...</translation>
+        <translation>Opstartfout van de Server...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
