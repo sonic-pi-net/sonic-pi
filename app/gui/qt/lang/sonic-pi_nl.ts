@@ -63,7 +63,7 @@ niet meer standaard naar het logbestand geschreven worden.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Clear log on run</source>
-        <translation>Logbestand wissen bij afspelen uitvoeren</translation>
+        <translation>Logbestand wissen voor afspelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1352"/>
@@ -442,7 +442,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn't recognised.</source>
+which isn&apos;t recognised.</source>
         <translation>Indien ingeschakeld zal Sonic Pi toestaan om
 synths en effecten die geladen zijn via load_synthdefs 
 te triggeren.
@@ -454,7 +454,7 @@ dat niet wordt herkend.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
         <source>Enforce timing guarantees</source>
-        <translation>Het "In de maat blijven" garanderen</translation>
+        <translation>Het &quot;In de maat blijven&quot; garanderen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
@@ -1171,7 +1171,7 @@ Sonic Pi krijgen %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
         <translation>Is Sonic Pi al opgestart? Kan UDP poort niet openen.</translation>
     </message>
 </context>
