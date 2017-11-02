@@ -330,7 +330,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1399"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Έλεγχος τώρα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1400"/>
