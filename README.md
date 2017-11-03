@@ -17,6 +17,7 @@
                ___/ / /_/ / / / / / /__   / ____/ /
               /____/\____/_/ /_/_/\___/  /_/   /_/
 
+---
 
 ## The Live Coding Music Synth for Everyone.
 
@@ -54,11 +55,15 @@ domains is the objective.
 * Computing Education Resources for Schools: http://www.raspberrypi.org/learning/sonic-pi-lessons/
 * Music Education Toolkit for Schools: http://sonicpiliveandcoding.com
 
+---
+
 ## Acknowledgements
 
 Sonic Pi has been developed within the Computer Laboratory at the
 University of Cambridge with kind support from the Raspberry Pi
 Foundation, the Broadcom Foundation and pi-top.
+
+---
 
 ## Translations
 
@@ -85,6 +90,8 @@ Status                                                                          
 
 Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
 
+---
+
 ## Information for developers
 
 Sonic Pi is under active development, and welcomes new contributors:
@@ -104,3 +111,7 @@ Sonic Pi is under active development, and welcomes new contributors:
 <br/>
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+
+---
+
+<img src="https://toplap.org/wp-content/uploads/2014/09/sonic-pi-web-logo.png" width="160"></img>
