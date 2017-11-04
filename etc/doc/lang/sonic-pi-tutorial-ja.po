@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-02 18:02+0000\n"
+"PO-Revision-Date: 2017-11-05 18:15+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -14782,7 +14782,6 @@ msgid "[Low Pass Filter] - breakout box"
 msgstr ""
 
 #: A.19-subtractive-synthesis.md:88
-#, fuzzy
 msgid ""
 "The low pass filter is such an important part of every subtractive synthesis t"
 "oolkit that it's worth taking a deeper look at how it works. This diagram show"
@@ -14799,7 +14798,7 @@ msgid ""
 "nts the amplitude, decreases as we move from A to C. Subtractive synthesis wor"
 "ks by removing parts of the signal which means that the overall amplitude is r"
 "educed as the amount of filtering that is taking place increases."
-msgstr "`:prophet`"
+msgstr ""
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
