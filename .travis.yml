@@ -4,23 +4,16 @@ os: linux
 sudo: required
 dist: trusty
 compiler: gcc
-rvm: 2.4.1
-env: USE_RVM=1
 
 cache:
  - apt
  - ccache
 
-# in addition to the default settings (above),
-# add test runs using the Travis rvm ruby binaries.
-matrix:
-  include:
-    - rvm: 2.1.2
-      env: USE_RVM=1
-    - rvm: 2.2.3
-      env: USE_RVM=1
-    - rvm: 2.3.3
-      env: USE_RVM=1
+rvm:
+  - 2.1.10
+  - 2.2.8
+  - 2.3.5
+  - 2.4.2
 
 before_install:
  - sudo apt-get update
@@ -38,43 +31,16 @@ script:
  - set -e
 # the | starts a multiline YAML entry
  - |
-   if [[ $USE_RVM ]]
-   then
-     # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
-     echo ""
-     echo "***********************************"
-     echo "* Compiling the vendor/ ruby gems *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
-     ruby ./compile-extensions.rb
-     echo ""
-     echo "***********************************"
-     echo "* Running the Sonic Pi test suite *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/ruby/test
-     rake test
-   else
-     # this compiles the gems and runs the Sonic Pi test suite for all ruby versions in Ubuntu Trusty (1.9.1 and 2.0.0)
-     echo ""
-     echo "***********************************"
-     echo "* Compiling the vendor/ ruby gems *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
-     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " ./compile-extensions.rb") or raise ("ruby gem compile failed for " + v) }'
-     echo ""
-     echo "***********************************"
-     echo "* Running the Sonic Pi test suite *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/ruby/test
-     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " /usr/bin/rake test") or raise ("test failed for " + v) }'
-     # the following are the same steps as in ./app/gui/qt/rp-build-app
-     echo ""
-     echo "***********************************"
-     echo "* Compiling Sonic Pi GUI with Qt5 *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/gui/qt
-     cp -f ruby_help.tmpl ruby_help.h ; /usr/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
-     lrelease SonicPi.pro
-     qmake -o Makefile SonicPi.pro
-     make
-   fi
+    # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
+    echo ""
+    echo "***********************************"
+    echo "* Compiling the vendor/ ruby gems *"
+    echo "***********************************"
+    cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
+    ruby ./compile-extensions.rb
+    echo ""
+    echo "***********************************"
+    echo "* Running the Sonic Pi test suite *"
+    echo "***********************************"
+    cd $TRAVIS_BUILD_DIR/app/server/ruby/test
+    rake test
