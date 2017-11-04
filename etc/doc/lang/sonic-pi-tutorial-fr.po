@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-02 18:45+0000\n"
+"PO-Revision-Date: 2017-11-05 05:22+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -16493,7 +16493,7 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:121
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "sample :bass_trance_c, rate: 1\n"
 "sample :bass_trance_c, rate: 2\n"
@@ -16511,7 +16511,7 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:129
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "sample :bass_trance_c\n"
 "sample :bass_trance_c, rpitch: 3\n"
@@ -16722,17 +16722,15 @@ msgid ""
 msgstr ""
 
 #: A.18-additive-synthesis.md:87
-#, fuzzy
 msgid ""
 "Some of the built-in synths already include a detune option that do exactly th"
 "is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
 "`:dtri`."
-msgstr "`:dsaw`"
+msgstr ""
 
 #: A.18-additive-synthesis.md:92
-#, fuzzy
 msgid "Amplitude shaping"
-msgstr "Amplitude"
+msgstr "Amplitude formation"
 
 #: A.18-additive-synthesis.md:94
 msgid ""
@@ -16788,6 +16786,9 @@ msgid ""
 " release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
 "1, release: 0.1 synth :tri, note: n, release: 0.2"
 msgstr ""
+"define :bell do \\|n\\| # Une onde triangulaire pour le 'hit' synth :tri, "
+"note: n - 12, release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :"
+"tri, note: n - 0.1, release: 0.1 synth :tri, note: n, release: 0.2"
 
 #: A.18-additive-synthesis.md:137
 msgid ""
@@ -16795,6 +16796,10 @@ msgid ""
 "ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
 "h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 msgstr ""
+"\\# Une onde sinusoïdale pour la sonnaille synth :sine, note: n + 24, "
+"release: 2 synth :sine, note: n + 24.1, release: 2 synth :sine, note: n + "
+"24.2, release: 0.5 synth :sine, note: n + 11.8, release: 2 synth :sine, note:"
+" n, release: 2"
 
 #: A.18-additive-synthesis.md:144
 msgid ""
