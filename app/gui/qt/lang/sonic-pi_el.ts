@@ -341,7 +341,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation>Λάβετε ενημέρωση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
@@ -376,7 +376,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτοματοποίηση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
@@ -426,7 +426,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλήρους οθόνης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1451"/>
