@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-05 05:22+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
+"PO-Revision-Date: 2017-11-06 05:45+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -16730,7 +16730,7 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:92
 msgid "Amplitude shaping"
-msgstr "Amplitude formation"
+msgstr "Façonner l'amplitude"
 
 #: A.18-additive-synthesis.md:94
 msgid ""
