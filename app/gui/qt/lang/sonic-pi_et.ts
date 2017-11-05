@@ -820,165 +820,167 @@ Stereo - kuvab kaks sõltumatut ostsilloskoopi vasaku ja parema kanali jaoks</tr
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
         <source>Enabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Värskenduste kontrolli lubamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
         <source>Disabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Värskenduste kontrolli keelamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1991"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mikseri LPFi lubamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mikseri LPFi keelamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Pööratud stereo lubamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2016"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Standard stereo lubamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2024"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mono režiim...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2032"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Stereo režiim...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2041"/>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>Peatamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2151"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>Süsteemi helitugevuse värskendamine ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2421"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kõrvaklapi heliväljundile lülitumine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2437"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>HDMI heliväljundile lülitumine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2452"/>
         <source>Switching To Default Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaikimisi heliväljundile lülitumine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2617"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvesta praeguse puhvri sisu välisfaili</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Start recording to WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Alusta WAV helifaili salvestamist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Improve readability of code</source>
-        <translation type="unfinished"></translation>
+        <translation>Paranda koodi loetavust</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Suurenda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Vähenda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita heli ostsilloskoopide kuvamist. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita abiinfo paani kuvamist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita seadistuste paani kuvamist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>Valmis...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail laaditud...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail salvestatud...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3186"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Viimati kontrollitud %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi kontrollib üle 
+kahe nädala värskendusi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3190"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>See on Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3191"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Versioon %2 on nüüd saadaval!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3195"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Uus versioon on saadaval!
+Laadi Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ühendatud MIDI sisendid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ühendatud MIDI väljundid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
@@ -993,28 +995,28 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2613"/>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>Peata kogu töötav kood</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2616"/>
         <source>Save As...</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvesta kui...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2655"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Teave</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2656"/>
         <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi lisateave</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
         <location filename="../mainwindow.cpp" line="2661"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Abi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
@@ -1024,103 +1026,105 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveri käivitamise viga...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>Palun raporteeri viga aadressil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2668"/>
         <source>Prefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Seadistus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
         <location filename="../mainwindow.cpp" line="2792"/>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Alusta salvestamist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2633"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Teksti automaatjoondamine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2637"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Suurenda teksti suurust</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Vähenda teksti suurust</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Tööriistad</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Teavet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>Tuumik</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>Toetajad</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2733"/>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>Kogukond</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Litsents</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2735"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajalugu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - teave</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2784"/>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Lõpeta salvestamine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2804"/>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvesta salvestus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Faili %1 ei saa lugeda:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2934"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Faili %1 ei saa salvestada:
+%2.</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="102"/>
@@ -1136,32 +1140,32 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="913"/>
         <location filename="../ruby_help.h" line="995"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Käsiraamat</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1029"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Näited</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1078"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Süntesaatorid</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1125"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Efektid</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1144"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Sämplid</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1389"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Keel</translation>
     </message>
 </context>
 <context>
@@ -1177,7 +1181,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kas Sonic Pi töötab juba? UDP porti ei saa avada.</translation>
     </message>
 </context>
 </TS>
