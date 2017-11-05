@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-03 01:46+0000\n"
+"PO-Revision-Date: 2017-11-06 13:46+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -10991,10 +10991,13 @@ msgid ""
 "ered how to code our beats. In this tutorial we'll cover how to code up the th"
 "ree core components of a synth riff - the timbre, melody and rhythm."
 msgstr ""
-"Im der letzten Einheit dieses Tutorials haben wir gelernt, wie man Klänge "
-"erzeugt. Jetzt werden wir uns damit beschäftigen, wie wir die drei "
-"Hauptkomponenten eines Synth Riffs - Klangfarbe, Melodie und Rhythmus - "
-"coden können."
+"Ob polterndere Oszillatoren oder die verstimmten Klänge von "
+"Sägezahnschwingungen, die sich durch ein Stück ziehen, der Lead Synth - der "
+"melodische Hauptpart eines Stücks - spielt in jeder elektronischen "
+"Komposition eine wichtige Rolle. Im der letzten Einheit dieses Tutorials "
+"haben wir gelernt, wie man Klänge erzeugt. Jetzt werden wir uns damit "
+"beschäftigen, wie wir die drei Hauptkomponenten eines Synth Riffs - "
+"Klangfarbe, Melodie und Rhythmus - coden können."
 
 #: A.04-synth-riffs.md:12
 msgid ""
@@ -11117,6 +11120,10 @@ msgid ""
 "lay. If you already have a good idea, then you can simply create a ring with y"
 "our notes in and tick through them:"
 msgstr ""
+"Ein anderer wichtiger Aspekt in der Zusammenstellung unseres Leas Synths ist "
+"die Wahl der Noten, die gespielt werden sollen. Wenn du bereits eine Idee "
+"dafür hast, kannst du einfach einen Ring erstellen, der über die gewünschte "
+"Notenfolge iteriert:"
 
 #: A.04-synth-riffs.md:71
 #, no-wrap
@@ -11141,6 +11148,10 @@ msgid ""
 ":e3` and rests represented by `:r`. We're then using `.tick` to cycle through "
 "each note to give us a repeating riff."
 msgstr ""
+"Hier haben wir unsere Melodie über einen Ring definiert, der sich aus Noten "
+"wie `:e3` und Pausen - dargestellt durch `:r`- zusammensetzt. Wir nutzen "
+"`.tick` um über die Notenfolge zu iterieren und so einen sich wiederholenden "
+"Riff zu erzeugen."
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
@@ -11153,6 +11164,11 @@ msgid ""
 "ne you like the best. To do that we need to combine three things: rings, rando"
 "misation and random seeds. Let's look at an example:"
 msgstr ""
+"Es ist nicht leicht von Grund auf einen schönen Riff zu erzeugen. Statt "
+"dessen ist es oft hilfreich sich von Sonic Pi eine Auswahl von zufälligen "
+"Riffs ausgeben zu lassen und einen von diesen auszuwählen. Um das zu tun, "
+"verbinden wir drei bekannte Konzepte miteinander: Ringe, Randomisierung und "
+"zufällige Startwerte. Schauen wir uns ein Beispiel an:"
 
 #: A.04-synth-riffs.md:91
 #, no-wrap
@@ -11390,6 +11406,10 @@ msgid ""
 "fter another, repeating when we get to the end. Let's create a live loop that "
 "does exactly that:"
 msgstr ""
+"Lass uns zunächst einen live Arpeggiator bauen. In unserer letzten Tutorial "
+"Einheit haben wir gelernt, dass Riffs durch Ringe von Noten, die wir nach "
+"einander in einer sich wiederholenden Schleife wiedergeben, repräsentiert "
+"werden können. Lass uns einen Live-Loop schreiben, der das gleiche macht:"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
@@ -11438,6 +11458,14 @@ msgid ""
 "t will be `:e2`, followed by `:e3`, and then back to `:e1`, cycling round fore"
 "ver."
 msgstr ""
+"In der dritten Zeile erstellen wir unseren Riff - einen Ring aus Noten (E in "
+"den Oktaven 1, 2, und 3), der diese mit Hilfe eines `.tick`s in Schleife "
+"durchläuft. Wir definieren `n` als die aktuelle Note in unserem Riff. Das "
+"Gleichheitszeichen hier bedeutet, dass wir den Wert auf der rechten Seite "
+"der Bezeichnung auf der linken Seite zuzuweisen. In jedem Durchlauf unseres "
+"Loops hat `n`also ein anderer Wert. Im ersten Durchlauf wird `n` auf `:e1` "
+"gesetzt. Im zweiten Durchlauf wird es auf `:e2`, gefolgt von `:e3` und dann "
+"wieder auf `:e1` usw. gesetzt."
 
 #: A.05-acid-bass.md:70
 msgid ""
@@ -11454,8 +11482,8 @@ msgid ""
 "Line five is our `sleep` - we're asking the live loop to loop round every `0.1"
 "25`s or 8 times a second at the default BPM of 60."
 msgstr ""
-"Zeile fünf repräsentiert unsere Pause - wir lassen unseren Live-Loop alle "
-"`0.125`s in Schleife laufen oder 8 mal eine Sekunde bei einem BPM von 60."
+"In Zeile fünf machen wir eine Pause - wir geben unserem Live-Loop vor sich "
+"alle `0.125`s (oder 8 mal pro Sekunde bei einem BPM von 60) zu wiederholen."
 
 #: A.05-acid-bass.md:77
 msgid ""
@@ -11463,7 +11491,7 @@ msgid ""
 " of the live loop is."
 msgstr ""
 "Zeile sechs markiert das Ende (`end`) des Live-Loops. Sie teilt Sonic Pi nur "
-"mit, wo der Live-Loops zu Ende ist."
+"mit, wo die zu wiederholende Sequenz zu Ende ist."
 
 #: A.05-acid-bass.md:80
 msgid ""
@@ -11515,6 +11543,8 @@ msgid ""
 "The design of the original TB-303 is actually pretty simple. As you can see fr"
 "om the following diagram there's only 4 core parts."
 msgstr ""
+"Der Aufbau des originalen TB-303 ist eigentlich ganz einfach. Wie man dem "
+"folgenden Diagramm entnehmen kann, gibt es nur vier Hauptbestandteile."
 
 #: A.05-acid-bass.md:113
 msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
@@ -11632,11 +11662,11 @@ msgstr ""
 
 #: A.06-minecraft.md:1
 msgid "A.6 Musical Minecraft"
-msgstr ""
+msgstr "A.6 Musisches Minecraft"
 
 #: A.06-minecraft.md:3
 msgid "Musical Minecraft"
-msgstr ""
+msgstr "Musisches Minecraft"
 
 #: A.06-minecraft.md:7
 msgid ""
@@ -11644,22 +11674,26 @@ msgid ""
 " music possibilities of Sonic Pi - (turning your Raspberry Pi into a performan"
 "ce ready musical instrument). So far we've learned how to:"
 msgstr ""
+"Hallo und willkommen zurück! In den zurückliegenden Tutorialeinheiten haben "
+"wir uns ausschließlich auf die musikalischen Möglichkeiten von Sonic Pi "
+"konzentriert (um unseren Raspberry Pi in ein konzertfähiges Musikinstrument "
+"zu verwandeln). Bisher haben wir gelernt wie man:"
 
 #: A.06-minecraft.md:11
 msgid "Live Code - changing the sounds on-the-fly,"
-msgstr ""
+msgstr "Live-Coded - Klänge live improvisieren,"
 
 #: A.06-minecraft.md:12
 msgid "Code some huge beats,"
-msgstr ""
+msgstr "gigantische Beats komponiert,"
 
 #: A.06-minecraft.md:13
 msgid "Generate powerful synth leads,"
-msgstr ""
+msgstr "mächtige Lead Synths generiert,"
 
 #: A.06-minecraft.md:14
 msgid "Re-create the famous TB-303 acid-bass sound."
-msgstr ""
+msgstr "und den bekannten TB-303 Acid Bass nachbaut."
 
 #: A.06-minecraft.md:16
 msgid ""
@@ -11670,7 +11704,7 @@ msgstr ""
 
 #: A.06-minecraft.md:20
 msgid "Hello Minecraft World"
-msgstr ""
+msgstr "Hello Minecraft World"
 
 #: A.06-minecraft.md:22
 msgid ""
