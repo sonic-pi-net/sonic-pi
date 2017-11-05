@@ -171,10 +171,10 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
-        <translation type="unfinished">라즈베리파이는 두 가지 방법으로 오디오를 출력할 수 있습니다.
-첫번째 방법은 라즈베리파이 자체에 있는 헤드폰 단자를 이용하는 것입니다.
-두번째 방법은 몇몇 HDMI 모니터/TV는 HDMI포트를 이용한 오디오 출력을 지원하는데, 이것을 이용하는 것입니다.
-이 버튼들을 이용하여 여러분이 원하는 출력방식으로 설정하세요.</translation>
+        <translation>라즈베리파이는 두 가지 방법으로 오디오를 출력할 수 있습니다.
+첫번째는 라즈베리파이 자체에 있는 헤드폰 출력단자를 이용하는 것입니다.
+두번째는 몇몇 HDMI 모니터/TV들은 HDMI포트를 통한 오디오 출력을 지원합니다.
+이 버튼들을 사용하여 여러분이 원하는 출력방식을 설정하세요</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1394"/>
