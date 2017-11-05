@@ -11,14 +11,14 @@
     <message>
         <location filename="../mainwindow.cpp" line="678"/>
         <source>Log</source>
-        <translation>기록</translation>
+        <translation>로그</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="359"/>
         <location filename="../mainwindow.cpp" line="2913"/>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>Sonic Pi</source>
-        <translation>소닉 파이</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
@@ -146,19 +146,19 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>선택영역 들여쓰기...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>행 들여쓰기...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi로 연주하는 경우, 외부 PA 시스템을 위한 고급 오디오 설정</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1313"/>
@@ -171,7 +171,10 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">라즈베리파이는 두 가지 방법으로 오디오를 출력할 수 있습니다.
+첫번째 방법은 라즈베리파이 자체에 있는 헤드폰 단자를 이용하는 것입니다.
+두번째 방법은 몇몇 HDMI 모니터/TV는 HDMI포트를 이용한 오디오 출력을 지원하는데, 이것을 이용하는 것입니다.
+이 버튼들을 이용하여 여러분이 원하는 출력방식으로 설정하세요.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1394"/>
@@ -192,12 +195,12 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>행 번호 표시</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="468"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi 업데이트 정보</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
@@ -209,12 +212,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1342"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>기록</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>파형</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="948"/>
@@ -229,12 +232,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi 서버를 시작할 수 없습니다!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1305"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>스테레오 반전</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
@@ -272,7 +275,8 @@ However, they will not be visible in the logs.</source>
         <location filename="../mainwindow.cpp" line="1358"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">로그 자동스크롤 모드 켜기/끄기
+활성화 되면, 새로운 메시지가 표시될 때마다 로그 윈도우가 가장 아래쪽으로 스크롤 됩니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1365"/>
@@ -309,24 +313,26 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>투명도</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>자동업데이트 확인 켜기/끄기.
+체크하면 여러분의 플랫폼과 버전에 관한 익명의 정보를 보내게 됩니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1399"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>지금 확인하기</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>지금 업데이트가 있는지 확인합니다.
+체크하면 여러분의 플랫폼과 버전에 관한 익명의 정보를 보내게 됩니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
@@ -336,27 +342,27 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>새 버전을 다운로드 하려면 http://sonic-pi.net 에 들러주세요</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1407"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트 정보</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1426"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>표시</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1427"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>에디터 화면 옵션 설정.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>모양</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
@@ -371,32 +377,32 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>자동화 기능을 설정한다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>자동정렬</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>실행할 때 코드를 자동으로 정렬합니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>로그 표시</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>로그 창 켜기/끄기.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1443"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>버튼을 표시</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -416,35 +422,38 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>전체 화면</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1451"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>전체 화면 모드 켜기/끄기.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>다크 모드 켜기/끄기</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+다크 모드는 나이트 클럽에서 라이브 코딩할 때 엄청나게 좋습니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi 부트 에러
+
+죄송합니다. 부팅 중에 심각한 오류가 발생하였습니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1776"/>
@@ -463,13 +472,13 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>텍스트 파일</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruby 파일</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
@@ -490,17 +499,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>현재 버퍼의 코드를 실행</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2622"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>불러오기</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2623"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>현재 버퍼로 파일을 불러오기</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2804"/>
@@ -686,12 +695,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1301"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템 볼륨을 바꾸려면 슬라이더를 이용하세요.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1303"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 출력</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -701,7 +710,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>cue 로그 표시</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
@@ -837,27 +846,27 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2421"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 출력을 헤드폰으로 변경...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2437"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 출력을 HDMI로 변경...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2452"/>
         <source>Switching To Default Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 출력을 기본 설정으로 변경...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2617"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>현재 버퍼를 파일로 저장</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Start recording to WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>WAV 파일로 녹음을 시작합니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
@@ -877,17 +886,17 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 오실로스코프 창을 열기/닫기 </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>도움말 창을 열기/닫기</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>환경설정 창을 열기/닫기</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
@@ -897,49 +906,50 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>파일이 로드되었습니다...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>File saved...</source>
-        <translation>파일이 저장 되었습니다.</translation>
+        <translation>파일이 저장되었습니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3186"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 확인날짜 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi는 2주 간격으로 업데이트를 확인합니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3190"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3191"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>버전 %2를 이용하실 수 있습니다!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3195"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>새 버전을 이용하실 수 있습니다!
+Sonic Pi %1을 받으세요</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>연결된 MIDI 입력</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>연결된 MIDI 출력</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2606"/>
@@ -959,7 +969,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2616"/>
         <source>Save As...</source>
-        <translation>다른 이름으로 저장</translation>
+        <translation>다른 이름으로 저장...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2655"/>
@@ -969,13 +979,13 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2656"/>
         <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi에 관한 정보를 봅니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
         <location filename="../mainwindow.cpp" line="2661"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>도움말</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1514"/>
@@ -995,7 +1005,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2668"/>
         <source>Prefs</source>
-        <translation type="unfinished"></translation>
+        <translation>환경설정</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2628"/>
@@ -1013,12 +1023,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2637"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>글자크기 확대</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>글자크기 축소</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
@@ -1053,7 +1063,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2735"/>
         <source>History</source>
-        <translation>역사</translation>
+        <translation>개발연혁</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
@@ -1140,7 +1150,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi가 실행 중인가요? UDP포트를 열 수가 없네요.</translation>
     </message>
 </context>
 </TS>
