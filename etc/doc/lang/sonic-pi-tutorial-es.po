@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-13 00:49+0000\n"
-"Last-Translator: LuPa <lupa@inventati.org>\n"
+"PO-Revision-Date: 2017-11-07 13:49+0000\n"
+"Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17-dev\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -16092,10 +16092,18 @@ msgid ""
 "u'll be able to setup and pack everything away incredibly quickly without havi"
 "ng to think about it."
 msgstr ""
+"Consejo de práctica nº 4 - montar tu equipo también forma parte de tu "
+"práctica. Por ejemplo, encuentra una caja o una bolsa donde puedas dejar tu "
+"Raspberry Pi, tu teclado, etc. Antes de cada sesión de práctica, saca todas "
+"las partes, conecta todo, enciende tu Raspberry Pi... así hasta que tengas "
+"Sonic Pi encendido y puedas hacer música. Cuando hayas acabado de tocar, "
+"tómate tu tiempo para guardar todo en su sitio. Esto te puede llevar algo de "
+"tiempo al principio, pero antes de que te des cuenta, serás capaz de montar "
+"y desmontar tu equipo muy rápido, sin pensar."
 
 #: A.16-practice.md:87
 msgid "Experiment Musically"
-msgstr ""
+msgstr "Experimenta Musicalmente"
 
 #: A.16-practice.md:89
 msgid ""
@@ -16108,6 +16116,13 @@ msgid ""
 "long time. It is much more important to be making sounds you don't like than n"
 "ot making any sounds at all."
 msgstr ""
+"Una vez hayas montado todo y estés list@ para empezar a tocar, puede que te "
+"cueste ver por dónde empezar. Un problema que suele tener la gente es que "
+"imaginan qué música quieren hacer pero no saben cómo tocarla, lo que les "
+"frustra. ¡Hay gente que no sabe qué música quiere hacer! En primer lugar, no "
+"te preocupes; es muy normal y le pasa a cualquier músic@ (incluso si llevan "
+"practicando mucho tiempo). Es mucho mejor hacer música que no te gusta "
+"exactamente, que no hacer música."
 
 #: A.16-practice.md:99
 msgid ""
@@ -16120,10 +16135,19 @@ msgid ""
 "mber the parts you do. This is even easier when you're making music with code "
 "- just hit save!"
 msgstr ""
+"Consejo de práctica nº 5 - dedica parte de tu tiempo a hacer música que no "
+"te guste. Tómate tu tiempo para explorar nuevos sonidos e ideas. No te "
+"preocupes porque pueda sonar mal si no es el estilo que te gusta. Cuando "
+"experimentas de esta forma, ¡aumentas la probabilidad de encontrarte con "
+"música que te encante! Aunque el 99% de la música que hagas suene mal, ese 1%"
+" restante puede ser el riff o la introducción de tu nueva canción. Olvídate "
+"de las partes que no te gusten, y recuerda las que sí te hayan gustado. "
+"Cuando haces música con código es todavía más fácil: ¡sólo tienes que darle "
+"a Guardar!"
 
 #: A.16-practice.md:110
 msgid "Hear the Code"
-msgstr ""
+msgstr "Escucha el Código"
 
 #: A.16-practice.md:112
 #, fuzzy
@@ -16151,10 +16175,19 @@ msgid ""
 "hy I was wrong. Each time this happens, I learn new tricks which allow me to e"
 "xpress myself in new ways."
 msgstr ""
+"Consejo de práctica nº 5 - escribe código en Sonic Pi, pero no le des "
+"todavía a Ejecutar. Intenta imaginarte qué va a sonar con ese código. Cuando "
+"lo tengas, dale a Ejecutar, escucha, y piensa en qué acertaste y en qué te "
+"equivocaste. Repite este proceso hasta que se convierta en una parte natural "
+"de tu proceso creativo. Yo cuando practico suelo tener una idea bastante "
+"clara de cómo va a sonar mi código. Sin embargo, hay veces en las que me "
+"sorprendo con lo que suena; en ese momento paro y pienso en dónde me he "
+"equivocado. Cada vez que pasa esto, aprendo nuevos trucos que me permiten "
+"expresarme de nuevas formas."
 
 #: A.16-practice.md:134
 msgid "Remove all distractions"
-msgstr ""
+msgstr "Elimina todas las distracciones"
 
 #: A.16-practice.md:136
 msgid ""
@@ -16166,6 +16199,12 @@ msgid ""
 "f practice, it's important to try and spend all that time being as productive "
 "as possible."
 msgstr ""
+"Un problema muy común al practicar es distraerte con otras cosas. Practicar "
+"es duro y requiere disciplina, da igual el estilo que toques - desde jazz "
+"hasta clásica o electrónica. Si te cuesta empezar a tocar o progresar con lo "
+"que tienes, es fácil que te pongas a ver las redes sociales, que mires cosas "
+"en Internet, etc. Si te has planificado para practicar 20 minutos, es "
+"importante que intentes dedicar ese tiempo de forma productiva."
 
 #: A.16-practice.md:144
 msgid ""
@@ -16175,10 +16214,15 @@ msgid ""
 "d. Try to focus on coding music and you can return to your distractions when y"
 "ou've finished."
 msgstr ""
+"Consejo de práctica nº 7 - antes de empezar a practicar, intenta deshacerte "
+"de todas las distracciones que puedas. Por ejemplo, desconéctate de "
+"Internet, deja tu móvil en otro cuarto, e intenta practicar en un sitio en "
+"silencio, donde no te vayan a molestar. Intenta concentrarte en escribir tu "
+"música; siempre puedes a tus distracciones cuando acabes."
 
 #: A.16-practice.md:151
 msgid "Keep a practice diary"
-msgstr ""
+msgstr "Escribe un diario de práctica"
 
 #: A.16-practice.md:153
 msgid ""
@@ -16187,6 +16231,11 @@ msgid ""
 "etc. These ideas are often so interesting that you might stop what you're doin"
 "g and start working on the idea. This is another form of distraction!"
 msgstr ""
+"Cuando practiques, tu mente estará llena de ideas nuevas: nuevas direcciones "
+"en tu estilo musical, nuevos sonidos que quieres probar, nuevas funciones "
+"para escribir, etc. Estas ideas suelen ser tan interesantes que puede que "
+"dejes de hacer lo que estés haciendo, para ponerte a trabajar en esas ideas. "
+"¡Esta es otra forma de distracción!"
 
 #: A.16-practice.md:159
 msgid ""
@@ -16196,6 +16245,11 @@ msgid ""
 "lity time thinking about and working on your ideas after you've finished pract"
 "icing."
 msgstr ""
+"Consejo de práctica nº 8 - escribe un diario de práctica con tu teclado. "
+"Cuando tengas una nueva idea, para tu sesión de práctica unos segundos, "
+"escribe la idea rápidamente, y olvídate de ella y sigue practicando. Así "
+"puedes dedicar tiempo más tarde para pensar en tus ideas, cuando hayas "
+"acabado de practicar."
 
 #: A.16-practice.md:168
 msgid ""
@@ -16205,6 +16259,12 @@ msgid ""
 " all be worth it once you've created your first piece or given your first perf"
 "ormance. Remember, practice is the key to success!"
 msgstr ""
+"Intenta establecer una rutina de práctica que incorpore todas las ideas "
+"nuevas que puedas. Intenta que las sesiones sean divertidas, pero ten en "
+"cuenta que la práctica puede ser dura y requerir bastante trabajo en "
+"ocasiones. Sin embargo, todo esto merecerá la pena cuando hayas creado tu "
+"primera pieza, o cuando hayas tocado tu primer concierto. Recuerda, ¡la "
+"práctica es la clave del éxito!"
 
 #: A.17-sample-stretching.md:1
 #, fuzzy
@@ -16227,6 +16287,14 @@ msgid ""
 " sounds. So, fire up a copy of Sonic Pi and let's get started stretching some "
 "samples!"
 msgstr ""
+"Cuando la gente descubre Sonic Pi, una de las primeras cosas que aprenden es "
+"lo fácil que resulta tocar sonidos pre-grabados usando la función `sample`. "
+"Por ejemplo, puedes tocar un loop de batería con sonido de tecno industrial, "
+"escuchar el sonido de un coro, o incluso oír un tocadiscos... todo con una "
+"sola línea de código. Sin embargo, mucha gente no se da cuenta de que puedes "
+"cambiar la velocidad del sample que estás tocando, consiguiendo efectos muy "
+"chulos y un logrando un nuevo nivel de control de tus sonidos grabados. "
+"Ahora, abre Sonic Pi y, ¡vamos a estirar samples!"
 
 #: A.17-sample-stretching.md:14
 #, fuzzy
@@ -16236,6 +16304,8 @@ msgstr "Sampleos"
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
 msgstr ""
+"Para cambiar la velocidad a la que suena un sample (playback rate), usamos "
+"la opción `rate:`:"
 
 #: A.17-sample-stretching.md:18
 #, no-wrap
@@ -16248,6 +16318,9 @@ msgid ""
 "If we specify a `rate:` of `1` then the sample is played back at the normal ra"
 "te. If we want to play it back at half speed we simply use a `rate:` of `0.5`:"
 msgstr ""
+"Si escribimos un `rate:` de `1`, el sample suena a la velocidad normal. Si "
+"queremos tocarlo a la mitad de velocidad, sólo tenemos que usar un `rate:` "
+"de `0.5`:"
 
 #: A.17-sample-stretching.md:27
 #, fuzzy
@@ -16271,6 +16344,10 @@ msgid ""
 "op this time. First, take a listen to how it sounds at the default rate of `1`"
 ":"
 msgstr ""
+"Además de hacer el sonido más largo y más grave usando una velocidad baja, "
+"podemos usar velocidades altas para hacer el sonido más corto y más agudo. "
+"Ahora vamos a tocar con un loop de batería. Primero, escucha cómo suena con "
+"la velocidad por defecto de `1`:"
 
 #: A.17-sample-stretching.md:41
 #, no-wrap
@@ -16279,7 +16356,7 @@ msgstr "sample :loop_amen, rate: 1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
-msgstr ""
+msgstr "Ahora, vamos a acelerarlo un poco:"
 
 #: A.17-sample-stretching.md:48
 msgid ""
@@ -16289,10 +16366,15 @@ msgid ""
 "oop. For example, if you use a rate of `100`, the drum loop turns into a click"
 "!"
 msgstr ""
+"¡Ja! Acabamos de pasar de tecno de la vieja escuela al jungle. Fíjate en "
+"cómo aumenta la altura de cada nota, y también en cómo se acelera el ritmo. "
+"Ahora, prueba con velocidades todavía más altas, y averigua cómo de alto y "
+"de corto puedes hacer el loop de batería. Por ejemplo, si usas una velocidad "
+"de `100`, ¡el loop se convierte en un click!"
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
-msgstr ""
+msgstr "Al Revés"
 
 #: A.17-sample-stretching.md:56
 msgid ""
@@ -16303,20 +16385,27 @@ msgid ""
 " speed, `-1` must mean backwards! Let's try it on a snare. First, play it back"
 " at the normal rate:"
 msgstr ""
+"Seguro que much@s estáis pensando en lo mismo ahora... \"¿y qué pasa si usas "
+"un número negativo para la velocidad? ¡Muy buena pregunta! Vamos a pensar un "
+"momento. Si nuestra opt `rate:` representa la velocidad a la que se "
+"reproduce nuestro sample, `1` es velocidad normal, `2` es el doble de "
+"velocidad, y `0.5` es la mitad de velocidad, entonces, ¡con `-1` debe sonar "
+"al revés! Vamos a probar con una caja de batería. Primero, toca el sample a "
+"la velocidad normal:"
 
 #: A.17-sample-stretching.md:63
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :elec_filt_snare, rate: 1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: 1"
 
 #: A.17-sample-stretching.md:65
 msgid "Now, play it backwards:"
 msgstr "Ahora, ejecutado al revés:"
 
 #: A.17-sample-stretching.md:67
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :elec_filt_snare, rate: -1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: -1"
 
 #: A.17-sample-stretching.md:69
 msgid ""
@@ -16325,6 +16414,10 @@ msgid ""
 "ative rates and have fun. It's particularly amusing with the `:misc_burp` samp"
 "le!"
 msgstr ""
+"Por supuesto, puedes tocarlo al revés y al doble de velocidad con una "
+"velocidad de `-2`, o puedes tocarlo al revés a la mitad de velocidad con un "
+"`rate:` de `-0.5`. Prueba con distintos valores negativos y diviértete. ¡"
+"Suena especialmente curioso con el sample `:misc_burp`!"
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch [Sidebar]"
