@@ -341,7 +341,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Get update</source>
-        <translation>Λάβετε ενημέρωση</translation>
+        <translation>Λάβετε αναβάθμιση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
@@ -575,7 +575,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Δίκτυο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1180"/>
@@ -622,7 +622,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>ΜΙDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1226"/>
