@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-07 13:49+0000\n"
+"PO-Revision-Date: 2017-11-10 13:27+0000\n"
 "Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -16421,7 +16421,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch [Sidebar]"
-msgstr ""
+msgstr "Sample, Velocidad y Altura [Barra lateral]"
 
 #: A.17-sample-stretching.md:77
 msgid ""
@@ -16441,6 +16441,12 @@ msgid ""
 "igure C. Notice that the waves of higher notes are more compact and the waves "
 "of lower notes are more spread out."
 msgstr ""
+"Veamos un pitido sencillo (beep) representado con una onda de seno. Si "
+"usamos un osciloscopio para generar una gráfica del  beep, veremos algo "
+"parecido a la Figura A. Si dibujamos un beep una octava más agudo, veremos "
+"la Figura B, y con una octava más se vería como en la Figura C. Fíjate en "
+"que las ondas de notas más agudas son más compactas, y que las notas más "
+"graves están más separadas."
 
 #: A.17-sample-stretching.md:91
 msgid ""
