@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-06 05:45+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-11-11 07:11+0000\n"
+"Last-Translator: Arnaud BOS <arnaud.tlse@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -16347,7 +16347,6 @@ msgstr ""
 "nous utilisons tout simplement un `rate:` de `0.5` :"
 
 #: A.17-sample-stretching.md:27
-#, fuzzy
 msgid ""
 "Notice that this has two effects on the audio. Firstly the sample sounds lower"
 " in pitch and secondly it takes twice as long to play back (see the sidebar fo"
@@ -16355,7 +16354,14 @@ msgid ""
 "rates moving towards `0`, so a `rate:` of `0.25` is a quarter speed, `0.1` is "
 "a tenth of the speed, etc. Try playing with some low rates and see if you can "
 "turn the sound into a low rumble."
-msgstr "Choix (\"choose\")"
+msgstr ""
+"Notez comme cela a deux effets sur l'audio. Premièrement l'échantillon sonne "
+"plus bas et deuxièmement il prend deux fois plus de temps à jouer (voir la "
+"barre latérale pour une explication). Nous pouvons même choisir des vitesses "
+"de plus en plus basses jusqu'à `0`, donc un `rate:` de `0.25` est un quart "
+"de la vitesse, `0.1` un dixième de la vitesse, etc. Essayez de jouer avec "
+"des vitesses lentes et de voir si vous pouvez transformer le son en un "
+"grondement."
 
 #: A.17-sample-stretching.md:34
 #, fuzzy
@@ -16382,7 +16388,7 @@ msgstr "sample :loop_amen, rate: -1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
-msgstr "Maintenant, accélérons les choses un peu :"
+msgstr "Maintenant, accélérons un peu les choses :"
 
 #: A.17-sample-stretching.md:48
 msgid ""
@@ -16406,6 +16412,13 @@ msgid ""
 " speed, `-1` must mean backwards! Let's try it on a snare. First, play it back"
 " at the normal rate:"
 msgstr ""
+"A présent, je suis sûr que beaucoup d'entre vous pensent la même chose... \""
+"qu'est-ce qu'il se passe si j'utilise une valeur négative pour la vitesse ?\""
+". Excellente question ! Réfléchissons-y un court instant. Si notre `rate:` "
+"désigne la vitesse à laquelle l'échantillon est joué, `1` étant la vitesse "
+"normale, `2` étant deux fois plus rapide, `0.5` étant deux fois plus lent, "
+"`-1` doit vouloir dire à l'envers ! Essayons ça sur une caisse claire. Pour "
+"commencer, rejouez à la vitesse normale :"
 
 #: A.17-sample-stretching.md:63
 #, no-wrap
@@ -16413,9 +16426,8 @@ msgid "sample :elec_filt_snare, rate: 1"
 msgstr "sample :elec_filt_snare, rate: 1"
 
 #: A.17-sample-stretching.md:65
-#, fuzzy
 msgid "Now, play it backwards:"
-msgstr "Cool ! Ça joue à l'envers !"
+msgstr "Maintenant, jouez le à l'envers :"
 
 #: A.17-sample-stretching.md:67
 #, no-wrap
@@ -16429,10 +16441,14 @@ msgid ""
 "ative rates and have fun. It's particularly amusing with the `:misc_burp` samp"
 "le!"
 msgstr ""
+"Bien entendu, vous pouvez le jouer à l'envers deux fois plus vite avec un "
+"`rate:` de `-2` ou à l'envers deux fois plus lentement avec un `rate:` de "
+"`-0.5`. Maintenant, amusez-vous à jouer avec différentes valeurs négatives. "
+"C'est particulièrement amusant avec l'échantillon `:misc_burp` !"
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch [Sidebar]"
-msgstr ""
+msgstr "Échantillon, Vitesse et Hauteur [Sidebar]"
 
 #: A.17-sample-stretching.md:77
 msgid ""
@@ -16443,6 +16459,14 @@ msgid ""
 " - as you're heading towards the sound source the pitch is higher than when yo"
 "u're moving away from the sound - the so-called Doppler effect. Why is this?"
 msgstr ""
+"L'un des effets de la modification de la vitesse sur les échantillons est "
+"que plus la vitesse est importante plus l'échantillon sonne aiguë, et plus "
+"la vitesse est basse plus l'échantillon sonne grave. Un autre endroit où "
+"vous avez pu entendre cet effet est dans la vie de tous les jours lorsque "
+"vous faites du vélo ou que vous passez prés d'un passage piéton qui émet un "
+"bip sonore - lorsque vous vous approchez de la source sonore le son est plus "
+"aiguë que lorsque vous vous en éloignez - c'est ce que l'on appel d'effet "
+"Doppler. Pourquoi cela ?"
 
 #: A.17-sample-stretching.md:85
 msgid ""
