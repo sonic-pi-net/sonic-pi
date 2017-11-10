@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-10 18:34+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2017-11-11 19:49+0000\n"
+"Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -16470,6 +16470,17 @@ msgid ""
 "beep. It will also make the beep shorter as we will work through all the circl"
 "es faster. This is shown in Figure E."
 msgstr ""
+"El sample de un beep sólo es un montón de números (coordenadas x,y) que "
+"dibujan las curvas originales del sonido que se grabó. Mira la Figura D, "
+"donde cada círculo representa una coordenada. Para convertir las coordenadas "
+"a audio, el ordenador coge cada valor x y le envía su correspondiente valor "
+"y a los altavoces. El truco está en que el ordenador no tiene por qué "
+"procesar los valores de x y guardarlos al mismo tiempo. O sea, el hueco (la "
+"cantidad de tiempo) entre cada círculo se puede estirar o comprimir. Si el "
+"ordenador lee los valores de x más rápido que como sonaban en la vida real, "
+"los círculos se harán más pequeños y el beep sonará más agudo. También hará "
+"el beep más corto, porque pasamos por los círculos más rápido. Puedes ver "
+"este efecto en la Figura E."
 
 #: A.17-sample-stretching.md:105
 msgid ""
@@ -16479,10 +16490,16 @@ msgid ""
 "tching and compressing many sine waves all at the same time in exactly this ma"
 "nner."
 msgstr ""
+"Por último, tal vez te interese saber que un matemático llamado Fourier "
+"demostró que cualquier sonido es en realidad muchas ondas de seno juntas. "
+"Por eso, cuando comprimimos y estiramos cualquier sonido grabado, lo que "
+"estamos haciendo en realidad es comprimir y estirar muchas ondas de seno al "
+"mismo tiempo."
 
 #: A.17-sample-stretching.md:111
+#, fuzzy
 msgid "Pitch Bending"
-msgstr ""
+msgstr "Pitch Bending"
 
 #: A.17-sample-stretching.md:113
 msgid ""
@@ -16493,14 +16510,24 @@ msgid ""
 "ower. This means that for melodic samples, playing it alongside itself at doub"
 "le/half rates actually sounds rather nice:"
 msgstr ""
+"Hemos visto que con una velocidad (rate) más alta, el sonido suena más agudo;"
+" y que con una velocidad más baja, el sonido suena más grave. Hay un truco "
+"muy fácil y útil que tiene que ver con esto. Cuando duplicas la velocidad, "
+"el sonido suena una octava más alto; y al revés, si divides la velocidad por "
+"dos, el sonido suena una octava más bajo. Esto quiere decir que si duplicas /"
+" divides por dos la velocidad de un sample melódico, va a seguir sonando "
+"bastante bien:"
 
 #: A.17-sample-stretching.md:121
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :bass_trance_c, rate: 1\n"
 "sample :bass_trance_c, rate: 2\n"
 "sample :bass_trance_c, rate: 0.5"
 msgstr ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
 
 #: A.17-sample-stretching.md:125
 msgid ""
@@ -16508,14 +16535,20 @@ msgid ""
 "e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
 "itch:` opt:"
 msgstr ""
+"Pero, ¿y si queremos cambiar el rate para que el sample sólo suene un "
+"semitono (una tecla más arriba en el piano) más agudo, en vez de una octava "
+"entera? Podemos hacerlo fácilmente con Sonic Pi usando la opción `rpich:`:"
 
 #: A.17-sample-stretching.md:129
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :bass_trance_c\n"
 "sample :bass_trance_c, rpitch: 3\n"
 "sample :bass_trance_c, rpitch: 7"
 msgstr ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
 
 #: A.17-sample-stretching.md:133
 msgid ""
@@ -16524,9 +16557,13 @@ msgid ""
 "onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
 " opts:"
 msgstr ""
+"Si miras los mensajes del registro (log) a la derecha, verás que un `rpitch:`"
+" de `3` se corresponde con un rate de `1.1892`, y un `rpitch` de `7` se "
+"corresponde con un rate de `1.4983`. Por último, podemos combinar los opts "
+"`rate:` y `rpitch:`:"
 
 #: A.17-sample-stretching.md:138
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :ambi_choir, rate: 0.25, rpitch: 3\n"
 "sleep 3\n"
@@ -16536,6 +16573,13 @@ msgid ""
 "sleep 1\n"
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 msgstr ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:149
 msgid ""
@@ -16545,6 +16589,12 @@ msgid ""
 " playback rate of samples. As an added exercise try recording your own sounds "
 "and play around with the rate to see what crazy sounds you can make."
 msgstr ""
+"Vamos a echarle un vistazo a una pieza sencilla que combina estas ideas. "
+"Cópiala en un búfer vacío de Sonic Pi, dale a Ejecutar, escúchala un rato y "
+"úsala para empezar tu propia pieza. ¿Has visto qué divertido es jugar con el "
+"rate de los samples? Y aquí tienes un ejercicio extra: prueba a grabar tus "
+"propios sonidos y a cambiar la velocidad de reproducción para ver qué "
+"sonidos locos puedes hacer."
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
@@ -16570,11 +16620,11 @@ msgstr "sample :guit_em9"
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
-msgstr ""
+msgstr "A.18 Diseño Sonoro - Síntesis Aditiva"
 
 #: A.18-additive-synthesis.md:3
 msgid "Additive Synthesis"
-msgstr ""
+msgstr "Síntesis Aditiva"
 
 #: A.18-additive-synthesis.md:5
 msgid ""
@@ -16591,32 +16641,47 @@ msgid ""
 "for a given pipe 'added it to the mix' making the sound richer and more comple"
 "x. Now, let's see how we can pull out all the stops with Sonic Pi."
 msgstr ""
+"Esta es la primera parte de una miniserie de artículos donde veremos cómo "
+"usar Sonic Pi para hacer diseño sonoro. Haremos un recorrido por las "
+"distintas técnicas que tienes para fabricar tu propio sonido. La primera "
+"técnica que vamos a ver se llama *síntesis aditiva*. Puede sonarte "
+"complicado, pero el significado se entiende muy fácil si vemos cada palabra "
+"por separado. Primero, aditivo significa combinar cosas; segundo, síntesis "
+"significa crear sonido. Por tanto, síntesis aditiva no es más que *combinar "
+"sonidos que tienes para crear sonidos nuevos*. Esta técnica de síntesis se "
+"usa desde hace mucho tiempo; por ejemplo, los órganos de la edad media "
+"tienen un montón de tubos con sonidos muy variados, que puedes controlar con "
+"unas palancas. Si tiras de la palanca de un tubo, lo estás 'añadiendo a la "
+"mezcla', haciendo el sonido mucho más rico y complejo. Vamos a ver ahora "
+"cómo podemos tirar de todas las palancas en Sonic Pi."
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
-msgstr ""
+msgstr "Combinaciones Sencillas"
 
 #: A.18-additive-synthesis.md:23
 msgid ""
 "Let's start with the most basic sound there is - the humble pure-toned sine wa"
 "ve:"
-msgstr ""
+msgstr "Empecemos con el sonido más sencillo - la humilde y pura onda de seno:"
 
 #: A.18-additive-synthesis.md:26
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "synth :sine, note: :d3"
-msgstr ""
+msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
-msgstr ""
+msgstr "Ahora, veamos cómo estos sonidos se combinan con una onda cuadrada:"
 
 #: A.18-additive-synthesis.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "synth :sine, note: :d3\n"
 "synth :square, note: :d3"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
 
 #: A.18-additive-synthesis.md:37
 msgid ""
