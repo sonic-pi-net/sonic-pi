@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-10 19:46+0000\n"
+"PO-Revision-Date: 2017-11-12 18:46+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -11583,12 +11583,19 @@ msgid ""
 "his is the choice of source oscillator. The default is `0` which is a sawtooth"
 " wave. `1` is a pulse wave and `2` is a triangle wave."
 msgstr ""
+"Ändere zum Schluss die `wave:` Option auf `1`, um einen großen Einfluss auf "
+"die Klangfarbe zu nehmen. Dies legt die Art der Schwingungserzeugung fest. "
+"Der Standard ist mit `0` eine Sägezahnschwingung. `1` steht für eine "
+"Pulswelle und `2`für eine Dreiecksschwingung."
 
 #: A.05-acid-bass.md:104
 msgid ""
 "Of course, try different riffs by changing the notes in the ring or even picki"
 "ng notes from scales or chords. Have fun with your first acid bass synth."
 msgstr ""
+"Versuche natürlich auch verschiedene Riffs zu erzeugen, indem du die Noten "
+"im Ring änderst oder sogar Noten aus Skalen oder Akkorden auswählst. Viel "
+"Spaß mit deinem ersten Acid Bass Synth."
 
 #: A.05-acid-bass.md:108
 msgid "Deconstructing the TB-303"
