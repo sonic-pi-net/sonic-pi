@@ -1156,7 +1156,7 @@ Sonic Pi %1을 받으세요</translation>
     <message>
         <location filename="../main.cpp" line="47"/>
         <source>Sonic Pi</source>
-        <translation>Sonic Pi(소닉 파이)</translation>
+        <translation>Sonic Pi - 소닉 파이</translation>
     </message>
 </context>
 <context>
