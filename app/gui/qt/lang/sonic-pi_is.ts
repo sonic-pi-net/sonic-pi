@@ -55,14 +55,17 @@
         <location filename="../mainwindow.cpp" line="1304"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Flóknari hljóðstillingar sem notast með ytri\nhljóðkerfum þegar komið er fram með Sonic Pi.</translation>
+        <translation>Flóknari hljóðstillingar sem notast með ytri
+hljóðkerfum þegar komið er fram með Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>Breyta viðsnúnum víðóm.\nEf virkjað þá er hljóð ætlað í vinstri hátalara\nsent í hægri hátalara og öfugt.</translation>
+        <translation>Breyta viðsnúnum víðóm.
+Ef virkjað þá er hljóð ætlað í vinstri hátalara
+sent í hægri hátalara og öfugt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1309"/>
@@ -71,7 +74,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Breyta einóma ham.\nEf virkjað þá er hægri og vinstri hljóðrás blandað og\nsama merki sent í báða hátalara.\nGagnlegt þegar unnið er með ytri hljóðkerfi\nsem höndla bara einóm.</translation>
+        <translation>Breyta einóma ham.
+Ef virkjað þá er hægri og vinstri hljóðrás blandað og
+sama merki sent í báða hátalara.
+Gagnlegt þegar unnið er með ytri hljóðkerfi
+sem höndla bara einóm.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
