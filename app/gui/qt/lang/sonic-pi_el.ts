@@ -1107,7 +1107,7 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="913"/>
         <location filename="../ruby_help.h" line="995"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Διδακτικό υλικό</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1029"/>
