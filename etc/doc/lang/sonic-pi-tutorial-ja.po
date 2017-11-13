@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-05 18:15+0000\n"
+"PO-Revision-Date: 2017-11-13 08:30+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -14275,7 +14275,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch [Sidebar]"
-msgstr ""
+msgstr "サンプルとレートとピッチ [サイドバー]"
 
 #: A.17-sample-stretching.md:77
 msgid ""
@@ -14565,12 +14565,11 @@ msgid ""
 msgstr ""
 
 #: A.18-additive-synthesis.md:87
-#, fuzzy
 msgid ""
 "Some of the built-in synths already include a detune option that do exactly th"
 "is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
 "`:dtri`."
-msgstr "`:dsaw`"
+msgstr ""
 
 #: A.18-additive-synthesis.md:92
 #, fuzzy
