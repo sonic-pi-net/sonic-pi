@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-12 18:46+0000\n"
+"PO-Revision-Date: 2017-11-13 08:30+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -11664,6 +11664,9 @@ msgid ""
 "Notice that I've passed everything through a `:reverb` FX for extra atmosphere"
 " - try other FX to see what works!"
 msgstr ""
+"Beobachte, dass wir, um etwas mehr Stimmung zu erzeugen, alles durch einen "
+"`:reverb` FX schicken - probiere ein paar andere Effekte aus und schaue "
+"welche hier gut passen!"
 
 #: A.05-acid-bass.md:149
 msgid ""
@@ -11671,6 +11674,11 @@ msgid ""
 "nto an empty buffer, listen for a while and then start live coding your own ch"
 "anges. See what crazy sounds you can make with it! See you next time..."
 msgstr ""
+"Zum Schluss gibt es ein Beispiel, das ich mit Hilfe der Konzepte aus diesem "
+"Tutorial komponiert habe. Kopiere den Code in einen leeren Buffer, höre es "
+"dir ein Weil lang an und dann versuche deine eigenen Änderungen live zu "
+"coden. Überzeuge dich davon, was für verrückte Klänge du erzeugen kannst! "
+"Bis zum nächste Mal..."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
