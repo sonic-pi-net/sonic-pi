@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-13 08:30+0000\n"
+"PO-Revision-Date: 2017-11-14 13:46+0000\n"
 "Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -11772,6 +11772,10 @@ msgid ""
 "owever, this month, let's look at something Sonic Pi can do that you probably "
 "didn't realise: control Minecraft."
 msgstr ""
+"Es gibt noch so viel Dinge, die ich Dir zeigen kann (was ich in zukünftigen "
+"Tutorialeinheiten auch machen werden). In diesem Monat werfen wir allerdings "
+"einen Blick auf etwas, das Du von Sonic Pi wahrscheinlich nicht erwartet "
+"hast: Minecraft kontrollieren."
 
 #: A.06-minecraft.md:20
 msgid "Hello Minecraft World"
@@ -11783,10 +11787,14 @@ msgid ""
 "ate a new world. Now start up Sonic Pi and re-size and move your windows so yo"
 "u can see both Sonic Pi and Minecraft Pi at the same time."
 msgstr ""
+"OK, lass uns loslegen. Fahre deinen Raspberry Pi hoch, werfe Minecraft Pi an "
+"und erstelle eine neue Welt. Starte nun Sonic Pi und verändere die Größe "
+"deiner Fenster so, dass du sowohl Sonic Pi als auch Minecraft Pi auf deinem "
+"Bildschirm sehen kannst."
 
 #: A.06-minecraft.md:26
 msgid "In a fresh buffer type the following:"
-msgstr ""
+msgstr "Gebe folgendes in einen leeren Buffer ein:"
 
 #: A.06-minecraft.md:28
 #, no-wrap
@@ -11799,16 +11807,21 @@ msgid ""
 ", stop reading this for a moment and play about with your own messages. Have f"
 "un!"
 msgstr ""
+"Drücke jetzt auf Ausführen. Boom! Deine Nachricht erscheint in Minecraft! "
+"Wie einfach war das denn? Lege nun dieses Tutorial kurz beiseite und spiele "
+"mit deinen eigenen Nachrichten herum. Viel Spaß!"
 
 #: A.06-minecraft.md:36
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 msgstr ""
+"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
-msgstr ""
+msgstr "Schall-Teleporter"
 
 #: A.06-minecraft.md:40
 msgid ""
