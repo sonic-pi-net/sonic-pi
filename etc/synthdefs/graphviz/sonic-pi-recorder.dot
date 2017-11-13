@@ -1,0 +1,16 @@
+digraph synthdef {
+0 [label = "control
+ :out-buf
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+1 [label = "control
+ :in_bus
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+3 [label = "{{ {{<channelsarray___in___0>|<channelsarray___in___1>}|channelsArray}|<bufnum> bufnum} |<__UG_NAME__>disk-out }" style="filled, bold, rounded"  shape=record rankdir=LR];
+2 [label = "{{ <num____channels> num-channels 2|<bus> bus} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+
+0:__UG_NAME__ -> 3:bufnum ;
+2:__UG_NAME__ -> 3:channelsarray___in___0 ;
+2:__UG_NAME__ -> 3:channelsarray___in___1 ;
+1:__UG_NAME__ -> 2:bus ;
+
+}

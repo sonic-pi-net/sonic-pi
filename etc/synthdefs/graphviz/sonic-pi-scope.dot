@@ -1,0 +1,21 @@
+digraph synthdef {
+0 [label = "control
+ :bus
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+1 [label = "control
+ :scope_num
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+2 [label = "control
+ :max_frames
+ default: 4096.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+3 [label = "{{ <num____channels> num-channels 2|<bus> bus} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+4 [label = "{{ <scope____frames> scope-frames|<max____frames> max-frames|<scope____num> scope-num|{{<input____array___in___0>|<input____array___in___1>}|input-array}} |<__UG_NAME__>scope-out2 }" style="filled, bold, rounded"  shape=record rankdir=LR];
+
+0:__UG_NAME__ -> 3:bus ;
+3:__UG_NAME__ -> 4:input____array___in___0 ;
+3:__UG_NAME__ -> 4:input____array___in___1 ;
+1:__UG_NAME__ -> 4:scope____num ;
+2:__UG_NAME__ -> 4:max____frames ;
+2:__UG_NAME__ -> 4:scope____frames ;
+
+}

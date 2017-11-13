@@ -72,4 +72,4 @@
               (out out_bus output)))
 
  (comment
-   (core/save-synthdef sonic-pi-chipnoise)))
+   (core/save-synthdef sonic-pi-tech_saws)))
