@@ -107,19 +107,19 @@ module SonicPi
       end
       load_synthdefs(synthdef_path)
       osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0
-      info = info_prom.get
+      server_info = info_prom.get
       @scsynth_info = SonicPi::Core::SPMap.new({
-        :sample_rate => info[2],
-        :sample_dur => info[3],
-        :radians_per_sample => info[4],
-        :control_rate => info[5],
-        :control_dur => info[6],
-        :subsample_offset => info[7],
-        :num_output_busses => info[8],
-        :num_input_busses => info[9],
-        :num_audio_busses => info[10],
-        :num_control_busses => info[11],
-        :num_buffers => info[12]
+        :sample_rate => server_info[2],
+        :sample_dur => server_info[3],
+        :radians_per_sample => server_info[4],
+        :control_rate => server_info[5],
+        :control_dur => server_info[6],
+        :subsample_offset => server_info[7],
+        :num_output_busses => server_info[8],
+        :num_input_busses => server_info[9],
+        :num_audio_busses => server_info[10],
+        :num_control_busses => server_info[11],
+        :num_buffers => server_info[12]
       })
 
       info "num input busses: #{@scsynth_info[:num_input_busses]}"
