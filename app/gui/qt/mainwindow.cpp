@@ -123,11 +123,11 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QString root_path = rootPath();
 
 #if defined(Q_OS_WIN)
-  ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/win/ruby/bin/ruby.exe");
+  ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/ruby/bin/ruby.exe");
 #elif defined(Q_OS_MAC)
-  ruby_path = root_path + "/app/server/native/osx/ruby/bin/ruby";
+  ruby_path = root_path + "/app/server/native/ruby/bin/ruby";
 #else
-  ruby_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
+  ruby_path = root_path + "/app/server/native/ruby/bin/ruby";
 #endif
 
   QFile file(ruby_path);
@@ -136,8 +136,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     ruby_path = "ruby";
   }
 
-  ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
-  port_discovery_path = QDir::toNativeSeparators(root_path + "/app/server/bin/port-discovery.rb");
+  ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/sonic-pi-server.rb");
+  port_discovery_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/port-discovery.rb");
   sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
   sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
@@ -149,8 +149,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   process_log_path       = QDir::toNativeSeparators(log_path + "/processes.log");
   scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
 
-  init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/init-script.rb");
-  exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/exit-script.rb");
+  init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/init-script.rb");
+  exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/exit-script.rb");
 
   qt_app_theme_path     = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/app.qss");
 
@@ -1042,7 +1042,7 @@ void MainWindow::startRubyServer(){
   // Register server pid for potential zombie clearing
   QStringList regServerArgs;
 #if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
-  regServerArgs << QDir::toNativeSeparators(rootPath() + "/app/server/bin/task-register.rb")<< QString::number(serverProcess->processId());
+  regServerArgs << QDir::toNativeSeparators(rootPath() + "/app/server/ruby/bin/task-register.rb")<< QString::number(serverProcess->processId());
 #endif
   QProcess *regServerProcess = new QProcess();
   regServerProcess->start(ruby_path, regServerArgs);
