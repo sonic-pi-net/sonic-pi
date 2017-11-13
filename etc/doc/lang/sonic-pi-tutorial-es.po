@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-11 19:49+0000\n"
+"PO-Revision-Date: 2017-11-14 13:46+0000\n"
 "Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -16691,10 +16691,16 @@ msgid ""
 "ints to create new colours, adding too many colours will result in a messy bro"
 "wn, similarly - adding too many sounds together will result in a muddy sound."
 msgstr ""
+"¿Has visto cómo se han juntado los dos sonidos para formar uno más rico? Y "
+"no hay por qué parar ahí; podemos añadir tantos sonidos como queramos. En "
+"cualquier caso, hay que tener cuidado con cuántos sonidos juntamos. Cuando "
+"mezclamos muchos pigmentos para crear nuevos colores, acabamos con un color "
+"marrón muy feo; del mismo modo, mezclar muchos sonidos genera un sonido muy "
+"sucio."
 
 #: A.18-additive-synthesis.md:45
 msgid "Blending"
-msgstr ""
+msgstr "Mezclando"
 
 #: A.18-additive-synthesis.md:47
 msgid ""
@@ -16702,14 +16708,21 @@ msgid ""
 "e wave at an octave higher (for that high bright sound) yet only play it at am"
 "p `0.4` so it adds something extra to the sound rather than taking it over:"
 msgstr ""
+"Vamos a añadir algo al sonido que tenemos para hacerlo un poco más "
+"brillante. Podríamos usar una onda triangular una octava por encima (para "
+"obtener ese sonido brillante), y ponerle sólo `0.4` de amplitud (amp) para "
+"que añada al sonido en vez de taparlo:"
 
 #: A.18-additive-synthesis.md:52
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "synth :sine, note: :d3\n"
 "synth :square, note: :d3\n"
 "synth :tri, note: :d4, amp: 0.4"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3\n"
+"synth :tri, note: :d4, amp: 0.4"
 
 #: A.18-additive-synthesis.md:58
 msgid ""
@@ -16718,10 +16731,14 @@ msgid ""
 "pts to modify each source sound before it is mixed in for even more combinatio"
 "ns of sounds."
 msgstr ""
+"Ahora, prueba a crear tus propios sonidos combinando 2 o más sintetizadores, "
+"con distintas octavas y amplitudes. Fíjate también en que puedes jugar con "
+"las opciones de cada sintetizador para modificar cada fuente de sonido antes "
+"de mezclarla con el resto; así puedes conseguir más combinaciones de sonidos."
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
-msgstr ""
+msgstr "Desafinación (detuning)"
 
 #: A.18-additive-synthesis.md:66
 msgid ""
@@ -16729,14 +16746,21 @@ msgid ""
 "r switched octave. How might it sound if we didn't stick to octaves but instea"
 "d chose a slightly higher or lower note? Let's try it:"
 msgstr ""
+"Hasta ahora, al combinar nuestros sintetizadores, sólo hemos usado la misma "
+"altura o hemos cambiado alguno de octava. ¿Cómo sonaría si en vez de "
+"restringirnos a octavas, usáramos notas un poco más agudas o un poco más "
+"graves? Vamos a probarlo:"
 
 #: A.18-additive-synthesis.md:70
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "detune = 0.7\n"
 "synth :square, note: :e3\n"
 "synth :square, note: :e3 + detune"
 msgstr ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
 
 #: A.18-additive-synthesis.md:76
 msgid ""
@@ -16750,6 +16774,15 @@ msgid ""
 "nice 'thick' sound, with both slightly different pitches interacting with each"
 " other in interesting, often surprising, ways."
 msgstr ""
+"Si desafinamos nuestras ondas cuadradas 0.7 notas, podemos escuchar que "
+"suenan 'mal'. Sin embargo, a medida que nos acercamos a 0, sonará cada vez "
+"mejor, ya que la altura de las dos ondas se parece cada vez más. ¡Pruébalo! "
+"Cambia el valor del opt `detune:` de `0.7` a `0.5` y escucha el nuevo "
+"sonido. Prueba con `0.2`, `0.1`, `0.05`, `0`. Cada vez que cambies el valor, "
+"dale a Ejecutar y comprueba cómo cambia el sonido. Fíjate en que los valores "
+"bajos de desafinación (detune) como `0.1` producen un sonido 'grueso' muy "
+"agradable; las alturas de las ondas interactúan de formas muy interesantes, "
+"y a menudo sorprendentes."
 
 #: A.18-additive-synthesis.md:87
 #, fuzzy
@@ -16770,9 +16803,13 @@ msgid ""
 "ptions for each synth trigger. For example this will allow you to make some as"
 "pects of the sound percussive and other aspects ring out for a period of time."
 msgstr ""
+"También podemos pulir nuestro sonido usando distintas opciones y envolventes "
+"(envelope) para el disparador de cada sintetizador. Con esto puedes, por "
+"ejemplo, hacer que parte del sonido sea percusiva, y que otra parte resuene "
+"durante un rato."
 
 #: A.18-additive-synthesis.md:99
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "detune = 0.1\n"
 "synth :square, note: :e1, release: 2\n"
@@ -16781,6 +16818,12 @@ msgid ""
 "synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
 "synth :noise, release: 0.2, amp: 1, cutoff: 90"
 msgstr ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
 
 #: A.18-additive-synthesis.md:108
 msgid ""
@@ -16790,6 +16833,13 @@ msgid ""
 "hort release times along with a noise with a longer release time but with a lo"
 "w cutoff value (which makes the noise less crisp and more rumbly.)"
 msgstr ""
+"En el ejemplo de arriba, le he añadido un elemento percusivo y ruidoso al "
+"sonido; además, le he puesto un poco de ruido de fondo que dura un rato. "
+"Para ello, primero he usado dos sintetizadores de ruido con valores de corte "
+"(cutoff) normales (`90` y `100`) y con tiempos para soltar (release) cortos; "
+"además, he usado un sintetizador de ruido con un tiempo de release mayor "
+"pero con un valor de cutoff bajo (lo que hace al ruido menos brillante y más "
+"resonante.)"
 
 #: A.18-additive-synthesis.md:117
 msgid ""
@@ -16805,6 +16855,19 @@ msgid ""
 "ing your own melody and also messing around with the contents of the `:bell` f"
 "unction until you create your own crazy sound to play with!"
 msgstr ""
+"Vamos a combinar todas estas técnicas; vamos usar síntesis aditiva para "
+"recrear un sonido sencillo de campana. He dividido este ejemplo en cuatro "
+"secciones. En primer lugar, tenemos la sección 'hit' (golpe), que es la "
+"parte inicial del sonido de la campana, así que usa un envolvente corto (por "
+"ejemplo, un `release:` alrededor de `0.1`). Después tenemos la parte del "
+"timbre largo de la campana, en la que estoy usando el sonido puro de una "
+"onda de seno. Fíjate en que suelo aumentar la nota en `12` y `24`, que es el "
+"número de notas en una y dos octavas, respectivamente. También le he metido "
+"unos cuantos sintetizadores de onda de seno graves, para darle al sonido un "
+"poco de bajo y de profundidad. Por último, he usado `define` para guardar mi "
+"código en una función que puedo usar para tocar una melodía. ¡Prueba a tocar "
+"tu propia melodía, y juega con los contenidos de la función `:bell` hasta "
+"que tengas un sonido muy loco que te guste!"
 
 #: A.18-additive-synthesis.md:130
 msgid ""
@@ -16812,6 +16875,9 @@ msgid ""
 " release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
 "1, release: 0.1 synth :tri, note: n, release: 0.2"
 msgstr ""
+"define :bell do \\|n\\| # Ondas triangulares para la parte del 'hit' (golpe) "
+"synth :tri, note: n - 12, release: 0.1 synth :tri, note: n + 0.1, release: "
+"0.1 synth :tri, note: n - 0.1, release: 0.1 synth :tri, note: n, release: 0.2"
 
 #: A.18-additive-synthesis.md:137
 msgid ""
@@ -16819,28 +16885,35 @@ msgid ""
 "ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
 "h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
 msgstr ""
+"\\# Ondas de seno para la parte resonante ('ringing') synth :sine, note: n + "
+"24, release: 2 synth :sine, note: n + 24.1, release: 2 synth :sine, note: n +"
+" 24.2, release: 0.5 synth :sine, note: n + 11.8, release: 2 synth :sine, "
+"note: n, release: 2"
 
 #: A.18-additive-synthesis.md:144
 msgid ""
 "\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
 "sine, note: n - 12, release: 2 end"
 msgstr ""
+"\\# Ondas de seno graves para la parte del bajo synth :sine, note: n - 11.8, "
+"release: 2 synth :sine, note: n - 12, release: 2 end"
 
 #: A.18-additive-synthesis.md:149
 msgid "Play a melody with our new bell!"
-msgstr ""
+msgstr "¡Toca una melodía con tu propia campana!"
 
 #: A.18-additive-synthesis.md:150
+#, fuzzy
 msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
-msgstr ""
+msgstr "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
-msgstr ""
+msgstr "A.19 Diseño Sonoro - Síntesis Sustractiva"
 
 #: A.19-subtractive-synthesis.md:3
 msgid "Subtractive Synthesis"
-msgstr ""
+msgstr "Síntesis Sustractiva"
 
 #: A.19-subtractive-synthesis.md:5
 msgid ""
