@@ -45,13 +45,13 @@ script:
      echo "***********************************"
      echo "* Compiling the vendor/ ruby gems *"
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/bin
+     cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
      ruby ./compile-extensions.rb
      echo ""
      echo "***********************************"
      echo "* Running the Sonic Pi test suite *"
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/sonicpi/test
+     cd $TRAVIS_BUILD_DIR/app/server/ruby/test
      rake test
    else
      # this compiles the gems and runs the Sonic Pi test suite for all ruby versions in Ubuntu Trusty (1.9.1 and 2.0.0)
@@ -59,13 +59,13 @@ script:
      echo "***********************************"
      echo "* Compiling the vendor/ ruby gems *"
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/bin
+     cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
      /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " ./compile-extensions.rb") or raise ("ruby gem compile failed for " + v) }'
      echo ""
      echo "***********************************"
      echo "* Running the Sonic Pi test suite *"
      echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/sonicpi/test
+     cd $TRAVIS_BUILD_DIR/app/server/ruby/test
      /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " /usr/bin/rake test") or raise ("test failed for " + v) }'
      # the following are the same steps as in ./app/gui/qt/rp-build-app
      echo ""
