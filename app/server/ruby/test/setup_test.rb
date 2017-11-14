@@ -1,4 +1,4 @@
-require_relative "../../core"
+require_relative "../core"
 require_relative "../lib/sonicpi/runtime"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/event_history"
