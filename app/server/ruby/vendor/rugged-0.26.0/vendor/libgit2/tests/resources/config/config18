@@ -1,0 +1,5 @@
+[core]
+	int32global = 28
+	int64global = 9223372036854775803
+	boolglobal = true
+	stringglobal = I'm a global config value!

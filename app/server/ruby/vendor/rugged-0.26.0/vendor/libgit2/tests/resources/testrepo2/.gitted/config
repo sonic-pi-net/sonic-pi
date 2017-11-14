@@ -1,0 +1,26 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = false
+[remote "origin"]
+	url = https://github.com/libgit2/false.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "insteadof-test"]
+	url = http://example.com/libgit2/libgit2
+	pushurl = http://github.com/libgit2/libgit2
+	fetch = +refs/heads/*:refs/remotes/test/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[url "longer-non-prefix-match"]
+	insteadOf = ttp://example.com/li
+[url "shorter-prefix"]
+	insteadOf = http://example.co
+[url "http://github.com"]
+	insteadOf = http://example.com
+[url "git@github.com:"]
+	pushInsteadOf = http://github.com/

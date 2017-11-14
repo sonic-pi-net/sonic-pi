@@ -1,0 +1,11 @@
+[valid "[subsection]"]
+    something = a
+; we don't allow anything after closing "
+[sec "[subsec]/child"]
+    parent = grand
+[sec2 "[subsec2]/child2"]
+    type = dvcs
+[sec3 "escape\"quote"]
+    vcs = git
+[sec4 "escaping\\slash"]
+    lib = git2

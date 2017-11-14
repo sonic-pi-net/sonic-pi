@@ -1,0 +1,4 @@
+[core]
+	repositoryformatversion = 0
+	bare = false
+	logallrefupdates = true

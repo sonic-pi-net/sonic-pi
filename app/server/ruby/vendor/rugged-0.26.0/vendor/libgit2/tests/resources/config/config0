@@ -1,0 +1,7 @@
+# This is a test                                                                                                                                                       
+; of different comments
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true

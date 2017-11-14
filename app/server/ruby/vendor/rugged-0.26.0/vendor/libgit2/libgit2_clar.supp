@@ -1,0 +1,49 @@
+{
+	ignore-zlib-errors-cond
+	Memcheck:Cond
+	obj:*libz.so*
+}
+
+{
+	ignore-giterr-set-leak
+	Memcheck:Leak
+	...
+	fun:giterr_set
+}
+
+{
+	ignore-git-global-state-leak
+	Memcheck:Leak
+	...
+	fun:git__global_state
+}
+
+{
+	ignore-openssl-ssl-leak
+	Memcheck:Leak
+	...
+	obj:*libssl.so*
+	...
+}
+
+{
+	ignore-openssl-crypto-leak
+	Memcheck:Leak
+	...
+	obj:*libcrypto.so*
+	...
+}
+
+{
+	ignore-openssl-crypto-cond
+	Memcheck:Cond
+	obj:*libcrypto.so*
+	...
+}
+
+{
+	ignore-glibc-getaddrinfo-cache
+	Memcheck:Leak
+	...
+	fun:__check_pf
+}

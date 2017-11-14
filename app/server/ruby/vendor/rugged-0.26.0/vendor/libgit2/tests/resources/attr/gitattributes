@@ -1,0 +1,29 @@
+* rootattr
+root_test2 -rootattr
+root_test3 !rootattr
+binfile	   		   binary
+abc		foo bar baz
+does-not-exist foo=yes
+
+root_test2 multiattr
+root_test3 multi2=foo
+
+root_test3 multiattr=1 multiattr=2 multiattr=3 multi2=abc !multi2
+root_test2 multiattr=string -multiattr
+
+[attr]mymacro positive -negative !rootattr
+macro* mymacro another=77
+
+[attr]macro2 multi2 -multi2 multi3 !multi3 multi3=answer
+macro* macro2 macro2 macro2
+
+# let's try some malicious macro defs
+[attr]firstmacro -thirdmacro -secondmacro
+[attr]secondmacro firstmacro -firstmacro
+[attr]thirdmacro secondmacro=hahaha
+
+macro_bad firstmacro secondmacro thirdmacro
+
+# another test that Peff found was failing
+[attr]notest !test
+

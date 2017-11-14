@@ -1,0 +1,30 @@
+[submodule "One"]
+	path = One
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "TWO"]
+	path = TWO
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "three"]
+	path = three
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "FoUr"]
+	path = FoUr
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "Five"]
+	path = Five
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "six"]
+	path = six
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "sEvEn"]
+	path = sEvEn
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "EIGHT"]
+	path = EIGHT
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "nine"]
+	path = nine
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target
+[submodule "TEN"]
+	path = TEN
+	url = /tmp/libgit2_tests_XJLtEE/submod2_target

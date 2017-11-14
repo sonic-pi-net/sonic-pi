@@ -1,0 +1,40 @@
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = true
+        logallrefupdates = true
+[remote "test"]
+	url = git://github.com/libgit2/libgit2
+	fetch = +refs/heads/*:refs/remotes/test/*
+[remote "joshaber"]
+	url = git://github.com/libgit2/libgit2
+[remote "empty-remote-url"]
+	url = 
+	pushurl =
+[remote "empty-remote-pushurl"]
+	pushurl =
+[remote "no-remote-url"]
+	fetch =
+[remote "test_with_pushurl"]
+	url = git://github.com/libgit2/fetchlibgit2
+	pushurl = git://github.com/libgit2/pushlibgit2
+	fetch = +refs/heads/*:refs/remotes/test_with_pushurl/*
+
+[branch "master"]
+   remote = test
+   merge = refs/heads/master
+[branch "track-local"]
+   remote = .
+   merge = refs/heads/master
+[branch "cannot-fetch"]
+   remote = joshaber
+   merge = refs/heads/cannot-fetch
+[branch "remoteless"]
+   remote =
+   merge = refs/heads/master
+[branch "mergeless"]
+   remote = test
+   merge = 
+[branch "mergeandremoteless"]
+   remote = 
+   merge = 

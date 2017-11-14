@@ -1,0 +1,9 @@
+[core]
+	dummy2 = 42
+	verylong = 1
+	dummy = 1
+
+[remote "ab"]
+	url = http://example.com/git/ab
+[remote "abba"]
+	url = http://example.com/git/abba

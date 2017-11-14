@@ -1,0 +1,3 @@
+[submodule "testrepo"]
+	path = testrepo
+	url = ../testrepo.git
