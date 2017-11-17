@@ -137,7 +137,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="590"/>
         <source>Buffer %1</source>
-        <translation type="unfinished">Buffer %1</translation>
+        <translation>Φόρτωση %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
