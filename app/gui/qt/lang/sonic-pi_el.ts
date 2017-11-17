@@ -298,12 +298,18 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν ενεργοποιηθεί, το Sonic Pi θα επιτρέπει
+τις συνθέσεις και τα ηχητικά εφέ που φορτώθηκαν μέσω του load_syhthdefs
+να ενεργοποιηθούν.
+
+Όταν απενεργοποιηθεί, το Sonic Pi θα διαμαρτυρηθεί
+όταν προσπαθήσεις να χρησιμοποιήσεις μία σύνθεση ή ένα ηχητικό εφέ
+που δεν αναγνωρίζεται.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιβολή εγγυήσεων χρονισμού</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
@@ -314,7 +320,12 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν ενεργοποιηθεί, το Sonic Pi θα αρνηθεί
+την ενεργοποίηση συνθέσεων και ηχητικών εφέ αν είναι πολύ αργά.
+
+Όταν απενεργοποιηθεί, το Sonic Pi θα προσπαθήσει
+να ενεργοποιήσει πάντα τις συνθέσεις και τα ηχητικά εφέ
+ακόμη κι&apos; αν είναι λίγο αργά.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1386"/>
