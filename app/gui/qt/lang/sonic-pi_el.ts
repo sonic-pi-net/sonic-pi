@@ -336,7 +336,8 @@ even when a little late.</source>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση ελέγχου αυτόματων ενημερώσεων.
+Αυτός ο έλεγχος συμπεριλαμβάνει την αποστολή ανώνυμων πληροφοριών σχετικά με την πλατφόρμα και την έκδοσή του προγράμματος.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1399"/>
@@ -347,7 +348,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαναγκασμένος έλεγχος για ενημερώσεις τώρα.
+Αυτός ο έλεγχος συμπεριλαμβάνει την αποστολή ανώνυμων πληροφοριών σχετικά με την πλατφόρμα και την έκδοσή του προγράμματος.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
@@ -357,32 +359,32 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>Επισκεφθείτε το http://sonic-pi.net για να λάβετε την νέα έκδοση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1407"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες Ενημέρωσης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1426"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση και Απόκρυψη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1427"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις εμφάνισης επεξεργαστή.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>Όψη και Αίσθηση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις όψης και αίσθησης.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
@@ -392,22 +394,22 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις λειτουργιών αυτοματισμού.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="482"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτόματη διάταξη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτόματη διάταξη του κώδικα στην εκτέλεση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση αρχείου καταγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
