@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-21 05:46+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2017-11-23 04:57+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -16514,7 +16514,7 @@ msgstr ""
 
 #: A.17-sample-stretching.md:111
 msgid "Pitch Bending"
-msgstr ""
+msgstr "Effet Pitch Bend"
 
 #: A.17-sample-stretching.md:113
 msgid ""
@@ -16562,6 +16562,10 @@ msgid ""
 "onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
 " opts:"
 msgstr ""
+"Si vous regardez le journal à droite, vous remarquerez qu'un `rpitch:` de `3`"
+" correspond enfaîte à un rythme de `1.1892` et qu'un `rpitch:` de `7` "
+"correspond à un rythme de `1.4983`. Finalement, nous pouvons même combiner "
+"les options `rate:` et `rpitch:` :"
 
 #: A.17-sample-stretching.md:138
 #, no-wrap
