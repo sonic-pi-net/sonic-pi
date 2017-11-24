@@ -731,7 +731,7 @@ Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished">MIDI herstellen...</translation>
+        <translation>MIDI herstellen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
