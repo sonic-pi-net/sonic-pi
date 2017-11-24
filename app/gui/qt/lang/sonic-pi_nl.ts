@@ -791,7 +791,7 @@ Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1536"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>De zichtbaarheid van de audio-oscilloscopen in/uitschakelen.</translation>
+        <translation>Zichtbaarheid van de audio-oscilloscopen in-/uitschakelen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
