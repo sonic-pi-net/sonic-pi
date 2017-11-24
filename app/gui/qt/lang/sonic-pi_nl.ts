@@ -565,7 +565,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show log</source>
-        <translation>Toon log</translation>
+        <translation>Log tonen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
@@ -701,7 +701,7 @@ Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation>Zet de zichtbaarheid van de audio-oscilloscopen aan/uit </translation>
+        <translation>Zichtbaarheid van de audio-oscilloscopen in-/uitschakelen. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2804"/>
