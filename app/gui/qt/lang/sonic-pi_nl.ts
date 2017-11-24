@@ -560,7 +560,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
         <source>Automatically align code on Run</source>
-        <translation>Automatisch uitlijnen van de code wanneer deze loopt</translation>
+        <translation>Automatisch uitlijnen van de code bij het afspelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
