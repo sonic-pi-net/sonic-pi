@@ -494,8 +494,8 @@ Deze controle omvat het verzenden van anonieme gegevens over het platform en de 
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Nu naar updates zoeken.
-Dit omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
+        <translation>Geforceerd naar updates zoeken.
+Deze opdracht omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
