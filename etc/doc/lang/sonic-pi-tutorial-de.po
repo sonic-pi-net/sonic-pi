@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-14 13:46+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
+"PO-Revision-Date: 2017-11-25 18:21+0000\n"
+"Last-Translator: Joschka <foobar2@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -11447,8 +11447,9 @@ msgid "Instant acid bass! Let's play around..."
 msgstr "Siehe da! Wir haben einen Acid Bass! Lass uns weiter experimentieren…"
 
 #: A.05-acid-bass.md:37
+#, fuzzy
 msgid "Squelch that Bass"
-msgstr ""
+msgstr "Glucksender Bass"
 
 #: A.05-acid-bass.md:39
 msgid ""
@@ -15306,9 +15307,8 @@ msgstr ""
 "`:dsaw`, `:dpulse` und `:dtri` aus."
 
 #: A.18-additive-synthesis.md:92
-#, fuzzy
 msgid "Amplitude shaping"
-msgstr "Amplitudenformung"
+msgstr "Amplitudenmodellierung"
 
 #: A.18-additive-synthesis.md:94
 msgid ""
