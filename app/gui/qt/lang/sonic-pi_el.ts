@@ -414,12 +414,12 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή ορατότητας του αρχείου καταγραφής.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1443"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση κουμπιών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -439,7 +439,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Full screen</source>
-        <translation>Πλήρους οθόνης</translation>
+        <translation>Πλήρης οθόνη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1451"/>
@@ -460,7 +460,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Ήχος</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1678"/>
@@ -486,19 +486,19 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία κειμένου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία Ruby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Όλα τα αρχεία</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
