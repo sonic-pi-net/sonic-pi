@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-14 13:46+0000\n"
+"PO-Revision-Date: 2017-11-27 09:51+0000\n"
 "Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -16929,16 +16929,30 @@ msgid ""
 " with the recent renaissance of modular analog synths through popular standard"
 "s such as Eurorack."
 msgstr ""
+"Este ese el segundo artículo de la serie, en la que veremos cómo usar Sonic "
+"Pi para hacer diseño sonoro. El último mes vimos la síntesis aditiva, y "
+"descubrimos que no es más que juntar muchos sonidos a la vez para crear un "
+"nuevo sonido combinado. Por ejemplo, podíamos combinar distintos "
+"sintetizadores, o incluso el mismo sintetizador con distinta altura, para "
+"crear un sonido muy complejo a partir de ingredientes sencillos. Este mes "
+"vamos a ver una nueva técnica conocida como *síntesis substractiva*, que es "
+"sencillamente coger un sonido complejo y quitarle partes para crear algo "
+"nuevo. Esta técnica está asociada al sonido de los sintetizadores analógicos "
+"de los 60 y los 70; también tuvo que ver con el renacimiento de los "
+"sintetizadores analógicos modulares, con estándares muy populares como el "
+"Eurorack."
 
 #: A.19-subtractive-synthesis.md:18
 msgid ""
 "Despite this sounding like a particularly complicated and advanced technique, "
 "Sonic Pi makes it surprisingly simple and easy - so let's dive right in."
 msgstr ""
+"Aunque parezca una técnica complicada o avanzada, Sonic Pi lo hace "
+"increíblemente fácil y sencillo... así que vamos a ello."
 
 #: A.19-subtractive-synthesis.md:22
 msgid "Complex Source Signal"
-msgstr ""
+msgstr "Señal Fuente Compleja"
 
 #: A.19-subtractive-synthesis.md:24
 msgid ""
@@ -16946,11 +16960,15 @@ msgid ""
 "fairly rich and interesting. This doesn't mean we need something hugely comple"
 "x - in fact, just a standard `:square` or `:saw` wave will do:"
 msgstr ""
+"Para que un sonido quede bien con síntesis sustractiva, debe ser bastante "
+"rico e interesante. Esto no significa que necesitemos algo enormemente "
+"complejo; de hecho, nos vale con una onda cuadrada (`:square`) o de sierra "
+"(`:saw`):"
 
 #: A.19-subtractive-synthesis.md:29
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "synth :saw, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :saw, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:33
 msgid ""
@@ -16964,9 +16982,9 @@ msgstr ""
 "Si esto no tiene mucho sentido para usted, intente compararlo con `:beep`:"
 
 #: A.19-subtractive-synthesis.md:38
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "synth :beep, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :beep, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:42
 msgid ""
@@ -16975,6 +16993,11 @@ msgid ""
 "saw`. It's this buzziness and variation from a pure sine wave that we can play"
 " with when we use subtractive synthesis."
 msgstr ""
+"Como el sintetizador `:beep` es sólo una onda de seno, escucharás un tono "
+"mucho más puro, con la nota `:e2` muy clara, y ningún otro ruido que la "
+"emborrone (lo que sí escucharías con una onda `:saw`). El zumbido y la "
+"variación de la onda pura de seno es lo que nos permite jugar cuando usamos "
+"síntesis sustractiva."
 
 #: A.19-subtractive-synthesis.md:49
 msgid ""
@@ -16986,6 +17009,14 @@ msgid ""
 "ple to use FX system that includes a low pass filter, called `:lpf`. Let's pla"
 "y with it:"
 msgstr ""
+"Ahora que tenemos nuestra señal fuente en bruto, el siguiente paso es "
+"pasarla por un filtro de algún tipo, que modifica el sonido quitando (o "
+"reduciendo) partes del mismo. Uno de los filtros de síntesis sustractiva más "
+"conocidos es el filtro de paso bajo (low pass filter). Este filtro  deja "
+"pasar las partes graves del sonido, pero reduce o borra las partes agudas. "
+"Sonic Pi tiene un sistema de efectos sencillo y potente, que incluye un "
+"filtro de paso bajo llamado `:lpf` (de sus siglas en inglés, low pass filter)"
+". Vamos a probarlo:"
 
 #: A.19-subtractive-synthesis.md:57
 #, no-wrap
@@ -17006,6 +17037,11 @@ msgid ""
 "ound. Try changing that `cutoff:` point to lower notes, say `70` and then `50`"
 " and compare the sounds."
 msgstr ""
+"Si te fijas escucharás cómo se ha quitado parte del zumbido del sonido. De "
+"hecho, todas las frecuencias del sonido por encima de la nota `100` han sido "
+"reducidas o borradas; sólo se han dejado las frecuencias agudas. Prueba a "
+"cambiar el valor del `cutoff:` a notas más bajas, por ejemplo  `70` y luego "
+"`50`; compara los sonidos que producen."
 
 #: A.19-subtractive-synthesis.md:69
 msgid ""
@@ -17014,14 +17050,21 @@ msgid ""
 "in Sonic Pi. This does the opposite to `:lpf` in that it lets the high parts o"
 "f the sound through and cuts off the low parts."
 msgstr ""
+"Por supuesto, `:lpf` no es el único filtro que tienes para manipular la "
+"señal fuente. Otro efecto importante es el filtro de paso alto, llamado "
+"`:hpf` (por sus siglas en inglés, high pass filter) en Sonic Pi. Este hace "
+"lo contrario a `:lpf`, ya que deja pasar los agudos y corta los graves."
 
 #: A.19-subtractive-synthesis.md:74
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :hpf, cutoff: 90 do\n"
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:80
 msgid ""
@@ -17030,10 +17073,15 @@ msgid ""
 "er values let more of the original bass parts of the source signal through and"
 " higher values sound increasingly tinny and quiet."
 msgstr ""
+"Fíjate en cómo suena mucho más brillante y áspero ahora que has borrado las "
+"frecuencias bajas. Experimenta con los valores de cutoff: escucha cómo se "
+"dejan pasar cada vez más bajos cuantos más bajos sean los valores del "
+"filtro, y cómo los agudos van sonando cada vez más pequeños y callados."
 
 #: A.19-subtractive-synthesis.md:86
+#, fuzzy
 msgid "[Low Pass Filter] - breakout box"
-msgstr ""
+msgstr "[Filtro de Paso Bajo] - breakout box"
 
 #: A.19-subtractive-synthesis.md:88
 #, fuzzy
@@ -17070,6 +17118,16 @@ msgid ""
 "long it should take for the current value to linearly slide to the target valu"
 "e:"
 msgstr ""
+"Hasta ahora sólo hemos producido sonidos estáticos. En otras palabras, el "
+"sonido no cambia a lo largo de su duración. Normalmente querrás algo de "
+"movimiento en tu sonido para darle más vida a su timbre. Una forma de "
+"conseguir esto es con la modulación de filtros (cambiar las opciones del "
+"filtro a lo largo del tiempo). Por suerte, Sonic Pi te ofrece herramientas "
+"muy potentes para modificar las opciones de un efecto a lo largo del tiempo. "
+"Por ejemplo, puedes ponerle un tiempo de deslizamiento a la opción del "
+"sintetizador que quieras, siempre y cuando ésta permita modulación; esto le "
+"dice a la opción cuánto tarda su valor actual en desplazarse hasta un nuevo "
+"valor:"
 
 #: A.19-subtractive-synthesis.md:118
 #, no-wrap
@@ -17096,6 +17154,16 @@ msgid ""
 " 3 beats. Finally we also trigger a source signal synth so we can hear the eff"
 "ect of the modulated low pass filter."
 msgstr ""
+"Vamos a echarle un vistazo a lo que está pasando. Primero, empezamos un "
+"bloque de efecto `:lpf` normal y corriente, con un valor de `cutoff:` de `20`"
+" (muy bajo). Sin embargo, la primera línea acaba con un `|fx|` un poco raro "
+"al final. Eso es una parte opcional de la sintaxis `with_fx`, que te permite "
+"nombrar y controlar el sintetizador del efecto manualmente. La línea 2 hace "
+"justo esto, y controla el efecto para cambiar el opt `cutoff_slide:` a 4, y "
+"el nuevo `cutoff:` a `130`. Con esto, el efecto empezará a deslizar el valor "
+"del `cutoff:` de `50` a `130` a lo largo de 3 beats. Por último, lanzamos un "
+"sintetizador con la señal fuente, para que podamos escuchar el efecto del "
+"filtro de paso bajo modulado."
 
 #: A.19-subtractive-synthesis.md:139
 msgid ""
@@ -17104,6 +17172,10 @@ msgid ""
 "o see what crazy sounds you can design. If your sound feels too static, rememb"
 "er you can start modulating the options to create some movement."
 msgstr ""
+"Esto es sólo una pequeña muestra de lo que puedes hacer con filtros. Juega "
+"con los distintos efectos de Sonic Pi para ver qué clase de sonidos puedes "
+"diseñar. Si tu sonido te parece demasiado estático, recuerda que puedes "
+"empezar modulando las opciones para crear más movimiento."
 
 #: A.19-subtractive-synthesis.md:145
 msgid ""
