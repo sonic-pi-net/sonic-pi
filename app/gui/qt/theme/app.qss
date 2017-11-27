@@ -44,7 +44,7 @@ QFrame {
 
 QLabel{
     border: none;
-    /* border: 1px solid green; */
+
 }
 
 
@@ -167,7 +167,8 @@ QTabWidget::pane{
 
 QDockWidget::title{
     color: windowForegroundColor;
-    border-bottom: 1px solid windowBorderColor;
+    /*border-bottom: 3px solid windowBorderColor;*/
+    border: 0px;
     text-align: center;
     background: windowColor;
     font-size 10px;
@@ -276,14 +277,13 @@ QGroupBox{
     margin-bottom: 0px;
     font-size: 11px;
     background-color: windowColor;
-    border: 1px solid windowInternalBorderColor;
+    border: 5px solid windowInternalBorderColor;
     color: windowForegroundColor;
 }
 
 
 QDockWidget QListView {
     color: windowForegroundColor;
-    background: paneColor;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
 }
@@ -294,7 +294,7 @@ QTextBrowser {
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
 
-    padding: 20;
+    padding: 20px;
     background-color: paneColor;
 }
 
@@ -373,7 +373,7 @@ QLabel[accessibleName="midi-out-ports-label"] {
 
 QToolBar{
     background-color: windowColor;
-    border-bottom: 1px solid windowBorderColor;
+    border-bottom: 0px;
 }
 
 QToolButton{
