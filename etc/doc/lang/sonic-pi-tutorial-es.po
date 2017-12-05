@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-27 09:51+0000\n"
+"PO-Revision-Date: 2017-12-06 19:50+0000\n"
 "Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -523,9 +523,8 @@ msgstr ""
 "una lista de todas las funciones que Sonic Pi provee para codificar música."
 
 #: 01.2-Exploring-the-Interface.md:81
-#, fuzzy
 msgid "H. Scope Viewer"
-msgstr "H. Visor de contexto"
+msgstr "H. Visor Osciloscópico"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -1229,7 +1228,6 @@ msgstr ""
 "tocando y explorándolos. Primero, aprendamos a seleccionar el synth a usar."
 
 #: 02.3-Switching-Synths.md:21
-#, fuzzy
 msgid "Buzzy saws and prophets"
 msgstr "Sierras y Profetas"
 
@@ -1640,13 +1638,12 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
-#, fuzzy
 msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
-"-release.png)"
+"![envolvente con ataque largo y release corto](../images/tutorial/env-long-"
+"attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1670,21 +1667,19 @@ msgstr ""
 "rt-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
-#, fuzzy
 msgid "Sustain Phase"
-msgstr "Fase de Sostenimiento"
+msgstr "Fase de Sustain"
 
 #: 02.4-Durations-with-Envelopes.md:136
-#, fuzzy
 msgid ""
 "In addition to specifying attack and release times, you may also specify a sus"
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
 msgstr ""
-"Adicionalmente a especificar los tiempos de ataque y release, también puedes e"
-"specificar el tiempo de sostenimiento para controlar la *fase de sostenimiento"
-"*. Este es el tiempo en el cual el sonido es mantenido a máxima amplitud entre"
-" las fases de ataque y release."
+"Adicionalmente a especificar los tiempos de ataque y release, también puedes "
+"especificar el tiempo de sustain para controlar la *fase de sustain*. Este "
+"es el tiempo en el cual el sonido está en su máxima amplitud entre las fases "
+"de ataque y release."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
@@ -1696,7 +1691,6 @@ msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
-#, fuzzy
 msgid ""
 "The sustain time is useful for important sounds you wish to give full presence"
 " in the mix before entering an optional release phase. Of course, it's totally"
@@ -1705,20 +1699,18 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
-"El sostenimiento es útil para sonidos a los que desees darles máxima "
-"presencia a la mezcla antes de entrar a la fase de release. Claro, es "
-"totalmente válido usar ambos operadores, `attack:` y `release:` opts a 0 y "
-"dejar el sostenimiento sin aparecimiento gradual ni desvanecimiento. Sin "
-"embargo, ten en cuenta que un release de 0 puede producir clicks en el audio "
-"y es aconsejable usar un valor muy pequeño como 0.2."
+"El sustain es útil para sonidos que quieras resaltar en la mezcla, antes de "
+"entrar a la fase opcional de release. Por supuesto, es totalmente válido "
+"poner las opciones `attack:` y `release:` a 0; de esta forma el sonido "
+"aparecerá y desaparecerá de golpe. Sin embargo, ten en cuenta que un release "
+"de 0 puede producir clicks en el audio, por lo que se recomienda usar un "
+"valor muy pequeño como 0.2."
 
 #: 02.4-Durations-with-Envelopes.md:154
-#, fuzzy
 msgid "Decay Phase"
-msgstr "Fase de Decaimiento"
+msgstr "Fase de Decaimiento (Decay)"
 
 #: 02.4-Durations-with-Envelopes.md:156
-#, fuzzy
 msgid ""
 "For an extra level of control, you can also specify a decay time. This is a ph"
 "ase of the envelope that fits between the attack and sustain phases and specif"
@@ -1727,14 +1719,15 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
-"Para un nivel extra de control, también puedes especificar el tiempo de decaim"
-"iento. Esta es la fase del sobre que está entre el ataque el ataque y el soste"
-"nimiento, especifica el tiempo donde la amplitud bajará desde el nivel de ataq"
-"ue al de desvanecimiento `attack_level:` `decay_level:` (a menos que especique"
-"s que será sujetado al nivel de sostenimiento `sustain_level:`). De hecho, el "
-"`decay:` operando es 0 y tanto el ataque como el sostenimiento tienen valor 1,"
-" así que deberás especificarlos para que el tiempo de decaimiento tenga efecto"
-"."
+"También puedes especificar el tiempo de decaimiento (decay) para tener un "
+"mayor control de tu sonido. Esta fase se encuentra entre el ataque y el "
+"sostenimiento (sustain), y simboliza el tiempo que tarda la amplitud en "
+"bajar dede el nivel de ataque (`attack_level:`) hasta el nivel de decay "
+"(`decay_level:`); el `decay_level:` tiene por defecto el mismo valor que el "
+"nivel de sostenimiento (`sustain_level:`), pero puedes ponerle el valor que "
+"tú quieras. Por defecto, la opción `decay:` vale 0 y los niveles de ataque y "
+"sustain valen 1, así que tendrás que cambiar dichos valores para que el "
+"tiempo de decaimiento haga efecto:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1750,22 +1743,20 @@ msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)
 msgstr "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
-#, fuzzy
 msgid "Decay Level"
 msgstr "Nivel de Decaimiento"
 
 #: 02.4-Durations-with-Envelopes.md:172
-#, fuzzy
 msgid ""
 "One last trick is that although the `decay_level:` opt defaults to be the same"
 " value as `sustain_level:` you can explicitly set them to different values for"
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"Un último truco es que aunque el `decay_level:` opt está predeterminado a ser "
-"el mismo valor que el `sustain_level:` puedes ser explícito y asignarles difer"
-"entes valores para un completo control del sobre. Esto permite crear sobres co"
-"mo el siguiente:"
+"Un último truco... aunque la opción `decay_level:` está predeterminada a "
+"tener el mismo valor que el `sustain_level:` puedes ser explícit@ y "
+"asignarles diferentes valores para tener un control total del envolvente. "
+"Esto te permitirá crear envolventes como el siguiente:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1781,13 +1772,11 @@ msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
 msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
-#, fuzzy
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
 msgstr ""
-"También es posible poner el `decay_level:` más elevado que el `sustain_level:`"
-":"
+"También es posible poner el `decay_level:` más alto que el `sustain_level:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -1812,28 +1801,26 @@ msgstr ""
 "Para resumir, las envolventes ADSR de Sonic Pi tienen las siguientes fases:"
 
 #: 02.4-Durations-with-Envelopes.md:195
-#, fuzzy
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr "*ataque* - tiempo desde amplitude 0 hasta el `attack_level`,"
+msgstr ""
+"*ataque* - tiempo que tarda la amplitud en pasar de 0 al `attack_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:196
-#, fuzzy
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
-"*decaimiento* - tiempo para mover la amplitud desde `attack_level` a `decay_le"
-"vel`,"
+"*decaimiento (decay)* - tiempo que tarda la amplitud en pasar del "
+"`attack_level` al `decay_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:197
-#, fuzzy
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr ""
-"*sostenimiento* - tiempo para mover la amplitud desde `decay_level` a `sustain"
-"_level`,"
+"*sostenimiento (sustain)* - tiempo que tarda la amplitud en pasar del "
+"`decay_level` al `sustain_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:198
-#, fuzzy
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
-msgstr "*release* - tiempo para mover la amplitud desde `sustain_level` a 0"
+msgstr ""
+"*release* - tiempo que tarda la amplitud en pasar del `sustain_level` a 0"
 
 #: 02.4-Durations-with-Envelopes.md:200
 msgid ""
@@ -1897,13 +1884,12 @@ msgid "Triggering Samples"
 msgstr "Disparando muestras"
 
 #: 03.1-Triggering-Samples.md:5
-#, fuzzy
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is triggeri"
 "ng pre-recorded samples. Try it:"
 msgstr ""
-"Ejecutar pitidos es sólo el principio. Algo que sí es divertido es disparar sa"
-"mpleos pre-grabados. Inténtalo:"
+"Tocar con pitidos (beeps) es sólo el principio. Por ejemplo, puedes probar "
+"algo realmente divertido, que es lanzar samples pre-grabados. Inténtalo:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
@@ -1911,15 +1897,14 @@ msgid "sample :ambi_lunar_land"
 msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
-#, fuzzy
 msgid ""
 "Sonic Pi includes many samples for you to play with. You can use them just lik"
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
 msgstr ""
-"Sonic Pi incluye muchos sampleos para que uses. Utiliza el comando `play` para"
-" dispararlos. Para tocar múltiples sampleos y notas, simplemente escríbelos un"
-"o detrás del otro:"
+"Sonic Pi incluye muchos samples con los que puedes tocar. Utiliza el comando "
+"`play` para dispararlos. Para tocar varios samples y notas, sólo tienes que "
+"escribirlos uno detrás del otro:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1978,28 +1963,26 @@ msgid "Discovering Samples"
 msgstr "Descubriendo las muestras"
 
 #: 03.1-Triggering-Samples.md:46
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the far left vertical men"
 "u, choose your category and then you'll see a list of available sounds."
 msgstr ""
-"Hay dos maneras de descubrir el rango de sampleos provistos por sonic Pi. Prim"
-"ero, puedes utilizar este sistema de ayuda. Click en Samples en el menú vertic"
-"al a la izquierda, elige tu categoria y verás un listado de sonidos disponible"
-"s."
+"Tienes dos formas de ver los samples incluidos en Sonic Pi. Primero, puedes "
+"utilizar este sistema de ayuda. Haz click en Samples en el menú vertical a "
+"la izquierda, elige una categoria, y verás una lista de sonidos disponibles."
 
 #: 03.1-Triggering-Samples.md:51
-#, fuzzy
 msgid ""
 "Alternatively you can use the *auto-completion system*. Simply type the start "
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
-"Alternativamente puedes usar el \"sistema de auto-compleción\". Simplemente tecl"
-"ea el comienzo de un grupo de sampleo tal como: `sample :ambi_` y verás el men"
-"ú de nombres de sampleos disponibles para que selecciones. Intenta las siguien"
-"tes categorias de prefijos:"
+"También puedes usar el *sistema para auto completar*. Sólo tienes que "
+"escribir el comienzo de un grupo de samples que empiecen por el mismo nombre;"
+" por ejemplo, `sample :ambi_`. Te saldrá un menú con nombres de samples "
+"disponibles, que puedes seleccionar. Prueba con los prefijos de las "
+"siguientes categorías:"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
@@ -2042,9 +2025,8 @@ msgid "3.2 Sample Parameters"
 msgstr "3.2 Parámetros de muestreo"
 
 #: 03.2-Sample-Params.md:3
-#, fuzzy
 msgid "Sample Parameters: Amp and Pan"
-msgstr "Parámetros de Sampleo: Amp y Pan"
+msgstr "Parámetros de Sample: Amplitud y Pan"
 
 #: 03.2-Sample-Params.md:5
 msgid ""
@@ -2058,18 +2040,16 @@ msgstr ""
 "`pan:`."
 
 #: 03.2-Sample-Params.md:9
-#, fuzzy
 msgid "Amping samples"
-msgstr "Amplificando los sampleos"
+msgstr "Amplificando samples"
 
 #: 03.2-Sample-Params.md:11
-#, fuzzy
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
 msgstr ""
-"Puedes cambiar la amplitud de los sampleos exactamente de la misma forma que u"
-"tilizamos para los sintetizadores:"
+"Puedes cambiar la amplitud de los samples igual que la amplitud de los "
+"sintetizadores:"
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
@@ -2077,20 +2057,18 @@ msgid "sample :ambi_lunar_land, amp: 0.5"
 msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
-#, fuzzy
 msgid "Panning samples"
-msgstr "Paneando sampleos"
+msgstr "Paneando samples"
 
 #: 03.2-Sample-Params.md:20
-#, fuzzy
 msgid ""
 "We're also able to use the `pan:` parameter on samples. For example, here's ho"
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
-"También podemos utilizar el parámetro `pan:` en sampleos. Por ejemplo, aquí te"
-" muestro como tocaríamos la pausa amén en el oído izquierdo y después a la mit"
-"ad, la tocaríamos en el oído derecho:"
+"También podemos utilizar el parámetro `pan:` para los samples. En el "
+"siguiente ejemplo, el amen break suena primero en el oído izquierdo, y a la "
+"mitad, pasa al oído derecho:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -2104,11 +2082,10 @@ msgstr ""
 "sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
-#, fuzzy
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
-"Nota que al 0.877 (en segundos) está la mitad de la duración del sampleo `:loo"
-"p_amen` ."
+"Fíjate en que 0.877 es justo la mitad de la duración (en segundos) del "
+"sample `:loop_amen` ."
 
 #: 03.2-Sample-Params.md:33
 #, fuzzy
