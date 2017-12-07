@@ -37,7 +37,8 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono modu etkinleştirme.
+Etkinleştirildiği taktirde, stereo çıkışı birleştirerek sağ ve sol hoparlölerden aynı sesi verecektir.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1312"/>
@@ -157,7 +158,7 @@ her basıldığında temizlenir.</translation>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi ile çalışan harici PA sistemler için ileri seviye ayarlar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1313"/>
@@ -216,7 +217,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Alan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="948"/>
@@ -246,12 +247,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synth ve FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1346"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synth ve FX Ayarlarını Değiştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
