@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-09-28 13:47+0000\n"
-"Last-Translator: Martin Solheim <martin.solheim@me.com>\n"
+"PO-Revision-Date: 2017-12-09 20:48+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
 "Language: nb\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17-dev\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2490,7 +2490,7 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:73
 msgid "Fade In and Out"
-msgstr ""
+msgstr "Ton inn og ut"
 
 #: 03.4-Enveloped-Samples.md:75
 msgid ""
@@ -2652,7 +2652,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:56
 msgid "Choosing a finish point"
-msgstr ""
+msgstr "Valg av sluttpunkt"
 
 #: 03.5-Partial-Samples.md:58
 msgid ""
@@ -2667,7 +2667,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:66
 msgid "Specifying start and finish"
-msgstr ""
+msgstr "Bestemmelse av start of slutt"
 
 #: 03.5-Partial-Samples.md:68
 msgid ""
@@ -2691,7 +2691,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
-msgstr ""
+msgstr "Kult! Den spiller det baklengs!"
 
 #: 03.5-Partial-Samples.md:84
 msgid "Combining with rate"
