@@ -370,35 +370,37 @@ Kontrollimisel saadetakse anonüümne informatsioon sinu platvormist ja versioon
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Võrgu OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi võib saata ja vastuvõtta Open Sound Control sõnumeid
+teistelt programmidelt ja hetkel võrku ühendatud arvutitelt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI seadistamine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI pordid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva kõik ühendatud MIDI pordid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI väljundseadmed võtavad Sonic Pi&apos;lt MIDI sõnumeid 
+otse vastu; neid saab saata midi_* funktsioonidega</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -424,7 +426,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita Pro ikoone - lülita vaikimisi ja natuke
+minimalistlikumate ikoonide vahel.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -541,7 +544,7 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>abi kuvamine muutus...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
