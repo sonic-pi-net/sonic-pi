@@ -4,17 +4,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
+"PO-Revision-Date: 2017-12-13 22:51+0000\n"
+"Last-Translator: Per-Erik Westerberg <wespertalk@gmail.com>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/sv/>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr ""
+msgstr "1 Välkommen till Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr ""
+msgstr "Välkommen kompis :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -58,16 +65,16 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr ""
+msgstr "OK, då börjar vi ..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 Interaktiv Programmering"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr ""
+msgstr "Interaktiv Programmering"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -79,7 +86,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "Öppna ditt sinne"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -88,23 +95,30 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
+"Innan vi går in på djupet hur Sonic Pi fungerar i resten av denna manual så "
+"skulle jag vilja att du får uppleva hur det är att programmera interaktivt. "
+"Du behöver inte förstå allt ännu, håll bara i dig så startar vi äventyret ..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr ""
+msgstr "En Interaktiv slinga"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr ""
+msgstr "Låt oss börja, kopiera följande program till en tom buffert ovanför:"
 
 #: 01.1-Live-Coding.md:21
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :bd_haus, rate: 1\n"
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
