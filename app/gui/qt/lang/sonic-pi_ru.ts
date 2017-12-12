@@ -385,7 +385,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Прослушивание сообщений OSC на порту</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
@@ -429,7 +429,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение или отключение входящей и исходящей MIDI связи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
@@ -473,7 +473,9 @@ Dark mode is perfect for live coding in night clubs.</source>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Входные устройства передачи MIDI-Сообщений MIDI непосредственно
+ Sonic Pi и принимаются как события метки
+(аналогично входящим сообщениям OSC и внутренним сигналам)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
@@ -574,13 +576,14 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Иконки «Pro»</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключение Pro иконки - переключение между параметрами по умолчанию
+ и более минималистичный набор иконок.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
@@ -845,12 +848,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключены MIDI-входы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключенны MIDI выходы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -897,35 +900,38 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевой OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi может отправлять и получать сообщения управления открытым звуком
+от других программ или компьютеров
+через подключенную в данный момент сеть.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Конфигурация MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-порт</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Список всех подключенных портов MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Выход MIDI-устройств принимать MIDI-сообщения непосредственно с
+Sonic Pi, которые могут быть отправлены через midi_* fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2717"/>
@@ -1020,7 +1026,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>помощь видимости изменилась...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
