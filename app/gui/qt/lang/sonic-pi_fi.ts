@@ -39,13 +39,13 @@ can only handle mono.</source>
         <translation>Vaihda monotila.
 Valittuna vasen ja oikea audio yhdistetään
 ja sama signaali lähetetään molempiin kaiuttimiin.
-Hyödyllinen kun käytetään ulkoisia järjestelmiä
+Hyödyllinen kun käytetään ulkoisia järjestelmiä,
 jotka toimivat ainoastaan monona.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1343"/>
         <source>Configure debug behaviour</source>
-        <translation>Määritä debug käyttäytyminen</translation>
+        <translation>Määritä debug -käyttäytyminen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1349"/>
@@ -445,7 +445,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn't recognised.</source>
+which isn&apos;t recognised.</source>
         <translation>Kun valittu, Sonic Pi antaa käynnistää
 load_synthdefs kautta ladattuja
 syntetisaattoreita ja efektejä.
@@ -1175,7 +1175,7 @@ Lataa Sonic Pi %1</translation>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
         <translation>Onko Sonic Pi jo käynnissä? UDP-porttia ei voitu avata.</translation>
     </message>
 </context>
