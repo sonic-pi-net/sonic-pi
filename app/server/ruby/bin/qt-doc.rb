@@ -177,7 +177,7 @@ make_tutorial = lambda do |lang|
     tutorial_html_map[name] = html
   end
 
-  make_tab.call("tutorial", tutorial_html_map, false, false, false, true, true, lang)
+  make_tab.call("tutorial", tutorial_html_map, false, true, false, true, true, lang)
 end
 
 
@@ -214,7 +214,7 @@ ruby_html_map = {
 languages =
   Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
-  sort_by {|n| -n.length}
+  sort_by {|n| [-n.length, n]}
 
 docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
 
@@ -230,7 +230,7 @@ docs << "{\n" unless (languages.empty?)
 make_tutorial.call("en")
 docs << "}\n" unless (languages.empty?)
 
-make_tab.call("examples", example_html_map, false, false, false, true)
+make_tab.call("examples", example_html_map, false, true, false, true)
 make_tab.call("synths", SonicPi::Synths::SynthInfo.synth_doc_html_map, :titleize, true, true, true)
 make_tab.call("fx", SonicPi::Synths::SynthInfo.fx_doc_html_map, :titleize, true, true, true)
 make_tab.call("samples", SonicPi::Synths::SynthInfo.samples_doc_html_map, false, true, false, true)
