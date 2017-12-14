@@ -902,7 +902,7 @@ na twoim komputerze do aktualnego buforu</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">Sieciowy OSC</translation>
+        <translation>Sieć OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
