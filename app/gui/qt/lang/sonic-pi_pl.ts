@@ -597,7 +597,7 @@ oraz przychodzące komunikaty OSC/MIDI.</translation>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz/wyłącz profesjonalne ikony - przełączanie pomiędzy domyślnym a bardziej minimalistycznym zestawem ikon.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
@@ -902,35 +902,38 @@ na twoim komputerze do aktualnego buforu</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sieciowy OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi może wysłać oraz odbierać komunikaty w formacie Open Sound Control
+do oraz z innych programów lub komputerów
+za pośrednictwem aktualnego połączenia sieciowego.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Porty MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż listę wszystkich podłączonych portów MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Zewnętrzne urządzenia MIDI otrzymują komunikaty MIDI bezpośrednio
+z Sonic Pi. Można je wysłać za pomocą funkcji midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
@@ -1035,7 +1038,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>widoczność pomocy została zmieniona...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
