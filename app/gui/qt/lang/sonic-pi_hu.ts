@@ -97,7 +97,7 @@ váratlanul hangos és kellemetlen hangokat alkothatnak.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszcilloszkóp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
@@ -107,12 +107,12 @@ váratlanul hangos és kellemetlen hangokat alkothatnak.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes képernyős mód be.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes képernyős mód ki.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
@@ -122,17 +122,17 @@ váratlanul hangos és kellemetlen hangokat alkothatnak.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>A Sonic Pi szervert nem sikerült elindítani!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1323"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Sztereó felcserélése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1326"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono mód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
@@ -147,12 +147,12 @@ váratlanul hangos és kellemetlen hangokat alkothatnak.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1347"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Szintetizátorok és effektek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Szintetizátorok és effektek működésének beállítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1350"/>
@@ -205,7 +205,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Külső szintetizátorok és effektek bekapcsolása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
@@ -419,7 +419,7 @@ szórakozóhelyeken végzett élő kódoláshoz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>A jelenlegi pufferben levő kód futtatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
@@ -434,7 +434,7 @@ szórakozóhelyeken végzett élő kódoláshoz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Helyi IP-cím</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
@@ -444,7 +444,7 @@ szórakozóhelyeken végzett élő kódoláshoz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem elérhető</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
@@ -460,7 +460,7 @@ szórakozóhelyeken végzett élő kódoláshoz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC szerver aktiválása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
@@ -476,7 +476,7 @@ szórakozóhelyeken végzett élő kódoláshoz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-alrendszerek engedélyezése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
@@ -486,7 +486,7 @@ szórakozóhelyeken végzett élő kódoláshoz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI visszaállítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
@@ -497,27 +497,27 @@ szórakozóhelyeken végzett élő kódoláshoz.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Alap MIDI csatorna (a * mindet jelenti)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Alapértelmezett MIDI csatorna üzenetküldésre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1292"/>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs csatlakoztatott bemeneti eszköz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs csatlakoztatott kimeneti eszköz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
@@ -529,17 +529,17 @@ Sonic Pi and are received as cue events
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Fő hangerő</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ezzel a csúszkával állítható a rendszer hangereje.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Hangkimenet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1359"/>
@@ -559,7 +559,7 @@ Sonic Pi and are received as cue events
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Profi ikonok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
@@ -570,17 +570,17 @@ Sonic Pi and are received as cue events
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>I/O</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszcilloszkóp mutatása/elrejtése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1516"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszcilloszkóp típusok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1531"/>
@@ -595,7 +595,7 @@ Sonic Pi and are received as cue events
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Tengelyek mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
@@ -617,7 +617,9 @@ Stereo - shows two independent scopes for left and right channels</source>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi indulási hiba
+
+Bocsánat, kritikus hiba történt indulás alatt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1768"/>
@@ -625,7 +627,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1785"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Pufferfájlok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
@@ -636,19 +638,19 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1771"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Szövegfájlok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruby fájlok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Minden fájl</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1788"/>
@@ -783,12 +785,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Betöltés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Külső fájl betöltése a jelenlegi pufferbe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
@@ -808,12 +810,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Csatlakoztatott MIDI bemenetek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Csatlakoztatott MIDI kimenetek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -850,7 +852,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>A beállítások panel láthatóságának kapcsolása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
@@ -867,22 +869,24 @@ Apologies, a critical error occurred during startup</source>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi tud küldeni és fogadni Open Sound Control üzeneteket
+más programoknak vagy számítógépeknek
+a jelenleg aktív hálózaton keresztül.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI beállítások</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI portok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Minden csatlakoztatott MIDI port listázása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
@@ -959,7 +963,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wave fájl (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
@@ -970,7 +974,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="2980"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Nem sikerült a %1 fájl olvasása: %2.</translation>
+        <translation>Nem sikerült a %1 fájl olvasása:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2991"/>
@@ -981,7 +986,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Nem sikerült a %1 fájl írása: %2.</translation>
+        <translation>Nem sikerült a %1 fájl írása:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3018"/>
@@ -1025,32 +1031,32 @@ Szerezd be: Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI engedélyezése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI tiltása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC port nyitása távoli üzenetekhez...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC szerver megállítása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI visszaállítása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI kikapcsolva...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
@@ -1081,12 +1087,12 @@ Szerezd be: Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1251"/>
         <source>Synths</source>
-        <translation>Synth-ek</translation>
+        <translation>Szintetizátorok</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1298"/>
         <source>Fx</source>
-        <translation>Fx</translation>
+        <translation>Effektek</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1317"/>
@@ -1112,7 +1118,7 @@ Szerezd be: Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fut már a Sonic Pi? Nem sikerült UDP portot nyitni.</translation>
     </message>
 </context>
 </TS>
