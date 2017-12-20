@@ -26,7 +26,7 @@ require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/lang/minecraftpi"
 require_relative "../lib/sonicpi/lang/midi"
 require_relative "../lib/sonicpi/lang/sound"
-#require_relative "../lib/sonicpi/lang/pattern"
+require_relative "../lib/sonicpi/lang/pattern"
 require_relative "../lib/sonicpi/runtime"
 
 require 'multi_json'
