@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>Buffer %1</source>
-        <translation>Buffer %1</translation>
+        <translation>Tampon %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
