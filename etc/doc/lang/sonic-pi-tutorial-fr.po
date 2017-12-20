@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-24 05:46+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/f"
-"r/>\n"
+"PO-Revision-Date: 2017-12-21 04:11+0000\n"
+"Last-Translator: Chenebel Dorian <LoubiTek54@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.18\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -96,7 +96,7 @@ msgstr "1.1 Codage en 'live'"
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Codage en direct"
+msgstr "Codage en Direct"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -5545,6 +5545,10 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
+"Tandis que les variables sont géniales pour donner des noms et capturer les "
+"résultats des choses, il est important de savoir qu'elles ne doivent "
+"généralement être utilisées que localement au sein d'un fil d’exécution. Par "
+"exemple, *ne faites pas ceci*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
@@ -5560,6 +5564,16 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
