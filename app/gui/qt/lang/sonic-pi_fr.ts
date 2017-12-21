@@ -874,7 +874,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation>Sonic Pi peut envoyer et recevoir des messages d&apos;Ouverture du Contrôle du Son
+        <translation>Sonic Pi peut envoyer et recevoir des messages Open Sound Control (contrôle sonore ouvert)
 vers et à partir d&apos;autres programmes ou ordinateurs
 via le réseau actuellement connecté.</translation>
     </message>
@@ -898,7 +898,7 @@ via le réseau actuellement connecté.</translation>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
         <translation>Les périphériques de sortie MIDI reçoivent des messages MIDI directement à partir de
-Sonic Pi qui peut être envoyé via le midi_ * fns</translation>
+Sonic Pi qui peut être envoyé via les fonctions midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
@@ -1010,7 +1010,7 @@ Sonic Pi qui peut être envoyé via le midi_ * fns</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation>aider la visibilité a changé ...</translation>
+        <translation>la visibilité de l&apos;aide a changé ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
