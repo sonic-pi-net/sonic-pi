@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-21 04:11+0000\n"
-"Last-Translator: Chenebel Dorian <LoubiTek54@gmail.com>\n"
+"PO-Revision-Date: 2017-12-23 12:29+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.18\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -96,7 +96,7 @@ msgstr "1.1 Codage en 'live'"
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Codage en Direct"
+msgstr "Codage en direct"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
