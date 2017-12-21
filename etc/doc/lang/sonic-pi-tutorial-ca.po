@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-13 17:44+0000\n"
+"PO-Revision-Date: 2017-12-23 12:29+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ca/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -225,6 +225,7 @@ msgstr ""
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
+"Intenteu comentar una de les línies del `sample`afegint un `#` a l'inici:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -235,6 +236,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -242,6 +248,9 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
+"Adona't com li diu a l'ordinador que ho ignore, de manera que no ho "
+"escoltem. Açò s'anomena \"comentar\". A Sonic Pi podem fer servir comentaris "
+"per treure o afegir coses a la mescla."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -251,28 +260,41 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"Finalment, et deixo una cosa divertida amb la que jugar. Pren el codi "
+"següent i copia'l a un buffer buit. De moment, no intentes comprendre molt "
+"més que el fet que hi ha dos bucles - de manera que hi ha dos coses que "
+"sonen al mateix temps. Ara, fes el que millor saps: experimenta i juga. Ací "
+"tens algunes suggerències:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
+"Prova a canviar el valor en blau de `rate:`per tal d'escoltar com canvia el "
+"sample."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
+"Prova a canviar els temps de `sleep`i para atenció a com ambdós bucles poden "
+"donar voltes a diferents velocitats."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
+"Prova de descomentar la línia d'exemple (esborra el `#`) i gaudeix del so de "
+"la guitarra tocada marxa enrere."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
+"Prova de canviar qualsevol dels valors blaus de `mix:` a números entre `0` ("
+"fora de la mescla) i `1` (totalment en la mescla)."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -281,6 +303,11 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
+"Recorda que has de prémer `Run` per tal d'escoltar el canvi la propera "
+"vegada que es reproduïsca el bucle. Si acaba sent un embolic, no et "
+"preocupes - prem `Stop`, esborra el codi del buffer i enganxa una còpia nova "
+"de l'exemple per tornar a començar. Cometent errades és com aprendràs més "
+"ràpidament."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -299,6 +326,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -306,64 +346,69 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
+"Ara, segueix tocant i experimentant fins que despertes la teua curiositat "
+"sobre com funciona tot açò i et preguntes què més pots fer. Ja estàs "
+"preparat per llegir la resta del tutorial."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "A què esperes?"
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 Explorant la interfície"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "La interfície de Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
+"Sonic Pi té una interfície molt senzilla per programar música. Donem-li una "
+"ullada."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - Controls d'execució"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - Controls d'edició"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* - Informació i ajuda"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - Editor de codi"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - Tauler de preferències"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F* - Visor de registre"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* - Sistema d'ajuda"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* - Visor"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
-msgstr ""
+msgstr "A. Controls d'execució"
 
 #: 01.2-Exploring-the-Interface.md:22
 msgid ""
@@ -372,10 +417,15 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"Aquests botons rosa són els controls principals per començar i aturar sons. "
+"Hi ha el botó *Run*, que serveix per iniciar l'execució del codi; el botó "
+"*Stop*, per aturar tot el codi en execució; *Save*, per desar el codi a un "
+"arxiu extern; i *Record*, per crear un enregistrament (un arxiu WAV) dels "
+"sons executats."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. Controls d'edició"
 
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
@@ -383,10 +433,13 @@ msgid ""
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
+"Aquests botons taronja permeten manipular l'editor de codi. Els botos *Size "
+"+* i *Size -* permeten canviar la mida del text. El botó *Align* ordenarà el "
+"codi automàticament per fer que es veja més professional."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "C. Informació i Ajuda"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -396,10 +449,16 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
+"Aquests botons blaus et donen accès a informació, ajuda i preferències. El "
+"botó *Info* obre la finestra d'informació, la qual conté informació sobre el "
+"propi programa Sonic Pi -l'equip base, la seua història, els contribuïdors i "
+"la comunitat. El botó *Help* mostra o amaga el sistema d'ajuda (*G*) i el "
+"botó *Prefs* activa la finestra de preferències, que et permet controlar "
+"alguns paràmetres bàsics del sistema."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. Editor de codi"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -410,10 +469,17 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"Aquesta és l'àrea on escriuràs el teu codi i composaràs/interpretaràs "
+"música. És un editor de text senzill on pots escriure codi, esborrar-lo, "
+"copiar-lo i enganxar-lo, etc. Pensa que és una versió simplificada de Word o "
+"Google Docs. L'editor pintarà de diferents colors el codi automàticament, "
+"tenint en compte el significat del codi. Al principi, això pot semblar "
+"estrany, però prompte ho trobaràs molt útil. Per exemple, sabràs que quelcom "
+"és un número perquè és de color blau."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. Tauler de preferències"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
