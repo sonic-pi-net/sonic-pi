@@ -1130,7 +1130,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1317"/>
         <source>Samples</source>
-        <translation>Samples</translation>
+        <translation>Amostras</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1564"/>
