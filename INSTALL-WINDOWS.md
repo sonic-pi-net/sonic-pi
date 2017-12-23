@@ -1,6 +1,6 @@
 # SONIC PI DETAILED BUILD YOUR OWN INSTRUCTIONS FOR WINDOWS 10 BASED ON LATEST SP 2.11dev
 
-Last revision 1st June 2016  
+Last revision 23rd December 2017  
 
 Tested on Windows 10 64bit.
 
@@ -8,7 +8,7 @@ This document details the process from beginning to end to build Sonic Pi 2.11de
 
 First there is quite a bit of software to install to facilitate the build, not least the source files for Sonic Pi.
 
-First install **git** from https://msysgit.github.io/ click **download** then run `Git-2.6.3-64-bit.exe` I selected options **Use git from Windows Command Prompt**, **Checkout Windows-style**, **commit Unix-style line endings**, **Use Windows default console window**, and **Enable file system caching**
+First install **git** from https://git-scm.com/ click **download**, then run the installer file. I selected options **Use git from Windows Command Prompt**, **Checkout Windows-style**, **commit Unix-style line endings**, **Use Windows default console window**, and **Enable file system caching**
 
 Now install the **Sonic Pi source files**. I put mine at the top level of the c: drive
 Start a command window by typing **cmd** in the search field

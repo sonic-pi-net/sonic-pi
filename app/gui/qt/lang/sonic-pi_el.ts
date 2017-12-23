@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="el">
 <context>
@@ -26,7 +25,8 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Αντιστροφή στερεοφωνίας
-Εάν ενεργοποιηθεί, ο ήχος που στέλνεται στο αριστερό ηχείο θα μεταφερθεί στο δεξί και αντίστροφα.</translation>
+Εάν ενεργοποιηθεί, ο ήχος που στέλνεται στο αριστερό ηχείο
+θα μεταφερθεί στο δεξί και αντίστροφα.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -44,7 +44,7 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation>Ρύθμιση κατάστασης απασφαλμάτωσης</translation>
+        <translation>Ρύθμιση συμπεριφοράς απασφαλμάτωσης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
@@ -156,7 +156,7 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1507"/>
         <source>Editor</source>
-        <translation>Επεξεργαστής</translation>
+        <translation>Συντάκτης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
@@ -173,7 +173,7 @@ external PA systems when performing with Sonic Pi.</source>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Ορισμός λειτουργιών ελέγχου παραμέτρων synth.
+        <translation>Εναλλαγή λειτουργιών ελέγχου παραμέτρων συνθέσεων.
 Εάν απενεργοποιηθεί, μερικές παράμετροι ίσως
 δημιουργήσουν πολύ δυνατούς ή άβολους ήχους.</translation>
     </message>
@@ -200,7 +200,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>Ο εξυπηρετητής Sonic Pi δεν μπόρεσε να ξεκινήσει!</translation>
+        <translation>Ο Διακομιστής Sonic Pi δεν μπόρεσε να ξεκινήσει!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1323"/>
@@ -215,22 +215,22 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1347"/>
         <source>Synths and FX</source>
-        <translation>Synths και Εφέ</translation>
+        <translation>Συνθέσεις και ηχητικά εφέ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation>Αλλαγή συμπεριφοράς synths και Εφέ</translation>
+        <translation>Αλλαγή συμπεριφοράς συνθέσεων και ηχητικών εφέ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1350"/>
         <source>Log synths</source>
-        <translation>Καταγραφή synths</translation>
+        <translation>Καταγραφή συνθέσεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
         <source>Log cues</source>
-        <translation>Καταγραφή cues</translation>
+        <translation>Καταγραφή νύξεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -251,7 +251,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Enable external synths and FX</source>
-        <translation>Ενεργοποίηση εξωτερικών synths και Εφέ</translation>
+        <translation>Ενεργοποίηση εξωτερικών συνθέσεων και ηχητικών εφέ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
@@ -261,7 +261,7 @@ to be triggered.
 
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
-which isn&apos;t recognised.</source>
+which isn't recognised.</source>
         <translation>Όταν ενεργοποιηθεί, το Sonic Pi θα επιτρέπει
 τις συνθέσεις και τα ηχητικά εφέ που φορτώθηκαν μέσω του load_syhthdefs
 να ενεργοποιηθούν.
@@ -289,7 +289,7 @@ even when a little late.</source>
 
 Όταν απενεργοποιηθεί, το Sonic Pi θα προσπαθήσει
 να ενεργοποιήσει πάντα τις συνθέσεις και τα ηχητικά εφέ
-ακόμη κι&apos; αν είναι λίγο αργά.</translation>
+ακόμη κι' αν είναι λίγο αργά.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1388"/>
@@ -368,35 +368,38 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC δικτύου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το Sonic Pi μπορεί να στείλει μηνύματα Ανοιχτού Ελέγχου Ήχου (OSC)
+από και προς άλλα προγράμματα και υπολογιστές
+μέσω του τωρινά συνδεδεμένου δικτύου.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Θύρες MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Λίστα όλων των συνδεδεμένων θυρών MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι συσκευές εξαγωγής MIDI λαμβάνουν μηνύματα MIDI απευθείας από
+το Sonic Pi τα οποία μπορούν να σταλθούν με τις συναρτήσεις midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -422,22 +425,23 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή μεταξύ των προεπιλεγμένων εικονιδίων
+ και των πιο μινιμαλιστικών εικονιδίων Pro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή της ορατότητας των κουμπιών ελέγχου.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση καρτελών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή της ορατότητας των καρτελών επιλογής των buffer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
@@ -447,18 +451,19 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1454"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή στην λειτουργία πλήρους οθόνης.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή στην σκοτεινή λειτουργία</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Η σκοτεινή λειτουργία είναι τέλεια για ζωντανή κωδικοποίηση σε νυχτερινά κέντρα.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1502"/>
@@ -470,7 +475,9 @@ Dark mode is perfect for live coding in night clubs.</source>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα Εκκίνησης του Sonic Pi
+
+Με συγχωρείτε, ένα κρίσιμο σφάλμα προέκυψε κατά την εκκίνηση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1768"/>
@@ -478,12 +485,12 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1785"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία Bufer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόρτωση Buffer του Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
@@ -506,257 +513,262 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2227"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση αυτόματης κύλισης καταγραφών...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2229"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Απενεργοποίηση αυτόματης κύλισης καταγραφών...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση κώδικα στο τωρινό buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόρτωση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόρτωση ενός εξωτερικού αρχείου στο τωρινό buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχείο κυματόμορφου ήχου (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>η ορατότητα της βοήθειας άλλαξε...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Το MIDI ενεργοποιείται...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Το MIDI απενεργοποιείται...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοίγει η θύρα OSC για απομακρυσμένα μηνύματα...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο διακομιστής του OSC σταματάει...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Το MIDI επαναφέρεται...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>Το MIDI είναι απενεργοποιημένο...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Καλώς ήρθες πάλι. Ώρα να γράψεις λίγο κώδικα...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση του τωρινού Buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Νύξεις</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία πλήρους οθόνης ενεργοποιημένη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία πλήρους οθόνης απενεργοποιημένη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοπική διεύθυνση IP</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακούω για μηνύματα OSC στην θύρα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη διαθέσιμο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Λήψη απομακρυσμένων μηνυμάτων OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν ενεργοποιηθεί, το Sonic Pi θα ακούει για μηνύματα OSC από απομακρυσμένες μηχανές.
+ Όταν απενεργοποιηθεί, μόνο μηνύματα από την τοπική μηχανή θα λαμβάνονται.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση διακομιστή OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν ενεργοποιηθεί, το Sonic Pi θα ακούει για μηνύματα OSC.
+ Όταν απενεργοποιηθεί, δεν θα λαμβάνονται μηνύματα OSC.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρύθμιση συμπεριφοράς MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση υποσυστημάτων MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση ή απενεργοποίηση εισερχόμενης και εξερχόμενης επικοινωνίας MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Επαναφορά MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Επαναφορά υποσυστημάτων MIDI 
+(Απαραίτητο για την ανίχνευση αλλαγών στο macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Προεπιλεγμένο κανάλι MIDI (το * σημαίνει όλα)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Προεπιλεγμένο κανάλι MIDI για την αποστολή μυνημάτων σε</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1292"/>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν υπάρχουν συνδεδεμένες συσκευές εισόδου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν υπάρχουν συνδεδεμένες συσκευές εξόδου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι συσκευές εισαγωγής MIDI στέλνουν μηνύματα MIDI απευθείας στο
+Sonic Pi και λαμβάνονται ως συμβάντα νύξης
+(όπως τα εισερχόμενα μηνύματα OSC και οι εσωτερικές νύξεις)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Κύρια Ένταση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρησιμοποιήστε αυτόν τον ολισθητή για να αλλάξετε την ένταση του συστήματος.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Έξοδος ήχου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1359"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτόματη κύλιση καταγραφών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση καταγραφής νύξεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή της ορατότητας της καταγραφής των νύξεων, η οποία εμφανίζει εσωτερικές νύξεις &amp; εισερχόμενα μηνύματα OSC/MIDI.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικονίδια Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση και Απόκρυψη Παλμοσκοπίου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1516"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Είδη Παλμοσκοπίου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1531"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση Παλμοσκοπίων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή της ορατότητας των παλμοσκoπίων ήχου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση αξόνων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1534"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή της ορατότητας των αξόνων για τα παλμοσκόπια ήχου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
@@ -766,205 +778,212 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Το παλμοσκόπιο ήχου έχει τρεις εκδοχές που μπορούν να
+προβληθούν ανεξάρτητα ή όλες μαζί:
+
+Lissajous - εμφανίζει την σχέση φάσης μεταξύ του αριστερού και του δεξιού καναλιού
+Mono - εμφανίζει μία συνδυασμένη προβολή του αριστερού και του δεξιού καναλιού (χρησιμοποιώντας το RMS)
+Stereo - εμφανίζει δύο ανεξάρτητες προβολές για το κάθε κανάλι</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1551"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Οπτικά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεγέθυνση...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1901"/>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>Σμίκρυνση...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1942"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ελέγχω για ενημερώσεις...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Enabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση ελέγχου ενημερώσεων...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
         <source>Disabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Απενεργοποίηση ελέγχου ενημερώσεων...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1983"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση Μίκτη LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1992"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Απενεργοποίηση Μίκτη LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση Αντίστροφης Στερεοφωνίας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση Αντίστροφης Μονοφωνίας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2016"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Μονοφωνική λειτουργία...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2024"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Στερεοφωνική λειτουργία...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2033"/>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>Διακοπή...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2191"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενημέρωση Έντασης Συστήματος...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2682"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση τωρινού buffer ως ένα εξωτερικό αρχείο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2694"/>
         <source>Start recording to WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκκίνηση εγγραφής σε ένα αρχείο ήχου WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Improve readability of code</source>
-        <translation type="unfinished"></translation>
+        <translation>Αύξηση της αναγνωσιμότητας του κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Αύξηση μεγέθους</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Μείωση μεγέθους</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2717"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή της ορατότητας των παλμοσκoπίων ήχου </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή της ορατότητας του πίνακα βοήθειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή της ορατότητας του πίνακα προτιμήσεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>Έτοιμο...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2991"/>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>Το αρχείο φορτώθηκε...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3018"/>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>Το αρχείο αποθηκεύτηκε...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Τελευταίος έλεγχος %l</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το Sonic Pi ελέγχει για ενημερώσεις
+κάθε δυο εβδομάδες.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτό είναι το Sonic Pi %l</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Η έκδοση %2 είναι τώρα διαθέσιμη!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3272"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Μια νέα έκδοση είναι διαθέσιμη!
+Λάβετε το Sonic Pi %l</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνδεδεμένες είσοδοι MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνδεδεμένες έξοδοι MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2677"/>
         <source>Stop</source>
-        <translation>Στόπ</translation>
+        <translation>Διακοπή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>Διακοπή όλου του κώδικα που εκτελείται</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
         <source>Save As...</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση ως...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2721"/>
         <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Δες πληροφορίες για το Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="754"/>
@@ -975,108 +994,110 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις χρήσιμες για την εκτέλεση με το Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα εκκίνησης του διακομιστή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>Παρακαλώ σκεφτείτε να αναφέρετε ένα σφάλμα στο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2733"/>
         <source>Prefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <location filename="../mainwindow.cpp" line="2861"/>
         <location filename="../mainwindow.cpp" line="2862"/>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Έναρξη Εγγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2698"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Αυτόματη στοίχιση κειμένου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2702"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Αύξηση μήκους κειμένου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Μείωση μήκους κειμένου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Εργαλεία</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Σχετικά με</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>Κύρια ομάδα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2795"/>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνεισφορείς</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>Κοινότητα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2797"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Άδεια</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2798"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιστορία</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Πληροφορίες</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2853"/>
         <location filename="../mainwindow.cpp" line="2854"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Διακοπή Εγγραής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση Εγγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν μπορώ να διαβάσω το αρχείο %l:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν μπορώ να γράψω το αρχείο %l:
+%2.</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="116"/>
@@ -1092,7 +1113,7 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="1071"/>
         <location filename="../ruby_help.h" line="1167"/>
         <source>Tutorial</source>
-        <translation>Διδακτικό υλικό</translation>
+        <translation>Εκμάθηση</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1202"/>
@@ -1102,22 +1123,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="1251"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνθέσεις</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1298"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Ηχητικά εφέ</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1317"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Δείγματα</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1564"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Γλώσσα</translation>
     </message>
 </context>
 <context>
@@ -1132,8 +1153,8 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPOSCServer</name>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port.</source>
+        <translation>Μήπως το Sonic Pi εκτελείται ήδη; Δεν μπορώ να ανοίξω την θύρα UDP.</translation>
     </message>
 </context>
 </TS>
