@@ -519,28 +519,28 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi kann Open Sound Control Nachrichten über das momentane Netzwerk sowohl an andere Programme und Computer senden, als auch von anderen Programmen und Computern empfangen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI Einstellungen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI Ports</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste alle verbundenen MIDI Ports auf</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-Ausgabegeräte erhalten MIDI-Nachrichten, die direkt von Sonic Pi über die midi_* Funktionen gesendet werden können</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -566,7 +566,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte Pro Icons um - wechsle zwischen den Standard und einem minimalistischen Icon Set.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
