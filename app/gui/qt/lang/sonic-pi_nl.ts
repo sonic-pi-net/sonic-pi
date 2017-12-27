@@ -702,7 +702,7 @@ Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>help zichtbaarheid aangepast...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
