@@ -280,13 +280,13 @@ Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</t
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">MIDI-subsysteem herstellen
-(nodig om te detecteren of er veranderingen zijn met apparaten in macOS)</translation>
+        <translation>MIDI-subsysteem herstellen
+(nodig om apparaatwijzigingen te detecteren in macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished">Standaard MIDI-kanaal (* = allemaal)</translation>
+        <translation>Standaard MIDI-kanaal (* = allemaal)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
@@ -508,35 +508,38 @@ Deze opdracht omvat het verzenden van anonieme gegevens over het platform en de 
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC via netwerk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi kan Open Sound Control berichten verzenden en ontvangen
+naar en van andere programma&apos;s of computers
+ via het huidige verbonden netwerk.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI configuratie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI poorten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon alle verbonden MIDI poorten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI output apparaten ontvangen MIDI berichten direct van
+Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -562,7 +565,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel pro iconen in/uit - schakel tussen de standaard
+ en een meer minimalistische iconen set.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
