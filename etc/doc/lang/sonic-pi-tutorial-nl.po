@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-25 22:45+0000\n"
-"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/nl"
-"/>\n"
+"PO-Revision-Date: 2017-12-27 18:25+0000\n"
+"Last-Translator: Michiel Leegwater <michiel.leegwater@technolution.eu>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5235,15 +5235,14 @@ msgid "Variables"
 msgstr "Variabelen"
 
 #: 05.6-Variables.md:5
-#, fuzzy
 msgid ""
 "A useful thing to do in your code is to create names for things. Sonic Pi make"
 "s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Het is handig om in jouw code is namen voor dingen te creëren. Sonic Pi maakt "
-"jou dit zeer eenvoudig, je schrijft de naam die je wenst te gebruiken, een gel"
-"ijkteken ('='), en dan wat je wilt onthouden:"
+"Het is handig om in jouw code is namen voor dingen te creëren. Sonic Pi "
+"maakt jou dit zeer eenvoudig, je schrijft de naam die je wenst te gebruiken, "
+"een gelijkteken ('='), en dan wat je wilt onthouden:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5494,9 +5493,8 @@ msgstr ""
 "ken."
 
 #: 05.6-Variables.md:133
-#, fuzzy
 msgid "Warning: Variables and Threads"
-msgstr "Variabelen"
+msgstr "Waarschuwing: Variabelen en threads"
 
 #: 05.6-Variables.md:135
 msgid ""
@@ -5504,6 +5502,10 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
+"Alhoewel variabelen goed zijn voor het geven van namen aan dingen en het "
+"opslaan van de resultaten van dingen, is het belangrijk om te weten dat ze "
+"typisch alleen lokaal gebruikt dienen te worden binnen een thread. "
+"Bijvoorbeeld, *doe dit niet*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
@@ -5519,6 +5521,16 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :geschud do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :gesorteerd do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"gesorteerd: \", a\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
