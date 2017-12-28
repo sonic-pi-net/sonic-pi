@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-27 18:29+0000\n"
-"Last-Translator: Rachid Ben Moussa <rachidbm@gmail.com>\n"
+"PO-Revision-Date: 2017-12-28 23:39+0000\n"
+"Last-Translator: Michiel Leegwater <michiel.leegwater@technolution.eu>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -58,9 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Mocht je bedenkingen hebben, of ideeën, om Sonic Pi te verbeteren, aarzel dan "
-"niet om deze te laten weten, daar feedback zo nuttig is . En, je weet nooit, …"
-" jouw idee kan dan wel eens de volgende, voornaamste nieuwe functie zijn!"
+"Mocht je gedachten of ideeën hebben om Sonic Pi te verbeteren, aarzel dan "
+"niet om deze door te geven; terugkoppeling is zo nuttig. En, je weet het "
+"nooit, jouw idee zou de volgende grote nieuwe functie kunnen zijn!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -5547,6 +5547,18 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
+"In het bovenstaande voorbeeld kenden we een ring van getallen toe aan "
+"variabele `a` en werd deze gebruikt in twee `live_loop`'s. In de eerste lus "
+"sorteren we de ring elke 0,5s (naar `(ring 1, 2, 3, 4, 5, 6)`) en drukken "
+"deze af naar het log. Wanneer je de code draait kom je erachter dat de "
+"afgedrukte lijst *niet altijd gesorteerd is!*. Dit kan je verrassen, zeker "
+"omdat de lijst soms gesorteerd is afgedrukt en soms niet. Dit wordt niet "
+"deterministisch gedrag genoemd en is het resultaat van een behoorlijk naar "
+"probleem genaamd race conditie. Het probleem komt doordat de tweede lus de "
+"lijst ook manipuleert (in dit geval door elkaar schudden). Tegen de tijd dat "
+"de lijst wordt afgedrukt is deze soms net gesorteerd en soms net geschud. "
+"Beide lussen 'racen' om iets anders te doen met dezelfde variabele en elke "
+"keer 'wint' er een andere lus."
 
 #: 05.6-Variables.md:168
 msgid ""
@@ -5554,6 +5566,10 @@ msgid ""
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
+"Er zijn hiervoor twee oplossingen. Ten eerste, *gebruik dezelfde variabele "
+"niet in meerdere live lussen of threads*. Bijvoorbeeld: de volgende code "
+"drukt altijd een gesorteerde lijst omdat iedere live lus een aparte eigen "
+"variabele heeft:"
 
 #: 05.6-Variables.md:173
 #, no-wrap
@@ -5570,6 +5586,17 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :geschud do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :gesorteerd do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"gesorteerd: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
 msgid ""
@@ -5578,6 +5605,10 @@ msgid ""
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
+"Soms willen we echter dingen delen tussen threads. Bijvoorbeeld de huidige "
+"toonsoort, BPM, synth, etc. In deze gevallen is de oplossing om gebruik te "
+"maken van de speciale thread-safe state systemen in Sonic Pi via de functies "
+"`get` en `set`. Dit wordt verder beproken in sectie 10."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -8538,11 +8569,11 @@ msgstr ""
 
 #: 10-State.md:1
 msgid "10 Time State"
-msgstr ""
+msgstr "10 Tijd toestand"
 
 #: 10-State.md:3
 msgid "Time State"
-msgstr ""
+msgstr "Tijd toestand"
 
 #: 10-State.md:5
 msgid ""
@@ -8557,6 +8588,17 @@ msgid ""
 "information across threads* due to a loss of determinism (in turn due to race "
 "conditions)."
 msgstr ""
+"Vaak is het nuttig om informatie te *delen over meerder threads of live "
+"lussen*. Je zou bijvoorbeeld de huidige toonsoort, BPM of meer abstracte "
+"concepten zoals de huidige 'complexiteit' (wat je potentieel op "
+"verschillende manieren interpreteerd in verschillende threads). We willen "
+"ook niet iets van ons bestaande garanties voor determinisme verliezen "
+"wanneer we dit doen. In andere woorden, we willen nog steeds code met andere "
+"kunnen delen en exact weten wat ze horen wanneer het wordt uitgevoerd. Aan "
+"het einde van sectie 5.6 van deze tutorial wordt kort besproken waarom we *"
+"geen variabelen zouden moeten gebruiken om informatie te delen tussen "
+"threads* vanwege het verlies van determinisme (op hun beurt veroorzaakt door "
+"race condities)."
 
 #: 10-State.md:16
 msgid ""
@@ -8568,18 +8610,26 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic.*."
 msgstr ""
+"De oplossing in Sonic Pi voor het probleem van een makkelijk model met "
+"globale variabelen op een deterministische wijze is door een vernieuwend "
+"systeem dat tijd toestand wordt genoemd. Dit kan complex en moeilijk klinken "
+"(in feite is programmeren met meerdere threads en een gedeeld geheugenmodel "
+"tipisch een onderwerp op universitair niveau). Echter, zoals je zult zien, "
+"net als het spelen van de eerste noot, * Sonic Pi maakt het onzetten "
+"eenvoudig om toestand te delen tussen threads* terwijl je programma's nog "
+"steeds *thread safe en deterministisch blijven*."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
-msgstr ""
+msgstr "Maak kennis met `get` en `set`..."
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Set en get"
 
 #: 10.1-Set-and-Get.md:3
 msgid "Set and Get"
-msgstr ""
+msgstr "Set en get"
 
 #: 10.1-Set-and-Get.md:5
 msgid ""
@@ -8587,39 +8637,47 @@ msgid ""
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
+"Sonic Pi heeft een globaal memory model genaamd tijd toestand. De twee "
+"belangrijkste dingen die je ermee doet is informattie `zetten` (set) en "
+"`ophalen` (get). Laten we erin duiken..."
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
 msgstr ""
+"Om informatie op te slaan in de tijd toestand  hebben we twee dingen nodig:"
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr ""
+msgstr "de informatie die we willen opslaan,"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "een unieke naam (sleutel) voor de informatie."
 
 #: 10.1-Set-and-Get.md:16
 msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"We willen bijvoorbeeld het getal `3000` opslaan met de sleutel `:intensiteit`"
+". Dit is mogelijk door de `set` functie te gebruiken:"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
 msgid "set :intensity, 3000"
-msgstr ""
+msgstr "set :intensiteit, 3000"
 
 #: 10.1-Set-and-Get.md:23
 msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
+"We kunnen elke naam gebruiken voor onze sleutel. Wanneer informatie al was "
+"opgeslagen voor die sleutel, dan overschrijft de nieuwe `set` die:"
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8627,6 +8685,8 @@ msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
 msgstr ""
+"set :intensiteit, 1000\n"
+"set :intensiteit, 3000"
 
 #: 10.1-Set-and-Get.md:31
 msgid ""
@@ -8634,10 +8694,14 @@ msgid ""
 "all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
 " as the first call to `set` is effectively overridden."
 msgstr ""
+"In het bovenstaande voorbeeld hebben we beide getallen opgeslagen onder "
+"dezelfde sleutel. De laatste aanroep van `set` 'wint'. Het getal dat "
+"gekoppeld is aan `:intensiteit` zal `3000` zijn omdat de eerste aanroep van "
+"`set` effectief wordt overschreven."
 
 #: 10.1-Set-and-Get.md:35
 msgid "Get"
-msgstr ""
+msgstr "Get"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
@@ -8645,11 +8709,15 @@ msgid ""
 " it, which in our case is `:intensity`. We then just need to call `get[:intens"
 "ity]` which we can see by printing out the result to the log:"
 msgstr ""
+"Om informatie op te halen uit de tijd toestand hebben we allen de sleuten "
+"nodig die werd gebruikt om voor `set`. In ons geval is dat `:intensiteit`. "
+"We hoeven alleen `get[:intensiteit]` aan te roepen wat we kunnen zien door "
+"het resultaat naar het log af te drukken:"
 
 #: 10.1-Set-and-Get.md:42
 #, no-wrap
 msgid "print get[:intensity] #=> prints 3000"
-msgstr ""
+msgstr "print get[:intensiteit] #=> print 3000"
 
 #: 10.1-Set-and-Get.md:46
 msgid ""
@@ -8658,11 +8726,15 @@ msgid ""
 "the information is overridden (just like we clobbered the `:intensity` value o"
 "f `1000` to `3000` above) or Sonic Pi is closed."
 msgstr ""
+"Merk op dat aanroepen van `get` informatie kunnen teruggeven die was ge`set` "
+"in de vorige uitvoering.  Wanneer een stuk informatie is ge`set` is het "
+"beschikbaar totdat of de informatie is overschreven (net als de aanpassing "
+"van `:intensiteit` van de waarde `1000` naar `3000` hierboven) of Sonic Pi "
+"is afgesloten."
 
 #: 10.1-Set-and-Get.md:52
-#, fuzzy
 msgid "Multiple Threads"
-msgstr "Threads"
+msgstr "Meerdere threads"
 
 #: 10.1-Set-and-Get.md:54
 msgid ""
@@ -8670,10 +8742,13 @@ msgid ""
 " threads or live loops. For example, you could have one live loop setting info"
 "rmation and another one getting it:"
 msgstr ""
+"Het belangrijkste voordeel van het tijd toestand systeem is dat het veilig "
+"gebruikt kan worden tussen meerdere threads of live lussen. Je kunt "
+"bijvoorbeeld een live lus hebben voor het zetten van informatie en een "
+"andere voor het ophalen:"
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8683,7 +8758,15 @@ msgid ""
 "  puts get[:foo]\n"
 "  sleep 0.5\n"
 "end"
-msgstr "rrand"
+msgstr ""
+"live_loop :opslaan do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :ophalen do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 
 #: 10.1-Set-and-Get.md:70
 msgid ""
@@ -8691,9 +8774,13 @@ msgid ""
 " will always produce the same result every time you hit run. Go on, try it. Se"
 "e if you get the following in your log:"
 msgstr ""
+"Het leuke aan het gebruik van `get` en `set` tussen meerdere threads zoals "
+"hier is dat het altijd hetzelfde resultaat oplevert iedere keer dat je op "
+"uitvoeren drukt. Vooruit, probeer het. Kijk op je het volgende in je log "
+"krijgt:"
 
 #: 10.1-Set-and-Get.md:74
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "{run: 0, time: 0.0}\n"
 " └─ 125.72265625\n"
@@ -8712,6 +8799,22 @@ msgid ""
 "{run: 0, time: 3.5}\n"
 " └─ 75.6048583984375"
 msgstr ""
+"{run: 0, time: 0.0}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 0.5}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 1.0}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 1.5}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 2.0}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 2.5}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 3.0}\n"
+" └─ 75.6048583984375\n"
+"{run: 0, time: 3.5}\n"
+" └─ 75.6048583984375"
 
 #: 10.1-Set-and-Get.md:100
 msgid ""
@@ -8721,18 +8824,26 @@ msgid ""
 "ly what we wanted them to hear (just like playing an MP3 or internet stream so"
 "unds the same for all listeners)."
 msgstr ""
+"Probeer het een paar keer uit te voeren, zie je wel, het is steeds "
+"hetzelfde. Dit is wat we deterministisch gerag noemen en het is werkelijk "
+"heel belangrijk wanneer we onze muziek als code willen delen en zeker willen "
+"weten dat de persoon die code afspeelt exact hetzelfde hoort als wat we "
+"wilden dat ze hoorden (net als een MP3 afpselen of een internet stream voor "
+"alle luisteraars hezelfde klinkt)."
 
 #: 10.1-Set-and-Get.md:107
 msgid "A Simple Deterministic State System"
-msgstr ""
+msgstr "Een simple deterministisch toestandssysteem"
 
 #: 10.1-Set-and-Get.md:109
-#, fuzzy
 msgid ""
 "Back in Section 5.6 we discussed why using variables across threads can lead t"
 "o random behaviour. This stops us from being able to reliably reproduce code s"
 "uch as this:"
-msgstr "rand"
+msgstr ""
+"Eerder, in sectie 5.6, bespraken we waarom variabelen gebruiken over "
+"meerdere threads voor willekeurig gedrag kan zorgen. Daardoor is het "
+"betrouwbaar reproduceren zoals de volgende code niet mogelijk:"
 
 #: 10.1-Set-and-Get.md:113
 #, no-wrap
@@ -8756,10 +8867,28 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"## Een voorbeeld van niet deterministisch gedrag\n"
+"## (veroorzaakt door race condities veroorzaakt door meerdere\n"
+"## live lussen die dezelfde variable manipuleren\n"
+"## op hetzelfde moment).\n"
+"##  \n"
+"## Wanneer je deze code uitvoert zul je opmerken\n"
+"## dat de lijst die wordt afgedrukt \n"
+"## niet altijd gesorteerd is\n"
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :geschud do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :gesorteerd do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"gesorteerd: \", a\n"
+"end"
 
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
-msgstr ""
+msgstr "Laten we kijken hoe dit eruit ziet wanneer we `get` en `set` gebruiken:"
 
 #: 10.1-Set-and-Get.md:138
 #, no-wrap
@@ -8781,6 +8910,22 @@ msgid ""
 "  puts \"sorted: \", get[:a]\n"
 "end"
 msgstr ""
+"## Een voorbeeld van deterministisch gedrag\n"
+"## (ondanks gelijktijdige toegang tot gedeelde toestand)\n"
+"## door het gebruik van het tijd toestand systeem van Sonic Pi.\n"
+"##\n"
+"## Wanneer deze code wordt uitgevoerd is de lijst\n"
+"## die wordt afgedrukt altijd gesorteerd!\n"
+"set :a, (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :geschud do\n"
+"  set :a, get[:a].shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :gesorteerd do\n"
+"  set :a, get[:a].sort\n"
+"  sleep 0.5\n"
+"  puts \"gesorteerd: \", get[:a]\n"
+"end"
 
 #: 10.1-Set-and-Get.md:159
 msgid ""
@@ -8789,20 +8934,29 @@ msgid ""
 "any typical Sonic Pi code - *it does the same thing every time* in this case t"
 "hanks to the Time State system."
 msgstr ""
+"Merk op dat de code bijna identiek is aan de versie die de variabele "
+"gebruikt hiervoor. Echter wanneer je de code uitvoert gedraagt het zich "
+"zoals je zou verwachten met elk typisch stuk Sonic Pi code: *het doet elke "
+"keer hetzelfde* in dit geval dankzij het tijd toestand systeem."
 
 #: 10.1-Set-and-Get.md:164
 msgid ""
 "Therefore, when sharing information across live loops and threads, use `get` a"
 "nd `set` instead of variables for deterministic, reproducible behaviour."
 msgstr ""
+"Gebruik daarom wanneer je informatie deelt tussen live lussen en threads "
+"`get` en `set` in plaat van variabelen voor deterministisch en "
+"reproduceerbaar gedrag."
 
 #: 10.2-Sync.md:1
+#, fuzzy
 msgid "10.2 Sync"
-msgstr ""
+msgstr "10.2 Sync"
 
 #: 10.2-Sync.md:3
+#, fuzzy
 msgid "Sync"
-msgstr ""
+msgstr "Sync"
 
 #: 10.2-Sync.md:5
 msgid ""
@@ -8815,10 +8969,19 @@ msgid ""
 " - any information that we plan to store in Time State we can sync on. In othe"
 "r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
+"Sectie 5.7 introduceerde de functies `cue` en `sync` om het synchroniseren "
+"van threads af te handelen. Wat niet werd uitgelegd is dat het het tijd "
+"toestand systeem is dat deze functionaliteit beschikbaar stelt. Eigenlijk is "
+"`set` een variatie op `cue` en bouwt voort op dezelfde kernfunctionaliteit: "
+"het toevoegen van informatie aan het tijd toestand systeem. Bovendien is "
+"`sync` ook zo ontworpen dat het naadloos samenwerkt met de tijd toestand - "
+"alle informatie die we van plan zijn op te slaan in de tijd toestand waarop "
+"we kunnen synchroniseren. Met andere woorden - * we `sync`-en op "
+"gebeurtenissen die nog moeten worden ingevoegd in de tijd toestand *."
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
-msgstr ""
+msgstr "Wachten op gebeurtenissen"
 
 #: 10.2-Sync.md:17
 msgid ""
@@ -8828,7 +8991,6 @@ msgstr ""
 
 #: 10.2-Sync.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync :foo\n"
@@ -8836,7 +8998,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 1"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  sync :bla\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :bla, 1"
 
 #: 10.2-Sync.md:31
 #, fuzzy
@@ -8860,15 +9028,16 @@ msgid "Passing values into the Future"
 msgstr ""
 
 #: 10.2-Sync.md:44
-#, fuzzy
 msgid ""
 "In the example above we set `:foo` to `1` which we did nothing with. We can ac"
 "tually get this value from the thread calling `sync`:"
-msgstr "foo"
+msgstr ""
+"In het bovenstaande voorbeeld is ':bla' op '1' gezet om er vervolgens niets "
+"mee te doen. We kunnen de waarde ophalen van de thread door 'sync' aan te "
+"roepen:"
 
 #: 10.2-Sync.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  amp = sync :foo\n"
@@ -8876,7 +9045,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 0.5"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  amp = sync :bla\n"
+"  sample :ambi_lunar_land, amp: amp\n"
+"end\n"
+"sleep 2\n"
+"set :bla, 0.5"
 
 #: 10.2-Sync.md:58
 msgid ""
@@ -8926,14 +9101,12 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
-#, fuzzy
 msgid "`cue \"/foo/bar/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:25
-#, fuzzy
 msgid "`cue \"/foo/baz/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
@@ -8950,14 +9123,12 @@ msgid ""
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:32
-#, fuzzy
 msgid "`cue \"/foo/bar\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
-#, fuzzy
 msgid "`cue \"/foo/baz/quux/quaax\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
@@ -8984,33 +9155,28 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:47
-#, fuzzy
 msgid "`cue \"/foo/baz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/baz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:48
-#, fuzzy
 msgid "`cue \"/foo/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:52
-#, fuzzy
 msgid "`cue \"/foo/flibble/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/flibble/baz\"`"
 
 #: 10.3-Pattern-Matching.md:53
-#, fuzzy
 msgid "`cue \"/foo/abaz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/abaz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:54
-#, fuzzy
 msgid "`cue \"/foo/beans/baz/eggs\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
 #, fuzzy
@@ -9034,19 +9200,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:69
-#, fuzzy
 msgid "`cue \"/foo/bar/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/bar/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:70
-#, fuzzy
 msgid "`cue \"/foo/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/baz\"`"
 
 #: 10.3-Pattern-Matching.md:71
-#, fuzzy
 msgid "`cue \"/foo/a/b/c/d/e/f/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
@@ -9083,19 +9246,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:89
-#, fuzzy
 msgid "`cue \"/foo/bar/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/bar/quux\"`"
 
 #: 10.3-Pattern-Matching.md:90
-#, fuzzy
 msgid "`cue \"/foo/beans/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/beans/quux\"`"
 
 #: 10.3-Pattern-Matching.md:91
-#, fuzzy
 msgid "`cue \"/foo/eggs/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
@@ -9110,19 +9270,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
-#, fuzzy
 msgid "`cue \"/foo/aux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/aux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:100 10.3-Pattern-Matching.md:107
-#, fuzzy
 msgid "`cue \"/foo/bux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/bux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:101 10.3-Pattern-Matching.md:108
-#, fuzzy
 msgid "`cue \"/foo/cux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
 #, fuzzy
@@ -9132,14 +9289,12 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:109
-#, fuzzy
 msgid "`cue \"/foo/dux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/dux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:110
-#, fuzzy
 msgid "`cue \"/foo/eux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/bla/eux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
@@ -9301,9 +9456,8 @@ msgid ""
 msgstr ""
 
 #: 11.1-MIDI-In.md:60
-#, fuzzy
 msgid "Controlling Code"
-msgstr "FX Controllen"
+msgstr "Besturingscode"
 
 #: 11.1-MIDI-In.md:62
 msgid ""
@@ -9400,9 +9554,8 @@ msgid ""
 msgstr ""
 
 #: 11.1-MIDI-In.md:136
-#, fuzzy
 msgid "Getting Values"
-msgstr "Starten"
+msgstr "Waarden ophalen"
 
 #: 11.1-MIDI-In.md:138
 msgid ""
@@ -9654,14 +9807,18 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:19
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :foo do\n"
 "  use_real_time\n"
 "  a, b, c = sync \"/osc/trigger/prophet\"\n"
 "  synth :prophet, note: a, cutoff: b, sustain: c\n"
 "end"
-msgstr "foo"
+msgstr ""
+"live_loop :bla do\n"
+"  use_real_time\n"
+"  a, b, c = sync \"/osc/trigger/prophet\"\n"
+"  synth :prophet, note: a, cutoff: b, sustain: c\n"
+"end"
 
 #: 12.1-Receiving-OSC.md:27
 msgid ""
@@ -9862,9 +10019,8 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:17
-#, fuzzy
 msgid "Increasing the Duration"
-msgstr "Duurtijd"
+msgstr "Duurtijd vergroten"
 
 #: 13.1-Sound-In.md:19
 msgid ""
@@ -9922,9 +10078,8 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:52
-#, fuzzy
 msgid "Multiple Inputs"
-msgstr "Meerdere Kettingen"
+msgstr "Meerdere inputs"
 
 #: 13.1-Sound-In.md:54
 msgid ""
@@ -9967,9 +10122,8 @@ msgid "13.2 Live Audio"
 msgstr ""
 
 #: 13.2-Live-Audio.md:3
-#, fuzzy
 msgid "Live Audio"
-msgstr "Live Coderen"
+msgstr "Live audio"
 
 #: 13.2-Live-Audio.md:5
 msgid ""
@@ -9994,9 +10148,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo"
-msgstr "foo"
+msgstr "live_audio :bla"
 
 #: 13.2-Live-Audio.md:23
 msgid ""
@@ -10018,12 +10171,14 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:34
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  live_audio :bla\n"
+"end"
 
 #: 13.2-Live-Audio.md:40
 msgid ""
@@ -10037,20 +10192,23 @@ msgid ""
 msgstr ""
 
 #: 13.2-Live-Audio.md:49
-#, fuzzy
 msgid ""
 "Now, whilst you're still hearing the audio live from the sound card with rever"
 "b, change the code to the following:"
-msgstr "reverb,"
+msgstr ""
+"Wijzig, terwijl je de live audio van de geluidskaart nog met reverb hoort, "
+"nu de code naar het volgende:"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :echo do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :echo do\n"
+"  live_audio :bla\n"
+"end"
 
 #: 13.2-Live-Audio.md:58
 msgid ""
@@ -10061,14 +10219,18 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:62
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do\n"
 "  with_fx :echo do\n"
 "    live_audio :foo\n"
 "  end\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :echo do\n"
+"    live_audio :bla\n"
+"  end\n"
+"end"
 
 #: 13.2-Live-Audio.md:70
 #, fuzzy
@@ -10094,9 +10256,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:85
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo, :stop"
-msgstr "foo"
+msgstr "live_audio :bla, :stop"
 
 #: 13.2-Live-Audio.md:89
 msgid "It can easily be restarted by calling it without the `:stop` arg again:"
@@ -10126,9 +10287,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:111
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo, stereo: true, input: 2"
-msgstr "foo"
+msgstr "live_audio :bla, stereo: true, input: 2"
 
 #: 13.2-Live-Audio.md:115
 msgid ""
@@ -10273,11 +10433,17 @@ msgid ""
 "t receive any audio, and channel 3 will receive a mono mix of the amen drum br"
 "eak."
 msgstr ""
+"In het bovenstaande voorbeeld is de `:loop_amen` sample verstuurd naar zijn "
+"buitenste context, de `:sound_out` FX. Dit stuurt dan een mono mix naar "
+"audiokaart output 3 en vermenigvuldigd de audio vervolgens met 0 wat het "
+"feitelijk verstomt. Het is dit verstomde signaal dat wordt uitgestuurd naar "
+"de buitenste context van `:sound_out` wat de standaard output is. Daarom "
+"ontvangen de default outputkanalen geen audio met deze code en kanaal drie "
+"zal een mono mix van de amen drum rust ontvangen."
 
 #: 14-Conclusions.md:1
-#, fuzzy
 msgid "14 Conclusions"
-msgstr "12 conclusies"
+msgstr "14 conclusies"
 
 #: 14-Conclusions.md:3
 msgid "Conclusions"
@@ -17383,9 +17549,8 @@ msgstr ""
 "subt_synth :e1 - 4, 8"
 
 #: B-Essential-Knowledge.md:1
-#, fuzzy
 msgid "B Essential Knowledge"
-msgstr "Essentiële Kennis"
+msgstr "B Essentiële kennis"
 
 #: B-Essential-Knowledge.md:3
 msgid "Essential Knowledge"
@@ -17408,9 +17573,8 @@ msgstr ""
 "sen, hoe jouw werk te delen en wat tips hoe met Sonic Pi op te treden."
 
 #: B.01-Using-Shortcuts.md:1
-#, fuzzy
 msgid "B.1 Using Shortcuts"
-msgstr "10.1 Sneltoetsen gebruiken"
+msgstr "B.1 Sneltoetsen gebruiken"
 
 #: B.01-Using-Shortcuts.md:3
 msgid "Using Shortcuts"
@@ -17603,9 +17767,8 @@ msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
 msgstr "Voor een volledige lijst kijk je naar punt 10.2 Shortcut Cheatsheet."
 
 #: B.02-Shortcut-Cheatsheet.md:1
-#, fuzzy
 msgid "B.2 Shortcut Cheatsheet"
-msgstr "10.2 Shortcut Cheatsheet"
+msgstr "B.2 Sneltoetsen spiekbrief"
 
 #: B.02-Shortcut-Cheatsheet.md:3
 msgid "Shortcut Cheatsheet"
@@ -17890,9 +18053,8 @@ msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Inhoud van buffer vanuit een bestand laden"
 
 #: B.03-Sharing.md:1
-#, fuzzy
 msgid "B.3 Sharing"
-msgstr "10.3 Delen"
+msgstr "B.3 Delen"
 
 #: B.03-Sharing.md:3
 msgid "Sharing"
@@ -17994,9 +18156,8 @@ msgstr ""
 "enthousiast om wat jij mij gaat laten zien."
 
 #: B.04-Performing.md:1
-#, fuzzy
 msgid "B.4 Performing"
-msgstr "10.4 Optreden"
+msgstr "B.4 Optreden"
 
 #: B.04-Performing.md:3
 msgid "Performing"
@@ -18080,9 +18241,8 @@ msgstr ""
 " onderdelen om live te spelen in een nachtclub."
 
 #: C-Minecraft-Pi.md:1
-#, fuzzy
 msgid "C Minecraft Pi"
-msgstr "Minecraft Pi"
+msgstr "C Minecraft Pi"
 
 #: C-Minecraft-Pi.md:3
 msgid "Minecraft Pi"
