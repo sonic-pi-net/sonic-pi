@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-28 23:39+0000\n"
+"PO-Revision-Date: 2018-01-04 14:05+0000\n"
 "Last-Translator: Michiel Leegwater <michiel.leegwater@technolution.eu>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -8988,6 +8988,8 @@ msgid ""
 "Let's take a quick look at how to use `sync` to wait for new events to be adde"
 "d to Time State:"
 msgstr ""
+"Laten we kort kijken naar hoe `sync` gebruikt wordt om op nieuwe "
+"gebeurtenissen te wachten die worden toegevoegd aan tijd toestand:"
 
 #: 10.2-Sync.md:20
 #, no-wrap
