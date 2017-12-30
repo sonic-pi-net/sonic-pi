@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-23 12:29+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-01-01 10:33+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -5576,6 +5576,7 @@ msgstr ""
 "end"
 
 #: 05.6-Variables.md:154
+#, fuzzy
 msgid ""
 "In the above example we assign a ring of numbers to a variable `a` and then us"
 "ed it within two separate `live_loop`s. In the first live loop every `0.5`s we"
@@ -5590,13 +5591,32 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
+"Dans l'exemple ci-dessus, nous avons assigné un anneau de nombres à la "
+"variable `a` et nous l'avons utilisé dans deux `live_loop`s séparées. Dans "
+"la première boucle en direct, tout les `0.5`s, nous trions l'anneau (à `("
+"ring 1, 2, 3, 4, 5, 6)`) et nous l'imprimons dans le journal. Si vous "
+"exécutez le code, vous remarquerez que la liste imprimée *n'est pas toujours "
+"triée!*. Cela peut vous surprendre - surtout que des fois la liste est "
+"imprimée de façon triée, et d'autres fois non. Ceci s'appelle un "
+"comportement non-déterministe et est le résultat d'un méchant problème qui "
+"s'appelle la concurrence. Le problème est dû au fait que la deuxième boucle "
+"en direct manipule également la liste (pour la mélanger dans ce cas) et au "
+"moment où la liste est imprimée, parfois elle vient d'être triée, et "
+"d'autres, elle vient d'être mélangée. Les deux boucles en direct se font "
+"concurrence pour faire une manipulation différente à la même variable et à "
+"chaque round une boucle différente \"gagne\"."
 
 #: 05.6-Variables.md:168
+#, fuzzy
 msgid ""
 "There are two solutions to this. Firstly, *don't use the same variable in mult"
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
+"Il y a deux solutions à cela. Premièrement, *n'utilisez pas la même variable "
+"dans de multiples boucles en direct ou fil d'exécution*. Par exemple, le "
+"code suivant imprimera toujours une liste triée puisque chaque boucle en "
+"direct a ses propres variables."
 
 #: 05.6-Variables.md:173
 #, no-wrap
@@ -5613,14 +5633,31 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
+#, fuzzy
 msgid ""
 "However, sometimes we do want to share things across threads. For example, the"
 " current key, BPM, synth etc. In these cases, the solution is to use Sonic Pi'"
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
+"Par contre, parfois nous voulons partager des éléments entre plusieurs fils "
+"d'exécution. Par exemple, la clé courante, BOM, synthé etc. Dans ces cas, la "
+"solution est d'utiliser le système d'état de fil d'exécution sécurisé "
+"spécial de Sonic Pi par les fonctions `get` et `set`. Nous en reparlons dans "
+"la section 10."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -8624,14 +8661,17 @@ msgstr ""
 "s utiles, et joyeux parcours automatiques !"
 
 #: 10-State.md:1
+#, fuzzy
 msgid "10 Time State"
-msgstr ""
+msgstr "10 État du temps"
 
 #: 10-State.md:3
+#, fuzzy
 msgid "Time State"
-msgstr ""
+msgstr "État du temps"
 
 #: 10-State.md:5
+#, fuzzy
 msgid ""
 "Often it is useful to have information that is *shared across multiple threads"
 " or live loops*. For example, you might want to share a notion of the current "
@@ -8644,6 +8684,18 @@ msgid ""
 "information across threads* due to a loss of determinism (in turn due to race "
 "conditions)."
 msgstr ""
+"Parfois il est utile d'avoir de l'information qui est *partagée à travers "
+"plusieurs fils d'exécution ou boucle en direct*. Par exemple,  vous pouvez "
+"vouloir partager la notion de la clé courante, BPM ou encore des concepts "
+"plus abstraits comme la complexité courante ( laquelle vous interpréteriez "
+"potentiellement de manière différente à travers les divers fils). De plus, "
+"nous ne voulons pas perdre nos garanties de déterminisme existantes en "
+"faisant cela. En d'autres mots, nous aimerions être toujours capable de "
+"partager du code avec les autres et savoir exactement ce qu'ils vont "
+"entendre en l'exécutant. À la fin de la Section 5.6 de ce tutoriel, nous "
+"avons discuté brièvement de pourquoi nous *ne devrions pas utiliser des "
+"variables pour partager l'information à travers les fils d'exécution* "
+"causant une perte de déterminisme (ce qui est dû à la concurrence)."
 
 #: 10-State.md:16
 msgid ""
