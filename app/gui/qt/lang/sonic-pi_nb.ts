@@ -583,7 +583,7 @@ Sonic Pi og tas imot som vinkhendelser
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished">Veksle Pro-ikoner - bytt mellom forvalget
+        <translation>Veksle Pro-ikoner - bytt mellom forvalgt
 og et mer minimalistisk ikonsett.</translation>
     </message>
     <message>
@@ -893,9 +893,9 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi kan sende og motta Open Sound-kontrollmeldinger
+        <translation>Sonic Pi kan sende og motta Open Sound-kontrollmeldinger
 (OSC) til og fra andre programmer og datamaskiner
-via det tilkoblede nettverket.</translation>
+via det gjeldende tilkoblede nettverket.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
@@ -1022,7 +1022,7 @@ Sonic PI, som kan sendes gjennom midi_*fns</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished">hjelpesynlignet endret…</translation>
+        <translation>endret hjelpesynlignet…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
