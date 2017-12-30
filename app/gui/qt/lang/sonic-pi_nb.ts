@@ -1022,7 +1022,7 @@ Sonic PI, som kan sendes gjennom midi_*fns</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation>endret hjelpesynlignet…</translation>
+        <translation>endret hjelpesynlighet…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
