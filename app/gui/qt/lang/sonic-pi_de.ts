@@ -512,7 +512,7 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Networked-OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
@@ -529,7 +529,7 @@ to and from other programs or computers
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI Ports</translation>
+        <translation>MIDI-Ports</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
