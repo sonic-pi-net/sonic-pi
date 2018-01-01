@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-26 18:46+0000\n"
-"Last-Translator: Joschka <foobar2@posteo.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/d"
-"e/>\n"
+"PO-Revision-Date: 2018-01-04 14:05+0000\n"
+"Last-Translator: Stefan Höhn <hoehn6691@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5514,6 +5514,10 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
+"Während Variablen sehr gut dazu geeignet sind, Dingen Namen zu geben oder "
+"ein Ergebnis festzuhalten, so sollten sie aber typischerweise nur im lokalen "
+"Kontext eines Threads verwendet werden. Das Folgende sollte man daher *nicht "
+"tun*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
@@ -5529,6 +5533,18 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -5545,6 +5561,20 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
+"In dem Beispiel oben weisen wir einem \"Ring\" aus Zahlen einer Variable 'a' "
+"zu und verwenden sie dann in zwei separaten `live_loop`s. Innerhalb der "
+"ersten live-loop sortieren wir alle 5 Sekunden den Ring (to `(ring 1, 2, 3, "
+"4, 5, 6)`) und geben in es dann im log aus. Wenn du nun den Code startest, "
+"wirst du bemerken, dass die ausgegebene Liste *nicht immer sortiert ist!*. "
+"Das könnte dich verwundern - insbesondere, da manchmal die Liste sortiert "
+"ist und manchmal eben nicht. Das bezeichnet man als nicht-deterministisches "
+"Verhalten (nicht vorhersagbar) und ist das Ergebnis eines eher üblen "
+"Problems, das man als 'Race-Condition' bezeichnet. Das Problem resultiert "
+"aus der Tatsache, dass die zweite live-loop parallel zur ersten live-loop "
+"die Liste verändert (sie mischt sie durch) und zum Zeitpunkt der Ausgabe die "
+"Liste manchmal sortiert und manchmal nicht sortiert ist. Da beide live-loops "
+"im Wettlauf miteinander sind, die Variable zu verändern, 'gewinnt' eben "
+"manchmal die eine live-loop oder manchmal die andere."
 
 #: 05.6-Variables.md:168
 msgid ""
@@ -5552,9 +5582,13 @@ msgid ""
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
+"Hierzu gibt es zwei Lösungen: *Verwende nie die gleiche Variable in "
+"verschiedenen live-loops oder threads*. Beispielsweise gibt der folgende "
+"Code die Liste immer richtig sortiert aus, da jede live-loop ihre eigene "
+"Variable verwendet:"
 
 #: 05.6-Variables.md:173
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :shuffled do\n"
 "  a = (ring 6, 5, 4, 3, 2, 1)\n"
@@ -5568,6 +5602,17 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
 msgid ""
@@ -5576,6 +5621,10 @@ msgid ""
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
+"Allerdings möchte man manchmal Werte zwischen verschiedene Threads teilen: "
+"zum Beispiel die aktuelle Tonart, das aktuelle oder den aktuellen Synth. In "
+"einem solchen Fall verwendet man in Sonic Pi spezielle System-Kommandos mit "
+"Hilfe der Funktionen `get` und `set, die wir später in Kapitel besprechen."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -8554,11 +8603,11 @@ msgstr ""
 
 #: 10-State.md:1
 msgid "10 Time State"
-msgstr ""
+msgstr "10 Zeitzustand (Time State)"
 
 #: 10-State.md:3
 msgid "Time State"
-msgstr ""
+msgstr "Zeitzustand (Time State)"
 
 #: 10-State.md:5
 msgid ""
@@ -8573,6 +8622,18 @@ msgid ""
 "information across threads* due to a loss of determinism (in turn due to race "
 "conditions)."
 msgstr ""
+"Oftmals ist es sinnvoll, Informationen zu haben, die man *in verschiedenen "
+"threads or live-loops teilen möchte*. Beispielsweise möchte man die aktuelle "
+"Tonart, die Geschwindigkeit (BPM) oder sogar allerlei andere abstrakte "
+"Konzepte wie die aktuelle 'Komplexität'  teilen (die wiederum "
+"unterschiedlich in den verschiedenen Threads interpretiert werden könnte). "
+"Dabei möchten wir aber auch nicht auf die deterministischen Garantien von "
+"Sonic Pi verzichten. In anderen Worten: Wir möchten Code mit anderen teilen, "
+"aber sicherstellen, dass genau das abgespielt wird, was wir uns dabei "
+"gedacht haben. Am Ende des Kapitels 5.6. dieses Tutorials gingen wir kurz "
+"darauf ein, warum wir *Variablen nicht zwischen verschiedenen Threads teilen "
+"sollten\", um nicht die Vorhersagbarkeit zu verlieren (aufgrund von Race "
+"Conditions)."
 
 #: 10-State.md:16
 msgid ""
@@ -8584,18 +8645,26 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic.*."
 msgstr ""
+"Sonic Pi's Lösung, um auf einfache Art mit globalen Variablen in einer "
+"verhersagbaren Weise zu arbeiten, ist das neuartige System, das wir \"Time "
+"State\" (Zeitzustand) genannt haben. Dies klingt erstmal komplex und "
+"schwierig (solche Themen werden normalerweise erst in der Universität "
+"gelehrt), allerdings wirst du erkennen, dass es Sonic Pi *unglaublich "
+"einfach macht, einen Zustand zwischen verschiedenen Threads zu teilen*, und "
+"dabei dennoch Programme zu schreiben, die *thread-safe und vorhersagbar\" "
+"sind."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
-msgstr ""
+msgstr "Sag Hallo zu`get` und `set`..."
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Set und Get"
 
 #: 10.1-Set-and-Get.md:3
 msgid "Set and Get"
-msgstr ""
+msgstr "Set und Get"
 
 #: 10.1-Set-and-Get.md:5
 msgid ""
@@ -8603,46 +8672,58 @@ msgid ""
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
+"Sonic Pi hat einen global Speicherbereich, der \"Time State\" genannt wird. "
+"Die beiden wesentliche Dinge, die man auf ihn an anwendet sind das Setzen "
+"von Informationen (Set) und das Holen von Information (Get)."
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
 msgstr ""
+"Um Informationen innerhalb des Time States zu speichern, benötigen wir zwei "
+"Dinge:"
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr ""
+msgstr "die Information, die wir speichern möchten,"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "einen eindeutigen Namen (Schlüssel) für die Information."
 
 #: 10.1-Set-and-Get.md:16
 msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"Wir möchten beispielsweise die Zahl `3000` unter dem Schlüsselnamen "
+"`:intensity` speichern. Dies können wir mit der `set` function erreichen:"
 
 #: 10.1-Set-and-Get.md:19
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "set :intensity, 3000"
-msgstr ""
+msgstr "set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:23
 msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
+"Für den Schlüssel können wir jeden Namen verwenden, den wir möchten. Haben "
+"wir einmal einen Wert unter diesem Schlüsselnamen gespeichert, wird ein "
+"neuer `set` -Befehl diesen überschreiben:"
 
 #: 10.1-Set-and-Get.md:26
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
 msgstr ""
+"set :intensity, 1000\n"
+"set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:31
 msgid ""
@@ -8650,10 +8731,15 @@ msgid ""
 "all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
 " as the first call to `set` is effectively overridden."
 msgstr ""
+"In dem obigen Beispiel haben wir beide Werte unter dem gleichen Schlüssel "
+"abgespeichert. Der letzte Befehl 'gewinnt', so dass die Zahl, die mit "
+"`:intensity` assoziert ist, die `3000` sein wird und somit die erste (1000) "
+"damit überschrieben wurde."
 
 #: 10.1-Set-and-Get.md:35
+#, fuzzy
 msgid "Get"
-msgstr ""
+msgstr "Get"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
@@ -8661,11 +8747,15 @@ msgid ""
 " it, which in our case is `:intensity`. We then just need to call `get[:intens"
 "ity]` which we can see by printing out the result to the log:"
 msgstr ""
+"Um Informationen aus dem Time-State wieder zu holen, benötigen wir nun "
+"unseren Schlüssel, den wir bei `set` verwendet haben, also in diesem Fall "
+"`:intensity`. We müssen jetzt einfach `get[:intensity]` aufrufen und "
+"bekommen dies im log angezeigt:"
 
 #: 10.1-Set-and-Get.md:42
 #, no-wrap
 msgid "print get[:intensity] #=> prints 3000"
-msgstr ""
+msgstr "print get[:intensity]  #=> prints 3000"
 
 #: 10.1-Set-and-Get.md:46
 msgid ""
@@ -8674,6 +8764,11 @@ msgid ""
 "the information is overridden (just like we clobbered the `:intensity` value o"
 "f `1000` to `3000` above) or Sonic Pi is closed."
 msgstr ""
+"Achte darauf, dass Aufrufe von `get` Informationen zurückgeben kann, die bei "
+"einem vorherigem Programm-Lauf gesetzt wurden. Wurde eine Information einmal "
+"mit Hilfe von `set` gespeichert, ist sie solange verfügbar bis sie entweder "
+"überschrieben wird (wie oben die  `1000` mit `3000`) oder Sonic Pi beendet "
+"wird."
 
 #: 10.1-Set-and-Get.md:52
 #, fuzzy
@@ -8686,6 +8781,10 @@ msgid ""
 " threads or live loops. For example, you could have one live loop setting info"
 "rmation and another one getting it:"
 msgstr ""
+"Der wesentliche Vorteil des Time State Systems ist, dass man auf sichere Art "
+"und Weise Informationen zwischen Threads und live-loops austauschen kann. "
+"Beispielsweise könnte eine live-loop Informationen bereitstellen, die die "
+"andere live-loop ausliest:"
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
@@ -8707,6 +8806,9 @@ msgid ""
 " will always produce the same result every time you hit run. Go on, try it. Se"
 "e if you get the following in your log:"
 msgstr ""
+"Das Schöne an `get` und `set` bei Threads ist, dass sie immer das gleiche "
+"Ergebnis produzieren, wenn das Programm erneut gestartet wird. Versuch's "
+"einfach mal selbst und prüfe nach, ob die folgende Ausgabe im Log erscheint:"
 
 #: 10.1-Set-and-Get.md:74
 #, no-wrap
@@ -8728,6 +8830,22 @@ msgid ""
 "{run: 0, time: 3.5}\n"
 " └─ 75.6048583984375"
 msgstr ""
+"{run: 0, time: 0.0} \n"
+" └─ 125.72265625\n"
+"{run: 0, time: 0.5}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 1.0}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 1.5}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 2.0}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 2.5}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 3.0}\n"
+" └─ 75.6048583984375\n"
+"{run: 0, time: 3.5}\n"
+" └─ 75.6048583984375"
 
 #: 10.1-Set-and-Get.md:100
 msgid ""
@@ -8737,10 +8855,16 @@ msgid ""
 "ly what we wanted them to hear (just like playing an MP3 or internet stream so"
 "unds the same for all listeners)."
 msgstr ""
+"Starte das Programm einfach mal mehrere Male - du wirst sehen, dass das "
+"Ergebnis immer das Gleiche ist. Das bezeichnen wir als \"deterministisches\" "
+"Verhalten und das ist sehr wichtig, wenn wir unsere Musik an andere "
+"weitergeben möchten und sicher sein wollen, dass die Person, die die Musik "
+"anhört, genau das gleiche Ergebnis hören wird wie wir, die es erstellt haben "
+"(ähnlich wie das Spielen einer MP3 oder das Streamen von Musik)."
 
 #: 10.1-Set-and-Get.md:107
 msgid "A Simple Deterministic State System"
-msgstr ""
+msgstr "Ein einfaches deterministisches State System"
 
 #: 10.1-Set-and-Get.md:109
 #, fuzzy
@@ -8772,10 +8896,27 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"## Ein Beispiel für ein nicht-deterministisches Verhalten\n"
+"## (aufgrund von Race Conditions, die durch\n"
+"## mehrfache live-loops ausgelöst werden, die auf \n"
+"## gleiche Variable zugreifen).\n"
+"##  \n"
+"## Wenn Du den Code startest, siehst Du,\n"
+"## dass die Liste nicht immer sortiert ist.\n"
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
-msgstr ""
+msgstr "Schauen wir mal, wie wir `get` und `set` einsetzen können:"
 
 #: 10.1-Set-and-Get.md:138
 #, no-wrap
@@ -8797,6 +8938,22 @@ msgid ""
 "  puts \"sorted: \", get[:a]\n"
 "end"
 msgstr ""
+"## Ein Beispiel für ein deterministisches Verhalten\n"
+"## (trotz des gleichzeitigen Zugriff auf einen gemeinsamen Zustand) \n"
+"## mit Hilfe des Sonic Pi Time State Systems\n"
+"##\n"
+"## Wenn dieser Code gestartet wird,\n"
+"## wird die Liste immer sortiert ausgegeben.\n"
+"set :a, (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  set :a, get[:a].shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  set :a, get[:a].sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", get[:a]\n"
+"end"
 
 #: 10.1-Set-and-Get.md:159
 msgid ""
@@ -8805,20 +8962,26 @@ msgid ""
 "any typical Sonic Pi code - *it does the same thing every time* in this case t"
 "hanks to the Time State system."
 msgstr ""
+"Beachte, dass dieser Code fast identisch zu dem Code ist, der die Variable "
+"zum Teilen der Information verwendet hat. Allerdings verhält er sich so, wie "
+"man es sich bei einem typischen Sonic Pi Code erwartet - *er verhält sich "
+"immer gleich* in diesem Fall dank des Time State Systems."
 
 #: 10.1-Set-and-Get.md:164
 msgid ""
 "Therefore, when sharing information across live loops and threads, use `get` a"
 "nd `set` instead of variables for deterministic, reproducible behaviour."
 msgstr ""
+"Deshalb verwende immer `get` und `set`, wenn Du Daten zwischen live-loops "
+"und Threads teilen möchtest anstatt Variablen zu verwenden."
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
-msgstr ""
+msgstr "10.2 Synchronisation (Sync)"
 
 #: 10.2-Sync.md:3
 msgid "Sync"
-msgstr ""
+msgstr "Sync(hronisation)"
 
 #: 10.2-Sync.md:5
 msgid ""
@@ -8831,16 +8994,27 @@ msgid ""
 " - any information that we plan to store in Time State we can sync on. In othe"
 "r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
+"In Kapitel 5.7 beschäftigten wir uns mit den Funktionen `cue` und `sync, um "
+"Threads zu synchronisieren. Dort wurde allerdings nicht erklärt, was es mit "
+"dem Time State System auf sich hat, das diese Funktionalität zur Verfügung "
+"stellt. Tatsächlich ist `set` eine Variation von `cue` und baut auf die "
+"gleiche Kernfunktionalität auf, Informationen im Time State System zu "
+"hinterlegen. Zusätzlich ist `sync`so gestaltet, dass es einfach mit dem Time "
+"State funktioniert - es kann auf jegliche Information, die im Time State "
+"gespeichert ist, kann auch synchronisiert werden. Mit anderen Worten: wir "
+"synchronisieren auf Ereignisse, die im Time State gespeichert werden."
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
-msgstr ""
+msgstr "Warten auf Ereignisse (Events)"
 
 #: 10.2-Sync.md:17
 msgid ""
 "Let's take a quick look at how to use `sync` to wait for new events to be adde"
 "d to Time State:"
 msgstr ""
+"Lass uns mal anschauen, wie man `sync`verwendet, um auf neue Ereignisse zu "
+"warten, die dem Time State hinzugefügt werden:"
 
 #: 10.2-Sync.md:20
 #, no-wrap
@@ -8870,10 +9044,16 @@ msgid ""
 "of the thread which triggered it via `set` or `cue` so it may also be used to "
 "sync time."
 msgstr ""
+"Beachte, dass `sync` immer auf *zukünftige Ereignisse\" wartet and den "
+"Thread genau an dieser Stelle so lange blockiert, bis das Ereignis "
+"eingetreten ist. Zusätzlich erbt der (gesyncte) Thread die logische Zeite "
+"des anderen Threads, der ihn mit Hilfe von `set` oder `cue` getriggert "
+"(angestossen) hat. Das heißt, dass man durch dieses Verfahren auch die Zeit "
+"von zwei Threads synchronisieren kann."
 
 #: 10.2-Sync.md:42
 msgid "Passing values into the Future"
-msgstr ""
+msgstr "Übergabe von Werten in die Zukunft"
 
 #: 10.2-Sync.md:44
 #, fuzzy
@@ -8901,14 +9081,20 @@ msgid ""
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
+"Beachte, dass Werte, die mit Hilfe von `set` und `cue übergeben werden, \""
+"thread safe\" sein müssen. Das bedeutet, dass nur Werte übergeben werden "
+"dürfen, die sich in der Zukunft nicht verändern können wie zum Beispiel \""
+"unveränderliche Zeichenketten\" (immutable strings), Zahlen, Symbole oder "
+"eingefrorene Zeichenketten (frozen strings). Sonic Pi wirft einen Fehler, "
+"falls ein Wert verwendet wird, der nicht dieser Vorgabe entspricht."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
-msgstr ""
+msgstr "10.3 Muster-Erkennung"
 
 #: 10.3-Pattern-Matching.md:3
 msgid "Pattern Matching"
-msgstr ""
+msgstr "Muster-Erkennung"
 
 #: 10.3-Pattern-Matching.md:5
 #, fuzzy
@@ -8923,22 +9109,27 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
-msgstr ""
+msgstr "Erkennen von Pfad-Segmenten"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
+"Angenommen wir möchten auf ein Ereignis warten, das die folgenden drei Pfad-"
+"Segmente enthält:"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
 msgid "sync \"/*/*/*\""
-msgstr ""
+msgstr "sync  \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
 msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
+"Hiermit kann man auf jegliches Time State Ereignis syncen, dass aus exakt "
+"drei Pfadsegmenten besteht, unabhängig davon, wie genau der Inhalt der "
+"Segmente ist. Schauen wir uns das an einem Beispiel an:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
@@ -8953,17 +9144,20 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
-msgstr ""
+msgstr "`cue  \"/eggs/beans/toast\"`"
 
 #: 10.3-Pattern-Matching.md:27
 msgid "`cue \"/moog/synths/rule\"`"
-msgstr ""
+msgstr "`cue  \"/moog/synths/rule\"`"
 
 #: 10.3-Pattern-Matching.md:29
 msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
+"Allerdings wird es nicht auf Ereignisse \"matchen\", die weniger oder mehr "
+"Pfad-Segmente hätten. Die folgenden würden nicht erkannt und damit kein "
+"Ereignis triggern:"
 
 #: 10.3-Pattern-Matching.md:32
 #, fuzzy
@@ -8977,17 +9171,20 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
-msgstr ""
+msgstr "`cue  \"/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:36
 msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"Jeder `*` bedeutet *irgendein Inhalt*. Das heisst, wie können Pfade mit nur "
+"einem Segment mit `/*` oder Pfade aus fünf Segmenten mit `/*/*/*/*/*` "
+"erkennen"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
-msgstr ""
+msgstr "Erkennen von Teilsegmenten"
 
 #: 10.3-Pattern-Matching.md:40
 #, fuzzy
@@ -9011,7 +9208,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
-msgstr ""
+msgstr "Allerdings erkennt es nicht das Folgende:"
 
 #: 10.3-Pattern-Matching.md:52
 #, fuzzy
@@ -9039,7 +9236,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
-msgstr ""
+msgstr "Erkennen von verschachtelten Pfadsegmenten"
 
 #: 10.3-Pattern-Matching.md:64
 #, fuzzy
@@ -9066,29 +9263,31 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
-msgstr ""
+msgstr "Erkennen von einzelnen Buchstaben"
 
 #: 10.3-Pattern-Matching.md:75
 msgid ""
 "You can use the `?` character to match against a single char such as `\"/?oo/ba"
 "r/baz\"` which will match:"
 msgstr ""
+"Du kann das `?` verwenden, um auf ein bestimmtes einzelnes Zeichen zu "
+"erkennen. `\"/?oo/bar/baz\"` passt auf:"
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
-msgstr ""
+msgstr "`cue  \"/goo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:80
 msgid "`cue \"/too/bar/baz\"`"
-msgstr ""
+msgstr "`cue  \"/too/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:81
 msgid "`cue \"/woo/bar/baz\"`"
-msgstr ""
+msgstr "`cue  \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
-msgstr ""
+msgstr "Erkennen von mehrfachen Wörtern"
 
 #: 10.3-Pattern-Matching.md:85
 #, fuzzy
@@ -9115,7 +9314,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
-msgstr ""
+msgstr "Erkennen von mehrfachen Zeichen"
 
 #: 10.3-Pattern-Matching.md:95
 #, fuzzy
@@ -9159,7 +9358,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
-msgstr ""
+msgstr "Kombinieren von Mustererkennungen"
 
 #: 10.3-Pattern-Matching.md:114
 msgid ""
