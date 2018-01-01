@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-01 20:46+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-01-02 05:35+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -5548,7 +5548,7 @@ msgstr ""
 "Tandis que les variables sont géniales pour donner des noms et capturer les "
 "résultats des choses, il est important de savoir qu'elles ne doivent "
 "généralement être utilisées que localement au sein d'un fil d’exécution. Par "
-"exemple, *ne faites pas ceci*:"
+"exemple, *ne faites pas ceci* :"
 
 #: 05.6-Variables.md:139
 #, no-wrap
@@ -8697,6 +8697,7 @@ msgstr ""
 "causant une perte de déterminisme (ce qui est dû à la concurrence)."
 
 #: 10-State.md:16
+#, fuzzy
 msgid ""
 "Sonic Pi's solution to the problem of easily working with global variables in "
 "a deterministic way is through a novel system it calls Time State. This might "
@@ -8706,58 +8707,83 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic.*."
 msgstr ""
+"La solution de Sonic Pi au problème de travailler facilement avec les "
+"variables globales d'une manière déterministe est d'appeler l'État du Temps "
+"au travers d'un système novateur. Cela peut sembler complexe et difficile ("
+"en fait, au Royaume-Uni, la programmation avec plusieurs fils d'exécution et "
+"de la mémoire partagée est habituellement un sujet de niveau universitaire). "
+"Toutefois, comme vous allez le voir, tout comme jouer votre première note, *"
+"Sonic Pi fait du partage d'état parmi des fils d'exécution une chose "
+"incroyablement facile* tout en conservant vos programmes *avec des fils "
+"d'exécution sécuritaires et déterministes.*."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
-msgstr ""
+msgstr "Rencontrez `get` et `set`..."
 
 #: 10.1-Set-and-Get.md:1
+#, fuzzy
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Affecter et Obtenir"
 
 #: 10.1-Set-and-Get.md:3
+#, fuzzy
 msgid "Set and Get"
-msgstr ""
+msgstr "Affecter et Obtenir"
 
 #: 10.1-Set-and-Get.md:5
+#, fuzzy
 msgid ""
 "Sonic Pi has a global memory store called Time State. The two main things you "
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
+"Sonic a un magasin de mémoire global appelé État du Temps. Les deux choses "
+"principales que vous faites avec sont de `set` de l'information et de `get` "
+"de l'information. Explorons plus en détails ..."
 
 #: 10.1-Set-and-Get.md:9
+#, fuzzy
 msgid "Set"
-msgstr ""
+msgstr "Affecter"
 
 #: 10.1-Set-and-Get.md:11
+#, fuzzy
 msgid "To store information into the Time State we need two things:"
 msgstr ""
+"Pour stocker de l'information dans l'État du Temps, nous avons besoin de "
+"deux choses :"
 
 #: 10.1-Set-and-Get.md:13
+#, fuzzy
 msgid "the information we want to store,"
-msgstr ""
+msgstr "l'information que nous voulons stocker,"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "un nom unique (clé) pour l'information."
 
 #: 10.1-Set-and-Get.md:16
 msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"Par exemple, nous voulons stocker le chiffre `3000` avec la clé `:intensity`"
+". C'est possible en utilisant la fonction `set` :"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
 msgid "set :intensity, 3000"
-msgstr ""
+msgstr "set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:23
 msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
+"Nous pouvons utiliser n'importe lequel nom pour notre clé. Si de "
+"l'information a déjà été stockée avec cette clé, notre nouveau `set` va "
+"l'écraser :"
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8765,6 +8791,8 @@ msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
 msgstr ""
+"set :intensity, 1000\n"
+"set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:31
 msgid ""
@@ -8772,10 +8800,13 @@ msgid ""
 "all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
 " as the first call to `set` is effectively overridden."
 msgstr ""
+"Dans l'exemple ci-dessus, étant donné que nous stockons deux nombres avec la "
+"même clé, le dernier appel à `set` \"gagne\", alors le nombre associé à "
+"`:intensity` sera `3000` étant donné que le premier appel à `set` est écrasé."
 
 #: 10.1-Set-and-Get.md:35
 msgid "Get"
-msgstr ""
+msgstr "Obtenir"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
@@ -8783,11 +8814,16 @@ msgid ""
 " it, which in our case is `:intensity`. We then just need to call `get[:intens"
 "ity]` which we can see by printing out the result to the log:"
 msgstr ""
+"Pour obtenir de l'information de l'État du Temps, nous avons seulement "
+"besoin de la clé que nous avons utilisé pour la `set`, qui est dans notre "
+"cas `:intensity`. Nous avons alors seulement besoin d'appeler "
+"`get[:intensity]` que nous pouvons voir en affichant le résultat dans le "
+"journal :"
 
 #: 10.1-Set-and-Get.md:42
 #, no-wrap
 msgid "print get[:intensity] #=> prints 3000"
-msgstr ""
+msgstr "print get[:intensity] #=> prints 3000"
 
 #: 10.1-Set-and-Get.md:46
 msgid ""
@@ -8796,6 +8832,11 @@ msgid ""
 "the information is overridden (just like we clobbered the `:intensity` value o"
 "f `1000` to `3000` above) or Sonic Pi is closed."
 msgstr ""
+"Notez que l'appel à `get` peut retourner de l'information qui a été `set` "
+"dans une exécution précédente. Une fois qu'une pièce d'information a été "
+"`set`, elle est disponible jusqu'à ce qu'elle soit écrasée ( comme nous "
+"l'avons fait avec la valeur de `:intensity` passant de `1000` à `3000` ci-"
+"dessus) ou que Sonic Pi soit fermé."
 
 #: 10.1-Set-and-Get.md:52
 #, fuzzy
@@ -8808,6 +8849,10 @@ msgid ""
 " threads or live loops. For example, you could have one live loop setting info"
 "rmation and another one getting it:"
 msgstr ""
+"L'avantage principal du système d'État du Temps est qu'il peut être utilisé "
+"de façon sécuritaire au travers des fils d'exécution ou des boucles en "
+"direct. Par exemple, vous pourriez avoir une boucle en direct qui affecte de "
+"l'information et une autre qui l'obtient :"
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
@@ -8829,6 +8874,10 @@ msgid ""
 " will always produce the same result every time you hit run. Go on, try it. Se"
 "e if you get the following in your log:"
 msgstr ""
+"La chose plaisante avec l'utilisation de `get` et `set` au travers des fils "
+"d'exécution de cette façon est que ça produira toujours le même résultat à "
+"chaque fois que vous l'exécuterez. Allez-y, essayez-le. Regardez si vous "
+"obtenez le journal suivant :"
 
 #: 10.1-Set-and-Get.md:74
 #, no-wrap
@@ -8850,6 +8899,22 @@ msgid ""
 "{run: 0, time: 3.5}\n"
 " └─ 75.6048583984375"
 msgstr ""
+"{run: 0, time: 0.0}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 0.5}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 1.0}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 1.5}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 2.0}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 2.5}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 3.0}\n"
+" └─ 75.6048583984375\n"
+"{run: 0, time: 3.5}\n"
+" └─ 75.6048583984375"
 
 #: 10.1-Set-and-Get.md:100
 msgid ""
@@ -8859,10 +8924,16 @@ msgid ""
 "ly what we wanted them to hear (just like playing an MP3 or internet stream so"
 "unds the same for all listeners)."
 msgstr ""
+"Essayez de l'exécuter quelques fois - vous voyez, c'est toujours la même "
+"chose. C'est ce qu'on appelle un comportement déterministe et c'est très "
+"important quand nous voulons partager notre musique sous forme de code et "
+"que nous savons que la personne qui exécute le code entend exactement ce que "
+"nous voulions qu'elle entende ( tout comme jouer un MP3 ou flux d'internet "
+"sonnent de la même façon pour tout ceux qui écoutent)."
 
 #: 10.1-Set-and-Get.md:107
 msgid "A Simple Deterministic State System"
-msgstr ""
+msgstr "Un système d'état simple et déterministe"
 
 #: 10.1-Set-and-Get.md:109
 #, fuzzy
@@ -8894,6 +8965,24 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"## Un exemple de comportement non-déterministe\n"
+"## (du à la concurrence causée pas de multiple\n"
+"## boucles en direct qui manipule la même variable\n"
+"## au même moment).\n"
+"##  \n"
+"## Si vous exécutez ce code, vous remarquerez\n"
+"## que la liste qui est imprimée\n"
+"## n'est pas toujours triée!\n"
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
