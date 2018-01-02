@@ -403,102 +403,106 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>标记</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>本地IP地址</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>监听OSC消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>不可用</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>接收远程OSC消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>选中后，Sonic Pi将监听远程的OSC消息。
+未选中时，只会接收本地消息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>启用OSC服务器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>选中后，Sonic Pi将监听OSC消息。
+未选中时不会接收任何OSC消息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>配置MIDI参数</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>启用MIDI子系统</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>启用/禁用MIDI通信</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>重置MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>重置MIDI子系统</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>默认MIDI频道（*表示全部）</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>默认发送消息至该MIDI频道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1292"/>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>没有已连接的输入设备</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>没有已连接的输出设备</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI输入设备直接将MIDI消息传送到
+Sonic Pi并以标记活动的形式被接收
+（类似于OSC消息和内部标记）</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
@@ -547,28 +551,29 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>显示标记记录</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>切换是否显示内部标记和外部输入OSC/MIDI信息的标记记录。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>专业图标</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>切换图标 - 在默认图标和
+简化版图标之间切换。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
@@ -809,12 +814,12 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>已连接的MIDI输入设备</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>已连接的MIDI输出设备</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -861,35 +866,35 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>网络OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi可以通过当前连接的网络向其他程序或计算机发送/接收Open Sound Control消息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI配置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI端口</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>已连接的MIDI端口列表</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI输出设备可以直接从Sonic Pi接收以midi_*函数形式发送的MIDI消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
@@ -994,7 +999,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>帮助是否可见已改变...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
@@ -1027,32 +1032,32 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>启用MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>开放OSC端口以进行远程通讯...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭OSC服务器...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>重置MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI已被禁用...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
