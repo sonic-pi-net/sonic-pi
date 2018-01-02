@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-23 12:29+0000\n"
+"PO-Revision-Date: 2018-01-04 14:05+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ca/>\n"
@@ -489,10 +489,15 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"Sonic Pi permet canviar certs paràmetres accessibles a través del botó "
+"*Prefs*. Aquest botó mostra o amaga el tauler de preferències, el qual "
+"inclou diverses opcions que poden ser canviades. Per exemple, forçar el mode "
+"mono, invertir l'estèreo, mostrar o amagar l'eixida de registre, així com un "
+"controlador de volum i un selector d'àudio per a la Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. Visor de registre"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -501,6 +506,10 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
+"Quan executeu codi, el visualitzador del registre mostra informació sobre "
+"allò que està fent el programa. Per defecte, veureu un missatge per cada so "
+"que creeu amb el temps exacte en què fou disparat aquest so. Açò és molt "
+"útil per depurar codi i entendre què és el que el vostre codi està fent."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
