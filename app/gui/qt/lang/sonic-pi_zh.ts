@@ -490,7 +490,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation>已连接的OSC</translation>
+        <translation>网络OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
