@@ -364,28 +364,28 @@ This check involves sending anonymous information about your platform and versio
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>소닉 파이가 현재 연결된 네트워크를 통해 다른 프로그램이나 컴퓨터와 Open Sound Control 메시지를 주고 받을 수 있습니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI 설정</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI 포트</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>연결되어 있는 MIDI 포트 전부를 열거합니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI 출력장치는 소닉 파이에서 midi_* fns를 통해 직접 보낼 수 있는 MIDI 메시지를 수신합니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -411,7 +411,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro 아이콘을 보여주거나 가립니다 - 기본 아이콘 세트와 좀 더 미니멀한 아이콘 세트 간 전환.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -528,7 +528,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">도움말 가시성이 변경되었습니다...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
@@ -681,7 +681,7 @@ Apologies, a critical error occurred during startup</source>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI 입력장치는 MIDI 메시지를 직접 Sonic Pi로 보내고, 큐(cue) 이벤트로 받습니다.
+        <translation>MIDI 입력장치는 MIDI 메시지를 직접 소닉 파이로 보내고, 큐(cue) 이벤트로 받습니다.
 (수신되는 OSC 메시지와 내부 큐(cues)의 관계와 유사합니다)</translation>
     </message>
     <message>
