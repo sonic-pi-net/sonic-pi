@@ -4,17 +4,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
+"PO-Revision-Date: 2018-01-04 14:06+0000\n"
+"Last-Translator: Hong Lees <redf1123@gmail.com>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ko/>\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr ""
+msgstr "1 소닉 파이에 오신 것을 환영합니다"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr ""
+msgstr "친구들 안녕 ^^"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -40,6 +47,8 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"소닉 파이를 개선하기 위한 생각이나 아이디어가 있으시면 부디 보내주세요. 피드백은 매우 도움이 되니까요. 또 모르죠~ 여러분의 아이디어가 "
+"다음 버전의 중요한 기능이 될는지!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -48,6 +57,8 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"이 튜토리얼은 카테고리별로 나누어져 있습니다. 쉬운 학습 진행을 위하여 처음부터 끝까지 튜토리얼을 만들었지만, 여러분 마음대로 자유롭게 "
+"섹션을 들락날락 할 수 있습니다. 만약 무언가가 부족하다고 생각되면 알려주세요. 나중에 쓸 수 있도록 고려해 보겠습니다."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -55,19 +66,22 @@ msgid ""
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"끝으로, 다른 라이브 코드를 보는 것도 정말 훌륭한 학습법입니다. 저는 정기적으로 "
+"[http://youtube.com/samaaron](http://youtube.com/samaaron)에서 라이브 공연을 합니다. 한번 "
+"오셔서 아는척하시고 질문도 많이 해주세요 ^^"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr ""
+msgstr "자! 이제 시작하죠..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 라이브 코딩(Live Coding)"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr ""
+msgstr "라이브 코딩"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -76,10 +90,12 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"소닉 파이의 가장 멋진 특성 중 하나는 음악을 만들기 위해 코드를 작성하고 실시간으로 수정할 수 있다는 것입니다. 여러분이 기타로 라이브 "
+"연주를 하는 것과 같죠. 즉, 연습을 하면 소닉 파이를 가지고 무대에서 연주를 할 수 있다는 것이죠."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "편하게 생각하세요"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -95,7 +111,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr ""
+msgstr "자~ 시작하죠! 아래 코드를 복사해서 비어있는 버퍼에 붙여넣읍시다:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -105,6 +121,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
@@ -112,22 +132,24 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
+"이제 '재생' 버튼을 누르면, 멋지고 빠른 베이스 드럼을 치는 소리가 들릴거에요. 만약 언제라도 소리를 중단시키고 싶으면, '중지' "
+"버튼을 누르면 됩니다. 지금은 '중지'버튼을 누르지 말고, 다음 단계를 따라 해보기로 하지요:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "아직 베이스 드럼 소리가 나는지 확인하세요"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr ""
+msgstr "'sleep' 값을 '0.5'에서 '1'처럼 더 큰 숫자로 바꿔보세요."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "'재생'버튼을 한번 더 눌러보세요"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "드럼 속도가 어떻게 변하였는지 주목해보세요."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
