@@ -4,17 +4,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
+"PO-Revision-Date: 2018-01-04 14:06+0000\n"
+"Last-Translator: Leonardo Mendes Miraglia <Leo.mi.me@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects"
+"/sonic-pi/tutorial/pt_BR/>\n"
+"Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr ""
+msgstr "Bem vindo ao Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr ""
+msgstr "Bem vindo amigo :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -23,6 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"Bem vindo ao Sonic Pi. Espero que esteja animado para começar a fazer sons "
+"malucos como eu estou para te mostrar eles. Isso vai ser um passeio "
+"realmente legal onde você irá aprender tudo sobre música, síntese, "
+"programação, composição, performance e mais."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -33,6 +44,13 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
+"Mas calma, como sou rude! Deixe-me apresentar-me - Eu sou [Sam "
+"Aaron](http://twitter.com/samaaron) - O cara que criou o Sonic Pi. Você pode "
+"me encontrar no Twitter [@samaaron](http://twitter.com/samaaron) e estarei "
+"mais do que feliz em dizer um oi para você. Você também pode estar "
+"interessado em saber mais sobre minhas [Live Coding "
+"Performances](http://facebook.com/livecodersamaaron) onde eu programo ao "
+"vivo na frente do público."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -40,6 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"Se tiver alguma dúvida ou ideias para melhorar o Sonic Pi - por favor nos "
+"diga - feedback sempre ajuda. Nunca se sabe, sua ideia pode se tornar uma "
+"grande nova função!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -48,6 +69,10 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"Este tutorial é dividido em duas seções agrupadas por categorias. Escrevi "
+"isto para que se tenha uma fácil aprendizagem do início ao fim, sinta-se à "
+"vontade para acessar as seções que você se encaixa. Se sentir que algo está "
+"faltando, deixe-me saber e vou considerar isto para uma versão futura."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -55,31 +80,40 @@ msgid ""
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"Finalizando, assistir outras pessoas programando é uma ótima maneira de se "
+"aprender. Eu faço regularmente transmissões ao vivo no "
+"[http://youtube.com/samaaron](http://youtube.com/samaaron) então entre, me "
+"dê um oi e faça um monte de perguntas :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr ""
+msgstr "OK, então vamos começar..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 Programação ao vivo"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr ""
+msgstr "Programação ao vivo"
 
 #: 01.1-Live-Coding.md:5
+#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to write a"
 "nd *modify code live* to make music, just like you might perform live with a g"
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"Um dos aspectos mais legais do Sonic Pi é que ele te permite modificar a "
+"programação ao vivo para fazer música, assim como você toca uma guitarra ao "
+"vivo. Isso significa que com alguma prática, você pode levar o Sonic Pi no "
+"palco e acompanhá-lo."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "Liberte sua mente"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -88,6 +122,10 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
+"Antes de nós entrarmos em detalhes reais de como o Sonic Pi funciona no "
+"resto desse tutorial, eu gostaria de te dar uma experiência de como é "
+"programar ao vivo. Não se preocupe se você não entender muito (ou nada) do "
+"que verá. Só aperte os cintos e curta..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
