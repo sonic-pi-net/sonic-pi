@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-13 22:51+0000\n"
-"Last-Translator: Per-Erik Westerberg <wespertalk@gmail.com>\n"
+"PO-Revision-Date: 2018-01-04 14:06+0000\n"
+"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/sv/>\n"
 "Language: sv\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -108,7 +108,7 @@ msgid "Let's get started, copy the following code into an empty buffer above:"
 msgstr "Låt oss börja, kopiera följande program till en tom buffert ovanför:"
 
 #: 01.1-Live-Coding.md:21
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :bd_haus, rate: 1\n"
