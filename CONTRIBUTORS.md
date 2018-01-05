@@ -16,24 +16,24 @@ gratitude to the following people who provided support in the early days
 of Sonic Pi with their time, advice, and wisdom:
 
 * [Carrie Anne Philbin](https://twitter.com/missphilbin)
-* [Robert Mullins](http://www.cl.cam.ac.uk/~rdm34/)
+* [Robert Mullins](https://www.cl.cam.ac.uk/~rdm34/)
 * [Alex Bradbury](https://twitter.com/asbradbury)
-* [Alan Blackwell](http://www.cl.cam.ac.uk/~afb21/)
+* [Alan Blackwell](https://www.cl.cam.ac.uk/~afb21/)
 * [Rachel Drury](https://twitter.com/Rachel_Drury)
 * [Juneau Projects](http://www.juneauprojects.co.uk)
 * Stephan Lachowsky
-* [Jonathan Graham](http://twitter.com/graham_jp)
+* [Jonathan Graham](https://twitter.com/graham_jp)
 
 
 ## Organisations
 
 The following organisations have kindly contributed to Sonic Pi:
 
-* [The Raspberry Pi Foundation](http://www.raspberrypi.org)
-* [The Broadcom Foundation](http://www.broadcomfoundation.org)
-* [The University of Cambridge Computer Laboratory](http://www.cl.cam.ac.uk)
+* [The Raspberry Pi Foundation](https://www.raspberrypi.org)
+* [The Broadcom Foundation](https://www.broadcomfoundation.org)
+* [The University of Cambridge Computer Laboratory](https://www.cl.cam.ac.uk)
 * [Arts Council England](http://www.artscouncil.org.uk)
-* [Nesta](http://www.nesta.org.uk)
+* [Nesta](https://www.nesta.org.uk)
 * [pi-top](https://pi-top.com)
 
 
@@ -56,7 +56,7 @@ conceptualisations, to musical production and performance.
 
 * [Dago Sondervan](https://twitter.com/sondervan1)
 * [Sam Conran](https://twitter.com/samconran)
-* [Ben Smith](http://twitter.com/bensmithguitar)
+* [Ben Smith](https://twitter.com/bensmithguitar)
 * [Steve Hellier](https://twitter.com/steveguyhellier)
 * [Pit Noack](https://twitter.com/maschinennah)
 
@@ -383,11 +383,11 @@ projects:
 
 * _why (why the lucky stiff) - [Shoes](https://en.wikipedia.org/wiki/Shoes_(GUI_toolkit))
 * Andrew Sorensen  - [Extempore](http://extempore.moso.com.au)
-* James McCartney - [SuperCollider](http://supercollider.github.io)
-* Jeff Rose - [Overtone](http://overtone.github.com)
+* James McCartney - [SuperCollider](https://supercollider.github.io)
+* Jeff Rose - [Overtone](https://overtone.github.com)
 * Linda Liukas - [Hello Ruby](http://www.helloruby.com/)
-* Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](http://www.ruby-lang.org)
-* Rich Hickey - [Clojure](http://clojure.org)
+* Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](https://www.ruby-lang.org)
+* Rich Hickey - [Clojure](https://clojure.org)
 * Seymour Papert - [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language))
 * The Scratch Team - [Scratch](https://scratch.mit.edu)
 * Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html) 
