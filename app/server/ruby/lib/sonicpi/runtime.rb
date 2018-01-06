@@ -1392,7 +1392,7 @@ module SonicPi
    and the shadows
    will fall
    behind you.",
-"Remember, with live coding music
+"Remember, when live coding music
    there are no mistakes
    only opportunities to learn
    and improve.",
