@@ -268,22 +268,12 @@ module SonicPi
     end
 
     def __schedule_delayed_blocks_and_messages!
-
       delayed_messages = __system_thread_locals.get :sonic_pi_local_spider_delayed_messages
       delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks) || []
       if delayed_messages
         unless(delayed_messages.empty?)
-          last_vt = __system_thread_locals.get :sonic_pi_spider_time
-          parent_t = Thread.current
-          job_id = __system_thread_locals(parent_t).get(:sonic_pi_spider_job_id)
-          new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
-
-          t = Thread.new do
-            __system_thread_locals_reset!(new_system_tls)
-            Thread.current.priority = -10
-
-            # Calculate the amount of time to sleep to sync us up with the
-            # sched_ahead_time
+          in_thread do
+            last_vt = __system_thread_locals.get :sonic_pi_spider_time
             sched_ahead_sync_t = last_vt + __current_sched_ahead_time
             sleep_time = sched_ahead_sync_t - Time.now
             Kernel.sleep(sleep_time) if sleep_time > 0
@@ -296,12 +286,8 @@ module SonicPi
                 log e.backtrace
               end
             end
-
             __multi_message(delayed_messages)
-            job_subthread_rm(job_id, Thread.current)
           end
-
-          job_subthread_add(job_id, t)
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
         end
       end
