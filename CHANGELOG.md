@@ -44,11 +44,6 @@ number of modifications.
 * Fix minor issues with docs (grammar and rendering).
 * Incoming OSC now correctly handles OSC paths which contain capital letters.
 
- 
-*18th July, 2017*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0):
-
-
 <a name="v3.0"></a>
 
 ## Version 3.0 - 'IO'
