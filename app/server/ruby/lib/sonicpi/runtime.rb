@@ -218,8 +218,8 @@ module SonicPi
       __msg_queue.push({:type => :info, :style => style, :val => s.to_s}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
-    def __multi_message(m)
-      __msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => __current_thread_name}) unless __system_thread_locals.get :sonic_pi_spider_silent
+    def __multi_message(m, thread_name="")
+      __msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => thread_name}) unless __system_thread_locals.get :sonic_pi_spider_silent
     end
 
     def __delayed(&block)
@@ -272,6 +272,7 @@ module SonicPi
       delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks) || []
       if delayed_messages
         unless(delayed_messages.empty?)
+          thread_name = __current_thread_name
           in_thread do
             last_vt = __system_thread_locals.get :sonic_pi_spider_time
             sched_ahead_sync_t = last_vt + __current_sched_ahead_time
@@ -286,7 +287,7 @@ module SonicPi
                 log e.backtrace
               end
             end
-            __multi_message(delayed_messages)
+            __multi_message(delayed_messages, thread_name)
           end
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
         end
