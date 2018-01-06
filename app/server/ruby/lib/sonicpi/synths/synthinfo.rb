@@ -3041,8 +3041,8 @@ Steal This Sound,  Mitchell Sigman"
 
           :attack => 0,
           :decay => 0,
-          :sustain => 1,
-          :release => 0,
+          :sustain => 0,
+          :release => 1,
           :attack_level => 1,
           :decay_level => :sustain_level,
           :sustain_level => 1,
