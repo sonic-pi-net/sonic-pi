@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-04 14:05+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-01-08 13:57+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -8984,7 +8984,7 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
-msgstr ""
+msgstr "Regardons à quoi cela peut ressembler en utilisant `get` and `set` :"
 
 #: 10.1-Set-and-Get.md:138
 #, no-wrap
@@ -9006,6 +9006,22 @@ msgid ""
 "  puts \"sorted: \", get[:a]\n"
 "end"
 msgstr ""
+"## Un exemple de comportement déterministe\n"
+"## (malgré l'accès avec concurrence de l'état partagé)\n"
+"## en utilisant le nouveau système d'État du Temps de Sonic Pi.\n"
+"##\n"
+"## Quand ce code est exécuté, la liste qui est\n"
+"## imprimée est toujours triée!\n"
+"set :a, (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  set :a, get[:a].shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  set :a, get[:a].sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", get[:a]\n"
+"end"
 
 #: 10.1-Set-and-Get.md:159
 msgid ""
@@ -9014,20 +9030,28 @@ msgid ""
 "any typical Sonic Pi code - *it does the same thing every time* in this case t"
 "hanks to the Time State system."
 msgstr ""
+"Remarquez comment le code est pratiquement identique à la version qui "
+"utilisait la variable auparavant. Cependant, quand vous exécutez votre code, "
+"il agit de la façon que vous vous attendez comme avec n'importe lequel code "
+"de Sonic Pi typique - *il fait la même chose chaque fois* dans ce cas grâce "
+"au système d'État du Temps."
 
 #: 10.1-Set-and-Get.md:164
 msgid ""
 "Therefore, when sharing information across live loops and threads, use `get` a"
 "nd `set` instead of variables for deterministic, reproducible behaviour."
 msgstr ""
+"Donc, lorsque vous partagez de l'information au travers de boucles en direct "
+"et de fils d'exécution, utilisez `get` et `set` au lieu de variables pour un "
+"comportement déterministe et reproductible."
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
-msgstr ""
+msgstr "10.2 Sync"
 
 #: 10.2-Sync.md:3
 msgid "Sync"
-msgstr ""
+msgstr "Sync"
 
 #: 10.2-Sync.md:5
 msgid ""
@@ -9040,20 +9064,30 @@ msgid ""
 " - any information that we plan to store in Time State we can sync on. In othe"
 "r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
+"La section 5.7 a introduit les fonctions `cue` et `sync` lorsque nous "
+"rencontrons des problèmes de synchronisation de fils d'exécution. Ce qui n'y "
+"était pas expliqué était qu'il s'agit du système d'État du Temps qui permet "
+"cette fonctionnalité. Enfaite, la fonction `set` est une variation de `cue` "
+"et est construite sur la même fonctionnalité de base qui est d'insérer de "
+"l'information dans le système d'État du Temps. De plus, `sync` a été créé "
+"d'une façon qui lui permet de travailler parfaitement avec l'État du Temps - "
+"toute information que nous prévoyons stocker dans l'État du Temps, nous "
+"pouvons la synchroniser."
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
-msgstr ""
+msgstr "Attendre pour les événements"
 
 #: 10.2-Sync.md:17
 msgid ""
 "Let's take a quick look at how to use `sync` to wait for new events to be adde"
 "d to Time State:"
 msgstr ""
+"Regardons rapidement comment utiliser `sync` pour attendre que de nouveaux "
+"événements soient ajoutés à l'État du Temps :"
 
 #: 10.2-Sync.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync :foo\n"
@@ -9061,16 +9095,26 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 1"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  sync :foo\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 1"
 
 #: 10.2-Sync.md:31
-#, fuzzy
 msgid ""
 "In this example first we create a thread which waits for a `:foo` event to be "
 "added to the Time State. After this thread declaration we sleep for 2 beats an"
 "d then `set` `:foo` to be `1`. This then releases the `sync` which then moves "
 "to the next line which is to trigger the `:ambi_lunar_land` sample."
-msgstr "foo"
+msgstr ""
+"Dans cet exemple, nous commençons par créer un fil d'exécution qui attend "
+"pour qu'un événement `:foo` soit ajouté à l'État du Temps. Après la "
+"déclaration du fil d'exécution, nous dormons pour deux rythmes et nous `set` "
+"`:foo` à `1`. Cela relâche ensuite le `sync` qui se rend ensuite à la "
+"prochaine ligne qui est de déclencher l'exemple `:ambi_lunar_land`."
 
 #: 10.2-Sync.md:37
 msgid ""
@@ -9079,21 +9123,27 @@ msgid ""
 "of the thread which triggered it via `set` or `cue` so it may also be used to "
 "sync time."
 msgstr ""
+"Noter que `sync` attend toujours pour *des événements futurs* et qu'il "
+"bloque le fil d'exécution actuel en attendant ce nouvel événement. "
+"Également, il va hériter du temps logique du fil d'exécution qui est "
+"déclenché par `set` ou `cue`, donc il peut être utilisé également pour "
+"synchroniser le temps."
 
 #: 10.2-Sync.md:42
 msgid "Passing values into the Future"
-msgstr ""
+msgstr "Transférer des valeurs dans le Futur"
 
 #: 10.2-Sync.md:44
-#, fuzzy
 msgid ""
 "In the example above we set `:foo` to `1` which we did nothing with. We can ac"
 "tually get this value from the thread calling `sync`:"
-msgstr "foo"
+msgstr ""
+"Dans l'exemple ci-dessus, nous avons affecté `1` à `:foo` et en avons rien "
+"fait. Nous pouvons obtenir cette valeur à partir du fil d'exécution en "
+"appelant `sync` :"
 
 #: 10.2-Sync.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  amp = sync :foo\n"
@@ -9101,7 +9151,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 0.5"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  amp = sync :foo\n"
+"  sample :ambi_lunar_land, amp: amp\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 0.5"
 
 #: 10.2-Sync.md:58
 msgid ""
@@ -9110,17 +9166,21 @@ msgid ""
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
+"Notez que les valeurs transférées au travers de `set` et `cue` doivent être "
+"protégées des fils d'exécution - c'est-à-dire des anneaux immuables, des "
+"nombres, des symboles ou des chaînes de caractères fixes. Sonic Pi lancera "
+"une erreur si la valeur que vous essayez de stocker dans l'État du Temps "
+"n'est pas valide."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
-msgstr ""
+msgstr "10.3 Correspondance de motif"
 
 #: 10.3-Pattern-Matching.md:3
 msgid "Pattern Matching"
-msgstr ""
+msgstr "Correspondance de motif"
 
 #: 10.3-Pattern-Matching.md:5
-#, fuzzy
 msgid ""
 "When getting and setting information into the Time State, it's possible to use"
 " more complex keys than basic symbols such as `:foo` and `:bar`. You can also "
@@ -9128,7 +9188,15 @@ msgid ""
 "king with paths, we can then start taking advantage of Sonic Pi's sophisticate"
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
-msgstr "foo"
+msgstr ""
+"Quand vous obtenez et affectez de l'information dans l'État du Temps, il est "
+"possible d'utiliser des clés plus complexes que les symboles basiques comme "
+"`:foo`et `:bar`. Vous pouvez également utiliser des chaînes de caractères de "
+"format URL appelées chemin comme `\"/foo/bar/baz\"`. Lorsque nous avons "
+"commencé à travailler avec les chemins, nous pouvons commencer à prendre "
+"avantage du système sophistiqué de correspondance de motif de Sonic Pi pour "
+"`get` et `sync` des chemins \"similaires\" au lieu \"d'identiques\". "
+"Étudions cela de plus près."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
