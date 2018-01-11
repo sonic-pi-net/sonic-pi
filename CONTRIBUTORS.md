@@ -52,7 +52,7 @@ especially the following indivuals who have been remarkably generous:
 * [Justin Worrall](https://twitter.com/juzbo)
 * [Mark Rendle](https://twitter.com/markrendle)
 * [Martin McDermott](https://twitter.com/marv_mcd)
-* [Michael Hunger]()
+* [Michael Hunger](http://twitter.com/mesirii)
 * [Scott Turner](https://twitter.com/scottturneruon)
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
