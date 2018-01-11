@@ -31,10 +31,11 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   this->oscSender = oscSender;
   this->fileName = fileName;
   this->autoIndent = autoIndent;
+  this->selectionMode = false;
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
   QString skey;
-  QSettings settings("sonic-pi.net", "gui-key-bindings");
+  QSettings settings("sonic-pi.net", "gui-keys-bindings");
   mutex = new QMutex(QMutex::Recursive);
 
 #if defined(Q_OS_MAC)
@@ -49,10 +50,8 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   addKeyBinding(settings, QsciCommand::PageDown, Qt::Key_PageDown);
   addKeyBinding(settings, QsciCommand::PageUp, Qt::Key_PageUp);
 
-  addKeyBinding(settings, QsciCommand::LineDown, Qt::Key_N | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineDown, Qt::Key_Down);
   addKeyBinding(settings, QsciCommand::LineDownExtend, Qt::Key_Down | Qt::SHIFT);
-  addKeyBinding(settings, QsciCommand::LineUp, Qt::Key_P | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineUp, Qt::Key_Up);
   addKeyBinding(settings, QsciCommand::LineUpExtend, Qt::Key_Up | Qt::SHIFT);
 
@@ -102,10 +101,8 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_META);
-  addOtherKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_CTRL);
 
-  addKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_META);
-  addOtherKeyBinding(settings, QsciCommand::Paste, Qt::Key_Y | SPi_CTRL);
+
   addKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_META);
@@ -285,6 +282,7 @@ void SonicPiScintilla::setMark()
   int pos = SendScintilla(SCI_GETCURRENTPOS);
   SendScintilla(SCI_SETEMPTYSELECTION, pos);
   SendScintilla(SCI_SETSELECTIONMODE, 0);
+  this->selectionMode = true;
   mutex->unlock();
 }
 
@@ -294,6 +292,7 @@ void SonicPiScintilla::escapeAndCancelSelection()
   int pos = SendScintilla(SCI_GETCURRENTPOS);
   SendScintilla(SCI_SETEMPTYSELECTION, pos);
   SendScintilla(SCI_CANCEL);
+  this->selectionMode = false;
   mutex->unlock();
 }
 
@@ -302,6 +301,7 @@ void SonicPiScintilla::deselect()
   mutex->lock();
   int pos = SendScintilla(SCI_GETCURRENTPOS);
   SendScintilla(SCI_SETEMPTYSELECTION, pos);
+  this->selectionMode = false;
   mutex->unlock();
 }
 
@@ -325,8 +325,7 @@ void SonicPiScintilla::replaceLines(int lineStart, int lineFinish, QString newLi
 {
   mutex->lock();
   setSelection(lineStart, 0, lineFinish + 1, 0);
-  replaceSelectedText(newLines);
-  mutex->unlock();
+  replaceSelectedText(newLines); mutex->unlock();
 }
 
 void SonicPiScintilla::forwardLines(int numLines) {
@@ -334,14 +333,30 @@ void SonicPiScintilla::forwardLines(int numLines) {
   int idx;
   if(numLines > 0) {
     for (idx = 0 ; idx < numLines ; idx++) {
-      SendScintilla(SCI_LINEUP);
+      if(selectionMode) {
+        SendScintilla(SCI_LINEUPEXTEND);
+      } else {
+        SendScintilla(SCI_LINEUP);
+      }
     }
   } else {
     for (idx = 0 ; idx > numLines ; idx--) {
-      SendScintilla(SCI_LINEDOWN);
+      if(selectionMode) {
+        SendScintilla(SCI_LINEDOWNEXTEND);
+      } else {
+        SendScintilla(SCI_LINEDOWN);
+      }
     }
   }
   mutex->unlock();
+}
+
+void SonicPiScintilla::forwardOneLine() {
+  forwardLines(1);
+}
+
+void SonicPiScintilla::backOneLine() {
+  forwardLines(-1);
 }
 
 void SonicPiScintilla::forwardTenLines() {
@@ -633,5 +648,19 @@ void SonicPiScintilla::dropEvent(QDropEvent *dropEvent) {
     }
     insert(text);
   }
+  mutex->unlock();
+}
+
+void SonicPiScintilla::sp_paste() {
+  mutex->lock();
+  SendScintilla(QsciCommand::Paste);
+  deselect();
+  mutex->unlock();
+}
+
+void SonicPiScintilla::sp_cut() {
+  mutex->lock();
+  SendScintilla(QsciCommand::SelectionCut);
+  deselect();
   mutex->unlock();
 }

@@ -583,6 +583,11 @@ void MainWindow::setupWindowStructure() {
     connect(escape, SIGNAL(activated()), this, SLOT(escapeWorkspaces()));
     connect(escape2, SIGNAL(activated()), this, SLOT(escapeWorkspaces()));
 
+    //quick nav by jumping up and down 1 lines at a time
+    QShortcut *forwardOneLine = new QShortcut(ctrlKey('p'), workspace);
+    connect(forwardOneLine, SIGNAL(activated()), workspace, SLOT(forwardOneLine()));
+    QShortcut *backOneLine = new QShortcut(ctrlKey('n'), workspace);
+    connect(backOneLine, SIGNAL(activated()), workspace, SLOT(backOneLine()));
 
     //quick nav by jumping up and down 10 lines at a time
     QShortcut *forwardTenLines = new QShortcut(shiftMetaKey('u'), workspace);
@@ -597,11 +602,21 @@ void MainWindow::setupWindowStructure() {
     //Emacs live copy and cut
     QShortcut *copyToBuffer = new QShortcut(metaKey(']'), workspace);
     connect(copyToBuffer, SIGNAL(activated()), workspace, SLOT(copyClear()));
-    QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
-    connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
 
+    QShortcut *cutToBufferLive = new QShortcut(ctrlKey(']'), workspace);
+    connect(cutToBufferLive, SIGNAL(activated()), workspace, SLOT(sp_cut()));
+
+    // Standard cut
+    QShortcut *cutToBuffer = new QShortcut(ctrlKey('x'), workspace);
+    connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(sp_cut()));
+
+    // paste
     QShortcut *pasteToBufferWin = new QShortcut(ctrlKey('v'), workspace);
-    connect(pasteToBufferWin, SIGNAL(activated()), workspace, SLOT(paste()));
+    connect(pasteToBufferWin, SIGNAL(activated()), workspace, SLOT(sp_paste()));
+    QShortcut *pasteToBuffer = new QShortcut(metaKey('v'), workspace);
+    connect(pasteToBuffer, SIGNAL(activated()), workspace, SLOT(sp_paste()));
+    QShortcut *pasteToBufferEmacs = new QShortcut(ctrlKey('y'), workspace);
+    connect(pasteToBufferEmacs, SIGNAL(activated()), workspace, SLOT(sp_paste()));
 
     //comment line
     QShortcut *toggleLineComment= new QShortcut(metaKey('/'), workspace);
