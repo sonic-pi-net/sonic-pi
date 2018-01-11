@@ -37,6 +37,27 @@ The following organisations have kindly contributed to Sonic Pi:
 * [pi-top](https://pi-top.com)
 
 
+## Patreon Supporters
+
+Sonic Pi development is increasingly funded by a growing number of very
+kind and generous people via [Patreon](https://patreon.com/samaaron). We
+would like to thank everyone who has supported Sonic Pi in this way -
+especially the following indivuals who have been remarkably generous:
+
+* [Alexandre Enkerli](https://twitter.com/enkerli)
+* [Anderson Reinkordt](https://soundcloud.com/april-club-music)
+* [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
+* [Darin Wilson](https://twitter.com/darinwilson/)
+* [James Abley](https://twitter.com/jabley)
+* [Justin Worrall](https://twitter.com/juzbo)
+* [Mark Rendle](https://twitter.com/markrendle)
+* [Martin McDermott](https://twitter.com/marv_mcd)
+* [Michael Hunger]()
+* [Scott Turner](https://twitter.com/scottturneruon)
+* Terry Wisniewski
+* [thattommyhall](https://twitter.com/thattommyhall)
+
+
 ## Outstanding Community Contributions
 
 We would like to recognise the following individuals for their important
