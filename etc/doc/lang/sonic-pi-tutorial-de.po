@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-04 14:05+0000\n"
-"Last-Translator: Stefan Höhn <hoehn6691@gmail.com>\n"
+"PO-Revision-Date: 2018-01-11 15:23+0000\n"
+"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -5247,16 +5247,15 @@ msgid "Variables"
 msgstr "Variablen"
 
 #: 05.6-Variables.md:5
-#, fuzzy
 msgid ""
 "A useful thing to do in your code is to create names for things. Sonic Pi make"
 "s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Es ist sehr nützlich beim Coden, Namen für Dinge zu vergeben. Sonic Pi macht e"
-"s Dir hier sehr leicht: Schreib einfach den Namen, den Du gerne verwenden möch"
-"test, dann ein Gleichheitszeichen (`=`) und dann das Ding, welches Du Dir merk"
-"en möchtest:"
+"Beim Coden ist es sehr nützlich, Namen für Dinge zu vergeben. Sonic Pi macht "
+"es Dir hier sehr leicht: Schreib einfach den Namen, den Du gerne verwenden "
+"möchtest, dann ein Gleichheitszeichen (`=`) und dann das Ding, welches Du "
+"Dir merken möchtest:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5588,7 +5587,7 @@ msgstr ""
 "Variable verwendet:"
 
 #: 05.6-Variables.md:173
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :shuffled do\n"
 "  a = (ring 6, 5, 4, 3, 2, 1)\n"
@@ -8703,7 +8702,7 @@ msgstr ""
 "`:intensity` speichern. Dies können wir mit der `set` function erreichen:"
 
 #: 10.1-Set-and-Get.md:19
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "set :intensity, 3000"
 msgstr "set :intensity, 3000"
 
@@ -8717,7 +8716,7 @@ msgstr ""
 "neuer `set` -Befehl diesen überschreiben:"
 
 #: 10.1-Set-and-Get.md:26
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
@@ -8771,9 +8770,8 @@ msgstr ""
 "wird."
 
 #: 10.1-Set-and-Get.md:52
-#, fuzzy
 msgid "Multiple Threads"
-msgstr "Threads"
+msgstr "Mehrere Threads"
 
 #: 10.1-Set-and-Get.md:54
 msgid ""
@@ -8788,7 +8786,6 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8798,7 +8795,15 @@ msgid ""
 "  puts get[:foo]\n"
 "  sleep 0.5\n"
 "end"
-msgstr "rrand"
+msgstr ""
+"live_loop :setter do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :getter do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 
 #: 10.1-Set-and-Get.md:70
 msgid ""
@@ -9018,7 +9023,6 @@ msgstr ""
 
 #: 10.2-Sync.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync :foo\n"
@@ -9026,7 +9030,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 1"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  sync :foo\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 1"
 
 #: 10.2-Sync.md:31
 #, fuzzy
@@ -9064,7 +9074,6 @@ msgstr "foo"
 
 #: 10.2-Sync.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  amp = sync :foo\n"
@@ -9072,7 +9081,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 0.5"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  amp = sync :foo\n"
+"  sample :ambi_lunar_land, amp: amp\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 0.5"
 
 #: 10.2-Sync.md:58
 msgid ""
@@ -9133,14 +9148,12 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
-#, fuzzy
 msgid "`cue \"/foo/bar/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:25
-#, fuzzy
 msgid "`cue \"/foo/baz/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
@@ -9160,9 +9173,8 @@ msgstr ""
 "Ereignis triggern:"
 
 #: 10.3-Pattern-Matching.md:32
-#, fuzzy
 msgid "`cue \"/foo/bar\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
 #, fuzzy
