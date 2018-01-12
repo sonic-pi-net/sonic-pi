@@ -708,6 +708,7 @@ void MainWindow::setupWindowStructure() {
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
   prefsCentral = new QWidget;
+  prefsCentral->setObjectName("prefsCentral");
   prefsWidget->setWidget(prefsCentral);
   QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   prefsCentral->setSizePolicy(prefsSizePolicy);
@@ -732,7 +733,7 @@ void MainWindow::setupWindowStructure() {
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
   addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
   outputWidget->setObjectName("output");
-  incomingWidget->setObjectName("output");
+  incomingWidget->setObjectName("input");
 
   blankWidget = new QWidget();
   outputWidgetTitle = outputWidget->titleBarWidget();
@@ -788,6 +789,7 @@ void MainWindow::setupWindowStructure() {
   mainWidget->setFocusPolicy(Qt::NoFocus);
   errorPane->hide();
   mainWidget->setLayout(mainWidgetLayout);
+  mainWidget->setObjectName("mainWidget");
   setCentralWidget(mainWidget);
 
 }
