@@ -42,7 +42,7 @@ The following organisations have kindly contributed to Sonic Pi:
 Sonic Pi development is increasingly funded by a growing number of very
 kind and generous people via [Patreon](https://patreon.com/samaaron). We
 would like to thank everyone who has supported Sonic Pi in this way -
-especially the following indivuals who have been remarkably generous:
+especially the following individuals who have been remarkably generous:
 
 * [Alexandre Enkerli](https://twitter.com/enkerli)
 * [Anderson Reinkordt](https://soundcloud.com/april-club-music)
