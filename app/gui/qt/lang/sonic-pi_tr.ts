@@ -181,12 +181,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation>Alan</translation>
+        <translation>Kapsam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle selection comment...</source>
-        <translation>Satır yorumlarını aktifleştir...</translation>
+        <translation>Seçil olanı yorum haline getir/getirme...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
