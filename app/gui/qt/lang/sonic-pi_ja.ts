@@ -314,7 +314,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation>入力デバイスはSonic Piに直接MIDIメッセージを送信し、
+        <translation>MIDI入力デバイスはSonic Piに直接MIDIメッセージを送信し、
 Sonic Piはそれをcueイベントとして受信します
 (OSCメッセージの受信とcueと同じです)</translation>
     </message>
@@ -510,35 +510,38 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Networked OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Piは、他のマシンやプログラムと
+ネットワーク経由でOSCメッセージを
+やり取りできます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIの設定</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDIポート</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>接続された全てのMIDIポートを表示します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI出力デバイスは、Sonic Piからmidi_*関数経由で送信される
+MIDIメッセージを直接受信します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -564,7 +567,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Iconの切り替え - デフォルトアイコンセットと
+よりミニマルなアイコンセットを切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -701,7 +705,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>ヘルプの表示を変更しています…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
@@ -761,7 +765,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation type="unfinished">Pro Icons</translation>
+        <translation>Pro Icons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
