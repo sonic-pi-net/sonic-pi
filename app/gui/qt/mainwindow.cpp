@@ -2801,16 +2801,16 @@ void MainWindow::createInfoPane() {
   QStringList urls, tabs;
 
   urls << "qrc:///html/info.html"
+       << "qrc:///info/COMMUNITY.html"
        << "qrc:///info/CORETEAM.html"
        << "qrc:///info/CONTRIBUTORS.html"
-       << "qrc:///info/COMMUNITY.html"
        << "qrc:///info/LICENSE.html"
        << "qrc:///info/CHANGELOG.html";
 
   tabs << tr("About")
+       << tr("Community")
        << tr("Core Team")
        << tr("Contributors")
-       << tr("Community")
        << tr("License")
        << tr("History");
 
