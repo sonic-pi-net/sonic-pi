@@ -1052,9 +1052,7 @@ module SonicPi
               end
               __schedule_delayed_blocks_and_messages!
               __current_tracker.get
-              __info("removing subthread #{Thread.current}")
               job_subthread_rm(job_id, Thread.current)
-              __info("completed removing subthread #{Thread.current}")
               #raise e
             rescue Exception => e
               if name
