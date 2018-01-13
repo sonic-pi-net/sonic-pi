@@ -235,8 +235,8 @@ QTextBrowser {
 
 QListWidget
 {
+    border: 1px solid menuSelectedColor;
     background: paneColor;
-    outline: none;
     font-size: 14px;
     min-width: 500px;
     font-family: fixedWidthFont;
