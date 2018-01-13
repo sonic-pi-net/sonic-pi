@@ -391,3 +391,12 @@ QScrollBar::sub-line:horizontal {
     subcontrol-position: left;
     subcontrol-origin: margin;
 }
+
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}
