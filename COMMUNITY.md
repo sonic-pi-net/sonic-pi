@@ -1,6 +1,8 @@
 # Welcome to our Community
 
-Join the friendly Sonic Pi community and share your ideas and thoughts with other educators, musicians and live coders...
+Join the friendly Sonic Pi community and share your ideas and thoughts
+with other educators, musicians and live coders...
+
 
 ## Forum
 *<https://in-thread.sonic-pi.net/>*
@@ -9,22 +11,28 @@ Join the friendly Sonic Pi community and share your ideas and thoughts with othe
   <img src="../images/in_thread_screen.png" height="254" width="413"/>
 </a>
 
-Come and join the friendly discussion over at [in_thread](https://in-thread.sonic-pi.net), the main community forum. 
+Come and join the friendly discussion over at
+[in_thread](https://in-thread.sonic-pi.net), the main community forum.
+
 
 ## Twitter
 *<https://twitter.com/sonic_pi>*
 
 For bite-sized chunks of the latest Sonic Pi news and information.
 
+
 ## Facebook
 *<https://www.facebook.com/SonicPi>*
 
 For those Facebook users out there.
 
+
 ## GitHub
 *<https://github.com/samaaron/sonic-pi>*
 
-For developers interested in the full source code. The issue tracker is also hosted here.
+For developers interested in the full source code. The issue tracker is
+also hosted here.
+
 
 ## Gitter Chat for Developers
 *<https://gitter.im/samaaron/sonic-pi>*
@@ -36,5 +44,17 @@ developing and hacking Sonic Pi. Great for getting instant help.
 ## YouTube
 *<https://youtube.com/samaaron/>*
 
-Sam Aaron frequently streams his live coding sessions on YouTube - please drop by, say hello and ask lots of questions.
+Sam Aaron frequently streams his live coding sessions on YouTube -
+please drop by, say hello and ask lots of questions.
+
+
+## Patreon Supportors
+*<https://patreon.com/samaaron>*
+
+A growing number of very generous community member are actively helping
+to sustain further development and keep Sonic Pi free.
+
+If Sonic Pi has made you smile and you'd like to help keep it free so it
+can continue to be shared with the world, please consider joining the
+other lovely supporters over on [Patreon](https://patreon.com/samaaron).
 
