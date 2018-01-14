@@ -48,13 +48,12 @@ Sam Aaron frequently streams his live coding sessions on YouTube -
 please drop by, say hello and ask lots of questions.
 
 
-## Patreon Supportors
+## Patreon Supporters
 *<https://patreon.com/samaaron>*
 
-A growing number of very generous community member are actively helping
+A growing number of very generous community members are actively helping
 to sustain further development and keep Sonic Pi free.
 
 If Sonic Pi has made you smile and you'd like to help keep it free so it
 can continue to be shared with the world, please consider joining the
 other lovely supporters over on [Patreon](https://patreon.com/samaaron).
-
