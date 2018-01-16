@@ -418,20 +418,20 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     loadWorkspaces();
     requestVersion();
     toggleIcons();
-
-    splashClose();
-
-    showWindow();
     toggleScope();
     updatePrefsIcon();
     updateDarkMode();
     updateFullScreenMode();
-    showWelcomeScreen();
+
     changeSystemPreAmp(system_vol_slider->value(), 1);
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
+
+    splashClose();
+    showWindow();
+    showWelcomeScreen();
   }
 }
 
