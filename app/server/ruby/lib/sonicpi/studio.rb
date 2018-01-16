@@ -587,6 +587,10 @@ module SonicPi
       return bus
     end
 
+    def set_audio_latency!(latency)
+      @server.set_latency!(latency)
+    end
+
     private
 
     def check_for_server_rebooting!(msg=nil)

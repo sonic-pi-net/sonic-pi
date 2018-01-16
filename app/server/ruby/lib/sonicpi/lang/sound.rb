@@ -865,6 +865,31 @@ end"
           examples:      ["hz_to_midi(261.63) #=> 60.0003"]
 
 
+
+
+      def set_audio_latency!(delta_ms)
+        @mod_sound_studio.set_audio_latency!(delta_ms.to_f)
+      end
+      doc name:          :set_audio_latency!,
+          introduced:    Version.new(3,1,0),
+          summary:       "Global compensation for audio latency",
+          doc:           "On some systems with certain configutions (such as as wireless speakers, and even tyical Windows environment with the default audio drivers) the audio latency can be large. If all the user is doing is generating audio via calls such as `play`, `synth` and `sample`, then this latency essentially adds to the schedule ahead time and for the most part can be ignored. However, if the user is combining audio with external MIDI/OSC triggered events, this latency can result in noticeable offset. This function allows you to address this offest by moving the audio events forwards and backwards in time.
+
+So, for example, if your audio system has an audio latency of 150ms, you can compensate for this by setting Sonic Pi's latency to be a negative value: `set_audio_latency! -150`.",
+          args:          [[:milliseconds, :number]],
+          opts:          nil,
+          modifies_env:  true,
+          accepts_block: false,
+          examples:      ["set_audio_latency! 100 # Audio events will now be scheduled 100ms
+                                                  # after the schedule ahead time",
+                          "set_audio_latency! -200 # Audio events will now be scheduled 200ms
+                                                  # before the schedule ahead time"
+
+      ]
+
+
+
+
       def set_recording_bit_depth!(d)
         @mod_sound_studio.bit_depth = d
         __info "Recording bit depth set to #{d}"
