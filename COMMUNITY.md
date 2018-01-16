@@ -4,7 +4,7 @@ Join the friendly Sonic Pi community and share your ideas and thoughts
 with other educators, musicians and live coders...
 
 
-## Forum
+## Share | Discuss | Learn
 *<https://in-thread.sonic-pi.net/>*
 
 <a href="https://in-thread.sonic-pi.net">
