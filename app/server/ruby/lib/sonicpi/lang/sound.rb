@@ -2580,7 +2580,7 @@ set_volume! 2 # Set the main system volume to 2",
       doc name:          :sample_loaded?,
           introduced:    Version.new(2,2,0),
           summary:       "Test if sample was pre-loaded",
-          doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, returns `true` if the sample has already been loaded.",
+          doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga` or `.flac` file, returns `true` if the sample has already been loaded.",
           args:          [[:path, :string]],
           opts:          nil,
           accepts_block: false,
@@ -2598,7 +2598,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
       doc name:          :load_sample,
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load first matching sample",
-          doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, pre-loads the sample into memory.
+          doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga` or `.flac` file, pre-loads the sample into memory.
 
 You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load all matching samples. See `sample`'s docs for more information." ,
           args:          [[:path, :string]],
@@ -2628,7 +2628,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
       doc name:          :load_samples,
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load all matching samples",
-          doc:           "Given a directory containing multiple `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` files, pre-loads all the samples into memory.
+          doc:           "Given a directory containing multiple `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga` or `.flac` files, pre-loads all the samples into memory.
 
  You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will load all matching samples (not just the sample `sample` would play given the same opts) - see `sample`'s docs for more information." ,
           args:          [[:paths, :list]],
@@ -2739,7 +2739,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
       doc name:          :sample_duration,
           introduced:    Version.new(2,0,0),
           summary:       "Get duration of sample in beats",
-          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current BPM.
+          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga` or `.flac` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current BPM.
 
 *Note:* avoid using `sample_duration` to set the sleep time in `live_loop`s, prefer stretching the sample with the `beat_stretch:` opt or changing the BPM instead. See the examples below for details.",
           args:          [[:path, :string]],
@@ -2989,7 +2989,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
       doc name:          :sample,
           introduced:    Version.new(2,0,0),
           summary:       "Trigger sample",
-          doc:           "Play back a recorded sound file (sample). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` files from anywhere on your computer too. To play a built-in sample use the corresponding keyword such as `sample :bd_haus`. To play any file on your computer use a full path such as `sample \"/path/to/sample.wav\"`.
+          doc:           "Play back a recorded sound file (sample). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga` or `.flac` files from anywhere on your computer too. To play a built-in sample use the corresponding keyword such as `sample :bd_haus`. To play any file on your computer use a full path such as `sample \"/path/to/sample.wav\"`.
 
 There are many opts for manipulating the playback. For example, the `rate:` opt affects both the speed and the pitch of the playback. To control the rate of the sample in a pitch-meaningful way take a look at the `rpitch:` opt.
 
@@ -4287,8 +4287,9 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         args_h
       end
 
+      # TODO - this method doesn't seem to be used
       def find_sample_with_path(path)
-        ["wav", "wave", "aif", "aiff", "flac"].each do |ext|
+        ["wav", "wave", "aif", "aiff","flac", "ogg", "oga"].each do |ext|
           full = "#{path}.#{ext}"
           return full if File.exist?(full)
         end
