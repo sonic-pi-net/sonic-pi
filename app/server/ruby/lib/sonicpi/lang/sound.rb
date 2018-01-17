@@ -873,7 +873,7 @@ end"
       doc name:          :set_audio_latency!,
           introduced:    Version.new(3,1,0),
           summary:       "Globally modify audio latency",
-          doc:           "On some systems with certain configutions (such as as wireless speakers, and even tyical Windows environment with the default audio drivers) the audio latency can be large. If all the user is doing is generating audio via calls such as `play`, `synth` and `sample`, then this latency essentially adds to the schedule ahead time and for the most part can be ignored. However, if the user is combining audio with external MIDI/OSC triggered events, this latency can result in noticeable offset. This function allows you to address this offest by moving the audio events forwards and backwards in time.
+          doc:           "On some systems with certain configurations (such as wireless speakers, and even a typical Windows environment with the default audio drivers) the audio latency can be large. If all the user is doing is generating audio via calls such as `play`, `synth` and `sample`, then this latency essentially adds to the schedule ahead time and for the most part can be ignored. However, if the user is combining audio with external MIDI/OSC triggered events, this latency can result in a noticeable offset. This function allows you to address this offset by moving the audio events forwards and backwards in time.
 
 So, for example, if your audio system has an audio latency of 150ms, you can compensate for this by setting Sonic Pi's latency to be a negative value: `set_audio_latency! -150`.",
           args:          [[:milliseconds, :number]],
