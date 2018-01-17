@@ -56,7 +56,7 @@ users!
 
 ### Breaking Changes
 
-* The synth `chip_noise` now has standard default envelop opts (`sustain:` and `release:` are now 0 and 1 respectively (as opposed to 1 and 0))
+* The synth `chip_noise` now has standard default envelope opts (`sustain:` and `release:` are now 0 and 1 respectively (as opposed to 1 and 0))
 
 
 ### New Fns
@@ -76,7 +76,7 @@ users!
 ### GUI
 
 * Add new in_thread forum to the community listings (and update other entries).
-* Many, many translation additions improvements for a multitude of languages.
+* Many, many translation additions and improvements for a multitude of languages.
 
 
 ### Bugfixes
