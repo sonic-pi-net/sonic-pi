@@ -25,7 +25,7 @@
 
 The major feature of this release is that it brings v3 functionality to
 Windows. Windows now supports all the good stuff listed alongside
-`v3.0.x` including `live_audio`, `midi`, `osc` and much else.
+`v3.0.x` including `live_audio`, `midi`, `osc` and much more.
 
 Of course, no new release comes without new features, and there are a
 number of additions and improvements on all levels. Firstly, we are
@@ -46,9 +46,9 @@ a number of languages. If you still feel the translation for your
 language could be improved, please do consider joining in the
 crowd-sourced effort here: https://hosted.weblate.org/projects/sonic-pi/
 
-We have also included some styling tweaks to the GUI - to make
-it even cleaner and also work better when projecting code with visuals
-underneath.
+Finally, we have also included some styling tweaks to the GUI - to make
+it look even cleaner and also work better when projecting code with
+visuals underneath.
 
 Have fun and enjoy the new features - especially you lovely Windows
 users!
@@ -67,9 +67,10 @@ users!
 ### Samples
 
 * Add support for Ogg Vorbis encoded audio files `.ogg` and `.oga`. 
-* Add new `glitch_` sample group containing sounds with a glitchy texture.
-* Add new `mehackit_` sample group with sounds of old toys (kindly recorded and released into the public domain by Mehackit).
-* Add new samples: `:perc_bell2`, `:perc_door`, `:perc_impact1`, `:perc_impact2`, `:perc_swoosh`, `:ambi_sauna`, `:bd_mehackit`, `:sn_generic`, `:loop_3d_printer`, `:loop_drone_g_97`, `:loop_electric`, `:loop_mehackit1`, `:loop_mehackit2`, `:loop_perc1`, `:loop_perc2`, `:loop_weirdo`, 
+* Add new samples (kindly recorded and released into the public domain by Mehackit). 
+  - new `glitch_` sample group containing sounds with a glitchy texture.
+  - new `mehackit_` sample group with sounds of old toys
+  - new samples: `:perc_bell2`, `:perc_door`, `:perc_impact1`, `:perc_impact2`, `:perc_swoosh`, `:ambi_sauna`, `:bd_mehackit`, `:sn_generic`, `:loop_3d_printer`, `:loop_drone_g_97`, `:loop_electric`, `:loop_mehackit1`, `:loop_mehackit2`, `:loop_perc1`, `:loop_perc2`, `:loop_weirdo`, 
 
 
 ### GUI
