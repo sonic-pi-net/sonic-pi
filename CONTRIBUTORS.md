@@ -97,15 +97,16 @@ Current members:
 * [Adrian Cheater](https://github.com/factoid)
 * [Luis Lloret](https://github.com/llloret/)
 * [Robin Newman](https://github.com/rbnpi)
+* [Ethan Crawford](https://github.com/ethancrawford)
 
 
-Previous members: 
+Previous members:
 
 * [Jeremy Weatherford](https://github.com/jweather)
 
 
 ## Developer Contributions
- 
+
 In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
@@ -455,3 +456,9 @@ with Sonic Pi gives me such a buzz as I have not experienced since
 working with Music on a network of BBC Micros in the 1980s. Then as now
 my Wife Julia describes herself as a computer widow. I thank her for
 putting up with my passion for musical programming over the years.
+
+Ethan Crawford is grateful to his parents for giving him the opportunity
+of music lessons as a young boy, and all the skills and interests that
+this helped to develop. He'd also like to thank Sam for creating Sonic
+Pi and the ease and fun with which it combines two of his favourite
+interests - music and programming.
