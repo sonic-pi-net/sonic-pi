@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-08 13:57+0000\n"
+"PO-Revision-Date: 2018-01-19 04:53+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -9200,71 +9200,77 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
-msgstr ""
+msgstr "Faire correspondre n'importe lequel segment de chemin"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
+"Assumons que nous voulons attendre pour le prochain événement qui a trois "
+"segments de chemin :"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
 msgid "sync \"/*/*/*\""
-msgstr ""
+msgstr "sync \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
 msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
+"Ceci va faire une correspondance avec tout événement d'État du Temps avec "
+"exactement trois segments de chemin, et ce, peu importe leur nom. Par "
+"exemple :"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
-#, fuzzy
 msgid "`cue \"/foo/bar/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:25
-#, fuzzy
 msgid "`cue \"/foo/baz/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
-msgstr ""
+msgstr "`cue \"/eggs/beans/toast\"`"
 
 #: 10.3-Pattern-Matching.md:27
 msgid "`cue \"/moog/synths/rule\"`"
-msgstr ""
+msgstr "`cue \"/moog/synths/rule\"`"
 
 #: 10.3-Pattern-Matching.md:29
 msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
+"Toutefois, ça *ne* correspondras *pas* avec des chemins qui ont plus ou "
+"moins de segments. L'élément suivant n'aura pas de correspondance :"
 
 #: 10.3-Pattern-Matching.md:32
-#, fuzzy
 msgid "`cue \"/foo/bar\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
-#, fuzzy
 msgid "`cue \"/foo/baz/quux/quaax\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
-msgstr ""
+msgstr "`cue \"/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:36
 msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"Chaque `*` signifie *n'importe lequel contenu*. Donc, nous pourrions trouver "
+"des correspondance avec des chemins d'un seul segment avec `/*` ou des "
+"chemins avec cinq segments avec `/*/*/*/*/*`"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
-msgstr ""
+msgstr "Faire des correspondances de segments partielles"
 
 #: 10.3-Pattern-Matching.md:40
 #, fuzzy
@@ -9288,7 +9294,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
-msgstr ""
+msgstr "Cependant, cela ne correspondrait pas avec ceci :"
 
 #: 10.3-Pattern-Matching.md:52
 #, fuzzy
@@ -9316,7 +9322,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
-msgstr ""
+msgstr "Faire correspondre des segments de chemins imbriqués"
 
 #: 10.3-Pattern-Matching.md:64
 #, fuzzy
@@ -9343,29 +9349,31 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
-msgstr ""
+msgstr "Faire correspondre des lettres"
 
 #: 10.3-Pattern-Matching.md:75
 msgid ""
 "You can use the `?` character to match against a single char such as `\"/?oo/ba"
 "r/baz\"` which will match:"
 msgstr ""
+"Vous pouvez utiliser le caractère `?` pour faire une correspondance sur un "
+"seul caractère comme `\"/?oo/bar/baz\"` ce qui correspondra avec :"
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/goo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:80
 msgid "`cue \"/too/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/too/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:81
 msgid "`cue \"/woo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
-msgstr ""
+msgstr "Faire correspondre plusieurs mots"
 
 #: 10.3-Pattern-Matching.md:85
 #, fuzzy
@@ -9392,7 +9400,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
-msgstr ""
+msgstr "Faire correspondre plusieurs lettres"
 
 #: 10.3-Pattern-Matching.md:95
 #, fuzzy
@@ -9436,7 +9444,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
-msgstr ""
+msgstr "Combiner des correspondances"
 
 #: 10.3-Pattern-Matching.md:114
 msgid ""
@@ -9444,6 +9452,10 @@ msgid ""
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
 "et's look at a crazy example:"
 msgstr ""
+"En appelant `sync` ou `get`, vous êtes libre de combiner des correspondances "
+"dans n'importe lequel ordre qui vous convient pour faire correspondre des "
+"événements d'État du Temps créés par `cue` ou `set`. Regardons un exemple "
+"fou :"
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
@@ -9459,7 +9471,7 @@ msgstr "sample :loop_amen"
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
-msgstr ""
+msgstr "OSC Correspondance de motif"
 
 #: 10.3-Pattern-Matching.md:131
 msgid ""
@@ -9467,14 +9479,17 @@ msgid ""
 "ttern matching specification which is explained in detail here: http://opensou"
 "ndcontrol.org/spec-1_0"
 msgstr ""
+"Pour les curieux, ces règles de correspondance sont basées sur la "
+"spécification de correspondance de motif Open Sound Control, qui est "
+"expliquée en détail ici : http://opensoundcontrol.org/spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
-msgstr ""
+msgstr "11 MIDI"
 
 #: 11-MIDI.md:3
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 #: 11-MIDI.md:5
 msgid ""
