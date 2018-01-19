@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-19 04:53+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2018-01-21 20:12+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -9200,7 +9200,7 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
-msgstr "Faire correspondre n'importe lequel segment de chemin"
+msgstr "Faire correspondre n'importe quel segment de chemin"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
@@ -9244,8 +9244,8 @@ msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
-"Toutefois, ça *ne* correspondras *pas* avec des chemins qui ont plus ou "
-"moins de segments. L'élément suivant n'aura pas de correspondance :"
+"Toutefois, ça *ne* correspondra *pas* avec des chemins qui ont plus ou moins "
+"de segments. L'élément suivant n'aura pas de correspondance :"
 
 #: 10.3-Pattern-Matching.md:32
 msgid "`cue \"/foo/bar\"`"
@@ -9264,13 +9264,13 @@ msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
-"Chaque `*` signifie *n'importe lequel contenu*. Donc, nous pourrions trouver "
+"Chaque `*` signifie *n'importe quel contenu*. Donc, nous pourrions trouver "
 "des correspondance avec des chemins d'un seul segment avec `/*` ou des "
 "chemins avec cinq segments avec `/*/*/*/*/*`"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
-msgstr "Faire des correspondances de segments partielles"
+msgstr "Faire des correspondances de segments partiels"
 
 #: 10.3-Pattern-Matching.md:40
 #, fuzzy
@@ -9453,7 +9453,7 @@ msgid ""
 "et's look at a crazy example:"
 msgstr ""
 "En appelant `sync` ou `get`, vous êtes libre de combiner des correspondances "
-"dans n'importe lequel ordre qui vous convient pour faire correspondre des "
+"dans n'importe quel ordre qui vous convient pour faire correspondre des "
 "événements d'État du Temps créés par `cue` ou `set`. Regardons un exemple "
 "fou :"
 
@@ -9471,7 +9471,7 @@ msgstr "sample :loop_amen"
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
-msgstr "OSC Correspondance de motif"
+msgstr "Correspondance de motif OSC"
 
 #: 10.3-Pattern-Matching.md:131
 msgid ""
