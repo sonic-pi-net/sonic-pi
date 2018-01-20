@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-17 15:40+0000\n"
+"PO-Revision-Date: 2018-01-21 20:12+0000\n"
 "Last-Translator: Oto Popis <otopopis@gmail.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/sl/>\n"
@@ -31,6 +31,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"Pozdravljen v Sonic Pi-ju! Upam, da si tako razburjen, da boš začel "
+"ustvarjati nore zvoke, kot sem jaz, da ti to pokažem. Res *zabavno* bo, ko "
+"se boš učil o glasbi, ustvarjanju zvokov, programiranju, skladanju, "
+"nastopanju in še več."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -41,6 +45,12 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
+"Počakaj, kako nevljuden sem! Naj se ti najprej predstavim. Sem [Sam "
+"Aaron](http://twitter.com/samaaron) - avtor Sonic Pi-ja. Lahko me najdeš na "
+"Twitterju kot [@samaaron](http://twitter.com/samaaron). Več kot vesel te "
+"bom. Morda te bodo zanimali tudi moji [programerski "
+"nastopi](http://facebook.com/livecodesamaaron), kjer pred občinstvom "
+"programiram s Sonic Pi-jem."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -48,6 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"Če imaš kakšne predloge ali zamisli, kako bi lahko Sonic Pi izboljšali: "
+"povej jih, takšni podatki so zelo uporabni. Nikoli ne veš, morda bo tvoja "
+"zamisel postala naslednja velika izboljšava!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -56,13 +69,20 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"Ta vodnik je razdeljen na poglavja, združena po področjih. Čeprav sem ga "
+"sestavil tako, da se lahko učiš v smiselnem zaporedju od začetka do konca, "
+"ga lahko bereš, kakor se ti zdi. Če misliš, da kaj manjka, mi zaupaj in "
+"razmislil bom, če bi to dodal v prihodnji različici."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
+#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"Še to: gledanje, kako drugi programirajo, je odličen način učenja. Redno "
+"prenašam v živo na [svojem YouTube kanalu](http://youtube.com/samaaron)."
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -84,10 +104,13 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"Pri Sonic Pi-ju je zelo zanimivo to, da lahko *sproti spreminješ program* in "
+"tako delaš glasbo, kot če bi igral kitaro. To pomeni, da lahko z nekaj vaje "
+"programiraš tudi na odru!"
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "Počuti se prost"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -124,6 +147,9 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
+"Zdaj klikni gumb \"Zaženi\" in slišal boš lep zvok udarjanja po bobnu. Če bi "
+"želel ustaviti zvok, bi lahko kadar koli kliknil \"Ustavi\". Kljub temu ga "
+"zdaj še ne klikni … Raje naredi to:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
@@ -185,6 +211,13 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"Malo se poigrajmo. Spremeni številke za \"rate:\" - kaj se zgodi, če "
+"uporabiš visoko vrednost? Ali morda nizko, celo negativno? Poglej, kaj se "
+"zgodi, če spremeniš \"rate\" za \"ambi_choir\" samo malo (recimo \"0.29\" - "
+"pazi, da uporabiš decimalno piko in ne vejice, kot v slovenščini). Kaj se "
+"zgodi, če pri \"sleep\" napišeš res majhno številko? Poskusi narediti glasbo "
+"tako hitro, da se bo ustavila, ker se računalnik ne bo mogel dohajati (če se "
+"to zgodi, samo spremeni številko in spet klikni \"Zaženi\")."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -229,6 +262,8 @@ msgstr ""
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
+"Poskusi spremeniti modre številke za \"rate:\" in poslušaj, kako se zvok "
+"spremeni."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
@@ -273,6 +308,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :kitara do\n"
+"\twith_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"\t\tsample :guit_em9, rate: 0.5\n"
+"\tend\n"
+"\t#sample :guit_em9, rate: -0.5\n"
+"\tsleep 8\n"
+"end\n"
+"live_loop :bum do\n"
+"\twith_fx :reverb, room: 1 do\n"
+"\t\tsample :bd_boom, amp: 10, rate: 1\n"
+"\tend\n"
+"\tsleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -283,61 +331,63 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "Torej tisto, na kar čakaš …"
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 Raziskujemo uporabniški vmesnik"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "Sonic Pi-jev uporabniški vmesnik"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
+"Sonic Pi ima zelo preprost vmesnik za programiranje glasbe. Vzemimo si malo "
+"časa in ga raziščimo."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi-jev vmesnik](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - Nadzor predvajanja"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - Nadzor urejevalnika"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* - Podatki in pomoč"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - Urejevalnik"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - Možnosti"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F* - Prikaz dnevnika"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* - Pomoč"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* - Grafični prikaz zvoka"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
-msgstr ""
+msgstr "A. Nadzor predvajanja"
 
 #: 01.2-Exploring-the-Interface.md:22
 msgid ""
@@ -346,10 +396,14 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"S temi rožnatimi gumbi nadziramo predvajanje zvoka. Gumb *Zaženi* izvede "
+"program v urejevalniku, *Ustavi* ustavi program, ki se trenutno izvaja, "
+"*Shrani* zapiše program v zunanji dokument in *Posnami* ustvari posnetek ("
+"datoteko WAV) predvajanega zvoka."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. Nadzor urejevalnika"
 
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
