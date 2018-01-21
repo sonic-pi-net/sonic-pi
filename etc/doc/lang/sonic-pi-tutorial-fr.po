@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-21 20:12+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-01-22 00:19+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -9499,18 +9499,28 @@ msgid ""
 "metimes it is essential to break out of the code into the real world. We want "
 "two extra things:"
 msgstr ""
+"Une fois que vous avez maîtrise la conversion du code en musique, vous vous "
+"demandez peut-être : quel est la suite ? Parfois les contraintes de "
+"travailler purement dans la syntaxe de Sonic Pi et d'un système de son peut "
+"paraître excitant et vous placez dans une nouvelle position créative. "
+"Toutefois, parfois il est essentiel de sortir du code pour aller dans le "
+"vrai monde. Nous voulons deux choses supplémentaires :"
 
 #: 11-MIDI.md:11
 msgid ""
 "To be able to convert actions in the real world into Sonic Pi events to code w"
 "ith"
 msgstr ""
+"Pour être capable de convertir des actions du vrai monde en événements de "
+"Sonic Pi avec lesquels coder"
 
 #: 11-MIDI.md:12
 msgid ""
 "To be able to use Sonic Pi's strong timing model and semantics to control and "
 "manipulate objects in the real world"
 msgstr ""
+"Pour être capable d'utiliser le model fort de timing de Sonic Pi et ses "
+"sémantiques pour contrôler et manipuler les objets dans le vrai monde"
 
 #: 11-MIDI.md:14
 msgid ""
@@ -9520,20 +9530,27 @@ msgid ""
 "at all support MIDI. We can use MIDI to receive data and also use it to send d"
 "ata."
 msgstr ""
+"Heureusement, il existe un protocole depuis les années 80 qui permet "
+"exactement ce genre d'interactions : MIDI. Il y a un nombre incroyable de "
+"périphériques externes en incluant les claviers, les contrôleurs, les "
+"séquenceurs et des logiciels d'audio professionnels qui supportent tous le "
+"MIDI. Nous pouvons utiliser le MIDI pour recevoir des données et en envoyer."
 
 #: 11-MIDI.md:20
 msgid ""
 "Sonic Pi provides full support for the MIDI protocol enabling you to connect y"
 "our live code to the real world. Let's explore it further..."
 msgstr ""
+"Sonic Pi supporte entièrement le protocole MIDI ce qui vous permet de "
+"connecter votre code au vrai monde. Explorons-le plus en détails ..."
 
 #: 11.1-MIDI-In.md:1
 msgid "11.1 MIDI In"
-msgstr ""
+msgstr "11.1 MIDI Entrée"
 
 #: 11.1-MIDI-In.md:3
 msgid "MIDI In"
-msgstr ""
+msgstr "MIDI Entrée"
 
 #: 11.1-MIDI-In.md:5
 msgid ""
@@ -9541,10 +9558,14 @@ msgid ""
 "into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
 "such as a keyboard or control surface and let's get physical!"
 msgstr ""
+"Dans cette section, nous allons apprendre comment connecter un contrôleur "
+"MIDI pour envoyer des événements dans Sonic Pi pour contrôler nos synthés et "
+"nos sons. Allez chercher un contrôleur MIDI comme un clavier ou une surface "
+"de contrôle et devenons physique !"
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"
-msgstr ""
+msgstr "Connecter un contrôleur MIDI"
 
 #: 11.1-MIDI-In.md:13
 msgid ""
@@ -9560,10 +9581,24 @@ msgid ""
 "l that, feel free to ask questions in the public chat room: http://gitter.im/s"
 "amaaron/sonic-pi"
 msgstr ""
+"Afin d'obtenir de l'information d'un périphérique MIDI externe dans Sonic "
+"Pi, nous devons d'abord le connecter à notre ordinateur. Habituellement, ce "
+"sera par une connexion USB, quoi que les plus vieux équipements auront des "
+"connecteurs 5-pins pour lesquels vous aurez besoin que votre ordinateur le "
+"supporte physiquement (par exemple, certaines cartes de sons ont des "
+"connecteurs MIDI DIN). Une fois que votre périphérique est connecté, "
+"démarrez Sonic Pi et jetez un coup d'oeil à la section IO du panneau "
+"Préférences. Vous devriez voir votre périphérique listé là. Si ce n'est pas "
+"le cas, essayez de presser le bouton 'Reset MIDI' et regarder s'il apparaît. "
+"Si vous ne voyez toujours rien, la prochaine chose à essayer est de "
+"consulter la configuration MIDI de votre système d'exploitation pour "
+"vérifier si votre périphérique y est. Si tout cela ne marche pas, sentez "
+"vous à l'aise de poser des questions dans la salle publique de clavardage : "
+"http://gitter.im/samaaron/sonic-pi"
 
 #: 11.1-MIDI-In.md:26
 msgid "Receiving MIDI Events"
-msgstr ""
+msgstr "Recevoir des événements MIDI"
 
 #: 11.1-MIDI-In.md:28
 msgid ""
@@ -9573,6 +9608,13 @@ msgid ""
 "n't visible go to Preferences->Editor->Show & Hide and enable the 'Show cue lo"
 "g' tickbox). You'll see a stream of events such as:"
 msgstr ""
+"Une fois que votre périphérique est connecté, Sonic Pi recevra "
+"automatiquement les événements. Vous pouvez le voir par vous-même en "
+"manipulation votre périphérique MIDI et en regardant la queue de "
+"journalisation dans le secteur inférieur droit de votre fenêtre "
+"d'application en-dessous du journal ( si ce n'est pas visible allez dans "
+"Préférences->Éditeur->Afficher & Cacher et activer le \"Afficher la queue de "
+"journalisation\"). Vous verrez un flux d'événements comme :"
 
 #: 11.1-MIDI-In.md:35
 #, no-wrap
@@ -9586,6 +9628,14 @@ msgid ""
 "/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
 "/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
 msgstr ""
+"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [53, 102]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [57, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [53, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [57, 87]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [55, 81]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
 
 #: 11.1-MIDI-In.md:46
 msgid ""
