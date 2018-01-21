@@ -127,6 +127,7 @@ wrap my code in a function which I can then use to play a melody. Try
 playing your own melody and also messing around with the contents of the
 `:bell` function until you create your own crazy sound to play with!
 
+```
 define :bell do |n|
   # Triangle waves for the 'hit'
   synth :tri, note: n - 12, release: 0.1
@@ -154,3 +155,4 @@ sleep 1
 bell :d3
 sleep 1
 bell :g2
+```
