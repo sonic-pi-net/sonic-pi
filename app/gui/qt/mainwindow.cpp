@@ -2844,7 +2844,7 @@ void MainWindow::createInfoPane() {
     infoPanes.append(pane);
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
-    pane->setFixedSize(600, 615);
+    pane->setFixedSize(620, 615);
     pane->setSource(QUrl(urls[t]));
     infoTabs->addTab(pane, tabs[t]);
   }
