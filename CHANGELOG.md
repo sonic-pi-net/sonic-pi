@@ -1,5 +1,5 @@
 # History
-* [v3.1.0 'Sauna'](#v3.1.0), Yet to be released...
+* [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
 * [v2.11.1 'Hack'](#v2.11.1), 16th Dec, 2016
@@ -19,13 +19,14 @@
 
 <a name="v3.1.0"></a>
 
-## Version 3.1.0 - Sauna'
-*yet to be released*
+## Version 3.1.0 - 'Sauna'
+*23rd Jan, 2018*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.1.0):
 
 The major feature of this release is that it brings v3 functionality to
 Windows. Windows now supports all the good stuff listed alongside
-`v3.0.x` including `live_audio`, `midi`, `osc` and much more.
+`v3.0.x` including `live_audio`, `midi`, `osc` and much more. See
+`v3.0.1` and `v3.0.0` release notes below for more infomation.
 
 Of course, no new release comes without new features, and there are a
 number of additions and improvements on all levels. Firstly, we are
@@ -46,9 +47,15 @@ a number of languages. If you still feel the translation for your
 language could be improved, please do consider joining in the
 crowd-sourced effort here: https://hosted.weblate.org/projects/sonic-pi/
 
-Finally, we have also included some styling tweaks to the GUI - to make
+We have also included some styling tweaks to the GUI - to make
 it look even cleaner and also work better when projecting code with
 visuals underneath.
+
+Finally, this release also gives me the opportunity to welcome Ethan
+Crawford to the Core Team. He has been a prolific contributor to the
+project over the years and his keen eye for detail has helped polish
+Sonic Pi from the rough stone it once was to the shining gem it is
+today.
 
 Have fun and enjoy the new features - especially you lovely Windows
 users!
@@ -76,14 +83,18 @@ users!
 ### GUI
 
 * Add new in_thread forum to the community listings (and update other entries).
-* Many, many translation additions and improvements for a multitude of languages.
+* Many, many translation additions and improvements for a multitude of
+  languages. The tutorial is now available in German, Spanish, French,
+  Italian, Japanese, Dutch, Polish, Portuguese, Romanian, and Russian.
+* GUI now lets the user know when the buffer capacity has been exceeded
+  on macOS and Linux (Windows behaviour is currently unchanged). This
+  capacity limitation will be addressed more thoroughly in a future release.
 
 
 ### Bugfixes
 
 * Stop the internal sample pattern matcher from duplicating matches in some cases.
 * Stop pro icon preference from resetting to 'off' when switching from dark to light mode
-
 
 ## Version 3.0.1 - 'IOIO'
 *28th July, 2017*
