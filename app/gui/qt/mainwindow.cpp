@@ -1837,6 +1837,11 @@ void MainWindow::showError(QString msg) {
   errorPane->setHtml("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body>"  + msg + "</body></html>");
   errorPane->show();
 }
+
+void MainWindow::showBufferCapacityError() {
+  showError("<h2 class=\"syntax_error_description\"><pre>GUI Error: Buffer Full</pre></h2><pre class=\"error_msg\"> Your code buffer has reached capacity. <br/> Please remove some code before continuing. <br/><span class=\"error_line\"> For working with very large buffers use: <br/> load_file \"/path/to/buffer.rb\"</span></pre>");
+}
+
 void MainWindow::runCode()
 {
   scopeInterface->resume();
@@ -1853,73 +1858,66 @@ void MainWindow::runCode()
   newOutputCursor.movePosition(QTextCursor::End);
   outputPane->setTextCursor(newOutputCursor);
 
-
-
   update();
-	
-	std::string code = ws->text().toStdString();
-	
-	// Buffer code limit check before beautifing code to make sure that code isn't removed
-	if(code.length() >  65507){
-		QMessageBox *box = new QMessageBox(QMessageBox::Warning,
-			tr("Warning buffer limit reached"), tr("The character limit of the current buffer has been reached.\n\nIf you write more code and attempt to run it in this buffer, some code won't be run and some code may be removed from the buffer\n\nTo get around this issue you can type code in another text editor, save it to a text file and put in a buffer: run_file \"path/to/file\".\n\nSorry for any inconvenience.\n\nBuffer length: %0 bytes, Buffer can't exceed 65507 bytes").arg(code.length()));
-		return;
-	} else {
-		if(auto_indent_on_run->isChecked()) {
-			beautifyCode();
-		}
-		SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
-		ws->highlightAll();
-		lexer->highlightAll();
-		ws->clearLineMarkers();
-		resetErrorPane();
-		statusBar()->showMessage(tr("Running Code..."), 1000);
-		//std::string code = ws->text().toStdString();
-		Message msg("/save-and-run-buffer");
-		msg.pushStr(guiID.toStdString());
+  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
 
-		std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
-		msg.pushStr(filename);
+  QString code = ws->text();
 
-		if(!print_output->isChecked()) {
-			code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
-		}
+  if(!print_output->isChecked()) {
+    code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
 
-		if(!log_cues->isChecked()) {
-			code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
-		}
+  if(!log_cues->isChecked()) {
+    code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
 
-		if(check_args->isChecked()) {
-			code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
-		}
+  if(check_args->isChecked()) {
+    code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
 
-		if(enable_external_synths_cb->isChecked()) {
-			 code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
-		}
+  if(enable_external_synths_cb->isChecked()) {
+    code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
 
-		if(synth_trigger_timing_guarantees_cb->isChecked()) {
-			 code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
-		}
+  if(synth_trigger_timing_guarantees_cb->isChecked()) {
+    code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
 
-		code = "use_midi_defaults channel: \"" + midi_default_channel_combo->currentText().toStdString() + "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  code = "use_midi_defaults channel: \"" + midi_default_channel_combo->currentText() + "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
 
-		// Buffer code limit check before attempting to run to make sure that code isn't removed
-		if(code.length() >  65507){
-			QMessageBox *box = new QMessageBox(QMessageBox::Warning,
-				tr("Warning buffer limit reached"), tr("The character limit of the current buffer has been reached.\n\nIf you write more code and attempt to run it in this buffer, some code won't be run and some code may be removed from the buffer\n\nTo get around this issue you can type code in another text editor, save it to a text file and put in a buffer: run_file \"path/to/file\".\n\nSorry for any inconvenience.\n\nBuffer length: %0 bytes, Buffer can't exceed 65507 bytes").arg(code.length()));
-			return;
-		} else {
-		if(clear_output_on_run->isChecked()){
-			outputPane->clear();
-		}
+  if(auto_indent_on_run->isChecked()) {
+    beautifyCode();
+  }
 
-		msg.pushStr(code);
-		msg.pushStr(filename);
-		sendOSC(msg);
+  ws->highlightAll();
+  lexer->highlightAll();
+  QTimer::singleShot(500, this, SLOT(unhighlightCode()));
+  ws->clearLineMarkers();
+  resetErrorPane();
 
-		QTimer::singleShot(500, this, SLOT(unhighlightCode()));
-		}
-	}
+  //std::string code = ws->text().toStdString();
+  Message msg("/save-and-run-buffer");
+  msg.pushStr(guiID.toStdString());
+
+  std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
+  msg.pushStr(filename);
+
+  if(clear_output_on_run->isChecked()){
+    outputPane->clear();
+  }
+
+  msg.pushStr(code.toStdString());
+  msg.pushStr(filename);
+  int res = sendOSC(msg);
+  statusBar()->showMessage(QString("Running Codez... %1 - %2").arg(QString::number(res), QString::number(code.toUtf8().size())), 1000);
+
+  if(!res){
+    showBufferCapacityError();
+    return;
+
+
+  }
+
 }
 
 void MainWindow::unhighlightCode()

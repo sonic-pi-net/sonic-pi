@@ -203,6 +203,7 @@ private slots:
     void updateMIDIOutPorts(QString port_info);
 
     void showError(QString msg);
+    void showBufferCapacityError();
 private:
 
     void checkPort(int port);
