@@ -1908,15 +1908,14 @@ void MainWindow::runCode()
 
   msg.pushStr(code.toStdString());
   msg.pushStr(filename);
-  int res = sendOSC(msg);
-  statusBar()->showMessage(QString("Running Codez... %1 - %2").arg(QString::number(res), QString::number(code.toUtf8().size())), 1000);
+  bool res = sendOSC(msg);
 
   if(!res){
     showBufferCapacityError();
     return;
-
-
   }
+
+  statusBar()->showMessage(tr("Running Code..."), 1000);
 
 }
 
