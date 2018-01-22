@@ -440,14 +440,14 @@ thank Scott Wilson for teaching me some programming as part of a music
 degree, and my good friend David Bamber for helping me get started as a
 programmer.
 
-Adrian Cheater dedicates this space in loving memory of his mother,
-Katherine Cheater, who shared her passion for music and performance
-while making available all the tools I needed to explore technology she
-didn't understand. She was renowned for her patience and sincere
-encouragement of all her piano students, and helped me to understand
-that failure is common and natural, and that effort eventually overcomes
-all obstacles. Her influence carries me in all my live coding
-adventures, and I hope these words help you to persevere in yours.
+Adrian Cheater dedicates this space in loving memory of her mother,
+Katherine Cheater. Mom shared her passion for music and performance
+and equipped me with all the tools I needed to live life fully. She was
+kind, but did not let the opinions of strangers deter her from her path.
+Though mom never met me as her daughter, I know she would have been proud
+that I chose to embrace my truth as it became known to me.
+My wish is that you, fellow musician, will also choose to never dampen your
+light, and that you will encourage and empower others to shine bright.
 
 Robin Newman would like to thank Sam for producing such inspirational
 software as Sonic Pi. Both the sounds that it can produce and the
