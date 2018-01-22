@@ -107,7 +107,7 @@ Now, try increasing that feedback to 1 to hear some crazy sounds! Read the
 docs for full details on all the many opts available to you.
 
 
-## 5. Live Code
+## 4. Live Code
 
 The best way to quickly experiment and explore Sonic Pi is to live
 code. This allows you to start off some code and continually change and
