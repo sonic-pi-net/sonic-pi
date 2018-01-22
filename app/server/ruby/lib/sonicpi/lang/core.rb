@@ -2393,7 +2393,7 @@ puts slept #=> Returns false as there were no sleeps in the block"]
 
 Note, all code within the block is executed in its own thread. Therefore despite inheriting all thread locals such as the random stream and ticks, modifications will be isolated to the block and will not affect external code.
 
-`at is just-in-time scheduling using multiple isolated threads. See `time_warp` for ahead-of-time scheduling within the current thread",
+`at` is just-in-time scheduling using multiple isolated threads. See `time_warp` for ahead-of-time scheduling within the current thread.",
           args:           [[:times, :list],
                            [:params, :list]],
           opts:           nil,
