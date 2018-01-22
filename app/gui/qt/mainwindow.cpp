@@ -399,7 +399,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   //setup autocompletion
   autocomplete->loadSamples(sample_path);
 
-  OscHandler* handler = new OscHandler(this, outputPane, errorPane, incomingPane, theme);
+  OscHandler* handler = new OscHandler(this, outputPane, incomingPane, theme);
 
   if(protocol == UDP){
     sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler, gui_listen_to_server_port);
@@ -1828,6 +1828,15 @@ void MainWindow::runBufferIdx(int idx)
   runCode();
 }
 
+void MainWindow::showError(QString msg) {
+  QString style_sheet = "qrc:///html/styles.css";
+  if(dark_mode->isChecked()) {
+    style_sheet = "qrc:///html/dark_styles.css";
+  }
+  errorPane->clear();
+  errorPane->setHtml("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body>"  + msg + "</body></html>");
+  errorPane->show();
+}
 void MainWindow::runCode()
 {
   scopeInterface->resume();

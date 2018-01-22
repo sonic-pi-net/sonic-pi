@@ -202,6 +202,7 @@ private slots:
     void updateMIDIInPorts(QString port_info);
     void updateMIDIOutPorts(QString port_info);
 
+    void showError(QString msg);
 private:
 
     void checkPort(int port);
