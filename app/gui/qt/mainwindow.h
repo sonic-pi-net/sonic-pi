@@ -225,7 +225,7 @@ private:
     std::string number_name(int);
     std::string workspaceFilename(SonicPiScintilla* text);
     SonicPiScintilla* filenameToWorkspace(std::string filename);
-    void sendOSC(oscpkt::Message m);
+    bool sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
     void refreshDocContent();

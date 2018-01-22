@@ -1956,11 +1956,14 @@ void MainWindow::beautifyCode()
 }
 
 
-void MainWindow::sendOSC(Message m)
+bool MainWindow::sendOSC(Message m)
 {
-  oscSender->sendOSC(m);
+  bool res = oscSender->sendOSC(m);
+  if(!res) {
+    std::cout << "[GUI] - Could Not Send OSC" << std::endl;
+  }
+  return res;
 }
-
 
 void MainWindow::reloadServerCode()
 {
