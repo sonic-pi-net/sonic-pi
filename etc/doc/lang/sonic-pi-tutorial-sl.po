@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-21 20:12+0000\n"
+"PO-Revision-Date: 2018-01-24 20:51+0000\n"
 "Last-Translator: Oto Popis <otopopis@gmail.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/sl/>\n"
@@ -75,14 +75,14 @@ msgstr ""
 "razmislil bom, če bi to dodal v prihodnji različici."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
 "Še to: gledanje, kako drugi programirajo, je odličen način učenja. Redno "
-"prenašam v živo na [svojem YouTube kanalu](http://youtube.com/samaaron)."
+"prenašam v živo na [svojem YouTube kanalu](http://youtube.com/samaaron). "
+"Pozdravi me in vprašaj veliko stvari! :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -270,12 +270,14 @@ msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
+"Poskusi spremeniti vrednosti \"sleep\" in poslušaj, kako se obe zanki "
+"izvajata v različnih medsebojnih razmerjih."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
-msgstr ""
+msgstr "Opombi odstrani znak \"#\" in uživaj v zvoku kitare."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
@@ -411,10 +413,14 @@ msgid ""
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
+"Ti oranžni gumbi so namenjeni upravljanju urejevalnika programov. Gumba "
+"*Povečaj* in *Pomanjšaj* ti omogočata spreminjanje velikosti črk. Gumb "
+"*Poravnaj* bo uredil program, da bo bolj pregleden in da bo izgledal bolj "
+"profesionalno :-) ."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "C. Podatki in pomoč"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -424,10 +430,15 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
+"S temi modrimi gumbi lahko dostopaš do podatkov, navodil in možnosti "
+"programa. Gumb *O programu* odpre okno s podatki o Sonic Pi-ju samem - "
+"skupini razvijalcev, zgodovini, sodelavvcih in tako naprej. Gumb *Pomoč* "
+"pokaže ali skrije okno z navodili in gumb *Možnosti* odpre ali zapre okno z "
+"možnostmi, s katerim lahko nadziraš Sonic Pi."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. Urejevalnik"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -438,10 +449,16 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"V tem delu vmesnika boš pisal programe ter skladal in izvajal glasbo. Je "
+"preprost urejevalnik besedila, kjer lahko svoje programe pišeš, brišeš, "
+"kopiraš ... Predstavljaj si ga kot zelo osnovno različico Worda ali Google "
+"dokumentov. Urejevalnik besede samodejno pobarva, glede na to, kaj v "
+"programu pomenijo. Morda se to zdi nenavadno, vendar ti bo kmalu prišlo "
+"prav. Na primer, hitro boš našel številke, ker so vedno modre."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. Okno z možnostmi"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
@@ -451,10 +468,15 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"Sonic Pi ima veliko nastavitev, ki so prikazane v posebnem oknu. Pokažeš ali "
+"skriješ jih lahko z modrim gumbom *Možnosti*. Okno vsebuje veliko možnosti, "
+"na primer način \"mono\", obratni stereo, določaš, kaj bo prikazano v "
+"dnevniku, spreminjaš glasnost glasbe in v sistemu Raspberry Pi tudi izbereš, "
+"v katero napravo naj bo poslan zvok."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. Dnevnik"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -463,10 +485,15 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
+"Ko zaženeš program, bo Sonic Pi sproti zapisoval v dnevnik, kaj počne. Za "
+"vsak ustvarjen zvok se bo prikazalo sporočilo s točnim podatkom, kdaj se je "
+"zvok predvajal - rezen, če to spremeniš v možnostih. To je zelo uporabno, "
+"saj moraš, če želiš popraviti napako v programu, najprej razumeti, kaj "
+"program sploh dela."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
-msgstr ""
+msgstr "G. Pomoč"
 
 #: 01.2-Exploring-the-Interface.md:73
 msgid ""
@@ -477,10 +504,15 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
+"Navodila, ki se prikažejo na dnu vmesnika, so eden najpomembnejših delov "
+"Sonic Pi-ja. Lahko jih pokažeš ali pa skriješ z gumbom *Pomoč*. Vsebujejo "
+"koristne podatke o vsem, kar je povezanega s Sonic Pi-jem, vključno s tem "
+"vodnikom, seznamom glasbil, vzorcev, primerov, učinkov FX in funkcij, ki so "
+"v Sonic Pi-ju na voljo za programiranje glasbe."
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
-msgstr ""
+msgstr "H. Grafični prikaz zvoka"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -494,14 +526,24 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"Grafični prikaz zvoka s krivuljo ti omogoča, da zvok hkrati vidiš in slišiš. "
+"Takoj lahko vidiš, da je krivulja \"žagastega\" zvoka videti kot žaga, "
+"običajen pisk pa da sinusno krivuljo. Razlikujejo se tudi krivulje tihih in "
+"glasnih zvokov. Obstajajo tri vrste grafičnega prikaza: samodejno se pokaže "
+"kombiniran prikaz za levi in desni zvočnik, pri stereo prikazu se pokažeta "
+"dva ločena grafa, eden za levi zvočnik in drugi za desnega. Obstaja pa tudi "
+"prikaz, ki nariše Lissajousovo krivuljo "
+"(https://sl.wikipedia.org/wiki/Lissajousova_krivulja), s katero prikaže "
+"razmerje med levim in desnim zvočnikom. Če v možnostih izbereš to vrsto "
+"prikaza, lahko z zvokom rišeš lepe slike."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 Učenje skozi igro"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr ""
+msgstr "Učenje skozi igro"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
@@ -513,7 +555,7 @@ msgstr ""
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
-msgstr ""
+msgstr "Tukaj ni napak"
 
 #: 01.3-Learning-through-Play.md:12
 msgid ""
@@ -531,7 +573,7 @@ msgstr ""
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr ""
+msgstr "Začnimo preprosto"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
