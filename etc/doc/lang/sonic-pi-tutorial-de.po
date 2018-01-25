@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-11 15:23+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2018-01-26 23:37+0000\n"
+"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -16288,7 +16288,7 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
-msgstr ""
+msgstr "Filter Modulation"
 
 #: A.19-subtractive-synthesis.md:109
 msgid ""
@@ -16310,6 +16310,10 @@ msgid ""
 "  synth :prophet, note: :e2, sustain: 3.5\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 50 do |fx|\n"
+"  control fx, cutoff_slide: 3, cutoff: 130\n"
+"  synth :prophet, note: :e2, sustain: 3.5\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:125
 msgid ""
