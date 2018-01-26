@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-13 08:30+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/tutorial"
-"/ja/>\n"
+"PO-Revision-Date: 2018-01-26 18:05+0000\n"
+"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -67,14 +67,13 @@ msgstr ""
 "、自由に、色々なセクションを覗いてみてください。何か、不足している点に気がついたら、将来のバージョンのために検討したいので、知らせてください。"
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"最後に、他の人がライブコーディングするのを見るのはとても良い学習方法です。私は定期的に[livecoding.tv/samaaron](http://you"
-"tube.com/samaaron)でライブをストリーミングしているのでぜひ立ち寄って、たくさんの質問をしてみてください :-)"
+"最後に、他の人がライブコーディングするのを見るのはとても良い学習方法です。私は定期的に[http://youtube.com/samaaron](http"
+"://youtube.com/samaaron)でライブをストリーミングしているので、ぜひ立ち寄って、たくさんの質問をしてみてください :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
