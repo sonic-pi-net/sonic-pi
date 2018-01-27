@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-06 19:50+0000\n"
-"Last-Translator: Álvaro Cáceres Muñoz <alvarocaceresmunoz@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"es/>\n"
+"PO-Revision-Date: 2018-01-28 15:40+0000\n"
+"Last-Translator: Mauro Garcia <maurogarciadavid@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2081,13 +2081,13 @@ msgstr ""
 "`:loop_amen` ."
 
 #: 03.2-Sample-Params.md:33
-#, fuzzy
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr ""
-"Finalmente, nota que si seteas algunos sintetizadores por defecto con `use_syn"
-"th_defaults` (que discutiremos luego), estos serán ignorados por `sample`."
+"Finalmente, nota que si seteas algunos sintetizadores por defecto con "
+"`use_synth_defaults` (que discutiremos luego), estos serán ignorados por "
+"`sample`."
 
 #: 03.3-Stretching-Samples.md:1
 #, fuzzy
@@ -2095,7 +2095,6 @@ msgid "3.3 Stretching Samples"
 msgstr "3.3 Estirando Samples"
 
 #: 03.3-Stretching-Samples.md:3
-#, fuzzy
 msgid "Stretching Samples"
 msgstr "Estirando Samples"
 
