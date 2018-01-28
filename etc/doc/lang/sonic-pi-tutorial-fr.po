@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-22 00:19+0000\n"
+"PO-Revision-Date: 2018-01-29 05:29+0000\n"
 "Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -9642,10 +9642,13 @@ msgid ""
 "Once you can see a stream of messages like this, you've successfully connected"
 " your MIDI device. Congratulations, let's see what we can do with it!"
 msgstr ""
+"Une fois que vous pouvez voir un flux de messages comme cela, vous avez "
+"connecté avec succès votre périphérique MIDI. Félicitations, voyons ce que "
+"nous pouvons faire avec !"
 
 #: 11.1-MIDI-In.md:50
 msgid "MIDI Time State"
-msgstr ""
+msgstr "État du Temps MIDI"
 
 #: 11.1-MIDI-In.md:52
 msgid ""
@@ -9657,6 +9660,14 @@ msgid ""
 "lue and also `sync` waiting for the next MIDI value using everything we learne"
 "d in section 10 of this tutorial."
 msgstr ""
+"Ces événements sont divisés en deux sections. Premièrement, il y a le nom de "
+"l'événement comme `/midi/nanokey2_keyboard/0/1/note_on`. Deuxièmement, il y "
+"a les valeurs de l'événement comme `[18, 62]`. Fait intéressant, ce sont "
+"deux choses dont nous avons besoin pour stocker de l'information dans l'État "
+"du temps. *Sonic Pi insert automatiquement les événements MIDI entrants dans "
+"l'État du Temps*. Cela veut dire que vous pouvez `get` la dernière valeur "
+"MIDI et aussi `sync` pour attendre la prochaine valeur MIDI en utilisant "
+"tout ce que nous avons appris dans la section 10 de ce tutoriel."
 
 #: 11.1-MIDI-In.md:60
 #, fuzzy
@@ -9669,6 +9680,11 @@ msgid ""
 "ed that our knowledge of Time State is all we need to work with the events, we"
 " can now start having fun. Let's build a simple MIDI piano:"
 msgstr ""
+"Maintenant que nous avons connecté un périphérique MIDI, vu ses événements "
+"dans la queue du journal et découvert que notre savoir de l'État du Temps "
+"est tout ce dont nous avons besoin pour travailler avec les événements, nous "
+"pouvons maintenant commencer à avoir du plaisir. Construisons un piano MIDI "
+"simple :"
 
 #: 11.1-MIDI-In.md:67
 #, no-wrap
@@ -9678,6 +9694,10 @@ msgid ""
 "  synth :piano, note: note\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do\n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note\n"
+"end"
 
 #: 11.1-MIDI-In.md:74
 msgid ""
@@ -9692,6 +9712,19 @@ msgid ""
 " we assign the result to two separate variables `note` and `velocity`. Finally"
 " we trigger the `:piano` synth passing our note."
 msgstr ""
+"Il y a quelques éléments qui se passent dans le code ci-dessus, incluant "
+"certains problèmes. Premièrement, nous avons une `live_loop` simple qui se "
+"répétera éternellement en exécutant le code entre le bloc `do`/`end`. Cela a "
+"été introduit dans la section 9.2. Deuxièmement, nous appelons `sync`pour "
+"attendre le prochain événement de l'État du Temps correspondant. Nous "
+"utilisons une chaîne de caractères qui représente le message MIDI que nous "
+"recherchons (qui est le même que celui affiché dans la queue du journal). "
+"Notez que cette longue chaîne de caractères vous est fourni par le système d"
+"’auto-complétion de Sonic Pi pour que vous n'ayez pas à tout le taper "
+"manuellement. Dans le journal, nous avons vu qu'il y avait deux valeurs pour "
+"chaque événement de note MIDI, donc nous assignons le résultat à deux "
+"variables séparées `notes` et `velocity`. Finalement, nous déclenchons le "
+"synthé `:piano` en passant notre note."
 
 #: 11.1-MIDI-In.md:86
 msgid ""
@@ -9703,6 +9736,16 @@ msgid ""
 "tude. Given that MIDI has a range of 0->127, to convert this number to a value"
 " between 0->1 we just need to divide it by 127:"
 msgstr ""
+"Maintenant, essayez-le. Taper le code ci-dessus, remplacer la clé de "
+"synchronisation avec une chaîne de caractères qui correspond à votre "
+"périphérique MIDI spécifique et pressez Exécuter. Hey presto, tu as un piano "
+"qui fonctionne ! Par contre, vous remarquerez probablement quelques "
+"problèmes : premièrement, toutes les notes sont au même volume, et ce, peu "
+"importe à quel force vous pressez sur le clavier. Cela peut être réglé "
+"facilement en utilisant la valeur de vélocité MIDI et en la convertissant à "
+"une amplitude. Étant donné que ce MIDI a une intervalle de 0->127, pour "
+"convertir un nombre d'une valeur entre 0->1, nous devons seulement la "
+"diviser par 127 :"
 
 #: 11.1-MIDI-In.md:95
 #, no-wrap
@@ -9712,16 +9755,23 @@ msgid ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do\n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note, amp: velocity / 127.0\n"
+"end"
 
 #: 11.1-MIDI-In.md:102
 msgid ""
 "Update the code and hit Run again. Now the velocity of the keyboard is honoure"
 "d. Next, let's get rid of that pesky pause."
 msgstr ""
+"Mettez à jour le code et pressez Exécuter de nouveau. Maintenant la vélocité "
+"du clavier est honorée. Ensuite, débarrassons-nous de cette pause casse-"
+"pieds."
 
 #: 11.1-MIDI-In.md:105
 msgid "Removing Latency"
-msgstr ""
+msgstr "Enlever la latence"
 
 #: 11.1-MIDI-In.md:107
 msgid ""
