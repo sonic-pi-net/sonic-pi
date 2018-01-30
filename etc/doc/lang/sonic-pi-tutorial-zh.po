@@ -4,17 +4,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
+"PO-Revision-Date: 2018-01-31 15:34+0000\n"
+"Last-Translator: Smite Chow <xiaopengyou@live.com>\n"
+"Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-"
+"pi/tutorial/zh/>\n"
+"Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr ""
+msgstr "1 欢迎使用 Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr ""
+msgstr "你好，朋友 :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -23,6 +30,8 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"欢迎使用 Sonic "
+"Pi。我将教你如何创作天籁之音，希望你会喜欢。接下来的学习的过程将会*非常有趣*，你将会学习音乐相关的知识，包括但不限于合成器，编程，编曲，表演等。"
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -33,13 +42,17 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
+"哦抱歉，请允许我先做个自我介绍，我是 [Sam Aaron](http://twitter.com/samaaron)，也是 Sonic Pi 的作者。"
+"你可以在 Twitter 上找到我 [@samaaron](http://twitter.com/samaaron) ，欢迎关注，我会很高兴认识你的。"
+"你可能也对我的 [Live Coding 表演](http://facebook.com/livecodersamaaron) "
+"感兴趣，同样欢迎关注我的脸书账号。"
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
 "If you have any thoughts, or ideas for improving Sonic Pi - please pass them o"
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
-msgstr ""
+msgstr "如果你有任何想法，意见，想要改进 Sonic Pi，请反馈给我们。 你的反馈说不定会成为软件下一个版本中的重量级功能！"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -48,6 +61,8 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"本教程被划分为了好几个章节。同时每个章节我会尽量由浅入深的书写，这样学习曲线才能足够平缓， "
+"请自由选择你感兴趣的章节学习。如果你觉得缺少某些内容，请告诉我，我将会在发布下一个版本的时候考虑补充。"
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -55,19 +70,22 @@ msgid ""
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"最后，看 Live Coding 表演是一个很棒的学习方式。一般我在 "
+"[http://youtube.com/samaaron](http://youtube.com/samaaron) "
+"上进行现场直播，非常欢迎你收看我的直播，跟我打招呼，然后问我一堆问题 :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr ""
+msgstr "OK，我们开始学习吧..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 Live Coding 表演"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr ""
+msgstr "Live Coding 表演"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -76,10 +94,12 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"Sonic Pi 最NB的功能之一就是它允许你通过写代码，以及*实时修改代码*来创作音乐，就像你在用吉他表演一样。这意味着你只需要做些练习，"
+"然后就可以带着 Sonic Pi 上舞台表演了。"
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "放飞自己"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -87,15 +107,15 @@ msgid ""
 "tutorial, I'd like to give you an experience of what it's like to live code. D"
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
-msgstr ""
+msgstr "在开始真正的教程之前，我想让你体验一下什么是 Live Code 。搞不明白也不用担心，坐稳扶好，我要带你装B带你飞了..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr ""
+msgstr "一段现场循环"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr ""
+msgstr "开始吧，复制下面的代码，粘贴到上面的空白区域："
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -105,35 +125,39 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
 "Now, press the `Run` button and you'll hear a nice fast bass drum beating away"
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
-msgstr ""
+msgstr "现在点击`Run`按钮，你将会听到动感的低音鼓节奏。如果你想停止发声，只需要点击 `Stop` 按钮。先别点击哈，跟随下面的步骤："
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "确保低音鼓声音还在"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr ""
+msgstr "修改 `sleep` 的值从 `0.5` 到更高的值，比如 `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "再次点击  `Run` 按钮"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "注意鼓的节奏的速度已经变了。"
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
-msgstr ""
+msgstr "最后，请*记住这一刻*，这是你使用 Sonic Pi 的第一次 Live Code ，期待你后续的精彩表演..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
