@@ -3089,7 +3089,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "Slightly modified supersaw implementation beased on http://sccode.org/1-4YS"
+        "Slightly modified supersaw implementation based on http://sccode.org/1-4YS"
       end
 
       def arg_defaults
