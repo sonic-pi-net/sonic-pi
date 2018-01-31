@@ -6832,6 +6832,11 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         false
       end
 
+
+      def doc
+        "Forces all audio through a hyperbolic tangent function which has the effect of acting like distorted limiter. It works by folding loud signals back in on itself. The louder the input signal, the more folding occurs - resulting in increased strange harmonics and distortion. This folding also has the effect of limiting the outgoing signal, therefore to increase the output amplitude use the `amp:` opt and to increase the folding/distortion use the `pre_amp:` opt. "
+      end
+
       def arg_defaults
         super.merge({
           :krunch => 5,
