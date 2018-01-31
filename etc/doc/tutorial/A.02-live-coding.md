@@ -64,7 +64,7 @@ live_loop :choral_drone do
 end
 ```
 
-Now press the Run button or hit `alt-r`. You're now listening to
+Now press the Run button or hit `Meta-r`. You're now listening to
 some gorgeous choir sounds. Now, whilst it's still playing, change the
 rate from `0.4` to `0.38`. Hit run again. Woah! Did you hear the choir
 change note? Change it back up to `0.4` to return back to how it
