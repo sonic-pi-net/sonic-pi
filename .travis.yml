@@ -23,6 +23,8 @@ matrix:
       env: USE_RVM=1
     - rvm: 2.4.1
       env: USE_RVM=1
+    - rvm: 2.5.0
+      env: USE_RVM=1
 
 before_install:
  - sudo apt-get update
