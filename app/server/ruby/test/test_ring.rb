@@ -66,7 +66,7 @@ module SonicPi
       assert_equal(line(1.0, 3.0).class, SonicPi::Core::RingVector)
 
 
-      midi_clocks_half = [0,
+      midi_clocks_half = [0.0,
                     0.020833333333333332,
                     0.041666666666666664,
                     0.0625,
