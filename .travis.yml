@@ -4,7 +4,7 @@ os: linux
 sudo: required
 dist: trusty
 compiler: gcc
-rvm: 2.4.1
+rvm: 2.5.0
 env: USE_RVM=1
 
 cache:
@@ -20,6 +20,8 @@ matrix:
     - rvm: 2.2.3
       env: USE_RVM=1
     - rvm: 2.3.3
+      env: USE_RVM=1
+    - rvm: 2.4.1
       env: USE_RVM=1
 
 before_install:
