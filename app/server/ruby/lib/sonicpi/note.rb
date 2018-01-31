@@ -63,7 +63,7 @@ module SonicPi
 
     DEFAULT_OCTAVE = 4
 
-    MIDI_NOTE_RE = /\A(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)\Z/
+    MIDI_NOTE_RE = /\A:?(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)\Z/
 
     @@notes_cache = {}
 
