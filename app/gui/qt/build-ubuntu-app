@@ -4,7 +4,7 @@
 set -e
 
 #Application/library versions built by this script.
-SUPERCOLLIDER_VERSION=3.8.0
+SUPERCOLLIDER_VERSION=3.9.0
 SC_PLUGINS_VERSION=${SUPERCOLLIDER_VERSION}
 AUBIO_VERSION=0.4.5
 OSMID_VERSION=391f35f789f18126003d2edf32902eb714726802
@@ -118,10 +118,10 @@ erlc pi_server.erl
 
 #Build sonic-pi server extensions, documentation, and binary.
 cd ${SP_APP_SRC}
-../../server/bin/compile-extensions.rb
-../../server/bin/i18n-tool.rb -t
+../../server/ruby/bin/compile-extensions.rb
+../../server/ruby/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
-../../server/bin/qt-doc.rb -o ruby_help.h
+../../server/ruby/bin/qt-doc.rb -o ruby_help.h
 lrelease SonicPi.pro
 qmake -qt=qt5 SonicPi.pro
 make
