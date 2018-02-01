@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-31 15:34+0000\n"
-"Last-Translator: Smite Chow <xiaopengyou@live.com>\n"
+"PO-Revision-Date: 2018-02-02 15:34+0000\n"
+"Last-Translator: 郑小则 <changchunjunhao@gmail.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/zh/>\n"
 "Language: zh\n"
@@ -165,6 +165,8 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
+"好的，是不是很简单。我们再往混音里面添加其他东西。在 `sample :bd_haus` 之上添加一行 `sample :ambi_choir, "
+"rate: 0.3`，你的代码会是下面这样子："
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -188,7 +190,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr ""
+msgstr "试一下通过在行首添加一个字符 `#` 来注释掉任意一 `sample` 行"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
