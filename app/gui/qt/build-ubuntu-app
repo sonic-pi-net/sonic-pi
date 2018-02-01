@@ -28,7 +28,7 @@ sudo apt-get install -y \
      libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default \
      qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev \
      qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev libffi-dev \
-     curl python erlang-base
+     libqt5opengl5-dev curl python erlang-base
 
 ### IF YOU HAVE PROBLEMS WITH qwt
 #cd $SP_APP_SRC/../../../../
