@@ -148,7 +148,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Franz Laügt](https://github.com/samaaron/sonic-pi/commits?author=znarf94) (2)
 * [Michael Henry](https://github.com/samaaron/sonic-pi/commits?author=neoCrimeLabs) (2)
 * [Phil Hagelberg](https://github.com/samaaron/sonic-pi/commits?author=technomancy) (2)
-* [Sunder Bal](https://github.com/samaaron/sonic-pi/commits?author=SunderB) (2)
+* [SunderB](https://github.com/samaaron/sonic-pi/commits?author=SunderB) (2)
 * [Bruce Adams](https://github.com/samaaron/sonic-pi/commits?author=bruceadams) (2)
 * [Ben Nuttall](https://github.com/samaaron/sonic-pi/commits?author=bennuttall) (2)
 * [Tommi Toivonen](https://github.com/samaaron/sonic-pi/commits?author=hullum) (1)
