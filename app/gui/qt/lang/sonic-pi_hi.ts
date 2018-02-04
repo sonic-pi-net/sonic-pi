@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Sonic Pi</source>
-        <translation>Sonic Pi</translation>
+        <translation>सोनिक पाई</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
