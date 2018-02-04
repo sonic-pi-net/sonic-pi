@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-30 06:36+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-02-04 06:48+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -9790,6 +9790,25 @@ msgid ""
 " loops that have their timing controlled by `sync`ing with external devices, a"
 "nd keep the default latency for all other live loops. Let's see:"
 msgstr ""
+"Avant que nous puissions enlever la pause, nous devons savoir pour elle est "
+"là. Dans le but de conserver les synthés et les effets bien synchronisés au "
+"travers une variété de processeurs différents, Sonic Pi cédule l'audio *en "
+"avance* de 0.5s par défaut. (Notez que cette latence ajoutée peut être "
+"configurée via les fonctions `set_sched_ahead_time!` et "
+"`use_sched_ahead_time`). Cette latence de 0.5s est ajoutée à nos "
+"déclencheurs de synthé `:piano` puisqu'elle est ajoutée à tous les synthés "
+"déclenchés par Sonic Pi. Habituellement, nous voulons réellement cette "
+"latence ajoutée puisque cela signifie que tout les synthés seront bien "
+"synchronisés. Par contre, cela fait seulement du sens pour les synthés "
+"déclenchés par le code en utilisant `play` et `sleep`. Dans ce cas-ci, nous "
+"déclenchons le synthé `:piano` avec notre périphérique MIDI externe et nous "
+"ne voulons donc pas que Sonic Pi contrôle la synchronisation pour nous. Nous "
+"pouvons fermer cette latence avec la commande `use_real_time` ce qui "
+"désactive la latence pour le fil d'exécution courant. Cela veut dire que "
+"vous pouvez utiliser le mode temps réel pour les boucles en direct qui ont "
+"leur synchronisation contrôlée par `sync` avec des périphériques externes, "
+"et conserver la latence par défaut pour toutes les autres boucles en direct. "
+"Voyons cela de plus près :"
 
 #: 11.1-MIDI-In.md:124
 #, no-wrap
@@ -9800,12 +9819,20 @@ msgid ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do\n"
+"  use_real_time\n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note, amp: velocity / 127.0\n"
+"end"
 
 #: 11.1-MIDI-In.md:132
 msgid ""
 "Update your code to match the code above and hit Run again. Now we have a low "
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
 msgstr ""
+"Modifier votre code pour correspondre avec le code ci-dessus et pressez "
+"Exécuter de nouveau. Maintenant, nous avons un piano basse latence avec une "
+"vélocité variable codée en seulement 5 lignes. N'était-ce pas facile !"
 
 #: 11.1-MIDI-In.md:136
 #, fuzzy
@@ -9822,10 +9849,19 @@ msgid ""
 "te value. You can even use `time_warp` to jump back in time and call `get` to "
 "see past events..."
 msgstr ""
+"Finalement, étant donné que nos événements MIDI vont directement dans l'État "
+"du Temps, nous pouvons également utiliser la fonction `get` pour récupérer "
+"la dernière valeur vue. Cela ne bloque pas le fil d'exécution courant et "
+"retourne `nil` s'il n'y a aucune valeur trouvée ( que vous pouvez "
+"outrepasser en passant une valeur par défaut - regarder la documentation "
+"pour `get`). Rappelez-vous que vous pouvez appeler `get` dans n'importe quel "
+"fil d'exécution à n'importe quel moment pour voir la dernière valeur "
+"correspondante d'État du Temps. Vous pouvez même utiliser `time_warp` pour "
+"retourner dans le temps et appeler `get` pour voir les événements du passé..."
 
 #: 11.1-MIDI-In.md:147
 msgid "Now You are in Control"
-msgstr ""
+msgstr "Maintenant vous êtes en contrôle"
 
 #: 11.1-MIDI-In.md:149
 #, fuzzy
@@ -9837,11 +9873,11 @@ msgstr "Choix (\"choose\")"
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
-msgstr ""
+msgstr "11.2 Sortie MIDI"
 
 #: 11.2-MIDI-Out.md:3
 msgid "MIDI Out"
-msgstr ""
+msgstr "Sortie MIDI"
 
 #: 11.2-MIDI-Out.md:5
 msgid ""
@@ -9849,36 +9885,43 @@ msgid ""
 "er and control external hardware synths, keyboards and other devices. Sonic Pi"
 " provides a full set of fns for sending various MIDI messages such as:"
 msgstr ""
+"En plus de recevoir des événements MIDI, nous pouvons également envoyer des "
+"événements MIDI pour déclencher et contrôler des équipements externes comme "
+"les synthés, les claviers et autres périphériques. Sonic Pi propose un "
+"ensemble complet de fonctions pour envoyer des messages MIDI variés comme :"
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
-msgstr ""
+msgstr "Note activé - `midi_note_on`"
 
 #: 11.2-MIDI-Out.md:10
 msgid "Note off - `midi_note_off`"
-msgstr ""
+msgstr "Note désactivée - `midi_note_off`"
 
 #: 11.2-MIDI-Out.md:11
 msgid "Control change - `midi_cc`"
-msgstr ""
+msgstr "Contrôler le changement - `midi_cc`"
 
 #: 11.2-MIDI-Out.md:12
 msgid "Pitch bend - `midi_pitch_bend`"
-msgstr ""
+msgstr "Amplitude courbée - `midi_pitch_bend`"
 
 #: 11.2-MIDI-Out.md:13
 msgid "Clock ticks - `midi_clock_tick`"
-msgstr ""
+msgstr "Tiques d'horloge - `midi_clock_tick`"
 
 #: 11.2-MIDI-Out.md:15
 msgid ""
 "There are many other supported MIDI messages too - check out the API documenta"
 "tion for all the other fns that start with `midi_`."
 msgstr ""
+"Il y a plein d'autres messages MIDI supportés également - jetez un coup d’"
+"œil à la documentation de l'API pour toutes les autres fonctions qui "
+"débutent par `midi_`."
 
 #: 11.2-MIDI-Out.md:18
 msgid "Connecting to a MIDI Device"
-msgstr ""
+msgstr "Se connecter à un périphérique MIDI"
 
 #: 11.2-MIDI-Out.md:20
 msgid ""
@@ -9890,6 +9933,14 @@ msgid ""
 "he MIDI out port of your computer. You should see your MIDI device listed in t"
 "he preferences pane."
 msgstr ""
+"Dans le but d'envoyer un message MIDI à un périphérique externe, nous devons "
+"commencer par le connecter. Regardez la sous-section 'Se connecter à un "
+"contrôleur MIDI' dans la section 11.1 pour plus de détails. Notez que si "
+"vous utilisez l'USB, connecter un périphérique à lequel vous envoyez (au "
+"lieu de recevoir) est la même procédure. Cependant, si vous utilisez les "
+"connecteurs DIN classiques, assurez-vous de connecter le port de sortie MIDI "
+"à votre ordinateur. Vous devriez voir votre périphérique MIDI listé dans le "
+"panneau des préférences."
 
 #: 11.2-MIDI-Out.md:29
 msgid "Sending MIDI events"
