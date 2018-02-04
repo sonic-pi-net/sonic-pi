@@ -10,7 +10,7 @@
                     ╥╒   ╦╥     ╕█╒    ╙▓▐     ▄▓╫
                                ▐╩     ▒▒      ▀▀
                                     ╒╪      ▐▄
-             
+
                  _____             __        ____  __
                 / ___/____  ____  /_/____   / __ \/_/
                 \__ \/ __ \/ __ \/ / ___/  / /_/ / /
@@ -31,11 +31,11 @@ between three core principles:
 * **Powerful** enough for your own expressions
 
 Sonic Pi is a complete open source programming environment originally
-designed to explore and *teach programming concepts* within schools through 
-the process of creating *new sounds*. 
+designed to explore and *teach programming concepts* within schools through
+the process of creating *new sounds*.
 
-In addition to being an engaging education resource it has evolved into 
-an *extremely powerful* and performance-ready *live coding instrument* suitable 
+In addition to being an engaging education resource it has evolved into
+an *extremely powerful* and performance-ready *live coding instrument* suitable
 for professional artists and DJs.
 
 Whilst Education is a core focus it now sits at the intersection
@@ -62,26 +62,14 @@ Foundation, the Broadcom Foundation and pi-top.
 
 ## Translations
 
-Sonic Pi's application and built in tutorial have been translated into several languages thanks to the awesome work of several [volunteer translators](CONTRIBUTORS.md#translation):
+Sonic Pi's application and built in tutorial have been translated into several languages thanks to the awesome work of several [volunteer translators](CONTRIBUTORS.md#translation).
 
-Status                                                                                                                                                       | Language            | Application        | Tutorial
------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------ | :----------------: | :----------------: 
-[![Translation Status of Sonic Pi: da](https://hosted.weblate.org/widgets/sonic-pi/da/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Danish              | :white_check_mark: | :red_circle:
-[![Translation Status of Sonic Pi: nl](https://hosted.weblate.org/widgets/sonic-pi/nl/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Dutch               | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: fi](https://hosted.weblate.org/widgets/sonic-pi/fi/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Finnish             | :white_check_mark: | :red_circle:
-[![Translation Status of Sonic Pi: fr](https://hosted.weblate.org/widgets/sonic-pi/fr/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | French              | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: de](https://hosted.weblate.org/widgets/sonic-pi/de/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | German              | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: hu](https://hosted.weblate.org/widgets/sonic-pi/hu/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Hungarian           | :white_check_mark: | :red_circle:
-[![Translation Status of Sonic Pi: is](https://hosted.weblate.org/widgets/sonic-pi/is/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Icelandic           | :white_check_mark: | :red_circle:
-[![Translation Status of Sonic Pi: it](https://hosted.weblate.org/widgets/sonic-pi/it/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Italian             | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: ja](https://hosted.weblate.org/widgets/sonic-pi/ja/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Japanese            | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: nb](https://hosted.weblate.org/widgets/sonic-pi/nb/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Norwegian Bokmål    | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: pl](https://hosted.weblate.org/widgets/sonic-pi/pl/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Polish              | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: pt](https://hosted.weblate.org/widgets/sonic-pi/pt/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Portuguese          | :red_circle:       | :white_check_mark:
-[![Translation Status of Sonic Pi: ro](https://hosted.weblate.org/widgets/sonic-pi/ro/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Romanian            | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: ru](https://hosted.weblate.org/widgets/sonic-pi/ru/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Russian             | :white_check_mark: | :white_check_mark:
-[![Translation Status of Sonic Pi: zh_Hans](https://hosted.weblate.org/widgets/sonic-pi/zh_Hans/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Simplified Chinese  | :white_check_mark: | :red_circle:
-[![Translation Status of Sonic Pi: es](https://hosted.weblate.org/widgets/sonic-pi/es/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Spanish             | :white_check_mark: | :white_check_mark:
+<a href="https://hosted.weblate.org/engage/sonic-pi/?utm_source=widget">
+<img src="https://hosted.weblate.org/widgets/sonic-pi/-/qt-sonic-pi-gui/287x66-grey.png" alt="Translation status" />
+</a>
+<a href="https://hosted.weblate.org/engage/sonic-pi/?utm_source=widget">
+<img src="https://hosted.weblate.org/widgets/sonic-pi/-/tutorial/287x66-grey.png" alt="Translation status" />
+</a>
 
 Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
 
