@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Sonic Pi</source>
-        <translation>सोनिक पाई</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
@@ -381,35 +381,37 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>नेटवर्क्ड OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi ओपन साउंड कंट्रोल संदेश भेज और प्राप्त कर सकती है
+वर्तमान में जुड़े नेटवर्क के माध्यम से या अन्य कार्यक्रमों से।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI कंफिगरेशन</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI  पोर्ट</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>सभी जुड़े MIDI पोर्टां कि सूची</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI आउटपुट डिवाइस से सीधे मिडी संदेश प्राप्त होते हैं
+Sonic Pi जो midi_* fns के माध्यम से भेजा जा सकता है</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -435,7 +437,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro आइकन टॉगल करें - डिफ़ॉल्ट आइकन के बीच स्विच करें या
+  एक अधिक न्यून आइकन सेट उपयोग करें।</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -570,7 +573,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>सहायता दृश्यता बदल गई ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
