@@ -64,14 +64,19 @@ Foundation, the Broadcom Foundation and pi-top.
 
 Sonic Pi's application and built in tutorial have been translated into several languages thanks to the awesome work of several [volunteer translators](CONTRIBUTORS.md#translation).
 
+Would you like to contribute a translation too? If so, please take a look at our [translation docs](TRANSLATION.md) to get started.
+
+#### Translation Status
+
 <a href="https://hosted.weblate.org/engage/sonic-pi/?utm_source=widget">
 <img src="https://hosted.weblate.org/widgets/sonic-pi/-/qt-sonic-pi-gui/287x66-grey.png" alt="Translation status" />
 </a>
+<br>
 <a href="https://hosted.weblate.org/engage/sonic-pi/?utm_source=widget">
 <img src="https://hosted.weblate.org/widgets/sonic-pi/-/tutorial/287x66-grey.png" alt="Translation status" />
 </a>
 
-Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
+[Translation Status of supported languages](TRANSLATION.md#status)
 
 ## Information for developers
 
