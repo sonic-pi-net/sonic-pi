@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-02 15:34+0000\n"
-"Last-Translator: 郑小则 <changchunjunhao@gmail.com>\n"
+"PO-Revision-Date: 2018-02-05 10:35+0000\n"
+"Last-Translator: Smite Chow <xiaopengyou@live.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/zh/>\n"
 "Language: zh\n"
@@ -187,10 +187,14 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"现在，请随意玩耍。试着改变一下速率(rates)，试试更大或更小的数，甚至负数，听听有什么不同？\n"
+"例如修改一下`:ambi_choir` 的 `rate:`值，微调一下改为 `0.29`。\n"
+"例如修改`sleep`的值为很小的数。你可以测试一下，看看你的电脑能支持的最快的速度是多少？再快电脑就会报错了（如果真的发生了，那就把`sleep`的值增"
+"大一点，重新点击`Run`即可）。"
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr "试一下通过在行首添加一个字符 `#` 来注释掉任意一 `sample` 行"
+msgstr "试一下通过在行首添加一个字符 `#` 来注释掉任意一 `sample` 行："
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -208,6 +212,7 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
+"敲黑板，通过这种方式就可以让电脑忽略播放小样声音，所以我们就听不到了。这叫注释。在 Sonic Pi 中我们可以通过注释来在混音中去掉某些小样。"
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -217,28 +222,30 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"最后，我给你时间你自己再玩一会。体验一下下面的代码，现在先不要尝试理解代码的含义，你只需要明白代码里有两个循环就可以了。两个循环会同时运行。\n"
+"现在，按照之前的方式体验和玩耍吧。另外我有一些建议："
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
-msgstr ""
+msgstr "尝试修改蓝色的`rate:`值，听听小样音量改变的效果。"
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
-msgstr ""
+msgstr "尝试修改 `sleep`的值，听听两个循环中的声音以不同速度播放的效果。"
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
-msgstr ""
+msgstr "尝试取消掉小样的注释（删除 `#`），体会有吉他小样播放的效果。"
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
-msgstr ""
+msgstr "尝试修改蓝色 `mix:`的值，在`0` (不参与混音) 和 `1` (完全参与混音)之间。"
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -247,6 +254,8 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
+"记着点击`Run`按钮，下一次循环你就能听到你所做的改变。如果你觉得音乐很混乱，不要担心，点击`Stop`按钮，删除掉代码，重新粘贴一份干净的拷贝，然后再"
+"修改，再玩。失败是成功之母，加油。"
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -271,25 +280,25 @@ msgid ""
 "Now, keep playing and experimenting until your curiosity about how this all ac"
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
-msgstr ""
+msgstr "现在，继续玩耍，体验。当你开始好奇这一切到底是怎么发生的时候，好奇还能干点别的事情不的时候，就可以开始读剩下的教程了。"
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "往下看吧。"
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 了解软件界面"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "Sonic Pi 软件界面"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
-msgstr ""
+msgstr "Sonic Pi 有一个非常简单的界面用来编程音乐，我们花点时间来了解一下。"
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
@@ -297,39 +306,39 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - 播放控制"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - 编辑器控制"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* - 信息和帮助"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - 代码编辑器"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - 设置面板"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F* - 日志查看器"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* - 帮助文档"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* - 波形查看器"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
-msgstr ""
+msgstr "A. 播放控制"
 
 #: 01.2-Exploring-the-Interface.md:22
 msgid ""
@@ -338,10 +347,12 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"粉色的按钮是用来控制开始和停止播放声音的。*Run*按钮是用来运行编辑器中的代码的，*Stop*按钮是用来停止所有正在运行的代码的，*Save*按钮是用来"
+"保存代码到文件，最后 *Record* 按钮可以录制当前电脑正在播放的声音到WAV格式文件。"
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. 编辑器控制"
 
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
@@ -349,10 +360,12 @@ msgid ""
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
+"橙色的按钮允许你控制代码编辑器。*Size +* 和 *Size -* "
+"按钮能够放大或缩小字体。*Align*按钮能够重新对代码进行排版，显示起来更清晰和专业。"
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "C. 信息和帮助"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -362,10 +375,13 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
+"通过这些蓝色按钮你可以访问信息，帮助和设置窗口。*Info*按钮将会打开信息查看窗口，显示Sonic Pi的相关信息， "
+"例如核心团队，开发历史，贡献者，社区等。*Help* "
+"按钮是帮助系统(*G*)的开关，*Prefs*按钮是设置窗口的开关，在设置窗口你可以控制软件系统的一些基本参数。"
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. 代码编辑器"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -376,10 +392,12 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"这块区域是你写代码的地方，也是你表演音乐的舞台。它就是一个简单的文本编辑器，可以写代码，删除，剪切，粘贴等。你可以认为它是一个基础版本的Word或者谷歌文"
+"档。编辑器会自动对代码进行分析高亮。初看起来会很奇怪，但你随后就能体会到这很有用。例如，你会发现所有的蓝色都是数字。"
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. 设置面板"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
@@ -389,10 +407,12 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"Sonic Pi支持配置偏好，你可以通过信息和帮助按钮集的*prefs*按钮开关来显示和隐藏配置面板。例子中是mono示波器，立体声反转，显示日志输出，还"
+"有音量控制条和树莓派音频输出选择器。"
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. 日志查看器"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -400,11 +420,11 @@ msgid ""
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
-msgstr ""
+msgstr "当你运行代码时，程序的当前运行状态将会输出到日志查看器。默认你将会看见每一个小样的播放时间。对于理解和调试程序，日志查看器将会非常有用。"
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
-msgstr ""
+msgstr "G. 帮助系统"
 
 #: 01.2-Exploring-the-Interface.md:73
 msgid ""
@@ -415,10 +435,12 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
+"帮助系统是Sonic Pi最重要的部分之一，它处于窗口的底部。你可以使用*Help* 按钮来显示和隐藏。帮助系统包含了帮助和Sonic "
+"Pi使用的方方面面的信息，包括这个教程，内置合成器列表，小样列表，代码例子列表，效果器列表，以及Sonic Pi支持的用以编程音乐的函数列表。"
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
-msgstr ""
+msgstr "H. 示波器查看器"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -432,14 +454,17 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"示波器能够以可视化的方式呈现你听到的音乐。你可以从正弦波的波长非常直观的了解到当前节奏。你也可以从波的振幅上了解当前音量。有三种示波可以被选择，默认的是双"
+"声道合并显示，当然你也可以选择立体声示波器，它会分别显示各个声道的示波。最后你也可以选择[Lissajous curve](https://en.wiki"
+"pedia.org/wiki/Lissajous_curve)示波器，这个示波器会显示左右声道的相关性，你可以用这个示波器画出非常漂亮的声音。"
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 通过玩耍学习"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr ""
+msgstr "通过玩耍学习"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
@@ -447,11 +472,11 @@ msgid ""
 "nd experimentation. The most important thing is that you're having fun, and be"
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
-msgstr ""
+msgstr "Sonic Pi鼓励你通过玩耍和体验来学习电脑和音乐。最重要的事就是你能开心，最终你就会偶然发现自己会写代码和表演了。"
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
-msgstr ""
+msgstr "这里不存在失误"
 
 #: 01.3-Learning-through-Play.md:12
 msgid ""
@@ -466,10 +491,13 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
+"既然现在我们在学习Live Coding，让我告诉你一个法则，这是我好几年的经验总结， *没有失误，只有机遇*。这也是我经常听爵士乐者提到的，同样也适用于"
+"现场编程表演。无论你有多少经验，无论新手还是老鸟，你总会碰到意外，它可能是超级好听，也可能巨难听。其实都无所谓，只要你下次能够小心就行了。玩音乐玩到极致，"
+"人群就会*疯狂*。"
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr ""
+msgstr "从简单的开始"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -481,22 +509,25 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
+"当你学习的时候，最诱人的就是想*立刻*做一个非常牛逼的音乐出来。但是，请保持那个渴望作为一个遥远的目标，你 *稍后*实现的目标。现在，请思考 *最简单*的"
+"目标是你能够写出有趣的音乐，并持续激励自己抵达最终的目标。只要你有一个简单的想法，就请尝试并实现它。然后看看这个简单的想法会给你带来什么。在抵达最终目标之"
+"前，你都会乐不思蜀的实践着简单目标。"
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
-msgstr ""
+msgstr "请和朋友分享你获得的快乐！"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr ""
+msgstr "2 合成器"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr ""
+msgstr "合成器"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr ""
+msgstr "OK，概念介绍得够多了，让我们玩一下声音。"
 
 #: 02-Synths.md:7
 msgid ""
@@ -507,6 +538,8 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
+"在这一章，我们将会学习基本的触发和操作合成器。合成器就是用来创作声音的。通常真实的合成器是非常难使用的，特别是你需要组合几种相似的东西在一起，例如Euro"
+"rack模块连接上一些电线。然而Sonic Pi提供了一个非常简单的使用方式。"
 
 #: 02-Synths.md:14
 msgid ""
