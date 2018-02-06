@@ -6,12 +6,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Preferences</source>
-        <translation></translation>
+        <translation>הגדרות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Log</source>
-        <translation></translation>
+        <translation>יומן רישום</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
@@ -25,7 +25,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation></translation>
+        <translation>החלף ערוצי סטריאו.
+כאשר מופעל, אודיו שנשלח לרמקול השמאלי 
+יהיה מנותב לרמקול הימני ולהיפך.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -39,7 +41,7 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation></translation>
+        <translation>הגדר התנהגות debug</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
@@ -51,7 +53,7 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Safe mode</source>
-        <translation></translation>
+        <translation>מצב בטוח</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
@@ -79,7 +81,7 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation></translation>
+        <translation>מריץ קוד...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
@@ -108,7 +110,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>Buffer %1</source>
-        <translation></translation>
+        <translation>אוגר נתונים 1%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="455"/>
@@ -136,22 +138,22 @@ external PA systems when performing with Sonic Pi.</source>
         <location filename="../mainwindow.cpp" line="1396"/>
         <location filename="../mainwindow.cpp" line="1562"/>
         <source>Updates</source>
-        <translation></translation>
+        <translation>עדכונים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Check for updates</source>
-        <translation></translation>
+        <translation>בדוק אם קיימים עדכונים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1507"/>
         <source>Editor</source>
-        <translation></translation>
+        <translation>עורך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show line numbers</source>
-        <translation></translation>
+        <translation>הצג מספור שורות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="496"/>
@@ -188,12 +190,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Full screen mode on.</source>
-        <translation></translation>
+        <translation>מעבר למסך מלא.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation></translation>
+        <translation>יציאה ממסך מלא.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
@@ -218,7 +220,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation></translation>
+        <translation>לא זמין</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
