@@ -25,9 +25,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>החלף ערוצי סטריאו.
-כאשר מופעל, אודיו שנשלח לרמקול השמאלי 
-יהיה מנותב לרמקול הימני ולהיפך.</translation>
+        <translation>החלפת מצב היפוך ערוצי סטריאו.
+כאשר מופעל, השמע שנשלח לרמקול השמאלי 
+ינותב לרמקול הימני ולהפך.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -36,12 +36,16 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation></translation>
+        <translation>החלפת מצב ערוץ אחיד (מונו).
+אם המצב פעיל הערוץ הימני והשמאלי מעורבבים ואותו
+האות נשלח לשני הרמקולים.
+שימושי לעבודה עם מערכות חיצוניות שיכולות לטפל
+בשמע חד ערוצי (מונו) בלבד.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation>הגדר התנהגות debug</translation>
+        <translation>הגדרת התנהגות ניפוי שגיאות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
@@ -58,7 +62,7 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation></translation>
+        <translation>מחיקת יומן הרישום עם ההרצה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
@@ -70,12 +74,12 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Toggle line number visibility.</source>
-        <translation></translation>
+        <translation>החלפת מצב מספור שורות.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1455"/>
         <source>Dark mode</source>
-        <translation></translation>
+        <translation>מצב כהה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1841"/>
@@ -87,13 +91,13 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1908"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation></translation>
+        <translation>מתבצע ייפוי…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation></translation>
+        <translation>מתבצע רענון…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
@@ -115,17 +119,17 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="455"/>
         <source>Welcome to Sonic Pi</source>
-        <translation></translation>
+        <translation>ברוך בואך ל־Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="942"/>
         <source>Indenting selection...</source>
-        <translation></translation>
+        <translation>הבחירה מוזחת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="946"/>
         <source>Indenting line...</source>
-        <translation></translation>
+        <translation>השורה מוזחת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1322"/>
@@ -143,7 +147,7 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Check for updates</source>
-        <translation>בדוק אם קיימים עדכונים</translation>
+        <translation>בדיקת עדכונים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1507"/>
@@ -153,12 +157,12 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show line numbers</source>
-        <translation>הצג מספור שורות</translation>
+        <translation>הצגת מספור שורות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="496"/>
         <source>Sonic Pi update info</source>
-        <translation></translation>
+        <translation>נתוני עדכון Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
