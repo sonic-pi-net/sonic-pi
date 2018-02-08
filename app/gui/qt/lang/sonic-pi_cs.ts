@@ -71,8 +71,8 @@ nebudou automaticky zaznamenány do protokolu.</translation>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Přepínač vymazání protokolu při startu
-Pokud aktivováno, záznam se smaže vždy když se stiskně tlačítko Spustit</translation>
+        <translation>Přepínač vymazání protokolu při startu
+Pokud aktivováno, záznam se smaže vždy, když se stiskne tlačítko Spustit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
@@ -369,35 +369,36 @@ Tahle volba zahrnuje odeslání anonymních informací o vaší platformě a ver
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Síť OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi může odesílat a přijímat zprávy Open Sound Control do a z jiných programů nebo počítačů prostřednictvím aktuálně připojené sítě.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurace MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI porty</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit všechny připojené MIDI porty</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI výstupní zařízení přijímají od Sonic Pi MIDI zprávy,
+které lze odeslat prostřednictvím funkcí midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -423,7 +424,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapnout/vypnout použití ikon Pro - přepnout mezi 
+výchozí a minimalistickou sadou ikon.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -482,7 +484,7 @@ Omlouváme se, došlo ke kritické chybě při spuštění</translation>
         <location filename="../mainwindow.cpp" line="1785"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Buffer files</source>
-        <translation type="unfinished">Soubory ukládající buffer</translation>
+        <translation>Soubory bufferů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
@@ -510,7 +512,7 @@ Omlouváme se, došlo ke kritické chybě při spuštění</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2227"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Automatické scrollování protokolu zapnuto…</translation>
+        <translation>Automatické rolování protokolu zapnuto…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2229"/>
@@ -540,37 +542,37 @@ Omlouváme se, došlo ke kritické chybě při spuštění</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazení nápovědy změněno…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapínám MIDI…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vypínám MIDI…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevírám OSC port pro vzdálené zprávy …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastavuji OSC server…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetuji MIDI…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI vypnuto…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
@@ -585,182 +587,187 @@ Omlouváme se, došlo ke kritické chybě při spuštění</translation>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Signály</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim přes celou obrazovku zapnut.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim přes celou obrazovku vypnut.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokální IP adresa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslouchám OSC zprávy na portu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedostupný</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Přijímat vzdálené zprávy OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud je zaškrtnuto, Sonic Pi bude poslouchat zprávy OSC že vzdálených zařízení.
+Pokud není zaškrtnuto, budou přijímány pouze zprávy z lokálního zařízení.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolit OSC server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud je zaškrtnuto, Sonic Pi bude naslouchat příchozim OSC zprávám.
+Pokud ne, žádné OSC zprávy nebudou přijímány.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurace chování MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapnout MIDI subsystémy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapnout nebo vypnout příchozí a odchozí komunikaci MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetovat MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetovat MIDI subsystémy
+(Vyžadováno pro detekci změn zařízení na macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí kanál MIDI (* znamená všechny)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí MIDI kanál k odesíláni zpráv</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1292"/>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádná připojená vstupní zařízení</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádná připojená výstupní zařízení</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vstupní MIDI zařízení odesílá MIDI zprávy přímo
+do Sonic Pi jako signály (podobně jako příchozí 
+zprávy OSC a vnitřní signály)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavní ovladač hlasitosti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Použij tento posuvník pro změnu hlasitosti systému.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio výstup</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1359"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky rolovat protokol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit protokol signálů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit nebo skrýt protokol signálů, který zobrazuje interní signály a příchozí OSC/MIDI zprávy.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikony Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit a skrýt osciloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1516"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Typy osciloskopů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1531"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit osciloskopy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit / skrýt audio osciloskopy.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit osy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1534"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit / skrýt osy osciloskopů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
@@ -770,12 +777,17 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Existují tři druhy audio osciloskopů, které mohou být zobrazeny
+samostatně nebo všechny dohromady:
+
+Lissajous - znázorňuje vztah mezi levým a pravým kanálem
+Mono - zobrazuje kombinovaný pohled levý a pravý kanál (pomocí RMS)
+Stereo - zobrazuje dva nezávislé osciloskopy pro levý a pravý kanál</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1551"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Vizuální prvky</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
@@ -841,7 +853,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2033"/>
         <source>Stopping...</source>
-        <translation type="unfinished">Zastavování…</translation>
+        <translation>Zastavování…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2191"/>
@@ -866,27 +878,27 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvětšit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmenšit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2717"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit / skrýt audio osciloskopy. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit / skrýt panel nápovědy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit / skrýt panel s nastavením</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
@@ -935,12 +947,12 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojené MIDI vstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojené MIDI výstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
@@ -981,7 +993,7 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Užitečná nastavení pro používání Sonic Pi.</translation>
+        <translation>Užitečná nastavení pro vystupování se Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
@@ -1141,7 +1153,7 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není Sonic Pi již spuštěn? Nemohu otevřít UDP port.</translation>
     </message>
 </context>
 </TS>
