@@ -62,7 +62,7 @@ sudo make install
 
 You need to compiler server extensions
 ```
-../../server/bin/compile-extensions.rb 
+../../server/ruby/bin/compile-extensions.rb 
 ```
 
 Generate i18n files
