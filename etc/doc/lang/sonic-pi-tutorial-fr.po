@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-05 07:36+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-02-13 00:36+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -9944,7 +9944,7 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:29
 msgid "Sending MIDI events"
-msgstr ""
+msgstr "Envoyer des événements MIDI"
 
 #: 11.2-MIDI-Out.md:31
 msgid ""
@@ -9953,11 +9953,15 @@ msgid ""
 "s to the `midi_*` fns you need to use `sleep` just like you did with `play`. L"
 "et's take a look:"
 msgstr ""
+"Les nombreuses fonctions `midi_*` fonctionnent comme `play`, `sample` et "
+"`synth` puisqu'elles envoient un message au temps (logique) actuel. Par "
+"exemple, pour étaler des appels aux fonctions `midi_*`, vous devez utiliser "
+"`sleep` tout comme vous l'avez fait avec `play`. Jetons un coup d'oeil :"
 
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
 msgid "midi_note_on :e3, 50"
-msgstr ""
+msgstr "midi_note_on :e3, 50"
 
 #: 11.2-MIDI-Out.md:40
 msgid ""
@@ -9965,21 +9969,28 @@ msgid ""
 " 50. (Note that Sonic Pi will automatically convert notes in the form `:e3` to"
 " their corresponding MIDI number such as 52 in this case.)"
 msgstr ""
+"Cela va envoyer une note MIDI sur l'événement au périphérique MIDI connecté "
+"avec une vélocité de 50. ( Notez que Sonic Pi va convertir automatiquement "
+"les notes dans le format `:e3` à leur nombre MIDI correspondant comme 52 "
+"dans ce cas-ci.)"
 
 #: 11.2-MIDI-Out.md:44
 msgid ""
 "If your connected MIDI device is a synthesiser, you should be able to hear it "
 "playing a note. To disable it use `midi_note_off`:"
 msgstr ""
+"Si votre périphérique MIDI connecté est un synthétiseur, vous devriez être "
+"capable de l'entendre jouer une note. Pour le désactiver, utiliser "
+"`midi_note_off` :"
 
 #: 11.2-MIDI-Out.md:47
 #, no-wrap
 msgid "midi_note_off :e3"
-msgstr ""
+msgstr "midi_note_off :e3"
 
 #: 11.2-MIDI-Out.md:51
 msgid "Selecting a MIDI device"
-msgstr ""
+msgstr "Sélectionner un périphérique MIDI"
 
 #: 11.2-MIDI-Out.md:53
 msgid ""
@@ -9991,43 +10002,59 @@ msgid ""
 ". In more complicated setups, you may wish to be more selective about which MI"
 "DI device receives which message(s) and on which channel."
 msgstr ""
+"Par défaut, Sonic Pi va envoyer chaque message MIDI à tout les périphériques "
+"connectés sur tous les canaux MIDI. Cela est fait dans le but de rendre "
+"facile le travail avec un périphérique connecté sans avoir à configurer quoi "
+"que ce soit. Cependant, parfois un périphérique MIDI va traiter les canaux "
+"MIDI d'une manière particulière ( peut-être que chaque note a un canal "
+"séparé) et vous pourriez également vouloir connecté plus d'un périphérique "
+"MIDI en même temps. Dans des configurations plus compliquées, vous pouvez "
+"vouloir être plus sélectif sur lequel périphérique MIDI reçoit lequel(s) "
+"message(s) et sur quel canal."
 
 #: 11.2-MIDI-Out.md:62
 msgid ""
 "We can specify which device to send to using the `port:` opt, using the device"
 " name as displayed in the preferences:"
 msgstr ""
+"Nous pouvons spécifier quel périphérique à lequel envoyer en utilisant "
+"l'option `port:`, en utilisant le nom du périphérique comme affiché dans les "
+"préférences :"
 
 #: 11.2-MIDI-Out.md:65
 #, no-wrap
 msgid "midi_note_on :e3, port: \"moog_minitaur\""
-msgstr ""
+msgstr "midi_note_on :e3, port: \"moog_minitaur\""
 
 #: 11.2-MIDI-Out.md:69
 msgid ""
 "We can also specify which channel to send to using the `channel:` opt (using a"
 " value in the range 1-16):"
 msgstr ""
+"Nous pouvons également spécifier sur quel canal envoyé en utilisant l'option "
+"`channel:` (en utilisant une valeur dans l'intervalle de 1 à 16) :"
 
 #: 11.2-MIDI-Out.md:72
 #, no-wrap
 msgid "midi_note_on :e3, channel: 3"
-msgstr ""
+msgstr "midi_note_on :e3, channel: 3"
 
 #: 11.2-MIDI-Out.md:76
 msgid ""
 "Of course we can also specify both at the same time to send to a specific devi"
 "ce on a specific channel:"
 msgstr ""
+"Évidemment, nous pouvons aussi spécifier les deux en même temps pour envoyer "
+"à un périphérique spécifique sur un canal spécifique :"
 
 #: 11.2-MIDI-Out.md:79
 #, no-wrap
 msgid "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
-msgstr ""
+msgstr "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
 
 #: 11.2-MIDI-Out.md:83
 msgid "MIDI Studio"
-msgstr ""
+msgstr "Studio MIDI"
 
 #: 11.2-MIDI-Out.md:85
 msgid ""
@@ -10036,6 +10063,11 @@ msgid ""
 " your synth with code using the `midi_*` fns and also manipulate the audio usi"
 "ng `live_audio` and FX:"
 msgstr ""
+"Finalement, une chose très amusante à faire est de connecter la sortie audio "
+"de votre synthétiseur MIDI à l'une des entrées audio de votre carte de son. "
+"Vous pouvez alors contrôler votre synthé avec du code en utilisant les "
+"fonctions `midi_*` et également manipuler l'audio en utilisant `live_audio` "
+"et FX :"
 
 #: 11.2-MIDI-Out.md:90
 #, no-wrap
@@ -10057,14 +10089,17 @@ msgid ""
 "te off events with a single command. Check out its documentation for further i"
 "nformation)."
 msgstr ""
+"(La fonction `midi` est disponible en tant que raccourci pratique pour "
+"envoyer les événements de notes ouvertes et fermées avec une simple "
+"commande. Regarder sa documentation pour davantage d'informations)."
 
 #: 12-OSC.md:1
 msgid "12 OSC"
-msgstr ""
+msgstr "12 OSC"
 
 #: 12-OSC.md:3
 msgid "OSC"
-msgstr ""
+msgstr "OSC"
 
 #: 12-OSC.md:5
 msgid ""
@@ -10074,6 +10109,12 @@ msgid ""
 " computer and on external computers) which opens up the potential for control "
 "way beyond MIDI which has limitations due to its 1980s design."
 msgstr ""
+"En plus du MIDI, une autre façon d'obtenir de l'information entrante et "
+"sortante de Sonic Pi est via un réseau en utilisant un protocole simple "
+"appelé OSC - Open Sound Control. Cela va vous laisser envoyer et recevoir "
+"des messages de programmes externes ( s'exécutant sur votre ordinateur et "
+"sur des ordinateurs externes) ce qui augmente le potentiel de contrôle bien "
+"plus haut que le MIDI qui a des limitations dues à son design des années 80."
 
 #: 12-OSC.md:12
 msgid ""
@@ -10082,6 +10123,11 @@ msgid ""
 "nguage) and work directly with Sonic Pi. What you can use this for is only lim"
 "ited by your imagination."
 msgstr ""
+"Par exemple, vous pourriez écrire un programme dans un autre langage de "
+"programmation qui envoie et reçoit OSC (il existe des librairies OSC pour "
+"presque tout les langages communs) et travailler directement avec Sonic Pi. "
+"Les possibilités d'utilisation de cela sont seulement limitées par votre "
+"imagination."
 
 #: 12.1-Receiving-OSC.md:1
 msgid "12.1 Receiving OSC"
