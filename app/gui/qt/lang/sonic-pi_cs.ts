@@ -52,9 +52,9 @@ které zvládají pouze mono signál.</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Přepnout protokolování zpráv
-Pokud deaktivováno, akce jako spuštění syntetizéru a přehrání vzorku
-nebudou automaticky zaznamenány do protokolu.</translation>
+        <translation>Přepnout protokolování zpráv.
+Pokud deaktivováno, akce jako spuštění syntetizéru a přehrání
+samplu nebudou automaticky zaznamenány do protokolu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
@@ -1041,7 +1041,7 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>About</source>
-        <translation>O</translation>
+        <translation>O programu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
@@ -1132,12 +1132,12 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1317"/>
         <source>Samples</source>
-        <translation>Ukázky</translation>
+        <translation>Samply</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1564"/>
         <source>Lang</source>
-        <translation>Jazyky</translation>
+        <translation>Jazyk</translation>
     </message>
 </context>
 <context>
