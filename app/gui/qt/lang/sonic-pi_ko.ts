@@ -357,7 +357,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation>연결된 OSC</translation>
+        <translation>네크워크로 연결된 OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
