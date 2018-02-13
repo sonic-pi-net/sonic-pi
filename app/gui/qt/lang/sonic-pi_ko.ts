@@ -357,7 +357,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>연결된 OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
@@ -528,7 +528,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished">도움말 가시성이 변경되었습니다...</translation>
+        <translation>도움말 창을 켜거나 끕니다...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
@@ -648,8 +648,8 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">MIDI 서브시스템을 리셋
-(macOS에서는 장치 변경사항을 발견하는 것이 필요)</translation>
+        <translation>MIDI 서브시스템을 리셋합니다.
+(macOS에서 장치 변경을 감지하는데 필요합니다.)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
