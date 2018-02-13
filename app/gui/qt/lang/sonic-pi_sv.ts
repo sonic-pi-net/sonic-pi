@@ -44,7 +44,7 @@ Användbart när den externa utrustningen bara kan hantera mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation>Konfigurera debugg-beteende</translation>
+        <translation>Konfigurera debugging</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
