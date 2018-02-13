@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-13 00:36+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2018-02-14 04:35+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -10007,9 +10007,9 @@ msgstr ""
 "facile le travail avec un périphérique connecté sans avoir à configurer quoi "
 "que ce soit. Cependant, parfois un périphérique MIDI va traiter les canaux "
 "MIDI d'une manière particulière ( peut-être que chaque note a un canal "
-"séparé) et vous pourriez également vouloir connecté plus d'un périphérique "
+"séparé) et vous pourriez également vouloir connecter plus d'un périphérique "
 "MIDI en même temps. Dans des configurations plus compliquées, vous pouvez "
-"vouloir être plus sélectif sur lequel périphérique MIDI reçoit lequel(s) "
+"vouloir être plus sélectif sur quel périphérique MIDI reçoit quel(s) "
 "message(s) et sur quel canal."
 
 #: 11.2-MIDI-Out.md:62
@@ -10017,8 +10017,8 @@ msgid ""
 "We can specify which device to send to using the `port:` opt, using the device"
 " name as displayed in the preferences:"
 msgstr ""
-"Nous pouvons spécifier quel périphérique à lequel envoyer en utilisant "
-"l'option `port:`, en utilisant le nom du périphérique comme affiché dans les "
+"On peut spécifier à quel périphérique on veut envoyer en utilisant l'option "
+"`port:`, en utilisant le nom du périphérique comme affiché dans les "
 "préférences :"
 
 #: 11.2-MIDI-Out.md:65
@@ -10031,7 +10031,7 @@ msgid ""
 "We can also specify which channel to send to using the `channel:` opt (using a"
 " value in the range 1-16):"
 msgstr ""
-"Nous pouvons également spécifier sur quel canal envoyé en utilisant l'option "
+"On peut également spécifier quel canal on veut envoyer en utilisant l'option "
 "`channel:` (en utilisant une valeur dans l'intervalle de 1 à 16) :"
 
 #: 11.2-MIDI-Out.md:72
@@ -10125,17 +10125,17 @@ msgid ""
 msgstr ""
 "Par exemple, vous pourriez écrire un programme dans un autre langage de "
 "programmation qui envoie et reçoit OSC (il existe des librairies OSC pour "
-"presque tout les langages communs) et travailler directement avec Sonic Pi. "
+"presque tous les langages communs) et travailler directement avec Sonic Pi. "
 "Les possibilités d'utilisation de cela sont seulement limitées par votre "
 "imagination."
 
 #: 12.1-Receiving-OSC.md:1
 msgid "12.1 Receiving OSC"
-msgstr ""
+msgstr "12.1 Réception OSC"
 
 #: 12.1-Receiving-OSC.md:3
 msgid "Receiving OSC"
-msgstr ""
+msgstr "Réception OSC"
 
 #: 12.1-Receiving-OSC.md:5
 msgid ""
