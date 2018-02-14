@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-04 14:06+0000\n"
+"PO-Revision-Date: 2018-02-15 04:37+0000\n"
 "Last-Translator: Hong Lees <redf1123@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ko/>\n"
@@ -30,6 +30,8 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"Sonic Pi (소닉 파이)에 오신 것을 환영합니다. 여러분도 제가 들려드리는 것 같은 재미있는 소리를 만드는 데에 흥미가 있기를 "
+"바랍니다. 여러분이 음악, 합성, 프로그래밍, 작곡, 연주 등에 관한 모든 것을 배울 수 있는 정말 재미있는 곳이 될 것입니다."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -40,6 +42,11 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
+"하지만 잠시만요. 무례하지만! 제 소개를 드리겠습니다 - 저는 샘 아론 [Sam "
+"Aaron](http://twitter.com/samaaron)입니다 - 소닉 파이를 만는 녀석이지요. 여러분은 트위터에서 "
+"[@samaaron](http://twitter.com/samaaron)으로 저를 찾을 수 있고, 여러분에게 인사 드릴 수 있어서 "
+"기쁩니다. 또, 여러분은 청중 앞에서 소닉 파이로 라이브 코딩을 했던 저의 [Live Coding "
+"Performances](http://facebook.com/livecodersamaaron)에 대해서 더 알아보고 싶을 지도 모릅니다."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -104,10 +111,12 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
+"이 튜토리얼의 다른 부분에서 소닉 파이의 작동방법에 대한 상세한 설명에 들어가기 전에, 라이브 코드가 어떤 것인지 경험시켜 드리겠어요. "
+"라이브 코드를 충분히 이해하지 못한다고 해도 걱정하지 마세요. 그냥 자리에 앉아서 즐겨보세요."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr ""
+msgstr "라이브 루프"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
@@ -152,10 +161,13 @@ msgid "Notice how the drum speed has changed."
 msgstr "드럼 속도가 어떻게 변하였는지 주목해보세요."
 
 #: 01.1-Live-Coding.md:36
+#, fuzzy
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
+"마지막으로, \"이 순간을 기억해 두세요!\", 여러분이 처음으로 소닉 파이로 라이브 코딩을 하는 순간입니다. 이 순간이 마지막이 될 것 "
+"같지는 않네요.."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -163,6 +175,8 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
+"자, 충분히 간단하지요. 믹스에 뭔가 다른 것도 추가해 보기로 하죠. 'sample :bd_haus' 윗 줄에 'sample :"
+"ambi_choir, rate: 0.3'을 추가합시다. 여러분의 코드는 이것과 같아야 합니다:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -173,6 +187,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -183,10 +202,15 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"이제, 놀아봅시다. rate 값을 변경해보죠 - 큰 값을 넣었을 때, 혹은 작은 값이나 음의 값을 넣었을 때 어떻게 되나요? 여러분이 ':"
+"ambi_choir' 샘플에 대한 'rate: '의 값을 아주 약간('0.29'정도로) 변경하면, 어떤 일이 일어나는 지 알아봅시다. "
+"만약 여러분이 정말 작은 'sleep' 값을 주면 어떻게 될까요? 만약 그렇게 한다면, 여러분의 컴퓨터가 너무 빨리 작동하게 되어 속도를 "
+"유지할 수 없기 때문에 오류가 나서 멈출 것입니다.   (그런 상황이 발생하면, 좀 더 큰 'sleep' 시간으로 설정하고 "
+"'Run'버튼을 다시 누릅니다)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr ""
+msgstr "'sample' 행 중에서 어느 한 행 맨 앞에 '#'을 추가하여 주석으로 만들어 보세요:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -197,6 +221,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+" sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+" sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -204,6 +233,8 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
+"'#'이 붙은 줄은 컴퓨터가 무시하게 되고, 우리가 들을 수 없게 된다는 점에 주목하세요. 이것을 주석이라고 부릅니다. 소닉 파이에서는 "
+"믹스에 무언가를 더하거나 뺄 때 주석기능을 사용할 수 있습니다."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -213,28 +244,31 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"마지막으로, 여러분이 갖고 놀기 좋을 만한 것을 남겨두겠습니다. 아래 코드를 복사해서 여분의 버퍼에 붙여넣으세요. 지금은 두 개의 루프가 "
+"있는 걸 확인하는 것 외에는 너무 많이 이해하려고 하지 마세요 - 이 루프들로 두 가지 일을 동시에 하게 됩니다. 이제, 여러분이 가장 "
+"잘 하는 걸 하세요 - 실험하고 놀아보세요. 여기 몇가지 해볼 만한 것들이 있습니다:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
-msgstr ""
+msgstr "샘플 사운드가 바뀌는 것을 들어보기 위해 파랑색 'rate:'의 값을 변경해 봅시다."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
-msgstr ""
+msgstr "'sleep' 시간을 바꾸어서 두 루프가 서로 다른 속도로 돌아가는 것을 들어보세요."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
-msgstr ""
+msgstr "샘플 라인을 주석해제('#'을 삭제하면 됨)해서 기타연주가 거꾸로 재생되는 것을 즐겨보세요."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
-msgstr ""
+msgstr "파랑색  'mix:' 값 하나를 '0'(믹스하지 않음)에서 '1'(완전히 믹스함)사이의 값으로 바꾸어 보세요."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -243,6 +277,8 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
+"'Run' 버튼을 누르면, 다음 번 루프에서 변경된 부분이 들린다는 것을 기억하세요. 잘 안되더라도, 걱정하지 마세요 - 'Stop' "
+"버튼을 누른 후, 버퍼에서 코드를 지우고 새로 복사해서 붙여넣으면 다시 연주할 수 있습니다. 실수를 하면 더 빨리 배울 수 있습니다..."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -261,6 +297,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -268,28 +317,30 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
+"이제, 이 모든 것이 실제로 어떻게 작동하는지 궁금증이 생길 때까지 계속 놀고 실험해 보시면, 이걸로 다른 무언가를 할 수 있을지 "
+"궁금해지기 시작할 것입니다. 여러분은 이제 이 튜토리얼의 나머지 부분을 읽을 준비가 된 것이지요."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "뭘 기다리는 건가요..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 인터페이스 둘러보기"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "소닉 파이(Sonic Pi) 인터페이스"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
-msgstr ""
+msgstr "소닉 파이는 음악을 코딩하기 위한 매우 간단한 인터페이스를 가지고 있습니다. 잠시 시간을 내어서 살펴보죠."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -305,11 +356,11 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - 코드 에디터"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - 환경설정 패널"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
@@ -334,6 +385,9 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"이 핑크색 버튼들은 사운드를 시작하고 중지하는데 쓰는 주요한 제어장치입니다. 에디터에서 코드를 실행할 때 사용하는 *Run* 버튼, 실행 "
+"중인 코드를 중지시킬 때 쓰는 *Stop* 버튼, 코드를 파일로 저장할 때 쓰는 *Save* 버튼, 연주되는 사운드를 녹음할 때(WAV "
+"파일로) 사용하는 *Record* 버튼이 있습니다."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
@@ -345,6 +399,8 @@ msgid ""
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
+"여기의 오렌지색 버튼들은 코드 에디터를 조작하는데 사용합니다. *Size +* 버튼과 *Size -* 버튼으로 에디터의 글자를 키우거나 "
+"줄일 수 있습니다. *Align* 버튼은 여러분이 더욱 프로페셔널하게 보이도록 코드를 근사하게 만들어 줍니다."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
@@ -358,10 +414,13 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
+"이곳의 파랑색 버튼들은 정보, 도움말, 환경설정에 접근할 때 사용합니다. *Info* 버튼은 핵심 개발진,역사,기여자,커뮤니티 같은 소닉 "
+"파이 자체에 관한 정보를 담고 있는 윈도우를 열어줍니다. *Help* 버튼은 도움말 시스템(*G*)을 열거나 끄고, *Prefs* 버튼은 "
+"기본적인 시스템 변수을 조정할 수 있는 환경설정 윈도우를 열거나 끕니다."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. 코드 에디터"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -372,10 +431,14 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"이 영역은 여러분이 코드를 쓰거나 음악을 작곡/연주하는 곳입니다. 여러분이 코드를 쓰거나, 삭제하거나, 자르거나, 붙이는 작업을 할 수 "
+"있는 심플한 텍스트 에디터 입니다. 아주 간단한 워드(Word) 프로그램이나 구글 독스(Google Docs) 같다고 생각하면 됩니다. "
+"이 에디터는 코드 내에서 갖는 의미에 따라 자동적으로 단어에 색을 입힙니다. 처음에는 이상하게 보일 수도 있게지만, 곧 매우 유용하다는 "
+"것을 알게 될 것입니다. 예를 들면, 어떤 단어가 파랑색이라면 그것이 숫자라는 것을 알게 될 것입니다."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. 환경설정 패널"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
