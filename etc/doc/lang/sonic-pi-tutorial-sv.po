@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-04 14:06+0000\n"
-"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
+"PO-Revision-Date: 2018-02-15 23:40+0000\n"
+"Last-Translator: Johan Ekblad <jka@ekblad.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/sv/>\n"
 "Language: sv\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.19-dev\n"
+"X-Generator: Weblate 2.19\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -30,6 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"Välkommen till Sonic Pi. Hoppas du tycker det skall bli lika kul att skapa "
+"knasiga ljud som jag ser fram emot att lära dig. Det kommer bli en riktigt "
+"*kul* resa, där du kommer lära dig allt om musik, syntes, programmering, "
+"komposition, framträdande om mycket mer."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -40,6 +44,13 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
+"Men, vänta lite, vad oförskämt av mig! Låt mig presentera mig - Jag heter ["
+"Sam Aaron](http://twitter.com/samaaron) - killen som skapade Sonic Pi. Du "
+"kan nå mig på Twitter via  [@samaaron](http://twitter.com/samaaron). Skicka "
+"gärna ett meddelande till mig (på engelska) så kan vi höras av. Du kanske "
+"även är intresserad av min [Live-"
+"kodning](http://facebook.com/livecodersamaaron), där jag kodar med Sonic Pi "
+"live inför publik."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -47,6 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"Om du har några tankar eller idéer på hur vi kan förbättra Sonic Pi - "
+"snälla, ge oss dem - dina förslag är viktiga. Man vet aldrig, kanske kan "
+"ditt förslag bli en viktig framtida funktion!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -55,6 +69,11 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"Denna handledning är uppdelad i olika sektioner grupperade efter olika "
+"kategorier. Fastän jag har försökt skriva handledningen för att enkelt läsa "
+"den från start till slut och gradvis lära sig nya saker så kan du lika gärna "
+"hoppa mellan sektionerna hur det passar dig bäst. Om du tycker något saknas, "
+"hör av dig så kan jag bedöma om vi skall ta med det i en framtida version."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -62,6 +81,10 @@ msgid ""
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"Avslutningsvis,  att se andra live-koda är ett riktigt bra sätt att lära sig "
+"på. Jag uppdaterar regelbundet min YouTube-kanal  "
+"[http://youtube.com/samaaron](http://youtube.com/samaaron), besök den gärna "
+"och säg hej och fråga mig massor av saker :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -69,12 +92,12 @@ msgstr "OK, då börjar vi ..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr "1.1 Interaktiv Programmering"
+msgstr "1.1 Live-kodning"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Interaktiv Programmering"
+msgstr "Live-kodning"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -83,6 +106,10 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"En av de med spännande sakerna med Sonic Pi är att den låter dig skriva och *"
+"förändra koden live* när du gör musik, precis som när du uppträder live med "
+"en gitarr. Så om du övar lite så kan du ta med dig Sonic Pi upp på scenen "
+"när du kör ett \"gig\"."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -96,12 +123,12 @@ msgid ""
 "o your seats and enjoy..."
 msgstr ""
 "Innan vi går in på djupet hur Sonic Pi fungerar i resten av denna manual så "
-"skulle jag vilja att du får uppleva hur det är att programmera interaktivt. "
-"Du behöver inte förstå allt ännu, håll bara i dig så startar vi äventyret ..."
+"skulle jag vilja att du får uppleva hur det är att live-koda. Du behöver "
+"inte förstå allt ännu, håll bara i dig så startar vi äventyret ..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr "En Interaktiv slinga"
+msgstr "En live-slinga"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
@@ -126,28 +153,34 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
+"Tryck nu på `Kör`-knappen och du kommer höra en skön, snabb bastrumma som "
+"dunkar på. Om du vill stoppa ljudet, kan du när som helst trycka på `Stopp`-"
+"knappen. Tryck inte på den riktigt än...Följ istället dessa steg:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "Se till att ljudet från bastrumman fortfarande kör"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
 msgstr ""
+"Ändra på värdet för `sleep` från `0.5` till något högre, exempelvis `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "Tryck på `Kör`-knappen igen"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "Notera hur tempot på trumman har förändrats."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
+"Slutligen, *kom ihåg detta ögonblick*, det är första gången du live-kodar "
+"med Sonic Pi, men troligtvis inte den sista..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -155,6 +188,9 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
+"Ok, det var väl rätt enkelt. Låt oss mixa in något annat också. Ovanför `"
+"sample :bd_haus` lägg till raden `sample :ambi_choir, rate: 0.3`. Koden "
+"skall nu se ut så här:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -165,6 +201,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -175,10 +216,19 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"Så, dags att leka runt lite. Ändra siffrorna - vad händer när du skriver in "
+"höga, låga eller negativa värden? Se vad som händer när du ändrar värdet på "
+"`rate:` för `:ambi_choir'  lite grann (säg till `0.29`). Vad händer om du "
+"väljer en riktigt litet värde på `sleep`?  Se om du kan få den att gå så "
+"snabbt att körningen avslutas med ett felmeddelande för att datorn inte kan "
+"hänga med (om det händer, välj bara ett större värde på `sleep` och tryck på "
+"`Kör` igen)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
+"Pröva att kommentera ut en av `sample`-raderna genom att skriva in ett `#`-"
+"tecken i början av raden:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -189,6 +239,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -196,6 +251,9 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
+"Notera hur denna rad hoppas över av datorn, så att vi inte hör den. Detta "
+"kallas för en kommenterad rad. I Sonic Pi kan vi använda kommentarer för att "
+"ta bort och lägga till saker då man mixar."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -205,28 +263,41 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"Låt mig avslutningsvis ge dig något kul att leka med. Ta koden nedan och "
+"kopiera den till en ledig buffert. Du behöver inte försöka förstå exakt vad "
+"den gör, förutom att det finns två slingor - så två saker kör runt "
+"samtidigt. Gör nu det du är bäst på - experimentera och pröva dig fram. Här "
+"är lite förslag:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
+"Testa att ändra de blåfärgade `rate:`-värdena och hör hur det samplade "
+"ljudet förändras."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
+"Pröva att ändra värdena för `sleep`-tiderna och hör att båda slingorna kan "
+"köra runt med olika hastighet."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
+"Pröva att avkommentera sample-raden (ta bort `#`-tecknet) och njut av hur en "
+"gitarr som spelas baklänges låter."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
+"Nu kan du försöka ändra någon av de blåfärgade 'mix:'-värdena till tal "
+"mellan `0` (inte med i mixen) och `1` (helt med i mixen)."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -235,6 +306,11 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
+"Kom ihåg att trycka på `Kör`-knappen och du kommer höra förändringen nästa "
+"gång slingan börjar om. Det är ingen fara om du trasslar till det och det "
+"inte fungerar längre - tryck på `Stopp`, ta bort koden i bufferten och "
+"klistra in en ny kopia av koden, så är du klar att jamma loss igen. Det är "
+"genom att göra misstag som man lär sig snabbast..."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -253,6 +329,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -260,64 +349,70 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
+"Fortsätt gärna med att spela och experimentera tills din nyfikenhet på hur "
+"detta egentligen fungerar tar överhanden och du börjar fundera på vad mer du "
+"kan göra med det. Du är nu så förberedd att du är färdig att ta del av "
+"resten av handboken."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "Så, vad väntar du på..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 Utforska gränssnittet"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "Gränssnittet till Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
+"Sonic Pi har ett mycket enkelt gränssnitt för att koda musik. Låt oss "
+"spendera lite tid att utforska det."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Gränssnittet till Sonic Pi](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - Musikkontroller"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - Kontroller till editorn"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* - Info och hjälp"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - Kod-editor"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - Inställningspanel"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F* - Logg"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* - Hjälpsystem"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* - Musikvy"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
-msgstr ""
+msgstr "A. Musikkontroller"
 
 #: 01.2-Exploring-the-Interface.md:22
 msgid ""
@@ -326,10 +421,14 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"Dessa rosa knappar är huvudkontrollerna för att starta och stoppa musiken. "
+"Det finns en *Kör*-knapp för att köra koden i editorn, *Stopp* för att "
+"stanna all körande kod, *Spara* för att spara koden till en fil och *Spela "
+"in* för att skapa en inspelning (en WAV-fil) av musiken som spelas."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. Kontroller till editorn"
 
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
@@ -337,10 +436,13 @@ msgid ""
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
+"Dessa orange knappar låter dig ändra på texten i kod-editorn. Med knapparna *"
+"Storlek +* - och *Storlek -* kan du göra texten större eller mindre. Knappen "
+"som heter *Formattera* snyggar till koden och gör den mera läsbar."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "C. Info och Hjälp"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -350,10 +452,17 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
+"Dessa blå knappar ger dig tillgång till information, hjälp och "
+"inställningar. *Info*-knappen öppnar upp ett informationsfönster, som "
+"innehåller information om själva Sonic Pi -programmet - huvudteamet, "
+"historien, de som bidragit och gemenskapen runt Sonic Pi.  *Hjälp*-knappen "
+"visar eller plockar bort hjälpsystemet (*G*). Knappen *Inställningar*  visar "
+"eller plockar bort inställningarna, där du kan kontrollera vissa enkla "
+"systemfunktioner."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. Kod-editor"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -364,10 +473,17 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"Det är här du kommer skriva din kod och komponera/framföra musik. Det är en "
+"enkel texteditor där du kan skriva, ta bort, klippa ut samt klistra in kod. "
+"Tänk på det som en mycket enkel version av Word eller Google Docs. Editorn "
+"kommer automagiskt färgsätta ord, beroende på dess betydelse i koden. Det "
+"kan tyckas konstigt till en början, men du kommer snart tycka det är mycket "
+"användbart. Exempelvis kommer du snabbt kunna se att något är ett nummer, "
+"eftersom det har en blå färg."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. Inställningspanel"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
@@ -377,10 +493,15 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"Sonic Pi låter dig ändra ett antal inställningar som kan nås via knappen "
+"*Inställningspanel*. När du trycker på denna knapp kommer ytan med "
+"inställningar visas eller tas bort. Några exempel på inställningar är: mono-"
+"läge, invertera stereo, hur mycket information som skall loggas, "
+"volymkontroll och val av ljudenhet på Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. Logg"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -389,10 +510,14 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
+"När du kör din kod visas information om vad programmet håller på med i en "
+"logg. Som standard så ser du ett meddelande för varje ljud du skapar, med en "
+"exakt tidpunkt då ljudet började spelas. Detta är mycket användbart då du "
+"vill felsöka din kod och förstå vad den gör."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
-msgstr ""
+msgstr "G. Hjälpsystem"
 
 #: 01.2-Exploring-the-Interface.md:73
 msgid ""
@@ -403,10 +528,16 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
+"En av de mest användbara delarna av Sonic Pi är hjälpsystemet, som finns i "
+"nedre delen av fönstret. Denna yta kan slås på och av genom att trycka på "
+"den blåfärgade *Hjälp*-knappen. Hjälpsystemet innehåller hjälp och "
+"information om alla aspekter av Sonic Pi, vilket inkluderar; denna "
+"handledning, en lista över syntar, samplade ljud, exempelkod, effekter och "
+"hela listan av funktioner som finns i Sonic Pi för att koda musik."
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
-msgstr ""
+msgstr "H. Musikvy"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -420,14 +551,23 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"Musikvyn låter dig se ljudet som du hör. Du kan enkelt se att ett sågtands-"
+"ljud ser ut som en såg och att ett enkelt pip-ljud ser kurvigt ut (som en "
+"sinusvåg). Man ser även skillnad på ett starkt och ett svagt ljud genom att "
+"det ger högre eller lägre svängningar. Det finns tre vyer man kan pröva - "
+"som standard visas en kombinerad vy mellan höger och vänster kanal. Det "
+"finns en stereo-vy som visar varje kanal separat. Slutligen finns även en vy "
+"som visar en s.k. Lissajous-kurva. Den visar fasrelationen mellan höger och "
+"vänster kanal, vilket ritar snygga bilder över ljudet "
+"(https://sv.wikipedia.org/wiki/Lissajouskurva)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 Inlärning genom lek"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr ""
+msgstr "Inlärning genom lek"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
