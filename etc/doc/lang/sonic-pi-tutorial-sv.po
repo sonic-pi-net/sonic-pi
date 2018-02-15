@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-15 23:40+0000\n"
+"PO-Revision-Date: 2018-02-17 00:41+0000\n"
 "Last-Translator: Johan Ekblad <jka@ekblad.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/sv/>\n"
@@ -576,10 +576,14 @@ msgid ""
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
+"Sonic Pi uppmuntrar dig att lära dig både programmering och musik genom att "
+"leka och experimentera. Det viktigaste är att du har kul - efter ett tag "
+"kommer du, utan att du tänker på det, ha lärt dig hur man kodar, komponerar "
+"och framför musik."
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
-msgstr ""
+msgstr "Det finns inga misstag"
 
 #: 01.3-Learning-through-Play.md:12
 msgid ""
