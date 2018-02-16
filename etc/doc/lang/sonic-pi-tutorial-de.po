@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-26 23:37+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
+"PO-Revision-Date: 2018-02-17 13:36+0000\n"
+"Last-Translator: monodread <mail@jonashummel.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.19-dev\n"
+"X-Generator: Weblate 2.19\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5503,9 +5503,8 @@ msgstr ""
 "r noch genauer an."
 
 #: 05.6-Variables.md:133
-#, fuzzy
 msgid "Warning: Variables and Threads"
-msgstr "Variablen"
+msgstr "Warnung: Variablen und Threads (Prozessreihenfolge)"
 
 #: 05.6-Variables.md:135
 msgid ""
@@ -8736,9 +8735,8 @@ msgstr ""
 "damit überschrieben wurde."
 
 #: 10.1-Set-and-Get.md:35
-#, fuzzy
 msgid "Get"
-msgstr "Get"
+msgstr "Get (Abfragen des Werts)"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
@@ -8872,12 +8870,14 @@ msgid "A Simple Deterministic State System"
 msgstr "Ein einfaches deterministisches State System"
 
 #: 10.1-Set-and-Get.md:109
-#, fuzzy
 msgid ""
 "Back in Section 5.6 we discussed why using variables across threads can lead t"
 "o random behaviour. This stops us from being able to reliably reproduce code s"
 "uch as this:"
-msgstr "rand"
+msgstr ""
+"In Abschnitt 5.6 haben wir gezeigt, wie die Nutzung von Variablen in "
+"verschiedenen Threads zu zufälligen Resultaten führen kann. Das verhindert "
+"wiederum die sichere Reproduktion von bestimmten Code wie diesem:"
 
 #: 10.1-Set-and-Get.md:113
 #, no-wrap
@@ -9039,13 +9039,18 @@ msgstr ""
 "set :foo, 1"
 
 #: 10.2-Sync.md:31
-#, fuzzy
 msgid ""
 "In this example first we create a thread which waits for a `:foo` event to be "
 "added to the Time State. After this thread declaration we sleep for 2 beats an"
 "d then `set` `:foo` to be `1`. This then releases the `sync` which then moves "
 "to the next line which is to trigger the `:ambi_lunar_land` sample."
-msgstr "foo"
+msgstr ""
+"In diesem Beispiel erstellen wir zuerst einen Thread, der darauf wartet, "
+"dass ein ':foo' event zum Time State hinzugefügt wird. Nach dieser "
+"Threaderstellung (Deklaration) schlafen wir für 2 beats und dann setzen wir "
+"mit 'set'-Befehl den ':foo'-Wert auf '1'. Diese Aktion 'releases' (beendet) "
+"den 'sync' und geht weiter zur nächsten Zeile, wo das ':ambi_lunar_land'-"
+"Sample getriggert wird."
 
 #: 10.2-Sync.md:37
 msgid ""
@@ -9066,11 +9071,13 @@ msgid "Passing values into the Future"
 msgstr "Übergabe von Werten in die Zukunft"
 
 #: 10.2-Sync.md:44
-#, fuzzy
 msgid ""
 "In the example above we set `:foo` to `1` which we did nothing with. We can ac"
 "tually get this value from the thread calling `sync`:"
-msgstr "foo"
+msgstr ""
+"In diesem Beispiel setzen wir ':foo' auf den Wert '1', mit dem wir dann "
+"nichts gemacht haben. Diesen Wert können wir im Thread auch wieder abfragen "
+"('get'), in dem wir den Befehl 'sync' aufrufen:"
 
 #: 10.2-Sync.md:47
 #, no-wrap
