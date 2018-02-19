@@ -428,7 +428,7 @@ module SonicPi
       id = id.to_s
       raise "Aborting load: file name is blank" if  id.empty?
       path = project_path + id + '.spi'
-      s = "# Welcome to Sonic Pi #{@version.to_s}\n\n"
+      s = "# Welcome to Sonic Pi\n\n"
       if File.exist? path
         s = IO.read(path)
       end
