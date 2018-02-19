@@ -77,7 +77,7 @@ sudo make install
 
 #Install libaubio (apt-get version is too old)
 cd ${SP_ROOT}
-git clone https://git.aubio.org/git/aubio/ || true
+git clone https://git.aubio.org/aubio/aubio/ || true
 cd aubio
 git checkout ${AUBIO_VERSION}
 make getwaf
