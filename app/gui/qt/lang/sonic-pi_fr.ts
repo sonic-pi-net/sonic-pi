@@ -179,9 +179,9 @@ engendrer des sons forts ou inconfortables de manière imprévue.</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Active/désactive la journalisation.
-Si désactivée, l&apos;activité telle que le jeu des synthés et des échantillons 
-ne sera pas affichée dans la journal par défaut.</translation>
+        <translation>Bascule la journalisation.
+Si désactivé, l&apos;activité telle que le jeu des synthés et des échantillons 
+ne sera pas affichée dans le journal par défaut.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
