@@ -132,7 +132,7 @@ engendrer des sons forts ou inconfortables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation>Utilisez cette glissière pour changer le volume système.</translation>
+        <translation>Utilisez ce charriot pour modifier le volume système.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
