@@ -200,7 +200,7 @@ sur le bouton run.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
         <source>Log cues</source>
-        <translation>Trace des cues</translation>
+        <translation>Journal des cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -425,7 +425,7 @@ Le thème sombre est parfait pour coder en boîte de nuit.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>Changer la visibilité des oscilloscopes audio.</translation>
+        <translation>Afficher/cacher les oscilloscopes audio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
@@ -549,14 +549,14 @@ Lorsque la case est décochée, aucun message OSC ne sera reçu.</translation>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation>Pas de périphérique d&apos;entrée</translation>
+        <translation>Aucun périphérique d&apos;entrée connecté</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation>Pas de périphériques de sortie</translation>
+        <translation>Aucun périphérique de sortie connecté</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
@@ -575,7 +575,7 @@ Sonic-Pi et reçoivent en tant que signaux
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Show cue log</source>
-        <translation>Voir le journal de signaux</translation>
+        <translation>Afficher le journal de signaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
@@ -1100,7 +1100,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1251"/>
         <source>Synths</source>
-        <translation>synthétiseur</translation>
+        <translation>Synthétiseurs</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1298"/>
