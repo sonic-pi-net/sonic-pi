@@ -112,7 +112,7 @@ engendrer des sons forts ou inconfortables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>Le serveur Sonic Pi ne peut être démarré !</translation>
+        <translation>Le serveur Sonic Pi n&apos;a pas pu être démarré !</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
