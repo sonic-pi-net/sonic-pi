@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-14 04:35+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-02-20 04:56+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.19-dev\n"
+"X-Generator: Weblate 2.19\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -10148,25 +10148,38 @@ msgid ""
 "and synchronising `live_loops` - see sections 5.7 and 10.2 to recap how this w"
 "orks."
 msgstr ""
+"Par défaut, lorsque Sonic Pi est lancé, il écoute sur le port 4559 pour des "
+"messages OSC entrant de programmes sur le même ordinateur. Cela veut dire "
+"que sans aucune configuration, vous pouvez envoyer à Sonic Pi un message OSC "
+"et il sera affiché dans la queue du journal tout comme les messages MIDI "
+"entrants. Cela veut également dire que tout message OSC entrant est aussi "
+"automatiquement ajouté à l'État du Temps, ce qui veut dire que vous pouvez "
+"aussi utiliser `get` et `sync` pour travailler avec l'information entrante, "
+"comme avec le MIDI, et synchroniser `live_loops` - voir les sections 5.7 et "
+"10.2 pour récapituler comment cela fonctionne."
 
 #: 12.1-Receiving-OSC.md:15
 msgid "A Basic OSC Listener"
-msgstr ""
+msgstr "Un écouteur OSC basique"
 
 #: 12.1-Receiving-OSC.md:17
 msgid "Let's build a basic OSC listener:"
-msgstr ""
+msgstr "Construisons un écouteur OSC basique :"
 
 #: 12.1-Receiving-OSC.md:19
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :foo do\n"
 "  use_real_time\n"
 "  a, b, c = sync \"/osc/trigger/prophet\"\n"
 "  synth :prophet, note: a, cutoff: b, sustain: c\n"
 "end"
-msgstr "foo"
+msgstr ""
+"live_loop :foo do\n"
+"  use_real_time\n"
+"  a, b, c = sync \"/osc/trigger/prophet\"\n"
+"  synth :prophet, note: a, cutoff: b, sustain: c\n"
+"end"
 
 #: 12.1-Receiving-OSC.md:27
 msgid ""
@@ -10177,10 +10190,18 @@ msgid ""
 "ed to send an OSC message with the path `/trigger/prophet` for our `sync` to s"
 "top blocking and the prophet synth to be triggered."
 msgstr ""
+"Dans cet exemple, nous décrivons un chemin OSC `\"/osc/trigger/prophet\"` "
+"sur lequel nous nous synchronisons. Cela peut être n'importe lequel chemin "
+"OSC valide (toutes les lettres et chiffres sont supportés et le `/` est "
+"utilisé comme dans une URL pour diviser le chemin en plusieurs mots). Le "
+"préfixe `/osc` est ajouté par Sonic pi à tout les messages OSC entrants, "
+"alors nous devons envoyer un message OSC avec le chemin `/trigger/prophet` "
+"pour que notre `sync` cesse de bloquer et que le synthé prophet soit "
+"déclenché."
 
 #: 12.1-Receiving-OSC.md:36
 msgid "Sending OSC to Sonic Pi"
-msgstr ""
+msgstr "Envoyer du OSC à Sonic Pi"
 
 #: 12.1-Receiving-OSC.md:38
 msgid ""
@@ -10188,6 +10209,9 @@ msgid ""
 "ary. For example, if we're sending OSC from Python we might do something like "
 "this:"
 msgstr ""
+"Nous pouvons envoyer du OSC à Sonic Pi à partir de n'importe lequel langage "
+"de programmation qui a une librairie OSC. Par exemple, si nous envoyons du "
+"OSC à partir de Python, nous allons faire quelque chose ressemblant à ceci :"
 
 #: 12.1-Receiving-OSC.md:42
 #, no-wrap
@@ -10197,12 +10221,18 @@ msgid ""
 "sender = udp_client.SimpleUDPClient('127.0.0.1', 4559)\n"
 "sender.send_message('/trigger/prophet', [70, 100, 8])"
 msgstr ""
+"from pythonosc import osc_message_builder\n"
+"from pythonosc import udp_client\n"
+"sender = udp_client.SimpleUDPClient('127.0.0.1', 4559)\n"
+"sender.send_message('/trigger/prophet', [70, 100, 8])"
 
 #: 12.1-Receiving-OSC.md:50
 msgid ""
 "Or, if we're sending OSC from Clojure we might do something like this from the"
 " REPL:"
 msgstr ""
+"Ou si nous envoyons du OSC à partir de Clojure, nous allons faire quelque "
+"chose qui ressemble à ceci à partir du REPL :"
 
 #: 12.1-Receiving-OSC.md:52
 #, no-wrap
@@ -10211,10 +10241,13 @@ msgid ""
 "(def c (osc-client \"127.0.0.1\" 4559))\n"
 "(osc-send c \"/trigger/prophet\" 70 100 8)"
 msgstr ""
+"(use 'overtone.core)\n"
+"(def c (osc-client \"127.0.0.1\" 4559))\n"
+"(osc-send c \"/trigger/prophet\" 70 100 8)"
 
 #: 12.1-Receiving-OSC.md:58
 msgid "Receiving from External Machines"
-msgstr ""
+msgstr "Recevoir des machines externes"
 
 #: 12.1-Receiving-OSC.md:60
 msgid ""
@@ -10229,6 +10262,18 @@ msgid ""
 ", hovering the mouse over the listed address will pop up with a list of all kn"
 "own addresses)."
 msgstr ""
+"Pour des raisons de sécurité, par défaut Sonic Pi ne laisse pas les machines "
+"distantes lui envoyer des messages OSC. Cependant, vous pouvez activer le "
+"support des machines distantes dans Préférences->IO->Réseau->Recevoir "
+"messages OSC distants. Une fois que vous l'avez activé, vous pouvez recevoir "
+"les messages OSC de n'importe lequel ordinateur sur votre réseau. "
+"Habituellement, la machine expéditrice va devoir connaître votre adresse IP ("
+"un identificateur uniquement de ton ordinateur sur ton réseau - comme un "
+"numéro de téléphone ou une adresse courriel). Vous pouvez découvrir "
+"l'adresse IP de votre ordinateur en regardant la section IO de votre panneau "
+"de préférences. (Si votre machine a plus d'une adresse IP, placer votre "
+"souris sur l'adresse listée fera apparaître une liste de toutes les adresses "
+"connues)."
 
 #: 12.1-Receiving-OSC.md:72
 msgid ""
@@ -10238,14 +10283,21 @@ msgid ""
 "OSC which enable you to build your own custom touch controls with sliders, but"
 "tons, dials etc. This can provide you with an enormous range of input options."
 msgstr ""
+"Prenez note, des programmes comme TouchOSC pour iPhone et Android supportent "
+"l'envoi de OSC comme fonctionnalité standard. Alors, une fois que vous "
+"écoutez les machines distantes et que vous connaissez votre adresse IP, vous "
+"pouvez commencer instantanément l'envoi de messages à partir d'applications "
+"comme TouchOSC ce qui vous permet de construire vos propres contrôles "
+"tactiles personnalisés avec glisseurs, boutons, dialeurs, etc. Cela vous "
+"fournit un grand éventails de possibilités d'entrées."
 
 #: 12.2-Sending-OSC.md:1
 msgid "12.2 Sending OSC"
-msgstr ""
+msgstr "12.2 Envoyer du OSC"
 
 #: 12.2-Sending-OSC.md:3
 msgid "Sending OSC"
-msgstr ""
+msgstr "Envoyer du OSC"
 
 #: 12.2-Sending-OSC.md:5
 msgid ""
@@ -10254,6 +10306,11 @@ msgid ""
 "messages in time with our music). We just need to know which IP address and po"
 "rt we're sending to. Let's give it a try:"
 msgstr ""
+"En plus de recevoir du OSC et de travailler avec en utilisant l'État du "
+"Temps, nous pouvons également envoyer des messages OSC en synchronisation "
+"avec notre musique (tout comme nous pouvons envoyer des messages MIDI en "
+"synchronisation avec notre musique). Nous devons seulement savoir quelle "
+"adresse IP et port nous envoyons. Essayons-le :"
 
 #: 12.2-Sending-OSC.md:10
 #, no-wrap
@@ -10261,6 +10318,8 @@ msgid ""
 "use_osc \"localhost\", 4559\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 4559\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:15
 msgid ""
