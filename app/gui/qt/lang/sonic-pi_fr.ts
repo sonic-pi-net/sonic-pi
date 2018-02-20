@@ -152,7 +152,7 @@ engendrer des sons forts ou inconfortables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
         <source>Logging</source>
-        <translation>Trace</translation>
+        <translation>Journalisation</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
