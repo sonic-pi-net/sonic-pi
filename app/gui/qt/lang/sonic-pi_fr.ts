@@ -186,15 +186,15 @@ ne sera pas affichée dans le journal par défaut.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation>Efface la trace avant exécution</translation>
+        <translation>Efface le journal avant exécution</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Bascule de l&apos;effacement de la trace avant exécution.
-Si activé, la trace est effacée à chaque appui 
+        <translation>Bascule de l&apos;effacement du journal avant exécution.
+Si activé, le journal est effacée à chaque appui 
 sur le bouton run.</translation>
     </message>
     <message>
@@ -237,7 +237,7 @@ which isn&apos;t recognised.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1370"/>
         <source>Enforce timing guarantees</source>
-        <translation>Faire respecter les garanties de chronométrage</translation>
+        <translation>Faire respecter les garanties temporelles</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1371"/>
