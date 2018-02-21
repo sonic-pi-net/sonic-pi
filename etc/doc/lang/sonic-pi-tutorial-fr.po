@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-21 22:20+0000\n"
+"PO-Revision-Date: 2018-02-22 04:04+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -9659,9 +9659,8 @@ msgstr ""
 "tout ce que nous avons appris dans la section 10 de ce tutoriel."
 
 #: 11.1-MIDI-In.md:60
-#, fuzzy
 msgid "Controlling Code"
-msgstr "Contrôle des effets (FX)"
+msgstr "Code de contrôle"
 
 #: 11.1-MIDI-In.md:62
 msgid ""
@@ -9824,9 +9823,8 @@ msgstr ""
 "vélocité variable codée en seulement 5 lignes. N'était-ce pas facile !"
 
 #: 11.1-MIDI-In.md:136
-#, fuzzy
 msgid "Getting Values"
-msgstr "Commencer"
+msgstr "Obtenir des valeurs"
 
 #: 11.1-MIDI-In.md:138
 msgid ""
@@ -10060,7 +10058,6 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:90
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb, room: 1 do\n"
 "  live_audio :moog\n"
@@ -10070,7 +10067,15 @@ msgid ""
 "  midi (octs :e1, 3).tick, sustain: 0.1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "reverb,"
+msgstr ""
+"with_fx :reverb, room: 1 do\n"
+"  live_audio :moog\n"
+"end\n"
+"live_loop :moog_trigger do\n"
+"  use_real_time\n"
+"  midi (octs :e1, 3).tick, sustain: 0.1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 11.2-MIDI-Out.md:102
 msgid ""
@@ -10418,9 +10423,8 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:17
-#, fuzzy
 msgid "Increasing the Duration"
-msgstr "Durée"
+msgstr "Augmenter la durée"
 
 #: 13.1-Sound-In.md:19
 msgid ""
@@ -10478,9 +10482,8 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:52
-#, fuzzy
 msgid "Multiple Inputs"
-msgstr "Chaînes multiples"
+msgstr "Entrées multiples"
 
 #: 13.1-Sound-In.md:54
 msgid ""
@@ -10523,9 +10526,8 @@ msgid "13.2 Live Audio"
 msgstr ""
 
 #: 13.2-Live-Audio.md:3
-#, fuzzy
 msgid "Live Audio"
-msgstr "Codage en direct"
+msgstr "audio en direct"
 
 #: 13.2-Live-Audio.md:5
 msgid ""
@@ -10550,9 +10552,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo"
-msgstr "foo"
+msgstr "live_audio :foo"
 
 #: 13.2-Live-Audio.md:23
 msgid ""
@@ -10574,12 +10575,14 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:34
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  live_audio :foo\n"
+"end"
 
 #: 13.2-Live-Audio.md:40
 msgid ""
@@ -10601,12 +10604,14 @@ msgstr "reverb,"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :echo do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :echo do\n"
+"  live_audio :foo\n"
+"end"
 
 #: 13.2-Live-Audio.md:58
 msgid ""
@@ -10617,14 +10622,18 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:62
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do\n"
 "  with_fx :echo do\n"
 "    live_audio :foo\n"
 "  end\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :echo do\n"
+"    live_audio :foo\n"
+"  end\n"
+"end"
 
 #: 13.2-Live-Audio.md:70
 #, fuzzy
@@ -10650,9 +10659,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:85
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo, :stop"
-msgstr "foo"
+msgstr "live_audio :foo, :stop"
 
 #: 13.2-Live-Audio.md:89
 msgid "It can easily be restarted by calling it without the `:stop` arg again:"
@@ -10682,9 +10690,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:111
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo, stereo: true, input: 2"
-msgstr "foo"
+msgstr "live_audio :foo, stereo: true, input: 2"
 
 #: 13.2-Live-Audio.md:115
 msgid ""
@@ -10812,12 +10819,14 @@ msgstr ""
 
 #: 13.3-Sound-Out.md:82
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :sound_out, output: 3, amp: 0 do # B\n"
 "  sample :loop_amen                      # A\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"with_fx :sound_out, output: 3, amp: 0 do # B\n"
+"  sample :loop_amen                      # A\n"
+"end"
 
 #: 13.3-Sound-Out.md:88
 msgid ""
@@ -10831,9 +10840,8 @@ msgid ""
 msgstr ""
 
 #: 14-Conclusions.md:1
-#, fuzzy
 msgid "14 Conclusions"
-msgstr "12 Conclusions"
+msgstr "14 Conclusions"
 
 #: 14-Conclusions.md:3
 msgid "Conclusions"
@@ -11124,13 +11132,12 @@ msgid "sample :guit_em9"
 msgstr "sample :guit_em9"
 
 #: A.01-tips.md:89
-#, fuzzy
 msgid ""
 "Ooh, a lovely guitar sound! Now, let's start playing with it. How about changi"
 "ng its rate?"
 msgstr ""
-"Oh, un joli son de guitare ! Commençons à jouer un peu avec. Et si on changeai"
-"t sa fréquence ?"
+"Oh, un joli son de guitare ! Commençons à jouer un peu avec. Et si on "
+"changeait son taux ?"
 
 #: A.01-tips.md:92 A.17-sample-stretching.md:25
 #, no-wrap
@@ -11171,9 +11178,8 @@ msgstr ""
 "ibles."
 
 #: A.01-tips.md:110
-#, fuzzy
 msgid "5. Live Code"
-msgstr "5. Coder de manière interactive"
+msgstr "5. Coder en direct"
 
 #: A.01-tips.md:112
 #, fuzzy
@@ -11228,9 +11234,8 @@ msgstr ""
 "pos du live coding regardez la section 9 du tutoriel inclus dans Sonic Pi."
 
 #: A.01-tips.md:134
-#, fuzzy
 msgid "5. Surf the random streams"
-msgstr "5. Surfez sur les suites aléatoires"
+msgstr "5. Surfez sur les flux aléatoires"
 
 #: A.01-tips.md:136
 #, fuzzy
@@ -11441,7 +11446,6 @@ msgstr ""
 "Boum, boum, boum !"
 
 #: A.02-live-coding.md:52
-#, fuzzy
 msgid "Redefining On-the-fly"
 msgstr "Redéfinir à la volée"
 
@@ -11495,7 +11499,6 @@ msgstr ""
 "mbres. Amusez-vous !"
 
 #: A.02-live-coding.md:77
-#, fuzzy
 msgid "Sleeping is important"
 msgstr "Il est important de dormir"
 
@@ -11539,7 +11542,6 @@ msgstr ""
 ": vos `live_loop`s doivent contenir un appel à `sleep`."
 
 #: A.02-live-coding.md:97
-#, fuzzy
 msgid "Combining Sounds"
 msgstr "Combiner des sons"
 
@@ -11559,7 +11561,6 @@ msgstr ""
 
 #: A.02-live-coding.md:105
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :beats do\n"
 "  sample :bd_tek\n"
@@ -11581,7 +11582,6 @@ msgstr ""
 "    sleep 0.5\n"
 "  end\n"
 "end\n"
-"  \n"
 "live_loop :bass do\n"
 "  use_synth :tb303\n"
 "  synth :tb303, note: :e1, release: 4, cutoff: 120, cutoff_attack: 1\n"
@@ -11612,7 +11612,6 @@ msgstr ""
 
 #: A.02-live-coding.md:129
 #, no-wrap
-#, fuzzy
 msgid ""
 "# Steve Reich's Piano Phase\n"
 "notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5"
@@ -11626,16 +11625,13 @@ msgid ""
 "  sleep 0.295\n"
 "end"
 msgstr ""
-"# La phase piano de Steve Reich\n"
-"  \n"
-"notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5"
-")\n"
-"  \n"
+"# La phase de piano de Steve Reich\n"
+"notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, "
+":Cs5)\n"
 "live_loop :slow do\n"
 "  play notes.tick, release: 0.1\n"
 "  sleep 0.3\n"
 "end\n"
-"  \n"
 "live_loop :faster do\n"
 "  play notes.tick, release: 0.1\n"
 "  sleep 0.295\n"
@@ -11648,7 +11644,6 @@ msgstr ""
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
 #: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:147
 #: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:137
-#, fuzzy
 msgid "Bringing it all together"
 msgstr "Rassemblons tout"
 
@@ -11673,7 +11668,6 @@ msgstr ""
 
 #: A.02-live-coding.md:156
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb, room: 1 do\n"
 "  live_loop :time do\n"
@@ -11707,18 +11701,15 @@ msgstr ""
 "    sleep 8\n"
 "  end\n"
 "end\n"
-"  \n"
 "live_loop :machine do\n"
 "  sample :loop_garzul, rate: 0.5, finish: 0.25\n"
 "  sample :loop_industrial, beat_stretch: 4, amp: 1\n"
 "  sleep 4\n"
 "end\n"
-"  \n"
 "live_loop :kik do\n"
 "  sample :bd_haus, amp: 2\n"
 "  sleep 0.5\n"
 "end\n"
-"  \n"
 "with_fx :echo do\n"
 "  live_loop :vortex do\n"
 "    # use_random_seed 800\n"
@@ -11731,12 +11722,10 @@ msgstr ""
 "end"
 
 #: A.03-coded-beats.md:1
-#, fuzzy
 msgid "A.3 Coded Beats"
 msgstr "A.3 Rythmes codés"
 
 #: A.03-coded-beats.md:3
-#, fuzzy
 msgid "Coded Beats"
 msgstr "Rythmes codés"
 
@@ -11778,7 +11767,6 @@ msgstr ""
 "sampler très puissant. Jouons avec !"
 
 #: A.03-coded-beats.md:21
-#, fuzzy
 msgid "The Amen Break"
 msgstr "Le break Amen"
 
