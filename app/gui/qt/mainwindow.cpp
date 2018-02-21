@@ -2843,7 +2843,6 @@ void MainWindow::createInfoPane() {
     infoPanes.append(pane);
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
-    pane->setFixedSize(620, 615);
     pane->setSource(QUrl(urls[t]));
     infoTabs->addTab(pane, tabs[t]);
   }
@@ -2858,6 +2857,7 @@ void MainWindow::createInfoPane() {
   infoWidg->setLayout(infoLayout);
   infoWidg->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
   infoWidg->setWindowTitle(tr("Sonic Pi - Info"));
+  infoWidg->setFixedSize(660, 640);
 
   connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 
