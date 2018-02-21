@@ -18,6 +18,11 @@ module SonicPi
   class RingTester < Minitest::Test
     include SonicPi::Lang::Core
 
+    def assert_spread(a, b, str)
+      bools = str.chars.map {|c| c == 'x'}
+      assert_equal(spread(a, b), bools)
+    end
+
     def test_stretch
       assert_equal([:e1, :e1, :e1, :e2, :e2, :e2], stretch([:e1,:e2], 3))
       assert_equal([:a2, :a2, :a3, :a3, :a1, :a1, :a1, :a4, :a4, :a4], stretch([:a2,:a3], 2, [:a1,:a4], 3))
@@ -114,8 +119,33 @@ module SonicPi
     end
 
     def test_spread
-      assert_equal(spread(5, 13), [true, false, false, true, false, false, true, false, true, false, false, true, false])
-      assert_equal(spread(3, 8, rotate: 1),  [true, false, false, true, false, true, false, false])
+      # Tests extracted from https://github.com/samaaron/sonic-pi/issues/1593
+      assert_spread(1, 2, "x.")
+      assert_spread(1, 3, "x..")
+      assert_spread(1, 4, "x...")
+      assert_spread(4, 12, "x..x..x..x..")
+      assert_spread(2, 3, "x.x")
+      assert_spread(2, 5, "x.x..")
+      assert_spread(3, 4, "x.xx")
+      assert_spread(3, 5, "x.x.x")
+      assert_spread(3, 7, "x.x.x..")
+      assert_spread(3, 8, "x..x..x.")
+      assert_spread(4, 7, "x.x.x.x")
+      assert_spread(4, 9, "x.x.x.x..")
+      assert_spread(4, 11, "x..x..x..x.")
+      assert_spread(5, 6, "x.xxxx")
+      assert_spread(5, 7, "x.xx.xx")
+      assert_spread(5, 8, "x.xx.xx.")
+      assert_spread(5, 9, "x.x.x.x.x")
+      assert_spread(5, 11, "x.x.x.x.x..")
+      assert_spread(5, 12, "x..x.x..x.x.")
+      assert_spread(5, 16, "x..x..x..x..x...") # (obvious misprint in the paper corrected)
+      assert_spread(7, 8, "x.xxxxxx")
+      assert_spread(7, 12, "x.xx.x.xx.x.")
+      assert_spread(7, 16, "x..x.x.x..x.x.x.")
+      assert_spread(9, 16, "x.xx.x.x.xx.x.x.")
+      assert_spread(11, 24, "x..x.x.x.x.x..x.x.x.x.x.")
+      assert_spread(13, 24, "x.xx.x.x.x.x.xx.x.x.x.x.")
     end
 
     def test_plus
