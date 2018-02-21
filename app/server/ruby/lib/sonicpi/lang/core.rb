@@ -1558,31 +1558,49 @@ end"
       ]
 
 
-
+      # helper for spread
+      def redistribute(v1, v2)
+        vNew = []
+        while v1.length > 0 && v2.length > 0
+          a1 = v1.shift
+          a2 = v2.shift
+          vNew.unshift(a1 + a2)
+        end
+        if v1.length > 0 then
+          [vNew, v1]
+        else
+          [vNew, v2] # v2 might be empty, but that's fine
+        end
+      end
 
       def spread(num_accents, size, *args)
         args_h = resolve_synth_opts_hash_or_array(args)
         beat_rotations = args_h[:rotate]
         res = []
-        # if someone requests 9 accents in a bar of 8 beats
+        # if someone requests 8 or more accents in a bar of 8 beats
         # default to filling the output with accents
-        if num_accents > size
+        # (rotation is futile here)
+        if num_accents >= size # changed to >=, so v2 is not empty below
           res = [true] * size
           return res.ring
         end
-
-        size.times do |i|
-          # makes a boolean based on the index
-          # true is an accent, false is a rest
-          res << ((i * num_accents % size) < num_accents)
+        
+        # new part
+        v1 = [[true]] * num_accents
+        v2 = [[false]] * (size - num_accents)
+        # If v2 not empty (thats given here), call at least once.
+        (v1, v2) = redistribute(v1,v2)
+        # End condition: v2 empty or has just one element
+        while v2.length > 1
+          (v1, v2) = redistribute(v1,v2)
         end
-
+        res = (v1 + v2).flatten
+        
         if beat_rotations && beat_rotations.is_a?(Numeric)
           beat_rotations = beat_rotations.abs
-          while beat_rotations > 0 do
+          while beat_rotations > 0
             beat_rotations -= 1 if res.rotate!.first == true
           end
-
           res.ring
         else
           res.ring
