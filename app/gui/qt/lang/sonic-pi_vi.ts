@@ -6,12 +6,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Preferences</source>
-        <translation></translation>
+        <translation>Thiết Lập</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Log</source>
-        <translation></translation>
+        <translation>Bản Ghi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
@@ -25,7 +25,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation></translation>
+        <translation>Bật/Tắt chuyển đổi loa phát.
+Khi bật, âm thanh nổi sẽ đổi chiều loa phát ra (trái
+thành phải, và ngược lại)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -34,334 +36,353 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation></translation>
+        <translation>Bật/Tắt âm thanh 1 kênh
+Khi bật lên, âm thanh kênh trái và phải sẽ trộn,
+và hai loa cùng phát âm thanh như nhau.
+Sử dụng cho những hệ thống chỉ phát được âm
+thanh đơn.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation></translation>
+        <translation>Cấu hình gỡ lỗi chương trình</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation></translation>
+        <translation>Bật/Tắt bản ghi.
+Nếu tắt, các thông báo sự kiện đồng bộ và lấy mẫu
+sẽ không tự xuất hiện trong bản ghi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Safe mode</source>
-        <translation></translation>
+        <translation>Chế độ an toàn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation></translation>
+        <translation>Xóa bản ghi khi chạy chương trình</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation></translation>
+        <translation>Bật/Tắt xoá bản ghi khi chạy chương trình.
+Khi bật, bản ghi sẽ được xóa khi chương trình
+khởi động.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Toggle line number visibility.</source>
-        <translation></translation>
+        <translation>Bật/Tắt đánh số dòng.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1455"/>
         <source>Dark mode</source>
-        <translation></translation>
+        <translation>Chế độ Tối</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation></translation>
+        <translation>Đang chạy chương trình...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation></translation>
+        <translation>Đang làm đẹp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation></translation>
+        <translation>Đang tải...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation></translation>
+        <translation>Bật bộ trộn cao qua...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1975"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation></translation>
+        <translation>Tắt bộ trộn cao qua...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>Buffer %1</source>
-        <translation></translation>
+        <translation>Đệm %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="455"/>
         <source>Welcome to Sonic Pi</source>
-        <translation></translation>
+        <translation>Chào mừng đến với Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="942"/>
         <source>Indenting selection...</source>
-        <translation></translation>
+        <translation>Thụt đầu dòng chữ đã chọn...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="946"/>
         <source>Indenting line...</source>
-        <translation></translation>
+        <translation>Thụt đầu dòng dòng hiện tại...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1322"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation></translation>
+        <translation>Các cấu hình âm thanh mở rộng để Sonic Pi chạy
+với các hệ thống âm thanh thông báo (PA) ngoài.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1396"/>
         <location filename="../mainwindow.cpp" line="1562"/>
         <source>Updates</source>
-        <translation></translation>
+        <translation>Các cập nhật</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Check for updates</source>
-        <translation></translation>
+        <translation>Kiểm tra bản cập nhật</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1507"/>
         <source>Editor</source>
-        <translation></translation>
+        <translation>Trình Soạn Thảo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show line numbers</source>
-        <translation></translation>
+        <translation>Hiển thị số dòng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="496"/>
         <source>Sonic Pi update info</source>
-        <translation></translation>
+        <translation>Thông tin cập nhật Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation></translation>
+        <translation>Bật/Tắt các tính năng kiểm tra thông số trộn
+Nếu tắt, một số thông số trộn có thể gây ra
+tiếng ồn hoặc âm thanh khó chịu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
         <source>Logging</source>
-        <translation></translation>
+        <translation>Bản ghi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation></translation>
+        <translation>Phạm vi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle selection comment...</source>
-        <translation></translation>
+        <translation>Bật/Tắt ghi chú...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
         <source>Cues</source>
-        <translation></translation>
+        <translation>Các gợi ý</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Full screen mode on.</source>
-        <translation></translation>
+        <translation>Chế độ toàn màn hình.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation></translation>
+        <translation>Tắt chế độ toàn màn hình.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
         <source>Toggle line comment...</source>
-        <translation></translation>
+        <translation>Bật/Tắt ghi chú dòng...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation></translation>
+        <translation>Server Sonic Pi không thể khởi động!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation></translation>
+        <translation>Địa chỉ IP cục bộ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation></translation>
+        <translation>Port nghe thông báo OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation></translation>
+        <translation>Bất khả dụng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
         <source>Receive remote OSC messages</source>
-        <translation></translation>
+        <translation>Nhận thông báo OSC từ xa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation></translation>
+        <translation>Khi bật, Sonic Pi sẽ nhận các thông báo OSC của các máy khác.
+ Khi tắt, chỉ nhận thông báo máy cục bộ.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable OSC server</source>
-        <translation></translation>
+        <translation>Bật Server OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation></translation>
+        <translation>Khi bật, Sonic Pi sẽ nhận tín hiệu OSC.
+ Khi tắt, không nhận tín hiệu OSC nữa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Configure MIDI behaviour</source>
-        <translation></translation>
+        <translation>Cấu hình cách xử lý MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
         <source>Enable MIDI subsystems</source>
-        <translation></translation>
+        <translation>Kích hoạt hệ thống MIDI phụ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation></translation>
+        <translation>Bật/Tắt giao tiếp MIDI (cả vào và ra)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation></translation>
+        <translation>Cấu hình MIDI lại</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation></translation>
+        <translation>Cấu hình lại các hệ thống MIDI phụ
+(Cần khi thay đổi thiết bị trên macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation></translation>
+        <translation>Kênh MIDI mặc định (* = tất cả)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation></translation>
+        <translation>Kênh MIDI mặc định để gửi tín hiệu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1292"/>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation></translation>
+        <translation>Không có thiết bị nhập</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation></translation>
+        <translation>Không có thiết bị xuất</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation></translation>
+        <translation>Các thiết bị nhập gửi trực tiếp tín hiệu MIDI vào Sonic PI
+dưới hình thức sự kiện hướng dẫn
+(tương tự như tín hiệu OSC và hướng dẫn nội bộ)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Master Volume</source>
-        <translation></translation>
+        <translation>Âm lượng tổng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation></translation>
+        <translation>Trượt để chỉnh âm lượng hệ thống.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Output</source>
-        <translation></translation>
+        <translation>Ngõ ra âm thanh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1323"/>
         <source>Invert stereo</source>
-        <translation></translation>
+        <translation>Đảo chiều âm thanh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1326"/>
         <source>Force mono</source>
-        <translation></translation>
+        <translation>Bắt buộc chế độ mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1347"/>
         <source>Synths and FX</source>
-        <translation></translation>
+        <translation>Các bộ trộn và hiệu ứng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation></translation>
+        <translation>Điều chỉnh hoạt động các bộ tổng hợp và hiệu ứng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1350"/>
         <source>Log synths</source>
-        <translation></translation>
+        <translation>Ghi nhận các bộ tổng hợp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
         <source>Log cues</source>
-        <translation></translation>
+        <translation>Ghi nhận các hướng dẫn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation></translation>
+        <translation>Bật/Tắt ghi nhận hướng dẫn.
+Khi tắt, các hướng dẫn vẫn ảnh hưởng tới hệ thống,
+nhưng sẽ không hiện ra trên bản ghi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation></translation>
+        <translation>Bật/Tắt tự trượt bản ghi.
+Khi bật, bản ghi sẽ tự trượt xuống cuối mỗi khi có thông báo mới.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Enable external synths and FX</source>
-        <translation></translation>
+        <translation>Bật các bộ tổng hợp và hiệu ứng ngoài</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
@@ -372,7 +393,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation></translation>
+        <translation>Khi bật, Sonic Pi sẽ kích hoạt 
+các bộ tổng hợp và hiệu ứng 
+cấu hình trong load_synthdefs.
+
+Khi tắt, Sonic Pi sẽ báo động khi
+bạn thử sử dụng các bộ tổng hợp và hiệu
+ứng chưa chứng nhận.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1370"/>
