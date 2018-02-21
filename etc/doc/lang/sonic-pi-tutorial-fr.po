@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-21 20:57+0000\n"
+"PO-Revision-Date: 2018-02-21 22:20+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
@@ -5536,9 +5536,8 @@ msgstr ""
 "."
 
 #: 05.6-Variables.md:133
-#, fuzzy
 msgid "Warning: Variables and Threads"
-msgstr "Variables"
+msgstr "Avertissement : variables et fils"
 
 #: 05.6-Variables.md:135
 msgid ""
@@ -8661,12 +8660,10 @@ msgstr ""
 "s utiles, et joyeux parcours automatiques !"
 
 #: 10-State.md:1
-#, fuzzy
 msgid "10 Time State"
 msgstr "10 État du temps"
 
 #: 10-State.md:3
-#, fuzzy
 msgid "Time State"
 msgstr "État du temps"
 
@@ -8722,14 +8719,12 @@ msgid "Meet `get` and `set`..."
 msgstr "Rencontrez `get` et `set`..."
 
 #: 10.1-Set-and-Get.md:1
-#, fuzzy
 msgid "10.1 Set and Get"
-msgstr "10.1 Affecter et Obtenir"
+msgstr "10.1 Paramétrer et obtenir"
 
 #: 10.1-Set-and-Get.md:3
-#, fuzzy
 msgid "Set and Get"
-msgstr "Affecter et Obtenir"
+msgstr "Paramétrer et obtenir"
 
 #: 10.1-Set-and-Get.md:5
 #, fuzzy
@@ -8743,19 +8738,16 @@ msgstr ""
 "de l'information. Explorons plus en détails ..."
 
 #: 10.1-Set-and-Get.md:9
-#, fuzzy
 msgid "Set"
-msgstr "Affecter"
+msgstr "Paramétrer"
 
 #: 10.1-Set-and-Get.md:11
-#, fuzzy
 msgid "To store information into the Time State we need two things:"
 msgstr ""
 "Pour stocker de l'information dans l'État du Temps, nous avons besoin de "
 "deux choses :"
 
 #: 10.1-Set-and-Get.md:13
-#, fuzzy
 msgid "the information we want to store,"
 msgstr "l'information que nous voulons stocker,"
 
@@ -8855,7 +8847,6 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8865,7 +8856,15 @@ msgid ""
 "  puts get[:foo]\n"
 "  sleep 0.5\n"
 "end"
-msgstr "rrand"
+msgstr ""
+"live_loop :setter do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :getter do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 
 #: 10.1-Set-and-Get.md:70
 msgid ""
@@ -9284,33 +9283,28 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:47
-#, fuzzy
 msgid "`cue \"/foo/baz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:48
-#, fuzzy
 msgid "`cue \"/foo/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
 msgstr "Cependant, cela ne correspondrait pas avec ceci :"
 
 #: 10.3-Pattern-Matching.md:52
-#, fuzzy
 msgid "`cue \"/foo/flibble/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/flibble/baz\"`"
 
 #: 10.3-Pattern-Matching.md:53
-#, fuzzy
 msgid "`cue \"/foo/abaz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/abaz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:54
-#, fuzzy
 msgid "`cue \"/foo/beans/baz/eggs\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
 #, fuzzy
@@ -9334,19 +9328,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:69
-#, fuzzy
 msgid "`cue \"/foo/bar/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:70
-#, fuzzy
 msgid "`cue \"/foo/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz\"`"
 
 #: 10.3-Pattern-Matching.md:71
-#, fuzzy
 msgid "`cue \"/foo/a/b/c/d/e/f/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
@@ -9385,19 +9376,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:89
-#, fuzzy
 msgid "`cue \"/foo/bar/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/quux\"`"
 
 #: 10.3-Pattern-Matching.md:90
-#, fuzzy
 msgid "`cue \"/foo/beans/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/quux\"`"
 
 #: 10.3-Pattern-Matching.md:91
-#, fuzzy
 msgid "`cue \"/foo/eggs/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
@@ -9412,19 +9400,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
-#, fuzzy
 msgid "`cue \"/foo/aux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/aux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:100 10.3-Pattern-Matching.md:107
-#, fuzzy
 msgid "`cue \"/foo/bux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:101 10.3-Pattern-Matching.md:108
-#, fuzzy
 msgid "`cue \"/foo/cux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
 #, fuzzy
@@ -9434,14 +9419,12 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:109
-#, fuzzy
 msgid "`cue \"/foo/dux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/dux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:110
-#, fuzzy
 msgid "`cue \"/foo/eux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
@@ -9460,7 +9443,6 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
@@ -9468,7 +9450,13 @@ msgid ""
 "end\n"
 "sleep 1\n"
 "cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
-msgstr "sample :loop_amen"
+msgstr ""
+"in_thread do\n"
+"  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
