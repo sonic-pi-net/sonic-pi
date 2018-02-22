@@ -55,7 +55,7 @@ triggering will not be printed to the log by default.</source>
         <translation>Vklopi/izklopi zapis sporočil v dnevnik.
 Če je izklopljeno, dejavnosti kot je instrument
 in predvajanje vzorcev ne bodo zapisane
-v programski dnevnik.</translation>
+v dnevnik.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -73,8 +73,8 @@ v programski dnevnik.</translation>
 If enabled, the log is cleared each
 time the run button is pressed.</source>
         <translation>Vklopi/izklopi čiščenje dnevnika ob zagonu.
-Če je vklopljeno, bo programski dnevnik
-izpraznjen, ko klikneš gumb &quot;Zaženi&quot;.</translation>
+Če je vklopljeno, bo dnevnik izpraznjen,
+ko klikneš gumb &quot;Zaženi&quot;.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
@@ -677,12 +677,12 @@ Med zaganjanjem je prišlo do kritične napake</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Samodejno drsenje dnevnika vklopljeno...</translation>
+        <translation>Samodejno drsenje dnevnika vklopljeno …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Samodejno drsenje dnevnika izklopljeno...</translation>
+        <translation>Samodejno drsenje dnevnika izklopljeno …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
@@ -1142,7 +1142,7 @@ Namesti Sonic Pi %1</translation>
         <location filename="../ruby_help.h" line="913"/>
         <location filename="../ruby_help.h" line="995"/>
         <source>Tutorial</source>
-        <translation>Vaja</translation>
+        <translation>Vodnik</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1029"/>

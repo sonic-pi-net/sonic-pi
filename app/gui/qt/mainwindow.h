@@ -202,6 +202,8 @@ private slots:
     void updateMIDIInPorts(QString port_info);
     void updateMIDIOutPorts(QString port_info);
 
+    void showError(QString msg);
+    void showBufferCapacityError();
 private:
 
     void checkPort(int port);
@@ -225,7 +227,7 @@ private:
     std::string number_name(int);
     std::string workspaceFilename(SonicPiScintilla* text);
     SonicPiScintilla* filenameToWorkspace(std::string filename);
-    void sendOSC(oscpkt::Message m);
+    bool sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
     void refreshDocContent();

@@ -4,4 +4,6 @@ echo "We're working to update the build process for SP 2.11, this script hasn't 
 exit
 
 # need to run this script as root...
-apt-get install qt4-dev-tools cmake ruby-dev libqscintilla2-dev libqwt-qt5-dev libboost1.58-dev
+apt-get install qt4-dev-tools cmake ruby-dev libqscintilla2-dev libqwt-qt5-dev
+
+apt-get install qtbase5-dev-tools qttools5-dev-tools qt5-default  libqt5svg5 ruby-dev libffi-dev libqt5scintilla2-dev cmake libqt5svg5-dev libboost1.58-dev

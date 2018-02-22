@@ -69,6 +69,7 @@ module SonicPi
       @server_thread_id = ThreadId.new(-3)
       @live_synths = {}
       @live_synths_mut = Mutex.new
+      @latency = 0
 
       #TODO: Might want to make this available more globally so it can
       #be dynamically turned on and off
@@ -680,6 +681,10 @@ module SonicPi
       @osc_events.shutdown
     end
 
+    def set_latency!(latency)
+      @latency = latency.to_f / 1000.0
+    end
+
     def sched_ahead_time
       sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
       return sat if sat
@@ -688,7 +693,7 @@ module SonicPi
       i = __system_thread_locals.get(:sonic_pi_spider_thread_id_path, @server_thread_id)
       res = @state.get(t, 0, i, 0, 0, 60, :sched_ahead_time)
       raise "sched_ahead_time, can't get time. Is this a Sonic Pi thread? " unless res
-      return res.val
+      return res.val + @latency
     end
 
   end

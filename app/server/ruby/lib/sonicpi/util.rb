@@ -329,7 +329,7 @@ module SonicPi
     def erlang_boot_path
       case os
       when :windows
-        raise "Please implement me!"
+        erlang_bin_path = "\"#{File.join(native_path, "erlang", "bin", "erl.exe")}\""
       when :osx
         erlang_bin_path = File.join(native_path, "erlang", "erl")
         "\"#{ruby_path}\" \"#{erlang_bin_path}\""

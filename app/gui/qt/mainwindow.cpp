@@ -175,7 +175,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   show_rec_icon_a = false;
   restoreDocPane = false;
   focusMode = false;
-  version = "3.0.1";
+  version = "3.1.0";
   latest_version = "";
   version_num = 0;
   latest_version_num = 0;
@@ -399,7 +399,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   //setup autocompletion
   autocomplete->loadSamples(sample_path);
 
-  OscHandler* handler = new OscHandler(this, outputPane, errorPane, incomingPane, theme);
+  OscHandler* handler = new OscHandler(this, outputPane, incomingPane, theme);
 
   if(protocol == UDP){
     sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler, gui_listen_to_server_port);
@@ -418,20 +418,20 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     loadWorkspaces();
     requestVersion();
     toggleIcons();
-
-    splashClose();
-
-    showWindow();
     toggleScope();
     updatePrefsIcon();
     updateDarkMode();
     updateFullScreenMode();
-    showWelcomeScreen();
+
     changeSystemPreAmp(system_vol_slider->value(), 1);
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
+
+    splashClose();
+    showWindow();
+    showWelcomeScreen();
   }
 }
 
@@ -583,6 +583,11 @@ void MainWindow::setupWindowStructure() {
     connect(escape, SIGNAL(activated()), this, SLOT(escapeWorkspaces()));
     connect(escape2, SIGNAL(activated()), this, SLOT(escapeWorkspaces()));
 
+    //quick nav by jumping up and down 1 lines at a time
+    QShortcut *forwardOneLine = new QShortcut(ctrlKey('p'), workspace);
+    connect(forwardOneLine, SIGNAL(activated()), workspace, SLOT(forwardOneLine()));
+    QShortcut *backOneLine = new QShortcut(ctrlKey('n'), workspace);
+    connect(backOneLine, SIGNAL(activated()), workspace, SLOT(backOneLine()));
 
     //quick nav by jumping up and down 10 lines at a time
     QShortcut *forwardTenLines = new QShortcut(shiftMetaKey('u'), workspace);
@@ -597,11 +602,21 @@ void MainWindow::setupWindowStructure() {
     //Emacs live copy and cut
     QShortcut *copyToBuffer = new QShortcut(metaKey(']'), workspace);
     connect(copyToBuffer, SIGNAL(activated()), workspace, SLOT(copyClear()));
-    QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
-    connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
 
+    QShortcut *cutToBufferLive = new QShortcut(ctrlKey(']'), workspace);
+    connect(cutToBufferLive, SIGNAL(activated()), workspace, SLOT(sp_cut()));
+
+    // Standard cut
+    QShortcut *cutToBuffer = new QShortcut(ctrlKey('x'), workspace);
+    connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(sp_cut()));
+
+    // paste
     QShortcut *pasteToBufferWin = new QShortcut(ctrlKey('v'), workspace);
-    connect(pasteToBufferWin, SIGNAL(activated()), workspace, SLOT(paste()));
+    connect(pasteToBufferWin, SIGNAL(activated()), workspace, SLOT(sp_paste()));
+    QShortcut *pasteToBuffer = new QShortcut(metaKey('v'), workspace);
+    connect(pasteToBuffer, SIGNAL(activated()), workspace, SLOT(sp_paste()));
+    QShortcut *pasteToBufferEmacs = new QShortcut(ctrlKey('y'), workspace);
+    connect(pasteToBufferEmacs, SIGNAL(activated()), workspace, SLOT(sp_paste()));
 
     //comment line
     QShortcut *toggleLineComment= new QShortcut(metaKey('/'), workspace);
@@ -693,6 +708,7 @@ void MainWindow::setupWindowStructure() {
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
   prefsCentral = new QWidget;
+  prefsCentral->setObjectName("prefsCentral");
   prefsWidget->setWidget(prefsCentral);
   QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   prefsCentral->setSizePolicy(prefsSizePolicy);
@@ -717,7 +733,7 @@ void MainWindow::setupWindowStructure() {
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
   addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
   outputWidget->setObjectName("output");
-  incomingWidget->setObjectName("output");
+  incomingWidget->setObjectName("input");
 
   blankWidget = new QWidget();
   outputWidgetTitle = outputWidget->titleBarWidget();
@@ -773,6 +789,7 @@ void MainWindow::setupWindowStructure() {
   mainWidget->setFocusPolicy(Qt::NoFocus);
   errorPane->hide();
   mainWidget->setLayout(mainWidgetLayout);
+  mainWidget->setObjectName("mainWidget");
   setCentralWidget(mainWidget);
 
 }
@@ -1403,8 +1420,6 @@ void MainWindow::initPrefsWindow() {
   visit_sonic_pi_net = new QPushButton(tr("Get update"));
   visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
   visit_sonic_pi_net->setVisible(false);
-  check_updates_now->setMaximumWidth(110);
-  visit_sonic_pi_net->setMaximumWidth(150);
 
   QGroupBox *update_info_box = new QGroupBox(tr("Update Info"));
   update_info_box->setMaximumWidth(350);
@@ -1811,6 +1826,20 @@ void MainWindow::runBufferIdx(int idx)
   runCode();
 }
 
+void MainWindow::showError(QString msg) {
+  QString style_sheet = "qrc:///html/styles.css";
+  if(dark_mode->isChecked()) {
+    style_sheet = "qrc:///html/dark_styles.css";
+  }
+  errorPane->clear();
+  errorPane->setHtml("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body>"  + msg + "</body></html>");
+  errorPane->show();
+}
+
+void MainWindow::showBufferCapacityError() {
+  showError("<h2 class=\"syntax_error_description\"><pre>GUI Error: Buffer Full</pre></h2><pre class=\"error_msg\"> Your code buffer has reached capacity. <br/> Please remove some code before continuing. <br/><span class=\"error_line\"> For working with very large buffers use: <br/> load_file \"/path/to/buffer.rb\"</span></pre>");
+}
+
 void MainWindow::runCode()
 {
   scopeInterface->resume();
@@ -1827,24 +1856,10 @@ void MainWindow::runCode()
   newOutputCursor.movePosition(QTextCursor::End);
   outputPane->setTextCursor(newOutputCursor);
 
-
-
   update();
-  if(auto_indent_on_run->isChecked()) {
-    beautifyCode();
-  }
   SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
-  ws->highlightAll();
-  lexer->highlightAll();
-  ws->clearLineMarkers();
-  resetErrorPane();
-  statusBar()->showMessage(tr("Running Code..."), 1000);
-  std::string code = ws->text().toStdString();
-  Message msg("/save-and-run-buffer");
-  msg.pushStr(guiID.toStdString());
 
-  std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
-  msg.pushStr(filename);
+  QString code = ws->text();
 
   if(!print_output->isChecked()) {
     code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
@@ -1859,26 +1874,47 @@ void MainWindow::runCode()
   }
 
   if(enable_external_synths_cb->isChecked()) {
-     code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+    code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
   if(synth_trigger_timing_guarantees_cb->isChecked()) {
-     code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+    code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
-  code = "use_midi_defaults channel: \"" + midi_default_channel_combo->currentText().toStdString() + "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  code = "use_midi_defaults channel: \"" + midi_default_channel_combo->currentText() + "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
 
+  if(auto_indent_on_run->isChecked()) {
+    beautifyCode();
+  }
+
+  ws->highlightAll();
+  lexer->highlightAll();
+  QTimer::singleShot(500, this, SLOT(unhighlightCode()));
+  ws->clearLineMarkers();
+  resetErrorPane();
+
+  //std::string code = ws->text().toStdString();
+  Message msg("/save-and-run-buffer");
+  msg.pushStr(guiID.toStdString());
+
+  std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
+  msg.pushStr(filename);
 
   if(clear_output_on_run->isChecked()){
     outputPane->clear();
   }
 
-
-  msg.pushStr(code);
+  msg.pushStr(code.toStdString());
   msg.pushStr(filename);
-  sendOSC(msg);
+  bool res = sendOSC(msg);
 
-  QTimer::singleShot(500, this, SLOT(unhighlightCode()));
+  if(!res){
+    showBufferCapacityError();
+    return;
+  }
+
+  statusBar()->showMessage(tr("Running Code..."), 1000);
+
 }
 
 void MainWindow::unhighlightCode()
@@ -1924,11 +1960,14 @@ void MainWindow::beautifyCode()
 }
 
 
-void MainWindow::sendOSC(Message m)
+bool MainWindow::sendOSC(Message m)
 {
-  oscSender->sendOSC(m);
+  bool res = oscSender->sendOSC(m);
+  if(!res) {
+    std::cout << "[GUI] - Could Not Send OSC" << std::endl;
+  }
+  return res;
 }
-
 
 void MainWindow::reloadServerCode()
 {
@@ -2784,16 +2823,16 @@ void MainWindow::createInfoPane() {
   QStringList urls, tabs;
 
   urls << "qrc:///html/info.html"
+       << "qrc:///info/COMMUNITY.html"
        << "qrc:///info/CORETEAM.html"
        << "qrc:///info/CONTRIBUTORS.html"
-       << "qrc:///info/COMMUNITY.html"
        << "qrc:///info/LICENSE.html"
        << "qrc:///info/CHANGELOG.html";
 
   tabs << tr("About")
+       << tr("Community")
        << tr("Core Team")
        << tr("Contributors")
-       << tr("Community")
        << tr("License")
        << tr("History");
 
@@ -2802,7 +2841,6 @@ void MainWindow::createInfoPane() {
     infoPanes.append(pane);
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
-    pane->setFixedSize(600, 615);
     pane->setSource(QUrl(urls[t]));
     infoTabs->addTab(pane, tabs[t]);
   }
@@ -2817,6 +2855,7 @@ void MainWindow::createInfoPane() {
   infoWidg->setLayout(infoLayout);
   infoWidg->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
   infoWidg->setWindowTitle(tr("Sonic Pi - Info"));
+  infoWidg->setFixedSize(660, 640);
 
   connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 

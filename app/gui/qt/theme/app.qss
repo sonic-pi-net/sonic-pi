@@ -36,7 +36,19 @@ Available Style Colours:
 - fixedWidthFont
 */
 
+#prefsCentral {
+  background: paneColor;
+}
 
+QSplitter {
+
+ background: paneColor;
+
+}
+
+QSplitter::handle:horizontal {
+  background: windowBorderColor;
+}
 
 QFrame {
     border: none;
@@ -44,7 +56,7 @@ QFrame {
 
 QLabel{
     border: none;
-    /* border: 1px solid green; */
+
 }
 
 
@@ -75,78 +87,6 @@ QSplitter::handle:horizontal {
 
 
 
-QScrollBar:horizontal {
-    border: 2px scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
-    height: 15px;
-    margin: 0px 20px 0 20px;
-}
-QScrollBar::handle:horizontal {
-    background: scrollBarColor;
-    min-width: 20px;
-    border: 2px solid paneColor;
-}
-QScrollBar::add-line:horizontal {
-    border: 2px scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
-    width: 20px;
-    subcontrol-position: right;
-    subcontrol-origin: margin;
-}
-
-QScrollBar::sub-line:horizontal {
-    border: 2px scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
-    width: 20px;
-
-    subcontrol-position: left;
-    subcontrol-origin: margin;
-}
-
-QScrollBar:vertical {
-    border: 2px scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
-
-    width: 15px;
-    margin: 22px 0 22px 0;
-}
-
-QScrollBar::handle:vertical {
-    background: scrollBarColor;
-
-    min-height: 30px;
-    border: 2px solid paneColor;
-}
-QScrollBar::add-line:vertical {
-    background: none;
-    border: none;
-    height: 20px;
-    subcontrol-position: bottom;
-    subcontrol-origin: margin;
-}
-QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
-    width: 3px;
-    height: 3px;
-    background: none;
-    border: none;
-}
-
-QScrollBar::sub-line:vertical {
-    background: none;
-    border: none;
-    height: 20px;
-    subcontrol-position: top;
-    subcontrol-origin: margin;
-}
-
-QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-    background: none;
-}
-
-QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-    background: none;
-}
-
 QTabBar::tab{
     background: tabColor;
     color: tabTextColor;
@@ -167,7 +107,8 @@ QTabWidget::pane{
 
 QDockWidget::title{
     color: windowForegroundColor;
-    border-bottom: 1px solid windowBorderColor;
+    /*border-bottom: 3px solid windowBorderColor;*/
+    border: 0px;
     text-align: center;
     background: windowColor;
     font-size 10px;
@@ -241,15 +182,6 @@ QPlainTextEdit{
 }
 
 
-QGroupBox:title{
-    subcontrol-origin: margin;
-    top:0px;
-    padding: 0px 0 20px 5px;
-    font-size: 11px;
-    color: windowForegroundColor;
-    background-color: windowColor;
-}
-
 QCheckBox:hover{
     color: windowForegroundColor;
     background: windowColor;
@@ -275,18 +207,21 @@ QGroupBox{
     margin-top: 15px;
     margin-bottom: 0px;
     font-size: 11px;
+    font-weight: italic;
+    font: bold ;
     background-color: windowColor;
-    border: 1px solid windowInternalBorderColor;
-    color: windowForegroundColor;
+    border: 5px solid windowInternalBorderColor;
 }
 
 
 QDockWidget QListView {
     color: windowForegroundColor;
-    background: paneColor;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
+    outline: 10px;
 }
+
+
 
 
 
@@ -294,14 +229,14 @@ QTextBrowser {
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
 
-    padding: 20;
+    padding: 20px;
     background-color: paneColor;
 }
 
 QListWidget
 {
-    background: paneColor;
     border: 1px solid menuSelectedColor;
+    background: paneColor;
     font-size: 14px;
     min-width: 500px;
     font-family: fixedWidthFont;
@@ -373,7 +308,7 @@ QLabel[accessibleName="midi-out-ports-label"] {
 
 QToolBar{
     background-color: windowColor;
-    border-bottom: 1px solid windowBorderColor;
+    border-bottom: 0px;
 }
 
 QToolButton{
@@ -384,7 +319,84 @@ QToolButton{
 }
 
 QToolButton::hover {
-    background-color: paneColor;
+    background-color: windowBorderColor;
     border: none;
     padding: 0px;
+}
+
+
+QGroupBox:title{
+    subcontrol-origin: margin;
+    top: 0px;
+    padding: 10px 10px 20px 5px;
+    color: windowForegroundColor;
+    font-weight: bold;
+    background-color: windowColor;
+}
+
+
+QScrollBar:vertical {
+    background: transparent;
+    width: 10px;
+    padding: 0 0 20px 0;
+    margin: 22px 0 22px 0;
+}
+
+QScrollBar::handle:vertical {
+    background: scrollBarColor;
+    border-top: 4px;
+    border-bottom: 4px;
+    min-height: 39px;
+}
+
+QScrollBar::add-line:vertical {
+    border-top: solid 5px transparent;
+    background: none;
+    height: 20px;
+    subcontrol-position: bottom;
+    subcontrol-origin: padding;
+}
+QScrollBar::sub-line:vertical {
+    border: none;
+    background: none;
+    height: 20px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QScrollBar:horizontal {
+    border: 2px scrollBarBackgroundColor;
+    background: none;
+    height: 15px;
+    margin: 0px 20px 0 20px;
+}
+QScrollBar::handle:horizontal {
+    background: scrollBarColor;
+    min-width: 20px;
+    border: 2px solid paneColor;
+}
+QScrollBar::add-line:horizontal {
+    border: 2px scrollBarBackgroundColor;
+    background: none;
+    width: 20px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+    border: 2px scrollBarBackgroundColor;
+    background: scrollBarBackgroundColor;
+    width: 20px;
+
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
 }

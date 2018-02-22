@@ -81,10 +81,15 @@ Links to original samples:
 ## Percussion
 
 * `:perc_bell` - http://freesound.org/people/AlaskaRobotics/sounds/221515/
+* `:perc_bell_2`- https://freesound.org/people/hullum/sounds/415559/
 * `:perc_snap` - http://www.freesound.org/people/SoundCollectah/sounds/109400/
 * `:perc_snap2` - http://www.freesound.org/people/Peram/sounds/158615/
 * `:perc_swash` - http://freesound.org/people/qubodup/sounds/60009/
 * `:perc_till` - http://freesound.org/people/Zott820/sounds/209578/
+* `:perc_door` - https://freesound.org/people/hullum/sounds/415579/
+* `:perc_impact_1` - https://freesound.org/people/hullum/sounds/415578/
+* `:perc_impact_2` - https://freesound.org/people/hullum/sounds/415581/
+* `:perc_swoosh` - https://freesound.org/people/hullum/sounds/415580/
 
 
 ## Ambient
@@ -99,6 +104,7 @@ Links to original samples:
 * `:ambi_lunar_land` - http://freesound.org/people/maqsim/sounds/172157/
 * `:ambi_dark_woosh` - http://freesound.org/people/EcoDTR/sounds/27281/
 * `:ambi_choir` - http://freesound.org/people/Exsomniel/sounds/207809/
+* `:ambi_sauna` - https://freesound.org/people/hullum/sounds/415551/
 
 
 ## Bass
@@ -128,6 +134,7 @@ Links to original samples:
 * `:bd_fat` - http://freesound.org/people/cubix/sounds/124386/
 * `:bd_tek` - http://freesound.org/people/DWSD/sounds/171104/
 * `:bd_ada` - http://www.freesound.org/people/adammusic18/sounds/208871/
+* `:bd_mehackit` - https://freesound.org/people/hullum/sounds/415550/
 
 
 ## Snares
@@ -135,6 +142,7 @@ Links to original samples:
 * `:sn_dub` - http://freesound.org/people/Adriak909/sounds/173142/
 * `:sn_dolf` - http://freesound.org/people/Dolfeus/sounds/57534/
 * `:sn_zome` - http://freesound.org/people/Dolfeus/sounds/55232/
+* `:sn_generic` - https://freesound.org/people/hullum/sounds/415582/
 
 
 ## Loops
@@ -148,6 +156,14 @@ Links to original samples:
 * `:loop_breakbeat` - http://freesound.org/people/Snapper4298/sounds/160354/
 * `:loop_safari` - http://freesound.org/people/nemaavla/sounds/318759/
 * `:loop_tabla` - http://freesound.org/people/lezaarth/sounds/242591/
+* `:loop_3dprinter` - https://freesound.org/people/hullum/sounds/415571/
+* `:loop_drone_g_97` - https://freesound.org/people/hullum/sounds/415570/
+* `:loop_electric` - https://freesound.org/people/hullum/sounds/415569/
+* `:loop_mehackit_1` - https://freesound.org/people/hullum/sounds/415568/
+* `:loop_mehackit_2` - https://freesound.org/people/hullum/sounds/415575/
+* `:loop_perc_1` - https://freesound.org/people/hullum/sounds/415574/
+* `:loop_perc_2` - https://freesound.org/people/hullum/sounds/415573/
+* `:loop_weirdo` - https://freesound.org/people/hullum/sounds/415572/
 
 
 ## Tabla
@@ -186,3 +202,31 @@ Links to original samples:
 * `:vinyl_rewind` - http://freesound.org/people/TasmanianPower/sounds/162493/
 * `:vinyl_scratch` - http://freesound.org/people/hello_flowers/sounds/28681/
 * `:vinyl_hiss` - http://freesound.org/people/veezay/sounds/130393/
+
+
+# Glitchy sounds
+
+* `:glitch_bass_g` - https://freesound.org/people/hullum/sounds/415549/
+* `:glitch_perc_1` - https://freesound.org/people/hullum/sounds/415548/
+* `:glitch_perc_2` - https://freesound.org/people/hullum/sounds/415555/
+* `:glitch_perc_3` - https://freesound.org/people/hullum/sounds/415554/
+* `:glitch_perc_4` - https://freesound.org/people/hullum/sounds/415553/
+* `:glitch_perc_5` - https://freesound.org/people/hullum/sounds/415552/
+* `:glitch_robot_1` - https://freesound.org/people/hullum/sounds/415557/
+* `:glitch_robot_2` - https://freesound.org/people/hullum/sounds/415556/
+
+
+# Mehackit sounds
+
+* `:mehackit_phone_1` - https://freesound.org/people/hullum/sounds/415577/
+* `:mehackit_phone_2` - https://freesound.org/people/hullum/sounds/415576/
+* `:mehackit_phone_3` - https://freesound.org/people/hullum/sounds/415562/
+* `:mehackit_phone_4` - https://freesound.org/people/hullum/sounds/415563/
+* `:mehackit_robot_1` - https://freesound.org/people/hullum/sounds/415560/
+* `:mehackit_robot_2` - https://freesound.org/people/hullum/sounds/415561/
+* `:mehackit_robot_3` - https://freesound.org/people/hullum/sounds/415566/
+* `:mehackit_robot_4` - https://freesound.org/people/hullum/sounds/415567/
+* `:mehackit_robot_5` - https://freesound.org/people/hullum/sounds/415564/
+* `:mehackit_robot_6` - https://freesound.org/people/hullum/sounds/415565/
+* `:mehackit_robot_7` - https://freesound.org/people/hullum/sounds/415558/
+

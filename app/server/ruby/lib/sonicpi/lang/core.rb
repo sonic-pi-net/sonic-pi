@@ -1558,31 +1558,49 @@ end"
       ]
 
 
-
+      # helper for spread
+      def redistribute(v1, v2)
+        vNew = []
+        while v1.length > 0 && v2.length > 0
+          a1 = v1.shift
+          a2 = v2.shift
+          vNew.unshift(a1 + a2)
+        end
+        if v1.length > 0 then
+          [vNew, v1]
+        else
+          [vNew, v2] # v2 might be empty, but that's fine
+        end
+      end
 
       def spread(num_accents, size, *args)
         args_h = resolve_synth_opts_hash_or_array(args)
         beat_rotations = args_h[:rotate]
         res = []
-        # if someone requests 9 accents in a bar of 8 beats
+        # if someone requests 8 or more accents in a bar of 8 beats
         # default to filling the output with accents
-        if num_accents > size
+        # (rotation is futile here)
+        if num_accents >= size # changed to >=, so v2 is not empty below
           res = [true] * size
           return res.ring
         end
-
-        size.times do |i|
-          # makes a boolean based on the index
-          # true is an accent, false is a rest
-          res << ((i * num_accents % size) < num_accents)
+        
+        # new part
+        v1 = [[true]] * num_accents
+        v2 = [[false]] * (size - num_accents)
+        # If v2 not empty (thats given here), call at least once.
+        (v1, v2) = redistribute(v1,v2)
+        # End condition: v2 empty or has just one element
+        while v2.length > 1
+          (v1, v2) = redistribute(v1,v2)
         end
-
+        res = (v1 + v2).flatten
+        
         if beat_rotations && beat_rotations.is_a?(Numeric)
           beat_rotations = beat_rotations.abs
-          while beat_rotations > 0 do
+          while beat_rotations > 0
             beat_rotations -= 1 if res.rotate!.first == true
           end
-
           res.ring
         else
           res.ring
@@ -1666,6 +1684,8 @@ end"
 
 
       def range(start, finish, *args)
+        start = start.to_f
+        finish = finish.to_f
         if is_list_like?(args) && args.size == 1 && args.first.is_a?(Numeric)
           # Allow one optional arg for legacy reasons. Versions earlier
           # than v2.5 allowed: range(1, 10, 2)
@@ -1673,7 +1693,8 @@ end"
           inclusive = false
         else
           args_h = resolve_synth_opts_hash_or_array(args)
-          step_size = args_h[:step] || 1
+          step_size = args_h[:step] || 1.0
+          step_size = step_size.to_f
           inclusive = args_h[:inclusive]
         end
 
@@ -1731,6 +1752,8 @@ end"
 
 
       def line(start, finish, *args)
+        start = start.to_f
+        finish = finish.to_f
         return [].ring if start == finish
         args_h = resolve_synth_opts_hash_or_array(args)
         num_slices = args_h[:steps] || 4
@@ -1755,7 +1778,7 @@ end"
                            :inclusive => "boolean value representing whether or not to include finish value in line"},
           accepts_block:  false,
           memoize: true,
-          doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to `8`. Indexes wrap around positively and negatively. Similar to `range`.",
+          doc:            "Create a ring buffer representing a straight line between start and finish of steps elements. Steps defaults to `4`. Indexes wrap around positively and negatively. Similar to `range`.",
           examples:       [
         "(line 0, 4, steps: 4)    #=> (ring 0.0, 1.0, 2.0, 3.0)",
         "(line 5, 0, steps: 5)    #=> (ring 5.0, 4.0, 3.0, 2.0, 1.0)",
@@ -2393,7 +2416,7 @@ puts slept #=> Returns false as there were no sleeps in the block"]
 
 Note, all code within the block is executed in its own thread. Therefore despite inheriting all thread locals such as the random stream and ticks, modifications will be isolated to the block and will not affect external code.
 
-`at is just-in-time scheduling using multiple isolated threads. See `time_warp` for ahead-of-time scheduling within the current thread",
+`at` is just-in-time scheduling using multiple isolated threads. See `time_warp` for ahead-of-time scheduling within the current thread.",
           args:           [[:times, :list],
                            [:params, :list]],
           opts:           nil,
@@ -4237,215 +4260,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def in_thread(*opts, &block)
-        args_h = resolve_synth_opts_hash_or_array(opts)
-        name = args_h[:name]
-        delay = args_h[:delay]
-        sync_sym = args_h[:sync]
-        sync_bpm_sym = args_h[:sync_bpm]
-        sync_sym = nil if sync_bpm_sym
-
-        raise ArgumentError, "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
-
-        parent_t = Thread.current
-
-        # Get copy of thread locals whilst we're sure they're not being modified
-        # as we're in the thread parent_t
-
-        job_id = __current_job_id
-        reg_with_parent_completed = Promise.new
-        subthread_added_prom = Promise.new
-
-        if args_h[:seed]
-          new_rand_seed = args_h[:seed]
-        else
-          new_thread_gen_idx = __thread_locals.get :sonic_pi_spider_new_thread_random_gen_idx
-          new_rand_seed = SonicPi::Core::SPRand.rand!(441000, new_thread_gen_idx)
-          __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, new_thread_gen_idx + 1
-        end
-
-        new_tls = SonicPi::Core::ThreadLocal.new(__thread_locals, SonicPi::Core::SPRand.tl_seed_map(new_rand_seed + SonicPi::Core::SPRand.get_seed, 0))
-
-        new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
-
-
-        n_threads_spawned = __system_thread_locals.get :sonic_pi_spider_num_threads_spawned
-        __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, n_threads_spawned + 1
-        thread_id_path = __system_thread_locals.get :sonic_pi_spider_thread_id_path
-        new_thread_id_path = thread_id_path << n_threads_spawned
-
-        # Create the new thread
-        t = nil
-        __no_kill_block do
-
-
-          t = Thread.new do
-            # Copy thread locals across from parent thread to this new thread
-            __thread_locals_reset!(new_tls)
-            __system_thread_locals_reset!(new_system_tls)
-            __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
-            __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
-            __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
-            __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
-
-            # Thread locals used for waiting for threads (essential for Time State's determinism)
-            __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
-            __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
-
-            main_t = Thread.current
-            main_t.priority = 10
-
-            # Thread GC - will wait for main thread to finish and then execute
-            Thread.new do
-              if name
-                __system_thread_locals.set_local(:sonic_pi_local_thread_group, "in_thread_join_#{name}".freeze)
-              else
-                __system_thread_locals.set_local(:sonic_pi_local_thread_group, :in_thread_join)
-              end
-              Thread.current.priority = -10
-
-              main_t.join
-
-              # remove any un-matched event matchers created
-              # by the thread we're currently cleaning up
-              # after:
-              @event_history.prune(new_thread_id_path)
-
-              # Remove any time state waiters
-              __system_thread_locals(main_t).get(:sonic_pi_spider_time_change).synchronize do
-                __system_thread_locals(main_t).get(:sonic_pi_spider_state_waiters).delete_if do |w|
-                  w[:prom].deliver! true
-                end
-              end
-
-
-              # wait for all subthreads to finish before removing self from
-              # the parent subthread tree
-              __join_subthreads(main_t)
-
-              __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-                __current_subthreads.delete(main_t)
-              end
-            end
-
-            __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
-
-            __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
-            __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
-            __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-
-
-            # Reset subthreads thread local to the empty set. This shouldn't
-            # be inherited from the parent thread.
-            __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
-
-            # Give new thread a new subthread mutex
-            __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-
-            # Give new thread a new no_kill mutex This reduces contention
-            # over the alternative of a global no_kill mutex.  Killing a Run
-            # then essentially turns into waiting for each no_kill mutext for
-            # every sub-in_thread before killing them.
-            __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
-
-
-            # Wait for parent to deliver promise. Throws an exception if
-            # parent dies before the promise is delivered, thus stopping
-            # this thread from continually waiting for forgotten promises...
-            wait_for_parent_thread!(parent_t, reg_with_parent_completed)
-
-            # Attempt to associate the current thread with job with
-            # job_id. This will kill the current thread if job is no
-            # longer running or if there already exists a name thread
-            # with this same name
-            added_subthread_prom = Promise.new
-            main_in_thread = Thread.current
-
-            subthread_added_deliver_thread = Thread.new do
-              # The following line after this block will attempt to add
-              # the thread to the list of job subthreads but that action
-              # will potentially terminate the current thread if the
-              # main job isn't running or if there already exists a
-              # similarly named thread. Therefore we attempt to join on
-              # its death here to ensure we deliver the subthread_added
-              # promise both in the case where the main thread dies as
-              # explained above or in the case where it doesn't die :-)
-              main_in_thread.join
-              subthread_added_prom.deliver! true
-            end
-
-            job_subthread_add(job_id, main_in_thread, name)
-
-            # Thread didn't die! Deliver promise and tidy up delivery
-            # thread
-            subthread_added_prom.deliver! true
-            subthread_added_deliver_thread.kill
-
-
-            # Actually run the thread code specified by the user!
-            begin
-              sleep delay if delay
-              sync sync_sym if sync_sym
-              sync_bpm sync_bpm_sym if sync_bpm_sym
-
-              block.call
-              # ensure delayed jobs and messages are honoured for this
-              # thread:
-              __schedule_delayed_blocks_and_messages!
-            rescue Stop => e
-              if name
-                __info("Stopping thread #{name.inspect}")
-              else
-                __delayed_message("Stopped internal thread")
-              end
-              __schedule_delayed_blocks_and_messages!
-              __current_tracker.get
-              job_subthread_rm(job_id, Thread.current)
-              raise e
-            rescue Exception => e
-              if name
-                __error e, "Thread death +--> #{name.inspect}"
-              else
-                __error e, "Thread death!"
-              end
-
-              # Wait for any trackers by blocking on all promises until
-              # All have been delivered
-              __current_tracker.get
-              __schedule_delayed_blocks_and_messages!
-              job_subthread_rm(job_id, Thread.current)
-              raise e
-            else
-
-              # Wait for any trackers by blocking on all promises until
-              # All have been delivered
-              __current_tracker.get
-
-              # Disassociate thread with job as it has now finished
-              job_subthread_rm(job_id, Thread.current)
-            end
-          end
-
-          # Whilst we know that the new thread is waiting on the promise to
-          # be delivered, we can now add it to our list of subthreads. Using
-          # the promise means that we can be assured that killing this
-          # current thread won't create a zombie child thread as the child
-          # thread will only continue exiting after it has been sucessfully
-          # registered.
-
-          __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-            subthreads = __system_thread_locals(parent_t).get :sonic_pi_local_spider_subthreads
-            subthreads.add(t)
-          end
-
-          # Allow the subthread to continue running
-          reg_with_parent_completed.deliver! true
-
-          # Wait for thread to be registered before continuing...
-          subthread_added_prom.get
-        end
-
-        # Return subthread
-        t
+        __in_thread(*opts, &block)
       end
       doc name:           :in_thread,
           introduced:     Version.new(2,0,0),

@@ -20,11 +20,10 @@
 
 #include <QTextEdit>
 
-OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane, QTextEdit *errorPane, SonicPiLog *incomingPane, SonicPiTheme *theme)
+OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane,  SonicPiLog *incomingPane, SonicPiTheme *theme)
 {
     window = parent;
     out = outPane;
-    error = errorPane;
     incoming = incomingPane;
     signal_server_stop = false;
     server_started = false;
@@ -129,19 +128,11 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         int line;
         std::string desc;
         std::string backtrace;
-        QString style_sheet = "qrc:///html/styles.css";
-        if(window->dark_mode->isChecked()) {
-          style_sheet = "qrc:///html/dark_styles.css";
-        }
         if (msg->arg().popInt32(job_id).popStr(desc).popStr(backtrace).popInt32(line).isOkNoMoreArgs()) {
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
           QMetaObject::invokeMethod( window, "setLineMarkerinCurrentWorkspace", Qt::QueuedConnection, Q_ARG(int, line));
-          QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
-          QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
-          QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection,
-                                     Q_ARG(QString, "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"error_description\"><pre>Runtime Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"backtrace\">" + QString::fromStdString(backtrace) + "</pre></body></html>") );
-
+          QMetaObject::invokeMethod( window, "showError", Q_ARG(QString, "<h2 class=\"error_description\"><pre>Runtime Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"backtrace\">" + QString::fromStdString(backtrace) + "</pre>"));
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
         }
@@ -152,26 +143,18 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         std::string desc;
         std::string error_line;
         std::string line_num_s;
-        QString style_sheet = "qrc:///html/styles.css";
-        if(window->dark_mode->isChecked()) {
-          style_sheet = "qrc:///html/dark_styles.css";
-        }
         if (msg->arg().popInt32(job_id).popStr(desc).popStr(error_line).popInt32(line).popStr(line_num_s).isOkNoMoreArgs()) {
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-          QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
           QMetaObject::invokeMethod( window, "setLineMarkerinCurrentWorkspace", Qt::QueuedConnection, Q_ARG(int, line));
 
-          QString html_response = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_msg\">";
+          QString html_response = "<h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_msg\">";
           if(line == -1) {
-            html_response = html_response + "</span></pre></body></html>";
+            html_response = html_response + "</span></pre>";
           } else {
-            html_response = html_response + "[Line " + QString::fromStdString(line_num_s) + "]: <span class=\"error_line\">" + QString::fromStdString(error_line) + "</span></pre></body></html>";
+            html_response = html_response + "[Line " + QString::fromStdString(line_num_s) + "]: <span class=\"error_line\">" + QString::fromStdString(error_line) + "</span></pre>";
               }
-
-          QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
-          QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection, Q_ARG(QString, html_response) );
-
+          QMetaObject::invokeMethod( window, "showError", Q_ARG(QString, html_response));
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
         }

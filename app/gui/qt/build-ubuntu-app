@@ -4,7 +4,7 @@
 set -e
 
 #Application/library versions built by this script.
-SUPERCOLLIDER_VERSION=3.8.0
+SUPERCOLLIDER_VERSION=3.9.0
 SC_PLUGINS_VERSION=${SUPERCOLLIDER_VERSION}
 AUBIO_VERSION=0.4.5
 OSMID_VERSION=391f35f789f18126003d2edf32902eb714726802
@@ -28,7 +28,7 @@ sudo apt-get install -y \
      libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default \
      qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev \
      qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev libffi-dev \
-     curl python erlang-base
+     libqt5opengl5-dev curl python erlang-base
 
 ### IF YOU HAVE PROBLEMS WITH qwt
 #cd $SP_APP_SRC/../../../../
@@ -77,7 +77,7 @@ sudo make install
 
 #Install libaubio (apt-get version is too old)
 cd ${SP_ROOT}
-git clone https://git.aubio.org/git/aubio/ || true
+git clone https://git.aubio.org/aubio/aubio/ || true
 cd aubio
 git checkout ${AUBIO_VERSION}
 make getwaf
@@ -99,15 +99,29 @@ install m2o o2m -t ${OSMID_DIR}
 
 #Build Erlang files
 cd ${SP_APP_SRC}/../../server/erlang
+#The current implementation of osc.erl uses Erlang features that require
+#at least Erlang 19.1 to be installed. 16.04 LTS is currently at 18.3.
+#If versions < 19.1 are installed, and we use the current code, the MIDI
+#implementation breaks because the Erlang OSC router is failing.
+ERLANG_VERSION=$(./print_erlang_version)
+if [ -e "osc.erl.orig" ]; then
+    # Handle, if the original file in the source tree ever gets updated.
+    rm osc.erl.orig
+    git checkout osc.erl
+fi
+if [[ "${ERLANG_VERSION}" < "19.1" ]]; then
+    echo "Found Erlang version < 19.1 (${ERLANG_VERSION})! Updating source code."
+    sed -i.orig 's|erlang:system_time(nanosecond)|erlang:system_time(nano_seconds)|' osc.erl
+fi
 erlc osc.erl
 erlc pi_server.erl
 
 #Build sonic-pi server extensions, documentation, and binary.
 cd ${SP_APP_SRC}
-../../server/bin/compile-extensions.rb
-../../server/bin/i18n-tool.rb -t
+../../server/ruby/bin/compile-extensions.rb
+../../server/ruby/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
-../../server/bin/qt-doc.rb -o ruby_help.h
+../../server/ruby/bin/qt-doc.rb -o ruby_help.h
 lrelease SonicPi.pro
 qmake -qt=qt5 SonicPi.pro
 make

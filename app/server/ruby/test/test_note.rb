@@ -54,6 +54,20 @@ module SonicPi
       assert_equal(60, Note.resolve_midi_note("C6", 4))
     end
 
+    def test_resolution_of_strings_prefixed_with_colons
+      assert_equal(12, Note.resolve_midi_note(":C", 0))
+      assert_equal(0, Note.resolve_midi_note(":C", -1))
+      assert_equal(60, Note.resolve_midi_note(":C", 4))
+      assert_equal(60, Note.resolve_midi_note(":c", 4))
+      assert_equal(61, Note.resolve_midi_note(":Cs", 4))
+      assert_equal(61, Note.resolve_midi_note(":cs", 4))
+      assert_equal(61, Note.resolve_midi_note(":Cs4"))
+      assert_equal(61, Note.resolve_midi_note(":cs4"))
+      assert_equal(60, Note.resolve_midi_note(":C4"))
+      assert_equal(60, Note.resolve_midi_note(":C4", 4))
+      assert_equal(60, Note.resolve_midi_note(":C6", 4))
+    end
+
     def test_resolution_of_name
       assert_equal(:C, Note.resolve_note_name(60))
       assert_equal(:C, Note.resolve_note_name(:C4))

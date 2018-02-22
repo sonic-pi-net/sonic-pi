@@ -11,9 +11,9 @@ ln -s app/server .
 mkdir -p app/gui/qt
 cp -R ../../../../../app/gui/qt/theme app/gui/qt/
 
-../../../../../app/gui/qt/prune.rb app/server/vendor
+../../../../../app/gui/qt/prune.rb app/server/ruby/vendor
 
-cd app/server/native/osx/osmid
+cd app/server/native/osmid
 
 rm m2o o2m
 cp /Users/sam/Development/osmid/build/m2o m2o

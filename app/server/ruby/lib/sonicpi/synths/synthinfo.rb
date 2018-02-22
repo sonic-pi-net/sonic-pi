@@ -3041,8 +3041,8 @@ Steal This Sound,  Mitchell Sigman"
 
           :attack => 0,
           :decay => 0,
-          :sustain => 1,
-          :release => 0,
+          :sustain => 0,
+          :release => 1,
           :attack_level => 1,
           :decay_level => :sustain_level,
           :sustain_level => 1,
@@ -3089,7 +3089,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "Slightly modified supersaw implementation beased on http://sccode.org/1-4YS"
+        "Slightly modified supersaw implementation based on http://sccode.org/1-4YS"
       end
 
       def arg_defaults
@@ -4683,7 +4683,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
           :room =>
           {
             :doc => "The room size in squared metres",
-            :validations => [v_greater_than_oet(:room, 0)],
+            :validations => [v_greater_than_oet(:room, 1)],
             :modulatable => true
           },
 
@@ -6832,6 +6832,11 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         false
       end
 
+
+      def doc
+        "Forces all audio through a hyperbolic tangent function which has the effect of acting like distorted limiter. It works by folding loud signals back in on itself. The louder the input signal, the more folding occurs - resulting in increased strange harmonics and distortion. This folding also has the effect of limiting the outgoing signal, therefore to increase the output amplitude use the `amp:` opt and to increase the folding/distortion use the `pre_amp:` opt. "
+      end
+
       def arg_defaults
         super.merge({
           :krunch => 5,
@@ -7238,7 +7243,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :phase_offset => 0,
           :wave => 2,
           :invert_wave => 0,
-          :depth => 5,
+          :depth => 0.5,
           :depth_slide => 0,
           :depth_slide_shape => 1,
           :depth_slide_curve => 0
@@ -7376,10 +7381,15 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :prefix => "perc_",
           :samples => [
             :perc_bell,
+            :perc_bell2,
             :perc_snap,
             :perc_snap2,
             :perc_swash,
-            :perc_till]},
+            :perc_till,
+            :perc_door,
+            :perc_impact1,
+            :perc_impact2,
+            :perc_swoosh]},
 
         :ambi => {
           :desc => "Ambient Sounds",
@@ -7394,7 +7404,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :ambi_piano,
             :ambi_lunar_land,
             :ambi_dark_woosh,
-            :ambi_choir]},
+            :ambi_choir,
+            :ambi_sauna]},
 
         :bass => {
           :desc => "Bass Sounds",
@@ -7415,7 +7426,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :samples => [
             :sn_dub,
             :sn_dolf,
-            :sn_zome]},
+            :sn_zome,
+            :sn_generic]},
 
         :bd => {
           :desc => "Bass Drums",
@@ -7432,7 +7444,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :bd_boom,
             :bd_klub,
             :bd_fat,
-            :bd_tek]},
+            :bd_tek,
+            :bd_mehackit]},
 
         :loop => {
           :desc => "Sounds for Looping",
@@ -7446,7 +7459,16 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :loop_mika,
             :loop_breakbeat,
             :loop_safari,
-            :loop_tabla]},
+            :loop_tabla,
+            :loop_3d_printer,
+            :loop_drone_g_97,
+            :loop_electric,
+            :loop_mehackit1,
+            :loop_mehackit2,
+            :loop_perc1,
+            :loop_perc2,
+            :loop_weirdo
+          ]},
 
         :tabla => {
           :desc => "Sounds of a Tabla Drum",
@@ -7479,6 +7501,19 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :tabla_na_s,
             :tabla_re]},
 
+        :glitch => {
+          :desc => "Glitchy Sounds",
+          :prefix => "glitch_",
+          :samples => [
+            :glitch_bass_g,
+            :glitch_perc1,
+            :glitch_perc2,
+            :glitch_perc3,
+            :glitch_perc4,
+            :glitch_perc5,
+            :glitch_robot1,
+            :glitch_robot2]},
+
         :vinyl => {
           :desc => "Vinyl sounds",
           :prefix => "vinyl_",
@@ -7486,7 +7521,24 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :vinyl_backspin,
             :vinyl_rewind,
             :vinyl_scratch,
-            :vinyl_hiss]}
+            :vinyl_hiss]},
+
+        :mehackit => {
+          :desc => "Mehackit Sounds",
+          :prefix => "mehackit_",
+          :samples => [
+            :mehackit_phone1,
+            :mehackit_phone2,
+            :mehackit_phone3,
+            :mehackit_phone4,
+            :mehackit_robot1,
+            :mehackit_robot2,
+            :mehackit_robot3,
+            :mehackit_robot4,
+            :mehackit_robot5,
+            :mehackit_robot6,
+            :mehackit_robot7
+          ]},
         }
 
 

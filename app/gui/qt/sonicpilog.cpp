@@ -82,8 +82,8 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
 
     ss.append("{run: ").append(QString::number(mm.job_id));
     ss.append(", time: ").append(QString::fromStdString(mm.runtime));
-    if(!mm.thread_name.empty()) {
-      ss.append(", thread: \"").append(QString::fromStdString(mm.thread_name)).append("\"");
+    if(! (mm.thread_name == "\"\"")) {
+      ss.append(", thread: ").append(QString::fromStdString(mm.thread_name));
     }
     ss.append("}");
     appendPlainText(ss);

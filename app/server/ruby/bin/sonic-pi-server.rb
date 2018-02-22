@@ -455,7 +455,7 @@ out_t = Thread.new do
         when :incoming
           gui.send("/incoming/osc", message[:time], message[:id], message[:address], message[:args])
         when :multi_message
-          gui.send("/log/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
+          gui.send("/log/multi_message", message[:jobid], message[:thread_name].inspect, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
         when :midi_out_ports
           gui.send("/midi/out-ports", message[:val])
         when :midi_in_ports
