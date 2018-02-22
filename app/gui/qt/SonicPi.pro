@@ -34,7 +34,7 @@ macx {
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   CONFIG += warn_off
   TARGET = 'Sonic Pi'
-  LIBS += -lqscintilla2
+  LIBS += -lqscintilla2_qt5
 }
 
 # Windows only
