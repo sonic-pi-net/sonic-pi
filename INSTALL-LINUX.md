@@ -77,7 +77,7 @@ If the script doesn't work you may need to resolve dependencies yourself, see 'I
 
 checkinstall has been added because it turns manually built programs into packages which can be installed and removed from your system. The packages seem to be easier to uninstall than programs installed via. `make install`, as you can uninstall packages via your package manager. If you think that there's a better program/package to do this, then let us know.
 
-If this script isn't there, make a new file in /app/gui/qt called `build-debian-app`, and go to https://github.com/samaaron/sonic-pi/app/gui/qt/build-debian/app and copy the contents of that to the new file on your computer. Then save the file, and run this command in your terminal in the `/app/gui/qt/` folder to make it executable: `chmod -u+x build-debian-app`. Now you should be able to run this script.
+If this script isn't there, make a new file in /app/gui/qt called `build-debian-app`, and go to https://github.com/samaaron/sonic-pi/app/gui/qt/build-debian-app and copy the contents of that to the new file on your computer. Then save the file, and run this command in your terminal in the `/app/gui/qt/` folder to make it executable: `chmod -u+x build-debian-app`. Now you should be able to run this script.
 
 ### Running Sonic Pi
 
@@ -92,7 +92,9 @@ If this script isn't there, make a new file in the root of the sonic-pi source c
 
 **There's no guarantees that these scripts will work 100%.** I haven't tested them that much, and I've only tested them on one system.
 
-### Information about dependencies (for Sonic Pi v3.1.0)
+### Information about dependencies
+
+This information applies to Sonic Pi v3.1.0, but it **may** be useful information when building other versions.
 
 #### Packages
 
