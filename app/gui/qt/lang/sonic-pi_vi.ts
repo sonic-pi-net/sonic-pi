@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation>Phần Mềm Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
@@ -26,8 +26,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Bật/Tắt chuyển đổi loa phát.
-Khi bật, âm thanh nổi sẽ đổi chiều loa phát ra (trái
-thành phải, và ngược lại)</translation>
+Khi bật, đảo chiều loa phát âm thanh nổi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -404,7 +403,7 @@ bạn thử sử dụng các bộ tổng hợp và hiệu
     <message>
         <location filename="../mainwindow.cpp" line="1370"/>
         <source>Enforce timing guarantees</source>
-        <translation></translation>
+        <translation>Bắt buộc đồng bộ thời gian</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1371"/>
@@ -415,163 +414,172 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation></translation>
+        <translation>Khi bật, Sonic Pi không chạy bộ tổng hợp
+và hiệu ứng nếu trễ thời gian
+
+Khi tắt, Sonic Pi sẽ thử chạy bộ tổng hợp
+và hiệu ứng dù đã hơi trễ.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1388"/>
         <source>Transparency</source>
-        <translation></translation>
+        <translation>Minh bạch</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation></translation>
+        <translation>Bật/Tắt tự kiểm tra bản cập nhật
+Quá trình kiểm tra có gửi thông tin nặc danh về hệ thống và phiên bản hiện tại.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Check now</source>
-        <translation></translation>
+        <translation>Kiểm tra ngay</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation></translation>
+        <translation>Kiểm tra bản cập nhật ngay lập tức
+Quá trình kiểm tra có gửi thông tin nặc danh về hệ thống và phiên bản hiện tại.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1403"/>
         <source>Get update</source>
-        <translation></translation>
+        <translation>Cập nhật</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1404"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation></translation>
+        <translation>Tải phiên bản mới nhất tại http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1409"/>
         <source>Update Info</source>
-        <translation></translation>
+        <translation>Thông tin cập nhật</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Show and Hide</source>
-        <translation></translation>
+        <translation>Hiện và Ẩn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor display options.</source>
-        <translation></translation>
+        <translation>Cách hiển thị trình soạn thảo.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
         <source>Look and Feel</source>
-        <translation></translation>
+        <translation>Nhìn và cảm nhận</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure editor look and feel.</source>
-        <translation></translation>
+        <translation>Hiệu chỉnh phong cách giao diện.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1432"/>
         <source>Automation</source>
-        <translation></translation>
+        <translation>Tự động hoá</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
         <source>Configure automation features.</source>
-        <translation></translation>
+        <translation>Chỉnh các tính năng tự động hoá.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation></translation>
+        <translation>Các thiết bị MIDI đầu vào đã kết nối</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation></translation>
+        <translation>Các thiết bị MIDI ngõ ra đã kết nối</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="510"/>
         <source>Auto-align</source>
-        <translation></translation>
+        <translation>Tự canh hàng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation></translation>
+        <translation>Nhận OSC qua mạng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation></translation>
+        <translation>Sonic Pi gửi và nhận tín hiệu Open Sound Control đến
+các chương trình và máy tính khác trong cùng mạng.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation></translation>
+        <translation>Cấu hình MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation></translation>
+        <translation>Cổng MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation></translation>
+        <translation>Danh sách các cổng MIDI đã kết nối</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation></translation>
+        <translation>Các thiết bị MIDI đầu ra nhận tín hiệu từ Sonic Pi
+theo định dạng midi_* fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Automatically align code on Run</source>
-        <translation></translation>
+        <translation>Tự động căn hàng mã lệnh khi chạy chương trình</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
         <source>Show log</source>
-        <translation></translation>
+        <translation>Hiển thị bản ghi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1441"/>
         <source>Toggle visibility of the log.</source>
-        <translation></translation>
+        <translation>Bật/Tắt bản ghi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Show buttons</source>
-        <translation></translation>
+        <translation>Hiển thị các nút nhấn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation></translation>
+        <translation>Bật/Tắt biểu tượng chuyên nghiệp - chuyển giữa
+biểu tượng mặc định và biểu tượng đơn giản.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation></translation>
+        <translation>Bật/Tắt các nút điều khiển.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Show tabs</source>
-        <translation></translation>
+        <translation>Hiển thị các thanh tiêu đề</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation></translation>
+        <translation>Bật/Tắt các thẻ vùng đệm.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
@@ -581,18 +589,19 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1454"/>
         <source>Toggle full screen mode.</source>
-        <translation></translation>
+        <translation>Bật/Tắt chế độ toàn màn hình.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
         <source>Toggle dark mode.</source>
-        <translation></translation>
+        <translation>Bật/Tắt chế độ giao diện tối.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation></translation>
+        <translation>
+Giao diện tối thích hợp khi &quot;chơi sống&quot; trong hộp đêm.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1502"/>
@@ -602,14 +611,16 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1534"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation></translation>
+        <translation>Bật/Tắt các trục tọa độ của dao động ký</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation></translation>
+        <translation>Lỗi khởi động Sonic Pi
+
+Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trình</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1768"/>
@@ -622,7 +633,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation></translation>
+        <translation>Tải bộ đệm của Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
@@ -634,13 +645,13 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1771"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Ruby files</source>
-        <translation></translation>
+        <translation>Các tệp mã Ruby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>All files</source>
-        <translation></translation>
+        <translation>Toà bộ tệp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2227"/>
@@ -650,87 +661,87 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2229"/>
         <source>Log Auto Scroll off...</source>
-        <translation></translation>
+        <translation>Tắt tự cuộn bản ghi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Run the code in the current buffer</source>
-        <translation></translation>
+        <translation>Chạy mã trong bộ đệm hiện tại</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
         <source>Load</source>
-        <translation></translation>
+        <translation>Tải</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Load an external file in the current buffer</source>
-        <translation></translation>
+        <translation>Tải file ngoài vào bộ đệm hiện tại</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
         <source>Size Up</source>
-        <translation></translation>
+        <translation>Tăng kích thước</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Size Down</source>
-        <translation></translation>
+        <translation>Giảm kích thước</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2717"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation></translation>
+        <translation>Bật/Tắt bộ dao động âm thanh. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Wavefile (*.wav)</source>
-        <translation></translation>
+        <translation>Định dạng Wavefile (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation></translation>
+        <translation>Đã bật/tắt giúp đỡ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
         <source>Enabling MIDI...</source>
-        <translation></translation>
+        <translation>Bật MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation></translation>
+        <translation>Tắt MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation></translation>
+        <translation>Mở cổng OSC để nhận tín hiệu từ xa...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation></translation>
+        <translation>Tắt máy chủ OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation></translation>
+        <translation>Cấu hình lại MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation></translation>
+        <translation>Đã tắt MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation></translation>
+        <translation>Chào mừng bạn đã trở lại. Giờ hãy &quot;code trực tiếp&quot; nào...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Save Current Buffer</source>
-        <translation></translation>
+        <translation>Lưu bộ đệm hiện tại</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1359"/>
@@ -740,17 +751,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Show cue log</source>
-        <translation></translation>
+        <translation>Hiển thị bản ghi hướng dẫn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation></translation>
+        <translation>Bật/Tắt bản ghi các hướng dẫn nội bộ và tín hiệu OSC/MIDI gửi đến chương trình.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation></translation>
+        <translation>Biểu tượng chuyên nghiệp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
@@ -760,27 +771,27 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
         <source>Show and Hide Scope</source>
-        <translation></translation>
+        <translation>Bật/Tắt phạm vi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1516"/>
         <source>Scope Kinds</source>
-        <translation></translation>
+        <translation>Các phạm vi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1531"/>
         <source>Show Scopes</source>
-        <translation></translation>
+        <translation>Hiển thị các phạm vi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation></translation>
+        <translation>Bật/Tắt các bộ dao động âm thanh.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
         <source>Show Axes</source>
-        <translation></translation>
+        <translation>Bật các tọa độ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
@@ -790,61 +801,66 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation></translation>
+        <translation>Các bộ dao động âm thanh có 3 chế độ, có thể hiển thị riêng
+hoặc hiển thị chung cùng lúc:
+
+Lissajous - mối liên hệ gữa các kênh trái và phải
+Mono - kết hợp cả 2 kênh (bằng RMS)
+Stereo - hiển thị 2 kênh riêng biệt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1551"/>
         <source>Visuals</source>
-        <translation></translation>
+        <translation>Các hiệu ứng hình ảnh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Zooming In...</source>
-        <translation></translation>
+        <translation>Phóng to...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1901"/>
         <source>Zooming Out...</source>
-        <translation></translation>
+        <translation>Thu nhỏ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1942"/>
         <source>Checking for updates...</source>
-        <translation></translation>
+        <translation>Kiểm tra bản cập nhật...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Enabling update checking...</source>
-        <translation></translation>
+        <translation>Cho phép kiểm tra bản cập nhật...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
         <source>Disabling update checking...</source>
-        <translation></translation>
+        <translation>Tắt kiểm tra bản cập nhật...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1983"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation></translation>
+        <translation>Bật lọc thấp qua...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1992"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation></translation>
+        <translation>Tắt lọc thấp qua...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation></translation>
+        <translation>Bật đảo chiều âm thanh nổi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation></translation>
+        <translation>Bật âm thanh nổi chuẩn...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2016"/>
@@ -861,84 +877,86 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../mainwindow.cpp" line="2033"/>
         <source>Stopping...</source>
-        <translation></translation>
+        <translation>Dừng...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2191"/>
         <source>Updating System Volume...</source>
-        <translation></translation>
+        <translation>Cập nhật âm lượng hệ thống...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2682"/>
         <source>Save current buffer as an external file</source>
-        <translation></translation>
+        <translation>Lưu bộ đệm hiện tại vào tệp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2694"/>
         <source>Start recording to WAV audio file</source>
-        <translation></translation>
+        <translation>Bắt đầu ghi vào tệp âm thanh WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Improve readability of code</source>
-        <translation></translation>
+        <translation>Làm mã chương trình dễ đọc hơn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation></translation>
+        <translation>Bật/Tắt màn hình giúp đỡ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation></translation>
+        <translation>Bật/Tắt màn hình cấu hình</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
         <source>Ready...</source>
-        <translation></translation>
+        <translation>Sẵn sàng...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2991"/>
         <source>File loaded...</source>
-        <translation></translation>
+        <translation>Đã mở tệp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3018"/>
         <source>File saved...</source>
-        <translation></translation>
+        <translation>Đã lưu tệp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Last checked %1</source>
-        <translation></translation>
+        <translation>Đã kiểm tra %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation></translation>
+        <translation>Sonic Pi kiểm tra bản cập nhật
+mỗi hai tuần.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <source>This is Sonic Pi %1</source>
-        <translation></translation>
+        <translation>Đây là Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <source>Version %2 is now available!</source>
-        <translation></translation>
+        <translation>Phiên bản %2 đã có!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3272"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation></translation>
+        <translation>Có phiên bản mới!
+Cập nhật Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
         <source>Run</source>
-        <translation></translation>
+        <translation>Chạy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2677"/>
@@ -948,12 +966,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
         <source>Stop all running code</source>
-        <translation></translation>
+        <translation>Dừng tất cả các chương trình</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
         <source>Save As...</source>
-        <translation></translation>
+        <translation>Lưu thành...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
@@ -963,7 +981,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2721"/>
         <source>See information about Sonic Pi</source>
-        <translation></translation>
+        <translation>Xem thêm thông tin về Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="754"/>
@@ -974,7 +992,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation></translation>
+        <translation>Các cấu hình giúp biểu diễn bằng Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
@@ -984,98 +1002,100 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
         <source>Please consider reporting a bug at</source>
-        <translation></translation>
+        <translation>Vui lòng báo lỗi tại</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2733"/>
         <source>Prefs</source>
-        <translation></translation>
+        <translation>Các cấu hình</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <location filename="../mainwindow.cpp" line="2861"/>
         <location filename="../mainwindow.cpp" line="2862"/>
         <source>Start Recording</source>
-        <translation></translation>
+        <translation>Bắt đầu thu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2698"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation></translation>
+        <translation>Tự canh hàng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2702"/>
         <source>Increase Text Size</source>
-        <translation></translation>
+        <translation>Tăng kích thước chữ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
         <source>Decrease Text Size</source>
-        <translation></translation>
+        <translation>Giảm kích thước chữ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
         <source>Tools</source>
-        <translation></translation>
+        <translation>Các công cụ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>About</source>
-        <translation></translation>
+        <translation>Thông tin thêm</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Core Team</source>
-        <translation></translation>
+        <translation>Nhóm chính</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2795"/>
         <source>Contributors</source>
-        <translation></translation>
+        <translation>Người tham gia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>Community</source>
-        <translation></translation>
+        <translation>Cộng đồng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2797"/>
         <source>License</source>
-        <translation></translation>
+        <translation>Bản quyền</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2798"/>
         <source>History</source>
-        <translation></translation>
+        <translation>Lịch sử</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
         <source>Sonic Pi - Info</source>
-        <translation></translation>
+        <translation>Sonic Pi - Thông tin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2853"/>
         <location filename="../mainwindow.cpp" line="2854"/>
         <source>Stop Recording</source>
-        <translation></translation>
+        <translation>Dừng thu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Save Recording</source>
-        <translation></translation>
+        <translation>Ghi bản thu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation></translation>
+        <translation>Không đọc được tệp %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation></translation>
+        <translation>Không ghi được tệp %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="116"/>
@@ -1096,12 +1116,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="1202"/>
         <source>Examples</source>
-        <translation></translation>
+        <translation>Ví dụ</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1251"/>
         <source>Synths</source>
-        <translation></translation>
+        <translation>Các bộ tổng hợp</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1298"/>
@@ -1111,7 +1131,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="1317"/>
         <source>Samples</source>
-        <translation></translation>
+        <translation>Các mẫu âm thanh</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1564"/>
@@ -1124,7 +1144,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="47"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation>Phần mềm Sonic Pi</translation>
     </message>
 </context>
 <context>
@@ -1132,7 +1152,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation></translation>
+        <translation>Kiểm tra Sonic Pi có đang chạy không? Không mở được cổng UDP.</translation>
     </message>
 </context>
 </TS>
