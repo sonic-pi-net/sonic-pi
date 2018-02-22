@@ -4683,7 +4683,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
           :room =>
           {
             :doc => "The room size in squared metres",
-            :validations => [v_greater_than_oet(:room, 0)],
+            :validations => [v_greater_than_oet(:room, 1)],
             :modulatable => true
           },
 
