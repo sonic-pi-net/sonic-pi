@@ -38,9 +38,9 @@ If you run into issues with running `jackd`  along with `pulseaudio`, search the
 
 ## Debian Stretch (9) - Building From Source
 
-I've been tinkering to try to get Sonic Pi v3.1 working on a PC running Debian 9/Stretch. I've managed to get it working somewhat (it makes sound at least!) so, I've thought I'll share a bit on how I got it working, to help others who may want to install Sonic Pi v3.1 on Debian Stretch. :)
+In this section, you will find information to help with building Sonic Pi on a PC running Debian 9/Stretch. Hopefully you will find this information useful. :)
 
-**There's no guarantees that the info/scripts in this post will work for your system. I will not take responsiblility for any damage caused from the use of the information or scripts in this post.**
+**There's no guarantees that the info/scripts in this post will work for your system.**
 
 **Note: Sonic Pi for Linux isn't currently offically supported (apart from Raspbian).**
 
@@ -116,11 +116,11 @@ If you have issues with rugged, try installing it via. `gem install rugged`, and
 
 * All other extensions seem to be installed just fine by compile-extensions.rb
 
-I hope this has helped others who want to run Sonic Pi v3.1 on Debian Stretch. :)
+We hope this has helped others who want to build and run Sonic Pi on Debian Stretch. :)
 
 ## Generic Linux
 
-We're making an effort to simplify the build process. If you're on 15.10 or 16.04, you should
+We're making an effort to simplify the build process. If you're on Ubuntu 15.10 or 16.04, you should
 be able to get a finished binary with the following commands
 
 ````
