@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-22 04:04+0000\n"
-"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"PO-Revision-Date: 2018-02-22 11:13+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -10527,7 +10527,7 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:3
 msgid "Live Audio"
-msgstr "audio en direct"
+msgstr "Audio en direct"
 
 #: 13.2-Live-Audio.md:5
 msgid ""
