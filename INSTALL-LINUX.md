@@ -53,276 +53,38 @@ First, we need to download the source code to a reasonable location. You can do 
   wget -O "/path/to/folder/sonic-pi.zip" "https://github.com/samaaron/sonic-pi/archive/v3.1.0.zip"
   cd "/path/to/folder/"
   unzip sonic-pi.zip
+  cd sonic-pi
   ````
   OR, go to https://github.com/samaaron/sonic-pi/releases and click 'Source Code (zip)' on the release that you want to get the source code for. This will download the source code for that release in a zip file. Then, unzip that zip file to a reasonable location.
 * **Get the latest 'bleeding edge' source code:**
   In the folder that you want to put the sonic pi source code folder in, type this command into your terminal:
-  `git clone https://github.com/samaaron/sonic-pi/sonic-pi.git`
+  ````
+  git clone https://github.com/samaaron/sonic-pi/sonic-pi.git`
+  cd sonic-pi
+  ````
   This will make a folder containing the sonic-pi source code.
 
-### Modified install script for Sonic Pi v3.1.0
+### Building Sonic Pi
 
-I've modified /app/gui/qt/build-ubuntu-app to include: some changes that I made to get it working, updated versions of packages, the option to install some packages via: `make install`, or `checkinstall install=no` & `dpkg -i`, and other fixes/tweaks. You could replace the contents of the file with this modified version, or make a new file with the modified version. If you make a new file, make sure to make it executable: `cd path/to/sonic-pi-source-folder/app/gui/qt/ & chmod u+x newFile`.
+There's a bash script file called `/app/gui/qt/build-debian-app`, which is an install script to help assist in installing dependecies and building Sonic Pi. You can run it by typing these commands into the terminal:
+````
+cd app/gui/qt/
+./build-debian-app
+````
+It's a modified version of /app/gui/qt/build-ubuntu-app that includes: some changes that to get it working, updated versions of packages, the option to install some packages via: `make install`, or `checkinstall install=no` & `dpkg -i`, and other fixes/tweaks.
 
-I've added checkinstall because it turns manually built programs into packages which can be installed and removed from your system. The packages seem to be easier to uninstall than programs installed via. `make install`, as you can uninstall packages via your package manager. I'm not sure whether this is the best program to use for this, please tell me if there are any other/better programs that do this.
+If the script doesn't work you may need to resolve dependencies yourself, see 'Information about dependencies (for Sonic Pi v3.1.0)' for more info.
 
-A modified version of **/app/gui/qt/build-ubuntu-app** for building Sonic Pi v.3.1.0 on Debian Stretch/9:
-
-    #!/bin/bash
-
-    #Fail script on first error encountered
-    set -e
-    # Verbose
-    #set -x
-
-    #Application/library versions built by this script.
-    SUPERCOLLIDER_VERSION=3.9.1
-    SC_PLUGINS_VERSION=3.9.0 # 3.9.1 is currently in pre-release and I've had issues installing it, but 3.9.0 seems to work fine.
-    AUBIO_VERSION=c6ae035 # v0.4.6
-    OSMID_VERSION=391f35f789f18126003d2edf32902eb714726802
-    RUGGED_VERSION=0.26.0
-
-    #Internal definitions
-    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-    SP_APP_SRC=${SCRIPT_DIR}
-    SP_ROOT=${SP_APP_SRC}/../../../../
-    OSMID_DIR=${SP_APP_SRC}/../../server/native/linux/osmid
-
-    CYAN='\033[1;36m'
-    NC='\033[0m' # No Color
-
-    echo "This script is modified version of the original build-ubuntu-app script. This has been tested on Debian Stretch (9)."
-    echo "In some cases users may need to install some of the dependencies by hand from source."
-    echo "We're working to make a one shot script solution for all Linux platforms."
-    echo "Original script made by Factoid and possibly other people, modified for Debian Stretch by SunderB."
-
-    installMethod=''
-
-    while [ "$installMethod" != "1" ] && [ "$installMethod" != "2" ]; do
-    		echo 'Some packages may be built from source and installed manually.'
-    		echo 'How do you want to install these packages?'
-    		echo '1 - install manually via. make install.'
-    		echo '2 - make .deb packages via. checkinstall and install those via dpkg. (Only works on Debian)'
-    		echo 'Type quit to exit.'
-    		read installMethod
-    		if [ "$installMethod" == "quit" ]; then
-    				return;
-    		fi
-    done
-
-    #Install dependencies for building supercollider, as well as qt5 and supporting libraries for gui
-    echo -e "${CYAN}Installing dependencies for building supercollider, as well as qt5 and supporting libraries for gui...${NC}"
-    sudo apt-get install -y \
-         g++ ruby ruby-dev pkg-config git build-essential libjack-jackd2-dev \
-         libsndfile1-dev libasound2-dev libavahi-client-dev libicu-dev \
-         libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake libboost-dev \
-         libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default \
-         qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev \
-         qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev libffi-dev \
-         curl python erlang-base
-    					
-    if [ "$installMethod" == "2" ]; then
-    		echo -e "${CYAN}Installing checkinstall...${NC}"
-    		sudo apt-get install checkinstall
-    fi
-
-    # Ruby Packages:
-    # ruby ruby-dev gem
-    # ------------------
-    # ruby - Interpreter for the ruby programming language
-    # ruby-dev - Header files for compiling extension modules for Ruby
-
-    # Qt Packages:
-    # libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default \
-    #    qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev \
-    #    qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev
-    					
-    # Other languages and compilers:
-    # python erlang-base g++ 
-
-    # Other tools:
-    # git curl
-    # -----------------
-    # git - A version/revision control system
-    # curl - 
-
-    ### IF YOU HAVE PROBLEMS WITH qwt
-    #cd $SP_APP_SRC/../../../../
-    #wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
-    #tar -xf qwt-6.1.2.tar.bz2
-    #cd qwt-6.1.2
-    #/usr/lib/x86_64-linux-gnu/qt5/bin/qmake qwt.pro
-    #make
-    #sudo make install
-    #sudo cp /usr/local/qwt-6.1.2/features/* /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/
-
-    ### IF YOU HAVE PROBLEMS WITH qscintilla2
-    #cd $SP_APP_SRC/../../../../
-    #wget 'http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
-    #tar -xf QScintilla_gpl-2.9.2.tar.gz
-    #cd QScintilla_gpl-2.9.2/Qt4Qt5/
-    #/usr/lib/x86_64-linux-gnu/qt5/bin/qmake qscintilla.pro
-    #make
-    #sudo make install
-
-    #Build supercollider from source
-    echo -e "${CYAN}Building supercollider from source...${NC}"
-    cd "${SP_ROOT}"
-    git clone --recursive https://github.com/supercollider/supercollider.git || true
-    cd supercollider
-    git checkout Version-${SUPERCOLLIDER_VERSION}
-    git submodule init && git submodule update
-    git submodule update --init
-    mkdir -p build
-    cd build
-    cmake -DSC_EL=no ..
-    make
-    echo -e "${CYAN}Installing supercollider...${NC}"
-    if [ "$installMethod" == "2" ]; then
-    		sudo checkinstall --pkgname=supercollider --pkgversion=1:${SUPERCOLLIDER_VERSION} --pkglicense=GPL-3.0 --pkggroup=sound --nodoc --default --install=no
-    		sudo dpkg -i supercollider_${SUPERCOLLIDER_VERSION}-1_amd64.deb
-    else
-    		sudo make install
-    fi
-    #This should install to /usr/local/
-
-    #Install sc3 plugins
-    #Build sc3 plugins and install to /usr/local/ so supercollider can find them
-    echo -e "${CYAN}Building sc3-plugins from source...${NC}"
-    cd "${SP_ROOT}"
-    git clone --recursive https://github.com/supercollider/sc3-plugins.git || true
-    cd sc3-plugins
-    git checkout Version-${SC_PLUGINS_VERSION}
-    git submodule init && git submodule update
-    git submodule update --init
-    cp -r external_libraries/nova-simd/* source/VBAPUGens
-    mkdir -p build
-    cd build
-    #cmake -DSC_PATH=../../supercollider -DCMAKE_INSTALL_PREFIX=/usr/local ..
-    #cmake -DCMAKE_INSTALL_PREFIX=/usr/local --build . --config Release
-    cmake -DSC_PATH=../../supercollider ..
-    cmake --build . --config Release
-    make
-    echo -e "${CYAN}Installing sc3-plugins...${NC}"
-    if [ "$installMethod" == "2" ]; then
-    		sudo checkinstall --pkgname=sc3-plugins --pkgversion=1:${SC_PLUGINS_VERSION} --pkglicense=GPL-2.0 --pkggroup=sound --nodoc --default --install=no
-    		sudo dpkg -i sc3-plugins_${SC_PLUGINS_VERSION}-1_amd64.deb
-    else
-    		sudo make install
-    fi
-
-    #Install libaubio (apt-get version is too old)
-    echo -e "${CYAN}Building libaubio from source...${NC}"
-    cd "${SP_ROOT}"
-    git clone https://git.aubio.org/git/aubio/ || true
-    cd aubio
-    git checkout ${AUBIO_VERSION}
-    make getwaf
-    ./waf configure
-    ./waf build
-    sudo ./waf install
-
-    #Install osmid (for MIDI support)
-    echo -e "${CYAN}Building osmid from source...${NC}"
-    cd "${SP_ROOT}"
-    git clone https://github.com/llloret/osmid.git || true
-    cd osmid
-    git checkout ${OSMID_VERSION}
-    mkdir -p build
-    cd build
-    cmake ..
-    make
-    echo -e "${CYAN}Installing osmid...${NC}"
-    mkdir -p "${OSMID_DIR}"
-    install m2o o2m -t "${OSMID_DIR}"
-
-    #Build Erlang files
-    echo -e "${CYAN}Building Erlang files...${NC}"
-    cd "${SP_APP_SRC}/../../server/erlang"
-    #The current implementation of osc.erl uses Erlang features that require
-    #at least Erlang 19.1 to be installed. 16.04 LTS is currently at 18.3.
-    #If versions < 19.1 are installed, and we use the current code, the MIDI
-    #implementation breaks because the Erlang OSC router is failing.
-    ERLANG_VERSION=$(./print_erlang_version)
-    if [ -e "osc.erl.orig" ]; then
-        # Handle, if the original file in the source tree ever gets updated.
-        rm osc.erl.orig
-        git checkout osc.erl
-    fi
-    if [[ "${ERLANG_VERSION}" < "19.1" ]]; then
-        echo "Found Erlang version < 19.1 (${ERLANG_VERSION})! Updating source code."
-        sed -i.orig 's|erlang:system_time(nanosecond)|erlang:system_time(nano_seconds)|' osc.erl
-    fi
-    erlc osc.erl
-    erlc pi_server.erl
-
-    #Build sonic-pi server extensions, documentation, and binary.
-    cd "${SP_APP_SRC}"
-
-    echo -e "${CYAN}Building sonic-pi server extensions...${NC}"
-    ### If you're having trouble with rugged, this should install rugged and copy it to the Sonic Pi folder.
-    sudo gem install rugged
-    cp -a "/var/lib/gems/2.3.0/gems/rugged-${RUGGED_VERSION}/." "../../server/ruby/vendor/rugged-${RUGGED_VERSION}/" # You may need to change this path slightly
-
-    ruby ../../server/ruby/bin/compile-extensions.rb
-    echo -e "${CYAN}Building sonic-pi documentation...${NC}"
-    ruby ../../server/ruby/bin/i18n-tool.rb -t
-    cp -f ruby_help.tmpl ruby_help.h
-    ruby ../../server/ruby/bin/qt-doc.rb -o ruby_help.h
-    echo -e "${CYAN}Building sonic-pi binary...${NC}"
-    lrelease SonicPi.pro
-    qmake -qt=qt5 SonicPi.pro
-    make
-    echo -e "${CYAN}Done!${NC}"
+checkinstall has been added because it turns manually built programs into packages which can be installed and removed from your system. The packages seem to be easier to uninstall than programs installed via. `make install`, as you can uninstall packages via your package manager. If you think that there's a better program/package to do this, then let us know.
 
 ### Running Sonic Pi
 
-After running and closing Sonic Pi, if I tried to open it, it wouldn't open due to one of the ports being used. It turned out that a process relating to Sonic Pi was still running (beam.smp), so I ended up making a script which runs Sonic Pi and closes left over processes after it is closed:
-
-    #!/bin/bash
-    # Sonic Pi Launch Script for Debian 9/Stretch - by SunderB
-    set -e # Quit script on error
-    echo "Starting Sonic Pi... Please leave this window open, it will clear up processes and close automatically."
-    # Replace this path with the path to where you've installed Sonic Pi:
-    ~/Documents/Coding/SonicPi/sonic-pi-3.1.0/app/gui/qt/sonic-pi
-
-    # The script will resume when Sonic Pi is closed.
-    # Close left over beam.smp processes
-    echo "Sonic Pi closed. Closing any left over processes..."
-    # -x # Verbose
-
-    # Set up array
-    pidsArray=()
-
-    # Get PIDs of left over processes...
-    while read each; do
-    		pidsArray+=("$each")
-    done < <(echo "$(ps -ef | grep -v awk | awk '/beam.smp/ { print $2 }')")
-    # ps -ef - Gets the list of processes with their PIDs
-    # grep -v awk - Removes any processes containing 'awk' (to avoid picking up the next command)
-    # awk '/beam.smp/ { print $2 }' - Extracts the PIDs of any processes containing 'beam.smp'
-    # pidsArray+=("$each") - Adds the PIDs to the array.
-
-    # If there only one object in the array, and that object is empty, then it's likely there's no processes left over.
-    if [[ ${pidsArray[0]} = "" ]] && [ ${#pidsArray[@]} -eq 1 ]; then
-    		echo "0 left over processes found."
-    else
-    		echo "${#pidsArray[@]} left over process(es) found."
-    		# If there is any PIDs in the array...
-    		if ((${#pidsArray[@]} > 0)); then
-    				# Iterate through them.
-    				for i in "${pidsArray[@]}"; do
-    						# If the object is empty, ignore it. Otherwise, close that process.
-    						if [[ ! $i = "" ]]; then
-    								echo "Closing process $i..."
-    								kill "$i"
-    						else
-    								echo "Process ID = nothing?! Lets just ignore that one."
-    						fi
-    				done
-    		fi
-    fi
-    echo "Done!"
+You can now run Sonic Pi using the `run-debian-app` script:
+````
+cd ../../../ # Go to the root of the sonic-pi source code folder
+./build-debian-app
+````
+This script will open Sonic Pi, and clean up any leftover processes when it closes.
 
 **There's no guarantees that these scripts will work 100%.** I haven't tested them that much, and I've only tested them on one system.
 
@@ -331,7 +93,7 @@ After running and closing Sonic Pi, if I tried to open it, it wouldn't open due 
 #### Packages
 
 * **supercollider** - The version of supercollider in the debian stretch repositories (3.7.0) doesn't work with Sonic Pi 3.1 as it is missing the `-B` argument that sets the ip address (I think). The latest version, 3.9.1, seems to work.
-* **sc3-plugins** - Sonic Pi seemed to open and work fine with the version in the Debian repositories, 3.7.0. But, if you want to be more sure that it will work, try version 3.9.0 (you could try v3.9.1, but it is currently in pre-release according to its releases page on GitHub, and I've had less success in installing that version).
+* **sc3-plugins** - Version 3.9.0 seems to be a good choice, as it is close to the supercollider version, and seems to work fine. (Sonic Pi seemed to open and work fine with the version in the Debian repositories, 3.7.0. But, it may conflict with newer versions of supercollider, so if you want to be more sure that it will work, try version 3.9.0) (You could try v3.9.1, but it is currently in pre-release according to its releases page on GitHub, and I've had less success in installing that version).
 * **aubio & osmid** - The latest versions of these seem to work fine.
 * All other required packages can be installed from the Debian repositories:
 
