@@ -95,3 +95,12 @@ You cannot change the original English strings with Weblate. If you
 spot a mistake in the English texts, please [file an
 issue](https://github.com/samaaron/sonic-pi/issues) or correct it with
 a pull request here on github. Thanks!
+
+
+## Status
+
+### Application
+<img src="https://hosted.weblate.org/widgets/sonic-pi/-/qt-sonic-pi-gui/multi-auto.svg" alt="Translation status" />
+
+### Tutorial
+<img src="https://hosted.weblate.org/widgets/sonic-pi/-/tutorial/multi-auto.svg" alt="Translation status" />
