@@ -218,8 +218,10 @@ module SonicPi
       doc name:           :live_audio,
           introduced:     Version.new(3,0,0),
           summary:        "A named audio stream live from your soundcard",
-          args:           [[]],
+          args:           [[:name, :symbol]],
           returns:        :SynthNode,
+          opts:           {:input  => "The audio card input to read audio from.",
+                           :stereo => "If set to truthy value (true, 1) will read from two consecutive audio card inputs."},
           #   opts:           {sound_in_stereo: {doc: "",
           #   default: true
           # }},
