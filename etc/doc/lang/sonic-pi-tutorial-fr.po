@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-22 11:13+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-02-26 03:57+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -10325,16 +10325,28 @@ msgid ""
 " logger as the incoming message `\"/osc/hello/world`. (Notice how Sonic Pi auto"
 "matically prefixes all incoming OSC messages with `/osc`.)"
 msgstr ""
+"Si vous exécutez le code ci-dessus, vous allez remarquer que Sonic Pi "
+"s'envoie lui-même un message OSC! C'est le cas puisque nous avons configuré "
+"l'adresse IP à celle de la machine courante et le port au port par défaut "
+"pour OSC. C'est essentiellement la même chose que de poster une lettre à soi-"
+"même - le paquet OSC est créé, quitte Sonic Pi, se rend à la pile réseau du "
+"système d'exploitation qui va retourner le paquet à Sonic pi et il recevra "
+"ensuite un message OSC standard qui est visible dans la queue du journal en "
+"tant que message entrant `\"/osc/hello/world`. (Notez comment Sonic Pi "
+"préfixe automatiquement tout les messages OSC entrants avec `/osc`.)"
 
 #: 12.2-Sending-OSC.md:25
 msgid "Sending OSC to other programs"
-msgstr ""
+msgstr "Envoyer du OSC à d'autres programmes"
 
 #: 12.2-Sending-OSC.md:27
 msgid ""
 "Of course, sending OSC messages to ourselves may be fun but it's not that usef"
 "ul. The real benefit starts when we send messages to other programs:"
 msgstr ""
+"Évidemment, envoyer des messages OSC à nous-mêmes peut être amusant, mais "
+"pas très utile. Le vrai bénéfice commence quand nous envoyons des messages à "
+"d'autres programmes :"
 
 #: 12.2-Sending-OSC.md:32
 #, no-wrap
@@ -10351,12 +10363,17 @@ msgid ""
 "ing to port 123456. If there is, then it will receive a `\"/hello/world` OSC me"
 "ssage with which it can do what it wants."
 msgstr ""
+"Dans ce cas, nous assumons qu'il existe un autre programme sur la même "
+"machine qui écoute sur le port 123456. Si c'est le cas, il va recevoir un "
+"message OSC `\"/hello/world` avec lequel il peut faire ce qu'il veut."
 
 #: 12.2-Sending-OSC.md:41
 msgid ""
 "If our program is running on another machine, we need to know its IP address w"
 "hich we use instead of `\"localhost\"`:"
 msgstr ""
+"Si votre programme s'exécute sur une autre machine, nous avons besoin de "
+"savoir son adresse IP que nous allons utiliser au lieu de `\"localhost\"` :"
 
 #: 12.2-Sending-OSC.md:44
 #, no-wrap
@@ -10372,14 +10389,16 @@ msgid ""
 "Now we can send OSC messages to any device reachable to us via our local netwo"
 "rks and even the internet!"
 msgstr ""
+"Maintenant, nous pouvons envoyer des messages OSC à n'importe lequel "
+"périphérique accessible via nos réseaux locaux et même l'internet !"
 
 #: 13-Multichannel-Audio.md:1
 msgid "13 Multichannel Audio"
-msgstr ""
+msgstr "13 Audio multi-canaux"
 
 #: 13-Multichannel-Audio.md:3
 msgid "Multichannel Audio"
-msgstr ""
+msgstr "Audio multi-canaux"
 
 #: 13-Multichannel-Audio.md:5
 msgid ""
@@ -10393,25 +10412,39 @@ msgid ""
 " a look at how we can take advantage of these external sound cards and effortl"
 "essly work with multiple channels of audio in and out of Sonic Pi."
 msgstr ""
+"Jusqu'à maintenant, en terme de production de son, nous avons exploré le "
+"déclenchement des synthés et des sons enregistrés avec les fonctions `play`, "
+"`synth` et `sample`. Celles-ci ont généré de l'audio qui a été joué au "
+"travers de notre système de son stéréo. Cependant, plusieurs ordinateurs "
+"offrent également la possibilité de recevoir du son, par exemple avec un "
+"microphone, en plus d'avoir la possibilité d'envoyer le son à plus de deux "
+"haut-parleurs. Souvent, cette possibilité existe par l'utilisation d'une "
+"carte de son externe - celles-ci sont disponibles pour toutes les "
+"plateformes. Dans cette section du tutoriel, nous allons regarder comment "
+"nous pouvons prendre avantage de ces cartes de sons externes et travailler "
+"sans effort avec de multiples canaux d'audio entrants et sortants de Sonic "
+"Pi."
 
 #: 13.1-Sound-In.md:1
 msgid "13.1 Sound In"
-msgstr ""
+msgstr "13.1 Son entrant"
 
 #: 13.1-Sound-In.md:3
 msgid "Sound In"
-msgstr ""
+msgstr "Son entrant"
 
 #: 13.1-Sound-In.md:5
 msgid ""
 "One simple (and perhaps familiar) way of accessing sound inputs is using our f"
 "riend `synth` by specifying the `:sound_in` synth:"
 msgstr ""
+"Une façon simple (et peut-être familière) d'accéder les sons entrants est en "
+"utilisant notre ami `synth` en spécifiant le synthé `:sound_in` :"
 
 #: 13.1-Sound-In.md:7
 #, no-wrap
 msgid "synth :sound_in"
-msgstr ""
+msgstr "synth :sound_in"
 
 #: 13.1-Sound-In.md:11
 msgid ""
@@ -10421,6 +10454,11 @@ msgid ""
 " if you have an external sound card, you can plug any audio input to the first"
 " input."
 msgstr ""
+"Cela va fonctionner comme n'importe synthé comme `synth :dsaw` à l'exception "
+"que l'audio généré sera lu directement de la première entrée de votre carte "
+"de son système. Sur les portables, c'est typiquement le microphone intégré, "
+"mais si vous avez une carte de son externe, vous pouvez brancher n'importe "
+"lequel audio entrant dans la première entrée."
 
 #: 13.1-Sound-In.md:17
 msgid "Increasing the Duration"
@@ -10434,11 +10472,16 @@ msgid ""
 "e following will keep the synth open for 8 beats before closing the connection"
 ":"
 msgstr ""
+"Une chose que vous pourriez remarquer est que tout comme `synth :dsaw`, le "
+"synthé `:sound_in` dure seulement pour 1 rythme puisqu'il a une enveloppe "
+"standard. Si vous voulez le garder ouvert pour un peu plus longtemps, "
+"changez les paramètres d'enveloppe ADSR. L'exemple suivant va conserver le "
+"synthé ouvert pour 8 rythmes avant de fermer la connexion :"
 
 #: 13.1-Sound-In.md:22
 #, no-wrap
 msgid "synth :sound_in, sustain: 8"
-msgstr ""
+msgstr "synth :sound_in, sustain: 8"
 
 #: 13.1-Sound-In.md:28
 msgid ""
