@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-27 04:36+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-03-04 07:04+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -10488,6 +10488,8 @@ msgid ""
 "Of course, just like any normal synth, you can easily layer on effects with th"
 "e FX block:"
 msgstr ""
+"Bien sûr, tout comme n'importe lequel synthé normal, vous pouvez facilement "
+"faire des couches d'effets avec le bloc FX :"
 
 #: 13.1-Sound-In.md:30
 #, no-wrap
@@ -10498,12 +10500,20 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :distortion do\n"
+"    synth :sound_in, sustain: 8\n"
+"  end\n"
+"end"
 
 #: 13.1-Sound-In.md:38
 msgid ""
 "If you have plugged in a guitar to your first input, you should be able to hea"
 "r it with distortion and reverb until the synth terminates as expected."
 msgstr ""
+"Si vous avez connecté une guitare dans votre première entrée, vous devriez "
+"être capable de l'entendre avec de la distorsion et de la réverbération "
+"jusqu'à ce que le synthé se termine comme prévu."
 
 #: 13.1-Sound-In.md:40
 msgid ""
@@ -10512,6 +10522,10 @@ msgid ""
 "will play two `:sound_in` synths at the same time - one through distortion and"
 " one through reverb:"
 msgstr ""
+"Vous êtes libre d'utiliser le synthé `:sound_in` aussi souvent que vous le "
+"voulez de façon concurrente (tout comme vous le faites avec n'importe lequel "
+"synthé normal). L'exemple suivant va jouer deux synthés `:sound_in` en même "
+"temps - l'un via la distorsion et l'autre via la réverbération :"
 
 #: 13.1-Sound-In.md:42
 #, no-wrap
@@ -10523,6 +10537,12 @@ msgid ""
 "  synth :sound_in, sustain: 8\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in, sustain: 8\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8\n"
+"end"
 
 #: 13.1-Sound-In.md:52
 msgid "Multiple Inputs"
@@ -10536,6 +10556,13 @@ msgid ""
 ", you can treat the first two as a stereo stream and add distortion and the th"
 "ird as a mono stream and add reverb with the following code:"
 msgstr ""
+"Vous pouvez sélectionner quel entrée audio vous voulez jouer avec l'option "
+"`input:`. Vous pouvez également spécifier une entrée stéréo (deux entrées "
+"consécutives) en utilisant le synthé `:sound_in_stereo`. Par exemple, si "
+"vous avez une carte de son avec au moins trois entrées, vous pouvez traiter "
+"les deux premières en tant que flux stéréo et y ajouter de la distorsion et "
+"la troisième en tant que flux mono et y ajouter une réverbération avec le "
+"code suivant :"
 
 #: 13.1-Sound-In.md:61
 #, no-wrap
@@ -10547,10 +10574,16 @@ msgid ""
 "  synth :sound_in, sustain: 8, input: 3\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in_stereo, sustain: 8, input: 1\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8, input: 3\n"
+"end"
 
 #: 13.1-Sound-In.md:72
 msgid "Potential Issues"
-msgstr ""
+msgstr "Problèmes potentiels"
 
 #: 13.1-Sound-In.md:74
 msgid ""
@@ -10563,10 +10596,19 @@ msgid ""
 "lem of manipulating a (potentially) infinite stream of live audio input: `live"
 "_audio`."
 msgstr ""
+"Cependant, même s'il s'agit d'une technique utile, il y a quelques "
+"limitations à cette approche. Premièrement, cela fonctionne seulement pour "
+"une durée déterminée ( étant donné qu'il a une enveloppe ASDR) et "
+"deuxièmement, il n'existe pas de façon de changer le FX une fois que le "
+"synthé a été déclenché. Ces deux choses sont des requêtes typiques lorsqu'on "
+"travaille avec des flux audio externes comme les microphones, les guitares "
+"et les synthétiseurs externes. Par conséquent, nous allons regarder la "
+"solution de Sonic Pi au problème de manipuler une (potentielle) infinité de "
+"flux d'entrée audio en direct : `live_audio`."
 
 #: 13.2-Live-Audio.md:1
 msgid "13.2 Live Audio"
-msgstr ""
+msgstr "13.2 Audio en direct"
 
 #: 13.2-Live-Audio.md:3
 msgid "Live Audio"
@@ -10580,10 +10622,17 @@ msgid ""
 " instrument (such as a voice or guitar). By far the best approach to working w"
 "ith a single continuous stream of audio is to use `live_audio`."
 msgstr ""
+"Le synthé `:sound_in`, comme décrit dans la section précédente, fournit une "
+"méthode très flexible et familière pour travailler avec les entrées audio. "
+"Toutefois, comme nous en avons discuté, elle a quelques problématiques "
+"lorsque nous travaillons avec une seule entrée audio comme un seul "
+"instrument ( comme la voix ou une guitare). La meilleure approche pour "
+"travailler avec un seul flux d'audio en continu, et de loin, est d'utiliser "
+"`live_audio`."
 
 #: 13.2-Live-Audio.md:12
 msgid "A Named Audio Input"
-msgstr ""
+msgstr "Une entrée audio nommée"
 
 #: 13.2-Live-Audio.md:14
 msgid ""
@@ -10592,6 +10641,10 @@ msgid ""
 "`live_audio` stream with that name may exist at any one time. Let's take a loo"
 "k:"
 msgstr ""
+"`live_audio` partage quelques contraintes de design interne avec `live_loop` "
+"(d'où le nom similaire). Premièrement, il doit avoir un nom unique et "
+"deuxièmement, seulement un seul flux `live_audio` avec ce nom peut exister à "
+"tout moment. Jetons un coup d'oeil :"
 
 #: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
 #, no-wrap
@@ -10604,10 +10657,14 @@ msgid ""
 "ferences: it runs forever (until you explicitly stop it) and you can *move* it"
 " to new FX contexts dynamically."
 msgstr ""
+"Ce code va réagir d'une façon similaire à `synth :sound_in` avec quelques "
+"différences clés : il roule pour toujours ( jusqu'à ce que vous le stoppiez "
+"explicitement) et vous pouvez le *bougez* vers de nouveaux contextes FX "
+"dynamiquement."
 
 #: 13.2-Live-Audio.md:28
 msgid "Working with FX"
-msgstr ""
+msgstr "Travailler avec FX"
 
 #: 13.2-Live-Audio.md:30
 msgid ""
@@ -10615,6 +10672,10 @@ msgid ""
 "k with FX. For example, to start a live audio stream with added reverb simply "
 "use a `:reverb` FX block:"
 msgstr ""
+"Sur son déclenchement initial, `live_audio` fonctionne exactement de la "
+"façon que vous pensez qu'il fonctionne avec FX. Par exemple, pour démarrer "
+"un flux audio en direct avec des réverbérations ajoutées, utiliser "
+"simplement un bloc FX `:reverb` :"
 
 #: 13.2-Live-Audio.md:34
 #, no-wrap
@@ -10637,6 +10698,16 @@ msgid ""
 "sound card. Note, if you're using a laptop, this will typically be out of your"
 " built-in microphone, so it's recommended to use headphones to stop feedback."
 msgstr ""
+"Toutefois, considérant que ce `live_audio` roule pour toujours (au moins "
+"jusqu'à ce que vous l'arrêtiez), ce serait assez contraignant si, comme les "
+"synthés typiques, l'audio en direct serait lié à l'intérieur du FX `:reverb` "
+"pour son existence entière. Heureusement, ce n'est pas le cas et cela a été "
+"conçu pour être facile à déplacer entre des FX différents. Essayons-le. "
+"Exécuter le code ci-dessus pour entendre l'audio en direct venir directement "
+"de la première entrée de votre carte de son. À noter, si vous utilisez un "
+"portable, cela correspondra habituellement à votre microphone intégré, alors "
+"il est recommandé d'utiliser des écouteurs pour arrêter le retour "
+"d'informations."
 
 #: 13.2-Live-Audio.md:49
 #, fuzzy
