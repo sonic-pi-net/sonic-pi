@@ -66,14 +66,14 @@ First, we need to download the source code to a reasonable location. You can do 
 
 ### Building Sonic Pi
 
-There's a bash script file called `/app/gui/qt/build-debian-app`, which is an install script to help assist in installing dependecies and building Sonic Pi. You can run it by typing these commands into the terminal:
+There's a bash script file called `/app/gui/qt/build-debian-app`, which is an install script to help assist in installing dependecies and building Sonic Pi. It's been tested with Sonic Pi v3.1 (as of the time of writing), it may or may not work with other versions. You can run it by typing these commands into the terminal:
 ````
 cd app/gui/qt/
 ./build-debian-app
 ````
 It's a modified version of /app/gui/qt/build-ubuntu-app that includes: some changes that to get it working, updated versions of packages, the option to install some packages via: `make install`, or `checkinstall install=no` & `dpkg -i`, and other fixes/tweaks.
 
-If the script doesn't work you may need to resolve dependencies yourself, see 'Information about dependencies (for Sonic Pi v3.1.0)' for more info.
+If the script doesn't work you may need to resolve dependencies yourself, see 'Information about dependencies' for more info.
 
 checkinstall has been added because it turns manually built programs into packages which can be installed and removed from your system. The packages seem to be easier to uninstall than programs installed via. `make install`, as you can uninstall packages via your package manager. If you think that there's a better program/package to do this, then let us know.
 
