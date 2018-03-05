@@ -517,28 +517,29 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi può inviare e ricevere messaggi dall&apos;infrastruttura Open Sound Contro verso e da altri programmi o computer attraverso la rete in uso.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurazione MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Porte MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista di tutte leporte MIDI connesse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivi MIDI di output che ricevono messaggi MIDI direttamente da
+Sonic Pi e che possono essere inviati attraverso il midi_*fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -564,7 +565,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attiva/disattiva Icone Pro - Cambia tra l&apos;impostazione predefinita e un set di icone più minimalistico.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
