@@ -18,7 +18,7 @@ and more complex. Now, let's see how we can pull out all the stops with
 Sonic Pi.
 
 
-# Simple Combinations
+## Simple Combinations
 
 Let's start with the most basic sound there is - the humble pure-toned
 sine wave:
@@ -42,7 +42,7 @@ many colours will result in a messy brown, similarly - adding too many
 sounds together will result in a muddy sound.
 
 
-# Blending
+## Blending
 
 Let's add something to make it sound a little brighter. We could
 use a triangle wave at an octave higher (for that high bright sound) yet
@@ -61,7 +61,7 @@ with each synth's opts to modify each source sound before it is mixed in
 for even more combinations of sounds.
 
 
-# Detuning
+## Detuning
 
 So far, when combining our different synths we've used either the same
 pitch or switched octave. How might it sound if we didn't stick to
@@ -89,7 +89,7 @@ exactly this in one synth. Try playing with the `detune:` opt of
 `:dsaw`, `:dpulse` and `:dtri`.
 
 
-# Amplitude shaping
+## Amplitude shaping
 
 Another way we can finely craft our sound is to use a different envelope
 and options for each synth trigger. For example this will allow you to
@@ -112,7 +112,7 @@ achieved firstly by using two noise synths with middling cutoff values
 longer release time but with a low cutoff value (which makes the noise
 less crisp and more rumbly.)
 
-# Bringing it all together
+## Bringing it all together
 
 Let's combine all these techniques to see if we can use additive
 synthesis to re-create a basic bell sound. I've broken this example into

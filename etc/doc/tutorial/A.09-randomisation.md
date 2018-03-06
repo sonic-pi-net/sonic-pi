@@ -8,7 +8,7 @@ randomisation is such an important part of my live coding DJ sets I
 thought it would be useful to cover the fundamentals in much greater
 detail. So, get your lucky hat on and let's surf some random streams!
 
-# There is no random
+## There is no random
 
 The first thing to learn which might really surprise you when playing
 with Sonic Pi's randomisation functions is that they're not actually
@@ -38,7 +38,7 @@ of Sonic Pi. If you stick at it you'll learn how to rely on the
 deterministic nature of Sonic Pi's randomisation as a fundamental
 building block for your compositions and live coded DJ sets.
 
-# A Random Melody
+## A Random Melody
 
 When Sonic Pi boots it actually loads into memory a sequence of 441,000
 pre-generated random values. When you call a random function such as
@@ -79,7 +79,7 @@ random stream. Here's a list of some of the most useful:
 Check out their documentation in the Help system for detailed
 information and examples.
 
-# Resetting the Stream
+## Resetting the Stream
 
 Whilst the ability to repeat a sequence of chosen notes is essential to
 allow you to replay a riff on the dance floor, it might not be exactly
@@ -142,7 +142,7 @@ something else. Try `100`, what about `999`. Try your own values,
 experiment and play around - see which seed generates the riff you like
 best.
 
-# Bringing it all together
+## Bringing it all together
 
 This month's tutorial has been quite a technical dive into the workings
 of Sonic Pi's randomisation functionality. Hopefully it has given you
