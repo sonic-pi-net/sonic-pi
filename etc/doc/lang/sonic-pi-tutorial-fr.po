@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-06 09:48+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2018-03-06 22:49+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -5275,15 +5275,14 @@ msgid "Variables"
 msgstr "Variables"
 
 #: 05.6-Variables.md:5
-#, fuzzy
 msgid ""
 "A useful thing to do in your code is to create names for things. Sonic Pi make"
 "s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Une chose utile à faire dans votre code est d'attribuer des noms aux choses. S"
-"onic Pi rend cela très facile, vous écrivez le nom que vous voulez utiliser, u"
-"n signe égal (`=`), puis la chose dont vous voulez vous rappeler :"
+"Une chose utile à faire dans votre code est d'attribuer des noms aux choses. "
+"Sonic Pi rend cela très facile, vous écrivez le nom que vous voulez "
+"utiliser, un signe égal (`=`), puis la chose dont vous voulez vous rappeler :"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -8727,15 +8726,14 @@ msgid "Set and Get"
 msgstr "Paramétrer et obtenir"
 
 #: 10.1-Set-and-Get.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has a global memory store called Time State. The two main things you "
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
-"Sonic a un magasin de mémoire global appelé État du Temps. Les deux choses "
-"principales que vous faites avec sont de `set` de l'information et de `get` "
-"de l'information. Explorons plus en détails ..."
+"Sonic Pi a un magasin de mémoire global appelé État du Temps. Les deux "
+"choses principales que vous faites avec sont de `set` de l'information et de "
+"`get` de l'information. Explorons plus en détails..."
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
@@ -8830,9 +8828,8 @@ msgstr ""
 "dessus) ou que Sonic Pi soit fermé."
 
 #: 10.1-Set-and-Get.md:52
-#, fuzzy
 msgid "Multiple Threads"
-msgstr "Threads"
+msgstr "Fils multiples"
 
 #: 10.1-Set-and-Get.md:54
 msgid ""
@@ -10710,11 +10707,12 @@ msgstr ""
 "d'informations."
 
 #: 13.2-Live-Audio.md:49
-#, fuzzy
 msgid ""
 "Now, whilst you're still hearing the audio live from the sound card with rever"
 "b, change the code to the following:"
-msgstr "reverb,"
+msgstr ""
+"Maintenant, pendant que vous entendez l'audio live depuis votre carte son "
+"avec de la réverbération, modifiez le code pour le suivant :"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
@@ -11259,16 +11257,15 @@ msgid "sample :guit_em9, rate: 0.5"
 msgstr "sample :guit_em9, rate: 0.5"
 
 #: A.01-tips.md:96
-#, fuzzy
 msgid ""
 "Hey, what's that `rate: 0.5` bit I just added at the end? That's called an opt"
 ". All of Sonic Pi's synths and FX support them and there's loads to play aroun"
 "d with. They're also available for FX too. Try this:"
 msgstr ""
-"Hé, qu'est-ce que ce `rate: 0.5` que j'ai ajouté à la fin ? C'est ce qu'on app"
-"elle une opt. Tous les synthés et samples de Sonic Pi les supportent et il y e"
-"n a beaucoup avec lesquels on peut jouer. Ils sont disponibles pour les effets"
-" aussi. Essayez ceci :"
+"Hé, qu'est-ce que ce `rate: 0.5` que j'ai ajouté à la fin ? C'est ce qu'on "
+"appelle une opt. Tous les synthés et effets de Sonic Pi les supportent et il "
+"y en a beaucoup avec lesquels on peut jouer. Ils sont disponibles pour les "
+"effets aussi. Essayez ceci :"
 
 #: A.01-tips.md:100
 #, no-wrap
@@ -11282,14 +11279,13 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:106
-#, fuzzy
 msgid ""
 "Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
 "s for full details on all the many opts available to you."
 msgstr ""
-"Maintenant essayez d'augmenter ce feedback à 1 pour entendre des sons fous ! L"
-"isez la documentation pour des détails complets sur les nombreuses opts dispon"
-"ibles."
+"Maintenant, essayez d'augmenter ce feedback à 1 pour entendre des sons de "
+"dingue ! Lisez la documentation pour des détails complets sur les nombreuses "
+"opts disponibles."
 
 #: A.01-tips.md:110
 msgid "5. Live Code"
@@ -11324,15 +11320,15 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:125
-#, fuzzy
 msgid ""
 "Now, hit run and you'll hear a slightly muffled drum break. Now, change the `c"
 "utoff:` value to `80` and hit run again. Can you hear the difference? Try `90`"
 ", `100`, `110`..."
 msgstr ""
-"Maintenant cliquez sur 'Run' et vous entendrez un rhythme de batterie un peu é"
-"touffé. Maintenant changez la valeur de `cutoff:` en `80` et cliquez à nouveau"
-" sur 'Run'. Entendez-vous la différence ? Essayez `90`, `100`, `110`..."
+"Maintenant, cliquez sur 'Run' et vous entendrez un rythme de batterie un peu "
+"étouffé. Maintenant, changez la valeur de `cutoff:` pour `80` et cliquez à "
+"nouveau sur 'Run'. Entendez-vous la différence ? Essayez `90`, `100`, "
+"`110`..."
 
 #: A.01-tips.md:129
 #, fuzzy
