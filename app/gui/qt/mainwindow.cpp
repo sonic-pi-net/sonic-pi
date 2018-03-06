@@ -694,7 +694,7 @@ void MainWindow::setupWindowStructure() {
   scopeWidget->setFocusPolicy(Qt::NoFocus);
   scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
   scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-  scopeInterface = new Scope();
+  scopeInterface = new Scope(scsynth_port);
   scopeInterface->pause();
   scopeWidget->setWidget(scopeInterface);
   scopeWidget->setObjectName("scope");

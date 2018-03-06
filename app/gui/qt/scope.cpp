@@ -29,7 +29,7 @@
   #include <qwt_plot_glcanvas.h>
 #endif
 
-ScopeBase::ScopeBase( const QString& name, const QString& title, QWidget* parent ) : QWidget(parent), name(name), title(title), defaultShowX(true), defaultShowY(true), plot(QwtText(name),this)
+ScopeBase::ScopeBase( const QString& name, const QString& title, int scsynthPort, QWidget* parent ) : QWidget(parent), name(name), title(title), scsynthPort(scsynthPort), defaultShowX(true), defaultShowY(true), plot(QwtText(name),this)
 {
   QSizePolicy sp(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
   plot.setSizePolicy(sp);
@@ -81,7 +81,7 @@ void ScopeBase::refresh( )
   plot.replot();
 }
 
-ScopePanel::ScopePanel( const QString& name, const QString& title, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : ScopeBase(name,title,parent)
+ScopePanel::ScopePanel( const QString& name, const QString& title, int scsynthPort, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : ScopeBase(name,title,scsynthPort,parent)
 {
 
 #if defined(Q_OS_WIN)
@@ -108,7 +108,7 @@ void ScopePanel::setPen( QPen pen )
   plot_curve.setPen( pen );
 }
 
-MultiScopePanel::MultiScopePanel( const QString& name, const QString& title, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent ) : ScopeBase(name,title,parent)
+MultiScopePanel::MultiScopePanel( const QString& name, const QString& title, int scsynthPort, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent ) : ScopeBase(name,title,scsynthPort,parent)
 {
   for( unsigned int i = 0; i < num_lines; ++i )
   {
@@ -135,16 +135,16 @@ void MultiScopePanel::setPen( QPen pen )
   }
 }
 
-Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0)
+Scope::Scope( int scsynthPort, QWidget* parent ) : QWidget(parent), scsynthPort(scsynthPort), paused( false ), emptyFrames(0)
 {
   std::fill_n(sample[0],4096,0);
   std::fill_n(sample[1],4096,0);
   std::fill_n(sample_mono,4096,0);
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", "Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Stereo", "Left", sample_x,sample[0],4096,this) ) );
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Stereo", "Right", sample_x,sample[1],4096, this) ) );
-//  panels.push_back( std::shared_ptr<MultiScopePanel>(new MultiScopePanel("Stereo",sample_x,sample,2,4096,this) ) );
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Mono", "Mono", sample_x,sample_mono,4096, this) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", "Lissajous", scsynthPort, sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Stereo", "Left", scsynthPort, sample_x,sample[0],4096,this) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Stereo", "Right", scsynthPort, sample_x,sample[1],4096, this) ) );
+//  panels.push_back( std::shared_ptr<MultiScopePanel>(new MultiScopePanel("Stereo",scsynthPort, sample_x,sample,2,4096,this) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Mono", "Mono", scsynthPort, sample_x,sample_mono,4096, this) ) );
   panels[0]->setPen(QPen(QColor("deeppink"), 1));
   panels[0]->setXRange( -1, 1, true );
 
@@ -214,7 +214,7 @@ void Scope::resume() {
 
 void Scope::resetScope()
 {
-  shmClient.reset(new server_shared_memory_client(4556));
+  shmClient.reset(new server_shared_memory_client(scsynthPort));
   shmReader = shmClient->get_scope_buffer_reader(0);
 }
 
