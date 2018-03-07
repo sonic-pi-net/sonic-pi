@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-06 22:49+0000\n"
-"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"PO-Revision-Date: 2018-03-07 20:01+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -5281,7 +5281,7 @@ msgid ""
 "n the thing you want to remember:"
 msgstr ""
 "Une chose utile à faire dans votre code est d'attribuer des noms aux choses. "
-"Sonic Pi rend cela très facile, vous écrivez le nom que vous voulez "
+"Sonic Pi rend cela très facile : vous écrivez le nom que vous voulez "
 "utiliser, un signe égal (`=`), puis la chose dont vous voulez vous rappeler :"
 
 #: 05.6-Variables.md:9
@@ -10712,7 +10712,7 @@ msgid ""
 "b, change the code to the following:"
 msgstr ""
 "Maintenant, pendant que vous entendez l'audio live depuis votre carte son "
-"avec de la réverbération, modifiez le code pour le suivant :"
+"avec de la réverbération, modifiez le code ainsi :"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
