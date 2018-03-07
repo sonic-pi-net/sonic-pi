@@ -7317,6 +7317,97 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         }
       end
     end
+
+    class FXPingPong < FXInfo
+      def name
+        "Ping Pong Echo"
+      end
+
+      def introduced
+        Version.new(3,2,0)
+      end
+
+      def synth_name
+        "fx_pingpong"
+      end
+
+      def doc
+        "Echo FX with each delayed echo swapping between left and right channels. Has variable phase duration (time between echoes) and feedback (proportion of sound fed into each echo). If you wish to have a phase duration longer than 1s, you need to specify the longest phase duration you'd like with the arg max_phase. Be warned, `:pingpong` FX with very long phases can consume a lot of memory and take longer to initialise.
+
+Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo during the slide to change in pitch, in much the same way that a sample's pitch changes when altering its rate."
+      end
+
+      def arg_defaults
+        super.merge({
+          :phase => 0.25,
+          :phase_slide => 0,
+          :phase_slide_shape => 1,
+          :phase_slide_curve => 0,
+          :feedback => 0.5,
+          :feedback_slide => 0,
+          :feedback_slide_shape => 1,
+          :feedback_slide_curve => 0,
+          :max_phase => 1,
+          :pan_start => 1
+        })
+      end
+
+      def specific_arg_info
+        {
+          :phase =>
+          {
+            :doc => "The time between echoes in beats.",
+            :validations => [v_positive_not_zero(:phase)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :phase_slide =>
+          {
+            :doc => generic_slide_doc(:phase),
+            :validations => [v_positive(:phase_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :max_phase =>
+          {
+            :doc => "The maximum phase duration in beats.",
+            :validations => [v_positive_not_zero(:max_phase)],
+            :modulatable => false
+          },
+
+          :feedback =>
+          {
+            :doc => "Proportion of sound fed into each successive echo from the previous one.",
+            :validations => [v_positive_not_zero(:feedback), v_less_than(:feedback, 1)],
+            :modulatable => true
+          },
+
+          :feedback_slide =>
+          {
+            :doc => generic_slide_doc(:feedback),
+            :validations => [v_positive(:feedback_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :pan_start =>
+          {
+            :doc => "Starting position of sound in the stereo field. With headphones on, this means how much of the sound starts in the left ear, and how much starts in the right ear. With a value of -1, the sound starts completely in the left ear, a value of 0 starts the sound equally in both ears, and a value of 1 starts the sound completely in the right ear. Values in between -1 and 1 move the sound accordingly. Each echo will swap between left and right at the same distance away from 0 (the centre) that this `pan_start:` opt is set to. For example, with a value of -1, the sound starts completely in the left ear, and the echoes after this will swap between fully right and fully left (1 and -1). With a value of 0, since the sound starts in the centre of the stereo field, each echo also stays in the centre, meaning the panning effect is cancelled out.",
+            :validations => [v_between_inclusive(:pan_start, -1, 1)],
+            :modulatable => false
+          }
+        }
+      end
+
+      def kill_delay(args_h)
+        feedback = args_h[:feedback] || arg_defaults[:feedback]
+        phase = args_h[:phase] || arg_defaults[:phase]
+        (Math.log(0.01) / Math.log(feedback)) * phase
+      end
+    end
+
     class BaseInfo
 
       @@grouped_samples =
@@ -7674,7 +7765,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_tremolo => FXTremolo.new,
         :fx_record => FXRecord.new,
         :fx_sound_out => FXSoundOut.new,
-        :fx_sound_out_stereo => FXSoundOutStereo.new
+        :fx_sound_out_stereo => FXSoundOutStereo.new,
+        :fx_pingpong => FXPingPong.new
       }
 
       def self.get_info(synth_name)
