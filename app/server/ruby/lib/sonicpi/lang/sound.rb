@@ -4895,8 +4895,19 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             # see .normalise_args!
             val = (args_h[val] || defaults[val]) if val.is_a?(Symbol)
             scaled_val = val * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
-            new_args[arg_name] = scaled_val unless scaled_val == defaults[arg_name]
 
+            default = defaults[arg_name]
+            if (args_h.has_key?(arg_name))
+              # if we already have a value for arg_name,
+              # then clobber it with the scaled value
+              new_args[arg_name] = scaled_val
+            else
+              # add scaled val to new_args
+              # unless the scaled value is the default value
+              # (in which case we don't need to send it across
+              # the wire)
+              new_args[arg_name] = scaled_val unless default == scaled_val
+            end
           end
         else
           # only scale the args that have been passed.
