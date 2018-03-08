@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-07 20:01+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-03-08 05:06+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -12901,46 +12901,42 @@ msgstr ""
 "ropres sons."
 
 #: A.05-acid-bass.md:100
-#, fuzzy
 msgid ""
 "Finally, for a big impact on the timbre try changing the `wave:` opt to `1`. T"
 "his is the choice of source oscillator. The default is `0` which is a sawtooth"
 " wave. `1` is a pulse wave and `2` is a triangle wave."
 msgstr ""
-"Enfin pour avoir un grand impact sur le timbre essayez de mettre l'option `wav"
-"e:` à `1`. C'est le choix de l'oscillateur source. La valeur par défaut est `0"
-"` qui est une onde en dents de scie."
+"Enfin, pour avoir un grand impact sur le timbre, essayez de mettre l'option "
+"`wave:` à `1`. C'est le choix de l'oscillateur source. La valeur par défaut "
+"est `0` ce qui est une onde en dent de scie. `1` est une onde pulsée, et `2` "
+"est une onde en triangle."
 
 #: A.05-acid-bass.md:104
-#, fuzzy
 msgid ""
 "Of course, try different riffs by changing the notes in the ring or even picki"
 "ng notes from scales or chords. Have fun with your first acid bass synth."
 msgstr ""
-"Bien sûr, essayez différentes mélodies en changeant les notes dans l'anneau ou"
-" même en choisissant des notes de gammes ou d'accords. Amusez-vous bien avec v"
-"otre premier synthé de basse acide."
+"Bien sûr, essayez différentes mélodies en changeant les notes dans l'anneau "
+"ou même en choisissant des notes de gammes ou d'accords. Amusez-vous bien "
+"avec votre premier synthé de basse acide."
 
 #: A.05-acid-bass.md:108
-#, fuzzy
 msgid "Deconstructing the TB-303"
 msgstr "Déconstruisons le TB-303"
 
 #: A.05-acid-bass.md:110
-#, fuzzy
 msgid ""
 "The design of the original TB-303 is actually pretty simple. As you can see fr"
 "om the following diagram there's only 4 core parts."
 msgstr ""
-"Le design du TB-303 original était en fait assez simple. Comme vous pouvez le "
-"voir sur le diagramme suivant il n'y a que quatre parties principales."
+"Le design du TB-303 original était en fait assez simple. Comme vous pouvez "
+"le voir sur le diagramme suivant, il n'y a que quatre parties principales."
 
 #: A.05-acid-bass.md:113
-#, fuzzy
 msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 msgstr ""
-"![Design du TB-303](../images/tutorial/articles/A.05-acid-bass/tb303-design.pn"
-"g)"
+"![Design du TB-303](../images/tutorial/articles/A.05-acid-"
+"bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 #, fuzzy
@@ -13601,7 +13597,6 @@ msgstr ""
 "s : la ligne de basse de la Habanera :"
 
 #: A.07-bizet.md:29
-#, fuzzy
 msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
 msgstr "![Riff Habanera](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
@@ -13619,7 +13614,6 @@ msgstr ""
 "ions pour un musicien au lieu d'un ordinateur."
 
 #: A.07-bizet.md:36
-#, fuzzy
 msgid "Notes"
 msgstr "Notes"
 
@@ -13651,7 +13645,6 @@ msgstr ""
 "er. Jetez un oeil à cette table de correspondance bien pratique :"
 
 #: A.07-bizet.md:49
-#, fuzzy
 msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
 msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
 
@@ -13696,7 +13689,6 @@ msgstr ""
 "ence."
 
 #: A.07-bizet.md:67
-#, fuzzy
 msgid "Rhythm"
 msgstr "Rythme"
 
@@ -13755,11 +13747,10 @@ msgid "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 msgstr "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 
 #: A.07-bizet.md:94
-#, fuzzy
 msgid "Let's see what this sounds like. Throw it in a live loop and tick through it:"
 msgstr ""
-"Voyons ce que ça donne. Jetons ça dans une boucle interactive et parcourons-là"
-" :"
+"Voyons comment ça sonne. Jetons ça dans une boucle interactive et parcourons-"
+"là :"
 
 #: A.07-bizet.md:97
 #, no-wrap
@@ -13775,14 +13766,13 @@ msgstr ""
 "end"
 
 #: A.07-bizet.md:104
-#, fuzzy
 msgid ""
 "Fabulous, that instantly recognisable riff springs to life through your speake"
 "rs. It took a lot of effort to get here, but it was worth it - high five!"
 msgstr ""
-"Fabuleux, cette mélodie qu'on reconnait immédiatement prend vie dans vos haut-"
-"parleurs. On a fait des efforts pour en arriver là, mais ça valait la peine, b"
-"ravo !"
+"Fabuleux, cette mélodie qu'on reconnaît immédiatement prend vie dans vos "
+"haut-parleurs. On a fait de gros efforts pour en arriver là, mais ça valait "
+"la peine, bien joué !"
 
 #: A.07-bizet.md:108
 #, fuzzy
@@ -13935,12 +13925,10 @@ msgstr ""
 "end"
 
 #: A.08-minecraft-vj.md:1
-#, fuzzy
 msgid "A.8 Become a Minecraft VJ"
 msgstr "A.8 Devenez un VJ Minecraft"
 
 #: A.08-minecraft-vj.md:3
-#, fuzzy
 msgid "Become a Minecraft VJ"
 msgstr "Devenez un VJ Minecraft"
 
@@ -13994,9 +13982,8 @@ msgstr ""
 " salles de concert autour du monde."
 
 #: A.08-minecraft-vj.md:23
-#, fuzzy
 msgid "Let's get started..."
-msgstr "Commençons..."
+msgstr "Premiers pas..."
 
 #: A.08-minecraft-vj.md:25
 #, fuzzy
@@ -14031,7 +14018,6 @@ msgstr ""
 "t. OK, on est prêt à démarrer, on va s'amuser..."
 
 #: A.08-minecraft-vj.md:39
-#, fuzzy
 msgid "Sand Storms"
 msgstr "Tempêtes de sable"
 
