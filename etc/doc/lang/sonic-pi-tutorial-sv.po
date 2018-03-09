@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-09 18:08+0000\n"
-"Last-Translator: Johan Ekblad <jka@ekblad.org>\n"
+"PO-Revision-Date: 2018-03-09 20:38+0000\n"
+"Last-Translator: Fredrik Forsberg <fredrikf78@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/sv/>\n"
 "Language: sv\n"
@@ -826,6 +826,7 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:75
+#, fuzzy
 msgid ""
 "How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it"
 " means the *duration of the sleep*. It actually means sleep for one beat, but "
@@ -833,6 +834,11 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
+"Så fint, ett litet arpeggio. Så vad betyder `1`i `sleep 1`? Jo, det betyder *"
+"sömnens varaktighet*. Det betyder egentligen sov i ett slag, men för "
+"tillfället kan vi se det som att vi sover i en sekund. Så om vi hade velat "
+"få vårt arpeggio att låta lite snabbare? Jo, vi behöver använda kortare "
+"stegvärden. Vad sägs om en halv, dvs `0.5`"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -845,10 +851,13 @@ msgid ""
 msgstr ""
 
 #: 02.1-Your-First-Beeps.md:89
+#, fuzzy
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
 msgstr ""
+"Lägg märke till att det spelar snabbare. Prova nu själv, ändra tiderna - "
+"använd olika tider och noter."
 
 #: 02.1-Your-First-Beeps.md:92
 msgid ""
