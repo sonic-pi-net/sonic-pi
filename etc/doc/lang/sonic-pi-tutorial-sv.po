@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-17 00:41+0000\n"
+"PO-Revision-Date: 2018-03-09 18:08+0000\n"
 "Last-Translator: Johan Ekblad <jka@ekblad.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/sv/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.19\n"
+"X-Generator: Weblate 2.20-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -598,10 +598,21 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
+"När vi ändå diskuterar ämnet, låt mig ge dig ett råd, som jag lärt mig under "
+"åren som jag livekodat - *du kan inte göra fel, bara utvecklas*. Det är "
+"något jag ofta hört i relation till jazz, men det passar lika bra in på "
+"livekodning. Det spelar ingen roll hur erfaren du är - från en fullständig "
+"nybörjare till en professionell artist som uppträder på "
+"algoravetillställningar, du kommer garanterat köra kod som har helt oväntade "
+"effekter. Det kanske kommer låta sjukt coolt - kör på det i så fall, eller "
+"skära sig och vare helt ur takt. Det spelar ingen roll att det hände - vad "
+"som spelar roll är hur du hanterar det fortsättningsvis. Ta ljudet, "
+"manipulera det och mixa ihop det till något fantastiskt. Alla i publiken "
+"kommer bli helt *galna*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr ""
+msgstr "Börja enkelt"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -613,22 +624,29 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
+"När du håller på att lära dig, är det lätt att man vill göra fantastiska "
+"saker *nu*. Men försök behålla den tanken och se det som ett mål att nå "
+"*senare*. Tänk dig istället det *enklaste* du kan skriva som är kul och "
+"givande och som är ett litet steg på vägen till allt fantastiskt du tänker "
+"dig göra. När du har en idé hur du kan skriva detta första enkla steg, pröva "
+"att skriv det, lek med det och se vilka nya idéer du får av det. På detta "
+"vis kommer du att ha kul och snabbt nå framgång."
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
-msgstr ""
+msgstr "Glöm inte att dela med dig till andra!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr ""
+msgstr "2 Syntar"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr ""
+msgstr "Syntar"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr ""
+msgstr "OK, nu räcker det med intro  - låt oss göra ljud."
 
 #: 02-Synths.md:7
 msgid ""
@@ -639,6 +657,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
+"I denna sektion kommer vi gå igenom grunderna för att starta och manipulera "
+"syntar. Synt är en förkortning av synthesizer som är ett lång ord för något "
+"som skapar ljud. Oftast är syntar ganska komplicerade att använda - "
+"speciellt analoga syntar, såsom Eurorack-moduler som är ihopkopplade i en "
+"enda röra av sladdar. Sonic Pi ger dig nästan samma kraftfulla effekter med "
+"ett enkelt tillvägagångssätt."
 
 #: 02-Synths.md:14
 msgid ""
@@ -646,23 +670,26 @@ msgid ""
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
+"Låt dig inte luras av Sonic Pi's enkla gränssnittet. Du kan tränga mycket "
+"djupt in i mycket avancerade ljudmanipulationer, om det är sånt du gillar. "
+"Håll i hatten..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 Dina första pip"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr ""
+msgstr "Dina första pip"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr ""
+msgstr "Kika på följande kod:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -670,34 +697,40 @@ msgid ""
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
+"Det är nu det börjar. Varsågod, kopiera och klistra in koden i fönstret "
+"längst upp i applikationen (den stora vita ytan under Run-knappen). \n"
+"Nu kan du trycka på Run..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "Pip!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr ""
+msgstr "Häftigt. Tryck på det igen. Och igen. *Och igen...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
+"Coolt. Jag är säker på att du skulle kunna hålla på så hela dagen. Men "
+"vänta, innan du försvinner in i en oändlig ström av pip, pröva att ändra "
+"siffran:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr ""
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
-msgstr ""
+msgstr "Kan du höra skillnaden? Pröva en lägre siffra:"
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr ""
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
@@ -710,6 +743,14 @@ msgid ""
 "just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
 "y 60`."
 msgstr ""
+"OK, lägre siffror ger pip med lägre tonhöjd och högre siffror ger pip med "
+"högre tonhöjd. Precis som på ett piano, tangenterna på den lägre sidan av "
+"pianot (till vänster) spelar lägre noter och tangenterna på den högre sidan ("
+"till höger) spelar högre noter. Faktum är att siffrorna faktiskt står i "
+"relation till noterna på ett piano. `play 47` betyder spela den 47:e noten "
+"på pianot. Vilket innebär att `play 48` än en not högre (nästa tangent till "
+"höger). Av en tillfällighet blev den 4:e oktaven C nummer 60. Låt oss spela "
+"den: `play 60`."
 
 #: 02.1-Your-First-Beeps.md:42
 msgid ""
@@ -717,16 +758,22 @@ msgid ""
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
+"*Oroa dig inte\" om du inte förstår något av detta - det gjorde inte jag "
+"heller när jag började. Allt som spelar roll just nu är att du känner till "
+"att *lägre siffror ger lägre tonhöjd på pipet* och *högre siffror ger högre "
+"tonhöjd på pipet*."
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
-msgstr ""
+msgstr "Ackord"
 
 #: 02.1-Your-First-Beeps.md:48
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
 msgstr ""
+"Att spela en ton är ganska kul, men att spela flera samtidigt kan vara ännu "
+"bättre. Pröva:"
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
@@ -735,6 +782,9 @@ msgid ""
 "play 75\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"play 75\n"
+"play 70"
 
 #: 02.1-Your-First-Beeps.md:57
 msgid ""
@@ -742,10 +792,13 @@ msgid ""
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
+"Härligt! Så, när du skriver flera `play` så spelar de samtidigt. Pröva själv "
+"- vilka siffror låter bra ihop? Vilka låter fruktansvärt? Experimentera, "
+"utforska och försök själv."
 
 #: 02.1-Your-First-Beeps.md:61
 msgid "Melody"
-msgstr ""
+msgstr "Melodi"
 
 #: 02.1-Your-First-Beeps.md:63
 msgid ""
@@ -753,6 +806,9 @@ msgid ""
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
+"Så, att spela toner och ackord är kul - men hur är det med att spela en "
+"melodi? Alltså om du skulle vilja spela dem efter varandra och inte alla på "
+"en gång? Det är enkelt, man lägger bara in en `sleep` mellan tonerna:"
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -763,6 +819,11 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 1\n"
+"play 75\n"
+"sleep 1\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:75
 msgid ""
