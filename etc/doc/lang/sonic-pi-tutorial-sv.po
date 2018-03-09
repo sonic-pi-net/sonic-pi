@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-09 20:38+0000\n"
-"Last-Translator: Fredrik Forsberg <fredrikf78@gmail.com>\n"
+"PO-Revision-Date: 2018-03-10 22:40+0000\n"
+"Last-Translator: Johan Ekblad <jka@ekblad.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/sv/>\n"
 "Language: sv\n"
@@ -826,7 +826,6 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:75
-#, fuzzy
 msgid ""
 "How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it"
 " means the *duration of the sleep*. It actually means sleep for one beat, but "
@@ -838,7 +837,7 @@ msgstr ""
 "sömnens varaktighet*. Det betyder egentligen sov i ett slag, men för "
 "tillfället kan vi se det som att vi sover i en sekund. Så om vi hade velat "
 "få vårt arpeggio att låta lite snabbare? Jo, vi behöver använda kortare "
-"stegvärden. Vad sägs om en halv, dvs `0.5`"
+"stegvärden. Vad sägs om en halv, dvs `0.5`:"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -849,6 +848,11 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 0.5\n"
+"play 75\n"
+"sleep 0.5\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:89
 #, fuzzy
@@ -865,10 +869,13 @@ msgid ""
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
+"En sak att pröva är att spela toner som är mellan två heltal, såsom `play "
+"52.3` och `play 52.63`. Det finns ingen anledning att hålla sig till "
+"standard-tonerna som är heltal. Lek och ha kul."
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
-msgstr ""
+msgstr "Traditionella namn på toner"
 
 #: 02.1-Your-First-Beeps.md:99
 msgid ""
@@ -877,6 +884,11 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
+"För de av er som redan känner till lite musikaliska termer (var inte orolig "
+"om du inte gör det - det behövs inte för att ha kul) så kanske ni vill "
+"skriva en melodi genom att använda de klassiska namnen på tonerna, såsom C "
+"och F# istället för siffror. Sonic Pi kan hantera detta. Du kan göra "
+"följande:"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -887,12 +899,20 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
+"play :C\n"
+"sleep 0.5\n"
+"play :D\n"
+"sleep 0.5\n"
+"play :E"
 
 #: 02.1-Your-First-Beeps.md:112
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
 msgstr ""
+"Kom ihåg att sätt ett kolon `:` framför namnet på tonen, så att den blir "
+"rosafärgad. Man kan även ange oktav genom att lägga till en siffra efter "
+"tonens namn:"
 
 #: 02.1-Your-First-Beeps.md:116
 #, no-wrap
@@ -903,24 +923,32 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
+"play :C3\n"
+"sleep 0.5\n"
+"play :D3\n"
+"sleep 0.5\n"
+"play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
+"Om du vill göra tonen en halvton högre, lägg i så fall till ett `s` efter "
+"tonens namn, såsom `play :Fs3`. Vill du istället göra tonen en halvton "
+"lägre, lägg i så fall till ett `b` såsom `play :Eb3`."
 
 #: 02.1-Your-First-Beeps.md:127
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr ""
+msgstr "Ha nu *riktigt kul* när du gör dina egna låtar."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
-msgstr ""
+msgstr "2.2 Syntens tillval"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr ""
+msgstr "Syntens tillval: amp och pan"
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -931,6 +959,9 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
+"Förutom att låta dig bestämma vilken ton som skall spelas eller vilken "
+"sampling som skall startas, så ger dig Sonic Pi möjlighet att skruva på och "
+"kontrollera ljudet."
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
