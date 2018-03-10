@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-09 05:35+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-03-11 18:07+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/fr/>\n"
 "Language: fr\n"
@@ -14155,7 +14155,6 @@ msgstr ""
 "us !"
 
 #: A.08-minecraft-vj.md:91
-#, fuzzy
 msgid "Live Loops Unleashed"
 msgstr "Boucles interactives déchaînées"
 
@@ -14195,28 +14194,24 @@ msgstr ""
 "end"
 
 #: A.08-minecraft-vj.md:109
-#, fuzzy
 msgid ""
 "What fun! We're looping round pretty quickly (8 times a second) and during eac"
 "h loop we're finding Steve's location like before but then generating 3 random"
 " values:"
 msgstr ""
-"Qu'est-ce que c'est amusant ! On boucle assez vite (8 fois par seconde) et pen"
-"dant chaque boucle on trouve l'emplacement de Steve comme avant mais on génère"
-" ensuite trois valeurs aléatoires :"
+"Qu'est-ce que c'est amusant ! On boucle assez vite (8 fois par seconde) et "
+"pendant chaque boucle, on trouve l'emplacement de Steve comme avant mais on "
+"génère ensuite trois valeurs aléatoires :"
 
 #: A.08-minecraft-vj.md:113
-#, fuzzy
 msgid "`xd` - the difference for x which will be between -10 and 10"
-msgstr "`xd`: la différence pour x qui sera entre -10 et 10"
+msgstr "`xd`: la différence pour x, qui sera entre -10 et 10"
 
 #: A.08-minecraft-vj.md:114
-#, fuzzy
 msgid "`zd` - the difference for z also between -10 and 10"
 msgstr "`zd`: la différence pour z, aussi entre -10 et 10"
 
 #: A.08-minecraft-vj.md:115
-#, fuzzy
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
 msgstr "`co`: une valeur de coupure pour le filtre passe-bas, entre 70 et 130"
 
@@ -14253,9 +14248,8 @@ msgstr ""
 "els sans arrêter le code ?"
 
 #: A.08-minecraft-vj.md:129
-#, fuzzy
 msgid "Epic Block Patterns"
-msgstr "Des formes de blocs épiques"
+msgstr "Des motifs de blocs épiques"
 
 #: A.08-minecraft-vj.md:131
 msgid ""
@@ -14345,17 +14339,14 @@ msgstr ""
 "rcés, baissez la lumière et donnez un spectacle de VJ pour vos amis !"
 
 #: A.09-randomisation.md:1
-#, fuzzy
 msgid "A.9 Randomisation"
-msgstr "A.9 L'aléatoire"
+msgstr "A.9 L'aléation"
 
 #: A.09-randomisation.md:3
-#, fuzzy
 msgid "Surfing Random Streams"
 msgstr "Surfer sur des flux aléatoires"
 
 #: A.09-randomisation.md:5
-#, fuzzy
 msgid ""
 "Back in episode 4 of this tutorial series we took a brief look at randomisatio"
 "n whilst coding up some sizzling synth riffs. Given that randomisation is such"
@@ -14363,16 +14354,15 @@ msgid ""
 "over the fundamentals in much greater detail. So, get your lucky hat on and le"
 "t's surf some random streams!"
 msgstr ""
-"Dans le quatrième épisode de cette série de tutoriels nous avons jeté un oeil "
-"brièvement à l'aléatoire en codant des riffs grésillants de synthé. Vu comme l"
-"'aléatoire est une partie très importante de mes performances de live coding j"
-"'ai pensé qu'il serait utile d'en couvrir les bases plus en détail. Mettez vot"
-"re casquette et surfons sur des flux aléatoires !"
+"Dans le quatrième épisode de cette série de tutoriels, nous avons brièvement "
+"jeté un œil à l'aléation en codant des riffs grésillants de synthé. Vu comme "
+"l'aléation est une partie très importante de mes performances de DJ codeur "
+"en live, j'ai pensé qu'il serait utile d'en couvrir les bases plus en "
+"détail. Mettez votre casquette et surfons sur des flux aléatoires !"
 
 #: A.09-randomisation.md:11
-#, fuzzy
 msgid "There is no random"
-msgstr "Il n'y a pas d'aléatoire"
+msgstr "Il n'y a pas d'aléation"
 
 #: A.09-randomisation.md:13
 #, fuzzy
@@ -14435,7 +14425,6 @@ msgstr ""
 "l pour vos compositions et performances de live coding."
 
 #: A.09-randomisation.md:41
-#, fuzzy
 msgid "A Random Melody"
 msgstr "Une mélodie aléatoire"
 
@@ -14464,9 +14453,9 @@ msgstr ""
 "très important quand on commence à partager nos morceaux."
 
 #: A.09-randomisation.md:54
-#, fuzzy
 msgid "Let's use this knowledge to generate a repeatable random melody:"
-msgstr "Utilisons cette connaissance pour générer une mélodie aléatoire répétable :"
+msgstr ""
+"Utilisons cette connaissance pour générer une mélodie aléatoire répétable :"
 
 #: A.09-randomisation.md:56
 #, no-wrap
@@ -14482,71 +14471,61 @@ msgstr ""
 "end"
 
 #: A.09-randomisation.md:63
-#, fuzzy
 msgid ""
 "Type this into a spare buffer and hit Run. You'll hear a melody consisting of "
 "'random' notes between 50 and 95. When it's finished, hit Run again to hear ex"
 "actly the same melody again."
 msgstr ""
-"Tapez ceci dans un buffer de libre et cliquez sur 'Run'. Vous entendrez une mé"
-"lodie de notes aléatoires entre 50 et 95. Quand elle aura fini, cliquez sur 'R"
-"un' à nouveau pour entendre exactement la même mélodie à nouveau."
+"Tapez ceci dans un tampon étant libre et cliquez sur 'Run'. Vous entendrez "
+"une mélodie de notes 'aléatoires' entre 50 et 95. Quand elle aura fini, "
+"cliquez sur 'Run' à nouveau pour entendre exactement la même mélodie à "
+"nouveau."
 
 #: A.09-randomisation.md:67
-#, fuzzy
 msgid "Handy Randomisation Functions"
-msgstr "Des fonctions aléatoires pratiques"
+msgstr "Des fonctions d'aléation pratiques"
 
 #: A.09-randomisation.md:69
-#, fuzzy
 msgid ""
 "Sonic Pi comes with a number of useful functions for working with the random s"
 "tream. Here's a list of some of the most useful:"
 msgstr ""
-"Sonic Pi contient un certain nombre de fonctions utiles pour travailler avec l"
-"e flux aléatoire. Voici une liste des plus utiles :"
+"Sonic Pi contient un certain nombre de fonctions utiles pour travailler avec "
+"le flux aléatoire. Voici une liste de certaines des plus utiles :"
 
 #: A.09-randomisation.md:72
-#, fuzzy
 msgid "`rand` - Simply returns the next value in the random stream"
 msgstr "`rand`: retourne simplement la prochaine valeur dans le flux aléatoire"
 
 #: A.09-randomisation.md:73
-#, fuzzy
 msgid "`rrand` - Returns a random value within a range"
 msgstr "`rrand`: retourne une valeur aléatoire dans un intervalle"
 
 #: A.09-randomisation.md:74
-#, fuzzy
 msgid "`rrand_i` - Returns a random whole number within a range"
 msgstr "`rrand_i`: retourne une valeur entière aléatoire dans un intervalle"
 
 #: A.09-randomisation.md:75
-#, fuzzy
 msgid "`one_in` - Returns true or false with the given probability"
 msgstr "`one_in`: retourne vrai ou faux pour une probabilité donnée"
 
 #: A.09-randomisation.md:76
-#, fuzzy
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
 msgstr "`dice`: imite un jet de dé et retourne une valeur entre 1 et 6"
 
 #: A.09-randomisation.md:77
-#, fuzzy
 msgid "`choose` - Chooses a random value from a list"
 msgstr "`choose`: choisit une valeur aléatoire dans une liste"
 
 #: A.09-randomisation.md:79
-#, fuzzy
 msgid ""
 "Check out their documentation in the Help system for detailed information and "
 "examples."
 msgstr ""
-"Regardez leur documentation dans le système d'aide pour des informations détai"
-"llées et des exemples."
+"Regardez leur documentation dans le système d'aide pour des informations "
+"détaillées et des exemples."
 
 #: A.09-randomisation.md:82
-#, fuzzy
 msgid "Resetting the Stream"
 msgstr "Réinitialiser le flux"
 
