@@ -2,25 +2,19 @@ language: ruby
 
 os: linux
 sudo: required
-dist: xenial
+dist: trusty
 compiler: gcc
-rvm: 2.4.0
-env: USE_RVM=1
 
 cache:
  - apt
  - ccache
 
-# in addition to the default settings (above),
-# add test runs using the Travis rvm ruby binaries.
-matrix:
-  include:
-    - rvm: 2.1.2
-      env: USE_RVM=1
-    - rvm: 2.2.3
-      env: USE_RVM=1
-    - rvm: 2.3.3
-      env: USE_RVM=1
+rvm:
+  - 2.1.10
+  - 2.2.9
+  - 2.3.6
+  - 2.4.3
+  - 2.5.0
 
 before_install:
  - sudo apt-get update
@@ -28,9 +22,9 @@ before_install:
  - sudo add-apt-repository ppa:latthias/qgis-travis-deps -y
  - sudo apt-get update -q
  - sudo apt-get --yes install libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default libqt5opengl5-dev libqt5svg5-dev libqwt-qt5-dev libboost-all-dev
- - wget http://aubio.org/pub/aubio-0.4.2.tar.bz2
- - tar xvjf aubio-0.4.2.tar.bz2
- - cd aubio-0.4.2
+ - wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
+ - tar xvjf aubio-0.4.4.tar.bz2
+ - cd aubio-0.4.4
  - ./waf configure build
  - sudo ./waf install
 
@@ -38,43 +32,16 @@ script:
  - set -e
 # the | starts a multiline YAML entry
  - |
-   if [[ $USE_RVM ]]
-   then
-     # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
-     echo ""
-     echo "***********************************"
-     echo "* Compiling the vendor/ ruby gems *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/bin
-     ruby ./compile-extensions.rb
-     echo ""
-     echo "***********************************"
-     echo "* Running the Sonic Pi test suite *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/sonicpi/test
-     rake test
-   else
-     # this compiles the gems and runs the Sonic Pi test suite for all ruby versions in Ubuntu Trusty (1.9.1 and 2.0.0)
-     echo ""
-     echo "***********************************"
-     echo "* Compiling the vendor/ ruby gems *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/bin
-     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " ./compile-extensions.rb") or raise ("ruby gem compile failed for " + v) }'
-     echo ""
-     echo "***********************************"
-     echo "* Running the Sonic Pi test suite *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/server/sonicpi/test
-     /usr/bin/ruby -e 'require "ruby_debian_dev"; include RubyDebianDev; SUPPORTED_RUBY_VERSIONS.each { |v, b| system(b + " /usr/bin/rake test") or raise ("test failed for " + v) }'
-     # the following are the same steps as in ./app/gui/qt/rp-build-app
-     echo ""
-     echo "***********************************"
-     echo "* Compiling Sonic Pi GUI with Qt5 *"
-     echo "***********************************"
-     cd $TRAVIS_BUILD_DIR/app/gui/qt
-     cp -f ruby_help.tmpl ruby_help.h ; /usr/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
-     lrelease SonicPi.pro
-     qmake -o Makefile SonicPi.pro
-     make
-   fi
+    # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
+    echo ""
+    echo "***********************************"
+    echo "* Compiling the vendor/ ruby gems *"
+    echo "***********************************"
+    cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
+    ruby ./compile-extensions.rb
+    echo ""
+    echo "***********************************"
+    echo "* Running the Sonic Pi test suite *"
+    echo "***********************************"
+    cd $TRAVIS_BUILD_DIR/app/server/ruby/test
+    rake test

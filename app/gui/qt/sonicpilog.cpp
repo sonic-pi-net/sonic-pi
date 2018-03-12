@@ -37,17 +37,36 @@ void SonicPiLog::setTextColor(QColor c)
   setCurrentCharFormat(tf);
 }
 
+void SonicPiLog::setTextBgFgColors(QColor bg, QColor fg)
+{
+  QTextCharFormat tf;
+  tf.setBackground(bg);
+  tf.setForeground(fg);
+  setCurrentCharFormat(tf);
+}
+
 void SonicPiLog::setTextBackgroundColor(QColor c)
 {
   QTextCharFormat tf;
   tf.setBackground(c);
   setCurrentCharFormat(tf);
+
 }
 
 void SonicPiLog::setFontFamily(QString font_name)
 {
   setFont(QFont(font_name));
 }
+
+void SonicPiLog::appendPlainText(QString text)
+{
+  QPlainTextEdit::appendPlainText(text);
+  if(forceScroll) {
+    QScrollBar *sb = verticalScrollBar();
+    sb->setValue(sb->maximum());
+  }
+}
+
 
 void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
 {
@@ -63,8 +82,8 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
 
     ss.append("{run: ").append(QString::number(mm.job_id));
     ss.append(", time: ").append(QString::fromStdString(mm.runtime));
-    if(!mm.thread_name.empty()) {
-      ss.append(", thread: \"").append(QString::fromStdString(mm.thread_name)).append("\"");
+    if(! (mm.thread_name == "\"\"")) {
+      ss.append(", thread: ").append(QString::fromStdString(mm.thread_name));
     }
     ss.append("}");
     appendPlainText(ss);

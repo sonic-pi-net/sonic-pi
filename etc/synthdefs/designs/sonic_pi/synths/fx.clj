@@ -15,8 +15,116 @@
   (:use [overtone.live])
   (:require [sonic-pi.synths.core :as core]))
 
-
 (without-namespace-in-synthdef
+  (core/def-fx sonic-pi-fx_mcverb
+   [num_allpasses 4
+    num_combs 7
+    allpass_rand 0.05
+    allpass_rand_slide 0
+
+    allpass_rand_slide_shape 1
+    allpass_rand_slide_curve 0
+    comb_min_delay 0.01
+    comb_min_delay_slide 0
+    comb_min_delay_slide_shape 1
+    comb_min_delay_slide_curve 0
+    comb_max_delay 0.09
+    comb_max_delay_slide 0
+    comb_max_delay_slide_shape 1
+    comb_max_delay_slide_curve 0
+    comb_decay 15
+    pre_delay 0.048
+    seed 0
+    slope 8
+    rand_buf 0
+]
+
+   [
+    allpass_rand (varlag allpass_rand allpass_rand_slide allpass_rand_slide_curve allpass_rand_slide_shape)
+    comb_min_delay (varlag comb_min_delay comb_min_delay_slide comb_min_delay_slide_curve comb_min_delay_slide_shape)
+    comb_max_delay (varlag comb_max_delay comb_max_delay_slide comb_max_delay_slide_curve comb_max_delay_slide_shape)
+
+    num_combs      (- (clip num_combs 1 10) 1)
+    num_allpasses  (clip num_allpasses 1 4)
+    pre_delay      (clip pre_delay 0 0.2)
+    allpass_rand   (clip (lin-lin allpass_rand 0 1 0 0.3) 0 0.3)
+    comb_max_delay (clip comb_max_delay 0 1)
+    comb_min_delay (clip comb_min_delay 0 comb_max_delay)
+    slope          (clip slope 0.001 8)
+
+    pre-delay-l (delay-n dry-l pre_delay)
+    pre-delay-r (delay-n dry-r pre_delay)
+
+    r #(core/deterministic-rand rand_buf %1)
+    n #(core/deterministic-lf-noise1 rand_buf %1 (r %1) slope)
+    cl #(comb-l:ar pre-delay-l 0.3 (lin-lin (n (+ seed %1)) -1 1 comb_min_delay comb_max_delay) comb_decay)
+    cr #(comb-l:ar pre-delay-r 0.3 (lin-lin (n (+ seed %1)) -1 1 comb_min_delay comb_max_delay) comb_decay)
+
+    cl0 (cl 0)
+    cr0 (cr 1)
+    cl1 (cl 2)
+    cr1 (cr 3)
+    cl2 (cl 4)
+    cr2 (cr 5)
+    cl3 (cl 6)
+    cr3 (cr 7)
+    cl4 (cl 8)
+    cr4 (cr 9)
+    cl5 (cl 10)
+    cr5 (cr 11)
+    cl6 (cl 12)
+    cr6 (cr 13)
+    cl7 (cl 14)
+    cr7 (cr 15)
+    cl8 (cl 16)
+    cr8 (cr 17)
+    cl9 (cl 18)
+    cr9 (cr 19)
+
+    rev-r (select num_combs [cr0
+                             (/ (+ cr0 cr1) 2)
+                             (/ (+ cr0 cr1 cr2) 3)
+                             (/ (+ cr0 cr1 cr2 cr3) 4)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4) 5)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5) 6)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6) 7)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6 cr7) 8)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6 cr7 cr8) 9)
+                             (/ (+ cr0 cr1 cr2 cr3 cr4 cr5 cr6 cr7 cr8 cr9) 10)])
+
+    rev-l (select num_combs [cl0
+                             (/ (+ cl0 cl1) 2)
+                             (/ (+ cl0 cl1 cl2) 3)
+                             (/ (+ cl0 cl1 cl2 cl3) 4)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4) 5)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5) 6)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5 cl6) 7)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5 cl6 cl7) 8)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5 cl6 cl7 cl8) 9)
+                             (/ (+ cl0 cl1 cl2 cl3 cl4 cl5 cl6 cl7 cl8 cl9) 10)])
+
+    rev-l1 (allpass-n rev-l  0.3 (core/deterministic-rand rand_buf seed allpass_rand))
+    rev-l2 (allpass-n rev-l1 0.3 (core/deterministic-rand rand_buf (+ seed 1) allpass_rand) 1)
+    rev-l3 (allpass-n rev-l2 0.3 (core/deterministic-rand rand_buf (+ seed 2) allpass_rand) 1)
+    rev-l4 (allpass-n rev-l3 0.3 (core/deterministic-rand rand_buf (+ seed 3) allpass_rand) 1)
+
+    rev-r1 (allpass-n rev-r  0.3 (core/deterministic-rand rand_buf (+ seed 4) allpass_rand) 1)
+    rev-r2 (allpass-n rev-r1 0.3 (core/deterministic-rand rand_buf (+ seed 5) allpass_rand) 1)
+    rev-r3 (allpass-n rev-r2 0.3 (core/deterministic-rand rand_buf (+ seed 6) allpass_rand) 1)
+    rev-r4 (allpass-n rev-r3 0.3 (core/deterministic-rand rand_buf (+ seed 7) allpass_rand) 1)
+
+    wet-l (select num_allpasses [0
+                                 rev-l1
+                                 rev-l2
+                                 rev-l3
+                                 rev-l4])
+
+    wet-r (select num_allpasses [0
+                                 rev-r1
+                                 rev-r2
+                                 rev-r3
+                                 rev-r4])
+    ])
 
  (core/def-fx sonic-pi-fx_mono
    [pan 0
@@ -725,7 +833,7 @@
 
 ;; need to break these up due to Clojure's method size limitation
 (without-namespace-in-synthdef
-  (core/def-fx sonic-pi-fx_nrlpf
+ (core/def-fx sonic-pi-fx_nrlpf
    [cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -866,6 +974,21 @@
     [wet-l wet-r] (bpf [dry-l dry-r] freq res)])
 
 
+ (core/def-fx sonic-pi-fx_nbpf
+   [centre 100
+    centre_slide 0
+    centre_slide_shape 1
+    centre_slide_curve 0
+    res 0.6
+    res_slide 0
+    res_slide_shape 1
+    res_slide_curve 0]
+   [centre        (varlag centre centre_slide centre_slide_curve centre_slide_shape)
+    freq          (midicps centre)
+    res           (lin-lin res 1 0 0 1)
+    res           (varlag res res_slide res_slide_curve res_slide_shape)
+
+    [wet-l wet-r] (normalizer (bpf [dry-l dry-r] freq res))])
 
  (core/def-fx sonic-pi-fx_rbpf
    [centre 100
@@ -1136,13 +1259,11 @@
     [wet-l wet-r] snd])
 
  (core/def-fx sonic-pi-fx_record
-   [buffer 0]
-   [
-    ph (phasor:ar 0 (buf-rate-scale:kr buffer) 0 (buf-frames:kr buffer))
-    _  (buf-wr:ar [dry-l dry-r] buffer ph 0)
-    [wet-l wet-r] [dry-l dry-r]
-    ])
-
+   [buffer      0]
+   [_           (record-buf:ar [dry-l dry-r] buffer :loop 0)
+    wet-l       dry-l
+    wet-r       dry-r]
+   )
 
  (core/def-fx sonic-pi-fx_tremolo
    [phase 4
@@ -1184,46 +1305,91 @@
     tremolo-wave-mul    (* ctl-wave-i depth)
     [wet-l wet-r]       [(- dry-l (* dry-l tremolo-wave-mul)) (- dry-r (* dry-r tremolo-wave-mul))]])
 
-)
+
+ (core/def-fx sonic-pi-fx_sound_out_stereo
+   [output 0
+    mode 0]
+   [
+    output (- output 1)
+    mono (/ (sum [dry-l dry-r]) 2)
+    fx-l (select:ar mode [dry-l
+                          dry-r
+                          mono])
+    fx-r (select:ar mode [dry-r
+                          dry-l
+                          mono])
+
+    _ (out output [fx-l fx-r])
+    [wet-l wet-r] [dry-l dry-r]
+    ])
+
+ (core/def-fx sonic-pi-fx_sound_out
+   [output 0
+    mode 0]
+   [
+    output (- output 1)
+    mono (/ (sum [dry-l dry-r]) 2)
+    src (select:ar mode [mono
+                         dry-l
+                         dry-r
+])
+    _ (out output src)
+    [wet-l wet-r] [dry-l dry-r]
+    ])
+
+ (core/def-fx sonic-pi-fx_scope_out
+   [scope_num 0
+    max_frames 4096]
+   [
+    _ (scope-out2 [dry-l dry-r] scope_num max_frames)
+    [wet-l wet-r] [dry-l dry-r]
+    ])
+ )
 
 (comment
+  ;;(core/save-synthdef sonic-pi-fx_mcverb)
+  (core/save-synthdef sonic-pi-fx_scope_out)
+  (core/save-synthdef sonic-pi-fx_sound_out)
+  (core/save-synthdef sonic-pi-fx_sound_out_stereo)
+  (core/save-synthdef sonic-pi-fx_record)
   (core/save-synthdef sonic-pi-fx_eq)
-   (core/save-synthdef sonic-pi-fx_echo)
-   (core/save-synthdef sonic-pi-fx_reverb)
-   (core/save-synthdef sonic-pi-fx_mono)
-   (core/save-synthdef sonic-pi-fx_vowel)
+  (core/save-synthdef sonic-pi-fx_echo)
+  (core/save-synthdef sonic-pi-fx_reverb)
+  (core/save-synthdef sonic-pi-fx_mono)
+  (core/save-synthdef sonic-pi-fx_vowel)
 
-   (core/save-synthdef sonic-pi-fx_krush)
-   (core/save-synthdef sonic-pi-fx_bitcrusher)
+  (core/save-synthdef sonic-pi-fx_krush)
+  (core/save-synthdef sonic-pi-fx_bitcrusher)
 
-   (core/save-synthdef sonic-pi-fx_gverb)
-   (core/save-synthdef sonic-pi-fx_level)
+  (core/save-synthdef sonic-pi-fx_gverb)
+  (core/save-synthdef sonic-pi-fx_level)
 
-   (core/save-synthdef sonic-pi-fx_slicer)
-   (core/save-synthdef sonic-pi-fx_panslicer)
-   (core/save-synthdef sonic-pi-fx_wobble)
-   (core/save-synthdef sonic-pi-fx_ixi_techno)
-   (core/save-synthdef sonic-pi-fx_compressor)
-   (core/save-synthdef sonic-pi-fx_band_eq)
-   (core/save-synthdef sonic-pi-fx_rlpf)
-   (core/save-synthdef sonic-pi-fx_nrlpf)
-   (core/save-synthdef sonic-pi-fx_rhpf)
-   (core/save-synthdef sonic-pi-fx_nrhpf)
-   (core/save-synthdef sonic-pi-fx_hpf)
-   (core/save-synthdef sonic-pi-fx_nhpf)
-   (core/save-synthdef sonic-pi-fx_lpf)
-   (core/save-synthdef sonic-pi-fx_nlpf)
-   (core/save-synthdef sonic-pi-fx_normaliser)
-   (core/save-synthdef sonic-pi-fx_distortion)
-   (core/save-synthdef sonic-pi-fx_pan)
-   (core/save-synthdef sonic-pi-fx_bpf)
-   (core/save-synthdef sonic-pi-fx_rbpf)
-   (core/save-synthdef sonic-pi-fx_nrbpf)
-   (core/save-synthdef sonic-pi-fx_tanh)
-   (core/save-synthdef sonic-pi-fx_whammy)
-   (core/save-synthdef sonic-pi-fx_pitch_shift)
-   (core/save-synthdef sonic-pi-fx_ring_mod)
-   (core/save-synthdef sonic-pi-fx_octaver)
-   (core/save-synthdef sonic-pi-fx_flanger)
-   (core/save-synthdef sonic-pi-fx_tremolo)
-)
+  (core/save-synthdef sonic-pi-fx_slicer)
+  (core/save-synthdef sonic-pi-fx_panslicer)
+  (core/save-synthdef sonic-pi-fx_wobble)
+  (core/save-synthdef sonic-pi-fx_ixi_techno)
+  (core/save-synthdef sonic-pi-fx_compressor)
+  (core/save-synthdef sonic-pi-fx_band_eq)
+  (core/save-synthdef sonic-pi-fx_rlpf)
+  (core/save-synthdef sonic-pi-fx_nrlpf)
+  (core/save-synthdef sonic-pi-fx_rhpf)
+  (core/save-synthdef sonic-pi-fx_nrhpf)
+  (core/save-synthdef sonic-pi-fx_hpf)
+  (core/save-synthdef sonic-pi-fx_nhpf)
+  (core/save-synthdef sonic-pi-fx_lpf)
+  (core/save-synthdef sonic-pi-fx_nlpf)
+  (core/save-synthdef sonic-pi-fx_normaliser)
+  (core/save-synthdef sonic-pi-fx_distortion)
+  (core/save-synthdef sonic-pi-fx_pan)
+  (core/save-synthdef sonic-pi-fx_bpf)
+  (core/save-synthdef sonic-pi-fx_nbpf)
+  (core/save-synthdef sonic-pi-fx_rbpf)
+  (core/save-synthdef sonic-pi-fx_nrbpf)
+  (core/save-synthdef sonic-pi-fx_tanh)
+  (core/save-synthdef sonic-pi-fx_whammy)
+  (core/save-synthdef sonic-pi-fx_pitch_shift)
+  (core/save-synthdef sonic-pi-fx_ring_mod)
+  (core/save-synthdef sonic-pi-fx_octaver)
+  (core/save-synthdef sonic-pi-fx_flanger)
+  (core/save-synthdef sonic-pi-fx_tremolo)
+  )

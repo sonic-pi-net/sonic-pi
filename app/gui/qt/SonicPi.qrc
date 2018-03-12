@@ -1,22 +1,50 @@
 <RCC>
     <qresource prefix="/">
         <file>images/app.icns</file>
-        <file>images/help.png</file>
-        <file>images/info.png</file>
-        <file>images/prefs.png</file>
-        <file>images/run.png</file>
-        <file>images/save.png</file>
-        <file>images/load.png</file>
-        <file>images/stop.png</file>
-        <file>images/rec.png</file>
-        <file>images/recording_a.png</file>
-        <file>images/recording_b.png</file>
-        <file>images/text-dec.png</file>
-        <file>images/text-inc.png</file>
-        <file>images/align.png</file>
-        <file>images/size_down.png</file>
-        <file>images/size_up.png</file>
-        <file>images/scope.png</file>
+        <file>images/toolbar/default/help.png</file>
+        <file>images/toolbar/default/info.png</file>
+        <file>images/toolbar/default/prefs.png</file>
+        <file>images/toolbar/default/run.png</file>
+        <file>images/toolbar/default/save.png</file>
+        <file>images/toolbar/default/load.png</file>
+        <file>images/toolbar/default/stop.png</file>
+        <file>images/toolbar/default/rec.png</file>
+        <file>images/toolbar/default/recording_a.png</file>
+        <file>images/toolbar/default/recording_b.png</file>
+        <file>images/toolbar/default/text-dec.png</file>
+        <file>images/toolbar/default/text-inc.png</file>
+        <file>images/toolbar/default/align.png</file>
+        <file>images/toolbar/default/size_down.png</file>
+        <file>images/toolbar/default/size_up.png</file>
+        <file>images/toolbar/default/scope.png</file>
+
+        <file>images/toolbar/pro/run.png</file>
+        <file>images/toolbar/pro/stop.png</file>
+        <file>images/toolbar/pro/save-dark.png</file>
+        <file>images/toolbar/pro/save.png</file>
+        <file>images/toolbar/pro/load-dark.png</file>
+        <file>images/toolbar/pro/load.png</file>
+        <file>images/toolbar/pro/rec.png</file>
+        <file>images/toolbar/pro/recording-b.png</file>
+        <file>images/toolbar/pro/recording-b-dark.png</file>
+        <file>images/toolbar/pro/size-up.png</file>
+        <file>images/toolbar/pro/size-down.png</file>
+        <file>images/toolbar/pro/scope.png</file>
+        <file>images/toolbar/pro/scope-bordered.png</file>
+        <file>images/toolbar/pro/info.png</file>
+        <file>images/toolbar/pro/info-bordered.png</file>
+        <file>images/toolbar/pro/info-dark.png</file>
+        <file>images/toolbar/pro/info-dark-bordered.png</file>
+        <file>images/toolbar/pro/help.png</file>
+        <file>images/toolbar/pro/help-dark.png</file>
+        <file>images/toolbar/pro/help-bordered.png</file>
+        <file>images/toolbar/pro/help-dark-bordered.png</file>
+        <file>images/toolbar/pro/prefs.png</file>
+        <file>images/toolbar/pro/prefs-dark.png</file>
+        <file>images/toolbar/pro/prefs-bordered.png</file>
+        <file>images/toolbar/pro/prefs-dark-bordered.png</file>
+
+
         <file>images/splash@2x.png</file>
         <file>images/splash.png</file>
         <file>images/icon.png</file>
@@ -25,6 +53,7 @@
         <file>images/logo-smaller.png</file>
         <file>images/logo-smaller-dark.png</file>
         <file>images/logo.txt</file>
+        <file>images/in_thread_screen.png</file>
         <file>images/tutorial/sample.png</file>
         <file>images/tutorial/env-attack-release.png</file>
         <file>images/tutorial/env-attack-decay-sustain-release.png</file>
@@ -57,6 +86,8 @@
         <file>images/coreteam/hannozulla.png</file>
         <file>images/coreteam/luislloret.png</file>
         <file>images/coreteam/acheater.png</file>
+        <file>images/coreteam/robinnewman.png</file>
+        <file>images/coreteam/ethancrawford.png</file>
 
         <file>html/doc.html</file>
         <file>html/info.html</file>
@@ -65,20 +96,42 @@
         <file>theme/light/doc-styles.css</file>
         <file>theme/dark/doc-styles.css</file>
 
+        <file>lang/sonic-pi_bs.qm</file>
+        <file>lang/sonic-pi_ca.qm</file>
+        <file>lang/sonic-pi_cs.qm</file>
+        <file>lang/sonic-pi_da.qm</file>
         <file>lang/sonic-pi_de.qm</file>
-        <file>lang/sonic-pi_is.qm</file>
-        <file>lang/sonic-pi_ja.qm</file>
-        <file>lang/sonic-pi_nb.qm</file>
-        <file>lang/sonic-pi_pl.qm</file>
-        <file>lang/sonic-pi_fr.qm</file>
+        <file>lang/sonic-pi_el.qm</file>
+        <file>lang/sonic-pi_en_US.qm</file>
         <file>lang/sonic-pi_es.qm</file>
+        <file>lang/sonic-pi_et.qm</file>
+        <file>lang/sonic-pi_fi.qm</file>
+        <file>lang/sonic-pi_fr.qm</file>
+        <file>lang/sonic-pi_hi.qm</file>
         <file>lang/sonic-pi_hu.qm</file>
+        <file>lang/sonic-pi_id.qm</file>
+        <file>lang/sonic-pi_is.qm</file>
+        <file>lang/sonic-pi_it.qm</file>
+        <file>lang/sonic-pi_ja.qm</file>
+        <file>lang/sonic-pi_ko.qm</file>
+        <file>lang/sonic-pi_nb.qm</file>
+        <file>lang/sonic-pi_nl.qm</file>
+        <file>lang/sonic-pi_pl.qm</file>
+        <file>lang/sonic-pi_pt.qm</file>
+        <file>lang/sonic-pi_pt_BR.qm</file>
+        <file>lang/sonic-pi_ro.qm</file>
+        <file>lang/sonic-pi_ru.qm</file>
+        <file>lang/sonic-pi_sv.qm</file>
+        <file>lang/sonic-pi_tr.qm</file>
+        <file>lang/sonic-pi_uk.qm</file>
+        <file>lang/sonic-pi_zh-Hans.qm</file>
+        <file>lang/sonic-pi_zh.qm</file>
+        <file>lang/sonic-pi_zh_HK.qm</file>
+        <file>lang/sonic-pi_zh_TW.qm</file>
+
+
 
         <file>fonts/Hack-Regular.ttf</file>
         <file>fonts/Hack-Italic.ttf</file>
-<!--
-        <file>lang/sonic-pi_zh-Hans.qm</file>
-        <file>lang/sonic-pi_zh-Hant.qm</file>
--->
     </qresource>
 </RCC>

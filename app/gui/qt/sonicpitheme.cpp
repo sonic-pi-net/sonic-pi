@@ -77,7 +77,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["Base"] = dt_lightgrey;
     themeSettings["AlternateBase"] = dt_grey;
     themeSettings["ToolTipBase"] = dt_grey;
-    themeSettings["ToolTipText"] = dt_white;
+    themeSettings["ToolTipText"] = dt_black;
     themeSettings["Button"] = dt_pink;
     themeSettings["ButtonBorder"] = dt_white;
     themeSettings["PressedButton"] = dt_grey;
@@ -100,7 +100,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["TabSelected"] = dt_pink;
     themeSettings["TabSelectedText"] = dt_white;
 
-    themeSettings["StatusBar"] = dt_lightgrey;
+    themeSettings["StatusBar"] = dt_white;
     themeSettings["StatusBarText"] = dt_darkgrey;
 
     themeSettings["Menu"] = dt_lightgrey;
@@ -115,7 +115,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["HighlightedBackground"]           = dt_pink;
 
     themeSettings["WindowForeground"]                = theme_fg;
-    themeSettings["WindowBackground"]                = theme_bg;
+    themeSettings["WindowBackground"]                = dt_white;
 
     themeSettings["WindowInternalBorder"]            = dt_grey;
     themeSettings["WindowBorder"]                    = dt_lightgrey;
@@ -188,7 +188,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["PercentStringwBackground"]        = theme_bg;
 
     themeSettings["MarginForeground"]                = dt_grey;
-    themeSettings["MarginBackground"]                = theme_bg;
+    themeSettings["MarginBackground"]                = dt_white;
 
     themeSettings["SelectionForeground"]             = dt_white;
     themeSettings["SelectionBackground"]             = dt_pink;
@@ -266,7 +266,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["TabSelected"] = dt_pink;
     themeSettings["TabSelectedText"] = dt_white;
 
-    themeSettings["StatusBar"] = dt_darkgrey;
+    themeSettings["StatusBar"] = dt_black;
     themeSettings["StatusBarText"] = dt_blue;
 
     themeSettings["Menu"] = dt_darkgrey;
@@ -281,7 +281,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["HighlightedBackground"]           = dt_pink;
 
     themeSettings["WindowForeground"]                = dt_lightgrey;
-    themeSettings["WindowBackground"]                = dt_darkgrey;
+    themeSettings["WindowBackground"]                = dt_black;
 
     themeSettings["PaneBackground"]                  = dt_black;
     themeSettings["WindowInternalBorder"]            = dt_vdarkgrey;
@@ -355,7 +355,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["PercentStringwBackground"]        = dt_black;
 
     themeSettings["MarginForeground"]                = dt_grey;
-    themeSettings["MarginBackground"]                = dt_darkgrey;
+    themeSettings["MarginBackground"]                = dt_black;
 
     themeSettings["SelectionForeground"]             = dt_white;
     themeSettings["SelectionBackground"]             = dt_pink;

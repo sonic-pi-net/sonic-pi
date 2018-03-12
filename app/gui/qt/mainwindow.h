@@ -30,6 +30,7 @@
 #include <QFuture>
 #include <QShortcut>
 #include <QSettings>
+#include <QSet>
 #include <QHash>
 #include <QTcpSocket>
 #include "oscpkt.hh"
@@ -41,6 +42,8 @@
 #include "sonicpitheme.h"
 #include "scope.h"
 #include "oscsender.h"
+#include <QComboBox>
+#include "infowidget.h"
 
 class QAction;
 class QMenu;
@@ -92,6 +95,9 @@ public slots:
     void invokeStartupError(QString msg);
 
 private slots:
+    void addCuePath(QString path, QString val);
+    void zoomInLogs();
+    void zoomOutLogs();
     QString sonicPiHomePath();
     void updateLogAutoScroll();
     bool eventFilter(QObject *obj, QEvent *evt);
@@ -129,23 +135,23 @@ private slots:
     void about();
     void scope();
     void toggleScope();
+    void toggleIcons();
     void help();
     void onExitCleanup();
     void toggleRecording();
     void toggleRecordingOnIcon();
-    void changeRPSystemVol(int val, int silent=0);
+    void changeSystemPreAmp(int val, int silent=0);
     void changeGUITransparency(int val);
-    void setRPSystemAudioAuto();
-    void setRPSystemAudioHeadphones();
-    void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
     void toggleScope(QWidget* qw);
     void toggleLeftScope();
     void toggleRightScope();
     void toggleScopeAxes();
+    void scopeVisibilityChanged();
     void toggleDarkMode();
     void updateDarkMode();
-    void showPrefsPane();
+    void updatePrefsIcon();
+    void togglePrefs();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
     void showWindow();
@@ -163,13 +169,14 @@ private slots:
     void helpScrollDown();
     void docScrollUp();
     void docScrollDown();
-    void helpClosed(bool visible);
+    void helpVisibilityChanged();
     void updateFullScreenMode();
     void toggleFullScreenMode();
     void updateFocusMode();
     void toggleFocusMode();
     void toggleScopePaused();
     void updateLogVisibility();
+    void updateIncomingOscLogVisibility();
     void toggleLogVisibility();
     void updateTabsVisibility();
     void toggleTabsVisibility();
@@ -188,7 +195,15 @@ private slots:
     void setupTheme();
     void escapeWorkspaces();
     void allJobsCompleted();
+    void toggleMidi(int silent=0);
+    void toggleOSCServer(int silent=0);
+    void resetMidi();
+    void honourPrefs();
+    void updateMIDIInPorts(QString port_info);
+    void updateMIDIOutPorts(QString port_info);
 
+    void showError(QString msg);
+    void showBufferCapacityError();
 private:
 
     void checkPort(int port);
@@ -212,7 +227,7 @@ private:
     std::string number_name(int);
     std::string workspaceFilename(SonicPiScintilla* text);
     SonicPiScintilla* filenameToWorkspace(std::string filename);
-    void sendOSC(oscpkt::Message m);
+    bool sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
     void refreshDocContent();
@@ -237,7 +252,7 @@ private:
     QTcpSocket *clientSock;
     QFuture<void> osc_thread, server_thread;
     int protocol;
-    int gui_listen_to_server_port, gui_send_to_server_port, server_listen_to_gui_port, server_send_to_gui_port, scsynth_port, scsynth_send_port, server_osc_cues_port;
+    int gui_listen_to_server_port, gui_send_to_server_port, server_listen_to_gui_port, server_send_to_gui_port, scsynth_port, scsynth_send_port, server_osc_cues_port, erlang_router_port, osc_midi_out_port, osc_midi_in_port;
     bool focusMode;
     bool startup_error_reported;
     bool is_recording;
@@ -256,8 +271,10 @@ private:
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
     SonicPiLog *outputPane;
+    SonicPiLog *incomingPane;
     QTextBrowser *errorPane;
     QDockWidget *outputWidget;
+    QDockWidget *incomingWidget;
     QDockWidget *prefsWidget;
     QDockWidget *hudWidget;
     QDockWidget *docWidget;
@@ -280,7 +297,17 @@ private:
 
     QToolBar *toolBar;
 
+    QAction *runAct;
+    QAction *stopAct;
+    QAction *saveAsAct;
+    QAction *loadFileAct;
     QAction *recAct;
+    QAction *textIncAct;
+    QAction *textDecAct;
+    QAction *scopeAct;
+    QAction *infoAct;
+    QAction *helpAct;
+    QAction *prefsAct;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
@@ -295,9 +322,16 @@ private:
     QCheckBox *auto_indent_on_run;
     QCheckBox *full_screen;
     QCheckBox *show_log;
+    QCheckBox *show_incoming_osc_log;
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
+
+    QComboBox *midi_default_channel_combo;
+    QCheckBox *midi_enable_check;
+    QCheckBox *osc_public_check;
+    QCheckBox *osc_server_enabled_check;
+    QCheckBox *pro_icons_check;
 
     QSignalMapper *scopeSignalMap;
 //    QCheckBox *show_left_scope;
@@ -308,14 +342,13 @@ private:
     QPushButton *check_updates_now;
     QPushButton *visit_sonic_pi_net;
     QLabel *update_info;
+    QLabel *midi_in_ports_label;
+    QLabel *midi_out_ports_label;
 
-    QRadioButton *rp_force_audio_hdmi;
-    QRadioButton *rp_force_audio_default;
-    QRadioButton *rp_force_audio_headphones;
     QSlider *system_vol_slider;
     QSlider *gui_transparency_slider;
 
-    QWidget *infoWidg;
+    InfoWidget *infoWidg;
     QList<QTextBrowser *> infoPanes;
     QTextEdit *startupPane;
     QVBoxLayout *mainWidgetLayout;
@@ -343,6 +376,9 @@ private:
     bool updated_dark_mode_for_help, updated_dark_mode_for_prefs;
 
     OscSender *oscSender;
+    QSet<QString> cuePaths;
+
+    QIcon pro_run_icon, pro_stop_icon, pro_save_icon, pro_load_icon, pro_rec_icon, pro_size_up_icon, pro_size_down_icon, pro_scope_bordered_icon, pro_scope_icon, pro_info_bordered_icon, pro_info_icon, pro_help_bordered_icon, pro_help_icon, pro_prefs_icon, pro_prefs_bordered_icon, pro_info_dark_bordered_icon, pro_info_dark_icon, pro_help_dark_bordered_icon, pro_help_dark_icon, pro_prefs_dark_bordered_icon, pro_prefs_dark_icon, pro_rec_b_icon, pro_rec_b_dark_icon, pro_load_dark_icon, pro_save_dark_icon;
 };
 
 #endif

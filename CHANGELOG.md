@@ -1,4 +1,7 @@
 # History
+* [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
+* [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
+* [v3.0 'IO'](#v3.0), 18th July, 2017
 * [v2.11.1 'Hack'](#v2.11.1), 16th Dec, 2016
 * [v2.11 'Time Warp'](#v2.11), 3rd Nov, 2016
 * [v2.10 'Cowbell'](#v2.10), 15th April, 2016
@@ -14,9 +17,226 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
+<a name="v3.1.0"></a>
+
+## Version 3.1.0 - 'Sauna'
+*23rd Jan, 2018*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.1.0):
+
+The major feature of this release is that it brings v3 functionality to
+Windows. Windows now supports all the good stuff listed alongside
+`v3.0.x` including `live_audio`, `midi`, `osc` and much more. See
+`v3.0.1` and `v3.0.0` release notes below for more infomation.
+
+Of course, no new release comes without new features, and there are a
+number of additions and improvements on all levels. Firstly, we are
+honoured to include a number of wonderful new samples kindly recorded
+and released into the public domain by our friends Mehackit. If you
+aren't already aware, Mehackit organise and run creative coding
+workshops all around Finland and Europe and were a core part behind the
+CodeBus Africa project which used Sonic Pi to engage almost 2000 African
+students with creative code. Our favourite of these samples is the new
+`:ambi_sauna` which has given us the name for this release.
+
+We have added support for Ogg Vorbis encoded audio files `.ogg` and
+`.oga`. These are lossy encoders similar to `.MP3` but free from license
+restrictions. See: https://en.wikipedia.org/wiki/Vorbis
+
+Another notable addition is the increase in translation coverage across
+a number of languages. If you still feel the translation for your
+language could be improved, please do consider joining in the
+crowd-sourced effort here: https://hosted.weblate.org/projects/sonic-pi/
+
+We have also included some styling tweaks to the GUI - to make
+it look even cleaner and also work better when projecting code with
+visuals underneath.
+
+Finally, this release also gives me the opportunity to welcome Ethan
+Crawford to the Core Team. He has been a prolific contributor to the
+project over the years and his keen eye for detail has helped polish
+Sonic Pi from the rough stone it once was to the shining gem it is
+today.
+
+Have fun and enjoy the new features - especially you lovely Windows
+users!
+
+
+### Breaking Changes
+
+* The synth `chip_noise` now has standard default envelope opts (`sustain:` and `release:` are now 0 and 1 respectively (as opposed to 1 and 0))
+
+
+### New Fns
+
+* `set_audio_latency!` Apply positive or negative timing offset for audio events to allow for any timing differences between OSC/MIDI events caused by external latencies (such as wireless speakers).
+* `midi_pc` for sending MIDI Program Change messages
+
+### Samples
+
+* Add support for Ogg Vorbis encoded audio files `.ogg` and `.oga`. 
+* Add new samples (kindly recorded and released into the public domain by Mehackit). 
+  - new `glitch_` sample group containing sounds with a glitchy texture.
+  - new `mehackit_` sample group with sounds of old toys
+  - new samples: `:perc_bell2`, `:perc_door`, `:perc_impact1`, `:perc_impact2`, `:perc_swoosh`, `:ambi_sauna`, `:bd_mehackit`, `:sn_generic`, `:loop_3d_printer`, `:loop_drone_g_97`, `:loop_electric`, `:loop_mehackit1`, `:loop_mehackit2`, `:loop_perc1`, `:loop_perc2`, `:loop_weirdo`, 
+
+
+### GUI
+
+* Add new in_thread forum to the community listings (and update other entries).
+* Many, many translation additions and improvements for a multitude of
+  languages. The tutorial is now available in German, Spanish, French,
+  Italian, Japanese, Dutch, Polish, Portuguese, Romanian, and Russian.
+* GUI now lets the user know when the buffer capacity has been exceeded
+  on macOS and Linux (Windows behaviour is currently unchanged). This
+  capacity limitation will be addressed more thoroughly in a future release.
+
+
+### Bugfixes
+
+* Stop the internal sample pattern matcher from duplicating matches in some cases.
+* Stop pro icon preference from resetting to 'off' when switching from dark to light mode
+
+## Version 3.0.1 - 'IOIO'
+*28th July, 2017*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0.1):
+
+This is a minor release addressing a few bugs and includes a small
+number of modifications.
+
+### Breaking Changes
+* Raspberry Pi only - based on a request from Raspberry Pi we have
+  removed the ability to switch between HDMI and headphone output as
+  this is now duplicate functionality to what is now available in
+  PIXEL. Now, to change audio output, you need to right-click on the
+  audio logo in the menu at the top right of the screen.
+  
+### GUI
+* The IO menu has been slightly tweaked to improve amount of space used.
+
+### Improvements
+* The Time State system no longer maintains a history of *all* events -
+  instead it retains at least 20 events for each path and beyond that
+  culls events 30s in the past.
+
+### Bugfixes
+* Fix minor issues with docs (grammar and rendering).
+* Incoming OSC now correctly handles OSC paths which contain capital letters.
+
+<a name="v3.0"></a>
+
+## Version 3.0 - 'IO'
+
+*18th July, 2017*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0):
+
+
+This release is our most ambitious to date. The goal is to open up the
+code within Sonic Pi to the outside world. We want you to be able to both
+manipulate the real world to change the code and change the real world
+with the code. Input Output. IO.
+
+We have therefore focussed on getting events and audio in and out of
+Sonic Pi in new ways whilst keeping to our philosophy of simple code,
+live manipulation, and strict, powerful timing. This release introduces
+a number of brand-new components:
+
+* *Time State* - a powerful new time-based deterministic shared memory system
+* *MIDI* - support for input and output of MIDI 
+* *OSC* - support for sending and receiving OSC messages on the network.
+* *Live Audio* - for getting multiple streams of audio into Sonic Pi
+* *Multi-channel audio out* - for outputting multiple streams of audio.
+* *Audio Buffers* - for internal recording of audio enabling the creation of loopers.
+
+It's important to mention that MIDI and OSC output functionality is
+possible due to a new well-timed scheduler. This was built in a
+remarkable programming language called [Erlang](http://erlang.org) which
+is now part of the Sonic Pi distribution. We have had the great honour
+of one of Erlang's co-creators, Joe Armstrong working directly with us
+on the implementation of this scheduler and we look forward immensely to
+continuing to work with him on new functionality.
+
+Another very important part of this release is the addition of Robin
+Newman to the core team. We have always been consistently impressed with
+his fearless and experimental attitude - pushing Sonic Pi into new areas
+with ease. We're excited that he's decided to join our core team and
+hope you're as excited by his future work with us as we are.
+
+Finally, we're really very excited about what new kinds of instruments
+people will be able to create with this new technology both in the
+classroom and on stage at musical festivals. Sonic Pi has now become a
+fully programmable music studio. Have fun live coding!
+
+
+### Breaking Changes
+
+* Ring's `.pick` now returns 1 element by default. Previously calling `.pick` on a ring would pick n elements randomly from the ring (including duplicate picks) where n would be the size of the ring. With this change, `.pick` only returns a single element. This makes it similar to choose.
+
+
+### New Fns
+
+* `midi_*` - many new MIDI-specific fns such as `midi_note_on`, `midi_pitch_bend`, `midi_cc`, `midi_clock_tick`. See new tutorial section for more information. These fns *send* MIDI messages to connected MIDI devices. Incoming MIDI is received via the new event log.
+* `with_swing` - add swing to successive calls to do/end block.
+* `get` - get a named value from the Time State at the current time. This will return the last value entered. Previous values can be read when within a `time_warp`. Has full support for OSC 
+* `set` - set a named value in the Time State at the current time. Future values can be set when within a `time_warp`.
+* `use_real_time` - convenience fn for setting the schedule ahead time to 0 for the current thread. Very useful for removing latency from live loops that are working with external cues (such as MIDI or OSC).
+* `use_midi_defaults` - set defaults to be used for all subsequent MIDI calls. Similar to `use_synth_defaults`. Also available: `with_midi_defaults`.
+
+* `use_osc` - set the default hostname and port number for subsequent outgoing OSC messages. See also `with_osc`.
+* `osc` - send Open Sound Control messages in time with the music to default hostname and port
+* `osc_send` - similar to `osc` but requires you to specify the hostname and port
+* `use_sched_ahead_time` - set the schedule ahead time specifically for the current thread. Also available - `with_sched_ahead_time`.
+* `current_time` - return the current logical time.
+* `assert_error` - An assertion to ensure the specified block of code raises the specified error.
+
+
+### Synths & FX
+
+* New synth `live_audio` - directly stream audio from your soundcard as a synth.
+
+* New FX `record` - enables you to internally record any audio into named buffers. Perfect for building looper systems.
+
+* New FX `:sound_out` - stream out audio to a specific output on your sound card. This enables multi-channel audio out.
+* New FX `:sound_out_stereo` - similar to `sound_out` but streams out to a pair of consecutive audio card (left and right) output channels.
+* New FX `eq` - Parametric EQ with three centre freqs - low, mid & high - all with Q values and gain (-1 -> 1). Also has low and high shelves with centre freqs and slope adjustment.
+* New FX `tremolo` - simple tremolo effect which modulates the volume within the `do/end` block.
+
+
+### GUI
+
+* New 'pro' icon set for performances.
+* New GUI translations for the following languages: (BS) Bosnian, (CA) Catalan, (CS) Czech, (DA) Danish, (EL) Greek, (ET) Estonian, (HI) Hindi, (ID) Indonesian, (KO) Korean, (PT) Portuguese, (TR) Turkish, (ZH) Chinese
+* Added new pane for displaying new cue events (including incoming OSC and MIDI)
+* Added new IO preferences tab for configuring MIDI and network settings.
+* Automatically autocomplete `sync`, `cue` and `get` or `set`
+* Increase width of autocompletion popup.
+
+
+### Documentation & Examples
+
+* New articles on additive and subtractive synthesis techniques.
+* New example piece 'Cloud Beat' by Pit Noack
+
+
+### Improvements
+
+* Teach `time_warp` about input ranges. It now works similar to `at` in that it can now take two lists of args - times and values - which represent a list of time destinations to be visited in turn.
+* Ensure any unprinted messages are displayed if an exception occurs.
+* Teach `range` to work as expected with both floats and ints.
+* Teach rings a new chain method - `.scale` which will return a new ring with all elements multiplied by the scale value.
+* The fn `control` now returns the node you're controlling.
+* Add many new chords
+
+
+### Bugfixes
+
+* Fix randomisation aspects of `:slicer`, `:wobble` and `:panslicer` FX (i.e. via the `probability:` opt).
+* Fix file path drag and drop on Windows to not accidentally prefix path with /.
+* Teach `chord_invert` and `sample` to work with floating point args.
+
 <a name="v2.11.1"></a>
 
 ## Version 2.11.1 - 'Hack'
+
 *16th Dec, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.1)
 
@@ -31,6 +251,7 @@ Menlo and Bitstream Vera (the previous fonts for Mac and Linux
 respectively) and a dramatic improvement to the Courier font previously
 used for Windows.
 
+
 ### GUI
 
 * Move all platforms to the same font -
@@ -39,9 +260,11 @@ used for Windows.
 * The scope axes are no longer shown by default for a cleaner look and
   feel.
 
+
 ### Docs
 
 * Add new MagPi article on sample stretching.
+
 
 ### Bugfixes
 
@@ -70,6 +293,7 @@ used for Windows.
 <a name="v2.11"></a>
 
 ## Version 2.11 - 'Time Warp'
+
 *3rd Nov, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.0)
 
@@ -178,6 +402,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 
 
 ### Synths & FX
+
 * New synth `:tech_saws` - an implementation of a slightly modified
   supersaw.
 * New synth `:sound_in` - reads audio from the sound card.
@@ -255,6 +480,7 @@ effort. Thanks to Hanno Zulla for making this possible.
   and battery consumption.
 * Error messages now report names matching the editor tabs such as `buffer 0`.
 
+
 ### Bugfixes
 
 * Decrease duration of `:loop_tabla` so that it correctly loops. (Length
@@ -271,6 +497,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 <a name="v2.10"></a>
 
 ## Version 2.10 - 'Cowbell'
+
 *Friday 15th April, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.10.0)
 
@@ -317,6 +544,7 @@ Now go and get your live code on!
 * `pick` - similar to shuffle but allows duplicates. You may also
   specify how many items to pick.
 * `fx_names` - create a ring of all available FX.
+
 
 ### Synths & FX
 
@@ -376,6 +604,7 @@ Now go and get your live code on!
   `:misc_cineboom`, `:perc_swash`, `:perc_till`, `:loop_safari`,
   `:loop_tabla`.
 
+
 ### GUI
 
 * Add new preference to enforce strict synth/FX timing. When enabled
@@ -424,7 +653,6 @@ Now go and get your live code on!
 * Improve error messages for `use/with_synth` when accidentally passed opts.
 
 
-
 ### Bugfixes
 
 * On OS X only raise an error on boot if it's clear the sound card's in
@@ -446,6 +674,7 @@ Now go and get your live code on!
 <a name="v2.9"></a>
 
 ## Version 2.9 - 'Venster'
+
 *Thursday 31st December, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.9.0)
 
@@ -467,6 +696,7 @@ magazine articles in the tutorial. We also now have Hungarian and
 Norwegian translations of the GUI.
 
 Happy Live Coding!
+
 
 ### Breaking Changes
 
@@ -492,10 +722,12 @@ Happy Live Coding!
 * `use_cent_tuning` - uniformly tune all subsequent notes in cents
 * `with_cent_tuning` - uniformly tune all notes in cents within the block
 
+
 ### Synths & FX
 
 * New FX `tanh` - for more distortion goodness.
 * New FX `gverb` - a different reverb FX to play with.
+
 
 ### GUI
 
@@ -514,6 +746,7 @@ Happy Live Coding!
 * Add title to main window - enables Sonic Pi to be selected in
   screensharing app lists such as Google Hangouts and OBS.
 * Add autocompletion for tuning systems.
+
 
 ### Documentation
 
@@ -587,7 +820,6 @@ such as `:e5` as values for opts such as `cutoff:`, and new powerful
 cutoff envelopes on the sampler.
 
 
-
 ### Breaking Changes
 
 * Shortcuts for switching buffers have changed. They are now `M-{` and
@@ -596,6 +828,7 @@ cutoff envelopes on the sampler.
   true to enable BPM inheritance.
 * Random seed generation for new threads is now reset on calls to
   `use_random_seed`.
+
 
 ### New Fns
 
@@ -606,6 +839,7 @@ cutoff envelopes on the sampler.
 * `bt` - converts the specified time w.r.t. the current BPM.
 * `inspect` - similar to `print` but prints the inspected version of the argument.
 
+
 ### GUI
 
 * New translations for Polish, Japanese and French.
@@ -615,11 +849,13 @@ cutoff envelopes on the sampler.
 * Log - don't display └ or ├ if the line is blank, instead display │
 * Add sample name autocompletion to more fns such as `sample_duration`.
 
+
 ### Documentation
 
 * New tutorial section on ring chains (chainable functions for modifying rings)
 * Tilburg 2 example slightly tweaked for Raspberry Pi 1 compatibility.
 * Many minor tweaks and improvements in all areas.
+
 
 ### Synths & FX
 
@@ -637,6 +873,7 @@ cutoff envelopes on the sampler.
   not triggering a synth.
 * MIDI opts such as `cutoff:` can now accept note names such as `:c4`.
 * FX learned the global `slide:` opt to match synths.
+
 
 ### Improvements
 
@@ -660,9 +897,11 @@ cutoff envelopes on the sampler.
 * The FX `pre_amp:` opt is no longer scaled w.r.t. the current BPM.
 * Fixed GUI side of update checking system.
 
+
 <a name="v2.7"></a>
 
 ## Version 2.7 - 'Rerezzed'
+
 *Thursday 10th September, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.7.0)
 
@@ -778,7 +1017,9 @@ Have fun and happy live coding!
 
 <a name="v2.6"></a>
 
+
 ## Version 2.6 - 'Algorave'
+
 *Thursday 30th July, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.6.0)
 
@@ -811,6 +1052,7 @@ which will revolutionise the way you work with `ring`s within
 `live_loop`s. Of course there's so much more too!
 
 Enjoy this release and happy [Algoraving!](http://algorave.com)
+
 
 ### Breaking Changes
 
@@ -860,8 +1102,8 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
   disabling the logging of `cue` messages.
 
 
-
 ### GUI  
+
 * New visual look and feel including a new Dark Mode for live coding in
   night clubs.
 * New preferences for hiding/showing aspects of the GUI such as the
@@ -941,6 +1183,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
 <a name="v2.5"></a>
 
 ## Version 2.5 - 'Craft'
+
 *Monday 13th April, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.5.0)
 
@@ -955,6 +1198,7 @@ fun. The keyboard shortcuts are based on the standard shortcuts provided
 by [GNU Emacs](https://www.gnu.org/software/emacs/) - the oldest and
 most powerful text editor in use by wizard programmers today.
 
+
 ### Breaking Changes
 
 * `invert_wave` now defaults to 1 everywhere. I found I always inverted
@@ -967,6 +1211,7 @@ most powerful text editor in use by wizard programmers today.
   with the `ring` datastructure.
 * `Tab` now indents current line or selection rather than inserting a
   useless tab character.
+
 
 ### New
 
@@ -985,6 +1230,7 @@ most powerful text editor in use by wizard programmers today.
 
 
 ### GUI
+
 * German translation of GUI and tutorial. Simply open Sonic Pi with a
   machine with a German localisation setting.
 * Display GUI fully maximised when opening for first ever time.
@@ -1000,9 +1246,11 @@ most powerful text editor in use by wizard programmers today.
 * Docsystem tabs are now positioned at the bottom for better navigation.
 * New preference to hide/show line numbers in editor.
 
+
 ### Synths & FX
 
 * New FX - `:pitch_shift`  
+
 
 ### Bug Fixes
 
@@ -1035,12 +1283,14 @@ interesting rhythms with very little code. Secondly we can now use
 finally we have three exciting new synths for you to play with. Have
 fun!
 
+
 ### Breaking Changes
 
 * Unfortunately 5 pre-release synths accidentally slipped into
   v2.3. Three of them have been polished up and are in this release (one
   with major changes including a name change). However, the other two
   have been removed.
+
 
 ### New
 
@@ -1054,7 +1304,9 @@ fun!
   on RP.
 * Improve docstrings for sample player.
 
+
 ### Synths & FX
+
 * New Synth `:dark_ambience`, an ambient bass trying to escape the
   darkness.
 * New Synth `:hollow`, a hollow breathy sound.
@@ -1062,6 +1314,7 @@ fun!
 * Sampler synths now sport built-in `rlpf` and `normaliser` FX. These
   are disabled by default (i.e. won't affect sound of the sample) and
   can by enabled via the new `cutoff:`, `res:` and `norm:` opts.
+
 
 ### Bug Fixes
 
@@ -1077,6 +1330,7 @@ fun!
 *Wednesday 28th January, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
 
+
 ### Breaking Changes
 
 * Playing chords with the fn `chord` now divides the amplitude of each
@@ -1091,6 +1345,7 @@ fun!
   being identical.
 * `range` is now exclusive: `(range 1, 5) #=> (ring 1, 2, 3, 4)`
 
+
 ### New
 
 * New fn `density` for compressing and repeating time Dr Who style. For
@@ -1103,6 +1358,7 @@ fun!
   speeding up the execution of a specific thread or live_loop.
 * New fn `rdist` - generate a random number with a centred distribution
 * New examples: `square skit`, `shufflit` and `tilburg`
+
 
 ### Improvements
 
@@ -1120,6 +1376,7 @@ fun!
 * Teach `:reverb` FX to extend its kill delay time with larger room
   sizes to reduce the chance of clipping.
 
+
 ### Synths & FX
 
 * New FX `bitcrusher` - for crunching and destroying those hi-fi sounds.
@@ -1131,12 +1388,14 @@ fun!
 * New FX `nbpf` - a normalised band pass filter
 * New FX `nrbpf` - a normalised resonant band pass filter
 
+
 ### New Samples
 
 * `perc_snap` - a finger snap
 * `perc_snap2` - another finger snap
 * `bd_ada` - a bass drum
 * `guit_em9` - a lovely guitar arpeggio over Em9
+
 
 ### Bug Fixes
 
@@ -1162,10 +1421,12 @@ feature is the accurate timing for triggering FX. This means you can now
 reliably use FX for accurate rhythmic purposes such as wobbling, slicing
 and echoes.
 
+
 ### Breaking Changes
 
 * `use_sample_pack_as` now uses a double underscore `__` as a separator
   between the user-specified alias and the sample name.
+
 
 ### API Changes
 
@@ -1181,10 +1442,12 @@ and echoes.
 * New fn `range` - `(range 70, 100, 10)` returns `(ring 70, 80, 90, 100)`
 * New fn `sample_loaded?` - to detect whether a specific sample has been loaded
 
+
 ### Synths & FX
 
 * Fixed regression in `:tb303` synth - sound is reverted to v2.0 behaviour
 * New Synth - `:square` - Pure square wave
+
 
 ### GUI
 
@@ -1193,15 +1456,18 @@ and echoes.
 * On Raspberry Pi, previous volume and audio output options are forced
   on boot.
 
+
 ### New Samples
 
 * `bd_tek` - Bass drum
+
 
 ### Bug fixes
 
 * `one_in` now returns false if num is < 1
 * Ensure `live_loop`'s no-sleep detector works within nested `with_fx` blocks
 * `chord` now returns a ring.
+
 
 ## Version 2.1.1 - 'Firewall'
 *Tuesday 25th November, 2014*
@@ -1232,6 +1498,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 
 
 ### API Changes
+
 * New fn `live_loop` - A loop for live coding
 * New fn `inc` - increment
 * New fn `dec` - decrement
@@ -1265,7 +1532,9 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Stop users accidentally clearing entire workspace if they type quickly after hitting run
 * Hitting F1 or `C-i` over a function name now opens up the doc system at the relevant place
 
+
 ### Bugs/Improvements
+
 * Reworked examples.
 * Much improved efficiency in many areas - especially for Raspberry Pi.
 * Avoid occasional clicking sound when stopping runs
@@ -1282,6 +1551,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 
 
 ### Synths, Samples & FX
+
 * New samples (bass drums, snares and loops)
 * Allow `mod_range:` opt to have negative values (for oscillating with lower notes)
 * Change slide mechanism to default to linear sliding with support for changing the curve type. All modifiable args now have corresponding  `_slide_shape` and `_slide_curve` args.
@@ -1297,6 +1567,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 
 
 ## Version 2.0.1
+
 *Tuesday 9th September, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.0.1)
 
@@ -1314,8 +1585,8 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 
 
 <a name="v2.0"></a>
-
 ## Version 2.0 - 'Phoenix'
+
 *Tuesday 2nd September, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.0.0)
 

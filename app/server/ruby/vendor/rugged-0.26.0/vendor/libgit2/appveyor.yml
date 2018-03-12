@@ -1,0 +1,60 @@
+version: '{build}'
+branches:
+  only:
+  - master
+  - appveyor
+  - /^maint.*/
+environment:
+  GITTEST_INVASIVE_FS_STRUCTURE: 1
+  GITTEST_INVASIVE_FS_SIZE: 1
+
+  matrix:
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+    GENERATOR: "Visual Studio 10 2010"
+    ARCH: 32
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+    GENERATOR: "Visual Studio 10 2010 Win64"
+    ARCH: 64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    GENERATOR: "Visual Studio 14 2015"
+    ARCH: 32
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    GENERATOR: "Visual Studio 14 2015 Win64"
+    ARCH: 64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    GENERATOR: "MSYS Makefiles"
+    ARCH: i686 # this is for 32-bit MinGW-w64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    GENERATOR: "MSYS Makefiles"
+    ARCH: 64
+cache:
+- i686-4.9.2-release-win32-sjlj-rt_v3-rev1.7z
+- x86_64-4.9.2-release-win32-seh-rt_v3-rev1.7z
+
+build_script:
+- ps: |
+    mkdir build
+    cd build
+    if ($env:GENERATOR -ne "MSYS Makefiles") {
+      cmake -D ENABLE_TRACE=ON -D BUILD_CLAR=ON -D MSVC_CRTDBG=ON .. -G"$env:GENERATOR"
+      cmake --build . --config Debug
+    }
+- cmd: |
+    if "%GENERATOR%"=="MSYS Makefiles" (C:\MinGW\msys\1.0\bin\sh --login /c/projects/libgit2/script/appveyor-mingw.sh)
+test_script:
+- ps: |
+    $ErrorActionPreference="Stop"
+    Start-FileDownload https://github.com/ethomson/poxyproxy/releases/download/v0.1.0/poxyproxy-0.1.0.jar -FileName poxyproxy.jar
+    # Run this early so we know it's ready by the time we need it
+    $proxyJob = Start-Job { java -jar $Env:APPVEYOR_BUILD_FOLDER\build\poxyproxy.jar -d --port 8080 --credentials foo:bar }
+    ctest -V -R libgit2_clar
+    $env:GITTEST_REMOTE_URL="https://github.com/libgit2/non-existent"
+    $env:GITTEST_REMOTE_USER="libgit2test"
+    ctest -V -R libgit2_clar-cred_callback
+    Receive-Job -Job $proxyJob
+    $env:GITTEST_REMOTE_PROXY_URL = "http://foo:bar@localhost:8080"
+    ctest -V -R libgit2_clar-proxy_credentials_in_url
+    $env:GITTEST_REMOTE_PROXY_URL = "http://localhost:8080"
+    $env:GITTEST_REMOTE_PROXY_USER = "foo"
+    $env:GITTEST_REMOTE_PROXY_PASS = "bar"
+    ctest -V -R libgit2_clar-proxy_credentials_request

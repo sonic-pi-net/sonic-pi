@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-10-26 04:52+0000\n"
-"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
+"PO-Revision-Date: 2017-12-09 20:48+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/nb/>\n"
 "Language: nb\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -21,7 +21,7 @@ msgstr "1 Velkommen til Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr "Velkommen, venn :-)"
+msgstr "Velkommen, kompis :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -75,15 +75,14 @@ msgstr ""
 "remtidig versjon."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
-" stream live on [livecoding.tv/samaaron](http://youtube.com/samaaron) so pleas"
-"e do drop by, say hi and ask me lots of questions :-)"
+" stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
+"please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
 "Til sist, å se andre kode på direkten er en veldig fin måte å lære på. Jeg dir"
 "ekteoverfører regelmessig på [livecoding.tv/samaaron](http://livecoding.tv/sam"
-"aaron) så stikk gjerne innom, hils på og still mange spørsmål. :-)"
+"aaron) så stikk gjerne innom for å hilse på og still meg mange spørsmål. :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -127,7 +126,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr "Ei levende løkke"
+msgstr "En levende løkke"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
@@ -162,7 +161,7 @@ msgstr "Forsikre deg om at basstrommelyden fremdeles går"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Endre 'hvilemodus'-verdien fra '0,5' til noe høyere, som for eksempel '1'."
+msgstr "Endre `hvilemodus`-verdien fra `0,5` til noe høyere, som for eksempel `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
@@ -186,8 +185,8 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"OK, det var enkelt nok. La oss legge inn noe mer. Over 'prøven: bd_haus' legg "
-"til linjen 'eksempel: ambi_choir, rate: 0,3'. Koden skal se slik ut:"
+"OK, det var enkelt nok. La oss legge inn noe mer. Over `prøven: bd_haus` legg "
+"til linjen `eksempel: ambi_choir, rate: 0,3`. Koden skal se slik ut:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -205,7 +204,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -214,16 +212,18 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Nå, lek. Endre verdiene - hva skjer når du bruker høye, små eller negative ver"
-"dier? Se hva som skjer når du endrer 'rate:'-verdi for ': ambi_choir'-lydklipp"
-"et bare litt (si til 0.29). Hva skjer hvis du velger en svært liten \"sove\"-ver"
-"di? Se om du kan få det til å gå så hurtig at datamaskinen din stopper med en "
-"feilmelding fordi den ikke kan holde følge med tempoet (hvis det skjer, bare v"
-"elg en større \"sove\"-tid og trykk \"Kjør\" igjen)."
+"Nå kan du leke deg litt. Endre verdiene, hva skjer når du bruker store, små el"
+"ler negative verdier? Se hva som skjer hvis du endrer litt på `rate:`-verdien "
+"for `: ambi_choir`-lydklippet (til `0.29` for eksempel). Hva skjer hvis du vel"
+"ger en svært små `sove`-verdi? Se om du kan få det til å gå så hurtig at datam"
+"askinen din stopper med en feilmelding fordi den ikke kan holde følge med temp"
+"oet (hvis det skjer, bare velg en større `sove`-tid og trykk `Kjør` igjen)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr "Prøv å kommentere et av `sampel`-linjene ved å legge til en `#` i begynnelsen:"
+msgstr ""
+"Prøv å kommentere ut en av `sampel`-linjene ved å legge til en `#` på starten "
+"av linjen:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -241,14 +241,15 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:70
+#, fuzzy
 msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Legg merke til hvordan den forteller at maskinen skal overse det, så vi ikke h"
-"ører den. Dette kalles en kommentar. Vi kan bruke kommentarer til å kommentere"
-" ut fra- og legge ting til - i miksen i Sonic Pi."
+"Legg merke til at den får maskinen til å overse det, så vi ikke hører det. Det"
+"te kalles en kommentar. I Sonic Pi kan vi bruke kommentarer til å legge til og"
+" ta ut ting fra miksen."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -266,8 +267,8 @@ msgstr ""
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Prøv å endre den blå ' rate:'-verdien for å høre at lydkarakteren til lydklipp"
-"et endres."
+"Prøv å endre den blå `rate:`-verdien for å høre at lydkarakteren til klippet e"
+"ndres."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
@@ -399,9 +400,8 @@ msgid "*G* - Help System"
 msgstr "*G* - Hjelpesystem"
 
 #: 01.2-Exploring-the-Interface.md:18
-#, fuzzy
 msgid "*H* - Scope Viewer"
-msgstr "*F* - Loggvisning"
+msgstr "*H* - Skopvisning"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
@@ -981,11 +981,11 @@ msgstr ""
 #: 02.2-Synth-Params.md:31
 #, no-wrap
 msgid "play 50, cheese: 1"
-msgstr "play 50, cheese: 1"
+msgstr "play 50, ost: 1"
 
 #: 02.2-Synth-Params.md:35
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
-msgstr "(Merk at \"cheese:' er ikke et gyldig opt, vi bruker det bare som et eksempel)."
+msgstr "(Merk at \"ost:' er ikke en gyldig opt, vi bruker det bare som et eksempel)."
 
 #: 02.2-Synth-Params.md:37
 msgid "You can pass multiple opts by separating them with a comma:"
@@ -994,7 +994,7 @@ msgstr "Du kan sende flere opt ved å skille dem med komma:"
 #: 02.2-Synth-Params.md:39
 #, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
-msgstr "play 50, cheese: 1, beans: 0.5"
+msgstr "play 50, ost: 1, bønner: 0.5"
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
@@ -1003,14 +1003,14 @@ msgstr "Rekkefølgen på opt-ene spiller ingen rolle, så de følgende er identi
 #: 02.2-Synth-Params.md:45
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
-msgstr "play 50, beans: 0.5, cheese: 1"
+msgstr "play 50, bønner: 0.5, ost: 1"
 
 #: 02.2-Synth-Params.md:49
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
-"Opts som ikke gjenkjennes av synt ignoreres bare (som 'cheese' og 'bean' som t"
+"Opts som ikke gjenkjennes av synth ignoreres bare (som 'ost' og 'bønner' som t"
 "ydelig er latterlige som opt-navn!)"
 
 #: 02.2-Synth-Params.md:52
@@ -1019,12 +1019,12 @@ msgid ""
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
 "Hvis du tilfeldigvis bruker samme opt to ganger med ulike verdier, vinner den "
-"siste. For eksempel at 'beans:' her vil ha verdien 2 i stedet for 0.5:"
+"siste. For eksempel at 'bønner:' her vil ha verdien 2 i stedet for 0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
-msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
+msgstr "play 50, bønner: 0.5, ost: 3, egg: 0.1, bønner: 2"
 
 #: 02.2-Synth-Params.md:60
 msgid ""
@@ -2149,9 +2149,8 @@ msgstr ""
 "tt nærmere."
 
 #: 03.3-Stretching-Samples.md:43
-#, fuzzy
 msgid "Let's stretch"
-msgstr "OK, så oss komme igang..."
+msgstr "La oss strekke ut"
 
 #: 03.3-Stretching-Samples.md:45
 msgid ""
@@ -2184,7 +2183,7 @@ msgstr "sample :loop_amen, rate: 0.5"
 msgid "If we speed it up, we enter *jungle* territory:"
 msgstr "Hvis vi øker farten går vi inn i *jungel*-territoriet:"
 
-#: 03.3-Stretching-Samples.md:61
+#: 03.3-Stretching-Samples.md:61 A.17-sample-stretching.md:46
 #, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
@@ -2487,7 +2486,7 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:73
 msgid "Fade In and Out"
-msgstr ""
+msgstr "Ton inn og ut"
 
 #: 03.4-Enveloped-Samples.md:75
 msgid ""
@@ -2649,7 +2648,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:56
 msgid "Choosing a finish point"
-msgstr ""
+msgstr "Valg av sluttpunkt"
 
 #: 03.5-Partial-Samples.md:58
 msgid ""
@@ -2664,7 +2663,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:66
 msgid "Specifying start and finish"
-msgstr ""
+msgstr "Bestemmelse av start of slutt"
 
 #: 03.5-Partial-Samples.md:68
 msgid ""
@@ -2688,7 +2687,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
-msgstr ""
+msgstr "Kult! Den spiller det baklengs!"
 
 #: 03.5-Partial-Samples.md:84
 msgid "Combining with rate"
@@ -3088,7 +3087,7 @@ msgid ""
 "o work with."
 msgstr ""
 
-#: 03.7-Sample-Packs.md:184
+#: 03.7-Sample-Packs.md:184 A.19-subtractive-synthesis.md:47
 msgid "Filters"
 msgstr ""
 
@@ -4405,7 +4404,7 @@ msgstr ""
 #: 05.6-Variables.md:5
 msgid ""
 "A useful thing to do in your code is to create names for things. Sonic Pi make"
-"s this very easy, you write the name you wish to use, an equal sign (`=`), the"
+"s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
 
@@ -4588,6 +4587,79 @@ msgstr ""
 
 #: 05.6-Variables.md:130
 msgid "We'll look into controlling synths in more detail in a later section."
+msgstr ""
+
+#: 05.6-Variables.md:133
+msgid "Warning: Variables and Threads"
+msgstr ""
+
+#: 05.6-Variables.md:135
+msgid ""
+"Whilst variables are great for giving things names and capturing the results o"
+"f things, it is important to know that they should typically only be used loca"
+"lly within a thread. For example, *don't do this*:"
+msgstr ""
+
+#: 05.6-Variables.md:139
+#, no-wrap
+msgid ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
+msgstr ""
+
+#: 05.6-Variables.md:154
+msgid ""
+"In the above example we assign a ring of numbers to a variable `a` and then us"
+"ed it within two separate `live_loop`s. In the first live loop every `0.5`s we"
+" sort the ring (to `(ring 1, 2, 3, 4, 5, 6)`) and then print it out to the log"
+". If you run the code, you'll find that the printed list *is not always sorted"
+"!*. This may surprise you - especially that sometimes the list is printed as s"
+"orted, and sometimes it is not. This is called non-deterministic behaviour and"
+" is the result of a rather nasty problem called a race-condition. The problem "
+"is due to the fact that the second live loop is also manipulating the list (in"
+" this case shuffling it) and by the time the list is printed, sometimes it has"
+" just been sorted and sometimes it has just been shuffled. Both live loops are"
+" racing to do something different to the same variable and every time round a "
+"different loop 'wins'."
+msgstr ""
+
+#: 05.6-Variables.md:168
+msgid ""
+"There are two solutions to this. Firstly, *don't use the same variable in mult"
+"iple live loops or threads*. For example, the following code will always print"
+" a sorted list as each live loop has its own separate variable:"
+msgstr ""
+
+#: 05.6-Variables.md:173
+#, no-wrap
+msgid ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
+msgstr ""
+
+#: 05.6-Variables.md:188
+msgid ""
+"However, sometimes we do want to share things across threads. For example, the"
+" current key, BPM, synth etc. In these cases, the solution is to use Sonic Pi'"
+"s special thread-safe state system via the fns `get` and `set`. This is discus"
+"sed later on in section 10."
 msgstr ""
 
 #: 05.7-Thread-Synchronisation.md:1
@@ -4836,7 +4908,7 @@ msgstr ""
 msgid "6.1 Adding FX"
 msgstr ""
 
-#: 06.1-Adding-FX.md:3
+#: 06.1-Adding-FX.md:3 13.1-Sound-In.md:26
 msgid "Adding FX"
 msgstr ""
 
@@ -6137,7 +6209,13 @@ msgstr ""
 msgid "`.reflect` - same as mirror but doesn't duplicate middle value"
 msgstr ""
 
-#: 08.5-Ring-Chains.md:83
+#: 08.5-Ring-Chains.md:82
+msgid ""
+"`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
+"ng contains numbers only)"
+msgstr ""
+
+#: 08.5-Ring-Chains.md:84
 msgid ""
 "Of course, those chain methods that take numbers can take other numbers too! S"
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
@@ -6751,1073 +6829,1707 @@ msgid ""
 "es and happy ticking!"
 msgstr ""
 
-#: 10-Essential-Knowledge.md:1
-msgid "10 Essential Knowledge"
+#: 10-State.md:1
+msgid "10 Time State"
 msgstr ""
 
-#: 10-Essential-Knowledge.md:3
-msgid "Essential Knowledge"
+#: 10-State.md:3
+msgid "Time State"
 msgstr ""
 
-#: 10-Essential-Knowledge.md:5
+#: 10-State.md:5
 msgid ""
-"This section will cover some very useful - in fact *essential* - knowledge for"
-" getting the most out of your Sonic Pi experience."
+"Often it is useful to have information that is *shared across multiple threads"
+" or live loops*. For example, you might want to share a notion of the current "
+"key, BPM or even more abstract concepts such as the current 'complexity' (whic"
+"h you'd potentially interpret in different ways across different threads). We "
+"also don't want to lose any of our existing determinism guarantees when doing "
+"this. In other words, we'd still like to be able to share code with others and"
+" know exactly what they'll hear when they run it. At the end of Section 5.6 of"
+" this tutorial we briefly discussed why we *should not use variables to share "
+"information across threads* due to a loss of determinism (in turn due to race "
+"conditions)."
 msgstr ""
 
-#: 10-Essential-Knowledge.md:8
+#: 10-State.md:16
 msgid ""
-"We'll cover how to take advantage of the many keyboard shortcuts available to "
-"you, how to share your work and some tips on performing with Sonic Pi."
+"Sonic Pi's solution to the problem of easily working with global variables in "
+"a deterministic way is through a novel system it calls Time State. This might "
+"sound complex and difficult (in fact, in the UK, programming with multiple thr"
+"eads and shared memory is typically a university level subject). However, as y"
+"ou'll see, just like playing your first note, *Sonic Pi makes it incredibly si"
+"mple to share state across threads* whilst still keeping your programs *thread"
+"-safe and deterministic.*."
 msgstr ""
 
-#: 10.1-Using-Shortcuts.md:1
-msgid "10.1 Using Shortcuts"
+#: 10-State.md:24
+msgid "Meet `get` and `set`..."
 msgstr ""
 
-#: 10.1-Using-Shortcuts.md:3
-msgid "Using Shortcuts"
+#: 10.1-Set-and-Get.md:1
+msgid "10.1 Set and Get"
 msgstr ""
 
-#: 10.1-Using-Shortcuts.md:5
+#: 10.1-Set-and-Get.md:3
+msgid "Set and Get"
+msgstr ""
+
+#: 10.1-Set-and-Get.md:5
 msgid ""
-"Sonic Pi is as much an instrument as a coding environment. Shortcuts can there"
-"fore make playing Sonic Pi much more *efficient and natural* - especially when"
-" you're playing live in front of an audience."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:9
-msgid ""
-"Much of Sonic Pi can be controlled through the keyboard. As you gain more fami"
-"liarity working and performing with Sonic Pi, you'll likely start using the sh"
-"ortcuts more and more. *I personally touch-type* (I recommend you consider lea"
-"rning too) and find myself frustrated whenever I need to reach for the mouse a"
-"s it slows me down. I therefore use all of these shortcuts on a very regular b"
-"asis!"
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:16
-msgid ""
-"Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
-"tively and you'll be live coding like a pro in no time."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:19
-msgid ""
-"However, *don't try and learn them all at once*, just try and remember the one"
-"s you use most and then keep adding more to your practice."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:22
-msgid "Consistency across Platforms"
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:24
-msgid ""
-"Imagine you're learning the clarinet. You'd expect all clarinets of all makes "
-"to have similar controls and fingerings. If they didn't, you'd have a tough ti"
-"me switching between different clarinets and you'd be stuck to using just one "
-"make."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:29
-msgid ""
-"Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
-"come with their own standard defaults for actions such as cut and paste etc. S"
-"onic Pi will try and honour these standards. However *priority is placed on co"
-"nsistency across platforms* within Sonic Pi rather than attempting to conform "
-"to a given platform's standards. This means that when you learn the shortcuts "
-"whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
-"PC and feel right at home."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:37
-msgid "Control and Meta"
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:39
-msgid ""
-"Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
-"se the names *Control* and *Meta* to refer to the two main combination keys. O"
-"n all platforms *Control* is the same. However, on Linux and Windows, *Meta* i"
-"s actually the *Alt* key while on Mac *Meta* is the *Command* key. For consist"
-"ency we'll use the term *Meta* - just remember to map that to the appropriate "
-"key on your operating system."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:46
-msgid "Abbreviations"
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:48
-msgid ""
-"To help keep things simple and readable, we'll use the abbreviations *C-* for "
-"*Control* plus another key and *M-* for *Meta* plus another key. For example, "
-"if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
-"s `M-r`. The *-* just means \"at the same time as.\""
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:53
-msgid "The following are some of the shortcuts I find most useful."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:55
-msgid "Stopping and starting"
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:57
-msgid ""
-"Instead of always reaching for the mouse to run your code, you can simply pres"
-"s `M-r`. Similarly, to stop running code you can press `M-s`."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:60 10.2-Shortcut-Cheatsheet.md:52
-msgid "Navigation"
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:62
-msgid ""
-"I'm really lost without the navigation shortcuts. I therefore highly recommend"
-" you spend the time to learn them. These shortcuts also work extremely well wh"
-"en you've learned to touch type as they use the standard letters rather than r"
-"equiring you to move your hand to the mouse or the arrow keys on your keyboard"
+"Sonic Pi has a global memory store called Time State. The two main things you "
+"do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
 
-#: 10.1-Using-Shortcuts.md:68
+#: 10.1-Set-and-Get.md:9
+msgid "Set"
+msgstr ""
+
+#: 10.1-Set-and-Get.md:11
+msgid "To store information into the Time State we need two things:"
+msgstr ""
+
+#: 10.1-Set-and-Get.md:13
+msgid "the information we want to store,"
+msgstr ""
+
+#: 10.1-Set-and-Get.md:14
+msgid "a unique name (key) for the information."
+msgstr ""
+
+#: 10.1-Set-and-Get.md:16
 msgid ""
-"You can move to the beginning of the line with `C-a`, the end of the line with"
-" `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
-" `C-f`, and back a character with `C-b`. You can even delete all the character"
-"s from the cursor to the end of the line with `C-k`."
+"For example, we might want to store the number `3000` with the key `:intensity"
+"`. This is possible using the `set` function:"
 msgstr ""
 
-#: 10.1-Using-Shortcuts.md:74
-msgid "Tidy Code"
+#: 10.1-Set-and-Get.md:19
+#, no-wrap
+msgid "set :intensity, 3000"
 msgstr ""
 
-#: 10.1-Using-Shortcuts.md:76
-msgid "To auto-align your code simply press `M-m`."
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:78
-msgid "Help System"
-msgstr ""
-
-#: 10.1-Using-Shortcuts.md:80
+#: 10.1-Set-and-Get.md:23
 msgid ""
-"To toggle the help system you can press `M-i`. However, a much more useful sho"
-"rtcut to know is `C-i` which will look up the word underneath the cursor and d"
-"isplay the docs if it finds anything. Instant help!"
+"We can use any name for our key. If information has already been stored with t"
+"hat key, our new `set` will override it:"
 msgstr ""
 
-#: 10.1-Using-Shortcuts.md:84
-msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:1
-msgid "10.2 Shortcut Cheatsheet"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:3
-msgid "Shortcut Cheatsheet"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:5
+#: 10.1-Set-and-Get.md:26
+#, no-wrap
 msgid ""
-"The following is a summary of the main shortcuts available within Sonic Pi. Pl"
-"ease see Section 10.1 for motivation and background."
+"set :intensity, 1000\n"
+"set :intensity, 3000"
 msgstr ""
 
-#: 10.2-Shortcut-Cheatsheet.md:8
-msgid "Conventions"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:10
+#: 10.1-Set-and-Get.md:31
 msgid ""
-"In this list, we use the following conventions (where *Meta* is one of *Alt* o"
-"n Windows/Linux or *Cmd* on Mac):"
+"In the above example, as we stored both numbers under the same key, the last c"
+"all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
+" as the first call to `set` is effectively overridden."
 msgstr ""
 
-#: 10.2-Shortcut-Cheatsheet.md:13
+#: 10.1-Set-and-Get.md:35
+msgid "Get"
+msgstr ""
+
+#: 10.1-Set-and-Get.md:37
 msgid ""
-"`C-a` means hold the *Control* key then press the *a* key whilst holding them "
-"both at the same time, then releasing."
+"To fetch information from the Time State we just need the key we used to `set`"
+" it, which in our case is `:intensity`. We then just need to call `get[:intens"
+"ity]` which we can see by printing out the result to the log:"
 msgstr ""
 
-#: 10.2-Shortcut-Cheatsheet.md:14
+#: 10.1-Set-and-Get.md:42
+#, no-wrap
+msgid "print get[:intensity] #=> prints 3000"
+msgstr ""
+
+#: 10.1-Set-and-Get.md:46
 msgid ""
-"`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
-" both at the same time, then releasing."
+"Notice that calls to `get` can return information that was `set` in a previous"
+" run. Once a piece of information has been `set` it is available until either "
+"the information is overridden (just like we clobbered the `:intensity` value o"
+"f `1000` to `3000` above) or Sonic Pi is closed."
 msgstr ""
 
-#: 10.2-Shortcut-Cheatsheet.md:15
+#: 10.1-Set-and-Get.md:52
+msgid "Multiple Threads"
+msgstr ""
+
+#: 10.1-Set-and-Get.md:54
 msgid ""
-"`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
-"key all at the same time, then releasing."
+"The main benefit of the Time State system is that it can be safely used across"
+" threads or live loops. For example, you could have one live loop setting info"
+"rmation and another one getting it:"
 msgstr ""
 
-#: 10.2-Shortcut-Cheatsheet.md:16
+#: 10.1-Set-and-Get.md:58
+#, no-wrap
 msgid ""
-"`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
-"ey all at the same time, then releasing."
+"live_loop :setter do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :getter do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 msgstr ""
 
-#: 10.2-Shortcut-Cheatsheet.md:18
-msgid "Main Application Manipulation"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:20
-msgid "`M-r` - Run code"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:21
-msgid "`M-s` - Stop code"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:22
-msgid "`M-i` - Toggle Help System"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:23
-msgid "`M-p` - Toggle Preferences"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:24
-msgid "`M-{` - Switch buffer to the left"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:25
-msgid "`M-}` - Switch buffer to the right"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:26
-msgid "`M-+` - Increase text size of current buffer"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:27
-msgid "`M--` - Decrease text size of current buffer"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:30
-msgid "Selection/Copy/Paste"
-msgstr "Merket område/Kopier/Lim inn"
-
-#: 10.2-Shortcut-Cheatsheet.md:32
-msgid "`M-a` - Select all"
-msgstr "`M-a` - Merk alt"
-
-#: 10.2-Shortcut-Cheatsheet.md:33
-msgid "`M-c` - Copy selection to paste buffer"
-msgstr "`M-c` - Kopier merket omrade til innlimingsmellomlager"
-
-#: 10.2-Shortcut-Cheatsheet.md:34
-msgid "`M-]` - Copy selection to paste buffer"
-msgstr "`M-]` - Kopier merket omrade til innlimingsmellomlager"
-
-#: 10.2-Shortcut-Cheatsheet.md:35
-msgid "`M-x` - Cut selection to paste buffer"
-msgstr "`M-x` - Klipp ut merket område til innlimingsmellomlager"
-
-#: 10.2-Shortcut-Cheatsheet.md:36
-msgid "`C-]` - Cut selection to paste buffer"
-msgstr "`C-]` - Klipp ut merket område til innlimingsmellomlager"
-
-#: 10.2-Shortcut-Cheatsheet.md:37
-msgid "`C-k` - Cut to the end of the line"
-msgstr "`C-k` - Klipp ut til slutten av linjen"
-
-#: 10.2-Shortcut-Cheatsheet.md:38
-msgid "`M-v` - Paste from paste buffer to editor"
-msgstr "`M-v` - Lim in fra innlimingsmellomlageret til tekstredigeringsfeltet"
-
-#: 10.2-Shortcut-Cheatsheet.md:39
-msgid "`C-y` - Paste from paste buffer to editor"
-msgstr "`C-y` - Lim in fra innlimingsmellomlageret til tekstredigeringsfeltet"
-
-#: 10.2-Shortcut-Cheatsheet.md:40
+#: 10.1-Set-and-Get.md:70
 msgid ""
-"`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
-"C-g` to escape."
-msgstr ""
-"`C-SPACE` - Sett merke.  Navigering vil nå manipulere uthevet område.  Bruk `C"
-"-g` for å komme ut."
-
-#: 10.2-Shortcut-Cheatsheet.md:42
-msgid "Text Manipulation"
-msgstr "Tekstmanipulering"
-
-#: 10.2-Shortcut-Cheatsheet.md:44
-msgid "`M-m` - Align all text"
+"The nice thing about using `get` and `set` across threads like this is that it"
+" will always produce the same result every time you hit run. Go on, try it. Se"
+"e if you get the following in your log:"
 msgstr ""
 
-#: 10.2-Shortcut-Cheatsheet.md:45
-msgid "`Tab` - Align current line or selection (or select autocompletion)"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:46
-msgid "`C-l` - Centre editor"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:47
-msgid "`M-/` - Comment/Uncomment current line or selection"
-msgstr "`M-/` - Kommenter/avkommenter gjeldende linje eller merket område"
-
-#: 10.2-Shortcut-Cheatsheet.md:48
-msgid "`C-t` - Transpose/swap characters"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:49
-msgid "`M-u` - Convert next word (or selection) to upper case."
-msgstr "`M-u` - Gjør om neste ord (eller utvalg) til store bokstaver."
-
-#: 10.2-Shortcut-Cheatsheet.md:50
-msgid "`M-l` - Convert next word (or selection) to lower case."
-msgstr "`M-l` - Gjør om neste ord (eller utvalg) til små bokstaver."
-
-#: 10.2-Shortcut-Cheatsheet.md:54
-msgid "`C-a` - Move to beginning of line"
-msgstr "`C-a` - Flytt til starten av linjen"
-
-#: 10.2-Shortcut-Cheatsheet.md:55
-msgid "`C-e` - Move to end of line"
-msgstr "`C-e` - Flytt til slutten av linjen"
-
-#: 10.2-Shortcut-Cheatsheet.md:56
-msgid "`C-p` - Move to previous line"
-msgstr "`C-p` - Flytt til forrige linje"
-
-#: 10.2-Shortcut-Cheatsheet.md:57
-msgid "`C-n` - Move to next line"
-msgstr "`C-n` - Flytt til neste linje"
-
-#: 10.2-Shortcut-Cheatsheet.md:58
-msgid "`C-f` - Move forward one character"
-msgstr "`C-f` - Flytt forover ett tegn"
-
-#: 10.2-Shortcut-Cheatsheet.md:59
-msgid "`C-b` - Move backward one character"
-msgstr "`C-b` - Flytt bakover ett tegn"
-
-#: 10.2-Shortcut-Cheatsheet.md:60
-msgid "`M-f` - Move forward one word"
-msgstr "`M-f` - Flytt forover ett ord"
-
-#: 10.2-Shortcut-Cheatsheet.md:61
-msgid "`M-b` - Move backward one word"
-msgstr "`M-b` - Flytt bakover ett ord"
-
-#: 10.2-Shortcut-Cheatsheet.md:62
-msgid "`C-M-n` - Move line or selection down"
-msgstr "`C-M-n` - Flytt linje eller utvalg ned"
-
-#: 10.2-Shortcut-Cheatsheet.md:63
-msgid "`C-M-p` - Move line or selection up"
-msgstr "`C-M-p` - Flytt linje eller utvalg opp"
-
-#: 10.2-Shortcut-Cheatsheet.md:64
-msgid "`S-M-u` - Move up 10 lines"
-msgstr "`S-M-u` - Flytt opp 10 linjer"
-
-#: 10.2-Shortcut-Cheatsheet.md:65
-msgid "`S-M-d` - Move down 10 lines"
-msgstr "`S-M-d` - Flytt ned 10 linjer"
-
-#: 10.2-Shortcut-Cheatsheet.md:66
-msgid "`M-<` - Move to beginning of buffer"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:67
-msgid "`M->` - Move to end of buffer"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:69
-msgid "Deletion"
-msgstr "Sletting"
-
-#: 10.2-Shortcut-Cheatsheet.md:71
-msgid "`C-h` - Delete previous character"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:72
-msgid "`C-d` - Delete next character"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:74
-msgid "Advanced Editor Features"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:76
-msgid "`C-i` - Show docs for word under cursor"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:77
-msgid "`M-z` - Undo"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:78
-msgid "`S-M-z` - Redo"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:79
-msgid "`C-g` - Escape"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:80
-msgid "`S-M-f` - Toggle fullscreen mode"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:81
-msgid "`S-M-b` - Toggle visibility of buttons"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:82
-msgid "`S-M-l` - Toggle visibility of log"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:83
-msgid "`S-M-m` - Toggle between light/dark modes"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:84
-msgid "`S-M-s` - Save contents of buffer to a file"
-msgstr ""
-
-#: 10.2-Shortcut-Cheatsheet.md:85
-msgid "`S-M-o` - Load contents of buffer from a file"
-msgstr ""
-
-#: 10.3-Sharing.md:1
-msgid "10.3 Sharing"
-msgstr ""
-
-#: 10.3-Sharing.md:3
-msgid "Sharing"
-msgstr ""
-
-#: 10.3-Sharing.md:5
-msgid "Sonic Pi is all about sharing and learning with each other."
-msgstr ""
-
-#: 10.3-Sharing.md:7
+#: 10.1-Set-and-Get.md:74
+#, no-wrap
 msgid ""
-"Once you've learned how to code music, sharing your compositions is as simple "
-"as sending an email containing your code. Please do *share* your code with oth"
-"ers so they can *learn* from your work and even use parts in a new *mash-up*."
+"{run: 0, time: 0.0}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 0.5}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 1.0}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 1.5}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 2.0}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 2.5}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 3.0}\n"
+" └─ 75.6048583984375\n"
+"{run: 0, time: 3.5}\n"
+" └─ 75.6048583984375"
 msgstr ""
 
-#: 10.3-Sharing.md:12
+#: 10.1-Set-and-Get.md:100
 msgid ""
-"If you're unsure of the best way to share your work with others I recommend pu"
-"tting your code on [GitHub](https://github.com) and your music on [SoundCloud]"
-"(https://soundcloud.com). That way you'll be able to easily reach a large audi"
-"ence."
+"Try running it a few times - see, it's the same every time. This is what we ca"
+"ll deterministic behaviour and it's really very important when we want to shar"
+"e our music as code and know that the person playing the code is hearing exact"
+"ly what we wanted them to hear (just like playing an MP3 or internet stream so"
+"unds the same for all listeners)."
 msgstr ""
 
-#: 10.3-Sharing.md:17
-msgid "Code -> GitHub"
+#: 10.1-Set-and-Get.md:107
+msgid "A Simple Deterministic State System"
 msgstr ""
 
-#: 10.3-Sharing.md:19
+#: 10.1-Set-and-Get.md:109
 msgid ""
-"[GitHub](https://github.com) is a site for sharing and working with code. It's"
-" used by professional developers as well as artists for sharing and collaborat"
-"ing with code. The simplest way to share a new piece of code (or even an unfin"
-"ished piece) is to create a [Gist](https://gist.github.com). A [Gist](https://"
-"gist.github.com) is a simple way of uploading your code in a simple way that o"
-"thers can see, copy and share."
+"Back in Section 5.6 we discussed why using variables across threads can lead t"
+"o random behaviour. This stops us from being able to reliably reproduce code s"
+"uch as this:"
 msgstr ""
 
-#: 10.3-Sharing.md:27
-msgid "Audio -> SoundCloud"
-msgstr ""
-
-#: 10.3-Sharing.md:29
+#: 10.1-Set-and-Get.md:113
+#, no-wrap
 msgid ""
-"Another important way of sharing your work is to record the audio and upload i"
-"t to [SoundCloud](https://soundcloud.com). Once you've uploaded your piece, ot"
-"her users can comment and discuss your work. I also recommend placing a link t"
-"o a [Gist](https://gist.github.com) of your code in the track description."
+"## An Example of Non-Deterministic Behaviour\n"
+"## (due to race conditions caused by multiple\n"
+"## live loops manipulating the same variable\n"
+"## at the same time).\n"
+"##  \n"
+"## If you run this code you'll notice\n"
+"## that the list that's printed is\n"
+"## not always sorted!\n"
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 msgstr ""
 
-#: 10.3-Sharing.md:35
+#: 10.1-Set-and-Get.md:136
+msgid "Let's take a look at how this might look using `get` and `set`:"
+msgstr ""
+
+#: 10.1-Set-and-Get.md:138
+#, no-wrap
 msgid ""
-"To record your work, hit the `Rec` button in the toolbar, and recording starts"
-" immediately. Hit `Run` to start your code if it isn't already in progress. Wh"
-"en you're done recording, press the flashing `Rec` button again, and you'll be"
-" prompted to enter a filename. The recording will be saved as a WAV file, whic"
-"h can be edited and converted to MP3 by any number of free programs (try Audac"
-"ity for instance)."
+"## An Example of Deterministic Behaviour\n"
+"## (despite concurrent access of shared state)\n"
+"## using Sonic Pi's new Time State system.\n"
+"##\n"
+"## When this code is executed, the list that's\n"
+"## printed is always sorted!\n"
+"set :a, (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  set :a, get[:a].shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  set :a, get[:a].sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", get[:a]\n"
+"end"
 msgstr ""
 
-#: 10.3-Sharing.md:43
-msgid "Hope"
-msgstr ""
-
-#: 10.3-Sharing.md:45
+#: 10.1-Set-and-Get.md:159
 msgid ""
-"I encourage you to share your work and really hope that we'll all teach each o"
-"ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
-"e to show me."
+"Notice how this code is pretty much identical to the version using a variable "
+"before it. However when you run the code, it behaves as you would expect with "
+"any typical Sonic Pi code - *it does the same thing every time* in this case t"
+"hanks to the Time State system."
 msgstr ""
 
-#: 10.4-Performing.md:1
-msgid "10.4 Performing"
-msgstr ""
-
-#: 10.4-Performing.md:3
-msgid "Performing"
-msgstr ""
-
-#: 10.4-Performing.md:5
+#: 10.1-Set-and-Get.md:164
 msgid ""
-"One of the most exciting aspects of Sonic Pi is that it enables you to use cod"
-"e as a *musical instrument*. This means that writing code live can now be seen"
-" as a new way of performing music."
+"Therefore, when sharing information across live loops and threads, use `get` a"
+"nd `set` instead of variables for deterministic, reproducible behaviour."
 msgstr ""
 
-#: 10.4-Performing.md:9
-msgid "We call this *Live Coding*."
+#: 10.2-Sync.md:1
+msgid "10.2 Sync"
 msgstr ""
 
-#: 10.4-Performing.md:11
-msgid "Show Your Screen"
+#: 10.2-Sync.md:3
+msgid "Sync"
 msgstr ""
 
-#: 10.4-Performing.md:13
+#: 10.2-Sync.md:5
 msgid ""
-"When you live code I recommend you *show your screen* to your audience. Otherw"
-"ise it's like playing a guitar but hiding your fingers and the strings. When I"
-" practice at home I use a Raspberry Pi and a little mini projector on my livin"
-"g room wall. You could use your TV or one of your school/work projectors to gi"
-"ve a show. Try it, it's a lot of fun."
+"Section 5.7 introduced the functions `cue` and `sync` when dealing with the is"
+"sue of synchronising threads. What it didn't explain was that it is the Time S"
+"tate system which provides this functionality. It just so happens that `set` i"
+"s actually a variation of `cue` and is built on top of the same core functiona"
+"lity which is to insert information into the Time State system. Additionally, "
+"`sync` is also designed in such a way that it works seamlessly with Time State"
+" - any information that we plan to store in Time State we can sync on. In othe"
+"r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
 
-#: 10.4-Performing.md:20
-msgid "Form a Band"
+#: 10.2-Sync.md:15
+msgid "Waiting for Events"
 msgstr ""
 
-#: 10.4-Performing.md:22
+#: 10.2-Sync.md:17
 msgid ""
-"Don't just play on your own - form a live coding band! It's a lot of fun jammi"
-"ng with others. One person could do beats, another ambient background, etc. Se"
-"e what interesting combinations of sounds you can have together."
+"Let's take a quick look at how to use `sync` to wait for new events to be adde"
+"d to Time State:"
 msgstr ""
 
-#: 10.4-Performing.md:27
-msgid "TOPLAP"
-msgstr ""
-
-#: 10.4-Performing.md:29
+#: 10.2-Sync.md:20
+#, no-wrap
+#, fuzzy
 msgid ""
-"Live coding isn't completely new - a small number of people have been doing it"
-" for a few years now, typically using bespoke systems they've built for themse"
-"lves. A great place to go and find out more about other live coders and system"
-"s is [TOPLAP](http://toplap.org)."
-msgstr ""
+"in_thread do\n"
+"  sync :foo\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 1"
+msgstr "sample :ambi_lunar_land"
 
-#: 10.4-Performing.md:34
-msgid "Algorave"
-msgstr ""
-
-#: 10.4-Performing.md:36
+#: 10.2-Sync.md:31
 msgid ""
-"Another great resource for exploring the live coding world is [Algorave](http:"
-"//algorave.com). Here you can find all about a specific strand of live coding "
-"for making music in nightclubs."
+"In this example first we create a thread which waits for a `:foo` event to be "
+"added to the Time State. After this thread declaration we sleep for 2 beats an"
+"d then `set` `:foo` to be `1`. This then releases the `sync` which then moves "
+"to the next line which is to trigger the `:ambi_lunar_land` sample."
 msgstr ""
 
-#: 11-Minecraft-Pi.md:1
-msgid "11 Minecraft Pi"
-msgstr ""
-
-#: 11-Minecraft-Pi.md:3
-msgid "Minecraft Pi"
-msgstr ""
-
-#: 11-Minecraft-Pi.md:5
+#: 10.2-Sync.md:37
 msgid ""
-"Sonic Pi now supports a simple API for interacting with Minecraft Pi - the spe"
-"cial edition of Minecraft which is installed by default on the Raspberry Pi's "
-"Raspbian Linux-based operating system."
+"Note that `sync` always waits for *future events* and that it will block the c"
+"urrent thread waiting for a new event. Also, it will inherit the logical time "
+"of the thread which triggered it via `set` or `cue` so it may also be used to "
+"sync time."
 msgstr ""
 
-#: 11-Minecraft-Pi.md:9
-msgid "No need to import libraries"
+#: 10.2-Sync.md:42
+msgid "Passing values into the Future"
 msgstr ""
 
-#: 11-Minecraft-Pi.md:11
+#: 10.2-Sync.md:44
 msgid ""
-"The Minecraft Pi integration has been designed to be insanely easy to use. All"
-" you need to do is to launch Minecraft Pi and create a world. You're then free"
-" to use the `mc_*` fns just like you might use `play` and `synth`. There's no "
-"need to import anything or install any libraries - it's all ready to go and wo"
-"rks out of the box."
+"In the example above we set `:foo` to `1` which we did nothing with. We can ac"
+"tually get this value from the thread calling `sync`:"
 msgstr ""
 
-#: 11-Minecraft-Pi.md:17
-msgid "Automatic Connection"
-msgstr ""
-
-#: 11-Minecraft-Pi.md:19
+#: 10.2-Sync.md:47
+#, no-wrap
+#, fuzzy
 msgid ""
-"The Minecraft Pi API takes care of managing your connection to the Minecraft P"
-"i application. This means you don't need to worry about a thing. If you try an"
-"d use the Minecraft Pi API when Minecraft Pi isn't open, Sonic Pi will politel"
-"y tell you. Similarly, if you close Minecraft Pi whilst you're still running a"
-" `live_loop` that uses the API, the live loop will stop and politely tell you "
-"that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
-"Pi will automatically detect and re-create the connection for you."
-msgstr ""
+"in_thread do\n"
+"  amp = sync :foo\n"
+"  sample :ambi_lunar_land, amp: amp\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 0.5"
+msgstr "sample :ambi_lunar_land"
 
-#: 11-Minecraft-Pi.md:28
-msgid "Designed to be Live Coded"
-msgstr ""
-
-#: 11-Minecraft-Pi.md:30
+#: 10.2-Sync.md:58
 msgid ""
-"The Minecraft Pi API has been designed to work seamlessly within `live_loop`s."
-" This means it's possible to synchronise modifications in your Minecraft Pi wo"
-"rlds with modifications in your Sonic Pi sounds. Instant Minecraft-based music"
-" videos! Note however that Minecraft Pi is alpha software and is known to be s"
-"lightly buggy. If you encounter any problems simply restart Minecraft Pi and c"
-"arry on as before. Sonic Pi's automatic connection functionality will take car"
-"e of things for you."
+"Note that values that are passed through `set` and `cue` must be thread safe -"
+" i.e. immutable rings, numbers, symbols or frozen strings. Sonic Pi will throw"
+" an error if the value you are attempting to store in the Time State is not va"
+"lid."
 msgstr ""
 
-#: 11-Minecraft-Pi.md:39
-msgid "Requires a Raspberry Pi 2.0"
+#: 10.3-Pattern-Matching.md:1
+msgid "10.3 Pattern Matching"
 msgstr ""
 
-#: 11-Minecraft-Pi.md:41
+#: 10.3-Pattern-Matching.md:3
+msgid "Pattern Matching"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:5
 msgid ""
-"It is highly recommended that you use a Raspberry Pi 2 if you wish to run both"
-" Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
-" Pi's sound capabilities."
+"When getting and setting information into the Time State, it's possible to use"
+" more complex keys than basic symbols such as `:foo` and `:bar`. You can also "
+"use URL style strings called paths such as `\"/foo/bar/baz\"`. Once we start wor"
+"king with paths, we can then start taking advantage of Sonic Pi's sophisticate"
+"d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
+"tical' paths. Let's take a look."
 msgstr ""
 
-#: 11-Minecraft-Pi.md:45
-msgid "API Support"
+#: 10.3-Pattern-Matching.md:13
+msgid "Match any path segment"
 msgstr ""
 
-#: 11-Minecraft-Pi.md:47
+#: 10.3-Pattern-Matching.md:15
+msgid "Let's assume we want to wait for the next event that has three path segments:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:17
+#, no-wrap
+msgid "sync \"/*/*/*\""
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:21
 msgid ""
-"At this stage, Sonic Pi supports basic block and player manipulations which ar"
-"e detailed in Section 11.1. Support for event callbacks triggered by player in"
-"teractions in the world is planned for a future release."
+"This will match any Time State event with exactly three path segments, regardl"
+"ess of their names. For example:"
 msgstr ""
 
-#: 11.1-Basic-API.md:1
-msgid "11.1 Basic API"
+#: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
+#: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
+msgid "`cue \"/foo/bar/baz\"`"
 msgstr ""
 
-#: 11.1-Basic-API.md:3
-msgid "Basic Minecraft Pi API"
+#: 10.3-Pattern-Matching.md:25
+msgid "`cue \"/foo/baz/quux\"`"
 msgstr ""
 
-#: 11.1-Basic-API.md:5
+#: 10.3-Pattern-Matching.md:26
+msgid "`cue \"/eggs/beans/toast\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:27
+msgid "`cue \"/moog/synths/rule\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:29
 msgid ""
-"Sonic Pi currently supports the following basic interactions with Minecraft Pi"
+"However, it will *not* match paths with fewer or more path segments. The follo"
+"wing will not match:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:32
+msgid "`cue \"/foo/bar\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:33
+msgid "`cue \"/foo/baz/quux/quaax\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:34
+msgid "`cue \"/eggs\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:36
+msgid ""
+"Each `*` means *any content*. So we could match paths with just one segment wi"
+"th `/*` or paths with five segments with `/*/*/*/*/*`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:38
+msgid "Matching partial segments"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:40
+msgid ""
+"If we know what the segment is going to start or finish with, we can use a `*`"
+" in addition to a partial segment name. For example: `\"/foo/b*/baz\"` will matc"
+"h any path that has three segments, the first of which is `foo`, the last `baz"
+"` and the middle segment can be anything that starts with `b`. So, it would ma"
+"tch:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:47
+msgid "`cue \"/foo/baz/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:48
+msgid "`cue \"/foo/beans/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:50
+msgid "However, it wouldn't match the following:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:52
+msgid "`cue \"/foo/flibble/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:53
+msgid "`cue \"/foo/abaz/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:54
+msgid "`cue \"/foo/beans/baz/eggs\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:56
+msgid ""
+"You can also place the `*` at the start of the segment to specify the last cha"
+"racters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment `cue` or"
+" `set` where the first segment is `foo`, the last is `baz` and the middle segm"
+"ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:62
+msgid "Matching Nested Path Segments"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:64
+msgid ""
+"Sometimes you don't know how many path segments you want to match. In these ca"
+"ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
+"ill match:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:69
+msgid "`cue \"/foo/bar/beans/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:70
+msgid "`cue \"/foo/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:71
+msgid "`cue \"/foo/a/b/c/d/e/f/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:73
+msgid "Matching Single Letters"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:75
+msgid ""
+"You can use the `?` character to match against a single char such as `\"/?oo/ba"
+"r/baz\"` which will match:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:79
+msgid "`cue \"/goo/bar/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:80
+msgid "`cue \"/too/bar/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:81
+msgid "`cue \"/woo/bar/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:83
+msgid "Matching Multiple Words"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:85
+msgid ""
+"If you know that a segment may be one of a select number of words, you can use"
+" the `{` and `}` matchers to specify a list of choices such as `\"/foo/{bar,bea"
+"ns,eggs}/quux\"` which will only match the following:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:89
+msgid "`cue \"/foo/bar/quux\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:90
+msgid "`cue \"/foo/beans/quux\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:91
+msgid "`cue \"/foo/eggs/quux\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:93
+msgid "Matching Multiple Letters"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:95
+msgid ""
+"Finally, you can match against a selection of letters if you use the `[` and `"
+"]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` which wi"
+"ll match only:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
+msgid "`cue \"/foo/aux/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:100 10.3-Pattern-Matching.md:107
+msgid "`cue \"/foo/bux/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:101 10.3-Pattern-Matching.md:108
+msgid "`cue \"/foo/cux/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:104
+msgid ""
+"You can also use the `-` character to specify ranges of letters. For example `"
+"\"/foo/[a-e]ux/baz\"` which will match only:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:109
+msgid "`cue \"/foo/dux/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:110
+msgid "`cue \"/foo/eux/baz\"`"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:112
+msgid "Combining Matchers"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:114
+msgid ""
+"When calling `sync` or `get` you are free to combine matchers in any order you"
+" see fit to powerfully match any Time State event created by `cue` or `set`. L"
+"et's look at a crazy example:"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:118
+#, no-wrap
+#, fuzzy
+msgid ""
+"in_thread do\n"
+"  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
+msgstr "sample :loop_amen"
+
+#: 10.3-Pattern-Matching.md:129
+msgid "OSC Pattern Matching"
+msgstr ""
+
+#: 10.3-Pattern-Matching.md:131
+msgid ""
+"For those curious, these matching rules are based on the Open Sound Control pa"
+"ttern matching specification which is explained in detail here: http://opensou"
+"ndcontrol.org/spec-1_0"
+msgstr ""
+
+#: 11-MIDI.md:1
+msgid "11 MIDI"
+msgstr ""
+
+#: 11-MIDI.md:3
+msgid "MIDI"
+msgstr ""
+
+#: 11-MIDI.md:5
+msgid ""
+"Once you've mastered converting code to music, you might wonder - what's next?"
+" Sometimes the constraints of working purely within Sonic Pi's syntax and soun"
+"d system can be exciting and put you into a new creative position. However, so"
+"metimes it is essential to break out of the code into the real world. We want "
+"two extra things:"
+msgstr ""
+
+#: 11-MIDI.md:11
+msgid ""
+"To be able to convert actions in the real world into Sonic Pi events to code w"
+"ith"
+msgstr ""
+
+#: 11-MIDI.md:12
+msgid ""
+"To be able to use Sonic Pi's strong timing model and semantics to control and "
+"manipulate objects in the real world"
+msgstr ""
+
+#: 11-MIDI.md:14
+msgid ""
+"Luckily there's a protocol that's been around since the 80s that enables exact"
+"ly this kind of interaction - MIDI. There's an incredible number of external d"
+"evices including keyboards, controllers, sequencers, and pro audio software th"
+"at all support MIDI. We can use MIDI to receive data and also use it to send d"
+"ata."
+msgstr ""
+
+#: 11-MIDI.md:20
+msgid ""
+"Sonic Pi provides full support for the MIDI protocol enabling you to connect y"
+"our live code to the real world. Let's explore it further..."
+msgstr ""
+
+#: 11.1-MIDI-In.md:1
+msgid "11.1 MIDI In"
+msgstr ""
+
+#: 11.1-MIDI-In.md:3
+msgid "MIDI In"
+msgstr ""
+
+#: 11.1-MIDI-In.md:5
+msgid ""
+"In this section we will learn how to connect a MIDI controller to send events "
+"into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
+"such as a keyboard or control surface and let's get physical!"
+msgstr ""
+
+#: 11.1-MIDI-In.md:11
+msgid "Connecting a MIDI Controller"
+msgstr ""
+
+#: 11.1-MIDI-In.md:13
+msgid ""
+"In order to get information from an external MIDI device into Sonic Pi we firs"
+"t need to connect it to our computer. Typically this will be via a USB connect"
+"ion, although older equipment will have a 5-pin DIN connector for which you'll"
+" need hardware support for your computer (for example, some sound cards have M"
+"IDI DIN connectors). Once you've connected your device, launch Sonic Pi and ta"
+"ke a look at the IO section of the Preferences panel. You should see your devi"
+"ce listed there. If not, try hitting the 'Reset MIDI' button and see if it app"
+"ears. If you're still not seeing anything, the next thing to try is to consult"
+" your operating system's MIDI config to see if it sees your device. Failing al"
+"l that, feel free to ask questions in the public chat room: http://gitter.im/s"
+"amaaron/sonic-pi"
+msgstr ""
+
+#: 11.1-MIDI-In.md:26
+msgid "Receiving MIDI Events"
+msgstr ""
+
+#: 11.1-MIDI-In.md:28
+msgid ""
+"Once your device is connected, Sonic Pi will automatically receive events. You"
+" can see for yourself by manipulating your MIDI device and looking at the cue "
+"logger in the bottom right of the application window below the log (if this is"
+"n't visible go to Preferences->Editor->Show & Hide and enable the 'Show cue lo"
+"g' tickbox). You'll see a stream of events such as:"
+msgstr ""
+
+#: 11.1-MIDI-In.md:35
+#, no-wrap
+msgid ""
+"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [53, 102]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [57, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [53, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [57, 87]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [55, 81]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
+msgstr ""
+
+#: 11.1-MIDI-In.md:46
+msgid ""
+"Once you can see a stream of messages like this, you've successfully connected"
+" your MIDI device. Congratulations, let's see what we can do with it!"
+msgstr ""
+
+#: 11.1-MIDI-In.md:50
+msgid "MIDI Time State"
+msgstr ""
+
+#: 11.1-MIDI-In.md:52
+msgid ""
+"These events are broken into two sections. Firstly there's the name of the eve"
+"nt such as `/midi/nanokey2_keyboard/0/1/note_on` and secondly there's the valu"
+"es of the event such as `[18, 62]`. Interestingly, these are the two things we"
+" need to store information in Time State. *Sonic Pi automatically inserts inco"
+"ming MIDI events into Time State*. This means you can `get` the latest MIDI va"
+"lue and also `sync` waiting for the next MIDI value using everything we learne"
+"d in section 10 of this tutorial."
+msgstr ""
+
+#: 11.1-MIDI-In.md:60
+msgid "Controlling Code"
+msgstr ""
+
+#: 11.1-MIDI-In.md:62
+msgid ""
+"Now we've connected a MIDI device, seen its events in the cue log and discover"
+"ed that our knowledge of Time State is all we need to work with the events, we"
+" can now start having fun. Let's build a simple MIDI piano:"
+msgstr ""
+
+#: 11.1-MIDI-In.md:67
+#, no-wrap
+msgid ""
+"live_loop :midi_piano do\n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note\n"
+"end"
+msgstr ""
+
+#: 11.1-MIDI-In.md:74
+msgid ""
+"There's a few things going on in the code above including some issues. Firstly"
+", we have a simple `live_loop` which will repeat forever running the code betw"
+"een the `do`/`end` block. This was introduced in Section 9.2. Secondly, we're "
+"calling `sync` to wait for the next matching Time State event. We use a string"
+" representing the MIDI message we're looking for (which is the same as was dis"
+"played in the cue logger). Notice that this long string is provided to you by "
+"Sonic Pi's autocompletion system, so you don't have to type it all out by hand"
+". In the log we saw that there were two values for each MIDI note on event, so"
+" we assign the result to two separate variables `note` and `velocity`. Finally"
+" we trigger the `:piano` synth passing our note."
+msgstr ""
+
+#: 11.1-MIDI-In.md:86
+msgid ""
+"Now, you try it. Type in the code above, replace the sync key with a string ma"
+"tching your specific MIDI device and hit Run. Hey presto, you have a working p"
+"iano! However, you'll probably notice a couple of problems: firstly all the no"
+"tes are the same volume regardless of how hard you hit the keyboard. This can "
+"be easily fixed by using the velocity MIDI value and converting it to an ampli"
+"tude. Given that MIDI has a range of 0->127, to convert this number to a value"
+" between 0->1 we just need to divide it by 127:"
+msgstr ""
+
+#: 11.1-MIDI-In.md:95
+#, no-wrap
+msgid ""
+"live_loop :midi_piano do\n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note, amp: velocity / 127.0\n"
+"end"
+msgstr ""
+
+#: 11.1-MIDI-In.md:102
+msgid ""
+"Update the code and hit Run again. Now the velocity of the keyboard is honoure"
+"d. Next, let's get rid of that pesky pause."
+msgstr ""
+
+#: 11.1-MIDI-In.md:105
+msgid "Removing Latency"
+msgstr ""
+
+#: 11.1-MIDI-In.md:107
+msgid ""
+"Before we can remove the pause, we need to know why it's there. In order to ke"
+"ep all the synths and FX well-timed across a variety of differently capable CP"
+"Us, Sonic Pi schedules the audio *in advance* by 0.5s by default. (Note that t"
+"his added latency can be configured via the fns `set_sched_ahead_time!` and `u"
+"se_sched_ahead_time`). This 0.5s latency is being added to our `:piano` synth "
+"triggers as it is added to all synths triggered by Sonic Pi. Typically we real"
+"ly want this added latency as it means all synths will be well timed. However,"
+" this only makes sense for synths triggered by code using `play` and `sleep`. "
+"In this case, we're actually triggering the `:piano` synth with our external M"
+"IDI device and therefore don't want Sonic Pi to control the timing for us. We "
+"can turn off this latency with the command `use_real_time` which disables the "
+"latency for the current thread. This means you can use real time mode for live"
+" loops that have their timing controlled by `sync`ing with external devices, a"
+"nd keep the default latency for all other live loops. Let's see:"
+msgstr ""
+
+#: 11.1-MIDI-In.md:124
+#, no-wrap
+msgid ""
+"live_loop :midi_piano do\n"
+"  use_real_time\n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note, amp: velocity / 127.0\n"
+"end"
+msgstr ""
+
+#: 11.1-MIDI-In.md:132
+msgid ""
+"Update your code to match the code above and hit Run again. Now we have a low "
+"latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
+msgstr ""
+
+#: 11.1-MIDI-In.md:136
+msgid "Getting Values"
+msgstr ""
+
+#: 11.1-MIDI-In.md:138
+msgid ""
+"Finally, as our MIDI events are going straight into the Time State, we can als"
+"o use the `get` fn to retrieve the last seen value. This doesn't block the cur"
+"rent thread and returns `nil` if there's no value to be found (which you can o"
+"verride by passing a default value - see the docs for `get`). Remember that yo"
+"u can call `get` in any thread at any time to see the latest matching Time Sta"
+"te value. You can even use `time_warp` to jump back in time and call `get` to "
+"see past events..."
+msgstr ""
+
+#: 11.1-MIDI-In.md:147
+msgid "Now You are in Control"
+msgstr ""
+
+#: 11.1-MIDI-In.md:149
+msgid ""
+"The exciting thing now is that you can now use the same code structures to `sy"
+"nc` and `get` MIDI information from any MIDI device and do whatever you want w"
+"ith the values. You can now choose what your MIDI device will do!"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:1
+msgid "11.2 MIDI Out"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:3
+msgid "MIDI Out"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:5
+msgid ""
+"In addition to receiving MIDI events we can also send out MIDI events to trigg"
+"er and control external hardware synths, keyboards and other devices. Sonic Pi"
+" provides a full set of fns for sending various MIDI messages such as:"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:9
+msgid "Note on - `midi_note_on`"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:10
+msgid "Note off - `midi_note_off`"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:11
+msgid "Control change - `midi_cc`"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:12
+msgid "Pitch bend - `midi_pitch_bend`"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:13
+msgid "Clock ticks - `midi_clock_tick`"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:15
+msgid ""
+"There are many other supported MIDI messages too - check out the API documenta"
+"tion for all the other fns that start with `midi_`."
+msgstr ""
+
+#: 11.2-MIDI-Out.md:18
+msgid "Connecting to a MIDI Device"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:20
+msgid ""
+"In order to send a MIDI message to an external device, we must first have conn"
+"ected it. Check out the subsection 'Connecting a MIDI Controller' in section 1"
+"1.1 for further details. Note that if you're using USB, connecting to a device"
+" which you're sending to (rather than receiving from) is the same procedure. H"
+"owever, if you're using the classic DIN connectors, make sure you connect to t"
+"he MIDI out port of your computer. You should see your MIDI device listed in t"
+"he preferences pane."
+msgstr ""
+
+#: 11.2-MIDI-Out.md:29
+msgid "Sending MIDI events"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:31
+msgid ""
+"The many `midi_*` fns work just like `play`, `sample` and `synth` in that they"
+" send a message at the current (logical) time. For example, to spread out call"
+"s to the `midi_*` fns you need to use `sleep` just like you did with `play`. L"
+"et's take a look:"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:36
+#, no-wrap
+msgid "midi_note_on :e3, 50"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:40
+msgid ""
+"This will send a MIDI note on event to the connected MIDI device with velocity"
+" 50. (Note that Sonic Pi will automatically convert notes in the form `:e3` to"
+" their corresponding MIDI number such as 52 in this case.)"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:44
+msgid ""
+"If your connected MIDI device is a synthesiser, you should be able to hear it "
+"playing a note. To disable it use `midi_note_off`:"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:47
+#, no-wrap
+msgid "midi_note_off :e3"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:51
+msgid "Selecting a MIDI device"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:53
+msgid ""
+"By default, Sonic Pi will send each MIDI message to all connected devices on a"
+"ll MIDI channels. This is to make it easy to work with a single connected devi"
+"ce without having to configure anything. However, sometimes a MIDI device will"
+" treat MIDI channels in a special way (perhaps each note has a separate channe"
+"l) and also you may wish to connect more than one MIDI device at the same time"
+". In more complicated setups, you may wish to be more selective about which MI"
+"DI device receives which message(s) and on which channel."
+msgstr ""
+
+#: 11.2-MIDI-Out.md:62
+msgid ""
+"We can specify which device to send to using the `port:` opt, using the device"
+" name as displayed in the preferences:"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:65
+#, no-wrap
+msgid "midi_note_on :e3, port: \"moog_minitaur\""
+msgstr ""
+
+#: 11.2-MIDI-Out.md:69
+msgid ""
+"We can also specify which channel to send to using the `channel:` opt (using a"
+" value in the range 1-16):"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:72
+#, no-wrap
+msgid "midi_note_on :e3, channel: 3"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:76
+msgid ""
+"Of course we can also specify both at the same time to send to a specific devi"
+"ce on a specific channel:"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:79
+#, no-wrap
+msgid "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:83
+msgid "MIDI Studio"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:85
+msgid ""
+"Finally, a really fun thing to do is to connect the audio output of your MIDI "
+"synthesiser to one of the audio inputs of your soundcard. You can then control"
+" your synth with code using the `midi_*` fns and also manipulate the audio usi"
+"ng `live_audio` and FX:"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:90
+#, no-wrap
+msgid ""
+"with_fx :reverb, room: 1 do\n"
+"  live_audio :moog\n"
+"end\n"
+"live_loop :moog_trigger do\n"
+"  use_real_time\n"
+"  midi (octs :e1, 3).tick, sustain: 0.1\n"
+"  sleep 0.125\n"
+"end"
+msgstr ""
+
+#: 11.2-MIDI-Out.md:102
+msgid ""
+"(The fn `midi` is available as a handy shortcut to sending both note on and no"
+"te off events with a single command. Check out its documentation for further i"
+"nformation)."
+msgstr ""
+
+#: 12-OSC.md:1
+msgid "12 OSC"
+msgstr ""
+
+#: 12-OSC.md:3
+msgid "OSC"
+msgstr ""
+
+#: 12-OSC.md:5
+msgid ""
+"In addition to MIDI, another way to get information in and out of Sonic Pi is "
+"via the network using a simple protocol called OSC - Open Sound Control. This "
+"will let you send messages to and from external programs (both running on your"
+" computer and on external computers) which opens up the potential for control "
+"way beyond MIDI which has limitations due to its 1980s design."
+msgstr ""
+
+#: 12-OSC.md:12
+msgid ""
+"For example, you could write a program in another programming language which s"
+"ends and receives OSC (there are OSC libraries for pretty much every common la"
+"nguage) and work directly with Sonic Pi. What you can use this for is only lim"
+"ited by your imagination."
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:1
+msgid "12.1 Receiving OSC"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:3
+msgid "Receiving OSC"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:5
+msgid ""
+"By default when Sonic Pi is launched it listens to port 4559 for incoming OSC "
+"messages from programs on the same computer. This means that without any confi"
+"guration, you can send Sonic Pi an OSC message and it will be displayed in the"
+" cue log just like incoming MIDI messages. This also means that any incoming O"
+"SC message is also automatically added to the Time State which means you can a"
+"lso use `get` and `sync` to work with the incoming data - just like with MIDI "
+"and synchronising `live_loops` - see sections 5.7 and 10.2 to recap how this w"
+"orks."
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:15
+msgid "A Basic OSC Listener"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:17
+msgid "Let's build a basic OSC listener:"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:19
+#, no-wrap
+msgid ""
+"live_loop :foo do\n"
+"  use_real_time\n"
+"  a, b, c = sync \"/osc/trigger/prophet\"\n"
+"  synth :prophet, note: a, cutoff: b, sustain: c\n"
+"end"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:27
+msgid ""
+"In this example we described an OSC path `\"/osc/trigger/prophet\"` which we're "
+"syncing on. This can be any valid OSC path (all letters and numbers are suppor"
+"ted and the `/` is used like in a URL to break up the path to multiple words)."
+" The `/osc` prefix is added by Sonic Pi to all incoming OSC messages, so we ne"
+"ed to send an OSC message with the path `/trigger/prophet` for our `sync` to s"
+"top blocking and the prophet synth to be triggered."
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:36
+msgid "Sending OSC to Sonic Pi"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:38
+msgid ""
+"We can send OSC to Sonic Pi from any programming language that has an OSC libr"
+"ary. For example, if we're sending OSC from Python we might do something like "
+"this:"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:42
+#, no-wrap
+msgid ""
+"from pythonosc import osc_message_builder\n"
+"from pythonosc import udp_client\n"
+"sender = udp_client.SimpleUDPClient('127.0.0.1', 4559)\n"
+"sender.send_message('/trigger/prophet', [70, 100, 8])"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:50
+msgid ""
+"Or, if we're sending OSC from Clojure we might do something like this from the"
+" REPL:"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:52
+#, no-wrap
+msgid ""
+"(use 'overtone.core)\n"
+"(def c (osc-client \"127.0.0.1\" 4559))\n"
+"(osc-send c \"/trigger/prophet\" 70 100 8)"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:58
+msgid "Receiving from External Machines"
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:60
+msgid ""
+"For security reasons, by default Sonic Pi does not let remote machines send it"
+" OSC messages. However, you can enable support for remote machines in Preferen"
+"ces->IO->Network->Receive Remote OSC Messages. Once you've enabled this, you c"
+"an receive OSC messages from any computer on your network. Typically the sendi"
+"ng machine will need to know your IP address (a unique identifier for your com"
+"puter on your network - kind of like a phone number or an email address). You "
+"can discover the IP address of your computer by looking at the IO section of t"
+"he preferences pane. (If your machine happens to have more than one IP address"
+", hovering the mouse over the listed address will pop up with a list of all kn"
+"own addresses)."
+msgstr ""
+
+#: 12.1-Receiving-OSC.md:72
+msgid ""
+"Note, some programs such as TouchOSC for iPhone and Android support sending OS"
+"C as a standard feature. So, once you're listening to remote machines and know"
+" your IP address you can instantly start sending messages from apps like Touch"
+"OSC which enable you to build your own custom touch controls with sliders, but"
+"tons, dials etc. This can provide you with an enormous range of input options."
+msgstr ""
+
+#: 12.2-Sending-OSC.md:1
+msgid "12.2 Sending OSC"
+msgstr ""
+
+#: 12.2-Sending-OSC.md:3
+msgid "Sending OSC"
+msgstr ""
+
+#: 12.2-Sending-OSC.md:5
+msgid ""
+"In addition to receiving OSC and working with it using Time State, we can also"
+" send out OSC messages in time with our music (just like we can send out MIDI "
+"messages in time with our music). We just need to know which IP address and po"
+"rt we're sending to. Let's give it a try:"
+msgstr ""
+
+#: 12.2-Sending-OSC.md:10
+#, no-wrap
+msgid ""
+"use_osc \"localhost\", 4559\n"
+"osc \"/hello/world\""
+msgstr ""
+
+#: 12.2-Sending-OSC.md:15
+msgid ""
+"If you run the code above, you'll notice that Sonic Pi is sending itself an OS"
+"C message! This is because we set the IP address to the current machine and th"
+"e port to the default OSC in port. This is essentially the same as posting a l"
+"etter to yourself - the OSC packet is created, leaves Sonic Pi, gets to the ne"
+"twork stack of the operating system which then routes the packed back to Sonic"
+" Pi and then it's received as a standard OSC message and is visible in the cue"
+" logger as the incoming message `\"/osc/hello/world`. (Notice how Sonic Pi auto"
+"matically prefixes all incoming OSC messages with `/osc`.)"
+msgstr ""
+
+#: 12.2-Sending-OSC.md:25
+msgid "Sending OSC to other programs"
+msgstr ""
+
+#: 12.2-Sending-OSC.md:27
+msgid ""
+"Of course, sending OSC messages to ourselves may be fun but it's not that usef"
+"ul. The real benefit starts when we send messages to other programs:"
+msgstr ""
+
+#: 12.2-Sending-OSC.md:32
+#, no-wrap
+msgid ""
+"use_osc \"localhost\", 123456\n"
+"osc \"/hello/world\""
+msgstr ""
+
+#: 12.2-Sending-OSC.md:37
+msgid ""
+"In this case we're assuming there's another program on the same machine listen"
+"ing to port 123456. If there is, then it will receive a `\"/hello/world` OSC me"
+"ssage with which it can do what it wants."
+msgstr ""
+
+#: 12.2-Sending-OSC.md:41
+msgid ""
+"If our program is running on another machine, we need to know its IP address w"
+"hich we use instead of `\"localhost\"`:"
+msgstr ""
+
+#: 12.2-Sending-OSC.md:44
+#, no-wrap
+msgid ""
+"use_osc \"192.168.10.23\", 123456\n"
+"osc \"/hello/world\""
+msgstr ""
+
+#: 12.2-Sending-OSC.md:49
+msgid ""
+"Now we can send OSC messages to any device reachable to us via our local netwo"
+"rks and even the internet!"
+msgstr ""
+
+#: 13-Multichannel-Audio.md:1
+msgid "13 Multichannel Audio"
+msgstr ""
+
+#: 13-Multichannel-Audio.md:3
+msgid "Multichannel Audio"
+msgstr ""
+
+#: 13-Multichannel-Audio.md:5
+msgid ""
+"So far, in terms of sound production, we've explored triggering synths and rec"
+"orded sounds via the fns `play`, `synth` and `sample`. These have then generat"
+"ed audio which has played through our stereo speaker system. However, many com"
+"puters also have the ability to input sound, perhaps through a microphone, in "
+"addition to the ability to send sound out to more than two speakers. Often, th"
+"is capability is made possible through the use of an external sound card - the"
+"se are available for all platforms. In this section of the tutorial we'll take"
+" a look at how we can take advantage of these external sound cards and effortl"
+"essly work with multiple channels of audio in and out of Sonic Pi."
+msgstr ""
+
+#: 13.1-Sound-In.md:1
+msgid "13.1 Sound In"
+msgstr ""
+
+#: 13.1-Sound-In.md:3
+msgid "Sound In"
+msgstr ""
+
+#: 13.1-Sound-In.md:5
+msgid ""
+"One simple (and perhaps familiar) way of accessing sound inputs is using our f"
+"riend `synth` by specifying the `:sound_in` synth:"
+msgstr ""
+
+#: 13.1-Sound-In.md:7
+#, no-wrap
+msgid "synth :sound_in"
+msgstr ""
+
+#: 13.1-Sound-In.md:11
+msgid ""
+"This will operate just like any synth such as `synth :dsaw` with the exception"
+" that the audio generated will be read directly from the first input of your s"
+"ystem's sound card. On laptops, this is typically the built-in microphone, but"
+" if you have an external sound card, you can plug any audio input to the first"
+" input."
+msgstr ""
+
+#: 13.1-Sound-In.md:17
+#, fuzzy
+msgid "Increasing the Duration"
+msgstr "Varighet"
+
+#: 13.1-Sound-In.md:19
+msgid ""
+"One thing you might notice is that just like `synth :dsaw` the `:sound_in` syn"
+"th only lasts for 1 beat as it has a standard envelope. If you'd like to keep "
+"it open for a little longer, change the ADSR envelope settings. For example th"
+"e following will keep the synth open for 8 beats before closing the connection"
 ":"
 msgstr ""
 
-#: 11.1-Basic-API.md:7 11.1-Basic-API.md:16
-msgid "Displaying chat messages"
-msgstr ""
-
-#: 11.1-Basic-API.md:8 11.1-Basic-API.md:33
-msgid "Setting the position of the user"
-msgstr ""
-
-#: 11.1-Basic-API.md:9
-msgid "Getting the position of the user"
-msgstr ""
-
-#: 11.1-Basic-API.md:10
-msgid "Setting the block type at a given coordinate"
-msgstr ""
-
-#: 11.1-Basic-API.md:11
-msgid "Getting the block type at a given coordinate"
-msgstr ""
-
-#: 11.1-Basic-API.md:14
-msgid "Let's look at each of these in turn."
-msgstr ""
-
-#: 11.1-Basic-API.md:18
-msgid ""
-"Let's see just how easy it is to control Minecraft Pi from Sonic Pi. First, ma"
-"ke sure you have both Minecraft Pi and Sonic Pi open at the same time and also"
-" make sure you've entered a Minecraft world and can walk around."
-msgstr ""
-
-#: 11.1-Basic-API.md:23
-msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr ""
-
-#: 11.1-Basic-API.md:25
+#: 13.1-Sound-In.md:22
 #, no-wrap
-msgid "mc_message \"Hello from Sonic Pi\""
+msgid "synth :sound_in, sustain: 8"
 msgstr ""
 
-#: 11.1-Basic-API.md:29
+#: 13.1-Sound-In.md:28
 msgid ""
-"When you hit the *Run* button, you'll see your message flash up on the Minecra"
-"ft window. Congratulations, you've written your first Minecraft code! That was"
-" easy wasn't it."
+"Of course, just like any normal synth, you can easily layer on effects with th"
+"e FX block:"
 msgstr ""
 
-#: 11.1-Basic-API.md:35
-msgid ""
-"Now, let's try a little magic. Let's teleport ourselves somewhere! Try the fol"
-"lowing:"
-msgstr ""
-
-#: 11.1-Basic-API.md:38
-#, no-wrap
-msgid "mc_teleport 50, 50, 50"
-msgstr ""
-
-#: 11.1-Basic-API.md:42
-msgid ""
-"When you hit *Run* - boom! You're instantantly transported to a new place. Mos"
-"t likely it was somewhere in the sky and you fell down either to dry land or i"
-"nto water. Now, what are those numbers: `50, 50, 50`? They're the coordinates "
-"of the location you're trying to teleport to. Let's take a brief moment to exp"
-"lore what coordinates are and how they work because they're really, really imp"
-"ortant for programming Minecraft."
-msgstr ""
-
-#: 11.1-Basic-API.md:50
-msgid "Coordinates"
-msgstr "Koordinater"
-
-#: 11.1-Basic-API.md:52
-msgid ""
-"Imagine a pirate's map with a big `X` marking the location of some treasure. T"
-"he exact location of the `X` can be described with two numbers - how far along"
-" the map from left to right and how far along the map from bottom to top. For "
-"example `10cm` across and `8cm` up. These two numbers `10` and `8` are coordin"
-"ates. You could easily imagine describing the locations of other stashes of tr"
-"easure with other pairs of numbers. Perhaps there's a big chest of gold at `2`"
-" across and `9` up..."
-msgstr ""
-
-#: 11.1-Basic-API.md:61
-msgid ""
-"Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
-"h we are. We therefore need three numbers:"
-msgstr ""
-"Mens i Minecraft er to tall ikke helt nok.  Vi trenger også å vite hvor høyt v"
-"i er.  Vi trenger derfor tre tall:"
-
-#: 11.1-Basic-API.md:64
-msgid "How far from right to left in the world - `x`"
-msgstr "Hvor langt fra høyre til venstre i verden - `x`"
-
-#: 11.1-Basic-API.md:65
-msgid "How far from front to back in the world - `z`"
-msgstr "Hvor langt fra forran til bak i verden - `z`"
-
-#: 11.1-Basic-API.md:66
-msgid "How high up we are in the world - `y`"
-msgstr "Hvor høyt oppe i er i verden - `y`"
-
-#: 11.1-Basic-API.md:68
-msgid ""
-"One more thing - we typically describe these coordinates in this order `x`, `y"
-"`, `z`."
-msgstr ""
-"Og forresten - vi beskriver typisk disse koordinatene i denne rekkefølgen `x`,"
-" `y`, `z`."
-
-#: 11.1-Basic-API.md:71
-msgid "Finding your current coordinates"
-msgstr "Finne dine nåværende koordinater"
-
-#: 11.1-Basic-API.md:73
-msgid ""
-"Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
-"map and then switch over to Sonic Pi. Now enter the following:"
-msgstr ""
-"La oss leke med koordinater.  Naviger til en fin plass i Minecraft-kartet og b"
-"ytt så over til Sonic Pi.  Skriv deretter inn det følgende:"
-
-#: 11.1-Basic-API.md:76
-#, no-wrap
-msgid "puts mc_location"
-msgstr "puts mc_location"
-
-#: 11.1-Basic-API.md:80
-msgid ""
-"When you hit the *Run* button you'll see the coordinates of your current posit"
-"ion displayed in the log window. Take a note of them, then move forward in the"
-" world and try again. Notice how the coordinates changed! Now, I recommend you"
-" spend some time repeating exactly this - move a bit in the world, take a look"
-" at the coordinates and repeat. Do this until you start to get a feel for how "
-"the coordinates change when you move. Once you've understood how coordinates w"
-"ork, programming with the Minecraft API will be a complete breeze."
-msgstr ""
-"Når du trygger på *Kjør*-knappen vil du se koordinatene til din gjeldende posi"
-"sjon vist frem i loggvinduet.  Merk deg dem og beveg deg fremover i verden og "
-"forsøk igjen.  Merk hvordan koordinatene endret seg!  Nå anbefaler jeg at du b"
-"ruker litt tid til å gjenta akkurat dette - flytt litt i verden, titt på koord"
-"inatene og gjenta.  Gjør dette helt til du har en følelse om hvordan koordinat"
-"ene endrer seg når du beveger deg.  Når du har forstått hvordan koordinater vi"
-"rker vil programmering med Minecraft-API-et være enkelt."
-
-#: 11.1-Basic-API.md:89
-msgid "Let's Build!"
-msgstr "La oss bygge!"
-
-#: 11.1-Basic-API.md:91
-msgid ""
-"Now that you know how to find the current position and to teleport using coord"
-"inates, you have all the tools you need to start building things in Minecraft "
-"with code. Let's say you want to make the block with coordinates `40`, `50`, `"
-"60` to be glass. That's super easy:"
-msgstr ""
-"Nå når du vet hvordan du finner gjeldende posisjon og kan teleporte ved hjelp "
-"av koordinater, har du alle verktøyene du trenger for å gå i gang med å bygge "
-"ting i Minecraft med programmering.  Lå oss si at du vil få blokken med koordi"
-"nater `40`, `50`, `60` til å bli glass.  Det er superenkelt:"
-
-#: 11.1-Basic-API.md:96
-#, no-wrap
-msgid "mc_set_block :glass, 40, 50, 60"
-msgstr "mc_set_block :glass, 40, 50, 60"
-
-#: 11.1-Basic-API.md:100
-msgid ""
-"Haha, it really was that easy. To see your handywork just teleport nearby and "
-"take a look:"
-msgstr ""
-"Haha, det er virkelig så enkelt.  For å se håndverket ditt trenger du bare tel"
-"eportere til et sted i nærheten og ta en titt:"
-
-#: 11.1-Basic-API.md:103
-#, no-wrap
-msgid "mc_teleport 35, 50, 60"
-msgstr "mc_teleport 35, 50, 60"
-
-#: 11.1-Basic-API.md:107
-msgid ""
-"Now turn around and you should see your glass block! Try changing it to diamon"
-"d:"
-msgstr ""
-"Nå kan du snu deg rundt og der bør du se glassblokken din.  Forsøk å endre den"
-" til diamant:"
-
-#: 11.1-Basic-API.md:110
-#, no-wrap
-msgid "mc_set_block :diamond, 40, 50, 60"
-msgstr "mc_set_block :diamond, 40, 50, 60"
-
-#: 11.1-Basic-API.md:114
-msgid ""
-"If you were looking in the right direction you might have even seen it change "
-"in front of your eyes! This is the start of something exciting..."
-msgstr ""
-"Hvis du tittet i riktig retning kan du til og me ha sett at den endret deg for"
-"an øynene på deg.  Dette er starten på noe fantastisk..."
-
-#: 11.1-Basic-API.md:117
-msgid "Looking at blocks"
-msgstr ""
-
-#: 11.1-Basic-API.md:119
-msgid ""
-"Let's look at one last thing before we move onto something a bit more involved"
-". Given a set of coordinates we can ask Minecraft what the type of a specific "
-"block is. Let's try it with the diamond block you just created:"
-msgstr ""
-
-#: 11.1-Basic-API.md:124
-#, no-wrap
-msgid "puts mc_get_block 40, 50, 60"
-msgstr "puts mc_get_block 40, 50, 60"
-
-#: 11.1-Basic-API.md:128
-msgid ""
-"Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
-" now say `:glass`? I'm sure it does :-)"
-msgstr ""
-
-#: 11.1-Basic-API.md:131
-msgid "Available block types"
-msgstr "Tilgjengelige blokktyper"
-
-#: 11.1-Basic-API.md:133
-msgid ""
-"Before you go on a Minecraft Pi coding rampage, you might find this list of av"
-"ailable block types useful:"
-msgstr ""
-
-#: 11.1-Basic-API.md:136
+#: 13.1-Sound-In.md:30
 #, no-wrap
 msgid ""
-"    :air\n"
-"    :stone\n"
-"    :grass\n"
-"    :dirt\n"
-"    :cobblestone\n"
-"    :wood_plank\n"
-"    :sapling\n"
-"    :bedrock\n"
-"    :water_flowing\n"
-"    :water\n"
-"    :water_stationary\n"
-"    :lava_flowing\n"
-"    :lava\n"
-"    :lava_stationary\n"
-"    :sand\n"
-"    :gravel\n"
-"    :gold_ore\n"
-"    :iron_ore\n"
-"    :coal_ore\n"
-"    :wood\n"
-"    :leaves\n"
-"    :glass\n"
-"    :lapis\n"
-"    :lapis_lazuli_block\n"
-"    :sandstone\n"
-"    :bed\n"
-"    :cobweb\n"
-"    :grass_tall\n"
-"    :flower_yellow\n"
-"    :flower_cyan\n"
-"    :mushroom_brown\n"
-"    :mushroom_red\n"
-"    :gold_block\n"
-"    :gold\n"
-"    :iron_block\n"
-"    :iron\n"
-"    :stone_slab_double\n"
-"    :stone_slab\n"
-"    :brick\n"
-"    :brick_block\n"
-"    :tnt\n"
-"    :bookshelf\n"
-"    :moss_stone\n"
-"    :obsidian\n"
-"    :torch\n"
-"    :fire\n"
-"    :stairs_wood\n"
-"    :chest\n"
-"    :diamond_ore\n"
-"    :diamond_block\n"
-"    :diamond\n"
-"    :crafting_table\n"
-"    :farmland\n"
-"    :furnace_inactive\n"
-"    :furnace_active\n"
-"    :door_wood\n"
-"    :ladder\n"
-"    :stairs_cobblestone\n"
-"    :door_iron\n"
-"    :redstone_ore\n"
-"    :snow\n"
-"    :ice\n"
-"    :snow_block\n"
-"    :cactus\n"
-"    :clay\n"
-"    :sugar_cane\n"
-"    :fence\n"
-"    :glowstone_block\n"
-"    :bedrock_invisible\n"
-"    :stone_brick\n"
-"    :glass_pane\n"
-"    :melon\n"
-"    :fence_gate\n"
-"    :glowing_obsidian\n"
-"    :nether_reactor_core"
+"with_fx :reverb do\n"
+"  with_fx :distortion do\n"
+"    synth :sound_in, sustain: 8\n"
+"  end\n"
+"end"
 msgstr ""
-"    :air\n"
-"    :stone\n"
-"    :grass\n"
-"    :dirt\n"
-"    :cobblestone\n"
-"    :wood_plank\n"
-"    :sapling\n"
-"    :bedrock\n"
-"    :water_flowing\n"
-"    :water\n"
-"    :water_stationary\n"
-"    :lava_flowing\n"
-"    :lava\n"
-"    :lava_stationary\n"
-"    :sand\n"
-"    :gravel\n"
-"    :gold_ore\n"
-"    :iron_ore\n"
-"    :coal_ore\n"
-"    :wood\n"
-"    :leaves\n"
-"    :glass\n"
-"    :lapis\n"
-"    :lapis_lazuli_block\n"
-"    :sandstone\n"
-"    :bed\n"
-"    :cobweb\n"
-"    :grass_tall\n"
-"    :flower_yellow\n"
-"    :flower_cyan\n"
-"    :mushroom_brown\n"
-"    :mushroom_red\n"
-"    :gold_block\n"
-"    :gold\n"
-"    :iron_block\n"
-"    :iron\n"
-"    :stone_slab_double\n"
-"    :stone_slab\n"
-"    :brick\n"
-"    :brick_block\n"
-"    :tnt\n"
-"    :bookshelf\n"
-"    :moss_stone\n"
-"    :obsidian\n"
-"    :torch\n"
-"    :fire\n"
-"    :stairs_wood\n"
-"    :chest\n"
-"    :diamond_ore\n"
-"    :diamond_block\n"
-"    :diamond\n"
-"    :crafting_table\n"
-"    :farmland\n"
-"    :furnace_inactive\n"
-"    :furnace_active\n"
-"    :door_wood\n"
-"    :ladder\n"
-"    :stairs_cobblestone\n"
-"    :door_iron\n"
-"    :redstone_ore\n"
-"    :snow\n"
-"    :ice\n"
-"    :snow_block\n"
-"    :cactus\n"
-"    :clay\n"
-"    :sugar_cane\n"
-"    :fence\n"
-"    :glowstone_block\n"
-"    :bedrock_invisible\n"
-"    :stone_brick\n"
-"    :glass_pane\n"
-"    :melon\n"
-"    :fence_gate\n"
-"    :glowing_obsidian\n"
-"    :nether_reactor_core"
 
-#: 12-Conclusions.md:1
-msgid "12 Conclusions"
+#: 13.1-Sound-In.md:38
+msgid ""
+"If you have plugged in a guitar to your first input, you should be able to hea"
+"r it with distortion and reverb until the synth terminates as expected."
+msgstr ""
+
+#: 13.1-Sound-In.md:40
+msgid ""
+"You are free to use the `:sound_in` synth as many times as you like concurrent"
+"ly (just like you would do with any normal synth). For example, the following "
+"will play two `:sound_in` synths at the same time - one through distortion and"
+" one through reverb:"
+msgstr ""
+
+#: 13.1-Sound-In.md:42
+#, no-wrap
+msgid ""
+"with_fx :distortion do\n"
+"  synth :sound_in, sustain: 8\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8\n"
+"end"
+msgstr ""
+
+#: 13.1-Sound-In.md:52
+msgid "Multiple Inputs"
+msgstr ""
+
+#: 13.1-Sound-In.md:54
+msgid ""
+"You can select which audio input you want to play with the `input:` opt. You c"
+"an also specify a stereo input (two consecutive inputs) using the `:sound_in_s"
+"tereo` synth. For example, if you have a sound card with at least three inputs"
+", you can treat the first two as a stereo stream and add distortion and the th"
+"ird as a mono stream and add reverb with the following code:"
+msgstr ""
+
+#: 13.1-Sound-In.md:61
+#, no-wrap
+msgid ""
+"with_fx :distortion do\n"
+"  synth :sound_in_stereo, sustain: 8, input: 1\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8, input: 3\n"
+"end"
+msgstr ""
+
+#: 13.1-Sound-In.md:72
+msgid "Potential Issues"
+msgstr ""
+
+#: 13.1-Sound-In.md:74
+msgid ""
+"However, although this is a useful technique, there are a couple of limitation"
+"s to this approach. Firstly, it only works for a specific duration (due to it "
+"having an ADSR envelope) and secondly, there's no way to switch the FX around "
+"once the synth has been triggered. Both of these things are typical requests w"
+"hen working with external audio feeds such as microphones, guitars and externa"
+"l synthesisers. We'll therefore take a look at Sonic Pi's solution to the prob"
+"lem of manipulating a (potentially) infinite stream of live audio input: `live"
+"_audio`."
+msgstr ""
+
+#: 13.2-Live-Audio.md:1
+msgid "13.2 Live Audio"
+msgstr ""
+
+#: 13.2-Live-Audio.md:3
+#, fuzzy
+msgid "Live Audio"
+msgstr "Koding på direkten"
+
+#: 13.2-Live-Audio.md:5
+msgid ""
+"The `:sound_in` synth as described in the previous section provides a very fle"
+"xible and familiar method for working with input audio. However, as also discu"
+"ssed it has a few issues when working with a single input of audio as a single"
+" instrument (such as a voice or guitar). By far the best approach to working w"
+"ith a single continuous stream of audio is to use `live_audio`."
+msgstr ""
+
+#: 13.2-Live-Audio.md:12
+msgid "A Named Audio Input"
+msgstr ""
+
+#: 13.2-Live-Audio.md:14
+msgid ""
+"`live_audio` shares a couple of core design constraints with `live_loop` (henc"
+"e the similar name). Firstly it must have a unique name and secondly only one "
+"`live_audio` stream with that name may exist at any one time. Let's take a loo"
+"k:"
+msgstr ""
+
+#: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
+#, no-wrap
+msgid "live_audio :foo"
+msgstr ""
+
+#: 13.2-Live-Audio.md:23
+msgid ""
+"This code will act in a similar fashion to `synth :sound_in` with some key dif"
+"ferences: it runs forever (until you explicitly stop it) and you can *move* it"
+" to new FX contexts dynamically."
+msgstr ""
+
+#: 13.2-Live-Audio.md:28
+msgid "Working with FX"
+msgstr ""
+
+#: 13.2-Live-Audio.md:30
+msgid ""
+"On initial triggering `live_audio` works exactly as you might expect it to wor"
+"k with FX. For example, to start a live audio stream with added reverb simply "
+"use a `:reverb` FX block:"
+msgstr ""
+
+#: 13.2-Live-Audio.md:34
+#, no-wrap
+msgid ""
+"with_fx :reverb do\n"
+"  live_audio :foo\n"
+"end"
+msgstr ""
+
+#: 13.2-Live-Audio.md:40
+msgid ""
+"However, given that `live_audio` runs forever (at least until you stop it) it "
+"would be pretty limiting if, like typical synths, the live audio was bound wit"
+"hin the `:reverb` FX for its entire existence. Luckily this is not the case an"
+"d it was designed to be easy to move between different FX. Let's try it. Run t"
+"he code above to hear live audio coming directly from the first input of your "
+"sound card. Note, if you're using a laptop, this will typically be out of your"
+" built-in microphone, so it's recommended to use headphones to stop feedback."
+msgstr ""
+
+#: 13.2-Live-Audio.md:49
+msgid ""
+"Now, whilst you're still hearing the audio live from the sound card with rever"
+"b, change the code to the following:"
+msgstr ""
+
+#: 13.2-Live-Audio.md:52
+#, no-wrap
+msgid ""
+"with_fx :echo do\n"
+"  live_audio :foo\n"
+"end"
+msgstr ""
+
+#: 13.2-Live-Audio.md:58
+msgid ""
+"Now, hit Run, and you'll immediately hear the audio played through the echo FX"
+" and no longer through reverb. If you wanted them both, just edit the code aga"
+"in and hit Run:"
+msgstr ""
+
+#: 13.2-Live-Audio.md:62
+#, no-wrap
+msgid ""
+"with_fx :reverb do\n"
+"  with_fx :echo do\n"
+"    live_audio :foo\n"
+"  end\n"
+"end"
+msgstr ""
+
+#: 13.2-Live-Audio.md:70
+msgid ""
+"It's important to point out that you can call `live_audio :foo` from any threa"
+"d or live loop and it will move the live audio synth to *that* thread's curren"
+"t FX context. You could therefore easily have multiple live loops calling `liv"
+"e_audio :foo` at different times resulting in the FX context being automatical"
+"ly swapped around for some interesting results."
+msgstr ""
+
+#: 13.2-Live-Audio.md:78
+msgid "Stopping live audio"
+msgstr ""
+
+#: 13.2-Live-Audio.md:80
+msgid ""
+"Unlike standard synths, as `live_audio` has no envelope, it will continue runn"
+"ing forever (even if you delete the code, just like a function is still define"
+"d in memory if you delete the code in the editor). To stop it, you need to use"
+" the `:stop` arg:"
+msgstr ""
+
+#: 13.2-Live-Audio.md:85
+#, no-wrap
+msgid "live_audio :foo, :stop"
+msgstr ""
+
+#: 13.2-Live-Audio.md:89
+msgid "It can easily be restarted by calling it without the `:stop` arg again:"
+msgstr ""
+
+#: 13.2-Live-Audio.md:96
+msgid ""
+"Additionally all running live audio synths are stopped when you hit the global"
+" Stop button (as with all other running synths and FX)."
+msgstr ""
+
+#: 13.2-Live-Audio.md:99
+msgid "Stereo input"
+msgstr ""
+
+#: 13.2-Live-Audio.md:101
+msgid ""
+"With respect to audio channels, by default `live_audio` acts similarly to the "
+"`:sound_in` synth in that it takes a single mono input stream of audio and con"
+"verts it to a stereo stream using the specified panning. However, just like `:"
+"sound_in_stereo` it's also possible to tell `live_audio` to read two consecuti"
+"ve audio inputs and treat them as the left and right channels directly. This i"
+"s achieved via the `:stereo` opt. For example, to treat input 2 as the left si"
+"gnal and input 3 as the right signal, you need to configure the `input:` opt t"
+"o 2 and enable stereo mode as follows:"
+msgstr ""
+
+#: 13.2-Live-Audio.md:111
+#, no-wrap
+msgid "live_audio :foo, stereo: true, input: 2"
+msgstr ""
+
+#: 13.2-Live-Audio.md:115
+msgid ""
+"Note that once you have started a live audio stream in stereo mode, you cannot"
+" change it to mono without stopping and starting. Similarly, if you start it i"
+"n the default mono mode, you can't switch to stereo without starting and stopp"
+"ing the stream."
+msgstr ""
+
+#: 13.3-Sound-Out.md:1
+msgid "13.3 Sound Out"
+msgstr ""
+
+#: 13.3-Sound-Out.md:3
+msgid "Sound Out"
+msgstr ""
+
+#: 13.3-Sound-Out.md:5
+msgid ""
+"So far in this section we've looked at how to get multiple streams of audio in"
+"to Sonic Pi - either through the use of the `:sound_in` synth or via the power"
+"ful `live_audio` system. In addition to working with multiple streams of input"
+" audio, Sonic Pi can also output multiple streams of audio. This is achieved v"
+"ia the `:sound_out` FX."
+msgstr ""
+
+#: 13.3-Sound-Out.md:11
+msgid "Output contexts"
+msgstr ""
+
+#: 13.3-Sound-Out.md:13
+msgid ""
+"Let's quickly recap on how Sonic Pi's synths and FX output their audio to thei"
+"r current FX context. For example, consider the following:"
+msgstr ""
+
+#: 13.3-Sound-Out.md:16
+#, no-wrap
+msgid ""
+"with_fx :reverb do    # C\n"
+"  with_fx :echo do    # B\n"
+"    sample :bd_haus   # A\n"
+"  end\n"
+"end"
+msgstr ""
+
+#: 13.3-Sound-Out.md:24
+msgid ""
+"The simplest way to understand what's happening with the audio stream is to st"
+"art at the innermost audio context and work our way out. In this case, the inn"
+"ermost context is labelled `A` and is the `:bd_haus` sample being triggered. T"
+"he audio for this goes directly into its context which is `B` - the `:echo` FX"
+". This then adds echo to the incoming audio and outputs it to its context whic"
+"h is `C` - the `:reverb` FX. This then adds reverb to the incoming audio and o"
+"utputs to its context which is the top level - the left and right speakers (ou"
+"tputs 1 and 2 in your audio card). The audio flows outwards with a stereo sign"
+"al all the way through."
+msgstr ""
+
+#: 13.3-Sound-Out.md:35
+msgid "Sound Out FX"
+msgstr ""
+
+#: 13.3-Sound-Out.md:37
+msgid ""
+"The above behaviour is true for all synths (including `live_audio`) and the ma"
+"jority of FX with the exception of `:sound_out`. The `:sound_out` FX does two "
+"things. Firstly it outputs its audio to its external context as described abov"
+"e. Secondly it *also* outputs its audio directly to an output on your sound ca"
+"rd. Let's take a look:"
+msgstr ""
+
+#: 13.3-Sound-Out.md:43
+#, no-wrap
+msgid ""
+"with_fx :reverb do      # C\n"
+"  with_fx :sound_out, output: 3 do # B\n"
+"    sample :bd_haus     # A\n"
+"  end\n"
+"end"
+msgstr ""
+
+#: 13.3-Sound-Out.md:51
+msgid ""
+"In this example, our `:bd_haus` sample outputs its audio to its external conte"
+"xt which is the `:sound_out` FX. This in turn outputs its audio to its externa"
+"l context the `:reverb` FX (as expected). However, it *also* outputs a mono mi"
+"x to the 3rd output of the system's soundcard. The audio generated within `:so"
+"und_out` therefore has two destinations - the `:reverb` FX and audio card outp"
+"ut 3."
+msgstr ""
+
+#: 13.3-Sound-Out.md:58
+msgid "Mono and Stereo out"
+msgstr ""
+
+#: 13.3-Sound-Out.md:60
+msgid ""
+"As we've seen, by default, the `:sound_out` FX outputs a mono mix of the stere"
+"o input to a specific channel in addition to passing the stereo feed to the ou"
+"ter context (as expected). If outputting a mono mix isn't precisely what you w"
+"ant to do, there are a number of alternative options. Firstly, by using the `m"
+"ode:` opt you can choose to output just the left or just the right input signa"
+"l to the audio card. Or you can use the `:sound_out_stereo` FX to output to tw"
+"o consecutive sound card outputs. See the function documentation for more info"
+"rmation and examples."
+msgstr ""
+
+#: 13.3-Sound-Out.md:70
+msgid "Direct Out"
+msgstr ""
+
+#: 13.3-Sound-Out.md:72
+msgid ""
+"As we have also seen, the default behaviour for `:sound_out` and `:sound_out_s"
+"tereo` is to send the audio both to their external context (as is typical of a"
+"ll FX) *and* to the specified output on your soundcard. However, occasionally "
+"you may wish to *only* send to the output on your soundcard and not to the ext"
+"ernal context (and therefore not have any chance of the sound being mixed and "
+"sent to the standard output channels 1 and 2). This is possible by using the s"
+"tandard FX opt `amp:` which operates on the audio *after* the FX has been able"
+" to manipulate the audio:"
+msgstr ""
+
+#: 13.3-Sound-Out.md:82
+#, no-wrap
+#, fuzzy
+msgid ""
+"with_fx :sound_out, output: 3, amp: 0 do # B\n"
+"  sample :loop_amen                      # A\n"
+"end"
+msgstr "sample :loop_amen"
+
+#: 13.3-Sound-Out.md:88
+msgid ""
+"In the above example, the `:loop_amen` sample is sent to its outer context, th"
+"e `:sound_out` FX. This then sends a mono mix to audio card output 3 and then "
+"multiplies the audio by 0 which essentially silences it. It is this silenced s"
+"ignal which is then sent out to the `:sound_out`'s outer context which is the "
+"standard output. Therefore with this code, the default output channels will no"
+"t receive any audio, and channel 3 will receive a mono mix of the amen drum br"
+"eak."
+msgstr ""
+
+#: 14-Conclusions.md:1
+#, fuzzy
+msgid "14 Conclusions"
 msgstr "12 Konklusjoner"
 
-#: 12-Conclusions.md:3
+#: 14-Conclusions.md:3
 msgid "Conclusions"
 msgstr "Konklusjoner"
 
-#: 12-Conclusions.md:5
+#: 14-Conclusions.md:5
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
 "mething along the way. Don't worry if you feel you didn't understand everythin"
@@ -7830,7 +8542,7 @@ msgstr ""
 "g ha det morro, så får du tak i ting når du er klar for det.  Kom gjerne tilba"
 "ke hit når du har spørsmål som kanskje er dekket i en av delene."
 
-#: 12-Conclusions.md:11
+#: 14-Conclusions.md:11
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
 "se jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/) a"
@@ -7842,7 +8554,7 @@ msgstr ""
 "-pi/) og stiller spørsmålene dine der.  Der er det hyggelige mennesker som gje"
 "rne vil bidra."
 
-#: 12-Conclusions.md:16
+#: 14-Conclusions.md:16
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
 "ion in this help system. There are a number of features that haven't been cove"
@@ -7852,7 +8564,7 @@ msgstr ""
 "jonen i dette hjelpesystemet.  Det er en rekke egenskaper som ikke er dekket a"
 "v denne innføringen, og som venter på at du skal oppdage dem."
 
-#: 12-Conclusions.md:21
+#: 14-Conclusions.md:21
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
@@ -7860,11 +8572,11 @@ msgstr ""
 "Lek deg, ha det moro, del på koden din, spill for dine venner, vis frem skjerm"
 "bildene dine og husk:"
 
-#: 12-Conclusions.md:24
+#: 14-Conclusions.md:24
 msgid "*There are no mistakes, only opportunities.*"
 msgstr "*Det finnes ingen feil, kun muligheter.*"
 
-#: 12-Conclusions.md:26
+#: 14-Conclusions.md:26
 msgid "[Sam Aaron](http://twitter.com/samaaron)"
 msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
@@ -8047,7 +8759,7 @@ msgstr ""
 "Ah, en nydelig gitarlyd!  Nå kan vi gå igang med å leke med den.  Hva med å en"
 "dre raten dens?"
 
-#: A.01-tips.md:92
+#: A.01-tips.md:92 A.17-sample-stretching.md:25
 #, no-wrap
 msgid "sample :guit_em9, rate: 0.5"
 msgstr "sample :guit_em9, rate: 0.5"
@@ -8394,7 +9106,8 @@ msgstr ""
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
-#: A.15-performance.md:152 A.16-practice.md:166
+#: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:147
+#: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:137
 msgid "Bringing it all together"
 msgstr ""
 
@@ -9761,6 +10474,11 @@ msgid ""
 "know that you could use Minecraft to create amazing visuals just like a profes"
 "sional VJ."
 msgstr ""
+"Alle har spilt Minecraft.  Dere har nok laget utrolige strukturer, utformet sn"
+"edige feller og til og med laget kompliserte trallespor kontrollert av rødstei"
+"nsbrytere.  Hvor mange av dere har gjennomført fremvisninger med Minecraft?  V"
+"i vedder på at du ikke viste at du kan bruke Minecraft til å skape utrolige vi"
+"suelle effekter akkurat som en profesjonell VJ."
 
 #: A.08-minecraft-vj.md:13
 msgid ""
@@ -11293,6 +12011,8 @@ msgid ""
 "synth :prophet, note: :e1, release: 8, cutoff: 70\n"
 "synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 msgstr ""
+"synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"synth :prophet, note: :e1 + 4, release: 8, cutoff: 80"
 
 #: A.14-amplitude-modulation.md:25
 msgid "Now, let's pipe it through the `:slicer` FX:"
@@ -11307,6 +12027,11 @@ msgid ""
 "  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
 "end"
 msgstr ""
+"\n"
+"with_fx :slicer do\n"
+"  synth :prophet, note: :e1, release: 8, cutoff: 70\n"
+"  synth :prophet, note: :e1 + 4, release: 8, cutoff: 80\n"
+"end"
 
 #: A.14-amplitude-modulation.md:35
 msgid ""
@@ -12030,3 +12755,1791 @@ msgid ""
 " all be worth it once you've created your first piece or given your first perf"
 "ormance. Remember, practice is the key to success!"
 msgstr ""
+
+#: A.17-sample-stretching.md:1
+msgid "A.17 Sample Stretching"
+msgstr ""
+
+#: A.17-sample-stretching.md:3
+msgid "Sample Stretching"
+msgstr ""
+
+#: A.17-sample-stretching.md:5
+msgid ""
+"When people discover Sonic Pi, one of the first things they learn is how simpl"
+"e it is to play pre-recorded sounds using the `sample` function. For example, "
+"you can play an industrial drum loop, hear the sound of a choir or even listen"
+" to a vinyl scratch all via a single line of code. However, many people don't "
+"realise that you can actually vary the speed that the sample is played back at"
+" for some powerful effects and a whole new level of control over your recorded"
+" sounds. So, fire up a copy of Sonic Pi and let's get started stretching some "
+"samples!"
+msgstr ""
+
+#: A.17-sample-stretching.md:14
+#, fuzzy
+msgid "Slowing Samples Down"
+msgstr "Sampler"
+
+#: A.17-sample-stretching.md:16
+msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
+msgstr ""
+
+#: A.17-sample-stretching.md:18
+#, no-wrap
+#, fuzzy
+msgid "sample :guit_em9, rate: 1"
+msgstr "sample :guit_em9, rate: 0.5"
+
+#: A.17-sample-stretching.md:20
+msgid ""
+"If we specify a `rate:` of `1` then the sample is played back at the normal ra"
+"te. If we want to play it back at half speed we simply use a `rate:` of `0.5`:"
+msgstr ""
+
+#: A.17-sample-stretching.md:27
+msgid ""
+"Notice that this has two effects on the audio. Firstly the sample sounds lower"
+" in pitch and secondly it takes twice as long to play back (see the sidebar fo"
+"r an explanation of why this is the case). We can even choose lower and lower "
+"rates moving towards `0`, so a `rate:` of `0.25` is a quarter speed, `0.1` is "
+"a tenth of the speed, etc. Try playing with some low rates and see if you can "
+"turn the sound into a low rumble."
+msgstr ""
+
+#: A.17-sample-stretching.md:34
+#, fuzzy
+msgid "Speeding Samples Up"
+msgstr "Sampler"
+
+#: A.17-sample-stretching.md:36
+msgid ""
+"In addition to making the sound longer and lower using a small rate, we can us"
+"e higher rates to make the sound shorter and higher. Let's play with a drum lo"
+"op this time. First, take a listen to how it sounds at the default rate of `1`"
+":"
+msgstr ""
+
+#: A.17-sample-stretching.md:41
+#, no-wrap
+#, fuzzy
+msgid "sample :loop_amen, rate: 1"
+msgstr "sample :loop_amen, rate: -1"
+
+#: A.17-sample-stretching.md:44
+msgid "Now, let's speed it up a little:"
+msgstr ""
+
+#: A.17-sample-stretching.md:48
+msgid ""
+"Ha! We just moved musical genres from old-skool techno to jungle. Notice how t"
+"he pitch of each drum hit is higher as well as how the whole rhythm speeds up."
+" Now, try even higher rates and see how high and short you can make the drum l"
+"oop. For example, if you use a rate of `100`, the drum loop turns into a click"
+"!"
+msgstr ""
+
+#: A.17-sample-stretching.md:54
+msgid "Reverse Gear"
+msgstr ""
+
+#: A.17-sample-stretching.md:56
+msgid ""
+"Now, I'm sure many of you are thinking the same thing right now... \"what if yo"
+"u use a negative number for the rate?\". Great question! Let's think about this"
+" for a moment. If our `rate:` opt signifies the speed with which the sample is"
+" played back, `1` being normal speed, `2` being double speed, `0.5` being half"
+" speed, `-1` must mean backwards! Let's try it on a snare. First, play it back"
+" at the normal rate:"
+msgstr ""
+
+#: A.17-sample-stretching.md:63
+#, no-wrap
+msgid "sample :elec_filt_snare, rate: 1"
+msgstr ""
+
+#: A.17-sample-stretching.md:65
+msgid "Now, play it backwards:"
+msgstr ""
+
+#: A.17-sample-stretching.md:67
+#, no-wrap
+msgid "sample :elec_filt_snare, rate: -1"
+msgstr ""
+
+#: A.17-sample-stretching.md:69
+msgid ""
+"Of course, you can play it backwards twice as fast with a rate of `-2` or back"
+"wards at half speed with a rate of `-0.5`. Now, play around with different neg"
+"ative rates and have fun. It's particularly amusing with the `:misc_burp` samp"
+"le!"
+msgstr ""
+
+#: A.17-sample-stretching.md:75
+msgid "Sample, Rate and Pitch [Sidebar]"
+msgstr ""
+
+#: A.17-sample-stretching.md:77
+msgid ""
+"One of the effects of rate modification on samples is that faster rates result"
+" in the sample sounding higher in pitch and slower rates result in the sample "
+"sounding lower in pitch. Another place you may have heard this effect in every"
+" day life is when you're cycling or driving past a beeping pedestrian crossing"
+" - as you're heading towards the sound source the pitch is higher than when yo"
+"u're moving away from the sound - the so-called Doppler effect. Why is this?"
+msgstr ""
+
+#: A.17-sample-stretching.md:85
+msgid ""
+"Let's consider a simple beep which is represented by a sine wave. If we use an"
+" oscilloscope to plot a beep, we'll see something like Figure A. If we plot a "
+"beep an octave higher, we'll see Figure B and an octave lower will look like F"
+"igure C. Notice that the waves of higher notes are more compact and the waves "
+"of lower notes are more spread out."
+msgstr ""
+
+#: A.17-sample-stretching.md:91
+msgid ""
+"A sample of a beep is nothing more than a lot of numbers (x, y, coordinates) w"
+"hich when plotted onto a graph will re-draw the original curves. See figure D "
+"where each circle represents a coordinate. To turn the coordinates back into a"
+"udio, the computer works through each x value and sends the corresponding y va"
+"lue to the speakers. The trick here is that the rate at which the computer wor"
+"ks through the x numbers does not have to be the same as the rate with which t"
+"hey were recorded. In other words, the space (representing an amount of time) "
+"between each circle can be stretched or compressed. So, if the computer walks "
+"through the x values faster than the original rate, it will have the effect of"
+" squashing the circles closer together which will result in a higher sounding "
+"beep. It will also make the beep shorter as we will work through all the circl"
+"es faster. This is shown in Figure E."
+msgstr ""
+
+#: A.17-sample-stretching.md:105
+msgid ""
+"Finally, one last thing to know is that a mathematician called Fourier proved "
+"that any sound is actually lots and lots of sine waves all combined together. "
+"Therefore, when we compress and stretch any recorded sound we're actually stre"
+"tching and compressing many sine waves all at the same time in exactly this ma"
+"nner."
+msgstr ""
+
+#: A.17-sample-stretching.md:111
+msgid "Pitch Bending"
+msgstr ""
+
+#: A.17-sample-stretching.md:113
+msgid ""
+"As we've seen, using a faster rate will make the sound higher in pitch and a s"
+"lower rate will make the sound lower in pitch. A very simple and useful trick "
+"is to know that doubling the rate actually results in the pitch being an octav"
+"e higher and inversely halving the rate results in the pitch being an octave l"
+"ower. This means that for melodic samples, playing it alongside itself at doub"
+"le/half rates actually sounds rather nice:"
+msgstr ""
+
+#: A.17-sample-stretching.md:121
+#, no-wrap
+msgid ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
+msgstr ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
+
+#: A.17-sample-stretching.md:125
+msgid ""
+"However, what if we just want to alter the rate such that the pitch goes up on"
+"e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
+"itch:` opt:"
+msgstr ""
+
+#: A.17-sample-stretching.md:129
+#, no-wrap
+msgid ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
+msgstr ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
+
+#: A.17-sample-stretching.md:133
+msgid ""
+"If you take a look at the log on the right, you'll notice that an `rpitch:` of"
+" `3` actually corresponds to a rate of `1.1892` and a `rpitch:` of `7` corresp"
+"onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
+" opts:"
+msgstr ""
+
+#: A.17-sample-stretching.md:138
+#, no-wrap
+msgid ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
+msgstr ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
+
+#: A.17-sample-stretching.md:149
+msgid ""
+"Let's take a look at a simple piece which combines these ideas. Copy it into a"
+"n empty Sonic Pi buffer, hit play, listen to it for a while and then use it as"
+" a starting point for your own piece. See how much fun it is to manipulate the"
+" playback rate of samples. As an added exercise try recording your own sounds "
+"and play around with the rate to see what crazy sounds you can make."
+msgstr ""
+
+#: A.17-sample-stretching.md:156
+#, no-wrap
+#, fuzzy
+msgid ""
+"live_loop :beats do\n"
+"  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
+"  sample :loop_garzul, rate: [0.5, 1].choose\n"
+"  sleep 8\n"
+"end\n"
+" \n"
+"live_loop :melody do\n"
+"  oct = [-1, 1, 2].choose * 12\n"
+"  with_fx :reverb, amp: 2 do\n"
+"    16.times do\n"
+"      n = (scale 0, :minor_pentatonic).choose\n"
+"      sample :bass_voxy_hit_c, rpitch: n + 4 + oct\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
+msgstr "sample :guit_em9"
+
+#: A.18-additive-synthesis.md:1
+msgid "A.18 Sound Design - Additive Synthesis"
+msgstr ""
+
+#: A.18-additive-synthesis.md:3
+msgid "Additive Synthesis"
+msgstr ""
+
+#: A.18-additive-synthesis.md:5
+msgid ""
+"This is the first of a short series of articles on how to use Sonic Pi for sou"
+"nd design. We'll be take a quick tour of a number of different techniques avai"
+"lable for you to craft your own unique sound. The first technique we'll look a"
+"t is called *additive synthesis*. This may sound complicated - but if we expan"
+"d each word slightly the meaning pops right out. Firstly, additive means a com"
+"bination of things and secondly synthesis means to create sound. Additive synt"
+"hesis therefore means nothing more complicated than *combining existing sounds"
+" to create new ones*. This synthesis technique dates back a very long time - f"
+"or example, pipe organs in the middle ages had lots of slightly different soun"
+"ding pipes which you could enable or disable with stops. Pulling out the stop "
+"for a given pipe 'added it to the mix' making the sound richer and more comple"
+"x. Now, let's see how we can pull out all the stops with Sonic Pi."
+msgstr ""
+
+#: A.18-additive-synthesis.md:21
+msgid "Simple Combinations"
+msgstr ""
+
+#: A.18-additive-synthesis.md:23
+msgid ""
+"Let's start with the most basic sound there is - the humble pure-toned sine wa"
+"ve:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:26
+#, no-wrap
+msgid "synth :sine, note: :d3"
+msgstr ""
+
+#: A.18-additive-synthesis.md:30
+msgid "Now, let's see how this sounds combined with a square wave:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:32
+#, no-wrap
+msgid ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
+msgstr ""
+
+#: A.18-additive-synthesis.md:37
+msgid ""
+"Notice how the two sounds combine to form a new, richer sound. Of course, we d"
+"on't have to stop there, we can add as many sounds as we need. However, we nee"
+"d to be careful with how many sounds we add together. Just like when we mix pa"
+"ints to create new colours, adding too many colours will result in a messy bro"
+"wn, similarly - adding too many sounds together will result in a muddy sound."
+msgstr ""
+
+#: A.18-additive-synthesis.md:45
+msgid "Blending"
+msgstr ""
+
+#: A.18-additive-synthesis.md:47
+msgid ""
+"Let's add something to make it sound a little brighter. We could use a triangl"
+"e wave at an octave higher (for that high bright sound) yet only play it at am"
+"p `0.4` so it adds something extra to the sound rather than taking it over:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:52
+#, no-wrap
+msgid ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3\n"
+"synth :tri, note: :d4, amp: 0.4"
+msgstr ""
+
+#: A.18-additive-synthesis.md:58
+msgid ""
+"Now, try creating your own sounds by combining 2 or more synths at different o"
+"ctaves and amplitudes. Also, note that you can play around with each synth's o"
+"pts to modify each source sound before it is mixed in for even more combinatio"
+"ns of sounds."
+msgstr ""
+
+#: A.18-additive-synthesis.md:64
+msgid "Detuning"
+msgstr ""
+
+#: A.18-additive-synthesis.md:66
+msgid ""
+"So far, when combining our different synths we've used either the same pitch o"
+"r switched octave. How might it sound if we didn't stick to octaves but instea"
+"d chose a slightly higher or lower note? Let's try it:"
+msgstr ""
+
+#: A.18-additive-synthesis.md:70
+#, no-wrap
+msgid ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
+msgstr ""
+
+#: A.18-additive-synthesis.md:76
+msgid ""
+"If we detune our square waves by 0.7 notes we hear something that perhaps does"
+"n't sound in tune or correct - a 'bad' note. However, as we move closer to 0 i"
+"t will sound less and less out of tune as the pitches of the two waves get clo"
+"ser and more similar. Try it for yourself! Change the `detune:` opt value from"
+" `0.7` to `0.5` and listen to the new sound. Try `0.2`, `0.1`, `0.05`, `0`. Ea"
+"ch time you change the value, take a listen and see if you can hear how the so"
+"und is changing. Notice that low detune values such as `0.1` produce a really "
+"nice 'thick' sound, with both slightly different pitches interacting with each"
+" other in interesting, often surprising, ways."
+msgstr ""
+
+#: A.18-additive-synthesis.md:87
+#, fuzzy
+msgid ""
+"Some of the built-in synths already include a detune option that do exactly th"
+"is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
+"`:dtri`."
+msgstr "`:dsaw`"
+
+#: A.18-additive-synthesis.md:92
+#, fuzzy
+msgid "Amplitude shaping"
+msgstr "Utslag"
+
+#: A.18-additive-synthesis.md:94
+msgid ""
+"Another way we can finely craft our sound is to use a different envelope and o"
+"ptions for each synth trigger. For example this will allow you to make some as"
+"pects of the sound percussive and other aspects ring out for a period of time."
+msgstr ""
+
+#: A.18-additive-synthesis.md:99
+#, no-wrap
+msgid ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
+msgstr ""
+
+#: A.18-additive-synthesis.md:108
+msgid ""
+"In the example above I have mixed in a noisy percussive element to the sound a"
+"long with some more persistent background rumbling. This was achieved firstly "
+"by using two noise synths with middling cutoff values (`90` and `100`) using s"
+"hort release times along with a noise with a longer release time but with a lo"
+"w cutoff value (which makes the noise less crisp and more rumbly.)"
+msgstr ""
+
+#: A.18-additive-synthesis.md:117
+msgid ""
+"Let's combine all these techniques to see if we can use additive synthesis to "
+"re-create a basic bell sound. I've broken this example into four sections. Fir"
+"stly we have the 'hit' section which is the initial onset part of the bell sou"
+"nd - so uses a short envelope (e.g. a `release:` of around `0.1`). Next we hav"
+"e the long ringing section in which I'm using the pure sound of the sine wave."
+" Notice that I'm often increasing the note by roughly `12` and `24` which are "
+"the number of notes in one and two octaves. I have also thrown in a couple of "
+"low sine waves to give the sound some bass and depth. Finally, I used `define`"
+" to wrap my code in a function which I can then use to play a melody. Try play"
+"ing your own melody and also messing around with the contents of the `:bell` f"
+"unction until you create your own crazy sound to play with!"
+msgstr ""
+
+#: A.18-additive-synthesis.md:130
+msgid ""
+"define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - 12,"
+" release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
+"1, release: 0.1 synth :tri, note: n, release: 0.2"
+msgstr ""
+
+#: A.18-additive-synthesis.md:137
+msgid ""
+"\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth :s"
+"ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
+"h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
+msgstr ""
+
+#: A.18-additive-synthesis.md:144
+msgid ""
+"\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
+"sine, note: n - 12, release: 2 end"
+msgstr ""
+
+#: A.18-additive-synthesis.md:149
+msgid "Play a melody with our new bell!"
+msgstr ""
+
+#: A.18-additive-synthesis.md:150
+msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:1
+msgid "A.19 Sound Design - Subtractive Synthesis"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:3
+msgid "Subtractive Synthesis"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:5
+msgid ""
+"This is the second in a series of articles on how to use Sonic Pi for sound de"
+"sign. Last month we looked at additive synthesis which we discovered was the s"
+"imple act of playing multiple sounds at the same time to make a new combined s"
+"ound. For example we could combine different sounding synths or even the same "
+"synth at different pitches to build a new complex sound from simple ingredient"
+"s. This month we'll look at a new technique commonly called *subtractive synth"
+"esis* which is simply the act of taking an existing complex sound and removing"
+" parts of it to create something new. This is a technique which is commonly as"
+"sociated with the sound of analog synthesisers of the 1960s and 1970s but also"
+" with the recent renaissance of modular analog synths through popular standard"
+"s such as Eurorack."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:18
+msgid ""
+"Despite this sounding like a particularly complicated and advanced technique, "
+"Sonic Pi makes it surprisingly simple and easy - so let's dive right in."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:22
+msgid "Complex Source Signal"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:24
+msgid ""
+"For a sound to work well with subtractive synthesis, it typically needs to be "
+"fairly rich and interesting. This doesn't mean we need something hugely comple"
+"x - in fact, just a standard `:square` or `:saw` wave will do:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:29
+#, no-wrap
+msgid "synth :saw, note: :e2, release: 4"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:33
+msgid ""
+"Notice that this sound is already pretty interesting and contains many differe"
+"nt frequencies above `:e2` (the second E on a piano) which add to create the t"
+"imbre. If that didn't make much sense to you, try comparing it with the `:beep"
+"`:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:38
+#, no-wrap
+msgid "synth :beep, note: :e2, release: 4"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:42
+msgid ""
+"As the `:beep` synth is just a sine wave, you'll hear a much purer tone and on"
+"ly at `:e2` and none of the high crispy/buzzy sounds which you heard in the `:"
+"saw`. It's this buzziness and variation from a pure sine wave that we can play"
+" with when we use subtractive synthesis."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:49
+msgid ""
+"Once we have our raw source signal, the next step is to pass it through a filt"
+"er of some kind which will modify the sound by removing or reducing parts of i"
+"t. One of the most common filters used for subtractive synthesis is something "
+"called a low pass filter. This will allow all the low parts of the sound throu"
+"gh but will reduce or remove the higher parts. Sonic Pi has a powerful yet sim"
+"ple to use FX system that includes a low pass filter, called `:lpf`. Let's pla"
+"y with it:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:57
+#, no-wrap
+msgid ""
+"with_fx :lpf, cutoff: 100 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:63
+msgid ""
+"If you listen carefully you'll hear how some of that buzziness and crispiness "
+"has been removed. In fact, all the frequencies in the sound above note `100` h"
+"ave been reduced or removed and only the ones below are still present in the s"
+"ound. Try changing that `cutoff:` point to lower notes, say `70` and then `50`"
+" and compare the sounds."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:69
+msgid ""
+"Of course, the `:lpf` isn't the only filter you can use to manipulate the sour"
+"ce signal. Another important FX is the high pass filter referred to as `:hpf` "
+"in Sonic Pi. This does the opposite to `:lpf` in that it lets the high parts o"
+"f the sound through and cuts off the low parts."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:74
+#, no-wrap
+msgid ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
+msgstr ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
+
+#: A.19-subtractive-synthesis.md:80
+msgid ""
+"Notice how this sounds much more buzzy and raspy now that all the low frequenc"
+"y sounds have been removed. Play around with the cutoff value - notice how low"
+"er values let more of the original bass parts of the source signal through and"
+" higher values sound increasingly tinny and quiet."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:86
+msgid "[Low Pass Filter] - breakout box"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:88
+#, fuzzy
+msgid ""
+"The low pass filter is such an important part of every subtractive synthesis t"
+"oolkit that it's worth taking a deeper look at how it works. This diagram show"
+"s the same sound wave (the `:prophet` synth) with varying amounts of filtering"
+". At the top, section A shows the audio wave with no filtering. Notice how the"
+" wave form is very pointy and contains lots of sharp edges. It is these hard, "
+"sharp angles that produce the high crispy/buzzy parts of the sound. Section B "
+"shows the low pass filter in action - notice how it is less pointy and more ro"
+"unded than the wave form above. This means that the sound will have fewer high"
+" frequencies giving it a more mellow rounded feel. Section C shows the low pas"
+"s filter with a fairly low cutoff value - this means that even more of the hig"
+"h frequencies have been removed from the signal resulting in an even softer, r"
+"ounder wave form. Finally, notice how the size of the wave form, which represe"
+"nts the amplitude, decreases as we move from A to C. Subtractive synthesis wor"
+"ks by removing parts of the signal which means that the overall amplitude is r"
+"educed as the amount of filtering that is taking place increases."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:107
+msgid "Filter Modulation"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:109
+msgid ""
+"So far we've just produced fairly static sounds. In other words, the sound doe"
+"sn't change in any way for the entirety of its duration. Often you might want "
+"some movement in the sound to give the timbre some life. One way to achieve th"
+"is is via filter modulation - changing the filter's options through time. Luck"
+"ily Sonic Pi gives you powerful tools to manipulate an FX's opts through time."
+" For example, you can set a slide time to each modulatable opt to specify how "
+"long it should take for the current value to linearly slide to the target valu"
+"e:"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:118
+#, no-wrap
+msgid ""
+"with_fx :lpf, cutoff: 50 do |fx|\n"
+"  control fx, cutoff_slide: 3, cutoff: 130\n"
+"  synth :prophet, note: :e2, sustain: 3.5\n"
+"end"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:125
+msgid ""
+"Let's take a quick look at what's going on here. Firstly we start an `:lpf` FX"
+" block as normal with an initial `cutoff:` of a very low `20`. However, the fi"
+"rst line also finishes with the strange `|fx|` at the end. This is an optional"
+" part of the `with_fx` syntax which allows you to directly name and control th"
+"e running FX synth. Line 2 does exactly this and controls the FX to set the `c"
+"utoff_slide:` opt to 4 and the new target `cutoff:` to be `130`. The FX will n"
+"ow start sliding the `cutoff:` opt's value from `50` to `130` over a period of"
+" 3 beats. Finally we also trigger a source signal synth so we can hear the eff"
+"ect of the modulated low pass filter."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:139
+msgid ""
+"This is just a very basic taster of what's possible when you use filters to mo"
+"dify and change a source sound. Try playing with Sonic Pi's many built-in FX t"
+"o see what crazy sounds you can design. If your sound feels too static, rememb"
+"er you can start modulating the options to create some movement."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:145
+msgid ""
+"Let's finish by designing a function which will play a new sound created with "
+"subtractive synthesis. See if you can figure out what's going on here - and fo"
+"r the advanced Sonic Pi readers out there - see if you can work out why I wrap"
+"ped everything inside a call to `at` (please send answers to @samaaron on Twit"
+"ter)."
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:151
+#, no-wrap
+msgid ""
+"define :subt_synth do |note, sus|\n"
+"  at do\n"
+"    with_fx :lpf, cutoff: 40, amp: 2 do |fx|\n"
+"      control fx, cutoff_slide: 6, cutoff: 100\n"
+"      synth :prophet, note: note, sustain: sus\n"
+"    end\n"
+"    with_fx :hpf, cutoff_slide: 0.01 do |fx|\n"
+"      synth :dsaw, note: note + 12, sustain: sus\n"
+"      (sus * 8).times do\n"
+"        control fx, cutoff: rrand(70, 110)\n"
+"        sleep 0.125\n"
+"      end\n"
+"    end\n"
+"  end\n"
+"end\n"
+"subt_synth :e1, 8\n"
+"sleep 8\n"
+"subt_synth :e1 - 4, 8"
+msgstr ""
+"define :subt_synth do |note, sus|\n"
+"  at do\n"
+"    with_fx :lpf, cutoff: 40, amp: 2 do |fx|\n"
+"      control fx, cutoff_slide: 6, cutoff: 100\n"
+"      synth :prophet, note: note, sustain: sus\n"
+"    end\n"
+"    with_fx :hpf, cutoff_slide: 0.01 do |fx|\n"
+"      synth :dsaw, note: note + 12, sustain: sus\n"
+"      (sus * 8).times do\n"
+"        control fx, cutoff: rrand(70, 110)\n"
+"        sleep 0.125\n"
+"      end\n"
+"    end\n"
+"  end\n"
+"end\n"
+"subt_synth :e1, 8\n"
+"sleep 8\n"
+"subt_synth :e1 - 4, 8"
+
+#: B-Essential-Knowledge.md:1
+msgid "B Essential Knowledge"
+msgstr ""
+
+#: B-Essential-Knowledge.md:3
+msgid "Essential Knowledge"
+msgstr ""
+
+#: B-Essential-Knowledge.md:5
+msgid ""
+"This section will cover some very useful - in fact *essential* - knowledge for"
+" getting the most out of your Sonic Pi experience."
+msgstr ""
+
+#: B-Essential-Knowledge.md:8
+msgid ""
+"We'll cover how to take advantage of the many keyboard shortcuts available to "
+"you, how to share your work and some tips on performing with Sonic Pi."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:1
+msgid "B.1 Using Shortcuts"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:3
+msgid "Using Shortcuts"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:5
+msgid ""
+"Sonic Pi is as much an instrument as a coding environment. Shortcuts can there"
+"fore make playing Sonic Pi much more *efficient and natural* - especially when"
+" you're playing live in front of an audience."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:9
+msgid ""
+"Much of Sonic Pi can be controlled through the keyboard. As you gain more fami"
+"liarity working and performing with Sonic Pi, you'll likely start using the sh"
+"ortcuts more and more. *I personally touch-type* (I recommend you consider lea"
+"rning too) and find myself frustrated whenever I need to reach for the mouse a"
+"s it slows me down. I therefore use all of these shortcuts on a very regular b"
+"asis!"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:16
+msgid ""
+"Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
+"tively and you'll be live coding like a pro in no time."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:19
+msgid ""
+"However, *don't try and learn them all at once*, just try and remember the one"
+"s you use most and then keep adding more to your practice."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:22
+msgid "Consistency across Platforms"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:24
+msgid ""
+"Imagine you're learning the clarinet. You'd expect all clarinets of all makes "
+"to have similar controls and fingerings. If they didn't, you'd have a tough ti"
+"me switching between different clarinets and you'd be stuck to using just one "
+"make."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:29
+msgid ""
+"Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
+"come with their own standard defaults for actions such as cut and paste etc. S"
+"onic Pi will try and honour these standards. However *priority is placed on co"
+"nsistency across platforms* within Sonic Pi rather than attempting to conform "
+"to a given platform's standards. This means that when you learn the shortcuts "
+"whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
+"PC and feel right at home."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:37
+msgid "Control and Meta"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:39
+msgid ""
+"Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
+"se the names *Control* and *Meta* to refer to the two main combination keys. O"
+"n all platforms *Control* is the same. However, on Linux and Windows, *Meta* i"
+"s actually the *Alt* key while on Mac *Meta* is the *Command* key. For consist"
+"ency we'll use the term *Meta* - just remember to map that to the appropriate "
+"key on your operating system."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:46
+msgid "Abbreviations"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:48
+msgid ""
+"To help keep things simple and readable, we'll use the abbreviations *C-* for "
+"*Control* plus another key and *M-* for *Meta* plus another key. For example, "
+"if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
+"s `M-r`. The *-* just means \"at the same time as.\""
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:53
+msgid "The following are some of the shortcuts I find most useful."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:55
+msgid "Stopping and starting"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:57
+msgid ""
+"Instead of always reaching for the mouse to run your code, you can simply pres"
+"s `M-r`. Similarly, to stop running code you can press `M-s`."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:52
+msgid "Navigation"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:62
+msgid ""
+"I'm really lost without the navigation shortcuts. I therefore highly recommend"
+" you spend the time to learn them. These shortcuts also work extremely well wh"
+"en you've learned to touch type as they use the standard letters rather than r"
+"equiring you to move your hand to the mouse or the arrow keys on your keyboard"
+"."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:68
+msgid ""
+"You can move to the beginning of the line with `C-a`, the end of the line with"
+" `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
+" `C-f`, and back a character with `C-b`. You can even delete all the character"
+"s from the cursor to the end of the line with `C-k`."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:74
+msgid "Tidy Code"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:76
+msgid "To auto-align your code simply press `M-m`."
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:78
+msgid "Help System"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:80
+msgid ""
+"To toggle the help system you can press `M-i`. However, a much more useful sho"
+"rtcut to know is `C-i` which will look up the word underneath the cursor and d"
+"isplay the docs if it finds anything. Instant help!"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:84
+msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:1
+msgid "B.2 Shortcut Cheatsheet"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:3
+msgid "Shortcut Cheatsheet"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:5
+msgid ""
+"The following is a summary of the main shortcuts available within Sonic Pi. Pl"
+"ease see Section 10.1 for motivation and background."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:8
+msgid "Conventions"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:10
+msgid ""
+"In this list, we use the following conventions (where *Meta* is one of *Alt* o"
+"n Windows/Linux or *Cmd* on Mac):"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:13
+msgid ""
+"`C-a` means hold the *Control* key then press the *a* key whilst holding them "
+"both at the same time, then releasing."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:14
+msgid ""
+"`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
+" both at the same time, then releasing."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:15
+msgid ""
+"`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
+"key all at the same time, then releasing."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:16
+msgid ""
+"`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
+"ey all at the same time, then releasing."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:18
+msgid "Main Application Manipulation"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:20
+msgid "`M-r` - Run code"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:21
+msgid "`M-s` - Stop code"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:22
+msgid "`M-i` - Toggle Help System"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:23
+msgid "`M-p` - Toggle Preferences"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:24
+msgid "`M-{` - Switch buffer to the left"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:25
+msgid "`M-}` - Switch buffer to the right"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:26
+msgid "`M-+` - Increase text size of current buffer"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:27
+msgid "`M--` - Decrease text size of current buffer"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:30
+msgid "Selection/Copy/Paste"
+msgstr "Merket område/Kopier/Lim inn"
+
+#: B.02-Shortcut-Cheatsheet.md:32
+msgid "`M-a` - Select all"
+msgstr "`M-a` - Merk alt"
+
+#: B.02-Shortcut-Cheatsheet.md:33
+msgid "`M-c` - Copy selection to paste buffer"
+msgstr "`M-c` - Kopier merket omrade til innlimingsmellomlager"
+
+#: B.02-Shortcut-Cheatsheet.md:34
+msgid "`M-]` - Copy selection to paste buffer"
+msgstr "`M-]` - Kopier merket omrade til innlimingsmellomlager"
+
+#: B.02-Shortcut-Cheatsheet.md:35
+msgid "`M-x` - Cut selection to paste buffer"
+msgstr "`M-x` - Klipp ut merket område til innlimingsmellomlager"
+
+#: B.02-Shortcut-Cheatsheet.md:36
+msgid "`C-]` - Cut selection to paste buffer"
+msgstr "`C-]` - Klipp ut merket område til innlimingsmellomlager"
+
+#: B.02-Shortcut-Cheatsheet.md:37
+msgid "`C-k` - Cut to the end of the line"
+msgstr "`C-k` - Klipp ut til slutten av linjen"
+
+#: B.02-Shortcut-Cheatsheet.md:38
+msgid "`M-v` - Paste from paste buffer to editor"
+msgstr "`M-v` - Lim in fra innlimingsmellomlageret til tekstredigeringsfeltet"
+
+#: B.02-Shortcut-Cheatsheet.md:39
+msgid "`C-y` - Paste from paste buffer to editor"
+msgstr "`C-y` - Lim in fra innlimingsmellomlageret til tekstredigeringsfeltet"
+
+#: B.02-Shortcut-Cheatsheet.md:40
+msgid ""
+"`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
+"C-g` to escape."
+msgstr ""
+"`C-SPACE` - Sett merke.  Navigering vil nå manipulere uthevet område.  Bruk `C"
+"-g` for å komme ut."
+
+#: B.02-Shortcut-Cheatsheet.md:42
+msgid "Text Manipulation"
+msgstr "Tekstmanipulering"
+
+#: B.02-Shortcut-Cheatsheet.md:44
+msgid "`M-m` - Align all text"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:45
+msgid "`Tab` - Align current line or selection (or select autocompletion)"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:46
+msgid "`C-l` - Centre editor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:47
+msgid "`M-/` - Comment/Uncomment current line or selection"
+msgstr "`M-/` - Kommenter/avkommenter gjeldende linje eller merket område"
+
+#: B.02-Shortcut-Cheatsheet.md:48
+msgid "`C-t` - Transpose/swap characters"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:49
+msgid "`M-u` - Convert next word (or selection) to upper case."
+msgstr "`M-u` - Gjør om neste ord (eller utvalg) til store bokstaver."
+
+#: B.02-Shortcut-Cheatsheet.md:50
+msgid "`M-l` - Convert next word (or selection) to lower case."
+msgstr "`M-l` - Gjør om neste ord (eller utvalg) til små bokstaver."
+
+#: B.02-Shortcut-Cheatsheet.md:54
+msgid "`C-a` - Move to beginning of line"
+msgstr "`C-a` - Flytt til starten av linjen"
+
+#: B.02-Shortcut-Cheatsheet.md:55
+msgid "`C-e` - Move to end of line"
+msgstr "`C-e` - Flytt til slutten av linjen"
+
+#: B.02-Shortcut-Cheatsheet.md:56
+msgid "`C-p` - Move to previous line"
+msgstr "`C-p` - Flytt til forrige linje"
+
+#: B.02-Shortcut-Cheatsheet.md:57
+msgid "`C-n` - Move to next line"
+msgstr "`C-n` - Flytt til neste linje"
+
+#: B.02-Shortcut-Cheatsheet.md:58
+msgid "`C-f` - Move forward one character"
+msgstr "`C-f` - Flytt forover ett tegn"
+
+#: B.02-Shortcut-Cheatsheet.md:59
+msgid "`C-b` - Move backward one character"
+msgstr "`C-b` - Flytt bakover ett tegn"
+
+#: B.02-Shortcut-Cheatsheet.md:60
+msgid "`M-f` - Move forward one word"
+msgstr "`M-f` - Flytt forover ett ord"
+
+#: B.02-Shortcut-Cheatsheet.md:61
+msgid "`M-b` - Move backward one word"
+msgstr "`M-b` - Flytt bakover ett ord"
+
+#: B.02-Shortcut-Cheatsheet.md:62
+msgid "`C-M-n` - Move line or selection down"
+msgstr "`C-M-n` - Flytt linje eller utvalg ned"
+
+#: B.02-Shortcut-Cheatsheet.md:63
+msgid "`C-M-p` - Move line or selection up"
+msgstr "`C-M-p` - Flytt linje eller utvalg opp"
+
+#: B.02-Shortcut-Cheatsheet.md:64
+msgid "`S-M-u` - Move up 10 lines"
+msgstr "`S-M-u` - Flytt opp 10 linjer"
+
+#: B.02-Shortcut-Cheatsheet.md:65
+msgid "`S-M-d` - Move down 10 lines"
+msgstr "`S-M-d` - Flytt ned 10 linjer"
+
+#: B.02-Shortcut-Cheatsheet.md:66
+msgid "`M-<` - Move to beginning of buffer"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:67
+msgid "`M->` - Move to end of buffer"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:69
+msgid "Deletion"
+msgstr "Sletting"
+
+#: B.02-Shortcut-Cheatsheet.md:71
+msgid "`C-h` - Delete previous character"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:72
+msgid "`C-d` - Delete next character"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:74
+msgid "Advanced Editor Features"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:76
+msgid "`C-i` - Show docs for word under cursor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:77
+msgid "`M-z` - Undo"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:78
+msgid "`S-M-z` - Redo"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:79
+msgid "`C-g` - Escape"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:80
+msgid "`S-M-f` - Toggle fullscreen mode"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:81
+msgid "`S-M-b` - Toggle visibility of buttons"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:82
+msgid "`S-M-l` - Toggle visibility of log"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:83
+msgid "`S-M-m` - Toggle between light/dark modes"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:84
+msgid "`S-M-s` - Save contents of buffer to a file"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:85
+msgid "`S-M-o` - Load contents of buffer from a file"
+msgstr ""
+
+#: B.03-Sharing.md:1
+msgid "B.3 Sharing"
+msgstr ""
+
+#: B.03-Sharing.md:3
+msgid "Sharing"
+msgstr ""
+
+#: B.03-Sharing.md:5
+msgid "Sonic Pi is all about sharing and learning with each other."
+msgstr ""
+
+#: B.03-Sharing.md:7
+msgid ""
+"Once you've learned how to code music, sharing your compositions is as simple "
+"as sending an email containing your code. Please do *share* your code with oth"
+"ers so they can *learn* from your work and even use parts in a new *mash-up*."
+msgstr ""
+
+#: B.03-Sharing.md:12
+msgid ""
+"If you're unsure of the best way to share your work with others I recommend pu"
+"tting your code on [GitHub](https://github.com) and your music on [SoundCloud]"
+"(https://soundcloud.com). That way you'll be able to easily reach a large audi"
+"ence."
+msgstr ""
+
+#: B.03-Sharing.md:17
+msgid "Code -> GitHub"
+msgstr ""
+
+#: B.03-Sharing.md:19
+msgid ""
+"[GitHub](https://github.com) is a site for sharing and working with code. It's"
+" used by professional developers as well as artists for sharing and collaborat"
+"ing with code. The simplest way to share a new piece of code (or even an unfin"
+"ished piece) is to create a [Gist](https://gist.github.com). A [Gist](https://"
+"gist.github.com) is a simple way of uploading your code in a simple way that o"
+"thers can see, copy and share."
+msgstr ""
+
+#: B.03-Sharing.md:27
+msgid "Audio -> SoundCloud"
+msgstr ""
+
+#: B.03-Sharing.md:29
+msgid ""
+"Another important way of sharing your work is to record the audio and upload i"
+"t to [SoundCloud](https://soundcloud.com). Once you've uploaded your piece, ot"
+"her users can comment and discuss your work. I also recommend placing a link t"
+"o a [Gist](https://gist.github.com) of your code in the track description."
+msgstr ""
+
+#: B.03-Sharing.md:35
+msgid ""
+"To record your work, hit the `Rec` button in the toolbar, and recording starts"
+" immediately. Hit `Run` to start your code if it isn't already in progress. Wh"
+"en you're done recording, press the flashing `Rec` button again, and you'll be"
+" prompted to enter a filename. The recording will be saved as a WAV file, whic"
+"h can be edited and converted to MP3 by any number of free programs (try Audac"
+"ity for instance)."
+msgstr ""
+
+#: B.03-Sharing.md:43
+msgid "Hope"
+msgstr ""
+
+#: B.03-Sharing.md:45
+msgid ""
+"I encourage you to share your work and really hope that we'll all teach each o"
+"ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
+"e to show me."
+msgstr ""
+
+#: B.04-Performing.md:1
+msgid "B.4 Performing"
+msgstr ""
+
+#: B.04-Performing.md:3
+msgid "Performing"
+msgstr ""
+
+#: B.04-Performing.md:5
+msgid ""
+"One of the most exciting aspects of Sonic Pi is that it enables you to use cod"
+"e as a *musical instrument*. This means that writing code live can now be seen"
+" as a new way of performing music."
+msgstr ""
+
+#: B.04-Performing.md:9
+msgid "We call this *Live Coding*."
+msgstr ""
+
+#: B.04-Performing.md:11
+msgid "Show Your Screen"
+msgstr ""
+
+#: B.04-Performing.md:13
+msgid ""
+"When you live code I recommend you *show your screen* to your audience. Otherw"
+"ise it's like playing a guitar but hiding your fingers and the strings. When I"
+" practice at home I use a Raspberry Pi and a little mini projector on my livin"
+"g room wall. You could use your TV or one of your school/work projectors to gi"
+"ve a show. Try it, it's a lot of fun."
+msgstr ""
+
+#: B.04-Performing.md:20
+msgid "Form a Band"
+msgstr ""
+
+#: B.04-Performing.md:22
+msgid ""
+"Don't just play on your own - form a live coding band! It's a lot of fun jammi"
+"ng with others. One person could do beats, another ambient background, etc. Se"
+"e what interesting combinations of sounds you can have together."
+msgstr ""
+
+#: B.04-Performing.md:27
+msgid "TOPLAP"
+msgstr ""
+
+#: B.04-Performing.md:29
+msgid ""
+"Live coding isn't completely new - a small number of people have been doing it"
+" for a few years now, typically using bespoke systems they've built for themse"
+"lves. A great place to go and find out more about other live coders and system"
+"s is [TOPLAP](http://toplap.org)."
+msgstr ""
+
+#: B.04-Performing.md:34
+msgid "Algorave"
+msgstr ""
+
+#: B.04-Performing.md:36
+msgid ""
+"Another great resource for exploring the live coding world is [Algorave](http:"
+"//algorave.com). Here you can find all about a specific strand of live coding "
+"for making music in nightclubs."
+msgstr ""
+
+#: C-Minecraft-Pi.md:1
+#, fuzzy
+msgid "C Minecraft Pi"
+msgstr "Minecraft Pi"
+
+#: C-Minecraft-Pi.md:3
+msgid "Minecraft Pi"
+msgstr "Minecraft Pi"
+
+#: C-Minecraft-Pi.md:5
+msgid ""
+"Sonic Pi now supports a simple API for interacting with Minecraft Pi - the spe"
+"cial edition of Minecraft which is installed by default on the Raspberry Pi's "
+"Raspbian Linux-based operating system."
+msgstr ""
+"Sonic Pi støtter i dag et enkelt programmeringsgrensesnitt for å samvirke med "
+"Minecraft Pi - spesialutgaven av Minecraft som er installert i standardutgaven"
+" av Raspberry Pi sitt Linux-baserte Raspbian-operativsystem."
+
+#: C-Minecraft-Pi.md:9
+msgid "No need to import libraries"
+msgstr "Det er ikke nødvendig å importere biblioteker"
+
+#: C-Minecraft-Pi.md:11
+msgid ""
+"The Minecraft Pi integration has been designed to be insanely easy to use. All"
+" you need to do is to launch Minecraft Pi and create a world. You're then free"
+" to use the `mc_*` fns just like you might use `play` and `synth`. There's no "
+"need to import anything or install any libraries - it's all ready to go and wo"
+"rks out of the box."
+msgstr ""
+"Minecraft Pi-integrasjonen er utformet for å være sinnsykt enkel å bruke.  Alt"
+" du trenger er å starte Minecraft Pi og lage en verden.  Du står så fritt til "
+"å bruke `mc_*`-funksjonene akkurat som du gjør med `play` og `synth`.  Det er "
+"ikke nødvendig å importere noe eller installere noen biblioteker.  Alt er klar"
+"t til å gå i gang og virker ut av boksen."
+
+#: C-Minecraft-Pi.md:17
+msgid "Automatic Connection"
+msgstr "Automatisk oppkobling"
+
+#: C-Minecraft-Pi.md:19
+msgid ""
+"The Minecraft Pi API takes care of managing your connection to the Minecraft P"
+"i application. This means you don't need to worry about a thing. If you try an"
+"d use the Minecraft Pi API when Minecraft Pi isn't open, Sonic Pi will politel"
+"y tell you. Similarly, if you close Minecraft Pi whilst you're still running a"
+" `live_loop` that uses the API, the live loop will stop and politely tell you "
+"that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
+"Pi will automatically detect and re-create the connection for you."
+msgstr ""
+"API-et til Minecraft Pi tar seg av å styre forbindelsen din til Minecraft Pi-p"
+"rogrammet.  Dette betyrat du ikke trenger bekymre deg for noen ting.  Hvis du "
+"forsøker å bruke API-et til Minecraft Pi når Minecraft Pi ikke er aktiv så vil"
+" Sonic Pi vennlig fortelle deg det.  Tilsvarende, hvis du lukker Minecraft Pi "
+"mens du fortsatt kjører en \"live_loop\" som bruker API-et, sa vil den aktive lø"
+"kken stoppe og vennlig fortelle deg at den ikke kan koble seg opp.  For å oppr"
+"ette ny forbindelse er det bare å starte Minecraft Pi på nytt slik at Sonic Pi"
+" automatisk kan oppdage den og gjenopprette forbindelsen for deg."
+
+#: C-Minecraft-Pi.md:28
+msgid "Designed to be Live Coded"
+msgstr "Utformet for å programmeres mens programmet kjøres"
+
+#: C-Minecraft-Pi.md:30
+msgid ""
+"The Minecraft Pi API has been designed to work seamlessly within `live_loop`s."
+" This means it's possible to synchronise modifications in your Minecraft Pi wo"
+"rlds with modifications in your Sonic Pi sounds. Instant Minecraft-based music"
+" videos! Note however that Minecraft Pi is alpha software and is known to be s"
+"lightly buggy. If you encounter any problems simply restart Minecraft Pi and c"
+"arry on as before. Sonic Pi's automatic connection functionality will take car"
+"e of things for you."
+msgstr ""
+
+#: C-Minecraft-Pi.md:39
+msgid "Requires a Raspberry Pi 2.0"
+msgstr "Krever en Raspberry Pi 2.0"
+
+#: C-Minecraft-Pi.md:41
+msgid ""
+"It is highly recommended that you use a Raspberry Pi 2 if you wish to run both"
+" Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
+" Pi's sound capabilities."
+msgstr ""
+"Det er svært anbefalt at du bruker en Raspberry Pi 2 hvis du ønsker a bruke bå"
+"de Sonic Pi og Minecraft på samme tid - spesielt hvis du ønsker å bruke lydevn"
+"ene til Sonic Pi."
+
+#: C-Minecraft-Pi.md:45
+msgid "API Support"
+msgstr "API-støtte"
+
+#: C-Minecraft-Pi.md:47
+msgid ""
+"At this stage, Sonic Pi supports basic block and player manipulations which ar"
+"e detailed in Section 11.1. Support for event callbacks triggered by player in"
+"teractions in the world is planned for a future release."
+msgstr ""
+
+#: C.01-Basic-API.md:1
+msgid "11.1 Basic API"
+msgstr "11.1 Grunnleggende API"
+
+#: C.01-Basic-API.md:3
+msgid "Basic Minecraft Pi API"
+msgstr "Grunnleggende Minecraft Pi-API"
+
+#: C.01-Basic-API.md:5
+msgid ""
+"Sonic Pi currently supports the following basic interactions with Minecraft Pi"
+":"
+msgstr "Sonic Pi støtter følgende grunnleggende samhandlinger med Minecraft Pi:"
+
+#: C.01-Basic-API.md:7 C.01-Basic-API.md:16
+msgid "Displaying chat messages"
+msgstr "Vise frem samtalemeldinger"
+
+#: C.01-Basic-API.md:8 C.01-Basic-API.md:33
+msgid "Setting the position of the user"
+msgstr "Sette brukerens posisjon"
+
+#: C.01-Basic-API.md:9
+msgid "Getting the position of the user"
+msgstr "Hente ut brukerens posisjon"
+
+#: C.01-Basic-API.md:10
+msgid "Setting the block type at a given coordinate"
+msgstr "Sette blokk-typen på et gitt koordinat"
+
+#: C.01-Basic-API.md:11
+msgid "Getting the block type at a given coordinate"
+msgstr "Hente ut blokktypen på et gitt koordinat"
+
+#: C.01-Basic-API.md:14
+msgid "Let's look at each of these in turn."
+msgstr "La oss se på hver av disse etter tur."
+
+#: C.01-Basic-API.md:18
+msgid ""
+"Let's see just how easy it is to control Minecraft Pi from Sonic Pi. First, ma"
+"ke sure you have both Minecraft Pi and Sonic Pi open at the same time and also"
+" make sure you've entered a Minecraft world and can walk around."
+msgstr ""
+
+#: C.01-Basic-API.md:23
+msgid "In a fresh Sonic Pi buffer simply enter the following code:"
+msgstr ""
+
+#: C.01-Basic-API.md:25
+#, no-wrap
+msgid "mc_message \"Hello from Sonic Pi\""
+msgstr ""
+
+#: C.01-Basic-API.md:29
+msgid ""
+"When you hit the *Run* button, you'll see your message flash up on the Minecra"
+"ft window. Congratulations, you've written your first Minecraft code! That was"
+" easy wasn't it."
+msgstr ""
+
+#: C.01-Basic-API.md:35
+msgid ""
+"Now, let's try a little magic. Let's teleport ourselves somewhere! Try the fol"
+"lowing:"
+msgstr ""
+
+#: C.01-Basic-API.md:38
+#, no-wrap
+msgid "mc_teleport 50, 50, 50"
+msgstr ""
+
+#: C.01-Basic-API.md:42
+msgid ""
+"When you hit *Run* - boom! You're instantantly transported to a new place. Mos"
+"t likely it was somewhere in the sky and you fell down either to dry land or i"
+"nto water. Now, what are those numbers: `50, 50, 50`? They're the coordinates "
+"of the location you're trying to teleport to. Let's take a brief moment to exp"
+"lore what coordinates are and how they work because they're really, really imp"
+"ortant for programming Minecraft."
+msgstr ""
+
+#: C.01-Basic-API.md:50
+msgid "Coordinates"
+msgstr "Koordinater"
+
+#: C.01-Basic-API.md:52
+msgid ""
+"Imagine a pirate's map with a big `X` marking the location of some treasure. T"
+"he exact location of the `X` can be described with two numbers - how far along"
+" the map from left to right and how far along the map from bottom to top. For "
+"example `10cm` across and `8cm` up. These two numbers `10` and `8` are coordin"
+"ates. You could easily imagine describing the locations of other stashes of tr"
+"easure with other pairs of numbers. Perhaps there's a big chest of gold at `2`"
+" across and `9` up..."
+msgstr ""
+
+#: C.01-Basic-API.md:61
+msgid ""
+"Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
+"h we are. We therefore need three numbers:"
+msgstr ""
+"Mens i Minecraft er to tall ikke helt nok.  Vi trenger også å vite hvor høyt v"
+"i er.  Vi trenger derfor tre tall:"
+
+#: C.01-Basic-API.md:64
+msgid "How far from right to left in the world - `x`"
+msgstr "Hvor langt fra høyre til venstre i verden - `x`"
+
+#: C.01-Basic-API.md:65
+msgid "How far from front to back in the world - `z`"
+msgstr "Hvor langt fra forran til bak i verden - `z`"
+
+#: C.01-Basic-API.md:66
+msgid "How high up we are in the world - `y`"
+msgstr "Hvor høyt oppe i er i verden - `y`"
+
+#: C.01-Basic-API.md:68
+msgid ""
+"One more thing - we typically describe these coordinates in this order `x`, `y"
+"`, `z`."
+msgstr ""
+"Og forresten - vi beskriver typisk disse koordinatene i denne rekkefølgen `x`,"
+" `y`, `z`."
+
+#: C.01-Basic-API.md:71
+msgid "Finding your current coordinates"
+msgstr "Finne dine nåværende koordinater"
+
+#: C.01-Basic-API.md:73
+msgid ""
+"Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
+"map and then switch over to Sonic Pi. Now enter the following:"
+msgstr ""
+"La oss leke med koordinater.  Naviger til en fin plass i Minecraft-kartet og b"
+"ytt så over til Sonic Pi.  Skriv deretter inn det følgende:"
+
+#: C.01-Basic-API.md:76
+#, no-wrap
+msgid "puts mc_location"
+msgstr "puts mc_location"
+
+#: C.01-Basic-API.md:80
+msgid ""
+"When you hit the *Run* button you'll see the coordinates of your current posit"
+"ion displayed in the log window. Take a note of them, then move forward in the"
+" world and try again. Notice how the coordinates changed! Now, I recommend you"
+" spend some time repeating exactly this - move a bit in the world, take a look"
+" at the coordinates and repeat. Do this until you start to get a feel for how "
+"the coordinates change when you move. Once you've understood how coordinates w"
+"ork, programming with the Minecraft API will be a complete breeze."
+msgstr ""
+"Når du trygger på *Kjør*-knappen vil du se koordinatene til din gjeldende posi"
+"sjon vist frem i loggvinduet.  Merk deg dem og beveg deg fremover i verden og "
+"forsøk igjen.  Merk hvordan koordinatene endret seg!  Nå anbefaler jeg at du b"
+"ruker litt tid til å gjenta akkurat dette - flytt litt i verden, titt på koord"
+"inatene og gjenta.  Gjør dette helt til du har en følelse om hvordan koordinat"
+"ene endrer seg når du beveger deg.  Når du har forstått hvordan koordinater vi"
+"rker vil programmering med Minecraft-API-et være enkelt."
+
+#: C.01-Basic-API.md:89
+msgid "Let's Build!"
+msgstr "La oss bygge!"
+
+#: C.01-Basic-API.md:91
+msgid ""
+"Now that you know how to find the current position and to teleport using coord"
+"inates, you have all the tools you need to start building things in Minecraft "
+"with code. Let's say you want to make the block with coordinates `40`, `50`, `"
+"60` to be glass. That's super easy:"
+msgstr ""
+"Nå når du vet hvordan du finner gjeldende posisjon og kan teleporte ved hjelp "
+"av koordinater, har du alle verktøyene du trenger for å gå i gang med å bygge "
+"ting i Minecraft med programmering.  Lå oss si at du vil få blokken med koordi"
+"nater `40`, `50`, `60` til å bli glass.  Det er superenkelt:"
+
+#: C.01-Basic-API.md:96
+#, no-wrap
+msgid "mc_set_block :glass, 40, 50, 60"
+msgstr "mc_set_block :glass, 40, 50, 60"
+
+#: C.01-Basic-API.md:100
+msgid ""
+"Haha, it really was that easy. To see your handywork just teleport nearby and "
+"take a look:"
+msgstr ""
+"Haha, det er virkelig så enkelt.  For å se håndverket ditt trenger du bare tel"
+"eportere til et sted i nærheten og ta en titt:"
+
+#: C.01-Basic-API.md:103
+#, no-wrap
+msgid "mc_teleport 35, 50, 60"
+msgstr "mc_teleport 35, 50, 60"
+
+#: C.01-Basic-API.md:107
+msgid ""
+"Now turn around and you should see your glass block! Try changing it to diamon"
+"d:"
+msgstr ""
+"Nå kan du snu deg rundt og der bør du se glassblokken din.  Forsøk å endre den"
+" til diamant:"
+
+#: C.01-Basic-API.md:110
+#, no-wrap
+msgid "mc_set_block :diamond, 40, 50, 60"
+msgstr "mc_set_block :diamond, 40, 50, 60"
+
+#: C.01-Basic-API.md:114
+msgid ""
+"If you were looking in the right direction you might have even seen it change "
+"in front of your eyes! This is the start of something exciting..."
+msgstr ""
+"Hvis du tittet i riktig retning kan du til og me ha sett at den endret deg for"
+"an øynene på deg.  Dette er starten på noe fantastisk..."
+
+#: C.01-Basic-API.md:117
+msgid "Looking at blocks"
+msgstr ""
+
+#: C.01-Basic-API.md:119
+msgid ""
+"Let's look at one last thing before we move onto something a bit more involved"
+". Given a set of coordinates we can ask Minecraft what the type of a specific "
+"block is. Let's try it with the diamond block you just created:"
+msgstr ""
+
+#: C.01-Basic-API.md:124
+#, no-wrap
+msgid "puts mc_get_block 40, 50, 60"
+msgstr "puts mc_get_block 40, 50, 60"
+
+#: C.01-Basic-API.md:128
+msgid ""
+"Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
+" now say `:glass`? I'm sure it does :-)"
+msgstr ""
+
+#: C.01-Basic-API.md:131
+msgid "Available block types"
+msgstr "Tilgjengelige blokktyper"
+
+#: C.01-Basic-API.md:133
+msgid ""
+"Before you go on a Minecraft Pi coding rampage, you might find this list of av"
+"ailable block types useful:"
+msgstr ""
+
+#: C.01-Basic-API.md:136
+#, no-wrap
+msgid ""
+"    :air\n"
+"    :stone\n"
+"    :grass\n"
+"    :dirt\n"
+"    :cobblestone\n"
+"    :wood_plank\n"
+"    :sapling\n"
+"    :bedrock\n"
+"    :water_flowing\n"
+"    :water\n"
+"    :water_stationary\n"
+"    :lava_flowing\n"
+"    :lava\n"
+"    :lava_stationary\n"
+"    :sand\n"
+"    :gravel\n"
+"    :gold_ore\n"
+"    :iron_ore\n"
+"    :coal_ore\n"
+"    :wood\n"
+"    :leaves\n"
+"    :glass\n"
+"    :lapis\n"
+"    :lapis_lazuli_block\n"
+"    :sandstone\n"
+"    :bed\n"
+"    :cobweb\n"
+"    :grass_tall\n"
+"    :flower_yellow\n"
+"    :flower_cyan\n"
+"    :mushroom_brown\n"
+"    :mushroom_red\n"
+"    :gold_block\n"
+"    :gold\n"
+"    :iron_block\n"
+"    :iron\n"
+"    :stone_slab_double\n"
+"    :stone_slab\n"
+"    :brick\n"
+"    :brick_block\n"
+"    :tnt\n"
+"    :bookshelf\n"
+"    :moss_stone\n"
+"    :obsidian\n"
+"    :torch\n"
+"    :fire\n"
+"    :stairs_wood\n"
+"    :chest\n"
+"    :diamond_ore\n"
+"    :diamond_block\n"
+"    :diamond\n"
+"    :crafting_table\n"
+"    :farmland\n"
+"    :furnace_inactive\n"
+"    :furnace_active\n"
+"    :door_wood\n"
+"    :ladder\n"
+"    :stairs_cobblestone\n"
+"    :door_iron\n"
+"    :redstone_ore\n"
+"    :snow\n"
+"    :ice\n"
+"    :snow_block\n"
+"    :cactus\n"
+"    :clay\n"
+"    :sugar_cane\n"
+"    :fence\n"
+"    :glowstone_block\n"
+"    :bedrock_invisible\n"
+"    :stone_brick\n"
+"    :glass_pane\n"
+"    :melon\n"
+"    :fence_gate\n"
+"    :glowing_obsidian\n"
+"    :nether_reactor_core"
+msgstr ""
+"    :air\n"
+"    :stone\n"
+"    :grass\n"
+"    :dirt\n"
+"    :cobblestone\n"
+"    :wood_plank\n"
+"    :sapling\n"
+"    :bedrock\n"
+"    :water_flowing\n"
+"    :water\n"
+"    :water_stationary\n"
+"    :lava_flowing\n"
+"    :lava\n"
+"    :lava_stationary\n"
+"    :sand\n"
+"    :gravel\n"
+"    :gold_ore\n"
+"    :iron_ore\n"
+"    :coal_ore\n"
+"    :wood\n"
+"    :leaves\n"
+"    :glass\n"
+"    :lapis\n"
+"    :lapis_lazuli_block\n"
+"    :sandstone\n"
+"    :bed\n"
+"    :cobweb\n"
+"    :grass_tall\n"
+"    :flower_yellow\n"
+"    :flower_cyan\n"
+"    :mushroom_brown\n"
+"    :mushroom_red\n"
+"    :gold_block\n"
+"    :gold\n"
+"    :iron_block\n"
+"    :iron\n"
+"    :stone_slab_double\n"
+"    :stone_slab\n"
+"    :brick\n"
+"    :brick_block\n"
+"    :tnt\n"
+"    :bookshelf\n"
+"    :moss_stone\n"
+"    :obsidian\n"
+"    :torch\n"
+"    :fire\n"
+"    :stairs_wood\n"
+"    :chest\n"
+"    :diamond_ore\n"
+"    :diamond_block\n"
+"    :diamond\n"
+"    :crafting_table\n"
+"    :farmland\n"
+"    :furnace_inactive\n"
+"    :furnace_active\n"
+"    :door_wood\n"
+"    :ladder\n"
+"    :stairs_cobblestone\n"
+"    :door_iron\n"
+"    :redstone_ore\n"
+"    :snow\n"
+"    :ice\n"
+"    :snow_block\n"
+"    :cactus\n"
+"    :clay\n"
+"    :sugar_cane\n"
+"    :fence\n"
+"    :glowstone_block\n"
+"    :bedrock_invisible\n"
+"    :stone_brick\n"
+"    :glass_pane\n"
+"    :melon\n"
+"    :fence_gate\n"
+"    :glowing_obsidian\n"
+"    :nether_reactor_core"

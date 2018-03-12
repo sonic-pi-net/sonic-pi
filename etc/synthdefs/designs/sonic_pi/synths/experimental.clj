@@ -145,3 +145,135 @@
 
 
   )
+
+(without-namespace-in-synthdef
+ (core/def-fx sonic-pi-fx_guitar_saw
+   []
+   [
+    amp (* 1 (lag (amplitude dry-r)))
+
+    dry-r (*  1 (compander dry-r dry-r
+                            0.2  ;; thresh
+                            10    ;; slope below
+                            1    ;; slope above
+                            0.01 ;; clamp-time
+                            0.01))
+
+    dry-r (*  1 (compander dry-r dry-r
+                            0.2  ;; thresh
+                            1    ;; slope below
+                            0.5    ;; slope above
+                            0.01 ;; clamp-time
+                            0.01)) ;; relax-time
+    dry-r (lpf dry-r 800)
+    dry-r (hpf dry-r 80)
+
+    freq (pitch dry-r
+                100  ;; :init-freq 100
+                60   ;; :min-freq 80
+                1300 ;; :max-freq 1200
+                400  ;; :exec-freq 100
+                32   ;; :max-bins-per-octave 32
+                1    ;; :median 1
+                0.01 ;; :amp-threshold 0.01
+                0.1 ;; :peak_threshold 0.01
+                0    ;; :down-sample 1
+                7) ;; :clar 0
+
+
+    freq (lag freq 0.01)
+
+    snd (* 1 amp (+ (saw freq)
+                    (+ 5 (saw freq))
+                    (* 2 (saw (/ freq 2)))))
+
+
+    ;; snd (* 1 amp (+ (lf-tri freq)
+    ;;                 (+ 5 (lf-tri freq))
+    ;;                 (* 2 (lf-tri (/ freq 2)))))
+
+
+    snd (* 1 amp (+ (sin-osc freq)
+                    (sin-osc (* 4 freq))
+                    (* 4 (sin-osc (/ freq 2)))
+                    ))
+    [wet-l wet-r] (pan2 snd)])
+
+ (core/save-synthdef sonic-pi-fx_guitar_saw)
+
+ )
+
+(without-namespace-in-synthdef
+ (core/def-fx sonic-pi-fx_guitar_saw2
+   [octave 0
+    default_note 48]
+   [
+    amp (* 1 (lag (amplitude dry-r)))
+
+    ;; dry-r (*  1 (compander dry-r dry-r
+    ;;                         0.2  ;; thresh
+    ;;                         10    ;; slope below
+    ;;                         1    ;; slope above
+    ;;                         0.01 ;; clamp-time
+    ;;                         0.01))
+
+    dry-r (*  1 (compander dry-r dry-r
+                            0.2  ;; thresh
+                            1    ;; slope below
+                            0.5    ;; slope above
+                            0.01 ;; clamp-time
+                            0.01)) ;; relax-time
+
+    min-freq  20
+    max-freq 400
+    ;; guitar values
+    ;; dry-r (lpf dry-r 1200)
+    ;; dry-r (hpf dry-r 80)
+
+    ;; bass values
+    dry-r (lpf dry-r max-freq)
+    dry-r (hpf dry-r min-freq)
+    init-freq (midicps default_note)
+    freq (pitch dry-r
+                73.416  ;; :init-freq 100
+                20   ;; :min-freq 80
+                400         ;; :max-freq 1200
+                100  ;; :exec-freq 100
+                32  ;; :max-bins-per-octave 32
+                1    ;; :median 1
+                0.01 ;; :amp-threshold 0.01
+                0.1 ;; :peak_threshold 0.01
+                1   ;; :down-sample 1
+                7)
+    freq (lag freq 0.05)
+    freq-nd (send-reply (impulse:kr 4) "/scsynth/freq" [freq])
+;    freq (lag (* (+ octave  1) (/ freq 4)) 0.01)
+
+
+    saws (* 1 amp (+ (saw freq) (+ 5 (saw freq))
+                    (* 2 (saw (/ freq 2)))))
+
+
+    tris (* 1 amp (+ (lf-tri freq)
+                    (+ 5 (lf-tri freq))
+                    (* 2 (lf-tri (/ freq 2)))))
+
+    sqrs (* 1 amp (+ (pulse freq)
+                    (+ 5 (pulse freq))
+                    (* 2 (pulse (/ freq 2)))))
+
+
+    sins (* 1 amp (+ (sin-osc freq)
+;;                    (sin-osc (* 4 freq))
+;;                    (* 4 (sin-osc (/ freq 2)))
+                     ))
+
+
+
+    snd sqrs
+
+    [wet-l wet-r] (pan2 snd)])
+
+ (core/save-synthdef sonic-pi-fx_guitar_saw)
+
+)

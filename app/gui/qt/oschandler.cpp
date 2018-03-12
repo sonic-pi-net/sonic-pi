@@ -20,13 +20,14 @@
 
 #include <QTextEdit>
 
-OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane, QTextEdit *errorPane, SonicPiTheme *theme)
+OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane,  SonicPiLog *incomingPane, SonicPiTheme *theme)
 {
     window = parent;
     out = outPane;
-    error = errorPane;
+    incoming = incomingPane;
     signal_server_stop = false;
     server_started = false;
+    int last_incoming_path_lens [20] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     this->theme = theme;
 }
 
@@ -56,6 +57,50 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         QMetaObject::invokeMethod( out, "handleMultiMessage", Qt::QueuedConnection,
                                    Q_ARG(SonicPiLog::MultiMessage, mm ) );
       }
+      else if (msg->match("/incoming/osc")) {
+        std::string time;
+        int id;
+        std::string address;
+        std::string args;
+        if (msg->arg().popStr(time).popInt32(id).popStr(address).popStr(args).isOkNoMoreArgs()) {
+          int max_path_len = 0;
+          for (int i = 0; i < 20 ; i++) {
+            if (last_incoming_path_lens[i] > max_path_len) {
+              max_path_len = last_incoming_path_lens[i];
+            }
+          }
+          int len_diff = max_path_len - address.length();
+          len_diff = (len_diff < 10) ? len_diff : 0;
+          len_diff = std::max(len_diff, 0);
+          len_diff = len_diff + 1;
+          int idmod = ((id * 3) % 200);
+          idmod = 155 + ((idmod < 100) ? idmod : 200 - idmod);
+
+          QString qs_address =  QString::fromStdString(address);
+          if(!qs_address.startsWith(":")) {
+              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 20, 147, idmod)), Q_ARG(QColor, "white"));
+
+              QMetaObject::invokeMethod( incoming, "appendPlainText",        Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(" " + address) ) );
+
+              QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(std::string(len_diff, ' ')) ) );
+
+              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")), Q_ARG(QColor, "white"));
+
+              QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(" ")));
+
+              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor, "white"));
+              QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(args) ) );
+              last_incoming_path_lens[id % 20] = address.length();
+            }
+          QMetaObject::invokeMethod( window, "addCuePath", Qt::QueuedConnection, Q_ARG(QString, qs_address), Q_ARG(QString, QString::fromStdString(args)));
+            } else {
+              std::cout << "[GUI] - unhandled OSC msg /incoming/osc: "<< std::endl;
+        }
+      }
       else if (msg->match("/log/info")) {
         std::string s;
         int style;
@@ -83,19 +128,11 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         int line;
         std::string desc;
         std::string backtrace;
-        QString style_sheet = "qrc:///html/styles.css";
-        if(window->dark_mode->isChecked()) {
-          style_sheet = "qrc:///html/dark_styles.css";
-        }
         if (msg->arg().popInt32(job_id).popStr(desc).popStr(backtrace).popInt32(line).isOkNoMoreArgs()) {
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
           QMetaObject::invokeMethod( window, "setLineMarkerinCurrentWorkspace", Qt::QueuedConnection, Q_ARG(int, line));
-          QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
-          QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
-          QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection,
-                                     Q_ARG(QString, "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"error_description\"><pre>Runtime Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"backtrace\">" + QString::fromStdString(backtrace) + "</pre></body></html>") );
-
+          QMetaObject::invokeMethod( window, "showError", Q_ARG(QString, "<h2 class=\"error_description\"><pre>Runtime Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"backtrace\">" + QString::fromStdString(backtrace) + "</pre>"));
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
         }
@@ -106,26 +143,18 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         std::string desc;
         std::string error_line;
         std::string line_num_s;
-        QString style_sheet = "qrc:///html/styles.css";
-        if(window->dark_mode->isChecked()) {
-          style_sheet = "qrc:///html/dark_styles.css";
-        }
         if (msg->arg().popInt32(job_id).popStr(desc).popStr(error_line).popInt32(line).popStr(line_num_s).isOkNoMoreArgs()) {
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-          QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
           QMetaObject::invokeMethod( window, "setLineMarkerinCurrentWorkspace", Qt::QueuedConnection, Q_ARG(int, line));
 
-          QString html_response = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_msg\">";
+          QString html_response = "<h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_msg\">";
           if(line == -1) {
-            html_response = html_response + "</span></pre></body></html>";
+            html_response = html_response + "</span></pre>";
           } else {
-            html_response = html_response + "[Line " + QString::fromStdString(line_num_s) + "]: <span class=\"error_line\">" + QString::fromStdString(error_line) + "</span></pre></body></html>";
+            html_response = html_response + "[Line " + QString::fromStdString(line_num_s) + "]: <span class=\"error_line\">" + QString::fromStdString(error_line) + "</span></pre>";
               }
-
-          QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
-          QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection, Q_ARG(QString, html_response) );
-
+          QMetaObject::invokeMethod( window, "showError", Q_ARG(QString, html_response));
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
         }
@@ -209,11 +238,26 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         std::string id;
         if (msg->arg().popStr(id).isOkNoMoreArgs()) {
           server_started = true;
-
-        } else
+        } else {
           std::cout << "[GUI] - error: unhandled OSC msg /ack " << std::endl;
+        }
       }
-      else if (msg->match("/version")) {
+      else if (msg->match("/midi/out-ports")) {
+        std::string port_info;
+        if (msg->arg().popStr(port_info).isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( window, "updateMIDIOutPorts", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(port_info)));
+        } else {
+          std::cout << "[GUI] - error: unhandled OSC msg /midi/out-ports: "<< std::endl;
+        }
+      }
+      else if (msg->match("/midi/in-ports")) {
+        std::string port_info;
+        if (msg->arg().popStr(port_info).isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( window, "updateMIDIInPorts", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(port_info)));
+        } else {
+          std::cout << "[GUI] - error: unhandled OSC msg /midi/in-ports: "<< std::endl;
+        }
+      } else if (msg->match("/version")) {
         std::string version;
         int version_num;
         std::string latest_version;

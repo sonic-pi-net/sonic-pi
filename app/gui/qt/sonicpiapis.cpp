@@ -24,7 +24,8 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
     : QsciAbstractAPIs(lexer)
 {
   // manually managed for now
-  keywords[Chord] << "'1'" << "'5'" << "'+5'" << "'m+5'" << ":sus2" << ":sus4" << "'6'" << ":m6" << "'7sus2'" << "'7sus4'" << "'7-5'" << "'m7-5'" << "'7+5'" << "'m7+5'" << "'9'" << ":m9" << "'m7+9'" << ":maj9" << "'9sus4'" << "'6*9'" << "'m6*9'" << "'7-9'" << "'m7-9'" << "'7-10'" << "'9+5'" << "'m9+5'" << "'7+5-9'" << "'m7+5-9'" << "'11'" << ":m11" << ":maj11" << "'11+'" << "'m11+'" << "'13'" << ":m13" << ":add2" << ":add4" << ":add9" << ":add11" << ":add13" << ":madd2" << ":madd4" << ":madd9" << ":madd11" << ":madd13" << ":major" << ":M" << ":minor" << ":m" << ":major7" << ":dom7" << "'7'" << ":M7" << ":minor7" << ":m7" << ":augmented" << ":a" << ":diminished" << ":dim" << ":i" << ":diminished7" << ":dim7" << ":i7";
+  keywords[Chord] << "'1'" << "'5'" << "'+5'" << "'m+5'" << ":sus2" << ":sus4" << "'6'" << ":m6" << "'7sus2'" << "'7sus4'" << "'7-5'" << ":halfdiminished" << "'7+5'" << "'m7+5'" << "'9'" << ":m9" << "'m7+9'" << ":maj9" << "'9sus4'" << "'6*9'" << "'m6*9'" << "'7-9'" << "'m7-9'" << "'7-10'" << "'7-11'" << "'7-13'" << "'9+5'" << "'m9+5'" << "'7+5-9'" << "'m7+5-9'" << "'11'" << ":m11" << ":maj11" << "'11+'" << "'m11+'" << "'13'" << ":m13" << ":add2" << ":add4" << ":add9" << ":add11" << ":add13" << ":madd2" << ":madd4" << ":madd9" << ":madd11" << ":madd13" << ":major" << ":maj" << ":M" << ":minor" << ":min" << ":m" << ":major7" << ":dom7" << "'7'" << ":M7" << ":minor7" << ":m7" << ":augmented" << ":a" << ":diminished" << ":dim" << ":i" << ":diminished7" << ":dim7" << ":i7" << ":halfdim" << "'m7b5'" << "'m7-5'";
+
 
   keywords[Scale] << ":diatonic" << ":ionian" << ":major" << ":dorian" << ":phrygian" << ":lydian" << ":mixolydian" << ":aeolian" << ":minor" << ":locrian" << ":hex_major6" << ":hex_dorian" << ":hex_phrygian" << ":hex_major7" << ":hex_sus" << ":hex_aeolian" << ":minor_pentatonic" << ":yu" << ":major_pentatonic" << ":gong" << ":egyptian" << ":shang" << ":jiao" << ":zhi" << ":ritusen" << ":whole_tone" << ":whole" << ":chromatic" << ":harmonic_minor" << ":melodic_minor_asc" << ":hungarian_minor" << ":octatonic" << ":messiaen1" << ":messiaen2" << ":messiaen3" << ":messiaen4" << ":messiaen5" << ":messiaen6" << ":messiaen7" << ":super_locrian" << ":hirajoshi" << ":kumoi" << ":neapolitan_major" << ":bartok" << ":bhairav" << ":locrian_major" << ":ahirbhairav" << ":enigmatic" << ":neapolitan_minor" << ":pelog" << ":augmented2" << ":scriabin" << ":harmonic_major" << ":melodic_minor_desc" << ":romanian_minor" << ":hindu" << ":iwato" << ":melodic_minor" << ":diminished2" << ":marva" << ":melodic_major" << ":indian" << ":spanish" << ":prometheus" << ":diminished" << ":todi" << ":leading_whole" << ":augmented" << ":purvi" << ":chinese" << ":lydian_minor" << ":blues_major" << ":blues_minor";
 
@@ -37,6 +38,8 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
   keywords[Examples] << ":haunted" << ":ambient_experiment" << ":chord_inversions" << ":filtered_dnb" << ":fm_noise" << ":jungle" << ":ocean" << ":reich_phase" << ":acid" << ":ambient" << ":compus_beats" << ":echo_drama" << ":idm_breakbeat" << ":tron_bike" << ":wob_rhyth" << ":bach" << ":driving_pulse" << ":monday_blues" << ":rerezzed" << ":square_skit" << ":blimp_zones" << ":blip_rhythm" << ":shufflit" << ":tilburg_2" << ":time_machine" << ":sonic_dreams";
 
   keywords[Tuning] << ":just" << ":pythagorean" << ":meantone" << ":equal";
+
+  keywords[MidiParam] << "sustain:" << "velocity:" << "vel:" << "velocity_f:" << "vel_f:" << "port:" << "channel:";
 }
 
 
@@ -67,6 +70,10 @@ void SonicPiAPIs::addFXArgs(QString fx, QStringList args) {
 
 void SonicPiAPIs::addSynthArgs(QString fx, QStringList args) {
   synthArgs.insert(fx, args);
+}
+
+void SonicPiAPIs::addCuePath(QString path) {
+  keywords[CuePath] << path;
 }
 
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
@@ -102,6 +109,8 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   if (last == "sample" || last == "sample_info" || last == "sample_duration" || last == "use_sample_bpm" || last == "sample_buffer" || last == "sample_loaded?" || last == "load_sample" || last == "load_samples") {
     ctx = Sample;
+  } else if (last == "sync" || last == "cue" || last == "get" || last == "set" || last == "get[" ) {
+    ctx = CuePath;
   } else if (last == "with_fx" || last == "use_fx") {
     ctx = FX;
   } else if (last == "with_synth" || last == "use_synth" || last == "synth") {
@@ -150,7 +159,9 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   } else if (first == "use_sample_defaults" || first == "with_sample_defaults") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = SampleParam;
-
+  } else if (words.length() >= 2 && first == "midi") {
+    if (last.endsWith(':')) return; // don't try to complete parameters
+    ctx = MidiParam;
   } else if (context.length() > 1) {
     if (partial.length() <= 2) {
       // don't attempt to autocomplete other words on the same line

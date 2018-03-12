@@ -1,0 +1,7 @@
+riff_chunk:
+  chunk_id: "RIFF"
+  chunk_size: 20
+  wave_format: "WAVE"
+format_chunk:
+  chunk_id: "fmt "
+  chunk_size: 16

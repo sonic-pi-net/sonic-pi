@@ -95,9 +95,9 @@ To initiate a translation update:
      lupdate -pro app/gui/qt/SonicPi.pro -no-obsolete
      git commit app/gui/qt/lang/sonic-pi_*.ts
 
-     app/server/bin/i18n-tool.rb -x
+     app/server/ruby/bin/i18n-tool.rb -x
      # the following will complain about every fuzzy entry
-     app/server/bin/i18n-tool.rb -u
+     app/server/ruby/bin/i18n-tool.rb -u
      git commit etc/doc/lang/*.po
      
      git push

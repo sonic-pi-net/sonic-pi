@@ -35,7 +35,7 @@ subdirs = Dir["#{dir}/*/*"].select{|d| File.directory?(d) && (File.basename(d) !
 puts ""
 
 
-raise "Aborting prune. Doesn't look like you're using an app/server/vendor dir" unless subdirs.first.match(/app\/server\/vendor/)
+raise "Aborting prune. Doesn't look like you're using an app/server/ruby/vendor dir" unless subdirs.first.match(/app\/server\/ruby\/vendor/)
 
 if rehearse
   puts "Would remove: "

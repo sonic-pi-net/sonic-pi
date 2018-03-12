@@ -78,7 +78,7 @@ sudo make install
 
 #Install libaubio 4.2.2 (apt-get version is too old)
 cd $SP_ROOT
-git clone git://git.aubio.org/git/aubio/
+git clone https://git.aubio.org/aubio/aubio/
 cd aubio
 make getwaf
 ./waf configure

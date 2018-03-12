@@ -1,0 +1,4 @@
+riff_chunk:
+  chunk_id: "RIFF"
+  chunk_size: 100
+  wave_format: "MP3 "

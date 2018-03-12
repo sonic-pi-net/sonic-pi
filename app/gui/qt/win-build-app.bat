@@ -1,8 +1,9 @@
 cd %~dp0
 
-..\..\server\native\windows\ruby\bin\ruby ../../server/bin/i18n-tool.rb -t
+..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/i18n-tool.rb -t
 copy /Y ruby_help.tmpl ruby_help.h
-..\..\server\native\windows\ruby\bin\ruby ../../server/bin/qt-doc.rb -o ruby_help.h
+..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/qt-doc.rb -o ruby_help.h
+
 @IF ERRORLEVEL==9009 goto :noruby
 @IF ERRORLEVEL==1 goto :docfail
 

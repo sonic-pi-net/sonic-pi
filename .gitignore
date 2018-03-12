@@ -15,11 +15,17 @@
 *.la
 *.a
 
+# Compiled Erlang files
+*.beam
+
 # MSVC stuff
 *.Debug
 *.Release
 debug/
 release/
+
+# Core dumps
+*.dump
 
 # QT GUI
 # --------
@@ -78,6 +84,7 @@ app/gui/qt/qrc__*
 \.#*
 .lein-plugins
 *~
+*.orig
 
 # Native
 
@@ -111,3 +118,5 @@ book/
 
 etc/doc/lang/sonic-pi-tutorial.pot
 etc/doc/generated/
+app/server/vendor/ffi-1.9.17/ext/ffi_c/extconf.h
+app/server/vendor/ffi-1.9.17/ext/ffi_c/Makefile

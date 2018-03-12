@@ -1,0 +1,44 @@
+#!/bin/bash
+# Sonic Pi Launch Script for Debian 9/Stretch - by SunderB
+set -e # Quit script on error
+# -x # Verbose
+echo "Starting Sonic Pi... Please leave this window open, it will clear up processes and close automatically."
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+"${SCRIPT_DIR}/app/gui/qt/sonic-pi" # Run Sonic Pi
+
+# The script will resume when Sonic Pi is closed.
+# Close left over beam.smp processes
+echo "Sonic Pi closed. Closing any left over processes..."
+
+# Set up array
+pidsArray=()
+
+# Get PIDs of left over processes...
+while read each; do
+		pidsArray+=("$each")
+done < <(echo "$(ps -ef | grep -v awk | awk '/beam.smp/ { print $2 }')")
+# ps -ef - Gets the list of processes with their PIDs
+# grep -v awk - Removes any processes containing 'awk' (to avoid picking up the next command)
+# awk '/beam.smp/ { print $2 }' - Extracts the PIDs of any processes containing 'beam.smp'
+# pidsArray+=("$each") - Adds the PIDs to the array.
+
+# If there only one object in the array, and that object is empty, then it's likely there's no processes left over.
+if [[ ${pidsArray[0]} = "" ]] && [ ${#pidsArray[@]} -eq 1 ]; then
+		echo "0 left over processes found."
+else
+		echo "${#pidsArray[@]} left over process(es) found."
+		# If there is any PIDs in the array...
+		if ((${#pidsArray[@]} > 0)); then
+				# Iterate through them.
+				for i in "${pidsArray[@]}"; do
+						# If the object is empty, ignore it. Otherwise, close that process.
+						if [[ ! $i = "" ]]; then
+								echo "Closing process $i..."
+								kill "$i"
+						else
+								echo "Process ID = nothing?! Lets just ignore that one."
+						fi
+				done
+		fi
+fi
+echo "Done!"

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+SP_APP_SRC=`pwd`
+
+echo "This script has been tested on ubuntu 17.04"
+
+#Install dependencies for building supercollider, as well as qt5 and supporting libraries for gui
+sudo apt-get install -y g++ ruby ruby-dev pkg-config git build-essential libjack-jackd2-dev libsndfile1-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake libboost1.62-dev libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev libffi-dev libaubio-dev supercollider-server sc3-plugins-server erlang-base
+
+#Build osmid from source for MIDI support and install it in SONICPI_DIR/app/server/native/linux/osmid
+cd ../../../
+SONICPI_DIR=`pwd`
+cd ../
+SP_ROOT=`pwd`
+git clone https://github.com/llloret/osmid.git
+cd osmid
+mkdir build && cd build
+cmake .. && make all
+mkdir -p $SONICPI_DIR/app/server/native/linux/osmid
+install m2o o2m -t $SONICPI_DIR/app/server/native/linux/osmid
+
+#Build Erlang files
+cd $SONICPI_DIR/app/server/erlang
+erlc osc.erl pi_server.erl
+
+#Build sonic-pi server extensions, documentation, and binary.
+cd $SP_APP_SRC
+../../server/ruby/bin/compile-extensions.rb
+../../server/ruby/bin/i18n-tool.rb -t
+cp -f ruby_help.tmpl ruby_help.h
+../../server/ruby/bin/qt-doc.rb -o ruby_help.h
+lrelease SonicPi.pro 
+qmake -qt=qt5 SonicPi.pro 
+make

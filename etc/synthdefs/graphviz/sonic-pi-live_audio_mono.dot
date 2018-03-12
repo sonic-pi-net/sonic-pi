@@ -1,0 +1,102 @@
+digraph synthdef {
+18 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+22 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+28 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+29 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+31 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+27 [label = "{{ <b> 1.0|<a> } |<__UG_NAME__>- }" style="bold, rounded" shape=record rankdir=LR];
+17 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+21 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+25 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+30 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+11 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+16 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+20 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+24 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+0 [label = "control
+ :amp
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+1 [label = "control
+ :amp_slide
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+2 [label = "control
+ :amp_slide_shape
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+3 [label = "control
+ :amp_slide_curve
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+4 [label = "control
+ :pan
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+5 [label = "control
+ :pan_slide
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+6 [label = "control
+ :pan_slide_shape
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+7 [label = "control
+ :pan_slide_curve
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+8 [label = "control
+ :input
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+9 [label = "control
+ :out_bus
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+23 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 1.0|<gate> gate|{{<envelope___control___0>|1.0|-99|-99|<envelope___control___4>|<envelope___control___5>|<envelope___control___6>|<envelope___control___7>}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+33 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 1.0|<gate> gate|{{<envelope___control___0>|1.0|-99|-99|<envelope___control___4>|<envelope___control___5>|<envelope___control___6>|<envelope___control___7>}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+10 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+12 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+15 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+19 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+13 [label = "{{ <phase> phase 0.0|<freq> freq 0.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
+14 [label = "{{ <phase> phase 0.0|<freq> freq 0.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
+32 [label = "{{ <num____channels> num-channels 1|<bus> bus} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+26 [label = "{<__UG_NAME__>num-output-buses }" style="dashed, rounded" shape=record rankdir=LR];
+35 [label = "{{ {{<signals___pan2___0>|<signals___pan2___1>}|signals}|<bus> bus} |<__UG_NAME__>out }" style="filled, bold, rounded"  shape=record rankdir=LR];
+34 [label = "{{ <level> level|<pos> pos|<in> in} |<__UG_NAME__>pan2 }" style="filled, bold, rounded"  shape=record rankdir=LR];
+
+13:__UG_NAME__ -> 18:a ;
+17:__UG_NAME__ -> 18:b ;
+18:__UG_NAME__ -> 22:a ;
+21:__UG_NAME__ -> 22:b ;
+26:__UG_NAME__ -> 28:a ;
+27:__UG_NAME__ -> 28:b ;
+14:__UG_NAME__ -> 29:a ;
+25:__UG_NAME__ -> 29:b ;
+29:__UG_NAME__ -> 31:a ;
+30:__UG_NAME__ -> 31:b ;
+8:__UG_NAME__ -> 27:a ;
+16:__UG_NAME__ -> 17:a ;
+20:__UG_NAME__ -> 21:a ;
+24:__UG_NAME__ -> 25:a ;
+11:__UG_NAME__ -> 30:a ;
+10:__UG_NAME__ -> 11:a ;
+15:__UG_NAME__ -> 16:a ;
+19:__UG_NAME__ -> 20:a ;
+12:__UG_NAME__ -> 24:a ;
+0:__UG_NAME__ -> 23:envelope___control___0 ;
+0:__UG_NAME__ -> 23:envelope___control___4 ;
+1:__UG_NAME__ -> 23:envelope___control___5 ;
+2:__UG_NAME__ -> 23:envelope___control___6 ;
+3:__UG_NAME__ -> 23:envelope___control___7 ;
+22:__UG_NAME__ -> 23:gate ;
+4:__UG_NAME__ -> 33:envelope___control___0 ;
+4:__UG_NAME__ -> 33:envelope___control___4 ;
+5:__UG_NAME__ -> 33:envelope___control___5 ;
+6:__UG_NAME__ -> 33:envelope___control___6 ;
+7:__UG_NAME__ -> 33:envelope___control___7 ;
+31:__UG_NAME__ -> 33:gate ;
+5:__UG_NAME__ -> 10:in ;
+4:__UG_NAME__ -> 12:in ;
+0:__UG_NAME__ -> 15:in ;
+1:__UG_NAME__ -> 19:in ;
+28:__UG_NAME__ -> 32:bus ;
+9:__UG_NAME__ -> 35:bus ;
+34:__UG_NAME__ -> 35:signals___pan2___0 ;
+34:__UG_NAME__ -> 35:signals___pan2___1 ;
+32:__UG_NAME__ -> 34:in ;
+33:__UG_NAME__ -> 34:pos ;
+23:__UG_NAME__ -> 34:level ;
+
+}

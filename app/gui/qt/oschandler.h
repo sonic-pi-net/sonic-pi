@@ -22,7 +22,7 @@ class OscHandler
 {
 
 public:
-    OscHandler(MainWindow *parent = 0, SonicPiLog *out = 0, QTextEdit *error = 0, SonicPiTheme *theme = 0);
+  OscHandler(MainWindow *parent = 0, SonicPiLog *out = 0, SonicPiLog *incoming = 0, SonicPiTheme *theme = 0);
     void oscMessage(std::vector<char> buffer);
     bool signal_server_stop;
     bool server_started;
@@ -31,7 +31,8 @@ private:
     SonicPiTheme *theme;
     MainWindow *window;
     SonicPiLog  *out;
-    QTextEdit  *error;
+    SonicPiLog  *incoming;
+    int last_incoming_path_lens [20];
 
     oscpkt::PacketReader pr;
     oscpkt::PacketWriter pw;

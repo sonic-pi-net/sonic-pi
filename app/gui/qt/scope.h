@@ -29,7 +29,7 @@ class ScopeBase : public QWidget
 {
   Q_OBJECT
 public:
-  ScopeBase( const QString& name, const QString& title, QWidget* parent = 0 );
+  ScopeBase( const QString& name, const QString& title, int scsynthPort, QWidget* parent = 0 );
   virtual ~ScopeBase();
 
   const QString& getName();
@@ -42,6 +42,7 @@ public:
 
 private:
   QString name,title;
+  int scsynthPort;
   bool defaultShowX, defaultShowY;
 
 protected:
@@ -52,7 +53,7 @@ protected:
 class ScopePanel : public ScopeBase
 {
 public:
-  ScopePanel( const QString& name, const QString& title, double* sample_x, double* sample_y, int num_samples, QWidget* parent = 0 );
+  ScopePanel( const QString& name, const QString& title, int scsynthPort, double* sample_x, double* sample_y, int num_samples, QWidget* parent = 0 );
 
   void setPen( QPen pen );
 
@@ -64,7 +65,7 @@ private:
 class MultiScopePanel : public ScopeBase
 {
 public:
-  MultiScopePanel( const QString& name, const QString& title, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent );
+  MultiScopePanel( const QString& name, const QString& title, int scsynthPort, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent );
 
   void setPen( QPen pen );
 
@@ -78,7 +79,7 @@ class Scope : public QWidget
   Q_OBJECT
 
 public:
-  Scope( QWidget* parent = 0 );
+  Scope( int scsynthPort, QWidget* parent = 0 );
   virtual ~Scope();
 
   std::vector<QString> getScopeNames() const;
@@ -102,6 +103,7 @@ private:
   std::vector<std::shared_ptr<ScopeBase>> panels;
   bool paused;
   unsigned int emptyFrames;
+  int scsynthPort;
 };
 
 #endif

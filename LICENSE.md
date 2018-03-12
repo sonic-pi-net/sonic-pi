@@ -76,12 +76,18 @@ relevant licenses:
 
 ### Unlinked software
 * [Ruby](http://ruby-lang.org) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
-* [SuperCollider](http://supercollider.sourceforge.net) - [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html)
+* [SuperCollider](http://supercollider.sourceforge.net) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
+* [SoX](http://sox.sourceforge.net) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
+* [Erlang](http://erlang.org) - [Erlang Public License](https://www.erlang.org/EPLICENSE)
+* [osmid](https://github.com/llloret/osmid) - [MIT License](http://opensource.org/licenses/MIT)
+* osmid depends on [JUCE](http://juce.com) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
+
 
 
 ### Dynamically Linked Libraries for GUI
 * [Qt](http://qt-project.org) - [LGPL v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
-* [QScintilla2](http://www.riverbankcomputing.com/software/qscintilla/intro) - [GPL v2](https://tldrlegal.com/license/gnu-general-public-license-v2)
+* [QScintilla2](http://www.riverbankcomputing.com/software/qscintilla/intro) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
+* [Qwt](http://qwt.sourceforge.net) -  [Qwt License, Version 1.0](http://qwt.sourceforge.net/qwtlicense.html)
 
 
 ### Included Ruby Libraries for Server
@@ -119,5 +125,5 @@ relevant licenses:
 
 
 ### Dynamically Linked Libraries for Server
-* [Aubio](http://aubio.org) - [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html)
+* [Aubio](http://aubio.org) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
 * [rtosc](https://github.com/fundamental/rtosc) - [MIT License](http://opensource.org/licenses/MIT)

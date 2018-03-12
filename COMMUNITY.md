@@ -1,61 +1,59 @@
-# Community
+# Welcome to our Community
 
-Sonic Pi is more than just software. It's a whole community of people sharing ideas, helping  and inspiring each other. Welcome.
+Join the friendly Sonic Pi community and share your ideas and thoughts
+with other educators, musicians and live coders...
 
-You can get involved with the community at the following locations:
 
-## Live Coding TV
-*<http://livecoding.tv/samaaron/>*
+## Share | Discuss | Learn
+*<https://in-thread.sonic-pi.net/>*
 
-Sam Aaron regularly streams his live coding sessions on livecoding.tv/samaaron - please drop by, say hello and ask lots of questions.
+<a href="https://in-thread.sonic-pi.net">
+  <img src="../images/in_thread_screen.png" height="254" width="413"/>
+</a>
 
-## Gitter Chat
-*<https://gitter.im/samaaron/sonic-pi>*
+Come and join the friendly discussion over at
+[in_thread](https://in-thread.sonic-pi.net), the main community forum.
 
-A friendly chatroom to discuss all matters related to Sonic Pi. Great for getting instant help.
-
-## Raspberry Pi
-*<http://raspberrypi.org>*
-
-The best place to access the latest resources, lesson plans, starter tutorials and information about Sonic Pi.
-
-## Google Groups
-*<https://groups.google.com/forum/#!forum/sonic-pi>*
-
-A mailing list/forum for people to share thoughts, advice, knowledge with each other. An excellent place to go to ask any questions you might have.
 
 ## Twitter
-*<http://twitter.com/sonic_pi>*
+*<https://twitter.com/sonic_pi>*
 
 For bite-sized chunks of the latest Sonic Pi news and information.
+
 
 ## Facebook
 *<https://www.facebook.com/SonicPi>*
 
 For those Facebook users out there.
 
-## Vimeo Group
-*<https://vimeo.com/groups/287093>*
-
-A Vimeo channel dedicated to Sonic Pi performances, tutorials and
-examples. Please also tag your Vimeo videos with `Sonic Pi` so they may
-be found and added to this channel.
-
-## SoundCloud Playlist
-*<https://soundcloud.com/samaaron/sets/sonic-pi>*
-
-A playlist of audio pieces created with Sonic Pi. Please tag your
-SoundCloud tracks with `# Sonic Pi` so they may be found and added to
-this playlist.
-
-## Blogs
-
-The following is a list of community-maintained blogs which focus on or
-contain Sonic Pi related material:
-
-* [Robin Newman's Blog](https://rbnrpi.wordpress.com)
 
 ## GitHub
-*<http://github.com/samaaron/sonic-pi>*
+*<https://github.com/samaaron/sonic-pi>*
 
-For developers interested in the full source code. The issue tracker is also hosted here.
+For developers interested in the full source code. The issue tracker is
+also hosted here.
+
+
+## Gitter Chat for Developers
+*<https://gitter.im/samaaron/sonic-pi>*
+
+A friendly developer-focussed chatroom to discuss all matters related to
+developing and hacking Sonic Pi. Great for getting instant help.
+
+
+## YouTube
+*<https://youtube.com/samaaron/>*
+
+Sam Aaron frequently streams his live coding sessions on YouTube -
+please drop by, say hello and ask lots of questions.
+
+
+## Patreon Supporters
+*<https://patreon.com/samaaron>*
+
+A growing number of very generous community members are actively helping
+to sustain further development and keep Sonic Pi free.
+
+If Sonic Pi has made you smile and you'd like to help keep it free so it
+can continue to be shared with the world, please consider joining the
+other lovely supporters over on [Patreon](https://patreon.com/samaaron).
