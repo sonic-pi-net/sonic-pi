@@ -606,7 +606,7 @@ Sonic Pi y son recibidos como eventos de señal (cue)
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar Iconos Pro - intercambiar entre el set (paquete) de iconos por defecto y uno más minimalista.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
@@ -915,7 +915,9 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi puede enviar y recibir mensajes OSC (Open Sound Control)
+hacia - de otros programas u ordenadores 
+a través de la red actualmente conectada.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
@@ -936,7 +938,8 @@ to and from other programs or computers
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Los dispositivos MIDI de salida reciben mensajes MIDI directamente de 
+Sonic Pi que pueden ser enviados a través de midi_* fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
@@ -1026,7 +1029,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>ayuda de visibilidad cambiada...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
