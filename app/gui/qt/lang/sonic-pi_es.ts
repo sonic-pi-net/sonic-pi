@@ -939,7 +939,7 @@ a través de la red actualmente conectada.</translation>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
         <translation>Los dispositivos MIDI de salida reciben mensajes MIDI directamente de 
-Sonic Pi que pueden ser enviados a través de midi_* fns</translation>
+Sonic Pi, los cuales pueden ser enviados a través de midi_* fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
