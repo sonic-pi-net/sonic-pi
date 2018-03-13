@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-12-09 20:48+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
-"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-pi/"
-"tutorial/nb/>\n"
+"PO-Revision-Date: 2018-03-14 18:38+0000\n"
+"Last-Translator: Harald Eilertsen <haraldei-weblate@anduin.net>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
+"sonic-pi/tutorial/nb/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.20-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -151,9 +151,9 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Nå, trykk på \"Kjør\"-knappen og du vil høre en fin, rask basstromme som hamrer "
-"løs. Hvis du når som helst vil stoppe lyden trykk bare på \"Stopp\" knappen. Men"
-" ikke trykk akkurat nå... Følg disse trinnene videre:"
+"Nå, trykk på \"Kjør\"-knappen og du vil høre en fin, rask basstromme som "
+"hamrer løs. Hvis du vil stoppe lyden kan du når som helst trykke på \"Stopp\""
+"-knappen. Men ikke trykk riktig ennå... Følg disse trinnene videre:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
@@ -161,23 +161,24 @@ msgstr "Forsikre deg om at basstrommelyden fremdeles går"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Endre `hvilemodus`-verdien fra `0,5` til noe høyere, som for eksempel `1`."
+msgstr ""
+"Endre verdien til `sleep` fra `0.5` til noe høyere, som for eksempel `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr "Trykk på `Run`-knappen igjen"
+msgstr "Trykk på `Kjør`-knappen igjen"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr "Legg merke til hvordan trommetakten er endret."
+msgstr "Legg merke til hvordan trommetakten endret seg."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"Til slutt, *husk dette øyeblikket*, dette er første gang du har kodet i sannti"
-"d med Sonic Pi og det er usannsynlig at det den siste…"
+"Til slutt, *husk dette øyeblikket*, dette er første gang du har kodet i "
+"sanntid med Sonic Pi og det blir sannsynligvis ikke den siste…"
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -185,8 +186,8 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"OK, det var enkelt nok. La oss legge inn noe mer. Over `prøven: bd_haus` legg "
-"til linjen `eksempel: ambi_choir, rate: 0,3`. Koden skal se slik ut:"
+"OK, det var enkelt nok. La oss legge inn noe mer. Over `sample: bd_haus` "
+"legg til linjen `sample: ambi_choir, rate: 0,3`. Koden skal se slik ut:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -212,18 +213,19 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Nå kan du leke deg litt. Endre verdiene, hva skjer når du bruker store, små el"
-"ler negative verdier? Se hva som skjer hvis du endrer litt på `rate:`-verdien "
-"for `: ambi_choir`-lydklippet (til `0.29` for eksempel). Hva skjer hvis du vel"
-"ger en svært små `sove`-verdi? Se om du kan få det til å gå så hurtig at datam"
-"askinen din stopper med en feilmelding fordi den ikke kan holde følge med temp"
-"oet (hvis det skjer, bare velg en større `sove`-tid og trykk `Kjør` igjen)."
+"Nå kan du leke deg litt. Endre verdiene, hva skjer når du bruker store, små "
+"eller negative verdier? Se hva som skjer hvis du endrer litt på `rate:`-"
+"verdien for `: ambi_choir`-lydklippet (til `0.29` for eksempel). Hva skjer "
+"hvis du velger en svært lav verdi for `sleep`? Se om du kan få det til å gå "
+"så hurtig at datamaskinen din stopper med en feilmelding fordi den ikke kan "
+"holde følge med tempoet (hvis det skjer, bare velg en større verdi for "
+"`sleep` og trykk `Kjør` igjen)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
-"Prøv å kommentere ut en av `sampel`-linjene ved å legge til en `#` på starten "
-"av linjen:"
+"Prøv å kommentere ut en av `sample`-linjene ved å legge til en `#` på "
+"starten av linjen:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -241,15 +243,14 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:70
-#, fuzzy
 msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Legg merke til at den får maskinen til å overse det, så vi ikke hører det. Det"
-"te kalles en kommentar. I Sonic Pi kan vi bruke kommentarer til å legge til og"
-" ta ut ting fra miksen."
+"Legg merke til at den får maskinen til å hoppe over denne linjen, så vi ikke "
+"hører den. Dette kalles en kommentar. I Sonic Pi kan vi bruke kommentarer "
+"til å ta ut ting fra miksen, og legge dem til igjen."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -259,10 +260,10 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"Til slutt, la meg gi dere noe morsomt å leke med. Ta koden nedenfor, kopier de"
-"n til et ledig hurtiglager. Så, prøv ikke å forstå for meget, annet enn å se a"
-"t det er to sløyfer - så to ting går rundt samtidig. Nå, gjør det du gjør best"
-" - eksperimenter og lek. Her er noen forslag:"
+"Til slutt, la meg gi deg noe morsomt å leke med. Ta koden nedenfor, kopier "
+"den til et ledig hurtiglager. Du behøver ikke å forstå så mye av den, annet "
+"enn å se at det er to sløyfer - så to ting kjører samtidig. Nå, gjør det du "
+"gjør best - eksperimentér og lek. Her er noen forslag:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
@@ -275,24 +276,24 @@ msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Prøv å endre `sleep`-tiden og høre at begge maskene kan spinne rundt med forsk"
-"jellige hastigheter."
+"Prøv å endre `sleep`-tiden og høre at begge løkkene kan spinne rundt med "
+"forskjellige hastigheter."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Prøv å avkommentere sampel-linjen (fjern `#`) og nyt lyden av gitaren spilt ba"
-"klengs."
+"Prøv å avkommentere sample-linjen (fjern `#`) og nyt lyden av gitaren spilt "
+"baklengs."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
-"Prøv å endre noen av de blå 'mix:'-verdiene til tall mellom '0' (borte fra mik"
-"sen) og '1' (fullt ut i miksen)."
+"Prøv å endre noen av de blå 'mix:'-verdiene til tall mellom '0' (borte fra "
+"miksen) og '1' (helt med i miksen)."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -301,10 +302,10 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"Husk å trykke `Run` og du vil høre endringen neste gang sløyfen går rundt. Hvi"
-"s du havner i en knipe, ikke vær bekymret - trykk 'Stop', slett koden i hurtig"
-"lageret og lim inn en ny kopi og du er klar å jamme igjen. Å gjøre feil er opp"
-"hav til svært rask læring..."
+"Husk å trykke `Kjør` og du vil høre endringen neste gang sløyfen går rundt. "
+"Ikke bekymre deg for om du gjør feil og det slutter å fungere, bare trykk "
+"'Stopp', slett koden og lim inn en ny kopi - du er klar å jamme igjen. Det "
+"er ved å gjøre feil du lærer raskest..."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -343,13 +344,13 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"Nå, fortsett å spille og eksperimentere og still din nysgjerrighet ved å finne"
-" ut hvordan alt sammen faktisk fungerer. Du begynne å lure på hva annet du kan"
-" gjøre med dette. Du er nå klar til å ta fatt på resten av opplæringen."
+"Fortsett gjerne å spille og eksperimentere til nysgjerrigheten på hvordan "
+"dette egentlig fungerer tar overhånd. Når du begynne å lure på hva annet du "
+"kan gjøre med dette, er du klar til å ta fatt på resten av opplæringen."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr "Så venter hva du på…"
+msgstr "Så, venter hva du på…"
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
@@ -414,10 +415,10 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"Disse rosa knappene er hovedkontroller for start- og stopp-lyder. 'Run'-knappe"
-"n kjører koden i behandleren, *Stop*-for å stoppe all kjørende kode, *Save* fo"
-"r å lagre koden til en ekstern fil og *Record* for å lage et opptak (en WAV-fi"
-"l) av en lydavspilling."
+"Disse rosa knappene er hovedkontrollene for å starte og stoppe musikken. "
+"*Kjør*-knappen kjører koden i kodebehandleren, *Stopp* stopper all kjørende "
+"kode, *Lagre* for å lagre koden til en ekstern fil og *Spill inn* for å lage "
+"et opptak (en WAV-fil) av musikken som spiller."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
