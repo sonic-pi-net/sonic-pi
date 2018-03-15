@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-14 18:38+0000\n"
+"PO-Revision-Date: 2018-03-15 15:08+0000\n"
 "Last-Translator: Harald Eilertsen <haraldei-weblate@anduin.net>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/nb/>\n"
@@ -13373,7 +13373,7 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
-msgstr ""
+msgstr "Filtermodulasjon"
 
 #: A.19-subtractive-synthesis.md:109
 msgid ""
