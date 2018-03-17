@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-17 12:09+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-03-18 06:23+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -10900,10 +10900,20 @@ msgid ""
 "tputs 1 and 2 in your audio card). The audio flows outwards with a stereo sign"
 "al all the way through."
 msgstr ""
+"La façon la plus simple de comprendre ce qui se passe avec le flux audio est "
+"de commencer au niveau le plus interne du contexte audio et de remonter. "
+"Dans ce cas, le contexte le plus interne est étiqueté `A` et il s'agit de "
+"l'échantillon `:bd_haus` qui est déclenché. L'audio pour cela va directement "
+"dans son contexte qui est `B` - l'effet `:echo`. Cela ajoute de l'écho à "
+"l'audio entrant et l'émet en sortie à son contexte qui est `C` - l'effet "
+"`:reverb`. Cela ajoute ensuite de la réverbération à l'audio entrant et "
+"l'émet en sortie à son contexte qui est le niveau le plus haut - les haut-"
+"parleurs de gauche et droite (sortie 1 et 2 de votre carte audio). L'audio "
+"sort avec un signal stéréo via ces derniers."
 
 #: 13.3-Sound-Out.md:35
 msgid "Sound Out FX"
-msgstr ""
+msgstr "Son sortant FX"
 
 #: 13.3-Sound-Out.md:37
 msgid ""
@@ -10913,6 +10923,12 @@ msgid ""
 "e. Secondly it *also* outputs its audio directly to an output on your sound ca"
 "rd. Let's take a look:"
 msgstr ""
+"Le comportement ci-dessus est vrai pour tous les synthés (incluant "
+"`live_audio`) et la majorité des FX, à l'exception de `:sound_out`. L'effet "
+"`:sound_out` accompli deux choses. Premièrement, il émet en sortie son audio "
+"au contexte externe comme décrit ci-dessus. Deuxièmement, il émet *aussi* en "
+"sortie son audio directement à une sortie sur votre carte de son. Jetons un "
+"coup d'oeil :"
 
 #: 13.3-Sound-Out.md:43
 #, no-wrap
@@ -10923,6 +10939,11 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do      # C\n"
+"  with_fx :sound_out, output: 3 do # B\n"
+"    sample :bd_haus     # A\n"
+"  end\n"
+"end"
 
 #: 13.3-Sound-Out.md:51
 msgid ""
@@ -10933,10 +10954,16 @@ msgid ""
 "und_out` therefore has two destinations - the `:reverb` FX and audio card outp"
 "ut 3."
 msgstr ""
+"Dans cet exemple, notre échantillon `:bd_haus` sort son audio à son contexte "
+"externe qui est l'effet `:sound_out`. À son tour, il sort son audio à son "
+"contexte externe qui est l'effet `:reverb` (comme attendu). Cependant, il "
+"sort *aussi* un mélange mono à la troisième sortie de la carte de son "
+"système. L'audio généré dans `:sound_out` a donc deux destinations - l'effet "
+"`:reverb` et la sortie 3 de la carte audio."
 
 #: 13.3-Sound-Out.md:58
 msgid "Mono and Stereo out"
-msgstr ""
+msgstr "Sortie mono et stéréo"
 
 #: 13.3-Sound-Out.md:60
 #, fuzzy
@@ -10953,7 +10980,7 @@ msgstr "Choix (\"choose\")"
 
 #: 13.3-Sound-Out.md:70
 msgid "Direct Out"
-msgstr ""
+msgstr "Sortie directe"
 
 #: 13.3-Sound-Out.md:72
 msgid ""
@@ -10966,6 +10993,15 @@ msgid ""
 "tandard FX opt `amp:` which operates on the audio *after* the FX has been able"
 " to manipulate the audio:"
 msgstr ""
+"Comme nous l'avons également vu, le comportement par défaut pour `:sound_out`"
+" et `:sound_out_stereo` pour les deux est d'envoyer leur audio à leur "
+"contexte externe (ce qui est typique de tous les FX) *et* à la sortie "
+"spécifiée de la carte de son. Cependant, vous pourriez occasionnellement "
+"vouloir *seulement* envoyer à la sortie de la carte de son et pas le "
+"contexte externe ( et donc ne pas avoir la possibilité que le son soit "
+"mélangé et envoyé aux canaux de sorties standards 1 et 2). Cela est possible "
+"en utilisation l'option standard FX `amp:` qui s'applique sur l'audio *après*"
+" que le FX ait manipulé l'audio :"
 
 #: 13.3-Sound-Out.md:82
 #, no-wrap
@@ -10988,6 +11024,13 @@ msgid ""
 "t receive any audio, and channel 3 will receive a mono mix of the amen drum br"
 "eak."
 msgstr ""
+"Dans l'exemple ci-dessus, l'échantillon `:loop_amen` est envoyé à son "
+"contexte extérieur, le FX `:sound_out`. Ensuite, cela envoie un mélange mono "
+"à la sortie 3 de la carte audio et multiplie l'audio par 0 ce qui le rend "
+"silencieux essentiellement. C'est le signal silencieux qui est par la suite "
+"envoyé au contexte extérieur de `:sound_out` qui est la sortie standard. Par "
+"conséquent, les canaux de sorties par défaut ne recevront aucun audio et le "
+"canal 3 recevra un mélange mono de tambours d'Amen Break."
 
 #: 14-Conclusions.md:1
 msgid "14 Conclusions"
@@ -17531,6 +17574,12 @@ msgid ""
 "oop. For example, if you use a rate of `100`, the drum loop turns into a click"
 "!"
 msgstr ""
+"Ah ! Nous venons de passer du genre music techno vieille école à la jungle. "
+"Remarquer comment la hauteur de chaque coup de tambour est plus grande ainsi "
+"que le rythme complet qui est accéléré. Maintenant, essayer des taux encore "
+"plus grand et voyez comment haut et court vous pouvez modifier la boucle de "
+"tambour. Par exemple, si vous utilisez le taux de `100`, la boucle de "
+"tambour tourne en un clic !"
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
@@ -18235,9 +18284,8 @@ msgstr ""
 "subt_synth :e1 - 4, 8"
 
 #: B-Essential-Knowledge.md:1
-#, fuzzy
 msgid "B Essential Knowledge"
-msgstr "Connaissances essentielles"
+msgstr "B Connaissances essentielles"
 
 #: B-Essential-Knowledge.md:3
 msgid "Essential Knowledge"
