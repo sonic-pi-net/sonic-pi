@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-18 06:23+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2018-03-19 21:37+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -10913,7 +10913,7 @@ msgstr ""
 
 #: 13.3-Sound-Out.md:35
 msgid "Sound Out FX"
-msgstr "Son sortant FX"
+msgstr "Effet de son sortant"
 
 #: 13.3-Sound-Out.md:37
 msgid ""
@@ -10925,10 +10925,10 @@ msgid ""
 msgstr ""
 "Le comportement ci-dessus est vrai pour tous les synthés (incluant "
 "`live_audio`) et la majorité des FX, à l'exception de `:sound_out`. L'effet "
-"`:sound_out` accompli deux choses. Premièrement, il émet en sortie son audio "
-"au contexte externe comme décrit ci-dessus. Deuxièmement, il émet *aussi* en "
-"sortie son audio directement à une sortie sur votre carte de son. Jetons un "
-"coup d'oeil :"
+"`:sound_out` accomplit deux choses. Premièrement, il émet en sortie son "
+"audio au contexte externe comme décrit ci-dessus. Deuxièmement, il émet "
+"*aussi* en sortie son audio directement à une sortie sur votre carte son. "
+"Jetons un coup d'œil :"
 
 #: 13.3-Sound-Out.md:43
 #, no-wrap
@@ -17575,11 +17575,11 @@ msgid ""
 "!"
 msgstr ""
 "Ah ! Nous venons de passer du genre music techno vieille école à la jungle. "
-"Remarquer comment la hauteur de chaque coup de tambour est plus grande ainsi "
-"que le rythme complet qui est accéléré. Maintenant, essayer des taux encore "
-"plus grand et voyez comment haut et court vous pouvez modifier la boucle de "
-"tambour. Par exemple, si vous utilisez le taux de `100`, la boucle de "
-"tambour tourne en un clic !"
+"Remarquer comment la fréquence de chaque coup de tambour est plus grande "
+"ainsi que le rythme complet qui est accéléré. Maintenant, essayer des taux "
+"encore plus grands et voyez comment haut et court vous pouvez modifier la "
+"boucle de batterie. Par exemple, si vous utilisez le taux de `100`, la "
+"boucle de batterie tourne en un clic !"
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
