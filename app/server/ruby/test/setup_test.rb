@@ -81,6 +81,10 @@ module SonicPi
 
     end
 
+    def __error(e, m=nil)
+      raise e
+    end
+
     def run(&blk)
       id = 0
       silent = false
