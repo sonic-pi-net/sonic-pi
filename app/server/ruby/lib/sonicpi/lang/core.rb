@@ -3834,6 +3834,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
       def use_sched_ahead_time t
         __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, t)
+        __system_thread_locals.set(:sonic_pi_spider_real_time_mode, false)
       end
       doc name:          :use_sched_ahead_time,
           introduced:    Version.new(3,0,0),
@@ -3865,7 +3866,8 @@ end
 
 
       def use_real_time
-        use_sched_ahead_time 0
+        __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, 0)
+        __system_thread_locals.set(:sonic_pi_spider_real_time_mode, true)
       end
       doc name:          :use_real_time,
           introduced:    Version.new(3,0,0),
@@ -3884,7 +3886,16 @@ See `use_sched_ahead_time` for a version of this function which allows you to se
 
 
       def with_real_time(&blk)
-        with_sched_ahead_time 0, &blk
+        raise ArgumentError, "with_real_time must be called with a do/end block. Perhaps you meant use_real_time" unless blk
+        current_sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
+        current_rtm = __system_thread_locals.get(:sonic_pi_spider_real_time_mode)
+        __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, 0)
+        __system_thread_locals.set(:sonic_pi_spider_real_time_mode, true)
+        res = blk.call
+        __system_thread_locals.set(:sonic_pi_spider_sched_ahead_time, current_sat)
+        __system_thread_locals.set(:sonic_pi_spider_real_time_mode, current_rtm)
+        res
+
       end
       doc name:          :with_real_time,
           introduced:    Version.new(3,0,0),

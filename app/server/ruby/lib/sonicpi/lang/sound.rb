@@ -3923,13 +3923,14 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
           info.ctl_validate!(args_h) if info
         end
 
-        if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
-          unless in_good_time?
-            __delayed_message "!! Out of time, skipping: control node #{node.id}, #{arg_h_pp(args_h)}"
-            return node
+        unless __system_thread_locals.get(:sonic_pi_spider_real_time_mode)
+          if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
+            unless in_good_time?
+              __delayed_message "!! Out of time, skipping: control node #{node.id}, #{arg_h_pp(args_h)}"
+              return node
+            end
           end
         end
-
         node.control args_h
 
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
@@ -4340,15 +4341,16 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         args_h = normalise_and_resolve_sample_args(path, args_h, info)
 
         buf_id = buf_info.id
-
-        if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
-          unless in_good_time?
-            if args_h.empty?
-              __delayed_message "!! Out of time, skipping: sample #{path.inspect}"
-            else
-              __delayed_message "!! Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
+        unless __system_thread_locals.get(:sonic_pi_spider_real_time_mode)
+          if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
+            unless in_good_time?
+              if args_h.empty?
+                __delayed_message "!! Out of time, skipping: sample #{path.inspect}"
+              else
+                __delayed_message "!! Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
+              end
+              return BlankNode.new(args_h)
             end
-            return BlankNode.new(args_h)
           end
         end
 
@@ -4370,11 +4372,13 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def trigger_inst(synth_name, args_h, info=nil, group=current_group)
         processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
-        if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
-          unless in_good_time?
-            __delayed_message "!! Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
+        unless __system_thread_locals.get(:sonic_pi_spider_real_time_mode)
+          if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
+            unless in_good_time?
+              __delayed_message "!! Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
 
-            return BlankNode.new(args_h)
+              return BlankNode.new(args_h)
+            end
           end
         end
 
@@ -4397,10 +4401,12 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         chord_group = @mod_sound_studio.new_group(:tail, group, "CHORD")
         cg = ChordGroup.new(chord_group, notes, info)
 
-        if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
-          unless in_good_time?
-            __delayed_message "!! Out of time, skipping: synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
-            return BlankNode.new(args_h)
+        unless __system_thread_locals.get(:sonic_pi_spider_real_time_mode)
+          if __thread_locals.get(:sonic_pi_mod_sound_timing_guarantees)
+            unless in_good_time?
+              __delayed_message "!! Out of time, skipping: synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
+              return BlankNode.new(args_h)
+            end
           end
         end
 
