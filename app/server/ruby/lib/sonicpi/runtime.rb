@@ -103,7 +103,7 @@ module SonicPi
         __info "Restarting OSC server...." unless silent
         @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: open,) do |address, args, info|
           address = "/#{address}" unless address.start_with?("/")
-          address = "/osc/#{info[2]}/#{info[1]}#{address}"
+          address = "/osc:#{info[2]}:#{info[1]}#{address}"
           p = 0
           d = 0
           b = 0
