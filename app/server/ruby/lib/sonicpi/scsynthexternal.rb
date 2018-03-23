@@ -116,7 +116,7 @@ module SonicPi
 
       @osc_server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
 
-      @osc_server.add_global_method do |address, args|
+      @osc_server.add_global_method do |address, args, info|
         case address
         when "/n_end"
           id = args[0].to_i
@@ -231,7 +231,7 @@ module SonicPi
       puts "Boot - SuperCollider booted successfully."
       puts "Boot - Connecting to the SuperCollider server..."
 
-      boot_s = OSC::UDPServer.new(0) do |a, b|
+      boot_s = OSC::UDPServer.new(0) do |a, b, info|
         puts "Boot - Receiving ack from scsynth"
         p2.deliver! true unless connected
         connected = true
