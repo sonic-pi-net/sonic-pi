@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-22 05:36+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-03-25 16:46+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -17684,6 +17684,20 @@ msgid ""
 "beep. It will also make the beep shorter as we will work through all the circl"
 "es faster. This is shown in Figure E."
 msgstr ""
+"Un échantillon d'un bip n'est rien de plus que beaucoup de nombres (x,y, "
+"coordonnées) qui, lorsque tracé point par point sur un graphique, dessinera "
+"de nouveau les courbes originales. Voyez la figure D où chaque cercle "
+"représente une coordonnée. Pour convertir de nouveau les coordonnées en "
+"audio, l'ordinateur travaille avec chaque valeur x et envoie chaque valeur y "
+"correspondante aux haut-parleurs. L'astuce ici est que la vitesse à laquelle "
+"l'ordinateur travaille avec les nombres x n'a pas besoin d'être la même que "
+"la vitesse à laquelle ils ont été enregistrés. En d'autres mots, l'espace ( "
+"représentant une quantité de temps) entre chaque cercle peut être étiré ou "
+"compressé. Donc, si l'ordinateur travaille plus rapidement avec les valeurs "
+"x que la vitesse originale, cela aura l'effet d'écraser les cercles ensemble "
+"ce qui résultera en un bip sonnant plus aigu. Cela va également rendre le "
+"bip plus court étant donné que nous allons naviguer plus rapidement au "
+"travers des cercles. Cela est démontré dans la figure E."
 
 #: A.17-sample-stretching.md:105
 msgid ""
@@ -17712,6 +17726,13 @@ msgid ""
 "ower. This means that for melodic samples, playing it alongside itself at doub"
 "le/half rates actually sounds rather nice:"
 msgstr ""
+"Comme nous l'avons vu, utiliser une vitesse plus rapide rendra le son plus "
+"aigu et une vitesse plus lente rendra le son plus grave. Un astuce très "
+"simple et utile est de savoir que doubler la vitesse résultera en un son qui "
+"est un octave plus aigu et inversement, diminuer la vitesse de moitié rendra "
+"le son un octave plus grave. Cela veut dire que, pour les échantillons "
+"mélodiques, les faire jouer en même temps que lui-même à une vitesse doublée "
+"ou divisée de moitié sonne plutôt bien :"
 
 #: A.17-sample-stretching.md:121
 #, no-wrap
@@ -17730,6 +17751,9 @@ msgid ""
 "e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
 "itch:` opt:"
 msgstr ""
+"Cependant, comment devons-nous faire si nous voulons modifier la vitesse "
+"afin que le son soit un demi-ton plus aigu (une note plus aigu sur le piano) "
+"? Sonic Pi rend cela très facile avec l'option `rpitch:` :"
 
 #: A.17-sample-stretching.md:129
 #, no-wrap
@@ -17781,6 +17805,12 @@ msgid ""
 " playback rate of samples. As an added exercise try recording your own sounds "
 "and play around with the rate to see what crazy sounds you can make."
 msgstr ""
+"Jetons un coup d'oeil à une pièce simple qui combine ces idées. Copiez-le "
+"dans un tampon Sonic Pi vide, pressez jouer, écoutez-le un moment et ensuite "
+"utilisez-le comme point de départ pour votre propre pièce. Voyez comment "
+"c'est plaisant de manipuler la vitesse de lecture des échantillons. En tant "
+"qu'exercice supplémentaire, essayer d'enregistrer vos propres sons et de "
+"jouer avec la vitesse pour voir quels sons fous vous pouvez faire."
 
 #: A.17-sample-stretching.md:156
 #, no-wrap
@@ -17821,11 +17851,11 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
-msgstr ""
+msgstr "A.18 Design du son - Synthèse additive"
 
 #: A.18-additive-synthesis.md:3
 msgid "Additive Synthesis"
-msgstr ""
+msgstr "Synthèse additive"
 
 #: A.18-additive-synthesis.md:5
 msgid ""
@@ -17842,16 +17872,33 @@ msgid ""
 "for a given pipe 'added it to the mix' making the sound richer and more comple"
 "x. Now, let's see how we can pull out all the stops with Sonic Pi."
 msgstr ""
+"Ceci est le premier d'une courte série d'articles sur comment utiliser Sonic "
+"Pi pour le design du son. Nous allons faire un tour rapide d'un nombre de "
+"techniques différentes disponibles pour vous avez de fabriquer votre propre "
+"son unique. La première technique que nous allons regarder est appelée *"
+"synthèse additive*.  Cela peut sembler compliqué - mais si nous développons "
+"chaque mot légèrement, la signification en ressort rapidement. Premièrement, "
+"additif signifie une combinaison de choses et deuxièmement, synthèse "
+"signifie de créer un son. Ainsi, la synthèse additive signifie rien de plus "
+"compliqué que *combiner des sons existants pour en créer des nouveaux*. "
+"Cette technique de synthèse date de très longtemps - par exemple, les orgues "
+"du moyen Âge avaient beaucoup de tuyaux sonnant légèrement différents que "
+"vous pouviez activer ou désactiver avec des arrêts. Tirer sur l'arrêt pour "
+"un certain tuyau 'l'ajoutait au mélange' ce qui rendait le son plus riche et "
+"complexe. Maintenant, voyons comment nous pouvons tirer tous les arrêts avec "
+"Sonic Pi."
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
-msgstr ""
+msgstr "Combinaisons simples"
 
 #: A.18-additive-synthesis.md:23
 msgid ""
 "Let's start with the most basic sound there is - the humble pure-toned sine wa"
 "ve:"
 msgstr ""
+"Commençons avec le son le plus basique qu'il existe - l'humble onde "
+"sinusoïdale aux tons purs :"
 
 #: A.18-additive-synthesis.md:26
 #, no-wrap
@@ -17860,7 +17907,7 @@ msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
-msgstr ""
+msgstr "Maintenant, voyons comment cela sonne combiné avec une onde carrée :"
 
 #: A.18-additive-synthesis.md:32
 #, no-wrap
