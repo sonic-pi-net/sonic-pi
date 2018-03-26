@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-25 21:22+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-03-27 12:48+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -9307,25 +9307,31 @@ msgid "`cue \"/foo/beans/baz/eggs\"`"
 msgstr "`cue \"/foo/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
-#, fuzzy
 msgid ""
 "You can also place the `*` at the start of the segment to specify the last cha"
 "racters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment `cue` or"
 " `set` where the first segment is `foo`, the last is `baz` and the middle segm"
 "ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
-msgstr "foo"
+msgstr ""
+"Vous pouvez également placer le `*` au début du segment pour spécifier les "
+"derniers caractères d'un segment : `\"/foo/*zz/baz\"` ce qui correspondra à "
+"n'importe quel triple segment `cue` ou `set` où le premier segment est `foo`"
+", le dernier est `baz` et celui du milieu fini avec `zz` comme `\"cue \"/foo/"
+"whizz/baz\"`."
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
 msgstr "Faire correspondre des segments de chemins imbriqués"
 
 #: 10.3-Pattern-Matching.md:64
-#, fuzzy
 msgid ""
 "Sometimes you don't know how many path segments you want to match. In these ca"
 "ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
 "ill match:"
-msgstr "foo"
+msgstr ""
+"Parfois, vous ne connaissez pas le nombre de segments de chemin devant "
+"correspondre. Dans ce cas, vous pouvez utiliser la puissante double-étoile : "
+"`**` et ainsi `\"/foo/**/baz\"` correspondra à :"
 
 #: 10.3-Pattern-Matching.md:69
 msgid "`cue \"/foo/bar/beans/baz\"`"
