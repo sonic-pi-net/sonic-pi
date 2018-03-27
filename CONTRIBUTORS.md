@@ -35,6 +35,7 @@ The following organisations have kindly contributed to Sonic Pi:
 * [Arts Council England](http://www.artscouncil.org.uk)
 * [Nesta](https://www.nesta.org.uk)
 * [pi-top](https://pi-top.com)
+* [Norfolk & Norwich Festival Bridge](https://nnfestival.org.uk/festival-bridge/)
 
 
 ## Patreon Supporters
