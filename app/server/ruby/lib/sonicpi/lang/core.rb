@@ -101,10 +101,6 @@ module SonicPi
           path = cue_path
         end
 
-        unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          __delayed_highlight_message "set #{k.inspect}, #{val.inspect}"
-        end
-
         t = __system_thread_locals.get(:sonic_pi_spider_time)
         b = __system_thread_locals.get(:sonic_pi_spider_beat)
         i = __current_thread_id
