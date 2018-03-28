@@ -359,7 +359,7 @@ end
 
         raise ArgumentError, "with_swing shift should be a number. Got: #{shift.inspect}" unless shift.is_a?(Numeric)
         raise ArgumentError, "with_swing pulse should be a positive number. Got: #{pulse.inspect}" unless pulse.is_a?(Numeric) && pulse > 0
-        puts "heeey"
+
         use_shift = (tick(key) % pulse) == 0
         if use_shift
           time_warp shift do
