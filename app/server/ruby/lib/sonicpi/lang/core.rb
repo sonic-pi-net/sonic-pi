@@ -995,13 +995,14 @@ time_warp 0.1 do
   play 80          #=> plays at 1.1
   sleep 0.5
   play 80          #=> plays at 1.6
-                   # time shifts back by 0.1 beats
-                   # however, the sleep 0.5 is still accounted for
-end
+
+end                # time shifts back by 0.6 beats
+
                    # we now honour the original sleep 1 and the
-                   # sleep 0.5 within the time_warp block, but
-                   # any time shift delta has been removed
-play 70            #=> plays at 1.5",
+                   # sleep 0.5 within the time_warp block is
+                   # ignored including the 0.1 shift offset
+
+play 70            #=> plays at 1",
 
         "# shift backwards in time
 
@@ -1015,12 +1016,11 @@ time_warp -0.1 do
   sleep 0.5
   play 80          #=> plays at 1.4
                    # time shifts forward by 0.1 beats
-                   # however, the sleep 0.5 is still accounted for
 end
                    # we now honour the original sleep 1 and the
-                   # sleep 0.5 within the time_warp block, but
-                   # any time shift delta has been removed
-play 70            #=> plays at 1.5",
+                   # sleep 0.5 within the time_warp block is
+                   # ignored, including the -0.1 offset
+play 70            #=> plays at 1",
 
         "# Ticks count linearly through time_warp
 
