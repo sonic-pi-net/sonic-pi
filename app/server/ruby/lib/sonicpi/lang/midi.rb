@@ -398,7 +398,7 @@ You may also optionally pass the velocity value as a floating point value betwee
               __midi_send_timed_pc("/note_off", p, c, [n, vel])
             end
           end
-          __midi_message "midi_note_off #{n}, #{vel}, port: #{port}, channel: #{chan}"
+          __midi_message "midi_note_off #{n}, #{vel}, channel: #{chan}, port: #{port}"
         else
           __midi_rest_message "midi_note_off :rest, on: 0"
         end
