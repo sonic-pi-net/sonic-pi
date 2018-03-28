@@ -643,6 +643,14 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
 
       def __osc_send(host, port, path, *args)
         t = __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
+        args.map! do |arg|
+          case arg
+          when Numeric, String
+            arg
+          else
+            arg.inspect
+          end
+        end
         @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
       end
 
