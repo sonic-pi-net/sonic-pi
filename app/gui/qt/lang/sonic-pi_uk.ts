@@ -1058,7 +1058,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>Community</source>
-        <translation type="unfinished">Спільнота</translation>
+        <translation>Спільнота</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2797"/>
