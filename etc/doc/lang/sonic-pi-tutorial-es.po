@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-14 06:41+0000\n"
-"Last-Translator: Juan Pablo Riaño <elcalvoi77@gmail.com>\n"
+"PO-Revision-Date: 2018-03-29 18:44+0000\n"
+"Last-Translator: Andru <andres.senn@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -2051,7 +2051,7 @@ msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr "Paneando samples"
+msgstr "Ejemplos de paneo"
 
 #: 03.2-Sample-Params.md:20
 msgid ""
