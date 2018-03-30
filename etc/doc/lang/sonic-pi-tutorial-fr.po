@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-30 17:11+0000\n"
+"PO-Revision-Date: 2018-04-01 02:37+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -11525,7 +11525,6 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:173
-#, fuzzy
 msgid ""
 "Now, every time the `live_loop` loops around, the random stream is reset. This"
 " means it chooses the same 16 notes every time. Hey presto! An instant melody."
@@ -11534,18 +11533,18 @@ msgid ""
 "e random seed), you can explore as many melodic combinations as you can imagin"
 "e! Now, that's the magic of code."
 msgstr ""
-"Maintenant, chaque fois que la `live_loop` boucle, la suite aléatoire est réin"
-"itialisée. Cela veut dire qu'elle contient exactement les même 16 notes à chaq"
-"ue fois. Et voilà ! Une mélodie de composée. Et maintenant voici la partie exc"
-"itante. Changez la valeur de `1` en un autre nombre. Par exemple `4923`. Ouaou"
-", une autre mélodie ! Donc, en changeant juste un nombre (la graine aléatoire)"
-", on peut explorer autant de combinaisons mélodiques qu'on peut imaginer ! C'e"
-"st ça la magie du code."
+"Maintenant, chaque fois que la boucle `live_loop` tourne, la suite aléatoire "
+"est réinitialisée. Ceci signifie qu'elle contient exactement les même 16 "
+"notes à chaque fois. Et voilà ! Une mélodie de composée. Et maintenant, "
+"voici la partie vraiment excitante. Changez la valeur de graine de `1` pour "
+"un autre nombre. Par exemple `4923`. Ouaouh, une autre mélodie ! Donc, en "
+"changeant uniquement un nombre (la graine aléatoire), on peut explorer "
+"autant de combinaisons mélodiques qu'on peut imaginer ! C'est ça la magie du "
+"code."
 
 #: A.02-live-coding.md:1
-#, fuzzy
 msgid "A.2 Live Coding"
-msgstr "A.2 Live Coding"
+msgstr "A.2 Programmation interactive"
 
 #: A.02-live-coding.md:5
 #, fuzzy
