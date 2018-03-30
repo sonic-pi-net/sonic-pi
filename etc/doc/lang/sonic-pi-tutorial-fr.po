@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-27 12:48+0000\n"
+"PO-Revision-Date: 2018-03-30 17:11+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -9374,12 +9374,15 @@ msgid "Matching Multiple Words"
 msgstr "Faire correspondre plusieurs mots"
 
 #: 10.3-Pattern-Matching.md:85
-#, fuzzy
 msgid ""
 "If you know that a segment may be one of a select number of words, you can use"
 " the `{` and `}` matchers to specify a list of choices such as `\"/foo/{bar,bea"
 "ns,eggs}/quux\"` which will only match the following:"
-msgstr "foo"
+msgstr ""
+"Si vous savez qu'un segment pourrait être un parmi un nombre sélectionné de "
+"mots, vous pouvez utiliser les correspondances `{` et `}` pour spécifier une "
+"liste de choix tel que `\"/foo/{bar,beans,eggs}/quux\"` qui correspondra "
+"uniquement à ceci :"
 
 #: 10.3-Pattern-Matching.md:89
 msgid "`cue \"/foo/bar/quux\"`"
@@ -9398,12 +9401,14 @@ msgid "Matching Multiple Letters"
 msgstr "Faire correspondre plusieurs lettres"
 
 #: 10.3-Pattern-Matching.md:95
-#, fuzzy
 msgid ""
 "Finally, you can match against a selection of letters if you use the `[` and `"
 "]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` which wi"
 "ll match only:"
-msgstr "foo"
+msgstr ""
+"Finalement, vous pouvez faire correspondre à une sélection de lettres si "
+"vous utilisez les correspondances `[` et `]` pour spécifier une liste de "
+"choix tel que `\"/foo/[abc]ux/baz\"` qui correspondra uniquement à :"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
 msgid "`cue \"/foo/aux/baz\"`"
@@ -9418,11 +9423,13 @@ msgid "`cue \"/foo/cux/baz\"`"
 msgstr "`cue \"/foo/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
-#, fuzzy
 msgid ""
 "You can also use the `-` character to specify ranges of letters. For example `"
 "\"/foo/[a-e]ux/baz\"` which will match only:"
-msgstr "foo"
+msgstr ""
+"Vous pouvez également utiliser le caractère `-` pour spécifier un ensemble "
+"de lettres. Pour exemple, `\"/foo/[a-e]ux/baz\"` qui correspondra uniquement "
+"à :"
 
 #: 10.3-Pattern-Matching.md:109
 msgid "`cue \"/foo/dux/baz\"`"
@@ -9857,12 +9864,15 @@ msgid "Now You are in Control"
 msgstr "Maintenant vous êtes en contrôle"
 
 #: 11.1-MIDI-In.md:149
-#, fuzzy
 msgid ""
 "The exciting thing now is that you can now use the same code structures to `sy"
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"
 "ith the values. You can now choose what your MIDI device will do!"
-msgstr "Choix (\"choose\")"
+msgstr ""
+"Le truc génial maintenant est que vous pouvez à présent utiliser les même "
+"structures de code pour synchroniser `sync` et obtenir `get` des information "
+"MIDI depuis tout périphérique MIDI et faire tout ce que vous voulez avec ces "
+"valeurs. Vous pouvez maintenant choisir ce que votre périphérique MIDI fera !"
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
@@ -11175,7 +11185,6 @@ msgid "1. There are no mistakes"
 msgstr "1. Il n'y a pas d'erreur"
 
 #: A.01-tips.md:7
-#, fuzzy
 msgid ""
 "The most important lesson to learn with Sonic Pi is that there really are no m"
 "istakes. The best way to learn is to just try and try and try. Try lots of dif"
@@ -11186,23 +11195,23 @@ msgid ""
 "on't like and keep the things you do. The more 'mistakes' you allow yourself t"
 "o make the quicker you'll learn and discover your personal coding sound."
 msgstr ""
-"La plus importante leçon à apprendre avec Sonic Pi c'est qu'il n'y a vraiment "
-"pas d'erreur. La meilleure façon d'apprendre c'est juste d'essayer, essayer, e"
-"t essayer. Essayez beaucoup de choses différentes, ne vous inquiétez pas de sa"
-"voir si votre code sonne bien ou pas et commencez par expérimenter avec le plu"
-"s de synthés, notes, effets et options possibles. Vous découvrirez beaucoup de"
-" choses qui vous feront rire parce qu'elles ne sonnent pas bien du tout et aus"
-"si quelques joyaux qui sonnent magnifiquement bien. Débarrassez-vous ensuite d"
-"e ce que vous n'aimez pas et gardez les choses qui vous plaisent. Plus vous vo"
-"us permettrez de faire des erreurs et plus vous apprendrez et découvrirez votr"
-"e son de code personnel."
+"La plus importante leçon à apprendre avec Sonic Pi, c'est qu'il n'y a pas "
+"vraiment d'erreur. La meilleure façon d'apprendre, c'est juste d'essayer, "
+"essayer, et essayer. Essayez beaucoup de choses différentes, ne vous "
+"inquiétez pas de savoir si votre code sonne bien ou pas, et commencez par "
+"expérimenter avec le plus de synthés, de notes,d'effets et d'options "
+"possibles. Vous découvrirez beaucoup de choses qui vous feront rire parce "
+"qu'elles ne sonnent pas bien du tout et aussi quelques joyaux qui sonnent "
+"magnifiquement bien. Débarrassez-vous ensuite de ce que vous n'aimez pas et "
+"gardez les choses qui vous plaisent. Plus vous vous permettrez de faire des "
+"'erreurs' et plus vite vous apprendrez et découvrirez votre son personnel de "
+"programmation interactive."
 
 #: A.01-tips.md:18
 msgid "2. Use the FX"
 msgstr "2. Utilisez les effets"
 
 #: A.01-tips.md:20
-#, fuzzy
 msgid ""
 "Say you've already mastered the Sonic Pi basics of making sounds with `sample`"
 ", `play`? What's next? Did you know that Sonic Pi supports over 27 studio FX t"
@@ -11215,17 +11224,18 @@ msgid ""
 "u'd like the FX added to and wrap it with the FX code. Let's look at an exampl"
 "e. Say you had the following code:"
 msgstr ""
-"Disons que vous maîtrisez déjà les bases de Sonic Pi pour créer des sons avec "
-"`sample` et `play`. Qu'est-ce qui vient ensuite ? Savez-vous que Sonic Pi supp"
-"orte plus de 27 effets studio pour changer le son de votre code ? Les effets s"
-"ont comme des filtres pour images dans les programmes de dessin, mais à la pla"
-"ce de rendre l'image floue ou noir et blanc, on peut ajouter de la reverb, de "
-"la distorsion ou de l'écho au son. On peut voir ça comme brancher le câble d'u"
-"ne guitare dans une pédale d'effet puis dans un ampli. Heureusement Sonic Pi r"
-"end l'utilisation d'effets très simple et n'a pas besoin de câble. Tout ce don"
-"t vous avez besoin c'est de choisir à quelle section de votre code ajouter l'e"
-"ffet puis de l'entourer avec le code de l'effet. Prenons un exemple. Disons qu"
-"e vous avez le code suivant :"
+"Disons que vous maîtrisez déjà les bases de Sonic Pi pour créer des sons "
+"avec `sample` et `play`. Qu'est-ce qui vient ensuite ? Savez-vous que Sonic "
+"Pi supporte plus de 27 effets studio pour modifier le son de votre code ? "
+"Les effets sont comme des filtres pour images dans les programmes de dessin, "
+"mais à la place de rendre l'image floue ou noir et blanc, on peut ajouter de "
+"la réverbération, de la distorsion ou de l'écho à votre son. On peut voir ça "
+"comme brancher le câble d'une guitare dans une pédale d'effet de votre choix "
+"puis dans un ampli. Heureusement, Sonic Pi rend l'utilisation d'effets très "
+"simple et n'a pas besoin de câble ! Tout ce dont vous avez besoin c'est de "
+"choisir à quelle section de votre code ajouter l'effet puis de l'emballer "
+"avec le code de l'effet. Prenons un exemple. Disons que vous avez le code "
+"suivant :"
 
 #: A.01-tips.md:32
 #, no-wrap
@@ -11313,7 +11323,6 @@ msgid "3. Parameterise your synths"
 msgstr "3. Paramétrez vos synthés"
 
 #: A.01-tips.md:77
-#, fuzzy
 msgid ""
 "In order to really discover your coding sound you'll soon want to know how to "
 "modify and control synths and FX. For example, you might want to change the du"
@@ -11322,12 +11331,13 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
-"Pour découvrir vraiment votre son de code vous voudrez savoir comment modifier"
-" et contrôler les synthés et effets. Par exemple, vous voudrez peut-être chang"
-"er la durée d'une note, ajouter plus de reverb, ou changer la durée entre écho"
-"s. Heureusement, Sonic Pi vous donne un niveau de contrôle incroyable pour fai"
-"re cela avec des paramètres optionnels ou opts pour faire court. Regardons ça "
-"rapidement. Copiez ce code dans un buffer et exécutez-le :"
+"Pour découvrir vraiment le son de votre code, vous voudrez bientôt savoir "
+"comment modifier et contrôler les synthés et effets. Par exemple, vous "
+"voudrez peut-être changer la durée d'une note, ajouter plus de réverb, ou "
+"changer la durée entre les échos. Heureusement, Sonic Pi vous donne un "
+"niveau de contrôle incroyable pour faire exactement cela avec des trucs "
+"appelés des paramètres optionnels ou opts pour faire court. Jetons-y un coup "
+"d'œil rapide. Copiez ce code dans un espace de travail et exécutez-le :"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -11383,7 +11393,6 @@ msgid "5. Live Code"
 msgstr "5. Coder en direct"
 
 #: A.01-tips.md:112
-#, fuzzy
 msgid ""
 "The best way to quickly experiment and explore Sonic Pi is to live code. This "
 "allows you to start off some code and continually change and tweak it whilst i"
@@ -11391,11 +11400,12 @@ msgid ""
 "es to a sample, just play around. Let's have a try! Copy this code into one of"
 " your Sonic Pi workspaces:"
 msgstr ""
-"La meilleure manière d'expérimenter rapidement et d'explorer Sonic Pi est de c"
-"oder de manière interactive. Cela vous permet de partir d'un peu de code et de"
-" le changer de manière continue pendant qu'il est en train de s'exécuter. Par "
-"exemple, si vous ne savez pas ce que le paramètre cutoff fait à un sample, jou"
-"ez avec. Essayons ! Copiez ce code dans un de vos buffers Sonic Pi :"
+"La meilleure manière d'expérimenter rapidement et d'explorer Sonic Pi est de "
+"coder de manière interactive. Cela vous permet de partir d'un peu de code et "
+"de le changer de manière continue pendant qu'il est en train de s'exécuter. "
+"Par exemple, si vous ne savez pas ce que le paramètre cutoff fait à un "
+"échantillon, jouez avec. Essayons ! Copiez ce code dans un de vos espaces de "
+"tracail Sonic Pi :"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -11422,34 +11432,33 @@ msgstr ""
 "`110`..."
 
 #: A.01-tips.md:129
-#, fuzzy
 msgid ""
 "Once you get the hang of using `live_loop`s you'll not turn back. Whenever I d"
 "o a live coding gig I rely on `live_loop` as much as a drummer relies on their"
 " sticks. For more information about live coding check out Section 9 of the bui"
 "lt-in tutorial."
 msgstr ""
-"Quand vous aurez pris la main à utiliser des `live_loop`, vous ne pourrez plus"
-" vous en passer. Quand je donne un concert de live coding je m'appuie autant s"
-"ur `live_loop` qu'un batteur sur ses baguettes. Pour plus d'informations à pro"
-"pos du live coding regardez la section 9 du tutoriel inclus dans Sonic Pi."
+"Quand vous aurez pris la main à utiliser des `live_loop`, vous ne pourrez "
+"plus vous en passer. À chaque fois que je donne un concert de programmation "
+"interactive, je m'appuie autant sur `live_loop` qu'un batteur sur ses "
+"baguettes. Pour plus d'informations à propos de la programmation "
+"interactive, regardez la section 9 du tutoriel inclus."
 
 #: A.01-tips.md:134
 msgid "5. Surf the random streams"
 msgstr "5. Surfez sur les flux aléatoires"
 
 #: A.01-tips.md:136
-#, fuzzy
 msgid ""
 "Finally, one thing I love doing is cheating by getting Sonic Pi to compose thi"
 "ngs for me. A really great way to do this is using randomisation. It might sou"
 "nd complicated but it really isn't. Let's take a look. Copy this into a spare "
 "workspace:"
 msgstr ""
-"Enfin, une chose que j'adore faire est de tricher en faisant que Sonic Pi comp"
-"ose des choses pour moi. Une manière géniale de faire ça est d'utiliser l'aléa"
-"toire. Cela peut paraître compliqué mais ça ne l'est pas du tout. Regardons. C"
-"opiez ceci dans un buffer :"
+"Enfin, une chose que j'adore faire est de tricher en faisant en sorte que "
+"Sonic Pi compose des choses pour moi. Une manière géniale de faire ça est "
+"d'utiliser l'aléation. Cela peut paraître compliqué, mais ça ne l'est pas du "
+"tout. Regardons. Copiez ceci dans un espace de travail :"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -11473,7 +11482,6 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:152
-#, fuzzy
 msgid ""
 "Now, when you play this, you'll hear a constant stream of random notes from th"
 "e scale `:e2 :minor_pentatonic` played with the `:dsaw` synth. \"Wait, wait! Th"
@@ -11483,13 +11491,15 @@ msgid ""
 "e TARDIS with the Doctor to a particular point in time and space. Let's try it"
 " - add the line `use_random_seed 1` to the `live_loop`:"
 msgstr ""
-"Maintenant, quand vous jouez cela, vous entendrez une suite continue de notes "
-"aléatoires de la gamme `:e2 :minor_pentatonic` jouée avec le synthé `:dsaw`. \""
-"Attendez, attendez ! Ce n'est pas une mélodie\", vous entends-je crier ! Eh bie"
-"n, voici la première partie du tour de magie. Chaque fois que l'on recommence "
-"le `live_loop` on peut dire à Sonic Pi de fixer la suite aléatoire à un point "
-"connu. C'est un peu comme voyager dans le temps. Essayons ceci : ajoutez la li"
-"gne `use_random_seed 1` au `live_loop`:"
+"Maintenant, quand vous jouez ceci, vous entendrez une suite continue de "
+"notes aléatoires de la gamme `:e2 :minor_pentatonic` jouée avec le synthé "
+"`:dsaw`. \"Attendez, attendez ! Ce n'est pas une mélodie\", vous entends-je "
+"crier ! Eh bien, voici la première partie du tour de magie. Chaque fois que "
+"l'on recommence le `live_loop` on peut dire à Sonic Pi de réinitialiser la "
+"suite aléatoire à un point connu. C'est un peu comme voyager dans le temps "
+"dans le TARDIS avec le Docteur vers un point particulier du temps et de "
+"l'espace. Essayons ceci : ajoutez la ligne `use_random_seed 1` au "
+"`live_loop`:"
 
 #: A.01-tips.md:161
 #, no-wrap
