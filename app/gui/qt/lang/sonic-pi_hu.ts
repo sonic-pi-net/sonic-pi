@@ -388,8 +388,8 @@ Ez az ellenőrzés a platformmal és verzióval kapcsolatos, névtelen informác
         <location filename="../mainwindow.cpp" line="1456"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>A sötét mód tökéletes klubokban és
-szórakozóhelyeken végzett élő kódoláshoz.</translation>
+        <translation>
+A sötét mód tökéletes klubokban és szórakozóhelyeken végzett élő kódoláshoz.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1502"/>
