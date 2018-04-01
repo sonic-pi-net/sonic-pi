@@ -90,7 +90,9 @@ sem höndla bara einóm.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Breyta yfirferð viðfanga á hljóðgervla.\nEf ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða\nóþægilegum hljóðum þegar ekki er búist við þeim.</translation>
+        <translation>Breyta yfirferð viðfanga á hljóðgervla.
+Ef ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða
+óþægilegum hljóðum þegar ekki er búist við þeim.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
@@ -174,7 +176,9 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Breyta hreinsun atburðaskráar við keyrslu.\nEf virkjað þá er atburðaskráin hreinsuð\nhvert sinn sem stutt er á keyra hnappinn.</translation>
+        <translation>Breyta hreinsun atburðaskráar við keyrslu.
+Ef virkjað þá er atburðaskráin hreinsuð
+hvert sinn sem stutt er á keyra hnappinn.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
@@ -246,7 +250,8 @@ even when a little late.</source>
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Breyta sjálfvirkum athugunum á uppfærslum.\nÞetta felur í sér að senda nafnlausar upplýsingar um búnað þinn og útgáfu.</translation>
+        <translation>Breyta sjálfvirkum athugunum á uppfærslum.
+Þetta felur í sér að senda nafnlausar upplýsingar um búnað þinn og útgáfu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
@@ -257,7 +262,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Þvinga athugun á uppfærslum núna.\nÞetta felur í sér að senda nafnlausar upplýsingar um búnað þinn og útgáfu.</translation>
+        <translation>Þvinga athugun á uppfærslum núna.
+Þetta felur í sér að senda nafnlausar upplýsingar um búnað þinn og útgáfu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1403"/>
@@ -378,7 +384,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1456"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>Dökki hamurinn hentar sérlega vel þegar komið er fram í næturklúbbum.</translation>
+        <translation>
+Dökki hamurinn hentar sérlega vel þegar komið er fram í næturklúbbum.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1502"/>
@@ -991,7 +998,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi athugar með uppfærslur\naðra hverja viku.</translation>
+        <translation>Sonic Pi athugar með uppfærslur
+aðra hverja viku.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
@@ -1007,7 +1015,8 @@ every two weeks.</source>
         <location filename="../mainwindow.cpp" line="3272"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation>Ný útgáfa tilbúin!\nSækja Sonic Pi %1</translation>
+        <translation>Ný útgáfa tilbúin!
+Sækja Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
