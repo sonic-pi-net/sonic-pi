@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-01 20:07+0000\n"
+"PO-Revision-Date: 2018-04-02 20:36+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -11796,13 +11796,12 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:121
-#, fuzzy
 msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a crazy bass sound."
 msgstr ""
-"Ici nous avons deux `live_loop`s, une qui tourne rapidement pour faire un ryth"
-"me et une qui boucle lentement pour faire un son fou de basse."
+"Ici nous avons deux `live_loop`s, une qui tourne rapidement pour faire un "
+"rythme, et une autre qui boucle lentement pour faire un son de basse de fou."
 
 #: A.02-live-coding.md:124
 #, fuzzy
