@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-01 20:05+0000\n"
+"PO-Revision-Date: 2018-04-01 20:07+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -11573,7 +11573,7 @@ msgid ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
 msgstr ""
-"![Programmation interactive Sam Aaron](../images/tutorial/articles/A."
+"![Programmation interactive de Sam Aaron](../images/tutorial/articles/A."
 "02-live-coding/sam-aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
@@ -11602,18 +11602,16 @@ msgstr ""
 "direct. Où vous irez ensuite ne sera limité que par votre imagination."
 
 #: A.02-live-coding.md:27
-#, fuzzy
 msgid "Live Loop"
 msgstr "Boucle interactive"
 
 #: A.02-live-coding.md:29
-#, fuzzy
 msgid ""
 "The key to live coding with Sonic Pi is mastering the `live_loop`. Let's look "
 "at one:"
 msgstr ""
-"La clef de la programmation interactive est la maîtrise de la `live_loop`. En "
-"voici une :"
+"La clef de la programmation interactive avec Sonic Pi est la maîtrise de la "
+"`live_loop`. En voici une :"
 
 #: A.02-live-coding.md:32
 #, no-wrap
@@ -11713,13 +11711,12 @@ msgid "Sleeping is important"
 msgstr "Il est important de dormir"
 
 #: A.02-live-coding.md:79
-#, fuzzy
 msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. C"
 "onsider the following `live_loop`:"
 msgstr ""
-"Une des leçons les plus importantes avec les `live_loop` c'est qu'elles ont be"
-"soin de se reposer. Prenons par exemple cette `live_loop`:"
+"Une des leçons les plus importantes avec les `live_loop`, c'est qu'elles ont "
+"besoin de se reposer. Prenons par exemple cette `live_loop`:"
 
 #: A.02-live-coding.md:82
 #, no-wrap
