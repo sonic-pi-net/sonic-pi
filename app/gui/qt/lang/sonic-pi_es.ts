@@ -1040,7 +1040,7 @@ Sonic Pi, los cuales pueden ser enviados a través de midi_* fns</translation>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi busca actualizaciones 
+        <translation>Sonic Pi busca actualizaciones
 cada 2 semanas.</translation>
     </message>
     <message>
