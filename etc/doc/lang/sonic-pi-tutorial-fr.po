@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-02 20:36+0000\n"
-"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"PO-Revision-Date: 2018-04-02 22:12+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -17937,6 +17937,13 @@ msgid ""
 "ints to create new colours, adding too many colours will result in a messy bro"
 "wn, similarly - adding too many sounds together will result in a muddy sound."
 msgstr ""
+"Remarquer comment les deux sons se combinent pour former un nouveau son plus "
+"riche. Bien sûr, nous n'avons pas à nous arrêter là, nous pouvons ajouter "
+"autant de sons que nous avons besoin. Cependant, nous devons être prudent "
+"avec combien de sons nous ajoutons ensemble. Tout comme lorsque nous "
+"mélangeons des peintures ensembles pour créer de nouvelles couleurs, ajouter "
+"trop de couleurs résultera en un brun laid, similairement - ajouter trop de "
+"sons ensemble résultera en un son boueux."
 
 #: A.18-additive-synthesis.md:45
 #, fuzzy
@@ -17949,6 +17956,10 @@ msgid ""
 "e wave at an octave higher (for that high bright sound) yet only play it at am"
 "p `0.4` so it adds something extra to the sound rather than taking it over:"
 msgstr ""
+"Ajoutons quelque chose pour le faire sonner un peu plus clair. Nous "
+"pourrions utiliser une onde triangulaire à un octave supérieur ( pour ce "
+"haut son clair) encore le jouer seulement à un amplificateur de `0.4` pour "
+"qu'il ajoute quelque chose d'extra au son au lieu de le remplacer :"
 
 #: A.18-additive-synthesis.md:52
 #, no-wrap
@@ -17968,10 +17979,14 @@ msgid ""
 "pts to modify each source sound before it is mixed in for even more combinatio"
 "ns of sounds."
 msgstr ""
+"Maintenant, essayer de créer vos propres sons en combinant 2 synthés ou plus "
+"à des octaves et des amplitudes différentes. Également, noter que vous "
+"pouvez jouer avec les options de chaque synthé en modifiant chaque source "
+"avant qu'elle soit mélangée pour encore plus de combinaisons de sons."
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
-msgstr ""
+msgstr "Désaccordage"
 
 #: A.18-additive-synthesis.md:66
 msgid ""
@@ -17979,6 +17994,10 @@ msgid ""
 "r switched octave. How might it sound if we didn't stick to octaves but instea"
 "d chose a slightly higher or lower note? Let's try it:"
 msgstr ""
+"Jusqu'à maintenant, lorsque nous combinons nos différents synthés nous avons "
+"utilisé soit le même ton ou un octave changé. Comment cela peut-il sonner si "
+"nous ne nous n'en tenons pas qu'aux octaves et que nous choisissons à la "
+"place une note légèrement plus aiguë ou grave ? Essayons-le :"
 
 #: A.18-additive-synthesis.md:70
 #, no-wrap
@@ -18003,6 +18022,17 @@ msgid ""
 "nice 'thick' sound, with both slightly different pitches interacting with each"
 " other in interesting, often surprising, ways."
 msgstr ""
+"Si nous désaccordons nos ondes carrées par 0.7 note, nous entendrons quelque "
+"chose qui ne sonnera pas accordé ou correct - une 'mauvaise' note. "
+"Cependant, en se rapprochant de 0, cela va sonner de moins en moins en "
+"désaccord alors que les tons des deux ondes se rapprochent et sont plus "
+"similaires. Essayez-le par vous-même ! Changer la valeur de l'option "
+"`detune:` de `0.7` à `0.5` et écouter le nouveau son. Essayer "
+"`0.2`,`0.1`,`0.05`,`0`. Chaque fois que vous changez la valeur, écouter et "
+"voyez si vous êtes capables de déterminer comment le son change. Remarquer "
+"que les valeurs basses de désaccordage comme `0.1` produisent un très beau "
+"son `dense`, avec deux tons différents qui interagissent l'un avec l'autre "
+"de manière intéressante, parfois surprenante."
 
 #: A.18-additive-synthesis.md:87
 msgid ""
@@ -18010,6 +18040,9 @@ msgid ""
 "is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
 "`:dtri`."
 msgstr ""
+"Certains des synthés intégrés proposent déjà une option de désaccord qui "
+"fait exactement cela en un seul synthé. Essayer de jouer avec l'option de "
+"`detune:` de `:dsaw`, `:dpulse` et `:dtri`."
 
 #: A.18-additive-synthesis.md:92
 msgid "Amplitude shaping"
@@ -18021,6 +18054,10 @@ msgid ""
 "ptions for each synth trigger. For example this will allow you to make some as"
 "pects of the sound percussive and other aspects ring out for a period of time."
 msgstr ""
+"Une autre manière de fabriquer notre son finement est d'utiliser une "
+"enveloppe différente et des options pour chaque déclenchement de synthé. Par "
+"exemple, cela vous permettra de rendre certains aspects du son percutant et "
+"d'autres aspects résonner pour une période de temps."
 
 #: A.18-additive-synthesis.md:99
 #, no-wrap
@@ -18047,6 +18084,12 @@ msgid ""
 "hort release times along with a noise with a longer release time but with a lo"
 "w cutoff value (which makes the noise less crisp and more rumbly.)"
 msgstr ""
+"Dans l'exemple ci-dessus, j'ai mélangé un élément de bruit percutant dans le "
+"son avec quelques grondements de fond plus persistants. Cela a été réalisé "
+"en utilisant deux bruits de synthés avec des valeurs (`90` et `100`) de "
+"coupures de milieu en utilisant de courts repos avec un plus long temps de "
+"repos mais avec une basse valeur de coupure (ce qui rend le son moins "
+"impeccable et plus grondant)."
 
 #: A.18-additive-synthesis.md:117
 msgid ""
