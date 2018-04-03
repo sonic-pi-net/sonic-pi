@@ -59,7 +59,7 @@ First, we need to download the source code to a reasonable location. You can do 
 * **Get the latest 'bleeding edge' source code:**
   In the folder that you want to put the sonic pi source code folder in, type this command into your terminal:
   ````
-  git clone https://github.com/samaaron/sonic-pi/sonic-pi.git`
+  git clone https://github.com/samaaron/sonic-pi.git
   cd sonic-pi
   ````
   This will make a folder containing the sonic-pi source code.
