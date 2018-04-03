@@ -97,7 +97,7 @@ Ef ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Sveiflusjá</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
@@ -107,12 +107,12 @@ Ef ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjáfyllihamur er virkur.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjáfyllihamur er óvirkur.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
@@ -132,7 +132,7 @@ Ef ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða
     <message>
         <location filename="../mainwindow.cpp" line="1326"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Þvinga einóma</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
