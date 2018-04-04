@@ -170,7 +170,7 @@ For Ubuntu 14.04.3 (Trusty Tahr):
 14.04 libboost-dev is version 1.54, it has not been tested, it may not work.
 Upgrading to 15.10 or later would be recommended.
 
-** NOTE ** Fedora instructions have not been updated to reflect changes to 2.11, please get in touch if you'd like to help
+**NOTE** Fedora instructions have not been updated to reflect changes to 2.11, please get in touch if you'd like to help
 Fedora package dependency names:
 
 * `supercollider` (via [Planet CCRMA](http://ccrma.stanford.edu/planetccrma/software/installplanettwenty.html))
