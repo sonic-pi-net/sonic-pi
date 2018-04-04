@@ -3319,6 +3319,8 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
 
 void MainWindow::addCuePath(QString path, QString val)
 {
+  Q_UNUSED(val);
+  
   if (!path.startsWith(":"))  {
       path =  "\"" + path + "\"";
   }
