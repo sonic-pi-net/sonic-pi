@@ -135,7 +135,7 @@ void MultiScopePanel::setPen( QPen pen )
   }
 }
 
-Scope::Scope( int scsynthPort, QWidget* parent ) : QWidget(parent), scsynthPort(scsynthPort), paused( false ), emptyFrames(0)
+Scope::Scope( int scsynthPort, QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0), scsynthPort(scsynthPort)
 {
   std::fill_n(sample[0],4096,0);
   std::fill_n(sample[1],4096,0);
