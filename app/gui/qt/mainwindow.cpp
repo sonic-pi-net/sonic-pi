@@ -1204,7 +1204,7 @@ void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
-  // IO tab ----------------------
+  // IO tab --------------------
 
   QGroupBox *ioTab = new QGroupBox();
 
@@ -1295,7 +1295,6 @@ void MainWindow::initPrefsWindow() {
   midi_default_channel_layout->addWidget(midi_default_channel_combo, 0, 0);
   midi_default_channel_layout->addWidget(midi_default_channel_label, 0, 1);
 
-  // Set layout of MIDI Config box
   QVBoxLayout *midi_config_box_layout = new QVBoxLayout;
   midi_config_box_layout->addWidget(midi_enable_check);
   midi_config_box_layout->addLayout(midi_default_channel_layout);
@@ -1378,7 +1377,7 @@ void MainWindow::initPrefsWindow() {
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
-  // Editor Tab -----------------------
+  // Editor Tab --------------------
 
   QGroupBox *editorTab = new QGroupBox();
 
@@ -1458,9 +1457,9 @@ void MainWindow::initPrefsWindow() {
   gridEditorPrefs->addWidget(debug_box, 1, 0);
   editorTab->setLayout(gridEditorPrefs);
 
-  // Audio Prefs Tab -----------------------
+  // Audio Prefs Tab --------------------
 
-  QGroupBox *audioPrefsTab = new QGroupBox();
+  QGroupBox *audioTab = new QGroupBox();
 
   // Volume
   QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
@@ -1494,16 +1493,16 @@ void MainWindow::initPrefsWindow() {
   advancedAudioBox->setLayout(advanced_audio_box_layout);
 
   // Add widgets to Audio tab
-  QGridLayout *audioPrefsTab_layout = new QGridLayout;
-  audioPrefsTab_layout->addWidget(volBox, 0, 0, 0, 1);
-  audioPrefsTab_layout->addWidget(synths_box, 0, 1);
-  audioPrefsTab_layout->addWidget(advancedAudioBox, 1, 1);
-  audioPrefsTab->setLayout(audioPrefsTab_layout);
+  QGridLayout *audioTab_layout = new QGridLayout;
+  audioTab_layout->addWidget(volBox, 0, 0, 0, 1);
+  audioTab_layout->addWidget(synths_box, 0, 1);
+  audioTab_layout->addWidget(advancedAudioBox, 1, 1);
+  audioTab->setLayout(audioTab_layout);
 
   // Visuals Tab --------------------
 
-  QGroupBox *viz_box = new QGroupBox();
-  viz_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
+  QGroupBox *visualsTab = new QGroupBox();
+  visualsTab->setToolTip(tr("Settings useful for performing with Sonic Pi"));
 
   // Show and Hide Scope
   QGroupBox *scope_box = new QGroupBox(tr("Show and Hide Scope"));
@@ -1559,11 +1558,11 @@ void MainWindow::initPrefsWindow() {
 #else
     viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
 #endif
-  viz_box->setLayout(viz_tab_layout);
+  visualsTab->setLayout(viz_tab_layout);
 
-  // Updates Tab -------------------
+  // Updates Tab --------------------
 
-  QGroupBox *update_prefs_box = new QGroupBox();
+  QGroupBox *updatesTab = new QGroupBox();
 
   // Updates
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
@@ -1598,18 +1597,18 @@ void MainWindow::initPrefsWindow() {
   update_info_box->setLayout(update_info_box_layout);
 
   // Add widgets to Updates tab
-  QGridLayout *update_prefs_box_layout = new QGridLayout;
-  update_prefs_box_layout->addWidget(update_info_box, 0, 0);
-  update_prefs_box_layout->addWidget(update_box, 0, 1);
-  update_prefs_box->setLayout(update_prefs_box_layout);
+  QGridLayout *updatesTab_layout = new QGridLayout;
+  updatesTab_layout->addWidget(update_info_box, 0, 0);
+  updatesTab_layout->addWidget(update_box, 0, 1);
+  updatesTab->setLayout(updatesTab_layout);
 
-  // Add tabs ------------------------
+  // Add tabs --------------------
 
-  prefTabs->addTab(audioPrefsTab, tr("Audio"));
+  prefTabs->addTab(audioTab, tr("Audio"));
   prefTabs->addTab(ioTab, tr("IO"));
   prefTabs->addTab(editorTab, tr("Editor"));
-  prefTabs->addTab(viz_box, tr("Visuals"));
-  prefTabs->addTab(update_prefs_box, tr("Updates"));
+  prefTabs->addTab(visualsTab, tr("Visuals"));
+  prefTabs->addTab(updatesTab, tr("Updates"));
   //prefTabs->addTab(performance_box, tr("Status"));
   grid->addWidget(prefTabs, 0, 0);
 
@@ -3358,7 +3357,7 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
 void MainWindow::addCuePath(QString path, QString val)
 {
   Q_UNUSED(val);
-  
+
   if (!path.startsWith(":"))  {
       path =  "\"" + path + "\"";
   }
