@@ -1204,8 +1204,11 @@ void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
+  // IO tab ----------------------
+
   QGroupBox *ioTab = new QGroupBox();
 
+  // Networked OSC
   QGroupBox *network_box = new QGroupBox(tr("Networked OSC"));
   network_box->setToolTip(tr("Sonic Pi can send and receive Open Sound Control messages\nto and from other programs or computers\n via the currently connected network."));
 
@@ -1252,21 +1255,16 @@ void MainWindow::initPrefsWindow() {
   network_box_layout->addWidget(network_ip_label);
   network_box->setLayout(network_box_layout);
 
+  // MIDI Configuration
   QGroupBox *midi_config_box = new QGroupBox(tr("MIDI Configuration"));
   midi_config_box->setToolTip(tr("Configure MIDI behaviour"));
-
-  QGroupBox *midi_ports_box = new QGroupBox(tr("MIDI Ports"));
-  midi_ports_box->setToolTip(tr("List all connected MIDI Ports"));
 
   midi_enable_check = new QCheckBox(tr("Enable MIDI subsystems"));
   midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
   connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
 
-  QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
-  midi_reset_button->setToolTip(tr("Reset MIDI subsystems \n(Required to detect device changes on macOS)" ));
-  connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(resetMidi()));
-
   midi_default_channel_combo = new QComboBox();
+  midi_default_channel_combo->setToolTip(tr("Default MIDI Channel to send messages to"));
   midi_default_channel_combo->addItem("*");
   midi_default_channel_combo->addItem("1");
   midi_default_channel_combo->addItem("2");
@@ -1288,17 +1286,28 @@ void MainWindow::initPrefsWindow() {
   midi_default_channel_combo->setMinimumContentsLength(2);
   midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength) ;
 
-
   QLabel *midi_default_channel_label = new QLabel;
   midi_default_channel_label->setText(tr("Default MIDI channel (* means all)"));
   midi_default_channel_label->setToolTip(tr("Default MIDI Channel to send messages to"));
 
   QGridLayout *midi_default_channel_layout = new QGridLayout();
 
-  midi_default_channel_combo->setToolTip(tr("Default MIDI Channel to send messages to"));
-
   midi_default_channel_layout->addWidget(midi_default_channel_combo, 0, 0);
   midi_default_channel_layout->addWidget(midi_default_channel_label, 0, 1);
+
+  // Set layout of MIDI Config box
+  QVBoxLayout *midi_config_box_layout = new QVBoxLayout;
+  midi_config_box_layout->addWidget(midi_enable_check);
+  midi_config_box_layout->addLayout(midi_default_channel_layout);
+  midi_config_box->setLayout(midi_config_box_layout);
+
+  // MIDI Ports
+  QGroupBox *midi_ports_box = new QGroupBox(tr("MIDI Ports"));
+  midi_ports_box->setToolTip(tr("List all connected MIDI Ports"));
+
+  QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
+  midi_reset_button->setToolTip(tr("Reset MIDI subsystems \n(Required to detect device changes on macOS)" ));
+  connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(resetMidi()));
 
   midi_in_ports_label = new QLabel;
   midi_out_ports_label = new QLabel;
@@ -1311,18 +1320,14 @@ void MainWindow::initPrefsWindow() {
   midi_in_ports_label->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
   midi_out_ports_label->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
 
-
   QVBoxLayout *midi_ports_box_layout = new QVBoxLayout;
-  QVBoxLayout *midi_config_box_layout = new QVBoxLayout;
-  midi_config_box_layout->addWidget(midi_enable_check);
-  midi_config_box_layout->addLayout(midi_default_channel_layout);
 
   midi_ports_box_layout->addWidget(midi_in_ports_label);
   midi_ports_box_layout->addWidget(midi_out_ports_label);
   midi_ports_box_layout->addWidget(midi_reset_button);
-
   midi_ports_box->setLayout(midi_ports_box_layout);
-  midi_config_box->setLayout(midi_config_box_layout);
+
+  // Set the IO tab layout
   QGridLayout *io_tab_layout = new QGridLayout();
   io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
   io_tab_layout->addWidget(midi_config_box, 0, 1);
@@ -1330,39 +1335,28 @@ void MainWindow::initPrefsWindow() {
 
   ioTab->setLayout(io_tab_layout);
 
-
-
-  QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
-  volBox->setToolTip(tr("Use this slider to change the system volume."));
-
-  QGroupBox *advancedAudioBox = new QGroupBox(tr("Audio Output"));
-  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
-  mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
-  mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
-  connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
-  mixer_force_mono = new QCheckBox(tr("Force mono"));
-  mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
-  connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
-
-  QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
-  advanced_audio_box_layout->addWidget(mixer_invert_stereo);
-  advanced_audio_box_layout->addWidget(mixer_force_mono);
-  advancedAudioBox->setLayout(advanced_audio_box_layout);
-
-  QHBoxLayout *vol_box = new QHBoxLayout;
-  system_vol_slider = new QSlider(this);
-  QSettings settings("sonic-pi.net", "gui-settings");
-  int stored_vol = settings.value("prefs/system-vol", 50).toInt();
-  system_vol_slider->setValue(stored_vol);
-  connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeSystemPreAmp(int)));
-  vol_box->addWidget(system_vol_slider);
-  volBox->setLayout(vol_box);
-
-  QGroupBox *debug_box = new QGroupBox(tr("Logging"));
-  debug_box->setToolTip(tr("Configure debug behaviour"));
-
+  // Synths and FX
   QGroupBox *synths_box = new QGroupBox(tr("Synths and FX"));
   synths_box->setToolTip(tr("Modify behaviour of synths and FX"));
+
+  check_args = new QCheckBox(tr("Safe mode"));
+  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
+
+  enable_external_synths_cb = new QCheckBox(tr("Enable external synths and FX"));
+  enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
+
+  synth_trigger_timing_guarantees_cb = new QCheckBox(tr("Enforce timing guarantees"));
+  synth_trigger_timing_guarantees_cb->setToolTip(tr("When enabled, Sonic Pi will refuse\nto trigger synths and FX if\nit is too late to do so\n\nWhen disabled, Sonic Pi will always\nattempt to trigger synths and FX\neven when a little late."));
+
+  QVBoxLayout *synths_box_layout = new QVBoxLayout;
+  synths_box_layout->addWidget(check_args);
+  synths_box_layout->addWidget(synth_trigger_timing_guarantees_cb);
+  synths_box_layout->addWidget(enable_external_synths_cb);
+  synths_box->setLayout(synths_box_layout);
+
+  // Logging
+  QGroupBox *debug_box = new QGroupBox(tr("Logging"));
+  debug_box->setToolTip(tr("Configure debug behaviour"));
 
   print_output = new QCheckBox(tr("Log synths"));
   print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
@@ -1377,16 +1371,6 @@ void MainWindow::initPrefsWindow() {
   log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
   connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
 
-  check_args = new QCheckBox(tr("Safe mode"));
-  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
-
-
-  enable_external_synths_cb = new QCheckBox(tr("Enable external synths and FX"));
-  enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
-
-  synth_trigger_timing_guarantees_cb = new QCheckBox(tr("Enforce timing guarantees"));
-  synth_trigger_timing_guarantees_cb->setToolTip(tr("When enabled, Sonic Pi will refuse\nto trigger synths and FX if\nit is too late to do so\n\nWhen disabled, Sonic Pi will always\nattempt to trigger synths and FX\neven when a little late."));
-
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(log_cues);
@@ -1394,145 +1378,157 @@ void MainWindow::initPrefsWindow() {
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
-  QVBoxLayout *synths_box_layout = new QVBoxLayout;
-  synths_box_layout->addWidget(check_args);
-  synths_box_layout->addWidget(synth_trigger_timing_guarantees_cb);
-  synths_box_layout->addWidget(enable_external_synths_cb);
+  // Editor Tab -----------------------
 
+  QGroupBox *editorTab = new QGroupBox();
 
-  synths_box->setLayout(synths_box_layout);
-
-  QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
-  QGridLayout *transparency_box_layout = new QGridLayout;
-  gui_transparency_slider = new QSlider(this);
-  connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
-  transparency_box_layout->addWidget(gui_transparency_slider);
-  transparency_box->setLayout(transparency_box_layout);
-
-
-  QGroupBox *update_box = new QGroupBox(tr("Updates"));
-  QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-  check_updates = new QCheckBox(tr("Check for updates"));
-  update_box->setSizePolicy(updatesPrefSizePolicy);
-  check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
-  check_updates_now = new QPushButton(tr("Check now"));
-  check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
-  visit_sonic_pi_net = new QPushButton(tr("Get update"));
-  visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
-  visit_sonic_pi_net->setVisible(false);
-
-  QGroupBox *update_info_box = new QGroupBox(tr("Update Info"));
-  update_info_box->setMaximumWidth(350);
-  QVBoxLayout *update_info_box_layout = new QVBoxLayout;
-  update_info_box_layout->addWidget(update_info);
-  update_info_box->setLayout(update_info_box_layout);
-
-
-  connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
-  connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(open_sonic_pi_net()));
-  connect(check_updates_now, SIGNAL(clicked()), this, SLOT(check_for_updates_now()));
-
-  QVBoxLayout *update_box_layout = new QVBoxLayout;
-  update_box_layout->addWidget(check_updates);
-
-  update_box_layout->addWidget(check_updates_now);
-  update_box_layout->addWidget(visit_sonic_pi_net);
-  update_box->setLayout(update_box_layout);
-
-  QGroupBox *editor_box = new QGroupBox();
+  // Show and Hide
   QGroupBox *editor_display_box = new QGroupBox(tr("Show and Hide"));
   editor_display_box->setToolTip(tr("Configure editor display options."));
-  QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
-  editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
-  QGroupBox *automation_box = new QGroupBox(tr("Automation"));
-  automation_box->setToolTip(tr("Configure automation features."));
-
-  auto_indent_on_run->setToolTip(tr("Automatically align code on Run"));
 
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
   show_line_numbers->setToolTip(tr("Toggle line number visibility."));
+  connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
+
   show_log = new QCheckBox(tr("Show log"));
-  show_incoming_osc_log = new QCheckBox(tr("Show cue log"));
   show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
-  show_incoming_osc_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
   show_log->setChecked(true);
+  connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
+
+  show_incoming_osc_log = new QCheckBox(tr("Show cue log"));
+  show_incoming_osc_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
   show_incoming_osc_log->setChecked(true);
+  connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateIncomingOscLogVisibility()));
+
   show_buttons = new QCheckBox(tr("Show buttons"));
-  pro_icons_check = new QCheckBox(tr("Pro Icons"));
-  pro_icons_check->setToolTip(tr("Toggle Pro Icons - switch between the default\n and a more minimalistic icon set."));
   show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
   show_buttons->setChecked(true);
-  show_tabs = new QCheckBox(tr("Show tabs"));
-  show_tabs->setChecked(true);
-  show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
-  full_screen = new QCheckBox(tr("Full screen"));
-  full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
-  dark_mode = new QCheckBox(tr("Dark mode"));
-  dark_mode->setToolTip(tooltipStrShiftMeta('M', tr("Toggle dark mode.")) + QString(tr("\nDark mode is perfect for live coding in night clubs.")));
-  connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-  connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
-  connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateIncomingOscLogVisibility()));
   connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
-  connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
+
+  show_tabs = new QCheckBox(tr("Show tabs"));
+  show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
+  show_tabs->setChecked(true);
   connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
-  connect(dark_mode, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-  connect(pro_icons_check, SIGNAL(clicked()), this, SLOT(toggleIcons()));
 
   QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
-  QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
-  QVBoxLayout *automation_box_layout = new QVBoxLayout;
-  QGridLayout *gridEditorPrefs = new QGridLayout;
   editor_display_box_layout->addWidget(show_line_numbers);
   editor_display_box_layout->addWidget(show_log);
   editor_display_box_layout->addWidget(show_incoming_osc_log);
   editor_display_box_layout->addWidget(show_buttons);
   editor_display_box_layout->addWidget(show_tabs);
-  editor_box_look_feel_layout->addWidget(dark_mode);
-  editor_box_look_feel_layout->addWidget(full_screen);
-  editor_box_look_feel_layout->addWidget(pro_icons_check);
-
   editor_display_box->setLayout(editor_display_box_layout);
-  editor_look_feel_box->setLayout(editor_box_look_feel_layout);
 
+  // Look and Feel
+  QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
+  editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
+
+  pro_icons_check = new QCheckBox(tr("Pro Icons"));
+  pro_icons_check->setToolTip(tr("Toggle Pro Icons - switch between the default\n and a more minimalistic icon set."));
+  connect(pro_icons_check, SIGNAL(clicked()), this, SLOT(toggleIcons()));
+
+  full_screen = new QCheckBox(tr("Full screen"));
+  full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
+  connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
+
+  dark_mode = new QCheckBox(tr("Dark mode"));
+  dark_mode->setToolTip(tooltipStrShiftMeta('M', tr("Toggle dark mode.")) + QString(tr("\nDark mode is perfect for live coding in night clubs.")));
+  connect(dark_mode, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+
+  QVBoxLayout *editorTab_look_feel_layout = new QVBoxLayout;
+  editorTab_look_feel_layout->addWidget(dark_mode);
+  editorTab_look_feel_layout->addWidget(full_screen);
+  editorTab_look_feel_layout->addWidget(pro_icons_check);
+  editor_look_feel_box->setLayout(editorTab_look_feel_layout);
+
+  // Automation
+  QGroupBox *automation_box = new QGroupBox(tr("Automation"));
+  automation_box->setToolTip(tr("Configure automation features."));
+
+  auto_indent_on_run->setToolTip(tr("Automatically align code on Run"));
+
+  QVBoxLayout *automation_box_layout = new QVBoxLayout;
   automation_box_layout->addWidget(auto_indent_on_run);
   automation_box->setLayout(automation_box_layout);
 
+  // Add widgets to Editor tab
+  QGridLayout *gridEditorPrefs = new QGridLayout;
   gridEditorPrefs->addWidget(editor_display_box, 0, 0);
   gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
   gridEditorPrefs->addWidget(automation_box, 1, 1);
   gridEditorPrefs->addWidget(debug_box, 1, 0);
+  editorTab->setLayout(gridEditorPrefs);
 
-  editor_box->setLayout(gridEditorPrefs);
-  grid->addWidget(prefTabs, 0, 0);
+  // Audio Prefs Tab -----------------------
 
-  QGroupBox *audio_prefs_box = new QGroupBox();
-  QGridLayout *audio_prefs_box_layout = new QGridLayout;
+  QGroupBox *audioPrefsTab = new QGroupBox();
 
-  audio_prefs_box_layout->addWidget(volBox, 0, 0, 0, 1);
-  audio_prefs_box_layout->addWidget(synths_box, 0, 1);
-  audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
+  // Volume
+  QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
+  volBox->setToolTip(tr("Use this slider to change the system volume."));
 
+  QHBoxLayout *vol_box = new QHBoxLayout;
+  system_vol_slider = new QSlider(this);
+  QSettings settings("sonic-pi.net", "gui-settings");
+  int stored_vol = settings.value("prefs/system-vol", 50).toInt();
+  system_vol_slider->setValue(stored_vol);
+  connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeSystemPreAmp(int)));
 
+  vol_box->addWidget(system_vol_slider);
+  volBox->setLayout(vol_box);
 
-  prefTabs->addTab(audio_prefs_box, tr("Audio"));
-  audio_prefs_box->setLayout(audio_prefs_box_layout);
+  // Audio Output
+  QGroupBox *advancedAudioBox = new QGroupBox(tr("Audio Output"));
+  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
 
-  prefTabs->addTab(ioTab, tr("IO"));
+  mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
+  mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
+  connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
 
-  prefTabs->addTab(editor_box, tr("Editor"));
+  mixer_force_mono = new QCheckBox(tr("Force mono"));
+  mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
+  connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
 
+  QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
+  advanced_audio_box_layout->addWidget(mixer_invert_stereo);
+  advanced_audio_box_layout->addWidget(mixer_force_mono);
+  advancedAudioBox->setLayout(advanced_audio_box_layout);
+
+  // Add widgets to Audio tab
+  QGridLayout *audioPrefsTab_layout = new QGridLayout;
+  audioPrefsTab_layout->addWidget(volBox, 0, 0, 0, 1);
+  audioPrefsTab_layout->addWidget(synths_box, 0, 1);
+  audioPrefsTab_layout->addWidget(advancedAudioBox, 1, 1);
+  audioPrefsTab->setLayout(audioPrefsTab_layout);
+
+  // Visuals Tab --------------------
 
   QGroupBox *viz_box = new QGroupBox();
   viz_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
 
-  QGridLayout* viz_tab_layout = new QGridLayout();
-
+  // Show and Hide Scope
   QGroupBox *scope_box = new QGroupBox(tr("Show and Hide Scope"));
+
+  show_scopes = new QCheckBox(tr("Show Scopes"));
+  show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
+  connect(show_scopes, SIGNAL(clicked()), this, SLOT(scope()));
+
+  show_scope_axes = new QCheckBox(tr("Show Axes"));
+  show_scope_axes->setToolTip(tr("Toggle the visibility of the axes for the audio oscilloscopes"));
+  show_scope_axes->setChecked(true);
+  connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+
+  QVBoxLayout *scope_box_layout = new QVBoxLayout;
+  scope_box_layout->addWidget(show_scopes);
+  scope_box_layout->addWidget(show_scope_axes);
+  scope_box->setLayout(scope_box_layout);
+
+  // Scope Kinds
   QGroupBox *scope_box_kinds = new QGroupBox(tr("Scope Kinds"));
+  scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in three flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMono - shows a combined view of the left and right channels (using RMS)\nStereo - shows two independent scopes for left and right channels"));
 
   QVBoxLayout *scope_box_kinds_layout = new QVBoxLayout;
-  QVBoxLayout *scope_box_layout = new QVBoxLayout;
 
+  // Loop through the scope names and add widgets for each one
   scopeSignalMap = new QSignalMapper(this);
   for( auto name : scopeInterface->getScopeNames() )
   {
@@ -1543,16 +1539,19 @@ void MainWindow::initPrefsWindow() {
     connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
   }
   connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
-  show_scopes = new QCheckBox(tr("Show Scopes"));
-  show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
-  show_scope_axes = new QCheckBox(tr("Show Axes"));
-  show_scope_axes->setToolTip(tr("Toggle the visibility of the axes for the audio oscilloscopes"));
-  show_scope_axes->setChecked(true);
+
   scope_box_kinds->setLayout(scope_box_kinds_layout);
-  scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in three flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMono - shows a combined view of the left and right channels (using RMS)\nStereo - shows two independent scopes for left and right channels"));
-  scope_box_layout->addWidget(show_scopes);
-  scope_box_layout->addWidget(show_scope_axes);
-  scope_box->setLayout(scope_box_layout);
+
+  // Transparency
+  QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
+  QGridLayout *transparency_box_layout = new QGridLayout;
+  gui_transparency_slider = new QSlider(this);
+  connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
+  transparency_box_layout->addWidget(gui_transparency_slider);
+  transparency_box->setLayout(transparency_box_layout);
+
+  // Add widgets to Visuals tab
+  QGridLayout* viz_tab_layout = new QGridLayout();
   viz_tab_layout->addWidget(scope_box, 0, 0);
   viz_tab_layout->addWidget(scope_box_kinds, 1, 0);
 #if defined(Q_OS_LINUX)
@@ -1560,22 +1559,61 @@ void MainWindow::initPrefsWindow() {
 #else
     viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
 #endif
-  connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
-  connect(show_scopes, SIGNAL(clicked()), this, SLOT(scope()));
   viz_box->setLayout(viz_tab_layout);
-  prefTabs->addTab(viz_box, tr("Visuals"));
 
-  //  prefTabs->addTab(performance_box, tr("Status"));
-
+  // Updates Tab -------------------
 
   QGroupBox *update_prefs_box = new QGroupBox();
-  QGridLayout *update_prefs_box_layout = new QGridLayout;
 
+  // Updates
+  QGroupBox *update_box = new QGroupBox(tr("Updates"));
+  QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+  update_box->setSizePolicy(updatesPrefSizePolicy);
+
+  check_updates = new QCheckBox(tr("Check for updates"));
+  check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
+  connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
+
+  check_updates_now = new QPushButton(tr("Check now"));
+  check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
+  connect(check_updates_now, SIGNAL(clicked()), this, SLOT(check_for_updates_now()));
+
+  visit_sonic_pi_net = new QPushButton(tr("Get update"));
+  visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
+  visit_sonic_pi_net->setVisible(false);
+  connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(open_sonic_pi_net()));
+
+  QVBoxLayout *update_box_layout = new QVBoxLayout;
+  update_box_layout->addWidget(check_updates);
+  update_box_layout->addWidget(check_updates_now);
+  update_box_layout->addWidget(visit_sonic_pi_net);
+  update_box->setLayout(update_box_layout);
+
+  // Update Info
+  QGroupBox *update_info_box = new QGroupBox(tr("Update Info"));
+  update_info_box->setMaximumWidth(350);
+
+  QVBoxLayout *update_info_box_layout = new QVBoxLayout;
+  update_info_box_layout->addWidget(update_info);
+  update_info_box->setLayout(update_info_box_layout);
+
+  // Add widgets to Updates tab
+  QGridLayout *update_prefs_box_layout = new QGridLayout;
   update_prefs_box_layout->addWidget(update_info_box, 0, 0);
   update_prefs_box_layout->addWidget(update_box, 0, 1);
   update_prefs_box->setLayout(update_prefs_box_layout);
-  prefTabs->addTab(update_prefs_box, tr("Updates"));
 
+  // Add tabs ------------------------
+
+  prefTabs->addTab(audioPrefsTab, tr("Audio"));
+  prefTabs->addTab(ioTab, tr("IO"));
+  prefTabs->addTab(editorTab, tr("Editor"));
+  prefTabs->addTab(viz_box, tr("Visuals"));
+  prefTabs->addTab(update_prefs_box, tr("Updates"));
+  //prefTabs->addTab(performance_box, tr("Status"));
+  grid->addWidget(prefTabs, 0, 0);
+
+  // If Sonic Pi hasn't been translated to the user's language, add a box with some info
   if (!i18n) {
     QGroupBox *translation_box = new QGroupBox("Translation");
     QVBoxLayout *translation_box_layout = new QVBoxLayout;
@@ -1587,7 +1625,7 @@ void MainWindow::initPrefsWindow() {
       " yet.<br/>" +
       "We rely on crowdsourcing to help create and maintain translations.<br/>" +
       "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
-      "Please consider helping to translate Sonic Pi to your language.</a> "
+      "If you can, please consider helping to translate Sonic Pi to your language.</a> "
     );
     go_translate->setTextFormat(Qt::RichText);
     translation_box_layout->addWidget(go_translate);
