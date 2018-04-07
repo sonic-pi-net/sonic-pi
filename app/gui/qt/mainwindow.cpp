@@ -1457,7 +1457,7 @@ void MainWindow::initPrefsWindow() {
   gridEditorPrefs->addWidget(debug_box, 1, 0);
   editorTab->setLayout(gridEditorPrefs);
 
-  // Audio Prefs Tab --------------------
+  // Audio Tab --------------------
 
   QGroupBox *audioTab = new QGroupBox();
 
