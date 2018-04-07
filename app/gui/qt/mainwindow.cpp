@@ -1309,14 +1309,15 @@ void MainWindow::initPrefsWindow() {
   connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(resetMidi()));
 
   midi_in_ports_label = new QLabel;
-  midi_out_ports_label = new QLabel;
   midi_in_ports_label->setFont(QFont("Hack"));
-  midi_out_ports_label->setFont(QFont("Hack"));
   midi_in_ports_label->setAccessibleName("midi-in-ports-label");
-  midi_out_ports_label->setAccessibleName("midi-out-ports-label");
   midi_in_ports_label->setText(tr("No connected input devices"));
-  midi_out_ports_label->setText(tr("No connected output devices"));
   midi_in_ports_label->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
+
+  midi_out_ports_label = new QLabel;
+  midi_out_ports_label->setFont(QFont("Hack"));
+  midi_out_ports_label->setAccessibleName("midi-out-ports-label");
+  midi_out_ports_label->setText(tr("No connected output devices"));
   midi_out_ports_label->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
 
   QVBoxLayout *midi_ports_box_layout = new QVBoxLayout;
