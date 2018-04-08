@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-04 15:37+0000\n"
-"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"PO-Revision-Date: 2018-04-09 03:45+0000\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 2.20\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -18141,10 +18141,12 @@ msgid ""
 "\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
 "sine, note: n - 12, release: 2 end"
 msgstr ""
+"\\# Des ondes sinusoïdales basses pour la synthé de basse :sine, note: n - "
+"11.8, release: 2 synth :sine, note: n - 12, release: 2 end"
 
 #: A.18-additive-synthesis.md:149
 msgid "Play a melody with our new bell!"
-msgstr ""
+msgstr "Jouer une mélodie avec notre nouvelle cloche !"
 
 #: A.18-additive-synthesis.md:150
 msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
@@ -18152,11 +18154,11 @@ msgstr "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
-msgstr ""
+msgstr "A.19 Design du son - Synthèse soustractive"
 
 #: A.19-subtractive-synthesis.md:3
 msgid "Subtractive Synthesis"
-msgstr ""
+msgstr "Synthèse soustractive"
 
 #: A.19-subtractive-synthesis.md:5
 msgid ""
@@ -18172,16 +18174,33 @@ msgid ""
 " with the recent renaissance of modular analog synths through popular standard"
 "s such as Eurorack."
 msgstr ""
+"Ceci est le deuxième d'une série d'articles sur comment utiliser Sonic Pi "
+"pour le design du son. Le mois dernier, nous avons étudié la synthèse "
+"additive dont nous avons découvert qu'il s'agissait simplement de jouer de "
+"multiples sons en même temps pour fabriquer un nouveau son combiné. Par "
+"exemple, nous pourrions combiner des synthés qui sonnent différemment ou "
+"même reprendre le même synthé avec plusieurs hauteurs pour construire un "
+"nouveau son complexe à partir d'ingrédients simples. Ce mois-ci, nous allons "
+"étudier une nouvelle technique communément appelée \"synthèse soustractive\" "
+"qui est le fait de prendre un son existant complexe et d'en retirer "
+"certaines parties pour créer quelque chose de nouveau. Il s'agit d'une "
+"technique qui est associé couramment avec le son des synthétiseurs "
+"analogiques des années 1960 et 1970, mais également avec la renaissance "
+"récente des synthétiseurs analogiques modulaires à travers des standards "
+"populaires comme Eurorack."
 
 #: A.19-subtractive-synthesis.md:18
 msgid ""
 "Despite this sounding like a particularly complicated and advanced technique, "
 "Sonic Pi makes it surprisingly simple and easy - so let's dive right in."
 msgstr ""
+"Même si cela semble être une technique particulièrement compliquée et "
+"avancée, Sonic Pi rend cela étonnamment facile et simple - alors commençons "
+"dès maintenant."
 
 #: A.19-subtractive-synthesis.md:22
 msgid "Complex Source Signal"
-msgstr ""
+msgstr "Signal source complexe"
 
 #: A.19-subtractive-synthesis.md:24
 msgid ""
@@ -18189,6 +18208,10 @@ msgid ""
 "fairly rich and interesting. This doesn't mean we need something hugely comple"
 "x - in fact, just a standard `:square` or `:saw` wave will do:"
 msgstr ""
+"Pour qu'un son se travaille bien avec la synthèse soustractive, il faut "
+"habituellement qu'il soit riche et intéressant. Cela ne veut pas dire que "
+"nous avons besoin de quelque chose d'extrêmement complexe - en fait, juste "
+"une onde standard `:square` ou `:saw` fonctionnera :"
 
 #: A.19-subtractive-synthesis.md:29
 #, no-wrap
@@ -18202,6 +18225,10 @@ msgid ""
 "imbre. If that didn't make much sense to you, try comparing it with the `:beep"
 "`:"
 msgstr ""
+"Notez que ce son est déjà assez intéressant et contient plusieurs fréquences "
+"différentes au-dessus de `:e2` (le second E sur un piano) ce qui aide à "
+"créer le timbre. Si cela ne fait pas trop de sens pour vous, essayez de le "
+"comparer avec le `:beep` :"
 
 #: A.19-subtractive-synthesis.md:38
 #, no-wrap
@@ -18215,6 +18242,11 @@ msgid ""
 "saw`. It's this buzziness and variation from a pure sine wave that we can play"
 " with when we use subtractive synthesis."
 msgstr ""
+"Étant donné que le synthé `:beep` est seulement une onde sinusoïdale, vous "
+"entendrez une tonalité beaucoup plus pure, seulement `:e2`, et rien des sons "
+"hauts grinçants que vous avez entendu avec `:saw`. C'est cet effet et la "
+"variation d'une onde sinusoïdale pure avec lesquels nous pouvons jouer en "
+"utilisant la synthèse soustractive."
 
 #: A.19-subtractive-synthesis.md:49
 msgid ""
