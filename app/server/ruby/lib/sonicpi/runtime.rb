@@ -16,6 +16,7 @@ require_relative "incomingevents"
 require_relative "counter"
 require_relative "promise"
 require_relative "jobs"
+require_relative "snippet_loader"
 require_relative "synths/synthinfo"
 require_relative "lang/sound"
 require_relative "gitsave"
@@ -50,41 +51,10 @@ module SonicPi
     ## Probably should be moved somewhere else
     @@stop_job_mutex = Mutex.new
 
-    def load_snippets(path=snippets_path, quiet=false)
-      path = File.expand_path(path)
-      Dir["#{path}/**/*.sps"].each do |p|
-
-        lines = File.readlines(p)
-        key = nil
-        completion = ""
-        point_line  = 0
-        point_index = 0
-
-        while (l = lines.shift) && !(l.start_with? "# --")
-          res = l.match(/\# ?([_a-z]+):(.*)/)
-          if res
-            k = res[1].strip
-            v = res[2].strip
-            if !v.empty?
-              case k
-              when "key"
-                key = v
-              when "point_line"
-                point_line = v.to_i
-              when "point_index"
-                point_index = v.to_i
-              end
-            end
-          end
-        end
-
-        if key
-          __info "Loading snippet #{key} in #{p}" unless quiet
-          completion = lines.join
-
-          __add_completion(key, completion, point_line, point_index)
-        end
-      end
+    def load_snippets
+      user_snippets_path = @settings.get("snippets_path") if @settings.get("snippets_path")
+      snippet_loader = SnippetLoader.new(snippets_path, user_snippets_path, true)
+      snippet_loader.snippets
     end
 
     def __stop_cue_server!(silent=false)
@@ -451,10 +421,6 @@ module SonicPi
       idx = idx.to_i
       content = content.to_s
       __msg_queue.push({type: "run-buffer-idx", buffer_idx: idx})
-    end
-
-    def __add_completion(k, text, point_line_offset=0, point=0)
-      @snippets[k] = [text, point_line_offset, point]
     end
 
     def __snippet_completion?(text)
@@ -1280,7 +1246,7 @@ module SonicPi
       @user_methods = user_methods
       @global_start_time = Time.now
       @session_id = SecureRandom.uuid
-      @snippets = {}
+      @snippets = load_snippets
       @osc_cues_port = ports[:osc_cues_port]
       # TODO remove hardcoded port number
       @osc_router_port = ports[:erlang_port]
@@ -1376,7 +1342,6 @@ module SonicPi
       end
 
       log "Unable to initialise git repo at #{project_path}" unless @gitsave
-      load_snippets(snippets_path, true)
     end
 
     def __print_boot_messages
