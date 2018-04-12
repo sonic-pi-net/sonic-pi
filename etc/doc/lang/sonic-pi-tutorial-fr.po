@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-10 04:37+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-04-13 03:39+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.20\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -10771,14 +10771,19 @@ msgstr ""
 "end"
 
 #: 13.2-Live-Audio.md:70
-#, fuzzy
 msgid ""
 "It's important to point out that you can call `live_audio :foo` from any threa"
 "d or live loop and it will move the live audio synth to *that* thread's curren"
 "t FX context. You could therefore easily have multiple live loops calling `liv"
 "e_audio :foo` at different times resulting in the FX context being automatical"
 "ly swapped around for some interesting results."
-msgstr "foo"
+msgstr ""
+"Il est important de préciser que vous pouvez appeler `live_audio :foo` "
+"depuis tout thread ou tout boucle live, et il déplacera le synthé audio live "
+"de *ce* contexte actuel de thread. Vous pouvez donc facilement avoir "
+"plusieurs boucles live qui appellent `live_audio :foo` à différent moments "
+"faisant en sorte que le contexte d'effet soit automatiquement changé, ceci "
+"donnant des résultats intéressants."
 
 #: 13.2-Live-Audio.md:78
 msgid "Stopping live audio"
@@ -10987,7 +10992,6 @@ msgid "Mono and Stereo out"
 msgstr "Sortie mono et stéréo"
 
 #: 13.3-Sound-Out.md:60
-#, fuzzy
 msgid ""
 "As we've seen, by default, the `:sound_out` FX outputs a mono mix of the stere"
 "o input to a specific channel in addition to passing the stereo feed to the ou"
@@ -10997,7 +11001,17 @@ msgid ""
 "l to the audio card. Or you can use the `:sound_out_stereo` FX to output to tw"
 "o consecutive sound card outputs. See the function documentation for more info"
 "rmation and examples."
-msgstr "Choix (\"choose\")"
+msgstr ""
+"Comme nous l'avons vu, par défaut, l'effet `:sound_out` ressort un mix mono "
+"d'une entrée stéréo vers un canal spécifique en addition de passer le flux "
+"stéréo vers le contexte de sortie (comme prévu). Si le fait de sortir un mix "
+"mono n'est pas précisément ce que vous voulez précisément faire, il y a "
+"plusieurs options alternatives. Premièrement, en utilisant l'option `mode:`, "
+"vous pouvez choisir de ressortir uniquement le signal d'entrée de gauche ou "
+"celui de droite vers la carte-son. Ou vous pouvez utiliser l'effet "
+"`:sound_out_stereo` pour ressortir vers les sorties de deux cartes-son "
+"consécutives. Consultez la documentation de la fonction pour davantage "
+"d'informations et des exemples."
 
 #: 13.3-Sound-Out.md:70
 msgid "Direct Out"
