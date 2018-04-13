@@ -1625,7 +1625,7 @@ void MainWindow::initPrefsWindow() {
       " yet.<br/>" +
       "We rely on crowdsourcing to help create and maintain translations.<br/>" +
       "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
-      "If you can, please consider helping to translate Sonic Pi to your language.</a> "
+      "Please consider helping to translate Sonic Pi to your language.</a> "
     );
     go_translate->setTextFormat(Qt::RichText);
     translation_box_layout->addWidget(go_translate);
