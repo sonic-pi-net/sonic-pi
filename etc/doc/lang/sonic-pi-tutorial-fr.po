@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-15 13:36+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-04-15 13:37+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -11672,18 +11672,17 @@ msgid "Redefining On-the-fly"
 msgstr "Redéfinir à la volée"
 
 #: A.02-live-coding.md:54
-#, fuzzy
 msgid ""
 "Ok, so what's so special about the `live_loop`? So far it just seems like a gl"
 "orified `loop`! Well, the beauty of `live_loop`s is that you can redefine them"
 " on-the-fly. This means that whilst they're still running, you can change what"
 " they do. This is the secret to live coding with Sonic Pi. Let's have a play:"
 msgstr ""
-"OK, qu'est-ce qu'elle a de si spécial, cette `live_loop` ? Jusqu'ici on dirait"
-" que c'est juste une boucle ! Eh bien, la beauté des `live_loop`s c'est qu'on "
-"peut les redéfinir à la volée. Cela veut dire que pendant qu'elles sont en tra"
-"in de tourner, on peut changer ce qu'elles font. C'est le secret de la program"
-"mation interactive avec Sonic Pi. Essayons :"
+"OK, qu'est-ce qu'elle a de si spécial, cette `live_loop` ? Jusqu'ici, on "
+"dirait que c'est juste une boucle idéalisée ! Eh bien, la beauté des "
+"`live_loop`, c'est qu'on peut les redéfinir à la volée. Ceci signifie que, "
+"pendant qu'elles sont en train de tourner, on peut changer ce qu'elles font. "
+"C'est le secret de la programmation interactive avec Sonic Pi. Essayons :"
 
 #: A.02-live-coding.md:60
 #, no-wrap
@@ -11818,17 +11817,16 @@ msgstr ""
 "rythme, et une autre qui boucle lentement pour faire un son de basse de fou."
 
 #: A.02-live-coding.md:124
-#, fuzzy
 msgid ""
 "One of the interesting things about using multiple `live_loop`s is that they e"
 "ach manage their own time. This means it's really easy to create interesting p"
 "olyrhythmical structures and even play with phasing Steve Reich style. Check t"
 "his out:"
 msgstr ""
-"Une des choses intéressantes quand on utilise plusieurs `live_loop`s c'est que"
-" chacune gère son propre temps. Cela veut dire qu'il est très facile de créer "
-"des structures polyrythmiques intéressantes et même de jouer avec la phase dan"
-"s le style de Steve Reich. Par exemple :"
+"Une des choses intéressantes quand on utilise plusieurs `live_loop`, c'est "
+"que chacune gère son propre temps. Cela signifie qu'il est très facile de "
+"créer des structures polyrythmiques intéressantes et même de jouer avec la "
+"phase, style Steve Reich. Par exemple :"
 
 #: A.02-live-coding.md:129
 #, no-wrap
@@ -12009,29 +12007,27 @@ msgstr ""
 " breakcore."
 
 #: A.03-coded-beats.md:30
-#, fuzzy
 msgid ""
 "I'm sure you're excited to hear that it's also built right into Sonic Pi. Clea"
 "r up a buffer and throw in the following code:"
 msgstr ""
-"Je suis sûr que vous êtes ravis d'entendre qu'il est aussi inclus dans Sonic P"
-"i. Choisissez un buffer vide et copiez-y ce code :"
+"Je suis sûr que vous êtes ravis d'entendre qu'il est aussi inclus dans Sonic "
+"Pi. Choisissez un tampon vide et copiez-y ce code :"
 
 #: A.03-coded-beats.md:37
-#, fuzzy
 msgid ""
 "Hit *Run* and boom! You're listening to one of the most influential drum break"
 "s in the history of dance music. However, this sample wasn't famous for being "
 "played as a one-shot, it was built for being looped."
 msgstr ""
-"Cliquez sur *Run* et boum ! Vous ententez l'un des breaks de batterie les plus"
-" influents de l'histoire de la musique dance. Ceci dit, ce sample n'est pas cé"
-"lèbre pour être joué juste une fois, il est fait pour être joué en boucle."
+"Cliquez sur *Run* et boum ! Vous entendez l'un des breaks de batterie les "
+"plus influents de l'histoire de la musique dance. Ceci dit, cet échantillon "
+"n'a pas été connu pour être joué juste une seule fois, il a été fait pour "
+"être joué en boucle."
 
 #: A.03-coded-beats.md:42
-#, fuzzy
 msgid "Beat Stretching"
-msgstr "Etirer des rythmes"
+msgstr "Étirer des rythmes"
 
 #: A.03-coded-beats.md:44
 #, fuzzy
@@ -12106,16 +12102,14 @@ msgstr ""
 "end  "
 
 #: A.03-coded-beats.md:75
-#, fuzzy
 msgid ""
 "Now we're dancing! Although, perhaps we want to speed it up or slow it down to"
 " suit the mood."
 msgstr ""
-"Maintenant on peut danser ! Quoique, peut-être qu'on veut l'accélérer ou le ra"
-"lentir en fonction de l'ambiance."
+"Maintenant on peut danser ! Quoique, peut-être qu'on veut l'accélérer ou le "
+"ralentir en fonction de l'ambiance."
 
 #: A.03-coded-beats.md:78
-#, fuzzy
 msgid "Playing with Time"
 msgstr "Jouer avec le temps"
 
@@ -12172,9 +12166,8 @@ msgstr ""
 "sque 120, ou même, soyons fous, 200 !"
 
 #: A.03-coded-beats.md:103
-#, fuzzy
 msgid "Filtering"
-msgstr "Filtrer"
+msgstr "Filtrage"
 
 #: A.03-coded-beats.md:105
 #, fuzzy
@@ -12223,9 +12216,8 @@ msgstr ""
 "mme le réglage de la longueur : cela détermine combien il reste d'herbe."
 
 #: A.03-coded-beats.md:128
-#, fuzzy
 msgid "Slicing"
-msgstr "Couper"
+msgstr "Découpage/tranchage"
 
 #: A.03-coded-beats.md:130
 #, fuzzy
@@ -12298,7 +12290,6 @@ msgstr ""
 
 #: A.03-coded-beats.md:163
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_bpm 100\n"
 "live_loop :amen_break do\n"
@@ -12323,7 +12314,6 @@ msgid ""
 "end"
 msgstr ""
 "use_bpm 100\n"
-"  \n"
 "live_loop :amen_break do\n"
 "  p = [0.125, 0.25, 0.5].choose\n"
 "  with_fx :slicer, phase: p, wave: 0, mix: rrand(0.7, 1) do\n"
@@ -12332,12 +12322,10 @@ msgstr ""
 "  end\n"
 "  sleep 2\n"
 "end\n"
-"  \n"
 "live_loop :bass_drum do\n"
 "  sample :bd_haus, cutoff: 70, amp: 1.5\n"
 "  sleep 0.5\n"
 "end\n"
-"  \n"
 "live_loop :landing do\n"
 "  bass_line = (knit :e1, 3, [:c1, :c2].choose, 1)\n"
 "  with_fx :slicer, phase: [0.25, 0.5].choose, invert_wave: 1, wave: 0 do\n"
@@ -12348,12 +12336,10 @@ msgstr ""
 "end"
 
 #: A.04-synth-riffs.md:1
-#, fuzzy
 msgid "A.4 Synth Riffs"
 msgstr "A.4 Riffs de synthés"
 
 #: A.04-synth-riffs.md:3
-#, fuzzy
 msgid "Synth Riffs"
 msgstr "Riffs de synthés"
 
@@ -12374,18 +12360,16 @@ msgstr ""
 "ff de synthé : le timbre, la mélodie et le rythme."
 
 #: A.04-synth-riffs.md:12
-#, fuzzy
 msgid ""
 "OK, so power up your Raspberry Pi, crack open Sonic Pi v2.6+ and let's make so"
 "me noise!"
 msgstr ""
-"OK, allumez votre Raspberry Pi, ouvrez Sonic Pi (version 2.6 ou plus) et faiso"
-"ns du bruit !"
+"OK, allumez votre Raspberry Pi, ouvrez Sonic Pi (version 2.6 ou ultérieure) "
+"et faisons du bruit !"
 
 #: A.04-synth-riffs.md:16
-#, fuzzy
 msgid "Timbral Possibilities"
-msgstr "Les possibilités du timbre"
+msgstr "Les possibilités de timbres"
 
 #: A.04-synth-riffs.md:18
 #, fuzzy
