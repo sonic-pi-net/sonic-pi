@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2018-04-14 05:04+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -18313,6 +18313,10 @@ msgid ""
 "in Sonic Pi. This does the opposite to `:lpf` in that it lets the high parts o"
 "f the sound through and cuts off the low parts."
 msgstr ""
+"Évidemment, le `:lpf` n'est pas le seul filtre que vous pouvez utiliser pour "
+"manipuler le signal source. Un autre FX important est le filtre de passe "
+"haute, référé à `:hpf` dans Sonic Pi. Il fait le contraire de `:lpf` en "
+"laissant les parties hautes du son passées et en coupant les parties basses."
 
 #: A.19-subtractive-synthesis.md:74
 #, no-wrap
@@ -18332,10 +18336,15 @@ msgid ""
 "er values let more of the original bass parts of the source signal through and"
 " higher values sound increasingly tinny and quiet."
 msgstr ""
+"Notez comment ce son est beaucoup plus grinçant maintenant que toutes les "
+"fréquences basses du son ont été retirées. Jouez avec la valeur de coupure - "
+"remarquez comment des valeurs plus basses laissent plus de parties basses du "
+"son original source passer et que les valeurs plus hautes sonnent plus "
+"petites et silencieuses."
 
 #: A.19-subtractive-synthesis.md:86
 msgid "[Low Pass Filter] - breakout box"
-msgstr ""
+msgstr "[Filtre de passe basse] - Boite de dérivation"
 
 #: A.19-subtractive-synthesis.md:88
 #, fuzzy
@@ -18359,7 +18368,7 @@ msgstr "`:prophet`"
 
 #: A.19-subtractive-synthesis.md:107
 msgid "Filter Modulation"
-msgstr ""
+msgstr "Filtre de modulation"
 
 #: A.19-subtractive-synthesis.md:109
 msgid ""
@@ -18372,6 +18381,15 @@ msgid ""
 "long it should take for the current value to linearly slide to the target valu"
 "e:"
 msgstr ""
+"Jusqu'à maintenant, nous avons produit des sons assez statiques. En d'autres "
+"mots, le son ne change pas en aucune façon pour toute sa durée. Souvent, "
+"vous voudrez peut-être donner du mouvement à un son afin de donner de la vie "
+"à son timbre. Une façon d'accomplir cela est avec le filtre de modulation - "
+"en changeant les options du filtre au travers du temps. Heureusement, Sonic "
+"Pi vous offre des outils puissants pour manipuler les options d'un FX au fil "
+"du temps. Par exemple, vous pouvez définir un temps de glissement à chaque "
+"option modulable pour spécifier combien de temps cela devrait-il prendre de "
+"glisser de la valeur actuelle vers la valeur cible :"
 
 #: A.19-subtractive-synthesis.md:118
 #, no-wrap
@@ -18398,6 +18416,17 @@ msgid ""
 " 3 beats. Finally we also trigger a source signal synth so we can hear the eff"
 "ect of the modulated low pass filter."
 msgstr ""
+"Jetons un coup d’œil rapide à ce qui se passe ici. Premièrement, nous "
+"commençons avec un bloc FX `:lpf` avec un `cutoff:` initial d'un très bas "
+"`20`. Cependant, la première ligne termine également avec l'étrange `|fx|` à "
+"la fin. C'est une partie optionnelle de la syntaxe `with_fx` qui vous permet "
+"de nommer directement et de contrôler le synthé FX qui s'exécute. La ligne 2 "
+"fait exactement cela et contrôle le FX pour définir la valeur de l'option "
+"`cutoff_slide:` à 4 et la nouvelle cible de `cutoff:` à `130`. Ce FX "
+"commencera donc à glisser la valeur de l'option `cutoff:` de `50` à `130` "
+"sur une période de trois rythmes. Finalement, nous déclenchons également un "
+"synthé de signal source pour que nous puissions entendre l'effet du filtre "
+"de passe basse modulé."
 
 #: A.19-subtractive-synthesis.md:139
 msgid ""
@@ -18406,6 +18435,11 @@ msgid ""
 "o see what crazy sounds you can design. If your sound feels too static, rememb"
 "er you can start modulating the options to create some movement."
 msgstr ""
+"Ceci est seulement un avant-goût très basique de ce qui est possible quand "
+"vous utilisez les filtres pour modifier et changer un son source. Essayez de "
+"jouer avec les nombreux FX inclus dans Sonic Pi pour voir quels sons fous "
+"vous pouvez créer. Si votre son semble trop statique, rappelez-vous que vous "
+"pouvez commencer à moduler les options pour créer du mouvement."
 
 #: A.19-subtractive-synthesis.md:145
 msgid ""
@@ -18415,6 +18449,11 @@ msgid ""
 "ped everything inside a call to `at` (please send answers to @samaaron on Twit"
 "ter)."
 msgstr ""
+"Terminons en créant une fonction qui jouera un nouveau son créé avec la "
+"synthèse soustractive. Voyez si vous pouvez déterminer ce qui se passe - et "
+"pour les lecteurs avancés de Sonic Pi - voyez si vous pouvez trouver "
+"pourquoi j'ai tout enveloppé à l'intérieur d'un appel `at` (s'il-vous-plait "
+"envoyez vos réponses à @samaaron sur Twitter)."
 
 #: A.19-subtractive-synthesis.md:151
 #, no-wrap
