@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2018-04-21 14:40+0000\n"
-"Last-Translator: Thiago Lopes <aslthiago@gmail.com>\n"
+"Last-Translator: Lázaro Henrique <lazarohcm@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -132,7 +132,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr ""
+msgstr "Vamos começar, copie o código a seguir em algum buffer vazio acima:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -149,28 +149,34 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
+"Agora pressiona o botão `Rodar ` e você ouvirá uma rápida batida de bateria "
+"tocando. Se a qualquer momento você quiser parar o som, basta pressionar o "
+"botão `Parar`. Mas calma, não pressione o botão ainda... Ao invés disso, "
+"siga os passos a segui:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "Tenha certeza de que o bumbo continua rodando"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr ""
+msgstr "Altere o valor `dormir` para `0.5` para algo acima de `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "Pressione o botão `Rodar` novamente"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "Note como a velocidade da batida foi alterada."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
+"Finlamente, *lembre deste momento*, essa é a primera vez que você programou "
+"ao vivo com Sonic Pi and provavelmente não será a última vez..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -178,9 +184,12 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
+"Ok, isso foi bem simples. Vamos adicionar alguma outra coisa na mixagem. "
+"Sobre `sample :bd_haus` adicione a linha `sample: ambi_choir, rate: 0,3`. "
+"Seu código deve estar assim agora:"
 
 #: 01.1-Live-Coding.md:43
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :ambi_choir, rate: 0.3\n"
@@ -188,6 +197,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -198,10 +212,17 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"Agora brinque um pouco. Altere os valores - o que acontece quando você usa "
+"valores maiores, ou valores menores ou negativos? Veja o que acontece quando "
+"você altera o valor `rate:` para o sample `:ambi_choir` apenas um pouco ("
+"digamos, para `0.29`). O que acontece se escolher um valor bem pequeno para "
+"`sleep`? Veja se você pode fazer isso ficar tão rápido uqe seu computador "
+"irá parar com um erro porque ele não consegue acompanhar (se isso acontecer, "
+"apenas selciona um tempo maior pra `sleep` e pressione `Rodar` novamente)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr ""
+msgstr "Tente comentar uma das linhas de `sampe` adicionando `#` no começo:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -212,6 +233,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -219,6 +245,9 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
+"Note como isso diz ao computador para ignorar essa linha, você não consegue "
+"ouvi-lá. Isto é chamado comentário. Em Sonic Pi você pode usar comentários "
+"para remover e adicionar coisas na mixagem."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -228,10 +257,16 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"Finalmente, vou deixar você com algo divertido para brincar. Pegue o código "
+"abaixo, e copie ele num buffer disponível. Agora, não tente entender isto "
+"além de perceber que nele há dois loops - então são duas coisas rodando ao "
+"mesmo tempo. Agora, faça aquilo que você faz de melhor - experimente e "
+"comece a brincar. Aqui vão algumas sugestões:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
+"Tente alterar os valores azuis de `rate:` para ouvir a amostra de som mudar."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
