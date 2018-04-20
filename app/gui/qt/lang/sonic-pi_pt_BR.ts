@@ -53,12 +53,12 @@ If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Alternar registro de mensagens.
 Se desativado, atividades como &quot;synth&quot; e &quot;sample&quot;
-ativadas não serão registradas no registro por padrão.</translation>
+disparadas não serão registradas no registro por padrão.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Safe mode</source>
-        <translation>Modo de segurança</translation>
+        <translation>Modo Seguro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
