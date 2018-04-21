@@ -59,15 +59,15 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation>重新運行時清空日誌</translation>
+        <translation>重新執行時清空日誌</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>切換運行時清空日誌窗口。
-選中該選項時，每次運行按鈕被按下時，log日誌窗口將自動清空所有消息。</translation>
+        <translation>切換執行時清空日誌窗口。
+選中該選項時，每次執行按鈕被按下時，log日誌窗口將自動清空所有消息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
@@ -83,7 +83,7 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>程式碼運行中……</translation>
+        <translation>程式碼執行中……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
@@ -384,7 +384,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Automatically align code on Run</source>
-        <translation>運行時自動對齊程式碼</translation>
+        <translation>執行時自動對齊程式碼</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
@@ -503,7 +503,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Run the code in the current buffer</source>
-        <translation>運行當前編輯器窗口內的程式碼</translation>
+        <translation>執行當前編輯器窗口內的程式碼</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
@@ -937,7 +937,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
         <source>Run</source>
-        <translation>運行</translation>
+        <translation>執行</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2677"/>
@@ -947,7 +947,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
         <source>Stop all running code</source>
-        <translation>停止所有程式碼運行</translation>
+        <translation>停止所有程式碼執行</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
