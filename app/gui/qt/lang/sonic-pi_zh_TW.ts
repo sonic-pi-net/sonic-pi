@@ -83,7 +83,7 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>代碼運行中……</translation>
+        <translation>程式碼運行中……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
@@ -331,7 +331,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure editor look and feel.</source>
-        <translation>設置代碼編輯器外觀。</translation>
+        <translation>設置程式碼編輯器外觀。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1432"/>
@@ -384,7 +384,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
         <source>Automatically align code on Run</source>
-        <translation>運行時自動對齊代碼</translation>
+        <translation>運行時自動對齊程式碼</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
@@ -503,7 +503,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Run the code in the current buffer</source>
-        <translation>運行當前編輯器窗口內的代碼</translation>
+        <translation>運行當前編輯器窗口內的程式碼</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
@@ -558,12 +558,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>歡迎回來。現在加載你的代碼...</translation>
+        <translation>歡迎回來。現在加載你的程式碼...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Save Current Buffer</source>
-        <translation>保存當前編輯器窗口代碼</translation>
+        <translation>保存當前編輯器窗口程式碼</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
@@ -854,7 +854,7 @@ Lissjous - 顯示左右聲道間的相位關係
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Improve readability of code</source>
-        <translation>提高代碼可讀性</translation>
+        <translation>提高程式碼可讀性</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
@@ -947,7 +947,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
         <source>Stop all running code</source>
-        <translation>停止所有代碼運行</translation>
+        <translation>停止所有程式碼運行</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
