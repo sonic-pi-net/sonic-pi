@@ -183,12 +183,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle selection comment...</source>
-        <translation>注釋/取消注釋選中區域……</translation>
+        <translation>註解/取消註解選中區域……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
         <source>Toggle line comment...</source>
-        <translation>注釋/取消注釋當前行……</translation>
+        <translation>註解/取消註解當前行……</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
@@ -306,7 +306,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1404"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>訪問http://sonic-pi.net下載新版本</translation>
+        <translation>瀏覽http://sonic-pi.net下載新版本</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1409"/>
@@ -351,14 +351,14 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>網路 OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi 可以透過當下連接的網路向其他程式或電腦發送/接收 Open Sound Control 訊息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
@@ -379,7 +379,7 @@ to and from other programs or computers
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI 輸出裝置可以直接從 Sonic Pi 接收以 midi_* 函式形式發送的 MIDI 訊息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -426,12 +426,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
         <source>Full screen</source>
-        <translation>全屏模式</translation>
+        <translation>全螢幕模式</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1454"/>
         <source>Toggle full screen mode.</source>
-        <translation>打開/關閉全屏模式。</translation>
+        <translation>打開/關閉全螢幕模式。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
@@ -443,7 +443,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
         <translation>
-深色模式適用于在燈光較暗的場所進行Sonic Pi編程。</translation>
+深色模式適合在燈光較暗的場所進行 live coding。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1502"/>
@@ -523,7 +523,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>幫助是否可見已修改...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
@@ -588,7 +588,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation>正在監聽 OSC 訊息在埠</translation>
+        <translation>正在監聽連接埠上的 OSC 訊息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
@@ -723,17 +723,17 @@ Sonic Pi 並接收為標記活動
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
         <source>Show and Hide Scope</source>
-        <translation>顯示與隱藏範圍</translation>
+        <translation>顯示與隱藏波形</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1516"/>
         <source>Scope Kinds</source>
-        <translation>範圍種類</translation>
+        <translation>波形種類</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1531"/>
         <source>Show Scopes</source>
-        <translation>顯示範圍</translation>
+        <translation>顯示波形</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
@@ -743,7 +743,7 @@ Sonic Pi 並接收為標記活動
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
         <source>Show Axes</source>
-        <translation>顯示軸</translation>
+        <translation>顯示波形軸</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1534"/>
@@ -805,7 +805,7 @@ Lissjous - 顯示左右聲道間的相位關係
         <location filename="../mainwindow.cpp" line="1992"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>禁用低通濾波器...</translation>
+        <translation>停用低通濾波器...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
@@ -844,7 +844,7 @@ Lissjous - 顯示左右聲道間的相位關係
     <message>
         <location filename="../mainwindow.cpp" line="2682"/>
         <source>Save current buffer as an external file</source>
-        <translation>保存當前編輯器窗口爲外部文件</translation>
+        <translation>儲存當前編輯器窗口至外部文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2694"/>
@@ -1006,12 +1006,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2702"/>
         <source>Increase Text Size</source>
-        <translation>增大字體</translation>
+        <translation>放大字體</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
         <source>Decrease Text Size</source>
-        <translation>減小字體</translation>
+        <translation>縮小字體</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
@@ -1021,7 +1021,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>About</source>
-        <translation>關于</translation>
+        <translation>關於</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
@@ -1036,7 +1036,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>Community</source>
-        <translation>社區</translation>
+        <translation>社群</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2797"/>
@@ -1046,7 +1046,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2798"/>
         <source>History</source>
-        <translation>曆史</translation>
+        <translation>歷史</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
@@ -1092,7 +1092,7 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="1071"/>
         <location filename="../ruby_help.h" line="1167"/>
         <source>Tutorial</source>
-        <translation>教程</translation>
+        <translation>教學</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1202"/>
