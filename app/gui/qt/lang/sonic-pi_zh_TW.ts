@@ -173,7 +173,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
         <source>Logging</source>
-        <translation>日志選項</translation>
+        <translation>日誌選項</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
@@ -230,15 +230,15 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>是否允許在日志中記錄cue信息。
-取消該選項時，cue消息仍能夠被觸發。但cue消息將不在出現在日志中。</translation>
+        <translation>是否允許在日誌中記錄cue信息。
+取消該選項時，cue消息仍能夠被觸發。但cue消息將不在出現在日誌中。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation>日志自動滾動開關。
-打開該選項，將允許在控制台中新的消息出現時自動滾動日志到底部，以使新的信息能夠被現實。</translation>
+        <translation>日誌自動滾動開關。
+打開該選項，將允許在控制台中新的消息出現時自動滾動日誌到底部，以使新的信息能夠被現實。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
@@ -389,12 +389,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1439"/>
         <source>Show log</source>
-        <translation>顯示日志</translation>
+        <translation>顯示日誌</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1441"/>
         <source>Toggle visibility of the log.</source>
-        <translation>切換是否顯示日志。</translation>
+        <translation>切換是否顯示日誌。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -493,12 +493,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2227"/>
         <source>Log Auto Scroll on...</source>
-        <translation>日志窗口自動滾動開啓...</translation>
+        <translation>日誌窗口自動滾動開啓...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2229"/>
         <source>Log Auto Scroll off...</source>
-        <translation>日志窗口自動滾動關閉...</translation>
+        <translation>日誌窗口自動滾動關閉...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
