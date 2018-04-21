@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Log</source>
-        <translation>日志</translation>
+        <translation>日誌</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
@@ -48,8 +48,8 @@ can only handle mono.</source>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>切換日志消息記錄。
-取消該選項時，合成器和采樣事件觸發的信息默認將不在日志窗口中顯示。</translation>
+        <translation>切換日誌消息記錄。
+取消該選項時，合成器和取樣事件觸發的信息默認將不在日誌窗口中顯示。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
@@ -59,15 +59,15 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation>重新運行時清空日志</translation>
+        <translation>重新運行時清空日誌</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>切換運行時清空日志窗口。
-選中該選項時，每次運行按鈕被按下時，log日志窗口將自動清空所有消息。</translation>
+        <translation>切換運行時清空日誌窗口。
+選中該選項時，每次運行按鈕被按下時，log日誌窗口將自動清空所有消息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
@@ -363,17 +363,17 @@ to and from other programs or computers
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI配置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI連接埠</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>已連接的MIDI連接埠列表</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
@@ -405,7 +405,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>切換專業圖示 - 在預設圖示和
+簡約版圖示之間切換。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
