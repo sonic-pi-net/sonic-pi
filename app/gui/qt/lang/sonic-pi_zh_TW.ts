@@ -1112,7 +1112,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="1317"/>
         <source>Samples</source>
-        <translation>采樣器</translation>
+        <translation>取樣器</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1564"/>
