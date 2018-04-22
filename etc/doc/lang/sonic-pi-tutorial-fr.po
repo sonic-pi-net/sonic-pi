@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2018-04-23 03:34+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -12055,14 +12055,13 @@ msgstr ""
 "court, c'est notable."
 
 #: A.03-coded-beats.md:60
-#, fuzzy
 msgid ""
 "To fix this issue we can use the `beat_stretch:` opt to ask Sonic Pi to stretc"
 "h (or shrink) the sample to match the specified number of beats."
 msgstr ""
-"Pour corriger ce problème on peut utiliser l'option `beat_stretch` pour demand"
-"er à Sonic Pi d'étirer (ou rétrécir) le sample pour correspondre au temps spéc"
-"ifié."
+"Pour corriger ce problème, on peut utiliser l'option `beat_stretch:` pour "
+"demander à Sonic Pi d'étirer (ou de rétrécir) l'échantillon pour "
+"correspondre au nombre de beat spécifié."
 
 #: A.03-coded-beats.md:63
 msgid ""
@@ -12129,16 +12128,15 @@ msgstr ""
 "end "
 
 #: A.03-coded-beats.md:93
-#, fuzzy
 msgid ""
 "Whilst you're rapping over those slow beats, notice that we're still sleeping "
 "for 2 and our BPM is 30, yet everything is in time. The `beat_stretch` opt wor"
 "ks with the current BPM to make sure everything just works."
 msgstr ""
-"Pendant que vous rappez sur ces rythmes lents, remarquez que nous avons toujou"
-"rs un repos de 2 et que notre BPM vaut 30, mais tout est bien synchronisé. L'o"
-"ption `beat_stretch` marche avec le BPM courant pour s'assurer que tout foncti"
-"onne bien."
+"Pendant que vous rappez sur ces rythmes lents, remarquez que nous avons "
+"toujours un repos de 2 et que notre BPM vaut 30, mais tout est bien "
+"synchronisé. L'option `beat_stretch` fonctionne avec le BPM courant pour "
+"s'assurer que tout fonctionne bien."
 
 #: A.03-coded-beats.md:97
 #, fuzzy
