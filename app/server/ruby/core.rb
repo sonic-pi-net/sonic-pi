@@ -640,6 +640,13 @@ module SonicPi
   end
 end
 
+class Time
+  def __sp_make_thread_safe
+    return self if frozen?
+    self.clone.freeze
+  end
+end
+
 
 class String
   def sp_thread_safe?
