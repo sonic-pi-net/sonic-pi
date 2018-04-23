@@ -268,7 +268,7 @@ module SonicPi
     end
 
     def boot_server_osx
-      disable_input = false
+      disable_input = true
       log_boot_msg
       puts "Boot - Booting on OS X"
       puts "Boot - Checkout audio rates on OSX:"
@@ -284,6 +284,7 @@ module SonicPi
         puts "Boot - Input audio rate: #{audio_in_rate}"
         puts "Boot - Output audio rate: #{audio_out_rate}"
         if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
+          # we detected audio rates, but they're not the same
           puts "Boot - Audio input and output rates do not match."
           if audio_out_rate > 44000
             puts "Boot - Attempting to set the input rates to match output rate of #{audio_out_rate}..."
@@ -294,6 +295,7 @@ module SonicPi
           audio_out_rate = CoreAudio.default_output_device.nominal_rate
 
           if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
+            # we detected audio rates, and they're still not the same
             puts "Boot - Attempting to set both in and out sample rates to 44100.0..."
             CoreAudio.default_output_device(nominal_rate: 44100.0)
             CoreAudio.default_input_device(nominal_rate: 44100.0)
@@ -303,25 +305,31 @@ module SonicPi
           puts "Boot - Output audio rate now: #{audio_out_rate}"
           if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
             puts "Boot - Sample rates still do not match, disabling input"
-            disable_input = true
+          else
+            puts "Boot - Sample have been changed to match, enable input"
+            disable_input = false
           end
         else
-          puts "Boot - Sample rates match, we may continue to boot..."
+          puts "Boot - Sample rates match, enable support for inputs..."
+          disable_input = false
         end
 
       rescue Exception
-        if (audio_in_rate == :unknown_in_rate) && (audio_out_rate == :unknown_out_rate)
+        if (audio_in_rate == :unknown_in_rate) || (audio_out_rate == :unknown_out_rate)
           # Something went wrong whilst attempting to determine and modify the audio
-          # rates. Given that there's a chance the rates are correct, try and continue
-          # to boot and let scsynth throw a wobbly if things aren't in order.
-          puts "Boot - Unable to detect input and output audio rates. Continuing in the hope that they are actually the same..."
-        elsif (audio_in_rate == :unknown_in_rate)
-          puts "Boot - Unable to detect input audio rate. Disabling input"
-          disable_input = true
+          # rates. For safety do not enable inputs
+          puts "Boot - Unable to detect audio rates. Disabling input"
         end
       end
 
-      num_inputs = disable_input ? "0" : "16"
+      if disable_input
+        num_inputs = "0"
+        puts "Boot - Booting with no audio inputs"
+      else
+        num_inputs = "16"
+        puts "Boot - Booting with max 16 inputs"
+      end
+
       boot_and_wait(scsynth_path,
                     "-u", @port.to_s,
                     "-a", num_audio_busses_for_current_os.to_s,
