@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-21 14:40+0000\n"
-"Last-Translator: Lázaro Henrique <lazarohcm@gmail.com>\n"
+"PO-Revision-Date: 2018-04-24 05:40+0000\n"
+"Last-Translator: Gustavo Castro <github@gustavocastro.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -128,7 +128,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr ""
+msgstr "Repetição ao vivo"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
@@ -6376,11 +6376,11 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Set e Get"
 
 #: 10.1-Set-and-Get.md:3
 msgid "Set and Get"
-msgstr ""
+msgstr "Set e Get"
 
 #: 10.1-Set-and-Get.md:5
 msgid ""
@@ -13664,7 +13664,7 @@ msgstr ""
 
 #: C.01-Basic-API.md:117
 msgid "Looking at blocks"
-msgstr ""
+msgstr "Olhando para os blocos"
 
 #: C.01-Basic-API.md:119
 msgid ""
