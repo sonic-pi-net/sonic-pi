@@ -33,7 +33,6 @@ module SonicPi
       @life_hooks = LifeCycleHooks.new
       @msg_queue = Queue.new
       @event_queue = SizedQueue.new(20)
-      @keypress_handlers = {}
       @cue_events = IncomingEvents.new
       @sync_counter = Counter.new
       @job_counter = Counter.new(-1) # Start counting jobs from 0

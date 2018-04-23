@@ -2721,21 +2721,6 @@ end
 
 
 
-      # def on_keypress(&block)
-      #   @keypress_handlers[:foo] = block
-      # end
-      # doc name:           :on_keypress,
-      #     summary:        "",
-      #     args:           [],
-      #     opts:           nil,
-      #     accepts_block:  true,
-      #     doc:            "",
-      #     examples:       [],
-      #     hide:           true
-
-
-
-
       def comment(*args, &block)
         raise ArgumentError, "comment requires a block." unless block
         #do nothing!
