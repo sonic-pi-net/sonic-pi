@@ -1271,10 +1271,7 @@ module SonicPi
       @session_id = SecureRandom.uuid
       @snippets = {}
       @osc_cues_port = ports[:osc_cues_port]
-      # TODO remove hardcoded port number
       @osc_router_port = ports[:erlang_port]
-      @log_cues = false
-      @log_cues_file = File.open(osc_cues_log_path, 'a')
       @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)
@@ -1309,11 +1306,6 @@ module SonicPi
           __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => args.inspect})
           __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => args.inspect}) if sym
         end
-
-        #   @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
-        #   @log_cues_file.flush
-        # end
-
       end
 
       # TODO Add support for TCP
