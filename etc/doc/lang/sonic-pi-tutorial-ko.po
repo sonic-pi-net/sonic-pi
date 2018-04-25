@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-08 16:37+0000\n"
-"Last-Translator: Hong Lees <redf1123@gmail.com>\n"
+"PO-Revision-Date: 2018-04-26 21:38+0000\n"
+"Last-Translator: ggobugi27 <ggobugi27@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "ko/>\n"
 "Language: ko\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.20\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -13705,7 +13705,7 @@ msgstr ""
 msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
 " now say `:glass`? I'm sure it does :-)"
-msgstr ""
+msgstr "`:diamond`가 보입니다! 이제 glass로 다시 바꿔보세요. 이제 `:glass`가 보이죠? 아마 그렇겠죠 ㅎㅎ"
 
 #: C.01-Basic-API.md:131
 msgid "Available block types"
