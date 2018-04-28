@@ -53,7 +53,7 @@ Mono-Ton verarbeiten kann.</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Protokoll-Nachrichten an-/abschalten
+        <translation>Protokoll-Nachrichten an-/abschalten.
 Die Protokoll-Nachrichten, wenn ein Synth oder
 Sample ausgelöst wird, lassen sich hier abschalten.</translation>
     </message>
