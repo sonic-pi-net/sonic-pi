@@ -703,7 +703,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Sichtbarkeit der Hilfe wurde geändert …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
