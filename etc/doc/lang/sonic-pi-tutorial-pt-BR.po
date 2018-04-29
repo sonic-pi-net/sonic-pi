@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-24 05:40+0000\n"
-"Last-Translator: Gustavo Castro <github@gustavocastro.com>\n"
+"PO-Revision-Date: 2018-04-30 04:41+0000\n"
+"Last-Translator: Glauco Luiz Corrêa Basilio Dos <glauco.basilio@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -142,6 +142,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
@@ -222,7 +226,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr "Tente comentar uma das linhas de `sampe` adicionando `#` no começo:"
+msgstr "Tente comentar uma das linhas de `sample` adicionando `#` no começo:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -2187,6 +2191,7 @@ msgstr ""
 #: 03.5-Partial-Samples.md:75
 msgid "What happens if we choose a start position after the finish position?"
 msgstr ""
+"O que acontece se escolhermos uma posição inicial posterior a posição final?"
 
 #: 03.5-Partial-Samples.md:78
 #, no-wrap
@@ -2812,6 +2817,10 @@ msgid ""
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
+"Como fica se a sequência de números aleatórios fornecida pelo Sonic Pi não "
+"te agradar? Veja bem, é totalmente viável escolher um ponto inicial "
+"diferente utilizando `use_random_seed`. Por default a semente é 0, então "
+"escolha uma outra semente para ter uma experiência aleatória diferente!"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
@@ -2855,7 +2864,7 @@ msgstr ""
 
 #: 04-Randomisation.md:113
 msgid "choose"
-msgstr ""
+msgstr "choose"
 
 #: 04-Randomisation.md:115
 msgid ""
@@ -2866,11 +2875,17 @@ msgid ""
 "uare brackets and separating them with commas: `[60, 65, 72]`. Next I just nee"
 "d to pass them to `choose`:"
 msgstr ""
+"Uma atividade muito comum é escolher um item aleatório em uma lista de itens "
+"previamente conhecidos. Por exemplo, eu poso querer tocar uma dessas nota: "
+"60, 65 ou 72. Eu posso atingir esse objetivo com `choose` que me deixa "
+"escolher um item de uma lista. Primeiro, eu preciso colocar meus números em "
+"uma lista, isso é feito envolvendo eles entre colchetes e separando eles com "
+"vírgulas  `[60, 65, 72]`. Feito isso basta enviá-los ao `choose`:"
 
 #: 04-Randomisation.md:122
 #, no-wrap
 msgid "choose([60, 65, 72])"
-msgstr ""
+msgstr "choose([60, 65, 72])"
 
 #: 04-Randomisation.md:126
 msgid "Let's hear what that sounds like:"
@@ -4513,6 +4528,7 @@ msgstr ""
 #: 06.1-Adding-FX.md:69
 msgid "There are many FX to choose from. How about some echo?"
 msgstr ""
+"Existem muitos FX (efeitos especiais) para escolher. Que tal um pouco de eco?"
 
 #: 06.1-Adding-FX.md:71
 #, no-wrap
@@ -4777,6 +4793,10 @@ msgid ""
 "eps: 16` essentially repeats the code in the `do/end` block 16 times so you ca"
 "n use them both interchangeably and choose the one that feels best for you."
 msgstr ""
+"Tanto o exemplo `reps: 16` quanto o exemplo `16.times do` irão se comportar "
+"de forma idêntica. Em essência `reps: 16` repete o código entre o  bloco `do/"
+"end` 16 vezes. Então você pode utilizar alternadamente cada um e depois "
+"escolher aquele que te parecer mais cômodo."
 
 #: 06.2-FX-in-Practice.md:87
 msgid ""
