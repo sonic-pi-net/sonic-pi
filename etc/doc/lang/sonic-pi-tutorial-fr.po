@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-24 04:37+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"PO-Revision-Date: 2018-05-01 21:36+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -12139,32 +12139,31 @@ msgstr ""
 "s'assurer que tout fonctionne bien."
 
 #: A.03-coded-beats.md:97
-#, fuzzy
 msgid ""
 "Now, here's the fun part. Whilst the loop is still live, change the `30` in th"
 "e `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in tim"
 "e*! Try going faster - up to 80, to 120, now go crazy and punch in 200!"
 msgstr ""
-"Maintenant voici la partie amusante. Alors que la boucle est en train de tourn"
-"er, changez le `30` dans la ligne `use_bpm 30` en `50`. Oh, tout est devenu pl"
-"us rapide, mais toujours *synchro* ! Essayez d'aller plus vite : jusque 80, ju"
-"sque 120, ou même, soyons fous, 200 !"
+"Maintenant, voici la partie amusante. Pendant que la boucle est en train de "
+"tourner, changez le `30` dans la ligne `use_bpm 30` en `50`. Waouh, tout est "
+"devenu plus rapide, mais est toujours en *synchro* - jusque 80, jusque 120, "
+"ou même, soyons fous, 200 !"
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
 msgstr "Filtrage"
 
 #: A.03-coded-beats.md:105
-#, fuzzy
 msgid ""
 "Now we can live loop samples, let's look at some of the most fun opts provided"
 " by the `sample` synth. First up is `cutoff:` which controls the cutoff filter"
 " of the sampler. By default this is disabled but you can easily turn it on:"
 msgstr ""
-"Maintenant qu'on peut jouer des samples en boucle de manière interactive, rega"
-"rdons les options les plus amusantes proposées par le synthé `sample`. La prem"
-"ière est le `cutoff:` qui contrôle le filtre de coupure du sampler. Par défaut"
-" il est désactivé mais on peut facilement l'activer :"
+"Maintenant qu'on peut jouer des échantillons en boucle de manière "
+"interactive, jetons un œil aux options les plus amusantes proposées par le "
+"synthé `sample`. La première est le `cutoff:` qui contrôle le filtre de "
+"coupure de l'échantillonneur. Par défaut, il est désactivé mais on peut "
+"facilement l'activer :"
 
 #: A.03-coded-beats.md:110
 #, no-wrap
@@ -12205,14 +12204,13 @@ msgid "Slicing"
 msgstr "Découpage/tranchage"
 
 #: A.03-coded-beats.md:130
-#, fuzzy
 msgid ""
 "Another great tool to play with is the slicer FX. This will chop (slice) the s"
 "ound up. Wrap the `sample` line with the FX code like this:"
 msgstr ""
-"Un autre super outil avec lequel on peut jouer est l'effet slicer. Il va coupe"
-"r le son en tranches. Entourez la ligne de `sample` avec le code de l'effet ai"
-"nsi :"
+"Un autre super outil avec lequel on peut jouer est l'effet slicer. Il va "
+"découper le son en tranches. Encadrez la ligne `sample` avec le code de "
+"l'effet ainsi :"
 
 #: A.03-coded-beats.md:133
 #, no-wrap
@@ -12371,11 +12369,10 @@ msgstr ""
 "eut aussi utiliser des effets, mais ce sera pour un autre tutoriel..."
 
 #: A.04-synth-riffs.md:24
-#, fuzzy
 msgid "Let's create a simple live loop where we continually change the current synth:"
 msgstr ""
-"Créons une boucle interactive simple où l'on modifiera en continu le synthé co"
-"urant :"
+"Créons une boucle interactive simple où l'on modifiera en continu le synthé "
+"courant :"
 
 #: A.04-synth-riffs.md:27
 #, no-wrap
@@ -12437,7 +12434,6 @@ msgstr ""
 "e codeur."
 
 #: A.04-synth-riffs.md:55
-#, fuzzy
 msgid "Timbre"
 msgstr "Timbre"
 
@@ -12457,7 +12453,6 @@ msgstr ""
 "cier un piano et une guitare, c'est le timbre."
 
 #: A.04-synth-riffs.md:65
-#, fuzzy
 msgid "Melodic Composition"
 msgstr "Composition mélodique"
 
@@ -12501,7 +12496,6 @@ msgstr ""
 "r chaque note à son tour, ce qui nous donne un riff qui se répète."
 
 #: A.04-synth-riffs.md:84
-#, fuzzy
 msgid "Auto Melody"
 msgstr "Mélodie automatique"
 
@@ -12580,7 +12574,6 @@ msgstr ""
 "vous entendez !"
 
 #: A.04-synth-riffs.md:121
-#, fuzzy
 msgid "Pseudo Randomisation"
 msgstr "Pseudo aléatoire"
 
@@ -12603,7 +12596,6 @@ msgstr ""
 "."
 
 #: A.04-synth-riffs.md:131
-#, fuzzy
 msgid "Finding your Rhythm"
 msgstr "Trouver votre rythme"
 
@@ -12683,13 +12675,12 @@ msgstr ""
 " rythme du riff."
 
 #: A.04-synth-riffs.md:168
-#, fuzzy
 msgid ""
 "OK, so let's combine everything we've learned together into one final example."
 " See you next time!"
 msgstr ""
-"OK, combinons tout ce que nous avons appris dans un dernier exemple. A la proc"
-"haine !"
+"OK, combinons tout ce que nous avons appris dans un dernier exemple. À la "
+"prochaine !"
 
 #: A.04-synth-riffs.md:171
 #, no-wrap
@@ -12745,7 +12736,6 @@ msgstr ""
 "end"
 
 #: A.05-acid-bass.md:1
-#, fuzzy
 msgid "A.5 Acid Bass"
 msgstr "A.5 Basse acide"
 
@@ -12821,7 +12811,6 @@ msgstr ""
 "play :e1"
 
 #: A.05-acid-bass.md:35
-#, fuzzy
 msgid "Instant acid bass! Let's play around..."
 msgstr "De l'Acid Bass instantané ! Jouons un peu..."
 
@@ -12861,27 +12850,24 @@ msgstr ""
 "end"
 
 #: A.05-acid-bass.md:53
-#, fuzzy
 msgid "Take a look at each line."
-msgstr "Regardons chaque ligne."
+msgstr "Jetez un œil à chaque ligne."
 
 #: A.05-acid-bass.md:55
-#, fuzzy
 msgid ""
 "On the first line we set the default synth to be `tb303` with the `use_synth` "
 "fn."
 msgstr ""
-"A la première ligne choisit `tb303` comme synthé par défaut avec la fonction `"
-"use_synth`."
+"À la première ligne, choisissons `tb303` comme synthé par défaut avec la "
+"fonction `use_synth`."
 
 #: A.05-acid-bass.md:58
-#, fuzzy
 msgid ""
 "On line two we create a live loop called `:squelch` which will just loop round"
 " and round."
 msgstr ""
-"A la deuxième ligne on crée une boucle interactive du nom de `:squelch` qui va"
-" juste boucler encore et encore."
+"À la deuxième ligne, créons une boucle interactive du nom de `:squelch` qui "
+"va juste boucler encore et encore."
 
 #: A.05-acid-bass.md:61
 #, fuzzy
@@ -13078,13 +13064,12 @@ msgstr ""
 "ck:` en `1` puis en `0.5`. Puis essayez `8`."
 
 #: A.05-acid-bass.md:144
-#, fuzzy
 msgid ""
 "Notice that I've passed everything through a `:reverb` FX for extra atmosphere"
 " - try other FX to see what works!"
 msgstr ""
-"Remarquez que j'ai passé tout cela à travers un effet `:reverb` pour plus d'at"
-"mosphère : essayez d'autres effets pour voir ce qui marche !"
+"Remarquez que j'ai passé tout cela à travers un effet `:reverb` pour plus "
+"d'atmosphère - essayez d'autres effets pour voir ce qui fonctionne !"
 
 #: A.05-acid-bass.md:149
 #, fuzzy
@@ -13150,12 +13135,10 @@ msgstr ""
 "end"
 
 #: A.06-minecraft.md:1
-#, fuzzy
 msgid "A.6 Musical Minecraft"
 msgstr "A.6 Minecraft musical"
 
 #: A.06-minecraft.md:3
-#, fuzzy
 msgid "Musical Minecraft"
 msgstr "Minecraft musical"
 
@@ -13172,24 +13155,20 @@ msgstr ""
 "i nous avons appris comment :"
 
 #: A.06-minecraft.md:11
-#, fuzzy
 msgid "Live Code - changing the sounds on-the-fly,"
-msgstr "Programmer de manière interactive, en changeant les sons à la volée,"
+msgstr "Programmation interactive - en changeant les sons à la volée,"
 
 #: A.06-minecraft.md:12
-#, fuzzy
 msgid "Code some huge beats,"
 msgstr "Coder des rythmes imposants,"
 
 #: A.06-minecraft.md:13
-#, fuzzy
 msgid "Generate powerful synth leads,"
-msgstr "Générer des mélodies de synthé puissantes"
+msgstr "Générer des mélodies de synthé puissantes,"
 
 #: A.06-minecraft.md:14
-#, fuzzy
 msgid "Re-create the famous TB-303 acid-bass sound."
-msgstr "recréer le fameux son TB-303 de basse acide"
+msgstr "Recréer le fameux son de basse acide TB-303."
 
 #: A.06-minecraft.md:16
 #, fuzzy
@@ -13203,7 +13182,6 @@ msgstr ""
 "t faire et que vous n'avez probablement pas remarquée : contrôler Minecraft."
 
 #: A.06-minecraft.md:20
-#, fuzzy
 msgid "Hello Minecraft World"
 msgstr "Bonjour, monde de Minecraft"
 
@@ -13219,9 +13197,8 @@ msgstr ""
 " à pouvoir voir Sonic Pi et Minecraft Pi en même temps."
 
 #: A.06-minecraft.md:26
-#, fuzzy
 msgid "In a fresh buffer type the following:"
-msgstr "Dans un buffer disponible tapez ce qui suit :"
+msgstr "Dans un tampon disponible, tapez ce qui suit :"
 
 #: A.06-minecraft.md:28
 #, no-wrap
@@ -13240,16 +13217,14 @@ msgstr ""
 "eu avec vos propres messages. Amusez-vous !"
 
 #: A.06-minecraft.md:36
-#, fuzzy
 msgid ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 msgstr ""
-"![Ecran 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-smal"
-"l.png)"
+"![Écran 0](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
-#, fuzzy
 msgid "Sonic Teleporter"
 msgstr "Téléportation sonique"
 
