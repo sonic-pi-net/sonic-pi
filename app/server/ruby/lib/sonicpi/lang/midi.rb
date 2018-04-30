@@ -1527,7 +1527,7 @@ end"
       end
 
       def __midi_rest_message(m)
-        __delayed_message m
+        __delayed_message m unless __thread_locals.get(:sonic_pi_suppress_midi_logging)
       end
 
       def __midi_system_reset(silent=false)
