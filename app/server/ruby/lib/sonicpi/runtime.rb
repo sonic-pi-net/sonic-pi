@@ -361,15 +361,6 @@ module SonicPi
       __system_thread_locals.get(:sonic_pi_spider_job_info) || {}
     end
 
-    def __handle_event(e)
-      case e[:type]
-      when :keypress
-        @keypress_handlers.values.each{|h| h.call(e[:val])}
-      else
-        puts "Unknown event: #{e}"
-      end
-    end
-
     def __sync(id, res)
       @cue_events.event("/sync", {:id => id, :result => res})
     end
@@ -1252,7 +1243,6 @@ module SonicPi
 
   class Runtime
 
-    attr_reader :event_queue
     include Util
     include ActiveSupport
     include RuntimeMethods
@@ -1267,7 +1257,6 @@ module SonicPi
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
-      @event_queue = SizedQueue.new(20)
       @keypress_handlers = {}
       @cue_events = IncomingEvents.new
       @job_counter = Counter.new(-1) # Start counting jobs from 0
@@ -1282,10 +1271,7 @@ module SonicPi
       @session_id = SecureRandom.uuid
       @snippets = {}
       @osc_cues_port = ports[:osc_cues_port]
-      # TODO remove hardcoded port number
       @osc_router_port = ports[:erlang_port]
-      @log_cues = false
-      @log_cues_file = File.open(osc_cues_log_path, 'a')
       @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)
@@ -1320,11 +1306,6 @@ module SonicPi
           __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => args.inspect})
           __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => args.inspect}) if sym
         end
-
-        #   @log_cues_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{address}, #{args.inspect}\n")
-        #   @log_cues_file.flush
-        # end
-
       end
 
       # TODO Add support for TCP
