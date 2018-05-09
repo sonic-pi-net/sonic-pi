@@ -457,7 +457,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
         <source>Toggle dark mode.</source>
-        <translation>Εναλλαγή στην σκοτεινή λειτουργία</translation>
+        <translation>Εναλλαγή στην σκοτεινή λειτουργία.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
@@ -594,12 +594,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Full screen mode on.</source>
-        <translation>Λειτουργία πλήρους οθόνης ενεργοποιημένη</translation>
+        <translation>Λειτουργία πλήρους οθόνης ενεργοποιημένη.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation>Λειτουργία πλήρους οθόνης απενεργοποιημένη</translation>
+        <translation>Λειτουργία πλήρους οθόνης απενεργοποιημένη.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
@@ -759,7 +759,7 @@ Sonic Pi και λαμβάνονται ως συμβάντα νύξης
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>Εναλλαγή της ορατότητας των παλμοσκoπίων ήχου</translation>
+        <translation>Εναλλαγή της ορατότητας των παλμοσκοπίων ήχου.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
@@ -832,13 +832,13 @@ Stereo - εμφανίζει δύο ανεξάρτητες προβολές γι�
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Ενεργοποίηση Αντίστροφης Στερεοφωνίας</translation>
+        <translation>Ενεργοποίηση Αντίστροφης Στερεοφωνίας...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Ενεργοποίηση Αντίστροφης Μονοφωνίας</translation>
+        <translation>Ενεργοποίηση Κανονικής Στερεοφωνίας...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2016"/>
@@ -1000,7 +1000,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
         <source>Server boot error...</source>
-        <translation>Σφάλμα εκκίνησης του διακομιστή</translation>
+        <translation>Σφάλμα εκκίνησης του διακομιστή...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
