@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-08 08:37+0000\n"
+"PO-Revision-Date: 2018-05-11 14:37+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -12257,7 +12257,6 @@ msgstr ""
 "mence en fondu, finit en fondu)."
 
 #: A.03-coded-beats.md:157
-#, fuzzy
 msgid ""
 "Finally, let's go back in time and revisit the early Bristol drum and bass sce"
 "ne with this month's example. Don't worry too much about what all this means, "
@@ -12265,11 +12264,11 @@ msgid ""
 "d see where you can take it. Please do share what you create! See you next tim"
 "e..."
 msgstr ""
-"Enfin, revenons dans le temps et revisitons la jeune scène de drum and bass de"
-" Bristol avec l'exemple de ce mois. Ne vous inquiétez pas trop de tout ce que "
-"cela signifie, tapez le, cliquez sur Run, puis commencez à coder interactiveme"
-"nt en changement les valeurs des options et voyez où cela vous amène. Partagez"
-" ce que vous créez ! A la prochaine..."
+"Enfin, revenons dans le temps et revisitons la jeune scène de drum and bass "
+"de Bristol avec l'exemple du mois. Ne vous inquiétez pas trop de tout ce que "
+"cela signifie, tapez le, cliquez sur Run, puis commencez à coder "
+"interactivement en changeant les valeurs des options et voyez où cela vous "
+"amène. Partagez ce que vous créez ! À la prochaine..."
 
 #: A.03-coded-beats.md:163
 #, no-wrap
