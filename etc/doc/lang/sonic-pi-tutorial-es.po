@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-30 19:39+0000\n"
-"Last-Translator: Andru <andres.senn@gmail.com>\n"
+"PO-Revision-Date: 2018-05-18 01:41+0000\n"
+"Last-Translator: Diego Ramos <sirdiegoramos@protonmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2090,7 +2090,6 @@ msgstr ""
 "`sample`."
 
 #: 03.3-Stretching-Samples.md:1
-#, fuzzy
 msgid "3.3 Stretching Samples"
 msgstr "3.3 Estirando Samples"
 
@@ -2138,7 +2137,6 @@ msgstr ""
 "a la que los números son alimentados al parlante para cambiar el sonido."
 
 #: 03.3-Stretching-Samples.md:23
-#, fuzzy
 msgid "Changing Rate"
 msgstr "Cambiando la Velocidad"
 
@@ -2171,15 +2169,14 @@ msgid "sample :ambi_choir, rate: 0.5"
 msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
-#, fuzzy
 msgid ""
 "Woah! What's going on here? Well, two things. Firstly, the sample takes twice "
 "as long to play, secondly the sound is an octave lower. Let's explore these th"
 "ings in a little more detail."
 msgstr ""
-"Woah! ¿qué sucedió? Bueno, dos cosas: Primero, el sample se ejecutó en el dobl"
-"e del tiempo; Segundo, sonó una octava más grave. Exploremos todo ello en más "
-"detalle."
+"¡Woah! ¿qué sucedió? Bueno, dos cosas: Primero, el sample se ejecutó en el "
+"doble del tiempo; Segundo, sonó una octava más grave. Exploremos todo esto "
+"en más detalle."
 
 #: 03.3-Stretching-Samples.md:43
 #, fuzzy
@@ -5645,6 +5642,9 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
+"Si bien las variables son buenas para nombrar cosas y guardar los resultados "
+"de estas, es importante saber que, por lo general, solo deben usarse "
+"localmente dentro de un hilo. Por ejemplo, *no hagas esto*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
@@ -5660,6 +5660,16 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
