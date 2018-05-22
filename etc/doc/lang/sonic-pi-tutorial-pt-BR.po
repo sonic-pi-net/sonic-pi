@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-30 04:41+0000\n"
-"Last-Translator: Glauco Luiz Corrêa Basilio Dos <glauco.basilio@gmail.com>\n"
+"PO-Revision-Date: 2018-05-23 02:40+0000\n"
+"Last-Translator: Kaique Ribeiro de Campos <kaiquetrabalhosescola@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -179,8 +179,8 @@ msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"Finlamente, *lembre deste momento*, essa é a primera vez que você programou "
-"ao vivo com Sonic Pi and provavelmente não será a última vez..."
+"Finalmente, *lembre deste momento*, essa é a primeira vez que você programou "
+"ao vivo com Sonic Pi e provavelmente não será a última vez..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -188,7 +188,7 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ok, isso foi bem simples. Vamos adicionar alguma outra coisa na mixagem. "
+"Ok, isso foi bem simples. Vamos adicionar alguma outra coisa na mistura. "
 "Sobre `sample :bd_haus` adicione a linha `sample: ambi_choir, rate: 0,3`. "
 "Seu código deve estar assim agora:"
 
@@ -220,9 +220,9 @@ msgstr ""
 "valores maiores, ou valores menores ou negativos? Veja o que acontece quando "
 "você altera o valor `rate:` para o sample `:ambi_choir` apenas um pouco ("
 "digamos, para `0.29`). O que acontece se escolher um valor bem pequeno para "
-"`sleep`? Veja se você pode fazer isso ficar tão rápido uqe seu computador "
+"`sleep`? Veja se você pode fazer isso ficar tão rápido que seu computador "
 "irá parar com um erro porque ele não consegue acompanhar (se isso acontecer, "
-"apenas selciona um tempo maior pra `sleep` e pressione `Rodar` novamente)."
+"apenas selecione um tempo maior pra `sleep` e pressione `Rodar` novamente)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -249,7 +249,7 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Note como isso diz ao computador para ignorar essa linha, você não consegue "
+"Note como ele diz ao computador para ignorar essa linha, você não consegue "
 "ouvi-lá. Isto é chamado comentário. Em Sonic Pi você pode usar comentários "
 "para remover e adicionar coisas na mixagem."
 
@@ -277,6 +277,8 @@ msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
+"Tente mudar os tempos `sleep` e escutar que ambos loops podem rodar em taxas "
+"diferentes."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
@@ -289,6 +291,8 @@ msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
+"Tente trocar qualquer valor do `mix:` azul para números entre `0` (não na "
+"mixagem) e `1` (totalmente na mixagem)."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -297,6 +301,10 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
+"Lembre-se de apertar `Run` e você irá ouvir a mudança na próxima vez que o "
+"loop rodar. Se você acabar num aperto, não se preocupe - aperte `Stop`, "
+"delete o código no buffer e cole uma cópia nova em folha e você estará "
+"pronto para tocar novamente. Fazer erros é a forma mais rápida de aprender..."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -315,6 +323,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -322,28 +343,33 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
+"Agora,continue tocando e experimentando até que sua curiosidade sobre como "
+"tudo isso realmente surja e você comece a se perguntar oque mais você pode "
+"fazer com isso. Agora você está pronto para o resto do tutorial."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "Então oque você está esperando..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 Explorando a Interface"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "A Interface de Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
+"Sonic Pi tem uma interface muito simples para codificar música. Vamos passar "
+"um tempinho explorando-a."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -351,31 +377,31 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - Controles de Edição"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* - Ajuda e Informação"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - Editor de Código"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - Painel de Preferências"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F* - Visualizador de Log"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* - Sistema de Ajuda"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* - Visualizador de Escopo"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
@@ -388,10 +414,15 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"Esses botões rosas são os controles principais para inciar e finalizar sons. "
+"Há um botão *Run* para executar o código no editor, *Stop* para parar todo o "
+"código que está sendo executado, *Save* para salvar todo o código para um "
+"arquivo externo e *Record* para criar uma gravação (um arquivo WAV) do som "
+"que está tocando."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. Controles do Editor"
 
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
@@ -399,10 +430,13 @@ msgid ""
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
+"Esses botões laranjas te permitem manipular o editor de código. Os botões *"
+"Size +* e *Size -* te permitem fazer o texto maior e menor. O botão *Align* "
+"irá arrumar o código para ele parecer mais profissional."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "C. Ajuda e Informação"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -412,10 +446,16 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
+"Esses botões azuis te dão acesso à informação, ajuda e preferências. O botão "
+"*Info* irá abrir a janela de informações na qual contém informação sobre o "
+"Sonic Pi - o time fonte, histórico, contribuidores e comunidade. O botão "
+"*Help* ativa o sistema de ajuda (*G*) e o botão *Prefs* ativa a janela de "
+"preferências na qual te permite controlar alguns parâmetros básicos do "
+"sistema."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. Editor de Código"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -426,10 +466,17 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"Essa é a área em que você vai escrever seu código e compor/fazer música. É "
+"um simples editor de texto onde você pode escrever código,deleta-lo,recortar "
+"e colar, etc. Pense nele como uma versão muito básica do Word ou Google "
+"Docs. O editor vai colorir automaticamente as palavras baseado no seu "
+"significado no código. Isso parece estranho de primeira, mas logo você vai "
+"achar muito útil.Por exemplo, você saberá que algo é um número por que é "
+"azul."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. Painel de Preferências"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
