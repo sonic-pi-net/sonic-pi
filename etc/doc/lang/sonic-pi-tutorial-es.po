@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-18 01:41+0000\n"
+"PO-Revision-Date: 2018-05-23 15:41+0000\n"
 "Last-Translator: Diego Ramos <sirdiegoramos@protonmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
@@ -2110,9 +2110,8 @@ msgstr ""
 "Primero, exploremos la habilidad de *estirar* y *aplastar* los samples."
 
 #: 03.3-Stretching-Samples.md:10
-#, fuzzy
 msgid "Sample Representation"
-msgstr "Representación de Sampleos"
+msgstr "Representación de Samples"
 
 #: 03.3-Stretching-Samples.md:12
 msgid ""
@@ -2184,13 +2183,12 @@ msgid "Let's stretch"
 msgstr "Estiremos"
 
 #: 03.3-Stretching-Samples.md:45
-#, fuzzy
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
-"Un sample que es divertido estirar y comprimir es el Amen Break. A velocidad n"
-"ormal, podemos imaginar poner una pista de *drum 'n' bass*:"
+"Un sample que es divertido estirar y comprimir es el Amen Break. A velocidad "
+"normal, podemos imaginar ponerlo en una pista de *drum 'n' bass*:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
@@ -2199,13 +2197,12 @@ msgid "sample :loop_amen"
 msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
-#, fuzzy
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
 msgstr ""
-"Sin embargo, cambiando la velocidad podemos cambiar \"géneros\". Intenta con la "
-"mitad de la velocidad para un \"hip hop de vieja escuela\":"
+"Sin embargo, cambiando la velocidad podemos cambiar \"géneros\". Intenta con "
+"la mitad de la velocidad para un \"hip hop de la vieja escuela\":"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
@@ -2213,9 +2210,8 @@ msgid "sample :loop_amen, rate: 0.5"
 msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
-#, fuzzy
 msgid "If we speed it up, we enter *jungle* territory:"
-msgstr "Si lo aceleramos, entramos al territorio estilístico de *jungle*:"
+msgstr "Si lo aceleramos, entramos al territorio de *jungle*:"
 
 #: 03.3-Stretching-Samples.md:61 A.17-sample-stretching.md:46
 #, no-wrap
