@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-03-16 15:39+0000\n"
+"PO-Revision-Date: 2018-05-27 20:59+0000\n"
 "Last-Translator: Harald Eilertsen <haraldei-weblate@anduin.net>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/nb/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1734,9 +1734,9 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"En siste triks er at selv om 'decay_level:' opt-et som standard har den samme "
-"verdien som 'sustain_level:' kan du angi dem med ulike verdier for å ha full k"
-"ontroll over omslaget. Dette lar deg lage omslag som som følgende:"
+"Ett siste triks er at selv om opsjonen 'decay_level:' i utgangspunktet har "
+"den samme verdien som 'sustain_level:' kan du angi dem med ulike verdier for "
+"å ha full kontroll over omslaget. Dette lar deg lage omslag slik som dette:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -3028,6 +3028,8 @@ msgstr ""
 #: 03.7-Sample-Packs.md:143
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
+"\"/path/to/samples/foo.wav\" - en tekststreng som representerer en gyldig "
+"bane til en sample."
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
