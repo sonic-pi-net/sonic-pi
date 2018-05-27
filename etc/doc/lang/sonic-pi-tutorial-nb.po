@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-27 20:59+0000\n"
-"Last-Translator: Harald Eilertsen <haraldei-weblate@anduin.net>\n"
+"PO-Revision-Date: 2018-05-28 03:57+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/nb/>\n"
 "Language: nb\n"
@@ -3029,7 +3029,7 @@ msgstr ""
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
 "\"/path/to/samples/foo.wav\" - en tekststreng som representerer en gyldig "
-"bane til en sample."
+"sti til en sample."
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -14046,9 +14046,8 @@ msgid ""
 msgstr ""
 
 #: C-Minecraft-Pi.md:1
-#, fuzzy
 msgid "C Minecraft Pi"
-msgstr "Minecraft Pi"
+msgstr "C Minecraft Pi"
 
 #: C-Minecraft-Pi.md:3
 msgid "Minecraft Pi"
