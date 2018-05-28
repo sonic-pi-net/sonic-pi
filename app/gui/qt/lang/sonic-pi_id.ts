@@ -39,7 +39,7 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation>Mengkonfigurasi perilaku men debug</translation>
+        <translation>Konfigurasikan perilaku debug</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
@@ -68,12 +68,12 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Toggle line number visibility.</source>
-        <translation>Nomor baris beralih tampak.</translation>
+        <translation>Tampilkan nomor baris.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1455"/>
         <source>Dark mode</source>
-        <translation>Mode gelap</translation>
+        <translation>Tema Gelap</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1841"/>
@@ -183,7 +183,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Isyarat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -208,97 +208,99 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Alamat IP lokal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Mendengarkan pesan OSC pada port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak tersedia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Menerima pesan dari remot OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ketika memeriksa, Sonic Pi akan mendengarkan pesan OSC dari mesin remote.
+ Ketika dicentang, hanya pesan dari mesin lokal yang akan diterima.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengaktifkan server OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ketika dicentang, Sonic Pi akan mendengarkan pesan OSC.
+ Ketika tidak dicentang, tidak akan menerima pesan OSC.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengkonfigurasi MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengaktifkan subsistem MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengaktifkan atau menonaktifkan komunikasi masuk dan keluar dari MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset MIDI subsistem (diperlukan untuk mendeteksi perubahan-perubahan perangkat pada macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Saluran MIDI standar (* berarti semua)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Saluran MIDI standar untuk mengirim pesan kepada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1292"/>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Perangkat input tidak tersambung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak ada perangkat output terhubung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>Perangkat input MIDI mengirim pesan MIDI langsung ke Sonic Pi dan diterima sebagai isyarat peristiwa (mirip masuk OSC pesan dan isyarat internal)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
@@ -478,12 +480,12 @@ untuk men-download versi baru</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Terhubung MIDI input</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Terhubung MIDI output</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="510"/>
@@ -493,35 +495,35 @@ untuk men-download versi baru</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Jaringan OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi dapat mengirim dan menerima pesan terbuka kontrol suara ke dan dari program lain atau komputer melalui saat ini terhubung jaringan.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurasi MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Port MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Daftar semua terhubung port MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Perangkat output MIDI menerima pesan MIDI langsung dari Sonic Pi yang dapat dikirim melalui midi_ * fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -547,7 +549,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beralih Pro ikon - beralih antara default dan satu set ikon yang lebih minimalis.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -684,37 +686,37 @@ Permintaan maaf, kesalahan kritis terjadi selama startup</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>membantu visibilitas berubah...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengaktifkan MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menonaktifkan MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Membuka port OSC untuk remote pesan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menghentikan server OSC ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengatur ulang MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI dinonaktifkan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
@@ -734,22 +736,22 @@ Permintaan maaf, kesalahan kritis terjadi selama startup</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Menampilkan log isyarat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beralih visibilitas isyarat log yang menampilkan internal isyarat &amp; OSC MIDI pesan masuk.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikon Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
