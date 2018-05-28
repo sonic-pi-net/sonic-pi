@@ -262,7 +262,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation>Reset MIDI</translation>
+        <translation>Setel ulang MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
