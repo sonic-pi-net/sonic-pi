@@ -272,7 +272,7 @@ When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
         <translation>選中該選項時，如果延遲超出範圍，Sonic Pi將拒絕觸發合成器和效果器；
-取消該選項時，即使又一定延遲，Sonic Pi也將嘗試觸發合成器和效果器。</translation>
+取消該選項時，即使發生延遲，Sonic Pi也將嘗試觸發合成器和效果器。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1388"/>
@@ -284,7 +284,7 @@ even when a little late.</source>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>切換自動更新檢查。
-該選項將向開發者匿名發送當前用戶操作系統類型和Sonic Pi版本信息。</translation>
+該選項將向開發者匿名發送當前用戶操作系統類型和Sonic Pi版本訊息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
@@ -296,12 +296,12 @@ This check involves sending anonymous information about your platform and versio
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>強制立即檢查更新。
-該選項將匿名向開發者發送當前用戶操作系統類型和Sonic Pi版本信息。</translation>
+該選項將匿名向開發者發送當前用戶操作系統類型和Sonic Pi版本訊息。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1403"/>
         <source>Get update</source>
-        <translation>獲取更新</translation>
+        <translation>取得更新</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1404"/>
@@ -311,7 +311,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1409"/>
         <source>Update Info</source>
-        <translation>更新信息</translation>
+        <translation>更新訊息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
@@ -321,7 +321,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor display options.</source>
-        <translation>配置編輯器顯示選項。</translation>
+        <translation>設定編輯器顯示選項。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
@@ -331,7 +331,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure editor look and feel.</source>
-        <translation>設置程式碼編輯器外觀。</translation>
+        <translation>設定程式碼編輯器外觀。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1432"/>
@@ -341,7 +341,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
         <source>Configure automation features.</source>
-        <translation>設置自動化選項。</translation>
+        <translation>設定自動化選項。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="510"/>
@@ -351,7 +351,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation>網路 OSC</translation>
+        <translation>網路OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
@@ -363,7 +363,7 @@ to and from other programs or computers
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation>MIDI配置</translation>
+        <translation>MIDI設定</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
@@ -416,12 +416,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <source>Show tabs</source>
-        <translation>顯示編輯器窗口選擇欄</translation>
+        <translation>顯示分頁</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>切換是否顯示編輯器窗口Buffer選擇標簽。</translation>
+        <translation type="unfinished">切換是否顯示編輯器窗口Buffer分頁。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
@@ -470,7 +470,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation>打開Sonic Pi Buffer文件</translation>
+        <translation>開啟Sonic Pi Buffer文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
