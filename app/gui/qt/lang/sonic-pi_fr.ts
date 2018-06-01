@@ -313,12 +313,12 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
         <source>Look and Feel</source>
-        <translation>Regarde et ressent</translation>
+        <translation>Apparence</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure editor look and feel.</source>
-        <translation>Configuration du look and feel de l&apos;éditeur.</translation>
+        <translation>Configuration de l&apos;apparence de l&apos;éditeur.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1432"/>
