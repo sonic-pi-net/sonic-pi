@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-31 16:35+0000\n"
+"PO-Revision-Date: 2018-06-05 08:35+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.0\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -653,6 +653,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
+"En aquesta secció abastarem els conceptes bàsics de desencadenar i "
+"manipular, que no és més que una paraula rebuscada per a quelcom que "
+"produeix sons. Típicament els sintetitzadors són bastant complicats d'usar -"
+"especialment els sintetitzadors analògics modulars, amb tants cables que els "
+"connecten. No obstant això, Sonic Pi us dona molt d'aquest poder d'una "
+"manera més senzilla i accessible."
 
 #: 02-Synths.md:14
 msgid ""
@@ -660,23 +666,26 @@ msgid ""
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
+"No us confongueu amb la immediata senzillesa de la interfície de Sonic Pi. "
+"Podeu arribar a manipular amb molta profunditat el so, si això us interessa. "
+"Estigueu a l'aguait..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 Els primers sons"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr ""
+msgstr "Els primers sons"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr ""
+msgstr "Fes una ullada al codi següent:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -684,14 +693,17 @@ msgid ""
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
+"Ací comença tot. Endavant, copieu i enganxeu-ho dintre de la finestra "
+"superior de l'aplicació (aquell espai gran en blanc davall del botó Run "
+"-executar-). Ara, prem Run..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "Piiip!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr ""
+msgstr "Bo! Premeu-lo una altra vegada. i una altra. *I una altra...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
