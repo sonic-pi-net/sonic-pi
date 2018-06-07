@@ -6,19 +6,19 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Preferences</source>
-        <translation></translation>
+        <translation>تەڭشەكلەر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Log</source>
-        <translation></translation>
+        <translation>خاتىرە</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation>سونىك پاي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
@@ -51,7 +51,7 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Safe mode</source>
-        <translation></translation>
+        <translation>بىخەتەر ھالەت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
@@ -79,19 +79,19 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation></translation>
+        <translation>كود ئىجرا قىلىنىۋاتىدۇ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation></translation>
+        <translation>چىرايلىقلاشتۇرۇلىۋاتىدۇ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation></translation>
+        <translation>قايتا ئىگەرلىنىۋاتىدۇ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
@@ -136,12 +136,12 @@ external PA systems when performing with Sonic Pi.</source>
         <location filename="../mainwindow.cpp" line="1396"/>
         <location filename="../mainwindow.cpp" line="1562"/>
         <source>Updates</source>
-        <translation></translation>
+        <translation>يېڭىلانمىلار</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Check for updates</source>
-        <translation></translation>
+        <translation>يېڭىلانمىلارنى تەكشۈرۈش</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1507"/>
@@ -183,17 +183,17 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
         <source>Cues</source>
-        <translation></translation>
+        <translation>ئىشارەتلەر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Full screen mode on.</source>
-        <translation></translation>
+        <translation>پۈتۈن ئېكران ھالىتى ئوچۇق.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation></translation>
+        <translation>پۈتۈن ئېكران ھالىتى ئېتىك.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
@@ -208,7 +208,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation></translation>
+        <translation>يەرلىك IP مەنزىلى</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
@@ -1084,12 +1084,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="1317"/>
         <source>Samples</source>
-        <translation></translation>
+        <translation>ئۆرنەكلەر</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1564"/>
         <source>Lang</source>
-        <translation></translation>
+        <translation>تىل</translation>
     </message>
 </context>
 <context>
@@ -1097,7 +1097,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="47"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation>سونىك پاي</translation>
     </message>
 </context>
 <context>
