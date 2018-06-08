@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-23 07:35+0000\n"
-"Last-Translator: Eason Chang <eason@easonchang.com>\n"
+"PO-Revision-Date: 2018-06-09 10:35+0000\n"
+"Last-Translator: sharmer156 <sharmmer156@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hant/>\n"
 "Language: zh-TW\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.0\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -207,9 +207,10 @@ msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
-msgstr ""
+msgstr "注意它是如何告訴計算機忽略它的，所以我們不會聽到它。這叫做註釋。在Sonic Pi中，我們可以使用’#‘註釋增减東西混合代码中。"
 
 #: 01.1-Live-Coding.md:74
+#, fuzzy
 msgid ""
 "Finally, let me leave you something fun to play with. Take the code below, and"
 " copy it into a spare buffer. Now, don't try to understand it too much other t"
@@ -217,36 +218,41 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"最後，讓我給你們留點樂子。將下面的代碼複製到一個備用緩衝區中。現在，除了看到有兩個loop循環外，不要太理解它，所以同時有兩個循環。現在，做你最擅長的事—"
+"—做實驗不断深入玩耍。這裏有一些建議:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
-msgstr ""
+msgstr "試着改變藍调的“rate::”值，以聽到樣本聲音的速率變化。"
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
-msgstr ""
+msgstr "試着改變“sleep”值可以是（0~∞）時間，並聽到兩個循環可以以不同的速度旋轉。"
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
-msgstr ""
+msgstr "嘗試取消對簡單示例行的註釋(刪除“#”)，並欣賞演奏的吉他聲音。"
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
-msgstr ""
+msgstr "試着改變藍色的“mix:“值，數值在0(不是混合)和1(完全混合)之間。"
 
 #: 01.1-Live-Coding.md:88
+#, fuzzy
 msgid ""
 "Remember to press `Run` and you'll hear the change next time the loop goes rou"
 "nd. If you end up in a pickle, don't worry - hit `Stop`, delete the code in th"
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
+"記住按“Run”，下次loop循環時，您將聽到更改。如果你最終陷入困境，不要擔心——點擊“停止”，刪除緩存中的代碼，然後粘貼一個新的拷貝，你就可以再次陷入"
+"困境了。犯錯是你學習最快的方法……"
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -271,11 +277,11 @@ msgid ""
 "Now, keep playing and experimenting until your curiosity about how this all ac"
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
-msgstr ""
+msgstr "現在，保持玩耍，不斷嘗試，直到你對這一切如何運作產生好奇心，你開始思考你還能做些什麼。現在您可以閱讀教程的其餘部分了。"
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "所以您還在等什麼呢..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
@@ -289,7 +295,7 @@ msgstr "Sonic Pi 介面"
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
-msgstr ""
+msgstr "音速小子有一個非常簡單的接口爲編碼音樂。讓我們花點時間來探討一下。"
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
@@ -297,35 +303,35 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A*區域 -運行控制區域"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* 區域- 編輯控制區域"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* 區域-信息和幫助"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D*區域 - 代碼編輯"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "* E *區域 -首選項面板"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F*區域 - 日記"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* 區域- 幫助系統"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* 區域- （運行）審閱"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
