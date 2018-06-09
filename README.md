@@ -21,13 +21,13 @@
 ## The Live Coding Music Synth for Everyone.
 
 Sonic Pi is a *new kind of musical instrument*. Instead of strumming
-strings or whacking things with sticks - you write code - **live**.
+strings or whacking things - you write code - **live**.
 
 Sonic Pi has been designed with the aim to find a harmonious balance
 between three core principles:
 
 * **Simple** enough for the 10 year old within you
-* **Joyful** enough for you to lose yourself through play
+* **Joyful** enough to lose yourself through play
 * **Powerful** enough for your own expressions
 
 Sonic Pi is a complete open source programming environment originally
@@ -38,16 +38,14 @@ In addition to being an engaging education resource it has evolved into
 an *extremely powerful* and performance-ready *live coding instrument* suitable 
 for professional artists and DJs.
 
-Whilst Education is a core focus it now sits at the intersection
-between three core domains:
+While Education is the main priority, Sonic Pi aims to find a balance between
+three core domains:
 
 * **Art** - providing the means to express yourself and ask new questions of music and notation
-* **Technology** - exploring questions related to liveness, time and concurrency in programming languages
+* **Technology** - exploring questions related to liveness, time, and concurrency in programming languages
 * **Education**  - demonstrating that open play rather than rigid structures increases motivation and engagement in the classroom
 
-Again, finding a balance working to the best benefits of all these
-domains is the objective.
-
+## Information and Resources
 
 * Info & Latest Releases: http://sonic-pi.net
 * Source: https://github.com/samaaron/sonic-pi
@@ -83,7 +81,7 @@ Status                                                                          
 [![Translation Status of Sonic Pi: zh_Hans](https://hosted.weblate.org/widgets/sonic-pi/zh_Hans/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Simplified Chinese  | :white_check_mark: | :red_circle:
 [![Translation Status of Sonic Pi: es](https://hosted.weblate.org/widgets/sonic-pi/es/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Spanish             | :white_check_mark: | :white_check_mark:
 
-Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
+Interesetd in translating Sonic Pi to your language? Take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
 
 ## Information for developers
 
