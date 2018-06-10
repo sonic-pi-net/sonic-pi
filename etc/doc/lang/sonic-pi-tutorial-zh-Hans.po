@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-06 09:35+0000\n"
-"Last-Translator: li-sky <s-k-y-@sohu.com>\n"
+"PO-Revision-Date: 2018-06-11 15:35+0000\n"
+"Last-Translator: _eternal_flame <webmaster@andycloud.dynu.net>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -30,6 +30,8 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"欢迎尝试 Sonic Pi。 真希望你已经迫不及待地要跟随我的指引来开始创造激动人心的声音。 "
+"在这里你会学习到音乐、合成、编程、作曲、表演还有很多很多有趣的东西。"
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -65,16 +67,16 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr ""
+msgstr "让我们开始吧……"
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 即时代码"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr ""
+msgstr "即时代码"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -83,10 +85,12 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"Sonic Pi的一大特性是你能够在播放时即时修改你的代码，就像你在舞台上演奏一部真正的吉他一样。 换句话说，经过练习，你能够把Sonic Pi "
+"带上舞台并且拿它来演出。"
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "放轻松"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -102,7 +106,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr ""
+msgstr "让我们开始吧。 把下面的代码复制到一个空的编辑器里："
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -112,6 +116,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
@@ -122,7 +130,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "确认低音鼓仍然在运行"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
@@ -130,11 +138,11 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "再次点击“运行”按钮"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "注意鼓速度的变化。"
 
 #: 01.1-Live-Coding.md:36
 msgid ""
@@ -158,6 +166,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -171,7 +184,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr ""
+msgstr "试着把一个`sample`代码行注释掉（在这一行前加一个`#`）："
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -182,6 +195,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
