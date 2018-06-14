@@ -81,7 +81,7 @@ Status                                                                          
 [![Translation Status of Sonic Pi: zh_Hans](https://hosted.weblate.org/widgets/sonic-pi/zh_Hans/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Simplified Chinese  | :white_check_mark: | :red_circle:
 [![Translation Status of Sonic Pi: es](https://hosted.weblate.org/widgets/sonic-pi/es/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Spanish             | :white_check_mark: | :white_check_mark:
 
-Interesetd in translating Sonic Pi to your language? Take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
+Intereseted in translating Sonic Pi to your language? Take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
 
 ## Information for developers
 
