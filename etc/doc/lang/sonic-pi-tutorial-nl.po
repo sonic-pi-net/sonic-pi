@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-04 14:05+0000\n"
-"Last-Translator: Michiel Leegwater <michiel.leegwater@technolution.eu>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/nl/>\n"
+"PO-Revision-Date: 2018-06-16 21:36+0000\n"
+"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.19-dev\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -18464,22 +18464,22 @@ msgid ""
 "easure with other pairs of numbers. Perhaps there's a big chest of gold at `2`"
 " across and `9` up..."
 msgstr ""
-"Stel je een piraten kaart voor met een grote `X` om de locatie van één of ande"
-"re schat te markeren. De exacte locatie van de  `X`  kan beschreven worden met"
-" twee cijfers- hoe ver van links naar rechts op de kaart en hoe ver op de kaar"
-"t van beneden naar boven in de kaart. Bijvoorbeeld  `10cm` over en `8cm`  naar"
-" omhoog. Deze twee nummers `10` en `8` zijn coördinaten. U kan zich goed voors"
-"tellen hoe een beschrijving van andere locaties van schatten met andere cijfer"
-"combinaties. Misschien is er een grote kist met goud aan `2` langs en `9` omho"
-"og..."
+"Stel je een piraten kaart voor met een grote `X`om de locatie van één of "
+"andere schat te markeren. De exacte locatie van de `X` kan beschreven worden "
+"met twee cijfers- hoe ver van links naar rechts op de kaart en hoe ver op de "
+"kaart van beneden naar boven in de kaart. Bijvoorbeeld  `10cm` over en `8cm`"
+"  naar omhoog. Deze twee nummers `10`en `8` zijn coördinaten. Je kan je goed "
+"voorstellen hoe andere locaties van schatten met andere cijfercombinaties "
+"worden beschreven. Misschien is er een grote kist met goud aan `2` en `9` "
+"omhoog..."
 
 #: C.01-Basic-API.md:61
 msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
 "h we are. We therefore need three numbers:"
 msgstr ""
-"In Minecraft zijn twee getallen niet genoeg. We willen ook weten hoe hoog we z"
-"ijn. Daarvoor hebben we drie getallen nodig:"
+"Nu, twee getallen zijn in Minecraft niet genoeg. We willen ook weten hoe "
+"hoog we zitten. Daarvoor hebben we drie getallen nodig:"
 
 #: C.01-Basic-API.md:64
 msgid "How far from right to left in the world - `x`"
@@ -18487,7 +18487,7 @@ msgstr "Hoe ver van rechts naar links in de wereld - 'x'"
 
 #: C.01-Basic-API.md:65
 msgid "How far from front to back in the world - `z`"
-msgstr "Hoe ver van voren naar achteren in de wereld - 'z'"
+msgstr "Hoe ver van voor naar achter in de wereld - 'z'"
 
 #: C.01-Basic-API.md:66
 msgid "How high up we are in the world - `y`"
@@ -18498,20 +18498,21 @@ msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, `y"
 "`, `z`."
 msgstr ""
-"Één ding nog - we schrijven meestal deze coördinaten in deze volgorde`x`, `y`,"
-" `z`."
+"Nog even dit - meestal schrijven we deze coördinaten in deze volgorde`x`, `y`"
+", `z`."
 
 #: C.01-Basic-API.md:71
 msgid "Finding your current coordinates"
-msgstr "Uw huidige coördinaten vinden"
+msgstr "Je huidige coördinaten vinden"
 
 #: C.01-Basic-API.md:73
 msgid ""
 "Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
 "map and then switch over to Sonic Pi. Now enter the following:"
 msgstr ""
-"Laten we eens spelen met de coördinaten. Navigeer naar een mooie plek in de Mi"
-"necraft kaart en schakel naar de Sonic Pi. Voer nu de volgende gegevens in:"
+"Laten we een spelletje doen met de coördinaten. Navigeer naar een mooie plek "
+"in de Minecraft kaart en schakel om naar Sonic Pi. Voer nu de volgende "
+"gegevens in:"
 
 #: C.01-Basic-API.md:76
 #, no-wrap
@@ -18528,18 +18529,18 @@ msgid ""
 "the coordinates change when you move. Once you've understood how coordinates w"
 "ork, programming with the Minecraft API will be a complete breeze."
 msgstr ""
-"Wanneer je de*Afspeel* knop drukt zie je de coördinaten van uw huidige positie"
-" weergegeven in het logboekvenster. Neem hier nota van, ga vooruit in de werel"
-"d en probeer het opnieuw. Merk op hoe de coördinaten veranderen! Nu, adviseer "
-"ik om dit enige tijd te herhalen - beweeg een beetje in de wereld, neem een ki"
-"jkje naar de coördinaten en herhaal. Doe dit tot je er gevoel voor begint te k"
-"rijgen hoe de coördinaten veranderen wanneer u zich verplaatst. Zodra u hebt b"
-"egrepen hoe coördinaten werken, zal programmeren met de Minecraft-API peanuts "
-"zijn."
+"Wanneer je op de*Afspeel* knop drukt zie je de coördinaten van uw huidige "
+"positie weergegeven worden in het logboekvenster. Neem hier nota van, ga "
+"vooruit in de wereld en probeer het dan nog eens. Merk op hoe de coördinaten "
+"veranderen! Nu, adviseer ik je om dit even te herhalen - beweeg een beetje "
+"in de wereld, neem een kijkje naar de coördinaten en herhaal opnieuw. Doe "
+"dit tot je er een zeker gevoel voor begint te krijgen, hoe deze coördinaten "
+"veranderen wanneer je je verplaatst. Zodra je hebt begrepen hoe deze "
+"coördinaten werken, zal het programmeren met de Minecraft-API peanuts worden."
 
 #: C.01-Basic-API.md:89
 msgid "Let's Build!"
-msgstr "Laten we bouwen!"
+msgstr "Laten we gaan bouwen!"
 
 #: C.01-Basic-API.md:91
 msgid ""
@@ -18548,10 +18549,10 @@ msgid ""
 "with code. Let's say you want to make the block with coordinates `40`, `50`, `"
 "60` to be glass. That's super easy:"
 msgstr ""
-"Nu je de huidige positie weet te vinden en hoe te teleporteren met behulp van "
-"coördinaten, heb je alle hulpmiddelen die die je nodig hebt om  met code te be"
-"ginnen bouwen  in Minecraft. Stel dat je het blok met coördinaten `40`, `50`, "
-"`60` van glas wordt. Dat is dan super eenvoudig:"
+"Nu je de huidige positie weet te vinden en je kan teleporteren met behulp "
+"van coördinaten, heb je alle hulpmiddelen die die je nodig hebt om met code "
+"te gaan beginnen bouwen in Minecraft. Stel dat je het blok met coördinaten "
+"`40`, `50`, `60` van glas wordt. Dat is nu super eenvoudig:"
 
 #: C.01-Basic-API.md:96
 #, no-wrap
@@ -18563,8 +18564,8 @@ msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby and "
 "take a look:"
 msgstr ""
-"Haha, het was echt zo makkelijk. Om je werkstuk te zien teleporteer je je in d"
-"e buurt:"
+"Haha, het was echt zo makkelijk. Om je werkstuk te zien, teleporteer je je "
+"in de buurt en bekijk deze nu:"
 
 #: C.01-Basic-API.md:103
 #, no-wrap
@@ -18576,8 +18577,8 @@ msgid ""
 "Now turn around and you should see your glass block! Try changing it to diamon"
 "d:"
 msgstr ""
-"Draai nu even rond en je zou je glazen blok moeten zien staan! Probeer deze nu"
-" te veranderen in diamant:"
+"Draai nu even rond en je zou je glazen blok moeten zien staan! Probeer deze "
+"nu in diamant te veranderen:"
 
 #: C.01-Basic-API.md:110
 #, no-wrap
@@ -18589,8 +18590,8 @@ msgid ""
 "If you were looking in the right direction you might have even seen it change "
 "in front of your eyes! This is the start of something exciting..."
 msgstr ""
-"Als je in de juiste richting gekeken hebt heb je het misschien zién veranderen"
-"! Dit is het begin van iets spannends..."
+"Als je goed keek, zag je het met jij eigen ogen veranderen! Dit is het begin "
+"van iets groots..."
 
 #: C.01-Basic-API.md:117
 msgid "Looking at blocks"
@@ -18602,9 +18603,9 @@ msgid ""
 ". Given a set of coordinates we can ask Minecraft what the type of a specific "
 "block is. Let's try it with the diamond block you just created:"
 msgstr ""
-"Laat we naar een laatste ding kijken, voor we ons engageren in iets anders. Me"
-"t een set aan coördinaten kunnen we Minecraft vragen van welk type een bepaald"
-"e blok is. Laat ons dit proberen met onze net aangemaakte blok:"
+"Nog een laatste, voor we ons in iets anders engageren. Met een set van "
+"coördinaten kunnen we Minecraft vragen, welk type een bepaalde blok is. Laat "
+"ons dit proberen met onze zopas aangemaakte blok:"
 
 #: C.01-Basic-API.md:124
 #, no-wrap
@@ -18616,20 +18617,20 @@ msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
 " now say `:glass`? I'm sure it does :-)"
 msgstr ""
-"Jeuj! Het is `:diamond`.Probeer deze terug te veranderen naar glas en vraag da"
-"n opnieuw- zegt het nu `:glass`? Ik ben zeker van wel :-)"
+"Jeuj! Het is `:diamond`.Probeer deze nu terug te veranderen naar glas en "
+"vraag het dan opnieuw. Zegt het nu `:glass`? Ik ben zeker van wel :-)"
 
 #: C.01-Basic-API.md:131
 msgid "Available block types"
-msgstr "Beschikbare bloktypes"
+msgstr "De beschikbare bloktypes"
 
 #: C.01-Basic-API.md:133
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of av"
 "ailable block types useful:"
 msgstr ""
-"Voordat je op op ramkoers gaat met Minecraft Pi codering , misschien vindt u d"
-"eze lijst van beschikbare bloktypes dan nuttig:"
+"Voor je helemaal loos gaat met het coderen van Minecraft Pi, moet je "
+"misschien deze lijst met beschikbare bloktypes even bekijken:"
 
 #: C.01-Basic-API.md:136
 #, no-wrap
