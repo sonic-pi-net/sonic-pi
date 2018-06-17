@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-23 15:41+0000\n"
-"Last-Translator: Diego Ramos <sirdiegoramos@protonmail.com>\n"
+"PO-Revision-Date: 2018-06-18 07:44+0000\n"
+"Last-Translator: Vee F <im.core.nerd@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2140,13 +2140,12 @@ msgid "Changing Rate"
 msgstr "Cambiando la Velocidad"
 
 #: 03.3-Stretching-Samples.md:25
-#, fuzzy
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
-"Ejecutemos uno de los sonidos ambiente: `:ambi_choir`. Para tocarlo con la vel"
-"ocidad predeterminada, puedes añadir `rate:` a `sample`:"
+"Vamos a cambiar uno de los sonidos ambientales. Para la modificación de la "
+"velocidad por defecto, se puede agregar 'rate:' a la  'sample':"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
