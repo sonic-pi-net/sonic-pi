@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-11 15:35+0000\n"
+"PO-Revision-Date: 2018-06-22 07:36+0000\n"
 "Last-Translator: _eternal_flame <webmaster@andycloud.dynu.net>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -64,6 +64,8 @@ msgid ""
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"最后，观看他人直播代码也是一个很好的学习方式。我时常在[http://youtube.com/samaaron](http://youtube.com/"
+"samaaron)上直播，欢迎来观看并且询问问题 :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -99,10 +101,12 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
+"在我们探索Sonic Pi的详细使用方法之前，我想先让你体验一下即时代码的感受。如果你没有明白代码的绝大（或者全部）部分，别担心，先坐下来静静享受吧..."
 
 #: 01.1-Live-Coding.md:17
+#, fuzzy
 msgid "A live loop"
-msgstr ""
+msgstr "一个live loop"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
@@ -126,7 +130,7 @@ msgid ""
 "Now, press the `Run` button and you'll hear a nice fast bass drum beating away"
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
-msgstr ""
+msgstr "现在，按`运行`按钮，你会听到一个好听的快速击打的低音鼓。你可以在任何时候按`停止`按钮来停止。但现在先别急停止，先试试这些步骤:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
@@ -134,7 +138,7 @@ msgstr "确认低音鼓仍然在运行"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr ""
+msgstr "将`sleep`的值从`0.5`改成一个更大的，比如`1`。"
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
