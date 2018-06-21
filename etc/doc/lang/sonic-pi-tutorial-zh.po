@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-05 10:35+0000\n"
-"Last-Translator: Smite Chow <xiaopengyou@live.com>\n"
-"Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/zh/>\n"
+"PO-Revision-Date: 2018-06-22 08:35+0000\n"
+"Last-Translator: mintpi <ruolane@gmail.com>\n"
+"Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/zh/>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.19-dev\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -177,6 +177,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -302,7 +307,7 @@ msgstr "Sonic Pi 有一个非常简单的界面用来编程音乐，我们花点
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -546,54 +551,54 @@ msgid ""
 "Don't be fooled by the immediate simplicity of Sonic Pi's interface. You can g"
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
-msgstr ""
+msgstr "不要被Sonic Pi界面的简单性所迷惑。如果你愿意，你可以深入到非常复杂的声音操纵。请继续..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 你的第一声"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr ""
+msgstr "你的第一声"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr ""
+msgstr "参见下面的代码："
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
 "This is where it all starts. Go ahead, copy and paste it into the code window "
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
-msgstr ""
+msgstr "这是一切开始的地方。继续，将其复制并粘贴到应用程序顶部的代码窗口中（“Run”按钮下的编辑框）。现在，按下“Run”按钮..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "嘟！"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr ""
+msgstr "好。再按一次。然后再次。 *然后再次...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
-msgstr ""
+msgstr "哇，太疯狂了，我相信你可以一直这样做下去。但是，等等，沉浸于无尽的嘟嘟声中之前，请尝试更改下数字："
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr ""
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
-msgstr ""
+msgstr "你能听到区别吗？尝试一个较低的数字："
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
