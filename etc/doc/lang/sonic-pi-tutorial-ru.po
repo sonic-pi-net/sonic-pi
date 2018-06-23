@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-11-05 21:48+0000\n"
-"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"ru/>\n"
+"PO-Revision-Date: 2018-06-25 06:43+0000\n"
+"Last-Translator: ALEXANDR GUSEV <gusev11v13@yandex.ru>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4"
-" && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -603,16 +603,16 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
-"Коль скоро мы об этом заговорили, позвольте дать вам один совет, который я усв"
-"оил за годы занятий лайвкодингом - *ошибок нет, есть только возможности*. Част"
-"о мне приходилось слышать это про джаз, но для живого кодинга это так же справ"
-"едливо. Неважно, насколько велик ваш опыт - от полного новичка до бывалого алг"
-"орейвера - вы будете запускать код с совершенно неожиданным результатом. Он мо"
-"жет звучать безумно круто, тогда вы можете гордиться им. Однако, он также може"
-"т получиться совершенно невыносимым для слуха и быть не к месту. Не важно, что"
-" так произошло. Важно, что вы сделаете с этим потом. Возьмите звук, умело обра"
-"ботайте его, и превратите в нечто ошеломляющее. Публика будет *неистовствовать"
-"*."
+"Коль скоро мы об этом заговорили, позвольте дать вам один совет, который я "
+"усвоил за годы занятий лайв-кодингом - *ошибок нет, есть только возможности*"
+". Часто мне приходилось слышать это про джаз, но для лайв-кодинга это так же "
+"справедливо. Неважно, насколько велик ваш опыт - от полного новичка до "
+"бывалого Алго-Рейвера - вы будете запускать код с совершенно неожиданным "
+"результатом. Он может звучать безумно круто, тогда вы можете гордиться им. "
+"Однако, он также может получиться совершенно невыносимым для слуха и быть не "
+"к месту. Не важно, что так произошло. Важно, что вы сделаете с этим потом. "
+"Возьмите звук, умело обработайте его, и превратите в нечто ошеломляющее. "
+"Публика будет *неистовствовать*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -648,7 +648,7 @@ msgstr "2 Синт - Синтезатор"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr "Синтезаторы"
+msgstr "Синтез"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
@@ -2659,17 +2659,17 @@ msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
-"Этот раздел станет заключительным в нашем исследовании проигрывателя сэмплов S"
-"onic Pi. Давайте кратко повторим уже изученное. Пока мы только разбирались в т"
-"ом, как включать сэмплы:"
+"Этот раздел станет заключительным в нашем исследовании воспроизведения "
+"сэмплов в Sonic Pi. Давайте кратко повторим уже изученное. Пока мы только "
+"разбирались в том, как включать сэмплы:"
 
 #: 03.5-Partial-Samples.md:13
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
 msgstr ""
-"Потом мы рассмотрели то, как мы можем менять темп сэмплов, например для воспро"
-"изведения их на половинной скорости:"
+"Потом мы рассмотрели то, как мы можем менять темп сэмплов, например для "
+"воспроизведения их на половине скорости:"
 
 #: 03.5-Partial-Samples.md:20
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
@@ -2757,13 +2757,12 @@ msgid "Specifying start and finish"
 msgstr "Указываем начало и конец"
 
 #: 03.5-Partial-Samples.md:68
-#, fuzzy
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
 msgstr ""
-"Естественно, мы можем комбинировать обе этих регулировки, чтобы проигрывать пр"
-"оизвольные сегменты аудио-файла. Что, если выбрать небольшой участок в центре:"
+"Естественно, мы можем комбинировать оба произвольных фрагмента звукового "
+"файла. Как насчет выбрать небольшой участок в центре:"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
@@ -2830,12 +2829,11 @@ msgstr "Попробуйте также комбинировать сэмплы,
 
 #: 03.6-External-Samples.md:1
 msgid "3.6 External Samples"
-msgstr "3.6 Внешние сэмплы"
+msgstr "3.6 Внешние Сэмплы"
 
 #: 03.6-External-Samples.md:3
-#, fuzzy
 msgid "External Samples"
-msgstr "Внешние сэмплы"
+msgstr "Внешние Сэмплы"
 
 #: 03.6-External-Samples.md:5
 #, fuzzy
