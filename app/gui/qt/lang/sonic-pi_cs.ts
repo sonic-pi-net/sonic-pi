@@ -239,7 +239,7 @@ If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
         <translation>Zapnout nebo vypnout protokolování signálů.
 Pokud vypnuto, signály se stále aktivují,
-ale nebudou viditelné v prokolu.</translation>
+ale nebudou viditelné v protokolu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
@@ -517,7 +517,7 @@ Omlouváme se, došlo ke kritické chybě při spuštění</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2229"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Automatické scrollování protokolu vypnuto…</translation>
+        <translation>Automatické rolování protokolu vypnuto…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
@@ -818,7 +818,7 @@ Stereo - zobrazuje dva nezávislé osciloskopy pro levý a pravý kanál</transl
         <location filename="../mainwindow.cpp" line="1983"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Aktivovuji Mixer LPF…</translation>
+        <translation>Aktivuji Mixer LPF…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1992"/>
