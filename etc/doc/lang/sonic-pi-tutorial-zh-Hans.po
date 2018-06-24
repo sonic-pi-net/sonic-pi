@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-22 07:36+0000\n"
+"PO-Revision-Date: 2018-06-25 10:35+0000\n"
 "Last-Translator: _eternal_flame <webmaster@andycloud.dynu.net>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
@@ -42,13 +42,17 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
+"先等一下，我有点急躁了~让我先介绍一下我自己吧——我是[Sam Aaron](http://twitter.com/samaaron)，"
+"我创造了Sonic Pi。这是我的Twitter：[@samaaron](http://twitter.com/"
+"samaaron)，我很想和你打声招呼。你也许也会有兴趣来观看我直播[表演编写代码](http://facebook.com/"
+"livecodersamaaron)。"
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
 "If you have any thoughts, or ideas for improving Sonic Pi - please pass them o"
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
-msgstr ""
+msgstr "如果你对Sonic Pi有任何想法或建议——请把它们发过来——反馈是很有帮助的。你永远不知道你的建议会不会就是下一个版本的一大特色！"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
