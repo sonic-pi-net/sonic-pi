@@ -56,8 +56,8 @@
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <translatorcomment>Из-за отсутствия контекста непонятно, что такое PA systems</translatorcomment>
-        <translation>Расширенные аудио настройки для работы
-с внешними ПА системами.</translation>
+        <translation>Расширенные аудионастройки для работы
+с внешними системами звукового оповещения.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
