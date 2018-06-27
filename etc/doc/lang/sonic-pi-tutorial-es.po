@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-18 07:44+0000\n"
-"Last-Translator: Vee F <im.core.nerd@gmail.com>\n"
+"PO-Revision-Date: 2018-06-29 09:43+0000\n"
+"Last-Translator: Emlyn Corrin <emlyn.corrin@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2158,8 +2158,8 @@ msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
-"Así lo ejecuta a tiempo normal (1), nada especial. Sin embargo, podemos cambia"
-"r ese número a otros. ¿qué tal a `0.5` ?:"
+"Así lo ejecuta a tiempo normal (1), nada especial. Sin embargo, podemos "
+"cambiar ese número a otros. ¿qué tal a `0.5`?:"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
@@ -2238,8 +2238,9 @@ msgid ""
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
 msgstr ""
-"Ahaa! ¡Se toca al revés! Ahora intenta toca distintos samples y velocidades, t"
-"ales como rápidas y lentísimas, observa qué sucede."
+"Ahaa! ¡Se toca al revés! Ahora intenta tocar distintos samples y "
+"velocidades, tales como rápidas y lentísimas. Observa qué sonidos "
+"interesantes puedes crear."
 
 #: 03.3-Stretching-Samples.md:76
 #, fuzzy
@@ -5683,11 +5684,16 @@ msgid ""
 msgstr ""
 
 #: 05.6-Variables.md:168
+#, fuzzy
 msgid ""
 "There are two solutions to this. Firstly, *don't use the same variable in mult"
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
+"Hay dos soluciones a este problema. Primero, *no utilices el miso variable "
+"en multiples live loops o subprocesos*. Por ejemplo, el siguiente código "
+"imprimirá siempre una lista ordenada, porque cada live loop tiene su "
+"variable separado:"
 
 #: 05.6-Variables.md:173
 #, no-wrap
@@ -5704,14 +5710,30 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
+#, fuzzy
 msgid ""
 "However, sometimes we do want to share things across threads. For example, the"
 " current key, BPM, synth etc. In these cases, the solution is to use Sonic Pi'"
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
+"Sin embargo, a veces queremos compartir datos entre hilos. Por ejemplo, la "
+"clave actual, la velocidad, el sintetizador etc. En estos casos, se puede "
+"utilizar el sistema especial \"thread-safe\" de Sonic Pi a través de los fns "
+"`get` y `set`. Esto sera discutido luego en la sección 10."
 
 #: 05.7-Thread-Synchronisation.md:1
 #, fuzzy
@@ -8833,12 +8855,14 @@ msgid ""
 msgstr "Mira la documentación de `tick`, donde tienes muchos ejemplos.."
 
 #: 10-State.md:1
+#, fuzzy
 msgid "10 Time State"
-msgstr ""
+msgstr "10 Estado del Tiempo (Time State)"
 
 #: 10-State.md:3
+#, fuzzy
 msgid "Time State"
-msgstr ""
+msgstr "Estado del Tiempo (Time State)"
 
 #: 10-State.md:5
 msgid ""
@@ -8866,16 +8890,17 @@ msgid ""
 msgstr ""
 
 #: 10-State.md:24
+#, fuzzy
 msgid "Meet `get` and `set`..."
-msgstr ""
+msgstr "Dales la bienvenida a `get` y `set`..."
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Set y Get"
 
 #: 10.1-Set-and-Get.md:3
 msgid "Set and Get"
-msgstr ""
+msgstr "Set y Get"
 
 #: 10.1-Set-and-Get.md:5
 msgid ""
@@ -8886,7 +8911,7 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
@@ -8894,28 +8919,35 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr ""
+msgstr "los datos que queremos almacenar,"
 
 #: 10.1-Set-and-Get.md:14
+#, fuzzy
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "un nombre único (clave) para los datos."
 
 #: 10.1-Set-and-Get.md:16
+#, fuzzy
 msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"Por ejemplo, puede ser que queremos almacenar el número `3000` con la clave "
+"`:intensity`. Eso es posible utilizando la función `set`:"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
 msgid "set :intensity, 3000"
-msgstr ""
+msgstr "set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:23
+#, fuzzy
 msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
+"Podemos utilizar cualquier nombre para nuestra clave. Si esta clave ya tiene "
+"datos almacenados, nuestro nuevo `set` tendrá primacía."
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8923,6 +8955,8 @@ msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
 msgstr ""
+"set :intensity, 1000\n"
+"set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:31
 msgid ""
@@ -8933,7 +8967,7 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:35
 msgid "Get"
-msgstr ""
+msgstr "Get"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
@@ -8945,7 +8979,7 @@ msgstr ""
 #: 10.1-Set-and-Get.md:42
 #, no-wrap
 msgid "print get[:intensity] #=> prints 3000"
-msgstr ""
+msgstr "print get[:intensity] #=> imprime 3000"
 
 #: 10.1-Set-and-Get.md:46
 msgid ""
@@ -8969,7 +9003,6 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8979,7 +9012,15 @@ msgid ""
 "  puts get[:foo]\n"
 "  sleep 0.5\n"
 "end"
-msgstr "Rango aleatorio (rrand)"
+msgstr ""
+"live_loop :setter do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :getter do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 
 #: 10.1-Set-and-Get.md:70
 msgid ""
@@ -9008,6 +9049,22 @@ msgid ""
 "{run: 0, time: 3.5}\n"
 " └─ 75.6048583984375"
 msgstr ""
+"{run: 0, time: 0.0}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 0.5}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 1.0}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 1.5}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 2.0}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 2.5}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 3.0}\n"
+" └─ 75.6048583984375\n"
+"{run: 0, time: 3.5}\n"
+" └─ 75.6048583984375"
 
 #: 10.1-Set-and-Get.md:100
 msgid ""
@@ -9094,11 +9151,11 @@ msgstr ""
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
-msgstr ""
+msgstr "10.2 Sincronización (Sync)"
 
 #: 10.2-Sync.md:3
 msgid "Sync"
-msgstr ""
+msgstr "Sincronización (Sync)"
 
 #: 10.2-Sync.md:5
 msgid ""
@@ -9124,7 +9181,6 @@ msgstr ""
 
 #: 10.2-Sync.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync :foo\n"
@@ -9132,7 +9188,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 1"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  sync :foo\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 1"
 
 #: 10.2-Sync.md:31
 #, fuzzy
