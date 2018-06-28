@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-04-26 21:38+0000\n"
-"Last-Translator: ggobugi27 <ggobugi27@gmail.com>\n"
+"PO-Revision-Date: 2018-06-29 13:39+0000\n"
+"Last-Translator: keunwoo <avolic@kaist.ac.kr>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "ko/>\n"
 "Language: ko\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -348,7 +348,7 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - 에디터 컨트롤들"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
@@ -372,7 +372,7 @@ msgstr "*G* - 도움말 시스템"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* - 스코프 뷰어"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
