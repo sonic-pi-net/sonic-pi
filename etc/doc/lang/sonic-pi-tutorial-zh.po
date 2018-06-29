@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-22 08:35+0000\n"
-"Last-Translator: mintpi <ruolane@gmail.com>\n"
+"PO-Revision-Date: 2018-06-30 09:35+0000\n"
+"Last-Translator: Zaiyiiiiiiiiii <wangzaiyiw@gmail.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/zh/>\n"
 "Language: zh\n"
@@ -616,6 +616,9 @@ msgid ""
 "just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
 "y 60`."
 msgstr ""
+"也就是说，数字的大小代表了音高的高低。如同钢琴一样，左侧琴键弹奏出的音较为低沉，而越往右的琴键奏出的音的音高就会越高。实际上这些数字也确实是与钢琴上琴键相"
+"对应的。`play 47` 的意思其实就是钢琴的第47个琴键，`play 48`则是紧邻其右侧的琴键。钢琴上第四个八度的C是第六十个键，试着去弹奏一下：`"
+"play 60`。"
 
 #: 02.1-Your-First-Beeps.md:42
 msgid ""
@@ -623,16 +626,17 @@ msgid ""
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
+"*不要慌* 如果你还没明白这些东西有什么用处的话不要紧，我一开始也不懂。现在你只要明白 * 数字越小，声音越低 * * 数字越大，声音越高 * 就OK了。"
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
-msgstr ""
+msgstr "和弦"
 
 #: 02.1-Your-First-Beeps.md:48
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
-msgstr ""
+msgstr "演奏音符使我快乐，但是同时演奏好几个音符更棒！试试看："
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
@@ -651,7 +655,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:61
 msgid "Melody"
-msgstr ""
+msgstr "旋律"
 
 #: 02.1-Your-First-Beeps.md:63
 msgid ""
@@ -693,18 +697,18 @@ msgstr ""
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
-msgstr ""
+msgstr "发现了没有，我们的旋律变快了!  现在你可以使用不同的时间和音符自行尝试一下。"
 
 #: 02.1-Your-First-Beeps.md:92
 msgid ""
 "One thing to try is in-between notes such as `play 52.3` and `play 52.63`. The"
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
-msgstr ""
+msgstr "还有一件事：记得试试`play 52.3` 和 `play 52.63`这种中间音符。完全没有必要拘束于标准的音高。尽管放开了玩。"
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
-msgstr ""
+msgstr "传统音名"
 
 #: 02.1-Your-First-Beeps.md:99
 msgid ""
