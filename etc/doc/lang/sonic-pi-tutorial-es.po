@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-02 23:40+0000\n"
+"PO-Revision-Date: 2018-07-04 00:44+0000\n"
 "Last-Translator: Billow <erick.bernalcrr@uanl.edu.mx>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
@@ -2240,12 +2240,10 @@ msgstr ""
 "sonidos interesantes puedes crear."
 
 #: 03.3-Stretching-Samples.md:76
-#, fuzzy
 msgid "A Simple Explanation of Sample Rate"
-msgstr "Velocidad de sampleo: una explicación sencilla"
+msgstr "Velocidad de Sample: Una explicación sencilla"
 
 #: 03.3-Stretching-Samples.md:78
-#, fuzzy
 msgid ""
 "A useful way to think of samples is as springs. Playback rate is like squashin"
 "g and stretching the spring. If you play the sample at rate 2, you're *squashi"
@@ -2256,29 +2254,28 @@ msgid ""
 "rate), the shorter it gets, the more you stretch (lower rate), the longer it g"
 "ets."
 msgstr ""
-"Una manera sencilla con los sampleos es pensando en ellos como resortes. La ve"
-"locidad de ejecución es como \"estirar\" o \"comprimir\" resortes. Si tocas a velo"
-"cidad 2 estás comprimiendo el resorte a la mitad de su tamaño, por tanto le to"
-"ma la mitad del tiempo en ejecutarse, ya que es más corto. Si ejecutas el samp"
-"leo a la mitad de velocidad, estás en efecto alargándo el resorte, por tanto e"
-"stás doblando su tamaño y toma el doble de tiempo el ejecutarse. Entre más com"
-"primas (mayor velocidad), más corto se vuelve el tiempo y viceversa."
+"Una manera útil de pensar en samples es comparándolos con resortes. Piensa "
+"en la velocidad de ejecución como \"estirar\" o \"comprimir\" el resorte. Si "
+"tocas a velocidad 2 estás *comprimiendo el resorte* a la mitad de su tamaño, "
+"por tanto le toma la mitad del tiempo en ejecutarse, ya que es más corto. Si "
+"ejecutas el sample a la mitad de velocidad, estás en efecto *alargando el "
+"resorte*, por tanto estás doblando su tamaño y el tiempo que le toma "
+"ejecutarse. Entre más comprimas (mayor velocidad), más corto se vuelve, "
+"entre más estires (menor velocidad), más largo se vuelve."
 
 #: 03.3-Stretching-Samples.md:87
-#, fuzzy
 msgid ""
 "Compressing a spring increases its density (the number of coils per cm) - this"
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
 msgstr ""
-"Comprimiendo un resorte incremeta su densidad (el número de embobinados por cm"
-".), lo cual es similar a que el sampleo suene a tonos más altos. Estirándo el "
-"resorte, decrece su densidad y simlarmente el sonido es más grave."
+"Comprimir un resorte incrementa su densidad (el número de \"vueltas\" por "
+"cm.) - esto es similar al sample sonando más *agudo*. Estirar el resorte "
+"disminuye su densidad y es similar al sonido siendo más *grave*."
 
 #: 03.3-Stretching-Samples.md:93
-#, fuzzy
 msgid "The Maths Behind Sample Rate"
-msgstr "La matemática de la velocidad de sampleo"
+msgstr "La matemática detrás de la velocidad de sample"
 
 #: 03.3-Stretching-Samples.md:95
 #, fuzzy
