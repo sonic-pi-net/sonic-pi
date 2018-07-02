@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-29 09:43+0000\n"
-"Last-Translator: Emlyn Corrin <emlyn.corrin@gmail.com>\n"
+"PO-Revision-Date: 2018-07-02 23:40+0000\n"
+"Last-Translator: Billow <erick.bernalcrr@uanl.edu.mx>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -2153,13 +2153,12 @@ msgid "sample :ambi_choir, rate: 1"
 msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
-#, fuzzy
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
-"Así lo ejecuta a tiempo normal (1), nada especial. Sin embargo, podemos "
-"cambiar ese número a otros. ¿qué tal a `0.5`?:"
+"Esto lo ejecuta a tiempo normal (1), nada especial. Sin embargo, podemos "
+"cambiar ese número por algo más. ¿Qué tal a `0.5`?:"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
@@ -2200,8 +2199,8 @@ msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
 msgstr ""
-"Sin embargo, cambiando la velocidad podemos cambiar \"géneros\". Intenta con "
-"la mitad de la velocidad para un \"hip hop de la vieja escuela\":"
+"Sin embargo, cambiando la velocidad podemos cambiar géneros. Intenta con la "
+"mitad de la velocidad para algo de \"hip hop de la vieja escuela\":"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
@@ -2218,13 +2217,12 @@ msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
-#, fuzzy
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative ra"
 "te:"
 msgstr ""
-"Vamos a nuestro último truco - veamos qué sucede si utilizamos una velocidad n"
-"egativa:"
+"Vamos a nuestro último truco - veamos qué sucede si utilizamos una velocidad "
+"negativa:"
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
@@ -2232,15 +2230,14 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
-#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
 msgstr ""
-"Ahaa! ¡Se toca al revés! Ahora intenta tocar distintos samples y "
-"velocidades, tales como rápidas y lentísimas. Observa qué sonidos "
-"interesantes puedes crear."
+"Ahaa! ¡Se toca *al revés*! Ahora intenta tocar distintos samples a distintas "
+"velocidades. Intenta con velocidades muy rápidas o lentísimas. Observa qué "
+"sonidos interesantes puedes crear."
 
 #: 03.3-Stretching-Samples.md:76
 #, fuzzy
