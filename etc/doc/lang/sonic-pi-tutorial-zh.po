@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-30 09:35+0000\n"
-"Last-Translator: Zaiyiiiiiiiiii <wangzaiyiw@gmail.com>\n"
+"PO-Revision-Date: 2018-07-04 04:35+0000\n"
+"Last-Translator: bin仔 <442416294@qq.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/zh/>\n"
 "Language: zh\n"
@@ -202,7 +202,7 @@ msgid "Try commenting one of the `sample` lines out by adding a `#` to the begin
 msgstr "试一下通过在行首添加一个字符 `#` 来注释掉任意一 `sample` 行："
 
 #: 01.1-Live-Coding.md:62
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :ambi_choir, rate: 0.3\n"
@@ -210,6 +210,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -263,7 +268,7 @@ msgstr ""
 "修改，再玩。失败是成功之母，加油。"
 
 #: 01.1-Live-Coding.md:94
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :guit do\n"
 "  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
@@ -279,6 +284,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -601,9 +619,9 @@ msgid "Can you hear the difference? Try a lower number:"
 msgstr "你能听到区别吗？尝试一个较低的数字："
 
 #: 02.1-Your-First-Beeps.md:29
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60"
-msgstr ""
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
@@ -639,19 +657,22 @@ msgid ""
 msgstr "演奏音符使我快乐，但是同时演奏好几个音符更棒！试试看："
 
 #: 02.1-Your-First-Beeps.md:51
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 72\n"
 "play 75\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"play 75\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:57
 msgid ""
 "Jazzy! So, when you write multiple `play`s, they all play at the same time. Tr"
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
-msgstr ""
+msgstr "嗯，有点儿意思了，当你写多个`play`时，它们会同时播放。你觉得哪些数字听起来很悦耳？哪些听着想去死？多试一下不会怀孕的。"
 
 #: 02.1-Your-First-Beeps.md:61
 msgid "Melody"
