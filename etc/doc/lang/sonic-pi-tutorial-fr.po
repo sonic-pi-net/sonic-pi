@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-25 17:37+0000\n"
+"PO-Revision-Date: 2018-07-09 12:37+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -12483,15 +12483,15 @@ msgstr ""
 "end"
 
 #: A.04-synth-riffs.md:80
-#, fuzzy
 msgid ""
 "Here, we've defined our melody with a ring which includes both notes such as `"
 ":e3` and rests represented by `:r`. We're then using `.tick` to cycle through "
 "each note to give us a repeating riff."
 msgstr ""
-"Ici nous avons défini une mélodie avec un anneau qui inclut des notes comme `:"
-"e3` et des silences représentés par `:r`. On utilise ensuite `.tick` pour joue"
-"r chaque note à son tour, ce qui nous donne un riff qui se répète."
+"Ici nous avons défini notre mélodie avec un anneau qui inclut des notes "
+"comme `:e3` et des silences représentés par `:r`. Nous utiliserons ensuite "
+"`.tick` pour jouer chaque note à son tour, ce qui nous donne un riff qui se "
+"répète."
 
 #: A.04-synth-riffs.md:84
 msgid "Auto Melody"
