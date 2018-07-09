@@ -132,7 +132,7 @@ your synthdefs with the `load_synthdefs` fn.
              {|freq = 200, amp = 1, out_bus = 0 |
                Out.ar(out_bus,
                       SinOsc.ar([freq,freq],0,0.5)* Line.kr(1, 0, 5, amp, doneAction: 2))}
-    ).writeDefFile("/Users/sam/Desktop/my-synths") ;
+    ).store; // stores the piTest file in synthdef folder in application support folder
     )
 
 
