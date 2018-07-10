@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-04 04:35+0000\n"
-"Last-Translator: bin仔 <442416294@qq.com>\n"
+"PO-Revision-Date: 2018-07-12 10:35+0000\n"
+"Last-Translator: DahliaSager <1486097136@qq.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/zh/>\n"
 "Language: zh\n"
@@ -202,7 +202,7 @@ msgid "Try commenting one of the `sample` lines out by adding a `#` to the begin
 msgstr "试一下通过在行首添加一个字符 `#` 来注释掉任意一 `sample` 行："
 
 #: 01.1-Live-Coding.md:62
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :ambi_choir, rate: 0.3\n"
@@ -683,7 +683,7 @@ msgid ""
 "So, playing notes and chords is fun - but how about a melody? What if you want"
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
-msgstr ""
+msgstr "嗯，演奏音符和和弦使我快乐——那旋律呢？要是你想一个音符接着一个音符、不同时演奏它们，怎么办？其实很简单的，你只需要再音符之间“睡”一会："
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -694,6 +694,11 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 1\n"
+"play 75\n"
+"sleep 1\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:75
 msgid ""
@@ -703,6 +708,7 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
+"多妙的一个小琶音。那在`sleep 1`里面那个`1`是什么意思呢？它是指*睡眠时长*。实际上它意味着等待一拍再演奏，不过现在我们可以认为它是指等1秒钟："
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -713,6 +719,11 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 0.5\n"
+"play 75\n"
+"sleep 0.5\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:89
 msgid ""
@@ -738,6 +749,8 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
+"对于已经了解一点记谱法的人（即便你不会也不用担心——你去耍不需要它）你们可能更想用音名写旋律而不是数字，比如C和F#。Sonic "
+"Pi考虑到了你们。你可以这么做："
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -748,12 +761,17 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
+"play :C\n"
+"sleep 0.5\n"
+"play :D\n"
+"sleep 0.5\n"
+"play :E"
 
 #: 02.1-Your-First-Beeps.md:112
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
-msgstr ""
+msgstr "记住在音名前加冒号`:`，它会闪成粉色。还有，你可以在音名后边加数字表明音组："
 
 #: 02.1-Your-First-Beeps.md:116
 #, no-wrap
@@ -764,24 +782,29 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
+"play :C3\n"
+"sleep 0.5\n"
+"play :D3\n"
+"sleep 0.5\n"
+"play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
-msgstr ""
+msgstr "要想给音符加一个升调，像`play :Fs3`一样在音名后加一个`s`，而想给音符一个降调，像`play :Eb3`一样加一个`b`。"
 
 #: 02.1-Your-First-Beeps.md:127
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr ""
+msgstr "*噪*起来玩起来。"
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
-msgstr ""
+msgstr "2.2 合成器设置"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr ""
+msgstr "合成器设置: 振幅和声道平衡"
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -792,12 +815,15 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
+"随你控制演奏哪个音符或调出哪个样本，Sonic Pi还提供大量可以制作和控制声音的设置选项。我们会在这个教程里说到许多这里的设置，在帮助系统里每一个设置都"
+"有详尽的资料。但是现在我们要介绍其中最有用的两个设置：*振幅*和*声道平衡*。首先我们看看传说中的设置到底是些什么。"
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
-msgstr ""
+msgstr "设置"
 
 #: 02.2-Synth-Params.md:15
+#, fuzzy
 msgid ""
 "Sonic Pi supports the notion of options (or opts for short) for its synths. Op"
 "ts are controls you pass to `play` which modify and control aspects of the sou"
@@ -805,6 +831,8 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
+"Sonic Pi沿用合成器的设置选项概念。你通过设置选项修改和控制你听到的声音的各个方面。每个合成器都有它自己的一套有效修饰声音的设置选项，但是众多声音共"
+"用着一些设置选择，比如`amp:`振幅以及波封（在另一章有说明）。"
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -812,26 +840,29 @@ msgid ""
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
+"设置选项有两个主要部分，它们的名称（控制选项的名称）和它们的值（你希望控制选项所在的数值）。举个例子，你或许有一个叫做`cheese:`的设置选项而你想设"
+"置它的值为`1`。"
 
 #: 02.2-Synth-Params.md:27
+#, fuzzy
 msgid ""
 "Opts are passed to calls to `play` by using a comma `,` and then the name of t"
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
-msgstr ""
+msgstr "逗号`,` 使得`play`的内容被调用，接着写选项名称如`amp:`（别忘了加冒号`:`），再接着一个空格还有设置的数值。比如说："
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
 msgid "play 50, cheese: 1"
-msgstr ""
+msgstr "play 50, cheese: 1"
 
 #: 02.2-Synth-Params.md:35
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
-msgstr ""
+msgstr "（别傻了，`cheese:`不是一个有效值，只是拿他举个例子而已）。"
 
 #: 02.2-Synth-Params.md:37
 msgid "You can pass multiple opts by separating them with a comma:"
-msgstr ""
+msgstr "你可以用逗号分隔并且调用多个设置选项："
 
 #: 02.2-Synth-Params.md:39
 #, no-wrap
@@ -840,7 +871,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr ""
+msgstr "选项的顺序无关紧要，所以下面也是那一回事："
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
@@ -851,13 +882,13 @@ msgstr ""
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
-msgstr ""
+msgstr "不能被合成器识别的设置选项直接被忽略（像`cheese`还有`beans`这种明显恶搞的选项名称！）"
 
 #: 02.2-Synth-Params.md:52
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
-msgstr ""
+msgstr "要是你一不小心把不同的数值给了同一个选项，后一个有效。譬如，`beans:`在这里的值为2而不是0.5："
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
@@ -868,11 +899,11 @@ msgstr ""
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
-msgstr ""
+msgstr "Sonic Pi里的很多东西都接受设置选项，那就花点时间学习怎么使用它们就行了！玩玩我们的第一个设置选项：`amp:`。"
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
-msgstr ""
+msgstr "振幅"
 
 #: 02.2-Synth-Params.md:66
 msgid ""
@@ -887,25 +918,29 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
+"振幅是计算机表达方式里声音响度的说法。一个*大的振幅产生较响亮的声音*，一个*小的振幅产生较安静的声音*。就在Sonic Pi用数字代表时间和音符的同时，"
+"它用数字表示振幅。值为0的振幅是指无声（你听不到任何东西）而值为1的振幅是正常音量。你甚至可以把音量调高到2，10，100。但是你得注意这里所有声音的整体"
+"振幅太高时，Sonic Pi用一个叫压缩器的玩意把它们压扁，确保声音不会大到让你耳朵受不了。这种操作通常让声音又浑浊又奇怪。就尽量用低振幅吧，换句话说，在"
+"0到0.5之间取值避免压缩。"
 
 #: 02.2-Synth-Params.md:79
 msgid "Amp it up"
-msgstr ""
+msgstr "振幅调大"
 
 #: 02.2-Synth-Params.md:81
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
-msgstr ""
+msgstr "要改变声音的振幅，你可以用`amp:`选项。例如，用0.5这个值以一半的振幅放音："
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
 msgid "play 60, amp: 0.5"
-msgstr ""
+msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
-msgstr ""
+msgstr "用2这个值以双倍振幅放音："
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
@@ -917,7 +952,7 @@ msgid ""
 "The `amp:` opt only modifies the call to `play` it's associated with. So, in t"
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
-msgstr ""
+msgstr "`amp:`选项只能调整对相关`play`的命令。在这个例子里，第一个指定的演奏内容以一半音量进行，第二个回到默认的音量（值为1时的状态）："
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -929,7 +964,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
-msgstr ""
+msgstr "当然，你可以给不同演奏命令使用不同的`amp:`值："
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -945,7 +980,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:116
 msgid "Panning"
-msgstr ""
+msgstr "声道平衡"
 
 #: 02.2-Synth-Params.md:118
 msgid ""
@@ -956,10 +991,13 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
+"另一个可以用的好玩的选项是`pan:`，它控制着声音音响的声道。把一个声音的声道平衡调至左边意味着你听到声音从左扬声器发出，调至右边是指你听到声音从右扬声"
+"器发出。至于我们的值，我们用-1表示平衡完全调满到左边，0表示中央，1表示完全调满到右声道。当然，我们可以随意用任何-1和1之间的值控制我们声音的准确位置"
+"。"
 
 #: 02.2-Synth-Params.md:126
 msgid "Let's play a beep out of the left speaker:"
-msgstr ""
+msgstr "我们从左扬声器播放哔声："
 
 #: 02.2-Synth-Params.md:128
 #, no-wrap
@@ -968,7 +1006,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:132
 msgid "Now, let's play it out of the right speaker:"
-msgstr ""
+msgstr "现在，我们从右扬声器播放："
 
 #: 02.2-Synth-Params.md:134
 #, no-wrap
@@ -977,7 +1015,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:138
 msgid "Finally let's play it back out of the center of both (the default position):"
-msgstr ""
+msgstr "最后我们回到两个声道的中央播放声音（默认位置）："
 
 #: 02.2-Synth-Params.md:141
 #, no-wrap
@@ -986,15 +1024,15 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:145
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
-msgstr ""
+msgstr "好嘞，开始愉快地和变换的振幅和声道平衡玩耍吧！"
 
 #: 02.3-Switching-Synths.md:1
 msgid "2.3 Switching Synths"
-msgstr ""
+msgstr "2.3 切换合成器"
 
 #: 02.3-Switching-Synths.md:3
 msgid "Switching Synths"
-msgstr ""
+msgstr "切换合成器"
 
 #: 02.3-Switching-Synths.md:5
 msgid ""
@@ -1004,6 +1042,8 @@ msgid ""
 " in this section we'll explore the exciting range of sounds that Sonic Pi has "
 "to offer."
 msgstr ""
+"到目前为止我们已经在制作哔声中找到了不少乐子，但是你可能开始厌倦基础级别的哔声了。这就是Sonic "
+"Pi能给的所有东西？你确定现场编码有比演奏哔声更多的内容？没错，这一章节我们将探索Sonic Pi必备的超多种类的声音。"
 
 #: 02.3-Switching-Synths.md:13
 msgid ""
@@ -1014,6 +1054,8 @@ msgid ""
 " you'll have a lot of fun exploring and playing with them. First, let's learn "
 "how to select the current synth to use."
 msgstr ""
+"Sonic Pi有众多种类的乐器。然而样本是指前期录制好的声音，合成器可以形成新的声音，那取决于你怎么控制它们（我们会在后面的教程中探索）。Sonic "
+"Pi的合成器非常强大而且极具表现力，在探索和用它们演奏时你会玩得很开心的。首先，我们来了解一下怎么选定并使用当前的合成器。"
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1021,7 +1063,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:23
 msgid "A fun sound is the *saw wave* - let's give it a try:"
-msgstr ""
+msgstr "有一个有趣的声音，*锯波*——让我们来试试："
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
@@ -1037,7 +1079,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:35
 msgid "Let's try another sound - the *prophet*:"
-msgstr ""
+msgstr "我们试试另一个声音——*prophet*："
 
 #: 02.3-Switching-Synths.md:37
 #, no-wrap
@@ -1053,7 +1095,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:47
 msgid "How about combining two sounds. First one after another:"
-msgstr ""
+msgstr "两个声音写在起来会怎样。先是一个接着一个演奏："
 
 #: 02.3-Switching-Synths.md:49
 #, no-wrap
@@ -1070,7 +1112,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:60
 msgid "Now at the same time:"
-msgstr ""
+msgstr "现在同时演奏："
 
 #: 02.3-Switching-Synths.md:62
 #, no-wrap
@@ -1093,10 +1135,12 @@ msgid ""
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
+"这里要马克一下：`use_synth`命令只影响下面对`play`的调用。把它当成*大调换*——对`play`的新调用会播放出来，不管现在点的是哪个合成器"
+"。"
 
 #: 02.3-Switching-Synths.md:80
 msgid "Discovering Synths"
-msgstr ""
+msgstr "挖掘合成器"
 
 #: 02.3-Switching-Synths.md:82
 msgid ""
@@ -13689,6 +13733,8 @@ msgid ""
 ". Given a set of coordinates we can ask Minecraft what the type of a specific "
 "block is. Let's try it with the diamond block you just created:"
 msgstr ""
+"在我们接触更相关一点的内容之前，来看最后一件事。给一组坐标我们就可以询问Minecraft『我的世界』某一个特定方块的类型。我们用你刚才创建的钻石方块试试"
+"："
 
 #: C.01-Basic-API.md:124
 #, no-wrap
@@ -13700,16 +13746,17 @@ msgid ""
 "Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
 " now say `:glass`? I'm sure it does :-)"
 msgstr ""
+"对！是\":diamond\"（钻石）。试着把它再变回玻璃然后再询问一遍——它现在说是\":glass\"（玻璃）吗？我肯定它一定这么说 :-)"
 
 #: C.01-Basic-API.md:131
 msgid "Available block types"
-msgstr ""
+msgstr "可用的方块类型"
 
 #: C.01-Basic-API.md:133
 msgid ""
 "Before you go on a Minecraft Pi coding rampage, you might find this list of av"
 "ailable block types useful:"
-msgstr ""
+msgstr "在你开始狂热编码Minecraft Pi之前，也许这个可用方块类型列表会对你有帮助："
 
 #: C.01-Basic-API.md:136
 #, no-wrap
