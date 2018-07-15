@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2913"/>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>Sonic Pi</source>
-        <translation>Sonic Pi - Programiranje kot umetnost</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
@@ -37,8 +37,8 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Vklopi/izklopi mono način.
-Če je vklopljeno, se zmešata levi in desni zvok v en sam signal
-in ta je poslan k obema zvočnikoma.
+Če je vklopljeno, se zmešata levi in desni zvok
+v en sam signal, ki je poslan k obema zvočnikoma.
 Uporabno, če uporabljamo zunanjo opremo,
 ki omogoča le mono način.</translation>
     </message>
@@ -53,9 +53,8 @@ ki omogoča le mono način.</translation>
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Vklopi/izklopi zapis sporočil v dnevnik.
-Če je izklopljeno, dejavnosti kot je instrument
-in predvajanje vzorcev ne bodo zapisane
-v dnevnik.</translation>
+Če je izklopljeno, dejavnosti kot je predvajanje
+tonov in vzorcev ne bodo zapisane v dnevnik.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -73,8 +72,8 @@ v dnevnik.</translation>
 If enabled, the log is cleared each
 time the run button is pressed.</source>
         <translation>Vklopi/izklopi čiščenje dnevnika ob zagonu.
-Če je vklopljeno, bo dnevnik izpraznjen,
-ko klikneš gumb &quot;Zaženi&quot;.</translation>
+Če je vklopljeno, bo dnevnik izpraznjen
+ob vsakem kliku na gumb &quot;Zaženi&quot;.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
@@ -84,13 +83,13 @@ ko klikneš gumb &quot;Zaženi&quot;.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Dark mode</source>
-        <translation>Nočni način</translation>
+        <translation>Temni način</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>Zaganjam skripte...</translation>
+        <translation>Zaganjam skripte…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1916"/>
@@ -102,7 +101,7 @@ ko klikneš gumb &quot;Zaženi&quot;.</translation>
         <location filename="../mainwindow.cpp" line="1943"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>Ponovno nalaganje ...</translation>
+        <translation>Ponovno nalaganje…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1974"/>
@@ -124,17 +123,17 @@ ko klikneš gumb &quot;Zaženi&quot;.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Welcome to Sonic Pi</source>
-        <translation>Dobrodošli v Sonic Pi-ju</translation>
+        <translation>Pozdravljeni v Sonic Pi-ju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Indenting selection...</source>
-        <translation>Zamik izbora...</translation>
+        <translation>Zamikanje izbora…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Indenting line...</source>
-        <translation>Zamik vrstice...</translation>
+        <translation>Zamikanje vrstice…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
@@ -175,11 +174,10 @@ sistemi PA pri programiranju s Sonic Pi-jem.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Vklopi/izklopi funkcije preverjanja
-parametrov glasbila.
-Če je izklopljeno, lahko nekatere vrednosti
-povzročijo nepričakovano glasne ali neprijetne
-zvoke.</translation>
+        <translation>Vklopi/izklopi funkcije preverjanja parametrov
+glasbila. Če je izklopljeno, lahko nekatere
+vrednosti povzročijo nepričakovano glasne
+ali neprijetne zvoke.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1342"/>
