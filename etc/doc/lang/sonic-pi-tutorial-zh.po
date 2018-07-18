@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-12 10:35+0000\n"
-"Last-Translator: DahliaSager <1486097136@qq.com>\n"
+"PO-Revision-Date: 2018-07-19 03:34+0000\n"
+"Last-Translator: bin仔 <442416294@qq.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/zh/>\n"
 "Language: zh\n"
@@ -654,7 +654,7 @@ msgstr "和弦"
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
-msgstr "演奏音符使我快乐，但是同时演奏好几个音符更棒！试试看："
+msgstr "演奏音符太好玩了，而且同时演奏好几个音符更棒！试试看~"
 
 #: 02.1-Your-First-Beeps.md:51
 #, fuzzy, no-wrap
@@ -683,7 +683,7 @@ msgid ""
 "So, playing notes and chords is fun - but how about a melody? What if you want"
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
-msgstr "嗯，演奏音符和和弦使我快乐——那旋律呢？要是你想一个音符接着一个音符、不同时演奏它们，怎么办？其实很简单的，你只需要再音符之间“睡”一会："
+msgstr "嗯，演奏音符与和弦很有意思——那旋律呢？要是你想一个音符接着一个音符、不同时演奏它们，怎么办？其实很简单的，你只需要再音符之间“睡”一会："
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
