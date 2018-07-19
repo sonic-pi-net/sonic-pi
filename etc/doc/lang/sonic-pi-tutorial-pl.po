@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-27 15:40+0000\n"
-"Last-Translator: Daria Szatan <bla_ke@tuta.io>\n"
+"PO-Revision-Date: 2018-07-20 21:41+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
 "Language: pl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5361,15 +5361,15 @@ msgid "Variables"
 msgstr "Zmienne"
 
 #: 05.6-Variables.md:5
-#, fuzzy
 msgid ""
 "A useful thing to do in your code is to create names for things. Sonic Pi make"
 "s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Przydatną rzeczą, którą możesz robić w swoim kodzie, to tworzenie nazw dla róż"
-"nych rzeczy. Sonic Pi sprawia, że jest to bardzo łatwe - wpisujesz wybraną prz"
-"ez siebie nazwę, znak równości (`=`), a następnie rzecz do zapamiętania:"
+"Przydatną rzeczą, którą możesz robić w swoim kodzie, to tworzenie nazw dla "
+"różnych rzeczy. Sonic Pi sprawia, że jest to bardzo łatwe - wpisujesz "
+"wybraną przez siebie nazwę, znak równości (`=`), a następnie rzecz do "
+"zapamiętania:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5620,9 +5620,8 @@ msgid "We'll look into controlling synths in more detail in a later section."
 msgstr "Przyjrzymy się bardziej kontrolowaniu syntezatorów w kolejnej sekcji."
 
 #: 05.6-Variables.md:133
-#, fuzzy
 msgid "Warning: Variables and Threads"
-msgstr "Zmienne"
+msgstr "Ostrzeżenie: Zmienne i Wątki"
 
 #: 05.6-Variables.md:135
 msgid ""
@@ -5630,6 +5629,9 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
+"Zmienne są świetne do nadawania rzeczom nazw oraz zapisywania wyników "
+"różnych operacji, ale musisz pamiętać, że zazwyczaj powinny być używane "
+"tylko lokalnie w ramach jednego wątku. Na przykład, *nie rób tego*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
@@ -5694,6 +5696,17 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
 msgid ""
@@ -8727,11 +8740,11 @@ msgstr ""
 
 #: 10-State.md:1
 msgid "10 Time State"
-msgstr ""
+msgstr "10 Stan Czasu"
 
 #: 10-State.md:3
 msgid "Time State"
-msgstr ""
+msgstr "Stan czasu"
 
 #: 10-State.md:5
 msgid ""
@@ -8760,15 +8773,15 @@ msgstr ""
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
-msgstr ""
+msgstr "Poznaj `get` i `set`..."
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Set i Get"
 
 #: 10.1-Set-and-Get.md:3
 msgid "Set and Get"
-msgstr ""
+msgstr "Set i Get"
 
 #: 10.1-Set-and-Get.md:5
 msgid ""
@@ -8779,19 +8792,19 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
-msgstr ""
+msgstr "Aby dodać jakąś informację do Stanu Czasu musimy zrobić dwie rzeczy:"
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr ""
+msgstr "informacja, którą zamierzamy dodać,"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "unikalna nazwa (klucz) dla naszej informacji."
 
 #: 10.1-Set-and-Get.md:16
 msgid ""
@@ -8849,9 +8862,8 @@ msgid ""
 msgstr ""
 
 #: 10.1-Set-and-Get.md:52
-#, fuzzy
 msgid "Multiple Threads"
-msgstr "Wątki"
+msgstr "Wiele Wątków"
 
 #: 10.1-Set-and-Get.md:54
 msgid ""
@@ -8862,7 +8874,6 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8872,7 +8883,15 @@ msgid ""
 "  puts get[:foo]\n"
 "  sleep 0.5\n"
 "end"
-msgstr "rrand"
+msgstr ""
+"live_loop :setter do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :getter do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 
 #: 10.1-Set-and-Get.md:70
 msgid ""
@@ -8916,12 +8935,14 @@ msgid "A Simple Deterministic State System"
 msgstr ""
 
 #: 10.1-Set-and-Get.md:109
-#, fuzzy
 msgid ""
 "Back in Section 5.6 we discussed why using variables across threads can lead t"
 "o random behaviour. This stops us from being able to reliably reproduce code s"
 "uch as this:"
-msgstr "rand"
+msgstr ""
+"Wcześniej w Sekcji 5.6 rozważaliśmy dlaczego wykorzystywanie zmiennych w "
+"różnych wątkach może prowadzić do nieoczekiwanych zachowań. Powoduje to, że "
+"nie jesteśmy w stanie wiarygodnie odtworzyć kod taki jak ten:"
 
 #: 10.1-Set-and-Get.md:113
 #, no-wrap
@@ -9017,7 +9038,6 @@ msgstr ""
 
 #: 10.2-Sync.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync :foo\n"
@@ -9025,16 +9045,26 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 1"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  sync :foo\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 1"
 
 #: 10.2-Sync.md:31
-#, fuzzy
 msgid ""
 "In this example first we create a thread which waits for a `:foo` event to be "
 "added to the Time State. After this thread declaration we sleep for 2 beats an"
 "d then `set` `:foo` to be `1`. This then releases the `sync` which then moves "
 "to the next line which is to trigger the `:ambi_lunar_land` sample."
-msgstr "foo"
+msgstr ""
+"W tym przykładzie najpierw tworzymy wątek, który czeka na zdarzenie `:foo` "
+"aby można go było dodać do Stanu Czasu. Po zadeklarowaniu tego wątku śpimy "
+"przez 2 uderzenia i następnie ustawiamy (`set`) `:foo` na wartość `1`. To z "
+"kolei zwalnia `sync` co pozwala na przeniesienie się do kolejnej linii, w "
+"której zostaje wywołany sampel `:ambi_lunar_land`."
 
 #: 10.2-Sync.md:37
 msgid ""
@@ -9049,15 +9079,15 @@ msgid "Passing values into the Future"
 msgstr ""
 
 #: 10.2-Sync.md:44
-#, fuzzy
 msgid ""
 "In the example above we set `:foo` to `1` which we did nothing with. We can ac"
 "tually get this value from the thread calling `sync`:"
-msgstr "foo"
+msgstr ""
+"W przykładzie powyżej nadajemy `:foo`  wartość `1` i nic z nią nie robimy. "
+"Możemy właściwie pobrać tę wartość wewnątrz wątku korzystając z `sync`:"
 
 #: 10.2-Sync.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  amp = sync :foo\n"
@@ -9065,7 +9095,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 0.5"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  amp = sync :foo\n"
+"  sample :ambi_lunar_land, amp: amp\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 0.5"
 
 #: 10.2-Sync.md:58
 msgid ""
@@ -9092,7 +9128,13 @@ msgid ""
 "king with paths, we can then start taking advantage of Sonic Pi's sophisticate"
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
-msgstr "foo"
+msgstr ""
+"When getting and setting information into the Time State, it's possible to "
+"use more complex keys than basic symbols such as `:foo` and `:bar`. You can "
+"also use URL style strings called paths such as `\"/foo/bar/baz\"`. Once we "
+"start working with paths, we can then start taking advantage of Sonic Pi's "
+"sophisticated pattern matching system to `get` and `sync` with 'similar' "
+"rather than 'identical' paths. Let's take a look."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
@@ -9115,14 +9157,12 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
-#, fuzzy
 msgid "`cue \"/foo/bar/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:25
-#, fuzzy
 msgid "`cue \"/foo/baz/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
@@ -9139,14 +9179,12 @@ msgid ""
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:32
-#, fuzzy
 msgid "`cue \"/foo/bar\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
-#, fuzzy
 msgid "`cue \"/foo/baz/quux/quaax\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
@@ -9170,36 +9208,36 @@ msgid ""
 "h any path that has three segments, the first of which is `foo`, the last `baz"
 "` and the middle segment can be anything that starts with `b`. So, it would ma"
 "tch:"
-msgstr "foo"
+msgstr ""
+"If we know what the segment is going to start or finish with, we can use a "
+"`*` in addition to a partial segment name. For example: `\"/foo/b*/baz\"` "
+"will match any path that has three segments, the first of which is `foo`, "
+"the last `baz` and the middle segment can be anything that starts with `b`. "
+"So, it would match:"
 
 #: 10.3-Pattern-Matching.md:47
-#, fuzzy
 msgid "`cue \"/foo/baz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:48
-#, fuzzy
 msgid "`cue \"/foo/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:52
-#, fuzzy
 msgid "`cue \"/foo/flibble/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/flibble/baz\"`"
 
 #: 10.3-Pattern-Matching.md:53
-#, fuzzy
 msgid "`cue \"/foo/abaz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/abaz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:54
-#, fuzzy
 msgid "`cue \"/foo/beans/baz/eggs\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
 #, fuzzy
@@ -9208,7 +9246,11 @@ msgid ""
 "racters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment `cue` or"
 " `set` where the first segment is `foo`, the last is `baz` and the middle segm"
 "ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
-msgstr "foo"
+msgstr ""
+"You can also place the `*` at the start of the segment to specify the last "
+"characters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment "
+"`cue` or `set` where the first segment is `foo`, the last is `baz` and the "
+"middle segment ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
@@ -9220,22 +9262,22 @@ msgid ""
 "Sometimes you don't know how many path segments you want to match. In these ca"
 "ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
 "ill match:"
-msgstr "foo"
+msgstr ""
+"Sometimes you don't know how many path segments you want to match. In these "
+"cases you can use the powerful double star: `**` such as `\"/foo/**/baz\"` "
+"which will match:"
 
 #: 10.3-Pattern-Matching.md:69
-#, fuzzy
 msgid "`cue \"/foo/bar/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:70
-#, fuzzy
 msgid "`cue \"/foo/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz\"`"
 
 #: 10.3-Pattern-Matching.md:71
-#, fuzzy
 msgid "`cue \"/foo/a/b/c/d/e/f/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
@@ -9269,66 +9311,64 @@ msgid ""
 "If you know that a segment may be one of a select number of words, you can use"
 " the `{` and `}` matchers to specify a list of choices such as `\"/foo/{bar,bea"
 "ns,eggs}/quux\"` which will only match the following:"
-msgstr "foo"
+msgstr ""
+"If you know that a segment may be one of a select number of words, you can "
+"use the `{` and `}` matchers to specify a list of choices such as `\"/foo/"
+"{bar,beans,eggs}/quux\"` which will only match the following:"
 
 #: 10.3-Pattern-Matching.md:89
-#, fuzzy
 msgid "`cue \"/foo/bar/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/quux\"`"
 
 #: 10.3-Pattern-Matching.md:90
-#, fuzzy
 msgid "`cue \"/foo/beans/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/quux\"`"
 
 #: 10.3-Pattern-Matching.md:91
-#, fuzzy
 msgid "`cue \"/foo/eggs/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:95
-#, fuzzy
 msgid ""
 "Finally, you can match against a selection of letters if you use the `[` and `"
 "]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` which wi"
 "ll match only:"
-msgstr "foo"
+msgstr ""
+"Finally, you can match against a selection of letters if you use the `[` and "
+"`]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` "
+"which will match only:"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
-#, fuzzy
 msgid "`cue \"/foo/aux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/aux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:100 10.3-Pattern-Matching.md:107
-#, fuzzy
 msgid "`cue \"/foo/bux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:101 10.3-Pattern-Matching.md:108
-#, fuzzy
 msgid "`cue \"/foo/cux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
-#, fuzzy
 msgid ""
 "You can also use the `-` character to specify ranges of letters. For example `"
 "\"/foo/[a-e]ux/baz\"` which will match only:"
-msgstr "foo"
+msgstr ""
+"You can also use the `-` character to specify ranges of letters. For example "
+"`\"/foo/[a-e]ux/baz\"` which will match only:"
 
 #: 10.3-Pattern-Matching.md:109
-#, fuzzy
 msgid "`cue \"/foo/dux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/dux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:110
-#, fuzzy
 msgid "`cue \"/foo/eux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
@@ -9343,7 +9383,6 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
@@ -9351,7 +9390,13 @@ msgid ""
 "end\n"
 "sleep 1\n"
 "cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
-msgstr "sample :loop_amen"
+msgstr ""
+"in_thread do\n"
+"  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
@@ -9490,9 +9535,8 @@ msgid ""
 msgstr ""
 
 #: 11.1-MIDI-In.md:60
-#, fuzzy
 msgid "Controlling Code"
-msgstr "Kontrolowanie Efektów"
+msgstr "Kontrolowanie Kodu"
 
 #: 11.1-MIDI-In.md:62
 msgid ""
@@ -9589,9 +9633,8 @@ msgid ""
 msgstr ""
 
 #: 11.1-MIDI-In.md:136
-#, fuzzy
 msgid "Getting Values"
-msgstr "Pierwsze Kroki"
+msgstr "Wyciąganie Wartości"
 
 #: 11.1-MIDI-In.md:138
 msgid ""
@@ -9609,12 +9652,14 @@ msgid "Now You are in Control"
 msgstr ""
 
 #: 11.1-MIDI-In.md:149
-#, fuzzy
 msgid ""
 "The exciting thing now is that you can now use the same code structures to `sy"
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"
 "ith the values. You can now choose what your MIDI device will do!"
-msgstr "choose (wybierz)"
+msgstr ""
+"The exciting thing now is that you can now use the same code structures to "
+"`sync` and `get` MIDI information from any MIDI device and do whatever you "
+"want with the values. You can now choose what your MIDI device will do!"
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
@@ -9769,7 +9814,6 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:90
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb, room: 1 do\n"
 "  live_audio :moog\n"
@@ -9779,7 +9823,15 @@ msgid ""
 "  midi (octs :e1, 3).tick, sustain: 0.1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "reverb,"
+msgstr ""
+"with_fx :reverb, room: 1 do\n"
+"  live_audio :moog\n"
+"end\n"
+"live_loop :moog_trigger do\n"
+"  use_real_time\n"
+"  midi (octs :e1, 3).tick, sustain: 0.1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 11.2-MIDI-Out.md:102
 msgid ""
@@ -9843,14 +9895,18 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:19
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :foo do\n"
 "  use_real_time\n"
 "  a, b, c = sync \"/osc/trigger/prophet\"\n"
 "  synth :prophet, note: a, cutoff: b, sustain: c\n"
 "end"
-msgstr "foo"
+msgstr ""
+"live_loop :foo do\n"
+"  use_real_time\n"
+"  a, b, c = sync \"/osc/trigger/prophet\"\n"
+"  synth :prophet, note: a, cutoff: b, sustain: c\n"
+"end"
 
 #: 12.1-Receiving-OSC.md:27
 msgid ""
@@ -10051,9 +10107,8 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:17
-#, fuzzy
 msgid "Increasing the Duration"
-msgstr "Długość trwania dźwięku (ang. Duration)"
+msgstr "Zwiększanie Czasu Trwania"
 
 #: 13.1-Sound-In.md:19
 msgid ""
@@ -10111,9 +10166,8 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:52
-#, fuzzy
 msgid "Multiple Inputs"
-msgstr "Wielokrotność Łańcuchów"
+msgstr "Wiele Wejść"
 
 #: 13.1-Sound-In.md:54
 msgid ""
@@ -10156,9 +10210,8 @@ msgid "13.2 Live Audio"
 msgstr ""
 
 #: 13.2-Live-Audio.md:3
-#, fuzzy
 msgid "Live Audio"
-msgstr "Kodowanie na żywo"
+msgstr "Dźwięk Na Żywo"
 
 #: 13.2-Live-Audio.md:5
 msgid ""
@@ -10183,9 +10236,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo"
-msgstr "foo"
+msgstr "live_audio :foo"
 
 #: 13.2-Live-Audio.md:23
 msgid ""
@@ -10207,12 +10259,14 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:34
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  live_audio :foo\n"
+"end"
 
 #: 13.2-Live-Audio.md:40
 msgid ""
@@ -10230,16 +10284,20 @@ msgstr ""
 msgid ""
 "Now, whilst you're still hearing the audio live from the sound card with rever"
 "b, change the code to the following:"
-msgstr "reverb,"
+msgstr ""
+"Now, whilst you're still hearing the audio live from the sound card with "
+"reverb, change the code to the following:"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :echo do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :echo do\n"
+"  live_audio :foo\n"
+"end"
 
 #: 13.2-Live-Audio.md:58
 msgid ""
@@ -10250,24 +10308,32 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:62
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do\n"
 "  with_fx :echo do\n"
 "    live_audio :foo\n"
 "  end\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :echo do\n"
+"    live_audio :foo\n"
+"  end\n"
+"end"
 
 #: 13.2-Live-Audio.md:70
-#, fuzzy
 msgid ""
 "It's important to point out that you can call `live_audio :foo` from any threa"
 "d or live loop and it will move the live audio synth to *that* thread's curren"
 "t FX context. You could therefore easily have multiple live loops calling `liv"
 "e_audio :foo` at different times resulting in the FX context being automatical"
 "ly swapped around for some interesting results."
-msgstr "foo"
+msgstr ""
+"It's important to point out that you can call `live_audio :foo` from any "
+"thread or live loop and it will move the live audio synth to *that* thread's "
+"current FX context. You could therefore easily have multiple live loops "
+"calling `live_audio :foo` at different times resulting in the FX context "
+"being automatically swapped around for some interesting results."
 
 #: 13.2-Live-Audio.md:78
 msgid "Stopping live audio"
@@ -10283,9 +10349,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:85
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo, :stop"
-msgstr "foo"
+msgstr "live_audio :foo, :stop"
 
 #: 13.2-Live-Audio.md:89
 msgid "It can easily be restarted by calling it without the `:stop` arg again:"
@@ -10315,9 +10380,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:111
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo, stereo: true, input: 2"
-msgstr "foo"
+msgstr "live_audio :foo, stereo: true, input: 2"
 
 #: 13.2-Live-Audio.md:115
 msgid ""
@@ -10415,7 +10479,6 @@ msgid "Mono and Stereo out"
 msgstr ""
 
 #: 13.3-Sound-Out.md:60
-#, fuzzy
 msgid ""
 "As we've seen, by default, the `:sound_out` FX outputs a mono mix of the stere"
 "o input to a specific channel in addition to passing the stereo feed to the ou"
@@ -10425,7 +10488,15 @@ msgid ""
 "l to the audio card. Or you can use the `:sound_out_stereo` FX to output to tw"
 "o consecutive sound card outputs. See the function documentation for more info"
 "rmation and examples."
-msgstr "choose (wybierz)"
+msgstr ""
+"As we've seen, by default, the `:sound_out` FX outputs a mono mix of the "
+"stereo input to a specific channel in addition to passing the stereo feed to "
+"the outer context (as expected). If outputting a mono mix isn't precisely "
+"what you want to do, there are a number of alternative options. Firstly, by "
+"using the `mode:` opt you can choose to output just the left or just the "
+"right input signal to the audio card. Or you can use the `:sound_out_stereo` "
+"FX to output to two consecutive sound card outputs. See the function "
+"documentation for more information and examples."
 
 #: 13.3-Sound-Out.md:70
 msgid "Direct Out"
@@ -10445,12 +10516,14 @@ msgstr ""
 
 #: 13.3-Sound-Out.md:82
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :sound_out, output: 3, amp: 0 do # B\n"
 "  sample :loop_amen                      # A\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"with_fx :sound_out, output: 3, amp: 0 do # B\n"
+"  sample :loop_amen                      # A\n"
+"end"
 
 #: 13.3-Sound-Out.md:88
 msgid ""
@@ -10464,9 +10537,8 @@ msgid ""
 msgstr ""
 
 #: 14-Conclusions.md:1
-#, fuzzy
 msgid "14 Conclusions"
-msgstr "12 Wnioski"
+msgstr "14 Wnioski"
 
 #: 14-Conclusions.md:3
 msgid "Conclusions"
@@ -17705,9 +17777,8 @@ msgstr ""
 "subt_synth :e1 - 4, 8"
 
 #: B-Essential-Knowledge.md:1
-#, fuzzy
 msgid "B Essential Knowledge"
-msgstr "Niezbędna Wiedza"
+msgstr "B Wiedza Podstawowa"
 
 #: B-Essential-Knowledge.md:3
 msgid "Essential Knowledge"
@@ -17731,9 +17802,8 @@ msgstr ""
 "ek dotyczących występów z Sonic Pi."
 
 #: B.01-Using-Shortcuts.md:1
-#, fuzzy
 msgid "B.1 Using Shortcuts"
-msgstr "10.1 Korzystanie ze Skrótów Klawiszowych"
+msgstr "B.1 Korzystanie ze Skrótów Klawiszowych"
 
 #: B.01-Using-Shortcuts.md:3
 msgid "Using Shortcuts"
@@ -17941,9 +18011,8 @@ msgstr ""
 " 10.2 Ściągawka Skrótów Klawiszowych."
 
 #: B.02-Shortcut-Cheatsheet.md:1
-#, fuzzy
 msgid "B.2 Shortcut Cheatsheet"
-msgstr "10.2 Ściągawka Skrótów Klawiszowych"
+msgstr "B.2 Ściągawka Skrótów Klawiszowych"
 
 #: B.02-Shortcut-Cheatsheet.md:3
 msgid "Shortcut Cheatsheet"
@@ -18230,9 +18299,8 @@ msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Wczytaj zawartość z wybranego pliku do bufora"
 
 #: B.03-Sharing.md:1
-#, fuzzy
 msgid "B.3 Sharing"
-msgstr "10.3 Udostępnianie"
+msgstr "B.3 Udostępnianie"
 
 #: B.03-Sharing.md:3
 msgid "Sharing"
@@ -18340,9 +18408,8 @@ msgstr ""
 " bardzo podekscytowany tym, co będziesz chciał mi pokazać."
 
 #: B.04-Performing.md:1
-#, fuzzy
 msgid "B.4 Performing"
-msgstr "10.4 Występy Na Scenie"
+msgstr "B.4 Występy Na Scenie"
 
 #: B.04-Performing.md:3
 msgid "Performing"
@@ -18428,9 +18495,8 @@ msgstr ""
 "pektów kodowania na żywo, które są związane z tworzeniem muzyki w klubach."
 
 #: C-Minecraft-Pi.md:1
-#, fuzzy
 msgid "C Minecraft Pi"
-msgstr "Minecraft Pi"
+msgstr "C Minecraft Pi"
 
 #: C-Minecraft-Pi.md:3
 msgid "Minecraft Pi"
