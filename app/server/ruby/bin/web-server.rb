@@ -14,12 +14,7 @@
 
 require 'cgi'
 require 'rbconfig'
-
-# Web stuff
-require 'optparse'
-require 'rubame'
 require 'webrick'
-require 'json'
 
 require_relative "../core.rb"
 require_relative "../lib/sonicpi/studio"
@@ -40,29 +35,30 @@ require 'memoist'
 STDOUT.puts "Sonic Pi server booting..."
 
 include SonicPi::Util
-web_server_ip = ARGV[0] ? ARGV[0].to_s : "127.0.0.1"
-web_server_port = ARGV[1] ? ARGV[1].to_i : 8000
 
-protocol = case ARGV[2]
+protocol = case ARGV[0]
            when "-t"
              :tcp
-           else
+           when "-u"
              :udp
+           when "-w"
+             :websockets
+           else
+             :websockets
            end
 STDOUT.puts "Using protocol: #{protocol}"
 STDOUT.puts "Detecting port numbers..."
 
-server_port = ARGV[3] ? ARGV[3].to_i : 4557
-#client_port = ARGV[4] ? ARGV[4].to_i : 4558
-client_port = 4558
-scsynth_port = ARGV[4] ? ARGV[4].to_i : 4556
-scsynth_send_port = ARGV[5] ? ARGV[5].to_i : 4556
-osc_cues_port = ARGV[6] ? ARGV[6].to_i : 4559
-erlang_port = ARGV[7] ? ARGV[7].to_i : 4560
-osc_midi_out_port = ARGV[8] ? ARGV[8].to_i : 4561
-osc_midi_in_port = ARGV[9] ? ARGV[9].to_i : 4562
+server_port = ARGV[1] ? ARGV[1].to_i : 4557
+client_port = ARGV[2] ? ARGV[2].to_i : 4558
+scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
+scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
+osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
+erlang_port = ARGV[6] ? ARGV[6].to_i : 4560
+osc_midi_out_port = ARGV[7] ? ARGV[7].to_i : 4561
+osc_midi_in_port = ARGV[8] ? ARGV[8].to_i : 4562
 
-check_port = lambda do |port, gui|
+check_port = lambda do |port, gui=nil|
   begin
     s = SonicPi::OSC::UDPServer.new(port)
     s.stop
@@ -71,7 +67,7 @@ check_port = lambda do |port, gui|
     begin
       STDOUT.puts "Port #{port} unavailable. Perhaps Sonic Pi is already running?"
       STDOUT.flush
-      gui.send("/exited-with-boot-error", "Port unavailable: " + port.to_s + ", is scsynth already running?")
+      gui.send("/exited-with-boot-error", "Port unavailable: " + port.to_s + ", is scsynth already running?") if gui
     rescue Errno::EPIPE => e
       STDOUT.puts "GUI not listening, exit anyway."
     end
@@ -82,23 +78,29 @@ end
 
 STDOUT.puts "Send port: #{client_port}"
 
-# The GUI doesn't use OSC
-#begin
-#  if protocol == :tcp
-#    gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
-#  else
-#    gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
-#  end
-#rescue Exception => e
-#  STDOUT.puts "Exception when opening socket to talk to GUI!"
-#  STDOUT.puts e.message
-#  STDOUT.puts e.backtrace.inspect
-#  STDOUT.puts e.backtrace
-#end
-
-
 STDOUT.puts "Listen port: #{server_port}"
-check_port.call(server_port, gui)
+check_port.call(server_port)
+
+begin
+  case protocol
+  when :tcp
+    gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+  when :udp
+    gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+  when :websockets
+    gui = SonicPi::OSC::WebSocketServer.new(client_port)
+  end
+
+
+rescue Exception => e
+  STDOUT.puts "Exception when opening socket to talk to GUI!"
+  STDOUT.puts e.message
+  STDOUT.puts e.backtrace.inspect
+  STDOUT.puts e.backtrace
+end
+
+
+
 STDOUT.puts "Scsynth port: #{scsynth_port}"
 check_port.call(scsynth_port, gui)
 STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
@@ -123,25 +125,28 @@ sonic_pi_ports = {
   osc_midi_out_port: osc_midi_out_port,
   osc_midi_in_port: osc_midi_in_port }.freeze
 
-# The web GUI doesn't use OSC
-#begin
-#  if protocol == :tcp
-#    osc_server = SonicPi::OSC::TCPServer.new(server_port, use_decoder_cache: true)
-#  else
-#    osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
-#  end
-#rescue Exception => e
-#  begin
-#    STDOUT.puts "Exception when opening a socket to listen from GUI!"
-#    STDOUT.puts e.message
-#    STDOUT.puts e.backtrace.inspect
-#    STDOUT.puts e.backtrace
-#    gui.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is scsynth already running?")
-#  rescue Errno::EPIPE => e
-#    STDOUT.puts "GUI not listening, exit anyway."
-#  end
-#  exit
-#end
+
+begin
+  case protocol
+  when :tcp
+    osc_server = SonicPi::OSC::TCPServer.new(server_port, use_decoder_cache: true)
+  when :udp
+    osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
+  when :websockets
+    osc_server = gui
+  end
+rescue Exception => e
+  begin
+    STDOUT.puts "Exception when opening a socket to listen from GUI!"
+    STDOUT.puts e.message
+    STDOUT.puts e.backtrace.inspect
+    STDOUT.puts e.backtrace
+    gui.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is scsynth already running?")
+  rescue Errno::EPIPE => e
+    STDOUT.puts "GUI not listening, exit anyway."
+  end
+  exit
+end
 
 
 at_exit do
@@ -214,7 +219,6 @@ osc_server.add_method("/run-code") do |args|
   code = args[1].force_encoding("utf-8")
   sp.__spider_eval code
 end
-
 osc_server.add_method("/save-and-run-buffer") do |args|
   gui_id = args[0]
   buffer_id = args[1]
@@ -435,7 +439,7 @@ osc_server.add_method("/osc-port-start") do |args|
   gui_id = args[0]
   silent = args[1] == 1
   open = args[2] == 1
-  sp.__restart_cue_server!(open, silent)
+ sp.__restart_cue_server!(open, silent)
 end
 
 osc_server.add_method("/osc-port-stop") do |args|
@@ -444,7 +448,7 @@ osc_server.add_method("/osc-port-stop") do |args|
   sp.__stop_cue_server!(silent)
 end
 
-# Send stuff out from Sonic Pi back out to GUI
+# Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
   continue = true
   while continue
@@ -542,62 +546,9 @@ out_t = Thread.new do
   end
 end
 
-# Send stuff out from Sonic Pi jobs out to GUI
-web_out_t = Thread.new do
-  loop do
-    begin
-      message = ws_out.pop
-      if debug_mode
-        raise "message not a Hash!" unless message.is_a? Hash
-      end
-      message[:ts] = Time.now.strftime("%H:%M:%S")
+web_server = WEBrick::HTTPServer.new :Port => 8001, :BindAddress => "127.0.0.1" , :DocumentRoot => html_public_path
 
-      if debug_mode
-        puts "sending:"
-        puts "#{JSON.fast_generate(message)}"
-        puts "---"
-      end
-      $clients.each{|c| c.send(JSON.fast_generate(message))}
-    rescue Exception => e
-      puts e.message
-      puts e.backtrace.inspect
-    end
-  end
-end
-
-ws_server = Rubame::Server.new(web_server_ip, 8001)
-
-# Recive messages from GUI
-web_in_t = Thread.new do
-  while true
-    ws_server.run do |client|
-      client.onopen do
-        client.send(JSON.fast_generate({:type => :message, :val => "Connection initiated..."}))
-        $clients << client
-        puts "New Websocket Client: \n#{client.frame} \n #{client.socket} \n"
-
-      end
-      client.onmessage do |msg|
-        begin
-          parsed = JSON.parse(msg)
-          $rd.dispatch parsed
-        rescue Exception => e
-          puts "Unable to parse: #{msg}"
-          puts "Reason: #{e}"
-          puts "Backtrace: #{e.backtrace}"
-        end
-      end
-      client.onclose do
-        $clients.delete client
-        warn("Connection closed...")
-      end
-    end
-  end
-end
-
-$web_server = WEBrick::HTTPServer.new :Port => web_server_port, :BindAddress => web_server_ip , :DocumentRoot => html_public_path
-
-web_t = Thread.new { $web_server.start}
+web_t = Thread.new { web_server.start}
 
 puts "This is Sonic Pi #{sp.__current_version} running on #{os} with ruby api #{RbConfig::CONFIG['ruby_version']}."
 puts "Sonic Pi Server successfully booted."
@@ -605,6 +556,4 @@ puts "Sonic Pi Server successfully booted."
 STDOUT.flush
 
 out_t.join
-web_out_t.join
-web_in_t.join
 web_t.join
