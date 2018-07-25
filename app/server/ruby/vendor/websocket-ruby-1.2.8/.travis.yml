@@ -1,0 +1,19 @@
+dist: trusty
+language: ruby
+script: "bundle exec rake"
+rvm:
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - ruby-head
+  - jruby-9.1.9.0 # https://github.com/travis-ci/travis-ci/issues/8446
+  - jruby-head
+  - rbx-3
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx-3
