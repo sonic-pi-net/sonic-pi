@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-08 14:42+0000\n"
-"Last-Translator: Yann Pavlenko <darklodr@gmail.com>\n"
+"PO-Revision-Date: 2018-07-25 10:58+0000\n"
+"Last-Translator: Рамиль Иксанов <autechregescom@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -4470,18 +4470,17 @@ msgid "Threads"
 msgstr "Потоки Выполнения"
 
 #: 05.4-Threads.md:5
-#, fuzzy
 msgid ""
 "So you've made your killer bassline and a phat beat. How do you play them at t"
 "he same time? One solution is to weave them together manually - play some bass"
 ", then a bit of drums, then more bass... However, the timing soon gets hard to"
 " think about, especially when you start weaving in more elements."
 msgstr ""
-"Итак, вы написали чумовую бас-партию и заводной ритм. Как сыграть обе эти част"
-"и одновременно? Одно из решений - переплести их вместе вручную - играть неболь"
-"шую чать баса, затем немного от ударных, потом еще бас... Однако, вскоре стано"
-"вится очень сложно даже думать о том, как разместить это все во времени, особе"
-"нно если вы начнётк добавлять новые элементы."
+"Итак, вы написали чумовую бас-партию и заводной ритм. Как сыграть обе эти "
+"части одновременно? Одно из решений - переплести их вместе вручную - играть "
+"небольшую часть баса, затем немного от ударных, потом еще бас... Однако, "
+"вскоре становится очень сложно даже думать о том, как разместить это все во "
+"времени, особенно если вы начнёте добавлять новые элементы."
 
 #: 05.4-Threads.md:11
 #, fuzzy
