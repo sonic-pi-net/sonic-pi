@@ -1,0 +1,38 @@
+---
+# Please refer to https://github.com/idi-ops/ansible-nodejs/blob/master/defaults/main.yml
+# for additional documentation related to these variables
+
+# The version of Node.js to use.
+nodejs_branch: current
+
+# A hyphenated string representing the application's name.
+nodejs_app_name: oscjs-tests
+
+# A boolean stating whether the application's Git repository should be cloned or
+# not. An example scenario where you may want to set this to 'false' would be a
+# Vagrant project used for development where the application's source code might
+# already be present on local storage.
+nodejs_app_git_clone: false
+
+# The absolute file system path where either the application directory or the
+# Git working directory will be located.
+nodejs_app_install_dir: /home/vagrant/sync
+
+nodejs_app_rpm_packages:
+  - gcc-c++
+
+# A YAML list of commands that will be executed in order within the application's
+# Git working directory.
+nodejs_app_commands:
+  - ./clean-npm.sh
+  - sudo npm install -g node-pre-gyp
+  - npm install
+
+# The application script passed as an argument to the Node.js binary. If this
+# isn't set then the application won't start.
+nodejs_app_start_script: tests/node-all-tests.js
+
+# Enabling this will manage the application using https://github.com/remy/nodemon
+# so that Node process is restarted when file system changes are detected. This
+# will only work if 'nodejs_app_start_script' is set.
+nodejs_app_dev_env: true

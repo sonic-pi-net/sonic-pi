@@ -1,0 +1,29 @@
+{
+  "name": "slip.js",
+  "version": "1.0.2",
+  "author": "Colin Clark",
+  "license": "(MIT OR GPL-2.0)",
+  "main": "dist/slip.min.js",
+  "ignore": [
+    ".jshintrc",
+    "package.json",
+    "bower.json",
+    "Gruntfile.js",
+    "node_modules",
+    "tests"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "qunit": "1.14.0"
+  },
+  "homepage": "https://github.com/colinbdclark/slip.js",
+  "_release": "1.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.2",
+    "commit": "f78b7ce4c5b582de0c2f5d32f694a8e5a9f979cd"
+  },
+  "_source": "https://github.com/colinbdclark/slip.js.git",
+  "_target": "1.0.2",
+  "_originalSource": "slip.js"
+}

@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  user: root
+
+  vars_files:
+    - vars.yml
+
+  roles:
+    - facts
+    - nodejs
+

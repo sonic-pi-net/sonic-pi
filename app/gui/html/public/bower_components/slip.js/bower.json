@@ -1,0 +1,19 @@
+{
+    "name": "slip.js",
+    "version": "1.0.2",
+    "author": "Colin Clark",
+    "license": "(MIT OR GPL-2.0)",
+    "main": "dist/slip.min.js",
+    "ignore": [
+        ".jshintrc",
+        "package.json",
+        "bower.json",
+        "Gruntfile.js",
+        "node_modules",
+        "tests"
+    ],
+    "dependencies": {},
+    "devDependencies": {
+        "qunit": "1.14.0"
+    }
+}
