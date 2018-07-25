@@ -1257,7 +1257,6 @@ module SonicPi
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
-      @keypress_handlers = {}
       @cue_events = IncomingEvents.new
       @job_counter = Counter.new(-1) # Start counting jobs from 0
       @job_subthreads = {}
@@ -1265,7 +1264,6 @@ module SonicPi
       @named_subthreads = {}
       @job_subthread_mutex = Mutex.new
       @user_jobs = Jobs.new
-      @sync_real_sleep_time = 0.05
       @user_methods = user_methods
       @global_start_time = Time.now
       @session_id = SecureRandom.uuid
