@@ -6,12 +6,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Preferences</source>
-        <translation></translation>
+        <translation type="unfinished">تنظیمات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Log</source>
-        <translation></translation>
+        <translation>لاگ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
@@ -25,7 +25,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation></translation>
+        <translation>وارونه کردن صدای استریو.
+در صورت فعال بودن، صدای مربوط به بلندگوی راست
+از بلندگوی چپ پخش خواهد شد و برعکس</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
