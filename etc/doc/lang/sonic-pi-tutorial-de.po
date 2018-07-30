@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-02-17 13:36+0000\n"
-"Last-Translator: monodread <mail@jonashummel.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/de/>\n"
+"PO-Revision-Date: 2018-07-30 09:58+0000\n"
+"Last-Translator: Timo Dankert <timo.dankert@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.19\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -9186,7 +9186,7 @@ msgstr "`cue \"/foo/bar\"`"
 #: 10.3-Pattern-Matching.md:33
 #, fuzzy
 msgid "`cue \"/foo/baz/quux/quaax\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
@@ -9218,12 +9218,11 @@ msgstr "foo"
 #: 10.3-Pattern-Matching.md:47
 #, fuzzy
 msgid "`cue \"/foo/baz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:48
-#, fuzzy
 msgid "`cue \"/foo/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
