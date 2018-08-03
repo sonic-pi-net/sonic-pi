@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-19 03:34+0000\n"
-"Last-Translator: bin仔 <442416294@qq.com>\n"
+"PO-Revision-Date: 2018-08-03 08:27+0000\n"
+"Last-Translator: CaoYi <1783250036@qq.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/zh/>\n"
 "Language: zh\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.1-dev\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -867,7 +867,7 @@ msgstr "你可以用逗号分隔并且调用多个设置选项："
 #: 02.2-Synth-Params.md:39
 #, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
-msgstr ""
+msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
@@ -876,7 +876,7 @@ msgstr "选项的顺序无关紧要，所以下面也是那一回事："
 #: 02.2-Synth-Params.md:45
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 1"
 
 #: 02.2-Synth-Params.md:49
 msgid ""
@@ -893,7 +893,7 @@ msgstr "要是你一不小心把不同的数值给了同一个选项，后一个
 #: 02.2-Synth-Params.md:56
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
 #: 02.2-Synth-Params.md:60
 msgid ""
@@ -945,7 +945,7 @@ msgstr "用2这个值以双倍振幅放音："
 #: 02.2-Synth-Params.md:90
 #, no-wrap
 msgid "play 60, amp: 2"
-msgstr ""
+msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
 msgid ""
@@ -961,6 +961,9 @@ msgid ""
 "sleep 0.5\n"
 "play 65"
 msgstr ""
+"play 60, amp: 0.5\n"
+"sleep 0.5\n"
+"play 65"
 
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
@@ -977,6 +980,13 @@ msgid ""
 "sleep 0.25\n"
 "play 62, amp: 1"
 msgstr ""
+"play 50, amp: 0.1 \n"
+"sleep 0.25 \n"
+"play 55, amp: 0.2 \n"
+"sleep 0.25 \n"
+"play 57, amp: 0.4 \n"
+"sleep 0.25 \n"
+"play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
 msgid "Panning"
@@ -1002,7 +1012,7 @@ msgstr "我们从左扬声器播放哔声："
 #: 02.2-Synth-Params.md:128
 #, no-wrap
 msgid "play 60, pan: -1"
-msgstr ""
+msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
 msgid "Now, let's play it out of the right speaker:"
@@ -1011,7 +1021,7 @@ msgstr "现在，我们从右扬声器播放："
 #: 02.2-Synth-Params.md:134
 #, no-wrap
 msgid "play 60, pan: 1"
-msgstr ""
+msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
 msgid "Finally let's play it back out of the center of both (the default position):"
@@ -1020,7 +1030,7 @@ msgstr "最后我们回到两个声道的中央播放声音（默认位置）：
 #: 02.2-Synth-Params.md:141
 #, no-wrap
 msgid "play 60, pan: 0"
-msgstr ""
+msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
