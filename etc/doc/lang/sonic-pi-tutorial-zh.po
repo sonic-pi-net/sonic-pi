@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-03 08:29+0000\n"
+"PO-Revision-Date: 2018-08-03 08:35+0000\n"
 "Last-Translator: CaoYi <1783250036@qq.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/zh/>\n"
@@ -1188,7 +1188,7 @@ msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
-msgstr ""
+msgstr "要查看Sonic Pi为您准备的合成器，请查看最左下垂直菜单中的“合成器”选项。有20多个供你选择。以下是我的一些最爱："
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
