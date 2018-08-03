@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-03 08:35+0000\n"
+"PO-Revision-Date: 2018-08-05 03:36+0000\n"
 "Last-Translator: CaoYi <1783250036@qq.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/zh/>\n"
@@ -177,10 +177,10 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"live_loop :flibble do\n"
-"  sample :ambi_choir, rate: 0.3\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 1\n"
+"live_loop :flibble do \n"
+"  sample :ambi_choir, rate: 0.3 \n"
+"  sample :bd_haus, rate: 1 \n"
+"  sleep 1 \n"
 "end"
 
 #: 01.1-Live-Coding.md:51
@@ -654,7 +654,7 @@ msgstr "和弦"
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
-msgstr "演奏音符太好玩了，而且同时演奏好几个音符更棒！试试看~"
+msgstr "演奏音符非常有趣，但同时演奏好几个音符更棒！试试看："
 
 #: 02.1-Your-First-Beeps.md:51
 #, fuzzy, no-wrap
@@ -694,10 +694,10 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
-"play 72\n"
-"sleep 1\n"
-"play 75\n"
-"sleep 1\n"
+"play 72 \n"
+"sleep 1 \n"
+"play 75 \n"
+"sleep 1 \n"
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:75
@@ -719,10 +719,10 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
-"play 72\n"
-"sleep 0.5\n"
-"play 75\n"
-"sleep 0.5\n"
+"play 72 \n"
+"sleep 0.5 \n"
+"play 75 \n"
+"sleep 0.5 \n"
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:89
@@ -761,10 +761,10 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
-"play :C\n"
-"sleep 0.5\n"
-"play :D\n"
-"sleep 0.5\n"
+"play :C \n"
+"sleep 0.5 \n"
+"play :D \n"
+"sleep 0.5 \n"
 "play :E"
 
 #: 02.1-Your-First-Beeps.md:112
@@ -782,10 +782,10 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
-"play :C3\n"
-"sleep 0.5\n"
-"play :D3\n"
-"sleep 0.5\n"
+"play :C3 \n"
+"sleep 0.5 \n"
+"play :D3 \n"
+"sleep 0.5 \n"
 "play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
@@ -961,8 +961,8 @@ msgid ""
 "sleep 0.5\n"
 "play 65"
 msgstr ""
-"play 60, amp: 0.5\n"
-"sleep 0.5\n"
+"play 60, amp: 0.5 \n"
+"sleep 0.5 \n"
 "play 65"
 
 #: 02.2-Synth-Params.md:104
@@ -1192,45 +1192,45 @@ msgstr "要查看Sonic Pi为您准备的合成器，请查看最左下垂直菜�
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "“:prophet”"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "“:dsaw”"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "“:fm“"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "“:tb303”"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "“:pulse”"
 
 #: 02.3-Switching-Synths.md:92
 msgid ""
 "Now play around with *switching synths during your music*. Have fun combining "
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
-msgstr ""
+msgstr "现在开始与“切换各种合成器”玩吧。结合合成器来制作新的声音以及为音乐的不同部分使用不同的合成器。"
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr ""
+msgstr "2.4 持续时间"
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
-msgstr ""
+msgstr "2.4 持续时间"
 
 #: 02.4-Durations-with-Envelopes.md:5
 msgid ""
 "In an earlier section, we looked at how we can use the `sleep` command to cont"
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
-msgstr ""
+msgstr "在前面的部分中，我们学习了如何使用“sleep”指令来控制何时触发我们的声音。"
 
 #: 02.4-Durations-with-Envelopes.md:9
 msgid ""
@@ -1239,18 +1239,20 @@ msgid ""
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
+"为了给我们一个简单但强大的“控制声音持续时间”的方法，Sonic "
+"Pi提供了“ADSR振幅包络”的概念（我们将在本节后面介绍ADSR的含义）。幅度包络提供了两个有用的控制方面："
 
 #: 02.4-Durations-with-Envelopes.md:14
 msgid "control over the duration of a sound"
-msgstr ""
+msgstr "控制声音的持续时间"
 
 #: 02.4-Durations-with-Envelopes.md:15
 msgid "control over the amplitude of a sound"
-msgstr ""
+msgstr "控制声音的幅度"
 
 #: 02.4-Durations-with-Envelopes.md:17
 msgid "Duration"
-msgstr ""
+msgstr "持续时间"
 
 #: 02.4-Durations-with-Envelopes.md:19
 msgid ""
@@ -1259,6 +1261,8 @@ msgid ""
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
+"持续时间是声音持续的长度。一个长的持续时间意味着你会更长的听到你的声音。Sonic "
+"Pi的声音都具有可控制的幅度包络，该包络的总持续时间是声音的持续时间。因此，通过控制包络，您可以控制持续时间。"
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1271,20 +1275,23 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
+"ADSR包络不仅可以控制持续时间，还可以“精确控制声音的振幅”。所有可听声音开始和结束都是静音，并且中间包含一些非静音部分。信封允许您滑动并保持声音的非静"
+"音部分的振幅。这就像给某人指示如何调高吉他放大器的音量。例如，你可能会要求某人“从沉默开始，慢慢向上移动到最大音量，保持一段时间，然后迅速回到沉默状态。”"
+" Sonic Pi允许您使用信封准确编程此行为。"
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
-msgstr ""
+msgstr "回顾一下，正如我们之前看到的，振幅为0是静音，幅度为1是正常音量。"
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr ""
+msgstr "现在, 让我们依次查看信封的各个部分。"
 
 #: 02.4-Durations-with-Envelopes.md:42
 msgid "Release Phase"
-msgstr ""
+msgstr "释放阶段"
 
 #: 02.4-Durations-with-Envelopes.md:44
 msgid ""
@@ -1293,6 +1300,8 @@ msgid ""
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
+"默认情况下使用的信封的唯一部分是淡出时间。这是合成器声音淡出所需的时间。所有合成器的释放时间均为1，这意味着默认情况下它们的持续时间为1拍（默认BPM为6"
+"0时为1秒）："
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
@@ -1303,41 +1312,41 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr ""
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
 "Notice how this sounds exactly the same (the sound lasts for one second). Howe"
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
-msgstr ""
+msgstr "注意这听起来完全一样（声音持续一秒钟）。但是，现在很容易通过修改“release：opt”的值来改变持续时间："
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
 msgid "play 60, release: 2"
-msgstr ""
+msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
-msgstr ""
+msgstr "通过使用非常短的释放时间，我们可以在很短的时间内完成播放声音："
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
 msgid "play 60, release: 0.2"
-msgstr ""
+msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
 msgid ""
 "The duration of the release of the sound is called the *release phase* and by "
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
-msgstr ""
+msgstr "释放声音的持续时间称为“释放阶段”，默认情况下是线性过渡（即直线）。下图说明了这种转变："
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 msgid ""
@@ -1347,16 +1356,18 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
+"图表最左侧的垂直线显示声音从0幅度开始，但立即上升到全幅度（这是我们接下来要介绍的渐强阶段）。一旦达到全振幅，它就会以“释放：”指定的时间量直线向下移动到"
+"零。*更长的释放时间会产生更长的合成淡出效果。*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
-msgstr ""
+msgstr "因此，您可以通过更改减弱时间来更改声音的持续时间。播放时为您的音乐添加减弱时间。"
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
-msgstr ""
+msgstr "渐强阶段"
 
 #: 02.4-Durations-with-Envelopes.md:93
 msgid ""
@@ -1365,6 +1376,8 @@ msgid ""
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
+"默认情况下，所有合成器的“渐强阶段”为0，这意味着它们立即从0幅度移动到1。这为合成器提供了初始的打击声。但是，您可能希望淡入您的声音。这可以通过“att"
+"ack:opt”来实现。尝试淡化一些声音："
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1373,27 +1386,30 @@ msgid ""
 "sleep 3\n"
 "play 65, attack: 0.5"
 msgstr ""
+"play 60, attack: 2\n"
+"sleep 3 \n"
+"play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
-msgstr ""
+msgstr "您可以同时使用多个参数。例如，对于短渐强和长释放尝试："
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
 msgid "play 60, attack: 0.7, release: 4"
-msgstr ""
+msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
-msgstr ""
+msgstr "这个短渐强和长释放包络如下图所示："
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr ""
+msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
