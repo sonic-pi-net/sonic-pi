@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-23 02:40+0000\n"
-"Last-Translator: Kaique Ribeiro de Campos <kaiquetrabalhosescola@gmail.com>\n"
+"PO-Revision-Date: 2018-08-05 01:49+0000\n"
+"Last-Translator: Arthur Augusto <4rthuurr@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -405,7 +405,7 @@ msgstr "*H* - Visualizador de Escopo"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
-msgstr ""
+msgstr "Controles"
 
 #: 01.2-Exploring-the-Interface.md:22
 msgid ""
@@ -614,7 +614,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 Seus primeiros Beeps"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
