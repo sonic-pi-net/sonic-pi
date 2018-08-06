@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-05 03:36+0000\n"
+"PO-Revision-Date: 2018-08-07 06:35+0000\n"
 "Last-Translator: CaoYi <1783250036@qq.com>\n"
 "Language-Team: Chinese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/zh/>\n"
@@ -1415,18 +1415,20 @@ msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
-msgstr ""
+msgstr "当然，你可以随意的改变这些。试试长的渐强和短淡出："
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr ""
+msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![long attack short release envelope](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
