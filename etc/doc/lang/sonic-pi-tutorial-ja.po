@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-01-26 18:05+0000\n"
-"Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/ja/>\n"
+"PO-Revision-Date: 2018-08-07 08:00+0000\n"
+"Last-Translator: yyh <yhonda.95.gl@gmail.com>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.19-dev\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -4914,9 +4914,8 @@ msgid "We'll look into controlling synths in more detail in a later section."
 msgstr "また、後の章ではもっと詳しくシンセをコントロールすることも学びます。"
 
 #: 05.6-Variables.md:133
-#, fuzzy
 msgid "Warning: Variables and Threads"
-msgstr "変数"
+msgstr "注意：変数とスレッド"
 
 #: 05.6-Variables.md:135
 msgid ""
@@ -4924,6 +4923,9 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
+"変数はモノに名前を与えたり、ある処理においてどういった結果が返ってくるのか推測するのに役立ちます。\n"
+"ただし、通常、変数はスレッド内で完結するローカル変数として定義する必要があることを知っておく必要があります。\n"
+"したがって、以下のようなことをしてはいけません。"
 
 #: 05.6-Variables.md:139
 #, no-wrap
