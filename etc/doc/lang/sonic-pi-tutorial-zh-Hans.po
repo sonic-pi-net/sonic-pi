@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-25 10:58+0000\n"
+"PO-Revision-Date: 2018-08-08 15:36+0000\n"
 "Last-Translator: threewater2 <1271312039@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.1-dev\n"
+"X-Generator: Weblate 3.2-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -469,11 +469,11 @@ msgstr ""
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 边玩边学习"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr ""
+msgstr "边玩边学习"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
@@ -482,12 +482,14 @@ msgid ""
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
+"Sonic Pi鼓励你通过边玩边实验来学习编码音乐。当然最重要的是：你开心就好;-),在你真正了解它之前，你将不知不觉的学会如何写代码，作曲和表演。"
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
-msgstr ""
+msgstr "怎么折腾都不会出错"
 
 #: 01.3-Learning-through-Play.md:12
+#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -500,10 +502,13 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
+"既然我们正在讨论这个问题，以我这么多年来码音乐的经验，让我来给你一些建议吧：不要怕犯错，勇于尝试。这是我弹爵士乐的时候听到最多的一句话，当然它同样适用于编"
+"码。无论你在编码方面的经验如何，无论你是菜鸟还是大神，你都会写出一些出乎你意料之外的结果。在某种情况下，有些代码可能听起来有些疯狂和你预想的有差错。有差错"
+"没关系，重要的是你接下来怎么做。再听一遍，然后更正成为你想要的样子。The crowd will go *wild*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr ""
+msgstr "从简单开始"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -515,10 +520,13 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
+"当我们研究它的时候，我们总是想马上实现一个伟大的作品。但是，让我们先打住这种想法，把它看成一个将来要实现的长远的目标。现在，不如写一些你能写的简单有趣的代"
+"码来激励你自己，这也是实现伟大作品的一小步。当你对实现这一小步有了想法之后，你可以尝试着去实现它，然后播放它，看看它会给带来什么新点子。不久你就会为了不断"
+"寻找乐趣而实现真正的进步!"
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
-msgstr ""
+msgstr "记得和他人分享你的乐趣哦!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
