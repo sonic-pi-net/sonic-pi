@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-20 14:38+0000\n"
-"Last-Translator: Cedric FROSSARD <adrion.dev@gmail.com>\n"
+"PO-Revision-Date: 2018-08-09 11:37+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.1-dev\n"
+"X-Generator: Weblate 3.2-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -12497,17 +12497,17 @@ msgid "Auto Melody"
 msgstr "Mélodie automatique"
 
 #: A.04-synth-riffs.md:86
-#, fuzzy
 msgid ""
 "It's not always easy to come up with a nice riff from scratch. Instead it's of"
 "ten easier to ask Sonic Pi for a selection of random riffs and to choose the o"
 "ne you like the best. To do that we need to combine three things: rings, rando"
 "misation and random seeds. Let's look at an example:"
 msgstr ""
-"Ce n'est pas toujours facile d'inventer un riff sympa. C'est souvent plus simp"
-"le de demander à Sonic Pi une sélection de riffs aléatoires et de choisir celu"
-"i que l'on préfère. Pour faire cela on doit combiner trois choses : des anneau"
-"x, de l'aléatoire et des graines aléatoires. Regardons un exemple :"
+"Ce n'est pas toujours facile d'inventer un riff sympa. C'est souvent plus "
+"simple de demander à Sonic Pi une sélection de riffs aléatoires et de "
+"choisir celui que l'on préfère. Pour faire cela on doit combiner trois "
+"choses : des anneaux, de l'aléatoire et des graines aléatoires. Regardons un "
+"exemple :"
 
 #: A.04-synth-riffs.md:91
 #, no-wrap
