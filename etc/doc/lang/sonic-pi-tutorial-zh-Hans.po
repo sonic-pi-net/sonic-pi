@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-08 15:36+0000\n"
+"PO-Revision-Date: 2018-08-10 15:35+0000\n"
 "Last-Translator: threewater2 <1271312039@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
@@ -530,15 +530,15 @@ msgstr "记得和他人分享你的乐趣哦!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr ""
+msgstr "2 合成器"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr ""
+msgstr "合成器"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr ""
+msgstr "OK,自我介绍差不多结束了 - 让我们来点音乐吧。"
 
 #: 02-Synths.md:7
 msgid ""
@@ -549,25 +549,28 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
+"在这章我们会学到触发和操作合成器的基础知识。Synth是synthesiser "
+"的缩写，用来表示某种能产生声音的东西。一般情况下，合成器使用起来很复杂，特别是模拟合成器，例如由一堆电线连接在一起的Eurorack模块。但是，"
+"Sonic Pi 会以简单，人性化的方式提供合成器的大部分功能。"
 
 #: 02-Synths.md:14
 msgid ""
 "Don't be fooled by the immediate simplicity of Sonic Pi's interface. You can g"
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
-msgstr ""
+msgstr "不要被Sonic Pi 及其简介的界面所迷惑。如果你想做，你可以用它来实现很复杂的声音操作。保持良好的状态..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 你的第一个蜂鸣声"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr ""
+msgstr "你的第一个蜂鸣声"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr ""
+msgstr "看看下面的代码："
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
@@ -579,21 +582,21 @@ msgid ""
 "This is where it all starts. Go ahead, copy and paste it into the code window "
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
-msgstr ""
+msgstr "让我们先从这里开始。行动吧，复制代码，然后点击‘Run’按钮运行一下。。。"
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "蜂鸣声！"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr ""
+msgstr "刺激。再点一下，再点一下，*点一下。。。*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
-msgstr ""
+msgstr "哇哦，快疯了，我觉得你可以这样点一天。但是...请等一下，在你沉浸于无尽蜂鸣声中之前，改变一下数字："
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -602,7 +605,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
-msgstr ""
+msgstr "你能听出来不同吗？试一下更低的数字："
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
