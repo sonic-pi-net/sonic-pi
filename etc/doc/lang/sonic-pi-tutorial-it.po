@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2017-10-26 22:46+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"it/>\n"
+"PO-Revision-Date: 2018-08-13 14:39+0000\n"
+"Last-Translator: Christopher Tibaldo <tibaldo.chris@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17\n"
+"X-Generator: Weblate 3.2-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5248,15 +5248,14 @@ msgid "Variables"
 msgstr "Variabili"
 
 #: 05.6-Variables.md:5
-#, fuzzy
 msgid ""
 "A useful thing to do in your code is to create names for things. Sonic Pi make"
 "s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Una cosa che può risultarti utile è quella di dare dei nomi alle cose. Sonic P"
-"i rende questo processo molto semplice. Basta che scrivi il nome desiderato, i"
-"l segno uguale ('='), e dopo la cosa che vuoi ricordarti:"
+"Può risultarti utile dare un nome alle cose nel codice. Sonic Pi rende "
+"questo processo molto semplice: basta che scrivi il nome desiderato, il "
+"segno uguale ('='), e dopo la cosa che vuoi ricordarti:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5506,9 +5505,8 @@ msgstr ""
 " questa sezione."
 
 #: 05.6-Variables.md:133
-#, fuzzy
 msgid "Warning: Variables and Threads"
-msgstr "Variabili"
+msgstr "Attenzone: Variabili e Threads"
 
 #: 05.6-Variables.md:135
 msgid ""
@@ -5516,6 +5514,9 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
+"Mentre le variabili sono ottime per assegnare nomi alle cose ed acquisire i "
+"relativi risultati, è importante sapere che dovrebbero essere generalmente "
+"usate in locale all'interno di un thread. Per esempio, *non fare questo*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
