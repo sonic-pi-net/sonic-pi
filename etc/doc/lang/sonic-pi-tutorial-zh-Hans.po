@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-10 15:35+0000\n"
-"Last-Translator: threewater2 <1271312039@qq.com>\n"
+"PO-Revision-Date: 2018-08-15 03:35+0000\n"
+"Last-Translator: Ke Ding <dingkework@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -639,7 +639,7 @@ msgstr ""
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
-msgstr ""
+msgstr "演奏单个音符很有趣吧，但如果能同时演奏多个音符的话，那就更有趣了，试试下面的操作："
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
