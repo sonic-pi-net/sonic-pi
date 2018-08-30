@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-30 11:04+0000\n"
-"Last-Translator: Haotong Chen <hachen@redhat.com>\n"
+"PO-Revision-Date: 2018-09-01 10:13+0000\n"
+"Last-Translator: NamiKJ <lzb-1997@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -93,8 +93,8 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Sonic Pi的一大特性是使你能够即时编写和修改代码来演奏音乐，就像在舞台上即时演奏吉他一样。 换句话说，经过练习，你能够把Sonic Pi "
-"带上舞台并且拿它来演出。。"
+"Sonic Pi的一大特性是使你能够即时编写和*修改代码*来演奏音乐，就像在你可以现场演奏一把吉他一样。 换句话说，经过一定的练习，你可以把Sonic "
+"Pi 带上舞台并且拿它来演出。"
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -283,6 +283,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -573,9 +586,9 @@ msgid "Take a look at the following code:"
 msgstr "看看下面的代码："
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -599,20 +612,21 @@ msgid ""
 msgstr "哇哦，快疯了，我觉得你可以这样点一天。但是...请等一下，在你沉浸于无尽蜂鸣声中之前，改变一下数字："
 
 #: 02.1-Your-First-Beeps.md:23
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 75"
-msgstr ""
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
 msgstr "你能听出来不同吗？试一下更低的数字："
 
 #: 02.1-Your-First-Beeps.md:29
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60"
-msgstr ""
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
+#, fuzzy
 msgid ""
 "So, lower numbers make lower pitched beeps and higher numbers make higher pitc"
 "hed beeps. Just like on a piano, the keys at the lower part of the piano (the "
@@ -623,17 +637,22 @@ msgid ""
 "just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
 "y 60`."
 msgstr ""
+"所以，较低的数字会发出较低的音调，而较高的数字会发出较高的音调。就像在钢琴上一样，钢琴下部的琴键(左手边)演奏低音符，钢琴上部的琴键(右手边)演奏高音符。"
+"事实上，这些数字确实与钢琴上的音符有关。`play 47`实际上是指在钢琴上弹奏第47个音符。这意味着`play "
+"48`是升高了一个音符(右边的下一个音符)。正好，第四个八度C就是数字60。继续播放:`play 60`。"
 
 #: 02.1-Your-First-Beeps.md:42
+#, fuzzy
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
+"*别担心*, 如果这对你来说难以理解——我一开始也没弄清楚。现在最重要的是你要知道 *低的数字发出的蜂鸣音更低* 和 *高的数字发出的蜂鸣音更高 *。"
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
-msgstr ""
+msgstr "和弦"
 
 #: 02.1-Your-First-Beeps.md:48
 msgid ""
@@ -642,12 +661,15 @@ msgid ""
 msgstr "演奏单个音符很有趣吧，但如果能同时演奏多个音符的话，那就更有趣了，试试下面的操作："
 
 #: 02.1-Your-First-Beeps.md:51
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 72\n"
 "play 75\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"play 75\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:57
 msgid ""
@@ -655,10 +677,11 @@ msgid ""
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
+"棒极了!所以，当你写多个`play`的时候，它们都是同时播放的。自己试试吧——哪些数字放在一起听起来不错？哪些听起来糟糕？自己去尝试，去探索，去发现。"
 
 #: 02.1-Your-First-Beeps.md:61
 msgid "Melody"
-msgstr ""
+msgstr "旋律"
 
 #: 02.1-Your-First-Beeps.md:63
 msgid ""
@@ -666,9 +689,11 @@ msgid ""
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
+"所以, 演奏音符与和弦是很有趣的——但是怎么演奏旋律呢？如果你想一个接一个的播放音符, 而不是在同一时间播放呢？那很简单, "
+"你只需在音符之间`sleep`一下:"
 
 #: 02.1-Your-First-Beeps.md:67
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 72\n"
 "sleep 1\n"
@@ -676,6 +701,11 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 1\n"
+"play 75\n"
+"sleep 1\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:75
 msgid ""
@@ -685,9 +715,11 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
+"多么可爱的一个琶音。那么`sleep 1`中的`1`意味着什么呢？这意味着*音符的持续时间*。它实际上意味着音符持续一个节拍，但现在我们可以把它想象为1秒"
+"后停止。那么，如果我们想让琶音快一点呢？我们需要使用较短的睡眠值。比如一半，即`0.5`："
 
 #: 02.1-Your-First-Beeps.md:81
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 72\n"
 "sleep 0.5\n"
@@ -695,23 +727,28 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 0.5\n"
+"play 75\n"
+"sleep 0.5\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:89
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
-msgstr ""
+msgstr "注意它的播放速度变得有多快。现在，请你自己试试，改变一下时间——使用不同的时间和音符。"
 
 #: 02.1-Your-First-Beeps.md:92
 msgid ""
 "One thing to try is in-between notes such as `play 52.3` and `play 52.63`. The"
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
-msgstr ""
+msgstr "一件可以尝试的事情是带小数的音符，如`play 52.3`和`play 52.63`。完全没有必要拘泥于标准的整数音符。玩得开心。"
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
-msgstr ""
+msgstr "传统音符名称"
 
 #: 02.1-Your-First-Beeps.md:99
 msgid ""
@@ -720,9 +757,11 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
+"对于那些已经知道一些音乐记谱法的人（如果不知道也不用担心——并不需要你了解它），你可能想用诸如C和F#之类的音符名而不是数字来写一首旋律。Sonic "
+"Pi同样为你了提供解决办法。你可以做到以下几点："
 
 #: 02.1-Your-First-Beeps.md:104
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play :C\n"
 "sleep 0.5\n"
@@ -730,15 +769,20 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
+"play :C\n"
+"sleep 0.5\n"
+"play :D\n"
+"sleep 0.5\n"
+"play :E"
 
 #: 02.1-Your-First-Beeps.md:112
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
-msgstr ""
+msgstr "记住把冒号`:`放在你的音符前面，使它变成粉红色。此外，可以通过在音符名称之后添加数字来指定八度音阶："
 
 #: 02.1-Your-First-Beeps.md:116
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play :C3\n"
 "sleep 0.5\n"
@@ -746,6 +790,11 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
+"play :C3\n"
+"sleep 0.5\n"
+"play :D3\n"
+"sleep 0.5\n"
+"play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
 msgid ""
@@ -755,15 +804,15 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:127
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr ""
+msgstr "现在去*疯狂*制作和享受自己的音乐吧。"
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
-msgstr ""
+msgstr "2.2 合成器选项"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr ""
+msgstr "合成器选项: Amp 和 Pan"
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -774,10 +823,12 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
+"除了允许您控制播放哪个音符或触发哪个示例之外，Sonic Pi还提供了一系列选项来制作和控制声音。我们将在本教程中介绍其中的许多内容，并且在帮助系统中有详"
+"细的文档。不过，我们现在要介绍是最有用的两个选项：*声音增幅*和*左右声道平移*。首先，让我们看看这些选项到底是什么。"
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 #: 02.2-Synth-Params.md:15
 msgid ""
@@ -787,6 +838,8 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
+"Sonic Pi支持合成器选项的概念（以下简称选项）。选项是你传递给`play`的控制，它可以修改和控制你听到的声音。每一个合成器都有自己的一套选项来精确"
+"调整它的声音。然而，有一些常见的选项被许多声音共享，如`amp:`和增幅包络选项(将在另一节中介绍)。"
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -794,6 +847,8 @@ msgid ""
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
+"选项有两个主要部分, 它们的名称 (控件的名称) 和它们的值 (你想设置到控件上的值)。例如, 您可能有一个名为 `cheese:` 的选项, "
+"并希望将它的值设置为 `1`。"
 
 #: 02.2-Synth-Params.md:27
 msgid ""
@@ -801,60 +856,62 @@ msgid ""
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
+"合成器选项通过逗号`,`传递给`play`调用，紧跟着的是选项的名称，例如`amp:`（不要忘记冒号`:` ），接着是空格和选项的值。举例如下："
 
 #: 02.2-Synth-Params.md:31
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, cheese: 1"
-msgstr ""
+msgstr "play 50, cheese: 1"
 
 #: 02.2-Synth-Params.md:35
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
-msgstr ""
+msgstr "(请注意这里的`cheese:`并不是一个有效的选项，我们只是用它作为一个例子)。"
 
 #: 02.2-Synth-Params.md:37
 msgid "You can pass multiple opts by separating them with a comma:"
-msgstr ""
+msgstr "你需要传递多个选项时，可以用逗号分隔："
 
 #: 02.2-Synth-Params.md:39
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
-msgstr ""
+msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr ""
+msgstr "选项的顺序是无关紧要的，因此以下内容相同:"
 
 #: 02.2-Synth-Params.md:45
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 1"
 
 #: 02.2-Synth-Params.md:49
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
-msgstr ""
+msgstr "不被合成器识别的选项会被忽略 (就像 `cheese`[奶酪] 和 `beans`[豌豆], 这显然只是些可笑的选项名称!)"
 
 #: 02.2-Synth-Params.md:52
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
-msgstr ""
+msgstr "如果你意外地对同一个选项赋予两次不同的值，最后一次赋值将会被应用。下面的例子中，`beans:`的值将是2，而不是0.5 ："
 
 #: 02.2-Synth-Params.md:56
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
 #: 02.2-Synth-Params.md:60
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
+"Sonic Pi 中的很多东西接受选项的控制，所以你只需花点时间去学习怎么使用它们，就能够设置好！让我们来玩一玩我们的第一个合成器选项：`amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
-msgstr ""
+msgstr "振幅"
 
 #: 02.2-Synth-Params.md:66
 msgid ""
@@ -869,30 +926,33 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
+"振幅是声音响度的计算机表示。*高振幅产生的声音大*和*低振幅产生的声音小*。就像Sonic Pi用数字来表示时间和音符一样，它也用数字来表示振幅。振幅为0"
+"就是静音(你什么也听不到)，而振幅为1是正常音量。你甚至可以把振幅调到2,10,100。然而，你应该注意，当所有声音的整体振幅变得过高时，Sonic "
+"Pi会使用所谓的压缩器来压缩它们，以确保传到你耳朵的声音不会太大。这往往会使声音变得浑浊和奇怪。所以尽量使用低振幅，即在0到0.5的范围内，以避免被压缩。"
 
 #: 02.2-Synth-Params.md:79
 msgid "Amp it up"
-msgstr ""
+msgstr "放大它"
 
 #: 02.2-Synth-Params.md:81
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
-msgstr ""
+msgstr "要改变声音的振幅，你可以使用`amp:`选项。例如，赋值0.5，播放的振幅减半："
 
 #: 02.2-Synth-Params.md:84
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, amp: 0.5"
-msgstr ""
+msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
-msgstr ""
+msgstr "赋值2，播放的增幅加倍："
 
 #: 02.2-Synth-Params.md:90
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, amp: 2"
-msgstr ""
+msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
 msgid ""
@@ -900,21 +960,25 @@ msgid ""
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
 msgstr ""
+"`amp:` 选项只修改与之关联的`play`调用 。因此, 在本例中, 第一个play调用的是音量减半，第二个play则返回到默认音量(1):"
 
 #: 02.2-Synth-Params.md:98
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 60, amp: 0.5\n"
 "sleep 0.5\n"
 "play 65"
 msgstr ""
+"play 60, amp: 0.5\n"
+"sleep 0.5\n"
+"play 65"
 
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
-msgstr ""
+msgstr "当然，你也可以为每一个play的调用，使用不同的`amp:`值："
 
 #: 02.2-Synth-Params.md:106
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 50, amp: 0.1\n"
 "sleep 0.25\n"
@@ -924,10 +988,17 @@ msgid ""
 "sleep 0.25\n"
 "play 62, amp: 1"
 msgstr ""
+"play 50, amp: 0.1\n"
+"sleep 0.25\n"
+"play 55, amp: 0.2\n"
+"sleep 0.25\n"
+"play 57, amp: 0.4\n"
+"sleep 0.25\n"
+"play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
 msgid "Panning"
-msgstr ""
+msgstr "声道平移"
 
 #: 02.2-Synth-Params.md:118
 msgid ""
@@ -938,37 +1009,39 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
+"另一个有趣的选项是`pan:`，它控制着立体声声音的平移。向左平移一个声音意味着你将从左边的扬声器中听到它，向右平移意味着你将从右边的扬声器中听到它。对于"
+"我们的设定，我们用-1表示完全左声道，0表示中心，1表示完全右声道。当然，我们可以随意使用-1到1之间的任何值来控制声音的精确位置。"
 
 #: 02.2-Synth-Params.md:126
 msgid "Let's play a beep out of the left speaker:"
-msgstr ""
+msgstr "让我们从左扬声器中播放蜂鸣声:"
 
 #: 02.2-Synth-Params.md:128
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, pan: -1"
-msgstr ""
+msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
 msgid "Now, let's play it out of the right speaker:"
-msgstr ""
+msgstr "现在，让我们从右扬声器中播放："
 
 #: 02.2-Synth-Params.md:134
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, pan: 1"
-msgstr ""
+msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
 msgid "Finally let's play it back out of the center of both (the default position):"
-msgstr ""
+msgstr "最后，让我们从两扬声器的中心(默认位置)播放出来:"
 
 #: 02.2-Synth-Params.md:141
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, pan: 0"
-msgstr ""
+msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
-msgstr ""
+msgstr "现在，去享受改变振幅和平移声音的乐趣吧!"
 
 #: 02.3-Switching-Synths.md:1
 msgid "2.3 Switching Synths"
@@ -986,6 +1059,8 @@ msgid ""
 " in this section we'll explore the exciting range of sounds that Sonic Pi has "
 "to offer."
 msgstr ""
+"到目前为止，我们已经做了很多有趣的蜂鸣声。然而，你可能开始对这基本的蜂鸣音感到厌烦。这就是Sonic "
+"Pi所能提供的一切吗？除了播放蜂鸣声之外，还有更多的实时代码吗？是的，在这一节中，我们将探索Sonic Pi提供的令人兴奋的音色范围。"
 
 #: 02.3-Switching-Synths.md:13
 msgid ""
@@ -996,6 +1071,8 @@ msgid ""
 " you'll have a lot of fun exploring and playing with them. First, let's learn "
 "how to select the current synth to use."
 msgstr ""
+"Sonic Pi有一系列被称为synth的乐器，*这是合成器的英文简称*。尽管合成器的样本是预先录制的声音，但是synth能够根据你如何控制它们产生新的声"
+"音(我们将在本教程后面讨论)。Sonic Pi的合成器非常强大且富有表现力，你会有很多乐趣探索和发挥他们。首先，让我们学习如何选择当前要使用的synth。"
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
