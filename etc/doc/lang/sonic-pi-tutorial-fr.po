@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-09 11:37+0000\n"
+"PO-Revision-Date: 2018-09-01 21:16+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -12454,15 +12454,14 @@ msgid "Melodic Composition"
 msgstr "Composition mélodique"
 
 #: A.04-synth-riffs.md:67
-#, fuzzy
 msgid ""
 "Another important aspect to our lead synth is the choice of notes we want to p"
 "lay. If you already have a good idea, then you can simply create a ring with y"
 "our notes in and tick through them:"
 msgstr ""
-"Un autre aspect important de notre synthé principal est le choix de notes que "
-"l'on veut jouer. Si vous avez déjà une bonne idée, alors vous pouvez juste cré"
-"er un anneau avec vos notes et les parcourir :"
+"Un autre aspect important de notre synthé principal est le choix de notes "
+"que l'on veut jouer. Si vous avez déjà une idée précise, alors vous pouvez "
+"simplement créer un anneau avec vos notes et les parcourir :"
 
 #: A.04-synth-riffs.md:71
 #, no-wrap
