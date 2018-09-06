@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-25 10:58+0000\n"
-"Last-Translator: Рамиль Иксанов <autechregescom@gmail.com>\n"
+"PO-Revision-Date: 2018-09-08 21:26+0000\n"
+"Last-Translator: psyk10p <psyklop@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.1-dev\n"
+"X-Generator: Weblate 3.2-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3416,7 +3416,6 @@ msgid "Wrapping Up"
 msgstr "Подведение итогов"
 
 #: 03.7-Sample-Packs.md:222
-#, fuzzy
 msgid ""
 "This was an advanced section for people that need real power to manipulate and"
 " use sample packs. If most of this section didn't make too much sense, don't w"
@@ -3424,12 +3423,12 @@ msgid ""
 "you'll know when you do need it and you can come back and re-read this when yo"
 "u start working with large directories of samples."
 msgstr ""
-"Это расширенный раздел для людей, которым нужны дополнительные возможности для"
-" манипулирования и использования наборов сэмплов. Если большая часть этого раз"
-"дела не имеет особого смысла, не беспокойтесь. Скорее всего, вам пока не нужна"
-" какая-либо из этих функций. Однако, вы будете знать, когда это понадобится, и"
-" вы можете вернуться и перечитать это, когда начнете работать с большими катал"
-"огами сэмплов."
+"Это был расширенный раздел для людей, которым нужны дополнительные "
+"возможности для манипулирования и использования наборов сэмплов. Если "
+"большая часть этого раздела не имела особого смысла, не беспокойтесь. Скорее "
+"всего, вам пока не нужна какая-либо из этих функций. Однако, вы будете "
+"знать, когда это понадобится, и вы можете вернуться и перечитать это, когда "
+"начнете работать с большими каталогами сэмплов."
 
 #: 04-Randomisation.md:1
 msgid "4 Randomisation"
@@ -4317,7 +4316,6 @@ msgstr ""
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  if one_in(2)\n"
@@ -4336,7 +4334,9 @@ msgstr ""
 "  else\n"
 "    sample :drum_cymbal_closed\n"
 "  end\n"
+"  \n"
 "  sleep 0.5\n"
+"  \n"
 "end"
 
 #: 05.3-Conditionals.md:34
@@ -4462,12 +4462,11 @@ msgstr ""
 
 #: 05.4-Threads.md:1
 msgid "5.4 Threads"
-msgstr ""
+msgstr "5.4 Потоки"
 
 #: 05.4-Threads.md:3
-#, fuzzy
 msgid "Threads"
-msgstr "Потоки Выполнения"
+msgstr "Потоки"
 
 #: 05.4-Threads.md:5
 msgid ""
@@ -5549,6 +5548,9 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
+"Хотя переменные хороши для присвоения имени и сохранения результатов, важно "
+"знать что они обычно должны использоваться в потоке. Например,  *не делайте "
+"так*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
@@ -5564,6 +5566,16 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -5580,6 +5592,17 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
+"В примере выше мы присвоили ряд чисел переменной 'a' и затем использовали её "
+"в  двух отдельных 'live_loop`s'.  В первом живом цикле каждые '0,5' секунды "
+"мы сортируем ряд чисел (1, 2, 3, 4, 5, 6) и выводим его на экран.  Если ты "
+"запустишь код, ты увидишь, что выведенный список *не всегда отсортирован!*. "
+"Это может быть для тебя сюрпризом, ведь иногда список выводится "
+"отсортированным, а иногда нет. Это называется недетерминированным поведением "
+"и является результатом неприятной проблемы называемой гонкой состояний.  "
+"Проблема заключается в том, что второй живой цикл также работает со списком ("
+"в данном случае перемешивает его) и на момент вывода на экран ряд может быть "
+"как отсортирован, так и перемешан. Оба живых цикла  соревнуются сделать "
+"разные вещи с одной переменной и каждый раз 'побеждает' разный цикл."
 
 #: 05.6-Variables.md:168
 msgid ""
@@ -5587,6 +5610,9 @@ msgid ""
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
+"Есть два решения. Первое: *не использовать одну переменную в разных живых "
+"циклах или потоках*. Например, код ниже всегда выводит отсортированный "
+"список, поскольку каждый живой цикл имеет собственную отдельную переменную:"
 
 #: 05.6-Variables.md:173
 #, no-wrap
@@ -5603,6 +5629,17 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
 msgid ""
@@ -5611,6 +5648,10 @@ msgid ""
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
+"Однако, иногда мы хотим поделиться чем-то между потоками. Например, текущим "
+"ключем, BMP, синтом и т.д. В этом случае решением будет воспользоваться "
+"специальными потоко-безопасными состояниями системы Sonic Pi через функции "
+"'get' и 'set. Это будет осуждаться в разделе 10."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -5905,7 +5946,7 @@ msgstr ""
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr ""
+msgstr "6 FX"
 
 #: 06-FX.md:3
 #, fuzzy
@@ -5995,7 +6036,7 @@ msgstr "Давайте исследовать эффекты!"
 
 #: 06.1-Adding-FX.md:1
 msgid "6.1 Adding FX"
-msgstr ""
+msgstr "6.1 Добавление эффектов"
 
 #: 06.1-Adding-FX.md:3 13.1-Sound-In.md:26
 #, fuzzy
@@ -6330,23 +6371,23 @@ msgstr ""
 
 #: 06.1-Adding-FX.md:158
 msgid "wobble,"
-msgstr ""
+msgstr "колебание,"
 
 #: 06.1-Adding-FX.md:159
 msgid "reverb,"
-msgstr ""
+msgstr "реверберации,"
 
 #: 06.1-Adding-FX.md:160
 msgid "echo,"
-msgstr ""
+msgstr "эхо,"
 
 #: 06.1-Adding-FX.md:161
 msgid "distortion,"
-msgstr ""
+msgstr "искажение,"
 
 #: 06.1-Adding-FX.md:162
 msgid "slicer"
-msgstr ""
+msgstr "срез"
 
 #: 06.1-Adding-FX.md:164
 #, fuzzy
@@ -6355,7 +6396,7 @@ msgstr "Теперь вы можете добавлять эффекты вез�
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
-msgstr ""
+msgstr "6.2 Эффекты на практике"
 
 #: 06.2-FX-in-Practice.md:3
 #, fuzzy
@@ -6550,7 +6591,7 @@ msgstr ""
 
 #: 07-Control.md:1
 msgid "7 Control"
-msgstr ""
+msgstr "7 Управление"
 
 #: 07-Control.md:3
 #, fuzzy
@@ -6587,7 +6628,7 @@ msgstr "Вам повезло - этот раздел покажет, как э�
 
 #: 07.1-Controlling-Running-Synths.md:1
 msgid "7.1 Controlling Running Synths"
-msgstr ""
+msgstr "7.1 Контроль выполняющихся синтов"
 
 #: 07.1-Controlling-Running-Synths.md:3
 #, fuzzy
@@ -6689,7 +6730,7 @@ msgstr ""
 
 #: 07.2-Controlling-FX.md:1
 msgid "7.2 Controlling FX"
-msgstr ""
+msgstr "7.2 Контроль эффектов"
 
 #: 07.2-Controlling-FX.md:3
 #, fuzzy
@@ -7161,19 +7202,19 @@ msgstr ""
 
 #: 08.2-Chords.md:16
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 #, fuzzy
@@ -7851,6 +7892,8 @@ msgid ""
 "`.scale(2)` - returns a new ring with all elements multiplied by 2 (assumes ri"
 "ng contains numbers only)"
 msgstr ""
+"`.scale(2)` -  возвращает новое кольцо все элементы которого умножены на 2 ("
+"если кольцо содержит только числа)"
 
 #: 08.5-Ring-Chains.md:84
 #, fuzzy
@@ -7865,7 +7908,7 @@ msgstr ""
 
 #: 09-Live-Coding.md:1
 msgid "9 Live Coding"
-msgstr ""
+msgstr "9 Лайв-кодинг"
 
 #: 09-Live-Coding.md:5
 #, fuzzy
@@ -7901,7 +7944,7 @@ msgstr "Держитесь за своё кресло..."
 
 #: 09.1-Live-Coding-Fundamentals.md:1
 msgid "9.1 Live Coding Fundamentals"
-msgstr ""
+msgstr "9.1 Основы лайв-кодинга"
 
 #: 09.1-Live-Coding-Fundamentals.md:5
 #, fuzzy
@@ -8151,7 +8194,7 @@ msgstr ""
 
 #: 09.2-Live-Loops.md:1
 msgid "9.2 Live Loops"
-msgstr ""
+msgstr "9.2 Живые циклы"
 
 #: 09.2-Live-Loops.md:3
 #, fuzzy
@@ -8807,11 +8850,11 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Set и Get"
 
 #: 10.1-Set-and-Get.md:3
 msgid "Set and Get"
-msgstr ""
+msgstr "Set и Get"
 
 #: 10.1-Set-and-Get.md:5
 msgid ""
@@ -8819,10 +8862,13 @@ msgid ""
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
+"Sonic PI имеет глобальное хранилище памяти, называемое Временным Состоянием. "
+"В основном оно используется чтобы \"установить\" (set) информацию и \""
+"получить\" (get)  информацию. Давайте нырнем глубже..."
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
@@ -8830,28 +8876,32 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr ""
+msgstr "информация, которую мы хотим сохранить,"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "уникальное имя (ключ) для этой информации."
 
 #: 10.1-Set-and-Get.md:16
 msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"Например, мы можем захотеть хранить число `3000` с ключом `:intensity`. Это "
+"можно сделать используя функцию  `set`:"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
 msgid "set :intensity, 3000"
-msgstr ""
+msgstr "set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:23
 msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
+"Мы можем дать ключу любое имя. Если какая-то информация уже хранится под "
+"этим именем, наш новый `set` перезапишет её:"
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8859,6 +8909,8 @@ msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
 msgstr ""
+"set :intensity, 1000\n"
+"set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:31
 msgid ""
@@ -8866,10 +8918,13 @@ msgid ""
 "all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
 " as the first call to `set` is effectively overridden."
 msgstr ""
+"В примере выше, где мы сохранили оба числа под одним ключом, последний вызов "
+"`set` 'побеждает', поэтому число связанное с `:intensity` будет равно `3000`"
+", так как первый вызов 'set'  эффективно перезаписан."
 
 #: 10.1-Set-and-Get.md:35
 msgid "Get"
-msgstr ""
+msgstr "Get"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
@@ -17765,7 +17820,7 @@ msgstr ""
 
 #: C.01-Basic-API.md:1
 msgid "11.1 Basic API"
-msgstr ""
+msgstr "11.1 Основной API"
 
 #: C.01-Basic-API.md:3
 #, fuzzy
