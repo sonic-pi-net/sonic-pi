@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-01 21:16+0000\n"
+"PO-Revision-Date: 2018-09-09 00:17+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -13755,36 +13755,33 @@ msgstr ""
 "qui veut dire qu'il représente aussi un 16e de temps."
 
 #: A.07-bizet.md:77
-#, fuzzy
 msgid ""
 "When we attempt to decode and explore new things a very handy trick is to make"
 " everything as similar as possible to try and see any relationships or pattern"
 "s. For example, when we re-write our notation purely in 16ths you can see that"
 " our notation just turns into a nice sequence of notes and rests."
 msgstr ""
-"Quand on essaie de décoder et d'explorer de nouvelles choses un truc très prat"
-"ique est de rendre tout le plus semblable possible pour essayer de voir des re"
-"lations ou modèles. Par exemple quand on réécrit notre notation uniquement en "
-"double-croches on peut voir que notre notation devient une séquence agréable d"
-"e notes et de silences."
+"Quand on essaie de décoder et d'explorer de nouvelles choses, un truc très "
+"pratique est de faire en sorte que tout se ressemble le plus possible pour "
+"essayer de voir des relations ou des modèles. Par exemple, lorsqu'on réécrit "
+"notre notation uniquement en double-croches, vous pouvez voir que notre "
+"notation se transforme en une belle séquence de notes et de silences."
 
 #: A.07-bizet.md:83
 msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 msgstr "![Riff Habanera 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
-#, fuzzy
 msgid "Re-coding the Habanera"
-msgstr "Re-programmer la Habanera"
+msgstr "Recodage de la Habanera"
 
 #: A.07-bizet.md:87
-#, fuzzy
 msgid ""
 "We're now in a position to start translating this bass line to Sonic Pi. Let's"
 " encode these notes and rests in a ring:"
 msgstr ""
-"Nous sommes maintenant prêts a traduire cette ligne de basse dans Sonic Pi. En"
-"codons ces notes et silences dans un anneau :"
+"Nous sommes maintenant prêt à commencer la traduction de cette ligne de "
+"basse en Sonic Pi. Encodons ces notes et silences dans un anneau :"
 
 #: A.07-bizet.md:90
 #, no-wrap
@@ -13820,9 +13817,8 @@ msgstr ""
 "la peine, bien joué !"
 
 #: A.07-bizet.md:108
-#, fuzzy
 msgid "Moody Synths"
-msgstr "Synthés de mauvaise humeur"
+msgstr "Synthés grincheux"
 
 #: A.07-bizet.md:110
 #, fuzzy
@@ -15647,14 +15643,12 @@ msgstr ""
 "end"
 
 #: A.12-sample-slicing.md:1
-#, fuzzy
 msgid "A.12 Sample Slicing"
-msgstr "A.12 Découpe d'échantillon"
+msgstr "A.12 Tranchage d'échantillon"
 
 #: A.12-sample-slicing.md:3
-#, fuzzy
 msgid "Sample Slicing"
-msgstr "Découpe d'échantillon"
+msgstr "Tranchage d'échantillon"
 
 #: A.12-sample-slicing.md:5
 msgid ""
@@ -15674,9 +15668,8 @@ msgstr ""
 " vos sessions de Live Coding."
 
 #: A.12-sample-slicing.md:13
-#, fuzzy
 msgid "Sound as Data"
-msgstr "Le son en tant que donnée"
+msgstr "Le son en tant que données"
 
 #: A.12-sample-slicing.md:15
 #, fuzzy
@@ -15750,7 +15743,6 @@ msgstr ""
 "pouvez voir un exemple d'un tel graphique en haut du diagramme."
 
 #: A.12-sample-slicing.md:51
-#, fuzzy
 msgid "Playing Part of a Sample"
 msgstr "Jouer une partie d'un échantillon"
 
@@ -15774,11 +15766,10 @@ msgstr ""
 "pécifier un `finish:` à `0.5` :"
 
 #: A.12-sample-slicing.md:66
-#, fuzzy
 msgid "We can add in a `start:` value to play an even smaller section of the sample:"
 msgstr ""
-"Nous pouvons ajouter une valeur `start:` pour jouer une partie encore plus pet"
-"ite de l'échantillon :"
+"Nous pouvons ajouter une valeur `start:` pour jouer une partie encore plus "
+"petite de l'échantillon :"
 
 #: A.12-sample-slicing.md:68
 #, no-wrap
@@ -15786,13 +15777,12 @@ msgid "sample :loop_amen, start: 0.25, finish: 0.5"
 msgstr "sample :loop_amen, start: 0.25, finish: 0.5"
 
 #: A.12-sample-slicing.md:72
-#, fuzzy
 msgid ""
 "For fun, you can even have the `finish:` opt's value be *before* `start:` and "
 "it will play the section backwards:"
 msgstr ""
-"Pour le plaisir, vous pouvez même avoir une valeur `finish:` inférieur à la va"
-"leur `start:` et la section sera jouée à l'envers :"
+"Pour le plaisir, vous pouvez même avoir la valeur `finish:` inférieure à la "
+"valeur `start:` et il jouera la section à l'envers :"
 
 #: A.12-sample-slicing.md:75
 #, no-wrap
