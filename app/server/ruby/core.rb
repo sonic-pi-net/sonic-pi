@@ -454,12 +454,12 @@ module SonicPi
         return nil if self.empty?
         if idx.is_a?(Numeric) && missing_length
           idx = map_index(idx)
-          super idx
+          super idx.round
         else
           if missing_length
             super(idx)
           else
-            super(idx, len)
+            super(idx.round, len)
           end
         end
       end
