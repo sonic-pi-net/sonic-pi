@@ -36,32 +36,35 @@ See https://github.com/nodejs/node-gyp/issues/569
 EOF
   exit 1
 fi
-
 #Ensure homebrew is installed
 if [[ -z "$(which brew)" ]]; then
   echo "No homebrew found - installing Homebrew from https://brew.sh"
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
+
 #Install homebrew prerequisites
-brew install qt55 boost cmake pkg-config aubio libsndfile wget
+brew bundle
 QT55="$(brew --prefix qt55)"
+
+function wget-idempotent (){
+    if [[ ! -f "$2" ]]; then
+        wget "$1" -O "$2"
+    fi
+}
+
+function git-clone-idempotent (){
+    if [[ ! -d "$2" ]]; then
+        git clone "$1" "$2"
+    fi
+}
+#function skip() {
 
 #Download and extract source packages
 cd "$SP_ROOT"
 pwd
-if [[ ! -d supercollider ]]; then
-    git clone https://github.com/supercollider/supercollider.git
-fi
-if [[ ! -d sc3-plugins ]]; then
-  git clone https://github.com/supercollider/sc3-plugins.git
-fi
-if [[ ! -f QScintilla_gpl-2.9.2.tar.gz ]]; then
-  wget 'https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
-fi
-if [[ ! -f qwt-6.1.2.tar.bz2 ]]; then
-  wget 'https://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
-fi
-tar -xf QScintilla_gpl-2.9.2.tar.gz
+git-clone-idempotent https://github.com/supercollider/supercollider.git supercollider
+git-clone-idempotent https://github.com/supercollider/sc3-plugins.git sc3-plugins
+wget-idempotent 'https://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2' qwt-6.1.2.tar.bz2
 tar -xf qwt-6.1.2.tar.bz2
 
 #Build supercollider 3.8 from source
@@ -85,13 +88,8 @@ cmake -DSC_PATH="$SP_ROOT/supercollider/" -DCMAKE_INSTALL_PREFIX=/usr/local -DCM
 make
 sudo make install
 rsync -arv SC3plugins "$SP_ROOT/supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/plugins/"
-
-
-#Build qscintilla libraries for Qt5
-cd "$SP_ROOT/QScintilla_gpl-2.9.2/Qt4Qt5/"
-"$QT55/bin/qmake" qscintilla.pro
-make
-sudo make install
+#copy qscintilla2 features into qt5 features
+cp /usr/local/opt/qscintilla2/data/mkspecs/features/* "$QT55/mkspecs/features"
 
 #Build qwt libraries for Qt5
 cd "$SP_ROOT/qwt-6.1.2"
@@ -106,6 +104,7 @@ cd "$SP_APP_SRC"
 "$SP_SRC/app/server/ruby/bin/i18n-tool.rb" -t
 cp -f ruby_help.tmpl ruby_help.h
 "$SP_SRC/app/server/ruby/bin/qt-doc.rb" -o ruby_help.h
+#}
 "$QT55/bin/lrelease" SonicPi.pro 
 "$QT55/bin/qmake" SonicPi.pro 
 make
@@ -117,11 +116,10 @@ make
 cd "$SP_APP_SRC/Sonic Pi.app"
 ln -f -s "$SP_SRC/app/" ./
 ln -f -s "$SP_SRC/etc/" ./
-ln -f -s "$SP_ROOT/supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/scsynth" "$SP_SRC/app/server/native/osx/scsynth"
 ln -f -s "$SP_ROOT/supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/scsynth" "$SP_SRC/app/server/native/scsynth"
 mkdir -p "$SP_SRC/app/server/native/ruby/bin"
 ln -f -s "$(which ruby)" "$SP_SRC/app/server/native/ruby/bin/ruby"
-rsync -arv "$SP_ROOT/QScintilla_gpl-2.9.2/Qt4Qt5/libqscintilla2".* Contents/MacOS/
+rsync -arv /usr/local/opt/qscintilla2/lib/*.dylib Contents/MacOS/
 rsync -arv "$SP_ROOT/qwt-6.1.2/lib/" Contents/MacOS/
 install_name_tool -change qwt.framework/Versions/6/qwt @executable_path/qwt.framework/Versions/6/qwt Contents/MacOS/Sonic\ Pi 
 install_name_tool -change libqscintilla2.12.dylib @executable_path/libqscintilla2.12.dylib Contents/MacOS/Sonic\ Pi 
