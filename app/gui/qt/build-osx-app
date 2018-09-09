@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 
+# Use bash unofficial strict mode http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
+IFS=$'\n\t'
 
-# Enable to show verbose debugging
-set -xv
+# Uncomment 'set -vx' to enhance debugging 
+#set -vx
 
-SP_APP_SRC="$(pwd)"        # This directory
+# Print line numbers and function names http://wiki.bash-hackers.org/scripting/debuggingtips
+export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+
+SP_APP_SRC="$(pwd)"            # This directory
 SP_SRC="$SP_APP_SRC/../../.."  # sources for Sonic Pi as a whole
-SP_ROOT="$SP_SRC/.."       # parent dir above Sonic Pi sources
+SP_ROOT="$SP_SRC/.."           # parent dir above Sonic Pi sources
 
-echo "Note, this script assumes you have already installed SuperCollider 3.7.1 to your Applications folder"
-echo "And you have also installed the sc3-plugins."
-echo "SC 3.7.1 can be downloaded from https://github.com/supercollider/supercollider/releases"
-echo "The plugins can be downloaded from https://github.com/supercollider/sc3-plugins/releases"
-echo "Installation instructions are here https://github.com/supercollider/sc3-plugins"
+echo "This script installs supercollider and the sc3-plugins from source"
 echo "We're working to make this script a one shot solution for all OSX platforms"
 echo "Please direct rage and suggestions to Factoid in (https://gitter.im/samaaron/sonic-pi)"
 
@@ -31,7 +32,7 @@ if [[ -z "$(which brew)" ]]; then
 fi
 #Install homebrew prerequisites
 brew install qt55 boost cmake pkg-config aubio libsndfile wget
-QT55=$(brew --prefix qt55)
+QT55="$(brew --prefix qt55)"
 
 #Download and extract source packages
 cd "$SP_ROOT"
@@ -53,10 +54,8 @@ tar -xf qwt-6.1.2.tar.bz2
 
 #Build supercollider 3.8 from source
 cd "$SP_ROOT/supercollider"
-#rm -rf editors # work around 'untracked files in working directory' error
 git checkout Version-3.9.3
 git submodule init && git submodule update
-#rm -rf build
 mkdir -p build
 cd build
 cmake -DSC_EL=no -DCMAKE_PREFIX_PATH="$QT55/lib/cmake" ..
@@ -64,7 +63,7 @@ make
 sudo make install
 #This should install to /usr/local/
 
-#Build sc3 plugins and install to /usr/local/ so supercollider 3.8 can find them
+#Build sc3 plugins and install to /usr/local/ so supercollider can find them
 cd "$SP_ROOT/sc3-plugins"
 git submodule init && git submodule update
 cp -r external_libraries/nova-simd/* source/VBAPUGens
