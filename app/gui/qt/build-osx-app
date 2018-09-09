@@ -5,7 +5,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Uncomment 'set -vx' to enhance debugging 
-#set -vx
+set -vx
 
 # Print line numbers and function names http://wiki.bash-hackers.org/scripting/debuggingtips
 export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
@@ -18,10 +18,22 @@ echo "This script installs supercollider and the sc3-plugins from source"
 echo "We're working to make this script a one shot solution for all OSX platforms"
 echo "Please direct rage and suggestions to Factoid in (https://gitter.im/samaaron/sonic-pi)"
 
-#Ensure XCode full version is installed
+#Ensure XCode full version is installed and configured, 
+#as xcodebuild gets invoked later in the build, and it will fail otherwise
 if [[ -z "$(which xcodebuild)" ]] || ! xcodebuild --help 2>&1 > /dev/null; then
-  echo "Please install XCode from the App Store."
-  echo "You will need the full version, not just the command line tools."
+  cat 1>&2 <<EOF
+
+Please install XCode from the App Store.
+You will need the full version, not just the command line tools.
+
+If you already have XCode installed, you may need to issue this command
+to let the tools find the right developer directory:
+
+    sudo xcode-select -r
+
+See https://github.com/nodejs/node-gyp/issues/569
+
+EOF
   exit 1
 fi
 
