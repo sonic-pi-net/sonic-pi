@@ -61,7 +61,11 @@ fi
 
 #Install homebrew prerequisites
 brew bundle --file="$BREWFILE"
-QT="$(brew --prefix qt)"
+if [[ "$MAC_OS_VERSION" -lt "$MAC_OS_MODERN_VERSION" ]]; then
+    QT="$(brew --prefix qt55)"
+else
+    QT="$(brew --prefix qt)"
+fi
 
 function wget-idempotent (){
     if [[ ! -f "$2" ]]; then
