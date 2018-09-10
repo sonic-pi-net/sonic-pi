@@ -1,18 +1,29 @@
 #!/usr/bin/env bash
+# Build Sonic Pi for Mac OS X
+#
+# This uses bash in order to provide better debugging features than
+# are present in normal /bin/sh alone.
 
 # Use bash unofficial strict mode http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
 IFS=$'\n\t'
 
+# Get directory script lives in https://stackoverflow.com/a/246128
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 # Uncomment 'set -vx' to enhance debugging 
-set -vx
+#set -vx
 
 # Print line numbers and function names http://wiki.bash-hackers.org/scripting/debuggingtips
+#shellcheck disable=SC2016
 export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 
-SP_APP_SRC="$(pwd)"            # This directory
+# Set variables
+SP_APP_SRC="$DIR"              # This directory
 SP_SRC="$SP_APP_SRC/../../.."  # sources for Sonic Pi as a whole
 SP_ROOT="$SP_SRC/.."           # parent dir above Sonic Pi sources
+MAC_OS_MODERN_VERSION=12       # Below Mac OS X 10.12 (Sierra), use qt 5.5
+MAC_OS_VERSION="$(sw_vers -productVersion  | cut -d\. -f2)"
 
 echo "This script installs supercollider and the sc3-plugins from source"
 echo "We're working to make this script a one shot solution for all OSX platforms"
@@ -20,7 +31,7 @@ echo "Please direct rage and suggestions to Factoid in (https://gitter.im/samaar
 
 #Ensure XCode full version is installed and configured, 
 #as xcodebuild gets invoked later in the build, and it will fail otherwise
-if [[ -z "$(which xcodebuild)" ]] || ! xcodebuild --help 2>&1 > /dev/null; then
+if [[ -z "$(which xcodebuild)" ]] || ! xcodebuild --help >/dev/null 2>&1; then
   cat 1>&2 <<EOF
 
 Please install XCode from the App Store.
@@ -42,8 +53,14 @@ if [[ -z "$(which brew)" ]]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+if [[ "$MAC_OS_VERSION" -lt "$MAC_OS_MODERN_VERSION" ]]; then
+    BREWFILE="$SP_APP_SRC/Brewfile-qt55"
+else
+    BREWFILE="$SP_APP_SRC/Brewfile"
+fi
+
 #Install homebrew prerequisites
-brew bundle
+brew bundle --file="$BREWFILE"
 QT="$(brew --prefix qt)"
 
 function wget-idempotent (){
@@ -57,15 +74,17 @@ function git-clone-idempotent (){
         git clone "$1" "$2"
     fi
 }
-function skip() {
 
 #Download and extract source packages
 cd "$SP_ROOT"
-pwd
 git-clone-idempotent https://github.com/supercollider/supercollider.git supercollider
 git-clone-idempotent https://github.com/supercollider/sc3-plugins.git sc3-plugins
 wget-idempotent 'https://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2' qwt-6.1.2.tar.bz2
 tar -xf qwt-6.1.2.tar.bz2
+if [[ "$MAC_OS_VERSION" -lt "$MAC_OS_MODERN_VERSION" ]]; then
+    wget-idempotent 'https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz' QScintilla_gpl-2.9.2.tar.gz
+    tar -xf QScintilla_gpl-2.9.2.tar.gz
+fi
 
 #Build supercollider 3.8 from source
 cd "$SP_ROOT/supercollider"
@@ -88,9 +107,17 @@ cmake -DSC_PATH="$SP_ROOT/supercollider/" -DCMAKE_INSTALL_PREFIX=/usr/local -DCM
 make
 sudo make install
 rsync -arv SC3plugins "$SP_ROOT/supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/plugins/"
-#copy qscintilla2 features into qt5 features
-}
-cp /usr/local/opt/qscintilla2/data/mkspecs/features/* "$QT/mkspecs/features"
+
+if [[ "$MAC_OS_VERSION" -lt "$MAC_OS_MODERN_VERSION" ]]; then
+    #Build qscintilla libraries for Qt5
+    cd "$SP_ROOT/QScintilla_gpl-2.9.2/Qt4Qt5/"
+    "$QT/bin/qmake" qscintilla.pro
+    make
+    sudo make install
+else
+    #copy qscintilla2 features into qt5 features
+    cp /usr/local/opt/qscintilla2/data/mkspecs/features/* "$QT/mkspecs/features"
+fi
 
 #Build qwt libraries for Qt5
 cd "$SP_ROOT/qwt-6.1.2"
@@ -119,7 +146,11 @@ ln -f -s "$SP_SRC/etc/" ./
 ln -f -s "$SP_ROOT/supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/scsynth" "$SP_SRC/app/server/native/scsynth"
 mkdir -p "$SP_SRC/app/server/native/ruby/bin"
 ln -f -s "$(which ruby)" "$SP_SRC/app/server/native/ruby/bin/ruby"
-rsync -arv /usr/local/opt/qscintilla2/lib/*.dylib Contents/MacOS/
+if [[ "$MAC_OS_VERSION" -lt "$MAC_OS_MODERN_VERSION" ]]; then
+    rsync -arv "$SP_ROOT/QScintilla_gpl-2.9.2/Qt4Qt5/libqscintilla2".* Contents/MacOS/
+else
+    rsync -arv /usr/local/opt/qscintilla2/lib/*.dylib Contents/MacOS/
+fi
 rsync -arv "$SP_ROOT/qwt-6.1.2/lib/" Contents/MacOS/
 install_name_tool -change qwt.framework/Versions/6/qwt @executable_path/qwt.framework/Versions/6/qwt Contents/MacOS/Sonic\ Pi 
 install_name_tool -change libqscintilla2.12.dylib @executable_path/libqscintilla2.12.dylib Contents/MacOS/Sonic\ Pi 
