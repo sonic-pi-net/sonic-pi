@@ -1,4 +1,5 @@
 # History
+* [v3.2.0 'Dev'](#v3.2.0), To be released...
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
@@ -16,6 +17,73 @@
 * [v2.1.1 'Firewall'](#v2.1.1), 25th Nov, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v3.2.0"></a>
+
+## Version 3.2.0 - 'Dev'
+*To be released...*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
+
+
+### Breaking Changes
+
+* `spread` now produces identical patterns as in the Toussaint
+  paper. Previously, some of the patterns had been shifted. Use the
+  `rotate:` opt to match prior behaviour if required.
+* OSC cues now include the IP address and port number of incoming messages  
+* The `osc` fn now forces all outgoing args to either be numbers or
+  strings (binary blobs and timestamps are not supported at this
+  point). If the value is neither a number or string, it is 'inspected'
+  and the resulting description string is sent instead.
+
+
+### New Fns
+
+
+### Synths & FX
+
+* The `gverb` FX now checks to ensure that the `room:` opt is greater than or equal to 1.
+
+
+### Samples
+
+
+### GUI
+
+* The version number is no longer placed in the initial comment of new
+  empty buffers. This felt like a friendly thing to do, but can be
+  confusing if a given buffer hasn't been used and the version was
+  updated. This results in the buffer reporting the old version number
+  that was used to create the buffer not the current version used to
+  display it.
+  
+* Many, many translation improvements. Thanks to all the wonderful
+  volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
+
+
+### Bugfixes
+
+* Further improve boot stability on Mac in the cases where audio input/output
+  sample rates do not match (typically due to the use of bluetooth
+  headsets). Audio inputs on macOS are now disabled by default unless we
+  can definitely determine the audio rates are the same. 
+* Revert synthdefs to original bytecode version. This fixes a regression
+  in at least the `:tb303` synth and possibly others. All synths should
+  sound and behave as they did in `v3.0.1`.
+* Fix issue with scaling default opts. Previously it was possible that
+  unspecified opts correctly fell back to the default value - however
+  that default value wasn't scaled. Default values are now always scaled
+  whether or not explicitly specified.
+* `with_sched_ahead_time` now correctly sets the schedule ahead time
+  before running the block and returns the returns the result of the
+  block itself
+* When "Enforce Timing Guarantees" is selected, Sonic Pi wil no longer
+  throw out of time warnings in 'real time' threads (specified using
+  `use_real_time`).
+* `set` and `cue` no longer print duplicate messages which was possible
+  in some cases.
+* Fix `time_warp` examples which were incorrect and misleading.  
+
 
 <a name="v3.1.0"></a>
 
