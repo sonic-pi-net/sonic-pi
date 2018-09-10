@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-02 11:13+0000\n"
+"PO-Revision-Date: 2018-09-11 18:14+0000\n"
 "Last-Translator: NamiKJ <lzb-1997@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
@@ -1080,10 +1080,10 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:23
 msgid "A fun sound is the *saw wave* - let's give it a try:"
-msgstr ""
+msgstr "一个有趣的声音是*锯齿波* - 让我们尝试一下："
 
 #: 02.3-Switching-Synths.md:25
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1093,13 +1093,20 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
 msgid "Let's try another sound - the *prophet*:"
-msgstr ""
+msgstr "让我们试试另一种声音 - *prophet*："
 
 #: 02.3-Switching-Synths.md:37
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1109,13 +1116,20 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :prophet\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
 msgid "How about combining two sounds. First one after another:"
-msgstr ""
+msgstr "把两种声音结合起来怎么样，试试一个接一个播放："
 
 #: 02.3-Switching-Synths.md:49
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1126,13 +1140,21 @@ msgid ""
 "play 57\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
 msgid "Now at the same time:"
-msgstr ""
+msgstr "现在试试同一时间播放："
 
 #: 02.3-Switching-Synths.md:62
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
@@ -1144,45 +1166,65 @@ msgid ""
 "play 57\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :tb303\n"
+"play 38\n"
+"sleep 0.25\n"
+"use_synth :dsaw\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
+#, fuzzy
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
+"请注意，`use_synth`命令只影响此后调用的`play`。你可以把它想象成一个*大开关*——新调用的`play`都将使用它当前指向的合成器。你可以使"
+"用`use_synth`将开关指向到一个新的合成器音效。"
 
 #: 02.3-Switching-Synths.md:80
+#, fuzzy
 msgid "Discovering Synths"
-msgstr ""
+msgstr "探索合成器"
 
 #: 02.3-Switching-Synths.md:82
+#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
+"要查看Sonic Pi有哪些合成器可以让你玩，可以看看最左边的下拉菜单（ FX 之前）中的Sythes选项。有超过20种合成器可供选择。以下是我的最爱："
 
 #: 02.3-Switching-Synths.md:86
+#, fuzzy
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
+#, fuzzy
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
+#, fuzzy
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
+#, fuzzy
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
+#, fuzzy
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
 msgid ""
