@@ -44,7 +44,7 @@ fi
 
 #Install homebrew prerequisites
 brew bundle
-QT55="$(brew --prefix qt55)"
+QT="$(brew --prefix qt)"
 
 function wget-idempotent (){
     if [[ ! -f "$2" ]]; then
@@ -57,7 +57,7 @@ function git-clone-idempotent (){
         git clone "$1" "$2"
     fi
 }
-#function skip() {
+function skip() {
 
 #Download and extract source packages
 cd "$SP_ROOT"
@@ -73,7 +73,7 @@ git checkout Version-3.9.3
 git submodule init && git submodule update
 mkdir -p build
 cd build
-cmake -DSC_EL=no -DCMAKE_PREFIX_PATH="$QT55/lib/cmake" ..
+cmake -DSC_EL=no -DCMAKE_PREFIX_PATH="$QT/lib/cmake" ..
 make
 sudo make install
 #This should install to /usr/local/
@@ -89,14 +89,15 @@ make
 sudo make install
 rsync -arv SC3plugins "$SP_ROOT/supercollider/build/editors/sc-ide/SuperCollider.app/Contents/Resources/plugins/"
 #copy qscintilla2 features into qt5 features
-cp /usr/local/opt/qscintilla2/data/mkspecs/features/* "$QT55/mkspecs/features"
+}
+cp /usr/local/opt/qscintilla2/data/mkspecs/features/* "$QT/mkspecs/features"
 
 #Build qwt libraries for Qt5
 cd "$SP_ROOT/qwt-6.1.2"
-"$QT55/bin/qmake" qwt.pro
+"$QT/bin/qmake" qwt.pro
 make
 sudo make install
-sudo cp /usr/local/qwt-6.1.2/features/* "$QT55/mkspecs/features/"
+sudo cp /usr/local/qwt-6.1.2/features/* "$QT/mkspecs/features/"
 
 #Build Sonic-Pi server extensions, documentation, and gui
 cd "$SP_APP_SRC"
@@ -104,13 +105,12 @@ cd "$SP_APP_SRC"
 "$SP_SRC/app/server/ruby/bin/i18n-tool.rb" -t
 cp -f ruby_help.tmpl ruby_help.h
 "$SP_SRC/app/server/ruby/bin/qt-doc.rb" -o ruby_help.h
-#}
-"$QT55/bin/lrelease" SonicPi.pro 
-"$QT55/bin/qmake" SonicPi.pro 
+"$QT/bin/lrelease" SonicPi.pro 
+"$QT/bin/qmake" SonicPi.pro 
 make
 
 ### FOR FINAL RELEASE ONLY MOVE THIS INTO package-osx-app ###
-#"$QT55/bin/macdeployqt" 'Sonic Pi.app'
+#"$QT/bin/macdeployqt" 'Sonic Pi.app'
 
 #Soft Link extra stuff that the app will need at runtime
 cd "$SP_APP_SRC/Sonic Pi.app"
