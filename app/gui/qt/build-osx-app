@@ -79,6 +79,7 @@ function git-clone-idempotent (){
     fi
 }
 
+function skip() {
 #Download and extract source packages
 cd "$SP_ROOT"
 git-clone-idempotent https://github.com/supercollider/supercollider.git supercollider
@@ -136,8 +137,16 @@ cd "$SP_APP_SRC"
 "$SP_SRC/app/server/ruby/bin/i18n-tool.rb" -t
 cp -f ruby_help.tmpl ruby_help.h
 "$SP_SRC/app/server/ruby/bin/qt-doc.rb" -o ruby_help.h
+}
+if [[ "$MAC_OS_VERSION" -lt "$MAC_OS_MODERN_VERSION" ]]; then
+    sed -e "s/lqscintilla2_qt5/lqscintilla2/g" \
+        "$SP_APP_SRC/SonicPi.pro" \
+        > "$SP_APP_SRC/SonicPi.pro.tmp"
+else
+    cp "$SP_APP_SRC/SonicPi.pro" "$SP_APP_SRC/SonicPi.pro.tmp"
+fi
 "$QT/bin/lrelease" SonicPi.pro 
-"$QT/bin/qmake" SonicPi.pro 
+"$QT/bin/qmake" SonicPi.pro.tmp 
 make
 
 ### FOR FINAL RELEASE ONLY MOVE THIS INTO package-osx-app ###
