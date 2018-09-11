@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-09 00:17+0000\n"
+"PO-Revision-Date: 2018-09-12 15:17+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -15202,7 +15202,6 @@ msgid "A.11 Tick Tock"
 msgstr "A.11 Tic tac"
 
 #: A.11-beat-tracking.md:3
-#, fuzzy
 msgid "Tracking the Beat"
 msgstr "Suivre le rythme"
 
@@ -15225,9 +15224,8 @@ msgstr ""
 "devenir un DJ de programmation interactive."
 
 #: A.11-beat-tracking.md:13
-#, fuzzy
 msgid "Beat Counting"
-msgstr "Compter les temps"
+msgstr "Comptage du temps"
 
 #: A.11-beat-tracking.md:15
 #, fuzzy
@@ -15295,9 +15293,8 @@ msgstr ""
 "og à cet endroit du programme."
 
 #: A.11-beat-tracking.md:43
-#, fuzzy
 msgid "Checking the Beat"
-msgstr "Vérifier le compteur"
+msgstr "Vérification du rythme"
 
 #: A.11-beat-tracking.md:45
 #, fuzzy
@@ -15398,7 +15395,6 @@ msgstr ""
 "els à `tick`: ils incrémentent le compteur local."
 
 #: A.11-beat-tracking.md:93
-#, fuzzy
 msgid "A Live Loop Arpeggiator"
 msgstr "Un arpégiateur dans une boucle interactive"
 
@@ -15415,27 +15411,22 @@ msgstr ""
 ":"
 
 #: A.11-beat-tracking.md:99
-#, fuzzy
 msgid "A ring containing the notes we want to loop over."
-msgstr "Un anneau qui contient les notes sur lesquelles on va boucler"
+msgstr "Une boucle contenant les notes que l'on veut boucler."
 
 #: A.11-beat-tracking.md:100
-#, fuzzy
 msgid "A means of incrementing and obtaining the beat."
-msgstr "Une manière d'incrémenter et de lire le compteur"
+msgstr "Une manière d'incrémenter et de lire le rythme."
 
 #: A.11-beat-tracking.md:101
-#, fuzzy
 msgid "The ability to play a note based on the current beat."
-msgstr "La capacité de jouer une note en se basant sur le compteur courant"
+msgstr "La possibilité de jouer une note basée sur le rythme actuel."
 
 #: A.11-beat-tracking.md:102
-#, fuzzy
 msgid "A loop structure to keep the arpegiator repeating."
-msgstr "Une structure de boucle qui répète l'arpégiateur en continu"
+msgstr "Une structure en boucle pour que l'arpégiateur se répète."
 
 #: A.11-beat-tracking.md:104
-#, fuzzy
 msgid "These concepts can all be found in the following code:"
 msgstr "Ces concepts se retrouvent tous dans le code suivant :"
 
@@ -15475,9 +15466,8 @@ msgstr ""
 "d un huitième de temps avant de recommencer la boucle."
 
 #: A.11-beat-tracking.md:124
-#, fuzzy
 msgid "Multiple Simultaneous Beats"
-msgstr "Battements multiples simultanés"
+msgstr "Rythmes multiples simultanés"
 
 #: A.11-beat-tracking.md:126
 #, fuzzy
@@ -15524,9 +15514,8 @@ msgstr ""
 "end"
 
 #: A.11-beat-tracking.md:149
-#, fuzzy
 msgid "Clashing Beats"
-msgstr "Collisions de battements"
+msgstr "Collisions de rythmes"
 
 #: A.11-beat-tracking.md:151
 #, fuzzy
@@ -15982,12 +15971,10 @@ msgstr ""
 "end"
 
 #: A.13-probabilistic-sequencer.md:1
-#, fuzzy
 msgid "A.13 Code a Probabilistic Sequencer"
 msgstr "A.13 Coder un séquenceur probabiliste"
 
 #: A.13-probabilistic-sequencer.md:3
-#, fuzzy
 msgid "Code a Probabilistic Sequencer"
 msgstr "Coder un séquenceur probabiliste"
 
@@ -16008,9 +15995,8 @@ msgstr ""
 "ise l'aléatoire pour le rythme - les rythmes probabilistes !"
 
 #: A.13-probabilistic-sequencer.md:12
-#, fuzzy
 msgid "Probability"
-msgstr "Portabilité"
+msgstr "Probabilité"
 
 #: A.13-probabilistic-sequencer.md:14
 #, fuzzy
@@ -16049,7 +16035,6 @@ msgstr ""
 "ns lancé nous-même un dé."
 
 #: A.13-probabilistic-sequencer.md:35
-#, fuzzy
 msgid "Random Beats"
 msgstr "Rythmes aléatoires"
 
@@ -16184,9 +16169,8 @@ msgstr ""
 "_cymbal_closed` par `:bass_hit_c` pour obtenir plus de basse !"
 
 #: A.13-probabilistic-sequencer.md:112
-#, fuzzy
 msgid "Repeatable Rhythms"
-msgstr "Rythme"
+msgstr "Rythmes répétables"
 
 #: A.13-probabilistic-sequencer.md:114
 msgid ""
@@ -16254,7 +16238,6 @@ msgstr ""
 
 #: A.13-probabilistic-sequencer.md:145
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :multi_beat do\n"
 "  use_random_seed 2000\n"
@@ -16269,17 +16252,28 @@ msgid ""
 "    sleep 0.125\n"
 "  end\n"
 "end"
-msgstr "Choix (\"choose\")"
+msgstr ""
+"live_loop :multi_beat do\n"
+"  use_random_seed 2000\n"
+"  8.times do\n"
+"    c = rrand(70, 130)\n"
+"    n = (scale :e1, :minor_pentatonic).take(3).choose\n"
+"    synth :tb303, note: n, release: 0.1, cutoff: c if rand < 0.9\n"
+"    sample :elec_hi_snare if one_in(6)\n"
+"    sample :drum_cymbal_closed if one_in(2)\n"
+"    sample :drum_cymbal_pedal if one_in(3)\n"
+"    sample :bd_haus, amp: 1.5 if one_in(4)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.14-amplitude-modulation.md:1
-#, fuzzy
 msgid "A.14 Amplitude Modulation"
-msgstr "Amplitude"
+msgstr "A.14 Modulation d'amplitude"
 
 #: A.14-amplitude-modulation.md:3
-#, fuzzy
 msgid "Amplitude Modulation"
-msgstr "Amplitude"
+msgstr "Modulation d'amplitude"
 
 #: A.14-amplitude-modulation.md:5
 msgid ""
@@ -16295,9 +16289,8 @@ msgstr ""
 "ies de notre son codé en live de façons nouvelles et puissantes."
 
 #: A.14-amplitude-modulation.md:12
-#, fuzzy
 msgid "Slice that Amp"
-msgstr "Tranche cet Ampli"
+msgstr "Trancher cet ampli"
 
 #: A.14-amplitude-modulation.md:14
 #, fuzzy
@@ -16399,7 +16392,6 @@ msgstr ""
 "nt `0.125`, `0.25`, `0.5` et `1`."
 
 #: A.14-amplitude-modulation.md:64
-#, fuzzy
 msgid "Control Waves"
 msgstr "Ondes de contrôle"
 
@@ -16597,9 +16589,8 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:158
-#, fuzzy
 msgid "Slicing Beats"
-msgstr "Couper"
+msgstr "Tranchage de rtythmes"
 
 #: A.14-amplitude-modulation.md:160
 msgid "One really fun thing to do is to use `:slicer` to chop a drum beat in and out:"
@@ -16782,7 +16773,6 @@ msgstr ""
 "sur `alt-r` comme le ferait un guitariste lorsqu'il joue un puissant accord."
 
 #: A.15-performance.md:32
-#, fuzzy
 msgid "2. Manually Layer your Sounds"
 msgstr "2. Superposer manuellement vos sons"
 
@@ -16917,9 +16907,8 @@ msgstr ""
 "anquer un rythme."
 
 #: A.15-performance.md:97
-#, fuzzy
 msgid "4. Use the Master Mixer"
-msgstr "4. Utiliser le Mixeur Maître"
+msgstr "4. Utiliser le mixeur général"
 
 #: A.15-performance.md:99
 msgid ""
@@ -16989,18 +16978,16 @@ msgid "set_mixer_control! lpf_slide: 1, lpf: 130"
 msgstr "set_mixer_control! lpf_slide: 1, lpf: 130"
 
 #: A.15-performance.md:133
-#, fuzzy
 msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
 msgstr ""
-"En performant, il est souvent utile de conserver un tampon libre pour travaill"
-"er avec le mixeur comme cela."
+"Lorsque vous jouez, il est souvent utile de conserver un tampon libre pour "
+"travailler avec le mixeur comme cela."
 
 #: A.15-performance.md:136
-#, fuzzy
 msgid "5. Practice"
-msgstr "5. Pratique"
+msgstr "5. Entraînement"
 
 #: A.15-performance.md:138
 msgid ""
@@ -17056,7 +17043,6 @@ msgid "A.16 How to Practice Live Coding"
 msgstr "A.16 Comment pratiquer le codage en direct"
 
 #: A.16-practice.md:3
-#, fuzzy
 msgid "8 Tips for Live Coding Practice"
 msgstr "8 astuces pour la pratique du codage en direct"
 
@@ -17146,9 +17132,8 @@ msgstr ""
 " ce que vous soyez capable de programmer sans regarder le clavier."
 
 #: A.16-practice.md:46
-#, fuzzy
 msgid "Code whilst standing"
-msgstr "Programmer debout"
+msgstr "Coder en position debout"
 
 #: A.16-practice.md:48
 msgid ""
@@ -17194,7 +17179,6 @@ msgstr ""
 "yez du plaisir et vous vous sentirez beaucoup plus naturel sur scène."
 
 #: A.16-practice.md:68
-#, fuzzy
 msgid "Practice setting up"
 msgstr "Mise en place de la pratique"
 
@@ -17284,9 +17268,8 @@ msgstr ""
 "garder !"
 
 #: A.16-practice.md:110
-#, fuzzy
 msgid "Hear the Code"
-msgstr "Entendez le code"
+msgstr "Entendre le code"
 
 #: A.16-practice.md:112
 msgid ""
@@ -17373,9 +17356,8 @@ msgstr ""
 "d vous aurez terminé."
 
 #: A.16-practice.md:151
-#, fuzzy
 msgid "Keep a practice diary"
-msgstr "Tenez un journal de pratique"
+msgstr "Tenir un journal d'entraînement"
 
 #: A.16-practice.md:153
 #, fuzzy
@@ -17421,14 +17403,12 @@ msgstr ""
 "ance. Rappelez-vous, la pratique est la clé du succès !"
 
 #: A.17-sample-stretching.md:1
-#, fuzzy
 msgid "A.17 Sample Stretching"
-msgstr "A.12 Découpe d'échantillon"
+msgstr "A.17 Étirement de l'échantillon"
 
 #: A.17-sample-stretching.md:3
-#, fuzzy
 msgid "Sample Stretching"
-msgstr "Découpe d'échantillon"
+msgstr "Étirement de l'échantillon"
 
 #: A.17-sample-stretching.md:5
 msgid ""
@@ -17452,9 +17432,8 @@ msgstr ""
 "mençons à étirer quelques échantillons !"
 
 #: A.17-sample-stretching.md:14
-#, fuzzy
 msgid "Slowing Samples Down"
-msgstr "Échantillons (\"Samples\")"
+msgstr "Ralentissement des échantillons"
 
 #: A.17-sample-stretching.md:16
 msgid "To modify the playback rate of a sample we need to use the `rate:` opt:"
@@ -17494,9 +17473,8 @@ msgstr ""
 " lentes et de voir si vous pouvez transformer le son en un grondement."
 
 #: A.17-sample-stretching.md:34
-#, fuzzy
 msgid "Speeding Samples Up"
-msgstr "Échantillons (\"Samples\")"
+msgstr "Accélération des échantillons"
 
 #: A.17-sample-stretching.md:36
 msgid ""
@@ -17885,9 +17863,8 @@ msgstr ""
 "sons ensemble résultera en un son boueux."
 
 #: A.18-additive-synthesis.md:45
-#, fuzzy
 msgid "Blending"
-msgstr "Transitions"
+msgstr "Mélange"
 
 #: A.18-additive-synthesis.md:47
 msgid ""
@@ -18451,9 +18428,8 @@ msgstr ""
 "erprétation musicale avec Sonic Pi."
 
 #: B.01-Using-Shortcuts.md:1
-#, fuzzy
 msgid "B.1 Using Shortcuts"
-msgstr "10.1 Utilisation des raccourcis"
+msgstr "B.1 Utilisation des raccourcis"
 
 #: B.01-Using-Shortcuts.md:3
 msgid "Using Shortcuts"
@@ -18654,9 +18630,8 @@ msgstr ""
 "rcis."
 
 #: B.02-Shortcut-Cheatsheet.md:1
-#, fuzzy
 msgid "B.2 Shortcut Cheatsheet"
-msgstr "10.2 Antisèche des raccourcis"
+msgstr "B.2 Antisèche des raccourcis"
 
 #: B.02-Shortcut-Cheatsheet.md:3
 msgid "Shortcut Cheatsheet"
@@ -18942,9 +18917,8 @@ msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Charger le contenu d'un tampon à partir d'un fichier"
 
 #: B.03-Sharing.md:1
-#, fuzzy
 msgid "B.3 Sharing"
-msgstr "10.3 Partage"
+msgstr "B.3 Partage"
 
 #: B.03-Sharing.md:3
 msgid "Sharing"
@@ -19047,9 +19021,8 @@ msgstr ""
 "s très enthousiaste de ce que vous allez avoir à me montrer."
 
 #: B.04-Performing.md:1
-#, fuzzy
 msgid "B.4 Performing"
-msgstr "10.4 Se produire"
+msgstr "B.4 Se produire"
 
 #: B.04-Performing.md:3
 msgid "Performing"
@@ -19136,9 +19109,8 @@ msgstr ""
 "du codage en direct pour faire de la musique dans les boîtes de nuit."
 
 #: C-Minecraft-Pi.md:1
-#, fuzzy
 msgid "C Minecraft Pi"
-msgstr "Minecraft Pi"
+msgstr "C Minecraft Pi"
 
 #: C-Minecraft-Pi.md:3
 msgid "Minecraft Pi"
