@@ -81,6 +81,7 @@ app/gui/qt/qrc__*
 *.DS_Store
 *.log
 *.swp
+*.tmp
 \.#*
 .lein-plugins
 *~
@@ -89,22 +90,13 @@ app/gui/qt/qrc__*
 # Native
 
 app/server/native/
-app/server/vendor/ffi/ext/
-app/server/vendor/ffi-1.9.10/ext/ffi_c/Makefile
-app/server/vendor/ffi-1.9.10/ext/ffi_c/extconf.h
-app/server/vendor/*/ext
-
 app/server/rb-native/
-
-## Rugged
-
-app/server/vendor/rugged*/ext/rugged/Makefile
-app/server/vendor/rugged*/vendor/libgit2/build
-
-## Atomic
-
-app/server/vendor/atomic/ext/Makefile
-
+# Patterns like this catch both 
+# app/server/vendor/ffi/ext/ and app/server/ruby/vendor/ffi/ext/
+# (the latter is found in the Mac OS X build)
+**/vendor/*/ext/**/Makefile
+**/vendor/ffi-*/ext/ffi_c/extconf.h
+**/vendor/**/build/
 
 ## Book
 
@@ -118,5 +110,3 @@ book/
 
 etc/doc/lang/sonic-pi-tutorial.pot
 etc/doc/generated/
-app/server/vendor/ffi-1.9.17/ext/ffi_c/extconf.h
-app/server/vendor/ffi-1.9.17/ext/ffi_c/Makefile
