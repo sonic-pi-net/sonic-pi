@@ -467,6 +467,23 @@ run_code \"sample :ambi_lunar_land\" #=> will play the :ambi_lunar_land sample",
 run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
 
 
+      def eval_file(path)
+        path = File.expand_path(path.to_s)
+        raise IOError, "Unable to run file - no file found with path: #{path}" unless File.exist?(path)
+        eval(File.read(path))
+      end
+      doc name:           :eval_file,
+          introduced:     Version.new(3,2,0),
+          summary:        "Evaluate the contents of the file inline in the current thread like a function.",
+          args:           [[:filename, :path]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Reads the full contents of the file with `path` and executes within the current thread like a function call.",
+          examples: ["
+eval_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"]
+
+
 
 
       def use_osc_logging(v, &block)
