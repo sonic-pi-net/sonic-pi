@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-08 21:26+0000\n"
+"PO-Revision-Date: 2018-09-14 12:22+0000\n"
 "Last-Translator: psyk10p <psyklop@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
@@ -5648,10 +5648,10 @@ msgid ""
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
-"Однако, иногда мы хотим поделиться чем-то между потоками. Например, текущим "
-"ключем, BMP, синтом и т.д. В этом случае решением будет воспользоваться "
-"специальными потоко-безопасными состояниями системы Sonic Pi через функции "
-"'get' и 'set. Это будет осуждаться в разделе 10."
+"Однако, иногда мы хотим поделиться чем-то между потоками. Например, текущей "
+"тональностью, BMP, синтом и т.д. В этом случае решением будет "
+"воспользоваться специальными потоко-безопасными состояниями системы Sonic Pi "
+"через функции 'get' и 'set. Это будет осуждаться в разделе 10."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -8813,13 +8813,14 @@ msgstr ""
 
 #: 10-State.md:1
 msgid "10 Time State"
-msgstr ""
+msgstr "10 Временное Состояние"
 
 #: 10-State.md:3
 msgid "Time State"
-msgstr ""
+msgstr "Временное Состояние"
 
 #: 10-State.md:5
+#, fuzzy
 msgid ""
 "Often it is useful to have information that is *shared across multiple threads"
 " or live loops*. For example, you might want to share a notion of the current "
@@ -8832,6 +8833,16 @@ msgid ""
 "information across threads* due to a loss of determinism (in turn due to race "
 "conditions)."
 msgstr ""
+"Часто полезно иметь информацию, которая является *общей для нескольких "
+"потоков или живых циклов*. Например, тебе может понадобиться сделать общими "
+"значение текущей тональности, BMP или даже более отвлеченные понятия такие "
+"как текущая 'сложность' (которые могут быть истолкованы по-разному в разных "
+"потоках).  Мы также не хотим потерять любую существующую гарантию "
+"детерминированности когда делаем это. Другими словами, мы хотим иметь "
+"возможность поделиться кодом с другими и знать наверняка что они услышат "
+"когда запустят его. В конце Главы 5.6 этого руководства мы кратко обсудили, "
+"почему мы *не должны использовать переменные для передачи информации между "
+"потоками*"
 
 #: 10-State.md:16
 msgid ""
@@ -8843,10 +8854,18 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic.*."
 msgstr ""
+"Sonic Pi решает проблему облегчения работы с глобальными переменными в "
+"детерминированном пути через новаторскую систему, называемую Временное "
+"Состояние. Это может звучать сложно и трудно (на самом деле, в "
+"Великобритании программирование с несколькими потоками и разделяемой "
+"памятью, как правило, является предметом университетского уровня). Однако, "
+"как вы увидите, так же, как играть вашу первую ноту, *Sonic PI делает обмен "
+"состоянием через потоки невероятно простым*, в то же время сохраняя ваши "
+"программы *потоко-безопасными и детерминированными. *."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
-msgstr ""
+msgstr "Встречайте `get` и `set` ..."
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
@@ -8872,7 +8891,7 @@ msgstr "Set"
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
-msgstr ""
+msgstr "Чтобы хранить информацию во Временном Состоянии нам нужны две вещи:"
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
@@ -8932,11 +8951,14 @@ msgid ""
 " it, which in our case is `:intensity`. We then just need to call `get[:intens"
 "ity]` which we can see by printing out the result to the log:"
 msgstr ""
+"Для извлечения информации из Временного Состояния нам просто нужен ключ, "
+"который мы использовали в `set`, в нашем случае это `:intensity`. Тогда нам "
+"просто нужно вызвать `get[:intensity]`, результат которого выведем на экран:"
 
 #: 10.1-Set-and-Get.md:42
 #, no-wrap
 msgid "print get[:intensity] #=> prints 3000"
-msgstr ""
+msgstr "print get[:intensity] #=> выведет 3000"
 
 #: 10.1-Set-and-Get.md:46
 msgid ""
