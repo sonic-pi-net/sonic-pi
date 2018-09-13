@@ -96,6 +96,7 @@ app/server/rb-native/
 # (the latter is found in the Mac OS X build)
 **/vendor/*/ext/**/Makefile
 **/vendor/ffi-*/ext/ffi_c/extconf.h
+**/vendor/ffi-*/ext/ffi_c/libffi*/
 **/vendor/**/build/
 
 ## Book
