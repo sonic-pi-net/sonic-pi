@@ -1,22 +1,43 @@
 <RCC>
     <qresource prefix="/">
         <file>images/app.icns</file>
-        <file>images/toolbar/default/help.png</file>
-        <file>images/toolbar/default/info.png</file>
-        <file>images/toolbar/default/prefs.png</file>
-        <file>images/toolbar/default/run.png</file>
-        <file>images/toolbar/default/save.png</file>
-        <file>images/toolbar/default/load.png</file>
-        <file>images/toolbar/default/stop.png</file>
-        <file>images/toolbar/default/rec.png</file>
-        <file>images/toolbar/default/recording_a.png</file>
-        <file>images/toolbar/default/recording_b.png</file>
-        <file>images/toolbar/default/text-dec.png</file>
-        <file>images/toolbar/default/text-inc.png</file>
-        <file>images/toolbar/default/align.png</file>
-        <file>images/toolbar/default/size_down.png</file>
-        <file>images/toolbar/default/size_up.png</file>
-        <file>images/toolbar/default/scope.png</file>
+
+        <file>images/toolbar/default/dark-run.png</file>
+        <file>images/toolbar/default/dark-stop.png</file>
+        <file>images/toolbar/default/dark-save.png</file>
+        <file>images/toolbar/default/dark-load.png</file>
+        <file>images/toolbar/default/dark-rec.png</file>
+        <file>images/toolbar/default/dark-rec-a.png</file>
+        <file>images/toolbar/default/dark-rec-b.png</file>
+        <file>images/toolbar/default/dark-size-up.png</file>
+        <file>images/toolbar/default/dark-size-down.png</file>
+        <file>images/toolbar/default/dark-scope.png</file>
+        <file>images/toolbar/default/dark-scope-toggled.png</file>
+        <file>images/toolbar/default/dark-info.png</file>
+        <file>images/toolbar/default/dark-info-toggled.png</file>
+        <file>images/toolbar/default/dark-help.png</file>
+        <file>images/toolbar/default/dark-help-toggled.png</file>
+        <file>images/toolbar/default/dark-prefs.png</file>
+        <file>images/toolbar/default/dark-prefs-toggled.png</file>
+
+        <file>images/toolbar/default/light-run.png</file>
+        <file>images/toolbar/default/light-stop.png</file>
+        <file>images/toolbar/default/light-save.png</file>
+        <file>images/toolbar/default/light-load.png</file>
+        <file>images/toolbar/default/light-rec.png</file>
+        <file>images/toolbar/default/light-rec-a.png</file>
+        <file>images/toolbar/default/light-rec-b.png</file>
+        <file>images/toolbar/default/light-size-up.png</file>
+        <file>images/toolbar/default/light-size-down.png</file>
+        <file>images/toolbar/default/light-scope.png</file>
+        <file>images/toolbar/default/light-scope-toggled.png</file>
+        <file>images/toolbar/default/light-info.png</file>
+        <file>images/toolbar/default/light-info-toggled.png</file>
+        <file>images/toolbar/default/light-help.png</file>
+        <file>images/toolbar/default/light-help-toggled.png</file>
+        <file>images/toolbar/default/light-prefs.png</file>
+        <file>images/toolbar/default/light-prefs-toggled.png</file>
+
 
         <file>images/toolbar/pro/run.png</file>
         <file>images/toolbar/pro/stop.png</file>
