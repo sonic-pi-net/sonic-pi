@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-07-04 00:44+0000\n"
-"Last-Translator: Billow <erick.bernalcrr@uanl.edu.mx>\n"
+"PO-Revision-Date: 2018-09-26 00:37+0000\n"
+"Last-Translator: David Romero <d-romero@live.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1-dev\n"
+"X-Generator: Weblate 3.2-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2176,7 +2176,6 @@ msgstr ""
 "en más detalle."
 
 #: 03.3-Stretching-Samples.md:43
-#, fuzzy
 msgid "Let's stretch"
 msgstr "Estiremos"
 
@@ -2278,24 +2277,23 @@ msgid "The Maths Behind Sample Rate"
 msgstr "La matemática detrás de la velocidad de sample"
 
 #: 03.3-Stretching-Samples.md:95
-#, fuzzy
 msgid ""
 "(This section is provided for those that are interested in the details. Please"
 " feel free to skip it...)"
 msgstr ""
-"(Esta sección es para aquellos interesados en los detalles. Eres libre de salt"
-"ártela)"
+"(Esta sección es para aquellos interesados en los detalles. Eres libre de "
+"saltártela...)"
 
 #: 03.3-Stretching-Samples.md:98
-#, fuzzy
 msgid ""
 "As we saw above, a sample is represented by a big long list of numbers represe"
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
 msgstr ""
-"Como hemos visto, un sample está representado por una larga lista de números r"
-"epresentando adónde debe estar el parlante a través del tiempo. Podemos tomar "
-"este listado de números y usarlo para dibujar un gráfico que sería similar a:"
+"Como hemos visto, un sample está representado por una larga lista de números "
+"representando donde debe de estar el parlante a través del tiempo. Podemos "
+"tomar este listado de números y usarlo para dibujar un gráfico que sería "
+"similar a:"
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
