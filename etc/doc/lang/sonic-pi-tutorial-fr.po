@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2018-09-26 16:06+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -12812,17 +12812,17 @@ msgid "Squelch that Bass"
 msgstr "Écrasez cette basse"
 
 #: A.05-acid-bass.md:39
-#, fuzzy
 msgid ""
 "First, let's build a live arpeggiator to make things fun. In the last tutorial"
 " we looked at how riffs can just be a ring of notes that we tick through one a"
 "fter another, repeating when we get to the end. Let's create a live loop that "
 "does exactly that:"
 msgstr ""
-"Commençons par construire un arpège interactif pour rendre les choses amusante"
-"s. Dans le dernier tutoriel nous avons vu comment des mélodies peuvent être ju"
-"ste un anneau de notes qu'on joue les unes après les autres, en répétant quand"
-" on arrive à la fin. Créons une boucle interactive qui fait cela :"
+"Commençons par construire un arpégiateur interactif pour rendre les choses "
+"amusantes. Dans le dernier tutoriel, nous avons vu comment des mélodies "
+"peuvent n'être qu'un anneau que nous parcourons les unes après les autres, "
+"en répétant quand nous arrivons à la fin. Créons une boucle interactive qui "
+"fait exactement cela :"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
