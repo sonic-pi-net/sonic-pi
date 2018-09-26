@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-26 16:06+0000\n"
-"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"PO-Revision-Date: 2018-09-27 16:26+0000\n"
+"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -12820,9 +12820,9 @@ msgid ""
 msgstr ""
 "Commençons par construire un arpégiateur interactif pour rendre les choses "
 "amusantes. Dans le dernier tutoriel, nous avons vu comment des mélodies "
-"peuvent n'être qu'un anneau que nous parcourons les unes après les autres, "
-"en répétant quand nous arrivons à la fin. Créons une boucle interactive qui "
-"fait exactement cela :"
+"peuvent n'être qu'un anneau de notes que nous parcourons les unes après les "
+"autres, en répétant quand nous arrivons à la fin. Créons une boucle "
+"interactive qui fait exactement cela :"
 
 #: A.05-acid-bass.md:44
 #, no-wrap
