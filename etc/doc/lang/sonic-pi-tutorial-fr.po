@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-27 16:27+0000\n"
+"PO-Revision-Date: 2018-09-30 00:25+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -96,7 +96,7 @@ msgstr "1.1 Codage en 'live'"
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Codage en direct"
+msgstr "Programmation interactive"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -12992,7 +12992,6 @@ msgstr ""
 "bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
-#, fuzzy
 msgid ""
 "First is the oscillator wave - the raw ingredients of the sound. In this case "
 "we have a square wave. Next there's the oscillator's amplitude envelope which "
@@ -13006,17 +13005,18 @@ msgid ""
 "have amazing control over the timbre of the sound by playing with both of thes"
 "e envelopes. Let's take a look:"
 msgstr ""
-"En premier on a l'onde oscillatoire : les ingrédients de base du son. Dans ce "
-"cas nous avons une onde carrée. Ensuite on a l'enveloppe d'amplitude de l'osci"
-"llateur qui contrôle l'amplitude de l'onde carrée au cours du temps. On peut y"
-" accéder dans Sonic Pi avec les options `attack:`, `decay:`, `sustain:` et `re"
-"lease:` ainsi que leur niveau correspondant. Pour plus d'informations lisez la"
-" Section 2.4 'Durée avec enveloppes' dans le tutoriel inclus dans Sonic Pi. On"
-" passe ensuite notre onde carrée enveloppée dans un filtre passe bas résonant."
-" Cela coupe les hautes fréquences et a un bel effet de résonance. Et c'est ici"
-" que ça devient amusant. La valeur de coupure de ce filtre est aussi contrôlée"
-" par sa propre enveloppe ! Cela veut dire que nous avons un contrôle incroyabl"
-"e sur le timbre du son en jouant avec ces deux enveloppes. Jetons-y un oeil :"
+"Tout d'abord, il y a l'onde oscillatoire - les ingrédients de base du son. "
+"Dans ce cas, nous avons une onde carrée. Ensuite, il y a l'enveloppe "
+"d'amplitude de l'oscillateur qui contrôle l'amplitude de l'onde carrée au "
+"cours du temps. On peut y accéder dans Sonic Pi avec les options `attack:`, "
+"`decay:`, `sustain:` et `release:` ainsi qu'à leurs niveaux correspondant. "
+"Pour plus d'informations, lisez la Section 2.4 'Durée avec les enveloppes' "
+"dans le tutoriel intégré. Nous passons ensuite notre onde carrée enveloppée "
+"à travers un filtre passe-bas résonant. Cela coupe les hautes fréquences "
+"tout en ayant un bel effet de résonance. C'est ici que le plaisir commence. "
+"La valeur de coupure de ce filtre est également contrôlée par sa propre "
+"enveloppe ! Cela signifie que nous avons un contrôle incroyable sur le "
+"timbre du son en jouant avec ces deux enveloppes. Jetons un coup d’œil :"
 
 #: A.05-acid-bass.md:128
 #, no-wrap
@@ -13040,7 +13040,6 @@ msgstr ""
 "end"
 
 #: A.05-acid-bass.md:138
-#, fuzzy
 msgid ""
 "For each standard envelope opt, there's a `cutoff_` equivalent opt in the `:tb"
 "303` synth. So, to change the cutoff attack time we can use the `cutoff_attack"
@@ -13048,12 +13047,13 @@ msgid ""
 "azy sound warble in and out. Now start to play. Try changing the `cutoff_attac"
 "k:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
-"Pour chaque option standard d'enveloppe, il y a une option `cutoff_` équivalen"
-"te dans le synthé `:tb303`. Donc, pour changer le temps d'attaque de la coupur"
-"e on peut utiliser l'option `:cutoff_attack`. Copiez le code ci-dessus dans un"
-" buffer vide et cliquez sur 'Run'. Vous entendrez un son fou entrer et sortir."
-" Maintenant essayez de jouer avec. Essayez de changer la durée de `cutoff_atta"
-"ck:` en `1` puis en `0.5`. Puis essayez `8`."
+"Pour chaque option d'enveloppe standard, il y a une option équivalente `"
+"cutoff_' dans le synthétiseur `:tb303'. Donc, pour changer le temps "
+"d'attaque de coupure, nous pouvons utiliser l'option `cutoff_attack:` opt. "
+"Copiez le code ci-dessus dans un tampon vide et cliquez sur 'Run'. Vous "
+"entendrez un bruit de gazouillis fou qui rentre et sort. Maintenant, "
+"commencez à jouer. Essayez de changer la durée de `cutoff_attack:` en `1' "
+"puis `0.5'. Maintenant, essayez `8`."
 
 #: A.05-acid-bass.md:144
 msgid ""
@@ -13064,16 +13064,15 @@ msgstr ""
 "d'atmosphère - essayez d'autres effets pour voir ce qui fonctionne !"
 
 #: A.05-acid-bass.md:149
-#, fuzzy
 msgid ""
 "Finally, here's a piece I composed using the ideas in this tutorial. Copy it i"
 "nto an empty buffer, listen for a while and then start live coding your own ch"
 "anges. See what crazy sounds you can make with it! See you next time..."
 msgstr ""
-"Enfin voici un morceau que j'ai composé en utilisant les idées de ce tutoriel."
-" Copiez le dans un buffer vide, écoutez un peu, puis commencez à programmer in"
-"teractivement vos changements. Voyez quels sons fous vous pouvez faire avec ! "
-"A la prochaine..."
+"enfin, voici un morceau que j'ai composé en utilisant les idées de ce "
+"tutoriel. Copiez-le dans un tampon vide, écoutez-le pendant un moment, puis "
+"commencez à coder interactivement vos propres modifications. Voyez quels "
+"sons fous vous pouvez en faire ! À la prochaine...."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
