@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2018-10-01 14:26+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -13134,16 +13134,15 @@ msgid "Musical Minecraft"
 msgstr "Minecraft musical"
 
 #: A.06-minecraft.md:7
-#, fuzzy
 msgid ""
 "Hello and welcome back! In the previous tutorials we've focussed purely on the"
 " music possibilities of Sonic Pi - (turning your Raspberry Pi into a performan"
 "ce ready musical instrument). So far we've learned how to:"
 msgstr ""
-"Bonjour et bienvenue à nouveau ! Dans les tutoriels précédents nous nous somes"
-" concentrés exclusivement sur les possibilités mnusicales de Sonic Pi, en tran"
-"sformant votre Raspberry Pi en instrument de musique prêt à l'emploi. Jusqu'ic"
-"i nous avons appris comment :"
+"Bonjour et bon retour parmi nous ! Dans les tutoriels précédents, nous nous "
+"sommes concentrés uniquement sur les possibilités musicales de Sonic Pi, en "
+"transformant votre Raspberry Pi en un instrument de musique prêt à jouer. "
+"Jusqu'à présent, nous avons appris comment :"
 
 #: A.06-minecraft.md:11
 msgid "Live Code - changing the sounds on-the-fly,"
@@ -13162,30 +13161,30 @@ msgid "Re-create the famous TB-303 acid-bass sound."
 msgstr "Recréer le fameux son de basse acide TB-303."
 
 #: A.06-minecraft.md:16
-#, fuzzy
 msgid ""
 "There's so much more to show you (which we will explore in future editions). H"
 "owever, this month, let's look at something Sonic Pi can do that you probably "
 "didn't realise: control Minecraft."
 msgstr ""
-"Il y a tellement plus à vous montrer, et nous l'explorerons dans de futures éd"
-"itions. Cependant, ce mois-ci, nous allons regarder une chose que Sonic Pi sai"
-"t faire et que vous n'avez probablement pas remarquée : contrôler Minecraft."
+"Il y a tant d'autres choses à vous montrer (que nous explorerons dans les "
+"prochaines éditions). Cependant, ce mois-ci, regardons quelque chose que "
+"Sonic Pi peut faire que vous n'avez probablement pas remarqué : contrôler "
+"Minecraft."
 
 #: A.06-minecraft.md:20
 msgid "Hello Minecraft World"
 msgstr "Bonjour, monde de Minecraft"
 
 #: A.06-minecraft.md:22
-#, fuzzy
 msgid ""
 "OK, let's get started. Boot up your Raspberry Pi, fire up Minecraft Pi and cre"
 "ate a new world. Now start up Sonic Pi and re-size and move your windows so yo"
 "u can see both Sonic Pi and Minecraft Pi at the same time."
 msgstr ""
-"OK, commençons. Démarrez votre Raspberry Pi, lancez Minecraft Pi et créez un n"
-"ouveau monde. Maintenant démarrez Sonic Pi et déplacez vos fenêtres de manière"
-" à pouvoir voir Sonic Pi et Minecraft Pi en même temps."
+"D'accord, commençons. Démarrez votre Raspberry Pi, lancez Minecraft Pi et "
+"créez un nouveau monde. Maintenant, démarrez Sonic Pi, redimensionnez et "
+"déplacez vos fenêtres de manière à pouvoir voir Sonic Pi et Minecraft Pi en "
+"même temps."
 
 #: A.06-minecraft.md:26
 msgid "In a fresh buffer type the following:"
@@ -13197,15 +13196,14 @@ msgid "mc_message \"Hello Minecraft from Sonic Pi!\""
 msgstr "mc_message \"Hello Minecraft from Sonic Pi!\""
 
 #: A.06-minecraft.md:32
-#, fuzzy
 msgid ""
 "Now, hit Run. Boom! Your message appeared in Minecraft! How easy was that? Now"
 ", stop reading this for a moment and play about with your own messages. Have f"
 "un!"
 msgstr ""
-"Maintenant cliquez sur 'Run'. Boum ! Votre message est apparu dans Minecraft !"
-" C'était facile, non ? Maintenant arrêtez un moment de lire ceci et jouez un p"
-"eu avec vos propres messages. Amusez-vous !"
+"Maintenant, cliquez sur 'Run'. Boum ! Votre message est apparu dans "
+"Minecraft ! C'était facile, non ? Maintenant, arrêtez un moment de lire ceci "
+"et jouez un peu avec vos propres messages. Amusez-vous !"
 
 #: A.06-minecraft.md:36
 msgid ""
@@ -13220,17 +13218,16 @@ msgid "Sonic Teleporter"
 msgstr "Téléportation sonique"
 
 #: A.06-minecraft.md:40
-#, fuzzy
 msgid ""
 "Now let's do some exploring. The standard option is to reach for the mouse and"
 " keyboard and start walking around. That works, but it's pretty slow and borin"
 "g. It would be far better if we had some sort of teleport machine. Well, thank"
 "s to Sonic Pi, we have one. Try this:"
 msgstr ""
-"Explorons un peu. L'option standard est de saisir la souris et le clavier et d"
-"e commencer à se promener. Ca marche, mais c'est assez lent et ennuyeux. Ce se"
-"rait beaucoup mieux si on avait une sorte de machine de téléportation. Eh bien"
-", grâce à Sonic Pi, on en a une. Essayez ceci :"
+"Maintenant, faisons un peu d'exploration. L'option standard est d'attraper "
+"la souris et le clavier et de commencer à se promener. Ça fonctionne, mais "
+"c'est plutôt lent et ennuyeux. Il vaudrait mieux qu'on ait une sorte de "
+"téléporteur. Eh bien, grâce à Sonic Pi, nous en avons un. Essayez ceci :"
 
 #: A.06-minecraft.md:45
 #, no-wrap
@@ -13238,46 +13235,40 @@ msgid "mc_teleport 80, 40, 100"
 msgstr "mc_teleport 80, 40, 100"
 
 #: A.06-minecraft.md:49
-#, fuzzy
 msgid ""
 "Crikey! That was a long way up. If you weren't in flying-mode then you would h"
 "ave fallen back down all the way to the ground. If you double-tap space to ent"
 "er flying-mode and teleport again, you'll stay hovering at the location you za"
 "p to."
 msgstr ""
-"Oh ! On est monté bien haut. Si vous n'étiez pas en mode volant vous avez du r"
-"etomber jusqu'au sol. Si vous double-tapez Espace pour entrer en mode volant e"
-"t vous téléportez à nouveau, vous resterez en l'air à l'endroit où vous vous ê"
-"tes déplacés."
+"Oh ! C'était une longue ascension. Si vous n'étiez pas en mode de vol, vous "
+"seriez retombé jusqu'au sol. Si vous tapez deux fois sur la touche Espace "
+"pour entrer en mode vol et vous téléporter à nouveau, vous resterez en vol "
+"stationnaire à l'endroit où vous vous êtes déplacés."
 
 #: A.06-minecraft.md:54
-#, fuzzy
 msgid ""
 "Now, what do those numbers mean? We have three numbers which describe the coor"
 "dinates of where in the world we want to go. We give each number a name - x, y"
 " and z:"
 msgstr ""
-"Maintenant, qu'est-ce que ces nombres signifient ? Nous avons trois nombres qu"
-"i décrivent les coordonnées de l'endroit du monde où vous voulez vous déplacer"
-". On donne à chacun de ces nombres un nom : x, y et z."
+"Que signifient ces chiffres ? Nous avons trois nombres qui décrivent les "
+"coordonnées de l'endroit du monde où nous voulons nous déplacer. Nous "
+"donnons un nom à chacun de ces numéros - x, y et z :"
 
 #: A.06-minecraft.md:58
-#, fuzzy
 msgid "x - how far left and right (80 in our example)"
-msgstr "x - à quelle distance vers la gauche ou la droite (80 dans notre exemple)"
+msgstr "x - la distance à gauche et à droite (80 dans notre exemple)"
 
 #: A.06-minecraft.md:59
-#, fuzzy
 msgid "y - how high we want to be (40 in our example)"
-msgstr "y - à quelle hauteur on veut être (40 dans notre exemple)"
+msgstr "y - la hauteur que nous voulons atteindre (40 dans notre exemple)"
 
 #: A.06-minecraft.md:60
-#, fuzzy
 msgid "z - how far forward and back (100 in our example)"
-msgstr "z - à quelle distance vers l'avant ou l'arrière (100 dans notre exemple)"
+msgstr "z - la distance avant et arrière (100 dans notre exemple)"
 
 #: A.06-minecraft.md:62
-#, fuzzy
 msgid ""
 "By choosing different values for x, y and z we can teleport *anywhere* in our "
 "world. Try it! Choose different numbers and see where you can end up. If the s"
@@ -13285,22 +13276,22 @@ msgid ""
 "nto a mountain. Just choose a higher y value to get back out above land. Keep "
 "on exploring until you find somewhere you like..."
 msgstr ""
-"En choisissant différentes valeurs pour x, y, et z, on peut se téléporter *n'i"
-"mporte où* dans notre monde. Essayez ! Choisissez différents nombres et regard"
-"ez où vous vous retrouvez. Si l'écran devient noir c'est que vous vous êtes té"
-"léportés sous terre ou dans une montagne. Choisissez juste une valeur de y plu"
-"s grande pour vous retrouver au-dessus de la terre. Continuez à explorer jusqu"
-"'à ce que vous trouviez un endroit qui vous plaise..."
+"En choisissant des valeurs différentes pour x, y et z, nous pouvons nous "
+"téléporter *n'importe où* dans notre monde. Essayez ! Choisissez différents "
+"nombres et voyez où vous pouvez vous retrouver. Si l'écran devient noir, "
+"c'est que vous vous êtes téléporté sous terre ou dans une montagne. Il "
+"suffit de choisir une valeur y plus élevée pour revenir au dessus de la "
+"terre. Continuez à explorer jusqu'à ce que vous trouviez un endroit qui vous "
+"plaise...."
 
 #: A.06-minecraft.md:69
-#, fuzzy
 msgid ""
 "Using the ideas so far, let's build a Sonic Teleporter which makes a fun telep"
 "ort sound whilst it whizzes us across the Minecraft world:"
 msgstr ""
-"En utilisant les idées vues jusqu'ici, construisons un téléporteur sonique qui"
-" fera un son amusant de téléportation quand il nous fera voyager à travers le "
-"monde de Minecraft :"
+"En utilisant les idées vues jusqu'ici, construisons un téléporteur sonique "
+"qui fera un son de téléportation amusant pendant qu'il nous propulsera à "
+"travers le monde de Minecraft :"
 
 #: A.06-minecraft.md:72
 #, no-wrap
@@ -13330,30 +13321,27 @@ msgstr ""
 "mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
-#, fuzzy
 msgid ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
 msgstr ""
-"![Ecran 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-smal"
-"l.png)"
+"![Capture d'écran 1](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
-#, fuzzy
 msgid "Magic Blocks"
 msgstr "Blocs magiques"
 
 #: A.06-minecraft.md:90
-#, fuzzy
 msgid ""
 "Now you've found a nice spot, let's start building. You could do what you're u"
 "sed to and start clicking the mouse furiously to place blocks under the cursor"
 ". Or you could use the magic of Sonic Pi. Try this:"
 msgstr ""
-"Maintenant que vous avez trouvé un endroit sympathique, commençons à construir"
-"e. Vous pourriez faire comme vous en avez l'habitude et commencer à cliquer fu"
-"rieusement la souris pour placer des blocs sous le curseur. Ou vous pourriez u"
-"tiliser la magie de Sonic Pi. Essayez ceci :"
+"Maintenant que vous avez trouvé un bel endroit, commençons à construire. "
+"Vous pourriez faire comme vous en avez l'habitude et commencer à cliquer "
+"furieusement avec la souris pour placer des blocs sous le curseur. Ou vous "
+"pouvez employer la magie de Sonic Pi. Essayez ceci :"
 
 #: A.06-minecraft.md:94
 #, no-wrap
@@ -13365,7 +13353,6 @@ msgstr ""
 "mc_set_block :melon, x, y + 5, z"
 
 #: A.06-minecraft.md:99
-#, fuzzy
 msgid ""
 "Now look up! There's a melon in the sky! Take a moment to look at the code. Wh"
 "at did we do? On line one we grabbed the current location of Steve as the vari"
@@ -13375,14 +13362,14 @@ msgid ""
 " the sky we just need to increase the y value which is why we add 5 to it. Let"
 "'s make a long trail of them:"
 msgstr ""
-"Maintenant regardez vers le haut ! Il y a un melon dans le ciel ! Prenez un mo"
-"ment pour regarder le code. Qu'est-ce qu'on a fait ? Sur la première ligne on "
-"a attrapé l'emplacement actuel de Steve dans les variables x, y et z. Elles co"
-"rrespondent aux coordonnées décrites ci-dessus. Nous utilisons ces coordonnées"
-" dans la fonction `mc_set_block` qui va placer le bloc de votre choix aux coor"
-"données spécifiées. Pour placer quelque chose plus haut dans le ciel on doit j"
-"uste augmenter la valeur de y, c'est pour ça qu'on lui ajoute 5. Faisons un ch"
-"emin de melons :"
+"Maintenant, regardez en l'air ! Il y a un melon dans le ciel ! Prenez un "
+"moment pour regarder le code. Qu'est-ce qu'on a fait ? Sur la première "
+"ligne, nous avons saisi l'emplacement actuel de Steve dans les variables x, "
+"y et z. Celles-ci correspondent à nos coordonnées décrites ci-dessus. Nous "
+"utilisons ces coordonnées dans le bloc fn `mc_set_block` qui placera le bloc "
+"de votre choix aux coordonnées spécifiées. Pour placer quelque chose plus "
+"haut dans le ciel, il suffit d'augmenter la valeur y, et c'est pourquoi nous "
+"y ajoutons 5. Faisons-en une longue traînée :"
 
 #: A.06-minecraft.md:107
 #, no-wrap
@@ -13400,16 +13387,15 @@ msgstr ""
 "end"
 
 #: A.06-minecraft.md:115
-#, fuzzy
 msgid ""
 "Now, jump over to Minecraft, make sure you're in flying-mode (double tap space"
 " if not) and fly all around the world. Look behind you to see a pretty trail o"
 "f melon blocks! See what kind of twisty patterns you can make in the sky."
 msgstr ""
-"Maintenant sautez dans Minecraft, assurez-vous d'être en mode volant (tapez de"
-"ux fois sur Espace sinon) et volez autour du monde. Regardez derrière vous pou"
-"r voir un beau chemin de blocs de melon ! Voyez quels dessins tordus vous pouv"
-"ez faire dans le ciel."
+"Maintenant, passez à Minecraft, assurez-vous que vous êtes en mode vol ("
+"tapez deux fois sur Espace sinon) et volez autour du monde. Regardez "
+"derrière vous pour voir une jolie traînée de blocs de melon ! Voyez quelles "
+"sortes de motifs tortueux vous pouvez faire dans le ciel."
 
 #: A.06-minecraft.md:120
 #, fuzzy
