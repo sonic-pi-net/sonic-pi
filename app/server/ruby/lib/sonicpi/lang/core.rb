@@ -1278,6 +1278,18 @@ end
   puts tick(:foo) #=> 2
   puts tick(:bar) #=> 0 # tick :bar is independent of tick :foo
   ",
+  "
+  # You can tick by more than increments of 1
+  # using the step: opt
+
+  puts tick             #=> 0
+  puts tick             #=> 1
+  puts tick             #=> 2
+  puts tick(step: 2)    #=> 4
+  puts tick(step: 2)    #=> 6
+  puts tick(step: 10)   #=> 16
+  puts tick             #=> 17
+  ",
   " # Each_live loop has its own separate ticks
   live_loop :fast_tick do
     puts tick   # the fast_tick live_loop's tick will
