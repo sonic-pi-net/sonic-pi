@@ -21,12 +21,6 @@ Come and join the friendly discussion over at
 For bite-sized chunks of the latest Sonic Pi news and information.
 
 
-## Facebook
-*<https://www.facebook.com/SonicPi>*
-
-For those Facebook users out there.
-
-
 ## GitHub
 *<https://github.com/samaaron/sonic-pi>*
 
