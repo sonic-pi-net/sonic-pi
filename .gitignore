@@ -81,6 +81,7 @@ app/gui/qt/qrc__*
 *.DS_Store
 *.log
 *.swp
+*.tmp
 \.#*
 .lein-plugins
 *~
