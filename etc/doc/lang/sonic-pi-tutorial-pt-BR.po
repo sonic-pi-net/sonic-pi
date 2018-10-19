@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-05 01:49+0000\n"
-"Last-Translator: Arthur Augusto <4rthuurr@gmail.com>\n"
+"PO-Revision-Date: 2018-10-20 23:38+0000\n"
+"Last-Translator: Gerardo Soares <gerardonsoares@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -193,7 +193,7 @@ msgstr ""
 "Seu código deve estar assim agora:"
 
 #: 01.1-Live-Coding.md:43
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :ambi_choir, rate: 0.3\n"
@@ -285,6 +285,8 @@ msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
+"Tente descomentar a linha de exemplo (remova o `#`) e aprecie o som da "
+"guitarra tocada ao contrário."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
