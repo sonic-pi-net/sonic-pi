@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-10-13 22:35+0000\n"
+"PO-Revision-Date: 2018-10-20 23:37+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -8832,6 +8832,9 @@ msgid ""
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
+"Sonic Pi posiada globalny magazyn pamięci nazywany Stanem Czasu. Dwie "
+"podstawowe operacje jakie możesz na nim wykonywać to ustawienie informacji "
+"(`set`) oraz pobranie informacji (`get`). Zanurzmy się głębiej..."
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
@@ -8854,11 +8857,13 @@ msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"Na przykład, możemy chcieć zachować liczbę `3000` pod kluczem `:intensity` "
+"(intensywność). Można to zrobić używając funkcji `set`:"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
 msgid "set :intensity, 3000"
-msgstr ""
+msgstr "set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:23
 msgid ""
