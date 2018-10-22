@@ -1,10 +1,13 @@
+#!/usr/bin/env bash
+
 # Based on https://github.com/samaaron/sonic-pi/blob/master/app/gui/qt/build-ubuntu-app
 # Modified by nlb (n-l-b.fr) to install on Ubuntu 18.04 TLS
 # Hope it works for you. 
 # 07/07/2018
 
 #Fail script on first error encountered
-set -e
+set -euo pipefail
+IFS=$'\n\t'
 
 #Application/library versions built by this script.
 SUPERCOLLIDER_VERSION=3.9.1
@@ -127,7 +130,7 @@ cd ${SP_APP_SRC}
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/ruby/bin/qt-doc.rb -o ruby_help.h
 
-echo -e "${CYAN}Building sonic-pi binary...${NC}"
+echo "Building sonic-pi binary..."
 lrelease SonicPi.pro
 qmake -qt=qt5 SonicPi.pro
 make
