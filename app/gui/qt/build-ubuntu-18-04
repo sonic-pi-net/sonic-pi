@@ -16,7 +16,7 @@ OSMID_VERSION=391f35f789f18126003d2edf32902eb714726802
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SP_APP_SRC=${SCRIPT_DIR}
 SP_ROOT=${SP_APP_SRC}/../../../../
-OSMID_DIR=${SP_APP_SRC}/../../server/native/linux/osmid
+OSMID_DIR=${SP_APP_SRC}/../../server/native/osmid
 
 echo "This script has been tested on ubuntu 18.04 LTS."
 
