@@ -26,7 +26,7 @@ synth:
 
 ```
 live_loop :timbre do
-  use_synth (ring :tb303, :blade, :prophet, :saw, :beep, :tri).tick
+  use_synth ring(:tb303, :blade, :prophet, :saw, :beep, :tri).tick
   play :e2, attack: 0, release: 0.5, cutoff: 100
   sleep 0.5
 end
@@ -71,7 +71,7 @@ create a ring with your notes in and tick through them:
 ```
 live_loop :riff do
   use_synth :prophet
-  riff = (ring :e3, :e3, :r, :g3, :r, :r, :r, :a3)
+  riff = ring(:e3, :e3, :r, :g3, :r, :r, :r, :a3)
   play riff.tick, release: 0.5, cutoff: 80
   sleep 0.25
 end
@@ -92,7 +92,7 @@ things: rings, randomisation and random seeds. Let's look at an example:
 live_loop :random_riff do
   use_synth :dsaw
   use_random_seed 3
-  notes = (scale :e3, :minor_pentatonic).shuffle
+  notes = scale(:e3, :minor_pentatonic).shuffle
   play notes.tick, release: 0.25, cutoff: 80
   sleep 0.25
 end
@@ -141,7 +141,7 @@ note with a given probability. Let's take a look:
 live_loop :random_riff do
   use_synth :dsaw
   use_random_seed 30
-  notes = (scale :e3, :minor_pentatonic).shuffle
+  notes = scale(:e3, :minor_pentatonic).shuffle
   16.times do
     play notes.tick, release: 0.2, cutoff: 90 if one_in(2)
     sleep 0.125
@@ -174,7 +174,7 @@ live_loop :random_riff do
   #  synth :blade, note: :e4, release: 4, cutoff: 100, amp: 1.5
   use_synth :dsaw
   use_random_seed 43
-  notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle.take(8)
+  notes = scale(:e3, :minor_pentatonic, num_octaves: 2).shuffle.take(8)
   8.times do
     play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)
     sleep 0.125

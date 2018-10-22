@@ -70,7 +70,7 @@ it acts like a regular tick and increments the beat. Secondly it looks
 up the ring value using the beat as the index. Let's take a look:
 
 ```
-puts (ring :a, :b, :c).tick #=> :a
+puts ring(:a, :b, :c).tick #=> :a
 ```
 
 `.tick` is a special dot version of `tick` which will return the first
@@ -78,10 +78,10 @@ value of the ring `:a`. We can grab each of the values in the ring by
 calling `.tick` multiple times:
 
 ```
-puts (ring :a, :b, :c).tick #=> :a
-puts (ring :a, :b, :c).tick #=> :b
-puts (ring :a, :b, :c).tick #=> :c
-puts (ring :a, :b, :c).tick #=> :a
+puts ring(:a, :b, :c).tick #=> :a
+puts ring(:a, :b, :c).tick #=> :b
+puts ring(:a, :b, :c).tick #=> :c
+puts ring(:a, :b, :c).tick #=> :a
 puts look                   #=> 3
 ```
 
@@ -104,7 +104,7 @@ and understand a simple arpegiator. We need just four things:
 These concepts can all be found in the following code:
 
 ```
-notes = (ring 57, 62, 55, 59, 64)
+notes = ring(57, 62, 55, 59, 64)
 
 live_loop :arp do
   use_synth :dpulse
@@ -129,7 +129,7 @@ beat counter. This is much more powerful than having a global metronome
 and beat. Let's take a look at this in action:
 
 ```
-notes = (ring 57, 62, 55, 59, 64)
+notes = ring(57, 62, 55, 59, 64)
 
 with_fx :reverb do
   live_loop :arp do
@@ -155,8 +155,8 @@ to tick over multiple rings in the same `live_loop`:
 use_bpm 300
 use_synth :blade
 live_loop :foo do
-  play (ring :e1, :e2, :e3).tick
-  play (scale :e3, :minor_pentatonic).tick
+  play ring(:e1, :e2, :e3).tick
+  play scale(:e3, :minor_pentatonic).tick
   sleep 1
 end
 ```
@@ -182,14 +182,14 @@ what you can turn it into. See you next time...
 
 ```
 use_bpm 240
-notes = (scale :e3, :minor_pentatonic).shuffle
+notes = scale(:e3, :minor_pentatonic).shuffle
 
 live_loop :foo do
   use_synth :blade
   with_fx :reverb, reps: 8, room: 1 do
     tick
-    co = (line 70, 130, steps: 32).tick(:cutoff)
-    play (octs :e3, 3).look, cutoff: co, amp: 2
+    co = line(70, 130, steps: 32).tick(:cutoff)
+    play octs(:e3, 3).look, cutoff: co, amp: 2
     play notes.look, amp: 4
     sleep 1
   end
@@ -199,8 +199,8 @@ live_loop :bar do
   tick
   sample :bd_ada if (spread 1, 4).look
   use_synth :tb303
-  co = (line 70, 130, steps: 16).look
-  r = (line 0.1, 0.5, steps: 64).mirror.look
+  co = line(70, 130, steps: 16).look
+  r = line(0.1, 0.5, steps: 64).mirror.look
   play notes.look, release: r, cutoff: co
   sleep 0.5
 end

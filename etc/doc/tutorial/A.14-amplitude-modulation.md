@@ -197,7 +197,7 @@ changing it and make it into your own piece!
 
 ```
 live_loop :dark_mist do
-  co = (line 70, 130, steps: 8).tick
+  co = line(70, 130, steps: 8).tick
   with_fx :slicer, probability: 0.7, prob_pos: 1 do
     synth :prophet, note: :e1, release: 8, cutoff: co
   end

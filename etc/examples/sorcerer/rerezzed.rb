@@ -1,7 +1,7 @@
 # Coded by Sam Aaron
 
 use_debug false
-notes = (scale :e1, :minor_pentatonic, num_octaves: 2).shuffle
+notes = scale(:e1, :minor_pentatonic, num_octaves: 2).shuffle
 
 live_loop :rerezzed do
   tick_reset

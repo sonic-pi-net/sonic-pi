@@ -139,9 +139,9 @@ simple was that! Fancy some music to go with it? Easy. Try this:
 live_loop :bass_trail do
   tick
   x, y, z = mc_location
-  b = (ring :melon, :brick, :glass).look
+  b = ring(:melon, :brick, :glass).look
   mc_set_block b, x, y -1, z
-  note = (ring :e1, :e2, :e3).look
+  note = ring(:e1, :e2, :e3).look
   use_synth :tb303
   play note, release: 0.1, cutoff: 70
   sleep 0.125
@@ -169,13 +169,13 @@ live_loop :note_blocks do
   with_fx :reverb do
     with_fx :echo, phase: 0.125, reps: 32 do
       tick
-      x = (range 30, 90, step: 0.1).look
+      x = range(30, 90, step: 0.1).look
       y = 20
       z = -10
       mc_teleport x, y, z
-      ns = (scale :e3, :minor_pentatonic)
+      ns = scale(:e3, :minor_pentatonic)
       n = ns.shuffle.choose
-      bs = (knit :glass, 3, :sand, 1)
+      bs = knit(:glass, 3, :sand, 1)
       b = bs.look
       synth :beep, note: n, release: 0.1
       mc_set_block b, x+20, n-60+y, z+10

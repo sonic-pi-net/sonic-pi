@@ -4,7 +4,7 @@ use_debug false
 
 with_fx :reverb do
   live_loop :choral do
-    r = (ring 0.5, 1.0/3, 3.0/5).choose
+    r = ring(0.5, 1.0/3, 3.0/5).choose
     cue :choir, rate: r
     8.times do
       sample :ambi_choir, rate: r, pan: rrand(-1, 1)
@@ -21,7 +21,7 @@ live_loop :wub_wub do
       sample :bass_hit_c, rate: 0.8, amp: 0.4
       sleep 1
       ## try changing the wobble's phase duration:
-      # control w, phase: (ring 0.5, 1, 2).choose
+      # control w, phase: ring(0.5, 1, 2).choose
     end
   end
 end

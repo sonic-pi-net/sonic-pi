@@ -129,7 +129,7 @@ Reich style. Check this out:
 ```
 # Steve Reich's Piano Phase
 
-notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5)
+notes = ring(:E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5)
 
 live_loop :slow do
   play notes.tick, release: 0.1
@@ -175,7 +175,7 @@ end
 with_fx :echo do
   live_loop :vortex do
     # use_random_seed 800
-    notes = (scale :e3, :minor_pentatonic, num_octaves: 3)
+    notes = scale(:e3, :minor_pentatonic, num_octaves: 3)
     16.times do
       play notes.choose, release: 0.1, amp: 1.5
       sleep 0.125

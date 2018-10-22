@@ -85,7 +85,7 @@ you're free to change it as many times as you like. For example, we can
 turn our `:prophet` into a mini arpeggiator with the following:
 
 ```
-notes = (scale :e3, :minor_pentatonic)
+notes = scale(:e3, :minor_pentatonic)
 sn = synth :prophet, note: :e1, release: 8, cutoff: 100
 sleep 1
 16.times do
@@ -163,7 +163,7 @@ into something completely different!
 live_loop :moon_rise do
   with_fx :echo, mix: 0, mix_slide: 8 do |fx|
     control fx, mix: 1
-    notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle
+    notes = scale(:e3, :minor_pentatonic, num_octaves: 2).shuffle
     sn = synth :prophet , sustain: 8, note: :e1, cutoff: 70, cutoff_slide: 8
     control sn, cutoff: 130
     sleep 2

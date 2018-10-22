@@ -169,7 +169,7 @@ live_loop :random_riff do
   s = [0.125, 0.25, 0.5].choose
   8.times do
     r = [0.125, 0.25, 1, 2].choose
-    n = (scale :e3, :minor).choose
+    n = scale(:e3, :minor).choose
     co = rrand(30, 100)
     play n, release: r, cutoff: co
     sleep s

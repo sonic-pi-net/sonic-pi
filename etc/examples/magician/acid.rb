@@ -4,7 +4,7 @@ use_debug false
 load_sample :bd_fat
 
 8.times do
-  sample :bd_fat, amp: (line 0, 5, steps: 8).tick
+  sample :bd_fat, amp: line(0, 5, steps: 8).tick
   sleep 0.5
 end
 

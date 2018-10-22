@@ -144,7 +144,7 @@ ring of blocks for an interesting effect:
 
 ```
 x, y, z = mc_location
-bs = (ring :gold, :diamond, :glass)
+bs = ring(:gold, :diamond, :glass)
 10.times do |xd|
   10.times do |yd|
     mc_set_block bs.choose, x + xd, y + yd, z

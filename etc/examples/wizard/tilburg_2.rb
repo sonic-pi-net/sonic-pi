@@ -5,7 +5,7 @@ load_samples :guit_em9, :bd_haus
 
 live_loop :low do
   tick
-  synth :zawa, wave: 1, phase: 0.25, release: 5, note: (knit :e1, 12, :c1, 4).look, cutoff: (line 60, 120, steps: 6).look
+  synth :zawa, wave: 1, phase: 0.25, release: 5, note: knit(:e1, 12, :c1, 4).look, cutoff: line(60, 120, steps: 6).look
   sleep 4
 end
 
@@ -13,7 +13,7 @@ with_fx :reverb, room: 1 do
   live_loop :lands, auto_cue: false do
     use_synth :dsaw
     use_random_seed 310003
-    ns = (scale :e2, :minor_pentatonic, num_octaves: 4).take(4)
+    ns = scale(:e2, :minor_pentatonic, num_octaves: 4).take(4)
     16.times do
       play ns.choose, detune: 12, release: 0.1, amp: 2, amp: rand + 0.5, cutoff: rrand(70, 120), amp: 2
       sleep 0.125

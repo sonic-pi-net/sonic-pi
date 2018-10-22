@@ -88,7 +88,7 @@ We're now in a position to start translating this bass line to Sonic
 Pi. Let's encode these notes and rests in a ring:
 
 ```
-(ring :d, :r, :r, :a, :f5, :r, :a, :r)
+ring(:d, :r, :r, :a, :f5, :r, :a, :r)
 ```
     
 Let's see what this sounds like. Throw it in a live loop and tick
@@ -96,7 +96,7 @@ through it:
 
 ```
 live_loop :habanera do
-  play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick
+  play ring(:d, :r, :r, :a, :f5, :r, :a, :r).tick
   sleep 0.25
 end
 ```
@@ -116,7 +116,7 @@ through a slicer and reverb:
 live_loop :habanera do
   use_synth :fm
   use_transpose -12
-  play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick
+  play ring(:d, :r, :r, :a, :f5, :r, :a, :r).tick
   sleep 0.25
 end
 
@@ -146,8 +146,8 @@ that! Now, start mashing it around yourself and have fun.
 
 ```
 use_debug false
-bizet_bass = (ring :d, :r, :r, :a, :f5, :r, :a, :r)
-#bizet_bass = (ring :d, :r, :r, :Bb, :g5, :r, :Bb, :r)
+bizet_bass = ring(:d, :r, :r, :a, :f5, :r, :a, :r)
+#bizet_bass = ring(:d, :r, :r, :Bb, :g5, :r, :Bb, :r)
  
 with_fx :reverb, room: 1, mix: 0.3 do
   live_loop :bizet do
