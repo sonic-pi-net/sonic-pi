@@ -3211,7 +3211,7 @@ live_loop :garzul do
 end",
         "
 # External samples
-sample \"/path/to/sample.wav\"                          # Play any Wav, Aif or FLAC sample on your computer
+sample \"/path/to/sample.wav\"                          # Play any Wav, Aif, Ogg, Oga, or FLAC sample on your computer
                                                         # by simply passing a string representing the full
                                                         # path",
         "
