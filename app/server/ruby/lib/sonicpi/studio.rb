@@ -65,7 +65,7 @@ module SonicPi
       return @erlang_pid if @erlang_pid
       # Start Erlang
       begin
-        erlang_cmd = "#{erlang_boot_path} -noshell -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port}"
+        erlang_cmd = "exec #{erlang_boot_path} -noshell -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port}"
         STDOUT.puts erlang_cmd
         @erlang_pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
         register_process(@erlang_pid)
@@ -677,7 +677,7 @@ module SonicPi
     def reb_mut_spawn_midi_m2o
       success = true
       begin
-        m2o_spawn_cmd = "'#{osmid_m2o_path}'" + " -b -o #{@midi_osc_in_port} -m 6 'Sonic Pi'"
+        m2o_spawn_cmd = "exec '#{osmid_m2o_path}'" + " -b -o #{@midi_osc_in_port} -m 6 'Sonic Pi'"
         Kernel.puts "Studio - Spawning m2o with:"
         Kernel.puts "    #{m2o_spawn_cmd}"
         @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
@@ -696,7 +696,7 @@ module SonicPi
     def reb_mut_spawn_midi_o2m
       success = true
       begin
-        o2m_spawn_cmd = "'#{osmid_o2m_path}'" + " -L -b -i #{@midi_osc_out_port} -O #{@midi_osc_in_port} -m 6"
+        o2m_spawn_cmd = "exec '#{osmid_o2m_path}'" + " -L -b -i #{@midi_osc_out_port} -O #{@midi_osc_in_port} -m 6"
         Kernel.puts "Studio - Spawning o2m with:"
         Kernel.puts "    #{o2m_spawn_cmd}"
         @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
