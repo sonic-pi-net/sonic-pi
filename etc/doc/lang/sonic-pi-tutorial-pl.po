@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-10-20 23:37+0000\n"
+"PO-Revision-Date: 2018-11-03 11:24+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -8870,6 +8870,9 @@ msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
+"Możemy użyć dowolnej nazwy dla naszego klucza (key). Jeśli jakaś informacja "
+"została już zapisana pod tym kluczem, nasze nowe ustawienie (`set`) nadpisze "
+"je:"
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8877,6 +8880,8 @@ msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
 msgstr ""
+"set :intensity, 1000\n"
+"set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:31
 msgid ""
@@ -8884,10 +8889,14 @@ msgid ""
 "all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
 " as the first call to `set` is effectively overridden."
 msgstr ""
+"W powyższym przykładzie, jako że zapisaliśmy obie liczby pod tym samym "
+"kluczem, ostanie uruchomienie funkcji `set` 'wygrywa'. Wynika z tego, że "
+"liczba powiązana z `:intensity` będzie wynosić `3000` ponieważ pierwsze "
+"wywołanie funkcji `set` zostało efektywnie nadpisane."
 
 #: 10.1-Set-and-Get.md:35
 msgid "Get"
-msgstr ""
+msgstr "Pobierz (Get)"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
