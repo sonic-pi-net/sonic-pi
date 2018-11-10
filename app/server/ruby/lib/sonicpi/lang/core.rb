@@ -352,11 +352,13 @@ end
 
         pulse = params[1] || opts.fetch(:pulse, 4)
         key = (params[2] || opts.fetch(:tick, :swing)).to_sym
+        offset = params[3] || opts.fetch(:offset, 0)
 
         raise ArgumentError, "with_swing shift should be a number. Got: #{shift.inspect}" unless shift.is_a?(Numeric)
         raise ArgumentError, "with_swing pulse should be a positive number. Got: #{pulse.inspect}" unless pulse.is_a?(Numeric) && pulse > 0
+        raise ArgumentError, "with_swing offset should be an integer. Got: #{offset.inspect}" unless offset.is_a?(Integer)
 
-        use_shift = (tick(key) % pulse) == 0
+        use_shift = ((tick(key) + offset) % pulse) == 0
         if use_shift
           time_warp shift do
             blk.call
