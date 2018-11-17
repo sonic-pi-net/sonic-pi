@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-10-01 14:26+0000\n"
+"PO-Revision-Date: 2018-11-19 11:09+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.2-dev\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -13398,12 +13398,10 @@ msgstr ""
 "sortes de motifs tortueux vous pouvez faire dans le ciel."
 
 #: A.06-minecraft.md:120
-#, fuzzy
 msgid "Live Coding Minecraft"
-msgstr "Programmer Minecraft de manière interactive"
+msgstr "Programmation interactive de Minecraft"
 
 #: A.06-minecraft.md:122
-#, fuzzy
 msgid ""
 "Those of you that have been following this tutorial over the last few months w"
 "ill probably have your minds blown at this point. The trail of melons is prett"
@@ -13415,31 +13413,31 @@ msgid ""
 "rm music in nightclubs with Sonic Pi - DJs use discs and I use `live_loop`s :-"
 ") However, today we're going to live code both music and Minecraft."
 msgstr ""
-"Ceux d'entre vous qui ont suivi ce tutoriel pendant les derniers mois doivent "
-"être bien étonnés. Le chemin de melons est assez cool, mais la partie la plus "
-"excitante de l'exemple précédent est qu'on peut utiliser la `live_loop` avec M"
-"inecraft ! Pour ceux qui ne savent pas, la `live_loop` est la faculté magique "
-"et spéciale de Sonic Pi qu'aucun autre langage de programmation ne possède. El"
-"le vous permet d'exécuter des boucles multiples en même temps et vous permet d"
-"e les modifier pendant qu'elles tournent. Elles sont incroyablement puissantes"
-" et amusantes. J'utilise les `live_loop`s pour jouer de la musique dans des bo"
-"îtes de nuit avec Sonic Pi : les DJs utilisent des disques et moi j'utilise de"
-"s `live_loop`s :-) Cependant aujourd'hui nous allons programmer de manière int"
-"eractive de la musique et Minecraft."
+"Ceux d'entre vous qui ont suivi ce tutoriel au cours des derniers mois "
+"seront probablement bien étonnés ici. La chemin de melons est plutôt "
+"chouette, mais la partie la plus excitante de l'exemple précédent est que "
+"vous pouvez utiliser `live_loop` avec Minecraft ! Pour ceux qui ne savent "
+"pas, `live_loop` est la faculté magique spéciale de Sonic Pi qu'aucun autre "
+"langage de programmation ne possède. Elle vous permet d'exécuter plusieurs "
+"boucles en même temps et vous permet de les modifier pendant qu'elles "
+"s'exécutent. Elles sont incroyablement puissantes et formidablement "
+"amusantes. J'utilise des `live_loop` pour jouer de la musique dans les "
+"boîtes de nuit avec Sonic Pi - les DJ utilisent des disques et j'utilise des "
+"`live_loop` :-) Cependant, aujourd'hui, nous allons programmer de manière "
+"interactive la musique et Minecraft."
 
 #: A.06-minecraft.md:133
-#, fuzzy
 msgid ""
 "Let's get started. Run the code above and start making your melon trail again."
 " Now, without stopping the code, just simply change `:melon` to `:brick` and h"
 "it run. Hey presto, you're now making a brick trail. How simple was that! Fanc"
 "y some music to go with it? Easy. Try this:"
 msgstr ""
-"Commençons. Exécutez le code ci-dessus et commencez à faire votre chemin de me"
-"lons de nouveau. Maintenant, sans arrêter le code, changez simplement `:melon`"
-" en `:brick` et cliquez sur `Run`. Eh voilà, vous construisez maintenant un ch"
-"emin de briques. C'était simple, non ? Un peu de musique pour accompagner ça ?"
-" Facile. Essayez ceci :"
+"Commençons tout de suite. Exécutez le code ci-dessus et recommencez à faire "
+"votre chemin de melons. Maintenant, sans arrêter le code, changez simplement "
+"`:melon` en `:brick` et cliquez sur `Run`. Et voilà, vous construisez "
+"maintenant un chemin en briques. Comme c'est simple ! Envie d'un peu de "
+"musique pour l'accompagner ? Facile. Essayez ceci :"
 
 #: A.06-minecraft.md:138
 #, no-wrap
@@ -13467,28 +13465,25 @@ msgstr ""
 "end"
 
 #: A.06-minecraft.md:151
-#, fuzzy
 msgid ""
 "Now, whilst that's playing start changing the code. Change the block types - t"
 "ry `:water`, `:grass` or your favourite block type. Also, try changing the cut"
 "off value from `70` to `80` and then up to `100`. Isn't this fun?"
 msgstr ""
-"Maintenant pendant que ça joue commencez à modifier le code. Changez les types"
-" de bloc : essayez `:water`, `:grass` ou votre type de bloc préféré. Aussi, es"
-"sayez de changer la valeur de coupure de `70` à `80` puis jusque `100`. N'est-"
-"ce pas amusant ?"
+"Maintenant, pendant que ça joue, commencez à modifier le code. Changez les "
+"types de blocs - essayez `:water`, `:grass` ou votre type de bloc préféré. "
+"Essayez aussi de changer la valeur de coupure de `70` à `80` et puis jusqu'à "
+"`100`. C'est amusant, non ?"
 
 #: A.06-minecraft.md:158
-#, fuzzy
 msgid ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
 msgstr ""
-"![Ecran 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-smal"
-"l.png)"
+"![Écran 2](../images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
-#, fuzzy
 msgid ""
 "Let's combine everything we've seen so far with a little extra magic. Let's co"
 "mbine our teleportation ability with block placing and music to make a Minecra"
@@ -13496,11 +13491,11 @@ msgid ""
 "d have a play by changing some of the values whilst it's running live. Have fu"
 "n and see you next time..."
 msgstr ""
-"Rassemblons tout ce que nous avons vu jusqu'ici avec un peu de magie en plus. "
-"Combinons notre faculté de téléportation avec placement de blocs et la musique"
-" pour faire une vidéo de musique Minecraft. Ne vous inquiétez pas si vous ne c"
-"omprenez pas tout, tapez juste le code et jouez ensuite à modifier quelques-un"
-"es des valeurs pendant qu'il s'exécute. Amusez-vous bien et à la prochaine..."
+"Combinons tout ce qu'on a vu jusqu'ici avec un peu plus de magie. Combinons "
+"notre capacité de téléportation avec le placement des blocs et la musique "
+"pour créer une vidéo musicale Minecraft. Ne vous inquiétez pas si vous ne "
+"comprenez pas tout, tapez simplement le code et jouez en modifiant certaines "
+"des valeurs en cours d'exécution. Amusez-vous bien et à la prochaine fois...."
 
 #: A.06-minecraft.md:166
 #, no-wrap
