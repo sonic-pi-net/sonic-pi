@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-10-10 13:33+0000\n"
-"Last-Translator: Anderson Freitas B. da Silva <professor_imf@hotmail.com>\n"
+"PO-Revision-Date: 2018-11-19 11:09+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/pt/>\n"
 "Language: pt\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3186,9 +3186,9 @@ msgid ""
 "ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
 "t easily with the following code:"
 msgstr ""
-"Podemos usar vários filtros ao mesmo tempo. Se quisermos um exemplo em que o n"
-"ome do arquivo contenha tanto \"120\" como \"A#\",  podemos usar o seguinte código"
-":"
+"Podemos usar vários filtros ao mesmo tempo. Se quisermos um exemplo em que o "
+"nome do ficheiro contenha tanto \"120\" como \"A#\",  podemos usar o "
+"seguinte código:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -5442,9 +5442,9 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
-"Embora as variáveis ​​sejam ótimas para dar nomes às coisas e capturar os "
+"Embora as variáveis sejam ótimas para dar nomes às coisas e capturar os "
 "resultados das coisas, é importante saber que elas normalmente só devem ser "
-"usadas localmente em um segmento. Por exemplo, * não faça isso *:"
+"usadas localmente em um segmento. Por exemplo, *não faça isso*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
