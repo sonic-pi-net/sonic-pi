@@ -12,7 +12,7 @@
 %% notice is included.
 %% ++
 
--compile(export_all).
+-export([start/0, start/1]).
 
 %% Bundle Commands
 %% ===============
@@ -51,12 +51,15 @@
 %%  demand.
 
 %% Assumptions
+server_port() ->
+    '8014'.
 
-%% server_port() -> 8014.
+start() ->
+    start([server_port()]).
 
-start([ARGVPort|T]) ->
+start([ARGVPort|_T]) ->
     A = atom_to_list(ARGVPort),
-    {Port, Rest} = string:to_integer(A),
+    {Port, _Rest} = string:to_integer(A),
     S = self(),
     register(?MODULE, spawn(fun() -> go(S, Port) end)),
     receive
@@ -65,51 +68,49 @@ start([ARGVPort|T]) ->
     end.
 
 go(P, Port) ->
-
     {ok, Socket} = gen_udp:open(Port, [binary, {ip, loopback}]),
-    io:format("~n+--------------------------------+~n+ This is the Sonic Pi IO Server +~n+       Powered by Erlang        +~n+     Listening on port ~p     +~n+--------------------------------+~n~n~n",[Port]),
+    io:format("~n"
+              "+--------------------------------+~n"
+              "+ This is the Sonic Pi IO Server +~n"
+              "+       Powered by Erlang        +~n"
+              "+     Listening on port ~p     +~n"
+              "+--------------------------------+~n~n~n",
+              [Port]),
     P ! ack,
-    Monitor = spawn(fun() -> monitor() end),
     TagMap = #{},
-    loop(Socket, 1, Monitor, TagMap, {0,0}).
+    loop(Socket, 1, TagMap, {0,0}).
 
-monitor() ->
-    receive
-	alive ->
-	    monitor()
-    after infinity ->
-	    init:stop()
-    end.
-
-loop(Socket, N, Monitor, TagMap, Clock) ->
+loop(Socket, N, TagMap, Clock) ->
     receive
 	{udp, Socket, _Ip, _Port, Bin} ->
 	    case (catch osc:decode(Bin)) of
 		{bundle, Time, X} ->
 		    TagMap1 = do_bundle(TagMap, Socket, Time, X, Clock),
-		    loop(Socket, N, Monitor, TagMap1, Clock);
+		    loop(Socket, N, TagMap1, Clock);
 		{cmd, ["/flush", Tag]} ->
 		    TagMap1 = flush(Tag, TagMap),
-		    loop(Socket, N, Monitor, TagMap1, Clock);
+		    loop(Socket, N, TagMap1, Clock);
+		{cmd, ["/clock/sync", 0, 0]} ->
+		    loop(Socket, N+1, TagMap, {0,0});
 		{cmd, ["/clock/sync", X, Y]} ->
 		    RemoteTimeBase = X + Y/1000000000,
 		    MyTimeBase = osc:now(),
 		    Clock1 = {RemoteTimeBase, MyTimeBase},
 		    %% io:format("/clock/sync:~p ~p~n",[N, Clock1]),
-		    loop(Socket, N+1, Monitor, TagMap, Clock1);
+		    loop(Socket, N+1, TagMap, Clock1);
 		{cmd, XX} ->
 		    do_cmd(Socket, Clock, XX),
-		    loop(Socket, N+1, Monitor, TagMap, Clock);
+		    loop(Socket, N+1, TagMap, Clock);
 		{'EXIT', Why} ->
 		    io:format("Error decoding:~p ~p~n",[Bin, Why]),
-		    loop(Socket, N+1, Monitor, TagMap, Clock)
+		    loop(Socket, N+1, TagMap, Clock)
 	    end;
 	Any ->
 	    io:format("Any:~p~n",[Any]),
-	    loop(Socket, N+1, Monitor, TagMap, Clock)
+	    loop(Socket, N+1, TagMap, Clock)
     after 50000 ->
 	    io:format("udp server timeout:~p~n",[N]),
-	    loop(Socket, N+1, Monitor, TagMap, Clock)
+	    loop(Socket, N+1, TagMap, Clock)
     end.
 
 %%----------------------------------------------------------------------
@@ -131,7 +132,7 @@ do_bundle(TagMap, Socket, Time, [{_,B}], Clock) ->
     {cmd, Cmd} = osc:decode(B),
     %% io:format("bundle cmd:~p~n",[Cmd]),
     case Cmd of
-	["/send_after",Host,Port|Cmd1] ->
+	["/send_after", Host, Port | Cmd1] ->
 	    do_bundle("default", TagMap, Time, Clock, Socket, Host, Port, Cmd1);
 	["/send_after_tagged", Tag, Host, Port | Cmd1] ->
 	    do_bundle(Tag, TagMap, Time, Clock, Socket, Host, Port, Cmd1);
@@ -142,7 +143,7 @@ do_bundle(TagMap, Socket, Time, [{_,B}], Clock) ->
 
 %%----------------------------------------------------------------------
 %% do_bundle sees if there is a process in the TagMap
-%% and if so sends it a send_after message. Otherwise
+%% and if so sends it a send_later message. Otherwise
 %% it creates a new process and adds it to the tagmap
 
 do_bundle(Tag, TagMap, Time, Clock, Socket, Host, Port, Cmd1) ->
@@ -162,45 +163,35 @@ dispatcher(Tag) ->
     receive
 	{send_later, Time, Clock, Socket, Host, Port, Cmd1} ->
 	    spawn(fun() ->
-			       send_later(Tag, Time, Clock, Socket, Host, Port, Cmd1)
-		       end),
+                          send_later(Time, Clock, Socket, Host, Port, Cmd1)
+                  end),
 	    dispatcher(Tag)
     end.
 
-send_later(Tag, BundleTime, {_Tremote,_Tlocal}, Socket, Host, Port, Cmd) ->
-    %%io:format(Cmd),
-    %% io:format("In group:~p", [Tag]),
-    %% io:format("----"),
+send_later(BundleTime, {0,0}, Socket, Host, Port, Cmd) ->
+    send_later(BundleTime, Socket, Host, Port, Cmd);
+send_later(BundleTime, {Tremote, Tlocal}, Socket, Host, Port, Cmd) ->
+    RemoteDelay = BundleTime - Tremote,
+    LocalAbsTime = Tlocal + RemoteDelay,
+    send_later(LocalAbsTime, Socket, Host, Port, Cmd).
+
+send_later(BundleTime, Socket, Host, Port, Cmd) ->
     Bin = osc:encode(Cmd),
-    %% RemoteDelay = BundleTime - Tremote,
-    %% LocalAbsTime = Tlocal + RemoteDelay,
     RealDelay = BundleTime - osc:now(),
     MsDelay = trunc(RealDelay*1000+0.5), %% nearest
-    if
-        MsDelay >= 0 ->
-            sleep(MsDelay);
-        true ->
-            io:format("Ignoring negative sleep: ~p~n", [MsDelay])
-    end,
+    sleep(MsDelay),
+    %% io:format("Sending to ~p:~p => ~p~n",[Host, Port, Cmd]),
     ok = gen_udp:send(Socket, Host, Port, Bin).
-    %% io:format("Group (~p) Sending to ~p:~p => ~p~n",[Tag,Host, Port, Cmd]).
 
-%% send_later(BundleTime, {Tremote,Tlocal}, Socket, Host, Port, Cmd) ->
-%%     Bin = osc:encode(Cmd),
-%%     RemoteDelay = BundleTime - Tremote,
-%%     LocalAbsTime = Tlocal + RemoteDelay,
-%%     RealDelay = LocalAbsTime - osc:now(),
-%%     MsDelay = trunc(RealDelay*1000+0.5), %% nearest
-%%     sleep(MsDelay),
-%%     ok = gen_udp:send(Socket, Host, Port, Bin),
-%%     io:format("Sending to ~p:~p => ~p~n",[Host, Port, Cmd]).
-
-sleep(T) ->
+sleep(T) when T > 0 ->
     receive
-	after
-	    T ->
-		true
-	end.
+    after
+        T ->
+            true
+    end;
+sleep(T) ->
+    io:format("Ignoring zero or negative sleep: ~p~n", [T]),
+    true.
 
 do_cmd(_Socket, _Clock, Cmd) ->
     io:format("Cannot do:~p~n",[Cmd]).
