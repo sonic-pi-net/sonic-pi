@@ -212,6 +212,13 @@ void Scope::resume() {
   paused = false;
 }
 
+void Scope::setColor(QColor c) {
+  for( auto scope : panels )
+  {
+    scope->setPen(QPen(c, 2));
+  }
+}
+
 void Scope::resetScope()
 {
   shmClient.reset(new server_shared_memory_client(scsynthPort));

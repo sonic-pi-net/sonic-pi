@@ -83,7 +83,6 @@ public:
 
     SonicPiOSCServer *sonicPiOSCServer;
     enum {UDP=0, TCP=1};
-    QCheckBox *dark_mode;
     bool loaded_workspaces;
 
 protected:
@@ -331,7 +330,12 @@ private:
     QCheckBox *midi_enable_check;
     QCheckBox *osc_public_check;
     QCheckBox *osc_server_enabled_check;
-    QCheckBox *pro_icons_check;
+
+    QCheckBox *lightModeCheck;
+    QCheckBox *darkModeCheck;
+    QCheckBox *lightProModeCheck;
+    QCheckBox *darkProModeCheck;
+    QCheckBox *highContrastModeCheck;
 
     QSignalMapper *scopeSignalMap;
 //    QCheckBox *show_left_scope;
@@ -359,7 +363,7 @@ private:
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
-    QString sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path, port_discovery_path, qt_app_theme_path, qt_browser_dark_css, qt_browser_light_css;
+  QString sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path, port_discovery_path, qt_app_theme_path, qt_browser_dark_css, qt_browser_light_css, qt_browser_hc_css;
     QString defaultTextBrowserStyle;
 
     QString version;
@@ -438,7 +442,25 @@ private:
           default_dark_help_icon,
           default_dark_help_toggled_icon,
           default_dark_prefs_icon,
-          default_dark_prefs_toggled_icon;
+          default_dark_prefs_toggled_icon,
+          default_hc_run_icon,
+          default_hc_stop_icon,
+          default_hc_save_icon,
+          default_hc_load_icon,
+          default_hc_rec_icon,
+          default_hc_rec_a_icon,
+          default_hc_rec_b_icon,
+          default_hc_size_up_icon,
+          default_hc_size_down_icon,
+          default_hc_scope_icon,
+          default_hc_scope_toggled_icon,
+          default_hc_info_icon,
+          default_hc_info_toggled_icon,
+          default_hc_help_icon,
+          default_hc_help_toggled_icon,
+          default_hc_prefs_icon,
+          default_hc_prefs_toggled_icon;
+
 
 };
 

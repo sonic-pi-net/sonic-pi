@@ -38,6 +38,24 @@
         <file>images/toolbar/default/light-prefs.png</file>
         <file>images/toolbar/default/light-prefs-toggled.png</file>
 
+        <file>images/toolbar/default/hc-run.png</file>
+        <file>images/toolbar/default/hc-stop.png</file>
+        <file>images/toolbar/default/hc-save.png</file>
+        <file>images/toolbar/default/hc-load.png</file>
+        <file>images/toolbar/default/hc-rec.png</file>
+        <file>images/toolbar/default/hc-rec-a.png</file>
+        <file>images/toolbar/default/hc-rec-b.png</file>
+        <file>images/toolbar/default/hc-size-up.png</file>
+        <file>images/toolbar/default/hc-size-down.png</file>
+        <file>images/toolbar/default/hc-scope.png</file>
+        <file>images/toolbar/default/hc-scope-toggled.png</file>
+        <file>images/toolbar/default/hc-info.png</file>
+        <file>images/toolbar/default/hc-info-toggled.png</file>
+        <file>images/toolbar/default/hc-help.png</file>
+        <file>images/toolbar/default/hc-help-toggled.png</file>
+        <file>images/toolbar/default/hc-prefs.png</file>
+        <file>images/toolbar/default/hc-prefs-toggled.png</file>
+
 
         <file>images/toolbar/pro/run.png</file>
         <file>images/toolbar/pro/stop.png</file>

@@ -139,7 +139,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   setLexer((QsciLexer *)lexer);
 
   markerDefine(RightArrow, 8);
-  setMarkerBackgroundColor("deeppink", 8);
+  setMarkerBackgroundColor(theme->color("MarkerBackground"), 8);
 
   setAutoCompletionThreshold(1);
   setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
@@ -172,7 +172,7 @@ void SonicPiScintilla::redraw(){
 
 void SonicPiScintilla::highlightAll(){
   mutex->lock();
-  setCaretLineBackgroundColor("deeppink");
+  setSelectionBackgroundColor(theme->color("SelectionBackground"));
   mutex->unlock();
 }
 

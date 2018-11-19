@@ -1,0 +1,216 @@
+body {
+  font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Liberation Sans;
+  font-size: large;
+  color: #2B2B2B;
+  background-color: white;
+}
+
+ul.toc {
+  list-style-type: none;
+}
+
+a {
+  color: #003CC7;
+  text-decoration: none;
+}
+
+em {
+  color: #4F4303;
+}
+
+.asciilogo {
+    font-size: medium;
+    color: #99004A;
+}
+
+
+.highlight {
+    color: #99004A;
+}
+
+.error_description {
+    font-size: medium;
+    background-color: #99004A;
+    color: white;
+}
+
+.syntax_error_description {
+    font-size: medium;
+    background-color: #003CC7;
+    color: white;
+}
+
+
+.backtrace {
+    font-size: small;
+    color: #5e5e5e;
+}
+
+.error_line {
+    font-size: large;
+    color: #5e5e5e;
+}
+
+.error_msg {
+    font-size: large;
+    color: #99004A;
+}
+
+pre {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+code {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+    color: #99004A;
+}
+
+code .symbol {
+  color: #99004A;
+}
+
+code .number {
+  color: #003CC7;
+}
+
+code .keyword {
+  color: #4F4303;
+}
+
+code .info {
+  color: gray;
+}
+
+.version {
+  font-size: small;
+}
+
+.strapline {
+  font-size: large;
+}
+
+.usage {
+    /* placeholder */
+}
+
+.usage code {
+  font-size: large;
+  color: black;
+  background-color: white;
+}
+
+h1 {
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: #99004A;
+}
+
+h2 {
+  font-size: x-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: #003CC7;
+}
+
+body.info {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+body.info a {
+  color: #99004A;
+}
+
+body.example code {
+  font-size: large;
+  color: #003CC7;
+}
+
+body.manual .introduced {
+  color: #4F4303;
+  font-size: medium;
+}
+
+body.manual table.arguments td {
+    font-size: medium;
+    padding: 2px;
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+body.manual table.arguments td.odd,
+body.manual table.arguments td.odd a {
+  background-color: white;
+  color: #2b2b2b;
+}
+
+body.manual table.arguments td.even,
+body.manual table.arguments td.even a {
+  background-color: black;
+  color: white;
+}
+
+body.manual table.details td {
+  padding: 8px;
+}
+
+body.manual table.details td.key {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+  font-size: large;
+}
+
+body.manual table.details td.odd {
+    background-color: white;
+    colour: black;
+}
+
+body.manual table.details td.even {
+    background-color: #f8f8f8;
+    color: black;
+}
+
+body.manual table.details td.odd.key {
+    background-color: black;
+    color: white;
+}
+
+body.manual table.details td.even.key {
+    background-color: #2b2b2b;
+    color: white;
+}
+
+body.manual table.details .properties {
+  font-size: medium;
+  font-style: italic;
+}
+
+body.manual table.examples td {
+  padding: 8px;
+}
+
+body.manual table.examples code {
+  color: #5e5e5e;
+  font-size: medium;
+}
+
+body.manual table.examples td.odd {
+    background-color: #f8f8f8;
+    color: black;
+}
+
+body.manual table.examples td.even {
+    background-color: #e8e8e8;
+    color: black;
+}
+
+body.manual table.examples td.odd.head {
+    background-color: #003cc7;
+    color: white;
+}
+
+body.manual table.examples td.even.head {
+
+    background-color: #003cc7;
+    color: white;
+}

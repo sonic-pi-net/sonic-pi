@@ -69,6 +69,7 @@
 #include <QSignalMapper>
 #include <QSplitter>
 #include <QComboBox>
+#include <QButtonGroup>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -156,6 +157,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   qt_browser_dark_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/dark/doc-styles.css");
   qt_browser_light_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/light/doc-styles.css");
+  qt_browser_hc_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/high_contrast/doc-styles.css");
 
   QDir logDir(log_path);
   logDir.mkpath(logDir.absolutePath());
@@ -414,6 +416,24 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   default_dark_help_toggled_icon = QIcon(":/images/toolbar/default/dark-help-toggled.png");
   default_dark_prefs_icon = QIcon(":/images/toolbar/default/dark-prefs.png");
   default_dark_prefs_toggled_icon = QIcon(":/images/toolbar/default/dark-prefs-toggled.png");
+
+      default_hc_run_icon = QIcon(":/images/toolbar/default/hc-run.png");
+  default_hc_stop_icon = QIcon(":/images/toolbar/default/hc-stop.png");
+  default_hc_save_icon = QIcon(":/images/toolbar/default/hc-save.png");
+  default_hc_load_icon = QIcon(":/images/toolbar/default/hc-load.png");
+  default_hc_rec_icon = QIcon(":/images/toolbar/default/hc-rec.png");
+  default_hc_rec_a_icon = QIcon(":/images/toolbar/default/hc-rec-a.png");
+  default_hc_rec_b_icon = QIcon(":/images/toolbar/default/hc-rec-b.png");
+  default_hc_size_up_icon = QIcon(":/images/toolbar/default/hc-size-up.png");
+  default_hc_size_down_icon = QIcon(":/images/toolbar/default/hc-size-down.png");
+  default_hc_scope_icon = QIcon(":/images/toolbar/default/hc-scope.png");
+  default_hc_scope_toggled_icon = QIcon(":/images/toolbar/default/hc-scope-toggled.png");
+  default_hc_info_icon = QIcon(":/images/toolbar/default/hc-info.png");
+  default_hc_info_toggled_icon = QIcon(":/images/toolbar/default/hc-info-toggled.png");
+  default_hc_help_icon = QIcon(":/images/toolbar/default/hc-help.png");
+  default_hc_help_toggled_icon = QIcon(":/images/toolbar/default/hc-help-toggled.png");
+  default_hc_prefs_icon = QIcon(":/images/toolbar/default/hc-prefs.png");
+  default_hc_prefs_toggled_icon = QIcon(":/images/toolbar/default/hc-prefs-toggled.png");
 
 
   setupWindowStructure();
@@ -1495,8 +1515,6 @@ void MainWindow::initPrefsWindow() {
   show_log->setChecked(true);
   show_incoming_osc_log->setChecked(true);
   show_buttons = new QCheckBox(tr("Show buttons"));
-  pro_icons_check = new QCheckBox(tr("Pro Icons"));
-  pro_icons_check->setToolTip(tr("Toggle Pro Icons - switch between the default\n and a more minimalistic icon set."));
   show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
   show_buttons->setChecked(true);
   show_tabs = new QCheckBox(tr("Show tabs"));
@@ -1504,34 +1522,57 @@ void MainWindow::initPrefsWindow() {
   show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
   full_screen = new QCheckBox(tr("Full screen"));
   full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
-  dark_mode = new QCheckBox(tr("Dark mode"));
-  dark_mode->setToolTip(tooltipStrShiftMeta('M', tr("Toggle dark mode.")) + QString(tr("\nDark mode is perfect for live coding in night clubs.")));
+  connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
+  QButtonGroup *colourModeButtonGroup = new QButtonGroup(this);
+
+  lightModeCheck = new QCheckBox(tr("Light"));
+  darkModeCheck = new QCheckBox(tr("Dark"));
+  lightProModeCheck = new QCheckBox(tr("Pro Light"));
+  darkProModeCheck = new QCheckBox(tr("Pro Dark"));
+  highContrastModeCheck = new QCheckBox(tr("High Contrast"));
+  connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+  connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+  connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+  connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+  connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+  colourModeButtonGroup->addButton(lightModeCheck);
+  colourModeButtonGroup->addButton(darkModeCheck);
+  colourModeButtonGroup->addButton(darkProModeCheck);
+  colourModeButtonGroup->addButton(lightProModeCheck);
+  colourModeButtonGroup->addButton(highContrastModeCheck);
+
+  lightModeCheck->setChecked(true);
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
   connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
   connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateIncomingOscLogVisibility()));
   connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
   connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
   connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
-  connect(dark_mode, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-  connect(pro_icons_check, SIGNAL(clicked()), this, SLOT(toggleIcons()));
+
 
   QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
   QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
   QVBoxLayout *automation_box_layout = new QVBoxLayout;
   QGridLayout *gridEditorPrefs = new QGridLayout;
+
   editor_display_box_layout->addWidget(show_line_numbers);
   editor_display_box_layout->addWidget(show_log);
   editor_display_box_layout->addWidget(show_incoming_osc_log);
   editor_display_box_layout->addWidget(show_buttons);
   editor_display_box_layout->addWidget(show_tabs);
-  editor_box_look_feel_layout->addWidget(dark_mode);
-  editor_box_look_feel_layout->addWidget(full_screen);
-  editor_box_look_feel_layout->addWidget(pro_icons_check);
+  editor_box_look_feel_layout->addWidget(lightModeCheck);
+  editor_box_look_feel_layout->addWidget(darkModeCheck);
+  editor_box_look_feel_layout->addWidget(lightProModeCheck);
+  editor_box_look_feel_layout->addWidget(darkProModeCheck);
+  editor_box_look_feel_layout->addWidget(highContrastModeCheck);
+
+
 
   editor_display_box->setLayout(editor_display_box_layout);
   editor_look_feel_box->setLayout(editor_box_look_feel_layout);
 
   automation_box_layout->addWidget(auto_indent_on_run);
+  automation_box_layout->addWidget(full_screen);
   automation_box->setLayout(automation_box_layout);
 
   gridEditorPrefs->addWidget(editor_display_box, 0, 0);
@@ -1649,7 +1690,6 @@ void MainWindow::initPrefsWindow() {
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
   enable_external_synths_cb->setChecked(settings.value("prefs/enable-external-synths", false).toBool());
   synth_trigger_timing_guarantees_cb->setChecked(settings.value("prefs/synth-trigger-timing-guarantees", false).toBool());
-  dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
 
@@ -1666,7 +1706,6 @@ void MainWindow::initPrefsWindow() {
   show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
   show_scopes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-scopes", true).toBool() ) );
   show_incoming_osc_log->setChecked( settings.value("prefs/show_incoming_osc_log", true).toBool());
-  pro_icons_check->setChecked( settings.value("prefs/toolbar/pro", false).toBool());
 
 
 
@@ -1865,7 +1904,7 @@ void MainWindow::runBufferIdx(int idx)
 
 void MainWindow::showError(QString msg) {
   QString style_sheet = "qrc:///html/styles.css";
-  if(dark_mode->isChecked()) {
+  if(darkModeCheck->isChecked() || darkProModeCheck->isChecked()) {
     style_sheet = "qrc:///html/dark_styles.css";
   }
   errorPane->clear();
@@ -2133,27 +2172,31 @@ void MainWindow::toggleScope()
 void MainWindow::scope()
 {
 
-  if (pro_icons_check->isChecked()) {
+  if (lightProModeCheck->isChecked() || darkProModeCheck->isChecked()) {
     if (show_scopes->isChecked()) {
         scopeAct->setIcon(pro_scope_bordered_icon);
       } else {
       scopeAct->setIcon(pro_scope_icon);
     }
 
-  } else {
-    if(dark_mode->isChecked()) {
+  } else if (darkModeCheck->isChecked()) {
       if (show_scopes->isChecked()) {
         scopeAct->setIcon(default_dark_scope_toggled_icon);
       } else {
         scopeAct->setIcon(default_dark_scope_icon);
       }
-    } else {
+  } else if (lightModeCheck->isChecked()) {
       if (show_scopes->isChecked()) {
         scopeAct->setIcon(default_light_scope_toggled_icon);
       } else {
         scopeAct->setIcon(default_light_scope_icon);
       }
-    }
+  } else if (highContrastModeCheck->isChecked()) {
+      if (show_scopes->isChecked()) {
+        scopeAct->setIcon(default_hc_scope_toggled_icon);
+      } else {
+        scopeAct->setIcon(default_hc_scope_icon);
+      }
   }
 
   if(show_scopes->isChecked()) {
@@ -2169,37 +2212,36 @@ void MainWindow::about()
   // Qt::Tool windows get closed automatically when app loses focus
   if(infoWidg->isVisible()) {
     infoWidg->hide();
-    if (pro_icons_check->isChecked()) {
-      if (dark_mode->isChecked()) {
-        infoAct->setIcon(pro_info_dark_icon);
-      } else {
-        infoAct->setIcon(pro_info_icon);
-      }
-    } else {
-      if (dark_mode->isChecked()) {
-        infoAct->setIcon(default_dark_info_icon);
-      } else {
-        infoAct->setIcon(default_light_info_icon);
-      }
+
+    if (darkProModeCheck->isChecked()) {
+      infoAct->setIcon(pro_info_dark_icon);
+    } else if (lightProModeCheck->isChecked()) {
+      infoAct->setIcon(pro_info_icon);
+    } else if (lightModeCheck->isChecked()) {
+      infoAct->setIcon(default_light_info_icon);
+    }  else if (darkModeCheck->isChecked()) {
+      infoAct->setIcon(default_dark_info_icon);
+    }  else if (highContrastModeCheck->isChecked()) {
+      infoAct->setIcon(default_hc_info_icon);
     }
 
   } else {
     infoWidg->raise();
     infoWidg->show();
-    if (pro_icons_check->isChecked()) {
-      if (dark_mode->isChecked()) {
-        infoAct->setIcon(pro_info_dark_bordered_icon);
-      } else {
-        infoAct->setIcon(pro_info_bordered_icon);
-      }
-    } else {
 
-      if (dark_mode->isChecked()) {
-        infoAct->setIcon(default_dark_info_toggled_icon);
-      } else {
+    if (darkProModeCheck->isChecked()) {
+        infoAct->setIcon(pro_info_dark_bordered_icon);
+    } else if (lightProModeCheck->isChecked()) {
+      infoAct->setIcon(pro_info_bordered_icon);
+    } else if (lightModeCheck->isChecked()) {
         infoAct->setIcon(default_light_info_toggled_icon);
-      }
+    }  else if (darkModeCheck->isChecked()) {
+      infoAct->setIcon(default_dark_info_toggled_icon);
+    }  else if (highContrastModeCheck->isChecked()) {
+      infoAct->setIcon(default_hc_info_toggled_icon);
+
     }
+
   }
 }
 
@@ -2209,26 +2251,39 @@ void MainWindow::help()
   if(docWidget->isVisible()) {
     hidingDocPane = true;
     docWidget->hide();
-    if (pro_icons_check->isChecked()) {
-      if (dark_mode->isChecked()) {
+    if (darkProModeCheck->isChecked()) {
         helpAct->setIcon(pro_help_dark_icon);
-      } else {
-        helpAct->setIcon(pro_help_icon);
-      }
+    } else if (lightProModeCheck->isChecked()) {
+      helpAct->setIcon(pro_help_icon);
+    } else if (lightModeCheck->isChecked()) {
+        helpAct->setIcon(default_light_help_icon);
+    }  else if (darkModeCheck->isChecked()) {
+      helpAct->setIcon(default_dark_help_icon);
+    }  else if (highContrastModeCheck->isChecked()) {
+      helpAct->setIcon(default_hc_help_icon);
+
     }
+
   } else {
     docWidget->show();
     if(!updated_dark_mode_for_help) {
       updateDarkMode();
       updated_dark_mode_for_help = true;
     }
-    if (pro_icons_check->isChecked()) {
-      if (dark_mode->isChecked()) {
+
+        if (darkProModeCheck->isChecked()) {
         helpAct->setIcon(pro_help_dark_bordered_icon);
-      } else {
-        helpAct->setIcon(pro_help_bordered_icon);
-      }
+    } else if (lightProModeCheck->isChecked()) {
+      helpAct->setIcon(pro_help_bordered_icon);
+    } else if (lightModeCheck->isChecked()) {
+        helpAct->setIcon(default_light_help_toggled_icon);
+    }  else if (darkModeCheck->isChecked()) {
+      helpAct->setIcon(default_dark_help_toggled_icon);
+    }  else if (highContrastModeCheck->isChecked()) {
+      helpAct->setIcon(default_hc_help_toggled_icon);
+
     }
+
   }
 }
 
@@ -2320,7 +2375,7 @@ void MainWindow::toggleScopeAxes()
 }
 
 void MainWindow::toggleDarkMode() {
-  dark_mode->toggle();
+  //  dark_mode->toggle();
   updateDarkMode();
 }
 
@@ -2335,173 +2390,212 @@ void MainWindow::updateLogAutoScroll() {
  }
 
 void MainWindow::toggleIcons() {
-  if (pro_icons_check->isChecked()) {
-
+  if (darkProModeCheck->isChecked()) {
     toolBar->setIconSize(QSize(30, 30));
-    if (dark_mode->isChecked()) {
-      runAct->setIcon(pro_run_icon);
-      stopAct->setIcon(pro_stop_icon);
-      saveAsAct->setIcon(pro_save_dark_icon);
-      loadFileAct->setIcon(pro_load_dark_icon);
-      recAct->setIcon(pro_rec_icon);
-      textIncAct->setIcon(pro_size_up_icon);
-      textDecAct->setIcon(pro_size_down_icon);
+    runAct->setIcon(pro_run_icon);
+    stopAct->setIcon(pro_stop_icon);
+    saveAsAct->setIcon(pro_save_dark_icon);
+    loadFileAct->setIcon(pro_load_dark_icon);
+    recAct->setIcon(pro_rec_icon);
+    textIncAct->setIcon(pro_size_up_icon);
+    textDecAct->setIcon(pro_size_down_icon);
 
-      if (show_scopes->isChecked()) {
-          scopeAct->setIcon(pro_scope_bordered_icon);
-        } else {
-        scopeAct->setIcon(pro_scope_icon);
-      }
-
-      if (infoWidg->isVisible()) {
-        infoAct->setIcon(pro_info_dark_bordered_icon);
-      } else {
-        infoAct->setIcon(pro_info_dark_icon);
-      }
-
-      if (docWidget->isVisible()) {
-        helpAct->setIcon(pro_help_dark_bordered_icon);
-      } else {
-        helpAct->setIcon(pro_help_dark_icon);
-      }
-
-      if (prefsWidget->isVisible()) {
-        prefsAct->setIcon(pro_prefs_dark_bordered_icon);
-      } else {
-        prefsAct->setIcon(pro_prefs_dark_icon);
-      }
+    if (show_scopes->isChecked()) {
+      scopeAct->setIcon(pro_scope_bordered_icon);
     } else {
-
-      runAct->setIcon(pro_run_icon);
-      stopAct->setIcon(pro_stop_icon);
-      saveAsAct->setIcon(pro_save_icon);
-      loadFileAct->setIcon(pro_load_icon);
-      recAct->setIcon(pro_rec_icon);
-
-      textIncAct->setIcon(pro_size_up_icon);
-      textDecAct->setIcon(pro_size_down_icon);
-
-      if (show_scopes->isChecked()) {
-          scopeAct->setIcon(pro_scope_bordered_icon);
-        } else {
-        scopeAct->setIcon(pro_scope_icon);
-      }
-
-
-      if (infoWidg->isVisible()) {
-        infoAct->setIcon(pro_info_bordered_icon);
-      } else {
-        infoAct->setIcon(pro_info_icon);
-      }
-
-      if (docWidget->isVisible()) {
-        helpAct->setIcon(pro_help_bordered_icon);
-      } else {
-        helpAct->setIcon(pro_help_icon);
-      }
-
-      if (prefsWidget->isVisible()) {
-        prefsAct->setIcon(pro_prefs_bordered_icon);
-      } else {
-        prefsAct->setIcon(pro_prefs_icon);
-      }
+      scopeAct->setIcon(pro_scope_icon);
     }
-  } else {
-    toolBar->setIconSize(QSize(84.6, 30.0));
-    if (dark_mode->isChecked()) {
-      // dark mode
-      runAct->setIcon(default_dark_run_icon);
-      stopAct->setIcon(default_dark_stop_icon);
-      saveAsAct->setIcon(default_dark_save_icon);
-      loadFileAct->setIcon(default_dark_load_icon);
-      recAct->setIcon(default_dark_rec_icon);
-      textIncAct->setIcon(default_dark_size_up_icon);
-      textDecAct->setIcon(default_dark_size_down_icon);
 
-      if (show_scopes->isChecked()) {
-          scopeAct->setIcon(default_dark_scope_toggled_icon);
-        } else {
-        scopeAct->setIcon(default_dark_scope_icon);
-      }
-
-      if (infoWidg->isVisible()) {
-        infoAct->setIcon(default_dark_info_toggled_icon);
-      } else {
-        infoAct->setIcon(default_dark_info_icon);
-      }
-
-      if (docWidget->isVisible()) {
-        helpAct->setIcon(default_dark_help_toggled_icon);
-      } else {
-        helpAct->setIcon(default_dark_help_icon);
-      }
-
-      if (prefsWidget->isVisible()) {
-        prefsAct->setIcon(default_dark_prefs_toggled_icon);
-      } else {
-        prefsAct->setIcon(default_dark_prefs_icon);
-      }
+    if (infoWidg->isVisible()) {
+      infoAct->setIcon(pro_info_dark_bordered_icon);
     } else {
-      // light mode
-      runAct->setIcon(default_light_run_icon);
-      stopAct->setIcon(default_light_stop_icon);
-      saveAsAct->setIcon(default_light_save_icon);
-      loadFileAct->setIcon(default_light_load_icon);
-      recAct->setIcon(default_light_rec_icon);
+      infoAct->setIcon(pro_info_dark_icon);
+    }
 
-      textIncAct->setIcon(default_light_size_up_icon);
-      textDecAct->setIcon(default_light_size_down_icon);
+    if (docWidget->isVisible()) {
+      helpAct->setIcon(pro_help_dark_bordered_icon);
+    } else {
+      helpAct->setIcon(pro_help_dark_icon);
+    }
 
-      if (show_scopes->isChecked()) {
-          scopeAct->setIcon(default_light_scope_toggled_icon);
-        } else {
-        scopeAct->setIcon(default_light_scope_icon);
-      }
+    if (prefsWidget->isVisible()) {
+      prefsAct->setIcon(pro_prefs_dark_bordered_icon);
+    } else {
+      prefsAct->setIcon(pro_prefs_dark_icon);
+    }
+  } else if (lightProModeCheck->isChecked()) {
+    toolBar->setIconSize(QSize(30, 30));
+    runAct->setIcon(pro_run_icon);
+    stopAct->setIcon(pro_stop_icon);
+    saveAsAct->setIcon(pro_save_icon);
+    loadFileAct->setIcon(pro_load_icon);
+    recAct->setIcon(pro_rec_icon);
+
+    textIncAct->setIcon(pro_size_up_icon);
+    textDecAct->setIcon(pro_size_down_icon);
+
+    if (show_scopes->isChecked()) {
+      scopeAct->setIcon(pro_scope_bordered_icon);
+    } else {
+      scopeAct->setIcon(pro_scope_icon);
+    }
 
 
-      if (infoWidg->isVisible()) {
-        infoAct->setIcon(default_light_info_toggled_icon);
-      } else {
-        infoAct->setIcon(default_light_info_icon);
-      }
+    if (infoWidg->isVisible()) {
+      infoAct->setIcon(pro_info_bordered_icon);
+    } else {
+      infoAct->setIcon(pro_info_icon);
+    }
 
-      if (docWidget->isVisible()) {
-        helpAct->setIcon(default_light_help_toggled_icon);
-      } else {
-        helpAct->setIcon(default_light_help_icon);
-      }
+    if (docWidget->isVisible()) {
+      helpAct->setIcon(pro_help_bordered_icon);
+    } else {
+      helpAct->setIcon(pro_help_icon);
+    }
 
-      if (prefsWidget->isVisible()) {
-        prefsAct->setIcon(default_light_prefs_toggled_icon);
-      } else {
-        prefsAct->setIcon(default_light_prefs_icon);
-      }
+    if (prefsWidget->isVisible()) {
+      prefsAct->setIcon(pro_prefs_bordered_icon);
+    } else {
+      prefsAct->setIcon(pro_prefs_icon);
+    }
+  } else if (darkModeCheck->isChecked()) {
+    toolBar->setIconSize(QSize(84.6, 30.0));
+    // dark mode
+    runAct->setIcon(default_dark_run_icon);
+    stopAct->setIcon(default_dark_stop_icon);
+    saveAsAct->setIcon(default_dark_save_icon);
+    loadFileAct->setIcon(default_dark_load_icon);
+    recAct->setIcon(default_dark_rec_icon);
+    textIncAct->setIcon(default_dark_size_up_icon);
+    textDecAct->setIcon(default_dark_size_down_icon);
+
+    if (show_scopes->isChecked()) {
+      scopeAct->setIcon(default_dark_scope_toggled_icon);
+    } else {
+      scopeAct->setIcon(default_dark_scope_icon);
+    }
+
+    if (infoWidg->isVisible()) {
+      infoAct->setIcon(default_dark_info_toggled_icon);
+    } else {
+      infoAct->setIcon(default_dark_info_icon);
+    }
+
+    if (docWidget->isVisible()) {
+      helpAct->setIcon(default_dark_help_toggled_icon);
+    } else {
+      helpAct->setIcon(default_dark_help_icon);
+    }
+
+    if (prefsWidget->isVisible()) {
+      prefsAct->setIcon(default_dark_prefs_toggled_icon);
+    } else {
+      prefsAct->setIcon(default_dark_prefs_icon);
+    }
+  } else if (lightModeCheck->isChecked())  {
+    toolBar->setIconSize(QSize(84.6, 30.0));
+    // light mode
+    runAct->setIcon(default_light_run_icon);
+    stopAct->setIcon(default_light_stop_icon);
+    saveAsAct->setIcon(default_light_save_icon);
+    loadFileAct->setIcon(default_light_load_icon);
+    recAct->setIcon(default_light_rec_icon);
+
+    textIncAct->setIcon(default_light_size_up_icon);
+    textDecAct->setIcon(default_light_size_down_icon);
+
+    if (show_scopes->isChecked()) {
+      scopeAct->setIcon(default_light_scope_toggled_icon);
+    } else {
+      scopeAct->setIcon(default_light_scope_icon);
+    }
+
+
+    if (infoWidg->isVisible()) {
+      infoAct->setIcon(default_light_info_toggled_icon);
+    } else {
+      infoAct->setIcon(default_light_info_icon);
+    }
+
+    if (docWidget->isVisible()) {
+      helpAct->setIcon(default_light_help_toggled_icon);
+    } else {
+      helpAct->setIcon(default_light_help_icon);
+    }
+
+    if (prefsWidget->isVisible()) {
+      prefsAct->setIcon(default_light_prefs_toggled_icon);
+    } else {
+      prefsAct->setIcon(default_light_prefs_icon);
+    }
+  } else if (highContrastModeCheck->isChecked())  {
+    // hc mode
+    toolBar->setIconSize(QSize(84.6, 30.0));
+    runAct->setIcon(default_hc_run_icon);
+    stopAct->setIcon(default_hc_stop_icon);
+    saveAsAct->setIcon(default_hc_save_icon);
+    loadFileAct->setIcon(default_hc_load_icon);
+    recAct->setIcon(default_hc_rec_icon);
+
+    textIncAct->setIcon(default_hc_size_up_icon);
+    textDecAct->setIcon(default_hc_size_down_icon);
+
+    if (show_scopes->isChecked()) {
+      scopeAct->setIcon(default_hc_scope_toggled_icon);
+    } else {
+      scopeAct->setIcon(default_hc_scope_icon);
+    }
+
+
+    if (infoWidg->isVisible()) {
+      infoAct->setIcon(default_hc_info_toggled_icon);
+    } else {
+      infoAct->setIcon(default_hc_info_icon);
+    }
+
+    if (docWidget->isVisible()) {
+      helpAct->setIcon(default_hc_help_toggled_icon);
+    } else {
+      helpAct->setIcon(default_hc_help_icon);
+    }
+
+    if (prefsWidget->isVisible()) {
+      prefsAct->setIcon(default_hc_prefs_toggled_icon);
+    } else {
+      prefsAct->setIcon(default_hc_prefs_icon);
     }
   }
+
 
 }
 
 void MainWindow::updateDarkMode(){
   SonicPiTheme *currentTheme = lexer->theme;
-
+  //Set css stylesheet for browser-like HTML widgets
+  QString css = "";
   // switch themes
-  if(dark_mode->isChecked()){
+  if (darkModeCheck->isChecked() || darkProModeCheck->isChecked()){
     currentTheme->darkMode();
-  } else {
+    css = readFile(qt_browser_dark_css);
+  } else if (darkProModeCheck->isChecked()){
+    currentTheme->darkMode();
+    css = readFile(qt_browser_dark_css);
+  } else if (lightModeCheck->isChecked()){
     currentTheme->lightMode();
+    css = readFile(qt_browser_light_css);
+  } else if (lightProModeCheck->isChecked()){
+    currentTheme->lightMode();
+    css = readFile(qt_browser_light_css);
+  } else if (highContrastModeCheck->isChecked()){
+    currentTheme->hcMode();
+    css = readFile(qt_browser_hc_css);
   }
 
   toggleIcons();
 
-  //Set css stylesheet for browser-like HTML widgets
-  QString css = "";
-  if(dark_mode->isChecked()) {
-    css = readFile(qt_browser_dark_css);
-  } else {
-    css = readFile(qt_browser_light_css);
-  }
   docPane->document()->setDefaultStyleSheet(css);
   docPane->reload();
+
   foreach(QTextBrowser* pane, infoPanes) {
     pane->document()->setDefaultStyleSheet(css);
     pane->reload();
@@ -2540,8 +2634,8 @@ void MainWindow::updateDarkMode(){
   p.setColor(QPalette::Midlight,        currentTheme->color("Midlight"));
   p.setColor(QPalette::Mid,             currentTheme->color("Mid"));
   p.setColor(QPalette::Dark,            currentTheme->color("Dark"));
-  p.setColor(QPalette::Link,            "deeppink");
-  p.setColor(QPalette::LinkVisited,     "deeppink");
+  p.setColor(QPalette::Link,            currentTheme->color("Link"));
+  p.setColor(QPalette::LinkVisited,     currentTheme->color("LinkVisited"));
 
   QApplication::setPalette(p);
 
@@ -2650,9 +2744,16 @@ void MainWindow::updateDarkMode(){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->setFrameShape(QFrame::NoFrame);
     ws->setStyleSheet(appStyling);
+
+    if (highContrastModeCheck->isChecked()) {
+      ws->setCaretWidth(8);
+    } else {
+      ws->setCaretWidth(5);
+    }
     ws->redraw();
   }
 
+  scopeInterface->setColor(currentTheme->color("scope"));
   lexer->unhighlightAll();
 }
 
@@ -2679,36 +2780,41 @@ void MainWindow::togglePrefs() {
 
 void MainWindow::updatePrefsIcon()
 {
-  if(pro_icons_check->isChecked()) {
-    if(prefsWidget->isVisible()) {
-      if (dark_mode->isChecked()) {
-        prefsAct->setIcon(pro_prefs_dark_bordered_icon);
-      } else {
-        prefsAct->setIcon(pro_prefs_bordered_icon);
-      }
-    } else {
-      if (dark_mode->isChecked()) {
-        prefsAct->setIcon(pro_prefs_dark_icon);
-      } else {
-        prefsAct->setIcon(pro_prefs_icon);
-      }
+  if(prefsWidget->isVisible()) {
+    if (darkProModeCheck->isChecked()) {
+      prefsAct->setIcon(pro_prefs_dark_bordered_icon);
+    } else if (lightProModeCheck->isChecked()) {
+      prefsAct->setIcon(pro_prefs_bordered_icon);
+    } else if (lightModeCheck->isChecked()) {
+      prefsAct->setIcon(default_light_prefs_toggled_icon);
+    }  else if (darkModeCheck->isChecked()) {
+      prefsAct->setIcon(default_dark_prefs_toggled_icon);
+    }  else if (highContrastModeCheck->isChecked()) {
+      prefsAct->setIcon(default_hc_prefs_toggled_icon);
+
     }
-  } else {
-    if(prefsWidget->isVisible()) {
-      if (dark_mode->isChecked()) {
-        prefsAct->setIcon(default_dark_prefs_toggled_icon);
-      } else {
-        prefsAct->setIcon(default_light_prefs_toggled_icon);
-      }
-    } else {
-      if (dark_mode->isChecked()) {
-        prefsAct->setIcon(default_dark_prefs_icon);
-      } else {
-        prefsAct->setIcon(default_light_prefs_icon);
-      }
+
+
+  }
+
+  else {
+
+    if (darkProModeCheck->isChecked()) {
+      prefsAct->setIcon(pro_prefs_dark_icon);
+    } else if (lightProModeCheck->isChecked()) {
+      prefsAct->setIcon(pro_prefs_icon);
+    } else if (lightModeCheck->isChecked()) {
+      prefsAct->setIcon(default_light_prefs_icon);
+    }  else if (darkModeCheck->isChecked()) {
+      prefsAct->setIcon(default_dark_prefs_icon);
+    }  else if (highContrastModeCheck->isChecked()) {
+      prefsAct->setIcon(default_hc_prefs_icon);
+
     }
+
   }
 }
+
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
@@ -3004,11 +3110,11 @@ void MainWindow::createInfoPane() {
 
 void MainWindow::toggleRecordingOnIcon() {
   show_rec_icon_a = !show_rec_icon_a;
-  if (pro_icons_check->isChecked()) {
+  if (darkProModeCheck->isChecked() || lightProModeCheck->isChecked()) {
     if(show_rec_icon_a) {
       recAct->setIcon(pro_rec_icon);
     } else {
-      if (dark_mode->isChecked()) {
+      if (darkProModeCheck->isChecked()) {
         recAct->setIcon(pro_rec_b_dark_icon);
       } else {
         recAct->setIcon(pro_rec_b_icon);
@@ -3016,16 +3122,20 @@ void MainWindow::toggleRecordingOnIcon() {
     }
   } else {
     if(show_rec_icon_a) {
-      if (dark_mode->isChecked()) {
+      if (darkModeCheck->isChecked()) {
         recAct->setIcon(default_dark_rec_a_icon);
-      } else {
+      } else if (lightModeCheck->isChecked()){
         recAct->setIcon(default_light_rec_a_icon);
+      } else if (highContrastModeCheck->isChecked()){
+        recAct->setIcon(default_hc_rec_a_icon);
       }
     } else {
-      if (dark_mode->isChecked()) {
+      if (darkModeCheck->isChecked()) {
         recAct->setIcon(default_dark_rec_b_icon);
-      } else {
+      } else if (lightModeCheck->isChecked()){
         recAct->setIcon(default_light_rec_b_icon);
+      } else if (highContrastModeCheck->isChecked()){
+        recAct->setIcon(default_hc_rec_b_icon);
       }
     }
   }
@@ -3034,26 +3144,30 @@ void MainWindow::toggleRecordingOnIcon() {
 void MainWindow::toggleRecording() {
   is_recording = !is_recording;
   if(is_recording) {
-    recAct->setStatusTip(tr("Stop Recording"));
-    recAct->setToolTip(tr("Stop Recording"));
+    updateAction(recAct, recSc, tr("Stop Recording"), tr("Stop Recording"));
+    // recAct->setStatusTip(tr("Stop Recording"));
+    // recAct->setToolTip(tr("Stop Recording"));
+    // recAct->setText(tr("Stop Recording"));
     rec_flash_timer->start(500);
     Message msg("/start-recording");
     msg.pushStr(guiID.toStdString());
     sendOSC(msg);
   } else {
     rec_flash_timer->stop();
-    recAct->setStatusTip(tr("Start Recording"));
-    recAct->setToolTip(tr("Start Recording"));
-    if (pro_icons_check->isChecked()) {
-        recAct->setIcon(pro_rec_icon);
-    } else {
-      if (dark_mode->isChecked()) {
-        recAct->setIcon(default_dark_rec_icon);
-      } else {
-        recAct->setIcon(default_light_rec_icon);
-      }
+    updateAction(recAct, recSc, tr("Start Recording"), tr("Start Recording"));
 
+
+    if (darkModeCheck->isChecked()) {
+      recAct->setIcon(default_dark_rec_icon);
+    } else if (lightModeCheck->isChecked()){
+      recAct->setIcon(default_light_rec_icon);
+    } else if (highContrastModeCheck->isChecked()){
+      recAct->setIcon(default_hc_rec_icon);
+    } else {
+      //default icon
+      recAct->setIcon(pro_rec_icon);
     }
+
     Message msg("/stop-recording");
     msg.pushStr(guiID.toStdString());
     sendOSC(msg);
@@ -3134,7 +3248,6 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
   settings.setValue("prefs/enable-external-synths", enable_external_synths_cb->isChecked());
   settings.setValue("prefs/synth-trigger-timing-guarantees", synth_trigger_timing_guarantees_cb->isChecked());
-  settings.setValue("prefs/dark-mode", dark_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
   settings.setValue("prefs/system-vol", system_vol_slider->value());
@@ -3157,7 +3270,6 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
   settings.setValue("prefs/scope/show-scopes", show_scopes->isChecked() );
   settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
-  settings.setValue("prefs/toolbar/pro", pro_icons_check->isChecked() );
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
@@ -3361,36 +3473,33 @@ void MainWindow::docScrollDown() {
 
 void MainWindow::helpVisibilityChanged() {
   statusBar()->showMessage(tr("help visibility changed..."), 2000);
-  if(pro_icons_check->isChecked()) {
-    if (docWidget->isVisible()) {
-      if (dark_mode->isChecked()) {
-        helpAct->setIcon(pro_help_dark_bordered_icon);
-      } else {
-        helpAct->setIcon(pro_help_bordered_icon);
-      }
-    } else {
-      if (dark_mode->isChecked()) {
-        helpAct->setIcon(pro_help_dark_icon);
-      } else {
-        helpAct->setIcon(pro_help_icon);
-      }
-    }
-  } else {
-    if (docWidget->isVisible()) {
-      if (dark_mode->isChecked()) {
-        helpAct->setIcon(default_dark_help_toggled_icon);
-      } else {
-        helpAct->setIcon(default_light_help_toggled_icon);
-      }
-    } else {
-      if (dark_mode->isChecked()) {
-        helpAct->setIcon(default_dark_help_icon);
-      } else {
-        helpAct->setIcon(default_light_help_icon);
-      }
-    }
-  }
 
+    if (docWidget->isVisible()) {
+      if (darkProModeCheck->isChecked()) {
+        helpAct->setIcon(pro_help_dark_bordered_icon);
+      } else if (lightProModeCheck->isChecked()) {
+        helpAct->setIcon(pro_help_bordered_icon);
+      } else if (lightModeCheck->isChecked()) {
+        helpAct->setIcon(default_light_help_toggled_icon);
+      }  else if (darkModeCheck->isChecked()) {
+        helpAct->setIcon(default_dark_help_toggled_icon);
+      }  else if (highContrastModeCheck->isChecked()) {
+        helpAct->setIcon(default_hc_help_toggled_icon);
+      }
+    } else {
+      if (darkProModeCheck->isChecked()) {
+        helpAct->setIcon(pro_help_dark_icon);
+      } else if (lightProModeCheck->isChecked()) {
+        helpAct->setIcon(pro_help_icon);
+      } else if (lightModeCheck->isChecked()) {
+        helpAct->setIcon(default_light_help_icon);
+      }  else if (darkModeCheck->isChecked()) {
+        helpAct->setIcon(default_dark_help_icon);
+      }  else if (highContrastModeCheck->isChecked()) {
+        helpAct->setIcon(default_hc_help_icon);
+
+      }
+    }
 }
 
 void MainWindow::tabNext() {

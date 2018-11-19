@@ -90,6 +90,7 @@ public:
   void resume();
   void resetScope();
   void refresh();
+  void setColor(QColor c);
 
 private slots:
   void drawLoop();
