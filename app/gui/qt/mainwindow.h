@@ -237,16 +237,18 @@ private:
     Qt::Modifier metaKeyModifier();
     QKeySequence shiftMetaKey(char key);
     QKeySequence ctrlMetaKey(char key);
+    QKeySequence ctrlShiftMetaKey(char key);
     QKeySequence ctrlKey(char key);
     char int2char(int i);
-    void setupAction(QAction *action, char key, QString tooltip,
-		     const char *slot);
+  void updateAction(QAction *action, QShortcut *sc, QString tooltip, QString desc);
     QString tooltipStrShiftMeta(char key, QString str);
     QString tooltipStrMeta(char key, QString str);
     QString readFile(QString name);
     QString rootPath();
 
     void addUniversalCopyShortcuts(QTextEdit *te);
+
+    QMenu *fileMenu, *editMenu, *windowMenu;
 
     QTcpSocket *clientSock;
     QFuture<void> osc_thread, server_thread;
@@ -296,17 +298,8 @@ private:
 
     QToolBar *toolBar;
 
-    QAction *runAct;
-    QAction *stopAct;
-    QAction *saveAsAct;
-    QAction *loadFileAct;
-    QAction *recAct;
-    QAction *textIncAct;
-    QAction *textDecAct;
-    QAction *scopeAct;
-    QAction *infoAct;
-    QAction *helpAct;
-    QAction *prefsAct;
+    QAction *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct;
+  QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;

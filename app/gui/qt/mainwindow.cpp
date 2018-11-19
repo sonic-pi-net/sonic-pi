@@ -2890,6 +2890,15 @@ QKeySequence MainWindow::ctrlMetaKey(char key)
 #endif
 }
 
+QKeySequence MainWindow::ctrlShiftMetaKey(char key)
+{
+#ifdef Q_OS_MAC
+  return QKeySequence(QString("Shift+Ctrl+Meta+%1").arg(key));
+#else
+  return QKeySequence(QString("Shift+Ctrl+alt+%1").arg(key));
+#endif
+}
+
 char MainWindow::int2char(int i){
   return '0' + i;
 }
@@ -2910,26 +2919,17 @@ char MainWindow::int2char(int i){
 #endif
 }
 
-
-// set tooltips, connect event handlers, and add shortcut if applicable
-void MainWindow::setupAction(QAction *action, char key, QString tooltip,
-			     const char *slot)
+void MainWindow::updateAction(QAction *action, QShortcut *sc, QString tooltip,  QString desc = "")
 {
-  QString shortcut, tooltipKey;
-  tooltipKey = tooltip;
-  if (key != 0) {
-    tooltipKey = tooltipStrMeta(key, tooltip);
+  QString shortcutDesc = sc->key().toString(QKeySequence::NativeText);
+  action->setToolTip(tooltip + " (" + shortcutDesc + ")");
+  if (desc == "")
+    {
+      action->setText(action->iconText() + "\t" + shortcutDesc);
+    } else {
+    action->setText(desc + "\t" + shortcutDesc);
   }
-
-  action->setToolTip(tooltipKey);
-  action->setStatusTip(tooltipKey);
-  connect(action, SIGNAL(triggered()), this, slot);
-
-  if (key != 0) {
-    // create a QShortcut instead of setting the QAction's shortcut
-    // so it will still be active with the toolbar hidden
-    new QShortcut(metaKey(key), this, slot);
-  }
+  action->setStatusTip(tooltip + " (" + shortcutDesc + ")");
 }
 
 void MainWindow::createShortcuts()
@@ -2947,76 +2947,80 @@ void MainWindow::createShortcuts()
   new QShortcut(QKeySequence("F12"),this, SLOT(toggleScopePaused()));
 }
 
-void MainWindow::createToolBar()
+void  MainWindow::createToolBar()
 {
   // Run
   runAct = new QAction(default_light_run_icon, tr("Run"), this);
-  setupAction(runAct, 'R', tr("Run the code in the current buffer"),
-	      SLOT(runCode()));
-  new QShortcut(QKeySequence(metaKeyModifier() + Qt::Key_Return), this, SLOT(runCode()));
+  runSc = new QShortcut(metaKey('R'), this, SLOT(runCode()));
+  updateAction(runAct, runSc, tr("Run the code in the current buffer"));
+  connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
   // Stop
   stopAct = new QAction(default_light_stop_icon, tr("Stop"), this);
-  setupAction(stopAct, 'S', tr("Stop all running code"), SLOT(stopCode()));
-
-  // Save
-  saveAsAct = new QAction(default_light_save_icon, tr("Save As..."), this);
-  QString saveFileDesc = tooltipStrShiftMeta('S', tr("Save current buffer as an external file"));
-  setupAction(saveAsAct, 0, saveFileDesc, SLOT(saveAs()));
-  saveAsAct->setToolTip(saveFileDesc);
-
-  // Load
-  loadFileAct = new QAction(default_light_load_icon, tr("Load"), this);
-  QString loadFileDesc = tooltipStrShiftMeta('O', tr("Load an external file in the current buffer"));
-  setupAction(loadFileAct, 0, loadFileDesc, SLOT(loadFile()));
-  loadFileAct->setToolTip(loadFileDesc);
+  stopSc = new QShortcut(metaKey('S'), this, SLOT(stopCode()));
+  updateAction(stopAct, stopSc, tr("Stop all running code"));
+  connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
 
   // Record
   recAct = new QAction(default_light_rec_icon, tr("Start Recording"), this);
-  setupAction(recAct, 0, tr("Start recording to WAV audio file"), SLOT(toggleRecording()));
+  recSc = new QShortcut(shiftMetaKey('R'), this, SLOT(toggleRecording()));
+  updateAction(recAct, recSc, tr("Start recording to a WAV audio file"));
+  connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
+
+  // Save
+  saveAsAct = new QAction(default_light_save_icon, tr("Save"), this);
+  saveAsSc = new QShortcut(shiftMetaKey('S'), this, SLOT(saveAs()));
+  updateAction(saveAsAct, saveAsSc, tr("Save current buffer as an external file"));
+  connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
+
+  // Load
+  loadFileAct = new QAction(default_light_load_icon, tr("Load"), this);
+  loadFileSc = new QShortcut(shiftMetaKey('O'), this, SLOT(loadFile()));
+  updateAction(loadFileAct, loadFileSc,  tr("Load an external file in the current buffer"));
+  connect(loadFileAct, SIGNAL(triggered()), this, SLOT(loadFile()));
 
   // Align
-  QAction *textAlignAct = new QAction(QIcon(":/images/align.png"),
-			     tr("Auto-Align Text"), this);
-  setupAction(textAlignAct, 'M', tr("Improve readability of code"), SLOT(beautifyCode()));
+  textAlignAct = new QAction(QIcon(":/images/align.png"),
+        		     tr("Auto-Align Text"), this);
+  textAlignSc = new QShortcut(metaKey('M'), this, SLOT(beautifyCode()));
+  updateAction(textAlignAct, textAlignSc, tr("Align code to improve readability"));
+  connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
 
   // Font Size Increase
-  QString sizeUpDesc = tooltipStrMeta('+', tr("Increase Text Size"));
-  textIncAct = new QAction(default_light_size_up_icon,
-                                    tr("Size Up"), this);
-  setupAction(textIncAct, 0, sizeUpDesc, SLOT(zoomCurrentWorkspaceIn()));
-  textIncAct->setToolTip(sizeUpDesc);
+  textIncAct = new QAction(default_light_size_up_icon, tr("Text Size Up"), this);
+  textIncSc = new QShortcut(metaKey('+'), this, SLOT(zoomCurrentWorkspaceIn()));
+  updateAction(textIncAct, textIncSc, tr("Increase Text Size"));
+  connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceIn()));
 
   // Font Size Decrease
-  QString sizeDownDesc = tooltipStrMeta('-', tr("Decrease Text Size"));
-  textDecAct = new QAction(default_light_size_down_icon,
-                                    tr("Size Down"), this);
-  setupAction(textDecAct, 0, sizeDownDesc, SLOT(zoomCurrentWorkspaceOut()));
-  textDecAct->setToolTip(sizeDownDesc);
+  textDecAct = new QAction(default_light_size_down_icon, tr("Text Size Down"), this);
+  textDecSc = new QShortcut(metaKey('-'), this, SLOT(zoomCurrentWorkspaceOut()));
+  updateAction(textDecAct, textDecSc, tr("Decrease Text Size"));
+  connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceOut()));
 
   // Scope
-  scopeAct = new QAction(default_light_scope_icon, tr("Scope"), this);
-  setupAction(scopeAct, 0, tr("Toggle the visibility of the audio oscilloscopes. "), SLOT(toggleScope()));
+  scopeAct = new QAction(default_light_scope_icon, tr("Toggle Scope"), this);
+  scopeSc = new QShortcut(metaKey('O'), this, SLOT(toggleScope()));
+  updateAction(scopeAct, scopeSc, tr("Decrease Text Size"));
+  connect(scopeAct, SIGNAL(triggered()), this, SLOT(toggleScope()));
 
-    // Info
-  infoAct = new QAction(default_light_info_icon, tr("Info"), this);
-  setupAction(infoAct, 0, tr("See information about Sonic Pi"),
-	      SLOT(about()));
+  // Info
+  infoAct = new QAction(default_light_info_icon, tr("Show Info"), this);
+  infoSc = new QShortcut(metaKey('1'), this, SLOT(about()));
+  updateAction(infoAct, infoSc, tr("See information about Sonic Pi"));
+  connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
-
-  // Help
-  helpAct = new QAction(default_light_help_icon, tr("Help"), this);
-  setupAction(helpAct, 'I', tr("Toggle the visibility of the help pane"), SLOT(help()));
+  // // Help
+  helpAct = new QAction(default_light_help_icon, tr("Toggle Help"), this);
+  helpSc = new QShortcut(metaKey('I'), this, SLOT(help()));
+  updateAction(helpAct, helpSc, tr("See information about Sonic Pi"));
+  connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
   // Preferences
-
-
-
-  prefsAct = new QAction(default_light_prefs_icon, tr("Prefs"), this);
-  setupAction(prefsAct, 'P', tr("Toggle the visibility of the preferences pane"),
-	      SLOT(togglePrefs()));
-
-
+  prefsAct = new QAction(default_light_prefs_icon, tr("Toggle Preferences"), this);
+  prefsSc = new QShortcut(metaKey('P'), this, SLOT(togglePrefs()));
+  updateAction(prefsAct, prefsSc, tr("Toggle the visibility of the preferences pane"));
+  connect(prefsAct, SIGNAL(triggered()), this, SLOT(togglePrefs()));
 
 
   QWidget *spacer = new QWidget();
@@ -3040,11 +3044,29 @@ void MainWindow::createToolBar()
   dynamic_cast<QToolButton*>(toolBar->widgetForAction(textDecAct))->setAutoRepeat(true);
   dynamic_cast<QToolButton*>(toolBar->widgetForAction(textIncAct))->setAutoRepeat(true);
 
-  //  toolBar->addAction(textAlignAct);
   toolBar->addAction(scopeAct);
   toolBar->addAction(infoAct);
   toolBar->addAction(helpAct);
   toolBar->addAction(prefsAct);
+
+  fileMenu = menuBar()->addMenu(tr("&File"));
+  fileMenu->addAction(runAct);
+  fileMenu->addAction(stopAct);
+  fileMenu->addAction(recAct);
+  fileMenu->addAction(saveAsAct);
+  fileMenu->addAction(loadFileAct);
+
+  editMenu = menuBar()->addMenu(tr("&Edit"));
+  editMenu->addAction(textIncAct);
+  editMenu->addAction(textDecAct);
+
+  windowMenu = menuBar()->addMenu(tr("&Window"));
+  windowMenu->addAction(scopeAct);
+  windowMenu->addAction(infoAct);
+  windowMenu->addAction(helpAct);
+  windowMenu->addAction(prefsAct);
+
+
 }
 
 QString MainWindow::readFile(QString name)
