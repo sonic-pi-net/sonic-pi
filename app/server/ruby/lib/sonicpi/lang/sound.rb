@@ -31,6 +31,39 @@ require_relative "../tuning"
 require_relative "../sample_loader"
 require_relative "support/docsystem"
 
+class SonicPi::Core::SPVector
+  def notes(*args)
+
+    note = lambda do |n, args|
+      # code copied from the notes fn in this namespace
+      case n
+      when Numeric
+        return n
+      when Symbol
+        return nil if(n == :r || n == :rest)
+      when NilClass
+        return nil
+      when Proc
+        return note(n.call, *args)
+      when Hash
+        raise "Unable to create a note from the Map: #{n.inspect}"
+      end
+
+      return SonicPi::Note.resolve_midi_note_without_octave(n) if args.empty?
+
+      args_h = resolve_synth_opts_hash_or_array(args)
+      octave = args_h[:octave]
+      if octave
+        SonicPi::Note.resolve_midi_note(n, octave)
+      else
+        SonicPi::Note.resolve_midi_note_without_octave(n)
+      end
+    end
+
+    self.map {|n| note.call(n, args) }
+  end
+end
+
 class Symbol
   def -(other)
     return self if (self == :r) || (self == :rest)
