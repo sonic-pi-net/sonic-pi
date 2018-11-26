@@ -12,7 +12,7 @@
 %% notice is included.
 %% ++
 
--export([start/0, start/1]).
+-export([start/1]).
 
 %% Bundle Commands
 %% ===============
@@ -49,13 +49,6 @@
 %%   To flush a tag, we just kill the process wioth exit(Pid, die) and
 %%   remove it from the tagmap. New processes in the tagmap are created on
 %%  demand.
-
-%% Assumptions
-server_port() ->
-    '8014'.
-
-start() ->
-    start([server_port()]).
 
 start([ARGVPort|_T]) ->
     A = atom_to_list(ARGVPort),
