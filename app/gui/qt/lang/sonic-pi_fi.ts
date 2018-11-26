@@ -527,12 +527,12 @@ to and from other programs or computers
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI portit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Listaa kaikki kytketyt MIDI-portit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
