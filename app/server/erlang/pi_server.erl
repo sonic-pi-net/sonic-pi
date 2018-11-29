@@ -47,8 +47,8 @@
 %%   This is a map of the form #{Name1 => Pid1, Name2 => Pid2, ...}
 %%   The processes Pid1, Pid2 etc. spawn_link the send_after processes
 %%   To flush a tag, we just kill the process wioth exit(Pid, die) and
-%%   remove it from the tagmap. New processes in the tagmap are created on
-%%  demand.
+%%   remove it from the tagmap. New processes in the tagmap are created
+%%   on demand.
 
 start([ARGVPort|_T]) ->
     A = atom_to_list(ARGVPort),
@@ -70,40 +70,49 @@ go(P, Port) ->
               "+--------------------------------+~n~n~n",
               [Port]),
     P ! ack,
+    Monitor = spawn(fun() -> monitor() end),
     TagMap = #{},
-    loop(Socket, 1, TagMap, {0,0}).
+    loop(Socket, 1, Monitor, TagMap).
 
-loop(Socket, N, TagMap, Clock) ->
+%%-------------------------------------------------------
+%% monitor
+%%   hangs forever just to keep the first process not to
+%%   exit if erlang was started from the shell.
+%%   Helps when debugging. It looks weird but don't worry.
+
+monitor() ->
+    receive
+	alive ->
+	    monitor()
+    after infinity ->
+	    init:stop()
+    end.
+
+%%-------------------------------------------------------
+
+loop(Socket, N, Monitor, TagMap) ->
     receive
 	{udp, Socket, _Ip, _Port, Bin} ->
 	    case (catch osc:decode(Bin)) of
 		{bundle, Time, X} ->
-		    TagMap1 = do_bundle(TagMap, Socket, Time, X, Clock),
-		    loop(Socket, N, TagMap1, Clock);
+		    TagMap1 = do_bundle(TagMap, Socket, Time, X),
+		    loop(Socket, N, Monitor, TagMap1);
 		{cmd, ["/flush", Tag]} ->
 		    TagMap1 = flush(Tag, TagMap),
-		    loop(Socket, N, TagMap1, Clock);
-		{cmd, ["/clock/sync", 0, 0]} ->
-		    loop(Socket, N+1, TagMap, {0,0});
-		{cmd, ["/clock/sync", X, Y]} ->
-		    RemoteTimeBase = X + Y/1000000000,
-		    MyTimeBase = osc:now(),
-		    Clock1 = {RemoteTimeBase, MyTimeBase},
-		    %% io:format("/clock/sync:~p ~p~n",[N, Clock1]),
-		    loop(Socket, N+1, TagMap, Clock1);
+		    loop(Socket, N, Monitor, TagMap1);
 		{cmd, XX} ->
-		    do_cmd(Socket, Clock, XX),
-		    loop(Socket, N+1, TagMap, Clock);
+		    do_cmd(Socket, XX),
+		    loop(Socket, N+1, Monitor, TagMap);
 		{'EXIT', Why} ->
 		    io:format("Error decoding:~p ~p~n",[Bin, Why]),
-		    loop(Socket, N+1, TagMap, Clock)
+		    loop(Socket, N+1, Monitor, TagMap)
 	    end;
 	Any ->
 	    io:format("Any:~p~n",[Any]),
-	    loop(Socket, N+1, TagMap, Clock)
+	    loop(Socket, N+1, Monitor, TagMap)
     after 50000 ->
 	    io:format("udp server timeout:~p~n",[N]),
-	    loop(Socket, N+1, TagMap, Clock)
+	    loop(Socket, N+1, Monitor, TagMap)
     end.
 
 %%----------------------------------------------------------------------
@@ -121,14 +130,14 @@ flush(Tag, TagMap) ->
 	    TagMap
     end.
 
-do_bundle(TagMap, Socket, Time, [{_,B}], Clock) ->
+do_bundle(TagMap, Socket, Time, [{_,B}]) ->
     {cmd, Cmd} = osc:decode(B),
     %% io:format("bundle cmd:~p~n",[Cmd]),
     case Cmd of
 	["/send_after", Host, Port | Cmd1] ->
-	    do_bundle("default", TagMap, Time, Clock, Socket, Host, Port, Cmd1);
+	    do_bundle("default", TagMap, Time, Socket, Host, Port, Cmd1);
 	["/send_after_tagged", Tag, Host, Port | Cmd1] ->
-	    do_bundle(Tag, TagMap, Time, Clock, Socket, Host, Port, Cmd1);
+	    do_bundle(Tag, TagMap, Time, Socket, Host, Port, Cmd1);
 	_ ->
 	    io:format("unexpected bundle:~p~n",[Cmd]),
 	    TagMap
@@ -139,34 +148,27 @@ do_bundle(TagMap, Socket, Time, [{_,B}], Clock) ->
 %% and if so sends it a send_later message. Otherwise
 %% it creates a new process and adds it to the tagmap
 
-do_bundle(Tag, TagMap, Time, Clock, Socket, Host, Port, Cmd1) ->
+do_bundle(Tag, TagMap, Time, Socket, Host, Port, Cmd1) ->
     case maps:find(Tag, TagMap) of
 	{ok, Pid} ->
-	    Pid ! {send_later, Time, Clock, Socket, Host, Port, Cmd1},
+	    Pid ! {send_later, Time, Socket, Host, Port, Cmd1},
 	    TagMap;
 	error ->
 	    %% no process so create a dispatcher
 	    %% and send it a message
 	    Pid = spawn(fun() -> dispatcher(Tag) end),
-	    Pid ! {send_later, Time, Clock, Socket, Host, Port, Cmd1},
+	    Pid ! {send_later, Time, Socket, Host, Port, Cmd1},
 	    maps:put(Tag, Pid, TagMap)
     end.
 
 dispatcher(Tag) ->
     receive
-	{send_later, Time, Clock, Socket, Host, Port, Cmd1} ->
+	{send_later, Time, Socket, Host, Port, Cmd1} ->
 	    spawn(fun() ->
-                          send_later(Time, Clock, Socket, Host, Port, Cmd1)
+                          send_later(Time, Socket, Host, Port, Cmd1)
                   end),
 	    dispatcher(Tag)
     end.
-
-send_later(BundleTime, {0,0}, Socket, Host, Port, Cmd) ->
-    send_later(BundleTime, Socket, Host, Port, Cmd);
-send_later(BundleTime, {Tremote, Tlocal}, Socket, Host, Port, Cmd) ->
-    RemoteDelay = BundleTime - Tremote,
-    LocalAbsTime = Tlocal + RemoteDelay,
-    send_later(LocalAbsTime, Socket, Host, Port, Cmd).
 
 send_later(BundleTime, Socket, Host, Port, Cmd) ->
     Bin = osc:encode(Cmd),
@@ -186,5 +188,5 @@ sleep(T) ->
     io:format("Ignoring zero or negative sleep: ~p~n", [T]),
     true.
 
-do_cmd(_Socket, _Clock, Cmd) ->
+do_cmd(_Socket, Cmd) ->
     io:format("Cannot do:~p~n",[Cmd]).
