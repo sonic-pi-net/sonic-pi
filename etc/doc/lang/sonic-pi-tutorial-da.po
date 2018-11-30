@@ -4,17 +4,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
+"PO-Revision-Date: 2018-12-01 22:09+0000\n"
+"Last-Translator: Mathias svendsen <htcteo@gmail.com>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"da/>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr ""
+msgstr "Velkommen til Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr ""
+msgstr "Velkommen min ven :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -23,6 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"Velkommen til Sonic Pi. Forhåbentligt flæder du dig lige så meget til at "
+"lave seje nye lyde, som jeg gør til at vise dig hvordan. Det bliver en "
+"rigtig *sjov* rejse, hvor du vil lære alt om musik, programmering, "
+"komposition, optræden og meget mere."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -33,6 +44,13 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
+"Men lad mig først inteoducere mig selv: jeg hedder  [Sam "
+"Aaron](http://twitter.com/samaaron) - ham fyren der har lavet Sonic Pi. Du "
+"kan finde mig på Twitter under navnet [@samaaron](http://twitter.com/"
+"samaaron), hvor jeg med glæde vil hilse på dig. Det kan også være at du viæ "
+"synes det er spændende at at se mere om mine [Live-kodning "
+"optrædener](http://facebook.com/livecodersamaaron) , hvor jeg koder i Sonic "
+"Pi foran publikum."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -40,6 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"Hvis du har nogle ideer til, hvordan Sonic Pi kan forbedres, så send dem i "
+"min retning - feedback hjælper så meget. Hvem ved, måske bliver din idé til "
+"den næste store feature!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -58,16 +79,16 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr ""
+msgstr "Okay, lad os komme igang..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 Live Kodning"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr ""
+msgstr "Live Kodning"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
