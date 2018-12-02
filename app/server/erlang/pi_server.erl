@@ -164,9 +164,9 @@ do_bundle(Tag, TagMap, Time, Socket, Host, Port, Cmd1) ->
 dispatcher(Tag) ->
     receive
 	{send_later, Time, Socket, Host, Port, Cmd1} ->
-	    spawn(fun() ->
-                          send_later(Time, Socket, Host, Port, Cmd1)
-                  end),
+	    spawn_link(fun() ->
+                               send_later(Time, Socket, Host, Port, Cmd1)
+                       end),
 	    dispatcher(Tag)
     end.
 
@@ -176,7 +176,13 @@ send_later(BundleTime, Socket, Host, Port, Cmd) ->
     MsDelay = trunc(RealDelay*1000+0.5), %% nearest
     sleep(MsDelay),
     %% io:format("Sending to ~p:~p => ~p~n",[Host, Port, Cmd]),
-    ok = gen_udp:send(Socket, Host, Port, Bin).
+    case gen_udp:send(Socket, Host, Port, Bin) of
+        ok ->
+            ok;
+        {error, Err} ->
+            io:format("Error ~p when sending to ~p:~p => ~p~n",
+                      [Err, Host, Port, Cmd])
+    end.
 
 sleep(T) when T > 0 ->
     receive
