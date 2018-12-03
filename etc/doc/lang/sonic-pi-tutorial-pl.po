@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-11-19 11:09+0000\n"
+"PO-Revision-Date: 2018-12-07 07:09+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.3-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -8939,6 +8939,10 @@ msgid ""
 " threads or live loops. For example, you could have one live loop setting info"
 "rmation and another one getting it:"
 msgstr ""
+"Podstawową korzyścią systemu Stanu Czasu (Time State) jest to, że może być "
+"on bezpiecznie używany pomiędzy różnymi wątkami oraz żywymi pętlami. Na "
+"przykład, możesz mieć jedną żywą pętlę, która ustawia pewną informację oraz "
+"inną, która ją wyciąga:"
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
