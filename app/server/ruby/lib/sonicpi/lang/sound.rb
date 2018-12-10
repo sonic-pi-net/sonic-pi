@@ -686,7 +686,10 @@ end"]
 
         # Don't use sample_duration as that is stretched to the current
         # bpm!
-        sd = sample_buffer(sample_name).duration
+        scaling = __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
+        __thread_locals.set(:sonic_pi_spider_arg_bpm_scaling, false)
+        sd = sample_duration(sample_name, *args)
+        __thread_locals.set(:sonic_pi_spider_arg_bpm_scaling, scaling)
         use_bpm(num_beats * (60.0 / sd))
       end
       doc name:           :use_sample_bpm,
