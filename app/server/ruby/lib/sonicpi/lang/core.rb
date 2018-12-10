@@ -3105,8 +3105,8 @@ Does not consume a random value from the stream. Therefore, multiple sequential 
   print rand_look(0.5) #=> will print a number like 0.375030517578125 to the output pane
   print rand_look(0.5) #=> will print the same number again
   print rand_look(0.5) #=> will print the same number again
-  print rand_(0.5) #=> will print a different random number
-  print rand_look(0.5) #=> will print the same number as the prevoius line again."
+  print rand(0.5) #=> will print a different random number
+  print rand_look(0.5) #=> will print the same number as the previous line again."
       ]
 
 
