@@ -1,6 +1,6 @@
 # Building Sonic Pi on macOS - the manual way
 
-** Note, you will have to modify the paths to point to the appropriate place(s) on your machine - both in terms of your equivalent to `~` (`/Users/sam` in this file) and the versions of the dependencies you install should there be more recent releases. **
+_Note, you will have to modify the paths to point to the appropriate place(s) on your machine - both in terms of your equivalent to `~` (`/Users/sam` in this file) and the versions of the dependencies you install should there be more recent releases._
 
 1. Download the latest version of Sonic Pi and install to `/Applications`
 2. Install the latest Qt (`5.12` at the time of writing) and install to a known location e.g. `~/Qt/5.12`
