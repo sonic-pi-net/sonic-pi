@@ -1963,9 +1963,10 @@ void MainWindow::runCode()
     beautifyCode();
   }
 
-  ws->highlightAll();
+  ws->highlightCurrentLine();
   lexer->highlightAll();
-  QTimer::singleShot(500, this, SLOT(unhighlightCode()));
+  QTimer::singleShot(500, lexer, SLOT(unhighlightAll()));
+  QTimer::singleShot(500, ws, SLOT(unhighlightCurrentLine()));
   ws->clearLineMarkers();
   resetErrorPane();
 
@@ -1991,14 +1992,6 @@ void MainWindow::runCode()
 
   statusBar()->showMessage(tr("Running Code..."), 1000);
 
-}
-
-void MainWindow::unhighlightCode()
-{
-  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
-  ws->unhighlightAll();
-
-  lexer->unhighlightAll();
 }
 
 void MainWindow::zoomCurrentWorkspaceIn()

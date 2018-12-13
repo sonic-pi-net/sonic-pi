@@ -170,13 +170,13 @@ void SonicPiScintilla::redraw(){
   mutex->unlock();
 }
 
-void SonicPiScintilla::highlightAll(){
+void SonicPiScintilla::highlightCurrentLine(){
   mutex->lock();
-  setSelectionBackgroundColor(theme->color("SelectionBackground"));
+  setCaretLineBackgroundColor(theme->color("SelectionBackground"));
   mutex->unlock();
 }
 
-void SonicPiScintilla::unhighlightAll(){
+void SonicPiScintilla::unhighlightCurrentLine(){
   mutex->lock();
   setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
   mutex->unlock();

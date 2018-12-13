@@ -62,8 +62,8 @@ class SonicPiScintilla : public QsciScintilla
     void deselect();
     void upcaseWordOrSelection();
     void downcaseWordOrSelection();
-    void highlightAll();
-    void unhighlightAll();
+    void highlightCurrentLine();
+    void unhighlightCurrentLine();
     void zoomFontIn();
     void zoomFontOut();
     void newLine();

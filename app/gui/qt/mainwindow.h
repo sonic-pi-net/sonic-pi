@@ -103,7 +103,6 @@ private slots:
     void changeTab(int id);
     QString asciiArtLogo();
     void printAsciiArtLogo();
-    void unhighlightCode();
     void runCode();
     void runBufferIdx(int idx);
     void update_mixer_invert_stereo();
