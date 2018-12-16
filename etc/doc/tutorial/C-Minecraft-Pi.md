@@ -45,6 +45,6 @@ want to use Sonic Pi's sound capabilities.
 ## API Support
 
 At this stage, Sonic Pi supports basic block and player manipulations
-which are detailed in Section 11.1. Support for event callbacks
+which are detailed in Section C.1. Support for event callbacks
 triggered by player interactions in the world is planned for a future
 release.
