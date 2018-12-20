@@ -1523,7 +1523,7 @@ void MainWindow::initPrefsWindow() {
   full_screen = new QCheckBox(tr("Full screen"));
   full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-  QButtonGroup *colourModeButtonGroup = new QButtonGroup(this);
+  colourModeButtonGroup = new QButtonGroup(this);
 
   lightModeCheck = new QCheckBox(tr("Light"));
   darkModeCheck = new QCheckBox(tr("Dark"));
@@ -1535,11 +1535,11 @@ void MainWindow::initPrefsWindow() {
   connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
   connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
   connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-  colourModeButtonGroup->addButton(lightModeCheck);
-  colourModeButtonGroup->addButton(darkModeCheck);
-  colourModeButtonGroup->addButton(darkProModeCheck);
-  colourModeButtonGroup->addButton(lightProModeCheck);
-  colourModeButtonGroup->addButton(highContrastModeCheck);
+  colourModeButtonGroup->addButton(lightModeCheck, 0);
+  colourModeButtonGroup->addButton(darkModeCheck, 1);
+  colourModeButtonGroup->addButton(lightProModeCheck, 2);
+  colourModeButtonGroup->addButton(darkProModeCheck, 3);
+  colourModeButtonGroup->addButton(highContrastModeCheck, 4);
 
   lightModeCheck->setChecked(true);
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
@@ -2368,7 +2368,12 @@ void MainWindow::toggleScopeAxes()
 }
 
 void MainWindow::toggleDarkMode() {
-  //  dark_mode->toggle();
+  int checkedId = colourModeButtonGroup->checkedId();
+  if(checkedId == (colourModeButtonGroup->buttons().size() - 1)) {
+    colourModeButtonGroup->button(0)->toggle();
+    } else {
+    colourModeButtonGroup->button(checkedId + 1)->toggle();
+  }
   updateDarkMode();
 }
 

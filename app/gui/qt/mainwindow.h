@@ -323,6 +323,7 @@ private:
     QCheckBox *osc_public_check;
     QCheckBox *osc_server_enabled_check;
 
+    QButtonGroup *colourModeButtonGroup;
     QCheckBox *lightModeCheck;
     QCheckBox *darkModeCheck;
     QCheckBox *lightProModeCheck;
