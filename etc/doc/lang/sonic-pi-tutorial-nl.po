@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-16 21:36+0000\n"
-"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
+"PO-Revision-Date: 2018-12-28 02:09+0000\n"
+"Last-Translator: wbk <wbk_wl@osba.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "nl/>\n"
 "Language: nl\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -8780,7 +8780,7 @@ msgstr ""
 "krijgt:"
 
 #: 10.1-Set-and-Get.md:74
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "{run: 0, time: 0.0}\n"
 " └─ 125.72265625\n"
@@ -8799,21 +8799,21 @@ msgid ""
 "{run: 0, time: 3.5}\n"
 " └─ 75.6048583984375"
 msgstr ""
-"{run: 0, time: 0.0}\n"
+"{run: 0, time: 0.0}##run: draai\n"
 " └─ 125.72265625\n"
-"{run: 0, time: 0.5}\n"
+"{run: 0, time: 0.5}##run: draai\n"
 " └─ 125.72265625\n"
-"{run: 0, time: 1.0}\n"
+"{run: 0, time: 1.0}##run: draai\n"
 " └─ 76.26220703125\n"
-"{run: 0, time: 1.5}\n"
+"{run: 0, time: 1.5}##run: draai\n"
 " └─ 76.26220703125\n"
-"{run: 0, time: 2.0}\n"
+"{run: 0, time: 2.0}##run: draai\n"
 " └─ 114.93408203125\n"
-"{run: 0, time: 2.5}\n"
+"{run: 0, time: 2.5}##run: draai\n"
 " └─ 114.93408203125\n"
-"{run: 0, time: 3.0}\n"
+"{run: 0, time: 3.0}##run: draai\n"
 " └─ 75.6048583984375\n"
-"{run: 0, time: 3.5}\n"
+"{run: 0, time: 3.5}##run: draai\n"
 " └─ 75.6048583984375"
 
 #: 10.1-Set-and-Get.md:100
@@ -8949,14 +8949,12 @@ msgstr ""
 "reproduceerbaar gedrag."
 
 #: 10.2-Sync.md:1
-#, fuzzy
 msgid "10.2 Sync"
-msgstr "10.2 Sync"
+msgstr "10.2 Sync (\"synchroniseer\")"
 
 #: 10.2-Sync.md:3
-#, fuzzy
 msgid "Sync"
-msgstr "Sync"
+msgstr "Sync (synchroniseren)"
 
 #: 10.2-Sync.md:5
 msgid ""
@@ -9009,13 +9007,17 @@ msgstr ""
 "set :bla, 1"
 
 #: 10.2-Sync.md:31
-#, fuzzy
 msgid ""
 "In this example first we create a thread which waits for a `:foo` event to be "
 "added to the Time State. After this thread declaration we sleep for 2 beats an"
 "d then `set` `:foo` to be `1`. This then releases the `sync` which then moves "
 "to the next line which is to trigger the `:ambi_lunar_land` sample."
-msgstr "foo"
+msgstr ""
+"In dit voorbeeld maken we eerst een draad die wacht op een ':foo'-"
+"gebeurtenis die toegevoegd wordt aan de Time State. Nadat we deze draad "
+"aangekondigd hebben, slapen we twee slagen en dan zetten we ('set') 'foo' op "
+"'1'. Dat zorgt er vervolgens voor dat de 'sync' vrijgegeven wordt zodat op "
+"de volgende regel het ':ambi_lunar_land'-stukje geactiveerd wordt."
 
 #: 10.2-Sync.md:37
 msgid ""
@@ -9024,10 +9026,15 @@ msgid ""
 "of the thread which triggered it via `set` or `cue` so it may also be used to "
 "sync time."
 msgstr ""
+"Let erop, dat 'sync' altijd wacht op *toekomstige* gebeurtenissen, en dat "
+"het de huidige draad blokkeert zolang die gebeurtenis nog niet opgetreden "
+"is. Bovendien erft het de logische tijd van de draad die hem geactiveerd "
+"heeft via de 'set' of 'cue', zodat het gebruikt kan worden om de tijd te "
+"synchroniseren."
 
 #: 10.2-Sync.md:42
 msgid "Passing values into the Future"
-msgstr ""
+msgstr "Doorgeven van waarde aan de toekomst"
 
 #: 10.2-Sync.md:44
 msgid ""
@@ -9062,17 +9069,22 @@ msgid ""
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
+"Let erop, dat waarde die via 'set' en 'cue' doorgegeven worden 'thread safe' "
+"moeten zijn. Dat wil zeggen dat de waarden niet opeens gewijzigd mogen "
+"kunnen worden. Voorbeelden van toegestane waardetypes zijn onveranderlijke "
+"tekenreeksen ('immutable strings'), getallen, symbolen of bevroren "
+"tekenreeksen ('frozen strings'). Sonic Pi geeft een foutmelding als je een "
+"waarde gebruikt die niet aan die voorwaarde voldoet."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
-msgstr ""
+msgstr "10.3 Patroonherkenning"
 
 #: 10.3-Pattern-Matching.md:3
 msgid "Pattern Matching"
-msgstr ""
+msgstr "Patroonherkenning"
 
 #: 10.3-Pattern-Matching.md:5
-#, fuzzy
 msgid ""
 "When getting and setting information into the Time State, it's possible to use"
 " more complex keys than basic symbols such as `:foo` and `:bar`. You can also "
@@ -9080,7 +9092,14 @@ msgid ""
 "king with paths, we can then start taking advantage of Sonic Pi's sophisticate"
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
-msgstr "foo"
+msgstr ""
+"Wanneer je informatie haalt ('get') van de Time State of gegevens in de Time "
+"State vastlegd ('set'), kun je ook complexere waarden gebruiken dan de "
+"basissymbolen zoals ':foo' en ':bar'. Je kan bijvoorbeeld paden in een URL-"
+"stijl gebruiken zoals '/foo/bar/baz'. Zodra we zulke paden gaan gebruiken, "
+"kunnen we voordeel halen uit de slimme patroonherkenning van Sonic Pi, zodat "
+"we met vergelijkbare ('similar') in plaats van precies gelijke ('identical') "
+"paden kunnen halen ('get') en synchroniseren ('sync'). Laten we eens kijken."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
