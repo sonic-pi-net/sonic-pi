@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-26 00:37+0000\n"
-"Last-Translator: David Romero <d-romero@live.com>\n"
+"PO-Revision-Date: 2018-12-28 02:09+0000\n"
+"Last-Translator: Martín Aguilar <martin2004sexyhola@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.2-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5620,9 +5620,8 @@ msgid "We'll look into controlling synths in more detail in a later section."
 msgstr "Veremos en más detalle cómo controlar los sintetizadores más tarde."
 
 #: 05.6-Variables.md:133
-#, fuzzy
 msgid "Warning: Variables and Threads"
-msgstr "Variables"
+msgstr "Advertencia: Variables e Hilos"
 
 #: 05.6-Variables.md:135
 msgid ""
