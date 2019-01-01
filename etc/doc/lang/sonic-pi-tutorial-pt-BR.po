@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-10-20 23:38+0000\n"
-"Last-Translator: Gerardo Soares <gerardonsoares@gmail.com>\n"
+"PO-Revision-Date: 2019-01-02 19:07+0000\n"
+"Last-Translator: RD WebDesign <weblate@rdwebdesign.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.3-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -30,9 +30,9 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Bem vindo ao Sonic Pi. Espero que esteja animado para começar a fazer sons "
-"malucos como eu estou para te mostrar eles. Isso vai ser um passeio "
-"realmente legal onde você irá aprender tudo sobre música, síntese, "
+"Bem vindo ao Sonic Pi. Espero que você esteja tão animado para começar a "
+"fazer sons malucos quanto eu estou para te mostrá-los. Isso vai ser um "
+"passeio realmente legal onde você irá aprender tudo sobre música, síntese, "
 "programação, composição, performance e mais."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
@@ -44,13 +44,13 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Mas calma, como sou rude! Deixe-me apresentar-me - Eu sou [Sam "
-"Aaron](http://twitter.com/samaaron) - O cara que criou o Sonic Pi. Você pode "
+"Mas espere, que rude da minha parte! Deixe eu me apresentar - Eu sou [Sam "
+"Aaron](http://twitter.com/samaaron) - o cara que criou o Sonic Pi. Você pode "
 "me encontrar no Twitter [@samaaron](http://twitter.com/samaaron) e estarei "
 "mais do que feliz em dizer um oi para você. Você também pode estar "
 "interessado em saber mais sobre minhas [Live Coding "
-"Performances](http://facebook.com/livecodersamaaron) onde eu programo ao "
-"vivo na frente do público."
+"Performances](http://facebook.com/livecodersamaaron) onde eu programo como o "
+"Sonic Pi ao vivo na frente do público."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -58,9 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Se tiver alguma dúvida ou ideias para melhorar o Sonic Pi - por favor nos "
-"diga - feedback sempre ajuda. Nunca se sabe, sua ideia pode se tornar uma "
-"grande nova função!"
+"Se tiver algum plano ou ideias para melhorar o Sonic Pi - por favor nos diga "
+"- feedback sempre ajuda. Nunca se sabe, sua ideia pode se tornar uma grande "
+"nova função!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -375,7 +375,7 @@ msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - Controles de Reprodução"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
@@ -488,10 +488,16 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"O Sonic Pi suporta várias preferências ajustáveis que podem ser acessadas "
+"alternando o botão *prefs* no conjunto de botões Informações e Ajuda. Isto "
+"irá alternara a visibilidade do Painel de Preferências que inclui várias "
+"opções que podem ser alteradas. Exemplos: forçar o modo mono, inverter "
+"stereo, alternar a verbosidade do log de saída e também um slider de volume "
+"e um seletor de áudio no Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. Visualizador de logs"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -500,10 +506,15 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
+"Quando você executa seu código, informações sobre o que o programa está "
+"fazendo serão exibidas no Visualizador do Log. Por padrão, você verá uma "
+"mensagem para cada som que você criou com o tempo exato em que o som foi "
+"disparado. Isto é muito útil para depurar seu código e entender o que seu "
+"código está fazendo."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
-msgstr ""
+msgstr "G. Sistema de Ajuda"
 
 #: 01.2-Exploring-the-Interface.md:73
 msgid ""
@@ -514,10 +525,16 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
+"Uma das partes mais importantes da interface do Sonic Pi é o sistema de "
+"ajuda que aparece na parte de baixo da janela. Ela pode ser ligada e "
+"desligada clicando no botão azul *Help*. O sistema de ajuda contem ajuda e "
+"informações sobre todos os aspectos do Sonic Pi, incluindo este tutorial, "
+"uma lista de sintetizadores, samples, exemplos, efeitos e uma lista com "
+"todas as funções que o Sonic Pi oferece para programar música."
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
-msgstr ""
+msgstr "H. Visualizador de Onda"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -531,14 +548,24 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"The visualizador de ondas permite que você veja o som que você está ouvindo. "
+"Você pode facilmente ver que a onda dente de serra parece com uma serra e "
+"que que o bip básico é uma curva senoidal. Você também pode ver a diferença "
+"entre sons intensos e calmos através dos tamanhos das linhas. Há 3 "
+"visualizações para trabalhar - a padrão mostra uma onda que combina os "
+"canais esquerdo e direito, há uma visualização stereo que mostra uma onda "
+"para cada canal. Finalmente há um visualizador de Curva de Lissajous que irá "
+"mostrar a relação de fase entre os canais esquerdo e direito e permite que "
+"você desenhe imagens bonitas com o som (https://pt.wikipedia.org/wiki/"
+"Curvas_de_Lissajous)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 Aprenda tocando"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr ""
+msgstr "Aprenda tocando"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
@@ -547,10 +574,14 @@ msgid ""
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
+"O Sonic Pi te incentiva a aprender tanto sobre computação quanto sobre "
+"música através da ação de tocar e da experimentação. A coisa mais importante "
+"é que você esteja se divertindo e, antes que você perceba, você terá "
+"aprendido acidentalmente como programar, compor e tocar."
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
-msgstr ""
+msgstr "Não existem erros"
 
 #: 01.3-Learning-through-Play.md:12
 msgid ""
@@ -568,7 +599,7 @@ msgstr ""
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr ""
+msgstr "Comece de forma simples"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -583,19 +614,19 @@ msgstr ""
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
-msgstr ""
+msgstr "Certifique-se de compartilhar seu trabalho com os outros!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr ""
+msgstr "2 Sintetizadores"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr ""
+msgstr "Sintetizadores"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr ""
+msgstr "OK, chega de introduções - vamos fazer alguns sons."
 
 #: 02-Synths.md:7
 msgid ""
@@ -620,16 +651,16 @@ msgstr "2.1 Seus primeiros Beeps"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr ""
+msgstr "Seus Primeiros Bips"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr ""
+msgstr "Veja o código a seguir:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -640,11 +671,11 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "Bip!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr ""
+msgstr "Intenso. Pressione outra vez. E outra vez. *E outra vez*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
@@ -653,18 +684,18 @@ msgid ""
 msgstr ""
 
 #: 02.1-Your-First-Beeps.md:23
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 75"
-msgstr ""
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
-msgstr ""
+msgstr "Consegue notar a diferença? Tente outro número:"
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr ""
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
@@ -687,7 +718,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
-msgstr ""
+msgstr "Acordes"
 
 #: 02.1-Your-First-Beeps.md:48
 msgid ""
@@ -712,7 +743,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:61
 msgid "Melody"
-msgstr ""
+msgstr "Melodia"
 
 #: 02.1-Your-First-Beeps.md:63
 msgid ""
