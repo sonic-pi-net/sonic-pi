@@ -2999,7 +2999,7 @@ void  MainWindow::createToolBar()
   // Scope
   scopeAct = new QAction(default_light_scope_icon, tr("Toggle Scope"), this);
   scopeSc = new QShortcut(metaKey('O'), this, SLOT(toggleScope()));
-  updateAction(scopeAct, scopeSc, tr("Decrease Text Size"));
+  updateAction(scopeAct, scopeSc, tr("Toggle Visibility Scope"));
   connect(scopeAct, SIGNAL(triggered()), this, SLOT(toggleScope()));
 
   // Info
