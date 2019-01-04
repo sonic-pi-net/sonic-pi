@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-01-02 19:07+0000\n"
+"PO-Revision-Date: 2019-01-05 21:07+0000\n"
 "Last-Translator: RD WebDesign <weblate@rdwebdesign.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
@@ -49,7 +49,7 @@ msgstr ""
 "me encontrar no Twitter [@samaaron](http://twitter.com/samaaron) e estarei "
 "mais do que feliz em dizer um oi para você. Você também pode estar "
 "interessado em saber mais sobre minhas [Live Coding "
-"Performances](http://facebook.com/livecodersamaaron) onde eu programo como o "
+"Performances](http://facebook.com/livecodersamaaron) onde eu programo com o "
 "Sonic Pi ao vivo na frente do público."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
@@ -371,7 +371,7 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+msgstr "![Interface do Sonic Pi](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -596,6 +596,16 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
+"Ainda sobre este assunto, deixe-me te dar um um conselho que eu aprendi ao "
+"longo dos meus anos de Live Coding com música - *não existem erros, somente "
+"oportunidades*. Isso é algo que ouvi bastante em relação ao jazz, mas "
+"funciona igualmente com Live Coding. Não importa o quão experiente você seja "
+"- desde um iniciante até um *Algoraver* experiente - as vezes você irá "
+"executar um código que irá gerar um resultado completamente inesperado, que "
+"irá soar insanamente legal - e neste, continue com ele. Entretanto, pode "
+"soar totalmente dissonante e fora de contexto. Não importa que isso aconteça "
+"- o que importa é que o que você irá fazer com isso. Pegue o som, malipule-o "
+"e transforme-o em algo maravilhoso. A multidão irá à *loucura*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -658,7 +668,7 @@ msgid "Take a look at the following code:"
 msgstr "Veja o código a seguir:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 70"
 msgstr "play 70"
 
@@ -684,7 +694,7 @@ msgid ""
 msgstr ""
 
 #: 02.1-Your-First-Beeps.md:23
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 75"
 msgstr "play 75"
 
@@ -1361,38 +1371,47 @@ msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
+"Você pode utilizar múltiplas opções ao mesmo tempo. Por exemplo, para um "
+"ataque curto e repouso longo, tente:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
 msgid "play 60, attack: 0.7, release: 4"
-msgstr ""
+msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
 msgstr ""
+"Este envelopamento (ataque curto e repouso longo) é ilustrado no seguinte "
+"diagrama:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
 msgstr ""
+"![envelope de ataque e repouso](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
 msgstr ""
+"Claro que você pode inverter as coisas. Tente um ataque longo e repouso "
+"curto:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr ""
+msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![envelope ataque longo repouso curto](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -5832,7 +5851,7 @@ msgstr ""
 
 #: 09-Live-Coding.md:1
 msgid "9 Live Coding"
-msgstr ""
+msgstr "9. Live Coding (Programação ao vivo)"
 
 #: 09-Live-Coding.md:5
 msgid ""
@@ -5843,20 +5862,28 @@ msgid ""
 "t). However, the main advantage is that you can take Sonic Pi on stage and gig"
 " with it."
 msgstr ""
+"Um dos aspectos mais empolgantes do Sonic Pi é que ele te permite escrever e "
+"modificar código ao vivo para criar música, da mesma forma que você pode se "
+"apresentar ao vivo com uma guitarra. Uma vantagem desta abordagem é te dar "
+"mais feedback durante a composição (deixar um loop simples executando e "
+"continuar ajustando-o até que ele soe perfeitamente). Entretanto, a maior "
+"vantagem é que você pode levar o Sonic Pi para o palco e tocar com ele."
 
 #: 09-Live-Coding.md:12
 msgid ""
 "In this section we'll cover the fundamentals of turning your static code compo"
 "sitions into dynamic performances."
 msgstr ""
+"Nesta seção cobriremos os fundamentos para tornar suas composições de código "
+"estático em performances dinâmicas."
 
 #: 09-Live-Coding.md:15
 msgid "Hold on to your seats..."
-msgstr ""
+msgstr "Segurem-se em seus assentos..."
 
 #: 09.1-Live-Coding-Fundamentals.md:1
 msgid "9.1 Live Coding Fundamentals"
-msgstr ""
+msgstr "9.1 Fundamentos do Live coding"
 
 #: 09.1-Live-Coding-Fundamentals.md:5
 msgid ""
@@ -5865,18 +5892,23 @@ msgid ""
 "ur music compositions live and turning them into a performance. For that we'll"
 " need 3 main ingredients:"
 msgstr ""
+"Agora nós já aprendemos o suficiente para realmente começar a ter alguma "
+"diversão. Nesta seção nós iremos buscar itens de todas as seções anteriores "
+"e te mostrar como você pode começar a criar suas composições musicais ao "
+"vivo e transformá-las em uma performance. Para isso precisamos de 3 "
+"ingredientes principais:"
 
 #: 09.1-Live-Coding-Fundamentals.md:10
 msgid "An ability to write code that makes sounds - CHECK!"
-msgstr ""
+msgstr "Habilidade para escrever código que gere som - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:11
 msgid "An ability to write functions - CHECK!"
-msgstr ""
+msgstr "Habilidade para escrever funções - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:12
 msgid "An ability to use (named) threads - CHECK!"
-msgstr ""
+msgstr "Habilidade para usar threads (nomeados) - CHECK!"
 
 #: 09.1-Live-Coding-Fundamentals.md:14
 msgid ""
@@ -5884,6 +5916,10 @@ msgid ""
 " function containing the code we want to play. Let's start simple. We also wan"
 "t to loop calls to that function in a thread:"
 msgstr ""
+"Tudo bem, vamos começar. Vamos programar ao vivo nossos primeiros sons. "
+"Primeiro precisamos de uma função contendo o código que desejamos tocar. "
+"Vamos começar de forma simples. Nós também queremos chamar esta função em "
+"Loop, dentro de uma thread:"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
@@ -5898,6 +5934,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"define :my_loop do #função\n"
+"  play 50\n"
+"  sleep 1\n"
+"end\n"
+"in_thread(name: :looper) do #thread\n"
+"  loop do\n"
+"    my_loop\n"
+"  end\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:31
 msgid ""
@@ -5905,6 +5950,9 @@ msgid ""
 "s on functions and threads. It's not too complicated if you've already wrapped"
 " your head around these things."
 msgstr ""
+"Se isto está parecendo muito complicado para você, volte e releia as seções "
+"sobre funções e threads. Não será complicado se você já tiver estudado estes "
+"itens."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
 msgid ""
@@ -5912,14 +5960,19 @@ msgid ""
 " for a beat. We then define a named thread called `:looper` which just loops a"
 "round calling `my_loop` repeatedly."
 msgstr ""
+"O que temos aqui é uma definição de função que apenas toca a nota 50 e "
+"descansa por um beat. Em seguida, definimos uma thread chamada `:looper` "
+"que, em loop, chama `my_loop`repetidamente."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
 msgstr ""
+"Se você executar este código, você ouvirá a nota 50 repetindo e repetindo e "
+"repetindo..."
 
 #: 09.1-Live-Coding-Fundamentals.md:41
 msgid "Changing it up"
-msgstr ""
+msgstr "Modificando"
 
 #: 09.1-Live-Coding-Fundamentals.md:43
 msgid ""
@@ -5927,6 +5980,9 @@ msgid ""
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
+"Agora é que a diversão começa. Com o código *ainda executando*, modifique o "
+"50 para um outro número, 55 por exemplo, e então pressione o botão Run outra "
+"vez. WOW! Mudou! Ao vivo!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
 msgid ""
@@ -5935,12 +5991,18 @@ msgid ""
 "nction. We gave `:my_loop` a new definition. When the `:looper` thread looped "
 "around it simply called the new definition."
 msgstr ""
+"Isso não adicionou uma nova camada porque estamos usando threads nomeadas, "
+"que permitem apenas uma thread com cada nome. Também, o som mudou porque nós "
+"*redefinimos* a função. Nós demos uma nova definição para `:my_loop`. Quando "
+"a thread `:looper` se repetiu ela simplesmente chamou a nova definição."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
 msgid ""
 "Try changing it again, change the note, change the sleep time. How about addin"
 "g a `use_synth` statement? For example, change it to:"
 msgstr ""
+"Tente modificar novamente, mude a nota, mude o tempo de descanso. Que tal "
+"adicionar um comando `use_synth`? Por exemplo, mude-o para:"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -5951,12 +6013,19 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303  # novo sintetizador\n"
+"  play 50, release: 0.3\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:63
 msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of p"
 "laying the same note again and again, try playing a chord:"
 msgstr ""
+"Agora isso soa bem interessante, mas nós podemos apimentar um pouco mais as "
+"coisas. Em vez de tocar sempre a mesma nota, tente tocar um acorde:"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -5967,10 +6036,15 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play chord(:e3, :minor), release: 0.3 # Mi menor\n"
+"  sleep 0.5\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:75
 msgid "How about playing random notes from the chord:"
-msgstr ""
+msgstr "Que tal tocar notas aleatórias do acorde:"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
@@ -5981,10 +6055,16 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play choose(chord(:e3, :minor)), release: 0.3\n"
+"  sleep 0.25\n"
+"end\n"
+"#"
 
 #: 09.1-Live-Coding-Fundamentals.md:85
 msgid "Or using a random cutoff value:"
-msgstr ""
+msgstr "Ou usar um valor aleatório para cutoff:"
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
@@ -5995,10 +6075,16 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end\n"
+"#"
 
 #: 09.1-Live-Coding-Fundamentals.md:95
 msgid "Finally, add some drums:"
-msgstr ""
+msgstr "Finalmente, adicione alguma bateria:"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
@@ -6010,10 +6096,17 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  sample :drum_bass_hard, rate: rrand(0.5, 2)\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end\n"
+"#"
 
 #: 09.1-Live-Coding-Fundamentals.md:106
 msgid "Now things are getting exciting!"
-msgstr ""
+msgstr "Agora as coisas estão ficando excitantes!"
 
 #: 09.1-Live-Coding-Fundamentals.md:108
 msgid ""
@@ -6583,6 +6676,14 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :setter do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :getter do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 
 #: 10.1-Set-and-Get.md:70
 msgid ""
@@ -6611,6 +6712,22 @@ msgid ""
 "{run: 0, time: 3.5}\n"
 " └─ 75.6048583984375"
 msgstr ""
+"{run: 0, time: 0.0}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 0.5}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 1.0}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 1.5}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 2.0}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 2.5}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 3.0}\n"
+" └─ 75.6048583984375\n"
+"{run: 0, time: 3.5}\n"
+" └─ 75.6048583984375"
 
 #: 10.1-Set-and-Get.md:100
 msgid ""
@@ -6654,6 +6771,23 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"## Um exemplo de comportamento não-determinístico\n"
+"## (devido a race conditions causadas por múltiplos\n"
+"## loops manipulando a mesma variárvel ao mesmo tempo).\n"
+"##  \n"
+"## Se você executar este código você notará\n"
+"## que a lista que é impressa\n"
+"## nem sempre sai ordenada!\n"
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
@@ -6679,6 +6813,22 @@ msgid ""
 "  puts \"sorted: \", get[:a]\n"
 "end"
 msgstr ""
+"## Um exemplo de comportamento determinístico\n"
+"## (apesar do acesso simultâneo ao estado compartilhado)\n"
+"## usando o novo sistema Time State do Sonic Pi.\n"
+"##\n"
+"## Quando este código é executado, a lista\n"
+"## sempre é impressa de forma ordenada!\n"
+"set :a, (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  set :a, get[:a].shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  set :a, get[:a].sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", get[:a]\n"
+"end"
 
 #: 10.1-Set-and-Get.md:159
 msgid ""
@@ -6696,7 +6846,7 @@ msgstr ""
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
-msgstr ""
+msgstr "10.2 Sincronização"
 
 #: 10.2-Sync.md:3
 msgid "Sync"
@@ -6716,7 +6866,7 @@ msgstr ""
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
-msgstr ""
+msgstr "Aguardando por eventos"
 
 #: 10.2-Sync.md:17
 msgid ""
@@ -6734,6 +6884,12 @@ msgid ""
 "sleep 2\n"
 "set :foo, 1"
 msgstr ""
+"in_thread do \n"
+"  sync :foo\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 1"
 
 #: 10.2-Sync.md:31
 msgid ""
@@ -6771,6 +6927,12 @@ msgid ""
 "sleep 2\n"
 "set :foo, 0.5"
 msgstr ""
+"in_thread do\n"
+"  amp = sync :foo \n"
+"  sample :ambi_lunar_land, amp: amp\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 0.5"
 
 #: 10.2-Sync.md:58
 msgid ""
@@ -6782,11 +6944,11 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
-msgstr ""
+msgstr "10.3 Correspondência de Padrões"
 
 #: 10.3-Pattern-Matching.md:3
 msgid "Pattern Matching"
-msgstr ""
+msgstr "Correspondência de Padrões"
 
 #: 10.3-Pattern-Matching.md:5
 msgid ""
@@ -6809,7 +6971,7 @@ msgstr ""
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
 msgid "sync \"/*/*/*\""
-msgstr ""
+msgstr "sync \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
 msgid ""
@@ -6820,19 +6982,19 @@ msgstr ""
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
 msgid "`cue \"/foo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:25
 msgid "`cue \"/foo/baz/quux\"`"
-msgstr ""
+msgstr "`cue \"/foo/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
-msgstr ""
+msgstr "`cue \"/eggs/beans/toast\"`"
 
 #: 10.3-Pattern-Matching.md:27
 msgid "`cue \"/moog/synths/rule\"`"
-msgstr ""
+msgstr "`cue \"/moog/synths/rule\"`"
 
 #: 10.3-Pattern-Matching.md:29
 msgid ""
@@ -6842,15 +7004,15 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:32
 msgid "`cue \"/foo/bar\"`"
-msgstr ""
+msgstr "`cue \"/foo/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
 msgid "`cue \"/foo/baz/quux/quaax\"`"
-msgstr ""
+msgstr "`cue \"/foo/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
-msgstr ""
+msgstr "`cue \"/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:36
 msgid ""
@@ -6873,11 +7035,11 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:47
 msgid "`cue \"/foo/baz/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/baz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:48
 msgid "`cue \"/foo/beans/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
@@ -6885,15 +7047,15 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:52
 msgid "`cue \"/foo/flibble/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/flibble/baz\"`"
 
 #: 10.3-Pattern-Matching.md:53
 msgid "`cue \"/foo/abaz/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/abaz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:54
 msgid "`cue \"/foo/beans/baz/eggs\"`"
-msgstr ""
+msgstr "`cue \"/foo/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
 msgid ""
@@ -6916,15 +7078,15 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:69
 msgid "`cue \"/foo/bar/beans/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/bar/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:70
 msgid "`cue \"/foo/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/baz\"`"
 
 #: 10.3-Pattern-Matching.md:71
 msgid "`cue \"/foo/a/b/c/d/e/f/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
@@ -6938,15 +7100,15 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/goo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:80
 msgid "`cue \"/too/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/too/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:81
 msgid "`cue \"/woo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
@@ -6961,15 +7123,15 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:89
 msgid "`cue \"/foo/bar/quux\"`"
-msgstr ""
+msgstr "`cue \"/foo/bar/quux\"`"
 
 #: 10.3-Pattern-Matching.md:90
 msgid "`cue \"/foo/beans/quux\"`"
-msgstr ""
+msgstr "`cue \"/foo/beans/quux\"`"
 
 #: 10.3-Pattern-Matching.md:91
 msgid "`cue \"/foo/eggs/quux\"`"
-msgstr ""
+msgstr "`cue \"/foo/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
@@ -6984,15 +7146,15 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
 msgid "`cue \"/foo/aux/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/aux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:100 10.3-Pattern-Matching.md:107
 msgid "`cue \"/foo/bux/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/bux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:101 10.3-Pattern-Matching.md:108
 msgid "`cue \"/foo/cux/baz\"`"
-msgstr ""
+msgstr "`cue \"/foo/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
 msgid ""
@@ -7029,6 +7191,12 @@ msgid ""
 "sleep 1\n"
 "cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
 msgstr ""
+"in_thread do\n"
+"  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
@@ -7043,11 +7211,11 @@ msgstr ""
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
-msgstr ""
+msgstr "11. MIDI"
 
 #: 11-MIDI.md:3
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 #: 11-MIDI.md:5
 msgid ""
@@ -7057,18 +7225,27 @@ msgid ""
 "metimes it is essential to break out of the code into the real world. We want "
 "two extra things:"
 msgstr ""
+"Uma vez que você tiver dominado a conversão de código em música, você pode "
+"pensar - o que vem depois? As vezes, as limitações de trabalhar puramente "
+"dentro da sintaxe e do sistema de som do Sonic Pi podem ser excitantes e te "
+"colocar em uma nova posição criativa. Entretanto, as vezes é essencial "
+"libertar o código para o mundo real. Não queremos duas coisas extras:"
 
 #: 11-MIDI.md:11
 msgid ""
 "To be able to convert actions in the real world into Sonic Pi events to code w"
 "ith"
 msgstr ""
+"Sermos capazes de converter ações do mundo real em eventos codificáveis do "
+"Sonic Pi"
 
 #: 11-MIDI.md:12
 msgid ""
 "To be able to use Sonic Pi's strong timing model and semantics to control and "
 "manipulate objects in the real world"
 msgstr ""
+"Sermos capazes de usar o forte modelo de temporização e semântica do Sonic "
+"Pi para controlar e manipular objetos no mundo real"
 
 #: 11-MIDI.md:14
 msgid ""
@@ -7078,20 +7255,28 @@ msgid ""
 "at all support MIDI. We can use MIDI to receive data and also use it to send d"
 "ata."
 msgstr ""
+"Por sorte, existe um protocolo que está por aí desde os anos 80, que permite "
+"este tipo de interação - MIDI. Existe um número incrível de aparelhos "
+"externos, incluindo teclados, controladores, sequenciadores e software "
+"profissional que suportam MIDI. Nós podemos usar o MIDI para receber dados e "
+"também para enviar dados."
 
 #: 11-MIDI.md:20
 msgid ""
 "Sonic Pi provides full support for the MIDI protocol enabling you to connect y"
 "our live code to the real world. Let's explore it further..."
 msgstr ""
+"O Sonic Pi fornece suporte completo para o protocolo MIDI possibilitando que "
+"você conecte seu Código Ao Vivo com o mundo real. Vamos explorá-lo um pouco "
+"mais..."
 
 #: 11.1-MIDI-In.md:1
 msgid "11.1 MIDI In"
-msgstr ""
+msgstr "11.1 Entrada MIDI"
 
 #: 11.1-MIDI-In.md:3
 msgid "MIDI In"
-msgstr ""
+msgstr "Entrada MIDI"
 
 #: 11.1-MIDI-In.md:5
 msgid ""
@@ -7099,10 +7284,14 @@ msgid ""
 "into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
 "such as a keyboard or control surface and let's get physical!"
 msgstr ""
+"Nesta seção vamos aprender como conectar um controlador MIDI para enviar "
+"eventos para o Sonic Pi, para controlar nossos sintetizadores e sons. Vá e "
+"pegue um controlador MIDI, como um teclado ou tablet de controle e vamos "
+"começar!"
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"
-msgstr ""
+msgstr "Conectando um controlador MIDI"
 
 #: 11.1-MIDI-In.md:13
 msgid ""
@@ -7118,10 +7307,22 @@ msgid ""
 "l that, feel free to ask questions in the public chat room: http://gitter.im/s"
 "amaaron/sonic-pi"
 msgstr ""
+"Para receber no Sonic Pi informações de um aparelho MIDI externo, primeiro "
+"nós precisamos conectá-lo ao computador. Tipicamente isso é feito através de "
+"uma conexão USB, apesar de que aparelhos antigos usam um conector DIN de 5 "
+"pinos, para o qual será necessário suporte de hardware em seu computador ("
+"por exemplo: algumas placas de áudio possuem conectores DIN). Uma vez que "
+"você tenha conectado seu aparelho, abra o Sonic Pi e dê uma olhada na seção "
+"IO (Entrada/Saída) do painel de Preferências. Você poderá ver seu aparelho "
+"listado lá. Caso não veja, tente o botão 'Reiniciar MIDI' e veja se aparece. "
+"Se ainda assim você não encontrar nada, a próxima coisa a tentar é consultar "
+"as configurações MIDI do seu sistema operacional para ver se ele enxerga seu "
+"aparelho. Se tudo isso falhar, sinta-se a vontade para perguntar na sala de "
+"chat: http://gitter.im/samaaron/sonic-pi"
 
 #: 11.1-MIDI-In.md:26
 msgid "Receiving MIDI Events"
-msgstr ""
+msgstr "Recebendo eventos MIDI"
 
 #: 11.1-MIDI-In.md:28
 msgid ""
@@ -7131,6 +7332,12 @@ msgid ""
 "n't visible go to Preferences->Editor->Show & Hide and enable the 'Show cue lo"
 "g' tickbox). You'll see a stream of events such as:"
 msgstr ""
+"Assim que seu aperelho esteja conectado, o Sonic Pi irá receber eventos "
+"automaticamente. Você mesmo pode confirmar manipulando seu aparelho MIDI e "
+"olhando no registro de Deixas (cue logger), na janela do app em baixo à "
+"direita, abaixo do registro (se isso não estiver visível, vá em Preferências "
+"> Editor > Mostrar & Ocultar e habilite a caixa 'Mostrar o registro de "
+"deixas'). Você verá um fluxo de eventos como:"
 
 #: 11.1-MIDI-In.md:35
 #, no-wrap
@@ -7144,12 +7351,23 @@ msgid ""
 "/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
 "/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
 msgstr ""
+"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [53, 102]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [57, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [53, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [57, 87]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [55, 81]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
 
 #: 11.1-MIDI-In.md:46
 msgid ""
 "Once you can see a stream of messages like this, you've successfully connected"
 " your MIDI device. Congratulations, let's see what we can do with it!"
 msgstr ""
+"Quando você ver um fluxo de mensagens desta forma, você terá conectado com "
+"sucesso seu aparelho MIDI. Parabéns, vamos ver o que você consegue fazer com "
+"ele!"
 
 #: 11.1-MIDI-In.md:50
 msgid "MIDI Time State"
@@ -7168,7 +7386,7 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:60
 msgid "Controlling Code"
-msgstr ""
+msgstr "Controlando o Código"
 
 #: 11.1-MIDI-In.md:62
 msgid ""
@@ -7176,6 +7394,10 @@ msgid ""
 "ed that our knowledge of Time State is all we need to work with the events, we"
 " can now start having fun. Let's build a simple MIDI piano:"
 msgstr ""
+"Agora que você conectou seu aparelho MIDI, viu seus eventos no registro e "
+"descobriu que nosso conhecimento do Estado de Tempo (Time State) é tudo o "
+"que precisamos para trabalhar com eventos, podemos começar a nos divertir. "
+"Vamos construir um piano MIDI simples:"
 
 #: 11.1-MIDI-In.md:67
 #, no-wrap
@@ -7185,6 +7407,10 @@ msgid ""
 "  synth :piano, note: note\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do \n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note\n"
+"end"
 
 #: 11.1-MIDI-In.md:74
 msgid ""
@@ -7199,6 +7425,17 @@ msgid ""
 " we assign the result to two separate variables `note` and `velocity`. Finally"
 " we trigger the `:piano` synth passing our note."
 msgstr ""
+"Temos algumas coisas acontecendo no código acima, incluindo alguns "
+"problemas. Primeiro, temos um `live_loop` simples, que irá se repetir para "
+"sempre, executando o código entre os blocos `do`/`end`. Isto foi apresentado "
+"na seção 9.2. Segundo, estamos chamando o comando `sync` para esperar pelo "
+"próximo evento  Time State correspondente. Usamos uma string representando a "
+"mensagem MIDI que estamos procurando (que é a mesma que foi exibida no "
+"registro). Note que esta string longa é fornecida pela função autocompletar "
+"do Sonic Pi, desta forma você não precisa digitar tudo a mão. No registro "
+"nós vemos que haviam dois valorespara cada nota MIDI no evento, então nós "
+"atribuímos o resultado a duas variáveis `note` e `velocity`. Por fim, nós "
+"disparamos o sintetizador `:piano` passando nossa nota."
 
 #: 11.1-MIDI-In.md:86
 msgid ""
@@ -7210,6 +7447,14 @@ msgid ""
 "tude. Given that MIDI has a range of 0->127, to convert this number to a value"
 " between 0->1 we just need to divide it by 127:"
 msgstr ""
+"Agora tente você. Digite o código acima, substitua a chave de sincronização "
+"com uma string correspondente ao seu aparelho MIDI e clique em Executar. "
+"Pronto, você tem um piano funcionando! Entretanto, você provavelmente notará "
+"alguns problemas: primeiro, todas as notas possuem o mesmo volume, "
+"independente da força que você usa no teclado. Isso pode ser consertado "
+"facilmente usando o valor velocity do MIDI e convertendo-o para amplitude. "
+"Dado que MIDI possui uma variação entre 0 e 127, para converter este número "
+"para um valor entre 0 e 1 nós só precisamos dividi-lo por 127:"
 
 #: 11.1-MIDI-In.md:95
 #, no-wrap
@@ -7219,16 +7464,22 @@ msgid ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do \n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note, amp: velocity / 127.0\n"
+"end"
 
 #: 11.1-MIDI-In.md:102
 msgid ""
 "Update the code and hit Run again. Now the velocity of the keyboard is honoure"
 "d. Next, let's get rid of that pesky pause."
 msgstr ""
+"Atualize o código e clique em Executar novamente. Agora a força aplicada ao "
+"teclado é respeitada. Em seguida, vamos nos livrar desta pausa irritante."
 
 #: 11.1-MIDI-In.md:105
 msgid "Removing Latency"
-msgstr ""
+msgstr "Removendo a Latência"
 
 #: 11.1-MIDI-In.md:107
 msgid ""
@@ -7247,6 +7498,23 @@ msgid ""
 " loops that have their timing controlled by `sync`ing with external devices, a"
 "nd keep the default latency for all other live loops. Let's see:"
 msgstr ""
+"Antes de remover a pausa, nós precisamos entender porque ela acontece. Para "
+"manter todos os sintetizadores e Efeitos sincronizados através de uma "
+"variedade de CPUs com capacidades diferentes, o Sonic Pi agenda o áudio "
+"*antecipadamente* em 0.5s por padrão.  (Note que esta latência adicional "
+"pode ser configurada pelas funções `set_sched_ahead_time!` e "
+"`use_sched_ahead_time`). Estes 0.5s de latência estão sendo adicionados ao "
+"disparador do nosso sintetizador `:piano` assim como está sendo adicionado a "
+"todos os sintetizadores disparados pelo Sonic Pi. Tipicamente nós realmente "
+"queremos manter esta latência, já que isso significa que todos os "
+"sintetizadores estarão sincronizados. Entretanto, isso só faz sentindo para "
+"sintetizadores disparados por código, usando `play` e `sleep`. No nosso "
+"caso, na realidade estamos disparando o sintetizador `:piano` pelo nosso "
+"aparelho MIDI e portanto não queremos que o Sonic Pi controle o tempo por "
+"nós. Podemos desligar esta latência com o comando `use_real_time`, que "
+"desabilita a latência para a thread atual. Isto significa que você pode usar "
+"o modo Real Time para loops ao vivo controlado por `sync` com aparelhos "
+"externos, e manter a latência padrâo para todos os outros loops. Vejamos:"
 
 #: 11.1-MIDI-In.md:124
 #, no-wrap
@@ -7257,16 +7525,24 @@ msgid ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do \n"
+"  use_real_time\n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note, amp: velocity / 127.0\n"
+"end"
 
 #: 11.1-MIDI-In.md:132
 msgid ""
 "Update your code to match the code above and hit Run again. Now we have a low "
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
 msgstr ""
+"Atualize seu código para que ele corresponda ao código acima e clique em "
+"Executar. Agora nós temos um piano com baixa latência e sensibilidade "
+"variável, programado em apenas 5 linhas. Não foi fácil?"
 
 #: 11.1-MIDI-In.md:136
 msgid "Getting Values"
-msgstr ""
+msgstr "Recuperando valores"
 
 #: 11.1-MIDI-In.md:138
 msgid ""
@@ -7278,10 +7554,18 @@ msgid ""
 "te value. You can even use `time_warp` to jump back in time and call `get` to "
 "see past events..."
 msgstr ""
+"Finalmente, como nossos eventos MIDI estão indo diretamente para o Time "
+"State, nós também podemos usar a função `get` para recuperar o último valor "
+"recebido. Isso não bloqueia a thread atual e retorna `nil` se não houver "
+"valor para ser recuperado (o que você pode sobrescrever passando um valor "
+"padrão - veja a ajuda para `get`). Lembre-se que você pode chamar `get` em "
+"qualquer thread a qualquer momento para ver o valor mais recente "
+"correspondente ao Time State. Você pode até usar `time_warp` para voltar no "
+"tempo e chamar `get` para ver eventos passados..."
 
 #: 11.1-MIDI-In.md:147
 msgid "Now You are in Control"
-msgstr ""
+msgstr "Agora Você Está no Controle"
 
 #: 11.1-MIDI-In.md:149
 msgid ""
@@ -7289,14 +7573,18 @@ msgid ""
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"
 "ith the values. You can now choose what your MIDI device will do!"
 msgstr ""
+"O mais importante é que agora você pode usar as mesmas estruturas de código "
+"para sincronizar e recuperar (`sync` e `get`) informações MIDI de qualquer "
+"aparelho MIDI e fazer o que você quiser com os valores. Você pode agora "
+"escolher o que seu aparelho MIDI irá fazer!"
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
-msgstr ""
+msgstr "11.2 Saída MIDI"
 
 #: 11.2-MIDI-Out.md:3
 msgid "MIDI Out"
-msgstr ""
+msgstr "Saída MIDI"
 
 #: 11.2-MIDI-Out.md:5
 msgid ""
@@ -7304,36 +7592,42 @@ msgid ""
 "er and control external hardware synths, keyboards and other devices. Sonic Pi"
 " provides a full set of fns for sending various MIDI messages such as:"
 msgstr ""
+"Além de receber eventos MIDI nõs podemos também enviar eventos MIDI para "
+"disparar e controlar hardware de sintetizadores externos, teclados e outros "
+"aparelho. O Sonic Pi fornece um conjunto completo de funções para enviar "
+"várias mensagens MIDI como:"
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
-msgstr ""
+msgstr "Ligar nota - `midi_note_on`"
 
 #: 11.2-MIDI-Out.md:10
 msgid "Note off - `midi_note_off`"
-msgstr ""
+msgstr "Desligar nota - `midi_note_off`"
 
 #: 11.2-MIDI-Out.md:11
 msgid "Control change - `midi_cc`"
-msgstr ""
+msgstr "Mudança de controle - `midi_cc`"
 
 #: 11.2-MIDI-Out.md:12
 msgid "Pitch bend - `midi_pitch_bend`"
-msgstr ""
+msgstr "Pitch bend  - `midi_pitch_bend`"
 
 #: 11.2-MIDI-Out.md:13
 msgid "Clock ticks - `midi_clock_tick`"
-msgstr ""
+msgstr "Tiques do relógio - `midi_clock_tick`"
 
 #: 11.2-MIDI-Out.md:15
 msgid ""
 "There are many other supported MIDI messages too - check out the API documenta"
 "tion for all the other fns that start with `midi_`."
 msgstr ""
+"Também existem muitas outras mensagens MIDI suportadas - verifique a "
+"documentação da API para todas as outras funções que começam com `midi_`."
 
 #: 11.2-MIDI-Out.md:18
 msgid "Connecting to a MIDI Device"
-msgstr ""
+msgstr "Conectando um aparelho MIDI"
 
 #: 11.2-MIDI-Out.md:20
 msgid ""
@@ -7348,7 +7642,7 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:29
 msgid "Sending MIDI events"
-msgstr ""
+msgstr "Enviando eventos MIDI"
 
 #: 11.2-MIDI-Out.md:31
 msgid ""
@@ -7361,7 +7655,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
 msgid "midi_note_on :e3, 50"
-msgstr ""
+msgstr "midi_note_on :e3, 50"
 
 #: 11.2-MIDI-Out.md:40
 msgid ""
@@ -7379,11 +7673,11 @@ msgstr ""
 #: 11.2-MIDI-Out.md:47
 #, no-wrap
 msgid "midi_note_off :e3"
-msgstr ""
+msgstr "midi_note_off :e3"
 
 #: 11.2-MIDI-Out.md:51
 msgid "Selecting a MIDI device"
-msgstr ""
+msgstr "Selecionando um aparelho MIDI"
 
 #: 11.2-MIDI-Out.md:53
 msgid ""
@@ -10923,7 +11217,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:93
 msgid "A Live Loop Arpeggiator"
-msgstr ""
+msgstr "Um Live Loop Arpegiador"
 
 #: A.11-beat-tracking.md:95
 msgid ""
@@ -10931,26 +11225,30 @@ msgid ""
 "bined we have all the tools we need to both build and understand a simple arpe"
 "giator. We need just four things:"
 msgstr ""
+"O poder real surge quando você mistura `tick` com anéis (rings) e `live_loop`"
+"s. Quando combinados nós temos todas as ferramentas que nós precisamos para "
+"tanto construir quanto entender um arpejador simples. Precisamos somente de "
+"4 coisas:"
 
 #: A.11-beat-tracking.md:99
 msgid "A ring containing the notes we want to loop over."
-msgstr ""
+msgstr "Um anel (ring) contendo as notas que queremos arpejar."
 
 #: A.11-beat-tracking.md:100
 msgid "A means of incrementing and obtaining the beat."
-msgstr ""
+msgstr "Uma forma de incrementar e obter a batida."
 
 #: A.11-beat-tracking.md:101
 msgid "The ability to play a note based on the current beat."
-msgstr ""
+msgstr "A habilidade de tocar uma nota baseada na batida atual."
 
 #: A.11-beat-tracking.md:102
 msgid "A loop structure to keep the arpegiator repeating."
-msgstr ""
+msgstr "Uma estrutura de loop para manter o arpejador repetindo."
 
 #: A.11-beat-tracking.md:104
 msgid "These concepts can all be found in the following code:"
-msgstr ""
+msgstr "Todos estes conceitos podem ser encontrados no seguinte código:"
 
 #: A.11-beat-tracking.md:106
 #, no-wrap
@@ -10962,6 +11260,12 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"notes = (ring 57, 62, 55, 59, 64) \n"
+"live_loop :arp do\n"
+"  use_synth :dpulse\n"
+"  play notes.tick, release: 0.2\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.11-beat-tracking.md:116
 msgid ""
@@ -11002,6 +11306,19 @@ msgid ""
 "  sleep 0.75\n"
 "end"
 msgstr ""
+"notes = (ring 57, 62, 55, 59, 64) \n"
+"with_fx :reverb do\n"
+"  live_loop :arp do\n"
+"    use_synth :dpulse\n"
+"    play notes.tick + 12, release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end\n"
+"live_loop :arp2 do\n"
+"  use_synth :dsaw\n"
+"  play notes.tick - 12, release: 0.2\n"
+"  sleep 0.75\n"
+"end"
 
 #: A.11-beat-tracking.md:149
 msgid "Clashing Beats"
@@ -11072,14 +11389,35 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"use_bpm 240\n"
+"notes = (scale :e3, :minor_pentatonic).shuffle\n"
+"live_loop :foo do\n"
+"  use_synth :blade\n"
+"  with_fx :reverb, reps: 8, room: 1 do\n"
+"    tick\n"
+"    co = (line 70, 130, steps: 32).tick(:cutoff)\n"
+"    play (octs :e3, 3).look, cutoff: co, amp: 2\n"
+"    play notes.look, amp: 4\n"
+"    sleep 1\n"
+"  end\n"
+"end \n"
+"live_loop :bar do\n"
+"  tick\n"
+"  sample :bd_ada if (spread 1, 4).look\n"
+"  use_synth :tb303\n"
+"  co = (line 70, 130, steps: 16).look\n"
+"  r = (line 0.1, 0.5, steps: 64).mirror.look\n"
+"  play notes.look, release: r, cutoff: co\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.12-sample-slicing.md:1
 msgid "A.12 Sample Slicing"
-msgstr ""
+msgstr "A.12 Cortando Amostras"
 
 #: A.12-sample-slicing.md:3
 msgid "Sample Slicing"
-msgstr ""
+msgstr "Cortando Amostras"
 
 #: A.12-sample-slicing.md:5
 msgid ""
@@ -13764,7 +14102,7 @@ msgstr ""
 
 #: C.01-Basic-API.md:117
 msgid "Looking at blocks"
-msgstr "Olhando para os blocos"
+msgstr "Olhando os blocos"
 
 #: C.01-Basic-API.md:119
 msgid ""
