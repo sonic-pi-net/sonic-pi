@@ -36,8 +36,8 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Ativer modo mono
-Se ativado, tanto o áudio da direita quanto o da esquerda é misturado e
+        <translation>Ativar/Desativar modo mono
+Se ativado, tanto o áudio da direita quanto o da esquerda são misturados e
 o mesmo sinal é enviado para os dois alto falantes. 
 Útil para sistemas que só trabalham com o modo mono.</translation>
     </message>
@@ -127,7 +127,7 @@ que o botão executar é pressionado.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="942"/>
         <source>Indenting selection...</source>
-        <translation>Indentando seleção...</translation>
+        <translation>Indentando a seleção...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="946"/>
@@ -140,7 +140,7 @@ que o botão executar é pressionado.</translation>
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
         <translation>Configurações avançadas de áudio para 
-sistemas externos PA em conjunto com Sonic Pi.</translation>
+sistemas externos PA para performances com Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1396"/>
@@ -161,21 +161,21 @@ sistemas externos PA em conjunto com Sonic Pi.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show line numbers</source>
-        <translation>Mostrar número das linhas</translation>
+        <translation>Mostrar números de linha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="496"/>
         <source>Sonic Pi update info</source>
-        <translation>Sonic Pi informação da atualização</translation>
+        <translation>Informações da atualização do Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Alternar checagem de argumentos em sints.
-Se desativado, certas opções em sints podem
-criar sons inesperavelmente altos e desconfortáveis.</translation>
+        <translation>Alternar checagem de argumentos de sintetizador.
+Se desativado, certas opções de sintetizadores podem
+criar sons inesperadamente altos e desconfortáveis.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
@@ -185,7 +185,7 @@ criar sons inesperavelmente altos e desconfortáveis.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation>Escopo</translation>
+        <translation>Osciloscópio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
@@ -200,7 +200,7 @@ criar sons inesperavelmente altos e desconfortáveis.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>O servidor do Sonic Pi Server não pôde ser iniciado!</translation>
+        <translation>O servidor do Sonic Pi não pôde ser iniciado!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1323"/>
@@ -215,17 +215,17 @@ criar sons inesperavelmente altos e desconfortáveis.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1347"/>
         <source>Synths and FX</source>
-        <translation>Sints e FX</translation>
+        <translation>Sintetizadores e Efeitos(FX)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation>Modificar comportamento de Sints e FX</translation>
+        <translation>Modificar comportamento de Sintetizadores e Efeitos(FX)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1350"/>
         <source>Log synths</source>
-        <translation>Registrar Sints</translation>
+        <translation>Registrar Sintetizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
@@ -237,9 +237,9 @@ criar sons inesperavelmente altos e desconfortáveis.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Ativador ou desativar registro de deixas.
-Se desativado, deixas ainda vão ser ativadas.
-Entretanto, elas não estarão visíveis no registro.</translation>
+        <translation>Habilitar ou desabilitar registro de deixas.
+Se desabilitado, as deixas ainda vão ser disparadas.
+Entretanto, elas não serão visíveis no registro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
@@ -251,7 +251,7 @@ Se ativado, o registro é rolado para o final toda vez que uma nova mensagem é 
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Enable external synths and FX</source>
-        <translation>Ativar Sints e FX externos</translation>
+        <translation>Habilitar sintetizadores e efeitos(FX) externos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
@@ -262,13 +262,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation>Quando ativado, Sonic Pi irá deixar
-Sints e FX carregados via load_synthdefs
-ser executados. 
+        <translation>Quando habilitado, o Sonic Pi irá permitir que
+sintetizadores e efeitos(FX) carregados via load_synthdefs
+sejam executados. 
 
-Quando desativado, Sonic Pi irá se queixar
-quando você tentar usar um Sints or FX 
-não reconhecidos.</translation>
+Quando desabilitado, o Sonic Pi irá se queixar
+quando você tentar usar um sintetizador ou efeito 
+que não seja reconhecido.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1370"/>
@@ -284,13 +284,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation>Quando ativado, Sonic Pi irá recusar
-a ativação de Sints e FX se é
-muito tarde para a execução do mesmo. 
+        <translation>Quando ativado, o Sonic Pi irá recusar
+o disparo de sintetizadores e efeitos(FX) se
+for muito tarde para a execução dos mesmos. 
 
-Quando desativado, Sonic Pi sempre irá
-tentar executar Sints e FX mesmo
-sendo um pouquinho tarde.</translation>
+Quando desativado, o Sonic Pi sempre irá
+tentar disparar sintetizadores e efeitos(FX)
+mesmo quando for um pouco tarde.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1388"/>
@@ -302,7 +302,7 @@ sendo um pouquinho tarde.</translation>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Alternar checagem automática de atualização.
-Isso envolve enviar informações anonimas sobre seu sistema e sua versão.</translation>
+Esta checagem envolve enviar informações anônimas sobre seu sistema e sua versão.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
@@ -314,7 +314,7 @@ Isso envolve enviar informações anonimas sobre seu sistema e sua versão.</tra
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Forçar checagem de atualização.
-Isso envolve enviar informações anonimas sobre seu sistema e sua versão.</translation>
+Esta checagem envolve enviar informações anônimas sobre seu sistema e sua versão.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1403"/>
@@ -329,17 +329,17 @@ Isso envolve enviar informações anonimas sobre seu sistema e sua versão.</tra
     <message>
         <location filename="../mainwindow.cpp" line="1409"/>
         <source>Update Info</source>
-        <translation>Atualização informação</translation>
+        <translation>Informações da Atualização</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Show and Hide</source>
-        <translation>Mostrar e ocultar</translation>
+        <translation>Mostrar e Ocultar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor display options.</source>
-        <translation>Configurar mostragem de opções do editor.</translation>
+        <translation>Configura a exibição de opções do editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
@@ -369,7 +369,7 @@ Isso envolve enviar informações anonimas sobre seu sistema e sua versão.</tra
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation>OSC da rede</translation>
+        <translation>OSC via rede</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
@@ -377,7 +377,8 @@ Isso envolve enviar informações anonimas sobre seu sistema e sua versão.</tra
 to and from other programs or computers
  via the currently connected network.</source>
         <translation>O Sonic Pi pode enviar e receber mensagens Open Sound Control
-para outros programas e computadores conectados à rede.</translation>
+de e para outros programas ou computadores
+através da rede atualmente conectada.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
@@ -398,8 +399,8 @@ para outros programas e computadores conectados à rede.</translation>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation>Dispositivos de saída MIDI recebem mensagens MIDI diretamente
-do Sonic Pi e podem ser enviadas por meio das funções midi_*</translation>
+        <translation>Dispositivos de saída MIDI recebem mensagens MIDI diretamente do
+Sonic Pi e podem ser enviadas por meio das funções midi_*fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -425,8 +426,8 @@ do Sonic Pi e podem ser enviadas por meio das funções midi_*</translation>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation>Recolher ícones Pro - alternar entre os ícones
-padrão e os minimalistas.</translation>
+        <translation>Alternar ícones Pro - alternar entre os conjuntos
+de ícones padrão e um mais minimalista.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -475,8 +476,9 @@ Modo escuro é perfeito para codificação ao vivo em clubes noturnos.</translat
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation>Sonic Pi erro de inicialização
-Desculpa, um erro critico ocorreu durante a inicialização do sistema</translation>
+        <translation>Erro de inicialização do Sonic Pi
+
+Desculpe, um erro critico ocorreu durante a inicialização</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1768"/>
@@ -484,12 +486,12 @@ Desculpa, um erro critico ocorreu durante a inicialização do sistema</translat
         <location filename="../mainwindow.cpp" line="1785"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Buffer files</source>
-        <translation>Arquivos de retentores</translation>
+        <translation>Arquivos de buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation>Carregar retentor do Sonic Pi</translation>
+        <translation>Carregar buffer do Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
@@ -522,7 +524,7 @@ Desculpa, um erro critico ocorreu durante a inicialização do sistema</translat
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Run the code in the current buffer</source>
-        <translation>Rodar o código no retentor atual</translation>
+        <translation>Rodar o código no buffer atual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
@@ -532,12 +534,12 @@ Desculpa, um erro critico ocorreu durante a inicialização do sistema</translat
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Carregar um arquivo externo no retentor atual</translation>
+        <translation>Carregar um arquivo externo no buffer atual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Wavefile (*.wav)</source>
-        <translation>Wavefile ( *.wav)</translation>
+        <translation>Arquivo wave ( *.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
@@ -572,7 +574,7 @@ Desculpa, um erro critico ocorreu durante a inicialização do sistema</translat
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation>MIDI está ativado...</translation>
+        <translation>MIDI está desativado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
@@ -582,7 +584,7 @@ Desculpa, um erro critico ocorreu durante a inicialização do sistema</translat
     <message>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Save Current Buffer</source>
-        <translation>Salvar retentor atual</translation>
+        <translation>Salvar Buffer Atual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
@@ -651,7 +653,7 @@ Quando desmarcado, nenhuma mensagem OSC será recebida.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation>Ativar ou desativar envio e recebimento de comunicação MIDI</translation>
+        <translation>Habilitar ou desabilitar o recebimento e envio de comunicação MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
@@ -681,24 +683,23 @@ Quando desmarcado, nenhuma mensagem OSC será recebida.</translation>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation>Não há dispositivos de entrada conectados</translation>
+        <translation>Nenhum dispositivo de entrada conectado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation>Não há dispositivos de saída conectados</translation>
+        <translation>Nenhum dispositivo de saída conectado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation>Dispositivos de entrada MIDI enviam mensagens MIDI
-diretamente para o Sonic Pi e são recebidas como eventos
-de deixas (de maneira semelhante às mensagens OSC recebidas 
-e às deixas internas)</translation>
+        <translation>Dispositivos de entrada MIDI enviam mensagens MIDI diretamente para
+o Sonic Pi e são recebidas como eventos de deixas
+(semelhante às mensagens OSC recebidas e às deixas internas)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
@@ -708,7 +709,7 @@ e às deixas internas)</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation>Use este deslizador para alterar o volume do sistema.</translation>
+        <translation>Use este slider para alterar o volume do sistema.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
@@ -728,7 +729,7 @@ e às deixas internas)</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation>Recolher a visibilidade do registro de deixas, que mostra deixas internas e mensagens OSC/MIDI recebidas.</translation>
+        <translation>Alternar a visibilidade do registro de deixas que mostra deixas internas e mensagens OSC/MIDI recebidas.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
@@ -738,7 +739,7 @@ e às deixas internas)</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>IO</source>
-        <translation>Entrada e saída</translation>
+        <translation>Entrada/Saída</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
@@ -748,17 +749,17 @@ e às deixas internas)</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1516"/>
         <source>Scope Kinds</source>
-        <translation>Tipos de Escopo</translation>
+        <translation>Tipos de osciloscópio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1531"/>
         <source>Show Scopes</source>
-        <translation>Mostrar Escopos</translation>
+        <translation>Mostrar forma da onda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>Recolher a visibilidade dos osciloscópios de áudio.</translation>
+        <translation>Alternar a visibilidade dos osciloscópios de áudio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
@@ -768,7 +769,7 @@ e às deixas internas)</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1534"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation>Recolher a visibilidade dos eixos dos osciloscópios de áudio</translation>
+        <translation>Alternar a visibilidade dos eixos dos osciloscópios de áudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
@@ -782,7 +783,7 @@ Stereo - shows two independent scopes for left and right channels</source>
 ser vistas independentemente ou juntas:
 
 Lissajous - ilustra a relação de fase entre o canal esquerdo e o direito
-Mono - mostra a visão combinada dos canais esquerdo e direito (usando RMS)
+Mono - mostra uma visão combinada dos canais esquerdo e direito (usando RMS)
 Estéreo - mostra dois escopos independentes, para os canais da esquerda e da direita</translation>
     </message>
     <message>
@@ -793,12 +794,12 @@ Estéreo - mostra dois escopos independentes, para os canais da esquerda e da di
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Zooming In...</source>
-        <translation>Dando zoom...</translation>
+        <translation>Ampliando...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1901"/>
         <source>Zooming Out...</source>
-        <translation>Tirando zoom...</translation>
+        <translation>Reduzindo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1942"/>
@@ -813,19 +814,19 @@ Estéreo - mostra dois escopos independentes, para os canais da esquerda e da di
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
         <source>Disabling update checking...</source>
-        <translation>Desativar checagem de atualização...</translation>
+        <translation>Desativando a checagem de atualização...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1983"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Ativar Mixer LPF...</translation>
+        <translation>Ativando o Mixer LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1992"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>Desativar Mixer LPF...</translation>
+        <translation>Desativando o Mixer LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
@@ -859,12 +860,12 @@ Estéreo - mostra dois escopos independentes, para os canais da esquerda e da di
     <message>
         <location filename="../mainwindow.cpp" line="2191"/>
         <source>Updating System Volume...</source>
-        <translation>Atualização volume do sistema...</translation>
+        <translation>Atualizando volume do sistema...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2682"/>
         <source>Save current buffer as an external file</source>
-        <translation>Salvar retentor atual em um arquivo externo</translation>
+        <translation>Salvar o buffer atual em um arquivo externo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2694"/>
@@ -889,17 +890,17 @@ Estéreo - mostra dois escopos independentes, para os canais da esquerda e da di
     <message>
         <location filename="../mainwindow.cpp" line="2717"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation>Recolher a visibilidade dos osciloscópios de áudio. </translation>
+        <translation>Alternar a visibilidade dos osciloscópios de áudio. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation>Recolher a visibilidade do painel de ajuda</translation>
+        <translation>Alternar a visibilidade do painel de ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation>Recolher a visibilidade do painel de preferências</translation>
+        <translation>Alternar a visibilidade do painel de preferências</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
@@ -931,12 +932,12 @@ a cada duas semanas.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <source>This is Sonic Pi %1</source>
-        <translation>Isto é Sonic Pi %1</translation>
+        <translation>Este é o Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <source>Version %2 is now available!</source>
-        <translation>Versão %2 está agora disponível!</translation>
+        <translation>A versão %2 está disponível agora!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3272"/>
@@ -948,7 +949,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation>Dispositivos MIDI de entrada conectados</translation>
+        <translation>Entradas MIDI conectadas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
@@ -968,7 +969,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2678"/>
         <source>Stop all running code</source>
-        <translation>Parar todos os códigos sendo executados</translation>
+        <translation>Parar todo código em execução</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
@@ -978,12 +979,12 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
         <source>Info</source>
-        <translation>Sobre</translation>
+        <translation>Informações</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2721"/>
         <source>See information about Sonic Pi</source>
-        <translation>Ver informação sobre Sonic Pi</translation>
+        <translation>Ver informação sobre o Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="754"/>
@@ -994,12 +995,12 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Configurações úteis para o desenvolvimento com Sonic Pi</translation>
+        <translation>Configurações úteis para se apresentar com Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
         <source>Server boot error...</source>
-        <translation>Error de inicialização do servidor...</translation>
+        <translation>Erro de inicialização do servidor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
@@ -1016,7 +1017,7 @@ Baixar Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2861"/>
         <location filename="../mainwindow.cpp" line="2862"/>
         <source>Start Recording</source>
-        <translation>Inciar gravação</translation>
+        <translation>Iniciar Gravação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2698"/>
@@ -1078,25 +1079,25 @@ Baixar Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2853"/>
         <location filename="../mainwindow.cpp" line="2854"/>
         <source>Stop Recording</source>
-        <translation>Parar gravação</translation>
+        <translation>Parar Gravação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Save Recording</source>
-        <translation>Salvar gravação</translation>
+        <translation>Salvar Gravação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Não consegui ler o arquivo %1:
+        <translation>Não é possível ler o arquivo %1:
 %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Não consegui escrever no arquivo %1:
+        <translation>Não é possível escrever no arquivo %1:
 %2.</translation>
     </message>
     <message>
@@ -1123,12 +1124,12 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="1251"/>
         <source>Synths</source>
-        <translation>Sints</translation>
+        <translation>Sintetizadores</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1298"/>
         <source>Fx</source>
-        <translation>Fx</translation>
+        <translation>Efeitos (Fx)</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1317"/>
@@ -1154,7 +1155,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation>O Sonic Pi já está em execução? Não está sendo possível abrir a porta UDP.</translation>
+        <translation>O Sonic Pi já está em execução? Não foi possível abrir a porta UDP.</translation>
     </message>
 </context>
 </TS>
