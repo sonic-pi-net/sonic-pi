@@ -125,5 +125,5 @@ sleep 1
   jack_connect SuperCollider:out_2 sonicpi:right \
 ) &
 
-ruby $SP_ROOT/app/server/bin/ws.rb --ws_ip 0.0.0.0
+ruby $SP_ROOT/app/server/ruby/bin/ws.rb --ws_ip 0.0.0.0
 

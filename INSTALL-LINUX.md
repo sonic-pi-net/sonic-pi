@@ -221,7 +221,7 @@ sudo make install
 ### Server extensions
 
 Compile the server extensions by `cd`ing into the directory
-`app/server/bin` and running the script `compile-extensions.rb`. This
+`app/server/ruby/bin` and running the script `compile-extensions.rb`. This
 will take some time.
 
 ### Qt GUI

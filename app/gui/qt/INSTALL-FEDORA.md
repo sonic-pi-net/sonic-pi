@@ -54,10 +54,10 @@ documentation.
     qt5-qtlocation-devel qt5-qtsensors-devel aubio-devel qtchooser wkhtmltopdf
 
     #Build sonic-pi server extensions, documentation, and binary.
-    ../../server/bin/compile-extensions.rb
-    ../../server/bin/i18n-tool.rb -t
+    ../../server/ruby/bin/compile-extensions.rb
+    ../../server/ruby/bin/i18n-tool.rb -t
     cp -f ruby_help.tmpl ruby_help.h
-    ../../server/bin/qt-doc.rb -o ruby_help.h
+    ../../server/ruby/bin/qt-doc.rb -o ruby_help.h
     lrelease-qt5 SonicPi.pro
     qmake-qt5 SonicPi.pro
     make
