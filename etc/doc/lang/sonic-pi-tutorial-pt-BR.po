@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-01-05 21:07+0000\n"
+"PO-Revision-Date: 2019-01-07 16:03+0000\n"
 "Last-Translator: RD WebDesign <weblate@rdwebdesign.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
@@ -1707,11 +1707,11 @@ msgstr ""
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr ""
+msgstr "3.2 Parâmetros de Amostras (Samples)"
 
 #: 03.2-Sample-Params.md:3
 msgid "Sample Parameters: Amp and Pan"
-msgstr ""
+msgstr "Parâmetros de Amostras: Amplitude (Amp) e Panorâmico (Pan)"
 
 #: 03.2-Sample-Params.md:5
 msgid ""
@@ -1719,25 +1719,30 @@ msgid ""
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
+"Assim como fazemos com os sintetizadores, podemos controlar facilmente "
+"nossas amostras através de parâmetros. Elas suportam exatamente o mesmo "
+"mecanismo de parametrização. Vamos revisitar nossos amigos `amp:` e `pan:`."
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
-msgstr ""
+msgstr "Amplificando amostras"
 
 #: 03.2-Sample-Params.md:11
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
 msgstr ""
+"Você pode modificar a amplitude de amostras exatamente da mesma forma que "
+"usamos com os sintetizadores:"
 
 #: 03.2-Sample-Params.md:14
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :ambi_lunar_land, amp: 0.5"
-msgstr ""
+msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr ""
+msgstr "Usando pan com amostras"
 
 #: 03.2-Sample-Params.md:20
 msgid ""
@@ -1745,32 +1750,42 @@ msgid ""
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
+"Também podemos usar o parâmetro `pan:` com amostras. Por exemplo, veja como "
+"nós podemos tocar o Amem Break no canal esquerdo e no meio da execução, "
+"trocamos para o canal direito:"
 
 #: 03.2-Sample-Params.md:24
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :loop_amen, pan: -1\n"
 "sleep 0.877\n"
 "sample :loop_amen, pan: 1"
 msgstr ""
+"sample :loop_amen, pan: -1\n"
+"sleep 0.877\n"
+"sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
+"Note que 0.877 é metade da duração da amostra `:loop_amen`, em segundos."
 
 #: 03.2-Sample-Params.md:33
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr ""
+"Finalmente, note que se você configurar alguns valores padrão para "
+"sintetizadores com `use_synth_defaults` (que será discutido mais tarde), "
+"estes valores serão ignorados por `sample`."
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
-msgstr ""
+msgstr "3.3 Esticando Amostras (Stretching)"
 
 #: 03.3-Stretching-Samples.md:3
 msgid "Stretching Samples"
-msgstr ""
+msgstr "Esticando Amostras (Stretching)"
 
 #: 03.3-Stretching-Samples.md:5
 msgid ""
@@ -1779,10 +1794,19 @@ msgid ""
 "en more unique and interesting. First, let's explore the ability to *stretch* "
 "and *squash* samples."
 msgstr ""
+"Agora que podemos tocar uma variedade de sintetizadores e amostras para "
+"criar música, está na hora de aprendermos como modificar os sintetizadores e "
+"amostras para transformar a música em algo ainda mais único e interessante. "
+"Primeiro, vamos explorar a habilidade de *esticar* e *comprimir* amostras. \n"
+"\n"
+"Now that we can play a variety of synths and samples to create some music, "
+"it's time to learn how to modify both the synths and samples to make the "
+"music even more unique and interesting. First, let's explore the ability to "
+"*stretch* and *squash* samples."
 
 #: 03.3-Stretching-Samples.md:10
 msgid "Sample Representation"
-msgstr ""
+msgstr "Representação de Amostras"
 
 #: 03.3-Stretching-Samples.md:12
 msgid ""
@@ -1796,32 +1820,48 @@ msgid ""
 "d. However, it's also fun to change the speed with which the numbers are fed t"
 "o the speaker to change the sound."
 msgstr ""
+"Amostras são sons pré-gravados, armazenados como números que representam "
+"como mover o diafragma do alto-falante para reproduzir o som. O diafragma do "
+"alto-falante pode mover-se para dentro e para fora, e desta forma os números "
+"apenas representam a distância destes movimentos para cada momento no tempo. "
+"Para ser capaz de de reproduzir fielmente um som gravado a amostra precisa "
+"armazenar milhares de números por segundo! O Sonic Pi pega esta lista de "
+"números e os passa para o alto-falante do computador na velocidade correta "
+"para movê-lo da forma correta e reproduzir o som. Entretanto, é possível (e "
+"divertido) mudar a velocidade que os números são passados ao alto-falante "
+"para modificar o som."
 
 #: 03.3-Stretching-Samples.md:23
 msgid "Changing Rate"
-msgstr ""
+msgstr "Mudando a Velocidade (Rate)"
 
 #: 03.3-Stretching-Samples.md:25
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
+"Vamos brincar com um dos sons ambientes: `:ambi_choir`. Para tocá-lo com a "
+"velocidade (rate) padrão, você pode passar a opção `rate:` para `sample` ("
+"que é a amostra):"
 
 #: 03.3-Stretching-Samples.md:28
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :ambi_choir, rate: 1"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
+"Isto irá tocá-la em velocidade normal (1), nada de especial ainda. Mas "
+"estamos livres para modificar este número para qualquer outra coisa. Que tal "
+"`0.5`:"
 
 #: 03.3-Stretching-Samples.md:35
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :ambi_choir, rate: 0.5"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
 msgid ""
@@ -1829,53 +1869,63 @@ msgid ""
 "as long to play, secondly the sound is an octave lower. Let's explore these th"
 "ings in a little more detail."
 msgstr ""
+"Wow! O que está acontecendo aqui? Bem, duas coisas. Primeiro, a amostra leva "
+"o dobro do tempo para ser reproduzida. Segundo, o som está uma oitava "
+"abaixo. Vamos explorar estas coisas mais detalhadamente."
 
 #: 03.3-Stretching-Samples.md:43
 msgid "Let's stretch"
-msgstr ""
+msgstr "Vamos esticar"
 
 #: 03.3-Stretching-Samples.md:45
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
+"Uma amostra que é divertida de esticar e comprimir é a Amem Break. Na "
+"velocidade normal, podemos imaginar inserindo-o em uma faixa de *drum 'n' "
+"bass*:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen"
-msgstr ""
+msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
 msgstr ""
+"Mas ao mudar a velocidade nós podemos trocar o gênero musical. Tente meia "
+"velocidade para um *hip-hop old school*:"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
 msgid "If we speed it up, we enter *jungle* territory:"
-msgstr ""
+msgstr "Se acelerarmos, entramos no território do *jungle*:"
 
 #: 03.3-Stretching-Samples.md:61 A.17-sample-stretching.md:46
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative ra"
 "te:"
 msgstr ""
+"Agora o truque final - vamos ver o que acontece se usarmos um valor negativo "
+"para a velocidade (rate):"
 
 #: 03.3-Stretching-Samples.md:68
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: -1"
-msgstr ""
+msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
 msgid ""
@@ -1883,10 +1933,13 @@ msgid ""
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
 msgstr ""
+"Wow! Toca *ao contrário*! Agora tente com várias amostras diferentes, em "
+"velocidades diferentes. Tente velocidades muito rápidas. Tente velocidades "
+"extremamente lentas. Veja os sons interessantes que você pode produzir."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
-msgstr ""
+msgstr "Uma Explicação Simples do Termo Sample Rate (velocidade da amostra)"
 
 #: 03.3-Stretching-Samples.md:78
 msgid ""
@@ -1899,6 +1952,15 @@ msgid ""
 "rate), the shorter it gets, the more you stretch (lower rate), the longer it g"
 "ets."
 msgstr ""
+"Uma forma útil de se pensar em amostras é com se fossem molas. A velocidade "
+"de execução é como espremer ou esticar a mola. Se você toca uma amostra com "
+"velocidade 2, você está *comprimindo a mola* até a metade de seu "
+"comprimento. Consequentemente, a amostra leva metade do tempo para tocar, já "
+"que está menor. Se você toca a amostra com metade da velocidade, você está *"
+"esticando a mola* até o dobro de seu tamanho. A amostra leva o dobro do "
+"tempo para ser tocada, já que está mais longa. Quanto mais você comprime ("
+"rate maior), mais curto o som fica. Quanto mais você estica (rate menor), "
+"mais longo o som fica."
 
 #: 03.3-Stretching-Samples.md:87
 msgid ""
@@ -1906,16 +1968,22 @@ msgid ""
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
 msgstr ""
+"Comprimir uma mola aumenta sua densidade (em número de voltas por cm) - isto "
+"é similar ao som da amostra ficar *mais agudo* (tom mais alto). Esticando a "
+"mola, sua densidade diminui e, no caso da amostra, o som fica *mais grave* ("
+"com um tom mais baixo)."
 
 #: 03.3-Stretching-Samples.md:93
 msgid "The Maths Behind Sample Rate"
-msgstr ""
+msgstr "A Matemática Por Trás do Sample Rate"
 
 #: 03.3-Stretching-Samples.md:95
 msgid ""
 "(This section is provided for those that are interested in the details. Please"
 " feel free to skip it...)"
 msgstr ""
+"(Esta seção é voltada para aqueles que estão interessados nos detalhes. "
+"Sinta-se a vontade para pulá-la...)"
 
 #: 03.3-Stretching-Samples.md:98
 msgid ""
@@ -1923,10 +1991,14 @@ msgid ""
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
 msgstr ""
+"Como vimos acima, uma amostra é representada por uma longa lista de números "
+"representando onde o alto-falante deve estar através do tempo. Podemos pegar "
+"esta lista de números e usá-la para desenhar um gráfico que ficaria similar "
+"a isto:"
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![gráfico da amostra](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -1940,35 +2012,44 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
+"Você deve já ter visto gráficos com este antes. São chamados de *Waveform* ("
+"forma de onda) da amostra. É só um gráfico de números. Tipicamente uma onda "
+"terá 44100 pontos de dados por segundo (isto se deve ao Teorema de "
+"Amostragem de Nyquist-Shannon). Então, se a amostra durar 2 segundos, a onda "
+"será representada por 88200 números que deveremos passar ao alto-falente, à "
+"velocidade de 44100 pontos/s. Claro, nós passá-los com velocidade dobrada, "
+"que seria 88200 pontos/s. Isso então levaria somente 1 segundo para tocar. "
+"Nós podemos também tocá-la com metade da velocidade, que seriam 22050 pontos/"
+"s, levando 4 segundos pra tocar."
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr ""
+msgstr "A duração da amostra é afetada pela velocidade (rate) que é tocada:"
 
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
-msgstr ""
+msgstr "Dobrando a velocidade, cortamos pela metade a duração,"
 
 #: 03.3-Stretching-Samples.md:119
 msgid "Halving the playback rate doubles the playback time,"
-msgstr ""
+msgstr "Tocando na metade da velocidade, dobramos a duração,"
 
 #: 03.3-Stretching-Samples.md:120
 msgid "Using a playback rate of one fourth quadruples the playback time,"
-msgstr ""
+msgstr "Tocando com 1/4 da velocidade, quadruplicamos a duração,"
 
 #: 03.3-Stretching-Samples.md:121
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
-msgstr ""
+msgstr "Tocando com 1/10 da velocidade, multiplicamos a duração por 10."
 
 #: 03.3-Stretching-Samples.md:123
 msgid "We can represent this with the formula:"
-msgstr ""
+msgstr "Podemos representar isso através da fórmula:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr ""
+msgstr "nova_duração_da_amostra = (1 / rate) * duração_da_amostra "
 
 #: 03.3-Stretching-Samples.md:129
 msgid ""
@@ -1979,6 +2060,14 @@ msgid ""
 "speaker move as it pumps out super low bass - it's actually moving a lot slowe"
 "r in and out than a speaker producing higher notes."
 msgstr ""
+"Modificando a velocidade de execução também afeta o tom da amostra. A "
+"frequência, ou tom (pitch), de uma onda é determinada pelo quão rápido ela "
+"se move para cima e para baixo. Nossos cérebros, de alguma forma transformam "
+"movimentos rápidos do alto-falante em notas altas (agudas) e movimentos "
+"lentos do alto-falante em notas baixas (graves). Por isso que, as vezes, "
+"você pode até ver um grande alto-falante reproduzindo sons graves se movendo "
+"- na realidade, ele está se movendo bem mais lento (para dentro e para fora) "
+"do que um alto-falante reproduzindo notas altas (agudos)."
 
 #: 03.3-Stretching-Samples.md:137
 msgid ""
@@ -1989,14 +2078,21 @@ msgid ""
 "*halving the rate will halve the frequency*. Other rates will affect the frequ"
 "ency accordingly."
 msgstr ""
+"Se você pegar um onda e espremê-la, ela ira se mover, para cima e para "
+"baixo, mais vezes por segundo. Isto fará o som ficar mais agudo. Acontece "
+"que dobrando a quantidade de movimentos para cima e para baixo (oscilações), "
+"dobramos a frequência. Então, *tocando nossa amostra com o dobro da "
+"velocidade, dobramos a frequência que você ouve*. Também, *dividindo ao meio "
+"a velocidade, dividimos ao meio a frequência*. Outras velocidades (rates) "
+"afetarão a frequência proporcionalmente."
 
 #: 03.4-Enveloped-Samples.md:1
 msgid "3.4 Enveloped Samples"
-msgstr ""
+msgstr "3.4 Curvas de Envelope de Amostras"
 
 #: 03.4-Enveloped-Samples.md:3
 msgid "Enveloped Samples"
-msgstr ""
+msgstr "Curvas de Envelope de Amostras (ou simplesmente Envelopes de Amostras)"
 
 #: 03.4-Enveloped-Samples.md:5
 msgid ""
@@ -5133,15 +5229,17 @@ msgstr ""
 
 #: 08-Data-Structures.md:1
 msgid "8 Data Structures"
-msgstr ""
+msgstr "8. Estruturas de dados"
 
 #: 08-Data-Structures.md:3
 msgid "Data Structures"
-msgstr ""
+msgstr "Estruturas de dados"
 
 #: 08-Data-Structures.md:5
 msgid "A very useful tool in a programmer's toolkit is a data structure."
 msgstr ""
+"Uma ferramenta muito útil na caixa de ferramentas de um programador é uma "
+"estrutura de dados."
 
 #: 08-Data-Structures.md:7
 msgid ""
@@ -5149,6 +5247,10 @@ msgid ""
 "you may find it useful to have a series of notes to play one after another. Pr"
 "ogramming languages have data structures to allow you do exactly this."
 msgstr ""
+"As Vezes você pode querer representar e usar mais de uma coisa. Por exemplo, "
+"você pode achar útil ter uma série de notas para tocar uma após a outra. "
+"Linguagens de programação possuem estruturas de dados que te possibilitam "
+"fazer exatamente isso."
 
 #: 08-Data-Structures.md:12
 msgid ""
@@ -5156,20 +5258,26 @@ msgid ""
 "and people are always inventing new ones. However, for now we only really need"
 " to consider a very simple data structure - the list."
 msgstr ""
+"Existem muitas estruturas de dados excitantes e exóticas disponíveis para "
+"programadores - e as pessoas estão sempre inventando novas. No entanto, por "
+"enquanto nós só precisamos considerar uma estrutura de dados bem simples - a "
+"lista."
 
 #: 08-Data-Structures.md:16
 msgid ""
 "Let's look at it in more detail. We'll cover its basic form and then also how "
 "lists can be used to represent scales and chords."
 msgstr ""
+"Vamos olhá-la mais de perto. Vamos explicar sua forma básica e também como "
+"as listas podem ser usadas para representar escalas e acordes."
 
 #: 08.1-Lists.md:1
 msgid "8.1 Lists"
-msgstr ""
+msgstr "8.1 Listas"
 
 #: 08.1-Lists.md:3
 msgid "Lists"
-msgstr ""
+msgstr "Listas"
 
 #: 08.1-Lists.md:5
 msgid ""
@@ -5177,11 +5285,14 @@ msgid ""
 "he list. We met it very briefly before in the section on randomisation when we"
 " randomly chose from a list of notes to play:"
 msgstr ""
+"Nesta seção nós vamos ver uma estrutura de dados que é muito útil - a Lista. "
+"Nós a encontramos antes, muito rapidamente, na seção sobre aleatorização "
+"quando nós, aleatoriamente, escolhemos notas para serem todas de uma lista:"
 
 #: 08.1-Lists.md:9
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play choose([50, 55, 62])"
-msgstr ""
+msgstr "play choose([50, 55, 62])"
 
 #: 08.1-Lists.md:13
 msgid ""
@@ -5189,65 +5300,81 @@ msgid ""
 " First let's recap how we might play a chord. Remember that if we don't use `s"
 "leep`, sounds all happen at the same time:"
 msgstr ""
+"Nesta seção nós vamos explorar o uso de listas para representação de acordes "
+"e escalas. Primeiro vamos recapitular como nós podemos tocar um acorde. "
+"Lembre-se que se não usarmos o `sleep`, todos os sons acontecem ao mesmo "
+"tempo:"
 
 #: 08.1-Lists.md:17
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 52\n"
 "play 55\n"
 "play 59"
 msgstr ""
+"play 52\n"
+"play 55\n"
+"play 59"
 
 #: 08.1-Lists.md:23
 msgid "Let's look at other ways to represent this code."
-msgstr ""
+msgstr "Vamos ver outras formas de representar este código."
 
 #: 08.1-Lists.md:25
 msgid "Playing a List"
-msgstr ""
+msgstr "Tocando uma lista"
 
 #: 08.1-Lists.md:27
 msgid ""
 "One option is to place all the notes in a list: `[52, 55, 59]`. Our friendly `"
 "play` function is smart enough to know how to play a list of notes. Try it:"
 msgstr ""
+"Uma das opções é colocar todas as notas em uma lista: `[52, 55, 59]`. A "
+"nossa conhecida função `play` é suficientemente inteligente para saber como "
+"tocar uma lista de notas. Tente:"
 
 #: 08.1-Lists.md:31
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play [52, 55, 59]"
-msgstr ""
+msgstr "play [52, 55, 59]"
 
 #: 08.1-Lists.md:35
 msgid ""
 "Ooh, that's already nicer to read. Playing a list of notes doesn't stop you fr"
 "om using any of the parameters as normal:"
 msgstr ""
+"Ooh, isso já fica bem melhor para ler. Tocar uma lista de notas não te "
+"impede de usar qualquer outro dos parâmetros normais:"
 
 #: 08.1-Lists.md:38
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play [52, 55, 59], amp: 0.3"
-msgstr ""
+msgstr "play [52, 55, 59], amp: 0.3"
 
 #: 08.1-Lists.md:42
 msgid ""
 "Of course, you can also use the traditional note names instead of the MIDI num"
 "bers:"
 msgstr ""
+"Claro, que você também pode usar os nomes tradicionais das notas em vez do "
+"seu número MIDI:"
 
 #: 08.1-Lists.md:45
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play [:E3, :G3, :B3]"
-msgstr ""
+msgstr "play [:E3, :G3, :B3]"
 
 #: 08.1-Lists.md:49
 msgid ""
 "Now those of you lucky enough to have studied some music theory might recognis"
 "e that chord as *E Minor* played in the 3rd octave."
 msgstr ""
+"Agora aqueles de vocês que tiveram sorte de ter estudado teoria musical "
+"podem reconhecer este acorde como *Mi Menor* tocado na terceira oitava."
 
 #: 08.1-Lists.md:52
 msgid "Accessing a List"
-msgstr ""
+msgstr "Acessando uma lista"
 
 #: 08.1-Lists.md:54
 msgid ""
@@ -5257,19 +5384,25 @@ msgid ""
 "t at index 23? The only strange thing is that in programming indexes usually s"
 "tart at 0 not 1."
 msgstr ""
+"Uma outra característica muito útil de uma lista é a habilidade de receber "
+"informações dela. Isso pode parecer estranho, mas não é mais complicado do "
+"que alguém pedindo para você abrir um livro na página 23. Com uma lista, "
+"você pode dizer, qual é o elemento no índice 23? A única coisa estranha é "
+"que na programação os índices geralmente começam em 0 e não em 1."
 
 #: 08.1-Lists.md:60
 msgid "With list indexes we don't count 1, 2, 3... Instead we count 0, 1, 2..."
 msgstr ""
+"Nos índices de listas nós não contamos 1, 2, 3... Nós contamos 0, 1, 2..."
 
 #: 08.1-Lists.md:62
 msgid "Let's look at this in a little more detail. Take a look at this list:"
-msgstr ""
+msgstr "Vamos ver isto com um pouco mais de detalhe. Dê uma olhada nesta lista:"
 
 #: 08.1-Lists.md:64
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "[52, 55, 59]"
-msgstr ""
+msgstr "[52, 55, 59]"
 
 #: 08.1-Lists.md:68
 msgid ""
@@ -5277,11 +5410,14 @@ msgid ""
 " that list? Yes, of course, it's `55`. That was easy. Let's see if we can get "
 "the computer to answer it for us too:"
 msgstr ""
+"Não há nada especialmente assustador nisso. Agora, qual é o segundo elemento "
+"da lista? Sim, claro, é o `55`. Isso foi fácil. Vamos ver se conseguimos "
+"fazer o computador responder isso por nós, também:"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "puts [52, 55, 59][1]"
-msgstr ""
+msgstr "puts [52, 55, 59][1]"
 
 #: 08.1-Lists.md:76
 msgid ""
@@ -5293,13 +5429,23 @@ msgid ""
 "ent. We need to surround our index with square brackets and because counting s"
 "tarts at `0`, the index for the second element is `1`. Look:"
 msgstr ""
+"OK, isso pode parecer um pouco estranho se você nunca tinha visto nada com "
+"isso antes. Acredite em mim, não e nada difícil. Existem 3 partes na linha "
+"acima: a palavra `puts`, a nossa lista `52, 55, 59` e o nosso índice`[1]`. "
+"Inicialmente estamos dizendo `puts` porque queremos que o Sonic Pi imprima a "
+"resposta para nós, no registro. Em seguida, nós estamos fornecendo nossa "
+"lista, e finalmente nosso índice está pedindo o segundo elemento. A contagem "
+"começa em `0`, o índice do segundo elemento é `1` (0=primeiro; 1=segundo; "
+"2=terceiro; ...). Devemos colocar nosso índice dentro de colchetes. Veja:"
 
 #: 08.1-Lists.md:85
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "# indexes:  0   1   2\n"
 "           [52, 55, 59]"
 msgstr ""
+"# indexes:  0   1   2\n"
+"           [52, 55, 59]"
 
 #: 08.1-Lists.md:90
 msgid ""
@@ -5308,21 +5454,27 @@ msgid ""
 "ow you might use a list in your next code jam. For example, what musical struc"
 "tures might be represented as a series of numbers..."
 msgstr ""
+"Tente executar o código `puts [52, 55, 59][1]` e você verá `55` aparecer no "
+"log. Mude o índice `1` para outros índices, tente com listas maiores e pense "
+"em como você pode usar listas na sua próxima apresentação. Por exemplo, que "
+"estruturas musicais podem ser representadas como uma série de números..."
 
 #: 08.2-Chords.md:1
 msgid "8.2 Chords"
-msgstr ""
+msgstr "8.2 Acordes"
 
 #: 08.2-Chords.md:5
 msgid ""
 "Sonic Pi has built-in support for chord names which will return lists. Try it "
 "for yourself:"
 msgstr ""
+"O Sonic Pi possui suporte para nomes de acordes que devolverão listas. Tente "
+"você mesmo:"
 
 #: 08.2-Chords.md:8
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play chord(:E3, :minor)"
-msgstr ""
+msgstr "play chord(:E3, :minor)"
 
 #: 08.2-Chords.md:12
 msgid ""
@@ -5330,35 +5482,44 @@ msgid ""
 " lists (and is easier to read for other people). So what other chords does Son"
 "ic Pi support? Well, a *lot*. Try some of these:"
 msgstr ""
+"Agora estamos chegando em algum lugar. Isso parece muito mais bonito que "
+"listas brutas (e são mais fáceis de ler para outras pessoas). Então quais "
+"outros acordes o Sonic Pi suporta? Bem, *muitos*. Tente alguns destes:"
 
 #: 08.2-Chords.md:16
+#, fuzzy
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
+#, fuzzy
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
+#, fuzzy
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
+#, fuzzy
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 msgid "Arpeggios"
-msgstr ""
+msgstr "Arpejos"
 
 #: 08.2-Chords.md:23
 msgid "We can easily turn chords into arpeggios with the function `play_pattern`:"
 msgstr ""
+"Podemos facilmente transformar acordes em arpejos com a função "
+"`play_pattern`:"
 
 #: 08.2-Chords.md:26
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern chord(:E3, :m7)"
-msgstr ""
+msgstr "play_pattern chord(:E3, :m7)"
 
 #: 08.2-Chords.md:30
 msgid ""
@@ -5367,27 +5528,33 @@ msgid ""
 "play`. We can use another function `play_pattern_timed` to specify our own tim"
 "ings and speed things up:"
 msgstr ""
+"Ok, isto não é muito divertido - tocou muito devagar. `play_pattern` irá "
+"tocar cada nota na lista separada por uma chamada a `sleep 1` entre cada "
+"chamada a `play`. Podemos usar outra função `play_pattern_timed` para "
+"especificar o nosso próprio tempo e acelerar as coisas:"
 
 #: 08.2-Chords.md:35
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern_timed chord(:E3, :m7), 0.25"
-msgstr ""
+msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 
 #: 08.2-Chords.md:39
 msgid "We can even pass a list of times which it will treat as a circle of times:"
 msgstr ""
+"Podemos até passar uma lista de tempos que serão tratados como um circulo de "
+"tempos:"
 
 #: 08.2-Chords.md:42
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
-msgstr ""
+msgstr "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 
 #: 08.2-Chords.md:46
 msgid "This is the equivalent to:"
-msgstr ""
+msgstr "Isto é equivalente a:"
 
 #: 08.2-Chords.md:48
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 52\n"
 "sleep 0.25\n"
@@ -5403,53 +5570,71 @@ msgid ""
 "sleep 0.5\n"
 "play 73"
 msgstr ""
+"play 52\n"
+"sleep 0.25\n"
+"play 55\n"
+"sleep 0.5\n"
+"play 59\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.5\n"
+"play 66\n"
+"sleep 0.25\n"
+"play 69\n"
+"sleep 0.5\n"
+"play 73"
 
 #: 08.2-Chords.md:64
 msgid "Which would you prefer to write?"
-msgstr ""
+msgstr "Qual você prefere escrever?"
 
 #: 08.3-Scales.md:1
 msgid "8.3 Scales"
-msgstr ""
+msgstr "8.3 Escalas"
 
 #: 08.3-Scales.md:3
 msgid "Scales"
-msgstr ""
+msgstr "Escalas"
 
 #: 08.3-Scales.md:5
 msgid ""
 "Sonic Pi has support for a wide range of scales. How about playing a C3 major "
 "scale?"
 msgstr ""
+"O Sonic Pi suporta uma grande variedade de escalas. Que tal tocar uma escala "
+"de Dó Maior na 3 oitava?"
 
 #: 08.3-Scales.md:8
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
-msgstr ""
+msgstr "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:12
 msgid "We can even ask for more octaves:"
-msgstr ""
+msgstr "Podemos até pedir mais oitavas:"
 
 #: 08.3-Scales.md:14
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 msgstr ""
+"play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:18
 msgid "How about all the notes in a pentatonic scale?"
-msgstr ""
+msgstr "Que tal todas as notas de uma escala pentatônica?"
 
 #: 08.3-Scales.md:20
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, relea"
 "se: 0.1"
 msgstr ""
+"play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, "
+"release: 0.1"
 
 #: 08.3-Scales.md:24
 msgid "Random notes"
-msgstr ""
+msgstr "Notas aleatórias"
 
 #: 08.3-Scales.md:26
 msgid ""
@@ -5457,9 +5642,12 @@ msgid ""
 "meaningful. Have a play with this example which picks random notes from the ch"
 "ord E3 minor:"
 msgstr ""
+"Acordes e escalas são ótimas formas para restringir as escolhas aleatórias "
+"para algo significativo. Divirta-se com este exemplo que pega notas "
+"aleatórias do acorde Mi3 menor:"
 
 #: 08.3-Scales.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "loop do\n"
@@ -5467,14 +5655,19 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"loop do\n"
+"  play choose(chord(:E3, :minor)), release: 0.3, cutoff: rrand(60, 120)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 08.3-Scales.md:38
 msgid "Try switching in different chord names and cutoff ranges."
-msgstr ""
+msgstr "Tente mudar para nomes de acordes diferentes e amplitudes de corte."
 
 #: 08.3-Scales.md:40
 msgid "Discovering Chords and Scales"
-msgstr ""
+msgstr "Descobrindo Acordes e Escalas"
 
 #: 08.3-Scales.md:42
 msgid ""
@@ -5484,10 +5677,15 @@ msgid ""
 " you see a long list of chords or scales (depending on which you're looking at"
 ")."
 msgstr ""
+"Para saber quais escalas e acordes são suportados pelo Sonic Pi simplesmente "
+"clique no botão Lang, na esquerda extrema deste tutorial e escolha acorde ou "
+"escala na lista de API. Na informação do painel principal, role para baixo "
+"até ver uma longa lista de acordes ou escalas (dependendo de qual página "
+"você estiver vendo)."
 
 #: 08.3-Scales.md:48
 msgid "Have fun and remember: there are no mistakes, only opportunities."
-msgstr ""
+msgstr "Divirta-se e lembre-se, não existem erros, apenas oportunidades."
 
 #: 08.4-Rings.md:1
 msgid "8.4 Rings"
@@ -6114,14 +6312,17 @@ msgid ""
 "stop what you're doing and read the next section on `live_loop` which will cha"
 "nge the way you code in Sonic Pi forever..."
 msgstr ""
+"Entretanto, antes de pular e começar a programar ao vivo com funções e "
+"threads, pare o que você está fazendo e leia a próxima seção sobre "
+"`live_loop` que irá mudar a forma como programa no Sonic Pi para sempre..."
 
 #: 09.2-Live-Loops.md:1
 msgid "9.2 Live Loops"
-msgstr ""
+msgstr "9.2 Live Loops (loops ao vivo)"
 
 #: 09.2-Live-Loops.md:3
 msgid "Live Loops"
-msgstr ""
+msgstr "Live Loops (loops ao vivo)"
 
 #: 09.2-Live-Loops.md:5
 msgid ""
@@ -6130,16 +6331,22 @@ msgid ""
 "ndamentals, `live_loop` is a simple way of doing exactly that but without havi"
 "ng to write so much."
 msgstr ""
+"Ok, esta seção do tutorial é joia verdadeira. Se você tiver que ler somente "
+"uma seção, que seja esta. Se você leu a seção anterior sobre os Fundamentos "
+"do Live Coding, `live_loop` é uma forma simples de fazer exatamente isso, "
+"mas sem ter que escrever tanto."
 
 #: 09.2-Live-Loops.md:10
 msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam wi"
 "th Sonic Pi."
 msgstr ""
+"Se você não leu a seção anterior, `live_loop`é a melhor maneira de "
+"improvisar com o Sonic Pi."
 
 #: 09.2-Live-Loops.md:13
 msgid "Let's play. Write the following in a new buffer:"
-msgstr ""
+msgstr "Vamos tocar. Escreva o seguinte em um buffer novo:"
 
 #: 09.2-Live-Loops.md:15
 #, no-wrap
@@ -6149,6 +6356,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play 60\n"
+"  sleep 1\n"
+"end\n"
+"#"
 
 #: 09.2-Live-Loops.md:22
 msgid ""
@@ -6156,19 +6368,24 @@ msgid ""
 " However, don't press Stop just yet. Change the `60` to `65` and press Run aga"
 "in."
 msgstr ""
+"Agora pressione o botão Run. Você irá ouvir um beep básico a cada batida. "
+"Nada divertido isso. Entretanto, não pressione Stop ainda. Mude o `60` para "
+"`65` e clique no Run outra vez."
 
 #: 09.2-Live-Loops.md:26
 msgid "Woah! It changed *automatically* without missing a beat. This is live coding."
-msgstr ""
+msgstr "WOW! Mudou *automaticamente* sem perder a batida. Isto é Live coding."
 
 #: 09.2-Live-Loops.md:28
 msgid ""
 "Why not change it to be more bass like? Just update your code whilst it's play"
 "ing:"
 msgstr ""
+"Por que não mudar para algo mais parecido com um baixo? Somente atualize seu "
+"código enquanto ele está tocando:"
 
 #: 09.2-Live-Loops.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  use_synth :prophet\n"
@@ -6176,14 +6393,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:38
 msgid "Then hit Run."
-msgstr ""
+msgstr "Então pressione Run."
 
 #: 09.2-Live-Loops.md:40
 msgid "Let's make the cutoff move around:"
-msgstr ""
+msgstr "Vamos fazer o 'cutoff' variar aleatoriamente:"
 
 #: 09.2-Live-Loops.md:42
 #, no-wrap
@@ -6194,14 +6416,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:50
 msgid "Hit Run again."
-msgstr ""
+msgstr "Pressione o botão Run outra vez."
 
 #: 09.2-Live-Loops.md:52
 msgid "Add some drums:"
-msgstr ""
+msgstr "Adicione alguma bateria:"
 
 #: 09.2-Live-Loops.md:54
 #, no-wrap
@@ -6213,10 +6440,17 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  sample :loop_garzul\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end\n"
+"#"
 
 #: 09.2-Live-Loops.md:63
 msgid "Change the note from `e1` to `c1`:"
-msgstr ""
+msgstr "Mude a nota de `e1` para `c1`:"
 
 #: 09.2-Live-Loops.md:65
 #, no-wrap
@@ -6228,22 +6462,29 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  sample :loop_garzul\n"
+"  use_synth :prophet\n"
+"  play :c1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end\n"
+"#"
 
 #: 09.2-Live-Loops.md:74
 msgid "Now stop listening to me and play around yourself! Have fun!"
-msgstr ""
+msgstr "Agora pare de me ouvir e vá tocar você mesmo! Divirta-se!"
 
 #: 09.3-Multiple-Live-Loops.md:1
 msgid "9.3 Multiple Live Loops"
-msgstr ""
+msgstr "9.3 Múltiplos Live Loops"
 
 #: 09.3-Multiple-Live-Loops.md:3
 msgid "Multiple Live Loops"
-msgstr ""
+msgstr "Múltiplos Live Loops"
 
 #: 09.3-Multiple-Live-Loops.md:5
 msgid "Consider the following live loop:"
-msgstr ""
+msgstr "Considere o seguinte live loop:"
 
 #: 09.3-Multiple-Live-Loops.md:7
 #, no-wrap
@@ -6253,25 +6494,34 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play 50\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:14
 msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
+"Você pode estar se perguntando por que precisa do nome `:foo`. Este nome é "
+"importante porque significa que este live loop é diferente de todos os "
+"outros live loops."
 
 #: 09.3-Multiple-Live-Loops.md:18
 msgid "*There can never be two live loops running with the same name*."
-msgstr ""
+msgstr "*Nunca pode haver dois live loops sendo executados com o mesmo nome*."
 
 #: 09.3-Multiple-Live-Loops.md:20
 msgid ""
 "This means that if we want multiple concurrently running live loops, we just n"
 "eed to give them different names:"
 msgstr ""
+"Isso quer dizer que se quisermos múltiplos live loops concorrentes, teremos "
+"que dar nomes diferentes a eles:"
 
 #: 09.3-Multiple-Live-Loops.md:23
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  use_synth :prophet\n"
@@ -6283,16 +6533,27 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :c1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 0.5\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:36
 msgid ""
 "You can now update and change each live loop independently and it all just wor"
 "ks."
 msgstr ""
+"Agora você pode atualizar e modificar cada live loop independentemente e "
+"tudo simplesmente funciona."
 
 #: 09.3-Multiple-Live-Loops.md:39
 msgid "Syncing Live Loops"
-msgstr ""
+msgstr "Sincronizando live loops"
 
 #: 09.3-Multiple-Live-Loops.md:41
 msgid ""
@@ -6302,13 +6563,16 @@ msgid ""
 " therefore `sync` on these cues to ensure our loops are in sync without having"
 " to stop anything."
 msgstr ""
+"Uma coisa que você já deve ter notado é que live loops funcionam "
+"automaticamente com o mecanismo de cue do thread que exploramos "
+"anteriormente."
 
 #: 09.3-Multiple-Live-Loops.md:47
 msgid "Consider this badly synced code:"
-msgstr ""
+msgstr "Considere este código mal sincronizado:"
 
 #: 09.3-Multiple-Live-Loops.md:49
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -6319,6 +6583,14 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
+"  sleep 0.4\n"
+"end\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:61
 msgid ""
@@ -6326,9 +6598,12 @@ msgid ""
 "fix the `:foo` loop to make the sleep a factor of 1 - something like `0.5` wil"
 "l do:"
 msgstr ""
+"Vejamos se conseguimos corrigir o tempo e sincronismo sem pará-lo. Primeiro "
+"vamos consertar o loop `:foo` para fazê-lo soar em um fator múltiplo do "
+"tempo do outro loop - algo como `0.5` servirá:"
 
 #: 09.3-Multiple-Live-Loops.md:65
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -6339,6 +6614,14 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:77
 msgid ""
@@ -6346,9 +6629,12 @@ msgid ""
 " line up correctly. This is because the loops are *out of phase*. Let's fix th"
 "at by syncing one to the other:"
 msgstr ""
+"Ainda não terminamos - você irá notar que as batidas não se alinham "
+"corretamente. Isso acontece porque os loops estão *fora de fase*. Vamos "
+"corrigir isso sincronizando um com o outro:"
 
 #: 09.3-Multiple-Live-Loops.md:81
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -6360,14 +6646,23 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :bar do\n"
+"  sync :foo\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:94
 msgid "Wow, everything is now perfectly in time - all without stopping."
-msgstr ""
+msgstr "Wow, agora tudo está perfeitamente no tempo - tudo sem parar."
 
 #: 09.3-Multiple-Live-Loops.md:96
 msgid "Now, go forth and live code with live loops!"
-msgstr ""
+msgstr "Agora vá em frente e programe ao vivo com live loops!"
 
 #: 09.4-Ticking.md:1
 msgid "9.4 Ticking"
@@ -6846,11 +7141,11 @@ msgstr ""
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
-msgstr "10.2 Sincronização"
+msgstr "10.2 Sincronização (Sync)"
 
 #: 10.2-Sync.md:3
 msgid "Sync"
-msgstr ""
+msgstr "Sincronização (Sync)"
 
 #: 10.2-Sync.md:5
 msgid ""
@@ -6863,6 +7158,14 @@ msgid ""
 " - any information that we plan to store in Time State we can sync on. In othe"
 "r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
+"A seção 5.7 introduziu as funções `cue` e `sync` para lidar com problemas de "
+"sincronização de threads. O que não foi explicado é que é o sistema de Time "
+"State que fornece esta funcionalidade. É de tal forma que `set` is na "
+"realidade uma variação de `cue`e foi construído de forma que que possa "
+"trabalhar perfeitamente com o Time State - qualquer informaçãoque nós "
+"planejamos armazenar no Time State nós podemos sincronizar. Em outras "
+"palavras - *nós sincronizamos `sync`eventos que ainda serão inseridos no "
+"Time State*."
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
@@ -6873,9 +7176,11 @@ msgid ""
 "Let's take a quick look at how to use `sync` to wait for new events to be adde"
 "d to Time State:"
 msgstr ""
+"Vamos dar uma olhada em como usar `sync` para esperar por novos eventos que "
+"serão inseridos ao Time State:"
 
 #: 10.2-Sync.md:20
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread do\n"
 "  sync :foo\n"
@@ -6884,7 +7189,7 @@ msgid ""
 "sleep 2\n"
 "set :foo, 1"
 msgstr ""
-"in_thread do \n"
+"in_thread do\n"
 "  sync :foo\n"
 "  sample :ambi_lunar_land\n"
 "end\n"
@@ -6898,6 +7203,11 @@ msgid ""
 "d then `set` `:foo` to be `1`. This then releases the `sync` which then moves "
 "to the next line which is to trigger the `:ambi_lunar_land` sample."
 msgstr ""
+"Neste exemplo nós primeiro criamos uma thread que espera um evento `:foo` "
+"ser adicionado ao Time State. Após a declaração desta thread, nós esperamos "
+"por 2 batidas e então setamos (`set`) `:foo` para ser `1`. Isso libera a "
+"sincronização (`sync`) que então segue para a próxima linha que dispara a "
+"amostra `:ambi_lunar_land`."
 
 #: 10.2-Sync.md:37
 msgid ""
@@ -6906,16 +7216,23 @@ msgid ""
 "of the thread which triggered it via `set` or `cue` so it may also be used to "
 "sync time."
 msgstr ""
+"Note que `sync` sempre espera por *eventos futuros* e isso irá bloquear a a "
+"thread atual esperando por um novo evento. Também, irá herdar o tempo lógico "
+"da thread que chamou a sincronização através de `set` ou `cue` então pode "
+"também ser usado para sincronizar tempo."
 
 #: 10.2-Sync.md:42
 msgid "Passing values into the Future"
-msgstr ""
+msgstr "Passando valores para o Futuro"
 
 #: 10.2-Sync.md:44
 msgid ""
 "In the example above we set `:foo` to `1` which we did nothing with. We can ac"
 "tually get this value from the thread calling `sync`:"
 msgstr ""
+"No exemplo acima nós configuramos `:foo` igual a `1` e não fizemos nada com "
+"isso. Nós podemos, na verdade, recuperar este valor na thread chamando "
+"`sync`:"
 
 #: 10.2-Sync.md:47
 #, no-wrap
@@ -6941,6 +7258,10 @@ msgid ""
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
+"Note que valores que são passados através de `set` e `cue` devem ser seguros "
+"- i.e. Rings imutáveis, números, símbolos ou strings congeladas. O Sonic Pi "
+"irá gerar um erro se o valor que você está tentando armazenar no Time State "
+"não for válido."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
@@ -6959,14 +7280,23 @@ msgid ""
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
 msgstr ""
+"Para passar e recuperar informações para o Time State, é possível usar "
+"chaves mais complexas que símbolos básicos como `:foo` e `:bar`. Você também "
+"pode usar strings no formato URL, chamadas de Paths (caminhos) como `\"/foo/"
+"bar/baz\"`. Depois que começãmos a usar paths, nós podemos começar a "
+"aproveitar o sofisticado sistema de correspondência de Padrões do Sonic Pi "
+"para usar `get` e `sync` com paths 'similares' em vez de 'idênticos'. Vamos "
+"dar uma olhada."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
-msgstr ""
+msgstr "Correspondência com qualquer parte do caminho (path)"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
+"Vamos assumir que nós queiramos esperar pelo próximo evento que tem três "
+"segmentos no path:"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
@@ -6978,6 +7308,8 @@ msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
+"Isto irá corresponder a qualquer evento Time State com exatamente três "
+"segmento, independente de seus nomes. Por exemplo:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
@@ -7001,6 +7333,8 @@ msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
+"Entretanto, *não* irá corresponder a paths com menos ou mais segmentos. Os "
+"seguintes paths não serão localizados:"
 
 #: 10.3-Pattern-Matching.md:32
 msgid "`cue \"/foo/bar\"`"
@@ -7019,10 +7353,13 @@ msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"Cada `*` (asterisco) significa *qualquer conteúdo*. Então nós podemos "
+"encontrar paths com somente um segmento com `/*` ou paths com cinco "
+"segmentos com `/*/*/*/*/*`"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
-msgstr ""
+msgstr "Encontrando segmentos parciais"
 
 #: 10.3-Pattern-Matching.md:40
 msgid ""
@@ -7032,6 +7369,11 @@ msgid ""
 "` and the middle segment can be anything that starts with `b`. So, it would ma"
 "tch:"
 msgstr ""
+"Se soubermos como o segmento irá começar ou terminar, nós podemos usar um "
+"asterisco `*` junto com o nome parcial do segmento. Por exemplo: `\"/foo/b*/"
+"baz\"` irá corresponder a qualquer path com três segmentos, onde o primeiro "
+"é `foo`, o último é `baz` e o segmento do meio pode ser qualquer coisa que "
+"comece com `b`. Então irá corresponder a:"
 
 #: 10.3-Pattern-Matching.md:47
 msgid "`cue \"/foo/baz/baz\"`"
@@ -7043,7 +7385,7 @@ msgstr "`cue \"/foo/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
-msgstr ""
+msgstr "Mas não irá corresponder a:"
 
 #: 10.3-Pattern-Matching.md:52
 msgid "`cue \"/foo/flibble/baz\"`"
@@ -7064,10 +7406,15 @@ msgid ""
 " `set` where the first segment is `foo`, the last is `baz` and the middle segm"
 "ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
 msgstr ""
+"Você pode colocar o `*` no início do segmento para especificar os últimos "
+"caracteres de um segmento: `\"/foo/*zz/baz\"` que iráo corresponder a "
+"quaisquer 3 segmentos `cue` ou `set` onde o primeiro segmento for `foo`, o "
+"último for `baz` e o segmento do meio termine com `zz`, como `\"cue \"/foo/"
+"whizz/baz\"`."
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
-msgstr ""
+msgstr "Encontrando correspondências em segmentos de paths aninhados"
 
 #: 10.3-Pattern-Matching.md:64
 msgid ""
@@ -7075,6 +7422,9 @@ msgid ""
 "ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
 "ill match:"
 msgstr ""
+"As vezes você não sabe quantos segmentos do path você quer achar a "
+"correspondência. Nestes casos, você pode usar os poderosos duplos asteriscos:"
+" `**` como em `\"/foo/**/baz\"` que irão corresponder a:"
 
 #: 10.3-Pattern-Matching.md:69
 msgid "`cue \"/foo/bar/beans/baz\"`"
@@ -7090,13 +7440,15 @@ msgstr "`cue \"/foo/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
-msgstr ""
+msgstr "Correspondendo a Letras Sozinhas"
 
 #: 10.3-Pattern-Matching.md:75
 msgid ""
 "You can use the `?` character to match against a single char such as `\"/?oo/ba"
 "r/baz\"` which will match:"
 msgstr ""
+"Você pode usar o caracter `?` para comparar com um caracter apenas, como em `"
+"\"/?oo/bar/baz\"` que irá corresponder a:"
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
@@ -7112,7 +7464,7 @@ msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
-msgstr ""
+msgstr "Correspondendo a Múltiplas Palavras"
 
 #: 10.3-Pattern-Matching.md:85
 msgid ""
@@ -7120,6 +7472,10 @@ msgid ""
 " the `{` and `}` matchers to specify a list of choices such as `\"/foo/{bar,bea"
 "ns,eggs}/quux\"` which will only match the following:"
 msgstr ""
+"Se você sabe que um segmento pode ser uma palavra de um certo conjunto de "
+"palavras, você pode usar `{` e `}` para especificar uma lista de opções como "
+"em `\"/foo/{bar,beans,eggs}/quux\"` que irão corresponder aos seguintes "
+"padrões:"
 
 #: 10.3-Pattern-Matching.md:89
 msgid "`cue \"/foo/bar/quux\"`"
@@ -7135,7 +7491,7 @@ msgstr "`cue \"/foo/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
-msgstr ""
+msgstr "Correspondendo a Múltiplas Letras"
 
 #: 10.3-Pattern-Matching.md:95
 msgid ""
@@ -7143,6 +7499,9 @@ msgid ""
 "]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` which wi"
 "ll match only:"
 msgstr ""
+"Por fim, você pode comparar com uma seleção de letras se você usar `[` e `]` "
+"para especificar uma lista de possibilidades como em `\"/foo/[abc]ux/baz\"` "
+"que irá corresponder somente a:"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
 msgid "`cue \"/foo/aux/baz\"`"
@@ -7161,6 +7520,8 @@ msgid ""
 "You can also use the `-` character to specify ranges of letters. For example `"
 "\"/foo/[a-e]ux/baz\"` which will match only:"
 msgstr ""
+"Você também pode utilizar o caracter `-` para especificar sequências de "
+"letras. Por exemplo`\"/foo/[a-e]ux/baz\"` que irá corresponder somente a:"
 
 #: 10.3-Pattern-Matching.md:109
 msgid "`cue \"/foo/dux/baz\"`"
@@ -7172,7 +7533,7 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
-msgstr ""
+msgstr "Combinando Correspondências"
 
 #: 10.3-Pattern-Matching.md:114
 msgid ""
@@ -7180,6 +7541,10 @@ msgid ""
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
 "et's look at a crazy example:"
 msgstr ""
+"Ao chamar `sync` ou `get` você está livre para combinar localizadores de "
+"correspondência em qualquer ordem que você achar necessário para \n"
+"encontrar qualquer evento Time State criado por `cue` ou `set`. Vamos ver um "
+"exemplo doido:"
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
@@ -7200,7 +7565,7 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
-msgstr ""
+msgstr "Correspondência de Padrões OSC"
 
 #: 10.3-Pattern-Matching.md:131
 msgid ""
@@ -7208,6 +7573,10 @@ msgid ""
 "ttern matching specification which is explained in detail here: http://opensou"
 "ndcontrol.org/spec-1_0"
 msgstr ""
+"Para os curiosos, estas regras de correspondência são baseados na "
+"especificação de correspondência de padrões do Open Sound Control (controle "
+"de som aberto), que é explicado com detalhes em: http://opensoundcontrol.org/"
+"spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
@@ -7537,8 +7906,8 @@ msgid ""
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
 msgstr ""
 "Atualize seu código para que ele corresponda ao código acima e clique em "
-"Executar. Agora nós temos um piano com baixa latência e sensibilidade "
-"variável, programado em apenas 5 linhas. Não foi fácil?"
+"'Executar' novamente. Agora nós temos um piano com baixa latência e "
+"sensibilidade variável, programado em apenas 5 linhas."
 
 #: 11.1-MIDI-In.md:136
 msgid "Getting Values"
