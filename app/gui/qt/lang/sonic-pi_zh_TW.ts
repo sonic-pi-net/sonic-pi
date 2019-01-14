@@ -421,7 +421,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">切換是否顯示編輯器窗口Buffer分頁。</translation>
+        <translation>切換是否顯示編輯器窗口Buffer選擇分頁。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1453"/>
