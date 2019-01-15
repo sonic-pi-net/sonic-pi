@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-09 10:35+0000\n"
-"Last-Translator: sharmer156 <sharmmer156@gmail.com>\n"
+"PO-Revision-Date: 2019-01-15 16:21+0000\n"
+"Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hant/>\n"
 "Language: zh-TW\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.0\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -210,7 +210,6 @@ msgid ""
 msgstr "注意它是如何告訴計算機忽略它的，所以我們不會聽到它。這叫做註釋。在Sonic Pi中，我們可以使用’#‘註釋增减東西混合代码中。"
 
 #: 01.1-Live-Coding.md:74
-#, fuzzy
 msgid ""
 "Finally, let me leave you something fun to play with. Take the code below, and"
 " copy it into a spare buffer. Now, don't try to understand it too much other t"
@@ -218,8 +217,8 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"最後，讓我給你們留點樂子。將下面的代碼複製到一個備用緩衝區中。現在，除了看到有兩個loop循環外，不要太理解它，所以同時有兩個循環。現在，做你最擅長的事—"
-"—做實驗不断深入玩耍。這裏有一些建議:"
+"最後，讓我給你留點好玩的。將下面的程式碼複製到一個備用緩衝區中。現在，除了看到有兩個迴圈之外，不要太過理解它——所以兩個東西同時迴圈。現在，做你最擅長的事"
+"情——嘗試和玩耍。以下是一些建議："
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
@@ -244,15 +243,14 @@ msgid ""
 msgstr "試着改變藍色的“mix:“值，數值在0(不是混合)和1(完全混合)之間。"
 
 #: 01.1-Live-Coding.md:88
-#, fuzzy
 msgid ""
 "Remember to press `Run` and you'll hear the change next time the loop goes rou"
 "nd. If you end up in a pickle, don't worry - hit `Stop`, delete the code in th"
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"記住按“Run”，下次loop循環時，您將聽到更改。如果你最終陷入困境，不要擔心——點擊“停止”，刪除緩存中的代碼，然後粘貼一個新的拷貝，你就可以再次陷入"
-"困境了。犯錯是你學習最快的方法……"
+"記住按 “Run”，下次迴圈時你會聽到變化。如果你最後陷入困境，不要擔心，點擊 "
+"“停止”，删除緩衝區中的程式碼，貼上一個新的副本，你就可以再次進行干擾了。犯錯是你學習最快的方法…"
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
