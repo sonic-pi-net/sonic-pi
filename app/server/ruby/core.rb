@@ -236,12 +236,12 @@ module SonicPi
 
       def tick(*args)
         idx = SonicPi::Core::ThreadLocalCounter.tick(*args)
-        self[idx]
+        self.ring[idx]
       end
 
       def look(*args)
         idx = SonicPi::Core::ThreadLocalCounter.look(*args)
-        self[idx]
+        self.ring[idx]
       end
     end
 
@@ -915,11 +915,11 @@ class Object
   end
 
   def tick(*args)
-    self.to_a.tick(*args)
+    self.ring.tick(*args)
   end
 
   def look(*args)
-    self.to_a.look(*args)
+    self.ring.look(*args)
   end
 
   # The hidden singleton lurks behind everyone
