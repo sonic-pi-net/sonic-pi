@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-26 19:36+0000\n"
-"Last-Translator: psyk10p <psyklop@yandex.ru>\n"
+"PO-Revision-Date: 2019-01-19 00:42+0000\n"
+"Last-Translator: D. Lowl <dabar347@me.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.2-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2648,9 +2648,8 @@ msgid "3.5 Partial Samples"
 msgstr "3.5 Фрагментированные сэмплы"
 
 #: 03.5-Partial-Samples.md:3
-#, fuzzy
 msgid "Partial Samples"
-msgstr "Фрагментированные сэмплы"
+msgstr "Неполные сэмплы"
 
 #: 03.5-Partial-Samples.md:5
 msgid ""
