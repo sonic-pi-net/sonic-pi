@@ -1296,7 +1296,7 @@ module SonicPi
         sleep_time = sched_ahead_sync_t - Time.now
         if sleep_time > 0
           Thread.new do
-            Kernel.sleep(sleep_time) if sleep_time > 0
+            Kernel.sleep(sleep_time)
             __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => address, :args => args.inspect})
             __msg_queue.push({:type => :incoming, :time => t.to_s, :id => gui_log_id, :address => sym, :args => args.inspect}) if sym
           end
