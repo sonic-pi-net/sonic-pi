@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2019-01-19 00:42+0000\n"
-"Last-Translator: D. Lowl <dabar347@me.com>\n"
+"Last-Translator: Ivan Zarea <zarea.ivan@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -2707,16 +2707,15 @@ msgid "Choosing a starting point"
 msgstr "Выбираем точку старта"
 
 #: 03.5-Partial-Samples.md:41
-#, fuzzy
 msgid ""
 "It is possible to choose an arbitrary starting point in the sample as a value "
 "between 0 and 1 where 0 is the start of the sample, 1 is the end and 0.5 is ha"
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
 msgstr ""
-"Возможно выбрать произвольную начальную точку для сэмпла, задавая ее в качеств"
-"е значения в диапазоне от 0 до 1. 0 - начало сэмпла, 1 - его конец, а 0.5 - эт"
-"о середина. Попробуем сыграть только вторую половину амен-брейка:"
+"Возможно выбрать произвольную начальную точку для сэмпла, задавая ее в "
+"качестве значения в диапазоне от 0 до 1. 0 - начало сэмпла, 1 - его конец, а "
+"0.5 - это середина. Попробуем сыграть только вторую половину амен-брейка:"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
