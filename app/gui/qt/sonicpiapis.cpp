@@ -111,7 +111,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
     ctx = Sample;
   } else if (last == "sync" || last == "sync:" || last == "cue" || last == "get" || last == "set" || last == "get[" ) {
     ctx = CuePath;
-  } else if (last == "with_fx" || last == "use_fx") {
+  } else if (last == "with_fx") {
     ctx = FX;
   } else if (last == "with_synth" || last == "use_synth" || last == "synth") {
     ctx = Synth;
@@ -132,7 +132,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   // FX params
   } else if (words.length() >= 2 &&
-             (first == "with_fx" || first == "use_fx")) {
+             (first == "with_fx")) {
     if (last.endsWith(':')) return; // don't try to complete parameters
     if (fxArgs.contains(second)) {
       list = fxArgs[second];
