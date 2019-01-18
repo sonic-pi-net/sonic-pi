@@ -1,0 +1,8 @@
+# coding: UTF-8
+module Test
+  grammar Grammar do
+    rule foo do
+      'foo'
+    end
+  end
+end

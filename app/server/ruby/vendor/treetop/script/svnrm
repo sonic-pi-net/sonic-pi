@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby -w
+
+def missing_files
+  `svn status`.
+    select { |line| line =~ /^\!/ }.
+    collect { |line| line[7..-1] }
+end
+
+missing_files.each do |file|
+  `svn rm #{file}`
+end

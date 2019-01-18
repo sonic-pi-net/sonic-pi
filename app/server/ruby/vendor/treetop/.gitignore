@@ -1,0 +1,13 @@
+*.gem
+*.iml
+*.iws
+*.ipr
+website/*.html
+benchmark/*.dat
+benchmark/*.log
+*~
+.DS_Store
+pkg
+.bundle
+Gemfile.lock
+.ruby-version
