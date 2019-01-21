@@ -4,8 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-01-11 20:07+0000\n"
-"Last-Translator: RD WebDesign <weblate@rdwebdesign.com.br>\n"
+"PO-Revision-Date: 2019-01-22 17:05+0000\n"
+"Last-Translator: Alexandre Karpinski Manikowski "
+"<alexandre.karpinski.m@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -13,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.4\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2443,20 +2444,29 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
+"Também é possível modificar a *duração* e a *amplitude* de um sample usando "
+"um pacote ADSR. Entretanto, isso funciona um pouco diferente dos pacotes "
+"ADSR disponíveis em sintetizadores. Envelopes de samples permitem apenas a "
+"redução da amplitude e da duração de um sample - e nunca seu incremento. O "
+"sample irá parar de tocar quando o sample chegar ao fim ou quando o envelope "
+"se completar - O que vier primeiro. Então, se você usar um `release:`"
+"comprido, isso não irá extender a duração do sample."
 
 #: 03.4-Enveloped-Samples.md:13
 msgid "Amen Envelopes"
-msgstr ""
+msgstr "Envelopes Amen"
 
 #: 03.4-Enveloped-Samples.md:15
 msgid "Let's return to our trusty friend the Amen Break:"
-msgstr ""
+msgstr "Vamos voltar ao nosso fiel amigo Amen Break:"
 
 #: 03.4-Enveloped-Samples.md:21
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade th"
 "is in over 1 second we can use the `attack:` param:"
 msgstr ""
+"Sem opts, nós ouvimos o sample com a amplitude máxima. Se quisermos fazer um "
+"fade com mais de 1 segundo, podemos usar o parâmetro `attack:`:"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
@@ -2465,7 +2475,7 @@ msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
 msgid "For a shorter fade in, choose a shorter attack value:"
-msgstr ""
+msgstr "Para um fade in mais curto, escolha um valor menor de attack:"
 
 #: 03.4-Enveloped-Samples.md:30
 #, no-wrap
@@ -2489,6 +2499,16 @@ msgid ""
 " values add up to more than the duration of the sample, the sustain is simply "
 "set to 0."
 msgstr ""
+"Onde o envelope ADSR tem um comportamento diferente dos sintetizadores é no "
+"valor de *sustain*. Em um envelope padrão de sintetizador, o sustain tem um "
+"valor 0 por padrão, a não ser que outro valor seja definido manualmente. Com "
+"samples, o sustain é definido com um valor  *automágico* - o tempo de "
+"duração da sample. É por isso que ouvimos toda a sample quando não passamos "
+"nenhum valor. Se os valores de attack, decay, sustain e release fossem todos "
+"0, nós não ouviríamos nem um pio. Portanto, o Sonic Pi calcula a duração da "
+"sample, deduz qualquer tempo de attack, decay e release, e usa o resultado "
+"como tempo de sustain. Se os valores de attack, decay e release somarem mais "
+"do que a duração da sample, o sustain é definido como 0."
 
 #: 03.4-Enveloped-Samples.md:48
 msgid "Fade Outs"
@@ -2499,6 +2519,8 @@ msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask Sonic"
 " Pi how long the sample is:"
 msgstr ""
+"Para explorarmos isso, vamos analisar nosso Amen Break em mais detalhes. Se "
+"perguntarmos ao Sonic Pi qual é a duração do sample:"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
@@ -2511,6 +2533,9 @@ msgid ""
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
+"Irá exibir o valor `1.753310657596372`, que é a duração da sample em "
+"segundos. Vamos arredondar isso para `1.75` por conveniência. Agora, se "
+"definirmos o valor de release para `0.75`, algo surpreendente acontece:"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
