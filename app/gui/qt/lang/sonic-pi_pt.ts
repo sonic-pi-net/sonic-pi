@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Log</source>
-        <translation>Registro</translation>
+        <translation>Registo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
