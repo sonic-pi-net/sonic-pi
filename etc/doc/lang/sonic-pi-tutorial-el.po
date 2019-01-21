@@ -4,15 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2019-01-22 17:05+0000\n"
+"Last-Translator: lnfiniteMonkeys <dim.kyriakoudis@outlook.com>\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"el/>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Theodore Tsirpanis <teo.tsirpanis.718@gmail.com>\n"
-"Language-Team: \n"
-"Language: el\n"
-"X-Generator: Poedit 2.0.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.4\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -387,7 +389,7 @@ msgstr "*Γ* - Πληροφορίες & Βοήθεια"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr "*Δ* - Συντάκτης Κώδικα"
+msgstr "*Δ* - Επεξεργαστής Κώδικα"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
@@ -403,11 +405,11 @@ msgstr "*Ζ* - Σύστημα Βοήθειας"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*Η* - Προβολέας Κυμματομορφής"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
-msgstr ""
+msgstr "Α. Ελεγκτές Αναπαραγωγής"
 
 #: 01.2-Exploring-the-Interface.md:22
 msgid ""
@@ -416,10 +418,16 @@ msgid ""
 "running code, *Save* for saving the code to an external file and *Record* to create "
 "a recording (a WAV file) of the sound playing."
 msgstr ""
+"Αυτά τα ροζ κουμπιά είναι ο βασικός τρόπος για το ξεκίνημα και το σταμάτημα "
+"ήχων. Υπάρχει το κουμπί *Τρέξιμο* για την εκτέλεση του κώδικα που βρίσκεται "
+"στον επεξεργαστή κειμένου, το *Στοπ* για το σταμάτημα όλου του κώδικα που "
+"εκτελείται, το *Αποθήκευση* για την αποθήκευση του κώδικα σε εξωτερικό "
+"αρχείο, και το *Ηχογράφηση* για την δημιουργία μιας ηχογράφησης (σε αρχείο "
+"WAV) του ήχου που παίζει."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "Β. Χειριστήρια Επεξεργαστή Κώδικα"
 
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
@@ -427,10 +435,14 @@ msgid ""
 "*Size -* buttons allow you to make the text bigger and smaller. The *Align* button "
 "will neaten the code for you to make it look more professional."
 msgstr ""
+"Αυτά τα πορτοκαλί κουμπιά σου επιτρέπουν να χειρίζεσαι τον επεξεργαστή "
+"κώδικα. Τα κουμπιά *Μέγεθος +* και *Μέγεθος -* σου επιτρέπουν να κάνεις το "
+"κείμενο μεγαλύτερο και μικρότερο. Το κουμπί *Ευθυγράμμιση* τακτοποιεί τον "
+"κώδικα και τον κάνει να φαίνεται πιο οργανωμένο και επαγγελματικό."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "Γ. Πληροφορίες και Βοηθεια"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -440,10 +452,17 @@ msgid ""
 "toggles the help system (*G*) and the *Prefs* button toggles the preferences window "
 "which allows you to control some basic system parameters."
 msgstr ""
+"Αυτά τα μπλε κουμπιά σου δίνουν πρόσβαση στις πληροφορίες, βοήθεια, και "
+"ρυθμίσεις. Το κουμπί *Πληροφορίες* ανοίγει το παράθηρο πληροφοριών, το οποίο "
+"περιέχει πληροφορίες για το Sonic Pi - την κεντρική ομάδα, την ιστορία του, "
+"τους συνεισφέροντες και την κοινότητα. Το κουμπί *Βοήθεια* ανοιγοκλείνει το "
+"σύστημα βοήθειας (*Γ*), ενώ το κουμπί *Ρυθμίσεις* ανοιγοκλείνει το παράθυρο "
+"ρυθμίσεων, το οποίο σου επιτρέπει να ελέγξεις μερικές από τις βασικές "
+"παραμέτρους του συστήματος."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "Δ. Επεξεργαστής Κώδικα"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -454,6 +473,14 @@ msgid ""
 "strange at first, but you'll soon find it very useful. For example, you'll know "
 "something is a number because it is blue."
 msgstr ""
+"Αυτή είναι η περιοχή στην οποία θα γράφεις τον κώδικά σου και θα συνθέτεις/"
+"παίζεις μουσική. Είναι ένας απλός επεξεργαστής κειμένου όπου μπορείς να "
+"γράψεις κώδικα, να τον διαγράψεις, να αποκόψεις και να επικολλήσεις, κλπ. "
+"Σκέψου το σαν μια πολύ βασική έκδοση του Word ή του Google Docs. Ο "
+"επεξεργαστής χρωματίζει αυτόματα τις λέξεις ανάλογα με τον ρόλο που έχουν "
+"στον κώδικα. Αυτό μπορεί να σου φανεί περίεργο στην αρχή, αλλά σύντομα θα "
+"ανακαλύψεις ότι είναι πολύ χρήσιμο. Για παράδειγμα, θα ξέρεις ότι κάτι είναι "
+"αριθμός επειδή έχει μπλε χρώμα."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
