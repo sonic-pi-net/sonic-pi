@@ -174,17 +174,17 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
         <source>Logging</source>
-        <translation></translation>
+        <translation>רושם ביומן</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation></translation>
+        <translation>תחום</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle selection comment...</source>
-        <translation></translation>
+        <translation>החלפת מצב בחירת הערה...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
@@ -204,22 +204,22 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
         <source>Toggle line comment...</source>
-        <translation></translation>
+        <translation>החלפת מצב שורת הערה...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation></translation>
+        <translation>לא ניתן לאתחל שרת Sonic Pi!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation></translation>
+        <translation>כתובת IP מקומית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation></translation>
+        <translation>מקשיב להודעות OSC בפורט</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
