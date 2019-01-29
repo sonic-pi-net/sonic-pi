@@ -3011,7 +3011,7 @@ void  MainWindow::createToolBar()
   // // Help
   helpAct = new QAction(default_light_help_icon, tr("Toggle Help"), this);
   helpSc = new QShortcut(metaKey('I'), this, SLOT(help()));
-  updateAction(helpAct, helpSc, tr("See information about Sonic Pi"));
+  updateAction(helpAct, helpSc, tr("Toggle the visibility of the help pane"));
   connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
   // Preferences
