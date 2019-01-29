@@ -30,6 +30,61 @@ require 'active_support/inflector'
 
 include SonicPi::Util
 
+# List of all languages with GUI translation files
+@lang_names = Hash[
+  "bg" => "български", # Bulgarian
+  "bn" => "বাংলা", # Bengali/Bangla
+  "bs" => "Bosanski/босански", # Bosnian
+  "ca" => "Català", # Catalan
+  "ca@valencia" => "Valencià", # Valencian
+  "cs" => "Čeština", # Czech
+  "da" => "Dansk", # Danish
+  "de" => "Deutsch", # German
+  "el" => "ελληνικά", # Greek
+  "en_AU" => "English (Australian)", # English (Australian)
+  "en_GB" => "English (UK)", # English (UK) - default language
+  "en_US" => "English (US)", # English (US)
+  "eo" => "Esperanto", # Esperanto
+  "es" => "Español", # Spanish
+  "et" => "Eesti keel", # Estonian
+  "fa" => "فارسی", # Persian
+  "fi" => "Suomi", # Finnish
+  "fr" => "Français", # French
+  "ga" => "Gaeilge", # Irish
+  "gl" => "Galego", # Galician
+  "he" => "עברית", # Hebrew
+  "hi" => "हिन्दी", # Hindi
+  "hu" => "Magyar", # Hungarian
+  "hy" => "Հայերեն", # Armenian
+  "id" => "Bahasa Indonesia", # Indonesian
+  "is" => "Íslenska", # Icelandic
+  "it" => "Italiano", # Italian
+  "ja" => "日本語", # Japanese
+  "ka" => "ქართული", # Georgian
+  "ko" => "한국어", # Korean
+  "nb" => "Norsk Bokmål", # Norwegian Bokmål
+  "nl" => "Nederlands", # Dutch (Netherlands)
+  "pl" => "Polski", # Polish
+  "pt" => "Português", # Portuguese
+  "pt_BR" => "Português do Brasil", # Brazilian Portuguese
+  "ro" => "Română", # Romanian
+  "ru" => "Pусский", # Russian
+  "si" => "සිංහල", # Sinhala/Sinhalese
+  "sk" => "Slovenčina",#/Slovenský Jazyk", # Slovak/Slovakian
+  "sl" => "Slovenščina",#/Slovenski Jezik", # Slovenian
+  "sv" => "Svenska", # Swedish
+  "sw" => "Kiswahili", # Swahili
+  "th" => "ไทย", # Thai
+  "tr" => "Türkçe", # Turkish
+  "ug" => "ئۇيغۇر تىلى", # Uyghur
+  "uk" => "Українська", # Ukranian
+  "vi" => "Tiếng Việt", # Vietnamese
+  "zh" => "简体中文", # Mandarin Chinese (Simplified)
+  "zh_Hans" => "简体中文", # Mandarin Chinese (Simplified)
+  "zh_HK" => "廣東話", # Mandarin Chinese (Traditional, Hong Kong)
+  "zh_TW" => "臺灣華語" # Mandarin Chinese (Traditional, Taiwan)
+]
+
 FileUtils::rm_rf "#{qt_gui_path}/help/"
 FileUtils::mkdir "#{qt_gui_path}/help/"
 
@@ -216,11 +271,11 @@ languages =
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
   sort_by {|n| -n.length}
 
-docs << "\n  QString systemLocale = QLocale::system().uiLanguages()[0];\n\n" unless languages.empty?
+docs << "\n"
 
 # first, try to match all non-default languages (those that aren't "en")
 languages.each do |lang|
-  docs << "if (systemLocale.startsWith(\"#{lang}\")) {\n"
+  docs << "if (this->ui_language.startsWith(\"#{lang}\")) {\n"
   make_tutorial.call(lang)
   docs << "} else "
 end
@@ -261,6 +316,67 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   end
   docs << ";\n"
   docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
+end
+
+def generate_ui_lang_names
+  # Make a function to define the locale list map -----
+  ui_languages = @lang_names.keys
+  ui_languages = ui_languages.sort_by {|l| l.downcase}
+  locale_arrays = []
+  locale_arrays << "std::map<QString, QString> SonicPii18n::native_language_names = {\n"
+  # # Add each language
+  # locale_arrays << "{0, \"system_locale\"}"
+  # i = 1
+  # ui_languages.each do |lang|
+  #   locale_arrays << ",\n"
+  #   locale_arrays << "{#{i.to_s}, \"#{lang}\"}"
+  #   i += 1
+  # end
+  # # End the map
+  # locale_arrays << "\n};\n"
+  #
+  # # Create a map of the locales to their indices in availableLocales, called localeIndex
+  # locale_arrays << "localeIndex = {\n"
+  # # Add each language
+  # locale_arrays << "{\"system_locale\", 0}"
+  # i = 1
+  # ui_languages.each do |lang|
+  #   locale_arrays << ",\n"
+  #   locale_arrays << "{\"#{lang}\", #{i.to_s}}"
+  #   i += 1
+  # end
+  # # End the map
+  # locale_arrays << "\n};\n"
+  #
+  # # Create a map of the locales to their native names, called localeNames
+  # locale_arrays << "localeNames = {\n"
+  # Add each language
+  locale_arrays << "{\"system_locale\", \"\"}"
+  ui_languages.each do |lang|
+    locale_arrays << ",\n"
+    locale_arrays << "{\"#{lang}\", \"#{@lang_names[lang]}\"}"
+  end
+  # End the map
+  locale_arrays << "\n};\n"
+
+  # End the function
+  #locale_arrays << "};\n"
+
+  content = File.readlines("#{qt_gui_path}/utils/lang_list.tmpl")
+  lang_names_generated = content.take_while { |line| !line.start_with?("// AUTO-GENERATED")}
+  lang_names_generated << "// AUTO-GENERATED HEADER FILE\n"
+  lang_names_generated << "// Do not add any code to this file\n"
+  lang_names_generated << "// as it will be removed/overwritten\n"
+  lang_names_generated << "\n"
+  lang_names_generated << "#ifndef LANG_LIST_H\n"
+  lang_names_generated << "#define LANG_LIST_H\n"
+  lang_names_generated << "#include <map>\n"
+  lang_names_generated << locale_arrays.join()
+  lang_names_generated << "#endif\n"
+
+  File.open("#{qt_gui_path}/utils/lang_list.h", 'w') do |f|
+    f << lang_names_generated.join()
+  end
 end
 
 
@@ -321,3 +437,5 @@ info_sources.each do |src|
   end
 
 end
+
+generate_ui_lang_names()

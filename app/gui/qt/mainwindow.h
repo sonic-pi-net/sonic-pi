@@ -17,6 +17,7 @@
 #include <vector>
 #include <memory>
 
+
 #include <QDate>
 #include <QMainWindow>
 #include <QFuture>
@@ -70,6 +71,7 @@ class InfoWidget;
 class SettingsWidget;
 class Scope;
 class ScintillaAPI;
+class SonicPii18n;
 class SonicPiLog;
 class SonicPiScintilla;
 class SonicPiTheme;
@@ -94,9 +96,9 @@ class MainWindow : public QMainWindow
 
     public:
 #if defined(Q_OS_MAC)
-        MainWindow(QApplication &ref, bool i18n, QMainWindow* splash);
+        MainWindow(QApplication &ref, QMainWindow* splash);
 #else
-        MainWindow(QApplication &ref, bool i18n, QSplashScreen* splash);
+        MainWindow(QApplication &ref, QSplashScreen* splash);
 #endif
 
         SonicPiLog* GetOutputPane() const;
@@ -123,6 +125,8 @@ class MainWindow : public QMainWindow
 
         bool loaded_workspaces;
         QString hash_salt;
+        QString ui_language;
+
 
     protected:
         void closeEvent(QCloseEvent *event);
@@ -137,6 +141,7 @@ signals:
 
        private slots:
 
+        void changeUILanguage(QString lang);
         void updateContext(int line, int index);
         void updateContextWithCurrentWs();
         void docLinkClicked(const QUrl &url);
@@ -182,6 +187,7 @@ signals:
         void help();
         void toggleHelpIcon();
         void onExitCleanup();
+        void restartApp();
         void toggleRecording();
         void toggleRecordingOnIcon();
         void changeSystemPreAmp(int val, int silent=0);
@@ -351,10 +357,12 @@ signals:
         QString rootPath();
 
         void addUniversalCopyShortcuts(QTextEdit *te);
+        void updateTranslatedUIText();
 
   QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu;
 
         SonicPiSettings *piSettings;
+        SonicPii18n *sonicPii18n;
 
 #ifdef QT_OLD_API
         QFuture<void> osc_thread, server_thread;
@@ -458,4 +466,3 @@ signals:
         QSet<QString> cuePaths;
 
 };
-

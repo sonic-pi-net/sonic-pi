@@ -1,4 +1,5 @@
 #include "settingswidget.h"
+#include "utils/sonic_pi_i18n.h"
 
 #include <QSettings>
 #include <QVBoxLayout>
@@ -20,9 +21,15 @@
 /**
  * Default Constructor
  */
-SettingsWidget::SettingsWidget( int port, SonicPiSettings *piSettings,  QWidget *parent) {
+SettingsWidget::SettingsWidget(int port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent) {
     this->piSettings = piSettings;
+    this->i18n = i18n;
+    this->sonicPii18n = sonicPii18n;
+    this->localeNames = sonicPii18n->getNativeLanguageNameList();
+    this->available_languages = sonicPii18n->getAvailableLanguages();
+    available_languages.prepend("system_locale");
     server_osc_cues_port = port;
+
     prefTabs = new QTabWidget();
 
     QGridLayout *grid = new QGridLayout;
@@ -43,7 +50,7 @@ SettingsWidget::SettingsWidget( int port, SonicPiSettings *piSettings,  QWidget 
     QGroupBox *update_prefs_box = createUpdatePrefsTab();
     prefTabs->addTab(update_prefs_box, tr("Updates"));
 
-    if (!i18n) {
+    if (!sonicPii18n->system_language_available) {
         QGroupBox *translation_box = new QGroupBox("Translation");
         QVBoxLayout *translation_box_layout = new QVBoxLayout;
         QLabel *go_translate = new QLabel;
@@ -53,7 +60,7 @@ SettingsWidget::SettingsWidget( int port, SonicPiSettings *piSettings,  QWidget 
                 QLocale::languageToString(QLocale::system().language()) +
                 " yet.<br/>" +
                 "We rely on crowdsourcing to help create and maintain translations.<br/>" +
-                "<a href=\"https://github.com/samaaron/sonic-pi/blob/main/TRANSLATION.md\">" +
+                "<a href=\"https://github.com/sonic-pi-net/sonic-pi/blob/main/TRANSLATION.md\">" +
                 "Please consider helping to translate Sonic Pi to your language.</a> "
                 );
         go_translate->setTextFormat(Qt::RichText);
@@ -365,10 +372,35 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box_layout->addWidget(clear_output_on_run);
     debug_box->setLayout(debug_box_layout);
 
+
+    QGroupBox *language_box = new QGroupBox(tr("Language"));
+    language_box->setToolTip(tr("Configure language settings"));
+
+    language_combo = new QComboBox();
+    add_language_combo_box_entries(language_combo);
+    language_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
+    language_combo->setMinimumContentsLength(2);
+    language_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+
+    language_option_label = new QLabel;
+    language_option_label->setText(tr("UI & Tutorial Language (Requires a restart to take effect)"));
+    language_option_label->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
+
+    language_info_label = new QLabel;
+    language_info_label->setText(tr("Translations have been generously provided by volunteers \non https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)"));
+
+    QVBoxLayout *language_box_layout = new QVBoxLayout;
+    language_box_layout->addWidget(language_combo);
+    language_box_layout->addWidget(language_option_label);
+    language_box_layout->addWidget(language_info_label);
+
+    language_box->setLayout(language_box_layout);
+
     gridEditorPrefs->addWidget(editor_display_box, 0, 0);
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
     gridEditorPrefs->addWidget(automation_box, 1, 1);
     gridEditorPrefs->addWidget(debug_box, 1, 0);
+    gridEditorPrefs->addWidget(language_box, 2, 0, 1, 2);
 
     editor_box->setLayout(gridEditorPrefs);
     return editor_box;
@@ -490,7 +522,11 @@ void SettingsWidget::updateScopeKindVisibility() {
     QCheckBox *cb = qobject_cast<QCheckBox*>(scope_box_kinds_layout->itemAt(i)->widget());
     cb->setChecked(piSettings->isScopeActive(cb->text()));
   }
+}
 
+void SettingsWidget::updateSelectedUILanguage(QString lang) {
+  int index = available_languages.indexOf(lang);
+  language_combo->setCurrentIndex(index);
 }
 
 void SettingsWidget::toggleScope( QWidget* qw ) {
@@ -502,6 +538,11 @@ void SettingsWidget::toggleScope( QWidget* qw ) {
   emit scopeChanged(name);
 }
 
+void SettingsWidget::updateUILanguage(int index) {
+  QString lang = available_languages[index];
+  std::cout << "Changed language to " << lang.toUtf8().constData() << std::endl;
+  emit uiLanguageChanged(lang);
+}
 
 void SettingsWidget::update_mixer_invert_stereo() {
     emit mixerSettingsChanged();
@@ -629,7 +670,7 @@ void SettingsWidget::autoIndentOnRun() {
 }
 
 void SettingsWidget::openSonicPiNet() {
-  QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
+  QDesktopServices::openUrl(QUrl("https://sonic-pi.net", QUrl::TolerantMode));
 }
 
 void SettingsWidget::updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible) {
@@ -641,6 +682,7 @@ void SettingsWidget::updateVersionInfo( QString info_string, QString visit, bool
 
 void SettingsWidget::updateSettings() {
     std::cout << "[GUI] - Update Settings" << std::endl;
+    piSettings->language = available_languages[language_combo->currentIndex()];
     piSettings->mixer_invert_stereo = mixer_invert_stereo->isChecked();
     piSettings->mixer_force_mono = mixer_force_mono->isChecked();
     piSettings->check_args = check_args->isChecked();
@@ -681,7 +723,7 @@ void SettingsWidget::updateSettings() {
 }
 
 void SettingsWidget::settingsChanged() {
-
+    language_combo->setCurrentIndex(available_languages.indexOf(piSettings->language));
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);
     check_args->setChecked(piSettings->check_args);
@@ -724,6 +766,8 @@ void SettingsWidget::settingsChanged() {
 }
 
 void SettingsWidget::connectAll() {
+    //connect(language_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
+    connect(language_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateUILanguage(int)));
     connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(check_args, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -797,4 +841,20 @@ void SettingsWidget::connectAll() {
     connect(log_synths, SIGNAL(clicked()), this, SLOT(logSynths()));
     connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(clearOutputOnRun()));
     connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(autoIndentOnRun()));
+}
+
+void SettingsWidget::add_language_combo_box_entries(QComboBox* combo) {
+  // Add language combo entries
+  std::cout << "[Debug] Adding language combo box entries..." << std::endl;
+  std::cout << (std::to_string(static_cast<int>(available_languages.size()))) << std::endl;
+
+  for (auto const &language : available_languages) {
+    std::cout << "[Debug] Adding language " << language.toUtf8().data() << " to the combo box" << std::endl;
+    if (language != "system_locale") {
+      // Add the language's name to the combo box
+      combo->addItem(sonicPii18n->getNativeLanguageName(language));
+    } else {
+      combo->addItem(tr("Use system language"));
+    }
+  }
 }
