@@ -17,6 +17,7 @@
 #include <QBitmap>
 #include <QLabel>
 #include <QTranslator>
+#include <QSettings>
 #include <QLibraryInfo>
 
 #include "mainwindow.h"
@@ -35,15 +36,36 @@ int main(int argc, char *argv[])
 
   qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
+  // Locale/translations ----------
   QString systemLocale = QLocale::system().name();
 
   QTranslator qtTranslator;
-  qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-  app.installTranslator(&qtTranslator);
-
   QTranslator translator;
-  bool i18n = translator.load("sonic-pi_" + systemLocale, ":/lang/") || systemLocale.startsWith("en") || systemLocale == "C";
+
+  bool i18n = false;
+
+  // Get the specified locale from the settings
+  QSettings settings("sonic-pi.net", "gui-settings");
+  QString locale = settings.value("locale");
+
+  // If a locale is specified...
+  if (locale != "system_locale") {
+    // ...try using the specified locale
+    i18n = translator.load("sonic-pi_" + locale, ":/lang/") || locale.startsWith("en") || locale == "C";
+  }
+
+  // If the specified locale isn't available, or if the setting is set to system_locale...
+  if (!i18n || locale == "system_locale") {
+    // ...try using the system locale
+    locale = systemLocale
+    i18n = translator.load("sonic-pi_" + locale, ":/lang/") || locale.startsWith("en") || locale == "C";
+  }
+
   app.installTranslator(&translator);
+
+  qtTranslator.load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+  app.installTranslator(&qtTranslator);
+  // ----------
 
   app.setApplicationName(QObject::tr("Sonic Pi"));
   app.setStyle("gtk");
@@ -65,7 +87,7 @@ int main(int argc, char *argv[])
   splashWindow->raise();
   splashWindow->show();
 
-  MainWindow mainWin(app, i18n, splashWindow);
+  MainWindow mainWin(app, locale, i18n, splashWindow);
   return app.exec();
 #else
   QPixmap pixmap(":/images/splash.png");

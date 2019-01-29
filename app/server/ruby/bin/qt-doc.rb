@@ -207,20 +207,39 @@ ruby_html_map = {
 #  "loop" => "Loop forever",
 }
 
+languages =
+  Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
+  map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') 
+# docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
+
+# Create an array of the available locales -----
+docs << "\nQString[#{(languages.length).to_s}]" + "availableLocales = {\n"
+# Add English to the languages, and sort languages alphabetically
+languages += "en"
+languages = a_languages.sort_by {|l| l.downcase}
+# Add each language
+languages.each do |lang|
+		docs << "#{lang},\n"
+end
+# Remove last newline and comma
+docs.chop!
+docs.chop!
+# End the array
+docs << "\n}"
+# -----
+
+# Remove English for now
+languages.delete("en")
+
 # this will sort locale code names by reverse length
 # to make sure that a more specific locale is handled
 # before the generic language code,
 # e.g., "de_CH" should be handled before "de"
-languages =
-  Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
-  map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
-  sort_by {|n| -n.length}
-
-docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
+languages = languages.sort_by! {|n| -n.length}
 
 # first, try to match all non-default languages (those that aren't "en")
 languages.each do |lang|
-  docs << "if (systemLocale.startsWith(\"#{lang}\")) {\n"
+  docs << "if (locale.startsWith(\"#{lang}\")) {\n"
   make_tutorial.call(lang)
   docs << "} else "
 end
@@ -277,7 +296,7 @@ new_content << "// AUTO-GENERATED-DOCS\n"
 new_content << "// Do not manually add any code below this comment\n"
 new_content << "// otherwise it may be removed\n"
 new_content << "\n"
-new_content << "void MainWindow::initDocsWindow() {\n"
+new_content << "void MainWindow::initDocsWindow(QString locale) {\n"
 new_content += docs
 new_content << "}\n"
 
