@@ -312,6 +312,8 @@ new_content << "// AUTO-GENERATED-DOCS\n"
 new_content << "// Do not manually add any code below this comment\n"
 new_content << "// otherwise it may be removed\n"
 new_content << "\n"
+new_content << "#include <map>"
+new_content << "\n"
 new_content << "void MainWindow::initDocsWindow(QString locale) {\n"
 new_content += docs
 new_content << "}\n"
