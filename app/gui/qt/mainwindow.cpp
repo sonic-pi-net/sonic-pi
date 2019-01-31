@@ -1596,14 +1596,25 @@ void MainWindow::initPrefsWindow() {
 
   debug_box->setLayout(debug_box_layout);
 
-  // Lanugage box
-  midi_default_channel_combo = new QComboBox();
-  midi_default_channel_combo->setToolTip(tr("Change the language of the UI & Tutorial"));
-  midi_default_channel_combo->addItem(tr("Use system language"));
+  // Locale box
+		QGroupBox *locale_box = new QGroupBox(tr("Locale/Language"));
+  locale_box->setToolTip(tr("Configure locale/language settings"));
 
-  midi_default_channel_combo->setMaxVisibleItems(17);
-  midi_default_channel_combo->setMinimumContentsLength(2);
-  midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength) ;
+  locale_combo = new QComboBox();
+		add_locale_combo_box_entries(locale_combo);
+  locale_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
+  locale_combo->setMinimumContentsLength(2);
+  locale_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+		
+		QLabel *locale_option_label = new QLabel;
+  locale_option_label->setText(tr("UI & Tutorial Language (Requires a restart to take effect)"));
+  locale_option_label->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
+		
+		QVBoxLayout *locale_box_layout = new QVBoxLayout;
+  locale_box_layout->addWidget(locale_combo);
+  locale_box_layout->addWidget(locale_option_label);
+		
+  locale_box->setLayout(locale_box_layout);
 
   // Layout for Editor Tab
   QGridLayout *gridEditorPrefs = new QGridLayout;
@@ -1611,6 +1622,7 @@ void MainWindow::initPrefsWindow() {
   gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
   gridEditorPrefs->addWidget(automation_box, 1, 1);
   gridEditorPrefs->addWidget(debug_box, 1, 0);
+		gridEditorPrefs->addWidget(locale_box, 2, 0);
 
   editor_box->setLayout(gridEditorPrefs);
   // --------------------
@@ -1746,7 +1758,7 @@ void MainWindow::initPrefsWindow() {
     go_translate->setOpenExternalLinks(true);
     go_translate->setText(
       "Sonic Pi hasn't been translated to " +
-      QLocale::languageToString(QLocale::system().language()) +
+						QLocale::languageToString(QLocale::system().language()) +
       " yet.<br/>" +
       "We rely on crowdsourcing to help create and maintain translations.<br/>" +
       "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
@@ -1762,7 +1774,7 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 
   // Read in preferences from previous session
-
+		locale_combo->setCurrentIndex(localeIndex[settings.value("prefs/locale")]);
   osc_public_check->setChecked(settings.value("prefs/osc-public", false).toBool());
   osc_server_enabled_check->setChecked(settings.value("prefs/osc-enabled", true).toBool());
   midi_enable_check->setChecked(settings.value("prefs/midi-enable", true).toBool());
@@ -3336,7 +3348,7 @@ void MainWindow::readSettings() {
 void MainWindow::writeSettings()
 {
   QSettings settings("sonic-pi.net", "gui-settings");
-  settings.setValue("locale", locale_combo_index_to_locale_str(locale_combo->currentIndex()));
+  settings.setValue("prefs/locale", availableLocales[(locale_combo->currentIndex())]);
 
   settings.setValue("pos", pos());
   settings.setValue("size", size());
@@ -3379,18 +3391,13 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
 }
 
-QComboBox MainWindow::gen_locale_combo_box_entries(QComboBox combo) {
-  combo->addItem(tr("Use system locale"));
+void MainWindow::add_locale_combo_box_entries(QComboBox combo) {
   for (QString locale : availableLocales) {
-    combo->addItem(QLocale::languageToString(locale));
-  }
-}
-
-QString MainWindow::locale_combo_index_to_locale(unsigned int index) {
-  if (index == 0) {
-    return "system_locale"
-  } else {
-    return availableLocales[index - 1]
+				if (locale != "system_locale") {
+						combo->addItem(QLocale::languageToString(locale));
+				} else {
+						combo->addItem(tr("Use system locale"));
+				}
   }
 }
 

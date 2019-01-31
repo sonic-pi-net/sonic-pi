@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 
   // Get the specified locale from the settings
   QSettings settings("sonic-pi.net", "gui-settings");
-  QString locale = settings.value("locale");
+  QString locale = settings.value("prefs/locale");
 
   // If a locale is specified...
   if (locale != "system_locale") {

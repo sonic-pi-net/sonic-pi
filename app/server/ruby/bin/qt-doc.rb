@@ -212,12 +212,13 @@ languages =
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') 
 # docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
 
-# Create an array of the available locales -----
-docs << "\nQString[#{(languages.length).to_s}]" + "availableLocales = {\n"
+# Create an array of the available locales, called availableLocales -----
+docs << "\nconst QString[#{(languages.length).to_s}]" + "availableLocales = {\n"
 # Add English to the languages, and sort languages alphabetically
 languages += "en"
 languages = a_languages.sort_by {|l| l.downcase}
 # Add each language
+docs << "system_locale,\n"
 languages.each do |lang|
 		docs << "#{lang},\n"
 end
@@ -225,7 +226,22 @@ end
 docs.chop!
 docs.chop!
 # End the array
-docs << "\n}"
+docs << "\n};"
+
+# Create a map of the locales to their indices in availableLocales, called localeIndex -----
+docs << "\nconst std::map<QString, unsigned int> localeIndex = {\n"
+# Add each language
+docs << "{\"system_locale\", 0}"
+i = 1
+languages.each do |lang|
+		docs << "{\"#{lang}\", #{i.to_s}},\n"
+		i += 1
+end
+# Remove last newline and comma
+docs.chop!
+docs.chop!
+# End the map
+docs << "\n};"
 # -----
 
 # Remove English for now
