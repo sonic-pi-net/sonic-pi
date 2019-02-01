@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
   splash->show();
   splash->repaint();
 
-  MainWindow mainWin(app, i18n, splash);
+  MainWindow mainWin(app, locale, i18n, splash);
   return app.exec();
 #endif
 

@@ -113,7 +113,7 @@ using namespace oscpkt;// OSC specific stuff
 #include "mainwindow.h"
 
 #ifdef Q_OS_MAC
-MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
+MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QMainWindow* splash)
 #else
 MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QSplashScreen* splash)
 #endif
@@ -528,7 +528,7 @@ void MainWindow::checkPort(int port) {
 
 void MainWindow::showWelcomeScreen() {
   QSettings settings("sonic-pi.net", "gui-settings");
-if(settings.value("first_time", 1).toInt() == 1) {
+  if(settings.value("first_time", 1).toInt() == 1) {
     QTextBrowser* startupPane = new QTextBrowser;
     startupPane->setFixedSize(600, 615);
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -1597,20 +1597,20 @@ void MainWindow::initPrefsWindow() {
   debug_box->setLayout(debug_box_layout);
 
   // Locale box
-		QGroupBox *locale_box = new QGroupBox(tr("Locale/Language"));
+  QGroupBox *locale_box = new QGroupBox(tr("Locale/Language"));
   locale_box->setToolTip(tr("Configure locale/language settings"));
 
   locale_combo = new QComboBox();
-		add_locale_combo_box_entries(locale_combo);
+  add_locale_combo_box_entries(locale_combo);
   locale_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
   locale_combo->setMinimumContentsLength(2);
   locale_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
 		
-		QLabel *locale_option_label = new QLabel;
+  QLabel *locale_option_label = new QLabel;
   locale_option_label->setText(tr("UI & Tutorial Language (Requires a restart to take effect)"));
   locale_option_label->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
 		
-		QVBoxLayout *locale_box_layout = new QVBoxLayout;
+  QVBoxLayout *locale_box_layout = new QVBoxLayout;
   locale_box_layout->addWidget(locale_combo);
   locale_box_layout->addWidget(locale_option_label);
 		
@@ -1622,7 +1622,7 @@ void MainWindow::initPrefsWindow() {
   gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
   gridEditorPrefs->addWidget(automation_box, 1, 1);
   gridEditorPrefs->addWidget(debug_box, 1, 0);
-		gridEditorPrefs->addWidget(locale_box, 2, 0);
+  gridEditorPrefs->addWidget(locale_box, 2, 0);
 
   editor_box->setLayout(gridEditorPrefs);
   // --------------------
@@ -1685,7 +1685,7 @@ void MainWindow::initPrefsWindow() {
   #if defined(Q_OS_LINUX)
     // do nothing
   #else
-      viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
+    viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
   #endif
 
   viz_box->setLayout(viz_tab_layout);
@@ -1758,7 +1758,7 @@ void MainWindow::initPrefsWindow() {
     go_translate->setOpenExternalLinks(true);
     go_translate->setText(
       "Sonic Pi hasn't been translated to " +
-						QLocale::languageToString(QLocale::system().language()) +
+          QLocale::languageToString(QLocale::system().language()) +
       " yet.<br/>" +
       "We rely on crowdsourcing to help create and maintain translations.<br/>" +
       "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
@@ -1774,7 +1774,7 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 
   // Read in preferences from previous session
-		locale_combo->setCurrentIndex(localeIndex[settings.value("prefs/locale")]);
+  locale_combo->setCurrentIndex(localeIndex[settings.value("prefs/locale")]);
   osc_public_check->setChecked(settings.value("prefs/osc-public", false).toBool());
   osc_server_enabled_check->setChecked(settings.value("prefs/osc-enabled", true).toBool());
   midi_enable_check->setChecked(settings.value("prefs/midi-enable", true).toBool());
@@ -3393,11 +3393,11 @@ void MainWindow::writeSettings()
 
 void MainWindow::add_locale_combo_box_entries(QComboBox combo) {
   for (QString locale : availableLocales) {
-				if (locale != "system_locale") {
-						combo->addItem(QLocale::languageToString(locale));
-				} else {
-						combo->addItem(tr("Use system locale"));
-				}
+    if (locale != "system_locale") {
+      combo->addItem(QLocale::languageToString(locale));
+    } else {
+      combo->addItem(tr("Use system locale"));
+    }
   }
 }
 

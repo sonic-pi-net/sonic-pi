@@ -220,7 +220,7 @@ languages = a_languages.sort_by {|l| l.downcase}
 # Add each language
 docs << "system_locale,\n"
 languages.each do |lang|
-		docs << "#{lang},\n"
+  docs << "#{lang},\n"
 end
 # Remove last newline and comma
 docs.chop!
@@ -234,8 +234,8 @@ docs << "\nconst std::map<QString, unsigned int> localeIndex = {\n"
 docs << "{\"system_locale\", 0}"
 i = 1
 languages.each do |lang|
-		docs << "{\"#{lang}\", #{i.to_s}},\n"
-		i += 1
+  docs << "{\"#{lang}\", #{i.to_s}},\n"
+  i += 1
 end
 # Remove last newline and comma
 docs.chop!
