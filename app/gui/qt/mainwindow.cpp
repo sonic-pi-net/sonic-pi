@@ -120,7 +120,7 @@ MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QSplashScre
 {
 
 
-  # Define paths
+  // Define paths
   QString root_path = rootPath();
 
 #if defined(Q_OS_WIN)
@@ -137,7 +137,7 @@ MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QSplashScre
     ruby_path = "ruby";
   }
 
-  # Ruby server paths
+  // Ruby server paths
   ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/sonic-pi-server.rb");
   port_discovery_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/port-discovery.rb");
   init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/init-script.rb");
@@ -148,7 +148,7 @@ MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QSplashScre
   sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
   sp_user_tmp_path       = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
 
-  # Log file paths
+  // Log file paths
   log_path               = QDir::toNativeSeparators(sp_user_path + "/log");
   server_error_log_path  = QDir::toNativeSeparators(log_path + "/server-errors.log");
   server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
@@ -156,7 +156,7 @@ MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QSplashScre
   process_log_path       = QDir::toNativeSeparators(log_path + "/processes.log");
   scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
 
-  # Theme paths
+  // Theme paths
   qt_app_theme_path     = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/app.qss");
 
   qt_browser_dark_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/dark/doc-styles.css");
@@ -1758,7 +1758,7 @@ void MainWindow::initPrefsWindow() {
     go_translate->setOpenExternalLinks(true);
     go_translate->setText(
       "Sonic Pi hasn't been translated to " +
-          QLocale::languageToString(QLocale::system().language()) +
+      QLocale::languageToString(QLocale::system().language()) +
       " yet.<br/>" +
       "We rely on crowdsourcing to help create and maintain translations.<br/>" +
       "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
