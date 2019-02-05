@@ -504,7 +504,7 @@ MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QSplashScre
     updateFullScreenMode();
 
     changeSystemPreAmp(system_vol_slider->value(), 1);
-    connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
+    connect(&app, SIGNAL(aboutToQuit()), this, SLOT(onExitCleanup()));
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
@@ -1600,8 +1600,8 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *locale_box = new QGroupBox(tr("Locale/Language"));
   locale_box->setToolTip(tr("Configure locale/language settings"));
 
-  locale_combo = new QComboBox();
-  add_locale_combo_box_entries(locale_combo);
+  QComboBox *locale_combo = new QComboBox();
+  locale_combo = add_locale_combo_box_entries(locale_combo);
   locale_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
   locale_combo->setMinimumContentsLength(2);
   locale_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
@@ -1774,7 +1774,7 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 
   // Read in preferences from previous session
-  locale_combo->setCurrentIndex(localeIndex[settings.value("prefs/locale")]);
+  locale_combo->setCurrentIndex(localeIndex()[settings.value("prefs/locale").toString()]);
   osc_public_check->setChecked(settings.value("prefs/osc-public", false).toBool());
   osc_server_enabled_check->setChecked(settings.value("prefs/osc-enabled", true).toBool());
   midi_enable_check->setChecked(settings.value("prefs/midi-enable", true).toBool());
@@ -3348,7 +3348,7 @@ void MainWindow::readSettings() {
 void MainWindow::writeSettings()
 {
   QSettings settings("sonic-pi.net", "gui-settings");
-  settings.setValue("prefs/locale", availableLocales[(locale_combo->currentIndex())]);
+  settings.setValue("prefs/locale", availableLocales()[(locale_combo->currentIndex())]);
 
   settings.setValue("pos", pos());
   settings.setValue("size", size());
@@ -3391,14 +3391,21 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
 }
 
-void MainWindow::add_locale_combo_box_entries(QComboBox combo) {
-  for (QString locale : availableLocales) {
-    if (locale != "system_locale") {
-      combo->addItem(QLocale::languageToString(locale));
+QComboBox* MainWindow::add_locale_combo_box_entries(QComboBox* combo) {
+  std::cout << "[Debug] Adding locale combo box entries..." << std::endl;
+  std::cout << (std::to_string(static_cast<int>(availableLocales().size()))) << std::endl;
+  QLocale temp_l;
+  for (auto const &locale_entry : availableLocales()) {
+    std::cout << "[Debug] Adding locale " << locale_entry.second.toUtf8().constData() << " to the combo box" << std::endl;
+    if (locale_entry.second != "system_locale") {
+      // Add the language's name to the combo box
+      temp_l = QLocale(locale_entry.second);
+      combo->addItem(QLocale::languageToString(temp_l.language()));
     } else {
       combo->addItem(tr("Use system locale"));
     }
   }
+  return combo;
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
@@ -3464,7 +3471,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
-
+  std::cout << "Cleaning up stuffs..." << std::endl;
   setupLogPathAndRedirectStdOut();
   std::cout << "[GUI] - stopping OSC server" << std::endl;
   sonicPiOSCServer->stop();

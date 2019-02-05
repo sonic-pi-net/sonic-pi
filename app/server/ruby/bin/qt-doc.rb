@@ -209,39 +209,62 @@ ruby_html_map = {
 
 languages =
   Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
-  map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') 
+  map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }
 # docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
 
-# Create an array of the available locales, called availableLocales -----
-docs << "\nconst QString[#{(languages.length).to_s}]" + "availableLocales = {\n"
 # Add English to the languages, and sort languages alphabetically
-languages += "en"
-languages = a_languages.sort_by {|l| l.downcase}
-# Add each language
-docs << "system_locale,\n"
-languages.each do |lang|
-  docs << "#{lang},\n"
-end
-# Remove last newline and comma
-docs.chop!
-docs.chop!
-# End the array
-docs << "\n};"
+languages = languages.push("en")
+languages = languages.sort_by {|l| l.downcase}
 
-# Create a map of the locales to their indices in availableLocales, called localeIndex -----
-docs << "\nconst std::map<QString, unsigned int> localeIndex = {\n"
+#locale_array_defs = []
+# Define variables
+#locale_array_defs << "\nextern std::map<unsigned int, QString> availableLocales;\n"
+#locale_array_defs << "\nextern std::map<QString, unsigned int> localeIndex;\n"
+
+locale_arrays = []
+# Make a function to define the availableLocales array and localeIndex map -----
+
+# Create an array of the available locales, called availableLocales
+#~ locale_arrays << "\nQString availableLocales[#{(languages.length + 1).to_s}] = {\n"
+#~ # Add each language
+#~ locale_arrays << "\"system_locale\""
+#~ languages.each do |lang|
+  #~ locale_arrays << ",\n"
+  #~ locale_arrays << "\"#{lang}\""
+#~ end
+#~ # End the array
+#~ locale_arrays << "\n};\n"
+
+locale_arrays << "std::map<unsigned int, QString> MainWindow::availableLocales() {\n"
+locale_arrays << "std::map<unsigned int, QString> availableLocales_ = {\n"
 # Add each language
-docs << "{\"system_locale\", 0}"
+locale_arrays << "{0, \"system_locale\"}"
 i = 1
 languages.each do |lang|
-  docs << "{\"#{lang}\", #{i.to_s}},\n"
+  locale_arrays << ",\n"
+  locale_arrays << "{#{i.to_s}, \"#{lang}\"}"
   i += 1
 end
-# Remove last newline and comma
-docs.chop!
-docs.chop!
 # End the map
-docs << "\n};"
+locale_arrays << "\n};\n"
+locale_arrays << "return availableLocales_;\n"
+locale_arrays << "};\n"
+
+# Create a map of the locales to their indices in availableLocales, called localeIndex
+locale_arrays << "std::map<QString, unsigned int> MainWindow::localeIndex() {\n"
+locale_arrays << "std::map<QString, unsigned int> localeIndex_ = {\n"
+# Add each language
+locale_arrays << "{\"system_locale\", 0}"
+i = 1
+languages.each do |lang|
+  locale_arrays << ",\n"
+  locale_arrays << "{\"#{lang}\", #{i.to_s}}"
+  i += 1
+end
+# End the map
+locale_arrays << "\n};\n"
+locale_arrays << "return localeIndex_;\n"
+locale_arrays << "};\n"
 # -----
 
 # Remove English for now
@@ -312,7 +335,13 @@ new_content << "// AUTO-GENERATED-DOCS\n"
 new_content << "// Do not manually add any code below this comment\n"
 new_content << "// otherwise it may be removed\n"
 new_content << "\n"
-new_content << "#include <map>"
+new_content << "#include <map>\n"
+new_content << "\n"
+#new_content << locale_array_defs
+#new_content << "\n"
+#new_content << "\nvoid MainWindow::defineLocaleLists() {\n"
+new_content << locale_arrays
+#new_content << "};"
 new_content << "\n"
 new_content << "void MainWindow::initDocsWindow(QString locale) {\n"
 new_content += docs
