@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-01-18 03:21+0000\n"
-"Last-Translator: Cindy Dallaire <c.dallaire93@gmail.com>\n"
+"PO-Revision-Date: 2019-02-13 14:11+0000\n"
+"Last-Translator: Mathieu H <wiiu3dsxl13127@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -13572,9 +13572,8 @@ msgstr ""
 "s le 21e siècle en utilisant la puissance fantastique du code."
 
 #: A.07-bizet.md:10
-#, fuzzy
 msgid "Outrageous and Disruptive"
-msgstr "Scandaleux et perturbateur"
+msgstr "Scandaleux et Perturbateur"
 
 #: A.07-bizet.md:12
 #, fuzzy
