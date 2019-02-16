@@ -53,6 +53,7 @@ void SonicPiTheme::hcMode(){
 }
 
 void SonicPiTheme::updateCustomSettings(){
+  customSettings.clear();
   QFile themeFile(customSettingsFilename);
   if(themeFile.exists()){
     QSettings settings(customSettingsFilename, QSettings::IniFormat);
