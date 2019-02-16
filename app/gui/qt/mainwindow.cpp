@@ -521,19 +521,7 @@ if(settings.value("first_time", 1).toInt() == 1) {
 void MainWindow::setupTheme() {
   // Syntax highlighting
   QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-  QFile themeFile(themeFilename);
-  if(themeFile.exists()){
-    std::cout << "[GUI] - using custom editor colours" << std::endl;
-
-    QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
-  }
-  else{
-    std::cout << "[GUI] - using default editor colours" << std::endl;
-    QSettings settings("sonic-pi.net", "gui-settings");
-    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
-
-  }
+  this->theme = new SonicPiTheme(this, themeFilename);
 }
 
 void MainWindow::setupWindowStructure() {

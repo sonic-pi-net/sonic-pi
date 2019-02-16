@@ -14,28 +14,25 @@
 
 #include "sonicpitheme.h"
 
-SonicPiTheme::SonicPiTheme(QObject *parent, QSettings *settings, bool dark) : QObject(parent)
+SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename) : QObject(parent)
 {
+
+    this->customSettingsFilename = customSettingsFilename;
     QMap<QString, QString> themeSettings;
-    if(dark==true){
-        themeSettings = darkTheme();
-    }
-    else{
-        themeSettings = lightTheme();
-    }
+    this->theme = lightTheme();
+    // if(settings!=0){
+    //   QStringList customSettingKeys = settings->allKeys();
+    //   for(int idx=0; idx < customSettingKeys.size(); idx++){
+    //     themeSettings[customSettingKeys[idx]] = settings->value(customSettingKeys[idx]).toString();
+    //     customSettings[customSettingKeys[idx]] = themeSettings[customSettingKeys[idx]];
+    //   }
+    // }
 
-    if(settings!=0){
-      QStringList customSettingKeys = settings->allKeys();
-      for(int idx=0; idx < customSettingKeys.size(); idx++){
-        themeSettings[customSettingKeys[idx]] = settings->value(customSettingKeys[idx]).toString();
-        customSettings[customSettingKeys[idx]] = themeSettings[customSettingKeys[idx]];
-      }
-    }
 
-    this->theme = themeSettings;
 }
 
 QMap<QString, QString> SonicPiTheme::withCustomSettings(QMap<QString, QString> settings){
+  updateCustomSettings();
   QStringList customSettingKeys = customSettings.keys();
   for(int idx=0; idx < customSettingKeys.size(); idx++){
     settings[customSettingKeys[idx]] = customSettings[customSettingKeys[idx]];
@@ -54,6 +51,19 @@ void SonicPiTheme::lightMode(){
 void SonicPiTheme::hcMode(){
   this->theme = withCustomSettings(highContrastTheme());
 }
+
+void SonicPiTheme::updateCustomSettings(){
+  QFile themeFile(customSettingsFilename);
+  if(themeFile.exists()){
+    QSettings settings(customSettingsFilename, QSettings::IniFormat);
+    QStringList customSettingKeys = settings.allKeys();
+    for(int idx=0; idx < customSettingKeys.size(); idx++){
+      //        customSettings[customSettingKeys[idx]] = themeSettings[customSettingKeys[idx]];
+      customSettings[customSettingKeys[idx]] = settings.value(customSettingKeys[idx]).toString();
+    }
+  }
+}
+
 
 
 QMap<QString, QString> SonicPiTheme::lightTheme(){

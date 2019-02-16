@@ -22,15 +22,17 @@ class SonicPiTheme : public QObject
 {
     Q_OBJECT
 public:
-    explicit SonicPiTheme(QObject *parent = 0, QSettings *settings = 0, bool dark = false);
+    explicit SonicPiTheme(QObject *parent = 0, QString customSettingsFilename="");
     ~SonicPiTheme();
     QColor color(QString);
     QString font(QString);
     void darkMode();
     void lightMode();
     void hcMode();
+    void updateCustomSettings();
 
 private:
+    QString customSettingsFilename;
     QMap<QString, QString> withCustomSettings(QMap<QString, QString> settings);
     QMap<QString, QString> lightTheme();
     QMap<QString, QString> darkTheme();
