@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-06-29 13:39+0000\n"
-"Last-Translator: keunwoo <avolic@kaist.ac.kr>\n"
+"PO-Revision-Date: 2019-02-23 19:18+0000\n"
+"Last-Translator: 김운하 <kimhr0703@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "ko/>\n"
 "Language: ko\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.1-dev\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -161,7 +161,6 @@ msgid "Notice how the drum speed has changed."
 msgstr "드럼 속도가 어떻게 변하였는지 주목해보세요."
 
 #: 01.1-Live-Coding.md:36
-#, fuzzy
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
