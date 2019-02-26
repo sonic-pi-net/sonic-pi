@@ -147,7 +147,7 @@ private slots:
     void toggleScopeAxes();
     void scopeVisibilityChanged();
     void toggleDarkMode();
-    void updateDarkMode();
+    void updateColourTheme();
     void updatePrefsIcon();
     void togglePrefs();
     void updateDocPane(QListWidgetItem *cur);

@@ -477,7 +477,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     toggleIcons();
     toggleScope();
     updatePrefsIcon();
-    updateDarkMode();
+    updateColourTheme();
     updateFullScreenMode();
 
     changeSystemPreAmp(system_vol_slider->value(), 1);
@@ -1518,11 +1518,11 @@ void MainWindow::initPrefsWindow() {
   lightProModeCheck = new QCheckBox(tr("Pro Light"));
   darkProModeCheck = new QCheckBox(tr("Pro Dark"));
   highContrastModeCheck = new QCheckBox(tr("High Contrast"));
-  connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-  connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-  connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-  connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-  connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+  connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+  connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+  connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+  connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+  connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
   colourModeButtonGroup->addButton(lightModeCheck, 0);
   colourModeButtonGroup->addButton(darkModeCheck, 1);
   colourModeButtonGroup->addButton(lightProModeCheck, 2);
@@ -2248,7 +2248,7 @@ void MainWindow::help()
   } else {
     docWidget->show();
     if(!updated_dark_mode_for_help) {
-      updateDarkMode();
+      updateColourTheme();
       updated_dark_mode_for_help = true;
     }
 
@@ -2362,7 +2362,7 @@ void MainWindow::toggleDarkMode() {
     } else {
     colourModeButtonGroup->button(checkedId + 1)->toggle();
   }
-  updateDarkMode();
+  updateColourTheme();
 }
 
 void MainWindow::updateLogAutoScroll() {
@@ -2555,7 +2555,7 @@ void MainWindow::toggleIcons() {
 
 }
 
-void MainWindow::updateDarkMode(){
+void MainWindow::updateColourTheme(){
   SonicPiTheme *currentTheme = lexer->theme;
   //Set css stylesheet for browser-like HTML widgets
   QString css = "";
@@ -3289,7 +3289,7 @@ void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
 			 tr("Cannot read file %1:\n%2.")
 			 .arg(fileName)
 			 .arg(file.errorString()));
-    updateDarkMode();
+    updateColourTheme();
     return;
   }
 
@@ -3309,7 +3309,7 @@ bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 			 tr("Cannot write file %1:\n%2.")
 			 .arg(fileName)
 			 .arg(file.errorString()));
-    updateDarkMode();
+    updateColourTheme();
     return false;
   }
 
