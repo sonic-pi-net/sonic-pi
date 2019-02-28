@@ -32,27 +32,88 @@ require_relative "../lib/sonicpi/runtime"
 require 'multi_json'
 require 'memoist'
 
-STDOUT.puts "Sonic Pi server booting..."
-
 include SonicPi::Util
 
-protocol = case ARGV[0]
+## This is where the server starts....
+STDOUT.puts "Sonic Pi server booting..."
+
+## Select the primary GUI protocol
+gui_protocol = case ARGV[0]
            when "-t"
+             # Qt GUI + tcp
              :tcp
+           when "-u"
+             # Qt GUI + udp
+             :udp
+           when "-w"
+             # Web GUI + websockets
+             :websockets
            else
              :udp
-           end
-STDOUT.puts "Using protocol: #{protocol}"
+            end
+STDOUT.puts "Using primary protocol: #{gui_protocol}"
+
+
 STDOUT.puts "Detecting port numbers..."
 
+# Port which the server listens to messages from the GUI
 server_port = ARGV[1] ? ARGV[1].to_i : 4557
-client_port = ARGV[2] ? ARGV[2].to_i : 4558
+
+# Port which the GUI uses to listen to messages from the server:
+gui_port = ARGV[2] ? ARGV[2].to_i : 4558
 scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
+
+# Port which the SuperCollider server scsynth listens to:
+# (scsynth will automatically send replies back to the port
+# from which the message originated from)
 scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
+
+# Port which the server uses to send messages to scsynth
 osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
+
+# Port which the Erlang router listens to.
 erlang_port = ARGV[6] ? ARGV[6].to_i : 4560
+
+# Port which the server uses to send OSC messages representing
+# output MIDI. This is used by osmid's o2m to listen to incoming
+# OSC messages and then forward them on as standard MIDI messages
 osc_midi_out_port = ARGV[7] ? ARGV[7].to_i : 4561
+
+# Port which the server uses to listen to OSC messages generated
+# by incoming MIDI. This is used by osmid's m2o as the outgoing
+# port.
 osc_midi_in_port = ARGV[8] ? ARGV[8].to_i : 4562
+
+# Port which the server uses to communicate via websockets
+websocket_port = ARGV[9] ? ARGV[9].to_i : 4563
+
+# Open up comms to the GUI.
+# We need to do this now so we can communicate with it going forwards
+begin
+  case gui_protocol
+  when :tcp
+    gui = SonicPi::OSC::TCPClient.new("127.0.0.1", gui_port, use_encoder_cache: true)
+  when :udp
+    gui = SonicPi::OSC::UDPClient.new("127.0.0.1", gui_port, use_encoder_cache: true)
+  when :websockets
+    gui = SonicPi::OSC::WebSocketServer.new(websocket_port)
+  end
+
+rescue Exception => e
+  STDOUT.puts "Exception when opening socket to talk to GUI"
+  case gui_protocol
+  when :tcp
+    STDOUT.puts "Attempted to use TCP on port #{gui_port}"
+  when :udp
+    STDOUT.puts "Attempted to use UDP on port #{gui_port}"
+  when :websockets
+    STDOUT.puts "Attempted to use Websockets on port #{websocket_port}"
+  end
+  STDOUT.puts "Error message received:\n-----------------------"
+  STDOUT.puts e.message
+  STDOUT.puts e.backtrace.inspect
+  STDOUT.puts e.backtrace
+end
 
 check_port = lambda do |port, gui|
   begin
@@ -63,30 +124,14 @@ check_port = lambda do |port, gui|
     begin
       STDOUT.puts "Port #{port} unavailable. Perhaps Sonic Pi is already running?"
       STDOUT.flush
-      gui.send("/exited-with-boot-error", "Port unavailable: " + port.to_s + ", is scsynth already running?")
+      gui.send("/exited-with-boot-error", "Port unavailable: " + port.to_s + ", is Sonic Pi already running?")
     rescue Errno::EPIPE => e
       STDOUT.puts "GUI not listening, exit anyway."
     end
+    STDOUT.flush
     exit
   end
 end
-
-
-STDOUT.puts "Send port: #{client_port}"
-
-begin
-  if protocol == :tcp
-    gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
-  else
-    gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
-  end
-rescue Exception => e
-  STDOUT.puts "Exception when opening socket to talk to GUI!"
-  STDOUT.puts e.message
-  STDOUT.puts e.backtrace.inspect
-  STDOUT.puts e.backtrace
-end
-
 
 STDOUT.puts "Listen port: #{server_port}"
 check_port.call(server_port, gui)
@@ -102,6 +147,8 @@ STDOUT.puts "OSC MIDI out port: #{osc_midi_out_port}"
 check_port.call(osc_midi_out_port, gui)
 STDOUT.puts "OSC MIDI in port: #{osc_midi_in_port}"
 check_port.call(osc_midi_in_port, gui)
+STDOUT.puts "Websocket port: #{websocket_port}"
+check_port.call(websocket_port, gui)
 
 STDOUT.flush
 
@@ -112,14 +159,18 @@ sonic_pi_ports = {
   osc_cues_port: osc_cues_port,
   erlang_port: erlang_port,
   osc_midi_out_port: osc_midi_out_port,
-  osc_midi_in_port: osc_midi_in_port }.freeze
+  osc_midi_in_port: osc_midi_in_port,
+  websocket_port: websocket_port}.freeze
 
 
 begin
-  if protocol == :tcp
+  case gui_protocol
+  when :tcp
     osc_server = SonicPi::OSC::TCPServer.new(server_port, use_decoder_cache: true)
-  else
+  when :udp
     osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
+  when :websockets
+    osc_server = gui
   end
 rescue Exception => e
   begin
@@ -134,16 +185,26 @@ rescue Exception => e
   exit
 end
 
-
-at_exit do
-  STDOUT.puts "Server is exiting."
-  begin
-    STDOUT.puts "Shutting down GUI..."
-    gui.send("/exited")
-  rescue Errno::EPIPE => e
-    STDOUT.puts "GUI not listening."
+begin
+  case gui_protocol
+  when :tcp
+    ws = SonicPi::OSC::WebSocketServer.new(websocket_port)
+  when :udp
+    ws = SonicPi::OSC::WebSocketServer.new(websocket_port)
+  when :websockets
+    ws = gui
   end
-  STDOUT.puts "Goodbye :-)"
+rescue Exception => e
+  begin
+    STDOUT.puts "Exception when opening a websocket on port: #{websocket_port}"
+    STDOUT.puts e.message
+    STDOUT.puts e.backtrace.inspect
+    STDOUT.puts e.backtrace
+    gui.send("/exited-with-boot-error", "Failed to open websocket port " + websocket_port.to_s)
+  rescue Errno::EPIPE => e
+    STDOUT.puts "GUI not listening, exit anyway."
+  end
+  exit
 end
 
 user_methods = Module.new
@@ -166,7 +227,6 @@ klass.send(:extend, Memoist)
 SonicPi::Lang::Core.memoizable_fns.each do |f|
   klass.send(:memoize, f)
 end
-
 
 klass.send(:define_method, :inspect) { "Runtime" }
 #klass.send(:include, SonicPi::Lang::Pattern)
@@ -200,13 +260,25 @@ rescue Exception => e
   exit
 end
 
-osc_server.add_method("/run-code") do |args|
-  gui_id = args[0]
-  code = args[1].force_encoding("utf-8")
-  sp.__spider_eval code
+at_exit do
+  STDOUT.puts "Server is exiting."
+  begin
+    STDOUT.puts "Shutting down GUI..."
+    gui.send("/exited")
+  rescue Errno::EPIPE => e
+    STDOUT.puts "GUI not listening."
+  end
+  STDOUT.puts "Goodbye :-)"
 end
 
-osc_server.add_method("/save-and-run-buffer") do |args|
+register_api = lambda do |server|
+  server.add_method("/run-code") do |args|
+    gui_id = args[0]
+    code = args[1].force_encoding("utf-8")
+    sp.__spider_eval code
+  end
+
+  server.add_method("/save-and-run-buffer") do |args|
   gui_id = args[0]
   buffer_id = args[1]
   code = args[2].force_encoding("utf-8")
@@ -215,29 +287,29 @@ osc_server.add_method("/save-and-run-buffer") do |args|
   sp.__spider_eval code, {workspace: workspace}
 end
 
-osc_server.add_method("/save-buffer") do |args|
+server.add_method("/save-buffer") do |args|
   gui_id = args[0]
   buffer_id = args[1]
   code = args[2].force_encoding("utf-8")
   sp.__save_buffer(buffer_id, code)
 end
 
-osc_server.add_method("/exit") do |args|
+server.add_method("/exit") do |args|
   gui_id = args[0]
   sp.__exit
 end
 
-osc_server.add_method("/stop-all-jobs") do |args|
+server.add_method("/stop-all-jobs") do |args|
   gui_id = args[0]
   sp.__stop_jobs
 end
 
-osc_server.add_method("/load-buffer") do |args|
+server.add_method("/load-buffer") do |args|
   gui_id = args[0]
   sp.__load_buffer args[1]
 end
 
-osc_server.add_method("/buffer-newline-and-indent") do |args|
+server.add_method("/buffer-newline-and-indent") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2].force_encoding("utf-8")
@@ -247,7 +319,7 @@ osc_server.add_method("/buffer-newline-and-indent") do |args|
   sp.__buffer_newline_and_indent(id, buf, point_line, point_index, first_line)
 end
 
-osc_server.add_method("/buffer-section-complete-snippet-or-indent-selection") do |args|
+server.add_method("/buffer-section-complete-snippet-or-indent-selection") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2].force_encoding("utf-8")
@@ -258,7 +330,7 @@ osc_server.add_method("/buffer-section-complete-snippet-or-indent-selection") do
   sp.__buffer_complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
 end
 
-osc_server.add_method("/buffer-indent-selection") do |args|
+server.add_method("/buffer-indent-selection") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2].force_encoding("utf-8")
@@ -269,7 +341,7 @@ osc_server.add_method("/buffer-indent-selection") do |args|
   sp.__buffer_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
 end
 
-osc_server.add_method("/buffer-section-toggle-comment") do |args|
+server.add_method("/buffer-section-toggle-comment") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2].force_encoding("utf-8")
@@ -280,7 +352,7 @@ osc_server.add_method("/buffer-section-toggle-comment") do |args|
   sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
 end
 
-osc_server.add_method("/buffer-beautify") do |args|
+server.add_method("/buffer-beautify") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2].force_encoding("utf-8")
@@ -290,34 +362,34 @@ osc_server.add_method("/buffer-beautify") do |args|
   sp.__buffer_beautify(id, buf, line, index, first_line)
 end
 
-osc_server.add_method("/ping") do |args|
+server.add_method("/ping") do |args|
   gui_id = args[0]
   id = args[1]
   gui.send("/ack", id)
 end
 
-osc_server.add_method("/start-recording") do |args|
+server.add_method("/start-recording") do |args|
   gui_id = args[0]
   sp.recording_start
 end
 
-osc_server.add_method("/stop-recording") do |args|
+server.add_method("/stop-recording") do |args|
   gui_id = args[0]
   sp.recording_stop
 end
 
-osc_server.add_method("/delete-recording") do |args|
+server.add_method("/delete-recording") do |args|
   gui_id = args[0]
   sp.recording_delete
 end
 
-osc_server.add_method("/save-recording") do |args|
+server.add_method("/save-recording") do |args|
   gui_id = args[0]
   filename = args[1]
   sp.recording_save(filename)
 end
 
-osc_server.add_method("/reload") do |args|
+server.add_method("/reload") do |args|
   gui_id = args[0]
   dir = File.dirname("#{File.absolute_path(__FILE__)}")
   Dir["#{dir}/../lib/**/*.rb"].each do |d|
@@ -326,71 +398,71 @@ osc_server.add_method("/reload") do |args|
   puts "reloaded"
 end
 
-osc_server.add_method("/mixer-invert-stereo") do |args|
+server.add_method("/mixer-invert-stereo") do |args|
   gui_id = args[0]
   sp.set_mixer_invert_stereo!
 end
 
-osc_server.add_method("/mixer-standard-stereo") do |args|
+server.add_method("/mixer-standard-stereo") do |args|
   gui_id = args[0]
   sp.set_mixer_standard_stereo!
 end
 
-osc_server.add_method("/mixer-stereo-mode") do |args|
+server.add_method("/mixer-stereo-mode") do |args|
   gui_id = args[0]
   sp.set_mixer_stereo_mode!
 end
 
-osc_server.add_method("/mixer-mono-mode") do |args|
+server.add_method("/mixer-mono-mode") do |args|
   gui_id = args[0]
   sp.set_mixer_mono_mode!
 end
 
-osc_server.add_method("/mixer-hpf-enable") do |args|
+server.add_method("/mixer-hpf-enable") do |args|
   gui_id = args[0]
   freq = args[1].to_f
   sp.set_mixer_hpf!(freq)
 end
 
-osc_server.add_method("/mixer-hpf-disable") do |args|
+server.add_method("/mixer-hpf-disable") do |args|
   gui_id = args[0]
   sp.set_mixer_hpf_disable!
 end
 
-osc_server.add_method("/mixer-lpf-enable") do |args|
+server.add_method("/mixer-lpf-enable") do |args|
   gui_id = args[0]
   freq = args[1].to_f
   sp.set_mixer_lpf!(freq)
 end
 
-osc_server.add_method("/mixer-lpf-disable") do |args|
+server.add_method("/mixer-lpf-disable") do |args|
   gui_id = args[0]
   sp.set_mixer_lpf_disable!
 end
 
-osc_server.add_method("/mixer-amp") do |args|
+server.add_method("/mixer-amp") do |args|
   gui_id = args[0]
   amp = args[1]
   silent = args[2] == 1
   sp.set_volume!(amp, true, silent)
 end
 
-osc_server.add_method("/enable-update-checking") do |args|
+server.add_method("/enable-update-checking") do |args|
   gui_id = args[0]
   sp.__enable_update_checker
 end
 
-osc_server.add_method("/disable-update-checking") do |args|
+server.add_method("/disable-update-checking") do |args|
   gui_id = args[0]
   sp.__disable_update_checker
 end
 
-osc_server.add_method("/check-for-updates-now") do |args|
+server.add_method("/check-for-updates-now") do |args|
   gui_id = args[0]
   sp.__update_gui_version_info_now
 end
 
-osc_server.add_method("/version") do |args|
+server.add_method("/version") do |args|
   gui_id = args[0]
   v = sp.__current_version
   lv = sp.__server_version
@@ -399,41 +471,45 @@ osc_server.add_method("/version") do |args|
   gui.send("/version", v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s)
 end
 
-osc_server.add_method("/gui-heartbeat") do |args|
+server.add_method("/gui-heartbeat") do |args|
   gui_id = args[0]
   sp.__gui_heartbeat gui_id
 end
 
-osc_server.add_method("/midi-start") do |args|
+server.add_method("/midi-start") do |args|
   gui_id = args[0]
   silent = args[1] == 1
   sp.__midi_system_start(silent)
 end
 
-osc_server.add_method("/midi-stop") do |args|
+server.add_method("/midi-stop") do |args|
   gui_id = args[0]
   silent = args[1] == 1
   sp.__midi_system_stop(silent)
 end
 
-osc_server.add_method("/midi-reset") do |args|
+server.add_method("/midi-reset") do |args|
   gui_id = args[0]
   silent = args[1] == 1
   sp.__midi_system_reset(silent)
 end
 
-osc_server.add_method("/osc-port-start") do |args|
+server.add_method("/osc-port-start") do |args|
   gui_id = args[0]
   silent = args[1] == 1
   open = args[2] == 1
   sp.__restart_cue_server!(open, silent)
 end
 
-osc_server.add_method("/osc-port-stop") do |args|
+server.add_method("/osc-port-stop") do |args|
   gui_id = args[0]
   silent = args[1] == 1
   sp.__stop_cue_server!(silent)
 end
+end
+
+register_api.call(osc_server)
+register_api.call(ws) unless gui_protocol == :websockets
 
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
@@ -520,6 +596,10 @@ out_t = Thread.new do
           id = message[:job_id]
           action = message[:action]
           # do nothing for now
+        when :websocket_osc
+          path = message[:path]
+          body = message[:body]
+          ws.send(path, *body)
         else
           STDOUT.puts "ignoring #{message}"
         end
