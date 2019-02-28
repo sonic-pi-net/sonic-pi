@@ -43,6 +43,8 @@ osc_midi_out = 4561
 # port.
 osc_midi_in = 4562
 
+# Port which the server uses to communicate via websockets
+websocket_port = 4563
 
 
 case (ARGV[0] || "").downcase
@@ -66,6 +68,8 @@ when "osc-midi-out"
   puts osc_midi_out
 when "osc-midi-in"
   puts osc_midi_in
+when "websocket-port"
+  puts websocket_port
 else
   puts "Unknown port name: #{ARGV[0]}.\nExpecting one of:\n* gui-send-to-server\n* gui-listen-to-server\n* server-send-to-gui\n* server-listen-to-gui\n* server-osc-cues\n* scsynth\n* scsynth-send"
 end
