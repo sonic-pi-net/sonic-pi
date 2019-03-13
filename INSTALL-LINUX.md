@@ -66,7 +66,7 @@ First, we need to download the source code to a reasonable location. You can do 
 
 ### Building Sonic Pi
 
-There's a bash script file called `/app/gui/qt/build-debian-app`, which is an install script to help assist in installing dependecies and building Sonic Pi. It's been tested with Sonic Pi v3.1 (as of the time of writing), it may or may not work with other versions. You can run it by typing these commands into the terminal:
+There's a bash script file called `app/gui/qt/build-debian-app`, which is an install script to help assist in installing dependecies and building Sonic Pi. It's been tested with Sonic Pi v3.1 (as of the time of writing), it may or may not work with other versions. You can run it by typing these commands into the terminal:
 ````
 cd app/gui/qt/
 ./build-debian-app
