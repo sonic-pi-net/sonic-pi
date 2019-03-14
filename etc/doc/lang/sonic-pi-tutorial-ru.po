@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-01-30 18:10+0000\n"
-"Last-Translator: Ivan Zarea <zarea.ivan@gmail.com>\n"
+"PO-Revision-Date: 2019-03-15 14:04+0000\n"
+"Last-Translator: Deca <decard@xakep.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.5-dev\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2832,17 +2832,16 @@ msgid "External Samples"
 msgstr "Внешние Сэмплы"
 
 #: 03.6-External-Samples.md:5
-#, fuzzy
 msgid ""
 "Whilst the built-in samples can get you up and started quickly, you might wish"
 " to experiment with other recorded sounds in your music. Sonic Pi totally supp"
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
-"Коль скоро встроенные сэмплы дали тебе быструю возможность разобраться с ними,"
-" тебе может захотеться поэкспериментировать с другими записанными звуками в тв"
-"оей музыке. Sonic Pi полностью поддерживает эту функцию. Но сперва кратко обсу"
-"дим переносимость твоего произведения."
+"Хотя встроенные сэмплы помогут вам быстро приступить к работе, вы можете "
+"поэкспериментировать с другими записанными звуками в своей музыке. Sonic Pi "
+"полностью поддерживает эту функцию. Но сперва кратко обсудим переносимость "
+"вашего произведения."
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
@@ -2907,13 +2906,13 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
-#, fuzzy
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all th"
 "e standard params you're used to passing `sample`:"
 msgstr ""
-"Sonic Pi автоматически загрузит и воспроизведет сэмпл. Вместе с этим можно пер"
-"едавать все стандартные параметры, которые ты привык использовать с `sample`:"
+"Sonic Pi автоматически загрузит и воспроизведет сэмпл. Вместе с этим можно "
+"передавать все стандартные параметры, которые ты привык использовать с "
+"`sample`:"
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
@@ -15517,7 +15516,7 @@ msgstr ""
 #: A.14-amplitude-modulation.md:100
 #, fuzzy
 msgid "Setting your levels"
-msgstr "Устанавливаем собственные уровни"
+msgstr "Настройка вашего уровня"
 
 #: A.14-amplitude-modulation.md:102
 msgid ""
