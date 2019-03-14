@@ -559,9 +559,9 @@ even when a little late.</source>
 использовать синтезаторы и FX, если
 уже слишком поздно.
 
-Когда выключено, Sonic Pi будет пытаться
-использовать синтезаторы и FX всегда,
-даже если уже немного поздно.</translation>
+Когда выключено, Sonic Pi будет всегда пытаться
+использовать синтезаторы и FX,
+даже если уже поздно их использовать.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
@@ -582,8 +582,8 @@ even when a little late.</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation>Переключение Pro иконки - переключение между параметрами по умолчанию
- и более минималистичный набор иконок.</translation>
+        <translation>Переключение Pro иконок - между параметрами по умолчанию
+ и более минималистичным набором иконок.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
