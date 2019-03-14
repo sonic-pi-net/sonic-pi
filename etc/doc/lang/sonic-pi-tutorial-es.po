@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-12-28 02:09+0000\n"
-"Last-Translator: Martín Aguilar <martin2004sexyhola@gmail.com>\n"
+"PO-Revision-Date: 2019-03-11 21:03+0000\n"
+"Last-Translator: Luis Jimenez <ljjimen7@neiu.edu>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.5.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2300,7 +2300,6 @@ msgid "![sample graph](../images/tutorial/sample.png)"
 msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
-#, fuzzy
 msgid ""
 "You might have seen pictures like this before. It's called the *waveform* of a"
 " sample. It's just a graph of numbers. Typically a waveform like this will hav"
@@ -2312,31 +2311,32 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
-"Quizás hayas visto imágenes parecidas a esa. Se llaman \"forma de onda\" de un s"
-"ampleo. Simplemente es la graficación de números. Típicamente una forma de ond"
-"a como ésta tendrá 44100 puntos por segundo de dato (esto debido al teorema de"
-" sampleo de Nyquist-Shannon) Así que si un sample dura 2 segundos, la forma de"
-" onda será representada por 88200 números, alimentándo a los parlantes a una v"
-"elocidad de 44100 puntos por segundo. Claro, podemos también alimentarlos a un"
-"a velocidad doble, que sería de 88200 puntos por segundo, lo cual tomaría sólo"
-" 1 segundo para ser tocado. También podríamos tocarlo a la mitad de velocidad,"
-" lo que daría 22050 puntos por segundo tomando 4 segundos de tiempo de ejecuci"
-"ón."
+"Quizás hayas visto imágenes parecidas a esa. Se llaman \"forma de onda\" de "
+"un sampleo. Simplemente es la graficación de números. Típicamente una forma "
+"de onda como ésta tendrá 44100 puntos por segundo de datos (esto es debido "
+"al teorema de sampleo de Nyquist-Shannon) Así que si el sampleo dura 2 "
+"segundos, la forma de onda será representada por 88200 números, alimentándo "
+"al altavoz a una velocidad de 44100 puntos por segundo. Claro, podemos "
+"también alimentarlos a una velocidad doble, que sería de 88200 puntos por "
+"segundo, lo cual tomaría sólo 1 segundo para ser tocado. También podríamos "
+"tocarlo a la mitad de velocidad, lo que daría 22050 puntos por segundo "
+"tomando 4 segundos de tiempo de ejecución."
 
 #: 03.3-Stretching-Samples.md:116
-#, fuzzy
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr "La duración del sample es afectada por la velocidad de ejecución:"
+msgstr "La duración del sampleo es afectada por la velocidad de ejecución:"
 
 #: 03.3-Stretching-Samples.md:118
 #, fuzzy
 msgid "Doubling the playback rate halves the playback time,"
-msgstr "doblándola, logramos reducir a la mitad el tiempo de ejecución,"
+msgstr ""
+"doblando la reproducción, logramos reducir a la mitad del tiempo de "
+"ejecución,"
 
 #: 03.3-Stretching-Samples.md:119
 #, fuzzy
 msgid "Halving the playback rate doubles the playback time,"
-msgstr "achicándola a la mitad, doblamos el tiempo de ejecución,"
+msgstr "cortando a la mitad la reproduccion, doblamos el tiempo de ejecución,"
 
 #: 03.3-Stretching-Samples.md:120
 #, fuzzy

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-01-02 19:07+0000\n"
+"PO-Revision-Date: 2019-03-11 21:03+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.5.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -9144,14 +9144,17 @@ msgid ""
 "Therefore, when sharing information across live loops and threads, use `get` a"
 "nd `set` instead of variables for deterministic, reproducible behaviour."
 msgstr ""
+"Dlatego, gdy współdzielimy informację pomiędzy różnymi żywymi pętlami i "
+"wątkami, używajmy funkcji `get` i `set` zamiast zmiennych aby otrzymać "
+"deterministyczne i powtarzalne zachowanie."
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
-msgstr ""
+msgstr "10.2 Synchronizacja (Sync)"
 
 #: 10.2-Sync.md:3
 msgid "Sync"
-msgstr ""
+msgstr "Sync"
 
 #: 10.2-Sync.md:5
 msgid ""
@@ -9164,10 +9167,20 @@ msgid ""
 " - any information that we plan to store in Time State we can sync on. In othe"
 "r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
+"Sekcja 5.7 wprowadziła funkcje `cue` i `sync`, mieliśmy wtedy do czynienia z "
+"problemem synchronizacji wątków. To co nie zostało wytłumaczone to fakt, że "
+"funkcjonalność ta jest zapewniona przez system Stanu Czasu (Time State). Tak "
+"się właśnie dzieje gdyż funkcja `set` jest w zasadzie wariacją funkcji `cue` "
+"i jest zbudowana na bazie tej samej podstawowej funkcjonalności, która "
+"pozwala na umieszczenie informacji w systemie Stanu Czasu.  Ponadto, `sync` "
+"jest również zaprojektowany w taki sposób, że działa bezproblemowo z Stanem "
+"Czasu - do każdej informacji, którą chcielibyśmy umieścić w Stanie Czasu, "
+"możemy się zsynchronizować. Innymi słowy - *synchronizujemy się (`sync`)  na "
+"zdarzeniach, które będą umieszczone w Stanie Czasu*."
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
-msgstr ""
+msgstr "Czekając na Zdarzenia"
 
 #: 10.2-Sync.md:17
 msgid ""

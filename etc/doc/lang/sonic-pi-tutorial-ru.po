@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-01-19 00:42+0000\n"
+"PO-Revision-Date: 2019-01-30 18:10+0000\n"
 "Last-Translator: Ivan Zarea <zarea.ivan@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3533,20 +3533,18 @@ msgstr ""
 " для музыкального синтеза!"
 
 #: 04-Randomisation.md:50
-#, fuzzy
 msgid "Haunted Bells"
 msgstr "Колокола с привидениями"
 
 #: 04-Randomisation.md:52
-#, fuzzy
 msgid ""
 "A lovely illustration of randomisation in action is the haunted bells example "
 "which loops the `:perc_bell` sample with a random rate and sleep time between "
 "bell sounds:"
 msgstr ""
-"Прекрасной иллюстрацией рандомизации в действии является пример колоколов, в к"
-"оторые как будто вселились призраки. Он повторяет `:perc_bell` сэмпл, выбирая "
-"случайную скорость и задержку между звуками:"
+"Прекрасной иллюстрацией случайности в действии является пример колоколов, в "
+"которые как будто вселились призраки. Он повторяет пример `:perc_bell` , "
+"выбирая случайную скорость и задержку между звуками:"
 
 #: 04-Randomisation.md:56
 #, no-wrap

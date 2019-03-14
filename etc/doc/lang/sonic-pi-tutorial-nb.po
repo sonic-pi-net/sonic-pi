@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-12-07 07:09+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2019-02-06 22:10+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/nb_NO/>\n"
 "Language: nb\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -513,7 +513,6 @@ msgid "G. Help System"
 msgstr "G. Hjelpesystem"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -522,17 +521,16 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"Endelig, en av de viktigste delene av Sonic Pi-grensesnittet er hjelpesystemet"
-" som vises nederst i vinduet. Dette kan slås av og på ved å klikke på den blå "
-"\"Help\"-knappen. Hjelpesystemet inneholder hjelp og informasjon om alle aspekte"
-"r ved Sonic Pi, inkludert denne opplæringen, en liste over tilgjengelige synth"
-"er, lydklipp, eksempler, FX og en fullstendig liste over alle funksjoner Sonic"
-" Pi har for koding av musikk."
+"Endelig, en av de viktigste delene av Sonic Pi-grensesnittet er "
+"hjelpesystemet som vises nederst i vinduet. Dette kan slås av og på ved å "
+"klikke på den blå \"Help\"-knappen. Hjelpesystemet inneholder hjelp og "
+"informasjon om alle aspekter ved Sonic Pi, inkludert denne opplæringen, en "
+"liste over tilgjengelige synther, lydklipp, eksempler, FX og en fullstendig "
+"liste over alle funksjoner Sonic Pi har for koding av musikk."
 
 #: 01.2-Exploring-the-Interface.md:81
-#, fuzzy
 msgid "H. Scope Viewer"
-msgstr "F. Loggvisning"
+msgstr "H. Oscilloskopvisning"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -13354,7 +13352,6 @@ msgid "[Low Pass Filter] - breakout box"
 msgstr ""
 
 #: A.19-subtractive-synthesis.md:88
-#, fuzzy
 msgid ""
 "The low pass filter is such an important part of every subtractive synthesis t"
 "oolkit that it's worth taking a deeper look at how it works. This diagram show"

@@ -888,7 +888,7 @@ to and from other programs or computers
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation>已连接的MIDI端口列表</translation>
+        <translation>列出所有已连接的MIDI端口</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
@@ -1037,22 +1037,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation>禁用MIDI...</translation>
+        <translation>正在禁用MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation>开放OSC端口以进行远程通讯...</translation>
+        <translation>正在开放OSC端口以进行远程通讯...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation>关闭OSC服务器...</translation>
+        <translation>正在关闭OSC服务器...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation>重置MIDI...</translation>
+        <translation>正在重置MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>

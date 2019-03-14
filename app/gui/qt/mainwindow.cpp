@@ -501,7 +501,7 @@ MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QSplashScre
     toggleIcons();
     toggleScope();
     updatePrefsIcon();
-    updateDarkMode();
+    updateColourTheme();
     updateFullScreenMode();
 
     changeSystemPreAmp(system_vol_slider->value(), 1);
@@ -545,19 +545,7 @@ void MainWindow::showWelcomeScreen() {
 void MainWindow::setupTheme() {
   // Syntax highlighting
   QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-  QFile themeFile(themeFilename);
-  if(themeFile.exists()){
-    std::cout << "[GUI] - using custom editor colours" << std::endl;
-
-    QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
-  }
-  else{
-    std::cout << "[GUI] - using default editor colours" << std::endl;
-    QSettings settings("sonic-pi.net", "gui-settings");
-    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
-
-  }
+  this->theme = new SonicPiTheme(this, themeFilename);
 }
 
 void MainWindow::setupWindowStructure() {
@@ -1525,20 +1513,19 @@ void MainWindow::initPrefsWindow() {
   colourModeButtonGroup = new QButtonGroup(this);
 
   lightModeCheck = new QCheckBox(tr("Light"));
-  lightModeCheck->setChecked(true);
-  connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-
+  connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+  
   darkModeCheck = new QCheckBox(tr("Dark"));
-  connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-
+  connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+  
   lightProModeCheck = new QCheckBox(tr("Pro Light"));
-  connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-
+  connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+  
   darkProModeCheck = new QCheckBox(tr("Pro Dark"));
-  connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
-
+  connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+  
   highContrastModeCheck = new QCheckBox(tr("High Contrast"));
-  connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
+  connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
 
   colourModeButtonGroup->addButton(lightModeCheck, 0);
   colourModeButtonGroup->addButton(darkModeCheck, 1);
@@ -2353,7 +2340,7 @@ void MainWindow::help()
   } else {
     docWidget->show();
     if(!updated_dark_mode_for_help) {
-      updateDarkMode();
+      updateColourTheme();
       updated_dark_mode_for_help = true;
     }
 
@@ -2467,7 +2454,7 @@ void MainWindow::toggleDarkMode() {
     } else {
     colourModeButtonGroup->button(checkedId + 1)->toggle();
   }
-  updateDarkMode();
+  updateColourTheme();
 }
 
 void MainWindow::updateLogAutoScroll() {
@@ -2660,7 +2647,7 @@ void MainWindow::toggleIcons() {
 
 }
 
-void MainWindow::updateDarkMode(){
+void MainWindow::updateColourTheme(){
   SonicPiTheme *currentTheme = lexer->theme;
   //Set css stylesheet for browser-like HTML widgets
   QString css = "";
@@ -3412,7 +3399,7 @@ void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
 			 tr("Cannot read file %1:\n%2.")
 			 .arg(fileName)
 			 .arg(file.errorString()));
-    updateDarkMode();
+    updateColourTheme();
     return;
   }
 
@@ -3432,7 +3419,7 @@ bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 			 tr("Cannot write file %1:\n%2.")
 			 .arg(fileName)
 			 .arg(file.errorString()));
-    updateDarkMode();
+    updateColourTheme();
     return false;
   }
 

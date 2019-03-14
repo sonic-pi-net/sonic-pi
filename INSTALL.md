@@ -59,5 +59,5 @@ If you wish to play with the (development) HTML interface on OS X:
 * Unzip the tar ball somewhere useful
 * Install JDK 1.6+ and Leiningen (to compile ClojureScript -> Javascript, not for running the app)
 * Compile the `cljs` source: `cd app/gui/html`, `lein cljsbuild once`
-* Start the server: `cd app/server/bin`, `ruby ws.rb`
+* Start the server: `cd app/server/ruby/bin`, `ruby ws.rb`
 * Open a browser and go to `http://localhost:8000`

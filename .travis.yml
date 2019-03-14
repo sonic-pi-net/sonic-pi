@@ -3,6 +3,28 @@ language: ruby
 os: linux
 sudo: required
 dist: trusty
+addons:
+  apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:latthias/qgis-travis-deps'
+    packages:
+    - ruby-all-dev
+    - rake
+    - cmake
+    - pkg-config
+    - g++
+    - libfftw3-dev
+    - libffi-dev
+    - libqt5scintilla2-dev
+    - qtbase5-dev
+    - qttools5-dev
+    - qttools5-dev-tools
+    - qt5-default
+    - libqt5opengl5-dev
+    - libqt5svg5-dev
+    - libqwt-qt5-dev
+    - libboost-all-dev
 compiler: gcc
 
 cache:
@@ -17,11 +39,6 @@ rvm:
   - 2.5.1
 
 before_install:
- - sudo apt-get update
- - sudo apt-get --yes install ruby-all-dev rake cmake pkg-config g++ libfftw3-dev libffi-dev
- - sudo add-apt-repository ppa:latthias/qgis-travis-deps -y
- - sudo apt-get update -q
- - sudo apt-get --yes install libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default libqt5opengl5-dev libqt5svg5-dev libqwt-qt5-dev libboost-all-dev
  - wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
  - tar xvjf aubio-0.4.4.tar.bz2
  - cd aubio-0.4.4

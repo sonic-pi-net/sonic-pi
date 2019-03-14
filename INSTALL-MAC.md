@@ -62,7 +62,7 @@ Sonic Pi uses some ruby libraries which have native extensions. We need
 to compile these with the provided script:
 
 * `cd /path/to/sonic-pi/root/`
-* `cd app/server/bin`
+* `cd app/server/ruby/bin`
 * `../native/osx/ruby/bin/ruby compile-extensions.rb`
 
 This will take some time. Ignore the warnings.
