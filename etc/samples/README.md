@@ -6,7 +6,7 @@ been placed in the public domain via the Creative Commons 0 License:
 http://creativecommons.org/publicdomain/zero/1.0/
 
 Many of the samples have been slightly modified and trimmed for use with
-Sonic Pi.
+Sonic Pi. 
 
 Links to original samples:
 
@@ -65,7 +65,7 @@ Links to original samples:
 
 ## Guitar
 
-* `:guit_harmonics` - http://freesound.org/people/BStateham/sounds/141524/<
+* `:guit_harmonics` - http://freesound.org/people/BStateham/sounds/141524/
 * `:guit_e_fifths` - http://freesound.org/people/Sub-d/sounds/46990/
 * `:guit_e_slide` - http://freesound.org/people/Suva/sounds/2410/
 * `:guit_em9` - http://www.freesound.org/people/Sub-d/sounds/46992/ 
@@ -75,7 +75,7 @@ Links to original samples:
 
 * `:misc_burp` - http://freesound.org/people/anas76/sounds/222022/
 * `:misc_crow` - http://freesound.org/people/davidworksonline/sounds/54973/
-* `:misc_cineboom` - http://freesound.org/people/Northern_Monkey/sounds/177242/
+* `:misc_cineboom` - http://freesound.org/people/Northern_Monkey/sounds/177242/ **(link deprecated)**
 
 
 ## Percussion
@@ -109,7 +109,7 @@ Links to original samples:
 
 ## Bass
 
-* `:bass_hit_c` - http://freesound.org/people/oceanictrancer/sounds/211614/
+* `:bass_hit_c` - http://freesound.org/people/oceanictrancer/sounds/211614/ **(link deprecated)**
 * `:bass_hard_c` - http://freesound.org/people/ani_music/sounds/165309/
 * `:bass_thick_c` - http://freesound.org/people/ani_music/sounds/165314/
 * `:bass_trance_c` - http://freesound.org/people/ani_music/sounds/165329/
@@ -168,32 +168,32 @@ Links to original samples:
 
 ## Tabla
 
-* `:tabla_tas1` - http://freesound.org/people/dio_333/sounds/130427/
-* `:tabla_tas2` - http://freesound.org/people/dio_333/sounds/130425/
-* `:tabla_tas3` - http://freesound.org/people/dio_333/sounds/130430/
-* `:tabla_ke1` - http://freesound.org/people/dio_333/sounds/130413/
-* `:tabla_ke2` - http://freesound.org/people/dio_333/sounds/130424/
-* `:tabla_ke3` - http://freesound.org/people/dio_333/sounds/130423/
-* `:tabla_na` - http://freesound.org/people/dio_333/sounds/130421/
-* `:tabla_na_o` - http://freesound.org/people/dio_333/sounds/130422/
-* `:tabla_tun1` - http://freesound.org/people/dio_333/sounds/130416/
-* `:tabla_tun2` - http://freesound.org/people/dio_333/sounds/130419/
-* `:tabla_tun3` - http://freesound.org/people/dio_333/sounds/130420/
-* `:tabla_te1` - http://freesound.org/people/dio_333/sounds/130429/
-* `:tabla_te2` - http://freesound.org/people/dio_333/sounds/130418/
-* `:tabla_te_ne` - http://freesound.org/people/dio_333/sounds/130417/
-* `:tabla_te_m` - http://freesound.org/people/dio_333/sounds/130415/
-* `:tabla_ghe1` - http://freesound.org/people/dio_333/sounds/130406/
-* `:tabla_ghe2` - http://freesound.org/people/dio_333/sounds/130405/
-* `:tabla_ghe3` - http://freesound.org/people/dio_333/sounds/130404/
-* `:tabla_ghe4` - http://freesound.org/people/dio_333/sounds/130411/
-* `:tabla_ghe5` - http://freesound.org/people/dio_333/sounds/130410/
-* `:tabla_ghe6` - http://freesound.org/people/dio_333/sounds/130409/
-* `:tabla_ghe7` - http://freesound.org/people/dio_333/sounds/130408/
-* `:tabla_ghe8` - http://freesound.org/people/dio_333/sounds/130414/
-* `:tabla_dhec` - http://freesound.org/people/dio_333/sounds/130407/
-* `:tabla_na_s` - http://freesound.org/people/dio_333/sounds/130428/
-* `:tabla_re` - http://freesound.org/people/dio_333/sounds/130427/
+* `:tabla_tas1` - http://freesound.org/people/dio_333/sounds/130427/ **(link deprecated)**
+* `:tabla_tas2` - http://freesound.org/people/dio_333/sounds/130425/ **(link deprecated)**
+* `:tabla_tas3` - http://freesound.org/people/dio_333/sounds/130430/ **(link deprecated)**
+* `:tabla_ke1` - http://freesound.org/people/dio_333/sounds/130413/ **(link deprecated)**
+* `:tabla_ke2` - http://freesound.org/people/dio_333/sounds/130424/ **(link deprecated)**
+* `:tabla_ke3` - http://freesound.org/people/dio_333/sounds/130423/ **(link deprecated)**
+* `:tabla_na` - http://freesound.org/people/dio_333/sounds/130421/ **(link deprecated)**
+* `:tabla_na_o` - http://freesound.org/people/dio_333/sounds/130422/ **(link deprecated)**
+* `:tabla_tun1` - http://freesound.org/people/dio_333/sounds/130416/ **(link deprecated)**
+* `:tabla_tun2` - http://freesound.org/people/dio_333/sounds/130419/ **(link deprecated)**
+* `:tabla_tun3` - http://freesound.org/people/dio_333/sounds/130420/ **(link deprecated)**
+* `:tabla_te1` - http://freesound.org/people/dio_333/sounds/130429/ **(link deprecated)**
+* `:tabla_te2` - http://freesound.org/people/dio_333/sounds/130418/ **(link deprecated)**
+* `:tabla_te_ne` - http://freesound.org/people/dio_333/sounds/130417/ **(link deprecated)**
+* `:tabla_te_m` - http://freesound.org/people/dio_333/sounds/130415/ **(link deprecated)**
+* `:tabla_ghe1` - http://freesound.org/people/dio_333/sounds/130406/ **(link deprecated)**
+* `:tabla_ghe2` - http://freesound.org/people/dio_333/sounds/130405/ **(link deprecated)**
+* `:tabla_ghe3` - http://freesound.org/people/dio_333/sounds/130404/ **(link deprecated)**
+* `:tabla_ghe4` - http://freesound.org/people/dio_333/sounds/130411/ **(link deprecated)**
+* `:tabla_ghe5` - http://freesound.org/people/dio_333/sounds/130410/ **(link deprecated)**
+* `:tabla_ghe6` - http://freesound.org/people/dio_333/sounds/130409/ **(link deprecated)**
+* `:tabla_ghe7` - http://freesound.org/people/dio_333/sounds/130408/ **(link deprecated)**
+* `:tabla_ghe8` - http://freesound.org/people/dio_333/sounds/130414/ **(link deprecated)**
+* `:tabla_dhec` - http://freesound.org/people/dio_333/sounds/130407/ **(link deprecated)**
+* `:tabla_na_s` - http://freesound.org/people/dio_333/sounds/130428/ **(link deprecated)**
+* `:tabla_re` - http://freesound.org/people/dio_333/sounds/130427/ **(link deprecated)**
 
 
 # Vinyl
