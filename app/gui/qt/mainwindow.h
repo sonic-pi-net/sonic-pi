@@ -227,11 +227,13 @@ private:
     SonicPiScintilla* filenameToWorkspace(std::string filename);
     bool sendOSC(oscpkt::Message m);
     void initPrefsWindow();
-    
+
     void initDocsWindow(QString locale);
-    std::map<unsigned int, QString> availableLocales();
-    std::map<QString, unsigned int> localeIndex();
-    
+    void defineLocaleLists();
+    std::map<unsigned int, QString> availableLocales;
+    std::map<QString, unsigned int> localeIndex;
+    std::map<QString, QString> localeNames;
+
     void refreshDocContent();
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
@@ -244,7 +246,7 @@ private:
     QKeySequence ctrlShiftMetaKey(char key);
     QKeySequence ctrlKey(char key);
     char int2char(int i);
-  void updateAction(QAction *action, QShortcut *sc, QString tooltip, QString desc);
+    void updateAction(QAction *action, QShortcut *sc, QString tooltip, QString desc);
     QString tooltipStrShiftMeta(char key, QString str);
     QString tooltipStrMeta(char key, QString str);
     QString readFile(QString name);
@@ -322,7 +324,7 @@ private:
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
-    
+
     QComboBox *locale_combo;
 
     QComboBox *midi_default_channel_combo;

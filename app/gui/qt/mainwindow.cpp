@@ -465,6 +465,7 @@ MainWindow::MainWindow(QApplication &app, QString locale, bool i18n, QSplashScre
   createStatusBar();
   createInfoPane();
   setWindowTitle(tr("Sonic Pi"));
+  defineLocaleLists();
   initPrefsWindow();
   readSettings();
   updateTabsVisibility();
@@ -1605,15 +1606,15 @@ void MainWindow::initPrefsWindow() {
   locale_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
   locale_combo->setMinimumContentsLength(2);
   locale_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
-		
+
   QLabel *locale_option_label = new QLabel;
   locale_option_label->setText(tr("UI & Tutorial Language (Requires a restart to take effect)"));
   locale_option_label->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
-		
+
   QVBoxLayout *locale_box_layout = new QVBoxLayout;
   locale_box_layout->addWidget(locale_combo);
   locale_box_layout->addWidget(locale_option_label);
-		
+
   locale_box->setLayout(locale_box_layout);
 
   // Layout for Editor Tab
@@ -1774,7 +1775,7 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 
   // Read in preferences from previous session
-  locale_combo->setCurrentIndex(localeIndex()[settings.value("prefs/locale").toString()]);
+  locale_combo->setCurrentIndex(localeIndex[settings.value("prefs/locale").toString()]);
   osc_public_check->setChecked(settings.value("prefs/osc-public", false).toBool());
   osc_server_enabled_check->setChecked(settings.value("prefs/osc-enabled", true).toBool());
   midi_enable_check->setChecked(settings.value("prefs/midi-enable", true).toBool());
@@ -1796,16 +1797,11 @@ void MainWindow::initPrefsWindow() {
 
   gui_transparency_slider->setValue(settings.value("prefs/gui_transparency", 0).toInt());
 
-
-
   //show_left_scope->setChecked( scopeInterface->enableScope( "Left", settings.value("prefs/scope/show-left", true).toBool() ) );
   //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
   show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
   show_scopes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-scopes", true).toBool() ) );
   show_incoming_osc_log->setChecked( settings.value("prefs/show_incoming_osc_log", true).toBool());
-
-
-
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -3348,7 +3344,7 @@ void MainWindow::readSettings() {
 void MainWindow::writeSettings()
 {
   QSettings settings("sonic-pi.net", "gui-settings");
-  settings.setValue("prefs/locale", availableLocales()[(locale_combo->currentIndex())]);
+  settings.setValue("prefs/locale", availableLocales[(locale_combo->currentIndex())]);
 
   settings.setValue("pos", pos());
   settings.setValue("size", size());
@@ -3393,14 +3389,13 @@ void MainWindow::writeSettings()
 
 QComboBox* MainWindow::add_locale_combo_box_entries(QComboBox* combo) {
   std::cout << "[Debug] Adding locale combo box entries..." << std::endl;
-  std::cout << (std::to_string(static_cast<int>(availableLocales().size()))) << std::endl;
-  QLocale temp_l;
-  for (auto const &locale_entry : availableLocales()) {
-    std::cout << "[Debug] Adding locale " << locale_entry.second.toUtf8().constData() << " to the combo box" << std::endl;
+  std::cout << (std::to_string(static_cast<int>(availableLocales.size()))) << std::endl;
+
+  for (auto const &locale_entry : availableLocales) {
+    std::cout << "[Debug] Adding locale " << locale_entry.second.toUtf8().data() << " to the combo box" << std::endl;
     if (locale_entry.second != "system_locale") {
       // Add the language's name to the combo box
-      temp_l = QLocale(locale_entry.second);
-      combo->addItem(QLocale::languageToString(temp_l.language()));
+      combo->addItem(localeNames[locale_entry.second]);
     } else {
       combo->addItem(tr("Use system locale"));
     }

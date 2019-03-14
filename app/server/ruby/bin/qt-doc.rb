@@ -39,6 +39,49 @@ FileUtils::mkdir "#{qt_gui_path}/info/"
 FileUtils::rm_rf "#{qt_gui_path}/book/"
 FileUtils::mkdir "#{qt_gui_path}/book/"
 
+lang_names = Hash[
+  "bs" => "Bosanski/босански", # Bosnian
+  "ca" => "Català/Valencià", # Catalonian
+  "cs" => "Čeština", # Czech
+  "da" => "Dansk", # Danish
+  "de" => "Deutsch (Deutschland)", # German
+  "el" => "ελληνικά", # Greek
+  "en-US" => "English (USA)", # English (USA)
+  "es" => "Español (España)", # Spanish
+  "et" => "Eesti keel", # Estonian
+  "fa" => "فارسی", # Persian
+  "fi" => "Suomi", # Finnish
+  "fr" => "Français (France)", # French
+  "gl" => "Galego", # Galician
+  "he" => "עברית", # Hebrew
+  "hi" => "हिन्दी", # Hindi
+  "hu" => "Magyar", # Hungarian
+  "id" => "Bahasa Indonesia", # Indonesian
+  "is" => "Íslenska", # Icelandic
+  "it" => "Italiano", # Italian
+  "ja" => "日本語/にほんご", # Japanese
+  "ka" => "ქართული", # Georgian
+  "ko" => "한국어", # Korean
+  "nb" => "Norsk Bokmål", # Norwegian Bokmål
+  "nl" => "Nederlands", # Dutch (Netherlands)
+  "pl" => "Polski", # Polish
+  "pt" => "Português", # Portuguese
+  "pt-BR" => "Português do Brasil", # Brazilian Portuguese
+  "ro" => "Română", # Romanian
+  "ru" => "Pусский", # Russian
+  "sk" => "Slovenčina/Slovenský Jazyk", # Slovak/Slovakian
+  "sl" => "Slovenščina/Slovenski Jezik", # Slovenian
+  "sv" => "Svenska", # Swedish
+  "tr" => "Türkçe", # Turkish
+  "ug" => "ئۇيغۇر تىلى", # Uyghur
+  "uk" => "Українська", # Ukranian
+  "vi" => "Tiếng Việt", # Vietnamese
+  "zh" => "中文", # Mandarin Chinese
+  "zh-Hk" => "廣東話", # Cantonese (Hong Kong & SE China)
+  "zh-TW" => "臺灣華語", # Taiwanese Mandarin
+  "zh-Hans" => "简体中文" # Simplified Mandarin Chinese
+]
+
 docs = []
 filenames = []
 count = 0
@@ -213,30 +256,13 @@ languages =
 # docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
 
 # Add English to the languages, and sort languages alphabetically
-languages = languages.push("en")
+languages = languages.push("en-US")
 languages = languages.sort_by {|l| l.downcase}
 
-#locale_array_defs = []
-# Define variables
-#locale_array_defs << "\nextern std::map<unsigned int, QString> availableLocales;\n"
-#locale_array_defs << "\nextern std::map<QString, unsigned int> localeIndex;\n"
-
+# Make a function to define the locale list map -----
 locale_arrays = []
-# Make a function to define the availableLocales array and localeIndex map -----
-
-# Create an array of the available locales, called availableLocales
-#~ locale_arrays << "\nQString availableLocales[#{(languages.length + 1).to_s}] = {\n"
-#~ # Add each language
-#~ locale_arrays << "\"system_locale\""
-#~ languages.each do |lang|
-  #~ locale_arrays << ",\n"
-  #~ locale_arrays << "\"#{lang}\""
-#~ end
-#~ # End the array
-#~ locale_arrays << "\n};\n"
-
-locale_arrays << "std::map<unsigned int, QString> MainWindow::availableLocales() {\n"
-locale_arrays << "std::map<unsigned int, QString> availableLocales_ = {\n"
+locale_arrays << "void MainWindow::defineLocaleLists() {\n"
+locale_arrays << "availableLocales = {\n"
 # Add each language
 locale_arrays << "{0, \"system_locale\"}"
 i = 1
@@ -247,12 +273,9 @@ languages.each do |lang|
 end
 # End the map
 locale_arrays << "\n};\n"
-locale_arrays << "return availableLocales_;\n"
-locale_arrays << "};\n"
 
 # Create a map of the locales to their indices in availableLocales, called localeIndex
-locale_arrays << "std::map<QString, unsigned int> MainWindow::localeIndex() {\n"
-locale_arrays << "std::map<QString, unsigned int> localeIndex_ = {\n"
+locale_arrays << "localeIndex = {\n"
 # Add each language
 locale_arrays << "{\"system_locale\", 0}"
 i = 1
@@ -263,12 +286,24 @@ languages.each do |lang|
 end
 # End the map
 locale_arrays << "\n};\n"
-locale_arrays << "return localeIndex_;\n"
+
+# Create a map of the locales to their native names, called localeNames
+locale_arrays << "localeNames = {\n"
+# Add each language
+locale_arrays << "{\"system_locale\", \"\"}"
+languages.each do |lang|
+  locale_arrays << ",\n"
+  locale_arrays << "{\"#{lang}\", \"#{lang_names[lang]}\"}"
+end
+# End the map
+locale_arrays << "\n};\n"
+
+# End the function
 locale_arrays << "};\n"
 # -----
 
 # Remove English for now
-languages.delete("en")
+languages.delete("en-US")
 
 # this will sort locale code names by reverse length
 # to make sure that a more specific locale is handled
