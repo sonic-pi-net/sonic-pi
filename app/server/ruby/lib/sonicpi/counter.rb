@@ -14,6 +14,8 @@ require 'thread'
 
 module SonicPi
   class Counter
+    attr_reader :val
+    
     def initialize(init_val=0)
       @init_val = init_val
       @val = init_val
@@ -30,10 +32,6 @@ module SonicPi
       @mut.synchronize do
         @val = @init_val
       end
-    end
-
-    def val
-      @val
     end
 
     def sp_thread_safe?
