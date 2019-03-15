@@ -41,7 +41,7 @@ FileUtils::mkdir "#{qt_gui_path}/book/"
 
 lang_names = Hash[
   "bs" => "Bosanski/босански", # Bosnian
-  "ca" => "Català/Valencià", # Catalonian
+  "ca" => "Català", # Catalan
   "cs" => "Čeština", # Czech
   "da" => "Dansk", # Danish
   "de" => "Deutsch", # German
@@ -76,10 +76,10 @@ lang_names = Hash[
   "ug" => "ئۇيغۇر تىلى", # Uyghur
   "uk" => "Українська", # Ukranian
   "vi" => "Tiếng Việt", # Vietnamese
-  "zh" => "中文", # Mandarin Chinese
-  "zh-Hk" => "廣東話", # Cantonese (Hong Kong & SE China)
-  "zh-TW" => "臺灣華語", # Taiwanese Mandarin
-  "zh-Hans" => "简体中文" # Simplified Mandarin Chinese
+  "zh" => "繁體中文", # Mandarin Chinese (Traditional)
+  "zh-Hans" => "简体中文", # Mandarin Chinese (Simplified)
+  "zh-Hk" => "廣東話", # Cantonese
+  "zh-TW" => "臺灣華語" # Taiwanese Mandarin
 ]
 
 docs = []
