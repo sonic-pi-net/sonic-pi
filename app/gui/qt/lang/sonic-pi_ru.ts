@@ -402,7 +402,7 @@ Dark mode is perfect for live coding in night clubs.</source>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
         <translation>Когда включено, Sonic Pi будет принимать сообщения OSC с удалённых компьютеров.
- Когда выключено, будут приниматься только сообщения с локального компьютера.</translation>
+Когда выключено, будут приниматься только сообщения с локального компьютера.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
@@ -474,7 +474,7 @@ Dark mode is perfect for live coding in night clubs.</source>
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
         <translation>Входные устройства передачи MIDI-Сообщений MIDI непосредственно
- Sonic Pi и принимаются как события метки
+Sonic Pi и принимаются как события метки
 (аналогично входящим сообщениям OSC и внутренним сигналам)</translation>
     </message>
     <message>
