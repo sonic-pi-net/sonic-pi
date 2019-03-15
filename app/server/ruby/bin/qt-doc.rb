@@ -44,14 +44,14 @@ lang_names = Hash[
   "ca" => "Català/Valencià", # Catalonian
   "cs" => "Čeština", # Czech
   "da" => "Dansk", # Danish
-  "de" => "Deutsch (Deutschland)", # German
+  "de" => "Deutsch", # German
   "el" => "ελληνικά", # Greek
   "en-US" => "English (USA)", # English (USA)
-  "es" => "Español (España)", # Spanish
+  "es" => "Español", # Spanish
   "et" => "Eesti keel", # Estonian
   "fa" => "فارسی", # Persian
   "fi" => "Suomi", # Finnish
-  "fr" => "Français (France)", # French
+  "fr" => "Français", # French
   "gl" => "Galego", # Galician
   "he" => "עברית", # Hebrew
   "hi" => "हिन्दी", # Hindi
@@ -97,6 +97,7 @@ end.parse!
 # valid names: lang, synths, fx, samples, examples
 make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, page_break=false, chapters=false, lang="en"|
   return if doc_items.empty?
+
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
   tab_widget = "#{name}TabWidget"
@@ -198,9 +199,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   docs
 end
 
-
 make_tutorial = lambda do |lang|
-
   docs << "\n  // language #{lang}\n"
   tutorial_html_map = {}
   if lang == "en" then
