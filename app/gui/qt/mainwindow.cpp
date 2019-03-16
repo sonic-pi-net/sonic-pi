@@ -1513,17 +1513,18 @@ void MainWindow::initPrefsWindow() {
   colourModeButtonGroup = new QButtonGroup(this);
 
   lightModeCheck = new QCheckBox(tr("Light"));
+  lightModeCheck->setChecked(true);
   connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  
+
   darkModeCheck = new QCheckBox(tr("Dark"));
   connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  
+
   lightProModeCheck = new QCheckBox(tr("Pro Light"));
   connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  
+
   darkProModeCheck = new QCheckBox(tr("Pro Dark"));
   connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  
+
   highContrastModeCheck = new QCheckBox(tr("High Contrast"));
   connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
 
@@ -1588,10 +1589,10 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *locale_box = new QGroupBox(tr("Locale/Language"));
   locale_box->setToolTip(tr("Configure locale/language settings"));
 
-  QComboBox *locale_combo = new QComboBox();
-  locale_combo = add_locale_combo_box_entries(locale_combo);
+  locale_combo = new QComboBox();
   locale_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
-  locale_combo->setMinimumContentsLength(2);
+  add_locale_combo_box_entries(locale_combo);
+  locale_combo->setMinimumContentsLength(1);
   locale_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
 
   QLabel *locale_option_label = new QLabel;
@@ -1762,7 +1763,8 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 
   // Read in preferences from previous session
-  locale_combo->setCurrentIndex(localeIndex[settings.value("prefs/locale").toString()]);
+  locale_combo->setCurrentIndex(localeIndex[settings.value("prefs/locale", "system_locale").toString()]);
+
   osc_public_check->setChecked(settings.value("prefs/osc-public", false).toBool());
   osc_server_enabled_check->setChecked(settings.value("prefs/osc-enabled", true).toBool());
   midi_enable_check->setChecked(settings.value("prefs/midi-enable", true).toBool());
@@ -3331,7 +3333,9 @@ void MainWindow::readSettings() {
 void MainWindow::writeSettings()
 {
   QSettings settings("sonic-pi.net", "gui-settings");
-  settings.setValue("prefs/locale", availableLocales[(locale_combo->currentIndex())]);
+
+  int locale_index = locale_combo->currentIndex();
+  settings.setValue("prefs/locale", availableLocales[locale_index]);
 
   settings.setValue("pos", pos());
   settings.setValue("size", size());
@@ -3374,7 +3378,8 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
 }
 
-QComboBox* MainWindow::add_locale_combo_box_entries(QComboBox* combo) {
+void MainWindow::add_locale_combo_box_entries(QComboBox* combo) {
+  // Add locale combo entries
   std::cout << "[Debug] Adding locale combo box entries..." << std::endl;
   std::cout << (std::to_string(static_cast<int>(availableLocales.size()))) << std::endl;
 
@@ -3387,7 +3392,6 @@ QComboBox* MainWindow::add_locale_combo_box_entries(QComboBox* combo) {
       combo->addItem(tr("Use system locale"));
     }
   }
-  return combo;
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)

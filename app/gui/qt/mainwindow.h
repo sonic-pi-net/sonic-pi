@@ -237,7 +237,7 @@ private:
     void refreshDocContent();
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
-    QComboBox* add_locale_combo_box_entries(QComboBox* combo);
+    void add_locale_combo_box_entries(QComboBox* combo);
     QListWidget *createHelpTab(QString name);
     QKeySequence metaKey(char key);
     Qt::Modifier metaKeyModifier();
