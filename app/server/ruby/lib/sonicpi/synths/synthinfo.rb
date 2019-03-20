@@ -2093,7 +2093,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
 
       def doc
-        "A basic piano synthesiser. Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it. Also, the `note:` opt will only honour whole tones."
+        "A basic piano synthesiser. Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it."
       end
 
       def arg_defaults
@@ -2127,7 +2127,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
         {
           :note =>
           {
-            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`. Note that the piano synth can only play whole tones such as 60 and does not handle floats such as 60.3",
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, 56.5, `:C`, `:C2`, `:Eb4`, or `:Ds3`.",
             :validations => [v_positive(:note), v_less_than(:note, 231)],
             :modulatable => true
           },
