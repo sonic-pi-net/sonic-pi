@@ -18,7 +18,7 @@ SynthDef('sonic-pi-piano', {|
 		decay: decay, release: release, hard: hard_, velhard: 0.8,
 		muffle: 0.8, velmuff: 0.8, velcurve: velcurve, stereo: stereo_width,
 		random: 0, stretch: 0, sustain: 0.1);
-	var snd_ = Balance2.ar(snd[0], snd[1], pan, amp);
+	var snd_ = Balance2.ar(snd[0], snd[1], pan_, amp_);
 	var env = EnvGen.kr(Env.new([0, attack_level, decay_level_, sustain_level, 0],
 		                        [attack, decay, sustain, release],
 		                        env_curve), doneAction: 2);
