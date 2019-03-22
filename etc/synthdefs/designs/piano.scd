@@ -4,15 +4,15 @@ SynthDef('sonic-pi-piano', {|
 	pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
 	attack = 0, decay = 0, sustain = 0, release = 1,
 	attack_level = 1, decay_level = -1, sustain_level = 1, env_curve = 1,
-	vel = 0.2, hard = 0.5, velcurve = 0.8, stereo_width = 0,
+	vel = 0.8, hard = 0.5, velcurve = 0.8, stereo_width = 0,
 	out_bus = 0 |
 
 	var note_ = round(note, 1);
 	var tune = note - note_ + 0.5;
 	var amp_ = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
 	var pan_ = amp.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
-	var decay_level_ = Select.kr(decay_level = -1, [decay_level, sustain_level]);
-	var vel_ = vel.clip(0, 1).linlin(0, 1, 0, 4 * 127);
+	var decay_level_ = Select.kr(decay_level < 0, [decay_level, sustain_level]);
+	var vel_ = vel.clip(0, 1).linlin(0, 1, 0, 127);
 	var hard_ = hard.clip(0, 1).linlin(0, 1, -3, 3);
 	var snd = MdaPiano.ar(freq: note_.midicps, tune: tune, gate: 1, vel: vel_,
 		decay: decay, release: release, hard: hard_, velhard: 0.8,
