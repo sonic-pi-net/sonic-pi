@@ -10,7 +10,7 @@ SynthDef('sonic-pi-piano', {|
 	var note_ = round(note, 1);
 	var tune = note - note_ + 0.5;
 	var amp_ = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
-	var pan_ = amp.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
+	var pan_ = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
 	var decay_level_ = Select.kr(decay_level < 0, [decay_level, sustain_level]);
 	var vel_ = vel.clip(0, 1).linlin(0, 1, 0, 127);
 	var hard_ = hard.clip(0, 1).linlin(0, 1, -3, 3);
