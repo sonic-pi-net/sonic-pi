@@ -14,13 +14,15 @@ SynthDef('sonic-pi-piano', {|
 		decay: decay, release: release, velhard: 0.8,
 		muffle: 0.8, velmuff: 0.8, velcurve: velcurve, stereo: stereo_width,
 		random: 0, stretch: 0, sustain: 0.1);
-	var decay_level_ = Select.kr(decay_level < 0, [decay_level, sustain_level]);
+
+	decay_level = Select.kr(decay_level < 0, [decay_level, sustain_level]);
+	amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+	pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
+
 	Out.ar(out_bus,
-		EnvGen.kr(Env.new([0, attack_level, decay_level_, sustain_level, 0],
+		EnvGen.kr(Env.new([0, attack_level, decay_level, sustain_level, 0],
 			[attack, decay, sustain, release],
 			env_curve), doneAction: 2) *
-		Balance2.ar(snd[0], snd[1],
-			pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape),
-			amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape)))}
+		Balance2.ar(snd[0], snd[1], pan, amp))}
 ).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/")
 )
