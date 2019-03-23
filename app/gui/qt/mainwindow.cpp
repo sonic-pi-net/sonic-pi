@@ -1901,7 +1901,7 @@ void MainWindow::showError(QString msg) {
 }
 
 void MainWindow::showBufferCapacityError() {
-  showError("<h2 class=\"syntax_error_description\"><pre>GUI Error: Buffer Full</pre></h2><pre class=\"error_msg\"> Your code buffer has reached capacity. <br/> Please remove some code before continuing. <br/><span class=\"error_line\"> For working with very large buffers use: <br/> load_file \"/path/to/buffer.rb\"</span></pre>");
+  showError("<h2 class=\"syntax_error_description\"><pre>GUI Error: Buffer Full</pre></h2><pre class=\"error_msg\"> Your code buffer has reached capacity. <br/> Please remove some code before continuing. <br/><span class=\"error_line\"> For working with very large buffers use: <br/> run_file \"/path/to/buffer.rb\"</span></pre>");
 }
 
 void MainWindow::runCode()
