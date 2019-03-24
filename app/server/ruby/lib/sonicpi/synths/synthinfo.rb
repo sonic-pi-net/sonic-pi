@@ -1898,7 +1898,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
 
       def synth_name
-        "synth_violin"
+        "blade"
       end
 
       def doc
