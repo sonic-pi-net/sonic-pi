@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-10-20 19:18+0000\n"
-"Last-Translator: gedobbles <gedobbles@web.de>\n"
+"Last-Translator: CurlingTongs <jobiwaff@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -11508,12 +11508,13 @@ msgid ""
 "l things called optional parameters or opts for short. Let's take a quick look"
 ". Copy this code into a workspace and hit run:"
 msgstr ""
-"Um Deine codierten Klänge so richtig entdecken zu können, wirst Du sicher bald"
-" wissen wollen, wie Du Synths und FX steuern kannst. Vielleicht möchtest Du di"
-"e Dauer eines Tons verändern, mehr Hall hinzufügen oder die Zeit zwischen zwei"
-" Echos verändern. Mit optionalen Parametern oder kurz Opts bietet Dir Sonic Pi"
-" viele Möglichkeiten, genau das zu tun. Schauen wir uns das mal kurz an. Kopie"
-"re diesen Code in einen Puffer und klicke auf Ausführen:"
+"Um Deine codierten Klänge so richtig entdecken zu können, wirst Du sicher "
+"bald wissen wollen, wie Du Synths und FX steuern kannst. Vielleicht möchtest "
+"Du die Dauer eines Tons verändern, mehr Hall hinzufügen oder die Zeit "
+"zwischen zwei Echos verändern. Mit optionalen Parametern oder kurz Opts "
+"bietet Dir Sonic Pi viele Möglichkeiten, genau das zu tun. Schauen wir uns "
+"das mal kurz an. Kopiere diesen Code in einen Puffer und klicke auf "
+"Ausführen:"
 
 #: A.01-tips.md:85
 #, no-wrap
@@ -11576,11 +11577,11 @@ msgid ""
 "es to a sample, just play around. Let's have a try! Copy this code into one of"
 " your Sonic Pi workspaces:"
 msgstr ""
-"Die beste Art Sonic Pi schnell kennenzulernen, ist, live zu coden. Du fängst m"
-"it irgendeinem Codeschnipsel an und veränderst und verbesserst, während der Co"
-"de abgespielt wird. Wenn Du zum Beispiel nicht weißt, was der Cutoff-Parameter"
-" mit einem Sample macht, probiere es einfach aus. Fangen wir mal an! Kopiere d"
-"iesen Code in einen Puffer von Sonic Pi:"
+"Die beste Art Sonic Pi schnell kennenzulernen, ist, live zu coden. Du fängst "
+"mit irgendeinem Codeschnipsel an und veränderst und verbesserst, während der "
+"Code abgespielt wird. Wenn Du zum Beispiel nicht weißt, was der Cutoff-"
+"Parameter mit einem Sample macht, probiere es einfach aus. Fangen wir mal "
+"an! Kopiere diesen Code in einen Puffer von Sonic Pi:"
 
 #: A.01-tips.md:118
 #, no-wrap
@@ -11628,10 +11629,10 @@ msgid ""
 "nd complicated but it really isn't. Let's take a look. Copy this into a spare "
 "workspace:"
 msgstr ""
-"Manchmal mogele ich, indem ich Sonic Pi für mich komponieren lasse. Mit Random"
-"isierung lässt sich das großartig hinbekommen; das klingt vielleicht ein wenig"
-" kompliziert, ist es aber gar nicht. Sehen wir uns das an. Kopiere diesen Code"
-" in einen Puffer:"
+"Manchmal mogele ich, indem ich Sonic Pi für mich komponieren lasse. Mit "
+"Randomisierung lässt sich das großartig hinbekommen; das klingt vielleicht "
+"ein wenig kompliziert, ist es aber gar nicht. Sehen wir uns das an. Kopiere "
+"diesen Code in einen Puffer:"
 
 #: A.01-tips.md:141
 #, no-wrap
@@ -12032,13 +12033,14 @@ msgid ""
 "as a starting point for a new performance, and most of all have fun! See you n"
 "ext time..."
 msgstr ""
-"Jedes dieser Tutorials werden wir mit einem abschließenden Code-Beispiel beend"
-"en, das sich aller zuvor behandelter Ideen bedient. Schau Dir diesen Code gena"
-"u an und überlege Dir, was er tut. Kopiere ihn anschließend in einen neuen Son"
-"ic Pi-Puffer, drücke auf Start und hör Dir an, wie er klingt. Ändere zum Schlu"
-"ss etwas am Code, indem Du Parameter veränderst oder Dinge auskommentierst. Vi"
-"elleicht kannst Du das als Ausgangspunkt für eine eigene Performance nutzen. D"
-"as Wichtigste ist auf jeden Fall der Spaß dabei. Bis zum nächsten Mal …"
+"Jedes dieser Tutorials werden wir mit einem abschließenden Code-Beispiel "
+"beenden, das sich aller zuvor behandelter Ideen bedient. Schau Dir diesen "
+"Code genau an und überlege Dir, was er tut. Kopiere ihn anschließend in "
+"einen neuen Sonic Pi-Puffer, drücke auf Start und hör Dir an, wie er klingt. "
+"Ändere zum Schluss etwas am Code, indem Du Parameter veränderst oder Dinge "
+"auskommentierst. Vielleicht kannst Du das als Ausgangspunkt für eine eigene "
+"Performance nutzen. Das Wichtigste ist auf jeden Fall der Spaß dabei. Bis "
+"zum nächsten Mal …"
 
 #: A.02-live-coding.md:156
 #, no-wrap
@@ -12164,9 +12166,9 @@ msgid ""
 "I'm sure you're excited to hear that it's also built right into Sonic Pi. Clea"
 "r up a buffer and throw in the following code:"
 msgstr ""
-"Ich bin mir sicher, Du freust Dich zu hören, dass das Sample direkt in Sonic P"
-"i eingebaut ist. Bereite einfach einen Puffer vor und kopiere den folgenden Co"
-"de hinein:"
+"Ich bin mir sicher, Du freust Dich zu hören, dass das Sample direkt in Sonic "
+"Pi eingebaut ist. Bereite einfach einen Puffer vor und kopiere den folgenden "
+"Code hinein:"
 
 #: A.03-coded-beats.md:37
 msgid ""
@@ -12962,10 +12964,10 @@ msgid ""
 " Sonic Pi. Behold, fire up Sonic Pi and throw this code into an empty buffer a"
 "nd hit Run:"
 msgstr ""
-"Obwohl es nicht leicht ist sich einen originalen TB-303 zu beschaffen, wirst D"
-"u Dich sicher freuen zu hören, dass Du Deinen Raspberry Pi mit Hilfe von Sonic"
-" Pi in einen TB-303 verwandeln kannst. Los gehts, wirf Sonic Pi an, kopiere de"
-"n folgenden Code in einen leeren Puffer und klicke auf Ausführen:"
+"Obwohl es nicht leicht ist sich einen originalen TB-303 zu beschaffen, wirst "
+"Du Dich sicher freuen zu hören, dass Du Deinen Raspberry Pi mit Hilfe von "
+"Sonic Pi in einen TB-303 verwandeln kannst. Los gehts, wirf Sonic Pi an, "
+"kopiere den folgenden Code in einen leeren Puffer und klicke auf Ausführen:"
 
 #: A.05-acid-bass.md:30
 #, no-wrap
@@ -13831,8 +13833,8 @@ msgid ""
 "We're now in a position to start translating this bass line to Sonic Pi. Let's"
 " encode these notes and rests in a ring:"
 msgstr ""
-"Wir sind jetzt in der Lage, um diese Basslinie für Sonic Pie zu übersetzen. La"
-"ss uns diese Noten kodieren und gut sein lassen:"
+"Wir sind jetzt in der Lage, um diese Basslinie für Sonic Pie zu übersetzen. "
+"Lass uns diese Noten kodieren und gut sein lassen:"
 
 #: A.07-bizet.md:90
 #, no-wrap
@@ -13842,8 +13844,8 @@ msgstr "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 #: A.07-bizet.md:94
 msgid "Let's see what this sounds like. Throw it in a live loop and tick through it:"
 msgstr ""
-"Lass uns schauen, wie es sich anhört. Stelle es in einen Live-Loop und ticke d"
-"urch:"
+"Lass uns schauen, wie es sich anhört. Stelle es in einen Live-Loop und ticke "
+"durch:"
 
 #: A.07-bizet.md:97
 #, no-wrap
@@ -13926,13 +13928,13 @@ msgid ""
 "nd hit run again - how marvellous is that! Now, start mashing it around yourse"
 "lf and have fun."
 msgstr ""
-"Zum Schluss lass uns alle bisherigen Ideen in einen neuen Remix von Habanera k"
-"ombinieren. Du wirst feststellen, dass ich einen weiteren Teil der Basslinie a"
-"ls Kommentar hinzugefügt habe. Wenn Du alles in einen neuen Puffer eingegeben "
-"hast, drücke *Run*, um Dir die Komposition anzuhören. Und jetzt, ohne auf Stop"
-"p zu drücken, entkommentiere die zweite Zeile, indem Du das `#`-Zeichen entfer"
-"nst, und drücke dann noch einmal *Run* – wie fantastisch das ist! Jetzt misch "
-"alles wie es Dir gefällt – viel Spaß."
+"Zum Schluss lass uns alle bisherigen Ideen in einen neuen Remix von Habanera "
+"kombinieren. Du wirst feststellen, dass ich einen weiteren Teil der "
+"Basslinie als Kommentar hinzugefügt habe. Wenn Du alles in einen neuen "
+"Puffer eingegeben hast, drücke *Run*, um Dir die Komposition anzuhören. Und "
+"jetzt, ohne auf Stopp zu drücken, entkommentiere die zweite Zeile, indem Du "
+"das `#`-Zeichen entfernst, und drücke dann noch einmal *Run* – wie "
+"fantastisch das ist! Jetzt misch alles wie es Dir gefällt – viel Spaß."
 
 #: A.07-bizet.md:147
 #, no-wrap
@@ -14057,10 +14059,10 @@ msgid ""
 "Sonic Pi. In Minecraft, create a new world, and in Sonic Pi choose a fresh buf"
 "fer and write in this code:"
 msgstr ""
-"Um unsere Grundlagen aufzufrischen, lass uns mit einer einfachen Übung zum Auf"
-"wärmen anfangen. Öffne zunächst Deinen Raspberry Pi, dann starte Minecraft und"
-" Sonic Pi. Erstelle eine neue Welt in Minecraft, und in Sonic Pi wählst Du ein"
-"en neuen Puffer, dann schreibe diesen Code:"
+"Um unsere Grundlagen aufzufrischen, lass uns mit einer einfachen Übung zum "
+"Aufwärmen anfangen. Öffne zunächst Deinen Raspberry Pi, dann starte "
+"Minecraft und Sonic Pi. Erstelle eine neue Welt in Minecraft, und in Sonic "
+"Pi wählst Du einen neuen Puffer, dann schreibe diesen Code:"
 
 #: A.08-minecraft-vj.md:42
 #, no-wrap
@@ -14072,8 +14074,8 @@ msgid ""
 "Hit the Run button and you'll see the message over in the Minecraft window. OK"
 ", we're ready to start, let's have some fun......"
 msgstr ""
-"Klicke den Run-Button und Du wirst die Meldung im Minecraft-Fenster sehen. Ok,"
-" wir können nun loslegen, lass uns Spaß haben …"
+"Klicke den Run-Button und Du wirst die Meldung im Minecraft-Fenster sehen. "
+"Ok, wir können nun loslegen, lass uns Spaß haben …"
 
 #: A.08-minecraft-vj.md:49
 msgid "Sand Storms"
@@ -14101,7 +14103,8 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:59
 msgid "`rrand` - to allow us to generate random values within a range"
-msgstr "`rrand` - damit wir Zufallswerte innerhalb eines Bereichs erzeugen können"
+msgstr ""
+"`rrand` - damit wir Zufallswerte innerhalb eines Bereichs erzeugen können"
 
 #: A.08-minecraft-vj.md:60
 msgid "`live_loop` - to allow us to continually make it rain sand"
@@ -14401,9 +14404,10 @@ msgid ""
 "'random' notes between 50 and 95. When it's finished, hit Run again to hear ex"
 "actly the same melody again."
 msgstr ""
-"Tippe dies in einen freien Puffer und drücke *Run*. Du wirst eine Melodie höre"
-"n, die aus zufälligen Noten zwischen 50 und 95 besteht. Wenn sie beendet ist, "
-"drücke *Run* noch einmal, um Dir exakt die gleiche Melodie erneut anzuhören."
+"Tippe dies in einen freien Puffer und drücke *Run*. Du wirst eine Melodie "
+"hören, die aus zufälligen Noten zwischen 50 und 95 besteht. Wenn sie beendet "
+"ist, drücke *Run* noch einmal, um Dir exakt die gleiche Melodie erneut "
+"anzuhören."
 
 #: A.09-randomisation.md:67
 msgid "Handy Randomisation Functions"
@@ -14437,8 +14441,8 @@ msgstr ""
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
 msgstr ""
-"`dice` - Imitiert den Wurf eines Würfels und gibt einen Wert zwischen 1 und 6 "
-"zurück"
+"`dice` - Imitiert den Wurf eines Würfels und gibt einen Wert zwischen 1 und "
+"6 zurück"
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
@@ -14654,8 +14658,8 @@ msgid ""
 "Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer type "
 "the following:"
 msgstr ""
-"Lass uns einen schönen einfachen Sound erzeugen. Starte Sonic Pi und gib in ei"
-"nen neuen Puffer Folgendes ein:"
+"Lass uns einen schönen einfachen Sound erzeugen. Starte Sonic Pi und gib in "
+"einen neuen Puffer Folgendes ein:"
 
 #: A.10-controlling-your-sound.md:22
 #, no-wrap
@@ -14872,10 +14876,10 @@ msgid ""
 "h, the FX and the sleep times and see if you can turn it into something comple"
 "tely different!"
 msgstr ""
-"Kopiere den Code in einen freien Puffer und höre zu. Hör an dieser Stelle nich"
-"t auf – spiel mit dem Code herum. Ändere die Wechselzeiten, ändere die Noten, "
-"den Synth, die FX und die Pausenzeiten, und probier, etwas ganz Anderes daraus"
-" zu machen!"
+"Kopiere den Code in einen freien Puffer und höre zu. Hör an dieser Stelle "
+"nicht auf – spiel mit dem Code herum. Ändere die Wechselzeiten, ändere die "
+"Noten, den Synth, die FX und die Pausenzeiten, und probier, etwas ganz "
+"Anderes daraus zu machen!"
 
 #: A.10-controlling-your-sound.md:162
 #, no-wrap
@@ -14944,8 +14948,8 @@ msgid ""
 "Let's have a play - to advance the beat we just need to call `tick`. Open up a"
 " fresh buffer, type in the following and hit Run:"
 msgstr ""
-"Lass uns spielen – um den Beat zu erweitern, müssen wir nur `tick`aufrufen. Öf"
-"fne einen neuen Puffer, gib Folgendes ein und drücke Run:"
+"Lass uns spielen – um den Beat zu erweitern, müssen wir nur `tick`aufrufen. "
+"Öffne einen neuen Puffer, gib Folgendes ein und drücke Run:"
 
 #: A.11-beat-tracking.md:23
 #, no-wrap
@@ -16299,8 +16303,8 @@ msgid ""
 "When performing, it's often useful to keep a buffer free for working with the "
 "mixer like this."
 msgstr ""
-"Bei der Ausführung ist es oft hilfreich, einen Puffer frei zu halten, um, wie "
-"jetzt, mit dem Mixer zu arbeiten."
+"Bei der Ausführung ist es oft hilfreich, einen Puffer frei zu halten, um, "
+"wie jetzt, mit dem Mixer zu arbeiten."
 
 #: A.15-performance.md:136
 msgid "5. Practice"
