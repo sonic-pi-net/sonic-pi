@@ -90,31 +90,31 @@ Klick auf den Ausführen-Button.</translation>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>Führe Programm aus...</translation>
+        <translation>Programm wird ausgeführt …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation>Textausrichtung...</translation>
+        <translation>Textausrichtung …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>Neu laden...</translation>
+        <translation>Neu laden …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>Mixer-Hochpassfilter aktiv...</translation>
+        <translation>Mixer-Hochpassfilter aktiv …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1975"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>Mixer-Hochpassfilter inaktiv...</translation>
+        <translation>Mixer-Hochpassfilter inaktiv …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
@@ -129,12 +129,12 @@ Klick auf den Ausführen-Button.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="942"/>
         <source>Indenting selection...</source>
-        <translation>Auswahl einrücken...</translation>
+        <translation>Auswahl einrücken …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="946"/>
         <source>Indenting line...</source>
-        <translation>Zeile einrücken...</translation>
+        <translation>Zeile einrücken …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1322"/>
@@ -192,7 +192,7 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle selection comment...</source>
-        <translation>Auswahlkommentar umschalten...</translation>
+        <translation>Auswahlkommentar umschalten …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
@@ -212,12 +212,12 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
         <source>Toggle line comment...</source>
-        <translation>Zeilenkommentar umschalten...</translation>
+        <translation>Zeilenkommentar umschalten …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>Der Sonic Pi Server ließ sich nicht starten!</translation>
+        <translation>Der Sonic Pi-Server ließ sich nicht starten!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
@@ -227,7 +227,7 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation>Hörche auf OSC-Nachrichten auf Port</translation>
+        <translation>OSC-Nachrichten abhören auf Port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
@@ -237,7 +237,7 @@ unerwartet laute oder unangenehme Sounds erzeugen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
         <source>Receive remote OSC messages</source>
-        <translation>Empfange entfernte OSC-Nachrichten</translation>
+        <translation>Entfernte OSC-Nachrichten empfangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
@@ -288,7 +288,7 @@ Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation>Standard MIDI Kanal (* meint alle)</translation>
+        <translation>Standard MIDI-Kanal (* meint alle)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
@@ -512,19 +512,19 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation>Networked-OSC</translation>
+        <translation>Netzwerk-basiertes OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation>Sonic Pi kann Open Sound Control Nachrichten über das momentane Netzwerk sowohl an andere Programme und Computer senden, als auch von anderen Programmen und Computern empfangen.</translation>
+        <translation>Sonic Pi kann „Open Sound Control“-Nachrichten über das momentane Netzwerk sowohl an andere Programme und Computer senden, als auch von anderen Programmen und Computern empfangen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation>MIDI Einstellungen</translation>
+        <translation>MIDI-Einstellungen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
@@ -534,7 +534,7 @@ to and from other programs or computers
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation>Liste alle verbundenen MIDI Ports auf</translation>
+        <translation>Alle verbundenen MIDI-Ports auflisten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
@@ -566,7 +566,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation>Schalte Pro Icons um - wechsle zwischen den Standard und einem minimalistischen Icon Set.</translation>
+        <translation>Pro Icons umschalten - zwischen dem Standard und einem minimalistischen Symbolsätzen wechseln.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -596,7 +596,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
         <source>Toggle dark mode.</source>
-        <translation>Zu dunkler Oberfläche umschalten.</translation>
+        <translation>Auf dunkle Oberfläche umschalten.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1456"/>
@@ -613,7 +613,7 @@ Die dunkle Oberfläche eignet sich hervorragend zum Live-Coden in Nachtklubs.</t
     <message>
         <location filename="../mainwindow.cpp" line="1534"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation>Schalte die Sichtbarkeit der Achsen im Audio-Oszilloskop um</translation>
+        <translation>Die Sichtbarkeit der Achsen im Audio-Oszilloskop umschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
@@ -658,12 +658,12 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2227"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Protokoll automatisch rollen ein...</translation>
+        <translation>Automatisches Protokoll-blättern einschalten …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2229"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Protokoll automatisch rollen aus...</translation>
+        <translation>Automatisches Protokoll-blättern ausschalten …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
@@ -678,7 +678,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Lade eine Datei in den aktuellen Puffer</translation>
+        <translation>Eine Datei in den aktuellen Puffer laden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
@@ -693,7 +693,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2717"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation>Schalte die Sichtbarkeit des Audio-Oszilloskops um. </translation>
+        <translation>Die Sichtbarkeit des Audio-Oszilloskops umschalten. </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
@@ -708,37 +708,37 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
         <source>Enabling MIDI...</source>
-        <translation>Aktiviere MIDI...</translation>
+        <translation>MIDI wird aktiviert …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation>Deaktiviere MIDI...</translation>
+        <translation>MIDI wird deaktiviert …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation>Öffne OSC-Port für entfernte Nachrichten...</translation>
+        <translation>OSC-Port für entfernte Nachrichten wird geöffnet …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation>Stoppe OSC-Server...</translation>
+        <translation>OSC-Server wird gestoppt …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation>Setze MIDI zurück...</translation>
+        <translation>MIDI wird zurückgesetzt …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation>MIDI ist deaktiviert...</translation>
+        <translation>MIDI ist deaktiviert …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Willkommen zurück. Legen wir los mit dem Live-Code...</translation>
+        <translation>Willkommen zurück. Legen wir los mit dem Live-Code …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1788"/>
@@ -753,7 +753,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Show cue log</source>
-        <translation>Zeige cue Log</translation>
+        <translation>Cue-Log anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
@@ -818,73 +818,73 @@ Stereo - zeigt zwei getrennten Ansichten beider Kanäle</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Zooming In...</source>
-        <translation>Text vergrößern...</translation>
+        <translation>Text vergrößern …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1901"/>
         <source>Zooming Out...</source>
-        <translation>Text verkleinern...</translation>
+        <translation>Text verkleinern …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1942"/>
         <source>Checking for updates...</source>
-        <translation>Auf Aktualisierungen prüfen...</translation>
+        <translation>Auf Aktualisierungen prüfen …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Enabling update checking...</source>
-        <translation>Aktualisierungsprüfung aktiv...</translation>
+        <translation>Aktualisierungsprüfung aktiv …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
         <source>Disabling update checking...</source>
-        <translation>Aktualisierungsprüfung inaktiv...</translation>
+        <translation>Aktualisierungsprüfung inaktiv …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1983"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Mixer-Tiefpassfilter aktiv...</translation>
+        <translation>Mixer-Tiefpassfilter aktiv …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1992"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>Mixer-Tiefpassfilter inaktiv...</translation>
+        <translation>Mixer-Tiefpassfilter inaktiv …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Stereo-Kanaltausch aktiv...</translation>
+        <translation>Stereo-Kanaltausch aktiv …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Stereo-Kanaltausch inaktiv...</translation>
+        <translation>Stereo-Kanaltausch inaktiv …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2016"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation>Monomodus...</translation>
+        <translation>Monomodus …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2024"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation>Stereomodus...</translation>
+        <translation>Stereomodus …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2033"/>
         <source>Stopping...</source>
-        <translation>Stopp...</translation>
+        <translation>Stopp …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2191"/>
         <source>Updating System Volume...</source>
-        <translation>Aktualisiere Systemlautstärke...</translation>
+        <translation>Systemlautstärke wird aktualisiert …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2682"/>
@@ -914,17 +914,17 @@ Stereo - zeigt zwei getrennten Ansichten beider Kanäle</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
         <source>Ready...</source>
-        <translation>Bereit...</translation>
+        <translation>Bereit …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2991"/>
         <source>File loaded...</source>
-        <translation>Datei geladen...</translation>
+        <translation>Datei geladen …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3018"/>
         <source>File saved...</source>
-        <translation>Datei gespeichert...</translation>
+        <translation>Datei gespeichert …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
@@ -972,7 +972,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
         <source>Save As...</source>
-        <translation>Speichern als...</translation>
+        <translation>Speichern als …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
@@ -993,12 +993,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Nützliche Einstellungen für den Auftritt mit Sonic Pi</translation>
+        <translation>Nützliche Einstellungen für den Umgang mit Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
         <source>Server boot error...</source>
-        <translation>Serverstartfehler...</translation>
+        <translation>Serverstartfehler …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
@@ -1088,14 +1088,14 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="2980"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Kann Datei %1 nicht laden:
+        <translation>Datei %1 kann nicht gelesen werden:
 %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Kann Datei %1 nicht schreiben:
+        <translation>Datei %1 kann nicht geschrieben werden:
 %2.</translation>
     </message>
     <message>
