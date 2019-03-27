@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-03-11 21:03+0000\n"
-"Last-Translator: Luis Jimenez <ljjimen7@neiu.edu>\n"
+"PO-Revision-Date: 2019-03-28 18:04+0000\n"
+"Last-Translator: Paola García <papodolopus@hotmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.5.1\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2334,16 +2334,14 @@ msgstr ""
 "ejecución,"
 
 #: 03.3-Stretching-Samples.md:119
-#, fuzzy
 msgid "Halving the playback rate doubles the playback time,"
-msgstr "cortando a la mitad la reproduccion, doblamos el tiempo de ejecución,"
+msgstr "cortando a la mitad la reproducción, doblamos el tiempo de ejecución,"
 
 #: 03.3-Stretching-Samples.md:120
-#, fuzzy
 msgid "Using a playback rate of one fourth quadruples the playback time,"
 msgstr ""
-"usando una velocidad de ejecución de 1/4, cuadruplicamos el tiempo de ejecució"
-"n,"
+"usando una velocidad de ejecución de 1/4, cuadruplicamos el tiempo de "
+"reproducción,"
 
 #: 03.3-Stretching-Samples.md:121
 #, fuzzy
@@ -2359,7 +2357,6 @@ msgstr "Esto lo representaremos con esta fórmula:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
-#, fuzzy
 msgid "new_sample_duration = (1 / rate) * sample_duration "
 msgstr "nuevo_sample_ = (1 / velocidad) * duración_sample "
 
