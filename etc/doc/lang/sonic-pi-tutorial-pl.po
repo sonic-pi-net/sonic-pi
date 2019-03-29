@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-03-24 02:39+0000\n"
+"PO-Revision-Date: 2019-03-30 20:04+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -9227,10 +9227,14 @@ msgid ""
 "of the thread which triggered it via `set` or `cue` so it may also be used to "
 "sync time."
 msgstr ""
+"Zauważ, że funkcja `sync` zawsze czeka na *przyszłe zdarzenia*, i że "
+"zablokuje on aktualny wątek w oczekiwaniu na kolejne zdarzenie. Ponadto, "
+"odziedziczy ona czas logiczny wątku, który wywołał ją poprzez funkcję `set` "
+"lub `cue`, więc może też być używana do synchronizowania czasu."
 
 #: 10.2-Sync.md:42
 msgid "Passing values into the Future"
-msgstr ""
+msgstr "Przekazywanie wartości w Przyszłość"
 
 #: 10.2-Sync.md:44
 msgid ""
@@ -9264,14 +9268,18 @@ msgid ""
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
+"Zauważ, że wartości które są przekazywane do funkcji `set` i `cue` muszą być "
+"bezpieczne dla wątków - np. niezmienne pierścienie (rings) liczby, symbole "
+"lub zamrożone łańcuch znaków (strings). Sonic Pi rzuci błąd jeśli wartość "
+"którą próbujesz umieścić w Stanie Czasu (Time State) jest niepoprawna."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
-msgstr ""
+msgstr "10.3 Dopasowanie Do Wzorca"
 
 #: 10.3-Pattern-Matching.md:3
 msgid "Pattern Matching"
-msgstr ""
+msgstr "Dopasowanie do wzorca"
 
 #: 10.3-Pattern-Matching.md:5
 #, fuzzy
