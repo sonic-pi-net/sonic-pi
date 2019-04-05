@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-03-30 20:04+0000\n"
+"PO-Revision-Date: 2019-04-06 21:04+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -9282,7 +9282,6 @@ msgid "Pattern Matching"
 msgstr "Dopasowanie do wzorca"
 
 #: 10.3-Pattern-Matching.md:5
-#, fuzzy
 msgid ""
 "When getting and setting information into the Time State, it's possible to use"
 " more complex keys than basic symbols such as `:foo` and `:bar`. You can also "
@@ -9291,25 +9290,28 @@ msgid ""
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
 msgstr ""
-"When getting and setting information into the Time State, it's possible to "
-"use more complex keys than basic symbols such as `:foo` and `:bar`. You can "
-"also use URL style strings called paths such as `\"/foo/bar/baz\"`. Once we "
-"start working with paths, we can then start taking advantage of Sonic Pi's "
-"sophisticated pattern matching system to `get` and `sync` with 'similar' "
-"rather than 'identical' paths. Let's take a look."
+"Kiedy pobieramy i ustawiamy informacje w Stanie Czasu (Time State), możemy "
+"używać bardziej złożonych kluczy niż podstawowe symbole takie jak `:foo` czy "
+"':bar`. Możesz także używać ciągów znaków w stylu adresów URL zwanymi "
+"ścieżkami, np. `\"/foo/bar/baz\"`. Gdy już zaczniemy pracować ze ścieżkami, "
+"możemy wtedy zacząć korzystać z wyrafinowanego systemu dopasowania wzorców "
+"Sonic Pi aby pobierać (`get`) i synchronizować (`sync`) się z 'podobnymi' a "
+"niekoniecznie 'takimi samymi' ścieżkami. Rzućmy okiem."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
-msgstr ""
+msgstr "Dopasuj dowolny segment w ścieżce"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
+"Załóżmy, że chcemy poczekać na kolejne zdarzenie, które posiada trzy "
+"segmenty w ścieżce:"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
 msgid "sync \"/*/*/*\""
-msgstr ""
+msgstr "sync \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
 msgid ""
