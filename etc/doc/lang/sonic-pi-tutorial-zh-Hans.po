@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-09-11 18:14+0000\n"
-"Last-Translator: NamiKJ <lzb-1997@163.com>\n"
+"PO-Revision-Date: 2019-04-09 08:05+0000\n"
+"Last-Translator: Song Li <boltomli@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.2-dev\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -235,7 +235,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
-msgstr "试着更改`rate:`的值看看有什么改变"
+msgstr "试着更改蓝色的 `rate:`的值听听有什么改变。"
 
 #: 01.1-Live-Coding.md:81
 msgid ""
@@ -250,11 +250,10 @@ msgid ""
 msgstr "试着取消注释（删除‘#’符号）享受吉他倒着弹的效果吧。"
 
 #: 01.1-Live-Coding.md:85
-#, fuzzy
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
-msgstr "试着设置‘mix’为0~1之间的任何值。"
+msgstr "试着改变任何蓝色的 ‘mix` 的值为0（不在mix中）到1（完全在mix中）之间的任何值。"
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -306,7 +305,7 @@ msgstr "现在，继续听和做实验直到你的好奇心完全被它所吸引
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr "所以…还等什么呢?"
+msgstr "所以还等什么呢……"
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
@@ -535,7 +534,7 @@ msgid ""
 msgstr ""
 "当我们研究它的时候，我们总是想马上实现一个伟大的作品。但是，让我们先打住这种想法，把它看成一个将来要实现的长远的目标。现在，不如写一些你能写的简单有趣的代"
 "码来激励你自己，这也是实现伟大作品的一小步。当你对实现这一小步有了想法之后，你可以尝试着去实现它，然后播放它，看看它会给带来什么新点子。不久你就会为了不断"
-"寻找乐趣而实现真正的进步!"
+"寻找乐趣而实现真正的进步。"
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
@@ -586,7 +585,7 @@ msgid "Take a look at the following code:"
 msgstr "看看下面的代码："
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 70"
 msgstr "play 70"
 
@@ -612,7 +611,7 @@ msgid ""
 msgstr "哇哦，快疯了，我觉得你可以这样点一天。但是...请等一下，在你沉浸于无尽蜂鸣声中之前，改变一下数字："
 
 #: 02.1-Your-First-Beeps.md:23
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 75"
 msgstr "play 75"
 
@@ -621,7 +620,7 @@ msgid "Can you hear the difference? Try a lower number:"
 msgstr "你能听出来不同吗？试一下更低的数字："
 
 #: 02.1-Your-First-Beeps.md:29
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 60"
 msgstr "play 60"
 
@@ -661,7 +660,7 @@ msgid ""
 msgstr "演奏单个音符很有趣吧，但如果能同时演奏多个音符的话，那就更有趣了，试试下面的操作："
 
 #: 02.1-Your-First-Beeps.md:51
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "play 72\n"
 "play 75\n"
@@ -693,7 +692,7 @@ msgstr ""
 "你只需在音符之间`sleep`一下:"
 
 #: 02.1-Your-First-Beeps.md:67
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "play 72\n"
 "sleep 1\n"
@@ -719,7 +718,7 @@ msgstr ""
 "后停止。那么，如果我们想让琶音快一点呢？我们需要使用较短的睡眠值。比如一半，即`0.5`："
 
 #: 02.1-Your-First-Beeps.md:81
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "play 72\n"
 "sleep 0.5\n"
@@ -761,7 +760,7 @@ msgstr ""
 "Pi同样为你了提供解决办法。你可以做到以下几点："
 
 #: 02.1-Your-First-Beeps.md:104
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "play :C\n"
 "sleep 0.5\n"
@@ -782,7 +781,7 @@ msgid ""
 msgstr "记住把冒号`:`放在你的音符前面，使它变成粉红色。此外，可以通过在音符名称之后添加数字来指定八度音阶："
 
 #: 02.1-Your-First-Beeps.md:116
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "play :C3\n"
 "sleep 0.5\n"
@@ -859,7 +858,7 @@ msgstr ""
 "合成器选项通过逗号`,`传递给`play`调用，紧跟着的是选项的名称，例如`amp:`（不要忘记冒号`:` ），接着是空格和选项的值。举例如下："
 
 #: 02.2-Synth-Params.md:31
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 50, cheese: 1"
 msgstr "play 50, cheese: 1"
 
@@ -872,7 +871,7 @@ msgid "You can pass multiple opts by separating them with a comma:"
 msgstr "你需要传递多个选项时，可以用逗号分隔："
 
 #: 02.2-Synth-Params.md:39
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, cheese: 1, beans: 0.5"
 
@@ -881,7 +880,7 @@ msgid "The order of the opts doesn't matter, so the following is identical:"
 msgstr "选项的顺序是无关紧要的，因此以下内容相同:"
 
 #: 02.2-Synth-Params.md:45
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
 msgstr "play 50, beans: 0.5, cheese: 1"
 
@@ -898,7 +897,7 @@ msgid ""
 msgstr "如果你意外地对同一个选项赋予两次不同的值，最后一次赋值将会被应用。下面的例子中，`beans:`的值将是2，而不是0.5 ："
 
 #: 02.2-Synth-Params.md:56
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
@@ -941,7 +940,7 @@ msgid ""
 msgstr "要改变声音的振幅，你可以使用`amp:`选项。例如，赋值0.5，播放的振幅减半："
 
 #: 02.2-Synth-Params.md:84
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 60, amp: 0.5"
 msgstr "play 60, amp: 0.5"
 
@@ -950,7 +949,7 @@ msgid "To play at double amplitude pass 2:"
 msgstr "赋值2，播放的增幅加倍："
 
 #: 02.2-Synth-Params.md:90
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 60, amp: 2"
 msgstr "play 60, amp: 2"
 
@@ -963,7 +962,7 @@ msgstr ""
 "`amp:` 选项只修改与之关联的`play`调用 。因此, 在本例中, 第一个play调用的是音量减半，第二个play则返回到默认音量(1):"
 
 #: 02.2-Synth-Params.md:98
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "play 60, amp: 0.5\n"
 "sleep 0.5\n"
@@ -978,7 +977,7 @@ msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr "当然，你也可以为每一个play的调用，使用不同的`amp:`值："
 
 #: 02.2-Synth-Params.md:106
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "play 50, amp: 0.1\n"
 "sleep 0.25\n"
@@ -1017,7 +1016,7 @@ msgid "Let's play a beep out of the left speaker:"
 msgstr "让我们从左扬声器中播放蜂鸣声:"
 
 #: 02.2-Synth-Params.md:128
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 60, pan: -1"
 msgstr "play 60, pan: -1"
 
@@ -1026,7 +1025,7 @@ msgid "Now, let's play it out of the right speaker:"
 msgstr "现在，让我们从右扬声器中播放："
 
 #: 02.2-Synth-Params.md:134
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 60, pan: 1"
 msgstr "play 60, pan: 1"
 
@@ -1035,7 +1034,7 @@ msgid "Finally let's play it back out of the center of both (the default positio
 msgstr "最后，让我们从两扬声器的中心(默认位置)播放出来:"
 
 #: 02.2-Synth-Params.md:141
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 60, pan: 0"
 msgstr "play 60, pan: 0"
 
@@ -1083,7 +1082,7 @@ msgid "A fun sound is the *saw wave* - let's give it a try:"
 msgstr "一个有趣的声音是*锯齿波* - 让我们尝试一下："
 
 #: 02.3-Switching-Synths.md:25
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1106,7 +1105,7 @@ msgid "Let's try another sound - the *prophet*:"
 msgstr "让我们试试另一种声音 - *prophet*："
 
 #: 02.3-Switching-Synths.md:37
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1129,7 +1128,7 @@ msgid "How about combining two sounds. First one after another:"
 msgstr "把两种声音结合起来怎么样，试试一个接一个播放："
 
 #: 02.3-Switching-Synths.md:49
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1154,7 +1153,7 @@ msgid "Now at the same time:"
 msgstr "现在试试同一时间播放："
 
 #: 02.3-Switching-Synths.md:62
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
@@ -1202,27 +1201,22 @@ msgstr ""
 "要查看Sonic Pi有哪些合成器可以让你玩，可以看看最左边的下拉菜单（ FX 之前）中的Sythes选项。有超过20种合成器可供选择。以下是我的最爱："
 
 #: 02.3-Switching-Synths.md:86
-#, fuzzy
 msgid "`:prophet`"
 msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
-#, fuzzy
 msgid "`:dsaw`"
 msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
-#, fuzzy
 msgid "`:fm`"
 msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
-#, fuzzy
 msgid "`:tb303`"
 msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
-#, fuzzy
 msgid "`:pulse`"
 msgstr "`:pulse`"
 
