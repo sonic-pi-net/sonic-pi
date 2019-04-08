@@ -65,7 +65,7 @@
         <location filename="../mainwindow.cpp" line="1322"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>高级音量设置用于使用Sonic Pi通过外部扩声系统进行表演时进行音频设置。</translation>
+        <translation>高级声音设置用于使用Sonic Pi通过外部扩声系统进行播放时。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
@@ -90,7 +90,7 @@ can only handle mono.</source>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
         <translation>日志自动滚动开关。
-打开该选项，将允许在控制台中新的消息出现时自动滚动日志到底部，以使新的信息能够被现实。</translation>
+打开该选项，将允许在控制台中新的消息出现时自动滚动日志到底部，以使新的信息能够被显示。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
