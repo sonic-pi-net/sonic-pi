@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-12-01 22:09+0000\n"
-"Last-Translator: Mathias svendsen <htcteo@gmail.com>\n"
+"PO-Revision-Date: 2019-04-11 12:05+0000\n"
+"Last-Translator: Daniel Krog <danielkrog94@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "da/>\n"
 "Language: da\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -30,7 +30,7 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Velkommen til Sonic Pi. Forhåbentligt flæder du dig lige så meget til at "
+"Velkommen til Sonic Pi. Forhåbentligt glæder du dig lige så meget til at "
 "lave seje nye lyde, som jeg gør til at vise dig hvordan. Det bliver en "
 "rigtig *sjov* rejse, hvor du vil lære alt om musik, programmering, "
 "komposition, optræden og meget mere."
@@ -44,10 +44,10 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Men lad mig først inteoducere mig selv: jeg hedder  [Sam "
+"Men lad mig først introducere mig selv: jeg hedder  [Sam "
 "Aaron](http://twitter.com/samaaron) - ham fyren der har lavet Sonic Pi. Du "
 "kan finde mig på Twitter under navnet [@samaaron](http://twitter.com/"
-"samaaron), hvor jeg med glæde vil hilse på dig. Det kan også være at du viæ "
+"samaaron), hvor jeg med glæde vil hilse på dig. Det kan også være at du vil "
 "synes det er spændende at at se mere om mine [Live-kodning "
 "optrædener](http://facebook.com/livecodersamaaron) , hvor jeg koder i Sonic "
 "Pi foran publikum."
@@ -63,12 +63,18 @@ msgstr ""
 "den næste store feature!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
+#, fuzzy
 msgid ""
 "This tutorial is divided up into sections grouped by category. Whilst I've wri"
 "tten it to have an easy learning progression from start to finish, feel very f"
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"Denne vejledning er opdelt i sektioner, som er grupperet efter kategori. "
+"Denne vejledning er lavet for at have en let progression fra start til slut. "
+"Føl dig fri til at besøge de sektioner, du har lyst til. Føler du at der er "
+"noget der mangler, så lad os vide det, og vi vil overveje det til en "
+"fremtidig version"
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -76,6 +82,9 @@ msgid ""
 " stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
 "please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"At se andre kode live kan være en rigtigt god måde at lære på. Jeg streamer "
+"ofte live på [http://youtube.com/samaaron](http://youtube.com/samaaron) så "
+"kom endelig forbi, sig hej og stil en masse spørgsmål :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -97,10 +106,14 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"En af de mest interessante aspekter af Sonic Pi er, at det giver dig "
+"mulighed for at skrive og *modificere live kodning* for at lave musik, "
+"præcis som man måske ville spille live på en guitar. Det betyder, at med "
+"øvelse så kan man tage Sonic Pi med på scenen og spille med det."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "Frigør dine tanker"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -109,14 +122,18 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
+"Før vi rigtigt går i detalgerne med hvordan Sonic Pi virker i resten af "
+"denne vejledning, vil jeg gerne give dig en oplevelse af, hvordan det er at "
+"kode live. Bare rolig, selv hvis du ikke forstår meget (hvis noget) af koden;"
+" hold fast i stolen og nyd det..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr ""
+msgstr "En live løkke"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr ""
+msgstr "Lad os starte! Koppier det følgende kode ind i en tom buffer ovenfor:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -126,6 +143,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
