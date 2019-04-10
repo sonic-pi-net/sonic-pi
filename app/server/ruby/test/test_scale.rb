@@ -39,10 +39,17 @@ module SonicPi
       assert_equal(57, Scale.resolve_degree(:i, :A3, :minor))
       assert_equal(60, Scale.resolve_degree(:iii, :A3, :minor))
       assert_equal(61, Scale.resolve_degree(:iii, :A3, :major))
+      assert_equal(60, Scale.resolve_degree(:diii, :A3, :major))
+      assert_equal(61, Scale.resolve_degree(:Aiii, :A3, :minor))
 
       assert_equal(57, Scale.resolve_degree(1, :A3, :minor))
       assert_equal(60, Scale.resolve_degree(3, :A3, :minor))
       assert_equal(61, Scale.resolve_degree(3, :A3, :major))
+      assert_equal(60, Scale.resolve_degree('d3', :A3, :major))
+      assert_equal(61, Scale.resolve_degree('A3', :A3, :minor))
+
+      assert_equal(69, Scale.resolve_degree(:viii, :A3, :minor))
+      assert_equal(81, Scale.resolve_degree(:xv, :A3, :minor))
     end
 
     def test_degree_invalid
