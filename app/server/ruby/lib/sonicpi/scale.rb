@@ -163,7 +163,7 @@ module SonicPi
           degree = degree[1..-1]
         end
       end
-      octave, index = resolve_degree_index(degree).divmod scale.notes.length
+      octave, index = resolve_degree_index(degree).divmod (scale.notes.length - 1)
       scale.notes[index] + octave * 12 + augmentation
     end
 
