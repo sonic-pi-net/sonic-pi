@@ -3575,7 +3575,7 @@ puts note_info(:C, octave: 2)
       doc name:           :degree,
           introduced:         Version.new(2,1,0),
           summary:            "Convert a degree into a note",
-          doc:                "For a given scale and tonic it takes a symbol `:i`, `:ii`, `:iii`, `:iv`,`:v`, `:vi`, `:vii` or a number `1`-`7` and resolves it to a midi note.",
+          doc:                "For a given scale and tonic it takes a symbol/string/number and resolves it to a midi note. The degree can be either a decimal number or a roman numeral (if it's a string or symbol), and may optionally be prefixed an augmentation (`a`/`d` for an augmented/diminished interval, `aa`/`dd` for double augmented/diminished or `p` for a perfect (unchanged) interval). E.g. `:i`, `'ii'`, `:III`, `:Aiv`,`:d5`, `'13'`.",
           args:               [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol]],
           accepts_block:      false,
           examples:           [%Q{
