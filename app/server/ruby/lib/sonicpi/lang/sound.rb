@@ -3575,13 +3575,16 @@ puts note_info(:C, octave: 2)
       doc name:           :degree,
           introduced:         Version.new(2,1,0),
           summary:            "Convert a degree into a note",
-          doc:                "For a given scale and tonic it takes a symbol/string/number and resolves it to a midi note. The degree can be either a decimal number or a roman numeral (if it's a string or symbol), and may optionally be prefixed an augmentation (`a`/`d` for an augmented/diminished interval, `aa`/`dd` for double augmented/diminished or `p` for a perfect (unchanged) interval). E.g. `:i`, `'ii'`, `:III`, `:Aiv`,`:d5`, `'13'`.",
+          doc:                "For a given scale and tonic it takes a symbol/string/number and resolves it to a midi note. The degree can be either a decimal number or a roman numeral (if it's a string or symbol), and may optionally be prefixed an augmentation (`a`/`d` for an augmented/diminished interval, `aa`/`dd` for double augmented/diminished or `p` for a perfect (unchanged) interval).",
           args:               [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol]],
           accepts_block:      false,
           examples:           [%Q{
-play degree(:ii, :D3, :major)
-play degree(2, :C3, :minor)
-}]
+play degree(:iii, :D3, :major) # major third up from :D3
+play degree(3, :C3, :minor) # minor third up from :C3
+play degree('d5', :B3, :major) # diminished fifth up from :B3
+},
+                               "play [:i, :iii, :v, :dvii, :dix, :Axi, :xiii].map {|d| (degree d, :Fs, :major)} # play an F# 13+11-9 chord, using roman numeral symbols",
+                               "play ['1', '3', '5', 'd7', 'd9', 'A11', '13'].map {|d| (degree d, :Fs, :major)} # the same chord as above, but using decimal number strings"]
 
 
 
