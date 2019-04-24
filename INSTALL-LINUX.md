@@ -90,6 +90,8 @@ This script will open Sonic Pi, and clean up any leftover processes when it clos
 
 If this script isn't there, make a new file in the root of the sonic-pi source code folder, called `run-debian-app`, and go to https://github.com/samaaron/sonic-pi/blob/master/run-debian-app and copy the contents of that to the new file on your computer. Then save the file, and run this command in your terminal in the root of the sonic-pi source code folder, to make it executable: `chmod -u+x run-debian-app`. Now you should be able to run this script.
 
+For identifying any possible issue with real-time audio playback in your Ubuntu machine, it is useful to run [RealTimeConfigQuickScan](https://github.com/raboof/realtimeconfigquickscan). It provides warnings for possible settings that may not allow SC or Sonic-Pi to not execute correctly.
+
 **There's no guarantees that these scripts will work 100%.** I haven't tested them that much, and I've only tested them on one system.
 
 ### Information about dependencies
