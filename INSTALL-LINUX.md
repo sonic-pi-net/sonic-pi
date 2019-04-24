@@ -251,21 +251,11 @@ Then run the script `sonic-pi` in the directory `app/gui/qt`.
 
 ## Arch Linux
 
-### AUR Package
+You can install sonic-pi from the official package repository:
 
-Arch Linux users are strongly recommended to install the
-[sonic-pi-git](https://aur.archlinux.org/packages/sonic-pi-git/) package
-from the AUR; see the wiki article on the
-[Arch User Repository](https://wiki.archlinux.org/index.php/Arch_User_Repository)
-if you are unfamiliar with how to install such a package. The PKGBUILD
-found in this package will:
-
-* Clone the latest sonic-pi source from GitHub
-* Apply a patch to fix a library naming issue
-* Build sonic-pi from source, according to the instructions found in
-  [Generic Linux](#generic-linux)
-* Install the built software components to `/opt/sonic-pi-git`
-* Install the launcher to `/usr/bin/sonic-pi`
+```
+sudo pacman -S sonic-pi
+```
 
 After installing, users need to follow the instructions in the
 [Generic Linux](#generic-linux) section to start the `jackd` server, and
