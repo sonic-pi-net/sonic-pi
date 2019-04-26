@@ -18,6 +18,8 @@ module SonicPi
       def initialize(port)
         puts "port #{port}"
         @server = TCPServer.open(port)
+        @server.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
+
         @matchers = []
         @queue = Queue.new
       end

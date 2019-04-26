@@ -34,6 +34,7 @@ module SonicPi
         while(!@so) do
           begin
             @so = TCPSocket.new(@host, @port)
+            @so.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
           rescue Errno::ECONNREFUSED => e
             puts "Waiting for OSC server..."
             sleep(1)
