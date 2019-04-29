@@ -67,10 +67,10 @@ server_port = ARGV[1] ? ARGV[1].to_i : 4557
 # Port which the GUI uses to listen to messages from the server:
 gui_port = ARGV[2] ? ARGV[2].to_i : 4558
 
-scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
 # Port to use to send messages to SuperCollider.
 # Typically this is the same as scsynth_port, but
 # may differ if there's a relay between them
+scsynth_send_port = ARGV[4] ? ARGV[4].to_i : scsynth_port
 
 # Port which the server listens to for external OSC messges
 # which will be automatically converted to cues.
