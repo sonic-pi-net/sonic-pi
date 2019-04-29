@@ -165,8 +165,13 @@ check_port = lambda do |port, gui|
   end
 end
 
-STDOUT.puts "Listen port: #{server_port}"
-check_port.call(server_port, gui)
+# Next use this helper function to test all the ports.
+# This will exit this script if a port isn't available.
+unless (gui_protocol == :websockets)
+  STDOUT.puts "Listen port: #{server_port}"
+  check_port.call(server_port, gui)
+end
+
 STDOUT.puts "Scsynth port: #{scsynth_port}"
 check_port.call(scsynth_port, gui)
 STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
