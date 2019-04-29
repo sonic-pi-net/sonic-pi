@@ -279,233 +279,233 @@ register_api = lambda do |server|
   end
 
   server.add_method("/save-and-run-buffer") do |args|
-  gui_id = args[0]
-  buffer_id = args[1]
-  code = args[2].force_encoding("utf-8")
-  workspace = args[3]
-  sp.__save_buffer(buffer_id, code)
-  sp.__spider_eval code, {workspace: workspace}
-end
-
-server.add_method("/save-buffer") do |args|
-  gui_id = args[0]
-  buffer_id = args[1]
-  code = args[2].force_encoding("utf-8")
-  sp.__save_buffer(buffer_id, code)
-end
-
-server.add_method("/exit") do |args|
-  gui_id = args[0]
-  sp.__exit
-end
-
-server.add_method("/stop-all-jobs") do |args|
-  gui_id = args[0]
-  sp.__stop_jobs
-end
-
-server.add_method("/load-buffer") do |args|
-  gui_id = args[0]
-  sp.__load_buffer args[1]
-end
-
-server.add_method("/buffer-newline-and-indent") do |args|
-  gui_id = args[0]
-  id = args[1]
-  buf = args[2].force_encoding("utf-8")
-  point_line = args[3]
-  point_index = args[4]
-  first_line = args[5]
-  sp.__buffer_newline_and_indent(id, buf, point_line, point_index, first_line)
-end
-
-server.add_method("/buffer-section-complete-snippet-or-indent-selection") do |args|
-  gui_id = args[0]
-  id = args[1]
-  buf = args[2].force_encoding("utf-8")
-  start_line = args[3]
-  finish_line = args[4]
-  point_line = args[5]
-  point_index = args[6]
-  sp.__buffer_complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
-end
-
-server.add_method("/buffer-indent-selection") do |args|
-  gui_id = args[0]
-  id = args[1]
-  buf = args[2].force_encoding("utf-8")
-  start_line = args[3]
-  finish_line = args[4]
-  point_line = args[5]
-  point_index = args[6]
-  sp.__buffer_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
-end
-
-server.add_method("/buffer-section-toggle-comment") do |args|
-  gui_id = args[0]
-  id = args[1]
-  buf = args[2].force_encoding("utf-8")
-  start_line = args[3]
-  finish_line = args[4]
-  point_line = args[5]
-  point_index = args[6]
-  sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
-end
-
-server.add_method("/buffer-beautify") do |args|
-  gui_id = args[0]
-  id = args[1]
-  buf = args[2].force_encoding("utf-8")
-  line = args[3]
-  index = args[4]
-  first_line = args[5]
-  sp.__buffer_beautify(id, buf, line, index, first_line)
-end
-
-server.add_method("/ping") do |args|
-  gui_id = args[0]
-  id = args[1]
-  gui.send("/ack", id)
-end
-
-server.add_method("/start-recording") do |args|
-  gui_id = args[0]
-  sp.recording_start
-end
-
-server.add_method("/stop-recording") do |args|
-  gui_id = args[0]
-  sp.recording_stop
-end
-
-server.add_method("/delete-recording") do |args|
-  gui_id = args[0]
-  sp.recording_delete
-end
-
-server.add_method("/save-recording") do |args|
-  gui_id = args[0]
-  filename = args[1]
-  sp.recording_save(filename)
-end
-
-server.add_method("/reload") do |args|
-  gui_id = args[0]
-  dir = File.dirname("#{File.absolute_path(__FILE__)}")
-  Dir["#{dir}/../lib/**/*.rb"].each do |d|
-    load d
+    gui_id = args[0]
+    buffer_id = args[1]
+    code = args[2].force_encoding("utf-8")
+    workspace = args[3]
+    sp.__save_buffer(buffer_id, code)
+    sp.__spider_eval code, {workspace: workspace}
   end
-  puts "reloaded"
-end
 
-server.add_method("/mixer-invert-stereo") do |args|
-  gui_id = args[0]
-  sp.set_mixer_invert_stereo!
-end
+  server.add_method("/save-buffer") do |args|
+    gui_id = args[0]
+    buffer_id = args[1]
+    code = args[2].force_encoding("utf-8")
+    sp.__save_buffer(buffer_id, code)
+  end
 
-server.add_method("/mixer-standard-stereo") do |args|
-  gui_id = args[0]
-  sp.set_mixer_standard_stereo!
-end
+  server.add_method("/exit") do |args|
+    gui_id = args[0]
+    sp.__exit
+  end
 
-server.add_method("/mixer-stereo-mode") do |args|
-  gui_id = args[0]
-  sp.set_mixer_stereo_mode!
-end
+  server.add_method("/stop-all-jobs") do |args|
+    gui_id = args[0]
+    sp.__stop_jobs
+  end
 
-server.add_method("/mixer-mono-mode") do |args|
-  gui_id = args[0]
-  sp.set_mixer_mono_mode!
-end
+  server.add_method("/load-buffer") do |args|
+    gui_id = args[0]
+    sp.__load_buffer args[1]
+  end
 
-server.add_method("/mixer-hpf-enable") do |args|
-  gui_id = args[0]
-  freq = args[1].to_f
-  sp.set_mixer_hpf!(freq)
-end
+  server.add_method("/buffer-newline-and-indent") do |args|
+    gui_id = args[0]
+    id = args[1]
+    buf = args[2].force_encoding("utf-8")
+    point_line = args[3]
+    point_index = args[4]
+    first_line = args[5]
+    sp.__buffer_newline_and_indent(id, buf, point_line, point_index, first_line)
+  end
 
-server.add_method("/mixer-hpf-disable") do |args|
-  gui_id = args[0]
-  sp.set_mixer_hpf_disable!
-end
+  server.add_method("/buffer-section-complete-snippet-or-indent-selection") do |args|
+    gui_id = args[0]
+    id = args[1]
+    buf = args[2].force_encoding("utf-8")
+    start_line = args[3]
+    finish_line = args[4]
+    point_line = args[5]
+    point_index = args[6]
+    sp.__buffer_complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+  end
 
-server.add_method("/mixer-lpf-enable") do |args|
-  gui_id = args[0]
-  freq = args[1].to_f
-  sp.set_mixer_lpf!(freq)
-end
+  server.add_method("/buffer-indent-selection") do |args|
+    gui_id = args[0]
+    id = args[1]
+    buf = args[2].force_encoding("utf-8")
+    start_line = args[3]
+    finish_line = args[4]
+    point_line = args[5]
+    point_index = args[6]
+    sp.__buffer_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+  end
 
-server.add_method("/mixer-lpf-disable") do |args|
-  gui_id = args[0]
-  sp.set_mixer_lpf_disable!
-end
+  server.add_method("/buffer-section-toggle-comment") do |args|
+    gui_id = args[0]
+    id = args[1]
+    buf = args[2].force_encoding("utf-8")
+    start_line = args[3]
+    finish_line = args[4]
+    point_line = args[5]
+    point_index = args[6]
+    sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
+  end
 
-server.add_method("/mixer-amp") do |args|
-  gui_id = args[0]
-  amp = args[1]
-  silent = args[2] == 1
-  sp.set_volume!(amp, true, silent)
-end
+  server.add_method("/buffer-beautify") do |args|
+    gui_id = args[0]
+    id = args[1]
+    buf = args[2].force_encoding("utf-8")
+    line = args[3]
+    index = args[4]
+    first_line = args[5]
+    sp.__buffer_beautify(id, buf, line, index, first_line)
+  end
 
-server.add_method("/enable-update-checking") do |args|
-  gui_id = args[0]
-  sp.__enable_update_checker
-end
+  server.add_method("/ping") do |args|
+    gui_id = args[0]
+    id = args[1]
+    gui.send("/ack", id)
+  end
 
-server.add_method("/disable-update-checking") do |args|
-  gui_id = args[0]
-  sp.__disable_update_checker
-end
+  server.add_method("/start-recording") do |args|
+    gui_id = args[0]
+    sp.recording_start
+  end
 
-server.add_method("/check-for-updates-now") do |args|
-  gui_id = args[0]
-  sp.__update_gui_version_info_now
-end
+  server.add_method("/stop-recording") do |args|
+    gui_id = args[0]
+    sp.recording_stop
+  end
 
-server.add_method("/version") do |args|
-  gui_id = args[0]
-  v = sp.__current_version
-  lv = sp.__server_version
-  lc = sp.__last_update_check
-  plat = host_platform_desc
-  gui.send("/version", v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s)
-end
+  server.add_method("/delete-recording") do |args|
+    gui_id = args[0]
+    sp.recording_delete
+  end
 
-server.add_method("/gui-heartbeat") do |args|
-  gui_id = args[0]
-  sp.__gui_heartbeat gui_id
-end
+  server.add_method("/save-recording") do |args|
+    gui_id = args[0]
+    filename = args[1]
+    sp.recording_save(filename)
+  end
 
-server.add_method("/midi-start") do |args|
-  gui_id = args[0]
-  silent = args[1] == 1
-  sp.__midi_system_start(silent)
-end
+  server.add_method("/reload") do |args|
+    gui_id = args[0]
+    dir = File.dirname("#{File.absolute_path(__FILE__)}")
+    Dir["#{dir}/../lib/**/*.rb"].each do |d|
+      load d
+    end
+    puts "reloaded"
+  end
 
-server.add_method("/midi-stop") do |args|
-  gui_id = args[0]
-  silent = args[1] == 1
-  sp.__midi_system_stop(silent)
-end
+  server.add_method("/mixer-invert-stereo") do |args|
+    gui_id = args[0]
+    sp.set_mixer_invert_stereo!
+  end
 
-server.add_method("/midi-reset") do |args|
-  gui_id = args[0]
-  silent = args[1] == 1
-  sp.__midi_system_reset(silent)
-end
+  server.add_method("/mixer-standard-stereo") do |args|
+    gui_id = args[0]
+    sp.set_mixer_standard_stereo!
+  end
 
-server.add_method("/osc-port-start") do |args|
-  gui_id = args[0]
-  silent = args[1] == 1
-  open = args[2] == 1
-  sp.__restart_cue_server!(open, silent)
-end
+  server.add_method("/mixer-stereo-mode") do |args|
+    gui_id = args[0]
+    sp.set_mixer_stereo_mode!
+  end
 
-server.add_method("/osc-port-stop") do |args|
-  gui_id = args[0]
-  silent = args[1] == 1
-  sp.__stop_cue_server!(silent)
-end
+  server.add_method("/mixer-mono-mode") do |args|
+    gui_id = args[0]
+    sp.set_mixer_mono_mode!
+  end
+
+  server.add_method("/mixer-hpf-enable") do |args|
+    gui_id = args[0]
+    freq = args[1].to_f
+    sp.set_mixer_hpf!(freq)
+  end
+
+  server.add_method("/mixer-hpf-disable") do |args|
+    gui_id = args[0]
+    sp.set_mixer_hpf_disable!
+  end
+
+  server.add_method("/mixer-lpf-enable") do |args|
+    gui_id = args[0]
+    freq = args[1].to_f
+    sp.set_mixer_lpf!(freq)
+  end
+
+  server.add_method("/mixer-lpf-disable") do |args|
+    gui_id = args[0]
+    sp.set_mixer_lpf_disable!
+  end
+
+  server.add_method("/mixer-amp") do |args|
+    gui_id = args[0]
+    amp = args[1]
+    silent = args[2] == 1
+    sp.set_volume!(amp, true, silent)
+  end
+
+  server.add_method("/enable-update-checking") do |args|
+    gui_id = args[0]
+    sp.__enable_update_checker
+  end
+
+  server.add_method("/disable-update-checking") do |args|
+    gui_id = args[0]
+    sp.__disable_update_checker
+  end
+
+  server.add_method("/check-for-updates-now") do |args|
+    gui_id = args[0]
+    sp.__update_gui_version_info_now
+  end
+
+  server.add_method("/version") do |args|
+    gui_id = args[0]
+    v = sp.__current_version
+    lv = sp.__server_version
+    lc = sp.__last_update_check
+    plat = host_platform_desc
+    gui.send("/version", v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s)
+  end
+
+  server.add_method("/gui-heartbeat") do |args|
+    gui_id = args[0]
+    sp.__gui_heartbeat gui_id
+  end
+
+  server.add_method("/midi-start") do |args|
+    gui_id = args[0]
+    silent = args[1] == 1
+    sp.__midi_system_start(silent)
+  end
+
+  server.add_method("/midi-stop") do |args|
+    gui_id = args[0]
+    silent = args[1] == 1
+    sp.__midi_system_stop(silent)
+  end
+
+  server.add_method("/midi-reset") do |args|
+    gui_id = args[0]
+    silent = args[1] == 1
+    sp.__midi_system_reset(silent)
+  end
+
+  server.add_method("/osc-port-start") do |args|
+    gui_id = args[0]
+    silent = args[1] == 1
+    open = args[2] == 1
+    sp.__restart_cue_server!(open, silent)
+  end
+
+  server.add_method("/osc-port-stop") do |args|
+    gui_id = args[0]
+    silent = args[1] == 1
+    sp.__stop_cue_server!(silent)
+  end
 end
 
 register_api.call(osc_server)
