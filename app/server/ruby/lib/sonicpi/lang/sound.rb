@@ -3583,8 +3583,20 @@ play degree(:iii, :D3, :major) # major third up from :D3
 play degree(3, :C3, :minor) # minor third up from :C3
 play degree('d5', :B3, :major) # diminished fifth up from :B3
 },
-                               "play [:i, :iii, :v, :dvii, :dix, :Axi, :xiii].map {|d| (degree d, :Fs, :major)} # play an F# 13+11-9 chord, using roman numeral symbols",
-                               "play ['1', '3', '5', 'd7', 'd9', 'A11', '13'].map {|d| (degree d, :Fs, :major)} # the same chord as above, but using decimal number strings"]
+                               %q{
+chrd = []
+[:i, :iii, :v, :dvii, :dix, :Axi, :xiii].each do |d|  # for each degree in the chord
+  chrd.append (degree d, :Fs, :major)  # add the corresponding note
+end
+play chrd  # play an F# 13+11-9 chord, using roman numeral symbols
+},
+                               %Q{
+chrd = []
+['1', '3', '5', 'd7', 'd9', 'A11', '13'].each do |d|
+  chrd.append (degree d, :Fs, :major)
+end
+play chrd  # the same chord as above, but using decimal number strings
+}]
 
 
 
