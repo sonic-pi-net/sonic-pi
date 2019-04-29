@@ -268,8 +268,8 @@ module SonicPi
     end
 
     def __schedule_delayed_blocks_and_messages!
-      delayed_messages = __system_thread_locals.get :sonic_pi_local_spider_delayed_messages
-      delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks) || []
+      delayed_messages = __system_thread_locals.get(:sonic_pi_local_spider_delayed_messages, [])
+      delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks, [])
       if delayed_messages
         unless(delayed_messages.empty?)
           thread_name = __current_thread_name
@@ -290,6 +290,7 @@ module SonicPi
             __multi_message(delayed_messages, thread_name)
           end
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
+          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
         end
       end
     end
