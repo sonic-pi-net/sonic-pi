@@ -51,27 +51,32 @@ gui_protocol = case ARGV[0]
            else
              :udp
             end
+
 STDOUT.puts "Using primary protocol: #{gui_protocol}"
-
-
 STDOUT.puts "Detecting port numbers..."
+
+# Port which the SuperCollider server scsynth listens to:
+# (scsynth will automatically send replies back to the port
+# from which the message originated from)
+scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
+
 
 # Port which the server listens to messages from the GUI
 server_port = ARGV[1] ? ARGV[1].to_i : 4557
 
 # Port which the GUI uses to listen to messages from the server:
 gui_port = ARGV[2] ? ARGV[2].to_i : 4558
-scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
 
-# Port which the SuperCollider server scsynth listens to:
-# (scsynth will automatically send replies back to the port
-# from which the message originated from)
 scsynth_send_port = ARGV[4] ? ARGV[4].to_i : 4556
+# Port to use to send messages to SuperCollider.
+# Typically this is the same as scsynth_port, but
+# may differ if there's a relay between them
 
-# Port which the server uses to send messages to scsynth
+# Port which the server listens to for external OSC messges
+# which will be automatically converted to cues.
 osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
 
-# Port which the Erlang router listens to.
+# Port which the Erlang scheduler/router listens to.
 erlang_port = ARGV[6] ? ARGV[6].to_i : 4560
 
 # Port which the server uses to send OSC messages representing
