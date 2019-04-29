@@ -4,7 +4,7 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
 # Permission is granted for use, copying, modification, and
@@ -87,6 +87,20 @@ osc_midi_in_port = ARGV[8] ? ARGV[8].to_i : 4562
 # Port which the server uses to communicate via websockets
 websocket_port = ARGV[9] ? ARGV[9].to_i : 4563
 
+# Create a frozen map of the ports so that this can
+# essentially be treated as a global constant to the
+# language runtime.
+sonic_pi_ports = {
+  server_port: server_port,
+  scsynth_port: scsynth_port,
+  scsynth_send_port: scsynth_send_port,
+  osc_cues_port: osc_cues_port,
+  erlang_port: erlang_port,
+  osc_midi_out_port: osc_midi_out_port,
+  osc_midi_in_port: osc_midi_in_port,
+  websocket_port: websocket_port}.freeze
+
+
 # Open up comms to the GUI.
 # We need to do this now so we can communicate with it going forwards
 begin
@@ -115,6 +129,19 @@ rescue Exception => e
   STDOUT.puts e.backtrace
 end
 
+
+
+# Check ports to ensure they're available on this system.
+
+# This information is very useful for error reporting so print it to
+# STDOUT so it's automatically logged.
+#
+# Note: when booted by Sonic Pi.app all STDOUT is typically configured
+# to pipe to ~/.sonic-pi/log/server-output.log by the C++ GUI which
+# launches the Ruby process evaluating this file.
+
+# First define a helper function to check to see if a given is available
+# on the system and to tell the gui to exit if not.
 check_port = lambda do |port, gui|
   begin
     s = SonicPi::OSC::UDPServer.new(port)
@@ -150,19 +177,15 @@ check_port.call(osc_midi_in_port, gui)
 STDOUT.puts "Websocket port: #{websocket_port}"
 check_port.call(websocket_port, gui)
 
+# Yey! all ports are availale if we get this far...  Ensure this is now
+# visible in the log by flushing STDOUT - just in case you're tailing it
+# in the ternimal with tail -f ~/.sonic-pi/log/server-output.log
 STDOUT.flush
 
-sonic_pi_ports = {
-  server_port: server_port,
-  scsynth_port: scsynth_port,
-  scsynth_send_port: scsynth_send_port,
-  osc_cues_port: osc_cues_port,
-  erlang_port: erlang_port,
-  osc_midi_out_port: osc_midi_out_port,
-  osc_midi_in_port: osc_midi_in_port,
-  websocket_port: websocket_port}.freeze
 
-
+# Now we need to set up a server to listen to messages from the GUI.  If
+# we're running with websockets, then this is the same entity as the gui
+# comms which is already a websocket server
 begin
   case gui_protocol
   when :tcp
@@ -185,6 +208,8 @@ rescue Exception => e
   exit
 end
 
+
+# Next fire up a websockets server.
 begin
   case gui_protocol
   when :tcp
