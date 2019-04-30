@@ -195,132 +195,34 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     clientSock = new QTcpSocket(this);
   }
 
-
-  QProcess* determineSendPortNumber = new QProcess();
+  std::cout << "Discovering port numbers..." << std::endl;
+  QProcess* determinePortNumbers = new QProcess();
   QStringList send_args;
-  send_args << port_discovery_path << "gui-send-to-server";
+  send_args << port_discovery_path;
+  determinePortNumbers->start(ruby_path, send_args);
+  determinePortNumbers->waitForFinished();
+  QTextStream stream(determinePortNumbers->readAllStandardOutput().trimmed());
+  QString line = stream.readLine();
+  while (!line.isNull()) {
+    auto parts = line.split(": ");
+    std::cout << "[GUI] - Port entry " << parts[0].trimmed().toStdString() << " : " << parts[1].trimmed().toStdString() << QString(" : %1").arg(parts[1].trimmed().toInt()).toStdString() << std::endl;
+    port_map[parts[0].trimmed()] = parts[1].trimmed().toInt();
+    line = stream.readLine();
+  };
 
-  determineSendPortNumber->start(ruby_path, send_args);
-  determineSendPortNumber->waitForFinished();
-  gui_send_to_server_port = determineSendPortNumber->readAllStandardOutput().trimmed().toInt();
-
-  if (gui_send_to_server_port == 0) {
-    std::cout << "[GUI] - unable to determine GUI->Server send port. Defaulting to 4557:" << std::endl;
-    gui_send_to_server_port = 4557;
-  }
+  gui_send_to_server_port   = port_map["gui-send-to-server"];
+  gui_listen_to_server_port = port_map["gui-listen-to-server"];
+  server_listen_to_gui_port = port_map["server-listen-to-gui"];
+  server_osc_cues_port      = port_map["server-osc-cues"];
+  server_send_to_gui_port   = port_map["server-send-to-gui"];
+  scsynth_port              = port_map["scsynth"];
+  scsynth_send_port         = port_map["scsynth-send"];
+  erlang_router_port        = port_map["erlang-router"];
+  osc_midi_out_port         = port_map["osc-midi-out"];
+  osc_midi_in_port          = port_map["osc-midi-in"];
+  websocket_port            = port_map["websocket"];
 
   oscSender = new OscSender(gui_send_to_server_port);
-
-  QProcess* determineListenPortNumber = new QProcess();
-  QStringList listen_args;
-  listen_args << port_discovery_path << "gui-listen-to-server";
-
-  determineListenPortNumber->start(ruby_path, listen_args);
-  determineListenPortNumber->waitForFinished();
-  gui_listen_to_server_port = determineListenPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (gui_listen_to_server_port == 0) {
-    std::cout << "[GUI] - unable to determine GUI<-Server listen port. Defaulting to 4558:" << std::endl;
-    gui_listen_to_server_port = 4558;
-  }
-
-  QProcess* determineServerListenPortNumber = new QProcess();
-  QStringList server_listen_args;
-  server_listen_args << port_discovery_path << "server-listen-to-gui";
-
-  determineServerListenPortNumber->start(ruby_path, server_listen_args);
-  determineServerListenPortNumber->waitForFinished();
-  server_listen_to_gui_port = determineServerListenPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (server_listen_to_gui_port == 0) {
-    std::cout << "[GUI] - unable to determine Server<-GUI listen port. Defaulting to 4557:" << std::endl;
-    server_listen_to_gui_port = 4557;
-  }
-
-  QProcess* determineServerOSCCuesPortNumber = new QProcess();
-  QStringList server_osc_cue_args;
-  server_osc_cue_args << port_discovery_path << "server-osc-cues";
-
-  determineServerOSCCuesPortNumber->start(ruby_path, server_osc_cue_args);
-  determineServerOSCCuesPortNumber->waitForFinished();
-  server_osc_cues_port = determineServerOSCCuesPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (server_osc_cues_port == 0) {
-    std::cout << "[GUI] - unable to determine Server OSC cue listen port. Defaulting to 4559:" << std::endl;
-    server_osc_cues_port = 4559;
-  }
-
-  QProcess* determineServerSendPortNumber = new QProcess();
-  QStringList server_send_args;
-  server_send_args << port_discovery_path << "server-send-to-gui";
-
-  determineServerSendPortNumber->start(ruby_path, server_send_args);
-  determineServerSendPortNumber->waitForFinished();
-  server_send_to_gui_port = determineServerSendPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (server_send_to_gui_port == 0) {
-    std::cout << "[GUI] - unable to determine Server->GUI send port. Defaulting to 4558:" << std::endl;
-    server_send_to_gui_port = 4558;
-  }
-
-  QProcess* determineScsynthPortNumber = new QProcess();
-  QStringList scsynth_args;
-  scsynth_args << port_discovery_path << "scsynth";
-
-  determineScsynthPortNumber->start(ruby_path, scsynth_args);
-  determineScsynthPortNumber->waitForFinished();
-  scsynth_port = determineScsynthPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (scsynth_port == 0) {
-    std::cout << "[GUI] - unable to determine scsynth port. Defaulting to 4556:" << std::endl;
-    scsynth_port = 4556;
-  }
-
-  QProcess* determineScsynthSendPortNumber = new QProcess();
-  QStringList scsynth_send_args;
-  scsynth_send_args << port_discovery_path << "scsynth-send";
-
-  determineScsynthSendPortNumber->start(ruby_path, scsynth_send_args);
-  determineScsynthSendPortNumber->waitForFinished();
-  scsynth_send_port = determineScsynthSendPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (scsynth_send_port == 0) {
-    std::cout << "[GUI] - unable to determine scsynth send port. Defaulting to 4556:" << std::endl;
-    scsynth_send_port = 4556;
-  }
-
-  QProcess* determineErlangRouterPortNumber = new QProcess();
-  QStringList erlang_router_args;
-  erlang_router_args << port_discovery_path << "erlang-router";
-
-  determineErlangRouterPortNumber->start(ruby_path, erlang_router_args);
-  determineErlangRouterPortNumber->waitForFinished();
-  erlang_router_port = determineErlangRouterPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (erlang_router_port == 0) {
-    std::cout << "[GUI] - unable to determine Erlang router port. Defaulting to 4560:" << std::endl;
-    erlang_router_port = 4560;
-  }
-
-
-  QProcess* determineOscMidiOutPortNumber = new QProcess();
-  QStringList osc_midi_out_args;
-  osc_midi_out_args << port_discovery_path << "osc-midi-out";
-
-  determineOscMidiOutPortNumber->start(ruby_path, osc_midi_out_args);
-  determineOscMidiOutPortNumber->waitForFinished();
-  osc_midi_out_port = determineOscMidiOutPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (osc_midi_out_port == 0) {
-    std::cout << "[GUI] - unable to determine OSC MIDI out port. Defaulting to 4561:" << std::endl;
-    osc_midi_out_port = 4561;
-  }
-
-
-  QProcess* determineOscMidiInPortNumber = new QProcess();
-  QStringList osc_midi_in_args;
-  osc_midi_in_args << port_discovery_path << "osc-midi-in";
-
-  determineOscMidiInPortNumber->start(ruby_path, osc_midi_in_args);
-  determineOscMidiInPortNumber->waitForFinished();
-  osc_midi_in_port = determineOscMidiInPortNumber->readAllStandardOutput().trimmed().toInt();
-  if (osc_midi_in_port == 0) {
-    std::cout << "[GUI] - unable to determine OSC MIDI in port. Defaulting to 4562:" << std::endl;
-    osc_midi_in_port = 4562;
-  }
-
   printAsciiArtLogo();
 
   // Clear out old tasks from previous sessions if they still exist
@@ -330,6 +232,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Throw all stdout into ~/.sonic-pi/log/gui.log
   setupLogPathAndRedirectStdOut();
+
   std::cout << "[GUI] - Detecting port numbers..." << std::endl;
   std::cout << "[GUI] - GUI OSC listen port "<< gui_listen_to_server_port << std::endl;
   checkPort(gui_listen_to_server_port);
@@ -349,6 +252,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   checkPort(osc_midi_out_port);
   std::cout << "[GUI] - OSC MIDI in port " << osc_midi_in_port << std::endl;
   checkPort(osc_midi_in_port);
+  std::cout << "[GUI] - Websocket port " << websocket_port << std::endl;
+  checkPort(websocket_port);
   std::cout << "[GUI] - Init script completed" << std::endl;
 
   setupTheme();
@@ -1094,7 +999,16 @@ void MainWindow::startRubyServer(){
   }
 
 
-  args << QString("%1").arg(server_listen_to_gui_port) << QString("%1").arg(server_send_to_gui_port) <<  QString("%1").arg(scsynth_port) <<  QString("%1").arg(scsynth_send_port) <<  QString("%1").arg(server_osc_cues_port) << QString("%1").arg(erlang_router_port) << QString("%1").arg(osc_midi_out_port) << QString("%1").arg(osc_midi_in_port);
+  args <<
+    QString("%1").arg(server_listen_to_gui_port) <<
+    QString("%1").arg(server_send_to_gui_port) <<
+    QString("%1").arg(scsynth_port) <<
+    QString("%1").arg(scsynth_send_port) <<
+    QString("%1").arg(server_osc_cues_port) <<
+    QString("%1").arg(erlang_router_port) <<
+    QString("%1").arg(osc_midi_out_port) <<
+    QString("%1").arg(osc_midi_in_port) <<
+    QString("%1").arg(websocket_port);;
   std::cout << "[GUI] - launching Sonic Pi Server:" << std::endl;
   if(homeDirWritable) {
     serverProcess->setStandardErrorFile(server_error_log_path);

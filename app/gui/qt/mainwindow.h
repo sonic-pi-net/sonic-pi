@@ -252,7 +252,8 @@ private:
     QTcpSocket *clientSock;
     QFuture<void> osc_thread, server_thread;
     int protocol;
-    int gui_listen_to_server_port, gui_send_to_server_port, server_listen_to_gui_port, server_send_to_gui_port, scsynth_port, scsynth_send_port, server_osc_cues_port, erlang_router_port, osc_midi_out_port, osc_midi_in_port;
+    QHash<QString, int> port_map;
+  int gui_listen_to_server_port, gui_send_to_server_port, server_listen_to_gui_port, server_send_to_gui_port, scsynth_port, scsynth_send_port, server_osc_cues_port, erlang_router_port, osc_midi_out_port, osc_midi_in_port, websocket_port;
     bool focusMode;
     bool startup_error_reported;
     bool is_recording;

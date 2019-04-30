@@ -1,75 +1,127 @@
 #!/usr/bin/ruby -wKU
-
+require 'socket'
 
 # Change these values to alter the ports
-# Sonic Pi uses to send and receive messages
-# at run time:
+# Sonic Pi uses to send and receive messages# at run time:
+port_config = {
+  # Port which the server uses to listen to messages from the GUI:
+  "server-listen-to-gui" => :dynamic,
 
-# Port which the GUI uses to send messages to the server:
-gui_send_to_server = 4557
+  # Port which the GUI uses to send messages to the server:
+  # May be paired with server_listen_to_gui
+  "gui-send-to-server" => :paired,
 
-# Port which the GUI uses to listen to messages from the server:
-gui_listen_to_server = 4558
+  # Port which the GUI uses to listen to messages from the server:
+  "gui-listen-to-server" => :dynamic,
 
-# Port which the server uses to send messages to the GUI:
-server_send_to_gui = 4558
+  # Port which the server uses to send messages to the GUI:
+  # May be paired with :gui_listen_to_server
+  "server-send-to-gui" => :paired,
 
-# Port which the server uses to listen to messages from the GUI:
-server_listen_to_gui = 4557
+  # Port which the SuperCollider server scsynth listens to:
+  # (scsynth will automatically send replies back to the port
+  # from which the message originated from)
+  "scsynth" => :dynamic,
 
-# Port which the SuperCollider server scsynth listens to:
-# (scsynth will automatically send replies back to the port
-# from which the message originated from)
-scsynth = 4556
+  # Port which the server uses to send messages to scsynth
+  # May be paired with scsynth
+  "scsynth-send" => :paired,
 
-# Port which the server uses to send messages to scsynth
-scsynth_send = 4556
+  # Port which the server uses to send OSC messages representing
+  # output MIDI. This is used by osmid's o2m to listen to incoming
+  # OSC messages and then forward them on as standard MIDI messages
+  "osc-midi-out" => :dynamic,
 
-# Port which the server uses to listen to messages which
-# will automatically be converted to cue events:
-server_osc_cues = 4559
+  # Port which the server uses to listen to OSC messages generated
+  # by incoming MIDI. This is used by osmid's m2o as the outgoing
+  # port.
+  "osc-midi-in" => :dynamic,
 
-# Port which the Erlang router listens to.
-erlang_router = 4560
+  # Port which the server uses to listen to messages which
+  # will automatically be converted to cue events:
+  "server-osc-cues" => 4560,
 
-# Port which the server uses to send OSC messages representing
-# output MIDI. This is used by osmid's o2m to listen to incoming
-# OSC messages and then forward them on as standard MIDI messages
-osc_midi_out = 4561
+  # Port which the Erlang router listens to.
+  "erlang-router" => 4561,
 
+  # Port which the server uses to communicate via websockets
+  "websocket" => 4562
+}.freeze
 
-# Port which the server uses to listen to OSC messages generated
-# by incoming MIDI. This is used by osmid's m2o as the outgoing
-# port.
-osc_midi_in = 4562
+check_port = lambda do |port|
+  available = false
+  begin
+    socket = UDPSocket.new
+    socket.bind('127.0.0.1', port)
+    socket.close
+    available = true
+  rescue Exception
+    available = false
+  end
+  available
+end
 
-# Port which the server uses to communicate via websockets
-websocket_port = 4563
+last_free_port = 51234
 
+find_free_port = lambda do
+  while !check_port.call(last_free_port += 1)
+    if last_free_port > 65535
+      exit
+    end
+  end
 
-case (ARGV[0] || "").downcase
-when "gui-send-to-server"
-  puts gui_send_to_server
-when "gui-listen-to-server"
-  puts gui_listen_to_server
-when "server-send-to-gui"
-  puts server_send_to_gui
-when "server-listen-to-gui"
-  puts server_listen_to_gui
-when "server-osc-cues"
-  puts server_osc_cues
-when "scsynth"
-  puts scsynth
-when "scsynth-send"
-  puts scsynth_send
-when "erlang-router"
-  puts erlang_router
-when "osc-midi-out"
-  puts osc_midi_out
-when "osc-midi-in"
-  puts osc_midi_in
-when "websocket-port"
-  puts websocket_port
-else
-  puts "Unknown port name: #{ARGV[0]}.\nExpecting one of:\n* gui-send-to-server\n* gui-listen-to-server\n* server-send-to-gui\n* server-listen-to-gui\n* server-osc-cues\n* scsynth\n* scsynth-send"
+  last_free_port
+end
+
+port_map = [
+  # each entry is the name of a port to determine.
+  # pairs of entry-names represent pairings where
+  # the first element will default to the second
+  # when its value is set to :paired
+  "server-listen-to-gui",
+  ["gui-send-to-server","server-listen-to-gui"],
+
+  "gui-listen-to-server",
+  ["server-send-to-gui", "gui-listen-to-server"],
+
+  "scsynth",
+  ["scsynth-send", "scsynth"],
+
+  "osc-midi-out",
+  "osc-midi-in",
+
+  "server-osc-cues",
+  "erlang-router",
+  "websocket"].inject({}) do |res, port_name|
+
+  default = nil
+  case port_name
+  when Array
+    default = port_config[port_name[0]]
+    if default == :dynamic
+      port = find_free_port.call
+    elsif default == :paired
+      port = res[port_name[1]]
+    else
+      port = default
+    end
+    res[port_name[0]] = port.to_i
+  else
+    default = port_config[port_name]
+    if default == :dynamic
+      port = find_free_port.call
+    elsif default == :paired
+      puts "Invalid port default for port: #{port_name}. This port may not be paired."
+      exit
+    else
+      port = default
+    end
+    res[port_name] = port.to_i
+  end
+
+  res
+end
+
+port_map.each do |k, v|
+  puts k.to_s + ": " + v.to_s
 end

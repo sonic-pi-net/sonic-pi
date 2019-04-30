@@ -55,42 +55,50 @@ gui_protocol = case ARGV[0]
 STDOUT.puts "Using primary protocol: #{gui_protocol}"
 STDOUT.puts "Detecting port numbers..."
 
-# Port which the SuperCollider server scsynth listens to:
-# (scsynth will automatically send replies back to the port
-# from which the message originated from)
-scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
-
-
 # Port which the server listens to messages from the GUI
+# server-listen-to-gui
 server_port = ARGV[1] ? ARGV[1].to_i : 4557
 
 # Port which the GUI uses to listen to messages from the server:
+# server-send-to-gui
 gui_port = ARGV[2] ? ARGV[2].to_i : 4558
+
+# Port which the SuperCollider server scsynth listens to:
+# (scsynth will automatically send replies back to the port
+# from which the message originated from)
+# scsynth
+scsynth_port = ARGV[3] ? ARGV[3].to_i : 4556
 
 # Port to use to send messages to SuperCollider.
 # Typically this is the same as scsynth_port, but
 # may differ if there's a relay between them
+# scsynth-send
 scsynth_send_port = ARGV[4] ? ARGV[4].to_i : scsynth_port
 
 # Port which the server listens to for external OSC messges
 # which will be automatically converted to cues.
-osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4559
+# server-osc-cues
+osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4560
 
 # Port which the Erlang scheduler/router listens to.
-erlang_port = ARGV[6] ? ARGV[6].to_i : 4560
+# erlang-router
+erlang_port = ARGV[6] ? ARGV[6].to_i : 4561
 
 # Port which the server uses to send OSC messages representing
 # output MIDI. This is used by osmid's o2m to listen to incoming
 # OSC messages and then forward them on as standard MIDI messages
-osc_midi_out_port = ARGV[7] ? ARGV[7].to_i : 4561
+# osc-midi-out
+osc_midi_out_port = ARGV[7] ? ARGV[7].to_i : 4563
 
 # Port which the server uses to listen to OSC messages generated
 # by incoming MIDI. This is used by osmid's m2o as the outgoing
 # port.
-osc_midi_in_port = ARGV[8] ? ARGV[8].to_i : 4562
+# osc-midi-in
+osc_midi_in_port = ARGV[8] ? ARGV[8].to_i : 4564
 
 # Port which the server uses to communicate via websockets
-websocket_port = ARGV[9] ? ARGV[9].to_i : 4563
+# websocket
+websocket_port = ARGV[9] ? ARGV[9].to_i : 4562
 
 # Create a frozen map of the ports so that this can
 # essentially be treated as a global constant to the
@@ -147,15 +155,24 @@ end
 
 # First define a helper function to check to see if a given is available
 # on the system and to tell the gui to exit if not.
-check_port = lambda do |port, gui|
+check_port = lambda do |port|
+  available = false
   begin
     s = SonicPi::OSC::UDPServer.new(port)
     s.stop
-    STDOUT.puts "  - OK"
+    available = true
   rescue Exception => e
-    begin
+    available = false
+  end
+  available
+end
+
+ensure_port_or_quit = lambda do |port, gui|
+  if check_port.call(port)
+    STDOUT.puts "  - OK"
+  else
       STDOUT.puts "Port #{port} unavailable. Perhaps Sonic Pi is already running?"
-      STDOUT.flush
+    begin
       gui.send("/exited-with-boot-error", "Port unavailable: " + port.to_s + ", is Sonic Pi already running?")
     rescue Errno::EPIPE => e
       STDOUT.puts "GUI not listening, exit anyway."
@@ -169,23 +186,23 @@ end
 # This will exit this script if a port isn't available.
 unless (gui_protocol == :websockets)
   STDOUT.puts "Listen port: #{server_port}"
-  check_port.call(server_port, gui)
+  ensure_port_or_quit.call(server_port, gui)
 end
 
 STDOUT.puts "Scsynth port: #{scsynth_port}"
-check_port.call(scsynth_port, gui)
+ensure_port_or_quit.call(scsynth_port, gui)
 STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
-check_port.call(scsynth_send_port, gui)
+ensure_port_or_quit.call(scsynth_send_port, gui)
 STDOUT.puts "OSC cues port: #{osc_cues_port}"
-check_port.call(osc_cues_port, gui)
+ensure_port_or_quit.call(osc_cues_port, gui)
 STDOUT.puts "Erlang port: #{erlang_port}"
-check_port.call(erlang_port, gui)
+ensure_port_or_quit.call(erlang_port, gui)
 STDOUT.puts "OSC MIDI out port: #{osc_midi_out_port}"
-check_port.call(osc_midi_out_port, gui)
+ensure_port_or_quit.call(osc_midi_out_port, gui)
 STDOUT.puts "OSC MIDI in port: #{osc_midi_in_port}"
-check_port.call(osc_midi_in_port, gui)
+ensure_port_or_quit.call(osc_midi_in_port, gui)
 STDOUT.puts "Websocket port: #{websocket_port}"
-check_port.call(websocket_port, gui)
+ensure_port_or_quit.call(websocket_port, gui)
 
 # Yey! all ports are availale if we get this far...  Ensure this is now
 # visible in the log by flushing STDOUT - just in case you're tailing it
