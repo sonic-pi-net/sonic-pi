@@ -233,27 +233,43 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // Throw all stdout into ~/.sonic-pi/log/gui.log
   setupLogPathAndRedirectStdOut();
 
+
   std::cout << "[GUI] - Detecting port numbers..." << std::endl;
-  std::cout << "[GUI] - GUI OSC listen port "<< gui_listen_to_server_port << std::endl;
+
+
+  std::cout << "[GUI] - GUI listen to server port "<< gui_listen_to_server_port << std::endl;
   checkPort(gui_listen_to_server_port);
-  std::cout << "[GUI] - Server OSC listen port " << server_listen_to_gui_port << std::endl;
+
+  std::cout << "[GUI] - Server listen to gui port " << server_listen_to_gui_port << std::endl;
   checkPort(server_listen_to_gui_port);
+
   std::cout << "[GUI] - Server incoming OSC cues port " << server_osc_cues_port << std::endl;
   checkPort(server_osc_cues_port);
+
   std::cout << "[GUI] - Scsynth port " << scsynth_port << std::endl;
   checkPort(scsynth_port);
 
-  std::cout << "[GUI] - Server OSC out port " << server_send_to_gui_port << std::endl;
-  std::cout << "[GUI] - GUI OSC out port " << gui_send_to_server_port<< std::endl;
+  std::cout << "[GUI] - Server send to GUI port " << server_send_to_gui_port << std::endl;
+  checkPort(server_send_to_gui_port);
+
+  std::cout << "[GUI] - GUI send to server port " << gui_send_to_server_port<< std::endl;
+  checkPort(gui_send_to_server_port);
+
   std::cout << "[GUI] - Scsynth send port " << scsynth_send_port << std::endl;
+  checkPort(scsynth_send_port);
+
   std::cout << "[GUI] - Erlang router port " << erlang_router_port << std::endl;
   checkPort(erlang_router_port);
+
   std::cout << "[GUI] - OSC MIDI out port " << osc_midi_out_port << std::endl;
   checkPort(osc_midi_out_port);
+
   std::cout << "[GUI] - OSC MIDI in port " << osc_midi_in_port << std::endl;
   checkPort(osc_midi_in_port);
+
   std::cout << "[GUI] - Websocket port " << websocket_port << std::endl;
   checkPort(websocket_port);
+
   std::cout << "[GUI] - Init script completed" << std::endl;
 
   setupTheme();
