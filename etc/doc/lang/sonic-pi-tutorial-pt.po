@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-01-22 17:05+0000\n"
-"Last-Translator: Tiago Morais Morgado <eremitatm88@gmail.com>\n"
+"PO-Revision-Date: 2019-05-06 14:49+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/pt/>\n"
 "Language: pt\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.4\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -8457,11 +8457,11 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Set e Get"
 
 #: 10.1-Set-and-Get.md:3
 msgid "Set and Get"
-msgstr ""
+msgstr "Set e Get"
 
 #: 10.1-Set-and-Get.md:5
 msgid ""
@@ -8555,7 +8555,6 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8565,7 +8564,15 @@ msgid ""
 "  puts get[:foo]\n"
 "  sleep 0.5\n"
 "end"
-msgstr "rrand"
+msgstr ""
+"live_loop :setter do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :getter do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 
 #: 10.1-Set-and-Get.md:70
 msgid ""
@@ -8594,6 +8601,22 @@ msgid ""
 "{run: 0, time: 3.5}\n"
 " └─ 75.6048583984375"
 msgstr ""
+"{run: 0, time: 0.0}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 0.5}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 1.0}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 1.5}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 2.0}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 2.5}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 3.0}\n"
+" └─ 75.6048583984375\n"
+"{run: 0, time: 3.5}\n"
+" └─ 75.6048583984375"
 
 #: 10.1-Set-and-Get.md:100
 msgid ""
@@ -8638,6 +8661,23 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"## Um exemplo de comportamento não-determinístico\n"
+"## (devido a race conditions causadas por múltiplos\n"
+"## loops manipulando a mesma variárvel ao mesmo tempo).\n"
+"##  \n"
+"## Se você executar este código você notará\n"
+"## que a lista que é impressa\n"
+"## nem sempre sai ordenada!\n"
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
@@ -8663,6 +8703,22 @@ msgid ""
 "  puts \"sorted: \", get[:a]\n"
 "end"
 msgstr ""
+"## Um exemplo de comportamento determinístico\n"
+"## (apesar do acesso simultâneo ao estado compartilhado)\n"
+"## usando o novo sistema Time State do Sonic Pi.\n"
+"##\n"
+"## Quando este código é executado, a lista\n"
+"## sempre é impressa de forma ordenada!\n"
+"set :a, (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  set :a, get[:a].shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  set :a, get[:a].sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", get[:a]\n"
+"end"
 
 #: 10.1-Set-and-Get.md:159
 msgid ""
@@ -8680,11 +8736,11 @@ msgstr ""
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
-msgstr ""
+msgstr "10.2 Sincronização (Sync)"
 
 #: 10.2-Sync.md:3
 msgid "Sync"
-msgstr ""
+msgstr "Sincronização (Sync)"
 
 #: 10.2-Sync.md:5
 msgid ""
@@ -8697,20 +8753,29 @@ msgid ""
 " - any information that we plan to store in Time State we can sync on. In othe"
 "r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
+"A seção 5.7 introduziu as funções `cue` e `sync` para lidar com problemas de "
+"sincronização de threads. O que não foi explicado é que é o sistema de Time "
+"State que fornece esta funcionalidade. É de tal forma que `set` is na "
+"realidade uma variação de `cue`e foi construído de forma que que possa "
+"trabalhar perfeitamente com o Time State - qualquer informaçãoque nós "
+"planejamos armazenar no Time State nós podemos sincronizar. Em outras "
+"palavras - *nós sincronizamos `sync`eventos que ainda serão inseridos no "
+"Time State*."
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
-msgstr ""
+msgstr "Aguardando por eventos"
 
 #: 10.2-Sync.md:17
 msgid ""
 "Let's take a quick look at how to use `sync` to wait for new events to be adde"
 "d to Time State:"
 msgstr ""
+"Vamos dar uma olhada em como usar `sync` para esperar por novos eventos que "
+"serão inseridos ao Time State:"
 
 #: 10.2-Sync.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync :foo\n"
@@ -8718,16 +8783,26 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 1"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  sync :foo\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 1"
 
 #: 10.2-Sync.md:31
-#, fuzzy
 msgid ""
 "In this example first we create a thread which waits for a `:foo` event to be "
 "added to the Time State. After this thread declaration we sleep for 2 beats an"
 "d then `set` `:foo` to be `1`. This then releases the `sync` which then moves "
 "to the next line which is to trigger the `:ambi_lunar_land` sample."
-msgstr "foo"
+msgstr ""
+"Neste exemplo nós primeiro criamos uma thread que espera um evento `:foo` "
+"ser adicionado ao Time State. Após a declaração desta thread, nós esperamos "
+"por 2 batidas e então setamos (`set`) `:foo` para ser `1`. Isso libera a "
+"sincronização (`sync`) que então segue para a próxima linha que dispara a "
+"amostra `:ambi_lunar_land`."
 
 #: 10.2-Sync.md:37
 msgid ""
@@ -8736,21 +8811,26 @@ msgid ""
 "of the thread which triggered it via `set` or `cue` so it may also be used to "
 "sync time."
 msgstr ""
+"Note que `sync` sempre espera por *eventos futuros* e isso irá bloquear a a "
+"thread atual esperando por um novo evento. Também, irá herdar o tempo lógico "
+"da thread que chamou a sincronização através de `set` ou `cue` então pode "
+"também ser usado para sincronizar tempo."
 
 #: 10.2-Sync.md:42
 msgid "Passing values into the Future"
-msgstr ""
+msgstr "Passando valores para o Futuro"
 
 #: 10.2-Sync.md:44
-#, fuzzy
 msgid ""
 "In the example above we set `:foo` to `1` which we did nothing with. We can ac"
 "tually get this value from the thread calling `sync`:"
-msgstr "foo"
+msgstr ""
+"No exemplo acima nós configuramos `:foo` igual a `1` e não fizemos nada com "
+"isso. Nós podemos, na verdade, recuperar este valor na thread chamando "
+"`sync`:"
 
 #: 10.2-Sync.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  amp = sync :foo\n"
@@ -8758,7 +8838,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 0.5"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  amp = sync :foo \n"
+"  sample :ambi_lunar_land, amp: amp\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 0.5"
 
 #: 10.2-Sync.md:58
 msgid ""
@@ -8767,17 +8853,20 @@ msgid ""
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
+"Note que valores que são passados através de `set` e `cue` devem ser seguros "
+"- i.e. Rings imutáveis, números, símbolos ou strings congeladas. O Sonic Pi "
+"irá gerar um erro se o valor que você está tentando armazenar no Time State "
+"não for válido."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
-msgstr ""
+msgstr "10.3 Correspondência de Padrões"
 
 #: 10.3-Pattern-Matching.md:3
 msgid "Pattern Matching"
-msgstr ""
+msgstr "Correspondência de Padrões"
 
 #: 10.3-Pattern-Matching.md:5
-#, fuzzy
 msgid ""
 "When getting and setting information into the Time State, it's possible to use"
 " more complex keys than basic symbols such as `:foo` and `:bar`. You can also "
@@ -8785,233 +8874,249 @@ msgid ""
 "king with paths, we can then start taking advantage of Sonic Pi's sophisticate"
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
-msgstr "foo"
+msgstr ""
+"Para passar e recuperar informações para o Time State, é possível usar "
+"chaves mais complexas que símbolos básicos como `:foo` e `:bar`. Você também "
+"pode usar strings no formato URL, chamadas de Paths (caminhos) como `\"/foo/"
+"bar/baz\"`. Depois que começãmos a usar paths, nós podemos começar a "
+"aproveitar o sofisticado sistema de correspondência de Padrões do Sonic Pi "
+"para usar `get` e `sync` com paths 'similares' em vez de 'idênticos'. Vamos "
+"dar uma olhada."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
-msgstr ""
+msgstr "Correspondência com qualquer parte do caminho (path)"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
+"Vamos assumir que nós queiramos esperar pelo próximo evento que tem três "
+"segmentos no path:"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
 msgid "sync \"/*/*/*\""
-msgstr ""
+msgstr "sync \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
 msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
+"Isto irá corresponder a qualquer evento Time State com exatamente três "
+"segmento, independente de seus nomes. Por exemplo:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
-#, fuzzy
 msgid "`cue \"/foo/bar/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:25
-#, fuzzy
 msgid "`cue \"/foo/baz/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
-msgstr ""
+msgstr "`cue \"/eggs/beans/toast\"`"
 
 #: 10.3-Pattern-Matching.md:27
 msgid "`cue \"/moog/synths/rule\"`"
-msgstr ""
+msgstr "`cue \"/moog/synths/rule\"`"
 
 #: 10.3-Pattern-Matching.md:29
 msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
+"Entretanto, *não* irá corresponder a paths com menos ou mais segmentos. Os "
+"seguintes paths não serão localizados:"
 
 #: 10.3-Pattern-Matching.md:32
-#, fuzzy
 msgid "`cue \"/foo/bar\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
-#, fuzzy
 msgid "`cue \"/foo/baz/quux/quaax\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
-msgstr ""
+msgstr "`cue \"/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:36
 msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"Cada `*` (asterisco) significa *qualquer conteúdo*. Então nós podemos "
+"encontrar paths com somente um segmento com `/*` ou paths com cinco "
+"segmentos com `/*/*/*/*/*`"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
-msgstr ""
+msgstr "Encontrando segmentos parciais"
 
 #: 10.3-Pattern-Matching.md:40
-#, fuzzy
 msgid ""
 "If we know what the segment is going to start or finish with, we can use a `*`"
 " in addition to a partial segment name. For example: `\"/foo/b*/baz\"` will matc"
 "h any path that has three segments, the first of which is `foo`, the last `baz"
 "` and the middle segment can be anything that starts with `b`. So, it would ma"
 "tch:"
-msgstr "foo"
+msgstr ""
+"Se soubermos como o segmento irá começar ou terminar, nós podemos usar um "
+"asterisco `*` junto com o nome parcial do segmento. Por exemplo: `\"/foo/b*/"
+"baz\"` irá corresponder a qualquer path com três segmentos, onde o primeiro "
+"é `foo`, o último é `baz` e o segmento do meio pode ser qualquer coisa que "
+"comece com `b`. Então irá corresponder a:"
 
 #: 10.3-Pattern-Matching.md:47
-#, fuzzy
 msgid "`cue \"/foo/baz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:48
-#, fuzzy
 msgid "`cue \"/foo/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
-msgstr ""
+msgstr "Mas não irá corresponder a:"
 
 #: 10.3-Pattern-Matching.md:52
-#, fuzzy
 msgid "`cue \"/foo/flibble/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/flibble/baz\"`"
 
 #: 10.3-Pattern-Matching.md:53
-#, fuzzy
 msgid "`cue \"/foo/abaz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/abaz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:54
-#, fuzzy
 msgid "`cue \"/foo/beans/baz/eggs\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
-#, fuzzy
 msgid ""
 "You can also place the `*` at the start of the segment to specify the last cha"
 "racters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment `cue` or"
 " `set` where the first segment is `foo`, the last is `baz` and the middle segm"
 "ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
-msgstr "foo"
+msgstr ""
+"Você pode colocar o `*` no início do segmento para especificar os últimos "
+"caracteres de um segmento: `\"/foo/*zz/baz\"` que iráo corresponder a "
+"quaisquer 3 segmentos `cue` ou `set` onde o primeiro segmento for `foo`, o "
+"último for `baz` e o segmento do meio termine com `zz`, como `\"cue \"/foo/"
+"whizz/baz\"`."
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
-msgstr ""
+msgstr "Encontrando correspondências em segmentos de paths aninhados"
 
 #: 10.3-Pattern-Matching.md:64
-#, fuzzy
 msgid ""
 "Sometimes you don't know how many path segments you want to match. In these ca"
 "ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
 "ill match:"
-msgstr "foo"
+msgstr ""
+"As vezes você não sabe quantos segmentos do path você quer achar a "
+"correspondência. Nestes casos, você pode usar os poderosos duplos asteriscos:"
+" `**` como em `\"/foo/**/baz\"` que irão corresponder a:"
 
 #: 10.3-Pattern-Matching.md:69
-#, fuzzy
 msgid "`cue \"/foo/bar/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:70
-#, fuzzy
 msgid "`cue \"/foo/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz\"`"
 
 #: 10.3-Pattern-Matching.md:71
-#, fuzzy
 msgid "`cue \"/foo/a/b/c/d/e/f/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
-msgstr ""
+msgstr "Correspondendo a Letras Sozinhas"
 
 #: 10.3-Pattern-Matching.md:75
 msgid ""
 "You can use the `?` character to match against a single char such as `\"/?oo/ba"
 "r/baz\"` which will match:"
 msgstr ""
+"Você pode usar o caracter `?` para comparar com um caracter apenas, como em `"
+"\"/?oo/bar/baz\"` que irá corresponder a:"
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/goo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:80
 msgid "`cue \"/too/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/too/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:81
 msgid "`cue \"/woo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
-msgstr ""
+msgstr "Correspondendo a Múltiplas Palavras"
 
 #: 10.3-Pattern-Matching.md:85
-#, fuzzy
 msgid ""
 "If you know that a segment may be one of a select number of words, you can use"
 " the `{` and `}` matchers to specify a list of choices such as `\"/foo/{bar,bea"
 "ns,eggs}/quux\"` which will only match the following:"
-msgstr "foo"
+msgstr ""
+"Se você sabe que um segmento pode ser uma palavra de um certo conjunto de "
+"palavras, você pode usar `{` e `}` para especificar uma lista de opções como "
+"em `\"/foo/{bar,beans,eggs}/quux\"` que irão corresponder aos seguintes "
+"padrões:"
 
 #: 10.3-Pattern-Matching.md:89
-#, fuzzy
 msgid "`cue \"/foo/bar/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/quux\"`"
 
 #: 10.3-Pattern-Matching.md:90
-#, fuzzy
 msgid "`cue \"/foo/beans/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/quux\"`"
 
 #: 10.3-Pattern-Matching.md:91
-#, fuzzy
 msgid "`cue \"/foo/eggs/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
-msgstr ""
+msgstr "Correspondendo a Múltiplas Letras"
 
 #: 10.3-Pattern-Matching.md:95
-#, fuzzy
 msgid ""
 "Finally, you can match against a selection of letters if you use the `[` and `"
 "]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` which wi"
 "ll match only:"
-msgstr "foo"
+msgstr ""
+"Por fim, você pode comparar com uma seleção de letras se você usar `[` e `]` "
+"para especificar uma lista de possibilidades como em `\"/foo/[abc]ux/baz\"` "
+"que irá corresponder somente a:"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
-#, fuzzy
 msgid "`cue \"/foo/aux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/aux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:100 10.3-Pattern-Matching.md:107
-#, fuzzy
 msgid "`cue \"/foo/bux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:101 10.3-Pattern-Matching.md:108
-#, fuzzy
 msgid "`cue \"/foo/cux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
-#, fuzzy
 msgid ""
 "You can also use the `-` character to specify ranges of letters. For example `"
 "\"/foo/[a-e]ux/baz\"` which will match only:"
-msgstr "foo"
+msgstr ""
+"Você também pode utilizar o caracter `-` para especificar sequências de "
+"letras. Por exemplo`\"/foo/[a-e]ux/baz\"` que irá corresponder somente a:"
 
 #: 10.3-Pattern-Matching.md:109
 #, fuzzy
@@ -9025,7 +9130,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
-msgstr ""
+msgstr "Combinando Correspondências"
 
 #: 10.3-Pattern-Matching.md:114
 msgid ""
@@ -9033,10 +9138,13 @@ msgid ""
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
 "et's look at a crazy example:"
 msgstr ""
+"Ao chamar `sync` ou `get` você está livre para combinar localizadores de "
+"correspondência em qualquer ordem que você achar necessário para \n"
+"encontrar qualquer evento Time State criado por `cue` ou `set`. Vamos ver um "
+"exemplo doido:"
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
@@ -9044,11 +9152,17 @@ msgid ""
 "end\n"
 "sleep 1\n"
 "cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
-msgstr "sample :loop_amen"
+msgstr ""
+"in_thread do\n"
+"  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
-msgstr ""
+msgstr "Correspondência de Padrões OSC"
 
 #: 10.3-Pattern-Matching.md:131
 msgid ""
@@ -9056,14 +9170,18 @@ msgid ""
 "ttern matching specification which is explained in detail here: http://opensou"
 "ndcontrol.org/spec-1_0"
 msgstr ""
+"Para os curiosos, estas regras de correspondência são baseados na "
+"especificação de correspondência de padrões do Open Sound Control (controle "
+"de som aberto), que é explicado com detalhes em: http://opensoundcontrol.org/"
+"spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
-msgstr ""
+msgstr "11. MIDI"
 
 #: 11-MIDI.md:3
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 #: 11-MIDI.md:5
 msgid ""
@@ -9073,18 +9191,27 @@ msgid ""
 "metimes it is essential to break out of the code into the real world. We want "
 "two extra things:"
 msgstr ""
+"Uma vez que você tiver dominado a conversão de código em música, você pode "
+"pensar - o que vem depois? As vezes, as limitações de trabalhar puramente "
+"dentro da sintaxe e do sistema de som do Sonic Pi podem ser excitantes e te "
+"colocar em uma nova posição criativa. Entretanto, as vezes é essencial "
+"libertar o código para o mundo real. Não queremos duas coisas extras:"
 
 #: 11-MIDI.md:11
 msgid ""
 "To be able to convert actions in the real world into Sonic Pi events to code w"
 "ith"
 msgstr ""
+"Sermos capazes de converter ações do mundo real em eventos codificáveis do "
+"Sonic Pi"
 
 #: 11-MIDI.md:12
 msgid ""
 "To be able to use Sonic Pi's strong timing model and semantics to control and "
 "manipulate objects in the real world"
 msgstr ""
+"Sermos capazes de usar o forte modelo de temporização e semântica do Sonic "
+"Pi para controlar e manipular objetos no mundo real"
 
 #: 11-MIDI.md:14
 msgid ""
@@ -9094,20 +9221,28 @@ msgid ""
 "at all support MIDI. We can use MIDI to receive data and also use it to send d"
 "ata."
 msgstr ""
+"Por sorte, existe um protocolo que está por aí desde os anos 80, que permite "
+"este tipo de interação - MIDI. Existe um número incrível de aparelhos "
+"externos, incluindo teclados, controladores, sequenciadores e software "
+"profissional que suportam MIDI. Nós podemos usar o MIDI para receber dados e "
+"também para enviar dados."
 
 #: 11-MIDI.md:20
 msgid ""
 "Sonic Pi provides full support for the MIDI protocol enabling you to connect y"
 "our live code to the real world. Let's explore it further..."
 msgstr ""
+"O Sonic Pi fornece suporte completo para o protocolo MIDI possibilitando que "
+"você conecte seu Código Ao Vivo com o mundo real. Vamos explorá-lo um pouco "
+"mais..."
 
 #: 11.1-MIDI-In.md:1
 msgid "11.1 MIDI In"
-msgstr ""
+msgstr "11.1 Entrada MIDI"
 
 #: 11.1-MIDI-In.md:3
 msgid "MIDI In"
-msgstr ""
+msgstr "Entrada MIDI"
 
 #: 11.1-MIDI-In.md:5
 msgid ""
@@ -9115,10 +9250,14 @@ msgid ""
 "into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
 "such as a keyboard or control surface and let's get physical!"
 msgstr ""
+"Nesta seção vamos aprender como conectar um controlador MIDI para enviar "
+"eventos para o Sonic Pi, para controlar nossos sintetizadores e sons. Vá e "
+"pegue um controlador MIDI, como um teclado ou tablet de controle e vamos "
+"começar!"
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"
-msgstr ""
+msgstr "Conectando um controlador MIDI"
 
 #: 11.1-MIDI-In.md:13
 msgid ""
@@ -9134,10 +9273,22 @@ msgid ""
 "l that, feel free to ask questions in the public chat room: http://gitter.im/s"
 "amaaron/sonic-pi"
 msgstr ""
+"Para receber no Sonic Pi informações de um aparelho MIDI externo, primeiro "
+"nós precisamos conectá-lo ao computador. Tipicamente isso é feito através de "
+"uma conexão USB, apesar de que aparelhos antigos usam um conector DIN de 5 "
+"pinos, para o qual será necessário suporte de hardware em seu computador ("
+"por exemplo: algumas placas de áudio possuem conectores DIN). Uma vez que "
+"você tenha conectado seu aparelho, abra o Sonic Pi e dê uma olhada na seção "
+"IO (Entrada/Saída) do painel de Preferências. Você poderá ver seu aparelho "
+"listado lá. Caso não veja, tente o botão 'Reiniciar MIDI' e veja se aparece. "
+"Se ainda assim você não encontrar nada, a próxima coisa a tentar é consultar "
+"as configurações MIDI do seu sistema operacional para ver se ele enxerga seu "
+"aparelho. Se tudo isso falhar, sinta-se a vontade para perguntar na sala de "
+"chat: http://gitter.im/samaaron/sonic-pi"
 
 #: 11.1-MIDI-In.md:26
 msgid "Receiving MIDI Events"
-msgstr ""
+msgstr "Recebendo eventos MIDI"
 
 #: 11.1-MIDI-In.md:28
 msgid ""
@@ -9147,6 +9298,12 @@ msgid ""
 "n't visible go to Preferences->Editor->Show & Hide and enable the 'Show cue lo"
 "g' tickbox). You'll see a stream of events such as:"
 msgstr ""
+"Assim que seu aperelho esteja conectado, o Sonic Pi irá receber eventos "
+"automaticamente. Você mesmo pode confirmar manipulando seu aparelho MIDI e "
+"olhando no registro de Deixas (cue logger), na janela do app em baixo à "
+"direita, abaixo do registro (se isso não estiver visível, vá em Preferências "
+"> Editor > Mostrar & Ocultar e habilite a caixa 'Mostrar o registro de "
+"deixas'). Você verá um fluxo de eventos como:"
 
 #: 11.1-MIDI-In.md:35
 #, no-wrap
@@ -9160,12 +9317,23 @@ msgid ""
 "/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
 "/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
 msgstr ""
+"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [53, 102]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [57, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [53, 64]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [57, 87]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [55, 81]\n"
+"/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
+"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
 
 #: 11.1-MIDI-In.md:46
 msgid ""
 "Once you can see a stream of messages like this, you've successfully connected"
 " your MIDI device. Congratulations, let's see what we can do with it!"
 msgstr ""
+"Quando você ver um fluxo de mensagens desta forma, você terá conectado com "
+"sucesso seu aparelho MIDI. Parabéns, vamos ver o que você consegue fazer com "
+"ele!"
 
 #: 11.1-MIDI-In.md:50
 msgid "MIDI Time State"
@@ -9183,9 +9351,8 @@ msgid ""
 msgstr ""
 
 #: 11.1-MIDI-In.md:60
-#, fuzzy
 msgid "Controlling Code"
-msgstr "Controlando os efeitos"
+msgstr "Controlando o Código"
 
 #: 11.1-MIDI-In.md:62
 msgid ""
@@ -9193,6 +9360,10 @@ msgid ""
 "ed that our knowledge of Time State is all we need to work with the events, we"
 " can now start having fun. Let's build a simple MIDI piano:"
 msgstr ""
+"Agora que você conectou seu aparelho MIDI, viu seus eventos no registro e "
+"descobriu que nosso conhecimento do Estado de Tempo (Time State) é tudo o "
+"que precisamos para trabalhar com eventos, podemos começar a nos divertir. "
+"Vamos construir um piano MIDI simples:"
 
 #: 11.1-MIDI-In.md:67
 #, no-wrap
@@ -9202,6 +9373,10 @@ msgid ""
 "  synth :piano, note: note\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do \n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note\n"
+"end"
 
 #: 11.1-MIDI-In.md:74
 msgid ""
@@ -9216,6 +9391,17 @@ msgid ""
 " we assign the result to two separate variables `note` and `velocity`. Finally"
 " we trigger the `:piano` synth passing our note."
 msgstr ""
+"Temos algumas coisas acontecendo no código acima, incluindo alguns "
+"problemas. Primeiro, temos um `live_loop` simples, que irá se repetir para "
+"sempre, executando o código entre os blocos `do`/`end`. Isto foi apresentado "
+"na seção 9.2. Segundo, estamos chamando o comando `sync` para esperar pelo "
+"próximo evento  Time State correspondente. Usamos uma string representando a "
+"mensagem MIDI que estamos procurando (que é a mesma que foi exibida no "
+"registro). Note que esta string longa é fornecida pela função autocompletar "
+"do Sonic Pi, desta forma você não precisa digitar tudo a mão. No registro "
+"nós vemos que haviam dois valorespara cada nota MIDI no evento, então nós "
+"atribuímos o resultado a duas variáveis `note` e `velocity`. Por fim, nós "
+"disparamos o sintetizador `:piano` passando nossa nota."
 
 #: 11.1-MIDI-In.md:86
 msgid ""
@@ -9227,6 +9413,14 @@ msgid ""
 "tude. Given that MIDI has a range of 0->127, to convert this number to a value"
 " between 0->1 we just need to divide it by 127:"
 msgstr ""
+"Agora tente você. Digite o código acima, substitua a chave de sincronização "
+"com uma string correspondente ao seu aparelho MIDI e clique em Executar. "
+"Pronto, você tem um piano funcionando! Entretanto, você provavelmente notará "
+"alguns problemas: primeiro, todas as notas possuem o mesmo volume, "
+"independente da força que você usa no teclado. Isso pode ser consertado "
+"facilmente usando o valor velocity do MIDI e convertendo-o para amplitude. "
+"Dado que MIDI possui uma variação entre 0 e 127, para converter este número "
+"para um valor entre 0 e 1 nós só precisamos dividi-lo por 127:"
 
 #: 11.1-MIDI-In.md:95
 #, no-wrap
@@ -9236,16 +9430,22 @@ msgid ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do \n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note, amp: velocity / 127.0\n"
+"end"
 
 #: 11.1-MIDI-In.md:102
 msgid ""
 "Update the code and hit Run again. Now the velocity of the keyboard is honoure"
 "d. Next, let's get rid of that pesky pause."
 msgstr ""
+"Atualize o código e clique em Executar novamente. Agora a força aplicada ao "
+"teclado é respeitada. Em seguida, vamos nos livrar desta pausa irritante."
 
 #: 11.1-MIDI-In.md:105
 msgid "Removing Latency"
-msgstr ""
+msgstr "Removendo a Latência"
 
 #: 11.1-MIDI-In.md:107
 msgid ""
@@ -9264,6 +9464,23 @@ msgid ""
 " loops that have their timing controlled by `sync`ing with external devices, a"
 "nd keep the default latency for all other live loops. Let's see:"
 msgstr ""
+"Antes de remover a pausa, nós precisamos entender porque ela acontece. Para "
+"manter todos os sintetizadores e Efeitos sincronizados através de uma "
+"variedade de CPUs com capacidades diferentes, o Sonic Pi agenda o áudio "
+"*antecipadamente* em 0.5s por padrão.  (Note que esta latência adicional "
+"pode ser configurada pelas funções `set_sched_ahead_time!` e "
+"`use_sched_ahead_time`). Estes 0.5s de latência estão sendo adicionados ao "
+"disparador do nosso sintetizador `:piano` assim como está sendo adicionado a "
+"todos os sintetizadores disparados pelo Sonic Pi. Tipicamente nós realmente "
+"queremos manter esta latência, já que isso significa que todos os "
+"sintetizadores estarão sincronizados. Entretanto, isso só faz sentindo para "
+"sintetizadores disparados por código, usando `play` e `sleep`. No nosso "
+"caso, na realidade estamos disparando o sintetizador `:piano` pelo nosso "
+"aparelho MIDI e portanto não queremos que o Sonic Pi controle o tempo por "
+"nós. Podemos desligar esta latência com o comando `use_real_time`, que "
+"desabilita a latência para a thread atual. Isto significa que você pode usar "
+"o modo Real Time para loops ao vivo controlado por `sync` com aparelhos "
+"externos, e manter a latência padrâo para todos os outros loops. Vejamos:"
 
 #: 11.1-MIDI-In.md:124
 #, no-wrap
@@ -9274,16 +9491,24 @@ msgid ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do \n"
+"  use_real_time\n"
+"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  synth :piano, note: note, amp: velocity / 127.0\n"
+"end"
 
 #: 11.1-MIDI-In.md:132
 msgid ""
 "Update your code to match the code above and hit Run again. Now we have a low "
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
 msgstr ""
+"Atualize seu código para que ele corresponda ao código acima e clique em "
+"'Executar' novamente. Agora nós temos um piano com baixa latência e "
+"sensibilidade variável, programado em apenas 5 linhas."
 
 #: 11.1-MIDI-In.md:136
 msgid "Getting Values"
-msgstr ""
+msgstr "Recuperando valores"
 
 #: 11.1-MIDI-In.md:138
 msgid ""
@@ -9295,26 +9520,37 @@ msgid ""
 "te value. You can even use `time_warp` to jump back in time and call `get` to "
 "see past events..."
 msgstr ""
+"Finalmente, como nossos eventos MIDI estão indo diretamente para o Time "
+"State, nós também podemos usar a função `get` para recuperar o último valor "
+"recebido. Isso não bloqueia a thread atual e retorna `nil` se não houver "
+"valor para ser recuperado (o que você pode sobrescrever passando um valor "
+"padrão - veja a ajuda para `get`). Lembre-se que você pode chamar `get` em "
+"qualquer thread a qualquer momento para ver o valor mais recente "
+"correspondente ao Time State. Você pode até usar `time_warp` para voltar no "
+"tempo e chamar `get` para ver eventos passados..."
 
 #: 11.1-MIDI-In.md:147
 msgid "Now You are in Control"
-msgstr ""
+msgstr "Agora Você Está no Controle"
 
 #: 11.1-MIDI-In.md:149
-#, fuzzy
 msgid ""
 "The exciting thing now is that you can now use the same code structures to `sy"
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"
 "ith the values. You can now choose what your MIDI device will do!"
-msgstr "escolhe"
+msgstr ""
+"O mais importante é que agora você pode usar as mesmas estruturas de código "
+"para sincronizar e recuperar (`sync` e `get`) informações MIDI de qualquer "
+"aparelho MIDI e fazer o que você quiser com os valores. Você pode agora "
+"escolher o que seu aparelho MIDI irá fazer!"
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
-msgstr ""
+msgstr "11.2 Saída MIDI"
 
 #: 11.2-MIDI-Out.md:3
 msgid "MIDI Out"
-msgstr ""
+msgstr "Saída MIDI"
 
 #: 11.2-MIDI-Out.md:5
 msgid ""
@@ -9322,36 +9558,42 @@ msgid ""
 "er and control external hardware synths, keyboards and other devices. Sonic Pi"
 " provides a full set of fns for sending various MIDI messages such as:"
 msgstr ""
+"Além de receber eventos MIDI nõs podemos também enviar eventos MIDI para "
+"disparar e controlar hardware de sintetizadores externos, teclados e outros "
+"aparelho. O Sonic Pi fornece um conjunto completo de funções para enviar "
+"várias mensagens MIDI como:"
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
-msgstr ""
+msgstr "Ligar nota - `midi_note_on`"
 
 #: 11.2-MIDI-Out.md:10
 msgid "Note off - `midi_note_off`"
-msgstr ""
+msgstr "Desligar nota - `midi_note_off`"
 
 #: 11.2-MIDI-Out.md:11
 msgid "Control change - `midi_cc`"
-msgstr ""
+msgstr "Mudança de controle - `midi_cc`"
 
 #: 11.2-MIDI-Out.md:12
 msgid "Pitch bend - `midi_pitch_bend`"
-msgstr ""
+msgstr "Pitch bend  - `midi_pitch_bend`"
 
 #: 11.2-MIDI-Out.md:13
 msgid "Clock ticks - `midi_clock_tick`"
-msgstr ""
+msgstr "Tiques do relógio - `midi_clock_tick`"
 
 #: 11.2-MIDI-Out.md:15
 msgid ""
 "There are many other supported MIDI messages too - check out the API documenta"
 "tion for all the other fns that start with `midi_`."
 msgstr ""
+"Também existem muitas outras mensagens MIDI suportadas - verifique a "
+"documentação da API para todas as outras funções que começam com `midi_`."
 
 #: 11.2-MIDI-Out.md:18
 msgid "Connecting to a MIDI Device"
-msgstr ""
+msgstr "Conectando um aparelho MIDI"
 
 #: 11.2-MIDI-Out.md:20
 msgid ""
@@ -9366,7 +9608,7 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:29
 msgid "Sending MIDI events"
-msgstr ""
+msgstr "Enviando eventos MIDI"
 
 #: 11.2-MIDI-Out.md:31
 msgid ""
@@ -9379,7 +9621,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
 msgid "midi_note_on :e3, 50"
-msgstr ""
+msgstr "midi_note_on :e3, 50"
 
 #: 11.2-MIDI-Out.md:40
 msgid ""
@@ -9397,11 +9639,11 @@ msgstr ""
 #: 11.2-MIDI-Out.md:47
 #, no-wrap
 msgid "midi_note_off :e3"
-msgstr ""
+msgstr "midi_note_off :e3"
 
 #: 11.2-MIDI-Out.md:51
 msgid "Selecting a MIDI device"
-msgstr ""
+msgstr "Selecionando um aparelho MIDI"
 
 #: 11.2-MIDI-Out.md:53
 msgid ""
@@ -13468,7 +13710,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:93
 msgid "A Live Loop Arpeggiator"
-msgstr ""
+msgstr "Um Live Loop Arpegiador"
 
 #: A.11-beat-tracking.md:95
 msgid ""
@@ -13476,26 +13718,30 @@ msgid ""
 "bined we have all the tools we need to both build and understand a simple arpe"
 "giator. We need just four things:"
 msgstr ""
+"O poder real surge quando você mistura `tick` com anéis (rings) e `live_loop`"
+"s. Quando combinados nós temos todas as ferramentas que nós precisamos para "
+"tanto construir quanto entender um arpejador simples. Precisamos somente de "
+"4 coisas:"
 
 #: A.11-beat-tracking.md:99
 msgid "A ring containing the notes we want to loop over."
-msgstr ""
+msgstr "Um anel (ring) contendo as notas que queremos arpejar."
 
 #: A.11-beat-tracking.md:100
 msgid "A means of incrementing and obtaining the beat."
-msgstr ""
+msgstr "Uma forma de incrementar e obter a batida."
 
 #: A.11-beat-tracking.md:101
 msgid "The ability to play a note based on the current beat."
-msgstr ""
+msgstr "A habilidade de tocar uma nota baseada na batida atual."
 
 #: A.11-beat-tracking.md:102
 msgid "A loop structure to keep the arpegiator repeating."
-msgstr ""
+msgstr "Uma estrutura de loop para manter o arpejador repetindo."
 
 #: A.11-beat-tracking.md:104
 msgid "These concepts can all be found in the following code:"
-msgstr ""
+msgstr "Todos estes conceitos podem ser encontrados no seguinte código:"
 
 #: A.11-beat-tracking.md:106
 #, no-wrap
@@ -13667,11 +13913,11 @@ msgstr ""
 
 #: A.12-sample-slicing.md:1
 msgid "A.12 Sample Slicing"
-msgstr ""
+msgstr "A.12 Cortando Amostras"
 
 #: A.12-sample-slicing.md:3
 msgid "Sample Slicing"
-msgstr ""
+msgstr "Cortando Amostras"
 
 #: A.12-sample-slicing.md:5
 msgid ""
