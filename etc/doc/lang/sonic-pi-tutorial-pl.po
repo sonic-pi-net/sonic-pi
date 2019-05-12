@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-04-06 21:04+0000\n"
+"PO-Revision-Date: 2019-05-13 22:49+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.7-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -9318,6 +9318,8 @@ msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
+"Spowoduje to dopasowanie do dowolnego zdarzenia w Stanie Czasu posiadającego "
+"dokładnie trzy segmenty ścieżki, bez względu na ich nazwy. Na przykład:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
@@ -9330,11 +9332,11 @@ msgstr "`cue \"/foo/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
-msgstr ""
+msgstr "`cue \"/eggs/beans/toast\"`"
 
 #: 10.3-Pattern-Matching.md:27
 msgid "`cue \"/moog/synths/rule\"`"
-msgstr ""
+msgstr "`cue \"/moog/synths/rule\"`"
 
 #: 10.3-Pattern-Matching.md:29
 msgid ""
