@@ -111,8 +111,8 @@ This information applies to Sonic Pi v3.1.0, but it **may** be useful informatio
     libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake libboost-dev
     libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default
     qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev
-    qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev libffi-dev
-    curl python erlang-base`
+    qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev
+    libffi-dev curl python erlang-base`
 
 #### Ruby Server Extensions
 * **rugged** - For me, the compile-extensions script doesn't seem to successfully install rugged.
