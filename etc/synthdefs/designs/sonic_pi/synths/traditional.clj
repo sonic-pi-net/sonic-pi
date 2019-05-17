@@ -57,66 +57,6 @@
      (out out_bus [new-l new-r]))
    )
 
- (defsynth sonic-pi-piano [note 52
-                           amp 1
-                           amp_slide 0
-                           amp_slide_shape 1
-                           amp_slide_curve 0
-                           pan 0
-                           pan_slide 0
-                           pan_slide_shape 1
-                           pan_slide_curve 0
-                           attack 0
-                           decay 0
-                           sustain 0
-                           release 1
-                           attack_level 1
-                           decay_level -1
-                           sustain_level 1
-                           env_curve 1
-                           vel 0.2
-                           decay 0
-                           hard 0.5
-                           velcurve 0.8
-                           stereo_width 0
-
-                           out_bus 0]
-   (let [decay_level   (select:kr (= -1 decay_level) [decay_level sustain_level])
-         amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-         pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-         freq          (midicps note)
-         vel           (clip vel 0 1)
-         vel           (lin-lin vel 0 1 0 4)
-         vel           (* vel 127)
-         hard          (clip hard 0 1)
-         hard          (lin-lin hard 0 1 -3 3)
-
-
-         snd           (mda-piano {:freq     freq
-                                   :gate     1
-                                   :vel      vel
-                                   :decay    decay
-                                   :release  release
-                                   :hard     hard
-                                   :velhard  0.8
-                                   :muffle   0.8
-                                   :velmuff  0.8
-                                   :velcurve velcurve
-                                   :stereo   stereo_width
-                                   :tune     0.5
-                                   :random   0
-                                   :stretch  0
-                                   :sustain  0.1})
-
-         [snd-l snd-r] snd
-         [new-l new-r] (balance2 snd-l snd-r pan amp)
-         env           (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
-         new-l         (* env new-l)
-         new-r         (* env new-r)]
-     (out out_bus [new-l new-r]))
-
-   )
-
 
    (defsynth sonic-pi-synth_violin
     "synth violin taken from Roger Allen's gist
@@ -196,6 +136,5 @@
       (out out_bus (pan2 (* amp-fudge snd env) pan amp)))))
 
 (comment
-  (core/save-synthdef sonic-pi-piano)
   (core/save-synthdef sonic-pi-pluck)
   (core/save-synthdef sonic-pi-synth_violin))
