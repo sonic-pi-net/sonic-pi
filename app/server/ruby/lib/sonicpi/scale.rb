@@ -98,37 +98,73 @@ module SonicPi
            blues_major:        [2, 1, 1, 3, 2, 3],
            blues_minor:        [3, 2, 1, 1, 3, 2]}}.call
 
-    # Zero indexed for CS compatibility
-    DEGREES = {:i    => 0,
-               :ii   => 1,
-               :iii  => 2,
-               :iv   => 3,
-               :v    => 4,
-               :vi   => 5,
-               :vii  => 6,
-               :viii => 7,
-               :ix   => 8,
-               :x    => 9,
-               :xi   => 10,
-               :xii  => 11}
+    ROMAN_DIGITS = {
+      'I' => 1,
+      'V' => 5,
+      'X' => 10,
+      'L' => 50,
+      'C' => 100,
+      'D' => 500,
+      'M' => 1000
+    }
 
-    def self.resolve_degree_index(degree)
-      if degree.is_a?(Numeric) && degree <= 0
-        raise InvalidDegreeError, "Invalid scale degree #{degree.inspect}, if scale degree is a number it must be greater than 0"
-      elsif idx = DEGREES[degree]
-        return idx
-      elsif degree.is_a? Numeric
-        return degree - 1
-      else
-        raise InvalidDegreeError, "Invalid scale degree #{degree.inspect}, expecting #{DEGREES.keys.join ','} or a number"
+    def self.from_roman(numeral)
+      return nil unless /^M{0,4}(CM|CD|D?C{0,4})(XC|XL|L?X{0,4})(IX|IV|V?I{0,4})$/i === numeral.to_s
+      vals = numeral.to_s.upcase.split('').map {|c| ROMAN_DIGITS[c]}
+      result = 0
+      i = 0
+      while i < vals.length
+        if i < vals.length - 1 && vals[i + 1] > vals[i]
+          result += vals[i + 1] - vals[i]
+          i += 2
+        else
+          result += vals[i]
+          i += 1
+        end
       end
+      result
     end
 
+    def self.resolve_degree_index(degree)
+      if degree.is_a? Numeric
+        num = degree
+      else
+        begin
+          num = Integer(degree.to_s)
+        rescue ArgumentError
+          num = from_roman degree
+        end
+      end
+      if num.nil? || num <= 0
+        raise InvalidDegreeError, "Invalid scale degree #{degree.inspect}, scale degree must be a valid number or roman numeral greater than 0"
+      end
+      num - 1
+    end
 
     def self.resolve_degree(degree, tonic, scale)
       scale = Scale.new(tonic, scale)
-      index = resolve_degree_index(degree)
-      scale.notes[index]
+      augmentation = 0
+      if not degree.is_a? Numeric
+        degree = degree.to_s.downcase
+        if degree.start_with? 'p'
+          augmentation = 0
+          degree = degree[1..-1]
+        elsif degree.start_with? 'aa'
+          augmentation = 2
+          degree = degree[2..-1]
+        elsif degree.start_with? 'a'
+          augmentation = 1
+          degree = degree[1..-1]
+        elsif degree.start_with? 'dd'
+          augmentation = -2
+          degree = degree[2..-1]
+        elsif degree.start_with? 'd'
+          augmentation = -1
+          degree = degree[1..-1]
+        end
+      end
+      octave, index = resolve_degree_index(degree).divmod (scale.notes.length - 1)
+      scale.notes[index] + octave * 12 + augmentation
     end
 
     attr_reader :name, :tonic, :num_octaves, :notes

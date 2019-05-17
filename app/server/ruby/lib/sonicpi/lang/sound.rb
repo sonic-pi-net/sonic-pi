@@ -3575,12 +3575,27 @@ puts note_info(:C, octave: 2)
       doc name:           :degree,
           introduced:         Version.new(2,1,0),
           summary:            "Convert a degree into a note",
-          doc:                "For a given scale and tonic it takes a symbol `:i`, `:ii`, `:iii`, `:iv`,`:v`, `:vi`, `:vii` or a number `1`-`7` and resolves it to a midi note.",
+          doc:                "For a given scale and tonic it takes a symbol/string/number and resolves it to a midi note. The degree can be either a decimal number or a roman numeral (if it's a string or symbol), and may optionally be prefixed an augmentation (`a`/`d` for an augmented/diminished interval, `aa`/`dd` for double augmented/diminished or `p` for a perfect (unchanged) interval).",
           args:               [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol]],
           accepts_block:      false,
           examples:           [%Q{
-play degree(:ii, :D3, :major)
-play degree(2, :C3, :minor)
+play degree(:iii, :D3, :major) # major third up from :D3
+play degree(3, :C3, :minor) # minor third up from :C3
+play degree('d5', :B3, :major) # diminished fifth up from :B3
+},
+                               %q{
+chrd = []
+[:i, :iii, :v, :dvii, :dix, :Axi, :xiii].each do |d|  # for each degree in the chord
+  chrd.append (degree d, :Fs, :major)  # add the corresponding note
+end
+play chrd  # play an F# 13+11-9 chord, using roman numeral symbols
+},
+                               %Q{
+chrd = []
+['1', '3', '5', 'd7', 'd9', 'A11', '13'].each do |d|
+  chrd.append (degree d, :Fs, :major)
+end
+play chrd  # the same chord as above, but using decimal number strings
 }]
 
 
