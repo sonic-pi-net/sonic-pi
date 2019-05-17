@@ -784,9 +784,50 @@ See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for
         "midi_raw 176.1, 120.5, 0.49  #=> Sends the MIDI reset command (values are rounded down, up and down respectively)",
         "midi_raw 0xb0, 0x79, 0x0  #=> Sends the MIDI reset command",
         "midi_raw 0b10110000, 0b01111001, 0b00000000  #=> Sends the MIDI reset command"
-    ]
+]
 
 
+      def midi_sysex(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        params       = params.map { |p| p.to_f.round }
+        opts         = current_midi_defaults.merge(opts)
+        ports        = __resolve_midi_ports(opts)
+        on_val       = opts.fetch(:on, 1)
+
+        raise "sysex messages must be at least 3 bytes long" if params.length < 3
+        raise "sysex messages must start with 0xf0" unless params[0] == 0xf0
+        raise "sysex messages must end with 0xf7" unless params[-1] == 0xf7
+
+        if truthy?(on_val)
+          ports.each do |p|
+            __midi_send_timed("/#{p}/raw", *params)
+          end
+          port = pp_el_or_list(ports)
+          __midi_message "midi_sysex #{params * ', '}, port: #{port}"
+        else
+          __midi_message "midi_sysex #{params * ', '}, on: 0"
+        end
+        nil
+      end
+      doc name:           :midi_sysex,
+          introduced:     Version.new(3,2,0),
+          summary:        "Send MIDI System Exclusive (SysEx) message",
+          args:           [],
+          returns:        :nil,
+          opts:           {port: "Port(s) to send the MIDI SysEx message events to",
+                           on: "If specified and false/nil/0 will stop the midi SysEx message from being sent out. (Ensures all opts are evaluated in this call to `midi_sysex` regardless of value)."},
+          accepts_block:  false,
+          doc:            "Sends the MIDI SysEx message to *all* connected MIDI devices.
+
+MIDI SysEx messages, unlike all other MIDI messages, are variable in length. They allow MIDI device manufacturers to define device-specific messages, for example loading/saving patches, or programming device features such as illuminated buttons.
+
+Floats will be rounded up or down to the nearest whole number e.g. 176.1 -> 176, 120.5 -> 121, 0.49 -> 0.
+
+Non-number values will be automatically turned into numbers prior to sending the event if possible (if this conversion does not work an Error will be thrown).
+",
+          examples: [
+        "midi_sysex 0xf0, 0x00, 0x20, 0x6b, 0x7f, 0x42, 0x02, 0x00, 0x10, 0x77, 0x11, 0xf7  #=> Program an Arturia Beatstep controller to turn the eighth pad pink"
+]
 
 
       def midi_sound_off(*args)
