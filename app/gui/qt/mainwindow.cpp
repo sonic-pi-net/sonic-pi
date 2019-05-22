@@ -159,6 +159,14 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   qt_browser_light_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/light/doc-styles.css");
   qt_browser_hc_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/high_contrast/doc-styles.css");
 
+  std::cout << "[GUI] - Running Init Scripts" << std::endl;
+
+  // Clear out old tasks from previous sessions if they still exist
+  // in addtition to clearing out the logs
+  QProcess *initProcess = new QProcess();
+  initProcess->start(ruby_path, QStringList(init_script_path));
+  initProcess->waitForFinished();
+
   QDir logDir(log_path);
   logDir.mkpath(logDir.absolutePath());
 
@@ -224,11 +232,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   oscSender = new OscSender(gui_send_to_server_port);
   printAsciiArtLogo();
-
-  // Clear out old tasks from previous sessions if they still exist
-  QProcess *initProcess = new QProcess();
-  initProcess->start(ruby_path, QStringList(init_script_path));
-  initProcess->waitForFinished();
 
   // Throw all stdout into ~/.sonic-pi/log/gui.log
   setupLogPathAndRedirectStdOut();
