@@ -2493,18 +2493,23 @@ void MainWindow::updateColourTheme(){
   if (darkModeCheck->isChecked() || darkProModeCheck->isChecked()){
     currentTheme->darkMode();
     css = readFile(qt_browser_dark_css);
+    statusBar()->showMessage(tr("Colour Theme: Dark"), 2000);
   } else if (darkProModeCheck->isChecked()){
     currentTheme->darkMode();
     css = readFile(qt_browser_dark_css);
+    statusBar()->showMessage(tr("Colour Theme: Dark Pro"), 2000);
   } else if (lightModeCheck->isChecked()){
     currentTheme->lightMode();
     css = readFile(qt_browser_light_css);
+    statusBar()->showMessage(tr("Colour Theme: Light"), 2000);
   } else if (lightProModeCheck->isChecked()){
     currentTheme->lightMode();
     css = readFile(qt_browser_light_css);
+    statusBar()->showMessage(tr("Colour Theme: Light Pro"), 2000);
   } else if (highContrastModeCheck->isChecked()){
     currentTheme->hcMode();
     css = readFile(qt_browser_hc_css);
+    statusBar()->showMessage(tr("Colour Theme: High Contrast"), 2000);
   }
 
   toggleIcons();
