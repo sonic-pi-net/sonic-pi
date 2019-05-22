@@ -81,7 +81,6 @@ void OscHandler::oscMessage(std::vector<char> buffer)
 
           QString qs_address =  QString::fromStdString(address);
           if(!qs_address.startsWith(":")) {
-            //              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 20, 147, idmod)), Q_ARG(QColor, "white"));
             bg = theme->color("CuePathBackground");
             bg.setAlpha(idmod);
             QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, bg), Q_ARG(QColor, theme->color("CuePathForeground")));
