@@ -218,17 +218,17 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   std::cout << "Discovering port numbers..." << std::endl;
   QProcess* determinePortNumbers = new QProcess();
-  QStringList send_args;
-  send_args << port_discovery_path;
-  determinePortNumbers->start(ruby_path, send_args);
+  QStringList determine_port_numbers_send_args;
+  determine_port_numbers_send_args << port_discovery_path;
+  determinePortNumbers->start(ruby_path, determine_port_numbers_send_args);
   determinePortNumbers->waitForFinished();
-  QTextStream stream(determinePortNumbers->readAllStandardOutput().trimmed());
-  QString line = stream.readLine();
-  while (!line.isNull()) {
-    auto parts = line.split(": ");
+  QTextStream determine_port_numbers_stream(determinePortNumbers->readAllStandardOutput().trimmed());
+  QString determine_port_numbers_line = determine_port_numbers_stream.readLine();
+  while (!determine_port_numbers_line.isNull()) {
+    auto parts = determine_port_numbers_line.split(": ");
     std::cout << "[GUI] - Port entry " << parts[0].trimmed().toStdString() << " : " << parts[1].trimmed().toStdString() << QString(" : %1").arg(parts[1].trimmed().toInt()).toStdString() << std::endl;
     port_map[parts[0].trimmed()] = parts[1].trimmed().toInt();
-    line = stream.readLine();
+    determine_port_numbers_line = determine_port_numbers_stream.readLine();
   };
 
   gui_send_to_server_port   = port_map["gui-send-to-server"];
