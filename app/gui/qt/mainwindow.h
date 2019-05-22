@@ -23,6 +23,7 @@
 #include <QCheckBox>
 #include <QPixmap>
 #include <QRadioButton>
+#include <QLineEdit>
 #include <QListWidgetItem>
 #include <QListWidget>
 #include <QVBoxLayout>
@@ -84,6 +85,7 @@ public:
     SonicPiOSCServer *sonicPiOSCServer;
     enum {UDP=0, TCP=1};
     bool loaded_workspaces;
+    QString hash_salt;
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -202,6 +204,9 @@ private slots:
 
     void showError(QString msg);
     void showBufferCapacityError();
+    void checkForStudioMode();
+
+
 private:
 
     void checkPort(int port);
@@ -318,6 +323,7 @@ private:
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
+    QCheckBox *studio_mode;
 
     QComboBox *midi_default_channel_combo;
     QCheckBox *midi_enable_check;
@@ -339,6 +345,8 @@ private:
 
     QPushButton *check_updates_now;
     QPushButton *visit_sonic_pi_net;
+    QPushButton *check_studio_hash;
+    QLineEdit   *user_token;
     QLabel *update_info;
     QLabel *midi_in_ports_label;
     QLabel *midi_out_ports_label;
@@ -357,7 +365,7 @@ private:
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
-  QString sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path, port_discovery_path, qt_app_theme_path, qt_browser_dark_css, qt_browser_light_css, qt_browser_hc_css;
+  QString fetch_url_path, sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path, port_discovery_path, qt_app_theme_path, qt_browser_dark_css, qt_browser_light_css, qt_browser_hc_css;
     QString defaultTextBrowserStyle;
 
     QString version;

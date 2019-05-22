@@ -70,6 +70,9 @@
 #include <QSplitter>
 #include <QComboBox>
 #include <QButtonGroup>
+#include <QCryptographicHash>
+#include <QLineEdit>
+
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -119,8 +122,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
 
+  std::cout << "[GUI] - Welcome to Sonic Pi GUI" << std::endl;
+  hash_salt = "SECRET HASH SALT";
 
-
+  std::cout << "[GUI] - Initialising paths..." << std::endl;
   QString root_path = rootPath();
 
 #if defined(Q_OS_WIN)
@@ -139,6 +144,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/sonic-pi-server.rb");
   port_discovery_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/port-discovery.rb");
+  fetch_url_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/fetch-url.rb");
   sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
   sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
@@ -195,6 +201,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QSettings settings("sonic-pi.net", "gui-settings");
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
+  //get their user email address from settings
+  user_token = new QLineEdit(this);
+  user_token->setText(settings.value("userToken", "").toString());
   app.installEventFilter(this);
   app.processEvents();
 
@@ -202,6 +211,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   if(protocol == TCP){
     clientSock = new QTcpSocket(this);
   }
+
+  studio_mode = new QCheckBox(this);
+  studio_mode->setChecked(true);
+  checkForStudioMode();
 
   std::cout << "Discovering port numbers..." << std::endl;
   QProcess* determinePortNumbers = new QProcess();
@@ -413,6 +426,50 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     splashClose();
     showWindow();
     showWelcomeScreen();
+  }
+}
+
+void MainWindow::checkForStudioMode() {
+    // Studio mode should always be enabled on linux
+#if defined(Q_OS_LINUX)
+  studio_mode->setChecked(true);
+  return;
+#else
+  // other operating systems need to support the project
+  //to enable studio mode
+  studio_mode->setChecked(false);
+#endif
+
+  QString queryStr;
+  queryStr = QString("%1")
+    .arg(QString(QCryptographicHash::hash(QString(user_token->text() + hash_salt).toUtf8(),QCryptographicHash::Sha256).toHex()));
+
+
+  QStringList studioHashList = QStringList();
+
+  std::cout << "[GUI] - Fetching Studio hashes" << std::endl;
+  QProcess* fetchStudioHashes = new QProcess();
+  QStringList fetch_studio_hashes_send_args;
+  fetch_studio_hashes_send_args << fetch_url_path << "http://sonic-pi.net/static/info/studio-hashes.txt";
+  fetchStudioHashes->start(ruby_path, fetch_studio_hashes_send_args);
+  fetchStudioHashes->waitForFinished();
+  QTextStream stream(fetchStudioHashes->readAllStandardOutput().trimmed());
+  QString line = stream.readLine();
+  while (!line.isNull()) {
+    studioHashList << line;
+    line = stream.readLine();
+  };
+
+  if(studioHashList.contains(queryStr)) {
+    std::cout << "[GUI] - Found Studio Hash Match" << std::endl;
+    std::cout << "[GUI] - Enabling Studio Mode..." << std::endl;
+    std::cout << "[GUI] - Thank-you for supporting Sonic Pi's continued development :-)" << std::endl;
+    statusBar()->showMessage(tr("Studio Mode Enabled. Thank-you for supporting Sonic Pi."), 5000);
+    studio_mode->setChecked(true);
+  } else {
+    std::cout << "[GUI] - No Studio Hash Match Found" << std::endl;
+    statusBar()->showMessage(tr("No Matching Studio Hash Found..."), 1000);
+    studio_mode->setChecked(false);
   }
 }
 
