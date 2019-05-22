@@ -723,7 +723,7 @@ void MainWindow::setupWindowStructure() {
   scopeInterface = new Scope(scsynth_port);
   scopeInterface->pause();
   scopeWidget->setWidget(scopeInterface);
-  scopeWidget->setObjectName("scope");
+  scopeWidget->setObjectName("Scope");
   addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
 
   connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
