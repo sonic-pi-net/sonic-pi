@@ -636,9 +636,9 @@ void MainWindow::setupWindowStructure() {
   incomingPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
-  outputPane->setTextColor(QColor(theme->color("LogInfoForeground")));
+  outputPane->setTextColor(QColor(theme->color("LogForeground")));
   outputPane->appendPlainText("\n");
-  incomingPane->setTextColor(QColor(theme->color("LogInfoForeground")));
+  incomingPane->setTextColor(QColor(theme->color("LogForeground")));
   incomingPane->appendPlainText("\n");
 
   errorPane->zoomIn(1);
@@ -2585,6 +2585,7 @@ void MainWindow::updateColourTheme(){
 
   QString sliderColor = currentTheme->color("Slider").name();
   QString sliderBackgroundColor = currentTheme->color("SliderBackground").name();
+  QString sliderBorderColor = currentTheme->color("SliderBorder").name();
 
   QString menuColor = currentTheme->color("Menu").name();
   QString menuTextColor = currentTheme->color("MenuText").name();
@@ -2624,6 +2625,7 @@ void MainWindow::updateColourTheme(){
     .replace("statusBarTextColor", statusBarTextColor)
     .replace("sliderColor", sliderColor)
     .replace("sliderBackgroundColor", sliderBackgroundColor)
+    .replace("sliderBorderColor", sliderBorderColor)
     .replace("menuColor", menuColor)
     .replace("menuTextColor", menuTextColor)
     .replace("menuSelectedColor", menuSelectedColor)

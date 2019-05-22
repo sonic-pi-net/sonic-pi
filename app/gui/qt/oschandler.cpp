@@ -31,7 +31,10 @@ OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane,  SonicPiLog *inc
     this->theme = theme;
 }
 
-void OscHandler::oscMessage(std::vector<char> buffer){
+void OscHandler::oscMessage(std::vector<char> buffer)
+{
+    QColor bg;
+
     pr.init(&buffer[0], buffer.size());
 
     oscpkt::Message *msg;
@@ -78,7 +81,10 @@ void OscHandler::oscMessage(std::vector<char> buffer){
 
           QString qs_address =  QString::fromStdString(address);
           if(!qs_address.startsWith(":")) {
-              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 20, 147, idmod)), Q_ARG(QColor, "white"));
+            //              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 20, 147, idmod)), Q_ARG(QColor, "white"));
+            bg = theme->color("CuePathBackground");
+            bg.setAlpha(idmod);
+            QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, bg), Q_ARG(QColor, theme->color("CuePathForeground")));
 
               QMetaObject::invokeMethod( incoming, "appendPlainText",        Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(" " + address) ) );
@@ -90,8 +96,11 @@ void OscHandler::oscMessage(std::vector<char> buffer){
 
               QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(" ")));
+            bg = theme->color("CueDataBackground");
+            bg.setAlpha(idmod);
+            QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, bg), Q_ARG(QColor, theme->color("CueDataForeground")));
 
-              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor, "white"));
+            //QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor,g"white"));
               QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(args) ) );
               last_incoming_path_lens[id % 20] = address.length();
@@ -108,16 +117,16 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
 
-          QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoForeground")));
+
           if(style == 1) {
-          QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackgroundStyle1")));
+            QMetaObject::invokeMethod( out, "setTextBgFgColors",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackground_1")),  Q_ARG(QColor, theme->color("LogInfoForeground_1")));
           } else {
-          QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackground")));
+            QMetaObject::invokeMethod( out, "setTextBgFgColors",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackground")),  Q_ARG(QColor, theme->color("LogInfoForeground")));
           }
 
           QMetaObject::invokeMethod( out, "appendPlainText",        Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString("=> " + s + "\n")) );
 
-          QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogDefaultForeground")));
+          QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogForeground")));
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")));
         } else {
           std::cout << "[GUI] - error: unhandled OSC msg /info "<< std::endl;

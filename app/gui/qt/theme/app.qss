@@ -25,6 +25,7 @@ Available Style Colours:
 - statusBarTextColor
 - sliderColor
 - sliderBackgroundColor
+- sliderBorderColor
 - menuColor
 - menuTextColor
 - menuSelectedColor
@@ -88,6 +89,8 @@ QSplitter::handle:horizontal {
 
 
 QTabBar::tab{
+
+
     background: tabColor;
     color: tabTextColor;
 }
@@ -128,13 +131,15 @@ QSlider::groove:vertical{
     margin: 2px 0;
     background: sliderBackgroundColor;
     border-radius: 3px;
+    border: 2px solid sliderBorderColor;
 }
 
 QSlider::handle:vertical {
-    border: 1px solid sliderColor;
+    border: 1px solid black;
     border-radius: 3px;
     height: 30px;
     background-color: sliderColor;
+
 }
 
 QMenu{
