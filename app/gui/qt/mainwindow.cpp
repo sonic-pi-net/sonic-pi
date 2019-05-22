@@ -416,7 +416,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 void MainWindow::checkPort(int port) {
   oscpkt::UdpSocket sock;
   sock.bindTo(port);
-  if (!sock.isOk()) {
+  if ((port < 1024) || (!sock.isOk())) {
     std::cout << "[GUI] -    port: " << port << " [Not Available]" << std::endl;
   } else {
     std::cout << "[GUI] -    port: " << port << " [OK]" << std::endl;
