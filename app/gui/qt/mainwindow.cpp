@@ -2671,7 +2671,7 @@ void MainWindow::updateColourTheme(){
     ws->redraw();
   }
 
-  scopeInterface->setColor(currentTheme->color("scope"));
+  scopeInterface->setColor(currentTheme->color("Scope"));
   lexer->unhighlightAll();
 }
 

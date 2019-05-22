@@ -229,7 +229,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["Link"]                            = dt_pink;
     themeSettings["LinkVisited"]                     = dt_pink;
 
-    themeSettings["scope"]                           = dt_pink;
+    themeSettings["Scope"]                           = dt_pink;
 
     themeSettings["LogInfoForeground"]               = dt_white;
     themeSettings["LogInfoBackground"]               = dt_darkgrey;
@@ -431,7 +431,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["Link"]                            = dt_pink;
     themeSettings["LinkVisited"]                     = dt_pink;
 
-    themeSettings["scope"]                           = dt_pink;
+    themeSettings["Scope"]                           = dt_pink;
 
     themeSettings["LogForeground"]                   = dt_white;
     themeSettings["LogBackground"]                   = dt_black;
@@ -628,6 +628,12 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
 
     themeSettings["PaneBackground"]                  = dt_white;
 
+    themeSettings["Link"]                            = dt_pink;
+    themeSettings["LinkVisited"]                     = dt_pink;
+
+    themeSettings["Scope"]                           = dt_pink;
+
+
     themeSettings["LogInfoForeground"]               = dt_white;
     themeSettings["LogInfoBackground"]               = dt_darkgrey;
 
@@ -635,10 +641,6 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["LogInfoBackground_1"]             = dt_pink;
 
 
-    themeSettings["Link"]                            = dt_pink;
-    themeSettings["LinkVisited"]                     = dt_pink;
-
-    themeSettings["scope"]                           = dt_pink;
 
     themeSettings["LogForeground"]                   = dt_darkgrey;
     themeSettings["LogBackground"]                   = dt_white;
