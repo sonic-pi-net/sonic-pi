@@ -216,7 +216,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   studio_mode->setChecked(true);
   checkForStudioMode();
 
-  std::cout << "Discovering port numbers..." << std::endl;
+  std::cout << "[GUI] - Discovering port numbers..." << std::endl;
   QProcess* determinePortNumbers = new QProcess();
   QStringList determine_port_numbers_send_args;
   determine_port_numbers_send_args << port_discovery_path;
