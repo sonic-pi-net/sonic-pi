@@ -102,7 +102,7 @@ Ef ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Víxla athugasemd vals af/á ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -117,17 +117,17 @@ Ef ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Víxla athugasemd línu af/á ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekki tókst að ræsa Sonic PI þjóninn!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1323"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Umsnúa víðómi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1326"/>
@@ -147,12 +147,12 @@ Ef ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða
     <message>
         <location filename="../mainwindow.cpp" line="1347"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Gervlar og hrif</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Breyta hegðun gervla og hrifa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1350"/>
@@ -164,7 +164,9 @@ Ef ekki virkjað þá gæti sum viðföng á hljóðgervla valdið hávaða eða
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation></translation>
+        <translation>Víxla af/á skráningu í atburðaskrá.
+Ef af þá verða aðgerðir eins og ræsing gervla
+og sýna ekki skrifaðar sjálfkrafa í atburðaskrána.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
@@ -190,18 +192,21 @@ hvert sinn sem stutt er á keyra hnappinn.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation></translation>
+        <translation>Virkja eða óvirkja skráningu merkja.
+Ef óvirk, munu merki samt virka.
+En þau sjást ekki í atburðaskránni.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Víxla sjálfvirkri flettingu atvikaskrár af/á.
+Ef virkjað er flett til enda atvikaskrárinnar í hvert sinn sem ný boð eru birt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Virkja ytri gervla og hrif</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
@@ -212,12 +217,18 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Þegar virkjað mun Sonic PI leyfa
+gervlum og hrifum sem load_synthdefs hlóð
+að ræsast.
+
+Þegar ekki virkjað mun Sonic PI kvarta
+ef þú reynir að nota gervil eða hrif
+sem er óþekkt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1370"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Þvinga örugga tímasetningu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1371"/>
@@ -228,12 +239,18 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Þegar virkjað mun Sonic PI neita
+að ræsa gervla og hrif ef
+það er of seint að gera það
+
+Þegar ekki virkjað mun Sonic PI alltaf
+reyna að ræsa gervla og hrif
+jafnvel þó svolítið seint sé.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1388"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegnsæi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1396"/>
@@ -400,12 +417,12 @@ Dökki hamurinn hentar sérlega vel þegar komið er fram í næturklúbbum.</tr
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Gagnlegar stillingar fyrir lifandi spilun með Sonic PI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1534"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna/fela ásana fyrir sveiflusjár hljóðs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
@@ -415,7 +432,7 @@ Dökki hamurinn hentar sérlega vel þegar komið er fram í næturklúbbum.</tr
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Keyra kóðann á núverandi rissblaði</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
@@ -425,173 +442,179 @@ Dökki hamurinn hentar sérlega vel þegar komið er fram í næturklúbbum.</tr
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Merki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Staðbundin IP tala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlusta eftir OSC boðum á gátt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Ótiltækt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Taka á móti utanaðkomandi OSC boðum</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Þegar hakað er við þetta mun Sonic Pi hlusta eftir OSC boðum frá öðrum vélum.
+- Þegar ekki er hakað við verður aðeins tekið við boðum frá vélinni sjálfri.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>Virkja OSC þjón</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Þegar hakað er við þetta mun Sonic Pi hlusta eftir OSC boðum.
+- Þegar ekki er hakað við verður ekki tekið á móti OSC boðum.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Samstilla hegðun MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>Virkja undirkerfi MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Virkja eða óvirkja MIDI samskipti inn og út</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Endurstilla MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Endurstilla undirkerfi MIDI 
+(Nauðsynlegt til að nema tækjabreytingar í macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sjálfgefin MIDI rás (* merkir allar)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Sjálfgefin MIDI rás til að senda boð til</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1292"/>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Engin tengd inntakstæki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Engin tengd úttakstæki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI inntakstæki senda MIDI boð beint til
+Sonic Pi sem móttekur þau sem atburði af gerðinni merki
+(líkt og móttekin OSC boð og innri merki)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Aðalhljóðstyrkur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Notið þennan sleða til að breyta hljóðstyrk kerfisins.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Hljóðúttak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1359"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Fletta atburðaskrá sjálfvirkt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna merkjaskrá</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1442"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna/fela merkjaskrá sem sýnir innri merki &amp; móttekin OSC/MIDI boð.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1446"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Proffatákn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Víxla Proffatáknum - víxla á milli sjálfgefins
+ og einfaldara safni tákna.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Inntak/úttak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1515"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna og velja sveiflusjá</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1516"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Tegundir sveiflusjáa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1531"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna sveiflusjár</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna/fela sveiflusjár hljóðs.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1533"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna ása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1537"/>
@@ -601,19 +624,26 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Það eru þrjár gerðir sveiflusjáa hljóðs sem hægt er að sjá
+stakar eða allar saman í einu:
+
+Lissajous - sýnir tengslin milli fasanna í vinstri og hægri rás
+Einóma - sýnir sameinaða mynd af vinstri og hægri rás (notar RMS)
+Víðóma - sýnir tvær aðskildar sjár fyrir vinstri og hægri rás</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1551"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Myndir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1670"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Villa við ræsingu Sonic Pi
+
+Afsakið en það kom upp alvarleg villa við ræsingu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1768"/>
@@ -621,30 +651,30 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1785"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Rissblaðsskrár</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlaða inn Sonic Pi rissblaði</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Textaskrár</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruby skrár</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1771"/>
         <location filename="../mainwindow.cpp" line="1788"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Allar skrár</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1788"/>
@@ -744,12 +774,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2227"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sjálfvirk fletting atburðaskrár er virk ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2229"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sjálfvirk fletting atburðaskrár er óvirk ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
@@ -779,12 +809,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlaða inn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlaða ytri skrá inn í núverandi rissblað</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
@@ -804,12 +834,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tengd MIDI inntök</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tengd MIDI úttök</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -841,12 +871,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna/fela hjálparglugga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna/fela stillingaglugga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
@@ -856,50 +886,53 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC á netkerfi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi getur sent og móttekið Open Sound Control (OSC) boð
+til og frá öðrum forritum og tölvum
+í gegnum netkerfið sem nú er tengt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI samstilling</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI gáttir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna allar tengdar MIDI gáttir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI úttakstæki fá MIDI boð beint frá
+Sonic Pi sem hægt er að senda með midi_ *fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
         <source>Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Stækka</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Minnka</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2717"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
-        <translation type="unfinished"></translation>
+        <translation>Sýna/fela sveiflusjár hljóðs </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
@@ -955,7 +988,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wave-skrá (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
@@ -987,7 +1020,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>sýnileika hjálpar var breytt ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
@@ -1021,32 +1054,32 @@ Sækja Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Virkja MIDI ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3315"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Óvirkja MIDI ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3325"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>Opna OSC gátt fyrir aðsendum boðum ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3334"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Stöðva OSC þjóninn ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Endurstilli MIDI ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3351"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI er óvirkt ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
@@ -1108,7 +1141,7 @@ Sækja Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er Sonic Pi þegar keyrandi? Get ekki opnað UDP gátt.</translation>
     </message>
 </context>
 </TS>
