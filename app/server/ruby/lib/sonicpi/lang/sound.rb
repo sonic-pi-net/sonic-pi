@@ -4476,7 +4476,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         notes.each do |note|
           if note
             args_h[:note] = note
-            nodes << trigger_synth(synth_name, args_h, cg, info)
+            nodes << trigger_synth(synth_name, args_h.dup, cg, info)
           end
         end
         cg.sub_nodes = nodes
