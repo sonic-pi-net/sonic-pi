@@ -21,13 +21,30 @@ require 'ostruct'
 
 module SonicPi
   class PlayTester < Minitest::Test
-    def setup
+    class MockStudio
+      def initialize(mock_sound_studio, _mock_loader, _mock_tmp_path)
+        @mod_sound_studio = mock_sound_studio
+      end
+    end
 
-      @current_group = 0
+    def setup
+      @current_group = mock
+      @current_group.stubs(:id).returns(1)
+      @current_group.stubs(:comms).returns(1)
+      @current_group.stubs(:sp_thread_safe?).returns(true)
+      @current_group.stubs(:sub_nodes=)
       @current_out_bus = 1
       @beep_info = Synths::SynthInfo.get_info(:beep)
 
-      @mock_sound = Object.new
+      @mock_sound_studio = mock
+      @mock_sound_studio.stubs(:cent_tuning).returns(0)
+      mock_synth = mock
+      mock_synth.stubs(:on_next_move)
+      mock_synth.stubs(:on_destroyed)
+      mock_synth.stubs(:sp_thread_safe?).returns(true)
+      @mock_sound_studio.stubs(:trigger_synth).returns(mock_synth)
+      ChordGroup.stubs(:new).returns(@current_group)
+      @mock_sound = MockStudio.new(@mock_sound_studio, nil, nil)
       @mock_sound.extend(Lang::Sound)
       @mock_sound.extend(Lang::Core)
       @mock_sound.extend(RuntimeMethods)
@@ -66,6 +83,13 @@ module SonicPi
       @mock_sound.play [62]
     end
 
+    def test_multi_notes_and_on_false
+      @mock_sound.reset
+      @mock_sound_studio.stubs(:new_group)
+      @mock_sound.expects(:truthy?).with(0.0).times(3)
+      @mock_sound.play([60, 64, 67], on: false)
+    end
+
     def test_note_with_tuning
       @mock_sound.reset
       @mock_sound.expects(:trigger_inst).with(:beep, {note: 62.039100017}, @beep_info)
@@ -88,6 +112,13 @@ module SonicPi
       @mock_sound.with_tuning :just do
         @mock_sound.play_chord [62]
       end
+    end
+
+    def test_play_chord_and_on_false
+      @mock_sound.reset
+      @mock_sound_studio.stubs(:new_group)
+      @mock_sound.expects(:truthy?).with(0.0).times(3)
+      @mock_sound.play_chord([60, 64, 67], on: false)
     end
 
     def test_play_and_use_synth_defaults
