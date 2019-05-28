@@ -143,7 +143,31 @@ module SonicPi
       def set(k, val)
         __cueset(k, val, "set")
       end
+      doc name:           :set,
+          introduced:     Version.new(3,0,0),
+          summary:        "Store information in the Time State",
+          doc:            "Store information in the Time State set for the current time for either the current or any other thread. If called multiple times without an intervening call to `sleep`, `sync`, `set` or `cue`, the last value set will prevail.
 
+May be used within a `time_warp` to set past/future events. Does not affect time.",
+          args:           [[:time_state_key, :default],
+                           [:value, :anything]],
+          accepts_block:  false,
+          examples:       ["
+  set :foo, 1 #=> Stores the value 1 with key :foo",
+
+        "
+set :foo, 3  # Set :foo to 3
+get[:foo] #=> returns 3",
+
+        "
+in_thread do
+  set :foo, 3  # Set :foo to 3
+end
+
+in_thread do
+  puts get[:foo]  #=> always returns 3 (no race conditions here!)
+end
+"
       def cue(k, *opts)
         splat_map_or_arr = []
 
