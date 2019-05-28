@@ -344,6 +344,24 @@ module SonicPi
       File.absolute_path("#{home_dir}/settings.json")
     end
 
+    def fetch_url(url, anonymous_uuid=true)
+      begin
+
+          params = {:ruby_platform => RUBY_PLATFORM,
+                    :ruby_version => RUBY_VERSION,
+                    :ruby_patchlevel => RUBY_PATCHLEVEL,
+                    :sonic_pi_version => @version.to_s}
+
+        params[:uuid] = global_uuid if anonymous_uuid
+
+        uri = URI.parse(url)
+        uri.query = URI.encode_www_form(params)
+        Net::HTTP.get_response uri
+      rescue
+        nil
+      end
+    end
+
     def log_raw(s)
       if @@log_file
         @@log_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")
