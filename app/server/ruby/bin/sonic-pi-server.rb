@@ -25,6 +25,7 @@ require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/lang/minecraftpi"
 require_relative "../lib/sonicpi/lang/midi"
+require_relative "../lib/sonicpi/lang/ixi"
 require_relative "../lib/sonicpi/lang/sound"
 #require_relative "../lib/sonicpi/lang/pattern"
 require_relative "../lib/sonicpi/runtime"
@@ -268,6 +269,7 @@ klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:include, SonicPi::Lang::Minecraft)
 klass.send(:include, SonicPi::Lang::Midi)
+klass.send(:include, SonicPi::Lang::Ixi)
 klass.send(:include, SonicPi::Lang::Support::DocSystem)
 klass.send(:extend, Memoist)
 
