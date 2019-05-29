@@ -2624,10 +2624,15 @@ end
         raise ArgumentError, "defonce must be called with a do/end block" unless block
         args_h = resolve_synth_opts_hash_or_array(opts)
         if args_h[:override] || !(@user_methods.method_defined? name)
+          val_block = lambda{:undefined}
+          define(name, &val_block)
+          in_thread do
           val = block.yield
           val_block = lambda{val}
           define(name, &val_block)
+          end
           __info "Evaluating defonce #{name}"
+
         else
           __info "Not re-evaluating defonce #{name}"
         end
