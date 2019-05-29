@@ -274,8 +274,8 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     QMap<QString, QString> themeSettings;
 
     // Dark Theme Colour Palette
-    //    QString dt_pink = "deeppink";
-        QString dt_pink = "orange";
+
+    QString dt_pink = "deeppink";
     QString dt_white = "white";
     QString dt_lightgrey = "#ededed";
 
