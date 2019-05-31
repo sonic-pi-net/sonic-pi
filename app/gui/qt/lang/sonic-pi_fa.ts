@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Preferences</source>
-        <translation type="unfinished">تنظیمات</translation>
+        <translation>تنظیمات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
@@ -36,12 +36,16 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation></translation>
+        <translation type="unfinished">Toggle mono mode.
+If enabled both right and left audio is mixed and
+the same signal is sent to both speakers.
+Useful when working with external systems that
+can only handle mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation></translation>
+        <translation type="unfinished">تنظیم رفتار در دیباگ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
@@ -53,12 +57,12 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Safe mode</source>
-        <translation></translation>
+        <translation>حالت امن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation></translation>
+        <translation>پاک کردن لاگ در زمان اجرا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
@@ -75,37 +79,37 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1455"/>
         <source>Dark mode</source>
-        <translation></translation>
+        <translation>حالت تاریک</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation></translation>
+        <translation>در حال اجرای کد...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation></translation>
+        <translation>زیباسازی...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation></translation>
+        <translation>بارگذاری مجدد...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation></translation>
+        <translation>فعال سازی Mixer HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1975"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation></translation>
+        <translation>غیرفعال سازی Mixer HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
@@ -115,7 +119,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="455"/>
         <source>Welcome to Sonic Pi</source>
-        <translation></translation>
+        <translation>به Sonic Pi خوش آمدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="942"/>
