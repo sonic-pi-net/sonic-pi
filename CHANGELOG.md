@@ -35,31 +35,52 @@
   strings (binary blobs and timestamps are not supported at this
   point). If the value is neither a number or string, it is 'inspected'
   and the resulting description string is sent instead.
+* The default incoming OSC cues port is now 4560 as the previous value
+  was registered on the Iana Service Name and Transport Protocol Port
+  Number Registry. However, 4560 is currently free.
 
 
 ### New Fns
+
+* `eval_file` evaluates the contents of the specified file inline in the
+  current thread as if it was a function.
+* `midi_sysex` for sending MIDI sysex messages.  
+* Add new chain fn `.notes` which takes a ring of values and returns a
+  new ring with each element treated as a note. This will eave numbers
+  unchanged but will turn note names like `:C1` to their corresponding
+  MIDI note.
 
 
 ### Synths & FX
 
 * The `gverb` FX now checks to ensure that the `room:` opt is greater than or equal to 1.
-
+* The `piano` synth now supports fractional notes such as `70.3`
 
 ### Samples
 
 
 ### GUI
 
+* New WCAG 2 level AAA compliant high contrast colour theme. This is
+  especially suited for those with low vision.
+* New application menu and shortcuts.  
+* New default icons which match the pro icon feel.
+* Move to simple numbered labels for buffers.
 * The version number is no longer placed in the initial comment of new
   empty buffers. This felt like a friendly thing to do, but can be
   confusing if a given buffer hasn't been used and the version was
   updated. This results in the buffer reporting the old version number
   that was used to create the buffer not the current version used to
   display it.
-  
 * Many, many translation improvements. Thanks to all the wonderful
   volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
 
+### Improvements
+
+* Allow scale degrees over an octave and augmented/diminished degrees.
+* Calling `.tick` and `.look` on a normal array such as `[1, 2, 3]` will
+  now automatically convert it to a ring first.
+  
 
 ### Bugfixes
 
@@ -83,6 +104,18 @@
 * `set` and `cue` no longer print duplicate messages which was possible
   in some cases.
 * Fix `time_warp` examples which were incorrect and misleading.  
+* Improve pid handling on Linux. This should reduce the number of zombie
+  processes accidentally generated.
+* The `offset:` opt for `with_swing` now matches documented behaviour.
+* Teach `sample_duration` to scale correctly.
+* Fix GUI bug which could result in a buffer stuck in the highlighted
+  state after hitting Run.
+* Fix the `on:` opt when playing chords to work similarly across *all*
+  notes in a given chord.
+* Stop `defonce` from being executed multiple times
+* Calling `.take` on an empty ring no longer results in infinite
+  recursion but instead returns an empty ring.
+  
 
 
 <a name="v3.1.0"></a>
