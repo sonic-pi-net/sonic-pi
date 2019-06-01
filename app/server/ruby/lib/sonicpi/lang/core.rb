@@ -167,7 +167,7 @@ end
 in_thread do
   puts get[:foo]  #=> always returns 3 (no race conditions here!)
 end
-"
+"]
       def cue(k, *opts)
         splat_map_or_arr = []
 
