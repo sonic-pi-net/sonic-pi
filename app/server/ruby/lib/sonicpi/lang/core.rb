@@ -146,7 +146,7 @@ module SonicPi
       doc name:           :set,
           introduced:     Version.new(3,0,0),
           summary:        "Store information in the Time State",
-          doc:            "Store information in the Time State set for the current time for either the current or any other thread. If called multiple times without an intervening call to `sleep`, `sync`, `set` or `cue`, the last value set will prevail.
+          doc:            "Store information in the Time State for the current time for either the current or any other thread. If called multiple times without an intervening call to `sleep`, `sync`, `set` or `cue`, the last value set will prevail.
 
 May be used within a `time_warp` to set past/future events. Does not affect time.",
           args:           [[:time_state_key, :default],
