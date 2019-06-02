@@ -510,7 +510,7 @@ Questo controllo include l&apos;invio in modo anonimo di informazioni relative a
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC in rete</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
@@ -702,7 +702,7 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">la visibilità dell&apos;aiuto è cambiata...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
