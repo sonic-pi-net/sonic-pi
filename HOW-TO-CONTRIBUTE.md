@@ -109,3 +109,7 @@ where help is appreciated.
 
   Or maybe we should explore a client/server architecture instead, so
   that we gain a path for an iOS app?
+
+## Triage Issues [![Open Source Helpers](https://www.codetriage.com/samaaron/sonic-pi/badges/users.svg)](https://www.codetriage.com/samaaron/sonic-pi)
+
+You can triage issues which may include reproducing bug reports or asking for vital information, such as version numbers or reproduction instructions. If you would like to start triaging issues, one easy way to get started is to [subscribe to sonic-pi on CodeTriage](https://www.codetriage.com/samaaron/sonic-pi).
