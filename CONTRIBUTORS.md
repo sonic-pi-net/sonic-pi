@@ -38,6 +38,25 @@ The following organisations have kindly contributed to Sonic Pi:
 * [Norfolk & Norwich Festival Bridge](https://nnfestival.org.uk/festival-bridge/)
 
 
+## Inspiration
+
+The following is a far from complete list of some of the individuals who
+have provided inspiration for the creation of Sonic Pi through their own
+projects:
+
+* _why (why the lucky stiff) - [Shoes](https://en.wikipedia.org/wiki/Shoes_(GUI_toolkit))
+* Andrew Sorensen  - [Extempore](http://extempore.moso.com.au)
+* James McCartney - [SuperCollider](https://supercollider.github.io)
+* Jeff Rose - [Overtone](https://overtone.github.com)
+* Linda Liukas - [Hello Ruby](http://www.helloruby.com/)
+* Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](https://www.ruby-lang.org)
+* Rich Hickey - [Clojure](https://clojure.org)
+* Seymour Papert - [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language))
+* The Scratch Team - [Scratch](https://scratch.mit.edu)
+* Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html) 
+
+
+
 ## Patreon Supporters
 
 Sonic Pi development is increasingly funded by a growing number of very
@@ -57,6 +76,7 @@ especially the following individuals who have been remarkably generous:
 * [Scott Turner](https://twitter.com/scottturneruon)
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
+
 
 
 ## Outstanding Community Contributions
@@ -82,6 +102,8 @@ conceptualisations, to musical production and performance.
 * [Steve Hellier](https://twitter.com/steveguyhellier)
 * [Pit Noack](https://twitter.com/maschinennah)
 
+
+
 ## Core Team
 
 Much of the development, distribution and support work for Sonic Pi is
@@ -104,6 +126,54 @@ Current members:
 Previous members:
 
 * [Jeremy Weatherford](https://github.com/jweather)
+
+
+
+## Core Team Thanks
+
+Sam Aaron would like to express his deep thanks to his family and
+friends who have supported him over the years and given him the strength
+to continue on this strange and often unforgiving path. He would
+particularly like to thank his friend and partner Susanna and also his
+fab Mum.
+
+Luis Lloret wants to thank his wonderful family for their understanding
+and support while working on this. Specially Marina, you are my reason
+to live. Mar and Darío, keep being so special and giving us so much joy.
+
+Xavier Riley would like to thank his wife Emily, and he'd like to
+reassure her that he definitely loves her more than any computer. Also
+big thanks to conference organizers, in particular Simon Starr for
+putting on the awesome Bath Ruby conferences and letting me rock out
+there not [once](https://youtu.be/Jp0VKD_7pmw?t=10m1s), but
+[twice](https://www.youtube.com/watch?v=L06FlSoiBi4). Lastly I'd like to
+thank Scott Wilson for teaching me some programming as part of a music
+degree, and my good friend David Bamber for helping me get started as a
+programmer.
+
+Adrian Cheater dedicates this space in loving memory of her mother,
+Katherine Cheater. Mom shared her passion for music and performance
+and equipped me with all the tools I needed to live life fully. She was
+kind, but did not let the opinions of strangers deter her from her path.
+Though mom never met me as her daughter, I know she would have been proud
+that I chose to embrace my truth as it became known to me.
+My wish is that you, fellow musician, will also choose to never dampen your
+light, and that you will encourage and empower others to shine bright.
+
+Robin Newman would like to thank Sam for producing such inspirational
+software as Sonic Pi. Both the sounds that it can produce and the
+intricate programming beneath the surface are a work of art. To work
+with Sonic Pi gives me such a buzz as I have not experienced since
+working with Music on a network of BBC Micros in the 1980s. Then as now
+my Wife Julia describes herself as a computer widow. I thank her for
+putting up with my passion for musical programming over the years.
+
+Ethan Crawford is grateful to his parents for giving him the opportunity
+of music lessons as a young boy, and all the skills and interests that
+this helped to develop. He'd also like to thank Sam for creating Sonic
+Pi and the ease and fun with which it combines two of his favourite
+interests - music and programming.
+
 
 
 ## Developer Contributions
@@ -226,7 +296,9 @@ effort to help grow and improve the Sonic Pi code base:
 * [Uriel Corfa](https://github.com/samaaron/sonic-pi/commits?author=korfuri) (1)
 * [Veith Roethlingshoefer](https://github.com/samaaron/sonic-pi/commits?author=RunOrVeith) (1)
 * [Falko Spiller](https://github.com/samaaron/sonic-pi/commits?author=zenon) (1)
-p
+
+
+
 ## Translation
 The following volunteers have generously helped to translate Sonic Pi into additional languages:
 
@@ -507,65 +579,3 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Xavier Riley (1)
 
 
-## Inspiration
-
-The following is a far from complete list of some of the individuals who
-have provided inspiration for the creation of Sonic Pi through their own
-projects:
-
-* _why (why the lucky stiff) - [Shoes](https://en.wikipedia.org/wiki/Shoes_(GUI_toolkit))
-* Andrew Sorensen  - [Extempore](http://extempore.moso.com.au)
-* James McCartney - [SuperCollider](https://supercollider.github.io)
-* Jeff Rose - [Overtone](https://overtone.github.com)
-* Linda Liukas - [Hello Ruby](http://www.helloruby.com/)
-* Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](https://www.ruby-lang.org)
-* Rich Hickey - [Clojure](https://clojure.org)
-* Seymour Papert - [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language))
-* The Scratch Team - [Scratch](https://scratch.mit.edu)
-* Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html) 
-
-
-## Core Team Thanks
-
-Sam Aaron would like to express his deep thanks to his family and
-friends who have supported him over the years and given him the strength
-to continue on this strange and often unforgiving path. He would
-particularly like to thank his friend and partner Susanna and also his
-fab Mum.
-
-Luis Lloret wants to thank his wonderful family for their understanding
-and support while working on this. Specially Marina, you are my reason
-to live. Mar and Darío, keep being so special and giving us so much joy.
-
-Xavier Riley would like to thank his wife Emily, and he'd like to
-reassure her that he definitely loves her more than any computer. Also
-big thanks to conference organizers, in particular Simon Starr for
-putting on the awesome Bath Ruby conferences and letting me rock out
-there not [once](https://youtu.be/Jp0VKD_7pmw?t=10m1s), but
-[twice](https://www.youtube.com/watch?v=L06FlSoiBi4). Lastly I'd like to
-thank Scott Wilson for teaching me some programming as part of a music
-degree, and my good friend David Bamber for helping me get started as a
-programmer.
-
-Adrian Cheater dedicates this space in loving memory of her mother,
-Katherine Cheater. Mom shared her passion for music and performance
-and equipped me with all the tools I needed to live life fully. She was
-kind, but did not let the opinions of strangers deter her from her path.
-Though mom never met me as her daughter, I know she would have been proud
-that I chose to embrace my truth as it became known to me.
-My wish is that you, fellow musician, will also choose to never dampen your
-light, and that you will encourage and empower others to shine bright.
-
-Robin Newman would like to thank Sam for producing such inspirational
-software as Sonic Pi. Both the sounds that it can produce and the
-intricate programming beneath the surface are a work of art. To work
-with Sonic Pi gives me such a buzz as I have not experienced since
-working with Music on a network of BBC Micros in the 1980s. Then as now
-my Wife Julia describes herself as a computer widow. I thank her for
-putting up with my passion for musical programming over the years.
-
-Ethan Crawford is grateful to his parents for giving him the opportunity
-of music lessons as a young boy, and all the skills and interests that
-this helped to develop. He'd also like to thank Sam for creating Sonic
-Pi and the ease and fun with which it combines two of his favourite
-interests - music and programming.
