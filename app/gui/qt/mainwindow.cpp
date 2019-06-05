@@ -121,69 +121,21 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  printAsciiArtLogo();
 
-  std::cout << "[GUI] - Welcome to Sonic Pi GUI" << std::endl;
-  hash_salt = "SECRET HASH SALT";
+  this->splash = splash;
+  this->i18n = i18n;
+  sonicPiOSCServer = NULL;
+  startup_error_reported = new QCheckBox;
+  startup_error_reported->setChecked(false);
 
-  std::cout << "[GUI] - Initialising paths..." << std::endl;
-  QString root_path = rootPath();
+  hash_salt = "Secret Hash ;-)";
 
-#if defined(Q_OS_WIN)
-  ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/ruby/bin/ruby.exe");
-#elif defined(Q_OS_MAC)
-  ruby_path = root_path + "/app/server/native/ruby/bin/ruby";
-#else
-  ruby_path = root_path + "/app/server/native/ruby/bin/ruby";
-#endif
-
-  QFile file(ruby_path);
-  if(!file.exists()) {
-    // fallback to user's locally installed ruby
-    ruby_path = "ruby";
+  protocol = UDP;
+  if(protocol == TCP){
+    clientSock = new QTcpSocket(this);
   }
 
-  ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/sonic-pi-server.rb");
-  port_discovery_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/port-discovery.rb");
-  fetch_url_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/fetch-url.rb");
-  sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
-
-  sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
-  sp_user_tmp_path       = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
-  log_path               = QDir::toNativeSeparators(sp_user_path + "/log");
-  server_error_log_path  = QDir::toNativeSeparators(log_path + "/server-errors.log");
-  server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
-  gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
-  process_log_path       = QDir::toNativeSeparators(log_path + "/processes.log");
-  scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
-
-  init_script_path        = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/init-script.rb");
-  exit_script_path        = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/exit-script.rb");
-
-  qt_app_theme_path     = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/app.qss");
-
-  qt_browser_dark_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/dark/doc-styles.css");
-  qt_browser_light_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/light/doc-styles.css");
-  qt_browser_hc_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/high_contrast/doc-styles.css");
-
-  std::cout << "[GUI] - Running Init Scripts" << std::endl;
-
-  // Clear out old tasks from previous sessions if they still exist
-  // in addtition to clearing out the logs
-  QProcess *initProcess = new QProcess();
-  initProcess->start(ruby_path, QStringList(init_script_path));
-  initProcess->waitForFinished();
-
-  QDir logDir(log_path);
-  logDir.mkpath(logDir.absolutePath());
-
-  QFile tmpFile(sp_user_tmp_path);
-  if (!tmpFile.open(QIODevice::WriteOnly)) {
-    homeDirWritable = false;
-  }
-  else {
-    homeDirWritable = true;
-    tmpFile.close();
-  }
   updated_dark_mode_for_help = false;
   updated_dark_mode_for_prefs = false;
   loaded_workspaces = false;
@@ -191,7 +143,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   show_rec_icon_a = false;
   restoreDocPane = false;
   focusMode = false;
-  version = "3.1.0";
+  version = "3.2.0";
   latest_version = "";
   version_num = 0;
   latest_version_num = 0;
@@ -200,6 +152,70 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   guiID = QUuid::createUuid().toString();
   QSettings settings("sonic-pi.net", "gui-settings");
 
+  initPaths();
+
+  // Throw all stdout into ~/.sonic-pi/log/gui.log
+  setupLogPathAndRedirectStdOut();
+
+  std::cout << "[GUI] - Welcome to the Sonic Pi GUI" << std::endl;
+  std::cout << "[GUI] - ===========================" << std::endl;
+  std::cout << "[GUI] -                            " << std::endl;
+  std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
+
+  setupTheme();
+  lexer = new SonicPiLexer(theme);
+  QPalette p = createPaletteFromTheme(theme);
+  QApplication::setPalette(p);
+
+  // dynamically discover port numbers and then check them this will
+  // show an error dialogue to the user and then kill the app if any of
+  // the ports aren't available
+  initAndCheckPorts();
+
+  oscSender = new OscSender(gui_send_to_server_port);
+
+  setupWindowStructure();
+  createStatusBar();
+  createInfoPane();
+  setWindowTitle(tr("Sonic Pi"));
+  initPrefsWindow();
+
+  // Clear out old tasks from previous sessions if they still exist
+  // in addtition to clearing out the logs
+  QProcess *initProcess = new QProcess();
+  initProcess->start(ruby_path, QStringList(init_script_path));
+  initProcess->waitForFinished();
+
+  startRubyServer();
+
+  loadToolBarIcons();
+  createShortcuts();
+  createToolBar();
+  readSettings();
+  updateTabsVisibility();
+  updateButtonVisibility();
+  updateLogVisibility();
+  updateIncomingOscLogVisibility();
+
+  // The implementation of this method is dynamically generated and can
+  // be found in ruby_help.h:
+  std::cout << "[GUI] - initialising documentation window" << std::endl;
+  initDocsWindow();
+
+  //setup autocompletion
+  autocomplete->loadSamples(sample_path);
+
+  OscHandler* handler = new OscHandler(this, outputPane, incomingPane, theme);
+
+  if(protocol == UDP){
+    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler, gui_listen_to_server_port);
+    osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
+  }
+  else{
+    sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
+    sonicPiOSCServer->start();
+  }
+
   QThreadPool::globalInstance()->setMaxThreadCount(3);
   //get their user email address from settings
   user_token = new QLineEdit(this);
@@ -207,16 +223,33 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   app.installEventFilter(this);
   app.processEvents();
 
-  protocol = UDP;
-  if(protocol == TCP){
-    clientSock = new QTcpSocket(this);
+  // Wait to hear back from the Ruby language server before continuing
+  if (waitForServiceSync()){
+    // We have a connection! Finish up loading app...
+    honourPrefs();
+    loadWorkspaces();
+    requestVersion();
+    toggleIcons();
+    toggleScope();
+    updatePrefsIcon();
+    updateColourTheme();
+    updateFullScreenMode();
+
+    changeSystemPreAmp(system_vol_slider->value(), 1);
+    connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
+    timer->start(1000);
+
+    splashClose();
+    showWindow();
+    showWelcomeScreen();
   }
+}
 
-  studio_mode = new QCheckBox(this);
-  studio_mode->setChecked(true);
-  checkForStudioMode();
-
+bool MainWindow::initAndCheckPorts() {
   std::cout << "[GUI] - Discovering port numbers..." << std::endl;
+
   QProcess* determinePortNumbers = new QProcess();
   QStringList determine_port_numbers_send_args;
   determine_port_numbers_send_args << port_discovery_path;
@@ -243,54 +276,66 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   osc_midi_in_port          = port_map["osc-midi-in"];
   websocket_port            = port_map["websocket"];
 
-  oscSender = new OscSender(gui_send_to_server_port);
-  printAsciiArtLogo();
-
-  // Throw all stdout into ~/.sonic-pi/log/gui.log
-  setupLogPathAndRedirectStdOut();
-
-
   std::cout << "[GUI] - Detecting port numbers..." << std::endl;
 
 
   std::cout << "[GUI] - GUI listen to server port "<< gui_listen_to_server_port << std::endl;
-  checkPort(gui_listen_to_server_port);
+  bool glts_available = checkPort(gui_listen_to_server_port);
 
   std::cout << "[GUI] - Server listen to gui port " << server_listen_to_gui_port << std::endl;
-  checkPort(server_listen_to_gui_port);
+  bool sltg_available = checkPort(server_listen_to_gui_port);
 
   std::cout << "[GUI] - Server incoming OSC cues port " << server_osc_cues_port << std::endl;
-  checkPort(server_osc_cues_port);
+  bool soc_available = checkPort(server_osc_cues_port);
 
   std::cout << "[GUI] - Scsynth port " << scsynth_port << std::endl;
-  checkPort(scsynth_port);
+  bool s_available = checkPort(scsynth_port);
 
   std::cout << "[GUI] - Server send to GUI port " << server_send_to_gui_port << std::endl;
-  checkPort(server_send_to_gui_port);
+  bool sstg_available = checkPort(server_send_to_gui_port);
 
   std::cout << "[GUI] - GUI send to server port " << gui_send_to_server_port<< std::endl;
-  checkPort(gui_send_to_server_port);
+  bool gsts_available = checkPort(gui_send_to_server_port);
 
   std::cout << "[GUI] - Scsynth send port " << scsynth_send_port << std::endl;
-  checkPort(scsynth_send_port);
+  bool ss_available = checkPort(scsynth_send_port);
 
   std::cout << "[GUI] - Erlang router port " << erlang_router_port << std::endl;
-  checkPort(erlang_router_port);
+  bool er_available = checkPort(erlang_router_port);
 
   std::cout << "[GUI] - OSC MIDI out port " << osc_midi_out_port << std::endl;
-  checkPort(osc_midi_out_port);
+  bool omo_available = checkPort(osc_midi_out_port);
 
   std::cout << "[GUI] - OSC MIDI in port " << osc_midi_in_port << std::endl;
-  checkPort(osc_midi_in_port);
+  bool omi_availble = checkPort(osc_midi_in_port);
 
   std::cout << "[GUI] - Websocket port " << websocket_port << std::endl;
-  checkPort(websocket_port);
+  bool ws_available = checkPort(websocket_port);
 
-  std::cout << "[GUI] - Init script completed" << std::endl;
+  if(!(glts_available &&
+       sltg_available &&
+       soc_available  &&
+       s_available    &&
+       sstg_available &&
+       gsts_available &&
+       ss_available   &&
+       er_available   &&
+       omo_available  &&
+       omi_availble   &&
+       ws_available)){
+    std::cout << "[GUI] - Critical Error. One or more ports is not available." << std::endl;
+    startupError("One or more ports is not available. Is Sonic Pi already running? If not, please reboot your machine and try again.");
+    return false;
 
-  setupTheme();
-  lexer = new SonicPiLexer(theme);
+  } else {
+    std::cout << "[GUI] - All ports OK" << std::endl;
+    return true;
+  }
 
+}
+
+void MainWindow::loadToolBarIcons() {
+  std::cout << "[GUI] - initialising toolbar icons" << std::endl;
   // load up pro icons into memory
   pro_run_icon = QIcon(":/images/toolbar/pro/run.png");
   pro_stop_icon = QIcon(":/images/toolbar/pro/stop.png");
@@ -372,62 +417,65 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   default_hc_prefs_icon = QIcon(":/images/toolbar/default/hc-prefs.png");
   default_hc_prefs_toggled_icon = QIcon(":/images/toolbar/default/hc-prefs-toggled.png");
 
-
-  setupWindowStructure();
-  createShortcuts();
-  createToolBar();
-  createStatusBar();
-  createInfoPane();
-  setWindowTitle(tr("Sonic Pi"));
-  initPrefsWindow();
-  readSettings();
-  updateTabsVisibility();
-  updateButtonVisibility();
-  updateLogVisibility();
-  updateIncomingOscLogVisibility();
-
-  // The implementation of this method is dynamically generated and can
-  // be found in ruby_help.h:
-  initDocsWindow();
-
-  //setup autocompletion
-  autocomplete->loadSamples(sample_path);
-
-  OscHandler* handler = new OscHandler(this, outputPane, incomingPane, theme);
-
-  if(protocol == UDP){
-    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler, gui_listen_to_server_port);
-    osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
-  }
-  else{
-    sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
-    sonicPiOSCServer->start();
-  }
-
-  // Wait to hear back from the server before continuing
-  startRubyServer();
-  if (waitForServiceSync()){
-    // We have a connection! Finish up loading app...
-    honourPrefs();
-    loadWorkspaces();
-    requestVersion();
-    toggleIcons();
-    toggleScope();
-    updatePrefsIcon();
-    updateColourTheme();
-    updateFullScreenMode();
-
-    changeSystemPreAmp(system_vol_slider->value(), 1);
-    connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
-    timer->start(1000);
-
-    splashClose();
-    showWindow();
-    showWelcomeScreen();
-  }
 }
+
+
+void MainWindow::initPaths() {
+  QString root_path = rootPath();
+
+#if defined(Q_OS_WIN)
+  ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/ruby/bin/ruby.exe");
+#elif defined(Q_OS_MAC)
+  ruby_path = root_path + "/app/server/native/ruby/bin/ruby";
+#else
+  ruby_path = root_path + "/app/server/native/ruby/bin/ruby";
+#endif
+
+  QFile file(ruby_path);
+  if(!file.exists()) {
+    // fallback to user's locally installed ruby
+    ruby_path = "ruby";
+  }
+
+  ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/sonic-pi-server.rb");
+  port_discovery_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/port-discovery.rb");
+  fetch_url_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/fetch-url.rb");
+  sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
+
+  sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
+  sp_user_tmp_path       = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
+  log_path               = QDir::toNativeSeparators(sp_user_path + "/log");
+  server_error_log_path  = QDir::toNativeSeparators(log_path + "/server-errors.log");
+  server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
+  gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
+  process_log_path       = QDir::toNativeSeparators(log_path + "/processes.log");
+  scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
+
+  init_script_path       = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/init-script.rb");
+  exit_script_path       = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/exit-script.rb");
+
+  qt_app_theme_path      = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/app.qss");
+
+  qt_browser_dark_css    = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/dark/doc-styles.css");
+  qt_browser_light_css   = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/light/doc-styles.css");
+  qt_browser_hc_css      = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/high_contrast/doc-styles.css");
+
+  // attempt to create log directory
+  QDir logDir(log_path);
+  logDir.mkpath(logDir.absolutePath());
+
+  // check to see if the home directory is writable
+  QFile tmpFile(sp_user_tmp_path);
+  if (!tmpFile.open(QIODevice::WriteOnly)) {
+    homeDirWritable = false;
+  }
+  else {
+    homeDirWritable = true;
+    tmpFile.close();
+  }
+
+}
+
 
 void MainWindow::checkForStudioMode() {
     // Studio mode should always be enabled on linux
@@ -473,15 +521,19 @@ void MainWindow::checkForStudioMode() {
   }
 }
 
-void MainWindow::checkPort(int port) {
+bool MainWindow::checkPort(int port) {
+  bool available = false;
   oscpkt::UdpSocket sock;
   sock.bindTo(port);
   if ((port < 1024) || (!sock.isOk())) {
     std::cout << "[GUI] -    port: " << port << " [Not Available]" << std::endl;
+    available = false;
   } else {
     std::cout << "[GUI] -    port: " << port << " [OK]" << std::endl;
+    available = true;
   }
   sock.close();
+  return available;
 }
 
 void MainWindow::showWelcomeScreen() {
@@ -506,6 +558,7 @@ void MainWindow::setupTheme() {
 }
 
 void MainWindow::setupWindowStructure() {
+  std::cout << "[GUI] - setting up window structure" << std::endl;
 
   setUnifiedTitleAndToolBarOnMac(true);
   setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -1085,7 +1138,7 @@ void MainWindow::startRubyServer(){
     QString("%1").arg(osc_midi_out_port) <<
     QString("%1").arg(osc_midi_in_port) <<
     QString("%1").arg(websocket_port);;
-  std::cout << "[GUI] - launching Sonic Pi Server:" << std::endl;
+  std::cout << "[GUI] - launching Sonic Pi Runtime Server:" << std::endl;
   if(homeDirWritable) {
     serverProcess->setStandardErrorFile(server_error_log_path);
     serverProcess->setStandardOutputFile(server_output_log_path);
@@ -1700,11 +1753,11 @@ void MainWindow::setMessageBoxStyle() {
 }
 
 void MainWindow::invokeStartupError(QString msg) {
-  if(startup_error_reported) {
+  if(startup_error_reported->isChecked()) {
     return;
   }
 
-  startup_error_reported = true;
+  startup_error_reported->setChecked(true);
   sonicPiOSCServer->stop();
   QMetaObject::invokeMethod(this, "startupError",
 			    Qt::QueuedConnection,
@@ -1713,7 +1766,6 @@ void MainWindow::invokeStartupError(QString msg) {
 
 void MainWindow::startupError(QString msg) {
   splashClose();
-
   setMessageBoxStyle();
   QString gui_log;
   QString scsynth_log;
@@ -1745,7 +1797,8 @@ void MainWindow::startupError(QString msg) {
   layout->addItem(hSpacer, layout->rowCount(), 0, 1, layout->columnCount());
   box->exec();
   std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
-  close();
+  QApplication::exit(-1);
+  exit(EXIT_FAILURE);
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line) {
@@ -2570,9 +2623,10 @@ void MainWindow::updateColourTheme(){
     currentTheme->hcMode();
     css = readFile(qt_browser_hc_css);
     statusBar()->showMessage(tr("Colour Theme: High Contrast"), 2000);
-  }
-
   toggleIcons();
+  } else {
+    currentTheme->lightMode();
+  }
 
   docPane->document()->setDefaultStyleSheet(css);
   docPane->reload();
@@ -2581,6 +2635,7 @@ void MainWindow::updateColourTheme(){
     pane->document()->setDefaultStyleSheet(css);
     pane->reload();
   }
+
   errorPane->document()->setDefaultStyleSheet(css);
 
   // clear stylesheets
@@ -2598,25 +2653,7 @@ void MainWindow::updateColourTheme(){
   toolBar->setStyleSheet("");
   scopeWidget->setStyleSheet("");
 
-  QPalette p = QApplication::palette();
-  p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
-  p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
-  p.setColor(QPalette::Base,            currentTheme->color("Base"));
-  p.setColor(QPalette::AlternateBase,   currentTheme->color("AlternateBase"));
-  p.setColor(QPalette::Text,            currentTheme->color("Foreground"));
-  p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
-  p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
-  p.setColor(QPalette::ToolTipBase,     currentTheme->color("ToolTipBase"));
-  p.setColor(QPalette::ToolTipText,     currentTheme->color("ToolTipText"));
-  p.setColor(QPalette::Button,          currentTheme->color("Button"));
-  p.setColor(QPalette::ButtonText,      currentTheme->color("ButtonText"));
-  p.setColor(QPalette::Shadow,          currentTheme->color("Shadow"));
-  p.setColor(QPalette::Light,           currentTheme->color("Light"));
-  p.setColor(QPalette::Midlight,        currentTheme->color("Midlight"));
-  p.setColor(QPalette::Mid,             currentTheme->color("Mid"));
-  p.setColor(QPalette::Dark,            currentTheme->color("Dark"));
-  p.setColor(QPalette::Link,            currentTheme->color("Link"));
-  p.setColor(QPalette::LinkVisited,     currentTheme->color("LinkVisited"));
+  QPalette p = createPaletteFromTheme(theme);
 
   QApplication::setPalette(p);
 
@@ -2738,6 +2775,30 @@ void MainWindow::updateColourTheme(){
 
   scopeInterface->setColor(currentTheme->color("Scope"));
   lexer->unhighlightAll();
+}
+
+QPalette MainWindow::createPaletteFromTheme(SonicPiTheme *theme)
+{
+ QPalette p = QApplication::palette();
+ p.setColor(QPalette::WindowText,      theme->color("WindowForeground"));
+ p.setColor(QPalette::Window,          theme->color("WindowBackground"));
+ p.setColor(QPalette::Base,            theme->color("Base"));
+ p.setColor(QPalette::AlternateBase,   theme->color("AlternateBase"));
+ p.setColor(QPalette::Text,            theme->color("Foreground"));
+ p.setColor(QPalette::HighlightedText, theme->color("HighlightedForeground"));
+ p.setColor(QPalette::Highlight,       theme->color("HighlightedBackground"));
+ p.setColor(QPalette::ToolTipBase,     theme->color("ToolTipBase"));
+ p.setColor(QPalette::ToolTipText,     theme->color("ToolTipText"));
+ p.setColor(QPalette::Button,          theme->color("Button"));
+ p.setColor(QPalette::ButtonText,      theme->color("ButtonText"));
+ p.setColor(QPalette::Shadow,          theme->color("Shadow"));
+ p.setColor(QPalette::Light,           theme->color("Light"));
+ p.setColor(QPalette::Midlight,        theme->color("Midlight"));
+ p.setColor(QPalette::Mid,             theme->color("Mid"));
+ p.setColor(QPalette::Dark,            theme->color("Dark"));
+ p.setColor(QPalette::Link,            theme->color("Link"));
+ p.setColor(QPalette::LinkVisited,     theme->color("LinkVisited"));
+ return p;
 }
 
 void MainWindow::changeShowLineNumbers(){
@@ -2917,6 +2978,7 @@ void MainWindow::updateAction(QAction *action, QShortcut *sc, QString tooltip,  
 
 void MainWindow::createShortcuts()
 {
+  std::cout << "[GUI] - creating shortcuts" << std::endl;
   new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
   new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
   new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
@@ -2932,6 +2994,7 @@ void MainWindow::createShortcuts()
 
 void  MainWindow::createToolBar()
 {
+  std::cout << "[GUI] - creating tool bar" << std::endl;
   // Run
   runAct = new QAction(default_light_run_icon, tr("Run"), this);
   runSc = new QShortcut(metaKey('R'), this, SLOT(runCode()));
@@ -3005,7 +3068,6 @@ void  MainWindow::createToolBar()
   updateAction(prefsAct, prefsSc, tr("Toggle the visibility of the preferences pane"));
   connect(prefsAct, SIGNAL(triggered()), this, SLOT(togglePrefs()));
 
-
   QWidget *spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -3049,7 +3111,6 @@ void  MainWindow::createToolBar()
   windowMenu->addAction(helpAct);
   windowMenu->addAction(prefsAct);
 
-
 }
 
 QString MainWindow::readFile(QString name)
@@ -3066,6 +3127,7 @@ QString MainWindow::readFile(QString name)
 }
 
 void MainWindow::createInfoPane() {
+  std::cout << "[GUI] - creating info panel" << std::endl;
   QTabWidget* infoTabs = new QTabWidget(this);
 
   QStringList urls, tabs;
@@ -3197,6 +3259,7 @@ void MainWindow::toggleRecording() {
 
 void MainWindow::createStatusBar()
 {
+  std::cout << "[GUI] - creating status bar" << std::endl;
   versionLabel = new QLabel(this);
   versionLabel->setText("Sonic Pi");
   statusBar()->showMessage(tr("Ready..."));
@@ -3204,6 +3267,8 @@ void MainWindow::createStatusBar()
 }
 
 void MainWindow::readSettings() {
+  std::cout << "[GUI] - reading settings" << std::endl;
+
   // Pref settings are read in MainWindow::initPrefsWindow()
   QSettings settings("sonic-pi.net", "gui-settings");
   QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
@@ -3281,7 +3346,6 @@ void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
 {
   QFile file(fileName);
   if (!file.open(QFile::ReadOnly)) {
-    setMessageBoxStyle();
     QMessageBox::warning(this, tr("Sonic Pi"),
 			 tr("Cannot read file %1:\n%2.")
 			 .arg(fileName)
@@ -3301,7 +3365,6 @@ bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 {
   QFile file(fileName);
   if (!file.open(QFile::WriteOnly)) {
-    setMessageBoxStyle();
     QMessageBox::warning(this, tr("Sonic Pi"),
 			 tr("Cannot write file %1:\n%2.")
 			 .arg(fileName)

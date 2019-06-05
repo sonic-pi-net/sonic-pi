@@ -208,8 +208,11 @@ private slots:
 
 
 private:
-
-    void checkPort(int port);
+  bool initAndCheckPorts();
+  void initPaths();
+  void loadToolBarIcons();
+  QPalette createPaletteFromTheme(SonicPiTheme *theme);
+    bool checkPort(int port);
     QString osDescription();
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;
@@ -260,7 +263,7 @@ private:
     QHash<QString, int> port_map;
   int gui_listen_to_server_port, gui_send_to_server_port, server_listen_to_gui_port, server_send_to_gui_port, scsynth_port, scsynth_send_port, server_osc_cues_port, erlang_router_port, osc_midi_out_port, osc_midi_in_port, websocket_port;
     bool focusMode;
-    bool startup_error_reported;
+    QCheckBox *startup_error_reported;
     bool is_recording;
     bool show_rec_icon_a;
     QTimer *rec_flash_timer;
