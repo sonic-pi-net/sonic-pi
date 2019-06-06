@@ -66,16 +66,23 @@ especially the following individuals who have been remarkably generous:
 
 * [Alexandre Enkerli](https://twitter.com/enkerli)
 * [Anderson Reinkordt](https://soundcloud.com/april-club-music)
+* [Bartosz Majsak](https://twitter.com/majson)
+* [Benjamin Reitzammer](https://cto.coffee)
+* [Boris Bokowski](https://twitter.com/bokowski)
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
 * [Darin Wilson](https://twitter.com/darinwilson/)
 * [James Abley](https://twitter.com/jabley)
 * [Justin Worrall](https://twitter.com/juzbo)
 * [Mark Rendle](https://twitter.com/markrendle)
 * [Martin McDermott](https://twitter.com/marv_mcd)
-* [Michael Hunger](http://twitter.com/mesirii)
+* [Michael Hunger](https://twitter.com/mesirii)
+* [Paul Williams](https://pcwilliams.design)
+* [Pit Noack](http://www.maschinennah.de/)
+* [Richard Buckley](https://burgundycomputing.com)
 * [Scott Turner](https://twitter.com/scottturneruon)
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
+
 
 
 
