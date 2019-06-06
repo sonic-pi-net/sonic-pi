@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-04-09 08:05+0000\n"
-"Last-Translator: Song Li <boltomli@gmail.com>\n"
+"PO-Revision-Date: 2019-06-18 19:03+0000\n"
+"Last-Translator: 张达 <adamzhang1987@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.7\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -323,7 +323,7 @@ msgstr "Sonic Pi有着非常简洁的主界面。让我们花一点时间了解�
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -800,6 +800,8 @@ msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
+"如果你想让一个音符变为升调，在这个音符名称后面加上一个`s`，比如`play:Fs3`，如果你想让一个音符变为降调，则加一个`b`，比如`play "
+":Eb3`。"
 
 #: 02.1-Your-First-Beeps.md:127
 msgid "Now go *crazy* and have fun making your own tunes."
@@ -1044,11 +1046,11 @@ msgstr "现在，去享受改变振幅和平移声音的乐趣吧!"
 
 #: 02.3-Switching-Synths.md:1
 msgid "2.3 Switching Synths"
-msgstr ""
+msgstr "2.3 开关合成器"
 
 #: 02.3-Switching-Synths.md:3
 msgid "Switching Synths"
-msgstr ""
+msgstr "开关合成器"
 
 #: 02.3-Switching-Synths.md:5
 msgid ""
@@ -1075,7 +1077,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
-msgstr ""
+msgstr "Buzzy saws 和 prophets"
 
 #: 02.3-Switching-Synths.md:23
 msgid "A fun sound is the *saw wave* - let's give it a try:"
@@ -1226,6 +1228,8 @@ msgid ""
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
 msgstr ""
+"现在*开关你音乐中的合成器(synths)*来玩一下吧。组合不同的合成器(synths)来创造不同的声音，并且在你的音乐的不同章节使用不同的合成器(syn"
+"ths)，玩的愉快。"
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
@@ -1240,7 +1244,7 @@ msgid ""
 "In an earlier section, we looked at how we can use the `sleep` command to cont"
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
-msgstr ""
+msgstr "在前面的一节中，我们看到了如何使用`sleep`命令来控制何时触发我们的声音。然而，我们还不知道如何来控制我们的声音的持续时间。"
 
 #: 02.4-Durations-with-Envelopes.md:9
 msgid ""
@@ -1260,7 +1264,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:17
 msgid "Duration"
-msgstr ""
+msgstr "持续时间(Duration)"
 
 #: 02.4-Durations-with-Envelopes.md:19
 msgid ""
@@ -1269,6 +1273,9 @@ msgid ""
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
+"duration指的是声音持续的时长。一个更长的持续时间意味着你能听到这个声音更久。Sonic Pi中的声音都有一个可控制的振幅包络(amplitude "
+"envelope)，该包络(envelope)的总持续时间就是声音的持续时间。因此，通过控制包络(envelope)，你就可以控制持续时间(duratio"
+"n)。"
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1286,11 +1293,11 @@ msgstr ""
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
-msgstr ""
+msgstr "简单来讲，正如我们之前看到的，振幅(amplitude)为0表示静音，振幅(amplitude)为1表示正常音量。"
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr ""
+msgstr "现在，让我们来一个一个看一下包络(envelopes)中的每个部分。"
 
 #: 02.4-Durations-with-Envelopes.md:42
 msgid "Release Phase"
@@ -1313,7 +1320,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr ""
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
