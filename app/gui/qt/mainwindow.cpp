@@ -315,7 +315,7 @@ bool MainWindow::initAndCheckPorts() {
   bool omo_available = checkPort(osc_midi_out_port);
 
   std::cout << "[GUI] - OSC MIDI in port " << osc_midi_in_port << std::endl;
-  bool omi_availble = checkPort(osc_midi_in_port);
+  bool omi_available = checkPort(osc_midi_in_port);
 
   std::cout << "[GUI] - Websocket port " << websocket_port << std::endl;
   bool ws_available = checkPort(websocket_port);
@@ -329,7 +329,7 @@ bool MainWindow::initAndCheckPorts() {
        ss_available   &&
        er_available   &&
        omo_available  &&
-       omi_availble   &&
+       omi_available   &&
        ws_available)){
     std::cout << "[GUI] - Critical Error. One or more ports is not available." << std::endl;
     startupError("One or more ports is not available. Is Sonic Pi already running? If not, please reboot your machine and try again.");
