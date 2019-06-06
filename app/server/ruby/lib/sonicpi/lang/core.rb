@@ -125,7 +125,7 @@ module SonicPi
         @register_cue_event_lambda.call(t, p, i, d, b, m, cue_path, val, __current_sched_ahead_time)
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          unless val
+          if val.nil?
             __delayed_highlight_message "#{prefix} #{k.inspect}"
           else
             if is_list_like?(val)
