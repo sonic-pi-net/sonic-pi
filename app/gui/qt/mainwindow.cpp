@@ -121,10 +121,15 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  app.installEventFilter(this);
+  app.processEvents();
+  connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
+
   printAsciiArtLogo();
 
   this->splash = splash;
   this->i18n = i18n;
+
   sonicPiOSCServer = NULL;
   startup_error_reported = new QCheckBox;
   startup_error_reported->setChecked(false);
@@ -174,6 +179,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   oscSender = new OscSender(gui_send_to_server_port);
 
+  QProcess *initProcess = new QProcess();
+  initProcess->start(ruby_path, QStringList(init_script_path));
+
   setupWindowStructure();
   createStatusBar();
   createInfoPane();
@@ -182,13 +190,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Clear out old tasks from previous sessions if they still exist
   // in addtition to clearing out the logs
-  QProcess *initProcess = new QProcess();
-  initProcess->start(ruby_path, QStringList(init_script_path));
-  initProcess->waitForFinished();
 
+  initProcess->waitForFinished();
   startRubyServer();
 
   loadToolBarIcons();
+
   createShortcuts();
   createToolBar();
   readSettings();
@@ -196,7 +203,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   updateButtonVisibility();
   updateLogVisibility();
   updateIncomingOscLogVisibility();
-
   // The implementation of this method is dynamically generated and can
   // be found in ruby_help.h:
   std::cout << "[GUI] - initialising documentation window" << std::endl;
@@ -218,32 +224,34 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
   //get their user email address from settings
-  user_token = new QLineEdit(this);
-  user_token->setText(settings.value("userToken", "").toString());
-  app.installEventFilter(this);
-  app.processEvents();
+  // user_token = new QLineEdit(this);
 
+  // user_token->setText(settings.value("userToken", "").toString());
+  honourPrefs();
+  updatePrefsIcon();
+  updateColourTheme();
+  toggleIcons();
+  updateFullScreenMode();
+  hide();
   // Wait to hear back from the Ruby language server before continuing
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...
-    honourPrefs();
+    std::cout << "[GUI] - load workspaces" << std::endl;
     loadWorkspaces();
     requestVersion();
-    toggleIcons();
-    toggleScope();
-    updatePrefsIcon();
-    updateColourTheme();
-    updateFullScreenMode();
-
     changeSystemPreAmp(system_vol_slider->value(), 1);
-    connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
-
     splashClose();
     showWindow();
     showWelcomeScreen();
+    app.processEvents();
+    std::cout << "[GUI] - boot sequence completed." << std::endl;
+
+  } else {
+    std::cout << "[GUI] - Critical Error. Unable to connect to server.." << std::endl;
+    startupError("GUI was unable to connect to the Ruby server.");
   }
 }
 
@@ -1281,9 +1289,11 @@ void MainWindow::honourPrefs() {
   toggleMidi(1);
   toggleOSCServer(1);
   toggleIcons();
+  scope();
 }
 
 void MainWindow::initPrefsWindow() {
+  QSettings settings("sonic-pi.net", "gui-settings");
 
   prefTabs = new QTabWidget();
   tabs->setTabsClosable(false);
@@ -1439,7 +1449,7 @@ void MainWindow::initPrefsWindow() {
 
   QHBoxLayout *vol_box = new QHBoxLayout;
   system_vol_slider = new QSlider(this);
-  QSettings settings("sonic-pi.net", "gui-settings");
+
   int stored_vol = settings.value("prefs/system-vol", 50).toInt();
   system_vol_slider->setValue(stored_vol);
   connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeSystemPreAmp(int)));
@@ -1706,40 +1716,6 @@ void MainWindow::initPrefsWindow() {
   }
 
   prefsCentral->setLayout(grid);
-
-  // Read in preferences from previous session
-
-  osc_public_check->setChecked(settings.value("prefs/osc-public", false).toBool());
-  osc_server_enabled_check->setChecked(settings.value("prefs/osc-enabled", true).toBool());
-  midi_enable_check->setChecked(settings.value("prefs/midi-enable", true).toBool());
-  midi_default_channel_combo->setCurrentIndex(settings.value("prefs/default-midi-channel", 0).toInt());
-  check_args->setChecked(settings.value("prefs/check-args", true).toBool());
-  print_output->setChecked(settings.value("prefs/print-output", true).toBool());
-  clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
-  log_cues->setChecked(settings.value("prefs/log-cues", false).toBool());
-  log_auto_scroll->setChecked(settings.value("prefs/log-auto-scroll", true).toBool());
-  show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
-  enable_external_synths_cb->setChecked(settings.value("prefs/enable-external-synths", false).toBool());
-  synth_trigger_timing_guarantees_cb->setChecked(settings.value("prefs/synth-trigger-timing-guarantees", false).toBool());
-  mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
-  mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
-
-  check_updates->setChecked(settings.value("prefs/rp/check-updates", true).toBool());
-
-  auto_indent_on_run->setChecked(settings.value("prefs/auto-indent-on-run", true).toBool());
-
-  gui_transparency_slider->setValue(settings.value("prefs/gui_transparency", 0).toInt());
-
-
-
-  //show_left_scope->setChecked( scopeInterface->enableScope( "Left", settings.value("prefs/scope/show-left", true).toBool() ) );
-  //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
-  show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
-  show_scopes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-scopes", true).toBool() ) );
-  show_incoming_osc_log->setChecked( settings.value("prefs/show_incoming_osc_log", true).toBool());
-
-
-
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -3296,10 +3272,38 @@ void MainWindow::readSettings() {
   restoreState(settings.value("windowState").toByteArray());
   restoreGeometry(settings.value("windowGeom").toByteArray());
 
+  // Read in preferences from previous session
+
+  osc_public_check->setChecked(                              settings.value("prefs/osc-public", false).toBool());
+  osc_server_enabled_check->setChecked(                      settings.value("prefs/osc-enabled", true).toBool());
+  midi_enable_check->setChecked(                             settings.value("prefs/midi-enable", true).toBool());
+  midi_default_channel_combo->setCurrentIndex(               settings.value("prefs/default-midi-channel", 0).toInt());
+  check_args->setChecked(                                    settings.value("prefs/check-args", true).toBool());
+  print_output->setChecked(                                  settings.value("prefs/print-output", true).toBool());
+  clear_output_on_run->setChecked(                           settings.value("prefs/clear-output-on-run", true).toBool());
+  log_cues->setChecked(                                      settings.value("prefs/log-cues", false).toBool());
+  log_auto_scroll->setChecked(                               settings.value("prefs/log-auto-scroll", true).toBool());
+  show_line_numbers->setChecked(                             settings.value("prefs/show-line-numbers", true).toBool());
+  enable_external_synths_cb->setChecked(                     settings.value("prefs/enable-external-synths", false).toBool());
+  synth_trigger_timing_guarantees_cb->setChecked(            settings.value("prefs/synth-trigger-timing-guarantees", false).toBool());
+  mixer_force_mono->setChecked(                              settings.value("prefs/mixer-force-mono", false).toBool());
+  mixer_invert_stereo->setChecked(                           settings.value("prefs/mixer-invert-stereo", false).toBool());
+
+  check_updates->setChecked(                                 settings.value("prefs/rp/check-updates", true).toBool());
+
+  auto_indent_on_run->setChecked(                            settings.value("prefs/auto-indent-on-run", true).toBool());
+
+  gui_transparency_slider->setValue(                         settings.value("prefs/gui_transparency", 0).toInt());
+
+  show_scopes->setChecked(                                   settings.value("prefs/scope/show-scopes", true).toBool());
+
+  show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
+  show_incoming_osc_log->setChecked(                         settings.value("prefs/show_incoming_osc_log", true).toBool());
 }
 
 void MainWindow::writeSettings()
 {
+  std::cout << "[GUI] - writing settings" << std::endl;
   QSettings settings("sonic-pi.net", "gui-settings");
   settings.setValue("pos", pos());
   settings.setValue("size", size());
@@ -3335,8 +3339,6 @@ void MainWindow::writeSettings()
   settings.setValue("windowState", saveState());
   settings.setValue("windowGeom", saveGeometry());
 
-  //settings.setValue("prefs/scope/show-left", show_left_scope->isChecked() );
-  //settings.setValue("prefs/scope/show-right", show_right_scope->isChecked() );
   settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
   settings.setValue("prefs/scope/show-scopes", show_scopes->isChecked() );
   settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );

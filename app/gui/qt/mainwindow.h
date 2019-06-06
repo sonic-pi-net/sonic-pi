@@ -341,8 +341,6 @@ private:
     QCheckBox *highContrastModeCheck;
 
     QSignalMapper *scopeSignalMap;
-//    QCheckBox *show_left_scope;
-//    QCheckBox *show_right_scope;
     QCheckBox *show_scope_axes;
     QCheckBox *show_scopes;
 
