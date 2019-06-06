@@ -316,7 +316,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Nicolas Dermine (64)
 * Cindy Dallaire (48)
 * Sam Aaron (40)
-* Olivier Humbert (39)
+* [Olivier Humbert](https://github.com/trebmuh) (39)
 * Olympia Brikis (37)
 * Federico Pepe (30)
 * Mircea Patrascu (29)
