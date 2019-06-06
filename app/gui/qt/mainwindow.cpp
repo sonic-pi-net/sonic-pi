@@ -2599,10 +2599,11 @@ void MainWindow::updateColourTheme(){
     currentTheme->hcMode();
     css = readFile(qt_browser_hc_css);
     statusBar()->showMessage(tr("Colour Theme: High Contrast"), 2000);
-  toggleIcons();
   } else {
     currentTheme->lightMode();
   }
+
+  toggleIcons();
 
   docPane->document()->setDefaultStyleSheet(css);
   docPane->reload();
