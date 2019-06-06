@@ -546,7 +546,7 @@ bool MainWindow::checkPort(int port) {
 
 void MainWindow::showWelcomeScreen() {
   QSettings settings("sonic-pi.net", "gui-settings");
-if(settings.value("first_time", 1).toInt() == 1) {
+  if(settings.value("first_time", 1).toInt() == 1) {
     QTextBrowser* startupPane = new QTextBrowser;
     startupPane->setFixedSize(600, 615);
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -2392,7 +2392,7 @@ void MainWindow::updateLogAutoScroll() {
     } else {
     statusBar()->showMessage(tr("Log Auto Scroll off..."), 2000);
   }
- }
+}
 
 void MainWindow::toggleIcons() {
   if (darkProModeCheck->isChecked()) {
@@ -2924,7 +2924,7 @@ char MainWindow::int2char(int i){
   return '0' + i;
 }
 
- QString MainWindow::tooltipStrShiftMeta(char key, QString str) {
+QString MainWindow::tooltipStrShiftMeta(char key, QString str) {
 #ifdef Q_OS_MAC
     return QString("%1 (⇧⌘%2)").arg(str).arg(key);
 #else
@@ -2932,7 +2932,7 @@ char MainWindow::int2char(int i){
 #endif
 }
 
- QString MainWindow::tooltipStrMeta(char key, QString str) {
+QString MainWindow::tooltipStrMeta(char key, QString str) {
 #ifdef Q_OS_MAC
     return QString("%1 (⌘%2)").arg(str).arg(key);
 #else
