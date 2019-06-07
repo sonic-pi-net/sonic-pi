@@ -18,16 +18,15 @@
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation>سونیک‌پای</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>وارونه کردن صدای استریو.
-در صورت فعال بودن، صدای مربوط به بلندگوی راست
-از بلندگوی چپ پخش خواهد شد و برعکس</translation>
+        <translation>تغییر‌وضعیت وارونگی استریو.
+در صورت فعال بودن، صدای ارسال‌شده به بلندگوی چپ به بلندگوی راست هدایت میشود و بالعکس.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -36,23 +35,22 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Toggle mono mode.
-If enabled both right and left audio is mixed and
-the same signal is sent to both speakers.
-Useful when working with external systems that
-can only handle mono.</translation>
+        <translation>تغییر‌وضعیت مونو.
+اگر فعال شود صدای راست و چپ ترکیب شده و همان سیگنال به هر دو بلندگو ارسال میشود.
+هنگامی با سیستم های خارجی کار می‌کنید که فقط توان کار با صدای مونو را دارند کاربرد دارد.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">تنظیم رفتار در دیباگ</translation>
+        <translation>پیکربندی رفتار اشکال‌زدایی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation></translation>
+        <translation>تغییر‌وضعیت پیامهای گزارش‌وقایع (لاگ).
+اگر غیرفعال باشد، فعالیتهایی مثل ترکیب‌کننده(Synth) و مدل(Sample) به طور پیشفرض در گزارش‌وقایع نوشته نخواهند شد.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
@@ -69,12 +67,13 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation></translation>
+        <translation>تغییر‌وضعیت پاک‌کردن گزارش‌وقایع(لاگ) در اجرا.
+اگر فعال باشد، گزارش‌وقایع با هربار فشردن دکمه اجرا پاک خواهد شد.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Toggle line number visibility.</source>
-        <translation></translation>
+        <translation>تغییروضعیت نمایش شماره خطوط.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1455"/>
@@ -124,30 +123,30 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="942"/>
         <source>Indenting selection...</source>
-        <translation></translation>
+        <translation>برجسته‌کردن انتخاب...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="946"/>
         <source>Indenting line...</source>
-        <translation></translation>
+        <translation>برجسته‌کردن خط...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1322"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation></translation>
+        <translation>تنظیمات صوتی پیشرفته برای کارکردن با دستگاه‌های PA هنگام اجرا با سونیک‌پای.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1396"/>
         <location filename="../mainwindow.cpp" line="1562"/>
         <source>Updates</source>
-        <translation></translation>
+        <translation>بروزرسانی‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Check for updates</source>
-        <translation></translation>
+        <translation>بررسی برای بروزرسانی‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1507"/>
@@ -157,39 +156,40 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show line numbers</source>
-        <translation></translation>
+        <translation>نمایش شماره خطوط</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="496"/>
         <source>Sonic Pi update info</source>
-        <translation></translation>
+        <translation>اطلاعات بروزرسانی سونیک‌پای</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation></translation>
+        <translation>تغییروضعیت توابع بررسی‌کننده آرگومان‌های ترکیب‌کننده(Synth).
+اگر غیرفعال باشد، مقادیر برخی گزینه(آپشن) های ترکیب‌کننده شاید اصوات به طور غیرمنتظره‌ای بلند یا ناراحت‌کننده‌ای تولید کنند.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
         <source>Logging</source>
-        <translation></translation>
+        <translation>گزارش‌کردن‌وقایع</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation></translation>
+        <translation>حوزه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle selection comment...</source>
-        <translation></translation>
+        <translation type="unfinished">تغییروضعیت selection comment...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
         <source>Cues</source>
-        <translation></translation>
+        <translation>ردیف‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -199,17 +199,17 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Full screen mode off.</source>
-        <translation></translation>
+        <translation>حالت تمام‌صفحه خاموش.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
         <source>Toggle line comment...</source>
-        <translation></translation>
+        <translation>تغییروضعیت توضیحات خط...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation></translation>
+        <translation>سرویس‌دهنده سونیک‌پای نمیتواند شروع به کار نماید!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1196"/>
@@ -219,102 +219,106 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1197"/>
         <source>Listening for OSC messages on port</source>
-        <translation></translation>
+        <translation>گوش‌دادن به پیام‌های پروتکل OSC روی درگاه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1218"/>
         <source>Unavailable</source>
-        <translation></translation>
+        <translation>غیرقابل‌دسترس</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
         <source>Receive remote OSC messages</source>
-        <translation></translation>
+        <translation>دریافت پیام‌های OSC از‌راه‌دور</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1224"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation></translation>
+        <translation>وقتی تیک‌خورده، سونیک‌پای به پیام‌های OSC از دستگاه‌های ازراه‌دور گوش میکند.
+وقتی تیک‌نخورده، فقط به پیام‌ها از دستگاه‌محلی خواهد رسید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Enable OSC server</source>
-        <translation></translation>
+        <translation>فعال‌کردن سرویس‌دهنده OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1228"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation></translation>
+        <translation>وقتی تیک‌خورده، سونیک‌پای به پیام‌های OSC گوش خواهد داد.
+وقتی تیک‌نخورده پیام OSC نخواهد رسید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Configure MIDI behaviour</source>
-        <translation></translation>
+        <translation>پیکربندی رفتار MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
         <source>Enable MIDI subsystems</source>
-        <translation></translation>
+        <translation>فعال‌کردن زیرسامانه‌های MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation></translation>
+        <translation>فعال یا غیرفعال‌کردن ارتباط MIDI ورودی و خروجی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1248"/>
         <source>Reset MIDI</source>
-        <translation></translation>
+        <translation>تنظیم مجدد MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation></translation>
+        <translation>تنظیم مجدد زیرسامانه‌های MIDI
+(نیاز به تشخیص تغییرات دستگاه در macOS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation></translation>
+        <translation>کانال MIDI پیشفرض (* به‌معنی همه)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
         <location filename="../mainwindow.cpp" line="1281"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation></translation>
+        <translation>کانال MIDI پیشفرض برای ارسال پیامها به آن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1292"/>
         <location filename="../mainwindow.cpp" line="3313"/>
         <location filename="../mainwindow.cpp" line="3344"/>
         <source>No connected input devices</source>
-        <translation></translation>
+        <translation>هیچ دستگاه ورودی متصل نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="3314"/>
         <location filename="../mainwindow.cpp" line="3345"/>
         <source>No connected output devices</source>
-        <translation></translation>
+        <translation>هیچ دستگاه خروجی متصل نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1294"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation></translation>
+        <translation>دستگاه‌های ورودی MIDI پیام‌ها را مستقیما به سونیک‌پای میفرستند و به عنوان رویدادهای ردیف دریافت میشوند
+(شبیه به پیام‌های OSC ورودی و ردیف‌های داخلی)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Master Volume</source>
-        <translation></translation>
+        <translation>حجم‌صدای کلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation></translation>
+        <translation>این لغزنده برای تغییر حجم‌صدای دستگاه به کارببرید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
@@ -324,32 +328,32 @@ Sonic Pi and are received as cue events
     <message>
         <location filename="../mainwindow.cpp" line="1323"/>
         <source>Invert stereo</source>
-        <translation></translation>
+        <translation>معکوس‌کردن استریو</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1326"/>
         <source>Force mono</source>
-        <translation></translation>
+        <translation>مجبورکردن به مونو</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1347"/>
         <source>Synths and FX</source>
-        <translation></translation>
+        <translation>ترکیب‌کننده‌ها و توابع</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation></translation>
+        <translation>تغییر رفتار ترکیب‌کننده‌ها و توابع</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1350"/>
         <source>Log synths</source>
-        <translation></translation>
+        <translation>گزارش‌وقایع ترکیب‌کننده‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
         <source>Log cues</source>
-        <translation></translation>
+        <translation>گزارش‌وقایع ردیف‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
@@ -481,7 +485,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation></translation>
+        <translation>OSC شبکه‌ای</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
