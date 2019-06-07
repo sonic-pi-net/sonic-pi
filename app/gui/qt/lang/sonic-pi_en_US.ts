@@ -57,12 +57,12 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Safe mode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Clear log on run</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
@@ -74,62 +74,62 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toggle line number visibility.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1455"/>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Dark mode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Running Code...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Beautifying...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Reloading...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Enabling Mixer HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1975"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Disabling Mixer HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Buffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="455"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Welcome to Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="942"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Indenting selection...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="946"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Indenting line...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1322"/>
@@ -142,22 +142,22 @@ external PA systems when performing with Sonic Pi.</source>
         <location filename="../mainwindow.cpp" line="1396"/>
         <location filename="../mainwindow.cpp" line="1562"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Updates</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Check for updates</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1507"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Show line numbers</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="496"/>
@@ -251,7 +251,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configure MIDI behavior</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1244"/>
