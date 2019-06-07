@@ -6,26 +6,28 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toggle stereo inversion.
+If enabled, audio sent to the left speaker will
+be routed to the right speaker and visa versa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -34,12 +36,16 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toggle mono mode.
+If enabled both right and left audio is mixed and
+the same signal is sent to both speakers.
+Useful when working with external systems that
+can only handle mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configure debug behaviour</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
