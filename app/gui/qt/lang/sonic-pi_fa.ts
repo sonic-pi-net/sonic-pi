@@ -184,7 +184,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished">تغییروضعیت selection comment...</translation>
+        <translation>تغییروضعیت توضیحات ناحیه انتخاب...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="711"/>
@@ -360,18 +360,21 @@ Sonic Pi and are received as cue events
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation></translation>
+        <translation>فعال یا غیرفعال‌کردن گزارش‌وقایع(لاگ) ردیف‌ها.
+اگر غیرفعال باشد، ردیف‌ها همچنان شناسایی خواهند شد.
+به هر حال، آنها در گزارشات‌وقایع نمایان نخواهند بود.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation></translation>
+        <translation>تغییروضعیت اسکرول خودکار گزارش‌وقایع(لاگ).
+اگر فعال باشد گزارش‌وقایع به آخر آن اسکرول میشود اگر و تنها اگر پیام جدیدی نمایش یابد.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Enable external synths and FX</source>
-        <translation></translation>
+        <translation>فعال‌کردن ترکیب‌کننده‌ها و توابع خارجی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1368"/>
@@ -382,12 +385,18 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation></translation>
+        <translation type="unfinished">When enabled, Sonic Pi will allow
+synths and FX loaded via load_synthdefs
+to be triggered.
+
+When disabled, Sonic Pi will complain
+when you attempt to use a synth or FX
+which isn&apos;t recognised.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1370"/>
         <source>Enforce timing guarantees</source>
-        <translation></translation>
+        <translation>اجرای تضمین های زمان بندی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1371"/>
@@ -398,39 +407,42 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation></translation>
+        <translation>وقتی فعال است، سونیک‌پای تشخیص ترکیب‌کننده‌ها و توابع را اگر برای انجام آن دیر باشد رد میکند
+وقتی غیرفعال است، سونیک‌پای همواره تلاش میکند ترکیب‌کننده‌ها و توابع را تشخیص دهد حتی اگر کمی دیر باشد.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1388"/>
         <source>Transparency</source>
-        <translation></translation>
+        <translation>شفافیت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1400"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation></translation>
+        <translation>تغییروضعیت بررسی خودکار بروزرسانی.
+این بررسی شامل ارسال اطلاعات ناشناس درباره سکو(پلتفرم) و نسخه شماست.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Check now</source>
-        <translation></translation>
+        <translation>الان بررسی کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation></translation>
+        <translation>اجبار به بررسی بروزرسانی الان.
+این بررسی شامل ارسال اطلاعات ناشناس درباره سکو(پلتفرم) و نسخه شماست.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1403"/>
         <source>Get update</source>
-        <translation></translation>
+        <translation>گرفتن بروزرسانی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1404"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation></translation>
+        <translation>از http://sonic-pi.net برای بارگیری نسخه جدید بازدید کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1409"/>
@@ -440,47 +452,47 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Show and Hide</source>
-        <translation></translation>
+        <translation>نمایش و کتمان</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor display options.</source>
-        <translation></translation>
+        <translation>پیکربندی گزینه‌(آپشن)های نمایش ویرایشگر.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1430"/>
         <source>Look and Feel</source>
-        <translation></translation>
+        <translation>نما و حس</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure editor look and feel.</source>
-        <translation></translation>
+        <translation>پیکربندی نما و حس ویرایشگر.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1432"/>
         <source>Automation</source>
-        <translation></translation>
+        <translation>خودکارسازی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1433"/>
         <source>Configure automation features.</source>
-        <translation></translation>
+        <translation>پیکربندی ویژگی‌های خودکارسازی.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
         <source>Connected MIDI inputs</source>
-        <translation></translation>
+        <translation>ورودی های MIDI متصل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3417"/>
         <source>Connected MIDI outputs</source>
-        <translation></translation>
+        <translation>خروجی‌های MIDI متصل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="510"/>
         <source>Auto-align</source>
-        <translation></translation>
+        <translation>تراز خودکار</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
@@ -492,22 +504,22 @@ This check involves sending anonymous information about your platform and versio
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation></translation>
+        <translation>سونیک‌پای میتواند پیام‌های پروتکل &quot;کنترل صدای باز&quot;(OSC) را به/از دیگر برنامه‌ها یا کامپیوترها توسط شبکه متصل درحال‌حاضر ارسال/دریافت کند.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation></translation>
+        <translation>پیکربندی MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation></translation>
+        <translation>درگاه‌های MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation></translation>
+        <translation>لیست تمام درگاه‌های MIDI متصل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
