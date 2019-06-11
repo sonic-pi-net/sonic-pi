@@ -35,7 +35,10 @@ module SonicPi
         @cap_g = 'G'.freeze
         @low_g = 'g'.freeze
         @q_lt = 'q>'.freeze
+        @big_q_lt = 'Q>'.freeze
+        @big_l_lt = 'L>'.freeze
         @binary_encoding = "BINARY".freeze
+        @bundle = "#bundle".freeze
       end
 
       def decode_single_message(m)
@@ -50,6 +53,29 @@ module SonicPi
         orig_idx = idx
         idx = m.index(@string_terminator, orig_idx)
         address, idx =  m[orig_idx...idx], idx + 1 + ((4 - ((idx + 1) % 4)) % 4)
+
+        if address == @bundle
+          # Discard bundles whose timetags is not "immediately" (0x1)
+          # or "undefined" (0x0) as we don't support scheduling
+          # bundles in the future.
+          raw = m[idx, 8]
+          idx += 8
+          timetag = raw.unpack(@big_q_lt)[0]
+          if not timetag
+            raise "Invalid timetag"
+          elsif timetag != 1 and timetag != 0
+            raise "Unsupported: timetag is not immediately"
+          end
+
+          decoded = []
+          while idx < m.length
+            raw = m[idx, 4]
+            len, idx = raw.unpack(@big_l_lt)[0], idx + 4 + ((4 - ((idx + 4) % 4)) % 4)
+            packet, idx = m[idx, len], idx + len + ((4 - ((idx + len) % 4)) % 4)
+            decoded = decoded + decode_single_message(packet)
+          end
+          return decoded
+        end
 
         sep, idx = m[idx], idx + 1
 
@@ -116,7 +142,7 @@ module SonicPi
             args << arg
           end
         end
-        return address, args
+        return [[address, args]]
       end
 
     end

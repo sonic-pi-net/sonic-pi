@@ -83,16 +83,18 @@ module SonicPi
           end
 
           begin
-            address, args = @decoder.decode_single_message(osc_data)
-            log "OSC <-----        #{address} #{args.inspect}" if incoming_osc_debug_mode
-            if @global_matcher
-              @global_matcher.call(address, args, sender_addrinfo)
-            else
-              p = @matchers[address]
-              p.call(args) if p
+            decoded = @decoder.decode_single_message(osc_data)
+            decoded.each do |address, args|
+              log "OSC <-----        #{address} #{args.inspect}" if incoming_osc_debug_mode
+              if @global_matcher
+                @global_matcher.call(address, args, sender_addrinfo)
+              else
+                p = @matchers[address]
+                p.call(args) if p
+              end
             end
           rescue Exception => e
-            STDERR.puts "OSC handler exception for address: #{address}"
+            STDERR.puts "OSC handler exception"
             STDERR.puts e.message
             STDERR.puts e.backtrace.inspect
           end
