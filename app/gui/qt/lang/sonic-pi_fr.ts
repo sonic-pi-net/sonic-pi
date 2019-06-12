@@ -107,7 +107,7 @@ engendrer des sons forts ou désagréables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation>Cadre</translation>
+        <translation>Etendue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
