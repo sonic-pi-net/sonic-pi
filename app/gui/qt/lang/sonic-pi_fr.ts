@@ -180,8 +180,8 @@ engendrer des sons forts ou désagréables de manière imprévue.</translation>
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Active la journalisation.
-Si désactivé,  les synthétiseurs et samples activées
-ne seront pas, par défaut, inscrites dans le journal.</translation>
+Si désactivé,  les synthétiseurs et samples activés
+ne seront pas, par défaut, inscrits dans le journal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
