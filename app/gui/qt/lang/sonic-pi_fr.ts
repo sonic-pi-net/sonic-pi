@@ -100,9 +100,9 @@ ne supportent que le mono.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Bascule des fonctions de vérification des arguments de synth. 
-Si désactivée, certaines valeurs des options de synth peuvent
-engendrer des sons forts ou inconfortables de manière imprévue.</translation>
+        <translation>Activation des arguments de vérification pour les synthétiseurs. 
+Si désactivée, certaines valeurs optionnelles des synthétiseurs peuvent
+engendrer des sons forts ou désagréables de manière imprévue.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
@@ -303,7 +303,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../mainwindow.cpp" line="1428"/>
         <source>Show and Hide</source>
-        <translation>Montre et cache</translation>
+        <translation>Affichage</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1429"/>
