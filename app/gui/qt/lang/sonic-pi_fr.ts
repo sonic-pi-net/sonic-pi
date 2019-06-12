@@ -107,7 +107,7 @@ engendrer des sons forts ou désagréables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2716"/>
         <source>Scope</source>
-        <translation>Etendue</translation>
+        <translation>Étendue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
@@ -127,17 +127,17 @@ engendrer des sons forts ou désagréables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1318"/>
         <source>Master Volume</source>
-        <translation>Volume Général</translation>
+        <translation>Volume général</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Use this slider to change the system volume.</source>
-        <translation>Utilisez ce charriot pour modifier le volume système.</translation>
+        <translation>Utilisez ce potentiomètre pour modifier le volume système.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Output</source>
-        <translation>Sortie Audio</translation>
+        <translation>Sortie audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1323"/>
@@ -157,12 +157,12 @@ engendrer des sons forts ou désagréables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation>Configuration du comportement de débogage</translation>
+        <translation>Configuration du comportement de déboggage</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1347"/>
         <source>Synths and FX</source>
-        <translation>Synthétiseurs et Effets</translation>
+        <translation>Synthétiseurs et effets</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
@@ -172,44 +172,43 @@ engendrer des sons forts ou désagréables de manière imprévue.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1350"/>
         <source>Log synths</source>
-        <translation>Trace les synthés</translation>
+        <translation>Trace des synthétiseurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Bascule la journalisation.
-Si désactivé, l&apos;activité telle que le jeu des synthés et des échantillons 
-ne sera pas affichée dans le journal par défaut.</translation>
+        <translation>Active la journalisation.
+Si désactivé,  les synthétiseurs et samples activées
+ne seront pas, par défaut, inscrites dans le journal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation>Efface le journal avant exécution</translation>
+        <translation>Réinitialise le journal avant exécution du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Bascule de l&apos;effacement du journal avant exécution.
-Si activé, le journal est effacée à chaque appui 
-sur le bouton run.</translation>
+        <translation>Activation de l&apos;effacement du journal avant exécution.
+Si activé, le journal est effacé à chaque appui sur le bouton run.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
         <source>Log cues</source>
-        <translation>Journal des cues</translation>
+        <translation>Journal des traces</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1357"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Bascule de la trace des cues.
-Si désactivée, les cues continueront à être émis.
-Toutefois, ils ne seront pas visibles dans la trace.</translation>
+        <translation>Activation du journal des traces.
+Si désactivée, les traces restent toujours émises.
+Elles ne seront toutefois pas visibles.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
@@ -232,12 +231,12 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation>Lorsqu’activé, Sonic Pi permettra aux synthés et FX chargée via load_synthdefs pour être déclenché. Lorsque désactivé, Sonic Pi va se plaindre lorsque vous essayez d’utiliser un synthétiseur ou FX qui ne sont pas reconnu.</translation>
+        <translation>Lorsqu’activé, Sonic Pi permettra aux synthétiseurs et effets chargés via load_synthdefs d&apos;être joués. Lorsque désactivé, Sonic Pi émettra une alerte lorsque vous essayez d’utiliser un synthétiseur ou effet non reconnu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1370"/>
         <source>Enforce timing guarantees</source>
-        <translation>Faire respecter les garanties temporelles</translation>
+        <translation>Faire respecter la justesse du minutage</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1371"/>
@@ -248,7 +247,7 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation>Lorsqu’activé, Sonic Pi refusera déclencher des synthés et FX s’ils sont trop tard pour le faire, désactivé, Sonic Pi toujours tente de déclencher des synthés et FX même lorsqu’ils sont un peu tard.</translation>
+        <translation>Lorsqu’activé, Sonic Pi refusera déclencher des synthétiseurs et effets s’ils sont en retard par rapport à l&apos;horloge. Lorsque cette option est désactivée, Sonic Pi les déclenchera toujours même si ceux-ci sont en retard.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1388"/>
@@ -276,13 +275,13 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
     <message>
         <location filename="../mainwindow.cpp" line="1401"/>
         <source>Check now</source>
-        <translation>Vérification sur le champ</translation>
+        <translation>Vérifier maintenant</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Force une vérification des mises à jour.
+        <translation>Forcer la vérification d&apos;une mise à jour.
 Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos de votre plateforme et de votre version.</translation>
     </message>
     <message>
