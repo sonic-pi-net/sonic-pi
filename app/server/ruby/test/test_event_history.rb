@@ -419,9 +419,9 @@ module SonicPi
       n1 = "/foo/bar/baz"
       m = 60
       history.set(0, 0, i, 1, 0, m, n1, [:baz0])
-      history.set(1, 0, i, 1, 0, m, n1, [:baz1])
-      history.set(2, 0, i, 1, 0, m, n1, [:baz2])
-      assert_equal [:baz1], history.sync(0, 0, i, 1, 0, m, n1).val
+      history.set(1, 0, i, 1, 1, m, n1, [:baz1])
+      history.set(2, 0, i, 1, 2, m, n1, [:baz2])
+      assert_equal [:baz1], history.sync(0.1, 0, i, 1, 0.1, m, n1).val
     end
 
     def test_sync_w_matchers
