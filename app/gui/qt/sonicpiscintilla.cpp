@@ -626,7 +626,7 @@ bool SonicPiScintilla::event(QEvent *evt) {
   mutex->lock();
   if (evt->type()==QEvent::KeyPress) {
     QKeyEvent* key = static_cast<QKeyEvent*>(evt);
-    if (key->key() == Qt::Key_Return) {
+    if (key->key() == Qt::Key_Return || key->key() == Qt::Key_Enter) {
       completeListOrNewlineAndIndent();
       return true;
     }
