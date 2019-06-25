@@ -702,7 +702,7 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished">la visibilità dell&apos;aiuto è cambiata...</translation>
+        <translation>la visibilità dell&apos;aiuto è cambiata...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
