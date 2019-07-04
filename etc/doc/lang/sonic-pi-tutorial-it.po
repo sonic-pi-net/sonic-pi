@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-08-13 14:39+0000\n"
-"Last-Translator: Christopher Tibaldo <tibaldo.chris@gmail.com>\n"
+"PO-Revision-Date: 2019-07-05 21:01+0000\n"
+"Last-Translator: Luis Valdez <lvaldez@stanfordalumni.org>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/it/>\n"
 "Language: it\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.2-dev\n"
+"X-Generator: Weblate 3.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5548,6 +5548,19 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
+"Nell'esempio di sopra, assegniamo un cerchio di numeri a un variabile `a` e "
+"poi l'usiamo in due `live_loop` (cicli dinamici) diversi. Nel primo "
+"`live_loop`, ogni `0.5` secondi, ordiniamo il cerchio (a `(ring "
+"1,2,3,4,5,6)`) e lo stampiamo sul log. Se esegui il codice, trovi che "
+"l'elenco stampato *non è sempre ordinato!*. Questo forse ti sorprenderà — "
+"specialmente che a volte l'elenco viene stampato in ordine e a volte no. "
+"Questo si chiama comportamento \"non-deterministico\" ed è il risultato di "
+"un problema piuttosto difficile che si chiama \"condizione di gara\". Il "
+"problema è dovuto al fatto che anche il secondo ciclo sta manipolando "
+"l'elenco (in questo caso, rimescolandolo) e al punto che l'elenco viene "
+"stampato, alcune volte è appena stato ordinato ed alcune volte è appena "
+"stato rimescolato. Entrambi i cicli fanno una gara di fare qualcosa "
+"differente con lo stesso variabile ed ogni volta \"vince\" un ciclo diverso."
 
 #: 05.6-Variables.md:168
 msgid ""
@@ -5555,6 +5568,9 @@ msgid ""
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
+"Esistono due soluzioni a questo. Prima, *non usare lo stesso variable in "
+"cicli o thread molteplici*. Per esempio, il codice seguente sempre stamperà "
+"un elenco ordinato perché ogni ciclo ha un proprio variabile:"
 
 #: 05.6-Variables.md:173
 #, no-wrap
@@ -5571,6 +5587,17 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
 msgid ""
@@ -5579,6 +5606,11 @@ msgid ""
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
+"Comunque, a volte vogliamo condividere cose fra diversi thread. Per esempio, "
+"la chiave attuale, BPM, sintetizzatore, ecc. In questi casi, la soluzione è "
+"usare il sistema speciale di stato \"thread-safe\" (sicuro per i thread) di "
+"Sonic Pi attraverso le funzioni `get` e `set`. Questo si descrive dopo, "
+"nella sezione 10."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -8537,6 +8569,16 @@ msgid ""
 "information across threads* due to a loss of determinism (in turn due to race "
 "conditions)."
 msgstr ""
+"È spesso utile avere informazioni che *si condividono attraverso vari thread "
+"o cicli vivi*. Per esempio, forse vuoi condividere l'idea della chiave "
+"attuale, BPM, o anche concetti più astratti come la \"complessità\" attuale ("
+"che si potrebbe interpretare diversamente in diversi thread). Non vogliamo "
+"nemmeno perdere le garanzie deterministiche quando facciamo questo. Cioè, "
+"vorremmo condividere il nostro codice con gli altri e sapere esattamente ciò "
+"che sentiranno quando lo eseguono. Alla fine della Sezione 5.6 di questa "
+"lezione, abbiamo trattato in breve la ragione perché *non dobbiamo usare "
+"variabili per condividere informazioni attraverso i thread*, dovuta alla "
+"perdita del determinismo (a sua volta dovuta alle condizioni di gara)."
 
 #: 10-State.md:16
 msgid ""
@@ -8548,18 +8590,26 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic.*."
 msgstr ""
+"La soluzione di Sonic Pi al problema di lavorare facilmente con variabili "
+"globali in un modo deterministico è con un sistema nuovo chiamato Time State "
+"(stato temporale). Può sembrare complesso e difficile (infatti, nel Regno "
+"Unito, programmazione con thread molteplici e memoria condivisa è "
+"tipicamente una matteria al livello universitario). Ma, come vedrai, simile "
+"a suonare la prima nota, *Sonic Pi facilita molto la condivisione di stato "
+"attraverso vari thread* mentre mantiene i tuoi programmi thread-safe e "
+"deterministici*."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
-msgstr ""
+msgstr "Ti presento `get` e `set`..."
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
-msgstr ""
+msgstr "10.1 Set e Get"
 
 #: 10.1-Set-and-Get.md:3
 msgid "Set and Get"
-msgstr ""
+msgstr "Set e Get"
 
 #: 10.1-Set-and-Get.md:5
 msgid ""
@@ -8567,39 +8617,46 @@ msgid ""
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
+"Sonic Pi ha un archivio globale di memoria chiamato Time State. Le due cose "
+"principali che fai con questo sono `set` (impostare) e `get` (richiamare) "
+"informazioni. Immergiamoci di più..."
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
-msgstr ""
+msgstr "Per impostare informazioni nel Time State abbiamo bisogno di due cose:"
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr ""
+msgstr "le informazioni che vogliamo impostare,"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "un nome unico (la chiave) per le informazioni."
 
 #: 10.1-Set-and-Get.md:16
 msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"Per esempio, forse vogliamo impostare il numero `3000` sotto la chiave "
+"`:intensity`. Questo è possibile utilizzano la funzione `set`:"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
 msgid "set :intensity, 3000"
-msgstr ""
+msgstr "set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:23
 msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
+"Possiamo usare qualsiasi nome per la chiave. Se si sono già impostate "
+"informazioni con quella chiave, il nuovo `set` le sostituisce:"
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8614,10 +8671,14 @@ msgid ""
 "all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
 " as the first call to `set` is effectively overridden."
 msgstr ""
+"Nell'esempio sopra, visto che abbiamo memorizzato tutti e due i numeri sotto "
+"la stessa chiave, \"vince\" l'ultima chiamata di `set`, così il numero "
+"associato con `:intensity` sarà `3000` perché la prima chiamata di `set` è "
+"in effetti soprascritta."
 
 #: 10.1-Set-and-Get.md:35
 msgid "Get"
-msgstr ""
+msgstr "Get"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
@@ -8625,11 +8686,15 @@ msgid ""
 " it, which in our case is `:intensity`. We then just need to call `get[:intens"
 "ity]` which we can see by printing out the result to the log:"
 msgstr ""
+"Per recuperare informazioni dal Time State abbiamo bisogno solamente della "
+"chiave usata per fare il `set`; in questo caso, `:intensity`. Poi, basta che "
+"chiamiamo `get[:intensity]`, che possiamo verificare facilmente stampandone "
+"il risultato sul log:"
 
 #: 10.1-Set-and-Get.md:42
 #, no-wrap
 msgid "print get[:intensity] #=> prints 3000"
-msgstr ""
+msgstr "print get[:intensity] #=> stampa 3000"
 
 #: 10.1-Set-and-Get.md:46
 msgid ""
@@ -8638,11 +8703,15 @@ msgid ""
 "the information is overridden (just like we clobbered the `:intensity` value o"
 "f `1000` to `3000` above) or Sonic Pi is closed."
 msgstr ""
+"Nota che le chiamate a `get` possono restituire informazioni che erano `set` "
+"da una esecuzione   precedente. Una volta impostata una informazione con "
+"`set`, è disponibile fino a quando non viene soprascritta (come sopra "
+"abbiamo rimpiazzato il valore `1000` di `:intensity` con `3000`) o fino a "
+"quando non viene chiuso Sonic Pi."
 
 #: 10.1-Set-and-Get.md:52
-#, fuzzy
 msgid "Multiple Threads"
-msgstr "Catene"
+msgstr "Thread Molteplici"
 
 #: 10.1-Set-and-Get.md:54
 msgid ""
@@ -8650,10 +8719,12 @@ msgid ""
 " threads or live loops. For example, you could have one live loop setting info"
 "rmation and another one getting it:"
 msgstr ""
+"Il beneficio principale del sistema Time State è che si può usare senza "
+"rischi attraverso thread o cicli vivi. Per esempio, puoi avere un ciclo vivo "
+"che imposta informazioni ed un altro che le recupera:"
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8663,7 +8734,15 @@ msgid ""
 "  puts get[:foo]\n"
 "  sleep 0.5\n"
 "end"
-msgstr "rrand (Funzione random)"
+msgstr ""
+"live_loop :setter do\n"
+"  set :foo, rrand(70, 130)\n"
+"  sleep 1\n"
+"end\n"
+"live_loop :getter do\n"
+"  puts get[:foo]\n"
+"  sleep 0.5\n"
+"end"
 
 #: 10.1-Set-and-Get.md:70
 msgid ""
@@ -8671,6 +8750,9 @@ msgid ""
 " will always produce the same result every time you hit run. Go on, try it. Se"
 "e if you get the following in your log:"
 msgstr ""
+"Una cosa bella  dell'uso di `get` e `set` in questo modo attraverso i thread "
+"è che genera sempre lo stesso risultato ogni volta che premi \"Run\". Dai, "
+"provalo. Vedi se ottieni il seguente nel tuo log:"
 
 #: 10.1-Set-and-Get.md:74
 #, no-wrap
@@ -8701,18 +8783,25 @@ msgid ""
 "ly what we wanted them to hear (just like playing an MP3 or internet stream so"
 "unds the same for all listeners)."
 msgstr ""
+"Prova ad eseguire alcune volte — vedi, è uguale ogni volta. Questo si chiama "
+"comportamento deterministico ed è importantissimo quando vogliamo "
+"condividere la nostra musica in forma di codice e sapere che la persona che "
+"la esegue sente esattamente quello che abbiamo voluto che sentisse (come un "
+"MP3 o un flusso di internet suona lo stesso per tutti gli ascoltatori)."
 
 #: 10.1-Set-and-Get.md:107
 msgid "A Simple Deterministic State System"
-msgstr ""
+msgstr "Un Sistema Semplice di Stato Deterministico"
 
 #: 10.1-Set-and-Get.md:109
-#, fuzzy
 msgid ""
 "Back in Section 5.6 we discussed why using variables across threads can lead t"
 "o random behaviour. This stops us from being able to reliably reproduce code s"
 "uch as this:"
-msgstr "rand"
+msgstr ""
+"Nella Sezione 5.6 abbiamo parlato della ragione perché usare variabili "
+"attraverso thread può causare comportamento casuale. Questo ci blocca da "
+"potere riprodurre code come questo in maniera affidabile:"
 
 #: 10.1-Set-and-Get.md:113
 #, no-wrap
@@ -8736,10 +8825,28 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"## Un Esempio di Comportamento Non-Deterministico\n"
+"## (dovuto a condizioni di gara causate da vari\n"
+"## cicli vivi che manipolano lo stesso variabile allo\n"
+"## stesso tempo).\n"
+"##  \n"
+"## Se esegui questo codice noterai\n"
+"## che l'elenco che viene stampato non\n"
+"## è sempre in ordine!\n"
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
-msgstr ""
+msgstr "Guardiamo come possiamo fare questo con `get` e `set`:"
 
 #: 10.1-Set-and-Get.md:138
 #, no-wrap
@@ -8761,6 +8868,24 @@ msgid ""
 "  puts \"sorted: \", get[:a]\n"
 "end"
 msgstr ""
+"## Un Esempio di Comportamento Deterministico\n"
+"## (nonostante accesso concorrente dello\n"
+"## stato condiviso) usando il nuovo sistema\n"
+"## Time State di Sonic Pi.\n"
+"##\n"
+"## Quando questo codice si esegue, l'elenco che\n"
+"## viene stampato è sempre in ordine!\n"
+"##\n"
+"set :a, (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  set :a, get[:a].shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  set :a, get[:a].sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", get[:a]\n"
+"end"
 
 #: 10.1-Set-and-Get.md:159
 msgid ""
@@ -8769,12 +8894,19 @@ msgid ""
 "any typical Sonic Pi code - *it does the same thing every time* in this case t"
 "hanks to the Time State system."
 msgstr ""
+"Nota che questo codice è quasi uguale alla versione prima che usava un "
+"variabile. Ma quando esegui questo codice, si comporta come si aspetta con "
+"qualsiasi codice tipico di Sonic Pi — *fa la stessa cosa ogni volta* in "
+"questo caso, grazie al sistema Time State."
 
 #: 10.1-Set-and-Get.md:164
 msgid ""
 "Therefore, when sharing information across live loops and threads, use `get` a"
 "nd `set` instead of variables for deterministic, reproducible behaviour."
 msgstr ""
+"Dunque, quando si condividono informazioni fra cicli vivi e thread, usa `get`"
+" e `set` invece di variabili per avere comportamento deterministico e "
+"riproducibile."
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
