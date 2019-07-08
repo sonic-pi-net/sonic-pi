@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Предпочитания</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
@@ -18,14 +18,17 @@
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Соник Пай</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Промени стерео инверсията.
+Ако е включена, звук, изпратен към 
+левия говорител ще бъде препратен
+към десния и обратното.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -34,12 +37,17 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Промени режим моно.
+Ако е включен, звук към левия и десния говорител
+е смесен и еднакъв сигнал ще бъде изпратен към
+двата говорителя. Полезно, когато се работи с
+външни системи, които могат да работят само
+в режим моно.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Конфигурирай настройки за debugging</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
