@@ -343,88 +343,239 @@ bool MainWindow::initAndCheckPorts() {
 }
 
 void MainWindow::loadToolBarIcons() {
+  // load up icons into memory
   std::cout << "[GUI] - initialising toolbar icons" << std::endl;
-  // load up pro icons into memory
-  pro_run_icon = QIcon(":/images/toolbar/pro/run.png");
-  pro_stop_icon = QIcon(":/images/toolbar/pro/stop.png");
-  pro_save_icon = QIcon(":/images/toolbar/pro/save.png");
-  pro_load_icon = QIcon(":/images/toolbar/pro/load.png");
-  pro_rec_icon = QIcon(":/images/toolbar/pro/rec.png");
-  pro_size_up_icon = QIcon(":/images/toolbar/pro/size-up.png");
-  pro_size_down_icon = QIcon(":/images/toolbar/pro/size-down.png");
-  pro_scope_bordered_icon = QIcon(":/images/toolbar/pro/scope-bordered.png");
-  pro_scope_icon = QIcon(":/images/toolbar/pro/scope.png");
-  pro_info_icon = QIcon(":/images/toolbar/pro/info.png");
-  pro_info_bordered_icon = QIcon(":/images/toolbar/pro/info-bordered.png");
-  pro_help_bordered_icon = QIcon(":/images/toolbar/pro/help-bordered.png");
-  pro_help_icon = QIcon(":/images/toolbar/pro/help.png");
-  pro_prefs_icon = QIcon(":/images/toolbar/pro/prefs.png");
-  pro_prefs_bordered_icon = QIcon(":/images/toolbar/pro/prefs-bordered.png");
-  pro_info_dark_bordered_icon = QIcon(":/images/toolbar/pro/info-dark-bordered.png");
-  pro_info_dark_icon = QIcon(":/images/toolbar/pro/info-dark.png");
-  pro_help_dark_bordered_icon = QIcon(":/images/toolbar/pro/help-dark-bordered.png");
-  pro_help_dark_icon = QIcon(":/images/toolbar/pro/help-dark.png");
-  pro_prefs_dark_bordered_icon = QIcon(":/images/toolbar/pro/prefs-dark-bordered.png");
-  pro_prefs_dark_icon = QIcon(":/images/toolbar/pro/prefs-dark.png");
-  pro_rec_b_icon = QIcon(":/images/toolbar/pro/recording-b.png");
-  pro_rec_b_dark_icon = QIcon(":/images/toolbar/pro/recording-b-dark.png");
-  pro_load_dark_icon = QIcon(":/images/toolbar/pro/load-dark.png");
-  pro_save_dark_icon = QIcon(":/images/toolbar/pro/save-dark.png");
 
-  default_light_run_icon = QIcon(":/images/toolbar/default/light-run.png");
-  default_light_stop_icon = QIcon(":/images/toolbar/default/light-stop.png");
-  default_light_save_icon = QIcon(":/images/toolbar/default/light-save.png");
-  default_light_load_icon = QIcon(":/images/toolbar/default/light-load.png");
-  default_light_rec_icon = QIcon(":/images/toolbar/default/light-rec.png");
-  default_light_rec_a_icon = QIcon(":/images/toolbar/default/light-rec-a.png");
-  default_light_rec_b_icon = QIcon(":/images/toolbar/default/light-rec-b.png");
-  default_light_size_up_icon = QIcon(":/images/toolbar/default/light-size-up.png");
-  default_light_size_down_icon = QIcon(":/images/toolbar/default/light-size-down.png");
-  default_light_scope_icon = QIcon(":/images/toolbar/default/light-scope.png");
-  default_light_scope_toggled_icon = QIcon(":/images/toolbar/default/light-scope-toggled.png");
-  default_light_info_icon = QIcon(":/images/toolbar/default/light-info.png");
-  default_light_info_toggled_icon = QIcon(":/images/toolbar/default/light-info-toggled.png");
-  default_light_help_icon = QIcon(":/images/toolbar/default/light-help.png");
-  default_light_help_toggled_icon = QIcon(":/images/toolbar/default/light-help-toggled.png");
-  default_light_prefs_icon = QIcon(":/images/toolbar/default/light-prefs.png");
-  default_light_prefs_toggled_icon = QIcon(":/images/toolbar/default/light-prefs-toggled.png");
+  QSize pro_size = QSize(30.0, 30.0);
+  QSize def_size = QSize(84.6, 30.0);
 
-    default_dark_run_icon = QIcon(":/images/toolbar/default/dark-run.png");
-  default_dark_stop_icon = QIcon(":/images/toolbar/default/dark-stop.png");
-  default_dark_save_icon = QIcon(":/images/toolbar/default/dark-save.png");
-  default_dark_load_icon = QIcon(":/images/toolbar/default/dark-load.png");
-  default_dark_rec_icon = QIcon(":/images/toolbar/default/dark-rec.png");
-  default_dark_rec_a_icon = QIcon(":/images/toolbar/default/dark-rec-a.png");
-  default_dark_rec_b_icon = QIcon(":/images/toolbar/default/dark-rec-b.png");
-  default_dark_size_up_icon = QIcon(":/images/toolbar/default/dark-size-up.png");
-  default_dark_size_down_icon = QIcon(":/images/toolbar/default/dark-size-down.png");
-  default_dark_scope_icon = QIcon(":/images/toolbar/default/dark-scope.png");
-  default_dark_scope_toggled_icon = QIcon(":/images/toolbar/default/dark-scope-toggled.png");
-  default_dark_info_icon = QIcon(":/images/toolbar/default/dark-info.png");
-  default_dark_info_toggled_icon = QIcon(":/images/toolbar/default/dark-info-toggled.png");
-  default_dark_help_icon = QIcon(":/images/toolbar/default/dark-help.png");
-  default_dark_help_toggled_icon = QIcon(":/images/toolbar/default/dark-help-toggled.png");
-  default_dark_prefs_icon = QIcon(":/images/toolbar/default/dark-prefs.png");
-  default_dark_prefs_toggled_icon = QIcon(":/images/toolbar/default/dark-prefs-toggled.png");
+  pro_run_icon = QIcon();
+  pro_run_icon.addFile(":/images/toolbar/pro/run.png", pro_size);
 
-      default_hc_run_icon = QIcon(":/images/toolbar/default/hc-run.png");
-  default_hc_stop_icon = QIcon(":/images/toolbar/default/hc-stop.png");
-  default_hc_save_icon = QIcon(":/images/toolbar/default/hc-save.png");
-  default_hc_load_icon = QIcon(":/images/toolbar/default/hc-load.png");
-  default_hc_rec_icon = QIcon(":/images/toolbar/default/hc-rec.png");
-  default_hc_rec_a_icon = QIcon(":/images/toolbar/default/hc-rec-a.png");
-  default_hc_rec_b_icon = QIcon(":/images/toolbar/default/hc-rec-b.png");
-  default_hc_size_up_icon = QIcon(":/images/toolbar/default/hc-size-up.png");
-  default_hc_size_down_icon = QIcon(":/images/toolbar/default/hc-size-down.png");
-  default_hc_scope_icon = QIcon(":/images/toolbar/default/hc-scope.png");
-  default_hc_scope_toggled_icon = QIcon(":/images/toolbar/default/hc-scope-toggled.png");
-  default_hc_info_icon = QIcon(":/images/toolbar/default/hc-info.png");
-  default_hc_info_toggled_icon = QIcon(":/images/toolbar/default/hc-info-toggled.png");
-  default_hc_help_icon = QIcon(":/images/toolbar/default/hc-help.png");
-  default_hc_help_toggled_icon = QIcon(":/images/toolbar/default/hc-help-toggled.png");
-  default_hc_prefs_icon = QIcon(":/images/toolbar/default/hc-prefs.png");
-  default_hc_prefs_toggled_icon = QIcon(":/images/toolbar/default/hc-prefs-toggled.png");
+  pro_stop_icon = QIcon();
+  pro_stop_icon.addFile(":/images/toolbar/pro/stop.png", pro_size);
 
+  pro_save_icon = QIcon();
+  pro_save_icon.addFile(":/images/toolbar/pro/save.png", pro_size);
+
+  pro_load_icon = QIcon();
+  pro_load_icon.addFile(":/images/toolbar/pro/load.png", pro_size);
+
+  pro_rec_icon = QIcon();
+  pro_rec_icon.addFile(":/images/toolbar/pro/rec.png", pro_size);
+
+  pro_size_up_icon = QIcon();
+  pro_size_up_icon.addFile(":/images/toolbar/pro/size-up.png", pro_size);
+
+  pro_size_down_icon = QIcon();
+  pro_size_down_icon.addFile(":/images/toolbar/pro/size-down.png", pro_size);
+
+  pro_scope_bordered_icon = QIcon();
+  pro_scope_bordered_icon.addFile(":/images/toolbar/pro/scope-bordered.png", pro_size);
+
+  pro_scope_icon = QIcon();
+  pro_scope_icon.addFile(":/images/toolbar/pro/scope.png", pro_size);
+
+  pro_info_icon = QIcon();
+  pro_info_icon.addFile(":/images/toolbar/pro/info.png", pro_size);
+
+  pro_info_bordered_icon = QIcon();
+  pro_info_bordered_icon.addFile(":/images/toolbar/pro/info-bordered.png", pro_size);
+
+  pro_help_bordered_icon = QIcon();
+  pro_help_bordered_icon.addFile(":/images/toolbar/pro/help-bordered.png", pro_size);
+
+  pro_help_icon = QIcon();
+  pro_help_icon.addFile(":/images/toolbar/pro/help.png", pro_size);
+
+  pro_prefs_icon = QIcon();
+  pro_prefs_icon.addFile(":/images/toolbar/pro/prefs.png", pro_size);
+
+  pro_prefs_bordered_icon = QIcon();
+  pro_prefs_bordered_icon.addFile(":/images/toolbar/pro/prefs-bordered.png", pro_size);
+
+  pro_info_dark_bordered_icon = QIcon();
+  pro_info_dark_bordered_icon.addFile(":/images/toolbar/pro/info-dark-bordered.png", pro_size);
+
+  pro_info_dark_icon = QIcon();
+  pro_info_dark_icon.addFile(":/images/toolbar/pro/info-dark.png", pro_size);
+
+  pro_help_dark_bordered_icon = QIcon();
+  pro_help_dark_bordered_icon.addFile(":/images/toolbar/pro/help-dark-bordered.png", pro_size);
+
+  pro_help_dark_icon = QIcon();
+  pro_help_dark_icon.addFile(":/images/toolbar/pro/help-dark.png", pro_size);
+
+  pro_prefs_dark_bordered_icon = QIcon();
+  pro_prefs_dark_bordered_icon.addFile(":/images/toolbar/pro/prefs-dark-bordered.png", pro_size);
+
+  pro_prefs_dark_icon = QIcon();
+  pro_prefs_dark_icon.addFile(":/images/toolbar/pro/prefs-dark.png", pro_size);
+
+  pro_rec_b_icon = QIcon();
+  pro_rec_b_icon.addFile(":/images/toolbar/pro/recording-b.png", pro_size);
+
+  pro_rec_b_dark_icon = QIcon();
+  pro_rec_b_dark_icon.addFile(":/images/toolbar/pro/recording-b-dark.png", pro_size);
+
+  pro_load_dark_icon = QIcon();
+  pro_load_dark_icon.addFile(":/images/toolbar/pro/load-dark.png", pro_size);
+
+  pro_save_dark_icon = QIcon();
+  pro_save_dark_icon.addFile(":/images/toolbar/pro/save-dark.png", pro_size);
+
+  default_light_run_icon = QIcon();
+  default_light_run_icon.addFile(":/images/toolbar/default/light-run.png", def_size);
+
+  default_light_stop_icon = QIcon();
+  default_light_stop_icon.addFile(":/images/toolbar/default/light-stop.png", def_size);
+
+  default_light_save_icon = QIcon();
+  default_light_save_icon.addFile(":/images/toolbar/default/light-save.png", def_size);
+
+  default_light_load_icon = QIcon();
+  default_light_load_icon.addFile(":/images/toolbar/default/light-load.png", def_size);
+
+  default_light_rec_icon = QIcon();
+  default_light_rec_icon.addFile(":/images/toolbar/default/light-rec.png", def_size);
+
+  default_light_rec_a_icon = QIcon();
+  default_light_rec_a_icon.addFile(":/images/toolbar/default/light-rec-a.png", def_size);
+
+  default_light_rec_b_icon = QIcon();
+  default_light_rec_b_icon.addFile(":/images/toolbar/default/light-rec-b.png", def_size);
+
+  default_light_size_up_icon = QIcon();
+  default_light_size_up_icon.addFile(":/images/toolbar/default/light-size-up.png", def_size);
+
+  default_light_size_down_icon = QIcon();
+  default_light_size_down_icon.addFile(":/images/toolbar/default/light-size-down.png", def_size);
+
+  default_light_scope_icon = QIcon();
+  default_light_scope_icon.addFile(":/images/toolbar/default/light-scope.png", def_size);
+
+  default_light_scope_toggled_icon = QIcon();
+  default_light_scope_toggled_icon.addFile(":/images/toolbar/default/light-scope-toggled.png", def_size);
+
+  default_light_info_icon = QIcon();
+  default_light_info_icon.addFile(":/images/toolbar/default/light-info.png", def_size);
+
+  default_light_info_toggled_icon = QIcon();
+  default_light_info_toggled_icon.addFile(":/images/toolbar/default/light-info-toggled.png", def_size);
+
+  default_light_help_icon = QIcon();
+  default_light_help_icon.addFile(":/images/toolbar/default/light-help.png", def_size);
+
+  default_light_help_toggled_icon = QIcon();
+  default_light_help_toggled_icon.addFile(":/images/toolbar/default/light-help-toggled.png", def_size);
+
+  default_light_prefs_icon = QIcon();
+  default_light_prefs_icon.addFile(":/images/toolbar/default/light-prefs.png", def_size);
+
+  default_light_prefs_toggled_icon = QIcon();
+  default_light_prefs_toggled_icon.addFile(":/images/toolbar/default/light-prefs-toggled.png", def_size);
+
+  default_dark_run_icon = QIcon();
+  default_dark_run_icon.addFile(":/images/toolbar/default/dark-run.png", def_size);
+
+  default_dark_stop_icon = QIcon();
+  default_dark_stop_icon.addFile(":/images/toolbar/default/dark-stop.png", def_size);
+
+  default_dark_save_icon = QIcon();
+  default_dark_save_icon.addFile(":/images/toolbar/default/dark-save.png", def_size);
+
+  default_dark_load_icon = QIcon();
+  default_dark_load_icon.addFile(":/images/toolbar/default/dark-load.png", def_size);
+
+  default_dark_rec_icon = QIcon();
+  default_dark_rec_icon.addFile(":/images/toolbar/default/dark-rec.png", def_size);
+
+  default_dark_rec_a_icon = QIcon();
+  default_dark_rec_a_icon.addFile(":/images/toolbar/default/dark-rec-a.png", def_size);
+
+  default_dark_rec_b_icon = QIcon();
+  default_dark_rec_b_icon.addFile(":/images/toolbar/default/dark-rec-b.png", def_size);
+
+  default_dark_size_up_icon = QIcon();
+  default_dark_size_up_icon.addFile(":/images/toolbar/default/dark-size-up.png", def_size);
+
+  default_dark_size_down_icon = QIcon();
+  default_dark_size_down_icon.addFile(":/images/toolbar/default/dark-size-down.png", def_size);
+
+  default_dark_scope_icon = QIcon();
+  default_dark_scope_icon.addFile(":/images/toolbar/default/dark-scope.png", def_size);
+
+  default_dark_scope_toggled_icon = QIcon();
+  default_dark_scope_toggled_icon.addFile(":/images/toolbar/default/dark-scope-toggled.png", def_size);
+
+  default_dark_info_icon = QIcon();
+  default_dark_info_icon.addFile(":/images/toolbar/default/dark-info.png", def_size);
+
+  default_dark_info_toggled_icon = QIcon();
+  default_dark_info_toggled_icon.addFile(":/images/toolbar/default/dark-info-toggled.png", def_size);
+
+  default_dark_help_icon = QIcon();
+  default_dark_help_icon.addFile(":/images/toolbar/default/dark-help.png", def_size);
+
+  default_dark_help_toggled_icon = QIcon();
+  default_dark_help_toggled_icon.addFile(":/images/toolbar/default/dark-help-toggled.png", def_size);
+
+  default_dark_prefs_icon = QIcon();
+  default_dark_prefs_icon.addFile(":/images/toolbar/default/dark-prefs.png", def_size);
+
+  default_dark_prefs_toggled_icon = QIcon();
+  default_dark_prefs_toggled_icon.addFile(":/images/toolbar/default/dark-prefs-toggled.png", def_size);
+
+  default_hc_run_icon = QIcon();
+  default_hc_run_icon.addFile(":/images/toolbar/default/hc-run.png", def_size);
+
+  default_hc_stop_icon = QIcon();
+  default_hc_stop_icon.addFile(":/images/toolbar/default/hc-stop.png", def_size);
+
+  default_hc_save_icon = QIcon();
+  default_hc_save_icon.addFile(":/images/toolbar/default/hc-save.png", def_size);
+
+  default_hc_load_icon = QIcon();
+  default_hc_load_icon.addFile(":/images/toolbar/default/hc-load.png", def_size);
+
+  default_hc_rec_icon = QIcon();
+  default_hc_rec_icon.addFile(":/images/toolbar/default/hc-rec.png", def_size);
+
+  default_hc_rec_a_icon = QIcon();
+  default_hc_rec_a_icon.addFile(":/images/toolbar/default/hc-rec-a.png", def_size);
+
+  default_hc_rec_b_icon = QIcon();
+  default_hc_rec_b_icon.addFile(":/images/toolbar/default/hc-rec-b.png", def_size);
+
+  default_hc_size_up_icon = QIcon();
+  default_hc_size_up_icon.addFile(":/images/toolbar/default/hc-size-up.png", def_size);
+
+  default_hc_size_down_icon = QIcon();
+  default_hc_size_down_icon.addFile(":/images/toolbar/default/hc-size-down.png", def_size);
+
+  default_hc_scope_icon = QIcon();
+  default_hc_scope_icon.addFile(":/images/toolbar/default/hc-scope.png", def_size);
+
+  default_hc_scope_toggled_icon = QIcon();
+  default_hc_scope_toggled_icon.addFile(":/images/toolbar/default/hc-scope-toggled.png", def_size);
+
+  default_hc_info_icon = QIcon();
+  default_hc_info_icon.addFile(":/images/toolbar/default/hc-info.png", def_size);
+
+  default_hc_info_toggled_icon = QIcon();
+  default_hc_info_toggled_icon.addFile(":/images/toolbar/default/hc-info-toggled.png", def_size);
+
+  default_hc_help_icon = QIcon();
+  default_hc_help_icon.addFile(":/images/toolbar/default/hc-help.png", def_size);
+
+  default_hc_help_toggled_icon = QIcon();
+  default_hc_help_toggled_icon.addFile(":/images/toolbar/default/hc-help-toggled.png", def_size);
+
+  default_hc_prefs_icon = QIcon();
+  default_hc_prefs_icon.addFile(":/images/toolbar/default/hc-prefs.png", def_size);
+
+  default_hc_prefs_toggled_icon = QIcon();
+  default_hc_prefs_toggled_icon.addFile(":/images/toolbar/default/hc-prefs-toggled.png", def_size);
 }
 
 
