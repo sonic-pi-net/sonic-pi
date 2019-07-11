@@ -3,6 +3,16 @@
 #Fail script on first error encountered
 set -e
 
+# Check if there's enough mem to build
+MEM=$(free -m | awk '/^Mem:/{print $2}')
+if [ $MEM -lt 3942 ]; then
+  echo "You don't have enough memory."
+  echo "The build will probably fail."
+  exit
+else
+  echo 'Memory seems fine'
+fi
+
 #Application/library versions built by this script.
 SUPERCOLLIDER_VERSION=3.10.2
 SC_PLUGINS_VERSION=3.10.0
@@ -23,12 +33,12 @@ echo "Please direct rage and suggestions to https://in-thread.sonic-pi.net/"
 sudo apt-get install -y \
      g++ ruby ruby-dev pkg-config git build-essential libjack-jackd2-dev \
      libsndfile1-dev libasound2-dev libavahi-client-dev libicu-dev \
-     libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake libboost-dev \
+     libreadline-dev libfftw3-dev libxt-dev libudev-dev cmake libboost-dev \
      libqwt-qt5-dev libqt5svg5-dev qt5-qmake qt5-default \
      qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev \
      qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev libffi-dev \
      libqt5opengl5-dev curl python erlang-base libqscintilla2-qt5-dev \
-     qtwebengine5-dev libqt5websockets5-dev
+     qtwebengine5-dev libqt5websockets5-dev libssl-dev
 
 ### IF YOU HAVE PROBLEMS WITH qwt
 #cd $SP_APP_SRC/../../../../
