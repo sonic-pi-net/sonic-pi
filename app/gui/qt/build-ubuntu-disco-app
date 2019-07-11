@@ -131,13 +131,14 @@ erlc pi_server.erl
 
 # Fix Rugged
 cd ${SP_APP_SRC}/../../server/ruby/vendor
-if [ ! -d rugged-${RUGGED_VERSION} ]; then
-    git clone -b ${RUGGED_VERSION} --recurse-submodules https://github.com/libgit2/rugged.git rugged-${RUGGED_VERSION}
-    cd rugged-${RUGGED_VERSION}/vendor/libgit2
-    mkdir -p build
-    cd build
-    cmake ..
-fi
+git clone -b ${RUGGED_VERSION} --recurse-submodules https://github.com/libgit2/rugged.git rugged-${RUGGED_VERSION} || true
+cd rugged-${RUGGED_VERSION}/vendor/libgit2
+mkdir -p build
+cd build
+cmake ..
+cd ../../..
+gem build rugged.gemspec
+sudo gem install rugged
 cd ${SP_APP_SRC}
 sed -i "s/rugged-0.26.0/rugged-${RUGGED_VERSION}/g" ../../server/ruby/bin/compile-extensions.rb
 
