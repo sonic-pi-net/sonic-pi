@@ -253,6 +253,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::cout << "[GUI] - Critical Error. Unable to connect to server.." << std::endl;
     startupError("GUI was unable to connect to the Ruby server.");
   }
+
+  app.setActiveWindow(tabs->currentWidget());
+
 }
 
 bool MainWindow::initAndCheckPorts() {
