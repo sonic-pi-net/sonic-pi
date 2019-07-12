@@ -5,7 +5,7 @@ set -e
 
 # Check if there's enough mem to build
 MEM=$(free -m | awk '/^Mem:/{print $2}')
-if [ $MEM -lt 3942 ]; then
+if [ $MEM -lt 2933 ]; then
   echo "You don't have enough memory."
   echo "The build will probably fail."
   exit
