@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
   splashWindow->setAttribute( Qt::WA_TranslucentBackground);
   QPixmap image(":/images/splash@2x.png");
   imageLabel->setPixmap(image);
+
   splashWindow->setCentralWidget(imageLabel);
   splashWindow->setMinimumHeight(image.height()/2);
   splashWindow->setMaximumHeight(image.height()/2);
@@ -64,6 +65,7 @@ int main(int argc, char *argv[])
 
   splashWindow->raise();
   splashWindow->show();
+  app.processEvents();
 
   MainWindow mainWin(app, i18n, splashWindow);
   return app.exec();
@@ -73,7 +75,7 @@ int main(int argc, char *argv[])
   splash->setMask(pixmap.mask());
   splash->show();
   splash->repaint();
-
+  app.processEvents();
   MainWindow mainWin(app, i18n, splash);
   return app.exec();
 #endif
