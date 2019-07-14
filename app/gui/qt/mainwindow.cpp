@@ -349,8 +349,8 @@ void MainWindow::loadToolBarIcons() {
   // load up icons into memory
   std::cout << "[GUI] - initialising toolbar icons" << std::endl;
 
-  QSize pro_size = QSize(30.0, 30.0);
-  QSize def_size = QSize(84.6, 30.0);
+  QSize pro_size = QSize(30, 30);
+  QSize def_size = QSize(85, 30);
 
   pro_run_icon = QIcon();
   pro_run_icon.addFile(":/images/toolbar/pro/run.png", pro_size);
