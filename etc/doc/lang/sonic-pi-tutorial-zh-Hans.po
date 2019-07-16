@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-06-18 19:03+0000\n"
-"Last-Translator: 张达 <adamzhang1987@gmail.com>\n"
+"PO-Revision-Date: 2019-07-18 17:05+0000\n"
+"Last-Translator: DahliaSager <1486097136@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.7\n"
+"X-Generator: Weblate 3.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -501,7 +501,6 @@ msgid "There are no mistakes"
 msgstr "怎么折腾都不会出错"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -516,7 +515,7 @@ msgid ""
 msgstr ""
 "既然我们正在讨论这个问题，以我这么多年来码音乐的经验，让我来给你一些建议吧：不要怕犯错，勇于尝试。这是我弹爵士乐的时候听到最多的一句话，当然它同样适用于编"
 "码。无论你在编码方面的经验如何，无论你是菜鸟还是大神，你都会写出一些出乎你意料之外的结果。在某种情况下，有些代码可能听起来有些疯狂和你预想的有差错。有差错"
-"没关系，重要的是你接下来怎么做。再听一遍，然后更正成为你想要的样子。The crowd will go *wild*."
+"没关系，重要的是你接下来怎么做。再听一遍，然后更正成为你想要的样子。人群要噪起来。"
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -550,7 +549,7 @@ msgstr "合成器"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr "OK,自我介绍差不多结束了 - 让我们来点音乐吧。"
+msgstr "OK，介绍差不多结束了 - 让我们来点音乐吧。"
 
 #: 02-Synths.md:7
 msgid ""
@@ -1233,11 +1232,11 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr ""
+msgstr "2.4 包络效果(envelope)下的声音持续"
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
-msgstr ""
+msgstr "包络效果(envelope)下的声音持续"
 
 #: 02.4-Durations-with-Envelopes.md:5
 msgid ""
@@ -1253,14 +1252,16 @@ msgid ""
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
+"为了给我们提供一种简单而强大的方法来[控制我们的声音的持续时间]，Sonic Pi提出了[ADSR振幅包络(ADSR amplitude "
+"envelope)]的概念(我们将在本节稍后介绍ADSR的含义)。振幅包络提供了两个有用的控制方面:"
 
 #: 02.4-Durations-with-Envelopes.md:14
 msgid "control over the duration of a sound"
-msgstr ""
+msgstr "控制声音的持续时间"
 
 #: 02.4-Durations-with-Envelopes.md:15
 msgid "control over the amplitude of a sound"
-msgstr ""
+msgstr "控制声音的振幅"
 
 #: 02.4-Durations-with-Envelopes.md:17
 msgid "Duration"
@@ -1301,7 +1302,7 @@ msgstr "现在，让我们来一个一个看一下包络(envelopes)中的每个�
 
 #: 02.4-Durations-with-Envelopes.md:42
 msgid "Release Phase"
-msgstr ""
+msgstr "声音释放阶段"
 
 #: 02.4-Durations-with-Envelopes.md:44
 msgid ""
