@@ -1,3 +1,5 @@
+set -eux
+
 ./mac-build-app
 
 cd build/Sonic\ Pi.app/
