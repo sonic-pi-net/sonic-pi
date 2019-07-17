@@ -877,10 +877,6 @@ class Hash
   end
 end
 
-
-
-# Meta-glasses from our hero Why to help us
-# see more clearly..
 class Object
 
   def sp_log_inspect
@@ -922,6 +918,9 @@ class Object
   def look(*args)
     self.ring.look(*args)
   end
+
+  # Meta-glasses from our hero Why to help us
+  # see more clearly..
 
   # The hidden singleton lurks behind everyone
   def metaclass; class << self; self; end; end
