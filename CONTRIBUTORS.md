@@ -84,6 +84,7 @@ especially the following individuals who have been remarkably generous:
 * [Paul Williams](https://pcwilliams.design)
 * [Pit Noack](http://www.maschinennah.de/)
 * [Richard Buckley](https://burgundycomputing.com)
+* [Sébastien Rannou](https://mxs.sbrk.org/)
 * [Scott Turner](https://twitter.com/scottturneruon)
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
