@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-12-13 07:09+0000\n"
+"PO-Revision-Date: 2019-07-18 17:05+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -710,15 +710,18 @@ msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
+"Quina bogeria! Estic segur que podríeu seguir així la resta del dia. Però "
+"espereu... Abans de perdre-vos en un bucle infinit de sons, proveu a canviar "
+"el número:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr ""
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
-msgstr "Podeu escoltar la diferència? Proveu amb un número més baix:"
+msgstr "Podeu escoltar la diferència? Proveu amb un número inferior:"
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
@@ -736,6 +739,14 @@ msgid ""
 "just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
 "y 60`."
 msgstr ""
+"Així que els números inferiors fan sons més greus i números superiors fan "
+"sons més aguts. De la mateixa manera que en un piano, on les tecles de la "
+"part greu (el costat de la mà esquerra) fan notes més greus i les tecles de "
+"la part aguda  (el costat de la mà dreta) fan notes més agudes. De fet, els "
+"números es relacionen amb les tecles del piano. `play 47`significa tocar la "
+"47a nota del piano; `play 48` es una nota més amunt (la tecla següent a la "
+"dreta). Això significa que  la tecla 60 és el Do de la 4a octava. Proveu-ho "
+"amb: `play 60`."
 
 #: 02.1-Your-First-Beeps.md:42
 msgid ""
@@ -746,7 +757,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
-msgstr ""
+msgstr "Acords"
 
 #: 02.1-Your-First-Beeps.md:48
 msgid ""
@@ -773,7 +784,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:61
 msgid "Melody"
-msgstr ""
+msgstr "Melodia"
 
 #: 02.1-Your-First-Beeps.md:63
 msgid ""
@@ -826,7 +837,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
-msgstr ""
+msgstr "Noms tradicionals de les notes"
 
 #: 02.1-Your-First-Beeps.md:99
 msgid ""
