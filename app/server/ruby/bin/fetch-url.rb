@@ -13,9 +13,29 @@
 
 require_relative "../core.rb"
 require_relative "../lib/sonicpi/util"
-
+require_relative "../lib/sonicpi/config/settings"
 require 'net/http'
 
 include SonicPi::Util
-response = fetch_url(ARGV[0])
-puts response.body if response
+
+url = ARGV[0]
+check_window_size = ARGV[1].to_i
+
+settings = SonicPi::Config::Settings.new(user_settings_path)
+body = settings.get("cached_url_#{url}")
+last_checked = settings.get("cached_url_last_checked_#{url}", Time.now).to_i
+
+if ((Time.now.to_i - last_checked) > check_window_size) || (body == nil)
+  puts 'forcing recheck'
+  # need to do a fresh check
+  response = fetch_url(url)
+  if response
+    body = response.body
+  else
+    body = ""
+  end
+  settings.set("cached_url_last_checked_#{url}", Time.now.to_i)
+  settings.set("cached_url_#{url}", body)
+end
+
+puts body if body
