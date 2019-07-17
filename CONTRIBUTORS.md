@@ -74,6 +74,7 @@ especially the following individuals who have been remarkably generous:
 * [Boris Bokowski](https://twitter.com/bokowski)
 * [Brandon Weaver](https://twitter.com/keystonelemur)
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
+* Dallas Kidd
 * [Darin Wilson](https://twitter.com/darinwilson/)
 * [Dean Wampler](https://twitter.com/deanwampler)
 * [Gabe Jackson](https://github.com/gj)
