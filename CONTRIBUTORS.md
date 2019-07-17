@@ -67,6 +67,7 @@ especially the following individuals who have been remarkably generous:
 
 * [Alexandre Enkerli](https://twitter.com/enkerli)
 * [Anderson Reinkordt](https://soundcloud.com/april-club-music)
+* [André-Patrick Bubel](https://andre-bubel.de)
 * [Bartosz Majsak](https://twitter.com/majson)
 * [Ben Davis](https://soundcloud.com/ben_davis_noise)
 * [Benjamin Reitzammer](https://cto.coffee)
