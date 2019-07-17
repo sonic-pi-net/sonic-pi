@@ -74,6 +74,7 @@ especially the following individuals who have been remarkably generous:
 * [Brandon Weaver](https://twitter.com/keystonelemur)
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
 * [Darin Wilson](https://twitter.com/darinwilson/)
+* [Gabe Jackson](https://github.com/gj)
 * [James Abley](https://twitter.com/jabley)
 * [Justin Worrall](https://twitter.com/juzbo)
 * [Luis Espinoza](https://twitter.com/luis_espinoza)
