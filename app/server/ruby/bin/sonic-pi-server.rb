@@ -157,6 +157,8 @@ end
 # First define a helper function to check to see if a given is available
 # on the system and to tell the gui to exit if not.
 check_port = lambda do |port|
+  return false if port < 1024
+
   available = false
   begin
     s = SonicPi::OSC::UDPServer.new(port)
