@@ -58,8 +58,8 @@
    )
 
 
-   (defsynth sonic-pi-synth_violin
-    "synth violin taken from Roger Allen's gist
+   (defsynth sonic-pi-blade
+    "blade taken from Roger Allen's gist
     https://gist.githubusercontent.com/rogerallen/5992549/raw/2e4ed49bef990817e83981d812ab609e1b3bb901/violin.clj
     inspired by Sound On Sound April-July 2003 articles."
     [note 52
