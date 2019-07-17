@@ -1318,14 +1318,6 @@ module SonicPi
       end
       @save_queue = SizedQueue.new(20)
 
-      @event_t = Thread.new do
-        __system_thread_locals.set_local(:sonic_pi_local_thread_group, :event_loop)
-        Kernel.loop do
-          event = @event_queue.pop
-          __handle_event event
-        end
-      end
-
       @save_t = Thread.new do
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :save_loop)
         Kernel.loop do
