@@ -12,9 +12,9 @@
 ;;++
 
 
-(ns sonic-pi.synths.samplers
+(ns sonic-pi.samplers
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 (without-namespace-in-synthdef
 

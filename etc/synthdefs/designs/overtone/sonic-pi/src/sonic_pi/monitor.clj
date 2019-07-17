@@ -11,12 +11,11 @@
 ;; notice is included.
 ;;++
 
-(ns sonic-pi.synths.monitor
+(ns sonic-pi.monitor
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 (without-namespace-in-synthdef
-
 
  (defsynth sonic-pi-amp_stereo_monitor [bus 0 smoothness 0.1]
    (let [tr  (impulse:kr 5)

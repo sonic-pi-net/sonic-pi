@@ -11,9 +11,9 @@
 ;; notice is included.
 ;;++
 
-(ns sonic-pi.synths.studio
+(ns sonic-pi.studio
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 
 (do
@@ -140,19 +140,27 @@
        (out out_bus (pan2 snd pan amp))))
 
    (defsynth sonic-pi-live_audio_stereo [amp 1
-                                amp_slide 0
-                                amp_slide_shape 1
-                                amp_slide_curve 0
-                                pan 0
-                                pan_slide 0
-                                pan_slide_shape 1
-                                pan_slide_curve 0
-                                input 1
-                                out_bus 0]
+                                         amp_slide 0
+                                         amp_slide_shape 1
+                                         amp_slide_curve 0
+                                         pan 0
+                                         pan_slide 0
+                                         pan_slide_shape 1
+                                         pan_slide_curve 0
+                                         cutoff 133
+                                         cutoff_slide 0
+                                         cutoff_slide_shape 1
+                                         cutoff_slide_curve 0
+                                         input 1
+                                         out_bus 0]
      (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           cutoff-freq (midicps cutoff)
            snd-l       (sound-in (- input 1))
+           snd-l       (lpf snd-l cutoff-freq)
            snd-r       (sound-in input)
+           snd-r       (lpf snd-r cutoff-freq)
            snd         (balance2 snd-l snd-r pan amp)]
        (out out_bus snd)))
 

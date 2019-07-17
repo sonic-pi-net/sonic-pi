@@ -11,9 +11,9 @@
 ;; notice is included.
 ;;++
 
-(ns sonic-pi.synths.tech
+(ns sonic-pi.tech
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 (without-namespace-in-synthdef
   (defsynth sonic-pi-tech_saws [note 52

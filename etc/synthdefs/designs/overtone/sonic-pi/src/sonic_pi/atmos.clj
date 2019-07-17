@@ -11,9 +11,9 @@
 ;; notice is included.
 ;;++
 
-(ns sonic-pi.synths.atmos
+(ns sonic-pi.atmos
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 (without-namespace-in-synthdef
     (defsynth sonic-pi-dark_ambience

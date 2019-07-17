@@ -12,7 +12,7 @@
 ;;++
 
 
-(ns sonic-pi.synths.basic
+(ns sonic-pi.basic
   (:use [overtone.live])
   (:require [sonic-pi.synths.core :as core]))
 

@@ -11,9 +11,9 @@
 ;; notice is included.
 ;;++
 
-(ns sonic-pi.synths.experimental
+(ns sonic-pi.experimental
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 (comment
   (do
@@ -200,6 +200,51 @@
     [wet-l wet-r] (pan2 snd)])
 
  (core/save-synthdef sonic-pi-fx_guitar_saw)
+
+ )
+
+(without-namespace-in-synthdef
+ (core/def-fx sonic-pi-fx_pitch_detect
+   []
+   [
+    tr (impulse:kr 5)
+    amp (* 1 (lag (amplitude dry-r)))
+
+    comp-r (*  1 (compander dry-r dry-r
+                            0.2  ;; thresh
+                            10    ;; slope below
+                            1    ;; slope above
+                            0.01 ;; clamp-time
+                            0.01))
+
+    comp-l (*  1 (compander dry-l dry-l
+                            0.2  ;; thresh
+                            10    ;; slope below
+                            1    ;; slope above
+                            0.01 ;; clamp-time
+                            0.01)) ;; relax-time
+
+    comp-r (lpf comp-r 800)
+    comp-r (hpf comp-r 80)
+
+    freq (pitch comp-r
+                100  ;; :init-freq 100
+                60   ;; :min-freq 80
+                1300 ;; :max-freq 1200
+                400  ;; :exec-freq 100
+                32   ;; :max-bins-per-octave 32
+                1    ;; :median 1
+                0.01 ;; :amp-threshold 0.01
+                0.1 ;; :peak_threshold 0.01
+                0    ;; :down-sample 1
+                7) ;; :clar 0
+;;    freq-midi (cpsmidi freq)
+    foo (send-reply tr "/scsynth/pitch" freq )
+
+
+    [wet-l wet-r] [dry-l dry-r] ])
+
+ (core/save-synthdef sonic-pi-fx_pitch_detect)
 
  )
 

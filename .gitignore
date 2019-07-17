@@ -91,7 +91,7 @@ app/gui/qt/qrc__*
 
 app/server/native/
 app/server/rb-native/
-# Patterns like this catch both 
+# Patterns like this catch both
 # app/server/vendor/ffi/ext/ and app/server/ruby/vendor/ffi/ext/
 # (the latter is found in the Mac OS X build)
 **/vendor/*/ext/**/Makefile
@@ -111,3 +111,11 @@ book/
 
 etc/doc/lang/sonic-pi-tutorial.pot
 etc/doc/generated/
+
+
+# Clojure synths native dir
+
+etc/synthdefs/designs/overtone/sonic-pi/target
+etc/synthdefs/designs/overtone/sonic-pi/classes
+etc/synthdefs/designs/overtone/sonic-pi/checkouts
+etc/synthdefs/designs/overtone/sonic-pi/native

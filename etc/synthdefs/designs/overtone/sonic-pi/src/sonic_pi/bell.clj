@@ -12,9 +12,9 @@
 ;;++
 
 
-(ns sonic-pi.synths.bell
+(ns sonic-pi.bell
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 
 (without-namespace-in-synthdef
@@ -39,6 +39,7 @@
      ;;   5.4
      6.8
      ])
+
 
   ;; we make a bell by combining a set of sine waves at the given
   ;; proportions of the frequency. Technically not really partials

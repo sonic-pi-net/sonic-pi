@@ -12,9 +12,9 @@
 ;;++
 
 
-(ns sonic-pi.synths.traditional
+(ns sonic-pi.traditional
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 (without-namespace-in-synthdef
  (defsynth sonic-pi-pluck [note 52

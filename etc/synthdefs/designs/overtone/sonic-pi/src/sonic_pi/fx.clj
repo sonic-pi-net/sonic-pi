@@ -11,9 +11,9 @@
 ;; notice is included.
 ;;++
 
-(ns sonic-pi.synths.fx
+(ns sonic-pi.fx
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
+  (:require [sonic-pi.core :as core]))
 
 (without-namespace-in-synthdef
   (core/def-fx sonic-pi-fx_mcverb

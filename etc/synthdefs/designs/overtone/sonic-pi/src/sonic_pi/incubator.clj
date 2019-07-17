@@ -12,11 +12,9 @@
 ;;++
 
 
-(ns sonic-pi.synths.incubator
+(ns sonic-pi.incubator
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core :as core]))
-
-
+  (:require [sonic-pi.core :as core]))
 
 ;; Triggered synths
 (do
