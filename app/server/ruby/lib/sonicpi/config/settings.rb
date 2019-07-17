@@ -32,9 +32,13 @@ module SonicPi
         @sem = Mutex.new
       end
 
-      def get(k)
+      def get(k, default=nil)
         @sem.synchronize do
-          @settings[k]
+          if @settings.has_key?(k)
+            @settings[k]
+          else
+            default
+          end
         end
       end
 
