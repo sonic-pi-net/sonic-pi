@@ -14,12 +14,11 @@
 #++
 
 ## ---- Modify these to point to your system
-QSCINTILLA_QT4QT5_DIR=/Users/sam/Development/tmp/QScintilla_gpl-2.10.2/Qt4Qt5
-QSCINTILLA_LIB=libqscintilla2_qt5.13.1.0.dylib
-QWT_DIR=/Users/sam/Development/tmp/qwt-6.1.3
-QT_DIR=/Users/sam/Qt/5.7.1/5.7
+QSCINTILLA_QT4QT5_DIR=/Users/sam/Development/tmp/QScintilla_gpl-2.11.2/Qt4Qt5
+QSCINTILLA_LIB=libqscintilla2_qt5.15.0.0.dylib
+QWT_DIR=/Users/sam/Development/tmp/qwt-6.1.4
+QT_DIR=/Users/sam/Qt/5.13.0/
 ## ----
-
 
 QT_BIN="$QT_DIR/clang_64/bin"
 QMAKE="$QT_BIN/qmake"
@@ -48,14 +47,14 @@ make
 
 rm -rf build
 mkdir build
-mv "$SP_APP" build/
+cp -R "$SP_APP" build/
 cd build
 
 # Make stand-alone Qt Mac App
 # Pulls in Qt internally and
 # futzes with shared lib paths
-$MACDEPLOYQT "$SP_APP"
-$MACCHANGEQT "$SP_APP" "$QT_DIR"
+$MACDEPLOYQT "$SP_APP" "$QT_DIR"
+$MACCHANGEQT Sonic\ Pi.app $QT_DIR/clang_64/
 
 # Pull in QScintilla to app
 cp $LIBQS_PATH "$SP_APP/Contents/MacOS/"
@@ -63,8 +62,7 @@ cd "$SP_APP/Contents/MacOS"
 cp -R "$QWT_DIR/lib/qwt.framework" .
 mv libqscintilla2* libqscintilla2_qt5.dylib
 
-
-install_name_tool -change libqscintilla2_qt5.13.dylib @executable_path/libqscintilla2_qt5.dylib Sonic\ Pi
+install_name_tool -change libqscintilla2_qt5.15.dylib @executable_path/libqscintilla2_qt5.dylib Sonic\ Pi
 install_name_tool -change qwt.framework/Versions/6/qwt @executable_path/qwt.framework/Versions/6/qwt  Sonic\ Pi
 
 # symlink server
