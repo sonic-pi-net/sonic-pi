@@ -8,7 +8,7 @@ it become a powerful tool for sharing and celebrating the creativity of
 code. Thank-you everyone.
 
 
-## A humble beginning 
+## A humble beginning
 
 The start of any project is a fragile period which relies heavily on the
 generous support of others. We would like to offer our considered
@@ -54,8 +54,8 @@ projects:
 * Rich Hickey - [Clojure](https://clojure.org)
 * Seymour Papert - [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language))
 * The Scratch Team - [Scratch](https://scratch.mit.edu)
-* Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html) 
-
+* Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html)
+* Joe Armstrong - [Erlang](https://www.erlang.org)
 
 
 ## Patreon Supporters
@@ -117,6 +117,7 @@ conceptualisations, to musical production and performance.
 * [Ben Smith](https://twitter.com/bensmithguitar)
 * [Steve Hellier](https://twitter.com/steveguyhellier)
 * [Pit Noack](https://twitter.com/maschinennah)
+* [Joe Armstrong](https://twitter.com/joeerl)
 
 
 
@@ -127,7 +128,7 @@ carried out by the Core Team. This is a group of dedicated volunteers
 (with the exception of Sam Aaron who works full time on the project) who
 kindly donate their time to continue to improve Sonic Pi.
 
-Current members: 
+Current members:
 
 * [Sam Aaron](https://github.com/samaaron)
 * [Xavier Riley](https://github.com/xavriley)
