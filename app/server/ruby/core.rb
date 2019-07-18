@@ -226,14 +226,6 @@ module SonicPi
     end
 
     module TLMixin
-      # def next(*args)
-      #   tick(self.object_id.to_s.to_sym, *args)
-      # end
-
-      # def curr(*args)
-      #   look(self.object_id.to_s.to_sym, *args)
-      # end
-
       def tick(*args)
         idx = SonicPi::Core::ThreadLocalCounter.tick(*args)
         self.ring[idx]
@@ -901,14 +893,6 @@ class Object
 
   def ring
     self.to_a.ring
-  end
-
-  def next(*args)
-    self.to_a.next(*args)
-  end
-
-  def curr(*args)
-    self.to_a.curr(*args)
   end
 
   def tick(*args)
