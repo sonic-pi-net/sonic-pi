@@ -954,8 +954,6 @@ end"
           sleep_time = delta * orig_sleep_mul_w_density
           new_time = vt_orig + sleep_time
 
-          raise TimeTravelError, "Time travel error - a jump back of #{delta} is too far.\nSorry, although it would be amazing, you can't go back in time beyond the sched_ahead time of #{sat}" if (Time.now - sat) > new_time
-
           __change_time!(new_time)
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
           __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
@@ -1619,7 +1617,7 @@ end"
           res = [true] * size
           return res.ring
         end
-        
+
         # new part
         v1 = [[true]] * num_accents
         v2 = [[false]] * (size - num_accents)
@@ -1630,7 +1628,7 @@ end"
           (v1, v2) = redistribute(v1,v2)
         end
         res = (v1 + v2).flatten
-        
+
         if beat_rotations && beat_rotations.is_a?(Numeric)
           beat_rotations = beat_rotations.abs
           while beat_rotations > 0
@@ -2627,9 +2625,9 @@ end
           val_block = lambda{:undefined}
           define(name, &val_block)
           in_thread do
-          val = block.yield
-          val_block = lambda{val}
-          define(name, &val_block)
+            val = block.yield
+            val_block = lambda{val}
+            define(name, &val_block)
           end
           __info "Evaluating defonce #{name}"
 
