@@ -88,7 +88,8 @@ HEADERS  += mainwindow.h \
             scope.h \
             infowidget.h
 
-TRANSLATIONS = lang/sonic-pi_bs.ts \
+TRANSLATIONS = lang/sonic-pi_bg.ts \
+    lang/sonic-pi_bs.ts \
                lang/sonic-pi_ca.ts \
                lang/sonic-pi_cs.ts \
                lang/sonic-pi_da.ts \
@@ -97,14 +98,18 @@ TRANSLATIONS = lang/sonic-pi_bs.ts \
                lang/sonic-pi_en_US.ts \
                lang/sonic-pi_es.ts \
                lang/sonic-pi_et.ts \
+    lang/sonic-pi_fa.ts \
                lang/sonic-pi_fi.ts \
                lang/sonic-pi_fr.ts \
+    lang/sonic-pi_gl.ts \
+    lang/sonic-pi_he.ts \
                lang/sonic-pi_hi.ts \
                lang/sonic-pi_hu.ts \
                lang/sonic-pi_id.ts \
                lang/sonic-pi_is.ts \
                lang/sonic-pi_it.ts \
                lang/sonic-pi_ja.ts \
+    lang/sonic-pi_ka.ts \
                lang/sonic-pi_ko.ts \
                lang/sonic-pi_nb.ts \
                lang/sonic-pi_nl.ts \
@@ -113,9 +118,13 @@ TRANSLATIONS = lang/sonic-pi_bs.ts \
                lang/sonic-pi_pt_BR.ts \
                lang/sonic-pi_ro.ts \
                lang/sonic-pi_ru.ts \
+    lang/sonic-pi_sk.ts \
+    lang/sonic-pi_sl.ts \
                lang/sonic-pi_sv.ts \
                lang/sonic-pi_tr.ts \
+    lang/sonic-pi_ug.ts \
                lang/sonic-pi_uk.ts \
+    lang/sonic-pi_vi.ts \
                lang/sonic-pi_zh-Hans.ts \
                lang/sonic-pi_zh.ts \
                lang/sonic-pi_zh_HK.ts \
