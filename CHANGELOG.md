@@ -46,7 +46,7 @@
   current thread as if it was a function.
 * `midi_sysex` for sending MIDI sysex messages.  
 * Add new chain fn `.notes` which takes a ring of values and returns a
-  new ring with each element treated as a note. This will eave numbers
+  new ring with each element treated as a note. This will leave numbers
   unchanged but will turn note names like `:C1` to their corresponding
   MIDI note.
 
