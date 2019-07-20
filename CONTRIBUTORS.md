@@ -87,6 +87,7 @@ especially the following individuals who have been remarkably generous:
 * [Paul Williams](https://pcwilliams.design)
 * [Pit Noack](http://www.maschinennah.de/)
 * [Richard Buckley](https://burgundycomputing.com)
+* [Sean Raser](https://twitter.com/sraser88)
 * [Sébastien Rannou](https://mxs.sbrk.org/)
 * [Scott Turner](https://twitter.com/scottturneruon)
 * Terry Wisniewski
@@ -594,5 +595,3 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Ethan Crawford (1)
 * Tomasz Nurkiewicz (1)
 * Xavier Riley (1)
-
-
