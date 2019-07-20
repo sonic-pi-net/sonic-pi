@@ -5,7 +5,7 @@ A.20 Creative coding in the classroom with Sonic Pi
 (This article was published in [issue 9 of the Hello World Magazine](https://helloworld.raspberrypi.org/issues/9))
 
 Code is one of the most creative media that humans have created. The
-initially obscure symbols of parenthesis and lambdas are not just deeply
+initially obscure symbols of parentheses and lambdas are not just deeply
 rooted in science and mathematics, they are the closest we have managed
 to get to casting the same kind of magical spells as Gandalf and Harry
 Potter. I believe that this provides a powerful means of engagement in
@@ -17,12 +17,12 @@ stage magician making the ball disappear into thin air, to the wonder of
 seeing your favourite band perform on a big stage. It is these "wow"
 moments that inspire us to pick up a magic book and learn the French
 Drop or to start jamming power chords on an old guitar. How might we
-create similar deep and lasting senses of wonder that will motivate
+create similarly deep and lasting senses of wonder that will motivate
 people to practice and learn the fundamentals of programming?
 
 ## Musical Engines and Notation
 
-The history of music and computers have been intricately woven together
+The histories of music and computers have been intricately woven together
 since the inception of computing machines, or "engines" as Charles
 Babbage's powerful analytical engine was called. Back in 1842 the
 Mathematician Ada Lovelace, who worked very closely with Babbage, saw
@@ -48,7 +48,7 @@ he worked on. Some of the others were much closer to what we might now
 see as code.
 
 In education, magical meaningful experiences with computers and
-programming languages have been explored since the late 60s. Computer
+programming languages have been explored since the late '60s. Computer
 education pioneers Seymour Papert, Marvin Minsky and Cynthia Solomon
 explored simple Lisp-based languages that moved pens over large pieces
 of paper. With just a few simple commands it was possible to program the
@@ -119,7 +119,7 @@ therefore had to be placed on making it a powerful instrument whilst
 still keeping it simple enough for 10 year olds to pick up. In addition
 to educators, I also worked directly with a variety of different artists
 in classrooms, art galleries, studios and venues in the early stages of
-Sonic Pi’s development . This provided essential feedback which enabled
+Sonic Pi’s development. This provided essential feedback which enabled
 Sonic Pi to grow and ultimately flourish as a tool for creative
 expression.
 
@@ -150,7 +150,7 @@ such as sequencing, iteration, conditionals, functions, data structures,
 algorithms, etc. However, it also builds on a number of important and
 relevant concepts which have become adopted in mainstream industry such
 as concurrency, events, pattern matching, distributed computing and
-determinsim - all whilst keeping things simple enough to explain to a 10
+determinism - all whilst keeping things simple enough to explain to a 10
 year old child.
 
 Getting started is as simple as:
@@ -170,7 +170,7 @@ play 75
 ```
 
 In this example, we play the note 70 (roughly the 70th note on a piano),
-wait for 1 second, play note 72, wait for half a secondc and then play
+wait for 1 second, play note 72, wait for half a second and then play
 note 75. What's interesting here is that with just two commands we have
 access to pretty much all of Western notation (which notes to play and
 when) and learners can code any melody they've ever heard. This leads to
@@ -204,8 +204,9 @@ live_loop :jungle do
  sample :loop_amen, onset: pick
  sleep 0.125
 end
+```
 
 In this example we introduce a basic loop called :jungle which picks a
-random drum hit from our audio sample, waits for an eigth of a second
+random drum hit from our audio sample, waits for an eighth of a second
 and then picks another drum hit. This results in an endless stream of
 random drum beats to dance to whilst you experience what a loop is.

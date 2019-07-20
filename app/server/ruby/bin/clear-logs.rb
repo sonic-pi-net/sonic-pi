@@ -47,7 +47,7 @@ timestamps.compact!
 num_timestamps = timestamps.size
 num_to_drop = num_timestamps - num_sessions_to_store
 
-if num_to_drop > 0
+if num_to_drop.positive?
   timestamps.sort.take(num_to_drop).each do |ts|
     dir = ts.to_s
     FileUtils.rm_rf("#{log_path}/history/#{dir}")
