@@ -46,7 +46,7 @@
   current thread as if it was a function.
 * `midi_sysex` for sending MIDI sysex messages.  
 * Add new chain fn `.notes` which takes a ring of values and returns a
-  new ring with each element treated as a note. This will eave numbers
+  new ring with each element treated as a note. This will leave numbers
   unchanged but will turn note names like `:C1` to their corresponding
   MIDI note.
 
@@ -96,7 +96,7 @@
   that default value wasn't scaled. Default values are now always scaled
   whether or not explicitly specified.
 * `with_sched_ahead_time` now correctly sets the schedule ahead time
-  before running the block and returns the returns the result of the
+  before running the block and returns the result of the
   block itself
 * When "Enforce Timing Guarantees" is selected, Sonic Pi wil no longer
   throw out of time warnings in 'real time' threads (specified using
