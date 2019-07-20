@@ -230,6 +230,8 @@ void Scope::resetScope()
 }
 
 void Scope::refresh() {
+  if( !scsynthIsBooted) return;
+
   if( !shmReader.valid() )
   {
     resetScope();
@@ -286,7 +288,6 @@ void Scope::refresh() {
 
 void Scope::drawLoop() {
   // short circuit if possible
-  if( !scsynthIsBooted) return;
   if( paused ) return;
   if( !isVisible() ) return;
 
