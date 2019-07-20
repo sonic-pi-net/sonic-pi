@@ -22,7 +22,7 @@ module SonicPi
       end
       doc name:           :math_scale,
           introduced:     Version.new(3,0,0),
-          summary:        "Liner scaling algorithm",
+          summary:        "Linear scaling algorithm",
           args:           [[], ],
           returns:        :nil,
           opts:           nil,
