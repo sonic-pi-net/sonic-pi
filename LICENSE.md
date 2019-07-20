@@ -80,7 +80,7 @@ relevant licenses:
 * [SoX](http://sox.sourceforge.net) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
 * [Erlang](http://erlang.org) - [Erlang Public License](https://www.erlang.org/EPLICENSE)
 * [osmid](https://github.com/llloret/osmid) - [MIT License](http://opensource.org/licenses/MIT)
-* osmid depends on [JUCE](http://juce.com) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
+* osmid depends on [JUCE](http://juce.com) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html) and [ISC License](https://www.isc.org/licenses/)
 
 
 
