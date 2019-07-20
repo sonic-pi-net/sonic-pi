@@ -105,9 +105,9 @@ private:
   scope_buffer_reader shmReader;
   std::vector<std::shared_ptr<ScopeBase>> panels;
   bool paused;
-  bool scsynthIsBooted;
   unsigned int emptyFrames;
   int scsynthPort;
+  bool scsynthIsBooted;
 };
 
 #endif
