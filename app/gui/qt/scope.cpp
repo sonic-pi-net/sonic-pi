@@ -135,7 +135,7 @@ void MultiScopePanel::setPen( QPen pen )
   }
 }
 
-Scope::Scope( int scsynthPort, QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0), scsynthPort(scsynthPort)
+Scope::Scope( int scsynthPort, QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0), scsynthPort(scsynthPort), scsynthIsBooted (false )
 {
   std::fill_n(sample[0],4096,0);
   std::fill_n(sample[1],4096,0);
@@ -198,6 +198,10 @@ bool Scope::setScopeAxes(bool on)
     scope->setAxesVisible(on);
   }
   return on;
+}
+
+void Scope::scsynthBooted() {
+  scsynthIsBooted = true;
 }
 
 void Scope::togglePause() {
@@ -282,6 +286,7 @@ void Scope::refresh() {
 
 void Scope::drawLoop() {
   // short circuit if possible
+  if( !scsynthIsBooted) return;
   if( paused ) return;
   if( !isVisible() ) return;
 

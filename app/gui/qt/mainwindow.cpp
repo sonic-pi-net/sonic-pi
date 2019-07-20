@@ -229,13 +229,14 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // user_token->setText(settings.value("userToken", "").toString());
   honourPrefs();
   updatePrefsIcon();
-  updateColourTheme();
   toggleIcons();
   updateFullScreenMode();
   hide();
   // Wait to hear back from the Ruby language server before continuing
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...
+    scopeInterface->scsynthBooted();
+    updateColourTheme();
     std::cout << "[GUI] - load workspaces" << std::endl;
     loadWorkspaces();
     requestVersion();

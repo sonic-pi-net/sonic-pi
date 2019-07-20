@@ -90,7 +90,9 @@ public:
   void resume();
   void resetScope();
   void refresh();
+  void scsynthBooted();
   void setColor(QColor c);
+
 
 private slots:
   void drawLoop();
@@ -103,6 +105,7 @@ private:
   scope_buffer_reader shmReader;
   std::vector<std::shared_ptr<ScopeBase>> panels;
   bool paused;
+  bool scsynthIsBooted;
   unsigned int emptyFrames;
   int scsynthPort;
 };
