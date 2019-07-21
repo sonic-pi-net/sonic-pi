@@ -200,8 +200,6 @@ In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
----- devs ---
-
 * [Sam Aaron](https://github.com/samaaron/sonic-pi/commits?author=samaaron) (4847)
 * [Ethan Crawford](https://github.com/samaaron/sonic-pi/commits?author=ethancrawford) (198)
 * [Joseph Wilk](https://github.com/samaaron/sonic-pi/commits?author=josephwilk) (160)
