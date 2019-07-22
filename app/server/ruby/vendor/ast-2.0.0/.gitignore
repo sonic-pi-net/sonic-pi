@@ -1,8 +1,0 @@
-.bundle
-Gemfile.lock
-pkg/*
-.rbx/
-*.sublime-*
-doc/
-.yardoc/
-coverage/

@@ -1,7 +1,0 @@
-* subattr=yes -negattr
-*.txt     another=zero
-sub/*.txt another=one
-ab*			 merge=filfre
-abc			 -foo -bar
-*.c			 frotz
-deep/file	 deepdeep

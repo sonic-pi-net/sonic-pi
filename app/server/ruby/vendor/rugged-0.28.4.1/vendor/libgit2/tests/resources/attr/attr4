@@ -1,7 +1,0 @@
-# This is a comment
-  # This is also a comment
-*.java diff=java -crlf myAttr
-
-  NoMyAttr.java !myAttr
-
-	README caveat=unspecified

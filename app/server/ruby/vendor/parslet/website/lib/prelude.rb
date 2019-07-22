@@ -1,2 +1,0 @@
-require 'parslet'
-include Parslet

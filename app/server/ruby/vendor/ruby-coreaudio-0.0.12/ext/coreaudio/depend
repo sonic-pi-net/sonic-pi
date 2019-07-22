@@ -1,2 +1,0 @@
-coreaudio.o: coreaudio.m coreaudio.h
-audiofile.o: audiofile.m coreaudio.h
