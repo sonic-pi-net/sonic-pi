@@ -115,7 +115,7 @@ namespace "qt_gui" do
   task :build_qt_docs do
     info("Building Sonic Pi QT docs...")
     FileUtils.cp(File.join(SPI_QT_GUI_PATH, "ruby_help.tmpl"), File.join(SPI_QT_GUI_PATH, "ruby_help.h"))
-    ruby File.join(SPI_SERVER_PATH, 'ruby', 'bin', 'qt-doc.rb') + ' -o ' + File.join(SPI_QT_GUI_PATH, 'ruby_help.h')
+    ruby "#{SPI_SERVER_PATH}/ruby/build_scripts/qt-doc.rb" + ' -o ' + File.join(SPI_QT_GUI_PATH, 'ruby_help.h')
   end
 
   desc "Build Sonic Pi Qt GUI (using the generated makefile)"

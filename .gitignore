@@ -93,6 +93,9 @@ app/server/native/
 # Bundler/Ruby Gems
 app/server/ruby/vendor/
 
+# Dependency build files
+app/server/build_dependencies/
+
 ## Book
 book/
 

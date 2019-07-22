@@ -4,7 +4,7 @@ set -e # Quit script on error
 # -x # Verbose
 echo "Starting Sonic Pi... Please leave this window open, it will clear up processes and close automatically."
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-"${SCRIPT_DIR}/app/gui/qt/sonic-pi" # Run Sonic Pi
+"${SCRIPT_DIR}/../app/gui/qt/sonic-pi" # Run Sonic Pi
 
 # The script will resume when Sonic Pi is closed.
 # Close left over beam.smp processes

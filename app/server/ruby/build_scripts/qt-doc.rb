@@ -27,6 +27,7 @@ require_relative "../lib/sonicpi/lang/midi"
 
 require 'active_support/inflector'
 
+
 include SonicPi::Util
 
 FileUtils::rm_rf "#{qt_gui_path}/help/"
