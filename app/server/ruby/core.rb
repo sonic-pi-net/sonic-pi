@@ -11,29 +11,16 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
+## Set up gems listed in the Gemfile.
+#ENV['BUNDLE_GEMFILE'] ||= File.expand_path(__dir__, 'Gemfile')
+#require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 
-## This core file sets up the load path and applies any necessary monkeypatches.
+## This core file sets up the load path and applies any necesssary monkeypatches.
 
 raise "Sonic Pi requires Ruby 2.4+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "2.4"
 
-## Ensure native lib dir is available
 require 'rbconfig'
 ruby_api = RbConfig::CONFIG['ruby_version']
-
-
-## Ensure all libs in vendor directory are available
-Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
-  $:.unshift vendor_lib
-end
-
-begin
-  require 'did_you_mean'
-rescue LoadError
-  warn "Non-critical error: Could not load did_you_mean"
-end
-
-require 'hamster/vector'
-require 'wavefile'
 
 os = case RUBY_PLATFORM
      when /.*arm.*-linux.*/
@@ -48,32 +35,77 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-# special case for proctable lib
+#puts(os)
+
+bundler_arch = RUBY_PLATFORM.split("-")[0]
+bundler_os = case RUBY_PLATFORM.split("-")[1]
+  when /.*mingw.*|.*mswin.*|.*bccwin.*|.*wince.*|.*emx.*/
+    "windows"
+  else
+    RUBY_PLATFORM.split("-")[1]
+  end
+bundler_platform = bundler_arch + "-" + bundler_os
+
+#puts(ruby_api)
+#puts(RUBY_PLATFORM)
+#puts(bundler_platform)
+
+## Make all gem libs available
+require 'rubygems'
+
+bundled_gems_dir = File.expand_path("#{__dir__}/vendor/bundle/ruby/#{ruby_api}/gems")
+rb_native_ext = File.expand_path("#{__dir__}/vendor/bundle/ruby/#{ruby_api}/extensions/#{bundler_platform}/#{ruby_api}")
+
+#puts(bundled_gems_dir, File.directory?(bundled_gems_dir).to_s)
+#puts(rb_native_ext, File.directory?(rb_native_ext).to_s)
+
+Dir.glob("#{bundled_gems_dir}/*/lib/") do |vendor_lib|
+  if (!vendor_lib.include?("sys_proctable"))
+    $:.unshift vendor_lib
+    #puts(vendor_lib)
+  end
+end
+
+Dir.glob("#{rb_native_ext}/*/") do |vendor_ext|
+  $:.unshift vendor_ext
+  #puts(vendor_ext)
+end
+
+# Special case for proctable lib
 sys_proctable_os = case os
-                   when :raspberry
-                     "linux"
-                   when :linux
-                     "linux"
-                   when :windows
-                     "windows"
-                   when :osx
-                     "darwin"
-                   end
-$:.unshift "#{File.expand_path("../vendor", __FILE__)}/sys-proctable-1.1.3/lib/#{sys_proctable_os}"
+  when :raspberry || :linux
+    "linux"
+  when :windows
+    "windows"
+  when :osx
+    "darwin"
+  else
+    os
+  end
 
+#puts(sys_proctable_os)
 
-$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{ruby_api}/"
+$:.unshift Dir.glob("#{bundled_gems_dir}/sys-proctable-*/lib/#{sys_proctable_os}").first
+#puts(Dir.glob("#{bundled_gems_dir}/sys-proctable-*/lib/#{sys_proctable_os}").first)
+
+begin
+  require 'did_you_mean'
+  #Bundler.require(:non_critical)
+rescue LoadError => e
+  warn "Non-critical error: Could not load did_you_mean"
+  #warn "#{e.full_message()}"
+end
+
+require 'hamster/vector'
+require 'wavefile'
 
 require 'win32/process' if os == :windows
+
+require 'sys/proctable'
 
 ## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
 native_lib_path = File.expand_path("../../native/", __FILE__)
 ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*dylib,so*,dll}"].first
-
-
-
-
-
 
 module SonicPi
   module Core

@@ -1,0 +1,54 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+group :main do
+  gem "rugged",         "= 0.28.2"  # To store the user's buffers using git
+  gem "ffi",            "= 1.11.1"  # MIDI lib support
+  gem "atomic"
+  gem "ruby-prof",      "= 0.15.8"
+  gem "interception"
+  gem "fast_osc",       "= 0.0.12"  # OSC messaging
+  gem "sys-proctable"               # Tracking Sonic Pi processes
+  gem "activesupport"
+  gem "ast",            "= 2.0.0"
+  gem "benchmark-ips",  "= 2.3.0"
+  gem "blankslate"
+  gem "gettext",        "= 3.2.2"
+  gem "hamster",        "= 3.0.0"
+  gem "i18n",           "= 0.6.11"
+  gem "kramdown"
+  gem "locale",         "= 2.1.2"
+  gem "memoist",        "= 0.14.0"
+  gem "metaclass",      "= 0.0.4"
+  gem "minitest",       "= 5.8.1"
+  gem "mocha",          "= 1.1.0"
+  gem "multi_json"
+  gem "parser",         "= 2.2.2.1"
+  gem "parslet"
+  gem "polyglot",       "= 0.3.5"
+  gem "rouge"
+  gem "rubame"
+  gem "aubio"                       # Aubio ruby bindings
+  gem "ruby-beautify"               # Beautifing code
+  gem "text",           "= 1.3.1"
+  gem "thread_safe"
+  gem "treetop"
+  gem "wavefile",       "= 0.8.1"
+  gem "websocket",      "= 1.2.8"
+end
+
+group :non_critical do
+  gem "did_you_mean",   "= 0.10.0"
+end
+
+
+# macOS specific gems
+group :mac_os do
+  install_if -> { RUBY_PLATFORM == /.*darwin.*/ } do
+    gem "coreaudio",    "= 0.0.12" # macOS CoreAudio bindings
+    gem "narray",       "~> 0.6.0.0"
+  end
+end
+
+#git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
