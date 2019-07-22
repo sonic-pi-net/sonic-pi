@@ -49,7 +49,7 @@ before_install:
     sudo ./waf install
 
     # Install bundler
-    sudo gem install bundler
+    sudo gem install bundler || sudo gem2.5 install bundler
 
 script:
  - set -e
