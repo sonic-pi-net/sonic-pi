@@ -39,11 +39,16 @@ rvm:
   - 2.7.0
 
 before_install:
- - wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
- - tar xvjf aubio-0.4.4.tar.bz2
- - cd aubio-0.4.4
- - ./waf configure build
- - sudo ./waf install
+ - |
+    # Build and install aubio 0.4.4
+    wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
+    tar xvjf aubio-0.4.4.tar.bz2
+    cd aubio-0.4.4
+    ./waf configure build
+    sudo ./waf install
+
+    # Install bundler
+    sudo gem install bundler
 
 script:
  - set -e
