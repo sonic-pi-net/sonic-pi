@@ -63,7 +63,6 @@ script:
     echo "* Compiling the vendor/ ruby gems *"
     echo "***********************************"
     cd $TRAVIS_BUILD_DIR
-    rake server:patch_aubio_gem # Temporary patch for the aubio gem
     rake build
 
     echo ""

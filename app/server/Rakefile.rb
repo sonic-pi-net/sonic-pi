@@ -15,6 +15,7 @@ namespace "server" do
     "server:runtime_deps:build_osmid",
     "build_erlang_scheduler",
     "bundle_gems",
+    "patch_aubio_gem",
     "translate_tutorial"
   ] do |t, args|
     args.with_defaults(:make_jobs => 1)
