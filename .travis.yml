@@ -25,6 +25,7 @@ addons:
     - libqt5svg5-dev
     - libqwt-qt5-dev
     - libboost-all-dev
+    - erlang
 compiler: gcc
 
 cache:
@@ -49,12 +50,22 @@ script:
 # the | starts a multiline YAML entry
  - |
     # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
+    # echo ""
+    # echo "***********************************"
+    # echo "* Compiling the vendor/ ruby gems *"
+    # echo "***********************************"
+    # cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
+    # ruby ./compile-extensions.rb
+    # echo ""
+
     echo ""
     echo "***********************************"
     echo "* Compiling the vendor/ ruby gems *"
     echo "***********************************"
-    cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
-    ruby ./compile-extensions.rb
+    cd $TRAVIS_BUILD_DIR
+    rake server:patch_aubio_gem # Temporary patch for the aubio gem
+    rake build
+
     echo ""
     echo "***********************************"
     echo "* Running the Sonic Pi test suite *"
