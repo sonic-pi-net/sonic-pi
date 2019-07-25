@@ -490,7 +490,7 @@ run_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"]
 run_code \"sample :ambi_lunar_land\" #=> will play the :ambi_lunar_land sample",
 
         "# Works with any amount of code:
-run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
+run_code \"8.times do\nplay 60\nsleep 1\nend\" # will play 60 8 times"]
 
 
       def eval_file(path)
