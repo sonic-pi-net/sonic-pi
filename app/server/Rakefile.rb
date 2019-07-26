@@ -3,7 +3,8 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/clean'
 
-require_relative "./rakelib/runtime_dependencies"
+require_relative "./rakelib/runtime_dependencies.rb"
+require_relative "./rakelib/i18n-tool.rb"
 
 #require 'bundler/gem_tasks'
 #require 'runtime_dependencies'
@@ -16,7 +17,7 @@ namespace "server" do
     "build_erlang_scheduler",
     "bundle_gems",
     "patch_aubio_gem",
-    "translate_tutorial"
+    "server:translate_tutorial_all_languages"
   ] do |t, args|
     args.with_defaults(:make_jobs => 1)
     if (OS == :windows || OS == :macos)
@@ -107,12 +108,6 @@ namespace "server" do
       FileUtils.mkdir_p(args.path)
       sh "cd #{SPI_SERVER_PATH}/ruby && bundle install --path=#{File.expand_path(args.path)}"
     end
-  end
-
-  desc "Translate Sonic Pi documention"
-  task :translate_tutorial do
-    info("Building translated versions of the tutorial...")
-    sh("ruby #{SPI_SERVER_PATH}/ruby/bin/i18n-tool.rb -t")
   end
 
   # Temporary patch replacing the aubio gem's hard coded path to libaubio

@@ -20,11 +20,11 @@ all_dependencies_installed = false
 task :default => ["build"]
 
 desc "Build Sonic Pi (default task)"
-task :build, [:make_jobs, :sonic_pi_root] => [
+task :build, [:make_jobs, :dev_build] => [
 	"server:build",
 	"qt_gui:build_qt_docs",
 	"qt_gui:build"
 ] do | t, args|
 	args.with_defaults(:make_jobs => 1)
-  args.with_defaults(:sonic_pi_root => File.join(File.expand_path(Dir.pwd), "build", "sonic-pi"))
+	args.with_defaults(:dev_build => true)
 end
