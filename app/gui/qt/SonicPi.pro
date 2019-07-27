@@ -58,9 +58,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
            mainwindow.cpp \
-           sonicpilexer.cpp \
-           sonicpiapis.cpp \
-           sonicpiscintilla.cpp \
+           utils/sonicpiapis.cpp \
+           utils/sonicpitheme.cpp \
            osc/oschandler.cpp \
            osc/oscsender.cpp \
            osc/sonic_pi_osc_server.cpp \
@@ -68,15 +67,18 @@ SOURCES += main.cpp \
            osc/sonic_pi_tcp_osc_server.cpp \
            widgets/sonicpilog.cpp \
            widgets/infowidget.cpp \
-           sonicpitheme.cpp \
-           scope.cpp
+           widgets/sonicpiscintilla.cpp \
+           widgets/sonicpilexer.cpp \
+           visualizer/scope.cpp
 
 HEADERS  += mainwindow.h \
-            sonicpilexer.h \
             widgets/sonicpilog.h \
             widgets/infowidget.h \
-            sonicpiapis.h \
-            sonicpiscintilla.h \
+            widgets/sonicpilexer.h \
+            widgets/sonicpiscintilla.h \
+            utils/sonicpiapis.h \
+            utils/ruby_help.h \
+            utils/sonicpitheme.h \
             osc/oscpkt.hh \
             osc/udp.hh \
             osc/oschandler.h \
@@ -84,9 +86,7 @@ HEADERS  += mainwindow.h \
             osc/sonic_pi_osc_server.h \
             osc/sonic_pi_udp_osc_server.h \
             osc/sonic_pi_tcp_osc_server.h \
-            ruby_help.h \
-            sonicpitheme.h \
-            scope.h
+            visualizer/scope.h
 
 TRANSLATIONS = lang/sonic-pi_bg.ts \
     lang/sonic-pi_bs.ts \

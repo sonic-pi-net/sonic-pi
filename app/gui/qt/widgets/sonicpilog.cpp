@@ -16,7 +16,7 @@
 
 // Standard stuff
 #include <vector>
-#include "sonicpitheme.h"
+#include "utils/sonicpitheme.h"
 #include <QScrollBar>
 
 SonicPiLog::SonicPiLog(QWidget *parent) : QPlainTextEdit(parent)

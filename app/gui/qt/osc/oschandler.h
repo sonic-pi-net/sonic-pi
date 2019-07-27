@@ -15,7 +15,7 @@
 #define OSCHANDLER_H
 
 #include "oscpkt.hh"
-#include "sonicpitheme.h"
+#include "utils/sonicpitheme.h"
 #include "mainwindow.h"
 
 class OscHandler

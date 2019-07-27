@@ -78,10 +78,10 @@
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 
-#include "sonicpilexer.h"
-#include "sonicpiapis.h"
-#include "sonicpiscintilla.h"
-#include "sonicpitheme.h"
+#include "widgets/sonicpilexer.h"
+#include "widgets/sonicpiscintilla.h"
+#include "utils/sonicpiapis.h"
+#include "utils/sonicpitheme.h"
 
 // OSC stuff
 #include "osc/oscpkt.hh"
@@ -93,6 +93,8 @@
 
 #include "widgets/sonicpilog.h"
 #include "widgets/infowidget.h"
+
+#include "utils/ruby_help.h"
 
 using namespace oscpkt;// OSC specific stuff
 
@@ -3946,7 +3948,6 @@ void MainWindow::zoomOutLogs() {
   outputPane->zoomOut();
   incomingPane->zoomOut();
 }
-#include "ruby_help.h"
 
 
 void MainWindow::updateMIDIInPorts(QString port_info) {

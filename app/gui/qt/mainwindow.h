@@ -41,8 +41,8 @@
 #include <sstream>
 #include <fstream>
 #include <QSignalMapper>
-#include "sonicpitheme.h"
-#include "scope.h"
+#include "utils/sonicpitheme.h"
+#include "visualizer/scope.h"
 #include <QComboBox>
 #include "widgets/infowidget.h"
 
