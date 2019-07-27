@@ -12,7 +12,7 @@
 //++
 
 #include "sonicpiscintilla.h"
-#include "oscsender.h"
+#include "osc/oscsender.h"
 
 #include <QSettings>
 #include <QShortcut>

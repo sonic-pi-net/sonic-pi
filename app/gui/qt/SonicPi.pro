@@ -61,28 +61,28 @@ SOURCES += main.cpp \
            sonicpilexer.cpp \
            sonicpiapis.cpp \
            sonicpiscintilla.cpp \
-           oschandler.cpp \
-           oscsender.cpp \
-           sonicpilog.cpp \
-           sonic_pi_osc_server.cpp \
-           sonic_pi_udp_osc_server.cpp \
-           sonic_pi_tcp_osc_server.cpp \
+           osc/oschandler.cpp \
+           osc/oscsender.cpp \
+           osc/sonic_pi_osc_server.cpp \
+           osc/sonic_pi_udp_osc_server.cpp \
+           osc/sonic_pi_tcp_osc_server.cpp \
+           widgets/sonicpilog.cpp \
            sonicpitheme.cpp \
            scope.cpp \
            infowidget.cpp
 
 HEADERS  += mainwindow.h \
-            oscpkt.hh \
-            udp.hh \
             sonicpilexer.h \
-            sonicpilog.h \
+            widgets/sonicpilog.h \
             sonicpiapis.h \
             sonicpiscintilla.h \
-            oschandler.h \
-            oscsender.h \
-            sonic_pi_osc_server.h \
-            sonic_pi_udp_osc_server.h \
-            sonic_pi_tcp_osc_server.h \
+            osc/oscpkt.hh \
+            osc/udp.hh \
+            osc/oschandler.h \
+            osc/oscsender.h \
+            osc/sonic_pi_osc_server.h \
+            osc/sonic_pi_udp_osc_server.h \
+            osc/sonic_pi_tcp_osc_server.h \
             ruby_help.h \
             sonicpitheme.h \
             scope.h \

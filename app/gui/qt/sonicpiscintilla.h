@@ -13,8 +13,8 @@
 
 #include <Qsci/qsciscintilla.h>
 #include "sonicpitheme.h"
-#include "oscsender.h"
-#include "sonicpilog.h"
+#include "osc/oscsender.h"
+#include "widgets/sonicpilog.h"
 #include <QCheckBox>
 
 class SonicPiLexer;

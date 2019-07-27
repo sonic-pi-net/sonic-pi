@@ -34,15 +34,15 @@
 #include <QSet>
 #include <QHash>
 #include <QTcpSocket>
-#include "oscpkt.hh"
-#include "udp.hh"
+#include "osc/oscpkt.hh"
+#include "osc/udp.hh"
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <QSignalMapper>
 #include "sonicpitheme.h"
 #include "scope.h"
-#include "oscsender.h"
+#include "osc/oscsender.h"
 #include <QComboBox>
 #include "infowidget.h"
 

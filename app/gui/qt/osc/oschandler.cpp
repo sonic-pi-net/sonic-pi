@@ -16,7 +16,7 @@
 #include "oscpkt.hh"
 #include "oschandler.h"
 #include "mainwindow.h"
-#include "sonicpilog.h"
+#include "widgets/sonicpilog.h"
 
 #include <QTextEdit>
 

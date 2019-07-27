@@ -83,16 +83,16 @@
 #include "sonicpiscintilla.h"
 #include "sonicpitheme.h"
 
-#include "oschandler.h"
-#include "oscsender.h"
-#include "sonicpilog.h"
-#include "sonic_pi_udp_osc_server.h"
-#include "sonic_pi_tcp_osc_server.h"
+#include "osc/oschandler.h"
+#include "osc/oscsender.h"
+#include "widgets/sonicpilog.h"
+#include "osc/sonic_pi_udp_osc_server.h"
+#include "osc/sonic_pi_tcp_osc_server.h"
 #include "infowidget.h"
 
 // OSC stuff
-#include "oscpkt.hh"
-#include "udp.hh"
+#include "osc/oscpkt.hh"
+#include "osc/udp.hh"
 using namespace oscpkt;// OSC specific stuff
 
 // Operating System Specific includes
