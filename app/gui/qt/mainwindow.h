@@ -36,15 +36,15 @@
 #include <QTcpSocket>
 #include "osc/oscpkt.hh"
 #include "osc/udp.hh"
+#include "osc/oscsender.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <QSignalMapper>
 #include "sonicpitheme.h"
 #include "scope.h"
-#include "osc/oscsender.h"
 #include <QComboBox>
-#include "infowidget.h"
+#include "widgets/infowidget.h"
 
 class QAction;
 class QMenu;

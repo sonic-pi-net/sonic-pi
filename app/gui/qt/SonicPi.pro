@@ -67,13 +67,14 @@ SOURCES += main.cpp \
            osc/sonic_pi_udp_osc_server.cpp \
            osc/sonic_pi_tcp_osc_server.cpp \
            widgets/sonicpilog.cpp \
+           widgets/infowidget.cpp \
            sonicpitheme.cpp \
-           scope.cpp \
-           infowidget.cpp
+           scope.cpp
 
 HEADERS  += mainwindow.h \
             sonicpilexer.h \
             widgets/sonicpilog.h \
+            widgets/infowidget.h \
             sonicpiapis.h \
             sonicpiscintilla.h \
             osc/oscpkt.hh \
@@ -85,8 +86,7 @@ HEADERS  += mainwindow.h \
             osc/sonic_pi_tcp_osc_server.h \
             ruby_help.h \
             sonicpitheme.h \
-            scope.h \
-            infowidget.h
+            scope.h
 
 TRANSLATIONS = lang/sonic-pi_bg.ts \
     lang/sonic-pi_bs.ts \
