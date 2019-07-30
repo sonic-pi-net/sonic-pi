@@ -8,7 +8,7 @@ with other educators, musicians and live coders...
 *<https://in-thread.sonic-pi.net/>*
 
 <a href="https://in-thread.sonic-pi.net">
-  <img src="../images/in_thread_screen.png" height="254" width="413"/>
+  <img src="app/gui/qt/images/in_thread_screen.png" height="254" width="413"/>
 </a>
 
 Come and join the friendly discussion over at
@@ -26,13 +26,6 @@ For bite-sized chunks of the latest Sonic Pi news and information.
 
 For developers interested in the full source code. The issue tracker is
 also hosted here.
-
-
-## Gitter Chat for Developers
-*<https://gitter.im/samaaron/sonic-pi>*
-
-A friendly developer-focussed chatroom to discuss all matters related to
-developing and hacking Sonic Pi. Great for getting instant help.
 
 
 ## YouTube
