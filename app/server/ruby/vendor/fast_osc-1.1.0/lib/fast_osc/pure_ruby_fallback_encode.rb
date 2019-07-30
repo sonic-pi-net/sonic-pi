@@ -46,7 +46,7 @@ module SonicPi
       end
 
       def encode_single_message(address, args=[])
-        args_encoded, tags = String.new(""), String.new(",")
+        args_encoded, tags = "", ","
 
         # inlining this method was not faster surprisingly
         address = get_from_or_add_to_string_cache(address)
@@ -153,14 +153,11 @@ module SonicPi
   end
 end
 
-
-
+# Allow for loading above method in benmarks without clobbering c-ext
+if ENV['FAST_OSC_USE_FALLBACK'] == "true"
 module FastOsc
-  def self.encode_single_message(address, args=[])
+  def encode_single_message(address, args=[])
     SonicPi::OSC::OscEncode.new.encode_single_message(address, args)
   end
-
-  def self.encode_single_bundle(ts, address, args=[])
-    SonicPi::OSC::OscEncode.new.encode_single_bundle(ts, address, args)
-  end
+end
 end

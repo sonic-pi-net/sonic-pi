@@ -1,7 +1,6 @@
 #include <ruby.h>
 #include <ruby/encoding.h>
 #include <rtosc.h>
-#include <rtosc.c>
 
 
 // Allocate VALUE variables to hold the modules we'll create. Ruby values
@@ -15,7 +14,8 @@ void Init_fast_osc();
 VALUE method_fast_osc_decode_single_message(VALUE self, VALUE msg);
 VALUE method_fast_osc_encode_single_message(int argc, VALUE* argv, VALUE self);
 VALUE method_fast_osc_encode_single_bundle(int argc, VALUE* argv, VALUE self);
-
+VALUE method_fast_osc_decode(VALUE self, VALUE msg);
+VALUE method_fast_osc_decode_do(VALUE self, VALUE msg, VALUE output);
 // Initial setup function, takes no arguments and returns nothing. Some API
 // notes:
 //
@@ -30,7 +30,8 @@ VALUE method_fast_osc_encode_single_bundle(int argc, VALUE* argv, VALUE self);
 //
 void Init_fast_osc() {
   FastOsc = rb_define_module("FastOsc");
-  rb_define_singleton_method(FastOsc, "decode_single_message", method_fast_osc_decode_single_message, 1);
+  rb_define_singleton_method(FastOsc, "decode", method_fast_osc_decode, 1);
+  rb_define_singleton_method(FastOsc, "decode_no_bundles", method_fast_osc_decode_single_message, 1);
   rb_define_singleton_method(FastOsc, "encode_single_message", method_fast_osc_encode_single_message, -1);
   rb_define_singleton_method(FastOsc, "encode_single_bundle", method_fast_osc_encode_single_bundle, -1);
 }
@@ -66,6 +67,81 @@ uint64_t ruby_time_to_osc_timetag(VALUE rubytime) {
   }
 
   return timetag;
+}
+
+VALUE osc_timetag_to_ruby_time(uint64_t timetag) {
+  uint32_t secs = timetag >> 32;
+  uint32_t frac = timetag;
+  double d_frac = 1.0 * frac / 4294967296.0;
+
+  VALUE c_time = rb_const_get(rb_cObject, rb_intern("Time"));
+  VALUE rb_time = rb_funcall(c_time, rb_intern("at"), 1, DBL2NUM((secs - JAN_1970 + d_frac)));
+
+  return rb_time;
+}
+
+/*
+# Example of how to process the messages in ruby:
+msgs.each do |timestamp, osc_messages|
+  # These are the messages within this bundle
+  puts "T: #{timestamp}, D: #{osc_messages}"
+  osc_messages.each do |path, args|
+    # And this is each message
+    puts "P: #{path}, A: #{args}"
+  end
+end
+*/
+VALUE method_fast_osc_decode(VALUE self, VALUE msg) {
+  VALUE output_ary = rb_ary_new();
+  // If we get != Qnil, then there were no bundles, and we need to add the element
+  VALUE element = method_fast_osc_decode_do(self, msg, output_ary);
+  if (element != Qnil){
+    // format [[timestamp, [[ ... msg ...]]]]
+    // enclosing arrays match output shape of decode_do
+    VALUE msgs_ary = rb_ary_new();
+    VALUE element_ary = rb_ary_new();
+    // A timestamp of `nil` is a special case meaning "immediately".
+    rb_ary_push(element_ary, Qnil);
+    rb_ary_push(msgs_ary, element);
+    rb_ary_push(element_ary, msgs_ary);
+    rb_ary_push(output_ary, element_ary);
+  }
+  return output_ary;
+}
+
+VALUE method_fast_osc_decode_do(VALUE self, VALUE msg, VALUE output_ary) {
+  char* data = StringValuePtr(msg);
+  int data_len = RSTRING_LEN(msg);
+  VALUE elements_ary = Qnil;
+  VALUE bundle_output_ary;
+
+  if (rtosc_bundle_p(data)){
+    int n_messages = rtosc_bundle_elements(data, data_len);
+    for (int i = 0; i < n_messages; i++){
+      int message_size = rtosc_bundle_size(data, i);
+      const char *message = rtosc_bundle_fetch(data, i);
+      VALUE rb_message = rb_str_new(message, message_size);
+      VALUE element = method_fast_osc_decode_do(self, rb_message, output_ary);
+      if (element != Qnil){
+        if (elements_ary == Qnil){
+          elements_ary = rb_ary_new();
+        }
+        rb_ary_push(elements_ary, element);
+      }
+    }
+    if (elements_ary != Qnil){
+      uint64_t timetag = rtosc_bundle_timetag(data);
+      bundle_output_ary = rb_ary_new();
+      rb_ary_push(bundle_output_ary, osc_timetag_to_ruby_time(timetag));
+      rb_ary_push(bundle_output_ary, elements_ary);
+      rb_ary_push(output_ary, bundle_output_ary);
+    }
+    return Qnil;
+  }
+  else{
+    VALUE element = method_fast_osc_decode_single_message(self, msg);
+    return element;
+  }
 }
 
 

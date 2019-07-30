@@ -1,7 +1,5 @@
 # FastOsc
 
-`WARNING - Work in progress. Probably not safe for production yet`
-
 A Ruby wrapper around [rtosc](https://github.com/fundamental/rtosc/) to encode and decode OSC messages.
 
 This also includes a fallback implementation in pure Ruby in the case that the compiled version doesn't load properly. This can be forced by setting an environment variable of `FAST_OSC_USE_FALLBACK=1` where needed.
@@ -20,6 +18,40 @@ Or install it yourself as:
 
     $ gem install fast_osc
 
+## Usage
+
+Everything (single messages and bundles) can be parsed with a single method -
+`FastOsc.decode`. This outputs an array of bundles, with each bundle containing
+a timestamp and an array of messages. Each message contains a path and,
+optionally, some arguments.
+
+```ruby
+# encode an OSC message with the established Ruby OSC libary
+@msg = OSC::Message.new("/testpath", ["some", "args", 1, 2.0]).encode
+@encoded_msg = @msg1.encode
+
+FastOsc.decode(@encoded_msg0).each do |bundle|
+  _timestamp, osc_msgs = bundle
+
+  osc_msgs.each do |(path, args)|
+    puts @path # "/testpath"
+    puts args # ["some", "args", 1, 2.0]
+  end
+end
+```
+
+```
+>> FastOsc.encode_single_message("/foo", ["baz", 1, 2.0])
+=> "/foo\x00\x00\x00\x00,sif\x00\x00\x00\x00baz\x00\x00\x00\x00\x01@\x00\x00\x00"
+>> res = _
+>> FastOsc.decode_no_bundles(res)
+=> ["/foo", ["baz", 1, 2.0]]
+>> FastOsc.encode_single_bundle(Time.now.to_i, "/foo", ["baz", 1, 2.0])
+=> "#bundle\x00\x00\x00\x00\x00W*1\x7F\x00\x00\x00\x1C/foo\x00\x00\x00\x00,sif\x00\x00\x00\x00baz\x00\x00\x00\x00\x01@\x00\x00\x00"
+```
+
+ A timestamp of `nil` is a special case meaning "immediately".
+
 ## Is it fast?
 
 Let's see...
@@ -33,6 +65,7 @@ Key:
 ### Encoding Benchmark
 
 ```
+$ WITH_BENCHMARKS=1 rake test
 Warming up --------------------------------------
             fast_osc    64.995k i/100ms
              samsosc    23.371k i/100ms
@@ -43,9 +76,10 @@ Calculating -------------------------------------
             osc-ruby     83.203k (±12.6%) i/s -    415.314k in   5.073578s
 ```
 
-## Decoding Bencmark
+### Decoding Bencmark
 
 ```
+$ WITH_BENCHMARKS=1 rake test
 Warming up --------------------------------------
             fast_osc   102.344k i/100ms
              samsosc    20.770k i/100ms
@@ -56,21 +90,7 @@ Calculating -------------------------------------
             osc-ruby     34.266k (±13.3%) i/s -    169.830k in   5.048509s
 ```
 
-Benchmarks are now part of this repo - run `rake test` to see the results for yourself.
-
-## Usage
-
-```
->> FastOsc.encode_single_message("/foo", ["baz", 1, 2.0])
-=> "/foo\x00\x00\x00\x00,sif\x00\x00\x00\x00baz\x00\x00\x00\x00\x01@\x00\x00\x00"
->> res = _
->> FastOsc.decode_single_message(res)
-=> ["/foo", ["baz", 1, 2.0]]
->> FastOsc.encode_single_bundle(Time.now.to_i, "/foo", ["baz", 1, 2.0])
-=> "#bundle\x00\x00\x00\x00\x00W*1\x7F\x00\x00\x00\x1C/foo\x00\x00\x00\x00,sif\x00\x00\x00\x00baz\x00\x00\x00\x00\x01@\x00\x00\x00"
-```
-
-See the test suite for additional methods regarding bundles with timestamps. Bundles are only supported with a single message at present. A timestamp of `nil` is a special case meaning "immediately".
+Benchmarks are now part of this repo - run `WITH_BENCHMARKS=1 rake test` to see the results for yourself.
 
 ## Running the test suite
 
@@ -81,12 +101,13 @@ $ rake clean && rake clobber && rake compile && rake test
 
 ## Still todo
 
--[x] Implement more types
--[x] Bring benchmarks into the repo
--[ ] Work out cross compilation story for easier packaging
--[ ] Implement multi message/nested bundles
--[ ] Documentation
--[ ] Travis
+- [ ] Make a pure ruby fallback available
+- [x] Implement more types
+- [x] Bring benchmarks into the repo
+- [ ] Work out cross compilation story for easier packaging
+- [x] Implement multi message/nested bundles
+- [ ] More documentation
+- [x] Travis
 
 ## Development notes
 

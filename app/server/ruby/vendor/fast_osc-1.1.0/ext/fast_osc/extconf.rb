@@ -21,7 +21,7 @@ dir_config(extension_name, HEADER_DIRS, LIB_DIRS)
 #   $LOCAL_LIBS << "#{lib} "
 # end
 
-$srcs = ["fast_osc_wrapper.c"]
+$srcs = ["fast_osc_wrapper.c", "rtosc.c"]
 
 $CFLAGS << " -std=c99 -Wall -Wextra -Wno-unused-parameter -pedantic "
 

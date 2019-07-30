@@ -42,6 +42,7 @@ module SonicPi
         ## Note everything is inlined here for effienciency to remove the
         ## cost of method dispatch. Apologies if this makes it harder to
         ## read & understand. See http://opensoundcontrol.org for spec.
+
         m.force_encoding(@binary_encoding)
 
         args, idx = [], 0
@@ -123,9 +124,11 @@ module SonicPi
   end
 end
 
+# Allow for loading above method in benmarks without clobbering c-ext
+if ENV['FAST_OSC_USE_FALLBACK'] == "true"
 module FastOsc
-  warn "Overriding fast_osc c-extension FastOsc::decode_single_message, falling back to pure Ruby version"
-  def self.decode_single_message(m)
-    SonicPi::OSC::OscDecode.new.decode_single_message(m)
+  def decode_no_bundles(m)
+    SonicPi::OSC::OscEncode.new.decode_single_message(m)
   end
+end
 end

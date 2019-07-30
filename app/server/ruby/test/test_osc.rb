@@ -24,7 +24,7 @@ module SonicPi
       address = "/foo"
 
       m = encoder.encode_single_message(address)
-      d_address, d_args = decoder.decode_single_message(m)
+      d_address, d_args = decoder.decode_no_bundles(m)
       assert_equal(address, d_address)
       assert_equal([], d_args)
     end
@@ -40,7 +40,7 @@ module SonicPi
 
       args_to_test.each do |args|
         m = encoder.encode_single_message(address, args)
-        d_address, d_args = decoder.decode_single_message(m)
+        d_address, d_args = decoder.decode_no_bundles(m)
         assert_equal(address, d_address)
         assert_equal(args, d_args)
       end

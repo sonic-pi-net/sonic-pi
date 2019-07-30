@@ -97,7 +97,7 @@ module SonicPi
 
             client.onmessage do |mess|
               begin
-              o = @decoder.decode_single_message(mess)
+              o = @decoder.decode_no_bundles(mess)
                 log "websocket incoming: #{o[0]}, #{o[1]}"
               p = @matchers[o[0]]
               p.call(o[1]) if p

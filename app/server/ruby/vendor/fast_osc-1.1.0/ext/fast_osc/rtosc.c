@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <assert.h>
 
-// #include <rtosc.h>
+#include <rtosc.h>
 
 const char *rtosc_argument_string(const char *msg)
 {
@@ -762,7 +762,7 @@ size_t rtosc_bundle_size(const char *buffer, unsigned elm)
     const uint32_t *lengths = (const uint32_t*) (buffer+16);
     size_t elm_pos = 0;
     size_t last_len = 0;
-    while(elm_pos!=elm && extract_uint32((const uint8_t*)lengths)) {
+    while(elm_pos!=elm+1 && extract_uint32((const uint8_t*)lengths)) {
         last_len = extract_uint32((const uint8_t*)lengths);
         ++elm_pos, lengths+=extract_uint32((const uint8_t*)lengths)/4+1;
     }
