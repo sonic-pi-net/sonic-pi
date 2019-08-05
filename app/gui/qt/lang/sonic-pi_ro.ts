@@ -514,35 +514,38 @@ Cautara implica trimiterea de informatii anonime despre platforma pe care ruleaz
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Mesaje OSC in retea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi poate trimite si receptiona mesaje OSC 
+(Open Sound Control - protocol deschis de control al sunetului)
+la/de la alte programe sau calculatoare din retea.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurare MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Porturi MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista tuturor porturilor MIDI conectate</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispozitivele de iesire MIDI primesc mesaje MIDI direct
+de la Sonic Pi care le poate trimite prin functiile midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -568,7 +571,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeaza iconitele Pro - schimba intre setul 
+implicit de iconite si unul minimal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -706,7 +710,7 @@ Scuze, a aparut o eroare critica la pornire</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>vizibiltate ajutor modificata...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
