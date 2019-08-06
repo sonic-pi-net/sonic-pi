@@ -56,7 +56,7 @@ domains is the objective.
 
 ## Contributors
 
-Sonic Pi has been developed with support from many individuals and organisations. Please see the (CONTRIBUTORS.md)[https://github.com/samaaron/sonic-pi/blob/master/CONTRIBUTORS.md] file for a more complete list.
+Sonic Pi has been developed with support from many individuals and organisations. Please see the [CONTRIBUTORS.md](https://github.com/samaaron/sonic-pi/blob/master/CONTRIBUTORS.md) file for a more complete list.
 
 ## Translations
 
