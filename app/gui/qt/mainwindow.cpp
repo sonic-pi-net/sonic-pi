@@ -953,6 +953,7 @@ void MainWindow::setupWindowStructure() {
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
   settingsWidget = new SettingsWidget(this);
+  connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
   connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
   connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
   connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));

@@ -31,12 +31,16 @@ private slots:
     void toggleOscServer();
     void toggleMidi();
     void forceMidiReset();
+    void changeMainVolume(int);
+
+    void updateSettings();
 
 signals:
     void mixerSettingsChanged();
     void oscSettingsChanged();
     void midiSettingsChanged();
     void resetMidi();
+    void volumeChanged(int vol);
 
 private:
     SonicPiSettings settings;

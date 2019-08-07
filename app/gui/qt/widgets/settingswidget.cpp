@@ -16,9 +16,6 @@
 SettingsWidget::SettingsWidget( QWidget *parent) {
     std::cout << "settings created" << std::endl;
     prefTabs = new QTabWidget();
-    //tabs->setTabsClosable(false);
-    //tabs->setMovable(false);
-    //tabs->setTabPosition(QTabWidget::South);
 
     QGridLayout *grid = new QGridLayout;
     grid->addWidget(prefTabs, 0, 0);
@@ -34,8 +31,6 @@ SettingsWidget::SettingsWidget( QWidget *parent) {
 
     QGroupBox *visualizationTab = createVisualizationPrefsTab();
     prefTabs->addTab(visualizationTab, tr("Visuals"));
-
-    //  prefTabs->addTab(performance_box, tr("Status"));
 
     QGroupBox *update_prefs_box = createUpdatePrefsTab();
     prefTabs->addTab(update_prefs_box, tr("Updates"));
@@ -73,7 +68,7 @@ SettingsWidget::~SettingsWidget() {
  * Create Audio Preferences Tab of Settings Widget
  */
 QGroupBox* SettingsWidget::createAudioPrefsTab() {
-
+    //TODO redundant
     QSettings settings("sonic-pi.net", "gui-settings");
 
     QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
@@ -82,7 +77,6 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     system_vol_slider = new QSlider(this);
     int stored_vol = settings.value("prefs/system-vol", 50).toInt();
     system_vol_slider->setValue(stored_vol);
-    //connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     vol_box->addWidget(system_vol_slider);
     volBox->setLayout(vol_box);
 
@@ -90,15 +84,15 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
     mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
-    connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
     mixer_force_mono = new QCheckBox(tr("Force mono"));
     mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
-    connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
+
 
     QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
     advanced_audio_box_layout->addWidget(mixer_invert_stereo);
     advanced_audio_box_layout->addWidget(mixer_force_mono);
     advancedAudioBox->setLayout(advanced_audio_box_layout);
+
 
     QGroupBox *synths_box = new QGroupBox(tr("Synths and FX"));
     synths_box->setToolTip(tr("Modify behaviour of synths and FX"));
@@ -117,6 +111,17 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     synths_box_layout->addWidget(synth_trigger_timing_guarantees_cb);
     synths_box_layout->addWidget(enable_external_synths_cb);
     synths_box->setLayout(synths_box_layout);
+
+    connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(check_args, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(synth_trigger_timing_guarantees_cb, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(enable_external_synths_cb, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
+
+    connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
+    connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
+    connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeMainVolume(int)));
 
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
@@ -146,7 +151,6 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QList<QHostAddress> list = QNetworkInterface::allAddresses();
 
     for(int nIter=0; nIter<list.count(); nIter++)
-
     {
         if(!list[nIter].isLoopback()) {
             if (list[nIter].protocol() == QAbstractSocket::IPv4Protocol ) {
@@ -156,7 +160,6 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
                 all_ip_addresses = all_ip_addresses + list[nIter].toString() + "\n";
             }
         }
-
     }
 
     if (ip_address.isEmpty()) {
@@ -174,7 +177,6 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     osc_server_enabled_check = new QCheckBox(tr("Enable OSC server"));
     osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages.\n When unchecked no OSC messages will be received."));
     connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
-
 
     QVBoxLayout *network_box_layout = new QVBoxLayout;
     network_box_layout->addWidget(osc_server_enabled_check);
@@ -217,7 +219,6 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_default_channel_combo->setMaxVisibleItems(17);
     midi_default_channel_combo->setMinimumContentsLength(2);
     midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength) ;
-
 
     QLabel *midi_default_channel_label = new QLabel;
     midi_default_channel_label->setText(tr("Default MIDI channel (* means all)"));
@@ -489,27 +490,41 @@ QString SettingsWidget::tooltipStrShiftMeta(char key, QString str) {
 
 void SettingsWidget::update_mixer_invert_stereo() {
     std::cout << "INVERT STEREO" << std::endl;
-    settings.mixer_invert_stereo = mixer_invert_stereo->isChecked();
     emit mixerSettingsChanged();
 }
 
 void SettingsWidget::update_mixer_force_mono() {
-    settings.mixer_force_mono = mixer_force_mono->isChecked();
+    std::cout << "FORCE MONO" << std::endl;
     emit mixerSettingsChanged();
 }
 
 void SettingsWidget::toggleOscServer() {
-    settings.osc_server_enabled = osc_server_enabled_check->isChecked();
-    settings.osc_public = osc_public_check->isChecked();
+    std::cout << "TOGGLE OSC" << std::endl;
     emit oscSettingsChanged();
 }
 
 void SettingsWidget::toggleMidi() {
-    settings.midi_enabled = midi_enable_check->isChecked();
     emit midiSettingsChanged();
 }
 
 void SettingsWidget::forceMidiReset() {
-    settings.midi_enabled = midi_enable_check->isChecked();
     emit resetMidi();
+}
+
+void SettingsWidget::changeMainVolume(int vol) {
+    emit volumeChanged(vol);
+}
+
+void SettingsWidget::updateSettings() {
+    std::cout << "Update Settings" << std::endl;
+    settings.mixer_invert_stereo = mixer_invert_stereo->isChecked();
+    settings.mixer_force_mono = mixer_force_mono->isChecked();
+    settings.check_args = check_args->isChecked();
+    settings.synth_trigger_timing_guarantees = synth_trigger_timing_guarantees_cb->isChecked();
+    settings.enable_external_synths = enable_external_synths_cb->isChecked();
+    settings.main_volume = system_vol_slider->value();
+
+    settings.osc_server_enabled = osc_server_enabled_check->isChecked();
+    settings.osc_public = osc_public_check->isChecked();
+    settings.midi_enabled = midi_enable_check->isChecked();
 }
