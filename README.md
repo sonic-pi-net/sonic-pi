@@ -10,7 +10,7 @@
                     ╥╒   ╦╥     ╕█╒    ╙▓▐     ▄▓╫
                                ▐╩     ▒▒      ▀▀
                                     ╒╪      ▐▄
-             
+
                  _____             __        ____  __
                 / ___/____  ____  /_/____   / __ \/_/
                 \__ \/ __ \/ __ \/ / ___/  / /_/ / /
@@ -31,11 +31,11 @@ between three core principles:
 * **Powerful** enough for your own expressions
 
 Sonic Pi is a complete open source programming environment originally
-designed to explore and *teach programming concepts* within schools through 
-the process of creating *new sounds*. 
+designed to explore and *teach programming concepts* within schools through
+the process of creating *new sounds*.
 
-In addition to being an engaging education resource it has evolved into 
-an *extremely powerful* and performance-ready *live coding instrument* suitable 
+In addition to being an engaging education resource it has evolved into
+an *extremely powerful* and performance-ready *live coding instrument* suitable
 for professional artists and DJs.
 
 Whilst Education is a core focus it now sits at the intersection
@@ -49,23 +49,21 @@ Again, finding a balance working to the best benefits of all these
 domains is the objective.
 
 
-* Info & Latest Releases: http://sonic-pi.net
+* Info & Latest Releases: https://sonic-pi.net
 * Source: https://github.com/samaaron/sonic-pi
-* Computing Education Resources for Schools: http://www.raspberrypi.org/learning/sonic-pi-lessons/
-* Music Education Toolkit for Schools: http://sonicpiliveandcoding.com
+* Computing Education Resources for Schools: https://www.raspberrypi.org/learning/sonic-pi-lessons/
+* Music Education Toolkit for Schools: https://sonic-pi.mehackit.org
 
-## Acknowledgements
+## Contributors
 
-Sonic Pi has been developed within the Computer Laboratory at the
-University of Cambridge with kind support from the Raspberry Pi
-Foundation, the Broadcom Foundation and pi-top.
+Sonic Pi has been developed with support from many individuals and organisations. Please see the [CONTRIBUTORS.md](https://github.com/samaaron/sonic-pi/blob/master/CONTRIBUTORS.md) file for a more complete list.
 
 ## Translations
 
 Sonic Pi's application and built in tutorial have been translated into several languages thanks to the awesome work of several [volunteer translators](CONTRIBUTORS.md#translation):
 
 Status                                                                                                                                                       | Language            | Application        | Tutorial
------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------ | :----------------: | :----------------: 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------ | :----------------: | :----------------:
 [![Translation Status of Sonic Pi: da](https://hosted.weblate.org/widgets/sonic-pi/da/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Danish              | :white_check_mark: | :red_circle:
 [![Translation Status of Sonic Pi: nl](https://hosted.weblate.org/widgets/sonic-pi/nl/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Dutch               | :white_check_mark: | :white_check_mark:
 [![Translation Status of Sonic Pi: fi](https://hosted.weblate.org/widgets/sonic-pi/fi/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Finnish             | :white_check_mark: | :red_circle:
@@ -103,4 +101,3 @@ Sonic Pi is under active development, and welcomes new contributors:
 [![Travis CI](https://travis-ci.org/samaaron/sonic-pi.svg?branch=master)](https://travis-ci.org/samaaron/sonic-pi)
 <br/>
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
