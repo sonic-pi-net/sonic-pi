@@ -59,6 +59,7 @@ class SonicPiAPIs;
 class SonicPiLog;
 class SonicPiScintilla;
 class SonicPiOSCServer;
+class SettingsWidget;
 
 struct help_page {
   QString title;
@@ -107,9 +108,8 @@ private slots:
     void printAsciiArtLogo();
     void runCode();
     void runBufferIdx(int idx);
-    void update_mixer_invert_stereo();
-    void update_mixer_force_mono();
     void update_check_updates();
+    void mixerSettingsChanged();
     void check_for_updates_now();
     void enableCheckUpdates();
     void disableCheckUpdates();
@@ -307,7 +307,9 @@ private:
     QToolBar *toolBar;
 
     QAction *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct;
-  QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc;
+   QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc;
+
+    SettingsWidget *settingsWidget;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
@@ -354,6 +356,7 @@ private:
 
     QSlider *system_vol_slider;
     QSlider *gui_transparency_slider;
+
 
     InfoWidget *infoWidg;
     QList<QTextBrowser *> infoPanes;

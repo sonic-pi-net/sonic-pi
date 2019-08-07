@@ -69,6 +69,7 @@ SOURCES += main.cpp \
            widgets/infowidget.cpp \
            widgets/sonicpiscintilla.cpp \
            widgets/sonicpilexer.cpp \
+           widgets/settingswidget.cpp \
            visualizer/scope.cpp
 
 HEADERS  += mainwindow.h \
@@ -76,6 +77,7 @@ HEADERS  += mainwindow.h \
             widgets/infowidget.h \
             widgets/sonicpilexer.h \
             widgets/sonicpiscintilla.h \
+            widgets/settingswidget.h \
             utils/sonicpiapis.h \
             utils/ruby_help.h \
             utils/sonicpitheme.h \
@@ -86,6 +88,7 @@ HEADERS  += mainwindow.h \
             osc/sonic_pi_osc_server.h \
             osc/sonic_pi_udp_osc_server.h \
             osc/sonic_pi_tcp_osc_server.h \
+            model/settings.h \
             visualizer/scope.h
 
 TRANSLATIONS = lang/sonic-pi_bg.ts \

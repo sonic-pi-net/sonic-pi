@@ -26,8 +26,6 @@
 #include <QDate>
 #include <QDesktopServices>
 #include <QDesktopWidget>
-
-
 #include <QDir>
 #include <QAction>
 #include <QApplication>
@@ -93,6 +91,8 @@
 
 #include "widgets/sonicpilog.h"
 #include "widgets/infowidget.h"
+
+#include "widgets/settingswidget.h"
 
 #include "utils/ruby_help.h"
 
@@ -952,9 +952,16 @@ void MainWindow::setupWindowStructure() {
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
+  settingsWidget = new SettingsWidget(this);
+  connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
+  connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
+  connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
+  connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
+
   prefsCentral = new QWidget;
   prefsCentral->setObjectName("prefsCentral");
-  prefsWidget->setWidget(prefsCentral);
+//  prefsWidget->setWidget(prefsCentral);
+  prefsWidget->setWidget(settingsWidget);
   QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   prefsCentral->setSizePolicy(prefsSizePolicy);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
@@ -1399,16 +1406,15 @@ void MainWindow::showWindow() {
   changeShowLineNumbers();
 }
 
-void MainWindow::update_mixer_invert_stereo() {
-  if (mixer_invert_stereo->isChecked()) {
+void MainWindow::mixerSettingsChanged() {
+  std::cout << "Mixer Settings Changed!" << std::endl;
+  if (settingsWidget->getSettings().mixer_invert_stereo) {
     mixerInvertStereo();
   } else {
     mixerStandardStereo();
   }
-}
 
-void MainWindow::update_mixer_force_mono() {
-  if (mixer_force_mono->isChecked()) {
+  if (settingsWidget->getSettings().mixer_force_mono) {
     mixerMonoMode();
   } else {
     mixerStereoMode();
@@ -1438,8 +1444,8 @@ bool isScopeEnabled( const QSettings& settings, const QString& name )
 void MainWindow::honourPrefs() {
   QSettings settings("sonic-pi.net", "gui-settings");
   int stored_vol = settings.value("prefs/system-vol", 50).toInt();
-  update_mixer_invert_stereo();
-  update_mixer_force_mono();
+  //update_mixer_invert_stereo();
+  //update_mixer_force_mono();
   changeSystemPreAmp(stored_vol, 1);
   update_check_updates();
   updateLogAutoScroll();
@@ -1595,10 +1601,10 @@ void MainWindow::initPrefsWindow() {
   advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
   mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
   mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
-  connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
+//  connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
   mixer_force_mono = new QCheckBox(tr("Force mono"));
   mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
-  connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
+//  connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
 
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
   advanced_audio_box_layout->addWidget(mixer_invert_stereo);
@@ -3847,7 +3853,7 @@ void MainWindow::setupLogPathAndRedirectStdOut() {
 }
 
 void MainWindow::toggleMidi(int silent) {
-  if (midi_enable_check->isChecked()) {
+  if (settingsWidget->getSettings().midi_enabled) {
     statusBar()->showMessage(tr("Enabling MIDI..."), 2000);
     Message msg("/midi-start");
     msg.pushStr(guiID.toStdString());
@@ -3864,10 +3870,23 @@ void MainWindow::toggleMidi(int silent) {
   }
 }
 
+void MainWindow::resetMidi() {
+  if (settingsWidget->getSettings().midi_enabled) {
+    midi_in_ports_label->setText(tr("No connected input devices"));
+    midi_out_ports_label->setText(tr("No connected output devices"));
+    statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
+    Message msg("/midi-reset");
+    msg.pushStr(guiID.toStdString());
+    sendOSC(msg);
+  } else {
+    statusBar()->showMessage(tr("MIDI is disabled..."), 2000);
+  }
+}
+
 void MainWindow::toggleOSCServer(int silent) {
-  if (osc_server_enabled_check->isChecked()) {
+  if (settingsWidget->getSettings().osc_server_enabled) {
     statusBar()->showMessage(tr("Opening OSC port for remote messages..."), 2000);
-    int open = osc_public_check->isChecked() ? 1 : 0;
+    int open = settingsWidget->getSettings().osc_public ? 1 : 0;
 
     Message msg("/osc-port-start");
     msg.pushStr(guiID.toStdString());
@@ -3880,19 +3899,6 @@ void MainWindow::toggleOSCServer(int silent) {
     msg.pushStr(guiID.toStdString());
     msg.pushInt32(silent);
     sendOSC(msg);
-  }
-}
-
-void MainWindow::resetMidi() {
-  if (midi_enable_check->isChecked()) {
-    midi_in_ports_label->setText(tr("No connected input devices"));
-    midi_out_ports_label->setText(tr("No connected output devices"));
-    statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
-    Message msg("/midi-reset");
-    msg.pushStr(guiID.toStdString());
-    sendOSC(msg);
-  } else {
-    statusBar()->showMessage(tr("MIDI is disabled..."), 2000);
   }
 }
 
