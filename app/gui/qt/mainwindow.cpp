@@ -958,6 +958,7 @@ void MainWindow::setupWindowStructure() {
   connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
   connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
   connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
+  connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
 
   prefsCentral = new QWidget;
   prefsCentral->setObjectName("prefsCentral");
@@ -2944,15 +2945,15 @@ QPalette MainWindow::createPaletteFromTheme(SonicPiTheme *theme)
 }
 
 void MainWindow::changeShowLineNumbers(){
-  for(int i=0; i < tabs->count(); i++){
-    SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-    if (show_line_numbers->isChecked()){
-
-      ws->showLineNumbers();
-    } else {
-      ws->hideLineNumbers();
+    bool show = settingsWidget->getSettings().show_line_numbers;
+    for(int i=0; i < tabs->count(); i++){
+        SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+        if (show) {
+            ws->showLineNumbers();
+        } else {
+            ws->hideLineNumbers();
+        }
     }
-  }
 }
 
 void MainWindow::togglePrefs() {

@@ -32,7 +32,7 @@ private slots:
     void toggleMidi();
     void forceMidiReset();
     void changeMainVolume(int);
-
+    void toggleLineNumbers();
     void updateSettings();
 
 signals:
@@ -41,6 +41,7 @@ signals:
     void midiSettingsChanged();
     void resetMidi();
     void volumeChanged(int vol);
+    void showLineNumbersChanged();
 
 private:
     SonicPiSettings settings;

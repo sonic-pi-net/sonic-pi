@@ -172,11 +172,9 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     osc_public_check = new QCheckBox(tr("Receive remote OSC messages"));
     osc_public_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages from remote machines.\n When unchecked, only messages from the local machine will be received."));
-    connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
 
     osc_server_enabled_check = new QCheckBox(tr("Enable OSC server"));
     osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages.\n When unchecked no OSC messages will be received."));
-    connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
 
     QVBoxLayout *network_box_layout = new QVBoxLayout;
     network_box_layout->addWidget(osc_server_enabled_check);
@@ -192,11 +190,9 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     midi_enable_check = new QCheckBox(tr("Enable MIDI subsystems"));
     midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
-    connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
 
     QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
     midi_reset_button->setToolTip(tr("Reset MIDI subsystems \n(Required to detect device changes on macOS)" ));
-    connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(forceMidiReset()));
 
     midi_default_channel_combo = new QComboBox();
     midi_default_channel_combo->addItem("*");
@@ -254,6 +250,18 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     midi_ports_box->setLayout(midi_ports_box_layout);
     midi_config_box->setLayout(midi_config_box_layout);
+    
+    connect(midi_default_channel_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
+    connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(osc_public_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
+
+    connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(forceMidiReset()));
+    connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
+    connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
+    connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
+
     QGridLayout *io_tab_layout = new QGridLayout();
     io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
     io_tab_layout->addWidget(midi_config_box, 0, 1);
@@ -296,19 +304,13 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
     full_screen = new QCheckBox(tr("Full screen"));
     full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
-    //connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-    //
+   
     colourModeButtonGroup = new QButtonGroup(this);
     lightModeCheck = new QCheckBox(tr("Light"));
     darkModeCheck = new QCheckBox(tr("Dark"));
     lightProModeCheck = new QCheckBox(tr("Pro Light"));
     darkProModeCheck = new QCheckBox(tr("Pro Dark"));
     highContrastModeCheck = new QCheckBox(tr("High Contrast"));
-    //connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     colourModeButtonGroup->addButton(lightModeCheck, 0);
     colourModeButtonGroup->addButton(darkModeCheck, 1);
     colourModeButtonGroup->addButton(lightProModeCheck, 2);
@@ -316,13 +318,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     colourModeButtonGroup->addButton(highContrastModeCheck, 4);
 
     lightModeCheck->setChecked(true);
-    //connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-    //connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
-    //connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateIncomingOscLogVisibility()));
-    //connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
-    //connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
-    //connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
-
 
     QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
     QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
@@ -361,7 +356,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     log_auto_scroll = new QCheckBox(tr("Auto-scroll log"));
     log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
-    //connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
 
     QVBoxLayout *debug_box_layout = new QVBoxLayout;
     debug_box_layout->addWidget(print_output);
@@ -370,6 +364,38 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box_layout->addWidget(clear_output_on_run);
     debug_box->setLayout(debug_box_layout);
 
+    connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(print_output, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(log_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateSettings()));
+
+    connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+
+    connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
+    //connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
+    //connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateIncomingOscLogVisibility()));
+    //connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
+    //connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
+    //connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
+
+    //connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    //connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    //connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    //connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    //connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+
+    //connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
 
     gridEditorPrefs->addWidget(editor_display_box, 0, 0);
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
@@ -515,6 +541,10 @@ void SettingsWidget::changeMainVolume(int vol) {
     emit volumeChanged(vol);
 }
 
+void SettingsWidget::toggleLineNumbers() {
+    emit showLineNumbersChanged();
+}
+
 void SettingsWidget::updateSettings() {
     std::cout << "Update Settings" << std::endl;
     settings.mixer_invert_stereo = mixer_invert_stereo->isChecked();
@@ -526,5 +556,25 @@ void SettingsWidget::updateSettings() {
 
     settings.osc_server_enabled = osc_server_enabled_check->isChecked();
     settings.osc_public = osc_public_check->isChecked();
+    settings.midi_default_channel = midi_default_channel_combo->currentIndex();
+    settings.midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
     settings.midi_enabled = midi_enable_check->isChecked();
+
+    settings.auto_indent_on_run = auto_indent_on_run->isChecked();
+    settings.show_line_numbers = show_line_numbers->isChecked();
+    settings.show_log = show_log->isChecked();
+    settings.show_incoming_osc_log = show_incoming_osc_log->isChecked();
+    settings.show_buttons = show_buttons->isChecked();
+    settings.show_tabs = show_tabs->isChecked();
+    settings.full_screen = full_screen->isChecked();
+    settings.print_output = print_output->isChecked();
+    settings.clear_output_on_run = clear_output_on_run->isChecked();
+    settings.log_cues = log_cues->isChecked();
+    settings.log_auto_scroll = log_auto_scroll->isChecked();
+
+    settings.lightMode = lightModeCheck->isChecked();
+    settings.darkMode = darkModeCheck->isChecked();
+    settings.lightProMode = lightProModeCheck->isChecked();
+    settings.darkProMode = darkProModeCheck->isChecked();
+    settings.highContrastMode = highContrastModeCheck->isChecked();
 }
