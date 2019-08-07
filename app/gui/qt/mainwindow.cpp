@@ -959,6 +959,12 @@ void MainWindow::setupWindowStructure() {
   connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
   connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
   connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
+  connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
+  connect(settingsWidget, SIGNAL(incomingOscLogChanged()), this, SLOT(updateIncomingOscLogVisibility()));
+  connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
+  connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
+  connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
+  connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
 
   prefsCentral = new QWidget;
   prefsCentral->setObjectName("prefsCentral");
@@ -1067,7 +1073,7 @@ void MainWindow::toggleFullScreenMode() {
 }
 
 void MainWindow::updateFullScreenMode(){
-  if (full_screen->isChecked()) {
+  if (settingsWidget->getSettings().full_screen) {
     outputWidget->setTitleBarWidget(blankWidget);
 
 #ifdef Q_OS_WIN
@@ -1147,19 +1153,17 @@ void MainWindow::toggleLogVisibility() {
 }
 
 void MainWindow::updateLogVisibility(){
-  if(show_log->isChecked()) {
+  if(settingsWidget->getSettings().show_log) {
     outputWidget->show();
-  }
-  else{
+  } else{
     outputWidget->close();
   }
 }
 
 void MainWindow::updateIncomingOscLogVisibility(){
-  if(show_incoming_osc_log->isChecked()) {
+  if(settingsWidget->getSettings().show_incoming_osc_log) {
     incomingWidget->show();
-  }
-  else{
+  } else{
     incomingWidget->close();
   }
 }
@@ -1172,7 +1176,7 @@ void MainWindow::toggleTabsVisibility() {
 void MainWindow::updateTabsVisibility(){
   QTabBar *tabBar = tabs->findChild<QTabBar *>();
 
-  if(show_tabs->isChecked()) {
+  if(settingsWidget->getSettings().show_tabs) {
     tabBar->show();
   }
   else{
@@ -1188,7 +1192,7 @@ void MainWindow::toggleButtonVisibility() {
 }
 
 void MainWindow::updateButtonVisibility(){
-  if (show_buttons->isChecked()) {
+  if (settingsWidget->getSettings().show_buttons) {
     toolBar->show();
   }
   else {
@@ -2551,7 +2555,7 @@ void MainWindow::toggleDarkMode() {
 }
 
 void MainWindow::updateLogAutoScroll() {
-  bool val = log_auto_scroll->isChecked();
+  bool val = settingsWidget->getSettings().log_auto_scroll;
   outputPane->forceScrollDown(val);
   if(val) {
     statusBar()->showMessage(tr("Log Auto Scroll on..."), 2000);

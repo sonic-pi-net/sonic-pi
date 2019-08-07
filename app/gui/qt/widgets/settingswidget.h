@@ -33,6 +33,12 @@ private slots:
     void forceMidiReset();
     void changeMainVolume(int);
     void toggleLineNumbers();
+    void toggleLog();
+    void toggleIncommingOscLog();
+    void toggleButtons();
+    void toggleFullScreen();
+    void toggleTabs();
+    void toggleLogAutoScroll();
     void updateSettings();
 
 signals:
@@ -42,6 +48,12 @@ signals:
     void resetMidi();
     void volumeChanged(int vol);
     void showLineNumbersChanged();
+    void showLogChanged();
+    void incomingOscLogChanged();
+    void showButtonsChanged();
+    void showFullscreenChanged();
+    void showTabsChanged();
+    void logAutoScrollChanged();
 
 private:
     SonicPiSettings settings;

@@ -9,7 +9,6 @@
 
 #include <iostream>
 
-
 /**
  * Default Constructor
  */
@@ -238,7 +237,6 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_in_ports_label->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
     midi_out_ports_label->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
 
-
     QVBoxLayout *midi_ports_box_layout = new QVBoxLayout;
     QVBoxLayout *midi_config_box_layout = new QVBoxLayout;
     midi_config_box_layout->addWidget(midi_enable_check);
@@ -383,19 +381,18 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
 
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
-    //connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
-    //connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateIncomingOscLogVisibility()));
-    //connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
-    //connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
-    //connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
-
+    connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
+    connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(toggleIncommingOscLog()));
+    connect(show_buttons, SIGNAL(clicked()), this, SLOT(toggleButtons()));
+    connect(full_screen, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
+    connect(show_tabs, SIGNAL(clicked()), this, SLOT(toggleTabs()));
+    connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(toggleLogAutoScroll()));
     //connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     //connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     //connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     //connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     //connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
 
-    //connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
 
     gridEditorPrefs->addWidget(editor_display_box, 0, 0);
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
@@ -543,6 +540,30 @@ void SettingsWidget::changeMainVolume(int vol) {
 
 void SettingsWidget::toggleLineNumbers() {
     emit showLineNumbersChanged();
+}
+
+void SettingsWidget::toggleLog() {
+    emit showLogChanged();
+}
+
+void SettingsWidget::toggleIncommingOscLog() {
+    emit incomingOscLogChanged();
+}
+
+void SettingsWidget::toggleButtons() {
+    emit showButtonsChanged();
+}
+
+void SettingsWidget::toggleFullScreen() {
+    emit showFullscreenChanged();
+}
+
+void SettingsWidget::toggleTabs() {
+    emit showTabsChanged();
+}
+
+void SettingsWidget::toggleLogAutoScroll() {
+    emit logAutoScrollChanged();
 }
 
 void SettingsWidget::updateSettings() {
