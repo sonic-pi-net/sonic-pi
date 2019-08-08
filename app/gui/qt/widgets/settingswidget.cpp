@@ -6,7 +6,8 @@
 #include <QGroupBox>
 #include <QButtonGroup>
 #include <QNetworkInterface>
-
+#include <QDesktopServices>
+#include <QUrl>
 #include <iostream>
 
 /**
@@ -480,12 +481,10 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     QGroupBox *update_info_box = new QGroupBox(tr("Update Info"));
     update_info_box->setMaximumWidth(350);
     QVBoxLayout *update_info_box_layout = new QVBoxLayout;
-    //    update_info_box_layout->addWidget(update_info);
+    update_info = new QLabel(tr("Sonic Pi update info"));
+    update_info->setWordWrap(true);
+    update_info_box_layout->addWidget(update_info);
     update_info_box->setLayout(update_info_box_layout);
-
-    //connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
-    //connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(open_sonic_pi_net()));
-    //connect(check_updates_now, SIGNAL(clicked()), this, SLOT(check_for_updates_now()));
 
     QVBoxLayout *update_box_layout = new QVBoxLayout;
     update_box_layout->addWidget(check_updates);
@@ -493,6 +492,12 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     update_box_layout->addWidget(check_updates_now);
     update_box_layout->addWidget(visit_sonic_pi_net);
     update_box->setLayout(update_box_layout);
+
+    connect(check_updates, SIGNAL(clicked()), this, SLOT(updateSettings()));
+
+    connect(check_updates, SIGNAL(clicked()), this, SLOT(toggleCheckUpdates()));
+    connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(openSonicPiNet()));
+    connect(check_updates_now, SIGNAL(clicked()), this, SLOT(checkForUpdatesNow()));
 
     QGroupBox *update_prefs_box = new QGroupBox();
     QGridLayout *update_prefs_box_layout = new QGridLayout;
@@ -511,6 +516,8 @@ QString SettingsWidget::tooltipStrShiftMeta(char key, QString str) {
     return QString("%1 (Shift-alt-%2)").arg(str).arg(key);
 #endif
 }
+
+
 
 void SettingsWidget::update_mixer_invert_stereo() {
     std::cout << "INVERT STEREO" << std::endl;
@@ -571,6 +578,25 @@ void SettingsWidget::updateColourTheme() {
     emit themeChanged();
 }
 
+void SettingsWidget::toggleCheckUpdates() {
+    emit checkUpdatesChanged();
+}
+
+void SettingsWidget::checkForUpdatesNow() {
+    emit forceCheckUpdates();
+}
+
+void SettingsWidget::openSonicPiNet() {
+  QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
+}
+
+void SettingsWidget::updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible) {
+    update_info->setText( info_string );
+    visit_sonic_pi_net->setText( visit );
+    visit_sonic_pi_net->setVisible(sonic_pi_net_visible);
+    check_updates_now->setVisible(check_now_visible);
+}
+
 void SettingsWidget::updateSettings() {
     std::cout << "Update Settings" << std::endl;
     settings.mixer_invert_stereo = mixer_invert_stereo->isChecked();
@@ -602,4 +628,6 @@ void SettingsWidget::updateSettings() {
     if (lightProModeCheck->isChecked())     { settings.theme = SonicPiSettings::LightProMode; }
     if (darkProModeCheck->isChecked())      { settings.theme = SonicPiSettings::DarkProMode; }
     if (highContrastModeCheck->isChecked()) { settings.theme = SonicPiSettings::HighContrastMode; }
+
+    settings.check_updates = check_updates->isChecked();
 }

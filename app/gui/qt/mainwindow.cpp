@@ -966,6 +966,8 @@ void MainWindow::setupWindowStructure() {
   connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
   connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
   connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
+  connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
+  connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
 
   prefsCentral = new QWidget;
   prefsCentral->setObjectName("prefsCentral");
@@ -1429,7 +1431,7 @@ void MainWindow::mixerSettingsChanged() {
 }
 
 void MainWindow::update_check_updates() {
-  if (check_updates->isChecked()) {
+  if (settingsWidget->getSettings().check_updates) {
     enableCheckUpdates();
   } else {
     disableCheckUpdates();
@@ -3770,7 +3772,7 @@ void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
     ws->setLineErrorMarker(num - 1);
   }
 }
-
+//TODO remove
 void MainWindow::setUpdateInfoText(QString t) {
   update_info->setText(t);
 }
@@ -3825,13 +3827,14 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
   QString new_version = tr("Version %2 is now available!");
 
   if(v_num < latest_v_num) {
-    setUpdateInfoText(QString(preamble + "\n\n" + print_version + "\n\n" + new_version).arg(version, latest_version));
-    visit_sonic_pi_net->setText(tr("New version available!\nGet Sonic Pi %1").arg(latest_version));
-    check_updates_now->setVisible(false);
-    visit_sonic_pi_net->setVisible(true);
+    QString info = QString(preamble + "\n\n" + print_version + "\n\n" + new_version).arg(version, latest_version);
+    QString visit = tr("New version available!\nGet Sonic Pi %1").arg(latest_version);
+    settingsWidget->updateVersionInfo( info, visit, true, false);
   }
   else {
-    setUpdateInfoText(QString(preamble + "\n\n" + print_version + "\n\n" + last_update_check).arg(version));
+    QString info = (preamble + "\n\n" + print_version + "\n\n" + last_update_check).arg(version);
+    QString visit = tr("Visit http://sonic-pi.net to download new version");
+    settingsWidget->updateVersionInfo( info, visit, false, true);
   }
 }
 

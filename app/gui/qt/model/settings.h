@@ -36,5 +36,8 @@ public:
     bool log_auto_scroll;
 
     Theme theme;
+
+    // UpdateSettings;
+    bool check_updates;
 };
 #endif

@@ -24,6 +24,7 @@ public:
     ~SettingsWidget();
 
     const SonicPiSettings& getSettings() const { return settings; }
+    void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
 
 private slots:
     void update_mixer_invert_stereo();
@@ -39,8 +40,12 @@ private slots:
     void toggleFullScreen();
     void toggleTabs();
     void toggleLogAutoScroll();
-    void updateSettings();
     void updateColourTheme();
+    void openSonicPiNet();
+    void toggleCheckUpdates();
+    void checkForUpdatesNow();
+    void updateSettings();
+
 
 signals:
     void mixerSettingsChanged();
@@ -56,6 +61,8 @@ signals:
     void showTabsChanged();
     void logAutoScrollChanged();
     void themeChanged();
+    void checkUpdatesChanged();
+    void forceCheckUpdates();
 
 private:
     SonicPiSettings settings;
