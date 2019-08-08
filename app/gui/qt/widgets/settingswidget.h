@@ -20,11 +20,13 @@ class SettingsWidget : public QWidget
     Q_OBJECT
 
 public:
-    SettingsWidget( QWidget *parent = 0);
+    SettingsWidget( int server_osc_cues_port, QWidget *parent = 0);
     ~SettingsWidget();
 
     const SonicPiSettings& getSettings() const { return settings; }
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
+    void updateMidiInPorts( QString in );
+    void updateMidiOutPorts( QString out );
 
 private slots:
     void update_mixer_invert_stereo();
@@ -66,6 +68,8 @@ signals:
 
 private:
     SonicPiSettings settings;
+    int server_osc_cues_port;
+
     QTabWidget *prefTabs;
 
     QCheckBox *mixer_invert_stereo;

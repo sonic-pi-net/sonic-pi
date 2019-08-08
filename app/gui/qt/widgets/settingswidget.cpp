@@ -13,7 +13,8 @@
 /**
  * Default Constructor
  */
-SettingsWidget::SettingsWidget( QWidget *parent) {
+SettingsWidget::SettingsWidget( int port,  QWidget *parent) {
+    server_osc_cues_port = port;
     std::cout << "settings created" << std::endl;
     prefTabs = new QTabWidget();
 
@@ -165,8 +166,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     if (ip_address.isEmpty()) {
         ip_address = tr("Unavailable");
     }
-    // TODO Settings
-    int server_osc_cues_port = 1234;
+
     network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(server_osc_cues_port));
     network_ip_label->setToolTip(all_ip_addresses);
 
@@ -540,6 +540,14 @@ void SettingsWidget::toggleMidi() {
 
 void SettingsWidget::forceMidiReset() {
     emit resetMidi();
+}
+
+void SettingsWidget::updateMidiInPorts( QString in ) {
+    midi_in_ports_label->setText( in );
+}
+
+void SettingsWidget::updateMidiOutPorts( QString out ) {
+    midi_out_ports_label->setText( out );
 }
 
 void SettingsWidget::changeMainVolume(int vol) {

@@ -952,7 +952,7 @@ void MainWindow::setupWindowStructure() {
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
-  settingsWidget = new SettingsWidget(this);
+  settingsWidget = new SettingsWidget(server_osc_cues_port, this);
   connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
   connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
   connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
@@ -3872,8 +3872,8 @@ void MainWindow::toggleMidi(int silent) {
     msg.pushInt32(silent);
     sendOSC(msg);
   } else {
-    midi_in_ports_label->setText(tr("No connected input devices"));
-    midi_out_ports_label->setText(tr("No connected output devices"));
+    settingsWidget->updateMidiInPorts(tr("No connected input devices"));
+    settingsWidget->updateMidiOutPorts(tr("No connected output devices"));
     statusBar()->showMessage(tr("Disabling MIDI..."), 2000);
     Message msg("/midi-stop");
     msg.pushStr(guiID.toStdString());
@@ -3884,8 +3884,8 @@ void MainWindow::toggleMidi(int silent) {
 
 void MainWindow::resetMidi() {
   if (settingsWidget->getSettings().midi_enabled) {
-    midi_in_ports_label->setText(tr("No connected input devices"));
-    midi_out_ports_label->setText(tr("No connected output devices"));
+    settingsWidget->updateMidiInPorts(tr("No connected input devices"));
+    settingsWidget->updateMidiOutPorts(tr("No connected output devices"));
     statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
     Message msg("/midi-reset");
     msg.pushStr(guiID.toStdString());
@@ -3971,10 +3971,10 @@ void MainWindow::zoomOutLogs() {
 void MainWindow::updateMIDIInPorts(QString port_info) {
 
   QString input_header = tr("Connected MIDI inputs") + ":\n\n";
-  midi_in_ports_label->setText(input_header + port_info);
+  settingsWidget->updateMidiInPorts(input_header + port_info);
 }
 
 void MainWindow::updateMIDIOutPorts(QString port_info) {
   QString output_header = tr("Connected MIDI outputs") + ":\n\n";
-  midi_out_ports_label->setText(output_header + port_info);
+  settingsWidget->updateMidiOutPorts(output_header + port_info);
 }
