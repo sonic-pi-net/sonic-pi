@@ -40,6 +40,7 @@ private slots:
     void toggleTabs();
     void toggleLogAutoScroll();
     void updateSettings();
+    void updateColourTheme();
 
 signals:
     void mixerSettingsChanged();
@@ -54,6 +55,7 @@ signals:
     void showFullscreenChanged();
     void showTabsChanged();
     void logAutoScrollChanged();
+    void themeChanged();
 
 private:
     SonicPiSettings settings;

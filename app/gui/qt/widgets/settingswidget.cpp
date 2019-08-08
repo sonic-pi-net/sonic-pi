@@ -387,11 +387,12 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     connect(full_screen, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(toggleTabs()));
     connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(toggleLogAutoScroll()));
-    //connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+
+    connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
 
 
     gridEditorPrefs->addWidget(editor_display_box, 0, 0);
@@ -566,6 +567,10 @@ void SettingsWidget::toggleLogAutoScroll() {
     emit logAutoScrollChanged();
 }
 
+void SettingsWidget::updateColourTheme() {
+    emit themeChanged();
+}
+
 void SettingsWidget::updateSettings() {
     std::cout << "Update Settings" << std::endl;
     settings.mixer_invert_stereo = mixer_invert_stereo->isChecked();
@@ -592,10 +597,9 @@ void SettingsWidget::updateSettings() {
     settings.clear_output_on_run = clear_output_on_run->isChecked();
     settings.log_cues = log_cues->isChecked();
     settings.log_auto_scroll = log_auto_scroll->isChecked();
-
-    settings.lightMode = lightModeCheck->isChecked();
-    settings.darkMode = darkModeCheck->isChecked();
-    settings.lightProMode = lightProModeCheck->isChecked();
-    settings.darkProMode = darkProModeCheck->isChecked();
-    settings.highContrastMode = highContrastModeCheck->isChecked();
+    if (lightModeCheck->isChecked())        { settings.theme = SonicPiSettings::LightMode; }
+    if (darkModeCheck->isChecked())         { settings.theme = SonicPiSettings::DarkMode; }
+    if (lightProModeCheck->isChecked())     { settings.theme = SonicPiSettings::LightProMode; }
+    if (darkProModeCheck->isChecked())      { settings.theme = SonicPiSettings::DarkProMode; }
+    if (highContrastModeCheck->isChecked()) { settings.theme = SonicPiSettings::HighContrastMode; }
 }

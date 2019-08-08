@@ -965,6 +965,7 @@ void MainWindow::setupWindowStructure() {
   connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
   connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
   connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
+  connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
 
   prefsCentral = new QWidget;
   prefsCentral->setObjectName("prefsCentral");
@@ -2081,7 +2082,7 @@ void MainWindow::runBufferIdx(int idx)
 
 void MainWindow::showError(QString msg) {
   QString style_sheet = "qrc:///html/styles.css";
-  if(darkModeCheck->isChecked() || darkProModeCheck->isChecked()) {
+  if(settingsWidget->getSettings().theme == SonicPiSettings::DarkMode || settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
     style_sheet = "qrc:///html/dark_styles.css";
   }
   errorPane->clear();
@@ -2341,27 +2342,27 @@ void MainWindow::toggleScope()
 
 void MainWindow::scope()
 {
-
-  if (lightProModeCheck->isChecked() || darkProModeCheck->isChecked()) {
+  // TODO move icons to theme
+  if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode || settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
     if (show_scopes->isChecked()) {
         scopeAct->setIcon(pro_scope_bordered_icon);
       } else {
       scopeAct->setIcon(pro_scope_icon);
     }
 
-  } else if (darkModeCheck->isChecked()) {
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
       if (show_scopes->isChecked()) {
         scopeAct->setIcon(default_dark_scope_toggled_icon);
       } else {
         scopeAct->setIcon(default_dark_scope_icon);
       }
-  } else if (lightModeCheck->isChecked()) {
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
       if (show_scopes->isChecked()) {
         scopeAct->setIcon(default_light_scope_toggled_icon);
       } else {
         scopeAct->setIcon(default_light_scope_icon);
       }
-  } else if (highContrastModeCheck->isChecked()) {
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
       if (show_scopes->isChecked()) {
         scopeAct->setIcon(default_hc_scope_toggled_icon);
       } else {
@@ -2378,20 +2379,21 @@ void MainWindow::scope()
 
 void MainWindow::about()
 {
+  // TODO move icons to theme
   // todo: this is returning true even after the window disappears
   // Qt::Tool windows get closed automatically when app loses focus
   if(infoWidg->isVisible()) {
     infoWidg->hide();
 
-    if (darkProModeCheck->isChecked()) {
+    if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
       infoAct->setIcon(pro_info_dark_icon);
-    } else if (lightProModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
       infoAct->setIcon(pro_info_icon);
-    } else if (lightModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
       infoAct->setIcon(default_light_info_icon);
-    }  else if (darkModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
       infoAct->setIcon(default_dark_info_icon);
-    }  else if (highContrastModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
       infoAct->setIcon(default_hc_info_icon);
     }
 
@@ -2399,15 +2401,15 @@ void MainWindow::about()
     infoWidg->raise();
     infoWidg->show();
 
-    if (darkProModeCheck->isChecked()) {
+    if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
         infoAct->setIcon(pro_info_dark_bordered_icon);
-    } else if (lightProModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
       infoAct->setIcon(pro_info_bordered_icon);
-    } else if (lightModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
         infoAct->setIcon(default_light_info_toggled_icon);
-    }  else if (darkModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
       infoAct->setIcon(default_dark_info_toggled_icon);
-    }  else if (highContrastModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
       infoAct->setIcon(default_hc_info_toggled_icon);
 
     }
@@ -2421,15 +2423,15 @@ void MainWindow::help()
   if(docWidget->isVisible()) {
     hidingDocPane = true;
     docWidget->hide();
-    if (darkProModeCheck->isChecked()) {
+    if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
         helpAct->setIcon(pro_help_dark_icon);
-    } else if (lightProModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
       helpAct->setIcon(pro_help_icon);
-    } else if (lightModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
         helpAct->setIcon(default_light_help_icon);
-    }  else if (darkModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
       helpAct->setIcon(default_dark_help_icon);
-    }  else if (highContrastModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
       helpAct->setIcon(default_hc_help_icon);
 
     }
@@ -2441,15 +2443,15 @@ void MainWindow::help()
       updated_dark_mode_for_help = true;
     }
 
-        if (darkProModeCheck->isChecked()) {
+        if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
         helpAct->setIcon(pro_help_dark_bordered_icon);
-    } else if (lightProModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
       helpAct->setIcon(pro_help_bordered_icon);
-    } else if (lightModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
         helpAct->setIcon(default_light_help_toggled_icon);
-    }  else if (darkModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
       helpAct->setIcon(default_dark_help_toggled_icon);
-    }  else if (highContrastModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
       helpAct->setIcon(default_hc_help_toggled_icon);
 
     }
@@ -2565,7 +2567,8 @@ void MainWindow::updateLogAutoScroll() {
 }
 
 void MainWindow::toggleIcons() {
-  if (darkProModeCheck->isChecked()) {
+  // TODO move icons to theme
+  if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
     toolBar->setIconSize(QSize(30, 30));
     runAct->setIcon(pro_run_icon);
     stopAct->setIcon(pro_stop_icon);
@@ -2598,7 +2601,7 @@ void MainWindow::toggleIcons() {
     } else {
       prefsAct->setIcon(pro_prefs_dark_icon);
     }
-  } else if (lightProModeCheck->isChecked()) {
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
     toolBar->setIconSize(QSize(30, 30));
     runAct->setIcon(pro_run_icon);
     stopAct->setIcon(pro_stop_icon);
@@ -2633,7 +2636,7 @@ void MainWindow::toggleIcons() {
     } else {
       prefsAct->setIcon(pro_prefs_icon);
     }
-  } else if (darkModeCheck->isChecked()) {
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
     toolBar->setIconSize(QSize(84.6, 30.0));
     // dark mode
     runAct->setIcon(default_dark_run_icon);
@@ -2667,7 +2670,7 @@ void MainWindow::toggleIcons() {
     } else {
       prefsAct->setIcon(default_dark_prefs_icon);
     }
-  } else if (lightModeCheck->isChecked())  {
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode)  {
     toolBar->setIconSize(QSize(84.6, 30.0));
     // light mode
     runAct->setIcon(default_light_run_icon);
@@ -2703,7 +2706,7 @@ void MainWindow::toggleIcons() {
     } else {
       prefsAct->setIcon(default_light_prefs_icon);
     }
-  } else if (highContrastModeCheck->isChecked())  {
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode)  {
     // hc mode
     toolBar->setIconSize(QSize(84.6, 30.0));
     runAct->setIcon(default_hc_run_icon);
@@ -2749,23 +2752,23 @@ void MainWindow::updateColourTheme(){
   //Set css stylesheet for browser-like HTML widgets
   QString css = "";
   // switch themes
-  if (darkModeCheck->isChecked() || darkProModeCheck->isChecked()){
+  if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode || settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode){
     currentTheme->darkMode();
     css = readFile(qt_browser_dark_css);
     statusBar()->showMessage(tr("Colour Theme: Dark"), 2000);
-  } else if (darkProModeCheck->isChecked()){
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode){
     currentTheme->darkMode();
     css = readFile(qt_browser_dark_css);
     statusBar()->showMessage(tr("Colour Theme: Dark Pro"), 2000);
-  } else if (lightModeCheck->isChecked()){
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode){
     currentTheme->lightMode();
     css = readFile(qt_browser_light_css);
     statusBar()->showMessage(tr("Colour Theme: Light"), 2000);
-  } else if (lightProModeCheck->isChecked()){
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode){
     currentTheme->lightMode();
     css = readFile(qt_browser_light_css);
     statusBar()->showMessage(tr("Colour Theme: Light Pro"), 2000);
-  } else if (highContrastModeCheck->isChecked()){
+  } else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode){
     currentTheme->hcMode();
     css = readFile(qt_browser_hc_css);
     statusBar()->showMessage(tr("Colour Theme: High Contrast"), 2000);
@@ -2912,7 +2915,7 @@ void MainWindow::updateColourTheme(){
     ws->setFrameShape(QFrame::NoFrame);
     ws->setStyleSheet(appStyling);
 
-    if (highContrastModeCheck->isChecked()) {
+    if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
       ws->setCaretWidth(8);
     } else {
       ws->setCaretWidth(5);
@@ -2972,15 +2975,15 @@ void MainWindow::togglePrefs() {
 void MainWindow::updatePrefsIcon()
 {
   if(prefsWidget->isVisible()) {
-    if (darkProModeCheck->isChecked()) {
+    if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
       prefsAct->setIcon(pro_prefs_dark_bordered_icon);
-    } else if (lightProModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
       prefsAct->setIcon(pro_prefs_bordered_icon);
-    } else if (lightModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
       prefsAct->setIcon(default_light_prefs_toggled_icon);
-    }  else if (darkModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
       prefsAct->setIcon(default_dark_prefs_toggled_icon);
-    }  else if (highContrastModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
       prefsAct->setIcon(default_hc_prefs_toggled_icon);
 
     }
@@ -2990,15 +2993,15 @@ void MainWindow::updatePrefsIcon()
 
   else {
 
-    if (darkProModeCheck->isChecked()) {
+    if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
       prefsAct->setIcon(pro_prefs_dark_icon);
-    } else if (lightProModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
       prefsAct->setIcon(pro_prefs_icon);
-    } else if (lightModeCheck->isChecked()) {
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
       prefsAct->setIcon(default_light_prefs_icon);
-    }  else if (darkModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
       prefsAct->setIcon(default_dark_prefs_icon);
-    }  else if (highContrastModeCheck->isChecked()) {
+    }  else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
       prefsAct->setIcon(default_hc_prefs_icon);
 
     }
@@ -3324,11 +3327,11 @@ void MainWindow::createInfoPane() {
 
 void MainWindow::toggleRecordingOnIcon() {
   show_rec_icon_a = !show_rec_icon_a;
-  if (darkProModeCheck->isChecked() || lightProModeCheck->isChecked()) {
+  if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode || settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
     if(show_rec_icon_a) {
       recAct->setIcon(pro_rec_icon);
     } else {
-      if (darkProModeCheck->isChecked()) {
+      if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
         recAct->setIcon(pro_rec_b_dark_icon);
       } else {
         recAct->setIcon(pro_rec_b_icon);
@@ -3336,19 +3339,19 @@ void MainWindow::toggleRecordingOnIcon() {
     }
   } else {
     if(show_rec_icon_a) {
-      if (darkModeCheck->isChecked()) {
+      if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
         recAct->setIcon(default_dark_rec_a_icon);
-      } else if (lightModeCheck->isChecked()){
+      } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode){
         recAct->setIcon(default_light_rec_a_icon);
-      } else if (highContrastModeCheck->isChecked()){
+      } else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode){
         recAct->setIcon(default_hc_rec_a_icon);
       }
     } else {
-      if (darkModeCheck->isChecked()) {
+      if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
         recAct->setIcon(default_dark_rec_b_icon);
-      } else if (lightModeCheck->isChecked()){
+      } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode){
         recAct->setIcon(default_light_rec_b_icon);
-      } else if (highContrastModeCheck->isChecked()){
+      } else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode){
         recAct->setIcon(default_hc_rec_b_icon);
       }
     }
@@ -3371,11 +3374,11 @@ void MainWindow::toggleRecording() {
     updateAction(recAct, recSc, tr("Start Recording"), tr("Start Recording"));
 
 
-    if (darkModeCheck->isChecked()) {
+    if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
       recAct->setIcon(default_dark_rec_icon);
-    } else if (lightModeCheck->isChecked()){
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode){
       recAct->setIcon(default_light_rec_icon);
-    } else if (highContrastModeCheck->isChecked()){
+    } else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode){
       recAct->setIcon(default_hc_rec_icon);
     } else {
       //default icon
@@ -3716,27 +3719,27 @@ void MainWindow::helpVisibilityChanged() {
   statusBar()->showMessage(tr("help visibility changed..."), 2000);
 
     if (docWidget->isVisible()) {
-      if (darkProModeCheck->isChecked()) {
+      if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
         helpAct->setIcon(pro_help_dark_bordered_icon);
-      } else if (lightProModeCheck->isChecked()) {
+      } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
         helpAct->setIcon(pro_help_bordered_icon);
-      } else if (lightModeCheck->isChecked()) {
+      } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
         helpAct->setIcon(default_light_help_toggled_icon);
-      }  else if (darkModeCheck->isChecked()) {
+      }  else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
         helpAct->setIcon(default_dark_help_toggled_icon);
-      }  else if (highContrastModeCheck->isChecked()) {
+      }  else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
         helpAct->setIcon(default_hc_help_toggled_icon);
       }
     } else {
-      if (darkProModeCheck->isChecked()) {
+      if (settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
         helpAct->setIcon(pro_help_dark_icon);
-      } else if (lightProModeCheck->isChecked()) {
+      } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode) {
         helpAct->setIcon(pro_help_icon);
-      } else if (lightModeCheck->isChecked()) {
+      } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
         helpAct->setIcon(default_light_help_icon);
-      }  else if (darkModeCheck->isChecked()) {
+      }  else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
         helpAct->setIcon(default_dark_help_icon);
-      }  else if (highContrastModeCheck->isChecked()) {
+      }  else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
         helpAct->setIcon(default_hc_help_icon);
 
       }

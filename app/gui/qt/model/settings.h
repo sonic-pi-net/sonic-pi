@@ -5,6 +5,8 @@
 
 class SonicPiSettings {
 public:    
+    enum Theme { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode };
+
     // Audio Settings
     int main_volume;
     bool mixer_invert_stereo;
@@ -33,11 +35,6 @@ public:
     bool log_cues;
     bool log_auto_scroll;
 
-    bool lightMode;
-    bool darkMode;
-    bool lightProMode;
-    bool darkProMode;
-    bool highContrastMode;
-
+    Theme theme;
 };
 #endif
