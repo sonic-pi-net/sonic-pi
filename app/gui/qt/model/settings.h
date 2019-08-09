@@ -39,5 +39,9 @@ public:
 
     // UpdateSettings;
     bool check_updates;
+
+    // Visualizer
+    bool show_scopes;
+    bool show_scope_axes;
 };
 #endif

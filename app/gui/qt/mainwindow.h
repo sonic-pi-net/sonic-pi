@@ -96,6 +96,9 @@ protected:
 public slots:
     void invokeStartupError(QString msg);
 
+signals:
+    void settingsChanged();
+
 private slots:
     void addCuePath(QString path, QString val);
     void zoomInLogs();
@@ -234,7 +237,7 @@ private:
     std::string workspaceFilename(SonicPiScintilla* text);
     SonicPiScintilla* filenameToWorkspace(std::string filename);
     bool sendOSC(oscpkt::Message m);
-    void initPrefsWindow();
+ //   void initPrefsWindow();
     void initDocsWindow();
     void refreshDocContent();
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
@@ -297,7 +300,7 @@ private:
     bool restoreDocPane;
 
     QTabWidget *tabs;
-    QTabWidget *prefTabs;
+//    QTabWidget *prefTabs;
 
     QProcess *serverProcess;
 
@@ -311,52 +314,8 @@ private:
 
     SettingsWidget *settingsWidget;
 
-    QCheckBox *mixer_invert_stereo;
-    QCheckBox *mixer_force_mono;
-    QCheckBox *print_output;
-    QCheckBox *check_args;
-    QCheckBox *clear_output_on_run;
-    QCheckBox *log_cues;
-    QCheckBox *log_auto_scroll;
-    QCheckBox *enable_external_synths_cb;
-    QCheckBox *synth_trigger_timing_guarantees_cb;
-    QCheckBox *show_line_numbers;
-    QCheckBox *auto_indent_on_run;
-    QCheckBox *full_screen;
-    QCheckBox *show_log;
-    QCheckBox *show_incoming_osc_log;
-    QCheckBox *show_buttons;
-    QCheckBox *show_tabs;
-    QCheckBox *check_updates;
     QCheckBox *studio_mode;
-
-    QComboBox *midi_default_channel_combo;
-    QCheckBox *midi_enable_check;
-    QCheckBox *osc_public_check;
-    QCheckBox *osc_server_enabled_check;
-
-    QButtonGroup *colourModeButtonGroup;
-    QCheckBox *lightModeCheck;
-    QCheckBox *darkModeCheck;
-    QCheckBox *lightProModeCheck;
-    QCheckBox *darkProModeCheck;
-    QCheckBox *highContrastModeCheck;
-
-    QSignalMapper *scopeSignalMap;
-    QCheckBox *show_scope_axes;
-    QCheckBox *show_scopes;
-
-    QPushButton *check_updates_now;
-    QPushButton *visit_sonic_pi_net;
-    QPushButton *check_studio_hash;
     QLineEdit   *user_token;
-    QLabel *update_info;
-    QLabel *midi_in_ports_label;
-    QLabel *midi_out_ports_label;
-
-    QSlider *system_vol_slider;
-    QSlider *gui_transparency_slider;
-
 
     InfoWidget *infoWidg;
     QList<QTextBrowser *> infoPanes;

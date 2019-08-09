@@ -189,8 +189,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   createStatusBar();
   createInfoPane();
   setWindowTitle(tr("Sonic Pi"));
-  initPrefsWindow();
-
   // Clear out old tasks from previous sessions if they still exist
   // in addtition to clearing out the logs
 
@@ -243,7 +241,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::cout << "[GUI] - load workspaces" << std::endl;
     loadWorkspaces();
     requestVersion();
-    changeSystemPreAmp(system_vol_slider->value(), 1);
+    changeSystemPreAmp(settingsWidget->getSettings().main_volume, 1);
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
@@ -738,8 +736,6 @@ void MainWindow::setupWindowStructure() {
   incomingPane = new SonicPiLog;
   errorPane = new QTextBrowser;
   errorPane->setOpenExternalLinks(true);
-  update_info = new QLabel(tr("Sonic Pi update info"));
-  update_info->setWordWrap(true);
 
   // Window layout
   tabs = new QTabWidget();
@@ -752,8 +748,41 @@ void MainWindow::setupWindowStructure() {
   // create workspaces and add them to the tabs
   // workspace shortcuts
   signalMapper = new QSignalMapper (this) ;
-  auto_indent_on_run = new QCheckBox(tr("Auto-align"));
 
+  prefsWidget = new QDockWidget(tr("Preferences"), this);
+  prefsWidget->setFocusPolicy(Qt::NoFocus);
+  prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+  prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
+
+  settingsWidget = new SettingsWidget(server_osc_cues_port, this);
+  connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
+  connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
+  connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
+  connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
+  connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
+  connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
+  connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
+  connect(settingsWidget, SIGNAL(incomingOscLogChanged()), this, SLOT(updateIncomingOscLogVisibility()));
+  connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
+  connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
+  connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
+  connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
+  connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
+  connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
+  connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
+
+  prefsCentral = new QWidget;
+  prefsCentral->setObjectName("prefsCentral");
+//  prefsWidget->setWidget(prefsCentral);
+  prefsWidget->setWidget(settingsWidget);
+  QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+  prefsCentral->setSizePolicy(prefsSizePolicy);
+  addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
+  prefsWidget->hide();
+  prefsWidget->setObjectName("prefs");
+
+  connect(prefsWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updatePrefsIcon()));
+  bool auto_indent = settingsWidget->getSettings().auto_indent_on_run;
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
     QString fileName = QString("workspace_" ) + QString::fromStdString(number_name(ws));
@@ -765,7 +794,7 @@ void MainWindow::setupWindowStructure() {
     //      should only be considered an interim solution necessary to
     //      fix the return issue on Japanese keyboards.
 
-    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender, auto_indent_on_run);
+    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender, auto_indent);
 
     workspace->setObjectName(QString("Buffer %1").arg(ws));
 
@@ -947,39 +976,6 @@ void MainWindow::setupWindowStructure() {
 
   connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
 
-  prefsWidget = new QDockWidget(tr("Preferences"), this);
-  prefsWidget->setFocusPolicy(Qt::NoFocus);
-  prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-  prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
-
-  settingsWidget = new SettingsWidget(server_osc_cues_port, this);
-  connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
-  connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
-  connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
-  connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
-  connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
-  connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
-  connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
-  connect(settingsWidget, SIGNAL(incomingOscLogChanged()), this, SLOT(updateIncomingOscLogVisibility()));
-  connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
-  connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
-  connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
-  connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
-  connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
-  connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
-  connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
-
-  prefsCentral = new QWidget;
-  prefsCentral->setObjectName("prefsCentral");
-//  prefsWidget->setWidget(prefsCentral);
-  prefsWidget->setWidget(settingsWidget);
-  QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-  prefsCentral->setSizePolicy(prefsSizePolicy);
-  addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
-  prefsWidget->hide();
-  prefsWidget->setObjectName("prefs");
-
-  connect(prefsWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updatePrefsIcon()));
 
   outputWidget = new QDockWidget(tr("Log"), this);
   outputWidget->setFocusPolicy(Qt::NoFocus);
@@ -1071,7 +1067,8 @@ void MainWindow::changeTab(int id){
 }
 
 void MainWindow::toggleFullScreenMode() {
-  full_screen->toggle();
+  settingsWidget->getSettings().full_screen = !settingsWidget->getSettings().full_screen;
+  emit settingsChanged();
   updateFullScreenMode();
 }
 
@@ -1117,19 +1114,19 @@ void MainWindow::toggleFocusMode() {
 
 void MainWindow::updateFocusMode(){
   if (focusMode) {
-    full_screen->setChecked(true);
-    show_tabs->setChecked(false);
-    show_buttons->setChecked(false);
-    show_log->setChecked(false);
-    show_incoming_osc_log->setChecked(false);
+    settingsWidget->getSettings().full_screen = true;
+    settingsWidget->getSettings().show_tabs = false;
+    settingsWidget->getSettings().show_buttons = false;
+    settingsWidget->getSettings().show_log = false;
+    settingsWidget->getSettings().show_incoming_osc_log = false;
   }
   else {
-    full_screen->setChecked(false);
-    show_tabs->setChecked(true);
-    show_buttons->setChecked(true);
-    show_incoming_osc_log->setChecked(true);
+    settingsWidget->getSettings().full_screen = false;
+    settingsWidget->getSettings().show_tabs = true;
+    settingsWidget->getSettings().show_buttons = true;
+    settingsWidget->getSettings().show_incoming_osc_log = true;
   }
-
+  emit settingsChanged();
   updateFullScreenMode();
   updateTabsVisibility();
   updateButtonVisibility();
@@ -1151,7 +1148,8 @@ void MainWindow::allJobsCompleted() {
 }
 
 void MainWindow::toggleLogVisibility() {
-  show_log->toggle();
+  settingsWidget->getSettings().show_log = !settingsWidget->getSettings().show_log;
+  emit settingsChanged();
   updateLogVisibility();
 }
 
@@ -1172,7 +1170,8 @@ void MainWindow::updateIncomingOscLogVisibility(){
 }
 
 void MainWindow::toggleTabsVisibility() {
-  show_tabs->toggle();
+  settingsWidget->getSettings().show_tabs = !settingsWidget->getSettings().show_tabs;
+  emit settingsChanged();
   updateTabsVisibility();
 }
 
@@ -1188,10 +1187,9 @@ void MainWindow::updateTabsVisibility(){
 }
 
 void MainWindow::toggleButtonVisibility() {
-
-  show_buttons->toggle();
+  settingsWidget->getSettings().show_buttons = !settingsWidget->getSettings().show_buttons;
+  emit settingsChanged();
   updateButtonVisibility();
-
 }
 
 void MainWindow::updateButtonVisibility(){
@@ -1465,432 +1463,6 @@ void MainWindow::honourPrefs() {
   scope();
 }
 
-void MainWindow::initPrefsWindow() {
-  QSettings settings("sonic-pi.net", "gui-settings");
-
-  prefTabs = new QTabWidget();
-  tabs->setTabsClosable(false);
-  tabs->setMovable(false);
-  tabs->setTabPosition(QTabWidget::South);
-
-  QGridLayout *grid = new QGridLayout;
-
-  QGroupBox *ioTab = new QGroupBox();
-
-  QGroupBox *network_box = new QGroupBox(tr("Networked OSC"));
-  network_box->setToolTip(tr("Sonic Pi can send and receive Open Sound Control messages\nto and from other programs or computers\n via the currently connected network."));
-
-  QLabel *network_ip_label = new QLabel();
-  QString ip_address_trans = tr("Local IP address");
-  QString port_num_trans = tr("Listening for OSC messages on port");
-  QString ip_address = "";
-  QString all_ip_addresses  = "";
-
-  QList<QHostAddress> list = QNetworkInterface::allAddresses();
-
-  for(int nIter=0; nIter<list.count(); nIter++)
-
-  {
-    if(!list[nIter].isLoopback()) {
-      if (list[nIter].protocol() == QAbstractSocket::IPv4Protocol ) {
-        if (ip_address.isEmpty()) {
-          ip_address = list[nIter].toString();
-        }
-        all_ip_addresses = all_ip_addresses + list[nIter].toString() + "\n";
-      }
-    }
-
-  }
-
-  if (ip_address.isEmpty()) {
-    ip_address = tr("Unavailable");
-  }
-  network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(server_osc_cues_port));
-  network_ip_label->setToolTip(all_ip_addresses);
-
-  osc_public_check = new QCheckBox(tr("Receive remote OSC messages"));
-  osc_public_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages from remote machines.\n When unchecked, only messages from the local machine will be received."));
-  connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOSCServer()));
-
-  osc_server_enabled_check = new QCheckBox(tr("Enable OSC server"));
-  osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages.\n When unchecked no OSC messages will be received."));
-  connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOSCServer()));
-
-
-  QVBoxLayout *network_box_layout = new QVBoxLayout;
-  network_box_layout->addWidget(osc_server_enabled_check);
-  network_box_layout->addWidget(osc_public_check);
-  network_box_layout->addWidget(network_ip_label);
-  network_box->setLayout(network_box_layout);
-
-  QGroupBox *midi_config_box = new QGroupBox(tr("MIDI Configuration"));
-  midi_config_box->setToolTip(tr("Configure MIDI behaviour"));
-
-  QGroupBox *midi_ports_box = new QGroupBox(tr("MIDI Ports"));
-  midi_ports_box->setToolTip(tr("List all connected MIDI Ports"));
-
-  midi_enable_check = new QCheckBox(tr("Enable MIDI subsystems"));
-  midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
-  connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
-
-  QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
-  midi_reset_button->setToolTip(tr("Reset MIDI subsystems \n(Required to detect device changes on macOS)" ));
-  connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(resetMidi()));
-
-  midi_default_channel_combo = new QComboBox();
-  midi_default_channel_combo->addItem("*");
-  midi_default_channel_combo->addItem("1");
-  midi_default_channel_combo->addItem("2");
-  midi_default_channel_combo->addItem("3");
-  midi_default_channel_combo->addItem("4");
-  midi_default_channel_combo->addItem("5");
-  midi_default_channel_combo->addItem("6");
-  midi_default_channel_combo->addItem("7");
-  midi_default_channel_combo->addItem("8");
-  midi_default_channel_combo->addItem("9");
-  midi_default_channel_combo->addItem("10");
-  midi_default_channel_combo->addItem("11");
-  midi_default_channel_combo->addItem("12");
-  midi_default_channel_combo->addItem("13");
-  midi_default_channel_combo->addItem("14");
-  midi_default_channel_combo->addItem("15");
-  midi_default_channel_combo->addItem("16");
-  midi_default_channel_combo->setMaxVisibleItems(17);
-  midi_default_channel_combo->setMinimumContentsLength(2);
-  midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength) ;
-
-
-  QLabel *midi_default_channel_label = new QLabel;
-  midi_default_channel_label->setText(tr("Default MIDI channel (* means all)"));
-  midi_default_channel_label->setToolTip(tr("Default MIDI Channel to send messages to"));
-
-  QGridLayout *midi_default_channel_layout = new QGridLayout();
-
-  midi_default_channel_combo->setToolTip(tr("Default MIDI Channel to send messages to"));
-
-  midi_default_channel_layout->addWidget(midi_default_channel_combo, 0, 0);
-  midi_default_channel_layout->addWidget(midi_default_channel_label, 0, 1);
-
-  midi_in_ports_label = new QLabel;
-  midi_out_ports_label = new QLabel;
-  midi_in_ports_label->setFont(QFont("Hack"));
-  midi_out_ports_label->setFont(QFont("Hack"));
-  midi_in_ports_label->setAccessibleName("midi-in-ports-label");
-  midi_out_ports_label->setAccessibleName("midi-out-ports-label");
-  midi_in_ports_label->setText(tr("No connected input devices"));
-  midi_out_ports_label->setText(tr("No connected output devices"));
-  midi_in_ports_label->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
-  midi_out_ports_label->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
-
-
-  QVBoxLayout *midi_ports_box_layout = new QVBoxLayout;
-  QVBoxLayout *midi_config_box_layout = new QVBoxLayout;
-  midi_config_box_layout->addWidget(midi_enable_check);
-  midi_config_box_layout->addLayout(midi_default_channel_layout);
-
-  midi_ports_box_layout->addWidget(midi_in_ports_label);
-  midi_ports_box_layout->addWidget(midi_out_ports_label);
-  midi_ports_box_layout->addWidget(midi_reset_button);
-
-  midi_ports_box->setLayout(midi_ports_box_layout);
-  midi_config_box->setLayout(midi_config_box_layout);
-  QGridLayout *io_tab_layout = new QGridLayout();
-  io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
-  io_tab_layout->addWidget(midi_config_box, 0, 1);
-  io_tab_layout->addWidget(network_box, 1, 1);
-
-  ioTab->setLayout(io_tab_layout);
-
-
-
-  QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
-  volBox->setToolTip(tr("Use this slider to change the system volume."));
-
-  QGroupBox *advancedAudioBox = new QGroupBox(tr("Audio Output"));
-  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
-  mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
-  mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
-//  connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
-  mixer_force_mono = new QCheckBox(tr("Force mono"));
-  mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
-//  connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
-
-  QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
-  advanced_audio_box_layout->addWidget(mixer_invert_stereo);
-  advanced_audio_box_layout->addWidget(mixer_force_mono);
-  advancedAudioBox->setLayout(advanced_audio_box_layout);
-
-  QHBoxLayout *vol_box = new QHBoxLayout;
-  system_vol_slider = new QSlider(this);
-
-  int stored_vol = settings.value("prefs/system-vol", 50).toInt();
-  system_vol_slider->setValue(stored_vol);
-  connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeSystemPreAmp(int)));
-  vol_box->addWidget(system_vol_slider);
-  volBox->setLayout(vol_box);
-
-  QGroupBox *debug_box = new QGroupBox(tr("Logging"));
-  debug_box->setToolTip(tr("Configure debug behaviour"));
-
-  QGroupBox *synths_box = new QGroupBox(tr("Synths and FX"));
-  synths_box->setToolTip(tr("Modify behaviour of synths and FX"));
-
-  print_output = new QCheckBox(tr("Log synths"));
-  print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
-
-  clear_output_on_run = new QCheckBox(tr("Clear log on run"));
-  clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
-
-  log_cues = new QCheckBox(tr("Log cues"));
-  log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
-
-  log_auto_scroll = new QCheckBox(tr("Auto-scroll log"));
-  log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
-  connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
-
-  check_args = new QCheckBox(tr("Safe mode"));
-  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
-
-
-  enable_external_synths_cb = new QCheckBox(tr("Enable external synths and FX"));
-  enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
-
-  synth_trigger_timing_guarantees_cb = new QCheckBox(tr("Enforce timing guarantees"));
-  synth_trigger_timing_guarantees_cb->setToolTip(tr("When enabled, Sonic Pi will refuse\nto trigger synths and FX if\nit is too late to do so\n\nWhen disabled, Sonic Pi will always\nattempt to trigger synths and FX\neven when a little late."));
-
-  QVBoxLayout *debug_box_layout = new QVBoxLayout;
-  debug_box_layout->addWidget(print_output);
-  debug_box_layout->addWidget(log_cues);
-  debug_box_layout->addWidget(log_auto_scroll);
-  debug_box_layout->addWidget(clear_output_on_run);
-  debug_box->setLayout(debug_box_layout);
-
-  QVBoxLayout *synths_box_layout = new QVBoxLayout;
-  synths_box_layout->addWidget(check_args);
-  synths_box_layout->addWidget(synth_trigger_timing_guarantees_cb);
-  synths_box_layout->addWidget(enable_external_synths_cb);
-
-
-  synths_box->setLayout(synths_box_layout);
-
-  QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
-  QGridLayout *transparency_box_layout = new QGridLayout;
-  gui_transparency_slider = new QSlider(this);
-  connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
-  transparency_box_layout->addWidget(gui_transparency_slider);
-  transparency_box->setLayout(transparency_box_layout);
-
-
-  QGroupBox *update_box = new QGroupBox(tr("Updates"));
-  QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-  check_updates = new QCheckBox(tr("Check for updates"));
-  update_box->setSizePolicy(updatesPrefSizePolicy);
-  check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
-  check_updates_now = new QPushButton(tr("Check now"));
-  check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
-  visit_sonic_pi_net = new QPushButton(tr("Get update"));
-  visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
-  visit_sonic_pi_net->setVisible(false);
-
-  QGroupBox *update_info_box = new QGroupBox(tr("Update Info"));
-  update_info_box->setMaximumWidth(350);
-  QVBoxLayout *update_info_box_layout = new QVBoxLayout;
-  update_info_box_layout->addWidget(update_info);
-  update_info_box->setLayout(update_info_box_layout);
-
-
-  connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
-  connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(open_sonic_pi_net()));
-  connect(check_updates_now, SIGNAL(clicked()), this, SLOT(check_for_updates_now()));
-
-  QVBoxLayout *update_box_layout = new QVBoxLayout;
-  update_box_layout->addWidget(check_updates);
-
-  update_box_layout->addWidget(check_updates_now);
-  update_box_layout->addWidget(visit_sonic_pi_net);
-  update_box->setLayout(update_box_layout);
-
-  QGroupBox *editor_box = new QGroupBox();
-  QGroupBox *editor_display_box = new QGroupBox(tr("Show and Hide"));
-  editor_display_box->setToolTip(tr("Configure editor display options."));
-  QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
-  editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
-  QGroupBox *automation_box = new QGroupBox(tr("Automation"));
-  automation_box->setToolTip(tr("Configure automation features."));
-
-  auto_indent_on_run->setToolTip(tr("Automatically align code on Run"));
-
-  show_line_numbers = new QCheckBox(tr("Show line numbers"));
-  show_line_numbers->setToolTip(tr("Toggle line number visibility."));
-  show_log = new QCheckBox(tr("Show log"));
-  show_incoming_osc_log = new QCheckBox(tr("Show cue log"));
-  show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
-  show_incoming_osc_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
-  show_log->setChecked(true);
-  show_incoming_osc_log->setChecked(true);
-  show_buttons = new QCheckBox(tr("Show buttons"));
-  show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
-  show_buttons->setChecked(true);
-  show_tabs = new QCheckBox(tr("Show tabs"));
-  show_tabs->setChecked(true);
-  show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
-  full_screen = new QCheckBox(tr("Full screen"));
-  full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
-  connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-  colourModeButtonGroup = new QButtonGroup(this);
-
-  lightModeCheck = new QCheckBox(tr("Light"));
-  darkModeCheck = new QCheckBox(tr("Dark"));
-  lightProModeCheck = new QCheckBox(tr("Pro Light"));
-  darkProModeCheck = new QCheckBox(tr("Pro Dark"));
-  highContrastModeCheck = new QCheckBox(tr("High Contrast"));
-  connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-  colourModeButtonGroup->addButton(lightModeCheck, 0);
-  colourModeButtonGroup->addButton(darkModeCheck, 1);
-  colourModeButtonGroup->addButton(lightProModeCheck, 2);
-  colourModeButtonGroup->addButton(darkProModeCheck, 3);
-  colourModeButtonGroup->addButton(highContrastModeCheck, 4);
-
-  lightModeCheck->setChecked(true);
-  connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-  connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
-  connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateIncomingOscLogVisibility()));
-  connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
-  connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
-  connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
-
-
-  QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
-  QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
-  QVBoxLayout *automation_box_layout = new QVBoxLayout;
-  QGridLayout *gridEditorPrefs = new QGridLayout;
-
-  editor_display_box_layout->addWidget(show_line_numbers);
-  editor_display_box_layout->addWidget(show_log);
-  editor_display_box_layout->addWidget(show_incoming_osc_log);
-  editor_display_box_layout->addWidget(show_buttons);
-  editor_display_box_layout->addWidget(show_tabs);
-  editor_box_look_feel_layout->addWidget(lightModeCheck);
-  editor_box_look_feel_layout->addWidget(darkModeCheck);
-  editor_box_look_feel_layout->addWidget(lightProModeCheck);
-  editor_box_look_feel_layout->addWidget(darkProModeCheck);
-  editor_box_look_feel_layout->addWidget(highContrastModeCheck);
-
-
-
-  editor_display_box->setLayout(editor_display_box_layout);
-  editor_look_feel_box->setLayout(editor_box_look_feel_layout);
-
-  automation_box_layout->addWidget(auto_indent_on_run);
-  automation_box_layout->addWidget(full_screen);
-  automation_box->setLayout(automation_box_layout);
-
-  gridEditorPrefs->addWidget(editor_display_box, 0, 0);
-  gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
-  gridEditorPrefs->addWidget(automation_box, 1, 1);
-  gridEditorPrefs->addWidget(debug_box, 1, 0);
-
-  editor_box->setLayout(gridEditorPrefs);
-  grid->addWidget(prefTabs, 0, 0);
-
-  QGroupBox *audio_prefs_box = new QGroupBox();
-  QGridLayout *audio_prefs_box_layout = new QGridLayout;
-
-  audio_prefs_box_layout->addWidget(volBox, 0, 0, 0, 1);
-  audio_prefs_box_layout->addWidget(synths_box, 0, 1);
-  audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
-
-
-
-  prefTabs->addTab(audio_prefs_box, tr("Audio"));
-  audio_prefs_box->setLayout(audio_prefs_box_layout);
-
-  prefTabs->addTab(ioTab, tr("IO"));
-
-  prefTabs->addTab(editor_box, tr("Editor"));
-
-
-  QGroupBox *viz_box = new QGroupBox();
-  viz_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
-
-  QGridLayout* viz_tab_layout = new QGridLayout();
-
-  QGroupBox *scope_box = new QGroupBox(tr("Show and Hide Scope"));
-  QGroupBox *scope_box_kinds = new QGroupBox(tr("Scope Kinds"));
-
-  QVBoxLayout *scope_box_kinds_layout = new QVBoxLayout;
-  QVBoxLayout *scope_box_layout = new QVBoxLayout;
-
-  scopeSignalMap = new QSignalMapper(this);
-  for( auto name : scopeInterface->getScopeNames() )
-  {
-    QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) );
-    cb->setChecked( scopeInterface->enableScope( name, isScopeEnabled(settings,name) ) );
-    scopeSignalMap->setMapping( cb, cb );
-    scope_box_kinds_layout->addWidget(cb);
-    connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
-  }
-  connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
-  show_scopes = new QCheckBox(tr("Show Scopes"));
-  show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
-  show_scope_axes = new QCheckBox(tr("Show Axes"));
-  show_scope_axes->setToolTip(tr("Toggle the visibility of the axes for the audio oscilloscopes"));
-  show_scope_axes->setChecked(true);
-  scope_box_kinds->setLayout(scope_box_kinds_layout);
-  scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in three flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMono - shows a combined view of the left and right channels (using RMS)\nStereo - shows two independent scopes for left and right channels"));
-  scope_box_layout->addWidget(show_scopes);
-  scope_box_layout->addWidget(show_scope_axes);
-  scope_box->setLayout(scope_box_layout);
-  viz_tab_layout->addWidget(scope_box, 0, 0);
-  viz_tab_layout->addWidget(scope_box_kinds, 1, 0);
-#if defined(Q_OS_LINUX)
-  // do nothing
-#else
-    viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
-#endif
-  connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
-  connect(show_scopes, SIGNAL(clicked()), this, SLOT(scope()));
-  viz_box->setLayout(viz_tab_layout);
-  prefTabs->addTab(viz_box, tr("Visuals"));
-
-  //  prefTabs->addTab(performance_box, tr("Status"));
-
-
-  QGroupBox *update_prefs_box = new QGroupBox();
-  QGridLayout *update_prefs_box_layout = new QGridLayout;
-
-  update_prefs_box_layout->addWidget(update_info_box, 0, 0);
-  update_prefs_box_layout->addWidget(update_box, 0, 1);
-  update_prefs_box->setLayout(update_prefs_box_layout);
-  prefTabs->addTab(update_prefs_box, tr("Updates"));
-
-  if (!i18n) {
-    QGroupBox *translation_box = new QGroupBox("Translation");
-    QVBoxLayout *translation_box_layout = new QVBoxLayout;
-    QLabel *go_translate = new QLabel;
-    go_translate->setOpenExternalLinks(true);
-    go_translate->setText(
-      "Sonic Pi hasn't been translated to " +
-      QLocale::languageToString(QLocale::system().language()) +
-      " yet.<br/>" +
-      "We rely on crowdsourcing to help create and maintain translations.<br/>" +
-      "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
-      "Please consider helping to translate Sonic Pi to your language.</a> "
-    );
-    go_translate->setTextFormat(Qt::RichText);
-    translation_box_layout->addWidget(go_translate);
-    translation_box->setLayout(translation_box_layout);
-
-    grid->addWidget(translation_box, 3, 0, 1, 2);
-  }
-
-  prefsCentral->setLayout(grid);
-}
-
 void MainWindow::setMessageBoxStyle() {
   // Set text color to black and background colors to white for the error message display
   QPalette p = QApplication::palette();
@@ -2117,29 +1689,29 @@ void MainWindow::runCode()
 
   QString code = ws->text();
 
-  if(!print_output->isChecked()) {
+  if(!settingsWidget->getSettings().print_output) {
     code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
-  if(!log_cues->isChecked()) {
+  if(!settingsWidget->getSettings().log_cues) {
     code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
-  if(check_args->isChecked()) {
+  if(settingsWidget->getSettings().check_args) {
     code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
-  if(enable_external_synths_cb->isChecked()) {
+  if(settingsWidget->getSettings().enable_external_synths) {
     code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
-  if(synth_trigger_timing_guarantees_cb->isChecked()) {
+  if(settingsWidget->getSettings().synth_trigger_timing_guarantees) {
     code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
-  code = "use_midi_defaults channel: \"" + midi_default_channel_combo->currentText() + "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  code = "use_midi_defaults channel: \"" + settingsWidget->getSettings().midi_default_channel_str+ "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
 
-  if(auto_indent_on_run->isChecked()) {
+  if(settingsWidget->getSettings().auto_indent_on_run) {
     beautifyCode();
   }
 
@@ -2157,7 +1729,7 @@ void MainWindow::runCode()
   std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
   msg.pushStr(filename);
 
-  if(clear_output_on_run->isChecked()){
+  if(settingsWidget->getSettings().clear_output_on_run){
     outputPane->clear();
   }
 
@@ -2322,23 +1894,15 @@ void MainWindow::stopCode()
 }
 
 void MainWindow::scopeVisibilityChanged() {
-  if (scopeWidget->isVisible()) {
-    show_scopes->setChecked(true);
-  } else {
-    show_scopes->setChecked(false);
-  }
-
+  settingsWidget->getSettings().show_scopes = scopeWidget->isVisible();
+  emit settingsChanged();
   scope();
 }
 
 void MainWindow::toggleScope()
 {
-  if(show_scopes->isChecked()) {
-
-    show_scopes->setChecked(false);
-  } else {
-    show_scopes->setChecked(true);
-  }
+  settingsWidget->getSettings().show_scopes = !settingsWidget->getSettings().show_scopes;
+  emit settingsChanged();
   scope();
 }
 
@@ -2346,33 +1910,33 @@ void MainWindow::scope()
 {
   // TODO move icons to theme
   if (settingsWidget->getSettings().theme == SonicPiSettings::LightProMode || settingsWidget->getSettings().theme == SonicPiSettings::DarkProMode) {
-    if (show_scopes->isChecked()) {
+    if (settingsWidget->getSettings().show_scopes) {
         scopeAct->setIcon(pro_scope_bordered_icon);
       } else {
       scopeAct->setIcon(pro_scope_icon);
     }
 
   } else if (settingsWidget->getSettings().theme == SonicPiSettings::DarkMode) {
-      if (show_scopes->isChecked()) {
+      if (settingsWidget->getSettings().show_scopes) {
         scopeAct->setIcon(default_dark_scope_toggled_icon);
       } else {
         scopeAct->setIcon(default_dark_scope_icon);
       }
   } else if (settingsWidget->getSettings().theme == SonicPiSettings::LightMode) {
-      if (show_scopes->isChecked()) {
+      if (settingsWidget->getSettings().show_scopes) {
         scopeAct->setIcon(default_light_scope_toggled_icon);
       } else {
         scopeAct->setIcon(default_light_scope_icon);
       }
   } else if (settingsWidget->getSettings().theme == SonicPiSettings::HighContrastMode) {
-      if (show_scopes->isChecked()) {
+      if (settingsWidget->getSettings().show_scopes) {
         scopeAct->setIcon(default_hc_scope_toggled_icon);
       } else {
         scopeAct->setIcon(default_hc_scope_icon);
       }
   }
 
-  if(show_scopes->isChecked()) {
+  if(settingsWidget->getSettings().show_scopes) {
     scopeWidget->show();
   } else {
     scopeWidget->hide();
@@ -2545,16 +2109,17 @@ void MainWindow::toggleRightScope()
 
 void MainWindow::toggleScopeAxes()
 {
-  scopeInterface->setScopeAxes(show_scope_axes->isChecked());
+  scopeInterface->setScopeAxes(settingsWidget->getSettings().show_scope_axes);
 }
 
 void MainWindow::toggleDarkMode() {
-  int checkedId = colourModeButtonGroup->checkedId();
-  if(checkedId == (colourModeButtonGroup->buttons().size() - 1)) {
-    colourModeButtonGroup->button(0)->toggle();
-    } else {
-    colourModeButtonGroup->button(checkedId + 1)->toggle();
-  }
+    //TODO check with theme setting
+  //int checkedId = colourModeButtonGroup->checkedId();
+  //if(checkedId == (colourModeButtonGroup->buttons().size() - 1)) {
+  //  colourModeButtonGroup->button(0)->toggle();
+  //  } else {
+  //  colourModeButtonGroup->button(checkedId + 1)->toggle();
+  //}
   updateColourTheme();
 }
 
@@ -2580,7 +2145,7 @@ void MainWindow::toggleIcons() {
     textIncAct->setIcon(pro_size_up_icon);
     textDecAct->setIcon(pro_size_down_icon);
 
-    if (show_scopes->isChecked()) {
+    if (settingsWidget->getSettings().show_scopes) {
       scopeAct->setIcon(pro_scope_bordered_icon);
     } else {
       scopeAct->setIcon(pro_scope_icon);
@@ -2614,7 +2179,7 @@ void MainWindow::toggleIcons() {
     textIncAct->setIcon(pro_size_up_icon);
     textDecAct->setIcon(pro_size_down_icon);
 
-    if (show_scopes->isChecked()) {
+    if (settingsWidget->getSettings().show_scopes) {
       scopeAct->setIcon(pro_scope_bordered_icon);
     } else {
       scopeAct->setIcon(pro_scope_icon);
@@ -2649,7 +2214,7 @@ void MainWindow::toggleIcons() {
     textIncAct->setIcon(default_dark_size_up_icon);
     textDecAct->setIcon(default_dark_size_down_icon);
 
-    if (show_scopes->isChecked()) {
+    if (settingsWidget->getSettings().show_scopes) {
       scopeAct->setIcon(default_dark_scope_toggled_icon);
     } else {
       scopeAct->setIcon(default_dark_scope_icon);
@@ -2684,7 +2249,7 @@ void MainWindow::toggleIcons() {
     textIncAct->setIcon(default_light_size_up_icon);
     textDecAct->setIcon(default_light_size_down_icon);
 
-    if (show_scopes->isChecked()) {
+    if (settingsWidget->getSettings().show_scopes) {
       scopeAct->setIcon(default_light_scope_toggled_icon);
     } else {
       scopeAct->setIcon(default_light_scope_icon);
@@ -2720,7 +2285,7 @@ void MainWindow::toggleIcons() {
     textIncAct->setIcon(default_hc_size_up_icon);
     textDecAct->setIcon(default_hc_size_down_icon);
 
-    if (show_scopes->isChecked()) {
+    if (settingsWidget->getSettings().show_scopes) {
       scopeAct->setIcon(default_hc_scope_toggled_icon);
     } else {
       scopeAct->setIcon(default_hc_scope_icon);
@@ -2799,7 +2364,8 @@ void MainWindow::updateColourTheme(){
   outputWidget->setStyleSheet("");
   prefsWidget->setStyleSheet("");
   tabs->setStyleSheet("");
-  prefTabs->setStyleSheet("");
+  //TODO inject to settings Widget
+  //prefTabs->setStyleSheet("");
   docsCentral->setStyleSheet("");
   docWidget->setStyleSheet("");
   toolBar->setStyleSheet("");
@@ -3449,32 +3015,32 @@ void MainWindow::readSettings() {
   restoreGeometry(settings.value("windowGeom").toByteArray());
 
   // Read in preferences from previous session
+  // TODO Update to new Settings module
+  //osc_public_check->setChecked(                              settings.value("prefs/osc-public", false).toBool());
+  //osc_server_enabled_check->setChecked(                      settings.value("prefs/osc-enabled", true).toBool());
+  //midi_enable_check->setChecked(                             settings.value("prefs/midi-enable", true).toBool());
+  //midi_default_channel_combo->setCurrentIndex(               settings.value("prefs/default-midi-channel", 0).toInt());
+  //check_args->setChecked(                                    settings.value("prefs/check-args", true).toBool());
+  //print_output->setChecked(                                  settings.value("prefs/print-output", true).toBool());
+  //clear_output_on_run->setChecked(                           settings.value("prefs/clear-output-on-run", true).toBool());
+  //log_cues->setChecked(                                      settings.value("prefs/log-cues", false).toBool());
+  //log_auto_scroll->setChecked(                               settings.value("prefs/log-auto-scroll", true).toBool());
+  //show_line_numbers->setChecked(                             settings.value("prefs/show-line-numbers", true).toBool());
+  //enable_external_synths_cb->setChecked(                     settings.value("prefs/enable-external-synths", false).toBool());
+  //synth_trigger_timing_guarantees_cb->setChecked(            settings.value("prefs/synth-trigger-timing-guarantees", false).toBool());
+  //mixer_force_mono->setChecked(                              settings.value("prefs/mixer-force-mono", false).toBool());
+  //mixer_invert_stereo->setChecked(                           settings.value("prefs/mixer-invert-stereo", false).toBool());
 
-  osc_public_check->setChecked(                              settings.value("prefs/osc-public", false).toBool());
-  osc_server_enabled_check->setChecked(                      settings.value("prefs/osc-enabled", true).toBool());
-  midi_enable_check->setChecked(                             settings.value("prefs/midi-enable", true).toBool());
-  midi_default_channel_combo->setCurrentIndex(               settings.value("prefs/default-midi-channel", 0).toInt());
-  check_args->setChecked(                                    settings.value("prefs/check-args", true).toBool());
-  print_output->setChecked(                                  settings.value("prefs/print-output", true).toBool());
-  clear_output_on_run->setChecked(                           settings.value("prefs/clear-output-on-run", true).toBool());
-  log_cues->setChecked(                                      settings.value("prefs/log-cues", false).toBool());
-  log_auto_scroll->setChecked(                               settings.value("prefs/log-auto-scroll", true).toBool());
-  show_line_numbers->setChecked(                             settings.value("prefs/show-line-numbers", true).toBool());
-  enable_external_synths_cb->setChecked(                     settings.value("prefs/enable-external-synths", false).toBool());
-  synth_trigger_timing_guarantees_cb->setChecked(            settings.value("prefs/synth-trigger-timing-guarantees", false).toBool());
-  mixer_force_mono->setChecked(                              settings.value("prefs/mixer-force-mono", false).toBool());
-  mixer_invert_stereo->setChecked(                           settings.value("prefs/mixer-invert-stereo", false).toBool());
+  //check_updates->setChecked(                                 settings.value("prefs/rp/check-updates", true).toBool());
 
-  check_updates->setChecked(                                 settings.value("prefs/rp/check-updates", true).toBool());
+  //auto_indent_on_run->setChecked(                            settings.value("prefs/auto-indent-on-run", true).toBool());
 
-  auto_indent_on_run->setChecked(                            settings.value("prefs/auto-indent-on-run", true).toBool());
+  //gui_transparency_slider->setValue(                         settings.value("prefs/gui_transparency", 0).toInt());
 
-  gui_transparency_slider->setValue(                         settings.value("prefs/gui_transparency", 0).toInt());
+  //show_scopes->setChecked(                                   settings.value("prefs/scope/show-scopes", true).toBool());
 
-  show_scopes->setChecked(                                   settings.value("prefs/scope/show-scopes", true).toBool());
-
-  show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
-  show_incoming_osc_log->setChecked(                         settings.value("prefs/show_incoming_osc_log", true).toBool());
+  //show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
+  //show_incoming_osc_log->setChecked(                         settings.value("prefs/show_incoming_osc_log", true).toBool());
 }
 
 void MainWindow::writeSettings()
@@ -3484,27 +3050,31 @@ void MainWindow::writeSettings()
   settings.setValue("pos", pos());
   settings.setValue("size", size());
   settings.setValue("first_time", 0);
+//TODO update to new settings system
+//  settings.setValue("prefs/midi-default-channel", midi_default_channel_combo->currentIndex());
+//  settings.setValue("prefs/midi-enable", midi_enable_check->isChecked());
+//  settings.setValue("prefs/osc-public", osc_public_check->isChecked());
+//  settings.setValue("prefs/osc-enabled", osc_server_enabled_check->isChecked());
+//
+//  settings.setValue("prefs/check-args", settingsWidget->getSettings().check_args());
+//  settings.setValue("prefs/print-output", settingsWidget->getSettings().print_output);
+//  settings.setValue("prefs/clear-output-on-run", settingsWidget->getSettings().clear_output_on_run());
+//  settings.setValue("prefs/log-cues", settingsWidget->getSettings().log_cues);
+//  settings.setValue("prefs/log-auto-scroll", log_auto_scroll->isChecked());
+//  settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
+//  settings.setValue("prefs/enable-external-synths", settingsWidget->getSettings().enable_external_synths());
+//  settings.setValue("prefs/synth-trigger-timing-guarantees", settingsWidget->getSettings().synth_trigger_timing_guarantees);
+//  settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
+//  settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
+//  settings.setValue("prefs/system-vol", system_vol_slider->value());
+//  settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
+//  settings.setValue("prefs/auto-indent-on-run", auto_indent_on_run->isChecked());
+//  settings.setValue("prefs/gui_transparency", gui_transparency_slider->value());
+//  settings.setValue("workspace", tabs->currentIndex());
+//  settings.setValue("prefs/scope/show-axes", settingsWidget->getSettings().show_scope_axes );
+//  settings.setValue("prefs/scope/show-scopes", settingsWidget->getSettings().show_scopes );
+//  settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
 
-  settings.setValue("prefs/midi-default-channel", midi_default_channel_combo->currentIndex());
-  settings.setValue("prefs/midi-enable", midi_enable_check->isChecked());
-  settings.setValue("prefs/osc-public", osc_public_check->isChecked());
-  settings.setValue("prefs/osc-enabled", osc_server_enabled_check->isChecked());
-
-  settings.setValue("prefs/check-args", check_args->isChecked());
-  settings.setValue("prefs/print-output", print_output->isChecked());
-  settings.setValue("prefs/clear-output-on-run", clear_output_on_run->isChecked());
-  settings.setValue("prefs/log-cues", log_cues->isChecked());
-  settings.setValue("prefs/log-auto-scroll", log_auto_scroll->isChecked());
-  settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
-  settings.setValue("prefs/enable-external-synths", enable_external_synths_cb->isChecked());
-  settings.setValue("prefs/synth-trigger-timing-guarantees", synth_trigger_timing_guarantees_cb->isChecked());
-  settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
-  settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
-  settings.setValue("prefs/system-vol", system_vol_slider->value());
-  settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
-  settings.setValue("prefs/auto-indent-on-run", auto_indent_on_run->isChecked());
-  settings.setValue("prefs/gui_transparency", gui_transparency_slider->value());
-  settings.setValue("workspace", tabs->currentIndex());
 
   for (int w=0; w < workspace_max; w++) {
     settings.setValue(QString("workspace%1zoom").arg(w),
@@ -3515,9 +3085,6 @@ void MainWindow::writeSettings()
   settings.setValue("windowState", saveState());
   settings.setValue("windowGeom", saveGeometry());
 
-  settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
-  settings.setValue("prefs/scope/show-scopes", show_scopes->isChecked() );
-  settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
@@ -3774,7 +3341,7 @@ void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
 }
 //TODO remove
 void MainWindow::setUpdateInfoText(QString t) {
-  update_info->setText(t);
+//  update_info->setText(t);
 }
 
 void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
@@ -3942,10 +3509,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
 
     return QMainWindow::eventFilter(obj, evt);
 }
-
-
-
-
 
 QString MainWindow::sonicPiHomePath() {
   QString path = qgetenv("SONIC_PI_HOME").constData();

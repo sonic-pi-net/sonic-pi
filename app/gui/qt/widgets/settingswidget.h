@@ -23,7 +23,7 @@ public:
     SettingsWidget( int server_osc_cues_port, QWidget *parent = 0);
     ~SettingsWidget();
 
-    const SonicPiSettings& getSettings() const { return settings; }
+    SonicPiSettings& getSettings() { return settings; }
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
     void updateMidiInPorts( QString in );
     void updateMidiOutPorts( QString out );

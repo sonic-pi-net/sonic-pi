@@ -196,6 +196,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     midi_default_channel_combo = new QComboBox();
     midi_default_channel_combo->addItem("*");
+    // TODO Loop
     midi_default_channel_combo->addItem("1");
     midi_default_channel_combo->addItem("2");
     midi_default_channel_combo->addItem("3");
