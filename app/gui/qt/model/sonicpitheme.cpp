@@ -14,11 +14,19 @@
 
 #include "sonicpitheme.h"
 #include <QApplication>
-
-SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename) : QObject(parent)
+#include <iostream>
+SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename, QString rootPath) : QObject(parent)
 {
 
     this->customSettingsFilename = customSettingsFilename;
+    this->rootPath = rootPath;
+
+    qt_app_theme_path      = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/app.qss");
+
+    qt_browser_dark_css    = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/dark/doc-styles.css");
+    qt_browser_light_css   = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/light/doc-styles.css");
+    qt_browser_hc_css      = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/high_contrast/doc-styles.css");
+
     QMap<QString, QString> themeSettings;
     this->theme = lightTheme();
     // if(settings!=0){
@@ -41,16 +49,45 @@ QMap<QString, QString> SonicPiTheme::withCustomSettings(QMap<QString, QString> s
   return settings;
 }
 
+void SonicPiTheme::switchTheme(Theme theme) {
+    if (theme == SonicPiTheme::DarkMode){
+        darkMode();
+        name = "Dark";
+    } else if (theme == SonicPiTheme::DarkProMode){
+        darkMode();
+        name = "Dark Pro";
+    } else if (theme == SonicPiTheme::LightMode){
+        lightMode();
+        name = "Light";
+    } else if (theme == SonicPiTheme::LightProMode){
+        lightMode();
+        name = "Light Pro";
+    } else if (theme == SonicPiTheme::HighContrastMode){
+        hcMode();
+        name = "High Contrast";
+    } else {
+        lightMode();
+        name = "Light";
+    }
+}
+
+QString SonicPiTheme::getName() {
+    return this->name;
+}
+
 void SonicPiTheme::darkMode(){
   this->theme = withCustomSettings(darkTheme());
+  this->css = readFile(qt_browser_dark_css);
 }
 
 void SonicPiTheme::lightMode(){
   this->theme = withCustomSettings(lightTheme());
+  this->css = readFile(qt_browser_light_css);
 }
 
 void SonicPiTheme::hcMode(){
   this->theme = withCustomSettings(highContrastTheme());
+  this->css = readFile(qt_browser_hc_css);
 }
 
 void SonicPiTheme::updateCustomSettings(){
@@ -65,7 +102,6 @@ void SonicPiTheme::updateCustomSettings(){
     }
   }
 }
-
 
 
 QMap<QString, QString> SonicPiTheme::lightTheme(){
@@ -707,5 +743,129 @@ QColor SonicPiTheme::color(QString key){
 QString SonicPiTheme::font(QString key){
     return theme[key];
 }
+
+QString SonicPiTheme::getAppStylesheet() {
+    QString appStyling = readFile(qt_app_theme_path);
+
+    QString windowColor = this->color("WindowBackground").name();
+    QString windowForegroundColor = this->color("WindowForeground").name();
+    QString paneColor = this->color("PaneBackground").name();
+    QString logForegroundColor = this->color("LogForeground").name();
+    QString logBackgroundColor = this->color("LogBackground").name();
+    QString windowBorderColor = this->color("WindowBorder").name();
+    QString windowInternalBorderColor = this->color("WindowInternalBorder").name();
+
+    QString buttonColor = this->color("Button").name();
+    QString buttonBorderColor = this->color("ButtonBorder").name();
+    QString buttonTextColor = this->color("ButtonText").name();
+    QString pressedButtonColor = this->color("PressedButton").name();
+    QString pressedButtonTextColor = this->color("PressedButtonText").name();
+
+    QString scrollBarColor = this->color("ScrollBar").name();
+    QString scrollBarBackgroundColor = this->color("ScrollBarBackground").name();
+
+    QString tabColor = this->color("Tab").name();
+    QString tabTextColor = this->color("TabText").name();
+    QString tabSelectedColor = this->color("TabSelected").name();
+    QString tabSelectedTextColor = this->color("TabSelectedText").name();
+
+    QString toolTipTextColor = this->color("ToolTipText").name();
+    QString toolTipBaseColor = this->color("ToolTipBase").name();
+
+    QString statusBarColor = this->color("StatusBar").name();
+    QString statusBarTextColor = this->color("StatusBarText").name();
+
+    QString sliderColor = this->color("Slider").name();
+    QString sliderBackgroundColor = this->color("SliderBackground").name();
+    QString sliderBorderColor = this->color("SliderBorder").name();
+
+    QString menuColor = this->color("Menu").name();
+    QString menuTextColor = this->color("MenuText").name();
+    QString menuSelectedColor = this->color("MenuSelected").name();
+    QString menuSelectedTextColor = this->color("MenuSelectedText").name();
+
+    QString selectionForegroundColor = this->color("SelectionForeground").name();
+    QString selectionBackgroundColor = this->color("SelectionBackground").name();
+    QString errorBackgroundColor = this->color("ErrorBackground").name();
+
+    appStyling.replace("fixedWidthFont", "\"Hack\"");
+
+    appStyling
+        .replace("windowColor", windowColor)
+        .replace("windowForegroundColor", windowForegroundColor)
+        .replace("paneColor", paneColor)
+        .replace("logForegroundColor", logForegroundColor)
+        .replace("logBackgroundColor", logBackgroundColor)
+        .replace("windowBorderColor", windowBorderColor)
+        .replace("windowInternalBorderColor", windowInternalBorderColor)
+        .replace("buttonColor", buttonColor)
+        .replace("buttonBorderColor", buttonBorderColor)
+        .replace("buttonTextColor", buttonTextColor)
+        .replace("pressedButtonColor", pressedButtonColor)
+        .replace("pressedButtonTextColor", pressedButtonTextColor)
+        .replace("scrollBarColor", scrollBarColor)
+        .replace("scrollBarBackgroundColor", scrollBarBackgroundColor)
+        .replace("tabColor", tabColor)
+        .replace("tabTextColor", tabTextColor)
+        .replace("tabSelectedColor", tabSelectedColor)
+        .replace("tabSelectedTextColor", tabSelectedTextColor)
+        .replace("toolTipTextColor", toolTipTextColor)
+        .replace("toolTipBaseColor", toolTipBaseColor)
+        .replace("statusBarColor", statusBarColor)
+        .replace("statusBarTextColor", statusBarTextColor)
+        .replace("sliderColor", sliderColor)
+        .replace("sliderBackgroundColor", sliderBackgroundColor)
+        .replace("sliderBorderColor", sliderBorderColor)
+        .replace("menuColor", menuColor)
+        .replace("menuTextColor", menuTextColor)
+        .replace("menuSelectedColor", menuSelectedColor)
+        .replace("menuSelectedTextColor", menuSelectedTextColor)
+        .replace("selectionForegroundColor", selectionForegroundColor)
+        .replace("selectionBackgroundColor", selectionBackgroundColor)
+        .replace("errorBackgroundColor", errorBackgroundColor);
+
+    return appStyling;
+}
+
+QString SonicPiTheme::getDocStylesheet() {
+    return QString(
+                "QListWidget{"
+                "border: none;"
+                "font-size: 13px;"
+                "font-family: none;"
+                "}");
+}
+
+QString SonicPiTheme::getErrorStylesheet() {
+    return QString(
+            "QTextEdit{"
+            "  background-color: %1;"
+            "  padding: 5;"
+            "}"
+            ""
+            ".error-background{"
+            "  background-color: %2"
+            "}").arg(
+                color("paneColor").name(),
+                color(" errorBackgroundColor").name());
+}
+
+QString SonicPiTheme::getCss() {
+    return css;
+}
+
+// UTILS?
+QString SonicPiTheme::readFile(QString name) {
+    QFile file(name);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        std::cerr << "[GUI] - could not open file " << name.toStdString() << "\n";
+        return "";
+    }
+
+    QTextStream st(&file);
+    st.setCodec("UTF-8");
+    return st.readAll();
+}
+
 
 SonicPiTheme::~SonicPiTheme(){}

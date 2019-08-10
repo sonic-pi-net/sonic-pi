@@ -689,7 +689,7 @@ void MainWindow::showWelcomeScreen() {
 void MainWindow::setupTheme() {
     // Syntax highlighting
     QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-    this->theme = new SonicPiTheme(this, themeFilename);
+    this->theme = new SonicPiTheme(this, themeFilename, rootPath());
 }
 
 void MainWindow::setupWindowStructure() {
@@ -2283,39 +2283,15 @@ void MainWindow::toggleIcons() {
             prefsAct->setIcon(default_hc_prefs_icon);
         }
     }
-
-
 }
 
 void MainWindow::updateColourTheme(){
     SonicPiTheme *currentTheme = lexer->theme;
-    //Set css stylesheet for browser-like HTML widgets
-    QString css = "";
     // switch themes
-    if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode || settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode){
-        currentTheme->darkMode();
-        css = readFile(qt_browser_dark_css);
-        statusBar()->showMessage(tr("Colour Theme: Dark"), 2000);
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode){
-        currentTheme->darkMode();
-        css = readFile(qt_browser_dark_css);
-        statusBar()->showMessage(tr("Colour Theme: Dark Pro"), 2000);
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode){
-        currentTheme->lightMode();
-        css = readFile(qt_browser_light_css);
-        statusBar()->showMessage(tr("Colour Theme: Light"), 2000);
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode){
-        currentTheme->lightMode();
-        css = readFile(qt_browser_light_css);
-        statusBar()->showMessage(tr("Colour Theme: Light Pro"), 2000);
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode){
-        currentTheme->hcMode();
-        css = readFile(qt_browser_hc_css);
-        statusBar()->showMessage(tr("Colour Theme: High Contrast"), 2000);
-    } else {
-        currentTheme->lightMode();
-    }
+    currentTheme->switchTheme( settingsWidget->getSettings().theme );
+    statusBar()->showMessage(tr("Colour Theme: ")+currentTheme->getName(), 2000);
 
+    QString css = currentTheme->getCss();
     toggleIcons();
 
     docPane->document()->setDefaultStyleSheet(css);
@@ -2347,105 +2323,13 @@ void MainWindow::updateColourTheme(){
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
 
-    QString windowColor = currentTheme->color("WindowBackground").name();
-    QString windowForegroundColor = currentTheme->color("WindowForeground").name();
-    QString paneColor = currentTheme->color("PaneBackground").name();
-    QString logForegroundColor = currentTheme->color("LogForeground").name();
-    QString logBackgroundColor = currentTheme->color("LogBackground").name();
-    QString windowBorderColor = currentTheme->color("WindowBorder").name();
-    QString windowInternalBorderColor = currentTheme->color("WindowInternalBorder").name();
-
-    QString buttonColor = currentTheme->color("Button").name();
-    QString buttonBorderColor = currentTheme->color("ButtonBorder").name();
-    QString buttonTextColor = currentTheme->color("ButtonText").name();
-    QString pressedButtonColor = currentTheme->color("PressedButton").name();
-    QString pressedButtonTextColor = currentTheme->color("PressedButtonText").name();
-
-    QString scrollBarColor = currentTheme->color("ScrollBar").name();
-    QString scrollBarBackgroundColor = currentTheme->color("ScrollBarBackground").name();
-
-    QString tabColor = currentTheme->color("Tab").name();
-    QString tabTextColor = currentTheme->color("TabText").name();
-    QString tabSelectedColor = currentTheme->color("TabSelected").name();
-    QString tabSelectedTextColor = currentTheme->color("TabSelectedText").name();
-
-    QString toolTipTextColor = currentTheme->color("ToolTipText").name();
-    QString toolTipBaseColor = currentTheme->color("ToolTipBase").name();
-
-    QString statusBarColor = currentTheme->color("StatusBar").name();
-    QString statusBarTextColor = currentTheme->color("StatusBarText").name();
-
-    QString sliderColor = currentTheme->color("Slider").name();
-    QString sliderBackgroundColor = currentTheme->color("SliderBackground").name();
-    QString sliderBorderColor = currentTheme->color("SliderBorder").name();
-
-    QString menuColor = currentTheme->color("Menu").name();
-    QString menuTextColor = currentTheme->color("MenuText").name();
-    QString menuSelectedColor = currentTheme->color("MenuSelected").name();
-    QString menuSelectedTextColor = currentTheme->color("MenuSelectedText").name();
-
-    QString selectionForegroundColor = currentTheme->color("SelectionForeground").name();
-    QString selectionBackgroundColor = currentTheme->color("SelectionBackground").name();
-    QString errorBackgroundColor = currentTheme->color("ErrorBackground").name();
-
-    QString appStyling = readFile(qt_app_theme_path);
-
-    appStyling.replace("fixedWidthFont", "\"Hack\"");
-
-    appStyling
-        .replace("windowColor", windowColor)
-        .replace("windowForegroundColor", windowForegroundColor)
-        .replace("paneColor", paneColor)
-        .replace("logForegroundColor", logForegroundColor)
-        .replace("logBackgroundColor", logBackgroundColor)
-        .replace("windowBorderColor", windowBorderColor)
-        .replace("windowInternalBorderColor", windowInternalBorderColor)
-        .replace("buttonColor", buttonColor)
-        .replace("buttonBorderColor", buttonBorderColor)
-        .replace("buttonTextColor", buttonTextColor)
-        .replace("pressedButtonColor", pressedButtonColor)
-        .replace("pressedButtonTextColor", pressedButtonTextColor)
-        .replace("scrollBarColor", scrollBarColor)
-        .replace("scrollBarBackgroundColor", scrollBarBackgroundColor)
-        .replace("tabColor", tabColor)
-        .replace("tabTextColor", tabTextColor)
-        .replace("tabSelectedColor", tabSelectedColor)
-        .replace("tabSelectedTextColor", tabSelectedTextColor)
-        .replace("toolTipTextColor", toolTipTextColor)
-        .replace("toolTipBaseColor", toolTipBaseColor)
-        .replace("statusBarColor", statusBarColor)
-        .replace("statusBarTextColor", statusBarTextColor)
-        .replace("sliderColor", sliderColor)
-        .replace("sliderBackgroundColor", sliderBackgroundColor)
-        .replace("sliderBorderColor", sliderBorderColor)
-        .replace("menuColor", menuColor)
-        .replace("menuTextColor", menuTextColor)
-        .replace("menuSelectedColor", menuSelectedColor)
-        .replace("menuSelectedTextColor", menuSelectedTextColor)
-        .replace("selectionForegroundColor", selectionForegroundColor)
-        .replace("selectionBackgroundColor", selectionBackgroundColor)
-        .replace("errorBackgroundColor", errorBackgroundColor);
+    QString appStyling = currentTheme->getAppStylesheet();
 
     this->setStyleSheet(appStyling);
     infoWidg->setStyleSheet(appStyling);
 
-    errorPane->setStyleSheet( QString(
-                "QTextEdit{"
-                "  background-color: %1;"
-                "  padding: 5;"
-                "}"
-                ""
-                ".error-background{"
-                "  background-color: %2"
-                "}").arg(paneColor, errorBackgroundColor));
-
-
-    docsCentral->setStyleSheet( QString(
-                "QListWidget{"
-                "border: none;"
-                "font-size: 13px;"
-                "font-family: none;"
-                "}"));
+    errorPane->setStyleSheet(currentTheme->getErrorStylesheet());
+    docsCentral->setStyleSheet(currentTheme->getDocStylesheet());
 
     scopeInterface->refresh();
     scopeWidget->update();
