@@ -17,7 +17,7 @@
 #include "oschandler.h"
 #include "mainwindow.h"
 #include "widgets/sonicpilog.h"
-
+#include "model/sonicpitheme.h"
 #include <QTextEdit>
 #include <iostream>
 

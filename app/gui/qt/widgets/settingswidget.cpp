@@ -662,11 +662,11 @@ void SettingsWidget::updateSettings() {
     settings.clear_output_on_run = clear_output_on_run->isChecked();
     settings.log_cues = log_cues->isChecked();
     settings.log_auto_scroll = log_auto_scroll->isChecked();
-    if (lightModeCheck->isChecked())        { settings.theme = SonicPiSettings::LightMode; }
-    if (darkModeCheck->isChecked())         { settings.theme = SonicPiSettings::DarkMode; }
-    if (lightProModeCheck->isChecked())     { settings.theme = SonicPiSettings::LightProMode; }
-    if (darkProModeCheck->isChecked())      { settings.theme = SonicPiSettings::DarkProMode; }
-    if (highContrastModeCheck->isChecked()) { settings.theme = SonicPiSettings::HighContrastMode; }
+    if (lightModeCheck->isChecked())        { settings.theme = SonicPiTheme::LightMode; }
+    if (darkModeCheck->isChecked())         { settings.theme = SonicPiTheme::DarkMode; }
+    if (lightProModeCheck->isChecked())     { settings.theme = SonicPiTheme::LightProMode; }
+    if (darkProModeCheck->isChecked())      { settings.theme = SonicPiTheme::DarkProMode; }
+    if (highContrastModeCheck->isChecked()) { settings.theme = SonicPiTheme::HighContrastMode; }
 
     settings.show_scopes = show_scopes->isChecked();
     settings.show_scope_axes = show_scope_axes->isChecked();
@@ -701,11 +701,11 @@ void SettingsWidget::settingsChanged() {
     log_cues->setChecked(settings.log_cues);
     log_auto_scroll->setChecked(settings.log_auto_scroll);
     
-    lightModeCheck->setChecked( settings.theme == SonicPiSettings::LightMode );        
-    darkModeCheck->setChecked( settings.theme == SonicPiSettings::DarkMode );         
-    lightProModeCheck->setChecked( settings.theme == SonicPiSettings::LightProMode );     
-    darkProModeCheck->setChecked( settings.theme == SonicPiSettings::DarkProMode );      
-    highContrastModeCheck->setChecked( settings.theme == SonicPiSettings::HighContrastMode ); 
+    lightModeCheck->setChecked( settings.theme == SonicPiTheme::LightMode );        
+    darkModeCheck->setChecked( settings.theme == SonicPiTheme::DarkMode );         
+    lightProModeCheck->setChecked( settings.theme == SonicPiTheme::LightProMode );     
+    darkProModeCheck->setChecked( settings.theme == SonicPiTheme::DarkProMode );      
+    highContrastModeCheck->setChecked( settings.theme == SonicPiTheme::HighContrastMode ); 
 
     show_scopes->setChecked(settings.show_scopes);
     show_scope_axes->setChecked(settings.show_scope_axes);

@@ -13,6 +13,7 @@
 
 
 #include "sonicpitheme.h"
+#include <QApplication>
 
 SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename) : QObject(parent)
 {
@@ -674,6 +675,29 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
 
 
 
+}
+
+QPalette SonicPiTheme::createPalette() {
+    QPalette p = QApplication::palette(); 
+    p.setColor(QPalette::WindowText,      color("WindowForeground"));
+    p.setColor(QPalette::Window,          color("WindowBackground"));
+    p.setColor(QPalette::Base,            color("Base"));
+    p.setColor(QPalette::AlternateBase,   color("AlternateBase"));
+    p.setColor(QPalette::Text,            color("Foreground"));
+    p.setColor(QPalette::HighlightedText, color("HighlightedForeground"));
+    p.setColor(QPalette::Highlight,       color("HighlightedBackground"));
+    p.setColor(QPalette::ToolTipBase,     color("ToolTipBase"));
+    p.setColor(QPalette::ToolTipText,     color("ToolTipText"));
+    p.setColor(QPalette::Button,          color("Button"));
+    p.setColor(QPalette::ButtonText,      color("ButtonText"));
+    p.setColor(QPalette::Shadow,          color("Shadow"));
+    p.setColor(QPalette::Light,           color("Light"));
+    p.setColor(QPalette::Midlight,        color("Midlight"));
+    p.setColor(QPalette::Mid,             color("Mid"));
+    p.setColor(QPalette::Dark,            color("Dark"));
+    p.setColor(QPalette::Link,            color("Link"));
+    p.setColor(QPalette::LinkVisited,     color("LinkVisited"));
+    return p;
 }
 
 QColor SonicPiTheme::color(QString key){

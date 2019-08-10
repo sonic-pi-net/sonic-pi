@@ -3,10 +3,10 @@
 
 #include <QString>
 #include <map>
-
+#include "sonicpitheme.h"
 class SonicPiSettings {
 public:    
-    enum Theme { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode };
+
 
     // Audio Settings
     int main_volume;
@@ -36,7 +36,7 @@ public:
     bool log_cues;
     bool log_auto_scroll;
     int gui_transparency;
-    Theme theme;
+    SonicPiTheme::Theme theme;
 
     // UpdateSettings;
     bool check_updates;

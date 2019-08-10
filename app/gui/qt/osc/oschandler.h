@@ -15,8 +15,8 @@
 #define OSCHANDLER_H
 
 #include "oscpkt.hh"
-#include "utils/sonicpitheme.h"
 #include "mainwindow.h"
+class SonciPiTheme;
 
 class OscHandler
 {

@@ -59,7 +59,6 @@ TEMPLATE = app
 SOURCES += main.cpp \
            mainwindow.cpp \
            utils/sonicpiapis.cpp \
-           utils/sonicpitheme.cpp \
            osc/oschandler.cpp \
            osc/oscsender.cpp \
            osc/sonic_pi_osc_server.cpp \
@@ -70,6 +69,7 @@ SOURCES += main.cpp \
            widgets/sonicpiscintilla.cpp \
            widgets/sonicpilexer.cpp \
            widgets/settingswidget.cpp \
+           model/sonicpitheme.cpp \
            visualizer/scope.cpp
 
 HEADERS  += mainwindow.h \
@@ -80,7 +80,6 @@ HEADERS  += mainwindow.h \
             widgets/settingswidget.h \
             utils/sonicpiapis.h \
             utils/ruby_help.h \
-            utils/sonicpitheme.h \
             osc/oscpkt.hh \
             osc/udp.hh \
             osc/oschandler.h \
@@ -88,6 +87,7 @@ HEADERS  += mainwindow.h \
             osc/sonic_pi_osc_server.h \
             osc/sonic_pi_udp_osc_server.h \
             osc/sonic_pi_tcp_osc_server.h \
+            model/sonicpitheme.h \
             model/settings.h \
             visualizer/scope.h
 

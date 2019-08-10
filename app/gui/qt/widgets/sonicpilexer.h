@@ -13,7 +13,7 @@
 
 #include  <Qsci/qscilexerruby.h>
 
-#include "utils/sonicpitheme.h"
+#include "model/sonicpitheme.h"
 
 class SonicPiLexer : public QsciLexerRuby
 {

@@ -12,7 +12,7 @@
 //++
 
 #include <Qsci/qsciscintilla.h>
-#include "utils/sonicpitheme.h"
+#include "model/sonicpitheme.h"
 #include "osc/oscsender.h"
 #include "widgets/sonicpilog.h"
 #include <QCheckBox>

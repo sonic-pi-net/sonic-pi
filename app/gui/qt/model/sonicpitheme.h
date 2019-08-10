@@ -17,11 +17,14 @@
 #include <QtCore>
 #include <QObject>
 #include <QColor>
+#include <QPalette>
 
 class SonicPiTheme : public QObject
 {
     Q_OBJECT
 public:
+    enum Theme { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode };
+
     explicit SonicPiTheme(QObject *parent = 0, QString customSettingsFilename="");
     ~SonicPiTheme();
     QColor color(QString);
@@ -30,6 +33,8 @@ public:
     void lightMode();
     void hcMode();
     void updateCustomSettings();
+    QPalette createPalette();
+    
 
 private:
     QString customSettingsFilename;
