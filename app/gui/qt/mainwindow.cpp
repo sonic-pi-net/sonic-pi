@@ -768,6 +768,8 @@ void MainWindow::setupWindowStructure() {
   connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
   connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
   connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
+  connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
+  connect(settingsWidget, SIGNAL(scopeAxesChanged()), this, SLOT(toggleScopeAxes()));
   connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
   connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
 

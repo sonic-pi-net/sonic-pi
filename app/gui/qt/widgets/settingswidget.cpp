@@ -448,7 +448,6 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
     QGridLayout *transparency_box_layout = new QGridLayout;
     gui_transparency_slider = new QSlider(this);
-    //connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
     transparency_box_layout->addWidget(gui_transparency_slider);
     transparency_box->setLayout(transparency_box_layout);
 
@@ -457,8 +456,14 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
 #else
     viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
 #endif
-    //connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
-    //connect(show_scopes, SIGNAL(clicked()), this, SLOT(scope()));
+
+    //connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
+
+    connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
+
+    connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+    connect(show_scopes, SIGNAL(clicked()), this, SLOT(toggleScope()));
     viz_box->setLayout(viz_tab_layout);
 
     return viz_box;
@@ -587,6 +592,14 @@ void SettingsWidget::updateColourTheme() {
     emit themeChanged();
 }
 
+void SettingsWidget::toggleScope() {
+    emit scopeChanged();
+}
+
+void SettingsWidget::toggleScopeAxes() {
+    emit scopeAxesChanged();
+}
+
 void SettingsWidget::toggleCheckUpdates() {
     emit checkUpdatesChanged();
 }
@@ -637,6 +650,9 @@ void SettingsWidget::updateSettings() {
     if (lightProModeCheck->isChecked())     { settings.theme = SonicPiSettings::LightProMode; }
     if (darkProModeCheck->isChecked())      { settings.theme = SonicPiSettings::DarkProMode; }
     if (highContrastModeCheck->isChecked()) { settings.theme = SonicPiSettings::HighContrastMode; }
+
+    settings.show_scopes = show_scopes->isChecked();
+    settings.show_scope_axes = show_scope_axes->isChecked();
 
     settings.check_updates = check_updates->isChecked();
 }

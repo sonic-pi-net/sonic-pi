@@ -43,6 +43,8 @@ private slots:
     void toggleTabs();
     void toggleLogAutoScroll();
     void updateColourTheme();
+    void toggleScope();
+    void toggleScopeAxes();
     void openSonicPiNet();
     void toggleCheckUpdates();
     void checkForUpdatesNow();
@@ -63,6 +65,8 @@ signals:
     void showTabsChanged();
     void logAutoScrollChanged();
     void themeChanged();
+    void scopeChanged();
+    void scopeAxesChanged();
     void checkUpdatesChanged();
     void forceCheckUpdates();
 
