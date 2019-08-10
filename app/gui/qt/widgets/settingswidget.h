@@ -4,17 +4,19 @@
 #include "model/settings.h"
 
 #include <QWidget>
-#include <QLabel>
-#include <QLineEdit>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QSignalMapper>
-#include <QSlider>
-#include <QTabWidget>
-#include <QString>
-#include <QGroupBox>
-#include <QVBoxLayout>
+
+class QSlider;
+class QTabWidget;
+class QBoxLayout;
+class QGroupBox;
+class QComboBox;
+class QCheckBox;
+class QPushButton;
+class QLabel;
+class QLineEdit;
+class QButtonGroup;
+class QSignalMapper;
+class QVBoxLayout;
 
 class SettingsWidget : public QWidget
 {

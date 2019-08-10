@@ -7,8 +7,14 @@
 #include <QButtonGroup>
 #include <QNetworkInterface>
 #include <QDesktopServices>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QUrl>
 #include <iostream>
+#include <QLabel>
+#include <QPushButton>
+#include <QSignalMapper>
+#include <QVBoxLayout>
 
 /**
  * Default Constructor

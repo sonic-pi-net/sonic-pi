@@ -14,52 +14,47 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QSplitter>
 #include <QDate>
 #include <QMainWindow>
-#include <QDialog>
-#include <QLabel>
-#include <QSplashScreen>
-#include <QCheckBox>
-#include <QPixmap>
-#include <QRadioButton>
-#include <QLineEdit>
-#include <QListWidgetItem>
-#include <QListWidget>
-#include <QVBoxLayout>
-#include <QProcess>
 #include <QFuture>
-#include <QShortcut>
-#include <QSettings>
 #include <QSet>
-#include <QHash>
-#include <QTcpSocket>
 #include "osc/oscpkt.hh"
-#include "osc/udp.hh"
-#include "osc/oscsender.h"
-#include <iostream>
-#include <sstream>
 #include <fstream>
-#include <QSignalMapper>
-#include "utils/sonicpitheme.h"
-#include "visualizer/scope.h"
-#include <QComboBox>
-#include "widgets/infowidget.h"
+#include <QIcon>
 
 class QAction;
 class QMenu;
+class QToolBar;
+class QLineEdit;
 class QsciScintilla;
 class QProcess;
 class QTextEdit;
 class QTextBrowser;
-class SonicPiLexer;
 class QString;
 class QSlider;
+class QSplitter;
+class OscSender;
+class QShortcut;
+class QDockWidget;
+class QListWidget;
+class QListWidgetItem;
+class QSignalMapper;
+class QTabWidget;
+class QCheckBox;
+class QVBoxLayout;
+class QTcpSocket;
+class QSplashScreen;
+class QLabel;
+
+class InfoWidget;
+class SettingsWidget;
+class Scope;
 class SonicPiAPIs;
 class SonicPiLog;
 class SonicPiScintilla;
 class SonicPiOSCServer;
-class SettingsWidget;
+class SonicPiTheme;
+class SonicPiLexer;
 
 struct help_page {
   QString title;
@@ -190,7 +185,6 @@ private slots:
     void setUpdateInfoText(QString t);
     void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
     void requestVersion();
-    void open_sonic_pi_net();
     void heartbeatOSC();
     void zoomCurrentWorkspaceIn();
     void zoomCurrentWorkspaceOut();
@@ -301,8 +295,6 @@ private:
     bool restoreDocPane;
 
     QTabWidget *tabs;
-//    QTabWidget *prefTabs;
-
     QProcess *serverProcess;
 
     SonicPiLexer *lexer;

@@ -13,6 +13,7 @@
 
 
 #include "sonic_pi_osc_server.h"
+#include <iostream>
 
 SonicPiOSCServer::SonicPiOSCServer(MainWindow *sonicPiWindow, OscHandler *oscHandler, int port_num) :
     QObject(sonicPiWindow)

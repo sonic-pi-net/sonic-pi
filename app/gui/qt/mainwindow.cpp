@@ -21,56 +21,26 @@
 // Qt 5 only
 
 // Qt stuff
-#include <QSysInfo>
-#include <QPainter>
-#include <QDate>
-#include <QDesktopServices>
 #include <QDesktopWidget>
-#include <QDir>
 #include <QAction>
 #include <QApplication>
-#include <QCloseEvent>
-#include <QFile>
-#include <QFileInfo>
 #include <QFileDialog>
-#include <QIcon>
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QDockWidget>
-#include <QPoint>
-#include <QSettings>
-#include <QSize>
 #include <QStatusBar>
-#include <QTextEdit>
 #include <QTextBrowser>
 #include <QToolBar>
-#include <QProcess>
-#include <QFont>
-#include <QTabWidget>
-#include <QString>
-#include <QStringList>
-#include <QTextStream>
-#include <QSplashScreen>
-#include <QPixmap>
-#include <QLabel>
-#include <QSlider>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QRadioButton>
-#include <QCheckBox>
-#include <QScrollArea>
 #include <QShortcut>
 #include <QToolButton>
 #include <QScrollBar>
-#include <QSignalMapper>
 #include <QSplitter>
-#include <QComboBox>
-#include <QButtonGroup>
-#include <QCryptographicHash>
+#include <QListWidget>
+#include <QSplashScreen>
+#include <QBoxLayout>
+#include <QLabel>
 #include <QLineEdit>
-
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -80,6 +50,7 @@
 #include "widgets/sonicpiscintilla.h"
 #include "utils/sonicpiapis.h"
 #include "utils/sonicpitheme.h"
+#include "visualizer/scope.h"
 
 // OSC stuff
 #include "osc/oscpkt.hh"
@@ -3382,10 +3353,6 @@ void MainWindow::requestVersion() {
     Message msg("/version");
     msg.pushStr(guiID.toStdString());
     sendOSC(msg);
-}
-
-void MainWindow::open_sonic_pi_net() {
-  QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
 
 void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int latest_v_num, QDate last_checked, QString platform) {
