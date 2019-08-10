@@ -18,10 +18,10 @@
 #include <QObject>
 #include <QColor>
 #include <QPalette>
-
+#include <QIcon>
 class SonicPiTheme : public QObject
 {
-    Q_OBJECT
+Q_OBJECT
 public:
     enum Theme { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode };
 
@@ -38,10 +38,23 @@ public:
     QString getAppStylesheet();
     QString getDocStylesheet();
     QString getErrorStylesheet();
-    
+
     QString getCss();
     void switchTheme( Theme theme );
     QString getName();
+
+    QIcon getRunIcon();
+    QIcon getStopIcon();
+    QIcon getSaveAsIcon();
+    QIcon getLoadIcon();
+    QIcon getTextIncIcon();
+    QIcon getTextDecIcon();
+
+    QIcon getHelpIcon(bool active);
+    QIcon getRecIcon(bool on, bool ab);
+    QIcon getPrefsIcon(bool active);
+    QIcon getInfoIcon(bool active);
+    QIcon getScopeIcon(bool active);
 
 private:
     QString name;
@@ -52,7 +65,7 @@ private:
     QString qt_browser_dark_css;
     QString qt_browser_light_css;
     QString qt_browser_hc_css;
-   
+
     QString css;
 
     QMap<QString, QString> withCustomSettings(QMap<QString, QString> settings);
@@ -63,6 +76,106 @@ private:
     QMap<QString, QString> customSettings;
 
     QString readFile(QString name);
+
+    void loadToolBarIcons();
+
+    QIcon* runIcon;
+    QIcon* stopIcon;
+    QIcon* saveAsIcon;
+    QIcon* loadIcon;
+    QIcon* textIncIcon;
+    QIcon* textDecIcon;
+
+    QIcon* helpIcon;
+    QIcon* helpIconActive;
+    QIcon* recIcon;
+    QIcon* recIconA;
+    QIcon* recIconB;
+    QIcon* prefsIcon;
+    QIcon* prefsIconActive;
+    QIcon* infoIcon;
+    QIcon* infoIconActive;
+    QIcon* scopeIcon;
+    QIcon* scopeIconActive;
+
+    QIcon pro_run_icon,
+          pro_stop_icon,
+          pro_save_icon,
+          pro_load_icon,
+          pro_rec_icon,
+          pro_size_up_icon,
+          pro_size_down_icon,
+          pro_scope_bordered_icon,
+          pro_scope_icon,
+          pro_info_bordered_icon,
+          pro_info_icon,
+          pro_help_bordered_icon,
+          pro_help_icon,
+          pro_prefs_icon,
+          pro_prefs_bordered_icon,
+          pro_info_dark_bordered_icon,
+          pro_info_dark_icon,
+          pro_help_dark_bordered_icon,
+          pro_help_dark_icon,
+          pro_prefs_dark_bordered_icon,
+          pro_prefs_dark_icon,
+          pro_rec_b_icon,
+          pro_rec_b_dark_icon,
+          pro_load_dark_icon,
+          pro_save_dark_icon,
+
+          default_light_run_icon,
+          default_light_stop_icon,
+          default_light_save_icon,
+          default_light_load_icon,
+          default_light_rec_icon,
+          default_light_rec_a_icon,
+          default_light_rec_b_icon,
+          default_light_size_up_icon,
+          default_light_size_down_icon,
+          default_light_scope_icon,
+          default_light_scope_toggled_icon,
+          default_light_info_icon,
+          default_light_info_toggled_icon,
+          default_light_help_icon,
+          default_light_help_toggled_icon,
+          default_light_prefs_icon,
+          default_light_prefs_toggled_icon,
+
+          default_dark_run_icon,
+          default_dark_stop_icon,
+          default_dark_save_icon,
+          default_dark_load_icon,
+          default_dark_rec_icon,
+          default_dark_rec_a_icon,
+          default_dark_rec_b_icon,
+          default_dark_size_up_icon,
+          default_dark_size_down_icon,
+          default_dark_scope_icon,
+          default_dark_scope_toggled_icon,
+          default_dark_info_icon,
+          default_dark_info_toggled_icon,
+          default_dark_help_icon,
+          default_dark_help_toggled_icon,
+          default_dark_prefs_icon,
+          default_dark_prefs_toggled_icon,
+          default_hc_run_icon,
+          default_hc_stop_icon,
+          default_hc_save_icon,
+          default_hc_load_icon,
+          default_hc_rec_icon,
+          default_hc_rec_a_icon,
+          default_hc_rec_b_icon,
+          default_hc_size_up_icon,
+          default_hc_size_down_icon,
+          default_hc_scope_icon,
+          default_hc_scope_toggled_icon,
+          default_hc_info_icon,
+          default_hc_info_toggled_icon,
+          default_hc_help_icon,
+          default_hc_help_toggled_icon,
+          default_hc_prefs_icon,
+          default_hc_prefs_toggled_icon;
 
 signals:
 

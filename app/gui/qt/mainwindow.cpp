@@ -142,6 +142,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
 
     setupTheme();
+    
     lexer = new SonicPiLexer(theme);
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
@@ -165,8 +166,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     initProcess->waitForFinished();
     startRubyServer();
-
-    loadToolBarIcons();
 
     createShortcuts();
     createToolBar();
@@ -199,20 +198,31 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     // user_token = new QLineEdit(this);
 
     // user_token->setText(settings.value("userToken", "").toString());
+    std::cout << "[GUI] - honour prefs" << std::endl;
     honourPrefs();
+    std::cout << "[GUI] - update prefs icon" << std::endl;
     updatePrefsIcon();
+    std::cout << "[GUI] - toggle icons" << std::endl;
     toggleIcons();
+    std::cout << "[GUI] - full screen" << std::endl;
+
     updateFullScreenMode();
+
+    std::cout << "[GUI] - hide" << std::endl;
     hide();
     // Wait to hear back from the Ruby language server before continuing
+    std::cout << "[GUI] - wait for sync" << std::endl;
+
     if (waitForServiceSync()){
         // We have a connection! Finish up loading app...
         scopeInterface->scsynthBooted();
         updateColourTheme();
         std::cout << "[GUI] - load workspaces" << std::endl;
         loadWorkspaces();
+        std::cout << "[GUI] - load request Version" << std::endl;
         requestVersion();
         changeSystemPreAmp(settingsWidget->getSettings().main_volume, 1);
+
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
         timer->start(1000);
@@ -316,242 +326,6 @@ bool MainWindow::initAndCheckPorts() {
         return true;
     }
 
-}
-
-void MainWindow::loadToolBarIcons() {
-    // load up icons into memory
-    std::cout << "[GUI] - initialising toolbar icons" << std::endl;
-
-    QSize pro_size = QSize(30, 30);
-    QSize def_size = QSize(85, 30);
-
-    pro_run_icon = QIcon();
-    pro_run_icon.addFile(":/images/toolbar/pro/run.png", pro_size);
-
-    pro_stop_icon = QIcon();
-    pro_stop_icon.addFile(":/images/toolbar/pro/stop.png", pro_size);
-
-    pro_save_icon = QIcon();
-    pro_save_icon.addFile(":/images/toolbar/pro/save.png", pro_size);
-
-    pro_load_icon = QIcon();
-    pro_load_icon.addFile(":/images/toolbar/pro/load.png", pro_size);
-
-    pro_rec_icon = QIcon();
-    pro_rec_icon.addFile(":/images/toolbar/pro/rec.png", pro_size);
-
-    pro_size_up_icon = QIcon();
-    pro_size_up_icon.addFile(":/images/toolbar/pro/size-up.png", pro_size);
-
-    pro_size_down_icon = QIcon();
-    pro_size_down_icon.addFile(":/images/toolbar/pro/size-down.png", pro_size);
-
-    pro_scope_bordered_icon = QIcon();
-    pro_scope_bordered_icon.addFile(":/images/toolbar/pro/scope-bordered.png", pro_size);
-
-    pro_scope_icon = QIcon();
-    pro_scope_icon.addFile(":/images/toolbar/pro/scope.png", pro_size);
-
-    pro_info_icon = QIcon();
-    pro_info_icon.addFile(":/images/toolbar/pro/info.png", pro_size);
-
-    pro_info_bordered_icon = QIcon();
-    pro_info_bordered_icon.addFile(":/images/toolbar/pro/info-bordered.png", pro_size);
-
-    pro_help_bordered_icon = QIcon();
-    pro_help_bordered_icon.addFile(":/images/toolbar/pro/help-bordered.png", pro_size);
-
-    pro_help_icon = QIcon();
-    pro_help_icon.addFile(":/images/toolbar/pro/help.png", pro_size);
-
-    pro_prefs_icon = QIcon();
-    pro_prefs_icon.addFile(":/images/toolbar/pro/prefs.png", pro_size);
-
-    pro_prefs_bordered_icon = QIcon();
-    pro_prefs_bordered_icon.addFile(":/images/toolbar/pro/prefs-bordered.png", pro_size);
-
-    pro_info_dark_bordered_icon = QIcon();
-    pro_info_dark_bordered_icon.addFile(":/images/toolbar/pro/info-dark-bordered.png", pro_size);
-
-    pro_info_dark_icon = QIcon();
-    pro_info_dark_icon.addFile(":/images/toolbar/pro/info-dark.png", pro_size);
-
-    pro_help_dark_bordered_icon = QIcon();
-    pro_help_dark_bordered_icon.addFile(":/images/toolbar/pro/help-dark-bordered.png", pro_size);
-
-    pro_help_dark_icon = QIcon();
-    pro_help_dark_icon.addFile(":/images/toolbar/pro/help-dark.png", pro_size);
-
-    pro_prefs_dark_bordered_icon = QIcon();
-    pro_prefs_dark_bordered_icon.addFile(":/images/toolbar/pro/prefs-dark-bordered.png", pro_size);
-
-    pro_prefs_dark_icon = QIcon();
-    pro_prefs_dark_icon.addFile(":/images/toolbar/pro/prefs-dark.png", pro_size);
-
-    pro_rec_b_icon = QIcon();
-    pro_rec_b_icon.addFile(":/images/toolbar/pro/recording-b.png", pro_size);
-
-    pro_rec_b_dark_icon = QIcon();
-    pro_rec_b_dark_icon.addFile(":/images/toolbar/pro/recording-b-dark.png", pro_size);
-
-    pro_load_dark_icon = QIcon();
-    pro_load_dark_icon.addFile(":/images/toolbar/pro/load-dark.png", pro_size);
-
-    pro_save_dark_icon = QIcon();
-    pro_save_dark_icon.addFile(":/images/toolbar/pro/save-dark.png", pro_size);
-
-    default_light_run_icon = QIcon();
-    default_light_run_icon.addFile(":/images/toolbar/default/light-run.png", def_size);
-
-    default_light_stop_icon = QIcon();
-    default_light_stop_icon.addFile(":/images/toolbar/default/light-stop.png", def_size);
-
-    default_light_save_icon = QIcon();
-    default_light_save_icon.addFile(":/images/toolbar/default/light-save.png", def_size);
-
-    default_light_load_icon = QIcon();
-    default_light_load_icon.addFile(":/images/toolbar/default/light-load.png", def_size);
-
-    default_light_rec_icon = QIcon();
-    default_light_rec_icon.addFile(":/images/toolbar/default/light-rec.png", def_size);
-
-    default_light_rec_a_icon = QIcon();
-    default_light_rec_a_icon.addFile(":/images/toolbar/default/light-rec-a.png", def_size);
-
-    default_light_rec_b_icon = QIcon();
-    default_light_rec_b_icon.addFile(":/images/toolbar/default/light-rec-b.png", def_size);
-
-    default_light_size_up_icon = QIcon();
-    default_light_size_up_icon.addFile(":/images/toolbar/default/light-size-up.png", def_size);
-
-    default_light_size_down_icon = QIcon();
-    default_light_size_down_icon.addFile(":/images/toolbar/default/light-size-down.png", def_size);
-
-    default_light_scope_icon = QIcon();
-    default_light_scope_icon.addFile(":/images/toolbar/default/light-scope.png", def_size);
-
-    default_light_scope_toggled_icon = QIcon();
-    default_light_scope_toggled_icon.addFile(":/images/toolbar/default/light-scope-toggled.png", def_size);
-
-    default_light_info_icon = QIcon();
-    default_light_info_icon.addFile(":/images/toolbar/default/light-info.png", def_size);
-
-    default_light_info_toggled_icon = QIcon();
-    default_light_info_toggled_icon.addFile(":/images/toolbar/default/light-info-toggled.png", def_size);
-
-    default_light_help_icon = QIcon();
-    default_light_help_icon.addFile(":/images/toolbar/default/light-help.png", def_size);
-
-    default_light_help_toggled_icon = QIcon();
-    default_light_help_toggled_icon.addFile(":/images/toolbar/default/light-help-toggled.png", def_size);
-
-    default_light_prefs_icon = QIcon();
-    default_light_prefs_icon.addFile(":/images/toolbar/default/light-prefs.png", def_size);
-
-    default_light_prefs_toggled_icon = QIcon();
-    default_light_prefs_toggled_icon.addFile(":/images/toolbar/default/light-prefs-toggled.png", def_size);
-
-    default_dark_run_icon = QIcon();
-    default_dark_run_icon.addFile(":/images/toolbar/default/dark-run.png", def_size);
-
-    default_dark_stop_icon = QIcon();
-    default_dark_stop_icon.addFile(":/images/toolbar/default/dark-stop.png", def_size);
-
-    default_dark_save_icon = QIcon();
-    default_dark_save_icon.addFile(":/images/toolbar/default/dark-save.png", def_size);
-
-    default_dark_load_icon = QIcon();
-    default_dark_load_icon.addFile(":/images/toolbar/default/dark-load.png", def_size);
-
-    default_dark_rec_icon = QIcon();
-    default_dark_rec_icon.addFile(":/images/toolbar/default/dark-rec.png", def_size);
-
-    default_dark_rec_a_icon = QIcon();
-    default_dark_rec_a_icon.addFile(":/images/toolbar/default/dark-rec-a.png", def_size);
-
-    default_dark_rec_b_icon = QIcon();
-    default_dark_rec_b_icon.addFile(":/images/toolbar/default/dark-rec-b.png", def_size);
-
-    default_dark_size_up_icon = QIcon();
-    default_dark_size_up_icon.addFile(":/images/toolbar/default/dark-size-up.png", def_size);
-
-    default_dark_size_down_icon = QIcon();
-    default_dark_size_down_icon.addFile(":/images/toolbar/default/dark-size-down.png", def_size);
-
-    default_dark_scope_icon = QIcon();
-    default_dark_scope_icon.addFile(":/images/toolbar/default/dark-scope.png", def_size);
-
-    default_dark_scope_toggled_icon = QIcon();
-    default_dark_scope_toggled_icon.addFile(":/images/toolbar/default/dark-scope-toggled.png", def_size);
-
-    default_dark_info_icon = QIcon();
-    default_dark_info_icon.addFile(":/images/toolbar/default/dark-info.png", def_size);
-
-    default_dark_info_toggled_icon = QIcon();
-    default_dark_info_toggled_icon.addFile(":/images/toolbar/default/dark-info-toggled.png", def_size);
-
-    default_dark_help_icon = QIcon();
-    default_dark_help_icon.addFile(":/images/toolbar/default/dark-help.png", def_size);
-
-    default_dark_help_toggled_icon = QIcon();
-    default_dark_help_toggled_icon.addFile(":/images/toolbar/default/dark-help-toggled.png", def_size);
-
-    default_dark_prefs_icon = QIcon();
-    default_dark_prefs_icon.addFile(":/images/toolbar/default/dark-prefs.png", def_size);
-
-    default_dark_prefs_toggled_icon = QIcon();
-    default_dark_prefs_toggled_icon.addFile(":/images/toolbar/default/dark-prefs-toggled.png", def_size);
-
-    default_hc_run_icon = QIcon();
-    default_hc_run_icon.addFile(":/images/toolbar/default/hc-run.png", def_size);
-
-    default_hc_stop_icon = QIcon();
-    default_hc_stop_icon.addFile(":/images/toolbar/default/hc-stop.png", def_size);
-
-    default_hc_save_icon = QIcon();
-    default_hc_save_icon.addFile(":/images/toolbar/default/hc-save.png", def_size);
-
-    default_hc_load_icon = QIcon();
-    default_hc_load_icon.addFile(":/images/toolbar/default/hc-load.png", def_size);
-
-    default_hc_rec_icon = QIcon();
-    default_hc_rec_icon.addFile(":/images/toolbar/default/hc-rec.png", def_size);
-
-    default_hc_rec_a_icon = QIcon();
-    default_hc_rec_a_icon.addFile(":/images/toolbar/default/hc-rec-a.png", def_size);
-
-    default_hc_rec_b_icon = QIcon();
-    default_hc_rec_b_icon.addFile(":/images/toolbar/default/hc-rec-b.png", def_size);
-
-    default_hc_size_up_icon = QIcon();
-    default_hc_size_up_icon.addFile(":/images/toolbar/default/hc-size-up.png", def_size);
-
-    default_hc_size_down_icon = QIcon();
-    default_hc_size_down_icon.addFile(":/images/toolbar/default/hc-size-down.png", def_size);
-
-    default_hc_scope_icon = QIcon();
-    default_hc_scope_icon.addFile(":/images/toolbar/default/hc-scope.png", def_size);
-
-    default_hc_scope_toggled_icon = QIcon();
-    default_hc_scope_toggled_icon.addFile(":/images/toolbar/default/hc-scope-toggled.png", def_size);
-
-    default_hc_info_icon = QIcon();
-    default_hc_info_icon.addFile(":/images/toolbar/default/hc-info.png", def_size);
-
-    default_hc_info_toggled_icon = QIcon();
-    default_hc_info_toggled_icon.addFile(":/images/toolbar/default/hc-info-toggled.png", def_size);
-
-    default_hc_help_icon = QIcon();
-    default_hc_help_icon.addFile(":/images/toolbar/default/hc-help.png", def_size);
-
-    default_hc_help_toggled_icon = QIcon();
-    default_hc_help_toggled_icon.addFile(":/images/toolbar/default/hc-help-toggled.png", def_size);
-
-    default_hc_prefs_icon = QIcon();
-    default_hc_prefs_icon.addFile(":/images/toolbar/default/hc-prefs.png", def_size);
-
-    default_hc_prefs_toggled_icon = QIcon();
-    default_hc_prefs_toggled_icon.addFile(":/images/toolbar/default/hc-prefs-toggled.png", def_size);
 }
 
 
@@ -753,7 +527,6 @@ void MainWindow::setupWindowStructure() {
 
     prefsCentral = new QWidget;
     prefsCentral->setObjectName("prefsCentral");
-    //  prefsWidget->setWidget(prefsCentral);
     prefsWidget->setWidget(settingsWidget);
     QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     prefsCentral->setSizePolicy(prefsSizePolicy);
@@ -1015,7 +788,7 @@ void MainWindow::setupWindowStructure() {
 
     //Currently causes a segfault when dragging doc pane out of main
     //window:
-    connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(helpVisibilityChanged()));
+    connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
 
 
     mainWidgetLayout = new QVBoxLayout;
@@ -1053,33 +826,27 @@ void MainWindow::toggleFullScreenMode() {
 void MainWindow::updateFullScreenMode(){
     if (settingsWidget->getSettings().full_screen) {
         outputWidget->setTitleBarWidget(blankWidget);
-
 #ifdef Q_OS_WIN
         this->setWindowFlags(Qt::FramelessWindowHint);
 #endif
-
         int currentScreen = QApplication::desktop()->screenNumber(this);
         statusBar()->showMessage(tr("Full screen mode on."), 2000);
-
 #if QT_VERSION >= 0x050400
         //requires Qt5
         this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
 #endif
-
         this->setWindowState(Qt::WindowFullScreen);
         this->show();
     }
     else {
         outputWidget->setTitleBarWidget(outputWidgetTitle);
         this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
-
 #ifdef Q_OS_WIN
         this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
                 Qt::WindowMinimizeButtonHint |
                 Qt::WindowMaximizeButtonHint |
                 Qt::WindowCloseButtonHint);
 #endif
-
         statusBar()->showMessage(tr("Full screen mode off."), 2000);
         this->show();
     }
@@ -1884,36 +1651,8 @@ void MainWindow::toggleScope()
     scope();
 }
 
-void MainWindow::scope()
-{
-    // TODO move icons to theme
-    if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode || settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(pro_scope_bordered_icon);
-        } else {
-            scopeAct->setIcon(pro_scope_icon);
-        }
-
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(default_dark_scope_toggled_icon);
-        } else {
-            scopeAct->setIcon(default_dark_scope_icon);
-        }
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(default_light_scope_toggled_icon);
-        } else {
-            scopeAct->setIcon(default_light_scope_icon);
-        }
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(default_hc_scope_toggled_icon);
-        } else {
-            scopeAct->setIcon(default_hc_scope_icon);
-        }
-    }
-
+void MainWindow::scope() {
+    scopeAct->setIcon( theme->getScopeIcon(settingsWidget->getSettings().show_scopes));
     if(settingsWidget->getSettings().show_scopes) {
         scopeWidget->show();
     } else {
@@ -1921,90 +1660,33 @@ void MainWindow::scope()
     }
 }
 
-void MainWindow::about()
-{
-    // TODO move icons to theme
+void MainWindow::about() {
     // todo: this is returning true even after the window disappears
     // Qt::Tool windows get closed automatically when app loses focus
     if(infoWidg->isVisible()) {
         infoWidg->hide();
 
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-            infoAct->setIcon(pro_info_dark_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-            infoAct->setIcon(pro_info_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-            infoAct->setIcon(default_light_info_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            infoAct->setIcon(default_dark_info_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-            infoAct->setIcon(default_hc_info_icon);
-        }
-
     } else {
         infoWidg->raise();
         infoWidg->show();
-
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-            infoAct->setIcon(pro_info_dark_bordered_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-            infoAct->setIcon(pro_info_bordered_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-            infoAct->setIcon(default_light_info_toggled_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            infoAct->setIcon(default_dark_info_toggled_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-            infoAct->setIcon(default_hc_info_toggled_icon);
-
-        }
-
     }
+    infoAct->setIcon( theme->getInfoIcon( infoWidg->isVisible()));
 }
 
-
-void MainWindow::help()
-{
+void MainWindow::toggleHelpIcon() {
+    helpAct->setIcon( theme->getHelpIcon( docWidget->isVisible()));
+}
+void MainWindow::help() {
+    statusBar()->showMessage(tr("help visibility changed..."), 2000);
     if(docWidget->isVisible()) {
-        hidingDocPane = true;
         docWidget->hide();
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-            helpAct->setIcon(pro_help_dark_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-            helpAct->setIcon(pro_help_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-            helpAct->setIcon(default_light_help_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            helpAct->setIcon(default_dark_help_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-            helpAct->setIcon(default_hc_help_icon);
-
-        }
-
     } else {
         docWidget->show();
-        if(!updated_dark_mode_for_help) {
-            updateColourTheme();
-            updated_dark_mode_for_help = true;
-        }
-
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-            helpAct->setIcon(pro_help_dark_bordered_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-            helpAct->setIcon(pro_help_bordered_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-            helpAct->setIcon(default_light_help_toggled_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            helpAct->setIcon(default_dark_help_toggled_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-            helpAct->setIcon(default_hc_help_toggled_icon);
-
-        }
-
     }
+    helpAct->setIcon( theme->getHelpIcon( docWidget->isVisible()));
 }
 
-void MainWindow::helpContext()
-{
+void MainWindow::helpContext() {
     if (!docWidget->isVisible())
         docWidget->show();
     SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
@@ -2107,191 +1789,32 @@ void MainWindow::updateLogAutoScroll() {
 }
 
 void MainWindow::toggleIcons() {
-    // TODO move icons to theme
-    if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
+    runAct->setIcon(theme->getRunIcon());
+    stopAct->setIcon(theme->getStopIcon());
+    saveAsAct->setIcon(theme->getSaveAsIcon());
+    loadFileAct->setIcon(theme->getLoadIcon());
+    textIncAct->setIcon(theme->getTextIncIcon());
+    textDecAct->setIcon(theme->getTextDecIcon());
+
+    helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
+    recAct->setIcon(theme->getRecIcon(false, false));
+    prefsAct->setIcon(theme->getPrefsIcon(prefsWidget->isVisible()));
+    infoAct->setIcon(theme->getInfoIcon(infoWidg->isVisible()));
+    scopeAct->setIcon(theme->getScopeIcon(settingsWidget->getSettings().show_scopes));
+
+    if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode ||
+        settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
         toolBar->setIconSize(QSize(30, 30));
-        runAct->setIcon(pro_run_icon);
-        stopAct->setIcon(pro_stop_icon);
-        saveAsAct->setIcon(pro_save_dark_icon);
-        loadFileAct->setIcon(pro_load_dark_icon);
-        recAct->setIcon(pro_rec_icon);
-        textIncAct->setIcon(pro_size_up_icon);
-        textDecAct->setIcon(pro_size_down_icon);
-
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(pro_scope_bordered_icon);
-        } else {
-            scopeAct->setIcon(pro_scope_icon);
-        }
-
-        if (infoWidg->isVisible()) {
-            infoAct->setIcon(pro_info_dark_bordered_icon);
-        } else {
-            infoAct->setIcon(pro_info_dark_icon);
-        }
-
-        if (docWidget->isVisible()) {
-            helpAct->setIcon(pro_help_dark_bordered_icon);
-        } else {
-            helpAct->setIcon(pro_help_dark_icon);
-        }
-
-        if (prefsWidget->isVisible()) {
-            prefsAct->setIcon(pro_prefs_dark_bordered_icon);
-        } else {
-            prefsAct->setIcon(pro_prefs_dark_icon);
-        }
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-        toolBar->setIconSize(QSize(30, 30));
-        runAct->setIcon(pro_run_icon);
-        stopAct->setIcon(pro_stop_icon);
-        saveAsAct->setIcon(pro_save_icon);
-        loadFileAct->setIcon(pro_load_icon);
-        recAct->setIcon(pro_rec_icon);
-
-        textIncAct->setIcon(pro_size_up_icon);
-        textDecAct->setIcon(pro_size_down_icon);
-
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(pro_scope_bordered_icon);
-        } else {
-            scopeAct->setIcon(pro_scope_icon);
-        }
-
-
-        if (infoWidg->isVisible()) {
-            infoAct->setIcon(pro_info_bordered_icon);
-        } else {
-            infoAct->setIcon(pro_info_icon);
-        }
-
-        if (docWidget->isVisible()) {
-            helpAct->setIcon(pro_help_bordered_icon);
-        } else {
-            helpAct->setIcon(pro_help_icon);
-        }
-
-        if (prefsWidget->isVisible()) {
-            prefsAct->setIcon(pro_prefs_bordered_icon);
-        } else {
-            prefsAct->setIcon(pro_prefs_icon);
-        }
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
+    } else {
         toolBar->setIconSize(QSize(84.6, 30.0));
-        // dark mode
-        runAct->setIcon(default_dark_run_icon);
-        stopAct->setIcon(default_dark_stop_icon);
-        saveAsAct->setIcon(default_dark_save_icon);
-        loadFileAct->setIcon(default_dark_load_icon);
-        recAct->setIcon(default_dark_rec_icon);
-        textIncAct->setIcon(default_dark_size_up_icon);
-        textDecAct->setIcon(default_dark_size_down_icon);
-
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(default_dark_scope_toggled_icon);
-        } else {
-            scopeAct->setIcon(default_dark_scope_icon);
-        }
-
-        if (infoWidg->isVisible()) {
-            infoAct->setIcon(default_dark_info_toggled_icon);
-        } else {
-            infoAct->setIcon(default_dark_info_icon);
-        }
-
-        if (docWidget->isVisible()) {
-            helpAct->setIcon(default_dark_help_toggled_icon);
-        } else {
-            helpAct->setIcon(default_dark_help_icon);
-        }
-
-        if (prefsWidget->isVisible()) {
-            prefsAct->setIcon(default_dark_prefs_toggled_icon);
-        } else {
-            prefsAct->setIcon(default_dark_prefs_icon);
-        }
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode)  {
-        toolBar->setIconSize(QSize(84.6, 30.0));
-        // light mode
-        runAct->setIcon(default_light_run_icon);
-        stopAct->setIcon(default_light_stop_icon);
-        saveAsAct->setIcon(default_light_save_icon);
-        loadFileAct->setIcon(default_light_load_icon);
-        recAct->setIcon(default_light_rec_icon);
-
-        textIncAct->setIcon(default_light_size_up_icon);
-        textDecAct->setIcon(default_light_size_down_icon);
-
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(default_light_scope_toggled_icon);
-        } else {
-            scopeAct->setIcon(default_light_scope_icon);
-        }
-
-
-        if (infoWidg->isVisible()) {
-            infoAct->setIcon(default_light_info_toggled_icon);
-        } else {
-            infoAct->setIcon(default_light_info_icon);
-        }
-
-        if (docWidget->isVisible()) {
-            helpAct->setIcon(default_light_help_toggled_icon);
-        } else {
-            helpAct->setIcon(default_light_help_icon);
-        }
-
-        if (prefsWidget->isVisible()) {
-            prefsAct->setIcon(default_light_prefs_toggled_icon);
-        } else {
-            prefsAct->setIcon(default_light_prefs_icon);
-        }
-    } else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode)  {
-        // hc mode
-        toolBar->setIconSize(QSize(84.6, 30.0));
-        runAct->setIcon(default_hc_run_icon);
-        stopAct->setIcon(default_hc_stop_icon);
-        saveAsAct->setIcon(default_hc_save_icon);
-        loadFileAct->setIcon(default_hc_load_icon);
-        recAct->setIcon(default_hc_rec_icon);
-
-        textIncAct->setIcon(default_hc_size_up_icon);
-        textDecAct->setIcon(default_hc_size_down_icon);
-
-        if (settingsWidget->getSettings().show_scopes) {
-            scopeAct->setIcon(default_hc_scope_toggled_icon);
-        } else {
-            scopeAct->setIcon(default_hc_scope_icon);
-        }
-
-
-        if (infoWidg->isVisible()) {
-            infoAct->setIcon(default_hc_info_toggled_icon);
-        } else {
-            infoAct->setIcon(default_hc_info_icon);
-        }
-
-        if (docWidget->isVisible()) {
-            helpAct->setIcon(default_hc_help_toggled_icon);
-        } else {
-            helpAct->setIcon(default_hc_help_icon);
-        }
-
-        if (prefsWidget->isVisible()) {
-            prefsAct->setIcon(default_hc_prefs_toggled_icon);
-        } else {
-            prefsAct->setIcon(default_hc_prefs_icon);
-        }
     }
 }
 
 void MainWindow::updateColourTheme(){
-    SonicPiTheme *currentTheme = lexer->theme;
-    // switch themes
-    currentTheme->switchTheme( settingsWidget->getSettings().theme );
-    statusBar()->showMessage(tr("Colour Theme: ")+currentTheme->getName(), 2000);
+    theme->switchTheme( settingsWidget->getSettings().theme );
+    statusBar()->showMessage(tr("Colour Theme: ")+theme->getName(), 2000);
 
-    QString css = currentTheme->getCss();
+    QString css = theme->getCss();
     toggleIcons();
 
     docPane->document()->setDefaultStyleSheet(css);
@@ -2323,13 +1846,13 @@ void MainWindow::updateColourTheme(){
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
 
-    QString appStyling = currentTheme->getAppStylesheet();
+    QString appStyling = theme->getAppStylesheet();
 
     this->setStyleSheet(appStyling);
     infoWidg->setStyleSheet(appStyling);
 
-    errorPane->setStyleSheet(currentTheme->getErrorStylesheet());
-    docsCentral->setStyleSheet(currentTheme->getDocStylesheet());
+    errorPane->setStyleSheet(theme->getErrorStylesheet());
+    docsCentral->setStyleSheet(theme->getDocStylesheet());
 
     scopeInterface->refresh();
     scopeWidget->update();
@@ -2347,7 +1870,7 @@ void MainWindow::updateColourTheme(){
         ws->redraw();
     }
 
-    scopeInterface->setColor(currentTheme->color("Scope"));
+    scopeInterface->setColor(theme->color("Scope"));
     lexer->unhighlightAll();
 }
 
@@ -2374,34 +1897,7 @@ void MainWindow::togglePrefs() {
 
 void MainWindow::updatePrefsIcon()
 {
-    if(prefsWidget->isVisible()) {
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-            prefsAct->setIcon(pro_prefs_dark_bordered_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-            prefsAct->setIcon(pro_prefs_bordered_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-            prefsAct->setIcon(default_light_prefs_toggled_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            prefsAct->setIcon(default_dark_prefs_toggled_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-            prefsAct->setIcon(default_hc_prefs_toggled_icon);
-
-        }
-    }
-    else {
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-            prefsAct->setIcon(pro_prefs_dark_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-            prefsAct->setIcon(pro_prefs_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-            prefsAct->setIcon(default_light_prefs_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            prefsAct->setIcon(default_dark_prefs_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-            prefsAct->setIcon(default_hc_prefs_icon);
-
-        }
-    }
+    prefsAct->setIcon(theme->getPrefsIcon(prefsWidget->isVisible()));
 }
 
 
@@ -2541,31 +2037,31 @@ void  MainWindow::createToolBar()
 {
     std::cout << "[GUI] - creating tool bar" << std::endl;
     // Run
-    runAct = new QAction(default_light_run_icon, tr("Run"), this);
+    runAct = new QAction(theme->getRunIcon(), tr("Run"), this);
     runSc = new QShortcut(metaKey('R'), this, SLOT(runCode()));
     updateAction(runAct, runSc, tr("Run the code in the current buffer"));
     connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
     // Stop
-    stopAct = new QAction(default_light_stop_icon, tr("Stop"), this);
+    stopAct = new QAction(theme->getStopIcon(), tr("Stop"), this);
     stopSc = new QShortcut(metaKey('S'), this, SLOT(stopCode()));
     updateAction(stopAct, stopSc, tr("Stop all running code"));
     connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
 
     // Record
-    recAct = new QAction(default_light_rec_icon, tr("Start Recording"), this);
+    recAct = new QAction(theme->getRecIcon(false, false), tr("Start Recording"), this);
     recSc = new QShortcut(shiftMetaKey('R'), this, SLOT(toggleRecording()));
     updateAction(recAct, recSc, tr("Start recording to a WAV audio file"));
     connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
     // Save
-    saveAsAct = new QAction(default_light_save_icon, tr("Save"), this);
+    saveAsAct = new QAction(theme->getSaveAsIcon(), tr("Save"), this);
     saveAsSc = new QShortcut(shiftMetaKey('S'), this, SLOT(saveAs()));
     updateAction(saveAsAct, saveAsSc, tr("Save current buffer as an external file"));
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
     // Load
-    loadFileAct = new QAction(default_light_load_icon, tr("Load"), this);
+    loadFileAct = new QAction(theme->getLoadIcon(), tr("Load"), this);
     loadFileSc = new QShortcut(shiftMetaKey('O'), this, SLOT(loadFile()));
     updateAction(loadFileAct, loadFileSc,  tr("Load an external file in the current buffer"));
     connect(loadFileAct, SIGNAL(triggered()), this, SLOT(loadFile()));
@@ -2578,37 +2074,37 @@ void  MainWindow::createToolBar()
     connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
 
     // Font Size Increase
-    textIncAct = new QAction(default_light_size_up_icon, tr("Text Size Up"), this);
+    textIncAct = new QAction(theme->getTextIncIcon(), tr("Text Size Up"), this);
     textIncSc = new QShortcut(metaKey('+'), this, SLOT(zoomCurrentWorkspaceIn()));
     updateAction(textIncAct, textIncSc, tr("Increase Text Size"));
     connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceIn()));
 
     // Font Size Decrease
-    textDecAct = new QAction(default_light_size_down_icon, tr("Text Size Down"), this);
+    textDecAct = new QAction(theme->getTextDecIcon(), tr("Text Size Down"), this);
     textDecSc = new QShortcut(metaKey('-'), this, SLOT(zoomCurrentWorkspaceOut()));
     updateAction(textDecAct, textDecSc, tr("Decrease Text Size"));
     connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceOut()));
 
     // Scope
-    scopeAct = new QAction(default_light_scope_icon, tr("Toggle Scope"), this);
+    scopeAct = new QAction(theme->getScopeIcon(false), tr("Toggle Scope"), this);
     scopeSc = new QShortcut(metaKey('O'), this, SLOT(toggleScope()));
     updateAction(scopeAct, scopeSc, tr("Toggle visibility of audio oscilloscope"));
     connect(scopeAct, SIGNAL(triggered()), this, SLOT(toggleScope()));
 
     // Info
-    infoAct = new QAction(default_light_info_icon, tr("Show Info"), this);
+    infoAct = new QAction(theme->getInfoIcon(false), tr("Show Info"), this);
     infoSc = new QShortcut(metaKey('1'), this, SLOT(about()));
     updateAction(infoAct, infoSc, tr("See information about Sonic Pi"));
     connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
-    // // Help
-    helpAct = new QAction(default_light_help_icon, tr("Toggle Help"), this);
+    // Help
+    helpAct = new QAction(theme->getHelpIcon(false), tr("Toggle Help"), this);
     helpSc = new QShortcut(metaKey('I'), this, SLOT(help()));
     updateAction(helpAct, helpSc, tr("Toggle the visibility of the help pane"));
     connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
     // Preferences
-    prefsAct = new QAction(default_light_prefs_icon, tr("Toggle Preferences"), this);
+    prefsAct = new QAction(theme->getPrefsIcon(false), tr("Toggle Preferences"), this);
     prefsSc = new QShortcut(metaKey('P'), this, SLOT(togglePrefs()));
     updateAction(prefsAct, prefsSc, tr("Toggle the visibility of the preferences pane"));
     connect(prefsAct, SIGNAL(triggered()), this, SLOT(togglePrefs()));
@@ -2720,39 +2216,18 @@ void MainWindow::createInfoPane() {
     infoWidg->addAction(closeInfoAct);
 }
 
+
+/**
+ * Toggle record Icon while recording is active (triggert by rec_flash_timer)
+ */
 void MainWindow::toggleRecordingOnIcon() {
     show_rec_icon_a = !show_rec_icon_a;
-    if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode || settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-        if(show_rec_icon_a) {
-            recAct->setIcon(pro_rec_icon);
-        } else {
-            if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-                recAct->setIcon(pro_rec_b_dark_icon);
-            } else {
-                recAct->setIcon(pro_rec_b_icon);
-            }
-        }
-    } else {
-        if(show_rec_icon_a) {
-            if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-                recAct->setIcon(default_dark_rec_a_icon);
-            } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode){
-                recAct->setIcon(default_light_rec_a_icon);
-            } else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode){
-                recAct->setIcon(default_hc_rec_a_icon);
-            }
-        } else {
-            if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-                recAct->setIcon(default_dark_rec_b_icon);
-            } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode){
-                recAct->setIcon(default_light_rec_b_icon);
-            } else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode){
-                recAct->setIcon(default_hc_rec_b_icon);
-            }
-        }
-    }
+    recAct->setIcon( theme->getRecIcon( true, show_rec_icon_a));
 }
 
+/**
+ * Start or Stop recording
+ */
 void MainWindow::toggleRecording() {
     is_recording = !is_recording;
     if(is_recording) {
@@ -2767,18 +2242,7 @@ void MainWindow::toggleRecording() {
     } else {
         rec_flash_timer->stop();
         updateAction(recAct, recSc, tr("Start Recording"), tr("Start Recording"));
-
-
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            recAct->setIcon(default_dark_rec_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode){
-            recAct->setIcon(default_light_rec_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode){
-            recAct->setIcon(default_hc_rec_icon);
-        } else {
-            //default icon
-            recAct->setIcon(pro_rec_icon);
-        }
+        recAct->setIcon( theme->getRecIcon(is_recording, false));
 
         Message msg("/stop-recording");
         msg.pushStr(guiID.toStdString());
@@ -2853,6 +2317,7 @@ void MainWindow::readSettings() {
     settingsWidget->getSettings().log_cues = settings.value("prefs/log-cues", false).toBool();
     settingsWidget->getSettings().log_auto_scroll = settings.value("prefs/log-auto-scroll", true).toBool();
     settingsWidget->getSettings().show_line_numbers =  settings.value("prefs/show-line-numbers", true).toBool();
+    std::cout << "LINE NUMBERS: " << (settingsWidget->getSettings().show_line_numbers ? "T" : "F") << std::endl;
     settingsWidget->getSettings().enable_external_synths = settings.value("prefs/enable-external-synths", false).toBool();
     settingsWidget->getSettings().synth_trigger_timing_guarantees = settings.value("prefs/synth-trigger-timing-guarantees", false).toBool();
     settingsWidget->getSettings().mixer_force_mono = settings.value("prefs/mixer-force-mono", false).toBool();
@@ -3110,37 +2575,6 @@ void MainWindow::docScrollUp() {
 
 void MainWindow::docScrollDown() {
     docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
-}
-
-void MainWindow::helpVisibilityChanged() {
-    statusBar()->showMessage(tr("help visibility changed..."), 2000);
-
-    if (docWidget->isVisible()) {
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-            helpAct->setIcon(pro_help_dark_bordered_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-            helpAct->setIcon(pro_help_bordered_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-            helpAct->setIcon(default_light_help_toggled_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            helpAct->setIcon(default_dark_help_toggled_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-            helpAct->setIcon(default_hc_help_toggled_icon);
-        }
-    } else {
-        if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
-            helpAct->setIcon(pro_help_dark_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
-            helpAct->setIcon(pro_help_icon);
-        } else if (settingsWidget->getSettings().theme == SonicPiTheme::LightMode) {
-            helpAct->setIcon(default_light_help_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::DarkMode) {
-            helpAct->setIcon(default_dark_help_icon);
-        }  else if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
-            helpAct->setIcon(default_hc_help_icon);
-
-        }
-    }
 }
 
 void MainWindow::tabNext() {

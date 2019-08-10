@@ -27,8 +27,12 @@ SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename, QStr
     qt_browser_light_css   = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/light/doc-styles.css");
     qt_browser_hc_css      = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/high_contrast/doc-styles.css");
 
+    loadToolBarIcons();
+
     QMap<QString, QString> themeSettings;
     this->theme = lightTheme();
+    switchTheme( SonicPiTheme::LightMode );
+
     // if(settings!=0){
     //   QStringList customSettingKeys = settings->allKeys();
     //   for(int idx=0; idx < customSettingKeys.size(); idx++){
@@ -52,21 +56,129 @@ QMap<QString, QString> SonicPiTheme::withCustomSettings(QMap<QString, QString> s
 void SonicPiTheme::switchTheme(Theme theme) {
     if (theme == SonicPiTheme::DarkMode){
         darkMode();
+        runIcon = &default_dark_run_icon;
+        stopIcon = &default_dark_stop_icon;
+        saveAsIcon = &default_dark_save_icon;
+        loadIcon = &default_dark_load_icon;
+        textIncIcon = &default_dark_size_up_icon;
+        textDecIcon = &default_dark_size_down_icon;
+
+        helpIcon = &default_dark_help_icon;
+        helpIconActive = &default_dark_help_toggled_icon;
+        recIcon = &default_dark_rec_icon;
+        recIconA = &default_dark_rec_a_icon; 
+        recIconB = &default_dark_rec_b_icon;
+        prefsIcon = &default_dark_prefs_icon;
+        prefsIconActive = &default_dark_prefs_toggled_icon;
+        infoIcon = &default_dark_info_icon;
+        infoIconActive = &default_dark_info_toggled_icon;
+        scopeIcon = &default_dark_scope_icon;
+        scopeIconActive = &default_dark_scope_toggled_icon;
         name = "Dark";
     } else if (theme == SonicPiTheme::DarkProMode){
         darkMode();
+        runIcon = &pro_run_icon;
+        stopIcon = &pro_stop_icon;
+        saveAsIcon = &pro_save_dark_icon;
+        loadIcon = &pro_load_dark_icon;
+        textIncIcon = &pro_size_up_icon;
+        textDecIcon = &pro_size_down_icon;
+
+        helpIcon = &pro_help_dark_icon;
+        helpIconActive = &pro_help_dark_bordered_icon;
+        recIcon = &pro_rec_icon;
+        recIconA = &pro_rec_icon;
+        recIconB = &pro_rec_b_dark_icon;
+        prefsIcon = &pro_prefs_dark_icon;
+        prefsIconActive = &pro_prefs_dark_bordered_icon;
+        infoIcon = &pro_info_dark_icon;
+        infoIconActive = &pro_info_dark_bordered_icon;
+        scopeIcon = &pro_scope_icon;
+        scopeIconActive = &pro_scope_bordered_icon;
         name = "Dark Pro";
     } else if (theme == SonicPiTheme::LightMode){
         lightMode();
+        runIcon = &default_light_run_icon;
+        stopIcon = &default_light_stop_icon;
+        saveAsIcon = &default_light_save_icon;
+        loadIcon = &default_light_load_icon;
+        textIncIcon = &default_light_size_up_icon;
+        textDecIcon = &default_light_size_down_icon;
+
+        helpIcon = &default_light_help_icon;
+        helpIconActive = &default_light_help_toggled_icon;
+        recIcon = &default_light_rec_icon;
+        recIconA = &default_light_rec_a_icon; 
+        recIconB = &default_light_rec_b_icon;
+        prefsIcon = &default_light_prefs_icon;
+        prefsIconActive = &default_light_prefs_toggled_icon;
+        infoIcon = &default_light_info_icon;
+        infoIconActive = &default_light_info_toggled_icon;
+        scopeIcon = &default_light_scope_icon;
+        scopeIconActive = &default_light_scope_toggled_icon;
         name = "Light";
     } else if (theme == SonicPiTheme::LightProMode){
         lightMode();
+        runIcon = &pro_run_icon;
+        stopIcon = &pro_stop_icon;
+        saveAsIcon = &pro_save_icon;
+        loadIcon = &pro_load_icon;
+        textIncIcon = &pro_size_up_icon;
+        textDecIcon = &pro_size_down_icon;
+
+        helpIcon = &pro_help_icon;
+        helpIconActive = &pro_help_bordered_icon;
+        recIcon = &pro_rec_icon;
+        recIconA = &pro_rec_icon;
+        recIconB = &pro_rec_b_icon;
+        prefsIcon = &pro_prefs_icon;
+        prefsIconActive = &pro_prefs_bordered_icon;
+        infoIcon = &pro_info_icon;
+        infoIconActive = &pro_info_bordered_icon;
+        scopeIcon = &pro_scope_icon;
+        scopeIconActive = &pro_scope_bordered_icon;
         name = "Light Pro";
     } else if (theme == SonicPiTheme::HighContrastMode){
         hcMode();
+        runIcon = &default_hc_run_icon;
+        stopIcon = &default_hc_stop_icon;
+        saveAsIcon = &default_hc_save_icon;
+        loadIcon = &default_hc_load_icon;
+        textIncIcon = &default_hc_size_up_icon;
+        textDecIcon = &default_hc_size_down_icon;
+
+        helpIcon = &default_hc_help_icon;
+        helpIconActive = &default_hc_help_toggled_icon;
+        recIcon = &default_hc_rec_icon;
+        recIconA = &default_hc_rec_a_icon; 
+        recIconB = &default_hc_rec_b_icon;
+        prefsIcon = &default_hc_prefs_icon;
+        prefsIconActive = &default_hc_prefs_toggled_icon;
+        infoIcon = &default_hc_info_icon;
+        infoIconActive = &default_hc_info_toggled_icon;
+        scopeIcon = &default_hc_scope_icon;
+        scopeIconActive = &default_light_scope_toggled_icon;
         name = "High Contrast";
     } else {
         lightMode();
+        runIcon = &default_light_run_icon;
+        stopIcon = &default_light_stop_icon;
+        saveAsIcon = &default_light_save_icon;
+        loadIcon = &default_light_load_icon;
+        textIncIcon = &default_light_size_up_icon;
+        textDecIcon = &default_light_size_down_icon;
+
+        helpIcon = &pro_help_icon;
+        helpIconActive = &pro_help_bordered_icon;
+        recIcon = &default_light_rec_icon;
+        recIconA = &default_light_rec_a_icon; 
+        recIconB = &default_light_rec_b_icon;
+        prefsIcon = &default_light_prefs_icon;
+        prefsIconActive = &default_light_prefs_toggled_icon;
+        infoIcon = &default_light_info_icon;
+        infoIconActive = &default_light_info_toggled_icon;
+        scopeIcon = &default_light_scope_icon;
+        scopeIconActive = &default_light_scope_toggled_icon;
         name = "Light";
     }
 }
@@ -867,5 +979,292 @@ QString SonicPiTheme::readFile(QString name) {
     return st.readAll();
 }
 
+void SonicPiTheme::loadToolBarIcons() {
+
+    // load up icons into memory
+    std::cout << "[GUI] - initialising toolbar icons" << std::endl;
+
+    QSize pro_size = QSize(30, 30);
+    QSize def_size = QSize(85, 30);
+    QFile f(":/images/toolbar/pro/run.png");
+
+std::cout << "[GUI] - " << ( f.exists() ? "T" : "F" )<< std::endl;
+
+    pro_run_icon = QIcon();
+    pro_run_icon.addFile(":/images/toolbar/pro/run.png", pro_size);
+
+    pro_stop_icon = QIcon();
+    pro_stop_icon.addFile(":/images/toolbar/pro/stop.png", pro_size);
+
+    pro_save_icon = QIcon();
+    pro_save_icon.addFile(":/images/toolbar/pro/save.png", pro_size);
+
+    pro_load_icon = QIcon();
+    pro_load_icon.addFile(":/images/toolbar/pro/load.png", pro_size);
+
+    pro_rec_icon = QIcon();
+    pro_rec_icon.addFile(":/images/toolbar/pro/rec.png", pro_size);
+
+    pro_size_up_icon = QIcon();
+    pro_size_up_icon.addFile(":/images/toolbar/pro/size-up.png", pro_size);
+
+    pro_size_down_icon = QIcon();
+    pro_size_down_icon.addFile(":/images/toolbar/pro/size-down.png", pro_size);
+
+    pro_scope_bordered_icon = QIcon();
+    pro_scope_bordered_icon.addFile(":/images/toolbar/pro/scope-bordered.png", pro_size);
+
+    pro_scope_icon = QIcon();
+    pro_scope_icon.addFile(":/images/toolbar/pro/scope.png", pro_size);
+
+    pro_info_icon = QIcon();
+    pro_info_icon.addFile(":/images/toolbar/pro/info.png", pro_size);
+
+    pro_info_bordered_icon = QIcon();
+    pro_info_bordered_icon.addFile(":/images/toolbar/pro/info-bordered.png", pro_size);
+
+    pro_help_bordered_icon = QIcon();
+    pro_help_bordered_icon.addFile(":/images/toolbar/pro/help-bordered.png", pro_size);
+
+    pro_help_icon = QIcon();
+    pro_help_icon.addFile(":/images/toolbar/pro/help.png", pro_size);
+
+    pro_prefs_icon = QIcon();
+    pro_prefs_icon.addFile(":/images/toolbar/pro/prefs.png", pro_size);
+
+    pro_prefs_bordered_icon = QIcon();
+    pro_prefs_bordered_icon.addFile(":/images/toolbar/pro/prefs-bordered.png", pro_size);
+
+    pro_info_dark_bordered_icon = QIcon();
+    pro_info_dark_bordered_icon.addFile(":/images/toolbar/pro/info-dark-bordered.png", pro_size);
+
+    pro_info_dark_icon = QIcon();
+    pro_info_dark_icon.addFile(":/images/toolbar/pro/info-dark.png", pro_size);
+
+    pro_help_dark_bordered_icon = QIcon();
+    pro_help_dark_bordered_icon.addFile(":/images/toolbar/pro/help-dark-bordered.png", pro_size);
+
+    pro_help_dark_icon = QIcon();
+    pro_help_dark_icon.addFile(":/images/toolbar/pro/help-dark.png", pro_size);
+
+    pro_prefs_dark_bordered_icon = QIcon();
+    pro_prefs_dark_bordered_icon.addFile(":/images/toolbar/pro/prefs-dark-bordered.png", pro_size);
+
+    pro_prefs_dark_icon = QIcon();
+    pro_prefs_dark_icon.addFile(":/images/toolbar/pro/prefs-dark.png", pro_size);
+
+    pro_rec_b_icon = QIcon();
+    pro_rec_b_icon.addFile(":/images/toolbar/pro/recording-b.png", pro_size);
+
+    pro_rec_b_dark_icon = QIcon();
+    pro_rec_b_dark_icon.addFile(":/images/toolbar/pro/recording-b-dark.png", pro_size);
+
+    pro_load_dark_icon = QIcon();
+    pro_load_dark_icon.addFile(":/images/toolbar/pro/load-dark.png", pro_size);
+
+    pro_save_dark_icon = QIcon();
+    pro_save_dark_icon.addFile(":/images/toolbar/pro/save-dark.png", pro_size);
+
+    default_light_run_icon = QIcon();
+    default_light_run_icon.addFile(":/images/toolbar/default/light-run.png", def_size);
+
+    default_light_stop_icon = QIcon();
+    default_light_stop_icon.addFile(":/images/toolbar/default/light-stop.png", def_size);
+
+    default_light_save_icon = QIcon();
+    default_light_save_icon.addFile(":/images/toolbar/default/light-save.png", def_size);
+
+    default_light_load_icon = QIcon();
+    default_light_load_icon.addFile(":/images/toolbar/default/light-load.png", def_size);
+
+    default_light_rec_icon = QIcon();
+    default_light_rec_icon.addFile(":/images/toolbar/default/light-rec.png", def_size);
+
+    default_light_rec_a_icon = QIcon();
+    default_light_rec_a_icon.addFile(":/images/toolbar/default/light-rec-a.png", def_size);
+
+    default_light_rec_b_icon = QIcon();
+    default_light_rec_b_icon.addFile(":/images/toolbar/default/light-rec-b.png", def_size);
+
+    default_light_size_up_icon = QIcon();
+    default_light_size_up_icon.addFile(":/images/toolbar/default/light-size-up.png", def_size);
+
+    default_light_size_down_icon = QIcon();
+    default_light_size_down_icon.addFile(":/images/toolbar/default/light-size-down.png", def_size);
+
+    default_light_scope_icon = QIcon();
+    default_light_scope_icon.addFile(":/images/toolbar/default/light-scope.png", def_size);
+
+    default_light_scope_toggled_icon = QIcon();
+    default_light_scope_toggled_icon.addFile(":/images/toolbar/default/light-scope-toggled.png", def_size);
+
+    default_light_info_icon = QIcon();
+    default_light_info_icon.addFile(":/images/toolbar/default/light-info.png", def_size);
+
+    default_light_info_toggled_icon = QIcon();
+    default_light_info_toggled_icon.addFile(":/images/toolbar/default/light-info-toggled.png", def_size);
+
+    default_light_help_icon = QIcon();
+    default_light_help_icon.addFile(":/images/toolbar/default/light-help.png", def_size);
+
+    default_light_help_toggled_icon = QIcon();
+    default_light_help_toggled_icon.addFile(":/images/toolbar/default/light-help-toggled.png", def_size);
+
+    default_light_prefs_icon = QIcon();
+    default_light_prefs_icon.addFile(":/images/toolbar/default/light-prefs.png", def_size);
+
+    default_light_prefs_toggled_icon = QIcon();
+    default_light_prefs_toggled_icon.addFile(":/images/toolbar/default/light-prefs-toggled.png", def_size);
+
+    default_dark_run_icon = QIcon();
+    default_dark_run_icon.addFile(":/images/toolbar/default/dark-run.png", def_size);
+
+    default_dark_stop_icon = QIcon();
+    default_dark_stop_icon.addFile(":/images/toolbar/default/dark-stop.png", def_size);
+
+    default_dark_save_icon = QIcon();
+    default_dark_save_icon.addFile(":/images/toolbar/default/dark-save.png", def_size);
+
+    default_dark_load_icon = QIcon();
+    default_dark_load_icon.addFile(":/images/toolbar/default/dark-load.png", def_size);
+
+    default_dark_rec_icon = QIcon();
+    default_dark_rec_icon.addFile(":/images/toolbar/default/dark-rec.png", def_size);
+
+    default_dark_rec_a_icon = QIcon();
+    default_dark_rec_a_icon.addFile(":/images/toolbar/default/dark-rec-a.png", def_size);
+
+    default_dark_rec_b_icon = QIcon();
+    default_dark_rec_b_icon.addFile(":/images/toolbar/default/dark-rec-b.png", def_size);
+
+    default_dark_size_up_icon = QIcon();
+    default_dark_size_up_icon.addFile(":/images/toolbar/default/dark-size-up.png", def_size);
+
+    default_dark_size_down_icon = QIcon();
+    default_dark_size_down_icon.addFile(":/images/toolbar/default/dark-size-down.png", def_size);
+
+    default_dark_scope_icon = QIcon();
+    default_dark_scope_icon.addFile(":/images/toolbar/default/dark-scope.png", def_size);
+
+    default_dark_scope_toggled_icon = QIcon();
+    default_dark_scope_toggled_icon.addFile(":/images/toolbar/default/dark-scope-toggled.png", def_size);
+
+    default_dark_info_icon = QIcon();
+    default_dark_info_icon.addFile(":/images/toolbar/default/dark-info.png", def_size);
+
+    default_dark_info_toggled_icon = QIcon();
+    default_dark_info_toggled_icon.addFile(":/images/toolbar/default/dark-info-toggled.png", def_size);
+
+    default_dark_help_icon = QIcon();
+    default_dark_help_icon.addFile(":/images/toolbar/default/dark-help.png", def_size);
+
+    default_dark_help_toggled_icon = QIcon();
+    default_dark_help_toggled_icon.addFile(":/images/toolbar/default/dark-help-toggled.png", def_size);
+
+    default_dark_prefs_icon = QIcon();
+    default_dark_prefs_icon.addFile(":/images/toolbar/default/dark-prefs.png", def_size);
+
+    default_dark_prefs_toggled_icon = QIcon();
+    default_dark_prefs_toggled_icon.addFile(":/images/toolbar/default/dark-prefs-toggled.png", def_size);
+
+    default_hc_run_icon = QIcon();
+    default_hc_run_icon.addFile(":/images/toolbar/default/hc-run.png", def_size);
+
+    default_hc_stop_icon = QIcon();
+    default_hc_stop_icon.addFile(":/images/toolbar/default/hc-stop.png", def_size);
+
+    default_hc_save_icon = QIcon();
+    default_hc_save_icon.addFile(":/images/toolbar/default/hc-save.png", def_size);
+
+    default_hc_load_icon = QIcon();
+    default_hc_load_icon.addFile(":/images/toolbar/default/hc-load.png", def_size);
+
+    default_hc_rec_icon = QIcon();
+    default_hc_rec_icon.addFile(":/images/toolbar/default/hc-rec.png", def_size);
+
+    default_hc_rec_a_icon = QIcon();
+    default_hc_rec_a_icon.addFile(":/images/toolbar/default/hc-rec-a.png", def_size);
+
+    default_hc_rec_b_icon = QIcon();
+    default_hc_rec_b_icon.addFile(":/images/toolbar/default/hc-rec-b.png", def_size);
+
+    default_hc_size_up_icon = QIcon();
+    default_hc_size_up_icon.addFile(":/images/toolbar/default/hc-size-up.png", def_size);
+
+    default_hc_size_down_icon = QIcon();
+    default_hc_size_down_icon.addFile(":/images/toolbar/default/hc-size-down.png", def_size);
+
+    default_hc_scope_icon = QIcon();
+    default_hc_scope_icon.addFile(":/images/toolbar/default/hc-scope.png", def_size);
+
+    default_hc_scope_toggled_icon = QIcon();
+    default_hc_scope_toggled_icon.addFile(":/images/toolbar/default/hc-scope-toggled.png", def_size);
+
+    default_hc_info_icon = QIcon();
+    default_hc_info_icon.addFile(":/images/toolbar/default/hc-info.png", def_size);
+
+    default_hc_info_toggled_icon = QIcon();
+    default_hc_info_toggled_icon.addFile(":/images/toolbar/default/hc-info-toggled.png", def_size);
+
+    default_hc_help_icon = QIcon();
+    default_hc_help_icon.addFile(":/images/toolbar/default/hc-help.png", def_size);
+
+    default_hc_help_toggled_icon = QIcon();
+    default_hc_help_toggled_icon.addFile(":/images/toolbar/default/hc-help-toggled.png", def_size);
+
+    default_hc_prefs_icon = QIcon();
+    default_hc_prefs_icon.addFile(":/images/toolbar/default/hc-prefs.png", def_size);
+
+    default_hc_prefs_toggled_icon = QIcon();
+    default_hc_prefs_toggled_icon.addFile(":/images/toolbar/default/hc-prefs-toggled.png", def_size);
+}
+
+QIcon SonicPiTheme::getRunIcon() {
+    return *runIcon;
+}
+
+QIcon SonicPiTheme::getStopIcon() {
+    return *stopIcon;
+}
+
+QIcon SonicPiTheme::getSaveAsIcon() {
+    return *saveAsIcon;
+}
+
+QIcon SonicPiTheme::getLoadIcon() {
+    return *loadIcon;
+}
+
+QIcon SonicPiTheme::getTextIncIcon() {
+    return *textIncIcon;
+}
+
+QIcon SonicPiTheme::getTextDecIcon() {
+    return *textDecIcon;
+}
+
+QIcon SonicPiTheme::getHelpIcon( bool visible ) {
+    return visible ? *helpIconActive : *helpIcon;
+}
+
+QIcon SonicPiTheme::getRecIcon( bool on, bool ab) {
+    if (on) {
+        return ab ? *recIconA : *recIconB;
+    } else {
+        return *recIcon;
+    }
+}
+
+QIcon SonicPiTheme::getPrefsIcon( bool visible ) {
+    return visible ? *prefsIconActive : *prefsIcon;
+}
+
+QIcon SonicPiTheme::getInfoIcon( bool visible ) {
+    return visible ? *infoIconActive : *infoIcon;
+}
+
+QIcon SonicPiTheme::getScopeIcon( bool visible) {
+    return visible ? *scopeIconActive : *scopeIcon;
+}
 
 SonicPiTheme::~SonicPiTheme(){}

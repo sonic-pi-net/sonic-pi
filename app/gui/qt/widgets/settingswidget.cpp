@@ -76,14 +76,14 @@ SettingsWidget::~SettingsWidget() {
  */
 QGroupBox* SettingsWidget::createAudioPrefsTab() {
     //TODO redundant
-    QSettings settings("sonic-pi.net", "gui-settings");
+    //QSettings settings("sonic-pi.net", "gui-settings");
 
     QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
     volBox->setToolTip(tr("Use this slider to change the system volume."));
     QHBoxLayout *vol_box = new QHBoxLayout;
     system_vol_slider = new QSlider(this);
-    int stored_vol = settings.value("prefs/system-vol", 50).toInt();
-    system_vol_slider->setValue(stored_vol);
+//    int stored_vol = settings.value("prefs/system-vol", 50).toInt();
+//    system_vol_slider->setValue(stored_vol);
     vol_box->addWidget(system_vol_slider);
     volBox->setLayout(vol_box);
 
@@ -690,6 +690,8 @@ void SettingsWidget::settingsChanged() {
     midi_enable_check->setChecked(settings.midi_enabled);
 
     auto_indent_on_run->setChecked(settings.auto_indent_on_run);
+    std::cout << "Line numbers " << (settings.show_line_numbers ? "T" : "F" ) << std::endl;
+
     show_line_numbers->setChecked(settings.show_line_numbers);
     show_log->setChecked(settings.show_log);
     show_incoming_osc_log->setChecked(settings.show_incoming_osc_log);

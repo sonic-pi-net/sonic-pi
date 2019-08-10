@@ -26,6 +26,8 @@ public:
   QColor defaultPaper(int style) const;
   QFont defaultFont(int style) const;
   QStringList autoCompletionWordSeparators() const;
+
+private:  
   SonicPiTheme *theme;
 
 public slots:
