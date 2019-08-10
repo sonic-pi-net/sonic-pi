@@ -418,20 +418,12 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     QGroupBox *scope_box = new QGroupBox(tr("Show and Hide Scope"));
     QGroupBox *scope_box_kinds = new QGroupBox(tr("Scope Kinds"));
 
-    QVBoxLayout *scope_box_kinds_layout = new QVBoxLayout;
+    //QVBoxLayout *scope_box_kinds_layout = new QVBoxLayout;
+    scope_box_kinds_layout = new QVBoxLayout;
+
     QVBoxLayout *scope_box_layout = new QVBoxLayout;
 
     scopeSignalMap = new QSignalMapper(this);
-    //TODO 
-    //  for( auto name : scopeInterface->getScopeNames() )
-    //  {
-    //    QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) );
-    //    cb->setChecked( scopeInterface->enableScope( name, isScopeEnabled(settings,name) ) );
-    //    scopeSignalMap->setMapping( cb, cb );
-    //    scope_box_kinds_layout->addWidget(cb);
-    //    connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
-    //  }
-    //connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
     show_scopes = new QCheckBox(tr("Show Scopes"));
     show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
     show_scope_axes = new QCheckBox(tr("Show Axes"));
@@ -523,6 +515,25 @@ QString SettingsWidget::tooltipStrShiftMeta(char key, QString str) {
 #endif
 }
 
+void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
+    for( auto name : names ) {
+        QCheckBox* cb = new QCheckBox( name );
+        cb->setChecked( settings.isScopeActive(name));
+        scopeSignalMap->setMapping( cb, cb );
+        scope_box_kinds_layout->addWidget(cb);
+        connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
+  }
+    connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
+}
+
+void SettingsWidget::toggleScope( QWidget* qw ) {
+  QCheckBox* cb = static_cast<QCheckBox*>(qw);
+  //QSettings settings("sonic-pi.net", "gui-settings");
+  //settings.setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );
+  QString name = cb->text();
+  settings.setScopeState( name, cb->isChecked() );
+  emit scopeChanged(name);
+}
 
 
 void SettingsWidget::update_mixer_invert_stereo() {

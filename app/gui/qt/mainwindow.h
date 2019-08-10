@@ -147,6 +147,7 @@ private slots:
     void changeGUITransparency(int val);
     void changeShowLineNumbers();
     void toggleScope(QWidget* qw);
+    void toggleScope(QString name);
     void toggleLeftScope();
     void toggleRightScope();
     void toggleScopeAxes();

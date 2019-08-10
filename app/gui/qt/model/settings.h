@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <QString>
+#include <map>
 
 class SonicPiSettings {
 public:    
@@ -43,5 +44,10 @@ public:
     // Visualizer
     bool show_scopes;
     bool show_scope_axes;
+    void setScopeState(QString name, bool s) { active_scopes[name] = s; }
+    bool isScopeActive(QString name) { return active_scopes[name]; }
+private: 
+    std::map<QString, bool> active_scopes;
+
 };
 #endif

@@ -769,9 +769,14 @@ void MainWindow::setupWindowStructure() {
   connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
   connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
   connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
+  connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(toggleScope(QString)));
   connect(settingsWidget, SIGNAL(scopeAxesChanged()), this, SLOT(toggleScopeAxes()));
   connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
   connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
+
+  scopeInterface = new Scope(scsynth_port);
+  scopeInterface->pause();
+  settingsWidget->updateScopeNames(scopeInterface->getScopeNames());
 
   prefsCentral = new QWidget;
   prefsCentral->setObjectName("prefsCentral");
@@ -970,8 +975,6 @@ void MainWindow::setupWindowStructure() {
   scopeWidget->setFocusPolicy(Qt::NoFocus);
   scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
   scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-  scopeInterface = new Scope(scsynth_port);
-  scopeInterface->pause();
   scopeWidget->setWidget(scopeInterface);
   scopeWidget->setObjectName("Scope");
   addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
@@ -2097,6 +2100,10 @@ void MainWindow::toggleScope( QWidget* qw )
   settings.setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );
   scopeInterface->enableScope( cb->text(), cb->isChecked() );
 
+}
+
+void MainWindow::toggleScope(QString name) {
+    scopeInterface->enableScope( name, settingsWidget->getSettings().isScopeActive(name));
 }
 
 void MainWindow::toggleLeftScope()

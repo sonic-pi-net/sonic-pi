@@ -14,6 +14,7 @@
 #include <QTabWidget>
 #include <QString>
 #include <QGroupBox>
+#include <QVBoxLayout>
 
 class SettingsWidget : public QWidget
 {
@@ -27,6 +28,7 @@ public:
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
     void updateMidiInPorts( QString in );
     void updateMidiOutPorts( QString out );
+    void updateScopeNames(std::vector<QString>);
 
 private slots:
     void update_mixer_invert_stereo();
@@ -45,6 +47,7 @@ private slots:
     void updateColourTheme();
     void toggleScope();
     void toggleScopeAxes();
+    void toggleScope( QWidget* qw );
     void openSonicPiNet();
     void toggleCheckUpdates();
     void checkForUpdatesNow();
@@ -67,6 +70,7 @@ signals:
     void themeChanged();
     void scopeChanged();
     void scopeAxesChanged();
+    void scopeChanged(QString name);
     void checkUpdatesChanged();
     void forceCheckUpdates();
 
@@ -110,6 +114,7 @@ private:
     QSignalMapper *scopeSignalMap;
     QCheckBox *show_scope_axes;
     QCheckBox *show_scopes;
+    QVBoxLayout *scope_box_kinds_layout;
 
     QPushButton *check_updates_now;
     QPushButton *visit_sonic_pi_net;
