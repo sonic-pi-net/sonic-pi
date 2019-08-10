@@ -52,7 +52,7 @@ private slots:
     void toggleCheckUpdates();
     void checkForUpdatesNow();
     void updateSettings();
-
+    void settingsChanged();
 
 signals:
     void mixerSettingsChanged();

@@ -773,7 +773,9 @@ void MainWindow::setupWindowStructure() {
   connect(settingsWidget, SIGNAL(scopeAxesChanged()), this, SLOT(toggleScopeAxes()));
   connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
   connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
-
+ 
+  connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));  
+ 
   scopeInterface = new Scope(scsynth_port);
   scopeInterface->pause();
   settingsWidget->updateScopeNames(scopeInterface->getScopeNames());
@@ -3025,31 +3027,33 @@ void MainWindow::readSettings() {
 
   // Read in preferences from previous session
   // TODO Update to new Settings module
-  //osc_public_check->setChecked(                              settings.value("prefs/osc-public", false).toBool());
-  //osc_server_enabled_check->setChecked(                      settings.value("prefs/osc-enabled", true).toBool());
-  //midi_enable_check->setChecked(                             settings.value("prefs/midi-enable", true).toBool());
-  //midi_default_channel_combo->setCurrentIndex(               settings.value("prefs/default-midi-channel", 0).toInt());
-  //check_args->setChecked(                                    settings.value("prefs/check-args", true).toBool());
-  //print_output->setChecked(                                  settings.value("prefs/print-output", true).toBool());
-  //clear_output_on_run->setChecked(                           settings.value("prefs/clear-output-on-run", true).toBool());
-  //log_cues->setChecked(                                      settings.value("prefs/log-cues", false).toBool());
-  //log_auto_scroll->setChecked(                               settings.value("prefs/log-auto-scroll", true).toBool());
-  //show_line_numbers->setChecked(                             settings.value("prefs/show-line-numbers", true).toBool());
-  //enable_external_synths_cb->setChecked(                     settings.value("prefs/enable-external-synths", false).toBool());
-  //synth_trigger_timing_guarantees_cb->setChecked(            settings.value("prefs/synth-trigger-timing-guarantees", false).toBool());
-  //mixer_force_mono->setChecked(                              settings.value("prefs/mixer-force-mono", false).toBool());
-  //mixer_invert_stereo->setChecked(                           settings.value("prefs/mixer-invert-stereo", false).toBool());
+  settingsWidget->getSettings().osc_public = settings.value("prefs/osc-public", false).toBool();
+  settingsWidget->getSettings().osc_server_enabled = settings.value("prefs/osc-enabled", true).toBool();
+  settingsWidget->getSettings().midi_enabled =  settings.value("prefs/midi-enable", true).toBool();
+  settingsWidget->getSettings().midi_default_channel =  settings.value("prefs/default-midi-channel", 0).toInt();
+  settingsWidget->getSettings().check_args =  settings.value("prefs/check-args", true).toBool();
+  settingsWidget->getSettings().print_output =  settings.value("prefs/print-output", true).toBool();
+  settingsWidget->getSettings().clear_output_on_run = settings.value("prefs/clear-output-on-run", true).toBool();
+  settingsWidget->getSettings().log_cues = settings.value("prefs/log-cues", false).toBool();
+  settingsWidget->getSettings().log_auto_scroll = settings.value("prefs/log-auto-scroll", true).toBool();
+  settingsWidget->getSettings().show_line_numbers =  settings.value("prefs/show-line-numbers", true).toBool();
+  settingsWidget->getSettings().enable_external_synths = settings.value("prefs/enable-external-synths", false).toBool();
+  settingsWidget->getSettings().synth_trigger_timing_guarantees = settings.value("prefs/synth-trigger-timing-guarantees", false).toBool();
+  settingsWidget->getSettings().mixer_force_mono = settings.value("prefs/mixer-force-mono", false).toBool();
+  settingsWidget->getSettings().mixer_invert_stereo =  settings.value("prefs/mixer-invert-stereo", false).toBool();
 
-  //check_updates->setChecked(                                 settings.value("prefs/rp/check-updates", true).toBool());
+  settingsWidget->getSettings().check_updates = settings.value("prefs/rp/check-updates", true).toBool();
 
-  //auto_indent_on_run->setChecked(                            settings.value("prefs/auto-indent-on-run", true).toBool());
+  settingsWidget->getSettings().auto_indent_on_run = settings.value("prefs/auto-indent-on-run", true).toBool();
 
-  //gui_transparency_slider->setValue(                         settings.value("prefs/gui_transparency", 0).toInt());
+  settingsWidget->getSettings().gui_transparency = settings.value("prefs/gui_transparency", 0).toInt();
 
-  //show_scopes->setChecked(                                   settings.value("prefs/scope/show-scopes", true).toBool());
+  settingsWidget->getSettings().show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
 
-  //show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", false).toBool() ) );
-  //show_incoming_osc_log->setChecked(                         settings.value("prefs/show_incoming_osc_log", true).toBool());
+  settingsWidget->getSettings().show_scope_axes = settings.value("prefs/scope/show-axes", false).toBool();
+  settingsWidget->getSettings().show_incoming_osc_log = settings.value("prefs/show_incoming_osc_log", true).toBool();
+
+  emit settingsChanged();
 }
 
 void MainWindow::writeSettings()
@@ -3059,31 +3063,31 @@ void MainWindow::writeSettings()
   settings.setValue("pos", pos());
   settings.setValue("size", size());
   settings.setValue("first_time", 0);
-//TODO update to new settings system
-//  settings.setValue("prefs/midi-default-channel", midi_default_channel_combo->currentIndex());
-//  settings.setValue("prefs/midi-enable", midi_enable_check->isChecked());
-//  settings.setValue("prefs/osc-public", osc_public_check->isChecked());
-//  settings.setValue("prefs/osc-enabled", osc_server_enabled_check->isChecked());
-//
-//  settings.setValue("prefs/check-args", settingsWidget->getSettings().check_args());
-//  settings.setValue("prefs/print-output", settingsWidget->getSettings().print_output);
-//  settings.setValue("prefs/clear-output-on-run", settingsWidget->getSettings().clear_output_on_run());
-//  settings.setValue("prefs/log-cues", settingsWidget->getSettings().log_cues);
-//  settings.setValue("prefs/log-auto-scroll", log_auto_scroll->isChecked());
-//  settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
-//  settings.setValue("prefs/enable-external-synths", settingsWidget->getSettings().enable_external_synths());
-//  settings.setValue("prefs/synth-trigger-timing-guarantees", settingsWidget->getSettings().synth_trigger_timing_guarantees);
-//  settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
-//  settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
-//  settings.setValue("prefs/system-vol", system_vol_slider->value());
-//  settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
-//  settings.setValue("prefs/auto-indent-on-run", auto_indent_on_run->isChecked());
-//  settings.setValue("prefs/gui_transparency", gui_transparency_slider->value());
-//  settings.setValue("workspace", tabs->currentIndex());
-//  settings.setValue("prefs/scope/show-axes", settingsWidget->getSettings().show_scope_axes );
-//  settings.setValue("prefs/scope/show-scopes", settingsWidget->getSettings().show_scopes );
-//  settings.setValue("prefs/show_incoming_osc_log", show_incoming_osc_log->isChecked() );
 
+  settings.setValue("prefs/midi-default-channel", settingsWidget->getSettings().midi_default_channel);
+  settings.setValue("prefs/midi-enable", settingsWidget->getSettings().midi_enabled);
+  settings.setValue("prefs/osc-public",  settingsWidget->getSettings().osc_public);
+  settings.setValue("prefs/osc-enabled", settingsWidget->getSettings().osc_server_enabled);
+
+  settings.setValue("prefs/check-args", settingsWidget->getSettings().check_args);
+  settings.setValue("prefs/print-output", settingsWidget->getSettings().print_output);
+  settings.setValue("prefs/clear-output-on-run", settingsWidget->getSettings().clear_output_on_run);
+  settings.setValue("prefs/log-cues", settingsWidget->getSettings().log_cues);
+  settings.setValue("prefs/log-auto-scroll", settingsWidget->getSettings().log_auto_scroll);
+  settings.setValue("prefs/show-line-numbers", settingsWidget->getSettings().show_line_numbers);
+  settings.setValue("prefs/enable-external-synths", settingsWidget->getSettings().enable_external_synths);
+  settings.setValue("prefs/synth-trigger-timing-guarantees", settingsWidget->getSettings().synth_trigger_timing_guarantees);
+  settings.setValue("prefs/mixer-force-mono", settingsWidget->getSettings().mixer_force_mono);
+  settings.setValue("prefs/mixer-invert-stereo", settingsWidget->getSettings().mixer_invert_stereo);
+  settings.setValue("prefs/system-vol", settingsWidget->getSettings().main_volume);
+  settings.setValue("prefs/rp/check-updates", settingsWidget->getSettings().check_updates);
+  settings.setValue("prefs/auto-indent-on-run", settingsWidget->getSettings().auto_indent_on_run);
+  settings.setValue("prefs/gui_transparency", settingsWidget->getSettings().gui_transparency);
+  settings.setValue("prefs/scope/show-axes", settingsWidget->getSettings().show_scope_axes );
+  settings.setValue("prefs/scope/show-scopes", settingsWidget->getSettings().show_scopes );
+  settings.setValue("prefs/show_incoming_osc_log", settingsWidget->getSettings().show_incoming_osc_log);
+
+  settings.setValue("workspace", tabs->currentIndex());
 
   for (int w=0; w < workspace_max; w++) {
     settings.setValue(QString("workspace%1zoom").arg(w),
@@ -3093,7 +3097,6 @@ void MainWindow::writeSettings()
   settings.setValue("docsplitState", docsplit->saveState());
   settings.setValue("windowState", saveState());
   settings.setValue("windowGeom", saveGeometry());
-
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)

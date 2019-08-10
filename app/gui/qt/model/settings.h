@@ -35,7 +35,7 @@ public:
     bool clear_output_on_run;
     bool log_cues;
     bool log_auto_scroll;
-
+    int gui_transparency;
     Theme theme;
 
     // UpdateSettings;

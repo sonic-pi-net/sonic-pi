@@ -667,3 +667,42 @@ void SettingsWidget::updateSettings() {
 
     settings.check_updates = check_updates->isChecked();
 }
+
+void SettingsWidget::settingsChanged() {
+    std::cout << "Settings Changed" << std::endl;
+    mixer_invert_stereo->setChecked(settings.mixer_invert_stereo);
+    mixer_force_mono->setChecked(settings.mixer_force_mono);
+    check_args->setChecked(settings.check_args);
+    synth_trigger_timing_guarantees_cb->setChecked( settings.synth_trigger_timing_guarantees);
+    enable_external_synths_cb->setChecked(settings.enable_external_synths);
+    system_vol_slider->setValue(settings.main_volume);
+
+    osc_server_enabled_check->setChecked(settings.osc_server_enabled);
+    osc_public_check->setChecked(settings.osc_public);
+    midi_default_channel_combo->setCurrentIndex(settings.midi_default_channel);
+    settings.midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
+    midi_enable_check->setChecked(settings.midi_enabled);
+
+    auto_indent_on_run->setChecked(settings.auto_indent_on_run);
+    show_line_numbers->setChecked(settings.show_line_numbers);
+    show_log->setChecked(settings.show_log);
+    show_incoming_osc_log->setChecked(settings.show_incoming_osc_log);
+    show_buttons->setChecked(settings.show_buttons);
+    show_tabs->setChecked(settings.show_tabs);
+    full_screen->setChecked(settings.full_screen);
+    print_output->setChecked(settings.print_output);
+    clear_output_on_run->setChecked(settings.clear_output_on_run);
+    log_cues->setChecked(settings.log_cues);
+    log_auto_scroll->setChecked(settings.log_auto_scroll);
+    
+    lightModeCheck->setChecked( settings.theme == SonicPiSettings::LightMode );        
+    darkModeCheck->setChecked( settings.theme == SonicPiSettings::DarkMode );         
+    lightProModeCheck->setChecked( settings.theme == SonicPiSettings::LightProMode );     
+    darkProModeCheck->setChecked( settings.theme == SonicPiSettings::DarkProMode );      
+    highContrastModeCheck->setChecked( settings.theme == SonicPiSettings::HighContrastMode ); 
+
+    show_scopes->setChecked(settings.show_scopes);
+    show_scope_axes->setChecked(settings.show_scope_axes);
+
+    check_updates->setChecked(settings.check_updates);
+}
