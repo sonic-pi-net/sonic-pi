@@ -526,6 +526,7 @@ void MainWindow::setupWindowStructure() {
 
     scopeInterface = new Scope(scsynth_port);
     scopeInterface->pause();
+    restoreScopeState(scopeInterface->getScopeNames());
     settingsWidget->updateScopeNames(scopeInterface->getScopeNames());
 
     prefsCentral = new QWidget;
@@ -791,8 +792,7 @@ void MainWindow::setupWindowStructure() {
 
     //Currently causes a segfault when dragging doc pane out of main
     //window:
-//    connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
-
+    connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
 
     mainWidgetLayout = new QVBoxLayout;
     mainWidgetLayout->addWidget(tabs);
@@ -1638,22 +1638,24 @@ void MainWindow::stopCode()
 
 void MainWindow::scopeVisibilityChanged() {
     piSettings->show_scopes = scopeWidget->isVisible();
+    scopeAct->setIcon( theme->getScopeIcon(piSettings->show_scopes));
     emit settingsChanged();
-    scope();
 }
 
-void MainWindow::toggleScope()
-{
+void MainWindow::toggleScope() {
     piSettings->show_scopes = !piSettings->show_scopes;
     emit settingsChanged();
     scope();
 }
 
 void MainWindow::scope() {
-    std::cout << "[GUI] Scope " << (piSettings->show_scopes ? "Active" : "Inactive") <<std::endl;
     scopeAct->setIcon( theme->getScopeIcon(piSettings->show_scopes));
     if(piSettings->show_scopes) {
+        for( auto name : scopeInterface->getScopeNames()) {
+            scopeInterface->enableScope( name, piSettings->isScopeActive(name));
+        }
         scopeWidget->show();
+
     } else {
         scopeWidget->hide();
     }
@@ -1800,7 +1802,7 @@ void MainWindow::toggleIcons() {
     recAct->setIcon(theme->getRecIcon(false, false));
     prefsAct->setIcon(theme->getPrefsIcon(prefsWidget->isVisible()));
     infoAct->setIcon(theme->getInfoIcon(infoWidg->isVisible()));
-    scopeAct->setIcon(theme->getScopeIcon(piSettings->show_scopes));
+    scopeAct->setIcon(theme->getScopeIcon(scopeWidget->isVisible()));
 
     if (piSettings->theme == SonicPiTheme::DarkProMode ||
         piSettings->theme == SonicPiTheme::LightProMode) {
@@ -2305,14 +2307,13 @@ void MainWindow::restoreWindows() {
    restoreState(settings.value("windowState").toByteArray());
 //    restoreGeometry(settings.value("windowGeom").toByteArray());
 
-    if (visualizer != piSettings->show_scopes) {
-        piSettings->show_scopes = visualizer;
-        scope();
-    }
+//    if (visualizer != piSettings->show_scopes) {
+//        piSettings->show_scopes = visualizer;
+//        scope();
+//    }
 
     resize(size);
     move(pos);
-
 }
 
 /**
@@ -2352,6 +2353,16 @@ void MainWindow::readSettings() {
     piSettings->show_incoming_osc_log = settings.value("prefs/show_incoming_osc_log", true).toBool();
 
     emit settingsChanged();
+}
+
+void MainWindow::restoreScopeState(std::vector<QString> names) {
+    std::cout << "[GUI] - restoring scope states " << std::endl;
+    QSettings settings("sonic-pi.net", "gui-settings");
+
+    for ( auto name : names ) {
+        bool def = (name.toLower() == "mono"); 
+        piSettings->setScopeState(name, settings.value("prefs/scope/show-"+name.toLower(), def).toBool());
+    }
 }
 
 void MainWindow::writeSettings()

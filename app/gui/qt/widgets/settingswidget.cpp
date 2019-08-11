@@ -478,17 +478,14 @@ void SettingsWidget::toggleScope( QWidget* qw ) {
 
 
 void SettingsWidget::update_mixer_invert_stereo() {
-    std::cout << "INVERT STEREO" << std::endl;
     emit mixerSettingsChanged();
 }
 
 void SettingsWidget::update_mixer_force_mono() {
-    std::cout << "FORCE MONO" << std::endl;
     emit mixerSettingsChanged();
 }
 
 void SettingsWidget::toggleOscServer() {
-    std::cout << "TOGGLE OSC" << std::endl;
     emit oscSettingsChanged();
 }
 
@@ -610,7 +607,6 @@ void SettingsWidget::updateSettings() {
 }
 
 void SettingsWidget::settingsChanged() {
-    std::cout << "Settings Changed" << std::endl;
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);
     check_args->setChecked(piSettings->check_args);
@@ -625,7 +621,6 @@ void SettingsWidget::settingsChanged() {
     midi_enable_check->setChecked(piSettings->midi_enabled);
 
     auto_indent_on_run->setChecked(piSettings->auto_indent_on_run);
-    std::cout << "Line numbers " << (piSettings->show_line_numbers ? "T" : "F" ) << std::endl;
 
     show_line_numbers->setChecked(piSettings->show_line_numbers);
     show_log->setChecked(piSettings->show_log);

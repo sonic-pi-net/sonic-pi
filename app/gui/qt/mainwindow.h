@@ -21,6 +21,7 @@
 #include "osc/oscpkt.hh"
 #include <fstream>
 #include <QIcon>
+#include <vector>
 
 class QAction;
 class QMenu;
@@ -222,6 +223,7 @@ signals:
         void createScopePane();
         void readSettings();
         void restoreWindows();
+        void restoreScopeState(std::vector<QString> names);
         void writeSettings();
         void loadFile(const QString &fileName, SonicPiScintilla* &text);
         bool saveFile(const QString &fileName, SonicPiScintilla* text);
