@@ -55,6 +55,7 @@ class SonicPiScintilla;
 class SonicPiOSCServer;
 class SonicPiTheme;
 class SonicPiLexer;
+class SonicPiSettings;
 
 struct help_page {
     QString title;
@@ -220,6 +221,7 @@ signals:
         void createInfoPane();
         void createScopePane();
         void readSettings();
+        void restoreWindows();
         void writeSettings();
         void loadFile(const QString &fileName, SonicPiScintilla* &text);
         bool saveFile(const QString &fileName, SonicPiScintilla* text);
@@ -251,6 +253,8 @@ signals:
         void addUniversalCopyShortcuts(QTextEdit *te);
 
         QMenu *fileMenu, *editMenu, *windowMenu;
+
+        SonicPiSettings *piSettings;
 
         QTcpSocket *clientSock;
         QFuture<void> osc_thread, server_thread;

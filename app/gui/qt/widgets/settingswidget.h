@@ -23,10 +23,9 @@ class SettingsWidget : public QWidget
     Q_OBJECT
 
 public:
-    SettingsWidget( int server_osc_cues_port, QWidget *parent = 0);
+    SettingsWidget( int server_osc_cues_port, SonicPiSettings *piSettings, QWidget *parent = 0);
     ~SettingsWidget();
 
-    SonicPiSettings& getSettings() { return settings; }
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
     void updateMidiInPorts( QString in );
     void updateMidiOutPorts( QString out );
@@ -77,7 +76,7 @@ signals:
     void forceCheckUpdates();
 
 private:
-    SonicPiSettings settings;
+    SonicPiSettings* piSettings;
     int server_osc_cues_port;
 
     QTabWidget *prefTabs;
@@ -138,6 +137,8 @@ private:
     QGroupBox* createUpdatePrefsTab();
 
     QString tooltipStrShiftMeta(char key, QString str);
+
+    void connectAll();
 };
 
 #endif

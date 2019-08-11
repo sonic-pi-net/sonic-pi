@@ -62,7 +62,7 @@
 
 #include "widgets/sonicpilog.h"
 #include "widgets/infowidget.h"
-
+#include "model/settings.h"
 #include "widgets/settingswidget.h"
 
 #include "utils/ruby_help.h"
@@ -100,6 +100,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
     printAsciiArtLogo();
+
+    this->piSettings = new SonicPiSettings();
 
     this->splash = splash;
     this->i18n = i18n;
@@ -152,6 +154,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     // the ports aren't available
     initAndCheckPorts();
 
+    readSettings();
     oscSender = new OscSender(gui_send_to_server_port);
 
     QProcess *initProcess = new QProcess();
@@ -169,7 +172,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     createShortcuts();
     createToolBar();
-    readSettings();
     updateTabsVisibility();
     updateButtonVisibility();
     updateLogVisibility();
@@ -199,6 +201,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     // user_token->setText(settings.value("userToken", "").toString());
     std::cout << "[GUI] - honour prefs" << std::endl;
+    restoreWindows();
     honourPrefs();
     std::cout << "[GUI] - update prefs icon" << std::endl;
     updatePrefsIcon();
@@ -221,7 +224,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
         loadWorkspaces();
         std::cout << "[GUI] - load request Version" << std::endl;
         requestVersion();
-        changeSystemPreAmp(settingsWidget->getSettings().main_volume, 1);
+        changeSystemPreAmp(piSettings->main_volume, 1);
 
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
@@ -499,7 +502,7 @@ void MainWindow::setupWindowStructure() {
     prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
-    settingsWidget = new SettingsWidget(server_osc_cues_port, this);
+    settingsWidget = new SettingsWidget(server_osc_cues_port, piSettings, this);
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
@@ -535,7 +538,7 @@ void MainWindow::setupWindowStructure() {
     prefsWidget->setObjectName("prefs");
 
     connect(prefsWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updatePrefsIcon()));
-    bool auto_indent = settingsWidget->getSettings().auto_indent_on_run;
+    bool auto_indent = piSettings->auto_indent_on_run;
     for(int ws = 0; ws < workspace_max; ws++) {
         std::string s;
         QString fileName = QString("workspace_" ) + QString::fromStdString(number_name(ws));
@@ -788,7 +791,7 @@ void MainWindow::setupWindowStructure() {
 
     //Currently causes a segfault when dragging doc pane out of main
     //window:
-    connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
+//    connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
 
 
     mainWidgetLayout = new QVBoxLayout;
@@ -818,13 +821,13 @@ void MainWindow::changeTab(int id){
 }
 
 void MainWindow::toggleFullScreenMode() {
-    settingsWidget->getSettings().full_screen = !settingsWidget->getSettings().full_screen;
+    piSettings->full_screen = !piSettings->full_screen;
     emit settingsChanged();
     updateFullScreenMode();
 }
 
 void MainWindow::updateFullScreenMode(){
-    if (settingsWidget->getSettings().full_screen) {
+    if (piSettings->full_screen) {
         outputWidget->setTitleBarWidget(blankWidget);
 #ifdef Q_OS_WIN
         this->setWindowFlags(Qt::FramelessWindowHint);
@@ -859,17 +862,17 @@ void MainWindow::toggleFocusMode() {
 
 void MainWindow::updateFocusMode(){
     if (focusMode) {
-        settingsWidget->getSettings().full_screen = true;
-        settingsWidget->getSettings().show_tabs = false;
-        settingsWidget->getSettings().show_buttons = false;
-        settingsWidget->getSettings().show_log = false;
-        settingsWidget->getSettings().show_incoming_osc_log = false;
+        piSettings->full_screen = true;
+        piSettings->show_tabs = false;
+        piSettings->show_buttons = false;
+        piSettings->show_log = false;
+        piSettings->show_incoming_osc_log = false;
     }
     else {
-        settingsWidget->getSettings().full_screen = false;
-        settingsWidget->getSettings().show_tabs = true;
-        settingsWidget->getSettings().show_buttons = true;
-        settingsWidget->getSettings().show_incoming_osc_log = true;
+        piSettings->full_screen = false;
+        piSettings->show_tabs = true;
+        piSettings->show_buttons = true;
+        piSettings->show_incoming_osc_log = true;
     }
     emit settingsChanged();
     updateFullScreenMode();
@@ -893,13 +896,13 @@ void MainWindow::allJobsCompleted() {
 }
 
 void MainWindow::toggleLogVisibility() {
-    settingsWidget->getSettings().show_log = !settingsWidget->getSettings().show_log;
+    piSettings->show_log = !piSettings->show_log;
     emit settingsChanged();
     updateLogVisibility();
 }
 
 void MainWindow::updateLogVisibility(){
-    if(settingsWidget->getSettings().show_log) {
+    if(piSettings->show_log) {
         outputWidget->show();
     } else{
         outputWidget->close();
@@ -907,7 +910,7 @@ void MainWindow::updateLogVisibility(){
 }
 
 void MainWindow::updateIncomingOscLogVisibility(){
-    if(settingsWidget->getSettings().show_incoming_osc_log) {
+    if(piSettings->show_incoming_osc_log) {
         incomingWidget->show();
     } else{
         incomingWidget->close();
@@ -915,7 +918,7 @@ void MainWindow::updateIncomingOscLogVisibility(){
 }
 
 void MainWindow::toggleTabsVisibility() {
-    settingsWidget->getSettings().show_tabs = !settingsWidget->getSettings().show_tabs;
+    piSettings->show_tabs = !piSettings->show_tabs;
     emit settingsChanged();
     updateTabsVisibility();
 }
@@ -923,7 +926,7 @@ void MainWindow::toggleTabsVisibility() {
 void MainWindow::updateTabsVisibility(){
     QTabBar *tabBar = tabs->findChild<QTabBar *>();
 
-    if(settingsWidget->getSettings().show_tabs) {
+    if(piSettings->show_tabs) {
         tabBar->show();
     }
     else{
@@ -932,13 +935,13 @@ void MainWindow::updateTabsVisibility(){
 }
 
 void MainWindow::toggleButtonVisibility() {
-    settingsWidget->getSettings().show_buttons = !settingsWidget->getSettings().show_buttons;
+    piSettings->show_buttons = !piSettings->show_buttons;
     emit settingsChanged();
     updateButtonVisibility();
 }
 
 void MainWindow::updateButtonVisibility(){
-    if (settingsWidget->getSettings().show_buttons) {
+    if (piSettings->show_buttons) {
         toolBar->show();
     }
     else {
@@ -1160,13 +1163,13 @@ void MainWindow::showWindow() {
 
 void MainWindow::mixerSettingsChanged() {
     std::cout << "Mixer Settings Changed!" << std::endl;
-    if (settingsWidget->getSettings().mixer_invert_stereo) {
+    if (piSettings->mixer_invert_stereo) {
         mixerInvertStereo();
     } else {
         mixerStandardStereo();
     }
 
-    if (settingsWidget->getSettings().mixer_force_mono) {
+    if (piSettings->mixer_force_mono) {
         mixerMonoMode();
     } else {
         mixerStereoMode();
@@ -1174,7 +1177,7 @@ void MainWindow::mixerSettingsChanged() {
 }
 
 void MainWindow::update_check_updates() {
-    if (settingsWidget->getSettings().check_updates) {
+    if (piSettings->check_updates) {
         enableCheckUpdates();
     } else {
         disableCheckUpdates();
@@ -1194,11 +1197,6 @@ bool isScopeEnabled( const QSettings& settings, const QString& name )
 }
 
 void MainWindow::honourPrefs() {
-    QSettings settings("sonic-pi.net", "gui-settings");
-    int stored_vol = settings.value("prefs/system-vol", 50).toInt();
-    //update_mixer_invert_stereo();
-    //update_mixer_force_mono();
-    changeSystemPreAmp(stored_vol, 1);
     update_check_updates();
     updateLogAutoScroll();
     toggleScopeAxes();
@@ -1401,7 +1399,7 @@ void MainWindow::runBufferIdx(int idx)
 
 void MainWindow::showError(QString msg) {
     QString style_sheet = "qrc:///html/styles.css";
-    if(settingsWidget->getSettings().theme == SonicPiTheme::DarkMode || settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode) {
+    if(piSettings->theme == SonicPiTheme::DarkMode || piSettings->theme == SonicPiTheme::DarkProMode) {
         style_sheet = "qrc:///html/dark_styles.css";
     }
     errorPane->clear();
@@ -1434,29 +1432,29 @@ void MainWindow::runCode()
 
     QString code = ws->text();
 
-    if(!settingsWidget->getSettings().print_output) {
+    if(!piSettings->print_output) {
         code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
     }
 
-    if(!settingsWidget->getSettings().log_cues) {
+    if(!piSettings->log_cues) {
         code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
     }
 
-    if(settingsWidget->getSettings().check_args) {
+    if(piSettings->check_args) {
         code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
     }
 
-    if(settingsWidget->getSettings().enable_external_synths) {
+    if(piSettings->enable_external_synths) {
         code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
     }
 
-    if(settingsWidget->getSettings().synth_trigger_timing_guarantees) {
+    if(piSettings->synth_trigger_timing_guarantees) {
         code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
     }
 
-    code = "use_midi_defaults channel: \"" + settingsWidget->getSettings().midi_default_channel_str+ "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
+    code = "use_midi_defaults channel: \"" + piSettings->midi_default_channel_str+ "\" #__nosave__ set by Qt GUI user preferences.\n" + code ;
 
-    if(settingsWidget->getSettings().auto_indent_on_run) {
+    if(piSettings->auto_indent_on_run) {
         beautifyCode();
     }
 
@@ -1474,7 +1472,7 @@ void MainWindow::runCode()
     std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
     msg.pushStr(filename);
 
-    if(settingsWidget->getSettings().clear_output_on_run){
+    if(piSettings->clear_output_on_run){
         outputPane->clear();
     }
 
@@ -1639,21 +1637,22 @@ void MainWindow::stopCode()
 }
 
 void MainWindow::scopeVisibilityChanged() {
-    settingsWidget->getSettings().show_scopes = scopeWidget->isVisible();
+    piSettings->show_scopes = scopeWidget->isVisible();
     emit settingsChanged();
     scope();
 }
 
 void MainWindow::toggleScope()
 {
-    settingsWidget->getSettings().show_scopes = !settingsWidget->getSettings().show_scopes;
+    piSettings->show_scopes = !piSettings->show_scopes;
     emit settingsChanged();
     scope();
 }
 
 void MainWindow::scope() {
-    scopeAct->setIcon( theme->getScopeIcon(settingsWidget->getSettings().show_scopes));
-    if(settingsWidget->getSettings().show_scopes) {
+    std::cout << "[GUI] Scope " << (piSettings->show_scopes ? "Active" : "Inactive") <<std::endl;
+    scopeAct->setIcon( theme->getScopeIcon(piSettings->show_scopes));
+    if(piSettings->show_scopes) {
         scopeWidget->show();
     } else {
         scopeWidget->hide();
@@ -1738,6 +1737,7 @@ void MainWindow::changeGUITransparency(int val)
 
 void MainWindow::changeSystemPreAmp(int val, int silent)
 {
+    std::cout << "[GUI] Change Volume to " << val << std::endl;
     float v = (float) val;
     v = (v / 100.0) * 2.0;
     Message msg("/mixer-amp");
@@ -1749,7 +1749,7 @@ void MainWindow::changeSystemPreAmp(int val, int silent)
 }
 
 void MainWindow::toggleScope(QString name) {
-    scopeInterface->enableScope( name, settingsWidget->getSettings().isScopeActive(name));
+    scopeInterface->enableScope( name, piSettings->isScopeActive(name));
 }
 
 void MainWindow::toggleLeftScope()
@@ -1764,7 +1764,7 @@ void MainWindow::toggleRightScope()
 
 void MainWindow::toggleScopeAxes()
 {
-    scopeInterface->setScopeAxes(settingsWidget->getSettings().show_scope_axes);
+    scopeInterface->setScopeAxes(piSettings->show_scope_axes);
 }
 
 void MainWindow::toggleDarkMode() {
@@ -1779,7 +1779,7 @@ void MainWindow::toggleDarkMode() {
 }
 
 void MainWindow::updateLogAutoScroll() {
-    bool val = settingsWidget->getSettings().log_auto_scroll;
+    bool val = piSettings->log_auto_scroll;
     outputPane->forceScrollDown(val);
     if(val) {
         statusBar()->showMessage(tr("Log Auto Scroll on..."), 2000);
@@ -1800,10 +1800,10 @@ void MainWindow::toggleIcons() {
     recAct->setIcon(theme->getRecIcon(false, false));
     prefsAct->setIcon(theme->getPrefsIcon(prefsWidget->isVisible()));
     infoAct->setIcon(theme->getInfoIcon(infoWidg->isVisible()));
-    scopeAct->setIcon(theme->getScopeIcon(settingsWidget->getSettings().show_scopes));
+    scopeAct->setIcon(theme->getScopeIcon(piSettings->show_scopes));
 
-    if (settingsWidget->getSettings().theme == SonicPiTheme::DarkProMode ||
-        settingsWidget->getSettings().theme == SonicPiTheme::LightProMode) {
+    if (piSettings->theme == SonicPiTheme::DarkProMode ||
+        piSettings->theme == SonicPiTheme::LightProMode) {
         toolBar->setIconSize(QSize(30, 30));
     } else {
         toolBar->setIconSize(QSize(84.6, 30.0));
@@ -1811,7 +1811,7 @@ void MainWindow::toggleIcons() {
 }
 
 void MainWindow::updateColourTheme(){
-    theme->switchTheme( settingsWidget->getSettings().theme );
+    theme->switchTheme( piSettings->theme );
     statusBar()->showMessage(tr("Colour Theme: ")+theme->getName(), 2000);
 
     QString css = theme->getCss();
@@ -1862,7 +1862,7 @@ void MainWindow::updateColourTheme(){
         ws->setFrameShape(QFrame::NoFrame);
         ws->setStyleSheet(appStyling);
 
-        if (settingsWidget->getSettings().theme == SonicPiTheme::HighContrastMode) {
+        if (piSettings->theme == SonicPiTheme::HighContrastMode) {
             ws->setCaretWidth(8);
         } else {
             ws->setCaretWidth(5);
@@ -1875,7 +1875,7 @@ void MainWindow::updateColourTheme(){
 }
 
 void MainWindow::changeShowLineNumbers(){
-    bool show = settingsWidget->getSettings().show_line_numbers;
+    bool show = piSettings->show_line_numbers;
     for(int i=0; i < tabs->count(); i++){
         SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
         if (show) {
@@ -2275,15 +2275,15 @@ void MainWindow::createStatusBar()
     statusBar()->addPermanentWidget(versionLabel);
 }
 
-void MainWindow::readSettings() {
-    std::cout << "[GUI] - reading settings" << std::endl;
-
-    // Pref settings are read in MainWindow::initPrefsWindow()
+/**
+ * restores the last size and position of the mainwindow
+ * restores the zoomlevels of the editor tabs
+ */
+void MainWindow::restoreWindows() {
     QSettings settings("sonic-pi.net", "gui-settings");
+
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
-    resize(size);
-    move(pos);
 
     int index = settings.value("workspace", 0).toInt();
     if (index < tabs->count())
@@ -2301,38 +2301,55 @@ void MainWindow::readSettings() {
     }
 
     docsplit->restoreState(settings.value("docsplitState").toByteArray());
+    bool visualizer = piSettings->show_scopes;
+   restoreState(settings.value("windowState").toByteArray());
+//    restoreGeometry(settings.value("windowGeom").toByteArray());
 
-    restoreState(settings.value("windowState").toByteArray());
-    restoreGeometry(settings.value("windowGeom").toByteArray());
+    if (visualizer != piSettings->show_scopes) {
+        piSettings->show_scopes = visualizer;
+        scope();
+    }
+
+    resize(size);
+    move(pos);
+
+}
+
+/**
+ * read the preferences
+ *
+ */
+void MainWindow::readSettings() {
+    std::cout << "[GUI] - reading settings" << std::endl;
+    QSettings settings("sonic-pi.net", "gui-settings");
+
+    piSettings->show_buttons = true;
+    piSettings->show_tabs = true;
+    piSettings->show_log = true;
 
     // Read in preferences from previous session
-    // TODO Update to new Settings module
-    settingsWidget->getSettings().osc_public = settings.value("prefs/osc-public", false).toBool();
-    settingsWidget->getSettings().osc_server_enabled = settings.value("prefs/osc-enabled", true).toBool();
-    settingsWidget->getSettings().midi_enabled =  settings.value("prefs/midi-enable", true).toBool();
-    settingsWidget->getSettings().midi_default_channel =  settings.value("prefs/default-midi-channel", 0).toInt();
-    settingsWidget->getSettings().check_args =  settings.value("prefs/check-args", true).toBool();
-    settingsWidget->getSettings().print_output =  settings.value("prefs/print-output", true).toBool();
-    settingsWidget->getSettings().clear_output_on_run = settings.value("prefs/clear-output-on-run", true).toBool();
-    settingsWidget->getSettings().log_cues = settings.value("prefs/log-cues", false).toBool();
-    settingsWidget->getSettings().log_auto_scroll = settings.value("prefs/log-auto-scroll", true).toBool();
-    settingsWidget->getSettings().show_line_numbers =  settings.value("prefs/show-line-numbers", true).toBool();
-    std::cout << "LINE NUMBERS: " << (settingsWidget->getSettings().show_line_numbers ? "T" : "F") << std::endl;
-    settingsWidget->getSettings().enable_external_synths = settings.value("prefs/enable-external-synths", false).toBool();
-    settingsWidget->getSettings().synth_trigger_timing_guarantees = settings.value("prefs/synth-trigger-timing-guarantees", false).toBool();
-    settingsWidget->getSettings().mixer_force_mono = settings.value("prefs/mixer-force-mono", false).toBool();
-    settingsWidget->getSettings().mixer_invert_stereo =  settings.value("prefs/mixer-invert-stereo", false).toBool();
+    piSettings->osc_public = settings.value("prefs/osc-public", false).toBool();
+    piSettings->osc_server_enabled = settings.value("prefs/osc-enabled", true).toBool();
+    piSettings->midi_enabled =  settings.value("prefs/midi-enable", true).toBool();
+    piSettings->midi_default_channel =  settings.value("prefs/default-midi-channel", 0).toInt();
+    piSettings->check_args =  settings.value("prefs/check-args", true).toBool();
+    piSettings->print_output =  settings.value("prefs/print-output", true).toBool();
+    piSettings->clear_output_on_run = settings.value("prefs/clear-output-on-run", true).toBool();
+    piSettings->log_cues = settings.value("prefs/log-cues", false).toBool();
+    piSettings->log_auto_scroll = settings.value("prefs/log-auto-scroll", true).toBool();
+    piSettings->show_line_numbers =  settings.value("prefs/show-line-numbers", true).toBool();
+    piSettings->enable_external_synths = settings.value("prefs/enable-external-synths", false).toBool();
+    piSettings->synth_trigger_timing_guarantees = settings.value("prefs/synth-trigger-timing-guarantees", false).toBool();
 
-    settingsWidget->getSettings().check_updates = settings.value("prefs/rp/check-updates", true).toBool();
-
-    settingsWidget->getSettings().auto_indent_on_run = settings.value("prefs/auto-indent-on-run", true).toBool();
-
-    settingsWidget->getSettings().gui_transparency = settings.value("prefs/gui_transparency", 0).toInt();
-
-    settingsWidget->getSettings().show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
-
-    settingsWidget->getSettings().show_scope_axes = settings.value("prefs/scope/show-axes", false).toBool();
-    settingsWidget->getSettings().show_incoming_osc_log = settings.value("prefs/show_incoming_osc_log", true).toBool();
+    piSettings->main_volume = settings.value("prefs/system-vol", 80).toInt();
+    piSettings->mixer_force_mono = settings.value("prefs/mixer-force-mono", false).toBool();
+    piSettings->mixer_invert_stereo =  settings.value("prefs/mixer-invert-stereo", false).toBool();
+    piSettings->check_updates = settings.value("prefs/rp/check-updates", true).toBool();
+    piSettings->auto_indent_on_run = settings.value("prefs/auto-indent-on-run", true).toBool();
+    piSettings->gui_transparency = settings.value("prefs/gui_transparency", 0).toInt();
+    piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
+    piSettings->show_scope_axes = settings.value("prefs/scope/show-axes", false).toBool();
+    piSettings->show_incoming_osc_log = settings.value("prefs/show_incoming_osc_log", true).toBool();
 
     emit settingsChanged();
 }
@@ -2345,28 +2362,32 @@ void MainWindow::writeSettings()
     settings.setValue("size", size());
     settings.setValue("first_time", 0);
 
-    settings.setValue("prefs/midi-default-channel", settingsWidget->getSettings().midi_default_channel);
-    settings.setValue("prefs/midi-enable", settingsWidget->getSettings().midi_enabled);
-    settings.setValue("prefs/osc-public",  settingsWidget->getSettings().osc_public);
-    settings.setValue("prefs/osc-enabled", settingsWidget->getSettings().osc_server_enabled);
+    settings.setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
+    settings.setValue("prefs/midi-enable", piSettings->midi_enabled);
+    settings.setValue("prefs/osc-public",  piSettings->osc_public);
+    settings.setValue("prefs/osc-enabled", piSettings->osc_server_enabled);
 
-    settings.setValue("prefs/check-args", settingsWidget->getSettings().check_args);
-    settings.setValue("prefs/print-output", settingsWidget->getSettings().print_output);
-    settings.setValue("prefs/clear-output-on-run", settingsWidget->getSettings().clear_output_on_run);
-    settings.setValue("prefs/log-cues", settingsWidget->getSettings().log_cues);
-    settings.setValue("prefs/log-auto-scroll", settingsWidget->getSettings().log_auto_scroll);
-    settings.setValue("prefs/show-line-numbers", settingsWidget->getSettings().show_line_numbers);
-    settings.setValue("prefs/enable-external-synths", settingsWidget->getSettings().enable_external_synths);
-    settings.setValue("prefs/synth-trigger-timing-guarantees", settingsWidget->getSettings().synth_trigger_timing_guarantees);
-    settings.setValue("prefs/mixer-force-mono", settingsWidget->getSettings().mixer_force_mono);
-    settings.setValue("prefs/mixer-invert-stereo", settingsWidget->getSettings().mixer_invert_stereo);
-    settings.setValue("prefs/system-vol", settingsWidget->getSettings().main_volume);
-    settings.setValue("prefs/rp/check-updates", settingsWidget->getSettings().check_updates);
-    settings.setValue("prefs/auto-indent-on-run", settingsWidget->getSettings().auto_indent_on_run);
-    settings.setValue("prefs/gui_transparency", settingsWidget->getSettings().gui_transparency);
-    settings.setValue("prefs/scope/show-axes", settingsWidget->getSettings().show_scope_axes );
-    settings.setValue("prefs/scope/show-scopes", settingsWidget->getSettings().show_scopes );
-    settings.setValue("prefs/show_incoming_osc_log", settingsWidget->getSettings().show_incoming_osc_log);
+    settings.setValue("prefs/check-args", piSettings->check_args);
+    settings.setValue("prefs/print-output", piSettings->print_output);
+    settings.setValue("prefs/clear-output-on-run", piSettings->clear_output_on_run);
+    settings.setValue("prefs/log-cues", piSettings->log_cues);
+    settings.setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
+    settings.setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
+    settings.setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
+    settings.setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
+    settings.setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
+    settings.setValue("prefs/mixer-invert-stereo", piSettings->mixer_invert_stereo);
+    settings.setValue("prefs/system-vol", piSettings->main_volume);
+    settings.setValue("prefs/rp/check-updates", piSettings->check_updates);
+    settings.setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
+    settings.setValue("prefs/gui_transparency", piSettings->gui_transparency);
+    settings.setValue("prefs/scope/show-axes", piSettings->show_scope_axes );
+    settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes );
+    settings.setValue("prefs/show_incoming_osc_log", piSettings->show_incoming_osc_log);
+
+    for ( auto name : piSettings->scope_names ) {
+        settings.setValue("prefs/scope/show-"+name.toLower(), piSettings->isScopeActive(name));
+    }
 
     settings.setValue("workspace", tabs->currentIndex());
 
@@ -2690,7 +2711,7 @@ void MainWindow::setupLogPathAndRedirectStdOut() {
 }
 
 void MainWindow::toggleMidi(int silent) {
-    if (settingsWidget->getSettings().midi_enabled) {
+    if (piSettings->midi_enabled) {
         statusBar()->showMessage(tr("Enabling MIDI..."), 2000);
         Message msg("/midi-start");
         msg.pushStr(guiID.toStdString());
@@ -2708,7 +2729,7 @@ void MainWindow::toggleMidi(int silent) {
 }
 
 void MainWindow::resetMidi() {
-    if (settingsWidget->getSettings().midi_enabled) {
+    if (piSettings->midi_enabled) {
         settingsWidget->updateMidiInPorts(tr("No connected input devices"));
         settingsWidget->updateMidiOutPorts(tr("No connected output devices"));
         statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
@@ -2721,9 +2742,9 @@ void MainWindow::resetMidi() {
 }
 
 void MainWindow::toggleOSCServer(int silent) {
-    if (settingsWidget->getSettings().osc_server_enabled) {
+    if (piSettings->osc_server_enabled) {
         statusBar()->showMessage(tr("Opening OSC port for remote messages..."), 2000);
-        int open = settingsWidget->getSettings().osc_public ? 1 : 0;
+        int open = piSettings->osc_public ? 1 : 0;
 
         Message msg("/osc-port-start");
         msg.pushStr(guiID.toStdString());

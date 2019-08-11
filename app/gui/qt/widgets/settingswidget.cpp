@@ -19,9 +19,10 @@
 /**
  * Default Constructor
  */
-SettingsWidget::SettingsWidget( int port,  QWidget *parent) {
-    server_osc_cues_port = port;
+SettingsWidget::SettingsWidget( int port, SonicPiSettings *piSettings,  QWidget *parent) {
     std::cout << "settings created" << std::endl;
+    this->piSettings = piSettings;
+    server_osc_cues_port = port;
     prefTabs = new QTabWidget();
 
     QGridLayout *grid = new QGridLayout;
@@ -61,7 +62,8 @@ SettingsWidget::SettingsWidget( int port,  QWidget *parent) {
 
         grid->addWidget(translation_box, 3, 0, 1, 2);
     }
-
+    settingsChanged();
+    connectAll();
     setLayout(grid);
 }
 
@@ -75,15 +77,11 @@ SettingsWidget::~SettingsWidget() {
  * Create Audio Preferences Tab of Settings Widget
  */
 QGroupBox* SettingsWidget::createAudioPrefsTab() {
-    //TODO redundant
-    //QSettings settings("sonic-pi.net", "gui-settings");
 
     QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
     volBox->setToolTip(tr("Use this slider to change the system volume."));
     QHBoxLayout *vol_box = new QHBoxLayout;
     system_vol_slider = new QSlider(this);
-//    int stored_vol = settings.value("prefs/system-vol", 50).toInt();
-//    system_vol_slider->setValue(stored_vol);
     vol_box->addWidget(system_vol_slider);
     volBox->setLayout(vol_box);
 
@@ -118,17 +116,6 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     synths_box_layout->addWidget(synth_trigger_timing_guarantees_cb);
     synths_box_layout->addWidget(enable_external_synths_cb);
     synths_box->setLayout(synths_box_layout);
-
-    connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(check_args, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(synth_trigger_timing_guarantees_cb, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(enable_external_synths_cb, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
-
-    connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
-    connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
-    connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeMainVolume(int)));
 
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
@@ -254,20 +241,11 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_ports_box_layout->addWidget(midi_out_ports_label);
     midi_ports_box_layout->addWidget(midi_reset_button);
 
+    connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(forceMidiReset()));
+
     midi_ports_box->setLayout(midi_ports_box_layout);
     midi_config_box->setLayout(midi_config_box_layout);
     
-    connect(midi_default_channel_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
-    connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(osc_public_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
-
-    connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(forceMidiReset()));
-    connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
-    connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
-    connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
-
     QGridLayout *io_tab_layout = new QGridLayout();
     io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
     io_tab_layout->addWidget(midi_config_box, 0, 1);
@@ -370,39 +348,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box_layout->addWidget(clear_output_on_run);
     debug_box->setLayout(debug_box_layout);
 
-    connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(print_output, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(log_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateSettings()));
-
-    connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
-
-    connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
-    connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
-    connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(toggleIncommingOscLog()));
-    connect(show_buttons, SIGNAL(clicked()), this, SLOT(toggleButtons()));
-    connect(full_screen, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
-    connect(show_tabs, SIGNAL(clicked()), this, SLOT(toggleTabs()));
-    connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(toggleLogAutoScroll()));
-
-    connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-
-
     gridEditorPrefs->addWidget(editor_display_box, 0, 0);
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
     gridEditorPrefs->addWidget(automation_box, 1, 1);
@@ -455,13 +400,6 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
 #endif
 
-    //connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
-
-    connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
-
-    connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
-    connect(show_scopes, SIGNAL(clicked()), this, SLOT(toggleScope()));
     viz_box->setLayout(viz_tab_layout);
 
     return viz_box;
@@ -497,11 +435,7 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     update_box_layout->addWidget(visit_sonic_pi_net);
     update_box->setLayout(update_box_layout);
 
-    connect(check_updates, SIGNAL(clicked()), this, SLOT(updateSettings()));
 
-    connect(check_updates, SIGNAL(clicked()), this, SLOT(toggleCheckUpdates()));
-    connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(openSonicPiNet()));
-    connect(check_updates_now, SIGNAL(clicked()), this, SLOT(checkForUpdatesNow()));
 
     QGroupBox *update_prefs_box = new QGroupBox();
     QGridLayout *update_prefs_box_layout = new QGridLayout;
@@ -522,22 +456,23 @@ QString SettingsWidget::tooltipStrShiftMeta(char key, QString str) {
 }
 
 void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
+    piSettings->scope_names = names;
     for( auto name : names ) {
         QCheckBox* cb = new QCheckBox( name );
-        cb->setChecked( settings.isScopeActive(name));
+        cb->setChecked( piSettings->isScopeActive(name));
         scopeSignalMap->setMapping( cb, cb );
         scope_box_kinds_layout->addWidget(cb);
         connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
-  }
+    }
     connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
 }
 
 void SettingsWidget::toggleScope( QWidget* qw ) {
   QCheckBox* cb = static_cast<QCheckBox*>(qw);
   //QSettings settings("sonic-pi.net", "gui-settings");
-  //settings.setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );
+  //piSettings->setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );
   QString name = cb->text();
-  settings.setScopeState( name, cb->isChecked() );
+  piSettings->setScopeState( name, cb->isChecked() );
   emit scopeChanged(name);
 }
 
@@ -638,79 +573,139 @@ void SettingsWidget::updateVersionInfo( QString info_string, QString visit, bool
 
 void SettingsWidget::updateSettings() {
     std::cout << "Update Settings" << std::endl;
-    settings.mixer_invert_stereo = mixer_invert_stereo->isChecked();
-    settings.mixer_force_mono = mixer_force_mono->isChecked();
-    settings.check_args = check_args->isChecked();
-    settings.synth_trigger_timing_guarantees = synth_trigger_timing_guarantees_cb->isChecked();
-    settings.enable_external_synths = enable_external_synths_cb->isChecked();
-    settings.main_volume = system_vol_slider->value();
+    piSettings->mixer_invert_stereo = mixer_invert_stereo->isChecked();
+    piSettings->mixer_force_mono = mixer_force_mono->isChecked();
+    piSettings->check_args = check_args->isChecked();
+    piSettings->synth_trigger_timing_guarantees = synth_trigger_timing_guarantees_cb->isChecked();
+    piSettings->enable_external_synths = enable_external_synths_cb->isChecked();
+    piSettings->main_volume = system_vol_slider->value();
 
-    settings.osc_server_enabled = osc_server_enabled_check->isChecked();
-    settings.osc_public = osc_public_check->isChecked();
-    settings.midi_default_channel = midi_default_channel_combo->currentIndex();
-    settings.midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
-    settings.midi_enabled = midi_enable_check->isChecked();
+    piSettings->osc_server_enabled = osc_server_enabled_check->isChecked();
+    piSettings->osc_public = osc_public_check->isChecked();
+    piSettings->midi_default_channel = midi_default_channel_combo->currentIndex();
+    piSettings->midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
+    piSettings->midi_enabled = midi_enable_check->isChecked();
 
-    settings.auto_indent_on_run = auto_indent_on_run->isChecked();
-    settings.show_line_numbers = show_line_numbers->isChecked();
-    settings.show_log = show_log->isChecked();
-    settings.show_incoming_osc_log = show_incoming_osc_log->isChecked();
-    settings.show_buttons = show_buttons->isChecked();
-    settings.show_tabs = show_tabs->isChecked();
-    settings.full_screen = full_screen->isChecked();
-    settings.print_output = print_output->isChecked();
-    settings.clear_output_on_run = clear_output_on_run->isChecked();
-    settings.log_cues = log_cues->isChecked();
-    settings.log_auto_scroll = log_auto_scroll->isChecked();
-    if (lightModeCheck->isChecked())        { settings.theme = SonicPiTheme::LightMode; }
-    if (darkModeCheck->isChecked())         { settings.theme = SonicPiTheme::DarkMode; }
-    if (lightProModeCheck->isChecked())     { settings.theme = SonicPiTheme::LightProMode; }
-    if (darkProModeCheck->isChecked())      { settings.theme = SonicPiTheme::DarkProMode; }
-    if (highContrastModeCheck->isChecked()) { settings.theme = SonicPiTheme::HighContrastMode; }
+    piSettings->auto_indent_on_run = auto_indent_on_run->isChecked();
+    piSettings->show_line_numbers = show_line_numbers->isChecked();
+    piSettings->show_log = show_log->isChecked();
+    piSettings->show_incoming_osc_log = show_incoming_osc_log->isChecked();
+    piSettings->show_buttons = show_buttons->isChecked();
+    piSettings->show_tabs = show_tabs->isChecked();
+    piSettings->full_screen = full_screen->isChecked();
+    piSettings->print_output = print_output->isChecked();
+    piSettings->clear_output_on_run = clear_output_on_run->isChecked();
+    piSettings->log_cues = log_cues->isChecked();
+    piSettings->log_auto_scroll = log_auto_scroll->isChecked();
+    if (lightModeCheck->isChecked())        { piSettings->theme = SonicPiTheme::LightMode; }
+    if (darkModeCheck->isChecked())         { piSettings->theme = SonicPiTheme::DarkMode; }
+    if (lightProModeCheck->isChecked())     { piSettings->theme = SonicPiTheme::LightProMode; }
+    if (darkProModeCheck->isChecked())      { piSettings->theme = SonicPiTheme::DarkProMode; }
+    if (highContrastModeCheck->isChecked()) { piSettings->theme = SonicPiTheme::HighContrastMode; }
 
-    settings.show_scopes = show_scopes->isChecked();
-    settings.show_scope_axes = show_scope_axes->isChecked();
+    piSettings->show_scopes = show_scopes->isChecked();
+    piSettings->show_scope_axes = show_scope_axes->isChecked();
 
-    settings.check_updates = check_updates->isChecked();
+    piSettings->check_updates = check_updates->isChecked();
 }
 
 void SettingsWidget::settingsChanged() {
     std::cout << "Settings Changed" << std::endl;
-    mixer_invert_stereo->setChecked(settings.mixer_invert_stereo);
-    mixer_force_mono->setChecked(settings.mixer_force_mono);
-    check_args->setChecked(settings.check_args);
-    synth_trigger_timing_guarantees_cb->setChecked( settings.synth_trigger_timing_guarantees);
-    enable_external_synths_cb->setChecked(settings.enable_external_synths);
-    system_vol_slider->setValue(settings.main_volume);
+    mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
+    mixer_force_mono->setChecked(piSettings->mixer_force_mono);
+    check_args->setChecked(piSettings->check_args);
+    synth_trigger_timing_guarantees_cb->setChecked( piSettings->synth_trigger_timing_guarantees);
+    enable_external_synths_cb->setChecked(piSettings->enable_external_synths);
+    system_vol_slider->setValue(piSettings->main_volume);
 
-    osc_server_enabled_check->setChecked(settings.osc_server_enabled);
-    osc_public_check->setChecked(settings.osc_public);
-    midi_default_channel_combo->setCurrentIndex(settings.midi_default_channel);
-    settings.midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
-    midi_enable_check->setChecked(settings.midi_enabled);
+    osc_server_enabled_check->setChecked(piSettings->osc_server_enabled);
+    osc_public_check->setChecked(piSettings->osc_public);
+    midi_default_channel_combo->setCurrentIndex(piSettings->midi_default_channel);
+    piSettings->midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
+    midi_enable_check->setChecked(piSettings->midi_enabled);
 
-    auto_indent_on_run->setChecked(settings.auto_indent_on_run);
-    std::cout << "Line numbers " << (settings.show_line_numbers ? "T" : "F" ) << std::endl;
+    auto_indent_on_run->setChecked(piSettings->auto_indent_on_run);
+    std::cout << "Line numbers " << (piSettings->show_line_numbers ? "T" : "F" ) << std::endl;
 
-    show_line_numbers->setChecked(settings.show_line_numbers);
-    show_log->setChecked(settings.show_log);
-    show_incoming_osc_log->setChecked(settings.show_incoming_osc_log);
-    show_buttons->setChecked(settings.show_buttons);
-    show_tabs->setChecked(settings.show_tabs);
-    full_screen->setChecked(settings.full_screen);
-    print_output->setChecked(settings.print_output);
-    clear_output_on_run->setChecked(settings.clear_output_on_run);
-    log_cues->setChecked(settings.log_cues);
-    log_auto_scroll->setChecked(settings.log_auto_scroll);
+    show_line_numbers->setChecked(piSettings->show_line_numbers);
+    show_log->setChecked(piSettings->show_log);
+    show_incoming_osc_log->setChecked(piSettings->show_incoming_osc_log);
+    show_buttons->setChecked(piSettings->show_buttons);
+    show_tabs->setChecked(piSettings->show_tabs);
+    full_screen->setChecked(piSettings->full_screen);
+    print_output->setChecked(piSettings->print_output);
+    clear_output_on_run->setChecked(piSettings->clear_output_on_run);
+    log_cues->setChecked(piSettings->log_cues);
+    log_auto_scroll->setChecked(piSettings->log_auto_scroll);
     
-    lightModeCheck->setChecked( settings.theme == SonicPiTheme::LightMode );        
-    darkModeCheck->setChecked( settings.theme == SonicPiTheme::DarkMode );         
-    lightProModeCheck->setChecked( settings.theme == SonicPiTheme::LightProMode );     
-    darkProModeCheck->setChecked( settings.theme == SonicPiTheme::DarkProMode );      
-    highContrastModeCheck->setChecked( settings.theme == SonicPiTheme::HighContrastMode ); 
+    lightModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightMode );        
+    darkModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkMode );         
+    lightProModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightProMode );     
+    darkProModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkProMode );      
+    highContrastModeCheck->setChecked( piSettings->theme == SonicPiTheme::HighContrastMode ); 
 
-    show_scopes->setChecked(settings.show_scopes);
-    show_scope_axes->setChecked(settings.show_scope_axes);
+    show_scopes->setChecked(piSettings->show_scopes);
+    show_scope_axes->setChecked(piSettings->show_scope_axes);
 
-    check_updates->setChecked(settings.check_updates);
+    check_updates->setChecked(piSettings->check_updates);
+}
+
+void SettingsWidget::connectAll() {
+    connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(check_args, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(synth_trigger_timing_guarantees_cb, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(enable_external_synths_cb, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
+    connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
+    connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
+    connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeMainVolume(int)));
+
+    connect(midi_default_channel_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
+    connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(osc_public_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
+    connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
+    connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
+
+    connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(print_output, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(log_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
+    connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
+    connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(toggleIncommingOscLog()));
+    connect(show_buttons, SIGNAL(clicked()), this, SLOT(toggleButtons()));
+    connect(full_screen, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
+    connect(show_tabs, SIGNAL(clicked()), this, SLOT(toggleTabs()));
+    connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(toggleLogAutoScroll()));
+    connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    //connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
+    
+    connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+    connect(show_scopes, SIGNAL(clicked()), this, SLOT(toggleScope()));
+
+    connect(check_updates, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(check_updates, SIGNAL(clicked()), this, SLOT(toggleCheckUpdates()));
+    connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(openSonicPiNet()));
+    connect(check_updates_now, SIGNAL(clicked()), this, SLOT(checkForUpdatesNow()));
 }
