@@ -519,6 +519,8 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(toggleScope(QString)));
     connect(settingsWidget, SIGNAL(scopeAxesChanged()), this, SLOT(toggleScopeAxes()));
+    connect(settingsWidget, SIGNAL(transparencyChanged(int)), this, SLOT(changeGUITransparency(int)));
+
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
     connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
 
@@ -1199,6 +1201,7 @@ bool isScopeEnabled( const QSettings& settings, const QString& name )
 void MainWindow::honourPrefs() {
     update_check_updates();
     updateLogAutoScroll();
+    changeGUITransparency(piSettings->gui_transparency);
     toggleScopeAxes();
     toggleMidi(1);
     toggleOSCServer(1);
@@ -1721,20 +1724,9 @@ void MainWindow::helpContext() {
     }
 }
 
-
-
-#if defined(Q_OS_LINUX)
-void MainWindow::changeGUITransparency(int)
-#else
-void MainWindow::changeGUITransparency(int val)
-#endif
-{
-#if defined(Q_OS_LINUX)
-    // do nothing
-#else
+void MainWindow::changeGUITransparency(int val) {
     // scale it linearly from 0 -> 100 to 0.3 -> 1
     setWindowOpacity((0.7 * ((100 - (float)val) / 100.0))  + 0.3);
-#endif
 }
 
 void MainWindow::changeSystemPreAmp(int val, int silent)
