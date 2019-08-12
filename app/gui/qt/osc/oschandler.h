@@ -16,7 +16,7 @@
 
 #include "oscpkt.hh"
 #include "mainwindow.h"
-class SonciPiTheme;
+class SonicPiTheme;
 
 class OscHandler
 {

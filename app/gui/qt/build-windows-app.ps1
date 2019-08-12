@@ -99,9 +99,9 @@ xcopy /E c:\supercollider\build\server\scsynth\Release\* c:\sonic-pi\app\server\
 #build i18n
 cd c:\sonic-pi\app\gui\qt\
 ..\..\server\bin\i18n-tool.rb -t
-copy ruby_help.tmpl ruby_help.h
+copy utils\ruby_help.tmpl utils\ruby_help.h
 #build docs
-..\..\server\bin\qt-doc.rb -o ruby_help.h
+..\..\server\bin\qt-doc.rb -o utils\ruby_help.h
 #Build MSVC build
 c:\Qt\5.5\msvc2013\bin\lrelease.exe SonicPi.pro
 c:\Qt\5.5\msvc2013\bin\qmake.exe SonicPi.pro

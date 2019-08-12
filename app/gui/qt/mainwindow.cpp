@@ -519,6 +519,8 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(toggleScope(QString)));
     connect(settingsWidget, SIGNAL(scopeAxesChanged()), this, SLOT(toggleScopeAxes()));
+    connect(settingsWidget, SIGNAL(transparencyChanged(int)), this, SLOT(changeGUITransparency(int)));
+
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
     connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
 
@@ -1199,6 +1201,7 @@ bool isScopeEnabled( const QSettings& settings, const QString& name )
 void MainWindow::honourPrefs() {
     update_check_updates();
     updateLogAutoScroll();
+    changeGUITransparency(piSettings->gui_transparency);
     toggleScopeAxes();
     toggleMidi(1);
     toggleOSCServer(1);
@@ -1721,20 +1724,9 @@ void MainWindow::helpContext() {
     }
 }
 
-
-
-#if defined(Q_OS_LINUX)
-void MainWindow::changeGUITransparency(int)
-#else
-void MainWindow::changeGUITransparency(int val)
-#endif
-{
-#if defined(Q_OS_LINUX)
-    // do nothing
-#else
+void MainWindow::changeGUITransparency(int val) {
     // scale it linearly from 0 -> 100 to 0.3 -> 1
     setWindowOpacity((0.7 * ((100 - (float)val) / 100.0))  + 0.3);
-#endif
 }
 
 void MainWindow::changeSystemPreAmp(int val, int silent)
@@ -1769,14 +1761,18 @@ void MainWindow::toggleScopeAxes()
     scopeInterface->setScopeAxes(piSettings->show_scope_axes);
 }
 
-void MainWindow::toggleDarkMode() {
-    //TODO check with theme setting
-    //int checkedId = colourModeButtonGroup->checkedId();
-    //if(checkedId == (colourModeButtonGroup->buttons().size() - 1)) {
-    //  colourModeButtonGroup->button(0)->toggle();
-    //  } else {
-    //  colourModeButtonGroup->button(checkedId + 1)->toggle();
-    //}
+void MainWindow::cycleThemes() {
+    if ( piSettings->theme == SonicPiTheme::LightMode ) { 
+        piSettings->theme = SonicPiTheme::DarkMode;
+    } else if ( piSettings->theme == SonicPiTheme::DarkMode ) { 
+        piSettings->theme = SonicPiTheme::LightProMode;
+    } else if ( piSettings->theme == SonicPiTheme::LightProMode ) { 
+        piSettings->theme = SonicPiTheme::DarkProMode;
+    } else if ( piSettings->theme == SonicPiTheme::DarkProMode ) { 
+        piSettings->theme = SonicPiTheme::HighContrastMode;
+    } else if ( piSettings->theme == SonicPiTheme::HighContrastMode ) { 
+        piSettings->theme = SonicPiTheme::LightMode;
+    }
     updateColourTheme();
 }
 
@@ -2029,7 +2025,7 @@ void MainWindow::createShortcuts()
     new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
     new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
     new QShortcut(shiftMetaKey('F'), this, SLOT(toggleFullScreenMode()));
-    new QShortcut(shiftMetaKey('M'), this, SLOT(toggleDarkMode()));
+    new QShortcut(shiftMetaKey('M'), this, SLOT(cycleThemes()));
     new QShortcut(QKeySequence("F11"), this, SLOT(toggleLogVisibility()));
     new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
     new QShortcut(QKeySequence("F12"),this, SLOT(toggleScopePaused()));

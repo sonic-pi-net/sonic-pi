@@ -53,6 +53,7 @@ private slots:
     void toggleCheckUpdates();
     void checkForUpdatesNow();
     void updateSettings();
+    void updateTransparency(int t);
     void settingsChanged();
 
 signals:
@@ -72,6 +73,7 @@ signals:
     void scopeChanged();
     void scopeAxesChanged();
     void scopeChanged(QString name);
+    void transparencyChanged(int t);
     void checkUpdatesChanged();
     void forceCheckUpdates();
 

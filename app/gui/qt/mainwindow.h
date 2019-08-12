@@ -149,7 +149,7 @@ signals:
         void toggleRightScope();
         void toggleScopeAxes();
         void scopeVisibilityChanged();
-        void toggleDarkMode();
+        void cycleThemes();
         void updateColourTheme();
         void updatePrefsIcon();
         void togglePrefs();

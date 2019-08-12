@@ -134,8 +134,8 @@ sudo cp /usr/local/qwt-6.1.2/features/* "$QT/mkspecs/features/"
 cd "$SP_APP_SRC"
 "$SP_SRC/app/server/ruby/bin/compile-extensions.rb"
 "$SP_SRC/app/server/ruby/bin/i18n-tool.rb" -t
-cp -f ruby_help.tmpl ruby_help.h
-"$SP_SRC/app/server/ruby/bin/qt-doc.rb" -o ruby_help.h
+cp -f utils/ruby_help.tmpl utils/ruby_help.h
+"$SP_SRC/app/server/ruby/bin/qt-doc.rb" -o utils/ruby_help.h
 if [[ "$MAC_OS_VERSION" -lt "$MAC_OS_MODERN_VERSION" ]]; then
     sed -e "s/lqscintilla2_qt5/lqscintilla2/g" \
         "$SP_APP_SRC/SonicPi.pro" \

@@ -394,11 +394,11 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     transparency_box_layout->addWidget(gui_transparency_slider);
     transparency_box->setLayout(transparency_box_layout);
 
-#if defined(Q_OS_LINUX)
-    // do nothing
-#else
+//#if defined(Q_OS_LINUX)
+//    // do nothing
+//#else
     viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
-#endif
+//#endif
 
     viz_box->setLayout(viz_tab_layout);
 
@@ -549,6 +549,10 @@ void SettingsWidget::toggleScopeAxes() {
     emit scopeAxesChanged();
 }
 
+void SettingsWidget::updateTransparency(int t) {
+    emit transparencyChanged(t);
+}
+
 void SettingsWidget::toggleCheckUpdates() {
     emit checkUpdatesChanged();
 }
@@ -594,6 +598,7 @@ void SettingsWidget::updateSettings() {
     piSettings->clear_output_on_run = clear_output_on_run->isChecked();
     piSettings->log_cues = log_cues->isChecked();
     piSettings->log_auto_scroll = log_auto_scroll->isChecked();
+    piSettings->gui_transparency = gui_transparency_slider->value();
     if (lightModeCheck->isChecked())        { piSettings->theme = SonicPiTheme::LightMode; }
     if (darkModeCheck->isChecked())         { piSettings->theme = SonicPiTheme::DarkMode; }
     if (lightProModeCheck->isChecked())     { piSettings->theme = SonicPiTheme::LightProMode; }
@@ -632,7 +637,7 @@ void SettingsWidget::settingsChanged() {
     clear_output_on_run->setChecked(piSettings->clear_output_on_run);
     log_cues->setChecked(piSettings->log_cues);
     log_auto_scroll->setChecked(piSettings->log_auto_scroll);
-    
+    gui_transparency_slider->setValue(piSettings->gui_transparency); 
     lightModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightMode );        
     darkModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkMode );         
     lightProModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightProMode );     
@@ -680,6 +685,8 @@ void SettingsWidget::connectAll() {
     connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
+
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
     connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(toggleIncommingOscLog()));
@@ -692,7 +699,7 @@ void SettingsWidget::connectAll() {
     connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    //connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
+    connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateTransparency(int)));
     
     connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
