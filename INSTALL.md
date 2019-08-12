@@ -1,26 +1,41 @@
-# Installing Sonic Pi from Source
+# Installing Sonic Pi
 
+## Prebuilt Packages
+### Windows & macOS
+Sonic Pi currently provides offical binaries for Windows and macOS. These can be found at https://sonic-pi.net
+
+### Linux
+Some Linux distributions have packages for Sonic Pi, which are maintained by people in the community. These are NOT OFFICALLY SUPPORTED by the Sonic Pi team and may be older versions. (Currently, Linux is not offically supported)
+
+## Building Sonic Pi from Source
 If you want to use the very latest development version of Sonic Pi, then
 you'll need to compile from source. Due to the complex nature of Sonic
 Pi's architecture this should only be considered by those happy playing
 around with the Terminal and are happy working with bleeding edge
-software. 
+software. For all other users, downloading the latest pre-built app for your
+platform is highly recommended.
 
-For all other users, downloading the latest pre-built app for your
-platform is highly recommended: http://sonic-pi.net
- 
+### Sonic Pi v3.2 and later
 
-There are instructions for the following platforms in their own separate
-files:
+#### Requirements
+* Ruby
+* Bundler
+* Git
+* Erlang
 
-* Raspberry Pi - [INSTALL-RASPBERRY-PI.md](INSTALL-RASPBERRY-PI.md)
-* Windows - [INSTALL-WINDOWS.md](INSTALL-WINDOWS.md)
-* Mac - [INSTALL-MAC.md](INSTALL-MAC.md)
-* Linux - [INSTALL-LINUX.md](INSTALL-LINUX.md)
+#### Build Instructions
+* Clone the Sonic Pi GitHub repo:
+```git clone https://github.com/samaaron/sonic-pi && cd sonic-pi```
+
+* If you want to build a specific version/commit, type in:
+```git checkout [tag/commit]```
+
+* For Sonic Pi v3.2 and later: To build both the Sonic Pi server and Qt GUI, type in the command:
+```rake build```
 
 ----
 
-## Optional: Sonic Pi reference books
+## Optional: Sonic Pi tutorial & reference books
 
 Do you want to read the Sonic Pi tutorial as a whole, e.g. on your
 mobile reader or printed out on paper?
