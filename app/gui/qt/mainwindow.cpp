@@ -1761,14 +1761,18 @@ void MainWindow::toggleScopeAxes()
     scopeInterface->setScopeAxes(piSettings->show_scope_axes);
 }
 
-void MainWindow::toggleDarkMode() {
-    //TODO check with theme setting
-    //int checkedId = colourModeButtonGroup->checkedId();
-    //if(checkedId == (colourModeButtonGroup->buttons().size() - 1)) {
-    //  colourModeButtonGroup->button(0)->toggle();
-    //  } else {
-    //  colourModeButtonGroup->button(checkedId + 1)->toggle();
-    //}
+void MainWindow::cycleThemes() {
+    if ( piSettings->theme == SonicPiTheme::LightMode ) { 
+        piSettings->theme = SonicPiTheme::DarkMode;
+    } else if ( piSettings->theme == SonicPiTheme::DarkMode ) { 
+        piSettings->theme = SonicPiTheme::LightProMode;
+    } else if ( piSettings->theme == SonicPiTheme::LightProMode ) { 
+        piSettings->theme = SonicPiTheme::DarkProMode;
+    } else if ( piSettings->theme == SonicPiTheme::DarkProMode ) { 
+        piSettings->theme = SonicPiTheme::HighContrastMode;
+    } else if ( piSettings->theme == SonicPiTheme::HighContrastMode ) { 
+        piSettings->theme = SonicPiTheme::LightMode;
+    }
     updateColourTheme();
 }
 
@@ -2021,7 +2025,7 @@ void MainWindow::createShortcuts()
     new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
     new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
     new QShortcut(shiftMetaKey('F'), this, SLOT(toggleFullScreenMode()));
-    new QShortcut(shiftMetaKey('M'), this, SLOT(toggleDarkMode()));
+    new QShortcut(shiftMetaKey('M'), this, SLOT(cycleThemes()));
     new QShortcut(QKeySequence("F11"), this, SLOT(toggleLogVisibility()));
     new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
     new QShortcut(QKeySequence("F12"),this, SLOT(toggleScopePaused()));
