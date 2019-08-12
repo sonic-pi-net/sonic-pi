@@ -90,8 +90,8 @@ cd $SP_APP_SRC
 #Don't need compile-extentions if you did the gem install stuff earlier
 ../../server/ruby/bin/compile-extensions.rb
 ../../server/ruby/bin/i18n-tool.rb -t
-cp -f ruby_help.tmpl ruby_help.h
-../../server/ruby/bin/qt-doc.rb -o ruby_help.h
+cp -f utils/ruby_help.tmpl utils/ruby_help.h
+../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
 /usr/lib/arm-linux-gnueabihf/qt5/bin/lrelease SonicPi.pro 
 /usr/lib/arm-linux-gnueabihf/qt5/bin/qmake SonicPi.pro 
 make

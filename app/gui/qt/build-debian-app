@@ -197,10 +197,10 @@ echo -e "${CYAN}Building sonic-pi server extensions...${NC}"
 ruby ../../server/ruby/bin/compile-extensions.rb
 echo -e "${CYAN}Building sonic-pi documentation...${NC}"
 ruby ../../server/ruby/bin/i18n-tool.rb -t
-cp -f ruby_help.tmpl ruby_help.h
-ruby ../../server/ruby/bin/qt-doc.rb -o ruby_help.h
+cp -f utils/ruby_help.tmpl utils/ruby_help.h
+ruby ../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
 echo -e "${CYAN}Building sonic-pi binary...${NC}"
-lrelease SonicPi.pro
+lrulease SonicPi.pro
 qmake -qt=qt5 SonicPi.pro
 make
 echo -e "${CYAN}Done!${NC}"
