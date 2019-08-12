@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-04-11 12:05+0000\n"
-"Last-Translator: Daniel Krog <danielkrog94@gmail.com>\n"
+"PO-Revision-Date: 2019-08-16 14:23+0000\n"
+"Last-Translator: Anna Knudsen <anna-knudsen@outlook.dk>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "da/>\n"
 "Language: da\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.8\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -63,7 +63,6 @@ msgstr ""
 "den næste store feature!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
-#, fuzzy
 msgid ""
 "This tutorial is divided up into sections grouped by category. Whilst I've wri"
 "tten it to have an easy learning progression from start to finish, feel very f"
@@ -73,8 +72,8 @@ msgstr ""
 "Denne vejledning er opdelt i sektioner, som er grupperet efter kategori. "
 "Denne vejledning er lavet for at have en let progression fra start til slut. "
 "Føl dig fri til at besøge de sektioner, du har lyst til. Føler du at der er "
-"noget der mangler, så lad os vide det, og vi vil overveje det til en "
-"fremtidig version"
+"noget der mangler, så fortæl os det, og vi vil overveje det til en fremtidig "
+"version"
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -154,22 +153,27 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
+"Du klikker nu på \"Run\" knappen og vil høre lyden af en hurtig stortromme. "
+"Hvis du ønsker at stoppe, klikker du på \"Stop\" knappen. Men klik ikke på "
+"den endnu, følg disse steps i stedet:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "Sørg for, at lyden af stortrommen stadig kører"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
 msgstr ""
+"Prøv at ændre værdien \"Sleep\" fra \"0,5\" til en højere værdi, f.eks. \"1\""
+"."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "Klik på \"Run\" knappen igen"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "Læg mærke til, hvordan trommelydens hastighed har ændret sig."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
