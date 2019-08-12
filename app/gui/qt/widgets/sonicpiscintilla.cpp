@@ -12,7 +12,7 @@
 //++
 
 #include "sonicpiscintilla.h"
-#include "oscsender.h"
+#include "osc/oscsender.h"
 
 #include <QSettings>
 #include <QShortcut>
@@ -23,7 +23,7 @@
 #include <Qsci/qscilexer.h>
 #include <QCheckBox>
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, QCheckBox *autoIndent)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, bool autoIndent)
   : QsciScintilla()
 {
   setAcceptDrops(true);
@@ -582,7 +582,7 @@ void SonicPiScintilla::completeListOrNewlineAndIndent(){
     tabCompleteifList();
   }
   else {
-    if(this->autoIndent->isChecked()) {
+    if(autoIndent) {
       newlineAndIndent();
     } else {
       newLine();

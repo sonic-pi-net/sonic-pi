@@ -5,6 +5,7 @@
 #include <QtNetwork>
 #include <QTcpSocket>
 
+#include <iostream>
 #include "sonic_pi_osc_server.h"
 
 // OSC stuff

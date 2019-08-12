@@ -21,7 +21,7 @@
 
 #include "mainwindow.h"
 
-#include "sonicpilog.h"
+#include "widgets/sonicpilog.h"
 int main(int argc, char *argv[])
 {
 #ifndef Q_OS_MAC

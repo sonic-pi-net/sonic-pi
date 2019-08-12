@@ -18,7 +18,7 @@
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 
-#include <server_shm.hpp>
+#include <visualizer/server_shm.hpp>
 #include <memory>
 #include <string>
 

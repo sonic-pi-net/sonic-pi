@@ -12,9 +12,9 @@
 //++
 
 #include <Qsci/qsciscintilla.h>
-#include "sonicpitheme.h"
-#include "oscsender.h"
-#include "sonicpilog.h"
+#include "model/sonicpitheme.h"
+#include "osc/oscsender.h"
+#include "widgets/sonicpilog.h"
 #include <QCheckBox>
 
 class SonicPiLexer;
@@ -25,7 +25,7 @@ class SonicPiScintilla : public QsciScintilla
   Q_OBJECT
 
  public:
-  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, QCheckBox *autoIndent);
+  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, bool autoIndent);
 
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
@@ -81,7 +81,7 @@ class SonicPiScintilla : public QsciScintilla
     void dropEvent(QDropEvent *pEvent);
     void dragMoveEvent(QDragMoveEvent *event);
     bool event(QEvent *evt);
-    QCheckBox *autoIndent;
+    bool autoIndent;
     QMutex *mutex;
 
 };

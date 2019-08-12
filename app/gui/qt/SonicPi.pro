@@ -58,35 +58,38 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
            mainwindow.cpp \
-           sonicpilexer.cpp \
-           sonicpiapis.cpp \
-           sonicpiscintilla.cpp \
-           oschandler.cpp \
-           oscsender.cpp \
-           sonicpilog.cpp \
-           sonic_pi_osc_server.cpp \
-           sonic_pi_udp_osc_server.cpp \
-           sonic_pi_tcp_osc_server.cpp \
-           sonicpitheme.cpp \
-           scope.cpp \
-           infowidget.cpp
+           utils/sonicpiapis.cpp \
+           osc/oschandler.cpp \
+           osc/oscsender.cpp \
+           osc/sonic_pi_osc_server.cpp \
+           osc/sonic_pi_udp_osc_server.cpp \
+           osc/sonic_pi_tcp_osc_server.cpp \
+           widgets/sonicpilog.cpp \
+           widgets/infowidget.cpp \
+           widgets/sonicpiscintilla.cpp \
+           widgets/sonicpilexer.cpp \
+           widgets/settingswidget.cpp \
+           model/sonicpitheme.cpp \
+           visualizer/scope.cpp
 
 HEADERS  += mainwindow.h \
-            oscpkt.hh \
-            udp.hh \
-            sonicpilexer.h \
-            sonicpilog.h \
-            sonicpiapis.h \
-            sonicpiscintilla.h \
-            oschandler.h \
-            oscsender.h \
-            sonic_pi_osc_server.h \
-            sonic_pi_udp_osc_server.h \
-            sonic_pi_tcp_osc_server.h \
-            ruby_help.h \
-            sonicpitheme.h \
-            scope.h \
-            infowidget.h
+            widgets/sonicpilog.h \
+            widgets/infowidget.h \
+            widgets/sonicpilexer.h \
+            widgets/sonicpiscintilla.h \
+            widgets/settingswidget.h \
+            utils/sonicpiapis.h \
+            utils/ruby_help.h \
+            osc/oscpkt.hh \
+            osc/udp.hh \
+            osc/oschandler.h \
+            osc/oscsender.h \
+            osc/sonic_pi_osc_server.h \
+            osc/sonic_pi_udp_osc_server.h \
+            osc/sonic_pi_tcp_osc_server.h \
+            model/sonicpitheme.h \
+            model/settings.h \
+            visualizer/scope.h
 
 TRANSLATIONS = lang/sonic-pi_bg.ts \
     lang/sonic-pi_bs.ts \

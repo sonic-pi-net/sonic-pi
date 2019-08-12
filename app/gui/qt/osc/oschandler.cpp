@@ -16,9 +16,10 @@
 #include "oscpkt.hh"
 #include "oschandler.h"
 #include "mainwindow.h"
-#include "sonicpilog.h"
-
+#include "widgets/sonicpilog.h"
+#include "model/sonicpitheme.h"
 #include <QTextEdit>
+#include <iostream>
 
 OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane,  SonicPiLog *incomingPane, SonicPiTheme *theme)
 {
