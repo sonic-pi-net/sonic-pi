@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-07-18 17:05+0000\n"
-"Last-Translator: DahliaSager <1486097136@qq.com>\n"
+"PO-Revision-Date: 2019-08-16 14:24+0000\n"
+"Last-Translator: Elizabeth Sherrock <lizzyd710@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.8\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1590,7 +1590,7 @@ msgstr ""
 
 #: 03-Samples.md:3
 msgid "Samples"
-msgstr ""
+msgstr "采样器"
 
 #: 03-Samples.md:5
 msgid ""
@@ -1688,35 +1688,35 @@ msgstr ""
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
 msgid "Now start mixing samples into your compositions!"
@@ -2074,7 +2074,7 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:48
 msgid "Fade Outs"
-msgstr ""
+msgstr "淡出"
 
 #: 03.4-Enveloped-Samples.md:50
 msgid ""
@@ -2114,7 +2114,7 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:73
 msgid "Fade In and Out"
-msgstr ""
+msgstr "淡入和淡出"
 
 #: 03.4-Enveloped-Samples.md:75
 msgid ""
@@ -2467,27 +2467,27 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
-msgstr ""
+msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
 msgid "`100_A#_melody2.wav`"
-msgstr ""
+msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
 msgid "`100_A#_melody3.wav`"
-msgstr ""
+msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
 msgid "`120_A#_melody4.wav`"
-msgstr ""
+msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
 msgid "`120_Bb_guit1.wav`"
-msgstr ""
+msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
 msgid "`120_Bb_piano1.wav`"
-msgstr ""
+msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
 msgid "Typically in order to play the piano sample we can use the full path:"
@@ -3033,7 +3033,7 @@ msgstr ""
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
 msgid ""
@@ -3053,7 +3053,7 @@ msgstr ""
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
 msgid ""
@@ -3077,7 +3077,7 @@ msgstr ""
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
 msgid ""
