@@ -849,6 +849,15 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       def doc
         "A saw wave with a low pass filter. Great for using with FX such as the built in low pass filter (available via the cutoff arg) due to the complexity and thickness of the sound."
       end
+
+      def arg_defaults
+        super.merge({
+          cutoff: 100,
+          cutoff_slide: 0,
+          cutoff_slide_shape: 1,
+          cutoff_slide_curve: 0
+        })
+      end
     end
 
 
