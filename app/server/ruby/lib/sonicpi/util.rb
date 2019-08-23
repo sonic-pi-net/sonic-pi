@@ -155,7 +155,7 @@ module SonicPi
         elsif raspberry_pi_3bplus?
           "Raspberry Pi 3B+"
         elsif raspberry_pi_4_1gb?
-          "Raspberry Pi 4B:1gB"
+          "Raspberry Pi 4B:1Gb"
         elsif raspberry_pi_4_2gb?
           "Raspberry Pi 4B:2Gb"
         elsif raspberry_pi_4_4gb?
