@@ -24,9 +24,12 @@ module SonicPi
     @@home_dir = nil
     @@util_lock = Mutex.new
     @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2708`).empty?
-    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2709`).empty? && (`cat /proc/cpuinfo | grep crc32`).empty?
-    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2709`).empty? && !(`cat /proc/cpuinfo | grep crc32`).empty?
-
+    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a01040','a01041','a22042'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_1gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_2gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['b03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_4gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || Dir.home) + '/.sonic-pi/')
     @@project_path = @@home_dir + '/store/default/'
     @@log_path = @@home_dir + '/log/'
@@ -95,6 +98,22 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_3
     end
 
+    def raspberry_pi_3bplus?
+      os == :raspberry && @@raspberry_pi_3bplus
+    end
+
+    def raspberry_pi_4_1gb?
+      os == :raspberry && @@raspberry_pi_4_1gb
+    end
+
+    def raspberry_pi_4_2gb?
+      os == :raspberry && @@raspberry_pi_4_2gb
+    end
+
+    def raspberry_pi_4_4gb?
+      os == :raspberry && @@raspberry_pi_4_4gb
+    end
+
     def unify_tilde_dir(path)
       if os == :windows
         path
@@ -130,9 +149,17 @@ module SonicPi
         if raspberry_pi_1?
           "Raspberry Pi 1"
         elsif raspberry_pi_2?
-          "Raspberry Pi 2"
+          "Raspberry Pi 2B"
         elsif raspberry_pi_3?
-          "Raspberry Pi 3"
+          "Raspberry Pi 3B"
+        elsif raspberry_pi_3bplus?
+          "Raspberry Pi 3B+"
+        elsif raspberry_pi_4_1gb?
+          "Raspberry Pi 4B:1Gb"
+        elsif raspberry_pi_4_2gb?
+          "Raspberry Pi 4B:2Gb"
+        elsif raspberry_pi_4_4gb?
+          "Raspberry Pi 4B:4Gb"
         else
           "Raspberry Pi"
         end
