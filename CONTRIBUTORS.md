@@ -84,6 +84,7 @@ especially the following individuals who have been remarkably generous:
 * [Mark Rendle](https://twitter.com/markrendle)
 * [Martin McDermott](https://twitter.com/marv_mcd)
 * [Michael Hunger](https://twitter.com/mesirii)
+* [Ole Friis Østergaard](https://github.com/olefriis)
 * [Paul Williams](https://pcwilliams.design)
 * [Pit Noack](http://www.maschinennah.de/)
 * [Richard Buckley](https://burgundycomputing.com)
