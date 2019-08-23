@@ -24,7 +24,7 @@ RUGGED_VERSION=v0.28.2
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SP_APP_SRC=${SCRIPT_DIR}
 SP_ROOT=${SP_APP_SRC}/../../../build
-OSMID_DIR=${SP_APP_SRC}/../../server/native/linux/osmid
+OSMID_DIR=${SP_APP_SRC}/../../server/native/osmid
 
 echo "This script has been tested on ubuntu 19.04."
 echo "Please direct rage and suggestions to https://in-thread.sonic-pi.net/"
