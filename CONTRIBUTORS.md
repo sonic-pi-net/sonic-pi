@@ -37,6 +37,7 @@ The following organisations have kindly contributed to Sonic Pi:
 * [pi-top](https://pi-top.com)
 * [Norfolk & Norwich Festival Bridge](https://nnfestival.org.uk/festival-bridge/)
 * [Emute Lab at the University of Sussex](https://www.emutelab.org)
+* [Trading & Consulting 'H.P.C.' GmbH](hpc.at)
 
 
 ## Inspiration
