@@ -50,13 +50,13 @@ projects:
 * Andrew Sorensen  - [Extempore](http://extempore.moso.com.au)
 * James McCartney - [SuperCollider](https://supercollider.github.io)
 * Jeff Rose - [Overtone](https://overtone.github.com)
+* Joe Armstrong - [Erlang](https://www.erlang.org)
 * Linda Liukas - [Hello Ruby](http://www.helloruby.com/)
 * Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](https://www.ruby-lang.org)
 * Rich Hickey - [Clojure](https://clojure.org)
 * Seymour Papert - [Logo](https://en.wikipedia.org/wiki/Logo_(programming_language))
 * The Scratch Team - [Scratch](https://scratch.mit.edu)
 * Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html)
-* Joe Armstrong - [Erlang](https://www.erlang.org)
 
 
 ## Patreon Supporters
