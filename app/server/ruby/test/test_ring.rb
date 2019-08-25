@@ -186,5 +186,21 @@ module SonicPi
       assert_equal(ring(1, 2, 3).scale(-2), ring(-2.0, -4.0, -6.0))
       assert_equal(ring(1, 2, 3).scale(0), ring(0.0, 0.0, 0.0))
     end
+
+    def test_ramp
+      assert_equal(ramp(1, 2, 3)[100], 3)
+      assert_equal(SonicPi::Core::RampVector, ring(1, 2, 3).ramp.class)
+      assert_equal(SonicPi::Core::RampVector, ring(1, 2, 3).ramp.ring.class)
+    end
+
+    def test_ramp_tick
+      tick_reset_all
+
+      r = ramp(1, 2, 3)
+      assert_equal(1, r.tick)
+      assert_equal(2, r.tick)
+      assert_equal(3, r.tick)
+      assert_equal(3, r.tick)
+    end
   end
 end

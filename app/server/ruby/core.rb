@@ -465,7 +465,7 @@ module SonicPi
       end
 
       def ring
-        if is_a?(SonicPi::Core::RingVector)
+        if is_a?(SonicPi::Core::SPVector)
           self
         else
           SonicPi::Core::RingVector.new(self)
