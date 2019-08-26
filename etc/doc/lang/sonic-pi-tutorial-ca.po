@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-08-22 16:23+0000\n"
+"PO-Revision-Date: 2019-08-28 09:23+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -777,6 +777,9 @@ msgid ""
 "play 75\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"play 75\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:57
 msgid ""
@@ -784,6 +787,9 @@ msgid ""
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
+"Jazzy! Quan escriviu diversos `play`, tots es toquen al mateix temps. "
+"Comproveu-ho - Quins números sonen bé junts? Quins sonen malament? "
+"Experimenteu, exploreu i descobriu-ho vosaltres mateixos."
 
 #: 02.1-Your-First-Beeps.md:61
 msgid "Melody"
@@ -795,6 +801,9 @@ msgid ""
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
+"Sí... tocar notes i acords és divertit, però... I una melodia? I si volem "
+"tocar una nota rere l'altra i no totes alhora? Bé, és senzill, només heu "
+"d'escriure  `sleep` entre les notes:"
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -805,6 +814,11 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 1\n"
+"play 75\n"
+"sleep 1\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:75
 msgid ""
@@ -814,6 +828,11 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
+"Que bonic, un xicotet arpegi. Aleshores, què significa l'`1` en `sleep 1`? "
+"Bé, significa la *duració de la interrupció*. Encara que en realitat "
+"significa esperar una pulsació, de moment podem pensar que s'atura 1 segon. "
+"Així, com ho hauríem de fer si volem que l'arpegi vaja una mica més ràpid? "
+"Bé, només caldran valors inferiors per a `sleep `.  Per exemple,  `0.5`:"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -824,12 +843,19 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 0.5\n"
+"play 75\n"
+"sleep 0.5\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:89
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
 msgstr ""
+"Noteu com s'ha reproduït més ràpid. Ara, proveu a canviar els valors, fent "
+"servir diferents temps i notes."
 
 #: 02.1-Your-First-Beeps.md:92
 msgid ""
@@ -837,6 +863,9 @@ msgid ""
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
+"Una cosa que podeu provar és a tocar sons entre mig de dues notes, tals com `"
+"play 52.3` i `play 52.63`. No hi ha cap necessitat de limitar-vos a notes "
+"senceres estàndard. Jugueu, proveu i gaudiu."
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
@@ -849,6 +878,10 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
+"Per a aquells de vosaltres que ja tingueu coneixements de notació musical ("
+"no us preocupeu si no en teniu, no són necessaris per passar-ho bé) potser "
+"voleu escriure una melodia utilitzant noms de notes com C i F# en lloc de "
+"números. Sonic Pi té tot això cobert. Podeu fer açò:"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -859,12 +892,20 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
+"play :C\n"
+"sleep 0.5\n"
+"play :D\n"
+"sleep 0.5\n"
+"play :E"
 
 #: 02.1-Your-First-Beeps.md:112
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
 msgstr ""
+"No oblideu posar els dos punts `:` davant del nom de cada nota de manera que "
+"aparega de color rosa. A més, podeu especificar l'octava afegint un número "
+"després del nom de la nota:"
 
 #: 02.1-Your-First-Beeps.md:116
 #, no-wrap
@@ -875,24 +916,32 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
+"play :C3\n"
+"sleep 0.5\n"
+"play :D3\n"
+"sleep 0.5\n"
+"play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
+"Si voleu pujar un semitò a una nota, afegiu-hi una `s` després del nom de la "
+"nota així: `play :Fs3`. Si voleu baixar-li un semitò, afegiu una `b`"
+"d'aquesta manera: `play :B3`."
 
 #: 02.1-Your-First-Beeps.md:127
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr ""
+msgstr "Ara, *embogiu* i xaleu fent les vostres pròpies melodies."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
-msgstr ""
+msgstr "2.2 Opcions de sintetitzador"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr ""
+msgstr "Opcions de sintetitzador: Amp i Pan"
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -903,10 +952,16 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
+"A banda de permetre-vos controlar quina nota tocar o quina mostra de so "
+"llançar, Sonic Pi compta amb una rang complet d'opcions per a polir i "
+"controlar els sons. En aquest tutorial cobrirem molts d'aquests assumptes; "
+"existeix una ampla documentació per cadascun d'ells al sistema d'ajuda. No "
+"obstant això, per ara n'introduirem dos dels més útils: *amplitude* i *pan*. "
+"Fem, primer, una ullada a les opcions que hi ha."
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
-msgstr ""
+msgstr "Opcions"
 
 #: 02.2-Synth-Params.md:15
 msgid ""
@@ -916,6 +971,12 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
+"Sonic Pi admet la idea d'opcions (abreviant, opts) per als seus "
+"sintetitzadors. Les Opts són controls que s'afegeixen a `play`i que "
+"modifiquen i controlen aspectes del so. Cada sintetitzador té el seu propi "
+"conjunt d'opcions per ajustar amb precisió els seus sons. No obstant això, "
+"hi ha conjunts d'opcions en comú per a la majoria de sons, tals com `amp:` o "
+"altres opcions d'envolupant (cobertes en una altra secció)."
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -923,6 +984,9 @@ msgid ""
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
+"Les opcions tenen dues parts principals: el nom (el nom del control) i el "
+"valor (el valor que voleu donar al control). Per exemple, podeu tindre una "
+"opció anomenada `cheese:` i que tinga un valor d'`1`."
 
 #: 02.2-Synth-Params.md:27
 msgid ""
@@ -930,60 +994,74 @@ msgid ""
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
+"Les opcions s'afegeixen a les ordres `play`afegint una coma `,`i seguidament "
+"el nom de l'opció, com per exemple `amp:`(no oblideu els dos punts `:`) i a "
+"continuació un espai i el valor per a l'opció en si. Per exemple:"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
 msgid "play 50, cheese: 1"
-msgstr ""
+msgstr "play 50, cheese: 1"
 
 #: 02.2-Synth-Params.md:35
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr ""
+"(Noteu que `cheese:`no és una opció vàlida, només l'hem fet servir com a "
+"exemple)."
 
 #: 02.2-Synth-Params.md:37
 msgid "You can pass multiple opts by separating them with a comma:"
-msgstr ""
+msgstr "Podeu afegir diverses Opts, separades per comes:"
 
 #: 02.2-Synth-Params.md:39
 #, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
-msgstr ""
+msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr ""
+msgstr "L'ordre de les Opts no importa, el següent serà igual a l'anterior:"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 1"
 
 #: 02.2-Synth-Params.md:49
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
+"Les opcions que no són reconegudes pel sintetitzador seran simplement "
+"ignorades (com en el cas de `cheese` i `beans`, les quals tenen noms "
+"ridículs! (traducció: cheese -> formatge, beans -> fesols)"
 
 #: 02.2-Synth-Params.md:52
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
+"Si accidentalment utilitzeu el mateix opcions dues vegades amb valors "
+"diferents, l'últim és el que prevaldrà. Per exemple, `beans:` ací tindrà un "
+"valor de 2 i no de 0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
 #: 02.2-Synth-Params.md:60
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
+"Moltes coses a Sonic Pi accepten opcions, només cal passar temps aprenent "
+"com utilitzar-les i ja estareu preparats! Juguem amb la primera opció: "
+"`amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
-msgstr ""
+msgstr "Amplitud"
 
 #: 02.2-Synth-Params.md:66
 msgid ""
@@ -998,30 +1076,43 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
+"L'amplitud és una representació computeritzada del volum d'un so. Una *"
+"amplitud alta produeix un so de volum alt* i una *amplitud baixa produeix un "
+"so de volum baix*. De la mateixa manera que Sonic Pi utilitza números per "
+"representar tons i temps, també n'utilitza per representar l'amplitud. Una "
+"amplitud 0 és silenci (no escoltareu res) i una amplitud de 1 és volum "
+"normal. Fins i tot podeu augmentar l'amplitud fins a 2, 10 o 100. No obstant "
+"això, heu de tenir en compte que quan l'amplitud de tots els sons és molt "
+"alta, Sonic Pi utilitza un compressor per assegurar-se que no us feu mal a "
+"l'orella. Això pot fer que els sons esdevinguen bruts, estranys.  Intenteu "
+"utilitzar amplituds baixes, això és, en el rang entre 0 i 0.5 per tal "
+"d'evitar la compressió."
 
 #: 02.2-Synth-Params.md:79
 msgid "Amp it up"
-msgstr ""
+msgstr "Amplifiqueu-ho"
 
 #: 02.2-Synth-Params.md:81
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
+"Per canviar l'amplitud d'un so, feu servir l'opció `amp:`. Per exemple, per "
+"tocar a la meitat d'amplitud canvieu-ho a 0.5:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
 msgid "play 60, amp: 0.5"
-msgstr ""
+msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
-msgstr ""
+msgstr "Per tocar-ho al doble d'amplitud, indiqueu 2:"
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
 msgid "play 60, amp: 2"
-msgstr ""
+msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
 msgid ""
@@ -1029,6 +1120,9 @@ msgid ""
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
 msgstr ""
+"L'opció `amp:` només modifica l'entrada `play` a la qual està associada. "
+"Així, en aquest exemple, la primera entrada `play` està a meitat volum i la "
+"segona torna al valor per defecte (1):"
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -1037,10 +1131,15 @@ msgid ""
 "sleep 0.5\n"
 "play 65"
 msgstr ""
+"play 60, amp: 0.5\n"
+"sleep 0.5\n"
+"play 65"
 
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr ""
+"Per descomptat, podeu utilitzar diferents valors d'`amp:`per a cada ordre de "
+"`play`:"
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -1053,10 +1152,17 @@ msgid ""
 "sleep 0.25\n"
 "play 62, amp: 1"
 msgstr ""
+"play 50, amp: 0.1\n"
+"sleep 0.25\n"
+"play 55, amp: 0.2\n"
+"sleep 0.25\n"
+"play 57, amp: 0.4\n"
+"sleep 0.25\n"
+"play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
 msgid "Panning"
-msgstr ""
+msgstr "Panoramització"
 
 #: 02.2-Synth-Params.md:118
 msgid ""
@@ -1067,45 +1173,52 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
+"Un altra opció divertida d'utilitzar és `pan:`, que controla la "
+"panoramització d'un so en estèreo. Panoramitzar un so a l'esquerra significa "
+"que l'escoltareu a l'altaveu esquerre, i panoramitzar-lo a la dreta vol dir "
+"que l'escoltareu a l'altaveu dret. Per als nostres valors, utilitzarem -1 "
+"per representar completament a l'esquerra, 0 per represetar el centre i 1 "
+"per representar completament a la dreta. Per descomptat, podeu fer servir "
+"qualsevol valor entre mig de -1 i 1 per controlar la posició exacta del so."
 
 #: 02.2-Synth-Params.md:126
 msgid "Let's play a beep out of the left speaker:"
-msgstr ""
+msgstr "Toquem un so des de l'altaveu esquerre:"
 
 #: 02.2-Synth-Params.md:128
 #, no-wrap
 msgid "play 60, pan: -1"
-msgstr ""
+msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
 msgid "Now, let's play it out of the right speaker:"
-msgstr ""
+msgstr "Ara, feu que sone per l'altaveu dret:"
 
 #: 02.2-Synth-Params.md:134
 #, no-wrap
 msgid "play 60, pan: 1"
-msgstr ""
+msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
 msgid "Finally let's play it back out of the center of both (the default position):"
-msgstr ""
+msgstr "Finalment, fem que sone novament al centre (posició per defecte):"
 
 #: 02.2-Synth-Params.md:141
 #, no-wrap
 msgid "play 60, pan: 0"
-msgstr ""
+msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
-msgstr ""
+msgstr "Ara, xaleu canviant l'amplitud i la panoramització dels sons!"
 
 #: 02.3-Switching-Synths.md:1
 msgid "2.3 Switching Synths"
-msgstr ""
+msgstr "2.3 Canviant sintetitzadors"
 
 #: 02.3-Switching-Synths.md:3
 msgid "Switching Synths"
-msgstr ""
+msgstr "Canviant sintetitzadors"
 
 #: 02.3-Switching-Synths.md:5
 msgid ""
@@ -1115,6 +1228,11 @@ msgid ""
 " in this section we'll explore the exciting range of sounds that Sonic Pi has "
 "to offer."
 msgstr ""
+"Fins ara ho hem passat molt bé només fent sons. No obstant això, potser "
+"esteu començant a avorrir el so bàsic. És això tot el que pot oferir Sonic "
+"Pi? Hi ha alguna cosa més a fer a banda de tocar sorollets? És clar que sí, "
+"i en aquesta secció explorarem la gama de sons apassionant que Sonic Pi "
+"ofereix."
 
 #: 02.3-Switching-Synths.md:13
 msgid ""
@@ -1125,14 +1243,21 @@ msgid ""
 " you'll have a lot of fun exploring and playing with them. First, let's learn "
 "how to select the current synth to use."
 msgstr ""
+"Sonic Pi té una gama d'instruments anomenats synths, que és la manera "
+"d'abreviar *sintetitzadors*. Mentre que les mostres representen sons pre-"
+"gravats, els sintetitzadors són capaços de generar sons nous depenent de com "
+"els controles (en parlarem més endavant en aquest tutorial). Els "
+"sintetitzadors de Sonic Pi són molt potents i expressius, gaudireu molt "
+"tocant i explorant-los. En primer lloc, aprenguem a seleccionar el "
+"sintetitzador que volem utilitzar."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
-msgstr ""
+msgstr "Serres brunzidores i profetes"
 
 #: 02.3-Switching-Synths.md:23
 msgid "A fun sound is the *saw wave* - let's give it a try:"
-msgstr ""
+msgstr "Un so divertit és el de l'*ona de serra* - provem-lo:"
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
@@ -1145,10 +1270,17 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
 msgid "Let's try another sound - the *prophet*:"
-msgstr ""
+msgstr "Provem un altre so - el profeta (*prophet*):"
 
 #: 02.3-Switching-Synths.md:37
 #, no-wrap
@@ -1161,10 +1293,17 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :prophet\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
 msgid "How about combining two sounds. First one after another:"
-msgstr ""
+msgstr "I si combinem ambdós sons? Posem-los un darrere l'altre:"
 
 #: 02.3-Switching-Synths.md:49
 #, no-wrap
@@ -1178,10 +1317,18 @@ msgid ""
 "play 57\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
 msgid "Now at the same time:"
-msgstr ""
+msgstr "Ara al mateix temps:"
 
 #: 02.3-Switching-Synths.md:62
 #, no-wrap
@@ -1196,6 +1343,15 @@ msgid ""
 "play 57\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :tb303\n"
+"play 38\n"
+"sleep 0.25\n"
+"use_synth :dsaw\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
 msgid ""
@@ -1204,10 +1360,14 @@ msgid ""
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
+"Noteu que l'ordre `use_synth`només afecta a les següents ordres de `play`. "
+"Penseu-lo com un *gran interruptor* - només ordres `play` tocaran l'últim "
+"sintetitzador que s'haja activat. Podeu canviar a un altre sintetitzador amb "
+"`use_synth`."
 
 #: 02.3-Switching-Synths.md:80
 msgid "Discovering Synths"
-msgstr ""
+msgstr "Descobrint sintetitzadors"
 
 #: 02.3-Switching-Synths.md:82
 msgid ""
@@ -1215,26 +1375,29 @@ msgid ""
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
+"Per saber quins sintetitzadors té Sonic Pi, feu una ullada a l'opció "
+"Sintetitzadors del menú que hi ha a l'esquerra (al costat d'Efectes). Hi ha "
+"més de 20 opcions diferents. Ací teniu alguns dels meus favorits:"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
 msgid ""
@@ -1242,14 +1405,17 @@ msgid ""
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
 msgstr ""
+"Ara proveu a *canviar els sintetitzadors mentre la música sona*. Xaleu "
+"combinant sintetitzadors per obtenir sons nous, així com fent servir "
+"diferents sintetitzadors per a diferents seccions de la música."
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr ""
+msgstr "2.4 Duració i envolupants"
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
-msgstr ""
+msgstr "Duració amb envolupants"
 
 #: 02.4-Durations-with-Envelopes.md:5
 msgid ""
@@ -1257,6 +1423,9 @@ msgid ""
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
 msgstr ""
+"En una secció anterior hem vist com podem utilitzar l'ordre `sleep`per "
+"controlar quan disparar els sons. No obstant això, encara no hem pogut "
+"controlar la duració dels sons."
 
 #: 02.4-Durations-with-Envelopes.md:9
 msgid ""
@@ -1265,18 +1434,23 @@ msgid ""
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
+"Amb l'objectiu de donar una manera senzilla però potent de *controlar la "
+"duració* dels sons, Sonic Pi proporciona el concepte d'una *envolupant "
+"d'amplitud ADSR* (exposarem més endavant en aquesta secció què significa "
+"ADSR). Una envolupant d'amplitud ofereix el control de dos aspectes molt "
+"útils:"
 
 #: 02.4-Durations-with-Envelopes.md:14
 msgid "control over the duration of a sound"
-msgstr ""
+msgstr "control sobre la duració del so"
 
 #: 02.4-Durations-with-Envelopes.md:15
 msgid "control over the amplitude of a sound"
-msgstr ""
+msgstr "control sobre l'amplitud del so"
 
 #: 02.4-Durations-with-Envelopes.md:17
 msgid "Duration"
-msgstr ""
+msgstr "Duració"
 
 #: 02.4-Durations-with-Envelopes.md:19
 msgid ""
@@ -1285,6 +1459,10 @@ msgid ""
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
+"La duració és la longitud del so. Una duració major significa que escoltareu "
+"el so més temps. Tots els sons de Sonic Pi tenen una envolupant de control "
+"de l'amplitud, i la duració total de l'envolupant és la duració del so. Per "
+"tant, quan controlem la envolupant controlem la duració."
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1297,20 +1475,31 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
+"L'envolupant ADSR no només controla la duració, també permet un *control "
+"acurat de l'amplitud del so*. Tots els sons audibles comencen i acaben en "
+"silenci, i contenen parts no silencioses enmig. Les envolupants permeten "
+"lliscar i mantenir l'amplitud de les parts no silencioses. És com donar-li "
+"instruccions a algú sobre com pujar i baixar el volum de l'amplificador "
+"d'una guitarra. Per exemple, podeu demanar-li a algú: \"comença en silenci, "
+"puja lentament fins al volum màxim, manté un moment i ràpidament torna al "
+"silenci\". Sonic Pi permet programar exactament aquest comportament amb "
+"envolupants."
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
 msgstr ""
+"Només per recapitular el que ja hem vist abans, una amplitud de 0 és silenci "
+"i una amplitud d'1 és volum normal."
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr ""
+msgstr "Ara, fem una ullada a cadascuna de les parts de les envolupants."
 
 #: 02.4-Durations-with-Envelopes.md:42
 msgid "Release Phase"
-msgstr ""
+msgstr "Fase d'extinció (Release)"
 
 #: 02.4-Durations-with-Envelopes.md:44
 msgid ""
@@ -1319,17 +1508,24 @@ msgid ""
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
+"L'única part de l'envolupant que s'utilitza per defecte és el temps "
+"d'extinció (release). És el temps que tarda el so del sintetitzador fins que "
+"desapareix. Tots els sintetitzadors tenen un temps d'extinció de valor 1, "
+"que significa que per defecte té una duració d'una pulsació (amb una "
+"velocitat per defecte de 60 BPM, aquest so durarà un segon):"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
+"La nota serà audible durant 1 segon. Vinga, cronometreu-ho :-) Aquesta és la "
+"manera més curta de dir el mateix que:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr ""
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
@@ -1337,22 +1533,27 @@ msgid ""
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
+"Noteu com els sons sonen exactament igual (el so dura un segon). No obstant "
+"això, ara és molt fàcil canviar la duració només modificant el valor de "
+"l'opció `release:`:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
 msgid "play 60, release: 2"
-msgstr ""
+msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
 msgstr ""
+"Podem fer que el so del sintetitzador sone durant un període molt curt de "
+"temps fent servir un temps d'extinció molt curt:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
 msgid "play 60, release: 0.2"
-msgstr ""
+msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
 msgid ""
@@ -1360,10 +1561,15 @@ msgid ""
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
+"La duració de l'extinció del so és el que s'anomena *fase d'extinció* i per "
+"defecte és una transició lineal (això és, una línia recta). El diagrama "
+"següent il·lustra aquesta transició:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
 msgstr ""
+"![Envolupant d'extinció(release envelope)](../images/tutorial/env-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 msgid ""
@@ -1373,16 +1579,25 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
+"La línia vertical a l'esquerra del diagrama mostra que el so comença amb "
+"amplitud 0, però arriba immediatament a amplitud completa (això és la fase "
+"d'atac, de la qual en parlarem a continuació). Una vegada l'amplitud ha "
+"arribat al seu punt màxim, es mou en línia recta cap avall fins arribar a 0, "
+"prenent la quantitat de temps especificada en `release:`. *Quan més llargs "
+"són els temps d'extinció (release), més tarda el sintetitzador a esvair el "
+"so.\""
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
+"Podeu, per tant, canviar la duració del so canviant el temps d'extinció "
+"(release). Proveu d'afegir temps d'extinció a la música."
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
-msgstr ""
+msgstr "Fase d'atac"
 
 #: 02.4-Durations-with-Envelopes.md:93
 msgid ""
@@ -1391,6 +1606,11 @@ msgid ""
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
+"Per defecte, la *fase d'atac* és 0 per a tots els sintetitzadors, fet que "
+"significa que passen immediatament d'amplitud 0 a 1. Això li dona al "
+"sintetitzador un so inicial percussiu. No obstant això, podríeu desitjar que "
+"el so s'inicie de manera gradual. Això s'assoleix amb l'opció `attack:`. "
+"Proveu-ho amb diferents sons:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1399,17 +1619,22 @@ msgid ""
 "sleep 3\n"
 "play 65, attack: 0.5"
 msgstr ""
+"play 60, attack: 2\n"
+"sleep 3\n"
+"play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
+"Podeu utilitzar diverses opcions al mateix temps. Per exemple, per a un atac "
+"curt i una extinció llarga, proveu:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
 msgid "play 60, attack: 0.7, release: 4"
-msgstr ""
+msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
 msgid ""
