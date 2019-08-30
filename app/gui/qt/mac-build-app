@@ -68,7 +68,7 @@ install_name_tool -change qwt.framework/Versions/6/qwt @executable_path/qwt.fram
 # symlink server
 # For final release, these need to be mv'd
 # rather than symlinked
-cd ../../
-ln -s ../../../../../app .
-ln -s ../../../../../etc .
-ln -s ../../../../../app/server .
+cd ../Resources/
+ln -s ../../../../../../../app .
+ln -s ../../../../../../../etc .
+ln -s ../../../../../../../app/server .

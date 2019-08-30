@@ -1025,7 +1025,7 @@ void MainWindow::toggleComment(SonicPiScintilla* ws) {
 QString MainWindow::rootPath() {
     // diversity is the spice of life
 #if defined(Q_OS_MAC)
-    return QCoreApplication::applicationDirPath() + "/../..";
+    return QCoreApplication::applicationDirPath() + "/../Resources";
 #elif defined(Q_OS_WIN)
     return QCoreApplication::applicationDirPath() + "/../../../..";
 #else
