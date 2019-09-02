@@ -836,7 +836,6 @@ module SonicPi
 
     def __exit
       log "Runtime - shutting down..."
-      @event_t.kill
       log "Runtime - stopping all jobs..."
       __stop_jobs
       __msg_queue.push({:type => :exit, :jobid => __current_job_id, :jobinfo => __current_job_info})
