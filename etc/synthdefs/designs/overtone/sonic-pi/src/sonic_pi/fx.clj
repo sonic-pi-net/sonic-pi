@@ -1105,6 +1105,7 @@
     feedback            (varlag feedback feedback_slide feedback_slide_curve feedback_slide_shape)
     decay               (varlag decay decay_slide decay_slide_curve decay_slide_shape)
     rate                (/ 1 phase)
+    feedback            (max (min feedback 1) 0)
 
     [local-l local-r]   (local-in:ar 2)
 

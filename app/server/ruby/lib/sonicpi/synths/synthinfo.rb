@@ -7203,7 +7203,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :feedback =>
           {
             :doc => "Amount of feedback.",
-            :validations => [v_positive(:feedback)],
+            :validations => [v_between_inclusive(:feedback, 0, 1)],
             :modulatable => true
           },
 
