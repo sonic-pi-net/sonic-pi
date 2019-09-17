@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-08-16 14:24+0000\n"
-"Last-Translator: Elizabeth Sherrock <lizzyd710@gmail.com>\n"
+"PO-Revision-Date: 2019-09-19 11:27+0000\n"
+"Last-Translator: 陆轶凡 <1787181561@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1289,6 +1289,8 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
+"AADSR包络线就是用来控制音量随着时间变化的部件，这就好像你在只是一个人来拧吉他音箱的音量旋钮：“一开始要安静，接着渐渐到最大音量，维持一段时间，最后迅"
+"速变回安静。” Sonic Pi 便可以通过包络线来精确的执行你的命令。"
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
@@ -1311,6 +1313,8 @@ msgid ""
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
+"包络线唯一一个初始的参数就是声音淡出所需要的时间， 就是释放时间（Release Time)，所有合成器释放时间的初始参数都是“1”， "
+"这指示着它会用一拍的时间淡出（初始的BPM是60）"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
@@ -1328,7 +1332,7 @@ msgid ""
 "Notice how this sounds exactly the same (the sound lasts for one second). Howe"
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
-msgstr ""
+msgstr "注意这个声音和之前是完全一样的（都持续了一分钟）。然而现在通过改变“释放（release)”来改变声音的长短是非常容易的。选择："
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1339,7 +1343,7 @@ msgstr ""
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
-msgstr ""
+msgstr "我们可以通过一个非常小的释放时间来制造一个非常短的合成器声音："
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
@@ -1351,7 +1355,7 @@ msgid ""
 "The duration of the release of the sound is called the *release phase* and by "
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
-msgstr ""
+msgstr "释放所需的时间被称为“释放阶段”，它的初始设置是一个一次函数（直线）。下面是图片解释："
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
