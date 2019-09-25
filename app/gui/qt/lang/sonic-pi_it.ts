@@ -532,7 +532,7 @@ to and from other programs or computers
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation>Lista di tutte leporte MIDI connesse</translation>
+        <translation>Lista di tutte le porte MIDI connesse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
