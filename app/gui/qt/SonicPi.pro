@@ -30,6 +30,7 @@ unix:!macx {
 
 # Mac OS X only
 macx {
+  QT += macextras
   QMAKE_CXXFLAGS += -I/usr/local/include
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   CONFIG += warn_off
