@@ -33,8 +33,8 @@ cd $(dirname $0)
 
 # Generate automated docs
 ../../server/native/ruby/bin/ruby ../../server/ruby/bin/i18n-tool.rb -t
-cp -f ruby_help.tmpl ruby_help.h
-../../server/native/ruby/bin/ruby ../../server/ruby/bin/qt-doc.rb -o ruby_help.h
+cp -f utils/ruby_help.tmpl utils/ruby_help.h
+../../server/native/ruby/bin/ruby ../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
 
 # Generate i18n files
 "$LREL" SonicPi.pro
