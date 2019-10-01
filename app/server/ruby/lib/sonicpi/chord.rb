@@ -82,7 +82,7 @@ module SonicPi
         :m               => minor,
         :major7          => major7,
         :dom7            => dom7,
-        "7"               => dom7,
+        "7"              => dom7,
         :M7              => major7,
         :minor7          => minor7,
         :m7              => minor7,
@@ -108,7 +108,7 @@ module SonicPi
       end
 
       all_chords_names = all_chords.inject([]) do |res, chord_intervals|
-        k, v = *chord_intervals
+        k, _v = *chord_intervals
         res << k.to_s
         res
       end
