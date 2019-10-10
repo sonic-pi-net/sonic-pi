@@ -132,7 +132,7 @@ msgstr "En live løkke"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "Lad os starte! Koppier det følgende kode ind i en tom buffer ovenfor:"
+msgstr "Lad os starte! Kopier følgende kode ind i en tom buffer ovenfor:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -180,6 +180,8 @@ msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
+"Til sidst, *husk øjeblikket*, dette er første gang du har live-kodet med"
+" Sonic Pi, men sandsynligvis ikke den sidste..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -187,6 +189,8 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
+"Ok, det var enkelt nok. Lad os tilføje noget mere. Over `sample: bd_haus` tilf"
+"øj linjen `sample :ambi_choir, rate: 0.3`. Din kode skal se sådan ud:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -197,6 +201,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -207,10 +216,19 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"Tid til at lege lidt. Skift satserne - hvad sker der, når du bruger store værd"
+"ier, eller små værdier eller negative værdier? Se hvad der sker, når du ændrer"
+" `rate:` værdien for lydklippet `:ambi_choir` en smule (f.eks til` 0,29`). Hva"
+"d sker der hvis du vælger en meget kort `sleep` værdi? Se om du kan få det til"
+" at gå så hurtigt at din computer vil stoppe med en fejl, fordi den ikke kan f"
+"ølge med (hvis det sker, skal du bare vælge en længere 'sleep' tid og trykke p"
+"å `Run` igen)"
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
+"Prøv at udkommentere en af `sample` linjerne ved at tilføje et '#' i starten a"
+"f linien:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -221,6 +239,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -228,6 +251,9 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
+"Bemærk hvordan linien bliver ignoreret af computeren, så vi ikke hører den. De"
+"tte kaldes en kommentar. I Sonic Pi kan vi bruge kommentarer til at fjerne og "
+"tilføje dele mens man mixer.
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -237,10 +263,15 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"Lad mig afslutningsvis give dig lidt sjovt at lege med. Tag koden herunder, o"
+"g kopier den til en ekstra buffer. Du behøver ikke at forstå præcist hvad kod"
+"en gør, andet end at der er to loops - to dele der bliver gentaget samtidigt."
+" Gør nu det, du gør bedst - eksperimentér og leg. Her er nogle forslag:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
+"Prøv at ændre den blå `rate:` værdi og hør hvordan lydklippet ændrer sig."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
