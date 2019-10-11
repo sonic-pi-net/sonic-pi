@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-03-28 18:04+0000\n"
-"Last-Translator: Paola García <papodolopus@hotmail.com>\n"
+"PO-Revision-Date: 2019-10-12 12:28+0000\n"
+"Last-Translator: Luis Lloret <luislloret@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2327,10 +2327,9 @@ msgid "The duration of the sample is affected by the playback rate:"
 msgstr "La duración del sampleo es afectada por la velocidad de ejecución:"
 
 #: 03.3-Stretching-Samples.md:118
-#, fuzzy
 msgid "Doubling the playback rate halves the playback time,"
 msgstr ""
-"doblando la reproducción, logramos reducir a la mitad del tiempo de "
+"Doblando la velocidad de reproducción se reduce a la mitad el tiempo de "
 "ejecución,"
 
 #: 03.3-Stretching-Samples.md:119
@@ -2344,16 +2343,14 @@ msgstr ""
 "reproducción,"
 
 #: 03.3-Stretching-Samples.md:121
-#, fuzzy
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
 msgstr ""
-"Usando una velocidad de ejecución de 1/10, tomará 10 veces el tiempo de ejecuc"
-"ión."
+"El uso de una velocidad de reproducción de 1/10, hace que la reproducción "
+"dure 10 veces más."
 
 #: 03.3-Stretching-Samples.md:123
-#, fuzzy
 msgid "We can represent this with the formula:"
-msgstr "Esto lo representaremos con esta fórmula:"
+msgstr "Podemos representar esto con la fórmula:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
