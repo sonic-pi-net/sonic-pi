@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-04-29 17:04+0000\n"
-"Last-Translator: Andru <andres.senn@gmail.com>\n"
+"Last-Translator: Luis Lloret <luislloret@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -2420,8 +2420,8 @@ msgstr "La duración del sampleo es afectada por la velocidad de ejecución:"
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
 msgstr ""
-"Doblando la velocidad de reproducción se reduce a la mitad el tiempo de ejecuc"
-"ión,"
+"Doblando la velocidad de reproducción se reduce a la mitad el tiempo de "
+"ejecución,"
 
 #: 03.3-Stretching-Samples.md:119
 msgid "Halving the playback rate doubles the playback time,"
@@ -2436,8 +2436,8 @@ msgstr ""
 #: 03.3-Stretching-Samples.md:121
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
 msgstr ""
-"El uso de una velocidad de reproducción de 1/10, hace que la reproducción dure"
-" 10 veces más."
+"El uso de una velocidad de reproducción de 1/10, hace que la reproducción "
+"dure 10 veces más."
 
 #: 03.3-Stretching-Samples.md:123
 msgid "We can represent this with the formula:"
