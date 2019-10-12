@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-08-28 09:23+0000\n"
-"Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
+"PO-Revision-Date: 2019-10-12 12:28+0000\n"
+"Last-Translator: Arnold Ewald <vwt419d@web.de>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
 "Language: ca\n"
@@ -1641,10 +1641,13 @@ msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
 msgstr ""
+"Aquest envolupant de curt atac i llarga extinció es troba il·lustrat al "
+"següent diagrama:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
 msgstr ""
+"![envolupant d'atac i extinció](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
