@@ -144,7 +144,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
 
     setupTheme();
-    
+
     lexer = new SonicPiLexer(theme);
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
@@ -524,7 +524,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
     connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
 
-    connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));  
+    connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
     scopeInterface = new Scope(scsynth_port);
     scopeInterface->pause();
@@ -1041,13 +1041,7 @@ void MainWindow::startRubyServer(){
     serverProcess = new QProcess();
 
     QStringList args;
-#if defined(Q_OS_MAC)
-    args << "--enable-frozen-string-literal";
-#elif defined(Q_OS_WIN)
-    args << "--enable-frozen-string-literal";
-#endif
-
-    args << "-E" << "utf-8";
+    args << "--enable-frozen-string-literal" << "-E" << "utf-8";
     args << ruby_server_path;
 
 
@@ -1762,15 +1756,15 @@ void MainWindow::toggleScopeAxes()
 }
 
 void MainWindow::cycleThemes() {
-    if ( piSettings->theme == SonicPiTheme::LightMode ) { 
+    if ( piSettings->theme == SonicPiTheme::LightMode ) {
         piSettings->theme = SonicPiTheme::DarkMode;
-    } else if ( piSettings->theme == SonicPiTheme::DarkMode ) { 
+    } else if ( piSettings->theme == SonicPiTheme::DarkMode ) {
         piSettings->theme = SonicPiTheme::LightProMode;
-    } else if ( piSettings->theme == SonicPiTheme::LightProMode ) { 
+    } else if ( piSettings->theme == SonicPiTheme::LightProMode ) {
         piSettings->theme = SonicPiTheme::DarkProMode;
-    } else if ( piSettings->theme == SonicPiTheme::DarkProMode ) { 
+    } else if ( piSettings->theme == SonicPiTheme::DarkProMode ) {
         piSettings->theme = SonicPiTheme::HighContrastMode;
-    } else if ( piSettings->theme == SonicPiTheme::HighContrastMode ) { 
+    } else if ( piSettings->theme == SonicPiTheme::HighContrastMode ) {
         piSettings->theme = SonicPiTheme::LightMode;
     }
     updateColourTheme();
@@ -2356,7 +2350,7 @@ void MainWindow::restoreScopeState(std::vector<QString> names) {
     QSettings settings("sonic-pi.net", "gui-settings");
 
     for ( auto name : names ) {
-        bool def = (name.toLower() == "mono"); 
+        bool def = (name.toLower() == "mono");
         piSettings->setScopeState(name, settings.value("prefs/scope/show-"+name.toLower(), def).toBool());
     }
 }
