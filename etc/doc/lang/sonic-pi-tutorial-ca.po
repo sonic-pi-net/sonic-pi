@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-10-12 12:28+0000\n"
+"PO-Revision-Date: 2019-10-20 08:52+0000\n"
 "Last-Translator: Arnold Ewald <vwt419d@web.de>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9-dev\n"
+"X-Generator: Weblate 3.9.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1654,11 +1654,13 @@ msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
 msgstr ""
+"Per descomptat, podeu canviar les coses. Proveu un atac llarg i una breu "
+"extinció:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr ""
+msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
@@ -1675,7 +1677,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
 msgid "play 60, attack: 0.5, release: 0.5"
-msgstr ""
+msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
 msgid ""
@@ -1697,7 +1699,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
 msgid "play 60, attack: 0.3, sustain: 1, release: 1"
-msgstr ""
+msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
@@ -1733,6 +1735,8 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain"
 ": 1, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, "
+"sustain: 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
 msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
