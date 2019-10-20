@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-09-26 04:28+0000\n"
-"Last-Translator: Italo Adler <adler.italo@gmail.com>\n"
+"PO-Revision-Date: 2019-10-21 23:52+0000\n"
+"Last-Translator: Valdeci Gomes <valdeci@outlook.my>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.9-dev\n"
+"X-Generator: Weblate 3.9.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2571,6 +2571,8 @@ msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
 msgstr ""
+"Nós podemos usar ambos `attack:` e `release:` em conjunto com o auto "
+"sustain  para fazer o fade-in e o fade-out na duração do sample:"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
@@ -2586,13 +2588,16 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
-msgstr ""
+msgstr "Sustentação (sustain) explícito"
 
 #: 03.4-Enveloped-Samples.md:88
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually setting "
 "`sustain:` to a value such as 0:"
 msgstr ""
+"Nós podemos facilmente voltar para o comportamento normal do nosso "
+"sintetizador ASDR, configurando manualmente o `sustain:` para um valor como "
+"0:"
 
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
