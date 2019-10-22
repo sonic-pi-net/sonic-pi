@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-10-20 08:52+0000\n"
-"Last-Translator: Arnold Ewald <vwt419d@web.de>\n"
+"PO-Revision-Date: 2019-10-24 13:53+0000\n"
+"Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
 "Language: ca\n"
@@ -726,7 +726,7 @@ msgstr "Podeu escoltar la diferència? Proveu amb un número inferior:"
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr "reprodueix 60"
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
