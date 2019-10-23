@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-09-19 11:27+0000\n"
-"Last-Translator: 陆轶凡 <1787181561@qq.com>\n"
+"PO-Revision-Date: 2019-10-24 13:53+0000\n"
+"Last-Translator: Kaine <muikaien1@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.9-dev\n"
+"X-Generator: Weblate 3.9.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -640,7 +640,6 @@ msgstr ""
 "48`是升高了一个音符(右边的下一个音符)。正好，第四个八度C就是数字60。继续播放:`play 60`。"
 
 #: 02.1-Your-First-Beeps.md:42
-#, fuzzy
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
@@ -1193,13 +1192,12 @@ msgid "Discovering Synths"
 msgstr "探索合成器"
 
 #: 02.3-Switching-Synths.md:82
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"要查看Sonic Pi有哪些合成器可以让你玩，可以看看最左边的下拉菜单（ FX 之前）中的Sythes选项。有超过20种合成器可供选择。以下是我的最爱："
+"要查看Sonic Pi有哪些合成器可以让你玩，可以看看最左边的下拉菜单（ FX 之前）中的Synths选项。有超过20种合成器可供选择。以下是我的最爱："
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
@@ -1346,9 +1344,9 @@ msgid ""
 msgstr "我们可以通过一个非常小的释放时间来制造一个非常短的合成器声音："
 
 #: 02.4-Durations-with-Envelopes.md:71
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, release: 0.2"
-msgstr ""
+msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
 msgid ""
@@ -1359,7 +1357,7 @@ msgstr "释放所需的时间被称为“释放阶段”，它的初始设置是
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 msgid ""
@@ -1378,7 +1376,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
-msgstr ""
+msgstr "起音阶段"
 
 #: 02.4-Durations-with-Envelopes.md:93
 msgid ""
@@ -1387,6 +1385,8 @@ msgid ""
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
+"默认的起音时间时0，代表波幅会从0立即升到1，声音像打鼓一样。但你可能要让声音淡入。如果要这样，你可以用 `attack: ` "
+"的选定。试一下把这些声音淡入一下："
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1395,6 +1395,9 @@ msgid ""
 "sleep 3\n"
 "play 65, attack: 0.5"
 msgstr ""
+"play 60, attack: 2\n"
+"sleep 3\n"
+"play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
 msgid ""
@@ -1426,7 +1429,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr ""
+msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
@@ -1441,15 +1444,15 @@ msgid ""
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:128
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, attack: 0.5, release: 0.5"
-msgstr ""
+msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
 msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
-msgstr ""
+msgstr "![短起音，短释放的包络](../images/tutorial/env-long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
