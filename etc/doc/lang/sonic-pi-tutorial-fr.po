@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-02-13 15:11+0000\n"
-"Last-Translator: Mathieu H <wiiu3dsxl13127@gmail.com>\n"
+"PO-Revision-Date: 2019-10-26 13:53+0000\n"
+"Last-Translator: Valentin STERN <valentin.stern@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.5-dev\n"
+"X-Generator: Weblate 3.9.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -13559,24 +13559,23 @@ msgid "Bizet Beats"
 msgstr "Battements de Bizet"
 
 #: A.07-bizet.md:5
-#, fuzzy
 msgid ""
 "After our brief excursion to the fantastic world of coding Minecraft with Soni"
 "c Pi last month, let's get musical again. Today we're going to bring a classic"
 "al operatic dance piece straight into the 21st century using the awesome power"
 " of code."
 msgstr ""
-"Après notre briève excursion dans le monde fantastique de la programmation Min"
-"ecraft avec Sonic Pi le mois dernier, penchons nous sur la musique à nouveau. "
-"Aujourd'hui nous allons amener un morceau classique de danse d'opéra droit dan"
-"s le 21e siècle en utilisant la puissance fantastique du code."
+"Après notre brève excursion dans le monde fantastique de la programmation "
+"Minecraft avec Sonic Pi le mois dernier, penchons-nous sur la musique à "
+"nouveau. Aujourd'hui nous allons amener un morceau classique de danse "
+"d'opéra directement dans le 21e siècle en utilisant la puissance fantastique "
+"du code."
 
 #: A.07-bizet.md:10
 msgid "Outrageous and Disruptive"
 msgstr "Scandaleux et Perturbateur"
 
 #: A.07-bizet.md:12
-#, fuzzy
 msgid ""
 "Let's jump into a time machine back to the year 1875. A composer called Bizet "
 "had just finished his latest opera Carmen. Unfortunately like many exciting an"
@@ -13590,28 +13589,27 @@ msgid ""
 msgstr ""
 "Sautons dans une machine à remonter le temps jusqu'en 1875. Un compositeur "
 "nommé Bizet avait juste terminé son dernier opéra : Carmen. Malheureusement "
-"comme beaucoup de nouveaux morceaux excitants et perturbateurs, les gens ne "
-"les aimaient pas du tout puisqu'ils les trouvaient trop offensifs et "
+"comme beaucoup de nouveaux morceaux innovants et perturbateurs, les gens ne "
+"les aimaient pas du tout puisqu'ils les trouvaient trop choquants et "
 "différents. Malheureusement Bizet est mort dix ans avant que l'opéra ne "
-"connaisse un grand succès international et ne devienne un des opéras les "
-"plus connus et les plus fréquemment interprétés de tous les temps. Par "
-"sympathie pour cette tragédie, nous allons prendre un des thèmes principaux "
-"de Carmen et nous allons le convertir dans un format moderne de musique qui "
-"est aussi trop offensif et différent pour la plupart des gens de notre "
-"époque : la musique codée interactive !"
+"connaisse un succès international et ne devienne l'un des opéras les plus "
+"connus et les plus fréquemment interprétés de tous les temps. Par sympathie "
+"pour cette tragédie, nous allons prendre un des thèmes principaux de Carmen "
+"et nous allons le convertir dans un format moderne de musique qui est aussi "
+"trop innovant et pertubateur pour la plupart des gens de notre époque : la "
+"musique codée interactive !"
 
 #: A.07-bizet.md:23
 msgid "Decoding the Habanera"
 msgstr "La Habanera décryptée"
 
 #: A.07-bizet.md:25
-#, fuzzy
 msgid ""
 "Trying to live code the whole opera would be a bit of a challenge for this tut"
 "orial, so let's focus on one of the most famous parts - the bass line to the H"
 "abanera:"
 msgstr ""
-"Essayez de programmer un opéra entier de manière interactive serait un peu "
+"Essayer de programmer un opéra entier de manière interactive serait un peu "
 "trop ambitieux pour ce tutoriel. Concentrons nous plutôt sur une des ses "
 "plus célèbres parties : la ligne de basse de la Habanera :"
 
@@ -13620,7 +13618,6 @@ msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
 msgstr "![Riff Habanera](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
-#, fuzzy
 msgid ""
 "This may look extremely unreadable to you if you haven't yet studied music not"
 "ation. However, as programmers we see music notation as just another form of c"
@@ -13631,7 +13628,7 @@ msgstr ""
 "notation musicale. Cependant, en tant que programmeurs nous voyons la "
 "notation musicale comme juste une autre forme de code, elle représente juste "
 "des instructions pour un musicien au lieu d'un ordinateur. C'est pourquoi "
-"nous devons trouver un moyen de la décoder"
+"nous devons trouver un moyen de la décoder."
 
 #: A.07-bizet.md:36
 msgid "Notes"
