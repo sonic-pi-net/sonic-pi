@@ -456,6 +456,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["Dark"] = dt_vdarkgrey;
     themeSettings["ScrollBar"] = dt_darkgrey;
     themeSettings["ScrollBarBackground"] = dt_black;
+    themeSettings["ScrollBarBorder"] = dt_black;
     themeSettings["SliderBackground"] = dt_grey;
     themeSettings["SliderBorder"] = dt_grey;
     themeSettings["Slider"] = dt_pink;

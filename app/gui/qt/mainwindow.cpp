@@ -1852,6 +1852,7 @@ void MainWindow::updateColourTheme(){
     for(int i=0; i < tabs->count(); i++){
         SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
         ws->setFrameShape(QFrame::NoFrame);
+        ws->setStyleSheet("");
         ws->setStyleSheet(appStyling);
 
         if (piSettings->theme == SonicPiTheme::HighContrastMode) {

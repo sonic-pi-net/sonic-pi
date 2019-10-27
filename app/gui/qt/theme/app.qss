@@ -371,18 +371,20 @@ QScrollBar::sub-line:vertical {
 
 QScrollBar:horizontal {
     border: 2px scrollBarBackgroundColor;
-    background: none;
+    background: scrollBarBackgroundColor;
     height: 15px;
     margin: 0px 20px 0 20px;
 }
+
 QScrollBar::handle:horizontal {
     background: scrollBarColor;
     min-width: 20px;
     border: 2px solid paneColor;
 }
+
 QScrollBar::add-line:horizontal {
     border: 2px scrollBarBackgroundColor;
-    background: none;
+    background: scrollBarBackgroundColor;
     width: 20px;
     subcontrol-position: right;
     subcontrol-origin: margin;
