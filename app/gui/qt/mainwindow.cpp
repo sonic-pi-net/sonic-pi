@@ -133,6 +133,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     guiID = QUuid::createUuid().toString();
     QSettings settings("sonic-pi.net", "gui-settings");
 
+    readSettings();
     initPaths();
 
     // Clear out old tasks from previous sessions if they still exist
@@ -149,26 +150,27 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::cout << "[GUI] -                            " << std::endl;
     std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
 
+    // dynamically discover port numbers and then check them this will
+    // show an error dialogue to the user and then kill the app if any of
+    // the ports aren't available
+    initAndCheckPorts();
+    startRubyServer();
+
+    std::cout << "[GUI] - hiding main window" << std::endl;
+    hide();
+
     setupTheme();
 
     lexer = new SonicPiLexer(theme);
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
 
-    // dynamically discover port numbers and then check them this will
-    // show an error dialogue to the user and then kill the app if any of
-    // the ports aren't available
-    initAndCheckPorts();
-
-    readSettings();
     oscSender = new OscSender(gui_send_to_server_port);
 
     setupWindowStructure();
     createStatusBar();
     createInfoPane();
     setWindowTitle(tr("Sonic Pi"));
-
-    startRubyServer();
 
     createShortcuts();
     createToolBar();
@@ -201,6 +203,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     // user_token = new QLineEdit(this);
 
     // user_token->setText(settings.value("userToken", "").toString());
+
+    // Wait to hear back from the Ruby language server before continuing
+    std::cout << "[GUI] - wait for sync" << std::endl;
+
+    if (waitForServiceSync()){
+        // We have a connection! Finish up loading app...
+        scopeInterface->scsynthBooted();
     std::cout << "[GUI] - honour prefs" << std::endl;
     restoreWindows();
     honourPrefs();
@@ -212,14 +221,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     updateFullScreenMode();
 
-    std::cout << "[GUI] - hide" << std::endl;
-    hide();
-    // Wait to hear back from the Ruby language server before continuing
-    std::cout << "[GUI] - wait for sync" << std::endl;
-
-    if (waitForServiceSync()){
-        // We have a connection! Finish up loading app...
-        scopeInterface->scsynthBooted();
         updateColourTheme();
         std::cout << "[GUI] - load workspaces" << std::endl;
         loadWorkspaces();
