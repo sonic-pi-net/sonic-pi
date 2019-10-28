@@ -135,6 +135,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     initPaths();
 
+    // Clear out old tasks from previous sessions if they still exist
+    // in addtition to clearing out the logs
+    QProcess *initProcess = new QProcess();
+    initProcess->start(ruby_path, QStringList(init_script_path));
+    initProcess->waitForFinished();
+
     // Throw all stdout into ~/.sonic-pi/log/gui.log
     setupLogPathAndRedirectStdOut();
 
@@ -157,17 +163,14 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     readSettings();
     oscSender = new OscSender(gui_send_to_server_port);
 
-    QProcess *initProcess = new QProcess();
-    initProcess->start(ruby_path, QStringList(init_script_path));
+
 
     setupWindowStructure();
     createStatusBar();
     createInfoPane();
     setWindowTitle(tr("Sonic Pi"));
-    // Clear out old tasks from previous sessions if they still exist
-    // in addtition to clearing out the logs
 
-    initProcess->waitForFinished();
+
     startRubyServer();
 
     createShortcuts();
