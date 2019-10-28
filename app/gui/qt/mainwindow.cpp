@@ -210,16 +210,16 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     if (waitForServiceSync()){
         // We have a connection! Finish up loading app...
         scopeInterface->scsynthBooted();
-    std::cout << "[GUI] - honour prefs" << std::endl;
-    restoreWindows();
-    honourPrefs();
-    std::cout << "[GUI] - update prefs icon" << std::endl;
-    updatePrefsIcon();
-    std::cout << "[GUI] - toggle icons" << std::endl;
-    toggleIcons();
-    std::cout << "[GUI] - full screen" << std::endl;
+        std::cout << "[GUI] - honour prefs" << std::endl;
+        restoreWindows();
+        honourPrefs();
+        std::cout << "[GUI] - update prefs icon" << std::endl;
+        updatePrefsIcon();
+        std::cout << "[GUI] - toggle icons" << std::endl;
+        toggleIcons();
+        std::cout << "[GUI] - full screen" << std::endl;
 
-    updateFullScreenMode();
+        updateFullScreenMode();
 
         updateColourTheme();
         std::cout << "[GUI] - load workspaces" << std::endl;
@@ -2747,6 +2747,7 @@ void MainWindow::resetMidi() {
 
 void MainWindow::toggleOSCServer(int silent) {
     if (piSettings->osc_server_enabled) {
+      std::cout << "[GUI] - asking OSC server to start" << std::endl;
         statusBar()->showMessage(tr("Opening OSC port for remote messages..."), 2000);
         int open = piSettings->osc_public ? 1 : 0;
 
@@ -2757,6 +2758,7 @@ void MainWindow::toggleOSCServer(int silent) {
         sendOSC(msg);
     } else {
         statusBar()->showMessage(tr("Stopping OSC server..."), 2000);
+        std::cout << "[GUI] - asking OSC server to stop" << std::endl;
         Message msg("/osc-port-stop");
         msg.pushStr(guiID.toStdString());
         msg.pushInt32(silent);
