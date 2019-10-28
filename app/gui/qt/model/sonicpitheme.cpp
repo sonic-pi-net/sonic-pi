@@ -673,8 +673,8 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["StatusBar"] = dt_white;
     themeSettings["StatusBarText"] = dt_darkgrey;
 
-    themeSettings["Menu"] = dt_lightgrey;
-    themeSettings["MenuText"] = dt_white;
+    themeSettings["Menu"] = dt_white;
+    themeSettings["MenuText"] = dt_darkgrey;
     themeSettings["MenuSelected"] = dt_pink;
     themeSettings["MenuSelectedText"] = dt_white;
 
