@@ -20,7 +20,6 @@
  * Default Constructor
  */
 SettingsWidget::SettingsWidget( int port, SonicPiSettings *piSettings,  QWidget *parent) {
-    std::cout << "settings created" << std::endl;
     this->piSettings = piSettings;
     server_osc_cues_port = port;
     prefTabs = new QTabWidget();
@@ -245,7 +244,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     midi_ports_box->setLayout(midi_ports_box_layout);
     midi_config_box->setLayout(midi_config_box_layout);
-    
+
     QGridLayout *io_tab_layout = new QGridLayout();
     io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
     io_tab_layout->addWidget(midi_config_box, 0, 1);
@@ -288,7 +287,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
     full_screen = new QCheckBox(tr("Full screen"));
     full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
-   
+
     colourModeButtonGroup = new QButtonGroup(this);
     lightModeCheck = new QCheckBox(tr("Light"));
     darkModeCheck = new QCheckBox(tr("Dark"));
@@ -637,12 +636,12 @@ void SettingsWidget::settingsChanged() {
     clear_output_on_run->setChecked(piSettings->clear_output_on_run);
     log_cues->setChecked(piSettings->log_cues);
     log_auto_scroll->setChecked(piSettings->log_auto_scroll);
-    gui_transparency_slider->setValue(piSettings->gui_transparency); 
-    lightModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightMode );        
-    darkModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkMode );         
-    lightProModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightProMode );     
-    darkProModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkProMode );      
-    highContrastModeCheck->setChecked( piSettings->theme == SonicPiTheme::HighContrastMode ); 
+    gui_transparency_slider->setValue(piSettings->gui_transparency);
+    lightModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightMode );
+    darkModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkMode );
+    lightProModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightProMode );
+    darkProModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkProMode );
+    highContrastModeCheck->setChecked( piSettings->theme == SonicPiTheme::HighContrastMode );
 
     show_scopes->setChecked(piSettings->show_scopes);
     show_scope_axes->setChecked(piSettings->show_scope_axes);
@@ -700,7 +699,7 @@ void SettingsWidget::connectAll() {
     connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateTransparency(int)));
-    
+
     connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
