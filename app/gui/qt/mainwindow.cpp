@@ -163,13 +163,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     readSettings();
     oscSender = new OscSender(gui_send_to_server_port);
 
-
-
     setupWindowStructure();
     createStatusBar();
     createInfoPane();
     setWindowTitle(tr("Sonic Pi"));
-
 
     startRubyServer();
 
@@ -179,6 +176,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     updateButtonVisibility();
     updateLogVisibility();
     updateIncomingOscLogVisibility();
+
     // The implementation of this method is dynamically generated and can
     // be found in ruby_help.h:
     std::cout << "[GUI] - initialising documentation window" << std::endl;
