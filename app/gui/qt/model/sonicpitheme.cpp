@@ -66,7 +66,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         helpIcon = &default_dark_help_icon;
         helpIconActive = &default_dark_help_toggled_icon;
         recIcon = &default_dark_rec_icon;
-        recIconA = &default_dark_rec_a_icon; 
+        recIconA = &default_dark_rec_a_icon;
         recIconB = &default_dark_rec_b_icon;
         prefsIcon = &default_dark_prefs_icon;
         prefsIconActive = &default_dark_prefs_toggled_icon;
@@ -108,7 +108,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         helpIcon = &default_light_help_icon;
         helpIconActive = &default_light_help_toggled_icon;
         recIcon = &default_light_rec_icon;
-        recIconA = &default_light_rec_a_icon; 
+        recIconA = &default_light_rec_a_icon;
         recIconB = &default_light_rec_b_icon;
         prefsIcon = &default_light_prefs_icon;
         prefsIconActive = &default_light_prefs_toggled_icon;
@@ -150,7 +150,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         helpIcon = &default_hc_help_icon;
         helpIconActive = &default_hc_help_toggled_icon;
         recIcon = &default_hc_rec_icon;
-        recIconA = &default_hc_rec_a_icon; 
+        recIconA = &default_hc_rec_a_icon;
         recIconB = &default_hc_rec_b_icon;
         prefsIcon = &default_hc_prefs_icon;
         prefsIconActive = &default_hc_prefs_toggled_icon;
@@ -171,7 +171,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         helpIcon = &pro_help_icon;
         helpIconActive = &pro_help_bordered_icon;
         recIcon = &default_light_rec_icon;
-        recIconA = &default_light_rec_a_icon; 
+        recIconA = &default_light_rec_a_icon;
         recIconB = &default_light_rec_b_icon;
         prefsIcon = &default_light_prefs_icon;
         prefsIconActive = &default_light_prefs_toggled_icon;
@@ -827,7 +827,7 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
 }
 
 QPalette SonicPiTheme::createPalette() {
-    QPalette p = QApplication::palette(); 
+    QPalette p = QApplication::palette();
     p.setColor(QPalette::WindowText,      color("WindowForeground"));
     p.setColor(QPalette::Window,          color("WindowBackground"));
     p.setColor(QPalette::Base,            color("Base"));
@@ -987,9 +987,6 @@ void SonicPiTheme::loadToolBarIcons() {
 
     QSize pro_size = QSize(30, 30);
     QSize def_size = QSize(85, 30);
-    QFile f(":/images/toolbar/pro/run.png");
-
-std::cout << "[GUI] - " << ( f.exists() ? "T" : "F" )<< std::endl;
 
     pro_run_icon = QIcon();
     pro_run_icon.addFile(":/images/toolbar/pro/run.png", pro_size);
