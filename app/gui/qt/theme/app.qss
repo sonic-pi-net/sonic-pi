@@ -170,7 +170,7 @@ QMainWindow::separator
 
 QMainWindow
 {
-    background-color: windowBorderColor;
+    background-color: none;
     color: windowColor;
 }
 
