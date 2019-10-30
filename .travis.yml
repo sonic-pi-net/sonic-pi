@@ -48,9 +48,6 @@ before_install:
     ./waf configure build
     sudo ./waf install
 
-    # Install bundler
-    sudo gem install bundler || sudo gem2.5 install bundler
-
 script:
  - set -e
 # the | starts a multiline YAML entry
@@ -66,7 +63,7 @@ script:
 
     echo ""
     echo "***********************************"
-    echo "* Compiling the vendor/ ruby gems *"
+    echo "* Building Sonic Pi               *"
     echo "***********************************"
     cd $TRAVIS_BUILD_DIR
     rake build
