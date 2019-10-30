@@ -99,13 +99,13 @@ namespace "server" do
     info("Bundling gems and extensions used by the server")
 
     if (args.deployment == true)
-      info("Running 'bundler install --deployment --path=#{File.expand_path(args.path)}'...")
+      info("Running 'bundle install --deployment --path=#{File.expand_path(args.path)}'...")
       FileUtils.mkdir_p(args.path)
-      sh "cd #{SPI_SERVER_PATH}/ruby && bundler install --deployment --path=#{File.expand_path(args.path)}"
+      sh "cd #{SPI_SERVER_PATH}/ruby && bundle install --deployment --path=#{File.expand_path(args.path)}"
     else
-      info("Running 'bundler install --path=#{File.expand_path(args.path)}'...")
+      info("Running 'bundle install --path=#{File.expand_path(args.path)}'...")
       FileUtils.mkdir_p(args.path)
-      sh "cd #{SPI_SERVER_PATH}/ruby && bundler install --path=#{File.expand_path(args.path)}"
+      sh "cd #{SPI_SERVER_PATH}/ruby && bundle install --path=#{File.expand_path(args.path)}"
     end
   end
 
