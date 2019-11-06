@@ -274,6 +274,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["MenuText"] = dt_darkgrey;
     themeSettings["MenuSelected"] = dt_pink;
     themeSettings["MenuSelectedText"] = dt_white;
+    themeSettings["MenuBar"] = dt_lightgrey;
 
     themeSettings["Foreground"]                      = theme_fg;
     themeSettings["Background"]                      = dt_white;
@@ -474,6 +475,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["MenuText"] = dt_lightgrey;
     themeSettings["MenuSelected"] = dt_pink;
     themeSettings["MenuSelectedText"] = dt_white;
+    themeSettings["MenuBar"] = dt_darkgrey;
 
     themeSettings["Foreground"]                      = dt_lightgrey;
     themeSettings["Background"]                      = dt_black;
@@ -677,6 +679,7 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["MenuText"] = dt_darkgrey;
     themeSettings["MenuSelected"] = dt_pink;
     themeSettings["MenuSelectedText"] = dt_white;
+    themeSettings["MenuBar"] = dt_white;
 
     themeSettings["Foreground"]                      = theme_fg;
     themeSettings["Background"]                      = dt_white;
@@ -896,6 +899,7 @@ QString SonicPiTheme::getAppStylesheet() {
     QString menuTextColor = this->color("MenuText").name();
     QString menuSelectedColor = this->color("MenuSelected").name();
     QString menuSelectedTextColor = this->color("MenuSelectedText").name();
+    QString menuBarColor = this->color("MenuBar").name();
 
     QString selectionForegroundColor = this->color("SelectionForeground").name();
     QString selectionBackgroundColor = this->color("SelectionBackground").name();
@@ -933,6 +937,7 @@ QString SonicPiTheme::getAppStylesheet() {
         .replace("menuTextColor", menuTextColor)
         .replace("menuSelectedColor", menuSelectedColor)
         .replace("menuSelectedTextColor", menuSelectedTextColor)
+        .replace("menuBarColor", menuBarColor)
         .replace("selectionForegroundColor", selectionForegroundColor)
         .replace("selectionBackgroundColor", selectionBackgroundColor)
         .replace("errorBackgroundColor", errorBackgroundColor);
