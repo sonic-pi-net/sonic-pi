@@ -152,6 +152,20 @@ QMenu:selected{
     color: menuSelectedTextColor;
 }
 
+QMenuBar {
+    background: menuBarColor;
+}
+
+QMenuBar::item {
+    background: menuColor;
+    color: menuTextColor;
+}
+
+QMenuBar::item:selected {
+    background: menuSelectedColor;
+    color: menuSelectedTextColor;
+}
+
 QMainWindow::separator{
     border: 1px solid windowBorderColor;
 }
