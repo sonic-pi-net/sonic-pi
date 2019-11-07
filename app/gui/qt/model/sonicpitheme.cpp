@@ -904,6 +904,7 @@ QString SonicPiTheme::getAppStylesheet() {
     QString selectionForegroundColor = this->color("SelectionForeground").name();
     QString selectionBackgroundColor = this->color("SelectionBackground").name();
     QString errorBackgroundColor = this->color("ErrorBackground").name();
+    QString baseColor = this->color("Base").name();
 
     appStyling.replace("fixedWidthFont", "\"Hack\"");
 
@@ -940,7 +941,8 @@ QString SonicPiTheme::getAppStylesheet() {
         .replace("menuBarColor", menuBarColor)
         .replace("selectionForegroundColor", selectionForegroundColor)
         .replace("selectionBackgroundColor", selectionBackgroundColor)
-        .replace("errorBackgroundColor", errorBackgroundColor);
+        .replace("errorBackgroundColor", errorBackgroundColor)
+        .replace("baseColor", baseColor);
 
     return appStyling;
 }

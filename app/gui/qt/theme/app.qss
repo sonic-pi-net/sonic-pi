@@ -30,6 +30,7 @@ Available Style Colours:
 - menuTextColor
 - menuSelectedColor
 - menuSelectedTextColor
+- menuBarColor
 - selectionForegroundColor
 - selectionBackgroundColor
 - errorBackgroundColor
@@ -420,4 +421,16 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
     background: none;
+}
+
+QFileDialog QHeaderView, QFileDialog QHeaderView::section {
+    background: baseColor;
+    color: menuTextColor;
+}
+
+QFileDialog QLineEdit {
+    background: tabColor;
+    color: tabTextColor;
+    border: none;
+    padding: 1px 18px 1px 3px;
 }
