@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-07-05 21:01+0000\n"
-"Last-Translator: Luis Valdez <lvaldez@stanfordalumni.org>\n"
+"PO-Revision-Date: 2019-11-11 17:04+0000\n"
+"Last-Translator: Daniele P. <daniele.paradiso3@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/it/>\n"
 "Language: it\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 3.10-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5253,9 +5253,9 @@ msgid ""
 "s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Può risultarti utile dare un nome alle cose nel codice. Sonic Pi rende "
-"questo processo molto semplice: basta che scrivi il nome desiderato, il "
-"segno uguale ('='), e dopo la cosa che vuoi ricordarti:"
+"Una cosa che può risultarti utile è quella di creare nomi da assegnare alle "
+"cose. Sonic Pi rende questo processo molto semplice: basta che scrivi il "
+"nome desiderato, il segno uguale ('='), e dopo la cosa che vuoi ricordarti:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5506,7 +5506,7 @@ msgstr ""
 
 #: 05.6-Variables.md:133
 msgid "Warning: Variables and Threads"
-msgstr "Attenzone: Variabili e Threads"
+msgstr "Attenzione: Variabili e Thread"
 
 #: 05.6-Variables.md:135
 msgid ""
@@ -5519,7 +5519,7 @@ msgstr ""
 "usate in locale all'interno di un thread. Per esempio, *non fare questo*:"
 
 #: 05.6-Variables.md:139
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "a = (ring 6, 5, 4, 3, 2, 1)\n"
 "live_loop :shuffled do\n"
@@ -5532,6 +5532,16 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -8549,12 +8559,14 @@ msgstr ""
 "riguardo!"
 
 #: 10-State.md:1
+#, fuzzy
 msgid "10 Time State"
-msgstr ""
+msgstr "10 Time State"
 
 #: 10-State.md:3
+#, fuzzy
 msgid "Time State"
-msgstr ""
+msgstr "Time State"
 
 #: 10-State.md:5
 msgid ""
@@ -8646,7 +8658,7 @@ msgstr ""
 "`:intensity`. Questo è possibile utilizzano la funzione `set`:"
 
 #: 10.1-Set-and-Get.md:19
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "set :intensity, 3000"
 msgstr "set :intensity, 3000"
 
@@ -8659,11 +8671,13 @@ msgstr ""
 "informazioni con quella chiave, il nuovo `set` le sostituisce:"
 
 #: 10.1-Set-and-Get.md:26
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
 msgstr ""
+"set :intensity, 1000\n"
+"set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:31
 msgid ""
@@ -8677,6 +8691,7 @@ msgstr ""
 "in effetti soprascritta."
 
 #: 10.1-Set-and-Get.md:35
+#, fuzzy
 msgid "Get"
 msgstr "Get"
 
@@ -8711,7 +8726,7 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:52
 msgid "Multiple Threads"
-msgstr "Thread Molteplici"
+msgstr "Thread multipli"
 
 #: 10.1-Set-and-Get.md:54
 msgid ""
@@ -8724,7 +8739,7 @@ msgstr ""
 "che imposta informazioni ed un altro che le recupera:"
 
 #: 10.1-Set-and-Get.md:58
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8755,7 +8770,7 @@ msgstr ""
 "provalo. Vedi se ottieni il seguente nel tuo log:"
 
 #: 10.1-Set-and-Get.md:74
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "{run: 0, time: 0.0}\n"
 " └─ 125.72265625\n"
@@ -8774,6 +8789,22 @@ msgid ""
 "{run: 0, time: 3.5}\n"
 " └─ 75.6048583984375"
 msgstr ""
+"{run: 0, time: 0.0}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 0.5}\n"
+" └─ 125.72265625\n"
+"{run: 0, time: 1.0}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 1.5}\n"
+" └─ 76.26220703125\n"
+"{run: 0, time: 2.0}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 2.5}\n"
+" └─ 114.93408203125\n"
+"{run: 0, time: 3.0}\n"
+" └─ 75.6048583984375\n"
+"{run: 0, time: 3.5}\n"
+" └─ 75.6048583984375"
 
 #: 10.1-Set-and-Get.md:100
 msgid ""
@@ -8909,14 +8940,17 @@ msgstr ""
 "riproducibile."
 
 #: 10.2-Sync.md:1
+#, fuzzy
 msgid "10.2 Sync"
-msgstr ""
+msgstr "10.2 Sync"
 
 #: 10.2-Sync.md:3
+#, fuzzy
 msgid "Sync"
-msgstr ""
+msgstr "Sync"
 
 #: 10.2-Sync.md:5
+#, fuzzy
 msgid ""
 "Section 5.7 introduced the functions `cue` and `sync` when dealing with the is"
 "sue of synchronising threads. What it didn't explain was that it is the Time S"
@@ -8927,16 +8961,30 @@ msgid ""
 " - any information that we plan to store in Time State we can sync on. In othe"
 "r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
+"La sezione 5.7 ha introdotto le funzioni `cue` e `sync`, questo quando c'è "
+"da risolvere la questione della sincronizzazione dei thread. Quello che non "
+"ha chiarito però è che si tratta proprio del sistema Time State che fornisce "
+"questa funzionalità. Si dà il caso che `set` è in realtà una variazione di "
+"`cue`: esso è costruito sopra la stessa funzionalità di base, cioè quella di "
+"inserire informazioni nel sistema Time State. Inoltre, `sync` è anche "
+"progettato in modo tale che funzioni perfettamente con Time State - "
+"qualsiasi informazione abbiamo intenzione di memorizzare in Time State, con "
+"cui possiamo sincronizzarci. In altre parole - *ci \"sincronizziamo\" sugli "
+"eventi ancora da inserire in Time State*."
 
 #: 10.2-Sync.md:15
+#, fuzzy
 msgid "Waiting for Events"
-msgstr ""
+msgstr "Aspettando gli Eventi"
 
 #: 10.2-Sync.md:17
+#, fuzzy
 msgid ""
 "Let's take a quick look at how to use `sync` to wait for new events to be adde"
 "d to Time State:"
 msgstr ""
+"Diamo un rapido sguardo a come usare `sync` per attendere che nuovi eventi "
+"siano aggiunti al Time State:"
 
 #: 10.2-Sync.md:20
 #, no-wrap
@@ -8960,12 +9008,17 @@ msgid ""
 msgstr "foo"
 
 #: 10.2-Sync.md:37
+#, fuzzy
 msgid ""
 "Note that `sync` always waits for *future events* and that it will block the c"
 "urrent thread waiting for a new event. Also, it will inherit the logical time "
 "of the thread which triggered it via `set` or `cue` so it may also be used to "
 "sync time."
 msgstr ""
+"Nota che `sync` attende sempre gli *eventi futuri* e che bloccherà il thread "
+"attuale in attesa di un nuovo evento. Inoltre, erediterà il tempo logico del "
+"thread che lo ha innescato tramite `set` o `cue`, così che può anche essere "
+"usato per la sincronizzazione del tempo."
 
 #: 10.2-Sync.md:42
 msgid "Passing values into the Future"
@@ -8991,20 +9044,26 @@ msgid ""
 msgstr "sample :ambi_lunar_land"
 
 #: 10.2-Sync.md:58
+#, fuzzy
 msgid ""
 "Note that values that are passed through `set` and `cue` must be thread safe -"
 " i.e. immutable rings, numbers, symbols or frozen strings. Sonic Pi will throw"
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
+"Nota che i valori che vengono passati attraverso `set` e `cue` devono essere "
+"\"thread safe\" - ad esempio: anelli immutabili, numeri, simboli o stringhe "
+"fissate. Sonic Pi lancia un errore se il valore che stai tentando di "
+"memorizzare nel Time State è non valido."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:3
+#, fuzzy
 msgid "Pattern Matching"
-msgstr ""
+msgstr "Pattern Matching"
 
 #: 10.3-Pattern-Matching.md:5
 #, fuzzy
@@ -9018,17 +9077,18 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:13
+#, fuzzy
 msgid "Match any path segment"
-msgstr ""
+msgstr "Match any path segment"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:17
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sync \"/*/*/*\""
-msgstr ""
+msgstr "sync \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
 msgid ""
@@ -16529,9 +16589,9 @@ msgid ""
 "If we specify a `rate:` of `1` then the sample is played back at the normal ra"
 "te. If we want to play it back at half speed we simply use a `rate:` of `0.5`:"
 msgstr ""
-"Se si specifica una `rate:` di `1` allora il campione viene riprodotto alla ve"
-"locità normale. Se vogliamo riprodurlo a mezza velocità usiamo semplicemente u"
-"na \"velocità\" di `0.5`:"
+"Se si specifica un `rate:` di `1` allora il campione viene riprodotto alla "
+"velocità normale. Se vogliamo riprodurlo ad una velocità dimezzata, usiamo "
+"semplicemente una `rate:` di `0.5`:"
 
 #: A.17-sample-stretching.md:27
 msgid ""
@@ -16568,13 +16628,13 @@ msgstr ""
 ", prova ad ascoltare come suona alla velocità normale: '1':"
 
 #: A.17-sample-stretching.md:41
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: 1"
 msgstr "sample :loop_amen, rate: 1"
 
 #: A.17-sample-stretching.md:44
 msgid "Now, let's speed it up a little:"
-msgstr "Ora, acceleriamoli un pò:"
+msgstr "Ora acceleriamoli un pò:"
 
 #: A.17-sample-stretching.md:48
 msgid ""
@@ -16611,8 +16671,9 @@ msgid "sample :elec_filt_snare, rate: 1"
 msgstr ""
 
 #: A.17-sample-stretching.md:65
+#, fuzzy
 msgid "Now, play it backwards:"
-msgstr "Forte! Suona all’indietro!"
+msgstr "Ora, fallo andare all’incontrario:"
 
 #: A.17-sample-stretching.md:67
 #, no-wrap
@@ -16742,7 +16803,7 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:156
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :beats do\n"
 "  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
