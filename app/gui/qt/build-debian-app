@@ -200,7 +200,7 @@ ruby ../../server/ruby/bin/i18n-tool.rb -t
 cp -f utils/ruby_help.tmpl utils/ruby_help.h
 ruby ../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
 echo -e "${CYAN}Building sonic-pi binary...${NC}"
-lrulease SonicPi.pro
+lrelease SonicPi.pro
 qmake -qt=qt5 SonicPi.pro
 make
 echo -e "${CYAN}Done!${NC}"
