@@ -178,7 +178,8 @@ QMenuBar::item:selected {
     color: menuSelectedTextColor;
 }
 
-QMainWindow::separator{
+QMainWindow::separator
+{
     border: 1px solid windowBorderColor;
 }
 
