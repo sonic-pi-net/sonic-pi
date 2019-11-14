@@ -3207,6 +3207,14 @@ Steal This Sound,  Mitchell Sigman"
             :validations => [v_positive(:lpf), v_less_than(:lpf, 131)],
             :modulatable => true,
             :midi => true
+          },
+
+          :hpf =>
+          {
+            :doc => "High pass filter cutoff value. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 makes removes just the lower bass components of the sound.",
+            :validations => [v_positive(:hpf), v_less_than(:hpf, 119)],
+            :modulatable => true,
+            :midi => true
           }
         }
 
