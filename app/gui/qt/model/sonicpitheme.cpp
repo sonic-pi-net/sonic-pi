@@ -157,7 +157,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         infoIcon = &default_hc_info_icon;
         infoIconActive = &default_hc_info_toggled_icon;
         scopeIcon = &default_hc_scope_icon;
-        scopeIconActive = &default_light_scope_toggled_icon;
+        scopeIconActive = &default_hc_scope_toggled_icon;
         name = "High Contrast";
     } else {
         lightMode();
