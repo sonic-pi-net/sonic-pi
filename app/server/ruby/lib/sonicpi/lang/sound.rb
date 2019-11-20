@@ -3065,9 +3065,9 @@ By combining commands which add to the candidates and then filtering those candi
                           :pan           => "Stereo position of audio. -1 is left ear only, 1 is right ear only, and values in between position the sound accordingly. Default is 0.",
                           :amp           => "Amplitude of playback.",
                           :pre_amp           => "Amplitude multiplier which takes place immediately before any internal FX such as the low pass filter, compressor or pitch modification. Use this opt if you want to overload the compressor.",
-                          :onset         => "Analyse the sample with an onset detection algorithm and set the `start:` and `finish:` opts to play the nth onset only. Allows you to treat a rhythm sample as a palette of individual drum/synth hits. Floats are rounded to the nearest whole number.",
+                          :onset         => "Analyse the sample with an onset detection algorithm and automatically set or override the `start:` and `finish:` opts to play the nth onset only. Allows you to treat a rhythm sample as a palette of individual drum/synth hits. If `start:` or `finish:` opts are used in addition to `onset:` then they will work within the onset rather than the whole sample. Floats are rounded to the nearest whole number.",
                           :on            => "If specified and false/nil/0 will stop the sample from being played. Ensures all opts are evaluated.",
-                          :slice         => "Divides the sample duration evenly into `num_slices` sections (defaults to 16) and set the `start:` and `finish:` opts to play the nth slice only. Use the envelope opts to remove any clicks introduced if the slice boundary is in the middle of a sound. Also consider `onset:`. Floats are rounded to the nearest whole number.",
+                          :slice         => "Divides the sample duration evenly into `num_slices:` sections (defaults to 16) and set the `start:` and `finish:` opts to play the nth slice only. If `start:` or `finish:` opts are used in addition to `slice:` then they will work within the slice rather than the whole sample. Use the envelope opts to remove any clicks introduced if the slice boundary is in the middle of a sound. Also consider `onset:` as an alternative to `slice:`. If `onset:` is also used then the slices will be within the onset rather than the whole sample. Floats are rounded to the nearest whole number.",
                           :num_slices         => "Number of slices to divide the sample into when using the `slice:` opt. Defaults to 16. Floats are rounded to the nearest whole number.",
                           :norm              => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
                           :lpf               => "Cutoff value of the built-in low pass filter (lpf) in MIDI notes. Unless specified, the lpf is *not* added to the signal chain.",
@@ -3417,8 +3417,59 @@ sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :f
                                                         # unlikely you will use this frequently, but it is a powerful tool
                                                         # that's there when you need it.
 
-"
-]
+",
+        "
+sample :loop_tabla, onset: 1                                         # Plays the 2nd onset (the first onset would have index 0)
+
+                                                                     # Will override opts with: {start: 0.0151, finish: 0.0304}
+                                                                     # (these values are specific to the :loop_tabla sample and
+                                                                     # will vary for different samples)
+
+",
+        "
+sample :loop_tabla, onset: 1, slice: 0, num_slices: 1                # Plays the 2nd onset. This behaves the same as not specifying
+                                                                     # a slice as we select the first of one slices.
+
+                                                                     # Will override opts with: {start: 0.0151, finish: 0.0304}
+                                                                     # (these values are specific to the :loop_tabla sample and
+                                                                     # will vary for different samples)
+
+",
+        "
+sample :loop_tabla, onset: 1, slice: 0, num_slices: 2                # This plays the first half of the 2nd onset.
+                                                                     # This is because  we split that onset into two slices and
+                                                                     # play just the first slice (with index 0).
+
+                                                                     # Will override opts with: {start: 0.0151, finish: 0.0227}
+                                                                     # (these values are specific to the :loop_tabla sample and
+                                                                     # will vary for different samples)
+",
+        "
+sample :loop_tabla, onset: 1, slice: 0, num_slices: 4                # This plays the first quarter of the 2nd onset.
+                                                                     # This is because we split that onset into four slices and
+                                                                     # play just the first slice (with index 0).
+
+                                                                     # Will override opts with: {start: 0.0151, finish: 0.0189}
+                                                                     # (these values are specific to the :loop_tabla sample and
+                                                                     # will vary for different samples)
+
+sample :loop_tabla, onset: 1, slice: 0, num_slices: 4, finish: 0.5   # Will play the first 1/8th of the 2nd onset.
+                                                                     # This is because we split that specific onset into 4 slices
+                                                                     # and then only play the first half of the first slice.
+
+                                                                     # Will override opts with: {start: 0.0151, finish: 0.017}
+                                                                     # (these values are specific to the :loop_tabla sample and
+                                                                     # will vary for different samples)
+
+sample :loop_tabla, onset: 1, slice: 0, num_slices: 4, finish: 0.0, start: 0.5   # Will play the first 1/8th of the 2nd onset backwards..
+                                                                                 # This is because we split that specific onset into 4 slices
+                                                                                 # and then only play from the first half of the first slice
+                                                                                 # back to the beginning.
+
+                                                                                 # Will override opts with: {start: 0.017, finish: 0.0151}
+                                                                                 # (these values are specific to the :loop_tabla sample and
+                                                                                 # will vary for different samples)
+"]
 
 
 
@@ -4647,29 +4698,12 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           args_h[:rate] = new_rate * (args_h[:rate] || 1)
         end
 
-        slice_idx = args_h[:slice]
-        if slice_idx
-          num_slices = args_h.fetch(:num_slices, 16).round
-          raise "Sample opt num_slices: needs to be greater than 0. Got: #{num_slices}" unless num_slices.is_a?(Numeric) && num_slices > 0
-          slices = sample_buffer(path).slices(num_slices)
-          if slice_idx.is_a? Numeric
-            slice_idx = slice_idx.round
-            slice = slices[slice_idx]
-          elsif slice_idx.is_a? Proc
-            slice = slice_idx.call(slices)
-            slice = slice[0] if is_list_like?(slice)
-            raise "Result of slice: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{slice.inspect}" unless slice.respond_to?(:has_key?) && slice[:start].is_a?(Numeric) && slice[:finish].is_a?(Numeric)
-          else
-            raise "Unknown sample slice: value. Expected a number or a proc. Got #{slice_idx.inspect}"
-          end
-          args_h[:start] = slice[:start]
-          args_h[:finish] = slice[:finish]
-          args_h[:slice] = slice[:index] if slice[:index]
-        end
+        orig_start_opt = (args_h[:start]  || 0)
+        orig_finish_opt = (args_h[:finish] || 1)
 
         onset_idx = args_h[:onset]
         if onset_idx
-          begin
+        begin
             onsets = sample_buffer(path).onset_slices
           rescue Exception => e
             if (os == :windows) && sample_buffer(path).sample_rate != 44100
@@ -4681,19 +4715,55 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
           if onset_idx.is_a? Numeric
             onset_idx = onset_idx.round
-            args_h.merge!(onsets[onset_idx])
-            res = onsets[onset_idx]
+            onset = onsets[onset_idx]
           elsif onset_idx.is_a? Proc
-            res = onset_idx.call(onsets)
-            res = res[0] if is_list_like?(res)
-            raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{res.inspect}" unless res.respond_to?(:has_key?) && res[:start].is_a?(Numeric) && res[:finish].is_a?(Numeric)
-
+            onset = onset_idx.call(onsets)
+            onset = onset[0] if is_list_like?(onset)
+            raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{res.inspect}" unless onset.respond_to?(:has_key?) && onset[:start].is_a?(Numeric) && onset[:finish].is_a?(Numeric)
           else
             raise "Unknown sample onset: value. Expected a number or a proc. Got #{onset_idx.inspect}"
           end
-          args_h[:start] = res[:start]
-          args_h[:finish] = res[:finish]
-          args_h[:onset] = res[:index] if res[:index]
+          onset_dur    = onset[:finish] - onset[:start]
+          onset_start  = onset[:start]
+          onset_finish = onset[:finish]
+
+          args_h[:start]  = onset_start + (orig_start_opt * onset_dur)
+          args_h[:finish] = [onset_start + (orig_finish_opt * onset_dur), 1].min
+          args_h[:onset]  = onset[:index] if onset[:index]
+        end
+
+        slice_idx = args_h[:slice]
+        if slice_idx
+          num_slices = args_h.fetch(:num_slices, 16).round
+          slice_start = args_h[:start] || 0
+          slice_finish = args_h[:finish] || 1
+          raise "Sample opt num_slices: needs to be greater than 0. Got: #{num_slices}" unless num_slices.is_a?(Numeric) && num_slices > 0
+          if onset_idx
+            # find slices within the onset
+            slices = sample_buffer(path).slices(num_slices, onset_start, onset_finish)
+          else
+            # find slices across the whole sample
+            slices = sample_buffer(path).slices(num_slices)
+          end
+
+          if slice_idx.is_a? Numeric
+            slice_idx = slice_idx.round
+            slice = slices[slice_idx]
+          elsif slice_idx.is_a? Proc
+            slice = slice_idx.call(slices)
+            slice = slice[0] if is_list_like?(slice)
+            raise "Result of slice: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{slice.inspect}" unless slice.respond_to?(:has_key?) && slice[:start].is_a?(Numeric) && slice[:finish].is_a?(Numeric)
+          else
+            raise "Unknown sample slice: value. Expected a number or a proc. Got #{slice_idx.inspect}"
+          end
+
+          slice_dur    = slice[:finish] - slice[:start]
+          slice_start  = slice[:start]  + (orig_start_opt * slice_dur)
+          slice_finish = slice[:start] + (orig_finish_opt * slice_dur)
+
+          args_h[:start]  = slice_start
+          args_h[:finish] = [slice_finish, 1].min
+          args_h[:slice]  = slice[:index] if slice[:index]
         end
 
         if info

@@ -56,8 +56,15 @@ module SonicPi
         assert_equal 2,  sample_duration(:foo, rate: 1, finish: 0.5, start: 0.75)
         assert_equal 1,  sample_duration(:foo, rate: 2, finish: 0.5, start: 0.75)
         assert_equal 1,  sample_duration(:foo, rate: 1, onset: 0)
+        assert_equal 0.5,sample_duration(:foo, rate: 1, onset: 0, start: 0.5)
+        assert_equal 0.5,sample_duration(:foo, rate: 1, onset: 0, finish: 0.5)
+        assert_equal 0.5,sample_duration(:foo, rate: 1, onset: 0, finish: 0, start: 0.5)
         assert_equal 7,  sample_duration(:foo, rate: 1, onset: 1)
         assert_equal 4,  sample_duration(:foo, rate: 1, slice: 1)
+        assert_equal 2,  sample_duration(:foo, rate: 1, slice: 1, start: 0, finish: 0.5)
+        assert_equal 2,  sample_duration(:foo, rate: 1, slice: 1, start: 0.5, finish: 0)
+        assert_equal 1,  sample_duration(:foo, rate: 1, slice: 1, start: 0.5, finish: 0.25)
+
       end
 
     end
