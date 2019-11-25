@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-10-24 13:53+0000\n"
-"Last-Translator: Kaine <muikaien1@gmail.com>\n"
+"PO-Revision-Date: 2019-11-28 01:05+0000\n"
+"Last-Translator: sharmer156 <sharmmer156@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 3.10-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -624,7 +624,6 @@ msgid "play 60"
 msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
-#, fuzzy
 msgid ""
 "So, lower numbers make lower pitched beeps and higher numbers make higher pitc"
 "hed beeps. Just like on a piano, the keys at the lower part of the piano (the "
@@ -1176,15 +1175,14 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
-#, fuzzy
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
-"请注意，`use_synth`命令只影响此后调用的`play`。你可以把它想象成一个*大开关*——新调用的`play`都将使用它当前指向的合成器。你可以使"
-"用`use_synth`将开关指向到一个新的合成器音效。"
+"请注意，`use_synth`命令只影响此后调用的`曲目(play+)`。你可以把它想象成一个*大开关*——新调用的`曲目(play+)`都将使用它当前指"
+"向的合成器。你可以使用`use_synth`将开关指向到一个新的合成器音效。"
 
 #: 02.3-Switching-Synths.md:80
 #, fuzzy
@@ -1318,7 +1316,7 @@ msgstr ""
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
-msgstr ""
+msgstr "这音符会播一秒钟。计时一下吧。 :-) 这是缩写的；比较完整的写法是："
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
@@ -1344,7 +1342,7 @@ msgid ""
 msgstr "我们可以通过一个非常小的释放时间来制造一个非常短的合成器声音："
 
 #: 02.4-Durations-with-Envelopes.md:71
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 60, release: 0.2"
 msgstr "play 60, release: 0.2"
 
@@ -1367,12 +1365,14 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
+"图表最左边的直立线显示，声音从0波幅开始，立即升到满波幅（这是接下来介绍的起音阶段）。达到满波幅后，声音会以 `release: ` "
+"指定的时间（释放时间）内，沿着直线下降到0。*施放时间越长，合成器淡出的时间会越长。"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
-msgstr ""
+msgstr "因此，改释放时间，就可以换声音的持续时间。试一下在你的音乐中添加施放时间吧。"
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
@@ -1403,7 +1403,7 @@ msgstr ""
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
-msgstr ""
+msgstr "你可以同时用几个选项来修改声音。例如，如果要短的起音和长的释放音，可以用："
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
@@ -1414,7 +1414,7 @@ msgstr ""
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
-msgstr ""
+msgstr "下图说明了这种短暂而绵长的释放音："
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
@@ -1424,7 +1424,7 @@ msgstr ""
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
-msgstr ""
+msgstr "当然，也可以把起音和释放时间互换。试一下较长的起音时间和较短的释放时间："
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
@@ -1441,10 +1441,10 @@ msgstr ""
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
-msgstr ""
+msgstr "最后，如果要比较短的声音，可以用短的起音和释放时间。"
 
 #: 02.4-Durations-with-Envelopes.md:128
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
@@ -1456,14 +1456,14 @@ msgstr "![短起音，短释放的包络](../images/tutorial/env-long-attack-sho
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
-msgstr ""
+msgstr "维持阶段"
 
 #: 02.4-Durations-with-Envelopes.md:136
 msgid ""
 "In addition to specifying attack and release times, you may also specify a sus"
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
-msgstr ""
+msgstr "除了指定起音和释放时间之外，您还可以指定一个维持时间来控制“维持阶段”。 即声音在起音和释放阶段之间保持最大振幅的时间。"
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
@@ -1483,10 +1483,12 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
+"在进入可选的释放阶段之前，延音时间对于希望在混音中充分体现的重要声音很有用。当然，将“ attack：”和“ release：”选项都设置为0是完全有效的"
+"，只是使用延音绝对不会使声音淡入或淡出。但是请注意，释放0会产生音频的喀哒声，通常最好使用很小的值，例如0.2。"
 
 #: 02.4-Durations-with-Envelopes.md:154
 msgid "Decay Phase"
-msgstr ""
+msgstr "衰减阶段"
 
 #: 02.4-Durations-with-Envelopes.md:156
 msgid ""
@@ -1555,30 +1557,30 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr ""
+msgstr "综上所述，Sonic Pi的ADSR信封具有以下阶段："
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr ""
+msgstr "* attack *-从0振幅到`attack_level`的时间，"
 
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
-msgstr ""
+msgstr "* decay *-将幅度从“ attack_level”移到“ decay_level”的时间，"
 
 #: 02.4-Durations-with-Envelopes.md:197
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
-msgstr ""
+msgstr "* sustain *-将幅度从“ decay_level”移到“ sustain_level”的时间，"
 
 #: 02.4-Durations-with-Envelopes.md:198
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
-msgstr ""
+msgstr "*release*-将幅度从“ sustain_level”移至0的时间"
 
 #: 02.4-Durations-with-Envelopes.md:200
 msgid ""
 "It's important to note that the duration of a sound is the summation of the ti"
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
-msgstr ""
+msgstr "需要注意的是，声音的持续时间是每个阶段时间的总和。因此，以下声音的持续时间为 0.5 + 1 + 2 + 0.5 = 4 拍："
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
@@ -1589,11 +1591,11 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr ""
+msgstr "现在去玩一个为您的声音添加轨迹线的游戏..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3个样品"
 
 #: 03-Samples.md:3
 msgid "Samples"
@@ -1606,27 +1608,29 @@ msgid ""
 "ake a microphone outside, go and record the gentle sound of rain hitting canva"
 "s, you've just created a sample."
 msgstr ""
+"发展音乐的另一种好方法是使用预先录制的声音。在伟大的嘻哈传统中，我们将这些预先录制的声音称为“样本”。因此，如果您将麦克风带到室外，然后去录制雨水轻拂帆布"
+"的声音，那么您就创建了一个样本。"
 
 #: 03-Samples.md:10
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
-msgstr ""
+msgstr "Sonic Pi使您可以通过样本做很多有趣的事情。它不仅提供130个公共领域样本供您使用，还可以播放和操纵自己的样本。让我们开始吧..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
-msgstr ""
+msgstr "3.1 触发示例"
 
 #: 03.1-Triggering-Samples.md:3
 msgid "Triggering Samples"
-msgstr ""
+msgstr "触发示例"
 
 #: 03.1-Triggering-Samples.md:5
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is triggeri"
 "ng pre-recorded samples. Try it:"
-msgstr ""
+msgstr "发出哔声仅仅是开始。更有趣的是触发预先保存的样本。试试吧："
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
@@ -1638,7 +1642,7 @@ msgid ""
 "Sonic Pi includes many samples for you to play with. You can use them just lik"
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
-msgstr ""
+msgstr "Sonic Pi包含许多示例供您使用。您可以像使用play命令一样使用它们。要播放多个样本和音符，只需一个接一个地写它们："
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1651,7 +1655,7 @@ msgstr ""
 
 #: 03.1-Triggering-Samples.md:23
 msgid "If you want to space them out in time, use the `sleep` command:"
-msgstr ""
+msgstr "如果您想及时地将它们间隔开，请使用`sleep`命令："
 
 #: 03.1-Triggering-Samples.md:25
 #, no-wrap
@@ -1674,10 +1678,12 @@ msgid ""
 "esting overlap effects. Later in this tutorial we'll take a look at controllin"
 "g the *duration* of sounds with envelopes."
 msgstr ""
+"请注意，Sonic Pi如何在开始下一个声音之前不等待声音结束。睡眠命令仅描述声音的“触发”分离。这使您可以轻松地将声音叠加在一起，创建有趣的重叠效果。在"
+"本教程的稍后部分，我们将介绍如何使用轨迹线控制声音的持续时间。"
 
 #: 03.1-Triggering-Samples.md:44
 msgid "Discovering Samples"
-msgstr ""
+msgstr "探索示例"
 
 #: 03.1-Triggering-Samples.md:46
 msgid ""
@@ -1685,6 +1691,7 @@ msgid ""
 "t, you can use this help system. Click on Samples in the far left vertical men"
 "u, choose your category and then you'll see a list of available sounds."
 msgstr ""
+"有两种方法可以发现Sonic Pi中提供的样本范围。首先，您可以使用此帮助系统。单击最左侧垂直菜单中的样本，选择\"示例\"，然后您会看到可用声音的列表。"
 
 #: 03.1-Triggering-Samples.md:51
 msgid ""
@@ -1692,6 +1699,7 @@ msgid ""
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
+"或者，您可以使用*自动补全系统*。只需输入示例组的开头，例如：`sample：ambi_`，您会看到一个下拉的示例名称供您选择。尝试以下类别前缀："
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
@@ -1727,15 +1735,15 @@ msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
 msgid "Now start mixing samples into your compositions!"
-msgstr ""
+msgstr "现在开始将示例混合到您的作品中！"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr ""
+msgstr "3.2 示例参数"
 
 #: 03.2-Sample-Params.md:3
 msgid "Sample Parameters: Amp and Pan"
-msgstr ""
+msgstr "示例参数：放大器和平移"
 
 #: 03.2-Sample-Params.md:5
 msgid ""
@@ -1743,32 +1751,35 @@ msgid ""
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
+"正如我们在合成器上看到的那样，我们可以轻松地通过参数控制声音。示例支持完全相同的参数化机制。让我们重温我们的朋友“ amp：”和“ pan：”。"
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
-msgstr ""
+msgstr "激爽示例"
 
 #: 03.2-Sample-Params.md:11
+#, fuzzy
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
-msgstr ""
+msgstr "您可以使用与合成器完全相同的方法来更改样本的幅度："
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
 msgid "sample :ambi_lunar_land, amp: 0.5"
-msgstr ""
+msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr ""
+msgstr "平移样本"
 
 #: 03.2-Sample-Params.md:20
+#, fuzzy
 msgid ""
 "We're also able to use the `pan:` parameter on samples. For example, here's ho"
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
-msgstr ""
+msgstr "我们还可以在样本上使用“ pan：”参数。例如，以下是我们先给左耳演奏the amen break，然后再通过右耳再次演奏的方式"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -1777,24 +1788,27 @@ msgid ""
 "sleep 0.877\n"
 "sample :loop_amen, pan: 1"
 msgstr ""
+"sample :loop_amen, pan: -1\n"
+"sleep 0.877\n"
+"sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
-msgstr ""
+msgstr "注意0.877（以秒为单位）是`：loop_amen`采样持续时间的一半"
 
 #: 03.2-Sample-Params.md:33
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
-msgstr ""
+msgstr "请注意，最后如果您使用`use_synth_defaults`设置了一些合成器默认值（我们将在后面讨论），则它们将被`sample`忽略。"
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
-msgstr ""
+msgstr "3.3 拉伸示例"
 
 #: 03.3-Stretching-Samples.md:3
 msgid "Stretching Samples"
-msgstr ""
+msgstr "拉伸示例"
 
 #: 03.3-Stretching-Samples.md:5
 msgid ""
@@ -1803,10 +1817,11 @@ msgid ""
 "en more unique and interesting. First, let's explore the ability to *stretch* "
 "and *squash* samples."
 msgstr ""
+"现在我们可以演奏各种合成器和示例来创建音乐，现在该学习如何修改合成器和示例以使音乐更加独特和有趣。首先，让我们探索“拉伸”和“挤压”示例的能力。"
 
 #: 03.3-Stretching-Samples.md:10
 msgid "Sample Representation"
-msgstr ""
+msgstr "示例表示"
 
 #: 03.3-Stretching-Samples.md:12
 msgid ""
@@ -1820,16 +1835,19 @@ msgid ""
 "d. However, it's also fun to change the speed with which the numbers are fed t"
 "o the speaker to change the sound."
 msgstr ""
+"样本是预先录制的声音，存储为数字，代表如何移动扬声器音频以再现声音。扬声器音频可以移入和移出，因此数字只需要表示每个时间锥入和移出圆锥的距离。为了能够忠实"
+"地再现录制的声音，样本通常需要每秒存储数千个数字！ Sonic "
+"Pi会获取此数字列表，并以正确的速度馈送它们，从而以正确的方式移入和移出计算机扬声器，以再现声音。但是，改变将数字馈送到扬声器以改变声音的速度也很有趣。"
 
 #: 03.3-Stretching-Samples.md:23
 msgid "Changing Rate"
-msgstr ""
+msgstr "变化率"
 
 #: 03.3-Stretching-Samples.md:25
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
-msgstr ""
+msgstr "让我们播放一种环境声音：`：ambi_choir`。要使用默认速率播放，您可以将“ rate：”选项传递给“ sample”："
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
@@ -1840,7 +1858,7 @@ msgstr ""
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
-msgstr ""
+msgstr "它以正常速率（1）播放，因此没有什么特别的。但是我们可以自由地将该数字更改为其他数字，例如 0.5呢："
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
@@ -1852,17 +1870,18 @@ msgid ""
 "Woah! What's going on here? Well, two things. Firstly, the sample takes twice "
 "as long to play, secondly the sound is an octave lower. Let's explore these th"
 "ings in a little more detail."
-msgstr ""
+msgstr "哇！这里发生了什么？好吧，两件事。首先，示例的播放时间是其两倍，其次声音降低了八度。让我们更详细地探讨这些事情。"
 
 #: 03.3-Stretching-Samples.md:43
 msgid "Let's stretch"
-msgstr ""
+msgstr "让我们伸展一下"
 
 #: 03.3-Stretching-Samples.md:45
+#, fuzzy
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
-msgstr ""
+msgstr "一个有趣的拉伸和压缩样本是Amen Break。以正常的速度，我们可能会想象将其放入* drum'n'bass *轨道中："
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
@@ -1874,7 +1893,7 @@ msgstr ""
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
-msgstr ""
+msgstr "但是，通过更改速率，我们可以切换流派。为旧式嘻哈音乐尝试一半速度："
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
@@ -1883,7 +1902,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:59
 msgid "If we speed it up, we enter *jungle* territory:"
-msgstr ""
+msgstr "如果加快速度，则输入* jungle *："
 
 #: 03.3-Stretching-Samples.md:61 A.17-sample-stretching.md:46
 #, no-wrap
@@ -1894,7 +1913,7 @@ msgstr ""
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative ra"
 "te:"
-msgstr ""
+msgstr "现在是我们最后的最后的花招-让我们看看如果使用负速率会发生什么："
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
@@ -1906,11 +1925,11 @@ msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
-msgstr ""
+msgstr "哇！它使用*backwards*播放！现在尝试以不同的速率处理许多不同的示例。尝试非常快的速率。尝试疯狂的低速率。看看可以产生什么有趣的声音。"
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
-msgstr ""
+msgstr "采样率的简单解释"
 
 #: 03.3-Stretching-Samples.md:78
 msgid ""
@@ -1923,36 +1942,41 @@ msgid ""
 "rate), the shorter it gets, the more you stretch (lower rate), the longer it g"
 "ets."
 msgstr ""
+"想到示例的一种有用方法是弹簧。播放速度就像挤压和拉伸弹簧一样。如果以速率2播放示例，则将弹簧压缩为正常长度的一半。因此，采样时间越短，其播放时间就减少一半"
+"。如果您以一半的速率播放示例，那么您将“拉伸弹簧”以使其长度加倍。因此，采样时间越长，其播放时间就增加一倍。压榨越多（速率越高），它越短，拉伸越多（速率越"
+"低），它就越长。"
 
 #: 03.3-Stretching-Samples.md:87
 msgid ""
 "Compressing a spring increases its density (the number of coils per cm) - this"
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
-msgstr ""
+msgstr "压缩弹簧会增加其密度（每厘米的线圈数量） - 这与示例高音的声响[高音]类似。拉伸弹簧会降低其密度，类似于具有 [低音] 的声音。"
 
 #: 03.3-Stretching-Samples.md:93
 msgid "The Maths Behind Sample Rate"
-msgstr ""
+msgstr "采样率背后的数学"
 
 #: 03.3-Stretching-Samples.md:95
 msgid ""
 "(This section is provided for those that are interested in the details. Please"
 " feel free to skip it...)"
-msgstr ""
+msgstr "（本节是为那些对细节感兴趣的人提供的。请随时跳过...）"
 
 #: 03.3-Stretching-Samples.md:98
+#, fuzzy
 msgid ""
 "As we saw above, a sample is represented by a big long list of numbers represe"
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
-msgstr ""
+msgstr "正如我们在上面看到的，示例由一长串长长的数字表示，这些数字代表说话者应该经过的时间。我们可以获取此数字列表，并使用它来绘制类似于此的图形："
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
 msgstr ""
 
 #: 03.3-Stretching-Samples.md:105
+#, fuzzy
 msgid ""
 "You might have seen pictures like this before. It's called the *waveform* of a"
 " sample. It's just a graph of numbers. Typically a waveform like this will hav"
@@ -1964,30 +1988,33 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
+"您可能以前看过这样的图片。这称为样本的“波形”。这只是数字图。通常，这样的波形每秒将有44100个数据点（这是由于Nyquist-Shannon采样定理所"
+"致）。因此，如果采样持续2秒钟，则波形将由88200个数字表示，我们将以每秒44100点的速度将其馈送到扬声器。当然，我们可以以每秒88200点的双倍速率"
+"喂食它。因此，只需要1秒钟即可播放。我们也可以以一半的速率播放它，即每秒22050点，需要4秒钟才能播放。"
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr ""
+msgstr "示例的持续时间受播放速率的影响："
 
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
-msgstr ""
+msgstr "播放速率加倍可将播放时间减半，"
 
 #: 03.3-Stretching-Samples.md:119
 msgid "Halving the playback rate doubles the playback time,"
-msgstr ""
+msgstr "将播放速率减半会使播放时间加倍，"
 
 #: 03.3-Stretching-Samples.md:120
 msgid "Using a playback rate of one fourth quadruples the playback time,"
-msgstr ""
+msgstr "使用四分之一的播放速度是播放时间的四倍，"
 
 #: 03.3-Stretching-Samples.md:121
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
-msgstr ""
+msgstr "使用1/10的播放速率可使播放时间延长10倍。"
 
 #: 03.3-Stretching-Samples.md:123
 msgid "We can represent this with the formula:"
-msgstr ""
+msgstr "我们可以用以下公式表示："
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
@@ -2003,6 +2030,8 @@ msgid ""
 "speaker move as it pumps out super low bass - it's actually moving a lot slowe"
 "r in and out than a speaker producing higher notes."
 msgstr ""
+"更改播放速率也会影响采样的音高。波形的频率或基音由其上下移动的速度决定。我们的大脑不知怎么地把说话人的快速移动变成高音，把说话人的慢速移动变成低音。这就是"
+"为什么有时你甚至可以看到一个大低音扬声器，因为它泵出超低音-它实际上移动慢得多，进出比一个扬声器产生更高的音符。"
 
 #: 03.3-Stretching-Samples.md:137
 msgid ""
