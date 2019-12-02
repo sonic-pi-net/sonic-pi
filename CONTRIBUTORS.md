@@ -79,6 +79,7 @@ especially the following individuals who have been remarkably generous:
 * Dallas Kidd
 * [Darin Wilson](https://twitter.com/darinwilson/)
 * [Dean Wampler](https://twitter.com/deanwampler)
+* [Evan Kroske](https://www.evankroske.com/)
 * [Gabe Jackson](https://github.com/gj)
 * [James Abley](https://twitter.com/jabley)
 * [Justin Worrall](https://twitter.com/juzbo)
