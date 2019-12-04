@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-10-29 21:53+0000\n"
-"Last-Translator: Thomas Qvidahl <thomas@qvidahl.no>\n"
+"PO-Revision-Date: 2019-12-11 13:54+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/nb_NO/>\n"
 "Language: nb\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 3.10-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2573,7 +2573,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:1
 msgid "3.5 Partial Samples"
-msgstr ""
+msgstr "3.5 Delvise Prøver"
 
 #: 03.5-Partial-Samples.md:3
 msgid "Partial Samples"
@@ -14358,7 +14358,7 @@ msgstr ""
 
 #: C.01-Basic-API.md:117
 msgid "Looking at blocks"
-msgstr ""
+msgstr "Ser på blokker"
 
 #: C.01-Basic-API.md:119
 msgid ""
