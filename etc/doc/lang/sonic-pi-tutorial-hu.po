@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-12-03 17:05+0000\n"
-"Last-Translator: Zsolt Szakács <maxigaz@protonmail.com>\n"
+"PO-Revision-Date: 2019-12-11 13:54+0000\n"
+"Last-Translator: maxigaz <maxigaz@protonmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/hu/>\n"
 "Language: hu\n"
@@ -126,7 +126,7 @@ msgstr ""
 "Mielőtt igazán belevágnánk annak részleteibe, hogy hogyan működik a Sonic "
 "Pi, szeretnék egy kis ízelítőt adni arról, hogy milyen élőben kóddal "
 "játszani. Ne aggódj, ha nem értesz meg sok mindent (vagy semmit) belőle! "
-"Csak dőlj hátra és érezd jól magad…"
+"Csatold be az öveket és érezd jól magad…"
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -165,7 +165,7 @@ msgstr "Bizonyosodj meg afelől, hogy még mindig szól a dob"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Valamennyivel növeld meg a `sleep` értékét `0.5`-ről, mondjuk `1`-re!"
+msgstr "Valamennyivel növeld meg a `sleep` értékét `0.5`-ről, mondjuk `1`-re."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
@@ -5728,7 +5728,7 @@ msgstr ""
 
 #: 09-Live-Coding.md:15
 msgid "Hold on to your seats..."
-msgstr ""
+msgstr "Csatold be az öveket…"
 
 #: 09.1-Live-Coding-Fundamentals.md:1
 msgid "9.1 Live Coding Fundamentals"
