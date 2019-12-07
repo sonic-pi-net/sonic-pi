@@ -34,7 +34,7 @@ play :e1
     
 Instant acid bass! Let's play around...
 
-## Squelch that Bass
+# Squelch that Bass
 
 First, let's build a live arpeggiator to make things fun. In the last
 tutorial we looked at how riffs can just be a ring of notes that we tick
@@ -105,7 +105,7 @@ Of course, try different riffs by changing the notes in the ring or even
 picking notes from scales or chords. Have fun with your first acid bass
 synth.
 
-## Deconstructing the TB-303
+# Deconstructing the TB-303
 
 The design of the original TB-303 is actually pretty simple. As you can
 see from the following diagram there's only 4 core parts. 
@@ -144,7 +144,7 @@ changing the `cutoff_attack:` time to `1` and then `0.5`. Now try `8`.
 Notice that I've passed everything through a `:reverb` FX for extra
 atmosphere - try other FX to see what works!
 
-## Bringing it all together
+# Bringing it all together
 
 Finally, here's a piece I composed using the ideas in this
 tutorial. Copy it into an empty buffer, listen for a while and then

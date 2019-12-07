@@ -33,7 +33,7 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
 
   keywords[PlayParam] << "amp:" << "attack:" << "release:" << "sustain:" << "decay:" << "env_curve:" << "sustain_level:" << "pan:" << "attack_level:" << "decay_level:" << "on:" << "slide:" << "pitch:";
 
-  keywords[SampleParam] << "amp:" << "pan:" << "attack:" << "decay:" << "sustain:" << "release:" << "attack_level:" << "decay_level:" << "sustain_level:" << "env_curve:" << "rate:" << "beat_stretch:" << "start:" << "finish:" << "slice:" << "num_slices:" << "onset:" << "on:" << "res:" << "lpf:" << "lpf_min:" << "lpf_attack:" << "lpf_decay:" << "lpf_sustain:" << "lpf_release:" << "lpf_init_level:" << "lpf_attack_level:" << "lpf_decay_level:" << "lpf_sustain_level:" << "lpf_release_level" << "lpf_env_curve:" << "hpf:" << "hpf_max:" <<"hpf_attack:" << "hpf_decay:" << "hpf_sustain:" << "hpf_release:" << "hpf_init_level:" << "hpf_attack_level:" << "hpf_decay_level:" << "hpf_sustain_level:" <<  "hpf_release_level:" << "hpf_env_curve:" << "norm:" << "rpitch:" << "pitch:" << "pitch_stretch:" << "window_size:" << "pitch_dis:" << "time_dis:" << "compress:" << "threshold:" << "clamp_time:" << "slope_above:" << "slope_below:" << "relax_time:" << "pre_amp:";
+  keywords[SampleParam] << "amp:" << "pan:" << "attack:" << "decay:" << "sustain:" << "release:" << "attack_level:" << "decay_level:" << "sustain_level:" << "env_curve:" << "rate:" << "beat_stretch:" << "start:" << "finish:" << "slice:" << "num_slices:" << "onset:" << "res:" << "lpf:" << "lpf_min:" << "lpf_attack:" << "lpf_decay:" << "lpf_sustain:" << "lpf_release:" << "lpf_init_level:" << "lpf_attack_level:" << "lpf_decay_level:" << "lpf_sustain_level:" << "lpf_release_level" << "lpf_env_curve:" << "hpf:" << "hpf_max:" <<"hpf_attack:" << "hpf_decay:" << "hpf_sustain:" << "hpf_release:" << "hpf_init_level:" << "hpf_attack_level:" << "hpf_decay_level:" << "hpf_sustain_level:" <<  "hpf_release_level:" << "hpf_env_curve:" << "norm:" << "rpitch:" << "pitch:" << "pitch_stretch:" << "window_size:" << "pitch_dis:" << "time_dis:" << "compress:" << "threshold:" << "clamp_time:" << "slope_above:" << "slope_below:" << "relax_time:" << "pre_amp:";
 
   keywords[Examples] << ":haunted" << ":ambient_experiment" << ":chord_inversions" << ":filtered_dnb" << ":fm_noise" << ":jungle" << ":ocean" << ":reich_phase" << ":acid" << ":ambient" << ":compus_beats" << ":echo_drama" << ":idm_breakbeat" << ":tron_bike" << ":wob_rhyth" << ":bach" << ":driving_pulse" << ":monday_blues" << ":rerezzed" << ":square_skit" << ":blimp_zones" << ":blip_rhythm" << ":shufflit" << ":tilburg_2" << ":time_machine" << ":sonic_dreams";
 
@@ -109,9 +109,9 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   if (last == "sample" || last == "sample_info" || last == "sample_duration" || last == "use_sample_bpm" || last == "sample_buffer" || last == "sample_loaded?" || last == "load_sample" || last == "load_samples") {
     ctx = Sample;
-  } else if (last == "sync" || last == "sync:" || last == "cue" || last == "get" || last == "set" || last == "get[" ) {
+  } else if (last == "sync" || last == "cue" || last == "get" || last == "set" || last == "get[" ) {
     ctx = CuePath;
-  } else if (last == "with_fx") {
+  } else if (last == "with_fx" || last == "use_fx") {
     ctx = FX;
   } else if (last == "with_synth" || last == "use_synth" || last == "synth") {
     ctx = Synth;
@@ -132,7 +132,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   // FX params
   } else if (words.length() >= 2 &&
-             (first == "with_fx")) {
+             (first == "with_fx" || first == "use_fx")) {
     if (last.endsWith(':')) return; // don't try to complete parameters
     if (fxArgs.contains(second)) {
       list = fxArgs[second];

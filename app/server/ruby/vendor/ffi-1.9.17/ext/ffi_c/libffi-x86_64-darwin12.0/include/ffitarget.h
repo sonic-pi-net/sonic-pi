@@ -1,1 +1,0 @@
-/Users/sam/Development/sonic-pi/app/server/ruby/vendor/ffi-1.9.17/ext/ffi_c/libffi/src/x86/ffitarget.h

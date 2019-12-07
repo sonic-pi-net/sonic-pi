@@ -122,8 +122,6 @@ relevant licenses:
 * [Metaclass](https://github.com/floehopper/metaclass) - [MIT License](http://opensource.org/licenses/MIT)
 * [Sys Proctable](https://github.com/djberg96/sys-proctable) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [fast_osc](http://github.com/xavriley/fast_osc) - [MIT License](http://opensource.org/licenses/MIT)
-* [Treetop](https://github.com/cjheath/treetop) - [MIT License](http://opensource.org/licenses/MIT)
-* [Polyglot](http://github.com/cjheath/polyglot) - [MIT License](http://opensource.org/licenses/MIT)
 
 
 ### Dynamically Linked Libraries for Server

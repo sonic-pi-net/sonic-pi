@@ -112,7 +112,7 @@ save!
 Many musicians can look at a musical score and hear the music in their
 head without having to play it. This is a very useful skill and it's
 well worth incorporating into your live coding practice sessions. The
-important point is to be able to have some understanding of what the code
+imporant point is to be able to have some understanding of what the code
 is going to sound like. You don't need to be able to hear it exactly in
 your head, but instead it's useful to know if the code is going to be
 fast, slow, loud, rhythmic, melodic, random, etc. The final goal is then

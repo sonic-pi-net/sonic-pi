@@ -21,10 +21,8 @@ fun.
 
 Don't just play on your own - form a live coding band! It's a lot of fun
 jamming with others. One person could do beats, another ambient
-background, etc. Use the `live_audio` functionality to combine code with
-traditional instruments such as a guitar or a microphone.
-
-See what interesting combinations of sounds you can create with code.
+background, etc. See what interesting combinations of sounds you can
+have together.
 
 ## TOPLAP
 

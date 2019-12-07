@@ -50,8 +50,8 @@ test2() ->
 %% The units of the timestamp are seconds past epoch
 
 now() ->
-    %% nanoseconds past epoc
-    erlang:system_time(nanosecond)/1000000000.
+    %% seconds past epoc
+    erlang:system_time()/1000000000.
 
 osc_time_to_local(Tsec) ->
     Native = trunc(Tsec*1000000000), %% 9 zeros

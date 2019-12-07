@@ -17,7 +17,7 @@ There's so much more to show you (which we will explore in future
 editions). However, this month, let's look at something Sonic Pi can do
 that you probably didn't realise: control Minecraft.
 
-## Hello Minecraft World
+# Hello Minecraft World
 
 OK, let's get started. Boot up your Raspberry Pi, fire up Minecraft Pi
 and create a new world. Now start up Sonic Pi and re-size and move your
@@ -35,7 +35,7 @@ messages. Have fun!
 
 ![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-small.png)
 
-## Sonic Teleporter
+# Sonic Teleporter
 
 Now let's do some exploring. The standard option is to reach for the
 mouse and keyboard and start walking around. That works, but it's pretty
@@ -85,7 +85,7 @@ mc_message "Whoooosh!"
     
 ![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png)
 
-## Magic Blocks
+# Magic Blocks
 
 Now you've found a nice spot, let's start building. You could do what
 you're used to and start clicking the mouse furiously to place blocks
@@ -117,7 +117,7 @@ space if not) and fly all around the world. Look behind you to see a
 pretty trail of melon blocks! See what kind of twisty patterns you can
 make in the sky.
 
-## Live Coding Minecraft
+# Live Coding Minecraft
 
 Those of you that have been following this tutorial over the last few
 months will probably have your minds blown at this point. The trail of
@@ -153,7 +153,7 @@ types - try `:water`, `:grass` or your favourite block type. Also, try
 changing the cutoff value from `70` to `80` and then up to `100`. Isn't
 this fun?
 
-## Bringing it all together
+# Bringing it all together
 
 ![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-small.png)
 

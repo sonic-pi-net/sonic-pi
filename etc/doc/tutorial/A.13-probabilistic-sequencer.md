@@ -9,7 +9,7 @@ from a scale to create never-ending melodies. Today we're going to learn
 a new technique which uses randomisation for rhythm - probabilistic
 beats!
 
-## Probability
+# Probability
 
 Before we can start making new beats and synth rhythms we need to take a
 quick dive into the basics of probability. This might sound daunting and
@@ -32,7 +32,7 @@ end
 Notice how the log prints values between 1 and 6 just as if we'd rolled
 a real dice ourselves.
 
-## Random Beats
+# Random Beats
 
 Now imagine you had a drum and every time you were about to hit it you
 rolled a dice. If you rolled a 1, you hit the drum and if you rolled any
@@ -62,7 +62,7 @@ drum sounds, if it isn't `1` then the statement resolves to `false` and
 the snare is skipped. The second line simply waits for `0.125` seconds
 before rolling the dice again.
 
-## Changing Probabilities
+# Changing Probabilities
 
 Those of you that have played role play games will be familiar with lots
 of strangely shaped dice with different ranges. For example there is the
@@ -88,7 +88,7 @@ again. Notice that lower numbers mean the snare drum sounds more
 frequently and higher numbers mean the snare triggers fewer
 times. You're making music with probabilities!
 
-## Combining Probabilities
+# Combining Probabilities
 
 Things get really exciting when you combine multiple samples being
 triggered with different probabilities. For example:
@@ -109,7 +109,7 @@ new feel. For example try changing `:drum_cymbal_closed` to
 `:bass_hit_c` for extra bass!
 
 
-## Repeatable Rhythms
+# Repeatable Rhythms
 
 Next, we can use our old friend `use_random_seed` to reset the random
 stream after 8 iterations to create a regular beat. Type the following
@@ -134,7 +134,7 @@ One thing I tend to do with this kind of structure is to remember which
 seeds sound good and make a note of them. That way I can easily
 re-create my rhythms in future practice sessions or performances.
 
-## Bringing it all together
+# Bringing it all together
 
 Finally, we can throw in some random bass to give it some nice melodic
 content. Notice that we can also use our newly discovered probabilistic

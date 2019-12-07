@@ -10,7 +10,7 @@ attention to Sonic Pi's unique tick system. By the end of this article
 you'll be ticking your way through rhythms and riffs on your way to
 being a live coding DJ.
 
-## Beat Counting
+# Beat Counting
 
 When making music we often want to do a different thing depending on
 which beat it is. Sonic Pi has a special beat counting system called
@@ -40,7 +40,7 @@ code it means that that line will log the text on the
 right-hand-side. For example, `puts foo #=> 0` means the code `puts foo`
 prints `0` to the log at that point in the program.
 
-## Checking the Beat
+# Checking the Beat
 
 We've seen that `tick` does two things. It increments (adds one)
 and returns the current beat. Sometimes we just want to look at the
@@ -59,7 +59,7 @@ see the following values in the log: `0`, `1`, `1`, `1`. The first two
 returned the last beat value twice which was `1`. 
 
 
-## Rings
+# Rings
 
 So now we can advance the beat with `tick` and check the beat with
 `look`. What next? We need something to tick over. Sonic Pi uses rings
@@ -90,7 +90,7 @@ again. Notice that `look` returns `3`. Calls to `.tick` act just like
 they are regular calls to `tick` - they increment the local beat.
 
 
-## A Live Loop Arpeggiator 
+# A Live Loop Arpeggiator 
 
 The real power comes when you mix `tick` with rings and
 `live_loop`s. When combined we have all the tools we need to both build
@@ -121,7 +121,7 @@ synth to `:dpulse` and then play the next note in our ring using
 latest beat value as an index into our notes ring. Finally, we wait for
 an eighth of a beat before looping round again.
 
-## Multiple Simultaneous Beats
+# Multiple Simultaneous Beats
 
 A really important thing to know is that `tick`s are local to the
 `live_loop`. This means that each `live_loop` has its own independent
@@ -146,7 +146,7 @@ live_loop :arp2 do
 end
 ```
 
-## Clashing Beats
+# Clashing Beats
 
 A big cause of confusion with Sonic Pi's tick system is when people want
 to tick over multiple rings in the same `live_loop`:
@@ -173,7 +173,7 @@ and track a separate beat counter for each named tick you use. That way
 you can work with as many beats as you need! See the section on named
 ticks in 9.4 of the built-in tutorial for more information.
 
-## Bringing it all together
+# Bringing it all together
 
 Let's bring all this knowledge of `tick`s, `ring`s and `live_loop`s
 together for a final fun example. As usual, don't treat this as a

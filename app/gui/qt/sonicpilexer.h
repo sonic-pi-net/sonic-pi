@@ -17,18 +17,14 @@
 
 class SonicPiLexer : public QsciLexerRuby
 {
-
-  Q_OBJECT
-
 public:
   SonicPiLexer(SonicPiTheme *customTheme);
   QColor defaultColor(int style) const;
   QColor defaultPaper(int style) const;
   QFont defaultFont(int style) const;
   QStringList autoCompletionWordSeparators() const;
-  SonicPiTheme *theme;
-
-public slots:
   void highlightAll();
   void unhighlightAll();
+  SonicPiTheme *theme;
+
 };

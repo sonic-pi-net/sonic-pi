@@ -25,7 +25,7 @@ find ./SuperCollider -name "*.scx" -type f -exec  cp -p {} ./plugins \;
 find ./SC3plugins -name "*.scx" -type f -exec  cp -p {} ./plugins \;
 #plugins copied into SP further on in script
 #Download and extract source packages
-cd $SP_ROOT
+cd SP_ROOT
 
 wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2' -O qwt-6.1.2.tar.bz2
 tar -xf qwt-6.1.2.tar.bz2
@@ -43,7 +43,7 @@ sudo make install
 sudo cp /usr/local/qwt-6.1.2/features/* /usr/local/opt/qt5/mkspecs/features/
 
 #download and install aubio (with libsndfile support)
-cd $SP_APP_SRC
+cd SP_APP_SRC
 wget http://aubio.org/pub/aubio-0.4.3.tar.bz2 -O aubio-0.4.3.tar.bz2
 tar -xf aubio-0.4.3.tar.bz2
 cd aubio-0.4.3
@@ -63,13 +63,13 @@ cd ../../../gui/qt
 mkdir -p ../../server/native/osx/ruby/bin
 ln -s `which ruby` ../../server/native/osx/ruby/bin/ruby
 #compile extensions
-../../server/ruby/bin/compile-extensions.rb
+../../server/bin/compile-extensions.rb
 
 #on subsequent runs after initial install, can usually restart from here if no gems have been updated
 #prepare documentation
-../../server/ruby/bin/i18n-tool.rb -t
+../../server/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
-../../server/ruby/bin/qt-doc.rb -o ruby_help.h
+../../server/bin/qt-doc.rb -o ruby_help.h
 /usr/local/opt/qt5/bin/lrelease SonicPi.pro
 /usr/local/opt/qt5/bin/qmake SonicPi.pro
 make
@@ -84,5 +84,5 @@ rsync -arv ../../../../../qwt-6.1.2/lib/ Contents/MacOS/
 install_name_tool -change qwt.framework/Versions/6/qwt @executable_path/qwt.framework/Versions/6/qwt Contents/MacOS/Sonic\ Pi
 install_name_tool -change libqscintilla2.12.dylib @executable_path/libqscintilla2.12.dylib Contents/MacOS/Sonic\ Pi
 
-cd $SP_APP_SRC
-#now finished. Can double click 'Sonic Pi.app' icon in finder to run
+cd SP_APP_SRC
+#now finished. Can double click 'Sonic Pi.app' icon in finder to run 

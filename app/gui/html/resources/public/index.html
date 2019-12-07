@@ -1,0 +1,57 @@
+<!-- This file is part of Sonic Pi: http://sonic-pi.net -->
+<!-- Full project source: https://github.com/samaaron/sonic-pi -->
+<!-- License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md -->
+
+<!-- Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name). -->
+<!-- All rights reserved. -->
+
+<!-- Permission is granted for use, copying, modification, and -->
+<!-- distribution of modified versions of this work as long as this -->
+<!-- notice is included. -->
+
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Sonic Pi</title>
+
+    <script src="vendor/codemirror/lib/codemirror.js"></script>
+    <script src="vendor/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="vendor/codemirror/mode/ruby/ruby.js"></script>
+    <script src="vendor/react-0.9.0.js"></script>
+
+
+    <link rel="stylesheet" href="vendor/animate.css">
+    <link rel="stylesheet" href="vendor/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="style//main.css">
+  </head>
+
+  <body>
+   <center> <img src="img/sonic-pi-web-logo.png" height="148" width="233"></center>
+    <div id="my-stage"></div>
+    <img src="img/run.png" id="run" class=" animated bounceInLeft" onClick="defpi.ws.sendCode()" height="37" width="90">
+    <img src="img/stop.png" id="stop" class="animated bounceInLeft" onClick="defpi.ws.stopCode()" height="37" width="90">
+    <!-- <button id="reload" class="btn btn-success animated bounceInLeft" onClick="defpi.ws.reloadCode()">Reload</button> -->
+    <div id="app-audio"></div>
+    <div id="app-jobs" style="float: right;"></div>
+    <div  class="animated fadeIn">
+
+      <textarea id="code">## Loading Buffer...
+</textarea>
+      </div>
+
+    <div id="app-messages"></div>
+
+    <script src="js/init_editor.js"></script>
+    <script src="js/generated/goog/base.js" type="text/javascript"></script>
+    <script src="js/cljs-main.js" type="text/javascript"></script>
+    <script type="text/javascript">goog.require("defpi.onload");</script>
+
+  </body>
+
+
+
+
+</html>

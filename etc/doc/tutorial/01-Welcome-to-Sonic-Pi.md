@@ -8,11 +8,11 @@ where you'll learn all about music, synthesis, programming, composition,
 performance and more.
 
 But wait, how rude of me! Let me introduce myself - I'm
-[Sam Aaron](https://twitter.com/samaaron) - the chap that created Sonic
+[Sam Aaron](http://twitter.com/samaaron) - the chap that created Sonic
 Pi. You can find me at [@samaaron](http://twitter.com/samaaron) on
 Twitter and I'd be more than happy to say hello to you.  You might also
 be interested in finding out more about my
-[Live Coding Performances](https://youtube.com/samaaron) where
+[Live Coding Performances](http://facebook.com/livecodersamaaron) where
 I code with Sonic Pi live in front of audiences.
 
 If you have any thoughts, or ideas for improving Sonic Pi - please pass
@@ -27,7 +27,7 @@ consider it for a future version.
 
 Finally, watching others live code is a really great way to learn. I
 regularly stream live on
-[https://youtube.com/samaaron](http://youtube.com/samaaron) so please do
+[http://youtube.com/samaaron](http://youtube.com/samaaron) so please do
 drop by, say hi and ask me lots of questions :-)
 
 OK, let's get started...

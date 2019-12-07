@@ -22,7 +22,7 @@ the world.
 
 Let's get started...
 
-## Getting Started
+# Getting Started
 
 Let's start with a simple warm up exercise to refresh ourselves with the
 basics.  First up, crack open your Raspberry Pi and then fire up both
@@ -36,7 +36,7 @@ mc_message "Let's get started..."
 Hit the Run button and you'll see the message over in the Minecraft
 window. OK, we're ready to start, let's have some fun......
 
-## Sand Storms
+# Sand Storms
 
 When we're using Minecraft to create visuals we try and think about what
 will both look interesting and also be easy to generate from code. One
@@ -88,7 +88,7 @@ Why don't you take that code and start playing around with it yourself?
 Try adding more lines, changing the sleep times, try mixing `:sand` with
 `:gravel` and choose different coordinates. Just experiment and have fun!
 
-## Live Loops Unleashed
+# Live Loops Unleashed
 
 OK, it's time to get the storm raging by unleashing the full power of
 the `live_loop` - Sonic Pi's magical ability which unleashes the full
@@ -126,7 +126,7 @@ changed without the code stopping. This is your gateway to performing
 like a real VJ. Keep practising and changing things around. How
 different can you make the visuals without stopping the code?
 
-## Epic Block Patterns
+# Epic Block Patterns
 
 ![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small.png)
 

@@ -1,0 +1,14 @@
+You are opening a _bug report_ against the libgit2 project.  If you have a
+question about an API or usage, please ask on StackOverflow:
+http://stackoverflow.com/questions/tagged/libgit2.  Please fill out the
+reproduction steps (below) and delete this introductory paragraph.  Thanks!
+
+### Reproduction steps
+
+### Expected behavior
+
+### Actual behavior
+
+### Version of libgit2 (release number or SHA1)
+
+### Operating system(s) tested

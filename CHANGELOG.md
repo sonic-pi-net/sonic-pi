@@ -1,6 +1,4 @@
 # History
-* [v3.2.0 'Dev'](#v3.2.0), To be released...
-* [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
 * [v2.11.1 'Hack'](#v2.11.1), 16th Dec, 2016
@@ -18,184 +16,7 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v3.2.0"></a>
-
-## Version 3.2.0 - 'Dev'
-*To be released...*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
-
-
-### Breaking Changes
-
-* `spread` now produces identical patterns as in the Toussaint
-  paper. Previously, some of the patterns had been shifted. Use the
-  `rotate:` opt to match prior behaviour if required.
-* OSC cues now include the IP address and port number of incoming messages  
-* The `osc` fn now forces all outgoing args to either be numbers or
-  strings (binary blobs and timestamps are not supported at this
-  point). If the value is neither a number or string, it is 'inspected'
-  and the resulting description string is sent instead.
-* The default incoming OSC cues port is now 4560 as the previous value
-  was registered on the Iana Service Name and Transport Protocol Port
-  Number Registry. However, 4560 is currently free.
-
-
-### New Fns
-
-* `eval_file` evaluates the contents of the specified file inline in the
-  current thread as if it was a function.
-* `midi_sysex` for sending MIDI sysex messages.  
-* Add new chain fn `.notes` which takes a ring of values and returns a
-  new ring with each element treated as a note. This will eave numbers
-  unchanged but will turn note names like `:C1` to their corresponding
-  MIDI note.
-
-
-### Synths & FX
-
-* The `gverb` FX now checks to ensure that the `room:` opt is greater than or equal to 1.
-* The `piano` synth now supports fractional notes such as `70.3`
-
-### Samples
-
-
-### GUI
-
-* New WCAG 2 level AAA compliant high contrast colour theme. This is
-  especially suited for those with low vision.
-* New application menu and shortcuts.  
-* New default icons which match the pro icon feel.
-* Move to simple numbered labels for buffers.
-* The version number is no longer placed in the initial comment of new
-  empty buffers. This felt like a friendly thing to do, but can be
-  confusing if a given buffer hasn't been used and the version was
-  updated. This results in the buffer reporting the old version number
-  that was used to create the buffer not the current version used to
-  display it.
-* Many, many translation improvements. Thanks to all the wonderful
-  volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
-
-### Improvements
-
-* Allow scale degrees over an octave and augmented/diminished degrees.
-* Calling `.tick` and `.look` on a normal array such as `[1, 2, 3]` will
-  now automatically convert it to a ring first.
-  
-
-### Bugfixes
-
-* Further improve boot stability on Mac in the cases where audio input/output
-  sample rates do not match (typically due to the use of bluetooth
-  headsets). Audio inputs on macOS are now disabled by default unless we
-  can definitely determine the audio rates are the same. 
-* Revert synthdefs to original bytecode version. This fixes a regression
-  in at least the `:tb303` synth and possibly others. All synths should
-  sound and behave as they did in `v3.0.1`.
-* Fix issue with scaling default opts. Previously it was possible that
-  unspecified opts correctly fell back to the default value - however
-  that default value wasn't scaled. Default values are now always scaled
-  whether or not explicitly specified.
-* `with_sched_ahead_time` now correctly sets the schedule ahead time
-  before running the block and returns the returns the result of the
-  block itself
-* When "Enforce Timing Guarantees" is selected, Sonic Pi wil no longer
-  throw out of time warnings in 'real time' threads (specified using
-  `use_real_time`).
-* `set` and `cue` no longer print duplicate messages which was possible
-  in some cases.
-* Fix `time_warp` examples which were incorrect and misleading.  
-* Improve pid handling on Linux. This should reduce the number of zombie
-  processes accidentally generated.
-* The `offset:` opt for `with_swing` now matches documented behaviour.
-* Teach `sample_duration` to scale correctly.
-* Fix GUI bug which could result in a buffer stuck in the highlighted
-  state after hitting Run.
-* Fix the `on:` opt when playing chords to work similarly across *all*
-  notes in a given chord.
-* Stop `defonce` from being executed multiple times
-* Calling `.take` on an empty ring no longer results in infinite
-  recursion but instead returns an empty ring.
-  
-
-
-<a name="v3.1.0"></a>
-
-## Version 3.1.0 - 'Sauna'
-*23rd Jan, 2018*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.1.0):
-
-The major feature of this release is that it brings v3 functionality to
-Windows. Windows now supports all the good stuff listed alongside
-`v3.0.x` including `live_audio`, `midi`, `osc` and much more. See
-`v3.0.1` and `v3.0.0` release notes below for more infomation.
-
-Of course, no new release comes without new features, and there are a
-number of additions and improvements on all levels. Firstly, we are
-honoured to include a number of wonderful new samples kindly recorded
-and released into the public domain by our friends Mehackit. If you
-aren't already aware, Mehackit organise and run creative coding
-workshops all around Finland and Europe and were a core part behind the
-CodeBus Africa project which used Sonic Pi to engage almost 2000 African
-students with creative code. Our favourite of these samples is the new
-`:ambi_sauna` which has given us the name for this release.
-
-We have added support for Ogg Vorbis encoded audio files `.ogg` and
-`.oga`. These are lossy encoders similar to `.MP3` but free from license
-restrictions. See: https://en.wikipedia.org/wiki/Vorbis
-
-Another notable addition is the increase in translation coverage across
-a number of languages. If you still feel the translation for your
-language could be improved, please do consider joining in the
-crowd-sourced effort here: https://hosted.weblate.org/projects/sonic-pi/
-
-We have also included some styling tweaks to the GUI - to make
-it look even cleaner and also work better when projecting code with
-visuals underneath.
-
-Finally, this release also gives me the opportunity to welcome Ethan
-Crawford to the Core Team. He has been a prolific contributor to the
-project over the years and his keen eye for detail has helped polish
-Sonic Pi from the rough stone it once was to the shining gem it is
-today.
-
-Have fun and enjoy the new features - especially you lovely Windows
-users!
-
-
-### Breaking Changes
-
-* The synth `chip_noise` now has standard default envelope opts (`sustain:` and `release:` are now 0 and 1 respectively (as opposed to 1 and 0))
-
-
-### New Fns
-
-* `set_audio_latency!` Apply positive or negative timing offset for audio events to allow for any timing differences between OSC/MIDI events caused by external latencies (such as wireless speakers).
-* `midi_pc` for sending MIDI Program Change messages
-
-### Samples
-
-* Add support for Ogg Vorbis encoded audio files `.ogg` and `.oga`. 
-* Add new samples (kindly recorded and released into the public domain by Mehackit). 
-  - new `glitch_` sample group containing sounds with a glitchy texture.
-  - new `mehackit_` sample group with sounds of old toys
-  - new samples: `:perc_bell2`, `:perc_door`, `:perc_impact1`, `:perc_impact2`, `:perc_swoosh`, `:ambi_sauna`, `:bd_mehackit`, `:sn_generic`, `:loop_3d_printer`, `:loop_drone_g_97`, `:loop_electric`, `:loop_mehackit1`, `:loop_mehackit2`, `:loop_perc1`, `:loop_perc2`, `:loop_weirdo`, 
-
-
-### GUI
-
-* Add new in_thread forum to the community listings (and update other entries).
-* Many, many translation additions and improvements for a multitude of
-  languages. The tutorial is now available in German, Spanish, French,
-  Italian, Japanese, Dutch, Polish, Portuguese, Romanian, and Russian.
-* GUI now lets the user know when the buffer capacity has been exceeded
-  on macOS and Linux (Windows behaviour is currently unchanged). This
-  capacity limitation will be addressed more thoroughly in a future release.
-
-
-### Bugfixes
-
-* Stop the internal sample pattern matcher from duplicating matches in some cases.
-* Stop pro icon preference from resetting to 'off' when switching from dark to light mode
+<a name="v3.0.1"></a>
 
 ## Version 3.0.1 - 'IOIO'
 *28th July, 2017*
@@ -222,6 +43,11 @@ number of modifications.
 ### Bugfixes
 * Fix minor issues with docs (grammar and rendering).
 * Incoming OSC now correctly handles OSC paths which contain capital letters.
+
+ 
+*18th July, 2017*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0):
+
 
 <a name="v3.0"></a>
 

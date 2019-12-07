@@ -1,6 +1,0 @@
-- src: https://github.com/idi-ops/ansible-facts
-  name: facts
-
-- src: https://github.com/idi-ops/ansible-nodejs
-  name: nodejs
-

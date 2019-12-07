@@ -4,62 +4,62 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="496"/>
+        <location filename="../mainwindow.cpp" line="468"/>
         <source>Sonic Pi update info</source>
         <translation>Sonic Pi frissítési információ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="618"/>
+        <location filename="../mainwindow.cpp" line="590"/>
         <source>Buffer %1</source>
         <translation>Puffer %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="690"/>
+        <location filename="../mainwindow.cpp" line="665"/>
         <source>Preferences</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="705"/>
+        <location filename="../mainwindow.cpp" line="678"/>
         <source>Log</source>
         <translation>Napló</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="754"/>
-        <location filename="../mainwindow.cpp" line="2726"/>
+        <location filename="../mainwindow.cpp" line="727"/>
+        <location filename="../mainwindow.cpp" line="2661"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="387"/>
-        <location filename="../mainwindow.cpp" line="2979"/>
-        <location filename="../mainwindow.cpp" line="2999"/>
+        <location filename="../mainwindow.cpp" line="359"/>
+        <location filename="../mainwindow.cpp" line="2913"/>
+        <location filename="../mainwindow.cpp" line="2933"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="455"/>
+        <location filename="../mainwindow.cpp" line="427"/>
         <source>Welcome to Sonic Pi</source>
         <translation>Üdvözlünk a Sonic Pi programban</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="942"/>
+        <location filename="../mainwindow.cpp" line="915"/>
         <source>Indenting selection...</source>
         <translation>Kiválasztás behúzása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="946"/>
+        <location filename="../mainwindow.cpp" line="919"/>
         <source>Indenting line...</source>
         <translation>Sor behúzása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1322"/>
+        <location filename="../mainwindow.cpp" line="1304"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <translation>Haladó hangbeállítások külső hangszórókkal történő
 munkához a Sonic Pi-jal való előadásoknál.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1324"/>
+        <location filename="../mainwindow.cpp" line="1306"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
@@ -68,7 +68,7 @@ Ha be van kapcsolva, akkor a bal hangszórónak küldött
 hang át lesz vezetve a jobb hangszóróra és fordítva.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1327"/>
+        <location filename="../mainwindow.cpp" line="1309"/>
         <source>Toggle mono mode.
 If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
@@ -81,12 +81,12 @@ Hasznos az olyan renszerekkel történő munkához,
 amelyek csak monó hangot tudnak kezelni.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1363"/>
+        <location filename="../mainwindow.cpp" line="1361"/>
         <source>Safe mode</source>
         <translation>Biztonságos mód</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
+        <location filename="../mainwindow.cpp" line="1362"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
@@ -95,72 +95,100 @@ Ha ki van kapcsolva, akkor egyes synth opt értékek esetleg
 váratlanul hangos és kellemetlen hangokat alkothatnak.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2716"/>
+        <location filename="../mainwindow.cpp" line="2651"/>
         <source>Scope</source>
-        <translation>Oszcilloszkóp</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="975"/>
+        <location filename="../mainwindow.cpp" line="948"/>
         <source>Toggle selection comment...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="807"/>
+        <location filename="../mainwindow.cpp" line="780"/>
         <source>Full screen mode on.</source>
-        <translation>Teljes képernyős mód be.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="828"/>
+        <location filename="../mainwindow.cpp" line="801"/>
         <source>Full screen mode off.</source>
-        <translation>Teljes képernyős mód ki.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="979"/>
+        <location filename="../mainwindow.cpp" line="952"/>
         <source>Toggle line comment...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1055"/>
+        <location filename="../mainwindow.cpp" line="1028"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>A Sonic Pi szervert nem sikerült elindítani!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1323"/>
+        <location filename="../mainwindow.cpp" line="1305"/>
         <source>Invert stereo</source>
-        <translation>Sztereó felcserélése</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1326"/>
+        <location filename="../mainwindow.cpp" line="1308"/>
         <source>Force mono</source>
-        <translation>Mono mód</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1344"/>
+        <location filename="../mainwindow.cpp" line="1312"/>
+        <source>Raspberry Pi Audio Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1313"/>
+        <source>Your Raspberry Pi has two forms of audio output.
+Firstly, there is the headphone jack of the Raspberry Pi itself.
+Secondly, some HDMI monitors/TVs support audio through the HDMI port.
+Use these buttons to force the output to the one you want.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1315"/>
+        <source>&amp;Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1316"/>
+        <source>&amp;Headphones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1317"/>
+        <source>&amp;HDMI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1342"/>
         <source>Logging</source>
         <translation>Naplózás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1345"/>
+        <location filename="../mainwindow.cpp" line="1343"/>
         <source>Configure debug behaviour</source>
         <translation>Hibakeresés működésének konfigurálása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1347"/>
+        <location filename="../mainwindow.cpp" line="1345"/>
         <source>Synths and FX</source>
-        <translation>Szintetizátorok és effektek</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1346"/>
+        <source>Modify behaviour of synths and FX</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
-        <source>Modify behaviour of synths and FX</source>
-        <translation>Szintetizátorok és effektek működésének beállítása</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1350"/>
         <source>Log synths</source>
         <translation>Synth-ek naplózása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1351"/>
+        <location filename="../mainwindow.cpp" line="1349"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
@@ -169,12 +197,12 @@ Ha ki van kapcsolva, akkor tevékenységek - mint a synth- és
 minta-kioldás - alapértelmezés szerint nem kerülnek be a naplóba.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1353"/>
+        <location filename="../mainwindow.cpp" line="1351"/>
         <source>Clear log on run</source>
         <translation>Napló törlése futtatáskor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1354"/>
+        <location filename="../mainwindow.cpp" line="1352"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
@@ -183,12 +211,12 @@ Ha be van kapcsolva, akkor a napló a futtás gomb
 megnyomásakor mindig törlésre kerül.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1356"/>
+        <location filename="../mainwindow.cpp" line="1354"/>
         <source>Log cues</source>
         <translation>Jelzések naplózása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1357"/>
+        <location filename="../mainwindow.cpp" line="1355"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
@@ -197,18 +225,18 @@ Ha ki van kapcsolva, a jelzések továbbra is kioldják a
 megfelelő eseményt, de nem lesznek láthatóak a naplóban.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1360"/>
+        <location filename="../mainwindow.cpp" line="1358"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1367"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
         <source>Enable external synths and FX</source>
-        <translation>Külső szintetizátorok és effektek bekapcsolása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1368"/>
+        <location filename="../mainwindow.cpp" line="1366"/>
         <source>When enabled, Sonic Pi will allow
 synths and FX loaded via load_synthdefs
 to be triggered.
@@ -219,12 +247,12 @@ which isn&apos;t recognised.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1370"/>
+        <location filename="../mainwindow.cpp" line="1368"/>
         <source>Enforce timing guarantees</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1371"/>
+        <location filename="../mainwindow.cpp" line="1369"/>
         <source>When enabled, Sonic Pi will refuse
 to trigger synths and FX if
 it is too late to do so
@@ -235,370 +263,385 @@ even when a little late.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1388"/>
+        <location filename="../mainwindow.cpp" line="1386"/>
         <source>Transparency</source>
         <translation>Áttetszőség</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1396"/>
-        <location filename="../mainwindow.cpp" line="1562"/>
+        <location filename="../mainwindow.cpp" line="1394"/>
+        <location filename="../mainwindow.cpp" line="1566"/>
         <source>Updates</source>
         <translation>Frissítések</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1398"/>
+        <location filename="../mainwindow.cpp" line="1396"/>
         <source>Check for updates</source>
         <translation>Frissítések keresése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1400"/>
+        <location filename="../mainwindow.cpp" line="1398"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Frissítések automatikus ellenőrzésének ki-/bekapcsolása.
 Ez az ellenőrzés a platformmal és verzióval kapcsolatos, névtelen információk küldésével jár.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1401"/>
+        <location filename="../mainwindow.cpp" line="1399"/>
         <source>Check now</source>
         <translation>Ellenőrzés most</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1402"/>
+        <location filename="../mainwindow.cpp" line="1400"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>Frissítések keresésének kényszerítése most.
 Ez az ellenőrzés a platformmal és verzióval kapcsolatos, névtelen információk küldésével jár.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1403"/>
+        <location filename="../mainwindow.cpp" line="1401"/>
         <source>Get update</source>
         <translation>Frissítés beszerzése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1404"/>
+        <location filename="../mainwindow.cpp" line="1402"/>
         <source>Visit http://sonic-pi.net to download new version</source>
         <translation>Látogasd meg a http://sonic-pi.net weboldalt az új verzió letöltéséhez</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1409"/>
+        <location filename="../mainwindow.cpp" line="1407"/>
         <source>Update Info</source>
         <translation>Frissítési információ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1428"/>
+        <location filename="../mainwindow.cpp" line="1426"/>
         <source>Show and Hide</source>
         <translation>Mutatás és elrejtés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1429"/>
+        <location filename="../mainwindow.cpp" line="1427"/>
         <source>Configure editor display options.</source>
         <translation>Szerkesztő kijelzési opcióinak konfigurálása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1430"/>
+        <location filename="../mainwindow.cpp" line="1428"/>
         <source>Look and Feel</source>
         <translation>Megjelenés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1431"/>
+        <location filename="../mainwindow.cpp" line="1429"/>
         <source>Configure editor look and feel.</source>
         <translation>Szerkesztő megjelenésének konfigurálása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1432"/>
+        <location filename="../mainwindow.cpp" line="1430"/>
         <source>Automation</source>
         <translation>Automatizálás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1433"/>
+        <location filename="../mainwindow.cpp" line="1431"/>
         <source>Configure automation features.</source>
         <translation>Automatizálási funkciók konfigurálása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="510"/>
+        <location filename="../mainwindow.cpp" line="482"/>
         <source>Auto-align</source>
         <translation>Automatikus igazítás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1435"/>
+        <location filename="../mainwindow.cpp" line="1433"/>
         <source>Automatically align code on Run</source>
         <translation>A kód automatikus igazítása futtatáskor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1437"/>
+        <location filename="../mainwindow.cpp" line="1435"/>
         <source>Show line numbers</source>
         <translation>Sorok számának mutatása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1438"/>
+        <location filename="../mainwindow.cpp" line="1436"/>
         <source>Toggle line number visibility.</source>
         <translation>A sorszámok mutatásának ki-/bekapcsolása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1439"/>
+        <location filename="../mainwindow.cpp" line="1437"/>
         <source>Show log</source>
         <translation>Napló mutatása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1441"/>
+        <location filename="../mainwindow.cpp" line="1439"/>
         <source>Toggle visibility of the log.</source>
         <translation>A napló mutatásának ki-/bekapcsolása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1445"/>
+        <location filename="../mainwindow.cpp" line="1443"/>
         <source>Show buttons</source>
         <translation>Vezérlőgombok mutatása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1448"/>
+        <location filename="../mainwindow.cpp" line="1445"/>
         <source>Toggle visibility of the control buttons.</source>
         <translation>A vezérlőgombok mutatásának ki-/bekapcsolása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1450"/>
+        <location filename="../mainwindow.cpp" line="1447"/>
         <source>Show tabs</source>
         <translation>Fülek mutatása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1452"/>
+        <location filename="../mainwindow.cpp" line="1449"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
         <translation>A pufferválasztási fülek láthatóságának ki-/bekapcsolása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1453"/>
+        <location filename="../mainwindow.cpp" line="1450"/>
         <source>Full screen</source>
         <translation>Teljes képernyő</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1454"/>
+        <location filename="../mainwindow.cpp" line="1451"/>
         <source>Toggle full screen mode.</source>
         <translation>Teljes képernyős mód ki-/bekapcsolása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1455"/>
+        <location filename="../mainwindow.cpp" line="1452"/>
         <source>Dark mode</source>
         <translation>Sötét mód</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1456"/>
+        <location filename="../mainwindow.cpp" line="1453"/>
         <source>Toggle dark mode.</source>
         <translation>Sötét mód ki-/bekapcsolása.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1456"/>
+        <location filename="../mainwindow.cpp" line="1453"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>
-A sötét mód tökéletes klubokban és szórakozóhelyeken végzett élő kódoláshoz.</translation>
+        <translation>A sötét mód tökéletes klubokban és
+szórakozóhelyeken végzett élő kódoláshoz.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1502"/>
+        <location filename="../mainwindow.cpp" line="1505"/>
         <source>Audio</source>
         <translation>Hang</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1507"/>
+        <location filename="../mainwindow.cpp" line="1510"/>
         <source>Editor</source>
         <translation>Szerkesztő</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="1514"/>
         <source>Settings useful for performing with Sonic Pi</source>
         <translation>Beállítások, amik hasznosak a Sonic Pi-jal való előadáshoz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1534"/>
+        <location filename="../mainwindow.cpp" line="1538"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1670"/>
+        <location filename="../mainwindow.cpp" line="1678"/>
         <source>Server boot error...</source>
         <translation>Szerver bootolási hiba...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2672"/>
+        <location filename="../mainwindow.cpp" line="2607"/>
         <source>Run the code in the current buffer</source>
-        <translation>A jelenlegi pufferben levő kód futtatása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1670"/>
+        <location filename="../mainwindow.cpp" line="1678"/>
         <source>Please consider reporting a bug at</source>
         <translation>Kérjük fontold meg a hiba jelentését a következő helyen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="711"/>
+        <location filename="../mainwindow.cpp" line="684"/>
         <source>Cues</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1196"/>
-        <source>Local IP address</source>
-        <translation>Helyi IP-cím</translation>
+        <location filename="../mainwindow.cpp" line="1179"/>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1197"/>
+        <location filename="../mainwindow.cpp" line="1180"/>
+        <source>Network Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1183"/>
+        <source>Local IP address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1184"/>
         <source>Listening for OSC messages on port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1218"/>
+        <location filename="../mainwindow.cpp" line="1205"/>
         <source>Unavailable</source>
-        <translation>Nem elérhető</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1223"/>
+        <location filename="../mainwindow.cpp" line="1210"/>
         <source>Receive remote OSC messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1224"/>
+        <location filename="../mainwindow.cpp" line="1211"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1227"/>
+        <location filename="../mainwindow.cpp" line="1214"/>
         <source>Enable OSC server</source>
-        <translation>OSC szerver aktiválása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1228"/>
+        <location filename="../mainwindow.cpp" line="1215"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1239"/>
+        <location filename="../mainwindow.cpp" line="1225"/>
+        <source>MIDI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1226"/>
         <source>Configure MIDI behaviour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1244"/>
+        <location filename="../mainwindow.cpp" line="1228"/>
         <source>Enable MIDI subsystems</source>
-        <translation>MIDI-alrendszerek engedélyezése</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1245"/>
+        <location filename="../mainwindow.cpp" line="1229"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1248"/>
+        <location filename="../mainwindow.cpp" line="1232"/>
         <source>Reset MIDI</source>
-        <translation>MIDI visszaállítása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1249"/>
+        <location filename="../mainwindow.cpp" line="1233"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1276"/>
+        <location filename="../mainwindow.cpp" line="1260"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation>Alap MIDI csatorna (a * mindet jelenti)</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1261"/>
+        <location filename="../mainwindow.cpp" line="1265"/>
+        <source>Default MIDI Channel to send messages to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1276"/>
+        <location filename="../mainwindow.cpp" line="3232"/>
+        <location filename="../mainwindow.cpp" line="3263"/>
+        <source>No connected input devices</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1277"/>
-        <location filename="../mainwindow.cpp" line="1281"/>
-        <source>Default MIDI Channel to send messages to</source>
-        <translation>Alapértelmezett MIDI csatorna üzenetküldésre</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1292"/>
-        <location filename="../mainwindow.cpp" line="3313"/>
-        <location filename="../mainwindow.cpp" line="3344"/>
-        <source>No connected input devices</source>
-        <translation>Nincs csatlakoztatott bemeneti eszköz</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1293"/>
-        <location filename="../mainwindow.cpp" line="3314"/>
-        <location filename="../mainwindow.cpp" line="3345"/>
+        <location filename="../mainwindow.cpp" line="3233"/>
+        <location filename="../mainwindow.cpp" line="3264"/>
         <source>No connected output devices</source>
-        <translation>Nincs csatlakoztatott kimeneti eszköz</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1294"/>
+        <location filename="../mainwindow.cpp" line="1278"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1318"/>
+        <location filename="../mainwindow.cpp" line="1279"/>
+        <source>MIDI output devices receieve MIDI messages directly from
+Sonic Pi which can be sent via the midi_* fns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1300"/>
         <source>Master Volume</source>
-        <translation>Fő hangerő</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1319"/>
+        <location filename="../mainwindow.cpp" line="1301"/>
         <source>Use this slider to change the system volume.</source>
-        <translation>Ezzel a csúszkával állítható a rendszer hangereje.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1321"/>
+        <location filename="../mainwindow.cpp" line="1303"/>
         <source>Audio Output</source>
-        <translation>Hangkimenet</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1359"/>
+        <location filename="../mainwindow.cpp" line="1357"/>
         <source>Auto-scroll log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1440"/>
+        <location filename="../mainwindow.cpp" line="1438"/>
         <source>Show cue log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1442"/>
+        <location filename="../mainwindow.cpp" line="1440"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1446"/>
+        <location filename="../mainwindow.cpp" line="1444"/>
         <source>Pro Icons</source>
-        <translation>Profi ikonok</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1447"/>
-        <source>Toggle Pro Icons - switch between the default
- and a more minimalistic icon set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1505"/>
+        <location filename="../mainwindow.cpp" line="1508"/>
         <source>IO</source>
-        <translation>I/O</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1515"/>
+        <location filename="../mainwindow.cpp" line="1518"/>
         <source>Show and Hide Scope</source>
-        <translation>Oszcilloszkóp mutatása/elrejtése</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1516"/>
+        <location filename="../mainwindow.cpp" line="1519"/>
         <source>Scope Kinds</source>
-        <translation>Oszcilloszkóp típusok</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1531"/>
+        <location filename="../mainwindow.cpp" line="1535"/>
         <source>Show Scopes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1532"/>
+        <location filename="../mainwindow.cpp" line="1536"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1533"/>
+        <location filename="../mainwindow.cpp" line="1537"/>
         <source>Show Axes</source>
-        <translation>Tengelyek mutatása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1537"/>
+        <location filename="../mainwindow.cpp" line="1541"/>
         <source>The audio oscilloscope comes in three flavours which may
 be viewed independently or all together:
 
@@ -608,499 +651,470 @@ Stereo - shows two independent scopes for left and right channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1551"/>
+        <location filename="../mainwindow.cpp" line="1555"/>
         <source>Visuals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1670"/>
+        <location filename="../mainwindow.cpp" line="1678"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation>Sonic Pi indulási hiba
-
-Bocsánat, kritikus hiba történt indulás alatt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1768"/>
-        <location filename="../mainwindow.cpp" line="1771"/>
-        <location filename="../mainwindow.cpp" line="1785"/>
-        <location filename="../mainwindow.cpp" line="1788"/>
+        <location filename="../mainwindow.cpp" line="1776"/>
+        <location filename="../mainwindow.cpp" line="1779"/>
+        <location filename="../mainwindow.cpp" line="1793"/>
+        <location filename="../mainwindow.cpp" line="1796"/>
         <source>Buffer files</source>
-        <translation>Pufferfájlok</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1771"/>
+        <location filename="../mainwindow.cpp" line="1779"/>
         <source>Load Sonic Pi Buffer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1771"/>
-        <location filename="../mainwindow.cpp" line="1788"/>
+        <location filename="../mainwindow.cpp" line="1779"/>
+        <location filename="../mainwindow.cpp" line="1796"/>
         <source>Text files</source>
-        <translation>Szövegfájlok</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1771"/>
-        <location filename="../mainwindow.cpp" line="1788"/>
+        <location filename="../mainwindow.cpp" line="1779"/>
+        <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation>Ruby fájlok</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1771"/>
-        <location filename="../mainwindow.cpp" line="1788"/>
+        <location filename="../mainwindow.cpp" line="1779"/>
+        <location filename="../mainwindow.cpp" line="1796"/>
         <source>All files</source>
-        <translation>Minden fájl</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1788"/>
+        <location filename="../mainwindow.cpp" line="1796"/>
         <source>Save Current Buffer</source>
         <translation>Jelenlegi puffer mentése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1841"/>
+        <location filename="../mainwindow.cpp" line="1849"/>
         <source>Running Code...</source>
         <translation>Kód futtatása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1894"/>
+        <location filename="../mainwindow.cpp" line="1902"/>
         <source>Zooming In...</source>
         <translation>Nagyítás...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1901"/>
+        <location filename="../mainwindow.cpp" line="1909"/>
         <source>Zooming Out...</source>
         <translation>Kicsinyítés...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1908"/>
+        <location filename="../mainwindow.cpp" line="1916"/>
         <source>Beautifying...</source>
         <translation>Megszépítés...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1935"/>
+        <location filename="../mainwindow.cpp" line="1943"/>
         <source>Reloading...</source>
         <translation>Újratöltés...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1942"/>
+        <location filename="../mainwindow.cpp" line="1950"/>
         <source>Checking for updates...</source>
         <translation>Frissítések keresése...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1950"/>
+        <location filename="../mainwindow.cpp" line="1958"/>
         <source>Enabling update checking...</source>
         <translation>Frissítések keresésének bekapcsolása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1958"/>
+        <location filename="../mainwindow.cpp" line="1966"/>
         <source>Disabling update checking...</source>
         <translation>Frissítések keresésének kikapcsolása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1966"/>
+        <location filename="../mainwindow.cpp" line="1974"/>
         <source>Enabling Mixer HPF...</source>
         <translation>Mixer HPF bekapcsolása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1975"/>
+        <location filename="../mainwindow.cpp" line="1983"/>
         <source>Disabling Mixer HPF...</source>
         <translation>Mixer HPF kikapcsolása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1983"/>
+        <location filename="../mainwindow.cpp" line="1991"/>
         <source>Enabling Mixer LPF...</source>
         <translation>Mixer LPF bekapcsolása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1992"/>
+        <location filename="../mainwindow.cpp" line="2000"/>
         <source>Disabling Mixer LPF...</source>
         <translation>Mixer LPF kikapcsolása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2000"/>
+        <location filename="../mainwindow.cpp" line="2008"/>
         <source>Enabling Inverted Stereo...</source>
         <translation>Invertált sztereó bekapcsolása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2008"/>
+        <location filename="../mainwindow.cpp" line="2016"/>
         <source>Enabling Standard Stereo...</source>
         <translation>Sztenderd sztereó bekapcsolása...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2016"/>
+        <location filename="../mainwindow.cpp" line="2024"/>
         <source>Mono Mode...</source>
         <translation>Monó mód...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2024"/>
+        <location filename="../mainwindow.cpp" line="2032"/>
         <source>Stereo Mode...</source>
         <translation>Sztereó mód...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2033"/>
+        <location filename="../mainwindow.cpp" line="2041"/>
         <source>Stopping...</source>
         <translation>Megállítás...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2191"/>
+        <location filename="../mainwindow.cpp" line="2151"/>
         <source>Updating System Volume...</source>
         <translation>Rendszerhangerő frissítése...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2227"/>
+        <location filename="../mainwindow.cpp" line="2186"/>
         <source>Log Auto Scroll on...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2229"/>
+        <location filename="../mainwindow.cpp" line="2188"/>
         <source>Log Auto Scroll off...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2671"/>
+        <location filename="../mainwindow.cpp" line="2421"/>
+        <source>Switching To Headphone Audio Output...</source>
+        <translation>Váltás a fejhallgató-hangkimenetre...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2437"/>
+        <source>Switching To HDMI Audio Output...</source>
+        <translation>Váltás a HDMI-hangkimenetre...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2452"/>
+        <source>Switching To Default Audio Output...</source>
+        <translation>Váltás az alapértelmezett hangkimenetre...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2606"/>
         <source>Run</source>
         <translation>Futtatás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2677"/>
+        <location filename="../mainwindow.cpp" line="2612"/>
         <source>Stop</source>
         <translation>Megállítás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2678"/>
+        <location filename="../mainwindow.cpp" line="2613"/>
         <source>Stop all running code</source>
         <translation>Minden futó kód megállítása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2681"/>
+        <location filename="../mainwindow.cpp" line="2616"/>
         <source>Save As...</source>
         <translation>Mentés másként...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2682"/>
+        <location filename="../mainwindow.cpp" line="2617"/>
         <source>Save current buffer as an external file</source>
         <translation>Jelenlegi puffer mentése külső fájlként</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2687"/>
+        <location filename="../mainwindow.cpp" line="2622"/>
         <source>Load</source>
-        <translation>Betöltés</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
+        <location filename="../mainwindow.cpp" line="2623"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Külső fájl betöltése a jelenlegi pufferbe</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2720"/>
+        <location filename="../mainwindow.cpp" line="2655"/>
         <source>Info</source>
         <translation>Infó</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2721"/>
+        <location filename="../mainwindow.cpp" line="2656"/>
         <source>See information about Sonic Pi</source>
         <translation>Információk megtekintése a Sonic Pi-ról</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2733"/>
+        <location filename="../mainwindow.cpp" line="2668"/>
         <source>Prefs</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3412"/>
+        <location filename="../mainwindow.cpp" line="3330"/>
         <source>Connected MIDI inputs</source>
-        <translation>Csatlakoztatott MIDI bemenetek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3417"/>
+        <location filename="../mainwindow.cpp" line="3335"/>
         <source>Connected MIDI outputs</source>
-        <translation>Csatlakoztatott MIDI kimenetek</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2693"/>
-        <location filename="../mainwindow.cpp" line="2861"/>
-        <location filename="../mainwindow.cpp" line="2862"/>
+        <location filename="../mainwindow.cpp" line="2628"/>
+        <location filename="../mainwindow.cpp" line="2792"/>
+        <location filename="../mainwindow.cpp" line="2793"/>
         <source>Start Recording</source>
         <translation>Felvétel elindítása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2694"/>
+        <location filename="../mainwindow.cpp" line="2629"/>
         <source>Start recording to WAV audio file</source>
         <translation>Felvétel elindítása WAV hangfájlba</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2698"/>
+        <location filename="../mainwindow.cpp" line="2633"/>
         <source>Auto-Align Text</source>
         <translation>Szöveg automatikus igazítása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2699"/>
+        <location filename="../mainwindow.cpp" line="2634"/>
         <source>Improve readability of code</source>
         <translation>A kód olvashatóságának javítása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2702"/>
+        <location filename="../mainwindow.cpp" line="2637"/>
         <source>Increase Text Size</source>
         <translation>Betűméret növelése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2727"/>
+        <location filename="../mainwindow.cpp" line="2662"/>
         <source>Toggle the visibility of the help pane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2734"/>
+        <location filename="../mainwindow.cpp" line="2669"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation>A beállítások panel láthatóságának kapcsolása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2709"/>
+        <location filename="../mainwindow.cpp" line="2644"/>
         <source>Decrease Text Size</source>
         <translation>Betűméret csökkentése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1192"/>
-        <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1193"/>
-        <source>Sonic Pi can send and receive Open Sound Control messages
-to and from other programs or computers
- via the currently connected network.</source>
-        <translation>Sonic Pi tud küldeni és fogadni Open Sound Control üzeneteket
-más programoknak vagy számítógépeknek
-a jelenleg aktív hálózaton keresztül.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1238"/>
-        <source>MIDI Configuration</source>
-        <translation>MIDI beállítások</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1241"/>
-        <source>MIDI Ports</source>
-        <translation>MIDI portok</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1242"/>
-        <source>List all connected MIDI Ports</source>
-        <translation>Minden csatlakoztatott MIDI port listázása</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1295"/>
-        <source>MIDI output devices receive MIDI messages directly from
-Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2704"/>
+        <location filename="../mainwindow.cpp" line="2639"/>
         <source>Size Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2711"/>
+        <location filename="../mainwindow.cpp" line="2646"/>
         <source>Size Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2717"/>
+        <location filename="../mainwindow.cpp" line="2652"/>
         <source>Toggle the visibility of the audio oscilloscopes. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2743"/>
+        <location filename="../mainwindow.cpp" line="2678"/>
         <source>Tools</source>
         <translation>Eszközök</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2793"/>
+        <location filename="../mainwindow.cpp" line="2730"/>
         <source>About</source>
         <translation>Névjegy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2794"/>
+        <location filename="../mainwindow.cpp" line="2731"/>
         <source>Core Team</source>
         <translation>Fejlesztőcsapat</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2795"/>
+        <location filename="../mainwindow.cpp" line="2732"/>
         <source>Contributors</source>
         <translation>Támogató fejlesztők</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2796"/>
+        <location filename="../mainwindow.cpp" line="2733"/>
         <source>Community</source>
         <translation>Közösség</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2797"/>
+        <location filename="../mainwindow.cpp" line="2734"/>
         <source>License</source>
         <translation>Licenc</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2798"/>
+        <location filename="../mainwindow.cpp" line="2735"/>
         <source>History</source>
         <translation>Történet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2819"/>
+        <location filename="../mainwindow.cpp" line="2756"/>
         <source>Sonic Pi - Info</source>
         <translation>Sonic Pi - Infó</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2853"/>
-        <location filename="../mainwindow.cpp" line="2854"/>
+        <location filename="../mainwindow.cpp" line="2784"/>
+        <location filename="../mainwindow.cpp" line="2785"/>
         <source>Stop Recording</source>
         <translation>Felvétel megállítása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2873"/>
+        <location filename="../mainwindow.cpp" line="2804"/>
         <source>Save Recording</source>
         <translation>Felvétel mentése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2873"/>
+        <location filename="../mainwindow.cpp" line="2804"/>
         <source>Wavefile (*.wav)</source>
-        <translation>Wave fájl (*.wav)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2894"/>
+        <location filename="../mainwindow.cpp" line="2825"/>
         <source>Ready...</source>
         <translation>Kész...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2980"/>
+        <location filename="../mainwindow.cpp" line="2914"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Nem sikerült a %1 fájl olvasása:
-%2.</translation>
+        <translation>Nem sikerült a %1 fájl olvasása: %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2991"/>
+        <location filename="../mainwindow.cpp" line="2925"/>
         <source>File loaded...</source>
         <translation>Fájl betöltve...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3000"/>
+        <location filename="../mainwindow.cpp" line="2934"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Nem sikerült a %1 fájl írása:
-%2.</translation>
+        <translation>Nem sikerült a %1 fájl írása: %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3018"/>
+        <location filename="../mainwindow.cpp" line="2952"/>
         <source>File saved...</source>
         <translation>Fájl mentve...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3174"/>
-        <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3263"/>
+        <location filename="../mainwindow.cpp" line="3186"/>
         <source>Last checked %1</source>
         <translation>Legutóbb ellenőrizve %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3265"/>
+        <location filename="../mainwindow.cpp" line="3188"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
         <translation>A Sonic Pi frissítéseket keres
 minden második héten.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3267"/>
+        <location filename="../mainwindow.cpp" line="3190"/>
         <source>This is Sonic Pi %1</source>
         <translation>Ez a Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3268"/>
+        <location filename="../mainwindow.cpp" line="3191"/>
         <source>Version %2 is now available!</source>
         <translation>Már elérhető a %2 verzió!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3272"/>
+        <location filename="../mainwindow.cpp" line="3195"/>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>Új verzió elérhető!
 Szerezd be: Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3307"/>
+        <location filename="../mainwindow.cpp" line="3226"/>
         <source>Enabling MIDI...</source>
-        <translation>MIDI engedélyezése...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3315"/>
+        <location filename="../mainwindow.cpp" line="3234"/>
         <source>Disabling MIDI...</source>
-        <translation>MIDI tiltása...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3325"/>
+        <location filename="../mainwindow.cpp" line="3244"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation>OSC port nyitása távoli üzenetekhez...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3334"/>
+        <location filename="../mainwindow.cpp" line="3253"/>
         <source>Stopping OSC server...</source>
-        <translation>OSC szerver megállítása...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3346"/>
+        <location filename="../mainwindow.cpp" line="3265"/>
         <source>Resetting MIDI...</source>
-        <translation>MIDI visszaállítása...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3351"/>
+        <location filename="../mainwindow.cpp" line="3270"/>
         <source>MIDI is disabled...</source>
-        <translation>MIDI kikapcsolva...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3359"/>
+        <location filename="../mainwindow.cpp" line="3278"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>Üdvözlünk ismét. Kezdődjön az élő kódolás...</translation>
     </message>
     <message>
-        <location filename="../ruby_help.h" line="116"/>
-        <location filename="../ruby_help.h" line="212"/>
-        <location filename="../ruby_help.h" line="308"/>
-        <location filename="../ruby_help.h" line="403"/>
-        <location filename="../ruby_help.h" line="499"/>
-        <location filename="../ruby_help.h" line="595"/>
-        <location filename="../ruby_help.h" line="691"/>
-        <location filename="../ruby_help.h" line="786"/>
-        <location filename="../ruby_help.h" line="882"/>
-        <location filename="../ruby_help.h" line="976"/>
-        <location filename="../ruby_help.h" line="1071"/>
-        <location filename="../ruby_help.h" line="1167"/>
+        <location filename="../ruby_help.h" line="102"/>
+        <location filename="../ruby_help.h" line="182"/>
+        <location filename="../ruby_help.h" line="263"/>
+        <location filename="../ruby_help.h" line="344"/>
+        <location filename="../ruby_help.h" line="425"/>
+        <location filename="../ruby_help.h" line="507"/>
+        <location filename="../ruby_help.h" line="587"/>
+        <location filename="../ruby_help.h" line="669"/>
+        <location filename="../ruby_help.h" line="750"/>
+        <location filename="../ruby_help.h" line="831"/>
+        <location filename="../ruby_help.h" line="913"/>
+        <location filename="../ruby_help.h" line="995"/>
         <source>Tutorial</source>
         <translation>Bevezetés</translation>
     </message>
     <message>
-        <location filename="../ruby_help.h" line="1202"/>
+        <location filename="../ruby_help.h" line="1029"/>
         <source>Examples</source>
         <translation>Példák</translation>
     </message>
     <message>
-        <location filename="../ruby_help.h" line="1251"/>
+        <location filename="../ruby_help.h" line="1078"/>
         <source>Synths</source>
-        <translation>Szintetizátorok</translation>
+        <translation>Synth-ek</translation>
     </message>
     <message>
-        <location filename="../ruby_help.h" line="1298"/>
+        <location filename="../ruby_help.h" line="1125"/>
         <source>Fx</source>
-        <translation>Effektek</translation>
+        <translation>Fx</translation>
     </message>
     <message>
-        <location filename="../ruby_help.h" line="1317"/>
+        <location filename="../ruby_help.h" line="1144"/>
         <source>Samples</source>
         <translation>Hangminták</translation>
     </message>
     <message>
-        <location filename="../ruby_help.h" line="1564"/>
+        <location filename="../ruby_help.h" line="1389"/>
         <source>Lang</source>
         <translation>Programnyelv</translation>
     </message>
@@ -1118,7 +1132,7 @@ Szerezd be: Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation>Fut már a Sonic Pi? Nem sikerült UDP portot nyitni.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

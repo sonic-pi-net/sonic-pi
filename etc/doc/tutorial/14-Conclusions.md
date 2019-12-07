@@ -9,7 +9,7 @@ in your own time. Feel free to dive back in when you have a question that
 might be covered in one of the sections.
 
 If you have any questions that haven't been covered in the tutorial,
-then please jump onto the [Sonic Pi community forums](https://in-thread.sonic-pi.net/)
+then please jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/)
 and ask your question there. You'll find someone friendly and willing to
 lend a hand.
 
@@ -23,4 +23,4 @@ screens and remember:
 
 *There are no mistakes, only opportunities.*
 
-[Sam Aaron](https://twitter.com/samaaron)
+[Sam Aaron](http://twitter.com/samaaron)

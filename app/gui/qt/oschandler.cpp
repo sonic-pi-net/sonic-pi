@@ -20,10 +20,11 @@
 
 #include <QTextEdit>
 
-OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane,  SonicPiLog *incomingPane, SonicPiTheme *theme)
+OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane, QTextEdit *errorPane, SonicPiLog *incomingPane, SonicPiTheme *theme)
 {
     window = parent;
     out = outPane;
+    error = errorPane;
     incoming = incomingPane;
     signal_server_stop = false;
     server_started = false;
@@ -31,10 +32,7 @@ OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane,  SonicPiLog *inc
     this->theme = theme;
 }
 
-void OscHandler::oscMessage(std::vector<char> buffer)
-{
-    QColor bg;
-
+void OscHandler::oscMessage(std::vector<char> buffer){
     pr.init(&buffer[0], buffer.size());
 
     oscpkt::Message *msg;
@@ -81,9 +79,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
 
           QString qs_address =  QString::fromStdString(address);
           if(!qs_address.startsWith(":")) {
-            bg = theme->color("CuePathBackground");
-            bg.setAlpha(idmod);
-            QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, bg), Q_ARG(QColor, theme->color("CuePathForeground")));
+              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 20, 147, idmod)), Q_ARG(QColor, "white"));
 
               QMetaObject::invokeMethod( incoming, "appendPlainText",        Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(" " + address) ) );
@@ -95,11 +91,8 @@ void OscHandler::oscMessage(std::vector<char> buffer)
 
               QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(" ")));
-            bg = theme->color("CueDataBackground");
-            bg.setAlpha(idmod);
-            QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, bg), Q_ARG(QColor, theme->color("CueDataForeground")));
 
-            //QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor,g"white"));
+              QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor, "white"));
               QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(args) ) );
               last_incoming_path_lens[id % 20] = address.length();
@@ -116,16 +109,16 @@ void OscHandler::oscMessage(std::vector<char> buffer)
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
 
-
+          QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoForeground")));
           if(style == 1) {
-            QMetaObject::invokeMethod( out, "setTextBgFgColors",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackground_1")),  Q_ARG(QColor, theme->color("LogInfoForeground_1")));
+          QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackgroundStyle1")));
           } else {
-            QMetaObject::invokeMethod( out, "setTextBgFgColors",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackground")),  Q_ARG(QColor, theme->color("LogInfoForeground")));
+          QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackground")));
           }
 
           QMetaObject::invokeMethod( out, "appendPlainText",        Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString("=> " + s + "\n")) );
 
-          QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogForeground")));
+          QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogDefaultForeground")));
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")));
         } else {
           std::cout << "[GUI] - error: unhandled OSC msg /info "<< std::endl;
@@ -136,11 +129,19 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         int line;
         std::string desc;
         std::string backtrace;
+        QString style_sheet = "qrc:///html/styles.css";
+        if(window->dark_mode->isChecked()) {
+          style_sheet = "qrc:///html/dark_styles.css";
+        }
         if (msg->arg().popInt32(job_id).popStr(desc).popStr(backtrace).popInt32(line).isOkNoMoreArgs()) {
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
           QMetaObject::invokeMethod( window, "setLineMarkerinCurrentWorkspace", Qt::QueuedConnection, Q_ARG(int, line));
-          QMetaObject::invokeMethod( window, "showError", Q_ARG(QString, "<h2 class=\"error_description\"><pre>Runtime Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"backtrace\">" + QString::fromStdString(backtrace) + "</pre>"));
+          QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
+          QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
+          QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection,
+                                     Q_ARG(QString, "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"error_description\"><pre>Runtime Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"backtrace\">" + QString::fromStdString(backtrace) + "</pre></body></html>") );
+
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
         }
@@ -151,18 +152,26 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         std::string desc;
         std::string error_line;
         std::string line_num_s;
+        QString style_sheet = "qrc:///html/styles.css";
+        if(window->dark_mode->isChecked()) {
+          style_sheet = "qrc:///html/dark_styles.css";
+        }
         if (msg->arg().popInt32(job_id).popStr(desc).popStr(error_line).popInt32(line).popStr(line_num_s).isOkNoMoreArgs()) {
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+          QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
           QMetaObject::invokeMethod( window, "setLineMarkerinCurrentWorkspace", Qt::QueuedConnection, Q_ARG(int, line));
 
-          QString html_response = "<h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_msg\">";
+          QString html_response = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_msg\">";
           if(line == -1) {
-            html_response = html_response + "</span></pre>";
+            html_response = html_response + "</span></pre></body></html>";
           } else {
-            html_response = html_response + "[Line " + QString::fromStdString(line_num_s) + "]: <span class=\"error_line\">" + QString::fromStdString(error_line) + "</span></pre>";
+            html_response = html_response + "[Line " + QString::fromStdString(line_num_s) + "]: <span class=\"error_line\">" + QString::fromStdString(error_line) + "</span></pre></body></html>";
               }
-          QMetaObject::invokeMethod( window, "showError", Q_ARG(QString, html_response));
+
+          QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
+          QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection, Q_ARG(QString, html_response) );
+
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
         }

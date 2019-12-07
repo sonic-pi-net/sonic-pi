@@ -76,14 +76,14 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
     QTextCharFormat tf;
     QString ss;
 
-    tf.setForeground(theme->color("LogForeground"));
+    tf.setForeground(theme->color("LogDefaultForeground"));
     tf.setBackground(theme->color("LogBackground"));
     setCurrentCharFormat(tf);
 
     ss.append("{run: ").append(QString::number(mm.job_id));
     ss.append(", time: ").append(QString::fromStdString(mm.runtime));
-    if(! (mm.thread_name == "\"\"")) {
-      ss.append(", thread: ").append(QString::fromStdString(mm.thread_name));
+    if(!mm.thread_name.empty()) {
+      ss.append(", thread: \"").append(QString::fromStdString(mm.thread_name)).append("\"");
     }
     ss.append("}");
     appendPlainText(ss);
@@ -110,43 +110,36 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
         switch(msg_type)
           {
           case 0:
-             tf.setForeground(theme->color("LogForeground"));
-             tf.setBackground(theme->color("LogBackground"));
+            tf.setForeground(QColor("deeppink"));
             break;
           case 1:
-            tf.setForeground(theme->color("LogForeground_1"));
-            tf.setBackground(theme->color("LogBackground_1"));
+            tf.setForeground(QColor("dodgerblue"));
             break;
           case 2:
-            tf.setForeground(theme->color("LogForeground_2"));
-            tf.setBackground(theme->color("LogBackground_2"));
+            tf.setForeground(QColor("darkorange"));
             break;
           case 3:
-            tf.setForeground(theme->color("LogForeground_3"));
-            tf.setBackground(theme->color("LogBackground_3"));
+            tf.setForeground(QColor("red"));
             break;
           case 4:
-            tf.setForeground(theme->color("LogForeground_4"));
-            tf.setBackground(theme->color("LogBackground_4"));
+            tf.setForeground(QColor("white"));
+            tf.setBackground(QColor("deeppink"));
             break;
           case 5:
-            tf.setForeground(theme->color("LogForeground_5"));
-            tf.setBackground(theme->color("LogBackground_5"));
+            tf.setForeground(QColor("white"));
+            tf.setBackground(QColor("dodgerblue"));
             break;
           case 6:
-            tf.setForeground(theme->color("LogForeground_6"));
-            tf.setBackground(theme->color("LogBackground_6"));
+            tf.setForeground(QColor("white"));
+            tf.setBackground(QColor("darkorange"));
             break;
           default:
-            tf.setForeground(theme->color("LogForeground"));
-            tf.setBackground(theme->color("LogBackground"));
-
+            tf.setForeground(QColor("green"));
           }
-
         setCurrentCharFormat(tf);
         insertPlainText(lines.at(j));
         if ((j + 1) < lines.size()) {
-          tf.setForeground(theme->color("LogForeground"));
+          tf.setForeground(QColor("white"));
           setCurrentCharFormat(tf);
           if (i == (msg_count - 1)) {
             // we are the last message
@@ -158,7 +151,7 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
         }
       }
 
-      tf.setForeground(theme->color("LogForeground"));
+      tf.setForeground(theme->color("LogDefaultForeground"));
       tf.setBackground(theme->color("LogBackground"));
       setCurrentCharFormat(tf);
     }

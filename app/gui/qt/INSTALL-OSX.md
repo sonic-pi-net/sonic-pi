@@ -49,14 +49,14 @@ ln -s `which ruby` ../../server/native/osx/ruby/bin/ruby
 
 You need to compiler server extensions
 ```
-../../server/ruby/bin/compile-extensions.rb 
+../../server/bin/compile-extensions.rb 
 ```
 
 Generate i18n files
 ```
-../../server/native/osx/ruby/bin/ruby ../../server/ruby/bin/i18n-tool.rb -t
+../../server/native/osx/ruby/bin/ruby ../../server/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
-../../server/native/osx/ruby/bin/ruby ../../server/ruby/bin/qt-doc.rb -o ruby_help.h
+../../server/native/osx/ruby/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
 /usr/local/opt/qt5/bin/lrelease SonicPi.pro 
 ```
 

@@ -14,13 +14,13 @@
 lessThan(QT_MAJOR_VERSION, 5): error("requires Qt 5")
 
 TARGET = 'sonic-pi'
-CONFIG += qscintilla2 qwt c++11 resources_big
+CONFIG += qscintilla2 qwt c++11
 
 QT += core gui concurrent network opengl widgets
 
 # Linux only
 unix:!macx {
-  LIBS += -lrt -lqscintilla2_qt5
+  LIBS += -lrt -lqt5scintilla2
   QMAKE_CXXFLAGS += -std=gnu++11
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   debug {
@@ -34,11 +34,7 @@ macx {
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   CONFIG += warn_off
   TARGET = 'Sonic Pi'
-  LIBS += -lqscintilla2_qt5
-  debug {
-    QMAKE_LFLAGS += -g -O0
-    QMAKE_CXXFLAGS += -g -O0
-  }
+  LIBS += -lqscintilla2
 }
 
 # Windows only

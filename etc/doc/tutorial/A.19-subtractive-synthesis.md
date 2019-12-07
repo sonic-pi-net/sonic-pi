@@ -19,7 +19,7 @@ Despite this sounding like a particularly complicated and advanced
 technique, Sonic Pi makes it surprisingly simple and easy - so let's
 dive right in.
 
-## Complex Source Signal
+# Complex Source Signal
 
 For a sound to work well with subtractive synthesis, it typically needs
 to be fairly rich and interesting. This doesn't mean we need something
@@ -44,7 +44,7 @@ and only at `:e2` and none of the high crispy/buzzy sounds which you
 heard in the `:saw`. It's this buzziness and variation from a pure sine
 wave that we can play with when we use subtractive synthesis.
 
-## Filters
+# Filters
 
 Once we have our raw source signal, the next step is to pass it through
 a filter of some kind which will modify the sound by removing or
@@ -83,7 +83,7 @@ notice how lower values let more of the original bass parts of the
 source signal through and higher values sound increasingly tinny and
 quiet.
 
-## Low Pass Filter
+# [Low Pass Filter] - breakout box
 
 The low pass filter is such an important part of every subtractive
 synthesis toolkit that it's worth taking a deeper look at how it
@@ -104,7 +104,7 @@ which means that the overall amplitude is reduced as the amount of
 filtering that is taking place increases.
 
 
-## Filter Modulation
+# Filter Modulation
 
 So far we've just produced fairly static sounds. In other words, the
 sound doesn't change in any way for the entirety of its duration. Often
@@ -134,7 +134,7 @@ beats. Finally we also trigger a source signal synth so we can hear the
 effect of the modulated low pass filter.
 
 
-## Bringing it all together
+# Bringing it all together
 
 This is just a very basic taster of what's possible when you use filters
 to modify and change a source sound. Try playing with Sonic Pi's many

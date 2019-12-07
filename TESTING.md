@@ -48,7 +48,7 @@ on port 4557. If you don't do this you'll see some error messages to do with con
 4. Run this command from the root dir of Sonic Pi
 
 ```
-$ ruby-prof -p multi ./app/server/ruby/bin/sonic-pi-server.rb
+$ ruby-prof -p multi ./app/server/bin/sonic-pi-server.rb
 ```
 
 5. Run this command (again from the root dir) to send some code to Sonic Pi

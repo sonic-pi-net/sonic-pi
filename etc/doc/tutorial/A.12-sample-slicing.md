@@ -10,7 +10,7 @@ together in a completely new order. If that sounds a bit crazy to you,
 don't worry, it will all become clear and you'll soon master a powerful
 new tool for your live coded sets.
 
-## Sound as Data
+# Sound as Data
 
 Before we get started let's just take a brief moment to understand how
 to work with samples. By now, you've all hopefully played with Sonic
@@ -48,7 +48,7 @@ graph of data with time on the x axis and microphone/speaker position
 as a value between -1 and 1 on the y axis. You can see an example of 
 such a graph at the top of the diagram.
 
-## Playing Part of a Sample
+# Playing Part of a Sample
 
 So, how do we code Sonic Pi to play a sample back in a different order?
 To answer this question we need to take a look at the `start:` and
@@ -76,7 +76,7 @@ For fun, you can even have the `finish:` opt's value be *before*
 sample :loop_amen, start: 0.5, finish: 0.25
 ```
 
-## Re-ordering Sample Playback
+# Re-ordering Sample Playback
 
 Now that we know that a sample is simply a list of numbers that can be
 played back in any order and also how to play a specific part of a

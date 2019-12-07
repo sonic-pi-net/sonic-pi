@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2913"/>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>Sonic Pi</source>
-        <translation>Sonic Pi</translation>
+        <translation>Sonic Pi - Programiranje kot umetnost</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
@@ -37,8 +37,8 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Vklopi/izklopi mono način.
-Če je vklopljeno, se zmešata levi in desni zvok
-v en sam signal, ki je poslan k obema zvočnikoma.
+Če je vklopljeno, se zmešata levi in desni zvok v en sam signal
+in ta je poslan k obema zvočnikoma.
 Uporabno, če uporabljamo zunanjo opremo,
 ki omogoča le mono način.</translation>
     </message>
@@ -53,8 +53,9 @@ ki omogoča le mono način.</translation>
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Vklopi/izklopi zapis sporočil v dnevnik.
-Če je izklopljeno, dejavnosti kot je predvajanje
-tonov in vzorcev ne bodo zapisane v dnevnik.</translation>
+Če je izklopljeno, dejavnosti kot je instrument
+in predvajanje vzorcev ne bodo zapisane
+v programski dnevnik.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"/>
@@ -72,8 +73,8 @@ tonov in vzorcev ne bodo zapisane v dnevnik.</translation>
 If enabled, the log is cleared each
 time the run button is pressed.</source>
         <translation>Vklopi/izklopi čiščenje dnevnika ob zagonu.
-Če je vklopljeno, bo dnevnik izpraznjen
-ob vsakem kliku na gumb &quot;Zaženi&quot;.</translation>
+Če je vklopljeno, bo programski dnevnik
+izpraznjen, ko klikneš gumb &quot;Zaženi&quot;.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1436"/>
@@ -83,13 +84,13 @@ ob vsakem kliku na gumb &quot;Zaženi&quot;.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1452"/>
         <source>Dark mode</source>
-        <translation>Temni način</translation>
+        <translation>Nočni način</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>Zaganjam skripte…</translation>
+        <translation>Zaganjam skripte...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1916"/>
@@ -101,7 +102,7 @@ ob vsakem kliku na gumb &quot;Zaženi&quot;.</translation>
         <location filename="../mainwindow.cpp" line="1943"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>Ponovno nalaganje…</translation>
+        <translation>Ponovno nalaganje ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1974"/>
@@ -123,17 +124,17 @@ ob vsakem kliku na gumb &quot;Zaženi&quot;.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Welcome to Sonic Pi</source>
-        <translation>Pozdravljeni v Sonic Pi-ju</translation>
+        <translation>Dobrodošli v Sonic Pi-ju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Indenting selection...</source>
-        <translation>Zamikanje izbora…</translation>
+        <translation>Zamik izbora...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Indenting line...</source>
-        <translation>Zamikanje vrstice…</translation>
+        <translation>Zamik vrstice...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
@@ -174,10 +175,11 @@ sistemi PA pri programiranju s Sonic Pi-jem.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Vklopi/izklopi funkcije preverjanja parametrov
-glasbila. Če je izklopljeno, lahko nekatere
-vrednosti povzročijo nepričakovano glasne
-ali neprijetne zvoke.</translation>
+        <translation>Vklopi/izklopi funkcije preverjanja
+parametrov glasbila.
+Če je izklopljeno, lahko nekatere vrednosti
+povzročijo nepričakovano glasne ali neprijetne
+zvoke.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1342"/>
@@ -342,7 +344,7 @@ v Sonic Pi in je sprejeto kot dajanje znakov
         <source>MIDI output devices receieve MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
         <translation>MIDI izhodne naprave prejmejo MIDI sporočila neposredno iz
-Sonic Pi-ja, lahko pa so poslana tudi z ukazi midi_*</translation>
+Sonic Pi-ja, lahko pa so poslana s funkcijami midi_*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1300"/>
@@ -453,7 +455,7 @@ when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
         <translation>Ko je vklopljeno, Sonic Pi dovoljuje
 nalaganje glasbil in učinkov FX  
-z ukazom load_synthdefs.
+prek load_synthdefs.
 
 Ko je izklopljeno, bo Sonic Pi sporočil,
 ko poskusiš uporabiti glasbilo ali učinek FX,
@@ -664,7 +666,7 @@ Med zaganjanjem je prišlo do kritične napake</translation>
         <location filename="../mainwindow.cpp" line="1779"/>
         <location filename="../mainwindow.cpp" line="1796"/>
         <source>Ruby files</source>
-        <translation>Programi v jeziku ruby</translation>
+        <translation>Datoteke &quot;Ruby&quot;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1779"/>
@@ -675,12 +677,12 @@ Med zaganjanjem je prišlo do kritične napake</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Samodejno drsenje dnevnika vklopljeno …</translation>
+        <translation>Samodejno drsenje dnevnika vklopljeno...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Samodejno drsenje dnevnika izklopljeno …</translation>
+        <translation>Samodejno drsenje dnevnika izklopljeno...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2607"/>
@@ -1140,7 +1142,7 @@ Namesti Sonic Pi %1</translation>
         <location filename="../ruby_help.h" line="913"/>
         <location filename="../ruby_help.h" line="995"/>
         <source>Tutorial</source>
-        <translation>Vodnik</translation>
+        <translation>Vaja</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="1029"/>

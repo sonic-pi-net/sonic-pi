@@ -66,7 +66,7 @@ start([ARGVPort|T]) ->
 
 go(P, Port) ->
 
-    {ok, Socket} = gen_udp:open(Port, [binary, {ip, loopback}]),
+    {ok, Socket} = gen_udp:open(Port, [binary]),
     io:format("~n+--------------------------------+~n+ This is the Sonic Pi IO Server +~n+       Powered by Erlang        +~n+     Listening on port ~p     +~n+--------------------------------+~n~n~n",[Port]),
     P ! ack,
     Monitor = spawn(fun() -> monitor() end),

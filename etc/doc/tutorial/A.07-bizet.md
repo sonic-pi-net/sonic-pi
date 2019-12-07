@@ -7,7 +7,7 @@ with Sonic Pi last month, let's get musical again. Today we're going to
 bring a classical operatic dance piece straight into the 21st century
 using the awesome power of code.
 
-## Outrageous and Disruptive
+# Outrageous and Disruptive
 
 Let's jump into a time machine back to the year 1875. A composer called
 Bizet had just finished his latest opera Carmen.  Unfortunately like
@@ -20,7 +20,7 @@ themes from Carmen and convert it to a modern format of music that is
 also too outrageous and different for most people in our time - live
 coded music!
 
-## Decoding the Habanera
+# Decoding the Habanera
 
 Trying to live code the whole opera would be a bit of a challenge for
 this tutorial, so let's focus on one of the most famous parts - the bass
@@ -33,7 +33,7 @@ music notation.  However, as programmers we see music notation as just
 another form of code - only it represents instructions to a musician instead
 of a computer. We therefore need to figure out a way of decoding it. 
 
-## Notes
+# Notes
 
 The notes are arranged from left to right like the words in this
 magazine but also have different heights. *The height on the score
@@ -48,7 +48,7 @@ look at this handy look up table:
 
 ![Notes](../images/tutorial/articles/A.07-bizet/notes.png)
 
-## Rests
+# Rests
 
 Music scores are an extremely rich and expressive kind of code capable
 of communicating many things. It therefore shouldn't come as much of a
@@ -64,7 +64,7 @@ handy representation for a rest: `:r`, so if we run: `play :r` it
 actually plays silence! We could also write `play :rest`, `play nil` or
 `play false` which are all equivalent ways of representing rests.
 
-## Rhythm
+# Rhythm
 
 Finally, there's one last thing to learn how to decode in the notation -
 the timings of the notes. In the original notation you'll see that the
@@ -82,7 +82,7 @@ sequence of notes and rests.
 
 ![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)
 
-## Re-coding the Habanera
+# Re-coding the Habanera
 
 We're now in a position to start translating this bass line to Sonic
 Pi. Let's encode these notes and rests in a ring:
@@ -105,7 +105,7 @@ Fabulous, that instantly recognisable riff springs to life through your
 speakers. It took a lot of effort to get here, but it was worth it -
 high five!
     
-## Moody Synths
+# Moody Synths
 
 Now we have the bass line, let's re-create some of the ambience of the
 operatic scene. One synth to try out is `:blade` which is a moody 80s
@@ -135,7 +135,7 @@ don't need to hit stop, just modify the code whilst the music is playing
 and hit run again. Also, try different values for the slicer's `phase:`
 opt such as `0.5`, `0.75` and `1`.
 
-## Bringing it all together
+# Bringing it all together
 
 Finally, let's combine all the ideas so far into a new remix of the
 Habanera. You might notice that I've included another part of the bass
