@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-11-11 17:04+0000\n"
+"PO-Revision-Date: 2019-12-11 13:54+0000\n"
 "Last-Translator: Daniele P. <daniele.paradiso3@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/it/>\n"
@@ -5519,7 +5519,7 @@ msgstr ""
 "usate in locale all'interno di un thread. Per esempio, *non fare questo*:"
 
 #: 05.6-Variables.md:139
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "a = (ring 6, 5, 4, 3, 2, 1)\n"
 "live_loop :shuffled do\n"
@@ -8658,7 +8658,7 @@ msgstr ""
 "`:intensity`. Questo è possibile utilizzano la funzione `set`:"
 
 #: 10.1-Set-and-Get.md:19
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "set :intensity, 3000"
 msgstr "set :intensity, 3000"
 
@@ -8671,7 +8671,7 @@ msgstr ""
 "informazioni con quella chiave, il nuovo `set` le sostituisce:"
 
 #: 10.1-Set-and-Get.md:26
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
@@ -8691,7 +8691,6 @@ msgstr ""
 "in effetti soprascritta."
 
 #: 10.1-Set-and-Get.md:35
-#, fuzzy
 msgid "Get"
 msgstr "Get"
 
@@ -8739,7 +8738,7 @@ msgstr ""
 "che imposta informazioni ed un altro che le recupera:"
 
 #: 10.1-Set-and-Get.md:58
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :setter do\n"
 "  set :foo, rrand(70, 130)\n"
@@ -8770,7 +8769,7 @@ msgstr ""
 "provalo. Vedi se ottieni il seguente nel tuo log:"
 
 #: 10.1-Set-and-Get.md:74
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "{run: 0, time: 0.0}\n"
 " └─ 125.72265625\n"
@@ -8988,7 +8987,6 @@ msgstr ""
 
 #: 10.2-Sync.md:20
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync :foo\n"
@@ -8996,7 +8994,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 1"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  sync :foo\n"
+"  sample :ambi_lunar_land\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 1"
 
 #: 10.2-Sync.md:31
 #, fuzzy
@@ -9033,7 +9037,6 @@ msgstr "foo"
 
 #: 10.2-Sync.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  amp = sync :foo\n"
@@ -9041,7 +9044,13 @@ msgid ""
 "end\n"
 "sleep 2\n"
 "set :foo, 0.5"
-msgstr "sample :ambi_lunar_land"
+msgstr ""
+"in_thread do\n"
+"  amp = sync :foo\n"
+"  sample :ambi_lunar_land, amp: amp\n"
+"end\n"
+"sleep 2\n"
+"set :foo, 0.5"
 
 #: 10.2-Sync.md:58
 #, fuzzy
@@ -9082,64 +9091,73 @@ msgid "Match any path segment"
 msgstr "Match any path segment"
 
 #: 10.3-Pattern-Matching.md:15
+#, fuzzy
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
+"Supponiamo di voler attendere il prossimo evento che ha un percorso con tre "
+"segmenti:"
 
 #: 10.3-Pattern-Matching.md:17
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sync \"/*/*/*\""
 msgstr "sync \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
+#, fuzzy
 msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
+"Questo corrisponderà a qualsiasi evento Time State con esattamente tre "
+"segmenti, questo indipendentemente dal loro nome. Per esempio:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
-#, fuzzy
 msgid "`cue \"/foo/bar/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:25
-#, fuzzy
 msgid "`cue \"/foo/baz/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
-msgstr ""
+msgstr "`cue \"/eggs/beans/toast\"`"
 
 #: 10.3-Pattern-Matching.md:27
 msgid "`cue \"/moog/synths/rule\"`"
-msgstr ""
+msgstr "`cue \"/moog/synths/rule\"`"
 
 #: 10.3-Pattern-Matching.md:29
+#, fuzzy
 msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
+"Tuttavia, *non* corrisponderà a percorsi con meno o più segmenti. I seguenti "
+"non corrisponderanno:"
 
 #: 10.3-Pattern-Matching.md:32
-#, fuzzy
 msgid "`cue \"/foo/bar\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
-#, fuzzy
 msgid "`cue \"/foo/baz/quux/quaax\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
-msgstr ""
+msgstr "`cue \"/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:36
+#, fuzzy
 msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"Ogni `*` significa *qualsiasi contenuto*. In questo modo possiamo abbinare i "
+"percorsi con un solo segmento con `/*` oppure quelli con cinque segmenti con "
+"`/*/*/*/*/*`"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
@@ -9156,33 +9174,30 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:47
-#, fuzzy
 msgid "`cue \"/foo/baz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:48
-#, fuzzy
 msgid "`cue \"/foo/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
+#, fuzzy
 msgid "However, it wouldn't match the following:"
-msgstr ""
+msgstr "Tuttavia, non corrisponderebbe a quanto segue:"
 
 #: 10.3-Pattern-Matching.md:52
-#, fuzzy
 msgid "`cue \"/foo/flibble/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/flibble/baz\"`"
 
 #: 10.3-Pattern-Matching.md:53
-#, fuzzy
 msgid "`cue \"/foo/abaz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/abaz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:54
 #, fuzzy
 msgid "`cue \"/foo/beans/baz/eggs\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
 #, fuzzy
@@ -9206,41 +9221,41 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:69
-#, fuzzy
 msgid "`cue \"/foo/bar/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:70
-#, fuzzy
 msgid "`cue \"/foo/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz\"`"
 
 #: 10.3-Pattern-Matching.md:71
-#, fuzzy
 msgid "`cue \"/foo/a/b/c/d/e/f/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:75
+#, fuzzy
 msgid ""
 "You can use the `?` character to match against a single char such as `\"/?oo/ba"
 "r/baz\"` which will match:"
 msgstr ""
+"È possibile utilizzare il carattere `?` per trovare una corrispondenza con "
+"un singolo carattere, ad esempio `\"/?oo/bar/baz\"` che corrisponderà:"
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/goo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:80
 msgid "`cue \"/too/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/too/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:81
 msgid "`cue \"/woo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
@@ -9255,19 +9270,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:89
-#, fuzzy
 msgid "`cue \"/foo/bar/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/quux\"`"
 
 #: 10.3-Pattern-Matching.md:90
-#, fuzzy
 msgid "`cue \"/foo/beans/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/quux\"`"
 
 #: 10.3-Pattern-Matching.md:91
-#, fuzzy
 msgid "`cue \"/foo/eggs/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
@@ -9282,19 +9294,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
-#, fuzzy
 msgid "`cue \"/foo/aux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/aux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:100 10.3-Pattern-Matching.md:107
-#, fuzzy
 msgid "`cue \"/foo/bux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:101 10.3-Pattern-Matching.md:108
-#, fuzzy
 msgid "`cue \"/foo/cux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
 #, fuzzy
@@ -9304,14 +9313,12 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:109
-#, fuzzy
 msgid "`cue \"/foo/dux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/dux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:110
-#, fuzzy
 msgid "`cue \"/foo/eux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
@@ -9326,7 +9333,6 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
@@ -9334,7 +9340,13 @@ msgid ""
 "end\n"
 "sleep 1\n"
 "cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
-msgstr "sample :loop_amen"
+msgstr ""
+"in_thread do\n"
+"  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
@@ -9752,7 +9764,6 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:90
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb, room: 1 do\n"
 "  live_audio :moog\n"
@@ -9762,7 +9773,15 @@ msgid ""
 "  midi (octs :e1, 3).tick, sustain: 0.1\n"
 "  sleep 0.125\n"
 "end"
-msgstr "reverb,"
+msgstr ""
+"with_fx :reverb, room: 1 do\n"
+"  live_audio :moog\n"
+"end\n"
+"live_loop :moog_trigger do\n"
+"  use_real_time\n"
+"  midi (octs :e1, 3).tick, sustain: 0.1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 11.2-MIDI-Out.md:102
 msgid ""
@@ -9826,14 +9845,18 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:19
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :foo do\n"
 "  use_real_time\n"
 "  a, b, c = sync \"/osc/trigger/prophet\"\n"
 "  synth :prophet, note: a, cutoff: b, sustain: c\n"
 "end"
-msgstr "foo"
+msgstr ""
+"live_loop :foo do\n"
+"  use_real_time\n"
+"  a, b, c = sync \"/osc/trigger/prophet\"\n"
+"  synth :prophet, note: a, cutoff: b, sustain: c\n"
+"end"
 
 #: 12.1-Receiving-OSC.md:27
 msgid ""
@@ -10166,9 +10189,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo"
-msgstr "foo"
+msgstr "live_audio :foo"
 
 #: 13.2-Live-Audio.md:23
 msgid ""
@@ -10190,12 +10212,14 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:34
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  live_audio :foo\n"
+"end"
 
 #: 13.2-Live-Audio.md:40
 msgid ""
@@ -10217,12 +10241,14 @@ msgstr "reverb,"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :echo do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :echo do\n"
+"  live_audio :foo\n"
+"end"
 
 #: 13.2-Live-Audio.md:58
 msgid ""
@@ -10233,14 +10259,18 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:62
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :reverb do\n"
 "  with_fx :echo do\n"
 "    live_audio :foo\n"
 "  end\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :echo do\n"
+"    live_audio :foo\n"
+"  end\n"
+"end"
 
 #: 13.2-Live-Audio.md:70
 #, fuzzy
@@ -10266,9 +10296,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:85
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo, :stop"
-msgstr "foo"
+msgstr "live_audio :foo, :stop"
 
 #: 13.2-Live-Audio.md:89
 msgid "It can easily be restarted by calling it without the `:stop` arg again:"
@@ -10298,9 +10327,8 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:111
 #, no-wrap
-#, fuzzy
 msgid "live_audio :foo, stereo: true, input: 2"
-msgstr "foo"
+msgstr "live_audio :foo, stereo: true, input: 2"
 
 #: 13.2-Live-Audio.md:115
 msgid ""
@@ -10428,12 +10456,14 @@ msgstr ""
 
 #: 13.3-Sound-Out.md:82
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :sound_out, output: 3, amp: 0 do # B\n"
 "  sample :loop_amen                      # A\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"with_fx :sound_out, output: 3, amp: 0 do # B\n"
+"  sample :loop_amen                      # A\n"
+"end"
 
 #: 13.3-Sound-Out.md:88
 msgid ""
@@ -16628,7 +16658,7 @@ msgstr ""
 ", prova ad ascoltare come suona alla velocità normale: '1':"
 
 #: A.17-sample-stretching.md:41
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample :loop_amen, rate: 1"
 msgstr "sample :loop_amen, rate: 1"
 
@@ -16671,9 +16701,8 @@ msgid "sample :elec_filt_snare, rate: 1"
 msgstr ""
 
 #: A.17-sample-stretching.md:65
-#, fuzzy
 msgid "Now, play it backwards:"
-msgstr "Ora, fallo andare all’incontrario:"
+msgstr "Adesso fallo andare all’incontrario:"
 
 #: A.17-sample-stretching.md:67
 #, no-wrap
@@ -16803,7 +16832,7 @@ msgid ""
 msgstr ""
 
 #: A.17-sample-stretching.md:156
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :beats do\n"
 "  sample :guit_em9, rate: [0.25, 0.5, -1].choose, amp: 2\n"
@@ -17239,7 +17268,6 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:151
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :subt_synth do |note, sus|\n"
 "  at do\n"
@@ -17259,7 +17287,25 @@ msgid ""
 "subt_synth :e1, 8\n"
 "sleep 8\n"
 "subt_synth :e1 - 4, 8"
-msgstr "rrand (Funzione random)"
+msgstr ""
+"define :subt_synth do |note, sus|\n"
+"  at do\n"
+"    with_fx :lpf, cutoff: 40, amp: 2 do |fx|\n"
+"      control fx, cutoff_slide: 6, cutoff: 100\n"
+"      synth :prophet, note: note, sustain: sus\n"
+"    end\n"
+"    with_fx :hpf, cutoff_slide: 0.01 do |fx|\n"
+"      synth :dsaw, note: note + 12, sustain: sus\n"
+"      (sus * 8).times do\n"
+"        control fx, cutoff: rrand(70, 110)\n"
+"        sleep 0.125\n"
+"      end\n"
+"    end\n"
+"  end\n"
+"end\n"
+"subt_synth :e1, 8\n"
+"sleep 8\n"
+"subt_synth :e1 - 4, 8"
 
 #: B-Essential-Knowledge.md:1
 #, fuzzy
