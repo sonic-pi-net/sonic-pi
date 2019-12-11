@@ -97,6 +97,7 @@ Sonic Pi is under active development, and welcomes new contributors:
 * [Translation](TRANSLATION.md)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7faff523fa5643a5a3ad55ea26f4651c)](https://www.codacy.com/manual/SonicPi/sonic-pi?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mark-rln/sonic-pi&amp;utm_campaign=Badge_Grade)
+<br/>
 [![Weblate](https://hosted.weblate.org/widgets/sonic-pi/-/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)
 <br/>
 [![Travis CI](https://travis-ci.org/samaaron/sonic-pi.svg?branch=master)](https://travis-ci.org/samaaron/sonic-pi)
