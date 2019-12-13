@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-10-12 12:28+0000\n"
-"Last-Translator: Tino Ejlerskov <tino@ejlerskov.net>\n"
+"PO-Revision-Date: 2019-12-15 00:21+0000\n"
+"Last-Translator: Sune Sylvest Nilausen <sunenilausen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "da/>\n"
 "Language: da\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9-dev\n"
+"X-Generator: Weblate 3.10-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -239,6 +239,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -274,18 +279,24 @@ msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
+"Prøv at ændre 'sleep' metodens 'times' og hør efter hvordan begge løkker kan "
+"køre rundt på forskellige hastigheder."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
+"Prøv at fjerne kommenteringen på 'sample' linjen (fjern '#') og nyd lyden af "
+"guitaren der spiller baglæns."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
+"Prøv at ændre nogen af de blå `mix:` værdier til tal mellem `0` (ikke med i "
+"mix) og `1` (helt med i mixet)."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
