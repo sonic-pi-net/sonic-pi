@@ -367,35 +367,37 @@ Der sendes anonym information om din platform og version.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1192"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Netværket OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi kan sende og modtage Open Sound Control beskeder
+til og fra andre programmer eller computere
+via the nuværende forbundne netværk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI Konfiguration</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1241"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI Porte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1242"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>List alle forbundne MIDI Porte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1295"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI output enheder modtager MIDI beskeder direkte fra Sonic Pi hvilket kan blive sendt via midi_* fns</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1435"/>
@@ -421,7 +423,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../mainwindow.cpp" line="1447"/>
         <source>Toggle Pro Icons - switch between the default
  and a more minimalistic icon set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift Pro Ikoner - skift mellem standard
+og et mere minimalistisk ikon sæt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1448"/>
@@ -538,7 +541,7 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3174"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>hjælp synlighed ændret...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3307"/>
