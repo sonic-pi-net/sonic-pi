@@ -6,26 +6,28 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanguliza</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Logu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Soniki Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1324"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Badili mageuzi ya stereo.
+Ikiwa imewezeshwa, sauti itumwayo kwenye spika ya kushoto ita
+kuwa safiri kwende kwenye spika ya kulia na vaisi vesa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
@@ -34,64 +36,72 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>BadiliWeka modi ya mono.
+ikiwa imewezeshwa sauti ya spika zote ya kulia na kushoto ita changanyika na
+ signal ifananayo itatumwa kwa spika zote.
+Muhimu pale unapofanya kazi na mifumo kutoka nje ambayo
+inaweza kustahimili mono tu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1345"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Sanidi/Configa tabia ya debugi/kurekebisha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Badili jumbe za logu.
+Ikiwa haijawezeshwa, tendaji kama synth na kuchochea sampuli
+hazita chapishwa kwa difolti kwenye logu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modi salama</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1353"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Futa/Safisha logu ikiwa ina chacharika/Chakatika/run</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1354"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Badili logu inasafishwa wakati ina chakatika/run.
+Ikiwa imewezeshwa, logu inasafishwa/futwa kila
+muda batani ya run/chakata ikibofywa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Badili muonekano wa nambari za mstari.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1455"/>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modi ya giza</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1841"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Chakata simba...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Pendezesha...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Pakia tena...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1966"/>
