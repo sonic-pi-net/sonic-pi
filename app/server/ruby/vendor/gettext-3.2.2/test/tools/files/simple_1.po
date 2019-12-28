@@ -1,2 +1,0 @@
-msgid "x"
-msgstr "y"

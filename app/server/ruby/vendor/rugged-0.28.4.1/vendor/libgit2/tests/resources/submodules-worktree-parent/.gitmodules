@@ -1,3 +1,0 @@
-[submodule "testrepo"]
-	path = testrepo
-	url = /Users/rb/src/libgit2/tests/resources/testrepo.git
