@@ -25,6 +25,7 @@ addons:
     - libqt5svg5-dev
     - libqwt-qt5-dev
     - libboost-all-dev
+    - libaubio-dev
 compiler: gcc
 
 cache:
@@ -36,13 +37,6 @@ rvm:
   - 2.5.7
   - 2.6.5
   - 2.7.0
-
-before_install:
- - wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
- - tar xvjf aubio-0.4.4.tar.bz2
- - cd aubio-0.4.4
- - ./waf configure build
- - sudo ./waf install
 
 script:
  - set -e
