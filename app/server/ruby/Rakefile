@@ -1,6 +1,4 @@
 # encoding: utf-8
-require_relative './test/setup_test.rb'
-require 'rake'
 
 require 'rake/testtask'
 

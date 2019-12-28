@@ -50,11 +50,11 @@ script:
  - |
     # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
     echo ""
-    echo "***********************************"
-    echo "* Compiling the vendor/ ruby gems *"
-    echo "***********************************"
-    cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
-    ruby ./compile-extensions.rb
+    echo "************************************"
+    echo "* Installing the vendor/ ruby gems *"
+    echo "************************************"
+    cd $TRAVIS_BUILD_DIR/app/server/ruby
+    bundle install --path vendor
     echo ""
     echo "***********************************"
     echo "* Running the Sonic Pi test suite *"
