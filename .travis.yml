@@ -6,8 +6,6 @@ dist: bionic
 addons:
   apt:
     update: true
-    sources:
-      - sourceline: 'ppa:latthias/qgis-travis-deps'
     packages:
     - ruby-all-dev
     - rake
