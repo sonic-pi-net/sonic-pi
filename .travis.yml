@@ -2,7 +2,7 @@ language: ruby
 
 os: linux
 sudo: required
-dist: trusty
+dist: bionic
 addons:
   apt:
     update: true
