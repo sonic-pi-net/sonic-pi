@@ -1,7 +1,7 @@
 language: ruby
 
 os: linux
-sudo: required
+sudo: false
 dist: bionic
 addons:
   apt:
