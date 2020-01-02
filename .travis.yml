@@ -27,26 +27,24 @@ addons:
 compiler: gcc
 
 cache:
- - apt
- - ccache
+  - apt
+  - ccache
 
 rvm:
-  - 2.4.9
-  - 2.5.7
-  - 2.6.5
-  - 2.7.0
+  - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
+  - ruby-head
+
+before_install:
+  - gem install bundler
+  - cd $TRAVIS_BUILD_DIR/app/server/ruby && bundle install --path vendor --jobs 4 --retry 4
 
 script:
- - set -e
-# the | starts a multiline YAML entry
- - |
-    # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
-    echo ""
-    echo "************************************"
-    echo "* Installing the vendor/ ruby gems *"
-    echo "************************************"
-    cd $TRAVIS_BUILD_DIR/app/server/ruby
-    bundle install --path vendor
+  - set -e
+  # the | starts a multiline YAML entry
+  - |
     echo ""
     echo "***********************************"
     echo "* Running the Sonic Pi test suite *"
