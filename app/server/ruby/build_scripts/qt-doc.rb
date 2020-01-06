@@ -27,9 +27,9 @@ require_relative "../lib/sonicpi/lang/midi"
 
 require 'active_support/inflector'
 
-
 include SonicPi::Util
 
+# Reset required directories
 FileUtils::rm_rf "#{qt_gui_path}/help/"
 FileUtils::mkdir "#{qt_gui_path}/help/"
 
@@ -157,18 +157,23 @@ end
 
 
 make_tutorial = lambda do |lang|
-
   docs << "\n  // language #{lang}\n"
   tutorial_html_map = {}
+
   if lang == "en" then
     markdown_path = tutorial_path
   else
     markdown_path = File.expand_path("../generated/#{lang}/tutorial", tutorial_path)
   end
+
   Dir["#{markdown_path}/*.md"].sort.each do |path|
     f = File.open(path, 'r:UTF-8')
     # read first line (title) of the markdown, use as title
-    name = f.readline.strip
+    begin
+      name = f.readline.strip
+    rescue EOFError => e
+      raise e, "End of file error when reading the first line of #{path}.\n*** Make sure you've run the server:translate_tutorial_all_languages task first. ***"
+    end
     # indent subchapters
     name = "   #{name}" if name.match(/\A[A-Z0-9]+\.[0-9]+ /)
     # read remaining content of markdown
@@ -264,7 +269,7 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
 end
 
 
-# update ruby_help.h
+# Update ruby_help.h
 if options[:output_name] then
    cpp = options[:output_name]
 else
@@ -285,6 +290,7 @@ File.open(cpp, 'w') do |f|
   f << new_content.join
 end
 
+# Update help_files.qrc
 File.open("#{qt_gui_path}/help_files.qrc", 'w') do |f|
   f << "<RCC>\n  <qresource prefix=\"/\">\n"
   f << filenames.map{|n| "    <file>#{n}</file>\n"}.join
@@ -300,7 +306,6 @@ info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.htm
 outputdir = "#{qt_gui_path}/info"
 
 info_sources.each do |src|
-
   input_path = "#{root_path}/#{src}"
   base = File.basename(input_path)
   m = base.match /(.*)\.(.*)/
@@ -319,5 +324,4 @@ info_sources.each do |src|
   File.open(output_path, 'w') do |f|
     f << html
   end
-
 end

@@ -20,7 +20,7 @@ QT += core gui concurrent network opengl widgets
 
 # Linux only
 unix:!macx {
-  LIBS += -lrt -lqt5scintilla2
+  LIBS += -lrt -lqscintilla2_qt5
   QMAKE_CXXFLAGS += -std=gnu++11
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   debug {

@@ -15,7 +15,7 @@ namespace "server" do
 	task :bundle_runtime_deps, [:make_jobs] do |t, args|
 		install_prefix=""
 		case OS
-		when :linux || :raspberry
+		when :linux, :raspberry
 		 install_prefix = File.join(Dir.pwd, "native", "linux")
 		when :windows
 		 install_prefix = File.join(Dir.pwd, "native", "windows")
@@ -60,7 +60,7 @@ namespace "server" do
 		  #OS = ask_if_raspbian if (OS == :linux_arm)
 		  info("Checking the version of supercollider installed...")
 		  case OS
-		  when :linux || :raspberry
+		  when :linux, :raspberry
 		    if (check_ver("supercollider >= #{MIN_SUPERCOLLIDER_VERSION}", SPI_BUILD_CONFIG.pkg_manager) == false)
 		      build_supercollider
 		    elsif (check_ver("sc3-plugins >= #{MIN_SC_PLUGINS_VERSION}", SPI_BUILD_CONFIG.pkg_manager) == false)
@@ -115,7 +115,7 @@ namespace "server" do
 
 	    FileUtils.mkdir_p(File.join("build_dependencies", "supercollider", "build"))
 	    case OS
-	    when :linux || :raspberry
+	    when :linux, :raspberry
 	      exec_sh_commands([
 	        %Q(cd #{SPI_SERVER_PATH}/build_dependencies/supercollider/build),
 	        %Q(cmake -DSC_EL=no -DCMAKE_INSTALL_PREFIX=#{args.install_prefix} ..),
@@ -148,7 +148,7 @@ namespace "server" do
 		  OS = ask_if_raspbian if (OS == :linux_arm)
 
 		  case OS
-		  when :linux || :raspberry
+		  when :linux, :raspberry
 		    install_packages(Dependencies::Linux.supercollider, SPI_BUILD_CONFIG.pkg_manager)
 		    info("Building sc3-plugins from source...")
 		    # Build sc3-plugins
@@ -183,7 +183,7 @@ namespace "server" do
     # Install SuperCollider
     info("Installing SuperCollider...")
 		  case OS
-		  when :linux || :raspberry
+		  when :linux, :raspberry
 		    case args.checkinstall
 		    when "debian"
 		      exec_sh_commands([
@@ -221,7 +221,7 @@ namespace "server" do
 			    # Install SuperCollider
 		    info("Installing sc3-plugins...")
 		  case OS
-		  when :linux || :raspberry
+		  when :linux, :raspberry
 		    case args.checkinstall
 		    when "debian"
 		      exec_sh_commands([
@@ -269,7 +269,7 @@ namespace "server" do
     ])
 
 		  case OS
-		  when :raspberry || :linux
+		  when :linux, :raspberry
 		    #install_packages(Dependencies::Linux.aubio, SPI_BUILD_CONFIG.pkg_manager)
 		    exec_sh_commands([
 		      %Q(./waf configure --prefix=#{args.install_prefix}),
@@ -295,7 +295,7 @@ namespace "server" do
 		  OS = ask_if_raspbian if (OS == :linux_arm)
 
 		  case OS
-		  when :linux || :raspberry
+		  when :linux, :raspberry
 		    info("Installing libaubio...")
 		    exec_sh_commands([
         %Q(cd #{SPI_SERVER_PATH}/build_dependencies/aubio),
@@ -327,7 +327,7 @@ namespace "server" do
     ])
 
 		  case OS
-		  when :linux || :raspberry
+		  when :linux, :raspberry
 		    #install_packages(Dependencies::Linux.osmid, SPI_BUILD_CONFIG.pkg_manager)
 		    exec_sh_commands([
 		      %Q(cd #{SPI_SERVER_PATH}/build_dependencies/osmid/build),

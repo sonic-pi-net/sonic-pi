@@ -73,7 +73,7 @@ end
 
 # Special case for proctable lib
 sys_proctable_os = case os
-  when :raspberry || :linux
+  when :linux, :raspberry
     "linux"
   when :windows
     "windows"

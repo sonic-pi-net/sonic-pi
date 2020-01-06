@@ -112,7 +112,7 @@ namespace "server" do
 
   # Temporary patch replacing the aubio gem's hard coded path to libaubio
   task :patch_aubio_gem do
-    file_path = File.join(SPI_SERVER_PATH, "ruby/vendor/bundle/ruby/2.5.0/gems/aubio-0.3.1/lib/aubio/aubio-ffi.rb")
+    file_path = File.join(SPI_SERVER_PATH, "ruby/vendor/bundle/ruby/#{RUBY_API}/gems/aubio-0.3.1/lib/aubio/aubio-ffi.rb")
     text = ""
 
     File.foreach(file_path).with_index do |line, line_num|

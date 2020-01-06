@@ -80,7 +80,7 @@ def handle_entry(msgid, filename, line, flags = [])
 end
 
 
-def convert_element(filename, el, bullet = nil) case el.type
+def convert_element(task, filename, el, bullet = nil) case el.type
   when :root, :li, :ul, :ol
     i = 0
     while i < el.children.count do
@@ -92,12 +92,12 @@ def convert_element(filename, el, bullet = nil) case el.type
       else
         b = nil
       end
-      convert_element(filename, el.children[i], b)
+      convert_element(task, filename, el.children[i], b)
       i += 1
     end
 
   when :blank
-    if $task == :translate then
+    if task == :translate then
       $translated[filename] += el.value.gsub(/' '/, '')
     end
 
@@ -115,7 +115,7 @@ def convert_element(filename, el, bullet = nil) case el.type
 
     t = handle_entry(output, filename, el.options[:location])
 
-    if $task == :translate then
+    if task == :translate then
       if bullet then
         $translated[filename] += bullet + " "
       end
@@ -125,14 +125,14 @@ def convert_element(filename, el, bullet = nil) case el.type
   when :codeblock
     t = handle_entry(el.value.gsub(/\n+$/, ""), filename, el.options[:location], ["no-wrap"])
 
-    if $task == :translate then
+    if task == :translate then
       $translated[filename] += "```\n" + t + "\n" + "```\n"
     end
 
   when :header
     t = handle_entry(el.options[:raw_text].strip, filename, el.options[:location])
 
-    if $task == :translate then
+    if task == :translate then
       $translated[filename] += ("#" * el.options[:level]) + " " + t + "\n"
     end
 
@@ -147,6 +147,14 @@ end
 namespace "server" do
   desc "Generate tutorial files"
   task :generate_tutorial, [:lang] => [] do |t, args|
+
+    task = case args.lang
+    when "en"
+      :extract
+    else
+      :translate
+    end
+
     po_filename  = File.expand_path("#{SONIC_PI_ROOT}/etc/doc/lang/sonic-pi-tutorial-#{args.lang}.po", __dir__)
     pot_filename = File.expand_path("#{SONIC_PI_ROOT}/etc/doc/lang/sonic-pi-tutorial.pot", __dir__)
 
@@ -165,7 +173,7 @@ namespace "server" do
     end
 
     Dir[File.expand_path("#{SONIC_PI_ROOT}/etc/doc/tutorial/*.md", __dir__)].sort.each do |path|
-      $stderr.puts "Parsing #{path}" if $task == :extract
+      $stderr.puts "Parsing #{path}" if task == :extract
       basename = File.basename(path)
       $translated[basename] = ""
 
@@ -176,7 +184,7 @@ namespace "server" do
       # into Kramdown syntax where necessary
       content.gsub!(/\`\`\`\`*/, '~~~~')
       k = Kramdown::Document.new(content)
-      convert_element(basename, k.root)
+      convert_element(task, basename, k.root)
     end
 
     if (args.lang != "en") then
