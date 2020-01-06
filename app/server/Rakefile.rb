@@ -3,6 +3,7 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/clean'
 
+require_relative "../../rakelib/utils.rb"
 require_relative "./rakelib/runtime_dependencies.rb"
 require_relative "./rakelib/i18n-tool.rb"
 
@@ -48,9 +49,9 @@ namespace "server" do
 
   task :test
   Rake::TestTask.new do |t|
-    #ruby './ruby/test/setup_test.rb'
+    ruby File.expand_path("#{__dir__}/ruby/test/setup_test.rb")
     t.libs << 'test'
-    t.pattern = 'ruby/test/**/test_*.rb'
+    t.pattern = "#{__dir__}/ruby/test/**/test_*.rb"
     t.verbose = true
   end
 

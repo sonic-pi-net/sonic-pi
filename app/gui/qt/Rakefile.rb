@@ -5,10 +5,7 @@
 require 'rake'
 
 require 'fileutils'
-require_relative "../../../build_scripts/utils.rb"
-#require "../../../build_scripts/runtime_dependencies"
-#require "../../../build_scripts/Dependencies"
-
+require_relative "../../../rakelib/utils.rb"
 
 namespace "qt_gui" do
   desc "Build Sonic Pi Qt docs"

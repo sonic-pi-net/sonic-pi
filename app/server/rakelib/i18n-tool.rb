@@ -14,7 +14,7 @@
 
 # This script creates translated versions of the English tutorial.
 #require_relative "../core.rb"
-require_relative "../../../build_scripts/utils.rb"
+require_relative "../../../rakelib/utils.rb"
 
 require 'kramdown'
 require 'gettext'

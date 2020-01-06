@@ -1,4 +1,5 @@
-require_relative '../../../build_scripts/utils'
+require_relative '../../../rakelib/utils'
+require_relative '../../../rakelib/package_management'
 
 # Application/library versions built by this script.
 MIN_SUPERCOLLIDER_VERSION = "3.9"

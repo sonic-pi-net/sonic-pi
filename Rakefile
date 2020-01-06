@@ -4,7 +4,7 @@
 # encoding: utf-8
 require 'rake'
 
-require_relative "./build_scripts/utils"
+require_relative "./rakelib/utils"
 
 require_relative "./app/server/Rakefile.rb"
 require_relative "./app/gui/qt/Rakefile.rb"
