@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-10-24 13:53+0000\n"
-"Last-Translator: Mattias Münster <mattiasmun@gmail.com>\n"
+"PO-Revision-Date: 2020-01-08 21:21+0000\n"
+"Last-Translator: Conny Söderholm <soderholm.conny@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/sv/>\n"
 "Language: sv\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 3.10.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -33,7 +33,7 @@ msgstr ""
 "Välkommen till Sonic Pi. Hoppas du tycker det skall bli lika kul att skapa "
 "knasiga ljud som jag ser fram emot att lära dig. Det kommer bli en riktigt "
 "*kul* resa, där du kommer lära dig allt om musik, syntes, programmering, "
-"komposition, framträdande om mycket mer."
+"komposition, framträdande och mycket mer."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -1011,12 +1011,12 @@ msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr ""
+msgstr "Alternativens ordning spelar ingen roll, så det följande är identiskt:"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
-msgstr ""
+msgstr "play 50, bönor: 0.5, ost: 1"
 
 #: 02.2-Synth-Params.md:49
 msgid ""
@@ -3246,11 +3246,11 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:1
 msgid "5.2 Iteration and Loops"
-msgstr ""
+msgstr "5.2 Iterationer och slingor"
 
 #: 05.2-Iteration-and-Loops.md:3
 msgid "Iteration and Loops"
-msgstr ""
+msgstr "Iterationer och slingor"
 
 #: 05.2-Iteration-and-Loops.md:5
 msgid ""
