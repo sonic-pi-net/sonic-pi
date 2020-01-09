@@ -16,9 +16,15 @@ task :build, [:make_jobs, :dev_build] => [
 	"server:build",
 	"qt_gui:build_qt_docs",
 	"qt_gui:build"
-] do | t, args|
+] do |t, args|
 	args.with_defaults(:make_jobs => 1)
 	args.with_defaults(:dev_build => true)
+end
+
+desc "Test Sonic Pi"
+task :test, [] => [
+	"server:test"
+] do |t, args|
 end
 
 desc "Install Sonic Pi"

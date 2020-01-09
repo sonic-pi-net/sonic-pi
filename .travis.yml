@@ -64,14 +64,13 @@ script:
  - |
     echo ""
     echo "***********************************"
-    echo "* Building Sonic Pi               *"
+    echo "* Building the Sonic Pi Server    *"
     echo "***********************************"
     cd $TRAVIS_BUILD_DIR
-    rake build
+    rake server:build
 
     echo ""
     echo "***********************************"
     echo "* Running the Sonic Pi test suite *"
     echo "***********************************"
-    cd $TRAVIS_BUILD_DIR/app/server/ruby/test
-    rake test
+    rake server:test
