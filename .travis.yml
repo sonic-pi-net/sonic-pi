@@ -40,13 +40,16 @@ cache:
  - ccache
 
 rvm:
+  # (See https://www.ruby-lang.org/en/downloads/branches/ and https://www.ruby-lang.org/en/downloads/branches/ for release info)
+  # Security maintenance phase
   - 2.4.9
+  # Maintained releases
   - 2.5.7
   - 2.6.5
   - 2.7.0
 
 before_install:
- - |
+  - |
     set -e # Fail on error
     # Build and install aubio 0.4.4
     wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
@@ -55,8 +58,10 @@ before_install:
     ./waf configure build
     sudo ./waf install
 
-    # Install ruby gems required for build
-    gem install rake bundler fileutils kramdown gettext
+    # Force update RubyGems, so it's compatible with Bundler 2
+    yes | gem update --system --force
+    # Install extra gems needed for build
+    gem install bundler kramdown gettext
 
 script:
  - set -e
