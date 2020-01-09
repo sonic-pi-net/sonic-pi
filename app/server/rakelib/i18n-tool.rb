@@ -237,6 +237,7 @@ namespace "server" do
 
   desc "Generate tutorial files for all languages"
   task :translate_tutorial_all_languages, [] => [] do
+    info("Generating tutorial files for all languages...")
     languages = Dir[File.expand_path("#{SONIC_PI_ROOT}/etc/doc/lang/sonic-pi-tutorial-*.po", __dir__)].
       map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.sort
     puts (languages.to_s)

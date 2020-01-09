@@ -47,20 +47,20 @@ namespace "server" do
     end
   end
 
-  task :test
-  Rake::TestTask.new do |t|
-    ruby File.expand_path("#{__dir__}/ruby/test/setup_test.rb")
+  Rake::TestTask.new(:test) do |t|
     t.libs << 'test'
     t.pattern = "#{__dir__}/ruby/test/**/test_*.rb"
     t.verbose = true
+    # Run setup script when run
+    t.ruby_opts = ["-I #{SPI_SERVER_PATH}/ruby/test/", '-r setup_test.rb']
   end
 
   file "#{SPI_SERVER_PATH}/erlang/osc.beam" => ["#{SPI_SERVER_PATH}/erlang/osc.erl"] do |t|
-    exec_sh("erlc #{t.name}")
+    exec_sh("erlc #{t.source}")
   end
 
   file "#{SPI_SERVER_PATH}/erlang/pi_server.beam" => ["#{SPI_SERVER_PATH}/erlang/pi_server.erl"] do |t|
-    exec_sh("erlc #{t.name}")
+    exec_sh("erlc #{t.source}")
   end
 
   desc "Build Sonic Pi Erlang scheduler"
