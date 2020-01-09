@@ -14,10 +14,8 @@ group :main do
   gem "ast",            "= 2.0.0"
   gem "benchmark-ips",  "= 2.3.0"
   gem "blankslate"
-  gem "gettext",        "= 3.2.2"
   gem "hamster",        "= 3.0.0"
   gem "i18n",           "= 0.6.11"
-  gem "kramdown"
   gem "locale",         "= 2.1.2"
   gem "memoist",        "= 0.14.0"
   gem "metaclass",      "= 0.0.4"
@@ -36,6 +34,9 @@ group :main do
   gem "treetop"
   gem "wavefile",       "= 0.8.1"
   gem "websocket",      "= 1.2.8"
+  # Documentation related
+  gem "kramdown"
+  gem "gettext",        "= 3.2.2"
 end
 
 group :non_critical do

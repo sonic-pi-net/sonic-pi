@@ -7,7 +7,7 @@ matrix:
     include:
         - dist: trusty
         - dist: xenial
-        
+
 addons:
   apt:
     update: true
@@ -32,6 +32,7 @@ addons:
     - libboost-all-dev
     - libasound2-dev
     - erlang
+
 compiler: gcc
 
 cache:
@@ -46,6 +47,7 @@ rvm:
 
 before_install:
  - |
+    set -e # Fail on error
     # Build and install aubio 0.4.4
     wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
     tar xvjf aubio-0.4.4.tar.bz2
@@ -53,19 +55,13 @@ before_install:
     ./waf configure build
     sudo ./waf install
 
+    # Install ruby gems required for build
+    gem install rake bundler fileutils kramdown gettext
+
 script:
  - set -e
 # the | starts a multiline YAML entry
  - |
-    # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
-    # echo ""
-    # echo "***********************************"
-    # echo "* Compiling the vendor/ ruby gems *"
-    # echo "***********************************"
-    # cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
-    # ruby ./compile-extensions.rb
-    # echo ""
-
     echo ""
     echo "***********************************"
     echo "* Building Sonic Pi               *"

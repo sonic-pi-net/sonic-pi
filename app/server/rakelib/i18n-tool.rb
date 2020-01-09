@@ -13,7 +13,6 @@
 #++
 
 # This script creates translated versions of the English tutorial.
-#require_relative "../core.rb"
 require_relative "../../../rakelib/utils.rb"
 
 require 'kramdown'
@@ -21,7 +20,7 @@ require 'gettext'
 require 'gettext/po'
 require 'gettext/po_parser'
 require 'gettext/tools/msgmerge'
-require 'optparse'
+#require 'optparse'
 require 'fileutils'
 
 class KramdownToOurMarkdown < Kramdown::Converter::Kramdown
@@ -43,11 +42,9 @@ class KramdownToOurMarkdown < Kramdown::Converter::Kramdown
 
 end
 
-
 def is_number? string
   true if Float(string) rescue false
 end
-
 
 def handle_entry(msgid, filename, line, flags = [])
   reference = "#{filename}:#{line}"
@@ -78,7 +75,6 @@ def handle_entry(msgid, filename, line, flags = [])
     return msgid
   end
 end
-
 
 def convert_element(task, filename, el, bullet = nil) case el.type
   when :root, :li, :ul, :ol
@@ -140,7 +136,6 @@ def convert_element(task, filename, el, bullet = nil) case el.type
     raise "Error #{filename}: Please implement conversion for unknown Kramdown element type :#{el.type} in line #{el.options[:location]}"
   end
 end
-
 
 # ------------ main ------------
 
