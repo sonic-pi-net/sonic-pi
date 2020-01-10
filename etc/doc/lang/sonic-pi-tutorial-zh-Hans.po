@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-11-28 01:05+0000\n"
-"Last-Translator: sharmer156 <sharmmer156@gmail.com>\n"
+"PO-Revision-Date: 2020-01-11 04:21+0000\n"
+"Last-Translator: kizError <kiki_hzz@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 3.10.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1185,9 +1185,8 @@ msgstr ""
 "向的合成器。你可以使用`use_synth`将开关指向到一个新的合成器音效。"
 
 #: 02.3-Switching-Synths.md:80
-#, fuzzy
 msgid "Discovering Synths"
-msgstr "探索合成器"
+msgstr " 探索合成器"
 
 #: 02.3-Switching-Synths.md:82
 msgid ""
@@ -1499,6 +1498,9 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
+"对于其他层级的控制，您也可以指定一个衰减时间。这是包络在起音和维持时间中的一个阶段，振幅将从 `attack_level:` 下降至 "
+"`decay_level:` （除非您显性地指定它，否则将会被设置为 `sustain_level:`）。默认状态下，`decay:` "
+"选项值为0，起音和持续时间的值为1，所以为了让衰减时间生效，您需要去指定它们的值："
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1513,7 +1515,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr ""
+msgstr "衰减阶段"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
@@ -1522,6 +1524,8 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
+"最后一个技巧：尽管 `decay_level:` 选项默认和 `sustain_level:` "
+"有一样的值，但您也可以显性地将它们设置为不同的值以全方面地控制包络。这使您能够去创造如下的包络："
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1538,7 +1542,7 @@ msgstr ""
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
-msgstr ""
+msgstr "将 `decay_level:` 设置得比 `sustain_level:` 高也是可能的："
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -1553,7 +1557,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr ""
+msgstr "ADSR 包络"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
@@ -2042,14 +2046,16 @@ msgid ""
 "*halving the rate will halve the frequency*. Other rates will affect the frequ"
 "ency accordingly."
 msgstr ""
+"如果您将一个波形压缩，它在每秒会上下移动更多地次数。这使得它听起来音调更高。让波形上下振动的总数加速一倍可以让频率翻倍。所以，*使用双倍的速率播放您的示例"
+"，您将听到双倍的频率*。同样，*使用一半的速率将会降低一半的频率*。其它速率也会相应地影响频率。"
 
 #: 03.4-Enveloped-Samples.md:1
 msgid "3.4 Enveloped Samples"
-msgstr ""
+msgstr "3.4 包络下的示例"
 
 #: 03.4-Enveloped-Samples.md:3
 msgid "Enveloped Samples"
-msgstr ""
+msgstr "包络下的示例"
 
 #: 03.4-Enveloped-Samples.md:5
 msgid ""
