@@ -42,11 +42,11 @@ cache:
 rvm:
   # (See https://www.ruby-lang.org/en/downloads/branches/ and https://www.ruby-lang.org/en/downloads/branches/ for release info)
   # Security maintenance phase
-  - 2.4.9
+  - 2.4
   # Maintained releases
-  - 2.5.7
-  - 2.6.5
-  - 2.7.0
+  - 2.5
+  - 2.6
+  - 2.7
 
 before_install:
   - |
