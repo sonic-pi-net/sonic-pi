@@ -58,10 +58,11 @@ before_install:
     ./waf configure build
     sudo ./waf install
 
-    # Force update RubyGems, so it's compatible with Bundler 2
+    # Force update RubyGems to avoid issues with Bundler Gemfile 'BUNDLED_WITH' versions
     yes | gem update --system --force
     # Install extra gems needed for build
-    gem install bundler kramdown gettext
+    gem install bundler kramdown # (Bundler 2 is used)
+    gem install gettext -v 3.2.9 # Last version that works with Ruby 2.4
 
 script:
  - set -e
