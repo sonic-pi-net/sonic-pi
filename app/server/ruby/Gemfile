@@ -36,13 +36,12 @@ group :main do
   gem "websocket",      "= 1.2.8"
   # Documentation related
   gem "kramdown"
-  gem "gettext",        "= 3.2.2"
+  gem "gettext",        "~> 3.2.0"
 end
 
 group :non_critical do
   gem "did_you_mean",   "= 0.10.0"
 end
-
 
 # macOS specific gems
 group :mac_os do
