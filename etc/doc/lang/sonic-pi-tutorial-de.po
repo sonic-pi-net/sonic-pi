@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-03-28 18:04+0000\n"
-"Last-Translator: CurlingTongs <o11577482@nwytg.net>\n"
+"PO-Revision-Date: 2020-01-14 07:21+0000\n"
+"Last-Translator: Coruna <airwing77@gmx.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Willkommen bei Sonic Pi! Hoffentlich bist Du gespannt darauf, zu lernen, wie "
 "man mit Sonic Pi verrückte Sounds machen kann, genauso wie ich gespannt "
-"darauf bin, dir zu zeigen, wie es geht. Es wird ein *Riesenspaß* bei dem Du "
+"darauf bin, Dir zu zeigen, wie es geht. Es wird ein *Riesenspaß* bei dem Du "
 "etwas über Musik, Synthese, Programmieren, Komposition, Aufführung und viele "
 "andere Dinge lernen wirst."
 
@@ -9122,7 +9122,6 @@ msgid "Pattern Matching"
 msgstr "Muster-Erkennung"
 
 #: 10.3-Pattern-Matching.md:5
-#, fuzzy
 msgid ""
 "When getting and setting information into the Time State, it's possible to use"
 " more complex keys than basic symbols such as `:foo` and `:bar`. You can also "
@@ -9130,7 +9129,13 @@ msgid ""
 "king with paths, we can then start taking advantage of Sonic Pi's sophisticate"
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
-msgstr "foo"
+msgstr ""
+"Beim Einlesen und Setzen von Informationen in den Zeitstatus ist es möglich, "
+"komplexere Tasten als einfache Symbole wie `:foo` und `:bar` zu verwenden. "
+"Sie können auch URL-Style-Strings wie `\"/foo/bar/baz\"` verwenden. Sobald "
+"wir mit Pfaden arbeiten, können wir die Vorteile von Sonic Pi's "
+"ausgeklügeltem Pattern-Matching-System nutzen, um `Get` und `Sync` mit `"
+"ähnlichen' statt `identischen' Pfaden zu nutzen. Schauen wir uns das mal an."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
@@ -9153,7 +9158,7 @@ msgid ""
 "ess of their names. For example:"
 msgstr ""
 "Hiermit kann man auf jegliches Time State Ereignis syncen, dass aus exakt "
-"drei Pfadsegmenten besteht, unabhängig davon, wie genau der Inhalt der "
+"drei Pfadsegmenten besteht, unabhängig davon, was genau der Inhalt der "
 "Segmente ist. Schauen wir uns das an einem Beispiel an:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
@@ -9209,14 +9214,18 @@ msgid "Matching partial segments"
 msgstr "Erkennen von Teilsegmenten"
 
 #: 10.3-Pattern-Matching.md:40
-#, fuzzy
 msgid ""
 "If we know what the segment is going to start or finish with, we can use a `*`"
 " in addition to a partial segment name. For example: `\"/foo/b*/baz\"` will matc"
 "h any path that has three segments, the first of which is `foo`, the last `baz"
 "` and the middle segment can be anything that starts with `b`. So, it would ma"
 "tch:"
-msgstr "foo"
+msgstr ""
+"Wenn wir wissen, womit das Segment beginnen oder enden wird, können wir "
+"zusätzlich zu einem Teilsegmentnamen ein `*` verwenden. Zum Beispiel: `\"/"
+"foo/b*/baz\"`passt auf jeden Pfad, der drei Segmente hat, von denen das "
+"erste `foo`, das letzte `baz` und das mittlere Segment alles sein können, "
+"was mit `b` beginnt. Also, es würde passen:"
 
 #: 10.3-Pattern-Matching.md:47
 #, fuzzy
@@ -9232,55 +9241,55 @@ msgid "However, it wouldn't match the following:"
 msgstr "Allerdings erkennt es nicht das Folgende:"
 
 #: 10.3-Pattern-Matching.md:52
-#, fuzzy
 msgid "`cue \"/foo/flibble/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/flibble/baz\"`"
 
 #: 10.3-Pattern-Matching.md:53
-#, fuzzy
 msgid "`cue \"/foo/abaz/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/abaz/baz\"`"
 
 #: 10.3-Pattern-Matching.md:54
-#, fuzzy
 msgid "`cue \"/foo/beans/baz/eggs\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
-#, fuzzy
 msgid ""
 "You can also place the `*` at the start of the segment to specify the last cha"
 "racters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment `cue` or"
 " `set` where the first segment is `foo`, the last is `baz` and the middle segm"
 "ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
-msgstr "foo"
+msgstr ""
+"Du kannst das `*` auch an den Anfang des Segments setzen, um die letzten "
+"Zeichen eines Segments anzugeben: `\"/foo/*zz/baz\"`, das jedem 3-Segment "
+"`cue` oder `set` entspricht, wobei das erste Segment `foo` ist, das letzte "
+"`baz` ist und das mittlere Segment mit `zz` endet, wie `\"cue \"/foo/whizz/"
+"baz\"`."
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
 msgstr "Erkennen von verschachtelten Pfadsegmenten"
 
 #: 10.3-Pattern-Matching.md:64
-#, fuzzy
 msgid ""
 "Sometimes you don't know how many path segments you want to match. In these ca"
 "ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
 "ill match:"
-msgstr "foo"
+msgstr ""
+"Manchmal weiß man nicht, wie viele Pfadsegmente man zuordnen möchte. In "
+"diesen Fällen kannst Du den mächtigen Doppelstern: `**` wie `\"/foo/**/**/"
+"baz\"` verwenden, der übereinstimmt:"
 
 #: 10.3-Pattern-Matching.md:69
-#, fuzzy
 msgid "`cue \"/foo/bar/beans/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:70
-#, fuzzy
 msgid "`cue \"/foo/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz\"`"
 
 #: 10.3-Pattern-Matching.md:71
-#, fuzzy
 msgid "`cue \"/foo/a/b/c/d/e/f/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
@@ -9319,19 +9328,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:89
-#, fuzzy
 msgid "`cue \"/foo/bar/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/quux\"`"
 
 #: 10.3-Pattern-Matching.md:90
-#, fuzzy
 msgid "`cue \"/foo/beans/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/beans/quux\"`"
 
 #: 10.3-Pattern-Matching.md:91
-#, fuzzy
 msgid "`cue \"/foo/eggs/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
@@ -9346,19 +9352,16 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
-#, fuzzy
 msgid "`cue \"/foo/aux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/aux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:100 10.3-Pattern-Matching.md:107
-#, fuzzy
 msgid "`cue \"/foo/bux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:101 10.3-Pattern-Matching.md:108
-#, fuzzy
 msgid "`cue \"/foo/cux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
 #, fuzzy
@@ -9368,14 +9371,12 @@ msgid ""
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:109
-#, fuzzy
 msgid "`cue \"/foo/dux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/dux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:110
-#, fuzzy
 msgid "`cue \"/foo/eux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
@@ -9483,11 +9484,11 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:1
 msgid "11.1 MIDI In"
-msgstr "11.1 MIDI Eingabe"
+msgstr "11.1 MIDI In"
 
 #: 11.1-MIDI-In.md:3
 msgid "MIDI In"
-msgstr "MIDI Eingabe"
+msgstr "MIDI In"
 
 #: 11.1-MIDI-In.md:5
 msgid ""
@@ -9502,7 +9503,7 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"
-msgstr "Einen MIDI Controller verbinden"
+msgstr "Verbinde einen MIDI Controller"
 
 #: 11.1-MIDI-In.md:13
 msgid ""
@@ -9533,7 +9534,7 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:26
 msgid "Receiving MIDI Events"
-msgstr "MIDI Events empfangen"
+msgstr "Erhalte MIDI Ereignisse"
 
 #: 11.1-MIDI-In.md:28
 msgid ""
@@ -9812,11 +9813,16 @@ msgid "MIDI Out"
 msgstr "MIDI Ausgabe"
 
 #: 11.2-MIDI-Out.md:5
+#, fuzzy
 msgid ""
 "In addition to receiving MIDI events we can also send out MIDI events to trigg"
 "er and control external hardware synths, keyboards and other devices. Sonic Pi"
 " provides a full set of fns for sending various MIDI messages such as:"
 msgstr ""
+"Neben dem Empfang von MIDI-Events können wir auch MIDI-Events aussenden, um "
+"externe Hardware-Synths, Keyboards und andere Geräte zu triggern und zu "
+"steuern. Sonic Pi bietet einen vollständigen Satz von fns zum Senden "
+"verschiedener MIDI-Nachrichten wie z.B:"
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
@@ -9832,11 +9838,11 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:12
 msgid "Pitch bend - `midi_pitch_bend`"
-msgstr ""
+msgstr "Tonhöhenveränderung - `midi_pitch_bend`"
 
 #: 11.2-MIDI-Out.md:13
 msgid "Clock ticks - `midi_clock_tick`"
-msgstr ""
+msgstr "Taktgeber - `midi_clock_tick`"
 
 #: 11.2-MIDI-Out.md:15
 msgid ""
@@ -9851,6 +9857,7 @@ msgid "Connecting to a MIDI Device"
 msgstr "Mit einem MIDI-Gerät verbinden"
 
 #: 11.2-MIDI-Out.md:20
+#, fuzzy
 msgid ""
 "In order to send a MIDI message to an external device, we must first have conn"
 "ected it. Check out the subsection 'Connecting a MIDI Controller' in section 1"
@@ -9860,6 +9867,14 @@ msgid ""
 "he MIDI out port of your computer. You should see your MIDI device listed in t"
 "he preferences pane."
 msgstr ""
+"Um eine MIDI-Nachricht an ein externes Gerät zu senden, müssen wir es zuerst "
+"angeschlossen haben. Schau Dir den Unterabschnitt 'Anschließen eines MIDI-"
+"Instruments' in Abschnitt 11.1 für weitere Details an. Beachte, dass bei "
+"Verwendung von USB der Anschluss an ein Gerät, an das Du sendest (und nicht "
+"von dem Du empfängst), die gleiche Prozedur ist. Wenn Du jedoch die "
+"klassischen DIN-Anschlüsse verwendest, stell sicher, dass Du den MIDI-"
+"Ausgang Deines Computers verwendest. Du solltest Dein MIDI-Gerät in den "
+"Einstellungen sehen."
 
 #: 11.2-MIDI-Out.md:29
 msgid "Sending MIDI events"
@@ -9879,11 +9894,15 @@ msgid "midi_note_on :e3, 50"
 msgstr ""
 
 #: 11.2-MIDI-Out.md:40
+#, fuzzy
 msgid ""
 "This will send a MIDI note on event to the connected MIDI device with velocity"
 " 50. (Note that Sonic Pi will automatically convert notes in the form `:e3` to"
 " their corresponding MIDI number such as 52 in this case.)"
 msgstr ""
+"Dieser sendet eine MIDI-Note auf Event an das angeschlossene MIDI-Gerät mit "
+"Velocity 50. (Beachte, dass Sonic Pi Noten in der Form `:e3` automatisch in "
+"ihre entsprechende MIDI-Nummer wie z.B. 52 in diesem Fall konvertiert)."
 
 #: 11.2-MIDI-Out.md:44
 msgid ""
