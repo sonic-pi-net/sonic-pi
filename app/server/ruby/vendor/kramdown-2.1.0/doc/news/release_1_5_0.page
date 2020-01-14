@@ -1,0 +1,58 @@
+---
+title: kramdown 1.5.0 released
+no_output: true
+sort_info: r0150
+created_at: 2014-10-25 22:30:00 +02:00
+modified_at: 2014-10-25 22:30:00 +02:00
+---
+## kramdown 1.5.0 released
+
+This release brings the addition of [Rouge] as supported syntax highlighting engine besides Coderay
+as well as support for MathML output in the HTML converter through the libraries [Ritex] or
+[itex2MML] as alternatives to MathJax.
+
+By restructuring the code it will now be very easy to add other syntax highlighters or math engines
+in the future.
+
+Please also note that the old 'coderay\_\*' options are still supported but they are *deprecated* as
+of now. It is recommended to use the new ['syntax_highlighter'] and ['syntax_highlighter_opts']
+options instead. The latter also take precedence over the former 'coderay_\*' options.
+
+
+## Changes
+
+* 6 minor changes:
+
+  - Syntax highlighters are now configurable via the new ['syntax_highlighter'] option.
+  - [Rouge] has been added as alternative to Coderay for syntax highlighting (requested originally
+    as Pgyments support in [#24] by Jonathan Martin and then [#68] by Eric Mill and [#141] by
+    Jeanine Adkisson).
+  - The `<div>` tag surrounding syntax highlighted code now gets a class `highlighter-NAME`
+    attached where NAME is the syntax highlighter used (requested in [#76] by Marvin Gülker)
+  - Math engines are now configurable via the new ['math_engine'] option.
+  - A math engine based on [Ritex] for MathML output has been added (requested by Tom Thorogood who
+    provided the initial pull request [#169]).
+  - A math engine based on [itex2MML] for MathML output has been added (requested by Tom Thorogood)
+
+* 2 bug fixes:
+
+  - Fixed [#171]: Hard line wrapping in the GFM parser didn't work correctly when an inline element
+    started a new line (reported by Zach Ahn)
+  - Fixed [#173]: The HTML `<button>` element is now recognized as span-level element (pull request
+    by Morandat)
+
+[rouge]: ../syntax_highlighter/rouge.html
+[ritex]: ../math_engine/ritex.html
+[itex2mml]: ../math_engine/itex2mml.html
+
+['syntax_highlighter']: ../options.html#option-syntax-highlighter
+['syntax_highlighter_opts']: ../options.html#option-syntax-highlighter-opts
+['math_engine']: ../options.html#option-math-engine
+
+[#171]: https://github.com/gettalong/kramdown/issues/171
+[#76]: https://github.com/gettalong/kramdown/issues/76
+[#24]: https://github.com/gettalong/kramdown/issues/24
+[#68]: https://github.com/gettalong/kramdown/pull/68#issuecomment-30100236
+[#141]: https://github.com/gettalong/kramdown/issues/141
+[#169]: https://github.com/gettalong/kramdown/pull/169
+[#173]: https://github.com/gettalong/kramdown/issues/173

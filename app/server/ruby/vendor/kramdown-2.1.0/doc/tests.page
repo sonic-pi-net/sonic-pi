@@ -1,0 +1,104 @@
+---
+title: Tests and Benchmark
+---
+# Tests and Benchmark
+
+## Tests
+
+There exist several test suites for testing the correctness of a Markdown implementation. The
+original [Markdown Test Suite] is the standard which one needs to test against. The [PHP Markdown
+suite][MDTest] contains the original test suite and several more tests (some specifically geared
+towards the extension of the PHP Markdown Extra package). I have used the latter test tool to
+roughly verify that kramdown is able to parse standard Markdown. However, since the syntax used by
+kramdown varies slightly from standard Markdown most of the tests fail - which is fine. When looking
+at the differences one can see that the failures result from these differences.
+
+Besides using the above mentioned test suite kramdown comes with its own set of tests which is used
+to verify that the implementation matches the kramdown specification.
+
+If you believe you have found a bug in the implementation, please follow these steps:
+
+* Check the [syntax page](syntax.html) and see if the behaviour is not intended.
+
+* If the behaviour is not intended and it seems that kramdown should parse some text in another
+  fashion, please open a [bug report] and attach two files: one with the text and one with the HTML
+  conversion you think is correct.
+
+[bug report]: http://github.com/gettalong/kramdown/issues
+
+
+## Benchmark
+
+kramdown comes with a small benchmark to test how fast it is in regard to four other Ruby Markdown
+implementations: Maruku, BlueFeather, BlueCloth, RDiscount and Redcarpet. The first two are written
+using only Ruby, the latter three are written in C and need to be compiled.
+
+As one can see below, kramdown is currently (January 2019) ~3x faster than Maruku, ~6.2x faster
+than BlueFeather but ~24x slower than RDiscount and ~86x slower than Redcarpet:
+
+<pre><code>
+Running tests on 2019-01-20 under ruby 2.6.0p0 (2018-12-25 revision 66547) [x86_64-linux]
+
+Test using file mdsyntax.text and 20 runs
+Rehearsal --------------------------------------------------------
+kramdown 2.0.0         0.374321   0.000000   0.374321 (  0.381475)
+Maruku 0.7.3           0.989168   0.007352   0.996520 (  0.996109)
+BlueFeather 0.41       1.938166   0.007986   1.946152 (  1.943958)
+BlueCloth 2.2.0        0.021138   0.000013   0.021151 (  0.021130)
+RDiscount 2.2.0.1      0.010207   0.000025   0.010232 (  0.010221)
+redcarpet 3.4.0        0.003311   0.000000   0.003311 (  0.003313)
+----------------------------------------------- total: 3.351687sec
+
+                           user     system      total        real
+kramdown 2.0.0         0.309409   0.000000   0.309409 (  0.309063)
+Maruku 0.7.3           0.876370   0.023992   0.900362 (  0.900120)
+BlueFeather 0.41       1.933912   0.000000   1.933912 (  1.931839)
+BlueCloth 2.2.0        0.020436   0.000004   0.020440 (  0.020420)
+RDiscount 2.2.0.1      0.012775   0.000007   0.012782 (  0.012771)
+redcarpet 3.4.0        0.003564   0.000000   0.003564 (  0.003558)
+
+Real time of X divided by real time of kramdown
+Maruku             2.9124
+BlueFeather        6.2506
+BlueCloth          0.0661
+RDiscount          0.0413
+redcarpet          0.0115
+
+Test using file mdbasics.text and 20 runs
+Rehearsal --------------------------------------------------------
+kramdown 2.0.0         0.066966   0.000000   0.066966 (  0.066896)
+Maruku 0.7.3           0.185764   0.000000   0.185764 (  0.185566)
+BlueFeather 0.41       0.406975   0.000000   0.406975 (  0.406544)
+BlueCloth 2.2.0        0.006025   0.000000   0.006025 (  0.006018)
+RDiscount 2.2.0.1      0.002848   0.000000   0.002848 (  0.002845)
+redcarpet 3.4.0        0.000930   0.000000   0.000930 (  0.000929)
+----------------------------------------------- total: 0.669508sec
+
+                           user     system      total        real
+kramdown 2.0.0         0.064527   0.000000   0.064527 (  0.064457)
+Maruku 0.7.3           0.182119   0.000000   0.182119 (  0.181926)
+BlueFeather 0.41       0.403922   0.000000   0.403922 (  0.403494)
+BlueCloth 2.2.0        0.006585   0.000000   0.006585 (  0.006576)
+RDiscount 2.2.0.1      0.003949   0.000000   0.003949 (  0.003944)
+redcarpet 3.4.0        0.001066   0.000000   0.001066 (  0.001063)
+
+Real time of X divided by real time of kramdown
+Maruku             2.8224
+BlueFeather        6.2599
+BlueCloth          0.102
+RDiscount          0.0612
+redcarpet          0.0165
+</code></pre>
+
+And here are some graphs which show the execution times of the various kramdown releases on
+different Ruby interpreters:
+
+![ruby 2.3.6p384]({relocatable: img/graph-ruby-2.3.6p384-384.png})
+![ruby 2.4.3p205]({relocatable: img/graph-ruby-2.4.3p205-205.png})
+![ruby 2.5.0p0]({relocatable: img/graph-ruby-2.5.0p0-0.png})
+![ruby 2.6.0p0]({relocatable: img/graph-ruby-2.6.0p0-0.png})
+![jruby 9.2.5.0]({relocatable: img/graph-jruby-9.2.5.0-0.png})
+![truffleruby 1.0.0-rc11]({relocatable: img/graph-truffleruby-1.0.0-rc11-0.png})
+
+[Markdown Test Suite]: http://daringfireball.net/projects/downloads/MarkdownTest_1.0.zip
+[MDTest]: http://www.michelf.com/docs/projets/mdtest-1.0.zip

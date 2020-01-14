@@ -1,0 +1,40 @@
+---
+title: kramdown 1.7.0 released
+no_output: true
+sort_info: r0170
+created_at: 2015-04-27 22:50:00 +02:00
+modified_at: 2015-04-27 22:50:00 +02:00
+---
+## kramdown 1.7.0 released
+
+This release brings among other things support for the 'minted' syntax highlighter for LaTeX and a
+new math engine based on MathJax-Node that outputs to MathML.
+
+
+## Changes
+
+* 4 minor changes:
+
+  - The syntax highlighter ['minted'](../syntax_highlighter/minted.html) for the [LaTeX
+    converter](../converter/latex.html) is now available (fixes issue [#93], initial patch [#242] by
+    l3kn)
+  - A new [math engine based on MathJax-Node](../math_engine/mathjaxnode.html) that outputs to
+    MathML is now available (patch [#240] by Tom Thorogood)
+  - Fixed [#244], [#246]: Fenced code blocks now allow a dash in the code language name (requested
+    and patched by Dennis Günnewig)
+  - The option list in the man page as well in the output of `kramdown --help` is now sorted.
+
+* 2 bug fixes:
+
+  - Fixed [#230]: Warning message for method in `lib/kramdown/utils/configurable.rb` will not show
+    anymore (reported by Robert A. Heiler)
+  - Fixed [#239]: Handling of single/double quotes in reference style links now follows the same
+    rules as with inline links (reported by Josh Davis)
+
+[#230]: https://github.com/gettalong/kramdown/issues/230
+[#239]: https://github.com/gettalong/kramdown/issues/239
+[#244]: https://github.com/gettalong/kramdown/issues/244
+[#246]: https://github.com/gettalong/kramdown/pull/246
+[#240]: https://github.com/gettalong/kramdown/pull/240
+[#93]: https://github.com/gettalong/kramdown/issues/93
+[#242]: https://github.com/gettalong/kramdown/pull/242

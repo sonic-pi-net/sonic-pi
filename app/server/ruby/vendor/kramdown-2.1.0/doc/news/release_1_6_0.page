@@ -1,0 +1,76 @@
+---
+title: kramdown 1.6.0 released
+no_output: true
+sort_info: r0160
+created_at: 2015-02-28 18:45:00 +01:00
+modified_at: 2015-02-28 18:45:00 +01:00
+---
+## kramdown 1.6.0 released
+
+This release contains many fixes and minor enhancements as well as one major goodie that comes with
+a small caveat: block IALs can now be applied to link and abbreviation definitions!
+
+It may not sound like much but allowing block IALs to be applied to link definitions alleviates the
+problem that additional attributes could only be specified via span IALs. Now such attributes can be
+stored together with the URL and title at the link definition, for example:
+
+    This is a ![resized image].
+
+    [resized image]: some_image.jpg "with a title"
+    {: height="36px" width="36px" style="border: 1px solid green"}
+
+There is one **small caveat**, though. Regard the following construct:
+
+    [linkdef]: http://example.com
+    {:.block-ial}
+    block element, e.g. a paragraph
+
+The block IAL would have been applied to the paragraph in previous versions but now it is applied to
+the link definition. However, such a construct is not very likely encountered in the real world.
+
+
+## Changes
+
+* 7 minor changes:
+
+  - Block IALs can now be applied to link and abbreviation definitions (inspired by issue [#194]
+    from cabo)
+  - The syntax highlighting engine for Rouge now allows custom formatter classes to be used (issue
+    [#214], requested by BackOrder)
+  - The MathJax math engine now allows adding previews (issue [#225], requested by jethrogb)
+  - The "toc_levels" option can now also take a Range object (pull request [#210] by Jens Krämer)
+  - The generated table of contents of the HTML converter now contains ID attributes on the links so
+    that back-references can be used (issue [#195], requested by Ciro Santilli)
+  - A warning is now generated when duplicate HTML attributes are detected (issue [#201], requested
+    by winniehell)
+  - Updated used version of prawn to 2.0.0
+
+* 8 bug fixes:
+
+  - Fixed [#192]: Emphasis by using underscore sometimes wrongly worked within a word (reported by
+    Michael Franzl)
+  - Fixed [#198]: Empty alt attributes on `<img>` tags are now correctly handled by the kramdown
+    converter (reported by winniehell)
+  - Fixed [#200]: Trailing whitespace is now really removed in paragraphs (reported by winniehell)
+  - Fixed [#220]: HTML blocks with attributes weren't correctly detected when directly after another
+    block (reported by Bill Tozier)
+  - Fixed [#199]: Empty title attributes are now ignored for images when using the kramdown
+    converter (reported by and pull request [#206] from winniehell)
+  - Leading and trailing white space from math statements is now stripped as the whitespace
+    sometimes lead to LaTeX conversion errors
+  - Fixed [#226]: Class names may now start with a dash in IALs/ALDs (reported by Adam Hardwick)
+  - Multiple consecutive block IALs before an element are now correctly processed
+
+[#192]: https://github.com/gettalong/kramdown/issues/192
+[#198]: https://github.com/gettalong/kramdown/issues/198
+[#200]: https://github.com/gettalong/kramdown/issues/200
+[#201]: https://github.com/gettalong/kramdown/issues/201
+[#214]: https://github.com/gettalong/kramdown/issues/214
+[#210]: https://github.com/gettalong/kramdown/pull/210
+[#195]: https://github.com/gettalong/kramdown/issues/195
+[#220]: https://github.com/gettalong/kramdown/issues/220
+[#199]: https://github.com/gettalong/kramdown/issues/199
+[#206]: https://github.com/gettalong/kramdown/pull/206
+[#225]: https://github.com/gettalong/kramdown/issues/225
+[#226]: https://github.com/gettalong/kramdown/issues/226
+[#194]: https://github.com/gettalong/kramdown/issues/194

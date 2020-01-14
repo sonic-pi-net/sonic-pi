@@ -1,0 +1,22 @@
+---
+title: kramdown 0.14.1 released
+no_output: true
+sort_info: r00141
+created_at: 2012-11-30 18:30:00 +02:00
+modified_at: 2012-11-30 18:30:00 +02:00
+---
+## kramdown 0.14.1 released
+
+This is just a bug fix release and it is recommened to update to this version.
+
+## Changes
+
+* 3 bug fixes
+
+  - Only HTML elements that must not contain a body (like `<br />`) are output in this form, all
+    other elements now use an explicit closing tag (resolves among other things issues with `<i>`)
+  - Specifying a block IAL before a definition list now works correctly
+  - Fixed bug [GH#30]: Empty body for a definition in a definition list lead to an exception
+    (reported by Mark Johnson)
+
+[GH#30]: https://github.com/gettalong/kramdown/issues/30

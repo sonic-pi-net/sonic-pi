@@ -1,0 +1,35 @@
+---
+title: kramdown Parser
+---
+# kramdown Parser
+
+## Introduction
+
+This is the main parser of the kramdown library (as the name suggests). It parses text in kramdown
+syntax which is based on Markdown, a very easy to write, easy to read markup for writing HTML
+documents in plain text. Since the basic Markdown syntax has some shortcomings, implementations
+(especially the [PHP Markdown Extra] package) have tried to overcome this shortcomings with
+additional syntax. The kramdown parser supports all features of the original Markdown syntax (albeit
+with some minor corrections) as well as newer features implemented in the [PHP Markdown Extra]
+package and [Maruku].
+
+For a complete description of the implemented syntax, have a look at the [syntax
+page](../syntax.html), the [quick reference](../quickref.html) provides a short overview.
+
+
+## HTML parsing
+
+The kramdown parser uses the HTML parser for parsing HTML tags. However, HTML tags are not converted
+to a native element representation by default, in contrast to the HTML parser. You need to set the
+option `html_to_native` to `true` to achieve this.
+
+
+## Options
+
+The kramdown parser supports the following options:
+
+{options: {items: [parse_block_html, parse_span_html, html_to_native]}}
+
+
+[PHP Markdown Extra]: http://michelf.com/projects/php-markdown/extra/
+[Maruku]: http://maruku.rubyforge.org

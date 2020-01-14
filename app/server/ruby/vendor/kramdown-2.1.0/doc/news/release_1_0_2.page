@@ -1,0 +1,37 @@
+---
+title: kramdown 1.0.2 released
+no_output: true
+sort_info: r0102
+created_at: 2013-05-09 08:50:00 +02:00
+modified_at: 2013-05-09 08:50:00 +02:00
+---
+## kramdown 1.0.2 released
+
+This release fixes some bugs; updating is recommended.
+
+Some notes:
+
+* The [tests page](../tests.html) has been updated to include relative times in the benchmark so
+  that it is possible to better gauge the performance of kramdown (requested by postmodern).
+
+* The [kramdown Wiki][1] now contains a listing of libraries that extend kramdown (idea by
+  postmodern).
+
+
+## Changes
+
+* 4 bug fixes
+
+  - Fixed [GH#51]: Try requiring a parser/converter library based on the specified input/output name
+    (requested by postmodern)
+  - Fixed [GH#49]: Convert non-breaking space to `~` for LaTeX converter (patch by Henning Perl)
+  - Fixed [GH#42]: No more warning for IALs/ALDs/extensions without attributes (reported by DHB)
+  - Fixed [GH#44]: Removed trailing whitespace in link definition for kramdown converter (patch by
+    Marcus Stollsteimer)
+
+[1]: https://github.com/gettalong/kramdown/wiki
+
+[GH#44]: https://github.com/gettalong/kramdown/pull/44
+[GH#42]: https://github.com/gettalong/kramdown/issues/42
+[GH#49]: https://github.com/gettalong/kramdown/pull/49
+[GH#51]: https://github.com/gettalong/kramdown/issues/51

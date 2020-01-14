@@ -1,0 +1,63 @@
+---
+title: kramdown 1.4.0 released
+no_output: true
+sort_info: r0140
+created_at: 2014-06-18 06:00:00 +02:00
+modified_at: 2014-06-18 06:00:00 +02:00
+---
+## kramdown 1.4.0 released
+
+This release fixes all outstanding bugs, so it is recommended to update. The one new feature is that
+the location of the footnotes can now be defined by attaching the reference name "footnotes" to an
+ordered or unordered list (like with the table of contents).
+
+One major problem was that unescaped pipe characters `|` often led to involunatary tables. This
+release introduces some changes that should prevent this for more cases than before. Additionally,
+since this is the most common problem case, it is advised to use `\vert` instead of `|` in inline
+math statements. Both do the same in LaTeX but the latter may inadvertently start a table, so better
+use the former!
+
+
+## Changes
+
+* 2 minor changes:
+
+  - Implemented [#106]: Users can now define the location of the footnotes (feature request by Matt
+    Neuburg)
+  - Merged [#97]: `rake gemspec` now generates a local `kramdown.gemspec` file (pull request by
+    Nathanael Jones)
+
+* 9 bug fixes:
+
+  - Fixed [#128]: `<script>` tags are now removed from math statements when converting to HTML
+    (reported by Trevor Wennblom)
+  - Fixed [#129]: Internal state of custom string scanner class was corrupted due to backtracking
+    which led to problems with location tracking (reported by Mark Harrison)
+  - Fixed [#112]: The content of `<kbd>`, `<samp>` and `<var>` is now also treated as raw HTML
+    (reported by Denis Defreyne)
+  - Fixed [#114]: Added missing HTML entity names (reported by Tomer Cohen)
+  - Fixed [#101]: Fixed exception on missing alignment information when parsing HTML tables to
+    native kramdown elements (initial pull request by zonecheung)
+  - Fixed [#117]: The GFM parser now needs a space after a hash so that the line is identified as an
+    atx header (reported by Trevo Wennblom)
+  - Fixed [#131]: Location tracking in nested list was incorrect (reported by Mark Harrison)
+  - Fixed/Worked around [#23], [#46], [#107], [#134]: Parsing math blocks that contain pipe
+    characters now works, adjusting inline math statements to use `\vert` instead of `|` resolves
+    the other problems (reported by many)
+  - Fixed [#135]: Escaped pipes in alternative text of image links were not correctly escaped
+    (reported by Philipp Rudloff)
+
+[#128]: https://github.com/gettalong/kramdown/issues/128
+[#129]: https://github.com/gettalong/kramdown/issues/129
+[#112]: https://github.com/gettalong/kramdown/issues/112
+[#114]: https://github.com/gettalong/kramdown/issues/114
+[#101]: https://github.com/gettalong/kramdown/pull/101
+[#117]: https://github.com/gettalong/kramdown/issues/117
+[#97]:  https://github.com/gettalong/kramdown/pull/97
+[#106]: https://github.com/gettalong/kramdown/issues/106
+[#131]: https://github.com/gettalong/kramdown/pull/131
+[#134]: https://github.com/gettalong/kramdown/issues/134
+[#46]:  https://github.com/gettalong/kramdown/issues/46
+[#107]: https://github.com/gettalong/kramdown/issues/107
+[#135]: https://github.com/gettalong/kramdown/issues/135
+[#23]:  https://github.com/gettalong/kramdown/pull/23

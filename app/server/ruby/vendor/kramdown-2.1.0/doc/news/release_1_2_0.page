@@ -1,0 +1,41 @@
+---
+title: kramdown 1.2.0 released
+no_output: true
+sort_info: r0120
+created_at: 2013-08-31 09:00:00 +02:00
+modified_at: 2013-08-31 09:00:00 +02:00
+---
+## kramdown 1.2.0 released
+
+Some people wanted to see Github Flavored Markdown features in kramdown for a long time and now the
+waiting is over, thanks to the new GFM parser by Arne Brasseur.
+
+Aside from this new feature some bugs were also fixed. One that may have affected many people was
+the missing support for new stringex library versions.
+
+## Changes
+
+* 2 minor changes:
+
+  - Added a parser for [Github Flavored Markdown](../parser/gfm.html) (resolves [GH#68] by Arne
+    Brasseur who provided the initial implementation)
+  - HTML attributes are now output for horizontal lines
+
+* 5 bug fixes:
+
+  - The correct encoding on the result string is now set even when the template option is used
+  - Fixed [GH#72], [GH#74]: All ways to set a header ID now follow the same scheme which is
+    compliant with HTML IDs (except that dots are not allowed) (reported and initial patch by Matti
+    Schneider)
+  - Fixed [GH#73]: The default HTML template now has a DOCTYPE and sets the encoding correctly
+    (initial patch by Simon Lydell)
+  - Fixed [GH#67]: URLs of link elements are now escaped in the LaTeX converter to avoid problems
+    (patch by Henning Perl)
+  - Fixed [GH#70]: Any version of the stringex library is now supported (reported by Simon Lydell)
+
+[GH#72]: https://github.com/gettalong/kramdown/issues/72
+[GH#70]: https://github.com/gettalong/kramdown/issues/70
+[GH#74]: https://github.com/gettalong/kramdown/pull/74
+[GH#73]: https://github.com/gettalong/kramdown/pull/73
+[GH#67]: https://github.com/gettalong/kramdown/pull/67
+[GH#68]: https://github.com/gettalong/kramdown/pull/68

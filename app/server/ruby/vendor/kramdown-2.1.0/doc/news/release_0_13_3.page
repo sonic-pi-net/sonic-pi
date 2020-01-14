@@ -1,0 +1,38 @@
+---
+title: kramdown 0.13.3 released
+no_output: true
+sort_info: r00133
+created_at: 2011-05-06 15:10:00 +02:00
+modified_at: 2011-05-06 15:10:00 +02:00
+---
+## kramdown 0.13.3 released
+
+This is just a bug fix release and it is recommened to update to this version.
+
+## Changes
+
+* 1 minor change:
+
+  - Added support for correctly parsing more HTML5 elements (requested by Bernt Carstenschulz)
+
+* 10 bug fixes:
+
+  - Table line `` |a|`b` `` was parsed as `` |a`b` `` (patch by Masahiro Kitajima)
+  - Table line `` |`a` `` lead to error condition (patch by Masahiro Kitajima)
+  - Added OrderedHash#dup to fix a problem when converting a document more than once (reported by
+    Michael Papile)
+  - Fixed places where the document tree was modified during conversion
+  - Fixed bug in LaTeX image element converter that was introduced in a former release (reported by
+    Michael Franzl)
+  - Fixed problem with block HTML tag being treated as header text
+  - Fixed problem with footnotes in LaTeX tables -- now using `longtable` instead of `tabular`
+    environment (reported by Michael Franzl)
+  - The `style` attribute is now used for outputting table cell alignments in HTML instead of using
+    the deprecated `col` tags
+  - Fixed HTML-to-native conversion of unsupported HTML elements
+  - Fixed kramdown converter to correctly output table cells with attributes
+
+* 1 documentation fix:
+
+  - Some HTML tags were not properly escaped on the quick reference page (reported by Yasin
+    Zähringer)

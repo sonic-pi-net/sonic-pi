@@ -1,0 +1,31 @@
+---
+title: kramdown 1.15.0 released
+no_output: true
+sort_info: r1150
+created_at: 2017-09-08 21:28:00 +02:00
+modified_at: 2017-09-08 21:28:00 +02:00
+---
+## kramdown 1.15.0 released
+
+The most important change is that this release drops compatibility with Ruby versions < 2.0! Aside
+from that it includes some bug fixes, so updating is recommended.
+
+## Changes
+
+* 2 minor changes:
+
+  - Drop compatibility with Ruby versions < 2.0
+  - Make footnote output XML compatible (requested by Kriss Andsten)
+
+* 4 bug fixes:
+
+  - Apply abbreviation substitution to footnotes (fixes [#440], reported by Thomas Leese)
+  - Fix TOC entries by removing nested links (fixes [#434], reported by Nate Wernimont)
+  - Fix problems with brackets in certain situations when using the LaTeX converter (fixes [#414],
+    reported by Ryan Koppenhaver)
+  - Fix escaping of URLs in the LaTeX converter (reported by Moshe Kamensky in pull request [#67])
+
+[#440]: https://github.com/gettalong/kramdown/issues/440
+[#434]: https://github.com/gettalong/kramdown/issues/434
+[#414]: https://github.com/gettalong/kramdown/issues/414
+[#67]: https://github.com/gettalong/kramdown/pull/67

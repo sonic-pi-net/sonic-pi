@@ -1,0 +1,209 @@
+AllCops:
+  Include:
+    - bin/*
+    - lib/**/*.rb
+  TargetRubyVersion: 2.3
+
+
+Metrics/LineLength:
+  Max: 110 # Preferred length is 100
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+  Max: 8
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Max: 5
+
+
+Style/Encoding:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false # we don't care
+
+Style/RegexpLiteral:
+  AllowInnerSlashes: true
+
+Style/NumericLiterals:
+  MinDigits: 6
+
+Style/NumericLiteralPrefix:
+  EnforcedOctalStyle: zero_only
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/WordArray:
+  MinSize: 5
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/ClassCheck:
+  EnforcedStyle: kind_of?
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Style/Lambda:
+  EnforcedStyle: lambda
+
+Style/NumericPredicate:
+  EnforcedStyle: comparison
+
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses
+
+Style/FormatString:
+  EnforcedStyle: sprintf
+
+Style/Semicolon:
+  AllowAsExpressionSeparator: true
+
+Style/YodaCondition:
+  EnforcedStyle: equality_operators_only
+
+Style/EmptyElse:
+  EnforcedStyle: empty
+
+Style/CaseEquality:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false # false alarms
+
+Style/MethodMissingSuper:
+  Enabled: false # why the need to fallback to super?
+
+Style/Next:
+  Enabled: false # not really useful
+
+Style/ParallelAssignment:
+  Enabled: false # not really needed
+
+Style/TrivialAccessors:
+  Enabled: false
+
+Style/NestedTernaryOperator:
+  Enabled: false # compact nested ternary operators are okay
+
+Style/RescueModifier:
+  Enabled: false # valid but using it makes life sometimes easier
+
+Style/MutableConstant:
+  Enabled: false # valid but sometimes unavoidable
+
+Style/CommentedKeyword:
+  Enabled: false # false alarms and we do want yield comments on that line
+
+Style/StderrPuts:
+  Enabled: false # false alarms because not all $stderr.puts messages are Ruby style warnings
+
+Style/PerlBackrefs:
+  Enabled: false # sometimes there are no good alternatives
+
+Style/IfUnlessModifier:
+  Enabled: false # useful but sometimes the meaning is better conveyed using an if/unless statement
+
+Style/InfiniteLoop:
+  Enabled: false # why should Kernel#loop be better than while true?
+
+Style/SpecialGlobalVars:
+  Enabled: false # I think that $! and $? are recognizable in terms of their function
+
+Style/MultipleComparison:
+  Enabled: false # why should an array be created? especially if only two items are compared
+
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+Style/WhileUntilModifier:
+  Enabled: false # I prefer to use either one or the other, depending on context
+
+Style/FormatStringToken:
+  Enabled: false # I don't care about this
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+
+Layout/AlignHash:
+  EnforcedLastArgumentHashStyle: ignore_implicit
+
+Layout/SpaceInsideBlockBraces:
+  SpaceBeforeBlockParameters: false
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+Layout/EmptyLineAfterMagicComment:
+  Enabled: false # we have the magic comment and then the license
+
+Layout/IndentAssignment:
+  Enabled: false # false alarms
+
+
+Naming/HeredocDelimiterNaming:
+  Enabled: false # we like our delimiters short and obvious
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false # for points the names x,y are perfectly reasonable
+
+Lint/LiteralAsCondition:
+  Enabled: false # we use while true
+
+Lint/NonLocalExitFromIterator:
+  Enabled: false
+
+Lint/HandleExceptions:
+  Enabled: false
+
+Performance/FixedSize:
+  Enabled: false
+
+
+Security/Open:
+  Enabled: false

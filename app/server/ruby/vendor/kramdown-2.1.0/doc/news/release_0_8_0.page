@@ -1,0 +1,60 @@
+---
+title: kramdown 0.8.0 released
+no_output: true
+sort_info: r0008
+created_at: 2010-06-08 15:30:00 +02:00
+modified_at: 2010-06-08 15:30:00 +02:00
+---
+## kramdown 0.8.0 released
+
+One of the bigger changes in this release is the support for converting HTML tags into native
+kramdown elements via the new `html_to_native` option. For example, the HTML tag `p` is converted to
+the native paragraph element instead of a generic HTML tag if this option is set to `true`. This is
+especially useful for converters that don't handle generic HTML tags (e.g. the LaTeX converter).
+
+This conversion is a feature of the new standalone HTML parser which is used by the kramdown parser
+for parsing HTML tags.
+
+Also note that support for the old extension syntax and custom extensions has been dropped as of
+this release! And the `filter_html` option will be removed in the next release because there exist
+better facilities for performing this kind of task!
+
+
+## Changes
+
+* Major changes:
+
+  - New parser for parsing HTML documents
+  - Added the option `html_to_native` (default: `false`) which tells the kramdown parser whether to
+    convert HTML tags to native kramdown elements or to generic HTML elements.
+
+* Minor changes:
+
+  - Table header cells are now represented by their own element type
+  - The element type `:html_text` is not used anymore - it is replaced by the general `:text`
+    element
+  - HTML comments are now converted to LaTeX comments when using the LaTeX converter
+  - The LaTeX converter can now output the contents of HTML `<i>` and `<b>` tags
+
+* Bug fixes:
+
+  - Attributes that have been assigned to the to-be-replaced TOC list are now added correctly on the
+    generated TOC list in the HTML converter
+  - Fixed problem in typographic symbol processing where an entity string instead of an entity
+    element was added
+  - Fixed problem with HTML span parsing: some text was not added to the correct element when the
+    end tag was not found
+  - HTML `code` and `pre` tags are now parsed as raw HTML tags
+  - HTML tags inside raw HTML span tags are now parsed correctly as raw HTML tags
+  - The Rakefile can now be used even if the `rdoc` gem is missing (patch by Ben Armston)
+  - Fixed generation of footnotes in the LaTeX converter (patch by Ben Armston)
+  - Fixed LaTeX converter to support code spans/blocks in footnotes
+  - HTML comments and XML processing instructions are now correctly parsed inside raw HTML tags
+  - HTML script tags are now correctly parsed
+  - Fixed the abbreviation conversion in the LaTeX converter
+  - Empty image links are not output anymore by the LaTeX converter
+
+* Deprecation notes:
+
+  - The old extension syntax and support for custom extensions has been removed.
+  - The `filter_html` option will be removed in the next release.

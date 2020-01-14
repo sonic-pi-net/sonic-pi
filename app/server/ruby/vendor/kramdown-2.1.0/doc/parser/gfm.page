@@ -1,0 +1,19 @@
+---
+title: GFM Parser
+---
+# GFM Parser
+
+## Introduction
+
+This parser was built-in until kramdown 2.0 and since then is available through the
+[`kramdown-parser-gfm` gem][parser-gfm].
+
+It can parse ["Github Flavored
+Markdown"](https://help.github.com/articles/github-flavored-markdown). This is a format of Markdown
+that is used on Github.com for most places where textual input is required, such as issues and
+comments. Some of the extensions, notably the "backtick fenced code blocks" are also used on other
+sites, for example StackOverflow.
+
+See <https://github.com/kramdown/parser-gfm> for documentation!
+
+[parser-gfm]: https://github.com/kramdown/parser-gfm

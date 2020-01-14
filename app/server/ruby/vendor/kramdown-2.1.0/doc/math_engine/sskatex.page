@@ -1,0 +1,15 @@
+---
+title: SsKaTeX
+---
+
+## Math Engine SsKaTeX
+
+This math engine was built-in until kramdown 2.0 and since then is available through the
+[`kramdown-math-sskatex` gem](https://github.com/kramdown/math-sskatex).
+
+This math engine uses a server-side installation of [KaTeX](https://khan.github.io/KaTeX/) to
+convert TeX math formulas into HTML+MathML. This eliminates the need for client-side math-rendering
+Javascript. Consider this a flexible for-trusted-users-only alternative to the [KaTeX math
+engine](katex.html) and a lightweight efficient alternative to [Mathjax-Node](mathjaxnode.html).
+
+See <https://github.com/kramdown/math-sskatex> for documentation!

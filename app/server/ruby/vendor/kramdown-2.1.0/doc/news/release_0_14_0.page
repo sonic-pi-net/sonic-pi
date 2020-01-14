@@ -1,0 +1,38 @@
+---
+title: kramdown 0.14.0 released
+no_output: true
+sort_info: r00140
+created_at: 2012-09-16 08:00:00 +02:00
+modified_at: 2012-09-16 08:00:00 +02:00
+---
+## kramdown 0.14.0 released
+
+First of all please note that this release contains a **backwards-incompatible** change: The syntax
+for specifying a code language for a code block or code span has changed. Instead of using
+`lang='CODELANG'` one has to use `.language-CODELANG` now.
+
+This change has been introduced to avoid problems because the `lang="..."` attribute is used by HTML
+for other purposes than setting the code language. Furthermore using `.language-CODELANG` is also
+proposed by HTML5 and it seems to be a good way to achieve the needed functionality.
+
+Other changes in this release include the possibility of setting the code language on the starting
+line of a fenced code block and a way of excluding certain headers from the table of contents by
+assigning the `.no_toc` class to them.
+
+## Changes
+
+* 2 major changes
+
+  - Code language is now specified via `.language-CODELANG` instead of `lang='CODELANG'`
+  - Implemented support for setting language on fenced code block starting line (initial patch by
+    Bran)
+
+* 1 minor change
+
+  - Headers with an ID can be prevented from showing in the TOC by assigning the `.no_toc` class to
+    them (patch by Tim Bates)
+
+* 1 bug fix
+
+  - Numeric instead of symbolic HTML entities are now the default fallback (patch by Gioele
+    Barabucci)

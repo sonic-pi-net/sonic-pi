@@ -1,0 +1,28 @@
+---
+title: kramdown 0.14.2 released
+no_output: true
+sort_info: r00142
+created_at: 2013-01-20 14:10:00 +02:00
+modified_at: 2013-01-20 14:10:00 +02:00
+---
+## kramdown 0.14.2 released
+
+This release adds the possibility to pre-define link definitions via the new option `link_defs`.
+Apart from that one bug was fixed.
+
+It is recommened to update to this version.
+
+On a side note the kramdown homepage has been updated to show a menu of the available documentation
+pages when viewing a documentation page. And a documentation page showing all available options has
+been added.
+
+
+## Changes
+
+* 1 minor change
+
+  - New option `link_defs` for pre-defining link definitions
+
+* 1 bug fix
+
+  - Fixed raised errors on atx headers without text

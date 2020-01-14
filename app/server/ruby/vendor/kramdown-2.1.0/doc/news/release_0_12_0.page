@@ -1,0 +1,62 @@
+---
+title: kramdown 0.12.0 released
+no_output: true
+sort_info: r0012
+created_at: 2010-11-01 09:50:00 +02:00
+modified_at: 2010-11-01 09:50:00 +02:00
+---
+## kramdown 0.12.0 released
+
+Some changes in the last release of kramdown lead to a performance drop. Therefore some performance
+optimizations have been done resulting in about 15% less created objects (which reduces the garbage
+collection pressure) and quite a performance gain (this version of kramdown is the faster than any
+previous version when using Ruby 1.9.2) -- see the [tests page](../tests.html) for detailed
+information.
+
+Aside from the performance optimizations, a Markdown-only parser based on the kramdown parser has
+been added
+
+The "internal" API (which is currently everything except the `Kramdown::Document` class) has changed
+again and developers may therefore need to update their extensions! The API changes now allow
+parsers and converters to be used without a Kramdown::Document class since this class is just
+provided for convenience. All the needed information is now stored in the element tree itself.
+Information that has no direct representation as an element is stored in the options of the root
+element (e.g. abbreviation definitions). More information can be found in the API documentation.
+
+The API should now be relatively stable and once kramdown reaches 1.0.0, the final API will only be
+changed in backwards compatible ways.
+
+## Changes
+
+* 1 major change:
+
+  - Added Markdown-only parser
+
+* 6 minor changes:
+
+  - Angle brackets can now also be escaped
+  - Pipe characters in code spans that appear in tables do not need to be escaped anymore
+  - New option `toc_levels` for specifying the header levels used for the table of contents
+    (requested by Rick Frankel, RF#28672)
+  - MathJax instead of jsMath is now used for math output in the HTML converter
+  - New option `latex_headers` for customizing the header commands for the LaTeX converter
+  - Removed parsing of HTML doctype in HTML parser
+
+* 6 bug fixes:
+
+  - Fixed output of paragraphs starting with a right angle bracket in the kramdown converter
+  - Invalid span IALs are now left alone and not removed anymore
+  - Option `entity_output` is now respected when outputting a non-breaking space for emtpy table
+    cells in the HTML converter (reported by Matt Neuburg)
+  - Fixed bug where a block IAL before a block HTML element was ignored (reported by Matt Neuburg)
+  - Fixed bug where block IALs were falsely applied to nested elements (reported by Matt Neuburg)
+  - Fixed bug RF#28660: Converting `<div><br /></div>` from HTML to kramdown resulted in stack trace
+    (reported by Garrett Heaver)
+
+* 1 deprecation note:
+
+  - The option `toc_depth` is replaced by the new option `toc_levels` and will be removed in the
+    next version.
+
+
+

@@ -1,0 +1,173 @@
+---
+title: Man Page Converter
+---
+# Man Page Converter
+
+## Introduction
+
+This converter takes a kramdown document and converts into a [man page] in groff format. Some
+elements like images are not supported because they are not supported by groff.
+
+[man page]: http://man7.org/linux/man-pages/man7/man-pages.7.html
+
+
+## Syntax
+
+~~~
+name(1) -- short description of command
+
+## SYNOPSIS
+
+`name` [`OPTIONS`] [*ARGUMENT*...]
+
+## DESCRIPTION
+
+All block elements like paragraphs, blockquotes, lists, ... work as they
+do with normal kramdown documents.
+
+Use code spans for `code`, `--options` and `user input`, emphasis for
+*variables*, *argument names* and *file names*, and **strong emphasis**
+for things that should stand out.
+
+## OPTIONS
+
+`-o`
+`--option`
+: Description of option
+
+`--key`=*value*
+: Another option with a *value*
+~~~
+
+
+## Format Description
+
+### Man Page Title
+
+For the resulting manual page to work correctly, a level one heading has to be the first element in
+the document. This heading should follow one of the following syntaxes and must not have any inline
+formatting:
+
+    # name(section) -- short description of functionality
+
+    # name -- short description of functionality
+
+    # name(section)
+
+    # name short description of functionality
+
+    # name
+
+The `name` is used as the title for the manual page and `section` for the manual section. It is also
+possible to specify the section and two additional pieces of data using an IAL with the following
+keys:
+
+`data-section`
+: Specifies the manual section and is only used if the section was not specified in the heading
+  itself.
+
+`data-date`
+: The date of the last nontrivial change to the manual page. It should be written in the format
+  YYYY-MM-DD but that is not mandatory. The date is displayed in the middle of the footer line.
+
+`data-extra`
+: Some extra information that is displayed on the left side in the footer line.
+
+If a description was found in the heading, the `NAME` section is automatically created from the
+name and description. Otherwise it has to be created manually.
+
+
+### Section Headings
+
+Manual page sections can be created using level two headings. The text should not contain any inline
+markup and be all uppercase.
+
+The usual section names are (in the order in which they should appear in the manual page):
+
+* NAME
+* SYNOPSIS
+* DESCRIPTION
+* OPTIONS
+* EXIT STATUS
+* RETURN VALUE
+* ENVIRONMENT
+* FILES
+* NOTES
+* BUGS
+* EXAMPLE
+* SEE ALSO
+
+Level three headings can be used for subsection headings if necessary. Note that headings nested
+inside of block elements like lists and headings of level four to six are not supported.
+
+See [man-pages(7)](http://man7.org/linux/man-pages/man7/man-pages.7.html) for details regarding the
+usage and contents of each section.
+
+
+### Option Definitions
+
+Documenting the options of a command should be done using definition lists. Options with multiple
+identifiers can either use multiple definition terms or a single definition term where the
+identifiers are separated by commas:
+
+~~~
+`-o`, `--option`
+: The description for the option.
+
+`-k` *value*
+`--key`=*value*
+: Another description.
+
+  The description can contain multiple block elements, even lists.
+~~~
+
+
+### Inline Markup
+
+When viewing manual pages in a terminal, there are basically only two ways to style some piece of
+text: boldface and italics (which are often displayed using underline).
+
+The three basic inline markup formats of kramdown are used in the following ways:
+
+`` `backticks` ``
+: The text will be shown in **boldface**. Should be used for code, options and user input. As usual
+  with code spans, the text will not be processed.
+
+`*emphasis*`
+: The text will be shown in *italics* (or underline). Should be used for variables, argument names
+  and file names.
+
+`**strong**`
+: The text will be show in **boldface**. No special usage pattern, use for things that should stand
+  out.
+
+
+### Other Elements
+
+The converter also supports all other kramdown elements, including tables and math blocks, except
+the following:
+
+* Images
+* Footnotes
+* HTML elements
+* Raw elements
+
+Details on specific elements:
+
+**Unordered/Ordered/Definition Lists**
+: Lists can be styled in a compact format by assigning the class `compact`. Note, however, that
+  *all* nested block elements will use the compact format. This is mostly intended for single-level
+  lists with short descriptions.
+
+**Blockquotes**
+: Blockquotes provide no visual clue that they have been used except for additional indentation.
+  However, this comes in handy when some (optionally formatted) parts should stand out, e.g. example
+  command lines.
+
+**Math elements**
+: They are displayed like codeblocks and inline code spans, depending on where they are used.
+
+**Tables**
+: Tables are also fully supported with the exception that links may not appear in them. By assigning
+  the class `center` a table is output centered instead of left aligned.
+

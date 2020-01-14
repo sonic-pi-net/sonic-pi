@@ -1,0 +1,30 @@
+---
+title: kramdown 0.13.4 released
+no_output: true
+sort_info: r00134
+created_at: 2011-12-16 18:10:00 +01:00
+modified_at: 2011-12-16 18:10:00 +01:00
+---
+## kramdown 0.13.4 released
+
+This is mostly a bug fix release and it is recommened to update to this version.
+
+## Changes
+
+* 1 minor change:
+
+  - Added a converter that extracts the TOC of a document (requested by Brendan Hay). Note that this
+    is only useful if you use kramdown as a library!
+
+* 7 bug fixes
+
+  - Fixed a typo: It should be `--output` and not `--ouput` (patch by postmodern)
+  - Fixed HTML converter to correctly output empty `span` tags (patch by John Croisant)
+  - Fixed bug [RF#29350]: Parsing of HTML tags with mismatched case now works
+  - Fixed bug [RF#29426]: Content of `style` tags is treated as raw text now
+  - HTML converter now uses `rel` instead of `rev` to be HTML5 compatible (patch by Joe Fiorini)
+  - Fixed Ruby 1.9.3 related warnings
+  - Fixed HTML parser to work around an implementation change of Array#delete_if in Ruby 1.9.3
+
+[RF#29350]: http://rubyforge.org/tracker/index.php?func=detail&aid=29350&group_id=7403&atid=28673
+[RF#29426]: http://rubyforge.org/tracker/index.php?func=detail&aid=29426&group_id=7403&atid=28673
