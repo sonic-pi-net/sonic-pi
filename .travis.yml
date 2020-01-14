@@ -32,11 +32,10 @@ cache:
  - ccache
 
 rvm:
-  - 2.1.10
-  - 2.2.10
-  - 2.3.7
-  - 2.4.4
-  - 2.5.1
+  - 2.4.9
+  - 2.5.7
+  - 2.6.5
+  - 2.7.0
 
 before_install:
  - wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
