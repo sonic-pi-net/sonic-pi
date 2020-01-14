@@ -1,0 +1,89 @@
+# kramdown(1) - a fast, pure-Ruby Markdown-superset converter
+{: data-date="January 2019"}
+
+## SYNOPSIS
+
+`kramdown` \[*options*\] \[*FILE*...\]
+
+## DESCRIPTION
+
+kramdown is primarily used for parsing a superset of Markdown and converting it to different output
+formats. It supports standard Markdown (with some minor modifications) and various extensions like
+tables and definition lists. Due to its modular architecture it also allows other input formats than
+Markdown, for example, HTML or Github Flavored Markdown.
+
+If *FILE* is not specified, kramdown reads from the standard input. The result is written to the
+standard output.
+
+There are two sets of options that kramdown accepts: The first one includes the options that are
+used directly by the kramdown binary. The second set of options controls how kramdown parses and
+converts its input.
+
+Default values for this second set can be set using YAML via the configuration file `kramdownrc`.
+Note that configuration option names use underscores, not dashes (dashes are just used in the CLI
+options names), and boolean options do not have a `no` variant but a value of `true` or `false`.
+This file has to be in XDG_CONFIG_HOME on Linux/Unix, ~/Library/Preferences on macOS and
+~/AppData/Local on Windows.
+
+## CLI-ONLY OPTIONS
+
+`-i` *FORMAT*, `--input` *FORMAT*
+: Specify the input format. Available input formats: *kramdown* (this is the default), *markdown*,
+  or *html*. The input format *GFM* is available through the `kramdown-parser-gfm` gem.
+
+`-o` *FORMAT*, `--output` *FORMAT*
+: Specify one or more output formats separated by commas: *html* (default), *kramdown*, *latex*,
+  *man* or *remove_html_tags*. The converter *pdf* is available through the
+  `kramdown-converter-pdf` gem.
+
+`-x` *EXT*, `--extension` *EXT*
+
+: Load one or more extensions. The name of the extension should not include the `kramdown-` prefix,
+  e.g. just `parser-gfm`. Multiple extensions can be loaded by separating them with commas.
+
+  Note: This option has to be used before any other options that rely on the extension already being
+  loaded.
+
+`--no-config-file`
+: Do not read any configuration file. Default behavior is to check for a configuration file and
+  read it if it exists.
+
+`--config-file` *FILE*
+: Override the default path and name of the configuration file.
+
+`-v`, `--version`
+: Show the version of kramdown.
+
+`-h`, `--help`
+: Show the help.
+
+## KRAMDOWN OPTIONS
+<%
+require 'kramdown/document'
+
+Kramdown::Options.definitions.sort.each do |n, definition|
+  n = n.to_s.tr('_', '-')
+  if definition.type == Kramdown::Options::Boolean %>
+`--[no-]<%= n %>`
+<% else %>
+`--<%= n %>` *ARG*
+<% end %>
+: 
+<%= definition.desc.gsub(/^/, "    ") %>
+<% end %>
+
+## EXIT STATUS
+
+The exit status is 0 if no error happened. Otherwise it is 1.
+
+## SEE ALSO
+
+The kramdown website <http://kramdown.gettalong.org> for more information, especially on the
+supported input syntax.
+
+## AUTHOR
+
+kramdown was written by Thomas Leitner <t_leitner@gmx.at>.
+
+This manual page was written by Thomas Leitner <t_leitner@gmx.at>.
+

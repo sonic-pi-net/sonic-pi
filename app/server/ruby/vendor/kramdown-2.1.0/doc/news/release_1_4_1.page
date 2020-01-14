@@ -1,0 +1,30 @@
+---
+title: kramdown 1.4.1 released
+no_output: true
+sort_info: r0141
+created_at: 2014-08-02 18:35:00 +02:00
+modified_at: 2014-08-02 18:35:00 +02:00
+---
+## kramdown 1.4.1 released
+
+This release brings better line number reporting in warning messages and fixes some bugs.
+
+
+## Changes
+
+*  1 minor change:
+
+  - Improved line number reporting in warning messages
+
+*  3 bug fixes:
+
+  - Fixed [#147]: HTML `<textarea>` tags were not parsed as block level elements (reported by Nguyen
+    Anh Quynh)
+  - Fixed [#144]: HTML `<u>` tags were not recognized as span level elements (reported by Yong-Yeol
+    Ahn)
+  - Fixed [#148]: GFM input and PDF output was missing in CLI help text (pull request by Sebastian
+    Boehm)
+
+[#147]: https://github.com/gettalong/kramdown/issues/147
+[#144]: https://github.com/gettalong/kramdown/issues/144
+[#148]: https://github.com/gettalong/kramdown/pull/148

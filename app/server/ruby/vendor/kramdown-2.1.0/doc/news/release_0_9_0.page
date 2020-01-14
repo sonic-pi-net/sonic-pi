@@ -1,0 +1,55 @@
+---
+title: kramdown 0.9.0 released
+no_output: true
+sort_info: r0009
+created_at: 2010-06-23 08:10:00 +02:00
+modified_at: 2010-06-23 08:10:00 +02:00
+---
+## kramdown 0.9.0 released
+
+The biggest change in this release is the addition of a kramdown converter. This converter together
+with the HTML parser enables one to convert an HTML document into a kramdown document.
+
+Apart from that there are many other small changes and bug fixes, a full list of which you find
+below.
+
+## Changes
+
+* Major changes:
+
+  - New *kramdown converter* that converts an element tree into a kramdown document
+
+* Minor changes:
+
+  - Added option `numeric_entities` that defines whether entities are output using their names or
+    their numeric values
+  - Added option `toc_depth` for specifying how many header levels to include in the table of
+    contents (patch by Alex Marandon)
+  - Ruby 1.9 only: The HTML converter now always tries to convert entities to their character
+    equivalences if possible
+  - Change in HTML parser: conversion of `pre` and `code` elements to their native counterpart is
+    only done if they contain no entities (under Ruby 1.9 entities are converted to characters
+    before this check if possible)
+  - The comment extension now produces comment elements that are used by the converters
+  - IALs can now also be assigned to definitions (i.e. `dd` elements)
+  - Image links may now be specified without alternative text (requested by Rune Myrland, fixes
+    RF#28292)
+  - The HTML parser gained the ability to convert conforming `span` and `div` elements to `math`
+    elements
+  - The LaTeX converter now outputs the element attributes as LaTeX comment for some elements
+    (blockquotes, lists and math environments; requested by Michael Franzl)
+
+* Bug fixes:
+
+  - Fixed problem with list item IALs: the IAL was not recognized when first element was a code
+    block
+  - Fixed ri documentation error on gem installation (patch by Alex Marandon)
+  - Math content is now correctly escaped when using the HTML converter
+  - Fixed html-to-native conversion of tables to only convert conforming tables
+
+* Deprecation notes:
+
+  - The `filter_html` option has been removed.
+  - The method `Kramdown::Converter::Html#options_for_element` has been renamed to
+    `html_attributes` -- using the old name is deprecated and the alias will be removed in the next
+    release

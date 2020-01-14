@@ -1,0 +1,52 @@
+---
+title: kramdown 0.7.0 released
+no_output: true
+sort_info: r0007
+created_at: 2010-05-07 12:15:00 +02:00
+modified_at: 2010-05-07 12:15:00 +02:00
+---
+## kramdown 0.7.0 released
+
+This release adds syntax support for abbreviations. This means that kramdown is now syntax-wise on
+par with Maruku and PHP Markdown Extra!
+
+Another big change is the extension support: After some discussion on the mailing list (many thanks
+to Eric Sunshine and Shawn Van Ittersum), the syntax for the extensions has been changed and support
+for custom extensions will be dropped in a future release.
+
+Additionally, the option `auto_ids` has been moved from being interpreted by the parser to being
+interpreted by the converters. This means that it is not possible anymore to turn automatic header
+ID generation on or off for parts of a text.
+
+The HTML and LaTeX converters also gained the ability to generate a table of contents. Just add the
+reference name "toc" to an ordered or unordered list and it will be replaced by the ToC (this is
+"coincidentally" the same syntax that Maruku uses...).
+
+
+## Changes
+
+* Major changes:
+
+  - Added support for PHP Markdown Extra like abbreviations
+  - Added support for span extensions
+  - New syntax for block/span extensions
+  - Added support for generating a table of contents in the HTML and LaTeX converters
+
+* Minor changes:
+
+  - The option `auto_ids` has been moved from the parser to the converters.
+  - Invalid span IALs are now removed from the output
+  - IALs can now be applied to individual list items by placing the IAL directly after the list item
+    marker
+  - Added an option for prefixing automatically generated IDs with a string
+  - Block IALs can now also be put before a block element
+
+* Bug fixes:
+
+  - Fixed a problem with parsing smart quotes at the beginning of a line (reported by Michael
+    Franzl)
+
+* Deprecation notes:
+
+  - Removed deprecated CLI option `-f`
+  - The old extension syntax and support for custom extensions will be removed in the next release.

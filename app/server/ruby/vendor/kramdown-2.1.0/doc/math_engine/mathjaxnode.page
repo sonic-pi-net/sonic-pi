@@ -1,0 +1,13 @@
+---
+title: Mathjax-Node
+---
+
+## Math Engine Mathjax-Node
+
+This math engine was built-in until kramdown 2.0 and since then is available through the
+[`kramdown-math-mathjaxnode` gem](https://github.com/kramdown/math-mathjaxnode).
+
+[Mathjax-Node](https://github.com/mathjax/MathJax-node) converts TeX math formulas into MathML and
+can be used together with the [HTML converter](../converter/html.html).
+
+See <https://github.com/kramdown/math-mathjaxnode> for documentation!

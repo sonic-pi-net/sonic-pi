@@ -1,0 +1,47 @@
+---
+title: Rouge
+---
+
+## Syntax Highlighting With Rouge
+
+[Rouge](https://github.com/jneen/rouge) (MIT licensed) is a fast syntax highlighter that is
+compatible with stylesheets designed for Pygments.
+
+To use Rouge, set the option ['syntax_highlighter'](../options.html#option-syntax-highlighter) to
+'rouge' and make sure that Rouge is available. The Rouge library can be installed, e.g., via
+Rubygems by running `gem install rouge`.
+
+Note that since Rouge 2.0 has breaking changes, Kramdown swaps formatter classes depending on
+Rouge version. By default, `Rouge::Formatters::HTMLLegacy` is used with Rouge 2.0 or later
+instead of `Rouge::Formatters::HTML` which is the default formatter with Rouge 1.x.
+
+The Rouge syntax highlighter supports the following keys of the option
+['syntax_highlighter_opts'](../options.html#option-syntax-highlighter-opts):
+
+default_lang
+: The default language that should be used when no language is set.
+
+guess_lang
+: If no specific language or a default language is set, guess the language.
+
+formatter
+: A custom Rouge formatter class that should be used instead of the following default formatter
+  (Rogue 1.x: `Rouge::Formatters::HTML` / Rogue 2.x: `Rouge::Formatters::HTMLLegacy`).
+
+  If this setting is a string, it needs to contain the name of a constant under the
+  `Rouge::Formatters` namespace.
+
+disable
+: If set to `true`, highlighting with Rouge will be disabled.
+
+  Should probably not be set globally but inside the 'span' or 'block' options.
+
+span
+: A key-value map of options that are only used when syntax highlighting code spans.
+
+block
+: A key-value map of options that are only used when syntax highlighting code blocks.
+
+Furthermore all Rouge options (e.g. 'line_numbers') can be set directly on the
+'syntax_highlighter_opts' option (where they apply to code spans *and* code blocks) and/or on the
+'span'/'block' keys.

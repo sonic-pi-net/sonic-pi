@@ -1,0 +1,36 @@
+---
+title: kramdown 0.4.0 released
+no_output: true
+sort_info: r0003
+created_at: 2010-01-22 16:30:00 +02:00
+modified_at: 2010-01-22 16:30:00 +02:00
+---
+## kramdown 0.4.0 released
+
+This release features the addition of a [simple table syntax][1] and [syntax highlighting][2] of
+code blocks. I think that with these two additions kramdown now supports all the major features
+regarding parsing and HTML output that Maruku supports.
+
+Regarding speed: Simple benchmarks using the Markdown README file (can be found inside [this zip
+file][3]) show that kramdown is currently faster than, for example, the original Markdown.pl, PHP
+Markdown, PHP Markdown Extra, Python Markdown and Maruku.
+
+
+## Changes
+
+* Major changes:
+
+  - Added [syntax][1] for simple tables
+  - Added optional [syntax highlighting][2] of code blocks through the CodeRay library
+
+* Minor changes:
+
+  - Changed CSS class name `kramdown-footnotes` to `footnotes` for better compatibility
+
+* Bug fixes:
+
+  - Regular expression for matching escaped characters now works correctly
+
+[1]: ../syntax.html#tables
+[2]: ../converter/html.html#syntax-highlighting
+[3]: http://daringfireball.net/projects/downloads/Markdown_1.0.1.zip

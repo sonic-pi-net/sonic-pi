@@ -1,0 +1,22 @@
+---
+title: kramdown 0.13.6 released
+no_output: true
+sort_info: r00136
+created_at: 2012-05-09 19:55:00 +01:00
+modified_at: 2012-05-09 19:55:00 +01:00
+---
+## kramdown 0.13.6 released
+
+This is just a bug fix release and it is recommened to update to this version.
+
+## Changes
+
+* 2 bug fixes
+
+  - Fixed a problem with CDATA sections appearing in MathJax output (reported by Xi Wang, see
+    [github commit])
+  - Fixed bug [RF#29557]: Parsing fails with lists that contain an empty list item (reported by Juan
+    Romero Abelleira)
+
+[github commit]: https://github.com/gettalong/kramdown/commit/512b00a6d050f506c43b824861f7bbf459862a19#LOR318
+[RF#29557]: http://rubyforge.org/tracker/index.php?func=detail&aid=29557&group_id=7403&atid=28673

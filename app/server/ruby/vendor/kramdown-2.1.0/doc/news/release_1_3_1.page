@@ -1,0 +1,30 @@
+---
+title: kramdown 1.3.1 released
+no_output: true
+sort_info: r0131
+created_at: 2014-01-05 09:45:00 +01:00
+modified_at: 2014-01-05 09:45:00 +01:00
+---
+## kramdown 1.3.1 released
+
+This release mitigates a performance problem introduced due to the storing of the location
+information. On Rubies prior to 2.0 the performance impact was negligible but on Ruby 2.0 and 2.1
+performance was much worse.
+
+With the fix the performance is not on prior levels but much better. See the [tests
+page](../tests.html) which has been updated with current performance graphs.
+
+Also note that for PDF support you now need the newer Prawn versions (i.e. 0.13.x instead of
+1.0.0.rc*)!
+
+
+## Changes
+
+* 1 minor change:
+
+  - Now depending on the newer Prawn versions, i.e. 0.13.x
+
+* 1 bug fix:
+
+  - Mitigated a performance regression on Ruby 2.0 and Ruby 2.1 (introduced due to the storing of
+    the location information)

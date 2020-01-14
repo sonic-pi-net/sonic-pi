@@ -1,0 +1,37 @@
+---
+title: kramdown 1.11.0 released
+no_output: true
+sort_info: r1110
+created_at: 2016-05-01 13:37:00 +02:00
+modified_at: 2016-05-01 13:37:00 +02:00
+---
+## kramdown 1.11.0 released
+
+This release fixes some bugs and includes one minor change in regards to HTML syntax highlighting.
+
+
+## Changes
+
+* 1 minor change:
+
+  - The syntax highlighting language is now always included in the output as class name even if a
+    syntax highlighter is used (fixes [#328], requested by SLaks)
+
+* 3 bug fixes:
+
+  - Fixed the GFM fenced code block parser to correctly split a provided highlighter name into
+    language name and options parts
+  - Fixed problem with underscores being processed even if inside a word (fixes [#323], reported by
+    Haruki Kirigaya)
+  - Fixed HTML/XML parser to correctly, case sensitively parse XML (fixes [#310], reported by cabo)
+
+* 2 other fixes:
+
+  - Updated copyright year (fixes [#331], reported by Oscar Björkman)
+  - Updated supported Ruby version on installation page (reported by cabo)
+
+
+[#328]: https://github.com/gettalong/kramdown/issues/328
+[#331]: https://github.com/gettalong/kramdown/issues/331
+[#323]: https://github.com/gettalong/kramdown/issues/323
+[#310]: https://github.com/gettalong/kramdown/issues/310

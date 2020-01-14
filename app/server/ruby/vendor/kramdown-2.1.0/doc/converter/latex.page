@@ -1,0 +1,109 @@
+---
+title: LaTeX Converter
+---
+# LaTeX Converter
+
+## Introduction
+
+This converter converts a kramdown element tree into LaTeX. It supports all available element types
+except the HTML specific ones. The LaTeX document can, for example, further be converted to a PDF
+file to produce a high quality, printable version.
+
+Since the LaTeX converter outputs just the converted element tree and not a whole LaTeX document by
+default, one should always use the `template` option (see below) to include the necessary
+"framework". There are also some [other options](#options) that can be used to customize the
+generated LaTeX output.
+
+
+## Needed Packages
+
+Some packages are always required (when using the provided `document` template):
+
+* `inputenc` and `fontenc`
+* `listings` (see [Code Blocks](#code-blocks))
+* `ucs` (when using Ruby 1.8)
+* `hyperref`
+
+The following LaTeX packages are needed to support certain features and are only included if such a
+feature is actually used:
+
+* `amssymb`, `amsmath`, `amsthm`, `amsfonts` (for math support)
+* `graphicx` (for image support)
+* `wasysym`, `amssymb`, `mathabx`, `textcomp`, `mathcomp`, `eurosym` (for special entity character
+  support)
+* `fancyvrb` (see [Footnotes](#footnotes))
+* `acronym` (for acronym support)
+* `minted` (if the minted syntax highlighter is used)
+
+## Hyper Targets and Links
+
+All elements which have an ID set (if the option `auto_ids` is set to `true`, an ID is automatically
+generated for header elements -- for details on how the ID is generated see the [corresponding
+section](html.html#auto-ids) of the HTML converter documentation) are available as hyper targets
+within the LaTeX document. All links (the in-document links starting with `#` and absolute links)
+are transformed automatically into hyper links. This means that when a PDF is generated from the
+LaTeX document, in-document as well as general links will work correctly.
+
+
+## Code Blocks
+
+The LaTeX converter supports the visualisation of whitespace and syntax highlighting as specified in
+the [HTML converter documentation](html.html#code-blocks).
+
+Syntax highlighting and visualizing whitespace in a code block is done using the `listings` package.
+So all languages supported by the `listings` package can be highlighted. Optionally, if the
+`syntax_highlighter` option is set to 'minted', the [minted syntax
+highlighter](../syntax_highlighter/minted.html) is used.
+
+
+## Emphasis
+
+The latex command `emph` is used for light and the command `textbf` for strong emphasis.
+
+
+## Footnotes
+
+The `fancyvrb` package is used to support code blocks (i.e. verbatim environments) inside footnotes.
+
+
+## Automatic "Table of Contents" Generation
+
+If you add a "toc" reference to a list as described on the [HTML converter page](html.html#toc), the
+list is replaced by the table of contents using the `\tableofcontents` command.
+
+
+## Standalone Images
+
+The LaTeX converter handles images that are the only child of a paragraph specially. Such images are
+not shown inline but rather in a `figure` environment, using the alternative text as caption.
+
+
+## Element Attributes
+
+Since the element attributes cannot be used directly by the LaTeX converter in most cases, the
+converter outputs them as LaTeX comment when possible so that a post-processor can make use of them.
+The attributes are output as key value pairs (like XHTML attributes) and sorted by the key.
+
+Here is an example input and output:
+
+    > This is a quote.
+    {: #my-id .cls}
+
+will be converted by the LaTeX converter to:
+
+    \begin{quote}   % class="cls" id="my-id"
+    This is a quote.
+    \end{quote}
+
+The attributes are output for the following elements: blockquotes; ordered, unordered and definition
+lists; code blocks that use the `listings` environment; tables; and math blocks.
+
+
+## Options
+
+The LaTeX converter supports the following options:
+
+{options: {items: [auto_ids, auto_id_prefix, auto_id_stripping, transliterated_header_ids, toc_levels, latex_headers, smart_quotes, template, syntax_highlighter, syntax_highlighter_opts, typographic_symbols]}}
+
+
+{include_file: doc/links.markdown}

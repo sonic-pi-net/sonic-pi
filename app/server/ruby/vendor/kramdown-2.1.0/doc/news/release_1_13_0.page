@@ -1,0 +1,63 @@
+---
+title: kramdown 1.13.0 released
+no_output: true
+sort_info: r1130
+created_at: 2016-11-20 11:30:00 +01:00
+modified_at: 2016-11-20 11:30:00 +01:00
+---
+## kramdown 1.13.0 released
+
+The biggest change in this release is the introduction of a converter for [man pages]. Although
+there already exist two solutions ([ronn] and [kramdown-man]), both are not completely satisfactory:
+
+* Ronn doesn't use standard Markdown syntax for all elements.
+* kramdown-man only converts a subset of the available element types.
+
+The new man page converter uses standard kramdown syntax and supports nearly all element types,
+including tables.
+
+This release also brings some enhancements for the GFM parser. One thing to note is that the header
+ID generation is now more compatible to GFM which also means that **some IDs will be different** -
+so check the documents on which you use the GFM parser, especially when you are using Jekyll or
+Github Pages.
+
+Organizational-wise, issues and pull requests on Github that pertain to feature requests have been
+closed and are now tracked through a dedicated [kramdown project on
+Github](https://github.com/gettalong/kramdown/projects/1).
+
+## Changes
+
+* 4 minor changes:
+
+  - Add new converter for man pages
+  - Header ID generation for the GFM parser is now more compatible to GFM (fixes [#267], requested
+    by chadpowers)
+  - Update to the MathJax math engine to allow formatting the preview as `code` / `pre > code` (pull
+    request [#372] by Florian Klampfer)
+  - Allow tabs in table separator lines (pull request [#370] by Shuanglei Tao)
+
+* 2 bug fixes:
+
+  - Compactly nested lists are now handled correctly after fixing a bug in indentation detection
+    (fixes [#368] reported by Christopher Brown)
+  - GFM parser: Allow indenting the delimiting lines of fenced code blocks for better GFM
+    compatibility (pull request [#369] by Shuanglei Tao)
+
+* 2 other fixes and enhancements:
+
+  - Added information on how to run tests to `README.md` (fixes [#377] reported by Aron Griffis)
+  - Added information about how to use KaTeX with the MathJax math engine (fixes [#292] reported by
+    Adrian Sieber, information by Dato Simó)
+
+
+[man pages]: ../converter/man.html
+[ronn]: http://rtomayko.github.io/ronn/
+[kramdown-man]: https://github.com/postmodern/kramdown-man
+
+[#267]: https://github.com/gettalong/kramdown/issues/267
+[#368]: https://github.com/gettalong/kramdown/issues/368
+[#377]: https://github.com/gettalong/kramdown/issues/377
+[#292]: https://github.com/gettalong/kramdown/issues/292
+[#372]: https://github.com/gettalong/kramdown/pull/372
+[#370]: https://github.com/gettalong/kramdown/pull/370
+[#369]: https://github.com/gettalong/kramdown/pull/369

@@ -1,0 +1,40 @@
+---
+title: kramdown 0.13.5 released
+no_output: true
+sort_info: r00135
+created_at: 2012-02-19 15:45:00 +01:00
+modified_at: 2012-02-19 15:45:00 +01:00
+---
+## kramdown 0.13.5 released
+
+This is mostly a bug fix release and it is recommened to update to this version.
+
+The [kramdown homepage] has also be updated visually. This should provide a better reading
+experience for mobile and small-screen devices.
+
+## Changes
+
+* 2 minor changes:
+
+  - HTML attributes without values are now supported (fixes bug [RF#29490] reported by Nat Welch)
+  - HTML attributes names are now always converted to lower case for consistency
+
+* 5 bug fixes
+
+  - Fixed Document#method_missing to accept snake_cased class name (patch by tomykaira)
+  - Fixed problem with missing REXML constant on older Ruby 1.8.6 version (reported by Dave Everitt)
+  - Fixed bug [RF#29520]: Valid inline math statement does not trigger math block anymore (reported
+    by Gioele Barabucci)
+  - Fixed bug [RF#29521]: HTML math output is now always XHTML compatible (reported by Gioele
+    Barabucci)
+  - Empty `id` attributes are now handled better by the HTML and kramdown converters (reported by
+    Jörg Sommer)
+
+* 1 documentation fix:
+
+  - Fixed invalid `options` statement in example on quick reference page (reported by Jörg Sommer)
+
+[kramdown homepage]: http://kramdown.gettalong.org
+[RF#29490]: http://rubyforge.org/tracker/index.php?func=detail&aid=29490&group_id=7403&atid=28673
+[RF#29520]: http://rubyforge.org/tracker/index.php?func=detail&aid=29520&group_id=7403&atid=28673
+[RF#29521]: http://rubyforge.org/tracker/index.php?func=detail&aid=29521&group_id=7403&atid=28673

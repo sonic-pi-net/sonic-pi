@@ -1,0 +1,53 @@
+---
+title: kramdown 0.13.1 released
+no_output: true
+sort_info: r0013
+created_at: 2011-01-22 08:02:00 +02:00
+modified_at: 2011-01-22 08:02:00 +02:00
+---
+## kramdown 0.13.1 released
+
+The focus of this release was bringing kramdown one step closer to the 1.0 release. The API hasn't
+changed so this is a drop-in replacement for the previous version of kramdown.
+
+If you think that
+
+* kramdown is still missing an important syntax found in another Markdown implementation,
+* the API doesn't feel right,
+* or anything else is missing or should be changed for the 1.0 release,
+
+please tell us so by writing to <mailto:kramdown-users@rubyforge.org>!
+
+## Changes
+
+* 3 minor changs:
+
+  - The LaTeX converter now inserts `\hypertarget` commands for all elements that have an ID set.
+    The normal link syntax can be used to link to such targets (requested by David Doolin)
+  - New option `smart_quotes` for specifying how smart quotes should be output (requested by Michael
+    Franzl)
+  - Any character except a closing bracket is now valid as link identifier (this makes this part of
+    the kramdown syntax compatible to Markdown syntax)
+
+* 10 bug fixes:
+
+  - Fixed error when parsing unknown named entities (reported by David Doolin)
+  - Added entity definitions for entities `&ensp;`, `&emsp;` and `&thinsp;` (patch by Damien Pollet)
+  - Block HTML line was incorrectly recognized as table line (reported by Piotr Szotkowski)
+  - Fixed bug RF#28809: Empty `<a>` tags are were output as self-closed tags (reported by Tim
+    Cuthbertson)
+  - Fixed bug RF#28785: Name of default template in documentation for `template` option was false
+    (reported by Matthew Bennink)
+  - Fixed bug RF#28769: span extension in list item wrongly triggered list item IAL parser (reported
+    by Yann Esposito)
+  - The table row parser has been fixed so that it does not use pipes which appear in `<code>` tags
+    as cell separators anymore (like it is done with the native code span syntax)
+  - Fixed bug where converting `<em>` and `<strong>` tags to native elements was wrongly done
+  - Fixed calculation of cell alignment values when converting HTML tables to native ones, `<col/>`
+    tags are now correctly used
+  - HTML Tables are now only converted to native tables if all table rows have the same number of
+    columns.
+
+* 1 deprecation note:
+
+  - Removed deprecated option `toc_depth` -- use the option `toc_levels` instead.

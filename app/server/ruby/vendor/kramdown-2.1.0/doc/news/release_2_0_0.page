@@ -1,0 +1,86 @@
+---
+title: kramdown 2.0.0 released
+no_output: true
+sort_info: r2000
+created_at: 2019-01-20 12:20:00 +01:00
+modified_at: 2019-01-20 12:20:00 +01:00
+---
+## kramdown 2.0.0 released
+
+This is a major release with breaking changes!
+
+The most notable changes are that Ruby 2.3 is now required, Rouge is the new default syntax
+highlighter and that several extension have been extracted to their own repository and Rubygem.
+
+All extracted extensions are now officially **unmaintained** - if anybody wants to step in, please
+[contact me](mailto:t_leitner@gmx.at).
+
+There are also some minor changes and bug fixes, most notable:
+
+* Paragraphs with a single image can now be rendered as `<figure>` elements.
+
+* Footnote IDs can now be made unique using the new option `footnote_prefix`. Together with the
+  exposed count of footnotes it is now possible to render multiple documents into one output file:
+
+  ~~~ ruby
+  require 'kramdown/document'
+  total_footnotes = 0
+  documents = [
+    "footnote[^a][^a]\n\n[^a]: My note\n[^b]: another (ignored) note",
+    "footnote[^a][^a]\n\n[^a]: My note\n[^b]: another (ignored) note",
+    "footnote[^a][^a]\n\n[^a]: My note\n[^b]: another (ignored) note",
+  ]
+
+  documents.each do |document|
+    options = \{footnote_nr: total_footnotes + 1, footnote_prefix: total_footnotes + 1}
+    document = Kramdown::Document.new(document, options)
+    puts document.to_html
+    total_footnotes += document.root.options[:footnote_count]
+  end
+  ~~~
+
+
+## Changes
+
+* 3 major changes:
+
+  - Require at least Ruby 2.3 (fixes [#557] by Matt Schreiber)
+  - Rouge is the new default syntax highlighter instead of Coderay
+  - `Kramdown::Utils::OrderedHash` has been removed in favor of `Hash`
+  - The following extension have been moved into their own repository and Rubygem:
+    - [GFM parser](https://github.com/kramdown/parser-gfm)
+    - [PDF converter](https://github.com/kramdown/converter-pdf)
+    - [coderay syntax highlighter](https://github.com/kramdown/syntax-coderay)
+    - [mathjaxnode math engine](https://github.com/kramdown/math-mathjaxnode)
+    - [sskatex math engine](https://github.com/kramdown/math-sskatex)
+    - [katex math engine](https://github.com/kramdown/math-katex)
+    - [ritex math engine](https://github.com/kramdown/math-ritex)
+    - [itex2mml math engine](https://github.com/kramdown/math-itex2mml)
+
+* 4 minor changes:
+
+  - Allow HTML5 style attribute values without quotes for HTML parser (issue [#522] and pull request
+    [#523] by Dan Allen)
+  - Guessing of the syntax highlighting language with rouge is now only performed if the `guess_lang`
+    option is set
+  - Paragraphs with a single image can now be rendered as a `<figure>` element by specifying the
+    `standalone` IAL reference (fixes issues [#48] by Gilbert Townshend and [#98] by Luca Barbato)
+  - Add option `footnote_prefix` for avoiding duplicate IDs when rendering multiple documents (fixes
+    issue [#483] by Peter Poole)
+
+* 3 bug fixes:
+
+  - Add support for single backslash variant of hard line break to the (extracted) GFM parser (issue
+    [#519] and pull request [#520] by Dan Allen)
+  - Don't use the "plaintext" lexer of rouge
+  - Fix updating IAL references so that they get handled correctly
+
+
+[#519]: https://github.com/gettalong/kramdown/issues/519
+[#520]: https://github.com/gettalong/kramdown/pull/520
+[#522]: https://github.com/gettalong/kramdown/issues/522
+[#523]: https://github.com/gettalong/kramdown/pull/523
+[#557]: https://github.com/gettalong/kramdown/issues/557
+[#48]: https://github.com/gettalong/kramdown/issues/48
+[#98]: https://github.com/gettalong/kramdown/issues/98
+[#483]: https://github.com/gettalong/kramdown/issues/483

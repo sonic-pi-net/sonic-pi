@@ -1,0 +1,66 @@
+---
+title: kramdown 1.3.0 released
+no_output: true
+sort_info: r0130
+created_at: 2013-12-08 20:45:00 +01:00
+modified_at: 2013-12-08 20:45:00 +01:00
+---
+## kramdown 1.3.0 released
+
+This release brings a pure Ruby PDF converter for kramdown based on the Prawn library. The PDF
+output can be customized by sub-classing the converter or by using a template file that adjusts the
+converter object.
+
+
+## Changes
+
+* 1 major change:
+
+  - A pure Ruby PDF converter based on Prawn is now available
+
+* 7 minor changes:
+
+  - New option 'auto_id_stripping' can be used to strip HTML and other formatting before converting
+    a header text to an ID (fixed [GH#90] requested by Tuckie)
+  - New option 'hard_wrap' for configuring the line break behaviour of the GFM parser ([GH#83],
+    patch by Brandur)
+  - Location information (only line numbers) are now available in the :location option on most
+    kramdown elements ([GH#96] patch by Jo Hund)
+  - Minitest 5.x is now used for testing.
+  - A converter class can now specify whether a template should be applied before, after or before
+    and after the conversion.
+  - If a file specified with the "template" option is not found and the option starts with
+    "string://", the rest is assumed to be the template.
+  - Unknown option keys are now passed through and not removed anymore
+
+* 5 bug fixes:
+
+  - Fixed [GH#77]: Line break inside inline math statement now works correctly (reported by
+    memeplex)
+  - Fixed problem with line breaks in GFM parser
+  - Fixed [GH#95]: Option coderay_bold_every now also accepts the value false (reported by Simon van
+    der Veldt)
+  - Fixed [GH#91]: Template extension is now the same as the converter name (initial patch by
+    Andreas Josephson)
+  - Fixed output of consecutive em/strong elements in kramdown converter
+
+* 3 documentation fixes:
+
+  - The kramdown website is now hosted at <http://kramdown.gettalong.org> - please update your
+    bookmarks!
+  - Fixed [GH#80]: Typo in README.md (patch by Luca Barbato)
+  - Fixed [GH#81]: Typo in options documentation (patch by Pete Michaud)
+
+* Deprecation notes:
+
+  - Using `.convertername` instead of `.converter_name` is deprecated and will be removed in 2.0
+  - The option 'auto_id_stripping' will be removed in 2.0 because it will be the default.
+
+[GH#77]: https://github.com/gettalong/kramdown/issues/77
+[GH#95]: https://github.com/gettalong/kramdown/issues/95
+[GH#90]: https://github.com/gettalong/kramdown/issues/90
+[GH#80]: https://github.com/gettalong/kramdown/pull/80
+[GH#81]: https://github.com/gettalong/kramdown/pull/81
+[GH#91]: https://github.com/gettalong/kramdown/pull/91
+[GH#83]: https://github.com/gettalong/kramdown/pull/83
+[GH#96]: https://github.com/gettalong/kramdown/pull/96

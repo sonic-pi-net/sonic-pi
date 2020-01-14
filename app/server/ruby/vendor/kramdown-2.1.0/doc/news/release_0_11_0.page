@@ -1,0 +1,69 @@
+---
+title: kramdown 0.11.0 released
+no_output: true
+sort_info: r0011
+created_at: 2010-10-01 08:31:00 +02:00
+modified_at: 2010-10-01 08:31:00 +02:00
+---
+## kramdown 0.11.0 released
+
+The biggest change in this release is the implementation of the "lazy syntax" which allows one to
+not use the correct indent or block marker and still continue a paragraph, blockquote, ... The
+original Markdown syntax allows this and it was requested that kramdown allows this, too. However,
+the main reason for adding this syntax to kramdown is not to encourage authors to be lazy but to
+allow kramdown texts to be hard-wrapped by other applications (think, for example, email programs).
+Therefore you shouldn't make active use of this feature when creating a kramdown document!
+
+Another important, though minor, change is that invalid HTML tags and extensions are not removed
+anymore. This is done because of the general rule that unrecognized elements are treated as simple
+text.
+
+**Note**: The "internal" API (which is currently everything except the `Kramdown::Document` class)
+has changed and developers may therefore need to update their extensions!
+
+
+## Changes
+
+* 3 major changes:
+
+  - Line wrapping a.k.a. "lazy syntax" is now supported (requested by Shawn Van Ittersum)
+  - Link URLs in inline links and link definitions may now also contain spaces, even if not enclosed
+    in angle brackets (requested by Matt Neuburg)
+  - The kramdown converter produces nicer output, using the new option `line_width`
+
+* 9 minor changes:
+
+  - The HTML converter does not escape the quotation mark in code blocks anymore (requested by Matt
+    Neuburg)
+  - The order of HTML attributes and attributes defined via IALs and ALDs is now preserved
+    (requested by Matt Neuburg)
+  - Syntax highlighting is now supported in code spans when using the HTML converter (requested by
+    Josh Cheek)
+  - Updated `nomarkdown` extension and converters to support restricting the output to certain or
+    all converters
+  - Colons are now allowed in ID names for ALDs and IALs
+  - Tables and math blocks now have to start and end on block boundaries
+  - The table syntax was relaxed to allow table lines that don't start with a pipe character (to be
+    more compatible with PHP Markdown Extra tables)
+  - HTML elements `<b>` and `<i>` are now converted to `<strong>` and `<em>` when using
+    HTML-to-native conversion
+  - The `document.html` template now uses the text of the first not-nested header as title text
+
+* 9 bug fixes:
+
+  - The LaTeX converter now removes trailing whitespace in footnotes (reported by Michael Franzl)
+  - Fixed bug RF#28429: HTML output of `iframe` HTML element was invalid (reported by Matthew Riley)
+  - Fixed bug RF#28420: LaTeX converter shouldn't escape the content of the `nomarkdown` extension
+    (reported by Bj Wilson)
+  - Fixed bug RF#28469: HTML "document" template did not work (reported by Vofa Ethe)
+  - Fixed bug: HTML/kramdown output of `textarea` HTML element was invalid (reported by John Muhl)
+  - Invalid or unknown extension tags are now left alone and not removed anymore
+  - Invalid HTML tags are now left alone and not removed anymore
+  - Fixed a minor problem in list parsing which arised due to compact nested list detection
+  - Link/Abbreviation/Footnote definitions as well as extensions, ALDs and block IALs now work
+    correctly as block separators
+
+* 1 deprecation note:
+
+  - The option `numeric_entities` has been removed
+

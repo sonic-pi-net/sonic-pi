@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="ruby-ffi" displayName="ruby-ffi" projectFiles="true">
+      <logicalFolder name="ext" displayName="ext" projectFiles="true">
+        <itemPath>ext/ffi_c/AbstractMemory.c</itemPath>
+        <itemPath>ext/ffi_c/AbstractMemory.h</itemPath>
+        <itemPath>ext/ffi_c/ArrayType.c</itemPath>
+        <itemPath>ext/ffi_c/ArrayType.h</itemPath>
+        <itemPath>ext/ffi_c/AutoPointer.c</itemPath>
+        <itemPath>ext/ffi_c/AutoPointer.h</itemPath>
+        <itemPath>ext/ffi_c/Buffer.c</itemPath>
+        <itemPath>ext/ffi_c/Call.c</itemPath>
+        <itemPath>ext/ffi_c/Call.h</itemPath>
+        <itemPath>ext/ffi_c/ClosurePool.c</itemPath>
+        <itemPath>ext/ffi_c/ClosurePool.h</itemPath>
+        <itemPath>ext/ffi_c/DynamicLibrary.c</itemPath>
+        <itemPath>ext/ffi_c/DynamicLibrary.h</itemPath>
+        <itemPath>ext/ffi_c/Function.c</itemPath>
+        <itemPath>ext/ffi_c/Function.h</itemPath>
+        <itemPath>ext/ffi_c/FunctionInfo.c</itemPath>
+        <itemPath>ext/ffi_c/LastError.c</itemPath>
+        <itemPath>ext/ffi_c/LastError.h</itemPath>
+        <itemPath>ext/ffi_c/MappedType.c</itemPath>
+        <itemPath>ext/ffi_c/MappedType.h</itemPath>
+        <itemPath>ext/ffi_c/MemoryPointer.c</itemPath>
+        <itemPath>ext/ffi_c/MemoryPointer.h</itemPath>
+        <itemPath>ext/ffi_c/MethodHandle.c</itemPath>
+        <itemPath>ext/ffi_c/MethodHandle.h</itemPath>
+        <itemPath>ext/ffi_c/Platform.c</itemPath>
+        <itemPath>ext/ffi_c/Platform.h</itemPath>
+        <itemPath>ext/ffi_c/Pointer.c</itemPath>
+        <itemPath>ext/ffi_c/Pointer.h</itemPath>
+        <itemPath>ext/ffi_c/Struct.c</itemPath>
+        <itemPath>ext/ffi_c/Struct.h</itemPath>
+        <itemPath>ext/ffi_c/StructByValue.c</itemPath>
+        <itemPath>ext/ffi_c/StructByValue.h</itemPath>
+        <itemPath>ext/ffi_c/StructLayout.c</itemPath>
+        <itemPath>ext/ffi_c/Type.c</itemPath>
+        <itemPath>ext/ffi_c/Type.h</itemPath>
+        <itemPath>ext/ffi_c/Types.c</itemPath>
+        <itemPath>ext/ffi_c/Types.h</itemPath>
+        <itemPath>ext/ffi_c/Variadic.c</itemPath>
+        <itemPath>ext/ffi_c/compat.h</itemPath>
+        <itemPath>ext/ffi_c/extconf.rb</itemPath>
+        <itemPath>ext/ffi_c/ffi.c</itemPath>
+        <itemPath>ext/ffi_c/rbffi.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="lib" projectFiles="true">
+        <logicalFolder name="ffi" displayName="ffi" projectFiles="true">
+          <itemPath>lib/ffi/autopointer.rb</itemPath>
+          <itemPath>lib/ffi/callback.rb</itemPath>
+          <itemPath>lib/ffi/enum.rb</itemPath>
+          <itemPath>lib/ffi/ffi.rb</itemPath>
+          <itemPath>lib/ffi/io.rb</itemPath>
+          <itemPath>lib/ffi/library.rb</itemPath>
+          <itemPath>lib/ffi/memorypointer.rb</itemPath>
+          <itemPath>lib/ffi/platform.rb</itemPath>
+          <itemPath>lib/ffi/pointer.rb</itemPath>
+          <itemPath>lib/ffi/struct.rb</itemPath>
+          <itemPath>lib/ffi/struct_layout_builder.rb</itemPath>
+          <itemPath>lib/ffi/types.rb</itemPath>
+          <itemPath>lib/ffi/variadic.rb</itemPath>
+        </logicalFolder>
+        <itemPath>lib/ffi.rb</itemPath>
+      </logicalFolder>
+      <logicalFolder name="libtest" displayName="libtest" projectFiles="true">
+        <itemPath>libtest/Benchmark.c</itemPath>
+        <itemPath>libtest/BufferTest.c</itemPath>
+        <itemPath>libtest/ClosureTest.c</itemPath>
+        <itemPath>libtest/GlobalVariable.c</itemPath>
+        <itemPath>libtest/LastErrorTest.c</itemPath>
+        <itemPath>libtest/NumberTest.c</itemPath>
+        <itemPath>libtest/PointerTest.c</itemPath>
+        <itemPath>libtest/ReferenceTest.c</itemPath>
+        <itemPath>libtest/StringTest.c</itemPath>
+        <itemPath>libtest/StructTest.c</itemPath>
+        <itemPath>libtest/VariadicTest.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="spec" projectFiles="true">
+        <itemPath>spec/ffi/buffer_spec.rb</itemPath>
+        <itemPath>spec/ffi/callback_spec.rb</itemPath>
+        <itemPath>spec/ffi/custom_param_type.rb</itemPath>
+        <itemPath>spec/ffi/custom_type_spec.rb</itemPath>
+        <itemPath>spec/ffi/enum_spec.rb</itemPath>
+        <itemPath>spec/ffi/errno_spec.rb</itemPath>
+        <itemPath>spec/ffi/library_spec.rb</itemPath>
+        <itemPath>spec/ffi/managed_struct_spec.rb</itemPath>
+        <itemPath>spec/ffi/number_spec.rb</itemPath>
+        <itemPath>spec/ffi/pointer_spec.rb</itemPath>
+        <itemPath>spec/ffi/spec_helper.rb</itemPath>
+        <itemPath>spec/ffi/string_spec.rb</itemPath>
+        <itemPath>spec/ffi/strptr_spec.rb</itemPath>
+        <itemPath>spec/ffi/struct_callback_spec.rb</itemPath>
+        <itemPath>spec/ffi/struct_packed_spec.rb</itemPath>
+        <itemPath>spec/ffi/struct_spec.rb</itemPath>
+        <itemPath>spec/ffi/typedef_spec.rb</itemPath>
+        <itemPath>spec/ffi/union_spec.rb</itemPath>
+        <itemPath>spec/ffi/variadic_spec.rb</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Rakefile</itemPath>
+      <itemPath>ext/ffi_c/extconf.rb</itemPath>
+      <itemPath>ruby-ffi-Makefile.mk</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>ruby-ffi-Makefile.mk</projectmakefile>
+  <confs>
+    <conf name="x86_64-Linux" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE}</buildCommand>
+          <cleanCommand>${MAKE} clean</cleanCommand>
+          <executablePath></executablePath>
+          <cTool>
+            <incDir>
+              <pElem>/usr/local/ruby-trunk/include/ruby-1.9.1/ruby</pElem>
+              <pElem>/usr/local/ruby-trunk/include/ruby-1.9.1</pElem>
+              <pElem>/usr/include/x86_64-linux-gnu</pElem>
+            </incDir>
+          </cTool>
+        </makeTool>
+      </makefileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

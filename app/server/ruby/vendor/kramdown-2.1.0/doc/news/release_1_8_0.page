@@ -1,0 +1,42 @@
+---
+title: kramdown 1.8.0 released
+no_output: true
+sort_info: r0180
+created_at: 2015-07-04 13:30:00 +02:00
+modified_at: 2015-07-04 13:30:00 +02:00
+---
+## kramdown 1.8.0 released
+
+This release contains only some minor updates and bug fixes.
+
+
+## Changes
+
+* 4 minor changes:
+
+  - The LaTeX converter now uses `\texttt` instead of `\tt` for code spans (fixes [#257], reported
+    by richard101696)
+  - New option `footnote_backlink` for changing the backlink of footnotes in the HTML converter
+    (fixes [#247], requested by Benjamin Esham)
+  - A quote directly followed by an ellipsis is now converted into an opening quotation mark (fixes
+    [#253], requested by Michael Franzl)
+  - Removed warning for self-closing HTML elements that are not self-closed (fixes [#262], requested
+    by Gregory Pakosz)
+
+* 3 bug fixes:
+
+  - Fixed [#251]: The special character sequence `` \` `` now works correctly when used in footnotes
+    or headers that appear in the table of contents (reported by Peter Kehl)
+  - Fixed [#254]: kramdown crashed on encountering a table with multiple consecutive separator lines
+    (reported by Christian Kruse)
+  - Fixed [#256]: Certain footnote definitions and codeblocks lead to crashes or unneeded
+    backtracking in the regular expression engine - fixed by using atomic grouping (reported by Ali
+    Ok)
+
+[#251]: https://github.com/gettalong/kramdown/issues/251
+[#257]: https://github.com/gettalong/kramdown/issues/257
+[#247]: https://github.com/gettalong/kramdown/issues/247
+[#254]: https://github.com/gettalong/kramdown/issues/254
+[#256]: https://github.com/gettalong/kramdown/issues/256
+[#253]: https://github.com/gettalong/kramdown/issues/253
+[#262]: https://github.com/gettalong/kramdown/issues/262

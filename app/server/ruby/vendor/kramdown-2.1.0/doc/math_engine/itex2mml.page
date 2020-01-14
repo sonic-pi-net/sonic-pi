@@ -1,0 +1,13 @@
+---
+title: itex2MML
+---
+
+## Math Engine itex2MML
+
+This math engine was built-in until kramdown 2.0 and since then is available through the
+[`kramdown-math-itex2mml` gem](https://github.com/kramdown/math-itex2mml).
+
+[itex2MML](https://golem.ph.utexas.edu/~distler/blog/itex2MML.html) converts TeX math formulas into
+MathML and can be used together with the [HTML converter](../converter/html.html).
+
+See <https://github.com/kramdown/math-itex2mml> for documentation!
