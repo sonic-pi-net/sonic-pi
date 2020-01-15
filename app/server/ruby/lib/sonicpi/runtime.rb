@@ -393,6 +393,7 @@ module SonicPi
 
       # Force a GC collection now everything has stopped
       GC.start
+      GC.compact if RUBY_VERSION >= "2.7.0"
     end
 
     def __osc_flush!
