@@ -14,7 +14,7 @@
 
 ## This core file sets up the load path and applies any necessary monkeypatches.
 
-raise "Sonic Pi requires Ruby 2+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "2"
+raise "Sonic Pi requires Ruby 2.4+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "2.5"
 
 ## Ensure native lib dir is available
 require 'rbconfig'
