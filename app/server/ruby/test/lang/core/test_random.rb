@@ -94,13 +94,8 @@ module SonicPi
     end
 
     def test_rand_i_only_returns_ints
-      if RUBY_VERSION < "2.4"
-        assert_equal(Fixnum, rand_i(0..10).class)
-        assert_equal(Fixnum, rand_i(1.5).class)
-      else
-        assert_equal(Integer, rand_i(0..10).class)
-        assert_equal(Integer, rand_i(1.5).class)
-      end
+      assert_equal(Integer, rand_i(0..10).class)
+      assert_equal(Integer, rand_i(1.5).class)
     end
 
     def test_rand_look
