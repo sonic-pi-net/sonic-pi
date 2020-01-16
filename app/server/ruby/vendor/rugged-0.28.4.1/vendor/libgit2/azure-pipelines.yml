@@ -1,0 +1,177 @@
+resources:
+- repo: self
+
+trigger:
+- master
+- maint/*
+
+jobs:
+- job: linux_amd64_xenial_gcc_openssl
+  displayName: 'Linux (amd64; Xenial; GCC; OpenSSL)'
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - template: azure-pipelines/docker.yml
+    parameters:
+      docker:
+        image: xenial
+        base: ubuntu:xenial
+      environmentVariables: |
+       CC=gcc
+       CMAKE_GENERATOR=Ninja
+       CMAKE_OPTIONS=-DUSE_HTTPS=OpenSSL -DREGEX_BACKEND=builtin -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DVALGRIND=on
+
+- job: linux_amd64_xenial_gcc_mbedtls
+  displayName: 'Linux (amd64; Xenial; GCC; mbedTLS)'
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - template: azure-pipelines/docker.yml
+    parameters:
+      docker:
+        image: xenial
+        base: ubuntu:xenial
+      environmentVariables: |
+       CC=gcc
+       CMAKE_GENERATOR=Ninja
+       CMAKE_OPTIONS=-DUSE_HTTPS=mbedTLS -DUSE_SHA1=HTTPS -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DVALGRIND=on
+
+- job: linux_amd64_xenial_clang_openssl
+  displayName: 'Linux (amd64; Xenial; Clang; OpenSSL)'
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - template: azure-pipelines/docker.yml
+    parameters:
+      docker:
+        image: xenial
+        base: ubuntu:xenial
+      environmentVariables: |
+       CC=clang
+       CMAKE_GENERATOR=Ninja
+       CMAKE_OPTIONS=-DUSE_HTTPS=OpenSSL -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DVALGRIND=on
+
+- job: linux_amd64_xenial_clang_mbedtls
+  displayName: 'Linux (amd64; Xenial; Clang; mbedTLS)'
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - template: azure-pipelines/docker.yml
+    parameters:
+      docker:
+        image: xenial
+        base: ubuntu:xenial
+      environmentVariables: |
+       CC=clang
+       CMAKE_GENERATOR=Ninja
+       CMAKE_OPTIONS=-DUSE_HTTPS=mbedTLS -DUSE_SHA1=HTTPS -DREGEX_BACKEND=pcre -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DVALGRIND=on
+
+- job: macos
+  displayName: 'macOS'
+  pool:
+    vmImage: 'macOS 10.13'
+  steps:
+  - bash: . '$(Build.SourcesDirectory)/azure-pipelines/setup-osx.sh'
+    displayName: Setup
+  - template: azure-pipelines/bash.yml
+    parameters:
+      environmentVariables:
+        TMPDIR: $(Agent.TempDirectory)
+        PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
+        CMAKE_GENERATOR: Ninja
+        CMAKE_OPTIONS: -DREGEX_BACKEND=regcomp_l -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=leaks -DUSE_GSSAPI=ON
+        SKIP_SSH_TESTS: true
+
+- job: windows_vs_amd64
+  displayName: 'Windows (amd64; Visual Studio)'
+  pool: Hosted
+  steps:
+  - template: azure-pipelines/bash.yml
+    parameters:
+      environmentVariables:
+        CMAKE_GENERATOR: Visual Studio 12 2013 Win64
+        CMAKE_OPTIONS: -DMSVC_CRTDBG=ON -DDEPRECATE_HARD=ON
+        SKIP_SSH_TESTS: true
+
+- job: windows_vs_x86
+  displayName: 'Windows (x86; Visual Studio)'
+  pool: Hosted
+  steps:
+  - template: azure-pipelines/bash.yml
+    parameters:
+      environmentVariables:
+        CMAKE_GENERATOR: Visual Studio 12 2013
+        CMAKE_OPTIONS: -DMSVC_CRTDBG=ON -DDEPRECATE_HARD=ON -DUSE_SHA1=HTTPS
+        SKIP_SSH_TESTS: true
+
+- job: windows_mingw_amd64
+  displayName: 'Windows (amd64; MinGW)'
+  pool: Hosted
+  steps:
+  - bash: . '$(Build.SourcesDirectory)\azure-pipelines\setup-mingw.sh'
+    displayName: Setup
+    env:
+      TEMP: $(Agent.TempDirectory)
+      ARCH: amd64
+  - template: azure-pipelines/bash.yml
+    parameters:
+      environmentVariables:
+        BUILD_PATH: $(Agent.TempDirectory)\mingw64\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files (x86)\CMake\bin
+        CMAKE_GENERATOR: MinGW Makefiles
+        CMAKE_OPTIONS: -DDEPRECATE_HARD=ON
+        SKIP_SSH_TESTS: true
+
+- job: windows_mingw_x86
+  displayName: 'Windows (x86; MinGW)'
+  pool: Hosted
+  steps:
+  - bash: . '$(Build.SourcesDirectory)\azure-pipelines\setup-mingw.sh'
+    displayName: Setup
+    workingDirectory: '$(Build.BinariesDirectory)'
+    env:
+      TEMP: $(Agent.TempDirectory)
+      ARCH: x86
+  - template: azure-pipelines/bash.yml
+    parameters:
+      environmentVariables:
+        BUILD_PATH: $(Agent.TempDirectory)\mingw32\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files (x86)\CMake\bin
+        CMAKE_GENERATOR: MinGW Makefiles
+        CMAKE_OPTIONS: -DDEPRECATE_HARD=ON
+        SKIP_SSH_TESTS: true
+
+- job: documentation
+  displayName: 'Generate Documentation'
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - script: |
+      cd $(Build.SourcesDirectory)/azure-pipelines/docker
+      docker build -t libgit2/docurium --build-arg BASE=ubuntu:trusty -f docurium .
+    displayName: 'Build Docker image'
+  - script: |
+      git config user.name 'Documentation Generation'
+      git config user.email 'libgit2@users.noreply.github.com'
+      git branch gh-pages origin/gh-pages
+      docker run --rm -v $(Build.SourcesDirectory):/home/libgit2/source -w /home/libgit2/source libgit2/docurium:latest cm doc api.docurium
+      git checkout gh-pages
+      cp -R * '$(Build.BinariesDirectory)'
+    displayName: 'Generate Documentation'
+  - task: archivefiles@2
+    displayName: 'Archive Documentation'
+    inputs:
+      rootFolderOrFile: '$(Build.BinariesDirectory)'
+      includeRootFolder: false
+      archiveFile: '$(Build.ArtifactStagingDirectory)/api-documentation.zip'
+  - task: publishbuildartifacts@1
+    displayName: 'Upload Documentation Artifact'
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: 'docs'
+  - script: |
+      git remote -v
+      echo 'machine github.com' > ~/.netrc
+      echo 'login $(GITHUB_USERNAME)' >> ~/.netrc
+      echo 'password $(GITHUB_PAT)' >> ~/.netrc
+      git push origin gh-pages
+    displayName: 'Publish Documentation'
+    condition: and(eq(variables['Build.Repository.Name'], 'libgit2/libgit2'), eq(variables['Build.Reason'], 'IndividualCI'))

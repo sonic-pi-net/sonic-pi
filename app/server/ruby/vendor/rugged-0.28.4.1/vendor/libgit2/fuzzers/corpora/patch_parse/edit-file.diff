@@ -1,0 +1,13 @@
+diff --git a/fuzzers/patch_fuzzer.c b/fuzzers/patch_fuzzer.c
+index 76186b6fb..f7ce73ac8 100644
+--- a/fuzzers/patch_fuzzer.c
++++ b/fuzzers/patch_fuzzer.c
+@@ -32,7 +32,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
+         git_patch* patch;
+         git_patch_options opts = {(uint32_t)data[0]};
+         int status = git_patch_from_buffer(&patch, (const char*)data+1, size-1, &opts);
+-        if (status == 0 && patch) {
++        if (patch) {
+                 git_patch_free(patch);
+         }
+         return 0;

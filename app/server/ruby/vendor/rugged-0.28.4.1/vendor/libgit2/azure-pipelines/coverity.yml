@@ -1,0 +1,38 @@
+resources:
+- repo: self
+
+jobs:
+- job: coverity
+  displayName: 'Coverity'
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: Docker@0
+    displayName: Build
+    inputs:
+      action: 'Run an image'
+      docker:
+        image: xenial
+        base: xenial
+      volumes: |
+       $(Build.SourcesDirectory):/home/libgit2/source
+       $(Build.BinariesDirectory):/home/libgit2/build
+      envVars: |
+       COVERITY_TOKEN=$(COVERITY_TOKEN)
+      workDir: '/home/libgit2/build'
+      containerCommand: '/home/libgit2/source/azure-pipelines/coverity-build.sh'
+      detached: false
+  - task: Docker@0
+    displayName: Publish
+    inputs:
+      action: 'Run an image'
+      imageName: 'libgit2/trusty-openssl:latest'
+      volumes: |
+       $(Build.SourcesDirectory):/home/libgit2/source
+       $(Build.BinariesDirectory):/home/libgit2/build
+      envVars: |
+       COVERITY_TOKEN=$(COVERITY_TOKEN)
+      workDir: '/home/libgit2/build'
+      containerCommand: '/home/libgit2/source/azure-pipelines/coverity-publish.sh'
+      detached: false
+    continueOnError: true
