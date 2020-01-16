@@ -132,16 +132,17 @@ module SonicPi
     end
 
     def q_handle_event(handle, payload)
+      handles_to_remove = []
       if hs = @handlers[handle]
         hs.each do |key, fn|
           begin
             res = fn.call payload
             if res
               if(res == :remove_handler)
-                q_rm_handler handle, key
+                handles_to_remove << [handle, key]
               elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
                 res[1].each do |h_info|
-                  q_rm_handler(h_info[0], h_info[1])
+                  handles_to_remove << [h_info[0], h_info[1]]
                 end
               end
             end
@@ -150,6 +151,7 @@ module SonicPi
           end
         end
 
+        handles_to_remove.each {|h, k| q_rm_handler(h, k) }
       end
     end
 
