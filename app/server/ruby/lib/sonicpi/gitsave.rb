@@ -11,9 +11,10 @@
 # notice is included.
 #++
 
-require 'rugged'
+begin
+  require 'rugged'
 
-module SonicPi
+  module SonicPi
   class GitSave
 
     def initialize(path)
@@ -52,4 +53,18 @@ module SonicPi
 
 
   end
+end
+
+rescue LoadError
+ # Rugged isn't available - don't attempt to save buffers into a local git repo
+module SonicPi
+  class GitSave
+    def initialize(*args)
+    end
+
+    def save!(*args)
+    end
+  end
+end
+
 end
