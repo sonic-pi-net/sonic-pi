@@ -3,7 +3,6 @@
 source "https://rubygems.org"
 
 group :main do
-  gem "rugged",         "= 0.28.2"  # To store the user's buffers using git
   gem "ffi",            "= 1.11.1"  # MIDI lib support
   gem "atomic"
   gem "ruby-prof",      "= 0.15.8"
@@ -46,6 +45,6 @@ group :main do
 end
 
 group :non_critical do
-  gem "did_you_mean",   "= 0.10.0"
+  gem "rugged", "~> 0.28.2"  # To store the user's buffers using git
 end
 #git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }

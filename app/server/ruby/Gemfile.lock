@@ -16,8 +16,6 @@ GEM
     concurrent-ruby (1.1.5)
     coreaudio (0.0.12)
       narray (~> 0.6.0.0)
-    did_you_mean (0.10.0)
-      interception
     fast_osc (0.0.12)
     ffi (1.11.1)
     gettext (3.2.9)
@@ -69,7 +67,6 @@ DEPENDENCIES
   benchmark-ips (= 2.3.0)
   blankslate
   coreaudio (= 0.0.12)
-  did_you_mean (= 0.10.0)
   fast_osc (= 0.0.12)
   ffi (= 1.11.1)
   gettext (~> 3.2.0)
@@ -91,7 +88,7 @@ DEPENDENCIES
   rubame
   ruby-beautify
   ruby-prof (= 0.15.8)
-  rugged (= 0.28.2)
+  rugged (~> 0.28.2)
   sys-proctable
   text (= 1.3.1)
   thread_safe
