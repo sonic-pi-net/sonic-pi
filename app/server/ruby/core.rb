@@ -35,65 +35,46 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-#puts(os)
-
-bundler_arch = RUBY_PLATFORM.split("-")[0]
-bundler_os = case RUBY_PLATFORM.split("-")[1]
-  when /.*mingw.*|.*mswin.*|.*bccwin.*|.*wince.*|.*emx.*/
-    "windows"
-  else
-    RUBY_PLATFORM.split("-")[1]
-  end
-bundler_platform = bundler_arch + "-" + bundler_os
-
-#puts(ruby_api)
-#puts(RUBY_PLATFORM)
-#puts(bundler_platform)
-
-## Make all gem libs available
+## Make all bundled gem libraries and extensions are available
 require 'rubygems'
+begin
+  # Use the standalone bundler/setup.rb script if it's been generated
+  # (Generated via. `bundler install --standalone`)
+  require_relative 'vendor/bundle/bundler/setup.rb'
+rescue LoadError => e
+  # Add gem libraries and extensions to the load path manually
+  # Note: includes all of the gems in the vendor/bundle/ruby/ folder
+  bundler_arch = RUBY_PLATFORM.split("-")[0]
+  bundler_os = case RUBY_PLATFORM.split("-")[1]
+    when /.*mingw.*|.*mswin.*|.*bccwin.*|.*wince.*|.*emx.*/
+      "windows"
+    else
+      RUBY_PLATFORM.split("-")[1]
+    end
+  bundler_platform = bundler_arch + "-" + bundler_os
 
-bundled_gems_dir = File.expand_path("#{__dir__}/vendor/bundle/ruby/#{ruby_api}/gems")
-rb_native_ext = File.expand_path("#{__dir__}/vendor/bundle/ruby/#{ruby_api}/extensions/#{bundler_platform}/#{ruby_api}")
+  bundled_gems_dir = File.expand_path("#{__dir__}/vendor/bundle/ruby/#{ruby_api}/gems")
+  rb_native_ext = File.expand_path("#{__dir__}/vendor/bundle/ruby/#{ruby_api}/extensions/#{bundler_platform}/#{ruby_api}")
 
-#puts(bundled_gems_dir, File.directory?(bundled_gems_dir).to_s)
-#puts(rb_native_ext, File.directory?(rb_native_ext).to_s)
-
-Dir.glob("#{bundled_gems_dir}/*/lib/") do |vendor_lib|
-  if (!vendor_lib.include?("sys_proctable"))
-    $:.unshift vendor_lib
-    #puts(vendor_lib)
-  end
-end
-
-Dir.glob("#{rb_native_ext}/*/") do |vendor_ext|
-  $:.unshift vendor_ext
-  #puts(vendor_ext)
-end
-
-# Special case for proctable lib
-sys_proctable_os = case os
-  when :linux, :raspberry
-    "linux"
-  when :windows
-    "windows"
-  when :osx
-    "darwin"
-  else
-    os
+  Dir.glob("#{bundled_gems_dir}/*/lib/") do |vendor_lib|
+    if (!vendor_lib.include?("sys_proctable"))
+      $:.unshift vendor_lib
+      #puts(vendor_lib)
+    end
   end
 
-#puts(sys_proctable_os)
-
-$:.unshift Dir.glob("#{bundled_gems_dir}/sys-proctable-*/lib/#{sys_proctable_os}").first
-#puts(Dir.glob("#{bundled_gems_dir}/sys-proctable-*/lib/#{sys_proctable_os}").first)
+  Dir.glob("#{rb_native_ext}/*/") do |vendor_ext|
+    $:.unshift vendor_ext
+    #puts(vendor_ext)
+  end
+end
 
 begin
   require 'did_you_mean'
   #Bundler.require(:non_critical)
 rescue LoadError => e
   warn "Non-critical error: Could not load did_you_mean"
-  #warn "#{e.full_message()}"
+  warn "#{e.full_message()}"
 end
 
 require 'hamster/vector'
