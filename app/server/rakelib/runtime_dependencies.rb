@@ -126,12 +126,12 @@ namespace "server" do
 	    when :windows
 	      # UNTESTED
 	      exec_win_commands([
-        %Q(cd #{SPI_SERVER_PATH}/build_dependencies/supercollider/build),
-        %Q(cmake -G "Visual Studio 12 2013" ..),
-        %Q(cmake --build . --config Release)
-      ])
+          %Q(cd #{SPI_SERVER_PATH}/build_dependencies/supercollider/build),
+          %Q(cmake -G "Visual Studio 12 2013" ..),
+          %Q(cmake --build . --config Release)
+        ])
 	    when :macos
-      # UNTESTED
+        # UNTESTED
         exec_sh_commands([
 	        %Q(cd #{SPI_SERVER_PATH}/build_dependencies/supercollider/build),
 	        %Q(cmake -DSC_EL=no -DCMAKE_INSTALL_PREFIX=#{args.install_prefix} ..),

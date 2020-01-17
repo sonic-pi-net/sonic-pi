@@ -27,7 +27,7 @@ namespace "server" do
       args.with_defaults(:portable => false)
     end
 
-    if (args.portable == true)
+    if true?(args.portable)
       package_runtime_deps
     end
   end
@@ -42,7 +42,7 @@ namespace "server" do
       args.with_defaults(:portable => false)
     end
 
-    if (args.portable == true)
+    if true?(args.portable)
       package_runtime_deps
     end
   end
@@ -70,7 +70,6 @@ namespace "server" do
   task :patch_erlang_files do
     #install_packages(["erlang"], SPI_BUILD_CONFIG.pkg_manager) if (all_dependencies_installed == false)
     info("Patching Erlang files...")
-    #exec_sh(%Q(cd "app/server/erlang"))
     # The current implementation of osc.erl uses Erlang features that require
     # at least Erlang 19.1 to be installed. 16.04 LTS is currently at 18.3.
     # If versions < 19.1 are installed, and we use the current code, the MIDI
@@ -103,13 +102,13 @@ namespace "server" do
     info("Bundling gems and extensions used by the server")
 
     bundle_command_args = "--path=\"#{bundle_path}\""
-    if (args.deployment == true)
+    if true?(args.deployment)
       bundle_command_args += " --deployment"
     end
-    if (args.standalone == true)
+    if true?(args.standalone)
       bundle_command_args += " --standalone"
     end
-    if (args.clean == true)
+    if true?(args.clean)
       bundle_command_args += " --clean"
     end
 

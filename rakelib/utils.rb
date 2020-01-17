@@ -21,6 +21,10 @@ SONIC_PI_ROOT = File.expand_path("#{__dir__}/..")
 SPI_QT_GUI_PATH = File.expand_path("#{__dir__}/../app/gui/qt")
 SPI_SERVER_PATH = File.expand_path("#{__dir__}/../app/server")
 
+def true?(obj)
+  return (obj.to_s.downcase == "true")
+end
+
 # Bundler
 def server_bundle_exec(cmd)
   exec_sh_commands([

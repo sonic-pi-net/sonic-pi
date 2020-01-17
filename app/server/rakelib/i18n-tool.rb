@@ -20,7 +20,6 @@ require 'gettext'
 require 'gettext/po'
 require 'gettext/po_parser'
 require 'gettext/tools/msgmerge'
-#require 'optparse'
 require 'fileutils'
 
 class KramdownToOurMarkdown < Kramdown::Converter::Kramdown
