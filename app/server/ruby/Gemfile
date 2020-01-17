@@ -37,18 +37,15 @@ group :main do
   # Documentation related
   gem "kramdown"
   gem "gettext",        "~> 3.2.0"
-end
 
-group :non_critical do
-  gem "did_you_mean",   "= 0.10.0"
-end
-
-# macOS specific gems
-group :mac_os do
+  # macOS specific gems
   install_if -> { RUBY_PLATFORM == /.*darwin.*/ } do
     gem "coreaudio",    "= 0.0.12" # macOS CoreAudio bindings
     gem "narray",       "~> 0.6.0.0"
   end
 end
 
+group :non_critical do
+  gem "did_you_mean",   "= 0.10.0"
+end
 #git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }

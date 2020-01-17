@@ -93,22 +93,29 @@ namespace "server" do
     end
   end
 
-  desc "Bundle Sonic Pi ruby server extensions"
-  task :bundle_gems, [:deployment, :path] do |t, args|
+  desc "Bundle Sonic Pi ruby server gem dependencies"
+  task :bundle_gems, [:deployment, :standalone, :clean] do |t, args|
     args.with_defaults(:deployment => false)
-    args.with_defaults(:path => File.expand_path("#{SPI_SERVER_PATH}/ruby/vendor/bundle"))
+    args.with_defaults(:standalone => false) # If enabled, generate vendor/bundle/bundler/setup.rb file
+    args.with_defaults(:clean => false) # Remove any unused versions of gems that are already in the bundle - for testing
+    bundle_path = File.expand_path("#{SPI_SERVER_PATH}/ruby/vendor/bundle")
 
     info("Bundling gems and extensions used by the server")
 
+    bundle_command_args = "--path=\"#{bundle_path}\""
     if (args.deployment == true)
-      info("Running 'bundle install --deployment --path=#{File.expand_path(args.path)}'...")
-      FileUtils.mkdir_p(args.path)
-      sh "cd #{SPI_SERVER_PATH}/ruby && bundle install --deployment --path=#{File.expand_path(args.path)}"
-    else
-      info("Running 'bundle install --path=#{File.expand_path(args.path)}'...")
-      FileUtils.mkdir_p(args.path)
-      sh "cd #{SPI_SERVER_PATH}/ruby && bundle install --path=#{File.expand_path(args.path)}"
+      bundle_command_args += " --deployment"
     end
+    if (args.standalone == true)
+      bundle_command_args += " --standalone"
+    end
+    if (args.clean == true)
+      bundle_command_args += " --clean"
+    end
+
+    info("Running 'bundle install #{bundle_command_args}'")
+    FileUtils.mkdir_p(bundle_path)
+    exec_sh("cd #{SPI_SERVER_PATH}/ruby && bundle install #{bundle_command_args}")
   end
 
   # Temporary patch replacing the aubio gem's hard coded path to libaubio
