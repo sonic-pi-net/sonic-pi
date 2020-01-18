@@ -8,7 +8,6 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     ast (2.0.0)
-    atomic (1.1.101)
     aubio (0.3.1)
       ffi (~> 1.9)
     benchmark-ips (2.3.0)
@@ -62,7 +61,6 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   ast (= 2.0.0)
-  atomic
   aubio
   benchmark-ips (= 2.3.0)
   blankslate

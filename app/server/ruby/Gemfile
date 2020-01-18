@@ -4,7 +4,6 @@ source "https://rubygems.org"
 
 group :main do
   gem "ffi",            "= 1.11.1"  # MIDI lib support
-  gem "atomic"
   gem "ruby-prof",      "= 0.15.8"
   gem "interception"
   gem "fast_osc",       "= 0.0.12"  # OSC messaging
@@ -33,6 +32,7 @@ group :main do
   gem "treetop"
   gem "wavefile",       "= 0.8.1"
   gem "websocket",      "= 1.2.8"
+  
   # Documentation related
   gem "kramdown"
   gem "gettext",        "~> 3.2.0"
