@@ -39,7 +39,7 @@ rvm:
 
 before_install:
   - gem install bundler
-  - cd $TRAVIS_BUILD_DIR/app/server/ruby && bundle install --path vendor --jobs 4 --retry 4
+  - cd $TRAVIS_BUILD_DIR/app/server/ruby && bundler lock && bundle install --path vendor --jobs 4 --retry 4
 
 script:
   - set -e
