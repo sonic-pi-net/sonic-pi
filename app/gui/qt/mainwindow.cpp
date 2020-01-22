@@ -2344,6 +2344,8 @@ void MainWindow::readSettings() {
     piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
     piSettings->show_scope_axes = settings.value("prefs/scope/show-axes", false).toBool();
     piSettings->show_incoming_osc_log = settings.value("prefs/show_incoming_osc_log", true).toBool();
+    QString styleName = settings.value("prefs/theme", "").toString();
+    piSettings->theme = theme->themeNameToStyle(styleName);
 
     emit settingsChanged();
 }
@@ -2388,6 +2390,7 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/scope/show-axes", piSettings->show_scope_axes );
     settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes );
     settings.setValue("prefs/show_incoming_osc_log", piSettings->show_incoming_osc_log);
+    settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->theme));
 
     for ( auto name : piSettings->scope_names ) {
         settings.setValue("prefs/scope/show-"+name.toLower(), piSettings->isScopeActive(name));

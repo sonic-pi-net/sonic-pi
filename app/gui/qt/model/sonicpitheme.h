@@ -42,6 +42,7 @@ public:
     QString getCss();
     void switchTheme( Theme theme );
     QString getName();
+    Theme getStyle();
 
     QIcon getRunIcon();
     QIcon getStopIcon();
@@ -56,8 +57,12 @@ public:
     QIcon getInfoIcon(bool active);
     QIcon getScopeIcon(bool active);
 
+    QString themeStyleToName(Theme theme);
+    Theme themeNameToStyle(QString name);
+
 private:
     QString name;
+    Theme style;
 
     QString customSettingsFilename;
     QString rootPath;

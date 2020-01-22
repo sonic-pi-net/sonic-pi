@@ -300,8 +300,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     colourModeButtonGroup->addButton(darkProModeCheck, 3);
     colourModeButtonGroup->addButton(highContrastModeCheck, 4);
 
-    lightModeCheck->setChecked(true);
-
     QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
     QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
     QVBoxLayout *automation_box_layout = new QVBoxLayout;
