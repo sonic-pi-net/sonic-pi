@@ -31,7 +31,7 @@ SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename, QStr
 
     QMap<QString, QString> themeSettings;
     this->theme = lightTheme();
-    switchTheme( SonicPiTheme::LightMode );
+    switchStyle( SonicPiTheme::LightMode );
 
     // if(settings!=0){
     //   QStringList customSettingKeys = settings->allKeys();
@@ -53,10 +53,11 @@ QMap<QString, QString> SonicPiTheme::withCustomSettings(QMap<QString, QString> s
   return settings;
 }
 
-void SonicPiTheme::switchTheme(Theme theme) {
-  name = themeStyleToName(theme);
-  style = theme;
-    if (theme == SonicPiTheme::DarkMode){
+void SonicPiTheme::switchStyle(Style style) {
+  this->name = themeStyleToName(style);
+  this->style = style;
+
+    if (style == SonicPiTheme::DarkMode){
         darkMode();
         runIcon = &default_dark_run_icon;
         stopIcon = &default_dark_stop_icon;
@@ -76,7 +77,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         infoIconActive = &default_dark_info_toggled_icon;
         scopeIcon = &default_dark_scope_icon;
         scopeIconActive = &default_dark_scope_toggled_icon;
-    } else if (theme == SonicPiTheme::DarkProMode){
+    } else if (style == SonicPiTheme::DarkProMode){
         darkMode();
         runIcon = &pro_run_icon;
         stopIcon = &pro_stop_icon;
@@ -96,7 +97,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         infoIconActive = &pro_info_dark_bordered_icon;
         scopeIcon = &pro_scope_icon;
         scopeIconActive = &pro_scope_bordered_icon;
-    } else if (theme == SonicPiTheme::LightMode){
+    } else if (style == SonicPiTheme::LightMode){
         lightMode();
         runIcon = &default_light_run_icon;
         stopIcon = &default_light_stop_icon;
@@ -116,7 +117,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         infoIconActive = &default_light_info_toggled_icon;
         scopeIcon = &default_light_scope_icon;
         scopeIconActive = &default_light_scope_toggled_icon;
-    } else if (theme == SonicPiTheme::LightProMode){
+    } else if (style == SonicPiTheme::LightProMode){
         lightMode();
         runIcon = &pro_run_icon;
         stopIcon = &pro_stop_icon;
@@ -136,7 +137,7 @@ void SonicPiTheme::switchTheme(Theme theme) {
         infoIconActive = &pro_info_bordered_icon;
         scopeIcon = &pro_scope_icon;
         scopeIconActive = &pro_scope_bordered_icon;
-    } else if (theme == SonicPiTheme::HighContrastMode){
+    } else if (style == SonicPiTheme::HighContrastMode){
         hcMode();
         runIcon = &default_hc_run_icon;
         stopIcon = &default_hc_stop_icon;
@@ -1267,23 +1268,23 @@ QIcon SonicPiTheme::getScopeIcon( bool visible) {
     return visible ? *scopeIconActive : *scopeIcon;
 }
 
-QString SonicPiTheme::themeStyleToName(SonicPiTheme::Theme theme) {
-  if (theme == LightMode) {
+QString SonicPiTheme::themeStyleToName(SonicPiTheme::Style style) {
+  if (style == LightMode) {
     return "Light";
-  } else if (theme == DarkMode) {
+  } else if (style == DarkMode) {
     return "Dark";
-  } else if (theme == LightProMode) {
+  } else if (style == LightProMode) {
     return "Light Pro";
-  } else if (theme == DarkProMode) {
+  } else if (style == DarkProMode) {
     return "Dark Pro";
-  } else if (theme == HighContrastMode) {
+  } else if (style == HighContrastMode) {
     return "High Contrast";
   } else {
     return "Light";
   }
 }
 
-SonicPiTheme::Theme SonicPiTheme::themeNameToStyle(QString name) {
+SonicPiTheme::Style SonicPiTheme::themeNameToStyle(QString name) {
   if (name == "Light") {
     return LightMode;
   } else if (name == "Dark") {

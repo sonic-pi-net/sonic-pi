@@ -5,7 +5,7 @@
 #include <map>
 #include "sonicpitheme.h"
 class SonicPiSettings {
-public:    
+public:
 
 
     // Audio Settings
@@ -36,7 +36,7 @@ public:
     bool log_cues;
     bool log_auto_scroll;
     int gui_transparency;
-    SonicPiTheme::Theme theme;
+    SonicPiTheme::Style themeStyle;
 
     // UpdateSettings;
     bool check_updates;
@@ -47,7 +47,7 @@ public:
     std::vector<QString> scope_names;
     void setScopeState(QString name, bool s) { active_scopes[name] = s; }
     bool isScopeActive(QString name) { return active_scopes[name]; }
-private: 
+private:
     std::map<QString, bool> active_scopes;
 
 };

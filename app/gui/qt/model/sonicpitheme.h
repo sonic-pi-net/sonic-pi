@@ -23,7 +23,7 @@ class SonicPiTheme : public QObject
 {
 Q_OBJECT
 public:
-    enum Theme { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode };
+    enum Style { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode };
 
     explicit SonicPiTheme(QObject *parent = 0, QString customSettingsFilename="", QString rootPath = "");
     ~SonicPiTheme();
@@ -40,9 +40,9 @@ public:
     QString getErrorStylesheet();
 
     QString getCss();
-    void switchTheme( Theme theme );
+    void switchStyle( Style style );
     QString getName();
-    Theme getStyle();
+    Style getStyle();
 
     QIcon getRunIcon();
     QIcon getStopIcon();
@@ -57,12 +57,12 @@ public:
     QIcon getInfoIcon(bool active);
     QIcon getScopeIcon(bool active);
 
-    QString themeStyleToName(Theme theme);
-    Theme themeNameToStyle(QString name);
+    QString themeStyleToName(Style style);
+    Style themeNameToStyle(QString name);
 
 private:
     QString name;
-    Theme style;
+    Style style;
 
     QString customSettingsFilename;
     QString rootPath;

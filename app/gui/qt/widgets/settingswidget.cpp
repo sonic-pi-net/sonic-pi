@@ -596,11 +596,11 @@ void SettingsWidget::updateSettings() {
     piSettings->log_cues = log_cues->isChecked();
     piSettings->log_auto_scroll = log_auto_scroll->isChecked();
     piSettings->gui_transparency = gui_transparency_slider->value();
-    if (lightModeCheck->isChecked())        { piSettings->theme = SonicPiTheme::LightMode; }
-    if (darkModeCheck->isChecked())         { piSettings->theme = SonicPiTheme::DarkMode; }
-    if (lightProModeCheck->isChecked())     { piSettings->theme = SonicPiTheme::LightProMode; }
-    if (darkProModeCheck->isChecked())      { piSettings->theme = SonicPiTheme::DarkProMode; }
-    if (highContrastModeCheck->isChecked()) { piSettings->theme = SonicPiTheme::HighContrastMode; }
+    if (lightModeCheck->isChecked())        { piSettings->themeStyle = SonicPiTheme::LightMode; }
+    if (darkModeCheck->isChecked())         { piSettings->themeStyle = SonicPiTheme::DarkMode; }
+    if (lightProModeCheck->isChecked())     { piSettings->themeStyle = SonicPiTheme::LightProMode; }
+    if (darkProModeCheck->isChecked())      { piSettings->themeStyle = SonicPiTheme::DarkProMode; }
+    if (highContrastModeCheck->isChecked()) { piSettings->themeStyle = SonicPiTheme::HighContrastMode; }
 
     piSettings->show_scopes = show_scopes->isChecked();
     piSettings->show_scope_axes = show_scope_axes->isChecked();
@@ -635,11 +635,11 @@ void SettingsWidget::settingsChanged() {
     log_cues->setChecked(piSettings->log_cues);
     log_auto_scroll->setChecked(piSettings->log_auto_scroll);
     gui_transparency_slider->setValue(piSettings->gui_transparency);
-    lightModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightMode );
-    darkModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkMode );
-    lightProModeCheck->setChecked( piSettings->theme == SonicPiTheme::LightProMode );
-    darkProModeCheck->setChecked( piSettings->theme == SonicPiTheme::DarkProMode );
-    highContrastModeCheck->setChecked( piSettings->theme == SonicPiTheme::HighContrastMode );
+    lightModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::LightMode );
+    darkModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::DarkMode );
+    lightProModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::LightProMode );
+    darkProModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::DarkProMode );
+    highContrastModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::HighContrastMode );
 
     show_scopes->setChecked(piSettings->show_scopes);
     show_scope_axes->setChecked(piSettings->show_scope_axes);

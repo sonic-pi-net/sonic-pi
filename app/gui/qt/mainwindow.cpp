@@ -1398,7 +1398,7 @@ void MainWindow::runBufferIdx(int idx)
 
 void MainWindow::showError(QString msg) {
     QString style_sheet = "qrc:///html/styles.css";
-    if(piSettings->theme == SonicPiTheme::DarkMode || piSettings->theme == SonicPiTheme::DarkProMode) {
+    if(piSettings->themeStyle == SonicPiTheme::DarkMode || piSettings->themeStyle == SonicPiTheme::DarkProMode) {
         style_sheet = "qrc:///html/dark_styles.css";
     }
     errorPane->clear();
@@ -1758,16 +1758,16 @@ void MainWindow::toggleScopeAxes()
 }
 
 void MainWindow::cycleThemes() {
-    if ( piSettings->theme == SonicPiTheme::LightMode ) {
-        piSettings->theme = SonicPiTheme::DarkMode;
-    } else if ( piSettings->theme == SonicPiTheme::DarkMode ) {
-        piSettings->theme = SonicPiTheme::LightProMode;
-    } else if ( piSettings->theme == SonicPiTheme::LightProMode ) {
-        piSettings->theme = SonicPiTheme::DarkProMode;
-    } else if ( piSettings->theme == SonicPiTheme::DarkProMode ) {
-        piSettings->theme = SonicPiTheme::HighContrastMode;
-    } else if ( piSettings->theme == SonicPiTheme::HighContrastMode ) {
-        piSettings->theme = SonicPiTheme::LightMode;
+    if ( piSettings->themeStyle == SonicPiTheme::LightMode ) {
+        piSettings->themeStyle = SonicPiTheme::DarkMode;
+    } else if ( piSettings->themeStyle == SonicPiTheme::DarkMode ) {
+        piSettings->themeStyle = SonicPiTheme::LightProMode;
+    } else if ( piSettings->themeStyle == SonicPiTheme::LightProMode ) {
+        piSettings->themeStyle = SonicPiTheme::DarkProMode;
+    } else if ( piSettings->themeStyle == SonicPiTheme::DarkProMode ) {
+        piSettings->themeStyle = SonicPiTheme::HighContrastMode;
+    } else if ( piSettings->themeStyle == SonicPiTheme::HighContrastMode ) {
+        piSettings->themeStyle = SonicPiTheme::LightMode;
     }
     updateColourTheme();
 }
@@ -1796,8 +1796,8 @@ void MainWindow::toggleIcons() {
     infoAct->setIcon(theme->getInfoIcon(infoWidg->isVisible()));
     scopeAct->setIcon(theme->getScopeIcon(scopeWidget->isVisible()));
 
-    if (piSettings->theme == SonicPiTheme::DarkProMode ||
-        piSettings->theme == SonicPiTheme::LightProMode) {
+    if (piSettings->themeStyle == SonicPiTheme::DarkProMode ||
+        piSettings->themeStyle == SonicPiTheme::LightProMode) {
         toolBar->setIconSize(QSize(30, 30));
     } else {
         toolBar->setIconSize(QSize(84.6, 30.0));
@@ -1805,7 +1805,7 @@ void MainWindow::toggleIcons() {
 }
 
 void MainWindow::updateColourTheme(){
-    theme->switchTheme( piSettings->theme );
+    theme->switchStyle( piSettings->themeStyle );
     statusBar()->showMessage(tr("Colour Theme: ")+theme->getName(), 2000);
 
     QString css = theme->getCss();
@@ -1857,7 +1857,7 @@ void MainWindow::updateColourTheme(){
         ws->setStyleSheet("");
         ws->setStyleSheet(appStyling);
 
-        if (piSettings->theme == SonicPiTheme::HighContrastMode) {
+        if (piSettings->themeStyle == SonicPiTheme::HighContrastMode) {
             ws->setCaretWidth(8);
         } else {
             ws->setCaretWidth(5);
@@ -2345,7 +2345,7 @@ void MainWindow::readSettings() {
     piSettings->show_scope_axes = settings.value("prefs/scope/show-axes", false).toBool();
     piSettings->show_incoming_osc_log = settings.value("prefs/show_incoming_osc_log", true).toBool();
     QString styleName = settings.value("prefs/theme", "").toString();
-    piSettings->theme = theme->themeNameToStyle(styleName);
+    piSettings->themeStyle = theme->themeNameToStyle(styleName);
 
     emit settingsChanged();
 }
@@ -2390,7 +2390,7 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/scope/show-axes", piSettings->show_scope_axes );
     settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes );
     settings.setValue("prefs/show_incoming_osc_log", piSettings->show_incoming_osc_log);
-    settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->theme));
+    settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     for ( auto name : piSettings->scope_names ) {
         settings.setValue("prefs/scope/show-"+name.toLower(), piSettings->isScopeActive(name));
