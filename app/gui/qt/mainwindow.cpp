@@ -1775,6 +1775,7 @@ void MainWindow::cycleThemes() {
     } else if ( piSettings->themeStyle == SonicPiTheme::HighContrastMode ) {
         piSettings->themeStyle = SonicPiTheme::LightMode;
     }
+    emit settingsChanged();
     updateColourTheme();
 }
 
