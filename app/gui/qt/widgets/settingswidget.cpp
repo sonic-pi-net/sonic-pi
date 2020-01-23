@@ -275,9 +275,9 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
     show_log->setChecked(true);
 
-    show_incoming_osc_log = new QCheckBox(tr("Show cue log"));
-    show_incoming_osc_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
-    show_incoming_osc_log->setChecked(true);
+    show_cues = new QCheckBox(tr("Show cue log"));
+    show_cues->setToolTip(tooltipStrShiftMeta('C', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
+    show_cues->setChecked(true);
 
     show_buttons = new QCheckBox(tr("Show buttons"));
     show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
@@ -307,7 +307,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     editor_display_box_layout->addWidget(show_line_numbers);
     editor_display_box_layout->addWidget(show_log);
-    editor_display_box_layout->addWidget(show_incoming_osc_log);
+    editor_display_box_layout->addWidget(show_cues);
     editor_display_box_layout->addWidget(show_buttons);
     editor_display_box_layout->addWidget(show_tabs);
     editor_box_look_feel_layout->addWidget(lightModeCheck);
@@ -514,8 +514,8 @@ void SettingsWidget::toggleLog() {
     emit showLogChanged();
 }
 
-void SettingsWidget::toggleIncommingOscLog() {
-    emit incomingOscLogChanged();
+void SettingsWidget::toggleCuesLog() {
+    emit showCuesChanged();
 }
 
 void SettingsWidget::toggleButtons() {
@@ -587,7 +587,7 @@ void SettingsWidget::updateSettings() {
     piSettings->auto_indent_on_run = auto_indent_on_run->isChecked();
     piSettings->show_line_numbers = show_line_numbers->isChecked();
     piSettings->show_log = show_log->isChecked();
-    piSettings->show_incoming_osc_log = show_incoming_osc_log->isChecked();
+    piSettings->show_cues = show_cues->isChecked();
     piSettings->show_buttons = show_buttons->isChecked();
     piSettings->show_tabs = show_tabs->isChecked();
     piSettings->full_screen = full_screen->isChecked();
@@ -626,7 +626,7 @@ void SettingsWidget::settingsChanged() {
 
     show_line_numbers->setChecked(piSettings->show_line_numbers);
     show_log->setChecked(piSettings->show_log);
-    show_incoming_osc_log->setChecked(piSettings->show_incoming_osc_log);
+    show_cues->setChecked(piSettings->show_cues);
     show_buttons->setChecked(piSettings->show_buttons);
     show_tabs->setChecked(piSettings->show_tabs);
     full_screen->setChecked(piSettings->full_screen);
@@ -669,7 +669,7 @@ void SettingsWidget::connectAll() {
     connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -686,7 +686,7 @@ void SettingsWidget::connectAll() {
 
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
-    connect(show_incoming_osc_log, SIGNAL(clicked()), this, SLOT(toggleIncommingOscLog()));
+    connect(show_cues, SIGNAL(clicked()), this, SLOT(toggleCuesLog()));
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(toggleButtons()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(toggleTabs()));

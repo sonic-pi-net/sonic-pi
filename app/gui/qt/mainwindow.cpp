@@ -177,7 +177,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     updateTabsVisibility();
     updateButtonVisibility();
     updateLogVisibility();
-    updateIncomingOscLogVisibility();
+    updateCuesVisibility();
 
     // The implementation of this method is dynamically generated and can
     // be found in ruby_help.h:
@@ -512,7 +512,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
     connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
     connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
-    connect(settingsWidget, SIGNAL(incomingOscLogChanged()), this, SLOT(updateIncomingOscLogVisibility()));
+    connect(settingsWidget, SIGNAL(showCuesChanged()), this, SLOT(updateCuesVisibility()));
     connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
     connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
     connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
@@ -870,20 +870,20 @@ void MainWindow::updateFocusMode(){
         piSettings->show_tabs = false;
         piSettings->show_buttons = false;
         piSettings->show_log = false;
-        piSettings->show_incoming_osc_log = false;
+        piSettings->show_cues = false;
     }
     else {
         piSettings->full_screen = false;
         piSettings->show_tabs = true;
         piSettings->show_buttons = true;
-        piSettings->show_incoming_osc_log = true;
+        piSettings->show_cues = true;
     }
     emit settingsChanged();
     updateFullScreenMode();
     updateTabsVisibility();
     updateButtonVisibility();
     updateLogVisibility();
-    updateIncomingOscLogVisibility();
+    updateCuesVisibility();
 }
 
 void MainWindow::toggleScopePaused() {
@@ -905,6 +905,12 @@ void MainWindow::toggleLogVisibility() {
     updateLogVisibility();
 }
 
+void MainWindow::toggleCuesVisibility() {
+    piSettings->show_cues = !piSettings->show_cues;
+    emit settingsChanged();
+    updateCuesVisibility();
+}
+
 void MainWindow::updateLogVisibility(){
     if(piSettings->show_log) {
         outputWidget->show();
@@ -913,8 +919,8 @@ void MainWindow::updateLogVisibility(){
     }
 }
 
-void MainWindow::updateIncomingOscLogVisibility(){
-    if(piSettings->show_incoming_osc_log) {
+void MainWindow::updateCuesVisibility(){
+    if(piSettings->show_cues) {
         incomingWidget->show();
     } else{
         incomingWidget->close();
@@ -2025,6 +2031,7 @@ void MainWindow::createShortcuts()
     new QShortcut(shiftMetaKey('M'), this, SLOT(cycleThemes()));
     new QShortcut(QKeySequence("F11"), this, SLOT(toggleLogVisibility()));
     new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
+    new QShortcut(shiftMetaKey('C'), this, SLOT(toggleCuesVisibility()));
     new QShortcut(QKeySequence("F12"),this, SLOT(toggleScopePaused()));
 }
 
@@ -2343,7 +2350,7 @@ void MainWindow::readSettings() {
     piSettings->gui_transparency = settings.value("prefs/gui_transparency", 0).toInt();
     piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
     piSettings->show_scope_axes = settings.value("prefs/scope/show-axes", false).toBool();
-    piSettings->show_incoming_osc_log = settings.value("prefs/show_incoming_osc_log", true).toBool();
+    piSettings->show_cues = settings.value("prefs/show_cues", true).toBool();
     QString styleName = settings.value("prefs/theme", "").toString();
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
 
@@ -2389,7 +2396,7 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/gui_transparency", piSettings->gui_transparency);
     settings.setValue("prefs/scope/show-axes", piSettings->show_scope_axes );
     settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes );
-    settings.setValue("prefs/show_incoming_osc_log", piSettings->show_incoming_osc_log);
+    settings.setValue("prefs/show_cues", piSettings->show_cues);
     settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     for ( auto name : piSettings->scope_names ) {

@@ -40,7 +40,7 @@ private slots:
     void changeMainVolume(int);
     void toggleLineNumbers();
     void toggleLog();
-    void toggleIncommingOscLog();
+    void toggleCuesLog();
     void toggleButtons();
     void toggleFullScreen();
     void toggleTabs();
@@ -64,7 +64,7 @@ signals:
     void volumeChanged(int vol);
     void showLineNumbersChanged();
     void showLogChanged();
-    void incomingOscLogChanged();
+    void showCuesChanged();
     void showButtonsChanged();
     void showFullscreenChanged();
     void showTabsChanged();
@@ -96,7 +96,7 @@ private:
     QCheckBox *auto_indent_on_run;
     QCheckBox *full_screen;
     QCheckBox *show_log;
-    QCheckBox *show_incoming_osc_log;
+    QCheckBox *show_cues;
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;

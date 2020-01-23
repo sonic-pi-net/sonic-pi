@@ -27,7 +27,7 @@ public:
     bool auto_indent_on_run;
     bool show_line_numbers;
     bool show_log;
-    bool show_incoming_osc_log;
+    bool show_cues;
     bool show_buttons;
     bool show_tabs;
     bool full_screen;

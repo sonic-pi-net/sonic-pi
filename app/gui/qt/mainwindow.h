@@ -176,8 +176,9 @@ signals:
         void toggleFocusMode();
         void toggleScopePaused();
         void updateLogVisibility();
-        void updateIncomingOscLogVisibility();
+        void updateCuesVisibility();
         void toggleLogVisibility();
+        void toggleCuesVisibility();
         void updateTabsVisibility();
         void toggleTabsVisibility();
         void updateButtonVisibility();
