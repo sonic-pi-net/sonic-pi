@@ -6,64 +6,64 @@
     <message>
         <location filename="../mainwindow.cpp" line="502"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Roghanna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="739"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Logálaí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="173"/>
         <location filename="../mainwindow.cpp" line="2423"/>
         <location filename="../mainwindow.cpp" line="2442"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Pí Sonach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1493"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Cód ag rith...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1513"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Álainniú...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1543"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Athlódáil...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1574"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ag cumasú meascthóra SAC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1583"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ag cealú meascthóra SAC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="459"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Fáilte go dtí Pí Sonach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Roghnú ailíniúcháin...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Líne ailíniúcháin...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1009"/>
