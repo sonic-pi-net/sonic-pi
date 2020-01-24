@@ -110,7 +110,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2697"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Visita http://sonic-pi.net per descarregar una nova versió</translation>
+        <translation>Visiteu http://sonic-pi.net per descarregar una nova versió</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2828"/>
@@ -235,7 +235,7 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1379"/>
         <source>Save Current Buffer</source>
-        <translation>Guardar el buffer actual</translation>
+        <translation>Desa el buffer actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1499"/>
@@ -278,25 +278,25 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
         <location filename="../mainwindow.cpp" line="1608"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Habilitant Estèreo Invertit…</translation>
+        <translation>Habilitant estèreo invertit…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1616"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Habilitant Estèreo Estàndard…</translation>
+        <translation>Habilitant estèreo estàndard…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1624"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation>Mode Mono...</translation>
+        <translation>Mode mono...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1632"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation>Mode Estèreo…</translation>
+        <translation>Mode estèreo…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1641"/>
@@ -311,17 +311,17 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1816"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Color del tema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2057"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Comença a enregistrar en un arxiu d&apos;àudio WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2061"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Desa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
@@ -400,7 +400,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>See information about Sonic Pi</source>
-        <translation>Vegeu informació sobre Sonic Pi</translation>
+        <translation>Veure informació sobre Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="788"/>
@@ -467,72 +467,72 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Studio Mode activat. Moltes gràcies per donar suport a Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="433"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha trobat cap Studio Hash coincident...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="668"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2076"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinea el codi per millorar la legibilitat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2080"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenta la mida del text</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Disminueix la mida del text</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2092"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa el visor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa la visibilitat de l&apos;oscil·loscopi d&apos;àudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2098"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra la informació</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2104"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa l&apos;ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa les preferències</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2141"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;File</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2148"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Edit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2152"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Window</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2190"/>
@@ -557,7 +557,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2255"/>
         <source>Save Recording</source>
-        <translation>Guardar enregistrament</translation>
+        <translation>Desa l&apos;enregistrament</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2424"/>
@@ -618,7 +618,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Fes servir aquest controlador lliscant per canviar el volum del sistema.</translation>
+        <translation>Feu servir aquest controlador lliscant per canviar el volum del sistema.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
@@ -867,7 +867,7 @@ Sonic Pi. Poden enviar-se des de la funció midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Mostrar i Ocultar</translation>
+        <translation>Mostra i oculta</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
@@ -967,27 +967,27 @@ Sonic Pi. Poden enviar-se des de la funció midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Clar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Fosc</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Clar Pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Fosc Pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Contrast alt</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
