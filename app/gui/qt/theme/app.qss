@@ -120,12 +120,12 @@ QDockWidget::title
     border: 0px;
     text-align: center;
     background: windowColor;
-    font-size 10px;
+    font-size: 10px;
 }
 
 QDockWidget
 {
-    font-size:10px;
+    font-size: 10px;
 }
 
  QToolTip

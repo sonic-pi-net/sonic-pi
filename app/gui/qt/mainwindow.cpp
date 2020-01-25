@@ -11,14 +11,10 @@
 // notice is included.
 //++
 
-
 // Standard stuff
 #include <iostream>
-#include <math.h>
 #include <sstream>
 #include <fstream>
-
-// Qt 5 only
 
 // Qt stuff
 #include <QDesktopWidget>
@@ -41,6 +37,7 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QStyle>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -66,6 +63,8 @@
 #include "widgets/settingswidget.h"
 
 #include "utils/ruby_help.h"
+
+#include "dpi.h"
 
 using namespace oscpkt;// OSC specific stuff
 
@@ -725,7 +724,7 @@ void MainWindow::setupWindowStructure() {
     // hudWidget->setWidget(hudPane);
     // hudWidget->setObjectName("hud");
 
-    scopeWidget = new QDockWidget("",this);
+    scopeWidget = new QDockWidget(tr("Scope"),this);
     scopeWidget->setFocusPolicy(Qt::NoFocus);
     scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
     scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -1805,9 +1804,9 @@ void MainWindow::toggleIcons() {
 
     if (piSettings->themeStyle == SonicPiTheme::DarkProMode ||
         piSettings->themeStyle == SonicPiTheme::LightProMode) {
-        toolBar->setIconSize(QSize(30, 30));
+        toolBar->setIconSize(ScaleForDPI(30, 30));
     } else {
-        toolBar->setIconSize(QSize(84.6, 30.0));
+        toolBar->setIconSize(ScaleForDPI(84.6,30));
     }
 }
 
@@ -2209,7 +2208,7 @@ void MainWindow::createInfoPane() {
     infoWidg->setLayout(infoLayout);
     infoWidg->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
     infoWidg->setWindowTitle(tr("Sonic Pi - Info"));
-    infoWidg->setFixedSize(660, 640);
+    infoWidg->setFixedSize(ScaleForDPI(660, 640));
 
     connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 
@@ -2304,8 +2303,8 @@ void MainWindow::restoreWindows() {
     }
 
     docsplit->restoreState(settings.value("docsplitState").toByteArray());
-    bool visualizer = piSettings->show_scopes;
-   restoreState(settings.value("windowState").toByteArray());
+    //bool visualizer = piSettings->show_scopes;
+    restoreState(settings.value("windowState").toByteArray());
 //    restoreGeometry(settings.value("windowGeom").toByteArray());
 
 //    if (visualizer != piSettings->show_scopes) {
@@ -2538,7 +2537,6 @@ void MainWindow::addHelpPage(QListWidget *nameList,
     for(i = 0; i < len; i++) {
         QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
         item->setData(32, QVariant(helpPages[i].url));
-        item->setSizeHint(QSize(item->sizeHint().width(), 25));
         nameList->addItem(item);
         entry.entryIndex = nameList->count()-1;
 

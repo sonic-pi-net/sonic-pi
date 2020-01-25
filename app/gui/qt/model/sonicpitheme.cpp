@@ -15,6 +15,9 @@
 #include "sonicpitheme.h"
 #include <QApplication>
 #include <iostream>
+
+#include "dpi.h"
+
 SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename, QString rootPath) : QObject(parent)
 {
 
@@ -861,6 +864,12 @@ QString SonicPiTheme::font(QString key){
 QString SonicPiTheme::getAppStylesheet() {
     QString appStyling = readFile(qt_app_theme_path);
 
+    // A hack to fix up for dpi
+    auto scale = GetDisplayScale();
+    appStyling = appStyling.replace("font-size: 10px", QString("font-size: %1px").arg(10 * scale.height()));
+    appStyling = appStyling.replace("font-size: 11px", QString("font-size: %1px").arg(11 * scale.height()));
+    appStyling = appStyling.replace("font-size: 14px", QString("font-size: %1px").arg(14 * scale.height()));
+
     QString windowColor = this->color("WindowBackground").name();
     QString windowForegroundColor = this->color("WindowForeground").name();
     QString paneColor = this->color("PaneBackground").name();
@@ -947,9 +956,9 @@ QString SonicPiTheme::getDocStylesheet() {
     return QString(
                 "QListWidget{"
                 "border: none;"
-                "font-size: 13px;"
+                "font-size: %1px;"
                 "font-family: none;"
-                "}");
+                "}").arg(13 * GetDisplayScale().height());
 }
 
 QString SonicPiTheme::getErrorStylesheet() {
