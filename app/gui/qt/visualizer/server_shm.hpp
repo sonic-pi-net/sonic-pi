@@ -76,6 +76,8 @@ public:
 
 	void set_control_bus(int bus, float value)
 	{
+        Q_UNUSED(bus);
+        Q_UNUSED(value);
 		// TODO: we need to set the control busses via a work queue
 	}
 

@@ -47,7 +47,8 @@ win32 {
   include ( c:/Qwt-6.1.4/features/qwt.prf )
   LIBS += -lqscintilla2_qt5
   QMAKE_CXXFLAGS += -I$$(BOOST_ROOT)
-  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS BOOST_DATE_TIME_NO_LIB
+  # Remove Warnings during build and do not need data time lib
+  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS BOOST_DATE_TIME_NO_LIB _MATH_DEFINES_DEFINED
 }
 
 CODECFORSRC = UTF-8
