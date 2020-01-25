@@ -44,12 +44,10 @@ macx {
 
 # Windows only
 win32 {
-  include ( c:/qwt-6.1.3/features/qwt.prf )
-  LIBS += -lqscintilla2
-  QMAKE_CXXFLAGS += -Ic:/boost_1_61_0
-#  QMAKE_CXXFLAGS += /WX
-  QMAKE_LFLAGS += /LIBPATH:C:\boost_1_61_0\bin.v2\libs\date_time\build\msvc-12.0\release\link-static\threading-multi
-  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS
+  include ( c:/Qwt-6.1.4/features/qwt.prf )
+  LIBS += -lqscintilla2_qt5
+  QMAKE_CXXFLAGS += -I$$(BOOST_ROOT)
+  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS BOOST_DATE_TIME_NO_LIB
 }
 
 CODECFORSRC = UTF-8
@@ -154,7 +152,7 @@ RC_FILE = SonicPi.rc
 ICON = images/app.icns
 
 win32 {
-  install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
+  install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2_qt5.dll
   install_qsci.path = release
 
   install_bat.files = sonic-pi.bat
