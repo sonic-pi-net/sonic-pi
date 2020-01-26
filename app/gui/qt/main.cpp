@@ -22,11 +22,15 @@
 #include "mainwindow.h"
 
 #include "widgets/sonicpilog.h"
+
 int main(int argc, char *argv[])
 {
 #ifndef Q_OS_MAC
   Q_INIT_RESOURCE(SonicPi);
 #endif
+  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
 
   QApplication app(argc, argv);
 
@@ -49,8 +53,6 @@ int main(int argc, char *argv[])
   app.setStyle("gtk");
 
 #ifdef Q_OS_MAC
-  app.setAttribute( Qt::AA_UseHighDpiPixmaps );
-  app.setAttribute(Qt::AA_DontShowIconsInMenus, true);
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
   splashWindow->setAttribute( Qt::WA_TranslucentBackground);

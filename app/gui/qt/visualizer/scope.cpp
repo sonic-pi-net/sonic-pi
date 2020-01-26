@@ -23,11 +23,6 @@
 #include <qwt_text_label.h>
 #include <cmath>
 #include <set>
-#if (QT_VERSION >= 0x050400) || !defined(Q_OS_LINUX)
-  // enable OpenGL rendering on all platforms except Raspberry Pi
-  // which is assumed to be Linux + Qt 4
-  #include <qwt_plot_glcanvas.h>
-#endif
 
 ScopeBase::ScopeBase( const QString& name, const QString& title, int scsynthPort, QWidget* parent ) : QWidget(parent), name(name), title(title), scsynthPort(scsynthPort), defaultShowX(true), defaultShowY(true), plot(QwtText(name),this)
 {
@@ -83,14 +78,6 @@ void ScopeBase::refresh( )
 
 ScopePanel::ScopePanel( const QString& name, const QString& title, int scsynthPort, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : ScopeBase(name,title,scsynthPort,parent)
 {
-
-#if defined(Q_OS_WIN)
-  // enable OpenGL rendering on all platforms except Raspberry Pi
-  // and Mac (as there are docking/undockign issues to be resolved)
-
-  plot.setCanvas( new QwtPlotGLCanvas() );
-#endif
-
 #if QWT_VERSION >= 0x60100
   plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
 #endif
