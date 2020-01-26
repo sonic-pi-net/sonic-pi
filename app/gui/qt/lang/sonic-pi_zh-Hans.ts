@@ -416,7 +416,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished">切换首选项或偏好设置</translation>
+        <translation>切换显示偏好设置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2141"/>
