@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-10-24 13:53+0000\n"
+"PO-Revision-Date: 2020-01-27 13:54+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
-"Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"ca/>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -432,6 +432,8 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Aquests botons taronja permeté manipular l'editor de codi. Els botons *Size "
+"+* i *Size -* permeten fer el text més gran i més menut."
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
@@ -731,6 +733,10 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"Això és, els números més baixos produeixen sons més greus i els números més "
+"alts fan sons més aguts. De la mateixa manera que en un piano, les tecles de "
+"la part més greu (a mà esquerra) produeixen sons més greus i les tecles de "
+"la part aguda (a mà dreta) produeixen sons més aguts."
 
 #: 02.1-Your-First-Beeps.md:38
 #, fuzzy
