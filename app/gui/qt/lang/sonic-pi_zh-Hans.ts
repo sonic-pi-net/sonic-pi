@@ -579,7 +579,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>IO输入输出</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
