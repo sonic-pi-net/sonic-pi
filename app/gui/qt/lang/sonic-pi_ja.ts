@@ -311,17 +311,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1816"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>カラーテーマ: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2057"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>録音を開始してWAVファイルに保存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2061"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
@@ -467,72 +467,72 @@ Sonic Pi %1 を入手</translation>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>スタジオモードが有効になりました。Sonic Piを支援してくれてありがとう。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="433"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>ハッシュが一致しません…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="668"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2076"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>可読性向上のためにコードを整形する</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2080"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストサイズを大きくする</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストサイズを小さくする</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2092"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>スコープの切り替え</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ・オシロスコープの切り替え</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2098"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>情報を表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2104"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>ヘルプの切り替え</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>環境設定の切り替え</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2141"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;File</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2148"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Edit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2152"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Window</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2190"/>
@@ -587,69 +587,69 @@ Sonic Pi %1 を入手</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished">オーディオ</translation>
+        <translation>オーディオ</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished">入出力</translation>
+        <translation>入出力</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished">エディタ</translation>
+        <translation>エディタ</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished">ビジュアル</translation>
+        <translation>ビジュアル</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">アップデート</translation>
+        <translation>アップデート</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished">マスターボリューム</translation>
+        <translation>マスターボリューム</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">システムボリュームを変更するにはこのスライダーを使用してください。</translation>
+        <translation>システムボリュームを変更するにはこのスライダーを使用してください。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished">オーディオ出力</translation>
+        <translation>オーディオ出力</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Sonic Piでパフォーマンスする際に外部PAシステムと
+        <translation>Sonic Piでパフォーマンスする際に外部PAシステムと
 連携するのに必要な高度なオーディオ設定を行います。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">ステレオ反転</translation>
+        <translation>ステレオ反転</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished">ステレオ反転を切り替えます。
+        <translation>ステレオ反転を切り替えます。
 有効にすると、左スピーカーに送った音が
 右スピーカーに送られ、逆もまた同様です。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished">モノラル設定</translation>
+        <translation>モノラル設定</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -658,7 +658,7 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">モノラルモードを切り替えます。
+        <translation>モノラルモードを切り替えます。
 有効にすると、左右の音がミックスされ
 左右同じ音が両方のスピーカーに送られます。
 外部システムがモノラルしか扱えない場合に
@@ -667,31 +667,31 @@ can only handle mono.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">シンセとエフェクト</translation>
+        <translation>シンセとエフェクト</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">シンセとエフェクトの動作を変更</translation>
+        <translation>シンセとエフェクトの動作を変更</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished">セーフモード</translation>
+        <translation>セーフモード</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">シンセの引数をチェックする機能を切り替えます。
+        <translation>シンセの引数をチェックする機能を切り替えます。
 無効にした場合、特定のシンセのオプションの値により
 予期せず大きな音が出たり、不快な音が出たりするかもしれません。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">タイミングを強制的に保証</translation>
+        <translation>タイミングを強制的に保証</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
@@ -702,7 +702,7 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">有効にすると、シンセやエフェクトの
+        <translation>有効にすると、シンセやエフェクトの
 タイミングが遅れる場合にSonic Pi
 はそれらを起動しないようにします。
 
@@ -713,7 +713,7 @@ even when a little late.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished">外部シンセ・エフェクトを有効にする</translation>
+        <translation>外部シンセ・エフェクトを有効にする</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
@@ -724,7 +724,7 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">有効にすると、Sonic Piはload_synthdefs
+        <translation>有効にすると、Sonic Piはload_synthdefs
 の呼び出しによるシンセ・エフェクトのロードを
 許可します。
 
@@ -735,125 +735,125 @@ which isn&apos;t recognised.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">Networked OSC</translation>
+        <translation>Networked OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="136"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Piは、他のマシンやプログラムと
+        <translation>Sonic Piは、他のマシンやプログラムと
 ネットワーク経由でOSCメッセージを
 やり取りできます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
         <source>Local IP address</source>
-        <translation type="unfinished">ローカルIPアドレス</translation>
+        <translation>ローカルIPアドレス</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="140"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished">OSCメッセージ受信ポート</translation>
+        <translation>OSCメッセージ受信ポート</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Unavailable</source>
-        <translation type="unfinished">利用不可</translation>
+        <translation>利用不可</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished">OSCメッセージをリモートから受信する</translation>
+        <translation>OSCメッセージをリモートから受信する</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished">有効にすると、Sonic PiはリモートマシーンからOSCメッセージを受信します。
+        <translation>有効にすると、Sonic PiはリモートマシーンからOSCメッセージを受信します。
 無効にすると、ローカルマシーンからのみOSCメッセージを受信します。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished">OSCサーバーを有効にする</translation>
+        <translation>OSCサーバーを有効にする</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">有効にすると、Sonic PiはOSCメッセージを受信します。
+        <translation>有効にすると、Sonic PiはOSCメッセージを受信します。
 無効にすると、OSCメッセージを受信しません。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">MIDIの設定</translation>
+        <translation>MIDIの設定</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">MIDIの動作を設定する</translation>
+        <translation>MIDIの動作を設定する</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDIポート</translation>
+        <translation>MIDIポート</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">接続された全てのMIDIポートを表示します</translation>
+        <translation>接続された全てのMIDIポートを表示します</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished">MIDIサブシステムを有効にする</translation>
+        <translation>MIDIサブシステムを有効にする</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished">MIDIの入出力を有効にしたり無効にしたりします</translation>
+        <translation>MIDIの入出力を有効にしたり無効にしたりします</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">MIDIをリセットする</translation>
+        <translation>MIDIをリセットする</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">MIDIサブシステムをリセットします
+        <translation>MIDIサブシステムをリセットします
 (macOSでデバイスの変更を検出するのに必要です)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished">デフォルトMIDIチャネル (*は全てを意味します)</translation>
+        <translation>デフォルトMIDIチャネル (*は全てを意味します)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <location filename="../widgets/settingswidget.cpp" line="218"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished">メッセージを送信するデフォルトMIDIチャネル</translation>
+        <translation>メッセージを送信するデフォルトMIDIチャネル</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">入力デバイス無し</translation>
+        <translation>入力デバイス無し</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="230"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">出力デバイス無し</translation>
+        <translation>出力デバイス無し</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI入力デバイスはSonic Piに直接MIDIメッセージを送信し、
+        <translation>MIDI入力デバイスはSonic Piに直接MIDIメッセージを送信し、
 Sonic Piはそれをcueイベントとして受信します
 (OSCメッセージの受信とcueと同じです)</translation>
     </message>
@@ -861,232 +861,232 @@ Sonic Piはそれをcueイベントとして受信します
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">MIDI出力デバイスは、Sonic Piからmidi_*関数経由で送信される
+        <translation>MIDI出力デバイスは、Sonic Piからmidi_*関数経由で送信される
 MIDIメッセージを直接受信します</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">表示</translation>
+        <translation>表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">エディタの表示オプションを設定します。</translation>
+        <translation>エディタの表示オプションを設定します。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
         <source>Look and Feel</source>
-        <translation type="unfinished">ルック・アンド・フィール</translation>
+        <translation>ルック・アンド・フィール</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">エディタのルック・アンド・フィールを設定します。</translation>
+        <translation>エディタのルック・アンド・フィールを設定します。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Automation</source>
-        <translation type="unfinished">自動化</translation>
+        <translation>自動化</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished">自動化機能を設定します。</translation>
+        <translation>自動化機能を設定します。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Auto-align</source>
-        <translation type="unfinished">自動整形</translation>
+        <translation>自動整形</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished">実行時に自動的にコードを整形します</translation>
+        <translation>実行時に自動的にコードを整形します</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">行番号を表示</translation>
+        <translation>行番号を表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">行番号の表示を切り替えます。</translation>
+        <translation>行番号の表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Show log</source>
-        <translation type="unfinished">ログを表示</translation>
+        <translation>ログを表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">ログの表示を切り替えます。</translation>
+        <translation>ログの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="278"/>
         <source>Show cue log</source>
-        <translation type="unfinished">cueのログを表示</translation>
+        <translation>cueのログを表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">cueのログを表示を切り替えます。cueとOSC/MIDIメッセージのログです。</translation>
+        <translation>cueのログを表示を切り替えます。cueとOSC/MIDIメッセージのログです。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show buttons</source>
-        <translation type="unfinished">ボタンを表示</translation>
+        <translation>ボタンを表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">コントロールボタンの表示を切り替えます。</translation>
+        <translation>コントロールボタンの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show tabs</source>
-        <translation type="unfinished">タブを表示</translation>
+        <translation>タブを表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Buffer選択タブの表示を切り替えます。</translation>
+        <translation>Buffer選択タブの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Full screen</source>
-        <translation type="unfinished">フルスクリーン</translation>
+        <translation>フルスクリーン</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">フルスクリーンモードを切り替えます。</translation>
+        <translation>フルスクリーンモードを切り替えます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Light</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Dark</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Light</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Dark</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>ハイコントラスト</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Logging</source>
-        <translation type="unfinished">ロギング</translation>
+        <translation>ロギング</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">デバッグ時の振る舞いを設定します</translation>
+        <translation>デバッグ時の振る舞いを設定します</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Log synths</source>
-        <translation type="unfinished">synthをログ出力</translation>
+        <translation>synthをログ出力</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">ログメッセージを切り替えます。
+        <translation>ログメッセージを切り替えます。
 無効にすると、シンセやサンプルの実行のログが
 デフォルトで出力されなくなります。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="332"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">実行時にログをクリア</translation>
+        <translation>実行時にログをクリア</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="333"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">実行時のログクリアを切り替えます。
+        <translation>実行時のログクリアを切り替えます。
 有効にすると、実行ボタンを押下する度に
 ログがクリアされます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Log cues</source>
-        <translation type="unfinished">cueをログ出力</translation>
+        <translation>cueをログ出力</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">cueのログを有効／無効にします。
+        <translation>cueのログを有効／無効にします。
 無効にした場合にも、cueは実行されますが、
 ログには出力されません。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">ログ自動スクロール</translation>
+        <translation>ログ自動スクロール</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="339"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">ログ自動スクロールを切り替えます。
+        <translation>ログ自動スクロールを切り替えます。
 有効にすると、新しいメッセージが表示される度にログが最下部までスクロールされます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="362"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Sonic Piでパフォーマンスする際に有用な設定です</translation>
+        <translation>Sonic Piでパフォーマンスする際に有用な設定です</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="366"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">スコープの表示と非表示</translation>
+        <translation>スコープの表示と非表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">スコープの種類</translation>
+        <translation>スコープの種類</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="375"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">スコープを表示</translation>
+        <translation>スコープを表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished">オーディオ・オシロスコープの表示を切り替えます。</translation>
+        <translation>オーディオ・オシロスコープの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Show Axes</source>
-        <translation type="unfinished">軸を表示</translation>
+        <translation>軸を表示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished">オーディオ・オシロスコープの軸の表示を切り替えます</translation>
+        <translation>オーディオ・オシロスコープの軸の表示を切り替えます</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="381"/>
@@ -1096,7 +1096,7 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">オーディオ・オシロスコープは、個別にもしくは全て一緒に表示するか
+        <translation>オーディオ・オシロスコープは、個別にもしくは全て一緒に表示するか
 三通りのオプションがあります。
 
 Lissajous - 左右のチャネルの位相の関係を描画します
@@ -1106,51 +1106,51 @@ Stereo - 左右のチャネルを二つのスコープで表示します</transl
     <message>
         <location filename="../widgets/settingswidget.cpp" line="388"/>
         <source>Transparency</source>
-        <translation type="unfinished">透過</translation>
+        <translation>透過</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="411"/>
         <source>Check for updates</source>
-        <translation type="unfinished">アップデートをチェック</translation>
+        <translation>アップデートをチェック</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Sonic Piが起動時に新しいアップデートをチェックするかを切り替えます。
+        <translation>Sonic Piが起動時に新しいアップデートをチェックするかを切り替えます。
 チェックの際に、プラットフォームとバージョンに関する匿名情報を送信しています。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
         <source>Check now</source>
-        <translation type="unfinished">今すぐチェック</translation>
+        <translation>今すぐチェック</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">強制的にアップデートをチェックします。
+        <translation>強制的にアップデートをチェックします。
 チェックの際に、プラットフォームとバージョンに関する匿名情報を送信しています。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="416"/>
         <source>Get update</source>
-        <translation type="unfinished">アップデートを取得</translation>
+        <translation>アップデートを取得</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">新しいバージョンをダウンロードするために、http://sonic-pi.net を表示します</translation>
+        <translation>新しいバージョンをダウンロードするために、http://sonic-pi.net を表示します</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="420"/>
         <source>Update Info</source>
-        <translation type="unfinished">アップデート情報</translation>
+        <translation>アップデート情報</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="423"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Sonic Pi アップデート情報</translation>
+        <translation>Sonic Pi アップデート情報</translation>
     </message>
 </context>
 <context>
