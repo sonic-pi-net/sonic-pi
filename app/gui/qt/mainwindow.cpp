@@ -1804,10 +1804,11 @@ void MainWindow::toggleIcons() {
 
     if (piSettings->themeStyle == SonicPiTheme::DarkProMode ||
         piSettings->themeStyle == SonicPiTheme::LightProMode) {
-        toolBar->setIconSize(ScaleForDPI(30, 30));
+        toolBar->setIconSize(ScaleForDPI(35, 35));
     } else {
-        toolBar->setIconSize(ScaleForDPI(84.6,30));
+        toolBar->setIconSize(ScaleForDPI(99,35));
     }
+    toolBar->setFixedHeight(ScaleHeightForDPI(45));
 }
 
 void MainWindow::updateColourTheme(){
