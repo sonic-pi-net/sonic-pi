@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-06-18 19:03+0000\n"
+"PO-Revision-Date: 2020-01-27 13:54+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/p"
-"l/>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 ||"
-" n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.7\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -38,7 +38,6 @@ msgstr ""
 "acji oraz wielu innych rzeczach."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
-#, fuzzy
 msgid ""
 "But wait, how rude of me! Let me introduce myself - I'm [Sam Aaron](https://tw"
 "itter.com/samaaron) - the chap that created Sonic Pi. You can find me at [@sam"
@@ -47,13 +46,13 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
-"Ale zaraz zaraz, gdzie moje maniery! Pozwól, że się przedstawię - jestem [Sam "
-"Aaron](http://twitter.com/samaaron) - facet, który stworzył Sonic Pi. Możesz z"
-"naleźć mnie na Twitterze pod nickiem [@samaaron](http://twitter.com/samaaron) "
-"i będzie mi bardzo miło, jeśli będę mógł powiedzieć Ci cześć. Być może zainter"
-"esuje Cię również moja strona [Live Coding Performances](http://facebook.com/l"
-"ivecodersamaaron), gdzie koduję przed publicznością na żywo, używając Sonic Pi"
-"."
+"Ale zaraz zaraz, gdzie moje maniery! Pozwól, że się przedstawię - jestem ["
+"Sam Aaron](http://twitter.com/samaaron) - facet, który stworzył Sonic Pi. "
+"Możesz znaleźć mnie na Twitterze pod nickiem [@samaaron](http://twitter.com/"
+"samaaron) i będzie mi bardzo miło, jeśli będę mógł powiedzieć Ci cześć. Być "
+"może zainteresuje Cię również moja strona [Live Coding "
+"Performances](https://youtube.com/samaaron), gdzie koduję przed "
+"publicznością na żywo, używając Sonic Pi."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -81,16 +80,15 @@ msgstr ""
 "ej wersji."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Jeszcze jedna sprawa na koniec. Oglądanie innych osób kodujących na żywo jest "
-"naprawdę bardzo dobrym sposobem nauki. Regularnie nadaję na żywo na moim kanal"
-"e [http://youtube.com/samaaron](http://youtube.com/samaaron), możesz więc wpaś"
-"ć, powiedzieć mi cześć i zadać dowolne pytanie :-)"
+"Jeszcze jedna sprawa na koniec. Oglądanie innych osób kodujących na żywo "
+"jest naprawdę bardzo dobrym sposobem nauki. Regularnie nadaję na żywo na "
+"moim kanale [http://youtube.com/samaaron](http://youtube.com/samaaron), "
+"możesz więc wpaść, powiedzieć mi cześć i zadać dowolne pytanie :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -140,9 +138,8 @@ msgid "A live loop"
 msgstr "Żywa Pętla"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr "Zacznijmy od skopiowania następującego kawałka kodu do pustego buforu powyżej:"
+msgstr "Zacznijmy od skopiowania następującego kawałka kodu do pustego buforu:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
