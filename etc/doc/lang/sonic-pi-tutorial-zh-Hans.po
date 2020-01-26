@@ -4,10 +4,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-01-14 07:21+0000\n"
-"Last-Translator: kizError <kiki_hzz@163.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/sonic"
-"-pi/tutorial/zh_Hans/>\n"
+"PO-Revision-Date: 2020-01-26 15:18+0000\n"
+"Last-Translator: DahliaSager <1486097136@qq.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -380,7 +380,7 @@ msgstr "B. 代码编辑窗口控制"
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
-msgstr ""
+msgstr "你可以用这些橙色的按钮对代码编辑器进行操作。*Size +*和*Size -*能让你调大或调小文本字体。"
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
@@ -629,23 +629,27 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"那么，数值越低的数字会制造音高越低的蜂鸣声，而数值越高的数字会制造音高越高的蜂鸣声。就像在钢琴上，在钢琴低一些地方（左手边）的键演奏更低的音，而在钢琴高一"
+"些地方（右手边）的键演奏更高的音。"
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr ""
+"结果就是第四个八度的C用数字60来表示。“play 60”也就因此是演奏第四个八度的C。要弹右边紧接着的钢琴键，你必须往60上加个1然后敲出“play "
+"61”，它在这里是黑键C升。要弹D，即右边一个键，“play 62”。"
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
-msgstr "*别担心*, 如果这对你来说难以理解——我一开始也没弄清楚。现在最重要的是你要知道 *低的数字发出的蜂鸣音更低* 和 *高的数字发出的蜂鸣音更高 *。"
+msgstr ""
+"如果这对你来说难以理解——我一开始也没弄清楚——*别担心*。现在最重要的是你要知道 *低的数字发出的蜂鸣音更低* 和 *高的数字发出的蜂鸣音更高 *。"
 
 #: 02.1-Your-First-Beeps.md:44 08.2-Chords.md:3
 msgid "Chords"
@@ -836,8 +840,8 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
-"Sonic Pi支持合成器选项的概念（以下简称选项）。选项是你传递给`play`的控制，它可以修改和控制你听到的声音。每一个合成器都有自己的一套选项来精确调"
-"整它的声音。然而，有一些常见的选项被许多声音共享，如`amp:`和增幅包络选项(将在另一节中介绍)。"
+"Sonic Pi支持合成器选项的概念（以下简称选项）。选项是你传向`play`命令的控制，它可以修改和控制你听到的声音。每一个合成器都有自己的一套选项来精"
+"确调整它的声音。然而，有一些常见的设置选项是许多声音共有的，如`amp:`（增幅）和波封设置选项(将在另一节中介绍)。"
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -1147,10 +1151,11 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:57
+#, fuzzy
 msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
-msgstr ""
+msgstr "现在多个声响同时发声（但连续调用的“play”之间没有休停的代码）："
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
@@ -1226,11 +1231,11 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr "2.4 包络效果(envelope)下的声音持续"
+msgstr "2.4 波封(envelope)下的声音持续"
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
-msgstr "包络效果(envelope)下的声音持续"
+msgstr "波封(envelope)下的声音持续"
 
 #: 02.4-Durations-with-Envelopes.md:5
 msgid ""
@@ -1246,8 +1251,8 @@ msgid ""
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
-"为了给我们提供一种简单而强大的方法来[控制我们的声音的持续时间]，Sonic Pi提出了[ADSR振幅包络(ADSR amplitude envelope)"
-"]的概念(我们将在本节稍后介绍ADSR的含义)。振幅包络提供了两个有用的控制方面:"
+"为了给我们提供一种简单而强大的方法来*控制我们的声音的持续时间*，Sonic Pi提出了*ADSR振幅波封(ADSR amplitude "
+"envelope)*的概念(我们将在本节稍后介绍ADSR的含义)。振幅波封提供了两种实用性的控制:"
 
 #: 02.4-Durations-with-Envelopes.md:14
 msgid "control over the duration of a sound"
@@ -1268,9 +1273,9 @@ msgid ""
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
-"duration指的是声音持续的时长。一个更长的持续时间意味着你能听到这个声音更久。Sonic Pi中的声音都有一个可控制的振幅包络(amplitude e"
-"nvelope)，该包络(envelope)的总持续时间就是声音的持续时间。因此，通过控制包络(envelope)，你就可以控制持续时间(duration)"
-"。"
+"duration指的是声音持续的时长。一个更长的持续时间意味着你能听到这个声音更久。Sonic Pi中的声音都有一个可控制的振幅波封(amplitude "
+"envelope)，该波封(envelope)的总持续时间就是声音的持续时间。因此，通过控制波封(envelope)，你就可以控制音的持续时间(durat"
+"ion)。"
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1283,8 +1288,9 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
-"AADSR包络线就是用来控制音量随着时间变化的部件，这就好像你在只是一个人来拧吉他音箱的音量旋钮：“一开始要安静，接着渐渐到最大音量，维持一段时间，最后迅速"
-"变回安静。” Sonic Pi 便可以通过包络线来精确的执行你的命令。"
+"ADSR波封不仅控制音的持续时间，还给你*对声音振幅的良好控制*。所有可以听见的声音都由无声开始和结束，中间包含一些有声的部分。你可以用波封流畅提升然后保"
+"持有声部分声音的振幅。这就好像你在告诉一个人怎么拧吉他扩音器的音量旋钮。比如你可能会要求一个人“一开始要安静，慢慢推到最大音量，维持一会，然后迅速变回无声"
+"。” Sonic Pi 便可让你利用波封把这个命令精确编码出来。"
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
@@ -1294,7 +1300,7 @@ msgstr "简单来讲，正如我们之前看到的，振幅(amplitude)为0表示
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr "现在，让我们来一个一个看一下包络(envelopes)中的每个部分。"
+msgstr "现在，让我们来一个一个看一下波封(envelopes)中的每个部分。"
 
 #: 02.4-Durations-with-Envelopes.md:42
 msgid "Release Phase"
@@ -1307,8 +1313,8 @@ msgid ""
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
-"包络线唯一一个初始的参数就是声音淡出所需要的时间， 就是释放时间（Release Time)，所有合成器释放时间的初始参数都是“1”， 这指示着它会用一拍的"
-"时间淡出（初始的BPM是60）"
+"波封唯一一个初始的参数就是释音时间（Release Time)。它是声音淡出所需要的时间。所有合成音释音时间的初始参数都是“1”， "
+"这指示着它会用一拍的时间淡出（初始的BPM是60）："
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
@@ -1412,7 +1418,7 @@ msgstr "play 60, attack: 0.7, release: 4"
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
-msgstr "下图说明了这种短暂而绵长的释放音："
+msgstr "下图说明了这种起音短暂而释音绵长的波封："
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
@@ -1452,7 +1458,9 @@ msgstr "play 60, attack: 0.5, release: 0.5"
 msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
-msgstr "![短起音，短释放的包络](../images/tutorial/env-long-attack-short-release.png)"
+msgstr ""
+"![short attack short release envelope](../images/tutorial/env-short-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -1499,9 +1507,10 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
-"对于其他层级的控制，您也可以指定一个衰减时间。这是包络在起音和维持时间中的一个阶段，振幅将从 `attack_level:` 下降至 `decay_leve"
-"l:` （除非您显性地指定它，否则将会被设置为 `sustain_level:`）。默认状态下，`decay:` 选项值为0，起音和持续时间的值为1，所以为"
-"了让衰减时间生效，您需要去指定它们的值："
+"对于更准确的控制，你也可以指定一个衰减时间(decay "
+"time)。这是波封在起音(attack)和延持(sustain)之间的一个阶段，振幅将从起音音幅“attack_level:” "
+"下降至衰减音幅“decay_level:” （除非你明确指定它，否则将会被设置为 “sustain_level:”）。默认状态下，“decay:” "
+"选项值为0，起音和持续时间的值都为1，所以为了让衰减时间生效，你需要去指定它们的值："
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1527,8 +1536,8 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"最后一个技巧：尽管 `decay_level:` 选项默认和 `sustain_level:` 有一样的值，但您也可以显性地将它们设置为不同的值以全方面地控"
-"制包络。这使您能够去创造如下的包络："
+"最后一个技巧：尽管衰减音幅“decay_level:”选项默认值和延持音幅“sustain_level:”一样，你也可以把它们明确设置为不同的值用以全方面"
+"地控制波封。这意味着你可以做出下面这样的波封："
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1564,11 +1573,11 @@ msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr "ADSR 包络"
+msgstr "ADSR 波封"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr "综上所述，Sonic Pi的ADSR信封具有以下阶段："
+msgstr "所以小结一下，Sonic Pi的ADSR波封有以下阶段："
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
@@ -1604,7 +1613,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr "现在去玩一个为您的声音添加轨迹线的游戏..."
+msgstr "现在动手拿你的声音耍耍波封..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
@@ -1875,7 +1884,7 @@ msgstr "让我们播放一种环境声音：`：ambi_choir`。要使用默认速
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
 msgid "sample :ambi_choir, rate: 1"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
 msgid ""
@@ -1886,7 +1895,7 @@ msgstr "它以正常速率（1）播放，因此没有什么特别的。但是�
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
 msgid "sample :ambi_choir, rate: 0.5"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
 msgid ""
@@ -1911,7 +1920,7 @@ msgstr "一个有趣的拉伸和压缩样本是Amen Break。以正常的速度�
 #: A.20-creative-coding-in-the-classroom.md:185
 #, no-wrap
 msgid "sample :loop_amen"
-msgstr ""
+msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
 msgid ""
@@ -1923,7 +1932,7 @@ msgstr "但是，通过更改速率，我们可以切换流派。为旧式嘻哈
 #: A.20-creative-coding-in-the-classroom.md:194
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
 msgid "If we speed it up, we enter *jungle* territory:"
@@ -1932,7 +1941,7 @@ msgstr "如果加快速度，则输入* jungle *："
 #: 03.3-Stretching-Samples.md:61 A.17-sample-stretching.md:46
 #, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
 msgid ""
@@ -1943,7 +1952,7 @@ msgstr "现在是我们最后的最后的花招-让我们看看如果使用负�
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
 msgid "sample :loop_amen, rate: -1"
-msgstr ""
+msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
 msgid ""
@@ -1998,7 +2007,7 @@ msgstr "正如我们在上面看到的，示例由一长串长长的数字表示
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 #, fuzzy
@@ -2044,7 +2053,7 @@ msgstr "我们可以用以下公式表示："
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr ""
+msgstr "new_sample_duration = (1 / rate) * sample_duration "
 
 #: 03.3-Stretching-Samples.md:129
 msgid ""
@@ -2072,11 +2081,11 @@ msgstr ""
 
 #: 03.4-Enveloped-Samples.md:1
 msgid "3.4 Enveloped Samples"
-msgstr "3.4 包络下的示例"
+msgstr "3.4 波封设置后样本(Enveloped samples)"
 
 #: 03.4-Enveloped-Samples.md:3
 msgid "Enveloped Samples"
-msgstr "包络下的示例"
+msgstr "波封设置后的样本(Enveloped Samples)"
 
 #: 03.4-Enveloped-Samples.md:5
 msgid ""
@@ -2088,41 +2097,41 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
-"使用 ADSR 包络去修改音频示例的 *持续时间* 和 *振动幅度* 也是可能的。然而，这会和运用在合成器上的 ADSR 包络有些许不同。示例的包络只允许您"
-"去减少振幅和持续时间，而无法去增加。这段示例将会在示例播放完成或包络完成的时候结束 - 取决于哪种情况先发生。所以，如果您使用很长的 `release:`，"
-"并不会增加示例的持续时间。"
+"用 ADSR 波封去调整样本的 *持续时间(duration)* 和 *振幅(amplitude)* 也是同样可能的。然而，这会和运用在合成音上的 "
+"ADSR 波封有些许不同。样本波封只允许你减少样本的振幅和持续时间——而永远无法增加。这段样本将会在样本本身播放结束或波封完成的时候结束——这取决于哪种情"
+"况先发生。所以说，如果你选用一个很长的“release:”，也并不会增加样本的持续时间。"
 
 #: 03.4-Enveloped-Samples.md:13
 msgid "Amen Envelopes"
-msgstr ""
+msgstr "Amen 波封"
 
 #: 03.4-Enveloped-Samples.md:15
 msgid "Let's return to our trusty friend the Amen Break:"
-msgstr ""
+msgstr "让我们回到我们信赖的伙伴Amen Break："
 
 #: 03.4-Enveloped-Samples.md:21
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade th"
 "is in over 1 second we can use the `attack:` param:"
-msgstr ""
+msgstr "不做设置，我们听到全振幅下完整的样本。如果我们想让它1秒钟内淡入，我们用“attack:”参数："
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
 msgid "sample :loop_amen, attack: 1"
-msgstr ""
+msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
 msgid "For a shorter fade in, choose a shorter attack value:"
-msgstr ""
+msgstr "至于短些的淡入，选一个短些的起音参数值："
 
 #: 03.4-Enveloped-Samples.md:30
 #, no-wrap
 msgid "sample :loop_amen, attack: 0.3"
-msgstr ""
+msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
 msgid "Auto Sustain"
-msgstr ""
+msgstr "自动延音"
 
 #: 03.4-Enveloped-Samples.md:36
 msgid ""
@@ -2137,6 +2146,10 @@ msgid ""
 " values add up to more than the duration of the sample, the sustain is simply "
 "set to 0."
 msgstr ""
+"ADSR 波封的表现和标准合成音波封不同之处在于*延持(sustain)*值。在标准合成音波封里，延持默认值是0，除非你手动设置。对于样本，延持值默认为*"
+"魔力自动(automagical)*值——余下的演奏样本剩余部分的时间。这就是为什么当我们没有输入任何首选项我们还能听到完整样本。要是起音、衰减、延持和释"
+"音的值都是0，那永远只会是一片死寂。所以Sonic Pi计算样本长度，推断出一些起音、衰退和释音，用这个结果作延持时间。如果起音、衰退和释音的值加起来总和"
+"多于样本持续时间，延持(sustain)会被简单设为0."
 
 #: 03.4-Enveloped-Samples.md:48
 msgid "Fade Outs"
@@ -2146,12 +2159,12 @@ msgstr "淡出"
 msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask Sonic"
 " Pi how long the sample is:"
-msgstr ""
+msgstr "探索一波这个选项，我们来细致斟酌一下我们的Amen break。如果我们问Sonic Pi这个样本有多长："
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
 msgid "print sample_duration :loop_amen"
-msgstr ""
+msgstr "print sample_duration :loop_amen"
 
 #: 03.4-Enveloped-Samples.md:57
 msgid ""
@@ -2159,11 +2172,13 @@ msgid ""
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
+"它会输出“1.753310657596372”，也就是以秒为单位的样本长度。这里为了方便我们姑且把它约为1.75。好，如果我们把释音设置成“0.75”，惊"
+"人的事情会发生："
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
 msgid "sample :loop_amen, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:65
 msgid ""
@@ -2173,10 +2188,12 @@ msgid ""
 "as 10.75 seconds long, it would play the first 10 seconds at full amplitude be"
 "fore fading out over 0.75s."
 msgstr ""
+"这行代码会以全振幅演奏样本的第一秒，而后在0.75秒内淡出。这是*自动延持(auto "
+"sustain)*的实践。初始状态下，释音通常从样本的结尾生效。如果我们的样本时长为10.75秒，程序会以全振幅演奏前10秒，而后在0.75秒内淡出。"
 
 #: 03.4-Enveloped-Samples.md:71
 msgid "Remember: by default, `release:` fades out at the end of a sample."
-msgstr ""
+msgstr "记住：初始状态下，“release:”在样本结尾淡出。"
 
 #: 03.4-Enveloped-Samples.md:73
 msgid "Fade In and Out"
@@ -2186,7 +2203,7 @@ msgstr "淡入和淡出"
 msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
-msgstr ""
+msgstr "我们可以同时用“attack:”和“release:”这两个参数和自动延持行为一起在样本持续演奏时淡入和淡出："
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
