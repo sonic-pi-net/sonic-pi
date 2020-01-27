@@ -110,7 +110,7 @@ synth.
 The design of the original TB-303 is actually pretty simple. As you can
 see from the following diagram there's only 4 core parts. 
 
-![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)
+![TB-303 Design](images/tutorial/articles/A.05-acid-bass/tb303-design.png)
 
 First is the oscillator wave - the raw ingredients of the sound. In this
 case we have a square wave. Next there's the oscillator's amplitude

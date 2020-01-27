@@ -61,7 +61,7 @@ important part of his group's work.
 
 ## Sonic Pi Performances
 
-![Jylda Live Coding in the Sage Gateshead](../images/tutorial/articles/A.20-creative-coding-in-the-classroom/jylda-small.png)
+![Jylda Live Coding in the Sage Gateshead](images/tutorial/articles/A.20-creative-coding-in-the-classroom/jylda-small.png)
 Jylda and Sam Aaron perform at the Thinking Digital Conference in the
 Sage Gateshead. Photo credit: TyneSight Photos.
 
@@ -75,7 +75,7 @@ Sonic Pi code. The pop-artist Jylda also performed with Sonic Pi in the
 Sage Gateshead for the Thinking Digital Conference, where she created a
 unique live-coded improvised remix of her song Reeled.
 
-![Sonic Pi in the Royal Albert Hall](../images/tutorial/articles/A.20-creative-coding-in-the-classroom/convo-small.png)
+![Sonic Pi in the Royal Albert Hall](images/tutorial/articles/A.20-creative-coding-in-the-classroom/convo-small.png)
 Sonic Pi used as one of the instruments as part of Convo at the Royal
 Albert Hall. Photo credit: Pete Jones.
 
