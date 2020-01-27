@@ -33,7 +33,7 @@ Now, hit Run. Boom! Your message appeared in Minecraft! How easy was
 that? Now, stop reading this for a moment and play about with your own
 messages. Have fun!
 
-![Screen 0](images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-small.png)
+![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-small.png)
 
 ## Sonic Teleporter
 
@@ -83,7 +83,7 @@ mc_teleport 90, 20, 10
 mc_message "Whoooosh!"
 ```
     
-![Screen 1](images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png)
+![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png)
 
 ## Magic Blocks
 
@@ -155,7 +155,7 @@ this fun?
 
 ## Bringing it all together
 
-![Screen 2](images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-small.png)
+![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-small.png)
 
 Let's combine everything we've seen so far with a little extra
 magic. Let's combine our teleportation ability with block placing and

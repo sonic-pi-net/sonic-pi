@@ -83,7 +83,7 @@ played back in any order and also how to play a specific part of a
 sample we can now start having fun playing a sample back in the 'wrong'
 order.
 
-![Amen Slices](images/tutorial/articles/A.12-sample-slicing/amen_slice.png)
+![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/amen_slice.png)
 
 Let's take our Amen Break and chop it up into 8 equally-sized slices and
 then shuffle the pieces around. Take a look at the diagram: at the top

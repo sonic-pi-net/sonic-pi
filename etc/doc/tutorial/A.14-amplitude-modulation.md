@@ -53,7 +53,7 @@ different notes. Take a look at the following diagram to see how
 different `phase:` values change the number of amplitude changes per
 beat.
 
-![Phase Durations](images/tutorial/articles/A.14-amplitude-modulation/slicer_phase_durations.png)
+![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slicer_phase_durations.png)
 
 Phase duration is the length of time for one on/off cycle. Therefore
 smaller values will make the FX switch on and off much faster than
@@ -94,7 +94,7 @@ between `0` and `1`. By playing around with `phase:`, `wave:`,
 `invert_wave:` and `phase_offset` opts you can dramatically change how
 the amplitude is modified through time.
 
-![Phase Durations](images/tutorial/articles/A.14-amplitude-modulation/slicer_control_waves.png)
+![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slicer_control_waves.png)
 
 
 ## Setting your levels
