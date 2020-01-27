@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2020-01-27 13:54+0000\n"
-"Last-Translator: nlb <nlebellier@gmail.com>\n"
+"Last-Translator: Emlyn Corrin <emlyn.corrin@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -7970,7 +7970,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -7978,7 +7977,7 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
-"define :my_loop do\n"
+"define :mon_son do\n"
 "  use_synth :tb303\n"
 "  play 50, release: 0.3\n"
 "  sleep 0.25\n"
@@ -7994,7 +7993,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8002,7 +8000,7 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"define :my_loop do\n"
+"define :mon_son do\n"
 "  use_synth :tb303\n"
 "  play chord(:e3, :minor), release: 0.3\n"
 "  sleep 0.5\n"
@@ -8014,7 +8012,6 @@ msgstr "Comment faire pour jouer des notes de l'accord aléatoirement :"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8022,7 +8019,7 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
-"define :my_loop do\n"
+"define :mon_son do\n"
 "  use_synth :tb303\n"
 "  play choose(chord(:e3, :minor)), release: 0.3\n"
 "  sleep 0.25\n"
