@@ -85,6 +85,8 @@
 * Calling `.tick` and `.look` on a normal array such as `[1, 2, 3]` will
   now automatically convert it to a ring first.
 * Add docstring for the `set` fn.
+* Add new article A.20 - Creative Coding in the Classroom as appeared in
+  issue #9 of the Hello World magazine.
   
 
 ### Bugfixes
