@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-01-27 13:54+0000\n"
+"PO-Revision-Date: 2020-01-29 08:48+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -451,6 +451,8 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Te pomarańczowe przyciski pozwalają Ci manipulować edytorem kodu. Przyciski  "
+"*Size +* i *Size -* pozwalają Ci zwiększać i zmniejszać tekst."
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
