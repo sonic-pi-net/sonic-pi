@@ -472,7 +472,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="433"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished">No s&apos;ha trobat cap Studio Hash coincident...</translation>
+        <translation>No s&apos;ha trobat cap Studio Hash coincident...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="668"/>
@@ -1030,14 +1030,14 @@ cada vegada que es prema el botó d&apos;iniciar.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Log cues</source>
-        <translation type="unfinished">Registre de senyals (cues)</translation>
+        <translation>Registre de senyals (cues)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Habilita o deshabilita el registre de senyals (cues).
+        <translation>Habilita o deshabilita el registre de senyals (cues).
 Si es deshabilita, els senyals (cues) s&apos;iniciaran normalment
 però no seran visibles al registre.</translation>
     </message>
