@@ -43,12 +43,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1009"/>
         <source>Toggle selection comment...</source>
-        <translation>Commenter/Décommenter la sélection ...</translation>
+        <translation>Commenter / Décommenter la sélection ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
         <source>Toggle line comment...</source>
-        <translation>Commenter/Décommenter la ligne ...</translation>
+        <translation>Commenter / Décommenter la ligne ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1092"/>
@@ -68,7 +68,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2697"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Visitez http://sonic-pi.net pour télécharger une nouvelle version</translation>
+        <translation>Visitez https://sonic-pi.net pour télécharger une nouvelle version</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2045"/>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="745"/>
         <source>Cues</source>
-        <translation>Marqueurs</translation>
+        <translation type="unfinished">Marqueurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
