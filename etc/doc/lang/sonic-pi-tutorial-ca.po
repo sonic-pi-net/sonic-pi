@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-01-27 13:54+0000\n"
+"PO-Revision-Date: 2020-01-29 08:48+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -1329,6 +1329,8 @@ msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
 msgstr ""
+"Ara diversos sons al mateix temps (s'aconsegueix no fent `sleep` entre les "
+"successives crides a `play`):"
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
@@ -1660,12 +1662,15 @@ msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![envolupant amb atac llarg i extinció curta](../images/tutorial/env-long-"
+"attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
 msgstr ""
+"Finalment, podeu obtenir un atac i una extinció curtes per a sons curts."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
@@ -1677,10 +1682,12 @@ msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 msgstr ""
+"![envolupant amb atac curt i extinció curta](../images/tutorial/env-short-"
+"attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
-msgstr ""
+msgstr "Fase de sosteniment"
 
 #: 02.4-Durations-with-Envelopes.md:136
 msgid ""
@@ -1688,6 +1695,10 @@ msgid ""
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
 msgstr ""
+"A més d'especificar els temps d'atac i d'extinció, també podeu especificar "
+"un temps de sosteniment per a controlar la *fase de sosteniment*. Aquest és "
+"el temps durant el qual el so es manté en la seua amplitud màxima entre les "
+"fases d'atac i extinció."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
