@@ -295,6 +295,7 @@ signals:
         //  QTextBrowser *hudPane;
         QWidget *mainWidget;
         QDockWidget *scopeWidget;
+        QDockWidget *visualizerWidget;
         bool hidingDocPane;
         bool restoreDocPane;
 

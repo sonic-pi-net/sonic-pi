@@ -59,6 +59,7 @@
 
 #include "widgets/sonicpilog.h"
 #include "widgets/infowidget.h"
+#include "widgets/visualizer.h"
 #include "model/settings.h"
 #include "widgets/settingswidget.h"
 
@@ -734,6 +735,12 @@ void MainWindow::setupWindowStructure() {
 
     connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
 
+    visualizerWidget = new QDockWidget(tr("Visualizer"),this);
+    visualizerWidget->setFocusPolicy(Qt::NoFocus);
+    visualizerWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
+    visualizerWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    visualizerWidget->setWidget(new Visualizer(scopeInterface));
+    addDockWidget(Qt::RightDockWidgetArea, visualizerWidget);
 
     outputWidget = new QDockWidget(tr("Log"), this);
     outputWidget->setFocusPolicy(Qt::NoFocus);

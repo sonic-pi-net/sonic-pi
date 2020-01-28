@@ -93,6 +93,7 @@ public:
   void scsynthBooted();
   void setColor(QColor c);
 
+  double* GetSamples() { return &sample[0][0]; };
 
 private slots:
   void drawLoop();
