@@ -1,0 +1,159 @@
+April 9, 2013
+-------------
+
+Changes for the 1.1.0 release (vs 1.0.2) are listed below. Unless
+otherwise indicated these changes have been made since 
+January 2013. The focus has been on general clean-up, fixing bugs,
+compiler errors and warnings, and fixing issues on 64 bit platforms. 
+A few improvements such as support for OSC arrays, functions
+for setting broadcast and reuse socket options have been added.
+This update merges changes from the openFrameworks version 
+of oscpack.
+
+    - Added support for arrays in messages (see OscUnitTests.cpp 
+    for example usage). (patch thanks to Tim Blechmann)
+    
+    - Fixed bugs relating to 64 bit usage (e.g. crashes in 64 bit 
+    builds on OS X).
+   	
+    - Some member functions that previously used the "int" or
+    "unsigned long" type for parameters or return values now use 
+    std::size_t (platform-defined) or 
+    osc_bundle_element_size_t (a.k.a. int32).   
+    This change  was made to better support 64 bit platforms.
+    See SVN revision 70 for details.
+    
+    - The previous point introduces a breaking change on Linux/x86_64
+    for callers of AsBlob() and AsBlobUnchecked():
+    The type of the second argument (the "size" argument) to
+    ReceivedMessageArgument::AsBlob() and 
+    ReceivedMessageArgument::AsBlobUnchecked() has changed
+    from unsigned long & to osc_bundle_element_size_t (an int32). 
+    You should declare your size argument variables as 
+    osc_bundle_element_size_t to avoid incompatibilities between 
+    32 and 64 bit builds.
+
+    - Note that oscpack does not support packets larger than
+    0x7FFFFFFC (see comments in class ReceivedPacket for
+    details).
+    
+    - Oscpack defines an osc::Nil value used for sending the nil 
+    message argument value. This conflicts with Objective-C. 
+    Therefore osc::Nil is no longer defined in  Obj-C++ code. 
+    There is now an osc::OscNil value, which should be preferred. 
+    osc::Nil is still available when writing C++.
+    (fix thanks to openFrameworks)
+    
+    - Added UdpSocket::SetEnableBroadcast(). This needs to 
+    be called to enable sending to the broadcast address on some
+    platforms (e.g. Mac OS X). (thanks to openFrameworks)
+    
+    - Added UdpSocket::SetAllowReuse(). This is useful for 
+    sharing sockets on some platforms (Mac?), and not so useful 
+    on other platforms. (thanks to openFrameworks)
+    
+    - Added IpEndpointName::IsMulticastAddress() (2010)
+    
+    - Cleaned up C++ header usage and std:: namespace usage
+    to be more standards compliant (fixes issues on recent compilers
+    such as clang and gcc4.6).
+   	
+    - Improved host endianness detection. Should auto-detect
+    endianness on most platforms now.
+    (thanks to Tim Blechmann for help with this)
+    
+    - Fixed two memory leaks: (1) in OscPrintReceivedElements.cpp
+    when printing time tag message arguments (thanks to Gwydion ap Dafydd). 
+    (2) in the posix SocketReceiveMultiplexer::Run() method if an exception 
+    was thrown while listening.
+    
+    - Fixed bug in posix SocketReceiveMultiplexer::Run() that would cause 
+    packets to stop being received if select() returned EINTR. 
+    (thanks to Björn Wöldecke)
+    
+    - Updated and improved Makefile to avoid redundant re-linking
+    (thanks to Douglas Mandell)
+   
+    - Added CMakeLists.txt CMake build file (2010, thanks to David Doria)
+     
+    - Switched license to plain MIT license with non binding request
+    for contribution of improvements (same as current PortAudio 
+    boilerplate). See LICENSE file.
+
+Thanks to Tim Blechmann, Rob Canning, Gwydion ap Dafydd, David Doria, 
+Christopher Delaney, Jon McCormack, Douglas Mandell, Björn Wöldecke,
+all the guys at openFrameworks, and everyone who reported bugs, 
+submitted patches and helped out with testing this release.
+
+Thanks to Syneme at the University of Calgary for providing financial 
+support for the 1.1.0 update.
+
+
+September 28, 2005
+------------------
+
+Compared to the previous official snapshot (November 2004) the 
+current version of oscpack includes a re-written set of network 
+classes and some changes to the syntax of the networking code. It no 
+longer uses threads, which means that you don't need to use sleep() 
+if you are writing a simple single-threaded server, or you need to 
+spawn your own threads in a more complex application.
+
+The list below summarises the changes if you are porting code from 
+the previous release.
+
+    - There are no longer any threads in oscpack. if you need to 
+    set up an asynchronous listener you can create your own thread 
+    and call Run on an instance of SocketReceiveMultiplexer or 
+    UdpListeningReceiveSocket (see ip/UdpSocket.h) yourself.
+    
+    - Host byte order is now used for network (IP) addresses
+        
+    - Functions which used to take two parameters <address, port> 
+    now take an instance of IpEndpointName (see 
+    ip/IpEndpointName.h) this class has a number of convenient 
+    constructors for converting numbers and strings to internet 
+    addresses. For example there is one which takes a string and 
+    another that take the dotted address components as separate 
+    parameters.
+    
+    - The UdpTransmitPort class, formerly in UdpTransmitPort.h, is 
+    now called UdpTransmitSocket, which is simply a convenience 
+    class derived from UdpSocket (see ip/UdpSocket.h). Where you 
+    used to use the constructor UdpTransmitPort( address, port) now 
+    you can use UdpTransmitSocket( IpEndpointName( address, port ) 
+    ) or you can any of the other possible ctors to IpEndpointName
+    () (see above). The Send() method is unchanged.
+    
+    - The packet listener base class is now located in 
+    ip/PacketListener.h instead of PacketListenerPort.h. The 
+    ProcessPacket method now has an additional parameter indicating 
+    the remote endpoint
+    
+    - The preferred way to set up listeners is with 
+    SocketReceiveMultiplexer (in ip/UdpSocket.h), this also allows 
+    attaching periodic timers. For simple applications which only 
+    listen to a single socket with no timers you can use 
+    UdpListeningReceiveSocket (also in UdpSocket.h) See 
+    osc/OscReceiveTest.cpp or osc/OscDump.cpp for examples of this. 
+    This is more or less equivalent to the UdpPacketListenerPort 
+    object in the old oscpack versions except that you need to 
+    explicitly call Run() before it will start receiving packets 
+    and it runs in the same thread, not a separate thread so Run() 
+    won't usually return.
+    
+    - Explicit calls to InitializeNetworking() and 
+    TerminateNetworking() are no longer required for simple 
+    applications (more complex windows applications should 
+    instantiate NetworkInitializer in main() or WinMain (see 
+    ip/NetworkingUtils.h/.cpp)
+    
+    - The OscPacketListener base class (OscPacketListener.h) was 
+    added to make traversing OSC packets easier, it handles bundle 
+    traversal automatically so you only need to process messages in 
+    your derived classes.
+    
+    - On Windows be sure to link with ws2_32.lib or you will see
+    a linker error about WSAEventSelect not being found. Also you 
+    will need to link with winmm.lib for timeGetTime()
+

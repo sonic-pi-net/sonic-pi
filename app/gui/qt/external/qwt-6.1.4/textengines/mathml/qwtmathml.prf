@@ -1,0 +1,29 @@
+################################################################
+# Qwt Widget Library
+# Copyright (C) 1997   Josef Wilgen
+# Copyright (C) 2002   Uwe Rathmann
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the Qwt License, Version 1.0
+################################################################
+
+include ( ./qwtconfig.pri )
+include ( ./qwtfunctions.pri )
+
+contains(QWT_CONFIG, QwtDll) {
+
+    DEFINES *= QWT_DLL
+}
+
+QT       *= xml
+
+contains(QWT_CONFIG, QwtFramework) {
+
+    INCLUDEPATH *= $${QWT_INSTALL_LIBS}/qwtmathml.framework/Headers
+}
+else {
+
+    INCLUDEPATH *= $${QWT_INSTALL_HEADERS}
+}
+
+qwtAddLibrary($${QWT_INSTALL_LIBS}, qwtmathml)
