@@ -15,6 +15,8 @@ Visualizer::Visualizer(Scope* pScope, QWidget* pParent)
 void Visualizer::paintEvent(QPaintEvent* paintEvent)
 {
     QPainter painter(this);
+    painter.setRenderHint(QPainter::RenderHint::HighQualityAntialiasing);
+
     auto rc = rect();
 
     int y = int(rc.height() / 2.0f);
@@ -33,6 +35,7 @@ void Visualizer::paintEvent(QPaintEvent* paintEvent)
     m_wavePointsRight.resize(rc.width());
     for (int x = 0; x < rc.width(); x++)
     {
+        // Should really smooth the samples here, but this is just a quick demo
         auto left = pData[int(double(x) * step)];
         auto right = pData[4096 + int(double(x) * step)];
         average += std::abs(left);
@@ -44,7 +47,7 @@ void Visualizer::paintEvent(QPaintEvent* paintEvent)
     
     // Draw a simple volume based on the samples, in the background
     average /= rc.width() * 2;
-    painter.fillRect(0, int(double(rc.height()) - average * yScale * 2), rc.width(),int(average * yScale * 2), Qt::blue);
+    painter.fillRect(0, int(double(rc.height()) - average * yScale * 4), rc.width(),int(average * yScale * 4), Qt::blue);
 
     // Draw the left/right stereo, different colors, overlayed
 
