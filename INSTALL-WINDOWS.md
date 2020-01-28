@@ -14,7 +14,7 @@ git clone https://github.com/samaaron/sonic-pi.git c:/dev/sonic-pi
 1) Install Qt.  Qt is not something you want to try building on windows; it is much better to install - be sure to pick the 5.12.6 checkbox to get the installed libraries; it is not on by default.  The following release is recommended/tested.  After install setup an environment variable to point to the install location.  I like to use Rapid Environment Editor to setup these variables permanently (https://www.rapidee.com/en/about).  Otherwise the setx command can make global variables, but the command line needs to be restarted afterwards.  The current recommended version is 5.12.6, but other versions should work.
 ```
 http://download.qt.io/official_releases/qt/5.12/5.12.6/qt-opensource-windows-x86-5.12.6.exe
-setx QT_INSTALL_LOCATION c:/Qt5.12.6  (restart command prompt)
+setx QT_INSTALL_LOCATION C:\Qt\Qt5.12.6\5.12.6\msvc2017_64  (restart command prompt)
 ```
 
 2) Install the latest CMake http://www.cmake.org/download.  This is a build tool that is required
@@ -32,8 +32,9 @@ In C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\aubio-0.3.1\lib\aubio\aubio-ffi.rb
 Replace the ffi_lib "...dylib" line  with ffi_lib "#{File.dirname(__FILE__)}/libaubio-5.dll"
 Download aubio from https://aubio.org/download (choose the aubio-0.x.x-win64.zip), copy the DLLs into the same aubio\ directory alongside aubio-ffi.rb
 
-4) Build the Application by running the prebuild first, then config.
+4) Build the Application by running the prebuild first, then config.  These tools are in the app/gui/qt folder.
 ``` 
+cd app/gui/qt
 prebuild.bat (to make the translations from ruby)
 config.bat (to make a project file)
 cd build
