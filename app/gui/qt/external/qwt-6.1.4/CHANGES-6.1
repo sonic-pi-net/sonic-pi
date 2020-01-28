@@ -1,0 +1,226 @@
+=========
+Qwt 6.1.4
+=========
+
+1) All widgets ( including plot canvas )
+
+    - missing initialization of the background color hint, when
+      drawing a styled focus rectangle
+    - devicePixelRatio handling adjusted, QT_SCALE_FACTOR supported
+
+2) Maintenance
+
+    - deprecated QString::null replaced by QString()
+    - making clang-tidy/clazy and friends happier
+    - compiler warnings with newer Qt versions fixed
+
+3) PyQt-Qwt
+
+    - specific defines added
+
+4) QwtPointMapper
+
+    - being multithreaded when possible
+
+5) QwtPlotRenderer
+
+	- using QPdfWriter instead of QPrinter, when possible
+
+6) Build system
+
+    - auto-disable building the designer plugin, when the
+      corresponding Qt installation was not build with designer support
+
+7) Bug fixes
+
+    - font resolving when using widget fonts for rendering
+      to a different paint device.
+
+    - QwtPlotDirectPainter::CopyBackingStore: bad offset ( subtracting
+      the canvas frame ), when flushing the updated backing store fixed
+
+    - QwtAbstractSlider::stepAlignment fixed, when the value is
+      exactly the upperBound, but no tick position
+
+    - Missing right/bottom pixel added for QwtColumnSymbol::NoFrame
+
+    - QwtWeedingCurveFitter::fitCurve fixed when being called with no points
+
+    - missing updates added for QwtLegend::setMaxColumns, QwtScaleWidget::setLayoutFlag
+
+    - QwtPlotCurve::drawSteps: polygon clipping fixed by adding
+      an extra pixel to the clip rectangle
+
+    - QwtPlotItem::ScaleInterest enabled for all constructors of
+      QwtPlotSeriesItem
+
+	- QwtPlotMarker::boundingRect fixed for HLine/VLine
+
+	- QwtPlotIntervalCurve/QwtPlotTradingCurve::boundingRect fixed
+
+=========
+Qwt 6.1.3
+=========
+
+1) QwtPlotMagnifier, QwtPlotZoomer
+
+    - handling of non linear transformations ( f.e logarithmic )
+
+2) Date/Time scales
+
+    - QwtDate::ceil(), QwtDate::weekNumber(), QwtDate::utcOffset() fixed
+    - QwtDateScaleEngine fixed when aligning to months
+
+3) QwtPlotLayout
+
+    - layout bug for legends witdh visible scrollbars fixed
+   
+4) Plot items
+
+    - hiding QwtPlotLegendItem without entries
+    - QwtPlotShapeItem render code fixed
+
+5) QwtPlotGLCanvas
+
+    - slightly improved, nevertheless better use
+      Qwt 6.2 when being interested in OpenGL
+
+6) Other
+
+    - QwtGraphic boundingRect updates fixed
+    - QwtSyntheticPointData::x() fixed
+    - QwtLogScaleEngine::divideScale ignoring stepSize parameter for ranges
+      below one "decade"
+    - QwtPlotAbstractBarChart::getCanvasMarginHint fixed
+
+=========
+Qwt 6.1.2
+=========
+
+1) Qt 5.4 compatibility
+
+   - QT_STATIC_CONST
+     "QT_STATIC_CONST" replaced by "static const"
+  
+2) build environment
+
+   - QMAKELIBDIRFLAGS
+     using QMAKELIBDIRFLAGS to avoid conflicts with already 
+     installed linux distro packages
+
+3) color maps
+
+    - QwtLinearColorMap 
+      handling of alpha values added
+
+    - QwtAlphaColorMap
+      basic functinality fixed
+
+    - QwtPainter
+      QwtPainter::drawColorBar() fixed for semi transparent colors.
+
+4) QwtPlot and friends
+      
+   - QwtLegend
+     layout issue fixed
+
+   - QwtLogScaleEngine
+     tick duplicates fixed     
+
+   - QwtPainter
+     internal chunk size for drawing polylines with the raster paint engine 
+     reduced from 20 to 6 ( faster ).
+
+Qwt 6.1.1
+=========
+
+1) build environment
+
+   - Shadow builds
+     qmake project files to allow shadow builds
+
+   - pkg-config
+     QwtPkgConfig config option added to qwtconfig.pri to enable generation
+     of pkg-config files ( default setting is: disabled )
+
+2) scales
+
+   - QwtDateScaleEngine
+     Aligning/Autoscaling improved.
+
+   - QwtLinearScaleEngines
+     Trying to avoid overruns for huge intervals ( > max double ) in divideScale().
+
+   - QwtAbstractScaleDraw/QwtScaleDraw
+     Layout issues fixed.
+
+   - QwtRoundScaleDraw
+     Performance for specific use cases improved.
+
+3) controls
+
+   - QwtAbstractSlider/QwtCounter
+     Fixes for tiny step sizes.
+
+   - QwtDial/QwtKnob
+     Rounding instead of flooring, when translating values to angles.
+
+   - QwtKnob/QwtThermo
+     Missing updates, when changing the scale draw.
+
+   - QwtWheel
+     Aligning of values improved.
+
+4) QwtPlot and friends
+
+   - QwtPlot
+     Disabling auto-replot in the destructor.
+     QwtPlot::setPlotLayout() fixed.
+     Calculation in QwtPlot::canvasMap fixed for disabled axes.
+     QwtPlot::autoRefresh() when attaching/detaching a plot item.
+
+   - QwtLegend
+     Clipping code fixed in QwtLegend::renderLegend().
+
+   - QwtPlotRenderer
+     Order of setting printer properties changed to work around a Qt 4.8 bug.
+
+   - QwtGraphic
+     Handling of RenderPensUnscaled flag fixed to respect initial 
+     painter transformations ( non cosmetic pens on legend icons will 
+     be scaled according to paint device resolution - f.e high dpi printouts - now ).
+
+   - QwtPainter
+     Painter transformation for simple rich texts fixed.
+     Applying alpha values, when drawing color bars.
+
+   - QwtPicker
+     Work around a Qt bug when creating an event filter inside of an 
+     event filter ( calling the event filter twice ).
+
+   - QwtPickerMachine
+     Ignoring autorepeated key events.
+
+   - QwtPlotCurve
+     Paint order of curve pen and brush inverted ( pen on top of brush ).
+
+   - QwtPlotAbstractBarChart
+     Using layoutHint() as minimum sample width in AutoAdjustSamples mode.
+
+   - QwtPlotBarChart/QwtPlotMultiBarChart
+     Caluclation of boundingRect() fixed.
+
+   - QwtPlotScaleItem
+     Internal cache removed to avoid out of sync situations
+
+   - QwtPlotSpectroCurve
+     Losing alpha values from the color map fixed.
+
+   - QwtPlotTextLabel
+     No internal caches for record/replay paint devices ( QPicture/QwtGraphic ).
+
+   - QwtRasterData
+     Handling of NaN values added, when calculating contour lines.
+
+   - QwtSymbol
+     Pin point translations fixed.

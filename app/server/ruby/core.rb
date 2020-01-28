@@ -64,7 +64,6 @@ $:.unshift "#{File.expand_path("../vendor", __FILE__)}/sys-proctable-1.1.3/lib/#
 
 $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{ruby_api}/"
 
-require 'win32/process' if os == :windows
 
 ## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
 native_lib_path = File.expand_path("../../native/", __FILE__)
