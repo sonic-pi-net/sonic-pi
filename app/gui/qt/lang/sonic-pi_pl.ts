@@ -1053,44 +1053,44 @@ Jednakże nie będą one widoczne panelu logowania.</translation>
         <location filename="../widgets/settingswidget.cpp" line="339"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Włącz lub wyłącz automatycznie przewijanie logów.
+        <translation>Włącz lub wyłącz automatycznie przewijanie logów.
 Jeśli włączymy tę opcję, to logi będą się automatycznie przewijać przy pojawieniu 
 się każdego kolejnego komunikatu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="362"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Ustawienia przydatne, gdy korzystasz z Sonic Pi na koncertach/podczas występów</translation>
+        <translation>Ustawienia przydatne, gdy korzystasz z Sonic Pi podczas występów</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="366"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Pokaż/ukryj Oscyloskopy</translation>
+        <translation>Pokaż lub Ukryj Skalę</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Rodzaje Skali</translation>
+        <translation>Rodzaje Skali</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="375"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Pokaż Oscyloskopy</translation>
+        <translation>Pokaż Skale</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished">Pokaż/schowaj oscyloskopy audio.</translation>
+        <translation>Pokaż lub schowaj oscyloskopy audio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Show Axes</source>
-        <translation type="unfinished">Pokaż Osie</translation>
+        <translation>Pokaż Osie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished">Pokaż/schowaj osie oscyloskopów audio</translation>
+        <translation>Pokaż/schowaj osie oscyloskopów audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="381"/>
@@ -1100,8 +1100,8 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">Oscyloskop audio posiada trzy rodzaje, które mogą
-być podglądane niezależnie lub wszystkie razem.
+        <translation>Istnieją trzy rodzaje oscyloskopów audio, które mogą
+być widoczne niezależnie lub razem.
 
 Krzywa Lissajous - ilustruje zależność fazową pomiędzy lewym i prawym kanałem 
 Mono - pokazuje połączony widok lewego i prawego kanału (wykorzystując RMS)
@@ -1110,52 +1110,53 @@ Stereo - pokazuje dwie niezależne skale dla lewego i prawego kanału</translati
     <message>
         <location filename="../widgets/settingswidget.cpp" line="388"/>
         <source>Transparency</source>
-        <translation type="unfinished">Przezroczystość</translation>
+        <translation>Przezroczystość</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="411"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Sprawdź dostępność aktualizacji</translation>
+        <translation>Sprawdź dostępność aktualizacji</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Włącza lub wyłącza automatyczne sprawdzanie aktualizacji.
+        <translation>Włącza lub wyłącza automatyczne sprawdzanie aktualizacji.
 Włączenie spowoduje wysyłanie anonimowych informacji o platformie 
 i wersji, z której korzystasz.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
         <source>Check now</source>
-        <translation type="unfinished">Sprawdź teraz</translation>
+        <translation>Sprawdź teraz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Wymusza sprawdzenie aktualizacji w tej chwili.
-Zaznaczenie powoduje wysłanie anonimowych informacji o Twojej platformie i wersji.</translation>
+        <translation>Wymuś sprawdzenie aktualizacji teraz.
+Zaznaczenie powoduje wysłanie anonimowych informacji o twojej platformie i wersji, 
+z której korzystasz.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="416"/>
         <source>Get update</source>
-        <translation type="unfinished">Pobierz aktualizację</translation>
+        <translation>Pobierz aktualizację</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Wejdź na stronę http://sonic-pi.net, aby pobrać nową wersję</translation>
+        <translation>Wejdź na stronę http://sonic-pi.net aby pobrać nową wersję</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="420"/>
         <source>Update Info</source>
-        <translation type="unfinished">Informacje dot. aktualizacji</translation>
+        <translation>Informacje dot. aktualizacji</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="423"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Sonic Pi informacje o aktualizacjach</translation>
+        <translation>Informacje o aktualizacjach Sonic Pi</translation>
     </message>
 </context>
 <context>

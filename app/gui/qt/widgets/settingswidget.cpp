@@ -87,7 +87,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QGroupBox *advancedAudioBox = new QGroupBox(tr("Audio Output"));
     advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
-    mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
+    mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and vice versa."));
     mixer_force_mono = new QCheckBox(tr("Force mono"));
     mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
 

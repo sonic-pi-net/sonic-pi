@@ -11,7 +11,7 @@ visuals, it was merely a projection of Sonic Pi running on a Raspberry
 Pi. The occupant of the DJ booth wasn't spinning disks, he was writing,
 editing and evaluating code. Live. This is Live Coding.
 
-![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaron-live-coding.png)
+![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam-aaron-live-coding.png)
 
 This may sound like a far fetched story from a futuristic night club but
 coding music like this is a growing trend and is often described as Live

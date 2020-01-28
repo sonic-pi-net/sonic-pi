@@ -250,7 +250,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1816"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Couleurs du thème : </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2043"/>
@@ -356,82 +356,82 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode studio activé. Merci de soutenir Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="433"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun hash de mode studio détecté...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="668"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2057"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistre vers un fichier audio WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2061"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2076"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Aligne le code pour une meilleur lisibilité</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2080"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter la taille du texte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuer la taille du texte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2092"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;oscilloscope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;oscilloscope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2098"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les infos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2104"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2141"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fichier</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2148"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Editer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2152"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fenêtre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2190"/>
@@ -575,69 +575,69 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished">Entrée/Sortie</translation>
+        <translation>Entrée/Sortie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished">Éditeur</translation>
+        <translation>Éditeur</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished">Visuels</translation>
+        <translation>Visuels</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">Mises à jour</translation>
+        <translation>Mises à jour</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished">Volume général</translation>
+        <translation>Volume général</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Utilisez ce potentiomètre pour modifier le volume système.</translation>
+        <translation>Utilisez ce curseur pour modifier le volume système.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Sortie audio</translation>
+        <translation>Sortie audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Paramètres audio avancés pour l&apos;utilisation
+        <translation>Paramètres audio avancés pour l&apos;utilisation
 d&apos;un amplificateur externe avec Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Inverser la stéréo</translation>
+        <translation>Inverser la stéréo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished">Bascule en stéréo inversée.
+        <translation>Bascule en stéréo inversée.
 Si activée, le son destiné au haut-parleur de gauche sera
 dirigé vers le haut-parleur de droite et vice et versa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished">Forcer la sortie en mono</translation>
+        <translation>Forcer la sortie en mono</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -646,8 +646,8 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Bascule en mode mono.
-Si activée, l&apos;audio de gauche est mélangé avec celui de droite
+        <translation>Mode mono.
+Si activé, l&apos;audio de gauche est mélangé avec celui de droite
 et le même signal est dirigé vers les deux haut-parleurs. 
 Utile quand on travaille avec des systèmes externes qui 
 ne supportent que le mono.</translation>
@@ -655,31 +655,31 @@ ne supportent que le mono.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Synthétiseurs et effets</translation>
+        <translation>Synthétiseurs et effets</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">Modifier le comportement des synthétiseurs et des effets</translation>
+        <translation>Modifier le comportement des synthétiseurs et des effets</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished">Mode sécurisé</translation>
+        <translation>Mode sécurisé</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Activation des arguments de vérification pour les synthétiseurs. 
+        <translation>Activation des arguments de vérification pour les synthétiseurs. 
 Si désactivée, certaines valeurs optionnelles des synthétiseurs peuvent
 engendrer des sons forts ou désagréables de manière imprévue.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Faire respecter la justesse du minutage</translation>
+        <translation>Forcer le respect du minutage</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
@@ -690,12 +690,12 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Lorsqu’activé, Sonic Pi refusera déclencher des synthétiseurs et effets s’ils sont en retard par rapport à l&apos;horloge. Lorsque cette option est désactivée, Sonic Pi les déclenchera toujours même si ceux-ci sont en retard.</translation>
+        <translation>Si activée, Sonic Pi refusera de déclencher des synthétiseurs et des effets s’ils sont en retard par rapport à l&apos;horloge. Lorsque cette option est désactivée, Sonic Pi les déclenchera toujours même si ceux-ci sont en retard.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished">Activer les synthétiseurs et effets externes</translation>
+        <translation>Activer les synthétiseurs et effets externes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
@@ -706,362 +706,362 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">Lorsqu’activé, Sonic Pi permettra aux synthétiseurs et effets chargés via load_synthdefs d&apos;être joués. Lorsque désactivé, Sonic Pi émettra une alerte lorsque vous essayez d’utiliser un synthétiseur ou effet non reconnu.</translation>
+        <translation>Activée, Sonic Pi permettra aux synthétiseurs et effets chargés via load_synthdefs d&apos;être joués. Désactivée, Sonic Pi émettra une alerte lorsque vous essayez d’utiliser un synthétiseur ou un effet non reconnu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">OSC en réseau</translation>
+        <translation>OSC en réseau</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="136"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi peut envoyer et recevoir des messages Open Sound Control (contrôle sonore ouvert)
+        <translation>Sonic Pi peut envoyer et recevoir des messages Open Sound Control 
 vers et à partir d&apos;autres programmes ou ordinateurs
 via le réseau actuellement connecté.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
         <source>Local IP address</source>
-        <translation type="unfinished">Adresse IP locale</translation>
+        <translation>Adresse IP locale</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="140"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished">Ecoute des messages OSC sur le port</translation>
+        <translation>Ecoute des messages OSC sur le port</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Unavailable</source>
-        <translation type="unfinished">Indisponible</translation>
+        <translation>Indisponible</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished">Recevoir des messages OSC distants</translation>
+        <translation>Recevoir des messages OSC distants</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished">Lorsque la case est cochée, Sonic Pi sera à l&apos;écoute des messages OSC de machines distantes.
-Lorsque la case est décochée, seul les messages de la machine locale seront reçus.</translation>
+        <translation>Cochée, Sonic Pi sera à l&apos;écoute des messages OSC de machines distantes.
+Décochée, seul les messages de la machine locale seront reçus.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished">Activer serveur OSC</translation>
+        <translation>Activer le serveur OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">Lorsque la case est cochée, Sonic Pi sera à l&apos;écoute des messages OSC.
-Lorsque la case est décochée, aucun message OSC ne sera reçu.</translation>
+        <translation>Cochée, Sonic Pi sera à l&apos;écoute des messages OSC.
+Décochée, aucun message OSC ne sera reçu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">Configuration MIDI</translation>
+        <translation>Configuration MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">Configurer comportement MIDI</translation>
+        <translation>Configurer le MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">Ports MIDI</translation>
+        <translation>Ports MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">Liste de tous les ports MIDI connectés</translation>
+        <translation>Liste de tous les ports MIDI connectés</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished">Activer sous-systèmes MIDI</translation>
+        <translation>Activer les sous-systèmes MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished">Activer ou désactiver communication MIDI entrant et sortant</translation>
+        <translation>Activer ou désactiver la communication MIDI entrante et sortante</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">Réinitialiser MIDI</translation>
+        <translation>Réinitialiser MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">Réinitialiser sous-systèmes MIDI
-(Nécessaire pour détecter changements de dispositifs sous macOS)</translation>
+        <translation>Réinitialiser les sous-systèmes MIDI
+(Nécessaire pour détecter des changements de dispositifs sous macOS)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished">Canal MIDI par défaut (* signifie tous)</translation>
+        <translation>Canal MIDI par défaut (* signifie tous)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <location filename="../widgets/settingswidget.cpp" line="218"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished">Canal MIDI par défaut pour envoyer messages</translation>
+        <translation>Canal MIDI par défaut pour envoyer des messages</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">Aucun périphérique d&apos;entrée connecté</translation>
+        <translation>Aucun périphérique d&apos;entrée connecté</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="230"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">Aucun périphérique de sortie connecté</translation>
+        <translation>Aucun périphérique de sortie connecté</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">Les périphériques d&apos;entrée MIDI envoient les messages MIDI directement à 
-Sonic-Pi et reçoivent en tant que signaux
-(similaires aux messages OSC entrant et aux signaux internes)</translation>
+        <translation>Les périphériques d&apos;entrée MIDI envoient les messages MIDI directement à 
+Sonic-Pi et sont traités comme des événements cue
+(même traitement que les messages OSC entrants ou signaux internes)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">Les périphériques de sortie MIDI reçoivent des messages MIDI directement à partir de
-Sonic Pi qui peut être envoyé via les fonctions midi_*</translation>
+        <translation>Les périphériques de sortie MIDI reçoivent des messages MIDI directement à partir de
+Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Affichage</translation>
+        <translation>Afficher et cacher</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">Configuration des options d&apos;affichage de l&apos;éditeur.</translation>
+        <translation>Configuration des options d&apos;affichage de l&apos;éditeur.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
         <source>Look and Feel</source>
-        <translation type="unfinished">Apparence</translation>
+        <translation>Apparence</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">Configuration de l&apos;apparence de l&apos;éditeur.</translation>
+        <translation>Configuration de l&apos;apparence de l&apos;éditeur.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Automation</source>
-        <translation type="unfinished">Automatisation</translation>
+        <translation>Automatisation</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished">Configurer les fonctionnalités d&apos;automatisation.</translation>
+        <translation>Configurer les fonctionnalités d&apos;automatisation.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Auto-align</source>
-        <translation type="unfinished">Alignement automatique</translation>
+        <translation>Alignement automatique</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished">Alignement automatique du code à l&apos;exécution</translation>
+        <translation>Alignement automatique du code à l&apos;exécution</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Affichage des numéros de ligne</translation>
+        <translation>Affichage des numéros de ligne</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Activer/désactiver la visibilité des numéros de ligne.</translation>
+        <translation>Activer/désactiver la visibilité des numéros de ligne.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Show log</source>
-        <translation type="unfinished">Affichage de la trace</translation>
+        <translation>Affichage du journal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">Activer/désactiver la visibilité du journal.</translation>
+        <translation>Activer/désactiver la visibilité du journal.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="278"/>
         <source>Show cue log</source>
-        <translation type="unfinished">Afficher le journal de signaux</translation>
+        <translation>Afficher le journal des signaux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">Activer/désactiver la visibilité du journal des signaux qui affiche les signaux internes et les messages entrant OSC/MIDI.</translation>
+        <translation>Activer/désactiver la visibilité du journal des signaux qui affiche les signaux internes et les messages entrant OSC/MIDI.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Affichage des boutons</translation>
+        <translation>Affichage des boutons</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">Activer/désactiver la visibilité des boutons de contrôle.</translation>
+        <translation>Activer/désactiver la visibilité des boutons de contrôle.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show tabs</source>
-        <translation type="unfinished">Affichage des onglets</translation>
+        <translation>Affichage des onglets</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Activer/désactiver l&apos;affichage des onglets de sélection des buffers.</translation>
+        <translation>Activer/désactiver l&apos;affichage des onglets de sélection des buffers.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Full screen</source>
-        <translation type="unfinished">Plein écran</translation>
+        <translation>Plein écran</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">Activer/désactiver le mode plein écran.</translation>
+        <translation>Activer/désactiver le mode plein écran.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Clair</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Sombre</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Clair Pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Sombre Pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Haut contraste</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Logging</source>
-        <translation type="unfinished">Journalisation</translation>
+        <translation>Journalisation</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">Configuration du comportement de déboggage</translation>
+        <translation>Configuration du comportement de débogage</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Log synths</source>
-        <translation type="unfinished">Trace des synthétiseurs</translation>
+        <translation>Trace des synthétiseurs</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Active la journalisation.
-Si désactivé,  les synthétiseurs et samples activés
+        <translation>Active la journalisation.
+Si désactivée, les synthétiseurs et samples activés
 ne seront pas, par défaut, inscrits dans le journal.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="332"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">Réinitialise le journal avant exécution du code</translation>
+        <translation>Réinitialise le journal avant exécution du code</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="333"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Activation de l&apos;effacement du journal avant exécution.
+        <translation>Activation de l&apos;effacement du journal avant exécution.
 Si activé, le journal est effacé à chaque appui sur le bouton run.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Log cues</source>
-        <translation type="unfinished">Journal des traces</translation>
+        <translation>Journal des signaux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Activation du journal des traces.
-Si désactivée, les traces restent toujours émises.
-Elles ne seront toutefois pas visibles.</translation>
+        <translation>Activation du journal des signaux.
+Si désactivée, les signaux sont toujours déclenchés 
+mais ne seront toutefois pas visibles.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">Journal de défilement automatique</translation>
+        <translation>Défilement automatique du journal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="339"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Activer le défilement automatique des journaux.
+        <translation>Activer le défilement automatique des journaux.
 Si activé le journal défilera vers le bas à chaque nouveau message.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="362"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Paramètres utiles pour l&apos;interprétation avec Sonic Pi</translation>
+        <translation>Paramètres utiles pour le live avec Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="366"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Afficher et masquer la portée</translation>
+        <translation>Afficher et masquer l&apos;oscilloscope</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Types d&apos;Oscillo</translation>
+        <translation>Types d&apos;Oscilloscope</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="375"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Afficher les Oscillos</translation>
+        <translation>Afficher les Oscilloscopes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished">Afficher/cacher les oscilloscopes audio.</translation>
+        <translation>Afficher/cacher les oscilloscopes audio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Show Axes</source>
-        <translation type="unfinished">Afficher les axes</translation>
+        <translation>Afficher les axes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished">Basculer la visibilité des axes des oscilloscopes audio</translation>
+        <translation>Basculer la visibilité des axes des oscilloscopes audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="381"/>
@@ -1071,7 +1071,7 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">L&apos;oscilloscope audio existe sous trois formes qui peuvent
+        <translation>L&apos;oscilloscope audio existe sous trois formes qui peuvent
 être affichées indépendamment ou simultanément :
 
 Lissajous - illustre la relation de phase entre les canaux gauche et droit
@@ -1081,51 +1081,51 @@ Stéréo - montre deux oscilloscopes indépendants pour les canaux gauche et dro
     <message>
         <location filename="../widgets/settingswidget.cpp" line="388"/>
         <source>Transparency</source>
-        <translation type="unfinished">Transparence</translation>
+        <translation>Transparence</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="411"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Vérification des mises à jour</translation>
+        <translation>Vérification des mises à jour</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Activer/Désactiver la vérification automatique des mises à jour.
+        <translation>Activer/Désactiver la vérification automatique des mises à jour.
 Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre plateforme et votre version.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
         <source>Check now</source>
-        <translation type="unfinished">Vérifier maintenant</translation>
+        <translation>Vérifier maintenant</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Forcer la vérification d&apos;une mise à jour.
+        <translation>Forcer la vérification d&apos;une mise à jour.
 Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos de votre plateforme et de votre version.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="416"/>
         <source>Get update</source>
-        <translation type="unfinished">Obtention d&apos;une mise à jour</translation>
+        <translation>Obtention d&apos;une mise à jour</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Visitez http://sonic-pi.net pour télécharger une nouvelle version</translation>
+        <translation>Visitez https://sonic-pi.net pour télécharger une nouvelle version</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="420"/>
         <source>Update Info</source>
-        <translation type="unfinished">Information de mise à jour</translation>
+        <translation>Information de mise à jour</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="423"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Informations de mise à jour de Sonic Pi</translation>
+        <translation>Informations de mise à jour de Sonic Pi</translation>
     </message>
 </context>
 <context>
