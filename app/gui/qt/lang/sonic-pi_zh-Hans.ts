@@ -589,13 +589,13 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished">视觉</translation>
+        <translation type="unfinished">视觉效果</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">更新</translation>
+        <translation>软件更新</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
@@ -616,12 +616,12 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">高级声音设置用于使用Sonic Pi通过外部扩声系统进行播放时。</translation>
+        <translation>高级音频设置，适用于Sonic Pi通过外部扩声系统进行音频输出时。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">立体声反转</translation>
+        <translation type="unfinished">反转立体声</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
@@ -934,27 +934,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">浅色</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">深色</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>浅色专业版</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>深色专业版</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>高对比度模式</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
