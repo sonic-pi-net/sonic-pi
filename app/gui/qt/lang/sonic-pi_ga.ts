@@ -68,59 +68,59 @@
     <message>
         <location filename="../mainwindow.cpp" line="1009"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Scoránaigh nóta tráchta roghnú...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="745"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Leideanna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="840"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lánscáileán ann.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="857"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lánscáileán as.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Scoránaigh nóta tráchta liné...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1092"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Is cuma leis an Freastalaí Pi Sonach!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <location filename="../mainwindow.cpp" line="2748"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Níl aon gléas ionchuir ann</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2737"/>
         <location filename="../mainwindow.cpp" line="2749"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Níl aon gléas aschuir ann</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2697"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabhair cuairt ar http://sonic-pi.net chun leagan nua a íoslódáil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2828"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Gléas Ionchuir MIDI nasctha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2833"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Gléas Aschuir MIDI nasctha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
