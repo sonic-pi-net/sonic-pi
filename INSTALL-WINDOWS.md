@@ -48,7 +48,6 @@ Load the solution file from the build directory into Visual Studio and build it.
 
 Sonic Pi has most of its functionality inside the ruby interface, which also uses SuperCollider as its synthesizer.
 
-## SuperCollider
 1) Install Super Collider, 64 bit.  The current tested version is:
 ```
 https://github.com/supercollider/supercollider/releases/download/Version-3.10.4/SuperCollider-3.10.4_Release-x64-VS-95e9507.exe
@@ -61,40 +60,10 @@ https://github.com/supercollider/supercollider/releases/download/Version-3.10.4/
 	vcruntime140.dll
 	plugins
 
-## Ruby Components
-Run a console as administrator.
-
-1) Add a link to Ruby so the server can find it: In c:\dev\sonic-pi\app\server\native run:
+3) Run a console as administrator. Add a link to Ruby so the server can find it: In c:\dev\sonic-pi\app\server\native run:
 ```
 mklink /d ruby c:\Ruby25-x64
 ```
-
-2) Edit sonic-pi\app\server\ruby\lib\sonicpi\studio.rb 
-```
- remove the three occurrences of the string "exec" leaving the rest of the three lines unchanged
- comment out the body of def __erl_mut_start_erlang
-```
-
-3) Sonic-pi/app/server/ruby/core.rb - comment out the line
-```
-require 'win32/process' if os == :windows
-```
-
-4) Comment these lines out from C:\dev\sonic-pi\app\server\ruby\bin\sonic-pi-server.rb
-```
-STDOUT.puts "Erlang port: #{erlang_port}"
-ensure_port_or_quit.call(erlang_port, gui)
-erlang_port = ARGV[6] ? ARGV[6].to_i : 4561
-erlang_port: erlang_port,
-```
-
-5) Add the ".exe" to these lines in C:\dev\sonic-pi\app\server\ruby\lib\sonicpi\util.rb
-```
-File.join(native_path, "osmid", "o2m.exe")
-File.join(native_path, "osmid", "m2o.exe")
-```
-
-6) Comment out the whole of C:\dev\sonic-pi\app\server\ruby\lib\sonicpi\gitsave.rb
 
 Run C:\dev\sonic-pi\app\gui\qt\Release\sonic-pi.exe.
 
