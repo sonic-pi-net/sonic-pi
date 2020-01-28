@@ -1,0 +1,12 @@
+Source: osmid
+Maintainer: Luis Lloret <luislloret@gmail.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 9), libboost-system-dev, libboost-program-options-dev, libasound2-dev, cmake
+
+Package: osmid
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Midi to OSC to Midi bridge
+	osmid bridges the world of Midi and OSC
