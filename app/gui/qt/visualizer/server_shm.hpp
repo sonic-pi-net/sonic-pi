@@ -95,7 +95,7 @@ public:
 	}
 
 private:
-#if true 
+#if defined(_WIN32)
 	// Note: this shared memory structure is 32 bytes on the SuperCollider side, at least on a release build which is typically used.
 	// But! A string on windows (or any platform for that matter) does not guarantee that it will consume 32 bytes of memory.
 	uint8_t shmem_name[32];
