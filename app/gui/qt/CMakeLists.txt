@@ -188,7 +188,7 @@ if(WIN32)
 
     # Copy the built osmid files to the server
     add_custom_command(TARGET ${APP_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${SONIC_PI_ROOT}/server/native/osmid
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${SONIC_PI_ROOT}/app/server/native/osmid
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/external/osmid-prefix/src/osmid-build/Release/m2o.exe ${SONIC_PI_ROOT}/app/server/native/osmid
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/external/osmid-prefix/src/osmid-build/Release/o2m.exe ${SONIC_PI_ROOT}/app/server/native/osmid)  
 endif() # Win32
