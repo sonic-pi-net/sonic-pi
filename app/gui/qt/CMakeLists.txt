@@ -89,50 +89,6 @@ set(SOURCES
     ${APP_ROOT}/model/settings.h
     )
 
-set(TRANSLATIONS
-    ${APP_ROOT}/lang/sonic-pi_bg.ts
-    ${APP_ROOT}/lang/sonic-pi_bs.ts
-    ${APP_ROOT}/lang/sonic-pi_ca.ts
-    ${APP_ROOT}/lang/sonic-pi_cs.ts
-    ${APP_ROOT}/lang/sonic-pi_da.ts
-    ${APP_ROOT}/lang/sonic-pi_de.ts
-    ${APP_ROOT}/lang/sonic-pi_el.ts
-    ${APP_ROOT}/lang/sonic-pi_en_US.ts
-    ${APP_ROOT}/lang/sonic-pi_es.ts
-    ${APP_ROOT}/lang/sonic-pi_et.ts
-    ${APP_ROOT}/lang/sonic-pi_fa.ts
-    ${APP_ROOT}/lang/sonic-pi_fi.ts
-    ${APP_ROOT}/lang/sonic-pi_fr.ts
-    ${APP_ROOT}/lang/sonic-pi_gl.ts
-    ${APP_ROOT}/lang/sonic-pi_he.ts
-    ${APP_ROOT}/lang/sonic-pi_hi.ts
-    ${APP_ROOT}/lang/sonic-pi_hu.ts
-    ${APP_ROOT}/lang/sonic-pi_id.ts
-    ${APP_ROOT}/lang/sonic-pi_is.ts
-    ${APP_ROOT}/lang/sonic-pi_it.ts
-    ${APP_ROOT}/lang/sonic-pi_ja.ts
-    ${APP_ROOT}/lang/sonic-pi_ka.ts
-    ${APP_ROOT}/lang/sonic-pi_ko.ts
-    ${APP_ROOT}/lang/sonic-pi_nb.ts
-    ${APP_ROOT}/lang/sonic-pi_nl.ts
-    ${APP_ROOT}/lang/sonic-pi_pl.ts
-    ${APP_ROOT}/lang/sonic-pi_pt.ts
-    ${APP_ROOT}/lang/sonic-pi_pt_BR.ts
-    ${APP_ROOT}/lang/sonic-pi_ro.ts
-    ${APP_ROOT}/lang/sonic-pi_ru.ts
-    ${APP_ROOT}/lang/sonic-pi_sk.ts
-    ${APP_ROOT}/lang/sonic-pi_sl.ts
-    ${APP_ROOT}/lang/sonic-pi_sv.ts
-    ${APP_ROOT}/lang/sonic-pi_tr.ts
-    ${APP_ROOT}/lang/sonic-pi_ug.ts
-    ${APP_ROOT}/lang/sonic-pi_uk.ts
-    ${APP_ROOT}/lang/sonic-pi_vi.ts
-    ${APP_ROOT}/lang/sonic-pi_zh-Hans.ts
-    ${APP_ROOT}/lang/sonic-pi_zh.ts
-    ${APP_ROOT}/lang/sonic-pi_zh_HK.ts
-    ${APP_ROOT}/lang/sonic-pi_zh_TW.ts
-    )
-
 SET(RESOURCES
     ${APP_ROOT}/SonicPi.qrc
     ${APP_ROOT}/help_files.qrc
@@ -192,11 +148,6 @@ if(WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/external/osmid-prefix/src/osmid-build/Release/m2o.exe ${SONIC_PI_ROOT}/app/server/native/osmid
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/external/osmid-prefix/src/osmid-build/Release/o2m.exe ${SONIC_PI_ROOT}/app/server/native/osmid)  
 endif() # Win32
-
-# Generate the translations if necessary
-add_custom_command(TARGET ${APP_NAME} PRE_BUILD 
-    COMMAND ${QT_TOOLS_DIR}/lrelease ${TRANSLATIONS}
-    DEPENDS ${TRANSLATIONS})
 
 # Make convenient source groups in the IDE
 source_group (SonicPi FILES ${SOURCES})
