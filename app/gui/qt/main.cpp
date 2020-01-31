@@ -23,13 +23,22 @@
 
 #include "widgets/sonicpilog.h"
 
+#include "dpi.h"
+
 int main(int argc, char *argv[])
 {
 #ifndef Q_OS_MAC
   Q_INIT_RESOURCE(SonicPi);
 #endif
-  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+  // A temporary fix, until stylesheets are removed.
+  // Only do the dpi scaling when the platform is high dpi
+  if (GetDisplayScale().width() > 1.1f)
+  {
+      QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+      QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  }
+
   QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
 
   QApplication app(argc, argv);
