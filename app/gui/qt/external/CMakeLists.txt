@@ -8,5 +8,4 @@ ExternalProject_Add(osmid
     )
 
 add_subdirectory(QScintilla-2.11.4)
-add_subdirectory(Qwt-6.1.4)
 

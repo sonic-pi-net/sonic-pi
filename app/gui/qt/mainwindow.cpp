@@ -208,7 +208,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     if (waitForServiceSync()){
         // We have a connection! Finish up loading app...
-        scopeInterface->scsynthBooted();
+        scopeInterface->ScsynthBooted();
         std::cout << "[GUI] - honour prefs" << std::endl;
         restoreWindows();
         honourPrefs();
@@ -528,9 +528,9 @@ void MainWindow::setupWindowStructure() {
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
     scopeInterface = new Scope(scsynth_port);
-    scopeInterface->pause();
-    restoreScopeState(scopeInterface->getScopeNames());
-    settingsWidget->updateScopeNames(scopeInterface->getScopeNames());
+    scopeInterface->Pause();
+    restoreScopeState(scopeInterface->GetScopeNames());
+    settingsWidget->updateScopeNames(scopeInterface->GetScopeNames());
 
     prefsCentral = new QWidget;
     prefsCentral->setObjectName("prefsCentral");
@@ -734,7 +734,6 @@ void MainWindow::setupWindowStructure() {
 
     connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
 
-
     outputWidget = new QDockWidget(tr("Log"), this);
     outputWidget->setFocusPolicy(Qt::NoFocus);
     outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -886,11 +885,11 @@ void MainWindow::updateFocusMode(){
 }
 
 void MainWindow::toggleScopePaused() {
-    scopeInterface->togglePause();
+    scopeInterface->TogglePause();
 }
 
 void MainWindow::allJobsCompleted() {
-    scopeInterface->pause();
+    scopeInterface->Pause();
 
     // re-enable log text selection
     incomingPane->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -1417,7 +1416,7 @@ void MainWindow::showBufferCapacityError() {
 
 void MainWindow::runCode()
 {
-    scopeInterface->resume();
+    scopeInterface->Resume();
 
     // move log cursors to end of log files
     // and disable user input
@@ -1654,13 +1653,17 @@ void MainWindow::toggleScope() {
 
 void MainWindow::scope() {
     scopeAct->setIcon( theme->getScopeIcon(piSettings->show_scopes));
-    if(piSettings->show_scopes) {
-        for( auto name : scopeInterface->getScopeNames()) {
-            scopeInterface->enableScope( name, piSettings->isScopeActive(name));
+    if(piSettings->show_scopes)
+    {
+        for( auto name : scopeInterface->GetScopeNames()) 
+        {
+            scopeInterface->EnableScope( name, piSettings->isScopeActive(name));
         }
         scopeWidget->show();
 
-    } else {
+    }
+    else
+    {
         scopeWidget->hide();
     }
 }
@@ -1744,7 +1747,7 @@ void MainWindow::changeSystemPreAmp(int val, int silent)
 }
 
 void MainWindow::toggleScope(QString name) {
-    scopeInterface->enableScope( name, piSettings->isScopeActive(name));
+    scopeInterface->EnableScope( name, piSettings->isScopeActive(name));
 }
 
 void MainWindow::toggleLeftScope()
@@ -1759,7 +1762,7 @@ void MainWindow::toggleRightScope()
 
 void MainWindow::toggleScopeAxes()
 {
-    scopeInterface->setScopeAxes(piSettings->show_scope_axes);
+    scopeInterface->SetScopeAxes(piSettings->show_scope_axes);
 }
 
 void MainWindow::cycleThemes() {
@@ -1855,7 +1858,7 @@ void MainWindow::updateColourTheme(){
     errorPane->setStyleSheet(theme->getErrorStylesheet());
     docsCentral->setStyleSheet(theme->getDocStylesheet());
 
-    scopeInterface->refresh();
+    scopeInterface->Refresh();
     scopeWidget->update();
 
     for(int i=0; i < tabs->count(); i++){
@@ -1872,7 +1875,7 @@ void MainWindow::updateColourTheme(){
         ws->redraw();
     }
 
-    scopeInterface->setColor(theme->color("Scope"));
+    scopeInterface->SetColor(theme->color("Scope"));
     lexer->unhighlightAll();
 }
 
