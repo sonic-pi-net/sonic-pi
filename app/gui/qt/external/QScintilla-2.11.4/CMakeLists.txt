@@ -282,7 +282,7 @@ target_compile_definitions(QScintilla PRIVATE -D_CRT_SECURE_NO_WARNINGS)
 # Disable warnings
 if(WIN32)
     target_compile_options(QScintilla PRIVATE /wd4099 /wd4005 /wd4554 /wd4101 /wd4700 /wd5038 /wd4267 /wd4996)
-elseif(LINUX)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
     target_compile_options(QScintilla
     PRIVATE
         -Wno-reorder

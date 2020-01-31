@@ -38,7 +38,9 @@ set(QT_TOOLS_DIR ${CMAKE_PREFIX_PATH}/bin)
 
 set_property(GLOBAL PROPERTY AUTOMOC_FOLDER Automoc)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
-find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network Opengl PrintSupport Xml Svg REQUIRED)
+
+find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+find_package(Threads REQUIRED)
 
 add_subdirectory(external)
 
@@ -66,7 +68,7 @@ set(EDITOR_SOURCES
     ${APP_ROOT}/widgets/sonicpiscintilla.h
     )
 
-set (QT_SOURCES
+set(QT_SOURCES
     ${APP_ROOT}/widgets/infowidget.cpp
     ${APP_ROOT}/widgets/settingswidget.cpp
     ${APP_ROOT}/mainwindow.cpp
@@ -77,7 +79,7 @@ set (QT_SOURCES
     ${APP_ROOT}/widgets/settingswidget.h
     )
 
-set(SOURCES 
+set(SOURCES
     ${APP_ROOT}/visualizer/scope.cpp
     ${APP_ROOT}/visualizer/scope.h
     ${APP_ROOT}/visualizer/scope_buffer.hpp
@@ -102,7 +104,7 @@ SET(RESOURCES
 set(ALL_SOURCES ${OSC_SOURCES} ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES})
 
 # Create the Qt version of the app
-add_executable (${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
+add_executable(${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
 set_property(TARGET ${APP_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON) # Qt requires this?
 target_include_directories(${APP_NAME}
     PRIVATE
@@ -127,10 +129,17 @@ target_link_libraries(${APP_NAME}
     Qt5::Widgets
     Qt5::OpenGL
     Qt5::Concurrent
-    Qt5::Network)
+    Qt5::Network
+    Threads::Threads)
 
-# Workaround Qt + MSVC 19 compile issue in release build.
-target_compile_options(${APP_NAME} PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/wd4005 /W3 /D_CRT_SECURE_NO_WARNINGS /D_WINSOCK_DEPRECATED_NO_WARNINGS /DBOOST_DATE_TIME_NO_LIB>)
+# Compile options and OS specific libraries
+if(WIN32)
+    # Workaround Qt + MSVC 19 compile issue in release build.
+    target_compile_options(${APP_NAME} PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/wd4005 /W3 /D_CRT_SECURE_NO_WARNINGS /D_WINSOCK_DEPRECATED_NO_WARNINGS /DBOOST_DATE_TIME_NO_LIB>)
+elseif(UNIX)
+    # Link librt
+    target_link_libraries(${APP_NAME} PRIVATE rt)
+endif()
 
 # Deploy Qt binaries to the output on windows
 if(WIN32)
@@ -149,10 +158,10 @@ if(WIN32)
 endif() # Win32
 
 # Make convenient source groups in the IDE
-source_group (SonicPi FILES ${SOURCES})
-source_group (Osc FILES ${OSC_SOURCES})
-source_group (Scintilla FILES ${EDITOR_SOURCES})
-source_group (Qt FILES ${QT_SOURCES})
+source_group(SonicPi FILES ${SOURCES})
+source_group(Osc FILES ${OSC_SOURCES})
+source_group(Scintilla FILES ${EDITOR_SOURCES})
+source_group(Qt FILES ${QT_SOURCES})
 
 source_group(Qt\\AutoMoc FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_automoc.cpp ) 
 source_group(Qt\\AutoMoc REGULAR_EXPRESSION "(mocs_*|qrc_.*|QtAwesome.*)" ) 
