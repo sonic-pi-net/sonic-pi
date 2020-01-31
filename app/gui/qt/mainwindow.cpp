@@ -1033,9 +1033,12 @@ QString MainWindow::rootPath() {
 #if defined(Q_OS_MAC)
     return QCoreApplication::applicationDirPath() + "/../Resources";
 #elif defined(Q_OS_WIN)
-    return QCoreApplication::applicationDirPath() + "/../../../..";
+    // CMake builds, the exe is in build/debug/sonic-pi, etc.
+    // We should pass this to the build instead of wiring it up this way!
+    return QCoreApplication::applicationDirPath() + "/../../../../..";
 #else
-    return QCoreApplication::applicationDirPath() + "/../../..";
+    // On linux, CMake builds app into the build folder
+    return QCoreApplication::applicationDirPath() + "/../../../..";
 #endif
 }
 

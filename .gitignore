@@ -25,6 +25,10 @@ debug/
 release/
 relwithdebinfo/
 
+# Build directories
+build
+build32
+
 # Core dumps
 *.dump
 
