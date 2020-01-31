@@ -31,20 +31,26 @@ enum class ScopeType
     Left,
     Right,
     Mono,
-    Lissajous
+    Lissajous,
+    MirrorStereo
 };
 
 struct Panel
 {
+    QString category;
     QString name;
     ScopeType type;
 
     QRect rc;
+    QRect rcGraph;
+    QRect rcTitle;
     QPen pen;
     bool visible = true;
     bool axisVisible = false;
+    bool titleVisible = true;
     
     std::vector<QPoint> wavePoints;
+    QLinearGradient redBlueGradient;
 };
 
 class Scope : public QOpenGLWidget
@@ -55,7 +61,7 @@ public:
     Scope(int scsynthPort, QWidget* parent = nullptr);
     virtual ~Scope();
 
-    std::vector<QString> GetScopeNames() const;
+    std::vector<QString> GetScopeCategories() const;
     bool EnableScope(const QString& name, bool on);
     bool SetScopeAxes(bool on);
     void TogglePause();
@@ -65,6 +71,10 @@ public:
     void Refresh();
     void ScsynthBooted();
     void SetColor(QColor c);
+
+    void DrawWave(QPainter& painter, Panel& panel);
+    void DrawMirrorStereo(QPainter& painter, Panel& panel);
+    void DrawLissajous(QPainter& painter, Panel& panel);
 
 protected:
     virtual void paintEvent(QPaintEvent* pEv) override;
@@ -90,5 +100,5 @@ private:
 
     bool m_scsynthIsBooted = false;
     bool m_paused = false;
-    
+ 
 };

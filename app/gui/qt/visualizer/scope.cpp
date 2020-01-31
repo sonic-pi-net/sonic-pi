@@ -25,12 +25,12 @@
 
 #include "dpi.h"
 
-namespace 
+namespace
 {
-    const int FrameSamples = 4096;
-    const int LissajousSamples = 1024;
-    const int PenWidth = 1;
-}
+const int FrameSamples = 4096;
+const int LissajousSamples = 1024;
+const int PenWidth = 1;
+} // namespace
 
 Scope::Scope(int scsynthPort, QWidget* parent)
     : QOpenGLWidget(parent)
@@ -46,10 +46,11 @@ Scope::Scope(int scsynthPort, QWidget* parent)
 
     m_monoSamples.resize(FrameSamples, 0.0);
 
-    m_panels.push_back({"Lissajous", ScopeType::Lissajous} );
-    m_panels.push_back({"Stereo", ScopeType::Left} );
-    m_panels.push_back({"Stereo", ScopeType::Right} );
-    m_panels.push_back({"Mono", ScopeType::Mono} );
+    m_panels.push_back({ "Lissajous", "Lissajous", ScopeType::Lissajous });
+    m_panels.push_back({ "Stereo", "Left", ScopeType::Left });
+    m_panels.push_back({ "Stereo", "Right", ScopeType::Right });
+    m_panels.push_back({ "Mono", "Mono", ScopeType::Mono });
+    m_panels.push_back({ "Mirror Stereo", "Stereo", ScopeType::MirrorStereo });
 
     SetColor(QColor("deeppink"));
 
@@ -66,15 +67,133 @@ Scope::~Scope()
 
 void Scope::resizeEvent(QResizeEvent* pSize)
 {
+    QOpenGLWidget::resizeEvent(pSize);
     Layout();
+}
+
+// Draw a Simple Stereo representation with a mirror of right/left stereo
+void Scope::DrawMirrorStereo(QPainter& painter, Panel& panel)
+{
+    // Just sample the data at intervals; we should probably filter it too
+    double step = FrameSamples / double(panel.rcGraph.width());
+
+    // Make a list of points; it's better to gather them and submit in a batch
+    // Here we are just drawing in pixel space
+    // Note: resize will be a no-op when it doesn't change ;)
+
+    // We have a 4 points for 2 lines on every row of the display
+    panel.wavePoints.resize(panel.rcGraph.width() * 4, QPoint(0, 0));
+
+    float yScale = float(panel.rcGraph.height() / 2.0f);
+    int y = panel.rcGraph.center().y();
+
+    int rightIndex = int(panel.wavePoints.size()) / 2;
+    int left = panel.rcGraph.left();
+    for (int x = 0; x < panel.rcGraph.width(); x++)
+    {
+        auto sampleLeft = int(std::abs(m_samples[0][int(double(x) * step)]) * yScale + y + 1);
+        auto sampleRight = int(std::abs(m_samples[1][int(double(x) * step)]) * -yScale + y - 1);
+
+        int index = x * 2;
+        int xCoord = left + x;
+        panel.wavePoints[index] = QPoint(xCoord, sampleLeft);
+        panel.wavePoints[index + 1] = QPoint(xCoord, y);
+        panel.wavePoints[rightIndex + index] = QPoint(xCoord, y);
+        panel.wavePoints[rightIndex + index + 1] = QPoint(xCoord, sampleRight);
+    }
+    painter.setPen(Qt::red);
+    painter.drawLines(&panel.wavePoints[0], rightIndex / 2);
+    painter.setPen(Qt::green);
+    painter.drawLines(&panel.wavePoints[rightIndex], rightIndex / 2);
+
+    /*
+    TBD: Composition modes not working?
+    painter.setCompositionMode(QPainter::CompositionMode::CompositionMode_Multiply);
+    panel.redBlueGradient = QLinearGradient(0, panel.rcGraph.top(), 0, panel.rcGraph.bottom());
+    panel.redBlueGradient.setColorAt(0.3, QColor(255, 255, 255, 255));
+    panel.redBlueGradient.setColorAt(0.5, QColor(0, 0, 0, 0));
+    panel.redBlueGradient.setColorAt(0.7, QColor(255, 255, 255, 255));
+    painter.fillRect(panel.rcGraph, panel.redBlueGradient);
+    */
+}
+
+// Draw a Simple Wave
+void Scope::DrawWave(QPainter& painter, Panel& panel)
+{
+    // Just sample the data at intervals; we should probably filter it too
+    double step = FrameSamples / double(panel.rcGraph.width());
+
+    // Make a list of points; it's better to gather them and submit in a batch
+    // Here we are just drawing in pixel space
+    // Note: resize will be a no-op when it doesn't change ;)
+    panel.wavePoints.resize(panel.rcGraph.width());
+
+    float yScale = float(panel.rcGraph.height() / 2.0f);
+    int y = panel.rcGraph.center().y();
+
+    double* pSamples = nullptr;
+    switch (panel.type)
+    {
+    case ScopeType::Left:
+        pSamples = &m_samples[0][0];
+        break;
+    case ScopeType::Right:
+        pSamples = &m_samples[1][0];
+        break;
+    case ScopeType::Mono:
+        pSamples = &m_monoSamples[0];
+        break;
+    default:
+        break;
+    }
+
+    if (pSamples == nullptr)
+    {
+        return;
+    }
+
+    for (int x = 0; x < panel.rcGraph.width(); x++)
+    {
+        auto sample = pSamples[int(double(x) * step)];
+        panel.wavePoints[x] = QPoint(x + panel.rcGraph.left(), sample * yScale + y);
+    }
+    painter.setPen(panel.pen);
+    painter.drawPolyline(&panel.wavePoints[0], int(panel.wavePoints.size()));
+}
+
+void Scope::DrawLissajous(QPainter& painter, Panel& panel)
+{
+    float yScale = float(panel.rcGraph.height() / 2.0f);
+    int y = panel.rcGraph.center().y();
+
+    float xScale = float(panel.rcGraph.width() / 2.0f);
+    float scale = std::min(xScale, yScale);
+
+    QPoint center = panel.rcGraph.center();
+
+    // First point at 0
+    panel.wavePoints.resize(LissajousSamples + 1);
+    panel.wavePoints[0] = center;
+    for (int sample = 0; sample < LissajousSamples; sample++)
+    {
+        auto left = m_samples[0][FrameSamples - LissajousSamples + sample];
+        auto right = m_samples[1][FrameSamples - LissajousSamples + sample];
+        panel.wavePoints[sample + 1] = center + QPoint(left * xScale, right * yScale);
+    }
+    painter.setPen(panel.pen);
+    painter.drawPolyline(&panel.wavePoints[0], int(panel.wavePoints.size()));
 }
 
 void Scope::paintEvent(QPaintEvent* pEv)
 {
     QPainter painter(this);
 
+    auto backColor = QWidget::palette().color(QWidget::backgroundRole());
+    auto textColor = QWidget::palette().color(QWidget::foregroundRole());
+    auto shadowColor = QWidget::palette().color(QPalette::ColorRole::AlternateBase);
+
     painter.begin(this);
-    painter.fillRect(rect(), Qt::white);
+    painter.fillRect(rect(), backColor);
 
     for (auto& panel : m_panels)
     {
@@ -83,68 +202,27 @@ void Scope::paintEvent(QPaintEvent* pEv)
             continue;
         }
 
-        float yScale = float(panel.rc.height() / 2.0f);
-        int y = panel.rc.center().y();
+        if (panel.titleVisible)
+        {
+            // Optional fill title area background
+            //painter.fillRect(panel.rcTitle, shadowColor);
+
+            painter.setPen(textColor);
+            painter.drawText(panel.rcTitle, Qt::AlignCenter, tr(panel.name.toUtf8().data()));
+        }
 
         if (panel.type == ScopeType::Lissajous)
         {
-            float xScale = float(panel.rc.width() / 2.0f);
-            float scale = std::min(xScale, yScale);
-
-            QPoint center = panel.rc.center();
-
-            // First point at 0
-            panel.wavePoints.resize(LissajousSamples + 1);
-            panel.wavePoints[0] = center;
-            for (int sample = 0; sample < LissajousSamples; sample++)
-            {
-                auto left = m_samples[0][FrameSamples - LissajousSamples + sample];
-                auto right = m_samples[1][FrameSamples - LissajousSamples + sample];
-                panel.wavePoints[sample + 1] = center + QPoint(left * xScale, right * yScale);
-            }
+            DrawLissajous(painter, panel);
         }
-        else
+        else if (panel.type == ScopeType::Left || panel.type == ScopeType::Right || panel.type == ScopeType::Mono)
         {
-            // A crude sampling of the source data, with no bounds checking...
-            // and a nasty hack to extract the data from the scope (the data processing should be in a seperate thread somewhere).
-            double step = FrameSamples / double(panel.rc.width());
-
-            // Make a list of points; it's better to gather them and submit in a batch
-            // Here we are just drawing in pixel space
-            // Note: resize will be a no-op when it doesn't change ;)
-            panel.wavePoints.resize(panel.rc.width());
-
-            double* pSamples = nullptr;
-            switch (panel.type)
-            {
-            case ScopeType::Left:
-                pSamples = &m_samples[0][0];
-                break;
-            case ScopeType::Right:
-                pSamples = &m_samples[1][0];
-                break;
-            case ScopeType::Mono:
-                pSamples = &m_monoSamples[0];
-                break;
-            default:
-                break;
-            }
-
-            if (pSamples == nullptr)
-            {
-                continue;
-            }
-
-            for (int x = 0; x < panel.rc.width(); x++)
-            {
-                auto sample = pSamples[int(double(x) * step)];
-                panel.wavePoints[x] = QPoint(x + panel.rc.left(), sample * yScale + y);
-            }
+            DrawWave(painter, panel);
         }
-
-        painter.setPen(panel.pen);
-        painter.drawPolyline(&panel.wavePoints[0], int(panel.wavePoints.size()));
-
+        else if (panel.type == ScopeType::MirrorStereo)
+        {
+            DrawMirrorStereo(painter, panel);
+        }
     }
     painter.end();
 }
@@ -153,6 +231,7 @@ void Scope::Layout()
 {
     QRect rc = rect();
     int yMargin = ScaleWidthForDPI(4);
+    int yFontMargin = ScaleWidthForDPI(2);
     int xMargin = ScaleHeightForDPI(4);
 
     int visibleCount = std::count_if(m_panels.begin(), m_panels.end(), [&visibleCount](Panel& p) { return p.visible; });
@@ -162,6 +241,8 @@ void Scope::Layout()
 
     QPoint currentTopLeft(xMargin, yMargin);
 
+    QFontMetrics metrics(qApp->font());
+
     for (auto& panel : m_panels)
     {
         if (!panel.visible)
@@ -169,27 +250,37 @@ void Scope::Layout()
             continue;
         }
         panel.rc = QRect(currentTopLeft, panelSize);
+        panel.rcGraph = panel.rc;
+        panel.rcTitle = QRect(currentTopLeft, QSize(panelSize.width(), 0));
+
+        if (panel.titleVisible)
+        {
+            panel.rcTitle.setHeight(metrics.height() + yFontMargin * 2);
+            panel.rcGraph.setTop(panel.rcTitle.bottom());
+        }
         currentTopLeft.setY(currentTopLeft.y() + panelSize.height() + yMargin);
+
     }
+
     repaint();
 }
 
-std::vector<QString> Scope::GetScopeNames() const
+std::vector<QString> Scope::GetScopeCategories() const
 {
-    std::set<QString> names;
+    std::set<QString> cat;
     for (auto& scope : m_panels)
     {
-        names.insert(scope.name);
+        cat.insert(scope.category);
     }
-    return std::vector<QString>(names.begin(), names.end());
+    return std::vector<QString>(cat.begin(), cat.end());
 }
 
-bool Scope::EnableScope(const QString& name, bool on)
+bool Scope::EnableScope(const QString& category, bool on)
 {
     bool any = false;
     for (auto& scope : m_panels)
     {
-        if (scope.name == name)
+        if (scope.category == category)
         {
             scope.visible = on;
             any = true;
@@ -307,7 +398,7 @@ void Scope::OnTimer()
     {
         return;
     }
-    
+
     if (!isVisible())
     {
         return;
@@ -315,4 +406,3 @@ void Scope::OnTimer()
 
     Refresh();
 }
-
