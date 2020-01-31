@@ -529,8 +529,8 @@ void MainWindow::setupWindowStructure() {
 
     scopeInterface = new Scope(scsynth_port);
     scopeInterface->Pause();
-    restoreScopeState(scopeInterface->GetScopeNames());
-    settingsWidget->updateScopeNames(scopeInterface->GetScopeNames());
+    restoreScopeState(scopeInterface->GetScopeCategories());
+    settingsWidget->updateScopeNames(scopeInterface->GetScopeCategories());
 
     prefsCentral = new QWidget;
     prefsCentral->setObjectName("prefsCentral");
@@ -1658,7 +1658,7 @@ void MainWindow::scope() {
     scopeAct->setIcon( theme->getScopeIcon(piSettings->show_scopes));
     if(piSettings->show_scopes)
     {
-        for( auto name : scopeInterface->GetScopeNames()) 
+        for( auto name : scopeInterface->GetScopeCategories()) 
         {
             scopeInterface->EnableScope( name, piSettings->isScopeActive(name));
         }
