@@ -23,6 +23,7 @@
 *.Release
 debug/
 release/
+relwithdebinfo/
 
 # Core dumps
 *.dump

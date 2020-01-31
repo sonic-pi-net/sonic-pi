@@ -13,270 +13,306 @@
 
 #include "scope.h"
 
-#include <QPaintEvent>
-#include <QResizeEvent>
-#include <QVBoxLayout>
-#include <QIcon>
-#include <QTimer>
-#include <QPainter>
 #include <QDebug>
-#include <qwt_text_label.h>
+#include <QIcon>
+#include <QPaintEvent>
+#include <QPainter>
+#include <QResizeEvent>
+#include <QTimer>
+#include <QVBoxLayout>
 #include <cmath>
 #include <set>
 
-ScopeBase::ScopeBase( const QString& name, const QString& title, int scsynthPort, QWidget* parent ) : QWidget(parent), name(name), title(title), scsynthPort(scsynthPort), defaultShowX(true), defaultShowY(true), plot(QwtText(name),this)
-{
-  QSizePolicy sp(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
-  plot.setSizePolicy(sp);
+#include "dpi.h"
 
-  QVBoxLayout* layout = new QVBoxLayout();
-  layout->addWidget(&plot);
-  layout->setContentsMargins(0,0,0,0);
-  layout->setSpacing(0);
-  setLayout(layout);
+namespace 
+{
+    const int FrameSamples = 4096;
+    const int LissajousSamples = 1024;
+    const int PenWidth = 1;
 }
 
-ScopeBase::~ScopeBase()
+Scope::Scope(int scsynthPort, QWidget* parent)
+    : QOpenGLWidget(parent)
+    , m_scsynthPort(scsynthPort)
 {
-}
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->setContentsMargins(0, 0, 0, 0);
+    setLayout(layout);
 
-const QString& ScopeBase::getName() { return name; }
+    m_samples.resize(2);
+    m_samples[0].resize(FrameSamples, 0.0);
+    m_samples[1].resize(FrameSamples, 0.0);
 
-void ScopeBase::setYRange( float min, float max, bool showLabel )
-{
-  plot.setAxisScale( QwtPlot::Axis::yLeft, min, max );
-  plot.enableAxis( QwtPlot::Axis::yLeft, showLabel );
-  defaultShowY = showLabel;
-}
+    m_monoSamples.resize(FrameSamples, 0.0);
 
-void ScopeBase::setXRange( float min, float max, bool showLabel )
-{
-  plot.setAxisScale( QwtPlot::Axis::xBottom, min, max );
-  plot.enableAxis( QwtPlot::Axis::xBottom, showLabel );
-  defaultShowX = showLabel;
-}
+    m_panels.push_back({"Lissajous", ScopeType::Lissajous} );
+    m_panels.push_back({"Stereo", ScopeType::Left} );
+    m_panels.push_back({"Stereo", ScopeType::Right} );
+    m_panels.push_back({"Mono", ScopeType::Mono} );
 
-bool ScopeBase::setAxesVisible(bool b)
-{
-  plot.enableAxis(QwtPlot::Axis::yLeft,b && defaultShowY );
-  plot.enableAxis(QwtPlot::Axis::xBottom,b && defaultShowX );
-  if( b )
-  {
-    plot.setTitle(QwtText(title));
-  } else
-  {
-    plot.setTitle(QwtText(""));
-  }
-  return b;
-}
+    SetColor(QColor("deeppink"));
 
-void ScopeBase::refresh( )
-{
-  if( !plot.isVisible() ) return;
-  plot.replot();
-}
+    QTimer* scopeTimer = new QTimer(this);
+    connect(scopeTimer, &QTimer::timeout, this, &Scope::OnTimer);
+    scopeTimer->start(20);
 
-ScopePanel::ScopePanel( const QString& name, const QString& title, int scsynthPort, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : ScopeBase(name,title,scsynthPort,parent)
-{
-#if QWT_VERSION >= 0x60100
-  plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
-#endif
-
-  plot_curve.setRawSamples( sample_x, sample_y, num_samples );
-  setXRange( 0, num_samples, false );
-  setYRange( -1, 1, true );
-  setPen(QPen(QColor("deeppink"), 2));
-
-  plot_curve.attach(&plot);
-}
-
-void ScopePanel::setPen( QPen pen )
-{
-  plot_curve.setPen( pen );
-}
-
-MultiScopePanel::MultiScopePanel( const QString& name, const QString& title, int scsynthPort, double* sample_x, double samples_y[][4096], unsigned int num_lines, unsigned int num_samples, QWidget* parent ) : ScopeBase(name,title,scsynthPort,parent)
-{
-  for( unsigned int i = 0; i < num_lines; ++i )
-  {
-    auto curve = new QwtPlotCurve();
-#if QWT_VERSION >= 0x60100
-  curve->setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
-#endif
-
-    curve->setRawSamples( sample_x, samples_y[i], 4096 );
-    curve->attach(&plot);
-    curves.push_back( std::shared_ptr<QwtPlotCurve>(curve) );
-  }
-
-  setXRange( 0, num_samples, false );
-  setYRange( -1, 1, true );
-  setPen(QPen(QColor("deeppink"), 2));
-}
-
-void MultiScopePanel::setPen( QPen pen )
-{
-  for( auto c : curves )
-  {
-    c.get()->setPen(pen);
-  }
-}
-
-Scope::Scope( int scsynthPort, QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0), scsynthPort(scsynthPort), scsynthIsBooted (false )
-{
-  std::fill_n(sample[0],4096,0);
-  std::fill_n(sample[1],4096,0);
-  std::fill_n(sample_mono,4096,0);
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", "Lissajous", scsynthPort, sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Stereo", "Left", scsynthPort, sample_x,sample[0],4096,this) ) );
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Stereo", "Right", scsynthPort, sample_x,sample[1],4096, this) ) );
-//  panels.push_back( std::shared_ptr<MultiScopePanel>(new MultiScopePanel("Stereo",scsynthPort, sample_x,sample,2,4096,this) ) );
-  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Mono", "Mono", scsynthPort, sample_x,sample_mono,4096, this) ) );
-  panels[0]->setPen(QPen(QColor("deeppink"), 1));
-  panels[0]->setXRange( -1, 1, true );
-
-  for( unsigned int i = 0; i < 4096; ++i ) sample_x[i] = i;
-  QTimer *scopeTimer = new QTimer(this);
-  connect(scopeTimer, SIGNAL(timeout()), this, SLOT(drawLoop()));
-  scopeTimer->start(20);
-
-  QVBoxLayout* layout = new QVBoxLayout();
-  layout->setSpacing(0);
-  layout->setContentsMargins(0,0,0,0);
-  for( auto p : panels )
-  {
-    layout->addWidget(p.get());
-  }
-  setLayout(layout);
+    Layout();
 }
 
 Scope::~Scope()
 {
 }
 
-std::vector<QString> Scope::getScopeNames() const
+void Scope::resizeEvent(QResizeEvent* pSize)
 {
-  std::set<QString> names;
-  for( auto scope : panels )
-  {
-    names.insert(scope->getName());
-  }
-  return std::vector<QString>(names.begin(),names.end());
+    Layout();
 }
 
-bool Scope::enableScope( const QString& name, bool on )
+void Scope::paintEvent(QPaintEvent* pEv)
 {
-  bool any = false;
-  for( auto scope : panels )
-  {
-    if( scope->getName() == name )
+    QPainter painter(this);
+
+    painter.begin(this);
+    painter.fillRect(rect(), Qt::white);
+
+    for (auto& panel : m_panels)
     {
-      scope->setVisible(on);
-      any = true;
-    }
-  }
-  return any ? on : true;
-}
-
-bool Scope::setScopeAxes(bool on)
-{
-  for( auto scope : panels )
-  {
-    scope->setAxesVisible(on);
-  }
-  return on;
-}
-
-void Scope::scsynthBooted() {
-  scsynthIsBooted = true;
-}
-
-void Scope::togglePause() {
-  paused = !paused;
-}
-
-void Scope::pause() {
-  paused = true;
-}
-
-void Scope::resume() {
-  paused = false;
-}
-
-void Scope::setColor(QColor c) {
-  for( auto scope : panels )
-  {
-    scope->setPen(QPen(c, 2));
-  }
-}
-
-void Scope::resetScope()
-{
-  shmClient.reset(new server_shared_memory_client(scsynthPort));
-  shmReader = shmClient->get_scope_buffer_reader(0);
-}
-
-void Scope::refresh() {
-  if( !scsynthIsBooted) return;
-
-  if( !shmReader.valid() )
-  {
-    resetScope();
-  }
-
-  unsigned int frames;
-  if( shmReader.pull( frames ) )
-  {
-    emptyFrames = 0;
-    float* data = shmReader.data();
-    for( unsigned int j = 0; j < 2; ++j )
-    {
-      unsigned int offset = shmReader.max_frames() * j;
-      for( unsigned int i = 0; i < 4096 - frames; ++i )
-      {
-        sample[j][i] = sample[j][i+frames];
-        if( j == 0 )
+        if (!panel.visible)
         {
-          sample_mono[i] = sample_mono[i+frames];
+            continue;
         }
-      }
 
-      for( unsigned int i = 0; i < frames; ++i )
-      {
-        sample[j][4096-frames+i] = data[i+offset];
-        auto d = data[i+offset] + 1.0;
-        if(j == 0)
+        float yScale = float(panel.rc.height() / 2.0f);
+        int y = panel.rc.center().y();
+
+        if (panel.type == ScopeType::Lissajous)
         {
-          sample_mono[4096-frames+i] = d*d;
-        } else
-        {
-          sample_mono[4096-frames+i] += d*d;
-          sample_mono[4096-frames+i] /= 2.0f;
-          sample_mono[4096-frames+i] = sqrt(sample_mono[4096-frames+i]) - 1.0;
+            float xScale = float(panel.rc.width() / 2.0f);
+            float scale = std::min(xScale, yScale);
+
+            QPoint center = panel.rc.center();
+
+            // First point at 0
+            panel.wavePoints.resize(LissajousSamples + 1);
+            panel.wavePoints[0] = center;
+            for (int sample = 0; sample < LissajousSamples; sample++)
+            {
+                auto left = m_samples[0][FrameSamples - LissajousSamples + sample];
+                auto right = m_samples[1][FrameSamples - LissajousSamples + sample];
+                panel.wavePoints[sample + 1] = center + QPoint(left * xScale, right * yScale);
+            }
         }
-      }
+        else
+        {
+            // A crude sampling of the source data, with no bounds checking...
+            // and a nasty hack to extract the data from the scope (the data processing should be in a seperate thread somewhere).
+            double step = FrameSamples / double(panel.rc.width());
+
+            // Make a list of points; it's better to gather them and submit in a batch
+            // Here we are just drawing in pixel space
+            // Note: resize will be a no-op when it doesn't change ;)
+            panel.wavePoints.resize(panel.rc.width());
+
+            double* pSamples = nullptr;
+            switch (panel.type)
+            {
+            case ScopeType::Left:
+                pSamples = &m_samples[0][0];
+                break;
+            case ScopeType::Right:
+                pSamples = &m_samples[1][0];
+                break;
+            case ScopeType::Mono:
+                pSamples = &m_monoSamples[0];
+                break;
+            default:
+                break;
+            }
+
+            if (pSamples == nullptr)
+            {
+                continue;
+            }
+
+            for (int x = 0; x < panel.rc.width(); x++)
+            {
+                auto sample = pSamples[int(double(x) * step)];
+                panel.wavePoints[x] = QPoint(x + panel.rc.left(), sample * yScale + y);
+            }
+        }
+
+        painter.setPen(panel.pen);
+        painter.drawPolyline(&panel.wavePoints[0], int(panel.wavePoints.size()));
+
     }
-  } else
-  {
-    ++emptyFrames;
-    if( emptyFrames > 10 )
+    painter.end();
+}
+
+void Scope::Layout()
+{
+    QRect rc = rect();
+    int yMargin = ScaleWidthForDPI(4);
+    int xMargin = ScaleHeightForDPI(4);
+
+    int visibleCount = std::count_if(m_panels.begin(), m_panels.end(), [&visibleCount](Panel& p) { return p.visible; });
+
+    QSize panelSize = QSize(rc.width() - (xMargin * 2), rc.height() - (yMargin * (visibleCount + 1)));
+    panelSize.setHeight(int(panelSize.height() / float(visibleCount)));
+
+    QPoint currentTopLeft(xMargin, yMargin);
+
+    for (auto& panel : m_panels)
     {
-      resetScope();
-      emptyFrames = 0;
+        if (!panel.visible)
+        {
+            continue;
+        }
+        panel.rc = QRect(currentTopLeft, panelSize);
+        currentTopLeft.setY(currentTopLeft.y() + panelSize.height() + yMargin);
     }
-  }
-
-  for( auto scope : panels )
-  {
-    scope->refresh();
-  }
+    repaint();
 }
 
-
-void Scope::drawLoop() {
-  // short circuit if possible
-  if( paused ) return;
-  if( !isVisible() ) return;
-
-  refresh();
+std::vector<QString> Scope::GetScopeNames() const
+{
+    std::set<QString> names;
+    for (auto& scope : m_panels)
+    {
+        names.insert(scope.name);
+    }
+    return std::vector<QString>(names.begin(), names.end());
 }
+
+bool Scope::EnableScope(const QString& name, bool on)
+{
+    bool any = false;
+    for (auto& scope : m_panels)
+    {
+        if (scope.name == name)
+        {
+            scope.visible = on;
+            any = true;
+        }
+    }
+    Layout();
+
+    return any ? on : true;
+}
+
+bool Scope::SetScopeAxes(bool on)
+{
+    for (auto& scope : m_panels)
+    {
+        scope.axisVisible = on;
+    }
+    return on;
+}
+
+void Scope::ScsynthBooted()
+{
+    m_scsynthIsBooted = true;
+}
+
+void Scope::TogglePause()
+{
+    m_paused = !m_paused;
+}
+
+void Scope::Pause()
+{
+    m_paused = true;
+}
+
+void Scope::Resume()
+{
+    m_paused = false;
+}
+
+void Scope::SetColor(QColor c)
+{
+    for (auto& scope : m_panels)
+    {
+        scope.pen = QPen(c, PenWidth);
+    }
+}
+
+void Scope::ResetScope()
+{
+    m_shmClient.reset(new server_shared_memory_client(m_scsynthPort));
+    m_shmReader = m_shmClient->get_scope_buffer_reader(0);
+}
+
+void Scope::Refresh()
+{
+    if (!m_scsynthIsBooted)
+        return;
+
+    if (!m_shmReader.valid())
+    {
+        ResetScope();
+    }
+
+    unsigned int frames;
+    if (m_shmReader.pull(frames))
+    {
+        m_emptyFrames = 0;
+        float* data = m_shmReader.data();
+        for (unsigned int j = 0; j < 2; ++j)
+        {
+            unsigned int offset = m_shmReader.max_frames() * j;
+            for (unsigned int i = 0; i < FrameSamples - frames; ++i)
+            {
+                m_samples[j][i] = m_samples[j][i + frames];
+                if (j == 0)
+                {
+                    m_monoSamples[i] = m_monoSamples[i + frames];
+                }
+            }
+
+            for (unsigned int i = 0; i < frames; ++i)
+            {
+                m_samples[j][FrameSamples - frames + i] = data[i + offset];
+                auto d = data[i + offset] + 1.0;
+                if (j == 0)
+                {
+                    m_monoSamples[FrameSamples - frames + i] = d * d;
+                }
+                else
+                {
+                    m_monoSamples[FrameSamples - frames + i] += d * d;
+                    m_monoSamples[FrameSamples - frames + i] /= 2.0f;
+                    m_monoSamples[FrameSamples - frames + i] = sqrt(m_monoSamples[FrameSamples - frames + i]) - 1.0;
+                }
+            }
+        }
+    }
+    else
+    {
+        ++m_emptyFrames;
+        if (m_emptyFrames > 10)
+        {
+            ResetScope();
+            m_emptyFrames = 0;
+        }
+    }
+
+    repaint();
+}
+
+void Scope::OnTimer()
+{
+    // short circuit if possible
+    if (m_paused)
+    {
+        return;
+    }
+    
+    if (!isVisible())
+    {
+        return;
+    }
+
+    Refresh();
+}
+
