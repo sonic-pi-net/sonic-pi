@@ -52,7 +52,13 @@ Scope::Scope(int scsynthPort, QWidget* parent)
     m_panels.push_back({ "Mono", "Mono", ScopeType::Mono });
     m_panels.push_back({ "Mirror Stereo", "Stereo", ScopeType::MirrorStereo });
 
-    SetColor(QColor("deeppink"));
+    for (auto& scope : m_panels)
+    {
+      scope.pen = QPen();
+      scope.pen.setWidth(PenWidth);
+      scope.pen2 = QPen();
+      scope.pen2.setWidth(PenWidth);
+    }
 
     QTimer* scopeTimer = new QTimer(this);
     connect(scopeTimer, &QTimer::timeout, this, &Scope::OnTimer);
@@ -101,9 +107,9 @@ void Scope::DrawMirrorStereo(QPainter& painter, Panel& panel)
         panel.wavePoints[rightIndex + index] = QPoint(xCoord, y);
         panel.wavePoints[rightIndex + index + 1] = QPoint(xCoord, sampleRight);
     }
-    painter.setPen(Qt::red);
+    painter.setPen(panel.pen2);
     painter.drawLines(&panel.wavePoints[0], rightIndex / 2);
-    painter.setPen(Qt::green);
+    painter.setPen(panel.pen);
     painter.drawLines(&panel.wavePoints[rightIndex], rightIndex / 2);
 
     /*
@@ -324,7 +330,15 @@ void Scope::SetColor(QColor c)
 {
     for (auto& scope : m_panels)
     {
-        scope.pen = QPen(c, PenWidth);
+        scope.pen.setColor(c);
+    }
+}
+
+void Scope::SetColor2(QColor c)
+{
+    for (auto& scope : m_panels)
+    {
+        scope.pen2.setColor(c);
     }
 }
 

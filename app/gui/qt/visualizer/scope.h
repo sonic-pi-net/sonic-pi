@@ -45,6 +45,7 @@ struct Panel
     QRect rcGraph;
     QRect rcTitle;
     QPen pen;
+    QPen pen2;
     bool visible = true;
     bool axisVisible = false;
     bool titleVisible = true;
@@ -71,6 +72,7 @@ public:
     void Refresh();
     void ScsynthBooted();
     void SetColor(QColor c);
+    void SetColor2(QColor c);
 
     void DrawWave(QPainter& painter, Panel& panel);
     void DrawMirrorStereo(QPainter& painter, Panel& panel);

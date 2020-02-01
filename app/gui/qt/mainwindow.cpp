@@ -1879,6 +1879,7 @@ void MainWindow::updateColourTheme(){
     }
 
     scopeInterface->SetColor(theme->color("Scope"));
+    scopeInterface->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
 }
 
