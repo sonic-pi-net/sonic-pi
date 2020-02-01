@@ -21,8 +21,6 @@
 #include <string>
 #include <visualizer/server_shm.hpp>
 
-#include "config.h"
-
 QT_FORWARD_DECLARE_CLASS(QPaintEvent)
 QT_FORWARD_DECLARE_CLASS(QResizeEvent)
 
