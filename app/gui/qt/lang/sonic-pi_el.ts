@@ -148,67 +148,67 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Φόρτωση ενός εξωτερικού αρχείου στο τωρινό buffer</translation>
+        <translation>Φόρτωση ενός εξωτερικού αρχείου στην τρέχουσα προσωρινή μνήμη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2076"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Στοιχίστε τον κώδικα για να διευκολύνετε την ανάγνωση του</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2080"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Αύξηση Μεγέθους Κειμένου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Μείωση Μεγέθους Κειμένου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2092"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή Επισκόπησης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή ορατότητας του ηχητικού παλμογράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2098"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση Πληροφοριών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2104"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή Βοήθειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή Παραμέτρων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2141"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aρχείο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2148"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eπεξεργασία</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2152"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Παράθυρο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2255"/>
         <source>Wavefile (*.wav)</source>
-        <translation>Αρχείο κυματόμορφου ήχου (*.wav)</translation>
+        <translation>Αρχείο κυματομορφής ήχου (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
@@ -233,12 +233,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
         <source>Stopping OSC server...</source>
-        <translation>Ο διακομιστής του OSC σταματάει...</translation>
+        <translation>Ο διακομιστής OSC σταματάει...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2750"/>
         <source>Resetting MIDI...</source>
-        <translation>Το MIDI επαναφέρεται...</translation>
+        <translation>Το MIDI επανεκκινείται...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2755"/>
@@ -253,7 +253,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1379"/>
         <source>Save Current Buffer</source>
-        <translation>Αποθήκευση του τωρινού Buffer</translation>
+        <translation>Αποθήκευση της τρέχουσας προσωρινής μνήμης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="745"/>
@@ -295,7 +295,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1550"/>
         <source>Checking for updates...</source>
-        <translation>Ελέγχω για ενημερώσεις...</translation>
+        <translation>Έλεγχος για ενημερώσεις...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1558"/>
