@@ -35,6 +35,8 @@ enum class ScopeType
 
 struct Panel
 {
+    Panel(const QString& cat, const QString& n, ScopeType t)
+      : category(cat), name(n), type(t){}
     QString category;
     QString name;
     ScopeType type;
