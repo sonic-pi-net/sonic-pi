@@ -78,7 +78,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="743"/>
         <source>Cues</source>
-        <translation type="unfinished">Marqueurs</translation>
+        <translation>Marqueurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2742"/>
@@ -100,7 +100,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Domaine d&apos;application</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1261"/>
@@ -601,32 +601,32 @@ Obtenez Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Didacticiel</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3301"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synthés</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3348"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Effet</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3369"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Échantillons</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3620"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
 </context>
 <context>
@@ -697,7 +697,9 @@ d&apos;un amplificateur externe avec Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bascule l&apos;inversion stéréo.
+Si elle est activée, l&apos;audio envoyé au haut-parleur de
+gauche sera acheminé vers le haut-parleur droit et vice versa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
