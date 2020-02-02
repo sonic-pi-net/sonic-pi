@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2020-01-26 15:18+0000\n"
 "Last-Translator: DahliaSager <1486097136@qq.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"sonic-pi/tutorial/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/sonic"
+"-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -323,7 +323,8 @@ msgid ""
 msgstr "Sonic Pi有着非常简洁的主界面。让我们花一点时间了解一下吧。"
 
 #: 01.2-Exploring-the-Interface.md:8
-msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+#, fuzzy
+msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
@@ -629,8 +630,8 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
-"那么，数值越低的数字会制造音高越低的蜂鸣声，而数值越高的数字会制造音高越高的蜂鸣声。就像在钢琴上，在钢琴低一些地方（左手边）的键演奏更低的音，而在钢琴高一"
-"些地方（右手边）的键演奏更高的音。"
+"那么，数值越低的数字会制造音高越低的蜂鸣声，而数值越高的数字会制造音高越高的蜂鸣声。就像在钢琴上，在钢琴低一些地方（左手边）的键演奏更低的音，而在钢琴高一些"
+"地方（右手边）的键演奏更高的音。"
 
 #: 02.1-Your-First-Beeps.md:38
 msgid ""
@@ -640,16 +641,15 @@ msgid ""
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
 msgstr ""
-"结果就是第四个八度的C用数字60来表示。“play 60”也就因此是演奏第四个八度的C。要弹右边紧接着的钢琴键，你必须往60上加个1然后敲出“play "
-"61”，它在这里是黑键C升。要弹D，即右边一个键，“play 62”。"
+"结果就是第四个八度的C用数字60来表示。“play 60”也就因此是演奏第四个八度的C。要弹右边紧接着的钢琴键，你必须往60上加个1然后敲出“play 61"
+"”，它在这里是黑键C升。要弹D，即右边一个键，“play 62”。"
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
-msgstr ""
-"如果这对你来说难以理解——我一开始也没弄清楚——*别担心*。现在最重要的是你要知道 *低的数字发出的蜂鸣音更低* 和 *高的数字发出的蜂鸣音更高 *。"
+msgstr "如果这对你来说难以理解——我一开始也没弄清楚——*别担心*。现在最重要的是你要知道 *低的数字发出的蜂鸣音更低* 和 *高的数字发出的蜂鸣音更高 *。"
 
 #: 02.1-Your-First-Beeps.md:44 08.2-Chords.md:3
 msgid "Chords"
@@ -840,8 +840,8 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
-"Sonic Pi支持合成器选项的概念（以下简称选项）。选项是你传向`play`命令的控制，它可以修改和控制你听到的声音。每一个合成器都有自己的一套选项来精"
-"确调整它的声音。然而，有一些常见的设置选项是许多声音共有的，如`amp:`（增幅）和波封设置选项(将在另一节中介绍)。"
+"Sonic Pi支持合成器选项的概念（以下简称选项）。选项是你传向`play`命令的控制，它可以修改和控制你听到的声音。每一个合成器都有自己的一套选项来精确"
+"调整它的声音。然而，有一些常见的设置选项是许多声音共有的，如`amp:`（增幅）和波封设置选项(将在另一节中介绍)。"
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -1251,8 +1251,8 @@ msgid ""
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
-"为了给我们提供一种简单而强大的方法来*控制我们的声音的持续时间*，Sonic Pi提出了*ADSR振幅波封(ADSR amplitude "
-"envelope)*的概念(我们将在本节稍后介绍ADSR的含义)。振幅波封提供了两种实用性的控制:"
+"为了给我们提供一种简单而强大的方法来*控制我们的声音的持续时间*，Sonic Pi提出了*ADSR振幅波封(ADSR amplitude envelope)"
+"*的概念(我们将在本节稍后介绍ADSR的含义)。振幅波封提供了两种实用性的控制:"
 
 #: 02.4-Durations-with-Envelopes.md:14
 msgid "control over the duration of a sound"
@@ -1273,9 +1273,9 @@ msgid ""
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
-"duration指的是声音持续的时长。一个更长的持续时间意味着你能听到这个声音更久。Sonic Pi中的声音都有一个可控制的振幅波封(amplitude "
-"envelope)，该波封(envelope)的总持续时间就是声音的持续时间。因此，通过控制波封(envelope)，你就可以控制音的持续时间(durat"
-"ion)。"
+"duration指的是声音持续的时长。一个更长的持续时间意味着你能听到这个声音更久。Sonic Pi中的声音都有一个可控制的振幅波封(amplitude e"
+"nvelope)，该波封(envelope)的总持续时间就是声音的持续时间。因此，通过控制波封(envelope)，你就可以控制音的持续时间(duratio"
+"n)。"
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1288,9 +1288,9 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
-"ADSR波封不仅控制音的持续时间，还给你*对声音振幅的良好控制*。所有可以听见的声音都由无声开始和结束，中间包含一些有声的部分。你可以用波封流畅提升然后保"
-"持有声部分声音的振幅。这就好像你在告诉一个人怎么拧吉他扩音器的音量旋钮。比如你可能会要求一个人“一开始要安静，慢慢推到最大音量，维持一会，然后迅速变回无声"
-"。” Sonic Pi 便可让你利用波封把这个命令精确编码出来。"
+"ADSR波封不仅控制音的持续时间，还给你*对声音振幅的良好控制*。所有可以听见的声音都由无声开始和结束，中间包含一些有声的部分。你可以用波封流畅提升然后保持"
+"有声部分声音的振幅。这就好像你在告诉一个人怎么拧吉他扩音器的音量旋钮。比如你可能会要求一个人“一开始要安静，慢慢推到最大音量，维持一会，然后迅速变回无声。”"
+" Sonic Pi 便可让你利用波封把这个命令精确编码出来。"
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
@@ -1313,8 +1313,8 @@ msgid ""
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
-"波封唯一一个初始的参数就是释音时间（Release Time)。它是声音淡出所需要的时间。所有合成音释音时间的初始参数都是“1”， "
-"这指示着它会用一拍的时间淡出（初始的BPM是60）："
+"波封唯一一个初始的参数就是释音时间（Release Time)。它是声音淡出所需要的时间。所有合成音释音时间的初始参数都是“1”， 这指示着它会用一拍的时间"
+"淡出（初始的BPM是60）："
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
@@ -1358,16 +1358,18 @@ msgid ""
 msgstr "释放所需的时间被称为“释放阶段”，它的初始设置是一个一次函数（直线）。下面是图片解释："
 
 #: 02.4-Durations-with-Envelopes.md:79
-msgid "![release envelope](../images/tutorial/env-release.png)"
+#, fuzzy
+msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
+#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
 "hase which we'll cover next). Once at full amplitude it then moves in a straig"
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
-"r release times produce longer synth fade outs.*"
+"r release times produce longer synth ofade outs.*"
 msgstr ""
 "图表最左边的直立线显示，声音从0波幅开始，立即升到满波幅（这是接下来介绍的起音阶段）。达到满波幅后，声音会以 `release: ` 指定的时间（释放时间）"
 "内，沿着直线下降到0。*施放时间越长，合成器淡出的时间会越长。"
@@ -1421,7 +1423,10 @@ msgid ""
 msgstr "下图说明了这种起音短暂而释音绵长的波封："
 
 #: 02.4-Durations-with-Envelopes.md:114
-msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
+#, fuzzy
+msgid ""
+"![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
+".png)"
 msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
@@ -1436,9 +1441,10 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
+#, fuzzy
 msgid ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
-"-release.png)"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
+"g-attack-short-release.png)"
 msgstr ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
@@ -1455,12 +1461,13 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
+#, fuzzy
 msgid ""
+"![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
+"ort-attack-short-release.png)"
+msgstr ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
-msgstr ""
-"![short attack short release envelope](../images/tutorial/env-short-attack-"
-"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -1479,7 +1486,10 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
-msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
+#, fuzzy
+msgid ""
+"![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
+"g)"
 msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
@@ -1507,10 +1517,9 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
-"对于更准确的控制，你也可以指定一个衰减时间(decay "
-"time)。这是波封在起音(attack)和延持(sustain)之间的一个阶段，振幅将从起音音幅“attack_level:” "
-"下降至衰减音幅“decay_level:” （除非你明确指定它，否则将会被设置为 “sustain_level:”）。默认状态下，“decay:” "
-"选项值为0，起音和持续时间的值都为1，所以为了让衰减时间生效，你需要去指定它们的值："
+"对于更准确的控制，你也可以指定一个衰减时间(decay time)。这是波封在起音(attack)和延持(sustain)之间的一个阶段，振幅将从起音音幅“"
+"attack_level:” 下降至衰减音幅“decay_level:” （除非你明确指定它，否则将会被设置为 “sustain_level:”）。默认状态"
+"下，“decay:” 选项值为0，起音和持续时间的值都为1，所以为了让衰减时间生效，你需要去指定它们的值："
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1522,7 +1531,10 @@ msgstr ""
 ": 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
-msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
+#, fuzzy
+msgid ""
+"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
+"ease.png)"
 msgstr "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
@@ -1536,8 +1548,8 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"最后一个技巧：尽管衰减音幅“decay_level:”选项默认值和延持音幅“sustain_level:”一样，你也可以把它们明确设置为不同的值用以全方面"
-"地控制波封。这意味着你可以做出下面这样的波封："
+"最后一个技巧：尽管衰减音幅“decay_level:”选项默认值和延持音幅“sustain_level:”一样，你也可以把它们明确设置为不同的值用以全方面地"
+"控制波封。这意味着你可以做出下面这样的波封："
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1549,7 +1561,8 @@ msgstr ""
 "1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
-msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
+#, fuzzy
+msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
@@ -1568,7 +1581,8 @@ msgstr ""
 "0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
-msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
+#, fuzzy
+msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
@@ -2006,7 +2020,8 @@ msgid ""
 msgstr "正如我们在上面看到的，示例由一长串长长的数字表示，这些数字代表说话者应该经过的时间。我们可以获取此数字列表，并使用它来绘制类似于此的图形："
 
 #: 03.3-Stretching-Samples.md:103
-msgid "![sample graph](../images/tutorial/sample.png)"
+#, fuzzy
+msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
 msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
@@ -2097,9 +2112,9 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
-"用 ADSR 波封去调整样本的 *持续时间(duration)* 和 *振幅(amplitude)* 也是同样可能的。然而，这会和运用在合成音上的 "
-"ADSR 波封有些许不同。样本波封只允许你减少样本的振幅和持续时间——而永远无法增加。这段样本将会在样本本身播放结束或波封完成的时候结束——这取决于哪种情"
-"况先发生。所以说，如果你选用一个很长的“release:”，也并不会增加样本的持续时间。"
+"用 ADSR 波封去调整样本的 *持续时间(duration)* 和 *振幅(amplitude)* 也是同样可能的。然而，这会和运用在合成音上的 ADSR"
+" 波封有些许不同。样本波封只允许你减少样本的振幅和持续时间——而永远无法增加。这段样本将会在样本本身播放结束或波封完成的时候结束——这取决于哪种情况先发生。"
+"所以说，如果你选用一个很长的“release:”，也并不会增加样本的持续时间。"
 
 #: 03.4-Enveloped-Samples.md:13
 msgid "Amen Envelopes"
@@ -2146,10 +2161,10 @@ msgid ""
 " values add up to more than the duration of the sample, the sustain is simply "
 "set to 0."
 msgstr ""
-"ADSR 波封的表现和标准合成音波封不同之处在于*延持(sustain)*值。在标准合成音波封里，延持默认值是0，除非你手动设置。对于样本，延持值默认为*"
-"魔力自动(automagical)*值——余下的演奏样本剩余部分的时间。这就是为什么当我们没有输入任何首选项我们还能听到完整样本。要是起音、衰减、延持和释"
-"音的值都是0，那永远只会是一片死寂。所以Sonic Pi计算样本长度，推断出一些起音、衰退和释音，用这个结果作延持时间。如果起音、衰退和释音的值加起来总和"
-"多于样本持续时间，延持(sustain)会被简单设为0."
+"ADSR 波封的表现和标准合成音波封不同之处在于*延持(sustain)*值。在标准合成音波封里，延持默认值是0，除非你手动设置。对于样本，延持值默认为*魔"
+"力自动(automagical)*值——余下的演奏样本剩余部分的时间。这就是为什么当我们没有输入任何首选项我们还能听到完整样本。要是起音、衰减、延持和释音的"
+"值都是0，那永远只会是一片死寂。所以Sonic Pi计算样本长度，推断出一些起音、衰退和释音，用这个结果作延持时间。如果起音、衰退和释音的值加起来总和多于样"
+"本持续时间，延持(sustain)会被简单设为0."
 
 #: 03.4-Enveloped-Samples.md:48
 msgid "Fade Outs"
@@ -2172,8 +2187,8 @@ msgid ""
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
-"它会输出“1.753310657596372”，也就是以秒为单位的样本长度。这里为了方便我们姑且把它约为1.75。好，如果我们把释音设置成“0.75”，惊"
-"人的事情会发生："
+"它会输出“1.753310657596372”，也就是以秒为单位的样本长度。这里为了方便我们姑且把它约为1.75。好，如果我们把释音设置成“0.75”，惊人"
+"的事情会发生："
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
@@ -2188,8 +2203,8 @@ msgid ""
 "as 10.75 seconds long, it would play the first 10 seconds at full amplitude be"
 "fore fading out over 0.75s."
 msgstr ""
-"这行代码会以全振幅演奏样本的第一秒，而后在0.75秒内淡出。这是*自动延持(auto "
-"sustain)*的实践。初始状态下，释音通常从样本的结尾生效。如果我们的样本时长为10.75秒，程序会以全振幅演奏前10秒，而后在0.75秒内淡出。"
+"这行代码会以全振幅演奏样本的第一秒，而后在0.75秒内淡出。这是*自动延持(auto sustain)*的实践。初始状态下，释音通常从样本的结尾生效。如果我"
+"们的样本时长为10.75秒，程序会以全振幅演奏前10秒，而后在0.75秒内淡出。"
 
 #: 03.4-Enveloped-Samples.md:71
 msgid "Remember: by default, `release:` fades out at the end of a sample."
@@ -5875,13 +5890,11 @@ msgid "`.shuffle` - creates a shuffled version of the ring"
 msgstr ""
 
 #: 08.5-Ring-Chains.md:71
-msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
+msgid "`.pick` - returns a ring with the results of calling `.choose` once"
 msgstr ""
 
 #: 08.5-Ring-Chains.md:72
-msgid ""
-"`.pick` - similar to `.pick(3)` only the size defaults to the same as the orig"
-"inal ring"
+msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
 msgstr ""
 
 #: 08.5-Ring-Chains.md:73
@@ -8579,10 +8592,11 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:14
+#, fuzzy
 msgid ""
-"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
-"n-live-coding.png)"
-msgstr ""
+"![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
+"oding/sam-aaron-live-coding.png)"
+msgstr "即时代码"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -9484,7 +9498,9 @@ msgid ""
 msgstr ""
 
 #: A.05-acid-bass.md:113
-msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
+msgid ""
+"![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
+"3-design.png)"
 msgstr ""
 
 #: A.05-acid-bass.md:115
@@ -9632,8 +9648,8 @@ msgstr ""
 
 #: A.06-minecraft.md:36
 msgid ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
-"ll.png)"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-0-small.png)"
 msgstr ""
 
 #: A.06-minecraft.md:38
@@ -9713,8 +9729,8 @@ msgstr ""
 
 #: A.06-minecraft.md:86
 msgid ""
-"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
-"ll.png)"
+"![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-1-small.png)"
 msgstr ""
 
 #: A.06-minecraft.md:88
@@ -9812,8 +9828,8 @@ msgstr ""
 
 #: A.06-minecraft.md:158
 msgid ""
-"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
-"ll.png)"
+"![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-2-small.png)"
 msgstr ""
 
 #: A.06-minecraft.md:160
@@ -9899,7 +9915,9 @@ msgid ""
 msgstr ""
 
 #: A.07-bizet.md:29
-msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
+msgid ""
+"![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
+".png)"
 msgstr ""
 
 #: A.07-bizet.md:31
@@ -9931,7 +9949,7 @@ msgid ""
 msgstr ""
 
 #: A.07-bizet.md:49
-msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
+msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 msgstr ""
 
 #: A.07-bizet.md:51
@@ -9981,7 +9999,9 @@ msgid ""
 msgstr ""
 
 #: A.07-bizet.md:83
-msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
+msgid ""
+"![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
+"ra2.png)"
 msgstr ""
 
 #: A.07-bizet.md:85
@@ -10113,8 +10133,8 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:5
 msgid ""
-"![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
-".png)"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
+"aft-vj-0-small.png)"
 msgstr ""
 
 #: A.08-minecraft-vj.md:7
@@ -10322,8 +10342,8 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:131
 msgid ""
-"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
-".png)"
+"![Screensman 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mi"
+"necraft-vj-1-small.png)"
 msgstr ""
 
 #: A.08-minecraft-vj.md:133
@@ -11287,7 +11307,9 @@ msgid ""
 msgstr ""
 
 #: A.12-sample-slicing.md:86
-msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
+msgid ""
+"![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/a"
+"men_slice.png)"
 msgstr ""
 
 #: A.12-sample-slicing.md:88
@@ -11684,10 +11706,11 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:56
+#, fuzzy
 msgid ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
-"r_phase_durations.png)"
-msgstr ""
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
+"dulation/slicer_phase_durations.png)"
+msgstr "持续时间(Duration)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -11741,10 +11764,11 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:97
+#, fuzzy
 msgid ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
-"r_control_waves.png)"
-msgstr ""
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
+"dulation/slicer_control_waves.png)"
+msgstr "持续时间(Duration)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
@@ -13115,10 +13139,10 @@ msgstr ""
 #: A.20-creative-coding-in-the-classroom.md:64
 #, fuzzy
 msgid ""
-"![Jylda Live Coding in the Sage Gateshead](../images/tutorial/articles/A.20-cr"
-"eative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aaron perform at"
-" the Thinking Digital Conference in the Sage Gateshead. Photo credit: TyneSigh"
-"t Photos."
+"![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/ar"
+"ticles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aa"
+"ron perform at the Thinking Digital Conference in the Sage Gateshead. Photo cr"
+"edit: TyneSight Photos."
 msgstr "即时代码"
 
 #: A.20-creative-coding-in-the-classroom.md:68
@@ -13135,9 +13159,10 @@ msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:78
 msgid ""
-"![Sonic Pi in the Royal Albert Hall](../images/tutorial/articles/A.20-creative"
-"-coding-in-the-classroom/convo-small.png) Sonic Pi used as one of the instrume"
-"nts as part of Convo at the Royal Albert Hall. Photo credit: Pete Jones."
+"![Sonic Pi in the Royal Albert Hall](../../../etc/doc/images/tutorial/articles"
+"/A.20-creative-coding-in-the-classroom/convo-small.png) Sonic Pi used as one o"
+"f the instruments as part of Convo at the Royal Albert Hall. Photo credit: Pet"
+"e Jones."
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:83

@@ -336,7 +336,8 @@ msgid ""
 msgstr "Sonic Piは、音楽をコーディング（記述）するためのとてもシンプルなインタフェース（操作画面）を持っています。ちょっと見てみましょう。"
 
 #: 01.2-Exploring-the-Interface.md:8
-msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+#, fuzzy
+msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
@@ -1413,16 +1414,18 @@ msgstr ""
 "の移行を表したものです。"
 
 #: 02.4-Durations-with-Envelopes.md:79
-msgid "![release envelope](../images/tutorial/env-release.png)"
+#, fuzzy
+msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
+#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
 "hase which we'll cover next). Once at full amplitude it then moves in a straig"
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
-"r release times produce longer synth fade outs.*"
+"r release times produce longer synth ofade outs.*"
 msgstr ""
 "図の左端の縦の線は、サウンドが`0`の音量（ゼロ・アンプ）からスタートしていることを示しています。しかし、すぐにフル・アンプに上がります（これは私たちが後で"
 "学ぶ、アタック・フェーズというものです）。いったんフル・アンプになり、それから`release:`で指定した値を取りながら、直線的にゼロに下がります。*長い"
@@ -1478,7 +1481,10 @@ msgid ""
 msgstr "この、短いアタックに長いリリースのエンベロープは、以下の図のように表します。"
 
 #: 02.4-Durations-with-Envelopes.md:114
-msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
+#, fuzzy
+msgid ""
+"![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
+".png)"
 msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
@@ -1493,9 +1499,10 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
+#, fuzzy
 msgid ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
-"-release.png)"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
+"g-attack-short-release.png)"
 msgstr ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
@@ -1512,9 +1519,10 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
+#, fuzzy
 msgid ""
-"![short attack short release envelope](../images/tutorial/env-short-attack-sho"
-"rt-release.png)"
+"![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
+"ort-attack-short-release.png)"
 msgstr ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
@@ -1538,7 +1546,10 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
-msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
+#, fuzzy
+msgid ""
+"![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
+"g)"
 msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
@@ -1583,7 +1594,10 @@ msgstr ""
 ": 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
-msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
+#, fuzzy
+msgid ""
+"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
+"ease.png)"
 msgstr "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
@@ -1610,7 +1624,8 @@ msgstr ""
 "1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
-msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
+#, fuzzy
+msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
@@ -1629,7 +1644,8 @@ msgstr ""
 "0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
-msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
+#, fuzzy
+msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
@@ -2097,7 +2113,8 @@ msgstr ""
 "と同じようなグラフを描いてみます。"
 
 #: 03.3-Stretching-Samples.md:103
-msgid "![sample graph](../images/tutorial/sample.png)"
+#, fuzzy
+msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
 msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
@@ -6842,14 +6859,13 @@ msgid "`.shuffle` - creates a shuffled version of the ring"
 msgstr "`.shuffle` - シャッフルされたリングを作成します"
 
 #: 08.5-Ring-Chains.md:71
-msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
+#, fuzzy
+msgid "`.pick` - returns a ring with the results of calling `.choose` once"
 msgstr "`.pick(3)` - `.choose`を3回呼び出した結果のリングを返却します"
 
 #: 08.5-Ring-Chains.md:72
-msgid ""
-"`.pick` - similar to `.pick(3)` only the size defaults to the same as the orig"
-"inal ring"
-msgstr "`.pick` - `.pick(3)`と似ていますが、返却されるリングの長さが、元のリングの長さと同じになります"
+msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
+msgstr "`.pick(3)` - `.choose`を3回呼び出した結果のリングを返却します"
 
 #: 08.5-Ring-Chains.md:73
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
@@ -9881,9 +9897,10 @@ msgstr ""
 "ードを書き、編集し、実行しているのである。ライブである。これがライブコーディングである。"
 
 #: A.02-live-coding.md:14
+#, fuzzy
 msgid ""
-"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
-"n-live-coding.png)"
+"![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
+"oding/sam-aaron-live-coding.png)"
 msgstr ""
 "![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
@@ -11109,7 +11126,10 @@ msgid ""
 msgstr "オリジナルのTB-303の設計は、実際のところとてもシンプルです。以下の略図から分かるように、4つのコアな部分しかありません。"
 
 #: A.05-acid-bass.md:113
-msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
+#, fuzzy
+msgid ""
+"![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
+"3-design.png)"
 msgstr "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
@@ -11308,9 +11328,10 @@ msgstr ""
 "を止めて、少しの間メッセージを変更して遊んでみましょう。楽しでみて！"
 
 #: A.06-minecraft.md:36
+#, fuzzy
 msgid ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
-"ll.png)"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-0-small.png)"
 msgstr ""
 "![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
@@ -11411,9 +11432,10 @@ msgstr ""
 "mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
+#, fuzzy
 msgid ""
-"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
-"ll.png)"
+"![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-1-small.png)"
 msgstr ""
 "![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
@@ -11547,9 +11569,10 @@ msgstr ""
 "ブロックを試してみましょう。それに加えて、カットオフの値を`70`から`80`に変更し、そして`100`に上げてみましょう。楽しいよね？"
 
 #: A.06-minecraft.md:158
+#, fuzzy
 msgid ""
-"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
-"ll.png)"
+"![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-2-small.png)"
 msgstr ""
 "![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
@@ -11670,7 +11693,10 @@ msgid ""
 msgstr "このチュートリアルでカルメンの全体をライブコーディングしようとするのは少し難しいので、最も有名な部分 - ハバネラのベースラインに着目しましょう。"
 
 #: A.07-bizet.md:29
-msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
+#, fuzzy
+msgid ""
+"![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
+".png)"
 msgstr "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
@@ -11708,7 +11734,8 @@ msgstr ""
 "ay :F`といったように音名を使ったりできます。楽譜の上下の位置は、それぞれ特定の音名を表しています。便利な対応表を見てみましょう。"
 
 #: A.07-bizet.md:49
-msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
+#, fuzzy
+msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
@@ -11769,7 +11796,10 @@ msgstr ""
 "分で記述し直すと、音符と休符の良い感じのシークエンスに変わるでしょう。"
 
 #: A.07-bizet.md:83
-msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
+#, fuzzy
+msgid ""
+"![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
+"ra2.png)"
 msgstr "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
@@ -11959,9 +11989,10 @@ msgid "Become a Minecraft VJ"
 msgstr "Minecraft VJになる"
 
 #: A.08-minecraft-vj.md:5
+#, fuzzy
 msgid ""
-"![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
-".png)"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
+"aft-vj-0-small.png)"
 msgstr ""
 "![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
 ".png)"
@@ -12217,9 +12248,10 @@ msgid "Epic Block Patterns"
 msgstr "壮大なブロックのパターン"
 
 #: A.08-minecraft-vj.md:131
+#, fuzzy
 msgid ""
-"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
-".png)"
+"![Screensman 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mi"
+"necraft-vj-1-small.png)"
 msgstr ""
 "![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
 ".png)"
@@ -13482,7 +13514,10 @@ msgstr ""
 "るようになりました。"
 
 #: A.12-sample-slicing.md:86
-msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
+#, fuzzy
+msgid ""
+"![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/a"
+"men_slice.png)"
 msgstr "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
@@ -14019,9 +14054,10 @@ msgstr ""
 "うに変化させるか見てみましょう。"
 
 #: A.14-amplitude-modulation.md:56
+#, fuzzy
 msgid ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
-"r_phase_durations.png)"
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
+"dulation/slicer_phase_durations.png)"
 msgstr ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
@@ -14095,9 +14131,10 @@ msgstr ""
 "れだけ変化させるかを、劇的に変更することができます。"
 
 #: A.14-amplitude-modulation.md:97
+#, fuzzy
 msgid ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
-"r_control_waves.png)"
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
+"dulation/slicer_control_waves.png)"
 msgstr ""
 "![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
@@ -15710,10 +15747,10 @@ msgstr ""
 #: A.20-creative-coding-in-the-classroom.md:64
 #, fuzzy
 msgid ""
-"![Jylda Live Coding in the Sage Gateshead](../images/tutorial/articles/A.20-cr"
-"eative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aaron perform at"
-" the Thinking Digital Conference in the Sage Gateshead. Photo credit: TyneSigh"
-"t Photos."
+"![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/ar"
+"ticles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aa"
+"ron perform at the Thinking Digital Conference in the Sage Gateshead. Photo cr"
+"edit: TyneSight Photos."
 msgstr "ライブコーディング"
 
 #: A.20-creative-coding-in-the-classroom.md:68
@@ -15730,9 +15767,10 @@ msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:78
 msgid ""
-"![Sonic Pi in the Royal Albert Hall](../images/tutorial/articles/A.20-creative"
-"-coding-in-the-classroom/convo-small.png) Sonic Pi used as one of the instrume"
-"nts as part of Convo at the Royal Albert Hall. Photo credit: Pete Jones."
+"![Sonic Pi in the Royal Albert Hall](../../../etc/doc/images/tutorial/articles"
+"/A.20-creative-coding-in-the-classroom/convo-small.png) Sonic Pi used as one o"
+"f the instruments as part of Convo at the Royal Albert Hall. Photo credit: Pet"
+"e Jones."
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:83
