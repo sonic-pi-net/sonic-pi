@@ -1,0 +1,103 @@
+#! /bin/sh
+
+# cd to aubio directory for consistency
+cd `dirname $0`/..
+
+AUBIO_TMPDIR=`mktemp -d /var/tmp/aubio-build-XXXX`
+PACKAGE=aubio
+source VERSION
+VERSION=$AUBIO_MAJOR_VERSION.$AUBIO_MINOR_VERSION.$AUBIO_PATCH_VERSION$AUBIO_VERSION_STATUS
+LIBVERSION=$LIBAUBIO_LT_CUR.$LIBAUBIO_LT_REV.$LIBAUBIO_LT_AGE
+OUTPUTDIR=$PWD/dist
+mkdir -p "$OUTPUTDIR"
+# add git abbreviated commit hash
+#VERSION+=+$(git log --pretty=format:"%h" -1)
+
+CFLAGS="-Werror -Os"
+WAFCONF="--disable-sndfile --disable-avcodec --disable-samplerate --enable-fat" # --disable-memcpy --disable-accelerate"
+
+export VERSION
+
+function cleanup () {
+  rm -rf $AUBIO_TMPDIR
+}
+
+trap cleanup SIGINT SIGTERM
+
+function create_tarballs() {
+  # name version platform
+  # create tarball
+  tarfile=$OUTPUTDIR/$1-$2.$3_binary.tar.bz2
+  tar -C $AUBIO_TMPDIR/dist-$3/ -jcf "$tarfile" .
+  #rm -rf $AUBIO_TMPDIR/dist-$3
+}
+
+function create_framework() {
+  rm -rf $AUBIO_TMPDIR/framework-$3
+  mkdir -p $AUBIO_TMPDIR/framework-$3/$1-$2.$3_framework/$1.framework
+  cp -pr COPYING README.md $AUBIO_TMPDIR/framework-$3/$1-$2.$3_framework
+  pushd $AUBIO_TMPDIR/framework-$3
+  cp -pr "$OLDPWD/build/src/lib$1.a" $1-$2.$3_framework/$1.framework/$1 || \
+    cp -pr $AUBIO_TMPDIR/dist-$3/usr/local/lib/lib$1.$LIBVERSION.dylib \
+    $AUBIO_TMPDIR/framework-$3/$1-$2.$3_framework/$1.framework/$1
+  cp -pr $AUBIO_TMPDIR/dist-$3/usr/local/include/$1 $1-$2.$3_framework/$1.framework/Headers
+  cp -pr "$OLDPWD/scripts/apple/Modules" $1-$2.$3_framework/$1.framework/
+  popd
+}
+
+function create_framework_fat() {
+  rm -rf $AUBIO_TMPDIR/framework-$3
+  mkdir -p $AUBIO_TMPDIR/framework-$3/$1-$2.$3_framework/$1.framework
+  cp -pr COPYING README.md $AUBIO_TMPDIR/framework-$3/$1-$2.$3_framework
+  pushd $AUBIO_TMPDIR/framework-$3
+  cp -pr $AUBIO_TMPDIR/framework-ios/$1-$2.ios_framework/$1.framework/Headers $1-$2.$3_framework/$1.framework
+  cp -pr $AUBIO_TMPDIR/framework-ios/$1-$2.ios_framework/$1.framework/Modules $1-$2.$3_framework/$1.framework
+  lipo $AUBIO_TMPDIR/framework-ios/$1-$2.ios_framework/$1.framework/$1 \
+       $AUBIO_TMPDIR/framework-iosimulator/$1-$2.iosimulator_framework/$1.framework/$1 \
+       -output $1-$2.$3_framework/$1.framework/$1 -create
+  popd
+}
+
+function create_framework_zip() {
+  # create zip
+  pushd $AUBIO_TMPDIR/framework-$3
+  zipfile=$1-$2.$3_framework.zip
+  zip -qr $zipfile $1-$2.$3_framework
+  popd
+  mv $AUBIO_TMPDIR/framework-$3/$zipfile "$OUTPUTDIR"
+}
+
+set -x
+set -e
+
+#./waf dist --verbose
+
+for PLATFORM in darwin ios iosimulator
+do
+  rm -rf $AUBIO_TMPDIR/dist-$PLATFORM
+  WAF_OPTIONS="--verbose --destdir $AUBIO_TMPDIR/dist-$PLATFORM --with-target-platform $PLATFORM $WAFCONF"
+  for target in distclean configure build install
+  do
+    CFLAGS="$CFLAGS" ./waf $target $WAF_OPTIONS
+  done
+
+  create_framework $PACKAGE $VERSION $PLATFORM
+  if [ $PLATFORM == 'darwin' ]
+  then
+    # on darwin, build a .tar.bz2 of /usr and a .zip of aubio.framework
+    create_tarballs $PACKAGE $VERSION $PLATFORM
+    create_framework_zip $PACKAGE $VERSION $PLATFORM
+  fi
+  ./waf uninstall $WAF_OPTIONS
+
+done
+
+# after both ios and iosimulator have been built
+PLATFORM=iosuniversal
+create_framework_fat $PACKAGE $VERSION $PLATFORM
+create_framework_zip $PACKAGE $VERSION $PLATFORM
+
+./waf clean
+./waf distclean
+
+cleanup

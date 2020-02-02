@@ -42,7 +42,8 @@ set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
 find_package(Threads REQUIRED)
 
-add_subdirectory(external)
+# We build scintilla as part of the main project to make it easy to debug/fix
+add_subdirectory(external/QScintilla-2.11.4)
 
 set(APP_NAME sonic-pi)
 
@@ -153,8 +154,8 @@ if(WIN32)
     # Copy the built osmid files to the server
     add_custom_command(TARGET ${APP_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory ${SONIC_PI_ROOT}/app/server/native/osmid
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/external/osmid-prefix/src/osmid-build/Release/m2o.exe ${SONIC_PI_ROOT}/app/server/native/osmid
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/external/osmid-prefix/src/osmid-build/Release/o2m.exe ${SONIC_PI_ROOT}/app/server/native/osmid)  
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/external/build/osmid-prefix/src/osmid-build/Release/m2o.exe ${SONIC_PI_ROOT}/app/server/native/osmid
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/external/build/osmid-prefix/src/osmid-build/Release/o2m.exe ${SONIC_PI_ROOT}/app/server/native/osmid)
 endif() # Win32
 
 # Make convenient source groups in the IDE

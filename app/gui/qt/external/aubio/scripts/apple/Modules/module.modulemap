@@ -1,0 +1,6 @@
+framework module aubio {
+  umbrella header "aubio.h"
+
+  export *
+  module * { export * }
+}

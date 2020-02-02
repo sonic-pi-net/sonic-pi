@@ -1,0 +1,29 @@
+= Release checklist =
+
+Source release:
+
+- Update CHANGES with notable specifics.
+- Update version and LIB_* API soname suffix in configure.ac.
+  - If the source code changed, incremement REVISION.
+  - If interfaces changed, increment CURRENT and zero REVISION.
+  - If interfaces were added, increment AGE.
+  - If interfaces were removed, set AGE to zero.
+- Update the version and release date in doc/libogg/*.html.
+  - `make -C doc/libogg update-doc-version`
+- Check for uncommitted changes to master.
+- Tag the release commit with 'git tag -s vN.M'.
+  - Include release notes in the tag annotation.
+- Verify 'make distcheck' produces a tarball with the desired name.
+- Push tag to public repo.
+- Upload source package 'libogg-${version}.tar.gz' et al.
+  to the website and verify file permissions.
+- Update checksum files on website.
+- Update links on <https://www.opus-codec.org/downloads/>.
+- Add a copy of the documentation to <https://xiph.org/ogg/docs/>
+  and update the links.
+
+Releases are committed to https://svn.xiph.org/releases/ogg/
+which propagates to downloads.xiph.org.
+
+Release packages should also be manually attached to the corresponding
+tag on the github mirror https://github.com/xiph/ogg/releases

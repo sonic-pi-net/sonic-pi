@@ -1,5 +1,8 @@
 cd %~dp0
+call external/build_externals.bat
 
+cd %~dp0
+copy external\build\aubio-prefix\src\Aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
 rmdir /S /Q ..\..\server\ruby\vendor\ruby-aubio-prerelease
 
 @echo "Translating tutorial..."

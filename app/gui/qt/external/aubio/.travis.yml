@@ -1,0 +1,122 @@
+language: python
+
+matrix:
+  include:
+    - python: 3.6
+      os: linux
+      compiler: gcc
+    - python: 3.5
+      os: linux
+      compiler: gcc
+      env: WAFOPTS="--build-type=debug"
+    - python: 2.7
+      os: linux
+      compiler: gcc
+    - python: "pypy3.5"
+      os: linux
+      compiler: gcc
+      env: CFLAGS="-Os" WAFOPTS="--disable-avcodec"
+    - python: 3.6
+      os: linux
+      compiler: gcc
+      env: CFLAGS="-Os" WAFOPTS="--disable-samplerate"
+    - python: 3.5
+      os: linux
+      compiler: gcc
+      env: HAVE_AUBIO_DOUBLE=1 CFLAGS="-O3" WAFOPTS="--enable-fftw3"
+    - python: 2.7
+      os: linux
+      compiler: gcc
+      env: CFLAGS="`dpkg-buildflags --get CFLAGS`" LDFLAGS="`dpkg-buildflags --get LDFLAGS`"
+    - language: C
+      os: osx
+      compiler: clang
+    - language: C
+      os: osx
+      compiler: clang
+      env: CFLAGS="-Os" HAVE_AUBIO_DOUBLE=1 WAFOPTS="--disable-accelerate"
+    - language: C
+      os: osx
+      compiler: clang
+      env: WAFOPTS="--enable-fat --disable-avcodec --disable-sndfile --disable-samplerate"
+    - language: C
+      os: osx
+      compiler: clang
+      env: WAFOPTS="--with-target-platform=ios --disable-avcodec --disable-sndfile --disable-samplerate" AUBIO_NOTESTS=1
+    - language: C
+      os: osx
+      compiler: clang
+      env: WAFOPTS="--with-target-platform=iosimulator --disable-avcodec --disable-sndfile --disable-samplerate" AUBIO_NOTESTS=1
+
+# use trusty
+dist: trusty
+sudo: required
+
+addons:
+  apt:
+    packages:
+    - bzip2
+    - libavcodec-dev
+    - libavformat-dev
+    - libavresample-dev
+    - libavutil-dev
+    - libsndfile1-dev
+    - libsamplerate-dev
+    - libjack-dev
+    - libasound2-dev
+    - libfftw3-dev
+    - sox
+    - lcov
+  homebrew:
+    packages:
+    - sox
+    - ffmpeg
+    - libsndfile
+    - lcov
+    update: true
+
+before_install:
+   - |
+     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+       export PATH="$HOME/Library/Python/2.7/bin/:$PATH"
+     fi;
+
+install:
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      alias pip=pip2
+    fi;
+  - travis_retry pip install --upgrade pip
+  - travis_retry make getwaf expandwaf deps_python
+  - which pip
+  - pip --version
+  - pip install coverage
+
+script:
+  - make create_test_sounds
+  - |
+    if [[ -z "$AUBIO_NOTESTS" ]]; then
+      make test_lib_python_clean
+      make coverage
+    else
+      make test_lib_only_clean
+    fi;
+
+after_success:
+  - |
+    if [[ -z "$AUBIO_NOTESTS" ]]; then
+      # upload to codecov
+      bash <(curl -s https://codecov.io/bash)
+    fi
+
+notifications:
+    irc:
+        channels:
+            - "irc.freenode.org#aubio"
+        use_notice: true
+    webhooks:
+        urls:
+            - https://webhooks.gitter.im/e/81e7733a5b1d977854b4
+        on_success: change  # options: [always|never|change] default: always
+        on_failure: always  # options: [always|never|change] default: always
+        on_start: never     # options: [always|never|change] default: always

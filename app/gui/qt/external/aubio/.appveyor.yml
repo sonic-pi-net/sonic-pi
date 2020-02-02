@@ -1,0 +1,78 @@
+# appveyor configuration. See http://www.appveyor.com/docs/appveyor-yml
+# and http://www.appveyor.com/docs/installed-software#python
+
+environment:
+
+  matrix:
+
+    # pre-installed python version, see:
+    # http://www.appveyor.com/docs/installed-software#python
+    - PYTHONDIR: C:\Python27
+      PYTHON_VERSION: 2.7.x
+      PYTHON_ARCH: 32
+
+    - PYTHONDIR: C:\Python27-x64
+      PYTHON_VERSION: 2.7.x
+      PYTHON_ARCH: 64
+
+    - PYTHONDIR: C:\Python35
+      PYTHON_VERSION: 3.5.x
+      PYTHON_ARCH: 32
+
+    - PYTHONDIR: C:\Python35-x64
+      PYTHON_VERSION: 3.5.x
+      PYTHON_ARCH: 64
+
+    - PYTHONDIR: C:\Python36
+      PYTHON_VERSION: 3.6.x
+      PYTHON_ARCH: 32
+
+    - PYTHONDIR: C:\Python36-x64
+      PYTHON_VERSION: 3.6.x
+      PYTHON_ARCH: 64
+
+    - PYTHONDIR: C:\Python37
+      PYTHON_VERSION: 3.7.x
+      PYTHON_ARCH: 32
+
+    - PYTHONDIR: C:\Python37-x64
+      PYTHON_VERSION: 3.7.x
+      PYTHON_ARCH: 64
+
+install:
+  - ECHO "Installed SDKs:"
+  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+
+  - "SET PATH=%PYTHONDIR%;%PYTHONDIR%\\Scripts;%PATH%"
+
+  # Check that we have the expected version and architecture for Python
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  - "python -m pip install --disable-pip-version-check --user --upgrade pip"
+  - "python -m pip install --upgrade setuptools"
+
+  # We need wheel installed to build wheels
+  - "python -m pip install wheel"
+
+  - "pip install -r requirements.txt"
+
+before_build:
+  - "bash scripts/get_waf.sh"
+
+build_script:
+  # also build libaubio with waf
+  - python waf configure build install --verbose --msvc_version="msvc 14.0"
+  # clean before building python package
+  - python waf distclean
+  # build, upload and install wheel (inspired by numpy's appveyor)
+  - ps: |
+      pip wheel -v -v -v --wheel-dir=dist .
+      ls dist -r | Foreach-Object {
+          Push-AppveyorArtifact $_.FullName
+          pip install $_.FullName
+      }
+
+test_script:
+  - "python python\\demos\\demo_create_test_sounds.py"
+  - "pytest --verbose"
