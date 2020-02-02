@@ -49,7 +49,7 @@ struct Panel
     bool visible = true;
     bool axisVisible = false;
     bool titleVisible = true;
-    
+
     std::vector<QPoint> wavePoints;
     QLinearGradient redBlueGradient;
 };
@@ -102,5 +102,5 @@ private:
 
     bool m_scsynthIsBooted = false;
     bool m_paused = false;
- 
+
 };

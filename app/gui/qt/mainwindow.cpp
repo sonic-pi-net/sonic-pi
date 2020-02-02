@@ -1658,7 +1658,7 @@ void MainWindow::scope() {
     scopeAct->setIcon( theme->getScopeIcon(piSettings->show_scopes));
     if(piSettings->show_scopes)
     {
-        for( auto name : scopeInterface->GetScopeCategories()) 
+        for( auto name : scopeInterface->GetScopeCategories())
         {
             scopeInterface->EnableScope( name, piSettings->isScopeActive(name));
         }
