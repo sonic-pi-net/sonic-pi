@@ -4,79 +4,79 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="173"/>
-        <location filename="../mainwindow.cpp" line="2423"/>
-        <location filename="../mainwindow.cpp" line="2442"/>
+        <location filename="../mainwindow.cpp" line="172"/>
+        <location filename="../mainwindow.cpp" line="2430"/>
+        <location filename="../mainwindow.cpp" line="2449"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="459"/>
+        <location filename="../mainwindow.cpp" line="458"/>
         <source>Welcome to Sonic Pi</source>
         <translation>欢迎进入Sonic Pi的世界</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="502"/>
+        <location filename="../mainwindow.cpp" line="501"/>
         <source>Preferences</source>
         <translation>偏好设置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="739"/>
+        <location filename="../mainwindow.cpp" line="737"/>
         <source>Log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="788"/>
+        <location filename="../mainwindow.cpp" line="786"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="976"/>
+        <location filename="../mainwindow.cpp" line="974"/>
         <source>Indenting selection...</source>
         <translation>缩进选中区域……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="980"/>
+        <location filename="../mainwindow.cpp" line="978"/>
         <source>Indenting line...</source>
         <translation>缩进当前行……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1009"/>
+        <location filename="../mainwindow.cpp" line="1007"/>
         <source>Toggle selection comment...</source>
         <translation>注释/取消注释选中区域……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1013"/>
+        <location filename="../mainwindow.cpp" line="1011"/>
         <source>Toggle line comment...</source>
         <translation>注释/取消注释当前行……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1092"/>
+        <location filename="../mainwindow.cpp" line="1093"/>
         <source>The Sonic Pi Server could not be started!</source>
         <translation>Sonic Pi服务程序无法启动！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="840"/>
+        <location filename="../mainwindow.cpp" line="838"/>
         <source>Full screen mode on.</source>
         <translation>进入全屏模式。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="857"/>
+        <location filename="../mainwindow.cpp" line="855"/>
         <source>Full screen mode off.</source>
         <translation>退出全屏模式。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2697"/>
+        <location filename="../mainwindow.cpp" line="2703"/>
         <source>Visit http://sonic-pi.net to download new version</source>
         <translation>访问http://sonic-pi.net下载新版本</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1260"/>
+        <location filename="../mainwindow.cpp" line="1261"/>
         <source>Server boot error...</source>
         <translation>服务器启动错误...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1260"/>
+        <location filename="../mainwindow.cpp" line="1261"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
@@ -85,486 +85,553 @@ Apologies, a critical error occurred during startup</source>
 抱歉，Sonic Pi启动过程中发生严重错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1260"/>
+        <location filename="../mainwindow.cpp" line="1261"/>
         <source>Please consider reporting a bug at</source>
         <translation>你可以报告这个bug</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="745"/>
+        <location filename="../mainwindow.cpp" line="743"/>
         <source>Cues</source>
         <translation>标记</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2736"/>
-        <location filename="../mainwindow.cpp" line="2748"/>
+        <location filename="../mainwindow.cpp" line="2742"/>
+        <location filename="../mainwindow.cpp" line="2754"/>
         <source>No connected input devices</source>
         <translation>没有已连接的输入设备</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2737"/>
-        <location filename="../mainwindow.cpp" line="2749"/>
+        <location filename="../mainwindow.cpp" line="2743"/>
+        <location filename="../mainwindow.cpp" line="2755"/>
         <source>No connected output devices</source>
         <translation>没有已连接的输出设备</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1359"/>
-        <location filename="../mainwindow.cpp" line="1362"/>
-        <location filename="../mainwindow.cpp" line="1376"/>
-        <location filename="../mainwindow.cpp" line="1379"/>
+        <location filename="../mainwindow.cpp" line="1360"/>
+        <location filename="../mainwindow.cpp" line="1363"/>
+        <location filename="../mainwindow.cpp" line="1377"/>
+        <location filename="../mainwindow.cpp" line="1380"/>
         <source>Buffer files</source>
         <translation>Buffer文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1362"/>
+        <location filename="../mainwindow.cpp" line="727"/>
+        <source>Scope</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1363"/>
         <source>Load Sonic Pi Buffer</source>
         <translation>打开Sonic Pi Buffer文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1362"/>
-        <location filename="../mainwindow.cpp" line="1379"/>
+        <location filename="../mainwindow.cpp" line="1363"/>
+        <location filename="../mainwindow.cpp" line="1380"/>
         <source>Text files</source>
         <translation>文本文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1362"/>
-        <location filename="../mainwindow.cpp" line="1379"/>
+        <location filename="../mainwindow.cpp" line="1363"/>
+        <location filename="../mainwindow.cpp" line="1380"/>
         <source>Ruby files</source>
         <translation>Ruby文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1362"/>
-        <location filename="../mainwindow.cpp" line="1379"/>
+        <location filename="../mainwindow.cpp" line="1363"/>
+        <location filename="../mainwindow.cpp" line="1380"/>
         <source>All files</source>
         <translation>所有文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1379"/>
+        <location filename="../mainwindow.cpp" line="1380"/>
         <source>Save Current Buffer</source>
         <translation>保存当前编辑器窗口代码</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1493"/>
+        <location filename="../mainwindow.cpp" line="1494"/>
         <source>Running Code...</source>
         <translation>代码运行中……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1499"/>
+        <location filename="../mainwindow.cpp" line="1500"/>
         <source>Zooming In...</source>
         <translation>放大...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1506"/>
+        <location filename="../mainwindow.cpp" line="1507"/>
         <source>Zooming Out...</source>
         <translation>缩小...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1513"/>
+        <location filename="../mainwindow.cpp" line="1514"/>
         <source>Beautifying...</source>
         <translation>美化...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1543"/>
+        <location filename="../mainwindow.cpp" line="1544"/>
         <source>Reloading...</source>
         <translation>重新载入...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1550"/>
+        <location filename="../mainwindow.cpp" line="1551"/>
         <source>Checking for updates...</source>
         <translation>检查更新...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1558"/>
+        <location filename="../mainwindow.cpp" line="1559"/>
         <source>Enabling update checking...</source>
         <translation>开启更新检查...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1566"/>
+        <location filename="../mainwindow.cpp" line="1567"/>
         <source>Disabling update checking...</source>
         <translation>关闭更新检查...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1574"/>
+        <location filename="../mainwindow.cpp" line="1575"/>
         <source>Enabling Mixer HPF...</source>
         <translation>启用高通滤波器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1583"/>
+        <location filename="../mainwindow.cpp" line="1584"/>
         <source>Disabling Mixer HPF...</source>
         <translation>禁用高通滤波器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1591"/>
+        <location filename="../mainwindow.cpp" line="1592"/>
         <source>Enabling Mixer LPF...</source>
         <translation>启用低通滤波器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1600"/>
+        <location filename="../mainwindow.cpp" line="1601"/>
         <source>Disabling Mixer LPF...</source>
         <translation>禁用低通滤波器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1608"/>
+        <location filename="../mainwindow.cpp" line="1609"/>
         <source>Enabling Inverted Stereo...</source>
         <translation>启用反转立体声...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1616"/>
+        <location filename="../mainwindow.cpp" line="1617"/>
         <source>Enabling Standard Stereo...</source>
         <translation>启用标准立体声...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1624"/>
+        <location filename="../mainwindow.cpp" line="1625"/>
         <source>Mono Mode...</source>
         <translation>单声道模式...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1632"/>
+        <location filename="../mainwindow.cpp" line="1633"/>
         <source>Stereo Mode...</source>
         <translation>立体声模式...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1641"/>
+        <location filename="../mainwindow.cpp" line="1642"/>
         <source>Stopping...</source>
         <translation>终止当前任务...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1744"/>
+        <location filename="../mainwindow.cpp" line="1749"/>
         <source>Updating System Volume...</source>
         <translation>更新系统音量...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1786"/>
+        <location filename="../mainwindow.cpp" line="1791"/>
         <source>Log Auto Scroll on...</source>
         <translation>日志窗口自动滚动开启...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1788"/>
+        <location filename="../mainwindow.cpp" line="1793"/>
         <source>Log Auto Scroll off...</source>
         <translation>日志窗口自动滚动关闭...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1816"/>
+        <location filename="../mainwindow.cpp" line="1822"/>
         <source>Colour Theme: </source>
         <translation>色彩主题 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2043"/>
+        <location filename="../mainwindow.cpp" line="2050"/>
         <source>Run</source>
         <translation>运行</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2045"/>
+        <location filename="../mainwindow.cpp" line="2052"/>
         <source>Run the code in the current buffer</source>
         <translation>运行当前编辑器窗口内的代码</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2049"/>
+        <location filename="../mainwindow.cpp" line="2056"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2051"/>
+        <location filename="../mainwindow.cpp" line="2058"/>
         <source>Stop all running code</source>
         <translation>停止所有代码运行</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2063"/>
+        <location filename="../mainwindow.cpp" line="2070"/>
         <source>Save current buffer as an external file</source>
         <translation>保存当前编辑器窗口为外部文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2067"/>
+        <location filename="../mainwindow.cpp" line="2074"/>
         <source>Load</source>
         <translation>载入</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2069"/>
+        <location filename="../mainwindow.cpp" line="2076"/>
         <source>Load an external file in the current buffer</source>
         <translation>载入外部文件到当前编辑器窗口</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2100"/>
+        <location filename="../mainwindow.cpp" line="2107"/>
         <source>See information about Sonic Pi</source>
         <translation>查看Sonic Pi相关信息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2828"/>
+        <location filename="../mainwindow.cpp" line="2834"/>
         <source>Connected MIDI inputs</source>
         <translation>已连接的MIDI输入设备</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2833"/>
+        <location filename="../mainwindow.cpp" line="2839"/>
         <source>Connected MIDI outputs</source>
         <translation>已连接的MIDI输出设备</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2055"/>
-        <location filename="../mainwindow.cpp" line="2247"/>
+        <location filename="../mainwindow.cpp" line="2062"/>
+        <location filename="../mainwindow.cpp" line="2254"/>
         <source>Start Recording</source>
         <translation>开始录制</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2074"/>
+        <location filename="../mainwindow.cpp" line="2081"/>
         <source>Auto-Align Text</source>
         <translation>自动对齐</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2082"/>
+        <location filename="../mainwindow.cpp" line="2089"/>
         <source>Increase Text Size</source>
         <translation>增大字体</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2106"/>
+        <location filename="../mainwindow.cpp" line="2113"/>
         <source>Toggle the visibility of the help pane</source>
         <translation>切换帮助视窗的可见度</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2112"/>
+        <location filename="../mainwindow.cpp" line="2119"/>
         <source>Toggle the visibility of the preferences pane</source>
         <translation>切换首选项视窗的可见度</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2088"/>
+        <location filename="../mainwindow.cpp" line="2095"/>
         <source>Decrease Text Size</source>
         <translation>减小字体</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2118"/>
+        <location filename="../mainwindow.cpp" line="2125"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2186"/>
+        <location filename="../mainwindow.cpp" line="2193"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2188"/>
+        <location filename="../mainwindow.cpp" line="2195"/>
         <source>Core Team</source>
         <translation>核心团队</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2189"/>
+        <location filename="../mainwindow.cpp" line="2196"/>
         <source>Contributors</source>
         <translation>项目参与者</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2187"/>
+        <location filename="../mainwindow.cpp" line="2194"/>
         <source>Community</source>
         <translation>社区</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="429"/>
+        <location filename="../mainwindow.cpp" line="428"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
         <translation>启用工作室模式。感谢您对Sonic Pi的支持。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="433"/>
+        <location filename="../mainwindow.cpp" line="432"/>
         <source>No Matching Studio Hash Found...</source>
         <translation>未找到匹配的Studio Hash...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="668"/>
+        <location filename="../mainwindow.cpp" line="667"/>
         <source>| %1 |</source>
         <translation>| %1 |</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2057"/>
+        <location filename="../mainwindow.cpp" line="2064"/>
         <source>Start recording to a WAV audio file</source>
         <translation>开始录制到WAV音频文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2061"/>
+        <location filename="../mainwindow.cpp" line="2068"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2076"/>
+        <location filename="../mainwindow.cpp" line="2083"/>
         <source>Align code to improve readability</source>
         <translation type="unfinished">对齐代码以提高可读性</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2080"/>
+        <location filename="../mainwindow.cpp" line="2087"/>
         <source>Text Size Up</source>
         <translation>放大字体</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2086"/>
+        <location filename="../mainwindow.cpp" line="2093"/>
         <source>Text Size Down</source>
         <translation>缩小字体</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2092"/>
+        <location filename="../mainwindow.cpp" line="2099"/>
         <source>Toggle Scope</source>
         <translation>切换Scope示波器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2094"/>
+        <location filename="../mainwindow.cpp" line="2101"/>
         <source>Toggle visibility of audio oscilloscope</source>
         <translation>打开或关闭音频示波器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2098"/>
+        <location filename="../mainwindow.cpp" line="2105"/>
         <source>Show Info</source>
         <translation>显示信息面板</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2104"/>
+        <location filename="../mainwindow.cpp" line="2111"/>
         <source>Toggle Help</source>
         <translation>切到帮助页</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2110"/>
+        <location filename="../mainwindow.cpp" line="2117"/>
         <source>Toggle Preferences</source>
         <translation>切换显示偏好设置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2141"/>
+        <location filename="../mainwindow.cpp" line="2148"/>
         <source>&amp;File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2148"/>
+        <location filename="../mainwindow.cpp" line="2155"/>
         <source>&amp;Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2152"/>
+        <location filename="../mainwindow.cpp" line="2159"/>
         <source>&amp;Window</source>
         <translation>窗口</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2190"/>
+        <location filename="../mainwindow.cpp" line="2197"/>
         <source>License</source>
         <translation>许可证</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2191"/>
+        <location filename="../mainwindow.cpp" line="2198"/>
         <source>History</source>
         <translation>历史</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2211"/>
+        <location filename="../mainwindow.cpp" line="2218"/>
         <source>Sonic Pi - Info</source>
         <translation>Sonic Pi - 信息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2237"/>
+        <location filename="../mainwindow.cpp" line="2244"/>
         <source>Stop Recording</source>
         <translation>停止录制</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2255"/>
+        <location filename="../mainwindow.cpp" line="2262"/>
         <source>Save Recording</source>
         <translation>保存录音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2255"/>
+        <location filename="../mainwindow.cpp" line="2262"/>
         <source>Wavefile (*.wav)</source>
         <translation>波形文件 (*.wav)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2277"/>
+        <location filename="../mainwindow.cpp" line="2284"/>
         <source>Ready...</source>
         <translation>就绪...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2424"/>
+        <location filename="../mainwindow.cpp" line="2431"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>无法读取文件 %1:
         %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2435"/>
+        <location filename="../mainwindow.cpp" line="2442"/>
         <source>File loaded...</source>
         <translation>文件已加载...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2443"/>
+        <location filename="../mainwindow.cpp" line="2450"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>无法写入文件 %1:
         %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2461"/>
+        <location filename="../mainwindow.cpp" line="2468"/>
         <source>File saved...</source>
         <translation>文件已保存...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1686"/>
+        <location filename="../mainwindow.cpp" line="1691"/>
         <source>help visibility changed...</source>
         <translation>帮助是否可见已改变...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2683"/>
+        <location filename="../mainwindow.cpp" line="2689"/>
         <source>Last checked %1</source>
         <translation>上次检查 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2685"/>
+        <location filename="../mainwindow.cpp" line="2691"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
         <translation>Sonic Pi每两周检查一次更新。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2687"/>
+        <location filename="../mainwindow.cpp" line="2693"/>
         <source>This is Sonic Pi %1</source>
         <translation>这是Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
+        <location filename="../mainwindow.cpp" line="2694"/>
         <source>Version %2 is now available!</source>
         <translation>新版本 %2 已经就绪，可供下载！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2692"/>
+        <location filename="../mainwindow.cpp" line="2698"/>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>发现新版本！
         获取Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2730"/>
+        <location filename="../mainwindow.cpp" line="2736"/>
         <source>Enabling MIDI...</source>
         <translation>启用MIDI...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2738"/>
+        <location filename="../mainwindow.cpp" line="2744"/>
         <source>Disabling MIDI...</source>
         <translation>正在禁用MIDI...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2762"/>
+        <location filename="../mainwindow.cpp" line="2768"/>
         <source>Opening OSC port for remote messages...</source>
         <translation>正在开放OSC端口以进行远程通讯...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2771"/>
+        <location filename="../mainwindow.cpp" line="2777"/>
         <source>Stopping OSC server...</source>
         <translation>正在关闭OSC服务器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2750"/>
+        <location filename="../mainwindow.cpp" line="2756"/>
         <source>Resetting MIDI...</source>
         <translation>正在重置MIDI...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2755"/>
+        <location filename="../mainwindow.cpp" line="2761"/>
         <source>MIDI is disabled...</source>
         <translation>MIDI已被禁用...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2784"/>
+        <location filename="../mainwindow.cpp" line="2790"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>欢迎回来。现在加载你的代码...</translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="117"/>
+        <location filename="../utils/ruby_help.h" line="214"/>
+        <location filename="../utils/ruby_help.h" line="311"/>
+        <location filename="../utils/ruby_help.h" line="408"/>
+        <location filename="../utils/ruby_help.h" line="505"/>
+        <location filename="../utils/ruby_help.h" line="601"/>
+        <location filename="../utils/ruby_help.h" line="698"/>
+        <location filename="../utils/ruby_help.h" line="795"/>
+        <location filename="../utils/ruby_help.h" line="892"/>
+        <location filename="../utils/ruby_help.h" line="989"/>
+        <location filename="../utils/ruby_help.h" line="1085"/>
+        <location filename="../utils/ruby_help.h" line="1182"/>
+        <location filename="../utils/ruby_help.h" line="1279"/>
+        <location filename="../utils/ruby_help.h" line="1376"/>
+        <location filename="../utils/ruby_help.h" line="1473"/>
+        <location filename="../utils/ruby_help.h" line="1570"/>
+        <location filename="../utils/ruby_help.h" line="1667"/>
+        <location filename="../utils/ruby_help.h" line="1764"/>
+        <location filename="../utils/ruby_help.h" line="1861"/>
+        <location filename="../utils/ruby_help.h" line="1958"/>
+        <location filename="../utils/ruby_help.h" line="2055"/>
+        <location filename="../utils/ruby_help.h" line="2152"/>
+        <location filename="../utils/ruby_help.h" line="2249"/>
+        <location filename="../utils/ruby_help.h" line="2346"/>
+        <location filename="../utils/ruby_help.h" line="2443"/>
+        <location filename="../utils/ruby_help.h" line="2540"/>
+        <location filename="../utils/ruby_help.h" line="2635"/>
+        <location filename="../utils/ruby_help.h" line="2732"/>
+        <location filename="../utils/ruby_help.h" line="2829"/>
+        <location filename="../utils/ruby_help.h" line="2926"/>
+        <location filename="../utils/ruby_help.h" line="3023"/>
+        <location filename="../utils/ruby_help.h" line="3120"/>
+        <location filename="../utils/ruby_help.h" line="3217"/>
+        <source>Tutorial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3252"/>
+        <source>Examples</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3301"/>
+        <source>Synths</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3348"/>
+        <source>Fx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3369"/>
+        <source>Samples</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3620"/>
+        <source>Lang</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="48"/>
+        <location filename="../main.cpp" line="61"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
@@ -627,9 +694,8 @@ external PA systems when performing with Sonic Pi.</source>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
-be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished">切换立体声声道。
-选中该选项时，左右声道信号交换，左声道信号将发送到右声道输出扬声器，右声道信号发送到左声道输出扬声器。</translation>
+be routed to the right speaker and vice versa.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
