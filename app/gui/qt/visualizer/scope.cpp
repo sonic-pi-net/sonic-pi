@@ -198,7 +198,6 @@ void Scope::paintEvent(QPaintEvent* pEv)
     auto textColor = QWidget::palette().color(QWidget::foregroundRole());
     auto shadowColor = QWidget::palette().color(QPalette::ColorRole::AlternateBase);
 
-    painter.begin(this);
     painter.fillRect(rect(), backColor);
 
     for (auto& panel : m_panels)
@@ -230,7 +229,6 @@ void Scope::paintEvent(QPaintEvent* pEv)
             DrawMirrorStereo(painter, panel);
         }
     }
-    painter.end();
 }
 
 void Scope::Layout()
