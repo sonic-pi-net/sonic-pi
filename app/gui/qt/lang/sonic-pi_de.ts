@@ -316,17 +316,17 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1822"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Farbschema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2064"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Aufnahme in eine WAV-Audiodatei starten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2070"/>
@@ -471,32 +471,32 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="428"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Studio-Modus aktiviert. Vielen Dank für die Unterstützung von Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="432"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein passender Studio-Hash gefunden...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="667"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2083"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Code ausrichten, um die Lesbarkeit zu verbessern</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2087"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Textgröße erhöhen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2093"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Textgröße verkleinern</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2099"/>
@@ -511,7 +511,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2105"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Info anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2111"/>
@@ -526,17 +526,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2148"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Datei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2155"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2159"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fenster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2197"/>
@@ -617,7 +617,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Beispiele</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3301"/>
@@ -653,17 +653,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished">I/O</translation>
+        <translation>I/O</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished">Editor</translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
@@ -674,7 +674,7 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">Aktualisierungen</translation>
+        <translation>Aktualisierungen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
@@ -684,7 +684,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Hier kannst Du die Lautstärke verändern.</translation>
+        <translation>Hier kannst du die Lautstärke verändern.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
@@ -701,7 +701,7 @@ an einem externen Verstärker gut gebrauchen kann.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Stereokanäle tauschen</translation>
+        <translation>Stereokanäle tauschen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
@@ -713,7 +713,7 @@ be routed to the right speaker and vice versa.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished">Mono-Ton</translation>
+        <translation>Mono erzwingen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -742,7 +742,7 @@ Mono-Ton verarbeiten kann.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished">Sicherer Modus</translation>
+        <translation>Sicherer Modus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
@@ -779,7 +779,7 @@ Takt ausgelöst werden.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished">Externe Synths und FX erlauben</translation>
+        <translation>Externe Synths und FX aktivieren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
@@ -813,7 +813,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
         <source>Local IP address</source>
-        <translation type="unfinished">Lokale IP-Adresse</translation>
+        <translation>Lokale IP-Adresse</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="140"/>
@@ -823,7 +823,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Unavailable</source>
-        <translation type="unfinished">Nicht verfügbar</translation>
+        <translation>Nicht verfügbar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
@@ -840,7 +840,7 @@ Ohne Aktivierung werden nur lokale Nachrichten empfangen.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished">OSC-Server aktivieren</translation>
+        <translation>OSC-Server aktivieren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
@@ -852,7 +852,7 @@ Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">MIDI-Einstellungen</translation>
+        <translation>MIDI-Konfiguration</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
@@ -862,7 +862,7 @@ Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI-Ports</translation>
+        <translation>MIDI-Ports</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
@@ -905,12 +905,12 @@ Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">Kein Eingabegerät angeschlossen</translation>
+        <translation>Keine angeschlossenen Eingabegeräte</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="230"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">Kein Ausgabegerät angeschlossen</translation>
+        <translation>Keine angeschlossenen Ausgabegeräte</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
@@ -930,7 +930,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Ein-/Ausblenden</translation>
+        <translation>Ein- und Ausblenden</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
