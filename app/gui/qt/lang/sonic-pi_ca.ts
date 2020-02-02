@@ -240,7 +240,7 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1500"/>
@@ -527,17 +527,17 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2148"/>
         <source>&amp;File</source>
-        <translation>&amp;File</translation>
+        <translation>&amp;Fitxer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2155"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Edit</translation>
+        <translation>&amp;Edita</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2159"/>
         <source>&amp;Window</source>
-        <translation>&amp;Window</translation>
+        <translation>&amp;Finestra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2197"/>
@@ -613,32 +613,32 @@ Aconsegueix Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutorial</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3301"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Sintetitzadors</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3348"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Efectes</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3369"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3620"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Llengua</translation>
     </message>
 </context>
 <context>
@@ -709,7 +709,9 @@ sistemes externs PA quan es fa música amb Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa/desactiva la inversió estèreo.
+Si està activada, l&apos;àudio enviat a l&apos;altaveu esquerre
+serà redirigit a l&apos;altaveu dret i viceversa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
