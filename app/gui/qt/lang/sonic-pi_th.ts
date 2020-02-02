@@ -6,25 +6,25 @@
     <message>
         <location filename="../mainwindow.cpp" line="502"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>การตั้งค่า</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="739"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>บันทึก</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="173"/>
         <location filename="../mainwindow.cpp" line="2423"/>
         <location filename="../mainwindow.cpp" line="2442"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">โซนิค พาย</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1493"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>กำลังรันโค้ด...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1513"/>
@@ -36,34 +36,34 @@
         <location filename="../mainwindow.cpp" line="1543"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>กำลังโหลด...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1574"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>เปิดใช้งานมิกเซอร์ HPF</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1583"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>ปิดใช้งานมิกเซอร์ HPF</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="459"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>ยินดีต้อนรับสู่โซนิค พาย</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>ย่อหน้าส่วนที่เลือก...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>ย่อหน้าบรรทัด...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1009"/>
@@ -73,17 +73,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="745"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>คิว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="840"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>เปิดโหมดเต็มหน้าจอ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="857"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>ปิดโหมดเต็มหน้าจอ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
@@ -93,41 +93,43 @@
     <message>
         <location filename="../mainwindow.cpp" line="1092"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>เซิร์ฟเวอร์โซนิค พาย ไม่สามารถใช้งานได้!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <location filename="../mainwindow.cpp" line="2748"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>ไม่มีอุปกรณ์อินพุตที่เชื่อมต่ออยู่</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2737"/>
         <location filename="../mainwindow.cpp" line="2749"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>ไม่มีอุปกรณ์เอาท์พุตที่เชื่อมต่ออยู่</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2697"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>ดาวน์โหลดเวอร์ชั่นใหม่จาก http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2828"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI อินพุตที่เชื่อมต่ออยู่</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2833"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI เอาท์พุตที่เชื่อมต่ออยู่</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>บูทไม่สำเร็จ
+
+เกิดความผิดพลาดขณะเริ่มต้นโปรแกรม</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1359"/>
@@ -140,7 +142,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">โหลดโซนิค พาย บัฟเฟอร์</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
