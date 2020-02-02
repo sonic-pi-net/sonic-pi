@@ -41,8 +41,9 @@ mklink /d ruby c:\Ruby25-x64
 4) Build the Application by running the prebuild first, then config.  These tools are in the app/gui/qt folder.  Note: If you have previously installed libaubio5-dll, or set the AUBIO_LIB environment variable, now is the time to remove the dll and remove the variable; the prebuild on windows will make and install the correct library for you.
 ``` 
 cd app/gui/qt
-prebuild.bat OR prebuild32.bat (to make the external components and translations from ruby)
-config.bat OR config32.bat (to make a project file)
+win-prebuild.bat OR win-prebuild32.bat (to make the translations from ruby)
+win-config.bat OR win-config32.bat (to make a project file)
+
 cd build OR build32
 EITHER:
 cmake --build . --config Release
@@ -73,7 +74,7 @@ Run C:\dev\sonic-pi\app\gui\qt\build\Release\sonic-pi.exe or build32\Release\son
 
 ## Tips
 - Error logs are written to %USERPROFILE%/.sonic-pi/logs, and are useful to diagnose any startup problems.
-- If a rebuild errors at the final stage of copying files, or you are otherwise having trouble starting sonic pi, there is killprocess.bat to remove sonic pi from memory.  This will also kill supercollider if it has been left running.- 32bit and 64bit don't mix.  Build the one you want in a clean tree.  Make sure you also install all the right 32/64 bit components to match your build.  64 bit is recommended on modern machines.
+- If a rebuild errors at the final stage of copying files, or you are otherwise having trouble starting sonic pi, there is win-killprocess.bat to remove sonic pi from memory.  This will also kill supercollider if it has been left running.- 32bit and 64bit don't mix.  Build the one you want in a clean tree.  Make sure you also install all the right 32/64 bit components to match your build.  64 bit is recommended on modern machines.
 - `cd %QT_INSTALL_LOCATION%` will take you to the directory you have set for that environment variable - a good way to check you have set it up correctly
 - You should find a libaubio-5.dll in your native/ruby/bin folder, if the prebuild has worked correctly.  This is required for the onset feature.
 
