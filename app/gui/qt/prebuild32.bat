@@ -1,5 +1,8 @@
 cd %~dp0
+call external/build_externals32.bat
 
+cd %~dp0
+copy external\build32\aubio-prefix\src\Aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
 rmdir /S /Q ..\..\server\ruby\vendor\ruby-aubio-prerelease
 
 ..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/i18n-tool.rb -t

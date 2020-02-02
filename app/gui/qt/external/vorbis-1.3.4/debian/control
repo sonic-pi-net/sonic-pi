@@ -1,0 +1,60 @@
+Source: libvorbis
+Section: libs
+Priority: optional
+Maintainer: Christopher L Cheney <ccheney@debian.org>
+Build-Depends: autotools-dev, debhelper (>> 4.0.18), devscripts, libogg-dev (>> 1.1.0)
+Standards-Version: 3.6.1.0
+
+Package: libvorbis0a
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}
+Conflicts: libvorbis0
+Replaces: libvorbis0
+Description: The Vorbis General Audio Compression Codec
+ Ogg Vorbis is a fully open, non-proprietary, patent-and-royalty-free,
+ general-purpose compressed audio format for audio and music at fixed 
+ and variable bitrates from 16 to 128 kbps/channel.
+ .
+ The Vorbis library is the primary Ogg Vorbis library.
+
+Package: libvorbisenc2
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}
+Conflicts: libvorbis0 (<< 1.0.0)
+Replaces: libvorbis0 (<< 1.0.0)
+Description: The Vorbis General Audio Compression Codec
+ Ogg Vorbis is a fully open, non-proprietary, patent-and-royalty-free,
+ general-purpose compressed audio format for audio and music at fixed 
+ and variable bitrates from 16 to 128 kbps/channel.
+ .
+ The Vorbisenc library provides a convenient API for setting up an encoding
+ environment using libvorbis.
+
+Package: libvorbisfile3
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}
+Conflicts: libvorbis0 (<< 1.0.0)
+Replaces: libvorbis0 (<< 1.0.0)
+Description: The Vorbis General Audio Compression Codec
+ Ogg Vorbis is a fully open, non-proprietary, patent-and-royalty-free,
+ general-purpose compressed audio format for audio and music at fixed 
+ and variable bitrates from 16 to 128 kbps/channel.
+ .
+ The Vorbisfile library provides a convenient high-level API for decoding
+ and basic manipulation of all Vorbis I audio streams.
+
+Package: libvorbis-dev
+Architecture: any
+Section: libdevel
+Depends: libogg-dev, libvorbis0a (= ${Source-Version}), libvorbisenc2 (= ${Source-Version}), libvorbisfile3 (= ${Source-Version})
+Description: The Vorbis General Audio Compression Codec (development files)
+ Ogg Vorbis is a fully open, non-proprietary, patent-and-royalty-free,
+ general-purpose compressed audio format for audio and music at fixed
+ and variable bitrates from 16 to 128 kbps/channel.
+ .
+ This package contains the header files and documentation needed to develop
+ applications with libvorbis.
+
