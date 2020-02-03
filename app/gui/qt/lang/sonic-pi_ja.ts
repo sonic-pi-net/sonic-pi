@@ -240,7 +240,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>スコープ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1500"/>
@@ -613,32 +613,32 @@ Sonic Pi %1 を入手</translation>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>チュートリアル</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>例</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3301"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>シンセ</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3348"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>エフェクト</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3369"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>サンプル</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3620"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>命令</translation>
     </message>
 </context>
 <context>
@@ -709,7 +709,9 @@ external PA systems when performing with Sonic Pi.</source>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>ステレオ反転を切り替えます。
+有効にすると、左スピーカーに送った音が
+右スピーカーに送られ、逆もまた同様です。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
