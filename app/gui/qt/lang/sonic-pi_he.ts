@@ -240,7 +240,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="727"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>תרשים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1500"/>
@@ -613,32 +613,32 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>מדריך</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>דוגמאות</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3301"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>צלילים</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3348"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>אפקטים</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3369"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>דגימות</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3620"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>שפה</translation>
     </message>
 </context>
 <context>
@@ -709,7 +709,9 @@ external PA systems when performing with Sonic Pi.</source>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>החלפת מצב היפוך סטריאו.
+אם האפשרות פעילה, השמע שמיועד לרמקול
+השמאלי יישלח לרמקול הימני ולהפך.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
@@ -771,7 +773,7 @@ even when a little late.</source>
 להפעיל צלילים ואפקטים אם
 מאוחר מדי לעשות זאת.
 
-כאשר מושבתת, &#xa0;תמיד ינסה
+כאשר מושבתת,  תמיד ינסה
 Sonic Pi להפעיל צלילים
 ואפקטים אפילו אם מאוחר מדי.</translation>
     </message>
