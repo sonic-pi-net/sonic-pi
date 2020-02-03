@@ -4,10 +4,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-02 05:18+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/f"
-"r/>\n"
+"PO-Revision-Date: 2020-02-04 07:50+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -374,9 +374,8 @@ msgstr ""
 "de temps à l'explorer."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Interface de Sonic Pi](../images/tutorial/GUI.png)"
+msgstr "![Interface de Sonic Pi](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -436,6 +435,9 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Ces boutons orange vous permettent de manipuler l'éditeur de code. Les "
+"boutons *Taille +* et *Taille -* vous permettent de rendre le texte plus "
+"grand et plus petit."
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
@@ -1588,9 +1590,9 @@ msgstr ""
 "llustre cette transition :"
 
 #: 02.4-Durations-with-Envelopes.md:79
-#, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr "![envelope d'extinction](../images/tutorial/env-release.png)"
+msgstr ""
+"![enveloppe de relâche](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1665,13 +1667,12 @@ msgstr ""
 "suivant :"
 
 #: 02.4-Durations-with-Envelopes.md:114
-#, fuzzy
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
 msgstr ""
-"![envelope avec attaque et extinction](../images/tutorial/env-attack-release.p"
-"ng)"
+"![enveloppe avec attaque et relâche](../../../etc/doc/images/tutorial/env-"
+"attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1687,13 +1688,12 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
-#, fuzzy
 msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![envelope avec attaque longue et extinction courte](../images/tutorial/env-lo"
-"ng-attack-short-release.png)"
+"![enveloppe avec attaque longue et relâche courte](../../../etc/doc/images/"
+"tutorial/env-long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1709,13 +1709,12 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
-#, fuzzy
 msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![envelope avec attaque courte et extinction courte](../images/tutorial/env-sh"
-"ort-attack-short-release.png)"
+"![enveloppe avec attaque courte et relâche courte](../../../etc/doc/images/"
+"tutorial/env-short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -1737,11 +1736,12 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
-#, fuzzy
 msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
-msgstr "![enveloppe ASR](../images/tutorial/env-attack-sustain-release.png)"
+msgstr ""
+"![enveloppe ASR](../../../etc/doc/images/tutorial/env-attack-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1792,11 +1792,12 @@ msgstr ""
 ": 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
-#, fuzzy
 msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
-msgstr "![enveloppe ADSR](../images/tutorial/env-attack-decay-sustain-release.png)"
+msgstr ""
+"![enveloppe ADSR](../../../etc/doc/images/tutorial/env-attack-decay-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1824,9 +1825,8 @@ msgstr ""
 "1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
-#, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
-msgstr "![enveloppe ASR](../images/tutorial/env-decay-level.png)"
+msgstr "![enveloppe ASR](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
@@ -1846,9 +1846,9 @@ msgstr ""
 "0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
-#, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr "![enveloppe ASR](../images/tutorial/env-decay-level-2.png)"
+msgstr ""
+"![enveloppe ASR](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
@@ -2370,9 +2370,8 @@ msgstr ""
 "iliser pour tracer un graphique qui ressemblerait à ceci :"
 
 #: 03.3-Stretching-Samples.md:103
-#, fuzzy
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
-msgstr "![graphique d'échantillon](../images/tutorial/sample.png)"
+msgstr "![graphique d'échantillon](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -7748,9 +7747,9 @@ msgid "`.shuffle` - creates a shuffled version of the ring"
 msgstr "`.shuffle` - crée une version mélangée de l'anneau"
 
 #: 08.5-Ring-Chains.md:71
-#, fuzzy
 msgid "`.pick` - returns a ring with the results of calling `.choose` once"
-msgstr "`.pick(3)` - retourne un anneau avec le résultat de trois appels à `.choose`"
+msgstr ""
+"`.pick` - retourne un anneau avec le résultat d'un appel à `.choose` une fois"
 
 #: 08.5-Ring-Chains.md:72
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
@@ -11561,13 +11560,12 @@ msgstr ""
 "e Live Coding."
 
 #: A.02-live-coding.md:14
-#, fuzzy
 msgid ""
 "![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
 "oding/sam-aaron-live-coding.png)"
 msgstr ""
-"![Programmation interactive de Sam Aaron](../images/tutorial/articles/A.02-liv"
-"e-coding/sam-aaron-live-coding.png)"
+"![Programmation interactive de Sam Aaron](../../../etc/doc/images/tutorial/"
+"articles/A.02-live-coding/sam-aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -12955,13 +12953,12 @@ msgstr ""
 "voir sur le diagramme suivant, il n'y a que quatre parties principales."
 
 #: A.05-acid-bass.md:113
-#, fuzzy
 msgid ""
 "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
 "3-design.png)"
 msgstr ""
-"![Design du TB-303](../images/tutorial/articles/A.05-acid-bass/tb303-design.pn"
-"g)"
+"![Design du TB-303](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/"
+"tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -13175,13 +13172,12 @@ msgstr ""
 " peu avec vos propres messages. Amusez-vous !"
 
 #: A.06-minecraft.md:36
-#, fuzzy
 msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-0-small.png)"
 msgstr ""
-"![Écran 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-smal"
-"l.png)"
+"![Écran 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
@@ -13290,13 +13286,12 @@ msgstr ""
 "mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
-#, fuzzy
 msgid ""
 "![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-1-small.png)"
 msgstr ""
-"![Capture d'écran 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecr"
-"aft-1-small.png)"
+"![Écran 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
@@ -13445,13 +13440,12 @@ msgstr ""
 "C'est amusant, non ?"
 
 #: A.06-minecraft.md:158
-#, fuzzy
 msgid ""
 "![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-2-small.png)"
 msgstr ""
-"![Écran 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-smal"
-"l.png)"
+"![Écran 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 msgid ""
@@ -13582,11 +13576,12 @@ msgstr ""
 "èbres parties : la ligne de basse de la Habanera :"
 
 #: A.07-bizet.md:29
-#, fuzzy
 msgid ""
 "![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
 ".png)"
-msgstr "![Riff Habanera](../images/tutorial/articles/A.07-bizet/habanera.png)"
+msgstr ""
+"![Riff Habanera](../../../etc/doc/images/tutorial/articles/A.07-bizet/"
+"habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -13631,9 +13626,9 @@ msgstr ""
 "er. Jetez un œil à cette table de correspondance bien pratique :"
 
 #: A.07-bizet.md:49
-#, fuzzy
 msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
+msgstr ""
+"![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
@@ -13706,11 +13701,12 @@ msgstr ""
 "ransforme en une belle séquence de notes et de silences."
 
 #: A.07-bizet.md:83
-#, fuzzy
 msgid ""
 "![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
 "ra2.png)"
-msgstr "![Riff Habanera 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
+msgstr ""
+"![Riff Habanera 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/"
+"habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
@@ -13912,13 +13908,12 @@ msgid "Become a Minecraft VJ"
 msgstr "Devenez un VJ Minecraft"
 
 #: A.08-minecraft-vj.md:5
-#, fuzzy
 msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
 "aft-vj-0-small.png)"
 msgstr ""
-"![Ecran 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small."
-"png)"
+"![Écran 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/"
+"minecraft-vj-0-small.png)"
 
 #: A.08-minecraft-vj.md:7
 msgid ""
@@ -14212,13 +14207,12 @@ msgid "Epic Block Patterns"
 msgstr "Des motifs de blocs épiques"
 
 #: A.08-minecraft-vj.md:131
-#, fuzzy
 msgid ""
 "![Screensman 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mi"
 "necraft-vj-1-small.png)"
 msgstr ""
-"![Ecran 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small."
-"png)"
+"![Écran 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/"
+"minecraft-vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:133
 msgid ""
@@ -15650,11 +15644,12 @@ msgstr ""
 "ouvons désormais nous amuser à jouer un échantillon dans le 'mauvais' ordre."
 
 #: A.12-sample-slicing.md:86
-#, fuzzy
 msgid ""
 "![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/a"
 "men_slice.png)"
-msgstr "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
+msgstr ""
+"![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/"
+"amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
@@ -16259,13 +16254,12 @@ msgstr ""
 " d'amplitude par battement."
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_phase_durations.png)"
 msgstr ""
-"![Durée de Phase](../images/tutorial/articles/A.14-amplitude-modulation/slicer"
-"_phase_durations.png)"
+"![Durée de Phase](../../../etc/doc/images/tutorial/articles/A."
+"14-amplitude-modulation/slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -16350,13 +16344,12 @@ msgstr ""
 "çon dont l'amplitude est modulée au cours du temps."
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_control_waves.png)"
 msgstr ""
-"![Durées de Phases](../images/tutorial/articles/A.14-amplitude-modulation/slic"
-"er_control_waves.png)"
+"![Durées de Phase](../../../etc/doc/images/tutorial/articles/A."
+"14-amplitude-modulation/slicer_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
