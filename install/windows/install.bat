@@ -5,6 +5,10 @@ REM /R Recursive
 REM /E Include empty folders (so that children get included too!)
 REM /I Ensures directories get copied properly
 REM Pass 'Release' or 'Debug' on the command line
+REM
+REM
+@echo Remember to update version number in wix\sonic-pi.wxs!!
+
 xcopy /Y /I /R /E ..\..\app\gui\qt\build\Release app\gui\qt\build\Release
 xcopy /Y /I /R /E ..\..\etc etc\
 
@@ -18,8 +22,16 @@ xcopy /Y /I /R /E ..\..\app\server\native\ruby\share app\server\native\ruby\shar
 xcopy /Y /I /R /E ..\..\app\server\native\ruby\ssl app\server\native\ruby\ssl
 xcopy /Y ..\..\app\server\native\*.* app\server\native
 
-xcopy /Y /I /R /E ..\app\server\ruby app\server\ruby
+xcopy /Y /I /R /E ..\..\app\server\ruby app\server\ruby
+
+REM Now remove stuff we don't want in the installer
+rmdir /S /Q app\server\ruby\vendor\ruby-aubio-prerelease
+rmdir /S /Q app\server\native\ruby\share
+ruby prune.rb app/server/ruby/vendor
 
 REM Now we have etc/app folders, generate the installer from them
+del gui.wix
+del etc.wix
+del *.wixobj
 call wix\gen_wix.bat
 call wix\gen_msi.bat

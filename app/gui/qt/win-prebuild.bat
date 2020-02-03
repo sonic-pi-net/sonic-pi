@@ -6,7 +6,7 @@ copy external\build\aubio-prefix\src\Aubio-build\Release\libaubio-5.dll ..\..\se
 rmdir /S /Q ..\..\server\ruby\vendor\ruby-aubio-prerelease
 
 @echo "Copying scsynth to server..."
-copy /Y ..\..\..\prebuilt\windows\x64\*.* ..\..\server\native
+xcopy /Y /I /R /E ..\..\..\prebuilt\windows\x64\*.* ..\..\server\native
 
 @echo "Translating tutorial..."
 ..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/i18n-tool.rb -t
