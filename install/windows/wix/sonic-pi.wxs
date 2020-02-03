@@ -23,7 +23,7 @@
               <Directory Id="QT" Name="qt">
                 <Directory Id="RELEASE" Name="release">
                   <Component Id="SONIC_PI.EXE" DiskId="1" Guid="BA4C72F9-C198-436A-B1E2-B2DF8EC65960">
-                    <File Id="SONIC_PI.EXE" Name="sonic-pi.exe" Source="SourceDir\app\gui\qt\release\sonic-pi.exe" />
+                    <File Id="SONIC_PI.EXE" Name="sonic-pi.exe" Source="SourceDir\app\gui\qt\build\Release\sonic-pi.exe" />
 
                   </Component>
 		</Directory>
