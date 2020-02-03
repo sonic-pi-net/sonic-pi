@@ -1,0 +1,54 @@
+# Build worker image (VM template)
+image: Visual Studio 2019
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - date /T & time /T
+  - git config --global core.autocrlf input
+  - cmake --version
+
+branches:
+  only:
+  - master
+
+platform:
+  - x64
+
+configuration:
+  - Release
+  - Debug
+
+environment:
+  MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
+  matrix:
+    - generator: "Visual Studio 16 2019"
+
+matrix:
+  fast_finish: true
+
+install:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - dir
+  - cd app\server\native
+  - mklink /d ruby c:\Ruby26-x64
+  - set PATH=c:\Ruby26-x64\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;%PATH%
+  - gem install win32-process
+  - gem install rugged --version 0.27.1
+  - gem install aubio 
+  - set QT_INSTALL_LOCATION=C:\Qt\5.14.0\msvc2017_64
+  
+build_script:
+  # generate build script
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - cd app\gui\qt
+  - win-prebuild.bat
+  - win-config.bat
+  - cd build
+  - cmake --build . --target ALL_BUILD --config %configuration% -- /nologo /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+after_build:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - cd install\windows
+  - IF "%configuration%"=="Release" install.bat
+  - IF "%configuration%"=="Release" appveyor PushArtifact wix\sonic-pi.msi
+

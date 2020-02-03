@@ -4,8 +4,8 @@ REM /Y Means just do it, don't ask
 REM /R Recursive
 REM /E Include empty folders (so that children get included too!)
 REM /I Ensures directories get copied properly
-
-xcopy /Y /I /R /E ..\..\app\gui\qt\Release app\gui\qt\Release
+REM Pass 'Release' or 'Debug' on the command line
+xcopy /Y /I /R /E ..\..\app\gui\qt\build\Release app\gui\qt\build\Release
 xcopy /Y /I /R /E ..\..\etc etc\
 
 xcopy /Y /I /R /E ..\..\app\server\erlang app\server\erlang

@@ -71,6 +71,6 @@
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
 
 
-    <Icon Id="StartMenuIcon.exe" SourceFile="../../app/gui/qt/Release/sonic-pi.exe" />
+    <Icon Id="StartMenuIcon.exe" SourceFile="../../app/gui/qt/build/Release/sonic-pi.exe" />
   </Product>
 </Wix>
