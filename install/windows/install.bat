@@ -10,6 +10,7 @@ REM
 @echo Remember to update version number in wix\sonic-pi.wxs!!
 
 xcopy /Y /I /R /E ..\..\app\gui\qt\build\Release app\gui\qt\build\Release
+xcopy /Y /I /R /E ..\..\app\gui\qt\theme app\gui\qt\theme
 xcopy /Y /I /R /E ..\..\etc etc\
 
 xcopy /Y /I /R /E ..\..\app\server\erlang app\server\erlang
