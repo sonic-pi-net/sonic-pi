@@ -18,7 +18,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(APP_ROOT ${CMAKE_CURRENT_LIST_DIR})
 set(SONIC_PI_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../..)
 
-if(BUILD_32BIT)
+if(${BUILD_32BIT})
+message(STATUS "Setting up a 32 bit QT Build")
 set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION32})
 else()
 set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION})
@@ -147,15 +148,9 @@ if(WIN32)
     message(STATUS "Copying required Qt libraries and binaries to output directory....")
 
     # Run winddeployqt if it can be found, to ensure installed dependencies
-    find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QTDIR} ENV QTDIR PATH_SUFFIXES bin)
     add_custom_command(TARGET ${APP_NAME} POST_BUILD
-        COMMAND ${WINDEPLOYQT_EXECUTABLE} $<TARGET_FILE:${APP_NAME}>)
+        COMMAND ${CMAKE_PREFIX_PATH}/bin/windeployqt $<TARGET_FILE:${APP_NAME}>)
 
-    # Copy the built osmid files to the server
-    add_custom_command(TARGET ${APP_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${SONIC_PI_ROOT}/app/server/native/osmid
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/external/build/osmid-prefix/src/osmid-build/Release/m2o.exe ${SONIC_PI_ROOT}/app/server/native/osmid
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/external/build/osmid-prefix/src/osmid-build/Release/o2m.exe ${SONIC_PI_ROOT}/app/server/native/osmid)
 endif() # Win32
 
 # Make convenient source groups in the IDE
