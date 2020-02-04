@@ -51,7 +51,7 @@ Scope::Scope(int scsynthPort, QWidget* parent)
     m_panels.push_back({ "Stereo", "Right", ScopeType::Right });
     m_panels.push_back({ "Mono", "Mono", ScopeType::Mono });
     m_panels.push_back({ "Mirror Stereo", "Stereo", ScopeType::MirrorStereo });
-    m_panels.push_back({ "Polar Stereo", "Stereo", ScopeType::PolarStereo });
+    m_panels.push_back({ "Polar Stereo", "Polar Stereo", ScopeType::PolarStereo });
 
     for (auto& scope : m_panels)
     {
