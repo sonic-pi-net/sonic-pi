@@ -25,11 +25,16 @@
 
 #include "dpi.h"
 
+#ifdef _WIN32
+#include <QtPlatformHeaders\QWindowsWindowFunctions>
+#endif
+
 int main(int argc, char *argv[])
 {
 #ifndef Q_OS_MAC
   Q_INIT_RESOURCE(SonicPi);
 #endif
+
 
   // A temporary fix, until stylesheets are removed.
   // Only do the dpi scaling when the platform is high dpi
@@ -61,6 +66,7 @@ int main(int argc, char *argv[])
   app.setApplicationName(QObject::tr("Sonic Pi"));
   app.setStyle("gtk");
 
+
 #ifdef Q_OS_MAC
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
@@ -88,6 +94,10 @@ int main(int argc, char *argv[])
   splash->repaint();
   app.processEvents();
   MainWindow mainWin(app, i18n, splash);
+#ifdef _WIN32
+  QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
+#endif
+
   return app.exec();
 #endif
 
