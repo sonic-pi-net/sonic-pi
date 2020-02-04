@@ -4,10 +4,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-01-29 08:48+0000\n"
-"Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
-"Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"ca/>\n"
+"PO-Revision-Date: 2020-02-05 10:50+0000\n"
+"Last-Translator: Vera Rojman <vrojman@protonmail.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,6 @@ msgstr ""
 "interpretació i molt més."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
-#, fuzzy
 msgid ""
 "But wait, how rude of me! Let me introduce myself - I'm [Sam Aaron](https://tw"
 "itter.com/samaaron) - the chap that created Sonic Pi. You can find me at [@sam"
@@ -45,12 +44,12 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
-"Però, espera... que groller sóc! Permet que em presente - Sóc [Sam Aaron](http"
-"://twitter.com/samaaron) - el creador de Sonic Pi. Pots trobar-me a Twitter [@"
-"samaaron](http://twitter.com/samaaron) i estaré molt agraït de saludar-te. Pot"
-"ser t'interessaria saber més de les meues [Live Coding Performances](http://fa"
-"cebook.com/livecodersamaaron), on programo en viu i en directe amb Sonic Pi da"
-"vant del públic."
+"Però, espera... que groller sóc! Permet que em presenti - Sóc [Sam "
+"Aaron](http://twitter.com/samaaron) - el creador de Sonic Pi. Pots trobar-me "
+"a Twitter [@samaaron](http://twitter.com/samaaron) i estaré molt agraït de "
+"saludar-te. Potser t'interessaria saber més de les meves [Live Coding "
+"Performances](http://facebook.com/livecodersamaaron), on programo en viu i "
+"en directe amb Sonic Pi davant del públic."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -76,16 +75,15 @@ msgstr ""
 "utures."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Abans d'acabar, noteu que veure a altres fent live-coding és una manera excel·"
-"lent d'aprendre. Jo ho faig regularment en directe per [http://youtube.com/sam"
-"aaron](http://youtube.com/samaaron), així que passa per allí, saluda'm i fes-m"
-"e moltes preguntes :-)"
+"Per acabar, veure a altres persones fent live-coding és una manera excel·"
+"lent d'aprendre. Jo ho faig regularment en directe per [http://youtube.com/"
+"samaaron](http://youtube.com/samaaron), així que passa per allí, saluda'm i "
+"fes-me moltes preguntes :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -132,9 +130,8 @@ msgid "A live loop"
 msgstr "Un live loop (bucle en directe)"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr "Comencem! Copia el codi següent en un buffer buit d'ací dalt:"
+msgstr "Comencem! Copia el codi següent en un buffer buit:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -371,9 +368,8 @@ msgstr ""
 "lada."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+msgstr "![Interfície de Sonic Pi](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
