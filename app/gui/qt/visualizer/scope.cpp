@@ -51,6 +51,7 @@ Scope::Scope(int scsynthPort, QWidget* parent)
     m_panels.push_back({ "Stereo", "Right", ScopeType::Right });
     m_panels.push_back({ "Mono", "Mono", ScopeType::Mono });
     m_panels.push_back({ "Mirror Stereo", "Stereo", ScopeType::MirrorStereo });
+    m_panels.push_back({ "Polar Stereo", "Stereo", ScopeType::PolarStereo });
 
     for (auto& scope : m_panels)
     {
@@ -111,6 +112,67 @@ void Scope::DrawMirrorStereo(QPainter& painter, Panel& panel)
     painter.drawLines(&panel.wavePoints[0], rightIndex / 2);
     painter.setPen(panel.pen);
     painter.drawLines(&panel.wavePoints[rightIndex], rightIndex / 2);
+
+    /*
+    TBD: Composition modes not working?
+    painter.setCompositionMode(QPainter::CompositionMode::CompositionMode_Multiply);
+    panel.redBlueGradient = QLinearGradient(0, panel.rcGraph.top(), 0, panel.rcGraph.bottom());
+    panel.redBlueGradient.setColorAt(0.3, QColor(255, 255, 255, 255));
+    panel.redBlueGradient.setColorAt(0.5, QColor(0, 0, 0, 0));
+    panel.redBlueGradient.setColorAt(0.7, QColor(255, 255, 255, 255));
+    painter.fillRect(panel.rcGraph, panel.redBlueGradient);
+    */
+}
+
+// Draw a Simple Stereo representation with a mirror of right/left stereo
+void Scope::DrawPolarStereo(QPainter& painter, Panel& panel)
+{
+    // Just sample the data at intervals; we should probably filter it too
+    double step = FrameSamples / double(panel.rcGraph.width());
+
+    // Make a list of points; it's better to gather them and submit in a batch
+    // Here we are just drawing in pixel space
+    // Note: resize will be a no-op when it doesn't change ;)
+
+    panel.wavePoints.resize((panel.rcGraph.width() * 2) + 2, QPoint(0, 0));
+
+    float scale;
+    if (panel.rcGraph.height() < panel.rcGraph.width())
+    {
+        scale = panel.rcGraph.height() / 2;
+    }
+    else
+    {
+        scale = panel.rcGraph.height() / 2;
+    }
+
+    QPoint center = panel.rcGraph.center();
+
+    int rightIndex = int(panel.wavePoints.size() - 2) / 2;
+    for (int x = 0; x < rightIndex; x++)
+    {
+        auto sampleLeft = m_samples[0][int(x * step)] * scale * .5f;
+        auto sampleRight = m_samples[1][int(x * step)] * scale * .5f;
+        sampleLeft = abs(sampleLeft);
+        sampleRight = -abs(sampleRight);
+
+        float angle = (x / (float)panel.rcGraph.width()) * 3.1415926 * 2.0f;
+        auto sinAngle = sin(angle);
+        auto cosAngle = cos(angle);
+
+        float offset = scale / 2.0f;
+        panel.wavePoints[x] = center + QPoint(sinAngle * (offset + sampleLeft), cosAngle * (offset + sampleLeft));
+
+        panel.wavePoints[rightIndex + x + 1] = center + QPoint(sinAngle * (offset + sampleRight), cosAngle * (offset + sampleRight));
+    }
+    // Complete the loop
+    panel.wavePoints[rightIndex] = panel.wavePoints[0];
+    panel.wavePoints[panel.wavePoints.size() - 1] = panel.wavePoints[rightIndex + 1];
+
+    painter.setPen(panel.pen2);
+    painter.drawPolyline(&panel.wavePoints[0], rightIndex + 1);
+    painter.setPen(panel.pen);
+    painter.drawPolyline(&panel.wavePoints[rightIndex + 1], rightIndex + 1);
 
     /*
     TBD: Composition modes not working?
@@ -227,6 +289,10 @@ void Scope::paintEvent(QPaintEvent* pEv)
         else if (panel.type == ScopeType::MirrorStereo)
         {
             DrawMirrorStereo(painter, panel);
+        }
+        else if (panel.type == ScopeType::PolarStereo)
+        {
+            DrawPolarStereo(painter, panel);
         }
     }
 }

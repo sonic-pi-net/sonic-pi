@@ -30,7 +30,8 @@ enum class ScopeType
     Right,
     Mono,
     Lissajous,
-    MirrorStereo
+    MirrorStereo,
+    PolarStereo
 };
 
 struct Panel
@@ -76,6 +77,7 @@ public:
 
     void DrawWave(QPainter& painter, Panel& panel);
     void DrawMirrorStereo(QPainter& painter, Panel& panel);
+    void DrawPolarStereo(QPainter& painter, Panel& panel);
     void DrawLissajous(QPainter& painter, Panel& panel);
 
 protected:
