@@ -70,7 +70,8 @@ SOURCES += main.cpp \
            widgets/sonicpilexer.cpp \
            widgets/settingswidget.cpp \
            model/sonicpitheme.cpp \
-           visualizer/scope.cpp
+           visualizer/scope.cpp \
+           external/kiss_fft/kiss_fft.c
 
 HEADERS  += mainwindow.h \
             widgets/sonicpilog.h \
@@ -89,7 +90,8 @@ HEADERS  += mainwindow.h \
             osc/sonic_pi_tcp_osc_server.h \
             model/sonicpitheme.h \
             model/settings.h \
-            visualizer/scope.h
+            visualizer/scope.h \
+            external/kiss_fft/kiss_fft.h
 
 TRANSLATIONS = lang/sonic-pi_bg.ts \
     lang/sonic-pi_bs.ts \
