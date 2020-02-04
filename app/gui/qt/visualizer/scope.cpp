@@ -20,16 +20,35 @@
 #include <QResizeEvent>
 #include <QTimer>
 #include <QVBoxLayout>
+
+#include <algorithm>
 #include <cmath>
 #include <set>
 
 #include "dpi.h"
+
+#include "kiss_fft/kiss_fft.h"
 
 namespace
 {
 const int FrameSamples = 4096;
 const int LissajousSamples = 1024;
 const int PenWidth = 1;
+const float FFTDecibelRange = 70.0f;
+
+/// Creates a Hamming Window for FFT
+/// FFT requires a window function to get smooth results
+inline std::vector<float> createWindow(uint32_t size)
+{
+    const float PI = float(std::atan(1.0) * 4);
+    std::vector<float> ret(size);
+    for (uint32_t i = 0; i < size; i++)
+    {
+        ret[i] = (0.5f * (1 - cos(2.0f * PI * (i / (float)(size - 1)))));
+    }
+
+    return ret;
+}
 } // namespace
 
 Scope::Scope(int scsynthPort, QWidget* parent)
@@ -52,13 +71,19 @@ Scope::Scope(int scsynthPort, QWidget* parent)
     m_panels.push_back({ "Mono", "Mono", ScopeType::Mono });
     m_panels.push_back({ "Mirror Stereo", "Stereo", ScopeType::MirrorStereo });
 
+    Panel spec({ "Spectrum", "Spectrum", ScopeType::SpectrumAnalysis });
+    spec.requireFFT = true;
+    m_panels.push_back(spec);
+
     for (auto& scope : m_panels)
     {
-      scope.pen = QPen();
-      scope.pen.setWidth(PenWidth);
-      scope.pen2 = QPen();
-      scope.pen2.setWidth(PenWidth);
+        scope.pen = QPen();
+        scope.pen.setWidth(PenWidth);
+        scope.pen2 = QPen();
+        scope.pen2.setWidth(PenWidth);
     }
+
+    SetupFFT();
 
     QTimer* scopeTimer = new QTimer(this);
     connect(scopeTimer, &QTimer::timeout, this, &Scope::OnTimer);
@@ -75,6 +100,56 @@ void Scope::resizeEvent(QResizeEvent* pSize)
 {
     QOpenGLWidget::resizeEvent(pSize);
     Layout();
+}
+
+// Draw a Simple Stereo representation with a mirror of right/left stereo
+void Scope::DrawSpectrumAnalysis(QPainter& painter, Panel& panel)
+{
+    if (m_spectrumQuantized[0].empty() || m_spectrumQuantized[1].empty())
+        return;
+
+    int centerY = panel.rcGraph.center().y();
+    float sampleScale = panel.rcGraph.height() / 2.0f;
+
+    panel.waveRects.resize(m_spectrumQuantized[0].size() * 2);
+
+    // Make a pixel margin between the buckets for a cleaner view
+    float stepPerRect = panel.rcGraph.width() / float(m_spectrumQuantized[0].size());
+    int margin = ScaleWidthForDPI(1);
+
+    // ... but discard it if we have to
+    if (stepPerRect < (margin * 2) + 1)
+    {
+        margin = 0;
+    }
+    // Make sure we step enough to make a valid rect
+    stepPerRect = std::max(margin * 2.0f + 1.0f, stepPerRect);
+
+    // Stereo
+    int rightIndex = int(panel.waveRects.size() / 2);
+    for (uint32_t index = 0; index < m_spectrumQuantized[0].size(); index++)
+    {
+        int x1 = index * stepPerRect;
+
+        // Draw left at the top, right at the bottom
+        int size = m_spectrumQuantized[0][index] * sampleScale;
+        int size2 = m_spectrumQuantized[1][index] * sampleScale;
+        size = std::max(1, size);
+        size2 = std::max(1, size2);
+        panel.waveRects[index] = QRect(x1 + margin, centerY - 1 - size, stepPerRect - margin * 2, size);
+        panel.waveRects[index + rightIndex] = QRect(x1 + margin, centerY + 1, stepPerRect - margin * 2, size2);
+    }
+
+    // Batch by brush
+    for (uint32_t index = 0; index < uint32_t(panel.waveRects.size() / 2); index++)
+    {
+        painter.fillRect(panel.waveRects[index], panel.brush);
+    }
+
+    for (uint32_t index = 0; index < uint32_t(panel.waveRects.size() / 2); index++)
+    {
+        painter.fillRect(panel.waveRects[rightIndex + index], panel.brush2);
+    }
 }
 
 // Draw a Simple Stereo representation with a mirror of right/left stereo
@@ -228,6 +303,10 @@ void Scope::paintEvent(QPaintEvent* pEv)
         {
             DrawMirrorStereo(painter, panel);
         }
+        else if (panel.type == ScopeType::SpectrumAnalysis)
+        {
+            DrawSpectrumAnalysis(painter, panel);
+        }
     }
 }
 
@@ -263,7 +342,6 @@ void Scope::Layout()
             panel.rcGraph.setTop(panel.rcTitle.bottom());
         }
         currentTopLeft.setY(currentTopLeft.y() + panelSize.height() + yMargin);
-
     }
 
     repaint();
@@ -282,6 +360,7 @@ std::vector<QString> Scope::GetScopeCategories() const
 bool Scope::EnableScope(const QString& category, bool on)
 {
     bool any = false;
+    m_calculateFFT = false;
     for (auto& scope : m_panels)
     {
         if (scope.category == category)
@@ -289,7 +368,13 @@ bool Scope::EnableScope(const QString& category, bool on)
             scope.visible = on;
             any = true;
         }
+
+        if (scope.visible && scope.requireFFT)
+        {
+            m_calculateFFT = true;
+        }
     }
+
     Layout();
 
     return any ? on : true;
@@ -329,6 +414,7 @@ void Scope::SetColor(QColor c)
     for (auto& scope : m_panels)
     {
         scope.pen.setColor(c);
+        scope.brush = QBrush(c);
     }
 }
 
@@ -337,6 +423,7 @@ void Scope::SetColor2(QColor c)
     for (auto& scope : m_panels)
     {
         scope.pen2.setColor(c);
+        scope.brush2 = QBrush(c);
     }
 }
 
@@ -389,6 +476,8 @@ void Scope::Refresh()
                 }
             }
         }
+
+        CalculateFFT();
     }
     else
     {
@@ -401,6 +490,117 @@ void Scope::Refresh()
     }
 
     repaint();
+}
+
+void Scope::SetupFFT()
+{
+    for (auto& scope : m_panels)
+    {
+        scope.pen = QPen();
+    }
+    // Hamming window
+    m_window = createWindow(FrameSamples);
+    m_totalWin = 0.0f;
+    for (auto& win : m_window)
+    {
+        m_totalWin += win;
+    }
+
+    // Imaginary part of audio input always 0.
+    for (int i = 0; i < 2; i++)
+    {
+        m_fftIn[i].resize(FrameSamples, std::complex<float>{ 0.0, 0.0 });
+        m_fftOut[i].resize(FrameSamples);
+        m_fftMag[i].resize(FrameSamples);
+
+        // FFT output is half the size of the input
+        m_spectrum[i].resize(FrameSamples / 2, (0));
+    }
+
+    m_cfg = kiss_fft_alloc(FrameSamples, 0, 0, 0);
+}
+
+void Scope::CalculateFFT()
+{
+    if (!m_calculateFFT)
+    {
+        return;
+    }
+
+    // Magnitude
+    const float ref = 1.0f; // Source reference value, but we are +/1.0f
+
+    if (m_fftOut[0].size() == 0)
+    {
+        return;
+    }
+
+    for (int channel = 0; channel < 2; channel++)
+    {
+        for (uint32_t i = 0; i < FrameSamples; i++)
+        {
+            // Hamming window * audio
+            m_fftIn[channel][i] = std::complex<float>(m_samples[channel][i] * m_window[i], 0.0f);
+        }
+
+        // Do the FFT
+        kiss_fft(m_cfg, (const mkiss_fft_cpx*)&m_fftIn[channel][0], (mkiss_fft_cpx*)&m_fftOut[channel][0]);
+
+        // Sample 0 is the all frequency component
+        m_fftOut[channel][0] = std::complex<float>(0.0f, 0.0f);
+
+        for (uint32_t i = 0; i < FrameSamples / 2; i++)
+        {
+
+            // Magnitude
+            m_fftMag[channel][i] = std::abs(m_fftOut[channel][i]);
+
+            m_spectrum[channel][i] = m_fftMag[channel][i] * 2.0f / m_totalWin;
+            m_spectrum[channel][i] = std::max(m_spectrum[channel][i], std::numeric_limits<float>::min());
+
+            // Log based on a reference value of 1
+            m_spectrum[channel][i] = 20 * std::log10(m_spectrum[channel][i] / ref);
+
+            // Normalize by moving up and dividing
+            // Decibels are now positive from 0->1;
+            m_spectrum[channel][i] += FFTDecibelRange;
+            m_spectrum[channel][i] /= FFTDecibelRange;
+            m_spectrum[channel][i] = std::max(0.0f, m_spectrum[channel][i]);
+            m_spectrum[channel][i] = std::min(1.0f, m_spectrum[channel][i]);
+        }
+
+        // Quantize into bigger buckets; filtering helps smooth the graph, and gives a more pleasant effect
+
+        // We only care about the bottom 1/4 of the frequencies, less than 10Khz.
+        uint32_t SpectrumSamples = uint32_t(m_spectrum[channel].size() / 4);
+
+        // Make less buckets on a big window, or at least 1/2 the sample buckets 
+        uint32_t buckets = std::min(SpectrumSamples / 2, uint32_t(width() / 8));
+        if (buckets > 0)
+        {
+            float countPerBucket = (float)SpectrumSamples / (float)buckets;
+            uint32_t currentBucket = 0;
+
+            float av = 0.0f;
+            m_spectrumQuantized[channel].resize(buckets);
+
+            // Ignore the first spectrum sample
+            for (uint32_t i = 1; i < SpectrumSamples; i++)
+            {
+                av += m_spectrum[channel][i];
+
+                if (i > (countPerBucket * currentBucket))
+                { 
+                    m_spectrumQuantized[channel][currentBucket++] = av / (float)countPerBucket;
+                    av = 0.0f; // reset sum for next average
+                }
+
+                // Sanity
+                if (currentBucket >= buckets)
+                    break;
+            }
+        }
+    }
 }
 
 void Scope::OnTimer()

@@ -17,9 +17,12 @@
 #include <QOpenGLWidget>
 #include <QPen>
 
+#include <complex> 
 #include <memory>
 #include <string>
 #include <visualizer/server_shm.hpp>
+
+#include "kiss_fft/kiss_fft.h"
 
 QT_FORWARD_DECLARE_CLASS(QPaintEvent)
 QT_FORWARD_DECLARE_CLASS(QResizeEvent)
@@ -30,7 +33,8 @@ enum class ScopeType
     Right,
     Mono,
     Lissajous,
-    MirrorStereo
+    MirrorStereo,
+    SpectrumAnalysis
 };
 
 struct Panel
@@ -46,11 +50,15 @@ struct Panel
     QRect rcTitle;
     QPen pen;
     QPen pen2;
+    QBrush brush;
+    QBrush brush2;
     bool visible = true;
     bool axisVisible = false;
     bool titleVisible = true;
+    bool requireFFT = false;
 
     std::vector<QPoint> wavePoints;
+    std::vector<QRect> waveRects;
     QLinearGradient redBlueGradient;
 };
 
@@ -77,6 +85,10 @@ public:
     void DrawWave(QPainter& painter, Panel& panel);
     void DrawMirrorStereo(QPainter& painter, Panel& panel);
     void DrawLissajous(QPainter& painter, Panel& panel);
+    void DrawSpectrumAnalysis(QPainter& painter, Panel& panel);
+
+    void SetupFFT();
+    void CalculateFFT();
 
 protected:
     virtual void paintEvent(QPaintEvent* pEv) override;
@@ -102,5 +114,15 @@ private:
 
     bool m_scsynthIsBooted = false;
     bool m_paused = false;
+    bool m_calculateFFT = false;
 
+    // FFT
+    mkiss_fft_cfg m_cfg;
+    std::vector<std::complex<float>> m_fftIn[2];
+    std::vector<std::complex<float>> m_fftOut[2];
+    std::vector<float> m_fftMag[2];
+    std::vector<float> m_spectrum[2];
+    std::vector<float> m_spectrumQuantized[2];
+    std::vector<float> m_window;
+    float m_totalWin = 0.0f;
 };
