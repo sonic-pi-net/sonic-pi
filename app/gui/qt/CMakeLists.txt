@@ -82,6 +82,8 @@ set(QT_SOURCES
     )
 
 set(SOURCES
+    ${APP_ROOT}/external/kiss_fft/kiss_fft.c
+    ${APP_ROOT}/external/kiss_fft/kiss_fft.h
     ${APP_ROOT}/visualizer/scope.cpp
     ${APP_ROOT}/visualizer/scope.h
     ${APP_ROOT}/visualizer/scope_buffer.hpp
@@ -112,6 +114,7 @@ target_include_directories(${APP_NAME}
     PRIVATE
     ${APP_ROOT}
     ${APP_ROOT}/external/boost_1_72_0
+    ${APP_ROOT}/external
     ${APP_ROOT}/osc
     ${APP_ROOT}/model
     ${APP_ROOT}/visualizer
