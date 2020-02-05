@@ -5,14 +5,23 @@
 
 inline QSizeF GetDisplayScale()
 {
-    QSizeF scaleDpi = QSizeF(96.0f, 96.0f);
+//super hacky temporary fudge to paper over the
+//massive cracks that is the difference between how
+//macOS and other platforms handle high DPI monitors
+#ifdef __APPLE__
+    float scale = 96.0;
+#else
+    float scale = 96.0 * 1.5;
+#endif
+
+  QSizeF scaleDpi = QSizeF(scale, scale);
     if (const QScreen* pScreen = QGuiApplication::primaryScreen())
     {
         scaleDpi.setWidth(pScreen->logicalDotsPerInchX());
         scaleDpi.setHeight(pScreen->logicalDotsPerInchY());
     }
 
-    return QSizeF(scaleDpi.width() / 96.0f, scaleDpi.height() / 96.0f);
+    return QSizeF(scaleDpi.width() / scale, scaleDpi.height() / scale);
 }
 
 inline QSize ScaleForDPI(const QSize& sz)
