@@ -642,32 +642,32 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="68"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="69"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Gauche</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="70"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Droit</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="71"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="72"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Miroir stéréo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="74"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spectre</translation>
     </message>
 </context>
 <context>
