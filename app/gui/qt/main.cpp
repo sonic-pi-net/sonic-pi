@@ -81,14 +81,11 @@ int main(int argc, char *argv[])
   // Only do the dpi scaling when the platform is high dpi
   if (GetDisplayScale().width() > 1.1f)
     {
-      QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-      QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-      QPixmap pixmap(":/images/splash@2x.png");
-    } else
-    {
-      QPixmap pixmap(":/images/splash.png");
+     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     }
 
+  QPixmap pixmap(":/images/splash.png");
   QSplashScreen *splash = new QSplashScreen(pixmap);
   splash->setMask(pixmap.mask());
   splash->show();
