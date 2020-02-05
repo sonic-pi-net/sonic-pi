@@ -74,7 +74,7 @@ inline QString ScalePxInStyleSheet(QString style)
   style = style.replace(QRegExp(":\\s*17px"), QString(": %1px").arg(ScaleHeightForDPI(17)));
   style = style.replace(QRegExp(":\\s*18px"), QString(": %1px").arg(ScaleHeightForDPI(18)));
   style = style.replace(QRegExp(":\\s*19px"), QString(": %1px").arg(ScaleHeightForDPI(19)));
-  style = style.replace(QRegExp(":\\s*20px"), QString(": %1px").arg(ScaleHeightForDPI(50)));
+  style = style.replace(QRegExp(":\\s*20px"), QString(": %1px").arg(ScaleHeightForDPI(20)));
   style = style.replace(QRegExp(":\\s*21px"), QString(": %1px").arg(ScaleHeightForDPI(21)));
   style = style.replace(QRegExp(":\\s*22px"), QString(": %1px").arg(ScaleHeightForDPI(22)));
   style = style.replace(QRegExp(":\\s*23px"), QString(": %1px").arg(ScaleHeightForDPI(23)));
