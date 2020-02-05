@@ -1,5 +1,5 @@
 # History
-* [v3.2.0-beta-9 'Dev'](#v3.2.0), To be released...
+* [v3.2.0-beta-10 'Dev'](#v3.2.0), To be released...
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
@@ -68,6 +68,7 @@
   especially suited for those with low vision.
 * New application menu and shortcuts.  
 * New default icons which match the pro icon feel.
+* 2 new visualiser scopes - mirror stereo and spectrum.
 * Move to simple numbered labels for buffers.
 * Improve scaling of icons, text etc. on high DPI displays on Windows.
 * The version number is no longer placed in the initial comment of new
@@ -122,6 +123,7 @@
 * Stop `defonce` from being executed multiple times
 * Calling `.take` on an empty ring no longer results in infinite
   recursion but instead returns an empty ring.
+* Scope now has a minimum height.  
   
 
 
