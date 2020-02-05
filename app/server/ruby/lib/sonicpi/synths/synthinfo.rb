@@ -4959,6 +4959,35 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
       end
     end
 
+    class FXAutotuner < FXInfo
+      def name
+        "Autotuner"
+      end
+
+      def introduced
+        Version.new(3,2,0)
+      end
+
+      def synth_name
+        "fx_autotuner"
+      end
+
+      def doc
+        ""
+      end
+
+      def arg_defaults
+        super.merge({
+          :target_pitch => 0,
+          :formant_ratio => 1.0,
+          :transpose => 0,
+          :min_freq => 80,
+          :max_formant_ratio => 10,
+          :grains_period => 2.0,
+        })
+      end
+    end
+
     class FXMono < FXInfo
       def name
         "Mono"
@@ -7623,6 +7652,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_replace_reverb => FXReverb.new,
         :fx_level => FXLevel.new,
         :fx_mono => FXMono.new,
+        :fx_autotuner => FXAutotuner.new,
         :fx_replace_level => FXLevel.new,
         :fx_echo => FXEcho.new,
         :fx_replace_echo => FXEcho.new,
